@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Space fab motors -->
+	
+	<bean id="tab2jack1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="EHT2.Y1" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="tab2jack2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="EHT2.Y2" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="tab2jack3Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="EHT2.Y3" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="tab2jack1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tab2jack1Motor" />
+	</bean>
+
+	<bean id="tab2jack2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tab2jack2Motor" />
+	</bean>
+
+	<bean id="tab2jack3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tab2jack3Motor" />
+	</bean>
+
+	<bean id="base2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="tab2jack1" />
+				<ref bean="tab2jack2" />
+				<ref bean="tab2jack3" />
+			</list>
+		</property>
+	</bean>
+</beans>

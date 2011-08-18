@@ -1,0 +1,20 @@
+#syntax: call set_floodFile <relative flood field file name>
+#
+# call set_floodFile "lib/bin/crysalis/floodcu_ruby_6_130905.ffiinf"
+# call set_floodFile "lib/bin/crysalis/floodmo_ruby_6_120905.ffiinf"
+
+#mode echo
+
+((type):string)
+((serial):string)
+((ccd):string)
+((geo):string)
+((ffiinf):string)
+
+($(type)="Ruby")
+($(serial)="6")
+($(ccd)="lib/bin/crysalis/ruby_6_050905.ccd")
+($(geo)="lib/bin/crysalis/Ruby_6_080905.geo")
+
+cmd="cr call import_cfg \""+$(ccd)+"\" \""+$(geo)+"\" \""+@1+"\" \"//cr/"+$(type)+$(serial)+"\""
+

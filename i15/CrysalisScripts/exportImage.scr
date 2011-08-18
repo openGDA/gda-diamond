@@ -1,0 +1,24 @@
+#syntax: call exportImage <1. export from IS location> <2. export to filename>
+#			  <3. export compressed>  
+#
+#e.g. call exportImage "/root/tmp/Data/Image" "c:/Data/tests020309/testA.img" 0 
+#
+mode echo
+
+if (@3==1) jmp export_compressed
+#
+## EXPORT IMAGE UNCOMPRESSED
+#
+cmd="cr call export_img_inc \""+@1+"\" \""+@2+"\""
+wait for object cr ready
+
+return
+
+#
+## EXPORT IMAGE COMPRESSED
+#
+label export_compressed
+cmd="cr call export_img \""+@1+"\" \""+@2+"\""
+wait for object cr ready
+
+return

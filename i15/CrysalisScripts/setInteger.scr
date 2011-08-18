@@ -1,0 +1,6 @@
+#syntax: call setInteger
+#mode echo
+
+((@1):integer=@2)
+
+return

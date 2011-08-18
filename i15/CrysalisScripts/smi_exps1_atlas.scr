@@ -1,0 +1,51 @@
+#syntax: call smi_exps1_atlas <1. binning>
+#
+# Takes image and save to /tmp. smi_exps2 should be called next
+# 
+# e.g. call smi_exps1_atlas 2
+#mode echo
+#
+## Take image and save to /tmp
+#
+
+if not object detector ready jmp DETECTOR_NOT_READY
+
+cmd="call setup_node \"/tmp\""
+
+#Ruby: cmd="sm m timeout 0 bin "+@1+"x"+@1
+#Atlas:
+cmd="call Scan_Start $(time) "+@1
+
+#Ruby: wait for object detector ready
+#Atlas:
+wait for valid $(/ppcdirpnp/data/Image)
+
+#Ruby: api save results to /tmp
+#Atlas:
+cmd="db mkdir /tmp/Data"
+cmd="call Img_Cut \"/ppcdirpnp/data/Image\" \"/tmp/Data/Image\" $(time) $(//root/binning)"
+
+((/tmp/Data/Image/mgcctrl/Axes/omega/StartPosition):real)
+((/tmp/Data/Image/mgcctrl/Axes/theta/StartPosition):real)
+((/tmp/Data/Image/mgcctrl/Axes/kappa/StartPosition):real)
+((/tmp/Data/Image/mgcctrl/Axes/phi/StartPosition):real)
+((/tmp/Data/Image/mgcctrl/Axes/cam/StartPosition):real)
+
+((/tmp/Data/Image/mgcctrl/Axes/omega/EndPosition):real)
+((/tmp/Data/Image/mgcctrl/Axes/theta/EndPosition):real)
+((/tmp/Data/Image/mgcctrl/Axes/kappa/EndPosition):real)
+((/tmp/Data/Image/mgcctrl/Axes/phi/EndPosition):real)
+((/tmp/Data/Image/mgcctrl/Axes/cam/EndPosition):real)
+
+((/tmp/Data/Image/mgcctrl/Axes/omega/Velocity):real)
+((/tmp/Data/Image/mgcctrl/Axes/theta/Velocity):real)
+((/tmp/Data/Image/mgcctrl/Axes/kappa/Velocity):real)
+((/tmp/Data/Image/mgcctrl/Axes/phi/Velocity):real)
+((/tmp/Data/Image/mgcctrl/Axes/cam/Velocity):real)
+
+#restore previous configuration
+#!IMAGE TAKEN
+return
+
+label DETECTOR_NOT_READY
+#!DETECTOR NOT READY

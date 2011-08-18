@@ -1,0 +1,234 @@
+<?xml version="1.0" ?>
+<devices>
+  <section name="Diff">
+    <device description="Diffractometer" epicsname="BL15I-MO-DIFF-01" name="DR1">
+      <type name="diffractometer"/>
+    </device>
+    <device description="Microscope" epicsname="BL15I-DI-DCAM-02" name="DR1:C">
+      <type name="microscope"/>
+    </device>
+    <device description="Diode" epicsname="BL15I-DI-PHDGN-03" name="D3">
+      <type name="lens"/>
+      <type name="D3mca"/>
+      <type name="diode3"/>
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Diode" epicsname="BL15I-DI-PHDGN-04" name="D4">
+      <type name="D4mca"/>
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Detector" epicsname="BL15I-EA-DET-01" name="ETL">
+      <type name="etl_D1"/>
+    </device>
+  </section>
+  <section name="ALL">
+    <device description="Front End Absorber" epicsname="FE15I-RS-ABSB-01" name="AB0"/>
+    <device description="Front End Aperture" epicsname="FE15I-AL-APTR-03" name="AP0">
+      <type name="FEMotors"/>
+    </device>
+    <device description="Front End Valve" epicsname="FE15I-VA-VALVE-02" name="GV0"/>
+    <device description="Optics Hutch 1 Shutter" epicsname="FE15I-PS-SHTR-02" name="OH1S"/>
+    <device description="Module1: Water Flow" epicsname="BL15I-HO-FLOW-01" name="HO1">
+      <type name="HO1"/>
+    </device>
+    <device description="Module1: Side Beam Absorber" epicsname="BL15I-RS-ABSB-01" name="AB1">
+      <type name="AB1"/>
+    </device>
+    <device description="Module1: Fast Mask" epicsname="BL15I-MP-FABSB-01" name="FM">
+      <type name="FM"/>
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Module1: QBPM0" epicsname="BL15I-DI-QBPM-00" name="QBPM0">
+      <type name="LoCuM4"/>
+    </device>
+    <device description="Module1: Diamond Window" epicsname="BL15I-OP-WIND-01" name="W1">
+      <type name="W1"/>
+    </device>
+    <device description="Module2: Water Flow" epicsname="BL15I-HO-FLOW-02" name="HO2">
+      <type name="HO2"/>
+    </device>
+    <device description="Module2: White Beam Slits" epicsname="BL15I-AL-SLITS-01" name="S1">
+      <type name="slit4blade_i"/>
+      <type name="slit4blade_c"/>
+      <type name="S1"/>
+    </device>
+    <device description="Module3: Water Flow" epicsname="BL15I-HO-FLOW-03" name="HO3">
+      <type name="HO3"/>
+    </device>
+    <device description="Module3: Filter1" epicsname="BL15I-OP-ATTN-01" name="F1">
+      <type name="F1"/>
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Module3: Filter2" epicsname="BL15I-OP-ATTN-02" name="F2">
+      <type name="F2"/>
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Module3: Filter3" epicsname="BL15I-OP-ATTN-03" name="F3">
+      <type name="F3"/>
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Module3: Filter4" epicsname="BL15I-OP-ATTN-04" name="F4">
+      <type name="F4"/>
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Ozone Monitor" epicsname="BL15I-GA-OZONE-01" name="O3"/>
+    <device description="D2 Femto Amplifier" epicsname="BL15I-DI-FEMTO-02" name="FEM2"/>
+    <device description="D3 Femto Amplifier" epicsname="BL15I-DI-FEMTO-03" name="FEM3"/>
+    <device description="D4 Femto Amplifier" epicsname="BL15I-DI-FEMTO-04" name="FEM4"/>
+  </section>
+  <section name="E">
+    <device description="Diode" epicsname="BL15I-DI-PHDGN-02" name="D2">
+      <type name="D2mca"/>
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Module10: Water Flow" epicsname="BL15I-HO-FLOW-11" name="HO10">
+      <type name="HO10"/>
+    </device>
+    <device description="Module10: Beam Stop" epicsname="BL15I-RS-ABSB-05" name="AB5">
+      <type name="AB5"/>
+    </device>
+    <device description="Oriel Filter Wheel" epicsname="BL15I-DI-FLTR-01" name="FLTR1"/>
+    <device description="User Motors 2" epicsname="BL15I-MO-USER-02" name="USRM2">
+      <type name="xrayeye"/>
+    </device>
+    <device description="Diode" epicsname="BL15I-DI-PHDGN-01" name="D1">
+      <type name="D1mca"/>
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Downstream Bench Table" epicsname="BL15I-MO-TABLE-03" name="DSB:T"/>
+    <device description="Spare Motor" epicsname="BL15I-MO-DIFF-01" name="DR1:SPARE"/>
+    <device description="BL15I-RS-ABSB-06" epicsname="BL15I-RS-ABSB-06" name="ABSB6">
+      <type name="vacuumValve"/>
+    </device>
+    <device description="BL15I-RS-ABSB-07" epicsname="BL15I-RS-ABSB-07" name="ABSB7">
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Movable EH Motor" epicsname="BL15I-MO-MOVE-01" name="MOV1"/>
+  </section>
+  <section name="OH1">
+    <device description="Module3: Absorber" epicsname="BL15I-RS-ABSB-02" name="AB2">
+      <type name="AB2"/>
+    </device>
+    <device description="Gate Valve 1" epicsname="BL15I-VA-VALVE-01" name="GV1">
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Module4: Water Flow" epicsname="BL15I-HO-FLOW-04" name="HO4">
+      <type name="HO4"/>
+    </device>
+    <device description="Monochromator" epicsname="BL15I-OP-DCM-01" name="DCM">
+      <type name="DCM"/>
+    </device>
+    <device description="Gate Valve 2" epicsname="BL15I-VA-VALVE-02" name="GV2">
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Module4: Beam stop" epicsname="BL15I-RS-ABSB-03" name="AB3">
+      <type name="AB3"/>
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Module4: QBPM" epicsname="BL15I-DI-QBPM-01" name="QBPM1">
+      <type name="LoCuM4"/>
+    </device>
+    <device description="Module4: Diamond Window" epicsname="BL15I-OP-WIND-02" name="W2">
+      <type name="lens"/>
+      <type name="W2"/>
+    </device>
+    <device description="Gate Valve 3" epicsname="BL15I-VA-VALVE-03" name="GV3">
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Module5: Water Flow" epicsname="BL15I-HO-FLOW-05" name="HO5">
+      <type name="HO5"/>
+    </device>
+    <device description="Vertical Mirror" epicsname="BL15I-OP-VFM-01" name="VFM">
+      <type name="mirror2post_:PITCH_:Y"/>
+      <type name="mirror2post_:YAW_:X"/>
+      <type name="mirrorbend"/>
+      <type name="M1"/>
+    </device>
+    <device description="Gate Valve 4" epicsname="BL15I-VA-VALVE-04" name="GV4">
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Module5: Diamond Window" epicsname="BL15I-OP-WIND-03" name="W3">
+      <type name="lens"/>
+      <type name="W3"/>
+    </device>
+    <device description="Optics Hutch 2 Shutter" epicsname="BL15I-PS-SHTR-01" name="OH2S">
+      <type name="SHTR2"/>
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Gate Valve 5" epicsname="BL15I-VA-VALVE-05" name="GV5">
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Module6: Water Flow" epicsname="BL15I-HO-FLOW-06" name="HO6">
+      <type name="HO6"/>
+    </device>
+    <device description="Module6: Optional Window" epicsname="BL15I-OP-WIND-04" name="W4">
+      <type name="W4"/>
+    </device>
+    <device description="Gate Valve 6" epicsname="BL15I-VA-VALVE-06" name="GV6">
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Floating Camera" epicsname="BL15I-DI-DCAM-01" name="CAM"/>
+    <device description="Cryocooler" epicsname="BL15I-CG-CRYO-01" name="CRYO">
+      <type name="cryocooler"/>
+    </device>
+  </section>
+  <section name="OH2">
+    <device description="Module7B: Optics Chamber" epicsname="BL15I-MO-TABLE-02" name="T2">
+      <type name="T2"/>
+    </device>
+    <device description="Module7: Water Flow" epicsname="BL15I-HO-FLOW-07" name="HO7">
+      <type name="HO7"/>
+    </device>
+    <device description="Module7: Diamond Window" epicsname="BL15I-OP-WIND-05" name="W5">
+      <type name="W5"/>
+    </device>
+    <device description="Gate Valve 7" epicsname="BL15I-VA-VALVE-07" name="GV7">
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Horizontal Mirror" epicsname="BL15I-OP-HFM-01" name="HFM">
+      <type name="mirror2post_:PITCH_:X"/>
+      <type name="mirrorbend"/>
+      <type name="mirror3jack_:Y_:YAW_:ROLL"/>
+      <type name="M2"/>
+    </device>
+    <device description="Gate Valve 8" epicsname="BL15I-VA-VALVE-08" name="GV8">
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Module8: Diamond Window" epicsname="BL15I-OP-WIND-06" name="W6">
+      <type name="W6"/>
+    </device>
+    <device description="Module8: Precision Slits" epicsname="BL15I-AL-SLITS-02" name="S2"/>
+    <device description="Module8: QBPM Drive" epicsname="BL15I-DI-QBPMD-02" name="Q2D"/>
+    <device description="Module8: QBPM" epicsname="BL15I-DI-QBPM-02" name="QBPM2">
+      <type name="LoCuM4"/>
+    </device>
+    <device description="Module8: Water Flow" epicsname="BL15I-HO-FLOW-0" name="HO8"/>
+    <device description="Module8: High Power Slits" epicsname="BL15I-AL-SLITS-03" name="S3">
+      <type name="slit4blade_c"/>
+      <type name="S3"/>
+    </device>
+    <device description="Expt Hutch Shutter" epicsname="BL15I-PS-SHTR-02" name="EHS">
+      <type name="SHTR3"/>
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Gate Valve 9" epicsname="BL15I-VA-VALVE-09" name="GV9">
+      <type name="vacuumValve"/>
+    </device>
+    <device description="Module9: Water Flow" epicsname="BL15I-HO-FLOW-10" name="HO9">
+      <type name="HO9"/>
+    </device>
+    <device description="Module9: Diamond Window" epicsname="BL15I-OP-WIND-07" name="W7">
+      <type name="W7"/>
+    </device>
+    <device description="Cleanup slits" epicsname="BL15I-AL-SLITS-04" name="S4">
+      <type name="slit_cg"/>
+    </device>
+    <device description="Pin Hole" epicsname="BL15I-AL-APTR-01" name="PIN">
+      <type name="pinhole"/>
+    </device>
+    <device description="Movable Beam Stop" epicsname="BL15I-RS-ABSB-04" name="BS">
+      <type name="beamstop"/>
+    </device>
+    <device description="Ion Chamber" epicsname="BL15I-DI-IONC-01" name="IONC"/>
+  </section>
+</devices>

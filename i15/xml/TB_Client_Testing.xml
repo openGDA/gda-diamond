@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+    <bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+<!-- I15 GUI Client Configuration -->
+
+<!-- Original Castor config
+<ObjectFactory>
+   <name>i15server</name>
+-->
+
+    <corba:import namespace="i15server" />
+
+<!-- Original Castor config (commented out) -->
+<!--
+   <JythonTerminal>
+      <name>Scripting Terminal</name>
+      <numberInitialGraphs>1</numberInitialGraphs>
+	  <extraGraphs>true</extraGraphs>
+   </JythonTerminal>
+-->
+<!-- Replacement Spring config (also commented out)
+    <bean id="ScriptingTerminal" class="gda.jython.gui.JythonTerminalAcqPanel">
+		<property name="label" value="Scripting Terminal" />
+    	<property name="numberInitialGraphs" value="1" />
+    	<property name="extraGraphs" value="true" />
+    </bean>
+-->
+
+<!-- Original Castor config
+</ObjectFactory>
+-->
+</beans>

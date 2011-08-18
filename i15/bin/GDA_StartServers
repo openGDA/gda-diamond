@@ -1,0 +1,7 @@
+#! /bin/bash
+
+. /dls_sw/i15/software/gda/i15-config/bin/jvm.sh
+
+export JAVA_OPTS="-Dgda.deploytype=1"
+GDA=/dls_sw/i15/software/gda/plugins/uk.ac.gda.core/bin/gda
+$GDA --headless servers --debug --debugport=8001

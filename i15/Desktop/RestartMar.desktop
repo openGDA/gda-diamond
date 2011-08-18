@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Restart MAR Detector
+Type=Application
+Exec=MAR_RemoteStart_Lin
+TryExec=
+X-GNOME-DocPath=
+Terminal=true
+Name[en_GB]=Restart MAR Detector
+GenericName[en_GB]=Restart MAR Detector
+Comment[en_GB]=Restart MAR Detector
+Icon=/usr/share/pixmaps/gnome-warning.png

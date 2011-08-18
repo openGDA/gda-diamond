@@ -1,0 +1,106 @@
+#!/bin/bash
+#
+#
+#
+
+
+PROCESSES="org.jacorb.naming.NameServer gda.util.LogServer gda.factory.corba.util.ChannelServer gda.util.ObjectServer"
+#PROCESSES="tnameserv gda.factory.corba.util.ChannelServer gda.util.ObjectServer gda.gui.AcquisitionGUI"
+RUNNING=false
+WRONG_USER=false
+REBOOT=false
+#
+# Try to kill any processes left hanging around.
+#
+for process in $PROCESSES
+do
+if [ `uname` = "Linux" ]
+  then
+    kill -9 `ps -ef --cols 600 | grep "$process" | grep -v grep | awk '{print $2}'` > /dev/null 2>&1
+else
+  kill -9 `ps -ef | grep "$process" | grep -v grep | awk '{print $2}'` > /dev/null 2>&1
+fi
+done
+#
+# Test if processes are still running
+#
+for process in $PROCESSES
+do
+  if [ `uname` = "Linux" ]
+    then
+      output=`ps -ef --cols 600 | grep "$process" | grep -v grep | awk '{print $2}'`
+  else
+    output=`ps -ef | grep "$process" | grep -v grep | awk '{print $2}'`
+  fi
+  if [ -n "$output" ]
+    then
+      RUNNING=true
+      USERS=`ps -ef --cols 600 | grep "$process" | grep -v grep | awk '{print $1}'`
+      for user in $USERS
+      do
+        if [ "$user" != "$USER" ]
+          then
+            echo "Resistant process identifier \"$process\" owned by $user"
+            WRONG_USER=true
+        fi
+      done
+      REBOOT=true
+  fi
+done
+#
+# If some process are still running give the user some advice and exit.
+#
+if [ "$RUNNING" = "true" ]
+  then
+    echo "We have tried to kill the data collection control processes."
+    echo ""
+fi
+#
+if [ "$WRONG_USER" = "true" ]
+  then
+    echo "Some processes seem to be owned by another user so we cannot kill them."
+    echo "To continue these processes must be killed."
+    echo "The processes must be killed as root or their owner."
+    echo "If station personnel are available it should be possible to avoid a reboot."
+    echo "If not a system reboot is the simplest course of action."
+    echo ""
+    echo "On our Linux systems the reboot button is a small round button below the"
+    echo "main power switch on the CPU box front panel."
+    echo "On our Alpha systems the reboot button is behind the hinged door on the"
+    echo "CPU box front panel."
+    exit
+elif [ "$REBOOT" = "true" ]
+  then
+    echo "These processes are owned by you but the kill has failed."
+    echo "A system reboot is the best course of action."
+    exit
+fi
+#
+
+#echo "Starting tnameserv"
+#cd /tmp; tnameserv -ORBInitialPort 6700 > /tmp/nameserv_"$USER".log 2>&1 &
+
+echo "Starting GDA Name Server"
+java -Djacorb.config.dir=${GDA_CONFIG}/properties -Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB -Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton -DOAPort=6700 org.jacorb.naming.NameServer &
+sleep 1
+#
+
+echo "Starting Logging Server"
+java -Dgda.users=${GDA_USERS} gda.util.LogServer 6000 ${GDA_CONFIG}/xml/I06_logServer.xml &
+sleep 1
+#
+
+#
+echo "Starting EventServer"
+java -Dgda.root=${GDA_ROOT} -Dgda.users=${GDA_USERS} -Dgda.config=${GDA_CONFIG} -Dgda.propertiesFile=${GDA_CONFIG}/properties/java.properties -Djacorb.config.dir=${GDA_CONFIG}/properties -Djava.library.path=${GDA_ROOT}/lib gda.factory.corba.util.ChannelServer &
+sleep 1
+#
+
+echo "Starting ObjectServer"
+#  ObjectServer > /tmp/objectServer_"$USER".log 2>&1 &
+java -Dgda.root=${GDA_ROOT} -Dgda.users=${GDA_USERS} -Dgda.config=${GDA_CONFIG} -Dgda.propertiesFile=${GDA_CONFIG}/properties/java.properties -Djacorb.config.dir=${GDA_CONFIG}/properties -Djava.library.path=${GDA_ROOT}/lib:/usr/local/lib -Dgov.aps.jca.JCALibrary.properties=${GDA_CONFIG}/properties/JCALibrary.properties gda.util.ObjectServer -d1 &
+sleep 30
+#
+
+#java gda.util.StringInFile "Server initialisation complete" /tmp/objectServer_"$USER".log 90000
+

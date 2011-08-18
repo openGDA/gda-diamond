@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "REMOTE Logging into MAR"
+
+ssh root@i15-mar01 mount -a i15-storage:/exports/data /dls/i15 
+
+#ssh -X -i /dls_sw/i15/software/gda/i15-config/i15ssh.key gda@i15-mar01.diamond.ac.uk mar345
+ssh -X -i /dls_sw/i15/software/gda/i15-config/i15ssh.key i15detector@i15-mar01 mar345
+#ssh -X i15detector@i15-mar01 mar345

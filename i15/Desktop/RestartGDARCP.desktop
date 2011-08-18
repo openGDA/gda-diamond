@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Start new GDA Gui
+Type=Application
+Exec=GDA_StartRCP
+TryExec=
+Icon=/dls_sw/i15/software/gda/i15-config/Desktop/.icons/gda.ico
+X-GNOME-DocPath=
+Terminal=false
+Name[en_GB]=Start New GDA Client
+GenericName[en_GB]=Start New GDA Client
+Comment[en_GB]=Start new GDA Gui
