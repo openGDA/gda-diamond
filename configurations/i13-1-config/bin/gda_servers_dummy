@@ -1,0 +1,4 @@
+`dirname $0`/gda_commands logpanel --mode=dummy --restart$@
+export JAVA_OPTS="-Xms128m -Xmx1024m -XX:MaxPermSize=128m"
+`dirname $0`/gda_commands servers --mode=dummy --restart --debug $@
+`dirname $0`/gda_commands namemanager --mode=dummy --restart$@

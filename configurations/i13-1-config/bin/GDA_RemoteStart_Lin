@@ -1,0 +1,60 @@
+#!/bin/bash
+##This is an example script file to restart GDA server from a remote client
+##This requires generation of ssh keys and copying the public key to the authorized_keys file in the server
+##Please refer to the document howtoSSH.txt for key generation.
+##To use this script change the key file path, user name and the server machine name
+
+zenity --title "Are you sure?" --question --text "Are you sure you want to restart the GDA servers?" --window-icon=question
+SURE=$?
+if [ $SURE == 1 ]; then
+  exit
+fi
+
+SERVER_STARTUP_FILE=/$SOFTWAREFOLDER/$BEAMLINE/var/object_server_startup_server_main; export SERVER_STARTUP_FILE
+# Added by Mark 26/1/10
+rm -f $SERVER_STARTUP_FILE
+
+
+#start adsc on $BEAMLINE-adsc01
+ssh-keygen -R $BEAMLINE-adsc01.diamond.ac.uk 2> /dev/null
+#sed -i -e "/$BEAMLINE-adsc01/d" ~/.ssh/known_hosts
+ssh -o "StrictHostKeyChecking no" -i /dls_sw/${BEAMLINE}/software/gda/${BEAMLINE}-config/${BEAMLINE}ssh.key gda@${BEAMLINE}-adsc01.diamond.ac.uk adsc
+
+ssh-keygen -R $BEAMLINE-control.diamond.ac.uk 2> /dev/null
+#sed -i -e "/$BEAMLINE-control/d" ~/.ssh/known_hosts
+ssh -o "StrictHostKeyChecking no" -i /$SOFTWAREFOLDER/${BEAMLINE}/software/gda/${BEAMLINE}-config/${BEAMLINE}ssh.key gda@${BEAMLINE}-control.diamond.ac.uk 
+#To start dna we need to setup a key on i04-compute1 to run /$SOFTWAREFOLDER/i04/software/gda/bin/remotestartupscript.sh
+#until that has been done we need to ssh to i04-compute1, su to gda and then:
+#export SSH_ORIGINAL_COMMAND=dna
+#/$SOFTWAREFOLDER/$BEAMLINE/software/gda/bin/remotestartupscript.sh
+
+ssh-keygen -R $BEAMLINE-compute1.diamond.ac.uk 2> /dev/null
+#sed -i -e "/$BEAMLINE-compute1/d" ~/.ssh/known_hosts
+ssh -o "StrictHostKeyChecking no" -i /$SOFTWAREFOLDER/${BEAMLINE}/software/gda/${BEAMLINE}-config/${BEAMLINE}ssh.key gda@${BEAMLINE}-compute1.diamond.ac.uk dna
+#gnome-terminal --window-with-profile=blue --title "GDA Server Log" --execute tail --lines=200 -f -s0.1  /$SOFTWAREFOLDER/${BEAMLINE}/var/gda_output.txt &
+
+# Start log panel if not already started
+LOGPANEL=$(ps -ef | grep LogPanel | grep -v grep)
+if [ "X$LOGPANEL" == "X" ] ; then
+nohup GDA_StartLogPanel 2>/dev/null &
+else
+wmctrl -R "GDA Log Panel"
+fi
+
+#
+# look for the output file which will tell us when the servers have started, then display to the user that
+# a client may be started.
+#
+echo "Restarting the GDA Server, please wait..."
+echo "Keep this window open, and you will see a pop-up when the restart has completed"
+echo
+/$SOFTWAREFOLDER/$BEAMLINE/software/gda/mx-config/bin/lookForFile $SERVER_STARTUP_FILE
+
+zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
+STARTCLIENT=$?
+if [ $STARTCLIENT == 0 ]; then
+nohup GDA_StartClient
+if [ "X$LOGPANEL" == "X" ] ; then
+wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
+fi
+fi

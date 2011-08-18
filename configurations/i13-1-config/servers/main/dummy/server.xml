@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder location="file:${gda.config}/properties/dummy/java.properties,file:${gda.config}/properties/java.properties" />
+
+	<import resource="../common.xml"/>
+	<import resource="classpath:gda/spring/propertyeditors/registration.xml" /><!--
+	
+	<bean class="gda.factory.EpicsDeviceObjectCreator">
+		<property name="name" value="${gda.factory.factoryName}" />
+		<property name="simulated" value="true"/>
+		<property name="nameSuffix" value="_epicsdevice"/>
+	</bean>
+	-->
+	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
+		<property name="recordPvs">
+			<map>
+				<entry key="Current" value="SR-DI-DCCT-01:SIGNAL" />
+				<entry key="FastCurrent" value="SR21C-DI-DCCT-01:SIGNAL" />
+				<entry key="TimeUntilRefill" value="SR-CS-FILL-01:COUNTDOWN" />
+				<entry key="BeamMode" value="CS-CS-MSTAT-01:MODE" />
+			</map>
+		</property>
+		<property name="dummyMode" value="true"></property>
+	</bean>
+	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
+		<property name="recordPvs">
+			<map>
+				<entry key="Top" value="BL13J" />
+			</map>
+		</property>
+		<property name="dummyMode" value="true"></property>
+	</bean>	
+	
+	<import resource="../../../devices/dummy/fes1_motors.xml"/>
+	<import resource="../../../devices/dummy/frontend_shutters.xml"/>
+	<import resource="../../../devices/dummy/absorbers.xml"/>
+	<import resource="../../../devices/dummy/d1_motors.xml"/>
+	<import resource="../../../devices/dummy/d2_motors.xml"/>
+	<import resource="../../../devices/dummy/d3_motors.xml"/>
+	<import resource="../../../devices/dummy/d4_motors.xml"/>
+	<import resource="../../../devices/dummy/d5_motors.xml"/>
+	<import resource="../../../devices/dummy/s1_motors.xml"/>
+	<import resource="../../../devices/dummy/s2_motors.xml"/>
+	<import resource="../../../devices/dummy/s3_motors.xml"/>
+	<import resource="../../../devices/dummy/s4_motors.xml"/>
+	<import resource="../../../devices/dummy/s5_motors.xml"/>
+	<import resource="../../../devices/dummy/diff1_motors.xml"/>
+	<import resource="../../../devices/dummy/m1_motors.xml"/>
+	<import resource="../../../devices/dummy/qcm_motors.xml"/>
+	<import resource="../../../devices/dummy/scope1_motors.xml"/>
+	<import resource="../../../devices/dummy/t1_motors.xml"/>
+	<import resource="../../../devices/dummy/z1_motors.xml"/>
+	<import resource="../common.xml"/>	
+	
+</beans>

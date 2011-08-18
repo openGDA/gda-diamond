@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="qcm_bragg_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="qcm1_theta1_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="qcm1_theta2_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="qcm1_y_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="qcm1_x_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="qcm1_rot_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="qcm1_bs_motor" class="gda.device.motor.DummyMotor"/>
+	
+</beans>	

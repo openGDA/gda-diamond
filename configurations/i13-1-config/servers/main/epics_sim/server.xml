@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"><!--
+
+	<context:property-placeholder location="file:${gda.config}/properties/epics_sim/java.properties,file:${gda.config}/properties/java.properties" />
+
+	<bean class="gda.factory.EpicsDeviceObjectCreator">
+		<property name="name" value="${gda.factory.factoryName}" />
+		<property name="nameSuffix" value="_epicsdevice"/>
+	</bean>
+	-->
+	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
+		<property name="recordPvs">
+			<map>
+				<entry key="Current" value="SR-DI-DCCT-01:SIGNAL" />
+				<entry key="FastCurrent" value="SR21C-DI-DCCT-01:SIGNAL" />
+				<entry key="TimeUntilRefill" value="SR-CS-FILL-01:COUNTDOWN" />
+				<entry key="BeamMode" value="CS-CS-MSTAT-01:MODE" />
+			</map>
+		</property>
+	</bean>
+	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
+		<property name="recordPvs">
+			<map>
+				<entry key="Top" value="BL13J" />
+			</map>
+		</property>
+	</bean>	
+
+	<import resource="../../../devices/epics/fes1_motors.xml"/>
+	<import resource="../../../devices/epics/fes1_motors.xml"/>
+	<import resource="../../../devices/epics/d1_motors.xml"/>
+	<import resource="../../../devices/epics/d2_motors.xml"/>
+	<import resource="../../../devices/epics/d3_motors.xml"/>
+	<import resource="../../../devices/epics/d4_motors.xml"/>
+	<import resource="../../../devices/epics/d5_motors.xml"/>
+	<import resource="../../../devices/epics/s1_motors.xml"/>
+	<import resource="../../../devices/epics/s2_motors.xml"/>
+	<import resource="../../../devices/epics/s3_motors.xml"/>
+	<import resource="../../../devices/epics/s4_motors.xml"/>
+	<import resource="../../../devices/epics/s5_motors.xml"/>
+	<import resource="../../../devices/epics/diff1_motors.xml"/>
+	<import resource="../../../devices/epics/m1_motors.xml"/>
+	<import resource="../../../devices/epics/qcm_motors.xml"/>
+	<import resource="../../../devices/epics/scope1_motors.xml"/>
+	<import resource="../../../devices/epics/t1_motors.xml"/>
+	<import resource="../../../devices/epics/z1_motors.xml"/>
+	<import resource="../common.xml"/>
+	
+</beans>
