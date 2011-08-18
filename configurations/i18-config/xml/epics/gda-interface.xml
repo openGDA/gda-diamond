@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/trunk/support/gda/gdaApp/src/genericBeamlineSchema.xsd">
+	<!--<mcaGroup desc="XMAP normal MCA mode" name="xmap">
+		<ERASESTART desc="Clear all spectrums and start acquiring" pv="BL18I-EA-DET-04:MCA:ESTART" ro="false" type="binary"/>
+		<ERASE desc="Clear all spectrums" pv="BL18I-EA-DET-04:MCA:ERASE" ro="false" type="binary"/>
+		<START desc="Start acquiring" pv="BL18I-EA-DET-04:MCA:START" ro="false" type="binary"/>
+		<STOP desc="Stop acquiring" pv="BL18I-EA-DET-04:MCA:STOP" ro="false" type="binary"/>
+		<NBINS desc="Number of bins to use in spectrum" pv="BL18I-EA-DET-04:MCA:NBINS" ro="false" type="pv"/>
+		<STATRATE desc="Status update rate" pv="BL18I-EA-DET-04:MCA:STATRATE.SCAN" ro="false" type="pv"/>
+		<READRATE desc="Data update rate" pv="BL18I-EA-DET-04:MCA:READRATE.SCAN" ro="false" type="pv"/>
+		<TREAL desc="Real time since start of acquisition (currently not working!)" pv="BL18I-EA-DET-04:XMAP0:0:MCA:ERTM" ro="true" type="pv"/>
+		<ACQ desc="Acquiring status (currently an analogue PV/bitmask!)" pv="BL18I-EA-DET-04:XMAP0:0:MCA:ACQSTAT" ro="true" type="binary"/>
+		<TACQ desc="Set total acquisition time (currently not working!)" pv="BL18I-EA-DET-04:TTOTAL" ro="false" type="pv"/>
+		<SIG0 desc="XMAP MCA channel 0" pv="BL18I-EA-DET-04:XMAP0:0:MCA" ro="false" type="mca"/>
+		<SIG1 desc="XMAP MCA channel 1" pv="BL18I-EA-DET-04:XMAP0:1:MCA" ro="false" type="mca"/>
+		<SIG2 desc="XMAP MCA channel 2" pv="BL18I-EA-DET-04:XMAP0:2:MCA" ro="false" type="mca"/>
+		<SIG3 desc="XMAP MCA channel 3" pv="BL18I-EA-DET-04:XMAP0:3:MCA" ro="false" type="mca"/>
+	</mcaGroup>-->
+	<simplePv desc="Ion Chamber 1" name="IONC1MCA">
+        <RECORD desc="Ion Chamber 1 MCA" pv="BL18I-EA-IONC-01:I:MCA" ro="false" type="unknown"/>
+    </simplePv>	
+    <simplePv desc="Ion Chamber 2" name="IONC2MCA">
+        <RECORD desc="Ion Chamber 2 MCA" pv="BL18I-EA-IONC-02:I:MCA" ro="false" type="unknown"/>
+    </simplePv>	
+    <simplePv desc="Drain MCA" name="D7MCA">
+        <RECORD desc="DRAIN MCA" pv="BL18I-DI-PHDGN-07:B:I:MCA" ro="false" type="unknown"/>
+    </simplePv>	
+    <simplePv desc="Trigger" name="TRIGMCA">
+        <RECORD desc="Trigger MCA" pv="BL18I-EA-IP330-01:TRIG:MCA" ro="false" type="unknown"/>
+    </simplePv>	
+	<mcaGroup desc="XMAP normal MCA mode" name="xmap">
+		<ERASESTART desc="Clear all spectrums and start acquiring" pv="BL18I-EA-DET-04:XMAP0:MCA:ERST" ro="false" type="binary"/>
+		<ERASE desc="Clear all spectrums" pv="BL18I-EA-DET-04:XMAP0:MCA:ERASE" ro="false" type="binary"/>
+		<START desc="Start acquiring" pv="BL18I-EA-DET-04:XMAP0:MCA:STRT" ro="false" type="binary"/>
+		<STOP desc="Stop acquiring" pv="BL18I-EA-DET-04:XMAP0:MCA:STOP" ro="false" type="binary"/>
+		<NBINS desc="Number of bins to use in spectrum" pv="BL18I-EA-DET-04:XMAP0:MCA:NBINS" ro="false" type="pv"/>
+		<STATRATE desc="Status update rate" pv="BL18I-EA-DET-04:XMAP0:MCA:STAT.SCAN" ro="false" type="pv"/>
+		<READRATE desc="Data update rate" pv="BL18I-EA-DET-04:XMAP0:MCA:READ.SCAN" ro="false" type="pv"/>
+		<TREAL desc="Real time since start of acquisition (currently not working!)" pv="BL18I-EA-DET-04:XMAP0:0:MCA:ERTM" ro="true" type="pv"/>
+		<ACQ desc="Acquiring status (currently an analogue PV/bitmask!)" pv="BL18I-EA-DET-04:XMAP0:0:MCA:ACQSTAT" ro="true" type="binary"/>
+		<TACQ desc="Set total acquisition time (currently not working!)" pv="BL18I-EA-DET-04:TTOTAL" ro="false" type="pv"/>
+		<SIG0 desc="XMAP MCA channel 0" pv="BL18I-EA-DET-04:XMAP0:0:MCA" ro="false" type="mca"/>
+		<SIG1 desc="XMAP MCA channel 1" pv="BL18I-EA-DET-04:XMAP0:1:MCA" ro="false" type="mca"/>
+		<SIG2 desc="XMAP MCA channel 2" pv="BL18I-EA-DET-04:XMAP0:2:MCA" ro="false" type="mca"/>
+		<SIG3 desc="XMAP MCA channel 3" pv="BL18I-EA-DET-04:XMAP0:3:MCA" ro="false" type="mca"/>
+	</mcaGroup>
+</devices>

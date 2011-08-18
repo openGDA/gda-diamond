@@ -1,0 +1,8 @@
+das=finder.find("daserver")
+print 'showtime1',showtime()
+das.sendCommand("disable 0")
+print 'showtime1a',showtime()
+das.sendCommand("clear 0")
+print 'showtime1b',showtime()
+das.sendCommand("enable 0")
+print 'showtime2',showtime()

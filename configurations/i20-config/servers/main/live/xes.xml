@@ -1,0 +1,362 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!--	XES secondary spectrometer-->
+
+	<bean id="xtalrot_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+		
+	<bean id="xtalL_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	
+	<bean id="detx_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	
+	<bean id="dety_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	
+	<bean id="detrot_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	
+	<bean id="xtal0_x_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	<bean id="xtal0_y_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	<bean id="xtal0_bragg_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	<bean id="xtal0_tilt_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	
+	<bean id="xtal1_x_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	<bean id="xtal1_y_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	<bean id="xtal1_bragg_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	<bean id="xtal1_tilt_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	
+	<bean id="xtal2_x_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	<bean id="xtal2_y_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	<bean id="xtal2_bragg_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	<bean id="xtal2_tilt_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	
+	<bean id="xtal3_x_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	<bean id="xtal3_y_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	<bean id="xtal3_bragg_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+	<bean id="xtal3_tilt_motor" class="gda.device.motor.DummyMotor">		
+	    <property name="speed" value="200"/>
+	</bean>
+
+
+
+<!--	the main crystal and crystal support stage-->
+
+	<bean id="xtalrot" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="xtalrot" />
+		<property name="motor" ref="xtalrot_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="initialUserUnits" value="deg" />
+<!--		<property name="lowerGdaLimits">-->
+<!--			<list>-->
+<!--				<value>0</value>-->
+<!--			</list>-->
+<!--		</property>-->
+<!--		<property name="upperGdaLimits">-->
+<!--			<list>-->
+<!--				<value>40</value>-->
+<!--			</list>-->
+<!--		</property>-->
+	</bean>
+	<bean id="L" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="L" />
+		<property name="motor" ref="xtalL_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="mm" />
+<!--		<property name="lowerGdaLimits">-->
+<!--			<list>-->
+<!--				<value>800</value>-->
+<!--			</list>-->
+<!--		</property>-->
+<!--		<property name="upperGdaLimits">-->
+<!--			<list>-->
+<!--				<value>1010</value>-->
+<!--			</list>-->
+<!--		</property>-->
+	</bean>
+	
+<!--	detector support stage-->
+	
+	<bean id="detx" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="detx" />
+		<property name="motor" ref="detx_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="mm" />
+<!--		<property name="lowerGdaLimits">-->
+<!--			<list>-->
+<!--				<value>20</value>-->
+<!--			</list>-->
+<!--		</property>-->
+<!--		<property name="upperGdaLimits">-->
+<!--			<list>-->
+<!--				<value>450</value>-->
+<!--			</list>-->
+<!--		</property>-->
+	</bean>
+	<bean id="dety" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="dety" />
+		<property name="motor" ref="dety_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="mm" />
+<!--		<property name="lowerGdaLimits">-->
+<!--			<list>-->
+<!--				<value>200</value>-->
+<!--			</list>-->
+<!--		</property>-->
+<!--		<property name="upperGdaLimits">-->
+<!--			<list>-->
+<!--				<value>760</value>-->
+<!--			</list>-->
+<!--		</property>-->
+	</bean>
+	<bean id="detrot" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="detrot" />
+		<property name="motor" ref="detrot_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="initialUserUnits" value="deg" />
+<!--		<property name="lowerGdaLimits">-->
+<!--			<list>-->
+<!--				<value>0</value>-->
+<!--			</list>-->
+<!--		</property>-->
+<!--		<property name="upperGdaLimits">-->
+<!--			<list>-->
+<!--				<value>80</value>-->
+<!--			</list>-->
+<!--		</property>-->
+	</bean>
+	
+<!--	spectrometer energy: moves all crystal support motors-->
+	<bean id="Ef" class="gda.device.scannable.XesSpectrometerScannable">
+		<property name="analyserAngle" ref="xtalrot" />
+		<property name="analyserDistance" ref="L" />
+		<property name="detectorAngle" ref="detrot" />
+		<property name="detectorX" ref="detx" />
+		<property name="detectorY" ref="dety" />
+		<property name="rowlandRadius" value="1000" />	
+
+		<property name="xtal0x" ref="xtal0x" />	
+		<property name="xtal0y" ref="xtal0y" />	
+		<property name="xtal0bragg" ref="xtal0bragg" />	
+		<property name="xtal0tilt" ref="xtal0tilt" />	
+			
+		<property name="xtal1x" ref="xtal1x" />	
+		<property name="xtal1y" ref="xtal1y" />	
+		<property name="xtal1bragg" ref="xtal1bragg" />	
+		<property name="xtal1tilt" ref="xtal1tilt" />	
+
+		<property name="xtal2x" ref="xtal2x" />	
+		<property name="xtal2y" ref="xtal2y" />	
+		<property name="xtal2bragg" ref="xtal2bragg" />	
+		<property name="xtal2tilt" ref="xtal2tilt" />	
+
+		<property name="xtal3x" ref="xtal3x" />	
+		<property name="xtal3y" ref="xtal3y" />	
+		<property name="xtal3bragg" ref="xtal3bragg" />	
+		<property name="xtal3tilt" ref="xtal3tilt" />	
+	</bean>
+	
+<!--	the additional crystals-->
+	
+    <bean id="xtal0x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xtal0_x_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="mm" />
+<!--		<property name="lowerGdaLimits">-->
+<!--			<list>-->
+<!--				<value>0</value>-->
+<!--			</list>-->
+<!--		</property>-->
+<!--		<property name="upperGdaLimits">-->
+<!--			<list>-->
+<!--				<value>40</value>-->
+<!--			</list>-->
+<!--		</property>-->
+	</bean>
+
+    <bean id="xtal0y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xtal0_y_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+
+    <bean id="xtal0bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xtal0_bragg_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="initialUserUnits" value="deg" />
+	</bean>
+
+    <bean id="xtal0tilt" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xtal0_tilt_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="initialUserUnits" value="deg" />
+	</bean>
+	
+	<bean id="xtal0" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="xtal0x" />
+				<ref bean="xtal0y" />
+				<ref bean="xtal0bragg" />
+				<ref bean="xtal0tilt" />
+			</list>
+		</property>
+	</bean>
+	    
+	<bean id="xtal1x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xtal1_x_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+
+    <bean id="xtal1y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xtal1_y_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+
+    <bean id="xtal1bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xtal1_bragg_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="initialUserUnits" value="deg" />
+	</bean>
+
+    <bean id="xtal1tilt" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xtal1_tilt_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="initialUserUnits" value="deg" />
+	</bean>
+	
+	<bean id="xtal1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="xtal1x" />
+				<ref bean="xtal1y" />
+				<ref bean="xtal1bragg" />
+				<ref bean="xtal1tilt" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="xtal2x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xtal2_x_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+
+    <bean id="xtal2y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xtal2_y_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+
+    <bean id="xtal2bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xtal2_bragg_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="initialUserUnits" value="deg" />
+	</bean>
+
+    <bean id="xtal2tilt" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xtal2_tilt_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="initialUserUnits" value="deg" />
+	</bean>
+	
+	<bean id="xtal2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="xtal2x" />
+				<ref bean="xtal2y" />
+				<ref bean="xtal2bragg" />
+				<ref bean="xtal2tilt" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="xtal3x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xtal3_x_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+
+    <bean id="xtal3y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xtal3_y_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+
+    <bean id="xtal3bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xtal3_bragg_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="initialUserUnits" value="deg" />
+	</bean>
+
+    <bean id="xtal3tilt" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xtal3_tilt_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="initialUserUnits" value="deg" />
+	</bean>
+	
+	<bean id="xtal3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="xtal3x" />
+				<ref bean="xtal3y" />
+				<ref bean="xtal3bragg" />
+				<ref bean="xtal3tilt" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="otherCrystals" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="xtal0" />
+				<ref bean="xtal1" />
+				<ref bean="xtal2" />
+				<ref bean="xtal3" />
+			</list>
+		</property>
+	</bean>
+	    
+</beans>
+           

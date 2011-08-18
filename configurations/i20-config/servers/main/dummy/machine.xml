@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+
+	<!--might be helpful to simulate these -->
+
+	<!--machine and front end -->
+
+	<bean id="shutter1" class="gda.device.enumpositioner.DummyValve">
+		<property name="position" value="Open" />
+	</bean>
+
+	<bean id="ringCurrent" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
+	</bean>
+	<bean id="ringEnergy" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
+	</bean>
+	<bean id="fillMode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="LI-TI-MTGEN-01:MODE" />
+	</bean>
+	<bean id="wigglerGap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="WIGGLER.GAP" />
+	</bean>
+	<bean id="wigglerGap" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="wigglerGap_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="topup" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
+	</bean>
+	<bean id="absorber" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="FE20I-RS-ABSB-01:STA" />
+	</bean>
+
+
+</beans>

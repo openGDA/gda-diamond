@@ -1,0 +1,15 @@
+Fe Ka 7.11114215691853
+mDeg
+Step
+1 16260.8 -2.3 16030.8 1000.0;
+Pre Edge 16503.9 -13.5 16191.2 1000.0;Edge 16191.2 -0.8 16067 1000.0;3.000000 0.040000 13.000000 1000.0 7000.0 3 7.111142
+KSpace
+Fluorescence
+comboDCM_eV
+repeats 1
+points 429
+myscan=I18ExafsScanClass();myscan.setWindows('/dls/i18/software/gda/i18-config/var/windows/Fe_Ka.cnf','Fe_Ka');myscan.setHeaderInfo('','','','');myscan.setNoOfRepeats(1);myscan.addAngleScan(16503.9,16191.2,-13.51739130434781,1000.0);myscan.addAngleScan(16191.2,16067.0,-0.8,1000.0);myscan.addKScan(3.0,13.0,0.04,1000.0,7000.0,3,7.11114215691853,6.2695);myscan.startScan();del myscan;
+
+
+
+

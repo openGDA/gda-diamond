@@ -1,0 +1,20 @@
+#!/bin/bash
+unset GDA_ROOT
+unset GDA_CONFIG
+unset GDA_USERS
+unset GDA_JARS
+unset CLASSPATH
+gdaLocation=`dirname $0`/../..
+abs=`cd $gdaLocation ; pwd`
+gdaLocation=$abs
+#export JAVA_HOME=$gdaLocation/java/jre
+gdaLauncher=$gdaLocation/gda/plugins/uk.ac.gda.core/bin/gda
+config=$gdaLocation/gda/i18-config
+properties=$config/properties/java.rcp.properties
+users=/dls/$BEAMLINE
+jacorb=$config/properties
+
+echo  JAVA_OPTS="-Xms512m -Xmx2048m" $gdaLauncher --config=$config --properties=$properties --jacorb=$jacorb --rcp_image=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE} --start rcpclient -d -p 8005 
+#$gdaLauncher -d --config=$config --properties=$properties --users=$users --jacorb=$jacorb client
+#JAVA_OPTS="-Xms512m -Xmx2048m -Xdebug -Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=n"
+JAVA_OPTS="-Xms512m -Xmx1024m -XX:PermSize=256m -XXMaxPermSize=1024m" $gdaLauncher -v --config=$config --properties=$properties --jacorb=$jacorb --rcp_image=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE} --start rcpclient -d -p8005

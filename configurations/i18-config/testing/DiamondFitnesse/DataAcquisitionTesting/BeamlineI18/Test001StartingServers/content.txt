@@ -1,0 +1,26 @@
+!3 GDA Server Startup Testing
+!contents
+
+----
+!3 Command Definitions
+|!-uk.ac.diamond.dlsfitnesse.CommandLineActionFixture-!|
+|definition|!-StartServerCommand-!|${TARGET_GDA_CONFIG}/testing/bin/Test_StartTargetServer|
+|definition|!-StartClientCommand-!|/home/xr56/Dev/gdaConfigLocal/local/bin/runClient.sh |
+ 
+!3 Server Startup Testing
+|!-uk.ac.diamond.dlsfitnesse.CommandLineActionFixture-!|
+|title   | Start GDA Servers                    |
+|command | !-StartServerCommand -!              |gdaserver                      |
+|pause   | 10                                    |
+#|find    | gdaserver.stdout                     |!-gda.util.ObjectServer - Server initialisation complete-! |
+
+!3 Client Startup Testing
+#|!-uk.ac.diamond.dlsfitnesse.CommandLineActionFixture-! |
+#|command | !-StartClientCommand-!                |gdaclient                      |
+#|pause   | 5                                     |
+
+#|find    | gdaclient.stdout                      |Client initialisation complete |
+
+----
+!lastmodified
+

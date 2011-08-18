@@ -1,0 +1,18 @@
+#!/bin/bash
+unset GDA_ROOT
+unset GDA_CONFIG
+unset GDA_USERS
+unset GDA_JARS
+unset CLASSPATH
+gdaLocation=`dirname $0`/../..
+abs=`cd $gdaLocation ; pwd`
+gdaLocation=$abs
+#export JAVA_HOME=$gdaLocation/java/jre
+gdaLauncher=$gdaLocation/gda/plugins/uk.ac.gda.core/bin/gda
+config=$gdaLocation/gda/i18-config
+properties=$config/properties/java.properties
+users=/dls/$BEAMLINE
+jacorb=$config/properties
+
+echo  $gdaLauncher client
+$gdaLauncher -d --config=$config --properties=$properties  --jacorb=$jacorb client -d -p 8006

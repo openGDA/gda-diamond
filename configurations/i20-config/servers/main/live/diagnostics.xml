@@ -1,0 +1,211 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="d1_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="deviceName" value="D1.D1I" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d1_screen" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="deviceName" value="D1P" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D1P.MOTOR" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d1_gain" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL20I-DI-IAMP-01:GAIN" />
+		<property name="values">
+			<map>
+				<entry key="3" value="10^3 low noise" />
+				<entry key="4" value="10^4 low noise" />
+				<entry key="5" value="10^5 low noise" />
+				<entry key="6" value="10^6 low noise" />
+				<entry key="7" value="10^7 low noise" />
+				<entry key="8" value="10^8 low noise" />
+				<entry key="9" value="10^9 low noise" />
+			</map>
+		</property>
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d1_screen_pos" class="gda.device.scannable.ScannableMotor">
+		<property name="local" value="true"/>
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="d1_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+
+
+
+	<bean id="d3_screen" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="deviceName" value="D3P" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d3_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D3P.MOTOR" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d3_updrain" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="D3.YPI" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d3_lowdrain" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="D3.YMI" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d3_vgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D3.YSIZE" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d3_voffset_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D3.YCENTRE" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d3_up_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D3.PLUS" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d3_down_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D3.MINUS" />
+		<property name="local" value="true"/>
+	</bean>
+		<bean id="d3_vgap" class="gda.device.scannable.ScannableMotor">
+		<property name="local" value="true"/>
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="d3_vgap_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="d3_screen_pos" class="gda.device.scannable.ScannableMotor">
+		<property name="local" value="true"/>
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="d3_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="d3_voffset" class="gda.device.scannable.ScannableMotor">
+		<property name="local" value="true"/>
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="d3_voffset_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="d3_up" class="gda.device.scannable.ScannableMotor">
+		<property name="local" value="true"/>
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="d3_up_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="d3_down" class="gda.device.scannable.ScannableMotor">
+		<property name="local" value="true"/>
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="d3_down_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+
+
+
+	<bean id="d4_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="deviceName" value="D4.D1I" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d4_screen" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="deviceName" value="D4P" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d4_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20I-DI-PHDGN-04:POSN" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d4_gain" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL20I-DI-IAMP-02:GAIN" />
+		<property name="values">
+			<map>
+				<entry key="3" value="10^3 low noise" />
+				<entry key="4" value="10^4 low noise" />
+				<entry key="5" value="10^5 low noise" />
+				<entry key="6" value="10^6 low noise" />
+				<entry key="7" value="10^7 low noise" />
+				<entry key="8" value="10^8 low noise" />
+				<entry key="9" value="10^9 low noise" />
+			</map>
+		</property>
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d4_screen_pos" class="gda.device.scannable.ScannableMotor">
+		<property name="local" value="true"/>
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="d4_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+
+
+	<bean id="d5_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="deviceName" value="D5.D1I" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d5_screen" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="deviceName" value="D5P" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d5_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20I-DI-PHDGN-05:POSN" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d5_gain" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="local" value="true"/>
+		<property name="pvName" value="BL20I-DI-IAMP-04:GAIN" />
+		<property name="values">
+			<map>
+				<entry key="3" value="10^3 low noise" />
+				<entry key="4" value="10^4 low noise" />
+				<entry key="5" value="10^5 low noise" />
+				<entry key="6" value="10^6 low noise" />
+				<entry key="7" value="10^7 low noise" />
+				<entry key="8" value="10^8 low noise" />
+				<entry key="9" value="10^9 low noise" />
+			</map>
+		</property>
+	</bean>
+	<bean id="d5_screen_pos" class="gda.device.scannable.ScannableMotor">
+		<property name="local" value="true"/>
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="d5_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+
+	<bean id="d6_screen" class="gda.device.enumpositioner.EpicsPneumatic">
+		<property name="local" value="true"/>
+		<property name="protectionLevel" value="3" />
+		<property name="epicsRecordName" value="BL20I-DI-PHDGN-06"/>
+	</bean>
+
+	<bean id="d7_screen" class="gda.device.enumpositioner.EpicsPneumatic">
+		<property name="local" value="true"/>
+		<property name="protectionLevel" value="3" />
+		<property name="epicsRecordName" value="BL20I-DI-PHDGN-07"/>
+	</bean>
+
+	<bean id="d8_screen" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="local" value="true"/>
+		<property name="deviceName" value="D8P" />
+	</bean>
+	
+	<bean id="d9_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="deviceName" value="D9.D1I" />
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>

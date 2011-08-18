@@ -1,0 +1,58 @@
+var compatibleProperties = "sds.path";
+var description = "open mirror(mirror name)";
+var parameters = new Array("mirror name here");
+
+var m1a = new Packages.org.eclipse.core.runtime.Path("screens/m1a.css-sds");
+var m1b = new Packages.org.eclipse.core.runtime.Path("screens/m1b.css-sds");
+var m2a = new Packages.org.eclipse.core.runtime.Path("screens/m2a.css-sds");
+var m2b = new Packages.org.eclipse.core.runtime.Path("screens/m2b.css-sds");
+var m3a = new Packages.org.eclipse.core.runtime.Path("screens/m3a.css-sds");
+var m3b = new Packages.org.eclipse.core.runtime.Path("screens/m3b.css-sds");
+var m4a = new Packages.org.eclipse.core.runtime.Path("screens/m4a.css-sds");
+var m4b = new Packages.org.eclipse.core.runtime.Path("screens/m4b.css-sds");
+var hrma = new Packages.org.eclipse.core.runtime.Path("screens/hrma.css-sds");
+var hrmb = new Packages.org.eclipse.core.runtime.Path("screens/hrmb.css-sds");
+
+function execute(args) {
+
+	var argument1 = args[0];
+	Packages.java.lang.System.out.println("mirror = "+argument1+"");
+	var result;
+
+
+	
+	if ( argument1 == 'm1a') {
+	    result = m1a;
+	}
+	else if ( argument1 == 'm1b') {
+	    result = m1b;
+	}
+	else if ( argument1 == 'm2a') {
+	    result = m2a;
+ 	}
+ 	else if ( argument1 == 'm2b') {
+	    result = m2b;
+	}
+	else if ( argument1 == 'm3a') {
+	    result = m3a;
+	}
+	else if ( argument1 == 'm3b') {
+	    result = m3b;
+	}
+	else if ( argument1 == 'm4a') {
+	    result = m4a;
+	}
+	else if ( argument1 == 'm4b') {
+	    result = m4b;
+	}
+	else if ( argument1 == 'hrma') {
+	    result = hrma;
+	}
+	else if ( argument1 == 'hrmb') {
+	    result = hrmb;
+	}
+	
+	
+	
+	return result;
+}

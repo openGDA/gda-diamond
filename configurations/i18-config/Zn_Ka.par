@@ -1,0 +1,15 @@
+Zn Ka 9.66060353235982
+eV
+Step
+1 11870.6 -1.2 11750.6 1000.0;
+Pre Edge 12000.4 -7.1 11832.3 1000.0;Edge 11832.3 -0.6 11769.9 1000.0;3.000000 0.040000 14.000000 1000.0 8000.0 3 9.660604
+KSpace
+Fluorescence
+comboDCM_eV
+repeats 1
+points 402
+myscan=I18ExafsScanClass();myscan.setWindows('/dls/i18/software/gda/config/var/windows/Zn_Ka.cnf','Zn_Ka');myscan.setHeaderInfo('zn-i2 + lactone + toluene 1:1','','','');myscan.setNoOfRepeats(1);myscan.addAngleScan(12000.4,11832.3,-7.1,1000.0);myscan.addAngleScan(11832.3,11769.9,-0.6,1000.0);myscan.addKScan(3.0,14.0,0.04,1000.0,8000.0,3,9.660604,6.2695);myscan.startScan();del myscan;
+zn-i2 + lactone + toluene 1:1
+
+
+

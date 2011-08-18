@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<import resource="../client-common.xml" />
+	
+	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
+		<property name="cameras">
+			<list>
+				<value>http://i20-firewire01.diamond.ac.uk:8080/D3.CAM1.MJPG.mjpg</value>
+				<value>http://i20-firewire01.diamond.ac.uk:8080/D5.CAM1.MJPG.mjpg</value>
+				<value>http://172.23.102.176/mjpg/video.mjpg</value>
+				<value>http://172.23.102.177/mjpg/video.mjpg</value>
+				<value>http://172.23.103.177/mjpg/video.mjpg</value>
+				<value>http://172.23.103.176/mjpg/video.mjpg</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
+		<property name="service" ref="camera_config" />
+	</bean>
+	
+</beans>

@@ -1,0 +1,15 @@
+Fe Ka 7.11114215691853
+keV
+Step
+1 16260.8 -23 16030.8 1000.0;
+Pre Edge 16503.9 -13.5 16191.2 1000.0;Edge 16191.2 -2.3 16067 1000.0;3.000000 0.040000 12.000000 1000.0 1000.0 3 7.111142
+KSpace
+Fluorescence
+comboDCM_eV
+repeats 1
+points 303
+myscan=I18VortexExafsScanClass();myscan.setWindows('/dls_sw/i18/software/gda/i18-config/var/windows/vortexwindows/Fe_Ka.cnf','Fe_Ka');myscan.setHeaderInfo('','','','');myscan.setNoOfRepeats(1);myscan.addAngleScan(16503.9,16191.2,-13.51739130434781,1000.0);myscan.addAngleScan(16191.2,16067.0,-2.3000000000000136,1000.0);myscan.addKScan(3.0,12.0,0.04,1000.0,1000.0,3,7.11114215691853,6.2695);myscan.startScan();
+
+
+
+

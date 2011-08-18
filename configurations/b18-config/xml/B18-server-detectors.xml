@@ -1,0 +1,409 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+	<!--    off line simulated connectios to hardware-->
+
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
+		<property name="numberOfMca" value="4" />
+		<property name="numberOfBins" value="1024" />
+		<property name="numberOfROIs" value="10" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="DAServer" class="gda.device.detector.DummyDAServer">
+		<property name="local" value="True" />
+		<property name="host" value="b18-xspress0" />
+		<property name="port" value="1972" />
+		<property name="startupCommands">
+			<list>
+				<value>~config</value>
+			</list>
+		</property>
+		<property name="dataPort" value="20030" />
+		<property name="replyTimeOut" value="5000" />
+		<property name="xspressMode">
+			<bean class="gda.device.detector.DUMMY_XSPRESS2_MODE"
+				factory-method="valueOf">
+				<constructor-arg>
+					<value>XSPRESS2_FULL_MCA</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="struckScaler" class="gda.device.detector.DummyDetector">
+		<property name="extraNames">
+			<list>
+				<value>chn0</value>
+				<value>chn1</value>
+				<value>chn2</value>
+				<value>chn3</value>
+				<value>chn4</value>
+				<value>chn5</value>
+				<value>chn6</value>
+				<value>chn7</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<!--	beamline connections to hardwear-->
+
+	<!--
+		<bean id="edxdcontroller"
+		class="gda.device.detector.xmap.edxd.EDXDController">
+	-->
+	<!--		<property name="local" value="true" />-->
+	<!--		<property name="epicsDeviceName" value="edxd" />-->
+	<!--		<property name="NUMBER_OF_ELEMENTS" value="4" />-->
+	<!--	</bean>-->
+	<!--
+		<bean id="xmapcontroller"
+		class="gda.device.detector.xmap.EpicsXmapController2">
+	-->
+	<!--		<property name="edxdControllerName" value="edxdcontroller" />-->
+	<!--		<property name="local" value="true" />-->
+	<!--	</bean>-->
+
+
+
+	<!--	<bean id="DAServer" class="gda.device.detector.DAServer">-->
+	<!--		<property name="local" value="True" />-->
+	<!--		<property name="host" value="b18-xspress0" />-->
+	<!--		<property name="port" value="1972" />-->
+	<!--		<property name="startupCommands">-->
+	<!--			<list>-->
+	<!--				<value>~config</value>-->
+	<!--				<value>tfg setup-veto veto1-inv 1</value>-->
+	<!--			</list>-->
+	<!--		</property>-->
+	<!--		<property name="dataPort" value="20030" />-->
+	<!--		<property name="replyTimeOut" value="5000" />-->
+	<!--	</bean>-->
+
+	<!--
+		<bean id="struckScaler"
+		class="gda.device.detector.countertimer.EpicsScaler">
+	-->
+	<!--		<property name="pvName" value="BL18B-EA-DET-01:SCALER"/>-->
+	<!--	</bean>-->
+
+	<!--	classes used offline and at beamline-->
+
+	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2System">
+		<property name="daServer" ref="DAServer" />
+		<property name="tfg" ref="tfg" />
+		<property name="xspressSystemName" value="xsp1" />
+
+		<property name="mcaOpenCommand" value="xspress2 open-mca 'xsp1'" />
+		<property name="scalerOpenCommand" value="xspress2 open-scalers 'xsp1'" />
+		<property name="startupScript" value="xspress2 format-run 'xsp1' res-none" />
+
+		<property name="numberOfDetectors" value="9" />
+		<property name="configFileName"
+			value="${gda.config}/templates/Xspress_Parameters.xml" />
+		<property name="fullMCABits" value="12" />
+
+		<property name="outputFormat">
+			<list>
+				<value>%9.2f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="qexafs_xspress" class="gda.device.detector.Xspress2BufferedDetector">
+		<property name="xspress2system" ref="xspress2system" />
+	</bean>
+
+	<!--  Time Frame Generator -->
+	<bean id="tfg" class="gda.device.timer.Etfg">
+		<property name="daServer" ref="DAServer" />
+	</bean>
+	
+	<!--	 Scaler channels -->
+	<bean id="CalMemory" class="gda.device.memory.Scaler">
+		<property name="daServer" ref="DAServer" />
+		<property name="width" value="4" />   <!-- time plus the expected scalers as this is TFGv2 -->
+		<property name="height" value="1" />
+		<property name="openCommand" value="tfg open-cc" />
+	</bean>
+
+
+	<!--
+		<bean id="counterTimer01"
+		class="gda.device.detector.buffereddetector.BufferedScaler">
+	-->
+	<bean id="counterTimer01" class="gda.device.detector.countertimer.TfgScalerWithLogValues">
+		<property name="extraNames">
+			<list>
+				<!--				<value>Time</value>-->
+				<value>I0</value>
+				<value>It</value>
+				<value>Iref</value>
+				<value>lnI0It</value>
+				<value>lnItIref</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="timeChannelRequired" value="false" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputLogValues" value="true" />
+		<property name="TFGv2" value="true" />
+		<property name="minimumReadoutDelay" value="0" />
+		<property name="outputFormat">
+			<list>
+				<!--				<value>%6.2g</value>-->
+				<value>%6.2g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%.6g</value>
+				<value>%.6g</value>
+			</list>
+		</property>
+		<!--		<property name="daserver" ref="DAServer"/>-->
+	</bean>
+
+	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
+		<property name="extraNames">
+			<list>
+				<value>I0</value>
+				<value>It</value>
+				<value>Iref</value>
+				<value>lnI0It</value>
+				<value>lnItIref</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="DAServer" />
+		<property name="timeChannelRequired" value="false" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputLogValues" value="true" />
+		<property name="TFGv2" value="true" />
+		<property name="outputFormat">
+			<list>
+				<value>%6.2g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%.6g</value>
+				<value>%.6g</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="counterTimer02_nocorr"
+		class="gda.device.detector.countertimer.TfgXspress2NoCorrection">
+		<property name="extraNames">
+			<list>
+				<value>flu_0</value>
+				<value>flu_1</value>
+				<value>flu_2</value>
+				<value>flu_3</value>
+				<value>flu_4</value>
+				<value>flu_5</value>
+				<value>flu_6</value>
+				<value>flu_7</value>
+				<value>flu_8</value>
+				<value>FF</value>
+			</list>
+		</property>
+		<property name="xspress" ref="xspress2system" />
+		<property name="timer" ref="tfg" />
+		<property name="slave" value="true" />
+	</bean>
+
+	<bean id="counterTimer02_raw" class="gda.device.detector.countertimer.TfgXspress2Raw">
+		<property name="extraNames">
+			<list>
+				<value>flu_0</value>
+				<value>flu_1</value>
+				<value>flu_2</value>
+				<value>flu_3</value>
+				<value>flu_4</value>
+				<value>flu_5</value>
+				<value>flu_6</value>
+				<value>flu_7</value>
+				<value>flu_8</value>
+				<value>FF</value>
+			</list>
+		</property>
+		<property name="xspress" ref="xspress2system" />
+		<property name="timer" ref="tfg" />
+		<property name="slave" value="true" />
+	</bean>
+
+	<bean id="FFI0" class="gda.device.detector.TfgFFoverI0">
+		<property name="xspress" ref="xspress2system" />
+		<property name="scalerName" value="counterTimer01" />
+	</bean>
+
+	<bean id="QexafsFFI0" class="gda.device.detector.QexafsFFoverIO">
+		<property name="qexafsXspress" ref="qexafs_xspress" />
+		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
+	</bean>
+
+	<bean id="FFI0_vortex" class="gda.device.detector.TfgXMapFFoverI0">
+		<property name="xmap" ref="xmapMca" />
+		<property name="scalerName" value="counterTimer01" />
+	</bean>
+
+	<bean id="counterTimer03" class="gda.device.detector.countertimer.TfgXmap">
+		<property name="xmap" ref="xmapMca" />
+		<property name="timer" ref="tfg" />
+		<property name="slave" value="true" />
+		<property name="minimumReadoutDelay" value="100" />
+	</bean>
+
+	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
+		<property name="controller" ref="xmapcontroller" />
+		<property name="slave" value="true" />
+		<property name="configFileName"
+			value="${gda.config}/templates/Vortex_Parameters.xml" />
+		<property name="tfg" ref="tfg" />
+		<!--
+			Value determined by procedure in DTC_for_vortex.doc and is a list,
+			one value for each element
+		-->
+		<property name="eventProcessingTimes">
+			<list>
+				<value>1.1029752060937018e-007</value>
+				<value>1.1407794527246737e-007</value>
+				<value>1.1465765791909203e-007</value>
+				<value>1.0675602460939456e-007</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="det1" class="gda.device.detector.DummyBufferedDetector">
+		<property name="inputNames">
+			<list>
+				<value>det1</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="gmsd" class="gda.device.detector.countertimer.TFGStruck">
+		<property name="struck" ref="struckScaler" />
+		<property name="timer" ref="tfg" />
+	</bean>
+
+	<bean id="mythen" class="gda.device.detector.mythen.MythenDetectorImpl">
+		<property name="detectorID" value="b18-mcs01" />
+		<property name="mythenClient">
+			<bean class="gda.device.detector.mythen.client.TextClientMythenClient">
+				<property name="mythenClientCommand"
+					value="/dls_sw/b18/software/mythen/MythenSoft/bin/text_client" />
+				<property name="host" value="b18-mcs01" />
+			</bean>
+		</property>
+		
+		<property name="dataConverter">
+			<bean class="gda.device.detector.mythen.data.DataConverter">
+				<property name="angularCalibrationParameters">
+					<bean
+						class="gda.device.detector.mythen.data.SimpleAngularCalibrationParameters">
+						<constructor-arg>
+							<bean class="java.io.File">
+								<constructor-arg>
+									<value>/dls_sw/b18/software/mythen/MythenSoft/module/calibration.dat</value>
+								</constructor-arg>
+							</bean>
+						</constructor-arg>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!--
+		<bean id="mythen" class="gda.device.detector.mythen.MythenXasImpl">
+	-->
+	<!--		<property name="detectorID" value="b18-mcs01" />-->
+	<!--		<property name="mythenClient">-->
+	<!--
+		<bean
+		class="gda.device.detector.mythen.client.TextClientMythenClient">
+	-->
+	<!--				<property name="mythenClientCommand" value="text_client" />-->
+	<!--				<property name="host" value="b18-mcs01" />-->
+	<!--			</bean>-->
+	<!--		</property>-->
+	<!--		<property name="dataConverter">-->
+	<!--			<bean class="gda.device.detector.mythen.data.DataConverter">-->
+	<!--				<property name="angularCalibrationParameters">-->
+	<!--					<bean-->
+	<!--
+		class="gda.device.detector.mythen.data.SimpleAngularCalibrationParameters">
+	-->
+	<!--						<constructor-arg>-->
+	<!--							<bean class="java.io.File">-->
+	<!--								<constructor-arg>-->
+	<!--
+		<value>/dls_sw/b18/software/mythen/MythenSoft/module/calibration.dat</value>
+	-->
+	<!--								</constructor-arg>-->
+	<!--							</bean>-->
+	<!--						</constructor-arg>-->
+	<!--					</bean>-->
+	<!--				</property>-->
+	<!--				<property name="badChannelProvider">-->
+	<!--					<bean-->
+	<!--
+		class="gda.device.detector.mythen.data.SplitFilesBadChannelProvider">
+	-->
+	<!--						<property name="modules" ref="mythenModuleList" />-->
+	<!--					</bean>-->
+	<!--				</property>-->
+	<!--				<property name="flatFieldDatasetProvider">-->
+	<!--					<bean-->
+	<!--
+		class="gda.device.detector.mythen.data.SplitFilesFlatFieldCorrectionProvider">
+	-->
+	<!--						<property name="modules" ref="mythenModuleList" />-->
+	<!--					</bean>-->
+	<!--				</property>-->
+	<!--			</bean>-->
+	<!--		</property>-->
+	<!--	</bean>-->
+<!---->
+	<!--
+		<bean id="mythenModuleList"
+		class="gda.device.detector.mythen.data.ModuleDefinitions">
+	-->
+	<!--		<property name="calibrationFolder"-->
+	<!--			value="/dls_sw/b18/software/mythen/MythenSoft/module" />-->
+	<!--		<property name="mode" value="standard" />-->
+	<!--		<property name="flatFilePrefix" value="FlatCu"/>-->
+	<!--		<property name="modules">-->
+	<!--			<list>-->
+	<!--				<value>SN01c</value>-->
+	<!--				<value>SN061</value>-->
+	<!--				<value>SN05c</value>-->
+	<!--				<value>SN05b</value>-->
+	<!--				<value>SN040</value>-->
+	<!--				<value>SN04d</value>-->
+	<!--			</list>-->
+	<!--		</property>-->
+	<!--	</bean>-->
+	<!--	-->
+
+</beans>

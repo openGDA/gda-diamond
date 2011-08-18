@@ -1,0 +1,234 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="m1_yaw_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m1_pitch_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m1_elip_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m1_y_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m1_bend_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m1_bend1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m1_bend2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s2_hgap_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m2_yaw_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m2_pitch_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m2_elip_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m2_y_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m2_bend_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m2_bend1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m2_bend2_motor" class="gda.device.motor.DummyMotor" />
+
+
+	<bean id="m3_stripe" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions">
+			<list>
+				<value>Rhodium</value>
+				<value>Platinum</value>
+				<value>Zero</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="m3_pitch_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m3_yaw_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m3_y_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="m4_stripe" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions">
+			<list>
+				<value>Rhodium</value>
+				<value>Platinum</value>
+				<value>Zero</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="m4_pitch_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m4_elip_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m4_y_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m4_yaw_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m4_bend_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m4_bend1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m4_bend2_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="m1_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="m1_yaw_motor" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
+	<bean id="m1_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="m1_pitch_motor" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
+	<bean id="m1_elip" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="m1_elip_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="m1_height" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="m1_y_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="m1_bend" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="m1_bend_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="m1_bend1" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="m1_bend1_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="m1_bend2" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="m1_bend2_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="m2_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="m2_yaw_motor" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
+	<bean id="m2_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="m2_pitch_motor" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
+	<bean id="m2_elip" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="m2_elip_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="m2_height" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="m2_y_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="m2_bend" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="m2_bend_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="m2_bend1" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="m2_bend1_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="m2_bend2" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="m2_bend2_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="m3_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="m3_yaw_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+	<bean id="m3_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="m3_pitch_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+	<bean id="m3_height" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="m3_y_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+
+	<bean id="m4_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="m4_yaw_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+	<bean id="m4_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="m4_pitch_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+	<bean id="m4_elip" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="m4_elip_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="m4_height" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="m4_y_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+	<bean id="m4_bend" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="m4_bend_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+
+	<bean id="hr_stripe" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions">
+			<list>
+				<value>Silicon</value>
+				<value>Rhodium</value>
+				<value>Zero</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="hr_height_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="hr_pitch_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="hr_height" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="hr_height_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+	<bean id="hr_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="hr_pitch_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+
+</beans>

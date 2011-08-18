@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="file:${gda.config}/properties/java.properties" />
+	</bean>
+	
+	<bean id="objectCreators" class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				
+				<bean class="gda.factory.ClientXmlObjectCreator">
+					<property name="xmlFile" value="${gda.config}/xml/i18_Client_core.xml" />
+					<property name="doPropertySubstitution" value="True"/>
+					<property name="useDefaultSchema" value="False"/>
+				</bean>
+				<bean class="gda.factory.ClientXmlObjectCreator">
+					<property name="xmlFile" value="${gda.config}/xml/i18_Client_oe.xml" />
+					<property name="doPropertySubstitution" value="True"/>
+					<property name="useDefaultSchema" value="False"/>
+					<property name="mappingFile" value="classpath:gda/factory/mapping_oe.xml"/>
+				</bean>
+				<bean class="gda.factory.ClientXmlObjectCreator">
+					<property name="xmlFile" value="${gda.config}/xml/i18_Client_dls.xml" />
+					<property name="doPropertySubstitution" value="True"/>
+					<property name="useDefaultSchema" value="False"/>
+					<property name="mappingFile" value="classpath:gda/factory/mapping_dls.xml"/>
+				</bean>
+				
+				<bean class="gda.factory.SpringObjectCreator">
+					<property name="xmlFile" value="${gda.config}/xml/i18_beans_client.xml" />
+				</bean>
+				
+				<bean class="gda.factory.AdapterObjectCreator">
+					<property name="name" value="${gda.factory.factoryName}" />
+				</bean>
+				
+			</list>
+		</property>
+	</bean>
+
+</beans>

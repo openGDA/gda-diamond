@@ -1,0 +1,9 @@
+#!/bin/bash
+echo "gda and dls_dasc all permissions to /gda, otherwise rw only..."
+sudo setfacl -R -m u::rwx,g::rwx,g:dls_dasc:rwx,g:gda:rwx,o::rx,d:u::rwx,d:g::rwx,d:g:dls_dasc:rwx,d:g:gda:rwx,d:o::rx /dls/${BEAMLINE}/software/gda
+echo "beamline staff edit perms to config..."
+sudo setfacl -R -m g:${BEAMLINE}_staff:rwx,d:g:${BEAMLINE}_staff:rwx /dls/${BEAMLINE}/software/gda/config/
+echo "everyone permissions to var..."
+sudo setfacl -R -m o::rwx,d:o::rwx /dls/${BEAMLINE}/software/gda/config/var
+
+/home/nv23/workspaces/gdatrunk_sep09ws/plugins/uk.ac.gda.beamline.b23/test/uk/ac/gda/beamline/b23/4.ols

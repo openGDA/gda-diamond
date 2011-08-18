@@ -1,0 +1,1370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectFactory>
+	<name>${gda.factory.factoryName}</name>
+	
+	<!-- ************************ -->
+	<!-- *** Optical Elements *** -->
+	<!-- ************************ -->
+	<!-- Insertion Device -->
+	<GenericOE>
+		<name>ID</name>
+		<LinearPositioner>
+			<name>idgap_positioner</name>
+			<motorName>idgap_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-100</softLimitLow>
+			<softLimitHigh>1000</softLimitHigh>
+			<poll>true</poll>
+		</LinearPositioner>
+		<SingleAxisLinearDOF>
+			<name>idgap</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>idgap_positioner</moveableName>
+		</SingleAxisLinearDOF>
+	</GenericOE>
+	
+
+	<!-- Slits1 (S1) OE -->
+	<GenericOE>
+		<name>Slits1</name>
+		<LinearPositioner>
+			<name>s1xpos_positioner</name>
+			<motorName>s1xpos_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>10</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>s1xgap_positioner</name>
+			<motorName>s1xgap_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>5.9</softLimitLow>
+			<softLimitHigh>5.9</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>s1ypos_positioner</name>
+			<motorName>s1ypos_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0.5</softLimitLow>
+			<softLimitHigh>9.5</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>s1ygap_positioner</name>
+			<motorName>s1ygap_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>4.9</softLimitLow>
+			<softLimitHigh>5.9</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+
+		</LinearPositioner>
+
+		<SingleAxisLinearDOF>
+			<name>s1xpos</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>s1xpos_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>s1xgap</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>s1xgap_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>s1ypos</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>s1ypos_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>s1ygap</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>s1ygap_positioner</moveableName>
+		</SingleAxisLinearDOF>
+	</GenericOE>
+	<!--End of Slits1 OE-->
+
+	<!--Toriod (HFM) Mirror OE-->
+	<!--	<GenericOE>
+		<name>Toriod_Mirror</name>
+		<LinearPositioner>
+			<name>torx_positioner</name>
+			<motorName>torx_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-100</softLimitLow>
+			<softLimitHigh>100</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>tory_positioner</name>
+			<motorName>tory_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-50</softLimitLow>
+			<softLimitHigh>50</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<AngularPositioner>
+			<name>toryaw_positioner</name>
+			<motorName>toryaw_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-100</softLimitLow>
+			<softLimitHigh>100</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</AngularPositioner>
+		<AngularPositioner>
+			<name>torroll_positioner</name>
+			<motorName>torroll_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-100</softLimitLow>
+			<softLimitHigh>100</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</AngularPositioner>
+		<LinearPositioner>
+			<name>torsag_positioner</name>
+			<motorName>torsag_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-1</softLimitLow>
+			<softLimitHigh>26</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<AngularPositioner>
+			<name>torpitch_positioner</name>
+			<motorName>torpitch_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-100</softLimitLow>
+			<softLimitHigh>100</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</AngularPositioner>
+		<LinearPositioner>
+			<name>torcurve_positioner</name>
+			<motorName>torcurve_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-20</softLimitLow>
+			<softLimitHigh>40</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>torellipticity_positioner</name>
+			<motorName>torellipticity_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-100</softLimitLow>
+			<softLimitHigh>100</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		
+		<SingleAxisLinearDOF>
+			<name>torx</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>torx_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>tory</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>tory_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>torsag</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>torsag_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>torcurve</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>torcurve_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>torellipticity</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>torellipticity_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisAngularDOF>
+			<name>toryaw</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>Deg</acceptableUnit>
+			<moveableName>toryaw_positioner</moveableName>
+		</SingleAxisAngularDOF>
+		<SingleAxisAngularDOF>
+			<name>torroll</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>Deg</acceptableUnit>
+			<moveableName>torroll_positioner</moveableName>
+		</SingleAxisAngularDOF>
+		<SingleAxisAngularDOF>
+			<name>torpitch</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>Deg</acceptableUnit>
+			<moveableName>torpitch_positioner</moveableName>
+		</SingleAxisAngularDOF>
+	</GenericOE>-->
+	<!--End of Toroid Mirror (HFM) OE-->
+
+	<!--Monochromator (DCM) OE-->
+	<GenericOE>
+		<name>DCM</name>
+		<AngularPositioner>
+			<name>dcm_bragg_positioner</name>
+			<motorName>dcm_bragg_motor</motorName>
+			<stepsPerUnit>-1</stepsPerUnit>
+			<softLimitLow>-6000</softLimitLow>
+			<softLimitHigh>80000</softLimitHigh>
+		</AngularPositioner>
+
+		<AngularPositioner>
+			<name>dcm_crystal1_roll_positioner</name>
+			<motorName>dcm_crystal1_roll_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-17.453</softLimitLow>
+			<softLimitHigh>17.453</softLimitHigh>
+		</AngularPositioner>
+		<AngularPositioner>
+			<name>dcm_crystal2_roll_positioner</name>
+			<motorName>dcm_crystal2_roll_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-1.9</softLimitLow>
+			<softLimitHigh>7.9</softLimitHigh>
+		</AngularPositioner>
+		<AngularPositioner>
+			<name>dcm_crystal2_pitch_positioner</name>
+			<motorName>dcm_crystal2_pitch_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-0.9</softLimitLow>
+			<softLimitHigh>8.9</softLimitHigh>
+		</AngularPositioner>
+		<LinearPositioner>
+			<name>dcm_perp_positioner</name>
+			<motorName>dcm_perp_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-40.0</softLimitLow>
+			<softLimitHigh>40.0</softLimitHigh>
+		</LinearPositioner>
+
+		<EpicsAxisAngularDOF>
+			<name>dcm_bragg</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mDeg</acceptableUnit>
+			<acceptableUnit>keV</acceptableUnit>
+			<moveableName>dcm_bragg_positioner</moveableName>
+		</EpicsAxisAngularDOF>
+
+		<EpicsAxisAngularDOF>
+			<name>dcm_crystal1_roll</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>dcm_crystal1_roll_positioner</moveableName>
+		</EpicsAxisAngularDOF>
+		<!--		<EpicsAxisAngularDOF>
+			<name>dcm_crystal2_roll</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>dcm_crystal2_roll_positioner</moveableName>
+			</EpicsAxisAngularDOF>-->
+		<EpicsAxisAngularDOF>
+			<name>dcm_crystal2_pitch</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>dcm_crystal2_pitch_positioner</moveableName>
+		</EpicsAxisAngularDOF>
+		<EpicsAxisLinearDOF>
+			<name>dcm_perp</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>dcm_perp_positioner</moveableName>
+		</EpicsAxisLinearDOF>
+
+		<MonoDOF>
+			<name>dcm_mono</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mDeg</acceptableUnit>
+			<moveableName>dcm_bragg_positioner</moveableName>
+			<crystalType>Si111</crystalType>
+		</MonoDOF>
+	</GenericOE>
+	
+	
+	<!--Slits2 (S2) OE-->
+	<!--	<GenericOE>
+		<name>Slits2</name>
+		<LinearPositioner>
+			<name>s2xgap_positioner</name>
+			<motorName>s2xgap_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>0</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>s2ygap_positioner</name>
+			<motorName>s2ygap_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>0</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>s2xpos_positioner</name>
+			<motorName>s2xpos_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>0</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>s2ypos_positioner</name>
+			<motorName>s2ypos_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>0</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		
+		<SingleAxisLinearDOF>
+			<name>s2xgap</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>s2xgap_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>s2ygap</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>s2ygap_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>s2xpos</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>s2xpos_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>s2ypos</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>s2ypos_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		
+	</GenericOE>-->
+	<!--End of Slits2 OE-->
+
+	<!-- Harmonic Rejection Mirror (HRM) OE -->
+	<!--	<GenericOE>
+		<name>HRM</name>
+		<LinearPositioner>
+			<name>hrx_positioner</name>
+			<motorName>hrx_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>20</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>hrx2_positioner</name>
+			<motorName>hrx2_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>20</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<AngularPositioner>
+			<name>hrpitch2_positioner</name>
+			<motorName>hrpitch2_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>20</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</AngularPositioner>
+		
+		<SingleAxisLinearDOF>
+			<name>hrx</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>hrx_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>hrx2</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>hrx2_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisAngularDOF>
+			<name>hrpitch2</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>Deg</acceptableUnit>
+			<moveableName>hrpitch2_positioner</moveableName>
+		</SingleAxisAngularDOF>
+		
+	</GenericOE>-->
+	<!-- End of HRM OE -->
+
+	<!-- Slits3 (S3) OE -->
+	<!--	<GenericOE>
+		<name>Slits3</name>
+		<LinearPositioner>
+			<name>s3xpos_positioner</name>
+			<motorName>s3xpos_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>10</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>s3xgap_positioner</name>
+			<motorName>s3xgap_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>0</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>s3ypos_positioner</name>
+			<motorName>s3ypos_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>10</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>s3ygap_positioner</name>
+			<motorName>s3ygap_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>0</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		
+		<SingleAxisLinearDOF>
+			<name>s3xpos</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>s3xpos_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>s3xgap</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>s3xgap_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>s3ypos</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>s3ypos_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>s3ygap</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>s3ygap_positioner</moveableName>
+		</SingleAxisLinearDOF>
+
+	</GenericOE>-->
+	<!--End of Slits3 OE-->
+
+	<!-- K_B Mirror (KBM) OE -->
+	<!--	<GenericOE>
+		<name>KB_Mirrors</name>
+		<LinearPositioner>
+			<name>kbvfmx_positioner</name>
+			<motorName>kbvfmx_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-10</softLimitLow>
+			<softLimitHigh>10</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbvfmy_positioner</name>
+			<motorName>kbvfmy_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-5</softLimitLow>
+			<softLimitHigh>5</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbhfmx_positioner</name>
+			<motorName>kbhfmx_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-10</softLimitLow>
+			<softLimitHigh>10</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbhfmy_positioner</name>
+			<motorName>kbhfmy_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-5</softLimitLow>
+			<softLimitHigh>5</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<AngularPositioner>
+			<name>kbvfmpitch_positioner</name>
+			<motorName>kbvfmpitch_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-8</softLimitLow>
+			<softLimitHigh>3</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</AngularPositioner>
+		<AngularPositioner>
+			<name>kbhfmpitch_positioner</name>
+			<motorName>kbhfmpitch_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-8</softLimitLow>
+			<softLimitHigh>3</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</AngularPositioner>
+		<LinearPositioner>
+			<name>kbhfmv1_positioner</name>
+			<motorName>kbhfmv1_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2000</softLimitLow>
+			<softLimitHigh>2000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbhfmv2_positioner</name>
+			<motorName>kbhfmv2_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2000</softLimitLow>
+			<softLimitHigh>2000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbhfmv3_positioner</name>
+			<motorName>kbhfmv3_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2000</softLimitLow>
+			<softLimitHigh>2000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbhfmv4_positioner</name>
+			<motorName>kbhfmv4_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2000</softLimitLow>
+			<softLimitHigh>2000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbhfmv5_positioner</name>
+			<motorName>kbhfmv5_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2000</softLimitLow>
+			<softLimitHigh>2000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbhfmv6_positioner</name>
+			<motorName>kbhfmv6_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2000</softLimitLow>
+			<softLimitHigh>2000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbhfmv7_positioner</name>
+			<motorName>kbhfmv7_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2000</softLimitLow>
+			<softLimitHigh>2000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbhfmv8_positioner</name>
+			<motorName>kbhfmv8_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2000</softLimitLow>
+			<softLimitHigh>2000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbvfmv1_positioner</name>
+			<motorName>kbvfmv1_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2000</softLimitLow>
+			<softLimitHigh>2000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbvfmv2_positioner</name>
+			<motorName>kbvfmv2_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2000</softLimitLow>
+			<softLimitHigh>2000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbvfmv3_positioner</name>
+			<motorName>kbvfmv3_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2000</softLimitLow>
+			<softLimitHigh>2000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbvfmv4_positioner</name>
+			<motorName>kbvfmv4_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2000</softLimitLow>
+			<softLimitHigh>2000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbvfmv5_positioner</name>
+			<motorName>kbvfmv5_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2000</softLimitLow>
+			<softLimitHigh>2000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbvfmv6_positioner</name>
+			<motorName>kbvfmv6_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2000</softLimitLow>
+			<softLimitHigh>2000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbvfmv7_positioner</name>
+			<motorName>kbvfmv7_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2000</softLimitLow>
+			<softLimitHigh>2000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>kbvfmv8_positioner</name>
+			<motorName>kbvfmv8_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2000</softLimitLow>
+			<softLimitHigh>2000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>		
+		<!-#-DOFS-#->
+		<SingleAxisLinearDOF>
+			<name>kbvfmx</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>kbvfmx_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>kbvfmy</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>kbvfmy_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>kbhfmx</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>kbhfmx_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>kbhfmy</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>kbhfmy_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisAngularDOF>
+			<name>kbhfmpitch</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>Deg</acceptableUnit>
+			<moveableName>kbhfmpitch_positioner</moveableName>
+		</SingleAxisAngularDOF>
+		<SingleAxisAngularDOF>
+			<name>kbvfmpitch</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>Deg</acceptableUnit>
+			<moveableName>kbvfmpitch_positioner</moveableName>
+		</SingleAxisAngularDOF>
+		<SingleAxisLinearDOF>
+			<name>kbhfmv1</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>kbhfmv1_positioner</moveableName>
+		</SingleAxisLinearDOF>		
+		<SingleAxisLinearDOF>
+			<name>kbhfmv2</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>kbhfmv2_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>kbhfmv3</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>kbhfmv3_positioner</moveableName>
+		</SingleAxisLinearDOF>
+				<SingleAxisLinearDOF>
+			<name>kbhfmv4</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>kbhfmv4_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>kbhfmv5</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>kbhfmv5_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>kbhfmv6</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>kbhfmv6_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>kbhfmv7</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>kbhfmv7_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>kbhfmv8</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>kbhfmv8_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>kbvfmv1</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>kbvfmv1_positioner</moveableName>
+		</SingleAxisLinearDOF>		
+		<SingleAxisLinearDOF>
+			<name>kbvfmv2</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>kbvfmv2_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>kbvfmv3</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>kbvfmv3_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>kbvfmv4</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>kbvfmv4_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>kbvfmv5</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>kbvfmv5_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>kbvfmv6</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>kbvfmv6_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>kbvfmv7</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>kbvfmv7_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>kbvfmv8</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>kbvfmv8_positioner</moveableName>
+		</SingleAxisLinearDOF>
+	</GenericOE>-->
+	<!--End of K_B Mirror (KBM) OE-->
+
+	<!-- *** Pin hole (PIN) OE *** -->
+	<!--	<GenericOE>
+		<name>PinHole</name>
+		<LinearPositioner>
+			<name>pinx_positioner</name>
+			<motorName>pinx_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2</softLimitLow>
+			<softLimitHigh>2</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>piny_positioner</name>
+			<motorName>piny_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-2</softLimitLow>
+			<softLimitHigh>2</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<!-#-DOFS-#->
+		<SingleAxisLinearDOF>
+			<name>pinx</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>pinx_positioner</moveableName>
+		</SingleAxisLinearDOF>		
+		<SingleAxisLinearDOF>
+			<name>piny</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>piny_positioner</moveableName>
+		</SingleAxisLinearDOF>
+	</GenericOE>-->
+	<!--End of PinHole (PIN) OE-->
+
+	<!-- *** Sample Stage OE *** -->
+	<GenericOE>
+		<name>MicroFocusSampleStage</name>
+		<LinearPositioner>
+			<name>sample_z_positioner</name>
+			<motorName>sample_z_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-25</softLimitLow>
+			<softLimitHigh>75</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+		</LinearPositioner>
+		<AngularPositioner>
+			<name>sample_thetacoarse_positioner</name>
+			<motorName>sample_thetacoarse_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-45</softLimitLow>
+			<softLimitHigh>45</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+		</AngularPositioner>
+		<LinearPositioner>
+			<name>sample_x_positioner</name>
+			<motorName>sample_x_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-12.5</softLimitLow>
+			<softLimitHigh>12.5</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>sample_y1_positioner</name>
+			<motorName>sample_y1_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-15</softLimitLow>
+			<softLimitHigh>15</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>sample_y2_positioner</name>
+			<motorName>sample_y2_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-15</softLimitLow>
+			<softLimitHigh>15</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>sample_y3_positioner</name>
+			<motorName>sample_y3_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-15</softLimitLow>
+			<softLimitHigh>15</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+		</LinearPositioner>
+
+		<AngularPositioner>
+			<name>sample_thetafine_positioner</name>
+			<motorName>sample_thetafine_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-360000</softLimitLow>
+			<softLimitHigh>360000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+		</AngularPositioner>
+		<SingleAxisLinearDOF>
+			<name>sample_z</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>sample_z_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisAngularDOF>
+			<name>sample_thetacoarse</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>Deg</acceptableUnit>
+			<moveableName>sample_thetacoarse_positioner</moveableName>
+		</SingleAxisAngularDOF>
+		<SingleAxisLinearDOF>
+			<name>MicroFocusSampleX</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>sample_x_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>sample_y1</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>sample_y1_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>sample_y2</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>sample_y2_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>sample_y3</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>sample_y3_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisAngularDOF>
+			<name>sample_thetafine</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>Deg</acceptableUnit>
+			<moveableName>sample_thetafine_positioner</moveableName>
+		</SingleAxisAngularDOF>
+
+		<CoupledDOF>
+			<name>MicroFocusSampleY</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>sample_y1</moveableName>
+			<moveableName>sample_y2</moveableName>
+			<moveableName>sample_y3</moveableName>
+			<IdentityFunction>
+				<name>identity1</name>
+			</IdentityFunction>
+			<IdentityFunction>
+				<name>identity2</name>
+			</IdentityFunction>
+			<IdentityFunction>
+				<name>identity3</name>
+			</IdentityFunction>
+		</CoupledDOF>
+		
+		<CombinedDOF>
+         <name>microfocusXZ</name>
+         <protectionLevel>0</protectionLevel>
+         <moveableName>sample_z</moveableName>
+         <moveableName>sample_xz</moveableName>
+         <moveableToReport>sample_z</moveableToReport>
+        <evalLowerLimit>true</evalLowerLimit>
+         <evalUpperLimit>true</evalUpperLimit>
+      </CombinedDOF>
+      
+      <CombinedDOF>
+         <name>sample_xz</name>
+         <protectionLevel>0</protectionLevel>
+         <moveableName>MicroFocusSampleX</moveableName>
+         <converterName>xz_converter</converterName>
+         <evalLowerLimit>true</evalLowerLimit>
+         <evalUpperLimit>true</evalUpperLimit>
+      </CombinedDOF>
+	</GenericOE>
+
+
+
+	<!-- *** Video Microscope (VM) OE *** -->
+	<GenericOE>
+		<name>VMA</name>
+		<LinearPositioner>
+			<name>vma_zoom_positioner</name>
+			<motorName>vma_zoom_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-10</softLimitLow>
+			<softLimitHigh>33970</softLimitHigh>
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>vma_focus_positioner</name>
+			<motorName>vma_focus_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-10</softLimitLow>
+			<softLimitHigh>11860</softLimitHigh>
+		</LinearPositioner>
+
+		<EpicsAxisLinearDOF>
+			<name>vma_zoom</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>vma_zoom_positioner</moveableName>
+		</EpicsAxisLinearDOF>
+		<EpicsAxisLinearDOF>
+			<name>vma_focus</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>vma_focus_positioner</moveableName>
+		</EpicsAxisLinearDOF>
+	</GenericOE>
+	<!--End of Video Microscope (VM) OE-->
+
+	<!-- *** WDS Detector OE *** -->
+	<!--	<GenericOE>
+		<name>WDS_Detector</name>
+		<LinearPositioner>
+			<name>wdsx_positioner</name>
+			<motorName>wdsx_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>100</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>		
+		<LinearPositioner>
+			<name>wdsy_positioner</name>
+			<motorName>wdsy_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>10</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>		
+		<LinearPositioner>
+			<name>wdsz_positioner</name>
+			<motorName>wdsz_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>25</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<AngularPositioner>
+			<name>wdslambda_positioner</name>
+			<motorName>wdslambda_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>51</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</AngularPositioner>		
+		<AngularPositioner>
+			<name>wdsslit_positioner</name>
+			<motorName>wdsslit_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-130</softLimitLow>
+			<softLimitHigh>130</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</AngularPositioner>
+		<!-#-DOFS-#->
+		<SingleAxisLinearDOF>
+			<name>wdsx</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>wdsx_positioner</moveableName>
+		</SingleAxisLinearDOF>		
+		<SingleAxisLinearDOF>
+			<name>wdsy</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>wdsy_positioner</moveableName>
+		</SingleAxisLinearDOF>		
+		<SingleAxisLinearDOF>
+			<name>wdsz</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>wdsz_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisAngularDOF>
+			<name>wdslambda</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>wdslambda_positioner</moveableName>
+		</SingleAxisAngularDOF>		
+		<SingleAxisAngularDOF>
+			<name>wdsslit</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>wdsslit_positioner</moveableName>
+		</SingleAxisAngularDOF>
+	</GenericOE>-->
+	<!--End of WDS Detector OE-->
+
+	<!-- *** Multilayer Detector (MLD) OE *** -->
+	<!--	<GenericOE>
+		<name>Multilayer_Detector</name>
+		<LinearPositioner>
+			<name>mlx_positioner</name>
+			<motorName>mlx_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>10</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>		
+		<LinearPositioner>
+			<name>mly_positioner</name>
+			<motorName>mly_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>10</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>		
+		<LinearPositioner>
+			<name>mlslitsgap1_positioner</name>
+			<!-#-Slit App-#->
+			<motorName>mlslitsgap1_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>10</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>		
+		<LinearPositioner>
+			<name>mlslitsgap2_positioner</name>
+			<!-#-Rear Slits-#->
+			<motorName>mlslitsgap2_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>10</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<AngularPositioner>
+			<name>mlxtal_positioner</name>
+			<motorName>mlxtal_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>20</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</AngularPositioner>
+		<!-#-DOFS-#->
+		<SingleAxisLinearDOF>
+			<name>mlx</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>mlx_positioner</moveableName>
+		</SingleAxisLinearDOF>		
+		<SingleAxisLinearDOF>
+			<name>mly</name>
+			<protectionLevel>0</protectionLevel>			
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>mly_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>mlslitsgap1</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>mlslitsgap1_positioner</moveableName>
+		</SingleAxisLinearDOF>		
+		<SingleAxisLinearDOF>
+			<name>mlslitsgap2</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>mlslitsgap2_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisAngularDOF>
+			<name>mlxtal</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>mlxtal_positioner</moveableName>
+		</SingleAxisAngularDOF>
+	</GenericOE>-->
+	<!--End of Multilayer Detector (MLD) OE-->
+
+	<!-- *** CCD Detector OE *** -->
+	<!--	<GenericOE>
+		<name>CCD_Detector</name>
+		<LinearPositioner>
+			<name>ccdx_positioner</name>
+			<motorName>ccdx_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>10</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>		
+		<LinearPositioner>
+			<name>ccdy_positioner</name>
+			<motorName>ccdy_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>10</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>		
+		<LinearPositioner>
+			<name>ccdstop_positioner</name>
+			<motorName>ccdstop_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>0</softLimitLow>
+			<softLimitHigh>10</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<!-#-DOFS-#->
+		<SingleAxisLinearDOF>
+			<name>ccdx</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>ccdx_positioner</moveableName>
+		</SingleAxisLinearDOF>		
+		<SingleAxisLinearDOF>
+			<name>ccdy</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>ccdy_positioner</moveableName>
+		</SingleAxisLinearDOF>		
+		<SingleAxisLinearDOF>
+			<name>ccdstop</name>
+			<protectionLevel>0</protectionLevel>
+			<acceptableUnit>mm</acceptableUnit>
+			<moveableName>ccdstop_positioner</moveableName>
+		</SingleAxisLinearDOF>
+	</GenericOE>-->
+	<!--End of CCD OE-->
+
+	<!-- *** User Motors OE *** -->
+	<!--	<GenericOE>
+		<name>usermotors</name>
+		<LinearPositioner>
+			<name>usermtr1_positioner</name>
+			<motorName>usermtr1_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-1000</softLimitLow>
+			<softLimitHigh>1000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>usermtr2_positioner</name>
+			<motorName>usermtr2_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-1000</softLimitLow>
+			<softLimitHigh>1000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>usermtr3_positioner</name>
+			<motorName>usermtr3_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-1000</softLimitLow>
+			<softLimitHigh>1000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>usermtr4_positioner</name>
+			<motorName>usermtr4_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-1000</softLimitLow>
+			<softLimitHigh>1000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>usermtr5_positioner</name>
+			<motorName>usermtr5_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-1000</softLimitLow>
+			<softLimitHigh>1000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<LinearPositioner>
+			<name>usermtr6_positioner</name>
+			<motorName>usermtr6_motor</motorName>
+			<stepsPerUnit>1</stepsPerUnit>
+			<softLimitLow>-1000</softLimitLow>
+			<softLimitHigh>1000</softLimitHigh>
+			<homeOffset>0.0</homeOffset>
+			
+		</LinearPositioner>
+		<SingleAxisLinearDOF>
+			<name>usermtr1</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>usermtr1_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>usermtr2</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>usermtr2_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>usermtr3</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>usermtr3_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>usermtr4</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>usermtr4_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>usermtr5</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>usermtr5_positioner</moveableName>
+		</SingleAxisLinearDOF>
+		<SingleAxisLinearDOF>
+			<name>usermtr6</name>
+			<protectionLevel>0</protectionLevel>
+			<moveableName>usermtr6_positioner</moveableName>
+		</SingleAxisLinearDOF>
+	</GenericOE>-->
+	<!--End of User Motors OE-->
+	<GenericOE>
+      <name>ComboDCMController</name>
+      <CombinedDOF>
+         <name>comboDCM_eV</name>
+         <protectionLevel>0</protectionLevel>
+         <moveableName>comboDCM_d</moveableName>
+         <converterName>eV_mDeg_converter</converterName>
+         <softLimitLow>2000</softLimitLow>
+         <softLimitHigh>25000</softLimitHigh>
+         <evalLowerLimit>true</evalLowerLimit>
+         <evalUpperLimit>true</evalUpperLimit>         
+         <updatePositionFromMoveables>true</updatePositionFromMoveables>
+      </CombinedDOF>
+      <CombinedDOF>
+         <name>comboDCM_d</name>
+         <protectionLevel>0</protectionLevel>
+         <moveableName>DCM.dcm_bragg</moveableName>
+         <moveableName>idgap_mDeg</moveableName>
+         <moveableName>dcm_perp_mDeg</moveableName> 
+        <moveableToReport>dcm_bragg</moveableToReport>
+        <softLimitLow>4536.65</softLimitLow>
+         <softLimitHigh>81382.25</softLimitHigh>
+        <evalLowerLimit>false</evalLowerLimit>
+         <evalUpperLimit>false</evalUpperLimit>
+      </CombinedDOF>
+      
+      <CombinedDOF>
+         <name>idgap_mDeg</name>
+         <protectionLevel>0</protectionLevel>
+         <moveableName>ID.idgap</moveableName>
+         <converterName>auto_mDeg_idGap_mm_converter</converterName>
+         <evalLowerLimit>true</evalLowerLimit>
+         <evalUpperLimit>true</evalUpperLimit>
+      </CombinedDOF>
+      
+     <CombinedDOF>
+         <name>dcm_perp_mDeg</name>
+         <protectionLevel>0</protectionLevel>
+         <moveableName>DCM.dcm_perp</moveableName>
+         <converterName>mDeg_dcm_perp_mm_converter</converterName>
+      </CombinedDOF>
+      
+   </GenericOE>
+   <!--***************************************-->
+</ObjectFactory>

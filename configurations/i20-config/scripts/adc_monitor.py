@@ -1,0 +1,58 @@
+from gda.device.detector import DetectorBase
+from gda.epics import CAClient
+
+class adcmonitor(DetectorBase):
+
+
+	def __init__(self,name,pvPrefix,readoutPV,columnName):
+		self.setName(name)
+		self.pvPrefix = pvPrefix
+		self.ca = CAClient()
+		self.readoutPV = readoutPV
+		self.inputNames = []
+		self.extraNames = [columnName]
+		self.outputFormat = ["%.5g"]
+		self.integrating = False
+		self.collectionTime = 1.0
+
+
+
+	def collectData(self):
+		integrationTime = self.collectionTime
+		self.ca.caput(self.pvPrefix + ":PERIOD",integrationTime)
+		#self.ca.caput(self.pvPrefix + ":MODE","Trigger")
+		self.integrating = True
+		self.ca.caput(self.pvPrefix + ":SOFTTRIGGER.VAL",1)
+
+	def getStatus(self):
+		if self.integrating == False:
+			return 0
+		
+		triggering = str(self.ca.caget(self.pvPrefix + ":SOFTTRIGGER.VAL"))
+		if triggering == "Done" or triggering == "0":
+			self.integrating = False
+
+		if self.integrating :
+			return 1
+		
+		return 0
+
+	def readout(self):
+
+		return [float(self.ca.caget(self.readoutPV))]
+
+	def getDescription(self):
+		return " "
+
+	def getDetectorID(self):
+		return " "
+
+	def getDetectorType(self):
+		return " "
+
+
+d1 = adcmonitor("d1","BL20I-DI-ADC-01","BL20I-DI-PHDGN-01:DIODE:I","d1")
+d4 = adcmonitor("d4","BL20I-DI-ADC-01","BL20I-DI-PHDGN-04:DIODE1:I","d4")
+d5 = adcmonitor("d5","BL20I-DI-ADC-01","BL20I-DI-PHDGN-05:DIODE:I","d5")
+
+		

@@ -1,0 +1,15 @@
+Zn Ka 9.66060353235982
+keV
+Step
+1 11867.7 -1.2 11747.7 1000.0;
+Pre Edge 11997.6 -82.9 11832 1000.0;Edge 11832 -13 11767 1000.0;3.000000 0.900000 12.000000 1000.0 1000.0 3 9.660604
+KSpace
+Fluorescence
+comboDCM_eV
+repeats 1
+points 17
+myscan=I18ExafsScanClass();myscan.setWindows('/dls/i18/software/gda/config/var/windows/Zn_Ka.cnf','Zn_Ka');myscan.setHeaderInfo('','','','');myscan.setNoOfRepeats(1);myscan.addAngleScan(11997.599999999999,11832.0,-82.85000000000036,1000.0);myscan.addAngleScan(11832.0,11767.0,-12.959999999999855,1000.0);myscan.addKScan(3.0,12.0,0.9,1000.0,1000.0,3,9.66060353235982,6.271000000000002);myscan.startScan();del myscan;
+
+
+
+

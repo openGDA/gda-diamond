@@ -1,0 +1,15 @@
+Mn Ka 6.53752627125262
+keV
+Step
+1 17745.3 -2.8 17465.3 1000.0;
+Pre Edge 18031.6 -16.2 17659.6 1000.0;Edge 17659.6 -2.8 17508.4 1000.0;3.000000 0.040000 12.000000 1000.0 1000.0 3 6.537526
+Angle
+Fluorescence
+comboDCM_eV
+repeats 1
+points 101
+myscan=I18VortexExafsScanClass();myscan.setWindows('/dls/i18/software/gda/config/var/windows/vortexwindows/Mn_Ka.cnf','Mn_Ka');myscan.setHeaderInfo('','','','');myscan.setNoOfRepeats(1);myscan.addAngleScan(17745.3,17465.3,-2.781000000000022,1000.0);myscan.startScan();del myscan;
+
+
+
+

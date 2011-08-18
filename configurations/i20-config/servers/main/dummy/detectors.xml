@@ -1,0 +1,146 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="DAServer" class="gda.device.detector.DummyDAServer">
+		<property name="local" value="True" />
+		<property name="host" value="i20-xspress0" />
+		<property name="port" value="1972" />
+		<property name="startupCommands">
+			<list>
+				<value>~config</value>
+			</list>
+		</property>
+		<property name="dataPort" value="20030" />
+		<property name="replyTimeOut" value="5000" />
+		<property name="dataFile" value="Mofoil2.dat" />
+		<property name="xspressMode">
+			<bean class="gda.device.detector.DUMMY_XSPRESS2_MODE"
+				factory-method="valueOf">
+				<constructor-arg>
+					<value>XSPRESS2_FULL_MCA</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
+		<property name="numberOfMca" value="4" />
+		<property name="numberOfBins" value="1024" />
+		<property name="numberOfROIs" value="10" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="Stanford01" class="gda.device.currentamplifier.DummyCurrentAmplifier"/>
+	<bean id="Stanford02" class="gda.device.currentamplifier.DummyCurrentAmplifier"/>
+	<bean id="Stanford03" class="gda.device.currentamplifier.DummyCurrentAmplifier"/>
+	<bean id="Stanford04" class="gda.device.currentamplifier.DummyCurrentAmplifier"/>
+
+	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2System">
+		<property name="daServerName" value="DAServer" />
+		<property name="tfgName" value="tfg" />
+		<property name="xspressSystemName" value="xsp1" />
+
+		<property name="mcaOpenCommand" value="xspress2 open-mca 'xsp1'" />
+		<property name="scalerOpenCommand" value="xspress2 open-scalers 'xsp1'" />
+		<property name="startupScript" value="xspress2 format-run 'xsp1' res-none" />
+
+		<property name="configFileName"
+			value="${gda.config}/templates/Xspress_Parameters.xml" />
+		<property name="fullMCABits" value="12" />
+		<property name="onlyDisplayFF" value="true" />
+		<property name="outputFormat">
+			<list>
+				<value>%9.2f</value>
+			</list>
+		</property>
+		<property name="ionChambersCounterTimer" ref="ionchambers"/>
+	</bean>
+
+	<!-- Time Frame Generator -->
+	<bean id="tfg" class="gda.device.timer.Etfg">
+		<property name="daServerName" value="DAServer" />
+	</bean>
+
+	<!-- Scaler channels -->
+	<bean id="CalMemory" class="gda.device.memory.Scaler">
+		<property name="daServerName" value="DAServer" />
+		<property name="width" value="5" />
+		<property name="height" value="1" />
+		<property name="openCommand" value="tfg open-cc" />
+	</bean>
+
+
+	<bean id="ionchambers" class="gda.device.detector.countertimer.TfgScalerWithLogValues">
+		<property name="extraNames">
+			<list>
+				<value>I0</value>
+				<value>It</value>
+				<value>Iref</value>
+				<value>lnI0It</value>
+				<value>lnItIref</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="timeChannelRequired" value="false" />
+		<property name="outputLogValues" value="true" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="4" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputFormat">
+			<list>
+				<value>%6.4g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%.4g</value>
+				<value>%.4g</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- merges data from xspress and ion chambers -->
+	<bean id="FFI0" class="gda.device.detector.TfgFFoverI0">
+		<property name="xspress" ref="xspress2system" />
+		<property name="i0_channel" value="0"/>
+		<property name="counterTimer" ref="ionchambers" />
+	</bean>
+
+	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
+		<property name="xmapControllerName" value="xmapcontroller" />
+
+		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list, 
+			one value for each element -->
+		<property name="eventProcessingTimes">
+			<list>
+				<value>1.1029752060937018e-007</value>
+			</list>
+		</property>
+
+		<property name="slave" value="true" />
+		<property name="configFileName"
+			value="${gda.config}/templates/Vortex_Parameters.xml" />
+		<property name="tfg" ref="tfg" />
+	</bean>
+
+	<bean id="If" class="gda.device.detector.XesIf">
+		<property name="xmap" ref="xmapMca" />
+		<property name="gdhist" ref="CalMemory" />
+		<property name="scaler" ref="ionchambers" />
+		<property name="ifChannelNumber" value="4" />
+	</bean>
+
+	<bean id="FFI0_vortex" class="gda.device.detector.TfgXMapFFoverI0">
+		<property name="xmap" ref="xmapMca" />
+		<property name="counterTimer" ref="ionchambers" />
+		<property name="i0_channel" value="0"/>
+	</bean>
+	
+	<bean id="cirrus" class="uk.ac.gda.devices.cirrus.CirrusDetector">
+		<property name="cirrusHost" value="diamrl5244" />
+	</bean>
+
+</beans>

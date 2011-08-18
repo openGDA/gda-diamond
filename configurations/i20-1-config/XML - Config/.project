@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>XML - Config</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+		<nature>uk.ac.gda.pydev.extension.ConfigurationXMLNature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>src</name>
+			<type>2</type>
+			<location>/home/rjw82/workspaces/trunk/configs/i20-1/xml</location>
+		</link>
+	</linkedResources>
+</projectDescription>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QEXAFSParameters>
+	<initialEnergy>6911.14</initialEnergy>
+	<finalEnergy>7961.14</finalEnergy>
+	<numberPoints>2000</numberPoints>
+	<totalTime>1</totalTime>
+	<chooseNumberPoints>false</chooseNumberPoints>
+	<numberRepetitions>1</numberRepetitions>
+</QEXAFSParameters>

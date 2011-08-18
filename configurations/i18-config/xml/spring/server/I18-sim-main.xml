@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd
+           http://www.diamond.ac.uk/schema/gda/corba
+           http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+           http://www.diamond.ac.uk/schema/gda/gda
+           http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="file:${gda.config}/properties/java-localrcp.properties" />
+	</bean>
+	<bean class="gda.configuration.epics.EpicsConfiguration">
+		<constructor-arg value="${gda.config}/xml/spring/server/epics/BL18I-gda-interface.xml" />
+	</bean>
+	
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+	<!--  GDA configuration split up by part type with the rest being in core -->
+	<import resource="file:${gda.config}/xml/spring/server/gda/sim_xmaptraj_scan_controller.xml"/>
+	<import resource="file:${gda.config}/xml/spring/server/gda/I18-simulated-objects.xml"/>
+	<!--
+	<import resource="file:${gda.config}/xml/server/gda/I18-epics-objects.xml"/> 
+	 -->
+	<import resource="file:${gda.config}/xml/spring/server/gda/I18-server-sampleenvironments.xml"/>
+	<import resource="file:${gda.config}/xml/spring/server/gda/I18-core.xml"/>	
+	<!-- Meta Data File -->
+   <import resource="file:${gda.config}/xml/spring/server/gda/I18-meta-data.xml"/> 
+	<import resource="file:${gda.config}/xml/spring/server/gda/I18-scannables.xml"/>
+	<import resource="file:${gda.config}/xml/spring/server/gda/I18-server-datawriterconfig.xml"/>
+	<import resource="file:${gda.config}/xml/spring/server/gda/I18-rmiserver.xml"/>
+	
+	<bean id="objectCreators" class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				 <bean class="gda.factory.ServerXmlObjectCreator">
+					<property name="xmlFile" value="${gda.config}/xml/spring/server/gda/i18_combinedDof.xml" />
+					<property name="doPropertySubstitution" value="True"/>
+					<property name="useDefaultSchema" value="False"/>
+					<property name="buildProxies" value="${gda.accesscontrol.useAccessControl}" />
+					<property name="mappingFile" value="classpath:gda/factory/mapping_oe.xml"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<import resource="file:${gda.config}/xml/spring/server/I18-command-server.xml"/>
+	
+	<corba:export namespace="I18_local" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+</beans>

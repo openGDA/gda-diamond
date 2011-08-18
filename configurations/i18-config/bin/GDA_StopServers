@@ -1,0 +1,12 @@
+#!/bin/bash
+gdaLocation=`dirname $0`/../..
+abs=`cd $gdaLocation ; pwd`
+gdaLocation=$abs
+export JAVA_HOME=$gdaLocation/java/
+gdaLauncher=$gdaLocation/gda/plugins/uk.ac.gda.core/bin/gda
+config=$gdaLocation/gda/i18-config
+properties=$config/properties/java.properties
+jacorb=$config/properties
+
+echo $gdaLauncher --config=$config --properties=$properties --jacorb=$jacorb --stop servers
+$gdaLauncher --config=$config --properties=$properties --jacorb=$jacorb --stop servers

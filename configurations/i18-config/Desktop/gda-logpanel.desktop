@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=gda-logpanel
+Type=Application
+Exec=GDA_StartLogPanel
+Icon=/usr/share/pixmaps/gnome-log.png
+Icon[en_GB]=/usr/share/pixmaps/gnome-log.png
+Terminal=false
+Name[en_GB]=1. Start GDA Log Display
+GenericName[en_GB]=Start GDA Log Display
+Comment[en_GB]=Open GDA LogPanel
+Categories=X-ogda;

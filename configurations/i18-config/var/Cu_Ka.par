@@ -1,0 +1,15 @@
+Cu Ka 8.98019655625695
+keV
+Step
+1 12787 -14 12647 1000.0;
+Pre Edge 12938.4 -8.3 12745 1000.0;Edge 12745 -1.4 12669.4 1000.0;3.000000 0.040000 12.000000 1000.0 1000.0 3 8.980197
+Angle
+Fluorescence
+comboDCM_eV
+repeats 2
+points 11
+myscan=I18ExafsScanClass();myscan.setWindows('/dls/i18/software/gda/config/var/windows/Cu_Ka.cnf','Cu_Ka');myscan.setHeaderInfo('','','','');myscan.setNoOfRepeats(2);myscan.addAngleScan(12787.0,12647.0,-14.0,1000.0);myscan.startScan();del myscan;
+
+
+
+

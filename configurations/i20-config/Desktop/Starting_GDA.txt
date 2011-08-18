@@ -1,0 +1,27 @@
+Updated 8 May 2008
+
+Description of Icons:
+"Start GDA Log Display" ( or command GDA_StartlogPanel   ) - Opens the LogPanel that displays the messages from the different GDA processes
+"View GDA Log File"    ( or command GDA_ShowLogFile     ) - displays the console log file from the backend processes
+"Restart GDA Server"    ( or command GDA_RemoteStart_Lin ) - restarts the backend processes. 
+	The expected output of this command is:
+	nohup: appending output to `nohup.out'
+	Connection to i20-control.diamond.ac.uk closed.
+"Start GDA Client"      ( or command GDA_StartClient     ) - start the client. This can only be done once the background servers have started fully.
+
+A restart of the GDA servers will take about 3 minutes. The end is signalled by the message:
+	INFO  gda.util.ObjectServer - Server initialisation complete. xmlFile = /dls/ixx/software/gda/config/xml/server_epics.xml
+in either the LogPanel or console log file.
+
+
+If you stop the GUI then you do NOT have to restart the Server.  Stopping the GUI does not stop the GDA server.
+
+
+Possible Problems.
+On restart of GDA Servers the sample cannot be moved on the Sample Control panel. 
+
+Solution
+3. Close GDA client
+4. Restart GDA Server
+
+

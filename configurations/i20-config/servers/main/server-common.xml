@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd
+           http://www.diamond.ac.uk/schema/gda/corba
+           http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+
+	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+
+	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="file:${gda.config}/properties/${gda.mode}/java.properties" />
+	</bean>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+	
+	<bean class="uk.ac.gda.beans.BeansFactory">
+	    <property name="classList">
+	        <util:list>
+	           <value>uk.ac.gda.beans.exafs.XasScanParameters</value>
+	           <value>uk.ac.gda.beans.exafs.XanesScanParameters</value>
+	           <value>uk.ac.gda.beans.exafs.XesScanParameters</value>
+	           <value>uk.ac.gda.beans.exafs.i20.I20SampleParameters</value>
+	           <value>uk.ac.gda.beans.exafs.SampleElements</value>
+	           <value>uk.ac.gda.beans.exafs.DetectorParameters</value>
+	           <value>uk.ac.gda.beans.exafs.OutputParameters</value>
+	           <value>uk.ac.gda.beans.vortex.VortexParameters</value>
+	           <value>uk.ac.gda.beans.xspress.XspressParameters</value>
+	        </util:list>
+	    </property>
+	</bean>
+	
+
+	<corba:export namespace="i20" />
+</beans>

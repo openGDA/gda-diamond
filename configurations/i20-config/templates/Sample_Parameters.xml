@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<I20SampleParameters>
+    <shouldValidate>true</shouldValidate>
+    <name>Please set a sample name...</name>
+    <description>Please add a description...</description>
+    <sampleWheelPosition>1</sampleWheelPosition>
+    <sampleEnvironment>None</sampleEnvironment>
+    <roomTemperature>
+        <x>0.0</x>
+        <y>0.0</y>
+        <z>0.0</z>
+        <rotation>0.0</rotation>
+        <roll>0.0</roll>
+        <yaw>0.0</yaw>
+    </roomTemperature>
+    <cryostat>
+        <temperature>80.0</temperature>
+        <tolerance>1.0</tolerance>
+        <time>60.0</time>
+        <heaterRange>1</heaterRange>
+        <profileType>PID</profileType>
+        <p>1.0</p>
+        <i>2.0</i>
+        <d>3.0</d>
+        <sampleHolder>2 Samples</sampleHolder>
+        <sampleNumber>2</sampleNumber>
+        <position>1.0</position>
+        <finePosition>0.1</finePosition>
+    </cryostat>
+    <furnace>
+        <temperature>295.0</temperature>
+        <tolerance>1.5</tolerance>
+        <time>5.0</time>
+        <x>6.9</x>
+        <y>4.7</y>
+        <z>2.5</z>
+    </furnace>
+    <microreactor>
+        <gas0Rate>20</gas0Rate>
+        <gas1Rate>0</gas1Rate>
+        <gas2Rate>0</gas2Rate>
+        <gas3Rate>20</gas3Rate>
+        <gas4Rate>0</gas4Rate>
+        <gas5Rate>0</gas5Rate>
+        <gas6Rate>0</gas6Rate>
+        <gas7Rate>0</gas7Rate>
+        <temperature>150</temperature>
+        <masses>2,32</masses>
+    </microreactor>
+    <custom_xyz>
+        <deviceName>customxyz</deviceName>
+        <x>0.0</x>
+        <y>0.0</y>
+        <z>0.0</z>
+        <value>0.0</value>
+    </custom_xyz>
+    <custom>
+        <deviceName>custom</deviceName>
+        <value>0.0</value>
+    </custom>
+</I20SampleParameters>

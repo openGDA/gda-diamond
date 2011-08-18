@@ -1,0 +1,15 @@
+Ti Ka 4.964470905463053
+keV
+Step
+1 23726.9 -5 23226.9 1000.0;
+Pre Edge 24251.7 -29.4 23574.2 1000.0;Edge 23574.2 -5 23304.2 1000.0;3.000000 0.040000 12.000000 1000.0 1000.0 3 4.964471
+Angle
+Fluorescence
+comboDCM_eV
+repeats 1
+points 101
+myscan=I18ExafsScanClass();myscan.setWindows('/dls_sw/i18/software/gda/i18-config/var/windows/Ti_Ka.cnf','Ti_Ka');myscan.setHeaderInfo('','','','');myscan.setNoOfRepeats(1);myscan.addAngleScan(23726.9,23226.9,-5.012999999999993,1000.0);myscan.startScan();
+
+
+
+

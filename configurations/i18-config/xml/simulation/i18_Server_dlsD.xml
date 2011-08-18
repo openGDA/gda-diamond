@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding="UTF-8"?>
+<ObjectFactory xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="../../../../gda/src/gda/configuration/object/schema/GDASchema.xsd">
+
+	<!-- I18 Object Server Configuration based on dummy motors -->
+
+	<name>I18</name>	
+	<DummyCounterTimer>
+		<name>counterTimer01</name>
+		<channelLabel>I0</channelLabel>
+		<channelLabel>It</channelLabel>
+		<channelLabel>Idrain</channelLabel>
+		<usedByDefault>false</usedByDefault>
+		<totalChans>3</totalChans>
+		<useGaussian>true</useGaussian>
+		<timeChannelRequired>true</timeChannelRequired>
+		<tfgName>tfg</tfgName>
+	</DummyCounterTimer>
+	<DummyCounterTimer>
+		<name>counterTimer02</name>
+		<channelLabel>flu 0</channelLabel>
+		<channelLabel>flu 1</channelLabel>
+		<channelLabel>flu 2</channelLabel>
+		<channelLabel>flu 3</channelLabel>
+		<channelLabel>flu 4</channelLabel>
+		<channelLabel>flu 5</channelLabel>
+		<channelLabel>flu 6</channelLabel>
+		<channelLabel>flu 7</channelLabel>
+		<channelLabel>flu 8</channelLabel>		
+		<usedByDefault>false</usedByDefault>
+		<totalChans>9</totalChans>
+		<useGaussian>true</useGaussian>
+		<gaussianWidth>10.0</gaussianWidth>
+		<gaussianHeight>15.0</gaussianHeight>
+		<noiseLevel>0.01</noiseLevel>
+		<slave>true</slave>	
+		<tfgName>tfg</tfgName>
+		<readoutFileName>true</readoutFileName>
+	</DummyCounterTimer>
+	</ObjectFactory>

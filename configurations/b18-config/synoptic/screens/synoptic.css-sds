@@ -1,0 +1,808 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<display modelVersion="1.0">
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.boolean" id="connected" value="false" />
+  <property type="sds.boolean" id="geometry_on" value="false" />
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.boolean" id="ruler_on" value="false" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.integer" id="height" value="1000" />
+  <property type="sds.color" id="color.background">
+    <color red="255" green="255" blue="255" />
+  </property>
+  <property type="sds.boolean" id="grid_on" value="false" />
+  <property type="sds.double" id="rotation" value="0.0" />
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.string" id="name" value="DisplayModel" />
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="0" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.integer" id="width" value="1040" />
+  <property type="sds.string" id="layer" value="" />
+  <property type="sds.color" id="border.color">
+    <color red="100" green="0" blue="0" />
+  </property>
+  <property type="sds.color" id="color.foreground">
+    <color red="0" green="0" blue="0" />
+  </property>
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="display_border_visibility" value="true" />
+  <property type="sds.paramstring" id="tooltip" value="" />
+  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+<widget type="org.csstudio.sds.components.ImageButton">
+  <aliasDescriptors>
+    <aliasDescriptor name="channel" value="local://oeview" />
+  </aliasDescriptors>
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.boolean" id="connected" value="false" />
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.map" id="aliases">
+    <map>
+      <mapEntry name="channel" value="local://oeview" />
+    </map>
+  </property>
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.integer" id="height" value="100" />
+  <property type="sds.color" id="color.background">
+    <color red="230" green="230" blue="230" />
+  </property>
+  <property type="sds.string" id="name" value="ImageButtonModel" />
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="m1" />
+        <property_attribut type="sds.string" id="value" value="m1" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <outputChannel name="$channel$, string" type="java.lang.Object" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="72" />
+  <property type="sds.integer" id="width" value="70" />
+  <property type="sds.string" id="primary_pv" value="$channel$" />
+  <property type="sds.color" id="border.color">
+    <color red="100" green="0" blue="0" />
+  </property>
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="label" value="      M1" />
+  <property type="sds.color" id="color.foreground">
+    <color red="0" green="0" blue="192" />
+  </property>
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/oe thumb images/m1_thumb.png" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Image:&#x9;${filename}" />
+</widget>
+<widget type="org.csstudio.sds.components.ImageButton">
+  <aliasDescriptors>
+    <aliasDescriptor name="channel" value="local://oeview" />
+  </aliasDescriptors>
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.boolean" id="connected" value="false" />
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.map" id="aliases">
+    <map>
+      <mapEntry name="channel" value="local://oeview" />
+    </map>
+  </property>
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.integer" id="height" value="100" />
+  <property type="sds.color" id="color.background">
+    <color red="230" green="230" blue="230" />
+  </property>
+  <property type="sds.string" id="name" value="ImageButtonModel" />
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="m2" />
+        <property_attribut type="sds.string" id="value" value="m2" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <outputChannel name="$channel$, string" type="java.lang.Object" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="576" />
+  <property type="sds.integer" id="width" value="70" />
+  <property type="sds.string" id="primary_pv" value="$channel$" />
+  <property type="sds.color" id="border.color">
+    <color red="100" green="0" blue="0" />
+  </property>
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="label" value="      M2" />
+  <property type="sds.color" id="color.foreground">
+    <color red="0" green="0" blue="192" />
+  </property>
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/oe thumb images/m2_thumb.png" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Image:&#x9;${filename}" />
+</widget>
+<widget type="org.csstudio.sds.components.ImageButton">
+  <aliasDescriptors>
+    <aliasDescriptor name="channel" value="local://oeview" />
+  </aliasDescriptors>
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.boolean" id="connected" value="false" />
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.map" id="aliases">
+    <map>
+      <mapEntry name="channel" value="local://oeview" />
+    </map>
+  </property>
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.integer" id="height" value="100" />
+  <property type="sds.color" id="color.background">
+    <color red="230" green="230" blue="230" />
+  </property>
+  <property type="sds.string" id="name" value="ImageButtonModel" />
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="s1" />
+        <property_attribut type="sds.string" id="value" value="s1" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <outputChannel name="$channel$, string" type="java.lang.Object" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="0" />
+  <property type="sds.integer" id="width" value="70" />
+  <property type="sds.string" id="primary_pv" value="$channel$" />
+  <property type="sds.color" id="border.color">
+    <color red="100" green="0" blue="0" />
+  </property>
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="label" value="       S1" />
+  <property type="sds.color" id="color.foreground">
+    <color red="0" green="0" blue="192" />
+  </property>
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/oe thumb images/slits_thumb.png" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Image:&#x9;${filename}" />
+</widget>
+<widget type="org.csstudio.sds.components.ImageButton">
+  <aliasDescriptors>
+    <aliasDescriptor name="channel" value="local://oeview" />
+  </aliasDescriptors>
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.boolean" id="connected" value="false" />
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.map" id="aliases">
+    <map>
+      <mapEntry name="channel" value="local://oeview" />
+    </map>
+  </property>
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.integer" id="height" value="100" />
+  <property type="sds.color" id="color.background">
+    <color red="230" green="230" blue="230" />
+  </property>
+  <property type="sds.string" id="name" value="ImageButtonModel" />
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="dcm" />
+        <property_attribut type="sds.string" id="value" value="dcm" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <outputChannel name="$channel$, string" type="java.lang.Object" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="360" />
+  <property type="sds.integer" id="width" value="70" />
+  <property type="sds.string" id="primary_pv" value="$channel$" />
+  <property type="sds.color" id="border.color">
+    <color red="100" green="0" blue="0" />
+  </property>
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="label" value="     DCM" />
+  <property type="sds.color" id="color.foreground">
+    <color red="0" green="0" blue="192" />
+  </property>
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/oe thumb images/dcm_thumb.png" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Image:&#x9;${filename}" />
+</widget>
+<widget type="org.csstudio.sds.components.MoveableWindow">
+  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.boolean" id="autozoom" value="false" />
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.boolean" id="connected" value="false" />
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.integer" id="height" value="10000" />
+  <property type="sds.color" id="color.background">
+    <color red="255" green="255" blue="255" />
+  </property>
+  <property type="sds.double" id="rotation" value="0.0" />
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.string" id="name" value="MoveableWindowModel" />
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.integer" id="position.y" value="110" />
+  <property type="sds.integer" id="position.x" value="0" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.integer" id="width" value="10000" />
+  <property type="sds.path" id="resource">
+    <path value="" />
+    <dynamicsDescriptor ruleId="openWindow.css-sdss" useConnectionStates="false">
+      <inputChannel name="local://oeview, string" type="org.eclipse.core.runtime.IPath" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.color" id="border.color">
+    <color red="100" green="0" blue="0" />
+  </property>
+  <property type="sds.color" id="color.foreground">
+    <color red="200" green="100" blue="100" />
+  </property>
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Resource:&#x9;${resource}" />
+</widget>
+<widget type="org.csstudio.sds.components.ImageButton">
+  <aliasDescriptors>
+    <aliasDescriptor name="channel" value="local://oeview" />
+  </aliasDescriptors>
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.boolean" id="connected" value="false" />
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.map" id="aliases">
+    <map>
+      <mapEntry name="channel" value="local://oeview" />
+    </map>
+  </property>
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.integer" id="height" value="100" />
+  <property type="sds.color" id="color.background">
+    <color red="230" green="230" blue="230" />
+  </property>
+  <property type="sds.string" id="name" value="ImageButtonModel" />
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="d1" />
+        <property_attribut type="sds.string" id="value" value="d1" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <outputChannel name="$channel$, string" type="java.lang.Object" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="288" />
+  <property type="sds.integer" id="width" value="70" />
+  <property type="sds.string" id="primary_pv" value="$channel$" />
+  <property type="sds.color" id="border.color">
+    <color red="100" green="0" blue="0" />
+  </property>
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="label" value="      D1" />
+  <property type="sds.color" id="color.foreground">
+    <color red="0" green="0" blue="192" />
+  </property>
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/oe thumb images/diode_thumb.png" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Image:&#x9;${filename}" />
+</widget>
+<widget type="org.csstudio.sds.components.ImageButton">
+  <aliasDescriptors>
+    <aliasDescriptor name="channel" value="local://oeview" />
+  </aliasDescriptors>
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.boolean" id="connected" value="false" />
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.map" id="aliases">
+    <map>
+      <mapEntry name="channel" value="local://oeview" />
+    </map>
+  </property>
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.integer" id="height" value="100" />
+  <property type="sds.color" id="color.background">
+    <color red="230" green="230" blue="230" />
+  </property>
+  <property type="sds.string" id="name" value="ImageButtonModel" />
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="d4" />
+        <property_attribut type="sds.string" id="value" value="d4" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <outputChannel name="$channel$, string" type="java.lang.Object" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="864" />
+  <property type="sds.integer" id="width" value="70" />
+  <property type="sds.string" id="primary_pv" value="$channel$" />
+  <property type="sds.color" id="border.color">
+    <color red="100" green="0" blue="0" />
+  </property>
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="label" value="      D4" />
+  <property type="sds.color" id="color.foreground">
+    <color red="0" green="0" blue="192" />
+  </property>
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/oe thumb images/diode_thumb.png" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Image:&#x9;${filename}" />
+</widget>
+<widget type="org.csstudio.sds.components.ImageButton">
+  <aliasDescriptors>
+    <aliasDescriptor name="channel" value="local://oeview" />
+  </aliasDescriptors>
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.boolean" id="connected" value="false" />
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.map" id="aliases">
+    <map>
+      <mapEntry name="channel" value="local://oeview" />
+    </map>
+  </property>
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.integer" id="height" value="100" />
+  <property type="sds.color" id="color.background">
+    <color red="230" green="230" blue="230" />
+  </property>
+  <property type="sds.string" id="name" value="ImageButtonModel" />
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="d3" />
+        <property_attribut type="sds.string" id="value" value="d3" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <outputChannel name="$channel$, string" type="java.lang.Object" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="648" />
+  <property type="sds.integer" id="width" value="70" />
+  <property type="sds.string" id="primary_pv" value="$channel$" />
+  <property type="sds.color" id="border.color">
+    <color red="100" green="0" blue="0" />
+  </property>
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="label" value="      D3" />
+  <property type="sds.color" id="color.foreground">
+    <color red="0" green="0" blue="192" />
+  </property>
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/oe thumb images/diode_thumb.png" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Image:&#x9;${filename}" />
+</widget>
+<widget type="org.csstudio.sds.components.ImageButton">
+  <aliasDescriptors>
+    <aliasDescriptor name="channel" value="local://oeview" />
+  </aliasDescriptors>
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.boolean" id="connected" value="false" />
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.map" id="aliases">
+    <map>
+      <mapEntry name="channel" value="local://oeview" />
+    </map>
+  </property>
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.integer" id="height" value="100" />
+  <property type="sds.color" id="color.background">
+    <color red="230" green="230" blue="230" />
+  </property>
+  <property type="sds.string" id="name" value="ImageButtonModel" />
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="d2" />
+        <property_attribut type="sds.string" id="value" value="d2" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <outputChannel name="$channel$, string" type="java.lang.Object" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="504" />
+  <property type="sds.integer" id="width" value="70" />
+  <property type="sds.string" id="primary_pv" value="$channel$" />
+  <property type="sds.color" id="border.color">
+    <color red="100" green="0" blue="0" />
+  </property>
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="label" value="      D2" />
+  <property type="sds.color" id="color.foreground">
+    <color red="0" green="0" blue="192" />
+  </property>
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/oe thumb images/diode_thumb.png" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Image:&#x9;${filename}" />
+</widget>
+<widget type="org.csstudio.sds.components.ImageButton">
+  <aliasDescriptors>
+    <aliasDescriptor name="channel" value="local://oeview" />
+  </aliasDescriptors>
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.boolean" id="connected" value="false" />
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.map" id="aliases">
+    <map>
+      <mapEntry name="channel" value="local://oeview" />
+    </map>
+  </property>
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.integer" id="height" value="100" />
+  <property type="sds.color" id="color.background">
+    <color red="230" green="230" blue="230" />
+  </property>
+  <property type="sds.string" id="name" value="ImageButtonModel" />
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="hrm" />
+        <property_attribut type="sds.string" id="value" value="hrm" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <outputChannel name="$channel$, string" type="java.lang.Object" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="720" />
+  <property type="sds.integer" id="width" value="70" />
+  <property type="sds.string" id="primary_pv" value="$channel$" />
+  <property type="sds.color" id="border.color">
+    <color red="100" green="0" blue="0" />
+  </property>
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="label" value="     HRM" />
+  <property type="sds.color" id="color.foreground">
+    <color red="0" green="0" blue="192" />
+  </property>
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/oe thumb images/hrm_thumb.png" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Image:&#x9;${filename}" />
+</widget>
+<widget type="org.csstudio.sds.components.ImageButton">
+  <aliasDescriptors>
+    <aliasDescriptor name="channel" value="local://oeview" />
+  </aliasDescriptors>
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.boolean" id="connected" value="false" />
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.map" id="aliases">
+    <map>
+      <mapEntry name="channel" value="local://oeview" />
+    </map>
+  </property>
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.integer" id="height" value="100" />
+  <property type="sds.color" id="color.background">
+    <color red="230" green="230" blue="230" />
+  </property>
+  <property type="sds.string" id="name" value="ImageButtonModel" />
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="s2" />
+        <property_attribut type="sds.string" id="value" value="s2" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <outputChannel name="$channel$, string" type="java.lang.Object" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="144" />
+  <property type="sds.integer" id="width" value="70" />
+  <property type="sds.string" id="primary_pv" value="$channel$" />
+  <property type="sds.color" id="border.color">
+    <color red="100" green="0" blue="0" />
+  </property>
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="label" value="       S2" />
+  <property type="sds.color" id="color.foreground">
+    <color red="0" green="0" blue="192" />
+  </property>
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/oe thumb images/slits_thumb.png" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Image:&#x9;${filename}" />
+</widget>
+<widget type="org.csstudio.sds.components.ImageButton">
+  <aliasDescriptors>
+    <aliasDescriptor name="channel" value="local://oeview" />
+  </aliasDescriptors>
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.boolean" id="connected" value="false" />
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.map" id="aliases">
+    <map>
+      <mapEntry name="channel" value="local://oeview" />
+    </map>
+  </property>
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.integer" id="height" value="100" />
+  <property type="sds.color" id="color.background">
+    <color red="230" green="230" blue="230" />
+  </property>
+  <property type="sds.string" id="name" value="ImageButtonModel" />
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="s3" />
+        <property_attribut type="sds.string" id="value" value="s3" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <outputChannel name="$channel$, string" type="java.lang.Object" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="432" />
+  <property type="sds.integer" id="width" value="70" />
+  <property type="sds.string" id="primary_pv" value="$channel$" />
+  <property type="sds.color" id="border.color">
+    <color red="100" green="0" blue="0" />
+  </property>
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="label" value="       S3" />
+  <property type="sds.color" id="color.foreground">
+    <color red="0" green="0" blue="192" />
+  </property>
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/oe thumb images/slits_thumb.png" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Image:&#x9;${filename}" />
+</widget>
+<widget type="org.csstudio.sds.components.ImageButton">
+  <aliasDescriptors>
+    <aliasDescriptor name="channel" value="local://oeview" />
+  </aliasDescriptors>
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.boolean" id="connected" value="false" />
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.map" id="aliases">
+    <map>
+      <mapEntry name="channel" value="local://oeview" />
+    </map>
+  </property>
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.integer" id="height" value="100" />
+  <property type="sds.color" id="color.background">
+    <color red="230" green="230" blue="230" />
+  </property>
+  <property type="sds.string" id="name" value="ImageButtonModel" />
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="s4" />
+        <property_attribut type="sds.string" id="value" value="s4" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <outputChannel name="$channel$, string" type="java.lang.Object" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="792" />
+  <property type="sds.integer" id="width" value="70" />
+  <property type="sds.string" id="primary_pv" value="$channel$" />
+  <property type="sds.color" id="border.color">
+    <color red="100" green="0" blue="0" />
+  </property>
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="label" value="       S4" />
+  <property type="sds.color" id="color.foreground">
+    <color red="0" green="0" blue="192" />
+  </property>
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/oe thumb images/slits_thumb.png" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Image:&#x9;${filename}" />
+</widget>
+<widget type="org.csstudio.sds.components.ImageButton">
+  <aliasDescriptors>
+    <aliasDescriptor name="channel" value="local://oeview" />
+  </aliasDescriptors>
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.boolean" id="connected" value="false" />
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.map" id="aliases">
+    <map>
+      <mapEntry name="channel" value="local://oeview" />
+    </map>
+  </property>
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.integer" id="height" value="100" />
+  <property type="sds.color" id="color.background">
+    <color red="230" green="230" blue="230" />
+  </property>
+  <property type="sds.string" id="name" value="ImageButtonModel" />
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="a1" />
+        <property_attribut type="sds.string" id="value" value="a1" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <outputChannel name="$channel$, string" type="java.lang.Object" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="216" />
+  <property type="sds.integer" id="width" value="70" />
+  <property type="sds.string" id="primary_pv" value="$channel$" />
+  <property type="sds.color" id="border.color">
+    <color red="100" green="0" blue="0" />
+  </property>
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="label" value="      A1" />
+  <property type="sds.color" id="color.foreground">
+    <color red="0" green="0" blue="192" />
+  </property>
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/oe thumb images/attenuator_thumb.png" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Image:&#x9;${filename}" />
+</widget>
+
+</display>

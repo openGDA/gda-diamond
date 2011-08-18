@@ -1,0 +1,108 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<bean id="bragg1_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean>
+	<bean id="bragg2_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean>
+	<bean id="crystal1_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean>
+	<bean id="crystal2_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean>
+	<bean id="pair2_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean> 
+	<bean id="energy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean>
+
+	<!-- QCM encoders -->
+	<bean id="bragg1enc_motor" class="gda.device.motor.DummyMotor"/>  
+	<bean id="bragg2enc_motor" class="gda.device.motor.DummyMotor"/>  
+
+
+	<bean id="bragg1" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="motor" ref="bragg1_motor" />
+		<property name="hardwareUnitString" value="eV" />
+	</bean>
+
+	<bean id="bragg2" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="motor" ref="bragg2_motor" />
+		<property name="hardwareUnitString" value="eV" />
+	</bean>
+
+	<bean id="crystal1_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mRad" />
+		<property name="motor" ref="crystal1_pitch_motor" />
+		<property name="hardwareUnitString" value="mRad" />
+	</bean>
+
+	<bean id="crystal2_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mRad" />
+		<property name="motor" ref="crystal2_roll_motor" />
+		<property name="hardwareUnitString" value="mRad" />
+	</bean>
+
+	<bean id="pair2_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mRad" />
+		<property name="motor" ref="pair2_roll_motor" />
+		<property name="hardwareUnitString" value="mRad" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+
+	<bean id="energy" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="motor" ref="energy_motor" />
+		<property name="hardwareUnitString" value="eV" />
+		<property name="lowerGdaLimits" value="2000" />
+		<property name="upperGdaLimits" value="35000" />
+		<property name="outputFormat">
+			<util:list>
+				<value>%8.8g</value>
+			</util:list>
+		</property>
+	</bean>
+
+
+	<bean id="bragg1enc" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="bragg1enc_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="outputFormat">
+			<util:list>
+				<value>%5.5g</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="bragg2enc" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="bragg2enc_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="outputFormat">
+			<util:list>
+				<value>%5.5g</value>
+			</util:list>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectFactory>
+	<name>${gda.factory.factoryName}</name>
+	<DummyXmapController>
+	<name>dummy_xmapcontroller</name>
+	<local>true</local>
+	<numberOfMca>4</numberOfMca>
+	<numberOfBins>1024</numberOfBins>
+	<numberOfROIs>10</numberOfROIs>
+	</DummyXmapController>
+	<FindableHashtable>
+		<name>GDAHashtable</name>
+	</FindableHashtable>
+
+	<!-- ************************ -->
+	<!-- *** DETECTOR SECTION *** -->
+	<!-- ************************ -->
+	<!-- Dummy CounterTimer for temporary use in Exafs -->
+	<DummyTfg>
+		<name>dummytfg</name>
+	</DummyTfg>
+	
+	<Xmap>
+	<name>xmapMca</name>
+	<xmapControllerName>xmapcontroller</xmapControllerName>
+	</Xmap>
+	<!-- XSPRESS2 DA Server -->
+	<DAServer>
+		<name>daserver</name>
+		<local>true</local>
+		<host>i18-xspress0</host>
+		<port>1972</port>
+		<startupCommand>~config</startupCommand>
+		<dataPort>20030</dataPort>
+		<replyTimeOut>5000</replyTimeOut>
+	</DAServer>
+
+	<!-- Time Frame Generator (TFG) -->
+	 <Etfg>
+		<name>tfg</name>
+		<daServerName>daserver</daServerName>
+	</Etfg>
+	
+	<TfgXspress>
+		<name>counterTimer02</name>
+		<channelLabel>flu_0</channelLabel>
+		<channelLabel>flu_1</channelLabel>
+		<channelLabel>flu_2</channelLabel>
+		<channelLabel>flu_3</channelLabel>
+		<channelLabel>flu_4</channelLabel>
+		<channelLabel>flu_5</channelLabel>
+		<channelLabel>flu_6</channelLabel>
+		<channelLabel>flu_7</channelLabel>
+		<channelLabel>flu_8</channelLabel>
+		<xspressSystemName>xspress2system</xspressSystemName>
+		<timerName>tfg</timerName>
+		<slave>true</slave>
+		<usedByDefault>false</usedByDefault>
+	</TfgXspress>	
+	<!-- XSPRESS2 System -->
+	<Xspress2System>
+		<name>xspress2system</name>
+		<daServerName>daserver</daServerName>
+		<tfgName>tfg</tfgName>
+		<mcaOpenCommand>xspress2 open-mca 'xsp1'</mcaOpenCommand>
+		<scalerOpenCommand>xspress2 open-scalers 'xsp1'</scalerOpenCommand>
+		<!-- Startup script which does the setup command is no longer needed for the 
+		new version of the xspress as it is done in the config script using the follwoing
+		commands, set-input and set-glitch. However a new command called format-run for setting the output format 
+		 has to be sent before opening the mca and scaler paths. So in this version of gda the startupScript element 
+		 is used to send this format command. In later versions of GDA this will be replaced by a formatCommand element-->
+		<startupScript>xspress2 format-run 'xsp1' res-none</startupScript>
+		<numberOfDetectors>9</numberOfDetectors>
+		<dummy>false</dummy>
+	</Xspress2System>
+	
+	<Scaler>
+		<name>CalMemory</name>
+		<daServerName>daserver</daServerName>
+		<width>3</width>
+		<height>1</height>
+		<openCommand>tfg open-cc</openCommand>
+	</Scaler>
+		
+	<DummyDetector>
+		<name>mapdetector</name>
+	</DummyDetector>
+	<DummyDetector>
+		<name>vortexmapdetector</name>
+	</DummyDetector>
+	<TfgScaler>
+		<name>counterTimer01</name>
+		<channelLabel>I0</channelLabel>
+		<channelLabel>It</channelLabel>
+		<channelLabel>Iref</channelLabel>
+		<scalerName>CalMemory</scalerName>
+		<timerName>tfg</timerName>
+	</TfgScaler> 
+		<!-- Photonic Science CCD -->
+	  <IPPserver>
+		<name>photonccd</name>
+		<usedByDefault>false</usedByDefault>
+		<outputFolderRoot>x:/data/2011/sp7048-1/processing/xrd/</outputFolderRoot>
+		<fileNameRoot>i18-</fileNameRoot>
+		<fileFormat>tif</fileFormat>
+		<collectionTime>1</collectionTime>
+		<host>172.23.118.71</host>
+		<port>23</port>
+	</IPPserver>
+
+	<!-- SESO XBPM -->
+	<SesoXbpmDetector>
+		<name>seso</name>
+		<usedByDefault>false</usedByDefault>
+		<host>172.23.118.71</host>
+		<port>20</port>
+	</SesoXbpmDetector>
+	
+	<!-- ********************* -->
+	<!-- *** MOTOR SECTION *** -->
+	<!-- ********************* -->
+	<!-- Dummy Motor - For Testing -->
+	<DummyMotor>
+		<name>dummyaxis_motor</name>
+	</DummyMotor>
+	
+	<!-- *** End of Motors *** -->
+	
+	<JEPConverter         name="eV_mDeg_converter"     	expressionFileName="eV_mDeg_converter.xml" />
+	<JEPConverter         name="mDeg_dcm_perp_mm_converter"     	expressionFileName="mDeg_dcm_perp_mm_converter.xml" />
+	<JEPConverter         name="xz_converter"     	expressionFileName="xz_converter.xml" />
+	<!-- Lookup table converters for idgap -->
+	<RenameableConverter  name="mDeg_idGap_mm_converter" 	converterName="harmonic1_converter" />	
+	<LookupTableConverter name="harmonic1_converter" columnDataFileName="lookuptable_harmonic1_260908.txt" sColumn="0" tColumn="1" />
+    <LookupTableConverter name="harmonic3_converter" columnDataFileName="lookuptable_harmonic3_280109.txt" sColumn="0" tColumn="1" />
+    <LookupTableConverter name="harmonic5_converter" columnDataFileName="lookuptable_harmonic5_150908.txt" sColumn="0" tColumn="1" />
+    <LookupTableConverter name="harmonic7_converter" columnDataFileName="lookuptable_harmonic7_240908.txt" sColumn="0" tColumn="1" />
+    <LookupTableConverter name="harmonic9_converter" columnDataFileName="lookuptable_harmonic9_240908.txt" sColumn="0" tColumn="1" />
+    <LookupTableConverter name="harmonic11_converter" columnDataFileName="lookuptable_harmonic11_150908.txt" sColumn="0" tColumn="1" />
+    <LookupTableConverter name="harmonic13_converter" columnDataFileName="lookuptable_harmonic13_150908.txt" sColumn="0" tColumn="1" />
+    <LookupTableConverter name="harmonic15_converter" columnDataFileName="lookuptable_harmonic15_150908.txt" sColumn="0" tColumn="1" />
+    <LookupTableConverter name="harmonic17_converter" columnDataFileName="lookuptable_harmonic17_150908.txt" sColumn="0" tColumn="1" />
+    <LookupTableConverter name="harmonic19_converter" columnDataFileName="lookuptable_harmonic19_150908.txt" sColumn="0" tColumn="1" />
+    
+    <RangeConverterNameProvider name="lookup_name_provider" converterName="harmonic1_converter">
+    <RangeandConverterNameHolder name="harmonic1" converterName="harmonic1_converter" rangeStart="56187" rangeStop="70000" />
+    <RangeandConverterNameHolder name="harmonic3" converterName="harmonic3_converter" rangeStart="24801" rangeStop="56186" />
+    <RangeandConverterNameHolder name="harmonic5" converterName="harmonic5_converter" rangeStart="17201" rangeStop="24800" />
+    <RangeandConverterNameHolder name="harmonic7" converterName="harmonic7_converter" rangeStart="13201" rangeStop="17200" />
+    <RangeandConverterNameHolder name="harmonic9" converterName="harmonic9_converter" rangeStart="11001" rangeStop="13200" />
+    <RangeandConverterNameHolder name="harmonic11" converterName="harmonic11_converter" rangeStart="9251" rangeStop="11000" />
+    <RangeandConverterNameHolder name="harmonic13" converterName="harmonic13_converter" rangeStart="8001" rangeStop="9250" />
+    <RangeandConverterNameHolder name="harmonic15" converterName="harmonic15_converter" rangeStart="7101" rangeStop="8000" />
+    <RangeandConverterNameHolder name="harmonic17" converterName="harmonic17_converter" rangeStart="6701" rangeStop="7100" />
+    <RangeandConverterNameHolder name="harmonic19" converterName="harmonic19_converter" rangeStart="5450" rangeStop="6700" />
+    </RangeConverterNameProvider> 
+    
+    <AutoRenameableConverter name="auto_mDeg_idGap_mm_converter" providerName="lookup_name_provider" autoConversion="true" />
+      
+    
+   
+    <SimpleServlet>
+    <name>ScanDataStore</name>
+    </SimpleServlet>
+    <FileRegistrar>
+    <name>FileRegistrar</name>
+    <directory>/tmp/i18_</directory>
+    </FileRegistrar>
+    
+	<DefaultDataWriterFactory>
+	<name>DataWriterFactory</name>
+	<DataWriterExtender>FileRegistrar</DataWriterExtender>
+	</DefaultDataWriterFactory>
+</ObjectFactory>

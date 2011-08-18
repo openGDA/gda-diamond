@@ -1,0 +1,15 @@
+Cr Ka 5.988735188514941
+keV
+Step
+1 19446 -3.3 19116 10.0;
+Pre Edge 19797.6 -19.5 19351.4 1000.0;Edge 19351.4 -3.4 19167.8 1000.0;3.000000 0.040000 12.000000 1000.0 1000.0 3 5.988735
+Angle
+Fluorescence
+comboDCM_eV
+repeats 1
+points 101
+myscan=I18ExafsScanClass();myscan.setWindows('/dls/i18/software/gda/i18-config/var/windows/Cr_Ka.cnf','Cr_Ka');myscan.setHeaderInfo('','','','');myscan.setNoOfRepeats(1);myscan.addAngleScan(19446.0,19116.0,-3.347000000000007,10.0);myscan.startScan();del myscan;
+
+
+
+

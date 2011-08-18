@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectFactory>
+    <name>${gda.factory.factoryName}</name>    
+   
+<!-- ANC motors -->
+	<EpicsMotor>
+		<name>anc1_x_motor</name>
+		<deviceName>ANC1.X</deviceName>
+	</EpicsMotor>
+	<EpicsMotor>
+		<name>anc1_y_motor</name>
+		<deviceName>ANC1.Y</deviceName>
+	</EpicsMotor>
+	<EpicsMotor>
+		<name>anc1_z_motor</name>
+		<deviceName>ANC1.Z</deviceName>
+	</EpicsMotor>
+	<EpicsMotor>
+		<name>anc1_theta_motor</name>
+		<deviceName>ANC1.THETA</deviceName>
+	</EpicsMotor>
+	<EpicsMotor>
+		<name>anc1_cappa_motor</name>
+		<deviceName>ANC1.CAPPA</deviceName>
+	</EpicsMotor>
+	<EpicsMotor>
+		<name>anc1_rot_motor</name>
+		<deviceName>ANC1.ROT</deviceName>
+	</EpicsMotor>
+ 
+	
+	</ObjectFactory>

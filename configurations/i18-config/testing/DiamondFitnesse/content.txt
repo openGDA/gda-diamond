@@ -1,0 +1,10 @@
+!contents
+
+
+!define FITNESSE_HOME {/dls_sw/dasc/testing/fitnesse}
+
+#!path classes
+!path ${FITNESSE_HOME}/fitnesse.jar
+!path ${FITNESSE_HOME}/fitlibrary.jar
+!path ${FITNESSE_HOME}/dlsfitnesse-0.1.jar
+

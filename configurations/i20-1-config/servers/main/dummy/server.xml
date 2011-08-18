@@ -1,0 +1,77 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd
+           http://www.diamond.ac.uk/schema/gda/corba
+           http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+<!-- 	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" /> -->
+
+	<import resource="file:${gda.config}/servers/main/server-common.xml" />
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/motors_simulated.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
+
+
+<!--	<bean class="gda.configuration.epics.EpicsConfiguration">-->
+<!--		<constructor-arg value="${gda.config}/xml/epics/BL20I-gda-interface.xml" />-->
+<!--	</bean>-->
+
+	<bean class="uk.ac.gda.beans.BeansFactory">
+	    <property name="classList">
+	        <util:list>
+	           <value>uk.ac.gda.exafs.ui.data.EdeScanParameters</value>
+	        </util:list>
+	    </property>
+	</bean>
+
+	<bean id="jythonServerFacade" class="gda.jython.JythonServerFacade">
+		<constructor-arg ref="command_server" />
+	</bean>
+
+	<bean id="command_server" class="gda.jython.JythonServer">
+		<property name="jythonScriptPaths">
+			<bean class="gda.jython.ScriptPaths">
+				<property name="projects">
+					<list>
+<!-- 						<bean class="gda.jython.ScriptProject"> -->
+<!-- 							<property name="path" value="/scratch/users/scripts" /> -->
+<!-- 							<property name="name" value="Scripts: User" /> -->
+<!-- 							<property name="type" value="USER" /> -->
+<!-- 						</bean> -->
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.config}/scripts" />
+							<property name="name" value="Scripts: Config" />
+							<property name="type" value="CONFIG" />
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.root}/uk.ac.gda.core/scripts" />
+							<property name="name" value="Scripts: Core" />
+							<property name="type" value="CORE" />
+						</bean>
+					</list>
+				</property>
+				<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
+			</bean>
+		</property>
+		<property name="gdaVarDirectory" value="${gda.var}" />
+		<property name="cacheDirectory" value="${gda.var}/jythonCache" />
+		<property name="remotePort" value="9999" />
+	</bean>    
+	
+	<bean id="plot_server" class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase"/>
+	
+	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+	
+	<bean id="EdeScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase">
+	</bean>
+	
+	
+	<corba:export namespace="i20-1" />     
+
+</beans>

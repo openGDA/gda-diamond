@@ -1,0 +1,15 @@
+Ni Ka 8.33159864354393
+keV
+Step
+1 13813.9 -17 13643.9 1000.0;
+Pre Edge 13984.1 -9.7 13761.8 1000.0;Edge 13761.8 -1.7 13670 1000.0;3.000000 0.040000 12.000000 1000.0 1000.0 3 8.331599
+Angle
+Fluorescence
+comboDCM_eV
+repeats 1
+points 11
+myscan=I18ExafsScanClass();myscan.setWindows('/dls/i18/software/gda/config/var/windows/Ni_Ka.cnf','Ni_Ka');myscan.setHeaderInfo('','','','');myscan.setNoOfRepeats(1);myscan.addAngleScan(13813.9,13643.9,-17.0,1000.0);myscan.startScan();del myscan;
+
+
+
+

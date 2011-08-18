@@ -1,0 +1,19 @@
+!2 Key OE Position Checking
+!contents
+
+|!-uk.ac.diamond.dlsfitnesse.GDACommandActionFixture-!|
+|evaluate  |pos d1motor        |d1motor : 120.00 mm dof(0.0 : 95.0)|
+|evaluate  |pos d1motor        |d1motor |
+
+!3 Check motors
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?   |deviceName| getValue?      |deviceName| getValue? |deviceName| getValue? |
+|d1motor   | 0<_<95      |d2motor   | 0<_<95         |d1diode   | >0        |d2diode   | >0        |
+
+!3 Check temp
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?   |deviceName| getValue?       |
+|wbs_temp1 | >0          |wbs_temp2 | >0              |
+
+----
+!lastmodified

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=gda-beamline-manual
+Type=Application
+Exec=firefox file:///dls/i11/software/gda/config/doc/BLS-I11-MAN-001-v0.5.html
+Icon=/usr/share/pixmaps/gnome-html.png
+Icon[en_GB]=/usr/share/pixmaps/gnome-html.png
+Terminal=false
+Name[en_GB]=I11 Beamline Manual
+GenericName[en_GB]=I11 Beamline Manual
+Comment[en_GB]=I11 Beamline Manual
+Categories=X-ogda;

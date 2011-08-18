@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Start GDA Log Display
+Type=Application
+Exec=GDA_StartLogPanel
+TryExec=
+Icon=/dls/i20/software/gda/config/Desktop/.icons/logfile.gif
+X-GNOME-DocPath=
+Terminal=false
+Name[en_GB]=Start GDA Log Display
+GenericName[en_GB]=Start GDA Log Display
+Comment[en_GB]=Start GDA Log Display

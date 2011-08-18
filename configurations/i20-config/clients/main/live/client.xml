@@ -1,0 +1,59 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<import resource="../client-common.xml" />
+		<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
+		<property name="cameras">
+			<list>
+				<value>http://i20-firewire01.diamond.ac.uk:8080/D1.CAM1.MJPG.mjpg</value>
+				<value>http://i20-firewire01.diamond.ac.uk:8080/D3.CAM1.MJPG.mjpg</value>
+				<value>http://i20-firewire01.diamond.ac.uk:8080/D4.CAM1.MJPG.mjpg</value>
+				<value>http://i20-firewire01.diamond.ac.uk:8080/D5.CAM1.MJPG.mjpg</value>
+				<value>http://i20-firewire01.diamond.ac.uk:8080/D6.CAM1.MJPG.mjpg</value>
+				<value>http://i20-firewire01.diamond.ac.uk:8080/D7.CAM1.MJPG.mjpg</value>
+				<value>http://i20-firewire01.diamond.ac.uk:8080/D8.CAM1.MJPG.mjpg</value>
+			</list>
+		</property>
+	</bean>
+	
+	
+	
+<!--	dashboard objects-->
+	<bean id="ringCurrent" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="ringEnergy" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
+		<property name="local" value="true"/>
+	</bean>
+		<bean id="wigglerGap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="WIGGLER.GAP" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="wigglerGap" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="wigglerGap_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="topup" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
+		<property name="local" value="true"/>
+	</bean>
+	
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
+		<property name="service" ref="camera_config" />
+	</bean>
+	
+</beans>

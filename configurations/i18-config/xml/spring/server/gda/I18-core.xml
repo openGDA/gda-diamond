@@ -1,0 +1,204 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--
+		The ScanDataStore is required for the communication of ScanDataPoints
+	-->
+	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+
+
+
+	<!--***************************************-->
+	<!-- *** Plot Manager Section *** -->
+	<!--***************************************-->
+	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
+	<!--***************************************-->
+	<!-- *** End of Plot Manager section *** -->
+	<!--***************************************-->
+
+    <bean id="eV_mDeg_converter" class="gda.util.converters.JEPConverterHolder">
+		<constructor-arg value="eV_mDeg_converter" />
+		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/eV_mDeg_converter.xml" />
+	</bean>
+	<bean id="mDeg_dcm_perp_mm_converter" class="gda.util.converters.JEPConverterHolder">
+		<constructor-arg value="mDeg_dcm_perp_mm_converter" />
+		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/mDeg_dcm_perp_mm_converter.xml" />
+	</bean>
+	<bean id="xz_converter" class="gda.util.converters.JEPConverterHolder">
+		<constructor-arg value="xz_converter" />
+		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/xz_converter.xml" />
+	</bean>
+	<bean id="mDeg_idGap_mm_converter" class="gda.util.converters.RenameableConverter">
+		<constructor-arg value="mDeg_idGap_mm_converter" />
+		<constructor-arg value="harmonic1_converter" />
+	</bean>
+	<bean id="harmonic1_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic1_converter" />
+		<constructor-arg value="lookuptable_harmonic1_260908.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic3_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic3_converter" />
+		<constructor-arg value="lookuptable_harmonic3_280109.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic5_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic5_converter" />
+		<constructor-arg value="lookuptable_harmonic5_150908.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic7_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic7_converter" />
+		<constructor-arg value="lookuptable_harmonic7_240908.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic9_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic9_converter" />
+		<constructor-arg value="lookuptable_harmonic9_240908.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic11_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic11_converter" />
+		<constructor-arg value="lookuptable_harmonic11_150908.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic13_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic13_converter" />
+		<constructor-arg value="lookuptable_harmonic13_150908.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic15_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic15_converter" />
+		<constructor-arg value="lookuptable_harmonic15_150908.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic17_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic17_converter" />
+		<constructor-arg value="lookuptable_harmonic17_150908.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic19_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic19_converter" />
+		<constructor-arg value="lookuptable_harmonic19_150908.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	
+	
+	<bean id="harmonic1" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic1" />
+		<constructor-arg value="harmonic1_converter" />
+		<constructor-arg value="56187" />
+		<constructor-arg value="70000" />
+	</bean>
+	<bean id="harmonic3" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic3" />
+		<constructor-arg value="harmonic3_converter" />
+		<constructor-arg value="24801" />
+		<constructor-arg value="56186" />
+	</bean>
+	<bean id="harmonic5" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic5" />
+		<constructor-arg value="harmonic5_converter" />
+		<constructor-arg value="17201" />
+		<constructor-arg value="24800" />
+	</bean>
+	<bean id="harmonic7" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic7" />
+		<constructor-arg value="harmonic7_converter" />
+		<constructor-arg value="13201" />
+		<constructor-arg value="17200" />
+	</bean>
+	<bean id="harmonic9" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic9" />
+		<constructor-arg value="harmonic9_converter" />
+		<constructor-arg value="11001" />
+		<constructor-arg value="13200" />
+	</bean>
+	<bean id="harmonic11" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic11" />
+		<constructor-arg value="harmonic11_converter" />
+		<constructor-arg value="9251" />
+		<constructor-arg value="11000" />
+	</bean>
+	<bean id="harmonic13" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic13" />
+		<constructor-arg value="harmonic13_converter" />
+		<constructor-arg value="8001" />
+		<constructor-arg value="9250" />
+	</bean>
+	<bean id="harmonic15" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic15" />
+		<constructor-arg value="harmonic15_converter" />
+		<constructor-arg value="7101" />
+		<constructor-arg value="8000" />
+	</bean>
+	<bean id="harmonic17" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic17" />
+		<constructor-arg value="harmonic17_converter" />
+		<constructor-arg value="6701" />
+		<constructor-arg value="7100" />
+	</bean>
+	<bean id="harmonic19" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic19" />
+		<constructor-arg value="harmonic19_converter" />
+		<constructor-arg value="5450" />
+		<constructor-arg value="6700" />
+	</bean>
+	 <bean id="lookup_name_provider" class="gda.util.converters.util.RangeConverterNameProvider">
+		<constructor-arg value="lookup_name_provider" />
+		<constructor-arg value="harmonic1_converter" />
+		<property name="converters">
+			<list>
+				<ref bean="harmonic1" />
+				<ref bean="harmonic3" />
+				<ref bean="harmonic5" />
+				<ref bean="harmonic7" />
+				<ref bean="harmonic9" />
+				<ref bean="harmonic11" />
+				<ref bean="harmonic13" />
+				<ref bean="harmonic15" />
+				<ref bean="harmonic17" />
+				<ref bean="harmonic19" />
+			</list>
+		</property>
+	</bean>
+	<bean id="auto_mDeg_idGap_mm_converter" class="gda.util.converters.AutoRenameableConverter">
+		<constructor-arg value="auto_mDeg_idGap_mm_converter" />
+		<constructor-arg value="lookup_name_provider" />
+		<constructor-arg value="true" />	
+	</bean>
+	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
+		<!-- <property name="directory" value="/dls/bl-misc/dropfiles/icat/dropZone/i18/i18_" /> -->
+		<property name="directory" value="/tmp/i18/i18_" />
+	</bean>
+	
+	<bean id="DataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
+       <property name="dataWriterExtenders">
+           <list>
+               <ref bean="FileRegistrar" />
+           </list>
+       </property>
+	</bean>
+</beans>

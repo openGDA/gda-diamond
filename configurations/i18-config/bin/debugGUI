@@ -1,0 +1,8 @@
+#!/bin/bash
+#
+#
+#
+#DEBUG="-Xdebug -Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=y"
+
+echo "Starting AcquisitionGUI ......."
+java -Xdebug -Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=y  -Xmx1024m -cp ${GDA_ROOT}/src:${CLASSPATH}:${GDA_ROOT}/plugins/dream.jar -Dgda.root=${GDA_ROOT} -Dgda.users=${GDA_USERS} -Dgda.config=${GDA_CONFIG} -Djava.library.path=${GDA_ROOT}/lib/linux-x86 -Dgda.propertiesFile=${GDA_CONFIG}/properties/java.properties -Djacorb.config.dir=${GDA_CONFIG}/properties gda.gui.AcquisitionGUI 

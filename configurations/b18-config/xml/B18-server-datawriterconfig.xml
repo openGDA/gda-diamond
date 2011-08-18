@@ -1,0 +1,150 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="datawriterconfig" class="gda.data.scan.datawriter.AsciiDataWriterConfiguration">
+		<property name="commentMarker" value="#"></property>
+		<property name="controllerName" value="ExafsScriptObserver"></property>			
+		<property name="header">
+			<list>
+				<bean id="machine" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Diamond Light Source"/>
+				</bean>
+				<bean id="inst" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Instrument: B18-CORE XAS Date: %s"/>
+					<property name="labelValues">
+						<list>
+							<bean id="date" class="gda.device.scannable.TimeScannable"/>
+						</list>
+					</property>
+				</bean>
+				<bean id="ringenergy" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Ring energy: %5.1f"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="ringEnergy"/>
+						</list>
+					</property>
+				</bean>
+				<bean id="ringcurrent" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Ring current - start: %5.1f"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="ringCurrent"/>
+						</list>
+					</property>
+				</bean>
+				<bean id="primaryslits" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Primary slits:  vertical gap= %4.1f; horizontal gap= %4.1f; vertical offset= %4.1f; horizontal offset= %4.1f"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="s1ysize"/>
+							<ref bean="s1xsize"/>
+							<ref bean="s1ycentre"/>
+							<ref bean="s1xcentre"/>
+						</list>
+					</property>
+				</bean>
+				<bean id="secondaryslits" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Secondary slits:  vertical gap= %4.1f; horizontal gap= %4.1f; vertical offset= %4.1f; horizontal offset= %4.1f"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="s2ysize"/>
+							<ref bean="s2xsize"/>
+							<ref bean="s2ycentre"/>
+							<ref bean="s2xcentre"/>
+						</list>
+					</property>
+				</bean>
+				
+				<bean id="ohcoating" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="OH Mirror Coating: %s"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="oh_coating"/>
+						</list>
+					</property>
+				</bean>
+				
+				<bean id="whitebeamfilter" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="White beam filter: %s"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="A1"/>
+						</list>
+					</property>
+				</bean>
+				
+				
+				
+				<bean id="crystalcut" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Crystal cut: %s"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="dcm_crystal"/>
+						</list>
+					</property>
+				</bean>
+				<bean id="postDCMslits" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="PostDCM slits:  vertical gap= %4.1f; horizontal gap= %4.1f; vertical offset= %4.1f; horizontal offset= %4.1f"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="s3ysize"/>
+							<ref bean="s3xsize"/>
+							<ref bean="s3ycentre"/>
+							<ref bean="s3xcentre"/>
+						</list>
+					</property>
+				</bean>
+				<bean id="exptslits" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Experimental slits:  vertical gap= %4.1f; horizontal gap= %4.1f; vertical offset= %4.1f; horizontal offset= %4.1f"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="s4ysize"/>
+							<ref bean="s4xsize"/>
+							<ref bean="s4ycentre"/>
+							<ref bean="s4xcentre"/>
+						</list>
+					</property>
+				</bean>
+				<bean id="hrmcoating" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="HR Mirror : %s; Y: %4.1f; Pitch: %4.1f; Coating: %s"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="hr_inout"/>
+							<ref bean="hry"/>
+							<ref bean="hrpitch"/>
+							<ref bean="hr_coating"/>
+						</list>
+					</property>
+				</bean>
+				<bean id="mirror2" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Mirror 2: Pitch: %4.1f; Height: %4.1f; Yaw: %4.1f; Bend: %4.1f;"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="m2pitch"/>
+							<ref bean="m2y"/>
+							<ref bean="m2yaw"/>
+							<ref bean="m2b"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="footer">
+			<list>
+				<bean id="ringcurrentend" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Ring current - end: %5.1f"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="ringCurrent"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		
+	</bean>
+	
+</beans>

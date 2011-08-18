@@ -1,0 +1,15 @@
+Au L3 11.92086857818837
+keV
+Step
+1 9588.8 -0.8 9508.8 1000.0;
+Pre Edge 9671.1 -4.6 9564.6 1000.0;Edge 9564.6 -0.4 9521.4 1000.0;3.000000 0.040000 14.000000 1000.0 5000.0 3 11.920869
+KSpace
+Fluorescence
+comboDCM_eV
+repeats 2
+points 407
+myscan=I18ExafsScanClass();myscan.setWindows('/dls/i18/software/gda/config/var/windows/Au_L3.cnf','Au_L3');myscan.setHeaderInfo('zn-i2 + lactone + toluene 1:1','','','');myscan.setNoOfRepeats(2);myscan.addAngleScan(9671.1,9564.6,-4.6,1000.0);myscan.addAngleScan(9564.6,9521.4,-0.4,1000.0);myscan.addKScan(3.0,14.0,0.04,1000.0,5000.0,3,11.920869,6.2695);myscan.startScan();del myscan;
+zn-i2 + lactone + toluene 1:1
+
+
+

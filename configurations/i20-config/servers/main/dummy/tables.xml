@@ -1,0 +1,126 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+           
+<!--	sample -->
+	
+	<bean id="Clake" class="gda.device.temperature.DummyTemperature" />
+	<bean id="table2_x_motor" class="gda.device.motor.DummyMotor"/>  
+	<bean id="table2_y_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="table1_x_motor" class="gda.device.motor.DummyMotor"/>  
+	<bean id="table1_y_motor" class="gda.device.motor.DummyMotor"/> 
+	
+    <bean id="sample_x_motor" class="gda.device.motor.DummyMotor"/> 
+	<bean id="sample_y_motor" class="gda.device.motor.DummyMotor"/> 
+	<bean id="sample_z_motor" class="gda.device.motor.DummyMotor"/> 
+	<bean id="sample_pitch_motor" class="gda.device.motor.DummyMotor"/> 
+	<bean id="sample_roll_motor" class="gda.device.motor.DummyMotor"/> 
+	<bean id="sample_rot_motor" class="gda.device.motor.DummyMotor"/> 
+	<bean id="sample_finex_motor" class="gda.device.motor.DummyMotor"/> 
+	<bean id="sample_finey_motor" class="gda.device.motor.DummyMotor"/> 
+	
+	
+	
+	<bean id="sample_x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="sample_x_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+	<bean id="sample_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="sample_y_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+	<bean id="sample_z" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="sample_z_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+	<bean id="sample_rot" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="sample_rot_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+	<bean id="sample_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="sample_pitch_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+	<bean id="sample_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="sample_roll_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>      
+	<bean id="sample_finex" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="sample_finex_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+	<bean id="sample_finey" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="sample_finey_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+	
+	
+	<bean id="table1_x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="table1_x_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+	<bean id="table1_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="table1_y_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+	
+	<bean id="table2_x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="table2_x_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+	<bean id="table2_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="table2_y_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="10" />
+	</bean>
+
+</beans>

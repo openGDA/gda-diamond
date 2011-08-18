@@ -1,0 +1,57 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           
+    <bean id="xConverter" class="gda.gui.microfocus.camera.PixelToMMConverter">
+    <property name="name" value="xConverter"></property>
+    </bean>
+    <bean id="yConverter" class="gda.gui.microfocus.camera.PixelToMMConverter">
+    <property name="name" value="yConverter"></property>
+    </bean>
+    <bean id="videoreceiver" class="gda.images.camera.RTPStreamReceiver">
+    	<property name="local" value="true"></property>
+    	<property name="port" value="22224"></property>
+    	<property name="host" value="224.120.120.120"></property>
+    </bean>
+    <bean id="SampleCamera" class="gda.gui.microfocus.camera.CameraDisplayPanel">
+    	<property name="name" value="SampleCamera"/>
+    	<property name="xConverterName" value="xConverter"></property>
+    	<property name="yConverterName" value="yConverter"></property>
+    	<property name="cameraOEName" value="VMA"></property>
+    	<property name="zoomMotorName" value="vma_zoom"></property>
+    	<property name="focusMotorName" value="vma_focus"></property>
+    	<property name="videoReceiverName" value="videoreceiver"></property>
+    </bean>
+    
+    <bean id="MicroFocus" class="gda.gui.microfocus.i18.I18MicroFocusPanel">
+    <property name="name" value="MicroFocus"/>
+    	<property name="ionChamberCounterTimerName" value="counterTimer01"></property>
+    	<property name="xspressSystemCounterTimerName" value="mapdetector"></property>
+    	<!-- for rcp server and swing client --><property name="xspressSystemName" value="sw_xspress2system"></property>
+    	<!-- for swing server and client <property name="xspressSystemName" value="xspress2system"></property>-->
+    	<property name="xmapDetectorName" value="xmapMca"></property>
+    	<property name="tfgName" value="tfg"></property>
+    	<property name="sampleXDofName" value="MicroFocusSampleX"></property>
+    	<property name="sampleYDofName" value="MicroFocusSampleY"></property>
+    	<property name="thetaCoarseDofName" value="sample_thetacoarse"></property>
+    	<property name="sampleZDofName" value="sample_z"></property>
+    	<property name="sampleXZDofName" value="microfocusXZ"></property>
+    	<property name="xConverterName" value="xConverter"></property>
+    	<property name="yConverterName" value="yConverter"></property>
+    	<property name="useTfg" value="true"></property>
+    </bean>
+ 
+ <bean id="I18ExafsScanning" class="gda.gui.exafs.i18.I18ExafsPanel">
+ 		<property name="name" value="I18ExafsScanning"/>
+    	<property name="monochromatorName" value="DCM"></property>
+    	<property name="ionChamberCounterTimerName" value="counterTimer01"></property>
+    	<property name="scanDofName" value="comboDCM_eV"></property>
+    	<property name="moveMonoDofName" value="dcm_mono"></property>
+    	<!-- for rcp server and swing client --><property name="xspressSystemName" value="sw_xspress2system"></property>
+    	<!-- for swing server and client <property name="xspressSystemName" value="xspress2system"></property>-->
+    	<property name="xmapName" value="vortexXmap"></property>
+    	<property name="fluChannelsCounterTimerName" value="counterTimer02"></property>
+    	<property name="scanCommandEditorType" value="gda.gui.exafs.i18.I18ScanCommandEditor"></property>
+  </bean>
+</beans>

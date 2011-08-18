@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectFactory>
+	<name>${gda.factory.factoryName}</name>
+
+<!--	This should be the last object server xml file called as when the Jython server is configured it makes method-->
+<!--	calls to the OE objects which rely on them being configured already. This can be back into the main object-->
+<!--	server xml file if OEs are not in use on the beamline.-->
+
+
+	<!--***************************************-->
+	<!-- *** Jython Server section *** -->
+	<!--***************************************-->
+	<JythonServer>
+		<name>command_server</name>
+	</JythonServer>
+	<!--***************************************-->
+	<!-- *** End of Jython Server section *** -->
+	<!--***************************************-->
+	<!--***************************************-->
+	<!-- *** Plot Server section *** -->
+	<!--***************************************-->
+	<!-- <PlotServer>
+		<name>plot_server</name>
+	</PlotServer>-->
+	<!--***************************************-->
+	<!-- *** End of Plot Server section *** -->
+	<!--***************************************-->
+	<!-- ============================== Plot Manager section ============================== -->	
+  <PlotManager>
+        <name>Plot_Manager</name> 
+    </PlotManager>
+    <CurrentScanHolder>
+        <name>Current_Scan_Holder</name> 
+    </CurrentScanHolder>
+	
+
+	<ScriptController>
+		<name>ExafsController</name>
+		<command></command>
+		<parametersName></parametersName>
+		<importCommand></importCommand>
+	</ScriptController>
+           
+    <ScriptController>
+          <name>MicroFocusController</name>
+      <command></command>
+      <parametersName/>
+      <importCommand></importCommand>
+        </ScriptController>
+        
+	<!-- <BeamlineConfigurationManager>
+		<name>beamline_configuration_manager</name>
+	</BeamlineConfigurationManager>-->
+
+</ObjectFactory>

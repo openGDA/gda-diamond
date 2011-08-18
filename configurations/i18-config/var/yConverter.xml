@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<yConverter>
+<PixelToMMConverter>
+<name>yConverter</name>
+<expression>(PIXELREF - PIXEL) * MMPERPIXEL + MMOFFSET</expression>
+<pixelReference>457</pixelReference>
+<mmPerPixel>5.4644808E-4</mmPerPixel>
+<mmOffset>5.0</mmOffset>
+</PixelToMMConverter>
+</yConverter>

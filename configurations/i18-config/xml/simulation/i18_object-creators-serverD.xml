@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="file:${gda.config}/properties/java.properties" />
+	</bean>
+	
+
+	<bean id="objectCreators" class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				
+				<bean class="gda.factory.ServerXmlObjectCreator">
+					<property name="xmlFile" value="${gda.config}/xml/simulation/i18_server_coreD.xml" />
+					<property name="doPropertySubstitution" value="True"/>
+					<property name="useDefaultSchema" value="False"/>
+					<property name="buildProxies" value="${gda.accesscontrol.useAccessControl}" />
+				</bean>
+				<bean class="gda.factory.ServerXmlObjectCreator">
+					<property name="xmlFile" value="${gda.config}/xml/simulation/i18_Server_oeD.xml" />
+					<property name="doPropertySubstitution" value="True"/>
+					<property name="useDefaultSchema" value="False"/>
+					<property name="buildProxies" value="${gda.accesscontrol.useAccessControl}" />
+					<property name="mappingFile" value="classpath:gda/factory/mapping_oe.xml"/>
+				</bean>
+				 <bean class="gda.factory.ServerXmlObjectCreator">
+					<property name="xmlFile" value="${gda.config}/xml/simulation/i18_Server_dlsD.xml" />
+					<property name="buildProxies" value="${gda.accesscontrol.useAccessControl}" />
+					<property name="mappingFile" value="classpath:gda/factory/mapping_dls.xml"/>
+				</bean>
+				
+				<bean class="gda.factory.ServerXmlObjectCreator">
+					<property name="xmlFile" value="${gda.config}/xml/i18_Server_commandserver.xml" />
+					<property name="doPropertySubstitution" value="True"/>
+					<property name="useDefaultSchema" value="False"/>
+					<property name="buildProxies" value="${gda.accesscontrol.useAccessControl}" />
+				</bean>
+				<!-- <bean id="epicsServerXmlObjectCreatorId" class="gda.factory.ServerXmlObjectCreator">
+					<property name="xmlFile" value="${gda.config}/xml/epics_objects.xml"/>
+					<property name="doPropertySubstitution" value="True"/>
+					<property name="useDefaultSchema" value="False"/>
+					<property name="buildProxies" value="${gda.accesscontrol.useAccessControl}"/>
+					<property name="mappingFile" value="classpath:gda/factory/mapping_epics.xml"/>
+				</bean>-->
+				<bean class="gda.factory.SpringObjectCreator">
+					<property name="name" value="${gda.factory.factoryName}"></property>
+					<property name="corbariseObjects" value="true"></property>
+					<property name="xmlFile" value="${gda.config}/xml/i18_beans_server.xml" />
+				</bean>
+				
+				
+				<!-- <bean class="gda.factory.AdapterObjectCreator">
+					<property name="name" value="${gda.factory.factoryName}" />
+				</bean>-->
+				
+			</list>
+		</property>
+	</bean>
+	<import resource="file:${gda.config}/xml/I18-server-scannables.xml"/> 
+
+</beans>

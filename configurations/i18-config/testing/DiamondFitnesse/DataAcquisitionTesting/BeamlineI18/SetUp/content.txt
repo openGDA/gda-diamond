@@ -1,0 +1,6 @@
+!2 Test Information
+|Comment|
+|GDA Server      |${GDA_SERVER}          |
+|GDA Installation|${GDA_ROOT}            |
+|GDA Version     |                       |
+
