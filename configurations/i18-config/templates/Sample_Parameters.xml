@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <I18SampleParameters>
+	<name>name</name>
     <SampleStage>
    		<x>2.5</x>
     	<y>3.8</y>
