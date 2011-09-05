@@ -8,7 +8,7 @@
 
 	<!--machine and front end -->
 
-	<bean id="shutter1" class="gda.device.enumpositioner.EpicsValve2">
+	<bean id="shutter1" class="gda.device.enumpositioner.EpicsValve">
 		<property name="epicsRecordName" value="BL20I-PS-SHTR-01" />
 		<property name="outputFormat">
 			<list>
