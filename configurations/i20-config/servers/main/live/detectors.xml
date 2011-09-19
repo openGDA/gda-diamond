@@ -41,23 +41,23 @@
 	<!-- </property> -->
 	<!-- </bean> -->
 
-	<!-- <bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDController"> -->
-	<!-- <property name="local" value="true" /> -->
-	<!-- <property name="epicsDeviceName" value="edxd" /> -->
-	<!-- <property name="NUMBER_OF_ELEMENTS" value="4" /> -->
-	<!-- </bean> -->
-	<!-- <bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController2"> -->
-	<!-- <property name="edxdControllerName" value="edxdcontroller" /> -->
-	<!-- <property name="local" value="true" /> -->
-	<!-- </bean> -->
-
-
-	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
-		<property name="numberOfMca" value="4" />
-		<property name="numberOfBins" value="1024" />
-		<property name="numberOfROIs" value="10" />
+	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDController">
+		<property name="local" value="true" />
+		<property name="epicsDeviceName" value="edxd" />
+		<property name="NUMBER_OF_ELEMENTS" value="1" />
+	</bean>
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController2">
+		<property name="edxdControllerName" value="edxdcontroller" />
 		<property name="local" value="true" />
 	</bean>
+
+
+	<!-- <bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController"> -->
+	<!-- <property name="numberOfMca" value="4" /> -->
+	<!-- <property name="numberOfBins" value="1024" /> -->
+	<!-- <property name="numberOfROIs" value="10" /> -->
+	<!-- <property name="local" value="true" /> -->
+	<!-- </bean> -->
 
 	<!-- <bean id="Stanford01" class="gda.device.currentamplifier.DummyCurrentAmplifier"/> -->
 	<!-- <bean id="Stanford02" class="gda.device.currentamplifier.DummyCurrentAmplifier"/> -->
@@ -75,7 +75,7 @@
 	<bean id="Stanford04" class="gda.device.currentamplifier.EpicsStanfordCurrentAmp">
 		<property name="deviceName" value="EAAMP4" />
 	</bean>
-	
+
 	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2System">
 		<property name="daServerName" value="DAServer" />
 		<property name="tfgName" value="tfg" />
@@ -142,7 +142,7 @@
 	<!-- merges data from xspress and ion chambers -->
 	<bean id="FFI0" class="gda.device.detector.TfgFFoverI0">
 		<property name="xspress" ref="xspress2system" />
-		<!--property name="scaler" ref="CalMemory" /-->
+		<!--property name="scaler" ref="CalMemory" / -->
 		<property name="counterTimer" ref="ionchambers" />
 	</bean>
 
@@ -172,10 +172,10 @@
 
 	<bean id="FFI0_vortex" class="gda.device.detector.TfgXMapFFoverI0">
 		<property name="xmap" ref="xmapMca" />
-		<!--property name="scaler" ref="CalMemory" /-->
+		<!--property name="scaler" ref="CalMemory" / -->
 		<property name="counterTimer" ref="ionchambers" />
 	</bean>
-	
+
 	<bean id="i0_stanford_sensitivity" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-EA-IAMP-01:SENS:SEL1" />
 		<property name="local" value="true" />
@@ -200,6 +200,6 @@
 		<property name="pvName" value="BL20I-EA-IAMP-03:SENS:SEL2" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 
 </beans>

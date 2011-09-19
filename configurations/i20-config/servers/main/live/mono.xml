@@ -50,14 +50,14 @@
 
 
 	<!-- QCM encoders -->
-<!--	 <bean id="bragg1enc_motor" class="gda.device.motor.DummyMotor"/> 
-	 <bean id="bragg2enc_motor" class="gda.device.motor.DummyMotor"/> -->
-	<bean id="bragg1enc_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20I-OP-QCM-01:B1:ENC1234" />
-	</bean>
-	<bean id="bragg2enc_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20I-OP-QCM-01:B2:ENC1234" />
-	</bean>
+	 <bean id="bragg1enc_motor" class="gda.device.motor.DummyMotor"/> 
+	 <bean id="bragg2enc_motor" class="gda.device.motor.DummyMotor"/> 
+<!-- 	<bean id="bragg1enc_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="pvName" value="BL20I-OP-QCM-01:B1:ENC1234" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="bragg2enc_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="pvName" value="BL20I-OP-QCM-01:B2:ENC1234" /> -->
+<!-- 	</bean> -->
 
 	<bean id="bragg1" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
