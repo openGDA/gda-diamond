@@ -9,7 +9,6 @@
         <name>Silicon</name>
         <detector>FFI0_vortex</detector>
         <detector>xmapMca</detector>
-        <detector>counterTimer03</detector>
         <detector>counterTimer01</detector>
     </detectorGroup>
     <detectorGroup>
