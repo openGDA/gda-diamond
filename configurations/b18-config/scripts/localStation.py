@@ -33,9 +33,6 @@ alias("qexafs")
 # to act as the energy during dev
 print "creating scannable 'test' which will be used to represent energy during commissionning"
 print ""
-test = DummyUnitsScannable("test",10,"mm","mm")
-test.setUpperGdaLimits(50)
-test.setLowerGdaLimits(0)
 
 # to delay scan points so they run afer a certain elapsed time
 from gdascripts.pd.time_pds import showtimeClass
@@ -95,6 +92,7 @@ monoCooler.setTemperatureCoolLevel(100)
 monoCooler.configure()
 #add_default monoCooler
 
+from java import util
 
 print "localStation.py completed."
 print "**************************************************"
