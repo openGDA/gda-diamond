@@ -65,5 +65,9 @@ http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
 		<property name="service" ref="plot_server" />
 	</bean>
-	
+	<bean id="RCPController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/rcpController" />
+		<property name="serviceInterface" value="gda.gui.RCPController" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>	
 </beans>

@@ -9,36 +9,33 @@ import sys
 import java
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable import DummyScannable
-#microfocusScanWriter="Empty"
-# Get the locatation of the GDA beamline script directory
-gdaScriptDir = str(LocalProperties.get("gda.jython.gdaScriptDir"))
-gdaScriptDir  = gdaScriptDir + "/"
-# Get the location of the USERS script directory
-userScriptDir = str(LocalProperties.get("gda.jython.userScriptDir"))
-userScriptDir  = userScriptDir + "/"
+# Get the location of the gda root  directory
 gdaRoot = str(LocalProperties.get("gda.root"))
 gdaMicroFocus = gdaRoot+ "/uk.ac.gda.client.microfocus/"
 print gdaMicroFocus +  "scripts/"
 sys.path.append(gdaMicroFocus +  "scripts/")
+
+######################################################################
+##RCP map scan and trajectory map scan
+######################################################################
 print "setting up mapscan"
 execfile (gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/rastermap.py")
 execfile (gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/map.py")
 execfile(gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/microfocus_elements.py")
 
 alias("map")
-#gdaRoot = gdaRoot + "/uk.ac.gda.core/"
-#print gdaRoot
+#########################################################################
+##Get config path
+#########################################################################
 gdaConfigDir = LocalProperties.get("gda.config")
 gdaConfigDir = gdaConfigDir + "/"
 
 execfile(gdaConfigDir + "scripts/scans/DummySlaveCounterTimer.py")
 execfile(gdaConfigDir + "scripts/scans/DummyExafsScanClass.py")
 
-#Set up the 8512 scaler card
-print "Setting up 8512 scalars...";
-#execfile(gdaScriptDir + "scaler8512.py");
-
-
+##########################################################################
+##Swing GUI xspress and Microfocus settings
+##########################################################################
 print "Setting XSPRESS2 Collection mode"
 xs=finder.find("xspress2system")
 #xs.setReadoutMode(0)
@@ -46,37 +43,13 @@ xs=finder.find("xspress2system")
 sc_MicroFocusSampleX.setOutputFormat(["%.4f"])
 sc_MicroFocusSampleY.setOutputFormat(["%.4f"])
 
-print "Loading i18 custom script controls..."
-#execfile(gdaScriptDir + "i18_scans.py")
-
-print "Loading Stage Offset routines..."
-#execfile(gdaScriptDir + "sampleStageTilt.py")
-
-#print "Loading Shutter Control"
-#execfile(gdaScriptDir + "shutter.py")
-#sampleShutter=ShutterClass('shutter', 'BL18I-EA-SHTR-01:CON')
-
-print "Setting up DCM/Undulator (Lookup) motions..."
-#execfile(gdaConfigDir + "scripts/dcm_undulator_lookup.py")
-
-#comboDCM=DcmUndulatorLookupScriptClass('comboDCM')
-
-#print "Loading Detector Utilities..."
-#execfile(gdaScriptDir + "detectorUtils.py")
-
-#ct1=finder.find("counterTimer01")
-#ct2=finder.find("counterTimer02")
-#tfg=finder.find("tfg")
-
+###########################################################################
+##RCP exafs scan settings
+###########################################################################
 print "setting scans"
 from exafsscripts.exafs import setupBeamline
 setupBeamline.rootnamespace = globals()
 from exafsscripts.exafs.xas_scans import xas, xanes, estimateXas, estimateXanes
-
-#old
-#from exafsscripts.exafs import exafsScan
-#from exafsscripts.exafs.exafsScan import xas, xanes, estimateXas, estimateXanes
-
 
 from exafsscripts.vortex import vortexConfig
 from exafsscripts.vortex.vortexConfig import vortex
@@ -91,7 +64,9 @@ alias("estimateXanes")
 alias("vortex")
 alias("xspress")
 # to act as the energy during dev
-
+################################################################################
+##default monitors
+################################################################################
 print "Create topup , detector and beam monitors to pause and resume scans"
 from gda.device.scannable import TopupScannable
 topupMonitor = TopupScannable()
@@ -133,25 +108,18 @@ test = DummyScannable("test")
 print "===================================================================";
 
 ###swing gui station script
-# Get the locatation of the GDA beamline script directory
-#gdaScriptDir = LocalProperties.get("gda.jython.gdaScriptDir")
-#gdaScriptDir  = gdaScriptDir + "/"
-# Get the location of the USERS script directory
-#userScriptDir = LocalProperties.get("gda.jython.userScriptDir")
-#userScriptDir  = userScriptDir + "/"
+
 gdaRoot = LocalProperties.get("gda.root")
 gdaConfigDir = LocalProperties.get("gda.config")
 gdaConfigDir = gdaConfigDir + "/"
-#gdaDevScriptDir = LocalProperties.get("gda.jython.gdaDevScriptDir") + "/";
-#gdaConfigDir=gdaRoot+"/"
-#gdaDevScriptDir=""
-gdaScriptDir=""
+
 #########################################################################
 ###File Archiving
 #######################################################################
 from gda.data.fileregistrar import IcatXMLCreator
 archiver= IcatXMLCreator()
-archiver.setDirectory("/dls/bl-misc/dropfiles/icat/dropZone/i18/i18_")
+#archiver.setDirectory("/dls/bl-misc/dropfiles/icat/dropZone/i18/i18_")
+archiver.setDirectory("/tmp/i18/i18_")
 ########################################################################
 
 ########################################################################
@@ -176,15 +144,12 @@ execfile(gdaConfigDir + "scripts/I18Scans/vortex/I18VortexUtilities.py")
 #xspress
 execfile(gdaConfigDir + "scripts/I18Scans/read_xspress_counts.py")
 
-from gdascripts.pd import scaler8512_pds, epics_pds, time_pds
+from gdascripts.pd.scaler8512_pds import ScalerChannelEpicsPVClass
+from gdascripts.pd.epics_pds import SingleEpicsPositionerClass
+from gdascripts.pd import time_pds
 from gdascripts import utils, constants
-#execfile(gdaDevScriptDir + "pd/scaler8512_pds.py")
-#execfile(gdaDevScriptDir + "pd/epics_pds.py");
-#execfile(gdaDevScriptDir + "pd/time_pds.py");
-#execfile(gdaDevScriptDir + "utils.py");
-#execfile(gdaDevScriptDir + "constants.py");
 execfile(gdaConfigDir + "scripts/chgDataDir.py");
-#execfile(gdaConfigDir + "scripts/microscope_limits.py")
+execfile(gdaConfigDir + "scripts/microscope_limits.py")
 # struck ion chambers
 execfile(gdaConfigDir + "scripts/I18Scans/StruckV2F.py")
 
@@ -202,7 +167,7 @@ execfile(gdaConfigDir + "scripts/edxd_calibrator.py")
 #########################################################################
 print "Setting XSPRESS2 Collection mode"
 xs=finder.find("sw_xspress2system")
-xs.setReadoutMode(0)
+#xs.setReadoutMode(0)
 #########################################################################
 
 ##########################################################################
@@ -216,28 +181,11 @@ MicroFocusSampleY.setOutputFormat(["%.4f"])
 ######Other
 #######################################################################
 print "Loading i18 custom script controls..."
-execfile(gdaScriptDir + "i18_scans.py")
+execfile(gdaConfigDir + "scripts/i18_scans.py")
 print "Loading Stage Offset routines..."
-execfile(gdaScriptDir + "sampleStageTilt.py")
+execfile(gdaConfigDir + "scripts/sampleStageTilt.py")
 ##########################################################################
 
-#########################################################################
-###counterTimer Setup
-#################################################################################
-# temp fix to setup the TFG scaler output format until config in Spring
-##commented ad DAServer is switched off 10/06/10
-#counterTimer01.setOutputFormat(['%5.2g','%5.2g', '%5.2g'])
-#counterTimer01.setTFGv2(1)
-#counterTimer01.setTimeChannelRequired(0)
-#########################################################################
-
-#########################################################################
-####Xmap setup
-#########################################################################
-#xmapMca.setEventProcessingTimes([1.1029752060937018e-007, 1.1407794527246737e-007, 1.1465765791909203e-007, 1.0675602460939456e-007])
-##########################################################################
-###global mapRunning variable
-##########################################################################
 global mapRunning
 mapRunning =0
 print "===================================================================";

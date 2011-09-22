@@ -17,7 +17,8 @@ from time import *
 #
 #
 
-class BeamMonitorClass:
+#class BeamMonitorClass:
+class BeamMonitorClass(PseudoDevice):
 	def __init__(self,ringCurrentPV,ringModePV,feAbsorberPV,opticsHutchShutterPV,pitchFeedBackPV,rollFeedBackPV,topupCountDownPV):
 		self.ringCurrent= CAClient(ringCurrentPV)
 		self.ringCurrent.configure()
@@ -37,6 +38,17 @@ class BeamMonitorClass:
 		self.override=0
 		self.fillingOverride=0
 		self.delayAfterTopup=2.0
+		self.timetocollect=1.0
+		name='BeamMonitor'
+		self.setName(name)
+		self.setInputNames([])
+		self.setExtraNames(['BeamMonitor'])
+		self.setOutputFormat(["%d"])
+		self.simulateTP = 0
+		self.simTopCount = 0
+		# highest priority ....should be checked first in list of a scan
+		self.setLevel(1)
+
 		print 'BeamMonitor with detector fill check on'
 	#===========================================
 	#
@@ -47,8 +59,8 @@ class BeamMonitorClass:
 	def beamOn(self):
 		if(self.override==0):	
 			returnvalue=1
-			#if(self.feAbsorber.caget()=='1' and float(self.ringCurrent.caget()) > 1.0 ):
-			if(self.feAbsorber.caget()=='1'  and self.ringMode.caget() =='4' and float(self.ringCurrent.caget()) > 1.0 ):
+			if(self.feAbsorber.caget()=='1' and float(self.ringCurrent.caget()) > 1.0 ):
+			#if(self.feAbsorber.caget()=='1'  and self.ringMode.caget() =='4' and float(self.ringCurrent.caget()) > 1.0 ):
 				self.selectBeamOnMode()
 				returnvalue=1
 			else:
@@ -86,6 +98,10 @@ class BeamMonitorClass:
 
 	def getFillingOverride(self):
 		return	self.fillingOverride
+		
+	def simulateTopUp(self, value):
+		self.simulateTP = value
+		self.simTopCount = 0
 
 	#===========================================
 	# Select BeamOn Mode
@@ -110,7 +126,7 @@ class BeamMonitorClass:
 			#self.pitchFB.caput(1)
 
 	# ===========================================
-	# Check time to see if LN2 fill. 9-9:30 
+	# Check time to see if LN2 fill. 9-9:35
 	# 1 if filling, 0 if not
 	# ===========================================
 	def isFilling(self):
@@ -126,9 +142,27 @@ class BeamMonitorClass:
 	# 1 if topup is too close to collect data
 	# 0 if it is ok to collect
 	#
-	def collectBeforeTopupTime(self,collection=1.0):
-		offset=1.0
+	def collectBeforeTopupTime(self,collection=1.0,offset=1.0):		
 		# In the event of a fault ignore the topup message
+#		if not self.topupPV.isConfigured():
+#			self.topupPV.configure()
+		self.simTopCount = self.simTopCount + 1
+		print "simCount " + str(self.simTopCount)
+		#topup simulation
+		if(self.simulateTP ):
+			if(7 <= self.simTopCount <= 8):
+				print "topup returned true"
+				self.topupTest = 1
+				self.simTopCount = -1
+				return 1
+			else:
+				# After the topup variable has reset, want to wait for a delaytime before starting collection again
+				if(self.topupTest==1):
+					print "delay after topup"
+					sleep(self.delayAfterTopup)
+					self.topupTest=0
+				return 0
+		
 		if(float(self.topupPV.caget())<0):
 			return 0
 		if(float(self.topupPV.caget())<(collection+offset)):
@@ -148,7 +182,21 @@ class BeamMonitorClass:
 	def timeBeforeTopup(self):
 		return float(self.topupPV.caget())
 
+
+	def getPosition(self):
+		#while(self.isBusy()==1):
+		#	sleep(1)
+		return 1
+
+
+	def asynchronousMoveTo(self,newPosition):
+		self.timetocollect=newPosition
+
+	def isBusy(self):
+		if(self.beamOn()==0 or self.collectBeforeTopupTime(self.timetocollect)==0):
+			return 1
+		else:
+			return 0	
 			
 					 
 BeamMonitor = BeamMonitorClass('SR21C-DI-DCCT-01:SIGNAL','CS-CS-MSTAT-01:MODE','FE18I-RS-ABSB-02:STA','FE18I-PS-SHTR-02:STA','BL18I-OP-DCM-01:FPMTR:FFB.FBON','BL18I-OP-DCM-01:FRMTR:FFB.FBON','SR-CS-FILL-01:COUNTDOWN')
-

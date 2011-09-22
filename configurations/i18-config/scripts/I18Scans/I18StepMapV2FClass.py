@@ -8,7 +8,6 @@ from org.python.modules.math import *
 from time import sleep
 from java.lang import *
 from java.util import Vector
-from java.util.concurrent import TimeUnit
 import jarray
 from gda.scan import ScanDataPoint
 from gda.jython import ScriptBase
@@ -78,7 +77,7 @@ class I18StepMapClass(ScriptBase):
         # Make a directory to store the mca files in
         #
         self.mcadir=self.datadir+'/mca/'+str(self.fileno)+'/'
-        self.mca_row_dir=self.mcadir	
+        self.mca_row_dir=self.mcadir    
         self.mcarootname=self.mcadir+str(self.fileno)
         self.mca_row_rootname=self.mcarootname
         #
@@ -86,7 +85,7 @@ class I18StepMapClass(ScriptBase):
             os.mkdir(self.mcadir)
         self.tag=1
         self.createFile()
-        self.xspress = finder.find("xspress2system")
+        self.xspress = finder.find("sw_xspress2system")
         # Set default windows
         self.setWindows('/dls_sw/i18/software/gda/config/default.scas')
         #self.createRGBfile()
@@ -128,7 +127,7 @@ class I18StepMapClass(ScriptBase):
         lock =0
         try:
             print 'locking express'
-            lock  = self.xspress.tryLock(5,TimeUnit.SECONDS)
+            lock  = self.xspress.tryLock(5,java.util.concurrent.TimeUnit.SECONDS)
             print "the lock value is " + str(lock)
             if not lock:
                 print "Xspress detector is already locked"

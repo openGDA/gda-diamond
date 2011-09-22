@@ -15,7 +15,7 @@
 				<property name="projects">
 					<list>
 						<bean class="gda.jython.ScriptProject">
-							<property name="path" value="${gda.config}/users/scripts"></property>
+							<property name="path" value="/dls_sw/i18/scripts"></property>
 							<property name="name" value="Scripts: User"></property>
 							<property name="type" value="USER"></property>
 						</bean>

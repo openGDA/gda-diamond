@@ -18,6 +18,3 @@ jacorb=$config/properties/
 
 echo $gdaLauncher --config=$config --properties=$properties --jacorb=$jacorb logserver
 $gdaLauncher --config=$config --properties=$properties --jacorb=$jacorb --verbose logpanel
-
-#
- 

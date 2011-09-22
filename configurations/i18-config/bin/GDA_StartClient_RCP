@@ -17,4 +17,4 @@ jacorb=$config/properties
 echo  JAVA_OPTS="-Xms512m -Xmx2048m" $gdaLauncher --config=$config --properties=$properties --jacorb=$jacorb --rcp_image=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE} --start rcpclient -d -p 8005 
 #$gdaLauncher -d --config=$config --properties=$properties --users=$users --jacorb=$jacorb client
 #JAVA_OPTS="-Xms512m -Xmx2048m -Xdebug -Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=n"
-JAVA_OPTS="-Xms512m -Xmx1024m -XX:PermSize=256m -XXMaxPermSize=1024m" $gdaLauncher -v --config=$config --properties=$properties --jacorb=$jacorb --rcp_image=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE} --start rcpclient -d -p8005
+JAVA_OPTS="-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m" $gdaLauncher -v --config=$config --properties=$properties --jacorb=$jacorb --rcp_image=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE} --start rcpclient -d -p8005

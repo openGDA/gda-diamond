@@ -27,7 +27,8 @@ $gdaLauncher --config=$config --properties=$properties  --jacorb=$jacorb nameser
 $gdaLauncher --config=$config --properties=$properties  --jacorb=$jacorb eventserver
 
 export JAVA_OPTS=-Xmx2000m
+export gda.nexus.instrumentApi=true
 #echo $gdaLauncher objectserver
-$gdaLauncher -d --config=$config --properties=$properties  --jacorb=$jacorb  objectserver
+#$gdaLauncher -d --config=$config --properties=$properties  --jacorb=$jacorb  objectserver --profiler -v
+$gdaLauncher --config=$config --properties=$properties  --jacorb=$jacorb  objectserver -d --verbose
 #echo $gdaLauncher objectserver
-

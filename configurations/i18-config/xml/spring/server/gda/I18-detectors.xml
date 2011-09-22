@@ -123,9 +123,9 @@
 	</bean>
 
 	<bean id="HTXmapMca" class="gda.device.detector.xmap.HardwareTriggeredNexusXmap">
-	<property name="triggerProvider" ref="xpsTrajController"/>
+	<property name="hardwareTriggerProvider" ref="xpsTrajController"/>
 	<property name="xmap" ref="xmapMca"/>
-	<property name="controller" ref="xmapController"/>
+	<property name="controller" ref="edxdcontroller"/>
 	</bean>
 	
 	<bean id="counterTimer03" class="gda.device.detector.countertimer.TfgXmap">
@@ -135,6 +135,12 @@
 	</bean>
 	<bean id="raster_xspress" class="gda.device.detector.Xspress2BufferedDetector">
 		<property name="xspress2system"      ref="xspress2system" />
+	</bean>
+	<bean id="raster_xmap" class="gda.device.detector.xmap.XmapBufferedDetector">
+		<property name="xmap"      ref="xmapMca" />
+		<property name="controller"    ref="edxdcontroller"> </property>
+		<property name="daServer"   ref="daserver"></property>
+		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="raster_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">

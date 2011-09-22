@@ -10,6 +10,7 @@ from org.python.modules.math import *
 from time import sleep
 from gda.analysis import *
 from jarray import array
+from gda.data import PathConstructor
 import os
 #
 #
@@ -40,7 +41,7 @@ class I18VortexStepMapClass(ScriptBase):
         self.xmotor=MicroFocusSampleX
         self.ymotor=MicroFocusSampleY
         self.das=finder.find("daserver")
-        self.xspress = finder.find("xspress2system")
+        self.xspress = finder.find("sw_xspress2system")
         self.ionchambers=ionChambers
         self.vortex=xmapMca
         #self.vortexDTCparams=vortexDTCparameters
@@ -52,8 +53,8 @@ class I18VortexStepMapClass(ScriptBase):
         else:
             self.fileno = datafileNo
         self.runext='.dat'
-        self.datadir=LocalProperties.get("gda.data.scan.datawriter.datadir")
-        self.rgbdir=LocalProperties.get("gda.data.scan.datawriter.rgbdatadir")
+        self.datadir=PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir")
+        self.rgbdir=PathConstructor.createFromProperty("gda.data.scan.datawriter.rgbdatadir")
         self.datafilename=self.datadir+'/'+str(self.fileno)+self.runext
         self.rgbdatafilename=self.rgbdir+'/'+str(self.fileno)+"_1.rgb"
         self.mcadir=self.datadir+'/mca/'+str(self.fileno)+'/'
@@ -67,7 +68,7 @@ class I18VortexStepMapClass(ScriptBase):
         self.windowValues=[]
         self.windowName=[]
         self.windowArrays=[]
-        windowdir = LocalProperties.get("gda.microfocus.defaultvortexscasfile")
+        windowdir = PathConstructor.createFromProperty("gda.microfocus.defaultvortexscasfile")
         self.setWindows(windowdir)
         self.archiveFileList=[]
         self.fileArchiveCounter=0
@@ -78,7 +79,7 @@ class I18VortexStepMapClass(ScriptBase):
     # Vortex step by step map
     #
     def stepmapscan(self,xstart,xend,xstep,ystart,yend,ystep,collectionTime):
-    	global mapRunning
+        global mapRunning
         try:
             print 'locking express'
             lock  = self.xspress.tryLock(5,java.util.concurrent.TimeUnit.SECONDS)
@@ -87,7 +88,7 @@ class I18VortexStepMapClass(ScriptBase):
                 print "Xspress detector is already locked"
                 self.controller.update(None, "STOP")
                 return
-
+            mapRunning =1
             nx=abs(xend-xstart)/xstep
             ny=abs(yend-ystart)/ystep
             nx=int(round(nx+0.5))
@@ -260,7 +261,7 @@ class I18VortexStepMapClass(ScriptBase):
         ##spectrum file
         filename = "%s_yindex_%d_xindex_%d.mca" % (self.mcarootname, yindex, xindex)
         filenameScalar = "%s_yindex_%d_xindex_%d_scalar.dat" % (self.mcarootname, yindex, xindex)
-        #self.vortexDTCparams.dumpVortexDTCParamsToFile(filenameScalar)		
+        #self.vortexDTCparams.dumpVortexDTCParamsToFile(filenameScalar)        
         #self.archiveFileList.append(filename)
         for data in vortexSpectrum:
             datacounter = 0

@@ -18,10 +18,13 @@ import time
 from gda.scan import EpicsTrajectoryScanController
 from gda.scan import  Trajectory
 import os
+import thread
+from  org.slf4j import LoggerFactory
 class I18ContinuousMapClass(ScriptBase):
 	
 	def __init__(self, datafileNo="default"):
 		print "constructor"
+		self.logger =  LoggerFactory.getLogger(I18ContinuousMapClass);
 		self.scannableNamesVector = Vector()
 		self.scannableNamesVector.add(MicroFocusSampleX)
 		self.scannableNamesVector.add(MicroFocusSampleY)
@@ -31,7 +34,8 @@ class I18ContinuousMapClass(ScriptBase):
 		# Find the script controller 
 		self.controller = finder.find("MicroFocusController")	
 		#
-		self.xmotor = finder.find("sample_x_motor")
+		self.xmotor = MicroFocusSampleX
+		self.xmotorspeed=finder.find("sample_x_motor")
 		self.tracController = finder.find("epicsTrajectoryScanController")
 		self.trajectory = Trajectory()
 		self.ymotor = MicroFocusSampleY
@@ -44,7 +48,7 @@ class I18ContinuousMapClass(ScriptBase):
 		self.windowValues = []
 		self.windowName = []
 		self.windowArrays = []
-			  
+		self.updateGuiComplete =-1  
 		if(datafileNo == "default"):
 			self.runs = NumTracker("tmp")
 			self.fileno = self.runs.getCurrentFileNumber() + 1
@@ -52,10 +56,13 @@ class I18ContinuousMapClass(ScriptBase):
 		else:
 			self.fileno = datafileNo
 		self.runext = '.dat'
-		self.datadir = LocalProperties.get("gda.data.scan.datawriter.datadir")
+		self.datadir = PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir")
 		self.datafilename = self.datadir + '/' + str(self.fileno) + self.runext
+		self.rgbdir=PathConstructor.createFromProperty("gda.data.scan.datawriter.rgbdatadir")
 		
-		#
+		###This rgb file is created in the gui, registering this file for archiving causes 
+		## considerable delay .
+		self.rgbfilename=self.rgbdir+'/'+str(self.fileno)+"_1.rgb"
 		# Make a directory to store the mca files in
 		#
 		self.mcadir=self.datadir+'/mca/'+str(self.fileno)+'/'
@@ -69,13 +76,21 @@ class I18ContinuousMapClass(ScriptBase):
 		self.setWindows('/dls_sw/i18/software/gda/config/default.scas')
 		self.setDetectorForExternalTrigger(1)
 		self.ionchamberData=[]
+		self.preX =0.0
+		self.preY =0.0
+		self.rowRepeat = 0
+		self.archiveFileList=[]
+		self.fileArchiveCounter=0
+		self.archiver = archiver
 
 	def rastermapscan(self, startx, stopx, nxsteps, rowtime, starty, stopy, nysteps):
 		lock = 0
 		global mapRunning
 		mapRunning = 1
 		try:
+			
 			scanStart = time.asctime()
+			self.logger.info("Scan start time " + scanStart)
 			print 'locking express'
 			#lock  = self.xspress.tryLock(5,java.util.concurrent.TimeUnit.SECONDS)
 			print "the lock value is " + str(lock)
@@ -107,7 +122,8 @@ class I18ContinuousMapClass(ScriptBase):
 			print "the traj path is " + str(len(path))
 			print path
 			self.tracController.setM3Traj(path)
-			
+			self.xmotorspeed.setSpeed(1.0)
+			self.xmotor.asynchronousMoveTo(path[0])
 			self.tracController.setNumberOfElements((int)(self.trajectory.getElementNumbers()))
 			self.tracController.setNumberOfPulses((int) (self.trajectory.getPulseNumbers()))
 			self.tracController.setStartPulseElement((int) (self.trajectory.getStartPulseElement()))
@@ -121,7 +137,7 @@ class I18ContinuousMapClass(ScriptBase):
 			self.tracController.build()
 			while(self.tracController.getBuild() != 0):
 				##wait for the build to finsih
-				sleep(0.5)
+				sleep(0.1)
 			##check the build status from epics
 			if(self.tracController.getBuildStatusFromEpics() != 1):
 				print "Unable to buld the trajectory"
@@ -129,7 +145,11 @@ class I18ContinuousMapClass(ScriptBase):
 				self.controller.update(None, "STOP")
 				return
 			#return
-			for i in range(nysteps):
+			self.ymotor.asynchronousMoveTo(ymoveto)
+			i =0
+			while (i  < nysteps):
+				self.checkForPause()
+				print "row number ", i
 				# Row by row data output directory
 				self.mca_row_dir=self.mcadir+("row%d/" %i)
 				if not os.path.isdir(self.mca_row_dir):
@@ -154,39 +174,73 @@ class I18ContinuousMapClass(ScriptBase):
 					except:
 						self.interrupted = 1					
 						self.checkForInterrupt()
-				self.ymotor.moveTo(ymoveto)
+				#self.ymotor.moveTo(ymoveto)
 				self.checkForInterrupt()
+				while(self.updateGuiComplete == 0):
+					sleep(timePerPoint)
+					self.checkForInterrupt()
+				##check for the topup
+				#
+					# topup test
+					#
+				while(BeamMonitor.collectBeforeTopupTime(rowtime / 1000.0,3.0) == 1):
+					print 'Top up coming : Pausing until resumed'
+					try:
+						sleep(1)
+						print "sleeping during topup"
+					except:
+						self.interrupted = 1	
+					self.checkForInterrupt()
 				##prepare the detectors for collecting per row
 				self.prepareDetectorForRow(nxsteps, (rowtime) / nxsteps)
 				##execute the trajectory and wait for it to finish
 				approximateX = self.calculateXpositions(startx,stopx,nxsteps)
 				timePerPoint = rowtime/nxsteps
+				self.ymotor.waitWhileBusy()
+				self.xmotor.waitWhileBusy()
+				print "time before exceute ", time.asctime()
 				self.tracController.execute()
 				xread =0
-				sleep(5)
+				##changing the sleep from 5 to timePerPoint
+				#sleep(timePerPoint)
 				while (self.tracController.getExecute() != 0): 					
 					if(xread == 0):
-						sleep(timePerPoint)
-						for x in range(nxsteps):	
-							sleep(timePerPoint)	
-							self.writeDetectorFile(i,x)
-							self.updatePointSummary(ymoveto,i, approximateX[x], x, nxsteps)
-							self.checkForInterrupt()
+						thread.start_new_thread(self.updateGui, (timePerPoint, nxsteps, approximateX, ymoveto, i))
+					#	sleep(timePerPoint)
+					#	for x in range(nxsteps):	
+					#		sleep(timePerPoint)	
+					#		self.writeDetectorFile(i,x, timePerPoint)
+					#		self.updatePointSummary(ymoveto,i, approximateX[x], x, nxsteps)
+					#		self.checkForInterrupt()
 					self.checkForInterrupt()
 					xread = 1
-					sleep(1.0)
+					##changing the sleep from 1.0 to time PerPoint
+					sleep(timePerPoint)
 					
 				
 				##check the exceute status
 				if(self.tracController.getExecuteStatusFromEpics() != 1):
 					print "Error while executing the trajectory"
 					self.controller.update(None, "STOP")
-			   
+					##move the x motor to the start position
+				try:
+					self.xmotorspeed.setSpeed(1.0)
+					self.xmotor.asynchronousMoveTo(path[0])
+					###if the beam was down during the raster row redo the row
+					if(BeamMonitor.beamOn() == 0):
+						print "Beam Lost during trajectory, Repeating row"
+						continue;
+					prevY = ymoveto
+							 ##at the end of the row increment ymoveto position
+					ymoveto = ymoveto + ystepSize
+					self.ymotor.asynchronousMoveTo(ymoveto)
+				except :
+					print "unable to move x and y motors to next psotion"
 				## start the read  of actual trajectory path from the controller
 				self.tracController.read()
 				while (self.tracController.getRead() != 0): 
 					self.checkForInterrupt()
-					sleep(1.0)
+					sleep(timePerPoint)
 				###check the read status from the controller
 				if (self.tracController.getReadStatusFromEpics() != 1):
 					print "Error while reading the actual trajectory path"
@@ -204,13 +258,19 @@ class I18ContinuousMapClass(ScriptBase):
 				##write the detector files for a row . can be done in a thread
 				counterTimer01.stop()
 				##for recording the data xposiitons should start from the xstart point
-				realx = [startx, ]				
+				#realx = [startx, ]	
+				realx = []			
 				for x in xpositions:
 					realx.append(x)
+				
+				
+				#thread.start_new_thread(self.writeSummary, (ymoveto, i, realx, actualPulses))
+				print "time bef summary ", time.asctime()
 				self.writeSummary(ymoveto, i, realx, actualPulses)
+				print "time sft summary ", time.asctime()
+				i = i + 1
 			  
-				##at the end of the row increment ymoveto position
-				ymoveto = ymoveto + ystepSize
+				
 			scanEnd = time.asctime()
 			print "scan start time ", scanStart
 			print "scan end time ", scanEnd
@@ -221,6 +281,17 @@ class I18ContinuousMapClass(ScriptBase):
 			if(lock):
 				print 'unlocking xpress'
 				self.xspress.unlock()
+			print "list of files to be archived are "
+			print self.archiveFileList
+			if(os.path.exists(self.datafilename)):
+				self.archiveFileList.append(self.datafilename)
+				if(os.path.exists(self.rgbfilename)):
+					self.archiveFileList.append(self.rgbfilename)
+			try:
+				if(len(self.archiveFileList ) != 0):
+					self.archiver.registerFiles("scan-" + str(self.fileno), self.archiveFileList)
+			except:
+				print "Unable archive files " + self.datafilename
 				
 			
 		print "scan"
@@ -271,12 +342,16 @@ class I18ContinuousMapClass(ScriptBase):
 			command = "read 0 0 %d 4 9 1 from 1 to-local-file \"%s\" raw intel" % (i, sname)
 			self.das.sendCommand(command)
 			
-	def writeDetectorFile(self, yindex, x):
+	def writeDetectorFile(self, yindex, x, timePerPoint):
 		frame = counterTimer01.getCurrentFrame()
-		print "current frame is ", frame
+		
+		#print "time at wait start ", time.asctime()
 		while (frame != 0 and frame <= (x *2 + 1)):
-			sleep(1.0)
+			#print "sleeping current frame is ", frame
+			sleep(timePerPoint/10)
 			frame = counterTimer01.getCurrentFrame()
+		#print "current frame is ", frame
+		#print "reading frame " , x
 		name = "%s_yindex_%d_xindex_%d.xsp" % (self.mcarootname, yindex, x)
 		sname = "%s_yindex_%d_xindex_%d_scalar.xsp" % (self.mcarootname, yindex, x)
 		self.mcaList.append(name)
@@ -285,17 +360,51 @@ class I18ContinuousMapClass(ScriptBase):
 		self.das.sendCommand(command)
 		command = "read 0 0 %d 4 9 1 from 1 to-local-file \"%s\" raw intel" % (x , sname)
 		self.das.sendCommand(command)
+		##wait for the files to appear
+		fileExists=0
+		while(fileExists):
+			fileExists=os.access(name, os.F_OK)
+			if(fileExists):
+				break
+			else:
+				sleep(0.1)
+		try:
+			self.archiveFileList.append(name)
+			self.fileArchiveCounter += 1
+			self.archiveFileList.append(sname)
+			self.fileArchiveCounter += 1
+			if(self.fileArchiveCounter >= 100):
+				self.archiver.registerFiles("scan-" + str(self.fileno), self.archiveFileList)
+				self.fileArchiveCounter = 0
+				self.archiveFileList = []
+	   
+		except:
+			print "unable to register files for archiving " + name
 
 	def updatePointSummary(self, currenty, yindex, currentx, xindex, nxpoints):
+		
 		self.ionchamberData.append(counterTimer01.readFrame(0, 4, xindex))
 		mcafileIndex = xindex + (yindex * nxpoints)
 		##tfg read in 10ns blocks , converting to milli seconds
 		pointTime = self.ionchamberData[mcafileIndex][0] * 10e-06
 		print currentx, currenty, pointTime, self.ionchamberData[mcafileIndex][1], self.ionchamberData[mcafileIndex][2], self.ionchamberData[mcafileIndex][3], self.mcaList[mcafileIndex]
+		if(xindex == 0 ) :
+			self.preX = currentx
+			self.preY = currenty
+			return
+		if(xindex == 1) :
+			self.createAndSendScanDataPoint(self.preX,self.preY, mcafileIndex, mcafileIndex -1)	
+		# SDP Stuff
+		self.createAndSendScanDataPoint(currentx, currenty, mcafileIndex,mcafileIndex)
+		self.preX = currentx
+		self.preY = currenty
+	
+		
+	def createAndSendScanDataPoint(self, xvalue, yvalue, fileIndex, pointNumber):
 		# SDP Stuff
 		positionVector = Vector()
-		positionVector.add(str(currentx))
-		positionVector.add(str(currenty))
+		positionVector.add(str(xvalue))
+		positionVector.add(str(yvalue))
 		sdp = ScanDataPoint()
 		sdp.setScanIdentifier("MicroFocus StepMap")
 		sdp.setUniqueName(str(self.fileno))
@@ -305,21 +414,29 @@ class I18ContinuousMapClass(ScriptBase):
 			sdp.addDetector(d)
 		for p in positionVector:
 			sdp.addScannablePosition(p, ["%.4f"])
-		ionData = self.ionchamberData[mcafileIndex][1:]
+		ionData = self.ionchamberData[fileIndex][1:]
 		sdp.addDetectorData(ionData, ["%5.2g", "%5.2g", "%5.2g"])
-		sdp.addDetectorData(self.mcaList[mcafileIndex], ["%s"])
+		print "sending file and index", self.mcaList[fileIndex], fileIndex
+		sdp.addDetectorData(self.mcaList[fileIndex], ["%s"])
 		sdp.setCurrentFilename(self.datafilename)
-		sdp.setCurrentPointNumber(mcafileIndex)
+		sdp.setCurrentPointNumber(pointNumber)
 		self.controller.update(None, sdp)
 		
 	def writeSummary(self, currenty, yindex, xpositions, nxpoints):
+		while(self.updateGuiComplete == 0):
+			print " waiting for gui update to finish"
+			sleep(0.1)
 		# lets window this mofo
 		fid = open(self.datafilename, 'a')
 		print "actual x points is " + str(len(xpositions))
 		for i in range(nxpoints):
-			mcafileIndex = i + (yindex * nxpoints)
+			
 			val = xpositions[i]
-			print 'ic data again', mcafileIndex, counterTimer01.readFrame(0, 4, i), self.mcaList[mcafileIndex]
+			##first point in the scan has large values - making first and second points the same
+			if(i == 0):
+				i = i+ 1
+			mcafileIndex = i + (yindex * nxpoints)
+			#print 'ic data again', mcafileIndex, counterTimer01.readFrame(0, 4, i), self.mcaList[mcafileIndex]
 			##tfg read in 10ns blocks , converting to milli seconds
 			pointTime = self.ionchamberData[mcafileIndex][0] * 10e-06
 			line = str(val) + "\t" + str(currenty) + "\t" + str(pointTime) + "\t" + str(self.ionchamberData[mcafileIndex][1]) + "\t" + str(self.ionchamberData[mcafileIndex][2]) + "\t" + str(self.ionchamberData[mcafileIndex][3]) + "\t" + str(self.mcaList[mcafileIndex])
@@ -403,6 +520,21 @@ class I18ContinuousMapClass(ScriptBase):
 			print  'Now the nasty bit: throw an exception to stop running'
 			self.controller.update(None, "STOP")
 			raise lang.InterruptedException()
+	#====================================================
+	#
+	#  Checks to see if the pause script button has been pressed
+	#
+	#====================================================
+	def checkForPause(self):
+		if(self.paused):
+			JythonServerFacade.getInstance().setScriptStatus(Jython.PAUSED)
+			while(self.paused):
+				try:
+					java.lang.Thread.sleep(10000)
+					print 'Pausing at start of a row-awaiting resume'
+				except:
+					self.checkForInterrupt()
+
 
 	def setDetectorForExternalTrigger(self, trigger):
 		if(trigger == 1):
@@ -411,6 +543,16 @@ class I18ContinuousMapClass(ScriptBase):
 		else:
 			finder.find("tfg").setAttribute("Ext-Start", trigger == 1)
 			
+			
+	def updateGui(self, timePerPoint, nxsteps, approximateX, ymoveto, yindex):
+		self.updateGuiComplete =0
+		#sleep(timePerPoint)
+		for x in range(nxsteps):	
+			sleep(timePerPoint/5.0)	
+			self.writeDetectorFile(yindex,x, timePerPoint)
+			self.updatePointSummary(ymoveto,yindex, approximateX[x], x, nxsteps)
+			self.checkForInterrupt()
+		self.updateGuiComplete =1
 	def setupGUI(xstart,xend,xstep,ystart,yend,ystep,collectionTime):
 		global mapRunning
 	   # print command_server.getScriptStatus()

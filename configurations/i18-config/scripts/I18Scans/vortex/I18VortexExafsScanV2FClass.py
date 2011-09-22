@@ -45,7 +45,7 @@ class I18VortexExafsScanClass(ScriptBase):
         self.runext='.dat'
         self.fileno=self.runs.getCurrentFileNumber()+1
         self.runs.incrementNumber()
-        self.datadir=LocalProperties.get("gda.data.scan.datawriter.datadir")
+        self.datadir=PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir")
         self.datafilename=self.datadir+'/'+str(self.fileno)+self.runext
         self.scanList=[]
         self.noOfRepeats=1
@@ -62,7 +62,7 @@ class I18VortexExafsScanClass(ScriptBase):
         self.energyController = JythonServerFacade.getInstance().getFromJythonNamespace(LocalProperties.get("gda.i18.energyController"))
         self.tfg = finder.find("tfg")
         self.converter = finder.find("auto_mDeg_idGap_mm_converter")
-        self.xspress = finder.find("xspress2system")
+        self.xspress = finder.find("sw_xspress2system")
         self.title="TITLE"
         self.condition1="CONDITION1"
         self.condition2="CONDITION2"
@@ -308,7 +308,7 @@ class I18VortexExafsScanClass(ScriptBase):
     def reset(self):
         self.fileno=self.runs.getCurrentFileNumber()+1
         self.runs.incrementNumber()
-        self.datadir=LocalProperties.get("gda.data.scan.datawriter.datadir")
+        self.datadir=PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir")
         self.datafilename=self.datadir+'/'+str(self.fileno)+self.runext
         self.mcadir=self.datadir+'/mca/'+str(self.fileno)+'/'
         self.mcarootname=self.mcadir+str(self.fileno)
@@ -535,7 +535,8 @@ class I18VortexExafsScanClass(ScriptBase):
         positionVector.append(currentpos)
         #sdp = ScanDataPoint("Exafs FluScan",self.scannableNamesVector,self.detectorNamesVector,None,None,None,None,positionVector,detectorVector,None,"Panel Name","I18 Custom SDP","Header String",self.datafilename,0)
         sdp = ScanDataPoint()
-        sdp.setUniqueName("Exafs FluScan")
+        sdp.setUniqueName(str(self.fileno))
+        sdp.setScanIdentifier("Exafs FluScan")
         for s in self.scannableNamesVector:
             sdp.addScannable(s)
         for d in self.detectorNamesVector:
@@ -545,7 +546,7 @@ class I18VortexExafsScanClass(ScriptBase):
         sdp.addDetectorData(detectorVector,["%5.2g","%5.2g","%5.2g"])
         sdp.addDetectorData(mydata, ["%5.2g","%5.2g","%5.2g","%5.2g","%5.2g"])
         sdp.setCurrentFilename(self.datafilename)
-        sdp.setScanIdentifier(str(self.fileno))
+        #sdp.setScanIdentifier(str(self.fileno))
         self.controller.update(None, sdp)
         self.mcontroller.update(None, sdp)
 
@@ -632,7 +633,7 @@ class I18VortexExafsScanClass(ScriptBase):
     def incrementFilename(self):
         self.fileno=self.runs.getCurrentFileNumber()+1
         self.runs.incrementNumber()
-        self.datadir=LocalProperties.get("gda.data.scan.datawriter.datadir")
+        self.datadir=PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir")
         self.datafilename=self.datadir+'/'+str(self.fileno)+self.runext
         self.mcadir=self.datadir+'/mca/'+str(self.fileno)+'/'
         self.mcarootname=self.mcadir+str(self.fileno)

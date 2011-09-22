@@ -23,14 +23,15 @@
 	
 	<!--  GDA configuration split up by part type with the rest being in core -->
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-epics-objects.xml"/>
+	<import resource="file:${gda.config}/xml/spring/server/gda/xmaptraj_scan_controller.xml"/>
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-server-sampleenvironments.xml"/>
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-meta-data.xml"/> 
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-detectors.xml"/>	
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-scannables.xml"/>
-	<!--  <import resource="file:${gda.config}/xml/spring/server/gda/I18-swing-objects.xml"/>-->
+	<import resource="file:${gda.config}/xml/spring/server/gda/I18-swing-objects.xml"/>
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-rmiserver.xml"/>
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-server-datawriterconfig.xml"/>
-	<!-- <import resource="file:${gda.config}/xml/spring/i18_attocubes.xml" /> -->
+	<!-- <import resource="file:${gda.config}/xml/spring/server/gda/i18_attocubes.xml" /> -->
 	<import resource="file:${gda.config}/xml/spring/server//I18-command-server.xml"/>
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-core.xml"/>
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />

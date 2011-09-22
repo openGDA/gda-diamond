@@ -19,19 +19,17 @@ from java.io import FileInputStream
 import os
 import jarray
 from java.util import Date
-from java.util.concurrent import TimeUnit
 from java.text import SimpleDateFormat
 from gda.util import Password
 from gda.data import PathConstructor
 import thread
 from gdascripts.messages import handle_messages 
-from gdascripts.messages.handle_messages import simpleLog
+#from handle_messages import simpleLog
 import sys
 import time
 import os
 from java.lang import Boolean
-from gda.gui.exafs.Converter import PERANGSTROM
-from gda.gui.exafs.Converter import MDEG
+
 # ========================================
 # EXAFS SCAN
 # run SlaveCounterTimer.py
@@ -96,7 +94,7 @@ class I18ExafsScanClass(ScriptBase):
         #print self.ftppassword
         self.tag=1
         self.facade=JythonServerFacade.getInstance()
-        self.xspress = finder.find("xspress2system")
+        self.xspress = finder.find("sw_xspress2system")
         self.scanList=[]
         self.noOfRepeats=1
         self.noOfPoints=0
@@ -163,7 +161,7 @@ class I18ExafsScanClass(ScriptBase):
             lock =0
             try:
                 print 'locking express'
-                lock  = self.xspress.tryLock(5,TimeUnit.SECONDS)
+                lock  = self.xspress.tryLock(5,java.util.concurrent.TimeUnit.SECONDS)
                 print "the lock value is " + str(lock)
                 if not lock:
                     print "Xspress detector is already locked"
@@ -433,7 +431,7 @@ class I18ExafsScanClass(ScriptBase):
         oldpos=currentpos
         secTime=1000.0
         # Ready the ion chambers
-        self.ionchambers.clearAndPrepare() 	
+        self.ionchambers.clearAndPrepare()     
         # prepare detector for collection
         print 'Clearing and Preparing Detector'
         self.prepareDetectorForKScan(start,step,end,kWeighting,kEndTime,kStartTime)
@@ -776,7 +774,7 @@ class I18ExafsScanClass(ScriptBase):
     # Converter class.
     #==================================================
     def mDegForK(self,k,edgeEnergy,twoD):
-        return gda.gui.exafs.Converter.convert(k,PERANGSTROM, MDEG,edgeEnergy, twoD)
+        return gda.gui.exafs.Converter.convert(k,gda.gui.exafs.Converter.PERANGSTROM, gda.gui.exafs.Converter.MDEG,edgeEnergy, twoD)
 
     #==================================================
     # timeForK calculates the appropriate counting time for a particular k value

@@ -13,7 +13,6 @@ from java.util import Date
 from java.text import SimpleDateFormat
 from gda.data import PathConstructor
 import os
-from java.util.concurrent import TimeUnit
 #
 #
 #   A step map scan
