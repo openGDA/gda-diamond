@@ -10,19 +10,24 @@
 
 	<import resource="../client-common.xml" />
 	
+	<bean id="cam1" class="uk.ac.gda.video.views.CameraParameters">
+		<property name="name" value="cam1"/>
+		<property name="mjpegURL" value="http://ws088.diamond.ac.uk:8080/det.ffmpeg.mjpg" />
+		<property name="exposurePV" value="EXCALIBUR:SIM:AcquireTime" />
+<!-- 		<property name="frameratePV" value="" /> -->
+		<property name="gainPV" value="EXCALIBUR:SIM:Gain" />
+<!-- 		<property name="brightnessPV" value="" /> -->
+		<property name="acquirePV" value="EXCALIBUR:SIM:Acquire" />
+	</bean>
+	
 	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
 		<property name="cameras">
 			<list>
-				<value>http://i20-firewire01.diamond.ac.uk:8080/D3.CAM1.MJPG.mjpg</value>
-				<value>http://i20-firewire01.diamond.ac.uk:8080/D5.CAM1.MJPG.mjpg</value>
-				<value>http://172.23.102.176/mjpg/video.mjpg</value>
-				<value>http://172.23.102.177/mjpg/video.mjpg</value>
-				<value>http://172.23.103.177/mjpg/video.mjpg</value>
-				<value>http://172.23.103.176/mjpg/video.mjpg</value>
+				<ref bean= "cam1"/>
 			</list>
 		</property>
 	</bean>
-
+	
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
 		<property name="service" ref="camera_config" />
