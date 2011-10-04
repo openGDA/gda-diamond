@@ -11,7 +11,7 @@
 <booleanAttribute key="clearwslog" value="false"/>
 <stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/uk.ac.gda.beamline.i18.product"/>
 <booleanAttribute key="default" value="false"/>
-<stringAttribute key="deselected_workspace_plugins" value="uk.ac.diamond.scisoft.analysis.polling,uk.ac.diamond.sda.polling,uk.ac.gda.beamline.dls,uk.ac.gda.beamline.i20,uk.ac.gda.client.extensions,uk.ac.gda.dal,uk.ac.gda.devices.cirrus,uk.ac.gda.dls.client,uk.ac.gda.video.mjpeg,uk.ac.gda.video.views"/>
+<stringAttribute key="deselected_workspace_plugins" value="uk.ac.diamond.connect,uk.ac.diamond.datamodel,uk.ac.diamond.scisoft.analysis.polling,uk.ac.diamond.scisoft.intro,uk.ac.diamond.scisoft.spectroscopy.rcp,uk.ac.diamond.scisoft.ws,uk.ac.diamond.scisoft.ws.rcp,uk.ac.diamond.sda.polling,uk.ac.gda.beamline.b18,uk.ac.gda.beamline.i20,uk.ac.gda.beamline.i20_1,uk.ac.gda.client.extensions,uk.ac.gda.dal,uk.ac.gda.devices.cirrus,uk.ac.gda.devices.mythen,uk.ac.gda.devices.mythen.visualisation,uk.ac.gda.dls.client,uk.ac.gda.dls.client.test,uk.ac.gda.mx,uk.ac.gda.mx.api,uk.ac.gda.video.mjpeg,uk.ac.gda.video.views,uk.ac.ox.sgc.dsx.beehive"/>
 <booleanAttribute key="includeOptional" value="true"/>
 <stringAttribute key="location" value=""/>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
