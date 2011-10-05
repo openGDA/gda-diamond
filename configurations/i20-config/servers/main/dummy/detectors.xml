@@ -139,8 +139,8 @@
 		<property name="i0_channel" value="0"/>
 	</bean>
 	
-	<bean id="cirrus" class="uk.ac.gda.devices.cirrus.CirrusDetector">
-		<property name="cirrusHost" value="diamrl5244" />
-	</bean>
+<!-- 	<bean id="cirrus" class="uk.ac.gda.devices.cirrus.CirrusDetector"> -->
+<!-- 		<property name="cirrusHost" value="diamrl5244" /> -->
+<!-- 	</bean> -->
 
 </beans>
