@@ -1,0 +1,31 @@
+#OnSize.scr
+#20070524
+#sebastian kaluzka (sebastian.kaluzka@oxford-diffraction.com)
+
+
+#mode echo
+root severity = -debug
+
+
+#root clear
+#echo = begin OnSize.scr script
+
+
+#((xSize):integer=0)
+((DialogSize):integer[2])
+($(DialogSize)=$(~/Properties/Size))
+
+($[0](~/Objects/PathEditBox/Properties/Size)=$[0](DialogSize))
+($[0](~/Objects/PathEditBox/Properties/Size)-=$[0](~/Objects/PathEditBox/Properties/Position))
+
+($[0](DialogSize)-=$[0](~/Objects/DataBaseTreeView/Properties/Position))
+($[0](DialogSize)-=10)
+($[0](~/Objects/DataBaseTreeView/Properties/Size)=$[0](DialogSize))
+
+($[1](DialogSize)-=$[1](~/Objects/DataBaseTreeView/Properties/Position))
+($[1](DialogSize)-=35)
+($[1](~/Objects/DataBaseTreeView/Properties/Size)=$[1](DialogSize))
+
+
+#echo = end OnSize.scr script
+return

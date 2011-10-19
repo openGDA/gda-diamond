@@ -1,0 +1,45 @@
+#OnEnterPath.scr
+#20070323
+#sebastian kaluzka (sebastian.kaluzka@oxford-diffraction.com)
+
+
+#mode echo
+root severity = -debug
+
+
+#root clear
+#echo = begin OnEnterPath.scr script
+
+
+#((StrPath):string="")
+#($(StrPath)=$(~/Objects/PathEditBox))
+
+if ($(~/Objects/PathEditBox)!="") jmp GoToPath
+	jmp End
+label GoToPath
+
+
+#if ($(StrPath)==$(~/Path)) jmp EmptyPathEditBox
+#if ($(StrPath)==$(~/Objects/DataBaseTreeView/Properties/Expand)) jmp EmptyPathEditBox
+#if ($(~/Objects/DataBaseTreeView/Properties/Expand)=="") jmp EmptyPathEditBox
+#	echo = rozne
+	#($(~/Objects/DataBaseTreeView/Properties/Expand)=$(StrPath))
+#	jmp End	
+#label EmptyPathEditBox
+#	echo = takie same
+#	($(~/Objects/DataBaseTreeView/Properties/Expand)=$(StrPath))
+	#($(~/Objects/DataBaseTreeView/Properties/Collapse)=$(StrPath))
+	#($(~/Objects/DataBaseTreeView/Properties/Collapse)="")
+#label End
+
+#($(~/Objects/DataBaseTreeView/Properties/Expand)=$(StrPath))
+
+cmd = "echo = selected path = /"+$(~/Objects/PathEditBox)
+($(~/Objects/DataBaseTreeView/Properties/Expand)=$(~/Objects/PathEditBox))
+#cmd = "echo = "+"selected path = /"+$(~/Objects/PathEditBox)
+
+label End
+
+
+#echo = end OnEnterPath.scr script
+return

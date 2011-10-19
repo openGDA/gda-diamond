@@ -1,0 +1,286 @@
+#DBBrowserFunc.scr
+#20070524
+#sebastian kaluzka (sebastian.kaluzka@oxford-diffraction.com)
+
+
+#mode echo
+root severity = -debug
+
+
+#root clear
+#echo = begin DBBrowserFunc.scr script
+
+
+this create staticbox SelectedItemPathStaticBox
+($(~/Objects/SelectedItemPathStaticBox/Font/Name)="arial")
+($(~/Objects/SelectedItemPathStaticBox/Font/Size)=14)
+($(~/Objects/SelectedItemPathStaticBox)="selected item path:")
+($(~/Objects/SelectedItemPathStaticBox/Properties/Position)=((5,5)))
+($(~/Objects/SelectedItemPathStaticBox/Properties/Size)=((120,14)))
+($(~/Objects/SelectedItemPathStaticBox/Properties/Show)=1)
+
+this create staticbox RootPathStaticBox
+($(~/Objects/RootPathStaticBox)="/")
+($(~/Objects/RootPathStaticBox/Font/Name)="arial")
+($(~/Objects/RootPathStaticBox/Font/Size)=20)
+($(~/Objects/RootPathStaticBox/Font/Bold)=1)
+($(~/Objects/RootPathStaticBox/Properties/Position)=((7,21)))
+($(~/Objects/RootPathStaticBox/Properties/Size)=((5,20)))
+($(~/Objects/RootPathStaticBox/Properties/Show)=1)
+
+this create editbox PathEditBox
+($(~/Objects/PathEditBox)="")
+($(~/Objects/PathEditBox/Font/Name)="arial")
+($(~/Objects/PathEditBox/Font/Size)=14)
+($(~/Objects/PathEditBox/Properties/Position)=((15,20)))
+($(~/Objects/PathEditBox/Properties/Size)=((385,20)))
+($(~/Objects/PathEditBox/Properties/Modalframe)=0)
+($(~/Objects/PathEditBox/Properties/Border)=0)
+($(~/Objects/PathEditBox/Properties/Enable)=1)
+($(~/Objects/PathEditBox/Properties/Show)=1)
+((~/Objects/PathEditBox/Events/OnEnter/Script): string="./dbbrowser/OnEnterPath")
+
+this create staticbox DataBaseTreeViewStaticBox
+($(~/Objects/DataBaseTreeViewStaticBox/Font/Name)="arial")
+($(~/Objects/DataBaseTreeViewStaticBox/Font/Size)=14)
+($(~/Objects/DataBaseTreeViewStaticBox)="database tree view:")
+($(~/Objects/DataBaseTreeViewStaticBox/Properties/Position)=((140,45)))
+($(~/Objects/DataBaseTreeViewStaticBox/Properties/Size)=((120,14)))
+($(~/Objects/DataBaseTreeViewStaticBox/Properties/Show)=1)
+
+this create button RefreshButton
+($(~/Objects/RefreshButton/Font/Name)="arial")
+($(~/Objects/RefreshButton/Font/Size)=14)
+($(~/Objects/RefreshButton)="refresh database view")
+($(~/Objects/RefreshButton/Properties/Position)=((5,60)))
+($(~/Objects/RefreshButton/Properties/Size)=((130,20)))
+($(~/Objects/RefreshButton/Properties/Show)=1)
+((~/Objects/RefreshButton/Events/OnLbuttonup/Script): string="./dbbrowser/RefreshTreeView")
+
+this create editbox DataEditBox
+($(~/Objects/DataEditBox)="")
+($(~/Objects/DataEditBox/Font/Name)="arial")
+($(~/Objects/DataEditBox/Font/Size)=14)
+($(~/Objects/DataEditBox/Properties/Position)=((5,105)))
+($(~/Objects/DataEditBox/Properties/Size)=((130,20)))
+($(~/Objects/DataEditBox/Properties/Enable)=1)
+($(~/Objects/DataEditBox/Properties/Show)=1)
+((~/Objects/DataEditBox/Events/OnEnter/Script):string="./dbbrowser/AddNewData")
+
+this create staticbox CurrentValueStaticBox
+($(~/Objects/CurrentValueStaticBox/Font/Name)="arial")
+($(~/Objects/CurrentValueStaticBox/Font/Size)=14)
+($(~/Objects/CurrentValueStaticBox)="curent/new value:")
+($(~/Objects/CurrentValueStaticBox/Properties/Position)=((5,90)))
+($(~/Objects/CurrentValueStaticBox/Properties/Size)=((120,14)))
+($(~/Objects/CurrentValueStaticBox/Properties/Show)=1)
+
+this create staticbox NewNodeNameStaticBox
+($(~/Objects/NewNodeNameStaticBox/Font/Name)="arial")
+($(~/Objects/NewNodeNameStaticBox/Font/Size)=14)
+($(~/Objects/NewNodeNameStaticBox)="new node name (rename):")
+($(~/Objects/NewNodeNameStaticBox/Properties/Position)=((5,220)))
+($(~/Objects/NewNodeNameStaticBox/Properties/Size)=((130,20)))
+($(~/Objects/NewNodeNameStaticBox/Properties/Show)=1)
+
+this create editbox NewNodeNameEditBox
+($(~/Objects/NewNodeNameEditBox/Font/Name)="arial")
+($(~/Objects/NewNodeNameEditBox/Font/Size)=14)
+($(~/Objects/NewNodeNameEditBox)="")
+($(~/Objects/NewNodeNameEditBox/Properties/Position)=((5,240)))
+($(~/Objects/NewNodeNameEditBox/Properties/Size)=((130,20)))
+($(~/Objects/NewNodeNameEditBox/Properties/Enable)=1)
+($(~/Objects/NewNodeNameEditBox/Properties/Show)=1)
+#((~/Objects/NewNodeNameEditBox/Events/OnEnter/Script): string="./dbbrowser/AddNewNode")
+
+this create button AddNewNodeButton
+($(~/Objects/AddNewNodeButton/Font/Name)="arial")
+($(~/Objects/AddNewNodeButton/Font/Size)=14)
+($(~/Objects/AddNewNodeButton)="add new none node")
+($(~/Objects/AddNewNodeButton/Properties/Position)=((5,265)))
+($(~/Objects/AddNewNodeButton/Properties/Size)=((130,20)))
+($(~/Objects/AddNewNodeButton/Properties/Show)=1)
+((~/Objects/AddNewNodeButton/Events/OnLbuttonup/Script): string="./dbbrowser/AddNewNode")
+
+this create button SelectNodeButton
+($(~/Objects/SelectNodeButton/Font/Name)="arial")
+($(~/Objects/SelectNodeButton/Font/Size)=14)
+($(~/Objects/SelectNodeButton)="select node")
+($(~/Objects/SelectNodeButton/Properties/Position)=((5,315)))
+($(~/Objects/SelectNodeButton/Properties/Size)=((130,20)))
+($(~/Objects/SelectNodeButton/Properties/Show)=1)
+((~/Objects/SelectNodeButton/Events/OnLbuttonup/Script): string="./dbbrowser/SelectNode")
+
+this create button CopyNodeButton
+($(~/Objects/CopyNodeButton/Font/Name)="arial")
+($(~/Objects/CopyNodeButton/Font/Size)=14)
+($(~/Objects/CopyNodeButton)="copy node to...")
+($(~/Objects/CopyNodeButton/Properties/Position)=((5,340)))
+($(~/Objects/CopyNodeButton/Properties/Size)=((130,20)))
+($(~/Objects/CopyNodeButton/Properties/Show)=1)
+($(~/Objects/CopyNodeButton/Properties/Enable)=0)
+((~/Objects/CopyNodeButton/Events/OnLbuttonup/Script): string="./dbbrowser/CopyNode")
+
+this create button MoveNodeButton
+($(~/Objects/MoveNodeButton/Font/Name)="arial")
+($(~/Objects/MoveNodeButton/Font/Size)=14)
+($(~/Objects/MoveNodeButton)="move node to...")
+($(~/Objects/MoveNodeButton/Properties/Position)=((5,365)))
+($(~/Objects/MoveNodeButton/Properties/Size)=((130,20)))
+($(~/Objects/MoveNodeButton/Properties/Show)=1)
+($(~/Objects/MoveNodeButton/Properties/Enable)=0)
+((~/Objects/MoveNodeButton/Events/OnLbuttonup/Script): string="./dbbrowser/MoveNode")
+
+this create staticbox NewNodeValueStaticBox
+($(~/Objects/NewNodeValueStaticBox/Font/Name)="arial")
+($(~/Objects/NewNodeValueStaticBox/Font/Size)=14)
+($(~/Objects/NewNodeValueStaticBox)="value:")
+($(~/Objects/NewNodeValueStaticBox/Properties/Position)=((5,390)))
+($(~/Objects/NewNodeValueStaticBox/Properties/Size)=((40,20)))
+($(~/Objects/NewNodeValueStaticBox/Properties/Show)=1)
+
+this create combobox SelectNewNodeValueComboBox
+db define (~/Objects/SelectNewNodeValueComboBox/List/integerType):string="integer"
+db define (~/Objects/SelectNewNodeValueComboBox/List/realType):string="real"
+db define (~/Objects/SelectNewNodeValueComboBox/List/stringType):string="string"
+db define (~/Objects/SelectNewNodeValueComboBox/List/noneType):string="none"
+db define (~/Objects/SelectNewNodeValueComboBox/List/pointerType):string="pointer"
+($(~/Objects/SelectNewNodeValueComboBox/Font/Name)="arial")
+($(~/Objects/SelectNewNodeValueComboBox/Font/Size)=14)
+($(~/Objects/SelectNewNodeValueComboBox/Properties/Position)=((5,410)))
+($(~/Objects/SelectNewNodeValueComboBox/Properties/Size)=((130,200)))
+($(~/Objects/SelectNewNodeValueComboBox/Properties/Show)=1)
+($(~/Objects/SelectNewNodeValueComboBox)="noneType")
+((~/Objects/SelectNewNodeValueComboBox/Events/OnSelectionok/Script): string="./dbbrowser/SelectNewNodeValue")
+
+this create staticbox RowsStatixText
+($(~/Objects/RowsStatixText/Font/Name)="arial")
+($(~/Objects/RowsStatixText/Font/Size)=14)
+($(~/Objects/RowsStatixText)="rows:")
+($(~/Objects/RowsStatixText/Properties/Position)=((5,440)))
+($(~/Objects/RowsStatixText/Properties/Size)=((40,20)))
+($(~/Objects/RowsStatixText/Properties/Show)=1)
+
+this create editbox RowsEditBox
+($(~/Objects/RowsEditBox/Font/Name)="arial")
+($(~/Objects/RowsEditBox/Font/Size)=14)
+($(~/Objects/RowsEditBox)="1")
+($(~/Objects/RowsEditBox/Properties/Type)="Number")
+($(~/Objects/RowsEditBox/Properties/Position)=((60,440)))
+($(~/Objects/RowsEditBox/Properties/Size)=((75,20)))
+($(~/Objects/RowsEditBox/Properties/Enable)=0)
+($(~/Objects/RowsEditBox/Properties/Show)=1)
+
+this create staticbox ColumnsStatixText
+($(~/Objects/ColumnsStatixText/Font/Name)="arial")
+($(~/Objects/ColumnsStatixText/Font/Size)=14)
+($(~/Objects/ColumnsStatixText)="columns:")
+($(~/Objects/ColumnsStatixText/Properties/Position)=((5,465)))
+($(~/Objects/ColumnsStatixText/Properties/Size)=((60,20)))
+($(~/Objects/ColumnsStatixText/Properties/Show)=1)
+
+this create editbox ColumnsEditBox
+($(~/Objects/ColumnsEditBox/Font/Name)="arial")
+($(~/Objects/ColumnsEditBox/Font/Size)=14)
+($(~/Objects/ColumnsEditBox)="1")
+($(~/Objects/ColumnsEditBox/Properties/Type)="Number")
+($(~/Objects/ColumnsEditBox/Properties/Position)=((60,465)))
+($(~/Objects/ColumnsEditBox/Properties/Size)=((75,20)))
+($(~/Objects/ColumnsEditBox/Properties/Enable)=0)
+($(~/Objects/ColumnsEditBox/Properties/Show)=1)
+
+this create button DefineValueButton
+($(~/Objects/DefineValueButton/Font/Name)="arial")
+($(~/Objects/DefineValueButton/Font/Size)=14)
+($(~/Objects/DefineValueButton)="define value")
+($(~/Objects/DefineValueButton/Properties/Position)=((5,490)))
+($(~/Objects/DefineValueButton/Properties/Size)=((130,20)))
+($(~/Objects/DefineValueButton/Properties/Show)=1)
+((~/Objects/DefineValueButton/Events/OnLbuttonup/Script): string="./dbbrowser/DefineValue")
+
+this create button DeleteNodeButton
+($(~/Objects/DeleteNodeButton/Font/Name)="arial")
+($(~/Objects/DeleteNodeButton/Font/Size)=14)
+($(~/Objects/DeleteNodeButton)="delete node !")
+($(~/Objects/DeleteNodeButton/Properties/Position)=((5,515)))
+($(~/Objects/DeleteNodeButton/Properties/Size)=((130,20)))
+($(~/Objects/DeleteNodeButton/Font/Name)="arial")
+($(~/Objects/DeleteNodeButton/Font/Size)=14)
+($(~/Objects/DeleteNodeButton/Font/Bold)=1)
+($(~/Objects/DeleteNodeButton/Properties/Show)=1)
+((~/Objects/DeleteNodeButton/Events/OnLbuttonup/Script): string="./dbbrowser/DeleteNode")
+
+this create button DeleteObjectButton
+($(~/Objects/DeleteObjectButton/Font/Name)="arial")
+($(~/Objects/DeleteObjectButton/Font/Size)=14)
+($(~/Objects/DeleteObjectButton)="delete object !!!")
+($(~/Objects/DeleteObjectButton/Properties/Position)=((5,540)))
+($(~/Objects/DeleteObjectButton/Properties/Size)=((130,20)))
+($(~/Objects/DeleteObjectButton/Font/Name)="arial")
+($(~/Objects/DeleteObjectButton/Font/Size)=14)
+($(~/Objects/DeleteObjectButton/Font/Bold)=1)
+($(~/Objects/DeleteObjectButton/Properties/Show)=1)
+((~/Objects/DeleteObjectButton/Events/OnLbuttonup/Script): string="./dbbrowser/DeleteObject")
+
+this create filedialog LoadSaveFileDialog
+($(~/Objects/LoadSaveFileDialog/Properties/Filter)="db files (*.db)|*.db| all files (*.*)|*.*||")
+((~/Objects/LoadSaveFileDialog/Events/OnOpenSave/Script): string="./dbbrowser/LoadOrSaveNode")
+
+this create button SaveNodeToFileButton
+($(~/Objects/SaveNodeToFileButton/Font/Name)="arial")
+($(~/Objects/SaveNodeToFileButton/Font/Size)=14)
+($(~/Objects/SaveNodeToFileButton)="save node to \"*.db\" file")
+($(~/Objects/SaveNodeToFileButton/Properties/Position)=((5,130)))
+($(~/Objects/SaveNodeToFileButton/Properties/Size)=((130,20)))
+($(~/Objects/SaveNodeToFileButton/Font/Name)="arial")
+($(~/Objects/SaveNodeToFileButton/Font/Size)=14)
+($(~/Objects/SaveNodeToFileButton/Properties/Show)=1)
+((~/Objects/SaveNodeToFileButton/Events/OnLbuttonup/Script): string="./dbbrowser/SaveNodeToFile")
+
+this create button LoadNodeFromFileButton
+($(~/Objects/LoadNodeFromFileButton/Font/Name)="arial")
+($(~/Objects/LoadNodeFromFileButton/Font/Size)=14)
+($(~/Objects/LoadNodeFromFileButton)="load node from \"*.db\" file")
+($(~/Objects/LoadNodeFromFileButton/Properties/Position)=((5,155)))
+($(~/Objects/LoadNodeFromFileButton/Properties/Size)=((130,20)))
+($(~/Objects/LoadNodeFromFileButton/Font/Name)="arial")
+($(~/Objects/LoadNodeFromFileButton/Font/Size)=14)
+($(~/Objects/LoadNodeFromFileButton/Properties/Show)=1)
+((~/Objects/LoadNodeFromFileButton/Events/OnLbuttonup/Script): string="./dbbrowser/LoadNodeFromFile")
+
+this create button RenameNodeButton
+($(~/Objects/RenameNodeButton/Font/Name)="arial")
+($(~/Objects/RenameNodeButton/Font/Size)=14)
+($(~/Objects/RenameNodeButton)="rename node")
+($(~/Objects/RenameNodeButton/Properties/Position)=((5,290)))
+($(~/Objects/RenameNodeButton/Properties/Size)=((130,20)))
+($(~/Objects/RenameNodeButton/Font/Name)="arial")
+($(~/Objects/RenameNodeButton/Font/Size)=14)
+($(~/Objects/RenameNodeButton/Properties/Show)=1)
+((~/Objects/RenameNodeButton/Events/OnLbuttonup/Script): string="./dbbrowser/RenameNode")
+
+this create treeview DataBaseTreeView
+($(~/Objects/DataBaseTreeView/Font/Name)="arial")
+($(~/Objects/DataBaseTreeView/Font/Size)=14)
+($(~/Objects/DataBaseTreeView)="/")
+($(~/Objects/DataBaseTreeView/Properties/Position)=((140,60)))
+($(~/Objects/DataBaseTreeView/Properties/Size)=((330,704)))
+#($(~/Objects/DataBaseTreeView/Properties/Size)=$(/dbbrowser/Properties/Size))
+# ($[0](~/Objects/DataBaseTreeView/Properties/Size)=$[0](/dbbrowser/Properties/Size))
+# ($[0](~/Objects/DataBaseTreeView/Properties/Size)-=110)
+($(~/Objects/DataBaseTreeView/Properties/Show)=1)
+((~/Objects/DataBaseTreeView/Events/OnChar/Script): string="./dbbrowser/OnEvent")
+((~/Objects/DataBaseTreeView/Events/OnLbuttonclksel/Script): string="./dbbrowser/OnEvent")
+((~/Objects/DataBaseTreeView/Events/OnUpkey/Script):string="./dbbrowser/OnEvent")
+((~/Objects/DataBaseTreeView/Events/OnDownkey/Script):string="./dbbrowser/OnEvent")
+((~/Objects/DataBaseTreeView/Events/OnLeftkey/Script):string="./dbbrowser/OnEvent")
+((~/Objects/DataBaseTreeView/Events/OnRightkey/Script):string="./dbbrowser/OnEvent")
+
+db define (~/Clipboard):string=""
+db define (~/Path):string="/"
+db define (~/LoadSaveID):string=""
+db define (~/Clipboard/TmpNode):none
+
+
+#echo = end DBBrowserFunc.scr script
+return
