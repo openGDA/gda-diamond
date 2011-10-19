@@ -10,19 +10,18 @@ root severity = -debug
 #root clear
 #echo = begin RefreshTreeView.scr script
 
-
-($(~/Objects/DataEditBox)="")	
+db sort /
+($(~/Objects/DataEditBox)="")
 #if ($(~/Path)=="/") jmp refresh1
 if ($(~/Objects/PathEditBox)=="") jmp refresh1
-	($(~/Objects/DataBaseTreeView)="/")	
+	($(~/Objects/DataBaseTreeView)=Concat("/"))
 	($(~/Objects/DataBaseTreeView/Properties/Expand)=$(~/Path))
 	jmp End
 label refresh1
 	($(~/Objects/DataBaseTreeView)="/")
-
 label End
 echo = data base tree view refreshed
 
-
 #echo = end RefreshTreeView.scr script
 return
+

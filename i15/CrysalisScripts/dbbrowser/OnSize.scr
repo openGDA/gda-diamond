@@ -1,6 +1,8 @@
-#OnSize.scr
+#OnSize.scr dbbrowser/OnSize
 #20070524
 #sebastian kaluzka (sebastian.kaluzka@oxford-diffraction.com)
+#20070720
+#modified by aw
 
 
 #mode echo
@@ -15,16 +17,23 @@ root severity = -debug
 ((DialogSize):integer[2])
 ($(DialogSize)=$(~/Properties/Size))
 
-($[0](~/Objects/PathEditBox/Properties/Size)=$[0](DialogSize))
-($[0](~/Objects/PathEditBox/Properties/Size)-=$[0](~/Objects/PathEditBox/Properties/Position))
+((tmpv):integer)
+
+($(tmpv)=$[0](DialogSize))
+($(tmpv)-=$[0](~/Objects/PathEditBox/Properties/Position))
+($(tmpv)-=12)
+($[0](~/Objects/PathEditBox/Properties/Size)=$(tmpv))
+
+($(tmpv)=$[0](DialogSize))
+($(tmpv)-=$[0](~/Objects/DataEditBox/Properties/Position))
+($(tmpv)-=12)
+($[0](~/Objects/DataEditBox/Properties/Size)=$(tmpv))
 
 ($[0](DialogSize)-=$[0](~/Objects/DataBaseTreeView/Properties/Position))
-($[0](DialogSize)-=10)
-($[0](~/Objects/DataBaseTreeView/Properties/Size)=$[0](DialogSize))
-
+($[0](DialogSize)-=12)
 ($[1](DialogSize)-=$[1](~/Objects/DataBaseTreeView/Properties/Position))
-($[1](DialogSize)-=35)
-($[1](~/Objects/DataBaseTreeView/Properties/Size)=$[1](DialogSize))
+($[1](DialogSize)-=37)
+($(~/Objects/DataBaseTreeView/Properties/Size)=$(DialogSize))
 
 
 #echo = end OnSize.scr script
