@@ -164,7 +164,7 @@ class ISCCD:
 			if self.correctionVals[corr]:
 				paramStr += '1' + " "
 			else:
-			    paramStr += '0' + " "
+				paramStr += '0' + " "
 		
 		return paramStr + `self.exportAll` + " " + `self.subtractDark` + " " + `self.exportCompressed`
 	
@@ -508,11 +508,12 @@ class ISCCD:
 				file.close()
 		simpleLog("Successful read image of size " + `datalen`)
 
-	def plot(self,filename):
+	def plot(self,filename=""):
 		simpleLog("Plotting " + self.name + " image " + filename)
 		data = ScanFileHolder()
-		data.load(CrysalisLoader(), filename)
+		data.load(CrysalisLoader(filename))
 		Plotter.plotImage("Data Vector",data[0])
+		RCPPlotter.imagePlot("Plot 1",data[0])
 
 	def flush(self):
 		#simpleLog(self.name + " flush, please wait...")
@@ -550,19 +551,15 @@ class Atlas(ISCCD):
 		ISCCD.__init__(self, ccd)
 		self.name = "atlas"
 		# IS scripts:
+		self.setDetectorDist_script        = "setDetectorDist"
+		self.setFloodFile_script           = "setFloodFile_atlas"
+		self.expose_script                 = "expose_atlas"
 		self.expsSaveIntensityA_script     = "smi_exps1_atlas" 
 		self.expsSaveIntensityB_script     = "smi_exps2_atlas"
 		self.correlateDark_script          = "correlateDark_atlas"
 		self.smi_xps_script                = "smi_xps_atlas"
 
-	def setDetectorDist(self, newDist, file=""):
-		raise "Atlas support for setDetectorDist() has not been tested."
-
-	def setFloodFile(self, newFile):
-		raise "Atlas support for setFloodFile() has not been tested."
-
-	def expose(self,time,fileName):
-		raise "Atlas support for expose() has not been tested."
+		self.floodFile = "lib/bin/crysalis/floodmo_a_80_calib_090311.ffiinffit"
 
 	def exps(self,fileName,time,geometry):
 		raise "Atlas support for exps() has not been tested."

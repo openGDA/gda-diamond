@@ -144,6 +144,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 		self.setInputNames(["exposure time"])
 		self.overflow=overflow
 		self.multiFactor=multiFactor
+		self.detectorName="Unknown"
 		
 		if self.axis:
 			self.setOutputFormat(["%2d", "%2d", "%s"])
@@ -186,9 +187,17 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 		else:
 			runUp = -1*(velocity / 10)
 		
+		if not self.axis:
+			simpleLog("ERROR: %s does not support expose()" % self.detectorName)
+		elif not self.sync:
+			simpleLog("Warning: %s does not support " % self.detectorName) + \
+				"rockScan() and will do the equivalent of a simpleScan instead"
+		
 		if self.axis.getName() == "dktheta":
 			runUp = runUp * 2
 		
+		simpleLog("performMove %r runUp %r" % (self.axis, runUp))
+
 		for exp in range(self.noOfExpPerPos):
 			
 			self.isccd.flush()

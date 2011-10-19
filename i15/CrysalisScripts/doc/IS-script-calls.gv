@@ -23,6 +23,8 @@ digraph G {
   Atlas				[shape=box3d style=bold color=green];
   Ruby				[shape=box3d style=bold color=red];
 
+  Atlas -> setDetectorDist
+  Atlas -> setFloodFile_atlas
   Atlas -> expose_atlas 
   Atlas -> smi_exps1_atlas 
   Atlas -> smi_exps2_atlas
@@ -150,6 +152,8 @@ digraph G {
 
   setFloodFile -> import_cfg
 
+  setFloodFile_atlas -> import_cfg
+
   setDetectorDist -> importAndCorrect
 
   single_img_cor -> darkcurrent
@@ -190,6 +194,7 @@ digraph G {
   Img_Cut		[style=bold color=green]
   initialise		[style=bold color=green]
   sh			[style=bold color=green]
+  setFloodFile_atlas	[style=bold color=green]
 
 #   Contains "call Image_Start"
   expose_atlas		[style=bold color=green]
@@ -258,6 +263,10 @@ digraph G {
   smi_exps        	[style=bold color=red]
   smi_exps1       	[style=bold color=red]
   xx_is           	[style=bold color=red]
+
+#   Other Ruby specific scripts
+
+  setFloodFile    	[style=bold color=red]
 
 #   Ruby specific scripts called
 
