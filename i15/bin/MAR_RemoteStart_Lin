@@ -1,9 +1,19 @@
 #!/bin/bash
 
+# This requires generation of ssh keys and copying the public key to the
+# authorized_keys file in the server.
+#
+# Please refer to the document howtoSSH.txt for key generation.
+
 echo "REMOTE Logging into MAR"
+echo "======================="
+echo " "
+echo "Mounting /dls/i15..."
 
-ssh root@i15-mar01 mount -a i15-storage:/exports/data /dls/i15 
+ssh -i /dls_sw/i15/software/gda/i15-config/i15ssh.key root@i15-mar01 mount -a i15-storage:/exports/data /dls/i15 
 
-#ssh -X -i /dls_sw/i15/software/gda/i15-config/i15ssh.key gda@i15-mar01.diamond.ac.uk mar345
+echo "======================="
+echo " "
+echo "Starting mar345..."
+
 ssh -X -i /dls_sw/i15/software/gda/i15-config/i15ssh.key i15detector@i15-mar01 mar345
-#ssh -X i15detector@i15-mar01 mar345
