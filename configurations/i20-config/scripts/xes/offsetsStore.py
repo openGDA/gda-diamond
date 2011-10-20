@@ -112,4 +112,3 @@ def viewcurrent():
             offset = [0]
         offset = offset[0]
         print "%20s : %.2f" % (name, offset)
-    

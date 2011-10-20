@@ -115,4 +115,3 @@ def _calcOffset(name,expectedReadback):
     newOffset = expectedReadback - (readback - currentOffset)
     
     return newOffset
-    
