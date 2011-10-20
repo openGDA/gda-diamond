@@ -27,9 +27,9 @@
 
 
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
-		<property name="numberOfMca" value="4" />
+		<property name="numberOfMca" value="1" />
 		<property name="numberOfBins" value="1024" />
-		<property name="numberOfROIs" value="10" />
+<!-- 		<property name="numberOfROIs" value="5" /> -->
 		<property name="local" value="true" />
 	</bean>
 
@@ -79,6 +79,7 @@
 				<value>I0</value>
 				<value>It</value>
 				<value>Iref</value>
+				<value>I1</value>
 				<value>lnI0It</value>
 				<value>lnItIref</value>
 			</list>
@@ -93,6 +94,7 @@
 		<property name="outputFormat">
 			<list>
 				<value>%6.4g</value>
+				<value>%9d</value>
 				<value>%9d</value>
 				<value>%9d</value>
 				<value>%9d</value>
@@ -126,7 +128,7 @@
 		<property name="tfg" ref="tfg" />
 	</bean>
 
-	<bean id="If" class="gda.device.detector.XesIf">
+	<bean id="I1" class="gda.device.detector.XesIf">
 		<property name="xmap" ref="xmapMca" />
 		<property name="gdhist" ref="CalMemory" />
 		<property name="scaler" ref="ionchambers" />
@@ -138,7 +140,7 @@
 		<property name="counterTimer" ref="ionchambers" />
 		<property name="i0_channel" value="0"/>
 	</bean>
-	
+
 <!-- 	<bean id="cirrus" class="uk.ac.gda.devices.cirrus.CirrusDetector"> -->
 <!-- 		<property name="cirrusHost" value="diamrl5244" /> -->
 <!-- 	</bean> -->
