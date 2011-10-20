@@ -3,11 +3,8 @@ from gda.exafs.xes import XesUtils
 from BeamlineParameters import JythonNameSpaceMapping
 from xes import setOffsets
 
-def calcFromLive():
+def calcFromLive(fluo_energy):
     jython_mapper = JythonNameSpaceMapping()
-    spectrometer = jython_mapper.spectrometer
-
-    current_energy = jython_mapper.bragg1()
     
     # current radius, material, cut1/2/3
     current_material = jython_mapper.material()
@@ -17,15 +14,15 @@ def calcFromLive():
     current_crystalCut = [current_crystalCut0,current_crystalCut1,current_crystalCut2]
     current_rowlandRadius = float(jython_mapper.radius())
     
-    return calcFromValues(current_energy, current_material, current_crystalCut, current_rowlandRadius)
+    return calcFromValues(fluo_energy, current_material, current_crystalCut, current_rowlandRadius)
 
-def calcFromValues(energy, material, crystalCut, rowlandRadius):
+def calcFromValues(fluo_energy, material, crystalCut, rowlandRadius):
 
     xesmaterial = XesUtils.XesMaterial.GERMANIUM
     if material == 1:
         xesmaterial = XesUtils.XesMaterial.SILICON
         
-    bragg = XesUtils.getBragg(energy,xesmaterial,crystalCut)
+    bragg = XesUtils.getBragg(fluo_energy,xesmaterial,crystalCut)
     
     analyserAngle = XesUtils.getCrystalRotation(bragg)
     
