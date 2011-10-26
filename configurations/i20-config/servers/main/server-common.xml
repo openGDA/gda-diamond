@@ -11,8 +11,6 @@
 
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 
-	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
-
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location"
