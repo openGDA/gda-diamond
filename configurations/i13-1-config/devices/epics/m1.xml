@@ -8,7 +8,7 @@
 		<property name="local" value="true" />
 	</bean>
 	<bean id="m1_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="m1.pitch" />
+		<property name="deviceName" value="m1.combpitch" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="m1_x_motor" class="gda.device.motor.EpicsMotor">

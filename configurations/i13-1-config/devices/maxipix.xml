@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+
+	<bean id="__limaCCD" class="gda.device.lima.impl.LimaCCDImpl">
+		<property name="tangoDeviceProxy">
+			<bean class="gda.device.TangoDeviceProxy">
+			<constructor-arg ref="limaTangoDevice"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="__maxiPix2" class="gda.device.maxipix2.impl.MaxiPix2Impl">
+		<property name="tangoDeviceProxy">
+			<bean class="gda.device.TangoDeviceProxy">
+			<constructor-arg ref="maxiPixTangoDevice"/>
+			</bean>
+		</property>
+	</bean>	
+
+	<bean id="__maxiPix2MultiFrameDetector" class="gda.device.detector.maxipix2.MaxiPix2MultiFrameDetector">
+		<property name="limaCCD" ref="__limaCCD" />
+		<property name="maxiPix2" ref="__maxiPix2" />
+	</bean>
+
+	<bean id="mpx" class="gda.device.detector.maxipix2.MaxiPix2NexusDetector">
+		<property name="maxiPix2MultiFrameDetector" ref="__maxiPix2MultiFrameDetector" />
+	</bean>
+	
+	<!-- Not used as the preferred mode is accumulation with 1 image per many exposures 
+	bean id="maxiPix2RepScanNexusDetector" class="gda.device.detector.maxipix2.MaxiPix2RepScanNexusDetector">
+		<property name="maxiPix2MultiFrameDetector" ref="maxiPix2MultiFrameDetector" />
+	</bean-->
+</beans>
+

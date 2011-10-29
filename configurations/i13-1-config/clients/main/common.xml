@@ -24,8 +24,8 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 	<bean id="imageFileDisplayer" class="uk.ac.gda.dls.client.views.ImageFileDisplayer">
-		<property name="viewName" value="Detector Image Plot"/>
-		<property name="viewID" value="gda.rcp.mx.views.ImagePlot"/>
+		<property name="viewName" value="Detector Image"/>
+		<property name="viewID" value="uk.ac.gda.beamline.i13j.DetectorPlot"/>
 	</bean>
 
 	

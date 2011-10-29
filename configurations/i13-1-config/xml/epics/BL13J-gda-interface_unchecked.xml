@@ -1,9 +1,254 @@
 <?xml version="1.0" ?>
-<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2008-3/gdaApp/src/genericBeamlineSchema.xsd">
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2011-6/gdaApp/src/genericBeamlineSchema.xsd">
 	<simpleMbbinary desc="Front End Shutter 1" name="FE.SHTR1">
-		<RECORD desc="Status" pv="FE13I-PS-SHTR-01:STA" ro="true" type="mbbinary"/>
+		<RECORD desc="Status" pv="FE13I-PS-SHTR-01:STA" ro="true" type="mbbinary" />
 	</simpleMbbinary>
 	<simpleMbbinary desc="Front End Shutter 2" name="FE.SHTR2">
-		<RECORD desc="Status" pv="FE13I-PS-SHTR-02:STA" ro="true" type="mbbinary"/>
+		<RECORD desc="Status" pv="FE13I-PS-SHTR-02:STA" ro="true" type="mbbinary" />
 	</simpleMbbinary>
+
+	<simpleMotor desc="Front end slits x size" name="fes1.xsize">
+		<RECORD desc="Motor" pv="FE13J-AL-SLITS-01:X:SIZE" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="Front end slits x center" name="fes1.xcenter">
+		<RECORD desc="Motor" pv="FE13J-AL-SLITS-01:X:CENTER" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="Front end slits y size" name="fes1.ysize">
+		<RECORD desc="Motor" pv="FE13J-AL-SLITS-01:Y:SIZE" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="Front end slits y center" name="fes1.ycenter">
+		<RECORD desc="Motor" pv="FE13J-AL-SLITS-01:Y:CENTER" ro="false"
+			type="motor" />
+	</simpleMotor>
+
+	<simpleMbbinary desc="Fast Mask J Branch" name="fastmask.shtr">
+		<RECORD desc="Status" pv="BL13I-VA-FMASK-02:STA" ro="true"
+			type="mbbinary" />
+	</simpleMbbinary>
+
+	<simpleMotor desc="Filter1" name="filter1">
+		<RECORD desc="Motor" pv="BL13J-OP-ATTN-01:F1" ro="false" type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="Filter2" name="filter2">
+		<RECORD desc="Motor" pv="BL13J-OP-ATTN-01:F2" ro="false" type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="Filter3" name="filter3">
+		<RECORD desc="Motor" pv="BL13J-OP-ATTN-01:F3" ro="false" type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="Filter4" name="filter4">
+		<RECORD desc="Motor" pv="BL13J-OP-ATTN-01:F4" ro="false" type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="Filter5" name="filter5">
+		<RECORD desc="Motor" pv="BL13J-OP-ATTN-01:F5" ro="false" type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="Filter6 vert" name="filter6_vert">
+		<RECORD desc="Motor" pv="BL13J-OP-ATTN-01:F6:Y" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="Filter6 rotation" name="filter6_rot">
+		<RECORD desc="Motor" pv="BL13J-OP-ATTN-01:F6:ROT" ro="false"
+			type="motor" />
+	</simpleMotor>
+
+	<simpleMotor desc="Diagnostic stick 1 X" name="d1.x">
+		<RECORD desc="Motor" pv="BL13J-DI-PHDGN-01:X" ro="false" type="motor" />
+	</simpleMotor>
+
+	<simpleMotor desc="Diagnostic stick 2 X" name="d2.x">
+		<RECORD desc="Motor" pv="BL13J-DI-PHDGN-02:X" ro="false" type="motor" />
+	</simpleMotor>
+
+	<!-- Optics Hutch 2 -->
+	<simpleMotor desc="OH2 slits x size" name="s2.xsize">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-02:X:SIZE" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="OH2 slits x center" name="s2.xcenter">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-02:X:CENTER" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="OH2 slits y size" name="s2.ysize">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-02:Y:SIZE" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="OH2 slits y center" name="s2.ycenter">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-02:Y:CENTER" ro="false"
+			type="motor" />
+	</simpleMotor>
+
+	<simpleMotor desc="OH2 slits y plus" name="s2.yplus">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-02:Y:PLUS" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="OH2 slits y minus" name="s2.yminus">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-02:Y:MINUS" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="OH2 slits x plus" name="s2.xplus">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-02:X:PLUS" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="OH2 slits x minus" name="s2.xminus">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-02:X:MINUS" ro="false"
+			type="motor" />
+	</simpleMotor>
+
+
+
+	<simpleMotor desc="Diagnostic stick 3 X" name="d3.x">
+		<RECORD desc="Motor" pv="BL13J-DI-PHDGN-03:X" ro="false" type="motor" />
+	</simpleMotor>
+
+
+	<!-- Optics Hutch 4 -->
+	<pneumaticCallback desc="Optics Hutch 4 (QCM) Shutter"
+		name="OH4.SHTR1">
+		<CONTROL desc="CONTROL" pv="BL13J-PS-SHTR-01:CON" ro="false"
+			type="mbbinary" />
+		<STA desc="STA" pv="BL13J-PS-SHTR-01:STA" ro="true" type="mbbinary" />
+	</pneumaticCallback>
+
+
+
+	<simpleMotor desc="QCM Bragg1" name="qcm.bragg1">
+		<RECORD desc="Motor" pv="BL13J-OP-QCM-01:CAGE1:BRAGG" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="QCM Pitch1" name="qcm.pitch1">
+		<RECORD desc="Motor" pv="BL13J-OP-QCM-01:CAGE1:PITCH" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="QCM Roll1" name="qcm.roll1">
+		<RECORD desc="Motor" pv="BL13J-OP-QCM-01:CAGE1:ROLL" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="QCM Bragg2" name="qcm.bragg2">
+		<RECORD desc="Motor" pv="BL13J-OP-QCM-01:CAGE2:BRAGG" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="QCM Pitch2" name="qcm.pitch2">
+		<RECORD desc="Motor" pv="BL13J-OP-QCM-01:CAGE2:PITCH" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="QCM Roll2" name="qcm.roll2">
+		<RECORD desc="Motor" pv="BL13J-OP-QCM-01:CAGE2:ROLL" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="QCM X" name="qcm.x">
+		<RECORD desc="Motor" pv="BL13J-OP-QCM-01:X" ro="false" type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="QCM Y" name="qcm.y">
+		<RECORD desc="Motor" pv="BL13J-OP-QCM-01:Y" ro="false" type="motor" />
+	</simpleMotor>
+
+	<!-- Experimental Hutch -->
+	<pneumaticCallback desc="Experiment Hutch Shutter"
+		name="EH.SHTR1">
+		<CONTROL desc="CONTROL" pv="BL13J-PS-SHTR-02:CON" ro="false"
+			type="mbbinary" />
+		<STA desc="STA" pv="BL13J-PS-SHTR-02:STA" ro="true" type="mbbinary" />
+	</pneumaticCallback>
+
+	<simpleMotor desc="Diagnostic stick 4 X" name="d4.x">
+		<RECORD desc="Motor" pv="BL13J-DI-PHDGN-05:X" ro="false" type="motor" />
+	</simpleMotor>
+
+
+	<!-- Experimental Hutch Slits 1 -->
+	<simpleMotor desc="EH slits 1 x size" name="s4.xsize">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-04:X:SIZE" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="EH slits 1 x center" name="s4.xcenter">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-04:X:CENTER" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="EH slits 1 y size" name="s4.ysize">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-04:Y:SIZE" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="EH slits 1 y center" name="s4.ycenter">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-04:Y:CENTER" ro="false"
+			type="motor" />
+	</simpleMotor>
+
+	<simpleMotor desc="EH slits 1 y plus" name="s4.yplus">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-04:Y:PLUS" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="EH slits 1 y minus" name="s4.yminus">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-04:Y:MINUS" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="EH slits 1 x plus" name="s4.xplus">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-04:X:PLUS" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="EH slits 1 x minus" name="s4.xminus">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-04:X:MINUS" ro="false"
+			type="motor" />
+	</simpleMotor>
+
+	<!-- Experimental Hutch Slits 2 -->
+	<simpleMotor desc="EH slits 2 x size" name="s5.xsize">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-05:X:SIZE" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="EH slits 2 x center" name="s5.xcenter">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-05:X:CENTER" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="EH slits 2 y size" name="s5.ysize">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-05:Y:SIZE" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="EH slits 2 y center" name="s5.ycenter">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-05:Y:CENTER" ro="false"
+			type="motor" />
+	</simpleMotor>
+
+	<simpleMotor desc="EH slits 2 y plus" name="s5.yplus">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-05:Y:PLUS" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="EH slits 2 y minus" name="s5.yminus">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-05:Y:MINUS" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="EH slits 2 x plus" name="s5.xplus">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-05:X:PLUS" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="EH slits 2 x minus" name="s5.xminus">
+		<RECORD desc="Motor" pv="BL13J-AL-SLITS-05:X:MINUS" ro="false"
+			type="motor" />
+	</simpleMotor>
+
+
+	<simpleMotor desc="SmarAct Sample Stage X" name="smaract.x">
+		<RECORD desc="Motor" pv="BL13J-MO-STAGE-02:X" ro="false" type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="SmarAct Sample Stage Y" name="smaract.y">
+		<RECORD desc="Motor" pv="BL13J-MO-STAGE-02:Y" ro="false" type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="SmarAct Sample Stage Z" name="smaract.z">
+		<RECORD desc="Motor" pv="BL13J-MO-STAGE-02:Z" ro="false" type="motor" />
+	</simpleMotor>
+
+
+	<simpleMotor desc="Alignment Scope X" name="alignment.x">
+		<RECORD desc="Motor" pv="BL13J-OP-SCOPE-01:X" ro="false" type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="Alignment Scope Y" name="alignment.y">
+		<RECORD desc="Motor" pv="BL13J-OP-SCOPE-01:Y" ro="false" type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="Alignment Scope Z" name="alignment.z">
+		<RECORD desc="Motor" pv="BL13J-OP-SCOPE-01:Z" ro="false" type="motor" />
+	</simpleMotor>
+
+
 </devices>

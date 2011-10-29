@@ -38,7 +38,7 @@
 		</property>
 		<property name="dummyMode" value="true"></property>
 	</bean>	
-	
+
 	<import resource="../../../devices/dummy/fes1_motors.xml"/>
 	<import resource="../../../devices/dummy/frontend_shutters.xml"/>
 	<import resource="../../../devices/dummy/absorbers.xml"/>
@@ -58,6 +58,9 @@
 	<import resource="../../../devices/dummy/scope1_motors.xml"/>
 	<import resource="../../../devices/dummy/t1_motors.xml"/>
 	<import resource="../../../devices/dummy/z1_motors.xml"/>
+
+	<import resource="../../../devices/dummy/maxipix_tango.xml"/>
+	
 	<import resource="../common.xml"/>	
 	
 </beans>

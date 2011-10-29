@@ -8,10 +8,16 @@
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
 
-	<bean id="d4_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="d4_x_motor" />
-		<property name="userUnits" value="mm"/>
+	<bean id="alignmemt_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="alignment_x_motor" />
 	</bean>
+	<bean id="alignmemt_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="alignment_x_motor" />
+	</bean>
+	<bean id="alignmemt_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="alignment_x_motor" />
+	</bean>
+	
 	
 </beans>
 

@@ -4,7 +4,7 @@
 	<property file="${gda.config}/properties/${gda.mode}/java.properties" />
 	<property file="${gda.config}/properties/java.properties" />
     <!-- Socket for forwarding log message to LogPanel in GDA Client or other viewers -->
-    <appender name="LogPanel" class="ch.qos.logback.classic.net.SocketAppender">
+    <appender name="LogPanel1" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>${gda.workstation1}</RemoteHost>
         <Port>6789</Port>
         <ReconnectionDelay>10000</ReconnectionDelay>
@@ -14,7 +14,7 @@
 	      <level>INFO</level>
 	    </filter>        
     </appender>
-    <appender name="LogPanelApp" class="ch.qos.logback.classic.net.SocketAppender">
+    <appender name="LogPanelApp1" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>${gda.workstation1}</RemoteHost>
         <Port>6790</Port>
         <ReconnectionDelay>10000</ReconnectionDelay>
@@ -25,8 +25,72 @@
 	    </filter>        
     </appender>
     
-    <appender name="LogbackPlugin" class="ch.qos.logback.classic.net.SocketAppender">
+    <appender name="LogbackPlugin1" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>${gda.workstation1}</RemoteHost>
+        <Port>4321</Port>
+        <ReconnectionDelay>10000</ReconnectionDelay>
+        <IncludeCallerData>true</IncludeCallerData>
+	    <!-- deny all events with a level below INFO, that is TRACE and DEBUG -->
+	    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+	      <level>INFO</level>
+	    </filter>        
+    </appender>
+
+    <appender name="LogPanel2" class="ch.qos.logback.classic.net.SocketAppender">
+        <RemoteHost>${gda.workstation2}</RemoteHost>
+        <Port>6789</Port>
+        <ReconnectionDelay>10000</ReconnectionDelay>
+        <IncludeCallerData>true</IncludeCallerData>
+	    <!-- deny all events with a level below INFO, that is TRACE and DEBUG -->
+	    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+	      <level>INFO</level>
+	    </filter>        
+    </appender>
+    <appender name="LogPanelApp2" class="ch.qos.logback.classic.net.SocketAppender">
+        <RemoteHost>${gda.workstation2}</RemoteHost>
+        <Port>6790</Port>
+        <ReconnectionDelay>10000</ReconnectionDelay>
+        <IncludeCallerData>true</IncludeCallerData>
+	    <!-- deny all events with a level below INFO, that is TRACE and DEBUG -->
+	    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+	      <level>INFO</level>
+	    </filter>        
+    </appender>
+    
+    <appender name="LogbackPlugin2" class="ch.qos.logback.classic.net.SocketAppender">
+        <RemoteHost>${gda.workstation2}</RemoteHost>
+        <Port>4321</Port>
+        <ReconnectionDelay>10000</ReconnectionDelay>
+        <IncludeCallerData>true</IncludeCallerData>
+	    <!-- deny all events with a level below INFO, that is TRACE and DEBUG -->
+	    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+	      <level>INFO</level>
+	    </filter>        
+    </appender>
+
+    <appender name="LogPanel4" class="ch.qos.logback.classic.net.SocketAppender">
+        <RemoteHost>${gda.workstation4}</RemoteHost>
+        <Port>6789</Port>
+        <ReconnectionDelay>10000</ReconnectionDelay>
+        <IncludeCallerData>true</IncludeCallerData>
+	    <!-- deny all events with a level below INFO, that is TRACE and DEBUG -->
+	    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+	      <level>INFO</level>
+	    </filter>        
+    </appender>
+    <appender name="LogPanelApp4" class="ch.qos.logback.classic.net.SocketAppender">
+        <RemoteHost>${gda.workstation4}</RemoteHost>
+        <Port>6790</Port>
+        <ReconnectionDelay>10000</ReconnectionDelay>
+        <IncludeCallerData>true</IncludeCallerData>
+	    <!-- deny all events with a level below INFO, that is TRACE and DEBUG -->
+	    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+	      <level>INFO</level>
+	    </filter>        
+    </appender>
+    
+    <appender name="LogbackPlugin4" class="ch.qos.logback.classic.net.SocketAppender">
+        <RemoteHost>${gda.workstation4}</RemoteHost>
         <Port>4321</Port>
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
@@ -51,9 +115,15 @@
     </logger>  
     <root>
         <level value="ALL"/>
-        <appender-ref ref="LogPanel"/>
-        <appender-ref ref="LogPanelApp"/>
-        <appender-ref ref="LogbackPlugin"/>
+        <appender-ref ref="LogPanel1"/>
+        <appender-ref ref="LogPanelApp1"/>
+        <appender-ref ref="LogbackPlugin1"/>
+        <appender-ref ref="LogPanel2"/>
+        <appender-ref ref="LogPanelApp2"/>
+        <appender-ref ref="LogbackPlugin2"/>
+        <appender-ref ref="LogPanel4"/>
+        <appender-ref ref="LogPanelApp4"/>
+        <appender-ref ref="LogbackPlugin4"/>
         <appender-ref ref="LogFile"/>
     </root>
 </configuration>

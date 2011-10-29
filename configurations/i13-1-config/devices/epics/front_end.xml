@@ -45,4 +45,9 @@
 	<bean id="fshtr2" class="gda.device.enumpositioner.EpicsSimpleMbbinary"> 
 		<property name="deviceName" value="FE.SHTR2" /> 
 	</bean>  
+	
+	<bean id="fastmask" class="gda.device.enumpositioner.EpicsSimpleMbbinary"> 
+		<property name="deviceName" value="fastmask.shtr" /> 
+	</bean>  
+	
 </beans>	

@@ -8,10 +8,19 @@
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
 
-	<bean id="d4_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="d4_x_motor" />
-		<property name="userUnits" value="mm"/>
+	<bean id="smaract_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smaract_x_motor" />
+		<property name="userUnits" value="micron"/>
 	</bean>
+	<bean id="smaract_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smaract_y_motor" />
+		<property name="userUnits" value="micron"/>
+	</bean>
+	<bean id="smaract_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smaract_z_motor" />
+		<property name="userUnits" value="micron"/>
+	</bean>
+	
 	
 </beans>
 

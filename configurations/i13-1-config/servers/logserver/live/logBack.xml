@@ -28,7 +28,7 @@
     </logger>
 
     <root>
-        <level value="WARN" />
+        <level value="ALL" />
         <appender-ref ref="SOCKET"/>
         <appender-ref ref="CONSOLE"/>
     </root>

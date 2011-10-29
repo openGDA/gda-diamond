@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="filter1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="filter1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="filter2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="filter2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="filter3_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="filter3" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="filter4_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="filter4" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="filter5_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="filter5" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="filter6_vert_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="filter6_vert" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="filter6_rot_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="filter6_rot" />
+		<property name="local" value="true" />
+		<property name="unitStringOverride" value="kcts"/>
+	</bean>
+	
+</beans>	

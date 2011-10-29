@@ -1,4 +1,6 @@
-while true; do
+LIMIT=60
+for ((a=1; a <= LIMIT ; a++))
+do
   if [ -r $1 ]; then
         echo .
         rm -f $1

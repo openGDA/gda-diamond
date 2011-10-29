@@ -7,11 +7,19 @@
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
-
-	<bean id="d5_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="d5_x_motor" />
-		<property name="userUnits" value="mm"/>
+	<bean id="ix" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="0.0"/>
+		</bean>
+		</property>
 	</bean>
-	
+	<bean id="iy" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="0.0"/>
+		</bean>
+		</property>
+	</bean>
 </beans>
 

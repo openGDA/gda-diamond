@@ -1,59 +1,38 @@
-import time
-import gda.device.TangoDeviceProxy
-
-import sys    
+import os
 from gdascripts.messages import handle_messages
+from gdascripts.parameters import beamline_parameters
+from highestExistingFileMonitorUtils import configureHighestExistingFileMonitor
+import gda.util.VisitPath
 
-try:
-    del maxiPix2Detector
-except:
-    pass
+def mpx_config_file_monitor():
+    """
+    configures the detector file monitor to look for images from maxipix
+    """
+    jms=beamline_parameters.JythonNameSpaceMapping()
+    configureHighestExistingFileMonitor(jms.mpx_controller.getSavingDirectory(), jms.mpx_controller.getSavingPrefix() + "%04d" + jms.mpx_limaCCD.getSavingSuffix(),
+        jms.mpx_limaCCD.getSavingNextNumber())
 
-try:
-    from fr.esrf.Tango import DevFailed
-    #dev = TangoDeviceProxy("tango://172.23.4.19:20000/dls/limampx/mpx");
-    lima_dev = TangoDeviceProxy("tango://172.23.4.19:20000/dls/limaccd/mpx");
-    from gda.device.lima import LimaCCD
-    from gda.device.lima.impl import LimaCCDImpl
-    limaCCD = LimaCCDImpl()
-    limaCCD.setTangoDeviceProxy(lima_dev)
-    limaCCD.afterPropertiesSet()
-    from gda.device.lima.impl import LimaSavingHeaderDelimiterImpl
+def mpx_set_folder(folder, prefix):
+    """
+    sets the folder and prefix to be use for images taken by the maxipix detector
+    """
     
-    maxipix2_dev = TangoDeviceProxy("tango://172.23.4.19:20000/dls/limampx/mpx");
+    """
+    sets saving folder to $(visit_folder) + folder
+    sets saving prefix to prefix
+    sets saving next number to 1
+    """
+    jms=beamline_parameters.JythonNameSpaceMapping()
+    mpx_controller = jms.mpx_controller
+    mpx_limaCCD = jms.mpx_limaCCD
+    required_saving_directory = gda.util.VisitPath.getVisitPath() + "/" + folder + "/"
+    first_file = required_saving_directory + prefix + "0001" + mpx_limaCCD.getSavingSuffix()
+    if os.path.exists(first_file):
+        raise Exception("Unable to set folder and prefix as file %s already exists" % first_file)
+    if not mpx_controller.getSavingDirectory() == required_saving_directory:
+        mpx_controller.setSavingDirectory(required_saving_directory)
+    mpx_controller.setSavingPrefix(prefix)
     
-    from gda.device.maxipix2 import MaxiPix2
-    from gda.device.maxipix2.impl import MaxiPix2Impl
-    maxipix2 = MaxiPix2Impl()
-    maxipix2.setTangoDeviceProxy(maxipix2_dev)
-    maxipix2.afterPropertiesSet()
-    #byteData = limaCCDAttribute.getImage(0)
-    
-    from gda.device.detector.maxipix2 import MaxiPix2Detector
-    
-    maxiPix2Detector = MaxiPix2Detector()
-    maxiPix2Detector.setName("maxiPix2Detector")
-    maxiPix2Detector.setLimaCCD(limaCCD)
-    maxiPix2Detector.setMaxiPix2(maxipix2)
-    maxiPix2Detector.configure()
-    print "done"
-#    maxiPix2Detector.setSavingDirectory("/home/opid00/paulg/")
-#    maxiPix2Detector.setSavingFormat( LimaCCDImpl.SavingFormat.EDF)
-    
-    
-    hefm=finder.find("highestExistingFileMonitor")
-    from gda.device.detectorfilemonitor import HighestExitingFileMonitorSettings
-    settings= HighestExitingFileMonitorSettings(maxiPix2Detector.getSavingDirectory(), maxiPix2Detector.getSavingFileTemplate(),1 )
-    hefm.setHighestExitingFileMonitorSettings(settings)
-    hefm.setRunning(True)
-    
-#    limaCCD.setSavingPrefix("test2")
-    print "setSavingPrefix done"
-except :
-    exceptionType, exception, traceback = sys.exc_info()
-    print exception.__class__
-    if isinstance(exception, DevFailed):
-        exception=maxiPix2Detector.createDeviceExceptionStack(exception)
-    handle_messages.log(None, "Error setting up maxiPix2", exceptionType,exception, traceback, False)
-    
+    mpx_config_file_monitor()
+    handle_messages.log(None, "Successfully set maxipix folder and prefix to [%s,%s]" % (required_saving_directory, prefix))
 

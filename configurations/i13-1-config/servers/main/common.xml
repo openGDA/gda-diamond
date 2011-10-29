@@ -21,120 +21,53 @@
 	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 
-	<bean id="jythonServerFacade" class="gda.jython.JythonServerFacade">
-		<constructor-arg ref="command_server" />
-	</bean>
 
+	<import resource="../../devices/simpleScannables.xml" />
 
-	<bean id="user_script_project" class="gda.jython.ScriptProject">
-		<constructor-arg index="0" value="${gda.beamline.scripts.dir}" />
-		<constructor-arg index="1" value="Scripts: User" />
-		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
-			value="USER" />
-	</bean>
+<!--  Start of real device list -->
 
-	<bean id="configuration_script_project" class="gda.jython.ScriptProject">
-		<constructor-arg index="0" value="${gda.config}/scripts" />
-		<constructor-arg index="1" value="Scripts: Config" />
-		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
-			value="CONFIG" />
-	</bean>
-
-	<bean id="core_script_project" class="gda.jython.ScriptProject">
-		<constructor-arg index="0"
-			value="${gda.root}/uk.ac.gda.core/scripts" />
-		<constructor-arg index="1" value="Scripts: Core" />
-		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
-			value="CORE" />
-	</bean>
-	<bean id="epics_script_project" class="gda.jython.ScriptProject">
-		<constructor-arg index="0"
-			value="${gda.root}/uk.ac.gda.epics/scripts" />
-		<constructor-arg index="1" value="Scripts: Core" />
-		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
-			value="CORE" />
-	</bean>
-	<bean id="scisoft_script_project" class="gda.jython.ScriptProject">
-		<constructor-arg index="0"
-			value="${gda.root}/uk.ac.diamond.scisoft.analysis/src" />
-		<constructor-arg index="1" value="Scripts: Core" />
-		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
-			value="CORE" />
-	</bean>
-
-	<bean id="script_paths" class="gda.jython.ScriptPaths">
-		<property name="projects">
-			<list>
-				<ref local="user_script_project" />
-				<ref local="configuration_script_project" />
-				<ref local="core_script_project" />
-				<ref local="epics_script_project" />
-				<ref local="scisoft_script_project" />
-			</list>
-		</property>
-		<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
-	</bean>
-
-	<bean id="command_server" class="gda.jython.JythonServer">
-		<property name="jythonScriptPaths" ref="script_paths" />
-		<property name="gdaVarDirectory" value="${gda.config}/var" />
-		<property name="cacheDirectory" value="${gda.config}/var/jythonCache" />
-		<property name="remotePort" value="9999" />
-	</bean>
-
-<!--Not present 	
-	<bean id="limaCCD" class="gda.device.lima.impl.LimaCCDImpl">
-		<property name="tangoDeviceProxy">
-			<bean class="gda.device.TangoDeviceProxy">
-				<constructor-arg value="tango://172.23.4.19:20000/dls/limaccd/mpx" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="maxiPix2" class="gda.device.maxipix2.impl.MaxiPix2Impl">
-		<property name="tangoDeviceProxy">
-			<bean class="gda.device.TangoDeviceProxy">
-				<constructor-arg value="tango://172.23.4.19:20000/dls/limampx/mpx" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="maxiPix2MultiFrameDetector" class="gda.device.detector.maxipix2.MaxiPix2MultiFrameDetector">
-		<property name="limaCCD" ref="limaCCD" />
-		<property name="maxiPix2" ref="maxiPix2" />
-	</bean>
-
-	<bean id="maxiPix2NexusDetector" class="gda.device.detector.maxipix2.MaxiPix2NexusDetector">
-		<property name="maxiPix2MultiFrameDetector" ref="maxiPix2MultiFrameDetector" />
-	</bean>
-
-	<bean id="maxiPix2RepScanNexusDetector" class="gda.device.detector.maxipix2.MaxiPix2RepScanNexusDetector">
-		<property name="maxiPix2MultiFrameDetector" ref="maxiPix2MultiFrameDetector" />
-	</bean>
- -->
 	<import resource="../../devices/front_end.xml" />
-	<import resource="../../devices/d1.xml" />
-	<import resource="../../devices/d2.xml" />
-	<import resource="../../devices/d3.xml" />
-<!--Not present. Diagnostic stick 4 is actual EPICS channel 5
- 	<import resource="../../devices/d4.xml" />
- -->
- 	<import resource="../../devices/d5.xml" />
+
  	<import resource="../../devices/s1.xml" />
-<!--Not present
+
+ 	<import resource="../../devices/filters.xml" />
+
+	<import resource="../../devices/m1.xml" />
+
+	<import resource="../../devices/d1.xml" />
+
+	<import resource="../../devices/d2.xml" />
+
 	<import resource="../../devices/s2.xml" />
-	<import resource="../../devices/s3.xml" />
+
+	<import resource="../../devices/d3.xml" />
+	
+<!-- end of internal building/ start of external building -->	
+ 	<import resource="../../devices/qcm.xml" />
+
+ 	<import resource="../../devices/d4.xml" />
+
 	<import resource="../../devices/s4.xml" />
 	<import resource="../../devices/s5.xml" />
+ 	
+ 	<import resource="../../devices/smaract_sample_stage.xml"/>
+ 	
+ 	<import resource="../../devices/alignment_scope.xml"/>
+
+<!--Not present
+	<import resource="../../devices/s3.xml" />
  	<import resource="../../devices/diff1.xml" />
  -->
-	<import resource="../../devices/m1.xml" />
 <!--Not present
- 	<import resource="../../devices/qcm.xml" />
  	<import resource="../../devices/scope1.xml" />
 	<import resource="../../devices/t1.xml" />
 	<import resource="../../devices/z1.xml" />
  -->
+	<import resource="../../devices/maxipix.xml"/>
+<!--  end of device list -->
+
+
+
 
 	<bean id="highestExistingFileMonitor"
 		class="gda.device.detectorfilemonitor.SimpleHighestExistingFileMonitor" />
@@ -145,8 +78,13 @@
 			value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
 	</bean>
 
+
+	<import resource="jythonServerFacade.xml" />
+
 	<!-- corba export must be the final bean. Later beans are not exported via 
 		Corba -->
+
+
 	<corba:export namespace="i13-1" />
 </beans>
 

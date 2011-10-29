@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="__limaCCD" class="gda.device.lima.impl.LimaCCDImpl">
+		<property name="tangoDeviceProxy">
+			<bean class="gda.device.TangoDeviceProxy">
+				<constructor-arg value="tango://172.23.82.192:20000/dls/limaccd/mpx" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="__maxiPix2" class="gda.device.maxipix2.impl.MaxiPix2Impl">
+		<property name="tangoDeviceProxy">
+			<bean class="gda.device.TangoDeviceProxy">
+				<constructor-arg value="tango://172.23.82.192:20000/dls/limampx/mpx" />
+			</bean>
+		</property>
+	</bean>
+</beans>	

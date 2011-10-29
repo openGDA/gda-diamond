@@ -1,0 +1,135 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+ 
+	<bean id="oh4_shtr" class="gda.device.enumpositioner.EpicsPneumaticCallback"> 
+		<property name="deviceName" value="OH4.SHTR1" /> 
+	</bean> 
+	
+	<bean id="oh4_shtr_cam_pvProvider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+	<property name="prefix" value="BL13J-DI-PHDGN-03:CAM:"/>
+	</bean>
+	<bean id="oh4_shtr_cam_driver" class="gda.device.detector.areadetector.v17.impl.ADDriverProsilicaImpl">
+		<property name="pvProvider" ref="oh4_shtr_cam_pvProvider"/>
+	</bean>
+	<bean id="oh4_shtr_cam_base" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="pvProvider" ref="oh4_shtr_cam_pvProvider"/>
+	</bean>
+
+	<bean id="oh4_shtr_arr_pvProvider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="BL13J-DI-PHDGN-03:ARR:"/>
+	</bean>
+
+	<bean id="oh4_shtr_arr_ndpluginbase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+		<property name="pvProvider" ref="oh4_shtr_arr_pvProvider"/>
+		<property name="initialArrayPort" value="gige3.cam" />
+		<property name="initialArrayAddress" value="0" />
+	</bean>
+
+	<bean id="oh4_shtr_arr" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="pvProvider" ref="oh4_shtr_arr_pvProvider"/>
+		<property name="pluginBase" ref="oh4_shtr_arr_ndpluginbase"/>	
+	</bean>
+
+
+	<bean id="oh4_shtr_stat_pvProvider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="BL13J-DI-PHDGN-03:STAT:"/>
+	</bean>
+
+	<bean id="oh4_shtr_stat_ndpluginbase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+		<property name="pvProvider" ref="oh4_shtr_stat_pvProvider"/>
+		<property name="initialArrayPort" value="gige3.cam" />
+		<property name="initialArrayAddress" value="0" />
+	</bean>
+
+	<bean id="oh4_shtr_stat" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="pvProvider" ref="oh4_shtr_stat_pvProvider"/>
+		<property name="pluginBase" ref="oh4_shtr_stat_ndpluginbase"/>	
+	</bean>
+
+	<bean id="oh4_shtr_roi_pvProvider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="BL13J-DI-PHDGN-03:ROI:"/>
+	</bean>
+
+	<bean id="oh4_shtr_roi_ndpluginbase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+		<property name="pvProvider" ref="oh4_shtr_roi_pvProvider"/>
+		<property name="initialArrayPort" value="gige3.cam" />
+	</bean>
+
+	<bean id="oh4_shtr_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
+		<property name="pvProvider" ref="oh4_shtr_roi_pvProvider" />
+		<property name="pluginBase" ref="oh4_shtr_roi_ndpluginbase" />
+	</bean>
+
+	<bean id="oh4_shtr_ffmpeg_pvProvider"
+		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="BL13J-DI-PHDGN-01:FFMPEG:" />
+	</bean>
+
+	<bean id="oh4_shtr_ffmpeg_ndpluginbase"
+		class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+		<property name="pvProvider" ref="oh4_shtr_ffmpeg_pvProvider" />
+		<property name="initialArrayPort" value="gige1.cam" />
+		<property name="initialArrayAddress" value="0" />
+	</bean>
+
+	<bean id="oh4_shtr_ffmpeg"
+		class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
+		<property name="pvProvider" ref="oh4_shtr_ffmpeg_pvProvider" />
+		<property name="pluginBase" ref="oh4_shtr_ffmpeg_ndpluginbase" />
+	</bean>
+
+
+	<bean id="oh4_shtr_cam_plugins" class="gda.device.FindableObjectHolder">
+		<property name="map">
+			<util:map>
+				<entry key="oh4_shtr_cam_base" value-ref="oh4_shtr_cam_base" />
+				<entry key="oh4_shtr_cam" value-ref="oh4_shtr_cam_driver" />
+				<entry key="oh4_shtr_arr" value-ref="oh4_shtr_arr" />
+				<entry key="oh4_shtr_ffmpeg" value-ref="oh4_shtr_ffmpeg" />
+				<!-- <entry key="oh4_shtr_tiff" value-ref="oh4_shtr_tiff"/> -->
+				<entry key="oh4_shtr_roi" value-ref="oh4_shtr_roi" />
+			</util:map>
+		</property>
+	</bean>
+
+	<bean id="oh4_shtr_cam" class="gda.device.detector.ADDetector">
+		<property name="adBase" ref="oh4_shtr_cam_base" />
+		<property name="ndStats" ref="oh4_shtr_stat" />
+		<property name="ndArray" ref="oh4_shtr_arr" />
+		<!-- TIFF plugin causes GigE camera IOC to crah <property name="ndFile" 
+			ref="oh4_shtr_tiff"/> -->
+	</bean>
+
+
+	<bean id="oh4_shtr_ad_det_nexusProviderDataSetPlotter" class="gda.device.detector.NexusProviderDataSetPlotter">
+		<constructor-arg value="oh4_shtr_ad_det_nexusProviderDataSetPlotter" />
+		<constructor-arg value="Detector Image" />
+	</bean>
+
+	<bean id="oh4_shtr_ad_det_processor" class="gda.device.detector.NexusProviderDataSetProcessor">
+		<constructor-arg value="oh4_shtr_cam" />
+		<constructor-arg value="data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg>
+			<list>
+				<ref bean="oh4_shtr_ad_det_nexusProviderDataSetPlotter" />
+				<!-- <ref bean="nexusProviderDataSetTest"/> -->
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="oh4_shtr_cam_wrap" class="gda.device.detector.NexusDetectorWrapper">
+		<constructor-arg ref="oh4_shtr_cam" />
+		<constructor-arg ref="oh4_shtr_ad_det_processor" />
+	</bean>		
+	
+	
+</beans>	
