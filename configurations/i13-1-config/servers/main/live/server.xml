@@ -32,7 +32,7 @@
 		<property name="dummyMode" value="false"></property>
 	</bean>	
 	
-<!-- start of internal bulding -->
+<!-- start of internal building -->
 
 	<import resource="../../../devices/epics/front_end.xml"/>
 
@@ -63,28 +63,25 @@
 
 	<import resource="../../../devices/epics/absorbers4.xml"/>
 
- 	<import resource="../../../devices/epics/qcm_motors.xml"/>
-
+<!--  	<import resource="../../../devices/epics/qcm_motors.xml"/>
+ -->
 	<import resource="../../../devices/epics/experiment_hutch_shutter.xml"/>
 
- 	<import resource="../../../devices/epics/d4.xml"/>
-
+<!--  	<import resource="../../../devices/epics/d4.xml"/>
+ -->
 	<import resource="../../../devices/epics/s4_motors.xml"/>
 
 	<import resource="../../../devices/epics/s5_motors.xml"/>
 
 
- 	<import resource="../../../devices/epics/smaract_sample_stage_motors.xml"/>
+	<import resource="../../../devices/epics/sample_stage_t1_motors.xml"/>
 
- 	<import resource="../../../devices/epics/alignment_scope_motors.xml"/>
+	<import resource="../../../devices/epics/alignment_scope_motors.xml"/>
 
 <!--Not present 
 	<import resource="../../../devices/epics/s3_motors.xml"/>
- 	<import resource="../../../devices/epics/diff1_motors.xml"/>
  -->
 <!--Not present 
-	<import resource="../../../devices/epics/scope1_motors.xml"/>
-	<import resource="../../../devices/epics/t1_motors.xml"/>
 	<import resource="../../../devices/epics/z1_motors.xml"/>
  -->
 

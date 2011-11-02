@@ -5,7 +5,7 @@
 
  
 	<bean id="eh_shtr" class="gda.device.enumpositioner.EpicsPneumaticCallback"> 
-		<property name="deviceName" value="EH.SHTR1" /> 
+		<property name="deviceName" value="eh_shtr" /> 
 	</bean> 
 	
 

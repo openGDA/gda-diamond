@@ -3,32 +3,24 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="qcm_bragg1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="qcm.bragg1" />
+	<bean id="qcm_cage1_coarsepitch" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="qcm.cage1.coarsepitch" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="qcm_pitch1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="qcm.pitch1" />
+	<bean id="qcm_cage2_coarsepitch" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="qcm.cage2.coarsepitch" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="qcm_roll1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="qcm.roll1" />
+	<bean id="qcm_cage1_coarseroll" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="qcm.cage1.coarseroll" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="qcm_bragg2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="qcm.bragg2" />
+	<bean id="qcm_cage2_coarseroll" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="qcm.cage2.coarseroll" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="qcm_pitch2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="qcm.pitch2" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="qcm_roll2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="qcm.roll2" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="qcm_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="qcm.x" />
+	<bean id="qcm_x2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="qcm.x2" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="qcm_y_motor" class="gda.device.motor.EpicsMotor">

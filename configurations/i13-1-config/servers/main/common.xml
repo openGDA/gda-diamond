@@ -43,16 +43,18 @@
 	<import resource="../../devices/d3.xml" />
 	
 <!-- end of internal building/ start of external building -->	
- 	<import resource="../../devices/qcm.xml" />
-
- 	<import resource="../../devices/d4.xml" />
-
+<!--  	<import resource="../../devices/qcm.xml" />
+ -->
+<!--  	<import resource="../../devices/d4.xml" />
+ -->
 	<import resource="../../devices/s4.xml" />
 	<import resource="../../devices/s5.xml" />
  	
- 	<import resource="../../devices/smaract_sample_stage.xml"/>
+	<import resource="../../devices/sample_stage_t1.xml"/>
  	
  	<import resource="../../devices/alignment_scope.xml"/>
+
+ 	<import resource="../../devices/dummyAD.xml"/>
 
 <!--Not present
 	<import resource="../../devices/s3.xml" />
@@ -83,6 +85,20 @@
 
 	<!-- corba export must be the final bean. Later beans are not exported via 
 		Corba -->
+
+<!-- 	<bean id="theta_motor" class="gda.device.motor.DummyMotor"/>
+	
+	<bean id="theta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="theta_motor" />
+		<property name="userUnits" value="Deg"/>
+	</bean>	
+	
+ <bean id="energy" class="gda.device.scannable.MonoScannable">
+  <property name="motorName" value="theta" />
+  <property name="crystalType" value="Si111" />
+  <property name="initialUserUnits" value="eV" />
+  <property name="motorUnitString" value="Deg" />
+ </bean> -->
 
 
 	<corba:export namespace="i13-1" />

@@ -10,7 +10,7 @@
 
  
 	<bean id="oh4_shtr" class="gda.device.enumpositioner.EpicsPneumaticCallback"> 
-		<property name="deviceName" value="OH4.SHTR1" /> 
+		<property name="deviceName" value="oh4_shtr" /> 
 	</bean> 
 	
 	<bean id="oh4_shtr_cam_pvProvider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
@@ -109,27 +109,39 @@
 	</bean>
 
 
-	<bean id="oh4_shtr_ad_det_nexusProviderDataSetPlotter" class="gda.device.detector.NexusProviderDataSetPlotter">
+	<bean id="oh4_shtr_ad_det_nexusProviderDataSetPlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
 		<constructor-arg value="oh4_shtr_ad_det_nexusProviderDataSetPlotter" />
 		<constructor-arg value="Detector Image" />
 	</bean>
 
-	<bean id="oh4_shtr_ad_det_processor" class="gda.device.detector.NexusProviderDataSetProcessor">
+	<bean id="nexusProviderDataSetTest" class="gda.device.detector.nexusprocessor.SimpleDataSetProcessor"/>
+	
+	
+	<bean id="oh4_shtr_ad_det_processor" class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
 		<constructor-arg value="oh4_shtr_cam" />
 		<constructor-arg value="data" />
 		<constructor-arg value="SDS" />
 		<constructor-arg>
 			<list>
 				<ref bean="oh4_shtr_ad_det_nexusProviderDataSetPlotter" />
-				<!-- <ref bean="nexusProviderDataSetTest"/> -->
+				<ref bean="nexusProviderDataSetTest"/>
 			</list>
 		</constructor-arg>
 	</bean>
 
-	<bean id="oh4_shtr_cam_wrap" class="gda.device.detector.NexusDetectorWrapper">
-		<constructor-arg ref="oh4_shtr_cam" />
-		<constructor-arg ref="oh4_shtr_ad_det_processor" />
-	</bean>		
+	<bean id="oh4_shtr_ad_det_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
+		<property name="processors">
+			<list>
+				<ref bean="oh4_shtr_ad_det_processor" />
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="oh4_shtr_cam_wrap" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+		<property name="detector" ref="oh4_shtr_cam" />
+		<property name="processor" ref="oh4_shtr_ad_det_processors" />
+	</bean>	
 	
 	
 </beans>	

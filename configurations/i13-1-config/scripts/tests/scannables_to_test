@@ -12,13 +12,21 @@ fshtr2
 fastmask
 
 #filters
+#multipositioners
+f1_aperture_mp
+f1_crly_mp
+f1_filter1_mp
+f1_filter2_mp
+f1_filter3_mp
+f1_filter4_mp
+#motors
 filter1
 filter2
 filter3
 filter4
-filter5
-filter6_vert
-filter6_rot
+filter_aperture
+filter_crlY
+filter_crlYaw
 
 #slits 1
 s1_xsize
@@ -56,7 +64,6 @@ d1_gain
 d1_coupling
 d1_flow_temp
 #not working d1_return_temp
-d1_cam
 
 #absorber1 temperatures
 ab1_t1
@@ -71,7 +78,6 @@ d2_gain
 d2_coupling
 d2_flow_temp
 #not working d2_return_temp
-d2_ad_det
 
 #absorber2 temperatures
 ab2_t1
@@ -103,7 +109,6 @@ d3_gain
 d3_coupling
 d3_flow_temp
 #not working d3_return_temp
-d3_cam
 
 #absorber3 temperatures
 ab3_t1
@@ -140,7 +145,6 @@ d4_gain
 d4_coupling
 d4_flow_temp
 #not working d3_return_temp
-d4_cam
 
 
 #slits 4
@@ -163,10 +167,10 @@ s5_xminus
 s5_yplus
 s5_yminus
 
-#smaract sample stage
-smaract_x
-smaract_y
-smaract_z
+#sample stage
+t1_sx
+t1_sy
+t1_sz
 
 #alignment scope
 alignmemt_x

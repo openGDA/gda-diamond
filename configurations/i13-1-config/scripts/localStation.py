@@ -42,30 +42,30 @@ try:
 	from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue #@UnusedImport
 	from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 
-	d1_det = ProcessingDetectorWrapper('d1_det', d1_cam, panel_name=None, panel_name_rcp='Detector Image',nexusDataKeys=["d1_cam","data"])
-	d1_det.display_image = True
-	d1_peak2d = DetectorDataProcessorWithRoi('d1_peak2d', d1_det, [TwodGaussianPeak()])
-	d1_max2d = DetectorDataProcessorWithRoi('d1_max2d', d1_det, [SumMaxPositionAndValue()])
+#	d1_det = ProcessingDetectorWrapper('d1_det', d1_cam, panel_name=None, panel_name_rcp='Detector Image',nexusDataKeys=["d1_cam","data"])
+#	d1_det.display_image = True
+#	d1_peak2d = DetectorDataProcessorWithRoi('d1_peak2d', d1_det, [TwodGaussianPeak()])
+#	d1_max2d = DetectorDataProcessorWithRoi('d1_max2d', d1_det, [SumMaxPositionAndValue()])
 
-	d2_det = ProcessingDetectorWrapper('d2_det', d2_cam, panel_name=None, panel_name_rcp='Detector Image',nexusDataKeys=["d2_cam","data"])
-	d2_det.display_image = True
-	d2_peak2d = DetectorDataProcessorWithRoi('d2_peak2d', d2_det, [TwodGaussianPeak()])
-	d2_max2d = DetectorDataProcessorWithRoi('d2_max2d', d2_det, [SumMaxPositionAndValue()])
+#	d2_det = ProcessingDetectorWrapper('d2_det', d2_cam, panel_name=None, panel_name_rcp='Detector Image',nexusDataKeys=["d2_cam","data"])
+#	d2_det.display_image = True
+#	d2_peak2d = DetectorDataProcessorWithRoi('d2_peak2d', d2_det, [TwodGaussianPeak()])
+#	d2_max2d = DetectorDataProcessorWithRoi('d2_max2d', d2_det, [SumMaxPositionAndValue()])
 
-	d3_det = ProcessingDetectorWrapper('d3_det', d3_cam, panel_name=None, panel_name_rcp='Detector Image',nexusDataKeys=["d3_cam","data"])
-	d3_det.display_image = True
-	d3_peak2d = DetectorDataProcessorWithRoi('d3_peak2d', d3_det, [TwodGaussianPeak()])
-	d3_max2d = DetectorDataProcessorWithRoi('d3_max2d', d3_det, [SumMaxPositionAndValue()])
+#	d3_det = ProcessingDetectorWrapper('d3_det', d3_cam, panel_name=None, panel_name_rcp='Detector Image',nexusDataKeys=["d3_cam","data"])
+#	d3_det.display_image = True
+#	d3_peak2d = DetectorDataProcessorWithRoi('d3_peak2d', d3_det, [TwodGaussianPeak()])
+#	d3_max2d = DetectorDataProcessorWithRoi('d3_max2d', d3_det, [SumMaxPositionAndValue()])
 
-	d4_det = ProcessingDetectorWrapper('d4_det', d4_cam, panel_name=None, panel_name_rcp='Detector Image',nexusDataKeys=["d4_cam","data"])
-	d4_det.display_image = True
-	d4_peak2d = DetectorDataProcessorWithRoi('d4_peak2d', d4_det, [TwodGaussianPeak()])
-	d4_max2d = DetectorDataProcessorWithRoi('d4_max2d', d4_det, [SumMaxPositionAndValue()])
+#	d4_det = ProcessingDetectorWrapper('d4_det', d4_cam, panel_name=None, panel_name_rcp='Detector Image',nexusDataKeys=["d4_cam","data"])
+#	d4_det.display_image = True
+#	d4_peak2d = DetectorDataProcessorWithRoi('d4_peak2d', d4_det, [TwodGaussianPeak()])
+#	d4_max2d = DetectorDataProcessorWithRoi('d4_max2d', d4_det, [SumMaxPositionAndValue()])
 
-	oh4_shtr_det = ProcessingDetectorWrapper('oh4_shtr_cam_det', oh4_shtr_cam, panel_name=None, panel_name_rcp='Detector Image',nexusDataKeys=["oh4_shtr_cam","data"])
-	oh4_shtr_det.display_image = True
-	oh4_shtr_peak2d = DetectorDataProcessorWithRoi('oh4_shtr_peak2d', oh4_shtr_det, [TwodGaussianPeak()])
-	oh4_shtr_max2d = DetectorDataProcessorWithRoi('oh4_shtr_max2d', oh4_shtr_det, [SumMaxPositionAndValue()])
+#	oh4_shtr_det = ProcessingDetectorWrapper('oh4_shtr_cam_det', oh4_shtr_cam, panel_name=None, panel_name_rcp='Detector Image',nexusDataKeys=["oh4_shtr_cam","data"])
+#	oh4_shtr_det.display_image = True
+#	oh4_shtr_peak2d = DetectorDataProcessorWithRoi('oh4_shtr_peak2d', oh4_shtr_det, [TwodGaussianPeak()])
+#	oh4_shtr_max2d = DetectorDataProcessorWithRoi('oh4_shtr_max2d', oh4_shtr_det, [SumMaxPositionAndValue()])
 	
 #	import gda.device.detector.NexusDetectorWrapper
 #	mpx_wrap = gda.device.detector.NexusDetectorWrapper(mpx)

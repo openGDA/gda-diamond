@@ -1,0 +1,67 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+	<bean id="dummy_ad_pluginBase" class="gda.device.detector.areadetector.v17.impl.DummyNDPluginBase">
+	<property name="dims" value="1000,1000"/>
+	<property name="datatype" value="UINT32"/>
+	</bean>
+	<bean id="dummy_ad_base" class="gda.device.detector.areadetector.v17.impl.DummyADBase"/>
+
+	<bean id="dummy_ad_arr" class="gda.device.detector.areadetector.v17.impl.DummyNDArray">
+	<property name="pluginBase" ref="dummy_ad_pluginBase"/>
+	</bean>
+
+
+	<bean id="dummy_ad_stat" class="gda.device.detector.areadetector.v17.impl.DummyNDStats">
+	<property name="pluginBase" ref="dummy_ad_pluginBase"/>
+	</bean>
+
+	<bean id="dummy_cam" class="gda.device.detector.ADDetector">
+		<property name="adBase" ref="dummy_ad_base" />
+		<property name="ndStats" ref="dummy_ad_stat" />
+		<property name="ndArray" ref="dummy_ad_arr" />
+	</bean>
+
+
+	<bean id="dummy_ad_det_nexusProviderDataSetPlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
+		<constructor-arg value="dummy_ad_det_nexusProviderDataSetPlotter" />
+		<constructor-arg value="Detector Image" />
+	</bean>
+
+	<bean id="nexusProviderDataSetTest" class="gda.device.detector.nexusprocessor.SimpleDataSetProcessor"/>
+	
+	
+	<bean id="dummy_ad_det_processor" class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
+		<constructor-arg value="dummy_cam" />
+		<constructor-arg value="data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg>
+			<list>
+				<ref bean="dummy_ad_det_nexusProviderDataSetPlotter" />
+				<ref bean="nexusProviderDataSetTest"/>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="dummy_ad_det_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
+		<property name="processors">
+			<list>
+				<ref bean="dummy_ad_det_processor" />
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="dummy_cam_wrap" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+		<property name="detector" ref="dummy_cam" />
+		<property name="processor" ref="dummy_ad_det_processors" />
+	</bean>
+
+</beans>
+
