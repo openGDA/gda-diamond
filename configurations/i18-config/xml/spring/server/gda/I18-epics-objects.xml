@@ -161,6 +161,10 @@
 	<property name="deviceName" value="DET4ILK"></property>
 	<property name="local" value="true"/>
 </bean>
+<!-- <bean id="bragg_speed" class="gda.device.monitor.EpicsMonitor">
+	<property name="pvName" value="BL18I-OP-DCM-01:BRAGG:MPSPEED.DRVH" />
+	<property name="local" value="true" />
+</bean> -->
 <!-- ********************* -->
 <!-- *** MOTOR SECTION *** -->
 <!-- ********************* -->
@@ -484,4 +488,13 @@
 	<property name="pvNameGetPoint" value="BL18I-MO-XPS-01:DEFER" />
 	<property name="local" value="true" />
 </bean>
+<!-- <bean id="dcm_crystal" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="epicsRecordName" value="BL18I-OP-DCM-01:XTAL_SWITCH" />
+		<property name="positions">
+			<list>
+				<value>Si(111)</value>
+				<value>Si(113)</value>
+			</list>
+		</property>
+	</bean> -->
 </beans>

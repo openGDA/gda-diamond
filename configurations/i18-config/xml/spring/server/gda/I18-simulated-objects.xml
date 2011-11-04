@@ -273,6 +273,18 @@
 		<property name="numberOfDetectors" value="9" />
 		<property name="dummy"    value="true" />
 	</bean>-->
+	
+	<bean id="bragg_speed" class="gda.device.monitor.DummyMonitor">
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_crystal" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Si(111)</value>
+				<value>Si(113)</value>
+			</list>
+		</property>
+	</bean>
 	<!-- ********************* -->
 	<!-- *** MOTOR SECTION *** -->
 	<!-- ********************* -->
@@ -430,5 +442,16 @@
 	</bean>
 	
 	<bean id="xpsDeferFlag" class="gda.device.controlpoint.DummyControlPoint"/>
+	
+	<bean id="qexafs_energy" class="gda.device.scannable.QexafsTestingScannable">
+		<property name="motor" ref="dcm_bragg_motor" />
+		<property name="lowerGdaLimits" value="2000" />
+		<property name="upperGdaLimits" value="35000" />
+		<property name="outputFormat">
+			<list>
+				<value>%.2f</value>
+			</list>
+		</property>
+	</bean>
 	
 </beans>
