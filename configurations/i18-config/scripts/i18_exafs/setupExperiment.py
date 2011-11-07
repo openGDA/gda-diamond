@@ -31,7 +31,7 @@ def finish():
     
 
 def setup(beanGroup):
-    if beanGroup.getDetector().getExperimentType() == "Fluorescence":
+if beanGroup.getDetector().getExperimentType() == "Fluorescence":
         if (beanGroup.getDetector().getFluorescenceParameters().getDetectorType() == "Germanium" ):
             fullFileName = beanGroup.getScriptFolder() + beanGroup.getDetector().getFluorescenceParameters().getConfigFileName()
             bean = BeansFactory.getBean(File(fullFileName));
@@ -41,6 +41,7 @@ def setup(beanGroup):
             for element in elements: 
                 rois = element.getRegionList();
                 element.setWindow(rois.get(0).getRegionStart(), rois.get(0).getRegionEnd())
+            BeansFactory.saveBean(File(fullFileName), bean)
         configFluoDetector(beanGroup)
     #setup topup
     scan = beanGroup.getScan()
