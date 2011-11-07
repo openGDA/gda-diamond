@@ -17,4 +17,8 @@ jacorb=$config/properties
 echo  JAVA_OPTS="-Xms512m -Xmx2048m" $gdaLauncher --config=$config --properties=$properties --jacorb=$jacorb --rcp_image=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE} --start rcpclient -d -p 8005 
 #$gdaLauncher -d --config=$config --properties=$properties --users=$users --jacorb=$jacorb client
 #JAVA_OPTS="-Xms512m -Xmx2048m -Xdebug -Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=n"
-JAVA_OPTS="-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m" $gdaLauncher -v --config=$config --properties=$properties --jacorb=$jacorb --rcp_image=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE} --start rcpclient -d -p8005
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/dls_sw/dasc/jprofiler5/bin/linux-x86; export LD_LIBRARY_PATH
+#JAVA_OPTS="-agentlib:jprofilerti=port=8849 -Xbootclasspath/a:/dls_sw/dasc/jprofiler5/bin/agent.jar -Xms512m -Xmx2048m -XX:PermSize=256m -XX:MaxPermSize=512m -XX:+DisableExplicitGC" $gdaLauncher -v --config=$config --properties=$properties --jacorb=$jacorb --rcp_image=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE} --start rcpclient -d -p8005
+#JAVA_OPTS="-verbose -agentlib:jprofilerti=port=8849 -Xbootclasspath/a:/dls_sw/dasc/jprofiler5/bin/agent.jar -Xms128m -Xmx128m -XX:PermSize=128m -XX:MaxPermSize=128m -XX:+DisableExplicitGC" $gdaLauncher -v --config=$config --properties=$properties --jacorb=$jacorb --rcp_image=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE} --start rcpclient -d -p8005
+#values below from Mark Booth 17/10/11
+JAVA_OPTS="-Xms128m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=256m -XX:+DisableExplicitGC" $gdaLauncher -v --config=$config --properties=$properties --jacorb=$jacorb --rcp_image=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE} --start rcpclient -d -p8005

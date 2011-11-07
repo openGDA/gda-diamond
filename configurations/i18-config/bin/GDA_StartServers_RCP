@@ -26,9 +26,11 @@ $gdaLauncher --config=$config --properties=$properties  --jacorb=$jacorb nameser
 #echo $gdaLauncher eventserver
 $gdaLauncher --config=$config --properties=$properties  --jacorb=$jacorb eventserver
 
-export JAVA_OPTS=-Xmx2000m
-export gda.nexus.instrumentApi=true
+#export JAVA_OPTS="-Xms512m -Xmx2048m -XX:PermSize=182m -XX:MaxPermSize=786m -XX:+DisableExplicitGC"
+#export gda.nexus.instrumentApi=true
 #echo $gdaLauncher objectserver
-#$gdaLauncher -d --config=$config --properties=$properties  --jacorb=$jacorb  objectserver --profiler -v
-$gdaLauncher --config=$config --properties=$properties  --jacorb=$jacorb  objectserver -d --verbose
+#export PROFILER_DIR=/dls_sw/dasc/jprofiler5
+#$gdaLauncher -d --config=$config --properties=$properties  --jacorb=$jacorb  objectserver --profiler --profilerport=8849 -v
+##$gdaLauncher -d --config=$config --properties=$properties  --jacorb=$jacorb  objectserver --profiler -v
+JAVA_OPTS="-Xms512m -Xmx8000m -XX:PermSize=182m -XX:MaxPermSize=786m -XX:+DisableExplicitGC" $gdaLauncher --config=$config --properties=$properties  --jacorb=$jacorb  objectserver -d --verbose
 #echo $gdaLauncher objectserver
