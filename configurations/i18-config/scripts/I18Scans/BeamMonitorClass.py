@@ -147,7 +147,7 @@ class BeamMonitorClass(PseudoDevice):
 #		if not self.topupPV.isConfigured():
 #			self.topupPV.configure()
 		self.simTopCount = self.simTopCount + 1
-		print "simCount " + str(self.simTopCount)
+		#print "simCount " + str(self.simTopCount)
 		#topup simulation
 		if(self.simulateTP ):
 			if(7 <= self.simTopCount <= 8):
