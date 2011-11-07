@@ -15,6 +15,7 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pb_L2</roiName>
+<<<<<<< Updated upstream
             <regionStart>1242</regionStart>
             <regionEnd>1325</regionEnd>
             <regionType>Virtual Scaler</regionType>
@@ -29,6 +30,10 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1372</regionStart>
             <regionEnd>1470</regionEnd>
+=======
+            <regionStart>1252</regionStart>
+            <regionEnd>1287</regionEnd>
+>>>>>>> Stashed changes
             <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
@@ -43,6 +48,7 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pb_L2</roiName>
+<<<<<<< Updated upstream
             <regionStart>1242</regionStart>
             <regionEnd>1325</regionEnd>
             <regionType>Virtual Scaler</regionType>
@@ -57,6 +63,10 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1372</regionStart>
             <regionEnd>1470</regionEnd>
+=======
+            <regionStart>1252</regionStart>
+            <regionEnd>1287</regionEnd>
+>>>>>>> Stashed changes
             <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
@@ -71,6 +81,7 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pb_L2</roiName>
+<<<<<<< Updated upstream
             <regionStart>1242</regionStart>
             <regionEnd>1325</regionEnd>
             <regionType>Virtual Scaler</regionType>
@@ -85,6 +96,10 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1372</regionStart>
             <regionEnd>1470</regionEnd>
+=======
+            <regionStart>1252</regionStart>
+            <regionEnd>1287</regionEnd>
+>>>>>>> Stashed changes
             <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
@@ -99,6 +114,7 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pb_L2</roiName>
+<<<<<<< Updated upstream
             <regionStart>1242</regionStart>
             <regionEnd>1325</regionEnd>
             <regionType>Virtual Scaler</regionType>
@@ -113,6 +129,10 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1372</regionStart>
             <regionEnd>1470</regionEnd>
+=======
+            <regionStart>1252</regionStart>
+            <regionEnd>1287</regionEnd>
+>>>>>>> Stashed changes
             <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
@@ -127,6 +147,7 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pb_L2</roiName>
+<<<<<<< Updated upstream
             <regionStart>1242</regionStart>
             <regionEnd>1325</regionEnd>
             <regionType>Virtual Scaler</regionType>
@@ -141,6 +162,10 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1372</regionStart>
             <regionEnd>1470</regionEnd>
+=======
+            <regionStart>1252</regionStart>
+            <regionEnd>1287</regionEnd>
+>>>>>>> Stashed changes
             <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
@@ -155,6 +180,7 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pb_L2</roiName>
+<<<<<<< Updated upstream
             <regionStart>1242</regionStart>
             <regionEnd>1325</regionEnd>
             <regionType>Virtual Scaler</regionType>
@@ -169,6 +195,10 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1372</regionStart>
             <regionEnd>1470</regionEnd>
+=======
+            <regionStart>1252</regionStart>
+            <regionEnd>1287</regionEnd>
+>>>>>>> Stashed changes
             <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
@@ -183,6 +213,7 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pb_L2</roiName>
+<<<<<<< Updated upstream
             <regionStart>1242</regionStart>
             <regionEnd>1325</regionEnd>
             <regionType>Virtual Scaler</regionType>
@@ -197,6 +228,10 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1372</regionStart>
             <regionEnd>1470</regionEnd>
+=======
+            <regionStart>1252</regionStart>
+            <regionEnd>1287</regionEnd>
+>>>>>>> Stashed changes
             <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
@@ -211,6 +246,7 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pb_L2</roiName>
+<<<<<<< Updated upstream
             <regionStart>1242</regionStart>
             <regionEnd>1325</regionEnd>
             <regionType>Virtual Scaler</regionType>
@@ -225,6 +261,10 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1372</regionStart>
             <regionEnd>1470</regionEnd>
+=======
+            <regionStart>1252</regionStart>
+            <regionEnd>1287</regionEnd>
+>>>>>>> Stashed changes
             <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
@@ -239,6 +279,7 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pb_L2</roiName>
+<<<<<<< Updated upstream
             <regionStart>1242</regionStart>
             <regionEnd>1325</regionEnd>
             <regionType>Virtual Scaler</regionType>
@@ -253,6 +294,10 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1372</regionStart>
             <regionEnd>1470</regionEnd>
+=======
+            <regionStart>1252</regionStart>
+            <regionEnd>1287</regionEnd>
+>>>>>>> Stashed changes
             <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
