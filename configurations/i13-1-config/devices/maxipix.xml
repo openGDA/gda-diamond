@@ -33,6 +33,33 @@
 		<property name="maxiPix2MultiFrameDetector" ref="__maxiPix2MultiFrameDetector" />
 	</bean>
 	
+	
+	<bean id="mpx_processor" class="gda.device.detector.nexusprocessor.NexusProviderFilenameProcessor">
+		<constructor-arg value="mpx" />
+		<constructor-arg value="image_data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg>
+			<list>
+				<ref bean="tWODDataSetFitter"/>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="mpx_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
+		<property name="processors">
+			<list>
+				<ref bean="mpx_processor" />
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="mpx_wrap" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+		<property name="detector" ref="mpx" />
+		<property name="processor" ref="mpx_processors" />
+		<property name="mergeWithDetectorData" value="true"/>
+	</bean>	
+	
 	<!-- Not used as the preferred mode is accumulation with 1 image per many exposures 
 	bean id="maxiPix2RepScanNexusDetector" class="gda.device.detector.maxipix2.MaxiPix2RepScanNexusDetector">
 		<property name="maxiPix2MultiFrameDetector" ref="maxiPix2MultiFrameDetector" />

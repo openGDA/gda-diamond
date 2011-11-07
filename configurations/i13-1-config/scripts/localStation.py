@@ -1,6 +1,22 @@
 import sys	
 import os
 from gdascripts.messages import handle_messages
+from gda.jython import InterfaceProvider
+
+
+from gda.device.scannable import EpicsScannable
+
+def createPVScannable( name, pv, addToNameSpace=True):
+	sc = EpicsScannable()
+	sc.setName(name)
+	sc.setPvName(pv)
+	sc.setUseNameAsInputName(True)
+	sc.afterPropertiesSet()
+	sc.configure()
+	if addToNameSpace:
+		commandServer.placeInJythonNamespace(name,sc)
+	return sc
+	
 
 try:
 	from gda.device import Scannable
@@ -12,7 +28,7 @@ try:
 	
 	from gda.factory import Finder
 	from gda.configuration.properties import LocalProperties
-	from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
+#	from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
 	import i13j
 	
 	#import for help
@@ -23,7 +39,7 @@ try:
 	finder = Finder.getInstance() 
 	beamline = finder.find("Beamline")
 	ring= finder.find("Ring")
-	
+	commandServer = InterfaceProvider.getJythonNamespace()
 #	import tests.testRunner
 #	tests.testRunner.run_tests()
 	
@@ -33,14 +49,31 @@ try:
 	from gdascripts.pd.time_pds import waittimeClass2
 	waittime=waittimeClass2('waittime')
 	
+	createPVScannable( "d1_total", "BL13J-DI-PHDGN-01:STAT:Total_RBV")
+	
+	#make scannablegroup for driving sample stage
+	from gda.device.scannable.scannablegroup import ScannableGroup
+	t1_xy = ScannableGroup()
+	t1_xy.addGroupMember(t1_sx)
+	t1_xy.addGroupMember(t1_sy)
+	t1_xy.addGroupMember(ix)
+	t1_xy.setName("t1_xy")
+	t1_xy.configure()
+	
+	#make ScanPointProvider
+	import sample_stage_position_provider
+	two_motor_positions = sample_stage_position_provider.ScanPositionProviderFromFile()
+	two_motor_positions.load("/dls_sw/i13-1/software/gda_versions/gda_trunk/i13j-config/scripts/tests/sample_stage_position_provider_test.dat",(0.,0.))
+
+	
 # TIFF saver does not work. We will get the data in NexusData
 #	d1_det.setFileTemplate("%s%s%d.tif")
 #	d1_det.setFilePath("/dls_sw/i3-1/software/gdavar/d1")
 #	d1_det.setFileNumber(1)
 
-	from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
-	from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue #@UnusedImport
-	from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
+#	from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
+#	from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue #@UnusedImport
+#	from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 
 #	d1_det = ProcessingDetectorWrapper('d1_det', d1_cam, panel_name=None, panel_name_rcp='Detector Image',nexusDataKeys=["d1_cam","data"])
 #	d1_det.display_image = True
@@ -86,11 +119,18 @@ try:
 	mpx_limaCCD.setAccMaxExpoTime(0.05)
 	mpx_limaCCD.setSavingFormat( LimaCCD.SavingFormat.EDF)
 
-	try:
-		mpx_set_folder("test","mpx")
-	except :
-		exceptionType, exception, traceback = sys.exc_info()
-		handle_messages.log(None, "Problem setting mpx folder and prefix",exceptionType, exception, traceback,False)
+	mpx_maxipix = mpx_controller.getMaxiPix2()
+	from gda.device.maxipix2 import MaxiPix2
+	mpx_maxipix.setFillMode(MaxiPix2.FillMode.ZERO)
+	
+	import file_converter
+	
+	import integrate_mpx_scan
+#	try:
+#		mpx_set_folder("test","mpx")
+#	except :
+#		exceptionType, exception, traceback = sys.exc_info()
+#		handle_messages.log(None, "Problem setting mpx folder and prefix",exceptionType, exception, traceback,False)
 	
 	
 	#scan eh 0. 10. 1. mpx 0.1

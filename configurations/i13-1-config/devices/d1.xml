@@ -11,5 +11,32 @@
 		<property name="motor" ref="d1_x_motor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
+	
+	<bean id="d1_ad_det_processor" class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
+		<constructor-arg value="d1_cam" />
+		<constructor-arg value="data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg>
+			<list>
+				<ref bean="dataSetPlotter" />
+				<ref bean="tWODDataSetFitter"/>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="d1_ad_det_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
+		<property name="processors">
+			<list>
+				<ref bean="d1_ad_det_processor" />
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="d1_cam_wrap" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+		<property name="detector" ref="d1_cam" />
+		<property name="processor" ref="d1_ad_det_processors" />
+		<property name="mergeWithDetectorData" value="true"/>
+	</bean>	
 </beans>
 

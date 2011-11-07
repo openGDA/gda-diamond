@@ -8,9 +8,22 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder location="file:${gda.config}/properties/live/java.properties,file:${gda.config}/properties/java.properties" />
-
-	<import resource="live_server_common.xml" />
-	
-	
+	<import resource="../common.xml" />
+	<bean id="idGap" class="gda.device.scannable.EpicsScannable">
+	<property name="pvName" value="SR13J-MO-SERVC-01:CURRGAPD"/>
+	<property name="useNameAsExtraName" value="true"/>
+	</bean>	
+	<bean id="timeToRefill" class="gda.device.scannable.EpicsScannable">
+	<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN"/>
+	<property name="useNameAsExtraName" value="true"/>
+	<property name="outputFormat">
+		<list>
+			<value>%4.4g</value>
+		</list>
+	</property>
+	</bean>	
+	<bean id="ringCurrent" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL"/>
+		<property name="useNameAsExtraName" value="true"/>
+	</bean>	
 </beans>

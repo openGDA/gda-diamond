@@ -180,40 +180,6 @@
 	</bean>
 
 
-	<bean id="d2_ad_det_nexusProviderDataSetPlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
-		<constructor-arg value="d2_ad_det_nexusProviderDataSetPlotter" />
-		<constructor-arg value="Detector Image" />
-	</bean>
-
-	<bean id="nexusProviderDataSetTest" class="gda.device.detector.nexusprocessor.SimpleDataSetProcessor"/>
-	
-	
-	<bean id="d2_ad_det_processor" class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
-		<constructor-arg value="d2_cam" />
-		<constructor-arg value="data" />
-		<constructor-arg value="SDS" />
-		<constructor-arg>
-			<list>
-				<ref bean="d2_ad_det_nexusProviderDataSetPlotter" />
-				<ref bean="nexusProviderDataSetTest"/>
-			</list>
-		</constructor-arg>
-	</bean>
-
-	<bean id="d2_ad_det_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
-		<property name="processors">
-			<list>
-				<ref bean="d2_ad_det_processor" />
-			</list>
-		</property>
-	</bean>
-
-
-	<bean id="d2_cam_wrap" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector" ref="d2_cam" />
-		<property name="processor" ref="d2_ad_det_processors" />
-	</bean>
-
 
 
 </beans>	

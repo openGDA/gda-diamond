@@ -3,6 +3,9 @@
 #identify install folder and JAVA_HOME
 source /dls_sw/i13-1/etc/i13-1_profile.sh
 
+#this is needed to ensure the acls work properly
+umask 0002
+
 export LOGFILE=$GDALOGS/gda_output_`date +%F-%T`.txt
 touch $LOGFILE
 rm $GDALOGS/gda_output.txt

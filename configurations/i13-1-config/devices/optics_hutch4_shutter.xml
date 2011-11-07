@@ -7,23 +7,31 @@
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
-	<!--  the motors assignments and scaling will need to be reset once EPICS is correct-->
-	<bean id="t1_sx" class="gda.device.scannable.ScannableMotor">
-                <!-- was t1_sy_motor -->
-		<property name="motor" ref="t1_sx_motor" />
+	<bean id="oh4_shtr_ad_det_processor" class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
+		<constructor-arg value="oh4_shtr_cam" />
+		<constructor-arg value="data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg>
+			<list>
+				<ref bean="dataSetPlotter" />
+				<ref bean="tWODDataSetFitter"/>
+			</list>
+		</constructor-arg>
 	</bean>
-	<bean id="t1_sy" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="t1_sy_motor" />
-		<!-- was t1_sz_motor
-		<property name="scalingFactor" value="-1.0"/>
-		-->
+
+	<bean id="oh4_shtr_ad_det_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
+		<property name="processors">
+			<list>
+				<ref bean="oh4_shtr_ad_det_processor" />
+			</list>
+		</property>
 	</bean>
-	<bean id="t1_sz" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="t1_sz_motor" />
-		<!-- was t1_sx_motor
-		<property name="scalingFactor" value="-1.0"/>
-		-->
-	</bean>
+
+
+	<bean id="oh4_shtr_cam_wrap" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+		<property name="detector" ref="oh4_shtr_cam" />
+		<property name="processor" ref="oh4_shtr_ad_det_processors" />
+	</bean>	
 	
 </beans>
-
+	

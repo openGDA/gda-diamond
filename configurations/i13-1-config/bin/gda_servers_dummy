@@ -1,3 +1,4 @@
+CLASSPATH=/dls_sw/i13-1/software/gda/plugins/uk.ac.gda.swingclient/bin; export CLASSPATH
 `dirname $0`/gda_commands logpanel --mode=dummy --restart$@
 export JAVA_OPTS="-Xms128m -Xmx1024m -XX:MaxPermSize=128m"
 `dirname $0`/gda_commands servers --mode=dummy --restart --debug $@

@@ -1,0 +1,92 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+	<import resource="GDAMetadata.xml" />
+	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
+		<property name="recordPvs">
+			<map>
+				<entry key="Current" value="SR-DI-DCCT-01:SIGNAL" />
+				<entry key="FastCurrent" value="SR21C-DI-DCCT-01:SIGNAL" />
+				<entry key="TimeUntilRefill" value="SR-CS-FILL-01:COUNTDOWN" />
+				<entry key="BeamMode" value="CS-CS-MSTAT-01:MODE" />
+			</map>
+		</property>
+		<property name="dummyMode" value="false"></property>
+	</bean>
+	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
+		<property name="recordPvs">
+			<map>
+				<entry key="Top" value="BL13J" />
+			</map>
+		</property>
+		<property name="dummyMode" value="false"></property>
+	</bean>	
+	
+<!-- start of internal building -->
+
+	<import resource="../../../devices/epics/front_end.xml"/>
+
+	<import resource="../../../devices/epics/s1_motors.xml"/>
+	<import resource="../../../devices/epics/filter_motors.xml"/>
+	
+	<import resource="../../../devices/epics/gas_bremsstrahlung1.xml"/>
+
+	<import resource="../../../devices/epics/m1.xml"/>
+
+	<import resource="../../../devices/epics/d1.xml"/>
+	<import resource="../../../devices/epics/absorbers1.xml"/>
+
+	<import resource="../../../devices/epics/d2.xml"/>
+	<import resource="../../../devices/epics/absorbers2.xml"/>
+<!-- 	<import resource="../../../devices/epics/gas_bremsstrahlung1.xml"/>
+ -->
+	<import resource="../../../devices/epics/s2_motors.xml"/>
+
+	<import resource="../../../devices/epics/d3.xml"/>
+
+	<import resource="../../../devices/epics/absorbers3.xml"/>
+
+<!-- End of internal Building/ Start of external Building -->
+
+
+	<import resource="../../../devices/epics/optics_hutch4_shutter.xml"/>
+
+	<import resource="../../../devices/epics/absorbers4.xml"/>
+
+<!--  	<import resource="../../../devices/epics/qcm_motors.xml"/>
+ -->
+	<import resource="../../../devices/epics/experiment_hutch_shutter.xml"/>
+
+<!--  	<import resource="../../../devices/epics/d4.xml"/>
+ -->
+	<import resource="../../../devices/epics/s4_motors.xml"/>
+
+	<import resource="../../../devices/epics/s5_motors.xml"/>
+
+
+	<import resource="../../../devices/epics/sample_stage_t1_motors.xml"/>
+
+	<import resource="../../../devices/epics/alignment_scope_motors.xml"/>
+
+<!--Not present 
+	<import resource="../../../devices/epics/s3_motors.xml"/>
+ -->
+<!--Not present 
+	<import resource="../../../devices/epics/z1_motors.xml"/>
+ -->
+
+	<import resource="../../../devices/live/maxipix_tango.xml"/>
+	
+	
+	<import resource="../common.xml"/>	
+
+	
+</beans>

@@ -8,11 +8,21 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	
+
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata" />
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+
+	<bean id="visitPathConstructor" class="gda.data.ObservablePathConstructor">
+		<property name="template" value="${gda.data.scan.datawriter.datadir}" />
+		<property name="gdaMetadata" ref="GDAMetadata" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="terminalOutputLogger" class="gda.jython.TerminalOutputLogger">
+		<property name="pathProvider" ref="visitPathConstructor" />
+	</bean>
 
 	<import resource="commandQueueProcessor.xml" />
 
@@ -21,16 +31,22 @@
 	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 
+	<bean id="tWODDataSetFitter" class="gda.device.detector.nexusprocessor.DataSetFitter" />
+	<bean id="dataSetPlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
+		<constructor-arg value="dataSetPlotter" />
+		<constructor-arg value="Detector Image" />
+	</bean>
+
 
 	<import resource="../../devices/simpleScannables.xml" />
 
-<!--  Start of real device list -->
+	<!-- Start of real device list -->
 
 	<import resource="../../devices/front_end.xml" />
 
- 	<import resource="../../devices/s1.xml" />
+	<import resource="../../devices/s1.xml" />
 
- 	<import resource="../../devices/filters.xml" />
+	<import resource="../../devices/filters.xml" />
 
 	<import resource="../../devices/m1.xml" />
 
@@ -41,32 +57,27 @@
 	<import resource="../../devices/s2.xml" />
 
 	<import resource="../../devices/d3.xml" />
-	
-<!-- end of internal building/ start of external building -->	
-<!--  	<import resource="../../devices/qcm.xml" />
- -->
-<!--  	<import resource="../../devices/d4.xml" />
- -->
+
+	<import resource="../../devices/optics_hutch4_shutter.xml" />
+
+	<!-- end of internal building/ start of external building -->
+	<!-- <import resource="../../devices/qcm.xml" /> -->
+	<!-- <import resource="../../devices/d4.xml" /> -->
 	<import resource="../../devices/s4.xml" />
 	<import resource="../../devices/s5.xml" />
- 	
-	<import resource="../../devices/sample_stage_t1.xml"/>
- 	
- 	<import resource="../../devices/alignment_scope.xml"/>
 
- 	<import resource="../../devices/dummyAD.xml"/>
+	<import resource="../../devices/sample_stage_t1.xml" />
 
-<!--Not present
-	<import resource="../../devices/s3.xml" />
- 	<import resource="../../devices/diff1.xml" />
- -->
-<!--Not present
- 	<import resource="../../devices/scope1.xml" />
-	<import resource="../../devices/t1.xml" />
-	<import resource="../../devices/z1.xml" />
- -->
-	<import resource="../../devices/maxipix.xml"/>
-<!--  end of device list -->
+	<import resource="../../devices/alignment_scope.xml" />
+
+	<import resource="../../devices/dummyAD.xml" />
+
+	<!--Not present <import resource="../../devices/s3.xml" /> <import resource="../../devices/diff1.xml" 
+		/> -->
+	<!--Not present <import resource="../../devices/scope1.xml" /> <import resource="../../devices/t1.xml" 
+		/> <import resource="../../devices/z1.xml" /> -->
+	<import resource="../../devices/maxipix.xml" />
+	<!-- end of device list -->
 
 
 
@@ -86,19 +97,13 @@
 	<!-- corba export must be the final bean. Later beans are not exported via 
 		Corba -->
 
-<!-- 	<bean id="theta_motor" class="gda.device.motor.DummyMotor"/>
-	
-	<bean id="theta" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="theta_motor" />
-		<property name="userUnits" value="Deg"/>
-	</bean>	
-	
- <bean id="energy" class="gda.device.scannable.MonoScannable">
-  <property name="motorName" value="theta" />
-  <property name="crystalType" value="Si111" />
-  <property name="initialUserUnits" value="eV" />
-  <property name="motorUnitString" value="Deg" />
- </bean> -->
+	<!-- <bean id="theta_motor" class="gda.device.motor.DummyMotor"/> <bean 
+		id="theta" class="gda.device.scannable.ScannableMotor"> <property name="motor" 
+		ref="theta_motor" /> <property name="userUnits" value="Deg"/> </bean> <bean 
+		id="energy" class="gda.device.scannable.MonoScannable"> <property name="motorName" 
+		value="theta" /> <property name="crystalType" value="Si111" /> <property 
+		name="initialUserUnits" value="eV" /> <property name="motorUnitString" value="Deg" 
+		/> </bean> -->
 
 
 	<corba:export namespace="i13-1" />

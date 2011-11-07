@@ -7,18 +7,18 @@
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
-	<bean id="dummy_ad_pluginBase" class="gda.device.detector.areadetector.v17.impl.DummyNDPluginBase">
+	<bean id="dummy_ad_pluginBase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
 	<property name="dims" value="1000,1000"/>
 	<property name="datatype" value="UINT32"/>
 	</bean>
-	<bean id="dummy_ad_base" class="gda.device.detector.areadetector.v17.impl.DummyADBase"/>
+	<bean id="dummy_ad_base" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator"/>
 
-	<bean id="dummy_ad_arr" class="gda.device.detector.areadetector.v17.impl.DummyNDArray">
+	<bean id="dummy_ad_arr" class="gda.device.detector.areadetector.v17.impl.NDArraySimulator">
 	<property name="pluginBase" ref="dummy_ad_pluginBase"/>
 	</bean>
 
 
-	<bean id="dummy_ad_stat" class="gda.device.detector.areadetector.v17.impl.DummyNDStats">
+	<bean id="dummy_ad_stat" class="gda.device.detector.areadetector.v17.impl.NDStatsSimulator">
 	<property name="pluginBase" ref="dummy_ad_pluginBase"/>
 	</bean>
 
@@ -29,13 +29,6 @@
 	</bean>
 
 
-	<bean id="dummy_ad_det_nexusProviderDataSetPlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
-		<constructor-arg value="dummy_ad_det_nexusProviderDataSetPlotter" />
-		<constructor-arg value="Detector Image" />
-	</bean>
-
-	<bean id="nexusProviderDataSetTest" class="gda.device.detector.nexusprocessor.SimpleDataSetProcessor"/>
-	
 	
 	<bean id="dummy_ad_det_processor" class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
 		<constructor-arg value="dummy_cam" />
@@ -43,8 +36,8 @@
 		<constructor-arg value="SDS" />
 		<constructor-arg>
 			<list>
-				<ref bean="dummy_ad_det_nexusProviderDataSetPlotter" />
-				<ref bean="nexusProviderDataSetTest"/>
+				<ref bean="dataSetPlotter" />
+				<ref bean="tWODDataSetFitter"/>
 			</list>
 		</constructor-arg>
 	</bean>
