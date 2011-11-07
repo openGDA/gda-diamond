@@ -8,8 +8,9 @@
 </listAttribute>
 <booleanAttribute key="org.eclipse.debug.core.appendEnvironmentVariables" value="true"/>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
-<mapEntry key="LD_LIBRARY_PATH" value="${workspace_loc:uk.ac.gda.nexus}/lib/${target.os}-${target.arch}:/dls_sw/dasc/jprofiler4/bin/linux-x86"/>
+<mapEntry key="LD_LIBRARY_PATH" value="/scratch/gitGda/plugins/ncsa.hdf/lib/linux-x86:${workspace_loc:uk.ac.gda.nexus}/lib/${target.os}-${target.arch}:/dls_sw/dasc/jprofiler4/bin/linux-x86"/>
 </mapAttribute>
+<stringAttribute key="org.eclipse.debug.ui.ATTR_CAPTURE_IN_FILE" value="/scratch/users/data/2011/cm1946-2/gda_server.log"/>
 <listAttribute key="org.eclipse.jdt.launching.CLASSPATH">
 <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry containerPath=&quot;org.eclipse.jdt.launching.JRE_CONTAINER&quot; javaProject=&quot;uk.ac.gda.core&quot; path=&quot;1&quot; type=&quot;4&quot;/&gt;&#10;"/>
 <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry id=&quot;org.eclipse.jdt.launching.classpathentry.defaultClasspath&quot;&gt;&#10;&lt;memento exportedEntriesOnly=&quot;false&quot; project=&quot;uk.ac.gda.core&quot;/&gt;&#10;&lt;/runtimeClasspathEntry&gt;&#10;"/>
@@ -108,10 +109,26 @@
 <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/uk.ac.gda.epics/jars/epics.jar&quot; path=&quot;3&quot; sourceAttachmentPath=&quot;/uk.ac.gda.epics/uk.ac.gda.epicssrc.zip&quot; sourceRootPath=&quot;&quot; type=&quot;2&quot;/&gt;&#10;"/>
 <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry path=&quot;3&quot; projectName=&quot;uk.ac.gda.beamline.i18&quot; type=&quot;1&quot;/&gt;&#10;"/>
 <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry path=&quot;3&quot; projectName=&quot;uk.ac.gda.client.exafs&quot; type=&quot;1&quot;/&gt;&#10;"/>
+<<<<<<< HEAD
 >>>>>>> f476522... Added proper limit to sample stage motors in the Sample parameters editor refs bl#6698
+=======
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry path=&quot;3&quot; projectName=&quot;ncsa.hdf&quot; type=&quot;1&quot;/&gt;&#10;"/>
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/ncsa.hdf/jars/ext/fitsobj.jar&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#10;"/>
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/ncsa.hdf/jars/ext/nc2obj.jar&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#10;"/>
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/ncsa.hdf/jars/fits.jar&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#10;"/>
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/ncsa.hdf/jars/jhdf4obj.jar&quot; path=&quot;3&quot; sourceAttachmentPath=&quot;/ncsa.hdf/hdf-java-2.7-src.zip&quot; sourceRootPath=&quot;&quot; type=&quot;2&quot;/&gt;&#10;"/>
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/ncsa.hdf/jars/jhdf5.jar&quot; path=&quot;3&quot; sourceAttachmentPath=&quot;/ncsa.hdf/hdf-java-2.7-src.zip&quot; sourceRootPath=&quot;&quot; type=&quot;2&quot;/&gt;&#10;"/>
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/ncsa.hdf/jars/jhdf5obj.jar&quot; path=&quot;3&quot; sourceAttachmentPath=&quot;/ncsa.hdf/hdf-java-2.7-src.zip&quot; sourceRootPath=&quot;&quot; type=&quot;2&quot;/&gt;&#10;"/>
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/ncsa.hdf/jars/jhdfobj.jar&quot; path=&quot;3&quot; sourceAttachmentPath=&quot;/ncsa.hdf/hdf-java-2.7-src.zip&quot; sourceRootPath=&quot;&quot; type=&quot;2&quot;/&gt;&#10;"/>
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/ncsa.hdf/jars/jhdfview.jar&quot; path=&quot;3&quot; sourceAttachmentPath=&quot;/ncsa.hdf/hdf-java-2.7-src.zip&quot; sourceRootPath=&quot;&quot; type=&quot;2&quot;/&gt;&#10;"/>
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/ncsa.hdf/jars/junit.jar&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#10;"/>
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/ncsa.hdf/jars/netcdf.jar&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#10;"/>
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/ncsa.hdf/jars/jhdf.jar&quot; path=&quot;3&quot; sourceAttachmentPath=&quot;/ncsa.hdf/hdf-java-2.7-src.zip&quot; sourceRootPath=&quot;&quot; type=&quot;2&quot;/&gt;&#10;"/>
+>>>>>>> 6969b92... Fix for stopping Out of Memory errors on loading large map files refs beam#6811
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="gda.util.ObjectServer"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="&gt; /scratch/users/data/2011/cm1946-2/gda_server.log"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="uk.ac.gda.core"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.root=${project_loc:uk.ac.gda.core}/..&#10;-Dgda.config=${project_loc:i18-config}&#10;-Dgda.propertiesFile=${project_loc:i18-config}/properties/java-localrcp.properties&#10;-Djacorb.config.dir=${project_loc:i18-config}/properties&#10;-Dgov.aps.jca.JCALibrary.properties=${project_loc:i18-config}/properties/JCALibrary.properties&#10;-Djava.library.path=${workspace_loc}/plugins/uk.ac.gda.nexus/lib/${target.os}-${target.arch}&#10;-Xms128m -Xmx1024m&#10;-XX:+DisableExplicitGC"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.root=${project_loc:uk.ac.gda.core}/..&#10;-Dgda.config=${project_loc:i18-config}&#10;-Dgda.propertiesFile=${project_loc:i18-config}/properties/java-localrcp.properties&#10;-Djacorb.config.dir=${project_loc:i18-config}/properties&#10;-Dgov.aps.jca.JCALibrary.properties=${project_loc:i18-config}/properties/JCALibrary.properties&#10;-Djava.library.path=/scratch/gitGda/plugins/ncsa.hdf/lib/linux-x86:${workspace_loc}/plugins/uk.ac.gda.nexus/lib/${target.os}-${target.arch}&#10;-Xms512m -Xmx2048m&#10;-XX:+DisableExplicitGC"/>
 </launchConfiguration>

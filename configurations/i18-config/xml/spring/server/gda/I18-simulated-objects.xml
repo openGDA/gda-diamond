@@ -353,6 +353,7 @@
 	<bean id="dcm_bragg_motor" class="gda.device.motor.DummyMotor" >
 	<property name="speed" value="1000.0"></property>
 	</bean>	   
+	<bean id="dcm_energy_motor" class="gda.device.motor.DummyMotor" />	
 	<bean id="dcm_crystal1_roll_motor" class="gda.device.motor.DummyMotor" />	
 	<bean id="dcm_crystal2_roll_motor" class="gda.device.motor.DummyMotor" />	
 	<bean id="dcm_crystal2_pitch_motor" class="gda.device.motor.DummyMotor" />	
@@ -469,7 +470,7 @@
 	
 	<bean id="xpsDeferFlag" class="gda.device.controlpoint.DummyControlPoint"/>
 	
-	<bean id="qexafs_energy" class="gda.device.scannable.QexafsTestingScannable">
+	<!--  <bean id="qexafs_energy" class="gda.device.scannable.QexafsTestingScannable">
 		<property name="motor" ref="dcm_bragg_motor" />
 		<property name="lowerGdaLimits" value="2000" />
 		<property name="upperGdaLimits" value="35000" />
@@ -478,6 +479,6 @@
 				<value>%.2f</value>
 			</list>
 		</property>
-	</bean>
+	</bean>-->
 	
 </beans>

@@ -71,6 +71,9 @@ from gda.device.scannable import CurrentTimeScannable
 curTime = CurrentTimeScannable()
 curTime.setName("curTime")
 # to act as the energy during dev
+from gda.device.scannable import CurrentTimeScannable
+curTime = CurrentTimeScannable()
+curTime.setName("curTime")
 ################################################################################
 ##default monitors
 ################################################################################
@@ -192,6 +195,7 @@ execfile(gdaConfigDir + "scripts/i18_scans.py")
 print "Loading Stage Offset routines..."
 execfile(gdaConfigDir + "scripts/sampleStageTilt.py")
 ##########################################################################
+
 
 global mapRunning
 mapRunning =0
