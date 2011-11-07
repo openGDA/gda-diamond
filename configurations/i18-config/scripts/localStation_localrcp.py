@@ -20,6 +20,7 @@ sys.path.append(gdaMicroFocus +  "scripts/")
 ######################################################################
 print "setting up mapscan"
 execfile (gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/rastermap.py")
+execfile (gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/vortex_rastermap.py")
 execfile (gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/map.py")
 execfile(gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/microfocus_elements.py")
 
@@ -32,6 +33,8 @@ gdaConfigDir = gdaConfigDir + "/"
 
 execfile(gdaConfigDir + "scripts/scans/DummySlaveCounterTimer.py")
 execfile(gdaConfigDir + "scripts/scans/DummyExafsScanClass.py")
+
+execfile(gdaConfigDir + "scripts/I18Scans/XspressReadScannable.py")
 
 ##########################################################################
 ##Swing GUI xspress and Microfocus settings
@@ -49,7 +52,7 @@ sc_MicroFocusSampleY.setOutputFormat(["%.4f"])
 print "setting scans"
 from exafsscripts.exafs import setupBeamline
 setupBeamline.rootnamespace = globals()
-from exafsscripts.exafs.xas_scans import xas, xanes, estimateXas, estimateXanes
+from exafsscripts.exafs.xas_scans import xas, xanes, estimateXas, estimateXanes, qexafs
 
 from exafsscripts.vortex import vortexConfig
 from exafsscripts.vortex.vortexConfig import vortex
@@ -63,6 +66,10 @@ alias("estimateXas")
 alias("estimateXanes")
 alias("vortex")
 alias("xspress")
+alias("qexafs")
+from gda.device.scannable import CurrentTimeScannable
+curTime = CurrentTimeScannable()
+curTime.setName("curTime")
 # to act as the energy during dev
 ################################################################################
 ##default monitors
@@ -118,8 +125,8 @@ gdaConfigDir = gdaConfigDir + "/"
 #######################################################################
 from gda.data.fileregistrar import IcatXMLCreator
 archiver= IcatXMLCreator()
-#archiver.setDirectory("/dls/bl-misc/dropfiles/icat/dropZone/i18/i18_")
-archiver.setDirectory("/tmp/i18/i18_")
+archiver.setDirectory("/dls/bl-misc/dropfiles/icat/dropZone/i18/i18_")
+#archiver.setDirectory("/tmp/i18/i18_")
 ########################################################################
 
 ########################################################################
