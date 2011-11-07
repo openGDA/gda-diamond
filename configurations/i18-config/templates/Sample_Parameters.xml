@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <I18SampleParameters>
+<<<<<<< HEAD
 	<name>name</name>
     <SampleStage>
    		<x>2.5</x>
@@ -8,7 +9,7 @@
     </SampleStage>
     
 	<Attenuator1>
-        <name>D7B</name>
+        <name>D7A</name>
 		<position>2 mm Al</position>
         <position>0.1 mm Al</position>
         <position>0.05 mm Al</position>
