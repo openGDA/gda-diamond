@@ -3,8 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-<!--	simply copied form the I20 config for now-->
-
 	<bean id="Stanford01" class="gda.device.currentamplifier.DummyCurrentAmplifier" />
 	<bean id="Stanford02" class="gda.device.currentamplifier.DummyCurrentAmplifier" />
 	<bean id="Stanford03" class="gda.device.currentamplifier.DummyCurrentAmplifier" />

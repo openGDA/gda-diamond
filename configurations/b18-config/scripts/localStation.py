@@ -92,6 +92,8 @@ monoCooler.setTemperatureCoolLevel(100)
 monoCooler.configure()
 #add_default monoCooler
 
+original_header = Finder.getInstance().find("datawriterconfig").clone().getHeader()[:]
+
 from java import util
 
 print "localStation.py completed."

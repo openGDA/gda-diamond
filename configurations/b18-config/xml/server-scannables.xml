@@ -388,10 +388,6 @@
 		</property>
 	</bean>
 
-<!--	<bean id="sam3y" class="gda.device.scannable.ScannableMotor">-->
-<!--		<property name="motor" ref="SAM3Y_motor" />-->
-<!--	</bean>-->
-
 	<bean id="tab1y1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="TAB1Y1_motor" />
 	</bean>
@@ -430,44 +426,7 @@
 				<value>scannable1</value>
 			</list>
 		</property>
-<!--		<property name="observers">-->
-<!--			<list>-->
-<!--				<ref bean="det1"/>-->
-<!--			</list>-->
-<!--		</property>-->
 	</bean>
-	
-	
-<!--	<bean id="BPM1" class="gda.device.scannable.scannablegroup.ScannableGroup">-->
-<!--		<property name="groupMembers">-->
-<!--			<list>-->
-<!--				<bean id="BPM1_1" class="gda.device.scannable.PVScannable">-->
-<!--					<property name="name" value="BPM1_1"/>-->
-<!--					<property name="pvName" value="BL18B-DI-BPM-01:AI1" />-->
-<!--					<property name="units" value="mA" />-->
-<!--					<property name="local" value = "true" />-->
-<!--				</bean>-->
-<!--				<bean id="BPM1_2" class="gda.device.scannable.PVScannable">-->
-<!--					<property name="name" value="BPM1_2"/>-->
-<!--					<property name="pvName" value="BL18B-DI-BPM-01:AI2" />-->
-<!--					<property name="units" value="mA" />-->
-<!--					<property name="local" value = "true" />-->
-<!--				</bean>-->
-<!--				<bean id="BPM1_3" class="gda.device.scannable.PVScannable">-->
-<!--					<property name="name" value="BPM1_3"/>-->
-<!--					<property name="pvName" value="BL18B-DI-BPM-01:AI3" />-->
-<!--					<property name="units" value="mA" />-->
-<!--					<property name="local" value = "true" />-->
-<!--				</bean>-->
-<!--				<bean id="BPM1_4" class="gda.device.scannable.PVScannable">-->
-<!--					<property name="name" value="BPM1_4"/>-->
-<!--					<property name="pvName" value="BL18B-DI-BPM-01:AI4" />-->
-<!--					<property name="units" value="mA" />-->
-<!--					<property name="local" value = "true" />-->
-<!--				</bean>-->
-<!--			</list>-->
-<!--		</property>-->
-<!--	</bean>-->
 
 
 	<bean id="hr_coating" class="gda.device.scannable.MirrorCoating" >
@@ -484,9 +443,8 @@
 		<property name="mirror" ref="HRY1_motor" />
 	</bean>
 	
-	<bean id="test2" class="gda.device.scannable.ScannableMotor" >
-		<property name="motor" ref="test2_motor" />
+	<bean id="test" class="gda.device.scannable.ScannableMotor" >
+		<property name="motor" ref="test_motor" />
 	</bean>
 	
-
 </beans>

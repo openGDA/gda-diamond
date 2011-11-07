@@ -13,7 +13,7 @@ class MythenAcquisition:
         self.acquiring = False
         self.header = "no header"
         self.mythen = Finder.getInstance().find("mythen")
-        self.test = Finder.getInstance().find("test2")
+        self.test = Finder.getInstance().find("test")
     
     def setHeader(self, header):
         self.header = header

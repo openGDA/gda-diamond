@@ -4,5 +4,5 @@
     <asciiDirectory>ascii</asciiDirectory>
     <nexusDirectory>nexus</nexusDirectory>
 	<xspressOnlyShowFF>false</xspressOnlyShowFF>
-	<xspressShowDTRawValues>true</xspressShowDTRawValues>
+	<xspressShowDTRawValues>false</xspressShowDTRawValues>
 </OutputParameters>
