@@ -19,6 +19,10 @@ from gda.factory import Finder
 from gda.data.scan.datawriter import NexusExtraMetadataDataWriter
 from gda.data.scan.datawriter import NexusFileMetadata
 from gda.data.scan.datawriter.NexusFileMetadata import EntryTypes, NXinstrumentSubTypes
+from uk.ac.gda.beans import BeansFactory
+from java.io import File
+from gda.device.detector.xspress import ResGrades
+from uk.ac.gda.beans.exafs import QEXAFSParameters
 
 rootnamespace = {}
 
@@ -28,6 +32,15 @@ def finish():
 
 def setup(beanGroup):
     if beanGroup.getDetector().getExperimentType() == "Fluorescence":
+        if (beanGroup.getDetector().getFluorescenceParameters().getDetectorType() == "Germanium" ):
+            fullFileName = beanGroup.getScriptFolder() + beanGroup.getDetector().getFluorescenceParameters().getConfigFileName()
+            bean = BeansFactory.getBean(File(fullFileName));
+            bean.setReadoutMode(XspressDetector.READOUT_MCA);
+            bean.setResGrade(ResGrades.NONE);
+            elements = bean.getDetectorList();
+            for element in elements: 
+                rois = element.getRegionList();
+                element.setWindow(rois.get(0).getRegionStart(), rois.get(0).getRegionEnd())
         configFluoDetector(beanGroup)
     #setup topup
     scan = beanGroup.getScan()
@@ -37,6 +50,8 @@ def setup(beanGroup):
         for region in regions:
             if(collectionTime < region.getTime()):
                 collectionTime =region.getTime()
+    elif isinstance(scan,QEXAFSParameters):
+        pass
     else:
         collectionTime = scan.getExafsTime()
         if(scan.getExafsToTime() > collectionTime):
