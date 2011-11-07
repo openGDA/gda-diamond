@@ -14,11 +14,11 @@
 	<!--attenuators -->
 	<bean id="atn1" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="ATN1P" />
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 	</bean>
 	<bean id="atn1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="ATN1P.MOTOR" />
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 	</bean>
 	<!-- <bean id="atn1_motor_demand" class="gda.device.motor.EpicsMotor"> -->
 	<!-- <property name="pvName" value="BL20I-OP-ATTN-01:P:SETVALUE2"/> -->
@@ -28,7 +28,7 @@
 
 	<bean id="atn2" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="ATN2P" />
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 	</bean>
 	<bean id="atn2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="ATN2P.MOTOR" />
@@ -37,19 +37,19 @@
 
 	<bean id="atn3" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="ATN3P" />
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 	</bean>
 	<bean id="atn3_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="ATN3P.MOTOR" />
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 	</bean>
 	<bean id="atn4" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="ATN4P" />
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 	</bean>
 	<bean id="atn4_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="ATN4P.MOTOR" />
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 	</bean>
 
 	<bean id="atn1_pos" class="gda.device.scannable.ScannableMotor">
