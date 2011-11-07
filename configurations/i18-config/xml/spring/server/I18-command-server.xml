@@ -67,6 +67,7 @@
 	           <value>uk.ac.gda.beans.exafs.XasScanParameters</value>
 	           <value>uk.ac.gda.beans.exafs.XanesScanParameters</value>
 	           <value>uk.ac.gda.beans.exafs.XesScanParameters</value>
+	           <value>uk.ac.gda.beans.exafs.QEXAFSParameters</value>
 	           <value>uk.ac.gda.beans.exafs.i18.I18SampleParameters</value>
 	           <value>uk.ac.gda.beans.exafs.SampleElements</value>
 	           <value>uk.ac.gda.beans.exafs.DetectorParameters</value>

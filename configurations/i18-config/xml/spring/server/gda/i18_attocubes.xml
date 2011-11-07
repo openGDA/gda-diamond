@@ -1,12 +1,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"><!--
      
     <bean class="gda.configuration.epics.EpicsConfiguration">
 		<constructor-arg value="${gda.config}/xml/epics/BL18I-gda-interface2-0.xml" />
 	</bean>      
-    <!-- ANC motors -->
+    --><!-- ANC motors -->
     <bean id="anc1_x_motor" class="gda.device.motor.EpicsMotor">
     <property name="deviceName" value="ANC1.X"></property>
     </bean>

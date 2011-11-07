@@ -161,10 +161,11 @@
 	<property name="deviceName" value="DET4ILK"></property>
 	<property name="local" value="true"/>
 </bean>
-<!-- <bean id="bragg_speed" class="gda.device.monitor.EpicsMonitor">
-	<property name="pvName" value="BL18I-OP-DCM-01:BRAGG:MPSPEED.DRVH" />
-	<property name="local" value="true" />
-</bean> -->
+	<bean id="bragg_speed" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-OP-DCM-01:BRAGG.VMAX" />
+		<property name="local" value="true" />
+	</bean>
+
 <!-- ********************* -->
 <!-- *** MOTOR SECTION *** -->
 <!-- ********************* -->
@@ -260,6 +261,10 @@
 <!-- Monochromator / DCM Motors -->
 <bean id="dcm_bragg_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="DCM:BRAGG"></property>
+	<property name="local" value="true"/>
+</bean>
+<bean id="dcm_energy_motor" class="gda.device.motor.EpicsMotor" >
+	<property name="deviceName" value="DCM:ENERGY"></property>
 	<property name="local" value="true"/>
 </bean>
 <bean id="dcm_crystal1_roll_motor" class="gda.device.motor.EpicsMotor" >

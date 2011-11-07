@@ -31,11 +31,15 @@
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-swing-objects.xml"/>
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-rmiserver.xml"/>
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-server-datawriterconfig.xml"/>
-	<!-- <import resource="file:${gda.config}/xml/spring/server/gda/i18_attocubes.xml" /> -->
+	<!--  <import resource="file:${gda.config}/xml/spring/server/gda/i18_attocubes.xml"/>-->
 	<import resource="file:${gda.config}/xml/spring/server//I18-command-server.xml"/>
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-core.xml"/>
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
-		
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+			<property name="serviceName" value="gda/qexafs_energy" />
+			<property name="service" ref="qexafs_energy" />
+			<property name="serviceInterface" value="uk.ac.gda.exafs.ui.views.scalersmonitor.IQexafsScannableState" />
+		</bean>
 	<corba:export namespace="I18" />
 
 </beans>

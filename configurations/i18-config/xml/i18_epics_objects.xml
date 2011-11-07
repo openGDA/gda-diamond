@@ -1558,8 +1558,8 @@
 		<epicsRecordName>ml_det_epicsrecord</epicsRecordName>
 	</EpicsMotor>-->
 
-<!-- ANC motors -->
-<!--  	<EpicsMotor>
+        <!-- ANC motors -->
+  	<EpicsMotor>
 		<name>anc1_x_motor</name>
 		<deviceName>ANC1.X</deviceName>
 	</EpicsMotor>
@@ -1582,7 +1582,7 @@
 	<EpicsMotor>
 		<name>anc1_rot_motor</name>
 		<deviceName>ANC1.ROT</deviceName>
-	</EpicsMotor>-->
+	</EpicsMotor>
 
 	<!-- WDS Detector Motors -->
 	 

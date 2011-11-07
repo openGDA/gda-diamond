@@ -595,6 +595,9 @@
 	<simpleMotor desc="XTAL2 ROLL" name="DCM:XTAL2:ROLL">
 		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:XTAL2:ROLL" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleMotor desc="DCM ENERGY" name="DCM:ENERGY">
+		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:ENERGY" ro="false" type="motor"/>
+	</simpleMotor>
 	<simpleMotor desc="HRM PITCH" name="HRM:PITCH">
 		<RECORD desc="Motor" pv="BL18I-OP-HRM-01:PITCH" ro="false" type="motor"/>
 	</simpleMotor>
