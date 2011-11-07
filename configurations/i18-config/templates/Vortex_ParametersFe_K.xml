@@ -10,8 +10,8 @@
         <ROI>
             <name>Fe_ka</name>
             <windowStart>690</windowStart>
-            <windowEnd>691</windowEnd>
-            <counts>13430086</counts>
+            <windowEnd>700</windowEnd>
+            <counts>70812346</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
