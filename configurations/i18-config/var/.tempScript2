@@ -1,45 +1,9 @@
-#>>> run "startup_trajscan.py"
-
-from gda.device.detector.hardwaretriggerable import DummyHardwareTriggerableAreaDetector
-from gda.scan import TrajectoryScanLine
-from gda.factory import Finder
-
-
-st = DummyHardwareTriggerableAreaDetector('st')
-st.setHardwareTriggerProvider(continuousSampleX.getContinuousMoveController()) #@UndefinedVariable
-xps_controller = continuousSampleX.getContinuousMoveController() #@UndefinedVariable
-
-# An example scan
-#tsl=TrajectoryScanLine([samplex, 0, 10, 1, mcs1, 1, mcs2]);tsl.setScanDataPointQueueLength(10000);tsl.setPositionCallableThreadPoolSize(1);tsl.runScan()
-
-# Note that the arg list in []s are those of any regular gda scan as long as they contain only one line. 
-
-# Detectors must be only the above mcs detectors : these are channels 1-4 on the struck card (where the first is wired internally to 50Mhz clock). Make more as needed.
-
-# Scannables to move or read must be any of sixc (kphi, kap, kth, kmu, kdelta, kgam), euler (chi, phi, eta, delta, mu, gamma), hkl (h, k, l). Remove all defaults for now please.
-
-# All Scannable positions in data files are demand positions for now.
-
-
-def trajscan(*args):
-	command_server = Finder.getInstance().find("command_server")
-	default_scannables_to_remove = list(command_server.getDefaultScannables())
-	try:
-		#default_scannables_to_remove.remove(meta) #@UndefinedVariable
-		print "Leaving in default scannable: meta"
-	except ValueError:
-		print "No meta default scannable set"
-	#print "Removing defaults: " + ', '.join([scn.name for scn in default_scannables_to_remove])
-	#for scn in default_scannables_to_remove:
-	#	command_server.removeDefault(scn)
-	try:
-		tsl=TrajectoryScanLine(list(args))
-		tsl.setScanDataPointQueueLength(10000)
-		tsl.setPositionCallableThreadPoolSize(1)
-		tsl.runScan()
-	finally:
-		#print "Restoring defaults: "  + ', '.join([scn.name for scn in default_scannables_to_remove])
-		#for scn in default_scannables_to_remove:
-		#	command_server.addDefault(scn)
-		print "finished traj scan"
-alias('trajscan')
+#
+#
+# focus position
+#
+pos s2xgap 0.03
+pos kb_hfm_curve 1.59
+pos kb_vfm_curve 8.54
+inc kb_vfm_curve 0.002
+#hello
