@@ -16,7 +16,7 @@
 
 	<bean id="absorberChecker" class="gda.device.scannable.CheckingScannable">
 		<property name="scannable" ref="absorber" />
-		<property name="value" value="1" />
+		<property name="value" value="Open" />
 		<property name="level" value="0" />
 		<property name="pauseBeforePoint" value="false" />
 		<property name="local" value="true"/>
@@ -25,7 +25,7 @@
 
 	<bean id="test_motor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="200" />
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 	</bean>
 
 	<bean id="test" class="gda.device.scannable.ScannableMotor">
@@ -33,6 +33,6 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="test_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 	</bean>
 </beans>

@@ -97,9 +97,6 @@
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 
-
-
-
 	<bean id="d4_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="deviceName" value="D4.D1I" />
 		<property name="local" value="false"/>
@@ -112,11 +109,9 @@
 		<property name="pvName" value="BL20I-DI-PHDGN-04:POSN" />
 		<property name="local" value="false"/>
 	</bean>
-	
 	<bean id="d4_gain" class="gda.device.currentamplifier.EpicsCurrAmpGain">
 		<property name="pvName" value="BL20I-DI-IAMP-02:GAIN" />
 	</bean>
-	
 	<bean id="d4_screen_pos" class="gda.device.scannable.ScannableMotor">
 		<property name="local" value="false"/>
 		<property name="protectionLevel" value="3" />
@@ -124,8 +119,6 @@
 		<property name="motor" ref="d4_motor" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
-
-
 
 	<bean id="d5_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="deviceName" value="D5.D1I" />
@@ -139,11 +132,10 @@
 		<property name="pvName" value="BL20I-DI-PHDGN-05:POSN" />
 		<property name="local" value="false"/>
 	</bean>
-	
 	<bean id="d5_gain" class="gda.device.currentamplifier.EpicsCurrAmpGain">
 		<property name="pvName" value="BL20I-DI-IAMP-04:GAIN" />
+		<property name="local" value="false"/>
 	</bean>
-	
 	<bean id="d5_screen_pos" class="gda.device.scannable.ScannableMotor">
 		<property name="local" value="false"/>
 		<property name="protectionLevel" value="3" />
@@ -152,16 +144,40 @@
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 
-	<bean id="d6_screen" class="gda.device.enumpositioner.EpicsPneumatic">
+	<bean id="d6_screen" class="gda.device.enumpositioner.NameMappedEpicsPneumaticCallback">
 		<property name="local" value="false"/>
 		<property name="protectionLevel" value="3" />
-		<property name="epicsRecordName" value="BL20I-DI-PHDGN-06"/>
+		<property name="deviceName" value="D6P"/>
+		<property name="controlValues">
+			<map>
+				<entry key="in" value="Open" />
+				<entry key="out" value="Close" />
+			</map>
+		</property>
+		<property name="statusValues">
+			<map>
+				<entry key="Open" value="in" />
+				<entry key="Closed" value="out" />
+			</map>
+		</property>
 	</bean>
 
-	<bean id="d7_screen" class="gda.device.enumpositioner.EpicsPneumatic">
+	<bean id="d7_screen" class="gda.device.enumpositioner.NameMappedEpicsPneumaticCallback">
 		<property name="local" value="false"/>
 		<property name="protectionLevel" value="3" />
-		<property name="epicsRecordName" value="BL20I-DI-PHDGN-07"/>
+		<property name="deviceName" value="D7P"/>
+		<property name="controlValues">
+			<map>
+				<entry key="in" value="Open" />
+				<entry key="out" value="Close" />
+			</map>
+		</property>
+		<property name="statusValues">
+			<map>
+				<entry key="Open" value="in" />
+				<entry key="Closed" value="out" />
+			</map>
+		</property>
 	</bean>
 
 	<bean id="d8_motor" class="gda.device.motor.EpicsMotor">
@@ -180,14 +196,31 @@
 		<property name="deviceName" value="D8P" />
 	</bean>
 	
-	<bean id="d9_screen" class="gda.device.enumpositioner.EpicsPneumatic">
+	<bean id="d9_diode" class="gda.device.enumpositioner.NameMappedEpicsPneumaticCallback">
 		<property name="local" value="false"/>
 		<property name="protectionLevel" value="3" />
-		<property name="epicsRecordName" value="BL20I-DI-PHDGN-09"/>
+		<property name="deviceName" value="D9"/>
+		<property name="controlValues">
+			<map>
+				<entry key="in" value="Open" />
+				<entry key="out" value="Close" />
+			</map>
+		</property>
+		<property name="statusValues">
+			<map>
+				<entry key="Open" value="in" />
+				<entry key="Closed" value="out" />
+			</map>
+		</property>
 	</bean>
 	<bean id="d9_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="deviceName" value="D9.D1I" />
 		<property name="local" value="false"/>
 	</bean>
+	<bean id="d9_gain" class="gda.device.currentamplifier.EpicsCurrAmpGain">
+		<property name="pvName" value="BL20I-DI-IAMP-05:GAIN" />
+		<property name="local" value="false"/>
+	</bean>
+	
 
 </beans>

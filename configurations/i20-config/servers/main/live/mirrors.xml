@@ -37,7 +37,7 @@
 		<property name="deviceName" value="M1.Y" />
 		<property name="local" value="true"/>
 	</bean>
-	<bean id="m1_bend_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="m1_curvature_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M1.CURVE" />
 		<property name="local" value="true"/>
 	</bean>
@@ -70,7 +70,7 @@
 		<property name="deviceName" value="M2.Y" />
 		<property name="local" value="true"/>
 	</bean>
-	<bean id="m2_bend_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="m2_curvature_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M2.CURVE" />
 		<property name="local" value="true"/>
 	</bean>
@@ -152,7 +152,7 @@
 		<property name="deviceName" value="M4.YAW" />
 		<property name="local" value="true"/>
 	</bean>
-	<bean id="m4_bend_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="m4_curvature_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M4.CURVE" />
 		<property name="local" value="true"/>
 	</bean>
@@ -193,10 +193,10 @@
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="m1_bend" class="gda.device.scannable.ScannableMotor">
+	<bean id="m1_curvature" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="m1_bend_motor" />
+		<property name="motor" ref="m1_curvature_motor" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
 	</bean>
@@ -248,10 +248,10 @@
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="m2_bend" class="gda.device.scannable.ScannableMotor">
+	<bean id="m2_curvature" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="m2_bend_motor" />
+		<property name="motor" ref="m2_curvature_motor" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
 	</bean>
@@ -337,10 +337,10 @@
 		<property name="upperGdaLimits" value="10" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="m4_bend" class="gda.device.scannable.ScannableMotor">
+	<bean id="m4_curvature" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="m4_bend_motor" />
+		<property name="motor" ref="m4_curvature_motor" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="lowerGdaLimits" value="0" />
 		<property name="upperGdaLimits" value="10" />

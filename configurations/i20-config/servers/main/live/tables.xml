@@ -103,5 +103,18 @@
 		<property name="local" value="false" />
 	</bean>
 
+	<bean id="filterwheel" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL20I-MO-TABLE-03:MP:SELECT" />
+		<property name="values">
+			<map>
+				<entry key="sample1" value="Filter 1" />
+				<entry key="sample2" value="Filter 2" />
+				<entry key="sample3" value="Filter 3" />
+				<entry key="sample4" value="Filter 4" />
+				<entry key="sample5" value="Filter 5" />
+			</map>
+		</property>
+
+	</bean>
 
 </beans>

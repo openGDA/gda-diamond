@@ -59,6 +59,11 @@
 	<bean id="spec_rot_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-EA-ANAL-01:ROT" />
 	</bean>
+	
+	<bean id="det_slit_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20I-EA-DET-03:SLIT" />
+	</bean>
+	
 
 	<bean id="xtal_minus1_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="xtal_minus1_x_motor" />
@@ -145,7 +150,14 @@
 		<property name="hardwareUnitString" value="deg" />
 		<property name="initialUserUnits" value="deg" />
 	</bean>
+
+	<bean id="det_slit" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="det_slit_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
 	
+
 	<bean id="radius" class="gda.device.scannable.DummyPersistentScannable" />
 	<bean id="cut1" class="gda.device.scannable.DummyPersistentScannable">
 		<property name="outputFormat">
@@ -424,5 +436,16 @@
 		<property name="cut3" ref="cut3" />
 		<property name="material" ref="material" />
 	</bean>	
+
+	<bean id="xes_slit_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20I-EA-DET-03:SLIT" />
+		<property name="local" value="false"/>
+	</bean>
+	
+	<bean id="xes_slits" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xes_slit_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
 
 </beans>
