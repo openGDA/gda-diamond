@@ -2,7 +2,7 @@
 <XspressParameters>
     <detectorName>xspress2system</detectorName>
     <resGrade>res-none</resGrade>
-    <readoutMode>Scalers and MCA</readoutMode>
+    <readoutMode>Regions Of Interest</readoutMode>
     <editIndividualElements>true</editIndividualElements>
     <DetectorElement>
         <name>Element0</name>
