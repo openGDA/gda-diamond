@@ -105,6 +105,7 @@
             <roiName>Cu_K</roiName>
             <regionStart>772</regionStart>
             <regionEnd>841</regionEnd>
+
             <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
