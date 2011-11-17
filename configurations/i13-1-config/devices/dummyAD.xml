@@ -22,7 +22,7 @@
 	<property name="pluginBase" ref="dummy_ad_pluginBase"/>
 	</bean>
 
-	<bean id="dummy_cam" class="gda.device.detector.ADDetector">
+	<bean id="dummy_cam" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="dummy_ad_base" />
 		<property name="ndStats" ref="dummy_ad_stat" />
 		<property name="ndArray" ref="dummy_ad_arr" />

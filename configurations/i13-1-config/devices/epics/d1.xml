@@ -174,7 +174,7 @@
 		</property>
 	</bean>
 
-	<bean id="d1_cam" class="gda.device.detector.ADDetector">
+	<bean id="d1_cam" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="d1_cam_base" />
 		<property name="ndStats" ref="d1_stat" />
 		<property name="ndArray" ref="d1_arr" />

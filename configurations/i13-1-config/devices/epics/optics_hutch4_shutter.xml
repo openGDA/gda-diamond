@@ -100,7 +100,7 @@
 		</property>
 	</bean>
 
-	<bean id="oh4_shtr_cam" class="gda.device.detector.ADDetector">
+	<bean id="oh4_shtr_cam" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="oh4_shtr_cam_base" />
 		<property name="ndStats" ref="oh4_shtr_stat" />
 		<property name="ndArray" ref="oh4_shtr_arr" />
