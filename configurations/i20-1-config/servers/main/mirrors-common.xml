@@ -30,6 +30,7 @@
 				<ref bean="me1pitch" />
 				<ref bean="me1yaw" />
 				<ref bean="me1curvature" />
+				<ref bean="me1_stripe" />
 			</list>
 		</property>
 	</bean>
@@ -60,6 +61,7 @@
 				<ref bean="me2y" />
 				<ref bean="me2pitch" />
 				<ref bean="me2yaw" />
+				<ref bean="me2_stripe" />
 				<!-- <ref bean="me1curvature" /> -->
 			</list>
 		</property>
