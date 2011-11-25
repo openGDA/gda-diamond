@@ -1,0 +1,117 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- me1 -->
+
+
+	<bean id="me1y" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="me1y" />
+		<property name="motor" ref="me1y_motor" />
+	</bean>
+	<bean id="me1pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="me1pitch" />
+		<property name="motor" ref="me1pitch_motor" />
+	</bean>
+	<bean id="me1yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="me1yaw" />
+		<property name="motor" ref="me1yaw_motor" />
+	</bean>
+	<bean id="me1curvature" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="me1curvature" />
+		<property name="motor" ref="me1curvature_motor" />
+	</bean>
+
+	<bean id="me1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="me1y" />
+				<ref bean="me1pitch" />
+				<ref bean="me1yaw" />
+				<ref bean="me1curvature" />
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- me2 -->
+
+	<bean id="me2y" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="me2y" />
+		<property name="motor" ref="me2y_motor" />
+	</bean>
+	<bean id="me2pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="me2pitch" />
+		<property name="motor" ref="me2pitch_motor" />
+	</bean>
+	<bean id="me2yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="me2yaw" />
+		<property name="motor" ref="me2yaw_motor" />
+	</bean>
+	<!-- <bean id="me2curvature" class="gda.device.scannable.ScannableMotor"> -->
+	<!-- <property name="name" value="me2curvature" /> -->
+	<!-- <property name="motor" ref="me2curvature_motor" /> -->
+	<!-- </bean> -->
+
+	<bean id="me2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="me2y" />
+				<ref bean="me2pitch" />
+				<ref bean="me2yaw" />
+				<!-- <ref bean="me1curvature" /> -->
+			</list>
+		</property>
+	</bean>
+
+	<!-- polychromator -->
+
+	<bean id="polyrot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="polyrot_motor" />
+	</bean>
+	<bean id="polypitch" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="polypitch" />
+		<property name="motor" ref="polypitch_motor" />
+	</bean>
+	<bean id="polyroll" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="polyroll" />
+		<property name="motor" ref="polyroll_motor" />
+	</bean>
+	<bean id="polybend" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="polybend" />
+		<property name="motor" ref="polybend_motor" />
+	</bean>
+	<bean id="polytwist" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="polytwist" />
+		<property name="motor" ref="polytwist_motor" />
+	</bean>
+	<bean id="polys1" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="polys1" />
+		<property name="motor" ref="polys1_motor" />
+	</bean>
+	<bean id="polys2" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="polys2" />
+		<property name="motor" ref="polys2_motor" />
+	</bean>
+	<bean id="polyy" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="polyy" />
+		<property name="motor" ref="polyy_motor" />
+	</bean>
+
+	<bean id="polychromator" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="polyrot" />
+				<ref bean="polypitch" />
+				<ref bean="polyroll" />
+				<ref bean="polybend" />
+				<ref bean="polytwist" />
+				<ref bean="polys1" />
+				<ref bean="polys2" />
+				<ref bean="polyy" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

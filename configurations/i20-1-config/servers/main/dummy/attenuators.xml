@@ -1,0 +1,90 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- <bean id="atn1" class="gda.device.enumpositioner.EpicsPositionerCallback"> -->
+	<!-- <property name="deviceName" value="ATN1P" /> -->
+	<!-- </bean> -->
+
+
+	<bean id="atn1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Empty</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="atn2" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Empty</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="atn3" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Empty</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="d2" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Empty</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="d3" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Empty</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="d4" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Empty</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="atn4" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Empty</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="atn5" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Empty</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="atn6" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Empty</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="d5" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Empty</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

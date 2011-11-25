@@ -1,0 +1,59 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- <bean id="atn1" class="gda.device.enumpositioner.EpicsPositionerCallback"> -->
+	<!-- <property name="deviceName" value="ATN1P" /> -->
+	<!-- </bean> -->
+
+	<bean id="atn1" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="deviceName" value="ATN1P" />
+		<property name="local" value="false"/>
+	</bean>
+
+	<bean id="atn2" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="deviceName" value="ATN2P" />
+		<property name="local" value="false"/>
+	</bean>
+
+	<bean id="atn3" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="deviceName" value="ATN3P" />
+		<property name="local" value="false"/>
+	</bean>
+
+	<bean id="d2" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="deviceName" value="D2P" />
+		<property name="local" value="false"/>
+	</bean>
+
+	<bean id="d3" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="deviceName" value="D3P" />
+		<property name="local" value="false"/>
+	</bean>
+
+	<bean id="d4" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="deviceName" value="D4P" />
+		<property name="local" value="false"/>
+	</bean>
+
+	<bean id="atn4" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="deviceName" value="ATN4P" />
+		<property name="local" value="false"/>
+	</bean>
+
+	<bean id="atn5" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="deviceName" value="ATN5P" />
+		<property name="local" value="false"/>
+	</bean>
+
+	<bean id="atn6" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="deviceName" value="ATN6P" />
+		<property name="local" value="false"/>
+	</bean>
+
+	<bean id="d5" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="deviceName" value="D5P" />
+		<property name="local" value="false"/>
+	</bean>
+
+</beans>

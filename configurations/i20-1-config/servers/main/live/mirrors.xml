@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- me1 -->
+
+	<bean id="me1_stripe" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="deviceName" value="M1EP" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="me1y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-VFM-01:Y" />
+	</bean>
+	<bean id="me1pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-VFM-01:PITCH" />
+	</bean>
+	<bean id="me1yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-VFM-01:YAW" />
+	</bean>
+	<bean id="me1curvature_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-VFM-01:CURVE" />
+	</bean>
+
+
+	<!-- me2 -->
+
+	<bean id="me2_stripe" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="deviceName" value="M2EP" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="me2y_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="me2pitch_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="me2yaw_motor" class="gda.device.motor.DummyMotor" />
+
+	<!-- polychromator -->
+
+	<bean id="polyrot_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="polypitch_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="polyroll_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="polybend_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="polytwist_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="polys1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="polys2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="polyy_motor" class="gda.device.motor.DummyMotor" />
+
+	<import resource="file:${gda.config}/servers/main/mirrors-common.xml" />
+
+</beans>

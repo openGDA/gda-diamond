@@ -1,0 +1,120 @@
+<?xml version="1.0" ?>
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2011-6/gdaApp/src/genericBeamlineSchema.xsd">
+	<simpleMotor desc="VFM:SAG1" name="VFM:SAG1">
+		<RECORD desc="Motor" pv="BL20J-OP-VFM-01:SAG1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S1.XSIZE" name="S1.XSIZE">
+		<RECORD desc="Motor" pv="BL20J-AL-SLITS-01:X:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S1.XCENTRE" name="S1.XCENTRE">
+		<RECORD desc="Motor" pv="BL20J-AL-SLITS-01:X:CENTRE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S1.YSIZE" name="S1.YSIZE">
+		<RECORD desc="Motor" pv="BL20J-AL-SLITS-01:Y:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S1.YCENTRE" name="S1.YCENTRE">
+		<RECORD desc="Motor" pv="BL20J-AL-SLITS-01:Y:CENTRE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M1E.YAW" name="M1E.YAW">
+		<RECORD desc="Motor" pv="BL20J-OP-VFM-01:YAW" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M1E.X" name="M1E.X">
+		<RECORD desc="Motor" pv="BL20J-OP-VFM-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M1E.PITCH" name="M1E.PITCH">
+		<RECORD desc="Motor" pv="BL20J-OP-VFM-01:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M1E.Y" name="M1E.Y">
+		<RECORD desc="Motor" pv="BL20J-OP-VFM-01:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<positioner desc="Stripe Select" name="M1EP">
+		<SELECT desc="Position Selection" pv="BL20J-OP-VFM-01:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV desc="Done Moving Indicator" pv="BL20J-OP-VFM-01:MP:DMOV" ro="true" type="pv"/>
+		<ERROR desc="Error Indicator" pv="BL20J-OP-VFM-01:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS desc="In Position Indicator" pv="BL20J-OP-VFM-01:MP:INPOS" ro="true" type="pv"/>
+		<STOP desc="Stop Button" pv="BL20J-OP-VFM-01:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<positioner desc="Filter Select" name="D2P">
+		<SELECT desc="Position Selection" pv="BL20J-DI-PHDGN-02:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV desc="Done Moving Indicator" pv="BL20J-DI-PHDGN-02:MP:DMOV" ro="true" type="pv"/>
+		<ERROR desc="Error Indicator" pv="BL20J-DI-PHDGN-02:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS desc="In Position Indicator" pv="BL20J-DI-PHDGN-02:MP:INPOS" ro="true" type="pv"/>
+		<STOP desc="Stop Button" pv="BL20J-DI-PHDGN-02:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<positioner desc="Attenuator Select" name="ATN1P">
+		<SELECT desc="Position Selection" pv="BL20J-OP-ATTN-01:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV desc="Done Moving Indicator" pv="BL20J-OP-ATTN-01:MP:DMOV" ro="true" type="pv"/>
+		<ERROR desc="Error Indicator" pv="BL20J-OP-ATTN-01:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS desc="In Position Indicator" pv="BL20J-OP-ATTN-01:MP:INPOS" ro="true" type="pv"/>
+		<STOP desc="Stop Button" pv="BL20J-OP-ATTN-01:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<positioner desc="Attenuator Select" name="ATN2P">
+		<SELECT desc="Position Selection" pv="BL20J-OP-ATTN-02:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV desc="Done Moving Indicator" pv="BL20J-OP-ATTN-02:MP:DMOV" ro="true" type="pv"/>
+		<ERROR desc="Error Indicator" pv="BL20J-OP-ATTN-02:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS desc="In Position Indicator" pv="BL20J-OP-ATTN-02:MP:INPOS" ro="true" type="pv"/>
+		<STOP desc="Stop Button" pv="BL20J-OP-ATTN-02:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<positioner desc="Attenuator Select" name="ATN3P">
+		<SELECT desc="Position Selection" pv="BL20J-OP-ATTN-03:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV desc="Done Moving Indicator" pv="BL20J-OP-ATTN-03:MP:DMOV" ro="true" type="pv"/>
+		<ERROR desc="Error Indicator" pv="BL20J-OP-ATTN-03:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS desc="In Position Indicator" pv="BL20J-OP-ATTN-03:MP:INPOS" ro="true" type="pv"/>
+		<STOP desc="Stop Button" pv="BL20J-OP-ATTN-03:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<positioner desc="Filter Select" name="D3P">
+		<SELECT desc="Position Selection" pv="BL20J-DI-PHDGN-03:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV desc="Done Moving Indicator" pv="BL20J-DI-PHDGN-03:MP:DMOV" ro="true" type="pv"/>
+		<ERROR desc="Error Indicator" pv="BL20J-DI-PHDGN-03:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS desc="In Position Indicator" pv="BL20J-DI-PHDGN-03:MP:INPOS" ro="true" type="pv"/>
+		<STOP desc="Stop Button" pv="BL20J-DI-PHDGN-03:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<positioner desc="Filter Select" name="D4P">
+		<SELECT desc="Position Selection" pv="BL20J-DI-PHDGN-04:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV desc="Done Moving Indicator" pv="BL20J-DI-PHDGN-04:MP:DMOV" ro="true" type="pv"/>
+		<ERROR desc="Error Indicator" pv="BL20J-DI-PHDGN-04:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS desc="In Position Indicator" pv="BL20J-DI-PHDGN-04:MP:INPOS" ro="true" type="pv"/>
+		<STOP desc="Stop Button" pv="BL20J-DI-PHDGN-04:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<positioner desc="Filter Select" name="D5P">
+		<SELECT desc="Position Selection" pv="BL20J-DI-PHDGN-05:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV desc="Done Moving Indicator" pv="BL20J-DI-PHDGN-05:MP:DMOV" ro="true" type="pv"/>
+		<ERROR desc="Error Indicator" pv="BL20J-DI-PHDGN-05:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS desc="In Position Indicator" pv="BL20J-DI-PHDGN-05:MP:INPOS" ro="true" type="pv"/>
+		<STOP desc="Stop Button" pv="BL20J-DI-PHDGN-05:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<positioner desc="Attenuator Select" name="ATN4P">
+		<SELECT desc="Position Selection" pv="BL20J-OP-ATTN-04:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV desc="Done Moving Indicator" pv="BL20J-OP-ATTN-04:MP:DMOV" ro="true" type="pv"/>
+		<ERROR desc="Error Indicator" pv="BL20J-OP-ATTN-04:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS desc="In Position Indicator" pv="BL20J-OP-ATTN-04:MP:INPOS" ro="true" type="pv"/>
+		<STOP desc="Stop Button" pv="BL20J-OP-ATTN-04:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<positioner desc="Attenuator Select" name="ATN5P">
+		<SELECT desc="Position Selection" pv="BL20J-OP-ATTN-05:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV desc="Done Moving Indicator" pv="BL20J-OP-ATTN-05:MP:DMOV" ro="true" type="pv"/>
+		<ERROR desc="Error Indicator" pv="BL20J-OP-ATTN-05:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS desc="In Position Indicator" pv="BL20J-OP-ATTN-05:MP:INPOS" ro="true" type="pv"/>
+		<STOP desc="Stop Button" pv="BL20J-OP-ATTN-05:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<positioner desc="Attenuator Select" name="ATN6P">
+		<SELECT desc="Position Selection" pv="BL20J-OP-ATTN-06:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV desc="Done Moving Indicator" pv="BL20J-OP-ATTN-06:MP:DMOV" ro="true" type="pv"/>
+		<ERROR desc="Error Indicator" pv="BL20J-OP-ATTN-06:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS desc="In Position Indicator" pv="BL20J-OP-ATTN-06:MP:INPOS" ro="true" type="pv"/>
+		<STOP desc="Stop Button" pv="BL20J-OP-ATTN-06:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<positioner desc="Stripe Select" name="M2EP">
+		<SELECT desc="Position Selection" pv="BL20J-OP-PM-02:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV desc="Done Moving Indicator" pv="BL20J-OP-PM-02:MP:DMOV" ro="true" type="pv"/>
+		<ERROR desc="Error Indicator" pv="BL20J-OP-PM-02:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS desc="In Position Indicator" pv="BL20J-OP-PM-02:MP:INPOS" ro="true" type="pv"/>
+		<STOP desc="Stop Button" pv="BL20J-OP-PM-02:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<simpleMotor desc="M1E Curve Motor" name="M1E.CURVE">
+		<RECORD desc="Motor Record" pv="BL20J-OP-VFM-01:CURVE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M1E Ellipticity Motor" name="M1E.ELLIP">
+		<RECORD desc="Motor Record" pv="BL20J-OP-VFM-01:ELLIP" ro="false" type="motor"/>
+	</simpleMotor>
+</devices>

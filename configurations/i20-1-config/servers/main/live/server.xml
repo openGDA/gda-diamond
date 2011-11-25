@@ -21,23 +21,21 @@
 
 <!-- for when this used live: -->
 
-	<!-- <bean class="gda.configuration.epics.EpicsConfiguration"> -->
-	<!-- <constructor-arg value="${gda.config}/xml/BL20J-gda-interface.xml" 
-		/> -->
-	<!-- </bean> -->
-	<!-- <bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar"> -->
-	<!-- <property name="name" value="FileRegistrar" /> -->
-	<!-- <property name="directory" value="/dls/bl-misc/dropfiles/icat/dropZone/i20-" 
-		/> -->
-	<!-- </bean> -->
-	<!-- <bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory"> -->
-	<!-- <property name="name" value="DataWriterFactory" /> -->
-	<!-- <property name="dataWriterExtenders"> -->
-	<!-- <list> -->
-	<!-- <ref bean="FileRegistrar" /> -->
-	<!-- </list> -->
-	<!-- </property> -->
-	<!-- </bean> -->
+	<bean class="gda.configuration.epics.EpicsConfiguration">
+		<constructor-arg value="${gda.config}/xml/BL20J-gda-interface.xml" />
+	</bean>
+	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
+		<property name="name" value="FileRegistrar" />
+		<property name="directory" value="/dls/bl-misc/dropfiles/icat/dropZone/i20-1-" />
+	</bean>
+	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
+		<property name="name" value="DataWriterFactory" />
+		<property name="dataWriterExtenders">
+			<list>
+				<ref bean="FileRegistrar" />
+			</list>
+		</property>
+	</bean>
 
 
 <!-- command server stuff -->
