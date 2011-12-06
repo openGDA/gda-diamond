@@ -10,6 +10,9 @@
 
 	<import resource="file:${gda.config}/servers/i20-1-common.xml" />
 
+	<import resource="file:${gda.config}/servers/main/lookupTables.xml" />
+
+
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 
 <!-- use the RCP plotter, not the swing one ! -->
