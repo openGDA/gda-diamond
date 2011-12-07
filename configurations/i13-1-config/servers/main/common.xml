@@ -35,12 +35,13 @@
 	<bean id="imageFitter" class="gda.device.detector.nexusprocessor.DataSetFitter">
 		<property name="enable" value="false" />
 	</bean>
-	<bean id="imageStats" class="gda.device.detector.nexusprocessor.DatasetStats" />
+	<bean id="imageStats" class="gda.device.detector.nexusprocessor.DatasetStats" >
+		<property name="enable" value="false" />
+	</bean>
 	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
 		<property name="plotName" value="Detector Image" />
 	</bean>
-	<bean id="imageROI"
-		class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI" />
+	<bean id="imageROI" class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI" />
 
 	<util:list id="imageProcessors"
 		value-type="gda.device.detector.nexusprocessor.DataSetProcessor">

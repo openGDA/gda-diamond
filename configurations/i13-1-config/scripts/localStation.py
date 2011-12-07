@@ -67,6 +67,10 @@ try:
 	two_motor_positions = sample_stage_position_provider.ScanPositionProviderFromFile()
 	two_motor_positions.load("/dls_sw/i13-1/software/gda_versions/gda_trunk/i13j-config/scripts/tests/sample_stage_position_provider_test.dat",(0.,0.))
 
+	imageFitter = finder.find("imageFitter")
+	imageStats = finder.find("imageStats")
+	imagePlotter = finder.find("imagePlotter")
+
 # TIFF saver does not work. We will get the data in NexusData
 #	d1_det.setFileTemplate("%s%s%d.tif")
 #	d1_det.setFilePath("/dls_sw/i3-1/software/gdavar/d1")

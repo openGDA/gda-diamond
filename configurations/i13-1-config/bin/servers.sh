@@ -17,7 +17,7 @@ rm -f $SERVER_STARTUP_FILE
 
 echo "Starting GDA. Output is being logged to $LOGFILE"
 
-export JAVA_OPTS="-Xms128m -Xmx1024m -XX:MaxPermSize=128m -XX:+DisableExplicitGC"
+export JAVA_OPTS="-Xms128m -Xmx4096m -XX:MaxPermSize=128m -XX:+DisableExplicitGC"
 
 nohup /dls_sw/i13-1/software/gda_versions/gda_trunk1/plugins/uk.ac.gda.core/bin/gda --smart --trace --config=$GDAFOLDER/$BEAMLINE-config --debug -p 8001 --restart -v --mode=$GDAMODE servers > $LOGFILE 2>&1 &
 echo "Looking for file $SERVER_STARTUP_FILE"

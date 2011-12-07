@@ -91,7 +91,13 @@
 		<property name="initialWriteMode" value="0" /> <!-- Single(current), Capture, Stream, -->
 		<property name="initialNumCapture" value="1" /> <!-- current = 1 -->
 		<property name="initialFileName" value="pco" />
-		<property name="initialFileTemplate" value="%s%s%d.tif" />
+		<property name="initialFileTemplate" value="%s%s%d.hdf" />
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
+				<property name="unixSubString" value="/dls/i13-1/data" />
+				<property name="windowsSubString" value="z:\data" />
+			</bean>
+		</property>
 
 	</bean>
 
@@ -101,7 +107,7 @@
 				<entry key="pco1_cam_base" value-ref="pco1_cam_base" />
 				<entry key="pco1_arr" value-ref="pco1_arr" />
 				<entry key="pco1_ffmpeg" value-ref="pco1_ffmpeg" />
-				<entry key="pco1_dnfile" value-ref="pco1_ndfile" />
+				<entry key="pco1_ndfile" value-ref="pco1_ndfile" />
 				<entry key="pco1_roi" value-ref="pco1_roi" />
 			</util:map>
 		</property>
@@ -132,7 +138,8 @@
 		<property name="computeCentroid" value="false" />
 		<property name="readArray" value="true" />
 		<property name="createsOwnFiles" value="false" />
-		<property name="linkFilepath" value="false"/>
+		<property name="linkFilepath" value="false" />
+		<property name="setFileWriterNameNumber" value="false"/>
 	</bean>
 
 

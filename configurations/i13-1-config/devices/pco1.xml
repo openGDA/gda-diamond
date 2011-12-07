@@ -34,11 +34,25 @@
 		</property>
 	</bean>
 
+	<bean id="pco1_filename_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
+		<property name="processors">
+			<list>
+				<ref bean="pco1_filename_processor" />
+			</list>
+		</property>
+	</bean>
 
 	<bean id="pco1_cam_wrap" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
 		<property name="detector" ref="pco1_cam" />
 		<property name="processor" ref="pco1_ad_det_processors" />
 		<property name="mergeWithDetectorData" value="true"/>
 	</bean>	
+
+	<bean id="pco1_cam_wrap_filename" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+		<property name="detector" ref="pco1_cam" />
+		<property name="processor" ref="pco1_filename_processors" />
+		<property name="mergeWithDetectorData" value="true"/>
+	</bean>	
+
 </beans>
 

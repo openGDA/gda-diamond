@@ -11,7 +11,7 @@ fi
 source /dls_sw/i13-1/etc/i13-1_profile.sh
 
 
-gdalog &
+#gdalog &
 
 gda_namemanager &
 

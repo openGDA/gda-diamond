@@ -4,7 +4,7 @@
 source /dls_sw/i13-1/etc/i13-1_profile.sh
 
 
-gdalog
+#gdalog
 
 export JAVA_OPTS="$JAVA_OPTS -Dgda.mode=$GDAMODE"
 
