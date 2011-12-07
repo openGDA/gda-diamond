@@ -7,32 +7,27 @@
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
-	<bean id="d1_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="d1_x_motor" />
-		<property name="userUnits" value="mm"/>
-	</bean>
-	
-	<bean id="d1_ad_det_processor" class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
-		<constructor-arg value="d1_cam" />
+
+	<bean id="sample_stage_cam_ad_det_processor" class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
+		<constructor-arg value="sample_stage_cam_cam" />
 		<constructor-arg value="data" />
 		<constructor-arg value="SDS" />
 		<constructor-arg ref="imageProcessors"/>
 		<constructor-arg ref="imageROI"/>
 	</bean>
 
-	<bean id="d1_ad_det_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
+	<bean id="sample_stage_cam_ad_det_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
 		<property name="processors">
 			<list>
-				<ref bean="d1_ad_det_processor" />
+				<ref bean="sample_stage_cam_ad_det_processor" />
 			</list>
 		</property>
 	</bean>
 
 
-	<bean id="d1_cam_wrap" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector" ref="d1_cam" />
-		<property name="processor" ref="d1_ad_det_processors" />
-		<property name="mergeWithDetectorData" value="true"/>
-	</bean>	
+	<bean id="sample_stage_cam_wrap" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+		<property name="detector" ref="sample_stage_cam" />
+		<property name="processor" ref="sample_stage_cam_ad_det_processors" />
+	</bean>
 </beans>
 

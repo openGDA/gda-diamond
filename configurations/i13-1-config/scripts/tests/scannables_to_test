@@ -171,6 +171,10 @@ s5_yminus
 t1_sx
 t1_sy
 t1_sz
+t1_x
+t1_y
+t1_pitch
+t1_roll
 
 #alignment scope
 alignmemt_x

@@ -11,12 +11,8 @@
 		<constructor-arg value="oh4_shtr_cam" />
 		<constructor-arg value="data" />
 		<constructor-arg value="SDS" />
-		<constructor-arg>
-			<list>
-				<ref bean="dataSetPlotter" />
-				<ref bean="tWODDataSetFitter"/>
-			</list>
-		</constructor-arg>
+		<constructor-arg ref="imageProcessors"/>
+		<constructor-arg ref="imageROI"/>
 	</bean>
 
 	<bean id="oh4_shtr_ad_det_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">

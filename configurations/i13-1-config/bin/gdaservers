@@ -18,6 +18,7 @@ gda_namemanager &
 echo "Keep this window open, and you will see a pop-up when the restart has completed"
 
 # ssh into i13-1-control as gda which should then run the servers script locally there
+echo $USER
 if [ "$USER" == "tjs15132" ]; 
 then ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i $GDAFOLDER/$BEAMLINE-config/${BEAMLINE}ssh_non_permissive.key gda@i13-1-control
 else ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i $GDAFOLDER/$BEAMLINE-config/${BEAMLINE}ssh.key gda@i13-1-control

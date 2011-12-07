@@ -1,6 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 				http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
 			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
@@ -24,10 +25,6 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="terminalOutputLogger" class="gda.jython.TerminalOutputLogger">
-		<property name="pathProvider" ref="visitPathConstructor" />
-	</bean>
-
 	<import resource="commandQueueProcessor.xml" />
 
 	<bean id="plot_server"
@@ -35,11 +32,22 @@
 	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 
-	<bean id="tWODDataSetFitter" class="gda.device.detector.nexusprocessor.DataSetFitter" />
-	<bean id="dataSetPlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
-		<constructor-arg value="dataSetPlotter" />
-		<constructor-arg value="Detector Image" />
+	<bean id="imageFitter" class="gda.device.detector.nexusprocessor.DataSetFitter">
+		<property name="enable" value="false" />
 	</bean>
+	<bean id="imageStats" class="gda.device.detector.nexusprocessor.DatasetStats" />
+	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
+		<property name="plotName" value="Detector Image" />
+	</bean>
+	<bean id="imageROI"
+		class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI" />
+
+	<util:list id="imageProcessors"
+		value-type="gda.device.detector.nexusprocessor.DataSetProcessor">
+		<ref bean="imageFitter" />
+		<ref bean="imageStats" />
+		<ref bean="imagePlotter" />
+	</util:list>
 
 
 	<import resource="../../devices/simpleScannables.xml" />
@@ -62,15 +70,20 @@
 
 	<import resource="../../devices/d3.xml" />
 
+
+	<import resource="../../devices/diffractometer.xml" />
+	<import resource="../../devices/robots.xml" />
+
 	<import resource="../../devices/optics_hutch4_shutter.xml" />
 
 	<!-- end of internal building/ start of external building -->
 	<!-- <import resource="../../devices/qcm.xml" /> -->
-	<!-- <import resource="../../devices/d4.xml" /> -->
+	<import resource="../../devices/d4.xml" />
 	<import resource="../../devices/s4.xml" />
 	<import resource="../../devices/s5.xml" />
 
 	<import resource="../../devices/sample_stage_t1.xml" />
+	<import resource="../../devices/sample_stage_camera.xml" />
 
 	<import resource="../../devices/alignment_scope.xml" />
 
@@ -81,6 +94,8 @@
 	<!--Not present <import resource="../../devices/scope1.xml" /> <import resource="../../devices/t1.xml" 
 		/> <import resource="../../devices/z1.xml" /> -->
 	<import resource="../../devices/maxipix.xml" />
+	<import resource="../../devices/pco1.xml" />
+
 	<!-- end of device list -->
 
 

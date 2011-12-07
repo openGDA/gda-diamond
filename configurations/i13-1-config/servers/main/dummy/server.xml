@@ -9,9 +9,8 @@
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:property-placeholder location="file:${gda.config}/properties/dummy/java.properties,file:${gda.config}/properties/java.properties" />
-    <bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
-	<import resource="../common.xml"/>
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+    <bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
 	
 	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
@@ -44,27 +43,46 @@
 	<import resource="../../../devices/dummy/m1.xml"/>
 
 	<import resource="../../../devices/dummy/d1.xml"/>
+	
+	<import resource="../../../devices/dummy/absorbers1.xml"/>
 
 	<import resource="../../../devices/dummy/d2.xml"/>
 
 	<import resource="../../../devices/dummy/s2_motors.xml"/>
 
-	<import resource="../../../devices/dummy/d3.xml"/>
+	<import resource="../../../devices/dummy/absorbers2.xml"/>
 
+	<import resource="../../../devices/dummy/d3.xml"/>
+	
+	<import resource="../../../devices/dummy/absorbers3.xml"/>	
 
 <!-- End of internal Building/ Start of external Building -->
+
 	<import resource="../../../devices/dummy/optics_hutch4_shutter.xml"/>
+	
+	<import resource="../../../devices/dummy/absorbers4.xml"/>	
+
+	<import resource="../../../devices/dummy/experiment_hutch_shutter.xml"/>
 
 	<import resource="../../../devices/dummy/s4_motors.xml"/>
+	
+	<import resource="../../../devices/dummy/d4.xml"/>	
 
 	<import resource="../../../devices/dummy/s5_motors.xml"/>
 
+	<import resource="../../../devices/dummy/diffractometer_motors.xml"/>
+
+	<import resource="../../../devices/dummy/robot_motors.xml"/>
 
 	<import resource="../../../devices/dummy/sample_stage_t1_motors.xml"/>
+	
+	<import resource="../../../devices/dummy/sample_stage_camera.xml"/>
 
 	<import resource="../../../devices/dummy/alignment_scope_motors.xml"/>
 
 	<import resource="../../../devices/dummy/maxipix_tango.xml"/>
+	
+	<import resource="../../../devices/dummy/pco1.xml"/>
 	
 	<import resource="../common.xml"/>	
 	

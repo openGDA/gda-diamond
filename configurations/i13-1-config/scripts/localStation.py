@@ -32,8 +32,10 @@ try:
 	import i13j
 	
 	#import for help
-	from maxipix import mpx_set_folder
+	from maxipix import mpx_set_folder, mpx_reset_configure, mpx_config_file_monitor
+	from robots import calcRobotMotors, calcRobotMotorsInverse
 	from gda.device.lima import LimaCCD
+	from gda.device.maxipix2 import MaxiPix2
 	from gda.util import VisitPath
 	
 	finder = Finder.getInstance() 
@@ -65,7 +67,6 @@ try:
 	two_motor_positions = sample_stage_position_provider.ScanPositionProviderFromFile()
 	two_motor_positions.load("/dls_sw/i13-1/software/gda_versions/gda_trunk/i13j-config/scripts/tests/sample_stage_position_provider_test.dat",(0.,0.))
 
-	
 # TIFF saver does not work. We will get the data in NexusData
 #	d1_det.setFileTemplate("%s%s%d.tif")
 #	d1_det.setFilePath("/dls_sw/i3-1/software/gdavar/d1")
@@ -110,18 +111,12 @@ try:
 #	mpx_peak2d = DetectorDataProcessorWithRoi('mpx_peak2d', mpx_plot, [TwodGaussianPeak()])
 #	mpx_max2d = DetectorDataProcessorWithRoi('mpx_max2d', mpx_plot, [SumMaxPositionAndValue()])
 
+	#create objects in namespace
 	mpx_controller = mpx.getMaxiPix2MultiFrameDetector()
 	mpx_threshold = mpx_controller.energyThreshold
-
-	#setup accumulation mode
 	mpx_limaCCD = mpx_controller.getLimaCCD()
-	mpx_limaCCD.setAcqMode( LimaCCD.AcqMode.ACCUMULATION)
-	mpx_limaCCD.setAccMaxExpoTime(0.05)
-	mpx_limaCCD.setSavingFormat( LimaCCD.SavingFormat.EDF)
-
 	mpx_maxipix = mpx_controller.getMaxiPix2()
-	from gda.device.maxipix2 import MaxiPix2
-	mpx_maxipix.setFillMode(MaxiPix2.FillMode.ZERO)
+	mpx_reset_configure()
 	
 	import file_converter
 	
@@ -149,8 +144,9 @@ try:
 	#we need to have a proper detector wrapper
 	#handle scannables that return a string in NexusDataWriter
 	
-	from tests.testRunner import run_tests
+	#from tests.testRunner import run_tests
 
+	run("i13diffcalc")
 
 
 except :

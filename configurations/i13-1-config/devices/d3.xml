@@ -16,12 +16,8 @@
 		<constructor-arg value="d3_cam" />
 		<constructor-arg value="data" />
 		<constructor-arg value="SDS" />
-		<constructor-arg>
-			<list>
-				<ref bean="dataSetPlotter" />
-				<ref bean="tWODDataSetFitter"/>
-			</list>
-		</constructor-arg>
+		<constructor-arg ref="imageProcessors"/>
+		<constructor-arg ref="imageROI"/>
 	</bean>
 
 	<bean id="d3_ad_det_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">

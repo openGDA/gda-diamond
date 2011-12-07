@@ -15,5 +15,24 @@
 		<property name="deviceName" value="t1.sz" />
 		<property name="local" value="true" />
 	</bean>
-	
+	<bean id="t1_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="t1.x" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="t1_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="t1.z" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="t1_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="t1.pitch" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="t1_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="t1.roll" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="t1_theta_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="t1.theta" />
+		<property name="local" value="true" />
+	</bean>
 </beans>	

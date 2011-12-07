@@ -8,8 +8,13 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+
+
+
+
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 	<import resource="GDAMetadata.xml" />
+	
 	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
 			<map>
@@ -42,12 +47,13 @@
 	<import resource="../../../devices/epics/m1.xml"/>
 
 	<import resource="../../../devices/epics/d1.xml"/>
+	
 	<import resource="../../../devices/epics/absorbers1.xml"/>
 
 	<import resource="../../../devices/epics/d2.xml"/>
+
 	<import resource="../../../devices/epics/absorbers2.xml"/>
-<!-- 	<import resource="../../../devices/epics/gas_bremsstrahlung1.xml"/>
- -->
+	
 	<import resource="../../../devices/epics/s2_motors.xml"/>
 
 	<import resource="../../../devices/epics/d3.xml"/>
@@ -56,37 +62,40 @@
 
 <!-- End of internal Building/ Start of external Building -->
 
-
 	<import resource="../../../devices/epics/optics_hutch4_shutter.xml"/>
 
 	<import resource="../../../devices/epics/absorbers4.xml"/>
 
-<!--  	<import resource="../../../devices/epics/qcm_motors.xml"/>
- -->
 	<import resource="../../../devices/epics/experiment_hutch_shutter.xml"/>
 
-<!--  	<import resource="../../../devices/epics/d4.xml"/>
- -->
+	<import resource="../../../devices/epics/d4.xml"/>
+
 	<import resource="../../../devices/epics/s4_motors.xml"/>
 
 	<import resource="../../../devices/epics/s5_motors.xml"/>
 
+	<import resource="../../../devices/dummy/diffractometer_motors.xml"/>
+	
+	<import resource="../../../devices/dummy/robot_motors.xml"/>
 
 	<import resource="../../../devices/epics/sample_stage_t1_motors.xml"/>
 
+	<import resource="../../../devices/epics/sample_stage_camera.xml"/>
+	
+
 	<import resource="../../../devices/epics/alignment_scope_motors.xml"/>
 
+	<import resource="../../../devices/epics/pco1.xml"/>
+	
+	<import resource="../common.xml"/>	
+
+<!--  	<import resource="../../../devices/epics/qcm_motors.xml"/>
+ -->
 <!--Not present 
 	<import resource="../../../devices/epics/s3_motors.xml"/>
  -->
 <!--Not present 
 	<import resource="../../../devices/epics/z1_motors.xml"/>
  -->
-
-	<import resource="../../../devices/live/maxipix_tango.xml"/>
-	
-	
-	<import resource="../common.xml"/>	
-
 	
 </beans>

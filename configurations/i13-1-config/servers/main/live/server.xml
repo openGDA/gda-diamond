@@ -10,6 +10,8 @@
 
 	<context:property-placeholder location="file:${gda.config}/properties/live/java.properties,file:${gda.config}/properties/java.properties" />
 
+	<import resource="../../../devices/live/maxipix_tango.xml"/>
+	
 	<import resource="live_server_common.xml" />
 	
 	

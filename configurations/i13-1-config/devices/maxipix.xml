@@ -38,11 +38,8 @@
 		<constructor-arg value="mpx" />
 		<constructor-arg value="image_data" />
 		<constructor-arg value="SDS" />
-		<constructor-arg>
-			<list>
-				<ref bean="tWODDataSetFitter"/>
-			</list>
-		</constructor-arg>
+		<constructor-arg ref="imageProcessors"/>
+		<constructor-arg ref="imageROI"/>
 	</bean>
 
 	<bean id="mpx_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">

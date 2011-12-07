@@ -25,6 +25,16 @@ To take an image from the maxipix detector:
 
 4. To change the threshold 
     pos mpx_threshold nnn
+
+    To change the intergap fillmode
+    >>>mpx_maxipix.setFillMode(MaxiPix2.FillMode.ZERO)
+    >>>mpx_maxipix.setFillMode(MaxiPix2.FillMode.RAW)
+    >>>mpx_maxipix.setFillMode(MaxiPix2.FillMode.DISPATCH)
+    >>>mpx_maxipix.setFillMode(MaxiPix2.FillMode.MEAN)
+    
+    To change external trigger mode
+    mpx_limaCCD.setAcqTriggerMode(LimaCCD.AcqTriggerMode.EXTERNAL_TRIGGER)
+    
     
 5. To scan a variable and at each point take an image form the maxipix    
     scan ix 0. 10. 1 mpx 0.1
@@ -46,6 +56,47 @@ To take an image from the maxipix detector:
     
  To create tiff files from the edf files produce in a scan use the command:
  >>>file_converter.create_tiffs("/dls/i13-1/data/2011/mt5659-1/490.nxs")
+ 
+7. To control the detector robot
+    a)create the detector object
+    import robots
+    robot1=robots.Robot(ip="172.23.82.221")
+
+    b)Send home. You will need to call gotoHome2 and resetAlarm several times. Continue until robot1.getPulses returns a list of 0's
+    robot1.gotoHome2()
+    robot1.resetAlarm()
+
+    c)When homed tell the robot object to reset its internal value for the robot position
+    robot1.resetPosition()
+
+    d) You can query the internal value for the robot position by calling getPosition
+    robot1.getPosition()
+
+    e.1)To change the position first take a copy of the current position. 
+    posn=robot1.getPosition()
+
+    e.2)Change posn to the destination. # options posn.X, posn.Y, posn.Z, posn.RX posn.RY, posn.RZ
+    e.g. posn.X=1000
+
+    e.3)Make the robot move by calling the method moveTo with the required position
+    robot1.moveTo(posn)
+
+    N.B Once it has moved it will have set user frame to the current detector frame
+    so you can then only move further about Y by changing posn.Y and calling moveTo
+    
+    If you do not want to adjust the user frame then use the command moveToDoNotSetUserCoords instead of moveTo after resetPostion
+    robot1.moveToDoNotSetUserCoords(posn)
+    
+    
+    #to calculate the position of the detector robot for a certain theta, phi use the command:
+    robots.getDetectorRobotPositionFromThetaPhi(theta=45, phi=0)
+    
+    to get help on this function type
+    
+    help robots.getDetectorRobotPositionFromThetaPhi
+    
+    This will return an object in the same form as return by the getPosition method and used by the moveTo method.
+
 """
 
 

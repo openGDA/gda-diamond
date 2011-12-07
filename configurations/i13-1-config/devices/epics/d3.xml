@@ -66,9 +66,6 @@
 	<bean id="d3_cam_pvProvider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
 	<property name="prefix" value="BL13J-DI-PHDGN-03:CAM:"/>
 	</bean>
-	<bean id="d3_cam_driver" class="gda.device.detector.areadetector.v17.impl.ADDriverProsilicaImpl">
-		<property name="pvProvider" ref="d3_cam_pvProvider"/>
-	</bean>
 	<bean id="d3_cam_base" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="pvProvider" ref="d3_cam_pvProvider"/>
 	</bean>
@@ -79,8 +76,6 @@
 
 	<bean id="d3_arr_ndpluginbase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 		<property name="pvProvider" ref="d3_arr_pvProvider"/>
-		<property name="initialArrayPort" value="gige3.cam" />
-		<property name="initialArrayAddress" value="0" />
 	</bean>
 
 	<bean id="d3_arr" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
@@ -95,8 +90,6 @@
 
 	<bean id="d3_stat_ndpluginbase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 		<property name="pvProvider" ref="d3_stat_pvProvider"/>
-		<property name="initialArrayPort" value="gige3.cam" />
-		<property name="initialArrayAddress" value="0" />
 	</bean>
 
 	<bean id="d3_stat" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
@@ -110,8 +103,6 @@
 
 	<bean id="d3_roi_ndpluginbase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 		<property name="pvProvider" ref="d3_roi_pvProvider"/>
-		<property name="initialArrayPort" value="gige3.cam" />
-		<property name="initialArrayAddress" value="0" />
 	</bean>
 
 	<bean id="d3_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
@@ -119,36 +110,13 @@
 		<property name="pluginBase" ref="d3_roi_ndpluginbase"/>	
 	</bean>
 	
-<!-- TIFF plugin causes GigE camera IOC to crash
-	<bean id="d3_tiff_pvProvider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL13J-DI-PHDGN-03:TIFF:"/>
-	</bean>
 
-	<bean id="d3_tiff_ndpluginbase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-		<property name="pvProvider" ref="d3_tiff_pvProvider"/>
-		<property name="initialArrayPort" value="gige3.cam" />
-		<property name="initialArrayAddress" value="0" />
-	</bean>
-
-	<bean id="d3_tiff" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="pvProvider" ref="d3_tiff_pvProvider"/>
-		<property name="pluginBase" ref="d3_tiff_ndpluginbase"/>	
-		<property name="initialAutoSave" value="true" />
-		<property name="initialAutoIncrement" value="true" />
-		<property name="initialWriteMode" value="2" />
-		<property name="initialNumCapture" value="1" />
-		<property name="initialFileName" value="p" />
-		<property name="initialFileTemplate" value="%s/%s_%04d.tif" />
-	</bean>-->	
-	
 	<bean id="d3_ffmpeg_pvProvider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
 	<property name="prefix" value="BL13J-DI-PHDGN-03:FFMPEG:"/>
 	</bean>
 
 	<bean id="d3_ffmpeg_ndpluginbase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 		<property name="pvProvider" ref="d3_ffmpeg_pvProvider"/>
-		<property name="initialArrayPort" value="gige3.cam" />
-		<property name="initialArrayAddress" value="0" />
 	</bean>
 
 	<bean id="d3_ffmpeg" class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
@@ -161,7 +129,6 @@
 		<property name="map">
 			<util:map>
 				<entry key="d3_cam_base" value-ref="d3_cam_base"/>
-				<entry key="d3_cam" value-ref="d3_cam_driver"/>
 				<entry key="d3_arr" value-ref="d3_arr"/>
 				<entry key="d3_ffmpeg" value-ref="d3_ffmpeg"/>
 <!-- 				<entry key="d3_tiff" value-ref="d3_tiff"/> -->
