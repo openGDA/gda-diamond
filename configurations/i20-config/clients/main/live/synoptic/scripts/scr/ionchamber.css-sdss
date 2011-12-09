@@ -1,0 +1,27 @@
+#var returns = "java.lang.Double";
+#var description = "screen(screen)"; # change these to something more meaningful
+#var parameters = new Array("screen");
+
+#function execute(args) {
+	
+#	var argument1 = args[0];
+	
+#	var I0value = 0.0;
+#	var Itvalue = 0.0;
+#	var Irefvalue = 0.0;
+#	var It_I0value = 0.0;
+#	var Iref_Itvalue = 0.0;
+		
+	# convert jython into something java can execute
+	# I0value=ionchambers.readout()[0];
+	# Itvalue=ionchambers.readout()[1];
+	# Irefvalue=ionchambers.readout()[2];
+	# It_I0value=ionchambers.readout()[3];
+	# Iref_Itvalue=ionchambers.readout()[4];
+	# return I0value
+	# return Itvalue
+	# return Irefvalue
+	# return It_I0value
+	# return Iref_Itvalue	
+	
+#}
