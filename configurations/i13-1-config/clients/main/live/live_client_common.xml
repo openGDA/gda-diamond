@@ -9,6 +9,7 @@
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<import resource="../common.xml" />
+	<import resource="cameraview.xml" />
 	<bean id="idGap" class="gda.device.scannable.EpicsScannable">
 	<property name="pvName" value="SR13J-MO-SERVC-01:CURRGAPD"/>
 	<property name="useNameAsExtraName" value="true"/>
