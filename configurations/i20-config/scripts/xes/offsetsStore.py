@@ -21,7 +21,7 @@ import os
 
 global DEFAULT_STORE_NAME,STORE_DIR
 DEFAULT_STORE_NAME="xes_store"
-STORE_DIR = LocalProperties.getVarDir()() +"/xes_offsets/"
+STORE_DIR = LocalProperties.getVarDir() +"/xes_offsets/"
 
 def list():
     """
