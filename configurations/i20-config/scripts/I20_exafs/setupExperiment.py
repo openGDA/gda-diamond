@@ -108,7 +108,7 @@ def redefineNexusMetadata(beanGroup):
     NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("Crystal 4 Pitch",str(jython_mapper.m4_pitch()),EntryTypes.NXinstrument,NXinstrumentSubTypes.NXmirror,"M4"))
     NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("Crystal 4 Stripe",str(jython_mapper.m4_stripe()),EntryTypes.NXinstrument,NXinstrumentSubTypes.NXmirror,"M4"))
     NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("Crystal 4 Y",str(jython_mapper.m4_height()),EntryTypes.NXinstrument,NXinstrumentSubTypes.NXmirror,"M4"))
-    NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("Crystal 4 Curvature",str(jython_mapper.m4_bend()),EntryTypes.NXinstrument,NXinstrumentSubTypes.NXmirror,"M4"))
+    NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("Crystal 4 Curvature",str(jython_mapper.m4_curvature()),EntryTypes.NXinstrument,NXinstrumentSubTypes.NXmirror,"M4"))
     NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("Crystal 4 Ellipticity",str(jython_mapper.m4_yaw()),EntryTypes.NXinstrument,NXinstrumentSubTypes.NXmirror,"M4"))
     
     # HR mirror
