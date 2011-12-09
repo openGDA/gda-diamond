@@ -1,7 +1,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
 	<bean id="xtal_minus1_x_motor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="200" />
@@ -51,7 +53,9 @@
 	<bean id="spec_rot_motor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="200" />
 	</bean>
-
+	<bean id="det_slit_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="200" />
+	</bean>
 
 
 	<bean id="xtal_minus1_x" class="gda.device.scannable.ScannableMotor">
@@ -140,11 +144,44 @@
 		<property name="initialUserUnits" value="deg" />
 	</bean>
 	
+	<bean id="det_slit" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="det_slit_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	
+
 	<bean id="radius" class="gda.device.scannable.DummyPersistentScannable" />
-	<bean id="cut1" class="gda.device.scannable.DummyPersistentScannable" />
-	<bean id="cut2" class="gda.device.scannable.DummyPersistentScannable" />
-	<bean id="cut3" class="gda.device.scannable.DummyPersistentScannable" />
-	<bean id="material" class="gda.device.scannable.DummyPersistentScannable" />
+	<bean id="cut1" class="gda.device.scannable.DummyPersistentScannable">
+		<property name="outputFormat">
+			<util:list>
+				<value>%.0f</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="cut2" class="gda.device.scannable.DummyPersistentScannable" >
+		<property name="outputFormat">
+			<util:list>
+				<value>%.0f</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="cut3" class="gda.device.scannable.DummyPersistentScannable" >
+		<property name="outputFormat">
+			<util:list>
+				<value>%.0f</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="material" class="gda.device.scannable.DummyPersistentEnumScannable" >
+		<property name="acceptableStrings">
+			<list>
+				<value>Si</value>
+				<value>Ge</value>
+			</list>
+		</property>
+	</bean>
+
 	
 	<bean id="spectrometer" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

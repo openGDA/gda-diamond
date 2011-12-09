@@ -52,6 +52,19 @@ if LocalProperties.get("gda.mode") == "live":
 else:
     remove_default(topupChecker)
     remove_default(absorberChecker)
+    
+
+#
+# XES offsets section
+#
+from xes import calcExpectedPositions, offsetsStore, setOffsets
+#offsetsStore.apply() # reads the default store from its xml file and applys the GDA-level offsets
+#
+# to calibrate the XES spectrometer:
+# 1. move all motors to the correct position for a known peak visible in the Vortex MCA
+# 2. run the following command:
+#       calcExpectedPositions.recordFromLive(<the energy of the peak>)
+#    This will store the offsets to an xml file and so will be reused when the GDA is restarted.
 
 ############### Pseudo Devices for Angle ####################
 # Constants

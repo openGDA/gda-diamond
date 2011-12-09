@@ -3,6 +3,8 @@ from gda.util.persistence import LocalParameters
 
 from BeamlineParameters import JythonNameSpaceMapping
 
+from xes import setOffsets
+
 import os
 
 #
@@ -34,13 +36,13 @@ def list():
             name_length = len(name)
             print name[0:name_length-4]
 
-def store():
+def write():
     """
     Stores the current Spectrometer offsets in the default store. This is the store which is be re-loaded on GDA restart.
     """
-    storeas(DEFAULT_STORE_NAME)
+    writeas(DEFAULT_STORE_NAME)
 
-def storeas(storeName):
+def writeas(storeName):
     """
     Stores the current Spectrometer offsets in the named store. This store will not be re-loaded on GDA restart.
     """
@@ -54,13 +56,13 @@ def storeas(storeName):
         store.setProperty(name,value)
     store.save()
     
-def load():
+def apply():
     """
     Loads and sets the Spectrometer offsets from the default store.
     """
-    loadfrom(DEFAULT_STORE_NAME)
+    applyfrom(DEFAULT_STORE_NAME)
     
-def loadfrom(storeName):
+def applyfrom(storeName):
     """
     Loads and sets the Spectrometer offsets from the named store.
     """
@@ -69,11 +71,16 @@ def loadfrom(storeName):
     scannables = jython_mapper.spectrometer.getGroupMembers()
     store = LocalParameters.getXMLConfiguration(STORE_DIR,storeName,False)
 
+    #print "Setting the spectrometer offsets:"
+    valuesDict = {}
     for scannable in scannables:
         name = scannable.getName()
         value = float(store.getProperty(name))
-        scannable.setOffset(value)
-        
+       # scannable.setOffset(value)
+        valuesDict[name] = value
+        #print "\t %s offset -> %.2f" % (name,value)
+    setOffsets.setFromDict(valuesDict,False)
+    
 def view():
     """
     Views the Spectrometer offsets held in the default store.
@@ -95,7 +102,7 @@ def viewstore(storeName):
         value = float(store.getProperty(name))
         print "%20s : %.2f" % (name, value)
         
-def viewcurrent():
+def current():
     """
     Lists the current live Spectrometer offsets.
     """
@@ -103,7 +110,7 @@ def viewcurrent():
     spectrometer = jython_mapper.spectrometer
     scannables = jython_mapper.spectrometer.getGroupMembers()
     
-    print "Spectrometer current offsets:"
+    print "Spectrometer current GDA offsets:"
     
     for scannable in scannables:
         name = scannable.getName()
@@ -112,3 +119,15 @@ def viewcurrent():
             offset = [0]
         offset = offset[0]
         print "%20s : %.2f" % (name, offset)
+
+
+def removeAllOffsets():
+    """
+    Sets all the offsets to 0. Does not save the values to an xml store.
+    """
+    
+    jython_mapper = JythonNameSpaceMapping()
+    scannables = jython_mapper.spectrometer.getGroupMembers()
+
+    for scannable in scannables:
+        scannable.setOffset(0.0)
