@@ -71,7 +71,8 @@ def calcFromValues(fluo_energy, material, crystalCut, rowlandRadius):
     xtalPositions_central = XesUtils.getAdditionalCrystalPositions(rowlandRadius,bragg,0)
     xtalPositions_plus1 = XesUtils.getAdditionalCrystalPositions(rowlandRadius,bragg,137)
 
-    analyserAngle = XesUtils.getCrystalRotation(bragg)
+    # note its a two-theta arm(?)
+    analyserAngle = XesUtils.getCrystalRotation(bragg) * 2
 
     expected_values = {'xtal_minus1_x' : xtalPositions_minus1[0],\
     'xtal_minus1_y' :  xtalPositions_minus1[1],\

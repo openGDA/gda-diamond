@@ -1,5 +1,4 @@
 from BeamlineParameters import JythonNameSpaceMapping
-from xes import offsetsStore
 
 #
 # This script will change the offsets for the motors in the spectrometer, based on supplied values from the user.
