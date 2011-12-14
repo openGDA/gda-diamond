@@ -125,13 +125,22 @@ ab4_t2
 
 #qcm
 qcm_bragg1
-qcm_pitch1
-qcm_roll1
+qcm_bragg1_x
+qcm_bragg1_pitch
+qcm_bragg1_roll
+qcm_bragg1_finepitch
+qcm_bragg1_fineroll
 qcm_bragg2
-qcm_pitch2
-qcm_roll2
-qcm_x
+qcm_bragg2_x
+qcm_bragg2_pitch
+qcm_bragg2_roll
+qcm_bragg2_finepitch
+qcm_bragg2_fineroll
 qcm_y
+
+	
+
+
 
 #experiment hutch shutter
 eh_shtr

@@ -22,7 +22,7 @@
 		<property name="hasUnits" value="false" />
 		<property name="pvProvider">
 			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="D4" />
+				<property name="deviceName" value="D5" />
 				<property name="fieldName" value="RECORD" />
 			</bean>
 		</property>
@@ -33,7 +33,7 @@
 		<property name="hasUnits" value="false" />
 		<property name="pvProvider">
 			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="FEMTO4" />
+				<property name="deviceName" value="d5.femto" />
 				<property name="fieldName" value="SETGAIN" />
 			</bean>
 		</property>
@@ -44,7 +44,7 @@
 		<property name="hasUnits" value="false" />
 		<property name="pvProvider">
 			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="FEMTO4" />
+				<property name="deviceName" value="d5.femto" />
 				<property name="fieldName" value="SETACDC" />
 			</bean>
 		</property>
@@ -133,7 +133,7 @@
 	</bean>
 
 
-	<bean id="d4_ad_plugins" class="gda.device.FindableObjectHolder">
+	<bean id="d4_cam_ad_plugins" class="gda.device.FindableObjectHolder">
 		<property name="map">
 			<util:map>
 				<entry key="d4_cam_base" value-ref="d4_cam_base" />
@@ -144,10 +144,19 @@
 		</property>
 	</bean>
 
-	<bean id="d4_cam" class="gda.device.detector.addetector.ADDetector">
+	<bean id="d4_cam_ad" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="d4_cam_base" />
 		<property name="ndStats" ref="d4_stat" />
 		<property name="ndArray" ref="d4_arr" />
+		<property name="collectionStrategy">
+			<bean class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+				<constructor-arg ref="d4_cam_base" />
+				<constructor-arg value=".0" />
+			</bean>
+		</property>
+		<property name="computeStats" value="true"/>
+		<property name="computeCentroid" value="true"/>
+		<property name="readArray" value="true"/>
 	</bean>
 
 

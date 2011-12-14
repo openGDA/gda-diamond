@@ -22,34 +22,18 @@
 	<property name="pluginBase" ref="dummy_ad_pluginBase"/>
 	</bean>
 
-	<bean id="dummy_cam" class="gda.device.detector.addetector.ADDetector">
+	<bean id="dummy_cam_ad" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="dummy_ad_base" />
 		<property name="ndStats" ref="dummy_ad_stat" />
 		<property name="ndArray" ref="dummy_ad_arr" />
+		<property name="computeStats" value="true"/>
+		<property name="computeCentroid" value="true"/>
+		<property name="readArray" value="true"/>		
 	</bean>
 
-
-	
-	<bean id="dummy_ad_det_processor" class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
-		<constructor-arg value="dummy_cam" />
-		<constructor-arg value="data" />
-		<constructor-arg value="SDS" />
-		<constructor-arg ref="imageProcessors"/>
-		<constructor-arg ref="imageROI"/>
-	</bean>
-
-	<bean id="dummy_ad_det_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
-		<property name="processors">
-			<list>
-				<ref bean="dummy_ad_det_processor" />
-			</list>
-		</property>
-	</bean>
-
-
-	<bean id="dummy_cam_wrap" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+	<bean id="dummy_cam" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
 		<property name="detector" ref="dummy_cam" />
-		<property name="processor" ref="dummy_ad_det_processors" />
+		<property name="processor" ref="cam_ad_processors" />
 	</bean>
 
 </beans>

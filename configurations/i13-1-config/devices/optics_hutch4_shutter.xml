@@ -7,26 +7,9 @@
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
-	<bean id="oh4_shtr_ad_det_processor" class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
-		<constructor-arg value="oh4_shtr_cam" />
-		<constructor-arg value="data" />
-		<constructor-arg value="SDS" />
-		<constructor-arg ref="imageProcessors"/>
-		<constructor-arg ref="imageROI"/>
-	</bean>
-
-	<bean id="oh4_shtr_ad_det_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
-		<property name="processors">
-			<list>
-				<ref bean="oh4_shtr_ad_det_processor" />
-			</list>
-		</property>
-	</bean>
-
-
 	<bean id="oh4_shtr_cam_wrap" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
 		<property name="detector" ref="oh4_shtr_cam" />
-		<property name="processor" ref="oh4_shtr_ad_det_processors" />
+		<property name="processor" ref="cam_ad_processors" />
 	</bean>	
 	
 </beans>

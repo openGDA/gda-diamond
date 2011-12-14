@@ -17,6 +17,7 @@
 		<property name="local" value="true" />
 	</bean>
 	
+<!-- waiting to be wird up
 	<bean id="d3_i" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
@@ -48,7 +49,7 @@
 			<property name="fieldName" value="SETACDC"/>
 			</bean>
 		</property>
-	</bean>
+	</bean> -->
 
 
 	<bean id="d3_window_temp" class="gda.device.scannable.EpicsScannable"> 
@@ -125,22 +126,30 @@
 	</bean>
 	
 	
-	<bean id="d3_ad_plugins" class="gda.device.FindableObjectHolder">
+	<bean id="d3_cam_ad_plugins" class="gda.device.FindableObjectHolder">
 		<property name="map">
 			<util:map>
 				<entry key="d3_cam_base" value-ref="d3_cam_base"/>
 				<entry key="d3_arr" value-ref="d3_arr"/>
 				<entry key="d3_ffmpeg" value-ref="d3_ffmpeg"/>
-<!-- 				<entry key="d3_tiff" value-ref="d3_tiff"/> -->
 				<entry key="d3_roi" value-ref="d3_roi"/>				
 			</util:map>
 		</property>
 	</bean>
 	
-	<bean id="d3_cam" class="gda.device.detector.addetector.ADDetector">
+	<bean id="d3_cam_ad" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="d3_cam_base"/>
 		<property name="ndStats" ref="d3_stat"/>
 		<property name="ndArray" ref="d3_arr"/>
+		<property name="collectionStrategy">
+			<bean class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+				<constructor-arg ref="d3_cam_base" />
+				<constructor-arg value=".0" />
+			</bean>
+		</property>
+		<property name="computeStats" value="true"/>
+		<property name="computeCentroid" value="true"/>
+		<property name="readArray" value="true"/>
 	</bean>
 	
 

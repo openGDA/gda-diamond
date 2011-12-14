@@ -10,9 +10,8 @@
 
 	<import resource="commandQueueProcessor.xml" />
 
-
-
 	<corba:import namespace="i13-1" names="plot_server" />
+	
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
 		<property name="service" ref="plot_server" />
@@ -57,9 +56,15 @@
 			</property>
 		</bean>
 		<bean class="uk.ac.gda.dls.client.views.LatestFileNameCompositeFactory">
-		<property name="label" value="Latest Detector File"></property>
-		<property name="fileProcessor" ref="imageFileDisplayer"></property>
+		<property name="label" value="Latest Detector File"/>
+		<property name="fileProcessor" ref="imageFileDisplayer"/>
 		<property name="highestExistingFileMonitorDataProvider" ref="highestExistingFileMonitor"/>
+		</bean>
+		<bean class="uk.ac.gda.dls.client.views.OpenViewCompositeFactory">
+		<property name="tooltipText" value="Display MJPEG streams from cameras and detectors"/>
+		<property name="viewID" value="uk.ac.gda.video.views.cameraview"/>
+		<property name="buttonText" value="Cameras"/>
+		<property name="buttonImagePath" value="icons/eye.png"/>
 		</bean>
 	</list>
 	</property>

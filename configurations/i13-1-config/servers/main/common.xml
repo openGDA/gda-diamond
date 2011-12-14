@@ -40,8 +40,12 @@
 	</bean>
 	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
 		<property name="plotName" value="Detector Image" />
+		<property name="enable" value="false" />
 	</bean>
-	<bean id="imageROI" class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI" />
+	<bean id="imageROI" class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI" >
+		<property name="enable" value="false" />
+	</bean>
+	
 
 	<util:list id="imageProcessors"
 		value-type="gda.device.detector.nexusprocessor.DataSetProcessor">
@@ -50,6 +54,29 @@
 		<ref bean="imagePlotter" />
 	</util:list>
 
+	<bean id="cam_ad_processor" class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
+		<constructor-arg value="" />
+		<constructor-arg value="data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors"/>
+		<constructor-arg ref="imageROI"/>
+	</bean>
+
+	<bean id="cam_ad_filename_processor" class="gda.device.detector.nexusprocessor.NexusProviderFilenameProcessor">
+		<constructor-arg value="" />
+		<constructor-arg value="image_data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors"/>
+		<constructor-arg ref="imageROI"/>
+	</bean>
+
+	<bean id="cam_ad_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
+		<property name="processors">
+			<list>
+				<ref bean="cam_ad_processor" />
+			</list>
+		</property>
+	</bean>
 
 	<import resource="../../devices/simpleScannables.xml" />
 
@@ -78,7 +105,8 @@
 	<import resource="../../devices/optics_hutch4_shutter.xml" />
 
 	<!-- end of internal building/ start of external building -->
-	<!-- <import resource="../../devices/qcm.xml" /> -->
+	<import resource="../../devices/qcm.xml" />
+	
 	<import resource="../../devices/d4.xml" />
 	<import resource="../../devices/s4.xml" />
 	<import resource="../../devices/s5.xml" />

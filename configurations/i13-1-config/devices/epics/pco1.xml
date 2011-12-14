@@ -86,12 +86,7 @@
 				<property name="pvProvider" ref="pco1_ndfile_pvProvider" />
 			</bean>
 		</property>
-		<property name="initialAutoSave" value="Not hooked up to anything!" /> <!-- currently yes -->
-		<property name="initialAutoIncrement" value="Not hooked up to anything!" /> <!-- currently true -->
-		<property name="initialWriteMode" value="0" /> <!-- Single(current), Capture, Stream, -->
-		<property name="initialNumCapture" value="1" /> <!-- current = 1 -->
-		<property name="initialFileName" value="pco" />
-		<property name="initialFileTemplate" value="%s%s%d.hdf" />
+		<property name="resetToInitialValues" value="false"/>
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/i13-1/data" />
@@ -101,7 +96,7 @@
 
 	</bean>
 
-	<bean id="pco1_ad_plugins" class="gda.device.FindableObjectHolder">
+	<bean id="pco1_cam_ad_plugins" class="gda.device.FindableObjectHolder">
 		<property name="map">
 			<util:map>
 				<entry key="pco1_cam_base" value-ref="pco1_cam_base" />
@@ -118,7 +113,7 @@
 		<property name="basePvName" value="BL13J-EA-DET-01:CAM" />
 	</bean>
 
-	<bean id="pco1_cam" class="gda.device.detector.addetector.ADPco">
+	<bean id="pco1_ad" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
 		<property name="ndStats" ref="pco1_stat" />
 		<property name="ndArray" ref="pco1_arr" />
@@ -135,7 +130,7 @@
 		<property name="readFilepath" value="true" />
 		<property name="readAcquisitionPeriod" value="false" />
 		<property name="computeStats" value="true" />
-		<property name="computeCentroid" value="false" />
+		<property name="computeCentroid" value="true" />
 		<property name="readArray" value="true" />
 		<property name="createsOwnFiles" value="false" />
 		<property name="linkFilepath" value="false" />

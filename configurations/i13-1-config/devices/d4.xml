@@ -14,26 +14,9 @@
 	</bean>
 
 
-	<bean id="d4_ad_det_processor" class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
-		<constructor-arg value="d4_cam" />
-		<constructor-arg value="data" />
-		<constructor-arg value="SDS" />
-		<constructor-arg ref="imageProcessors"/>
-		<constructor-arg ref="imageROI"/>
-	</bean>
-
-	<bean id="d4_ad_det_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
-		<property name="processors">
-			<list>
-				<ref bean="d4_ad_det_processor" />
-			</list>
-		</property>
-	</bean>
-
-
 	<bean id="d4_cam_wrap" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector" ref="d4_cam" />
-		<property name="processor" ref="d4_ad_det_processors" />
+		<property name="detector" ref="d4_cam_ad" />
+		<property name="processor" ref="cam_ad_processors" />
 	</bean>
 </beans>
 

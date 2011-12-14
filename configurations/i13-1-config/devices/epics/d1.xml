@@ -33,7 +33,7 @@
 		<property name="hasUnits" value="false" />
 		<property name="pvProvider">
 			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-			<property name="deviceName" value="FEMTO1"/>
+			<property name="deviceName" value="d1.femto"/>
 			<property name="fieldName" value="SETGAIN"/>
 			</bean>
 		</property>
@@ -44,7 +44,7 @@
 		<property name="hasUnits" value="false" />
 		<property name="pvProvider">
 			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-			<property name="deviceName" value="FEMTO1"/>
+			<property name="deviceName" value="d1.femto"/>
 			<property name="fieldName" value="SETACDC"/>
 			</bean>
 		</property>
@@ -135,7 +135,7 @@
 	</bean>
 
 
-	<bean id="d1_ad_plugins" class="gda.device.FindableObjectHolder">
+	<bean id="d1_cam_ad_plugins" class="gda.device.FindableObjectHolder">
 		<property name="map">
 			<util:map>
 				<entry key="d1_cam_base" value-ref="d1_cam_base" />
@@ -147,17 +147,19 @@
 		</property>
 	</bean>
 
-	<bean id="d1_cam" class="gda.device.detector.addetector.ADDetector">
+	<bean id="d1_cam_ad" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="d1_cam_base" />
 		<property name="ndStats" ref="d1_stat" />
 		<property name="ndArray" ref="d1_arr" />
-		<!-- TIFF plugin causes GigE camera IOC to crah <property name="ndFile" 
-			ref="d1_tiff"/> -->
+		<property name="collectionStrategy">
+			<bean class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+				<constructor-arg ref="d1_cam_base" />
+				<constructor-arg value=".0" />
+			</bean>
+		</property>
+		<property name="computeStats" value="true"/>
+		<property name="computeCentroid" value="true"/>
+		<property name="readArray" value="true"/>
 	</bean>
-
-
-
-	
-
 
 </beans>	

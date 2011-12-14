@@ -79,24 +79,30 @@
 	</bean>
 
 
-	<bean id="oh4_shtr_cam_plugins" class="gda.device.FindableObjectHolder">
+	<bean id="oh4_shtr_cam_ad_plugins" class="gda.device.FindableObjectHolder">
 		<property name="map">
 			<util:map>
 				<entry key="oh4_shtr_cam_base" value-ref="oh4_shtr_cam_base" />
 				<entry key="oh4_shtr_arr" value-ref="oh4_shtr_arr" />
 				<entry key="oh4_shtr_ffmpeg" value-ref="oh4_shtr_ffmpeg" />
-				<!-- <entry key="oh4_shtr_tiff" value-ref="oh4_shtr_tiff"/> -->
 				<entry key="oh4_shtr_roi" value-ref="oh4_shtr_roi" />
 			</util:map>
 		</property>
 	</bean>
 
-	<bean id="oh4_shtr_cam" class="gda.device.detector.addetector.ADDetector">
+	<bean id="oh4_shtr_cam_ad" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="oh4_shtr_cam_base" />
 		<property name="ndStats" ref="oh4_shtr_stat" />
 		<property name="ndArray" ref="oh4_shtr_arr" />
-		<!-- TIFF plugin causes GigE camera IOC to crah <property name="ndFile" 
-			ref="oh4_shtr_tiff"/> -->
+		<property name="collectionStrategy">
+			<bean class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+				<constructor-arg ref="oh4_shtr_cam_base" />
+				<constructor-arg value=".0" />
+			</bean>
+		</property>
+		<property name="computeStats" value="true"/>
+		<property name="computeCentroid" value="true"/>
+		<property name="readArray" value="true"/>
 	</bean>
 
 
