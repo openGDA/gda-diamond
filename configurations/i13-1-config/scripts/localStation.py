@@ -51,6 +51,9 @@ try:
 	from gdascripts.pd.time_pds import waittimeClass2
 	waittime=waittimeClass2('waittime')
 	
+	from flyscan_script import flyscan, flyscannable
+	vararg_alias("flyscan")
+	
 	createPVScannable( "d1_total", "BL13J-DI-PHDGN-01:STAT:Total_RBV")
 	
 	#make scannablegroup for driving sample stage

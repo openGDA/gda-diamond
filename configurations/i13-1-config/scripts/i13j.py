@@ -97,6 +97,16 @@ To take an image from the maxipix detector:
     
     This will return an object in the same form as return by the getPosition method and used by the moveTo method.
 
+8. To perform a flyscan:
+    to perform a flyscan of scannable tx over range start, stop, end and measure detector d at each approx value of tx
+    >flyscan   flyscannable(tx) start stop end d
+    
+    to perform a flyscan as the inner most scan of a nested scan
+    e.g. perform a scan of ty over range ystart, ystop, ystep and at each value of ty perform the above flyscan of tx
+    >flyscan   ty ystart ystop ystep flyscannable(tx) start stop end d
+    
+    
+    
 """
 
 
