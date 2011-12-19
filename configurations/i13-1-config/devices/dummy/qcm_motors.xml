@@ -11,6 +11,10 @@
 	<bean id="qcm_bragg2_pitch_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="qcm_bragg1_roll_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="qcm_bragg2_roll_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="qcm_bragg2_y_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="qcm_bragg1_finepitch_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="qcm_bragg2_finepitch_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="qcm_bragg1_fineroll_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="qcm_bragg2_fineroll_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="qcm_y_motor" class="gda.device.motor.DummyMotor"/>
 	
 </beans>	

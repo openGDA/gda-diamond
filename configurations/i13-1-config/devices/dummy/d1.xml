@@ -20,7 +20,7 @@
 	<property name="pluginBase" ref="d1_ad_pluginBase"/>
 	</bean>
 
-	<bean id="d1_cam" class="gda.device.detector.addetector.ADDetector">
+	<bean id="d1_cam_ad" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="d1_ad_base" />
 		<property name="ndStats" ref="d1_ad_stat" />
 		<property name="ndArray" ref="d1_ad_arr" />

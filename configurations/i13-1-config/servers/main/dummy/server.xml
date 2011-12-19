@@ -62,6 +62,8 @@
 	
 	<import resource="../../../devices/dummy/absorbers4.xml"/>	
 
+	<import resource="../../../devices/dummy/qcm_motors.xml"/>
+
 	<import resource="../../../devices/dummy/experiment_hutch_shutter.xml"/>
 
 	<import resource="../../../devices/dummy/s4_motors.xml"/>
