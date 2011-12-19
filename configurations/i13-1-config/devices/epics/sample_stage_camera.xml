@@ -99,10 +99,10 @@
 				<constructor-arg ref="sample_stage_cam_cam_base" />
 				<constructor-arg value=".0" />
 			</bean>
+		</property>
 		<property name="computeStats" value="true" />
 		<property name="computeCentroid" value="true" />
 		<property name="readArray" value="true" />
-		</property>
 		
 	</bean>
 

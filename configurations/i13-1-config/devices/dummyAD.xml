@@ -32,7 +32,7 @@
 	</bean>
 
 	<bean id="dummy_cam" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector" ref="dummy_cam" />
+		<property name="detector" ref="dummy_cam_ad" />
 		<property name="processor" ref="cam_ad_processors" />
 	</bean>
 
