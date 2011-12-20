@@ -162,5 +162,11 @@
 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL34:ROLL:PZT" />
 		<property name="local" value="true"/>
 	</bean>
+	
+	<bean id="pzt_pitch_analogue" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL20I-OP-QCM-01:XTAL1:PITCH:DMD" />
+		<property name="pvNameGetPoint" value="BL20I-OP-QCM-01:XTAL1:PITCH:RBV" />
+		<property name="local" value="true"/>
+	</bean>	
 
 </beans>
