@@ -14,7 +14,9 @@
 
 		<property name="numberOfDetectors" value="9" />
 		<property name="configFileName"
-			value="${gda.config}/templates/Xspress_Parameters.xml" />
+			value="${gda.config}/templates/Xspress_Parameters.xml" />		
+		<property name="dtcConfigFileName"
+			value="${gda.config}/templates/Xspress_DeadTime_Parameters.xml" />
 		<property name="fullMCABits" value="12" />
 
 		<property name="outputFormat">
