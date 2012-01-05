@@ -42,6 +42,7 @@
 		
 		<property name="numberOfDetectors" value="9" />
 		<property name="configFileName"    value="${gda.config}/templates/Xspress_Parameters.xml" />
+		<property name="dtcConfigFileName"    value="${gda.config}/templates/Xspress_DeadTime_Parameters.xml" />
 		<!--<property name="readoutMode"       value="1" />
 		<property name="numberOfBits"      value="12" />
 	-->

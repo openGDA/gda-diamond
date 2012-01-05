@@ -36,7 +36,7 @@
 						</bean> 
 					</list>
 				</property>
-				<property name="startupScript" value="${gda.config}/scripts/localStation_rcp.py"></property>
+				<property name="startupScript" value="${gda.config}/scripts/localStation_localrcp.py"></property>
 			</bean>
 		</property>
 		<property name="gdaVarDirectory" value="${gda.config}/var" />

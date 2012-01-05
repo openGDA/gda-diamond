@@ -49,7 +49,7 @@
 			</list>
 		</property>
 	</bean>
-	<import resource="file:${gda.config}/xml/spring/server/I18-command-server.xml"/>
+	<import resource="file:${gda.config}/xml/spring/server/I18-sim-command-server.xml"/>
 	
 	<corba:export namespace="I18_local" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />

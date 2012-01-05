@@ -9,8 +9,7 @@
     <edgeEnergy>7112.0</edgeEnergy>
     <A>7080.75</A>
     <B>7099.5</B>
-    <C>1.81</C>
-    <kStart>7124.5</kStart>
+    <C>7124.5</C>
     <preEdgeStep>5.0</preEdgeStep>
     <preEdgeTime>0.5</preEdgeTime>
     <edgeStep>1.0</edgeStep>

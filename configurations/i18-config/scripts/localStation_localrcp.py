@@ -50,8 +50,8 @@ sc_MicroFocusSampleY.setOutputFormat(["%.4f"])
 ##RCP exafs scan settings
 ###########################################################################
 print "setting scans"
-from exafsscripts.exafs import setupBeamline
-setupBeamline.rootnamespace = globals()
+from i18_exafs import setupExperiment
+setupExperiment.rootnamespace = globals()
 from exafsscripts.exafs.xas_scans import xas, xanes, estimateXas, estimateXanes, qexafs
 
 from exafsscripts.vortex import vortexConfig
@@ -67,13 +67,13 @@ alias("estimateXanes")
 alias("vortex")
 alias("xspress")
 alias("qexafs")
-from gda.device.scannable import CurrentTimeScannable
-curTime = CurrentTimeScannable()
-curTime.setName("curTime")
+#from gda.device.scannable import CurrentTimeScannable
+#curTime = CurrentTimeScannable()
+#curTime.setName("curTime")
 # to act as the energy during dev
-from gda.device.scannable import CurrentTimeScannable
-curTime = CurrentTimeScannable()
-curTime.setName("curTime")
+#from gda.device.scannable import CurrentTimeScannable
+#curTime = CurrentTimeScannable()
+#curTime.setName("curTime")
 ################################################################################
 ##default monitors
 ################################################################################
@@ -86,7 +86,7 @@ topupMonitor.setWaittime(1)
 topupMonitor.setTimeout(60)
 topupMonitor.setTopupPV("SR-CS-FILL-01:COUNTDOWN")
 topupMonitor.configure()
-add_default topupMonitor
+#add_default topupMonitor
 from gda.device.scannable import BeamMonitorWithFeedbackSwitchScannable
 beam = BeamMonitorWithFeedbackSwitchScannable('FE18I-RS-ABSB-02:STA',['BL18I-OP-DCM-01:FPMTR:FFB.FBON','BL18I-OP-DCM-01:FRMTR:FFB.FBON'])
 beam.setName("beam")
@@ -110,7 +110,7 @@ trajBeamMonitor.setWaittime(1)
 trajBeamMonitor.setTimeout(60)
 trajBeamMonitor.configure()
 trajBeamMonitor.setLevel(1)
-add_default trajBeamMonitor
+#add_default trajBeamMonitor
 
 print "creating scannable 'test' which will be used to represent energy during commissionning"
 print ""
@@ -153,24 +153,24 @@ execfile(gdaConfigDir + "scripts/I18Scans/vortex/vortex_dtc_params2.py")
 execfile(gdaConfigDir + "scripts/I18Scans/vortex/I18VortexUtilities.py")
 #xspress
 execfile(gdaConfigDir + "scripts/I18Scans/read_xspress_counts.py")
-
-from gdascripts.pd.scaler8512_pds import ScalerChannelEpicsPVClass
-from gdascripts.pd.epics_pds import SingleEpicsPositionerClass
-from gdascripts.pd import time_pds
-from gdascripts import utils, constants
-execfile(gdaConfigDir + "scripts/chgDataDir.py");
-execfile(gdaConfigDir + "scripts/microscope_limits.py")
-# struck ion chambers
-execfile(gdaConfigDir + "scripts/I18Scans/StruckV2F.py")
-
-print "Setting up 8512 scalars...";
-execfile(gdaConfigDir + "scripts/scaler8512.py");
-# KB mirror motors
-execfile("/dls_sw/i18/scripts/focus/SesoMethod/Setup_KBMotors_IDT_Mechanical.py")
-
-##vortex xmap configuration script
-execfile(gdaConfigDir + "scripts/edxd_calibrator.py")
-###############################################################################
+##running in local mode  -- not needed
+#------------ from gdascripts.pd.scaler8512_pds import ScalerChannelEpicsPVClass
+#---------------- from gdascripts.pd.epics_pds import SingleEpicsPositionerClass
+#-------------------------------------------- from gdascripts.pd import time_pds
+#--------------------------------------- from gdascripts import utils, constants
+#----------------------------- execfile(gdaConfigDir + "scripts/chgDataDir.py");
+#----------------------- execfile(gdaConfigDir + "scripts/microscope_limits.py")
+#--------------------------------------------------------- # struck ion chambers
+#---------------------- execfile(gdaConfigDir + "scripts/I18Scans/StruckV2F.py")
+#------------------------------------------------------------------------------ 
+#------------------------------------------- print "Setting up 8512 scalars...";
+#----------------------------- execfile(gdaConfigDir + "scripts/scaler8512.py");
+#------------------------------------------------------------ # KB mirror motors
+ # execfile("/dls_sw/i18/scripts/focus/SesoMethod/Setup_KBMotors_IDT_Mechanical.py")
+#------------------------------------------------------------------------------ 
+#-------------------------------------------- ##vortex xmap configuration script
+#------------------------- execfile(gdaConfigDir + "scripts/edxd_calibrator.py")
+##############################################################################
 
 ###############################################################################
 ###xspress setup
