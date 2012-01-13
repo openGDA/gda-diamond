@@ -7,6 +7,7 @@
 	<bean id="t1_sy_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="t1_sz_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="t1_x_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="t1_y_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="t1_z_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="t1_pitch_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="t1_roll_motor" class="gda.device.motor.DummyMotor"/>

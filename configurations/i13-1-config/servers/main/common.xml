@@ -82,6 +82,7 @@
 
 	<!-- Start of real device list -->
 
+	<import resource="../../devices/undulator.xml" />
 	<import resource="../../devices/front_end.xml" />
 
 	<import resource="../../devices/s1.xml" />

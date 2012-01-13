@@ -33,9 +33,9 @@
 	</bean>	
 
 	
-<!-- start of internal building -->
-
+	<import resource="../../../devices/epics/undulator.xml"/>
 	<import resource="../../../devices/dummy/front_end.xml"/>
+<!-- start of internal building -->
 
 	<import resource="../../../devices/dummy/s1_motors.xml"/>
 	<import resource="../../../devices/dummy/filter_motors.xml"/>

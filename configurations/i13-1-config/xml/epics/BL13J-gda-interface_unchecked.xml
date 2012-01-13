@@ -30,7 +30,10 @@
 			type="mbbinary" />
 	</simpleMbbinary>
 	
-	
+    <simpleMotor desc="Undulator Gap" name="Undulator.Gap">
+        <RECORD desc="Motor" pv="SR13J-MO-SERVC-01:BLGAPMTR" ro="false" type="motor"/>
+    </simpleMotor>
+    	
 <!-- 	<currAmpSingle desc="D1 femto amp" name="d4.femto">
 		<SETGAIN desc="Set gain" pv="BL13J-DI-FEMTO-01:GAIN" ro="false" type="mbbinary"/>
 		<SETACDC desc="Set AC or DC mode" pv="BL13J-DI-FEMTO-01:ACDC" ro="false" type="binary"/>

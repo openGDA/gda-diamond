@@ -21,6 +21,9 @@
 		<property name="motor" ref="t1_x_motor" />
 	</bean>
 	<bean id="t1_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_y_motor" />
+	</bean>
+	<bean id="t1_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="t1_z_motor" />
 	</bean>
 	<bean id="t1_pitch" class="gda.device.scannable.ScannableMotor">

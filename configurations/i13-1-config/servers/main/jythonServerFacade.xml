@@ -64,9 +64,7 @@
 		<property name="remotePort" value="9999" />
 	</bean>
 
-	<bean id="jython_server_facade" class="gda.jython.JythonServerFacade">
-		<constructor-arg ref="command_server" />
-	</bean>
+
 
 <!-- 	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
 		<property name="local" value="true" />
@@ -83,7 +81,7 @@
 		<constructor-arg ref="terminallog_path_provider" />
 	</bean>
 	<bean class="gda.jython.logger.OutputTerminalAdapter">
-		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="jythonServerFacade" />
 		<constructor-arg ref="terminal_logger" />
 	</bean>
 	<bean class="gda.jython.logger.InputTerminalAdapter">
@@ -91,11 +89,11 @@
 		<constructor-arg ref="terminal_logger" />
 	</bean>
 	<bean class="gda.jython.logger.ScanDataPointAdapter">
-		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="jythonServerFacade" />
 		<constructor-arg ref="terminal_logger" />
 	</bean>
 	<bean class="gda.jython.logger.BatonChangedAdapter">
-		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="jythonServerFacade" />
 		<constructor-arg ref="terminal_logger" />
 	</bean>
 
