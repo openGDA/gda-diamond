@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: I13j Plug-in
+Bundle-SymbolicName: uk.ac.gda.beamline.i13j;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: uk.ac.gda.beamline.i13j.I13JBeamlineActivator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ uk.ac.gda.client;bundle-version="1.0.0",
+ uk.ac.gda.core;bundle-version="1.0.0",
+ uk.ac.diamond.scisoft.analysis.rcp;bundle-version="1.0.0",
+ org.eclipse.help.ui;bundle-version="3.4.1",
+ uk.ac.gda.dls;bundle-version="1.0.0",
+ uk.ac.gda.dls.client;bundle-version="1.0.0",
+ uk.ac.gda.libs;bundle-version="1.0.0",
+ org.eclipse.ui.console,
+ org.eclipse.jdt.ui,
+ org.eclipse.core.resources;bundle-version="3.7.100"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: uk.ac.gda.beamline.i13j
+Bundle-Vendor: diamond.ac.uk
+Eclipse-RegisterBuddy: uk.ac.gda.core, uk.ac.gda.libs
