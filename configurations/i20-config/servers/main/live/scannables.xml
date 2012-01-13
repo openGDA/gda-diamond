@@ -18,7 +18,7 @@
 		<property name="scannable" ref="absorber" />
 		<property name="value" value="Open" />
 		<property name="level" value="0" />
-		<property name="pauseBeforePoint" value="false" />
+		<property name="pauseBeforePoint" value="true" />
 		<property name="local" value="true"/>
 	</bean>
 
