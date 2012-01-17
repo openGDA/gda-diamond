@@ -46,6 +46,7 @@ class StruckIonChambers(ScannableBase):
 		self.mcaStopPV=CAClient(self.mcastring+":StopAll");self.mcaStopPV.configure()
 		self.mcaStatus=CAClient(self.mcastring+":Acquiring");self.mcaStatus.configure()
 		self.mcalist=[]
+		self.mcabusy = False
 		for i in range(len(channels)):
 			str1 = self.mcastring +":mca"+str(channels[i])    # counts in the channel
 			self.mcalist.append(CAClient(str1))
@@ -76,7 +77,7 @@ class StruckIonChambers(ScannableBase):
 	# Returns state of the struck
 	#
 	def isBusy(self):
-		return False
+		return self.mcabusy
 			
 	#
 	# start collection
@@ -124,24 +125,28 @@ class StruckIonChambers(ScannableBase):
 			print "Struck::stop failure"
 
 	def collectMCA(self,collectionTime=500.):
-
-		self.stop()
-		self.start()
-		while(self.isClear()==0 or self.getStatus()==0):
-			print 'ionchambers struck not ready: Waiting to clear'
-			sleep(0.50)
-			self.clearAndPrepare()
-			sleep(0.50)
-		#sleep(0.5)
-		self.das.sendCommand("tfg init")
-		command = "tfg setup-groups cycles 1\n1 1.0E-7 %f 0 15 0 0\n-1 0 0 0 0 0 0 " %(collectionTime/1000.0)
-		#print command
-		self.das.sendCommand(command)
-		self.das.sendCommand("tfg start")
-		sleep(collectionTime/1000.0)
-		self.das.sendCommand("tfg wait")
-		#sleep(0.5)
-		self.stop()
+		try:
+			self.mcabusy = True
+			self.stop()
+			self.start()
+			while(self.isClear()==0 or self.getStatus()==0):
+				print 'ionchambers struck not ready: Waiting to clear'
+				sleep(0.50)
+				self.clearAndPrepare()
+				sleep(0.50)
+			#sleep(0.5)
+			self.das.sendCommand("tfg init")
+			command = "tfg setup-groups cycles 1\n1 1.0E-7 %f 0 15 0 0\n-1 0 0 0 0 0 0 " %(collectionTime/1000.0)
+			#print command
+			self.das.sendCommand(command)
+			self.das.sendCommand("tfg start")
+			sleep(collectionTime/1000.0)
+			self.das.sendCommand("tfg wait")
+			#sleep(0.5)
+			self.stop()
+			self.mcabusy = False
+		except:
+			self.mcabusy = False
 		
 	def asynchronousMoveTo(self,newPosition):
 		self.collectMCA(newPosition)

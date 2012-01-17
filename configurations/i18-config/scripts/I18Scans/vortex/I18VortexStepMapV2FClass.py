@@ -12,6 +12,7 @@ from gda.analysis import *
 from jarray import array
 from gda.data import PathConstructor
 import os
+import time
 #
 #
 #   A step map scan
@@ -89,6 +90,7 @@ class I18VortexStepMapClass(ScriptBase):
                 self.controller.update(None, "STOP")
                 return
             mapRunning =1
+            scanStart = time.asctime()
             nx=abs(xend-xstart)/xstep
             ny=abs(yend-ystart)/ystep
             nx=int(round(nx+0.5))
@@ -231,6 +233,7 @@ class I18VortexStepMapClass(ScriptBase):
                 self.checkForInterrupt()
             # Tell the GUI the script has stopped
             self.controller.update(None, "STOP")
+            scanEnd = time.asctime()
             print 'Scan complete'
         finally:
             
@@ -247,7 +250,8 @@ class I18VortexStepMapClass(ScriptBase):
                     self.archiver.registerFiles("scan-" + str(self.fileno), self.archiveFileList)
             except:
                 print "Unable archive files " + self.datafilename
-                
+        print scanStart
+        print scanEnd
     
     def prepareTFGForRow(self,noOfFrames,collectionTime):
         self.das.sendCommand("tfg init")

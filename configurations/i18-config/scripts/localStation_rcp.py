@@ -20,7 +20,7 @@ sys.path.append(gdaMicroFocus +  "scripts/")
 ######################################################################
 print "setting up mapscan"
 execfile (gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/rastermap.py")
-execfile (gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/vortex_rastermap.py")
+#execfile (gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/vortex_rastermap.py")
 execfile (gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/map.py")
 execfile(gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/microfocus_elements.py")
 
@@ -158,6 +158,7 @@ from gdascripts.pd.scaler8512_pds import ScalerChannelEpicsPVClass
 from gdascripts.pd.epics_pds import SingleEpicsPositionerClass
 from gdascripts.pd import time_pds
 from gdascripts import utils, constants
+from gdascripts.utils import * 
 execfile(gdaConfigDir + "scripts/chgDataDir.py");
 execfile(gdaConfigDir + "scripts/microscope_limits.py")
 # struck ion chambers
