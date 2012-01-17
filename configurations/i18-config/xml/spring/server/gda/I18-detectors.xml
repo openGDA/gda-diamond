@@ -178,7 +178,7 @@
 	
 
 	<bean id="photonccd" class="gda.device.detector.IPPserver">
-		<property name="outputFolderRoot" value="x:/data/2011/sp7048-1/processing/xrd/" />
+		<property name="outputFolderRoot" value="x:/data/2011/sp7414-1/processing/xrd/" />
 		<property name="fileNameRoot" value="i18-" />
 		<property name="fileFormat" value="tif" />
 		<property name="collectionTime" value="1" />

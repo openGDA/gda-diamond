@@ -47,7 +47,7 @@
         </layout>
     </appender>
     <logger name="gda">
-        <level value="DEBUG"/>
+        <level value="INFO"/>
     </logger>
     
     <logger name="gda.device.monitor.corba.impl">
@@ -63,7 +63,12 @@
     <logger name="gda.device.motor.EpicsMotor">
         <level value="WARN"/>
     </logger>
-    
+        <logger name="gda.scan.ScanDataPointPopulatorAndPublisher">
+       <level value="DEBUG"/>
+   </logger>
+     <logger name="gda.scan.MultithreadedScanDataPointPipeline">
+        <level value="DEBUG"/>
+    </logger>
     <root>
         <level value="ALL"/>
         <appender-ref ref="WS001"/>

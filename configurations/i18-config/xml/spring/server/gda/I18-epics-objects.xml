@@ -26,7 +26,7 @@
 		<property name="NUMBER_OF_ELEMENTS" value="4"/>
 		<property name="hdf5" ref="hdf5"/>
 </bean>
-<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController3">
+<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController3ROI">
 		<property name="edxdControllerName" value="edxdcontroller"/>
 		<property name="local" value="true"/>
 </bean>
@@ -173,7 +173,10 @@
 <bean id="idgap_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="FEIDGAP.GAP"></property>
 </bean>
-<bean id="d1motor_motor" class="gda.device.motor.EpicsMotor" >
+<!--<bean id="idgap_motor" class="gda.device.motor.DummyMotor" >
+	<property name="speed" value="1000.0"></property>
+	</bean>
+--><bean id="d1motor_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="D1.POSN"></property>
 	<property name="local" value="true"/>
 </bean>
@@ -283,7 +286,10 @@
 	<property name="deviceName" value="DCM:XTAL2:YPRIME"></property>
 	<property name="local" value="true"/>
 </bean>
-<!-- S2 Motors (Compound Motions) -->
+<!--<bean id="dcm_perp_motor" class="gda.device.motor.DummyMotor" >
+	<property name="speed" value="1000.0"></property>
+	</bean>
+--><!-- S2 Motors (Compound Motions) -->
 <bean id="s2xpos_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="S2.XDISP"></property>
 	<property name="local" value="true"/>
@@ -424,7 +430,15 @@
 	<property name="deviceName" value="T1.Y3"></property>
 	<property name="local" value="true"/>
 </bean>
-	<!--  Video Microscope (A) Motors -->
+ <!--  Sample Stage Motors 	 --> 
+	<!--<bean id="sample_z_motor" class="gda.device.motor.DummyMotor" />	
+	<bean id="sample_thetacoarse_motor" class="gda.device.motor.DummyMotor" />	  
+	<bean id="sample_x_motor" class="gda.device.motor.DummyMotor" />	  
+	<bean id="sample_y1_motor" class="gda.device.motor.DummyMotor" />	  
+	<bean id="sample_y2_motor" class="gda.device.motor.DummyMotor" />	  
+	<bean id="sample_y3_motor" class="gda.device.motor.DummyMotor" />	  
+	<bean id="sample_thetafine_motor" class="gda.device.motor.DummyMotor" />
+	--><!--  Video Microscope (A) Motors -->
 <bean id="vma_zoom_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="VMA:ZOOM"></property>
 	<property name="local" value="true"/>

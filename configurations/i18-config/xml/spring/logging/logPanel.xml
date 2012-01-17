@@ -32,6 +32,12 @@
     <logger name="gda.factory.corba.util.PushEventQueue">
         <level value="ERROR"/>
     </logger>
+     <logger name="gda.scan.ScanDataPointPopulatorAndPublisher">
+       <level value="DEBUG"/>
+   </logger>
+     <logger name="gda.scan.MultithreadedScanDataPointPipeline">
+        <level value="DEBUG"/>
+    </logger>
     <root>
         <level value="INFO"/>
         <appender-ref ref="LogPanel"/>
