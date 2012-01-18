@@ -10,6 +10,7 @@
         <y>0.0</y>
         <z>0.0</z>
         <rotation>0.0</rotation>
+        <fineRotation>0.0</fineRotation>
         <roll>0.0</roll>
         <yaw>0.0</yaw>
     </roomTemperature>
