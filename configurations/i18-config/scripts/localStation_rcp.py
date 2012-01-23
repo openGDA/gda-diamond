@@ -200,6 +200,14 @@ execfile(gdaConfigDir + "scripts/sampleStageTilt.py")
 
 global mapRunning
 mapRunning =0
+
+#qbpm settings 
+cid.setInputNames(['CID_Rplusdiode', 'CID_Lminusdiode','CID_Rminusdiode', 'CID_Lplusdiode']) 
+cid.setIncludeRange(False) 
+cid.setOutputFormat(['%4.10f','%4.10f','%4.10f','%4.10f','%4.10f','%4.10f','%4.10f']) 
+
+##fix for trajectory scans 
+execfile(gdaConfigDir + "scripts/scans/correctTrajInterface.py"); 
 print "===================================================================";
 print
 
