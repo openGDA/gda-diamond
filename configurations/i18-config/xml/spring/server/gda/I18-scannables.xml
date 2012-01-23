@@ -911,6 +911,7 @@
 		<property name="protectionLevel" value="0" />
 		<property name="trajectoryIndex" value="3" />
 		<property name="mode" value="2" />
+		<property name="readTimeout" value="10.0"/>
 	</bean>
 	<bean id="realX" class="gda.device.scannable.EpicsTrajectoryScanRealPositionReader">
 		<property name="protectionLevel" value="0" />

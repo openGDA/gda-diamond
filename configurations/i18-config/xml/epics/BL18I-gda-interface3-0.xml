@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2009-2/gdaApp/src/genericBeamlineSchema.xsd">
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2010-5/gdaApp/src/genericBeamlineSchema.xsd">
 	<simpleMotor desc="HFM Y1" name="HFM:Y1">
 		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:Y1" ro="false" type="motor"/>
 	</simpleMotor>
@@ -39,9 +39,6 @@
 	<simpleMotor desc="PIN Y" name="PIN:Y">
 		<RECORD desc="Motor" pv="BL18I-AL-APTR-02:Y" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="TW Y" name="TW:Y">
-		<RECORD desc="Motor" pv="BL18I-RS-ABSB-04:Y" ro="false" type="motor"/>
-	</simpleMotor>
 	<simpleMotor desc="VMA zoom" name="VMA:ZOOM">
 		<RECORD desc="Motor" pv="BL18I-DI-DCAM-01:ZOOM" ro="false" type="motor"/>
 	</simpleMotor>
@@ -62,15 +59,6 @@
 	</simpleMotor>
 	<simpleMotor desc="MLD Z" name="MLD:Z">
 		<RECORD desc="Motor" pv="BL18I-EA-DET-02:Z" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="MLD ANGLE" name="MLD:ANGLE">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-02:ANGLE" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="MLD SCREEN" name="MLD:SCREEN">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-02:SCREEN" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="MLD DET" name="MLD:DET">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-02:DET" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="WDS X" name="WDS:X">
 		<RECORD desc="Motor" pv="BL18I-EA-DET-03:X" ro="false" type="motor"/>
@@ -347,6 +335,19 @@
 		<SCALED3 desc="scaled value 3" pv="BL18I-EA-IAMP-07:I4F" ro="true" type="pv"/>
 		<RAW3 desc="raw value 3" pv="BL18I-EA-IAMP-07:I4F-RAW" ro="true" type="pv"/>
 	</DLS8512>
+	<dlsMcaCanberra desc="Canberra AIM" name="DET05AIM1">
+		<ERASE desc="Clear current MCA spectrum" pv="BL18I-EA-DET-05:aim_adc1Erase" ro="false" type="binary"/>
+		<ERASESTART desc="Clear spectrum and start acquiring" pv="BL18I-EA-DET-05:aim_adc1EraseStart" ro="false" type="binary"/>
+		<START desc="Start acquiring spectrum" pv="BL18I-EA-DET-05:aim_adc1Start" ro="false" type="binary"/>
+		<STOP desc="Stop acquiring spectrum" pv="BL18I-EA-DET-05:aim_adc1Stop" ro="false" type="binary"/>
+		<READRATE desc="Data readout rate" pv="BL18I-EA-DET-05:aim_adc1Read.SCAN" ro="false" type="pv"/>
+		<STATRATE desc="Acquisition status update rate" pv="BL18I-EA-DET-05:aim_adc1Status.SCAN" ro="false" type="pv"/>
+		<MCA desc="Canberra MCA record" pv="BL18I-EA-DET-05:aim_adc1" ro="false" type="mca"/>
+		<ADCGAIN desc="adc conversion gain" pv="BL18I-EA-DET-05:adc1GAIN" ro="false" type="mbbinary"/>
+		<ADCOFFSET desc="adc digital offset" pv="BL18I-EA-DET-05:adc1OFFSET" ro="false" type="pv"/>
+		<ADCLLD desc="adc lower level discr." pv="BL18I-EA-DET-05:adc1LLD" ro="false" type="pv"/>
+		<ADCULD desc="adc upper level discr." pv="BL18I-EA-DET-05:adc1ULD" ro="false" type="pv"/>
+	</dlsMcaCanberra>
 	<simpleScaler desc="SIS3820 Scaler" name="scaler03">
 		<RECORD desc="Scaler" pv="BL18I-EA-DET-03:SCALER" ro="false" type="scaler"/>
 	</simpleScaler>
@@ -426,58 +427,16 @@
 	<simplePv desc="USER1 current" name="IP330ADC2U1">
 		<RECORD desc="Current Value" pv="BL18I-EA-IP330-02:USER1" ro="true" type="pv"/>
 	</simplePv>
-	<simpleMbbinary desc="Scan mode" name="IP330ADC1SM">
-		<RECORD desc="Set ScanMode" pv="BL18I-EA-IP330-01:ScanMode" ro="false" type="mbbinary"/>
-	</simpleMbbinary>
 	<simpleMbbinary desc="Scan mode" name="IP330ADC2SM">
 		<RECORD desc="Set ScanMode" pv="BL18I-EA-IP330-02:ScanMode" ro="false" type="mbbinary"/>
 	</simpleMbbinary>
-	<simplePv desc="Det2 I1 current" name="DET2I1">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="Det2 I2 current" name="DET2I2">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I2" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="Det2 I3 current" name="DET2I3">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I3" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="Det2 I4 current" name="DET2I4">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I4" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="Det2 I5 current" name="DET2I5">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I5" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="Det2 I6 current" name="DET2I6">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I6" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="Det2 I7 current" name="DET2I7">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I7" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="Det2 I8 current" name="DET2I8">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I8" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="Det2 I9 current" name="DET2I9">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I9" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="Det2 I10 current" name="DET2I10">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I10" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="Det2 I11 current" name="DET2I11">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I11" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="Det2 I12 current" name="DET2I12">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I12" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="Det2 I13 current" name="DET2I13">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I13" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="Det2 I14 current" name="DET2I14">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I14" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="Det2 I15 current" name="DET2I15">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I15" ro="true" type="pv"/>
-	</simplePv>
+	<simpleMotor desc="First HRM Pitch" name="FHRPITCH">
+		<RECORD desc="Motor" pv="BL18I-OP-HRM-01:FHR:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
 	<simplePv desc="Output Voltage 01" name="VOUT01">
+		<RECORD desc="RECORD" pv="BL18I-OP-HRM-01:FHR:PITCH:POUT" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Output Voltage 02" name="VOUT02">
 		<RECORD desc="RECORD" pv="BL18I-EA-VOUT-01:V" ro="false" type="pv"/>
 	</simplePv>
 	<simpleBinary desc="Collision Detector" name="DET4ILK">
@@ -531,16 +490,6 @@
 		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-07:B:CAM:IMAGE" ro="true" type="array"/>
 		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-07:B:CAM:SNAPSHOT" ro="false" type="pv"/>
 	</camera>
-	<simpleMotor desc="FE APTR X motor" name="FEAPTRX">
-		<RECORD desc="Motor Record" pv="FE18I-AL-APTR-02:XBL" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="FE APTR Y motor" name="FEAPTRY">
-		<RECORD desc="Motor Record" pv="FE18I-AL-APTR-02:YBL" ro="false" type="motor"/>
-	</simpleMotor>
-	<pneumaticCallback desc="Front End Permit Beam" name="FE.BEAM">
-		<CONTROL desc="beamline permit beam control" pv="FE18I-CS-BEAM-01:BLCON" ro="false" type="mbbinary"/>
-		<STA desc="Status" pv="FE18I-CS-BEAM-01:STA" ro="true" type="mbbinary"/>
-	</pneumaticCallback>
 	<horibaTriax190 desc="Triax spectrometer" name="TRIAX1">
 		<ACCBUSY desc="Acc busy" pv="BL18I-EA-SPEC-01:ACC:BUSY" ro="true" type="binary"/>
 		<ACCEXITSET desc="Exit mirror position" pv="BL18I-EA-SPEC-01:ACC:EXIT:SET" ro="false" type="mbbinary"/>
@@ -601,6 +550,12 @@
 	<simpleMotor desc="SHR X" name="SHR:X">
 		<RECORD desc="Motor" pv="BL18I-OP-HRM-01:SHR:X" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleMotor desc="DCM ENERGY" name="DCM.ENERGY">
+		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:ENERGY" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DCM OFFSET" name="DCM.OFFSET">
+		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:OFFSET" ro="false" type="motor"/>
+	</simpleMotor>
 	<positioner desc="Crystal Select" name="DCM:X:MP">
 		<SELECT desc="Position Selection" pv="BL18I-OP-DCM-01:MP:SELECT" ro="false" type="mbbinary"/>
 		<DMOV desc="Done Moving Indicator" pv="BL18I-OP-DCM-01:MP:DMOV" ro="true" type="pv"/>
@@ -611,9 +566,6 @@
 	<simpleBinary desc="DCM deferred move" name="DCM.DEFER">
 		<RECORD desc="RECORD" pv="BL18I-OP-DCM-01:DEFER" ro="false" type="binary"/>
 	</simpleBinary>
-	<simpleMotor desc="FE ID gap motor gap soft motor" name="FEIDGAP.GAP">
-		<RECORD desc="Motor Record" pv="SR18I-MO-SERVC-01:BLGAPMTR" ro="false" type="motor"/>
-	</simpleMotor>
 	<simpleMotor desc="Fine Pitch Motor" name="DCM:XTAL2:FP">
 		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:FPMTR" ro="false" type="motor"/>
 	</simpleMotor>
@@ -669,6 +621,11 @@
 		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-03:VENDOR" ro="true" type="pv"/>
 		<MODEL desc="Model String" pv="BL18I-DI-IAMP-03:MODEL" ro="true" type="pv"/>
 	</currAmpQuad>
+	<currAmpQuad desc="D8 amp" name="AMP8">
+		<RANGE desc="Range Selection" pv="BL18I-DI-IAMP-08:RANGE_MENU" ro="false" type="mbbinary"/>
+		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-08:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL18I-DI-IAMP-08:MODEL" ro="true" type="pv"/>
+	</currAmpQuad>
 	<simplePv desc="D1 current" name="D1I">
 		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-01:DIODE:I" ro="true" type="pv"/>
 	</simplePv>
@@ -687,6 +644,23 @@
 	<simplePv desc="D7B current" name="D7BI">
 		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-07:B:DIODE:I" ro="true" type="pv"/>
 	</simplePv>
+	<simplePv desc="D8X+Y+ current" name="D8XPYPI">
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-08:XP:YP:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D8X+Y- current" name="D8XPYMI">
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-08:XP:YM:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D8X-Y+ current" name="D8XMYPI">
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-08:XM:YP:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D8X-Y- current" name="D8XMYMI">
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-08:XM:YM:I" ro="true" type="pv"/>
+	</simplePv>
+	<bpm desc="D8 BPM" name="D8.BPM">
+		<XPOS desc="X Position" pv="BL18I-DI-PHDGN-08:XPOS" ro="true" type="pv"/>
+		<YPOS desc="Y Position" pv="BL18I-DI-PHDGN-08:YPOS" ro="true" type="pv"/>
+		<INTENSITY desc="Summed intensity value" pv="BL18I-DI-PHDGN-08:INTEN" ro="true" type="pv"/>
+	</bpm>
 	<DLS8512 desc="scalar 1" name="scalar01">
 		<TIME desc="Integration Time" pv="BL18I-DI-8512-01:PRESET" ro="false" type="pv"/>
 		<TRIGGER desc="Restart counter" pv="BL18I-DI-8512-01:STARTCOUNT" ro="false" type="binary"/>
@@ -750,9 +724,6 @@
 		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-09:VENDOR" ro="true" type="pv"/>
 		<MODEL desc="Model String" pv="BL18I-DI-IAMP-09:MODEL" ro="true" type="pv"/>
 	</currAmpSingle>
-	<simpleMotor desc="First HRM Pitch" name="FHRPITCH">
-		<RECORD desc="Motor" pv="BL18I-OP-HRM-01:FHR:PITCH" ro="false" type="motor"/>
-	</simpleMotor>
 	<cryocooler desc="Cryocooler" name="CRYO">
 		<NFLOW desc="nitrogen flow rate" pv="BL18I-CG-CRYO-01:NFLOW" ro="true" type="pv"/>
 		<FEEDT desc="nitrogen feed temperature" pv="BL18I-CG-CRYO-01:FEEDT" ro="true" type="pv"/>
@@ -857,4 +828,48 @@
 	<simpleMotor desc="ANC1 ROT" name="ANC1.ROT">
 		<RECORD desc="Motor" pv="BL18I-MO-ANC-01:ROLL" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleMotor desc="ANC2 X" name="ANC2.X">
+		<RECORD desc="Motor" pv="BL18I-MO-ANC-02:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="ANC2 Y" name="ANC2.Y">
+		<RECORD desc="Motor" pv="BL18I-MO-ANC-02:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="ANC2 Z" name="ANC2.Z">
+		<RECORD desc="Motor" pv="BL18I-MO-ANC-02:Z" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="ANC2 THETA" name="ANC2.THETA">
+		<RECORD desc="Motor" pv="BL18I-MO-ANC-02:THETA" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="ANC2 CAPPA" name="ANC2.CAPPA">
+		<RECORD desc="Motor" pv="BL18I-MO-ANC-02:PHI" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="ANC2 ROT" name="ANC2.ROT">
+		<RECORD desc="Motor" pv="BL18I-MO-ANC-02:ROLL" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="FE APTR X motor" name="FEAPTRX">
+		<RECORD desc="Motor Record" pv="FE18I-AL-APTR-02:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="FE APTR Y motor" name="FEAPTRY">
+		<RECORD desc="Motor Record" pv="FE18I-AL-APTR-02:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="FE ID gap motor gap soft motor" name="FEIDGAP.GAP">
+		<RECORD desc="Motor Record" pv="SR18I-MO-SERVC-01:BLGAPMTR" ro="false" type="motor"/>
+	</simpleMotor>
+	<simplePv desc="FE ID gap motor" name="FEIDGAP">
+		<RECORD desc="Gap velocity" pv="SR18I-MO-SERVC-01:BLGSETVEL" ro="false" type="pv"/>
+	</simplePv>
+	<simpleMbbinary desc="Front End Shutter 1" name="FE.SHTR1">
+		<RECORD desc="Status" pv="FE18I-PS-SHTR-01:STA" ro="true" type="mbbinary"/>
+	</simpleMbbinary>
+	<simpleMbbinary desc="Front End Shutter 2" name="FE.SHTR2">
+		<RECORD desc="Status" pv="FE18I-PS-SHTR-02:STA" ro="true" type="mbbinary"/>
+	</simpleMbbinary>
+	<pneumaticCallback desc="Front End Permit Beam" name="FE.BEAM">
+		<CONTROL desc="beamline permit beam control" pv="FE18I-CS-BEAM-01:BLCON" ro="false" type="mbbinary"/>
+		<STA desc="Status" pv="FE18I-CS-BEAM-01:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
+	<pneumaticCallback desc="Front End Absorber 02" name="FE.ABSB02">
+		<CONTROL desc="beamline absorber control" pv="FE18I-RS-ABSB-02:BLCON" ro="false" type="mbbinary"/>
+		<STA desc="Status" pv="FE18I-RS-ABSB-02:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
 </devices>

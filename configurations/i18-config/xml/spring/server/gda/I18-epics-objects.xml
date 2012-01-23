@@ -165,7 +165,18 @@
 		<property name="pvName" value="BL18I-OP-DCM-01:BRAGG.VMAX" />
 		<property name="local" value="true" />
 	</bean>
-
+<!-- *****************************************************************
+	*********Quad Amplifiers************************************ -->
+<bean id="CurrAmpQuad8" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
+		<property name="deviceName" value="AMP8"/>
+</bean>
+<bean id="BpmController8" class="gda.device.monitor.EpicsBpmController">
+		<property name="deviceName" value="D8.BPM"/>
+</bean>
+<bean id="cid" class="gda.device.qbpm.EpicsQbpm">
+		<property name="currAmpQuadName" value="CurrAmpQuad8"/>
+		<property name="bpmName" value="BpmController8"/>		
+</bean>
 <!-- ********************* -->
 <!-- *** MOTOR SECTION *** -->
 <!-- ********************* -->
@@ -267,7 +278,7 @@
 	<property name="local" value="true"/>
 </bean>
 <bean id="dcm_energy_motor" class="gda.device.motor.EpicsMotor" >
-	<property name="deviceName" value="DCM:ENERGY"></property>
+	<property name="deviceName" value="DCM.ENERGY"></property>
 	<property name="local" value="true"/>
 </bean>
 <bean id="dcm_crystal1_roll_motor" class="gda.device.motor.EpicsMotor" >
@@ -430,7 +441,7 @@
 	<property name="deviceName" value="T1.Y3"></property>
 	<property name="local" value="true"/>
 </bean>
- <!--  Sample Stage Motors 	 --> 
+  <!--   Sample Stage Motors 	-->  
 	<!--<bean id="sample_z_motor" class="gda.device.motor.DummyMotor" />	
 	<bean id="sample_thetacoarse_motor" class="gda.device.motor.DummyMotor" />	  
 	<bean id="sample_x_motor" class="gda.device.motor.DummyMotor" />	  

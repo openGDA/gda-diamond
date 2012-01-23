@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2009-2/gdaApp/src/genericBeamlineSchema.xsd">
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2010-5/gdaApp/src/genericBeamlineSchema.xsd">
 	<simpleMotor desc="HFM Y1" name="HFM:Y1">
 		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:Y1" ro="false" type="motor"/>
 	</simpleMotor>
@@ -595,8 +595,11 @@
 	<simpleMotor desc="XTAL2 ROLL" name="DCM:XTAL2:ROLL">
 		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:XTAL2:ROLL" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="DCM ENERGY" name="DCM:ENERGY">
+	<simpleMotor desc="DCM ENERGY" name="DCM.ENERGY">
 		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:ENERGY" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DCM OFFSET" name="DCM.OFFSET">
+		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:OFFSET" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="HRM PITCH" name="HRM:PITCH">
 		<RECORD desc="Motor" pv="BL18I-OP-HRM-01:PITCH" ro="false" type="motor"/>
@@ -675,6 +678,15 @@
 		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-03:VENDOR" ro="true" type="pv"/>
 		<MODEL desc="Model String" pv="BL18I-DI-IAMP-03:MODEL" ro="true" type="pv"/>
 	</currAmpQuad>
+	<currAmpQuad desc="D8 amp" name="AMP8">
+		<I1 desc="Channel 1 Current" pv="BL18I-DI-PHDGN-08:XP:YP:I" ro="true" type="pv"/>
+		<I2 desc="Channel 2 Current" pv="BL18I-DI-PHDGN-08:XP:YM:I" ro="true" type="pv"/>
+		<I3 desc="Channel 3 Current" pv="BL18I-DI-PHDGN-08:XM:YP:I" ro="true" type="pv"/>
+		<I4 desc="Channel 4 Current" pv="BL18I-DI-PHDGN-08:XM:YM:I" ro="true" type="pv"/>
+		<RANGE desc="Range Selection" pv="BL18I-DI-IAMP-08:RANGE_MENU" ro="false" type="mbbinary"/>
+		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-08:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL18I-DI-IAMP-08:MODEL" ro="true" type="pv"/>
+	</currAmpQuad>
 	<simplePv desc="D1 current" name="D1I">
 		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-01:DIODE:I" ro="true" type="pv"/>
 	</simplePv>
@@ -693,6 +705,23 @@
 	<simplePv desc="D7B current" name="D7BI">
 		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-07:B:DIODE:I" ro="true" type="pv"/>
 	</simplePv>
+	<simplePv desc="D8X+Y+ current" name="D8XPYPI">
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-08:XP:YP:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D8X+Y- current" name="D8XPYMI">
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-08:XP:YM:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D8X-Y+ current" name="D8XMYPI">
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-08:XM:YP:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D8X-Y- current" name="D8XMYMI">
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-08:XM:YM:I" ro="true" type="pv"/>
+	</simplePv>
+	<bpm desc="D8 BPM" name="D8.BPM">
+		<XPOS desc="X Position" pv="BL18I-DI-PHDGN-08:XPOS" ro="true" type="pv"/>
+		<YPOS desc="Y Position" pv="BL18I-DI-PHDGN-08:YPOS" ro="true" type="pv"/>
+		<INTENSITY desc="Summed intensity value" pv="BL18I-DI-PHDGN-08:INTEN" ro="true" type="pv"/>
+	</bpm>
 	<DLS8512 desc="scalar 1" name="scalar01">
 		<TIME desc="Integration Time" pv="BL18I-DI-8512-01:PRESET" ro="false" type="pv"/>
 		<TRIGGER desc="Restart counter" pv="BL18I-DI-8512-01:STARTCOUNT" ro="false" type="binary"/>
