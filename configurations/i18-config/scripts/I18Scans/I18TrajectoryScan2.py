@@ -383,7 +383,7 @@ class I18ContinuousMapClass(ScriptBase):
 
 	def updatePointSummary(self, currenty, yindex, currentx, xindex, nxpoints):
 		
-		self.ionchamberData.append(counterTimer01.readFrame(0, 4, xindex))
+		self.ionchamberData.append(counterTimer01.readFrame(1, 4, xindex))
 		mcafileIndex = xindex + (yindex * nxpoints)
 		##tfg read in 10ns blocks , converting to milli seconds
 		pointTime = self.ionchamberData[mcafileIndex][0] * 10e-06
