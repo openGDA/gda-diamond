@@ -217,8 +217,7 @@
 						<constructor-arg>
 							<bean class="java.io.File">
 								<constructor-arg>
-									<value>/dls_sw/b18/software/mythen/MythenSoft/module/calibration.dat
-									</value>
+									<value>/dls_sw/b18/software/mythen/MythenSoft/module/calibration.dat</value>
 								</constructor-arg>
 							</bean>
 						</constructor-arg>
