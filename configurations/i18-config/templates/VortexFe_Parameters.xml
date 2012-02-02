@@ -17,8 +17,6 @@
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
-        <processDeadTimeAllEvent>3.8E-7</processDeadTimeAllEvent>
-        <processDeadTimeInWindow>3.8E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
     </DetectorElement>
     <DetectorElement>
@@ -34,8 +32,6 @@
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
-        <processDeadTimeAllEvent>3.8E-7</processDeadTimeAllEvent>
-        <processDeadTimeInWindow>3.8E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
     </DetectorElement>
     <DetectorElement>
@@ -51,8 +47,6 @@
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
-        <processDeadTimeAllEvent>3.8E-7</processDeadTimeAllEvent>
-        <processDeadTimeInWindow>3.8E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
     </DetectorElement>
     <DetectorElement>
@@ -68,8 +62,6 @@
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
-        <processDeadTimeAllEvent>3.8E-7</processDeadTimeAllEvent>
-        <processDeadTimeInWindow>3.8E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
     </DetectorElement>
     <deadTime>999000.0</deadTime>

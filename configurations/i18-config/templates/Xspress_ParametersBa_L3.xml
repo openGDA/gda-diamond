@@ -2,16 +2,13 @@
 <XspressParameters>
     <detectorName>xspress2system</detectorName>
     <resGrade>res-none</resGrade>
-    <readoutMode>Regions Of Interest</readoutMode>
+    <readoutMode>Scalers and MCA</readoutMode>
     <editIndividualElements>true</editIndividualElements>
     <DetectorElement>
         <name>Element0</name>
         <number>0</number>
         <windowStart>556</windowStart>
         <windowEnd>731</windowEnd>
-        <processDeadTimeAllEventGradient>2.2534E-7</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>2.5304E-9</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>2.5454E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Ba_L3</roiName>
@@ -25,9 +22,6 @@
         <number>1</number>
         <windowStart>556</windowStart>
         <windowEnd>731</windowEnd>
-        <processDeadTimeAllEventGradient>2.1191E-7</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>7.3896E-9</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>2.528E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Ba_L3</roiName>
@@ -41,9 +35,6 @@
         <number>2</number>
         <windowStart>556</windowStart>
         <windowEnd>731</windowEnd>
-        <processDeadTimeAllEventGradient>2.2083E-7</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>5.4777E-9</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>2.5959E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Ba_L3</roiName>
@@ -57,9 +48,6 @@
         <number>3</number>
         <windowStart>556</windowStart>
         <windowEnd>731</windowEnd>
-        <processDeadTimeAllEventGradient>2.7202E-7</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>3.378E-9</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>2.9629E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Ba_L3</roiName>
@@ -73,9 +61,6 @@
         <number>4</number>
         <windowStart>556</windowStart>
         <windowEnd>731</windowEnd>
-        <processDeadTimeAllEventGradient>3.4939E-7</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>9.3446E-9</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>3.7473E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Ba_L3</roiName>
@@ -89,9 +74,6 @@
         <number>5</number>
         <windowStart>556</windowStart>
         <windowEnd>731</windowEnd>
-        <processDeadTimeAllEventGradient>2.8489E-7</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>1.2027E-9</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>2.9782E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Ba_L3</roiName>
@@ -105,9 +87,6 @@
         <number>6</number>
         <windowStart>556</windowStart>
         <windowEnd>731</windowEnd>
-        <processDeadTimeAllEventGradient>2.9556E-7</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>1.2089E-9</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>3.1879E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Ba_L3</roiName>
@@ -121,9 +100,6 @@
         <number>7</number>
         <windowStart>556</windowStart>
         <windowEnd>731</windowEnd>
-        <processDeadTimeAllEventGradient>3.1269E-7</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>1.6609E-9</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>3.2348E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Ba_L3</roiName>
@@ -137,9 +113,6 @@
         <number>8</number>
         <windowStart>556</windowStart>
         <windowEnd>731</windowEnd>
-        <processDeadTimeAllEventGradient>2.3057E-7</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>3.3832E-9</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>2.5922E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Ba_L3</roiName>

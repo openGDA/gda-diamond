@@ -9,9 +9,6 @@
         <number>0</number>
         <windowStart>561</windowStart>
         <windowEnd>608</windowEnd>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>3.63660099639E-7</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>5.65497797031E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Fe_K</roiName>
@@ -31,9 +28,6 @@
         <number>1</number>
         <windowStart>561</windowStart>
         <windowEnd>608</windowEnd>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>3.01630902731E-7</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>4.72469706167E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Fe_K</roiName>
@@ -53,9 +47,6 @@
         <number>2</number>
         <windowStart>561</windowStart>
         <windowEnd>608</windowEnd>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>3.64947227166E-7</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>5.3355563578E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Fe_K</roiName>
@@ -75,9 +66,6 @@
         <number>3</number>
         <windowStart>561</windowStart>
         <windowEnd>608</windowEnd>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>2.94744845823E-7</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>6.44235494719E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Fe_K</roiName>
@@ -97,9 +85,6 @@
         <number>4</number>
         <windowStart>561</windowStart>
         <windowEnd>608</windowEnd>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>4.89301439111E-7</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>1.02562282079E-6</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Fe_K</roiName>
@@ -119,9 +104,6 @@
         <number>5</number>
         <windowStart>561</windowStart>
         <windowEnd>608</windowEnd>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>3.50009854185E-7</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>7.62360996233E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Fe_K</roiName>
@@ -141,9 +123,6 @@
         <number>6</number>
         <windowStart>561</windowStart>
         <windowEnd>608</windowEnd>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>3.02599425131E-7</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>4.33817183725E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Fe_K</roiName>
@@ -163,9 +142,6 @@
         <number>7</number>
         <windowStart>561</windowStart>
         <windowEnd>608</windowEnd>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>2.92175579676E-7</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>4.66530133448E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Fe_K</roiName>
@@ -185,9 +161,6 @@
         <number>8</number>
         <windowStart>561</windowStart>
         <windowEnd>608</windowEnd>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>3.38309206192E-7</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>4.45027328546E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
         <Region>
             <roiName>Fe_K</roiName>
