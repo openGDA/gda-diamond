@@ -19,30 +19,6 @@
 						</list>
 					</property>
 				</bean>
-			<!-- 	<bean id="ringenergy" class="gda.data.scan.datawriter.AsciiMetadataConfig">
-					<property name="label" value="Ring energy: %5.1f"/>
-					<property name="labelValues">
-						<list>
-							<ref bean="ringEnergy"/>
-						</list>
-					</property>
-				</bean>
-				<bean id="ringcurrent" class="gda.data.scan.datawriter.AsciiMetadataConfig">
-					<property name="label" value="Ring current - start: %5.1f"/>
-					<property name="labelValues">
-						<list>
-							<ref bean="ringCurrent"/>
-						</list>
-					</property>
-				</bean>-->
-<!--				<bean id="fillingmode" class="gda.data.scan.datawriter.AsciiMetadataConfig">-->
-<!--					<property name="label" value="Filling mode: %5.1f"/>-->
-<!--					<property name="labelValues">-->
-<!--						<list>-->
-<!--							<ref bean="fillMode"/>-->
-<!--						</list>-->
-<!--					</property>-->
-<!--				</bean>-->
 				<bean id="primaryslits" class="gda.data.scan.datawriter.AsciiMetadataConfig">
 					<property name="label" value="Primary slits:  vertical gap= %4.1f; horizontal gap= %4.1f; vertical offset= %4.1f; horizontal offset= %4.1f"/>
 					<property name="labelValues">
@@ -65,11 +41,8 @@
 						</list>
 					</property>
 				</bean>
-				<bean id="ohcoating" class="gda.data.scan.datawriter.AsciiMetadataConfig">
-					<property name="label" value="OH Mirror Coating: [TODO] rhodium"/>
-				</bean>
 				<bean id="crystalcut" class="gda.data.scan.datawriter.AsciiMetadataConfig">
-					<property name="label" value="Crystal cut: [TODO] Si(III)"/>
+					<property name="label" value="Crystal cut: Si(III)"/>
 				</bean>
 				<bean id="postDCMslits" class="gda.data.scan.datawriter.AsciiMetadataConfig">
 					<property name="label" value="PostDCM slits:  vertical gap= %4.1f; horizontal gap= %4.1f; vertical offset= %4.1f; horizontal offset= %4.1f"/>
@@ -83,12 +56,23 @@
 					</property>
 				</bean>
 				<bean id="sampleStagexyz" class="gda.data.scan.datawriter.AsciiMetadataConfig">
-					<property name="label" value="SampleStage:  sample_x= %4.3f; sample_y= %4.3f; sample_z= %4.3f;" />
+					<property name="label" value="SampleStage:  sample_x= %4.3f; sample_y= %4.3f; sample_z= %4.3f; sample_thetacoarse= %4.3f; sample_thetafine= %4.3f" />
 					<property name="labelValues">
 						<list>
 							<ref bean="sc_MicroFocusSampleX"/>
 							<ref bean="sc_MicroFocusSampleY"/>
 							<ref bean="sc_sample_z"/>
+							<ref bean="sc_sample_thetacoarse" />
+							<ref bean="sc_sample_thetafine" />
+						</list>
+					</property>
+				</bean>
+				<bean id="attenuators" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Attenuators:  D7A= %s; D7B= %s" />
+					<property name="labelValues">
+						<list>
+							<ref bean="D7A"/>
+							<ref bean="D7B"/>
 						</list>
 					</property>
 				</bean>
