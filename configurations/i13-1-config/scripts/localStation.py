@@ -4,20 +4,7 @@ from gdascripts.messages import handle_messages
 from gda.jython import InterfaceProvider
 
 
-from gda.device.scannable import EpicsScannable
-
-def createPVScannable( name, pv, addToNameSpace=True):
-	sc = EpicsScannable()
-	sc.setName(name)
-	sc.setPvName(pv)
-	sc.setUseNameAsInputName(True)
-	sc.afterPropertiesSet()
-	sc.configure()
-	if addToNameSpace:
-		commandServer.placeInJythonNamespace(name,sc)
-	return sc
 	
-
 try:
 	from gda.device import Scannable
 	from gda.jython.commands.GeneralCommands import ls_names, vararg_alias
@@ -25,6 +12,11 @@ try:
 	def ls_scannables():
 		ls_names(Scannable)
 
+
+	from pv_scannable_utils import createPVScannable, caput, caget
+	alias("createPVScannable")
+	alias("caput")
+	alias("caget")
 	
 	from gda.factory import Finder
 	from gda.configuration.properties import LocalProperties
@@ -95,6 +87,8 @@ try:
 #		handle_messages.log(None, "Problem setting mpx folder and prefix",exceptionType, exception, traceback,False)
 	#from tests.testRunner import run_tests
 
+	import autocollimator_script
+	autocollimator_script.setup()
 	run("i13diffcalc")
 
 

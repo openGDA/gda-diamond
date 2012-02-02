@@ -106,6 +106,16 @@ To take an image from the maxipix detector:
     >flyscan   ty ystart ystop ystep flyscannable(tx) start stop end d
     
     
+9.  EPICS
+    >caput pv value  e.g. caput "BL13J-OP-ACOLL-01:AVERAGESIZE" 10.0
+    >caget pv        e.g. caget "BL13J-OP-ACOLL-01:AVERAGESIZE"
+    
+    To make a scannable for a pv
+    createPVScannable name, pv  e.g. createPVScannable "d1_total" "BL13J-DI-PHDGN-01:STAT:Total_RBV"
+                                     Will make scannable d1_total
+10. SCANNING
+    >scan scannable start end step      e.g. scan ix 1 10 1
+    >scan scannable list_of_positions   e.g. scan ix (1,2,4,5,6,5,4,3,2,1)
     
 """
 
