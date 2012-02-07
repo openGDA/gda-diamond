@@ -6,5 +6,6 @@
         <cs:dependency name="uk.ac.diamond.scisoft.analysis" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i13j.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
