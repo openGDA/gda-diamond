@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2011-6/gdaApp/src/genericBeamlineSchema.xsd">
+	<simpleMbbinary desc="Front End Shutter 1" name="FE.SHTR1">
+		<RECORD desc="Status" pv="FE13I-PS-SHTR-01:STA" ro="true" type="mbbinary" />
+	</simpleMbbinary>
+	<simpleMbbinary desc="Front End Shutter 2" name="FE.SHTR2">
+		<RECORD desc="Status" pv="FE13I-PS-SHTR-02:STA" ro="true" type="mbbinary" />
+	</simpleMbbinary>
+
+	<simpleMotor desc="Front end slits x size" name="fes1.xsize">
+		<RECORD desc="Motor" pv="FE13I-AL-SLITS-01:X:SIZE" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="Front end slits x center" name="fes1.xcenter">
+		<RECORD desc="Motor" pv="FE13I-AL-SLITS-01:X:CENTER" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="Front end slits y size" name="fes1.ysize">
+		<RECORD desc="Motor" pv="FE13I-AL-SLITS-01:Y:SIZE" ro="false"
+			type="motor" />
+	</simpleMotor>
+	<simpleMotor desc="Front end slits y center" name="fes1.ycenter">
+		<RECORD desc="Motor" pv="FE13I-AL-SLITS-01:Y:CENTER" ro="false"
+			type="motor" />
+	</simpleMotor>
+
+	<simpleMbbinary desc="Fast Mask J Branch" name="fastmask.shtr">
+		<RECORD desc="Status" pv="BL13I-VA-FMASK-02:STA" ro="true"
+			type="mbbinary" />
+	</simpleMbbinary>
+	
+    <simpleMotor desc="Undulator Gap" name="Undulator.Gap">
+        <RECORD desc="Motor" pv="SR13J-MO-SERVC-01:BLGAPMTR" ro="false" type="motor"/>
+    </simpleMotor>
+    	
+<!-- 	<currAmpSingle desc="D1 femto amp" name="d4.femto">
+		<SETGAIN desc="Set gain" pv="BL13J-DI-FEMTO-01:GAIN" ro="false" type="mbbinary"/>
+		<SETACDC desc="Set AC or DC mode" pv="BL13J-DI-FEMTO-01:ACDC" ro="false" type="binary"/>
+		<VENDOR desc="Vendor String" pv="BL13J-DI-FEMTO-01:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL13J-DI-FEMTO-01:MODEL" ro="true" type="pv"/>
+	</currAmpSingle>	 -->
+
+</devices>

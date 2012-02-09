@@ -1,0 +1,200 @@
+#front end slits
+fes1_xsize
+fes1_xcenter
+fes1_ysize
+fes1_ycenter
+
+#front end shutters
+fshtr1
+fshtr2
+
+#fastmask status
+fastmask
+
+#filters
+#multipositioners
+f1_aperture_mp
+f1_crly_mp
+f1_filter1_mp
+f1_filter2_mp
+f1_filter3_mp
+f1_filter4_mp
+#motors
+filter1
+filter2
+filter3
+filter4
+filter_aperture
+filter_crlY
+filter_crlYaw
+
+#slits 1
+s1_xsize
+s1_xcenter
+s1_ysize
+s1_ycenter
+s1_xplus
+s1_xminus
+s1_yplus
+s1_yminus
+
+#gas bremsstrahlung temperatures1
+#not working PV refers to I rather than J
+#gb1_t1
+#gb1_t2
+#gb1_t3
+#gb1_t4
+
+#mirror 1
+m1_coarsepitch
+m1_pitch
+m1_x
+m1_y
+m1_mask_temp
+m1_cooling_blade1_temp
+m1_cooling_blade2_temp
+m1_coarse_pitch_motor_temp
+#?Strips, current strip, pitch mode, piezo, chiller
+
+#diagnostic stick 1
+d1_x
+d1_pos
+d1_i
+d1_gain
+d1_coupling
+d1_flow_temp
+#not working d1_return_temp
+
+#absorber1 temperatures
+ab1_t1
+ab1_t2
+
+#diagnostic stick 2
+d2_x
+d2_pos
+d2_window_temp
+d2_i
+d2_gain
+d2_coupling
+d2_flow_temp
+#not working d2_return_temp
+
+#absorber2 temperatures
+ab2_t1
+ab2_t2
+
+#gas bremsstrahlung temperatures2
+#gb2_t1
+#gb2_t2
+#gb2_t3
+#gb2_t4
+
+#slits 2
+s2_xsize
+s2_xcenter
+s2_ysize
+s2_ycenter
+s2_xplus
+s2_xminus
+s2_yplus
+s2_yminus
+#Flow T1, T2, T3, T4
+
+
+d3_x
+d3_pos
+d3_window_temp
+d3_i
+d3_gain
+d3_coupling
+d3_flow_temp
+#not working d3_return_temp
+
+#absorber3 temperatures
+ab3_t1
+ab3_t2
+
+
+#external building
+oh4_shtr
+oh4_shtr_cam
+
+#absorber4 temperatures
+ab4_t1
+ab4_t2
+
+#qcm
+qcm_bragg1
+qcm_bragg1_x
+qcm_bragg1_pitch
+qcm_bragg1_roll
+qcm_bragg1_finepitch
+qcm_bragg1_fineroll
+qcm_bragg2
+qcm_bragg2_x
+qcm_bragg2_pitch
+qcm_bragg2_roll
+qcm_bragg2_finepitch
+qcm_bragg2_fineroll
+qcm_y
+
+	
+
+
+
+#experiment hutch shutter
+eh_shtr
+
+#diagnostic stick 4
+d4_x
+d4_pos
+d4_window_temp
+d4_i
+d4_gain
+d4_coupling
+d4_flow_temp
+#not working d3_return_temp
+
+
+#slits 4
+s4_xsize
+s4_xcenter
+s4_ysize
+s4_ycenter
+s4_xplus
+s4_xminus
+s4_yplus
+s4_yminus
+
+#slits 5
+s5_xsize
+s5_xcenter
+s5_ysize
+s5_ycenter
+s5_xplus
+s5_xminus
+s5_yplus
+s5_yminus
+
+#sample stage
+t1_sx
+t1_sy
+t1_sz
+t1_x
+t1_y
+t1_pitch
+t1_roll
+
+#alignment scope
+alignmemt_x
+alignmemt_y
+alignmemt_z
+
+#ab5
+#w9
+#m2
+#rob1
+
+
+#__maxiPix2MultiFrameDetector
+mpx

@@ -1,0 +1,189 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+
+
+
+<!-- 
+
+m_RX= detector robot X
+m_RY= detector robot Y
+m_RZ= detector robot Z
+m_RotY_azim= detector robot R_Y
+m_RotZ_pol=detector robot R_Z
+
+m_R50_X= pipe robot X
+m_R50_Y= pipe robot Y
+m_R50_Z= pipe robot Z
+m_Rot50_Y_azim= pipe robot R_Y
+m_Rot50_Z_pol=v robot R_Z 
+
+
+-->
+	<bean id="det_robot_X" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="det_robot_X_motor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+	<bean id="det_robot_Y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="det_robot_Y_motor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+	<bean id="det_robot_Z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="det_robot_Z_motor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+	<bean id="det_robot_RY" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="det_robot_RY_motor" />
+		<property name="userUnits" value="deg" />
+	</bean>
+	<bean id="det_robot_RZ" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="det_robot_RY_motor" />
+		<property name="userUnits" value="deg" />
+	</bean>
+
+	<bean id="pipe_robot_X" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pipe_robot_X_motor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+	<bean id="pipe_robot_Y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pipe_robot_Y_motor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+	<bean id="pipe_robot_Z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pipe_robot_Z_motor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+	<bean id="pipe_robot_RY" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pipe_robot_RY_motor" />
+		<property name="userUnits" value="deg" />
+	</bean>
+	<bean id="pipe_robot_RZ" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pipe_robot_RY_motor" />
+		<property name="userUnits" value="deg" />
+	</bean>
+
+
+	<bean id="det_robot" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="det_robot_X" />
+				<ref bean="det_robot_Y" />
+				<ref bean="det_robot_Z" />
+				<ref bean="det_robot_RY" />
+				<ref bean="det_robot_RZ" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pipe_robot" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="pipe_robot_X" />
+				<ref bean="pipe_robot_Y" />
+				<ref bean="pipe_robot_Z" />
+				<ref bean="pipe_robot_RY" />
+				<ref bean="pipe_robot_RZ" />
+			</list>
+		</property>
+	</bean>
+
+<!--
+
+lab space coordinates
+
+
+m_DL - distance from detector surface to end of robot arm( this is a particular position in the robot software)
+~250mm
+
+m_R - sample to detector ~2000mm
+m_SBX - distance between detector robot base and sample in robot X ( Diamond -Z). on a rail ~ 2500
+need to add number of counts * slope from home position
+m_SBY - distance between detector robot base and sample in robot Y ( Diamond -X). Fixed 1370mm
+m_SBZ - distance between detector robot base and sample in robot Z ( Diamond Y). Fixed 226mm
+
+m_theta - angle between line from sample to detector and Diamond Z in ZY plane
+m_phi - angle between line from sample to detector and Diamond z in ZX plane
+
+m_PHL - offset of center of pipe to end of pipe robot arm ~ 200mm
+m_PHD - distance between sample and pipe robot ~ 2000mm
+m_SB50_X - distance between pipe robot base and sample in robot X ( Diamond -Z). Fixed 1308mm
+m_SB50_Y - distance between pipe robot base and sample in robot Y ( Diamond -X). Fixed 1707mm
+m_SB50_Z - distance between pipe robot base and sample in robot Z ( Diamond Y). Fixed 80mm
+ -->
+
+	<bean id="det_DL" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="det_R" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="det_theta" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="userUnits" value="deg" />
+	</bean>
+
+	<bean id="det_phi" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="userUnits" value="deg" />
+	</bean>
+
+	<bean id="det_PHL" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="det_PHD" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="det_SBX" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="det_SBY" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="det_SBZ" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="userUnits" value="mm" />
+	</bean>
+
+
+	<bean id="det_SB50X" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="det_SB50Y" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="det_SB50Z" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="userUnits" value="mm" />
+	</bean>
+
+
+	<bean id="det_robot_controller" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="det_DL" />
+				<ref bean="det_R" />
+				<ref bean="det_theta" />
+				<ref bean="det_phi" />
+				<ref bean="det_PHD" />
+				<ref bean="det_SBX" />
+				<ref bean="det_SBY" />
+				<ref bean="det_SBZ" />
+				<ref bean="det_SB50X" />
+				<ref bean="det_SB50Y" />
+				<ref bean="det_SB50Z" />
+			</list>
+		</property>
+	</bean>
+
+
+</beans>
+

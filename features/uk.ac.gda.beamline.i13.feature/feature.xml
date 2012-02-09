@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="uk.ac.gda.beamline.i13i.feature"
+      label="Beamline I13i Feature"
+      version="8.19.0"
+      provider-name="Diamond Light Source">
+
+   <description url="http://www.diamond.ac.uk/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.diamond.ac.uk/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.diamond.ac.uk/license">
+      [Enter License Description here.]
+   </license>
+
+   <includes
+         id="uk.ac.gda.diamond.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="uk.ac.gda.dal.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.dawb.visualization.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="uk.ac.diamond.scisoft.gda.feature"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.gda.beamline.i13i"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.dls.client"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.video.views"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.video.mjpeg"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.video"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

@@ -1,0 +1,163 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
+		<property name="metadataEntries">
+			<list />
+		</property>
+	</bean>
+	<bean id="visitPathConstructor" class="gda.data.ObservablePathConstructor">
+		<property name="template" value="${gda.data.scan.datawriter.datadir}" />
+		<property name="gdaMetadata" ref="GDAMetadata" />
+		<property name="local" value="true" />
+	</bean>
+
+	<import resource="commandQueueProcessor.xml" />
+
+	<bean id="plot_server"
+		class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
+	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
+	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+
+	<bean id="imageFitter" class="gda.device.detector.nexusprocessor.DataSetFitter">
+		<property name="enable" value="false" />
+	</bean>
+	<bean id="imageStats" class="gda.device.detector.nexusprocessor.DatasetStats" >
+		<property name="enable" value="false" />
+	</bean>
+	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
+		<property name="plotName" value="Detector Image" />
+		<property name="enable" value="false" />
+	</bean>
+	<bean id="imageROI" class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI" >
+		<property name="enable" value="false" />
+	</bean>
+	
+
+	<util:list id="imageProcessors"
+		value-type="gda.device.detector.nexusprocessor.DataSetProcessor">
+		<ref bean="imageFitter" />
+		<ref bean="imageStats" />
+		<ref bean="imagePlotter" />
+	</util:list>
+
+	<bean id="cam_ad_processor" class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
+		<constructor-arg value="" />
+		<constructor-arg value="data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors"/>
+		<constructor-arg ref="imageROI"/>
+	</bean>
+
+	<bean id="cam_ad_filename_processor" class="gda.device.detector.nexusprocessor.NexusProviderFilenameProcessor">
+		<constructor-arg value="" />
+		<constructor-arg value="image_data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors"/>
+		<constructor-arg ref="imageROI"/>
+	</bean>
+
+	<bean id="cam_ad_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
+		<property name="processors">
+			<list>
+				<ref bean="cam_ad_processor" />
+			</list>
+		</property>
+	</bean>
+
+	<import resource="../../devices/simpleScannables.xml" />
+
+	<!-- Start of real device list -->
+
+<!-- 	<import resource="../../devices/undulator.xml" />
+	<import resource="../../devices/front_end.xml" />
+
+	<import resource="../../devices/s1.xml" />
+
+	<import resource="../../devices/filters.xml" />
+
+	<import resource="../../devices/m1.xml" />
+
+	<import resource="../../devices/d1.xml" />
+
+	<import resource="../../devices/d2.xml" />
+
+	<import resource="../../devices/s2.xml" />
+
+	<import resource="../../devices/d3.xml" />
+
+
+	<import resource="../../devices/diffractometer.xml" />
+	<import resource="../../devices/robots.xml" />
+
+	<import resource="../../devices/optics_hutch4_shutter.xml" />
+
+ -->	<!-- end of internal building/ start of external building -->
+
+	<import resource="../../devices/dcm.xml" />
+
+<!-- 	<import resource="../../devices/qcm.xml" />
+	
+	<import resource="../../devices/d4.xml" />
+	<import resource="../../devices/s4.xml" />
+	<import resource="../../devices/s5.xml" />
+
+	<import resource="../../devices/sample_stage_t1.xml" />
+	<import resource="../../devices/sample_stage_camera.xml" />
+
+	<import resource="../../devices/alignment_scope.xml" />
+
+	<import resource="../../devices/dummyAD.xml" />
+ -->
+	<!--Not present <import resource="../../devices/s3.xml" /> <import resource="../../devices/diff1.xml" 
+		/> -->
+	<!--Not present <import resource="../../devices/scope1.xml" /> <import resource="../../devices/t1.xml" 
+		/> <import resource="../../devices/z1.xml" /> -->
+<!-- 	<import resource="../../devices/maxipix.xml" />
+	<import resource="../../devices/pco1.xml" />
+ -->
+	<!-- end of device list -->
+
+
+
+
+	<bean id="highestExistingFileMonitor"
+		class="gda.device.detectorfilemonitor.SimpleHighestExistingFileMonitor" />
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/highestExistingFileMonitor" />
+		<property name="service" ref="highestExistingFileMonitor" />
+		<property name="serviceInterface"
+			value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
+	</bean>
+
+
+	<import resource="jythonServerFacade.xml" />
+
+	<!-- corba export must be the final bean. Later beans are not exported via 
+		Corba -->
+
+	<!-- <bean id="theta_motor" class="gda.device.motor.DummyMotor"/> <bean 
+		id="theta" class="gda.device.scannable.ScannableMotor"> <property name="motor" 
+		ref="theta_motor" /> <property name="userUnits" value="Deg"/> </bean> <bean 
+		id="energy" class="gda.device.scannable.MonoScannable"> <property name="motorName" 
+		value="theta" /> <property name="crystalType" value="Si111" /> <property 
+		name="initialUserUnits" value="eV" /> <property name="motorUnitString" value="Deg" 
+		/> </bean> -->
+
+
+	<corba:export namespace="i13" />
+</beans>
+

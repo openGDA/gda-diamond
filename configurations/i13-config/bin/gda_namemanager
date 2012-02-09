@@ -1,0 +1,13 @@
+# start logpanel if not already running
+
+#identify install folder and JAVA_HOME
+source /dls_sw/i13/etc/i13_profile.sh
+
+
+# Start log panel if not already started
+LOGPANEL=$(ps -ef | grep NameManager | grep -v grep)
+if [ "X$LOGPANEL" == "X" ] ; then
+$GDAFOLDER/plugins/uk.ac.gda.core/bin/gda --config=$GDAFOLDER/$BEAMLINE-config --restart -v --mode=$GDAMODE namemanager
+else
+wmctrl -R "JacORB NameManager"
+fi

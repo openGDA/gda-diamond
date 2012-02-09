@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+
+	<bean id="diff1_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="diff1_x_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="diff1_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="diff1_y_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="diff1_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="diff1_z_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="diff1_omega" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="diff1_omega_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	<bean id="diff1_alpha" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="diff1_alpha_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	<bean id="diff1_theta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="diff1_theta_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	
+</beans>
+
