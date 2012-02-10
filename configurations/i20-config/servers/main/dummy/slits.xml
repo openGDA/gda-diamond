@@ -110,6 +110,27 @@
 		<property name="motor" ref="s1_yb_motor_mm" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
+	
+	
+		<bean id="s1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s1_hgap" />
+				<ref bean="s1_vgap" />
+				<ref bean="s1_hoffset" />
+				<ref bean="s1_voffset" />
+				<ref bean="s1_xa" />
+				<ref bean="s1_xb" />
+				<ref bean="s1_ya" />
+				<ref bean="s1_yb" />
+				<ref bean="s1_xa_mm" />
+				<ref bean="s1_xb_mm" />
+				<ref bean="s1_ya_mm" />
+				<ref bean="s1_yb_mm" />
+			</list>
+		</property>
+	</bean>
+	
 
 	<bean id="s2_hgap" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
