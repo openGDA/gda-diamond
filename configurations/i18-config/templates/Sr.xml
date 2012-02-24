@@ -8,56 +8,64 @@
         <name>Element0</name>
         <number>1</number>
         <ROI>
-            <name>Fe_Ka</name>
-            <windowStart>322</windowStart>
-            <windowEnd>419</windowEnd>
-            <counts>39412</counts>
+            <name>Sr</name>
+            <windowStart>1386</windowStart>
+            <windowEnd>1434</windowEnd>
+            <counts>6436</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
+        <processDeadTimeAllEvent>3.8E-7</processDeadTimeAllEvent>
+        <processDeadTimeInWindow>3.8E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
     </DetectorElement>
     <DetectorElement>
         <name>Element1</name>
         <number>1</number>
         <ROI>
-            <name>Fe_Ka</name>
-            <windowStart>322</windowStart>
-            <windowEnd>419</windowEnd>
-            <counts>39412</counts>
+            <name>Sr</name>
+            <windowStart>1377</windowStart>
+            <windowEnd>1450</windowEnd>
+            <counts>5758</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
+        <processDeadTimeAllEvent>3.8E-7</processDeadTimeAllEvent>
+        <processDeadTimeInWindow>3.8E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
     </DetectorElement>
     <DetectorElement>
         <name>Element2</name>
         <number>1</number>
         <ROI>
-            <name>Fe_Ka</name>
-            <windowStart>322</windowStart>
-            <windowEnd>419</windowEnd>
-            <counts>39412</counts>
+            <name>Sr</name>
+            <windowStart>1378</windowStart>
+            <windowEnd>1442</windowEnd>
+            <counts>6998</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
+        <processDeadTimeAllEvent>3.8E-7</processDeadTimeAllEvent>
+        <processDeadTimeInWindow>3.8E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
     </DetectorElement>
     <DetectorElement>
         <name>Element3</name>
         <number>1</number>
         <ROI>
-            <name>Fe_Ka</name>
-            <windowStart>322</windowStart>
-            <windowEnd>419</windowEnd>
-            <counts>39412</counts>
+            <name>Sr</name>
+            <windowStart>1378</windowStart>
+            <windowEnd>1442</windowEnd>
+            <counts>6722</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
+        <processDeadTimeAllEvent>3.8E-7</processDeadTimeAllEvent>
+        <processDeadTimeInWindow>3.8E-7</processDeadTimeInWindow>
         <excluded>false</excluded>
     </DetectorElement>
     <deadTime>-0.0</deadTime>

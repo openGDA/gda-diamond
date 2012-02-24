@@ -8,22 +8,10 @@
         <name>Element0</name>
         <number>1</number>
         <ROI>
-            <name>Fe_ka</name>
-            <windowStart>600</windowStart>
-            <windowEnd>670</windowEnd>
-            <counts>105</counts>
-        </ROI>
-        <ROI>
-            <name>Au L3</name>
-            <windowStart>1004</windowStart>
-            <windowEnd>1067</windowEnd>
-            <counts>56750</counts>
-        </ROI>
-        <ROI>
-            <name>scatter</name>
-            <windowStart>1217</windowStart>
-            <windowEnd>1300</windowEnd>
-            <counts>15766</counts>
+            <name>Fe_Ka</name>
+            <windowStart>322</windowStart>
+            <windowEnd>419</windowEnd>
+            <counts>39412</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -34,22 +22,10 @@
         <name>Element1</name>
         <number>1</number>
         <ROI>
-            <name>Fe_ka</name>
-            <windowStart>600</windowStart>
-            <windowEnd>670</windowEnd>
-            <counts>149</counts>
-        </ROI>
-        <ROI>
-            <name>Au L3</name>
-            <windowStart>1004</windowStart>
-            <windowEnd>1067</windowEnd>
-            <counts>56750</counts>
-        </ROI>
-        <ROI>
-            <name>scatter</name>
-            <windowStart>1217</windowStart>
-            <windowEnd>1300</windowEnd>
-            <counts>15766</counts>
+            <name>Fe_Ka</name>
+            <windowStart>322</windowStart>
+            <windowEnd>419</windowEnd>
+            <counts>39412</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -60,22 +36,10 @@
         <name>Element2</name>
         <number>1</number>
         <ROI>
-            <name>Fe_ka</name>
-            <windowStart>600</windowStart>
-            <windowEnd>670</windowEnd>
-            <counts>126</counts>
-        </ROI>
-        <ROI>
-            <name>Au L3</name>
-            <windowStart>1004</windowStart>
-            <windowEnd>1067</windowEnd>
-            <counts>56750</counts>
-        </ROI>
-        <ROI>
-            <name>scatter</name>
-            <windowStart>1217</windowStart>
-            <windowEnd>1300</windowEnd>
-            <counts>15766</counts>
+            <name>Fe_Ka</name>
+            <windowStart>322</windowStart>
+            <windowEnd>419</windowEnd>
+            <counts>39412</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -86,22 +50,10 @@
         <name>Element3</name>
         <number>1</number>
         <ROI>
-            <name>Fe_ka</name>
-            <windowStart>600</windowStart>
-            <windowEnd>670</windowEnd>
-            <counts>126</counts>
-        </ROI>
-        <ROI>
-            <name>Au L3</name>
-            <windowStart>1004</windowStart>
-            <windowEnd>1067</windowEnd>
-            <counts>56750</counts>
-        </ROI>
-        <ROI>
-            <name>scatter</name>
-            <windowStart>1217</windowStart>
-            <windowEnd>1300</windowEnd>
-            <counts>15766</counts>
+            <name>Fe_Ka</name>
+            <windowStart>322</windowStart>
+            <windowEnd>419</windowEnd>
+            <counts>39412</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
