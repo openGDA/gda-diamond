@@ -83,8 +83,9 @@ topupMonitor = TopupScannable()
 topupMonitor.setName("topupMonitor")
 topupMonitor.setTolerance(1.0)
 topupMonitor.setWaittime(1)
-topupMonitor.setTimeout(7200)
+topupMonitor.setTimeout(600)
 topupMonitor.setTopupPV("SR-CS-FILL-01:COUNTDOWN")
+#topupMonitor.setScannableToBeMonitored(topupScannable)
 topupMonitor.configure()
 add_default topupMonitor
 from gda.device.scannable import BeamMonitorWithFeedbackSwitchScannable
@@ -99,7 +100,7 @@ detectorFillingMonitor = DetectorFillingMonitorScannable()
 detectorFillingMonitor.setName("detectorFillingMonitor")
 detectorFillingMonitor.setTimeout(7200)
 detectorFillingMonitor.setStartTime(9)
-detectorFillingMonitor.setDuration(38.0)
+detectorFillingMonitor.setDuration(30.0)
 detectorFillingMonitor.configure()
 #add_default detectorFillingMonitor
 from gda.device.scannable import BeamMonitorScannableForLineRepeat
@@ -202,9 +203,9 @@ global mapRunning
 mapRunning =0
 
 #qbpm settings 
-cid.setInputNames(['CID_Rplusdiode', 'CID_Lminusdiode','CID_Rminusdiode', 'CID_Lplusdiode']) 
-cid.setIncludeRange(False) 
-cid.setOutputFormat(['%4.10f','%4.10f','%4.10f','%4.10f','%4.10f','%4.10f','%4.10f']) 
+#cid.setInputNames(['CID_Rplusdiode', 'CID_Lminusdiode','CID_Rminusdiode', 'CID_Lplusdiode']) 
+#cid.setIncludeRange(False) 
+#cid.setOutputFormat(['%4.10f','%4.10f','%4.10f','%4.10f','%4.10f','%4.10f','%4.10f']) 
 
 ##fix for trajectory scans 
 execfile(gdaConfigDir + "scripts/scans/correctTrajInterface.py"); 
