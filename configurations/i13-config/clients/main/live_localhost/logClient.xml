@@ -18,10 +18,10 @@
 	    </filter>           
     </appender>    
     <logger name="gda">
-        <level value="ALL"/>
+        <level value="INFO"/>
     </logger>    
     <root>
-        <level value="ALL"/>
+        <level value="INFO"/>
         <appender-ref ref="SOCKET"/>
         <appender-ref ref="CONSOLE"/>
     </root>
