@@ -167,7 +167,7 @@
 	</bean>
 <!-- *****************************************************************
 	*********Quad Amplifiers************************************ -->
-<bean id="CurrAmpQuad8" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
+<!--<bean id="CurrAmpQuad8" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
 		<property name="deviceName" value="AMP8"/>
 </bean>
 <bean id="BpmController8" class="gda.device.monitor.EpicsBpmController">
@@ -177,7 +177,7 @@
 		<property name="currAmpQuadName" value="CurrAmpQuad8"/>
 		<property name="bpmName" value="BpmController8"/>		
 </bean>
-<!-- ********************* -->
+--><!-- ********************* -->
 <!-- *** MOTOR SECTION *** -->
 <!-- ********************* -->
 <!-- Insertion Device -->
