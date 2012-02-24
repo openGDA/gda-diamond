@@ -67,7 +67,7 @@
 
 	<import resource="../../../devices/epics/absorbers4.xml"/>
 	
-   <import resource="../../../devices/epics/qcm_motors.xml"/>
+    <import resource="../../../devices/epics/qcm_motors.xml"/> 
 	
 	<import resource="../../../devices/epics/experiment_hutch_shutter.xml"/>
 
@@ -92,8 +92,6 @@
 	
 	<import resource="../common.xml"/>	
 
-<!--  	<import resource="../../../devices/epics/qcm_motors.xml"/>
- -->
 <!--Not present 
 	<import resource="../../../devices/epics/s3_motors.xml"/>
  -->
