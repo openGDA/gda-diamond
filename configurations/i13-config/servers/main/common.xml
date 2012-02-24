@@ -84,15 +84,15 @@
 
 <!-- 	<import resource="../../devices/undulator.xml" />
 	<import resource="../../devices/front_end.xml" />
-
+-->
 	<import resource="../../devices/s1.xml" />
-
 	<import resource="../../devices/filters.xml" />
+<!-- 
 
 	<import resource="../../devices/m1.xml" />
-
+-->
 	<import resource="../../devices/d1.xml" />
-
+<!-- 
 	<import resource="../../devices/d2.xml" />
 
 	<import resource="../../devices/s2.xml" />

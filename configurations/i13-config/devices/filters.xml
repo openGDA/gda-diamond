@@ -24,10 +24,15 @@
 		<property name="motor" ref="filter4_motor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
+	<bean id="filter5" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="filter5_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
 	<bean id="filter_aperture" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="filter_aperture_motor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
+<!--
 	<bean id="filter_crlX" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="filter_crlX_motor" />
 		<property name="userUnits" value="mm"/>
@@ -43,6 +48,6 @@
 	<bean id="filter_crlYaw" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="filter_crlYaw_motor" />
 	</bean>
-
+-->
 </beans>
 

@@ -98,7 +98,7 @@
       <perspective
             class="uk.ac.diamond.scisoft.analysis.rcp.DataExplorationPerspective"
             icon="icons/chart_curve.png"
-            id="uk.ac.gda.beamline.i13j.perspectives.DataExplorer"
+            id="uk.ac.gda.beamline.i13i.perspectives.DataExplorer"
             name="Data Explorer">
       </perspective>
    </extension>
@@ -119,42 +119,42 @@
 	    id="uk.ac.gda.beamline.i13.GDACategory">
 	</category>
 	<categoryActivityBinding
-	   activityId="uk.ac.gda.beamline.i13j.DataCollectionActiviity"
+	   activityId="uk.ac.gda.beamline.i13i.DataCollectionActiviity"
 	   categoryId="uk.ac.gda.beamline.i13.GDACategory">
 	</categoryActivityBinding>	
 	<categoryActivityBinding
-	   activityId="uk.ac.gda.beamline.i13j.DataAnalysisActiviity"
+	   activityId="uk.ac.gda.beamline.i13i.DataAnalysisActiviity"
 	   categoryId="uk.ac.gda.beamline.i13.GDACategory">
 	</categoryActivityBinding-->	
 	<!--activity
 			description="Data Collection Activity"
-			id="uk.ac.gda.beamline.i13j.DataCollectionActiviity"
+			id="uk.ac.gda.beamline.i13i.DataCollectionActiviity"
 			name="DataCollection">
 			<enabledWhen>
             		<with variable="activeWorkbenchWindow.activePerspective">
-                		<equals value="uk.ac.gda.beamline.i13j.perspectives.DataCollectionPerspective"/>
+                		<equals value="uk.ac.gda.beamline.i13i.perspectives.DataCollectionPerspective"/>
             		</with>
     		</enabledWhen>
 	</activity>
-    <activityPatternBinding activityId="uk.ac.gda.beamline.i13j.DataCollectionActiviity" pattern="uk*"/-->
+    <activityPatternBinding activityId="uk.ac.gda.beamline.i13i.DataCollectionActiviity" pattern="uk*"/-->
 	<!--activity
 			description="Data Analysis Activity"
-			id="uk.ac.gda.beamline.i13j.DataAnalysisActiviity"
+			id="uk.ac.gda.beamline.i13i.DataAnalysisActiviity"
 			name="DataAnalysis">
 			<enabledWhen>
             		<with variable="activeWorkbenchWindow.activePerspective">
-                		<equals value="uk.ac.gda.beamline.i13j.perspectives.DataExplorer"/>
+                		<equals value="uk.ac.gda.beamline.i13i.perspectives.DataExplorer"/>
             		</with>
     		</enabledWhen>
 	</activity>
 
 	<activity
 			description="DAWB"
-			id="uk.ac.gda.beamline.i13j.DAWBActiviity"
+			id="uk.ac.gda.beamline.i13i.DAWBActiviity"
 			name="DAWB">
 			<disableWhen>
             		<with variable="activeWorkbenchWindow.activePerspective">
-                		<equals value="uk.ac.gda.beamline.i13j.perspectives.DataCollectionPerspective"/>
+                		<equals value="uk.ac.gda.beamline.i13i.perspectives.DataCollectionPerspective"/>
             		</with>
     		</disableWhen>
 	</activity-->
@@ -163,8 +163,8 @@
 			<enabledWhen><not>
             		<with variable="activeWorkbenchWindow.activePerspective">
                 		<or>
-                		<equals value="uk.ac.gda.beamline.i13j.perspectives.DataCollectionPerspective"/>
-                		<equals value="uk.ac.gda.beamline.i13j.perspectives.DataExplorer"/>
+                		<equals value="uk.ac.gda.beamline.i13i.perspectives.DataCollectionPerspective"/>
+                		<equals value="uk.ac.gda.beamline.i13i.perspectives.DataExplorer"/>
                 		</or>
             		</with>
             		</not>

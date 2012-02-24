@@ -40,15 +40,16 @@
  -->
 <!-- start of internal building -->
 
-<!-- 	<import resource="../../../devices/epics/s1_motors.xml"/>
+	<import resource="../../../devices/epics/s1_motors.xml"/>
 	<import resource="../../../devices/epics/filter_motors.xml"/>
+<!-- 
 	
 	<import resource="../../../devices/epics/gas_bremsstrahlung1.xml"/>
 
 	<import resource="../../../devices/epics/m1.xml"/>
-
+-->
 	<import resource="../../../devices/epics/d1.xml"/>
-	
+<!-- 	
 	<import resource="../../../devices/epics/absorbers1.xml"/>
 
 	<import resource="../../../devices/epics/d2.xml"/>

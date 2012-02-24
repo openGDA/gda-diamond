@@ -3,7 +3,6 @@ import os
 from gdascripts.messages import handle_messages
 from gda.jython import InterfaceProvider
 
-
 	
 try:
 	from gda.device import Scannable
@@ -52,13 +51,13 @@ try:
 	createPVScannable( "d1_total", "BL13I-DI-PHDGN-01:STAT:Total_RBV")
 	
 	#make scannablegroup for driving sample stage
-	from gda.device.scannable.scannablegroup import ScannableGroup
-	t1_xy = ScannableGroup()
-	t1_xy.addGroupMember(t1_sx)
-	t1_xy.addGroupMember(t1_sy)
-	t1_xy.addGroupMember(ix)
-	t1_xy.setName("t1_xy")
-	t1_xy.configure()
+#	from gda.device.scannable.scannablegroup import ScannableGroup
+#	t1_xy = ScannableGroup()
+#	t1_xy.addGroupMember(t1_sx)
+#	t1_xy.addGroupMember(t1_sy)
+#	t1_xy.addGroupMember(ix)
+#	t1_xy.setName("t1_xy")
+#	t1_xy.configure()
 	
 	#make ScanPointProvider
 	import sample_stage_position_provider
@@ -68,18 +67,19 @@ try:
 	imageFitter = finder.find("imageFitter")
 	imageStats = finder.find("imageStats")
 	imagePlotter = finder.find("imagePlotter")
+	imageROI = finder.find("imageROI")
 
 
 	#create objects in namespace
-	mpx_controller = mpx.getMaxiPix2MultiFrameDetector()
-	mpx_threshold = mpx_controller.energyThreshold
-	mpx_limaCCD = mpx_controller.getLimaCCD()
-	mpx_maxipix = mpx_controller.getMaxiPix2()
-	mpx_reset_configure()
+#	mpx_controller = mpx.getMaxiPix2MultiFrameDetector()
+#	mpx_threshold = mpx_controller.energyThreshold
+#	mpx_limaCCD = mpx_controller.getLimaCCD()
+#	mpx_maxipix = mpx_controller.getMaxiPix2()
+#	mpx_reset_configure()
 	
 	import file_converter
 	
-	import integrate_mpx_scan
+#	import integrate_mpx_scan
 #	try:
 #		mpx_set_folder("test","mpx")
 #	except :
@@ -89,7 +89,7 @@ try:
 
 	import autocollimator_script
 	autocollimator_script.setup()
-	run("i13diffcalc")
+#	run("i13diffcalc")
 
 
 except :
