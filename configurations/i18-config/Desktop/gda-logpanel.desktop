@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Name=gda-logpanel
 Type=Application
-Exec=GDA_StartLogPanel
+Exec=/dls_sw/i18/software/gda/bin/GDA_StartLogPanel
 Icon=/usr/share/pixmaps/gnome-log.png
 Icon[en_GB]=/usr/share/pixmaps/gnome-log.png
 Terminal=false
