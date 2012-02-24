@@ -100,8 +100,8 @@
 				<constructor-arg value=".0" />
 			</bean>
 		</property>
-		<property name="computeStats" value="true" />
-		<property name="computeCentroid" value="true" />
+		<property name="computeStats" value="false" />
+		<property name="computeCentroid" value="false" />
 		<property name="readArray" value="true" />
 		
 	</bean>

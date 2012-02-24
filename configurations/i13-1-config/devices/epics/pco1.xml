@@ -129,8 +129,8 @@
 		<property name="readAcquisitionTime" value="true" />
 		<property name="readFilepath" value="true" />
 		<property name="readAcquisitionPeriod" value="false" />
-		<property name="computeStats" value="true" />
-		<property name="computeCentroid" value="true" />
+		<property name="computeStats" value="false" />
+		<property name="computeCentroid" value="false" />
 		<property name="readArray" value="true" />
 		<property name="createsOwnFiles" value="false" />
 		<property name="linkFilepath" value="false" />

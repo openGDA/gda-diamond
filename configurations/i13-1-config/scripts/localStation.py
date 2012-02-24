@@ -71,6 +71,7 @@ two_motor_positions.load("/dls_sw/i13-1/software/gda_versions/gda_trunk/i13j-con
 imageFitter = finder.find("imageFitter")
 imageStats = finder.find("imageStats")
 imagePlotter = finder.find("imagePlotter")
+imageROI = finder.find("imageROI")
 
 
 #create objects in namespace

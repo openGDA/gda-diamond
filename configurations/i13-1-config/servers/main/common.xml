@@ -36,14 +36,14 @@
 		<property name="enable" value="false" />
 	</bean>
 	<bean id="imageStats" class="gda.device.detector.nexusprocessor.DatasetStats" >
-		<property name="enable" value="false" />
+		<property name="enable" value="true" />
 	</bean>
 	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
 		<property name="plotName" value="Detector Image" />
 		<property name="enable" value="false" />
 	</bean>
 	<bean id="imageROI" class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI" >
-		<property name="enable" value="false" />
+		<property name="enable" value="true" />
 	</bean>
 	
 
