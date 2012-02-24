@@ -32,7 +32,7 @@ def finish():
 
 def setup(beanGroup):
 	if beanGroup.getDetector().getExperimentType() == "Fluorescence":
-		if (beanGroup.getDetector().getFluorescenceParameters().getDetectorType() == "Germanium" ):
+		if (beanGroup.getDetector().getFluorescenceParameters().getDetectorType() == "Germanium"):
 			fullFileName = beanGroup.getScriptFolder() + beanGroup.getDetector().getFluorescenceParameters().getConfigFileName()
 			bean = BeansFactory.getBean(File(fullFileName));
 			bean.setReadoutMode(XspressDetector.READOUT_MCA);
@@ -46,12 +46,12 @@ def setup(beanGroup):
 		#setup topup
 		scan = beanGroup.getScan()
 		collectionTime = 0.0
-		if isinstance(scan,XanesScanParameters):
+		if isinstance(scan, XanesScanParameters):
 			regions = scan.getRegions()		
 			for region in regions:
 				if(collectionTime < region.getTime()):
-					collectionTime =region.getTime()
-		elif isinstance(scan,QEXAFSParameters):
+					collectionTime = region.getTime()
+		elif isinstance(scan, QEXAFSParameters):
 			pass
 		else:
 			collectionTime = scan.getExafsTime()
@@ -72,7 +72,8 @@ def setup(beanGroup):
 		if(beanGroup.getDetector().getExperimentType() == "Fluorescence" and beanGroup.getDetector().getFluorescenceParameters().getDetectorType() == "Germanium"): 
 			add_default(detectorFillingMonitor)
 			detectorFillingMonitor.setPauseBeforePoint(True)
-			detectorFillingMonitor.setPauseBeforeLine(False) 
+			detectorFillingMonitor.setPauseBeforeLine(False)
+			detectorFillingMonitor.setCollectionTime(collectionTime)
 		trajBeamMonitor.setActive(False)
 		sampleParameters = beanGroup.getSample()
 		stage = sampleParameters.getSampleStageParameters()
@@ -80,4 +81,46 @@ def setup(beanGroup):
 		att2 = sampleParameters.getAttenuatorParameter2()
 		pos([rootnamespace['sc_MicroFocusSampleX'], stage.getX(), rootnamespace['sc_MicroFocusSampleY'], stage.getY(), rootnamespace['sc_sample_z'], stage.getZ()])
 		pos([rootnamespace['D7A'], att1.getSelectedPosition(), rootnamespace['D7B'], att2.getSelectedPosition()])
+		#redefineNexusMetadata(beanGroup)
 		Finder.getInstance().find("RCPController").openPesrpective("org.diamond.exafs.ui.PlottingPerspective")
+		
+	
+def redefineNexusMetadata(beanGroup):
+
+	from gda.data.scan.datawriter import NexusFileMetadata
+	from gda.data.scan.datawriter.NexusFileMetadata import EntryTypes, NXinstrumentSubTypes
+	
+	jython_mapper = JythonNameSpaceMapping()
+	
+	if (LocalProperties.get("gda.mode") == 'dummy'):
+		return
+	
+	# primary slits
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("s1ygap", str(jython_mapper.s1ygap()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXaperture, "primary slits"))
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("s1xgap", str(jython_mapper.s1xgap()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXaperture, "primary slits"))
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("s1ypos", str(jython_mapper.s1ypos()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXaperture, "primary slits"))
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("s1xpos", str(jython_mapper.s1xpos()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXaperture, "primary slits"))
+
+	# secondary slits
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("s2ygap", str(jython_mapper.s2ygap()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXaperture, "secondary slits"))
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("s2xgap", str(jython_mapper.s2xgap()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXaperture, "secondary slits"))
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("s2ypos", str(jython_mapper.s2ypos()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXaperture, "secondary slits"))
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("s2xpos", str(jython_mapper.s2xpos()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXaperture, "secondary slits"))
+
+	# post DCM slits
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("s3ygap", str(jython_mapper.s3ygap()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXaperture, "postDCM slits"))
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("s3xgap", str(jython_mapper.s3xgap()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXaperture, "postDCM slits"))
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("s3ypos", str(jython_mapper.s3ypos()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXaperture, "postDCM slits"))
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("s3xpos", str(jython_mapper.s3xpos()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXaperture, "postDCM slits"))
+
+	# Sample Stage
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("MicroFocusSampleX", str(jython_mapper.sc_MicroFocusSampleX()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXsample_stage, "Sample Stage"))
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("MicroFocusSampleY", str(jython_mapper.sc_MicroFocusSampleY()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXsample_stage, "Sample Stage"))
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("sample_z", str(jython_mapper.sc_sample_z()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXsample_stage, "Sample Stage"))
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("sample_thetacoarse", str(jython_mapper.sc_sample_thetacoarse()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXsample_stage, "Sample Stage"))
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("sample_thetafine", str(jython_mapper.sc_sample_thetafine()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXsample_stage, "Sample Stage"))
+
+	#attenustors
+	
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("D7A", str(jython_mapper.D7A()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXatenuator, "Attenuators"))
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("D7B", str(jython_mapper.D7B()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXatenuator, "Attenuators"))
