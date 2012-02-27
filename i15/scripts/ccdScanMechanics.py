@@ -5,15 +5,15 @@ from gdascripts.messages import handle_messages
 from gdascripts.messages.handle_messages import simpleLog
 from gdascripts.parameters import beamline_parameters
 
-global configured, beamline, ruby
+global configured, beamline, atlas
 configured = False
 def configure(jythonNameMap, beamlineParameters):
-	global configured, beamline, ruby
+	global configured, beamline, atlas
 	"""
 	sets module variables from jython namespace, finder and beamline parameters
 	"""
 	beamline = jythonNameMap.beamline
-	ruby = jythonNameMap.ruby
+	atlas = jythonNameMap.atlas
 	configured = True
 	
 def checkConfigured():
@@ -131,7 +131,7 @@ def getGeometry(axis, velocity, A, B):
 																								omegaStart, omegaStop, omegaVel, 
 																								twothetaStart, twothetaStop, twothetaVel, 
 																								gammaStart, gammaStop, gammaVel)
-	return geometry + str(ruby.detectorDistance)
+	return geometry + str(atlas.detectorDistance)
 
 ######################################################################################
 def activatePositionCompare(start, stop, axis):
