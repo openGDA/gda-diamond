@@ -1,4 +1,6 @@
 #syntax: call Image_Start <1. time> <2. binning>
+#
+# call Image_Start 3 1
 
 root echo = ----------------------------------------------------------------
 cmd="root echo = call Image_Start time="+@1+" binning="+@2

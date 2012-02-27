@@ -1,4 +1,10 @@
 # call Img_Cut <1. srcPath> <2. dstPath> <3. time> <4. binning>
+#
+# Eg. call Img_Cut "/ppcdirpnp/data/Image" "/root/tmp/Data/Image" 3 1
+
+root echo = ----------------------------------------------------------------
+cmd="root echo = call Img_Cut "+@1+" "+@2+" "+@3+" "+@4
+mode echo
 
 ((sizeX):integer=1024)
 ((sizeY):integer=1024)

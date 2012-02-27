@@ -1,8 +1,11 @@
-#syntax: call applyCorrections <imageLocation> <repair flag> <flood mscalar flag> <unwarp flag> <flood poly flag> 
+#syntax: call applyCorrections <1. imageLocation> <2. repair flag>
+#            <3. flood mscalar flag> <4. unwarp flag> <5. flood poly flag> 
 #
 # call applyCorrections "/root/tmp/Data/Image" 1 1 1 1
 # call applyCorrections "/root/tmp/Data/Image" 1 1 0 0
 
+root echo = ----------------------------------------------------------------
+cmd="root echo = call applyCorrections "+@1+" "+@2+" "+@3+" "+@4+" "+@5
 mode echo
 
 wait for object cr ready
