@@ -19,7 +19,8 @@ class CentreDAC(GeneralScan):
 	and the drift of the centre is used to correct the dy axis.
 	"""
 	def __init__(self, rotation_axis, perp2rot_axis, focus_axis, beamline,
-			scanRange, scanStep, rockAngle, diode, autoFit, rotation_centre):
+			scanRange, scanStep, rockAngle, diode, autoFit, rotation_centre,
+			focus_axis_inverted):
 		"""
 		Example: CentreDAC(dkphi, dx, dy, 0.4, 0.02, 10, d4, False, 58.)
 		"""
@@ -36,6 +37,7 @@ class CentreDAC(GeneralScan):
 		self.diode		= diode
 		self.autoFit	= autoFit
 		self.rotation_centre = rotation_centre
+		self.focus_axis_inverted = focus_axis_inverted
 		
 		self.perp2rot_axis_ref = self.perp2rot_axis()
 		self.focus_axis_ref = self.focus_axis()
@@ -201,7 +203,7 @@ class CentreDAC(GeneralScan):
 			return InputCommands.requestInput("Please enter the peak centre or press enter to exit:")
 
 	def ypos(self):
-		if self.focus_axis.name == "cryoz":
+		if self.focus_axis_inverted:
 			self.rotation_axis(self.rotation_centre-self.rockAngle)
 		else:
 			self.rotation_axis(self.rotation_centre+self.rockAngle)
@@ -210,7 +212,7 @@ class CentreDAC(GeneralScan):
 		return yposx
 
 	def yneg(self):
-		if self.focus_axis.name == "cryoz":
+		if self.focus_axis_inverted:
 			self.rotation_axis(self.rotation_centre+self.rockAngle)
 		else:
 			self.rotation_axis(self.rotation_centre-self.rockAngle)
