@@ -338,8 +338,8 @@ class ISCCD:
 		self.runCommand('call ' + self.smi_exps_script + ' "' + self.path + "/" + thisFile  + '" ' + str(time) + ' ' + geometry + ' ' + str(self.binning) + ' ' + paramStr)
 		return thisFile
 
-	def expsSaveIntensityA(self):
-		self.runCommand('call ' + self.expsSaveIntensityA_script + ' ' + str(self.binning))
+	def expsSaveIntensityA(self, exposureTime):
+		self.runCommand('call ' + self.expsSaveIntensityA_script + ' ' + str(self.binning) + ' ' + str(exposureTime))
 
 	def expsSaveIntensityB(self,fileName,time,geometry, i0_val):
 		"""

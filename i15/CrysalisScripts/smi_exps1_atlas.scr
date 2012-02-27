@@ -1,11 +1,11 @@
-#syntax: call smi_exps1_atlas <1. binning>
+#syntax: call smi_exps1_atlas <1. binning> <2. timeout>
 #
-# Takes image and save to /tmp. smi_exps2 should be called next
+# Takes image and save to /tmp. smi_exps2_atlas should be called next
 # 
 # e.g. call smi_exps1_atlas 2
 
 root echo = vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-cmd="root echo = ATLAS Start call smi_exps1_atlas "+@1
+cmd="root echo = ATLAS Start call smi_exps1_atlas "+@1+" "+@2
 mode echo
 
 ## Take image and save to /tmp
@@ -21,7 +21,8 @@ cmd="call setup_node \"/tmp\""
 
 #Ruby: cmd="sm m timeout 0 bin "+@1+"x"+@1
 #Atlas:
-((timeout):real=30)
+((timeout):real=@2)
+($(timeout)+=0.5)
 cmd="call Scan_Start "+$(timeout)+" "+@1
 
 #Ruby: wait for object detector ready
@@ -31,8 +32,8 @@ wait for valid $(/ppcdirpnp/data/Image)
 #Ruby: api save results to /tmp
 #Atlas:
 
-((/root/binning):integer=@1)		# AW20110830 set binning type from arg???
-((time):real=0.0)			# AW20110830 set time to zero???
+((/root/binning):integer=@1)
+((time):real=@2) 
 cmd="db mkdir /tmp/Data"
 cmd="call Img_Cut \"/ppcdirpnp/data/Image\" \"/tmp/Data/Image\" "+$(time)+" "+$(//root/binning)
 

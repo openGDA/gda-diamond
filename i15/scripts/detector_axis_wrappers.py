@@ -221,7 +221,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			self.preExposeCheck()
 			
 			simpleLog("Exposing " + self.detectorName)
-			self.detector.expsSaveIntensityA()
+			self.detector.expsSaveIntensityA(float(self.exposureTime))
 			self.axis.asynchronousMoveTo(position + self.step + runUp)
 			
 			samples = []
@@ -252,7 +252,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 				self.preExposeCheck()
 
 				simpleLog("Re-exposing " + self.detectorName + " because of beamloss during expose")
-				self.detector.expsSaveIntensityA()
+				self.detector.expsSaveIntensityA(float(self.exposureTime))
 				self.axis.asynchronousMoveTo(position + self.step + runUp)
 				
 				samples = []
