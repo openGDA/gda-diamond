@@ -1,4 +1,8 @@
 #syntax: call Dark_Start <1. time> <2. binning>
+
+root echo = ----------------------------------------------------------------
+cmd="root echo = call Dark_Start time="+@1+" binning="+@2
+
 #mode echo
 # example: call Dark_Start 1 1
 ((time):real=@1)
@@ -30,7 +34,7 @@ wait for valid $(/ppcpnp/dev/picture/params/autoupload)
 ((/ppcdirpnp/data/Image):none)
 ((/ppcdirpnp/data/Image/state):string="")
 
-#cmd="ppcpnp picture make m Image "+$(time)+" off"
+#cmd="ppcpnp picture make m Image "+$(timeout)+" off"
 cmd="ppcpnp picture make t Image "+$(time)+" off"
 
 ((/ppcdirpnp/data/Image/dataState):string="notready")

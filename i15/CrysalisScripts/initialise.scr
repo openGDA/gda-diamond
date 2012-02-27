@@ -1,5 +1,8 @@
 #initialise.scr
 
+root echo = vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+echo = ATLAS initialise
+
 mode echo
 
 #set reporting level
@@ -93,4 +96,5 @@ wait for object cr ready
 call DetectorConnect
 
 #! E N D
+root echo = ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 return

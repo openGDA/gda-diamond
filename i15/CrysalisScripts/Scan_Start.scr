@@ -1,6 +1,9 @@
-#syntax: call Scan_Start <1. time> <2. binning>
+#syntax: call Scan_Start <1. timeout> <2. binning>
 
-((time):real=@1)
+root echo = ----------------------------------------------------------------
+cmd="root echo = call Scan_Start timeout="+@1+" binning="+@2
+
+((timeout):real=@1)
 ((binning):real=$(/ppcpnp/dev/picture/params/binning))
 
 if (@2==1) jmp BIN1x1
@@ -29,7 +32,7 @@ wait for valid $(/ppcpnp/dev/picture/params/autoupload)
 ((/ppcdirpnp/data/Image):none)
 ((/ppcdirpnp/data/Image/state):string="")
 
-cmd="ppcpnp picture make m Image "+$(time)+" on"
+cmd="ppcpnp picture make m Image "+$(timeout)+" on"
 #cmd="ppcpnp picture make t Image "+$(time)+" on"
 
 label wait_stateexist
