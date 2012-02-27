@@ -211,6 +211,9 @@ class PerkinElmerInterfaceDummy:
     def fileIndex_get(self):
         return int(self.fileIndexCA.caget())
 
+    def fileIndex_reset(self):
+        self.fileIndexCA.caput(0)
+
     def acquire(self):
         self.acquireCA.caput(1)
 
@@ -241,3 +244,9 @@ class PerkinElmerInterface(PerkinElmerInterfaceDummy):
 
     def __repr__(self):
         return "PerkinElmerInterface()"
+
+def resetPEScanNumberFactory(pe):
+    def resetPEScanNumber():
+        pe.fileIndex_reset()
+    
+    return resetPEScanNumber

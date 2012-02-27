@@ -45,6 +45,7 @@ from setGain import *
 from marAuxiliary import marErase, resetMarScanNumber
 from ccdAuxiliary import resetCCDScanNumber
 from pilatus_scripts import resetPilatusScanNumber
+
 from dataDir import getDir, setDir, setFullUserDir
 from time import sleep
 from ccdFloodCorrections import exportMultiDark
@@ -144,8 +145,8 @@ try:
 		cryoy = pd_epicsdevice.Simple_PD_EpicsDevice("cryoy", beamline, "-MO-VCOLD-01:Y.VAL")
 		cryoz = pd_epicsdevice.Simple_PD_EpicsDevice("cryoz", beamline, "-MO-VCOLD-01:Z.VAL")
 		cryorot = pd_epicsdevice.Simple_PD_EpicsDevice("cryorot", beamline, "-MO-VCOLD-01:THETA.VAL")
-		#cryobsx = pd_epicsdevice.Simple_PD_EpicsDevice("cryox", beamline, "-MO-VCOLD-01:X2.VAL")
-		#cryobsy = pd_epicsdevice.Simple_PD_EpicsDevice("cryoy", beamline, "-MO-VCOLD-01:Y2.VAL")
+		cryobsx = pd_epicsdevice.Simple_PD_EpicsDevice("cryobsx", beamline, "-MO-VCOLD-01:BS:X.VAL")
+		cryobsy = pd_epicsdevice.Simple_PD_EpicsDevice("cryobsy", beamline, "-MO-VCOLD-01:BS:Y.VAL")
 		
 	except:
 		type, exception, traceback = sys.exc_info()
@@ -214,10 +215,12 @@ try:
 		handle_messages.log(None, "atlas error -  " , type, exception, traceback, False)
 
 	try:
-		import scannables.detectors.perkinElmer
-		peid = scannables.detectors.perkinElmer.PerkinElmerInterface()
-		pe = scannables.detectors.perkinElmer.PerkinElmer('pe', peid,
+		import scannables.detectors.perkinElmer as sdpe
+		peid = sdpe.PerkinElmerInterface()
+		pe = sdpe.PerkinElmer('pe', peid,
 			"X:", "/dls/i15/data", "2011/cm2062-3", "tmp", "deletemeMBB")
+		resetPEScanNumber = sdpe.resetPEScanNumberFactory(peid)
+		alias("resetPEScanNumber")
 	except:
 		type, exception, traceback = sys.exc_info()
 		handle_messages.log(None, "pe error -  " , type, exception, traceback, False)
