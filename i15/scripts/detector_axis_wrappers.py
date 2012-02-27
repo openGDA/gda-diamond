@@ -176,10 +176,83 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			self.axis.asynchronousMoveTo(self.originalPosition)
 		closeCCDShield()
 
-	def performMove(self, position, fast=False):
+	def syncExpose(self, position, runUp, velocity, filename, log_message):
+		samples = []
 		
-		#simpleLog("exposure time = " + `self.exposureTime`)
-		self.files = []
+		if self.sync:
+			setMaxVelocity(self.axis)
+			deactivatePositionCompare() #Prevent false triggers when debounce on
+			moveMotor(self.axis, position - runUp - self.diff)
+			
+			if self.step>0:
+				geometry = scanGeometry(self.axis, velocity, position, position + self.step)
+			else:
+				geometry = scanGeometry(self.axis, velocity, position + self.step, position)
+			
+			setVelocity(self.axis, velocity)
+			
+			self.preExposeCheck()
+			
+			simpleLog(log_message % self.detectorName)
+			self.detector.expsSaveIntensityA(float(self.exposureTime))
+			self.axis.asynchronousMoveTo(position + self.step + runUp)
+			
+			while self.axis.isBusy():
+				if float(position) <= float(self.axis()) <= float(position + self.step):
+					sleep(0.1)
+					samples.append(self.ionc1_val())
+					#simpleLog("ionc1="+str(self.ionc1_val()))
+			
+		else:
+			if self.axis:
+				setMaxVelocity(self.axis)
+				moveMotor(self.axis, position - runUp - self.diff)
+				setVelocity(self.axis, velocity)
+				self.axis.asynchronousMoveTo(position + self.step + runUp)
+				simpleLog("(fast shutter not synchronised with motor)")
+			else:
+				simpleLog("(%s expose for %fs)" % (self.detectorName, self.exposureTime))
+			
+			before_time = time()
+			self.detector.expose(self.exposureTime, filename)
+			after_time = time()
+			
+			if self.axis:
+				while self.axis.isBusy():
+					if float(position) <= float(self.axis()) <= float(position + self.step):
+						sleep(0.1)
+						samples.append(self.ionc1_val())
+						#simpleLog("ionc1="+str(self.ionc1_val()))
+			else:
+				simpleLog("(expose() %f > %f = %fs)" % (
+					before_time, after_time, after_time-before_time))
+				end_time = after_time + self.exposureTime
+				simpleLog("Monitoring ionc1 until %f secs" % end_time)
+				
+				while after_time < end_time:
+					sleep(0.1)
+					samples.append(self.ionc1_val())
+					after_time = time()
+					#simpleLog("ionc1=%f @ %f" % 
+					#	(self.ionc1_val(), after_time-before_time))
+		
+		imonTotal = 0.
+		samples = samples[1:-1] # Strip first and last samples
+		for s in samples:
+			imonTotal = imonTotal + s
+		
+		imonAverage = 0
+		if len(samples)>0 and imonTotal>0:
+			imonAverage = imonTotal / (len(samples))
+		
+		if self.sync:
+			self.detector.expsSaveIntensityB(filename, float(self.exposureTime), geometry, 0)
+		
+		simpleLog("imonAverage="+str(imonAverage) + " " + repr(samples))
+		
+		return imonAverage
+
+	def performMove(self, position, fast=False):
 		velocity = float(abs(self.step)) / float(self.exposureTime)
 		
 		if self.step > 0:
@@ -187,96 +260,31 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 		else:
 			runUp = -1*(velocity / 10)
 		
-		if not self.axis:
-			simpleLog("ERROR: %s does not support expose()" % self.detectorName)
-		elif not self.sync:
-			simpleLog("Warning: %s does not support " % self.detectorName) + \
-				"rockScan() and will do the equivalent of a simpleScan instead"
-		
-		if self.axis.getName() == "dktheta":
+		if self.axis and self.axis.getName() == "dktheta":
 			runUp = runUp * 2
 		
-		simpleLog("performMove %r runUp %r" % (self.axis, runUp))
-
+		simpleLog("performMove %r %r runUp %r" % (self.axis, self.sync, runUp))
+		
 		for exp in range(self.noOfExpPerPos):
-			
 			self.isccd.flush()
-			file = self.fileName + "_%01d" % self.nextScanNo + "_%01d" % self.exposureNo
+			filename = self.fileName + "_%01d" % self.nextScanNo + "_%01d" % self.exposureNo
+			
 			if fast:
-				file += "_fast"
-				
-			self.fullFileName = self.detector.path + "/" + file + ".img"
+				filename += "_fast"
+			
+			self.fullFileName = self.detector.path + "/" + filename + ".img"
 			if fast==False:
 				self.exposureNo += 1
-			setMaxVelocity(self.axis)
-			deactivatePositionCompare() #Prevent false triggers when debounce on
-			moveMotor(self.axis, position - runUp - self.diff)
-			setVelocity(self.axis, velocity)
 			
-			if self.step>0:
-				geometry = scanGeometry(self.axis, velocity, position, position + self.step)		
-			else:
-				geometry = scanGeometry(self.axis, velocity, position + self.step, position)	
-			
-			self.preExposeCheck()
-			
-			simpleLog("Exposing " + self.detectorName)
-			self.detector.expsSaveIntensityA(float(self.exposureTime))
-			self.axis.asynchronousMoveTo(position + self.step + runUp)
-			
-			samples = []
-			while self.axis.isBusy():
-				if float(position) <= float(self.axis()) <= float(position + self.step):
-					sleep(0.1)
-					samples.append(self.ionc1_val())
-					#simpleLog("ionc1="+str(self.ionc1_val()))
-			
-			imonTotal = 0.
-			samples = samples[1:-1] # Strip first and last samples
-			for s in samples:
-				imonTotal = imonTotal + s
-			
-			imonAverage = 0
-			if len(samples)>0 and imonTotal>0:
-				imonAverage = imonTotal / (len(samples))
-			
-			self.detector.expsSaveIntensityB(file, float(self.exposureTime), geometry, 0)
-			simpleLog("imonAverage="+str(imonAverage) + " " + repr(samples))
+			imonAverage = self.syncExpose(position, runUp, velocity, filename,
+					"Exposing %s")
 			
 			if self.postExposeCheck():
+				imonAverage = self.syncExpose(position, runUp, velocity, filename,
+					"Re-exposing %s because of beam loss during expose")
 				
-				setMaxVelocity(self.axis)
-				moveMotor(self.axis, position - runUp - self.diff)
-				setVelocity(self.axis, velocity)
-				
-				self.preExposeCheck()
-
-				simpleLog("Re-exposing " + self.detectorName + " because of beamloss during expose")
-				self.detector.expsSaveIntensityA(float(self.exposureTime))
-				self.axis.asynchronousMoveTo(position + self.step + runUp)
-				
-				samples = []
-				while self.axis.isBusy():
-					if float(position) <= float(self.axis()) <= float(position + self.step):
-						sleep(0.1)
-						samples.append(self.ionc1_val())
-						#simpleLog("ionc1="+str(self.ionc1_val()))
-				
-				imonTotal = 0.
-				samples = samples[1:-1] # Strip first and last samples
-				for s in samples:
-					imonTotal = imonTotal + s
-					
-				imonAverage = 0
-				
-				if len(samples)>0 and imonTotal>0:
-					imonAverage = imonTotal / (len(samples))
-				
-				self.detector.expsSaveIntensityB(file, float(self.exposureTime), geometry, 0)
-				simpleLog("imonAverage="+str(imonAverage) + " " + repr(samples))
-			
-			self.files.append(file)
-			linuxFilename = getDir() + "/" + file + ".img"	
+			self.files.append(filename)
+			linuxFilename = getDir() + "/" + filename + ".img"	
 			imonScaledAvg = imonAverage * 100000
 			crysalisFile = ModifyCrysalisHeader(linuxFilename)
 			names = ["imon1", "imon2", "dexposuretimeinsec"]
@@ -287,6 +295,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			FileRegistrarHelper.registerFile(linuxFilename)
 	
 	def rawAsynchronousMoveTo(self, position):
+		self.files = []
 		if self.overflow:
 			normalTime = self.exposureTime
 			self.exposureTime = float(normalTime)/float(self.multiFactor)
@@ -571,13 +580,13 @@ class MarAxisWrapper(DetectorAxisWrapper):
 					self.fullFileLocation = filesAtLocation[0].replace("_001.",".")
 					try:
 						#simpleLog("Renaming file %s to %s" %
-                        #		  (filesAtLocation[0], self.fullFileLocation))
+						#		  (filesAtLocation[0], self.fullFileLocation))
 						os.rename(filesAtLocation[0], self.fullFileLocation)
 						self.files.append(self.fullFileLocation)
 						FileRegistrarHelper.registerFile(self.fullFileLocation)	
 					except OSError:
 						simpleLog("Error renaming file %s to %s" %
-                        		  (filesAtLocation[0], self.fullFileLocation))
+										  (filesAtLocation[0], self.fullFileLocation))
 						# Since  we can't rename it, register the unrenamed file. 
 						self.files.append(filesAtLocation[0])
 						FileRegistrarHelper.registerFile(filesAtLocation[0])	
