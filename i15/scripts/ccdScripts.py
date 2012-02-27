@@ -292,6 +292,7 @@ def ccdScanElement(exposureTime, fileName, axis, A, B):
 	runUp = (velocity/10)				                #Acceleration Runup Allowance (degrees)
 	simpleLog("Run up:" + `runUp`)
 	setMaxVelocity(axis)					                    #Max velocity to move...
+	deactivatePositionCompare() #Prevent false triggers when debounce on
 	moveMotor(axis, A-runUp)						            #...to start position (A).
 	geometry = scanGeometry(axis, velocity, A, B)		        #Set up XPS scan, header geometry, and set scan velocity.
 	fullFileName = ruby.exps(fileName, exposureTime, geometry)	#Set ruby up to trigger from XPS position compare signal.
@@ -340,8 +341,9 @@ def ccdDoubleScanElement(exposureTime, fileName, axis, A, B, readOutDelay):
 	# Take first image while moving motor from A to B
 	simpleLog( "Scanning once from " + str(A) + "->" + str(B) + " in " + str(exposureTime) + " seconds.")
 	runUp = (velocity/10)
-	setMaxVelocity(axis)									 
-	moveMotor(axis, A-runUp)										 
+	setMaxVelocity(axis)
+	deactivatePositionCompare() #Prevent false triggers when debounce on
+	moveMotor(axis, A-runUp)
 	geometry = scanGeometry(axis, velocity, A, B)
 	ruby.expA(getIntensity(), geometry, fileName)	
 	moveMotor(axis, B+runUp)					

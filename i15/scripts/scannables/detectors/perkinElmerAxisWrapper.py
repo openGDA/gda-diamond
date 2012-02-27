@@ -42,6 +42,7 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
         
         if self.sync:
             setMaxVelocity(self.axis)
+            deactivatePositionCompare() #Prevent false triggers when debounce on
             moveMotor(self.axis, position - runUp)
             scanGeometry(self.axis, self.velocity, position , position + self.step)
             sleep(0.2)

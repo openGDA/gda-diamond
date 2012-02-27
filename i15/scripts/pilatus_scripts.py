@@ -112,6 +112,7 @@ def pilatusScanElement(exposureTime, pilatus, axis, A, B):
 	velocity = float(abs(B-A))/float(exposureTime)	#Set velocity
 	runUp = velocity/10				#Acceleration Runup Allowance (degrees)
 
+	deactivatePositionCompare()		#Prevent false triggers when debounce on
 	axis(A-runUp)					#Move to run up position before/after A.
 
 	geometry = scanGeometry(axis, velocity, A, B)	#Set up XPS for scan. Not save geometry

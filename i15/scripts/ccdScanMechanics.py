@@ -32,17 +32,37 @@ def scanGeometry(axis, velocity, A, B):
 	correctedB = B
 	suffix = ""
 	
-	debounce = beamline.getValue(None, "Top", "-EA-PCMP-01:STRETCH")
-	if debounce:
+	velocityMinimumWithoutDebounce_DegPerSec = 0.1
+	velocityMinimumWithDebounce_DegPerSec = 0.0002
+	
+	if velocity >= velocityMinimumWithoutDebounce_DegPerSec:
+		debounce = False
+	
+	elif velocity >= velocityMinimumWithDebounce_DegPerSec:
+		debounce = True
 		# If the debounce circuit is enabled, then we need to shorten the
 		# position compare by the length of time the stretcher stretches the
 		# pulse. Note if step is -ve then we have to correct A instead.
-		stretchedPulseLengthMs = 180.
+		stretchedPulseLengthMs = 1100.
 		if (A > B):
 			correctedA = A + (velocity*stretchedPulseLengthMs/1000)
 		else:
 			correctedB = B - (velocity*stretchedPulseLengthMs/1000)
 		suffix = "(corrected from A, B = %f %f)" % (A, B)
+		if correctedA > correctedB:
+			raise "Error: Move is either too short or too slow, so the " + \
+				"start position (%f) is after the end position (%f)" % (
+				correctedA, correctedB) + "with de-bounce correction! " + \
+				"Moves must take more than %f ms with velocities below %f." % (
+				stretchedPulseLengthMs, velocityMinimumWithoutDebounce_DegPerSec)
+	
+	else:
+		raise "Error: velocity (%f) is below minimum supported velocity (%f)" \
+			% (velocity, velocityMinimumWithDebounce_DegPerSec)
+	
+	if debounce <> beamline.getValue(None, "Top", "-EA-PCMP-01:STRETCH"):
+		beamline.setValue("Top", "-EA-PCMP-01:STRETCH", debounce)
+		suffix += "(set debounce to %r)" % debounce
 	
 	simpleLog("Activating position compare: A, B, axis = %f %f %s %s" %
 			(correctedA, correctedB, axis.name, suffix))
@@ -95,7 +115,7 @@ def getGeometry(axis, velocity, A, B):
 		
 	
 	else:
-		raise "Error: axis not valid in scan"
+		raise "Error: axis (%s) not valid in scan" % axis.name
 	
 	# Return formatted geometry string 
 	geometry = '%.3f %.3f %.4f %.3f %.3f %.4f %.3f %.3f %.4f %.3f %.3f %.4f %.3f %.3f %.4f ' % (phiStart, phiStop, phiVel, 
@@ -134,7 +154,7 @@ def activatePositionCompare(start, stop, axis):
 	elif (axis.name =='dkappa'):
 		pvRoot = '-MO-XPS-02:PCO5'
 	else:
-		raise "Error: axis not valid in scan"
+		raise "Error: axis (%s) not valid in scan" % axis.name
 
 	beamline.setValue("Top", pvRoot + ":ENABLE", 0)					   #Deactivate position compare
 	beamline.setValue("Top", pvRoot + ":START", start - PCOOffset)	   	#Set Start of position compare
@@ -182,7 +202,7 @@ def getVelocityPvRoot(axis):
 	elif (axis.name == 'dmu'):
 		return "-MO-DIFF-01:SAMPLE:MU"
 
-	raise "Error: axis not valid in scan"
+	raise "Error: axis (%s) not valid in scan" % axis.name
 ######################################################################################
 def deactivatePositionCompare():
 	"""

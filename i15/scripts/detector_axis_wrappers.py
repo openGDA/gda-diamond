@@ -209,6 +209,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			if fast==False:
 				self.exposureNo += 1
 			setMaxVelocity(self.axis)
+			deactivatePositionCompare() #Prevent false triggers when debounce on
 			moveMotor(self.axis, position - runUp - self.diff)
 			setVelocity(self.axis, velocity)
 			
@@ -379,6 +380,7 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 			
 			if self.sync:
 				setMaxVelocity(self.axis)
+				deactivatePositionCompare() #Prevent false triggers when debounce on
 				moveMotor(self.axis, position - runUp)
 				scanGeometry(self.axis, velocity, position, position + self.step)
 				sleep(0.2)
@@ -491,6 +493,7 @@ class MarAxisWrapper(DetectorAxisWrapper):
 				if self.sync:
 				
 					setMaxVelocity(self.axis)
+					deactivatePositionCompare() #Prevent false triggers when debounce on
 					moveMotor(self.axis, position - runUp)
 					scanGeometry(self.axis, self.velocity, position , position + self.step)
 					sleep(0.2)
@@ -510,6 +513,7 @@ class MarAxisWrapper(DetectorAxisWrapper):
 						self.preExposeCheck()
 							
 						setMaxVelocity(self.axis)
+						deactivatePositionCompare() #Prevent false triggers when debounce on
 						moveMotor(self.axis, position - runUp)
 						scanGeometry(self.axis, self.velocity, position , position + self.step)
 						sleep(0.2)
