@@ -1,0 +1,41 @@
+# Scan_SetParams <time> <binning>
+
+((time):real=@1)
+((binning):real=$(/ppcpnp/dev/picture/params/binning))
+
+if (@2==1) jmp BIN1x1
+if (@2==2) jmp BIN2x2
+if (@2==4) jmp BIN4x4
+jmp SET
+
+label BIN1x1
+	($(binning)=0)
+	jmp SET
+label BIN2x2
+	($(binning)=1)
+	jmp SET
+label BIN4x4
+	($(binning)=2)
+	jmp SET
+
+
+label SET
+###########  ATLAS  ###########
+db $(/ppcpnp/dev/picture/params/binning) flag invalid
+cmd="ppcpnp picture params binning = "+$(binning)
+db $(/ppcpnp/dev/picture/params/autoupload) flag invalid
+ppcpnp picture params autoupload= 1
+wait for valid $(/ppcpnp/dev/picture/params/binning)
+wait for valid $(/ppcpnp/dev/picture/params/autoupload)
+
+cmd="ppcpnp picture make t Image "+$(time)+" on"
+
+label wait_stateexist
+	if (Exist(/ppcdirpnp/data/Image/state)==0) jmp wait_stateexist
+	#($(/ppcdirpnp/data/Image/state)="")
+	
+	db $(/ppcdirpnp/data/Image) flag invalid
+
+
+label wait_state_acquiretime
+	if ($(/ppcdirpnp/data/tmp/state)!="waitnig") jmp wait_state_acquiretime

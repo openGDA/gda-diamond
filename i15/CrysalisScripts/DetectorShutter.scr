@@ -1,0 +1,17 @@
+#syntax: DetectorConect
+
+if (@0>0) jmp SET
+	
+	db $(/ppcpnp/dev/misc/shutter) flag invalid
+	ppcpnp misc shutter
+	wait for valid $(/ppcpnp/dev/misc/shutter)
+
+	if ($(/ppcpnp/dev/misc/shutter)==0) OFF
+		root echo = "shutter OPEN"
+		return
+	label OFF
+		root echo = "shutter CLOSED"
+		return
+
+label SET
+	call sh @1

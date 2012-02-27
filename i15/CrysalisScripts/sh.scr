@@ -1,0 +1,12 @@
+#syntax: sh <state>
+
+((sh):string="off")
+if (@1) jmp ON
+	jmp SET
+
+label ON
+	($(sh)="on")
+
+
+label SET
+	cmd="ppcpnp misc shutter = "+$(sh)

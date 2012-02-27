@@ -1,0 +1,40 @@
+#syntax: DetectorConect
+
+kill ppcnet
+kill ppcpnp
+kill ppcdirnet
+kill ppcdirpnp
+
+timeout 20
+
+###########  ATLAS  ###########
+if exist object ppcnet jmp ppcnet_exist
+	object ppcnet : net := connect to device 192.168.253.2:2500
+
+label ppcnet_exist
+
+wait for object ppcnet ready on timeout jmp ERROR
+
+
+if exist object ppcpnp jmp ppcpnp_exist
+	object ppcpnp : pnp := connect to object ppcnet
+
+label ppcpnp_exist
+
+if exist object ppcdirnet jmp ppcdirnet_exist
+	object ppcdirnet : net := connect to device 192.168.253.2:2501
+
+label ppcdirnet_exist
+
+wait for object ppcdirnet ready on timeout jmp ERROR
+
+
+if exist object ppcdirpnp jmp ppcdirpnp_exist
+	object ppcdirpnp : pnp := connect to object ppcdirnet
+
+label ppcdirpnp_exist
+########### !ATLAS! ###########
+return
+
+label ERROR
+	root echo = CONNECTION TIMEOUT
