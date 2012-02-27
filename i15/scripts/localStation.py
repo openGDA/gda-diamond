@@ -420,6 +420,7 @@ try:
 				s1xplus, s1xminus, s1yplus, s1yminus, ringCurrent, wigglerField,
 				dcmbragg1, dcmbragg2, 
 				dcmxtl1y, dcmxtl2y, dcmxtl1roll, dcmxtl1z, dcmpiezo, dcmenergy,
+				cryox, cryoy, cryoz, cryorot,
 				s6ypos, s6ygap, s6yup, s6ydown,
 				hfm_x, hfm_y, hfm_pitch, hfm_curve, hfm_ellipticity, hfm_yaw, hfm_roll,
 				vfm_x, vfm_y, vfm_pitch, vfm_curve, vfm_ellipticity, vfm_gravsag,
