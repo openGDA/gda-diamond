@@ -52,6 +52,11 @@ from ccdFloodCorrections import exportMultiDark
 from gda.epics import CAClient
 
 def peakFinder():
+	"""
+	This function runs the Epics Peak Finder proc for DCM-01
+	
+	It returns when the state is no longer searching.
+	"""
 	caclient = CAClient()
 	caclient.caput( "BL15I-OP-DCM-01:PEAK:GO.PROC", 1)
 	
