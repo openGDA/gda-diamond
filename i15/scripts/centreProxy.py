@@ -4,15 +4,21 @@ from cendac import CentreDAC
 def centre(rotation_axis, scanRange, scanStep, rockAngle, diode,
 		auto_fit=False, rotation_centre=58.):
 	"""
+	
 	Centers the sample (DAC) on the beam and the diffractometer center.
 	
 	Example: centre(dkphi, 0.4, 0.02, 10, d4)
 	
-	For axis=dkphi, finds the sample position about dkphi=-58 deg scan around
-	the current position in dx and dz +/- scanRange (mm) with a step size
+	For rotation_axis=dkphi, finds the sample position about dkphi=-58 deg scan
+	around the current position in dx and dz +/- scanRange (mm) with a step size
 	scanStep (mm). Then the DAC is rotated +/- rockAngle (deg) about 58 degrees,
 	the centre is found again and the drift of the centre is used to correct
 	the dy axis.
+	
+	For rotation_axis=dktheta or cryorot the rotation_centre must be specified
+	
+	Example: centre(cryorot, 0.4, 0.02, 10, d4, False, 11)
+	         centre(cryorot, 0.4, 0.02, 10, d4, rotation_centre=11)
 	"""
 	
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()

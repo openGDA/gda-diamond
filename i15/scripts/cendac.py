@@ -201,13 +201,19 @@ class CentreDAC(GeneralScan):
 			return InputCommands.requestInput("Please enter the peak centre or press enter to exit:")
 
 	def ypos(self):
-		self.rotation_axis(self.rotation_centre+self.rockAngle)
+		if self.focus_axis.name == "cryoz":
+			self.rotation_axis(self.rotation_centre-self.rockAngle)
+		else:
+			self.rotation_axis(self.rotation_centre+self.rockAngle)
 		self.perp2rot_axis(self.perp2rot_axis_ref)
 		yposx = self.centre_perp()
 		return yposx
 
 	def yneg(self):
-		self.rotation_axis(self.rotation_centre-self.rockAngle)
+		if self.focus_axis.name == "cryoz":
+			self.rotation_axis(self.rotation_centre+self.rockAngle)
+		else:
+			self.rotation_axis(self.rotation_centre-self.rockAngle)
 		self.perp2rot_axis(self.perp2rot_axis_ref)
 		ynegx = self.centre_perp()
 		return ynegx
