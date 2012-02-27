@@ -5,7 +5,7 @@
 #
 #mode echo
 
-if (exist(@1)) jmp node_exists
+if (Exist(@1)) jmp node_exists
 cmd="db mkdir "+@1
 return
 

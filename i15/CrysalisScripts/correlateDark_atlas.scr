@@ -15,10 +15,14 @@ mode echo
 
 #Ruby: if not object detector ready jmp DETECTOR_NOT_READY
 #Atlas:
-if not valid $(/ppcdirpnp/data/Image) jmp DETECTOR_NOT_READY
+if not dbnode /ppcdirpnp/data/Image exist jmp DETECTOR_NOT_READY
+if not dbnode /ppcdirpnp/data/Image valid jmp DETECTOR_NOT_READY
 
 cmd="call setup_node \"/root/Dark_"+@1+"_"+@2+"\""
-cmd = "dark time "+@1+" bin "+@2+"x"+@2
+#cmd = "dark time "+@1+" bin "+@2+"x"+@2
+#AW20110830 No object dark created. Above corrected to: 
+cmd = "root echo = dark time "+@1+" bin "+@2+"x"+@2
+cmd = "call Dark_Start "+@1+" "+@2
 
 #Ruby: wait for object detector ready
 #Atlas:
@@ -27,7 +31,7 @@ wait for valid $(/ppcdirpnp/data/Image)
 #Ruby: cmd="save results to /root/Dark_"+@1+"_"+@2
 #Atlas:
 cmd="db mkdir /root/Dark_"+@1+"_"+@2+"/Data"
-cmd="call Img_Cut \"/ppcdirpnp/data/Image\" \"/root/Dark_"+@1+"_"+@2"/Data/Image\" $(time) $(//root/binning)"
+cmd="call Img_Cut \"/ppcdirpnp/data/Image\" \"/root/Dark_"+@1+"_"+@2+"/Data/Image\" $(time) $(//root/binning)"
 
 #
 #### APPLY CORRECTIONS #1
@@ -37,7 +41,10 @@ wait for object cr ready
 
 #### TAKE DARK #2 ####
 cmd="call setup_node \"/root/tmp_dark\""
-cmd = "dark time "+@1+" bin "+@2+"x"+@2
+
+#cmd = "dark time "+@1+" bin "+@2+"x"+@2
+#AW20110830 Above corrected to:
+cmd = "root echo = dark time "+@1+" bin "+@2+"x"+@2
 
 #Ruby: wait for object detector ready
 #Atlas:
@@ -87,4 +94,4 @@ label end_script
 return
 
 label DETECTOR_NOT_READY
-echo= (ERROR) Detector not ready 
+root echo = (ERROR) Detector not ready 

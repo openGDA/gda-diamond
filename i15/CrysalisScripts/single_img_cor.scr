@@ -24,8 +24,9 @@ if exist object gg jmp gg_exists
 
 object gg : graph
 #set colour table
-gg db cp file lib/db/palette.db to *
-gg load palette Saturn
+gg db mkdir /gg/palette
+gg db cp file lib/db/palette.db to /gg/palette
+gg load palette /gg/palette/Saturn
 
 #set image zoom to show whole image
 if (@2==1) jmp zoom1
@@ -58,7 +59,7 @@ gg move 730 420
 label gg_exists
 
 #confirm /root/Darks node exists or creat it
-if (exist("/root/Darks")) jmp darks_node_exists
+if not dbnode /root/Darks exist jmp darks_node_exists
 
 db cd /root
 db mkdir /root/Darks

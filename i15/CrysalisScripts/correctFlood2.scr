@@ -48,7 +48,7 @@ label no_export_raw
 if (@9==0) jmp no_dark_subtract
 if (@11==0) jmp no_dark_subtract
 
-if (exist("/root/Dark_"+@1+"_"+@2+"/Data/Dark")) jmp dark_subtract
+if (Exist("/root/Dark_"+@1+"_"+@2+"/Data/Dark")) jmp dark_subtract
 echo =ERROR - correctFlood2: Cannot find dark image to subtract
 return
 
@@ -63,7 +63,7 @@ wait for object cr ready
 #($("/root/corr/Data/Image")=correlate($("/root/corr/Data/Image"),$("/root/tmp/Data/Image"),$(//root/cor_len_dark),$(//root/cor_fact_dark)))
 
 # 4. IF sum DOESN'T EXIST, THEN CREATE IT, COPY THE CORRELATED IMAGE IN corr INTO IT AND RETURN
-if (exist("/root/sum")) jmp sum_node_exists
+if (Exist("/root/sum")) jmp sum_node_exists
 
 db mkdir /root/sum
 db cp -r /root/corr/Data to /root/sum

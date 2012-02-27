@@ -52,7 +52,7 @@ if (@11==0) jmp no_dark_subtract
 #
 ## SUBTRACT CORRELATED DARK IF EXISTS
 #
-if (exist("/root/Dark_"+@1+"_"+@2+"/Data/Dark")) jmp dark_subtract
+if (Exist("/root/Dark_"+@1+"_"+@2+"/Data/Dark")) jmp dark_subtract
 cmd="call correlateDark "+@1+" "+@2+" \""+@3+"\" "+@4+" "+@5+" "+@6+" "+@7+" "+@8+" "+@9+" "+@10
 wait for object cr ready
 
@@ -65,7 +65,7 @@ wait for object cr ready
 #
 #### 4. REMOVE sum IF IT EXISTS (WILL STORE IMAGE SUM IN correctFlood2)
 #
-if (exist("/root/sum")) jmp sum_node_exists
+if (Exist("/root/sum")) jmp sum_node_exists
 return
 
 label sum_node_exists

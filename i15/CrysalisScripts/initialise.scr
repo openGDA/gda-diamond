@@ -46,11 +46,14 @@ root move window 0 80
 root resize window 1500 540
 
 #Add a graph window split
-object g : graph
+if object g exist jmp LBL_G_Present
+	object g : graph
+	label LBL_G_Present
 object root := object = g
 root split -600
 g zoom 1:6
-g load palette ~/palette/Saturn
+wait for object g ready
+g load palette /g/palette/Saturn
 
 #### INIT ####
 #Ruby detector home distance is 53mm
@@ -69,7 +72,9 @@ g load palette ~/palette/Saturn
 ($(/root/cor_fact_img)=5.0)
 
 #import crysalis data reduction files: .ccd .geo .ffiinf
-object cr : crysalis
+if object cr exist jmp LBL_Cr_Present
+	object cr : crysalis
+	label LBL_Cr_Present
 
 #
 ## (N.B. import_cfg command is already called in lib\sys\C0002\scr\crysalis\init.src)

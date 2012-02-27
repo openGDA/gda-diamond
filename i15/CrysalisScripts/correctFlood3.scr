@@ -18,7 +18,7 @@ wait for object detector ready
 #
 if (@2==0) jmp check_sum_exists
 
-if (exist("/root/Dark_"+@3+"_"+@11+"/Data/Dark")) jmp darks_subtract
+if (Exist("/root/Dark_"+@3+"_"+@11+"/Data/Dark")) jmp darks_subtract
 echo =ERROR - correctFlood3: Cannot find dark image to subtract
 return
 
@@ -32,7 +32,7 @@ wait for object cr ready
 ## 1. APPLY FLOOD MSCALAR AND UNWARP CORRECTIONS TO IMAGE IN sum IF IT EXISTS
 #
 label check_sum_exists
-if (exist("/root/sum/Data/Image")) jmp apply_corrections
+if (Exist("/root/sum/Data/Image")) jmp apply_corrections
 echo =ERROR - correctFlood3: Cannot find image in /root/sum
 return
 

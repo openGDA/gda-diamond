@@ -6,7 +6,8 @@ if (@1) jmp ON
 
 label ON
 	($(sh)="on")
-
+	
 
 label SET
 	cmd="ppcpnp misc shutter = "+$(sh)
+	((/var/shutterstate):string=$(sh))

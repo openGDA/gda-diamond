@@ -7,14 +7,19 @@
 #
 ## Take image and save to /tmp
 #
+cmd="root echo = ATLAS Start call smi_exps1_atlas "+@1
 
-if not object detector ready jmp DETECTOR_NOT_READY
+#Ruby: if not object detector ready jmp DETECTOR_NOT_READY
+#Atlas:
+#AW: if not valid $(/ppcdirpnp/data/Image) jmp DETECTOR_NOT_READY
+if not dbnode /ppcdirpnp/data/Image valid jmp DETECTOR_NOT_READY
 
 cmd="call setup_node \"/tmp\""
 
 #Ruby: cmd="sm m timeout 0 bin "+@1+"x"+@1
 #Atlas:
-cmd="call Scan_Start $(time) "+@1
+cmd="call Scan_Start 0 "+@1
+#cmd="call Scan_Start $(time) "+@1
 
 #Ruby: wait for object detector ready
 #Atlas:
@@ -22,8 +27,13 @@ wait for valid $(/ppcdirpnp/data/Image)
 
 #Ruby: api save results to /tmp
 #Atlas:
+
+((/root/binning):integer=@1)		# AW20110830 set binning type from arg???
+((time):real=0.0)			# AW20110830 set time to zero???
 cmd="db mkdir /tmp/Data"
-cmd="call Img_Cut \"/ppcdirpnp/data/Image\" \"/tmp/Data/Image\" $(time) $(//root/binning)"
+#cmd="call Img_Cut \"/ppcdirpnp/data/Image\" \"/tmp/Data/Image\" $(time) $(//root/binning)"
+#AW20110830 corrected to
+cmd="call Img_Cut \"/ppcdirpnp/data/Image\" \"/tmp/Data/Image\" "+$(time)+" "+$(//root/binning)
 
 ((/tmp/Data/Image/mgcctrl/Axes/omega/StartPosition):real)
 ((/tmp/Data/Image/mgcctrl/Axes/theta/StartPosition):real)
@@ -45,7 +55,9 @@ cmd="call Img_Cut \"/ppcdirpnp/data/Image\" \"/tmp/Data/Image\" $(time) $(//root
 
 #restore previous configuration
 #!IMAGE TAKEN
+root echo = ATLAS IMAGE TAKEN
 return
 
 label DETECTOR_NOT_READY
+root echo = ATLAS DETECTOR_NOT_READY
 #!DETECTOR NOT READY
