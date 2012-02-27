@@ -1,3 +1,4 @@
+'''
 ######################################################################################
 #
 # Note that these scripts should no longer be used and have been replaced by the ones 
@@ -361,4 +362,4 @@ def ccdDoubleScanElement(exposureTime, fileName, axis, A, B, readOutDelay):
 	
 	return fullFileName
 
-
+'''

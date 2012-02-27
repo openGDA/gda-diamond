@@ -378,7 +378,7 @@ try:
 	ccdAuxiliary.configure(jythonNameMap, beamlineParameters)	
 	ccdScanMechanics.configure(jythonNameMap, beamlineParameters)	
 	ccdFloodCorrections.configure(jythonNameMap, beamlineParameters)	
-	ccdScripts.configure(jythonNameMap, beamlineParameters)	
+#	ccdScripts.configure(jythonNameMap, beamlineParameters)	
 	mar_scripts.configure(jythonNameMap, beamlineParameters)	
 	pilatus_scripts.configure(jythonNameMap, beamlineParameters)	
 	
