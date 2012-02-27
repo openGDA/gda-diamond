@@ -1,7 +1,7 @@
 #syntax: call Scan_Start <1. timeout> <2. binning>
 
 root echo = ----------------------------------------------------------------
-cmd="root echo = call Scan_Start timeout="+@1+" binning="+@2
+cmd="root echo = ATLAS Start call Scan_Start timeout="+@1+" binning="+@2
 
 ((timeout):real=@1)
 ((binning):real=$(/ppcpnp/dev/picture/params/binning))
@@ -45,3 +45,6 @@ label wait_stateexist
 	if ($(/ppcdirpnp/data/Image/state)!="waiting") jmp wait_state_acquiretime
 		
 label WAITING_END
+
+cmd="root echo = ATLAS End   call Scan_Start timeout="+@1+" binning="+@2
+root echo = ----------------------------------------------------------------

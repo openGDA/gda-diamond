@@ -1,9 +1,9 @@
 #syntax: call smi_xps <1. filename> <2. timeout>
 #
-#i.e. call  smi_xps_atlas "c:/imageC.img" 
+#i.e. call  smi_xps_atlas "c:/imageC.img" 5
 
 root echo = vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-cmd="root echo = ATLAS Start call smi_xps_atlas "+@1+" "+@2
+cmd="root echo = ATLAS Start call smi_xps_atlas \""+@1+"\" "+@2
 #mode echo
 
 #
@@ -25,4 +25,5 @@ wait for valid $(/ppcdirpnp/data/Image)
 #cmd="cr call export_img \"/root/tmp/Data/Image\" \""+@1+"\""
 #wait for object cr ready
 
+cmd="root echo = ATLAS End   call smi_xps_atlas \""+@1+"\" "+@2
 root echo = ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

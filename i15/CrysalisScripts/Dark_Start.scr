@@ -1,7 +1,7 @@
 #syntax: call Dark_Start <1. time> <2. binning>
 
 root echo = ----------------------------------------------------------------
-cmd="root echo = call Dark_Start time="+@1+" binning="+@2
+cmd="root echo = ATLAS Start call Dark_Start time="+@1+" binning="+@2
 
 #mode echo
 # example: call Dark_Start 1 1
@@ -62,5 +62,5 @@ ggg print matrix /ppcdirpnp/data/Image
 ggg zoom 1:2
 root echo = Image printed
 	
-	
-	
+cmd="root echo = ATLAS End   call Dark_Start time="+@1+" binning="+@2
+root echo = ----------------------------------------------------------------

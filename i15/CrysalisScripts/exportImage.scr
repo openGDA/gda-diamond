@@ -4,7 +4,7 @@
 #e.g. call exportImage "/root/tmp/Data/Image" "c:/Data/tests020309/testA.img" 0 
 
 root echo = ----------------------------------------------------------------
-cmd="root echo = ATLAS Start call exportImage "+@1+" "+@2+" "+@3
+cmd="root echo = ATLAS Start call exportImage \""+@1+"\" \""+@2+"\" "+@3
 mode echo
 
 if (@3==1) jmp export_compressed
@@ -23,4 +23,6 @@ label export_compressed
 cmd="cr call export_img \""+@1+"\" \""+@2+"\""
 wait for object cr ready
 
+cmd="root echo = ATLAS End   call exportImage \""+@1+"\" \""+@2+"\" "+@3
+root echo = ----------------------------------------------------------------
 return

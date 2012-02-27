@@ -3,7 +3,7 @@
 # Eg. call Img_Cut "/ppcdirpnp/data/Image" "/root/tmp/Data/Image" 3 1
 
 root echo = ----------------------------------------------------------------
-cmd="root echo = call Img_Cut "+@1+" "+@2+" "+@3+" "+@4
+cmd="root echo = ATLAS Start call Img_Cut \""+@1+"\" \""+@2+"\" "+@3+" "+@4
 mode echo
 
 ((sizeX):integer=1024)
@@ -41,8 +41,13 @@ label END
 	((@2+"/detector/Time"):real=@3)
 	((@2+"/detector/Binning"):integer[2])
 	(Fill($(@2+"/detector/Binning"),@4))
+
+cmd="root echo = ATLAS End   call Img_Cut \""+@1+"\" \""+@2+"\" "+@3+" "+@4
+root echo = ----------------------------------------------------------------
 return
 
 label BINNING_ERROR
 	root echo = BINNING INCORRECT
+	cmd="root echo = ATLAS Error call Img_Cut \""+@1+"\" \""+@2+"\" "+@3+" "+@4
+	root echo = ----------------------------------------------------------------
 	return

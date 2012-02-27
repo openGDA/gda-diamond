@@ -7,7 +7,7 @@
 # call expose_atlas 1 "D:/Data/Gain_35kev/exposure35kev_01s.img" 1 1 0 0 0 0 0 0
 
 root echo = vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-cmd="root echo = ATLAS Start call expose_atlas "+@1+" "+@2+" "+@3+" "+@4+" "+@5+" "+@6+" "+@7+" "+@8+" "+@9+" "+@10
+cmd="root echo = ATLAS Start call expose_atlas "+@1+" \""+@2+"\" "+@3+" "+@4+" "+@5+" "+@6+" "+@7+" "+@8+" "+@9+" "+@10
 mode echo
 
 ## Take image and save to /root/tmp
@@ -69,7 +69,7 @@ cmd="call Img_Cut \"/ppcdirpnp/data/Image\" \"/root/tmp/Data/Image\" "+$(time)+"
 #### 3. APPLY CORRECTIONS (set binning if unwarp...?)
 #
 cmd="call applyCorrections \"/root/tmp/Data/Image\" "+@4+" "+@5+" "+@6+" "+@7
-
+wait for object cr ready
 
 if (@9==0) jmp export_image
 #
@@ -88,9 +88,11 @@ label dark_subtract
 #
 label export_image
 cmd="call exportImage \"/root/tmp/Data/Image\" \""+@2+"\" "+@10
+cmd="root echo = ATLAS End   call expose_atlas "+@1+" \""+@2+"\" "+@3+" "+@4+" "+@5+" "+@6+" "+@7+" "+@8+" "+@9+" "+@10
 root echo = ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 return
 
 label DETECTOR_NOT_READY
 root echo = (ERROR) Detector not ready
+cmd="root echo = ATLAS End   call expose_atlas "+@1+" \""+@2+"\" "+@3+" "+@4+" "+@5+" "+@6+" "+@7+" "+@8+" "+@9+" "+@10
 root echo = !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

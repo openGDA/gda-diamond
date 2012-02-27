@@ -4,7 +4,7 @@
 # call setFloodFile_atlas "lib/bin/crysalis/floodmo_a_80_calib_090311.ffiinffit"
 
 root echo = vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-cmd="root echo = ATLAS Start call setFloodFile "+@1
+cmd="root echo = ATLAS Start call setFloodFile \""+@1+"\""
 #mode echo
 
 ((type):string)
@@ -20,4 +20,5 @@ cmd="root echo = ATLAS Start call setFloodFile "+@1
 
 cmd="cr call import_cfg \""+$(ccd)+"\" \""+$(geo)+"\" \""+@1+"\" \"//cr/"+$(type)+$(serial)+"\""
 
+cmd="root echo = ATLAS End   call setFloodFile "+@1+"\""
 root echo = ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

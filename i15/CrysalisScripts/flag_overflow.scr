@@ -8,6 +8,10 @@
 # Assumes images already saved by other calls to smi_exps2.
 #
 
+root echo = vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+cmd="root echo = COMMON Start call flag_overflow "+@1+" \""+@2+"\" \""+@3+"\""
+mode echo
+
 #
 # 1. IMPORT IMAGES
 #
@@ -27,21 +31,17 @@ wait for object cr ready
 #
 
 ((limit):integer)
-((factor):real)
 ((maxs):real)
 ((maxo):real)
 
 ($(limit)=@1)
 ($(maxs)=Max($(/root/std)))
 
-#($(/root/out/overflow/pixels)=1)
-#($(/root/out)=ReplaceOverflow($(/root/std),$(limit),$(/root/fast),$(factor)))
-
 ($(/root/out)=FlagOverflow($(/root/std),$(limit)))
 ($(/root/out/remeasure/OverflowPixels)=1)
 
 ($(maxo)=Max($(/root/out)))
-cmd="echo =limit="+$(limit)+", factor="+$(factor)
+cmd="echo =limit="+$(limit)
 cmd="echo =max(std)="+$(maxs)+", max(out)="+$(maxo)+" <<<<<<<<<<<<<<<<<<<<<<<<<"
 
 #
@@ -52,4 +52,7 @@ cmd="call exportImage \"/root/out\" \""+@3+"\" 0"
 
 #restore previous configuration
 #!IMAGE EXPORTED
+
+cmd="root echo = COMMON End   call flag_overflow "+@1+" \""+@2+"\" \""+@3+"\""
+root echo = ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 return

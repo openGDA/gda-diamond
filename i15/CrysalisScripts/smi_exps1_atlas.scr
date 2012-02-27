@@ -59,6 +59,7 @@ cmd="call Img_Cut \"/ppcdirpnp/data/Image\" \"/tmp/Data/Image\" "+$(time)+" "+$(
 #!IMAGE TAKEN
 root echo = api:IMAGE TAKEN
 root echo = ATLAS IMAGE TAKEN
+cmd="root echo = ATLAS End   call smi_exps1_atlas "+@1+" "+@2
 root echo = ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 return
 
@@ -66,4 +67,5 @@ label DETECTOR_NOT_READY
 root echo = ATLAS DETECTOR_NOT_READY
 #!DETECTOR NOT READY
 root echo = api:DETECTOR NOT READY
+cmd="root echo = ATLAS Error call smi_exps1_atlas "+@1+" "+@2
 root echo = !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

@@ -5,7 +5,7 @@
 # call applyCorrections "/root/tmp/Data/Image" 1 1 0 0
 
 root echo = ----------------------------------------------------------------
-cmd="root echo = call applyCorrections "+@1+" "+@2+" "+@3+" "+@4+" "+@5
+cmd="root echo = COMMON Start call applyCorrections \""+@1+"\" "+@2+" "+@3+" "+@4+" "+@5
 mode echo
 
 wait for object cr ready
@@ -41,4 +41,6 @@ cmd="cr flood poly "+@1
 
 label end_script
 
+cmd="root echo = COMMON End   call applyCorrections \""+@1+"\" "+@2+" "+@3+" "+@4+" "+@5
+root echo = ----------------------------------------------------------------
 return

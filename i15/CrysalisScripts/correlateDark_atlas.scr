@@ -12,7 +12,7 @@
 #/root/cor_fact_dark
 
 root echo = ----------------------------------------------------------------
-cmd="root echo = ATLAS Start call correlateDark_atlas "+@1+" "+@2+" "+@3+" "+@4+" "+@5+" "+@6+" "+@7+" "+@8+" "+@9+" "+@10
+cmd="root echo = ATLAS Start call correlateDark_atlas "+@1+" "+@2+" \""+@3+"\" "+@4+" "+@5+" "+@6+" "+@7+" "+@8+" "+@9+" "+@10
 mode echo
 
 #Ruby: if not object detector ready jmp DETECTOR_NOT_READY
@@ -93,7 +93,12 @@ wait for object cr ready
 
 label end_script
 #!DARKS TAKEN
+cmd="root echo = ATLAS End   call correlateDark_atlas "+@1+" "+@2+" \""+@3+"\" "+@4+" "+@5+" "+@6+" "+@7+" "+@8+" "+@9+" "+@10
+root echo = ----------------------------------------------------------------
 return
 
 label DETECTOR_NOT_READY
 root echo = (ERROR) Detector not ready 
+
+cmd="root echo = ATLAS Error call correlateDark_atlas "+@1+" "+@2+" \""+@3+"\" "+@4+" "+@5+" "+@6+" "+@7+" "+@8+" "+@9+" "+@10
+root echo = ----------------------------------------------------------------

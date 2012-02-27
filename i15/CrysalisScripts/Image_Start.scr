@@ -3,7 +3,7 @@
 # call Image_Start 3 1
 
 root echo = ----------------------------------------------------------------
-cmd="root echo = call Image_Start time="+@1+" binning="+@2
+cmd="root echo = ATLAS Start call Image_Start time="+@1+" binning="+@2
 
 #mode echo
 # example: call Image_Start 1 1
@@ -64,5 +64,6 @@ ggg print matrix /ppcdirpnp/data/Image
 ggg zoom 1:2
 root echo = Image printed
 	
-	
+cmd="root echo = ATLAS End   call Image_Start time="+@1+" binning="+@2
+root echo = ----------------------------------------------------------------
 	
