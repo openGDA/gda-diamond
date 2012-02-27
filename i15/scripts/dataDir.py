@@ -33,12 +33,22 @@ def checkConfigured():
 	if not configured:
 		raise "dataDir not configured"
 	
-def setDir(proposal, visit, subdirectory=""):
+def setDir(proposal=None, visit=None, subdirectory=""):
+	help = """
+	To change user data directory, call setDir('proposal', visit)
+	for example, you might use:		to set the data directory for:
+		setDir('cm2062', 3)			beamline commissioning
+		setDir('ee4321', 1)			proposal ee4321, Visit 1
 	"""
-	To change user data directory, call setDir('proposal', visit, )
-	example: setDir('ee', 0) will set the data directory for beamline commissioning
-	"setDir('si32', 1) will set the data directory for users of Proposal si32, Visit 1
-	"""
+	
+	if proposal == None:
+		print help
+		return
+	
+	if visit == None:
+		print "No visit supplied, assuming visit 1."
+		visit = 1
+	
 	checkConfigured()
 	if (proposal == commissioningProposal):    # the default commissioning proposal
 		userDir = proposal 

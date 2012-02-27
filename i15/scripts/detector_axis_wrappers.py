@@ -159,10 +159,16 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			simpleLog("Scan will pause if proportional counter is below threshold value")
 			simpleLog("proportional counter = " + str(self.prop()))
 		
-		userDir = VisitPath.getVisitPath() 
+		userDir = VisitPath.getVisitPath()
 		if userDir != getDir():
-			simpleLog("User  full user dir to " + userDir)
+			simpleLog("Switching to visit directory: " + userDir)
 			setFullUserDir(userDir)
+			simpleLog("To use a different visit dir a user on that visit must take the baton.")
+		
+		supportedDir = "X:/currentdir"
+		if self.detector.getDir() <> supportedDir:
+			simpleLog(self.detectorName  + " doesn't support numeric directory names, using currentdir.")
+			self.detector.setDir(supportedDir)
 		
 		if self.axis:
 			self.originalPosition = self.axis()
@@ -397,7 +403,7 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 				self.detector.expose(self.exposureTime)
 				moveMotor(self.axis, position + self.step + runUp)
 				deactivatePositionCompare()
-				sleep(7)
+				sleep(7) # Todo Why such a long wait?
 				
 			else:
 				if self.axis:
