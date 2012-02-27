@@ -1,7 +1,7 @@
 #initialise.scr
 
 root echo = vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-echo = ATLAS initialise
+echo = ATLAS initialise started
 
 mode echo
 
@@ -59,7 +59,7 @@ wait for object g ready
 g load palette /g/palette/Saturn
 
 #### INIT ####
-#Ruby detector home distance is 53mm
+#Atlas detector home distance is 53mm?
 #gonio configure axis correction cam = 60.0
 
 #corelation parameters for darks
@@ -82,9 +82,9 @@ if object cr exist jmp LBL_Cr_Present
 #
 ## (N.B. import_cfg command is already called in lib\sys\C0002\scr\crysalis\init.src)
 #
-#cr call import_cfg "C:\Xcalibur\corrections\Ruby_6\ruby_6_050905" "C:\Xcalibur\corrections\Ruby_6\Ruby_6_080905" "C:\Xcalibur\corrections\Ruby_6\floodmo_ruby_6_120905"
-#! LOADED: MO flat field - floodmo_ruby_6_120905
-## If you want CU, use this file:  "C:\Xcalibur\corrections\Ruby_6\floodcu_ruby_6_130905" instead of the last one (floodmo) above.
+##cr call import_cfg "C:\Xcalibur\corrections\Ruby_6\ruby_6_050905" "C:\Xcalibur\corrections\Ruby_6\Ruby_6_080905" "C:\Xcalibur\corrections\Ruby_6\floodmo_ruby_6_120905"
+##! LOADED: MO flat field - floodmo_ruby_6_120905
+### If you want CU, use this file:  "C:\Xcalibur\corrections\Ruby_6\floodcu_ruby_6_130905" instead of the last one (floodmo) above.
 wait for object cr ready
 
 #detector connect 
@@ -96,5 +96,6 @@ wait for object cr ready
 call DetectorConnect
 
 #! E N D
+echo = ATLAS initialise complete
 root echo = ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 return

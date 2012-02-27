@@ -1,19 +1,25 @@
 #syntax: call expose <1. exposureTime> <2. filename> <3. binning> 
-#		     <4. apply repair correction> <5. poly mscalar> <6. unwarp> <7. flood poly>
-#		     <8. export all intermediate images> <9. subtract correlated dark> <10. export compressed>  (1=true, 0=false) 
+#		     <4. apply repair correction> <5. poly mscalar> <6. unwarp>
+#		     <7. flood poly> <8. export all intermediate images>
+#                <9. subtract correlated dark> <10. export compressed>
+#                (1=true, 0=false) 
 #
 # call expose_atlas 1 "D:/Data/Gain_35kev/exposure35kev_01s.img" 1 1 0 0 0 0 0 0
 
 root echo = vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 cmd="root echo = ATLAS Start call expose_atlas "+@1+" "+@2+" "+@3+" "+@4+" "+@5+" "+@6+" "+@7+" "+@8+" "+@9+" "+@10
-
 mode echo
+
+## Take image and save to /root/tmp
+
+if not (Exist(/ppcdirpnp/data/Image)) jmp image_data_not_found
 
 #Ruby: if not object detector ready jmp DETECTOR_NOT_READY
 #Atlas:
 #AW: if not valid $(/ppcdirpnp/data/Image) jmp DETECTOR_NOT_READY
 if not dbnode /ppcdirpnp/data/Image valid jmp DETECTOR_NOT_READY
 
+label image_data_not_found
 #
 #### 1. SET UP /root/tmp DIR AND TAKE IMAGE
 #
@@ -34,11 +40,9 @@ wait for valid $(/ppcdirpnp/data/Image)
 #Ruby: api save results to /root/tmp
 #Atlas:
 
-((/root/binning):integer=@1)		# AW20110830 set binning type from arg???
-((time):real=0.0)			# AW20110830 set time to zero???
+((/root/binning):integer=@3)
+((time):real=@1)
 cmd="db mkdir /root/tmp/Data"
-#cmd="call Img_Cut \"/ppcdirpnp/data/Image\" \"/root/tmp/Data/Image\" $(time) $(//root/binning)"
-#AW20110830 corrected to
 cmd="call Img_Cut \"/ppcdirpnp/data/Image\" \"/root/tmp/Data/Image\" "+$(time)+" "+$(//root/binning)
 
 ((/root/tmp/Data/Image/mgcctrl/Axes/omega/StartPosition):real)
@@ -58,6 +62,8 @@ cmd="call Img_Cut \"/ppcdirpnp/data/Image\" \"/root/tmp/Data/Image\" "+$(time)+"
 ((/root/tmp/Data/Image/mgcctrl/Axes/kappa/Velocity):real)
 ((/root/tmp/Data/Image/mgcctrl/Axes/phi/Velocity):real)
 ((/root/tmp/Data/Image/mgcctrl/Axes/cam/Velocity):real)
+
+((/root/tmp/Data/Image/detector/Type):string="Atlas")
 
 #
 #### 3. APPLY CORRECTIONS (set binning if unwarp...?)
@@ -86,5 +92,5 @@ root echo = ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 return
 
 label DETECTOR_NOT_READY
-echo="(ERROR) Detector not ready"
+root echo = (ERROR) Detector not ready
 root echo = !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

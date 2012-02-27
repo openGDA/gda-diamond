@@ -4,6 +4,8 @@
 # e.g. call setDetectorDist "x:/testsDec18/ee863_p03_1_1" 142
 #
 #
+root echo = vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+cmd="root echo = COMMON Start call setDetectorDist "+@1+" "+@2
 mode echo
 
 #
@@ -14,3 +16,4 @@ cmd="call importAndCorrect \""+@1+"\" 0 0 0 0 "+@2+" \"\""
 
 wait for object cr ready
 
+root echo = ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
