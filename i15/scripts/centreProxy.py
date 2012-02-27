@@ -1,42 +1,50 @@
-import gda.scan.ScanBase
-from gda.jython.commands import Input
-import java
-import math
+from gdascripts.parameters import beamline_parameters
 from cendac import CentreDAC
 
-
-def centre(axis, scanRange,scanStep,rockAngle,diode, peak=False, centre=58.):
+def centre(rotation_axis, scanRange, scanStep, rockAngle, diode,
+		auto_fit=False, rotation_centre=58.):
 	"""
-	centre(scanRange, scanStep, rockAngle, diode)
-	
 	Centers the sample (DAC) on the beam and the diffractometer center.
-	Firstly finds the sample position about dkphi=-58 deg scan around the current position 
-	in dx and dz +/- scanRange (mm) with a step size scanStep (mm). 
-	Then the DAC is rotated +/- rockAngle (deg) about 58 degrees, the
-	centre is found again and the drift of the centre is used to correct the dy axis.
-
-	Example: centre58(0.4, 0.02, 10, d4)
 	
+	Example: centre(dkphi, 0.4, 0.02, 10, d4)
+	
+	For axis=dkphi, finds the sample position about dkphi=-58 deg scan around
+	the current position in dx and dz +/- scanRange (mm) with a step size
+	scanStep (mm). Then the DAC is rotated +/- rockAngle (deg) about 58 degrees,
+	the centre is found again and the drift of the centre is used to correct
+	the dy axis.
 	"""
 	
-	print "Axis = ", axis
-	cn = CentreDAC(axis, scanRange,scanStep,rockAngle,diode, peak, centre)
+	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+	beamline= jythonNameMap.beamline
+
+	if   rotation_axis == jythonNameMap.dkphi:
+		perp2rot_axis	= jythonNameMap.dx
+		focus_axis		= jythonNameMap.dy
+	elif rotation_axis == jythonNameMap.dktheta:
+		perp2rot_axis	= jythonNameMap.dv
+		focus_axis		= jythonNameMap.dy
+	elif rotation_axis == jythonNameMap.cryorot:
+		perp2rot_axis	= jythonNameMap.cryox
+		focus_axis		= jythonNameMap.cryoz
+	else:
+		print "Axis %s not supported by centre()" % rotation_axis.name
+		print "Please specify dkphi, dktheta or cryorot."
+		return
+	
+	print "Axis = ", rotation_axis
+	cn = CentreDAC(rotation_axis, perp2rot_axis, focus_axis, beamline,
+		scanRange, scanStep, rockAngle, diode, auto_fit, rotation_centre)
 	cn.cendy()
-	if peak:
-		centrePeak(scanRange,scanStep,rockAngle,diode, axis, centre)
+	if auto_fit:
+		centrePeak(rotation_axis, perp2rot_axis, focus_axis, beamline,
+			scanRange, scanStep, rockAngle, diode, rotation_centre)
 	return
 
-def centrePeak(scanRange,scanStep,rockAngle,diode, axis, centre):
+def centrePeak(rotation_axis, perp2rot_axis, focus_axis, beamline,
+		scanRange, scanStep, rockAngle, diode, rotation_centre):
 	
-	"""
-	centrePeak(scanRange, scanStep, rockAngle, diode)
-	
-	Same as centre(...), but instead of scan, scanPeak is used to fit a
-	step function and automatically find the centre. 
-
-	Example: centrePeak(0.4, 0.02, 10, d4)
-	
-	"""
-	cn = CentreDAC(axis, scanRange,scanStep,rockAngle,diode,True, centre)
+	cn = CentreDAC(rotation_axis, perp2rot_axis, focus_axis, beamline,
+		scanRange, scanStep, rockAngle, diode, True, rotation_centre)
 	cn.cendy()
 	return

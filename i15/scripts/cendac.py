@@ -1,242 +1,258 @@
-import gda.scan.ScanBase
 from gda.jython.commands import InputCommands
-import java
-from math import *
+from math import pi, tan
 from GeneralScan import GeneralScan
-from gdascripts.parameters import beamline_parameters
-from scan_commands import scan
 from operationalControl import genericScanChecks
 from scanPeak import fitStepFunction
 
 class CentreDAC(GeneralScan):
 	"""
-	CentreDAC(scanRange, scanStep, rockAngle, diode)
+	CentreDAC(rotation_axis, perp2rot_axis, focus_axis,
+			  scanRange, scanStep, rockAngle, diode, autoFit, rotation_centre)
 	
 	Centers the sample (DAC) on the beam and the diffractometer center.
-	Firstly finds the sample position about axis=-122 deg scan around the current position 
-	in dx and dz +/- scanRange (mm) with a step size scanStep (mm). 
-	Then the DAC is rotated +/- rockAngle (deg) about -122 degrees
+	
+	Example: CentreDAC(dkphi, dx, dy, 0.4, 0.02, 10, d4, False, 58.)
+	
+	Firstly finds the sample position about axis=-10 deg scan around the
+	current position in dx +/- scanRange (mm) with a step size
+	scanStep (mm). Then the DAC is rotated +/- rockAngle (deg) about 10 degrees
 	and the drift of the centre is used to correct the dy axis.
-
-	Example: CentreDAC(dkphi, 0.4, 0.02, 10, d4)
-	
 	"""
-	def __init__(self,axis,scanRange,scanStep,rockAngle,diode,autoFit, centre):
-		print "Axis = ", axis
-		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
-		self.beamline= jythonNameMap.beamline
-		self.axis = axis
-		self.dx = jythonNameMap.dx
-		self.dy = jythonNameMap.dy
-		self.dz = jythonNameMap.dz
-		self.scanRange  = scanRange
-		self.scanStep   = scanStep
-		self.rockAngle  = rockAngle
-		self.diode      = diode
-		self.ref_dx = self.dx()
-		self.ref_dy = self.dy()
-		self.ref_dz = self.dz()
-		self.ref_axis = self.axis
-		self.centre = centre
-		self.autoFit = autoFit
+	def __init__(self, rotation_axis, perp2rot_axis, focus_axis, beamline,
+			scanRange, scanStep, rockAngle, diode, autoFit, rotation_centre):
+		"""
+		Example: CentreDAC(dkphi, dx, dy, 0.4, 0.02, 10, d4, False, 58.)
+		"""
+		self.beamline= beamline
 		
-		self.axis(self.centre)
+		self.rotation_axis	= rotation_axis
+		# Axis perpendicular to axis of rotation
+		self.perp2rot_axis	= perp2rot_axis 
+		self.focus_axis		= focus_axis
+		#self.dz = jythonNameMap.dz
+		self.scanRange	= scanRange
+		self.scanStep	= scanStep
+		self.rockAngle	= rockAngle
+		self.diode		= diode
+		self.autoFit	= autoFit
+		self.rotation_centre = rotation_centre
+		
+		self.perp2rot_axis_ref = self.perp2rot_axis()
+		self.focus_axis_ref = self.focus_axis()
+		#self.dz_ref = self.dz()
+		#self.ref_axis = self.rotation_axis
+		self.rotation_axis(self.rotation_centre)
 
-	def centre(self):
-		self.cendzdx()
-		self.cendy()
-		self.cendzdx()
+#	def centre(self):
+#		self.cendzdx()
+#		self.cendy()
+#		self.cendzdx()
 
-	def cendzdx(self):
-		print "Centre DAC in the x and z axes..."
-		print "==================== dz ====================="
-		peakdz = self.cendz()
-		if peakdz=="":
-			print "No peak selected. Exiting..."
-			self.dz(self.ref_dz)
-			return
-		else:
-			print "You have entered ", `peakdz`," as the peak value of the z-axis scan."
-			self.dz(peakdz)
-			print "dz now at: ", `self.dz()`
+#	def cendzdx(self):
+#		print "Centre DAC in the x and z axes..."
+#		print "==================== dz ====================="
+#		peakdz = self.cendz()
+#		if peakdz=="":
+#			print "No peak selected. Exiting..."
+#			self.dz(self.dz_ref)
+#			return
+#		else:
+#			print "You have entered ", `peakdz`," as the peak value of the z-axis scan."
+#			self.dz(peakdz)
+#			print "dz now at: ", `self.dz()`
+#		
+#		print "==================== "+self.perp2rot_axis.name+" ====================="
+#		peakdx = self.centre_perp()
+#		if peakdx=="":
+#			print "No peak selected. Exiting..."
+#			self.perp2rot_axis(self.perp2rot_axis_ref)
+#			return
+#		else:
+#			print "You have entered ", `peakdx`," as the peak value of the x-axis scan."
+#			self.perp2rot_axis(peakdx)
+#			print self.perp2rot_axis.name+" now at: ", `self.perp2rot_axis()`
+#		print "============================================="
 
-		print "==================== dx ====================="
-		peakdx = self.cendx()
-		if peakdx=="":
-			print "No peak selected. Exiting..."
-			self.dx(self.ref_dx)
-			return
-		else:
-			print "You have entered ", `peakdx`," as the peak value of the x-axis scan."
-			self.dx(peakdx)
-			print "dx now at: ", `self.dx()`
-		print "============================================="
-   
 	def cendy(self):
-		self.ref_dx = self.dx.getPosition()
-		self.ref_dz = self.dz.getPosition()
+		self.perp2rot_axis_ref = self.perp2rot_axis.getPosition()
+		#self.dz_ref = self.dz.getPosition()
 		print "Focal Alignment."
-		print "=============== dy positive ================="
-		print "Rotate axis by +",str(self.rockAngle)," and perform dx scan."
+		print "=============== "+self.focus_axis.name+" positive ================="
+		print "Rotate axis by +%f and perform %s scan." % (
+			self.rockAngle, self.perp2rot_axis.name)
 		yposx = self.ypos()
 		if yposx=="":
 			print "No peak selected. Exiting..."
-			self.axis(self.centre)
-			print "axis reset to: ", `self.axis()`
-			self.dx(self.ref_dx)
-			print "dx reset to: ", `self.dx()`
+			self.rotation_axis(self.rotation_centre)
+			print self.rotation_axis.name+" reset to: ", `self.rotation_axis()`
+			self.perp2rot_axis(self.perp2rot_axis_ref)
+			print self.perp2rot_axis.name+" reset to: ", `self.perp2rot_axis()`
 			return
 		else:
-			print "You have entered a peak centre of ", `yposx`," for the positive dy x-axis scan."
-
-		self.dx(self.ref_dx)
-		self.dz(self.ref_dz)
-		print "=============== dy negative ================="
-		print "Centre & rotate axis by -",`self.rockAngle`," and perform dx scan."
+			print "You have entered a peak centre of ", `yposx`, \
+				" for the positive "+self.perp2rot_axis.name+" x-axis scan."
+		
+		self.perp2rot_axis(self.perp2rot_axis_ref)
+		#self.dz(self.dz_ref)
+		print "=============== "+self.focus_axis.name+" negative ================="
+		print "Centre & rotate axis by -%f and perform %s scan." % (
+			self.rockAngle, self.perp2rot_axis.name)
 		ynegx = self.yneg()
 		if ynegx=="":
 			print "No peak selected. Exiting..."
-			self.axis(self.centre)
-			print "axis reset to: ", `self.axis()`
-			self.dx(self.ref_dx)
-			print "dx reset to: ", `self.dx()`
+			self.rotation_axis(self.rotation_centre)
+			print self.rotation_axis.name+" reset to: ", `self.rotation_axis()`
+			self.perp2rot_axis(self.perp2rot_axis_ref)
+			print self.perp2rot_axis.name+" reset to: ", `self.perp2rot_axis()`
 			return
 		else:
-			print "You have entered a peak centre of ", `ynegx`," for the negative dy x-axis scan."
+			print "You have entered a peak centre of ", `ynegx`, \
+				" for the negative "+self.focus_axis.name+" x-axis scan."
 		
-		corrected_y = self.calcdy(yposx,ynegx)
-		self.applydycorrection(corrected_y)
-		print "dy now at corrected focal position: ", `self.dy()`
-		self.axis(self.centre)
-		print "axis reset to: ", `self.axis()`
-		self.dx(self.ref_dx)
-		print "dx reset to: ", `self.dx()`
-		self.dz(self.ref_dz)
-		print "dz reset to: ", `self.dz()`
+		corrected_focus = self.calcdy(yposx,ynegx)
+		self.applydycorrection(corrected_focus)
+		print self.focus_axis.name+" now at corrected focal position: ", \
+			`self.focus_axis()`
+		self.rotation_axis(self.rotation_centre)
+		print self.rotation_axis.name+" reset to: ", `self.rotation_axis()`
+		self.perp2rot_axis(self.perp2rot_axis_ref)
+		print self.perp2rot_axis.name+" reset to: ", `self.perp2rot_axis()`
+		#self.dz(self.dz_ref)
+		#print "dz reset to: ", `self.dz()`
 
+#	def centre(self,scanRange,scanStep,rockAngle,diode):
+#		self.scanRange  = scanRange
+#		self.scanStep   = scanStep
+#		self.rockAngle  = rockAngle
+#		self.diode      = diode
+#		self.perp2rot_axis_ref = self.perp2rot_axis()
+#		self.dz_ref = self.dz()
+#		self.focus_axis_ref = self.focus_axis()
+#		self.ref_axis = self.rotation_axis() 
+#		self.rotation_centre     = 58.0
+#		self.rotation_axis(self.rotation_centre) #Start at 58.
+#		self.perp2rot_axis_ref = self.perp2rot_axis()
+#		self.dz_ref = self.dz()
+#		print "Focal Alignment."
+#		print "=============== "+self.focus_axis.name+" positive ================="
+#		print "Rotate axis by +",`self.rockAngle`," and perform "+self.perp2rot_axis.name+" scan."
+#		yposx = self.ypos()
+#		if yposx=="":
+#			print "No peak selected. Exiting..."
+#			self.perp2rot_axis(self.perp2rot_axis_ref)
+#			return
+#		else:
+#			print "You have entered a peak centre of ", `yposx`," for the positive "+self.focus_axis.name+" x-axis scan."
+#
+#		self.perp2rot_axis(self.perp2rot_axis_ref)
+#		self.dz(self.dz_ref)
+#		print "=============== "+self.focus_axis.name+" negative ================="
+#		print "Centre & rotate axis by -",`self.rockAngle`," and perform "+self.perp2rot_axis.name+" scan."
+#		ynegx = self.yneg()
+#		if ynegx=="":
+#			print "No peak selected. Exiting..."
+#			self.perp2rot_axis(self.perp2rot_axis_ref)
+#			return
+#		else:
+#			print "You have entered a peak centre of ", `ynegx`," for the negative "+self.focus_axis.name+" x-axis scan."
+#		
+#		corrected_focus = self.calcdy(yposx,ynegx)
+#		self.applydycorrection(corrected_focus)
+#		print self.focus_axis.name+" now at corrected focal position: ", `self.focus_axis()`
+#		self.rotation_axis(self.rotation_centre)
+#		print "axis reset to: ", `self.rotation_axis()`
+#		self.perp2rot_axis(self.perp2rot_axis_ref)
+#		print self.perp2rot_axis.name+" reset to: ", `self.perp2rot_axis()`
+#		self.dz(self.dz_ref)
+#		print "dz reset to: ",`self.dz()`
 
-	def centre(self,scanRange,scanStep,rockAngle,diode):
-		self.scanRange  = scanRange
-		self.scanStep   = scanStep
-		self.rockAngle  = rockAngle
-		self.diode      = diode
-		self.ref_dx = self.dx()
-		self.ref_dz = self.dz()
-		self.ref_dy = self.dy()
-		self.ref_axis = self.axis() 
-		self.centre     = 58.0
-		self.axis(self.centre) #Start at 58.
-		self.ref_dx = self.dx()
-		self.ref_dz = self.dz()
-		print "Focal Alignment."
-		print "=============== dy positive ================="
-		print "Rotate axis by +",`self.rockAngle`," and perform dx scan."
-		yposx = self.ypos()
-		if yposx=="":
-			print "No peak selected. Exiting..."
-			self.dx(self.ref_dx)
-			return
-		else:
-			print "You have entered a peak centre of ", `yposx`," for the positive dy x-axis scan."
+#	def cendz(self):
+#		self.diode
+#		scan([self.dz, 1, 2, 0.2, w, 0.2, self.diode])
+#		#scanPeak(dz, 1, 2, 0.2, w, 0.2, self.diode)
+#		print "Centring the DAC in height (dz), currently |axis =",`self.rotation_axis()`," deg| and |dz =",`self.dz()`, " mm|."
+#		print "Scanning dz: ",str(self.dz_ref-self.scanRange),"->", str(self.dz_ref+self.scanRange)
+#		
+#		return self.scanAndGetCentre(self.dz, self.dz_ref-self.scanRange, self.dz_ref+self.scanRange, self.scanStep, w, 0.2, self.diode)
 
-		self.dx(self.ref_dx)
-		self.dz(self.ref_dz)
-		print "=============== dy negative ================="
-		print "Centre & rotate axis by -",`self.rockAngle`," and perform dx scan."
-		ynegx = self.yneg()
-		if ynegx=="":
-			print "No peak selected. Exiting..."
-			self.dx(self.ref_dx)
-			return
-		else:
-			print "You have entered a peak centre of ", `ynegx`," for the negative dy x-axis scan."
+	def centre_perp(self):
+		print "Centring the DAC in horizontal direction, "+ \
+			self.rotation_axis.name+" =", `self.rotation_axis()`, "deg and "+ \
+			self.perp2rot_axis.name+" =", `self.perp2rot_axis()`, "mm."
+		print "Scanning "+self.perp2rot_axis.name+": ", \
+			str(self.perp2rot_axis_ref+self.scanRange),"->", \
+			str(self.perp2rot_axis_ref-self.scanRange)
 		
-		corrected_y = self.calcdy(yposx,ynegx)
-		self.applydycorrection(corrected_y)
-		print "dy now at corrected focal position: ", `self.dy()`
-		self.axis(self.centre)
-		print "axis reset to: ", `self.axis()`
-		self.dx(self.ref_dx)
-		print "dx reset to: ", `self.dx()`
-		self.dz(self.ref_dz)
-		print "dz reset to: ",`self.dz()`
+		return self.scanAndGetCentre(self.perp2rot_axis,
+			self.perp2rot_axis_ref+self.scanRange,
+			self.perp2rot_axis_ref-self.scanRange, self.scanStep, self.diode)
 
-	def cendz(self):
-		self.diode
-		scan([self.dz, 1, 2, 0.2, w, 0.2, self.diode])
-		#scanPeak(dz, 1, 2, 0.2, w, 0.2, self.diode)
-		print "Centring the DAC in height (dz), currently |axis =",`self.axis()`," deg| and |dz =",`self.dz()`, " mm|."
-		print "Scanning dz: ",str(self.ref_dz-self.scanRange),"->", str(self.ref_dz+self.scanRange)
-		
-		return self.scanAndGetCentre(self.dz, self.ref_dz-self.scanRange, self.ref_dz+self.scanRange, self.scanStep, w, 0.2, self.diode)
-
-
-	def cendx(self):
-		print "Centring the DAC in horizontal direction (dx), currently |axis =",`self.axis()`,"deg| and |dx =",`self.dx()`, "mm|."
-		print "Scanning dx: ",str(self.ref_dx+self.scanRange),"->", str(self.ref_dx-self.scanRange)
-		
-		return self.scanAndGetCentre(self.dx, self.ref_dx+self.scanRange, self.ref_dx-self.scanRange, self.scanStep, self.diode)
-
-	
 	def scanAndGetCentre(self, motor, start, stop, step, param1, param2=-1, param3=-1):
-		
 		genericScanChecks(False, False, motor, start, stop, step, param1, param2, param3)
 		if (self.autoFit):
 			centre = fitStepFunction(0)
-			userValue = InputCommands.requestInput("Type y to use peak centre " + str(centre) + ", or enter a different value (enter to quit)")
+			userValue = InputCommands.requestInput("Type y to use peak centre"+
+				" %f, or enter a different value (enter to quit)" % centre)
 			if (userValue == "y"):
 				return centre
 			else:
 				return userValue
 		else:
 			return InputCommands.requestInput("Please enter the peak centre or press enter to exit:")
-			
+
 	def ypos(self):
-		self.axis(self.centre+self.rockAngle)
-		self.dx(self.ref_dx)
-		yposx = self.cendx()
+		self.rotation_axis(self.rotation_centre+self.rockAngle)
+		self.perp2rot_axis(self.perp2rot_axis_ref)
+		yposx = self.centre_perp()
 		return yposx
 
 	def yneg(self):
-		self.axis(self.centre-self.rockAngle)
-		self.dx(self.ref_dx)
-		ynegx = self.cendx()
+		self.rotation_axis(self.rotation_centre-self.rockAngle)
+		self.perp2rot_axis(self.perp2rot_axis_ref)
+		ynegx = self.centre_perp()
 		return ynegx
 
 	def calcdy(self,yposx,ynegx):
-		self.axis(self.centre)
-		delta_dy=(float(yposx)-float(ynegx))/(2*tan(self.rockAngle*pi/180))
-		corrected_y = self.ref_dy+delta_dy
-		print "Initial value of y: ",str(self.ref_dy)
-		print "Focal correction of: ",delta_dy
-		return corrected_y
+		self.rotation_axis(self.rotation_centre)
+		delta_focus=(float(yposx)-float(ynegx))/(2*tan(self.rockAngle*pi/180))
+		corrected_focus = self.focus_axis_ref+delta_focus
+		print "Initial value of %s: %f" % (
+			self.focus_axis.name, self.focus_axis_ref)
+		print "Focal correction of: ",delta_focus
+		return corrected_focus
 
-	def applydycorrection(self,corrected_y):
-		corrected_y = float(corrected_y)
+	def applydycorrection(self,corrected_focus):
+		corrected_focus = float(corrected_focus)
 		lowLimit = float(self.beamline.getValue(None,"Top","-MO-DIFF-01:SAMPLE:Y.LLM"))
 		highLimit = float(self.beamline.getValue(None,"Top","-MO-DIFF-01:SAMPLE:Y.HLM"))
-		if (corrected_y >= lowLimit):
-			if (corrected_y <= highLimit):
-				print "y correction (" + `corrected_y` + ") is within the upper (" + `highLimit` + ") and lower (" + `lowLimit` + ") limits."
+		if (corrected_focus >= lowLimit):
+			if (corrected_focus <= highLimit):
+				print "focus correction (" + `corrected_focus` + \
+					") is within the upper (" + `highLimit` + \
+					") and lower (" + `lowLimit` + ") limits."
 				ans = InputCommands.requestInput("Apply this correction [y/n]:")
 				if (ans == 'y'):
-					print "Correcting y axis to ", `corrected_y`
-					self.dy(corrected_y)
-					print "dy now at corrected focal position: ", `self.dy()`
+					print "Correcting focus axis to ", `corrected_focus`
+					self.focus_axis(corrected_focus)
+					print "%s now at corrected focal position: %f" % (
+						self.focus_axis.name, self.focus_axis())
 				elif (ans == 'n'):
-					print "dy still at: ", `self.dy()`
+					print self.focus_axis.name+" still at: ", `self.focus_axis()`
 					print "Exiting script..."
 				else:
 					print "Use 'y' to indicate yes, and 'n' to indiciate no."
 					ans = InputCommands.requestInput("Apply this correction [y/n]:")
 					if (ans == 'y'):
-						print "Correcting y axis to ", `corrected_y`
-						self.dy(corrected_y)
-						print "dy now at corrected focal position: ", `self.dy()`
+						print "Correcting focus axis to ", `corrected_focus`
+						self.focus_axis(corrected_focus)
+						print "%s now at corrected focal position: %f" % (
+							self.focus_axis.name, self.focus_axis())
 					elif (ans == 'n'):
-						print "dy still at: ", `self.dy()`
+						print self.focus_axis.name+" still at: ", `self.focus_axis()`
 						print "Exiting script..."
 			else:
-				print "Cannot correct dy (" + `corrected_y` + ") above the the upper limit (" + `highLimit` + ")."
+				print "Cannot correct %s (%f) above the the upper limit (%f)."\
+					% (self.focus_axis.name, corrected_focus, highLimit)
 		else:
-			print "Cannot correct dy (" + `corrected_y` + ") below the lower limit (" + `lowLimit` + ")."
+			print "Cannot correct %s (%f) below the the lower limit (%f)."\
+				% (self.focus_axis.name, corrected_focus, lowLimit)
