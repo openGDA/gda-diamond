@@ -1,5 +1,3 @@
-import sys
-import gda
 import ruby_scripts
 import pd_pilatus
 import os
@@ -7,11 +5,8 @@ from time import sleep
 from time import clock
 from time import time
 from threading import Thread
-from gdascripts.messages import handle_messages
 from gdascripts.messages.handle_messages import simpleLog
 from gda.jython.commands.GeneralCommands import pause
-from gda.scan import ConcurrentScan
-from gda.scan import ConcurrentScan
 from operationalControl import moveMotor
 from ccdScanMechanics import setMaxVelocity
 from ccdScanMechanics import deactivatePositionCompare
@@ -24,17 +19,16 @@ from marAuxiliary import openMarShield, closeMarShield
 from marAuxiliary import incrementMarScanNumber
 from marAuxiliary import getNextMarScanNumber
 from marAuxiliary import marErase
-from shutterCommands import openEHShutter, closeEHShutter, getShutterStatus, sh
+from shutterCommands import openEHShutter#, closeEHShutter, getShutterStatus, sh
 from gda.device.scannable import PseudoDevice
 from gdascripts.parameters import beamline_parameters
 from util_scripts import doesFileExist
-from dataDir import getDir, setDir, setFullUserDir 
+from dataDir import getDir, setFullUserDir#, setDir 
 from gda.util import VisitPath
 from gda.device.detector.odccd import ModifyCrysalisHeader
 from gda.device.detector.mar345 import Mar345Detector
 from scannables.detectors.perkinElmer import PerkinElmer
 from gda.data.fileregistrar import FileRegistrarHelper
-from shutterCommands import openEHShutter, closeEHShutter
 from glob import glob
 
 class DetectorAxisWrapper(PseudoDevice):
@@ -55,7 +49,7 @@ class DetectorAxisWrapper(PseudoDevice):
 	def fastMaskOpen(self):
 		self.fmfabsb_pos=self.fmfabsb.getPosition()
 		return self.fmfabsb_pos == 'Open'
-	
+
 	def preExposeCheck(self):
 		delayMinutes=20
 		if self.pause:
@@ -64,13 +58,13 @@ class DetectorAxisWrapper(PseudoDevice):
 			if not (absorberOpen and fastMaskOpen):
 				reasons = []
 				if not absorberOpen:
-					reasons.add("absorber is " + self.feabsb_pos)
+					reasons.append("absorber is " + self.feabsb_pos)
 				if not fastMaskOpen:
-					reasons.add("fast mask is " + self.fmfabsb_pos)
-				simpleLog("paused because " + " and ".join(reasons))
+					reasons.append("fast mask is " + self.fmfabsb_pos)
+				simpleLog("Paused because " + " and ".join(reasons))
 				minutesRemain = delayMinutes
 				secondsRemain = 60
-				while(not (absorberOpen and fastMaskOpen) and minutesRemain > 0):
+				while(not (absorberOpen and fastMaskOpen) or minutesRemain > 0):
 					sleep(1)
 					absorberOpen_new = self.absorberOpen()
 					fastMaskOpen_new = self.fastMaskOpen()
@@ -80,39 +74,58 @@ class DetectorAxisWrapper(PseudoDevice):
 							if secondsRemain == 0:
 								secondsRemain = 60 
 								minutesRemain -= 1
-								simpleLog("%d minute remain..." % minutesRemain)
+								print "%d" % (minutesRemain),
 							else:
 								secondsRemain -= 1
-								print "."
+								if not (secondsRemain % 30):
+									print ""
+								else:
+									print ".",
 						else:
-							print "."
+							print "!",
 					else: # Something changed
+						reasons = []
+						if not absorberOpen == absorberOpen_new:
+							reasons.append("absorber is now " + self.feabsb_pos)
+						if not fastMaskOpen == fastMaskOpen_new:
+							reasons.append("fast mask is now " + self.fmfabsb_pos)
+						simpleLog("\n" + " and ".join(reasons))
+						
+						absorberOpen = absorberOpen_new
+						fastMaskOpen = fastMaskOpen_new
+						
 						if absorberOpen and fastMaskOpen:
 							minutesRemain = delayMinutes
 							secondsRemain = 60
-							simpleLog("both absorber and fast mask now open, " +
-								"starting %d minute timer..." % minutesRemain)
-							
-						reasons = []
-						if not absorberOpen == absorberOpen_new:
-							reasons.add("absorber is now " + self.feabsb_pos)
-						if not fastMaskOpen == fastMaskOpen_new:
-							reasons.add("fast mask is now " + self.fmfabsb_pos)
-						simpleLog(" and ".join(reasons))
-
-						absorberOpen = absorberOpen_new
-						fastMaskOpen = fastMaskOpen_new
-				
+							simpleLog("Both absorber and fast mask now open." +
+								"\nStarting %d minute timer..." % minutesRemain)
+				#simpleLog("\nTimer completed...")
+			
 			pause_prompt = False	
 			while (self.prop() < self.prop_threshold):
 				if not pause_prompt:
-					simpleLog("paused because beam is below proportional counter threshold level")
+					simpleLog("Paused because beam proportional counter " +
+						"(%f)" % self.prop() + " is below threshold level " +
+						"(%f)" % self.prop_threshold)
 					pause_prompt = True
 				sleep(1)
 
-	def postExposeCheck(self):
-		return (self.pause and (self.prop() < self.prop_threshold) and 
-				self.absorberOpen() and self.fastMaskOpen() )
+	def postExposeCheckFailed(self):
+		reasons = []
+		if self.pause:
+			if not self.absorberOpen():
+				reasons.append("absorber is " + self.feabsb_pos)
+			if not self.fastMaskOpen():
+				reasons.append("fast mask is " + self.fmfabsb_pos)
+			if (self.prop() < self.prop_threshold):
+				reasons.append("beam proportional counter " +
+					"(%f)" % self.prop() + " is below threshold level " +
+					"(%f)" % self.prop_threshold)
+		
+		if (len(reasons) > 0):
+			simpleLog("\nRepeat collection because " + " and ".join(reasons))
+			return True
+		return False
 
 
 class ISCCDAxisWrapper(DetectorAxisWrapper):
@@ -152,12 +165,13 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 		else:
 			self.setOutputFormat(["%2d", "%s"])
 			self.setExtraNames(["file name"])
-		
+
 	def atScanStart(self):
 		
 		if self.pause:
-			simpleLog("Scan will pause if proportional counter is below threshold value")
-			simpleLog("proportional counter = " + str(self.prop()))
+			simpleLog("Scan will pause if proportional counter " +
+					"(%f) is below threshold value " % self.prop() +
+					"(%f)." % self.prop_threshold)
 		
 		userDir = VisitPath.getVisitPath()
 		if userDir != getDir():
@@ -172,10 +186,10 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 		
 		if self.axis:
 			self.originalPosition = self.axis()
-
+		
 		self.detector.flush()
 		openCCDShield()
-		
+
 	def atScanEnd(self):
 		if self.axis:
 			setMaxVelocity(self.axis)
@@ -269,9 +283,10 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 		if self.axis and self.axis.getName() == "dktheta":
 			runUp = runUp * 2
 		
-		simpleLog("performMove %r %r runUp %r" % (self.axis, self.sync, runUp))
-		
 		for exp in range(self.noOfExpPerPos):
+			simpleLog("performMove %r sync %r runUp %r exp %r" %
+					(self.axis, self.sync, runUp, exp))
+			
 			self.isccd.flush()
 			filename = self.fileName + "_%01d" % self.nextScanNo + "_%01d" % self.exposureNo
 			
@@ -285,7 +300,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			imonAverage = self.syncExpose(position, runUp, velocity, filename,
 					"Exposing %s")
 			
-			if self.postExposeCheck():
+			if self.postExposeCheckFailed():
 				imonAverage = self.syncExpose(position, runUp, velocity, filename,
 					"Re-exposing %s because of beam loss during expose")
 				
@@ -299,7 +314,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			mod1.start()
 			deactivatePositionCompare()
 			FileRegistrarHelper.registerFile(linuxFilename)
-	
+
 	def rawAsynchronousMoveTo(self, position):
 		self.files = []
 		if self.overflow:
@@ -312,15 +327,16 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			self.performMove(position)
 		else:
 			self.performMove(position)
-				
+		#simpleLog("Completed collection at position %f" % position)
+
 	def rawIsBusy(self):
 		return 0
 
 	def rawGetPosition(self):
 		if self.axis:
-		  return [self.exposureTime, self.axis(), self.files]
+			return [self.exposureTime, self.axis(), self.files]
 		else:
-		  return [self.exposureTime, self.files]
+			return [self.exposureTime, self.files]
 
 
 class RubyAxisWrapper(ISCCDAxisWrapper):
@@ -340,7 +356,6 @@ class AtlasAxisWrapper(ISCCDAxisWrapper):
 class PilatusAxisWrapper(DetectorAxisWrapper):
 	def __init__(self, detector, isccd, exposureTime=0, axis=None, step=1, sync=False, fileName="P100K_scan", noOfExpPerPos=1):
 		DetectorAxisWrapper.__init__(self)
-		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 		self.isccd = isccd
 		self.detector = detector
 		self.sync = sync
@@ -379,7 +394,7 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 		if self.axis:
 			setMaxVelocity(self.axis)
 			self.axis.asynchronousMoveTo(self.originalPosition)
-	
+
 	def rawAsynchronousMoveTo(self, position):
 		
 		self.files = []
@@ -390,6 +405,8 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 		axisRunUpAndDownDelay = 2
 		
 		for exp in range(self.noOfExpPerPos):
+			simpleLog("rawAsynchronousMoveTo %r sync %r runUp %r exp %r" %
+					(self.axis, self.sync, runUp, exp))
 			
 			self.isccd.flush()
 			
@@ -466,7 +483,7 @@ class MarAxisWrapper(DetectorAxisWrapper):
 			self.setExtraNames(["file name"])
 			
 		self.velocity = float(abs(self.step)) / float(self.exposureTime)
-		
+
 	def atScanStart(self):
 		
 		incrementMarScanNumber()
@@ -492,14 +509,15 @@ class MarAxisWrapper(DetectorAxisWrapper):
 			self.axis.asynchronousMoveTo(self.originalPosition)
 
 	def rawAsynchronousMoveTo(self, position):
-
 		self.files = []
 		
 		self.fileName = self.file + "_%03d" % getNextMarScanNumber()
 		
 		for exp in range(self.noOfExpPerPos):
-			
 			runUp = ((self.velocity*.25)/2) + 0.1 # acceleration time .25 may change. This seems to solve the problem of the fast shutter not staying open.
+			
+			simpleLog("rawAsynchronousMoveTo %r sync %r runUp %r exp %r" %
+					(self.axis, self.sync, runUp, exp))
 			
 			if self.velocity <= 8.0:
 			
@@ -518,7 +536,7 @@ class MarAxisWrapper(DetectorAxisWrapper):
 					
 					moveMotor(self.axis, position + self.step + runUp)
 					
-					if self.postExposeCheck():
+					if self.postExposeCheckFailed():
 						
 						marErase(1)
 						openEHShutter()
@@ -552,14 +570,14 @@ class MarAxisWrapper(DetectorAxisWrapper):
 					else:
 						sleep(self.exposureTime)
 					self.isccd.closeS()
-
+				
 				if self.noOfExpPerPos > 1:
 					self.fullFileName = self.fileName + "_%03d" % self.exposureNo
 				elif self.rock:
 					self.fullFileName = self.fileName
 				else:
 					self.fullFileName = self.fileName + "_%03d" % self.inc
-
+				
 				# Make sure that any output files do not exist before we start:
 				expectedFile = VisitPath.getVisitPath() + "/" + self.fullFileName
 				expectedGlob =expectedFile + "_001.*"
@@ -575,12 +593,12 @@ class MarAxisWrapper(DetectorAxisWrapper):
 						except OSError:
 							simpleLog("Error renaming file %s to %s" %
 									  (file, newFile))
-
+				
 				self.scanTheMarWithChecks(300)
-			
+				
 				# There should now be only one file which starts with fullFileName
 				filesAtLocation = glob(expectedGlob)
-
+				
 				if len(filesAtLocation) == 1:
 					# Rename it to strip out the 
 					self.fullFileLocation = filesAtLocation[0].replace("_001.",".")
@@ -627,16 +645,16 @@ class MarAxisWrapper(DetectorAxisWrapper):
 		Scan the mar, checking for correct status 
 		"""
 		self.detector.setRootName(self.fullFileName)
-
+		
 		mar_mode = self.detector.getMode()
 		if (mar_mode != 4):
 			simpleLog( "Mar mode is %d not the default 4, use 'mar.setMode(X)' to change mode to X or mar.setMode(-1) to list modes." % mar_mode)
-
+		
 		# Wait for mar to be ready before starting scan
 		timeTaken = self.waitForStatus(timeout, 0)
 		if (timeTaken == -1):
 			raise "Timed out waiting for mar to be ready, so scan not performed"
-	
+		
 		simpleLog("mar ready in time %.2f" % timeTaken + "s")
 		# Wait for mar to start scanning
 		simpleLog("Scan command sent to mar... (timeout = " + str(timeout) + ")") 
@@ -644,13 +662,13 @@ class MarAxisWrapper(DetectorAxisWrapper):
 		timeTaken = self.waitForStatus(timeout, 1)
 		if (timeTaken == -1):
 			raise "Timed out waiting for mar to start, so scan not performed"
-	
+		
 		simpleLog("mar busy in time %.2f" % timeTaken + "s")
 		# Scan scanning and wait for mar to be ready
 		timeTaken = self.waitForStatus(timeout, 0)
 		if (timeTaken == -1):
 			raise "Timed out waiting for mar to stop scanning"
-
+		
 		simpleLog("Scanned in time %.2f" % timeTaken + "s")
 
 	def waitForStatus(self, timeout, status):
@@ -672,7 +690,6 @@ class MarAxisWrapper(DetectorAxisWrapper):
 		Remove '_001' suffix from file paths (added by mar software)
 		"""
 		simpleLog("removing '_001' suffix from all files created...")
-		filesCreated = []
 		for filePath in self.filePaths:
 			print filePath
 			fileWithSuffix_001 = filePath.replace(".mar3450", "_001.mar3450")
@@ -688,29 +705,29 @@ def _getWrappedDetector(axis, start, stop, step, detector, exposureTime,
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	#isccd = jythonNameMap.ruby
 	isccd = jythonNameMap.atlas
-
+	
 	wrappedDetector = None
-
+	
 	if isinstance(detector, ruby_scripts.Atlas):
 		# Not used: start, stop, rock=False
 		wrappedDetector = AtlasAxisWrapper(detector, exposureTime, axis, step, sync=sync,
 								fileName=fileName, noOfExpPerPos=noOfExpPerPos, diff=diff, pause=pause, overflow=overflow, multiFactor=multiFactor)
-		
+	
 	elif isinstance(detector, ruby_scripts.Ruby):
 		# Not used: start, stop, rock=False
 		wrappedDetector = RubyAxisWrapper(detector, exposureTime, axis, step, sync=sync,
 								fileName=fileName, noOfExpPerPos=noOfExpPerPos, diff=diff, pause=pause, overflow=overflow, multiFactor=multiFactor)
-		
+	
 	elif isinstance(detector, pd_pilatus.Pilatus) or isinstance(detector, pd_pilatus.DummyPilatus):
 		# Not used: start, stop, diff=0., pause=False, rock=False, overflow=False, multiFactor=1
 		wrappedDetector = PilatusAxisWrapper(detector, isccd, exposureTime, axis, step, sync=sync,
 							   fileName=fileName, noOfExpPerPos=noOfExpPerPos)
-
+	
 	elif isinstance(detector, Mar345Detector):
 		# Not used: start, stop, diff=0., overflow=False, multiFactor=1
 		wrappedDetector = MarAxisWrapper(detector, isccd, exposureTime, axis, step, sync=sync,
 							   fileName=fileName, noOfExpPerPos=noOfExpPerPos, rock=rock, pause=pause)
-
+	
 	elif isinstance(detector, PerkinElmer):
 		from scannables.detectors.perkinElmerAxisWrapper import PerkinElmerAxisWrapper
 		# Not used: start, stop, diff=0., overflow=False, multiFactor=1
