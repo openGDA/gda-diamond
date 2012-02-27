@@ -32,13 +32,49 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
         else:
             self.velocity = 0
 
+    def atScanStart(self):
+        DetectorAxisWrapperNew.atScanStart(self)
+        self.detector.prepareForCollection()
+
     def acquireOneImage(self, position):
+        if self.detector.verbose:
+            simpleLog("PerkinElmerAxisWrapper.acquireOneImage(%r)" % position)
         runUp = ((self.velocity*.25)/2) + 0.1 # acceleration time .25 may
         #change. This seems to solve the problem of the fast shutter not
         #staying open.
         
         self.detector.darkExpose = False
+        
+        if self.detector.skippedAtStart > 0:
+            simpleLog("Acquiring dummy image to clear last acquisition...")
+            self.detector.skipExpose = True
+            self.detector.collectData()
+            #sleep(self.detector.skippedAtStart *
+            #      self.detector.pe.exposureTime_get())
+            simpleLog("Waiting for Perkin Elmer status idle after dummy image")
+            #while self.detector.getStatus():
+            while self.detector.fileIndex == self.detector.pe.fileIndex_get():
+                sleep(0.5)
+                print ".",
+            print "."
+            
+            simpleLog("Resetting fileIndex")
+            self.detector.pe.fileIndex_set(self.detector.fileIndex) # fileIndex
+            # is the next two be written, so set it back to the previous values
+            # after acquiring a skipped image.
+            while self.detector.fileIndex != self.detector.pe.fileIndex_get():
+                sleep(0.5)
+                print ".",
+            print "."
+            self.detector.skipExpose = False
+        
+        if self.detector.verbose:
+            simpleLog("Setting collection time...")
+        
         self.detector.setCollectionTime(self.exposureTime)
+        
+        if self.detector.verbose:
+            simpleLog("Acquiring image...")
         
         if self.sync:
             setMaxVelocity(self.axis)
@@ -76,6 +112,21 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
             self.detector.collectData()
             sleep(self.exposureTime)
             self.isccd.closeS()
+        
+        if self.detector.verbose:
+            simpleLog("Waiting for Perkin Elmer status idle")
+        while self.detector.getStatus():
+            sleep(0.5)
+            print ".",
+        print "."
+        if self.detector.verbose:
+            simpleLog("Detector idle")
+        
+        # Since the scanning mechanism calls the detector readout, do we need
+        # this here too?
+        self.detector.readout()
+        if self.detector.verbose:
+            simpleLog("Readout complete")
 
     def rawAsynchronousMoveTo(self, position):
 
@@ -164,7 +215,7 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
         self.inc +=1
                 
     def rawIsBusy(self):
-        return 0;
+        return self.detector.getStatus();
 
 #    def scanTheMarWithChecks(self, timeout):
 #        """

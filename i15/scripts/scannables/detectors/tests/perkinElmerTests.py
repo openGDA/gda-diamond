@@ -31,6 +31,7 @@ class PerkinElmerAxisWrapperTestNoAxis(unittest.TestCase):
             "perkin elmer wrapper : Exposure Time: 1.0000 file name: []")
 
     def testRawAsynchronousMoveTo(self):
+        self.peid.darkSummedRbvCA.caput(1)
         self.wrappedDetector.rawAsynchronousMoveTo(0)
 
 #class PerkinElmerAxisWrapperTestMockAxis(unittest.TestCase):
@@ -80,9 +81,9 @@ class PerkinElmerTest(unittest.TestCase):
 
     def testReadout(self):
         self.assertEquals(repr(self.detector.readout()),
-            "'/dls/i15/data/2011/cm2062-3/tmp/deletemeMBB_0.tif'")
+            "'/dls/i15/data/2011/cm2062-3/tmp/deletemeMBB-00000.tif'")
 
     def testCollectData(self):
         self.detector.collectData()
         self.assertEquals(repr(self.detector.pe.outputDirCA.returnValue),
-            "'X:/cm2062-3/tmp'")
+            "'X:/2011/cm2062-3/tmp'")
