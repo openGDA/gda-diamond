@@ -79,13 +79,11 @@ object cr : crysalis
 ## If you want CU, use this file:  "C:\Xcalibur\corrections\Ruby_6\floodcu_ruby_6_130905" instead of the last one (floodmo) above.
 wait for object cr ready
 
-#detector connect 
-#wait for object detector ready
+detector connect 
+wait for object detector ready
 
 #configure RS232 COM port for monitoring detector status, here COM2 is used
-#object ccd : ccdreg := addr=1 com=com1 19200e71
-
-call DetectorConnect
+object ccd : ccdreg := addr=1 com=com1 19200e71
 
 #! E N D
 return
