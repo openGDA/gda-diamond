@@ -30,13 +30,31 @@ echo
 echo "Keep this window open, and you will see a pop-up when the restart has completed"
 echo
 
+KNOWN_HOST="i15-control.diamond.ac.uk,172.23.115.32 ssh-rsa"
+KNOWN_HOST_OLDKEY="AAAAB3NzaC1yc2EAAAABIwAAAQEAzJZZ0/24hraQavEZEHlG+u8Aitw43YzDLUTd9i/BHHS5KuIiLUgaQV/gn2EnE3Oscd9u/JFUmKUNZESUTYGe6s07/YrdbpGZavBJvLrHkmmtFfOCCVemILZJDqzG2iIxqz9MVznMVf5ctSbqCOE1z+aR/AfcWUuP2LsrRtZ1mQzjRV21Fy+NGknPQ8d4aOY7phQfWQLqWKDM63JdCP3ZcnIWA+53QUt5Trrjty8fG/aah4at8gMyvZjAQHrR/CcVA2MB9OjkaTs2gCm0nNXGKxKJk4/pXCwAXYoWKLynSiHMaz1xl7hNjzTPvKzM65F60pigIz3137PKuXv8WWBZDQ=="
+KNOWN_HOST_KEY="AAAAB3NzaC1yc2EAAAABIwAAAQEAukEds96jTVQGxMIemckxTvlFRj39hvgx3z2hkKVLvIhMMVI8BQrq4pH+Lgh7fofYgCs6FRs6arqF2Sa6Fcvlm2228bf5Xiimieon1cZi+Ntacmayi2xVR4Dx+PYmb/vbyDwHRHsWxWrtSYz+40HEeXguTEsD1tEm82xAK3Jbc12ew1/VeTpDY9i+gkFRtNulZLc6UHB75G1sHAlGKhxtbp7pLT+AQVSIl9Mx5ruRO/CmWsMVh2HFGhpgsH0amuFcTUQTopjq2pKqP2y0gUN8ZXGXBxn2n+PnGRKV7gU0YSbTSpReUu14eV16W+VOseOM9M9oAvLb0cGoy9VAXTgnrQ=="
+
 grep "i15-control" ~/.ssh/known_hosts > 2&>1 /dev/null
 OK=$?	# 0 if ok, 2 if file doesn't exist, 1 if file doesn't contain pattern
 
-if [ $OK != 0 ]; then
+if [ $OK == 0 ]; then
+	echo Checking for an old known_host key
+	grep $KNOWN_HOST_OLDKEY ~/.ssh/known_hosts > 2&>1 /dev/null
+	OLD=$? # 0 if ok, 2 if file doesn't exist, 1 if file doesn't contain pattern
+
+	if [ $OLD == 0 ]; then
+		echo Removing old known_host key
+		sed -i /i15-control/d ~/.ssh/known_hosts
+		OK=1
+	fi
+else
 	echo i15-control not in ~/.ssh/known_hosts, adding...
-	echo i15-control.diamond.ac.uk,172.23.115.32 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAzJZZ0/24hraQavEZEHlG+u8Aitw43YzDLUTd9i/BHHS5KuIiLUgaQV/gn2EnE3Oscd9u/JFUmKUNZESUTYGe6s07/YrdbpGZavBJvLrHkmmtFfOCCVemILZJDqzG2iIxqz9MVznMVf5ctSbqCOE1z+aR/AfcWUuP2LsrRtZ1mQzjRV21Fy+NGknPQ8d4aOY7phQfWQLqWKDM63JdCP3ZcnIWA+53QUt5Trrjty8fG/aah4at8gMyvZjAQHrR/CcVA2MB9OjkaTs2gCm0nNXGKxKJk4/pXCwAXYoWKLynSiHMaz1xl7hNjzTPvKzM65F60pigIz3137PKuXv8WWBZDQ== >> ~/.ssh/known_hosts
-	echo 
+fi
+echo 
+
+# if known_host or file doesn't exist
+if [ $OK != 0 ]; then
+	echo $KNOWN_HOST $KNOWN_HOST_KEY >> ~/.ssh/known_hosts
 fi
 
 ssh  -i /dls_sw/i15/software/gda/i15-config/i15ssh.key gda@i15-control.diamond.ac.uk
@@ -75,7 +93,7 @@ echo
 rdesktop -T "OD PC" -5 -a 16 -u i15detector -p \!i15d3t3ct0r# -d DIAMOND -k en-gb -g 1850x1150 i15-rubiccd01 &
 
 WINDOWTITLE="Please restart IS"
-(sleep 2; wmctrl -a "$WINDOWTITLE")& # bring zenity to front after 2 secs.
+(sleep 5; wmctrl -a "$WINDOWTITLE")& # bring zenity to front after 5 secs.
 zenity --title "$WINDOWTITLE" --info --text "\
 Due to a problem with the Oxford Diffraction software, the GDA server cannot\
  reconnect to the IS application automatically when it restarts.\n
