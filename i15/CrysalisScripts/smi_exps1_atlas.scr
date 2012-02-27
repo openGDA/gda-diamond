@@ -6,7 +6,7 @@
 
 root echo = vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 cmd="root echo = ATLAS Start call smi_exps1_atlas "+@1
-#mode echo
+mode echo
 
 ## Take image and save to /tmp
 
@@ -19,7 +19,7 @@ cmd="call setup_node \"/tmp\""
 #Ruby: cmd="sm m timeout 0 bin "+@1+"x"+@1
 #Atlas:
 ((timeout):real=30)
-cmd="call Scan_Start $(timeout) "+@1
+cmd="call Scan_Start "+$(timeout)+" "+@1
 
 #Ruby: wait for object detector ready
 #Atlas:
