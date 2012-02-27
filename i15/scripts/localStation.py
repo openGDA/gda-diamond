@@ -77,6 +77,14 @@ def runFile(name):
 	run(name)
 	simpleLog("..." + name + " complete")
 
+def plot(detector):
+	if not isinstance(detector, ProcessingDetectorWrapper):
+		simpleLog("Detector %r not supported." % detector)
+		simpleLog("Supported detectors include: pil, pe1, cam1, cam2, cam3, cam4")
+		return
+	detector.clearLastAcquisitionState();
+	detector.display()
+
 try:
 	simpleLog("================INITIALISING I15 GDA================")	
 	
@@ -224,6 +232,17 @@ try:
 			"X:", "/dls/i15/data", "2011/cm2062-3", "tmp", "deletemeMBB")
 		resetPEScanNumber = sdpe.resetPEScanNumberFactory(peid)
 		alias("resetPEScanNumber")
+		alias("plot")
+		
+		pe1 = ProcessingDetectorWrapper('pe1', pe, [], panel_name_rcp='Plot 1')
+		pe1.processors=[DetectorDataProcessorWithRoi(
+						'max', pe1, [SumMaxPositionAndValue()], False)]
+		
+		pe1peak2d = DetectorDataProcessorWithRoi(
+			'pe1peak2d', pe1, [TwodGaussianPeak()])
+		pe1max2d = DetectorDataProcessorWithRoi(
+			'pe1max2d', pe1, [SumMaxPositionAndValue()])
+
 	except:
 		type, exception, traceback = sys.exc_info()
 		handle_messages.log(None, "pe error -  " , type, exception, traceback, False)
