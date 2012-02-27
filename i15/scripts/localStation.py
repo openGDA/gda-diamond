@@ -374,6 +374,8 @@ try:
 		handle_messages.log(None, "localStation error -  " , type, exception, traceback, False)
 		simpleLog("Could not create rot_dkphi object")
 
+	run('utilities/centreBeam')
+
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	beamlineParameters = beamline_parameters.Parameters()
 	
