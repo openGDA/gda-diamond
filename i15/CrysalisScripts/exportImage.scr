@@ -14,14 +14,18 @@ if (@3==1) jmp export_compressed
 cmd="cr call export_img_inc \""+@1+"\" \""+@2+"\""
 wait for object cr ready
 
-return
+jmp atlas_image_exported
 
+#-------------------------------------------------------------------------------
+label export_compressed
 #
 ## EXPORT IMAGE COMPRESSED
 #
-label export_compressed
 cmd="cr call export_img \""+@1+"\" \""+@2+"\""
 wait for object cr ready
+
+#-------------------------------------------------------------------------------
+label atlas_image_exported
 
 cmd="root echo = ATLAS End   call exportImage \""+@1+"\" \""+@2+"\" "+@3
 root echo = ----------------------------------------------------------------

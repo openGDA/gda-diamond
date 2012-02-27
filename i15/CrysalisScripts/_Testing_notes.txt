@@ -34,8 +34,73 @@ expose(atlas, 5, 3)
     call applyCorrections "/root/tmp/Data/Image" 1 0 0 0
     call exportImage "/root/tmp/Data/Image" "D:/Data/Test/exposure35kev_01s.img" 0
 
+atlas.setDir('X:/currentdir')
+atlas.expose(2, 'Atlas/Dark_002s/dark_002s_1_1')
+	The command from GDA fails silently
+
+	From IS it suceeds if using X:\currentdir AND the file doesn't exist
+
+  call expose_atlas 2 "X:/currentdir/Atlas/Dark_002s/dark_002s_9_1.img" 1 1 0 0 0 0 0 0
+  call expose_atlas 2 "x:/currentdir/Atlas/Dark_002s/dark_002s_15_1.img" 1 1 0 0 0 0 0 0
+
+	But fails if it uses the full directory name
+  call expose_atlas 2 "X:/2011/cm2062-3/Atlas/Dark_002s/dark_002s_14_1.img" 1 1 0 0 0 0 0 0
+
+	In fact, to reporoduce the problem, you only need to do an export
+
+    export image -i /root/tmp/Data/Image to X:/2011/cm2062-3/Atlas/Dark_002s/dark_002s_14_1.img
+    cr(ERROR):export image -i /root/tmp/Data/Image to X:/?!2011/cm2062-3/Atlas/Dark_002s/dark_002s_14_1.img
+    cr(ERROR):Syntax error - file name expected.
+
+    export image -i /root/tmp/Data/Image to X:/currentdir/Atlas/Dark_002s/dark_002s_14_1.img
+    cr(ANS):/root/tmp/Data/Image exported as Crysalis image X:/currentdir/Atlas/Dark_002s/dark_002s_14_1.img.
+
+	Once you've added a link from y2011 to 2011 then
+  call expose_atlas 2 "X:/y2011/cm2062-3/Atlas/Dark_002s/dark_002s_14_1.img" 1 1 0 0 0 0 0 0
+	also works, so IS doesn't support numeric directory names!
+
+atlas.setDir('X:/currentdir')
+atlas.expose(2, 'Atlas/Dark_002s/dark_002s_1_1')
+	Using currentdir from GDA does allow us to manually expose
+
+simpleScanUnsync(dkphi, 58, 60, 4, atlas, 2, 1, 'Atlas/Dark_002s/dark_002s')
+	Appears to work (it shows the filename in the scan) but produces 2k img files.
+	NOte these were created by gda, not i15detector!
+
+simpleScan(dkphi, 58, 60, 4, atlas, 2, 1, 'Atlas/Dark_002s/dark_002s')
+	Behaves as it should.
+
 simpleScan(dkphi, 58, 60, 0.5, atlas, 2, 1)
 simpleScan(axis=dkphi, start=58, stop=60, step=0.2, detector=atlas, exposureTime=3)
+simpleScan(dkphi, 58, 60, 2.5, atlas, 60)
+
+	All complete Ok.
+
+simpleScan(dkphi, 58, 60, 2.5, atlas, 600)
+
+	But this fails:
+
+Exposing Atlas
+java.io.IOException: java.io.IOException: Mark invalid
+5)
+	at org.python.core.ParserFacade.prepBufReader(ParserFacade.java:280)
+	at org.python.core.ParserFacade.prepBufReader(ParserFacade.java:353)
+	at org.python.core.ParserFacade.parse(ParserFacade.java:200)
+	at org.python.core.Py.compile_flags(Py.java:1685)
+	at org.python.core.Py.exec(Py.java:1245)
+	at org.python.util.PythonInterpreter.exec(PythonInterpreter.java:181)
+	at org.python.util.InteractiveInterpreter.runcode(InteractiveInterpreter.java:89)
+	at gda.jython.GDAJythonInterpreter.runcode(GDAJythonInterpreter.java:471)
+	at gda.jython.JythonServer.runCommand(JythonServer.java:436)
+	at gda.jython.JythonServerFacade.print(JythonServerFacade.java:687)
+	at sun.reflect.GeneratedMethodAccessor92.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+
+java.io.IOException: java.io.IOException: Mark invalid
+Writing data to file:/dls/i15/data/2011/cm2062-3/16336.dat
+value	exposure time	dkphi	         file name
+    1	        600.0	 60.5	['scan_test_92_1']
 
   call smi_exps1_atlas 1
 
