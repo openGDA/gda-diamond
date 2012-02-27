@@ -1,6 +1,7 @@
 import ruby_scripts
 import pd_pilatus
 import os
+import sys
 from time import sleep
 from time import clock
 from time import time
@@ -31,6 +32,7 @@ from scannables.detectors.perkinElmer import PerkinElmer
 from gda.data.fileregistrar import FileRegistrarHelper
 from gda.epics import CAClient
 from glob import glob
+from java.io import File
 
 class DetectorAxisWrapper(PseudoDevice):
 	def __init__(self, pause, prop_threshold, exposureTime):
@@ -181,7 +183,10 @@ class DetectorAxisWrapper(PseudoDevice):
 
 
 class ISCCDAxisWrapper(DetectorAxisWrapper):
-	def __init__(self, detector, isccd, exposureTime=0, axis=None, step=None, sync=False, scanDoubleFlag=False, fileName="isccd_scan", noOfExpPerPos=1, diff=0., pause=False, overflow=False, multiFactor=1):
+	def __init__(self, detector, isccd, exposureTime=0, axis=None, start=None,
+			stop=None, step=None, sync=False, scanDoubleFlag=False,
+			fileName="isccd_scan", noOfExpPerPos=1, diff=0., pause=False,
+			overflow=False, multiFactor=1):
 		DetectorAxisWrapper.__init__(self, pause, -11, exposureTime)
 		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 		self.isccd = isccd
@@ -190,7 +195,9 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 		self.detector = detector
 		self.sync = sync
 		self.fileName = fileName
-		self.step = float(step)	
+		self.scan_start = float(start)
+		self.scan_stop = float(stop)
+		self.step = float(step)
 		self.noOfExpPerPos = noOfExpPerPos
 		self.i0_mca = jythonNameMap.d1_mca
 		self.readOutDelay = 1.5 * detector.getReadOutDelay()
@@ -235,6 +242,84 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			simpleLog(self.detectorName  + " doesn't support numeric directory names, using currentdir.")
 			self.detector.setDir(supportedDir)
 		
+		if self.overflow and self.sync:
+			experiment_name = self.fileName
+			
+			if '/' in experiment_name:
+				raise Exception ,"simplaScanOverflow does support / in " + \
+					"names: " + experiment_name
+			
+			# First make sue that the experiment directory exists
+			run_path = "/spool/" + experiment_name
+			frames_path = run_path + "/frames"
+			self.run_file = "%s%s/%s.run" % (self.detector.path, run_path, experiment_name)
+			self.frames_path = self.detector.path + frames_path
+			
+			targetDir = File(getDir() + frames_path)
+			try:
+				if not targetDir.exists():
+					targetDir.mkdirs()
+				if not targetDir.exists():
+					raise Exception ,"Unable to create data directory " + \
+						`targetDir` + " check permissions"
+			except:
+				type, exception,  = sys.exc_info()
+				raise Exception, "Error while trying to create data directory:" \
+					+ `targetDir` + " " + `type` + ":" + `exception`
+			
+			# Then copy over all of the template files
+			template_path = getDir() + "/xml/atlas"
+			if os.path.exists(template_path):
+				target_path = getDir() + run_path
+				par_present = False
+				
+				for file in os.listdir(template_path):
+					if file == "atlas.par":
+						dest = "%s/%s.par" % (target_path, experiment_name)
+						par_present = True
+					else:
+						dest = "%s/%s" % (target_path, file)
+					
+					if not os.path.exists(dest):
+						command = "cp %s/%s %s" % (template_path, file, dest)
+						if os.system(command) <> 0:
+							raise Exception, "Error, running command %s" % command
+				
+				if not par_present:
+					raise Exception, "Error, missing %s/atlas.par" % template_path
+			else:
+				raise Exception, "Error, no template data in %s" % template_path
+			
+			jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+			# Add this scan to the runlist
+			if self.axis.name == "dkphi":
+				scantype = 4
+				domegaindeg = 90. + jythonNameMap.dktheta() # Flat@dktheta=-34
+				dphiindeg = 0
+				dscanstartindeg = self.scan_start
+				dscanendindeg = self.scan_stop
+			elif self.axis.name == "dktheta":	# omega in diff terms
+				scantype = 0
+				domegaindeg = 0
+				dphiindeg = jythonNameMap.dkphi()
+				dscanstartindeg = 90. + self.scan_start	# omega = 90+dktheta
+				dscanendindeg = 90. + self.scan_stop	# omega = 90+dktheta
+			else:
+				raise Exception, "Error, only dkphi and dktheta supported!"
+			
+			ddetectorindeg = jythonNameMap.ddelta()
+			dkappaindeg = jythonNameMap.dkappa()			# Flat @ -134.75
+			dscanwidthindeg = self.step
+			dscanspeedratio = self.multiFactor
+			dwnumofframes = int(abs(self.scan_stop-self.scan_start)/self.step)
+			dwnumofframesdone = 0
+			
+			self.detector.runlistAdd(scantype, domegaindeg, ddetectorindeg,
+				dkappaindeg, dphiindeg, dscanstartindeg, dscanendindeg,
+				dscanwidthindeg, dscanspeedratio, dwnumofframes,
+				dwnumofframesdone, self.exposureTime, experiment_name,
+				self.run_file)
+		
 		if self.axis:
 			self.originalPosition = self.axis()
 		
@@ -247,7 +332,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			self.axis.asynchronousMoveTo(self.originalPosition)
 		closeCCDShield()
 
-	def syncExpose(self, position, runUp, velocity, filename, log_message):
+	def syncExpose(self, position, runUp, velocity, filename, log_message, fast):
 		samples = []
 		
 		if self.sync:
@@ -265,7 +350,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			self.preExposeCheck()
 			
 			simpleLog(log_message % self.detectorName)
-			self.detector.expsSaveIntensityA(float(self.exposureTime))
+			self.detector.expsSaveIntensityA(self.exposureTime)
 			self.axis.asynchronousMoveTo(position + self.step + runUp)
 			
 			while self.axis.isBusy():
@@ -317,14 +402,31 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			imonAverage = imonTotal / (len(samples))
 		
 		if self.sync:
-			self.detector.expsSaveIntensityB(filename, float(self.exposureTime), geometry, 0)
+			if self.overflow:
+				experiment_name = self.fileName
+				if fast:
+					multiFactor = self.multiFactor
+					final_filename = run_filename = ""
+				else:
+					multiFactor = 1
+					run_filename = self.run_file
+					final_filename = "%s/%s_%01d_%01d.img" % (self.frames_path,
+						experiment_name, self.nextScanNo, self.exposureNo)
+				
+				self.detector.expsSaveIntensityB2(
+					filename, self.exposureTime, geometry, 0,
+					multiFactor, final_filename, run_filename,
+					experiment_name)
+			else:
+				self.detector.expsSaveIntensityB(
+					filename, self.exposureTime, geometry, 0)
 		
 		simpleLog("imonAverage="+str(imonAverage) + " " + repr(samples))
 		
 		return imonAverage
 
 	def performMove(self, position, fast=False):
-		velocity = float(abs(self.step)) / float(self.exposureTime)
+		velocity = float(abs(self.step)) / self.exposureTime
 		
 		if self.step > 0:
 			runUp = velocity / 10
@@ -339,32 +441,37 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 					(self.axis, self.sync, runUp, exp))
 			
 			self.isccd.flush()
-			filename = self.fileName + "_%01d" % self.nextScanNo + "_%01d" % self.exposureNo
+			filename = self.fileName
 			
-			if fast:
+			if self.overflow and fast:
 				filename += "_fast"
+			elif self.overflow:
+				filename += "_slow"
+			
+			filename += "_%01d" % self.nextScanNo + "_%01d" % self.exposureNo
 			
 			self.fullFileName = self.detector.path + "/" + filename + ".img"
-			if fast==False:
-				self.exposureNo += 1
 			
 			imonAverage = self.syncExpose(position, runUp, velocity, filename,
-					"Exposing %s")
+					"Exposing %s", fast)
 			
 			if self.postExposeCheckFailed():
 				imonAverage = self.syncExpose(position, runUp, velocity, filename,
 					"Re-exposing %s because of beam loss during expose")
-				
+			
 			self.files.append(filename)
-			linuxFilename = getDir() + "/" + filename + ".img"	
+			linuxFilename = getDir() + "/" + filename + ".img"
 			imonScaledAvg = imonAverage * 100000
 			crysalisFile = ModifyCrysalisHeader(linuxFilename)
 			names = ["imon1", "imon2", "dexposuretimeinsec"]
-			values = [imonScaledAvg,imonScaledAvg,float(self.exposureTime)]
+			values = [imonScaledAvg,imonScaledAvg,self.exposureTime]
 			mod1 = modHeader(crysalisFile, names, values)
 			mod1.start()
 			deactivatePositionCompare()
 			FileRegistrarHelper.registerFile(linuxFilename)
+			
+			if fast==False:
+				self.exposureNo += 1
 
 	def rawAsynchronousMoveTo(self, position):
 		self.files = []
@@ -391,15 +498,25 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 
 
 class RubyAxisWrapper(ISCCDAxisWrapper):
-	def __init__(self, detector, exposureTime=0, axis=None, step=None, sync=False, scanDoubleFlag=False, fileName="ruby_scan", noOfExpPerPos=1, diff=0., pause=False, overflow=False, multiFactor=1):
-		ISCCDAxisWrapper.__init__(self, detector, detector, exposureTime, axis, step, sync, scanDoubleFlag, fileName, noOfExpPerPos, diff, pause, overflow, multiFactor)
+	def __init__(self, detector, exposureTime=0, axis=None, start=None,
+			stop=None, step=None, sync=False, scanDoubleFlag=False,
+			fileName="ruby_scan", noOfExpPerPos=1, diff=0., pause=False,
+			overflow=False, multiFactor=1):
+		ISCCDAxisWrapper.__init__(self, detector, detector, exposureTime, axis,
+			start, stop, step, sync, scanDoubleFlag, fileName, noOfExpPerPos,
+			diff, pause, overflow, multiFactor)
 		self.setName("ruby wrapper")
 		self.detectorName = "Ruby"
 
 
 class AtlasAxisWrapper(ISCCDAxisWrapper):
-	def __init__(self, detector, exposureTime=0, axis=None, step=None, sync=False, scanDoubleFlag=False, fileName="atlas_scan", noOfExpPerPos=1, diff=0., pause=False, overflow=False, multiFactor=1):
-		ISCCDAxisWrapper.__init__(self, detector, detector, exposureTime, axis, step, sync, scanDoubleFlag, fileName, noOfExpPerPos, diff, pause, overflow, multiFactor)
+	def __init__(self, detector, exposureTime=0, axis=None, start=None,
+			stop=None, step=None, sync=False, scanDoubleFlag=False,
+			fileName="atlas_scan", noOfExpPerPos=1, diff=0., pause=False,
+			overflow=False, multiFactor=1):
+		ISCCDAxisWrapper.__init__(self, detector, detector, exposureTime, axis,
+			start, stop, step, sync, scanDoubleFlag, fileName, noOfExpPerPos,
+			diff, pause, overflow, multiFactor)
 		self.setName("atlas wrapper")
 		self.detectorName = "Atlas"
 
@@ -450,7 +567,7 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 		self.files = []
 		self.fullFileLocation = ""
 		self.detector.setFilename(self.fileName + "_")
-		velocity = float(abs(self.step)) / float(self.exposureTime)
+		velocity = float(abs(self.step)) / self.exposureTime
 		runUp = velocity / 10
 		axisRunUpAndDownDelay = 2
 		
@@ -531,7 +648,7 @@ class MarAxisWrapper(DetectorAxisWrapper):
 			self.setOutputFormat(["%6.4f", "%s"])
 			self.setExtraNames(["file name"])
 			
-		self.velocity = float(abs(self.step)) / float(self.exposureTime)
+		self.velocity = float(abs(self.step)) / self.exposureTime
 
 	def atScanStart(self):
 		
@@ -759,8 +876,10 @@ def _getWrappedDetector(axis, start, stop, step, detector, exposureTime,
 	
 	if isinstance(detector, ruby_scripts.Atlas):
 		# Not used: start, stop, rock=False
-		wrappedDetector = AtlasAxisWrapper(detector, exposureTime, axis, step, sync=sync,
-								fileName=fileName, noOfExpPerPos=noOfExpPerPos, diff=diff, pause=pause, overflow=overflow, multiFactor=multiFactor)
+		wrappedDetector = AtlasAxisWrapper(detector, exposureTime,
+			axis, start, stop, step, sync=sync, fileName=fileName,
+			noOfExpPerPos=noOfExpPerPos, diff=diff, pause=pause,
+			overflow=overflow, multiFactor=multiFactor)
 	
 	elif isinstance(detector, ruby_scripts.Ruby):
 		# Not used: start, stop, rock=False

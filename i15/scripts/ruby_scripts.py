@@ -1,11 +1,10 @@
-import java
 from time import sleep
 import sys
-import array
 import struct
 from gda.analysis.io import CrysalisLoader
-from gda.analysis import *
+from gda.analysis import ScanFileHolder, Plotter, RCPPlotter
 
+		
 from gdascripts.messages import handle_messages
 from gdascripts.messages.handle_messages import simpleLog
 
@@ -28,7 +27,7 @@ class ISCCD:
 		self.exportAll = 0
 		self.subtractDark = 0
 		self.exportCompressed = 0
-		
+
 ################# SETUP COMMANDS ####################
 
 # Set directory from command line
@@ -51,7 +50,7 @@ class ISCCD:
 	
 	def getFileName(self,fileName):
 		return fileName+self.suffix
-	
+
 # Set directory from command line
 #	def setXDir(self, directory):
 #		"""
@@ -64,7 +63,6 @@ class ISCCD:
 #		self.path = "X:/data/" + str(currentYear) + "/" + directory
 #		simpleLog ("CCD path changed to " + self.path)
 ##		self.path = currDir
-
 
 # Set Bin (default is 2).
 	def setBin(self, binning):
@@ -98,9 +96,10 @@ class ISCCD:
 
 	def applyCorr(self, correction):
 		self.switchCorrection(correction, True)
+
 	def removeCorr(self, correction):
 		self.switchCorrection(correction, False)
-	
+
 	def switchCorrection(self, correction, on):
 		if (not self.correctionNames.keys().__contains__(correction)):
 			simpleLog("Incorrect usage - please type:")
@@ -180,7 +179,7 @@ class ISCCD:
 		else:
 			self.exportAll = newExportAll
 			self.getExportAll()
-	
+
 	def getSubtractDark(self):
 		if (self.subtractDark == 1):
 			simpleLog("Correlated dark will be subtracted from all exposures" )
@@ -193,7 +192,7 @@ class ISCCD:
 		else:
 			self.subtractDark = newSubtractDark
 			self.getSubtractDark()
-	
+
 	def getExportCompressed(self):
 		if (self.exportCompressed == 1):
 			simpleLog("Images will be exported in compressed format" )
@@ -218,14 +217,13 @@ class ISCCD:
 		self.getSubtractDark()
 		self.getExportCompressed()
 		simpleLog("----------------------------")
-		
-################# SHUTTER COMMANDS ####################
 
+################# SHUTTER COMMANDS ####################
 
 	def connectIfNeeded(self):
 		if not self.detector.isConnected():
 			self.connect()
-			
+
 # Open the shutter. This typically takes 0.055 seconds to execute.
 	def openS(self):
 		"""
@@ -258,7 +256,6 @@ class ISCCD:
 		self.detector.runScript("logout gda")
 		self.detector.disconnect()
 		self.detector.runScript("logout gda")
-
 
 # Reset the Detector and read electronics.
 	def reset(self):
@@ -300,9 +297,6 @@ class ISCCD:
 # Instead issue a message to the logger.				
 #				simpleLog ("Reseting GDA Client..."
 #				reset_namespace
-			
-
-
 
 ################# METHODS CALLING IS SCRIPTS ####################
 # Following methods call IS scripts which can be found on 172.23.115.193 in C:\IS18A\userscripts\
@@ -359,7 +353,34 @@ class ISCCD:
 		self.detector.readInputUntil("api:IMAGE EXPORTED")
 		self.detector.flush()
 		return thisFile
-	
+
+	def expsSaveIntensityB2(self, fileName, time, geometry, i0_val,
+			multifactor, final_filename, run_filename, experiment_name):
+		"""
+		Expose ruby for given time to given file while scanning through geometry (using current binning and corrections). First IS script
+		takes and saves exposure, while the second one updates header with intensity over scan and geometry, and exports file 
+		E.g. exps("X:/currentdir/test.img", 5, geometryString, intensityIntegral)
+		"""
+		"""
+		Setup mca to average every .1s with ROI setuo to cover all 200000 points which gives a max exposure to 20000s
+		"""
+		sleep(.2)
+		thisFile = self.getFileName(fileName)
+		paramStr = self.getFileParametersString()
+		self.detector.readInputUntil("api:IMAGE TAKEN")
+		self.detector.flush()
+		command = 'call %s "%s" %s %s ' % (
+			self.expsSaveIntensityB2_script, self.path + "/" + thisFile,
+			geometry, paramStr) + `i0_val` + ' ' + `time` + ' ' + \
+			`self.binning` + ' 220000 %f "%s" "%s" "%s"' % (
+			multifactor, final_filename, run_filename, experiment_name)
+		simpleLog (command)
+		self.runCommand(command)
+		
+		self.detector.readInputUntil("api:IMAGE EXPORTED")
+		self.detector.flush()
+		return thisFile
+
 	def expA(self, intensity, geometry, fileName):
 		"""
 		Part1 of double scan: expose ruby for given time scanning through geometry and take off correlated dark image if it exists, 
@@ -369,7 +390,7 @@ class ISCCD:
 		
 		paramStr = self.getFileParametersString()
 		self.runCommand('call ' + self.smi_expA_script + ' ' + str(self.binning) + ' ' + str(intensity) + ' ' + geometry + ' ' + str(self.time) + ' ' + self.path + fileName + ' ' + paramStr)
-		
+
 	def expB(self, fileName, exposureTime):
 		"""
 		Part2 of double scan: expose ruby for given time scanning through geometry and take off correlated dark image if it exists.
@@ -389,6 +410,21 @@ class ISCCD:
 		Used to synchronise scans with mar, pilatus, etc., producing a dummy ruby file. 
 		"""
 		self.runCommand('call ' + self.smi_xps_script + ' "C:/Data/SyncDump/' + dummyFileName + self.suffix + '"' + ' ' + '"' + str(timeout)+ '"')
+
+	def runlistAdd(self, scantype, domegaindeg, ddetectorindeg, dkappaindeg,
+			dphiindeg, dscanstartindeg, dscanendindeg, dscanwidthindeg,
+			dscanspeedratio, dwnumofframes, dwnumofframesdone,
+			dexposuretimeinsec, experiment_name, run_filename):
+		"""
+		Create a new runlist or add a new run to the current runlist
+		"""
+		command ='call %s %i %f %f %f %f %f %f %f %f %i %i %f "%s" "%s"' % (
+			self.runlistAdd_script, scantype, domegaindeg, ddetectorindeg,
+			dkappaindeg, dphiindeg, dscanstartindeg, dscanendindeg,
+			dscanwidthindeg, dscanspeedratio, dwnumofframes, dwnumofframesdone,
+			dexposuretimeinsec, experiment_name, run_filename)
+		simpleLog (command)
+		self.runCommand(command)
 
 	def importAndCorrect(self, fileName, exportSuffix):
 		"""
@@ -418,7 +454,7 @@ class ISCCD:
 		self.time = exposureTime
 		self.fileName = filename
 		self.runCommand('call ' + self.correctFlood1_script + ' ' + str(self.time) + ' ' + str(self.binning) + ' "' + self.path + self.fileName + '" ' + self.getFileParametersString() + ' ' + subDarksAtEnd)
-#
+
 	def correctFlood2(self, exposureTime, subDarksAtEnd, filename):
 		"""
 		Create another image, correlate with one taken in correctFlood1 and add to sum
@@ -435,7 +471,7 @@ class ISCCD:
 		self.time = exposureTime
 		self.fileName = filename
 		self.runCommand('call ' + self.correctFlood3_script + ' "' + self.path + self.fileName + '"' + ' ' + noOfDarksToSubtract + ' ' + str(self.time) + ' ' + self.getFileParametersString() + ' ' + str(self.binning))
-		
+
 	def takeDarksAndCorrelate(self, exposureTime, filename):
 		"""
 		Take 2 dark images and correlate.
@@ -556,8 +592,10 @@ class Atlas(ISCCD):
 		self.expose_script                 = "expose_atlas"
 		self.expsSaveIntensityA_script     = "smi_exps1_atlas" 
 		self.expsSaveIntensityB_script     = "smi_exps2_atlas"
+		self.expsSaveIntensityB2_script     = "smi_exps2b_atlas"
 		self.correlateDark_script          = "correlateDark_atlas"
 		self.smi_xps_script                = "smi_xps_atlas"
+		self.runlistAdd_script             = "runlistAdd"
 
 		self.floodFile = "lib/bin/crysalis/floodmo_a_80_calib_090311.ffiinffit"
 
