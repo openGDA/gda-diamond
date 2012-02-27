@@ -712,6 +712,24 @@
 	<simpleMotor desc="" name="W3.Y">
 		<RECORD desc="Motor" pv="BL15I-OP-WIND-03:DCAM:Y" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleMotor desc="" name="VCOLD.X">
+		<RECORD desc="Motor" pv="BL15I-MO-VCOLD-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="VCOLD.Y">
+		<RECORD desc="Motor" pv="BL15I-MO-VCOLD-01:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="VCOLD.Z">
+		<RECORD desc="Motor" pv="BL15I-MO-VCOLD-01:Z" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="VCOLD.THETA">
+		<RECORD desc="Motor" pv="BL15I-MO-VCOLD-01:THETA" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="VCOLD.BSX">
+		<RECORD desc="Motor" pv="BL15I-MO-VCOLD-01:BS:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="VCOLD.BSY">
+		<RECORD desc="Motor" pv="BL15I-MO-VCOLD-01:BS:Y" ro="false" type="motor"/>
+	</simpleMotor>
 	<simplePv desc="AB1 TEMPERATURE 01" name="AB1.T1">
 		<RECORD desc="Temperature" pv="BL15I-RS-ABSB-01:TEMP1" ro="true" type="pv"/>
 	</simplePv>

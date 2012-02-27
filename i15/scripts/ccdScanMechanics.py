@@ -209,7 +209,9 @@ def getVelocityPvRoot(axis):
 		return "-MO-DIFF-01:SAMPLE:KAPPA"
 	elif (axis.name == 'dmu'):
 		return "-MO-DIFF-01:SAMPLE:MU"
-
+	elif (axis.name == 'cryorot'):
+		return "-MO-VCOLD-01:THETA"
+	
 	raise "Error: axis (%s) not valid in scan" % axis.name
 ######################################################################################
 def deactivatePositionCompare():

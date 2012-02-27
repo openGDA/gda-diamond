@@ -792,4 +792,43 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="cryox_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VCOLD.X" />
+	</bean>
+	<bean id="cryoy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VCOLD.Y" />
+	</bean>
+	<bean id="cryoz_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VCOLD.Z" />
+	</bean>
+	<bean id="cryorot_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VCOLD.THETA" />
+	</bean>
+	<bean id="cryobsx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VCOLD.BSX" />
+	</bean>
+	<bean id="cryobsy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VCOLD.BSY" />
+	</bean>
+	
+	<bean id="cryox" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cryox_motor" />
+	</bean>
+	<bean id="cryoy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cryoy_motor" />
+	</bean>
+	<bean id="cryoz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cryoz_motor" />
+	</bean>
+	<bean id="cryorot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cryorot_motor" />
+	</bean>
+	<bean id="cryobsx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cryobsx_motor" />
+	</bean>
+	<bean id="cryobsy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cryobsy_motor" />
+	</bean>
+	
 </beans>

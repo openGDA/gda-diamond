@@ -2,7 +2,7 @@ from gdascripts.parameters import beamline_parameters
 from cendac import CentreDAC
 
 def centre(rotation_axis, scanRange, scanStep, rockAngle, diode,
-		auto_fit=False, rotation_centre=58.):
+		auto_fit=False, rotation_centre=None):
 	"""
 	
 	Centers the sample (DAC) on the beam and the diffractometer center.

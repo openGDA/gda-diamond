@@ -233,6 +233,9 @@ class CentreDAC(GeneralScan):
 		corrected_focus = float(corrected_focus)
 		lowLimit = float(self.beamline.getValue(None,"Top","-MO-DIFF-01:SAMPLE:Y.LLM"))
 		highLimit = float(self.beamline.getValue(None,"Top","-MO-DIFF-01:SAMPLE:Y.HLM"))
+		if self.focus_axis.name == "cryoz":
+			lowLimit = self.focus_axis.lowerMotorLimit
+			highLimit = self.focus_axis.upperMotorLimit
 		if (corrected_focus >= lowLimit):
 			if (corrected_focus <= highLimit):
 				print "focus correction (" + `corrected_focus` + \

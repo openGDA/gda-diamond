@@ -153,12 +153,12 @@ try:
 		ringCurrent = DisplayEpicsPVClass("ringCurrent", "SR-DI-DCCT-01:SIGNAL", "mA", "%f")
 		wigglerField = DisplayEpicsPVClass("wigglerField", "SR15I-ID-SCMPW-01:B_REAL", "Tesla", "%f")
 
-		cryox = pd_epicsdevice.Simple_PD_EpicsDevice("cryox", beamline, "-MO-VCOLD-01:X.VAL")
-		cryoy = pd_epicsdevice.Simple_PD_EpicsDevice("cryoy", beamline, "-MO-VCOLD-01:Y.VAL")
-		cryoz = pd_epicsdevice.Simple_PD_EpicsDevice("cryoz", beamline, "-MO-VCOLD-01:Z.VAL")
-		cryorot = pd_epicsdevice.Simple_PD_EpicsDevice("cryorot", beamline, "-MO-VCOLD-01:THETA.VAL")
-		cryobsx = pd_epicsdevice.Simple_PD_EpicsDevice("cryobsx", beamline, "-MO-VCOLD-01:BS:X.VAL")
-		cryobsy = pd_epicsdevice.Simple_PD_EpicsDevice("cryobsy", beamline, "-MO-VCOLD-01:BS:Y.VAL")
+		#cryox = pd_epicsdevice.Simple_PD_EpicsDevice("cryox", beamline, "-MO-VCOLD-01:X.VAL")
+		#cryoy = pd_epicsdevice.Simple_PD_EpicsDevice("cryoy", beamline, "-MO-VCOLD-01:Y.VAL")
+		#cryoz = pd_epicsdevice.Simple_PD_EpicsDevice("cryoz", beamline, "-MO-VCOLD-01:Z.VAL")
+		#cryorot = pd_epicsdevice.Simple_PD_EpicsDevice("cryorot", beamline, "-MO-VCOLD-01:THETA.VAL")
+		#cryobsx = pd_epicsdevice.Simple_PD_EpicsDevice("cryobsx", beamline, "-MO-VCOLD-01:BS:X.VAL")
+		#cryobsy = pd_epicsdevice.Simple_PD_EpicsDevice("cryobsy", beamline, "-MO-VCOLD-01:BS:Y.VAL")
 		
 	except:
 		type, exception, traceback = sys.exc_info()
