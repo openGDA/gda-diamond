@@ -13,6 +13,9 @@
 	<bean id="DZMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DIFF.Z" />
 	</bean>
+	<bean id="DVMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DIFF.V" />
+	</bean>
 	<bean id="DkphiMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DIFF.KPHI" />
 	</bean>
@@ -50,7 +53,6 @@
 		<property name="deviceName" value="DIFF.BASEROT" />
 	</bean>
 
-
 	<bean id="dx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="DXMotor" />
 	</bean>
@@ -59,6 +61,9 @@
 	</bean>
 	<bean id="dz" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="DZMotor" />
+	</bean>
+	<bean id="dv" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DVMotor" />
 	</bean>
 	<bean id="dkphi" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="DkphiMotor" />
@@ -96,12 +101,14 @@
 	<bean id="drotation" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="Dr1RotationMotor" />
 	</bean>
+
 	<bean id="diffractometer" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="dx" />
 				<ref bean="dy" />
 				<ref bean="dz" />
+				<ref bean="dv" />
 				<ref bean="dkphi" />
 				<ref bean="dkappa" />
 				<ref bean="dktheta" />
@@ -117,5 +124,4 @@
 			</list>
 		</property>
 	</bean>
-
 </beans>
