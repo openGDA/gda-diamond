@@ -868,6 +868,9 @@ def _getWrappedDetector(axis, start, stop, step, detector, exposureTime,
 		noOfExpPerPos, fileName, sync, diff=0., pause=False, rock=False,
 		overflow=False, multiFactor=1, exposeDark=False):
 	
+	from gdascripts.scannable.detector.ProcessingDetectorWrapper import \
+									   ProcessingDetectorWrapper
+	
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	#isccd = jythonNameMap.ruby
 	isccd = jythonNameMap.atlas
@@ -890,6 +893,12 @@ def _getWrappedDetector(axis, start, stop, step, detector, exposureTime,
 		# Not used: start, stop, diff=0., pause=False, rock=False, overflow=False, multiFactor=1
 		wrappedDetector = PilatusAxisWrapper(detector, isccd, exposureTime, axis, step, sync=sync,
 							   fileName=fileName, noOfExpPerPos=noOfExpPerPos)
+	
+	elif isinstance(detector, ProcessingDetectorWrapper) and \
+		 isinstance(detector.det, pd_pilatus.EpicsPilatus):
+		# Not used: start, stop, diff=0., pause=False, rock=False, overflow=False, multiFactor=1
+		wrappedDetector = PilatusAxisWrapper(detector.det, isccd, exposureTime,
+			axis, step, sync=sync, fileName=fileName, noOfExpPerPos=noOfExpPerPos)
 	
 	elif isinstance(detector, Mar345Detector):
 		# Not used: start, stop, diff=0., overflow=False, multiFactor=1

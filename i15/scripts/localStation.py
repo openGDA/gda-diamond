@@ -52,7 +52,6 @@ from ccdFloodCorrections import exportMultiDark
 from gda.epics import CAClient
 
 def peakFinder():
-	
 	caclient = CAClient()
 	caclient.caput( "BL15I-OP-DCM-01:PEAK:GO.PROC", 1)
 	
@@ -161,14 +160,13 @@ try:
 		simpleLog("Pilatus did not connect")
 
 	try:
-		from gdascripts.scannable.detector.epics.EpicsPilatus import EpicsPilatus
 		from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
 		from gda.analysis.io import PilatusTiffLoader #, SRSLoader
 		from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
 		from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue #@UnusedImport
 		from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 
-		pildet = EpicsPilatus('pildet', 'BL15I-EA-PILAT-02:',"/dls/i15/data/currentdir/",'p','%s%s%d.tif')
+		pildet = pd_pilatus.EpicsPilatus('pildet', 'BL15I-EA-PILAT-02:',"/dls/i15/data/currentdir/",'p','%s%s%d.tif')
 		#pil = ProcessingDetectorWrapper('pil', pildet, [], panel_name='Pilatus Plot', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
 		pil = ProcessingDetectorWrapper('pil', pildet, [], panel_name='Pilatus Plot', panel_name_rcp='Plot 1', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
 		pil.processors=[DetectorDataProcessorWithRoi('max', pil, [SumMaxPositionAndValue()], False)]
@@ -399,7 +397,7 @@ try:
 				s6ypos, s6ygap, s6yup, s6ydown,
 				hfm_x, hfm_y, hfm_pitch, hfm_curve, hfm_ellipticity, hfm_yaw, hfm_roll,
 				vfm_x, vfm_y, vfm_pitch, vfm_curve, vfm_ellipticity, vfm_gravsag,
-				qbpm2_x, qbpm2_y,
+				qbpm1_x, qbpm1_y, qbpm2_x, qbpm2_y,
 				s4xpos, s4xgap, s4ypos, s4ygap, s4yaw, s4pitch,
 				pinx, piny, pinz, pinpitch, pinyaw,
 				dx, dy, dz, dkphi, dkappa, dktheta,

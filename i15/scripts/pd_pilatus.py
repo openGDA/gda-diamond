@@ -271,3 +271,33 @@ class DummyPilatus(PseudoDevice):
 			Plotter.plotImage("Pilatus Display", self.image.lognorm())
 		else:
 			Plotter.plotImage("Pilatus Display",self.image)			
+
+from gdascripts.scannable.detector.epics.EpicsPilatus import EpicsPilatus as EpicsPilatusBase
+from gdascripts.scannable.epics.PvManager import PvManager
+
+class EpicsPilatus(EpicsPilatusBase):
+	def setFilePath(self, newFilePath):
+		"""Set the file path for the image files"""
+		self.setFilepath(newFilePath)
+		print "File path set to " + newFilePath
+
+	def getFilePath(self):
+		return self.pvs['FilePath'].caget()
+
+	def expose(self, exposureTime):
+		"""Calls asynchronousMoveTo to performs dummy exposure of given time"""
+		self.asynchronousMoveTo(exposureTime)
+
+	def getFullFilename(self):
+		"""Returns file path of the last created image"""
+		data = self.pvs['FullFilename'].cagetArray()
+		print "getFullFilename: data=%s" % data
+		intArray = []
+		for d in data:
+			val = int(d)
+			if val == 0:
+				break
+			intArray.append(val)
+		s = String(intArray)
+		print "getFullFilename: intArray=%r, s=%s" % (intArray, s)
+		return self.pvs['FilePath'].caget() + `s`
