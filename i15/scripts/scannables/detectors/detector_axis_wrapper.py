@@ -2,8 +2,9 @@ from time import sleep
 from gdascripts.messages.handle_messages import simpleLog
 from ccdScanMechanics import setMaxVelocity
 from gda.device.scannable import PseudoDevice
-from dataDir import getDir, setDir, setFullUserDir 
+from dataDir import getDir, setFullUserDir #, setDir 
 from gda.util import VisitPath
+from gda.epics import CAClient
 
 axisWrapperBehaviour="""
 Detector:	mar							pilatus						ruby/atlas
@@ -68,6 +69,10 @@ class DetectorAxisWrapperNew(PseudoDevice):
 		self.feabsb_pos = self.feabsb.getPosition()
 		self.fmfabsb_pos=self.fmfabsb.getPosition()
 		
+		self.caclient = CAClient()
+		self.max_time_to_injection = exposureTime + 1.
+		self.wait_after_injection = exposureTime + 4.
+		
 		self.originalPosition = 0
 		self.files = []
 		self.visitPath = ""
@@ -113,7 +118,7 @@ class DetectorAxisWrapperNew(PseudoDevice):
 	def fastMaskOpen(self):
 		self.fmfabsb_pos=self.fmfabsb.getPosition()
 		return self.fmfabsb_pos == 'Open'
-	
+
 	def waitForAbsorberAndMaskOpen(self):
 		delayMinutes=20
 		reasons = []
@@ -124,15 +129,15 @@ class DetectorAxisWrapperNew(PseudoDevice):
 			return
 		
 		if not absorberOpen:
-			reasons.add("absorber is " + self.feabsb_pos)
+			reasons.append("absorber is " + self.feabsb_pos)
 		if not fastMaskOpen:
-			reasons.add("fast mask is " + self.fmfabsb_pos)
-		simpleLog("paused because " + " and ".join(reasons))
+			reasons.append("fast mask is " + self.fmfabsb_pos)
+		simpleLog("Paused because " + " and ".join(reasons))
 		
 		minutesRemain = delayMinutes
 		secondsRemain = 60
 		
-		while(not (absorberOpen and fastMaskOpen) and minutesRemain > 0):
+		while(not (absorberOpen and fastMaskOpen) or minutesRemain > 0):
 			sleep(1)
 			absorberOpen_new = self.absorberOpen()
 			fastMaskOpen_new = self.fastMaskOpen()
@@ -142,42 +147,96 @@ class DetectorAxisWrapperNew(PseudoDevice):
 					if secondsRemain == 0:
 						secondsRemain = 60 
 						minutesRemain -= 1
-						simpleLog("%d minute remain..." % minutesRemain)
+						print "%d" % (minutesRemain),
 					else:
 						secondsRemain -= 1
-						print "."
+						if not (secondsRemain % 30):
+							print ""
+						else:
+							print ".",
 				else:
-					print "."
+					print "!",
 			else: # Something changed
+				reasons = []
+				if not absorberOpen == absorberOpen_new:
+					reasons.append("absorber is now " + self.feabsb_pos)
+				if not fastMaskOpen == fastMaskOpen_new:
+					reasons.append("fast mask is now " + self.fmfabsb_pos)
+				simpleLog("\n" + " and ".join(reasons))
+				
+				absorberOpen = absorberOpen_new
+				fastMaskOpen = fastMaskOpen_new
+				
 				if absorberOpen and fastMaskOpen:
 					minutesRemain = delayMinutes
 					secondsRemain = 60
-					simpleLog("both absorber and fast mask now open, " +
-						"starting %d minute timer..." % minutesRemain)
-					
-				reasons = []
-				if not absorberOpen == absorberOpen_new:
-					reasons.add("absorber is now " + self.feabsb_pos)
-				if not fastMaskOpen == fastMaskOpen_new:
-					reasons.add("fast mask is now " + self.fmfabsb_pos)
-				simpleLog(" and ".join(reasons))
+					simpleLog("Both absorber and fast mask now open." +
+						"\nStarting %d minute timer..." % minutesRemain)
+		#simpleLog("\nTimer completed...")
 
-				absorberOpen = absorberOpen_new
-				fastMaskOpen = fastMaskOpen_new
+	def waitForPropCounter(self):
+		pause_prompt = True	
+		while (self.prop() < self.prop_threshold):
+			if pause_prompt:
+				simpleLog("Paused because beam proportional counter " +
+					"(%f)" % self.prop() + " is below threshold level " +
+					"(%f)" % self.prop_threshold)
+				pause_prompt = False
+			sleep(1)
+			print ".",
+		if not pause_prompt:
+			print ""
+
+	def time_to_injection(self):
+		return float(self.caclient.caget("SR-CS-FILL-01:COUNTDOWN"))
+
+	def waitForInjection(self):
+		time_to_injection = self.time_to_injection()
+		
+		if (time_to_injection < self.max_time_to_injection):
+			simpleLog("Only %fs to top-up..." % time_to_injection)
+			
+			while (time_to_injection < self.max_time_to_injection):
+				sleep(1)
+				time_to_injection = self.time_to_injection()
+				print time_to_injection,
+			
+			simpleLog("\nSettle %fs after top-up..." %
+				self.wait_after_injection)
+			
+			while (self.wait_after_injection > 0):
+				if self.wait_after_injection < 1:
+					sleep(self.wait_after_injection)
+				else:
+					sleep(1)
+				print ".",
+				self.wait_after_injection -= 1
+			print ""
 
 	def preExposeCheck(self):
-		if not self.pause:
-			return
-		
-		self.waitForAbsorberAndMaskOpen()
-		
-		pause_prompt = False	
-		while (self.prop() < self.prop_threshold):
-			if not pause_prompt:
-				simpleLog("paused because beam is below proportional counter threshold level")
-				pause_prompt = True
-			sleep(1)
+		if self.pause:
+			# We should really loop around these until none of them fail.
+			self.waitForAbsorberAndMaskOpen()
+			self.waitForPropCounter()
+			self.waitForInjection()
 
-	def postExposeCheck(self):
-		return (self.pause and (self.prop() < self.prop_threshold) and 
-				self.absorberOpen() and self.fastMaskOpen() )
+	def postExposeCheckFailed(self):
+		reasons = []
+		if self.pause:
+			if not self.absorberOpen():
+				reasons.append("absorber is " + self.feabsb_pos)
+			if not self.fastMaskOpen():
+				reasons.append("fast mask is " + self.fmfabsb_pos)
+			if (self.prop() < self.prop_threshold):
+				reasons.append("beam proportional counter " +
+					"(%f)" % self.prop() + " is below threshold level " +
+					"(%f)" % self.prop_threshold)
+			
+			time_to_injection = self.time_to_injection()
+			if (time_to_injection < 0):
+				reasons.append("top-up (%fs) is negative!" % time_to_injection)
+		
+		if (len(reasons) > 0):
+			simpleLog("\nRepeat collection because " + " and ".join(reasons))
+			return True
+		return False

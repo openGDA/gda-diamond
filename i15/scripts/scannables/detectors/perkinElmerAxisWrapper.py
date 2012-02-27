@@ -95,13 +95,8 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
                 
                 self.acquireOneImage(position)
                 
-                if self.postExposeCheck():
-                    simpleLog("NB: ((pause=%r & prop=%f < prop_threshold=%f)" +
-                        " & feabsb_pos=%s & fmfabsb_pos=%s) Retrying..." %
-                        (self.pause, self.prop(), self.prop_threshold,
-                        self.feabsb_pos, self.fmfabsb_pos ))
-                    
-                    self.acquireOneImage()
+                if self.postExposeCheckFailed():
+                    self.acquireOneImage(position)
                 
 #                if self.noOfExpPerPos > 1:
 #                    self.fullFileName = self.fileName + "_%03d" % self.exposureNo

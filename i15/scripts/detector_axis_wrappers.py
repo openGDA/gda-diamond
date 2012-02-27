@@ -29,19 +29,26 @@ from gda.device.detector.odccd import ModifyCrysalisHeader
 from gda.device.detector.mar345 import Mar345Detector
 from scannables.detectors.perkinElmer import PerkinElmer
 from gda.data.fileregistrar import FileRegistrarHelper
+from gda.epics import CAClient
 from glob import glob
 
 class DetectorAxisWrapper(PseudoDevice):
-	def __init__(self, pause=False, prop_threshold=-11):
+	def __init__(self, pause, prop_threshold, exposureTime):
 		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 		self.pause = pause
 		self.prop_threshold =prop_threshold
+		self.exposureTime = float(exposureTime)
+		
 		self.prop = jythonNameMap.qbpm1total
 		self.feabsb = jythonNameMap.feabsb
 		self.feabsb_pos = self.feabsb.getPosition()
 		self.fmfabsb = jythonNameMap.fmfabsb
 		self.fmfabsb_pos=self.fmfabsb.getPosition()
 		
+		self.caclient = CAClient()
+		self.max_time_to_injection = exposureTime + 1.
+		self.wait_after_injection = exposureTime + 4.
+
 	def absorberOpen(self):
 		self.feabsb_pos = self.feabsb.getPosition()
 		return self.feabsb_pos == 'Open'
@@ -50,65 +57,106 @@ class DetectorAxisWrapper(PseudoDevice):
 		self.fmfabsb_pos=self.fmfabsb.getPosition()
 		return self.fmfabsb_pos == 'Open'
 
-	def preExposeCheck(self):
+	def waitForAbsorberAndMaskOpen(self):
 		delayMinutes=20
-		if self.pause:
-			absorberOpen = self.absorberOpen()
-			fastMaskOpen = self.fastMaskOpen()
-			if not (absorberOpen and fastMaskOpen):
-				reasons = []
-				if not absorberOpen:
-					reasons.append("absorber is " + self.feabsb_pos)
-				if not fastMaskOpen:
-					reasons.append("fast mask is " + self.fmfabsb_pos)
-				simpleLog("Paused because " + " and ".join(reasons))
-				minutesRemain = delayMinutes
-				secondsRemain = 60
-				while(not (absorberOpen and fastMaskOpen) or minutesRemain > 0):
-					sleep(1)
-					absorberOpen_new = self.absorberOpen()
-					fastMaskOpen_new = self.fastMaskOpen()
-					# If nothing changed, keep counting down/showing updates.
-					if absorberOpen == absorberOpen_new and fastMaskOpen == fastMaskOpen_new:
-						if absorberOpen and fastMaskOpen:
-							if secondsRemain == 0:
-								secondsRemain = 60 
-								minutesRemain -= 1
-								print "%d" % (minutesRemain),
-							else:
-								secondsRemain -= 1
-								if not (secondsRemain % 30):
-									print ""
-								else:
-									print ".",
+		reasons = []
+		
+		absorberOpen = self.absorberOpen()
+		fastMaskOpen = self.fastMaskOpen()
+		if (absorberOpen and fastMaskOpen):
+			return
+		
+		if not absorberOpen:
+			reasons.append("absorber is " + self.feabsb_pos)
+		if not fastMaskOpen:
+			reasons.append("fast mask is " + self.fmfabsb_pos)
+		simpleLog("Paused because " + " and ".join(reasons))
+		
+		minutesRemain = delayMinutes
+		secondsRemain = 60
+		
+		while(not (absorberOpen and fastMaskOpen) or minutesRemain > 0):
+			sleep(1)
+			absorberOpen_new = self.absorberOpen()
+			fastMaskOpen_new = self.fastMaskOpen()
+			# If nothing changed, keep counting down/showing updates.
+			if absorberOpen == absorberOpen_new and fastMaskOpen == fastMaskOpen_new:
+				if absorberOpen and fastMaskOpen:
+					if secondsRemain == 0:
+						secondsRemain = 60 
+						minutesRemain -= 1
+						print "%d" % (minutesRemain),
+					else:
+						secondsRemain -= 1
+						if not (secondsRemain % 30):
+							print ""
 						else:
-							print "!",
-					else: # Something changed
-						reasons = []
-						if not absorberOpen == absorberOpen_new:
-							reasons.append("absorber is now " + self.feabsb_pos)
-						if not fastMaskOpen == fastMaskOpen_new:
-							reasons.append("fast mask is now " + self.fmfabsb_pos)
-						simpleLog("\n" + " and ".join(reasons))
-						
-						absorberOpen = absorberOpen_new
-						fastMaskOpen = fastMaskOpen_new
-						
-						if absorberOpen and fastMaskOpen:
-							minutesRemain = delayMinutes
-							secondsRemain = 60
-							simpleLog("Both absorber and fast mask now open." +
-								"\nStarting %d minute timer..." % minutesRemain)
-				#simpleLog("\nTimer completed...")
+							print ".",
+				else:
+					print "!",
+			else: # Something changed
+				reasons = []
+				if not absorberOpen == absorberOpen_new:
+					reasons.append("absorber is now " + self.feabsb_pos)
+				if not fastMaskOpen == fastMaskOpen_new:
+					reasons.append("fast mask is now " + self.fmfabsb_pos)
+				simpleLog("\n" + " and ".join(reasons))
+				
+				absorberOpen = absorberOpen_new
+				fastMaskOpen = fastMaskOpen_new
+				
+				if absorberOpen and fastMaskOpen:
+					minutesRemain = delayMinutes
+					secondsRemain = 60
+					simpleLog("Both absorber and fast mask now open." +
+						"\nStarting %d minute timer..." % minutesRemain)
+		#simpleLog("\nTimer completed...")
+
+	def waitForPropCounter(self):
+		pause_prompt = True	
+		while (self.prop() < self.prop_threshold):
+			if pause_prompt:
+				simpleLog("Paused because beam proportional counter " +
+					"(%f)" % self.prop() + " is below threshold level " +
+					"(%f)" % self.prop_threshold)
+				pause_prompt = False
+			sleep(1)
+			print ".",
+		if not pause_prompt:
+			print ""
+
+	def time_to_injection(self):
+		return float(self.caclient.caget("SR-CS-FILL-01:COUNTDOWN"))
+
+	def waitForInjection(self):
+		time_to_injection = self.time_to_injection()
+		
+		if (time_to_injection < self.max_time_to_injection):
+			simpleLog("Only %fs to top-up..." % time_to_injection)
 			
-			pause_prompt = False	
-			while (self.prop() < self.prop_threshold):
-				if not pause_prompt:
-					simpleLog("Paused because beam proportional counter " +
-						"(%f)" % self.prop() + " is below threshold level " +
-						"(%f)" % self.prop_threshold)
-					pause_prompt = True
+			while (time_to_injection < self.max_time_to_injection):
 				sleep(1)
+				time_to_injection = self.time_to_injection()
+				print time_to_injection,
+			
+			simpleLog("\nSettle %fs after top-up..." %
+				self.wait_after_injection)
+			
+			while (self.wait_after_injection > 0):
+				if self.wait_after_injection < 1:
+					sleep(self.wait_after_injection)
+				else:
+					sleep(1)
+				print ".",
+				self.wait_after_injection -= 1
+			print ""
+
+	def preExposeCheck(self):
+		if self.pause:
+			# We should really loop around these until none of them fail.
+			self.waitForAbsorberAndMaskOpen()
+			self.waitForPropCounter()
+			self.waitForInjection()
 
 	def postExposeCheckFailed(self):
 		reasons = []
@@ -121,6 +169,10 @@ class DetectorAxisWrapper(PseudoDevice):
 				reasons.append("beam proportional counter " +
 					"(%f)" % self.prop() + " is below threshold level " +
 					"(%f)" % self.prop_threshold)
+			
+			time_to_injection = self.time_to_injection()
+			if (time_to_injection < 0):
+				reasons.append("top-up (%fs) is negative!" % time_to_injection)
 		
 		if (len(reasons) > 0):
 			simpleLog("\nRepeat collection because " + " and ".join(reasons))
@@ -130,7 +182,7 @@ class DetectorAxisWrapper(PseudoDevice):
 
 class ISCCDAxisWrapper(DetectorAxisWrapper):
 	def __init__(self, detector, isccd, exposureTime=0, axis=None, step=None, sync=False, scanDoubleFlag=False, fileName="isccd_scan", noOfExpPerPos=1, diff=0., pause=False, overflow=False, multiFactor=1):
-		DetectorAxisWrapper.__init__(self, pause, -11)
+		DetectorAxisWrapper.__init__(self, pause, -11, exposureTime)
 		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 		self.isccd = isccd
 		self.prop = jythonNameMap.prop
@@ -142,7 +194,6 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 		self.noOfExpPerPos = noOfExpPerPos
 		self.i0_mca = jythonNameMap.d1_mca
 		self.readOutDelay = 1.5 * detector.getReadOutDelay()
-		self.exposureTime = float(exposureTime)
 		self.exposureNo = 1
 		self.fullFileName = ""
 		self.scanDoubleFlag = scanDoubleFlag
@@ -355,7 +406,7 @@ class AtlasAxisWrapper(ISCCDAxisWrapper):
 
 class PilatusAxisWrapper(DetectorAxisWrapper):
 	def __init__(self, detector, isccd, exposureTime=0, axis=None, step=1, sync=False, fileName="P100K_scan", noOfExpPerPos=1):
-		DetectorAxisWrapper.__init__(self)
+		DetectorAxisWrapper.__init__(self, False, -11, exposureTime)
 		self.isccd = isccd
 		self.detector = detector
 		self.sync = sync
@@ -363,7 +414,6 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 		self.step = float(step)	
 		self.noOfExpPerPos = noOfExpPerPos
 		self.axis = axis
-		self.exposureTime = float(exposureTime)
 		self.originalPosition = 0
 		self.files = []
 		self.setName("pilatus wrapper")
@@ -451,7 +501,7 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 
 class MarAxisWrapper(DetectorAxisWrapper):
 	def __init__(self, detector, isccd, exposureTime=1, axis=None, step=None, sync=False, fileName="mar_scan", noOfExpPerPos=1, rock=False, pause=False):
-		DetectorAxisWrapper.__init__(self, pause, 10)
+		DetectorAxisWrapper.__init__(self, pause, -11, exposureTime)
 		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 		self.isccd = isccd
 		self.detector = jythonNameMap.mar
@@ -462,7 +512,6 @@ class MarAxisWrapper(DetectorAxisWrapper):
 		self.fullFileName = ""
 		self.exposureNo = 0
 		self.noOfExpPerPos = noOfExpPerPos
-		self.exposureTime = float(exposureTime)
 		self.step = float(step)
 		self.files = []
 		self.originalPosition = 0
