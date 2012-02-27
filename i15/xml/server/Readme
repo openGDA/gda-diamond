@@ -11,9 +11,9 @@ BL15I-gui /dls_sw/work/R3.14.11/ioc/BL15I/BL/bin/linux-x86/stBL15I-gui
 data directories too: 
 
 $ ll -t --time-style=long-iso /dls_sw/prod/*/ioc/BL15I/BL/*/data/BL15I-gda-interface.xml /dls_sw/work/*/ioc/BL15I/BL/data/BL15I-gda-interface.xml /dls_sw/i15/software/gda/i15-config/xml/server/BL15I-gda-interface.xml /scratch/gda/i15/trunk/i15-config/xml/server/BL15I-gda-interface.xml /scratch/gda/i15/branches/*/i15-config/xml/server/BL15I-gda-interface.xml /dls_sw/i15/software/gda_versions/*/i15-config/xml/server/BL15I-gda-interface.xml
--rwxr-xr-x  1 voo82358 dls_dasc  65975 2011-12-06 12:24 /dls_sw/i15/software/gda/i15-config/xml/server/BL15I-gda-interface.xml
--rwxr-xr-x  1 voo82358 dls_dasc  65975 2011-12-06 12:24 /dls_sw/i15/software/gda_versions/gda_8.14test/i15-config/xml/server/BL15I-gda-interface.xml
--r-xr-xr-x  1 fgz73762 dcs      362812 2011-11-23 16:10 /dls_sw/work/R3.14.11/ioc/BL15I/BL/data/BL15I-gda-interface.xml
+-rwxrwxr-x  1 voo82358 dls_dasc 364970 2012-01-19 13:32 /dls_sw/i15/software/gda/i15-config/xml/server/BL15I-gda-interface.xml
+-rwxrwxr-x  1 voo82358 dls_dasc 364970 2012-01-19 13:32 /dls_sw/i15/software/gda_versions/gda_8.14test/i15-config/xml/server/BL15I-gda-interface.xml
+-r-xr-xr-x  1 fgz73762 dcs      364814 2012-01-18 10:36 /dls_sw/work/R3.14.11/ioc/BL15I/BL/data/BL15I-gda-interface.xml
 -r-xr-xr-x  1    37523    37523 300826 2011-09-13 17:11 /dls_sw/prod/R3.14.11/ioc/BL15I/BL/2-4/data/BL15I-gda-interface.xml
 -rwxrwxr-x  1 voo82358 voo82358  65375 2011-08-02 13:04 /scratch/gda/i15/branches/8.14/i15-config/xml/server/BL15I-gda-interface.xml
 -rwxrwxr-x  1 voo82358 voo82358  65375 2011-08-02 13:02 /scratch/gda/i15/trunk/i15-config/xml/server/BL15I-gda-interface.xml
