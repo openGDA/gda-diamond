@@ -222,18 +222,29 @@ try:
 		type, exception, traceback = sys.exc_info()
 		handle_messages.log(None, "pe error -  " , type, exception, traceback, False)
 
-	try:
+	def gigeFactory(camdet_name, cam_name, peak2d_name, max2d_name, cam_pv):
 		from gdascripts.scannable.detector.epics.EpicsGigECamera import EpicsGigECamera
-		print "Creating cam1, peak2d and max2d"
-		cam1det = EpicsGigECamera('cam1det', 'BL15I-DI-GIGE-01:',
-			filepath=VisitPath.getVisitPath() + '/', stdNotArr=False, reconnect=False)
-		#pil = ProcessingDetectorWrapper('pil', pildet, [], panel_name='Pilatus Plot', panel_name_rcp='Plot 1', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-		cam1 = ProcessingDetectorWrapper('cam1', cam1det, [], panel_name='GigE Camera', panel_name_rcp='Plot 1')
-		peak2d = DetectorDataProcessorWithRoi('peak2d', cam1, [TwodGaussianPeak()])
-		max2d = DetectorDataProcessorWithRoi('max2d', cam1, [SumMaxPositionAndValue()])
-	except:
-		type, exception, traceback = sys.exc_info()
-		handle_messages.log(None, "cam1 error -  " , type, exception, traceback, False)
+		try:
+			print "Creating %s, %s, %s and %s" % \
+				(camdet_name, cam_name, peak2d_name, max2d_name)
+			camdet = EpicsGigECamera(camdet_name, cam_pv,
+				filepath=VisitPath.getVisitPath() + '/', stdNotArr=False, reconnect=False)
+			cam = ProcessingDetectorWrapper(cam_name, camdet, [], panel_name='GigE Camera', panel_name_rcp='Plot 1')
+			peak2d = DetectorDataProcessorWithRoi(peak2d_name, cam, [TwodGaussianPeak()])
+			max2d = DetectorDataProcessorWithRoi(max2d_name, cam, [SumMaxPositionAndValue()])
+			return camdet, cam, peak2d, max2d
+		except:
+			type, exception, traceback = sys.exc_info()
+			handle_messages.log(None, "%s error -  " % cam_name, type, exception, traceback, False)
+	
+	cam1det, cam1, peak2d, max2d = gigeFactory(
+		'cam1det', 'cam1', 'peak2d', 'max2d', 'BL15I-DI-GIGE-01:')
+	cam2det, cam2, peak2d2, max2d2 = gigeFactory(
+		'cam2det', 'cam2', 'peak2d2', 'max2d2', 'BL15I-DI-GIGE-02:')
+	cam3det, cam3, peak2d3, max2d3 = gigeFactory(
+		'cam3det', 'cam3', 'peak2d3', 'max2d3', 'BL15I-DI-GIGE-03:')
+	cam4det, cam4, peak2d4, max2d4 = gigeFactory(
+		'cam4det', 'cam4', 'peak2d4', 'max2d4', 'BL15I-DI-GIGE-04:')
 
 	try:
 		simpleLog("Create diodes")
