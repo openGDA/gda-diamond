@@ -36,10 +36,10 @@ def scanGeometry(axis, velocity, A, B):
 	velocityMinimumWithDebounce_DegPerSec = 0.0002
 	
 	if velocity >= velocityMinimumWithoutDebounce_DegPerSec:
-		debounce = False
+		debounce = 0 # False
 	
 	elif velocity >= velocityMinimumWithDebounce_DegPerSec:
-		debounce = True
+		debounce = 1 # True
 		# If the debounce circuit is enabled, then we need to shorten the
 		# position compare by the length of time the stretcher stretches the
 		# pulse. Note if step is -ve then we have to correct A instead.
@@ -60,7 +60,15 @@ def scanGeometry(axis, velocity, A, B):
 		raise "Error: velocity (%f) is below minimum supported velocity (%f)" \
 			% (velocity, velocityMinimumWithDebounce_DegPerSec)
 	
-	if debounce <> beamline.getValue(None, "Top", "-EA-PCMP-01:STRETCH"):
+	debounce_current = beamline.getValue(None, "Top", "-EA-PCMP-01:STRETCH")
+	if debounce <> debounce_current:
+		simpleLog("Debounce circuit currently %r , needs to be %r " %
+			(debounce_current, debounce))
+		simpleLog("""NOTE:
+			If the next line doesn't start 'Activating position compare'
+			then try setting manually in Launcher, Beamlines, I15,
+			Experimental Hutch, SMPL2, Position Compare""")
+		
 		beamline.setValue("Top", "-EA-PCMP-01:STRETCH", debounce)
 		suffix += "(set debounce to %r)" % debounce
 	
