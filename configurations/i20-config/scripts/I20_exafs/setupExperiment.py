@@ -34,8 +34,8 @@ def setup(beanGroup):
 
     setDarkCurrentTime(beanGroup)
 
-    sampleEnvManager = I20SampleParametersManager(beanGroup.getSample(),None)
-    sampleEnvManager.init()
+#    sampleEnvManager = I20SampleParametersManager(beanGroup.getSample(),None)
+#    sampleEnvManager.init()
          
     redefineNexusMetadata(beanGroup)
     

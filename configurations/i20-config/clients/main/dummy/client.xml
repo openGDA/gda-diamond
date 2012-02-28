@@ -34,5 +34,12 @@
 		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
 		<property name="service" ref="camera_config" />
 	</bean>
+
+	<bean id="filterwheel" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="gda/filterwheel" />
+		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	
 	
 </beans>
