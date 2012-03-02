@@ -86,6 +86,8 @@
 	
 	<import resource="../../../devices/dummy/pco1.xml"/>
 	
+	<import resource="../../../devices/dummy/detector_stage_t2_motors.xml"/>
+	
 	<import resource="../common.xml"/>	
 	
 </beans>

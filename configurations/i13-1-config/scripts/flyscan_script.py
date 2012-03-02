@@ -136,7 +136,7 @@ class fly_scannable(ScannableBase):
         return res
     def waitWhileBusy(self):
         clockAtStart=time.clock()
-        while self.isBusy() and (time.clock()-clockAtStart < self.timeout_secs or math.abs((self.lastreadPosition-self.requiredPosVal)/self.step)> 4):
+        while self.isBusy() and (time.clock()-clockAtStart < self.timeout_secs or math.fabs((self.lastreadPosition-self.requiredPosVal)/self.stepVal)> 4):
             time.sleep(self.timeout_secs/2)
         
     def rawAsynchronousMoveTo(self,new_position):

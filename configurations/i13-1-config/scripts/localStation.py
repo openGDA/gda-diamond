@@ -97,7 +97,7 @@ import integrate_mpx_scan
 
 from autocollimator_script import  * #@UnusedWildImport
 
-run("i13diffcalc")
+#run("i13diffcalc")
 
 
 #except :

@@ -7,24 +7,21 @@
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
-
-	
-
-
-	<bean id="pco1_tif_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
-		<property name="processors">
+	<!--  the motors assignments and scaling will need to be reset once EPICS is correct-->
+	<bean id="det_t2_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="det_t2_x_motor" />
+	</bean>
+	<bean id="det_t2_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="det_t2_y_motor" />
+	</bean>
+	<bean id="det_t2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
 			<list>
-				<ref bean="cam_ad_filename_processor" />
+				<ref bean="det_t2_x" />
+				<ref bean="det_t2_y" />
 			</list>
 		</property>
-	</bean>
-
-
-	<bean id="pco1" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector" ref="pco1_tif" />
-		<property name="processor" ref="pco1_tif_processors" />
-		<property name="mergeWithDetectorData" value="true"/>
 	</bean>	
-
+	
 </beans>
 

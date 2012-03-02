@@ -18,6 +18,10 @@
     <logger name="gda">
         <level value="INFO"/>
     </logger>
+    
+    <logger name="gda.data.nexus.NexusFileWrapper">
+    	<level value="DEBUG"/>
+    </logger>
 
     <logger name="gdascripts.messages.handle_messages">
         <level value="INFO" />
