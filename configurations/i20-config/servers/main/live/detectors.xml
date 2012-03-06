@@ -142,6 +142,26 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="I1" class="gda.device.detector.countertimer.TfgScaler">
+		<property name="extraNames">
+			<list>
+				<value>I1</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="timeChannelRequired" value="false" />
+		<property name="TFGv2" value="false" />
+		<property name="numChannelsToRead" value="1" />
+		<property name="firstDataChannel" value="5" />
+		<property name="outputFormat">
+			<list>
+				<value>%9d</value>
+			</list>
+		</property>
+	</bean>
+	
 
 	<!-- merges data from xspress and ion chambers -->
 	<bean id="FFI0" class="gda.device.detector.TfgFFoverI0">
@@ -179,6 +199,18 @@
 		<!--property name="scaler" ref="CalMemory" / -->
 		<property name="counterTimer" ref="ionchambers" />
 	</bean>
+	
+	<bean id="FFI1" class="gda.device.detector.TfgXMapFFoverI0">
+		<property name="xmap" ref="xmapMca" />
+		<!--property name="scaler" ref="CalMemory" / -->
+		<property name="counterTimer" ref="I1" />
+		<property name="extraNames">
+			<list>
+				<value>FFI1</value>
+			</list>
+		</property>		
+	</bean>
+	
 
 	<bean id="i0_stanford_sensitivity" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-EA-IAMP-01:SENS:SEL1" />
