@@ -1,4 +1,27 @@
 # runs the servers locally
 source /dls_sw/dasc/tools_versions/set_tools.sh
 umask 0002
-/dls_sw/i20/software/gda/plugins/uk.ac.gda.core/bin/gda --config=/dls_sw/i20/software/gda/i20-config --mode=live --debug -p 8001 --restart servers
+
+# stop old servers
+/dls_sw/i20/software/gda/plugins/uk.ac.gda.core/bin/gda --stop objectserver
+/dls_sw/i20/software/gda/plugins/uk.ac.gda.core/bin/gda --stop eventserver
+/dls_sw/i20/software/gda/plugins/uk.ac.gda.core/bin/gda --stop nameserver
+
+# create log file and link to it
+export LOGFILE=/dls_sw/i20/logs/gda_output_`date +%F-%T`.txt
+touch $LOGFILE
+rm /dls_sw/i20/logs/gda_output.txt
+ln -s $LOGFILE /dls_sw/i20/logs/gda_output.txt
+
+SERVER_STARTUP_FILE=/tmp/object_server_startup_server_main; export SERVER_STARTUP_FILE
+rm -f $SERVER_STARTUP_FILE
+
+nohup /dls_sw/i20/software/gda/plugins/uk.ac.gda.core/bin/gda --config=/dls_sw/i20/software/gda/i20-config --mode=live --debug -p 8001 --restart servers > $LOGFILE 2>&1 &
+
+export THIS_MACHINE=`uname -n`
+echo ""
+echo "Waiting for GDA servers to start (looking for file $SERVER_STARTUP_FILE on $THIS_MACHINE)"
+echo "GDA server output is being logged to /dls_sw/i20/logs/gda_output.txt"
+/dls_sw/i20/software/gda/config/bin/lookForFile $SERVER_STARTUP_FILE
+echo ""
+echo "Servers have initialised; you may start a GDA client now."
