@@ -9,7 +9,7 @@
 
 	<bean id="m1m2_stripe" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="deviceName" value="M1P" />
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 	</bean>
 	<bean id="ohcoating" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-OP-VCM-01:MP:SELECT" />
@@ -17,7 +17,7 @@
 	</bean>
 	<bean id="crystalcut" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL" />
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 	</bean>
 
 
@@ -64,7 +64,7 @@
 		<property name="initialUserUnits" value="eV" />
 		<property name="motor" ref="bragg1_motor" />
 		<property name="hardwareUnitString" value="eV" />
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 		<property name="outputFormat">
 			<util:list>
 				<value>%.2f</value>
@@ -77,7 +77,7 @@
 		<property name="initialUserUnits" value="eV" />
 		<property name="motor" ref="bragg2_motor" />
 		<property name="hardwareUnitString" value="eV" />
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 		<property name="outputFormat">
 			<util:list>
 				<value>%.2f</value>
@@ -90,7 +90,7 @@
 		<property name="initialUserUnits" value="mRad" />
 		<property name="motor" ref="crystal1_pitch_motor" />
 		<property name="hardwareUnitString" value="mRad" />
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 	</bean>
 
 	<bean id="crystal2_roll" class="gda.device.scannable.ScannableMotor">
@@ -98,7 +98,7 @@
 		<property name="initialUserUnits" value="mRad" />
 		<property name="motor" ref="crystal2_roll_motor" />
 		<property name="hardwareUnitString" value="mRad" />
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 	</bean>
 
 	<bean id="pair2_roll" class="gda.device.scannable.ScannableMotor">
@@ -108,7 +108,7 @@
 		<property name="hardwareUnitString" value="mRad" />
 		<property name="lowerGdaLimits" value="0" />
 		<property name="upperGdaLimits" value="10" />
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 	</bean>
 
 	<bean id="energy" class="gda.device.scannable.ScannableMotor">
@@ -134,7 +134,7 @@
 				<value>%.7f</value>
 			</util:list>
 		</property>
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 	</bean>
 
 	<bean id="bragg2enc" class="gda.device.scannable.ScannableMotor">
@@ -145,7 +145,7 @@
 				<value>%.7f</value>
 			</util:list>
 		</property>
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 	</bean>
 
 	<bean id="pzt_pitch_voltage" class="gda.device.monitor.EpicsMonitor">

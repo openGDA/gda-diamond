@@ -3,32 +3,29 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
        
-    	<bean id="ionc1_power_supply" class="gda.device.scannable.PowerSupplyScannable">
+
+	
+	
+	<bean id="ionc1_power_supply" class="gda.device.scannable.PowerSupplyScannable">
 		<property name="readback" value="BL20I-EA-ISEG-01:V1_ACTUAL" />
-		<property name="vA" value="BL20I-EA-ISEG-01:SET_V1_SET.A" />
-		<property name="vB" value="BL20I-EA-ISEG-01:SET_V1_SET.B" />
-		<property name="vC" value="BL20I-EA-ISEG-01:SET_V1_SET.C" />
-		<property name="vD" value="BL20I-EA-ISEG-01:SET_V1_SET.D" />
+		<property name="voltage" value="BL20I-EA-ISEG-01:SET_V1_DEMAND" />
+		<property name="disable" value="BL20I-EA-ISEG-01:DISABLE:POLL" />
 		<property name="send" value="BL20I-EA-ISEG-01:SET_V1_SET:SEND.PROC" />
 		<property name="start_ramp" value="BL20I-EA-ISEG-01:V1_START" />
 	</bean>
 
 	<bean id="ionc2_power_supply" class="gda.device.scannable.PowerSupplyScannable">
 		<property name="readback" value="BL20I-EA-ISEG-01:V2_ACTUAL" />
-		<property name="vA" value="BL20I-EA-ISEG-01:SET_V2_SET.A" />
-		<property name="vB" value="BL20I-EA-ISEG-01:SET_V2_SET.B" />
-		<property name="vC" value="BL20I-EA-ISEG-01:SET_V2_SET.C" />
-		<property name="vD" value="BL20I-EA-ISEG-01:SET_V2_SET.D" />
+		<property name="voltage" value="BL20I-EA-ISEG-01:SET_V2_DEMAND" />
+		<property name="disable" value="BL20I-EA-ISEG-01:DISABLE:POLL" />
 		<property name="send" value="BL20I-EA-ISEG-01:SET_V2_SET:SEND.PROC" />
 		<property name="start_ramp" value="BL20I-EA-ISEG-01:V2_START" />
 	</bean>
 
 	<bean id="ionc3_power_supply" class="gda.device.scannable.PowerSupplyScannable">
 		<property name="readback" value="BL20I-EA-ISEG-02:V1_ACTUAL" />
-		<property name="vA" value="BL20I-EA-ISEG-02:SET_V1_SET.A" />
-		<property name="vB" value="BL20I-EA-ISEG-02:SET_V1_SET.B" />
-		<property name="vC" value="BL20I-EA-ISEG-02:SET_V1_SET.C" />
-		<property name="vD" value="BL20I-EA-ISEG-02:SET_V1_SET.D" />
+		<property name="voltage" value="BL20I-EA-ISEG-02:SET_V1_DEMAND" />
+		<property name="disable" value="BL20I-EA-ISEG-02:DISABLE:POLL" />
 		<property name="send" value="BL20I-EA-ISEG-02:SET_V1_SET:SEND.PROC" />
 		<property name="start_ramp" value="BL20I-EA-ISEG-02:V1_START" />
 	</bean>

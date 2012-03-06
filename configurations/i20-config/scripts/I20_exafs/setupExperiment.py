@@ -37,7 +37,9 @@ def setup(beanGroup):
 #    sampleEnvManager = I20SampleParametersManager(beanGroup.getSample(),None)
 #    sampleEnvManager.init()
          
-    redefineNexusMetadata(beanGroup)
+    #redefineNexusMetadata(beanGroup)
+    from gda.data.scan.datawriter import NexusExtraMetadataDataWriter
+    NexusExtraMetadataDataWriter.removeAllMetadataEntries();
     
     jython_mapper = JythonNameSpaceMapping()
     jython_mapper.ionchambers.setOutputLogValues(True) 

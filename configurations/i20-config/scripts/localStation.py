@@ -58,6 +58,9 @@ else:
 # XES offsets section
 #
 from xes import calcExpectedPositions, offsetsStore, setOffsets
+from gda.device.scannable import TwoDScanPlotter
+twodplotter = TwoDScanPlotter()
+twodplotter.setName("twodplotter")
 #offsetsStore.apply() # reads the default store from its xml file and applys the GDA-level offsets
 #
 # to calibrate the XES spectrometer:
