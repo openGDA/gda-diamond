@@ -8,7 +8,7 @@
            http://www.diamond.ac.uk/schema/gda/corba
            http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<import resource="file:${gda.config}/xml/B18-server-simulated.xml" />
+	<import resource="file:${gda.config}/xml/server-simulated.xml" />
 	<!-- <import resource="file:${gda.config}/xml/server-epics.xml" /> -->
 
 	<import resource="file:${gda.config}/xml/detectors-common.xml" />
