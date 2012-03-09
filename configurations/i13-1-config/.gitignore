@@ -1,0 +1,4 @@
+# Ignores that are common to all Eclipse GDA plugin projects
+/scripts/*.class
+
+# Ignores that are specific to this Eclipse project

@@ -27,25 +27,6 @@
 		<property name="deviceName" value="f1.aper" />
 		<property name="local" value="true" />
 	</bean>
-<!--
-	<bean id="filter_crlX_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.crlx" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="filter_crlY_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.crly" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="filter_crlZ_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.crlz" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="filter_crlYaw_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.crlyaw" />
-		<property name="local" value="true" />
-		<property name="unitStringOverride" value="kcts"/>
-	</bean>
--->	
 	<bean id="f1_aperture_mp" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="deviceName" value="f1.aperture.mp" />
 	</bean>	
@@ -64,9 +45,4 @@
 	<bean id="f1_filter5_mp" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="deviceName" value="f1.filter5.mp" />
 	</bean>	
-<!--
-	<bean id="f1_crly_mp" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="deviceName" value="f1.crly.mp" />
-	</bean>	
--->
 </beans>	
