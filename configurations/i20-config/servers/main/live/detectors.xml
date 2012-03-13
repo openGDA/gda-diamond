@@ -152,9 +152,9 @@
 		<property name="scaler" ref="CalMemory" />
 		<property name="timer" ref="tfg" />
 		<property name="timeChannelRequired" value="false" />
-		<property name="TFGv2" value="false" />
+		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="1" />
-		<property name="firstDataChannel" value="5" />
+		<property name="firstDataChannel" value="4" />
 		<property name="outputFormat">
 			<list>
 				<value>%9d</value>
