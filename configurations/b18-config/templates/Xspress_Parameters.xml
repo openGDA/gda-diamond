@@ -21,7 +21,7 @@
         <name>Element1</name>
         <number>1</number>
         <windowStart>490</windowStart>
-        <windowEnd>517</windowEnd>        
+        <windowEnd>517</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
@@ -34,7 +34,7 @@
         <name>Element2</name>
         <number>2</number>
         <windowStart>490</windowStart>
-        <windowEnd>517</windowEnd>        
+        <windowEnd>517</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
@@ -47,7 +47,7 @@
         <name>Element3</name>
         <number>3</number>
         <windowStart>490</windowStart>
-        <windowEnd>517</windowEnd>        
+        <windowEnd>517</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
@@ -60,7 +60,7 @@
         <name>Element4</name>
         <number>4</number>
         <windowStart>490</windowStart>
-        <windowEnd>517</windowEnd>        
+        <windowEnd>517</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
@@ -73,7 +73,7 @@
         <name>Element5</name>
         <number>5</number>
         <windowStart>490</windowStart>
-        <windowEnd>517</windowEnd>       
+        <windowEnd>517</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
@@ -86,7 +86,7 @@
         <name>Element6</name>
         <number>6</number>
         <windowStart>490</windowStart>
-        <windowEnd>517</windowEnd>       
+        <windowEnd>517</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
@@ -99,7 +99,7 @@
         <name>Element7</name>
         <number>7</number>
         <windowStart>490</windowStart>
-        <windowEnd>517</windowEnd>       
+        <windowEnd>517</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
@@ -112,7 +112,7 @@
         <name>Element8</name>
         <number>8</number>
         <windowStart>490</windowStart>
-        <windowEnd>517</windowEnd>        
+        <windowEnd>517</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
