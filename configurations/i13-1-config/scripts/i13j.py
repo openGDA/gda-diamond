@@ -12,8 +12,8 @@ mpx_set_folder
 
 To take an image from the maxipix detector:
 
-1. Set the folder and prefix for the images. The folder is relative to the visit folder.
-    e.g.mpx_set_folder("","sampleA")
+1. Set the folder, prefix and next number for the images. The folder is relative to the visit folder.
+    e.g.mpx_set_folder("","sampleA",0)
 
 2. Take an image with the maxipix detector
     pos mpx 1.
@@ -116,6 +116,13 @@ To take an image from the maxipix detector:
 10. SCANNING
     >scan scannable start end step      e.g. scan ix 1 10 1
     >scan scannable list_of_positions   e.g. scan ix (1,2,4,5,6,5,4,3,2,1)
+
+11. Read total count in region of interest for mpx
+    Use detector mpx_wrap
+    >imageStats.setEnable(True)
+    >imageROI.setEnable(True)
+    >imageROI.setROI(366,511,231,511)  ( y_start, y_end, x_start, x_end)
+    >repscan 1 mpx_wrap 1
     
 """
 

@@ -113,7 +113,9 @@
 	<import resource="../../devices/s5.xml" />
 
 	<import resource="../../devices/sample_stage_t1.xml" />
+	<import resource="../../devices/s6.xml" />
 	<import resource="../../devices/sample_stage_camera.xml" />
+	<import resource="../../devices/s7.xml" />
 
 	<import resource="../../devices/alignment_scope.xml" />
 

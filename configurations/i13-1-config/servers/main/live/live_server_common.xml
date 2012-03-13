@@ -81,10 +81,13 @@
 	
 	<import resource="../../../devices/dummy/robot_motors.xml"/>
 
+	<import resource="../../../devices/epics/s6_motors.xml"/>
+
 	<import resource="../../../devices/epics/sample_stage_t1_motors.xml"/>
 
 	<import resource="../../../devices/epics/sample_stage_camera.xml"/>
 	
+	<import resource="../../../devices/epics/s7_motors.xml"/>
 
 	<import resource="../../../devices/epics/alignment_scope_motors.xml"/>
 

@@ -183,6 +183,17 @@
 				<constructor-arg value=".03" />
 			</bean>
 		</property>
+		<property name="fileWriter">
+			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+				<constructor-arg value="pco1" />
+				<constructor-arg ref="pco1_ndfiletif" />
+				<constructor-arg value="true"/>
+				<constructor-arg value="i13-1"/>
+				<constructor-arg value="i13-1"/>
+				<property name="enable" value="true"/>
+			</bean>
+		</property>
+
 		<property name="readAcquisitionTime" value="true" />
 		<property name="readFilepath" value="true" />
 		<property name="readAcquisitionPeriod" value="false" />
