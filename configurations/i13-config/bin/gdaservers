@@ -13,30 +13,29 @@ source /dls_sw/i13/etc/i13_profile.sh
 export JAVA_OPTS="-Xms128m -Xmx1024m -XX:MaxPermSize=128m -XX:+DisableExplicitGC"
 echo $@
 
-echo python2.5  /dls_sw/i13/software/gda_versions/gda_trunk/plugins/uk.ac.gda.core/bin/gda  --config=/dls_sw/i13/software/gda/i13i-config --smart --trace servers -v --mode=live_localhost --restart --debug
-python2.5   /dls_sw/i13/software/gda_versions/gda_trunk/plugins/uk.ac.gda.core/bin/gda  --config=/dls_sw/i13/software/gda/i13i-config servers --smart --trace --mode=live_localhost --nsport 6701 --restart --debug $@
+#commented out commands from when gdasrever ran on i13-ws
+#echo python2.5  /dls_sw/i13/software/gda_versions/gda_trunk/plugins/uk.ac.gda.core/bin/gda  --config=/dls_sw/i13/software/gda/i13i-config --smart --trace servers -v --mode=live_localhost --restart --debug
+#python2.5   /dls_sw/i13/software/gda_versions/gda_trunk/plugins/uk.ac.gda.core/bin/gda  --config=/dls_sw/i13/software/gda/i13i-config servers --smart --trace --mode=live_localhost --nsport 6701 --restart --debug $@
 #python2.5   /dls_sw/i13/software/gda_versions/gda_trunk/plugins/uk.ac.gda.core/bin/gda  --config=/dls_sw/i13/software/gda/i13i-config --smart --trace namemanager -v --mode=live_localhost --restart
 
-exit
+#exit
 
 
-#identify install folder and JAVA_HOME
-source /dls_sw/i13/etc/i13_profile.sh
-
-
+#
 #gdalog &
 
-gda_namemanager &
+#gda_namemanager &
 
 echo "Keep this window open, and you will see a pop-up when the restart has completed"
 
 # ssh into i13-control as gda which should then run the servers script locally there
-#echo $USER
-#if [ "$USER" == "tjs15132" ]; 
-#then ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i $GDAFOLDER/$BEAMLINE-config/${BEAMLINE}ssh_non_permissive.key gda@i13-control
-#else ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i $GDAFOLDER/$BEAMLINE-config/${BEAMLINE}ssh.key gda@i13-control
-#fi
-servers.sh
+echo $USER
+if [ "$USER" == "tjs15132" ]; 
+then cmd="ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i $GDAFOLDER/$BEAMLINE-config/${BEAMLINE}ssh_non_permissive.key gda2@i13-control"; export cmd
+else cmd="ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i $GDAFOLDER/$BEAMLINE-config/${BEAMLINE}ssh.key gda2@i13-control"; export cmd
+fi
+echo $cmd
+$cmd
 zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
 STARTCLIENT=$?
 if [ $STARTCLIENT == 0 ]; then
