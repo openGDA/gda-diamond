@@ -18,6 +18,15 @@
 		<constructor-arg value="0" />
 		<constructor-arg value="Both" />
 	</bean>
+	
+<!-- gda.util.converters.LookupTableConverterHolder -->
+<!-- wiggler gap -->
+<!-- primary hgap -->
+<!-- me2 pitch -->
+
+<!-- 	gda.util.converters.JEPConverterHolder -->
+
+
 
 	<bean id="energyTable" class="uk.ac.gda.beamline.i20_1.utils.LookupTablesBean">
 		<property name="initialUserUnitString" value="eV" />
