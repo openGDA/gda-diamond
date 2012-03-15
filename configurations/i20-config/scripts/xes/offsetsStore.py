@@ -71,15 +71,12 @@ def applyfrom(storeName):
     scannables = jython_mapper.spectrometer.getGroupMembers()
     store = LocalParameters.getXMLConfiguration(STORE_DIR,storeName,False)
 
-    #print "Setting the spectrometer offsets:"
     valuesDict = {}
     for scannable in scannables:
         name = scannable.getName()
         value = float(store.getProperty(name))
-       # scannable.setOffset(value)
         valuesDict[name] = value
-        #print "\t %s offset -> %.2f" % (name,value)
-    setOffsets.setFromDict(valuesDict,False)
+    setOffsets.setFromExpectedValues(valuesDict,False)
     
 def view():
     """

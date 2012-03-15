@@ -1,4 +1,5 @@
 from BeamlineParameters import JythonNameSpaceMapping
+import offsetsStore
 
 #
 # This script will change the offsets for the motors in the spectrometer, based on supplied values from the user.
@@ -22,6 +23,10 @@ def setFromDict(offsetsDict,storeToDefault=False):
         offset = offsetsDict[name]
         print "\t %20s offset -> %.2f" % (name,offset)
         spectrometer.getGroupMember(name).setOffset([offset])
+
+    if storeToDefault:
+        offsetsStore.write()
+
     
         
         

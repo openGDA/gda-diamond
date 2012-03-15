@@ -25,7 +25,7 @@ def applyFromLive(fluo_energy,store=False):
     
     print expectedValuesDict
     
-    setOffsets.setFromExpectedValues(expectedValuesDict, False)
+    setOffsets.setFromExpectedValues(expectedValuesDict, store)
 
 
 def calcFromLive(fluo_energy):
