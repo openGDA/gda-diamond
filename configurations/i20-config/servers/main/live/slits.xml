@@ -353,5 +353,20 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="photonshutter" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="BL20I-EA-SHTR-01" />
+		<property name="outputFormat">
+			<list>
+				<value>%s</value>
+			</list>
+		</property>
+		<property name="inputNames">
+			<list>
+				<value>photonshutter</value>
+			</list>
+		</property>
+	</bean>
+	
 
 </beans>
