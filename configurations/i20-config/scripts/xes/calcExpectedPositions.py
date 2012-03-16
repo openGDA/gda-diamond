@@ -2,6 +2,7 @@ from gda.exafs.xes import XesUtils
 
 from BeamlineParameters import JythonNameSpaceMapping
 from xes import setOffsets
+from xes import offsetsStore
 
 
 def recordFromLive(fluo_energy):
@@ -12,23 +13,24 @@ def recordFromLive(fluo_energy):
     
     Next time the GDA starts those offsets will continue to be used.
     """
-    applyFromLive(fluo_energy,True)
+    applyFromLive(fluo_energy)
+    offsetsStore.write()
 
-def applyFromLive(fluo_energy,store=False):
+def applyFromLive(fluo_energy):
     """
     Using the given fluorescence energy, assumes that the spectrometer is aligned to that 
     energy, so sets the offsets of all the motors.
     
     The offsets are only recorded in the xml file if store is set to True.
     """
-    expectedValuesDict = calcFromLive(fluo_energy)
+    expectedValuesDict = _calcFromLive(fluo_energy)
     
     print expectedValuesDict
     
-    setOffsets.setFromExpectedValues(expectedValuesDict, store)
+    setOffsets.setFromExpectedValues(expectedValuesDict)        
 
 
-def calcFromLive(fluo_energy):
+def _calcFromLive(fluo_energy):
     """
     Using the given fluorescence energy, assumes that the spectrometer is aligned to that 
     energy, so calculates the expected motor positions.
@@ -45,9 +47,9 @@ def calcFromLive(fluo_energy):
     current_crystalCut = [current_crystalCut0,current_crystalCut1,current_crystalCut2]
     current_rowlandRadius = float(jython_mapper.radius())
     
-    return calcFromValues(fluo_energy, current_material, current_crystalCut, current_rowlandRadius)
+    return _calcFromValues(fluo_energy, current_material, current_crystalCut, current_rowlandRadius)
 
-def calcFromValues(fluo_energy, material, crystalCut, rowlandRadius):
+def _calcFromValues(fluo_energy, material, crystalCut, rowlandRadius):
     """
     Using the given fluorescence energy and crystal parameters, assumes that the spectrometer
     is aligned to that energy, so calculates the expected motor positions.

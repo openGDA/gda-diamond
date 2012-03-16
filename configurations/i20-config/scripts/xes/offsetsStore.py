@@ -76,7 +76,7 @@ def applyfrom(storeName):
         name = scannable.getName()
         value = float(store.getProperty(name))
         valuesDict[name] = value
-    setOffsets.setFromExpectedValues(valuesDict,False)
+    setOffsets.setFromExpectedValues(valuesDict)
     
 def view():
     """

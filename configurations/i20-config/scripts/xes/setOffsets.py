@@ -1,36 +1,10 @@
 from BeamlineParameters import JythonNameSpaceMapping
-import offsetsStore
 
 #
 # This script will change the offsets for the motors in the spectrometer, based on supplied values from the user.
 #
 
-def setFromDict(offsetsDict,storeToDefault=False):
-    """ 
-    Sets the supplied dictionary of offsets to the GDA Scannables.
-    
-    The optional second argument is a boolean, if true this will store the new offsets to the default xml store of offsets as well.
-    
-    """
-
-    _checkDictNames(offsetsDict)
-    
-    jython_mapper = JythonNameSpaceMapping()
-    spectrometer = jython_mapper.spectrometer
-    
-    print "Setting the spectrometer offsets:"
-    for name in offsetsDict.keys():
-        offset = offsetsDict[name]
-        print "\t %20s offset -> %.2f" % (name,offset)
-        spectrometer.getGroupMember(name).setOffset([offset])
-
-    if storeToDefault:
-        offsetsStore.write()
-
-    
-        
-        
-def setFromExpectedValues(expectedValuesDict,storeToDefault=False):
+def setFromExpectedValues(expectedValuesDict):
     """ 
     Using the supplied dictionary of expected motor positions, this calculates the required offsets and sets them on the GDA Scannables.
     
@@ -50,8 +24,27 @@ def setFromExpectedValues(expectedValuesDict,storeToDefault=False):
         offsetsDict[name] = newOffset
         
     print offsetsDict
-    setFromDict(offsetsDict,storeToDefault)
+    _setFromDict(offsetsDict)
 
+
+def _setFromDict(offsetsDict):
+    """ 
+    Sets the supplied dictionary of offsets to the GDA Scannables.
+    
+    The optional second argument is a boolean, if true this will store the new offsets to the default xml store of offsets as well.
+    
+    """
+
+    _checkDictNames(offsetsDict)
+    
+    jython_mapper = JythonNameSpaceMapping()
+    spectrometer = jython_mapper.spectrometer
+    
+    print "Setting the spectrometer offsets:"
+    for name in offsetsDict.keys():
+        offset = offsetsDict[name]
+        print "\t %20s offset -> %.2f" % (name,offset)
+        spectrometer.getGroupMember(name).setOffset([offset])    
 
 def _checkDictNames(valuesDict):
 
