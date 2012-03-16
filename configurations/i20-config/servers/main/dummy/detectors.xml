@@ -106,6 +106,27 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="I1" class="gda.device.detector.countertimer.TfgScaler">
+		<property name="extraNames">
+			<list>
+				<value>I1</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="timeChannelRequired" value="false" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="1" />
+		<property name="firstDataChannel" value="4" />
+		<property name="outputFormat">
+			<list>
+				<value>%6.4g</value>
+				<value>%9d</value>
+			</list>
+		</property>
+	</bean>
+	
 
 	<!-- merges data from xspress and ion chambers -->
 	<bean id="FFI0" class="gda.device.detector.TfgFFoverI0">
@@ -131,18 +152,30 @@
 		<property name="tfg" ref="tfg" />
 	</bean>
 
-	<bean id="I1" class="gda.device.detector.XesIf">
-		<property name="xmap" ref="xmapMca" />
-		<property name="gdhist" ref="CalMemory" />
-		<property name="scaler" ref="ionchambers" />
-		<property name="ifChannelNumber" value="4" />
-	</bean>
+<!-- 	<bean id="I1" class="gda.device.detector.XesIf"> -->
+<!-- 		<property name="xmap" ref="xmapMca" /> -->
+<!-- 		<property name="gdhist" ref="CalMemory" /> -->
+<!-- 		<property name="scaler" ref="ionchambers" /> -->
+<!-- 		<property name="ifChannelNumber" value="4" /> -->
+<!-- 	</bean> -->
 
 	<bean id="FFI0_vortex" class="gda.device.detector.TfgXMapFFoverI0">
 		<property name="xmap" ref="xmapMca" />
 		<property name="counterTimer" ref="ionchambers" />
 		<property name="i0_channel" value="0"/>
 	</bean>
+	
+	<bean id="FFI1" class="gda.device.detector.TfgXMapFFoverI0">
+		<property name="xmap" ref="xmapMca" />
+		<!--property name="scaler" ref="CalMemory" / -->
+		<property name="counterTimer" ref="I1" />
+		<property name="extraNames">
+			<list>
+				<value>FFI1</value>
+			</list>
+		</property>		
+	</bean>
+	
 
 <!-- 	<bean id="cirrus" class="uk.ac.gda.devices.cirrus.CirrusDetector"> -->
 <!-- 		<property name="cirrusHost" value="diamrl5244" /> -->

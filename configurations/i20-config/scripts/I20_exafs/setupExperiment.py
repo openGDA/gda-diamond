@@ -31,6 +31,12 @@ def setup(beanGroup):
     if beanGroup.getDetector().getExperimentType() == "Fluorescence":
         print "Setting up Fluorescence detector"
         configFluoDetector(beanGroup)
+        
+    elif beanGroup.getDetector().getExperimentType() == "XES" :
+        from gda.device.detector import VortexDetectorConfiguration
+        fullFileName = beanGroup.getScriptFolder() + beanGroup.getDetector().getFluorescenceParameters().getConfigFileName()
+        outputParameters = beanGroup.getOutput()
+        VortexDetectorConfiguration(Finder.getInstance().find("ExafsScriptObserver"),fullFileName,None,outputParameters).configure()
 
     setDarkCurrentTime(beanGroup)
 
