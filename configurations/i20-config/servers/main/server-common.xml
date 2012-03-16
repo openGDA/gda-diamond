@@ -13,8 +13,16 @@
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location"
-			value="file:${gda.config}/properties/${gda.mode}/java.properties" />
+		<!-- <property name="location" -->
+		<!-- value="file:${gda.config}/properties/${gda.mode}/java.properties" 
+			/> -->
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/java.properties
+				</value>
+				<value>file:${gda.config}/properties/common.properties</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
@@ -36,6 +44,33 @@
 	        </util:list>
 	    </property>
 	</bean>
+	
+<!-- 	for logging the Jython terminal to the data directory -->
+	
+	<bean id="jython_server_facade" class="gda.jython.JythonServerFacade">
+		<constructor-arg ref="command_server" />
+	</bean>
+	
+	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">
+		<constructor-arg ref="terminallog_path_provider" />
+	</bean>
+	<bean class="gda.jython.logger.OutputTerminalAdapter">
+		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="terminal_logger"/>
+	</bean>
+	<bean class="gda.jython.logger.InputTerminalAdapter">
+		<constructor-arg ref="command_server" />
+		<constructor-arg ref="terminal_logger"/>
+	</bean>
+	<bean class="gda.jython.logger.ScanDataPointAdapter">
+		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="terminal_logger"/>
+	</bean>
+	<bean class="gda.jython.logger.BatonChangedAdapter">
+		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="terminal_logger"/>
+	</bean>
+	
 	
 
 	<corba:export namespace="i20" />

@@ -7,11 +7,12 @@
            http://www.springframework.org/schema/util/spring-util-2.0.xsd
            http://www.diamond.ac.uk/schema/gda/corba
            http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
-
-	<import resource="file:${gda.config}/servers/main/server-common.xml" />
+           
 
 	<!-- Meta Data File -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/meta-data.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/meta-data.xml" />           
+
+	<import resource="file:${gda.config}/servers/main/server-common.xml" />
 
 	<!-- Definition of the ascii data format -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/dataformat.xml" />

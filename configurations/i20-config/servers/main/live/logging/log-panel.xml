@@ -35,6 +35,9 @@
     <logger name="gda.factory.corba.util.PushEventQueue">
         <level value="ERROR"/>
     </logger>
+    <logger name="gda.jython.GDAJythonInterpreter">
+        <level value="WARN"/>
+    </logger>
     <root>
         <level value="INFO"/>
         <appender-ref ref="LogPanel"/>

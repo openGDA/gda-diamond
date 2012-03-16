@@ -14,7 +14,7 @@
     </appender>
         
     <appender name="LogServer" class="ch.qos.logback.classic.net.SocketAppender">
-        <RemoteHost>i20-control.diamond.ac.uk</RemoteHost>
+        <RemoteHost>i20-1-control.diamond.ac.uk</RemoteHost>
         <Port>6788</Port>
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
