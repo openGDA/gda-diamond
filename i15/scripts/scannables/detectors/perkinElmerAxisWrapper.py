@@ -1,13 +1,15 @@
-import os
+from __future__ import with_statement
+import os, re, sys
+from threading import Thread
 from time import sleep
-from gdascripts.messages.handle_messages import simpleLog
+from gdascripts.messages.handle_messages import simpleLog, log
+from gda.epics import CAClient
 from operationalControl import moveMotor
 from ccdScanMechanics import setMaxVelocity
 from ccdScanMechanics import deactivatePositionCompare
 from ccdScanMechanics import scanGeometry
 from ccdScanMechanics import setVelocity
 from gda.data.fileregistrar import FileRegistrarHelper
-from glob import glob
 from scannables.detectors.detector_axis_wrapper import DetectorAxisWrapperNew
 
 class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
@@ -31,9 +33,17 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
             self.velocity = float(abs(self.step)) / float(self.exposureTime)
         else:
             self.velocity = 0
+        
+        self.caclient = CAClient()
+        self.diodeSum = "BL15I-EA-CSTRM-01:DIODESUM"
+        # Note, this PV currently reads the BL15I-DI-PHDGN-01:I PV. If you want
+        # to sum another PV, use BL15I-EA-CSTRM-01:DIODECALC.INPB to set the PV
+        # you want to sum atScanStart.
 
     def atScanStart(self):
         DetectorAxisWrapperNew.atScanStart(self)
+        # Zero the diode sum we can tell if it was triggered
+        self.caclient.caput(self.diodeSum, 0) 
         self.detector.prepareForCollection()
 
     def acquireOneImage(self, position):
@@ -129,7 +139,10 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
             simpleLog("Readout complete")
 
     def rawAsynchronousMoveTo(self, position):
-
+        if type(position) == list:
+            simpleLog("rawAsynchronousMoveTo(%r) returning early." % position)
+            return
+        
         self.files = []
         
         for exp in range(self.noOfExpPerPos):
@@ -149,129 +162,58 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
                 if self.postExposeCheckFailed():
                     self.acquireOneImage(position)
                 
-#                if self.noOfExpPerPos > 1:
-#                    self.fullFileName = self.fileName + "_%03d" % self.exposureNo
-#                elif self.rock:
-#                    self.fullFileName = self.fileName
-#                else:
-#                    self.fullFileName = self.fileName + "_%03d" % self.inc
-#
-#                # Make sure that any output files do not exist before we start:
-#                expectedFile = self.visitPath + "/" + self.fullFileName
-#                expectedGlob =expectedFile + "_001.*"
-#                filesAtLocation = glob(expectedGlob)
-                
-#                if len(filesAtLocation) > 0:
-#                    simpleLog("Warning, files found matching %s: \n%s\nRenaming..." %
-#                              (expectedGlob, "\n".join(filesAtLocation)))
-#                    for file in filesAtLocation:
-#                        newFile = file.replace("_001.","_bak.")
-#                        try:
-#                            os.rename(file, newFile)
-#                        except OSError:
-#                            simpleLog("Error renaming file %s to %s" %
-#                                      (file, newFile))
-
-#                #self.scanTheMarWithChecks(300)
-#            
-#                # There should now be only one file which starts with fullFileName
-#                filesAtLocation = glob(expectedGlob)
-#
-#                if len(filesAtLocation) == 1:
-#                    # Rename it to strip out the 
-#                    self.fullFileLocation = filesAtLocation[0].replace("_001.",".")
-#                    try:
-#                        #simpleLog("Renaming file %s to %s" %
-#                        #          (filesAtLocation[0], self.fullFileLocation))
-#                        os.rename(filesAtLocation[0], self.fullFileLocation)
-#                        self.files.append(self.fullFileLocation)
-#                        FileRegistrarHelper.registerFile(self.fullFileLocation)    
-#                    except OSError:
-#                        simpleLog("Error renaming file %s to %s" %
-#                                  (filesAtLocation[0], self.fullFileLocation))
-#                        # Since  we can't rename it, register the unrenamed file. 
-#                        self.files.append(filesAtLocation[0])
-#                        FileRegistrarHelper.registerFile(filesAtLocation[0])    
-#                        
-#                # If there are no or 2+ matching files, try to fail gracefully.
-#                elif len(filesAtLocation) == 0:
-#                    simpleLog("Error, no file(s) found matching %s" % expectedGlob)
-#                    
-#                else:
-#                    simpleLog("Error, multiple files found matching %s: \n%s" %
-#                              (expectedGlob, "\n".join(filesAtLocation)))
-#                
-#                
-#                #modMar = modMarName(self.fullFileLocation)
-#                #modMar.start()
                 filename = self.detector.readout()
                 self.files.append(filename)
-                simpleLog("self.files=%r @ exp=%d" % (self.files, exp))
+                if self.detector.verbose:
+                    simpleLog("self.files=%r @ exp=%d" % (self.files, exp))
                 FileRegistrarHelper.registerFile(filename)
+                
+                # expose(pe, 5, 1, "tmp/pe_mbb_expose")
+                # expose(pe, 5, 2, "tmp/pe_mbb_expose")
+                # rockScan(dkphi, 58, 3, 1, pe, 5, "tmp/pe_mbb_rockScan")
+                # simpleScan(dkphi, 58, 60, 1, pe, 5, 1, "tmp/pe_mbb_simpleScan")
+                diodeSum=self.caclient.caget(self.diodeSum)
+                self.ModifyMetadata(filename, diodeSum).start()
             else:
                 simpleLog("velocity too high, please specify a longer exposure time (max velocity of kphi=8.0 deg/sec)")
-        
+            
             self.exposureNo += 1
+        
         self.inc +=1
+
+    class ModifyMetadata(Thread):
+        def __init__(self, filename, value):
+            Thread.__init__(self)
+            self.value = value
+            self.filename = filename
+        
+        def run(self):
+            filename = "%s.metadata" % self.filename
+            simpleLog("Modifying metadata userComment4=%s in %r" %
+                      (self.value, filename))
+            try:
+                # Note that the metadata file is DOS CRLF not LF only
+                regex = re.compile("^(userComment4=)(\r)$", re.MULTILINE)
+                subst = "\g<1>%s\g<2>" % self.value
                 
+                with open(filename) as f:
+                    text = f.read()
+                
+                if len(regex.findall(text)) == 1:
+                    os.rename(filename, filename+".bak")
+                    text = re.sub(regex, subst, text)
+                    with open(filename, "w") as f:
+                        f.write(text)
+                    simpleLog("Completed " + filename)
+                else:
+                    simpleLog("userComment4 not found in " + filename)
+            except:
+                typ, exception, traceback = sys.exc_info()
+                log(None, "Unable to modify metadata: ", typ, exception, traceback)
+                simpleLog("!"*80)
+                simpleLog("WARNING: metadata modify failed for: %r" % filename)
+                simpleLog("         Note that userComment4=%s" % self.value)
+                simpleLog("!"*80)
+
     def rawIsBusy(self):
         return self.detector.getStatus();
-
-#    def scanTheMarWithChecks(self, timeout):
-#        """
-#        Scan the mar, checking for correct status 
-#        """
-#        self.detector.setRootName(self.fullFileName)
-#
-#        mar_mode = self.detector.getMode()
-#        if (mar_mode != 4):
-#            simpleLog( "Mar mode is %d not the default 4, use 'mar.setMode(X)' to change mode to X or mar.setMode(-1) to list modes." % mar_mode)
-#
-#        # Wait for mar to be ready before starting scan
-#        timeTaken = self.waitForStatus(timeout, 0)
-#        if (timeTaken == -1):
-#            raise "Timed out waiting for mar to be ready, so scan not performed"
-#    
-#        simpleLog("mar ready in time %.2f" % timeTaken + "s")
-#        # Wait for mar to start scanning
-#        simpleLog("Scan command sent to mar... (timeout = " + str(timeout) + ")") 
-#        self.detector.scan()
-#        timeTaken = self.waitForStatus(timeout, 1)
-#        if (timeTaken == -1):
-#            raise "Timed out waiting for mar to start, so scan not performed"
-#    
-#        simpleLog("mar busy in time %.2f" % timeTaken + "s")
-#        # Scan scanning and wait for mar to be ready
-#        timeTaken = self.waitForStatus(timeout, 0)
-#        if (timeTaken == -1):
-#            raise "Timed out waiting for mar to stop scanning"
-#
-#        simpleLog("Scanned in time %.2f" % timeTaken + "s")
-
-#    def waitForStatus(self, timeout, status):
-#        
-#        t0 = clock()
-#        t1 = t0
-#        while ((t1 - t0) < timeout): 
-#            if (self.detector.getStatus() == status):
-#                simpleLog("Mar status of " + str(status) + " reached in time %.2f" % (t1 - t0) + "s")
-#                return (t1 - t0)
-#            t1 = clock()
-#            pause()                     # ensures script can be stopped promptly
-#    
-#        simpleLog("Timed out waiting for mar status of " + str(status) + " (waited " + str(timeout) + "s)")
-#        return - 1
-
-#    def remove_001Suffix(self):
-#        """
-#        Remove '_001' suffix from file paths (added by mar software)
-#        """
-#        simpleLog("removing '_001' suffix from all files created...")
-#        filesCreated = []
-#        for filePath in self.filePaths:
-#            print filePath
-#            fileWithSuffix_001 = filePath.replace(".mar3450", "_001.mar3450")
-#            if (doesFileExist(fileWithSuffix_001)):
-#                os.rename(fileWithSuffix_001, filePath)
-#            else:
-#                simpleLog("Could not find file " + fileWithSuffix_001 + " to rename")

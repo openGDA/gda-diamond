@@ -17,7 +17,9 @@ class PerkinElmerAxisWrapperTestNoAxis(unittest.TestCase):
         self.detector=PerkinElmer('pe', self.peid, "X:", "/dls/i15/data",
                                   "2011/cm2062-3", "tmp", "deletemeMBB")
         self.wrappedDetector=PerkinElmerAxisWrapper(self.detector,
-            Mock(), Mock(), Mock(), Mock())
+            Mock(), Mock(), Mock(), Mock(), exposeDark=True)
+        # Without exposeDark=True, PerkinElmer.getStatus() always returns
+        # Busy, so the tests never return.
 
     def tearDown(self):
         pass
