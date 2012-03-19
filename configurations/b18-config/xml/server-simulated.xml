@@ -124,9 +124,7 @@
 
 	<bean id="SAM3Y_motor" class="gda.device.motor.DummyMotor" />
 
-	<bean id="USER1_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="USER2_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="USER3_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="USER4_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="USER5_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="USER6_motor" class="gda.device.motor.DummyMotor" />
@@ -152,7 +150,7 @@
 	<bean id="XTAL2Y_motor" class="gda.device.motor.DummyMotor" />
 
 	<bean id="GAP_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="test2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="test_motor" class="gda.device.motor.DummyMotor" />
 	
 
 	<bean id="energy" class="gda.device.scannable.ScannableMotor">
@@ -243,7 +241,21 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="ionc1_stanford" class="gda.device.scannable.DummyStanfordScannable" />
+	<bean id="ionc2_stanford" class="gda.device.scannable.DummyStanfordScannable" />
+	<bean id="ionc3_stanford" class="gda.device.scannable.DummyStanfordScannable" />
+	
+	<bean id="ionc1_gas_injector" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc2_gas_injector" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc3_gas_injector" class="gda.device.scannable.DummyScannable" />
+	
+	<bean id="lakeshore" class="gda.device.scannable.DummyScannable" />
+	<bean id="pulsetube" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="test_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="samplewheel" class="gda.device.scannable.DummySampleWheel">
+		<property name="name" value="samplewheel" />
+		<property name="numberOfFilters" value="36" />
+	</bean>
 
 </beans>

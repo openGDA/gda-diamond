@@ -5,4 +5,4 @@ export JAVA_OPTS=-Xmx2000m
 /dls_sw/b18/software/gda/plugins/uk.ac.gda.core/bin/gda --stop objectserver
 /dls_sw/b18/software/gda/plugins/uk.ac.gda.core/bin/gda --stop eventserver
 /dls_sw/b18/software/gda/plugins/uk.ac.gda.core/bin/gda --stop nameserver
-/dls_sw/b18/software/gda/plugins/uk.ac.gda.core/bin/gda --config=/dls_sw/b18/software/gda/config --debug -p 8001 --start servers
+JAVA_OPTS="-Xms1024m -Xmx8192m -XX:PermSize=256m -XX:MaxPermSize=512m" /dls_sw/b18/software/gda/plugins/uk.ac.gda.core/bin/gda --config=/dls_sw/b18/software/gda/config --debug -p 8001 --start servers

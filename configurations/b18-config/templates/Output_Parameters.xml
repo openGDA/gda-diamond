@@ -3,6 +3,4 @@
     <asciiFileName>FeKedge</asciiFileName>
     <asciiDirectory>ascii</asciiDirectory>
     <nexusDirectory>nexus</nexusDirectory>
-	<xspressOnlyShowFF>false</xspressOnlyShowFF>
-	<xspressShowDTRawValues>false</xspressShowDTRawValues>
 </OutputParameters>

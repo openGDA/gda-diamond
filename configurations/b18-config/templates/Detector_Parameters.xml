@@ -29,9 +29,9 @@
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>1 nA/V</gain>
             <useGasProperties>true</useGasProperties>
-            <gasType>He</gasType>
+            <gasType>Ar</gasType>
             <percentAbsorption>15.0</percentAbsorption>
-            <pressure>99.64301</pressure>
+            <pressure>0.017819</pressure>
             <totalPressure>1.1</totalPressure>
             <ionChamberLength>30.0</ionChamberLength>
             <gas_fill1_period_box>300.0</gas_fill1_period_box>
@@ -47,7 +47,7 @@
             <currentAmplifierName>Stanford02</currentAmplifierName>
             <gain>1 nA/V</gain>
             <useGasProperties>true</useGasProperties>
-            <gasType>He</gasType>
+            <gasType>Ar</gasType>
             <percentAbsorption>80.0</percentAbsorption>
             <pressure>986.772675</pressure>
             <totalPressure>1.1</totalPressure>
@@ -65,7 +65,7 @@
             <currentAmplifierName>Stanford03</currentAmplifierName>
             <gain>1 nA/V</gain>
             <useGasProperties>true</useGasProperties>
-            <gasType>He</gasType>
+            <gasType>Ar</gasType>
             <percentAbsorption>80.0</percentAbsorption>
             <pressure>986.772675</pressure>
             <totalPressure>1.1</totalPressure>
@@ -152,6 +152,7 @@
             <channel>10</channel>
             <currentAmplifierName>Stanford04</currentAmplifierName>
             <gain>1 nA/V</gain>
+            <changeSensitivity>false</changeSensitivity>
         </drainCurrent>
         <drainCurrent>
             <name>Sample Drain</name>
@@ -159,6 +160,10 @@
             <channel>11</channel>
             <currentAmplifierName>Stanford05</currentAmplifierName>
             <gain>1 nA/V</gain>
+            <changeSensitivity>false</changeSensitivity>
         </drainCurrent>
+        <collectDiffractionImages>false</collectDiffractionImages>
+        <mythenEnergy>0.0</mythenEnergy>
+        <mythenTime>0.0</mythenTime>
     </softXRays>
 </DetectorParameters>

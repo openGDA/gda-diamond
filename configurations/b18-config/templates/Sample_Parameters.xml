@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <B18SampleParameters>
     <shouldValidate>true</shouldValidate>
-    <name>Please set a sample name...</name>
-    <description>Please add a description...</description>
+    <name>default</name>
+    <description1>default sample description</description1>
+    <description2>default additional comments</description2>
     <stage>none</stage>
     <temperaturecontrol>none</temperaturecontrol>
     <xythetastage>

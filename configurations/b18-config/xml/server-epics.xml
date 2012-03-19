@@ -47,10 +47,12 @@
 	<bean id="valve1" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL18B-VA-VALVE-01:STA" />
 		<property name="local" value="true" />
+		<property name="InputNames" value="valve1" />
 	</bean>
 	<bean id="fevalve2" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="FE18B-VA-VALVE-02:STA" />
 		<property name="local" value="true" />
+		<property name="InputNames" value="fevalve2" />
 	</bean>
 
 
@@ -74,18 +76,22 @@
 	<bean id="s1d1" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL18B-AL-SLITS-01:AI1" />
 		<property name="local" value="true" />
+		<property name="InputNames" value="s1d1" />
 	</bean>
 	<bean id="s1d2" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL18B-AL-SLITS-01:AI2" />
 		<property name="local" value="true" />
+		<property name="InputNames" value="s1d2" />
 	</bean>
 	<bean id="s1d3" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL18B-AL-SLITS-01:AI3" />
 		<property name="local" value="true" />
+		<property name="InputNames" value="s1d3" />
 	</bean>
 	<bean id="s1d4" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL18B-AL-SLITS-01:AI4" />
 		<property name="local" value="true" />
+		<property name="InputNames" value="s1d4" />
 	</bean>
 
 	<bean id="M1B_motor" class="gda.device.motor.EpicsMotor">
@@ -263,6 +269,7 @@
 		<property name="deviceName" value="S4.YM" />
 		<property name="local" value="true" />
 	</bean>
+	
 	<bean id="s4_drain" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -331,8 +338,9 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="test_motor" class="gda.device.motor.DummyMotor" />
-
+	<bean id="test_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="100" />
+	</bean>
 
 	<bean id="SAM1Y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="SAM1.Y" />
@@ -367,7 +375,6 @@
 		<property name="pvName" value="BL18B-EA-TABLE-01:Y" />
 		<property name="local" value="true" />
 	</bean>
-
 
 	<bean id="SAM2X_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="SAM2.X" />
@@ -404,15 +411,31 @@
 		<property name="deviceName" value="SAM3.Y" />
 		<property name="local" value="true" />
 	</bean>
-
-	<bean id="USER1_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="USER2_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="USER3_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="USER4_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="USER5_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="USER6_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="USER7_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="USER8_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="USER2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18B-MO-USER-01:AXIS2" />
+		<property name="local" value="false" />
+	</bean>
+	<bean id="USER4_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18B-MO-USER-01:AXIS4" />
+		<property name="local" value="false" />
+	</bean>
+	<bean id="USER5_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18B-MO-USER-01:AXIS5" />
+		<property name="local" value="false" />
+	</bean>
+	<bean id="USER6_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18B-MO-USER-01:AXIS6" />
+		<property name="local" value="false" />
+	</bean>
+	<bean id="USER7_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18B-MO-USER-01:AXIS7" />
+		<property name="local" value="false" />
+	</bean>
+	<bean id="USER8_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18B-MO-USER-01:AXIS8" />
+		<property name="local" value="false" />
+	</bean>
 
 	<bean id="BRAGG_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DCM.BRAGG" />
@@ -440,7 +463,6 @@
 		<property name="pvName" value="BL18B-OP-DCM-01:ENERGY_MOTOR" />
 	</bean>
 
-	
 	<bean id="energy" class="gda.device.scannable.B18EnergyScannable">
 		<property name="motor" ref="energy_motor" />
 		<property name="lowerGdaLimits" value="2000" />
@@ -525,8 +547,8 @@
 		<property name="readonly" value="true" />
 	</bean>
 
-
 	<bean id="lakeshore" class="gda.device.scannable.LakeshoreScannable">
+		<property name="InputNames" value="lakeshore" />
 		<property name="temp0Pv" value="BL18B-EA-TEMPC-02:KRDG0" />
 		<property name="temp1Pv" value="BL18B-EA-TEMPC-02:KRDG1" />
 		<property name="temp2Pv" value="BL18B-EA-TEMPC-02:KRDG2" />
@@ -537,34 +559,27 @@
 
 	<bean id="ionc1_power_supply" class="gda.device.scannable.PowerSupplyScannable">
 		<property name="readback" value="BL18B-EA-ISEG-01:V1_ACTUAL" />
-		<property name="vA" value="BL18B-EA-ISEG-01:SET_V1_SET.A" />
-		<property name="vB" value="BL18B-EA-ISEG-01:SET_V1_SET.B" />
-		<property name="vC" value="BL18B-EA-ISEG-01:SET_V1_SET.C" />
-		<property name="vD" value="BL18B-EA-ISEG-01:SET_V1_SET.D" />
+		<property name="voltage" value="BL18B-EA-ISEG-01:SET_V1_DEMAND" />
+		<property name="disable" value="BL18B-EA-ISEG-01:DISABLE:POLL" />
 		<property name="send" value="BL18B-EA-ISEG-01:SET_V1_SET:SEND.PROC" />
 		<property name="start_ramp" value="BL18B-EA-ISEG-01:V1_START" />
 	</bean>
 
 	<bean id="ionc2_power_supply" class="gda.device.scannable.PowerSupplyScannable">
 		<property name="readback" value="BL18B-EA-ISEG-01:V2_ACTUAL" />
-		<property name="vA" value="BL18B-EA-ISEG-01:SET_V2_SET.A" />
-		<property name="vB" value="BL18B-EA-ISEG-01:SET_V2_SET.B" />
-		<property name="vC" value="BL18B-EA-ISEG-01:SET_V2_SET.C" />
-		<property name="vD" value="BL18B-EA-ISEG-01:SET_V2_SET.D" />
+		<property name="voltage" value="BL18B-EA-ISEG-01:SET_V2_DEMAND" />
+		<property name="disable" value="BL18B-EA-ISEG-01:DISABLE:POLL" />
 		<property name="send" value="BL18B-EA-ISEG-01:SET_V2_SET:SEND.PROC" />
 		<property name="start_ramp" value="BL18B-EA-ISEG-01:V2_START" />
 	</bean>
 
 	<bean id="ionc3_power_supply" class="gda.device.scannable.PowerSupplyScannable">
 		<property name="readback" value="BL18B-EA-ISEG-02:V1_ACTUAL" />
-		<property name="vA" value="BL18B-EA-ISEG-02:SET_V1_SET.A" />
-		<property name="vB" value="BL18B-EA-ISEG-02:SET_V1_SET.B" />
-		<property name="vC" value="BL18B-EA-ISEG-02:SET_V1_SET.C" />
-		<property name="vD" value="BL18B-EA-ISEG-02:SET_V1_SET.D" />
+		<property name="voltage" value="BL18B-EA-ISEG-02:SET_V1_DEMAND" />
+		<property name="disable" value="BL18B-EA-ISEG-02:DISABLE:POLL" />
 		<property name="send" value="BL18B-EA-ISEG-02:SET_V1_SET:SEND.PROC" />
 		<property name="start_ramp" value="BL18B-EA-ISEG-02:V1_START" />
 	</bean>
-
 
 	<bean id="ionc_purge_pressure" class="gda.device.scannable.GasFillFieldScannable">
 		<property name="pvName" value="BL18B-EA-GIR-01:PURGE:P" />
@@ -611,7 +626,6 @@
 	<bean id="ionc_base_pressure" class="gda.device.scannable.GasFillFieldScannable">
 		<property name="pvName" value="BL18B-EA-GIR-01:PCTRL1:P:RD" />
 	</bean>
-
 
 	<bean id="ionc1_gas_injector" class="gda.device.scannable.GasInjectionScannable">
 		<property name="purge_pressure" ref="ionc_purge_pressure" />
@@ -672,7 +686,7 @@
 		<property name="ion_chamber" value="2" />
 		<property name="base_pressure" ref="ionc_base_pressure" />
 	</bean>
-
+	
 	<bean id="ionc1_pressure" class="gda.device.scannable.GasFillFieldScannable">
 		<property name="pvName" value="BL18B-EA-GIR-01:P2" />
 	</bean>
@@ -711,26 +725,31 @@
 		<property name="unit_pv" value="BL18B-DI-STANF-06:SENS:SEL2" />
 	</bean>
 
-	<bean id="izero_monitor" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL18B-DI-IZERO-01:I" />
-		<property name="local" value="false" />
-	</bean>
-	<bean id="sam1_monitor" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL18B-EA-SAMPL-01:I" />
-		<property name="local" value="false" />
-	</bean>
-	<bean id="ionc1_monitor" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL18B-EA-IONC-01:I" />
-		<property name="local" value="false" />
-	</bean>
-	<bean id="ionc2_monitor" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL18B-EA-IONC-02:I" />
-		<property name="local" value="false" />
-	</bean>
-	<bean id="ionc3_monitor" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL18B-EA-IONC-03:I" />
-		<property name="local" value="false" />
-	</bean>
+<!-- 	<bean id="izero_monitor" class="gda.device.monitor.EpicsMonitor"> -->
+<!-- 		<property name="pvName" value="BL18B-DI-IZERO-01:I" /> -->
+<!-- 		<property name="local" value="false" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="sam1_monitor" class="gda.device.monitor.EpicsMonitor"> -->
+<!-- 		<property name="pvName" value="BL18B-EA-SAMPL-01:I" /> -->
+<!-- 		<property name="local" value="false" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="ionc1_monitor" class="gda.device.monitor.EpicsMonitor"> -->
+<!-- 		<property name="pvName" value="BL18B-EA-IONC-01:I" /> -->
+<!-- 		<property name="local" value="false" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="ionc2_monitor" class="gda.device.monitor.EpicsMonitor"> -->
+<!-- 		<property name="pvName" value="BL18B-EA-IONC-02:I" /> -->
+<!-- 		<property name="local" value="false" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="ionc3_monitor" class="gda.device.monitor.EpicsMonitor"> -->
+<!-- 		<property name="pvName" value="BL18B-EA-IONC-03:I" /> -->
+<!-- 		<property name="local" value="false" /> -->
+<!-- 	</bean> -->
+
+ 	<bean id="Cryojet" class="gda.device.monitor.EpicsMonitor">
+ 		<property name="pvName" value="BL18B-EA-TEMPC-03:STEMP" />
+ 		<property name="local" value="false" />
+ 	</bean>
 
 	<bean id="pulsetube" class="gda.device.scannable.PulseTube">
 		<property name="name" value="pulsetube" />
@@ -751,6 +770,14 @@
 	<bean id="pulsetubemeta" class="gda.device.scannable.PulseTubeMeta">
 		<property name="name" value="pulsetubemeta" />
 	</bean>
-
+	
+	<bean id="samplewheel" class="gda.device.scannable.SampleWheel">
+		<property name="name" value="samplewheel" />
+		<property name="demandPV" value="BL18B-EA-SAMPL-03:ROT.VAL" />
+		<property name="readbackPV" value="BL18B-EA-SAMPL-03:ROT.RBV" />
+		<property name="inPosPV" value="BL18B-EA-SAMPL-03:ROT.DMOV" />
+		<property name="filterBasePV" value="BL18B-EA-SAMPL-03:ROT:POS" />
+		<property name="numberOfFilters" value="36" />
+	</bean>
 
 </beans>

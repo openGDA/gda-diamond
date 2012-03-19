@@ -9,5 +9,5 @@
 <booleanAttribute key="org.eclipse.debug.core.appendEnvironmentVariables" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="gda.util.LogPanel"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="uk.ac.gda.swingclient"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.root=${project_loc:uk.ac.gda.core}/..&#13;&#10;-Dgda.config=${project_loc:b18-config}&#13;&#10;-Djacorb.config.dir=${project_loc:b18-config}/properties&#13;&#10;-Dgov.aps.jca.JCALibrary.properties=${project_loc:b18-config}/properties/JCALibrary.properties"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.root=${project_loc:uk.ac.gda.core}/..&#13;&#10;-Dgda.config=${project_loc:config}&#13;&#10;-Djacorb.config.dir=${project_loc:config}/properties&#13;&#10;-Dgov.aps.jca.JCALibrary.properties=${project_loc:config}/properties/JCALibrary.properties"/>
 </launchConfiguration>
