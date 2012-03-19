@@ -17,6 +17,7 @@ class ISCCD:
 		self.suffix = ".img"
 		self.binning = 1
 		self.detector = ccd
+		self.verbose = False
 		
 		self.corrections = ["repair","floodm", "unwarp", "floodp"]
 		self.correctionNames = { "repair": "repair correction", "floodm": "flood mscalar correction", "unwarp" :"unwarp correction", "floodp": "flood poly correction"}

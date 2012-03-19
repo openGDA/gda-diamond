@@ -263,9 +263,9 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 					raise Exception ,"Unable to create data directory " + \
 						`targetDir` + " check permissions"
 			except:
-				type, exception,  = sys.exc_info()
+				typ, exception,  = sys.exc_info()
 				raise Exception, "Error while trying to create data directory:" \
-					+ `targetDir` + " " + `type` + ":" + `exception`
+					+ `targetDir` + " " + `typ` + ":" + `exception`
 			
 			# Then copy over all of the template files
 			template_path = getDir() + "/xml/atlas"
@@ -273,15 +273,15 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 				target_path = getDir() + run_path
 				par_present = False
 				
-				for file in os.listdir(template_path):
-					if file == "atlas.par":
+				for fil in os.listdir(template_path):
+					if fil == "atlas.par":
 						dest = "%s/%s.par" % (target_path, experiment_name)
 						par_present = True
 					else:
-						dest = "%s/%s" % (target_path, file)
+						dest = "%s/%s" % (target_path, fil)
 					
 					if not os.path.exists(dest):
-						command = "cp %s/%s %s" % (template_path, file, dest)
+						command = "cp %s/%s %s" % (template_path, fil, dest)
 						if os.system(command) <> 0:
 							raise Exception, "Error, running command %s" % command
 				
@@ -474,6 +474,10 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 				self.exposureNo += 1
 
 	def rawAsynchronousMoveTo(self, position):
+		if type(position) == list:
+			simpleLog("rawAsynchronousMoveTo(%r) returning early." % position)
+			return
+		
 		self.files = []
 		if self.overflow:
 			normalTime = self.exposureTime
@@ -563,6 +567,9 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 			self.axis.asynchronousMoveTo(self.originalPosition)
 
 	def rawAsynchronousMoveTo(self, position):
+		if type(position) == list:
+			simpleLog("rawAsynchronousMoveTo(%r) returning early." % position)
+			return
 		
 		self.files = []
 		self.fullFileLocation = ""
@@ -615,6 +622,7 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 
 	def rawGetPosition(self):
 		return [self.exposureTime, self.files]
+
 
 class MarAxisWrapper(DetectorAxisWrapper):
 	def __init__(self, detector, isccd, exposureTime=1, axis=None, step=None, sync=False, fileName="mar_scan", noOfExpPerPos=1, rock=False, pause=False):
@@ -675,6 +683,10 @@ class MarAxisWrapper(DetectorAxisWrapper):
 			self.axis.asynchronousMoveTo(self.originalPosition)
 
 	def rawAsynchronousMoveTo(self, position):
+		if type(position) == list:
+			simpleLog("rawAsynchronousMoveTo(%r) returning early." % position)
+			return
+		
 		self.files = []
 		
 		self.fileName = self.file + "_%03d" % getNextMarScanNumber()
@@ -752,13 +764,13 @@ class MarAxisWrapper(DetectorAxisWrapper):
 				if len(filesAtLocation) > 0:
 					simpleLog("Warning, files found matching %s: \n%s\nRenaming..." %
 							  (expectedGlob, "\n".join(filesAtLocation)))
-					for file in filesAtLocation:
-						newFile = file.replace("_001.","_bak.")
+					for fil in filesAtLocation:
+						newFile = fil.replace("_001.","_bak.")
 						try:
-							os.rename(file, newFile)
+							os.rename(fil, newFile)
 						except OSError:
 							simpleLog("Error renaming file %s to %s" %
-									  (file, newFile))
+									  (fil, newFile))
 				
 				self.scanTheMarWithChecks(300)
 				
@@ -888,13 +900,17 @@ def _getWrappedDetector(axis, start, stop, step, detector, exposureTime,
 	
 	elif isinstance(detector, ruby_scripts.Ruby):
 		# Not used: start, stop, rock=False
-		wrappedDetector = RubyAxisWrapper(detector, exposureTime, axis, step, sync=sync,
-								fileName=fileName, noOfExpPerPos=noOfExpPerPos, diff=diff, pause=pause, overflow=overflow, multiFactor=multiFactor)
+		wrappedDetector = RubyAxisWrapper(detector, exposureTime,
+			axis, step, sync=sync, fileName=fileName,
+			noOfExpPerPos=noOfExpPerPos, diff=diff, pause=pause,
+			overflow=overflow, multiFactor=multiFactor)
 	
-	elif isinstance(detector, pd_pilatus.Pilatus) or isinstance(detector, pd_pilatus.DummyPilatus):
+	elif isinstance(detector, pd_pilatus.Pilatus) or \
+		 isinstance(detector, pd_pilatus.DummyPilatus):
 		# Not used: start, stop, diff=0., pause=False, rock=False, overflow=False, multiFactor=1
-		wrappedDetector = PilatusAxisWrapper(detector, isccd, exposureTime, axis, step, sync=sync,
-							   fileName=fileName, noOfExpPerPos=noOfExpPerPos)
+		wrappedDetector = PilatusAxisWrapper(detector, isccd, exposureTime,
+			axis, step, sync=sync, fileName=fileName,
+			noOfExpPerPos=noOfExpPerPos)
 	
 	elif isinstance(detector, ProcessingDetectorWrapper) and \
 		 isinstance(detector.det, pd_pilatus.EpicsPilatus):
@@ -904,8 +920,9 @@ def _getWrappedDetector(axis, start, stop, step, detector, exposureTime,
 	
 	elif isinstance(detector, Mar345Detector):
 		# Not used: start, stop, diff=0., overflow=False, multiFactor=1
-		wrappedDetector = MarAxisWrapper(detector, isccd, exposureTime, axis, step, sync=sync,
-							   fileName=fileName, noOfExpPerPos=noOfExpPerPos, rock=rock, pause=pause)
+		wrappedDetector = MarAxisWrapper(detector, isccd, exposureTime,
+			axis, step, sync=sync, fileName=fileName,
+			noOfExpPerPos=noOfExpPerPos, rock=rock, pause=pause)
 	
 	elif isinstance(detector, PerkinElmer):
 		# Not used: start, stop, diff=0., overflow=False, multiFactor=1
@@ -928,11 +945,11 @@ def _getWrappedDetector(axis, start, stop, step, detector, exposureTime,
 	return wrappedDetector
 
 class modHeader(Thread):
-	def __init__(self, file, names, values):
+	def __init__(self, filename, names, values):
 		Thread.__init__(self)
 		self.names = names
 		self.values = values
-		self.file = file
+		self.file = filename
 
 	def run(self):
 		for (names,values) in zip(self.names, self.values):
@@ -940,9 +957,9 @@ class modHeader(Thread):
 		self.file.close()
 
 class modMarName(Thread):
-	def __init__(self, file):
+	def __init__(self, filename):
 		Thread.__init__(self)
-		self.file = file
+		self.file = filename
 		self.fileToChange = self.file.replace(".mar3450", "_001.mar3450")
 		self.timeout=50
 		self.time_gone=0
