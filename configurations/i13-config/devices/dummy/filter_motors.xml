@@ -7,11 +7,8 @@
 	<bean id="filter2_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="filter3_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="filter4_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="filter5_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="filter_aperture_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="filter_crlX_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="filter_crlY_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="filter_crlZ_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="filter_crlYaw_motor" class="gda.device.motor.DummyMotor"/>
 
 </beans>	
 
