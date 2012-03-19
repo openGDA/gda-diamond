@@ -26,12 +26,44 @@
 		<property name="viewName" value="Detector Image"/>
 		<property name="viewID" value="uk.ac.gda.beamline.i13j.DetectorPlot"/>
 	</bean>
-
 	
+	
+<!-- 	<corba:import namespace="i13-1" names="beamline_health" /> -->
+	<bean id="RCPController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}rcpController" />
+		<property name="serviceInterface" value="gda.gui.RCPController" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>	
+		
+	<bean id="commandRunner" class="gda.jython.CommandRunnerBean"/>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="gda.jython.ICommandRunner" />
+		<property name="service" ref="commandRunner" />
+	</bean>
+	<bean id="batonStateProvider" class="uk.ac.gda.client.interfaces.impl.BatonStateProviderBean"/>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="gda.jython.IBatonStateProvider" />
+		<property name="service" ref="batonStateProvider" />
+	</bean>
+		
 	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
 	<property name="viewTitle" value="Status"/>
 	<property name="compositeFactories">
 	<list>
+		<bean class="uk.ac.gda.dls.client.views.BatonStatusCompositeFactory">
+			<property name="label" value="Baton"/>
+		</bean>	
+<!-- 		<bean class="uk.ac.gda.dls.client.views.HealthCheckCompositeFactory">
+			<property name="healthScannable" ref="beamline_health"></property>
+			<property name="label" value="Health"/>
+		</bean> -->
+		<bean class="gda.rcp.views.ActionBtnCompositeFactory">
+			<property name="tooltipText" value="Stop all motors"/>
+			<property name="buttonText" value="Panic Stop"/>
+			<property name="buttonImagePath" value="icons/stop.png"/>
+			<property name="foregroundColorId" value="3"/>
+			<property name="actionId" value="uk.ac.gda.client.StopAll"/>
+		</bean>	
 		<bean class="gda.rcp.views.GroupCompositeFactory">
 			<property name="label" value="Machine"/>
 			<property name="columns" value="2"/>

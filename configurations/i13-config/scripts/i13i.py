@@ -10,7 +10,7 @@ Scans are recorded in the visit folder given by VisitPath.getVisitPath()
 
 mpx_set_folder 
 
-To take an image from the maxipix detector:
+See http://confluence.diamond.ac.uk/display/I13Tech/I13-1+Data+Acquisition+User+Guide for detailed help on using I13J
 
 1. Set the folder and prefix for the images. The folder is relative to the visit folder.
     e.g.mpx_set_folder("","sampleA")

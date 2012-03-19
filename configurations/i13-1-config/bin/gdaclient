@@ -12,7 +12,7 @@ export JAVA_OPTS="$JAVA_OPTS -Dgda.mode=$GDAMODE"
 
 if [ "$1" = "--clean" ]
 then
-    echo "rf /scratch/.i13-1_workspaceC-$(whoami)"
+    echo "rm -rf /scratch/.i13-1_workspaceC-$(whoami)"
     rm -rf /scratch/.i13-1_workspaceC-$(whoami)
 fi
 

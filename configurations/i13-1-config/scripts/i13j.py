@@ -123,6 +123,32 @@ To take an image from the maxipix detector:
     >imageROI.setEnable(True)
     >imageROI.setROI(366,511,231,511)  ( y_start, y_end, x_start, x_end)
     >repscan 1 mpx_wrap 1
+
+	Equivalent 'wrapped' detectors exist for:
+	Diagnostic stick 1 camera - d1_cam
+	Diagnostic stick 2 camera - d2_cam
+	Diagnostic stick 3 camera - d3_cam
+	Diagnostic stick 4 camera - d4_cam
+    optics hutch shutter camera - oh4_shtr_cam
+	PCO4000 - pco1
+	sample stage camera - sample_stage_cam
+
+
+12. Beammonitor
+    To pause the scan if the value of a scannable goes below a minimum threshold add thescannable beammonitor to a scan command
+    e.g. scan ix 0 10 1 beammonitor
+    
+    To view the scannable being monitored :
+    >beammonitor.scannableToMonitor
+    ( To change use a command of the form: beammonitor.scannableToMonitor = d3_i)
+    
+    To view the minium value bwlo which teh scan pauses:
+    >beammonitor.minimumThreshold
+
+    (To change use a command of the form: beammonitor.minimumThreshold = .1)
+    
+    
+
     
 """
 

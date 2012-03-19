@@ -105,3 +105,5 @@ execfile("/dls_sw/i13-1/software/gda/diffcalc/example/startup/sixcircle_dummy.py
 #	exceptionType, exception, traceback = sys.exc_info()
 #	handle_messages.log(None, "Error in localStation", exceptionType, exception, traceback, False)
 
+from gdascripts.scannable.beamokay import WaitWhileScannableBelowThresholdMonitorOnly
+beammonitor=WaitWhileScannableBelowThresholdMonitorOnly("beammonitor", d4_i, 1,1,1)
