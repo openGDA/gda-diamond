@@ -11,9 +11,9 @@ fi
 source /dls_sw/i13-1/etc/i13-1_profile.sh
 
 
-#gdalog &
+gdalog &
 
-gda_namemanager &
+#gda_namemanager &
 
 echo "Keep this window open, and you will see a pop-up when the restart has completed"
 
