@@ -1,9 +1,2 @@
-<<<<<<< HEAD
 *.class
 *.py~
-=======
-# Ignores that are common to all Eclipse GDA plugin projects
-/scripts/*.class
-
-# Ignores that are specific to this Eclipse project
->>>>>>> branch 'master' of ssh://dascgitolite@dasc-git.diamond.ac.uk/gda/gda-dls-beamlines-i13x.git
