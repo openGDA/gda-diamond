@@ -305,6 +305,10 @@ try:
 		d3_d2 = pd_ratio.Simple_PD_Ratio('d3_d2', d3, d2)
 		d4_d2 = pd_ratio.Simple_PD_Ratio('d4_d2', d4, d2)
 		d5_d1 = pd_ratio.Simple_PD_Ratio('d5_d1', d5, d1)
+		
+		from gdascripts.pd.epics_pds import DisplayEpicsPVClass
+		d1sum = DisplayEpicsPVClass("d1sum", "BL15I-EA-CSTRM-01:DIODESUM", "", "%f")
+		add_default d1sum
 	except:
 		simpleLog("Could not create diodes")
 
