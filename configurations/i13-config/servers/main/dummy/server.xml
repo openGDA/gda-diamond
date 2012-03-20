@@ -84,7 +84,9 @@
 
 	<import resource="../../../devices/dummy/maxipix_tango.xml"/>
 	
-	<import resource="../../../devices/dummy/pco1.xml"/>
+	<!-- <import resource="../../../devices/dummy/pco1.xml"/> -->
+	
+	<import resource="../../../devices/dummy/pco2.xml"/>
 	
 	<import resource="../common.xml"/>	
 	
