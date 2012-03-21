@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<B18SampleParameters>
+    <shouldValidate>true</shouldValidate>
+	<name>Cytochrome</name>
+	<description1>Cytochrome preparation #7</description1>
+	<description2>Cytochrome preparation description #7</description2>
+    <stage>none</stage>
+    <temperaturecontrol>furnace</temperaturecontrol>
+    <furnace>
+        <temperature>295.0</temperature>
+        <tolerance>1.5</tolerance>
+        <time>5.0</time>
+        <controlFlag>false</controlFlag>
+    </furnace>
+</B18SampleParameters>

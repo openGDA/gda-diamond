@@ -1,0 +1,97 @@
+/*-
+ * Copyright © 2011 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package gda.exfas.ui;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PlatformUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import uk.ac.gda.beans.exafs.IScanParameters;
+import uk.ac.gda.beans.exafs.XesScanParameters;
+import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
+import uk.ac.gda.client.experimentdefinition.ExperimentBeanManager;
+import uk.ac.gda.client.experimentdefinition.ExperimentEditorManager;
+import uk.ac.gda.client.experimentdefinition.IExperimentBeanDescription;
+import uk.ac.gda.client.experimentdefinition.IExperimentEditorManager;
+import uk.ac.gda.client.experimentdefinition.IExperimentObject;
+import uk.ac.gda.client.experimentdefinition.components.XMLFileDialog;
+import uk.ac.gda.exafs.ui.data.ScanObject;
+
+public class I18ExperimentEditorManager extends ExperimentEditorManager implements IExperimentEditorManager {
+
+	private static final Logger mylogger = LoggerFactory.getLogger(I18ExperimentEditorManager.class);
+
+//	@Override
+//	protected IEditorPart[] openRequiredEditors(IExperimentObject ob) {
+//		try {
+//			IScanParameters theScan = ((ScanObject) ob).getScanParameters();
+//			if (theScan instanceof MicroFocusScanParameters){
+//				return openMicroFocusEditors(ob);
+//			}
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+////			logger.error("TODO put description of error here", e);
+//		}
+//		
+//		return super.openRequiredEditors(ob);
+//	}
+	
+	@Override
+	protected Map<String, IFile> orderMapOfTypes(IExperimentObject ob, Map<String, IFile> mapOfTypesToFiles,
+			Collection<IExperimentBeanDescription> allBeanDescriptions) {
+
+		try {
+			IScanParameters theScan = ((ScanObject) ob).getScanParameters();
+			if (!(theScan instanceof MicroFocusScanParameters)){
+				return super.orderMapOfTypes(ob,mapOfTypesToFiles,allBeanDescriptions);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+//			logger.error("TODO put description of error here", e);
+		}
+
+		
+		String[] typesInOrder = ob.getRunFileManager().getOrderedColumnBeanTypes();
+
+		HashMap<String, IFile> orderedMap = new HashMap<String, IFile>();
+
+		for (String type : typesInOrder) {
+
+			// Vector<String> typesDone = new Vector<String>();
+			for (IExperimentBeanDescription desc : allBeanDescriptions) {
+				// if (!typesDone.contains(desc.getBeanType())) {
+				// for (String type : mapOfTypesToFiles.keySet()) {
+				if (type.equalsIgnoreCase(desc.getBeanType()) && !type.equals("Sample")) {
+					orderedMap.put(type, mapOfTypesToFiles.get(type));
+				}
+				// }
+			}
+		}
+		return orderedMap;
+	}
+}

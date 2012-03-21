@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<B18SampleParameters>
+    <shouldValidate>true</shouldValidate>
+	<name>Cytochrome</name>
+	<description>Cytochrome preparation #7</description>
+    <stage>none</stage>
+    <temperaturecontrol>pulsetubecryostat</temperaturecontrol>
+    <pulsetubecryostat>
+        <temperature>80.0</temperature>
+        <tolerance>1.0</tolerance>
+        <time>60.0</time> 
+        <controlFlag>false</controlFlag>	
+    </pulsetubecryostat>
+</B18SampleParameters>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<B18SampleParameters>
+    <shouldValidate>true</shouldValidate>
+	<name>Cytochrome</name>
+	<description1>Cytochrome preparation #7</description1>
+	<description2>Cytochrome preparation description #7</description2>
+    <stage>xythetastage</stage>
+    <temperaturecontrol>none</temperaturecontrol>
+    <xythetastage>
+        <x>1.0</x>
+        <y>2.0</y>
+        <theta>3.0</theta>
+    </xythetastage>
+</B18SampleParameters>

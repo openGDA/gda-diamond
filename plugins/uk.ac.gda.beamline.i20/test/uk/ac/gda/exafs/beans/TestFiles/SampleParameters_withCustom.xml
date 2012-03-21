@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<I20SampleParameters>
+	<name>Cytochrome</name>
+	<description>Cytochrome preparation #7</description>
+	<description>bla bla bla</description>
+	<sampleWheelPosition>Copper</sampleWheelPosition>
+	<sampleEnvironment>Custom</sampleEnvironment>
+	<custom>
+		<deviceName>mystage</deviceName>
+		<value>3.142</value>
+	</custom>
+	<custom>
+		<deviceName>mydev</deviceName>
+		<value>6.284</value>
+	</custom>
+</I20SampleParameters>

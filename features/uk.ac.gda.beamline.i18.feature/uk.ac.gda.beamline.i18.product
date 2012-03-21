@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="GDA I18 Beamline" id="uk.ac.gda.beamline.i18.product" application="uk.ac.gda.client.application" version="8.22.0" useFeatures="true" includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Dgda.users=/dls_sw/i18
+-Djacorb.config.dir=/dls_sw/i18/software/gda/i18-config/properties
+-Dgda.propertiesFile=/dls_sw/i18/software/gda/i18-config/properties/java.rcp.properties
+-Dgda.config=/dls_sw/i18/software/gda/i18-config
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i18/software/gda/i18-config/properties/JCALibrary.properties</vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <launcher name="gda-i18">
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="uk.ac.gda.beamline.i18.feature"/>
+   </features>
+
+
+</product>

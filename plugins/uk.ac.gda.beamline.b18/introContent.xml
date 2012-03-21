@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<introContent>
+    <page id="root"       content="help/root.xhtml"/>
+    <page id="SingleScan" content="help/SingleScan.xhtml"/>
+    <page id="MultiScan"  content="help/MultiScan.xhtml"/>
+</introContent>

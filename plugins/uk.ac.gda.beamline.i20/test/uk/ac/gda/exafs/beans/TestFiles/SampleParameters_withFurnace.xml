@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<I20SampleParameters>
+	<name>Cytochrome</name>
+	<description>Cytochrome preparation #7</description>
+	<description>bla bla bla</description>
+	<sampleWheelPosition>Copper</sampleWheelPosition>
+	<sampleEnvironment>Furnace</sampleEnvironment>
+	<furnace>
+		<temperature>295</temperature>
+		<tolerance>1.5</tolerance>
+		<time>5.0</time>
+		<x>6.9</x>
+		<y>4.7</y>
+		<z>2.5</z>
+	</furnace>
+</I20SampleParameters>

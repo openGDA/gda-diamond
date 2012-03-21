@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<I20SampleParameters>
+	<name>Cytochrome</name>
+	<description>Cytochrome preparation #7</description>
+	<description>bla bla bla</description>
+	<sampleWheelPosition>Copper</sampleWheelPosition>
+	<sampleEnvironment>Cryostat</sampleEnvironment>
+	<cryostat>
+		<temperature>295</temperature>
+		<tolerance>1</tolerance>
+		<time>5.0</time>
+		<heaterRange>1</heaterRange>
+		<profileType>PID</profileType>
+		<p>1</p>
+		<i>1</i>
+		<d>1</d>
+		<sampleHolder>2 Samples</sampleHolder>
+		<sampleNumber>2</sampleNumber>
+		<position>1.0</position>
+		<finePosition>0.1</finePosition>
+	</cryostat>
+</I20SampleParameters>
