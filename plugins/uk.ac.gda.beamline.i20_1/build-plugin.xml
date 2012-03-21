@@ -27,7 +27,7 @@
                 <pathelement location="${workspace.git.loc}/gda-common.git/uk.ac.gda.common/bin" />
                 <pathelement location="${workspace.git.loc}/gda-common-rcp.git/uk.ac.gda.common.rcp/bin" />
                 <pathelement location="${workspace.loc}/plugins/uk.ac.gda.core/classes/main" />
-                <pathelement location="${workspace.loc}/plugins/uk.ac.gda.server.exafs/bin" />
+                <pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.server.exafs/bin" />
                 <pathelement location="${workspace.git.loc}/scisoft/scisoft-core.git/uk.ac.diamond.scisoft.analysis/bin" />
                 <path refid="libs.jars.path" />
                 <pathelement location="${workspace.loc}/tp/plugins/*" />
