@@ -90,6 +90,7 @@ public class BeamlineAlignmentView extends ViewPart {
 	private ScaleBox txtPolyBendTarget;
 	private Button btnPolyBendMove;
 	private Label lblPolyBendReadback;
+	private Button btnSynchroniseThetas;
 
 	@Override
 	public void createPartControl(final Composite parent) {
@@ -299,34 +300,6 @@ public class BeamlineAlignmentView extends ViewPart {
 		lblME2PitchReadback.setLayoutData(readbackGD);
 
 		lbl = new Label(motorGroup, SWT.NONE);
-		lbl.setText("Two Theta");
-		lbl.setLayoutData(createLabelGridData());
-		txtThetaTarget = new ScaleBox(motorGroup, SWT.NONE);
-		txtThetaTarget.setMinimum(0.1);
-		txtThetaTarget.setMaximum(5);
-		txtThetaTarget.setLayoutData(textGD);
-		txtThetaTarget.setUnit("deg");
-		btnThetaMove = new Button(motorGroup, SWT.NONE);
-		btnThetaMove.setText("Move");
-		lblThetaReadback = new Label(motorGroup, SWT.NONE);
-		lblThetaReadback.setText("60.00 deg");
-		lblThetaReadback.setLayoutData(readbackGD);
-
-		lbl = new Label(motorGroup, SWT.NONE);
-		lbl.setText("Poly Theta");
-		lbl.setLayoutData(createLabelGridData());
-		txtPolyThetaTarget = new ScaleBox(motorGroup, SWT.NONE);
-		txtPolyThetaTarget.setMinimum(0.1);
-		txtPolyThetaTarget.setMaximum(5);
-		txtPolyThetaTarget.setLayoutData(textGD);
-		txtPolyThetaTarget.setUnit("deg");
-		btnPolyThetaMove = new Button(motorGroup, SWT.NONE);
-		btnPolyThetaMove.setText("Move");
-		lblPolyThetaReadback = new Label(motorGroup, SWT.NONE);
-		lblPolyThetaReadback.setText("60.00 deg");
-		lblPolyThetaReadback.setLayoutData(readbackGD);
-
-		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Poly Bend");
 		lbl.setLayoutData(createLabelGridData());
 		txtPolyBendTarget = new ScaleBox(motorGroup, SWT.NONE);
@@ -340,6 +313,38 @@ public class BeamlineAlignmentView extends ViewPart {
 		lblPolyBendReadback.setText("20.00 mm");
 		lblPolyBendReadback.setLayoutData(readbackGD);
 		
+		lbl = new Label(motorGroup, SWT.NONE);
+		lbl.setText("Poly Theta");
+		lbl.setLayoutData(createLabelGridData());
+		txtPolyThetaTarget = new ScaleBox(motorGroup, SWT.NONE);
+		txtPolyThetaTarget.setMinimum(0.1);
+		txtPolyThetaTarget.setMaximum(5);
+		txtPolyThetaTarget.setLayoutData(textGD);
+		txtPolyThetaTarget.setUnit("deg");
+		btnPolyThetaMove = new Button(motorGroup, SWT.NONE);
+		btnPolyThetaMove.setText("Move");
+		lblPolyThetaReadback = new Label(motorGroup, SWT.NONE);
+		lblPolyThetaReadback.setText("60.00 deg");
+		lblPolyThetaReadback.setLayoutData(readbackGD);
+		
+		btnSynchroniseThetas = new Button(motorGroup, SWT.CHECK);
+		btnSynchroniseThetas.setText("Match TwoTheta arm to poly Theta value");
+		GridDataFactory.swtDefaults().span(4, 1).applyTo(btnSynchroniseThetas);
+
+		lbl = new Label(motorGroup, SWT.NONE);
+		lbl.setText("Two Theta");
+		lbl.setLayoutData(createLabelGridData());
+		txtThetaTarget = new ScaleBox(motorGroup, SWT.NONE);
+		txtThetaTarget.setMinimum(0.1);
+		txtThetaTarget.setMaximum(5);
+		txtThetaTarget.setLayoutData(textGD);
+		txtThetaTarget.setUnit("deg");
+		btnThetaMove = new Button(motorGroup, SWT.NONE);
+		btnThetaMove.setText("Move");
+		lblThetaReadback = new Label(motorGroup, SWT.NONE);
+		lblThetaReadback.setText("60.00 deg");
+		lblThetaReadback.setLayoutData(readbackGD);
+
 		Group grpPowerEst = new Group(motorGroup, SWT.NONE);
 		GridDataFactory.swtDefaults().span(2, 2).applyTo(grpPowerEst);
 		GridLayout subPanelLayout = new GridLayout();

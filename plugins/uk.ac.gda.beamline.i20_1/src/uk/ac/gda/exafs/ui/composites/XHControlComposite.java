@@ -412,7 +412,9 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 				try {
 					final Integer snapshotIntTime = Activator.getDefault().getPreferenceStore()
 							.getInt(I20_1PreferenceInitializer.SNAPSHOTTIME);
-					collectAndPlotSnapshot(false, snapshotIntTime, snapshotIntTime + "s Snapshot");
+					final Integer numScans = Activator.getDefault().getPreferenceStore()
+							.getInt(I20_1PreferenceInitializer.SCANSPERFRAME);
+					collectAndPlotSnapshot(false, snapshotIntTime, numScans, snapshotIntTime + "s Snapshot");
 				} catch (Exception e) {
 					logger.error("Error trying to collect detector snapshot", e);
 				}
@@ -428,7 +430,9 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 				try {
 					final Integer snapshotIntTime = Activator.getDefault().getPreferenceStore()
 							.getInt(I20_1PreferenceInitializer.SNAPSHOTTIME);
-					collectAndPlotSnapshot(true, snapshotIntTime, snapshotIntTime + "s Snapshot");
+					final Integer numScans = Activator.getDefault().getPreferenceStore()
+							.getInt(I20_1PreferenceInitializer.SCANSPERFRAME);
+					collectAndPlotSnapshot(true, snapshotIntTime,numScans, snapshotIntTime + "s Snapshot");
 				} catch (Exception e) {
 					logger.error("Error trying to collect detector snapshot", e);
 				}
@@ -439,14 +443,14 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 				"/icons/camera_edit.png"));
 	}
 
-	private static void collectData(int collectionPeriod) throws DeviceException, InterruptedException {
+	private static void collectData(int collectionPeriod, int numberScans) throws DeviceException, InterruptedException {
 
 		// collect data from XHDetector and send the spectrum to local Plot 1 window
 		EdeScanParameters simpleParams = new EdeScanParameters();
 		TimingGroup group1 = new TimingGroup();
 		group1.setDelayBetweenFrames(0);
 		group1.setLabel("group1");
-		group1.setNumberOfFrames(1);
+		group1.setNumberOfFrames(numberScans);
 		group1.setTimePerScan(collectionPeriod);
 		group1.setTimePerFrame(collectionPeriod);
 		simpleParams.addGroup(group1);
@@ -466,10 +470,10 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 	 *            - writes a file of the data
 	 * @return double values from the detector - the FF and sector totals
 	 */
-	public static Double[] collectAndPlotSnapshot(boolean writeData, Integer collectionPeriod, String title) {
+	public static Double[] collectAndPlotSnapshot(boolean writeData, Integer collectionPeriod, Integer numberScans, String title) {
 
 		try {
-			collectData(collectionPeriod);
+			collectData(collectionPeriod, numberScans);
 
 			// will return a double[] of corrected data
 			Detector xhdet = Finder.getInstance().find("XHDetector");
@@ -552,7 +556,7 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 							
 							final Integer collectionPeriod = Activator.getDefault().getPreferenceStore()
 									.getInt(I20_1PreferenceInitializer.LIVEMODETIME);
-							final Double[] results = collectAndPlotSnapshot(false, collectionPeriod, "Live reading ("
+							final Double[] results = collectAndPlotSnapshot(false, collectionPeriod, 1, "Live reading ("
 									+ collectionPeriod + "s integration, every " + refreshPeriod_s + " s)");
 
 							allValues = ArrayUtils.add(allValues, results[1]);
