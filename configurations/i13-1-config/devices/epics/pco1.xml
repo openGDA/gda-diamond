@@ -139,18 +139,24 @@
 		<property name="basePvName" value="BL13J-EA-DET-01:CAM" />
 	</bean>
 
+
+	<bean id="pco1_singleExposurePco" class="gda.device.detector.addetector.triggering.SingleExposurePco">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg ref="adDriverPco1" />
+		<constructor-arg value=".03" />
+	</bean>
+	<bean id="pco1_multipleExposurePco" class="gda.device.detector.addetector.triggering.MultipleExposurePco">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg ref="adDriverPco1" />
+		<constructor-arg value=".03" />
+	</bean>
+
 	<bean id="pco1_hdf" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
 		<property name="ndStats" ref="pco1_stat" />
 		<property name="ndArray" ref="pco1_arr" />
 		<property name="ndFile" ref="pco1_ndfilehdf5_base" />
-		<property name="collectionStrategy">
-			<bean class="gda.device.detector.addetector.triggering.SingleExposurePco">
-				<constructor-arg ref="pco1_cam_base" />
-				<constructor-arg ref="adDriverPco1" />
-				<constructor-arg value=".03" />
-			</bean>
-		</property>
+		<property name="collectionStrategy" ref="pco1_singleExposurePco"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 				<constructor-arg value="pco1" />
@@ -171,18 +177,21 @@
 		<property name="readArray" value="false" />
 	</bean>
 
+	<bean id="pco1_objects" class="gda.device.FindableObjectHolder">
+		<property name="map">
+			<util:map>
+				<entry key="pco1_singleExposurePco" value-ref="pco1_singleExposurePco" />
+				<entry key="pco1_multipleExposurePco" value-ref="pco1_multipleExposurePco" />
+			</util:map>
+		</property>
+	</bean>
+
 	<bean id="pco1_tif" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
 		<property name="ndStats" ref="pco1_stat" />
 		<property name="ndArray" ref="pco1_arr" />
 		<property name="ndFile" ref="pco1_ndfiletif" />
-		<property name="collectionStrategy">
-			<bean class="gda.device.detector.addetector.triggering.SingleExposurePco">
-				<constructor-arg ref="pco1_cam_base" />
-				<constructor-arg ref="adDriverPco1" />
-				<constructor-arg value=".03" />
-			</bean>
-		</property>
+		<property name="collectionStrategy" ref="pco1_singleExposurePco"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 				<constructor-arg value="pco1" />
