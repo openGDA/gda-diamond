@@ -133,6 +133,11 @@ To take an image from the maxipix detector:
 	PCO4000 - pco1
 	sample stage camera - sample_stage_cam
 
+    imageFitter must be enabled to make the cameras report the result of fitting the image to a 2d gaussian
+	
+    NOTE. After enabling or disabling imageStats or imageFitter can the command rescanProcessors on the detector:
+	e.g. d4_cam.rescanProcessors()
+
 
 12. Beammonitor
     To pause the scan if the value of a scannable goes below a minimum threshold add thescannable beammonitor to a scan command
