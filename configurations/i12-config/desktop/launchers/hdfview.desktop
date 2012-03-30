@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Starting HDFView
+Type=Application
+Exec=bash -c "module add hdfview && hdfview"
+TryExec=
+Icon=/dls_sw/i12/software/gda/config/desktop/launchers/hdf_logo.jpg
+X-GNOME-DocPath=
+Terminal=false
+Name[en_GB]=HDFView
+GenericName[en_GB]=Launch HDF Viewer
+Comment[en_GB]=hdfview

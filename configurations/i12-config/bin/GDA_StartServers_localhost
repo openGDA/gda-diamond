@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#`dirname $0`/gda nameserver --stop $@
+#`dirname $0`/gda logserver --stop $@
+#`dirname $0`/gda eventserver --stop $@
+#`dirname $0`/gda objectserver --stop $@
+
+#echo "start name server"
+#`dirname $0`/gda nameserver $@
+#echo "start log server"
+#`dirname $0`/gda logserver $@
+#echo "start event server"
+#`dirname $0`/gda eventserver $@
+#echo "start object server"
+#JAVA_OPTS="-Xms128m -Xmx1024m" `dirname $0`/gda objectserver  --profile=main --smart --trace --mode=localhost --debug --debugport=8002 $@ #--suspend=y
+
+export JAVA_OPTS="-Xms128m -Xmx1024m -XX:MaxPermSize=128m -XX:+DisableExplicitGC"
+#/dls_sw/i12/software/gda_versions/gda_trunk/plugins/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_trunk/i12-config --debug -p 8001 --restart -v --mode=live servers
+/scratch/workspace/plugins/uk.ac.gda.core/bin/gda  --smart --trace --config=/scratch/workspace/i12-config --debug -p 8001 --restart -v --mode=localhost servers
+# > $LOGFILE 2>&1 &
+ 

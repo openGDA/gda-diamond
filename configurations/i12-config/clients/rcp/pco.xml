@@ -1,0 +1,130 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<description>
+		There are 3 ways of configure EPICS access:
+		1. use Java content objects
+		provided by epics-x.x.x.jar to specify
+		'deviceName' property;
+		e.g. <!-- property 
+			name="deviceName" value="pco.cam_ADBase"/ -->
+		2. set pvProvider property which in turn uses XMLPVProvider bean to
+		specify 'deviceName' property;
+		e.g. <!-- property name="pvProvider"> <bean 
+			class="uk.ac.gda.devices.excalibur.impl.XMLPVProvider"> <property name="deviceName" 
+			value="pco.cam_ADBase" /> </bean> </property -->
+		3. set base PV name property with field or sub-element being coded in
+		Java classes.
+		e.g. <!-- property name="basePVName" value="BL12I-EA-DET-05:PIX:" 
+			/ -->
+	</description>
+
+	<bean id="pcoAdBaseModel" class="uk.ac.gda.epics.client.views.model.impl.ADBaseModelImpl">
+		<!-- <property name="deviceName" value="pco.cam_ADBase"/> -->
+		<property name="basePVName" value="BL12I-EA-DET-02:CAM:" />
+	</bean>
+
+	<bean id="pcoFileSaverModel" class="uk.ac.gda.epics.client.views.model.impl.FileSaverModelImpl">
+		<!-- <property name="deviceName" value="pco.tif_NDFile"/> <property name="pluginBase" 
+			value="pco.tif_NDPluginBase" /> -->
+		<property name="basePVName" value="BL12I-EA-DET-02:TIF:" />
+	</bean>
+
+	<bean id="pcoFfmjpeg1" class="uk.ac.gda.epics.client.views.model.impl.FFMjpegModelImpl">
+		<!-- <property name="deviceName" value="pco.mpeg_ffmpegStream"/> <property 
+			name="pluginBase" value="pco.mpeg_NDPluginBase" /> -->
+		<property name="basePVName" value="BL12I-EA-DET-02:MPG1:" />
+	</bean>
+
+	<bean id="pcoFfmjpeg2" class="uk.ac.gda.epics.client.views.model.impl.FFMjpegModelImpl">
+		<!-- <property name="deviceName" value="pco.mpeg_ffmpegStream"/> <property 
+			name="pluginBase" value="pco.mpeg_NDPluginBase" /> -->
+		<property name="basePVName" value="BL12I-EA-DET-02:MPG2:" />
+	</bean>
+
+	<bean id="pcoNdProc1" class="uk.ac.gda.epics.client.views.model.impl.NDProcModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:PRO1:" />
+		<!-- <property name="deviceName" value="pco.proc_NDProcess"/> <property 
+			name="pluginBase" value="pco.proc_NDPluginBase" /> -->
+	</bean>
+
+	<bean id="pcoNdProc2" class="uk.ac.gda.epics.client.views.model.impl.NDProcModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:PRO1:" />
+		<!-- <property name="deviceName" value="pco.proc_NDProcess"/> <property 
+			name="pluginBase" value="pco.proc_NDPluginBase" /> -->
+	</bean>
+
+	<bean id="pcoNdROI1" class="uk.ac.gda.epics.client.views.model.impl.NDROIModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:ROI1:" />
+		<!-- <property name="deviceName" value="pco.roi1_NDROI"/> <property name="pluginBase" 
+			value="pco.roi1_NDPluginBase" /> -->
+	</bean>
+
+	<bean id="pcoNdROI2" class="uk.ac.gda.epics.client.views.model.impl.NDROIModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:ROI1:" />
+		<!-- <property name="deviceName" value="pco.roi1_NDROI"/> <property name="pluginBase" 
+			value="pco.roi1_NDPluginBase" /> -->
+	</bean>
+
+	<bean id="pcoNdArray" class="uk.ac.gda.epics.client.views.model.impl.NDArrayModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:ARR:" />
+		<!-- <property name="deviceName" value="pco.arr_NDStdArrays"/> <property 
+			name="pluginBase" value="pco.arr_NDPluginBase" /> -->
+	</bean>
+
+	<bean id="pcoNdStat" class="uk.ac.gda.epics.client.views.model.impl.NDStatModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:STAT:" />
+		<!-- <property name="deviceName" value="pco.arr_NDStdArrays"/> <property 
+			name="pluginBase" value="pco.arr_NDPluginBase" /> -->
+	</bean>
+
+	<bean id="pcoStatusViewController" class="uk.ac.gda.epics.client.views.StatusViewController">
+		<property name="adBaseModel" ref="pcoAdBaseModel" />
+		<property name="fileSaverModel" ref="pcoFileSaverModel" />
+		<property name="ffmjpegModel" ref="pcoFfmjpeg1" />
+		<!-- TODO add status view for pcoFfmpeg2 -->
+	</bean>
+
+	<bean id="pcoStatusViewHolder"
+		class="uk.ac.gda.epics.client.pco.views.PCOStatusViewExecutableExtensionFactory">
+		<property name="viewPartName" value="Status" />
+		<property name="statusViewController" ref="pcoStatusViewController" />
+	</bean>
+
+	<bean id="pcoCameraViewController" class="uk.ac.gda.epics.client.views.CameraViewController">
+		<property name="ffmjpegModel1" ref="pcoFfmjpeg1" />
+		<property name="procModel1" ref="pcoNdProc1" />
+		<property name="roiModel1" ref="pcoNdROI1" />
+		<property name="ffmjpegModel2" ref="pcoFfmjpeg2" />
+		<property name="procModel2" ref="pcoNdProc2" />
+		<property name="roiModel2" ref="pcoNdROI2" />
+		<property name="ndArray" ref="pcoNdArray" />
+		<property name="arrayPorts">
+			<list>
+				<!-- <value>pco.roi1</value> <value>pco.proc</value> <value>pco.sim</value> 
+					<value>pco.stat</value> <value>pco.tiff</value> <value>pco.hdf</value> <value>pco.draw</value> -->
+				<value>det.roi1</value>
+				<value>det.proc</value>
+				<value>det.sim</value>
+				<value>det.stat</value>
+				<value>det.tiff</value>
+				<value>det.hdf</value>
+				<value>det.draw</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pcoCameraViewHolder"
+		class="uk.ac.gda.epics.client.pco.views.PCOCameraViewExecutableExtensionFactory">
+		<property name="viewPartName" value="Preview" />
+		<property name="cameraViewController" ref="pcoCameraViewController" />
+	</bean>
+
+	<bean id="pcoTomography" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/gda/pcoTomography" />
+		<property name="serviceInterface" value="uk.ac.gda.tomography.devices.ITomographyDetector" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+</beans>

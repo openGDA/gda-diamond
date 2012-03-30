@@ -1,0 +1,45 @@
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--  Define the scannable group -->
+	<bean id="t4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<!--  Scannables in the group -->
+				<bean id="t4_xcoarse" class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="t4_xcoarse" />
+					<property name="motor" ref="t4_xcoarse_motor" />
+					<property name="tolerance" value="0.01" />
+					<property name="outputFormat">
+						<list>
+							<value>%.3f</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="t4_x" class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="t4_x" />
+					<property name="motor" ref="t4_x_motor" />
+					<property name="tolerance" value="0.01" />
+					<property name="outputFormat">
+						<list>
+							<value>%.3f</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="t4_y" class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="t4_y" />
+					<property name="motor" ref="t4_y_motor" />
+					<property name="tolerance" value="0.01" />
+					<property name="outputFormat">
+						<list>
+							<value>%.3f</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>
+

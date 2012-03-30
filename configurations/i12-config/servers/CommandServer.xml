@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="command_server" class="gda.jython.JythonServer">
+		<property name="jythonScriptPaths">
+			<bean class="gda.jython.ScriptPaths">
+				<property name="projects">
+					<list>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.users.scripts.dir}"/>
+							<property name="name" value="Scripts: User" />
+							<property name="type" value="USER" />
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.config}/scripts" />
+							<property name="name" value="Scripts: Config" />
+							<property name="type" value="CONFIG" />
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.root}/uk.ac.gda.core/scripts" />
+							<property name="name" value="Scripts: Core" />
+							<property name="type" value="CORE" />
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.root}/uk.ac.gda.epics/scripts" />
+							<property name="name" value="Scripts: Epics" />
+							<property name="type" value="CORE" />
+						</bean>
+					</list>
+				</property>
+				<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
+			</bean>
+		</property>
+		<property name="gdaVarDirectory" value="${gda.config}/var" />
+		<property name="cacheDirectory" value="/dls_sw/i12/var/jythonCache" />
+		<property name="remotePort" value="9999" />
+	</bean>
+
+</beans>

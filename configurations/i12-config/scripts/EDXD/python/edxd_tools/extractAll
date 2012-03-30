@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Load cluster envir
+if test -e /dls_sw/apps/Modules/3.2.3/etc/profile.modules; then
+  . /dls_sw/apps/Modules/3.2.3/etc/profile.modules
+  module load global/cluster
+else
+  echo "unable to submit to cluster"
+  exit
+fi
+
+# go to the directory specified
+for f in `ls ${1}/*.nxs`
+do 
+	base=`basename $f`
+	dirname=`basename $base .nxs`
+	echo $f $base $dirname
+	# make the appropriate directory in the output folder
+	mkdir ${2}/$dirname
+
+	# now submit this to the cluster
+	qsub -V /dls_sw/i12/software/gda/config/scripts/EDXD/python/edxd_tools/extract $f ${2}/$dirname
+
+done
+
+
+
+
+

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "starting GDA Log Server"
+echo `dirname $0`/gda logserver --restart $@
+`dirname $0`/gda logserver --restart $@

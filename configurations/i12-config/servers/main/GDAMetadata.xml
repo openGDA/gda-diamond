@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
+		<property name="metadataEntries">
+			<list>
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="instrument" />
+					<property name="propertyName" value="gda.instrument" />
+				</bean>
+
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="facility" />
+					<property name="propertyName" value="gda.facility" />
+				</bean>
+
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="facilityType" />
+					<property name="propertyName" value="gda.facility.type" />
+				</bean>
+
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="probe" />
+					<property name="propertyName" value="gda.facility.probe" />
+				</bean>
+
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="beamCurrent" />
+					<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
+				</bean>
+
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="facilityMode" />
+					<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
+				</bean>
+
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="fillMode" />
+					<property name="pvName" value="LI-TI-MTGEN-01:MODE" />
+				</bean>
+
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="beamEnergy" />
+					<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
+				</bean>
+
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="federalid" />
+				</bean>
+				
+				<ref bean="subdirectory"/>
+				
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="title" />
+					<property name="value" value="undefined" />
+				</bean>
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="note" />
+					<property name="value" value="undefined" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="subdirectory" class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="subdirectory"/>
+		<property name="value" value=""/>
+	</bean>
+	
+
+</beans>

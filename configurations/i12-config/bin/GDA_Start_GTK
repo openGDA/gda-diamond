@@ -1,0 +1,31 @@
+#!/bin/bash
+##This is an example script file to restart GDA server from a remote client
+##This requires generation of ssh keys and copying the public key to the authorized_keys file in the server
+##Please refer to the document howtoSSH.txt for key generation.
+##To use this script change the key file path, user name and the server machine name
+
+zenity --title "Are you sure?" --question --text "Are you sure you want to restart the GDA servers?" --window-icon=question
+SURE=$?
+if [ $SURE == 1 ]; then
+  exit
+fi
+rm -f /$SOFTWAREFOLDER/$BEAMLINE/var/object_server_startup_server_*
+ssh  -i /$SOFTWAREFOLDER/$BEAMLINE/${BEAMLINE}ssh.key gda@${BEAMLINE}-control.diamond.ac.uk 
+
+echo "Restarting the GDA Server, please wait..."
+#removing the popup window because it's not working properly
+echo "Keep this window open, and you will see a pop-up when the restart has completed"
+echo
+sleep 10
+#put in the pause because NFS may take a while to eliminate the previous object_creators file
+/$SOFTWAREFOLDER/$BEAMLINE/software/gda/$BEAMLINE-config/bin/lookForFile.sh /$SOFTWAREFOLDER/$BEAMLINE/var/object_server_startup_server_main
+
+zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
+STARTCLIENT=$?
+if [ $STARTCLIENT == 0 ]; then
+nohup GDA_StartClient
+if [ "X$LOGPANEL" == "X" ] ; then
+wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
+fi
+fi
+

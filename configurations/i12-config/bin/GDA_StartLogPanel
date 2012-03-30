@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "Staring GDA Log Panel locally"
+echo "`dirname $0`/gda logpanel --restart $@"
+`dirname $0`/gda logpanel --restart $@

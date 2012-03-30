@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo `dirname $0`/gda servers --stop $@
+`dirname $0`/gda servers --stop $@

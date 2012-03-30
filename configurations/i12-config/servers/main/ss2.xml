@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean id="ss2_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss2_x_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ss2_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss2_y_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ss2_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss2_z_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ss2_rx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss2_rx_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ss2_theta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss2_ry_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<!-- Define the scannable group -->
+	<bean id="ss2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ss2_x"/>
+				<ref bean="ss2_y"/>
+				<ref bean="ss2_z"/>
+				<ref bean="ss2_rx"/>
+				<ref bean="ss2_theta"/>
+			</list>
+		</property>
+	</bean>
+
+</beans>
