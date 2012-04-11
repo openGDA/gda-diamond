@@ -107,3 +107,7 @@ execfile("/dls_sw/i13-1/software/gda/diffcalc/example/startup/sixcircle_dummy.py
 
 from gdascripts.scannable.beamokay import WaitWhileScannableBelowThresholdMonitorOnly
 beammonitor=WaitWhileScannableBelowThresholdMonitorOnly("beammonitor", d4_i, 1,1,1)
+
+ix.setInputNames(["ix"])
+iy.setInputNames(["iy"])
+
