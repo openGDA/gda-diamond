@@ -35,7 +35,7 @@
 <setEntry value="org.eclipse.platform:default"/>
 <setEntry value="org.eclipse.rcp:default"/>
 <setEntry value="org.python.pydev.feature:default"/>
-<setEntry value="uk.ac.gda.beamline.i13j.feature:default"/>
+<setEntry value="uk.ac.gda.beamline.i13i.feature:default"/>
 <setEntry value="uk.ac.gda.client.feature:default"/>
 <setEntry value="uk.ac.gda.diamond.feature:default"/>
 <setEntry value="uk.ac.gda.xmleditor.feature:default"/>

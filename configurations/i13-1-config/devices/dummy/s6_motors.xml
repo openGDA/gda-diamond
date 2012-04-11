@@ -3,5 +3,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="id_gap_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s6_x_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s6_xgap_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s6_y_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s6_ygap_motor" class="gda.device.motor.DummyMotor"/>
+
 </beans>	

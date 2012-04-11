@@ -70,7 +70,7 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 		right.addView(XYPlotView.ID);
 		
 		IFolderLayout rightBottom = factory.createFolder("rightBottom", IPageLayout.BOTTOM, (float) 0.50, "right");
-		rightBottom.addView("uk.ac.gda.beamline.i13j.DetectorPlot");
+		rightBottom.addView("uk.ac.gda.beamline.i13i.DetectorPlot");
 		rightBottom.addPlaceholder("org.eclipse.ui.browser.view");
 		rightBottom.addPlaceholder("data.dispenser.browser");
 		rightBottom.addPlaceholder("org.eclipse.ui.browser.view:data.dispenser.browser");

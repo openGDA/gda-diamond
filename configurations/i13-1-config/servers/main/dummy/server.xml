@@ -33,7 +33,7 @@
 	</bean>	
 
 	
-	<import resource="../../../devices/epics/undulator.xml"/>
+	<import resource="../../../devices/dummy/undulator.xml"/>
 	<import resource="../../../devices/dummy/front_end.xml"/>
 <!-- start of internal building -->
 
@@ -75,10 +75,14 @@
 	<import resource="../../../devices/dummy/diffractometer_motors.xml"/>
 
 	<import resource="../../../devices/dummy/robot_motors.xml"/>
+	
+	<import resource="../../../devices/dummy/s6_motors.xml"/>	
 
 	<import resource="../../../devices/dummy/sample_stage_t1_motors.xml"/>
 	
 	<import resource="../../../devices/dummy/sample_stage_camera.xml"/>
+	
+	<import resource="../../../devices/dummy/s7_motors.xml"/>
 
 	<import resource="../../../devices/dummy/alignment_scope_motors.xml"/>
 
