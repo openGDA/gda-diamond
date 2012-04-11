@@ -21,5 +21,5 @@ def create_tiffs(filepath):
         newfilename=filename.replace(".edf",".tiff")
         print "Creating %s from %s " % (newfilename,filename)
 #       print dh.__class__
-        TIFFSaver(newfilename,32).save(dh)
+        TIFFSaver(newfilename,False,32).save(dh)
 #        dnp.io.save(newfilename, dh, format="tiff")

@@ -1,0 +1,23 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s6_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="s6.x" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="s6_xgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="s6.xgap" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="s6_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="s6.y" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="s6_ygap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="s6.ygap" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>	

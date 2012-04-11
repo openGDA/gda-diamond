@@ -67,7 +67,7 @@
 
 	<import resource="../../../devices/epics/absorbers4.xml"/>
 	
-   <import resource="../../../devices/epics/qcm_motors.xml"/>
+    <import resource="../../../devices/epics/qcm_motors.xml"/> 
 	
 	<import resource="../../../devices/epics/experiment_hutch_shutter.xml"/>
 
@@ -81,19 +81,22 @@
 	
 	<import resource="../../../devices/dummy/robot_motors.xml"/>
 
+	<import resource="../../../devices/epics/s6_motors.xml"/>
+
 	<import resource="../../../devices/epics/sample_stage_t1_motors.xml"/>
 
 	<import resource="../../../devices/epics/sample_stage_camera.xml"/>
 	
+	<import resource="../../../devices/epics/s7_motors.xml"/>
 
 	<import resource="../../../devices/epics/alignment_scope_motors.xml"/>
 
 	<import resource="../../../devices/epics/pco1.xml"/>
 	
+	<import resource="../../../devices/epics/detector_stage_t2_motors.xml"/>
+
 	<import resource="../common.xml"/>	
 
-<!--  	<import resource="../../../devices/epics/qcm_motors.xml"/>
- -->
 <!--Not present 
 	<import resource="../../../devices/epics/s3_motors.xml"/>
  -->

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Beamline I13 Help" topic="http://confluence.diamond.ac.uk/display/I13Tech/I13-1+Data+Acquisition+User+Guide">
+	<topic label="GDA Command List"  href="http://confluence.diamond.ac.uk/display/I13Tech/I13J+GDA+Command+List"/> 
+    <topic label="GDA User Guide" href="http://dawn.diamond.ac.uk/documentation/manuals/GDA_User_Guide/trunk/contents.html" />
+    <topic label="GDA Gui Analysis Guide" href="http://dawn.diamond.ac.uk/documentation/manuals/Diamond_SciSoft_Analysis_User_Guide/trunk/contents.html"/>
+    <topic label="GDA Analysis Scripting User Guide" href="http://dawn.diamond.ac.uk/documentation/manuals/Diamond_SciSoft_Python_Guide/trunk/contents.html" />
+	<topic label="DiffCalc User Guide" href="http://dawn.diamond.ac.uk/documentation/manuals/Diffcalc_User_Guide/trunk/contents.html"/>
+	<topic label="Trouble Shooting"  href="http://confluence.diamond.ac.uk/display/I13Tech/I13J+Trouble+Shooting+Guide"/> 
+	<topic label="I13J Wiki" href="http://confluence.diamond.ac.uk/display/I13Tech/I13J+Coherence+Beamline"/>
+</toc>

@@ -29,6 +29,17 @@
          </property>    
       </product>
    </extension>
+  
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="userGuideTableOfContents.xml"
+            primary="true">
+      </toc>
+      <toc
+            file="toc.xml">
+      </toc>
+   </extension> 
    <extension
          point="org.eclipse.ui.actionSets">
       <actionSet
@@ -41,7 +52,7 @@
                menubarPath="help/helpStart"               
                style="push">
                <class class="org.eclipse.help.ui.browser.LaunchURL">
-                    <parameter name="url" value="http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=I13%20-%20X-ray%20Imaging%20and%20Coherence" />
+                    <parameter name="url" value="http://confluence.diamond.ac.uk/display/I13Tech/I13-1+Data+Acquisition+User+Guide" />
                </class>               
         	</action>
          <action
@@ -59,7 +70,7 @@
                menubarPath="help/helpStart"               
                style="push">
                 <class class="org.eclipse.help.ui.browser.LaunchURL">
-                    <parameter name="url" value="http://trac.diamond.ac.uk/beam/login" />
+                    <parameter name="url" value="http://jira.diamond.ac.uk/secure/CreateIssue.jspa?pid=10120"/>
                </class>               
         	</action>        	
       </actionSet>
@@ -171,5 +182,19 @@
     		</enabledWhen>
     </activity>
     <activityPatternBinding activityId="rcpcolibri.disablextensions" pattern="org.dawb.*"/>
-   </extension>       
+   </extension>  
+   <extension point="org.eclipse.ui.menus">   
+	<menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="uk.ac.gda.client.mx.mainControls">
+            <command
+                  commandId="uk.ac.gda.client.datadispenser.controller.command"
+                  label="Data Dispenser"
+                  mode="FORCE_TEXT"
+                  style="push">
+            </command>
+         </toolbar>
+      </menuContribution>                    
+   </extension>  
 </plugin>

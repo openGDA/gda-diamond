@@ -25,14 +25,16 @@
 		<property name="userUnits" value="deg"/>
 	</bean>
 
-<!-- 	<bean id="qcm_bragg1_finepitch" class="gda.device.scannable.ScannableMotor">
+<!--
+ 	<bean id="qcm_bragg1_finepitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="qcm_bragg1_finepitch_motor" />
 		<property name="userUnits" value="deg"/>
 	</bean>
 	<bean id="qcm_bragg1_fineroll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="qcm_bragg1_fineroll_motor" />
 		<property name="userUnits" value="deg"/>
-	</bean> -->
+	</bean> 
+-->
 
 	<bean id="qcm_bragg2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="qcm_bragg2_motor" />
@@ -51,15 +53,16 @@
 		<property name="userUnits" value="deg"/>
 	</bean>
 
-<!-- 	<bean id="qcm_bragg2_finepitch" class="gda.device.scannable.ScannableMotor">
+<!--
+ 	<bean id="qcm_bragg2_finepitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="qcm_bragg2_finepitch_motor" />
 		<property name="userUnits" value="deg"/>
 	</bean>
 	<bean id="qcm_bragg2_fineroll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="qcm_bragg2_fineroll_motor" />
 		<property name="userUnits" value="deg"/>
-	</bean> -->
-
+	</bean>
+-->
 
 	<bean id="qcm_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="qcm_y_motor" />

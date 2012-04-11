@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.beamline.i13i.feature"
       label="Beamline I13i Feature"
-      version="8.20.0"
+      version="8.22.0"
       provider-name="Diamond Light Source">
 
    <description url="http://www.diamond.ac.uk/description">
@@ -63,6 +63,20 @@
 
    <plugin
          id="uk.ac.gda.video"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.client.tomo"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.tomography"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -887,6 +887,7 @@ class Motoman(object):
 
     
 Detector_Robot_IP = "172.23.82.221"
+Detector_Robot_Pipe_IP="172.23.82.220"
 
 class Robot():
     """

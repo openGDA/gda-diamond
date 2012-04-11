@@ -12,8 +12,8 @@ mpx_set_folder
 
 To take an image from the maxipix detector:
 
-1. Set the folder and prefix for the images. The folder is relative to the visit folder.
-    e.g.mpx_set_folder("","sampleA")
+1. Set the folder, prefix and next number for the images. The folder is relative to the visit folder.
+    e.g.mpx_set_folder("","sampleA",0)
 
 2. Take an image with the maxipix detector
     pos mpx 1.
@@ -116,6 +116,44 @@ To take an image from the maxipix detector:
 10. SCANNING
     >scan scannable start end step      e.g. scan ix 1 10 1
     >scan scannable list_of_positions   e.g. scan ix (1,2,4,5,6,5,4,3,2,1)
+
+11. Read total count in region of interest for mpx
+    Use detector mpx_wrap
+    >imageStats.setEnable(True)
+    >imageROI.setEnable(True)
+    >imageROI.setROI(366,511,231,511)  ( y_start, y_end, x_start, x_end)
+    >repscan 1 mpx_wrap 1
+
+	Equivalent 'wrapped' detectors exist for:
+	Diagnostic stick 1 camera - d1_cam
+	Diagnostic stick 2 camera - d2_cam
+	Diagnostic stick 3 camera - d3_cam
+	Diagnostic stick 4 camera - d4_cam
+    optics hutch shutter camera - oh4_shtr_cam
+	PCO4000 - pco1
+	sample stage camera - sample_stage_cam
+
+    imageFitter must be enabled to make the cameras report the result of fitting the image to a 2d gaussian
+	
+    NOTE. After enabling or disabling imageStats or imageFitter can the command rescanProcessors on the detector:
+	e.g. d4_cam.rescanProcessors()
+
+
+12. Beammonitor
+    To pause the scan if the value of a scannable goes below a minimum threshold add thescannable beammonitor to a scan command
+    e.g. scan ix 0 10 1 beammonitor
+    
+    To view the scannable being monitored :
+    >beammonitor.scannableToMonitor
+    ( To change use a command of the form: beammonitor.scannableToMonitor = d3_i)
+    
+    To view the minium value bwlo which teh scan pauses:
+    >beammonitor.minimumThreshold
+
+    (To change use a command of the form: beammonitor.minimumThreshold = .1)
+    
+    
+
     
 """
 

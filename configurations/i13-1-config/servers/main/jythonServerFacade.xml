@@ -36,13 +36,7 @@
 		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
 			value="CORE" />
 	</bean>
-	<bean id="scisoft_script_project" class="gda.jython.ScriptProject">
-		<constructor-arg index="0"
-			value="${gda.root}/uk.ac.diamond.scisoft.analysis/src" />
-		<constructor-arg index="1" value="Scripts: Core" />
-		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
-			value="CORE" />
-	</bean>
+
 
 	<bean id="script_paths" class="gda.jython.ScriptPaths">
 		<property name="projects">
@@ -51,7 +45,6 @@
 				<ref local="configuration_script_project" />
 				<ref local="core_script_project" />
 				<ref local="epics_script_project" />
-				<ref local="scisoft_script_project" />
 			</list>
 		</property>
 		<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
