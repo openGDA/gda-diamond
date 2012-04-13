@@ -8,5 +8,4 @@
 		<property name="deviceName" value="eh_shtr" /> 
 	</bean> 
 	
-
 </beans>	

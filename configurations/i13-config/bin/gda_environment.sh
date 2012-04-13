@@ -15,7 +15,7 @@ then
 fi
 
 
-export PATH=$GDAFOLDER/$BEAMLINE-config/bin:${PATH}
+export PATH=${GDAFOLDER}/${BEAMLINE}-config/bin:${PATH}
 
 ( cd $HOME/Desktop && test -e "${BEAMLINE}_Launchers" || ln -s /usr/local/etc/"${BEAMLINE}_Launchers" . ) > /dev/null 2>&1
 ( cd $HOME/Desktop && test -e "DLS_Launchers" || ln -s /usr/local/etc/"DLS_Launchers" . ) > /dev/null 2>&1

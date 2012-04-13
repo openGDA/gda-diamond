@@ -24,7 +24,6 @@ try:
 	
 	#import for help
 	from maxipix import mpx_set_folder, mpx_reset_configure, mpx_config_file_monitor
-	from robots import calcRobotMotors, calcRobotMotorsInverse
 	from gda.device.lima import LimaCCD
 	from gda.device.maxipix2 import MaxiPix2
 	from gda.util import VisitPath

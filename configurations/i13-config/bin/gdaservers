@@ -31,8 +31,8 @@ echo "Keep this window open, and you will see a pop-up when the restart has comp
 # ssh into i13-control as gda which should then run the servers script locally there
 echo $USER
 if [ "$USER" == "tjs15132" ]; 
-then cmd="ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i $GDAFOLDER/$BEAMLINE-config/${BEAMLINE}ssh_non_permissive.key gda2@i13-control"; export cmd
-else cmd="ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i $GDAFOLDER/$BEAMLINE-config/${BEAMLINE}ssh.key gda2@i13-control"; export cmd
+then cmd="ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i ${GDAFOLDER}/${BEAMLINE}-config/${BEAMLINE}ssh_non_permissive.key gda2@i13-control"; export cmd
+else cmd="ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i ${GDAFOLDER}/${BEAMLINE}-config/${BEAMLINE}ssh.key gda2@i13-control"; export cmd
 fi
 echo $cmd
 $cmd

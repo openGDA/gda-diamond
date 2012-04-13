@@ -1,15 +1,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-				http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-
-
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
@@ -144,12 +144,11 @@
 
 
 	<import resource="../../devices/diffractometer.xml" />
-	<import resource="../../devices/robots.xml" />
 
-	<import resource="../../devices/optics_hutch4_shutter.xml" />
 
  -->	<!-- end of internal building/ start of external building -->
 
+	<import resource="../../devices/optics_hutch4_shutter.xml" />
 	<import resource="../../devices/dcm.xml" />
 
 <!-- 	<import resource="../../devices/qcm.xml" />
@@ -157,6 +156,9 @@
 	<import resource="../../devices/d4.xml" />
 	<import resource="../../devices/s4.xml" />
 	<import resource="../../devices/s5.xml" />
+-->
+	<import resource="../../devices/d5.xml" />
+<!--
 
 	<import resource="../../devices/sample_stage_t1.xml" />
 	<import resource="../../devices/sample_stage_camera.xml" />
@@ -165,13 +167,7 @@
 
 	<import resource="../../devices/dummyAD.xml" />
  -->
-	<!--Not present <import resource="../../devices/s3.xml" /> <import resource="../../devices/diff1.xml" 
-		/> -->
-	<!--Not present <import resource="../../devices/scope1.xml" /> <import resource="../../devices/t1.xml" 
-		/> <import resource="../../devices/z1.xml" /> -->
-<!-- 	<import resource="../../devices/maxipix.xml" />
 	<import resource="../../devices/pco1.xml" />
- -->
 	<!-- end of device list -->
 
 
@@ -186,21 +182,17 @@
 			value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
 	</bean>
 
+	<import resource="lut_energymodule.xml"/>
+	<import resource="lut_ball_position.xml"/>
+	<import resource="lut_moduleposition.xml"/>
+
+	<import resource="../../devices/cam1.xml"/>
+	<import resource="../../devices/ss1.xml"/>
+	<import resource="../../devices/t3.xml"/>
 
 	<import resource="jythonServerFacade.xml" />
 
-	<!-- corba export must be the final bean. Later beans are not exported via 
-		Corba -->
-
-	<!-- <bean id="theta_motor" class="gda.device.motor.DummyMotor"/> <bean 
-		id="theta" class="gda.device.scannable.ScannableMotor"> <property name="motor" 
-		ref="theta_motor" /> <property name="userUnits" value="Deg"/> </bean> <bean 
-		id="energy" class="gda.device.scannable.MonoScannable"> <property name="motorName" 
-		value="theta" /> <property name="crystalType" value="Si111" /> <property 
-		name="initialUserUnits" value="eV" /> <property name="motorUnitString" value="Deg" 
-		/> </bean> -->
-
-
+	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
 	<corba:export namespace="i13" />
 </beans>
 
