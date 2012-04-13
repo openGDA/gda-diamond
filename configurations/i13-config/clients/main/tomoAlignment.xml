@@ -1,0 +1,125 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	<description>The tomography alignment view is configured using the PCO
+		objects, since tomography mainly uses the PCO camera
+	</description>
+	<context:property-placeholder location="file:${gda.config}/properties/${gda.mode}/java.properties,file:${gda.config}/properties/java.properties" />
+	
+	<corba:import namespace="i13"
+		names="tiltBallRoiLut,moduleMotorPositionLUT,energyModuleLUT,eh_shtr" />
+
+	<bean id="motorsHandler"
+		class="uk.ac.gda.client.tomo.view.handlers.impl.TomoAlignmentMotorHandler">
+		<property name="cam1XScannable" ref="cam1_x" />
+		<property name="cam1ZScannable" ref="cam1_z" />
+		<property name="cam1RollScannable" ref="cam1_roll" />
+		<property name="rotationScannable" ref="ss1_theta" />
+		<property name="ss1TxScannable" ref="ss1_tx" />
+		<property name="ss1TzScannable" ref="ss1_tz" />
+		<property name="ss1Y2Scannable" ref="ss1_y3" />
+		<property name="t3xScannable" ref="t3_x" />
+		<property name="t3m1yScannable" ref="t3_m1y" />
+		<property name="sampleHolderScannable" ref="ss1_x" />
+		<property name="ss1RxScannable" ref="ss1_rx" />
+		<property name="ss1RzScannable" ref="ss1_rz" />
+		<property name="defaultDistanceToMoveForFlat" value="-100.0" />
+		<property name="eh1shtr" ref="eh_shtr" />
+		<property name="thethaOffset" value="0" />
+	</bean>
+
+	<bean id="detectorHandler"
+		class="uk.ac.gda.client.tomo.view.handlers.impl.TomoDetectorHandler">
+		<property name="camera" ref="pcoTomography" />
+		<property name="imageFilePath" value="${gda.tomoAlignment.imageFilePath}" />
+		<property name="ffmjpegModel1" ref="pcoFfmjpeg1" />
+		<property name="ffmjpegModel2" ref="pcoFfmjpeg2" />
+		<property name="ndRoi1Model" ref="pcoNdROI1" />
+		<property name="ndStatModel" ref="pcoNdStat" />
+		<property name="ndArrayModel" ref="pcoNdArray" />
+		<property name="adBaseModel" ref="pcoAdBaseModel" />
+		<property name="ndProc1Model" ref="pcoNdProc1" />
+		<property name="detectorPixelSize" value="0.009" />
+		<property name="demandRawFileName" value="rawImage" />
+		<property name="flatImageFileName" value="flatFieldImage" />
+		<property name="flatFileTemplate" value="%s%s.tiff" />
+		<property name="defaultNumOfFlatImages" value="25" />
+		<property name="defaultExposureTime" value="0.1" />
+		<property name="defaultNumOfDarkImages" value="25" />
+		<property name="darkFilePath" value="${gda.tomoAlignment.darkFilePath}"/>
+		<property name="darkImageFileName" value="darkImage" />
+		<property name="darkFileTemplate" value="%s%s.tif" />
+		<property name="defaultAcqPeriod" value="0.1" />
+		<property name="defaultModule" value="1" />
+		<property name="saturationThreshold" value="15000000" />
+	</bean>
+
+
+	<bean id="moduleLookupTableHandler"
+		class="uk.ac.gda.client.tomo.view.handlers.impl.ModuleLookupTableHandler">
+		<property name="moduleTable" ref="moduleMotorPositionLUT" />
+		<property name="moduleEnergyIntervalTable" ref="energyModuleLUT" />
+	</bean>
+
+	<bean id="cameraModuleHandler"
+		class="uk.ac.gda.client.tomo.view.handlers.impl.CameraModuleController">
+		<property name="motorHandler" ref="motorsHandler" />
+		<property name="lookupTableHandler" ref="moduleLookupTableHandler" />
+	</bean>
+
+	<bean id="tiltBallLookupTableHandler"
+		class="uk.ac.gda.client.tomo.view.handlers.impl.TiltBallLookupTableHandler">
+		<property name="moduleTable" ref="tiltBallRoiLut" />
+	</bean>
+
+	<bean id="tiltController" class="uk.ac.gda.client.tomo.view.handlers.impl.TiltController">
+		<property name="lookupTableHandler" ref="tiltBallLookupTableHandler" />
+		<property name="externalProgram1">
+			<bean class="uk.ac.gda.client.tomo.ExternalFunction">
+				<property name="command" value="call_matlab.sh" />
+				<property name="args">
+					<list>
+						<value>create_flatfield</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="externalProgram2">
+			<bean class="uk.ac.gda.client.tomo.ExternalFunction">
+				<property name="command" value="call_matlab.sh" />
+				<property name="args">
+					<list>
+						<value>call_tomography_level</value>
+						<value>false,0.4,true,</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Assuming that this is invoked after the pco.xml has been invoked. -->
+	<bean id="tomoAlignmentViewController"
+		class="uk.ac.gda.client.tomo.view.controller.TomoAlignmentViewController">
+		<property name="motorHandler" ref="motorsHandler" />
+		<property name="cameraHandler" ref="detectorHandler" />
+		<property name="lookupTableHandler" ref="moduleLookupTableHandler" />
+		<property name="cameraModuleController" ref="cameraModuleHandler" />
+		<property name="tiltController" ref="tiltController" />
+	</bean>
+
+	<!-- -->
+	<bean id="tomoAlignmentViewHolder"
+		class="uk.ac.gda.client.tomo.view.factory.TomoAlignmentViewFactoryFactory ">
+		<property name="viewPartName" value="Alignment" />
+		<property name="screenPixelSize" value="0.27" />
+		<property name="tomoAlignmentViewController" ref="tomoAlignmentViewController" />
+	</bean>
+</beans>

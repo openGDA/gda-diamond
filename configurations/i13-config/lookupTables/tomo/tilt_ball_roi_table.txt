@@ -1,0 +1,6 @@
+ScannableNames	Module	minY maxY balloffset
+ScannableUnits	No.	mm	mm	mm
+1	100	300	1 	
+2	50	200	1	
+3	25	100	1	
+4	10	50	1	
