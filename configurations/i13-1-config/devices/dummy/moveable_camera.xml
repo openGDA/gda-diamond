@@ -8,25 +8,25 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean id="sample_stage_ad_pluginBase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
+	<bean id="moveable_ad_pluginBase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
 	<property name="dims" value="1000,1000"/>
 	<property name="datatype" value="UINT32"/>
 	</bean>
-	<bean id="sample_stage_ad_base" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator"/>
+	<bean id="moveable_ad_base" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator"/>
 
-	<bean id="sample_stage_ad_arr" class="gda.device.detector.areadetector.v17.impl.NDArraySimulator">
-	<property name="pluginBase" ref="sample_stage_ad_pluginBase"/>
+	<bean id="moveable_ad_arr" class="gda.device.detector.areadetector.v17.impl.NDArraySimulator">
+	<property name="pluginBase" ref="moveable_ad_pluginBase"/>
 	</bean>
 
 
-	<bean id="sample_stage_ad_stat" class="gda.device.detector.areadetector.v17.impl.NDStatsSimulator">
-	<property name="pluginBase" ref="sample_stage_ad_pluginBase"/>
+	<bean id="moveable_ad_stat" class="gda.device.detector.areadetector.v17.impl.NDStatsSimulator">
+	<property name="pluginBase" ref="moveable_ad_pluginBase"/>
 	</bean>
 
-	<bean id="sample_stage_cam_ad" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="sample_stage_ad_base" />
-		<property name="ndStats" ref="sample_stage_ad_stat" />
-		<property name="ndArray" ref="sample_stage_ad_arr" />
+	<bean id="moveable_cam_ad" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="moveable_ad_base" />
+		<property name="ndStats" ref="moveable_ad_stat" />
+		<property name="ndArray" ref="moveable_ad_arr" />
 		<property name="computeStats" value="false" />
 		<property name="computeCentroid" value="false" />
 		<property name="readArray" value="true" />
