@@ -81,6 +81,7 @@
 	<import resource="../../../devices/dummy/sample_stage_t1_motors.xml"/>
 	
 	<import resource="../../../devices/dummy/sample_stage_camera.xml"/>
+	<import resource="../../../devices/dummy/moveable_camera.xml"/>
 	
 	<import resource="../../../devices/dummy/s7_motors.xml"/>
 
