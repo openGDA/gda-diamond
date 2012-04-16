@@ -27,22 +27,22 @@
 		<property name="deviceName" value="f1.aper" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="f1_aperture_mp" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="f1_Aperture" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="f1.aperture.mp" />
 	</bean>	
-	<bean id="f1_filter1_mp" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="f1_Stick1" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="f1.filter1.mp" />
 	</bean>	
-	<bean id="f1_filter2_mp" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="f1_Stick2" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="f1.filter2.mp" />
 	</bean>	
-	<bean id="f1_filter3_mp" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="f1_Stick3" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="f1.filter3.mp" />
 	</bean>	
-	<bean id="f1_filter4_mp" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="f1_Stick4" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="f1.filter4.mp" />
 	</bean>	
-	<bean id="f1_filter5_mp" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="f1_Stick5" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="f1.filter5.mp" />
 	</bean>	
 </beans>	

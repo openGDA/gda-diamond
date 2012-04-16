@@ -13,16 +13,16 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="d1_pos" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="d1_pos" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="d1.mp" />
 	</bean>
 
-<!-- 	<bean id="d1_i" class="gda.device.scannable.EpicsScannable">
+ 	<bean id="d1_i" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
 		<property name="pvProvider">
 			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-			<property name="deviceName" value="d1.femto"/>
+			<property name="deviceName" value="D1"/>
 			<property name="fieldName" value="RECORD"/>
 			</bean>
 		</property>
@@ -48,7 +48,7 @@
 			<property name="fieldName" value="SETACDC"/>
 			</bean>
 		</property>
-	</bean> -->
+	</bean>
 
 
 	<bean id="d1_flow_temp" class="gda.device.scannable.EpicsScannable">

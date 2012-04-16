@@ -128,49 +128,39 @@
 
 	<import resource="../../devices/undulator.xml" />
 	<import resource="../../devices/front_end.xml" />
+	
+	<!-- start of internal building -->
+		
 	<import resource="../../devices/s1.xml" />
 	<import resource="../../devices/filters.xml" />
-<!-- 
 
 	<import resource="../../devices/m1.xml" />
--->
 	<import resource="../../devices/d1.xml" />
-<!-- 
 	<import resource="../../devices/d2.xml" />
-
 	<import resource="../../devices/s2.xml" />
-
-	<import resource="../../devices/d3.xml" />
-
-
-	<import resource="../../devices/diffractometer.xml" />
-
-
- -->	<!-- end of internal building/ start of external building -->
-
-	<import resource="../../devices/optics_hutch4_shutter.xml" />
-	<import resource="../../devices/dcm.xml" />
-
-<!-- 	<import resource="../../devices/qcm.xml" />
-	
 	<import resource="../../devices/d4.xml" />
-	<import resource="../../devices/s4.xml" />
-	<import resource="../../devices/s5.xml" />
--->
+	
+	<!-- End of internal Building/ Start of external Building -->
+	<import resource="../../devices/optics_hutch4_shutter.xml" />
+	<import resource="../../devices/s3.xml" />
+	<import resource="../../devices/dcm.xml" />
 	<import resource="../../devices/d5.xml" />
-<!--
-
-	<import resource="../../devices/sample_stage_t1.xml" />
-	<import resource="../../devices/sample_stage_camera.xml" />
-
-	<import resource="../../devices/alignment_scope.xml" />
-
-	<import resource="../../devices/dummyAD.xml" />
- -->
+	<import resource="../../devices/sample_stage.xml" />
+	<import resource="../../devices/table.xml" />
+	<import resource="../../devices/camera_stage.xml" />
 	<import resource="../../devices/pco1.xml" />
+
+
+	<!-- Device required by tomography alignment -->
+	<import resource="lut_energymodule.xml"/>
+	<import resource="lut_ball_position.xml"/>
+	<import resource="lut_moduleposition.xml"/>
+
+	<import resource="../../devices/cam1.xml"/>
+	<import resource="../../devices/ss1.xml"/>
+	<import resource="../../devices/t3.xml"/>
+
 	<!-- end of device list -->
-
-
 
 
 	<bean id="highestExistingFileMonitor"
@@ -182,13 +172,6 @@
 			value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
 	</bean>
 
-	<import resource="lut_energymodule.xml"/>
-	<import resource="lut_ball_position.xml"/>
-	<import resource="lut_moduleposition.xml"/>
-
-	<import resource="../../devices/cam1.xml"/>
-	<import resource="../../devices/ss1.xml"/>
-	<import resource="../../devices/t3.xml"/>
 
 	<import resource="jythonServerFacade.xml" />
 

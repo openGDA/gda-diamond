@@ -9,7 +9,7 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 	<description> Diode 5 In Experiment Hutch after experiment hutch shutter</description>
-	<bean id="d5_pos" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="d5_pos" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="d5.mp" />
 	</bean>
 
@@ -34,7 +34,7 @@
 		<property name="hasUnits" value="false" />
 		<property name="pvProvider">
 			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="d5.femto" />
+				<property name="deviceName" value="ionc1.femto" />
 				<property name="fieldName" value="SETGAIN" />
 			</bean>
 		</property>
@@ -45,7 +45,7 @@
 		<property name="hasUnits" value="false" />
 		<property name="pvProvider">
 			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="d5.femto" />
+				<property name="deviceName" value="ionc1.femto" />
 				<property name="fieldName" value="SETACDC" />
 			</bean>
 		</property>
