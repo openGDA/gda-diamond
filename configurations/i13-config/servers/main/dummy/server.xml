@@ -70,7 +70,7 @@
 
 	<import resource="../../../devices/dummy/s5_motors.xml"/>
 
-	<import resource="../../../devices/dummy/diffractometer_motors.xml"/>
+<!-- 	<import resource="../../../devices/dummy/diffractometer_motors.xml"/>
 
 	<import resource="../../../devices/dummy/robot_motors.xml"/>
 
@@ -79,6 +79,12 @@
 	<import resource="../../../devices/dummy/sample_stage_camera.xml"/>
 
 	<import resource="../../../devices/dummy/alignment_scope_motors.xml"/>
+ -->
+	<import resource="../../../devices/epics/sample_stage_motors.xml" />
+	<import resource="../../../devices/epics/table_motors.xml" />
+	<import resource="../../../devices/epics/camera_stage_motors.xml" />
+
+
 
 	<import resource="../../../devices/dummy/pco1.xml"/>
 	

@@ -162,7 +162,8 @@
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 				<constructor-arg ref="d5_ndfiletif" />
 				<constructor-arg value="d5"/>
-				<constructor-arg value="%%s%d%%s-%%d-d5.tif"/>
+				<constructor-arg value="%%s%%s%d-%%d.tif"/>
+				<constructor-arg value="%s/%d/d5/"/>
 				<constructor-arg value="true"/>
 				<constructor-arg value="true"/>
 				<property name="enable" value="true"/>

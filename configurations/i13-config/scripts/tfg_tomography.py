@@ -12,6 +12,9 @@ from gda.epics import ChannalAccessCommands
 from string import Template
 import string
 from gda.factory import Finder
+
+from gdascripts.parameters import beamline_parameters
+from gdascripts.messages import handle_messages
 #from gda.jython.commands.ScannableCommands import pos
 
 ####end of module section 
@@ -26,7 +29,6 @@ hightime=0.15
 tfg=Finder.getInstance().find("tfg")
 daserver=Finder.getInstance().find("daserver")
 cac=ChannalAccessCommands()
-
 
 def config_tfg(exposure,nsteps):
     commands=Template("""
