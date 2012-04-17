@@ -11,7 +11,8 @@ touch $LOGFILE
 rm $GDALOGS/gda_output.txt
 ln -s $LOGFILE $GDALOGS/gda_output.txt
 
-
+echo GDAFOLDER=$GDAFOLDER
+echo BEAMLINE=$BEAMLINE
 SERVER_STARTUP_FILE=$GDAVAR/object_server_startup_server_main; export SERVER_STARTUP_FILE
 rm -f $SERVER_STARTUP_FILE
 
