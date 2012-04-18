@@ -36,35 +36,10 @@ import org.slf4j.LoggerFactory;
 public class SimpleContinuousScan extends ConcurrentScanChild {
 
 	private static final Logger logger = LoggerFactory.getLogger(SimpleContinuousScan.class);
-
-	// ContinuouslyScannable qscanAxis;
-	// private Double start;
-	// private Double stop;
-	// private Double time;
-	// private Integer numberScanpoints;
 	private XHDetector xhDet;
-
-//	/**
-//	 * 
-//	 */
-//	public SimpleContinuousScan() {
-//		super();
-//		setMustBeFinal(true);
-//	}
 
 	public SimpleContinuousScan(XHDetector xhDet) {
 		setMustBeFinal(true);
-		// allScannables.add(energyScannable);
-		// double step = (stop - start) / (numberPoints - 1);
-		// ImplicitScanObject firstScanObject = new ImplicitScanObject(energyScannable, start, stop, step);
-		// firstScanObject.calculateScanPoints();
-		// allScanObjects.add(firstScanObject);
-		// qscanAxis = energyScannable;
-		//
-		// this.start = start;
-		// this.stop = stop;
-		// this.numberScanpoints = numberPoints;
-		// this.time = time;
 
 		this.xhDet = xhDet;
 		allDetectors.add(xhDet);
@@ -87,7 +62,7 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 
 	@Override
 	public void doCollection() throws Exception {
-		
+
 		// for performance, see how many frames to read at any one time
 		int maxFrameRead = xhDet.maximumReadFrames();
 
@@ -98,19 +73,18 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 
 		xhDet.collectData();
 
-
 		int highestFrameNumberRead = -1;
-		
+
 		int numberOfFramesInExperiment = xhDet.getTotalNumberOfFrames();
 
 		try {
 			while (highestFrameNumberRead < numberOfFramesInExperiment - 1) {
 				// sleep for a second
-				Thread.sleep(1000);
+				Thread.sleep(100);
 				checkForInterrupts();
 
 				// get lowest number of frames from all detectors
-				int frameNumberReached = xhDet.getNumberFrames() -1;
+				int frameNumberReached = xhDet.getNumberFrames();
 
 				// do not collect more than 20 frames at any one time
 				if (frameNumberReached - highestFrameNumberRead > maxFrameRead) {
@@ -146,24 +120,8 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 		}
 	}
 
-	// private int getMaxFrameRead() throws DeviceException {
-	// int smallestFrameLimit = Integer.MAX_VALUE;
-	// for (BufferedDetector detector : qscanDetectors) {
-	// int thisDetMax = detector.maximumReadFrames();
-	// if (thisDetMax < smallestFrameLimit) {
-	// smallestFrameLimit = thisDetMax;
-	// }
-	// }
-	// return smallestFrameLimit;
-	// }
-
 	@Override
 	protected void endScan() throws DeviceException {
-		// InterfaceProvider.getTerminalPrinter().print("continuous scan end scan is called");
-		// qscanAxis.continuousMoveComplete();
-		// for (BufferedDetector detector : qscanDetectors) {
-		// detector.setContinuousMode(false);
-		// }
 		super.endScan();
 	}
 
@@ -193,16 +151,7 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 		// readout the correct frame from the detectors
 		NexusTreeProvider[] detData;
 		logger.info("reading data from detectors from frames " + lowFrame + " to " + highFrame);
-		try {
-			detData = xhDet.readFrames(lowFrame, highFrame);
-			// for (BufferedDetector detector : qscanDetectors) {
-			// Object[] data = detector.readFrames(lowFrame, highFrame);
-			// detData.put(detector.getName(), data);
-			// }
-		} catch (DeviceException e1) {
-			throw new DeviceException("Exception while reading out frames " + lowFrame + " to " + highFrame + ": "
-					+ e1.getMessage(), e1);
-		}
+		detData = xhDet.readFrames(lowFrame, highFrame);
 		logger.info("data read successfully");
 
 		for (int thisFrame = lowFrame; thisFrame <= highFrame; thisFrame++) {
@@ -215,48 +164,8 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 			thisPoint.setStepIds(getStepIds());
 			thisPoint.setScanPlotSettings(getScanPlotSettings());
 			thisPoint.setScanDimensions(getDimensions());
-
-			// add the scannables. For the qscanAxis scannable calculate the position.
-			// double stepSize = (stop - start) / (numberScanpoints - 1);
-			/*
-			 * thisPoint.addScannable(qscanAxis); thisPoint.addScannablePosition(start + (thisFrame - 1) * stepSize,
-			 * qscanAxis.getOutputFormat()); for (Scannable scannable : allScannables) { if
-			 * (!scannable.equals(qscanAxis)) { thisPoint.addScannable(scannable);
-			 * thisPoint.addScannablePosition(scannable.getPosition(), scannable.getOutputFormat()); } }
-			 */
-			// for (Scannable scannable : allScannables) {
-			// if (scannable.equals(qscanAxis)) {
-			// thisPoint.addScannable(qscanAxis);
-			//
-			// try {
-			// thisPoint.addScannablePosition(qscanAxis.calculateEnergy(thisFrame), qscanAxis.getOutputFormat());
-			// } catch (DeviceException e) {
-			// thisPoint.addScannablePosition(start + (thisFrame - 1) * stepSize, qscanAxis.getOutputFormat());
-			// }
-			//
-			// }
-			// else {
-			// if (scannable.getOutputFormat().length == 0) {
-			// handleZeroInputExtraNameDevice(scannable);
-			// } else {
-			// thisPoint.addScannable(scannable);
-			// thisPoint.addScannablePosition(scannable.getPosition(), scannable.getOutputFormat());
-			// }
-			// }
-
-			// }
-			// readout the correct frame from the detectors
-			// for (BufferedDetector detector : qscanDetectors) {
-			// Object data = detData.get(detector.getName())[thisFrame - lowFrame];
-			// if (data != null) {
 			thisPoint.addDetector(xhDet);
 			thisPoint.addDetectorData(detData[thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(xhDet));
-			// }
-			// }
-
-			// Set some parameters in the data point.
-			// (This is implemented as setters at the moment, as I didn't want to risk changing the constructor
-			// statement above and risk breaking the scanning system!)
 			thisPoint.setCurrentPointNumber(this.currentPointCount);
 			thisPoint.setNumberOfPoints(getTotalNumberOfPoints());
 			thisPoint.setInstrument(instrument);
@@ -268,14 +177,12 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 
 			checkForInterrupts();
 
-			// update the filename (if this was the first data point and so
-			// filename would never be defined until first data added
+			// update the filename (if this was the first data point and so filename would never be defined until first
+			// data added
 			thisPoint.setCurrentFilename(getDataWriter().getCurrentFileName());
 
 			// then notify IObservers of this scan (e.g. GUI panels)
 			notifyServer(thisPoint);
-			// this new command re-reads the detectors - so do not want that!!
-			// scanDataPointPipeline.populatePositionsAndDataAndPublish(thisPoint);
 		}
 	}
 

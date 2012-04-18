@@ -14,8 +14,7 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.analysis.rcp;bundle-version="1.0.0",
  uk.ac.gda.server.exafs;bundle-version="1.0.0",
  uk.ac.gda.client;bundle-version="1.0.0",
- uk.ac.gda.common.client;bundle-version="1.0.0",
- com.springsource.org.apache.commons.collections;bundle-version="3.2.1"
+ uk.ac.gda.common.client;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: gda.device.detector,
@@ -28,6 +27,7 @@ Export-Package: gda.device.detector,
  uk.ac.gda.exafs.ui.describers
 Eclipse-RegisterBuddy: uk.ac.gda.client.experimentdefinition, uk.ac.gda.common, uk.ac.gda.core
 Import-Package: org.apache.commons.beanutils;version="1.8.0",
+ org.apache.commons.collections,
  org.apache.commons.configuration;version="1.6.0",
  org.apache.commons.lang,
  org.eclipse.core.commands,

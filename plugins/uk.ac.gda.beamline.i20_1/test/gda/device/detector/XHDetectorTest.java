@@ -41,7 +41,6 @@ public class XHDetectorTest {
 		xh = new XHDetector();
 		xh.setDaServer(daserver);
 		xh.setDetectorName("xh0");
-		xh.setReadoutStartupCommand("xstrip open-mca 'xh0'");
 		xh.configure();
 	}
 	
@@ -226,54 +225,5 @@ public class XHDetectorTest {
 		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
 		assertEquals("xstrip timing ext-output \"xh0\" 6 frame-pre-delay",commands[1]);
 		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 300 frame-time 500 lemo-out 4096 ext-trig-group trig-mux 5 last",commands[2]);
-
 	}
-	
-//	@Test
-//	public void testVaryingSectorNumbers(){
-//		daserver.clearRecievedCommands();
-//		daserver.setReadoutMode(MODE.FLAT);
-//		
-//		try {
-//			// default is 4
-//			assertEquals(4,xh.getNumberOfSectors());
-//			assertEquals(4,xh.getAttribute(XHDetector.ATTR_NUMBERSECTORS));
-//			assertEquals("sector4", xh.getExtraNames()[5]);
-//			assertEquals(6,xh.getOutputFormat().length);
-//			NXDetectorData data = (NXDetectorData) xh.readout();
-//			Double[] sectorVals = data.getDoubleVals();
-//			assertEquals(6,sectorVals.length);
-//			assertTrue(256.0 == sectorVals[2]);
-//			assertTrue(256.0 == sectorVals[5]);
-//			
-//			//same tests at 6 sectors
-//			xh.setNumberOfSectors(6);
-//			assertEquals(6,xh.getNumberOfSectors());
-//			assertEquals(6,xh.getAttribute(XHDetector.ATTR_NUMBERSECTORS));
-//			assertEquals("sector4", xh.getExtraNames()[5]);
-//			assertEquals(8,xh.getOutputFormat().length);
-//			data = (NXDetectorData) xh.readout();
-//			sectorVals = data.getDoubleVals();
-//			assertEquals(8,sectorVals.length);
-//			assertTrue(170 == sectorVals[2]);
-//			assertTrue(170 == sectorVals[6]);
-//			
-//			
-//			// same test at 10 sectors
-//			xh.setAttribute(XHDetector.ATTR_NUMBERSECTORS, 10);
-//			assertEquals(10,xh.getNumberOfSectors());
-//			assertEquals(10,xh.getAttribute(XHDetector.ATTR_NUMBERSECTORS));
-//			assertEquals("sector4", xh.getExtraNames()[5]);
-//			assertEquals(12,xh.getOutputFormat().length);
-//			data = (NXDetectorData) xh.readout();
-//			sectorVals = data.getDoubleVals();
-//			assertEquals(12,sectorVals.length);
-//			assertTrue(102.0 == sectorVals[2]);
-//			assertTrue(102.0 == sectorVals[9]);
-//		} catch (DeviceException e) {
-//			fail(e.getMessage());
-//		} finally {
-//			daserver.setReadoutMode(MODE.STEP);
-//		}
-//	}
 }

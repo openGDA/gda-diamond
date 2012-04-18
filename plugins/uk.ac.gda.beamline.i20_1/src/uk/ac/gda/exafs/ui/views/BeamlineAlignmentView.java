@@ -328,7 +328,7 @@ public class BeamlineAlignmentView extends ViewPart {
 		lblPolyThetaReadback.setLayoutData(readbackGD);
 		
 		btnSynchroniseThetas = new Button(motorGroup, SWT.CHECK);
-		btnSynchroniseThetas.setText("Match TwoTheta arm to poly Theta value");
+		btnSynchroniseThetas.setText("Match TwoTheta arm to Poly Theta value");
 		GridDataFactory.swtDefaults().span(4, 1).applyTo(btnSynchroniseThetas);
 
 		lbl = new Label(motorGroup, SWT.NONE);

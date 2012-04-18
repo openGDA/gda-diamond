@@ -18,7 +18,6 @@
 
 package gda.device.detector;
 
-import gda.configuration.properties.LocalProperties;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.Detector;
@@ -26,12 +25,10 @@ import gda.device.DeviceException;
 import gda.scan.ScanDataPoint;
 import gda.util.persistence.LocalParameters;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.FileConfiguration;
 import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
@@ -57,6 +54,7 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
  */
 public class XHDetector extends DetectorBase implements NexusDetector {
 
+	private static final String STORENAME = "XH_rois";
 	// strings to use in the get/set attributes methods
 	public static final String ATTR_LOADPARAMETERS = "loadParameters";
 	public static final String ATTR_READFIRSTFRAME = "readFirstFrame";
@@ -76,15 +74,9 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	// must be in configuration info
 	private String templateFileName;
 
-	private int timingReadbackHandle;
-
-	private String readoutStartupCommand;
-	private int readoutHandle;
+	private int timingReadbackHandle = -1;
 
 	private EdeScanParameters nextScan;
-
-	// the spectrum is split into even sectors and the counts in each sector is reported as extraValues
-	// private int numberOfSectors = 4;
 
 	private XHROI[] rois = new XHROI[0];
 
@@ -95,7 +87,6 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		this.inputNames = new String[] { "time" };
 		this.extraNames = new String[] { "Frame", "Total", "sector1", "sector2", "sector3", "sector4" };
 		this.outputFormat = new String[] { "%8.2f", "%d", "%8.3f", "%8.3f", "%8.3f", "%8.3f", "%8.3f" };
-
 	}
 
 	@Override
@@ -113,10 +104,21 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		}
 
 		loadROIsFromXML();
+
+		close();
+		try {
+			createNewHandle();
+		} catch (DeviceException e) {
+			logger.error("Exception trying to create data readout handle to da.server", e);
+		}
 	}
 
-	private void open() throws DeviceException {
+	private void createNewHandle() throws DeviceException {
 		Object obj;
+		if (daServer != null && !daServer.isConnected()) {
+			daServer.connect();
+		}
+
 		if (daServer != null && daServer.isConnected()) {
 			if ((obj = daServer.sendCommand(createCommand("open"))) != null) {
 				timingReadbackHandle = ((Integer) obj).intValue();
@@ -124,16 +126,6 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 					throw new DeviceException("Failed to create the timing readback handle");
 				}
 				logger.info("Xspress2System: open() using timingReadbackHandle " + timingReadbackHandle);
-			}
-
-			if (readoutStartupCommand != null) {
-				if ((obj = daServer.sendCommand(readoutStartupCommand)) != null) {
-					readoutHandle = ((Integer) obj).intValue();
-					if (readoutHandle < 0) {
-						throw new DeviceException("Failed to create the scaler handle");
-					}
-					logger.info("Xspress2System: open() using readoutHandle " + readoutHandle);
-				}
 			}
 		}
 	}
@@ -162,7 +154,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		return readFrames(0, 0)[0];
 	}
 
-	public NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException {
+	public NexusTreeProvider[] readFrames(int startFrame, int finalFrame) {
 		int[] elements = readoutFrames(startFrame, finalFrame);
 		int numberOfFrames = finalFrame - startFrame + 1;
 		int[][] rawDataInFrames = unpackRawDataToFrames(elements, numberOfFrames);
@@ -247,15 +239,12 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		return elementNum >= roi.getLowerLevel() && elementNum <= roi.getUpperLevel();
 	}
 
-	private synchronized int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException {
+	private synchronized int[] readoutFrames(int startFrame, int finalFrame) {
 		int[] value = null;
-		if (readoutHandle < 0) {
-			open();
-		}
-		if (readoutHandle >= 0 && daServer != null && daServer.isConnected()) {
+		if (timingReadbackHandle >= 0 && daServer != null && daServer.isConnected()) {
 			int numFrames = finalFrame - startFrame + 1;
 			value = daServer.getIntBinaryData("read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames
-					+ " from " + readoutHandle + " raw motorola", 1024);
+					+ " from " + timingReadbackHandle + " raw motorola", 1024);
 		}
 		return value;
 
@@ -263,13 +252,68 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 	@Override
 	public void collectData() throws DeviceException {
-		// timing groups must have been setup first!
-		daServer.sendCommand(createCommand("start"));
+		start();
+	}
+
+	@Override
+	public void atScanStart() throws DeviceException {
+		clear();
+	}
+
+	@Override
+	public void atScanEnd() throws DeviceException {
+		stop();
 	}
 
 	@Override
 	public void stop() throws DeviceException {
 		daServer.sendCommand(createCommand("stop"));
+
+		if (hasValidHandle()) {
+			sendCommand("disable ", timingReadbackHandle);
+		}
+	}
+
+	@Override
+	public void close() {
+		if (timingReadbackHandle >= 0 && daServer != null && daServer.isConnected()) {
+			daServer.sendCommand("close " + timingReadbackHandle);
+			timingReadbackHandle = -1;
+		}
+	}
+
+	public void clear() throws DeviceException {
+		if (timingReadbackHandle < 0) {
+			createNewHandle();
+		}
+		if (hasValidHandle()) {
+			sendCommand("clear ", timingReadbackHandle);
+		}
+	}
+
+	private boolean hasValidHandle() {
+		return timingReadbackHandle >= 0 && daServer != null && daServer.isConnected();
+	}
+
+	public void start() throws DeviceException {
+		if (timingReadbackHandle < 0) {
+			createNewHandle();
+		}
+		if (timingReadbackHandle >= 0 && daServer != null && daServer.isConnected()) {
+			sendCommand("enable ", timingReadbackHandle);
+			daServer.sendCommand(createCommand("start"));
+		}
+	}
+
+	private synchronized void sendCommand(String command, int handle) throws DeviceException {
+		Object obj;
+		if ((obj = daServer.sendCommand(command + handle)) == null) {
+			throw new DeviceException("Null reply received from daserver during " + command);
+		} else if (((Integer) obj).intValue() == -1) {
+			logger.error(getName() + ": " + command + " failed");
+			close();
+			throw new DeviceException("Xspress2System " + getName() + " " + command + " failed");
+		}
 	}
 
 	private String createCommand(String command, Object... otherArgs) {
@@ -331,7 +375,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	}
 
 	private XstripStatusData fetchStatus() {
-		String statusMessage = (String) daServer.sendCommand(createCommand("read-status"));
+		String statusMessage = (String) daServer.sendCommand(createCommand("read-status", "verbose"), true);
 		String[] messageParts = statusMessage.split("[\n#:,]");
 
 		XstripStatusData newStatus = new XstripStatusData();
@@ -365,40 +409,35 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 	private void defineDataCollectionFromScanParameters() {
 		// read nextScan attribute and convert into daserver commands...
-		try {
-			addOutSignals();
 
-			for (Integer i = 0; i < nextScan.getGroups().size(); i++) {
+		addOutSignals();
 
-				TimingGroup timingGroup = nextScan.getGroups().get(i);
+		for (Integer i = 0; i < nextScan.getGroups().size(); i++) {
 
-				// basic times
-				Integer numFrames = timingGroup.getNumberOfFrames();
-				double frameTimeInS = timingGroup.getTimePerFrame();
-				String frameTimeInCycles = secondsToClockCyclesString(frameTimeInS);
-				double scanTimeInS = timingGroup.getTimePerScan();
-				String scanTimeInClockCycles = secondsToClockCyclesString(scanTimeInS);
+			TimingGroup timingGroup = nextScan.getGroups().get(i);
 
-				String extTrig = buildExtTriggerCommand(timingGroup);
+			// basic times
+			Integer numFrames = timingGroup.getNumberOfFrames();
+			double frameTimeInS = timingGroup.getTimePerFrame();
+			String frameTimeInCycles = secondsToClockCyclesString(frameTimeInS);
+			double scanTimeInS = timingGroup.getTimePerScan();
+			String scanTimeInClockCycles = secondsToClockCyclesString(scanTimeInS);
 
-				String lemoOut = buildLemoOutCommand(timingGroup);
+			String extTrig = buildExtTriggerCommand(timingGroup);
 
-				String delays = buildDelaysCommand(timingGroup);
+			String lemoOut = buildLemoOutCommand(timingGroup);
 
-				String command = createCommand("setup-group", i, numFrames, 0, scanTimeInClockCycles, "frame-time",
-						frameTimeInCycles, delays, lemoOut, extTrig);
+			String delays = buildDelaysCommand(timingGroup);
 
-				if (i == nextScan.getGroups().size() - 1) {
-					command = command.trim() + " last";
-				}
+			String command = createCommand("setup-group", i, numFrames, 0, scanTimeInClockCycles, "frame-time",
+					frameTimeInCycles, delays, lemoOut, extTrig);
 
-				logger.info("Sending group to XH: " + command);
-
-				daServer.sendCommand(command);
+			if (i == nextScan.getGroups().size() - 1) {
+				command = command.trim() + " last";
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			logger.error("TODO put description of error here", e);
+
+			logger.info("Sending group to XH: " + command);
+			daServer.sendCommand(command);
 		}
 	}
 
@@ -538,7 +577,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	public int[] getRawTimingSettings() throws DeviceException {
 		int[] value = null;
 		if (timingReadbackHandle < 0) {
-			open();
+			createNewHandle();
 		}
 		if (timingReadbackHandle >= 0 && daServer != null && daServer.isConnected()) {
 			value = daServer.getIntBinaryData("read 0 0 0 30 1024 1 from " + timingReadbackHandle + " raw motorola",
@@ -634,14 +673,6 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		return templateFileName;
 	}
 
-	public String getReadoutStartupCommand() {
-		return readoutStartupCommand;
-	}
-
-	public void setReadoutStartupCommand(String readoutStartupCommand) {
-		this.readoutStartupCommand = readoutStartupCommand;
-	}
-
 	public XHROI[] getRois() {
 		return rois;
 	}
@@ -700,34 +731,23 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 	private void saveROIsToXML() {
 		try {
-			String storeDir = LocalProperties.getConfigDir() + "/var/";
-			String storeName = "XH_rois";
-			FileConfiguration store = LocalParameters.getXMLConfiguration(storeDir, storeName, true, true);
-			store.clear();
+			FileConfiguration store = LocalParameters.getXMLConfiguration(STORENAME);
 
 			for (XHROI roi : getRois()) {
-				store.setProperty(roi.getName() + "__lowerlevel", roi.getLowerLevel());
-				store.setProperty(roi.getName() + "__upperlevel", roi.getUpperLevel());
+				store.setProperty(roi.getName() + "_lowerlevel", roi.getLowerLevel());
+				store.setProperty(roi.getName() + "_upperlevel", roi.getUpperLevel());
 			}
 			store.save();
-		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
-			logger.error("TODO put description of error here", e);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			logger.error("TODO put description of error here", e);
+		} catch (Exception e) {
+			logger.error("Exception writing XH ROIs to xml file", e);
 		}
-
 	}
 
 	private void loadROIsFromXML() {
 
 		HashMap<String, XHROI> tempROIs = new LinkedHashMap<String, XHROI>();
-
-		String storeDir = LocalProperties.getConfigDir() + "/var/";
-		String storeName = "XH_rois";
 		try {
-			FileConfiguration store = LocalParameters.getXMLConfiguration(storeDir, storeName, false);
+			FileConfiguration store = LocalParameters.getXMLConfiguration(STORENAME, false);
 			@SuppressWarnings("unchecked")
 			Iterator<String> i = store.getKeys();
 			while (i.hasNext()) {
@@ -737,7 +757,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 					continue;
 				}
 
-				String[] partsString = key.split("__");
+				String[] partsString = key.split("_");
 				if (!tempROIs.keySet().contains(partsString[0])) {
 					tempROIs.put(partsString[0], new XHROI(partsString[0]));
 				}
@@ -753,7 +773,5 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		} catch (Exception e) {
 			setDefaultROIs();
 		}
-
 	}
-
 }

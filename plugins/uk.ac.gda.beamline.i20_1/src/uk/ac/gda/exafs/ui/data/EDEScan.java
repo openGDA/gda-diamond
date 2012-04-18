@@ -64,13 +64,13 @@ public class EDEScan extends ExperimentObject implements IExperimentObject, Seri
 		XMLCommandHandler xmlCH = new XMLCommandHandler();
 
 		IFile scanFile = xmlCH.doTemplateCopy(folder, "EdeScan_Parameters.xml");
-		typeToFileMap.put(SCANBEANTYPE, scanFile.getName());
+		getTypeToFileMap().put(SCANBEANTYPE, scanFile.getName());
 
 		IFile userOptionsFile = xmlCH.doTemplateCopy(folder, "User_Options.xml");
-		typeToFileMap.put(OPTIONSBEANTYPE, userOptionsFile.getName());
+		getTypeToFileMap().put(OPTIONSBEANTYPE, userOptionsFile.getName());
 		
 		IFile tfgParametersFile = xmlCH.doTemplateCopy(folder, "TFG_Parameters.xml");
-		typeToFileMap.put(TFGBEANTYPE, tfgParametersFile.getName());
+		getTypeToFileMap().put(TFGBEANTYPE, tfgParametersFile.getName());
 
 	}
 
