@@ -226,6 +226,9 @@ def tomoScan(step, darkFieldInterval, flatFieldInterval,
         if tomography_translation is None:
             raise "tomography_translation is not defined in Jython namespace"
         
+        tomography_detector=jns.tomography_detector
+        if tomography_detector is None:
+            raise "tomography_detector is not defined in Jython namespace"
         
         index=SimpleScannable()
         index.setCurrentPosition(0.0)
@@ -263,34 +266,80 @@ def tomoScan(step, darkFieldInterval, flatFieldInterval,
             
             
             imageSinceFlat = imageSinceFlat + 1
-            print `imageSinceFlat` + ":" + `flatFieldInterval`
-            if imageSinceFlat == flatFieldInterval:
+            if imageSinceFlat == flatFieldInterval and flatFieldInterval != 0:
                 scan_points.append((theta_pos, 1, outOfBeamPosition, index ))
                 index = index + 1        
                 imageSinceFlat=0
             
             imageSinceDark = imageSinceDark + 1
-            if imageSinceDark == darkFieldInterval:
+            if imageSinceDark == darkFieldInterval and darkFieldInterval != 0:
                 scan_points.append((theta_pos, 0, inBeamPosition, index ))
                 index = index + 1        
                 imageSinceDark=0
                 
-        scan_points.append((theta_pos, 1, outOfBeamPosition, index )) #flat
-        index = index + 1        
-        scan_points.append((theta_pos, 0, inBeamPosition, index )) #dark
-        index = index + 1        
+        #add dark and flat only if not done in last steps
+        if imageSinceFlat != 0:
+            scan_points.append((theta_pos, 1, outOfBeamPosition, index )) #flat
+            index = index + 1
+        if imageSinceDark != 0:
+            scan_points.append((theta_pos, 0, inBeamPosition, index )) #dark
+            index = index + 1        
                 
  
-        scan_args = [tomoScanDevice,tuple(scan_points), detector, exposureTime  ]
-        print scan_args
+        scan_args = [tomoScanDevice,tuple(scan_points), tomography_detector, exposureTime  ]
         scanObject=createConcurrentScan(scan_args)
-#        scanObject.runScan()
+        scanObject.runScan()
         return scanObject;
     except :
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Error in tomoScan", exceptionType, exception, traceback, False)
 
-def test_tomoScan():
+def test1_tomoScan():
     jns=beamline_parameters.JythonNameSpaceMapping()    
-    return tomoScan(step=5, darkFieldInterval=5, flatFieldInterval=5,
-             inBeamPosition=0., outOfBeamPosition=10.,detector=jns.pco1_tif , exposureTime=1.)        
+    sc=tomoScan(step=5, darkFieldInterval=5, flatFieldInterval=5,
+             inBeamPosition=0., outOfBeamPosition=10.,detector=jns.pco1_tif , exposureTime=1.)
+    lsdp=jns.lastScanDataPoint()
+    positions=lsdp.getPositionsAsDoubles()
+    if positions[0] != 180. or positions[3] != 54.:
+        print "Error - points are not correct :" + `positions`
+    return sc
+
+def test2_tomoScan():
+    jns=beamline_parameters.JythonNameSpaceMapping()    
+    sc=tomoScan(step=5, darkFieldInterval=5, flatFieldInterval=0,
+             inBeamPosition=0., outOfBeamPosition=10.,detector=jns.pco1_tif , exposureTime=1.)
+    lsdp=jns.lastScanDataPoint()
+    positions=lsdp.getPositionsAsDoubles()
+    if positions[0] != 180. or positions[3] != 47.:
+        print "Error - points are not correct :" + `positions`
+    return sc
+
+def test3_tomoScan():
+    jns=beamline_parameters.JythonNameSpaceMapping()    
+    sc=tomoScan(step=5, darkFieldInterval=0, flatFieldInterval=5,
+             inBeamPosition=0., outOfBeamPosition=10.,detector=jns.pco1_tif , exposureTime=1.)
+    lsdp=jns.lastScanDataPoint()
+    positions=lsdp.getPositionsAsDoubles()
+    if positions[0] != 180. or positions[3] != 47.:
+        print "Error - points are not correct :" + `positions`
+    return sc
+
+def test4_tomoScan():
+    jns=beamline_parameters.JythonNameSpaceMapping()    
+    sc=tomoScan(step=5, darkFieldInterval=0, flatFieldInterval=0,
+             inBeamPosition=0., outOfBeamPosition=10.,detector=jns.pco1_tif , exposureTime=1.)
+    lsdp=jns.lastScanDataPoint()
+    positions=lsdp.getPositionsAsDoubles()
+    if positions[0] != 180. or positions[3] != 40.:
+        print "Error - points are not correct :" + `positions`
+    return sc
+
+def standardtomoScan():
+    jns=beamline_parameters.JythonNameSpaceMapping()    
+    sc=tomoScan(step=1, darkFieldInterval=0, flatFieldInterval=0,
+             inBeamPosition=0., outOfBeamPosition=10.,detector=jns.pco1_tif , exposureTime=1.)
+    lsdp=jns.lastScanDataPoint()
+    positions=lsdp.getPositionsAsDoubles()
+    if positions[0] != 180. or positions[3] != 40.:
+        print "Error - points are not correct :" + `positions`
+    return sc

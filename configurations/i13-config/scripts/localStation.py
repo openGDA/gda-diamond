@@ -88,6 +88,8 @@ try:
 
 	import autocollimator_script
 	autocollimator_script.setup()
+	
+	import tomographyScan
 #	run("i13diffcalc")
 
 
