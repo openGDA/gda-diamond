@@ -85,8 +85,8 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 		// defaults which will be updated when number of sectors changed
 		this.inputNames = new String[] { "time" };
-		this.extraNames = new String[] { "Frame", "Total", "sector1", "sector2", "sector3", "sector4" };
-		this.outputFormat = new String[] { "%8.2f", "%d", "%8.3f", "%8.3f", "%8.3f", "%8.3f", "%8.3f" };
+		this.extraNames = new String[] { "Group", "Frame", "Total", "sector1", "sector2", "sector3", "sector4" };
+		this.outputFormat = new String[] { "%8.2f", "%8.2f", "%d", "%8.3f", "%8.3f", "%8.3f", "%8.3f", "%8.3f" };
 	}
 
 	@Override
@@ -145,15 +145,34 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 	@Override
 	public int getStatus() throws DeviceException {
-		XstripStatusData current = fetchStatus();
+		ExperimentStatus current = fetchStatus();
 		return current.detectorStatus;
 	}
 
+	public int getTotalNumberOfFrames() {
+		if (nextScan == null) {
+			return 0;
+		}
+		return nextScan.getTotalNumberOfFrames();
+	}
+
+	/**
+	 * Reads the first frame only.
+	 */
 	@Override
 	public NexusTreeProvider readout() throws DeviceException {
 		return readFrames(0, 0)[0];
 	}
 
+	/**
+	 * Returns a NexusTreeProvider for every frame.
+	 * 
+	 * @param startFrame
+	 *            - absolute frame index ignoring the group num
+	 * @param finalFrame
+	 *            - absolute frame index ignoring the group num
+	 * @return NexusTreeProvider[]
+	 */
 	public NexusTreeProvider[] readFrames(int startFrame, int finalFrame) {
 		int[] elements = readoutFrames(startFrame, finalFrame);
 		int numberOfFrames = finalFrame - startFrame + 1;
@@ -187,6 +206,8 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	/**
 	 * Assumes it is given a 1024 array of raw values
 	 * 
+	 * @param frameNum
+	 *            - the absolute frame number
 	 * @param elements
 	 * @return NexusTreeProvider
 	 */
@@ -200,10 +221,19 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		double[] extraValues = getExtraValues(elements);
 		String[] names = getExtraNames();
 
-		thisFrame.setPlottableValue(names[0], (double) frameNum);
+		// get values which match to da.server memory
+		int absGroupNum = ExperimentLocationUtils.getGroupNum(nextScan, frameNum);
+		int absFrameNum = ExperimentLocationUtils.getFrameNum(nextScan, frameNum);
 
-		for (int i = 1; i < names.length; i++) {
-			thisFrame.setPlottableValue(names[i], extraValues[i - 1]);
+		// add 1 to make the values understandable by users
+		absGroupNum++;
+		absFrameNum++;
+
+		thisFrame.setPlottableValue(names[0], (double) absGroupNum);
+		thisFrame.setPlottableValue(names[1], (double) absFrameNum);
+
+		for (int i = 2; i < names.length; i++) {
+			thisFrame.setPlottableValue(names[i], extraValues[i - 2]);
 		}
 		return thisFrame;
 	}
@@ -239,12 +269,19 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		return elementNum >= roi.getLowerLevel() && elementNum <= roi.getUpperLevel();
 	}
 
+	/**
+	 * @param startFrame
+	 *            - absolute frame index ignoring the group num
+	 * @param finalFrame
+	 *            - absolute frame index ignoring the group num
+	 * @return int[] - raw data from da.server memory
+	 */
 	private synchronized int[] readoutFrames(int startFrame, int finalFrame) {
 		int[] value = null;
 		if (timingReadbackHandle >= 0 && daServer != null && daServer.isConnected()) {
 			int numFrames = finalFrame - startFrame + 1;
 			value = daServer.getIntBinaryData("read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames
-					+ " from " + timingReadbackHandle + " raw motorola", 1024);
+					+ " from " + timingReadbackHandle + " raw motorola", 1024 * numFrames);
 		}
 		return value;
 
@@ -346,6 +383,15 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	}
 
 	/**
+	 * Return the scan that would be run by the next call to collectData, or that is underway.
+	 * 
+	 * @return EdeScanParameters
+	 */
+	public EdeScanParameters getLoadedParameters() {
+		return nextScan;
+	}
+
+	/**
 	 * Setup the TFG from parameters from the given xml file. Does not start any data collection, that should be
 	 * initiated by collectData().
 	 * 
@@ -357,28 +403,11 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		defineDataCollectionFromScanParameters();
 	}
 
-	public int maximumReadFrames() {
-		return 200; // TODO needs testing on full system to find out the optimal number. Might be very high with only
-					// 1024 values per frame.
-	}
-
-	public int getTotalNumberOfFrames() {
-		if (nextScan == null) {
-			return 0;
-		}
-		return nextScan.getTotalNumberOfFrames();
-	}
-
-	public int getNumberFrames() {
-		XstripStatusData current = fetchStatus();
-		return current.frameNum;
-	}
-
-	private XstripStatusData fetchStatus() {
+	public ExperimentStatus fetchStatus() {
 		String statusMessage = (String) daServer.sendCommand(createCommand("read-status", "verbose"), true);
 		String[] messageParts = statusMessage.split("[\n#:,]");
 
-		XstripStatusData newStatus = new XstripStatusData();
+		ExperimentStatus newStatus = new ExperimentStatus();
 
 		if (messageParts[0].trim().equalsIgnoreCase("running")) {
 			newStatus.detectorStatus = Detector.BUSY;
@@ -392,15 +421,15 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 			part = part.trim();
 			if (part.contains("group_num")) {
 				int group = Integer.parseInt(part.substring(part.indexOf("=") + 1));
-				newStatus.groupNum = group;
+				newStatus.loc.groupNum = group;
 			}
 			if (part.contains("frame_num")) {
 				int group = Integer.parseInt(part.substring(part.indexOf("=") + 1));
-				newStatus.frameNum = group;
+				newStatus.loc.frameNum = group;
 			}
 			if (part.contains("scan_num")) {
 				int group = Integer.parseInt(part.substring(part.indexOf("=") + 1));
-				newStatus.scanNum = group;
+				newStatus.loc.scanNum = group;
 			}
 		}
 
@@ -713,18 +742,20 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 			this.rois = new XHROI[0];
 		}
 
-		extraNames = new String[numROI + 2];
-		outputFormat = new String[numROI + 3];
-		extraNames[0] = "Frame";
-		extraNames[1] = "Total";
+		extraNames = new String[numROI + 3];
+		outputFormat = new String[numROI + 4];
+		extraNames[0] = "Group";
+		extraNames[1] = "Frame";
+		extraNames[2] = "Total";
 		outputFormat[0] = "%8.3f";
-		outputFormat[1] = "%d";
-		outputFormat[2] = "%8.3f";
+		outputFormat[1] = "%8.3f";
+		outputFormat[2] = "%d";
+		outputFormat[3] = "%8.3f";
 
 		if (rois != null && numROI > 0) {
 			for (int i = 0; i < numROI; i++) {
-				extraNames[i + 2] = rois[i].getName();
-				outputFormat[i + 2] = "%8.3f";
+				extraNames[i + 3] = rois[i].getName();
+				outputFormat[i + 3] = "%8.3f";
 			}
 		}
 	}

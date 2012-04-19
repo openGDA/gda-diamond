@@ -71,7 +71,6 @@ import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.AreaSelectEvent;
 import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
 import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer;
-import uk.ac.gda.client.experimentdefinition.components.ExperimentControlsView;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
@@ -393,7 +392,7 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 			}
 		};
 		start.setId(ID + ".start");
-		start.setImageDescriptor(ResourceManager.getImageDescriptor(ExperimentControlsView.class,
+		start.setImageDescriptor(ResourceManager.getImageDescriptor(XHControlComposite.class,
 				"/icons/control_play_blue.png"));
 
 		stop = new Action(null, SWT.NONE) {
@@ -403,7 +402,7 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 			}
 		};
 		stop.setId(ID + ".stop");
-		stop.setImageDescriptor(ResourceManager.getImageDescriptor(ExperimentControlsView.class,
+		stop.setImageDescriptor(ResourceManager.getImageDescriptor(XHControlComposite.class,
 				"/icons/control_stop_blue.png"));
 
 		snapshot = new Action(null, SWT.NONE) {
@@ -421,7 +420,7 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 			}
 		};
 		snapshot.setId(ID + ".snap");
-		snapshot.setImageDescriptor(ResourceManager.getImageDescriptor(ExperimentControlsView.class,
+		snapshot.setImageDescriptor(ResourceManager.getImageDescriptor(XHControlComposite.class,
 				"/icons/camera.png"));
 
 		snapshotAndSave = new Action(null, SWT.NONE) {
@@ -439,7 +438,7 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 			}
 		};
 		snapshotAndSave.setId(ID + ".snapsave");
-		snapshotAndSave.setImageDescriptor(ResourceManager.getImageDescriptor(ExperimentControlsView.class,
+		snapshotAndSave.setImageDescriptor(ResourceManager.getImageDescriptor(XHControlComposite.class,
 				"/icons/camera_edit.png"));
 	}
 

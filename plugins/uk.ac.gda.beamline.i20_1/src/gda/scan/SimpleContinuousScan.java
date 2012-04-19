@@ -19,13 +19,19 @@
 package gda.scan;
 
 import gda.data.nexus.tree.NexusTreeProvider;
+import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.Scannable;
+import gda.device.detector.ExperimentLocation;
+import gda.device.detector.ExperimentLocationUtils;
+import gda.device.detector.ExperimentStatus;
 import gda.device.detector.XHDetector;
 import gda.device.scannable.ScannableUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 /**
  * Bespoke scan for I20 based on the ContinuousScan. Operates the XH detector and nothing else but utilises the GDA
@@ -63,61 +69,56 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 	@Override
 	public void doCollection() throws Exception {
 
-		// for performance, see how many frames to read at any one time
-		int maxFrameRead = xhDet.maximumReadFrames();
-
 		checkForInterrupts();
 		if (!isChild()) {
 			currentPointCount = -1;
 		}
 
 		xhDet.collectData();
+		// sleep for a moment to allow collection to start
+		Thread.sleep(250);
 
-		int highestFrameNumberRead = -1;
-
-		int numberOfFramesInExperiment = xhDet.getTotalNumberOfFrames();
-
+		ExperimentLocation lastReadLoc = new ExperimentLocation(-1, -1, -1);
 		try {
-			while (highestFrameNumberRead < numberOfFramesInExperiment - 1) {
-				// sleep for a second
+			// ExperimentLocation finalFrame = getFinalFrameLoc();
+			ExperimentStatus progressData = xhDet.fetchStatus();
+			while (!collectionFinished(progressData)) {
+				if (canReadoutMoreFrames(progressData, lastReadLoc)) {
+					createDataPoints(progressData, lastReadLoc);
+					lastReadLoc = progressData.loc;
+				}
+				progressData = xhDet.fetchStatus();
 				Thread.sleep(100);
 				checkForInterrupts();
-
-				// get lowest number of frames from all detectors
-				int frameNumberReached = xhDet.getNumberFrames();
-
-				// do not collect more than 20 frames at any one time
-				if (frameNumberReached - highestFrameNumberRead > maxFrameRead) {
-					frameNumberReached = highestFrameNumberRead + maxFrameRead;
-				}
-
-				// get data from detectors for that frame and create an sdp and send it out
-				if (frameNumberReached > -1 && frameNumberReached > highestFrameNumberRead) {
-					createDataPoints(highestFrameNumberRead + 1, frameNumberReached);
-				}
-				highestFrameNumberRead = frameNumberReached;
-				logger.info("number of frames completed:" + new Integer(frameNumberReached + 1));
 			}
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			// scan has been aborted, so stop the collection and let the scan write out the rest of the data point which
 			// have been collected so far
 			xhDet.stop();
+			if (!(e instanceof InterruptedException)) {
+				throw e;
+			}
 		}
 
 		// have we read all the frames?
-		if (highestFrameNumberRead == xhDet.getTotalNumberOfFrames() - 1) {
-			return;
-		}
+		readoutRestOfFrames(lastReadLoc);
+	}
 
-		// collect the rest of the frames and send the resulting sdp's out
-		while (highestFrameNumberRead < xhDet.getTotalNumberOfFrames() - 1) {
-			int nextFramesetEnd = highestFrameNumberRead + maxFrameRead;
-			if (nextFramesetEnd > xhDet.getTotalNumberOfFrames() - 1) {
-				nextFramesetEnd = xhDet.getTotalNumberOfFrames() - 1;
-			}
-			createDataPoints(highestFrameNumberRead + 1, nextFramesetEnd);
-			highestFrameNumberRead = nextFramesetEnd;
+	private Boolean collectionFinished(ExperimentStatus progressData) {
+		//FIXME this will fail when collection having a delay as this returns idle,0,0,0!!
+		return progressData.detectorStatus == Detector.IDLE && progressData.loc.groupNum == 0
+				&& progressData.loc.frameNum == 0 && progressData.loc.scanNum == 0;
+	}
+
+	private Boolean canReadoutMoreFrames(ExperimentStatus progressData, ExperimentLocation lastReadLoc) {
+
+		if (progressData.loc.groupNum > lastReadLoc.groupNum) {
+			return true;
+		} else if (progressData.loc.groupNum == lastReadLoc.groupNum
+				&& progressData.loc.frameNum > lastReadLoc.frameNum) {
+			return true;
 		}
+		return false;
 	}
 
 	@Override
@@ -136,6 +137,24 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 			return xhDet.getTotalNumberOfFrames();
 		}
 		return getParent().getTotalNumberOfPoints();
+	}
+
+	private void readoutRestOfFrames(ExperimentLocation lastReadLoc) throws Exception {
+		int absLowFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(xhDet.getLoadedParameters(), lastReadLoc);
+		absLowFrame++;
+		if (absLowFrame == getTotalNumberOfPoints()) {
+			return;
+		}
+		int absHighFrame = getTotalNumberOfPoints() - 1;
+		createDataPoints(absLowFrame, absHighFrame);
+	}
+
+	private void createDataPoints(ExperimentStatus progressData, ExperimentLocation lastReadLoc) throws Exception {
+		int absLowFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(xhDet.getLoadedParameters(), lastReadLoc);
+		absLowFrame++;
+		int absHighFrame = ExperimentLocationUtils
+				.getAbsoluteFrameNumber(xhDet.getLoadedParameters(), progressData.loc);
+		createDataPoints(absLowFrame, absHighFrame);
 	}
 
 	/**

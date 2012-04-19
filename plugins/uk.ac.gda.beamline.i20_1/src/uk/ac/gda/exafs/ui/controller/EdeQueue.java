@@ -28,13 +28,12 @@ import java.util.Map;
 import uk.ac.gda.client.experimentdefinition.ExperimentObjectHelper;
 import uk.ac.gda.client.experimentdefinition.IExperimentObject;
 import uk.ac.gda.client.experimentdefinition.ui.experimentqueue.ExperimentException;
-import uk.ac.gda.client.experimentdefinition.ui.experimentqueue.ExperimentQueue;
 import uk.ac.gda.exafs.ui.data.EDEScan;
 import uk.ac.gda.exafs.ui.data.EDEValidator;
 
-public class EdeQueue extends ExperimentQueue {
+public class EdeQueue /*extends ExperimentQueue*/ {
 
-	@Override
+//	@Override
 	protected boolean process(IExperimentObject run) throws ExperimentException {
 
 		try {

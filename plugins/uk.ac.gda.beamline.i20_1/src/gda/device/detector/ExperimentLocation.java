@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2011 Diamond Light Source Ltd.
+ * Copyright © 2012 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -18,13 +18,17 @@
 
 package gda.device.detector;
 
-/**
- * Messaging bean showing the current XStrip detector status (same values as in GDA DetectorStatus class ) and the
- * current group/frame/scan being collected.
- */
-public class XstripStatusData {
-	public int detectorStatus;
-	public int groupNum;
-	public int frameNum;
-	public int scanNum;
+public class ExperimentLocation {
+
+	public Integer groupNum;
+	public Integer frameNum;
+	public Integer scanNum;
+
+	public ExperimentLocation(Integer groupNum, Integer frameNum, Integer scanNum) {
+		super();
+		this.groupNum = groupNum;
+		this.frameNum = frameNum;
+		this.scanNum = scanNum;
+	}
+
 }
