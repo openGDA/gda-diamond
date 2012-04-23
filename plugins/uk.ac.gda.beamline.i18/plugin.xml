@@ -46,8 +46,8 @@
       <editor
             class="uk.ac.gda.client.microfocus.ui.editors.MicroFocusScanParametersEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="false"
-            id="uk.ac.gda.microfocus.ui.MicroFocusScanParametersEditor"
+            default="true"
+            id="uk.ac.gda.client.microfocus.ui.editors.MicroFocusScanParametersEditor"
             name="MicroFocus Scan">
          <contentTypeBinding
                contentTypeId="uk.ac.diamond.gda.client.microfocus.getMicroFocusContent">
@@ -362,6 +362,12 @@
                   label="XANES File"
                   style="push">
             </command>
+             <command
+                  commandId="uk.ac.gda.client.exafs.CopyMICROFOCUSCommand"
+                  icon="icons/XanesParametersIcon.png"
+                  label="MICROFOCUS File"
+                  style="push">
+            </command>
             <command
                   commandId="uk.ac.gda.client.exafs.CopyDetectorCommand"
                   icon="icons/DetectorParametersIcon.png"
@@ -395,6 +401,12 @@
                   commandId="uk.ac.gda.client.exafs.CopyXANESCommand"
                   icon="icons/XanesParametersIcon.png"
                   label="XANES File"
+                  style="push">
+            </command>
+            <command
+                  commandId="uk.ac.gda.client.exafs.CopyMICROFOCUSCommand"
+                  icon="icons/XanesParametersIcon.png"
+                  label="MICROFOCUS File"
                   style="push">
             </command>
             <command
@@ -467,9 +479,9 @@
       <validator
             class="gda.exfas.ui.validation.I18Validator">
       </validator>
-      <editormanager
+     <!-- <editormanager
             class="gda.exfas.ui.I18ExperimentEditorManager">
-      </editormanager>
+      </editormanager>-->
    </extension>
    <extension
          point="uk.ac.gda.microfocus.trajectory.counterTimerName">
@@ -514,6 +526,7 @@
       </describer>
       <describer
             bean="uk.ac.gda.beans.microfocus.MicroFocusScanParameters"
+            commandId="uk.ac.gda.client.exafs.CopyMICROFOCUSCommand"
             contentType="uk.ac.diamond.gda.client.microfocus.getMicroFocusContent"
             includeInNew="false"
             name="Micro Focus"
@@ -540,6 +553,7 @@
       </describer> 
       <describer
             bean="uk.ac.gda.beans.microfocus.MicroFocusScanParameters"
+            commandId="uk.ac.gda.client.exafs.CopyMICROFOCUSCommand"
             contentType="uk.ac.diamond.gda.client.microfocus.getMicroFocusContent"
             includeInNew="false"
             name="Sample Elements"
@@ -579,7 +593,7 @@
             name="Xspress"
             template="Xspress_Parameters"
             type="UNREGISTERED">
-      </describer>    
+      </describer>
    </extension>
   <extension
         point="org.eclipse.ui.perspectives">

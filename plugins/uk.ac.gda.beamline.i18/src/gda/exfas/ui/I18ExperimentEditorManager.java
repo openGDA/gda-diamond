@@ -18,33 +18,26 @@
 
 package gda.exfas.ui;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beans.exafs.IScanParameters;
-import uk.ac.gda.beans.exafs.XesScanParameters;
+import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
 import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
-import uk.ac.gda.client.experimentdefinition.ExperimentBeanManager;
 import uk.ac.gda.client.experimentdefinition.ExperimentEditorManager;
 import uk.ac.gda.client.experimentdefinition.IExperimentBeanDescription;
 import uk.ac.gda.client.experimentdefinition.IExperimentEditorManager;
 import uk.ac.gda.client.experimentdefinition.IExperimentObject;
-import uk.ac.gda.client.experimentdefinition.components.XMLFileDialog;
+import uk.ac.gda.exafs.ui.composites.I18SampleParametersComposite;
 import uk.ac.gda.exafs.ui.data.ScanObject;
 
 public class I18ExperimentEditorManager extends ExperimentEditorManager implements IExperimentEditorManager {
 
-	private static final Logger mylogger = LoggerFactory.getLogger(I18ExperimentEditorManager.class);
+	private static final Logger logger = LoggerFactory.getLogger(I18ExperimentEditorManager.class);
 
 //	@Override
 //	protected IEditorPart[] openRequiredEditors(IExperimentObject ob) {
@@ -64,8 +57,18 @@ public class I18ExperimentEditorManager extends ExperimentEditorManager implemen
 	@Override
 	protected Map<String, IFile> orderMapOfTypes(IExperimentObject ob, Map<String, IFile> mapOfTypesToFiles,
 			Collection<IExperimentBeanDescription> allBeanDescriptions) {
-
+/*
 		try {
+			IScanParameters theScan = ((ScanObject) ob).getScanParameters();
+			if ((theScan instanceof MicroFocusScanParameters)){
+				((I18SampleParameters)((ScanObject) ob).getSampleParameters()).getSampleStageParameters().setDisable(true);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("TODO put description of error here", e);
+		}*/
+		return super.orderMapOfTypes(ob,mapOfTypesToFiles,allBeanDescriptions);
+		/*try {
 			IScanParameters theScan = ((ScanObject) ob).getScanParameters();
 			if (!(theScan instanceof MicroFocusScanParameters)){
 				return super.orderMapOfTypes(ob,mapOfTypesToFiles,allBeanDescriptions);
@@ -92,6 +95,6 @@ public class I18ExperimentEditorManager extends ExperimentEditorManager implemen
 				// }
 			}
 		}
-		return orderedMap;
+		return orderedMap;*/
 	}
 }
