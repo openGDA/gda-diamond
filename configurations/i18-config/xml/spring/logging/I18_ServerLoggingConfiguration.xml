@@ -21,7 +21,7 @@
         </layout>
     </appender>    
     <logger name="gda">
-        <level value="DEBUG"/>
+        <level value="INFO"/>
     </logger>
     <logger name="gda.device.motor.EpicsMotor">
         <level value="INFO"/>

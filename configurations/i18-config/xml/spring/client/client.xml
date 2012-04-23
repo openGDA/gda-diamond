@@ -49,6 +49,11 @@ http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+	<bean id="sc_microfocusXZ" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/sc_microfocusXZ" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
 	<bean id="vma_zoom1" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}/vma_zoom1" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />

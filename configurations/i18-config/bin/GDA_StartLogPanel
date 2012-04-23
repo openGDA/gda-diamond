@@ -10,7 +10,7 @@ abs=`cd $gdaLocation ; pwd`
 echo $abs
 gdaLocation=$abs
 #export JAVA_HOME=$gdaLocation/java/jdk/
-gdaLauncher=$gdaLocation/gda/plugins/uk.ac.gda.core/bin/gda
+gdaLauncher=/dls_sw/i18/software/gda_versions/gda_822ws/plugins/uk.ac.gda.core/bin/gda
 config=$gdaLocation/gda/i18-config
 users=$gdaLocation/gda/i18-config/users
 properties=$config/properties/java.properties 

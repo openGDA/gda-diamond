@@ -19,10 +19,11 @@ sys.path.append(gdaMicroFocus +  "scripts/")
 ##RCP map scan and trajectory map scan
 ######################################################################
 print "setting up mapscan"
-execfile (gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/rastermap.py")
+microfocusRoot = "/dls_sw/i18/software/gda_versions/gda_822ws_git/gda-xas-core.git/"
+execfile (microfocusRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/rastermap.py")
 #execfile (gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/vortex_rastermap.py")
-execfile (gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/map.py")
-execfile(gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/microfocus_elements.py")
+execfile (microfocusRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/map.py")
+execfile(microfocusRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/microfocus_elements.py")
 
 alias("map")
 #########################################################################
@@ -52,6 +53,9 @@ sc_MicroFocusSampleY.setOutputFormat(["%.4f"])
 print "setting scans"
 from i18_exafs import setupExperiment
 setupExperiment.rootnamespace = globals()
+map.rootnamespace = globals()
+rastermap.rootnamespace = globals()
+rootnamespace = globals()
 from exafsscripts.exafs.xas_scans import xas, xanes, estimateXas, estimateXanes, qexafs
 
 from exafsscripts.vortex import vortexConfig
@@ -90,6 +94,7 @@ topupMonitor.configure()
 add_default topupMonitor
 from gda.device.scannable import BeamMonitorWithFeedbackSwitchScannable
 beam = BeamMonitorWithFeedbackSwitchScannable('FE18I-RS-ABSB-02:STA',['BL18I-OP-DCM-01:FPMTR:FFB.FBON','BL18I-OP-DCM-01:FRMTR:FFB.FBON'])
+#beam = BeamMonitorWithFeedbackSwitchScannable('FE18I-RS-ABSB-02:STA',['',''])
 beam.setName("beam")
 beam.setTimeout(7200)
 beam.setWaittime(60)
@@ -209,6 +214,8 @@ mapRunning =0
 
 ##fix for trajectory scans 
 execfile(gdaConfigDir + "scripts/scans/correctTrajInterface.py"); 
+raster_xspress.setInputNames([])
+raster_xmap.setInputNames([])
 print "===================================================================";
 print
 

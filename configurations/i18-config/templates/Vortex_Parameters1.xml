@@ -8,10 +8,10 @@
         <name>Element0</name>
         <number>1</number>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>844</windowStart>
-            <windowEnd>883</windowEnd>
-            <counts>177</counts>
+            <name>Fe_Ka</name>
+            <windowStart>543</windowStart>
+            <windowEnd>638</windowEnd>
+            <counts>3599</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -22,10 +22,10 @@
         <name>Element1</name>
         <number>1</number>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>844</windowStart>
-            <windowEnd>883</windowEnd>
-            <counts>194</counts>
+            <name>Fe_Ka</name>
+            <windowStart>543</windowStart>
+            <windowEnd>638</windowEnd>
+            <counts>3006</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -36,10 +36,10 @@
         <name>Element2</name>
         <number>1</number>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>844</windowStart>
-            <windowEnd>883</windowEnd>
-            <counts>203</counts>
+            <name>Fe_Ka</name>
+            <windowStart>543</windowStart>
+            <windowEnd>638</windowEnd>
+            <counts>3532</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -50,16 +50,16 @@
         <name>Element3</name>
         <number>1</number>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>844</windowStart>
-            <windowEnd>883</windowEnd>
-            <counts>181</counts>
+            <name>Fe_Ka</name>
+            <windowStart>543</windowStart>
+            <windowEnd>638</windowEnd>
+            <counts>3574</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
         <excluded>false</excluded>
     </DetectorElement>
-    <deadTime>-0.0</deadTime>
+    <deadTime>-0.01</deadTime>
     <saveRawSpectrum>false</saveRawSpectrum>
 </VortexParameters>

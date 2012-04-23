@@ -88,7 +88,7 @@ topupMonitor.setTopupPV("SR-CS-FILL-01:COUNTDOWN")
 topupMonitor.configure()
 #add_default topupMonitor
 from gda.device.scannable import BeamMonitorWithFeedbackSwitchScannable
-beam = BeamMonitorWithFeedbackSwitchScannable('FE18I-RS-ABSB-02:STA',['BL18I-OP-DCM-01:FPMTR:FFB.FBON','BL18I-OP-DCM-01:FRMTR:FFB.FBON'])
+beam = BeamMonitorWithFeedbackSwitchScannable('FE18I-RS-ABSB-02:STA',['BL18I-OP-DCM-01:FPMTR:FFB.FBON'],['BL18I-OP-DCM-01:FRMTR:FFB.FBON'])
 beam.setName("beam")
 beam.setTimeout(7200)
 beam.setWaittime(60)
@@ -99,7 +99,7 @@ detectorFillingMonitor = DetectorFillingMonitorScannable()
 detectorFillingMonitor.setName("detectorFillingMonitor")
 detectorFillingMonitor.setTimeout(7200)
 detectorFillingMonitor.setStartTime(9)
-detectorFillingMonitor.setDuration(38.0)
+detectorFillingMonitor.setDuration(30.0)
 detectorFillingMonitor.configure()
 #add_default detectorFillingMonitor
 from gda.device.scannable import BeamMonitorScannableForLineRepeat

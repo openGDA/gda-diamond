@@ -30,7 +30,7 @@
 							<property name="type" value="CORE"></property>
 						</bean>
 						<bean class="gda.jython.ScriptProject"> 
-							<property name="path" value="${gda.root}/uk.ac.gda.server.exafs/scripts" />
+							<property name="path" value="/dls_sw/i18/software/gda_versions/gda_822ws_git/gda-xas-core.git/uk.ac.gda.server.exafs/scripts" />
 							<property name="name" value="Scripts: Exafs" />
 							<property name="type" value="CORE" />
 						</bean> 
