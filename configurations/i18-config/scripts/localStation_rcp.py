@@ -208,7 +208,10 @@ global mapRunning
 mapRunning =0
 
 #qbpm settings 
-#cid.setInputNames(['CID_Rplusdiode', 'CID_Lminusdiode','CID_Rminusdiode', 'CID_Lplusdiode']) 
+from cid_photodiode import CidPhotoDiode
+cid = CidPhotoDiode('cid', 'BL18I-DI-PHDGN-08')
+cid.setExtraNames(['CID_Rminusdiode', 'CID_Rplusdiode','CID_Lminusdiode', 'CID_Lplusdiode']) 
+cid.setOutputFormat(['%4.10f','%4.10f','%4.10f','%4.10f'])
 #cid.setIncludeRange(False) 
 #cid.setOutputFormat(['%4.10f','%4.10f','%4.10f','%4.10f','%4.10f','%4.10f','%4.10f']) 
 
