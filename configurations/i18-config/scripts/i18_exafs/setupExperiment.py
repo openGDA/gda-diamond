@@ -27,12 +27,12 @@ from uk.ac.gda.beans.exafs import QEXAFSParameters
 rootnamespace = {}
 
 def finish():
-	#command_server = Finder.getInstance().find("command_server")
-	#beam = command_server.getFromJythonNamespace("beam", None)
-	#detectorFillingMonitor = command_server.getFromJythonNamespace("detectorFillingMonitor", None)
-	#remove_default(beam)
-	#remove_default(detectorFillingMonitor)
-	pass
+	command_server = Finder.getInstance().find("command_server")
+	beam = command_server.getFromJythonNamespace("beam", None)
+	detectorFillingMonitor = command_server.getFromJythonNamespace("detectorFillingMonitor", None)
+	remove_default(beam)
+	remove_default(detectorFillingMonitor)
+	#pass
 	
 
 def setup(beanGroup):
