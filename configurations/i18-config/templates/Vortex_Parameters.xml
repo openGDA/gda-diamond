@@ -8,10 +8,16 @@
         <name>Element0</name>
         <number>1</number>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>844</windowStart>
-            <windowEnd>883</windowEnd>
-            <counts>177</counts>
+            <name>Fe_Ka</name>
+            <windowStart>615</windowStart>
+            <windowEnd>659</windowEnd>
+            <counts>60859</counts>
+        </ROI>
+        <ROI>
+            <name>Mn_Ka</name>
+            <windowStart>550</windowStart>
+            <windowEnd>618</windowEnd>
+            <counts>19804</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -22,10 +28,16 @@
         <name>Element1</name>
         <number>1</number>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>844</windowStart>
-            <windowEnd>883</windowEnd>
-            <counts>194</counts>
+            <name>Fe_Ka</name>
+            <windowStart>615</windowStart>
+            <windowEnd>659</windowEnd>
+            <counts>52356</counts>
+        </ROI>
+        <ROI>
+            <name>Mn_Ka</name>
+            <windowStart>550</windowStart>
+            <windowEnd>618</windowEnd>
+            <counts>19804</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -36,10 +48,16 @@
         <name>Element2</name>
         <number>1</number>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>844</windowStart>
-            <windowEnd>883</windowEnd>
-            <counts>203</counts>
+            <name>Fe_Ka</name>
+            <windowStart>615</windowStart>
+            <windowEnd>659</windowEnd>
+            <counts>62836</counts>
+        </ROI>
+        <ROI>
+            <name>Mn_Ka</name>
+            <windowStart>550</windowStart>
+            <windowEnd>618</windowEnd>
+            <counts>19804</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -50,10 +68,16 @@
         <name>Element3</name>
         <number>1</number>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>844</windowStart>
-            <windowEnd>883</windowEnd>
-            <counts>181</counts>
+            <name>Fe_Ka</name>
+            <windowStart>615</windowStart>
+            <windowEnd>659</windowEnd>
+            <counts>61822</counts>
+        </ROI>
+        <ROI>
+            <name>Mn_Ka</name>
+            <windowStart>550</windowStart>
+            <windowEnd>618</windowEnd>
+            <counts>19804</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
