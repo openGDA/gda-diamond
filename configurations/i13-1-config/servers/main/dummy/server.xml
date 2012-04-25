@@ -23,6 +23,8 @@
 		</property>
 		<property name="dummyMode" value="true"></property>
 	</bean>
+	
+	<import resource="../../../devices/mll.xml"/>	
 	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
 			<map>
