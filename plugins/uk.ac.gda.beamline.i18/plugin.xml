@@ -552,9 +552,7 @@
             type="Sample">
       </describer> 
       <describer
-            bean="uk.ac.gda.beans.microfocus.MicroFocusScanParameters"
-            commandId="uk.ac.gda.client.exafs.CopyMICROFOCUSCommand"
-            contentType="uk.ac.diamond.gda.client.microfocus.getMicroFocusContent"
+            bean="uk.ac.gda.beans.exafs.SampleElements"
             includeInNew="false"
             name="Sample Elements"
             template="Sample_Elements"
