@@ -1,6 +1,6 @@
 Version $Id: sino_listener.py 232 2012-04-11 13:21:04Z kny48981 $
 Usage:
-/scratch/eclipse372_64bit/plugins/org.python.pydev.debug_2.4.0.2012020116/pysrc/runfiles.py
+program
 -i input dir (currently: projections)
 -o output dir (currently: sinograms)
 -p number of projections (currently 6000 )
