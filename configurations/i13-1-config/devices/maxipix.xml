@@ -33,6 +33,9 @@
 		<property name="maxiPix2MultiFrameDetector" ref="__maxiPix2MultiFrameDetector" />
 	</bean>
 	
+	<bean id="mpx_hardwareTrigger" class="gda.device.detector.maxipix2.MaxiPix2RepScanNexusDetector">
+		<property name="maxiPix2MultiFrameDetector" ref="__maxiPix2MultiFrameDetector" />
+	</bean>
 	
 	<bean id="mpx_processor" class="gda.device.detector.nexusprocessor.NexusProviderFilenameProcessor">
 		<constructor-arg value="mpx" />
