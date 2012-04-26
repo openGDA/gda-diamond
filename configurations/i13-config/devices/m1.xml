@@ -12,9 +12,9 @@
 		<property name="motor" ref="m1_coarsepitch_motor" />
 		<property name="userUnits" value="urad"/>
 	</bean>
-	<bean id="m1_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m1_pitch_motor" />
-		<property name="userUnits" value="urad"/>
+	<bean id="m1_bender" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1_bender_motor" />
+		<property name="userUnits" value="kcts"/>
 	</bean>
 	<bean id="m1_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_x_motor" />

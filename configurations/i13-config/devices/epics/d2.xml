@@ -8,16 +8,16 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean id="d2_pos" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="d2_pos" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="d2.mp" />
 	</bean>
 
 	<bean id="d2_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="d2.x" />
+		<property name="deviceName" value="d2.y" />
 		<property name="local" value="true" />
 	</bean>
 
-<!-- 	<bean id="d2_i" class="gda.device.scannable.EpicsScannable">
+ 	<bean id="d2_i" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
 		<property name="pvProvider">
@@ -33,7 +33,7 @@
 		<property name="hasUnits" value="false" />
 		<property name="pvProvider">
 			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-			<property name="deviceName" value="FEMTO2"/>
+			<property name="deviceName" value="d2.femto"/>
 			<property name="fieldName" value="SETGAIN"/>
 			</bean>
 		</property>
@@ -44,28 +44,22 @@
 		<property name="hasUnits" value="false" />
 		<property name="pvProvider">
 			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-			<property name="deviceName" value="FEMTO2"/>
+			<property name="deviceName" value="d2.femto"/>
 			<property name="fieldName" value="SETACDC"/>
 			</bean>
 		</property>
-	</bean> -->
+	</bean>
 
 	<bean id="d2_window_temp" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="BL13J-DI-PHDGN-02:T1" />
+		<property name="pvName" value="BL13I-DI-PHDGN-02:T1" />
 		<property name="useNameAsExtraName" value="true" />
 		<!-- unit C is not supported -->
 		<property name="hasUnits" value="false" />
 	</bean>
 
-	<bean id="d2_return_temp" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="BL13J-DI-PHDGN-02:T2" />
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
-	</bean>
-
 	<bean id="d2_cam_pvProvider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL13J-DI-PHDGN-02:CAM:" />
+		<property name="prefix" value="BL13I-DI-PHDGN-02:CAM:" />
 	</bean>
 	<bean id="d2_cam_base" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="pvProvider" ref="d2_cam_pvProvider" />
@@ -73,7 +67,7 @@
 
 	<bean id="d2_arr_pvProvider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL13J-DI-PHDGN-02:ARR:" />
+		<property name="prefix" value="BL13I-DI-PHDGN-02:ARR:" />
 	</bean>
 
 	<bean id="d2_arr_ndpluginbase"
@@ -89,7 +83,7 @@
 
 	<bean id="d2_stat_pvProvider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL13J-DI-PHDGN-02:STAT:" />
+		<property name="prefix" value="BL13I-DI-PHDGN-02:STAT:" />
 	</bean>
 
 	<bean id="d2_stat_ndpluginbase"
@@ -104,7 +98,7 @@
 
 	<bean id="d2_roi_pvProvider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL13J-DI-PHDGN-02:ROI:" />
+		<property name="prefix" value="BL13I-DI-PHDGN-02:ROI:" />
 	</bean>
 
 	<bean id="d2_roi_ndpluginbase"
@@ -119,7 +113,7 @@
 
 	<bean id="d2_ffmpeg_pvProvider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL13J-DI-PHDGN-02:FFMPEG:" />
+		<property name="prefix" value="BL13I-DI-PHDGN-02:FFMPEG:" />
 	</bean>
 
 	<bean id="d2_ffmpeg_ndpluginbase"
@@ -155,8 +149,8 @@
 				<constructor-arg value=".0" />
 			</bean>
 		</property>
-		<property name="computeStats" value="true"/>
-		<property name="computeCentroid" value="true"/>
+		<property name="computeStats" value="false"/>
+		<property name="computeCentroid" value="false"/>
 		<property name="readArray" value="true"/>
 	</bean>
 

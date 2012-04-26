@@ -1,0 +1,333 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<description>
+		There are 3 ways of configure EPICS access:
+		1. use Java content objects
+		provided by epics-x.x.x.jar to specify
+		'deviceName' property;
+		e.g. <!-- property 
+			name="deviceName" value="pixium.cam_ADBase"/ -->
+		2. set pvProvider property which in turn uses XMLPVProvider bean to
+		specify 'deviceName' property;
+		e.g. <!-- property name="pvProvider"> <bean 
+			class="uk.ac.gda.devices.excalibur.impl.XMLPVProvider"> <property name="deviceName" 
+			value="pixium.cam_ADBase" /> </bean> </property -->
+		3. set base PV name property with field or sub-element being coded in
+		Java classes.
+		e.g. <!-- property name="basePVName" value="BL13I-EA-DET-05:PIX:" 
+			/ -->
+	</description>
+	<!-- Set up the Area Detector base class which will manage the pix.cam -->
+	<bean id="pco.cam" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<!-- <property name="deviceName" value="pco.cam_ADBase" /> -->
+		<property name="basePVName" value="BL13I-EA-DET-01:CAM:" />
+		<property name="initialDataType" value="UInt16" />
+		<property name="initialMinX" value="1" />
+		<property name="initialMinY" value="1" />
+		<property name="initialSizeX" value="4008" />
+		<property name="initialSizeY" value="2672" />
+		<property name="initialBinX" value="1" />
+		<property name="initialBinY" value="1" />
+		<!-- <property name="initialNDAttributesFile" value="Z:/epics/areadetector/pixiumattributes.xml" 
+			/> -->
+	</bean>
+
+	<bean id="pco.prc1" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<!-- <property name="deviceName" value="pco.proc_NDProcess" /> -->
+		<property name="basePVName" value="BL13I-EA-DET-01:PRO1:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<!-- <property name="deviceName" value="pco.proc_NDPluginBase" /> -->
+				<property name="basePVName" value="BL13I-EA-DET-01:PRO1:" />
+				<property name="initialArrayPort" value="pco.cam" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+		<property name="initialEnableBackground" value="0" />
+		<property name="initialEnableFlatField" value="0" />
+		<property name="initialEnableOffsetScale" value="0" />
+		<property name="initialEnableHighClip" value="0" />
+		<property name="initialEnableLowClip" value="0" />
+		<property name="initialEnableFilter" value="0" />
+	</bean>
+	<bean id="pco.prc2" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<!-- <property name="deviceName" value="pco.proc_NDProcess" /> -->
+		<property name="basePVName" value="BL13I-EA-DET-01:PRO2:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<!-- <property name="deviceName" value="pco.proc_NDPluginBase" /> -->
+				<property name="basePVName" value="BL13I-EA-DET-01:PRO2:" />
+				<property name="initialArrayPort" value="pco.cam" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+		<property name="initialEnableBackground" value="0" />
+		<property name="initialEnableFlatField" value="0" />
+		<property name="initialEnableOffsetScale" value="0" />
+		<property name="initialEnableHighClip" value="0" />
+		<property name="initialEnableLowClip" value="0" />
+		<property name="initialEnableFilter" value="0" />
+	</bean>
+
+	<bean id="pco.roi1" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
+		<!-- <property name="deviceName" value="pco.roi1_NDROI" /> -->
+		<property name="basePVName" value="BL13I-EA-DET-01:ROI1:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<!-- <property name="deviceName" value="pco.roi1_NDPluginBase" /> -->
+				<property name="basePVName" value="BL13I-EA-DET-01:ROI1:" />
+				<property name="initialArrayPort" value="pco.prc1" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+		<property name="initialEnableScale" value="true" />
+		<property name="initialScale" value="16" />
+		<property name="initialBinX" value="4" />
+		<property name="initialBinY" value="4" />
+		<property name="initialMinX" value="1" />
+		<property name="initialMinY" value="1" />
+		<property name="initialSizeX" value="4008" />
+		<property name="initialSizeY" value="2672" />
+	</bean>
+	<bean id="pco.roi2" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
+		<!-- <property name="deviceName" value="pco.roi1_NDROI" /> -->
+		<property name="basePVName" value="BL13I-EA-DET-01:ROI2:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<!-- <property name="deviceName" value="pco.roi1_NDPluginBase" /> -->
+				<property name="basePVName" value="BL13I-EA-DET-01:ROI2:" />
+				<property name="initialArrayPort" value="pco.prc2" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+		<property name="initialMinX" value="1" />
+		<property name="initialMinY" value="1" />
+		<property name="initialSizeX" value="4008" />
+		<property name="initialSizeY" value="2672" />
+		<property name="initialBinX" value="1" />
+		<property name="initialBinY" value="1" />
+	</bean>
+
+	<bean id="pco.arr" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<!-- <property name="deviceName" value="pco.arr_NDStdArrays" /> -->
+		<property name="basePVName" value="BL13I-EA-DET-01:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<!-- <property name="deviceName" value="pco.arr_NDPluginBase" /> -->
+				<property name="basePVName" value="BL13I-EA-DET-01:ARR:" />
+				<property name="initialArrayPort" value="pco.prc1" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pco.stat" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<!-- <property name="deviceName" value="pco.stat_NDStats" /> -->
+		<property name="basePVName" value="BL13I-EA-DET-01:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL13I-EA-DET-01:STAT:" />
+				<!-- <property name="deviceName" value="pco.stat_NDPluginBase" /> -->
+				<property name="initialArrayPort" value="pco.prc1" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pco.draw" class="gda.device.detector.areadetector.v17.impl.NDOverlayImpl">
+		<!-- <property name="deviceName" value="pco.draw_NDOverlay" /> -->
+		<property name="basePVName" value="BL13I-EA-DET-01:DRAW:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL13I-EA-DET-01:DRAW:" />
+				<!-- <property name="deviceName" value="pco.draw_NDPluginBase" /> -->
+				<!-- <property name="initialArrayPort" value="pco.cam" /> -->
+				<property name="initialArrayPort" value="pco.prc1" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="0" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pco.tif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<!-- <property name="deviceName" value="pco.tif_NDFile" /> -->
+		<property name="basePVName" value="BL13I-EA-DET-01:TIF:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL13I-EA-DET-01:TIF:" />
+				<!-- <property name="deviceName" value="pco.tif_NDPluginBase" /> -->
+				<property name="initialArrayPort" value="pco.cam" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+		<property name="initialAutoIncrement" value="Yes" />
+		<property name="initialAutoSave" value="Yes" />
+		<property name="initialWriteMode" value="2" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="p" />
+		<property name="initialFileTemplate" value="%s/%s_%05d.tif" />
+	</bean>
+
+	<bean id="pco.hdf"
+		class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<!-- <property name="deviceName" value="pco.hdf_NDFileHDF5" /> -->
+		<property name="basePVName" value="BL13I-EA-DET-01:HDF:" />
+		<property name="file">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+				<!-- <property name="deviceName" value="pco.hdf_NDFile" /> -->
+				<property name="basePVName" value="BL13I-EA-DET-01:HDF:" />
+				<property name="pluginBase">
+					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+						<!-- <property name="deviceName" value="pco.hdf_NDPluginBase" /> -->
+						<property name="basePVName" value="BL13I-EA-DET-01:HDF:" />
+						<property name="initialArrayPort" value="pco.cam" />
+						<property name="initialArrayAddress" value="0" />
+						<property name="initialEnableCallbacks" value="1" />
+						<property name="initialBlockingCallbacks" value="false" />
+					</bean>
+				</property>
+				<property name="initialAutoSave" value="Yes" />
+				<property name="initialAutoIncrement" value="Yes" />
+				<property name="initialWriteMode" value="2" />
+				<property name="initialNumCapture" value="1" />
+				<property name="initialFileName" value="projections" />
+				<property name="initialFileTemplate" value="%s/%s.h5" />
+			</bean>
+		</property>
+		<property name="initialNumExtraDims" value="0" />
+		<property name="initialExtraDimSizeN" value="1" />
+		<property name="initialExtraDimSizeX" value="0" />
+		<property name="initialExtraDimSizeY" value="0" />
+		<property name="initialNumRowChunks" value="2672" />
+		<property name="initialCompression" value="None" />
+		<property name="initialNumBitOffset" value="0" />
+		<property name="initialNumBitPrecision" value="8" />
+		<property name="initialSzipNumPixels" value="16" />
+		<property name="initialZCompressLevel" value="6" />
+	</bean>
+
+	<bean id="pco.mpeg1"
+		class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
+		<!-- <property name="deviceName" value="pco.mpeg_ffmpegStream" /> -->
+		<property name="basePVName" value="BL13I-EA-DET-01:MPG1:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL13I-EA-DET-01:MPG1:" />
+				<!-- <property name="deviceName" value="pco.mpeg_NDPluginBase" /> -->
+				<property name="initialArrayPort" value="pco.roi1" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+		<property name="initialQuality" value="100" />
+		<property name="initialFalseColor" value="0" />
+		<property name="initialAlwaysOn" value="0" />
+	</bean>
+
+	<bean id="pco.mpeg2"
+		class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
+		<!-- <property name="deviceName" value="pco.mpeg_ffmpegStream" /> -->
+		<property name="basePVName" value="BL13I-EA-DET-01:MPG2:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL13I-EA-DET-01:MPG2:" />
+				<!-- <property name="deviceName" value="pco.mpeg_NDPluginBase" /> -->
+				<property name="initialArrayPort" value="pco.roi2" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+		<property name="initialQuality" value="100" />
+		<property name="initialFalseColor" value="0" />
+		<property name="initialAlwaysOn" value="0" />
+	</bean>
+
+	<bean id="pcocontroller" class="gda.device.detector.pco.PCOControllerV17">
+		<!-- <property name="deviceName" value="pco.cam_pcocam" /> -->
+		<property name="basePVName" value="BL13I-EA-DET-01:CAM:" />
+		<property name="areaDetector" ref="pco.cam" />
+		<property name="proc1" ref="pco.prc1" />
+		<property name="proc2" ref="pco.prc2" />
+		<property name="roi1" ref="pco.roi1" />
+		<property name="roi2" ref="pco.roi2" />
+		<property name="stat" ref="pco.stat" />
+		<property name="draw" ref="pco.draw" />
+		<property name="array" ref="pco.arr" />
+		<property name="tiff" ref="pco.tif" />
+		<property name="hdf" ref="pco.hdf" />
+		<property name="mjpeg1" ref="pco.mpeg1" />
+		<property name="mjpeg2" ref="pco.mpeg2" />
+
+		<property name="readout1ADC8Mhz" value="1500" />
+		<property name="readout1ADC32Mhz" value="500" />
+		<property name="readout2ADC8Mhz" value="750" />
+		<property name="readout2ADC32Mhz" value="400" />
+		<!-- <property name="triggerPV" value="BL13I-EA-DIO-01:OUT:00" /> -->
+		<!-- <property name="triggerPV" value="BL13I-EA-DIO-01:OUT:02" /> -->
+		<property name="triggerPV" value="BL13I-MO-TAB-02:ST1:THETA:POSCOMP:CTRL" />
+	</bean>
+
+	<bean id="pco" class="gda.device.detector.pco.PCODetector">
+		<property name="controller" ref="pcocontroller" />
+		<property name="level" value="9" />
+		<property name="detectorID" value="PCO400" />
+		<property name="description" value="PCO400 CCD Camera" />
+		<property name="detectorType" value="CCD" />
+		<property name="projectionFolderName" value="projections" />
+		<property name="localFilePath" value="d:/tmp/" />
+		<property name="darkFileNameRoot" value="d" />
+		<property name="numberOfDarkImages" value="10" />
+		<property name="flatFileNameRoot" value="f" />
+		<property name="numberOfFlatImages" value="10" />
+		<property name="localDataStoreWindows2LinuxFileName">
+			<bean class="gda.device.detector.pco.PCODetector.Windows2LinuxFilePath">
+				<property name="windowsPath" value="d:/tmp/" />
+				<property name="linuxPath" value="/dls/i12" />
+			</bean>
+		</property>
+		<property name="nonLocalDataStoreWindows2LinuxFileName">
+			<bean class="gda.device.detector.pco.PCODetector.Windows2LinuxFilePath">
+				<property name="windowsPath" value="Z:" />
+				<property name="linuxPath" value="/dls/i12" />
+			</bean>
+		</property>
+		<property name="demandRawDataStoreWindows2LinuxFileName">
+			<bean class="gda.device.detector.pco.PCODetector.Windows2LinuxFilePath">
+				<property name="windowsPath" value="Z:" />
+				<property name="linuxPath" value="/dls/i12" />
+			</bean>
+		</property>
+		<property name="plotName" value="PCOPlot" />
+		<property name="local" value="false" />
+	</bean>
+
+	<bean id="pcoTomography" class="gda.device.detector.pco.PCOTomography">
+		<property name="pcoDetector" ref="pco" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/pcoTomography" />
+		<property name="service" ref="pcoTomography" />
+		<property name="serviceInterface" value="uk.ac.gda.tomography.devices.ITomographyDetector" />
+	</bean>
+
+</beans>

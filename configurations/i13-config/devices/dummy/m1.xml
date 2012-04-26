@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="m1_coarsepitch_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="m1_pitch_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="m1_bender_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="m1_x_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="m1_y_motor" class="gda.device.motor.DummyMotor"/>
 

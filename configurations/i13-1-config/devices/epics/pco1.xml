@@ -140,6 +140,11 @@
 	</bean>
 
 
+	<bean id="pco1_singleExposurePcoSoftwareTrigger" class="gda.device.detector.addetector.triggering.SingleExposurePcoSoftwareTrigger">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg ref="adDriverPco1" />
+		<constructor-arg value=".03" />
+	</bean>
 	<bean id="pco1_singleExposurePco" class="gda.device.detector.addetector.triggering.SingleExposurePco">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg ref="adDriverPco1" />
@@ -150,12 +155,11 @@
 		<constructor-arg value=".04" />
 	</bean>
 	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
-		<constructor-arg value="pco1" />
 		<constructor-arg ref="pco1_ndhdf5file" />
-		<constructor-arg value="true"/>
 		<constructor-arg ref="pco1_cam_base" />
-		<constructor-arg value="i13-1"/>
-		<constructor-arg value="i13-1"/>
+		<constructor-arg value="pco1"/>
+		<constructor-arg value="%s%s-%d-d5.hdf"/>
+		<constructor-arg value="true"/>
 		<property name="enable" value="true"/>
 	</bean>
 
@@ -195,14 +199,15 @@
 		<property name="ndStats" ref="pco1_stat" />
 		<property name="ndArray" ref="pco1_arr" />
 		<property name="ndFile" ref="pco1_ndfiletif" />
-		<property name="collectionStrategy" ref="pco1_singleExposurePco"/>
+		<property name="collectionStrategy" ref="pco1_singleExposurePcoSoftwareTrigger"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg value="pco1" />
 				<constructor-arg ref="pco1_ndfiletif" />
+				<constructor-arg value="pco1" />
+				<constructor-arg value="%%s%%s%d-%%d.tif"/>
+				<constructor-arg value="%s/%d/pco1/"/>
 				<constructor-arg value="true"/>
-				<constructor-arg value="i13-1"/>
-				<constructor-arg value="i13-1"/>
+				<constructor-arg value="true"/>
 				<property name="enable" value="true"/>
 			</bean>
 		</property>
@@ -214,9 +219,5 @@
 		<property name="computeCentroid" value="false" />
 		<property name="readArray" value="false" />
 	</bean>
-
-
-
-
 
 </beans>	

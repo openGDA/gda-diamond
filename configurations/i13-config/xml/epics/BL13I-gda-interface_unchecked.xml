@@ -31,14 +31,60 @@
 	</simpleMbbinary>
 	
     <simpleMotor desc="Undulator Gap" name="Undulator.Gap">
-        <RECORD desc="Motor" pv="SR13J-MO-SERVC-01:BLGAPMTR" ro="false" type="motor"/>
+        <RECORD desc="Motor" pv="SR13I-MO-SERVC-01:BLGAPMTR" ro="false" type="motor"/>
     </simpleMotor>
     	
-<!-- 	<currAmpSingle desc="D1 femto amp" name="d4.femto">
-		<SETGAIN desc="Set gain" pv="BL13J-DI-FEMTO-01:GAIN" ro="false" type="mbbinary"/>
-		<SETACDC desc="Set AC or DC mode" pv="BL13J-DI-FEMTO-01:ACDC" ro="false" type="binary"/>
-		<VENDOR desc="Vendor String" pv="BL13J-DI-FEMTO-01:VENDOR" ro="true" type="pv"/>
-		<MODEL desc="Model String" pv="BL13J-DI-FEMTO-01:MODEL" ro="true" type="pv"/>
-	</currAmpSingle>	 -->
+	<pneumaticCallback desc="Experiment Hutch Shutter" name="eh_shtr">
+		<CONTROL desc="CONTROL" pv="BL13I-PS-SHTR-02:CON" ro="false" type="mbbinary"/>
+		<STA desc="STA" pv="BL13I-PS-SHTR-02:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
+
+	<pneumaticCallback desc="Optics Hutch 4 Shutter" name="oh4_shtr">
+		<CONTROL desc="CONTROL" pv="BL13I-PS-SHTR-01:CON" ro="false" type="mbbinary"/>
+		<STA desc="STA" pv="BL13I-PS-SHTR-01:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
+
+
+<!-- needed until Jon has created the interface doc -->
+
+	<currAmpSingle desc="D1 femto amp" name="d1.femto">
+		<SETGAIN desc="Set gain" pv="BL13I-DI-FEMTO-01:GAIN" ro="false" type="mbbinary"/>
+		<SETACDC desc="Set AC or DC mode" pv="BL13I-DI-FEMTO-01:ACDC" ro="false" type="binary"/>
+		<VENDOR desc="Vendor String" pv="BL13I-DI-FEMTO-01:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL13I-DI-FEMTO-01:MODEL" ro="true" type="pv"/>
+	</currAmpSingle>
+	<simplePv desc="d1.femto" name="D1">
+		<RECORD desc="Status" pv="BL13I-DI-PHDGN-01:DIODE" ro="true" type="mbbinary" />
+	</simplePv>
+	<currAmpSingle desc="D1 femto amp" name="d2.femto">
+		<SETGAIN desc="Set gain" pv="BL13I-DI-FEMTO-02:GAIN" ro="false" type="mbbinary"/>
+		<SETACDC desc="Set AC or DC mode" pv="BL13I-DI-FEMTO-02:ACDC" ro="false" type="binary"/>
+		<VENDOR desc="Vendor String" pv="BL13I-DI-FEMTO-02:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL13I-DI-FEMTO-02:MODEL" ro="true" type="pv"/>
+	</currAmpSingle>
+	<simplePv desc="d2.femto" name="D2">
+		<RECORD desc="Status" pv="BL13I-DI-PHDGN-02:DIODE" ro="true" type="mbbinary" />
+	</simplePv>
+
+	<currAmpSingle desc="D1 femto amp" name="d4.femto">
+		<SETGAIN desc="Set gain" pv="BL13I-DI-FEMTO-04:GAIN" ro="false" type="mbbinary"/>
+		<SETACDC desc="Set AC or DC mode" pv="BL13I-DI-FEMTO-04:ACDC" ro="false" type="binary"/>
+		<VENDOR desc="Vendor String" pv="BL13I-DI-FEMTO-04:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL13I-DI-FEMTO-04:MODEL" ro="true" type="pv"/>
+	</currAmpSingle>
+	<simplePv desc="d2.femto" name="D4">
+		<RECORD desc="Status" pv="BL13I-DI-PHDGN-04:DIODE" ro="true" type="mbbinary" />
+	</simplePv>
+
+	<simpleMotor desc="Sample stage SAMPLEY" name="stage1.sampley">
+		<RECORD desc="Motor" pv="BL13I-MO-STAGE-01:SAMPLEY" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Sample stage SAMPLEZ" name="stage1.samplez">
+		<RECORD desc="Motor" pv="BL13I-MO-STAGE-01:SAMPLEZ" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Sample stage SAMPLEX" name="stage1.samplex">
+		<RECORD desc="Motor" pv="BL13I-MO-STAGE-01:SAMPLEX" ro="false" type="motor"/>
+	</simpleMotor>
+
 
 </devices>

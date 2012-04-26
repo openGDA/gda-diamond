@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="ss1_rot_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="stage1.theta" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ss1_X_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="stage1.x" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ss1_Y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="stage1.y" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ss1_Z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="stage1.z" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ss1_samplex_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="stage1.samplex" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ss1_sampley_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="stage1.sampley" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ss1_samplez_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="stage1.samplez" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>	

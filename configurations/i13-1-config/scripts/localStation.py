@@ -40,10 +40,14 @@ commandServer = InterfaceProvider.getJythonNamespace()
 from gda.scan.RepeatScan import create_repscan, repscan
 vararg_alias("repscan")
 
-from gdascripts.pd.time_pds import waittimeClass2, showtimeClass, showincrementaltimeClass
+from gdascripts.pd.time_pds import waittimeClass2, showtimeClass, showincrementaltimeClass, actualTimeClass
 waittime=waittimeClass2('waittime')
 showtime=showtimeClass('showtime')
 inctime=showincrementaltimeClass('inctime')
+actualTime=actualTimeClass("actualTime")
+
+from gdascripts.metadata.metadata_commands import setTitle
+alias("setTitle")
 
 from flyscan_script import flyscan, flyscannable, WaitForScannableAtLineEnd
 vararg_alias("flyscan")
@@ -52,7 +56,7 @@ try:
 except NameError:
 	print "!!!!!!!!!!!!!!!!!!!!!!! qcm_bragg1 not found so could not create waitForQcm_bragg1 "
 	print "Continuing anyway..."
-createPVScannable( "d1_total", "BL13J-DI-PHDGN-01:STAT:Total_RBV")
+#createPVScannable( "d1_total", "BL13J-DI-PHDGN-01:STAT:Total_RBV")
 
 #make scannablegroup for driving sample stage
 from gda.device.scannable.scannablegroup import ScannableGroup
@@ -87,6 +91,8 @@ except gda.factory.FactoryException, e:
 	print "Continuing anyway..."
 import file_converter
 
+import mpx_external_scan_monitor
+import mll
 import integrate_mpx_scan
 #	try:
 #		mpx_set_folder("test","mpx")
@@ -95,15 +101,29 @@ import integrate_mpx_scan
 #		handle_messages.log(None, "Problem setting mpx folder and prefix",exceptionType, exception, traceback,False)
 #from tests.testRunner import run_tests
 
-from autocollimator_script import  * #@UnusedWildImport
+#comment out when not connected
+#from autocollimator_script import  * #@UnusedWildImport
 
 #run("i13diffcalc")
 del diff, delta, gamma, eta, chi, phi
-execfile("/dls_sw/i13-1/software/gda/diffcalc/example/startup/sixcircle_dummy.py")
+#execfile("/dls_sw/i13-1/software/diffcalc/example/startup/sixcircle_dummy.py")
+#execfile("/dls_sw/i13-1/software/diffcalc/example/startup/sixcircle.py")
 
 #except :
 #	exceptionType, exception, traceback = sys.exc_info()
 #	handle_messages.log(None, "Error in localStation", exceptionType, exception, traceback, False)
 
 from gdascripts.scannable.beamokay import WaitWhileScannableBelowThresholdMonitorOnly
-beammonitor=WaitWhileScannableBelowThresholdMonitorOnly("beammonitor", d4_i, 1,1,1)
+#comment out when not connected - 
+#beammonitor=WaitWhileScannableBelowThresholdMonitorOnly("beammonitor", d4_i, 1,1,1)
+
+ix.setInputNames(["ix"])
+iy.setInputNames(["iy"])
+
+#stuff for Vortex editor
+def vortex(vortexParameterName, outputfile):
+	from uk.ac.gda.beans.vortex import VortexParameters	
+	VortexParameters.writeToXML(XspressParametersToLoad, mll_xmap.getConfigFileName());
+	mll_xmap.loadConfigurationFromFile()
+
+alias("vortex")

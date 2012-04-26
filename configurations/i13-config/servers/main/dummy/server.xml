@@ -26,7 +26,7 @@
 	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
 			<map>
-				<entry key="Top" value="BL13J" />
+				<entry key="Top" value="BL13I" />
 			</map>
 		</property>
 		<property name="dummyMode" value="true"></property>
@@ -45,9 +45,7 @@
 	<import resource="../../../devices/dummy/d1.xml"/>
 	
 	<import resource="../../../devices/dummy/absorbers1.xml"/>
-
 	<import resource="../../../devices/dummy/d2.xml"/>
-
 	<import resource="../../../devices/dummy/s2_motors.xml"/>
 
 	<import resource="../../../devices/dummy/absorbers2.xml"/>
@@ -72,7 +70,7 @@
 
 	<import resource="../../../devices/dummy/s5_motors.xml"/>
 
-	<import resource="../../../devices/dummy/diffractometer_motors.xml"/>
+<!-- 	<import resource="../../../devices/dummy/diffractometer_motors.xml"/>
 
 	<import resource="../../../devices/dummy/robot_motors.xml"/>
 
@@ -81,12 +79,20 @@
 	<import resource="../../../devices/dummy/sample_stage_camera.xml"/>
 
 	<import resource="../../../devices/dummy/alignment_scope_motors.xml"/>
+ -->
+	<import resource="../../../devices/epics/sample_stage_motors.xml" />
+	<import resource="../../../devices/epics/table_motors.xml" />
+	<import resource="../../../devices/epics/camera_stage_motors.xml" />
 
-	<import resource="../../../devices/dummy/maxipix_tango.xml"/>
+
+
+	<import resource="../../../devices/dummy/pco1.xml"/>
 	
-	<!-- <import resource="../../../devices/dummy/pco1.xml"/> -->
-	
-	<import resource="../../../devices/dummy/pco2.xml"/>
+	<!-- Device required by tomography alignment -->
+	<import resource="../../../devices/dummy/cam1_motors.xml"/>
+	<import resource="../../../devices/dummy/ss1_motors.xml"/>
+	<import resource="../../../devices/dummy/t3_motors.xml"/>
+	<!--  <import resource="../../../devices/dummy/pco2.xml"/> -->
 	
 	<import resource="../common.xml"/>	
 	

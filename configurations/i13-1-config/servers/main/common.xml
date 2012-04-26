@@ -40,17 +40,26 @@
 				</bean>
 
 				<bean class="gda.data.metadata.EpicsMetadataEntry">
-					<property name="name" value="beamCurrent" />
+					<property name="name" value="instrument.source.current" />
 					<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
+				</bean>
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="instrument.source.energy" />
+					<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
 				</bean>
 
 				<bean class="gda.data.metadata.EpicsMetadataEntry">
-					<property name="name" value="facilityMode" />
+					<property name="name" value="facility.message" />
+					<property name="pvName" value="CS-CS-MSTAT-01:SCROLLM" />
+				</bean>
+
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="facility.mode" />
 					<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
 				</bean>
 
 				<bean class="gda.data.metadata.EpicsMetadataEntry">
-					<property name="name" value="fillMode" />
+					<property name="name" value="source.fillMode" />
 					<property name="pvName" value="LI-TI-MTGEN-01:MODE" />
 				</bean>
 
@@ -59,6 +68,9 @@
 				</bean>
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="visitid" />
+				</bean>
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="title" />
 				</bean>
 			</list>
 		</property>
@@ -159,6 +171,7 @@
 	<import resource="../../devices/sample_stage_t1.xml" />
 	<import resource="../../devices/s6.xml" />
 	<import resource="../../devices/sample_stage_camera.xml" />
+	<import resource="../../devices/moveable_camera.xml" />
 	<import resource="../../devices/s7.xml" />
 
 	<import resource="../../devices/alignment_scope.xml" />
@@ -203,18 +216,27 @@
 		</property>
 	</bean>
 	
+	<!-- See uk.ac.gda.exafs.ui.detector.DetectorEditor.EXAFS_SCRIPT_OBSERVER-->
+	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+
+	<!-- See gda.rcp.views.dashboard.SimpleScannableObject.DASHBOARD_OBSERVER -->
+	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+		
+    <bean class="uk.ac.gda.beans.BeansFactory">
+	    <property name="classList">
+	        <util:list>
+	           <value>uk.ac.gda.beans.vortex.VortexParameters</value>
+	        </util:list>
+	    </property>
+	</bean>		
+	
+	<import resource="../../devices/mll.xml"/>
+		
 	<import resource="jythonServerFacade.xml" />
 
 	<!-- corba export must be the final bean. Later beans are not exported via 
 		Corba -->
 
-	<!-- <bean id="theta_motor" class="gda.device.motor.DummyMotor"/> <bean 
-		id="theta" class="gda.device.scannable.ScannableMotor"> <property name="motor" 
-		ref="theta_motor" /> <property name="userUnits" value="Deg"/> </bean> <bean 
-		id="energy" class="gda.device.scannable.MonoScannable"> <property name="motorName" 
-		value="theta" /> <property name="crystalType" value="Si111" /> <property 
-		name="initialUserUnits" value="eV" /> <property name="motorUnitString" value="Deg" 
-		/> </bean> -->
 	<bean id="RCPController" class="gda.gui.RCPControllerImpl"/>
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/rcpController" />

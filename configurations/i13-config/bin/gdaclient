@@ -8,8 +8,6 @@ source /dls_sw/i13/etc/i13_profile.sh
 
 export JAVA_OPTS="$JAVA_OPTS -Dgda.mode=$GDAMODE"
 
-#export LD_LIBRARY_PATH=/dls_sw/i13/software/gda/plugins/uk.ac.gda.nexus/lib/linux-x86:/dls_sw/i13-1/software/gda/plugins/uk.ac.gda.core/lib/linux-x86
-
 if [ "$1" = "--clean" ]
 then
     echo "rf /scratch/.i13_workspace-$(whoami)"

@@ -70,6 +70,12 @@
 	</property>
 	</bean>
 
+	<import resource="tomoAlignment.xml"/>
+	<import resource="cam1.xml"/>
+	<import resource="pco.xml"/>
+	<import resource="ss1.xml"/>
+	<import resource="t3.xml"/>
+
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />
 		<constructor-arg index="1">

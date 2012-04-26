@@ -23,6 +23,8 @@
 		</property>
 		<property name="dummyMode" value="true"></property>
 	</bean>
+	
+	<import resource="../../../devices/mll.xml"/>	
 	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
 			<map>
@@ -81,6 +83,7 @@
 	<import resource="../../../devices/dummy/sample_stage_t1_motors.xml"/>
 	
 	<import resource="../../../devices/dummy/sample_stage_camera.xml"/>
+	<import resource="../../../devices/dummy/moveable_camera.xml"/>
 	
 	<import resource="../../../devices/dummy/s7_motors.xml"/>
 

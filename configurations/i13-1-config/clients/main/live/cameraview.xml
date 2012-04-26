@@ -10,7 +10,7 @@
 
 	<bean id="d1_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="D1 - Post Mirror  1"/>
-		<property name="mjpegURL" value="http://i13-1-motion01.diamond.ac.uk:8081/gige1.ffmpeg.mjpg" />
+		<property name="urlPV" value="BL13J-DI-PHDGN-01:FFMPEG:MJPG_URL_RBV" />
 		<property name="exposurePV" value="BL13J-DI-PHDGN-01:CAM:AcquireTime" />
 		<property name="acqPeriodPV" value="BL13J-DI-PHDGN-01:CAM:AcquirePeriod" />
 		<property name="gainPV" value="BL13J-DI-PHDGN-01:CAM:Gain" />
@@ -19,7 +19,7 @@
 	
 	<bean id="d2_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="D2 - Post Absorber 1"/>
-		<property name="mjpegURL" value="http://i13-1-motion01.diamond.ac.uk:8082/gige2.ffmpeg.mjpg" />
+		<property name="urlPV" value="BL13J-DI-PHDGN-02:FFMPEG:MJPG_URL_RBV" />
 		<property name="exposurePV" value="BL13J-DI-PHDGN-02:CAM:AcquireTime" />
 		<property name="acqPeriodPV" value="BL13J-DI-PHDGN-02:CAM:AcquirePeriod" />
 		<property name="gainPV" value="BL13J-DI-PHDGN-02:CAM:Gain" />
@@ -28,7 +28,7 @@
 
 	<bean id="d3_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="D3 - Post Slit 2"/>
-		<property name="mjpegURL" value="http://i13-1-motion01.diamond.ac.uk:8083/gige3.ffmpeg.mjpg" />
+		<property name="urlPV" value="BL13J-DI-PHDGN-03:FFMPEG:MJPG_URL_RBV" />
 		<property name="exposurePV" value="BL13J-DI-PHDGN-03:CAM:AcquireTime" />
 		<property name="acqPeriodPV" value="BL13J-DI-PHDGN-03:CAM:AcquirePeriod" />
 		<property name="gainPV" value="BL13J-DI-PHDGN-03:CAM:Gain" />
@@ -37,7 +37,7 @@
 
 	<bean id="shtr1_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="SHTR1 - Entry to QCM Hutch"/>
-		<property name="mjpegURL" value="http://i13-1-motion01.diamond.ac.uk:8084/gige4.ffmpeg.mjpg" />
+		<property name="urlPV" value="BL13J-DI-PHDGN-04:FFMPEG:MJPG_URL_RBV" />
 		<property name="exposurePV" value="BL13J-DI-PHDGN-04:CAM:AcquireTime" />
 		<property name="acqPeriodPV" value="BL13J-DI-PHDGN-04:CAM:AcquirePeriod" />
 		<property name="gainPV" value="BL13J-DI-PHDGN-04:CAM:Gain" />
@@ -46,7 +46,7 @@
 
 	<bean id="d4_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="D4 - Entry to Experiment Hutch"/>
-		<property name="mjpegURL" value="http://i13-1-motion01.diamond.ac.uk:8085/gige5.ffmpeg.mjpg" />
+		<property name="urlPV" value="BL13J-DI-PHDGN-05:FFMPEG:MJPG_URL_RBV" />
 		<property name="exposurePV" value="BL13J-DI-PHDGN-05:CAM:AcquireTime" />
 		<property name="acqPeriodPV" value="BL13J-DI-PHDGN-05:CAM:AcquirePeriod" />
 		<property name="gainPV" value="BL13J-DI-PHDGN-05:CAM:Gain" />
@@ -55,7 +55,7 @@
 	
 	<bean id="d5_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="D5 - Sample Stage"/>
-		<property name="mjpegURL" value="http://i13-1-motion01.diamond.ac.uk:8089/gige6.ffmpeg.mjpg" />
+		<property name="urlPV" value="BL13J-DI-PHDGN-06:FFMPEG:MJPG_URL_RBV" />
 		<property name="exposurePV" value="BL13J-DI-PHDGN-06:CAM:AcquireTime" />
 		<property name="acqPeriodPV" value="BL13J-DI-PHDGN-06:CAM:AcquirePeriod" />
 		<property name="gainPV" value="BL13J-DI-PHDGN-06:CAM:Gain" />
@@ -64,11 +64,20 @@
 
 	<bean id="pco_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="PCO"/>
-		<property name="mjpegURL" value="http://i13-1-pco4000-1.diamond.ac.uk:8080/pco1.mpeg.mjpg" />
+		<property name="urlPV" value="BL13J-EA-DET-01:MPEG:MJPG_URL_RBV" />
 		<property name="exposurePV" value="BL13J-EA-DET-01:CAM:AcquireTime" />
 		<property name="acqPeriodPV" value="BL13J-EA-DET-01:CAM:AcquirePeriod" />
 		<property name="gainPV" value="BL13J-EA-DET-01:CAM:Gain" />
 		<property name="acquirePV" value="BL13J-EA-DET-01:CAM:Acquire" />
+	</bean>
+
+	<bean id="moveable_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="Moveable Camera"/>
+		<property name="urlPV" value="BL13J-OP-FLOAT-01:FFMPEG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL13J-OP-FLOAT-01:CAM:AcquireTime" />
+		<property name="acqPeriodPV" value="BL13J-OP-FLOAT-01:CAM:AcquirePeriod" />
+		<property name="gainPV" value="BL13J-OP-FLOAT-01:CAM:Gain" />
+		<property name="acquirePV" value="BL13J-OP-FLOAT-01:CAM:Acquire" />
 	</bean>
 
 	<bean id="axis_186_config" class="uk.ac.gda.video.views.CameraParameters">
@@ -87,6 +96,7 @@
 				<ref bean= "d4_cam_config"/>
 				<ref bean= "d5_cam_config"/>
 				<ref bean= "pco_cam_config"/>
+				<ref bean= "moveable_cam_config"/>
 				<ref bean= "axis_186_config"/>
 			</list>
 		</property>

@@ -153,7 +153,7 @@ To take an image from the maxipix detector:
     (To change use a command of the form: beammonitor.minimumThreshold = .1)
     
     
-
+13. repscan 10 random_move_scannable.CreateRandomMoveScannable(ix, [(0,10)]) 1 ix iy
     
 """
 

@@ -11,10 +11,9 @@
 	
 
 
-	<bean id="pco1_ad_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
+	<bean id="pco1_tif_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
 		<property name="processors">
 			<list>
-				<ref bean="cam_ad_processor" />
 				<ref bean="cam_ad_filename_processor" />
 			</list>
 		</property>
@@ -22,8 +21,8 @@
 
 
 	<bean id="pco1" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector" ref="pco1_ad" />
-		<property name="processor" ref="pco1_ad_processors" />
+		<property name="detector" ref="pco1_tif" />
+		<property name="processor" ref="pco1_tif_processors" />
 		<property name="mergeWithDetectorData" value="true"/>
 	</bean>	
 

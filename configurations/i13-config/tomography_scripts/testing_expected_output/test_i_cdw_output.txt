@@ -1,0 +1,10 @@
+Using first chunk 1 and last chunk 16
+Settings folder will be : sino_output/sino_testing_files 
+JOB NAME IS f_chunk_sn__testing_pid
+
+using input file format p_%05d.tif
+
+Checking for input directory . 
+Timeout: 10 seconds
+Input directory . found....
+Exiting after creating chunkscript file

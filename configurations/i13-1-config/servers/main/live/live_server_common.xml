@@ -86,6 +86,7 @@
 	<import resource="../../../devices/epics/sample_stage_t1_motors.xml"/>
 
 	<import resource="../../../devices/epics/sample_stage_camera.xml"/>
+	<import resource="../../../devices/epics/moveable_camera.xml"/>
 	
 	<import resource="../../../devices/epics/s7_motors.xml"/>
 
@@ -95,6 +96,7 @@
 	
 	<import resource="../../../devices/epics/detector_stage_t2_motors.xml"/>
 
+	<import resource="../../../devices/epics/mll.xml"/>
 	<import resource="../common.xml"/>	
 
 <!--Not present 

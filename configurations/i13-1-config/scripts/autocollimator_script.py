@@ -33,6 +33,8 @@ class AutoCollimator(ScannableMotionBase):
         res.append(self.acoll.acoll_average_size())
         vals = self.acoll.getPosition()
         for val in vals:
+            if `val` == "nan":
+                val = 99999.
             res.append(val)
         return res
 
