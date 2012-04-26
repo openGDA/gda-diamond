@@ -24,17 +24,16 @@ nperseg=0
 infmt="p_%05d.tif"
 
 
-def errprint(message="none"):
-   print "errprint"
-   print "sino_listener.py: %s" % (message)
+def errprint(out, message="none"):
+   out.write ("errprint")
+   out.write ( "sino_listener.py: %s" % (message))
 
-def vprint(message):
+def vprint(out, message):
     global vflag
     if vflag:
-        print  message
+        out.write (message)
 
-
-def usage():
+def usage(out):
    svnstring="$Id: sino_listener.py 232 2012-04-11 13:21:04Z kny48981 $"
    global interval
    global infmt
@@ -48,36 +47,36 @@ def usage():
    global nperseg
    global nproj
    global chunk_ht
-   print("%s version %s" %(sys.argv[0],svnstring))
-   print("Usage:")
-   print(sys.argv[0])
-   print ("-i input dir (currently: projections)")
-   print ("-o output dir (currently: sinograms)")
-   print ("-p number of projections (currently %i )" % nperseg)
-   print ("    NOT automatically determined!")
-   print ("-w width (currently %i )" % wd)
-   print ("-l length (height) of the image(currently %i)" % ht)
-   print ("-F number of first chunk (currently %i) " % firstchunk)
-   print ("-L number of last chunk (currently same as number of chunks) " )
-   print ("-n total number chunks (currently %i) " % nchunks)
-   print ("-J job hame ")
-   print ("-j suffix of job name ")
-   #print ("-E use existing data (bypassing epics)")
-   #print ("-d Delete temporary files")
-   print ("-b bytes per pixel (currently 2)")
-   print ("-s number of segments (currently 1) ")
-   #print ("-T convert to Tiff")
-   print ("-Z timeout (currently %i)" % lt)
-   print ("-z check interval (currently %i)" % interval )
-   print ("-Q queue (currently medium.q) ")
-   print ("-U Unique ID (currently use PID) ")
-   print ("-I input filename format (C printf style) (currently %s) " % infmt)
-   print ("-1 start numbering of input files from 1 instead of 0 ")
+   out.write("Version %s" %(svnstring))
+   out.write("Usage:")
+   out.write(sys.argv[0])
+   out.write ("-i input dir (currently: projections)")
+   out.write ("-o output dir (currently: sinograms)")
+   out.write ("-p number of projections (currently %i )" % nperseg)
+   out.write ("    NOT automatically determined!")
+   out.write ("-w width (currently %i )" % wd)
+   out.write ("-l length (height) of the image(currently %i)" % ht)
+   out.write ("-F number of first chunk (currently %i) " % firstchunk)
+   out.write ("-L number of last chunk (currently same as number of chunks) " )
+   out.write ("-n total number chunks (currently %i) " % nchunks)
+   out.write ("-J job hame ")
+   out.write ("-j suffix of job name ")
+   #out.write ("-E use existing data (bypassing epics)")
+   #out.write ("-d Delete temporary files")
+   out.write ("-b bytes per pixel (currently 2)")
+   out.write ("-s number of segments (currently 1) ")
+   #out.write ("-T convert to Tiff")
+   out.write ("-Z timeout (currently %i)" % lt)
+   out.write ("-z check interval (currently %i)" % interval )
+   out.write ("-Q queue (currently medium.q) ")
+   out.write ("-U Unique ID (currently use PID) ")
+   out.write ("-I input filename format (C out.writef style) (currently %s) " % infmt)
+   out.write ("-1 start numbering of input files from 1 instead of 0 ")
+   out.write ("-t do nothing. Just create the bash script file")
    
 
 
-def main():
-   print "Entering main"
+def main(argv, out=sys.stdout, err=sys.stderr ):
    global chunk_ht
    global firstchunk
    global ht
@@ -89,6 +88,7 @@ def main():
    global nperseg
    global nproj
    global vflag
+   global testing # if true just produce the basj script file
    global wd
    uniqueflag=False
    inflag=False
@@ -98,6 +98,7 @@ def main():
    delflag=False
    tifflag=False
    vflag=False
+   testing=False
    pstrings=['p','f','a']
    pnums=[0,0,0]
    pidnums=[]
@@ -122,27 +123,26 @@ def main():
    cropleft=0
    cropright=0
    hflag=0
-   if (len(sys.argv) < 2):
+   if (len(argv) < 2):
       hflag=1
-
 
    Wflag=0
    try:                                
-      opts, args = getopt.gnu_getopt(sys.argv[1:],  "1U:O:C:EGI:J:N:R:S:T:Z:b:cF:L:hi:j:l:n:o:p:s:vw:xz:Q:W:")
+      opts, args = getopt.gnu_getopt(argv[1:],  "1U:O:C:EGI:J:N:R:S:T:Z:b:cF:L:hi:j:l:n:o:p:s:vw:xz:Q:W:t")
    except getopt.GetoptError, err:           
-      errprint ("Option parsing error")
-      errprint ("Command line values: %s" % (sys.argv))
-      errprint("Message is %s" % (str(err))) 
+      errprint (out, "Option parsing error")
+      errprint (out, "Command line values: %s" % (argv[1:]))
+      errprint(out, "Message is %s" % (str(err))) 
 
 
-      usage()                          
-      sys.exit(2)                     
+      usage(out)                          
+      raise Exception("Invalid usage")                     
    if not (len(args) == 0 ):
-      errprint ("Option parsing error")
-      errprint ("Command line values: %s" % (sys.argv))
-      errprint("This program should not have non-flagged arguments") 
-      print "unrecognized arguments: ", args
-      print opts, args
+      errprint (out, "Option parsing error")
+      errprint (out, "Command line values: %s" % (argv[1:]))
+      errprint(out, "This program should not have non-flagged arguments") 
+      out.write ("unrecognized arguments: " + `args`)
+      out.write ( `opts` + `args`)
       sys.exit(2)
 
    for o,a in opts:
@@ -200,44 +200,46 @@ def main():
           interval=int(a)
       elif o == "-v":
           vflag=True
+      elif o == "-t":
+          testing=True
       else:
-           errprint ("Ignored option")
-           errprint ("option %s value %s" % (o,a))
-           #usage()
-           #sys.exit(2)
-#   if ( not (inflag and outflag)):
-#      errprint("Input and Output directories must be specified")
-#      usage()
-#      sys.exit(3)
+           errprint (out, "Ignored option")
+           errprint (out, "option %s value %s" % (o,a))
 
-   # How to handle the last chunk?
-   #for now we assume all chunks are the same height
+   if (len(argv) ==2 and testing):
+      hflag=1
 
    if (hflag):
-      usage()
-      sys.exit(0)
-
+      usage(out)
+      return
 
    if (uniqueflag):
       mypid=uniqueid
    else:
-      mypid=os.getpid()
+      if testing:
+          mypid="testing_pid"
+      else:
+          mypid=os.getpid()
 
    if (lastflag):
-      print("Selecting last chunk to process: %i " % lastchunk )
+      out.write("Selecting last chunk to process: %i " % lastchunk )
    else:
       lastchunk=nchunks
 
-   print ("Using first chunk %i and last chunk %i") %(firstchunk,lastchunk)
+   out.write ("Using first chunk %i and last chunk %i" %(firstchunk,lastchunk))
 
-   tstamp=time.strftime("%Y_%m%d_%H%M%S")
+   
 
 
    jobname="%s_sn_%s_%s" %(jobbasename,jobsuffix,mypid)
 
    settingsbase="sino_output"
-   settingsfolder="%s/sino_%s_files" % (settingsbase,tstamp)
-   print "Settings folder will be : %s " % settingsfolder
+   if testing:
+       tstamp = "testing"
+   else:
+       tstamp=time.strftime("%Y_%m%d_%H%M%S")
+   settingsfolder="%s/sino_%s_files" % (settingsbase, tstamp)
+   out.write ("Settings folder will be : %s " % settingsfolder)
    nproj=nperseg*nsegs
 
    chunk_ht = ht/nchunks
@@ -252,14 +254,14 @@ def main():
 
    projrange=range(0,nproj)
    sinorange=range(0,chunk_ht)
-   vprint ("ht %i chunk_ht: %i " % (ht, chunk_ht))
-   vprint (sinorange)
+   vprint(out,"ht %i chunk_ht: %i " % (ht, chunk_ht))
+   vprint(out,sinorange)
    finishname="f_%s" % jobname
-   print("JOB NAME IS %s\n") % finishname
-   print("using input file format %s\n") % infmt
+   out.write("JOB NAME IS %s\n" % finishname)
+   out.write("using input file format %s\n" % infmt)
 
 #check folder for the project 
-   print "Checking for input directory %s \nTimeout: %i seconds" % (indir,lt)
+   out.write ("Checking for input directory %s \nTimeout: %i seconds" % (indir,lt))
    wtime=0
    found=0
    #wait for the directory to appear
@@ -267,22 +269,22 @@ def main():
       if not ( os.access (indir, os.F_OK)):
          wtime += interval
          time.sleep(interval)
-         print "." 
+         out.write (".") 
       else:
          found=1
    #exit if it times out
    if not (os.access (indir, os.F_OK)):
-         errprint ("Input directory %s is not available after %i seconds!" % (indir,wtime))
+         errprint (out, "Input directory %s is not available after %i seconds!" % (indir,wtime))
          sys.exit(5)
    else:
-      print "Input directory %s found...." % indir
+      out.write ("Input directory %s found...." % indir)
 
 #locate or create the output folders
    if not(os.access (settingsbase,os.F_OK)):
       os.mkdir(settingsbase)
 
    if not(os.access (settingsfolder,os.F_OK)):
-      print "creating %s" % settingsfolder
+      out.write ("creating %s" % settingsfolder)
       os.mkdir(settingsfolder)
 
    #create the queue bash script for the queue task array
@@ -293,13 +295,13 @@ def main():
    finishscript="%s/finishchunk.qsh" % settingsfolder
    chunkprogram="sino_chunk_tiff_new.q"
    chunkflags="-i %s -o %s -w %i -l %i -z %i  -Z %i  -s %i -p %i -b %i %s -S %s -I %s -T %i -R %i %s " % (indir,outdir,wd,chunk_ht,interval,lt,nsegs,nperseg,bytes,existflag,settingsfolder,infmt,cropleft,cropright,idxflag) 
-   vprint("Creating the queue script: %s" % chunkscript)
-   vprint("Using : %s" % chunkprogram)
+   vprint(out,"Creating the queue script: %s" % chunkscript)
+   vprint(out,"Using : %s" % chunkprogram)
 
-   sys.stdout = open(chunkscript,"w")
+   chunkscriptOut = open(chunkscript,"w")
 
    #output the introductory script section
-   print("""\
+   chunkscriptOut.write("""\
 #!/bin/bash 
 set -x
 
@@ -311,22 +313,18 @@ mytask=$SGE_TASK_ID
 """) 
 
    #set the unique identifier value
-   print("""\
-mypid=%s
-""") % mypid
+   chunkscriptOut.write("""mypid=%s""" % mypid)
 
    #set the output folder
-   print("""\
-odir=%s
-""") % outdir
+   chunkscriptOut.write("""odir=%s""" % outdir)
 
    #check folder existance
-   print("""\
+   chunkscriptOut.write("""\
 if [[ ! -e $odir ]]
 then
 mkdir -p $odir
 fi
-mynum=`printf "%%03d" $mytask`
+mynum=`out.writef "%%03d" $mytask`
 
 echo PATH is $PATH
 
@@ -338,28 +336,32 @@ echo PATH is $PATH
 """) 
 
    #assemble the command line that actually does the task
-   print("""\
+   chunkscriptOut.write("""\
 %s %s -m $mytask  -v -J %s${myjob}_t${mytask}
-""") % (chunkprogram,chunkflags,jobname)
+""" % (chunkprogram,chunkflags,jobname) )
 
    #check for error in return value
-   print("""\
+   chunkscriptOut.write("""\
 retval=$?
 if [[ retval -ne 0 ]]
 then
   echo -e "job $myjob task $mytask return-value $retval\\n" >> %s/error_$mypid.txt  
 fi
-""") % settingsfolder
+""" % settingsfolder)
 
 #end of the queue script text
-   sys.stdout.flush()
-   sys.stdout=sys.__stdout__
+   chunkscriptOut.flush()
+   
+   if testing:
+       out.write( "Exiting after creating chunkscript file")
+       return
+   
 
 
-   vprint("Creating the finishing script: %s" % finishscript)
+   vprint(out,"Creating the finishing script: %s" % finishscript)
 
-   sys.stdout = open(finishscript,"w")
-   print("""\
+   finishscriptOut = open(finishscript,"w")
+   finishscriptOut.write("""\
 #!/bin/bash 
 set -x
 
@@ -371,14 +373,14 @@ myjob=$JOB_ID
 mytask=$SGE_TASK_ID
 mypid=%s
 jjname="%s"
-""") % (mypid,jobbasename)
+""" % (mypid,jobbasename) )
 
-   print("""\
+   finishscriptOut.write("""\
 ffolder="${jjname}_files"
 errfile=%s/error_$mypid.txt
-""") % settingsfolder
+""" % settingsfolder )
 
-   print("""\
+   finishscriptOut.write("""\
 if [[ -e $errfile ]]
 then
 errtxt=`cat $errfile`
@@ -403,18 +405,17 @@ fi
 #mv ${jjname}_sino* ${ffolder}/job${myjob}
 
 mv *.trace %s
-""") % settingsfolder
+""" % settingsfolder )
 
 #end of the finish script text
-   sys.stdout.flush()
-   sys.stdout=sys.__stdout__
+   finishscriptOut.flush()
 
 
 
    #set the queue environment
    qenviron=os.environ
-   vprint (len(qenviron))
-   vprint (qenviron.items())
+   vprint(out,len(qenviron))
+   vprint(out,qenviron.items())
    oldpath=""
    try :
       oldpath = qenviron["PATH"]
@@ -429,49 +430,142 @@ mv *.trace %s
    qenviron["SGE_QMASTER_PORT"]="60000"
    qenviron["SGE_ROOT"]="/dls_sw/apps/sge/SGE6.2"
    qenviron["PATH"]=newpath
-   vprint (len(qenviron))
-   vprint (qenviron.items())
+   vprint(out,len(qenviron))
+   vprint(out,qenviron.items())
    pyerr=open("%s/sino_listener_stderr_%s.txt" % (settingsfolder,jobname) ,"w")
    pyout=open("%s/sino_listener_stdout_%s.txt" % (settingsfolder,jobname) ,"w")
    pyenv_o=open("%s/python_stdout_%s.txt" % (settingsfolder,jobname),"w")
    pyenv_e=open("%s/python_stderr_%s.txt" % (settingsfolder,jobname),"w")
 
    try:
-         print ("Spawning the sinogram job ... ")
+         out.write ("Spawning the sinogram job ... ")
          if (vflag):
             subprocess.Popen("env",env=qenviron,shell=False,stdout=pyenv_o,stderr=pyenv_e)
-            print qenviron
+            out.write (qenviron)
          if (Wflag):
             thispid=os.spawnlpe(os.P_WAIT,"qsub","qsub", "-P","i12","-e",settingsfolder, "-o", settingsfolder, "-q",myqueue,"-N",jobname,"-hold_jid",mywait,"-cwd","-pe","smp","4","-t","%i-%i" % (firstchunk,lastchunk),chunkscript, qenviron)
          else:
             thispid=os.spawnlpe(os.P_WAIT,"qsub","qsub", "-P","i12","-e",settingsfolder, "-o", settingsfolder, "-q",myqueue,"-N",jobname,"-cwd","-pe","smp","4","-t","%i-%i" % (firstchunk,lastchunk),chunkscript, qenviron)
          #thispid=os.spawnlpe(os.P_WAIT,"qsub","qsub", "-e",settingsfolder, "-o", settingsfolder, "-q",myqueue,"-N",jobname,"-cwd","-t","%i-%i" % (firstchunk,lastchunk),chunkscript, qenviron)
-         print ("return value was %s" % thispid)
+         out.write ("return value was %s" % thispid)
    except:
-         print ("ERROR Spawning the sinogram job didn't work")
+         out.write ("ERROR Spawning the sinogram job didn't work")
          pyerr.close()
          pyout.close()
          pyenv_o.close()
          pyenv_e.close()
-         sys.exit(147)
+         raise Exception(147)
 
    try:
-         print ("Spawning the sinogram finishing job ... ")
+         out.write ("Spawning the sinogram finishing job ... ")
          thispid=os.spawnlpe(os.P_WAIT,"qsub","qsub","-P","i12","-e",settingsfolder,"-o",settingsfolder,"-q","high.q","-hold_jid",jobname,"-N",finishname,finishscript,qenviron)
-         print ("return value was %s" % thispid)
+         out.write ("return value was %s" % thispid)
 
    except:
-         print ("Spawning the sinogram finishing job didn't work")
+         out.write ("Spawning the sinogram finishing job didn't work")
          pyerr.close()
          pyout.close()
-         sys.exit(148)
+         raise Exception(148)
 
    pyerr.close()
    pyout.close()
 
-   sys.exit(0)
+   return
    
 
 if __name__ == "__main__":
-      print "Running main"
-      main()
+      main(sys.argv)
+
+import math
+import unittest
+
+class Test1(unittest.TestCase):
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_noArgs(self):
+        (out, err,  errFileName, outputFileName) = self.outAndErr("test_noArgs")
+        main(["program"], out=writer_newline(out), err=writer_newline(err))
+        out.close()
+        err.close()
+        self.checkFilesMatch("expected_usage.txt", outputFileName )
+        self.checkFilesMatch("empty.txt" , errFileName)
+
+    def test_testing(self):
+        (out, err,  errFileName, outputFileName) = self.outAndErr("test_testing")
+        main(["program","-t"], out=writer_newline(out), err=writer_newline(err))
+        out.close()
+        err.close()
+        self.checkFilesMatch("expected_usage.txt", outputFileName)
+        self.checkFilesMatch( "empty.txt", errFileName)
+
+    def test_help(self):
+        (out, err, errFileName, outputFileName) = self.outAndErr("test_help")
+        main(["program","-h"], out=writer_newline(out), err=writer_newline(err))
+        out.close()
+        err.close()
+        self.checkFilesMatch( "expected_usage.txt", outputFileName)
+        self.checkFilesMatch("empty.txt", errFileName)
+
+    def test_i_no_parameter(self):
+        (out, err, errFileName, outputFileName) = self.outAndErr("test_i_no_parameter")
+        try:
+            main(["program","-i"], out=writer_newline(out), err=writer_newline(err))
+        except Exception, ex:
+           self.assertEquals('Invalid usage', str(ex))             
+        out.close()
+        err.close()
+        self.checkFilesMatch(outputFileName, outputFileName)
+        self.checkFilesMatch("empty.txt", errFileName)
+
+    def test_i_cdw(self):
+        (out, err, errFileName, outputFileName) = self.outAndErr("test_i_cdw")
+        main(["program","-i",".","-t"], out=writer_newline(out), err=writer_newline(err))
+        out.close()
+        err.close()
+        self.checkFilesMatch(outputFileName, outputFileName)
+        self.checkFilesMatch("empty.txt", errFileName)
+    
+    def outAndErr(self,testName):
+        outputFileName = testName + "_output.txt"
+        errFileName = testName + "_err.txt"
+        out=open( "testing_actual_output" + '/' + outputFileName,"w")
+        err=open( "testing_actual_output" + '/' + errFileName,"w")
+        return (out, err, errFileName, outputFileName)
+
+    def checkFilesMatch(self, expectedFilePath, actualFilePath):
+        expectedFilePath = "testing_expected_output" + '/' + expectedFilePath
+        actualFilePath = "testing_actual_output" + '/' + actualFilePath
+        f = open(actualFilePath)
+        linesActual =  f.readlines()
+        f.close
+        f = open(expectedFilePath)
+        linesExpected =  f.readlines()
+        f.close
+        lastIndexToCompare = min(len(linesActual), len(linesExpected) ) 
+        for i in range(lastIndexToCompare):
+            self.assertEqual(linesActual[i], linesExpected[i])
+        if len(linesExpected) == len(linesActual):
+            return
+        extraLines = []
+        if lastIndexToCompare == len(linesActual):
+            extraLines = linesExpected[lastIndexToCompare:]
+        else:
+            extraLines = linesActual[lastIndexToCompare:]
+        self.assertEqual("",`extraLines`)
+        
+            
+        
+class writer_newline:
+    def __init__(self, pipe):
+        self.pipe = pipe
+    def write(self, msg):
+        self.pipe.write(msg)
+        self.pipe.write("\n")
+        self.pipe.flush()
+
+def suite():
+    return unittest.TestSuite(( unittest.TestLoader().loadTestsFromTestCase(Test1)))
