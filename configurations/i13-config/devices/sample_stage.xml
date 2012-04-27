@@ -20,6 +20,12 @@
 	<bean id="ss1_Z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ss1_Z_motor" />
 	</bean>
+	<bean id="ss1_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1_pitch_motor" />
+	</bean>
+	<bean id="ss1_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1_roll_motor" />
+	</bean>
 	
 
 	<bean id="ss1_samplex" class="gda.device.scannable.ScannableMotor">

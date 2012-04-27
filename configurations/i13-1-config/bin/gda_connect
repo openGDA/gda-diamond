@@ -1,9 +1,10 @@
 #!/bin/bash
-PS3="Select the PC to which you wish to connect: "
+PS3="?Select the PC to which you wish to connect: "
 select event in PCO4000_ToStartIOC PCO4000_AsYourself
 do
     case "$event" in
-      PCO4000_ToStartIOC  ) IPADDR=i13-1-pco4000-1.diamond.ac.uk;RES=1280x1024;USER=i13detector;DOMAIN=Diamond;PWD=!i13d3t3ct0r#;;
+#      PCO4000_ToStartIOC  ) IPADDR=i13-1-pco4000-1.diamond.ac.uk;RES=1280x1024;USER=i13detector;DOMAIN=Diamond;PWD=!i13d3t3ct0r#;;
+      PCO4000_ToStartIOC  ) IPADDR=i13-1-pco4000-1.diamond.ac.uk;RES=1280x1024;USER=i13-1detector;DOMAIN=Diamond;PWD=!i13-1d3t3ct0r#;;
       PCO4000_AsYourself  ) IPADDR=i13-1-pco4000-1.diamond.ac.uk;RES=1280x1024;USER=user;DOMAIN=CLRC;PWD=pwd;;
       *                   )  echo "Invalid selection";exit 1;;
     esac

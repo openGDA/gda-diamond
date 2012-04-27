@@ -72,11 +72,15 @@
 		<property name="acquirePV" value="BL13I-EA-DET-01:CAM:Acquire" />
 	</bean>
 
-<!-- 	<bean id="axis_186_config" class="uk.ac.gda.video.views.CameraParameters">
-		<property name="name" value="AXIS_186"/>
-		<property name="mjpegURL" value="http://172.23.82.186/mjpg/video.mjpg" />
+ 	<bean id="WebCam_Middle" class="uk.ac.gda.video.views.CameraParameters">
+		<property name="name" value="WebCam Middle"/>
+		<property name="mjpegURL" value="http://172.23.113.196/mjpg/video.mjpg" />
 	</bean>
- -->
+	<!-- requires anonymous viewer login -->
+ 	<bean id="WebCam_DownStream" class="uk.ac.gda.video.views.CameraParameters">
+		<property name="name" value="WebCam DownStream"/>
+		<property name="mjpegURL" value="http://172.23.113.195/mjpg/video.mjpg" />
+	</bean>
 
 	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
 		<property name="cameras">
@@ -88,8 +92,9 @@
 				<ref bean= "shtr1_cam_config"/>
 				<ref bean= "d5_cam_config"/>
 				<ref bean= "pco_cam_config"/>
-<!-- 				<ref bean= "axis_186_config"/>
- -->			</list>
+				<ref bean= "WebCam_Middle"/>
+				<ref bean= "WebCam_DownStream"/>
+			</list>
 		</property>
 		<property name="plotViewID" value="uk.ac.gda.beamline.i13i.DetectorPlot"/>
 	</bean>

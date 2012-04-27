@@ -15,163 +15,9 @@ from gdascripts.parameters import beamline_parameters
 from gdascripts.messages import handle_messages
 from gda.device.scannable import ScannableBase
 from gda.device.detector import DetectorBase
-#from gda.device.detector.pco import PCODetector
-#pco1 = globals()["pco"]
-
-#print "Generating simple scan"
-
-#try:
-#    print "Deleting hdfpco wrapper"
-#    del hdfpco #@UndefinedVariable
-#    print "Deleting hdfpco wrapper complete"
-
-#except:
-#    print "Cannot delete hdfpco wrapper, it does not exist yet"
-#finally:
-#    sleep(2)
-#    hdfpco=PCODetectorWrapper("hdfpco", pco) #@UndefinedVariable
-
-class DummyCamera(DetectorBase):
-    def __init__(self,name):
-        self.name = name
-        self.exposureTime=0
-        self.fileNumber=0
-        self.numberOfDarkImages=0;
-        self.fullFilename="test_filename"
-        self.numberOfFlatImages = 0
-        self.flatset = 0
-        self.numImagesPerPoint=0
-        self.numberOfImageToCapture=0
-    def log(self, msg):
-        handle_messages("DummyCamera:" + msg)
-        
-    def setCollectionTime(self,exposureTime):
-        self.exposureTime=exposureTime
-
-    def resetFileNumber(self):
-        self.fileNumber=0
-        
-    def collectDarkSet(self, numberOfDarkImages):
-        self.numberOfDarkImages = numberOfDarkImages
-
-    def getFullFilename(self):
-        return self.fullFilename
-
-    def collectFlatSet(self,numberOfFlatImages, flatset):
-        self.numberOfFlatImages = numberOfFlatImages
-        self.flatset = flatset
-
-    def setNumImagesPerPoint(self, numImagesPerPoint):
-        self.numImagesPerPoint = numImagesPerPoint
-
-    def setNumberOfImageToCapture(self, numberOfImageToCapture):
-        self.numberOfImageToCapture = numberOfImageToCapture
-        
-class DummyScannable(ScannableBase):
-    def __init__(self, name):
-        self.name = name
-        self.inputNames = [name]
-        self.pos=0
-    def isBusy(self):
-        return False
-    def rawAsynchronousMoveTo(self,new_position):
-        self.pos = new_position
-    def rawGetPosition(self):
-        return self.pos         
-
-
-
-
-def testOfTomographyScan():
-    tomographyScan(numberOfProjections=10,
-                   exposureTime=2.,
-                   flatFieldTranslationDistance=-100.0, #@UndefinedVariable
-                   camera=DummyCamera("dummyCamera"),  
-                   numImagesPerPoint=2,
-                   flatFieldTranslation=DummyScannable("flatFieldTranslation"),
-                   numberOfFlatImages=10, 
-                   fastScanScannable=DummyScannable("dummyFastScannable"),
-                   shutterScannable=DummyScannable("dummyScannable"),
-                   startAngle=0.0, 
-                   endAngle=180.0,
-                   numberOfDarkImages=10,
-                   theta_motor=DummyScannable("dummyThetaMotor"))
-
-def tomographyScan(numberOfProjections,
-                   exposureTime,
-                   flatFieldTranslationDistance, #@UndefinedVariable
-                   camera,#=hdfpco, 
-                   flatFieldTranslation,#=ss1.x, #@UndefinedVariable
-                   numberOfFlatImages, 
-                   shutterScannable, #@UndefinedVariable
-                   fastScanScannable, #=fastscan, 
-                   numberOfDarkImages,
-                   theta_motor, #=ss1.theta,
-                   numImagesPerPoint=1,
-                   startAngle=0., 
-                   endAngle=180.
-                   ): #@UndefinedVariable
-    print "running tomography scan"
-    print "inputed parameters are:"
-    print "rotation stage to scan is %s" % theta_motor
-    print "scan Range = (%g,%g)" %(startAngle, endAngle)
-    print "total number of projections = %d" % numberOfProjections
-    print "camera is %s" % camera
-    print "camera exposure time = %g" %(exposureTime)
-    print "number of images per projection = %d" % numImagesPerPoint
-    print "Sample translation stage is %s" % flatFieldTranslation
-    print "Sample translation distance is %g" % flatFieldTranslationDistance
-    print "Number of flat images to collect = %d" % numberOfFlatImages
-    print "Number of dark images to collect = %d" %(numberOfDarkImages)
-    
-    camera.setCollectionTime(exposureTime)
-    camera.resetFileNumber();
-    # dark field collection 
-    print("****** Collecting Dark Images ******") 
-    print("******** Closing the shutter") 
-    shutterScannable.moveTo(1) # close the shutter
-    sleep(5)
-    camera.collectDarkSet(numberOfDarkImages)
-    print("******** Opening the shutter") 
-    shutterScannable.moveTo(0) # Open the shutter
-    darkfilename=camera.getFullFilename()
-    print "Dark field collected     :  %s" % darkfilename
-    sleep(5)
-    
-    # flat field collection
-    print("****** Collecting First set of Flat Images ******") 
-    sleep(2)
-    flatFieldPosition = flatFieldTranslation() # translate the sample
-    inc([flatFieldTranslation, flatFieldTranslationDistance])
-    camera.collectFlatSet(numberOfFlatImages, 1)
-    pos([flatFieldTranslation, flatFieldPosition]) # translate the sample back
-    flatfilename1=camera.getFullFilename()
-    print "Pre Flat field collected :  %s" % flatfilename1
-    # tomography projection collection scan
-    print("****** Collecting Tomography data ******") 
-    sleep(2)
-    stepSize = (endAngle - startAngle) / numberOfProjections # calculate size of steps
-    camera.setNumImagesPerPoint(numImagesPerPoint)
-    camera.setNumberOfImageToCapture(numberOfProjections*numImagesPerPoint)
-    scan_args = [theta_motor,startAngle,endAngle,stepSize,camera,exposureTime]
-    if fastScanScannable != None:
-        scan_args.append(fastScanScannable)
-    print scan_args
-    scan(scan_args)
-    tomoimages=camera.getFullFilename()
-    print "Tomo Images collected    :  %s" % tomoimages
-    # flat field collection
-    print("****** Collecting second set of Flat Images ******") 
-    sleep(2)
-    flatFieldPosition = flatFieldTranslation() # translate the sample
-    inc([flatFieldTranslation, flatFieldTranslationDistance])
-    camera.collectFlatSet(numberOfFlatImages, 2)
-    pos([flatFieldTranslation, flatFieldPosition]) # translate the sample back
-    flatfilename2=camera.getFullFilename()
-    print "Post Flat field collected:  %s" % flatfilename2
-    print "******* Tomography Complete *******"
-    
-
+from gda.scan import ScanPositionProvider
+from gda.device.scannable import ScannableBase, ScannableUtils
+from gda.device.scannable.scannablegroup import ScannableGroup
 
 class EnumPositionerDelegateScannable(ScannableBase):
     def __init__(self, name, delegate):
@@ -191,9 +37,6 @@ class EnumPositionerDelegateScannable(ScannableBase):
             return 1 
         return 0
 
-    
-from gda.device.scannable import ScannableBase, ScannableUtils
-from gda.device.scannable.scannablegroup import ScannableGroup
 def make_tomoScanDevice(tomography_theta, tomography_shutter, tomography_translation, 
                         tomography_imageIndex):
     tomoScanDevice = ScannableGroup()
@@ -205,14 +48,40 @@ def make_tomoScanDevice(tomography_theta, tomography_shutter, tomography_transla
     tomoScanDevice.configure()
     return tomoScanDevice
 
+
+class   tomoScan_positions(ScanPositionProvider):
+    def __init__(self, step, darkFieldInterval, flatFieldInterval,
+             inBeamPosition, outOfBeamPosition, points):
+        self.step = step
+        self.darkFieldInterval = darkFieldInterval
+        self.flatFieldInterval = flatFieldInterval
+        self.inBeamPosition = inBeamPosition
+        self.outOfBeamPosition = outOfBeamPosition
+        self.points = points
+
+    def get(self, index):
+        return self.points[index]
+    
+    def size(self):
+        return len(self.points)
+    
+    def __str__(self):
+        return "Step: %f Darks every:%d Flats every:%d InBeamPosition:%f OutOfBeamPosition:%f numImages %d" % \
+            ( self.step,self.darkFieldInterval,self.flatFieldInterval, self.inBeamPosition, self.outOfBeamPosition, self.size() ) 
+    def toString(self):
+        return self.__str__()
+
 from gda.device.scannable import SimpleScannable
 
 """
 perform a simple tomogrpahy scan
 """
 def tomoScan(step, darkFieldInterval, flatFieldInterval,
-             inBeamPosition, outOfBeamPosition, detector, exposureTime):
+             inBeamPosition, outOfBeamPosition, exposureTime):
     try:
+        darkFieldInterval=int(darkFieldInterval)
+        flatFieldInterval=int(flatFieldInterval)
+        
         start=0.
         stop=180.
         jns=beamline_parameters.JythonNameSpaceMapping()
@@ -285,8 +154,9 @@ def tomoScan(step, darkFieldInterval, flatFieldInterval,
             scan_points.append((theta_pos, 0, inBeamPosition, index )) #dark
             index = index + 1        
                 
- 
-        scan_args = [tomoScanDevice,tuple(scan_points), tomography_detector, exposureTime  ]
+        positionProvider = tomoScan_positions( step, darkFieldInterval, flatFieldInterval, \
+                                               inBeamPosition, outOfBeamPosition, scan_points ) 
+        scan_args = [tomoScanDevice, positionProvider, tomography_detector, exposureTime  ]
         scanObject=createConcurrentScan(scan_args)
         scanObject.runScan()
         return scanObject;
@@ -297,7 +167,7 @@ def tomoScan(step, darkFieldInterval, flatFieldInterval,
 def test1_tomoScan():
     jns=beamline_parameters.JythonNameSpaceMapping()    
     sc=tomoScan(step=5, darkFieldInterval=5, flatFieldInterval=5,
-             inBeamPosition=0., outOfBeamPosition=10.,detector=jns.pco1_tif , exposureTime=1.)
+             inBeamPosition=0., outOfBeamPosition=10., exposureTime=1.)
     lsdp=jns.lastScanDataPoint()
     positions=lsdp.getPositionsAsDoubles()
     if positions[0] != 180. or positions[3] != 54.:
@@ -307,7 +177,7 @@ def test1_tomoScan():
 def test2_tomoScan():
     jns=beamline_parameters.JythonNameSpaceMapping()    
     sc=tomoScan(step=5, darkFieldInterval=5, flatFieldInterval=0,
-             inBeamPosition=0., outOfBeamPosition=10.,detector=jns.pco1_tif , exposureTime=1.)
+             inBeamPosition=0., outOfBeamPosition=10., exposureTime=1.)
     lsdp=jns.lastScanDataPoint()
     positions=lsdp.getPositionsAsDoubles()
     if positions[0] != 180. or positions[3] != 47.:
@@ -317,7 +187,7 @@ def test2_tomoScan():
 def test3_tomoScan():
     jns=beamline_parameters.JythonNameSpaceMapping()    
     sc=tomoScan(step=5, darkFieldInterval=0, flatFieldInterval=5,
-             inBeamPosition=0., outOfBeamPosition=10.,detector=jns.pco1_tif , exposureTime=1.)
+             inBeamPosition=0., outOfBeamPosition=10., exposureTime=1.)
     lsdp=jns.lastScanDataPoint()
     positions=lsdp.getPositionsAsDoubles()
     if positions[0] != 180. or positions[3] != 47.:
@@ -327,7 +197,7 @@ def test3_tomoScan():
 def test4_tomoScan():
     jns=beamline_parameters.JythonNameSpaceMapping()    
     sc=tomoScan(step=5, darkFieldInterval=0, flatFieldInterval=0,
-             inBeamPosition=0., outOfBeamPosition=10.,detector=jns.pco1_tif , exposureTime=1.)
+             inBeamPosition=0., outOfBeamPosition=10., exposureTime=1.)
     lsdp=jns.lastScanDataPoint()
     positions=lsdp.getPositionsAsDoubles()
     if positions[0] != 180. or positions[3] != 40.:
@@ -336,8 +206,8 @@ def test4_tomoScan():
 
 def standardtomoScan():
     jns=beamline_parameters.JythonNameSpaceMapping()    
-    sc=tomoScan(step=1, darkFieldInterval=0, flatFieldInterval=0,
-             inBeamPosition=0., outOfBeamPosition=10.,detector=jns.pco1_tif , exposureTime=1.)
+    sc=tomoScan(step=1, darkFieldInterval=0, flatFieldInterval=20,
+             inBeamPosition=0., outOfBeamPosition=10., exposureTime=1.)
     lsdp=jns.lastScanDataPoint()
     positions=lsdp.getPositionsAsDoubles()
     if positions[0] != 180. or positions[3] != 40.:
