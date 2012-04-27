@@ -171,5 +171,15 @@
     		</enabledWhen>
     </activity>
     <activityPatternBinding activityId="rcpcolibri.disablextensions" pattern="org.dawb.*"/>
-   </extension>       
+   </extension>
+<extension
+      point="org.eclipse.help.toc">
+   <toc
+         file="userGuideTableOfContents.xml"
+         primary="true">
+   </toc>
+   <toc
+         file="toc.xml">
+   </toc>
+</extension>       
 </plugin>
