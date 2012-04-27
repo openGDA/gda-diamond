@@ -31,6 +31,7 @@
 		<property name="adBase" ref="dummy_ad_base" />
 		<property name="ndStats" ref="dummy_ad_stat" />
 		<property name="ndArray" ref="dummy_ad_arr" />
+      <property name="ndFile" ref="dummy_ad_ndfile" />
 		<property name="computeStats" value="false"/>
 		<property name="computeCentroid" value="false"/>
 		<property name="readArray" value="true"/>

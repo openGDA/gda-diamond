@@ -42,10 +42,6 @@ try:
 #	from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
 	import i13i
 	
-	#import for help
-	from maxipix import mpx_set_folder, mpx_reset_configure, mpx_config_file_monitor
-	from gda.device.lima import LimaCCD
-	from gda.device.maxipix2 import MaxiPix2
 	from gda.util import VisitPath
 	
 	finder = Finder.getInstance() 
@@ -114,6 +110,9 @@ try:
 		autocollimator_script.setup()
 	
 	import tomographyScan
+	import beam_optimizers
+	beam_optimizer = beam_optimizers.beam_optimizer("beam_optimizer")
+	beam_optimizer_dummy = beam_optimizers.beam_optimizer("beam_optimizer_dummy")
 #	run("i13diffcalc")
 
 
