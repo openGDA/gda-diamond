@@ -36,6 +36,11 @@
 		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
 			value="CORE" />
 	</bean>
+	<bean id="exafs_script_project" class="gda.jython.ScriptProject">
+		<property name="path" value="${gda.config}/../../gda-xas-core.git/uk.ac.gda.server.exafs/scripts" />
+		<property name="name" value="Scripts: Exafs" />
+		<property name="type" value="CORE" />
+	</bean>
 
 
 	<bean id="script_paths" class="gda.jython.ScriptPaths">
@@ -45,6 +50,7 @@
 				<ref local="configuration_script_project" />
 				<ref local="core_script_project" />
 				<ref local="epics_script_project" />
+				<ref local="exafs_script_project" />
 			</list>
 		</property>
 		<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
@@ -59,13 +65,10 @@
 
 
 
-<!-- 	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
-		<property name="local" value="true" />
-	</bean>
- -->
+	<!-- <bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider"> 
+		<property name="local" value="true" /> </bean> -->
 	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
-		<property name="template"
-			value="${gda.data}/gdaterminal.log" />
+		<property name="template" value="${gda.data}/gdaterminal.log" />
 		<property name="gdaMetadata" ref="GDAMetadata" />
 		<property name="local" value="true" />
 	</bean>
