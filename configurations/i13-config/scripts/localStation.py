@@ -67,9 +67,10 @@ try:
 	vararg_alias("flyscan")
 #	waitForQcm_bragg1 = WaitForScannableAtLineEnd('waitForQcm_bragg1', qcm_bragg1)
 	
-	createPVScannable( "d1_total", "BL13I-DI-PHDGN-01:STAT:Total_RBV")
-	createPVScannable( "expt_fastshutter_raw", "BL13I-EA-FSHTR-01:RAWCONTROL", hasUnits=False)
-	expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", expt_fastshutter_raw)
+	if not LocalProperties.check("gda.dummy.mode"):
+		createPVScannable( "d1_total", "BL13I-DI-PHDGN-01:STAT:Total_RBV")
+		createPVScannable( "expt_fastshutter_raw", "BL13I-EA-FSHTR-01:RAWCONTROL", hasUnits=False)
+		expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", expt_fastshutter_raw)
 	
 	#make scannablegroup for driving sample stage
 #	from gda.device.scannable.scannablegroup import ScannableGroup
@@ -109,7 +110,8 @@ try:
 	#from tests.testRunner import run_tests
 
 	import autocollimator_script
-	autocollimator_script.setup()
+	if not LocalProperties.check("gda.dummy.mode"):
+		autocollimator_script.setup()
 	
 	import tomographyScan
 #	run("i13diffcalc")

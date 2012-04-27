@@ -1,0 +1,9 @@
+#This file is used by beamline_parameters.jythonNamespaceMapping
+tomography_theta=ss1_rot_dummy
+tomography_detector=dummy_cam_ad
+tomography_shutter=eh_shtr_dummy
+tomography_translation=ss1_X_dummy
+#tomography_detector=pco1_tif
+#tomography_theta=ss1_rot
+#tomography_shutter=expt_fastshutter
+#tomography_translation=ss1_X

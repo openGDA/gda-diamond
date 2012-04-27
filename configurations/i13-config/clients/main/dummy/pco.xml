@@ -2,85 +2,41 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	<description>
-		There are 3 ways of configure EPICS access:
-		1. use Java content objects
-		provided by epics-x.x.x.jar to specify
-		'deviceName' property;
-		e.g. <!-- property 
-			name="deviceName" value="pco.cam_ADBase"/ -->
-		2. set pvProvider property which in turn uses XMLPVProvider bean to
-		specify 'deviceName' property;
-		e.g. <!-- property name="pvProvider"> <bean 
-			class="uk.ac.gda.devices.excalibur.simulator.XMLPVProvider"> <property name="deviceName" 
-			value="pco.cam_ADBase" /> </bean> </property -->
-		3. set base PV name property with field or sub-element being coded in
-		Java classes.
-		e.g. <!-- property name="basePVName" value="BL12I-EA-DET-05:PIX:" 
-			/ -->
+	<description> Simulation of ND Plugins for tomography alignment gui
 	</description>
 
-	<bean id="pcoAdBaseModel" class="uk.ac.gda.epics.client.views.model.simulator.ADBaseModelSimulator">
-		<!-- <property name="deviceName" value="pco.cam_ADBase"/> -->
-		<property name="basePVName" value="BL13I-EA-DET-01:CAM:" />
+	<bean id="pcoAdBaseModel" class="uk.ac.gda.epics.client.views.model.simulator.AdBaseModelSimulator">
 	</bean>
 
 	<bean id="pcoFileSaverModel"
 		class="uk.ac.gda.epics.client.views.model.simulator.FileSaverModelSimulator">
-		<!-- <property name="deviceName" value="pco.tif_NDFile"/> <property name="pluginBase" 
-			value="pco.tif_NDPluginBase" /> -->
-		<property name="basePVName" value="BL13I-EA-DET-01:TIF:" />
 	</bean>
 
 	<bean id="pcoFfmjpeg1"
-		class="uk.ac.gda.epics.client.views.model.simulator.FFMjpegModelSimulator">
-		<!-- <property name="deviceName" value="pco.mpeg_ffmpegStream"/> <property 
-			name="pluginBase" value="pco.mpeg_NDPluginBase" /> -->
-		<property name="basePVName" value="BL13I-EA-DET-01:MPG1:" />
+		class="uk.ac.gda.epics.client.views.model.simulator.FfMpegModelSimulator">
 	</bean>
 
 	<bean id="pcoFfmjpeg2"
-		class="uk.ac.gda.epics.client.views.model.simulator.FFMjpegModelSimulator">
-		<!-- <property name="deviceName" value="pco.mpeg_ffmpegStream"/> <property 
-			name="pluginBase" value="pco.mpeg_NDPluginBase" /> -->
-		<property name="basePVName" value="BL13I-EA-DET-01:MPG2:" />
+		class="uk.ac.gda.epics.client.views.model.simulator.FfMpegModelSimulator">
 	</bean>
 
-	<bean id="pcoNdProc1" class="uk.ac.gda.epics.client.views.model.simulator.NDProcModelSimulator">
-		<property name="basePVName" value="BL13I-EA-DET-01:PRO1:" />
-		<!-- <property name="deviceName" value="pco.proc_NDProcess"/> <property 
-			name="pluginBase" value="pco.proc_NDPluginBase" /> -->
+	<bean id="pcoNdProc1" class="uk.ac.gda.epics.client.views.model.simulator.NdProcModelSimulator">
 	</bean>
 
-	<bean id="pcoNdProc2" class="uk.ac.gda.epics.client.views.model.simulator.NDProcModelSimulator">
-		<property name="basePVName" value="BL13I-EA-DET-01:PRO1:" />
-		<!-- <property name="deviceName" value="pco.proc_NDProcess"/> <property 
-			name="pluginBase" value="pco.proc_NDPluginBase" /> -->
+	<bean id="pcoNdProc2" class="uk.ac.gda.epics.client.views.model.simulator.NdProcModelSimulator">
 	</bean>
 
-	<bean id="pcoNdROI1" class="uk.ac.gda.epics.client.views.model.simulator.NDROIModelSimulator">
-		<property name="basePVName" value="BL13I-EA-DET-01:ROI1:" />
-		<!-- <property name="deviceName" value="pco.roi1_NDROI"/> <property name="pluginBase" 
-			value="pco.roi1_NDPluginBase" /> -->
+	<bean id="pcoNdROI1" class="uk.ac.gda.epics.client.views.model.simulator.NdRoiModelSimulator">
 	</bean>
 
-	<bean id="pcoNdROI2" class="uk.ac.gda.epics.client.views.model.simulator.NDROIModelSimulator">
-		<property name="basePVName" value="BL13I-EA-DET-01:ROI1:" />
-		<!-- <property name="deviceName" value="pco.roi1_NDROI"/> <property name="pluginBase" 
-			value="pco.roi1_NDPluginBase" /> -->
+	<bean id="pcoNdROI2" class="uk.ac.gda.epics.client.views.model.simulator.NdRoiModelSimulator">
 	</bean>
 
 	<bean id="pcoNdArray"
-		class="uk.ac.gda.epics.client.views.model.simulator.NDArrayModelSimulator">
-		<property name="basePVName" value="BL13I-EA-DET-01:ARR:" />
-		<!-- <property name="deviceName" value="pco.arr_NDStdArrays"/> <property 
-			name="pluginBase" value="pco.arr_NDPluginBase" /> -->
+		class="uk.ac.gda.epics.client.views.model.simulator.NdArrayModelSimulator">
 	</bean>
 
-	<bean id="pcoNdStat" class="uk.ac.gda.epics.client.views.model.simulator.NDStatModelSimulator">
-		<property name="basePVName" value="BL13I-EA-DET-01:STAT:" />
-		<!-- <property name="deviceName" value="pco.arr_NDStdArrays"/> <property 
-			name="pluginBase" value="pco.arr_NDPluginBase" /> -->
+	<bean id="pcoNdStat" class="uk.ac.gda.epics.client.views.model.simulator.NdStatModelSimulator">
 	</bean>
 
 
