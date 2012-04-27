@@ -31,8 +31,6 @@ import gda.device.scannable.ScannableUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.exafs.ui.data.EdeScanParameters;
-
 /**
  * Bespoke scan for I20 based on the ContinuousScan. Operates the XH detector and nothing else but utilises the GDA
  * infrastructure for writing files & making data available for display by the UI.
@@ -78,7 +76,7 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 		// sleep for a moment to allow collection to start
 		Thread.sleep(250);
 
-		ExperimentLocation lastReadLoc = new ExperimentLocation(-1, -1, -1);
+		ExperimentLocation lastReadLoc = new ExperimentLocation(0, 0, 0);
 		try {
 			// ExperimentLocation finalFrame = getFinalFrameLoc();
 			ExperimentStatus progressData = xhDet.fetchStatus();
@@ -141,19 +139,23 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 
 	private void readoutRestOfFrames(ExperimentLocation lastReadLoc) throws Exception {
 		int absLowFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(xhDet.getLoadedParameters(), lastReadLoc);
-		absLowFrame++;
 		if (absLowFrame == getTotalNumberOfPoints()) {
 			return;
 		}
+//		absLowFrame++;
 		int absHighFrame = getTotalNumberOfPoints() - 1;
 		createDataPoints(absLowFrame, absHighFrame);
 	}
 
 	private void createDataPoints(ExperimentStatus progressData, ExperimentLocation lastReadLoc) throws Exception {
+		
+		
 		int absLowFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(xhDet.getLoadedParameters(), lastReadLoc);
-		absLowFrame++;
+//		absLowFrame++;
 		int absHighFrame = ExperimentLocationUtils
 				.getAbsoluteFrameNumber(xhDet.getLoadedParameters(), progressData.loc);
+		if (progressData.detectorStatus != Detector.IDLE)
+			absHighFrame--;
 		createDataPoints(absLowFrame, absHighFrame);
 	}
 
