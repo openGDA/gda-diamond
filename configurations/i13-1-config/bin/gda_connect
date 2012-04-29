@@ -1,5 +1,5 @@
 #!/bin/bash
-PS3="Select the PC to which you wish to connect: "
+PS3="?Select the PC to which you wish to connect: "
 select event in PCO4000_ToStartIOC PCO4000_AsYourself
 do
     case "$event" in

@@ -18,7 +18,8 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    <launcherArgs>
       <programArgs>-data @noDefault
 -vm /dls_sw/dasc/tools_versions/tools_v003/jdk_x64/bin</programArgs>
-      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i13-1/software/gda/i13j-config/pluginCustomization.ini
+      <vmArgs>-Dorg.eclipse.swt.browser.XULRunnerPath=/dls_sw/apps/xulrunner/x86_64/xulrunner-1.9.2
+-Declipse.pluginCustomization=/dls_sw/i13-1/software/gda/i13j-config/pluginCustomization.ini
 -Djacorb.config.dir=/dls_sw/i13-1/software/gda/i13j-config/jacorb/live
 -Dgda.root=/dls_sw/i13-1/software/gda/plugins
 -Dgda.config=/dls_sw/i13-1/software/gda/i13j-config
@@ -37,7 +38,7 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
 
    <splash
-      location="uk.ac.gda.client"
+      location="uk.ac.gda.beamline.i13j"
       handlerType="browser" />
    <launcher name="gda-i13j">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.xpm"/>

@@ -23,7 +23,7 @@
 	</bean>
 
 	<bean id="dummy_ad_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileSimulator">
-	<property name="pluginBase" ref="dummy_ad_pluginBase"/>
+		<constructor-arg ref="dummy_ad_pluginBase" />
 	</bean>
 
 
@@ -31,18 +31,20 @@
 		<property name="adBase" ref="dummy_ad_base" />
 		<property name="ndStats" ref="dummy_ad_stat" />
 		<property name="ndArray" ref="dummy_ad_arr" />
+      <property name="ndFile" ref="dummy_ad_ndfile" />
 		<property name="computeStats" value="false"/>
 		<property name="computeCentroid" value="false"/>
 		<property name="readArray" value="true"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg value="dummy_cam_ad" />
 				<constructor-arg ref="dummy_ad_ndfile" />
+				<constructor-arg value="dummy_cam" />
+				<constructor-arg value="%%s%%s%d-%%05d.tif"/>
+				<constructor-arg value="%s/%d/dummy_cam/"/>
 				<constructor-arg value="true"/>
-				<constructor-arg value="dummy_cam"/>
+				<constructor-arg value="true"/>
 				<property name="enable" value="true"/>
-				<property name="putFilesIntoScanNumberSubFolder" value="true"/>
-			</bean>
+			</bean>			
 		</property>
 		<property name="readFilepath" value="true"/>
 				

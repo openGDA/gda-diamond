@@ -1,13 +1,23 @@
-def getFileNames(filepath):
+def getFileNames(filepath,detectorName="mpx"):
     from uk.ac.diamond.scisoft.analysis.io import NexusLoader
     nl = NexusLoader(filepath, True)
     dh = nl.loadFile()
     tree = dh.getNexusTree()
-    item = tree.getChildNode("entry1", "NXentry").getChildNode("mpx", "NXdata")
+    item = tree.getChildNode("entry1", "NXentry").getChildNode(detectorName, "NXdata")
     item1 = item.getChildNode("image_data", "SDS")
     data=item1.getData()
     from gda.data.nexus import FileNameBufToStrings
     return FileNameBufToStrings( data.dimensions, data.getBuffer()).getFilenames()
+
+def getData(filepath,detectorName, itemName):
+    from uk.ac.diamond.scisoft.analysis.io import NexusLoader
+    nl = NexusLoader(filepath, True)
+    dh = nl.loadFile()
+    tree = dh.getNexusTree()
+    item = tree.getChildNode("entry1", "NXentry").getChildNode(detectorName, "NXdata")
+    item1 = item.getChildNode(itemName, "SDS")
+    data=item1.getData()
+    return data.getBuffer()
 
 from scisoftpy.jython.jyio import TIFFSaver
 import scisoftpy as dnp

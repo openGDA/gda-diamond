@@ -1,5 +1,5 @@
 from gdascripts.parameters import beamline_parameters
-def mpx(xPixels,title, yPixels=0):
+def mpx(xPixels, yPixels=0,title="No title"):
     """
     
     Allows the maxipix detector to be used to monitor an external triggering system.

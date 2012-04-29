@@ -145,6 +145,7 @@
 	<import resource="../../devices/s3.xml" />
 	<import resource="../../devices/dcm.xml" />
 	<import resource="../../devices/d5.xml" />
+	<import resource="../../devices/s4.xml" />
 	<import resource="../../devices/sample_stage.xml" />
 	<import resource="../../devices/table.xml" />
 	<import resource="../../devices/camera_stage.xml" />
@@ -162,7 +163,7 @@
 
 	<!--  dummy motors for testing tomoscan  -->
 	<bean id="ss1_rot_dummy_motor" class="gda.device.motor.DummyMotor">
-	<property name="speed" value="20"/>
+	<property name="speed" value="200"/>
 	</bean>
 	<bean id="ss1_rot_dummy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ss1_rot_dummy_motor" />
@@ -171,13 +172,14 @@
 		<property name="positions" value="Open, Close, Reset"/>
 	</bean> 
 	<bean id="ss1_X_dummy_motor" class="gda.device.motor.DummyMotor">
-	<property name="speed" value="20"/>
+	<property name="speed" value="200"/>
 	</bean>
 	<bean id="ss1_X_dummy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ss1_X_dummy_motor" />
 	</bean>
 	
-
+	<import resource="../../devices/dummyAD.xml"/>
+	
 	<!-- end of device list -->
 
 

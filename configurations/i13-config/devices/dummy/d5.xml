@@ -3,7 +3,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="d5_x_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="d5_y_motor" class="gda.device.motor.DummyMotor"/>
 	
 	<bean id="d5_ad_pluginBase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
 	<property name="dims" value="1000,1000"/>

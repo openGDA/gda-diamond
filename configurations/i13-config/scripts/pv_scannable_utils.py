@@ -1,6 +1,6 @@
 from gda.jython import InterfaceProvider
 from gda.device.scannable import EpicsScannable
-def createPVScannable( name, pv, addToNameSpace=True):
+def createPVScannable( name, pv, addToNameSpace=True, hasUnits = True):
     """
     utility function to create a scannable from a PV
     arguments:
@@ -15,6 +15,7 @@ def createPVScannable( name, pv, addToNameSpace=True):
     sc.setName(name)
     sc.setPvName(pv)
     sc.setUseNameAsInputName(True)
+    sc.setHasUnits(hasUnits)
     sc.afterPropertiesSet()
     sc.configure()
     if addToNameSpace:

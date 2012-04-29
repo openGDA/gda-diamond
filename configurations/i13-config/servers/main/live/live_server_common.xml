@@ -59,7 +59,10 @@
 	<import resource="../../../devices/epics/experiment_hutch_shutter.xml" />
 
 	<import resource="../../../devices/epics/d5.xml" />
+	<import resource="../../../devices/epics/s4_motors.xml" />
 	<import resource="../../../devices/epics/absorbers4.xml" />
+	<import resource="../../../devices/epics/ion_chamber.xml" />
+
 
 	<import resource="../../../devices/epics/sample_stage_motors.xml" />
 	<import resource="../../../devices/epics/table_motors.xml" />
