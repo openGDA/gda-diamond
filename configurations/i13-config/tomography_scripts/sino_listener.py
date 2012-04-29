@@ -13,6 +13,24 @@ import subprocess
 
 
 
+def folderExistsWithTimeOut( dirToCheck, timeToWaitInS, sleepInterValInS , outStream ):
+	"""
+	Returns true if dirToCheck is found to exist within timeToWaitInS. Time interval between checks is  sleepInterValInS
+	Else False
+	Each check a . is written to outStream
+	"""
+	wtime = 0
+	found = 0
+	#wait for the directory to appear
+	while ( ( wtime <= timeToWaitInS ) and ( found == 0 ) ):
+		if not ( os.access ( dirToCheck, os.F_OK ) ):
+			wtime += sleepInterValInS
+			time.sleep( sleepInterValInS )
+			outStream.write ( "." )
+		else:
+			found = 1
+	#exit if it times out
+	return os.access ( dirToCheck, os.F_OK )
 
 
 def main( argv, out = sys.stdout, err = sys.stderr ):
@@ -32,10 +50,10 @@ class SinoListener():
 		self.idxflag = " "
 		self.inflag = False
 		self.infmt = "p_%05d.tif"
-		self.interval = 1
+		self.interval = 1 #time interval when checking for a resource in seconds - controlled by z 
 		self.lastchunk = 16
 		self.lastflag = False
-		self.lt = 10
+		self.lt = 10 # timeout when checking for a resource in seconds - - controlled by Z
 		self.nchunks = 16 #default
 		self.mypid = os.getpid()
 		self.nperseg = 0
@@ -86,31 +104,33 @@ class SinoListener():
 	 		self.out.write ( message )
 
 
+
+
 	def run( self ):
 
 	#width and height need to come from somewhere too ..
 	#some defaults for testing
 
-		indir = "projections"
-		outdir = "sinograms"
-		bytes = 2 #default
+		self.indir = "projections"
+		self.outdir = "sinograms"
+		self.bytes = 2 #default
 		self.firstchunk = 1#default
 		self.nchunks = 16 #default
-		nsegs = 1 #default
+		self.nsegs = 1 #default
 		self.nperseg = 6000#default
-		jobbasename = "chunk" #default
-		jobname = "chunk_sino"#default
-		existflag = " " #default
-		jobsuffix = ""#default
-		myqueue = "low.q"#default
-		uniqueid = "U"#default
-		cropleft = 0
-		cropright = 0
-		hflag = 0
+		self.jobbasename = "chunk" #default
+		self.jobname = "chunk_sino"#default
+		self.existflag = " " #default
+		self.jobsuffix = ""#default
+		self.myqueue = "low.q"#default
+		self.uniqueid = "U"#default
+		self.cropleft = 0
+		self.cropright = 0
+		self.hflag = 0
 		if ( len( self.argv ) < 2 ):
-			hflag = 1
+			self.hflag = 1
 
-		Wflag = 0
+		self.Wflag = 0
 		try:
 			opts, args = getopt.gnu_getopt( self.argv[1:], "1U:O:C:EGI:J:N:R:S:T:Z:b:cF:L:hi:j:l:n:o:p:s:vw:xz:Q:W:t" )
 		except getopt.GetoptError, err:
@@ -133,9 +153,9 @@ class SinoListener():
 				self.mywait = a
 				self.Wflag = 1
 			if o == "-Q":
-				myqueue = a
+				self.myqueue = a
 			elif o == "-i":
-				indir = a
+				self.indir = a
 				self.inflag = True
 			elif o == "-1":
 				self.idxflag = "-1"
@@ -143,16 +163,16 @@ class SinoListener():
 				self.infmt = a
 				self.inflag = True
 			elif o == "-o":
-				outdir = a
+				self.outdir = a
 				self.outflag = True
 			elif o == "-l":
 				self.ht = int( a )
 			elif o == "-w":
 				self.wd = int( a )
 			elif o == "-b":
-				bytes = int( a )
+				self.bytes = int( a )
 			elif o == "-J":
-				jobbasename = "%s" % a
+				self.jobbasename = "%s" % a
 			elif o == "-U":
 				self.uniqueid = "%s" % a
 				self.uniqueflag = True
@@ -172,11 +192,11 @@ class SinoListener():
 			elif o == "-F":
 				self.firstchunk = int( a )
 			elif o == "-R":
-				cropright = int( a )
+				self.cropright = int( a )
 			elif o == "-T":
-				cropleft = int( a )
+				self.cropleft = int( a )
 			elif o == "-h":
-				hflag = 1
+				self.hflag = 1
 			elif o == "-Z":
 				self.lt = int( a )
 			elif o == "-z":
@@ -190,9 +210,9 @@ class SinoListener():
 				self.errprint ( "option %s value %s" % ( o, a ) )
 
 		if ( len( self.argv ) == 2 and self.testing ):
-			hflag = 1
+			self.hflag = 1
 
-		if ( hflag ):
+		if ( self.hflag ):
 			self.usage()
 			return
 
@@ -211,7 +231,7 @@ class SinoListener():
 
 		self.out.write ( "Using first chunk %i and last chunk %i" % ( self.firstchunk, self.lastchunk ) )
 
-		jobname = "%s_sn_%s_%s" % ( jobbasename, jobsuffix, self.mypid )
+		self.jobname = "%s_sn_%s_%s" % ( self.jobbasename, self.jobsuffix, self.mypid )
 
 		self.settingsbase = "sino_output"
 		if self.testing:
@@ -221,45 +241,21 @@ class SinoListener():
 
 		self.settingsfolder = "%s/sino_%s_files" % ( self.settingsbase, tstamp )
 		self.out.write ( "Settings folder will be : %s " % self.settingsfolder )
-		self.nproj = self.nperseg * nsegs
+		self.nproj = self.nperseg * self.nsegs
 
 		self.chunk_ht = self.ht / self.nchunks
 
-		projnum = 0
-		size = self.wd * self.ht
-		size_bytes = size * bytes
-		chunk_size = self.wd * self.chunk_ht
-		chunk_size_bytes = chunk_size * bytes
-		linebytes = self.wd * bytes
-		chunkrange = range( 1, self.nchunks + 1 )
-
-		projrange = range( 0, self.nproj )
-		sinorange = range( 0, self.chunk_ht )
 		self.vprint( "ht %i chunk_ht: %i " % ( self.ht, self.chunk_ht ) )
-		self.vprint( `sinorange` )
-		finishname = "f_%s" % jobname
-		self.out.write( "JOB NAME IS %s\n" % finishname )
 		self.out.write( "using input file format %s\n" % self.infmt )
 
-		#check folder for the project 
-		self.out.write ( "Checking for input directory %s \nTimeout: %i seconds" % ( indir, self.lt ) )
-		wtime = 0
-		found = 0
-		#wait for the directory to appear
-		while ( ( wtime <= self.lt ) and ( found == 0 ) ):
-			if not ( os.access ( indir, os.F_OK ) ):
-				wtime += interval
-				time.sleep( interval )
-				out.write ( "." )
-			else:
-				found = 1
-		#exit if it times out
-		if not ( os.access ( indir, os.F_OK ) ):
-			msg = "Input directory %s is not available after %i seconds!" % ( indir, wtime )
+		#check folder for the project
+		self.out.write ( "Checking for input directory %s \nTimeout: %i seconds" % ( self.indir, self.lt ) )
+		if not folderExistsWithTimeOut( self.indir, self.lt, self.interval, self.out ):
+			msg = "Input directory %s is not available after %i seconds!" % ( self.indir, self.lt )
 			self.errprint ( msg )
 			raise Exception( msg )
-		else:
-			self.out.write ( "Input directory %s found...." % indir )
+
+		self.out.write ( "Input directory %s found...." % self.indir )
 
 		#locate or create the output folders
 		if not( os.access ( self.settingsbase, os.F_OK ) ):
@@ -277,7 +273,7 @@ class SinoListener():
 		self.finishscript = "%s/finishchunk.qsh" % self.settingsfolder
 		self.chunkprogram = "sino_chunk_tiff_new.q"
 		self.chunkflags = "-i %s -o %s -w %i -l %i -z %i  -Z %i  -s %i -p %i -b %i %s -S %s -I %s -T %i -R %i %s " % \
-		( indir, outdir, self.wd, self.chunk_ht, self.interval, self.lt, nsegs, self.nperseg, bytes, existflag, self.settingsfolder, self.infmt, cropleft, cropright, self.idxflag )
+		( self.indir, self.outdir, self.wd, self.chunk_ht, self.interval, self.lt, self.nsegs, self.nperseg, self.bytes, self.existflag, self.settingsfolder, self.infmt, self.cropleft, self.cropright, self.idxflag )
 		self.vprint( "Creating the queue script: %s" % self.chunkscript )
 		self.vprint( "Using : %s" % self.chunkprogram )
 
@@ -299,7 +295,7 @@ mytask=$SGE_TASK_ID
 		chunkscriptOut.write( """mypid=%s""" % self.mypid )
 
 		#set the output folder
-		chunkscriptOut.write( """odir=%s""" % outdir )
+		chunkscriptOut.write( """odir=%s""" % self.outdir )
 
 		#check folder existance
 		chunkscriptOut.write( """\
@@ -321,7 +317,7 @@ echo PATH is $PATH
 		#assemble the command line that actually does the task
 		chunkscriptOut.write( """\
 %s %s -m $mytask  -v -J %s${myjob}_t${mytask}
-""" % ( self.chunkprogram, self.chunkflags, jobname ) )
+""" % ( self.chunkprogram, self.chunkflags, self.jobname ) )
 
 		#check for error in return value
 		chunkscriptOut.write( """\
@@ -334,7 +330,6 @@ fi
 
 		#end of the queue script text
 		chunkscriptOut.flush()
-
 
 		self.vprint( "Creating the finishing script: %s" % self.finishscript )
 
@@ -351,7 +346,7 @@ myjob=$JOB_ID
 mytask=$SGE_TASK_ID
 mypid=%s
 jjname="%s"
-""" % ( self.mypid, jobbasename ) )
+""" % ( self.mypid, self.jobbasename ) )
 
 		finishscriptOut.write( """\
 ffolder="${jjname}_files"
@@ -389,10 +384,8 @@ mv *.trace %s
 		finishscriptOut.flush()
 
 		if self.testing:
-		 self.out.write( "Exiting after creating chunkscript file" )
-		 return
-
-
+			self.out.write( "Exiting after creating chunkscript file" )
+			return
 
 
 		#set the queue environment
@@ -441,6 +434,8 @@ mv *.trace %s
 
 		try:
 			self.out.write ( "Spawning the sinogram finishing job ... " )
+			finishname = "f_%s" % self.jobname
+			self.out.write( "JOB NAME IS %s\n" % finishname )
 			thispid = os.spawnlpe( os.P_WAIT, "qsub", "qsub", "-P", "i12", "-e", self.settingsfolder, "-o", self.settingsfolder, "-q", "high.q", "-hold_jid", jobname, "-N", finishname, self.finishscript, qenviron )
 			self.out.write ( "return value was %s" % thispid )
 
@@ -504,6 +499,16 @@ class Test1( unittest.TestCase ):
 		err.close()
 		self.checkFilesMatch( outputFileName, outputFileName )
 		self.checkFilesMatch( "empty.txt", errFileName )
+
+	def test_i_nonExistentFolder( self ):
+		( out, err, errFileName, outputFileName ) = self.outAndErr( "test_i_nonExistentFolder" )
+		try:
+			main( ["program", "-i", "nonExistent", "-Z", "2", "-t", "-v"], out = writer_newline( out ), err = writer_newline( err ) )
+		except Exception, ex:
+			self.assertEquals( 'Input directory nonExistent is not available after 2 seconds!', str( ex ) )
+		finally:
+			out.close()
+			err.close()
 
 	def test_i_cdw( self ):
 		( out, err, errFileName, outputFileName ) = self.outAndErr( "test_i_cdw" )
