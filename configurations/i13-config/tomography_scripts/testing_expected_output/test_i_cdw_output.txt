@@ -9,4 +9,25 @@ Input directory . found....
 Creating the queue script: sino_output/sino_testing_files/sinochunk.qsh
 Using : sino_chunk_tiff_new.q
 Creating the finishing script: sino_output/sino_testing_files/finishchunk.qsh
-Exiting after creating chunkscript file
+5
+[('PATH', '/dls_sw/apps/sge/SGE6.2/bin/lx24-amd64:/bin:/usr/bin:'), ('SGE_CELL', 'DLS'), ('SGE_EXECD_PORT', '60001'), ('SGE_ROOT', '/dls_sw/apps/sge/SGE6.2'), ('SGE_QMASTER_PORT', '60000')]
+Spawning the sinogram job ... 
+'env'
+{'PATH': '/dls_sw/apps/sge/SGE6.2/bin/lx24-amd64:/bin:/usr/bin:', 'SGE_CELL': 'DLS', 'SGE_EXECD_PORT': '60001', 'SGE_ROOT': '/dls_sw/apps/sge/SGE6.2', 'SGE_QMASTER_PORT': '60000'}
+False
+{'PATH': '/dls_sw/apps/sge/SGE6.2/bin/lx24-amd64:/bin:/usr/bin:', 'SGE_CELL': 'DLS', 'SGE_EXECD_PORT': '60001', 'SGE_ROOT': '/dls_sw/apps/sge/SGE6.2', 'SGE_QMASTER_PORT': '60000'}
+0
+'qsub'
+('qsub', '-P', 'i12', '-e', 'sino_output/sino_testing_files', '-o', 'sino_output/sino_testing_files', '-q', 'low.q', '-N', 'chunk_sn__testing_pid', '-cwd', '-pe', 'smp', '4', '-t', '1-16', 'sino_output/sino_testing_files/sinochunk.qsh')
+{'PATH': '/dls_sw/apps/sge/SGE6.2/bin/lx24-amd64:/bin:/usr/bin:', 'SGE_CELL': 'DLS', 'SGE_EXECD_PORT': '60001', 'SGE_ROOT': '/dls_sw/apps/sge/SGE6.2', 'SGE_QMASTER_PORT': '60000'}
+return value was 0
+5
+[('PATH', '/dls_sw/apps/sge/SGE6.2/bin/lx24-amd64:/bin:/usr/bin:'), ('SGE_CELL', 'DLS'), ('SGE_EXECD_PORT', '60001'), ('SGE_ROOT', '/dls_sw/apps/sge/SGE6.2'), ('SGE_QMASTER_PORT', '60000')]
+Spawning the sinogram finishing job ... 
+JOB NAME IS f_chunk_sn__testing_pid
+
+0
+'qsub'
+('qsub', '-P', 'i12', '-e', 'sino_output/sino_testing_files', '-o', 'sino_output/sino_testing_files', '-q', 'high.q', '-hold_jid', 'chunk_sn__testing_pid', '-N', 'f_chunk_sn__testing_pid', 'sino_output/sino_testing_files/finishchunk.qsh')
+{'PATH': '/dls_sw/apps/sge/SGE6.2/bin/lx24-amd64:/bin:/usr/bin:', 'SGE_CELL': 'DLS', 'SGE_EXECD_PORT': '60001', 'SGE_ROOT': '/dls_sw/apps/sge/SGE6.2', 'SGE_QMASTER_PORT': '60000'}
+return value was 0
