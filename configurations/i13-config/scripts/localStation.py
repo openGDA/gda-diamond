@@ -54,10 +54,11 @@ try:
 	from gda.scan.RepeatScan import create_repscan, repscan
 	vararg_alias("repscan")
 	
-	from gdascripts.pd.time_pds import waittimeClass2, showtimeClass, showincrementaltimeClass
+	from gdascripts.pd.time_pds import waittimeClass2, showtimeClass, showincrementaltimeClass, actualTimeClass
 	waittime=waittimeClass2('waittime')
 	showtime=showtimeClass('showtime')
 	inctime=showincrementaltimeClass('inctime')
+	actualTime=actualTimeClass("actualTime")
 	
 	from flyscan_script import flyscan, flyscannable, WaitForScannableAtLineEnd
 	vararg_alias("flyscan")
@@ -111,8 +112,8 @@ try:
 	
 	import tomographyScan
 	import beam_optimizers
-	beam_optimizer = beam_optimizers.beam_optimizer("beam_optimizer")
-	beam_optimizer_dummy = beam_optimizers.beam_optimizer("beam_optimizer_dummy")
+	beam_optimizer = beam_optimizers.beam_optimizer("beam_optimizer", dummy=True)
+	beam_optimizer_dummy = beam_optimizers.beam_optimizer("beam_optimizer_dummy", dummy=True)
 #	run("i13diffcalc")
 
 

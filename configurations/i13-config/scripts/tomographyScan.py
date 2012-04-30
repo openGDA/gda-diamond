@@ -105,6 +105,14 @@ def tomoScan(step, darkFieldInterval, flatFieldInterval,
         tomography_optimizer=jns.tomography_optimizer
         if tomography_optimizer is None:
             raise "tomography_optimizer is not defined in Jython namespace"
+
+        tomography_time=jns.tomography_time
+        if tomography_time is None:
+            raise "tomography_time is not defined in Jython namespace"
+        
+        tomography_beammonitor=jns.tomography_beammonitor
+        if tomography_beammonitor is None:
+            raise "tomography_beammonitor is not defined in Jython namespace"
         
         index=SimpleScannable()
         index.setCurrentPosition(0.0)
@@ -113,7 +121,7 @@ def tomoScan(step, darkFieldInterval, flatFieldInterval,
         index.configure()
         
         tomoScanDevice = make_tomoScanDevice(tomography_theta, tomography_shutter, 
-                                             tomography_translation, tomography_optimizer, index)
+                                             tomography_translation, tomography_optimizer,  index)
         #generate list of positions
         numberSteps = ScannableUtils.getNumberSteps(tomography_theta, start, stop, step)
         theta_points = []
@@ -174,7 +182,7 @@ def tomoScan(step, darkFieldInterval, flatFieldInterval,
                 
         positionProvider = tomoScan_positions( step, darkFieldInterval, flatFieldInterval, \
                                                inBeamPosition, outOfBeamPosition, optimizeBeamInterval, scan_points ) 
-        scan_args = [tomoScanDevice, positionProvider, tomography_detector, exposureTime  ]
+        scan_args = [tomoScanDevice, positionProvider, tomography_time, tomography_beammonitor, tomography_detector, exposureTime  ]
         scanObject=createConcurrentScan(scan_args)
         scanObject.runScan()
         return scanObject;

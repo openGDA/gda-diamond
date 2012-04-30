@@ -184,7 +184,7 @@
 
 
 	<bean id="highestExistingFileMonitor"
-		class="gda.device.detectorfilemonitor.SimpleHighestExistingFileMonitor" />
+		class="gda.device.detectorfilemonitor.impl.SimpleHighestExistingFileMonitor" />
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/highestExistingFileMonitor" />
 		<property name="service" ref="highestExistingFileMonitor" />

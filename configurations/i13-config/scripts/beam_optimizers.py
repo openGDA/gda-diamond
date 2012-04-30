@@ -2,13 +2,13 @@ from gda.device.scannable import ScannableMotionBase
 from gda.jython.commands import ScannableCommands
 from gda.scan import BasicScanDataPointPipeline
 class beam_optimizer(ScannableMotionBase):
-    def __init__(self, name, dummy=False, motor, start, end, step, monitor):
+    def __init__(self, name, dummy, motor=None, start=None, end=None, step=None, monitor=None):
         self.setName(name)
         self.setInputNames([name])
         self.setExtraNames([])
         self.setOutputFormat(["%5.5g"])
         self.pos = 0.
-        self.dummy = dummy
+        self.dummy = True
         self. motor = motor
         self.start = start
         self.end=end

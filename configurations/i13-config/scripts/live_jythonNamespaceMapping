@@ -8,3 +8,5 @@ tomography_detector=pco1_tif
 tomography_theta=ss1_rot
 tomography_shutter=expt_fastshutter
 tomography_translation=ss1_X
+tomography_time=actualTime
+tomography_beammonitor=ionc_i
