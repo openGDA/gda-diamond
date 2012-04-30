@@ -19,12 +19,14 @@
 package gda.exfas.ui;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.beans.BeansFactory;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
 import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
@@ -38,21 +40,6 @@ import uk.ac.gda.exafs.ui.data.ScanObject;
 public class I18ExperimentEditorManager extends ExperimentEditorManager implements IExperimentEditorManager {
 
 	private static final Logger logger = LoggerFactory.getLogger(I18ExperimentEditorManager.class);
-
-//	@Override
-//	protected IEditorPart[] openRequiredEditors(IExperimentObject ob) {
-//		try {
-//			IScanParameters theScan = ((ScanObject) ob).getScanParameters();
-//			if (theScan instanceof MicroFocusScanParameters){
-//				return openMicroFocusEditors(ob);
-//			}
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-////			logger.error("TODO put description of error here", e);
-//		}
-//		
-//		return super.openRequiredEditors(ob);
-//	}
 	
 	@Override
 	protected Map<String, IFile> orderMapOfTypes(IExperimentObject ob, Map<String, IFile> mapOfTypesToFiles,
@@ -67,18 +54,8 @@ public class I18ExperimentEditorManager extends ExperimentEditorManager implemen
 			// TODO Auto-generated catch block
 			logger.error("TODO put description of error here", e);
 		}*/
-		return super.orderMapOfTypes(ob,mapOfTypesToFiles,allBeanDescriptions);
-		/*try {
-			IScanParameters theScan = ((ScanObject) ob).getScanParameters();
-			if (!(theScan instanceof MicroFocusScanParameters)){
-				return super.orderMapOfTypes(ob,mapOfTypesToFiles,allBeanDescriptions);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-//			logger.error("TODO put description of error here", e);
-		}
-
-		
+		//return super.orderMapOfTypes(ob,mapOfTypesToFiles,allBeanDescriptions);
+				
 		String[] typesInOrder = ob.getRunFileManager().getOrderedColumnBeanTypes();
 
 		HashMap<String, IFile> orderedMap = new HashMap<String, IFile>();
@@ -89,12 +66,26 @@ public class I18ExperimentEditorManager extends ExperimentEditorManager implemen
 			for (IExperimentBeanDescription desc : allBeanDescriptions) {
 				// if (!typesDone.contains(desc.getBeanType())) {
 				// for (String type : mapOfTypesToFiles.keySet()) {
-				if (type.equalsIgnoreCase(desc.getBeanType()) && !type.equals("Sample")) {
-					orderedMap.put(type, mapOfTypesToFiles.get(type));
+				if (type.equalsIgnoreCase(desc.getBeanType()) && type.equals("Sample")) {
+					try {
+						IScanParameters theScan = ((ScanObject) ob).getScanParameters();						
+							IFile file = mapOfTypesToFiles.get(type);
+							I18SampleParameters samParameters = ((I18SampleParameters)((ScanObject) ob).getSampleParameters());
+							if ((theScan instanceof MicroFocusScanParameters))
+								samParameters.getSampleStageParameters().setDisable(true);
+							else
+								samParameters.getSampleStageParameters().setDisable(false);
+							BeansFactory.saveBean(file.getLocation().toFile(), samParameters);
+						}
+					catch (Exception e) {
+						// TODO Auto-generated catch block
+						logger.error("TODO put description of error here", e);
+					}
 				}
+				orderedMap.put(type, mapOfTypesToFiles.get(type));
 				// }
 			}
 		}
-		return orderedMap;*/
+		return orderedMap;
 	}
 }
