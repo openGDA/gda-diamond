@@ -1,11 +1,12 @@
 Using first chunk 1 and last chunk 16
 Settings folder will be : sino_output/sino_testing_files 
-ht 2672 chunk_ht: 167 
 using input file format p_%05d.tif
 
 Checking for input directory . 
 Timeout: 10 seconds
 Input directory . found....
+creating sino_output/sino_testing_files
+Length(height) of image 2672 chunk_ht: 167 
 Creating the queue script: sino_output/sino_testing_files/sinochunk.qsh
 Using : sino_chunk_tiff_new.q
 Creating the finishing script: sino_output/sino_testing_files/finishchunk.qsh
