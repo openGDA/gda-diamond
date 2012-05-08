@@ -21,7 +21,7 @@ echo PATH is $PATH
 # env > task${mytask}.env
 #tracename=trace${myjob}_t${mytask}.trace
 #trace execution all
-sino_chunk_tiff_new.q -i . -o sinograms -w 4008 -l 167 -z 1 -Z 10  -s 1 -p 6000 -b 2   -S sino_output/sino_testing_files -I p_%05d.tif -T 0 -R 0    -m $mytask  -v -J chunk_sn__testing_pid${myjob}_t${mytask}
+test_chunkprogram.py -i . -o sinograms -w 4008 -l 167 -z 1 -Z 10  -s 1 -p 6000 -b 2   -S sino_output/sino_testing_files -I p_%05d.tif -T 0 -R 0    -m $mytask  -v -J chunk_sn__testing_pid${myjob}_t${mytask}
 retval=$?
 if [[ retval -ne 0 ]]
 then

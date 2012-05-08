@@ -78,283 +78,68 @@ class SinoListener():
 		self.cropleft = 0
 		self.cropright = 0
 		self.hflag = 0 # show help and exit
-		self.qsub_project="i12" # project name given to qsub
-		
+		self.qsub_project = "i12" # project name given to qsub
+
 
 
 	def usage( self ):
 		svnstring = "$Id: sino_listener.py 232 2012-04-11 13:21:04Z kny48981 $"
-		self.out.write( "Version %s" % ( svnstring ) )
+		self.out.write( "Version %s\n" % ( svnstring ) )
 		self.out.write( "Usage:" )
-		self.out.write( self.argv[0] )
-		self.out.write ( "-i input dir (currently: projections)" )
-		self.out.write ( "-o output dir (currently: sinograms)" )
-		self.out.write ( "-p number of projections (currently %i )" % self.nperseg )
-		self.out.write ( "    NOT automatically determined!" )
-		self.out.write ( "-w width (currently %i )" % self.wd )
-		self.out.write ( "-l length (height) of the image(currently %i)" % self.ht )
-		self.out.write ( "-F number of first chunk (currently %i) " % self.firstchunk )
-		self.out.write ( "-L number of last chunk (currently same as number of chunks) " )
-		self.out.write ( "-n total number chunks (currently %i) " % self.nchunks )
-		self.out.write ( "-J job hame " )
-		self.out.write ( "-j suffix of job name " )
-		self.out.write ( "-b bytes per pixel (currently 2)" )
-		self.out.write ( "-s number of segments (currently 1) " )
-		self.out.write ( "-Z timeout (currently %i)" % self.lt )
-		self.out.write ( "-z check interval (currently %i)" % self.interval )
-		self.out.write ( "-Q queue (currently medium.q) " )
-		self.out.write ( "-U Unique ID (currently use PID) " )
-		self.out.write ( "-I input filename format (C out.writef style) (currently %s) " % self.infmt )
-		self.out.write ( "-1 start numbering of input files from 1 instead of 0 " )
-		self.out.write ( "-t do nothing. Just create the bash script file" )
+		self.out.write( self.argv[0] + "\n" )
+		self.out.write ( "-i input dir (currently: projections)\n" )
+		self.out.write ( "-o output dir (currently: sinograms)\n" )
+		self.out.write ( "-p number of projections (currently %i )\n" % self.nperseg )
+		self.out.write ( "    NOT automatically determined!\n" )
+		self.out.write ( "-w width (currently %i )\n" % self.wd )
+		self.out.write ( "-l length (height) of the image(currently %i)\n" % self.ht )
+		self.out.write ( "-F number of first chunk (currently %i)\n" % self.firstchunk )
+		self.out.write ( "-L number of last chunk (currently same as number of chunks)\n" )
+		self.out.write ( "-n total number chunks (currently %i)\n" % self.nchunks )
+		self.out.write ( "-J job hame\n" )
+		self.out.write ( "-j suffix of job name\n" )
+		self.out.write ( "-b bytes per pixel (currently 2)\n" )
+		self.out.write ( "-s number of segments (currently 1)\n" )
+		self.out.write ( "-Z timeout (currently %i)\n" % self.lt )
+		self.out.write ( "-z check interval (currently %i)\n" % self.interval )
+		self.out.write ( "-Q queue (currently medium.q)\n" )
+		self.out.write ( "-U Unique ID (currently use PID)\n" )
+		self.out.write ( "-I input filename format (C out.writef style) (currently %s)\n" % self.infmt )
+		self.out.write ( "-1 start numbering of input files from 1 instead of 0\n" )
+		self.out.write ( "-t do nothing. Just create the bash script file\n" )
 
 	def errprint( self, message = "none" ):
-		self.out.write ( "errprint" )
-		self.out.write ( "sino_listener.py: %s" % ( message ) )
+		self.out.write ( "Error: %s\n" % ( message ) )
 
 	def vprint( self, message ):
 		if self.vflag:
-			self.out.write ( str( message ) )
+			self.out.write ( message )
 
-
-	def createChunkScript( self ):
-		"""
-		nng28138@i13-ws001 ~]$ which sino_chunk_tiff_new.q
-		/dls_sw/i12/software/tomography_scripts/sino_chunk_tiff_new.q
-		"""		
-		self.chunkscript = "%s/sinochunk.qsh" % self.settingsfolder
-		chunkprogram = "sino_chunk_tiff_new.q"
-		chunk_ht = self.ht / self.nchunks
-		self.vprint( "Length(height) of image %i chunk_ht: %i " % ( self.ht, chunk_ht ) )
-		
-		chunkflags = "-i %s -o %s -w %i -l %i -z %i " % ( self.indir, self.outdir, self.wd, chunk_ht, self.interval)
-		chunkflags += "-Z %i  -s %i -p %i -b %i %s " % ( self.lt, self.nsegs, self.nperseg, self.bytes, self.existflag)
-		chunkflags += "-S %s -I %s -T %i -R %i %s " % (self.settingsfolder, self.infmt, self.cropleft, self.cropright, self.idxflag )
-		self.vprint( "Creating the queue script: %s" % self.chunkscript )
-		self.vprint( "Using : %s" % chunkprogram )
-
-
-
-		chunkscriptOut = open( self.chunkscript, "w" )
-
-		try:
-			#output the introductory script section
-			chunkscriptOut.write( """\
-#!/bin/bash 
-set -x
-
-#add the modules required 
-source /dls_sw/i12/modulefiles/modules.sh
-module add /dls_sw/i12/modulefiles/local-64
-myjob=$JOB_ID
-mytask=$SGE_TASK_ID
-""" )
-
-			#set the unique identifier value
-			chunkscriptOut.write( """mypid=%s\n""" % self.mypid )
-
-			#set the output folder
-			chunkscriptOut.write( """odir=%s\n""" % self.outdir )
-
-			#check folder existance
-			chunkscriptOut.write( """\
-if [[ ! -e $odir ]]
-then
-mkdir -p $odir
-fi
-mynum=`printf "%%03d" $mytask`
-
-echo PATH is $PATH
-
-#ulimit -c unlimited
-# UNCOMMENT  some of these lines to get more diagnostic information
-# env > task${mytask}.env
-#tracename=trace${myjob}_t${mytask}.trace
-#trace execution all
-""" )
-
-			#assemble the command line that actually does the task
-			chunkscriptOut.write( """\
-%s %s -m $mytask  -v -J %s${myjob}_t${mytask}
-""" 		 % ( chunkprogram, chunkflags, self.jobname ) )
-
-			#check for error in return value
-			chunkscriptOut.write( """\
-retval=$?
-if [[ retval -ne 0 ]]
-then
-  echo -e "job $myjob task $mytask return-value $retval\\n" >> %s/error_$mypid.txt  
-fi
-""" 		 % self.settingsfolder )
-
-
-		finally:
-			#end of the queue script text
-			chunkscriptOut.flush()
-			chunkscriptOut.close()
-
-	def getArch(self):
-		if  self.testing or (platform.architecture()[0] == "64bit")  :
+	def getArch( self ):
+		if  self.testing or ( platform.architecture()[0] == "64bit" )  :
 			return "amd64"
 		return "x86"
-		
-	def submitChunkScript(self):
-		#set the queue environment
+
+	def PopenWait( self, args, env ):
+		for e in args:
+			self.out.write( `e` + "\n" )
+		for e in env:
+			self.out.write( `e` + "\n" )
+		executable = args[0]
+		args = args[1:]
 		if self.testing:
-			qenviron = {}
-		else:
-			qenviron = os.environ
-		qenviron["SGE_CELL"] = "DLS"
-		qenviron["SGE_EXECD_PORT"] = "60001"
-		qenviron["SGE_QMASTER_PORT"] = "60000"
-		qenviron["SGE_ROOT"] = "/dls_sw/apps/sge/SGE6.2"
-		oldpath = ""
-		try :
-			oldpath = qenviron["PATH"]
-		except :
-			oldpath = ""
-		qenviron["PATH"] =  "/dls_sw/apps/sge/SGE6.2/bin/lx24-" + self.getArch() +":/bin:/usr/bin:" + oldpath
-		self.vprint( `len( qenviron )` )
-		self.vprint( qenviron.items() )
-		pyerr = open( "%s/sino_listener_stderr_%s.txt" % ( self.settingsfolder, self.jobname ) , "w" )
-		pyout = open( "%s/sino_listener_stdout_%s.txt" % ( self.settingsfolder, self.jobname ) , "w" )
-		pyenv_o = open( "%s/python_stdout_%s.txt" % ( self.settingsfolder, self.jobname ), "w" )
-		pyenv_e = open( "%s/python_stderr_%s.txt" % ( self.settingsfolder, self.jobname ), "w" )
-
-		try:
-			self.out.write ( "Spawning the sinogram job ... " )
-			if ( self.vflag ):
-				self.Popen( "env", env = qenviron, shell = False, stdout = pyenv_o, stderr = pyenv_e )
-			self.out.write ( qenviron )
-			args= ["qsub", "-P", self.qsub_project, "-e", self.settingsfolder, "-o", self.settingsfolder, "-q", self.myqueue, "-N", self.jobname]
-			if ( self.Wflag ):
-				args += ["-hold_jid", self.mywait]
-			args +=  ["-cwd", "-pe", "smp", "4", "-t", "%i-%i" % ( self.firstchunk, self.lastchunk ), self.chunkscript ] 
-			thispid = self.spawnlpe( os.P_WAIT, "qsub", tuple(args),qenviron)
-			self.out.write ( "return value was %s" % thispid )
-		except Exception, ex:
-			self.out.write ( "ERROR Spawning the sinogram job didn't work " + str( ex ) )
-			raise ex
-		finally:
-			pyerr.close()
-			pyout.close()
-			pyenv_o.close()
-			pyenv_e.close()
-
-	def submitFinishScript(self):
-		#set the queue environment
-		if self.testing:
-			qenviron = {}
-		else:
-			qenviron = os.environ
-		qenviron["SGE_CELL"] = "DLS"
-		qenviron["SGE_EXECD_PORT"] = "60001"
-		qenviron["SGE_QMASTER_PORT"] = "60000"
-		qenviron["SGE_ROOT"] = "/dls_sw/apps/sge/SGE6.2"
-		oldpath = ""
-		try :
-			oldpath = qenviron["PATH"]
-		except :
-			oldpath = ""
-		qenviron["PATH"] =  "/dls_sw/apps/sge/SGE6.2/bin/lx24-" + self.getArch() +":/bin:/usr/bin:" + oldpath
-
-		self.vprint( len( qenviron ) )
-		self.vprint( qenviron.items() )
-		pyerr = open( "%s/sino_listener_stderr_%s.txt" % ( self.settingsfolder, self.jobname ) , "w" )
-		pyout = open( "%s/sino_listener_stdout_%s.txt" % ( self.settingsfolder, self.jobname ) , "w" )
-		pyenv_o = open( "%s/python_stdout_%s.txt" % ( self.settingsfolder, self.jobname ), "w" )
-		pyenv_e = open( "%s/python_stderr_%s.txt" % ( self.settingsfolder, self.jobname ), "w" )
-
-		try:
-			self.out.write ( "Spawning the sinogram finishing job ... " )
-			finishname = "f_%s" % self.jobname
-			self.out.write( "JOB NAME IS %s\n" % finishname )
-			args = ["qsub", "-P", self.qsub_project, "-e", self.settingsfolder, "-o", self.settingsfolder, "-q", "high.q", "-hold_jid", self.jobname, "-N", finishname, self.finishscript]
-			thispid = self.spawnlpe( os.P_WAIT, "qsub", tuple(args), qenviron )
-			self.out.write ( "return value was %s" % thispid )
-
-		except Exception, ex:
-			self.out.write ( "Spawning the sinogram finishing job didn't work " + str( ex ) )
-			raise ex
-		finally:
-			pyerr.close()
-			pyout.close()
+			executable = "test_program.py"
+		p = subprocess.Popen( args, executable = executable, env = env, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
+		p.wait()
+		( out, err ) = p.communicate()
+		self.out.write ( "return value was %s\n" % p.returncode )
+		if len( out ):
+			self.out.write ( out + "\n" )
+		if len( err ) > 0:
+			self.err.write ( err + "\n" )
 
 
-	def createFinishScript( self ):
-		self.finishscript = "%s/finishchunk.qsh" % self.settingsfolder
-		self.vprint( "Creating the finishing script: %s" % self.finishscript )
-
-		try:
-			finishscriptOut = open( self.finishscript, "w" )
-			finishscriptOut.write( """\
-#!/bin/bash 
-set -x
-
-#add the modules required 
-source /dls_sw/i12/modulefiles/modules.sh
-#add environment required by epics channel access (ezca) 
-
-myjob=$JOB_ID
-mytask=$SGE_TASK_ID
-mypid=%s
-jjname="%s"
-""" % ( self.mypid, self.jobbasename ) )
-
-			finishscriptOut.write( """\
-ffolder="${jjname}_files"
-errfile=%s/error_$mypid.txt
-""" % self.settingsfolder )
-
-			finishscriptOut.write( """\
-if [[ -e $errfile ]]
-then
-errtxt=`cat $errfile`
-
-		#send a mail message when completed
-		/usr/sbin/sendmail -t $USER <<-ENDM
-			Subject: [QUEUE] I12 job error from PID ${mypid}
-
-                         The I12 data acquisition job has encountered a problem.
-                         The error information is:
-
-                         $errtxt
-
-                         This  e-mail was automatically generated by
-                         the tomographic reconstruction batch processing system
-
-		ENDM
-
-fi
-
-#mkdir -p ${ffolder}/job${myjob}
-#mv ${jjname}_sino* ${ffolder}/job${myjob}
-
-mv *.trace %s
-""" % self.settingsfolder )
-
-		finally:
-			#end of the finish script text
-			finishscriptOut.flush()
-			finishscriptOut.close
-
-	def spawnlpe( self, mode, file, args, env ):
-		self.out.write( `mode`)
-		self.out.write( `file`)
-		self.out.write( `args`)
-		self.out.write( `env` )
-		if self.testing:
-			return 0
-		return os.spawnle( mode, file, args, env )
-
-	def Popen( self, cmd, env, shell, stdout, stderr ):
-		self.out.write( `cmd` )
-		self.out.write( `env` )
-		self.out.write( `shell` )
-		if not self.testing:
-			subprocess.Popen( cmd, env = env, shell = shell, stdout = stdout, stderr = stderr )
-
-	def parseOptions(self):
+	def parseOptions( self ):
 	#width and height need to come from somewhere too ..
 	#some defaults for testing
 
@@ -364,7 +149,8 @@ mv *.trace %s
 		self.Wflag = 0  #wait for job mywait in qsub call, value controlled by W flag
 		self.mywait = "" # default value of job id passed as argument to qsub if Wflag is 1
 		try:
-			opts, args = getopt.gnu_getopt( self.argv[1:], "1U:O:C:EGI:J:N:R:S:T:Z:b:cF:L:hi:j:l:n:o:p:s:vw:xz:Q:W:t", "qsub_project" )
+			opts, args = getopt.gnu_getopt( self.argv[1:],
+					"1U:O:C:EGI:J:N:R:S:T:Z:b:cF:L:hi:j:l:n:o:p:s:vw:xz:Q:W:t", "qsub_project=" )
 		except getopt.GetoptError, err:
 			self.errprint ( "Option parsing error" )
 			self.errprint ( "Command line values: %s" % ( self.argv[1:] ) )
@@ -375,10 +161,10 @@ mv *.trace %s
 		if not ( len( args ) == 0 ):
 			self.errprint ( "Option parsing error" )
 			self.errprint ( "Command line values: %s" % ( self.argv[1:] ) )
-			verrprint( "This program should not have non-flagged arguments" )
-			self.out.write ( "unrecognized arguments: " + `args` )
-			self.out.write ( `opts` + `args` )
-			raise Exception( "Option parsing error" )
+			self.errprint( "This program should not have non-flagged arguments" )
+			self.out.write ( "unrecognized arguments: " + `args` + "\n" )
+			self.out.write ( `opts` + `args` + "\n" )
+			raise Exception( "Option parsing error\n" )
 
 		for o, a in opts:
 			if o == "-W":
@@ -454,10 +240,257 @@ mv *.trace %s
 		 	 	self.mypid = os.getpid()
 
 		if ( self.lastflag ):
-			self.out.write( "Selecting last chunk to process: %i " % self.lastchunk )
+			self.out.write( "Selecting last chunk to process: %i\n" % self.lastchunk )
 		else:
 			self.lastchunk = self.nchunks
-		
+
+
+
+	def createChunkScript( self ):
+		"""
+		nng28138@i13-ws001 ~]$ which sino_chunk_tiff_new.q
+		/dls_sw/i12/software/tomography_scripts/sino_chunk_tiff_new.q
+		"""
+		chunkprogram = "sino_chunk_tiff_new.q"
+		if self.testing:
+			chunkprogram = "test_chunkprogram.py"
+		self.chunkscript = "%s/sinochunk.qsh" % self.settingsfolder
+		chunk_ht = self.ht / self.nchunks
+		self.vprint( "Length(height) of image %i chunk_ht: %i\n" % ( self.ht, chunk_ht ) )
+
+		chunkflags = "-i %s -o %s -w %i -l %i -z %i " % ( self.indir, self.outdir, self.wd, chunk_ht, self.interval )
+		chunkflags += "-Z %i  -s %i -p %i -b %i %s " % ( self.lt, self.nsegs, self.nperseg, self.bytes, self.existflag )
+		chunkflags += "-S %s -I %s -T %i -R %i %s " % ( self.settingsfolder, self.infmt, self.cropleft, self.cropright, self.idxflag )
+		self.vprint( "Creating the queue script: %s\n" % self.chunkscript )
+		self.vprint( "Using : %s\n" % chunkprogram )
+
+
+
+		chunkscriptOut = open( self.chunkscript, "w" )
+
+		try:
+			#output the introductory script section
+			chunkscriptOut.write( """\
+#!/bin/bash 
+set -x
+
+#add the modules required 
+source /dls_sw/i12/modulefiles/modules.sh
+module add /dls_sw/i12/modulefiles/local-64
+myjob=$JOB_ID
+mytask=$SGE_TASK_ID
+""" )
+
+			#set the unique identifier value
+			chunkscriptOut.write( """mypid=%s\n""" % self.mypid )
+
+			#set the output folder
+			chunkscriptOut.write( """odir=%s\n""" % self.outdir )
+
+			#check folder existance
+			chunkscriptOut.write( """\
+if [[ ! -e $odir ]]
+then
+mkdir -p $odir
+fi
+mynum=`printf "%%03d" $mytask`
+
+echo PATH is $PATH
+
+#ulimit -c unlimited
+# UNCOMMENT  some of these lines to get more diagnostic information
+# env > task${mytask}.env
+#tracename=trace${myjob}_t${mytask}.trace
+#trace execution all
+""" )
+
+			#assemble the command line that actually does the task
+			chunkscriptOut.write( """\
+%s %s -m $mytask  -v -J %s${myjob}_t${mytask}
+""" 		 % ( chunkprogram, chunkflags, self.jobname ) )
+
+			#check for error in return value
+			chunkscriptOut.write( """\
+retval=$?
+if [[ retval -ne 0 ]]
+then
+  echo -e "job $myjob task $mytask return-value $retval\\n" >> %s/error_$mypid.txt  
+fi
+""" 		 % self.settingsfolder )
+
+
+		finally:
+			#end of the queue script text
+			chunkscriptOut.flush()
+			chunkscriptOut.close()
+
+
+	def submitChunkScript( self ):
+		#set the queue environment
+		if self.testing:
+			qenviron = {}
+		else:
+			qenviron = os.environ
+		qenviron["SGE_CELL"] = "DLS"
+		qenviron["SGE_EXECD_PORT"] = "60001"
+		qenviron["SGE_QMASTER_PORT"] = "60000"
+		qenviron["SGE_ROOT"] = "/dls_sw/apps/sge/SGE6.2"
+		oldpath = ""
+		try :
+			oldpath = qenviron["PATH"]
+		except :
+			oldpath = ""
+		qenviron["PATH"] = "/dls_sw/apps/sge/SGE6.2/bin/lx24-" + self.getArch() + ":/bin:/usr/bin:" + oldpath
+
+		self.out.write ( "Spawning the sinogram job ...\n" )
+		args = ["qsub"]
+		if self.qsub_project != None:
+			#add qsub project
+			args += [ "-P", self.qsub_project]
+		if self.settingsfolder != None:
+			#add error stream
+			args += ["-e", self.settingsfolder]
+			#add output stream
+			args += ["-o", self.settingsfolder]
+		if self.myqueue != None:
+			#add queue
+			args += ["-q", self.myqueue]
+		if self.jobname != None:
+			#add jobname
+			args += ["-N", self.jobname]
+
+		if self.Wflag :
+			#wait for previous job
+			args += ["-hold_jid", self.mywait]
+
+		#execute job in current working directory
+		args += ["-cwd"]
+
+		#specify parallel environment :
+		# smp - SMP/OpenMP/threaded programs running within a single node
+
+		#-pe parallel_environment n[-[m]]|[-]m,...
+		#Available for qsub, qsh, qrsh, qlogin and qalter only.
+
+		#Parallel programming environment (PE)  to  instantiate.
+		#For more detail about PEs, please see the sge_types(1).
+
+		#Qalter allows changing this option even while  the  job
+		#executes. The modified parameter will only be in effect
+		#after a restart or migration of the job, however.
+
+		#If this option or a  corresponding  value  in  qmon  is
+		#specified  then  the  parameters  pe_name,  pe_min  and
+		#pe_max will be passed to configured JSV instances where
+		#pe_name  will  be  the name of the parallel environment
+		#and the values pe_min and pe_max represent the values n
+		#and  m  which have been provided with the -pe option. A
+		#missing specification of m will be  expanded  as  value
+		#9999999  in  JSV  scripts  and  it represents the value
+		#infinity.  (see -jsv option above or find more informa-
+		#tion concerning JSV in jsv(1))
+
+		args += [ "-pe", "smp", "4"]
+
+		#submit array jobs
+		#self.firstchunk is used to define SGE-TASK_FIRST
+		#self.lastchunk is used to define SGE_TASK_LAST
+		#for each job the index is used to define SGE_TASK_ID
+		args += [ "-t", "%i-%i" % ( self.firstchunk, self.lastchunk )]
+
+		#script
+		args += [self.chunkscript ]
+
+		try:
+			self.PopenWait( args, env = qenviron )
+		except Exception, ex:
+			raise Exception ( "ERROR Spawning the sinogram job didn't work " + str( ex ) )
+
+	def submitFinishScript( self ):
+		if self.testing:
+			qenviron = {}
+		else:
+			qenviron = os.environ
+		qenviron["SGE_CELL"] = "DLS"
+		qenviron["SGE_EXECD_PORT"] = "60001"
+		qenviron["SGE_QMASTER_PORT"] = "60000"
+		qenviron["SGE_ROOT"] = "/dls_sw/apps/sge/SGE6.2"
+		oldpath = ""
+		try :
+			oldpath = qenviron["PATH"]
+		except :
+			oldpath = ""
+		qenviron["PATH"] = "/dls_sw/apps/sge/SGE6.2/bin/lx24-" + self.getArch() + ":/bin:/usr/bin:" + oldpath
+
+		self.out.write ( "Spawning the sinogram finishing job ... " )
+		finishname = "f_%s" % self.jobname
+		self.out.write( "JOB NAME IS %s\n" % finishname )
+		args = ["qsub", "-P", self.qsub_project, "-e", self.settingsfolder, "-o", self.settingsfolder, "-q", "high.q", "-hold_jid", self.jobname, "-N", finishname, self.finishscript]
+
+		try:
+			self.PopenWait( args, env = qenviron )
+		except Exception, ex:
+			self.out.write ( "Spawning the sinogram finishing job didn't work " + str( ex ) )
+			raise ex
+
+
+	def createFinishScript( self ):
+		self.finishscript = "%s/finishchunk.qsh" % self.settingsfolder
+		self.vprint( "Creating the finishing script: %s\n" % self.finishscript )
+
+		try:
+			finishscriptOut = open( self.finishscript, "w" )
+			finishscriptOut.write( """\
+#!/bin/bash 
+set -x
+
+#add the modules required 
+source /dls_sw/i12/modulefiles/modules.sh
+#add environment required by epics channel access (ezca) 
+
+myjob=$JOB_ID
+mytask=$SGE_TASK_ID
+mypid=%s
+jjname="%s"
+""" % ( self.mypid, self.jobbasename ) )
+
+			finishscriptOut.write( """\
+ffolder="${jjname}_files"
+errfile=%s/error_$mypid.txt
+""" % self.settingsfolder )
+
+			finishscriptOut.write( """\
+if [[ -e $errfile ]]
+then
+errtxt=`cat $errfile`
+
+		#send a mail message when completed
+		/usr/sbin/sendmail -t $USER <<-ENDM
+			Subject: [QUEUE] I12 job error from PID ${mypid}
+
+                         The I12 data acquisition job has encountered a problem.
+                         The error information is:
+
+                         $errtxt
+
+                         This  e-mail was automatically generated by
+                         the tomographic reconstruction batch processing system
+
+		ENDM
+
+fi
+
+#mkdir -p ${ffolder}/job${myjob}
+#mv ${jjname}_sino* ${ffolder}/job${myjob}
+
+mv *.trace %s
+""" % self.settingsfolder )
+
+		finally:
+			#end of the finish script text
+			finishscriptOut.flush()
+			finishscriptOut.close
+
 	def run( self ):
 
 		self.parseOptions()
@@ -465,7 +498,7 @@ mv *.trace %s
 			self.usage()
 			return
 
-		self.out.write ( "Using first chunk %i and last chunk %i" % ( self.firstchunk, self.lastchunk ) )
+		self.out.write ( "Using first chunk %i and last chunk %i\n" % ( self.firstchunk, self.lastchunk ) )
 
 		self.jobname = "%s_sn_%s_%s" % ( self.jobbasename, self.jobsuffix, self.mypid )
 
@@ -476,26 +509,26 @@ mv *.trace %s
 			tstamp = time.strftime( "%Y_%m%d_%H%M%S" )
 
 		self.settingsfolder = "%s/sino_%s_files" % ( self.settingsbase, tstamp )
-		self.out.write ( "Settings folder will be : %s " % self.settingsfolder )
+		self.out.write ( "Settings folder will be : %s\n" % self.settingsfolder )
 		self.nproj = self.nperseg * self.nsegs
 
 		self.out.write( "using input file format %s\n" % self.infmt )
 
 		#check folder for the project
-		self.out.write ( "Checking for input directory %s \nTimeout: %i seconds" % ( self.indir, self.lt ) )
+		self.out.write ( "Checking for input directory %s \nTimeout: %i seconds\n" % ( self.indir, self.lt ) )
 		if not folderExistsWithTimeOut( self.indir, self.lt, self.interval, self.out ):
 			msg = "Input directory %s is not available after %i seconds!" % ( self.indir, self.lt )
 			self.errprint ( msg )
 			raise Exception( msg )
 
-		self.out.write ( "Input directory %s found...." % self.indir )
+		self.out.write ( "Input directory %s found\n" % self.indir )
 
 		#locate or create the output folders
 		if not( os.access ( self.settingsbase, os.F_OK ) ):
 			os.mkdir( self.settingsbase )
 
 		if not( os.access ( self.settingsfolder, os.F_OK ) ):
-			self.out.write ( "creating %s" % self.settingsfolder )
+			self.out.write ( "creating %s\n" % self.settingsfolder )
 			os.mkdir( self.settingsfolder )
 
 		#create the queue bash script for the queue task array
@@ -528,7 +561,7 @@ class Test1( unittest.TestCase ):
 
 	def test_noArgs( self ):
 		( out, err, errFileName, outputFileName ) = self.outAndErr( "test_noArgs" )
-		main( ["program"], out = writer_newline( out ), err = writer_newline( err ) )
+		main( ["program"], out = out , err = err )
 		out.close()
 		err.close()
 		self.checkFilesMatch( "expected_usage.txt", outputFileName )
@@ -536,7 +569,7 @@ class Test1( unittest.TestCase ):
 
 	def test_testing( self ):
 		( out, err, errFileName, outputFileName ) = self.outAndErr( "test_testing" )
-		main( ["program", "-t"], out = writer_newline( out ), err = writer_newline( err ) )
+		main( ["program", "-t"], out = out , err = err )
 		out.close()
 		err.close()
 		self.checkFilesMatch( "expected_usage.txt", outputFileName )
@@ -544,7 +577,7 @@ class Test1( unittest.TestCase ):
 
 	def test_help( self ):
 		( out, err, errFileName, outputFileName ) = self.outAndErr( "test_help" )
-		main( ["program", "-h"], out = writer_newline( out ), err = writer_newline( err ) )
+		main( ["program", "-h"], out = out , err = err )
 		out.close()
 		err.close()
 		self.checkFilesMatch( "expected_usage.txt", outputFileName )
@@ -553,7 +586,7 @@ class Test1( unittest.TestCase ):
 	def test_i_no_parameter( self ):
 		( out, err, errFileName, outputFileName ) = self.outAndErr( "test_i_no_parameter" )
 		try:
-			main( ["program", "-i"], out = writer_newline( out ), err = writer_newline( err ) )
+			main( ["program", "-i"], out = out , err = err )
 		except Exception, ex:
 			self.assertEquals( 'Invalid usage', str( ex ) )
 		out.close()
@@ -564,7 +597,7 @@ class Test1( unittest.TestCase ):
 	def test_i_nonExistentFolder( self ):
 		( out, err, errFileName, outputFileName ) = self.outAndErr( "test_i_nonExistentFolder" )
 		try:
-			main( ["program", "-i", "nonExistent", "-Z", "2", "-t", "-v"], out = writer_newline( out ), err = writer_newline( err ) )
+			main( ["program", "-i", "nonExistent", "-Z", "2", "-t", "-v"], out = out , err = err )
 		except Exception, ex:
 			self.assertEquals( 'Input directory nonExistent is not available after 2 seconds!', str( ex ) )
 		finally:
@@ -572,10 +605,10 @@ class Test1( unittest.TestCase ):
 			err.close()
 
 	def test_i_cdw( self ):
-		if os.path.exists("sino_output"):
-			shutil.rmtree("sino_output")
+		if os.path.exists( "sino_output" ):
+			shutil.rmtree( "sino_output" )
 		( out, err, errFileName, outputFileName ) = self.outAndErr( "test_i_cdw" )
-		main( ["program", "-i", ".", "-t", "-v"], out = writer_newline( out ), err = writer_newline( err ) )
+		main( ["program", "-i", ".", "-t", "-v", "--qsub_project", "i13"], out = out , err = err )
 		out.close()
 		err.close()
 		self.checkFilesMatch( outputFileName, outputFileName )
@@ -584,6 +617,7 @@ class Test1( unittest.TestCase ):
 		self.checkFilesMatch1( "testing_expected_output/" + sinochunkFile, sinochunkFile )
 		finishchunkFile = "sino_output/sino_testing_files/finishchunk.qsh"
 		self.checkFilesMatch1( "testing_expected_output/" + finishchunkFile, finishchunkFile )
+
 
 	def outAndErr( self, testName ):
 		outputFileName = testName + "_output.txt"
