@@ -13,7 +13,7 @@
 	<!--***************************************-->
 	<!-- *** Plot Manager Section *** -->
 	<!--***************************************-->
-	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
+	<!--  <bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />-->
 	<!--***************************************-->
 	<!-- *** End of Plot Manager section *** -->
 	<!--***************************************-->

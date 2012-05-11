@@ -1,7 +1,7 @@
 from BeamlineParameters import JythonNameSpaceMapping, FinderNameMapping
 
 from gda.scan import StaticScan
-from uk.ac.gda.beans.exafs import XanesScanParameters
+from uk.ac.gda.beans.exafs import XanesScanParameters,OutputParameters
 from gda.configuration.properties import LocalProperties
 from gda.device import CounterTimer
 from gda.device.detector.countertimer import CounterTimerBase
@@ -11,7 +11,7 @@ from gdascripts.messages.handle_messages import simpleLog
 
 #from exafsscripts.exafs.i20_setup import setupI20, finishI20
 from exafsscripts.exafs.configFluoDetector import configFluoDetector
-from gda.jython.commands.ScannableCommands import scan, pos, add_default 
+from gda.jython.commands.ScannableCommands import scan, pos, add_default, remove_default 
 import string
 from time import sleep
 from gda.factory import Finder
@@ -27,7 +27,12 @@ from uk.ac.gda.beans.exafs import QEXAFSParameters
 rootnamespace = {}
 
 def finish():
-	pass
+	command_server = Finder.getInstance().find("command_server")
+	beam = command_server.getFromJythonNamespace("beam", None)
+	detectorFillingMonitor = command_server.getFromJythonNamespace("detectorFillingMonitor", None)
+	remove_default(beam)
+	remove_default(detectorFillingMonitor)
+	#pass
 	
 
 def setup(beanGroup):
@@ -75,7 +80,11 @@ def setup(beanGroup):
 			detectorFillingMonitor.setPauseBeforeLine(False)
 			detectorFillingMonitor.setCollectionTime(collectionTime)
 		trajBeamMonitor.setActive(False)
+		##set the file name for the output parameters
+		outputBean=beanGroup.getOutput()
 		sampleParameters = beanGroup.getSample()
+		outputBean.setAsciiFileName(sampleParameters.getName())
+		print "Setting the ascii file name as " ,sampleParameters.getName()
 		stage = sampleParameters.getSampleStageParameters()
 		att1 = sampleParameters.getAttenuatorParameter1()
 		att2 = sampleParameters.getAttenuatorParameter2()
@@ -122,5 +131,5 @@ def redefineNexusMetadata(beanGroup):
 
 	#attenustors
 	
-	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("D7A", str(jython_mapper.D7A()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXatenuator, "Attenuators"))
-	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("D7B", str(jython_mapper.D7B()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXatenuator, "Attenuators"))
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("D7A", str(jython_mapper.D7A()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXattenuator, "Attenuators"))
+	NexusExtraMetadataDataWriter.addMetadataEntry(NexusFileMetadata("D7B", str(jython_mapper.D7B()), EntryTypes.NXinstrument, NXinstrumentSubTypes.NXattenuator, "Attenuators"))

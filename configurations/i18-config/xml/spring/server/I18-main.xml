@@ -22,7 +22,7 @@
     
 	
 	<!--  GDA configuration split up by part type with the rest being in core -->
-	<import resource="file:${gda.config}/xml/spring/server/gda/I18-epics-objects.xml"/>
+	<import resource="file:${gda.config}/xml/spring/server/gda/I18-epics-objects.xml"/> 
 	<import resource="file:${gda.config}/xml/spring/server/gda/xmaptraj_scan_controller.xml"/>
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-server-sampleenvironments.xml"/>
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-meta-data.xml"/> 

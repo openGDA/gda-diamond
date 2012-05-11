@@ -1,9 +1,160 @@
+das=finder.find("daserver")
+#==============================================================
+# Read the scaler data from memory
+#==============================================================
+def readScalarData():
+	command = "read 0 0 0 3 9 1 from 1"
+	scalarString=das.getData(command)
+	scalarData=[]
+	for j in range(3):
+		scalarData.append(range(9))
+	k=0
+	for i in range(9):
+		for j in range(3):
+			scalarData[j][i]=int(scalarString[k])
+			k=k+1
+	return scalarData
+
+#==============================================================
+# Read the scaler data from memory
+#==============================================================
+def readScalarDataAtIndex(index):
+	command = "read 0 0 %d 4 9 1 from 1" %index
+	scalarString=das.getData(command)
+	print 'scalarString',scalarString
+	scalarData=[]
+	for j in range(4):
+		scalarData.append(range(9))
+	k=0
+	for i in range(9):
+		for j in range(4):
+			scalarData[j][i]=int(scalarString[k])
+			k=k+1
+	return scalarData
+
+
+#===================================================
+# Collect data
+#====================================================
+def setupCollect(noOfFrames,collectionTime):
+	# clear the detector and setup tfg
+	das.sendCommand("disable 0")
+	das.sendCommand("clear 0")
+	das.sendCommand("enable 0")
+	das.sendCommand("tfg init")
+	command = "tfg setup-groups cycles 1 \n%d 1.0E-5 %f 0 7 -1 0 \n-1 0 0 0 0 0 0 " %(noOfFrames,collectionTime)
+	das.sendCommand(command)
+	das.sendCommand("tfg start")
+
+
+#===================================================
+# Collect data
+#====================================================
+def collectData(mcarootname,scalerrootname,collectionTime,i):
+	ionChambers.clearAndPrepare()
+	# A check to make sure the struck is started (i.e. cleared and waiting for a trigger signal)
+	# Early runs occassionally threw odd numbers or zeros out...
+	# so put in some check the struck is the right state 
+	mysleeptime=collectionTime*0.95
+	while(ionChambers.isClear()==0 or ionChambers.getStatus()==0):
+		print 'ionchambers struck not ready: Waiting to clear'
+		sleep(0.050)
+		ionChambers.clearAndPrepare()
+		sleep(0.050)
+	das.sendCommand("tfg cont")
+	sleep(mysleeptime)
+	das.sendCommand("tfg wait")
+	ionChambers.stop()
+	# read scalers to file
+	scalname= "%s_%d.dat" % (scalerrootname,i)
+	command = "read 0 0 %d 4 9 1 from 1 to-local-file \"%s\" raw intel" % (i,scalname)
+	das.sendCommand(command)
+	# read mca to file
+	mcaname= "%s_%d.dat" % (mcarootname,i)
+	command = "read 0 0 %d 4096 9 1 from 0 to-local-file \"%s\" raw" % (i,mcaname)
+	das.sendCommand(command)
+	#  read scaler to array
+	mydata=readScalarDataAtIndex(i)
+	return mydata,(ionChambers.getPosition()),mcaname,scalname
+
+#===================================================
+# Collect data
+#====================================================
+def collectDataScope(i):
+	# clear the detector and setup tfg
+	command="~scope_all_once \"dtc_28_01_09_%d\"" %(i)
+	das.sendCommand(command)
+
 #
+# Set the start gap
 #
-# focus position
+pos s3ygap 0.00
+collectionTime=10.0
+
+# make a unique name
+date_time=localtime()
+strname='det_apr12_run4'
+#for k in range(len(date_time)):
+	#strname=strname+str(date_time[k])
+
+#mcarootname = "/dls/i18/tmp/detector_test_april12/scan_%s_mca" % (strname)
+#scalerrootname = "/dls/i18/tmp/detector_test_april12/scan_%s_scaler" % (strname)
+#dtcfilename = "/dls/i18/tmp/detector_test_april12/dtcrun_%s_.dat" % (strname)
+mcarootname = "/dls/i18/data/2012/cm5712-2/scan_%s_mca" % (strname)
+scalerrootname = "/dls/i18/data/2012/cm5712-2/scan_%s_scaler" % (strname)
+dtcfilename = "/dls/i18/data/2012/cm5712-2/dtcrun_%s_.dat" % (strname)
+
+print 'dtcfile :',dtcfilename
+# set resolution grade
+#command="xspress2 format-run \'xsp1\' res-none"
+#das.sendCommand(command)
+
+
 #
-pos s2xgap 0.03
-pos kb_hfm_curve 1.59
-pos kb_vfm_curve 8.54
-inc kb_vfm_curve 0.002
-#hello
+# file name to save to...caution it overwrites
+#
+fout=open(dtcfilename,"w")
+#
+# set a number of sets and increment
+#
+
+setupCollect(36,collectionTime)
+for i in range(30):
+	# a name for the mca and scaler data _mca and _scaler is appended to this name
+	scalerdata,ionchamberdata,mcafile,scalerfile=collectData(mcarootname,scalerrootname,collectionTime,i)
+	# print to screen for something to look at
+
+	strout=''
+	for j in range(3):
+		strout=strout+' '+str(ionchamberdata[j])
+	for j in range(4):
+		for k in range(9):
+			strout=strout+' '+str(scalerdata[j][k])
+	print i,strout
+	# print data to a file
+	print >> fout,strout,mcafile,scalerfile
+	# increment the s3 gap
+	inc s3ygap +0.01
+# close the file
+fout.close()
+#command="~analyse_dtc "+ "\'%s\'" %dtcfilename.strip("_.dat")
+#das.sendCommand(command)
+
+
+#
+# Set the start gap
+#
+#pos s3ygap 0.460
+#
+# set a number of sets and increment
+#
+#fout=open("/dls/i18/tmp/detector_test/280109_ionchamber_scope.dat","w")
+#for i in range(46):
+#	# a name for the mca and scaler data _mca and _scaler is appended to this name
+#	print >> fout,multict.getPosition()
+#	collectDataScope(i)
+#	sleep(120)
+#	inc s3ygap -0.02
+# close the file
+#fout.close()
+

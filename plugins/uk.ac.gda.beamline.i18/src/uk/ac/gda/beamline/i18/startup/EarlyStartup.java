@@ -157,7 +157,8 @@ public class EarlyStartup implements IStartup {
 								
 								// Send the last active editor to the top
 								IEditorReference lastActiveRef = lastActiveEditors.get(perspective.getId());
-								page.bringToTop(lastActiveRef.getPart(true));
+								if(lastActiveRef != null)
+									page.bringToTop(lastActiveRef.getPart(true));
 							}
 							/*-----Part to hide all editor**/
 							

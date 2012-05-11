@@ -61,7 +61,7 @@ public class CameraView extends ViewPart {
 	private BeamCentreFigure beamCentreFigure;
 	private boolean layoutReset;
 	private Action snap;
-	private String snapDirectory =PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir");
+	private String snapDirectory =PathConstructor.createFromProperty("gda.cameraview.snapshot.dir");
 
 	public CameraView() {
 		// TODO Auto-generated constructor stub

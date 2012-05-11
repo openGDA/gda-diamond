@@ -30,6 +30,11 @@
       <property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
   </bean>  
   <bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+      <property name="serviceName" value="gda/sc_microfocusXZ" />
+      <property name="service" ref="sc_microfocusXZ" />
+      <property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+  </bean>  
+  <bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
       <property name="serviceName" value="gda/vma_zoom1" />
       <property name="service" ref="vma_zoom1" />
       <property name="serviceInterface" value="gda.device.ScannableMotionUnits" />

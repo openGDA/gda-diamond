@@ -9,15 +9,9 @@
         <number>1</number>
         <ROI>
             <name>Fe_Ka</name>
-            <windowStart>615</windowStart>
-            <windowEnd>659</windowEnd>
-            <counts>60859</counts>
-        </ROI>
-        <ROI>
-            <name>Mn_Ka</name>
-            <windowStart>550</windowStart>
-            <windowEnd>618</windowEnd>
-            <counts>19804</counts>
+            <windowStart>543</windowStart>
+            <windowEnd>638</windowEnd>
+            <counts>3599</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -29,15 +23,9 @@
         <number>1</number>
         <ROI>
             <name>Fe_Ka</name>
-            <windowStart>615</windowStart>
-            <windowEnd>659</windowEnd>
-            <counts>52356</counts>
-        </ROI>
-        <ROI>
-            <name>Mn_Ka</name>
-            <windowStart>550</windowStart>
-            <windowEnd>618</windowEnd>
-            <counts>19804</counts>
+            <windowStart>543</windowStart>
+            <windowEnd>638</windowEnd>
+            <counts>3006</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -49,15 +37,9 @@
         <number>1</number>
         <ROI>
             <name>Fe_Ka</name>
-            <windowStart>615</windowStart>
-            <windowEnd>659</windowEnd>
-            <counts>62836</counts>
-        </ROI>
-        <ROI>
-            <name>Mn_Ka</name>
-            <windowStart>550</windowStart>
-            <windowEnd>618</windowEnd>
-            <counts>19804</counts>
+            <windowStart>543</windowStart>
+            <windowEnd>638</windowEnd>
+            <counts>3532</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -69,21 +51,15 @@
         <number>1</number>
         <ROI>
             <name>Fe_Ka</name>
-            <windowStart>615</windowStart>
-            <windowEnd>659</windowEnd>
-            <counts>61822</counts>
-        </ROI>
-        <ROI>
-            <name>Mn_Ka</name>
-            <windowStart>550</windowStart>
-            <windowEnd>618</windowEnd>
-            <counts>19804</counts>
+            <windowStart>543</windowStart>
+            <windowEnd>638</windowEnd>
+            <counts>3574</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
         <excluded>false</excluded>
     </DetectorElement>
-    <deadTime>-0.0</deadTime>
+    <deadTime>-0.01</deadTime>
     <saveRawSpectrum>false</saveRawSpectrum>
 </VortexParameters>
