@@ -45,31 +45,60 @@
 		</property>
 	</bean>
 
-	<bean id="pco1_roi_pvProvider"
+	<bean id="pco1_roi1_pvProvider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL13I-EA-DET-01:ROI:" />
+		<property name="prefix" value="BL13I-EA-DET-01:ROI1:" />
 	</bean>
 
-	<bean id="pco1_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
-		<property name="pvProvider" ref="pco1_roi_pvProvider" />
+	<bean id="pco1_roi1" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
+		<property name="pvProvider" ref="pco1_roi1_pvProvider" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="pco1_roi_pvProvider" />
+				<property name="pvProvider" ref="pco1_roi1_pvProvider" />
 			</bean>
 		</property>
 	</bean>
 
-	<bean id="pco1_ffmpeg_pvProvider"
+	<bean id="pco1_roi2_pvProvider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL13I-EA-DET-01:MPEG:" />
+		<property name="prefix" value="BL13I-EA-DET-01:ROI2:" />
 	</bean>
 
-	<bean id="pco1_ffmpeg"
-		class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
-		<property name="pvProvider" ref="pco1_ffmpeg_pvProvider" />
+	<bean id="pco1_roi2" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
+		<property name="pvProvider" ref="pco1_roi1_pvProvider" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="pco1_ffmpeg_pvProvider" />
+				<property name="pvProvider" ref="pco1_roi2_pvProvider" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pco1_ffmpeg1_pvProvider"
+		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="BL13I-EA-DET-01:MPG1:" />
+	</bean>
+
+	<bean id="pco1_ffmpeg1"
+		class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
+		<property name="pvProvider" ref="pco1_ffmpeg1_pvProvider" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="pvProvider" ref="pco1_ffmpeg1_pvProvider" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pco1_ffmpeg2_pvProvider"
+		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="BL13I-EA-DET-01:MPG2:" />
+	</bean>
+
+	<bean id="pco1_ffmpeg2"
+		class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
+		<property name="pvProvider" ref="pco1_ffmpeg2_pvProvider" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="pvProvider" ref="pco1_ffmpeg2_pvProvider" />
 			</bean>
 		</property>
 	</bean>
@@ -120,13 +149,46 @@
 		</property>
 	</bean>
 
+	<bean id="pco1_proc1_pvProvider"
+		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="BL13I-EA-DET-01:PRO1:" />
+	</bean>
+
+	<bean id="pco1_proc1" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="pvProvider" ref="pco1_proc1_pvProvider" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="pvProvider" ref="pco1_proc1_pvProvider" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pco1_proc2_pvProvider"
+		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="BL13I-EA-DET-01:PRO2:" />
+	</bean>
+
+	<bean id="pco1_proc2" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="pvProvider" ref="pco1_proc2_pvProvider" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="pvProvider" ref="pco1_proc2_pvProvider" />
+			</bean>
+		</property>
+	</bean>
+
+
 	<bean id="pco1_plugins" class="gda.device.FindableObjectHolder">
 		<property name="map">
 			<util:map>
 				<entry key="pco1_cam_base" value-ref="pco1_cam_base" />
 				<entry key="pco1_arr" value-ref="pco1_arr" />
-				<entry key="pco1_ffmpeg" value-ref="pco1_ffmpeg" />
-				<entry key="pco1_roi" value-ref="pco1_roi" />
+				<entry key="pco1_ffmpeg1" value-ref="pco1_ffmpeg1" />
+				<entry key="pco1_ffmpeg2" value-ref="pco1_ffmpeg2" />
+				<entry key="pco1_roi1" value-ref="pco1_roi1" />
+				<entry key="pco1_roi2" value-ref="pco1_roi2" />
+				<entry key="pco1_proc1" value-ref="pco1_proc1" />
+				<entry key="pco1_proc2" value-ref="pco1_proc2" />
 				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file"/>
 				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif"/>
 				<entry key="pco1_singleExposurePcoSoftwareTrigger" value-ref="pco1_singleExposurePcoSoftwareTrigger"/>
@@ -151,13 +213,14 @@
 		<constructor-arg ref="adDriverPco1" />
 		<constructor-arg value=".03" />
 	</bean>
-	<bean id="pco1_multipleExposurePco" class="gda.device.detector.addetector.triggering.MultipleExposureSoftwareTriggerAutoMode">
+	<bean id="pco1_multipleExposurePco" class="gda.device.detector.addetector.triggering.PCOMultipleExposureSoftwareTriggerAutoMode">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg value=".04" />
+		<constructor-arg ref="adDriverPco1" />
+		<property name="ndProcess" ref ="pco1_proc1"/>
 	</bean>
 	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<constructor-arg ref="pco1_ndhdf5file" />
-		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg value="pco1"/>
 		<constructor-arg value="%s%s-%d-d5.hdf"/>
 		<constructor-arg value="true"/>
@@ -211,6 +274,7 @@
 				<constructor-arg value="true"/>
 				<property name="enable" value="true"/>
 				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+				<property name="returnExpectedFullFileName" value="true"/>
 			</bean>
 		</property>
 

@@ -1,0 +1,8 @@
+<JEPQuantityConverter>
+<ExpressionStoT>12398.42/X</ExpressionStoT>
+<ExpressionTtoS>12398.42/X</ExpressionTtoS>
+<AcceptableSourceUnits>eV</AcceptableSourceUnits>
+<AcceptableTargetUnits>Angstrom</AcceptableTargetUnits>
+<SourceMinIsTargetMax>true</SourceMinIsTargetMax>
+</JEPQuantityConverter>
+

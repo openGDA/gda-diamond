@@ -16,7 +16,7 @@ class   flyscan_positionsOneWay(ScanPositionProvider):
         previousPoint = start
         for i in range(numberSteps):
             nextPoint = ScannableUtils.calculateNextPoint(previousPoint, self.step);
-            self.points.append(flyscan_position(None, nextPoint))
+            self.points.append(flyscan_position(None,nextPoint))
             previousPoint = nextPoint
         self.forward=True
 

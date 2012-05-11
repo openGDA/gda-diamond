@@ -51,6 +51,18 @@
 			</list>
 		</property>
 	</bean>	
-	
+
+<!-- 	<bean id="sampleXYZ" class="gda.device.scannable.SampleXYZScannable">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ss1_samplex" />
+				<ref bean="ss1_sampley" />
+				<ref bean="ss1_samplez" />
+			</list>
+		</property>
+		<property name="omegaScannable" ref="ss1_rot" />
+		<property name="omegaDirection" value="ANTICLOCKWISE" />
+		<property name="axisOrientationMatrix" value="{{-1,0,0},{0,-1,0},{0,0,1}}" />
+	</bean> -->
 </beans>
 

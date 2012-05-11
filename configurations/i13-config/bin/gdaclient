@@ -10,8 +10,8 @@ export JAVA_OPTS="$JAVA_OPTS -Dgda.mode=$GDAMODE"
 
 if [ "$1" = "--clean" ]
 then
-    echo "rf /scratch/.i13_workspace-$(whoami)"
-    rm -rf /scratch/.i13_workspace-$(whoami)
+    echo "rf /scratch/i13i/.workspace-$(whoami)"
+    rm -rf /scratch/i13i/.workspace-$(whoami)
 fi
 
 echo "$GDAFOLDER/client/gda-i13i"
