@@ -1,6 +1,5 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
            http://www.springframework.org/schema/util
@@ -15,9 +14,11 @@
 
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 
-<!-- 	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" /> -->
-	
-	<bean id="plot_server" class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
+	<!-- <bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" 
+		/> -->
+
+	<bean id="plot_server"
+		class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
 
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
 		<property name="name" value="FileRegistrar" />
@@ -55,7 +56,8 @@
 							<property name="type" value="CORE" />
 						</bean>
 						<bean class="gda.jython.ScriptProject">
-							<property name="path" value="${gda.root}/uk.ac.gda.server.exafs/scripts" />
+							<property name="path"
+								value="/home/rjw82/workspaces/trunk_git/gda-xas-core.git/uk.ac.gda.server.exafs/scripts" />
 							<property name="name" value="Scripts: Exafs" />
 							<property name="type" value="CORE" />
 						</bean>
@@ -70,65 +72,82 @@
 	</bean>
 
 	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
-	
+
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
-	
-    <bean class="uk.ac.gda.beans.BeansFactory">
-	    <property name="classList">
-	        <util:list>
-	           <value>uk.ac.gda.beans.exafs.XasScanParameters</value>
-	           <value>uk.ac.gda.beans.exafs.XanesScanParameters</value>
-	           <value>uk.ac.gda.beans.exafs.QEXAFSParameters</value>
-	           <value>uk.ac.gda.beans.exafs.b18.B18SampleParameters</value>
-	           <value>uk.ac.gda.beans.exafs.SampleElements</value>
-	           <value>uk.ac.gda.beans.exafs.DetectorParameters</value>
-	           <value>uk.ac.gda.beans.exafs.OutputParameters</value>
-	           <value>uk.ac.gda.beans.vortex.VortexParameters</value>
-	           <value>uk.ac.gda.beans.xspress.XspressParameters</value>
-	        </util:list>
-	    </property>
+
+	<bean class="uk.ac.gda.beans.BeansFactory">
+		<property name="classList">
+			<util:list>
+				<value>uk.ac.gda.beans.exafs.XasScanParameters</value>
+				<value>uk.ac.gda.beans.exafs.XanesScanParameters</value>
+				<value>uk.ac.gda.beans.exafs.QEXAFSParameters</value>
+				<value>uk.ac.gda.beans.exafs.b18.B18SampleParameters</value>
+				<value>uk.ac.gda.beans.exafs.SampleElements</value>
+				<value>uk.ac.gda.beans.exafs.DetectorParameters</value>
+				<value>uk.ac.gda.beans.exafs.OutputParameters</value>
+				<value>uk.ac.gda.beans.vortex.VortexParameters</value>
+				<value>uk.ac.gda.beans.xspress.XspressParameters</value>
+			</util:list>
+		</property>
 	</bean>
-	
+
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
-			
+
 		<property name="metadataEntries">
 			<list>
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="name" value="instrument" />
 					<property name="propertyName" value="gda.instrument" />
 				</bean>
-			
+
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="name" value="facility" />
 					<property name="propertyName" value="gda.facility" />
 				</bean>
-			
+
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="name" value="facilityType" />
 					<property name="propertyName" value="gda.facility.type" />
 				</bean>
-			
+
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="name" value="probe" />
 					<property name="propertyName" value="gda.facility.probe" />
 				</bean>
-			
+
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="name" value="beamCurrent" />
 					<property name="propertyName" value="SR-DI-DCCT-01:SIGNAL" />
 				</bean>
-			
+
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="name" value="facilityMode" />
 					<property name="propertyName" value="CS-CS-MSTAT-01:MODE" />
 				</bean>
-			
+
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="name" value="fillMode" />
 					<property name="propertyName" value="LI-TI-MTGEN-01:MODE" />
 				</bean>
-				
+
 			</list>
 		</property>
-	</bean>	
+	</bean>
+
+
+	<bean id="commandQueue" class="gda.commandqueue.CommandQueue">
+	</bean>
+
+	<bean id="commandQueueProcessor" class="gda.commandqueue.FindableProcessorQueue">
+		<property name="queue" ref="commandQueue" />
+		<property name="startImmediately" value="true" />
+		<property name="logFilePath" value="${gda.logs.dir}/commandQueueProcessor.log" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/commandQueueProcessor" />
+		<property name="service" ref="commandQueueProcessor" />
+		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
+	</bean>
+
+	<import resource="LoggingScriptController.xml" />
 </beans>
