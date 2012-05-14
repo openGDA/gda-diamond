@@ -25,7 +25,7 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
 import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
-import uk.ac.gda.client.experimentdefinition.components.RunControllerView;
+import uk.ac.gda.client.CommandQueueViewFactory;
 
 public class XESPlottingPerspective implements IPerspectiveFactory {
 
@@ -50,7 +50,7 @@ public class XESPlottingPerspective implements IPerspectiveFactory {
 
 		IFolderLayout bottomLeftFolder = layout.createFolder("bottomLeftFolder", IPageLayout.BOTTOM, 0.85f,
 				"plotterFolder");
-		bottomLeftFolder.addView(RunControllerView.ID);
+		bottomLeftFolder.addView(CommandQueueViewFactory.ID);
 	}
 
 }
