@@ -25,26 +25,25 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import uk.ac.gda.client.experimentdefinition.ExperimentObjectHelper;
 import uk.ac.gda.client.experimentdefinition.IExperimentObject;
-import uk.ac.gda.client.experimentdefinition.ui.experimentqueue.ExperimentException;
 import uk.ac.gda.exafs.ui.data.EDEScan;
 import uk.ac.gda.exafs.ui.data.EDEValidator;
 
+@Deprecated
 public class EdeQueue /*extends ExperimentQueue*/ {
 
 //	@Override
-	protected boolean process(IExperimentObject run) throws ExperimentException {
+	protected boolean process(IExperimentObject run) throws Exception {
 
 		try {
 
 			EDEValidator.getInstance().validate(run);
 
 			String command = "import edescan; reload(edescan); edescan.ede(edescantorun,useroptionstouse)";
-			ScriptExecutor.Run("EdeScriptObserver", new ExperimentObjectHelper(run), getBeans((EDEScan) run), command,
+			ScriptExecutor.Run("EdeScriptObserver", null, getBeans((EDEScan) run), command,
 					JythonGuiConstants.TERMINALNAME);
 		} catch (Exception e) {
-			throw new ExperimentException(e.getMessage(), run);
+			throw new Exception(e.getMessage());
 		}
 		return true;
 	}
