@@ -51,6 +51,6 @@
 	</bean>
 	<import resource="file:${gda.config}/xml/spring/server/I18-sim-command-server.xml"/>
 	
-	<corba:export namespace="I18_local" />
+	<corba:export namespace="I18_local" exclude="sc_MicroFocusSampleX,sc_MicroFocusSampleY,sc_sample_z,sc_sample_thetacoarse,sc_microfocusXZ,vma_zoom1,vma_focus1,energy"/>
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 </beans>

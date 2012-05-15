@@ -11,7 +11,7 @@
             <name>Fe_Ka</name>
             <windowStart>615</windowStart>
             <windowEnd>659</windowEnd>
-            <counts>60859</counts>
+            <counts>243451281</counts>
         </ROI>
         <ROI>
             <name>Mn_Ka</name>
@@ -31,7 +31,7 @@
             <name>Fe_Ka</name>
             <windowStart>615</windowStart>
             <windowEnd>659</windowEnd>
-            <counts>52356</counts>
+            <counts>234156778</counts>
         </ROI>
         <ROI>
             <name>Mn_Ka</name>
@@ -51,7 +51,7 @@
             <name>Fe_Ka</name>
             <windowStart>615</windowStart>
             <windowEnd>659</windowEnd>
-            <counts>62836</counts>
+            <counts>203555735</counts>
         </ROI>
         <ROI>
             <name>Mn_Ka</name>
@@ -71,7 +71,7 @@
             <name>Fe_Ka</name>
             <windowStart>615</windowStart>
             <windowEnd>659</windowEnd>
-            <counts>61822</counts>
+            <counts>191106192</counts>
         </ROI>
         <ROI>
             <name>Mn_Ka</name>
@@ -84,6 +84,6 @@
         <offset>-21.0</offset>
         <excluded>false</excluded>
     </DetectorElement>
-    <deadTime>-0.0</deadTime>
+    <deadTime>999000.0</deadTime>
     <saveRawSpectrum>false</saveRawSpectrum>
 </VortexParameters>

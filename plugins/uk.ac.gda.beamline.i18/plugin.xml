@@ -479,6 +479,9 @@
       <validator
             class="gda.exfas.ui.validation.I18Validator">
       </validator>
+      <editormanager
+            class="gda.exfas.ui.I18ExperimentEditorManager">
+      </editormanager>
      <!-- <editormanager
             class="gda.exfas.ui.I18ExperimentEditorManager">
       </editormanager>-->
