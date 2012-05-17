@@ -13,6 +13,7 @@ from gda.device.scannable import TopupScannable
 from gda.device.scannable import BeamMonitorScannableWithResume
 from gda.device.scannable import MonoCoolScannable
 from gda.factory import Finder
+from gda.configuration.properties import LocalProperties
 
 original_header = Finder.getInstance().find("datawriterconfig").clone().getHeader()[:]
 
@@ -42,14 +43,17 @@ topupMonitor.setTolerance(5)
 topupMonitor.setWaittime(1)
 topupMonitor.setTimeout(60)
 topupMonitor.setScannableToBeMonitored(topup)
-add_default topupMonitor
+
+if (LocalProperties.get("gda.mode") == 'live'):
+    add_default topupMonitor
 
 beamMonitor = BeamMonitorScannableWithResume()
 beamMonitor.setName("beamMonitor")
 beamMonitor.setTimeout(7200)
 beamMonitor.setWaittime(60)
 beamMonitor.configure()
-add_default beamMonitor
+if (LocalProperties.get("gda.mode") == 'live'):
+    add_default beamMonitor
 
 monoCooler = MonoCoolScannable()
 monoCooler.setName("monoCooler")
