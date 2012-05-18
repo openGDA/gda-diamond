@@ -177,6 +177,34 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="HTScaler" class="gda.device.detector.countertimer.ardwareTriggeredScaler">
+		<property name="extraNames">
+			<list>
+				<value>liveTime</value>
+				<value>I0</value>
+				<value>It</value>
+				<value>Iother</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="daserver"/>
+		<property name="timeChannelRequired" value="true" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputLogValues" value="false" />
+		<property name="TFGv2" value = "true" />
+		<property name="numChannelsToRead"   value="4"/>
+		<property name="outputFormat">
+			<list>
+				<value>%6.4g</value>
+				<value>%6.4g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>				
+			</list>
+		</property>
+		<property name="hardwareTriggerProvider" ref="xpsTrajController"/>
+	</bean>
 	
 
 	<bean id="photonccd" class="gda.device.detector.IPPserver">
