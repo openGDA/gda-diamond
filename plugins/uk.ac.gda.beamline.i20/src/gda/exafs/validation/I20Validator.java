@@ -67,7 +67,7 @@ public class I20Validator extends ExafsValidator {
 
 		if (!errors.isEmpty()) {
 			for (InvalidBeanMessage invalidBeanMessage : errors) {
-				invalidBeanMessage.setFolderName(bean.getRunFileManager().getContainingFolder().getName());
+				invalidBeanMessage.setFolderName(bean.getFolder().getName());
 			}
 			throw new InvalidBeanException(errors);
 		}
@@ -214,7 +214,7 @@ public class I20Validator extends ExafsValidator {
 		} else { // Fixed XES and XAS or XANES
 			if (bean != null) {
 				String xmlFolderName = PathConstructor.createFromDefaultProperty() + "/xml/"
-						+ bean.getRunFileManager().getContainingFolder().getName() + "/";
+						+ bean.getFolder().getName() + "/";
 				checkFileExists("Scan file name", x.getScanFileName(), xmlFolderName, errors);
 
 				if (errors.size() == 0) {

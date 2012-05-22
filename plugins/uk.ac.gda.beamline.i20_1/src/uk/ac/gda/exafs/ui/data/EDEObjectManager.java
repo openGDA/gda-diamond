@@ -75,7 +75,8 @@ public class EDEObjectManager extends ExperimentObjectManager implements IExperi
 	private IExperimentObject createNewExperimentObject(String runName, String scanFileName, String optionsFileName,
 			String tfgParametersFileName, int numRepetitions) {
 		EDEScan newObject = new EDEScan();
-		newObject.setRunFileManager(this);
+		newObject.setMultiScanName(this.getName());
+		newObject.setFolder(getContainingFolder());
 		newObject.setRunName(runName);
 		newObject.setScanFileName(scanFileName);
 		newObject.setOptionsFileName(optionsFileName);

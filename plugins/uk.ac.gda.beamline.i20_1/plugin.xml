@@ -123,9 +123,6 @@
    </extension>
    <extension
          point="uk.ac.gda.client.experimentdefinition">
-      <queuecontroller
-            class="uk.ac.gda.exafs.ui.controller.EdeQueue">
-      </queuecontroller>
       <experimentobjectmanager
             class="uk.ac.gda.exafs.ui.data.EDEObjectManager">
       </experimentobjectmanager>

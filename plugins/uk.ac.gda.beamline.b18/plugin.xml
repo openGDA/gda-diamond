@@ -492,12 +492,6 @@
    </extension>
       <extension
          point="uk.ac.gda.client.experimentdefinition">
-      <queuecontroller
-            class="uk.ac.gda.exafs.ui.controller.ExafsQueue">
-      </queuecontroller>
-      <experimentcontroller
-            class="uk.ac.gda.exafs.ui.controller.ExafsScanController">
-      </experimentcontroller>
       <experimentobjectmanager
             class="uk.ac.gda.exafs.ui.data.ScanObjectManager">
       </experimentobjectmanager>
@@ -532,7 +526,7 @@
                   id="uk.ac.gda.exafs.ui.views.B18ScalersMonitor"
                   minimized="false"
                   relationship="stack"
-                  relative="uk.ac.gda.client.experimentdefinition.runcontrollerview"
+                  relative="gda.gui.scriptcontroller.logging.scriptcontrollerlogview"
                   showTitle="true"
                   visible="true">
             </view>

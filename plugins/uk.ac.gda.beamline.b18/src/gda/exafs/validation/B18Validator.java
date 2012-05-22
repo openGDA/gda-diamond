@@ -58,7 +58,7 @@ public class B18Validator extends ExafsValidator {
 
 		if (!errors.isEmpty()) {
 			for (InvalidBeanMessage invalidBeanMessage : errors) {
-				invalidBeanMessage.setFolderName(bean.getRunFileManager().getContainingFolder().getName());
+				invalidBeanMessage.setFolderName(bean.getFolder().getName());
 			}
 			throw new InvalidBeanException(errors);
 		}

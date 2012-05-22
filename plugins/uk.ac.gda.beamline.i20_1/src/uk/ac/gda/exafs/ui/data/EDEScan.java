@@ -40,7 +40,7 @@ public class EDEScan extends ExperimentObject implements IExperimentObject, Seri
 		if (getScanFileName() == null)
 			return null;
 
-		final IFile file = runFileManager.getContainingFolder().getFile(getScanFileName());
+		final IFile file = getFolder().getFile(getScanFileName());
 		if (!file.exists())
 			return null;
 		return (IScanParameters) BeansFactory.getBean(file.getLocation().toFile());
@@ -51,7 +51,7 @@ public class EDEScan extends ExperimentObject implements IExperimentObject, Seri
 		if (getOptionsFileName() == null)
 			return null;
 
-		final IFile file = runFileManager.getContainingFolder().getFile(getOptionsFileName());
+		final IFile file = getFolder().getFile(getOptionsFileName());
 		if (!file.exists())
 			return null;
 		return BeansFactory.getBean(file.getLocation().toFile());
@@ -75,15 +75,15 @@ public class EDEScan extends ExperimentObject implements IExperimentObject, Seri
 	}
 
 	public String getScanFileName() {
-		return (String) getTypeToFileMap().get(SCANBEANTYPE);
+		return getTypeToFileMap().get(SCANBEANTYPE);
 	}
 
 	public String getOptionsFileName() {
-		return (String) getTypeToFileMap().get(OPTIONSBEANTYPE);
+		return getTypeToFileMap().get(OPTIONSBEANTYPE);
 	}
 	
 	public String getTfgParametersFileName() {
-		return (String) getTypeToFileMap().get(TFGBEANTYPE);
+		return getTypeToFileMap().get(TFGBEANTYPE);
 	}
 
 
@@ -91,21 +91,21 @@ public class EDEScan extends ExperimentObject implements IExperimentObject, Seri
 		if (string.indexOf(' ') > -1)
 			throw new RuntimeException("Scan name cannot contain a space.");
 		getTypeToFileMap().put(SCANBEANTYPE, string);
-		notifyListeners("ScanFileName");
+//		notifyListeners("ScanFileName");
 	}
 	
 	public void setOptionsFileName(String string) {
 		if (string.indexOf(' ') > -1)
 			throw new RuntimeException("Options file name cannot contain a space.");
 		getTypeToFileMap().put(OPTIONSBEANTYPE, string);
-		notifyListeners("OptionsFileName");
+//		notifyListeners("OptionsFileName");
 	}
 	
 	public void setTfgParametersFileName(String string) {
 		if (string.indexOf(' ') > -1)
 			throw new RuntimeException("TFG Parameters file name cannot contain a space.");
 		getTypeToFileMap().put(TFGBEANTYPE, string);
-		notifyListeners("TfgParametersFileName");
+//		notifyListeners("TfgParametersFileName");
 	}
 
 
@@ -142,7 +142,7 @@ public class EDEScan extends ExperimentObject implements IExperimentObject, Seri
 	}
 
 	@Override
-	public String getCommandSummaryString() throws Exception {
+	public String getCommandSummaryString() {
 	
 		final StringBuilder buf = new StringBuilder(getNumberRepetitions() + " repeats: ");
 		buf.append(getRunName());
@@ -153,5 +153,11 @@ public class EDEScan extends ExperimentObject implements IExperimentObject, Seri
 		buf.append(" ");
 		buf.append(getTfgParametersFileName());
 		return null;
+	}
+
+	@Override
+	public void parseEditorFile(String fileName) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}	
 }
