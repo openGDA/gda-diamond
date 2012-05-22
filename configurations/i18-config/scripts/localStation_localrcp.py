@@ -11,7 +11,7 @@ from gda.configuration.properties import LocalProperties
 from gda.device.scannable import DummyScannable
 # Get the location of the gda root  directory
 gdaRoot = str(LocalProperties.get("gda.root"))
-gdaMicroFocus = gdaRoot+ "/uk.ac.gda.client.microfocus/"
+gdaMicroFocus = "/scratch/gda200412/gda822ws_git/gda-xas-core.git"
 print gdaMicroFocus +  "scripts/"
 sys.path.append(gdaMicroFocus +  "scripts/")
 
@@ -19,10 +19,10 @@ sys.path.append(gdaMicroFocus +  "scripts/")
 ##RCP map scan and trajectory map scan
 ######################################################################
 print "setting up mapscan"
-execfile (gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/rastermap.py")
-execfile (gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/vortex_rastermap.py")
-execfile (gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/map.py")
-execfile(gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/microfocus_elements.py")
+execfile (gdaMicroFocus+ "/uk.ac.gda.client.microfocus/scripts/microfocus/rastermap.py")
+execfile (gdaMicroFocus+ "/uk.ac.gda.client.microfocus/scripts/microfocus/vortex_rastermap.py")
+execfile (gdaMicroFocus+ "/uk.ac.gda.client.microfocus/scripts/microfocus/map.py")
+execfile(gdaMicroFocus+ "/uk.ac.gda.client.microfocus/scripts/microfocus/microfocus_elements.py")
 
 alias("map")
 #########################################################################
@@ -52,6 +52,10 @@ sc_MicroFocusSampleY.setOutputFormat(["%.4f"])
 print "setting scans"
 from i18_exafs import setupExperiment
 setupExperiment.rootnamespace = globals()
+map.rootnamespace = globals()
+rastermap.rootnamespace = globals()
+vortexRastermap.rootnamespace = globals()
+rootnamespace = globals()
 from exafsscripts.exafs.xas_scans import xas, xanes, estimateXas, estimateXanes, qexafs
 
 from exafsscripts.vortex import vortexConfig

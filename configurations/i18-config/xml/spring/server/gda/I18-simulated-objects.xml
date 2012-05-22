@@ -195,6 +195,16 @@
 		</property>
 	</bean>
 	
+	<bean id="HTXmapMca" class="gda.device.detector.xmap.DummyHardwareTriggeredNexusXmap">
+	<property name="hardwareTriggerProvider" ref="xpsTrajController"/>
+	<property name="xmap" ref="xmapMca"/>
+	<property name="fileNames">
+			<list>
+				<value>/dls/i18/data/2011/cm2065-4/i18-6931-0-raster_xmap.h5</value>
+				<value>/dls/i18/data/2011/cm2065-4/i18-6931-0-raster_xmaporig.h5</value>
+			</list>
+		</property>
+	</bean>
 	<!--  <bean id="xmapMca" class="gda.device.detector.xmap.CallableXmap">
 		<property name="xmapControllerName"  value="xmapcontroller" />		
 		
@@ -211,7 +221,7 @@
 		<property name="configFileName"    value="${gda.config}/templates/Vortex_Parameters.xml" />
 		<property name="tfg" ref="tfg" />
 		<property name="sumAllElementData"      value="true" />	
-	</bean>-->
+	</bean> -->
 	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
 		<property name="controller"  ref="xmapcontroller" />
 		
