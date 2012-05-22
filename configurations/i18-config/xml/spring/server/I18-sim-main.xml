@@ -34,6 +34,7 @@
    <import resource="file:${gda.config}/xml/spring/server/gda/I18-meta-data.xml"/> 
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-scannables.xml"/>
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-server-datawriterconfig.xml"/>
+	<import resource="file:${gda.config}/xml/spring/server/gda/I18-loggingscriptcontroller.xml"/>
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-rmiserver.xml"/>
 	
 	<bean id="objectCreators" class="org.springframework.beans.factory.config.ListFactoryBean">

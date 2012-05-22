@@ -44,14 +44,14 @@ w.setLevel(10) # so it is operated before anything else in a scan
 # You may comment them out to remove the checking.
 if LocalProperties.get("gda.mode") == "live":
     if (machineMode() == "User"):
-        add_default(topupChecker)
-        add_default(absorberChecker)
+        add_default([topupChecker])
+        add_default([absorberChecker])
     else:
-        remove_default(topupChecker)
-        remove_default(absorberChecker)
+        remove_default([topupChecker])
+        remove_default([absorberChecker])
 else:
-    remove_default(topupChecker)
-    remove_default(absorberChecker)
+    remove_default([topupChecker])
+    remove_default([absorberChecker])
     
 
 #

@@ -3,13 +3,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="DAServer" class="gda.device.detector.DummyXStripDAServer">
+	<bean id="DAServer" class="gda.device.detector.DAServer">
 		<property name="local" value="True" />
-		<property name="host" value="localhost" />
+		<property name="host" value="dlsxh2.dl.ac.uk" />
 		<property name="port" value="1972" />
 		<property name="startupCommands">
 			<list>
 				<value>~config</value>
+<!-- 				<value>/home/rjw82/xh/config</value> -->
 			</list>
 		</property>
 		<property name="dataPort" value="20030" />
@@ -17,8 +18,6 @@
 	</bean>
 
 	<bean id="XHDetector" class="gda.device.detector.XHDetector">
-		<property name="readoutStartupCommand" value="xstrip open-mca 'xh0'" />
-<!-- 		<property name="tfg" ref="tfg"/> -->
 		<property name="detectorName" value="xh0"/>
 		<property name="daServer" ref="DAServer"/>
 		<property name="templateFileName" value="${gda.config}/templates/EdeScan_Parameters.xml"></property>
