@@ -31,10 +31,10 @@ import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
 import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
 import uk.ac.gda.client.experimentdefinition.ExperimentEditorManager;
+import uk.ac.gda.client.experimentdefinition.ExperimentFactory;
 import uk.ac.gda.client.experimentdefinition.IExperimentBeanDescription;
 import uk.ac.gda.client.experimentdefinition.IExperimentEditorManager;
 import uk.ac.gda.client.experimentdefinition.IExperimentObject;
-import uk.ac.gda.exafs.ui.composites.I18SampleParametersComposite;
 import uk.ac.gda.exafs.ui.data.ScanObject;
 
 public class I18ExperimentEditorManager extends ExperimentEditorManager implements IExperimentEditorManager {
@@ -56,7 +56,7 @@ public class I18ExperimentEditorManager extends ExperimentEditorManager implemen
 		}*/
 		//return super.orderMapOfTypes(ob,mapOfTypesToFiles,allBeanDescriptions);
 				
-		String[] typesInOrder = ob.getRunFileManager().getOrderedColumnBeanTypes();
+		String[] typesInOrder = ExperimentFactory.getManager(ob).getOrderedColumnBeanTypes();
 
 		HashMap<String, IFile> orderedMap = new HashMap<String, IFile>();
 
