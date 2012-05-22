@@ -199,12 +199,6 @@
    </extension>
    <extension
          point="uk.ac.gda.client.experimentdefinition">
-      <queuecontroller
-            class="uk.ac.gda.exafs.ui.controller.ExafsQueue">
-      </queuecontroller>
-      <experimentcontroller
-            class="uk.ac.gda.exafs.ui.controller.ExafsScanController">
-      </experimentcontroller>
       <experimentobjectmanager
             class="uk.ac.gda.exafs.ui.data.ScanObjectManager">
       </experimentobjectmanager>
