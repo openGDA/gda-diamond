@@ -5,10 +5,10 @@ source /dls_sw/i13-1/etc/i13-1_profile.sh
 
 
 # Start log panel if not already started
-CLASSPATH=/dls_sw/i13-1/software/gda_versions/gda_trunk2/plugins/uk.ac.gda.swingclient/bin; export CLASSPATH
+CLASSPATH=$GDAFOLDER/plugins/uk.ac.gda.swingclient/bin; export CLASSPATH
 LOGPANEL=$(ps -ef | grep LogPanel | grep -v grep)
 if [ "X$LOGPANEL" == "X" ] ; then
-/dls_sw/i13-1/software/gda_versions/gda_trunk2/plugins/uk.ac.gda.core/bin/gda --config=$GDAFOLDER/$BEAMLINE-config --restart --mode=$GDAMODE logpanel
+$GDAFOLDER/plugins/uk.ac.gda.core/bin/gda --config=$GDAFOLDER/$BEAMLINE-config --restart --mode=$GDAMODE logpanel
 else
 wmctrl -R "GDA Log Panel"
 fi

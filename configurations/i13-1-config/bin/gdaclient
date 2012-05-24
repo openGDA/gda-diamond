@@ -12,8 +12,8 @@ source /dls_sw/i13-1/etc/i13-1_profile.sh
 
 if [ "$1" = "--clean" ]
 then
-    echo "rm -rf /scratch/.i13-1_workspaceC-$(whoami)"
-    rm -rf /scratch/.i13-1_workspaceC-$(whoami)
+    echo "rm -rf /scratch/.i13-1_workspace-$(whoami)"
+    rm -rf /scratch/.i13-1_workspace-$(whoami)
 fi
 
 echo "$GDAFOLDER/client/gda-i13j"

@@ -13,7 +13,7 @@ def ls_scannables():
 	ls_names(Scannable)
 
 
-from pv_scannable_utils import createPVScannable, caput, caget
+from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget
 alias("createPVScannable")
 alias("caput")
 alias("caget")
@@ -49,6 +49,9 @@ actualTime=actualTimeClass("actualTime")
 from gdascripts.metadata.metadata_commands import setTitle
 alias("setTitle")
 
+import filter_array
+xia_filter=filter_array.filter_array("xia_filter", prefix="BL13J-OP-ATTN-02:", elements=["Cr", "Fe", "Cu", "Nb"])
+
 from flyscan_script import flyscan, flyscannable, WaitForScannableAtLineEnd
 vararg_alias("flyscan")
 try:
@@ -70,7 +73,7 @@ t1_xy.configure()
 #make ScanPointProvider
 import sample_stage_position_provider
 two_motor_positions = sample_stage_position_provider.ScanPositionProviderFromFile()
-two_motor_positions.load("/dls_sw/i13-1/software/gda_versions/gda_trunk2/i13j-config/scripts/tests/sample_stage_position_provider_test.dat",(0.,0.))
+#two_motor_positions.load("/dls_sw/i13-1/software/gda_versions/gda_trunk2/i13j-config/scripts/tests/sample_stage_position_provider_test.dat",(0.,0.))
 
 imageFitter = finder.find("imageFitter")
 imageStats = finder.find("imageStats")
