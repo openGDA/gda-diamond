@@ -25,6 +25,7 @@
 		<property name="ss1RxScannable" ref="ss1_rx" />
 		<property name="ss1RzScannable" ref="ss1_rz" />
 		<property name="defaultDistanceToMoveForFlat" value="-100.0" />
+		<property name="defaultSampleInPosition" value="0" />
 		<property name="eh1shtr" ref="eh1shtr" />
 		<property name="thethaOffset" value="0" />
 	</bean>
@@ -98,10 +99,11 @@
 		<property name="cameraModuleController" ref="cameraModuleHandler" />
 		<property name="cameraMotionController" ref="cameraMotionController" />
 		<property name="tiltController" ref="tiltController" />
-		<property name="roiHandler" ref="roiHandler"/>
+		<property name="roiHandler" ref="roiHandler" />
 	</bean>
-	
-	<bean id="roiHandler" class="uk.ac.gda.client.tomo.view.handlers.impl.PCORoiPointsHandler"/>
+
+	<bean id="roiHandler"
+		class="uk.ac.gda.client.tomo.view.handlers.impl.PCORoiPointsHandler" />
 
 	<bean id="cameraMotionController"
 		class="uk.ac.gda.client.tomo.view.handlers.impl.CameraMotionController">
