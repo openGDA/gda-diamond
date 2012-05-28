@@ -176,5 +176,9 @@
 		<property name="service" ref="t3_m1y" />
 		<property name="serviceInterface" value="gda.device.IScannableMotor" />
 	</bean>
-
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/t3_m1z" />
+		<property name="service" ref="t3_m1z" />
+		<property name="serviceInterface" value="gda.device.IScannableMotor" />
+	</bean>
 </beans>
