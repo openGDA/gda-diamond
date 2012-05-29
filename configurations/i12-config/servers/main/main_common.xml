@@ -20,6 +20,7 @@
 	<import resource="mcs1.xml"/>	
 	<import resource="monitors.xml"/>	
 	<import resource="mono.xml"/>	
+	<import resource="mono2.xml"/>
 	<import resource="pco2.xml"/>	
 	<import resource="pixium2.xml"/>	
 	<import resource="ring.xml"/>	
@@ -43,5 +44,6 @@
 	<import resource="lut_energymodule.xml"/>
 	<import resource="lut_ball_position.xml"/>
 	<import resource="lut_moduleposition.xml"/>
+	<import resource="lut_camera_motion.xml"/>
 	<import resource="../servers_common.xml" />
 </beans>
