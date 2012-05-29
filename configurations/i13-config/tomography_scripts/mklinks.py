@@ -7,30 +7,32 @@ import shutil
 import subprocess
 import sys
 import unittest
-def makeLinks(scanNumber, lastImage, firstImage=2, visit="mt8511-1", year="2012", detector="pco1", outdir=None):
+
+
+def makeLinks(scanNumber, lastImage, firstImage=2, visit="mt5811-1", year="2012", detector="pco1", outdir=None):
 	"""
 	Command to make soft links for of projections into current folder
 	scanNumber - the scan number e.g. 510
 	lastImage   - last image number 
 	firstImage - first image number. default(2)
-	visit - your visit to I13 default(mt8511-1)
+	visit-your visit to I13 default(mt5811-1)
 	"""
 	if not outdir is None:
 		if not os.path.exists(outdir):
 			os.makedirs(outdir)
 	for i in range(firstImage, lastImage+1):
-		filename=detector+`scanNumber`+("-%05d.tif"%(i-firstImage))
-		fileToLinkTo="/dls/i13/data/"+`year`+"/"+visit+"/"+`scanNumber`+"/"+detector+"/"+filename
+		#filename=detector+`scanNumber`+("-%05d.tif"%(i-firstImage))
+		filename_src=detector+`scanNumber`+("-%05d.tif"%i)
+		filename_dst=detector+`scanNumber`+("-%05d.tif"%(i-firstImage))
+		fileToLinkTo="/dls/i13/data/"+`year`+"/"+visit+"/"+`scanNumber`+"/"+detector+"/"+filename_src
 		if not os.path.exists(fileToLinkTo):
 			raise Exception("File cannot be linked to as it does not exist:"+`fileToLinkTo`)
 		if not outdir is None:
-			filename=outdir+os.sep+filename
-		if os.path.exists(filename):
-			raise Exception("Soft link already exists:"+`filename`)
-		cmd="ln -s "+fileToLinkTo+" "+filename
+			filename_dst=outdir+os.sep+filename_dst
+		if os.path.exists(filename_dst):
+			raise Exception("Soft link already exists:"+`filename_dst`)
+		cmd="ln -s "+fileToLinkTo+" "+filename_dst
 		subprocess.call(cmd, shell=True)
-
-#argparse needs Python 2.7
 
 
 def ndigits(N):
@@ -71,8 +73,6 @@ creates a set of soft links to a sequence of projection images stored in the tif
 			for key, value in opts_dict.iteritems():
 				print key, value    
 
-#    parser.print_help()
-#    parser.print_version()    
 
 # Make sure all mandatory options were specified
 		mandatories=['year', 'visitID', 'scanNumber', 'firstProjIdx', 'lastProjIdx', 'detector']

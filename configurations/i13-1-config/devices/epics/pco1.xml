@@ -154,7 +154,7 @@
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg value=".04" />
 	</bean>
-	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+<!-- 	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<constructor-arg ref="pco1_ndhdf5file" />
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg value="pco1"/>
@@ -177,8 +177,8 @@
 		<property name="computeCentroid" value="false" />
 		<property name="readArray" value="false" />
 	</bean>
-
-	<bean id="pco1_hdf_longExposure" class="gda.device.detector.addetector.ADPco">
+ -->
+<!-- 	<bean id="pco1_hdf_longExposure" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
 		<property name="ndStats" ref="pco1_stat" />
 		<property name="ndArray" ref="pco1_arr" />
@@ -192,7 +192,7 @@
 		<property name="computeCentroid" value="false" />
 		<property name="readArray" value="false" />
 	</bean>
-
+ -->
 
 	<bean id="pco1_tif" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />

@@ -96,7 +96,7 @@
 	
 	<import resource="../../../devices/epics/detector_stage_t2_motors.xml"/>
 
-	<import resource="../../../devices/epics/mll.xml"/>
+	<!--<import resource="../../../devices/epics/mll.xml"/> -->
 	<import resource="../common.xml"/>	
 
 <!--Not present 

@@ -8,11 +8,11 @@
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
 
-	<bean id="m1_coarsepitch" class="gda.device.scannable.ScannableMotor">
+	<bean id="m1_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_coarsepitch_motor" />
 		<property name="userUnits" value="urad"/>
 	</bean>
-	<bean id="m1_pitch" class="gda.device.scannable.ScannableMotor">
+	<bean id="m1_combpitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_pitch_motor" />
 		<property name="userUnits" value="urad"/>
 	</bean>

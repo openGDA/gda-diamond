@@ -10,9 +10,9 @@ fi
 #identify install folder and JAVA_HOME
 source /dls_sw/i13-1/etc/i13-1_profile.sh
 
-#echo "Until lustre and system problems are resiolved gda is running on local machine and writing data to /dls_sw/i13-1/software/gdavar/data"
+#echo "Until lustre and system problems are resiolved gda is running on local machine and writing data to /dls_sw/i13-1/software/gda_versions/var/data"
 #export JAVA_OPTS="-Xms128m -Xmx1024m -XX:MaxPermSize=128m -XX:+DisableExplicitGC"
-#export GDA_DATADIR=/dls_sw/i13-1/software/gdavar/data
+#export GDA_DATADIR=/dls_sw/i13-1/software/gda_versions/var/data
 #/dls_sw/i13-1/software/gda_versions/gda_trunk2/plugins/uk.ac.gda.core/bin/gda --smart --trace --config=$GDAFOLDER/$BEAMLINE-config --debug -p 8001 --restart -v --mode=live_localhost --nsport 6701 servers
 #exit
 
