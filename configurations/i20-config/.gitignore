@@ -2,3 +2,5 @@
 jythonCache/
 
 /var
+
+*$py.class

@@ -92,11 +92,8 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 	private ViewPart site;
 	private Composite contents;
 	private Group roisGroup;
-//	private Group totalsGroup;
 	private Group timesgroup;
 
-//	private Text txtAll;
-//	private Text[] txtSectors;
 	private Text txtSnapTime;
 	private Spinner txtRefreshPeriod;
 	private Spinner txtNumScansPerFrame;
@@ -147,8 +144,6 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 	private synchronized void rebuildUI() {
 
 		removeOverlay();
-
-		disposeOldUI();
 
 		contents = new Composite(this, SWT.NONE);
 		contents.setLayout(new GridLayout(1, true));
@@ -206,7 +201,7 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 		txtSnapTime.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		int storedSnapShotTime = Activator.getDefault().getPreferenceStore()
 				.getInt(I20_1PreferenceInitializer.SNAPSHOTTIME);
-		if (storedSnapShotTime == 0){
+		if (storedSnapShotTime == 0) {
 			storedSnapShotTime = 1;
 		}
 		txtSnapTime.setText(Integer.toString(storedSnapShotTime));
@@ -285,7 +280,7 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 		txtLiveTime.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		int storedLiveTime = Activator.getDefault().getPreferenceStore()
 				.getInt(I20_1PreferenceInitializer.LIVEMODETIME);
-		if (storedLiveTime == 0){
+		if (storedLiveTime == 0) {
 			storedLiveTime = 1;
 		}
 		txtLiveTime.setText(Integer.toString(storedLiveTime));
@@ -352,39 +347,6 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 		});
 	}
 
-	private void disposeOldUI() {
-//		if (txtAll == null) {
-//			return;
-//		}
-//		txtAll.dispose();
-//		txtAll = null;
-//		for (Text sector : txtSectors) {
-//			sector.dispose();
-//			sector = null;
-//		}
-//		txtSectors = null;
-
-
-//		txtSnapTime.dispose();
-//		txtSnapTime = null;
-//		txtRefreshPeriod.dispose();
-//		txtRefreshPeriod = null;
-//		txtNumScansPerFrame.dispose();
-//		txtNumScansPerFrame = null;
-//
-//		totalsGroup.dispose();
-//		totalsGroup = null;
-//		timesgroup.dispose();
-//		timesgroup = null;
-//		roisGroup.dispose();
-//		roisGroup = null;
-//		theList.dispose();
-//		theList = null;
-//
-//		contents.dispose();
-//		contents = null;
-	}
-
 	private XHROI[] getROI() throws DeviceException {
 		Detector xhdet = Finder.getInstance().find("XHDetector");
 		return (XHROI[]) xhdet.getAttribute(XHDetector.ATTR_ROIS);
@@ -430,8 +392,7 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 			}
 		};
 		snapshot.setId(ID + ".snap");
-		snapshot.setImageDescriptor(ResourceManager.getImageDescriptor(XHControlComposite.class,
-				"/icons/camera.png"));
+		snapshot.setImageDescriptor(ResourceManager.getImageDescriptor(XHControlComposite.class, "/icons/camera.png"));
 
 		snapshotAndSave = new Action(null, SWT.NONE) {
 			@Override
@@ -441,7 +402,7 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 							.getInt(I20_1PreferenceInitializer.SNAPSHOTTIME);
 					final Integer numScans = Activator.getDefault().getPreferenceStore()
 							.getInt(I20_1PreferenceInitializer.SCANSPERFRAME);
-					collectAndPlotSnapshot(true, snapshotIntTime,numScans, snapshotIntTime + "s Snapshot");
+					collectAndPlotSnapshot(true, snapshotIntTime, numScans, snapshotIntTime + "s Snapshot");
 				} catch (Exception e) {
 					logger.error("Error trying to collect detector snapshot", e);
 				}
@@ -479,7 +440,8 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 	 *            - writes a file of the data
 	 * @return double values from the detector - the FF and sector totals
 	 */
-	public static Double[] collectAndPlotSnapshot(boolean writeData, Integer collectionPeriod, Integer numberScans, String title) {
+	public static Double[] collectAndPlotSnapshot(boolean writeData, Integer collectionPeriod, Integer numberScans,
+			String title) {
 
 		try {
 			collectData(collectionPeriod, numberScans);
@@ -506,7 +468,8 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 			logger.error("exception while collecting snapshot from XHDetector", e);
 			// popup
 			MessageDialog
-					.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+					.openError(
+							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 							"Error collecting snapshot",
 							"Error while collecting snapshot from XHDetector.\nAre your parameters correct? Do you hold the baton?\nSee log for details.");
 			return new Double[0];
@@ -562,17 +525,18 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 
 							final Integer refreshPeriod_s = Activator.getDefault().getPreferenceStore()
 									.getInt(I20_1PreferenceInitializer.REFRESHRATE);
-							
+
 							final Integer collectionPeriod = Activator.getDefault().getPreferenceStore()
 									.getInt(I20_1PreferenceInitializer.LIVEMODETIME);
-							final Double[] results = collectAndPlotSnapshot(false, collectionPeriod, 1, "Live reading ("
-									+ collectionPeriod + "s integration, every " + refreshPeriod_s + " s)");
+							final Double[] results = collectAndPlotSnapshot(false, collectionPeriod, 1,
+									"Live reading (" + collectionPeriod + "s integration, every " + refreshPeriod_s
+											+ " s)");
 
 							allValues = ArrayUtils.add(allValues, results[2]);
 							for (int i = 3; i < results.length; i++) {
 								regionValues[i - 3] = ArrayUtils.add(regionValues[i - 3], results[i]);
 							}
-							
+
 							DoubleDataset allValuesDataSet = new DoubleDataset(allValues);
 							DoubleDataset[] regionsValuesDataSet = new DoubleDataset[numberSectors];
 							for (int i = 0; i < numberSectors; i++) {
@@ -585,17 +549,7 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 								datasets[i + 1] = regionsValuesDataSet[i];
 							}
 
-							SDAPlotter.plot(AlignmentPerspective.SPECTRAPLOTNAME, (IDataset)null, datasets);
-
-//							PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-//								@Override
-//								public void run() {
-//									txtAll.setText(String.format("%.1f", allValues));
-//									for (int i = 0; i < regionValues.length; i++) {
-//										txtSectors[i].setText(String.format("%.1f", regionValues[i]));
-//									}
-//								}
-//							});
+							SDAPlotter.plot(AlignmentPerspective.LINEPLOTNAME, (IDataset) null, datasets);
 
 							waitForRefreshPeriod(snapshotTime);
 						}
