@@ -22,7 +22,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources;bundle-version="3.6.1",
  uk.ac.diamond.scisoft.analysis;bundle-version="1.0.0",
  uk.ac.gda.client.experimentdefinition;bundle-version="1.0.0",
- uk.ac.gda.client.exafs;bundle-version="1.0.0"
+ uk.ac.gda.client.exafs;bundle-version="1.0.0",
+ org.dawb.common.ui;bundle-version="1.2.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: gda.device.detector.mythen,
