@@ -94,6 +94,19 @@ public class DummyXStripDAServer extends DummyDAServer {
 
 		return data;
 	}
+	
+	@Override
+	public Object sendCommand(String msg, Boolean multiline) {
+		if (!multiline) {
+			return sendCommand(msg);
+		}
+		
+		if (msg.startsWith("xstrip timing read-status")) {
+			return sendCommand(msg);
+		}
+		
+		return -1; // don;t recognise the command
+	}
 
 	@Override
 	public Object sendCommand(String command) {
@@ -106,7 +119,7 @@ public class DummyXStripDAServer extends DummyDAServer {
 		if (command.startsWith("Fail")) {
 			fail = true;
 			return 0;
-		} else if (command.contains("xstrip open")) {
+		} else if (command.contains("xstrip timing open")) {
 			// not sure if this is the correct command, based this on other detectors
 			handles.put(++key, "xstrip");
 			rc = (fail) ? -1 : key;

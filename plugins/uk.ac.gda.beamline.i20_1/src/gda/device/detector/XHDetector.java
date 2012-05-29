@@ -458,7 +458,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 			String delays = buildDelaysCommand(timingGroup);
 
-			String command = createCommand("setup-group", i, numFrames, 0, scanTimeInClockCycles, "frame-time",
+ 			String command = createCommand("setup-group", i, numFrames, 0, scanTimeInClockCycles, "frame-time",
 					frameTimeInCycles, delays, lemoOut, extTrig);
 
 			if (i == nextScan.getGroups().size() - 1) {

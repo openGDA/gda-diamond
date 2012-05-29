@@ -62,6 +62,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.SDAPlotter;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.enums.OverlayType;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.enums.PrimitiveType;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.overlay.Overlay1DConsumer;
@@ -91,11 +92,11 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 	private ViewPart site;
 	private Composite contents;
 	private Group roisGroup;
-	private Group totalsGroup;
+//	private Group totalsGroup;
 	private Group timesgroup;
 
-	private Text txtAll;
-	private Text[] txtSectors;
+//	private Text txtAll;
+//	private Text[] txtSectors;
 	private Text txtSnapTime;
 	private Spinner txtRefreshPeriod;
 	private Spinner txtNumScansPerFrame;
@@ -203,8 +204,12 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 		lbl.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 		txtSnapTime = new Text(snapshotgroup, SWT.NONE);
 		txtSnapTime.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		txtSnapTime.setText(Integer.toString(Activator.getDefault().getPreferenceStore()
-				.getInt(I20_1PreferenceInitializer.SNAPSHOTTIME)));
+		int storedSnapShotTime = Activator.getDefault().getPreferenceStore()
+				.getInt(I20_1PreferenceInitializer.SNAPSHOTTIME);
+		if (storedSnapShotTime == 0){
+			storedSnapShotTime = 1;
+		}
+		txtSnapTime.setText(Integer.toString(storedSnapShotTime));
 		// button listener
 		txtSnapTime.addModifyListener(new ModifyListener() {
 			@Override
@@ -278,8 +283,12 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 		lbl.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 		txtLiveTime = new Text(timesgroup, SWT.NONE);
 		txtLiveTime.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		txtLiveTime.setText(Integer.toString(Activator.getDefault().getPreferenceStore()
-				.getInt(I20_1PreferenceInitializer.LIVEMODETIME)));
+		int storedLiveTime = Activator.getDefault().getPreferenceStore()
+				.getInt(I20_1PreferenceInitializer.LIVEMODETIME);
+		if (storedLiveTime == 0){
+			storedLiveTime = 1;
+		}
+		txtLiveTime.setText(Integer.toString(storedLiveTime));
 		// button listener
 		txtLiveTime.addModifyListener(new ModifyListener() {
 			@Override
@@ -344,35 +353,36 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 	}
 
 	private void disposeOldUI() {
-		if (txtAll == null) {
-			return;
-		}
-		txtAll.dispose();
-		txtAll = null;
-		for (Text sector : txtSectors) {
-			sector.dispose();
-			sector = null;
-		}
-		txtSectors = null;
+//		if (txtAll == null) {
+//			return;
+//		}
+//		txtAll.dispose();
+//		txtAll = null;
+//		for (Text sector : txtSectors) {
+//			sector.dispose();
+//			sector = null;
+//		}
+//		txtSectors = null;
 
-		txtSnapTime.dispose();
-		txtSnapTime = null;
-		txtRefreshPeriod.dispose();
-		txtRefreshPeriod = null;
-		txtNumScansPerFrame.dispose();
-		txtNumScansPerFrame = null;
 
-		totalsGroup.dispose();
-		totalsGroup = null;
-		timesgroup.dispose();
-		timesgroup = null;
-		roisGroup.dispose();
-		roisGroup = null;
-		theList.dispose();
-		theList = null;
-
-		contents.dispose();
-		contents = null;
+//		txtSnapTime.dispose();
+//		txtSnapTime = null;
+//		txtRefreshPeriod.dispose();
+//		txtRefreshPeriod = null;
+//		txtNumScansPerFrame.dispose();
+//		txtNumScansPerFrame = null;
+//
+//		totalsGroup.dispose();
+//		totalsGroup = null;
+//		timesgroup.dispose();
+//		timesgroup = null;
+//		roisGroup.dispose();
+//		roisGroup = null;
+//		theList.dispose();
+//		theList = null;
+//
+//		contents.dispose();
+//		contents = null;
 	}
 
 	private XHROI[] getROI() throws DeviceException {
@@ -558,20 +568,34 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 							final Double[] results = collectAndPlotSnapshot(false, collectionPeriod, 1, "Live reading ("
 									+ collectionPeriod + "s integration, every " + refreshPeriod_s + " s)");
 
-							allValues = ArrayUtils.add(allValues, results[1]);
-							for (int i = 2; i < results.length; i++) {
-								regionValues[i - 2] = ArrayUtils.add(regionValues[i - 2], results[i]);
+							allValues = ArrayUtils.add(allValues, results[2]);
+							for (int i = 3; i < results.length; i++) {
+								regionValues[i - 3] = ArrayUtils.add(regionValues[i - 3], results[i]);
+							}
+							
+							DoubleDataset allValuesDataSet = new DoubleDataset(allValues);
+							DoubleDataset[] regionsValuesDataSet = new DoubleDataset[numberSectors];
+							for (int i = 0; i < numberSectors; i++) {
+								regionsValuesDataSet[i] = new DoubleDataset(regionValues[i]);
 							}
 
-							PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-								@Override
-								public void run() {
-									txtAll.setText(String.format("%.1f", results[1]));
-									for (int i = 2; i < results.length; i++) {
-										txtSectors[i - 2].setText(String.format("%.1f", results[i]));
-									}
-								}
-							});
+							IDataset[] datasets = new IDataset[numberSectors + 1];
+							datasets[0] = allValuesDataSet;
+							for (int i = 0; i < numberSectors; i++) {
+								datasets[i + 1] = regionsValuesDataSet[i];
+							}
+
+							SDAPlotter.plot(AlignmentPerspective.SPECTRAPLOTNAME, (IDataset)null, datasets);
+
+//							PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+//								@Override
+//								public void run() {
+//									txtAll.setText(String.format("%.1f", allValues));
+//									for (int i = 0; i < regionValues.length; i++) {
+//										txtSectors[i].setText(String.format("%.1f", regionValues[i]));
+//									}
+//								}
+//							});
 
 							waitForRefreshPeriod(snapshotTime);
 						}
