@@ -86,6 +86,8 @@
 
 	<import resource="../../../devices/epics/pco2.xml" />
 
+	<!--import resource="../../../devices/live/tfg2.xml"/-->
+
 	<import resource="../common.xml" />
 
 </beans>
