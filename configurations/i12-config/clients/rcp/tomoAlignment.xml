@@ -33,7 +33,7 @@
 	<bean id="detectorHandler"
 		class="uk.ac.gda.client.tomo.view.handlers.impl.TomoDetectorHandler">
 		<property name="camera" ref="pcoTomography" />
-		<property name="imageFilePath" value="/dls_sw/dasc/tomoAlignmentTesting/" />
+		<property name="imageFilePath" value="/dls/i12/gdavar/" />
 		<!-- <property name="imageFilePath" value="/dls/i12/gdavar/" /> -->
 		<property name="ffmjpegModel1" ref="pcoFfmjpeg1" />
 		<property name="ffmjpegModel2" ref="pcoFfmjpeg2" />
@@ -50,7 +50,7 @@
 		<property name="defaultSampleExposureTime" value="0.1" />
 		<property name="defaultFlatExposureTime" value="1.0" />
 		<property name="defaultNumOfDarkImages" value="25" />
-		<property name="darkFilePath" value="/dls_sw/dasc/tomoAlignmentTesting/" />
+		<property name="darkFilePath" value="/dls/i12/gdavar/" />
 		<!-- <property name="darkFilePath" value="/dls/i12/gdavar/" /> -->
 		<property name="darkImageFileName" value="darkImage" />
 		<property name="darkFileTemplate" value="%s%s.tif" />
@@ -67,7 +67,7 @@
 	</bean>
 
 	<bean id="cameraModuleHandler"
-		class="uk.ac.gda.client.tomo.view.handlers.impl.CameraModuleController">
+		class="uk.ac.gda.client.tomo.view.handlers.impl.CameraModuleControllerWithSampleTilt">
 		<property name="motorHandler" ref="motorsHandler" />
 		<property name="lookupTableHandler" ref="moduleLookupTableHandler" />
 		<property name="cameraMotionController" ref="cameraMotionController" />
@@ -78,17 +78,35 @@
 		<property name="moduleTable" ref="tiltBallRoiLut" />
 	</bean>
 
+	<!-- <bean id="tiltController" class="uk.ac.gda.client.tomo.view.handlers.simulator.TiltTestController" 
+		/> -->
 	<bean id="tiltController"
-		class="uk.ac.gda.client.tomo.view.handlers.simulator.TiltTestController" />
-	<!-- <property name="lookupTableHandler" ref="tiltBallLookupTableHandler" 
-		/> <property name="externalProgram1"> <bean class="uk.ac.gda.client.tomo.ExternalFunction"> 
-		<property name="command" value="call_matlab.sh" /> <property name="args"> 
-		<list> <value>create_flatfield</value> </list> </property> </bean> </property> 
-		<property name="externalProgram2"> <bean class="uk.ac.gda.client.tomo.ExternalFunction"> 
-		<property name="command" value="call_matlab.sh" /> <property name="args"> 
-		<list> <value>call_tomography_level</value> <value>false,0.4,true,</value> 
-		</list> </property> </bean> </property> <property name="cameraHandler" ref="detectorHandler" 
-		/> <property name="motorHandler" ref="motorsHandler" /> </bean> -->
+		class="uk.ac.gda.client.tomo.view.handlers.impl.TiltController">
+		<property name="lookupTableHandler" ref="tiltBallLookupTableHandler" />
+		<property name="externalProgram1">
+			<bean class="uk.ac.gda.client.tomo.ExternalFunction">
+				<property name="command" value="call_matlab.sh" />
+				<property name="args">
+					<list>
+						<value>create_flatfield</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="externalProgram2">
+			<bean class="uk.ac.gda.client.tomo.ExternalFunction">
+				<property name="command" value="call_matlab.sh" />
+				<property name="args">
+					<list>
+						<value>call_tomography_level</value>
+						<value>false,0.4,true,</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="cameraHandler" ref="detectorHandler" />
+		<property name="motorHandler" ref="motorsHandler" />
+	</bean>
 
 	<!-- Assuming that this is invoked after the pco.xml has been invoked. -->
 	<bean id="tomoAlignmentViewController"
