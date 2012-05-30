@@ -16,6 +16,6 @@
 
 export JAVA_OPTS="-Xms128m -Xmx1024m -XX:MaxPermSize=128m -XX:+DisableExplicitGC"
 #/dls_sw/i12/software/gda_versions/gda_trunk/plugins/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_trunk/i12-config --debug -p 8001 --restart -v --mode=live servers
-/scratch/workspace/plugins/uk.ac.gda.core/bin/gda  --smart --trace --config=/scratch/workspace/i12-config --debug -p 8001 --restart -v --mode=localhost servers
+/dls_sw/i12/software/gda_versions/gda_trunk_290512_r/plugins/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_trunk_290512_r/i12-config --debug -p 8001 --restart -v --mode=localhost servers
 # > $LOGFILE 2>&1 &
  
