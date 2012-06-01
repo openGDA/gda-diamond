@@ -28,8 +28,9 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Dgda.mode=live
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i13/software/gda/i13i-config/jca/live/JCALibrary.properties
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+-Duk.ac.diamond.scisoft.analysis.io.nocaching=true
 -Xms256m
--Xmx1024m
+-Xmx2024m
 -XX:MaxPermSize=256m
 -XX:+DisableExplicitGC</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
