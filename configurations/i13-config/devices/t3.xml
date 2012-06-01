@@ -24,6 +24,7 @@
 				<ref bean="t3_x" />
 			</list>
 		</property>
+		<property name="local" value="true"/>
 	</bean>
 	<bean id="t3_x" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="t3_x" />
@@ -34,6 +35,7 @@
 				<value>%.3f</value>
 			</list>
 		</property>
+		<property name="local" value="true"/>
 	</bean>
 	<bean id="t3_m1y" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="t3_m1y" />
@@ -44,6 +46,7 @@
 				<value>%.3f</value>
 			</list>
 		</property>
+		<property name="local" value="true"/>
 	</bean>
 	<bean id="t3_m1z" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="t3_m1z" />
@@ -54,6 +57,7 @@
 				<value>%.3f</value>
 			</list>
 		</property>
+		<property name="local" value="true"/>
 	</bean>
 	<bean id="t3_m2y" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="t3_m2y" />
@@ -64,6 +68,7 @@
 				<value>%.3f</value>
 			</list>
 		</property>
+		<property name="local" value="true"/>
 	</bean>
 	<bean id="t3_m2z" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="t3_m2z" />
@@ -74,6 +79,7 @@
 				<value>%.3f</value>
 			</list>
 		</property>
+		<property name="local" value="true"/>
 	</bean>
 	<bean id="t3_m3y" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="t3_m3y" />
@@ -84,6 +90,7 @@
 				<value>%.3f</value>
 			</list>
 		</property>
+		<property name="local" value="true"/>
 	</bean>
 	<bean id="t3_m3z" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="t3_m3z" />
@@ -94,6 +101,7 @@
 				<value>%.3f</value>
 			</list>
 		</property>
+		<property name="local" value="true"/>
 	</bean>
 	<bean id="t3_m3rx" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="t3_m3rx" />
@@ -104,6 +112,7 @@
 				<value>%.3f</value>
 			</list>
 		</property>
+		<property name="local" value="true"/>
 	</bean>
 	<bean id="t3_m3ry" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="t3_m3ry" />
@@ -114,6 +123,7 @@
 				<value>%.3f</value>
 			</list>
 		</property>
+		<property name="local" value="true"/>
 	</bean>
 	<bean id="t3_m3rz" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="t3_m3rz" />
@@ -124,6 +134,7 @@
 				<value>%.3f</value>
 			</list>
 		</property>
+		<property name="local" value="true"/>
 	</bean>
 	<bean id="t3_m4x" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="t3_m4x" />
@@ -134,6 +145,7 @@
 				<value>%.3f</value>
 			</list>
 		</property>
+		<property name="local" value="true"/>
 	</bean>
 	<bean id="t3_m4y" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="t3_m4y" />
@@ -144,6 +156,7 @@
 				<value>%.3f</value>
 			</list>
 		</property>
+		<property name="local" value="true"/>
 	</bean>
 	<bean id="t3_m4rx" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="t3_m4rx" />
@@ -154,6 +167,7 @@
 				<value>%.3f</value>
 			</list>
 		</property>
+		<property name="local" value="true"/>
 	</bean>
 	<bean id="t3_m4ry" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="t3_m4ry" />
@@ -164,8 +178,10 @@
 				<value>%.3f</value>
 			</list>
 		</property>
+		<property name="local" value="true"/>
 	</bean>
 
+	<!-- do not export yet - these are client objects used by tomoAlignment
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/t3_x" />
 		<property name="service" ref="t3_x" />
@@ -176,5 +192,10 @@
 		<property name="service" ref="t3_m1y" />
 		<property name="serviceInterface" value="gda.device.IScannableMotor" />
 	</bean>
-
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/t3_m1z" />
+		<property name="service" ref="t3_m1z" />
+		<property name="serviceInterface" value="gda.device.IScannableMotor" />
+	</bean>
+	-->
 </beans>

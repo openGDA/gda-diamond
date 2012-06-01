@@ -6,18 +6,22 @@
 	<bean id="cam1_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="cam1_roll_motor" />
 		<property name="tolerance" value="0.01" />
+		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="cam1_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="cam1_x_motor" />
 		<property name="tolerance" value="0.01" />
+		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="cam1_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="cam1_z_motor" />
 		<property name="tolerance" value="0.01" />
+		<property name="local" value="true"/>
 	</bean>
 
+	<!-- Do not export yet - these are client objects only at the moment
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/cam1_x" />
 		<property name="service" ref="cam1_x" />
@@ -33,6 +37,7 @@
 		<property name="service" ref="cam1_roll" />
 		<property name="serviceInterface" value="gda.device.IScannableMotor" />
 	</bean>
+	-->
 	<bean id="cam1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

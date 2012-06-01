@@ -15,4 +15,7 @@
 	<bean id="ringCurrent" class="gda.device.scannable.DummyScannable" />
 	<bean id="idGap" class="gda.device.scannable.DummyScannable"/>
 	<bean id="timeToRefill" class="gda.device.scannable.DummyScannable"/>
+	
+	<import resource="tomoAlignment.xml" />	
+	
 </beans>

@@ -317,17 +317,19 @@
 			</bean>
 		</property>
 		<property name="plotName" value="PCOPlot" />
-		<property name="local" value="false" />
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pcoTomography" class="gda.device.detector.pco.PCOTomography">
 		<property name="pcoDetector" ref="pco" />
 	</bean>
 
+	<!-- do not export - this is used by tomoAlignment on client 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/pcoTomography" />
 		<property name="service" ref="pcoTomography" />
 		<property name="serviceInterface" value="uk.ac.gda.tomography.devices.ITomographyDetector" />
 	</bean>
+	-->
 
 </beans>

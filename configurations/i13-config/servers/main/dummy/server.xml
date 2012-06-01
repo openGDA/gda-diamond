@@ -71,11 +71,7 @@
 
 	<import resource="../../../devices/dummy/pco1.xml"/>
 	
-	<!-- Device required by tomography alignment -->
-	<import resource="../../../devices/dummy/cam1_motors.xml"/>
-	<import resource="../../../devices/dummy/ss1_motors.xml"/>
-	<import resource="../../../devices/dummy/t3_motors.xml"/>
-	<import resource="../../../devices/dummy/pco2.xml"/> 
+	
 	<import resource="../../../devices/dummy/tfg2.xml"/>
 	
 	<import resource="../common.xml"/>	
