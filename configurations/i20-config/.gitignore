@@ -4,3 +4,5 @@ jythonCache/
 /var
 
 *$py.class
+.cmdHistory.txt
+
