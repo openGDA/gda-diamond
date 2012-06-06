@@ -25,58 +25,6 @@
          id="uk.ac.gda.diamond.feature"
          version="0.0.0"/>
 
-   <requires>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="uk.ac.gda.client" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.client.exafs" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.core" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.dal" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.common" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.common.rcp" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.diamond.scisoft.analysis.rcp" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.dls" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.libs" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.diamond.scisoft.analysis" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.diamond.org.jscience" version="2.0.2" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.client.experimentdefinition" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.server.exafs" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.devices.cirrus" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.expressions" version="3.4.200" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.filesystem" version="1.3.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.intro"/>
-      <import plugin="uk.ac.diamond.jama"/>
-      <import plugin="org.eclipse.ui.editors"/>
-      <import plugin="com.springsource.slf4j.api"/>
-      <import plugin="org.eclipse.ui.workbench.texteditor" version="3.6.1" match="greaterOrEqual"/>
-      <import plugin="uk.ac.diamond.scisoft.spectroscopy" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.nexus"/>
-      <import plugin="org.eclipse.jface"/>
-      <import plugin="org.eclipse.swt"/>
-      <import plugin="org.eclipse.core.resources" version="3.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.ide" version="3.6.1" match="greaterOrEqual"/>
-      <import plugin="uk.ac.diamond.org.nfunk.jep"/>
-      <import plugin="org.eclipse.core.expressions" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.core.filesystem" version="1.1.0" match="compatible"/>
-      <import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible"/>
-      <import plugin="uk.ac.gda.video" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.video.mjpeg" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.epics" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.resources" version="3.6.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.forms" version="3.5.2" match="greaterOrEqual"/>
-      <import plugin="org.junit" version="4.8.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.ide" version="3.6.2" match="greaterOrEqual"/>
-      <import plugin="org.csstudio.sds.ui" version="1.3.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.api" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.draw2d"/>
-      <import plugin="uk.ac.gda.nexus" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.junit4" version="4.8.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.workbench" version="3.6.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.commands" version="3.6.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.diamond.CBFlib" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.apache.commons.math"/>
-   </requires>
-
    <plugin
          id="uk.ac.gda.beamline.i20"
          download-size="0"

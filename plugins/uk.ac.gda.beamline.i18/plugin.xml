@@ -491,6 +491,9 @@
       <TrajectoryXscannableName
             name="realX">
       </TrajectoryXscannableName>
+      <TrajectoryXscannableName
+            name="continuousSampleX">
+      </TrajectoryXscannableName>
    </extension>
    <extension
          point="uk.ac.microfocus.elementlist.refresh">
