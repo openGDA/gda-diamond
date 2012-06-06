@@ -91,22 +91,22 @@ public class I20SampleParametersManager extends ParametersManager {
 			setScannable("sample_pitch", roomTemp.getRoll());
 			setScannable("sample_roll", roomTemp.getYaw());
 
-			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("x", roomTemp.getX(),
+			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("x", roomTemp.getX().toString(),
 					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
 					"sampletable"));
-			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("y", roomTemp.getY(),
+			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("y", roomTemp.getY().toString(),
 					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
 					"sampletable"));
-			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("z", roomTemp.getZ(),
+			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("z", roomTemp.getZ().toString(),
 					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
 					"sampletable"));
-			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("rot", roomTemp.getRotation(),
+			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("rot", roomTemp.getRotation().toString(),
 					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
 					"sampletable"));
-			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("yaw", roomTemp.getYaw(),
+			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("yaw", roomTemp.getYaw().toString(),
 					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
 					"sampletable"));
-			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("roll", roomTemp.getRoll(),
+			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("roll", roomTemp.getRoll().toString(),
 					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
 					"sampletable"));
 		} else if (I20SampleParameters.SAMPLE_ENV[2].equals(sampleEnv)) {
@@ -115,7 +115,7 @@ public class I20SampleParametersManager extends ParametersManager {
 			final CryostatParameters cryo = sampleParameters.getCryostatParameters();
 			final Temperature temp = (Temperature) Finder.getInstance().find("Clake");
 			if (temp != null) {
-				temp.setTargetTemperature(Double.parseDouble(cryo.getTemperature()));
+				temp.setTargetTemperature(cryo.getTemperature());
 				scannables.add(temp);
 			} else {
 				log("Clake could not be found in Jython namespace- cryostat not configured");

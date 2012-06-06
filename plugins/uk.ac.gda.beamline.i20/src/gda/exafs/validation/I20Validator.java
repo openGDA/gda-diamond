@@ -102,15 +102,15 @@ public class I20Validator extends ExafsValidator {
 		final String environment = s.getSampleEnvironment();
 		if (environment.equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[1])) {
 
-			final SampleStageParameters p = s.getRoomTemperatureParameters();
-			final String message = "The sample stage parameters are out of bounds.";
-			checkRangeBounds("x", p.getX(), -15d, 15d, errors, message);
-			checkRangeBounds("y", p.getY(), -20.1d, 20.1d, errors, message);
-			checkRangeBounds("z", p.getZ(), -15d, 15d, errors, message);
-
-			checkRangeBounds("Rotation", p.getRotation(), 0d, 360d, errors, message);
-			checkRangeBounds("Roll", p.getRoll(), -5d, 5d, errors, message);
-			checkRangeBounds("Yaw", p.getYaw(), -5d, 5d, errors, message);
+//			final SampleStageParameters p = s.getRoomTemperatureParameters();
+//			final String message = "The sample stage parameters are out of bounds.";
+//			checkRangeBounds("x", p.getX().toString(), -15d, 15d, errors, message);
+//			checkRangeBounds("y", p.getY().toString(), -20.1d, 20.1d, errors, message);
+//			checkRangeBounds("z", p.getZ().toString(), -15d, 15d, errors, message);
+//
+//			checkRangeBounds("Rotation", p.getRotation().toString(), 0d, 360d, errors, message);
+//			checkRangeBounds("Roll", p.getRoll().toString(), -5d, 5d, errors, message);
+//			checkRangeBounds("Yaw", p.getYaw().toString(), -5d, 5d, errors, message);
 
 		}
 		// to be replaced when the hardware is available

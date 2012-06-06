@@ -104,7 +104,7 @@ public class I20SampleParametersTest {
 		eles.add(new ElementPosition("Si", 2));
 		expectedValue.setSampleEnvironment(I20SampleParameters.SAMPLE_ENV[2]);
 		CryostatParameters cps = new CryostatParameters();
-		cps.setTemperature("295");
+		cps.setTemperature(295.);
 		cps.setTolerance(1d);
 		cps.setHeaterRange(1);
 		cps.setTime(5d);
@@ -146,12 +146,12 @@ public class I20SampleParametersTest {
 		expectedValue.setSampleWheelPosition("Copper");
 		expectedValue.setSampleEnvironment(I20SampleParameters.SAMPLE_ENV[3]);
 		FurnaceParameters fps = new FurnaceParameters();
-		fps.setTemperature("295");
+		fps.setTemperature(295.);
 		fps.setTolerance(1.5);
 		fps.setTime(5);
-		fps.setX("6.9");
-		fps.setY("4.7");
-		fps.setZ("2.5");
+		fps.setX(6.9);
+		fps.setY(4.7);
+		fps.setZ(2.5);
 		expectedValue.setFurnaceParameters(fps);
 
 		isValidAndMatchesFile(expectedValue,"SampleParameters_withFurnace.xml");
@@ -171,12 +171,12 @@ public class I20SampleParametersTest {
 		expectedValue.setSampleWheelPosition("Copper");
 		expectedValue.setSampleEnvironment(I20SampleParameters.SAMPLE_ENV[1]);
 		SampleStageParameters ssps = new SampleStageParameters();
-		ssps.setX("3.4");
-		ssps.setY("6.8");
-		ssps.setZ("2.5");
-		ssps.setRotation("1.2");
-		ssps.setRoll("0.5");
-		ssps.setYaw("0.7");
+		ssps.setX(3.4);
+		ssps.setY(6.8);
+		ssps.setZ(2.5);
+		ssps.setRotation(1.2);
+		ssps.setRoll(0.5);
+		ssps.setYaw(0.7);
 		expectedValue.setRoomTemperatureParameters(ssps);
 
 		isValidAndMatchesFile(expectedValue,"SampleParameters_withSampleStage.xml");
@@ -253,12 +253,12 @@ public class I20SampleParametersTest {
 		sp.setSampleWheelPosition("Copper");
 		sp.setSampleEnvironment(I20SampleParameters.SAMPLE_ENV[3]);
 		FurnaceParameters fps = new FurnaceParameters();
-		fps.setTemperature("295");
+		fps.setTemperature(295.);
 		fps.setTolerance(1.5);
 		fps.setTime(5);
-		fps.setX("6.9");
-		fps.setY("4.7");
-		fps.setZ("2.5");
+		fps.setX(6.9);
+		fps.setY(4.7);
+		fps.setZ(2.5);
 		sp.setFurnaceParameters(fps);
 		
 		try {
