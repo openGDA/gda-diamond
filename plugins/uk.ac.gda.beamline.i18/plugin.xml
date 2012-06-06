@@ -489,7 +489,7 @@
    <extension
          point="uk.ac.gda.microfocus.trajectory.xScannableName">
       <TrajectoryXscannableName
-            name="realX">
+            name="continuousSampleX">
       </TrajectoryXscannableName>
    </extension>
    <extension

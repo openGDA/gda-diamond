@@ -25,7 +25,6 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
 import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
-import uk.ac.gda.client.XYPlotView;
 import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
 import uk.ac.gda.exafs.ui.views.DetectorSetupView;
 
@@ -39,6 +38,10 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 	// plot where snapshot spectra placed
 	public static String SPECTRAPLOTID =  PlotView.ID + "1";
 	public static String SPECTRAPLOTNAME =  "Plot 1";
+	
+	// plot where accumulative rates are plotted
+	public static String LINEPLOTID =  PlotView.ID + "2";
+	public static String LINEPLOTNAME =  "Plot 2";
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
@@ -49,8 +52,8 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		alignmentControlsFolder.addView(BeamlineAlignmentView.ID);
 		alignmentControlsFolder.addView(DetectorSetupView.ID);
 
-		layout.addView(XYPlotView.ID, IPageLayout.RIGHT, 0.25f, editorArea);
-		layout.addView(SPECTRAPLOTID, IPageLayout.BOTTOM, 0.50f, XYPlotView.ID);
-		layout.addView(JythonTerminalView.ID, IPageLayout.RIGHT, 0.50f, XYPlotView.ID);
+		layout.addView(LINEPLOTID, IPageLayout.RIGHT, 0.25f, editorArea);
+		layout.addView(SPECTRAPLOTID, IPageLayout.BOTTOM, 0.50f, LINEPLOTID);
+		layout.addView(JythonTerminalView.ID, IPageLayout.RIGHT, 0.50f, LINEPLOTID);
 	}
 }

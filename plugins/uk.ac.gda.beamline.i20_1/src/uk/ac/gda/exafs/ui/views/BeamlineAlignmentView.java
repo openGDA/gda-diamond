@@ -18,11 +18,19 @@
 
 package uk.ac.gda.exafs.ui.views;
 
+import gda.jython.InterfaceProvider;
+import gda.util.exafs.AbsorptionEdge;
+import gda.util.exafs.Element;
+
+import java.util.Iterator;
+
+import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
@@ -35,17 +43,22 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.exafs.data.AlignmentParametersBean;
 import uk.ac.gda.richbeans.components.FieldComposite.NOTIFY_TYPE;
 import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
-import uk.ac.gda.richbeans.components.wrappers.ComboWrapper;
 
 /**
  * Has controls for operating the lookuptable matching optics positions to energy
- * 
  */
 public class BeamlineAlignmentView extends ViewPart {
 
+	private static Logger logger = LoggerFactory.getLogger(BeamlineAlignmentView.class);
+
+	public static final String OUTPUT_BEAN_NAME = "beamlinealignmentresults";
+	public static final String INPUT_BEAN_NAME = "beamlinealignmentparameters";
 	public static String ID = "uk.ac.gda.exafs.ui.views.beamlinealignmentview";
 	private Combo cmbCrystalCut;
 	private Combo cmbDetectorType;
@@ -55,13 +68,13 @@ public class BeamlineAlignmentView extends ViewPart {
 	private ScaleBox txtSlitTarget;
 	private Button btnSlitMove;
 	private Label lblSlitReadback;
-	private Combo txtME1StripeTarget;
+	private Combo cmbME1StripeTarget;
 	private Button btnME1StripeMove;
 	private Label lblME1StripeReadback;
 	private ScaleBox txtThetaTarget;
 	private Button btnThetaMove;
 	private Label lblThetaReadback;
-	private Combo txtME2StripeTarget;
+	private Combo cmbME2StripeTarget;
 	private Button btnME2StripeMove;
 	private Label lblME2StripeReadback;
 	private ScaleBox txtME2PitchTarget;
@@ -70,17 +83,14 @@ public class BeamlineAlignmentView extends ViewPart {
 	private ScaleBox txtDetDistTarget;
 	private Button btnDetDistMove;
 	private Label lblDetDistReadback;
-	private ScaleBox txtPolyTarget;
-	private Button btnPolyMove;
-	private Label lblPolyReadback;
-	private ScaleBox txtPolyDistTarget;
-	private Button btnPolyDistMove;
-	private Label lblPolyDistReadback;
+	// private ScaleBox txtPolyTarget;
+	// private Button btnPolyMove;
+	// private Label lblPolyReadback;
 	private GridData comboGD;
 	private GridData textGD;
 	private GridData readbackGD;
-	private ComboWrapper element;
-	private ComboWrapper edge;
+	private Combo element;
+	private Combo edge;
 	private ScaleBox edgeEnergy_Label;
 	private Combo cmbCrystalType;
 	private Combo cmbCrystalQ;
@@ -91,12 +101,25 @@ public class BeamlineAlignmentView extends ViewPart {
 	private Button btnPolyBendMove;
 	private Label lblPolyBendReadback;
 	private Button btnSynchroniseThetas;
+	private ScaleBox txtPolyBendTarget2;
+	private Button btnPolyBendMove2;
+	private Label lblPolyBendReadback2;
+	private Label lblPolyPower;
+	private Combo cmbAtn1Target;
+	private Button btnAtn1Move;
+	private Label lblAtn1Readback;
+	private Combo cmbAtn2Target;
+	private Button btnAtn2Move;
+	private Label lblAtn2Readback;
+	private Combo cmbAtn3Target;
+	private Button btnAtn3Move;
+	private Label lblAtn3Readback;
 
 	@Override
 	public void createPartControl(final Composite parent) {
-		
+
 		switchLayoutMode(parent);
-		
+
 		parent.addControlListener(new ControlAdapter() {
 			@Override
 			public void controlResized(ControlEvent e) {
@@ -105,18 +128,17 @@ public class BeamlineAlignmentView extends ViewPart {
 			}
 		});
 
-
 		createGridDataObjects();
-		
+
 		createMainControls(parent);
 
 		createMotorControls(parent);
 
-		createSpectrumControls(parent);	
+		createSpectrumControls(parent);
 	}
 
 	private void switchLayoutMode(Composite parent) {
-		
+
 		Point size = parent.getSize();
 		if (size.x <= size.y) {
 			parent.setLayout(new GridLayout(1, false));
@@ -131,11 +153,11 @@ public class BeamlineAlignmentView extends ViewPart {
 
 		textGD = new GridData(SWT.FILL, SWT.CENTER, false, false);
 		textGD.widthHint = 120;
-		
+
 		readbackGD = new GridData(SWT.LEFT, SWT.CENTER, false, false);
 	}
-	
-	private GridData createLabelGridData(){
+
+	private GridData createLabelGridData() {
 		return new GridData(SWT.RIGHT, SWT.CENTER, false, false);
 	}
 
@@ -154,24 +176,24 @@ public class BeamlineAlignmentView extends ViewPart {
 		lbl.setText("Readback   ");
 		lbl.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
 
-		lbl = new Label(motorGroup, SWT.RIGHT);
-		lbl.setText("Polychromator\nto sample");
-		lbl.setLayoutData(createLabelGridData());
-		txtPolyDistTarget = new ScaleBox(motorGroup, SWT.NONE);
-		txtPolyDistTarget.setMinimum(0.1);
-		txtPolyDistTarget.setMaximum(5);
-		txtPolyDistTarget.setLayoutData(textGD);
-		txtPolyDistTarget.setUnit("mm");
-		btnPolyDistMove = new Button(motorGroup, SWT.NONE);
-		btnPolyDistMove.setText("Move");
-		linkButtonToScannable(btnPolyDistMove,"scannableName",txtPolyDistTarget);
-		lblPolyDistReadback = new Label(motorGroup, SWT.NONE);
-		lblPolyDistReadback.setText("1.95 mm");
-		lblPolyDistReadback.setLayoutData(readbackGD);
-		linkLabelToScannable(lblPolyDistReadback,"scannableName");
+		// lbl = new Label(motorGroup, SWT.RIGHT);
+		// lbl.setText("Polychromator\nto sample");
+		// lbl.setLayoutData(createLabelGridData());
+		// txtPolyDistTarget = new ScaleBox(motorGroup, SWT.NONE);
+		// txtPolyDistTarget.setMinimum(0.1);
+		// txtPolyDistTarget.setMaximum(5);
+		// txtPolyDistTarget.setLayoutData(textGD);
+		// txtPolyDistTarget.setUnit("mm");
+		// btnPolyDistMove = new Button(motorGroup, SWT.NONE);
+		// btnPolyDistMove.setText("Move");
+		// linkButtonToScannable(btnPolyDistMove, "scannableName", txtPolyDistTarget);
+		// lblPolyDistReadback = new Label(motorGroup, SWT.NONE);
+		// lblPolyDistReadback.setText("1.95 mm");
+		// lblPolyDistReadback.setLayoutData(readbackGD);
+		// linkLabelToScannable(lblPolyDistReadback, "scannableName");
 
 		lbl = new Label(motorGroup, SWT.NONE);
-		lbl.setText("Sample to detector");
+		lbl.setText("Detector Distance");
 		lbl.setLayoutData(createLabelGridData());
 		txtDetDistTarget = new ScaleBox(motorGroup, SWT.NONE);
 		txtDetDistTarget.setMinimum(0.1);
@@ -184,19 +206,19 @@ public class BeamlineAlignmentView extends ViewPart {
 		lblDetDistReadback.setText("1.95 mm");
 		lblDetDistReadback.setLayoutData(readbackGD);
 
-		lbl = new Label(motorGroup, SWT.NONE);
-		lbl.setText("Polychromator");
-		lbl.setLayoutData(createLabelGridData());
-		txtPolyTarget = new ScaleBox(motorGroup, SWT.NONE);
-		txtPolyTarget.setMinimum(0.1);
-		txtPolyTarget.setMaximum(5);
-		txtPolyTarget.setLayoutData(textGD);
-		txtPolyTarget.setUnit("");
-		btnPolyMove = new Button(motorGroup, SWT.NONE);
-		btnPolyMove.setText("Move");
-		lblPolyReadback = new Label(motorGroup, SWT.NONE);
-		lblPolyReadback.setText("0.2");
-		lblPolyReadback.setLayoutData(readbackGD);
+		// lbl = new Label(motorGroup, SWT.NONE);
+		// lbl.setText("Polychromator");
+		// lbl.setLayoutData(createLabelGridData());
+		// txtPolyTarget = new ScaleBox(motorGroup, SWT.NONE);
+		// txtPolyTarget.setMinimum(0.1);
+		// txtPolyTarget.setMaximum(5);
+		// txtPolyTarget.setLayoutData(textGD);
+		// txtPolyTarget.setUnit("");
+		// btnPolyMove = new Button(motorGroup, SWT.NONE);
+		// btnPolyMove.setText("Move");
+		// lblPolyReadback = new Label(motorGroup, SWT.NONE);
+		// lblPolyReadback.setText("0.2");
+		// lblPolyReadback.setLayoutData(readbackGD);
 
 		Group grpBandWidthEst = new Group(motorGroup, SWT.NONE);
 		GridDataFactory.swtDefaults().span(2, 2).applyTo(grpBandWidthEst);
@@ -211,8 +233,8 @@ public class BeamlineAlignmentView extends ViewPart {
 		lbl = new Label(grpBandWidthEst, SWT.NONE);
 		lbl.setText("750eV");
 		lbl.setForeground(PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_RED));
-		
-		grpBandWidthEst.pack();  //pack now to get the right size before the rest of the view is packed.
+
+		grpBandWidthEst.pack(); // pack now to get the right size before the rest of the view is packed.
 
 	}
 
@@ -252,37 +274,83 @@ public class BeamlineAlignmentView extends ViewPart {
 		txtSlitTarget.setMinimum(0.1);
 		txtSlitTarget.setMaximum(5);
 		txtSlitTarget.setLayoutData(textGD);
-		txtSlitTarget.setUnit("mm");
+		txtSlitTarget.setUnit("mrad");
 		btnSlitMove = new Button(motorGroup, SWT.NONE);
 		btnSlitMove.setText("Move");
 		lblSlitReadback = new Label(motorGroup, SWT.NONE);
-		lblSlitReadback.setText("25.50 mm");
+		lblSlitReadback.setText("25.50 mrad");
 		lblSlitReadback.setLayoutData(readbackGD);
-		
+
+		// todo, and then show Monica
+		// private ATN1 atn1 = null;
+		// private ATN2 atn2 = null;
+		// private ATN3 atn3 = null;
+
+		lbl = new Label(motorGroup, SWT.NONE);
+		lbl.setText("Attenuator 1");
+		lbl.setLayoutData(createLabelGridData());
+		cmbAtn1Target = new Combo(motorGroup, SWT.CENTER);
+		cmbAtn1Target.setItems(AlignmentParametersBean.ATN1Values);
+		cmbAtn1Target.select(0);
+		cmbAtn1Target.setLayoutData(comboGD);
+		btnAtn1Move = new Button(motorGroup, SWT.NONE);
+		btnAtn1Move.setText("Move");
+		lblAtn1Readback = new Label(motorGroup, SWT.NONE);
+		lblAtn1Readback.setText(AlignmentParametersBean.ATN1Values[0]);
+		lblAtn1Readback.setLayoutData(readbackGD);
+
+		lbl = new Label(motorGroup, SWT.NONE);
+		lbl.setText("Attenuator 2");
+		lbl.setLayoutData(createLabelGridData());
+		cmbAtn2Target = new Combo(motorGroup, SWT.CENTER);
+		cmbAtn2Target.setItems(AlignmentParametersBean.ATN2Values);
+		cmbAtn2Target.select(0);
+		cmbAtn2Target.setLayoutData(comboGD);
+		btnAtn2Move = new Button(motorGroup, SWT.NONE);
+		btnAtn2Move.setText("Move");
+		lblAtn2Readback = new Label(motorGroup, SWT.NONE);
+		lblAtn2Readback.setText(AlignmentParametersBean.ATN2Values[0]);
+		lblAtn2Readback.setLayoutData(readbackGD);
+
+		lbl = new Label(motorGroup, SWT.NONE);
+		lbl.setText("Attenuator 3");
+		lbl.setLayoutData(createLabelGridData());
+		cmbAtn3Target = new Combo(motorGroup, SWT.CENTER);
+		cmbAtn3Target.setItems(AlignmentParametersBean.ATN3Values);
+		cmbAtn3Target.select(0);
+		cmbAtn3Target.setLayoutData(comboGD);
+		btnAtn3Move = new Button(motorGroup, SWT.NONE);
+		btnAtn3Move.setText("Move");
+		lblAtn3Readback = new Label(motorGroup, SWT.NONE);
+		lblAtn3Readback.setText(AlignmentParametersBean.ATN3Values[0]);
+		lblAtn3Readback.setLayoutData(readbackGD);
+
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("ME1 Stripe");
 		lbl.setLayoutData(createLabelGridData());
-		txtME1StripeTarget = new Combo(motorGroup, SWT.CENTER);
-		txtME1StripeTarget.setItems(new String[] { "Rh", "Pt" });
-		txtME1StripeTarget.select(0);
-		txtME1StripeTarget.setLayoutData(comboGD);
+		cmbME1StripeTarget = new Combo(motorGroup, SWT.CENTER);
+		cmbME1StripeTarget.setItems(new String[] { AlignmentParametersBean.ME1Stripe[0],
+				AlignmentParametersBean.ME1Stripe[1] });
+		cmbME1StripeTarget.select(0);
+		cmbME1StripeTarget.setLayoutData(comboGD);
 		btnME1StripeMove = new Button(motorGroup, SWT.NONE);
 		btnME1StripeMove.setText("Move");
 		lblME1StripeReadback = new Label(motorGroup, SWT.NONE);
-		lblME1StripeReadback.setText("Pt");
+		lblME1StripeReadback.setText(AlignmentParametersBean.ME1Stripe[0]);
 		lblME1StripeReadback.setLayoutData(readbackGD);
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("ME2 Stripe");
 		lbl.setLayoutData(createLabelGridData());
-		txtME2StripeTarget = new Combo(motorGroup, SWT.CENTER);
-		txtME2StripeTarget.setItems(new String[] { "Rh", "Pt" });
-		txtME2StripeTarget.select(0);
-		txtME2StripeTarget.setLayoutData(comboGD);
+		cmbME2StripeTarget = new Combo(motorGroup, SWT.CENTER);
+		cmbME2StripeTarget.setItems(new String[] { AlignmentParametersBean.ME2Stripe[0],
+				AlignmentParametersBean.ME2Stripe[1], AlignmentParametersBean.ME2Stripe[2] });
+		cmbME2StripeTarget.select(0);
+		cmbME2StripeTarget.setLayoutData(comboGD);
 		btnME2StripeMove = new Button(motorGroup, SWT.NONE);
 		btnME2StripeMove.setText("Move");
 		lblME2StripeReadback = new Label(motorGroup, SWT.NONE);
-		lblME2StripeReadback.setText("Pt");
+		lblME2StripeReadback.setText(AlignmentParametersBean.ME2Stripe[0]);
 		lblME2StripeReadback.setLayoutData(readbackGD);
 
 		lbl = new Label(motorGroup, SWT.NONE);
@@ -300,7 +368,7 @@ public class BeamlineAlignmentView extends ViewPart {
 		lblME2PitchReadback.setLayoutData(readbackGD);
 
 		lbl = new Label(motorGroup, SWT.NONE);
-		lbl.setText("Poly Bend");
+		lbl.setText("Poly Bend1");
 		lbl.setLayoutData(createLabelGridData());
 		txtPolyBendTarget = new ScaleBox(motorGroup, SWT.NONE);
 		txtPolyBendTarget.setMinimum(0.1);
@@ -312,9 +380,23 @@ public class BeamlineAlignmentView extends ViewPart {
 		lblPolyBendReadback = new Label(motorGroup, SWT.NONE);
 		lblPolyBendReadback.setText("20.00 mm");
 		lblPolyBendReadback.setLayoutData(readbackGD);
-		
+
 		lbl = new Label(motorGroup, SWT.NONE);
-		lbl.setText("Poly Theta");
+		lbl.setText("Poly Bend2");
+		lbl.setLayoutData(createLabelGridData());
+		txtPolyBendTarget2 = new ScaleBox(motorGroup, SWT.NONE);
+		txtPolyBendTarget2.setMinimum(0.1);
+		txtPolyBendTarget2.setMaximum(5);
+		txtPolyBendTarget2.setLayoutData(textGD);
+		txtPolyBendTarget2.setUnit("mm");
+		btnPolyBendMove2 = new Button(motorGroup, SWT.NONE);
+		btnPolyBendMove2.setText("Move");
+		lblPolyBendReadback2 = new Label(motorGroup, SWT.NONE);
+		lblPolyBendReadback2.setText("20.00 mm");
+		lblPolyBendReadback2.setLayoutData(readbackGD);
+
+		lbl = new Label(motorGroup, SWT.NONE);
+		lbl.setText("Poly Bragg");
 		lbl.setLayoutData(createLabelGridData());
 		txtPolyThetaTarget = new ScaleBox(motorGroup, SWT.NONE);
 		txtPolyThetaTarget.setMinimum(0.1);
@@ -326,7 +408,7 @@ public class BeamlineAlignmentView extends ViewPart {
 		lblPolyThetaReadback = new Label(motorGroup, SWT.NONE);
 		lblPolyThetaReadback.setText("60.00 deg");
 		lblPolyThetaReadback.setLayoutData(readbackGD);
-		
+
 		btnSynchroniseThetas = new Button(motorGroup, SWT.CHECK);
 		btnSynchroniseThetas.setText("Match TwoTheta arm to Poly Theta value");
 		GridDataFactory.swtDefaults().span(4, 1).applyTo(btnSynchroniseThetas);
@@ -355,33 +437,70 @@ public class BeamlineAlignmentView extends ViewPart {
 		lbl.setText("Estimated power\n on polychromator");
 		lbl.setLayoutData(createLabelGridData());
 
-		lbl = new Label(grpPowerEst, SWT.NONE);
-		lbl.setText("180W");
-		lbl.setForeground(PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_RED));
-		
-		grpPowerEst.pack();  // pack first
+		lblPolyPower = new Label(grpPowerEst, SWT.NONE);
+		lblPolyPower.setText("180W");
+		lblPolyPower.setForeground(PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_RED));
+
+		grpPowerEst.pack(); // pack first
 
 	}
 
 	private void createMainControls(Composite parent) {
-		Composite mainControls = new Composite(parent, SWT.NONE);
+		final Composite mainControls = new Composite(parent, SWT.NONE);
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.FILL).applyTo(mainControls);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(mainControls);
-		
+
 		Label lbl = new Label(mainControls, SWT.NONE);
 		lbl.setText("Element");
 		lbl.setLayoutData(createLabelGridData());
-		element = new ComboWrapper(mainControls, SWT.READ_ONLY);
-		element.setItems(new String[]{"Au", "Ag", "Cu"});
+		element = new Combo(mainControls, SWT.READ_ONLY);
+		element.setLayoutData(comboGD);
+		element.setItems(Element.getSortedEdgeSymbols("P", "U"));
 		element.select(0);
-		
+
+		element.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					String selectedElementString = element.getItem(element.getSelectionIndex());
+					Element selectedElement = Element.getElement(selectedElementString);
+					final Iterator<String> edges = selectedElement.getEdgesInEnergyRange(6000.0, 26000.0);
+					String[] edgesArray = new String[] {};
+					for (; edges.hasNext();) {
+						String edge = edges.next();
+						edgesArray = (String[]) ArrayUtils.add(edgesArray, edge);
+					}
+					edge.setItems(edgesArray);
+					edge.select(0);
+					edgeEnergy_Label.setValue(selectedElement.getEdgeEnergy(edgesArray[0]));
+					mainControls.redraw();
+					mainControls.pack(true);
+				} catch (Exception e1) {
+					// logger.error("Cannot update element.", e1);
+				}
+			}
+		});
+
 		lbl = new Label(mainControls, SWT.NONE);
 		lbl.setText("Edge");
 		lbl.setLayoutData(createLabelGridData());
-		edge = new ComboWrapper(mainControls, SWT.READ_ONLY);
-		edge.setItems(new String[]{"k", "L1", "l2"});
-		edge.select(1);
-		
+		edge = new Combo(mainControls, SWT.READ_ONLY);
+		edge.setLayoutData(comboGD);
+		edge.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					String selectedElementString = element.getItem(element.getSelectionIndex());
+					Element selectedElement = Element.getElement(selectedElementString);
+					String selectedEdgeString = edge.getItem(edge.getSelectionIndex());
+					final double edgeEn = selectedElement.getEdgeEnergy(selectedEdgeString);
+					edgeEnergy_Label.setValue(edgeEn);
+				} catch (Exception e1) {
+					// logger.error("Cannot update element.", e1);
+				}
+			}
+		});
+
 		lbl = new Label(mainControls, SWT.NONE);
 		lbl.setText("Edge energy");
 		lbl.setLayoutData(createLabelGridData());
@@ -392,12 +511,15 @@ public class BeamlineAlignmentView extends ViewPart {
 		edgeEnergy_Label.on();
 		edgeEnergy_Label.setValue(9442.3);
 		edgeEnergy_Label.setToolTipText("Will be the centre of the spectrum");
+		edgeEnergy_Label.setMinimum(6000);
+		edgeEnergy_Label.setMaximum(26000);
 
 		lbl = new Label(mainControls, SWT.NONE);
 		lbl.setText("Crystal Type");
 		lbl.setLayoutData(createLabelGridData());
 		cmbCrystalType = new Combo(mainControls, SWT.NONE);
-		cmbCrystalType.setItems(new String[] { "Bragg" });
+		cmbCrystalType.setItems(new String[] { AlignmentParametersBean.CrystalType[0],
+				AlignmentParametersBean.CrystalType[1] });
 		cmbCrystalType.select(0);
 		cmbCrystalType.setEnabled(false);
 
@@ -405,15 +527,17 @@ public class BeamlineAlignmentView extends ViewPart {
 		lbl.setText("Crystal Cut");
 		lbl.setLayoutData(createLabelGridData());
 		cmbCrystalCut = new Combo(mainControls, SWT.NONE);
-		cmbCrystalCut.setItems(new String[] { "Si (1 1 1)" });
+		cmbCrystalCut.setItems(new String[] { AlignmentParametersBean.CrystalCut[0],
+				AlignmentParametersBean.CrystalCut[1] });
 		cmbCrystalCut.select(0);
 
 		lbl = new Label(mainControls, SWT.NONE);
 		lbl.setText("q");
 		lbl.setLayoutData(createLabelGridData());
 		cmbCrystalQ = new Combo(mainControls, SWT.NONE);
-		cmbCrystalQ.setItems(new String[] { "0.8", "1.0", "1.2" });
-		cmbCrystalQ.select(0);
+		cmbCrystalQ.setItems(new String[] { AlignmentParametersBean.Q[0].toString(),
+				AlignmentParametersBean.Q[1].toString(), AlignmentParametersBean.Q[2].toString() });
+		cmbCrystalQ.select(1);
 
 		lbl = new Label(mainControls, SWT.NONE);
 		lbl.setText("Detector Type");
@@ -421,59 +545,138 @@ public class BeamlineAlignmentView extends ViewPart {
 		cmbDetectorType = new Combo(mainControls, SWT.NONE);
 		cmbDetectorType.setItems(new String[] { "XSTRIP", "XH", "CCD" });
 		cmbDetectorType.select(0);
-		
+
 		Button btnRefresh = new Button(mainControls, SWT.NONE);
 		GridDataFactory.fillDefaults().span(2, 1).applyTo(btnRefresh);
 		btnRefresh.setText("Refresh Calculations");
-		
+
 		btnRefresh.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// TODO choose correct table
-				
-				// extract suggested values from the table's columns
-				
-				// change all the txt widgets to the suggested values
-				
+
+				String selectedElementString = element.getItem(element.getSelectionIndex());
+				Element selectedElement = Element.getElement(selectedElementString);
+				String selectedEdgeString = edge.getItem(edge.getSelectionIndex());
+				AbsorptionEdge absEdge = selectedElement.getEdge(selectedEdgeString);
+
+				String qString = cmbCrystalQ.getItem(cmbCrystalQ.getSelectionIndex());
+				Double q = Double.parseDouble(qString);
+
+				String xtalCutString = cmbCrystalCut.getItem(cmbCrystalCut.getSelectionIndex());
+				// AlignmentParametersBean.CrystalCut xtalCut =
+				// AlignmentParametersBean.CrystalCut.valueOf(xtalCutString);
+
+				String xtalTypeString = cmbCrystalType.getItem(cmbCrystalType.getSelectionIndex());
+				// AlignmentParametersBean.CrystalType xtalType = AlignmentParametersBean.CrystalType
+				// .valueOf(xtalTypeString);
+
+				String detectorString = cmbDetectorType.getItem(cmbDetectorType.getSelectionIndex());
+				// AlignmentParametersBean.Detector detector = AlignmentParametersBean.Detector.valueOf(detectorString);
+
+				try {
+					AlignmentParametersBean bean = new AlignmentParametersBean(xtalTypeString, xtalCutString, q,
+							detectorString, absEdge);
+
+					InterfaceProvider.getJythonNamespace().placeInJythonNamespace(INPUT_BEAN_NAME, bean);
+
+					InterfaceProvider.getCommandRunner().runCommand(
+							OUTPUT_BEAN_NAME + "=None;from alignment import alignment_parameters; " + OUTPUT_BEAN_NAME
+									+ " = alignment_parameters.calc_parameters(" + INPUT_BEAN_NAME + ")");
+
+					AlignmentParametersBean results = (AlignmentParametersBean) InterfaceProvider.getJythonNamespace()
+							.getFromJythonNamespace(OUTPUT_BEAN_NAME);
+
+					updateUIFromBean(results);
+				} catch (Exception e1) {
+					logger.error("Exception when trying to run the script which performs the alignment calculations.",e1);
+				}
+
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);				
+				widgetSelected(e);
 			}
-		});		
+		});
 	}
-	
-	private void linkButtonToScannable(Button btnPolyDistMove2, final String string, final ScaleBox txtPolyDistTarget2) {
-		btnPolyDistMove2.addSelectionListener(new SelectionListener() {
-			
+
+	protected void updateUIFromBean(final AlignmentParametersBean results) {
+
+		if (results == null) {
+			logger.info("Nothing returned from the script which runs the alignment calculations.");
+			return;
+		}
+
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+
+			@Override
+			public void run() {
+				txtWigglerTarget.setValue(results.getWigglerGap());
+				txtPolyBendTarget.setValue(results.getPolyBend1());
+				txtPolyBendTarget2.setValue(results.getPolyBend2());
+				String requiredMe1Stripe = results.getMe1stripe().toString();
+				cmbME1StripeTarget.select(cmbME1StripeTarget.indexOf(requiredMe1Stripe));
+				String requiredMe2Stripe = results.getMe2stripe().toString();
+				cmbME2StripeTarget.select(cmbME2StripeTarget.indexOf(requiredMe2Stripe));
+				txtSlitTarget.setValue(results.getPrimarySlitGap());
+				txtThetaTarget.setValue(results.getArm2Theta());
+				txtPolyThetaTarget.setValue(results.getBraggAngle());
+				txtDetDistTarget.setValue(results.getDetectorDistance());
+				txtME2PitchTarget.setValue(results.getMe2Pitch());
+
+				String atn1String = results.getAtn1().toString();
+				int atn1Index = ArrayUtils.indexOf(AlignmentParametersBean.ATN1, atn1String);
+				cmbAtn1Target.select(atn1Index);
+				String atn2String = results.getAtn2().toString();
+				int atn2Index = ArrayUtils.indexOf(AlignmentParametersBean.ATN2, atn2String);
+				cmbAtn2Target.select(atn2Index);
+				String atn3String = results.getAtn3().toString();
+				int atn3Index = ArrayUtils.indexOf(AlignmentParametersBean.ATN3, atn3String);
+				cmbAtn3Target.select(atn3Index);
+
+				String powerString = String.format("%.1d W", results.getPower());
+				lblPolyPower.setText(powerString);
+				// TODO might this limit change? Does it need to be a property somewhere?
+				if (results.getPower() > 350) {
+					lblPolyPower.setForeground(PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_RED));
+				} else {
+					lblPolyPower.setForeground(PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_BLACK));
+				}
+			}
+
+		});
+	}
+
+	private void linkButtonToScannable(Button theButton, final String scannableName, final ScaleBox theScaleBox) {
+		theButton.addSelectionListener(new SelectionListener() {
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// TODO get value from the scalebox
-				
+
 				// get the scannable from finder
-				
+
 				// move the scannable to the value
-				
+
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);				
+				widgetSelected(e);
 			}
 		});
-		
+
 	}
-	
+
+	// TODO also have one linking a combo to a scannable
+
 	private void linkLabelToScannable(final Label lblPolyDistReadback2, String string) {
 		// TODO get the scannable from the finder
-		
+
 		// create anonymous IObserver of the scannable which updates the Label
-		
+
 	}
-
-
 
 	@Override
 	public void setFocus() {

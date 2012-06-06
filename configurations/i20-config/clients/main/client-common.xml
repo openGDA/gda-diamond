@@ -10,14 +10,27 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-<!-- 	<bean -->
-<!-- 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
-<!-- 		<property name="location" -->
-<!-- 			value="file:${gda.config}/properties/${gda.mode}/java.properties" /> -->
-<!-- 	</bean> -->
-	
 	<context:property-placeholder location="file:${gda.config}/properties/${gda.mode}/java.properties" />
 	
+	<bean id="XASLoggingScriptController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}XASLoggingScriptController" />
+		<property name="serviceInterface" value="gda.jython.scriptcontroller.logging.ILoggingScriptController" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	
+	<bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}commandQueueProcessor" />
+		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="gda.commandqueue.Processor" />
+		<property name="service" ref="commandQueueProcessor" />
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="gda.commandqueue.Queue" />
+		<property name="service" ref="commandQueueProcessor" />
+	</bean>
 	
 	
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />

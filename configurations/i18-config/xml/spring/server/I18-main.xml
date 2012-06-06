@@ -33,6 +33,7 @@
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-server-datawriterconfig.xml"/>
 	<!--  <import resource="file:${gda.config}/xml/spring/server/gda/i18_attocubes.xml"/>-->
 	<import resource="file:${gda.config}/xml/spring/server//I18-command-server.xml"/>
+	<import resource="file:${gda.config}/xml/spring/server/gda/I18-loggingscriptcontroller.xml"/>
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-core.xml"/>
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
