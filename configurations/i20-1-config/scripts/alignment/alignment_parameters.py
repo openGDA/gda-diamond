@@ -36,22 +36,23 @@ def _setFixedValues(parametersBean):
     parametersBean.setWigglerGap(18.5)
     parametersBean.setPolyBend1(5)
     parametersBean.setPolyBend2(5)
+    return parametersBean
     
 def _chooseStripes(parametersBean):
     
     energy = _calcEnergy(parametersBean)
     
     if energy > 20300:
-        parametersBean.setMe1stripe(AlignmentParametersBean.ME1Stripe.Pt)
+        parametersBean.setMe1stripe(AlignmentParametersBean.ME1Stripe[0])
     else :
-        parametersBean.setMe1stripe(AlignmentParametersBean.ME1Stripe.Rh)
+        parametersBean.setMe1stripe(AlignmentParametersBean.ME1Stripe[1])
         
     if energy < 9600:
-        parametersBean.setMe2stripe(AlignmentParametersBean.ME2Stripe.Si)
+        parametersBean.setMe2stripe(AlignmentParametersBean.ME2Stripe[0])
     elif energy >= 9600 and energy < 20300:
-        parametersBean.setMe2stripe(AlignmentParametersBean.ME2Stripe.Rh)
+        parametersBean.setMe2stripe(AlignmentParametersBean.ME2Stripe[1])
     else:
-        parametersBean.setMe2stripe(AlignmentParametersBean.ME2Stripe.none)
+        parametersBean.setMe2stripe(AlignmentParametersBean.ME2Stripe[2])
         
     return parametersBean
 
@@ -59,80 +60,80 @@ def _choosePitchAndAttenuators(parametersBean):
     
     energy = _calcEnergy(parametersBean)
     
-    if parametersBean.getCrystalCut() == AlignmentParametersBean.CrystalCut.Si111:
+    if parametersBean.getCrystalCut() == "Si111":
         if energy < 7000:
             parametersBean.setMe2Pitch(4)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1.none)
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2.none)
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3.none)
+            parametersBean.setAtn1(AlignmentParametersBean.ATN1[0])
+            parametersBean.setAtn2(AlignmentParametersBean.ATN2[0])
+            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
         elif energy >= 7000 and energy < 8000:
             parametersBean.setMe2Pitch(3.5)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1.PyroC1)
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2.none)
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3.none)
+            parametersBean.setAtn1(AlignmentParametersBean.ATN1[1])
+            parametersBean.setAtn2(AlignmentParametersBean.ATN2[0])
+            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
         elif energy >= 800 and energy < 9600:
             parametersBean.setMe2Pitch(3)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1.PyroC2)
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2.none)
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3.none)
+            parametersBean.setAtn1(AlignmentParametersBean.ATN1[2])
+            parametersBean.setAtn2(AlignmentParametersBean.ATN2[0])
+            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
         elif energy >= 9600 and energy < 12200:
             parametersBean.setMe2Pitch(5)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1.PyroC6)
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2.none)
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3.none)
+            parametersBean.setAtn1(AlignmentParametersBean.ATN1[4])
+            parametersBean.setAtn2(AlignmentParametersBean.ATN2[0])
+            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
         elif energy >= 12200:
             parametersBean.setMe2Pitch(4)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1.PyroC6)
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2.none)
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3.none)
+            parametersBean.setAtn1(AlignmentParametersBean.ATN1[4])
+            parametersBean.setAtn2(AlignmentParametersBean.ATN2[0])
+            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
         
     else:  # Si311
         if energy < 8000:
             parametersBean.setMe2Pitch(3.5)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1.PyroC1)
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2.none)
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3.none)
+            parametersBean.setAtn1(AlignmentParametersBean.ATN1[1])
+            parametersBean.setAtn2(AlignmentParametersBean.ATN2[0])
+            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
         elif energy >= 8000 and energy < 9600:
             parametersBean.setMe2Pitch(3)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1.PyroC2)
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2.none)
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3.none)
+            parametersBean.setAtn1(AlignmentParametersBean.ATN1[1])
+            parametersBean.setAtn2(AlignmentParametersBean.ATN2[0])
+            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
         elif energy >= 9600 and energy < 12200:
             parametersBean.setMe2Pitch(5)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1.PyroC6)
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2.none)
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3.none)
+            parametersBean.setAtn1(AlignmentParametersBean.ATN1[4])
+            parametersBean.setAtn2(AlignmentParametersBean.ATN2[0])
+            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
         elif energy >= 12200 and energy < 13500:
             parametersBean.setMe2Pitch(4.5)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1.none)
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2.PyroC10)
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3.none)
+            parametersBean.setAtn1(AlignmentParametersBean.ATN1[0])
+            parametersBean.setAtn2(AlignmentParametersBean.ATN2[2])
+            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
         elif energy >= 13500 and energy < 15200:
             parametersBean.setMe2Pitch(4)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1.PyroC6)
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2.PyroC10)
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3.none)
+            parametersBean.setAtn1(AlignmentParametersBean.ATN1[4])
+            parametersBean.setAtn2(AlignmentParametersBean.ATN2[2])
+            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
         elif energy >= 15200 and energy < 17400:
             parametersBean.setMe2Pitch(3.5)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1.PyroC4)
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2.PyroC10)
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3.PyroC10)
+            parametersBean.setAtn1(AlignmentParametersBean.ATN1[3])
+            parametersBean.setAtn2(AlignmentParametersBean.ATN2[2])
+            parametersBean.setAtn3(AlignmentParametersBean.ATN3[1])
         elif energy >= 17400 and energy < 20300:
             parametersBean.setMe2Pitch(3)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1.none)
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2.SiC2)
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3.PyroC10)
+            parametersBean.setAtn1(AlignmentParametersBean.ATN1[0])
+            parametersBean.setAtn2(AlignmentParametersBean.ATN2[4])
+            parametersBean.setAtn3(AlignmentParametersBean.ATN3[1])
         elif energy > 20300:
             parametersBean.setMe2Pitch(-1) # means move it out of beam
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1.none)
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2.SiC4)
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3.PyroC10)
+            parametersBean.setAtn1(AlignmentParametersBean.ATN1[0])
+            parametersBean.setAtn2(AlignmentParametersBean.ATN2[5])
+            parametersBean.setAtn3(AlignmentParametersBean.ATN3[1])
     
     return parametersBean
 
 def _getLatticeConstant(parametersBean):
     
-    if parametersBean.getCrystalCut() == AlignmentParametersBean.CrystalCut.Si111:
+    if parametersBean.getCrystalCut() == "Si111":
         return 3.1357017
     else:
         return 1.6375668  # Si 311
@@ -179,13 +180,15 @@ def _calDetDistance(parametersBean):
     
     s_m = 0.05120 # XH
     
-    if parametersBean.getDetector() == AlignmentParametersBean.Detector.XSTRIP:
+    if parametersBean.getDetector() == "XSTRIP":
         s_m = 0.02560
     # elif parametersBean.getDetector() = AlignmentParametersBean.Detector.CCD
     
     det_dist_m = (s_m * q_m) / (alpha_mrad * dist_poly_to_source)
     
     parametersBean.setDetectorDistance(det_dist_m)
+    
+    return parametersBean
     
 def _calcPower(parametersBean):
     

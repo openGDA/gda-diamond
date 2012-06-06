@@ -24,53 +24,37 @@ import java.io.Serializable;
 
 public class AlignmentParametersBean implements Serializable {
 
-	public enum CrystalType {
-		BRAGG, LAUE
-	}
+	public static String[] CrystalType = new String[] { "BRAGG", "LAUE" };
 
-	public enum CrystalCut {
-		Si111, Si311
-	}
+	public static String[] CrystalCut = new String[] { "Si111", "Si311" };
 
-	public enum Detector {
-		XSTRIP, XH, CCD
-	}
+	public static String[] Detector = new String[] { "XSTRIP", "XH", "CCD" };
 
-	public enum ME1Stripe {
-		Rh, Pt
-	}
+	public static String[] ME1Stripe = new String[] { "Rh", "Pt" };
 
-	public enum ME2Stripe {
-		Si, Rh, none
-	}
+	public static String[] ME2Stripe = new String[] { "Si", "Rh", "none" };
 
-	public enum ATN1 {
-		none, PyroC1, PyroC2, PyroC4, PyroC6, PyroC8
-	}
+	public static String[] ATN1 = new String[] { "none", "PyroC1", "PyroC2", "PyroC4", "PyroC6", "PyroC8" };
 
 	public static String[] ATN1Values = new String[] { "none", "Pyro-C 0.1mm", "Pyro-C 0.2mm", "Pyro-C 0.4mm",
 			"Pyro-C 0.6mm", "Pyro-C 0.8mm" };
 
-	public enum ATN2 {
-		none, PyroC1, PyroC10,PyroC20, SiC2, SiC4
-	}
+	public static String[] ATN2 = new String[] { "none", "PyroC1", "PyroC10", "PyroC20", "SiC2", "SiC4" };
 
 	public static String[] ATN2Values = new String[] { "none", "Pyro-C 0.1mm", "Pyro-C 1.0mm", "Pyro-C 2.0mm",
 			"SiC 0.2mm", "SiC 0.4mm" };
 
-	public enum ATN3 {
-		none, PyroC10, PyroC20, SiC6, SiC15
-	}
+	public static String[] ATN3 = new String[] { "none", "PyroC10", "PyroC20", "SiC6", "SiC15" };
 
 	public static String[] ATN3Values = new String[] { "none", "Pyro-C 1.0mm", "Pyro-C 2.0mm", "SiC 0.6mm", "SiC 1.5mm" };
 
 	public static Double[] Q = new Double[] { 0.8, 1.0, 1.2 };
 
 	// inputs
-	private CrystalType crystalType = null;
-	private CrystalCut crystalCut = null;
+	private String crystalType = null;
+	private String crystalCut = null;
 	private Double q = null; // must be a value in Q array
-	private Detector detector = null;
+	private String detector = null;
 	private AbsorptionEdge edge = null; // for the moment, this should match element and edge
 
 	// outputs
@@ -78,33 +62,47 @@ public class AlignmentParametersBean implements Serializable {
 	private Double polyBend1 = 5.0; // mm
 	private Double polyBend2 = 5.0; // mm
 
-	private ME1Stripe me1stripe = null;
-	private ME2Stripe me2stripe = null;
+	private String me1stripe = null;
+	private String me2stripe = null;
 	private Double braggAngle = null; // deg
 	private Double primarySlitGap = null; // mrad
 	private Double arm2Theta = null; // deg, 2*bragg [fixed]
 	private Double detectorDistance = null; // m
 	private Double me2Pitch = null; // mrad
 
-	private ATN1 atn1 = null;
-	private ATN2 atn2 = null;
-	private ATN3 atn3 = null;
+	private String atn1 = null;
+	private String atn2 = null;
+	private String atn3 = null;
 
 	private Double power = null; // W
 
-	public CrystalType getCrystalType() {
+	public AlignmentParametersBean(String crystalType, String crystalCut, Double q, String detector, AbsorptionEdge edge) {
+		super();
+		this.crystalType = crystalType;
+		this.crystalCut = crystalCut;
+		this.q = q;
+		this.detector = detector;
+		this.edge = edge;
+	}
+	
+	@Override
+	public String toString() {
+		return crystalType + ", " + crystalCut+", " + q +"m, "+ detector +", "+ edge;
+	}
+
+	public String getCrystalType() {
 		return crystalType;
 	}
 
-	public void setCrystalType(CrystalType crystalType) {
+	public void setCrystalType(String crystalType) {
 		this.crystalType = crystalType;
 	}
 
-	public CrystalCut getCrystalCut() {
+	public String getCrystalCut() {
 		return crystalCut;
 	}
 
-	public void setCrystalCut(CrystalCut crystalCut) {
+	public void setCrystalCut(String crystalCut) {
 		this.crystalCut = crystalCut;
 	}
 
@@ -116,11 +114,11 @@ public class AlignmentParametersBean implements Serializable {
 		this.q = q;
 	}
 
-	public Detector getDetector() {
+	public String getDetector() {
 		return detector;
 	}
 
-	public void setDetector(Detector detector) {
+	public void setDetector(String detector) {
 		this.detector = detector;
 	}
 
@@ -156,19 +154,19 @@ public class AlignmentParametersBean implements Serializable {
 		this.polyBend2 = polyBend2;
 	}
 
-	public ME1Stripe getMe1stripe() {
+	public String getMe1stripe() {
 		return me1stripe;
 	}
 
-	public void setMe1stripe(ME1Stripe me1stripe) {
+	public void setMe1stripe(String me1stripe) {
 		this.me1stripe = me1stripe;
 	}
 
-	public ME2Stripe getMe2stripe() {
+	public String getMe2stripe() {
 		return me2stripe;
 	}
 
-	public void setMe2stripe(ME2Stripe me2stripe) {
+	public void setMe2stripe(String me2stripe) {
 		this.me2stripe = me2stripe;
 	}
 
@@ -212,27 +210,27 @@ public class AlignmentParametersBean implements Serializable {
 		this.me2Pitch = me2Pitch;
 	}
 
-	public ATN1 getAtn1() {
+	public String getAtn1() {
 		return atn1;
 	}
 
-	public void setAtn1(ATN1 atn1) {
+	public void setAtn1(String atn1) {
 		this.atn1 = atn1;
 	}
 
-	public ATN2 getAtn2() {
+	public String getAtn2() {
 		return atn2;
 	}
 
-	public void setAtn2(ATN2 atn2) {
+	public void setAtn2(String atn2) {
 		this.atn2 = atn2;
 	}
 
-	public ATN3 getAtn3() {
+	public String getAtn3() {
 		return atn3;
 	}
 
-	public void setAtn3(ATN3 atn3) {
+	public void setAtn3(String atn3) {
 		this.atn3 = atn3;
 	}
 

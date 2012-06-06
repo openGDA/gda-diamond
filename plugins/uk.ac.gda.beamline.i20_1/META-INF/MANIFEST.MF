@@ -25,7 +25,7 @@ Export-Package: gda.device.detector,
  uk.ac.gda.exafs.ui.controller,
  uk.ac.gda.exafs.ui.data,
  uk.ac.gda.exafs.ui.describers
-Eclipse-RegisterBuddy: uk.ac.gda.client.experimentdefinition, uk.ac.gda.common, uk.ac.gda.core
+Eclipse-RegisterBuddy: uk.ac.gda.client.experimentdefinition, uk.ac.gda.common, uk.ac.gda.core, uk.ac.gda.api
 Import-Package: org.apache.commons.beanutils;version="1.8.0",
  org.apache.commons.collections,
  org.apache.commons.configuration;version="1.6.0",
