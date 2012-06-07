@@ -21,12 +21,17 @@ anglestep=.25   #angle(360/1440)
 trigpv="BL12I-EA-DIO-01:OUT:02"
 hightime=0.15
 
+#create object for the tfg
 tfg=Finder.getInstance().find("tfg")
+
+#create a java object for the da.server communication program
 daserver=Finder.getInstance().find("daserver")
+
 cac=ChannalAccessCommands()
 
 
 def config_tfg(exposure,nsteps):
+#create a text string containing the tfg commands
     commands=Template("""
 tfg config "etfg0" tfg2
 tfg setup-groups cycles $steps
@@ -134,6 +139,7 @@ def doscan(nsteps=1800,exposure=0.3,readout=0.4):
     print "start tfg control"
     start_tfg() 
     #time.sleep(exposure*nsteps)
+    #polling loop to test whether the tfg is finished
     status=int(tfg.getStatus())
     while (status != 0):
         status=int(tfg.getStatus())

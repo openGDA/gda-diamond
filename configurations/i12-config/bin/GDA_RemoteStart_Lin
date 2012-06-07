@@ -11,13 +11,13 @@ then
   exit 1
 fi
 
-echo "Kill all GDA Clients running locally"
-gda --stop client
-sleep 2;
-
+#echo "Kill all GDA Clients running locally"
+#gda --stop --verbose client
+#sleep 2;
+#
 echo "Restaring GDA Log Panel locally"
 echo gda --restart logpanel &
-gda --restart logpanel &
+gda --restart --verbose logpanel &
 sleep 2
  
 echo "Starting GDA Servers remotely..."

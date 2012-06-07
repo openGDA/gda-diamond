@@ -300,7 +300,7 @@
 		<property name="numberOfFlatImages" value="10" />
 		<property name="localDataStoreWindows2LinuxFileName">
 			<bean class="gda.device.detector.pco.PCODetector.Windows2LinuxFilePath">
-				<property name="windowsPath" value="d:/tmp/" />
+				<property name="windowsPath" value="d:/test/direct" />
 				<property name="linuxPath" value="/dls/i12" />
 			</bean>
 		</property>

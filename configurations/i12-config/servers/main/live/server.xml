@@ -25,8 +25,8 @@
 	<import resource="Ioeh1.xml"/>
 	<import resource="Ioeh2.xml"/>
 	<import resource="Iooh2.xml"/>
-	<import resource="mono_motors.xml"/>
-	<import resource="pipediode.xml"/>
+<!-- 	<import resource="mono_motors.xml"/>
+ -->	<import resource="pipediode.xml"/>
 	<import resource="s3.xml"/>
 	<import resource="ss1_motors.xml"/>
 	<import resource="ss2.xml" />

@@ -69,7 +69,8 @@ class RockingMotion(ScannableMotionBase, Runnable):
                         self.pd.asynchronousMoveTo(self.upperlimit)
                         moveToUpperLimit=True
                         continue
-                   
+            sleep(0.2)
+            
     def rawGetPosition(self):
         '''This method not applies for the object, but returns pd position to satisfy framework interface'''
         return self.pd.getPosition()

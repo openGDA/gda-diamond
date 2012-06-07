@@ -106,12 +106,12 @@ from gda.configuration.properties import LocalProperties
 
 
 # set up the reconmanager, however this should be moved into the Spring
-from uk.ac.gda.client.tomo import ReconManager
-rm = ReconManager()
+#from uk.ac.gda.client.tomo import ReconManager
+#rm = ReconManager()
 
 # set up the extra scans
-from init_scan_commands_and_processing import * #@UnusedWildImport
-scan_processor.rootNamespaceDict=globals()
+#from init_scan_commands_and_processing import * #@UnusedWildImport
+#scan_processor.rootNamespaceDict=globals()
 
 try :
     print "setup edxd detector: edxd_counter, edxdout, edxd_binned"
@@ -120,6 +120,7 @@ try :
     edxd_counter = edxd_count("edxd_counter", edxd) #@UndefinedVariable
     # set up the edxd to monitor to begin with
     edxd.monitorAllSpectra() #@UndefinedVariable
+    print("After monitorAllSpectra")
     from EDXDDataExtractor import EDXDDataExtractor #@UnusedImport
     from EDXDDataExtractor import edxd2ascii
     from EDXDDataExtractor import postExtractor #@UnusedImport
@@ -129,7 +130,7 @@ try :
     edxd_binned = EdxdBinned("edxd_binned",edxd) #@UndefinedVariable
 
     from edxd_q_calibration_reader import set_edxd_q_calibration
-
+    print("After set_edxd_q_calibration")
     #epg 8 March 2011 Force changes to allow edxd to work on the trunk
     LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
     if LocalProperties.get("gda.data.scan.datawriter.dataFormat") != "NexusDataWriter":
@@ -186,6 +187,7 @@ try:
     pixtimestamp=DisplayEpicsPVClass('pixtimestamp', 'BL12I-EA-DET-05:TIFF:TimeStamp_RBV', 's', '%.3f')
     pixtemperature=DisplayEpicsPVClass('pixtemperature', 'BL12I-EA-DET-05:TIFF:Temperature_RBV', 'degree', '%.3f') 
     pixtotalcount=DisplayEpicsPVClass('pixtotalcount', 'BL12I-EA-DET-05:STAT:Total_RBV', 'degree', '%d') 
+    pixexposure=DisplayEpicsPVClass('pixexposure', 'BL12I-EA-DET-05:PIX:AcquireTime_RBV', 's', '%.3f') 
 except:
     print "cannot create pixium timestamp and temperature scannables"
      

@@ -1,6 +1,11 @@
 #!/bin/bash
 
-export JAVA_OPTS="-Xms128m -Xmx4096m -XX:MaxPermSize=128m -XX:+DisableExplicitGC"
-/dls_sw/i12/software/gda/plugins/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_trunk/i12-config --debug -p 8001 --restart -v --mode=live servers
-# > $LOGFILE 2>&1 &
+#if lustre is down - set the GDA_DATADIR to scratch (i.e uncomment the below line)
+#export GDA_DATADIR=/scratch;
+
+/dls_sw/i12/software/gda_versions/gda_8.22/plugins/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_8.22/i12-config --restart --mode=live nameserver
+/dls_sw/i12/software/gda_versions/gda_8.22/plugins/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_8.22/i12-config --restart --mode=live logserver
+/dls_sw/i12/software/gda_versions/gda_8.22/plugins/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_8.22/i12-config --restart --mode=live eventserver
+export JAVA_OPTS="-Xms128m -Xmx2056m -XX:MaxPermSize=256m -XX:+DisableExplicitGC"
+/dls_sw/i12/software/gda_versions/gda_8.22/plugins/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_8.22/i12-config --debug -p 8001 --restart -v --mode=live objectserver
  
