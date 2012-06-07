@@ -200,7 +200,7 @@
                id="uk.ac.gda.exafs.ui.views.xhandtfgeditorplotter"
                minimized="false"
                relationship="stack"
-               relative="uk.ac.gda.client.experimentdefinition.runcontrollerview"
+               relative="uk.ac.gda.client.CommandQueueViewFactory"
                showTitle="true"
                visible="true">
          </view>
