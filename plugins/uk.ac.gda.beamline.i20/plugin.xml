@@ -741,15 +741,4 @@
             name="Reference Sample Wheel">
       </page>
    </extension>
-   <extension
-         point="org.eclipse.ui.views">
-      <view
-            category="uk.ac.gda.client.general.category"
-            class="uk.ac.gda.beamline.i20.I20SDSView"
-            icon="icons/cog_go.png"
-            id="gda.dal.i20sdsview"
-            name="Synoptic"
-            restorable="true">
-      </view>
-   </extension>
 </plugin>

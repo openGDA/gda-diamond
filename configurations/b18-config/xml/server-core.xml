@@ -55,12 +55,6 @@
 							<property name="name" value="Scripts: Core" />
 							<property name="type" value="CORE" />
 						</bean>
-						<bean class="gda.jython.ScriptProject">
-							<property name="path"
-								value="/home/rjw82/workspaces/trunk_git/gda-xas-core.git/uk.ac.gda.server.exafs/scripts" />
-							<property name="name" value="Scripts: Exafs" />
-							<property name="type" value="CORE" />
-						</bean>
 					</list>
 				</property>
 				<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
