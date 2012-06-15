@@ -1,1 +1,7 @@
 /motorPositions
+/jythonCache
+/XasLoggingMessage
+*.py
+xspress_editor_data.xml
+*.tmp
+.tempScript2
