@@ -17,22 +17,22 @@
 		
 		<property name="axisNames">
 			<list>
-				<value>samplez</value>
-				<value>thetacoarse</value>
-				<value>samplex</value>
-				<value>thetafine</value>
+			<value>samplez</value>
+			<value>thetacoarse</value>
+			<value>samplex</value>
+			<value>thetafine</value>
 			</list>
 		</property>
 		<property name="axisMotorOrder">
 			<list>
+				<value>0</value>
 				<value>1</value>
 				<value>2</value>
 				<value>3</value>
-				<value>4</value>
 			</list>
 		</property>
 		<property name="local" value="true" />
-		
+		<property name="useAlternateMethod" value="true"/>
 	</bean>
 	
 	<bean id="continuousSampleX" class="gda.device.scannable.TrajectoryScannableMotor">

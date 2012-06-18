@@ -4,6 +4,7 @@ from gda.data import NumTracker
 from gda.data import PathConstructor
 from gda.jython import ScriptBase
 from gda.factory import Finder
+from gda.scan import  Trajectory
 #setup the trajectory scan
 
 class StorageServerStressTest(ScriptBase):
@@ -17,11 +18,13 @@ class StorageServerStressTest(ScriptBase):
     def doTrajectoryScan(self, start, stop, step, rowtime):
         nxsteps = ScannableUtils.getNumberSteps(self.xmotor,start, stop,step) + 1
         self.trajController.setM3Move(1)
+        self.trajectory = Trajectory()
         self.trajectory.setTotalElementNumber(nxsteps)
         self.trajectory.setTotalPulseNumber(nxsteps)
         self.checkForInterrupt()
         path = self.trajectory.defineCVPath(start, stop, rowtime)
         self.trajController.setMTraj(3,path)
+        self.xmotorspeed=finder.find("sample_x_motor")
         self.xmotorspeed.setSpeed(1.0)
         self.xmotor.asynchronousMoveTo(path[0])
         self.checkForInterrupt()
@@ -45,12 +48,13 @@ class StorageServerStressTest(ScriptBase):
             self.checkForInterrupt()
             return
         self.setupDetectors(nxsteps, (rowtime) / nxsteps)
-        self.tracController.execute()
+        self.xmotor.waitWhileBusy()
+        self.trajController.execute()
         self.checkForInterrupt()
-        while (self.tracController.getExecute() != 0):
+        while (self.trajController.getExecute() != 0):
             sleep(0.1)
             self.checkForInterrupt()
-        self.tracController.read()
+        self.trajController.read()
         self.checkForInterrupt()
         self.stopDetectors()
         #while (self.tracController.getRead() != 0):
@@ -65,12 +69,13 @@ class StorageServerStressTest(ScriptBase):
 
         #Now lets try and setup the NumTracker...
         runNumber = NumTracker("tmp");
+        runNumber.incrementNumber()
         #Get the current number
-        scanNumber = runNumber.getCurrentFileNumber();
-        lastRowNumber = scanNumber.getCurrentFileNumber()
-        self.xmapController.setFilenamePostfix(lastRowNumber +"-"+self.xmap.getName());
-        self.xmapController.setFileNumber(scanNumber);
-        #setup counters
+        scanNumber = runNumber.getCurrentFileNumber()
+        lastRowNumber = runNumber.getCurrentFileNumber()
+        self.xmapController.setFilenamePrefix("i18")
+        self.xmapController.setFilenamePostfix(str(lastRowNumber) + "-" + self.xmap.getName());
+        self.xmapController.setFileNumber(scanNumber);        #setup counters
         self.xmapController.resetCounters()
         self.xmapController.setPixelsPerRun(noOfPoints)
         self.xmapController.setAutoPixelsPerBuffer(True)
@@ -87,6 +92,9 @@ class StorageServerStressTest(ScriptBase):
         self.xmap.stop()
         self.xmapController.endRecording()
        
+    def setupDetectors(self, noOfPoints, timePerPoint):
+        self.setupDaServer( noOfPoints)
+        self.setupXmapDetector( noOfPoints)
         
     def setupDaServer(self, noOfPoints):
         #setup daserver
@@ -94,9 +102,8 @@ class StorageServerStressTest(ScriptBase):
         self.das.sendCommand("clear 0")
         self.das.sendCommand("enable 0")
         self.das.sendCommand("tfg setup-trig start ttl0")
-        self.das.sendCommand("tfg setup-groups ext-start cycles 1");
-        self.das.sendCommand(noOfPoints + " 0.000001 0.00000001 0 0 0 8");
-        self.das.sendCommand("-1 0 0 0 0 0 0");
+        command = "tfg setup-groups ext-start cycles 1 \n%d 1.0E-6 1.0E-6 0 0 0 8\n-1 0 0 0 0 0 0"  %(noOfPoints)
+        self.das.sendCommand(command);
         self.das.sendCommand("tfg arm");
         
     def checkForInterrupt(self):
@@ -117,6 +124,7 @@ def ServerTestScan(yScannable, ystart, ystop, ystep, xScannable, xstart,xstop, x
     #previousYPoint = ystart
     for rowNo in range(noOfRows):
         sssTest.checkForInterrupt()
+        print "Scanning Row " + str(rowNo)
         if(isOdd(rowNo)):
             sssTest.doTrajectoryScan( xstop,xstart,xstep, rowTime)
         else:

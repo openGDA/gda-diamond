@@ -10,9 +10,17 @@ gdaLocation=$abs
 #export JAVA_HOME=$gdaLocation/java/jre
 gdaLauncher=/dls_sw/i18/software/gda_versions/gda_822ws/plugins/uk.ac.gda.core/bin/gda
 config=$gdaLocation/gda/i18-config
-properties=$config/properties/java.properties
+properties=$config/properties/java.rcp.properties
 users=/dls/$BEAMLINE
 jacorb=$config/properties
 
-echo  $gdaLauncher client
-$gdaLauncher -d --config=$config --properties=$properties  --jacorb=$jacorb client -d -p 8006
+echo  JAVA_OPTS="-Xms512m -Xmx2048m" $gdaLauncher --config=$config --properties=$properties --jacorb=$jacorb --rcp_image=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE} --start rcpclient -d -p 8005 
+#$gdaLauncher -d --config=$config --properties=$properties --users=$users --jacorb=$jacorb client
+#JAVA_OPTS="-Xms512m -Xmx2048m -Xdebug -Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=n"
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/dls_sw/dasc/jprofiler5/bin/linux-x86; export LD_LIBRARY_PATH
+#JAVA_OPTS="-agentlib:jprofilerti=port=8849 -Xbootclasspath/a:/dls_sw/dasc/jprofiler5/bin/agent.jar -Xms512m -Xmx2048m -XX:PermSize=256m -XX:MaxPermSize=512m -XX:+DisableExplicitGC" $gdaLauncher -v --config=$config --properties=$properties --jacorb=$jacorb --rcp_image=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE} --start rcpclient -d -p8005
+#JAVA_OPTS="-verbose -agentlib:jprofilerti=port=8849 -Xbootclasspath/a:/dls_sw/dasc/jprofiler5/bin/agent.jar -Xms128m -Xmx128m -XX:PermSize=128m -XX:MaxPermSize=128m -XX:+DisableExplicitGC" $gdaLauncher -v --config=$config --properties=$properties --jacorb=$jacorb --rcp_image=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE} --start rcpclient -d -p8005
+#values below from Mark Booth 17/10/11
+image=/tmp/uk.ac.gda.beamline.i18.site/output/uk.ac.gda.beamline.i18.site_1.0.0-eclipse.feature/i18.gtk.linux.x86_64/
+#image=/dls_sw/i18/software/gda_versions/gda_822ws/client/output/uk.ac.gda.beamline.i18.site_1.0.0-eclipse.feature/i18.gtk.linux.x86_64/
+JAVA_OPTS="-Xms128m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=256m -XX:+DisableExplicitGC" $gdaLauncher -v --config=$config --properties=$properties --jacorb=$jacorb --rcp_image=$image/gda-${BEAMLINE} --start rcpclient -d -p8005

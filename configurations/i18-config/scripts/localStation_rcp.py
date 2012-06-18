@@ -21,7 +21,7 @@ sys.path.append(gdaMicroFocus +  "scripts/")
 print "setting up mapscan"
 microfocusRoot = "/dls_sw/i18/software/gda_versions/gda_822ws_git/gda-xas-core.git/"
 execfile (microfocusRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/rastermap.py")
-#execfile (gdaRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/vortex_rastermap.py")
+execfile (microfocusRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/vortex_rastermap.py")
 execfile (microfocusRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/map.py")
 execfile(microfocusRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/microfocus_elements.py")
 
