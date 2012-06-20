@@ -113,6 +113,21 @@ from gda.configuration.properties import LocalProperties
 #from init_scan_commands_and_processing import * #@UnusedWildImport
 #scan_processor.rootNamespaceDict=globals()
 
+#beam_optimizer_dummy is needed by tomographyScani13
+import beam_optimizers
+beam_optimizer_dummy = beam_optimizers.beam_optimizer("beam_optimizer_dummy", dummy=True)    
+
+from gda.scan.RepeatScan import create_repscan, repscan
+vararg_alias("repscan")
+
+from gdascripts.pd.time_pds import waittimeClass2, showtimeClass, showincrementaltimeClass, actualTimeClass
+waittime=waittimeClass2('waittime')
+showtime=showtimeClass('showtime')
+inctime=showincrementaltimeClass('inctime')
+actualTime=actualTimeClass("actualTime")
+
+
+
 try :
     print "setup edxd detector: edxd_counter, edxdout, edxd_binned"
     print "-------------------------------------------------"
@@ -136,7 +151,7 @@ try :
     if LocalProperties.get("gda.data.scan.datawriter.dataFormat") != "NexusDataWriter":
         raise "Format not set to Nexus"
     edxd.setOutputFormat(["%5.5g","%5.5g","%5.5g","%5.5g","%5.5g"])
-
+    
 except :
 	exceptionType, exception, traceback = sys.exc_info()
 	handle_messages.log(None, "EDXD detector not available!", exceptionType, exception, traceback, False)
