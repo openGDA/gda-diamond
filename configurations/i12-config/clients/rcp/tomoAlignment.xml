@@ -7,7 +7,7 @@
 		objects, since tomography mainly uses the PCO camera
 	</description>
 	<corba:import namespace="i12"
-		names="cameraMotionLUT, tiltBallRoiLut,moduleMotorPositionLUT,energyModuleLUT" />
+		names="cameraMotionLUT, tiltBallRoiLut,moduleMotorPositionLUT,energyModuleLUT, sampleWeightLut" />
 
 	<bean id="motorsHandler"
 		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TomoAlignmentMotorHandler">
@@ -34,7 +34,7 @@
 		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TomoDetectorHandler">
 		<property name="camera" ref="pcoTomography" />
 		<!-- <property name="imageFilePath" value="/dls/i12/gdavar/" /> -->
-		<property name="imageFilePath" value="/dls_sw/dasc/tomo/" />
+		<property name="imageFilePath" value="/scratch/tomo/" />
 		<property name="ffmjpegModel1" ref="pcoFfmjpeg1" />
 		<property name="ffmjpegModel2" ref="pcoFfmjpeg2" />
 		<property name="ndRoi1Model" ref="pcoNdROI1" />
@@ -46,11 +46,11 @@
 		<property name="demandRawFileName" value="rawImage" />
 		<property name="flatImageFileName" value="flatFieldImage" />
 		<property name="flatFileTemplate" value="%s%s.tiff" />
-		<property name="defaultNumOfFlatImages" value="25" />
+		<property name="defaultNumOfFlatImages" value="5" />
 		<property name="defaultSampleExposureTime" value="0.1" />
 		<property name="defaultFlatExposureTime" value="1.0" />
-		<property name="defaultNumOfDarkImages" value="25" />
-		<property name="darkFilePath" value="/dls_sw/dasc/tomo/" />
+		<property name="defaultNumOfDarkImages" value="5" />
+		<property name="darkFilePath" value="/scratch/tomo/" />
 		<!-- <property name="darkFilePath" value="/dls/i12/gdavar/" /> -->
 		<property name="darkImageFileName" value="darkImage" />
 		<property name="darkFileTemplate" value="%s%s.tif" />
@@ -66,49 +66,31 @@
 		<property name="moduleEnergyIntervalTable" ref="energyModuleLUT" />
 	</bean>
 
-	<bean id="cameraModuleHandler"
-		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.CameraModuleControllerWithSampleTilt">
-		<property name="motorHandler" ref="motorsHandler" />
-		<property name="lookupTableHandler" ref="moduleLookupTableHandler" />
-		<property name="cameraMotionController" ref="cameraMotionController" />
-	</bean>
+	<!-- <bean id="cameraModuleHandler" class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.CameraModuleControllerWithSampleTilt"> 
+		<property name="motorHandler" ref="motorsHandler" /> <property name="lookupTableHandler" 
+		ref="moduleLookupTableHandler" /> <property name="cameraMotionController" 
+		ref="cameraMotionController" /> </bean> -->
 
+	<bean id="cameraModuleHandler"
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.simulator.CameraModuleControllerSimulator" />
+		
 	<bean id="tiltBallLookupTableHandler"
 		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TiltBallLookupTableHandler">
 		<property name="moduleTable" ref="tiltBallRoiLut" />
 	</bean>
 
-	<!-- <bean id="tiltController" class="uk.ac.gda.client.tomo.alignment.view.handlers.simulator.TiltTestController" 
-		/> -->
 	<bean id="tiltController"
-		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TiltController">
-		<property name="lookupTableHandler" ref="tiltBallLookupTableHandler" />
-		<property name="externalProgram1">
-			<bean class="uk.ac.gda.client.tomo.ExternalFunction">
-				<property name="command" value="call_matlab.sh" />
-				<property name="args">
-					<list>
-						<value>create_flatfield</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="externalProgram2">
-			<bean class="uk.ac.gda.client.tomo.ExternalFunction">
-				<property name="command" value="call_matlab.sh" />
-				<property name="args">
-					<list>
-						<value>call_tomography_level</value>
-						<value>false,0.4,true,</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="cameraHandler" ref="detectorHandler" />
-		<property name="motorHandler" ref="motorsHandler" />
-	</bean>
-
-	<!-- Assuming that this is invoked after the pco.xml has been invoked. -->
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.simulator.TiltTestController" />
+	<!-- <bean id="tiltController" class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TiltController"> 
+		<property name="lookupTableHandler" ref="tiltBallLookupTableHandler" /> <property 
+		name="externalProgram1"> <bean class="uk.ac.gda.client.tomo.ExternalFunction"> 
+		<property name="command" value="call_matlab.sh" /> <property name="args"> 
+		<list> <value>create_flatfield</value> </list> </property> </bean> </property> 
+		<property name="externalProgram2"> <bean class="uk.ac.gda.client.tomo.ExternalFunction"> 
+		<property name="command" value="call_matlab.sh" /> <property name="args"> 
+		<list> <value>call_tomography_level</value> <value>false,0.4,true,</value> 
+		</list> </property> </bean> </property> <property name="cameraHandler" ref="detectorHandler" 
+		/> <property name="motorHandler" ref="motorsHandler" /> </bean> -->	<!-- Assuming that this is invoked after the pco.xml has been invoked. -->
 	<bean id="tomoAlignmentViewController"
 		class="uk.ac.gda.client.tomo.alignment.view.controller.TomoAlignmentViewController">
 		<property name="motorHandler" ref="motorsHandler" />
@@ -118,6 +100,20 @@
 		<property name="cameraMotionController" ref="cameraMotionController" />
 		<property name="tiltController" ref="tiltController" />
 		<property name="roiHandler" ref="roiHandler" />
+		<property name="sampleWeightRotationHandler" ref="sampleWeightRotationHandler" />
+	</bean>
+
+	<bean id="sampleWeightRotationHandler"
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.SampleWeightRotationHandler">
+		<property name="sampleWeightLookupTableHandler" ref="sampleWeightRotationLookupTableHandler"></property>
+		<property name="velocityPV" value="BL12I-MO-TAB-02:ST1:THETA.VELO" />
+		<property name="acclPV" value="BL12I-MO-TAB-02:ST1:THETA.ACCL" />
+		<property name="servoSetPV" value="BL12I-MO-TAB-02:ST1:THETA:SERVOSET" />
+	</bean>
+
+	<bean id="sampleWeightRotationLookupTableHandler"
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.SampleWeightLookupTableHandler">
+		<property name="sampleWeightLookup" ref="sampleWeightLut" />
 	</bean>
 
 	<bean id="roiHandler"
