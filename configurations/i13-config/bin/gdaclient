@@ -1,3 +1,5 @@
+#! /bin/sh 
+
 #runs the LogPanel and RCP client
 
 #identify install folder and JAVA_HOME
@@ -6,7 +8,7 @@ source /dls_sw/i13/etc/i13_profile.sh
 
 #gdalog
 
-export JAVA_OPTS="$JAVA_OPTS -Dgda.mode=$GDAMODE"
+#export JAVA_OPTS="$JAVA_OPTS -Dgda.mode=$GDAMODE"
 
 if [ "$1" = "--clean" ]
 then
