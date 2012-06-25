@@ -21,7 +21,7 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
       <vmArgs>-Dorg.eclipse.swt.browser.XULRunnerPath=/dls_sw/apps/xulrunner/x86_64/xulrunner-1.9.2
 -Declipse.pluginCustomization=/dls_sw/i13/software/gda/i13i-config/pluginCustomization.ini
 -Djacorb.config.dir=/dls_sw/i13/software/gda/i13i-config/jacorb/live
--Dgda.root=/dls_sw/i13/software/gda/plugins
+-Dgda.install.workspace.loc=/dls_sw/i13/software/gda/workspace
 -Dgda.config=/dls_sw/i13/software/gda/i13i-config
 -Dgda.propertiesFile=/dls_sw/i13/software/gda/i13i-config/properties/live/java.properties
 -Dgda.data=/dls/i13/data
