@@ -162,14 +162,6 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            category="uk.ac.gda.client.exafs.category"
-            class="uk.ac.gda.beamline.b18.B18TerminalView"
-            icon="icons/application_xp_terminal.png"
-            id="uk.ac.gda.beamline.b18.terminalView"
-            name="Scripting Terminal"
-            restorable="true">
-      </view>
-      <view
             class="uk.ac.gda.beamline.b18.MythenControlView"
             id="uk.ac.gda.beamline.b18.mythencontrol"
             name="Mythen Controller"
