@@ -224,11 +224,15 @@
 		<constructor-arg value=".04" />
 		<constructor-arg ref="adDriverPco1" />
 		<property name="ndProcess" ref="pco1_proc1" />
+		<property name="etfg" ref="tfg"/>
 	</bean>
 	<bean id="pco1_tfg" class="gda.device.detector.addetector.triggering.PCOTFGTrigger">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg ref="adDriverPco1" />
 		<constructor-arg ref="tfg" />
+		<property name="exposeTriggerOutVal" value="64"/>
+		<property name="noLongerBusyTriggerInVal" value="39"/>
+		<property name="noLongerBusyTriggerSetupCommand" value="tfg setup-trig start adc5 alternate 1"/>
 	</bean>
 	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<constructor-arg ref="pco1_ndhdf5file" />
@@ -337,6 +341,38 @@
 		<property name="ndFile" ref="pco1_ndfiletif" />
 		<property name="collectionStrategy" ref="pco1_tfg"/>
 		<property name="fileWriter" ref="pco1_hdf5_filewriter"/>
+		<property name="readAcquisitionTime" value="true" />
+		<property name="readFilepath" value="true" />
+		<property name="readAcquisitionPeriod" value="false" />
+		<property name="computeStats" value="false" />
+		<property name="computeCentroid" value="false" />
+		<property name="readArray" value="false" />
+		<property name="checkFileExists" value="true"/>
+		<property name="usePipeline" value="true"/>
+	</bean>
+
+
+	<bean id="dimax_hw_tif" class="gda.device.detector.addetector.ADPco">
+		<property name="adBase" ref="pco1_cam_base" />
+		<property name="ndStats" ref="pco1_stat" />
+		<property name="ndArray" ref="pco1_arr" />
+		<property name="ndFile" ref="pco1_ndfiletif" />
+		<property name="collectionStrategy" ref="pco1_multipleExposureHardwarePco"/>
+		<property name="fileWriter">
+			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+				<constructor-arg ref="pco1_ndfiletif" />
+				<constructor-arg value="dimax" />
+				<constructor-arg value="%%s%%s%d-%%05d.tif"/>
+				<constructor-arg value="%s/%d/dimax/"/>
+				<constructor-arg value="true"/>
+				<constructor-arg value="true"/>
+				<property name="enable" value="true"/>
+				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+				<property name="returnExpectedFullFileName" value="true"/>
+				<property name="ndArrayPortVal" value="pco1.prc1"/>
+			</bean>
+		</property>
+
 		<property name="readAcquisitionTime" value="true" />
 		<property name="readFilepath" value="true" />
 		<property name="readAcquisitionPeriod" value="false" />
