@@ -646,6 +646,12 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 	 * @param detectorNumber
 	 */
 	public void monitorSpectra(int detectorNumber) {
+		if (detectorNumber < 1 || detectorNumber > getNumberOfElements())
+		{
+			throw new IllegalArgumentException("Detector number must be between 1 and 24 (both limits inclusive)");
+		}
+		detectorNumber-=1;
+		
 		plotAllSpectra = false;
 		traceOneSpectra = detectorNumber;
 		newTrace = true;
