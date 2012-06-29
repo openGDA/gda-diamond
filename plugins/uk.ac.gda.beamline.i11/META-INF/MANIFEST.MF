@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Diamond Light Source Beamline I11 Plug-in
+Bundle-SymbolicName: uk.ac.gda.beamline.i11;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: uk.ac.gda.beamline.i11.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.ui.intro,
+ org.eclipse.ui.console;bundle-version="3.4.0",
+ org.eclipse.debug.ui;bundle-version="3.5.1",
+ org.eclipse.search;bundle-version="3.5.1",
+ org.python.pydev;bundle-version="1.5.0",
+ org.python.pydev.jython;bundle-version="1.5.0",
+ ch.qos.logback.eclipse;bundle-version="1.1.1",
+ uk.ac.diamond.scisoft.analysis;bundle-version="1.0.0",
+ uk.ac.diamond.scisoft.analysis.rcp;bundle-version="1.0.0",
+ uk.ac.gda.core;bundle-version="1.0.0",
+ uk.ac.gda.client;bundle-version="1.0.0",
+ uk.ac.gda.client.sixd;bundle-version="1.0.0",
+ uk.ac.gda.oe;bundle-version="1.0.0",
+ uk.ac.gda.common;bundle-version="1.0.0",
+ uk.ac.gda.common.rcp;bundle-version="1.0.0",
+ uk.ac.gda.client.oe;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Diamond Light Source
+Export-Package: uk.ac.gda.beamline.i11
+Import-Package: org.python.pydev.ui.wizards.project
