@@ -74,6 +74,7 @@ def setSubdirectory(dirname):
     try:
         os.mkdir(wd())
     except :
+        print "setSubdirectory failed to create: ",dirname
         pass
     
 # Do this last

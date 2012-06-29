@@ -8,14 +8,14 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<!-- <corba:import namespace="i12" names="plot_server" />
+	<corba:import namespace="i12" names="plot_server" />
 
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
 		<property name="service" ref="plot_server" />
 	</bean>
- -->
-	<!-- <import resource="pixium.xml" /> -->
+
+	<import resource="pixium.xml" /> 
 	<import resource="pco.xml" />
 
 	<!-- The tomoAlignment.xml must follow the pco.xml since the tomoAlignment 
@@ -28,7 +28,7 @@
 	<import resource="tomoAlignment.xml" />
 	<import resource="tomoConfiguration.xml" />
 	<!-- <import resource="tomoAlignment_dummy.xml" /> -->
-	<!-- <import resource="edxd.xml" /> -->
+	<import resource="edxd.xml" />
 
 	<bean id="mono2_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="Mono2 Camera Preview" />

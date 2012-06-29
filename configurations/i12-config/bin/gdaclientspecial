@@ -1,5 +1,0 @@
-#!/bin/bash
-
-. /dls_sw/i12/software/gda/builder/set_tools.sh
-
-JAVA_OPTS="-Xms128m -Xmx1024m -XX:MaxPermSize=256m" /dls_sw/i12/software/gda_versions/gda_tomo_oneoff/plugins/uk.ac.gda.core/bin/gda rcpclient --rcp_image=/dls_sw/i12/software/gda_versions/gda_tomo_oneoff/client/gda  --restart  $@ #--debug --debugport=8003  --suspend=y

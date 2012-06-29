@@ -4,7 +4,7 @@
 # Note the location of the original python gda launcher must point to its correct location
 here=`dirname $0`
 config=`cd $here/../; pwd`
-root=`cd $config/../plugins; pwd`
+root=`cd $config/../../../../gda_git/gda-core.git; pwd`
 if [ ! -f $root/uk.ac.gda.core/bin/gda ]; then
 	echo "Can not find gda launcher at $root/uk.ac.gda.core/bin/gda"
 	exit 1
