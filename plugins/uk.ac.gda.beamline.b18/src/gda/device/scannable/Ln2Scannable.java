@@ -18,14 +18,13 @@
 
 package gda.device.scannable;
 
-import org.apache.commons.logging.impl.SimpleLog;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.scannable.scannablegroup.ScannableGroup;
 import gda.jython.JythonServerFacade;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 public class Ln2Scannable extends ScannableBase implements Scannable {
 
 	private ScannableGroup cryo;
