@@ -9,7 +9,7 @@ import time
 import glob
 import platform
 import subprocess
-
+from optparse import OptionParser
 
 
 
@@ -34,14 +34,18 @@ def folderExistsWithTimeOut( dirToCheck, timeToWaitInS, sleepInterValInS , outSt
 
 
 def main( argv, out = sys.stdout, err = sys.stderr ):
-	SinoListener( argv, out, err ).run()
+
+	sl=SinoListener()
+	#sl.setOptions(opts)
+	sl.parseOptions(argv, out, err)
+	sl.run()
 
 class SinoListener():
 
-	def __init__( self, argv, out, err, testing = False ):
-		self.argv = argv
-		self.out = out
-		self.err = err
+	def __init__(self, testing=False):
+		#self.argv = argv
+		#self.out = out
+		#self.err = err
 
 		self.firstchunk = 1 #number of first chunk
 		self.ht = 2672#default. Length(height) of image controlled by l argument
@@ -79,7 +83,56 @@ class SinoListener():
 		self.cropright = 0
 		self.hflag = 0 # show help and exit
 		self.qsub_project = "i12" # project name given to qsub
+		
+		self.jobID=[]
 
+	def setOptions(self, opts):
+		self.firstchunk=1 #number of first chunk
+		self.ht=2672#default. Length(height) of image controlled by l argument
+		self.idxflag=" " #last argument to chunkprogram - either blank or -1, controlled by -1 argument
+		
+		#self.infmt = "p_%05d.tif"
+		self.infmt=opts.inFilenameFmt
+		self.interval=1 #time interval when checking for a resource in seconds - controlled by z 
+		self.lastchunk=16 ## range end given in t argument to qsub. Controlled by -L argument otherwise set to nchunks
+		#-t argument controls number of simultaneous jobs on the cluster firstchunk-lastchunk
+		self.lastflag=False# indicates lastchunk is being controlled by -L command and that lastchunk is valid
+		self.lt=10 # timeout when checking for a resource in seconds - - controlled by Z
+		self.mypid=os.getpid()
+		self.nproj=0
+		self.outflag=False
+		self.pidnums=[]
+		self.pnums=[0, 0, 0]
+		self.pstrings=['p', 'f', 'a']
+		self.uniqueflag=False
+		self.tifflag=False
+		self.vflag=False #verbose flag default False controlled by -v
+		
+		#self.testing = testing
+		self.testing=opts.testingMode
+		self.wd=4008 #default
+		
+		#self.indir = "projections"
+		self.indir=opts.inDir
+		
+		#self.outdir="sinograms"
+		self.outdir=opts.outDir+os.sep+"sinograms"
+		self.bytes=2 #default
+		self.nchunks=16 #default number of chunks controlled by -n 
+		self.nsegs=1 #defaultb -s arg to chunkprogram - controlled by -s
+		
+		#self.nperseg = 6000#default number of projections -p arg to chunk program controlled by -p
+		self.nperseg=opts.numProjs #default number of projections -p arg to chunk program controlled by -p
+		self.jobbasename="chunk" #default - -J
+		self.jobname="chunk_sino"#default - the finish job wait for the tasks with this naem to complete
+		self.existflag=" " #default# 2nd part of -b flag to chunk program, controlled by -E
+		self.jobsuffix=""#default -j
+		self.myqueue="low.q" #default name of queue to use - controlled by -Q
+		self.uniqueid="U"#default if given replaces use of pid
+		self.cropleft=0
+		self.cropright=0
+		self.hflag=0 # show help and exit
+		self.qsub_project="i12" # project name given to qsub
 
 
 	def usage( self ):
@@ -96,7 +149,7 @@ class SinoListener():
 		self.out.write ( "-F number of first chunk (currently %i)\n" % self.firstchunk )
 		self.out.write ( "-L number of last chunk (currently same as number of chunks)\n" )
 		self.out.write ( "-n total number chunks (currently %i)\n" % self.nchunks )
-		self.out.write ( "-J job hame\n" )
+		self.out.write ("-J job name\n")
 		self.out.write ( "-j suffix of job name\n" )
 		self.out.write ( "-b bytes per pixel (currently 2)\n" )
 		self.out.write ( "-s number of segments (currently 1)\n" )
@@ -122,27 +175,110 @@ class SinoListener():
 
 	def PopenWait( self, args, env ):
 		for e in args:
-			self.out.write( `e` + "\n" )
-		for e in env:
-			self.out.write( `e` + "\n" )
+			self.out.write("arg "+`e`+"\n")
+		#for k, v in env.iteritems():
+		#	self.out.write("env "+`k`+"="+`v`+"\n")
 		executable = args[0]
-		args = args[1:]
+		#args = args[1:]
 		if self.testing:
 			executable = "test_program.py"
+		print "Using exe = %s"%executable
 		p = subprocess.Popen( args, executable = executable, env = env, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
 		p.wait()
 		( out, err ) = p.communicate()
 		self.out.write ( "return value was %s\n" % p.returncode )
-		if len( out ):
+		id=out.split()[2].strip()
+		#id=id.split('.')[0]
+		#print id
+		self.jobID.append(id.split('.')[0])
+		
+		if len(out)>0:
 			self.out.write ( out + "\n" )
 		if len( err ) > 0:
 			self.err.write ( err + "\n" )
 
-
-	def parseOptions( self ):
+	def queueJobsMonitor(self, nSec=5, totWait=5*160):
+		jobStateIdx=4
+		waiting=True
+		
+		print 'Monitoring sino-jobs with qstat:'
+		print "Time (sec)\t"+"\t".join(self.jobID)
+		time_passed=0
+		bTimeOut=(time_passed>totWait)
+		while waiting and (not bTimeOut):
+			waiting=False
+			#cmd0='module load global/cluster >/dev/null 2>&1'
+			cmd="qstat"
+			proc=subprocess.Popen([cmd], shell=True, stdout=subprocess.PIPE)
+			proc.wait()
+			stat=proc.communicate()[0]
+			values=stat.split("\n")
+			#print type(values)
+			#print len(values)
+			#for i in range(0, len(values)):
+			#	print i, values[i]
+				
+			status={}
+			for id in self.jobID:
+				status[id]='unknown'
+			#print 'status dct at top...'
+			#print status
+			for line in values[2:]:
+				#print 'sioux'
+				#print line
+				split=line.split()
+				#print 'split'
+				#print split
+				#print len(split)
+				if(len(split)>jobStateIdx):
+					lineJobID=split[0].strip()
+					#print 'lineJobID:'
+					#print lineJobID
+					lineJobState=split[jobStateIdx].strip()
+					#print 'lineJobState:'
+					#print lineJobState
+					lineTaskID=split[len(split)-1].strip()
+					#print 'lineTaskID:'
+					#print lineTaskID
+					for id in self.jobID:
+						if id==lineJobID:
+							if status[id]=='unknown':
+								status[id]=''
+							status[id]+=lineTaskID+':'+lineJobState+' '
+		
+			#print 'status dct at bottom:'
+			#print status
+			
+			stats=[]
+			for id in self.jobID:
+				if status[id]=='unknown':
+					stats.append('completed')
+				else:
+					stats.append(status[id])
+					waiting=True
+			
+			#print out whole line of stats
+			print ("%i\t"%(time_passed))+"\t".join(stats)
+		
+			#advance time
+			#print 'adding n sleeping '
+			time_passed+=nSec
+			time.sleep(nSec)
+			bTimeOut=(time_passed>totWait)
+			
+		#outside while-loop
+		if bTimeOut:
+			print "Timed-out after approx %s sec"%totWait
+		
+		return (not waiting)
+	
+	
+	def parseOptions(self , argv, out, err):
 	#width and height need to come from somewhere too ..
 	#some defaults for testing
-
+		self.argv=argv
+		self.out=out
+		self.err=err
 		if ( len( self.argv ) < 2 ):
 			self.hflag = 1
 
@@ -256,13 +392,14 @@ class SinoListener():
 			chunkprogram = "test_chunkprogram.py"
 		self.chunkscript = "%s/sinochunk.qsh" % self.settingsfolder
 		chunk_ht = self.ht / self.nchunks
-		self.vprint( "Length(height) of image %i chunk_ht: %i\n" % ( self.ht, chunk_ht ) )
+		self.vprint("Length (height) of image %i chunk_ht: %i\n"%(self.ht, chunk_ht))
+		self.vprint("Output folder (for sinograms): %s\n"%self.outdir)
 
 		chunkflags = "-i %s -o %s -w %i -l %i -z %i " % ( self.indir, self.outdir, self.wd, chunk_ht, self.interval )
 		chunkflags += "-Z %i  -s %i -p %i -b %i %s " % ( self.lt, self.nsegs, self.nperseg, self.bytes, self.existflag )
 		chunkflags += "-S %s -I %s -T %i -R %i %s " % ( self.settingsfolder, self.infmt, self.cropleft, self.cropright, self.idxflag )
 		self.vprint( "Creating the queue script: %s\n" % self.chunkscript )
-		self.vprint( "Using : %s\n" % chunkprogram )
+		self.vprint("Using: %s\n"%chunkprogram)
 
 
 
@@ -276,7 +413,9 @@ set -x
 
 #add the modules required 
 source /dls_sw/i12/modulefiles/modules.sh
-module add /dls_sw/i12/modulefiles/local-64
+module add i12
+module add global/cluster
+module add/dls_sw/i12/modulefiles/local-64
 myjob=$JOB_ID
 mytask=$SGE_TASK_ID
 """ )
@@ -445,7 +584,9 @@ fi
 set -x
 
 #add the modules required 
-source /dls_sw/i12/modulefiles/modules.sh
+source	/dls_sw/i12/modulefiles/modules.sh
+module add i12
+module add global/cluster
 #add environment required by epics channel access (ezca) 
 
 myjob=$JOB_ID
@@ -493,7 +634,7 @@ mv *.trace %s
 
 	def run( self ):
 
-		self.parseOptions()
+		#self.parseOptions()
 		if ( self.hflag ):
 			self.usage()
 			return
@@ -503,6 +644,9 @@ mv *.trace %s
 		self.jobname = "%s_sn_%s_%s" % ( self.jobbasename, self.jobsuffix, self.mypid )
 
 		self.settingsbase = "sino_output"
+		if self.outflag:
+			self.settingsbase=self.outdir+os.sep+self.settingsbase
+			self.outdir=self.outdir+os.sep+"sinograms"
 		if self.testing:
 			tstamp = "testing"
 		else:
@@ -514,6 +658,8 @@ mv *.trace %s
 
 		self.out.write( "using input file format %s\n" % self.infmt )
 
+		self.out.write ("Output  folder will be: %s\n"%self.outdir)
+		
 		#check folder for the project
 		self.out.write ( "Checking for input directory %s \nTimeout: %i seconds\n" % ( self.indir, self.lt ) )
 		if not folderExistsWithTimeOut( self.indir, self.lt, self.interval, self.out ):
@@ -541,7 +687,11 @@ mv *.trace %s
 		self.submitChunkScript()
 		self.submitFinishScript()
 
-
+		b=self.queueJobsMonitor()
+		if b:
+			print 'queueJobsMonitor returned TRUE'
+		else:
+			print 'queueJobsMonitor returned FALSE'
 
 
 if __name__ == "__main__":

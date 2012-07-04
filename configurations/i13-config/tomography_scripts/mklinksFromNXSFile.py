@@ -10,10 +10,24 @@ import unittest
 
 import h5py
 import string
-from mklinks import makeLinks
+from mklinks import makeLinks, makeLinksToOriginalFiles
 
 
 from sino_listener import *
+import sino_listener
+
+from contextlib import contextmanager
+
+@contextmanager
+def cd(path):
+	saved_dir=os.getcwd()
+	try:
+		os.chdir(path)
+		yield path
+	except Exception, ex:
+		raise Exception ("ERROR changing directory: "+str(ex))
+	finally:
+		os.chdir(saved_dir)
 
 
 def dbgPrintNXSContent(nxsFileHandle, map01Def_shutter, map01Def_stage, dfpDef, nEachEnd=5, verbose=True):
@@ -125,6 +139,24 @@ def genAncestorPath(path, ngenerationDown):
 	return outpath
 
 
+def splitPathIntoConstituents(inPath, inConstituents=['dls', 'beamlineID', 'data', 'yearID', 'visitID', 'scanID', 'detectorID', 'filename'], fallback='unknown_'):
+	len_inDir=len(inDir)
+	#e.g. /dls/i13/data/2012/mt5811-1/564/pco1/pco1564-00002.tif
+	inPath_split=string.split(inPath, "/")
+	#Note that src_proj_split contains some empty strings, i.e.''
+	outDct={}
+	nmismatches=0
+	inDir_idx=0
+	for i in len(inPath_split):
+		if inPath_split[i]!='':
+			if inDir_idx<len_inDir:
+				outDct[ inDir[inDir_idx] ]=inPath_split[i]
+			else:
+				outDct[ fallback+`i` ]=inPath_split[i]
+				nmismatches+=1
+			inDir_idx+=1
+	return outDct, nmismatches
+
 def removeTrailingSlash(path):
 # remove trailing slash if it exists
 	path_out=path
@@ -178,14 +210,14 @@ def genImageKey(inShutterPos, map01Def_shutter, inStagePos, map01Def_stage, dfpD
 
 
 def validateFDP(image_key):
-	# must be one of the following (1,0,0), (0,1,0), (0,0,1)
+	# must be one of the following (1,0,0), (0,1,0), (0,0,1), so the sum of all 3 entries must be 1
 	sum=image_key['dark']
 	sum+=image_key['flat']
 	sum+=image_key['proj']
-	return (sum==3)
+	return (sum==1)
 
 
-def createDirs(filename, outdir, mandatorydir="processing", verbose=False):
+def createDirs(refFilename, outdir, mandatorydir="processing", verbose=False):
 
 	"""
 	In the processing folder create:
@@ -208,7 +240,7 @@ def createDirs(filename, outdir, mandatorydir="processing", verbose=False):
 	
 	
 	if outdir is None:
-		processing_dir=os.path.join(genAncestorPath(filename, 3), "processing")
+		processing_dir=os.path.join(genAncestorPath(refFilename, 3), "processing")
 	else:
 		outdir_loc=outdir
 		if not outdir is None:
@@ -216,7 +248,7 @@ def createDirs(filename, outdir, mandatorydir="processing", verbose=False):
 			if outdir_tail!=mandatorydir:
 				outdir_loc=outdir_loc+os.sep+mandatorydir
 				print "\nMandatory dirname appended to outdir_loc=%s"%outdir_loc
-		
+
 
 		processing_dir=outdir_loc
 
@@ -224,43 +256,64 @@ def createDirs(filename, outdir, mandatorydir="processing", verbose=False):
 		if not os.path.exists(processing_dir):
 			try:
 				os.makedirs(processing_dir)
+				#print "Fn createDirs is attempting to create dir:%s"%processing_dir
 			except OSError as ex:
 				#Raises an error exception if the LEAF directory already exists or cannot be created.
 				raise Exception ("ERROR creating outdir "+str(ex))
+		elif verbose:
+			print "The required directory already exists: %s"%processing_dir
 
 
 	head=processing_dir
 	#from this stage the processing folder is guaranteed to exist (because it was created above or exists by DLS default)
 	if not os.path.exists(head):
-			raise Exception("The processing dir does NOT exist in :"+`head`)
+		msg="The processing dir does NOT exist in :"+`head`
+		print msg
+		#raise Exception("The processing dir does NOT exist in :"+`head`)
 	
-	scanNumber_str=os.path.basename(genAncestorPath(filename, 2))
+	scanNumber_str=os.path.basename(genAncestorPath(refFilename, 2))
 	scanNumber_int=int(scanNumber_str)
 
 
 	#the paths below are relative to the processing directory
 	proj_dir="rawdata"+os.sep+scanNumber_str+os.sep+"projections"
+	sino_dir="sino"+os.sep+scanNumber_str
 	dark_dir="sino"+os.sep+scanNumber_str+os.sep+"dark"
 	flat_dir="sino"+os.sep+scanNumber_str+os.sep+"flat"
 
 	dirs=[proj_dir, dark_dir, flat_dir, ("reconstruction"+os.sep+scanNumber_str)]
-	
 
 	for dirname in dirs:
 		dirname=head+os.sep+dirname
 		if not os.path.exists(dirname):
 			try:
 				os.makedirs(dirname)
+				#print "Fn createDirs is attempting to create dir:%s"%dirname
 			except OSError as ex:
 				#Raises an error exception if the LEAF directory already exists or cannot be created.
 				raise Exception ("ERROR creating directory "+str(ex))
+		elif verbose:
+			print "The required directory already exists: %s"%dirname
 
 
 	print "\nFinished creating directories." 
-	return scanNumber_str, head, dark_dir, flat_dir, proj_dir
+	return scanNumber_str, head, sino_dir, dark_dir, flat_dir, proj_dir
 
 
-def populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, tif_lst, dark_idx, flat_idx, proj_idx):
+def decimate(inList, decimationRate=1):
+	decimationRate_loc=int(decimationRate)
+	if decimationRate_loc<1:
+		decimationRate_loc=1
+	
+	inLen=len(inList)
+	outLen=int(inLen/decimationRate_loc)
+	outList=[]
+	for i in range((decimationRate_loc-1), (decimationRate_loc*outLen), decimationRate_loc):
+		outList.append(inList[i])
+	return outList
+
+
+def populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, tif_lst, dark_idx, flat_idx, proj_idx, decimationRate=1, verbose=False):
 
 	"""
 	Create:
@@ -281,48 +334,86 @@ def populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, tif_lst, da
 	dst_flat=head+os.sep+flat_dir+os.sep+dst_flat
 	createSoftLink(src_flat, dst_flat)
 
-	#identify arguments to be used when calling makeLinks 
+	#identify arguments to be used when calling makeLinks using the path of the first projection file
 	src_proj=tif_lst[proj_idx[0]][0]
+	refFilename=src_proj
 
 
 	src_proj_split=string.split(src_proj, "/")
 
 	#e.g. /dls/i13/data/2012/mt5811-1/564/pco1/pco1564-00002.tif
-	#Note that src_proj_split contains some empty striings, i.e.''
+	#Note that src_proj_split contains some empty strings, i.e.''
 	makeLinks_arg={}
 	makeLinks_arg['beamlineID']=src_proj_split[2]
 	makeLinks_arg['year']=int(src_proj_split[4])
 	makeLinks_arg['visit']=src_proj_split[5]
 	makeLinks_arg['scanNumber']=int(src_proj_split[6])
 	makeLinks_arg['detector']=src_proj_split[7]
+	
 	makeLinks_arg['firstImage']=proj_idx[0]
 	makeLinks_arg['lastImage']=proj_idx[len(proj_idx)-1]
 
-
+	detectorName=src_proj_split[7]
 	makeLinks_outdir=head+os.sep+proj_dir
+	print "makeLinks_outdir=%s"%makeLinks_outdir
+
+
+	proj_idx_decimated=decimate(proj_idx, decimationRate)
+	
+	many=5
+	for i in range(0, len(proj_idx_decimated)):
+		if i<many or i>len(proj_idx_decimated)-1-many:
+			print proj_idx_decimated[i]
 
 
 	#makeLinks(scanNumber, lastImage, firstImage=2, visit="mt5811-1", year="2012", detector="pco1", outdir=None)
-	makeLinks(year=makeLinks_arg['year']\
-						, visit=makeLinks_arg['visit']\
-						, scanNumber=makeLinks_arg['scanNumber']\
-						, detector=makeLinks_arg['detector']\
-						, firstImage=makeLinks_arg['firstImage']\
-						, lastImage=makeLinks_arg['lastImage']\
-						, outdir=(head+os.sep+proj_dir))
+#	makeLinks(year=makeLinks_arg['year']\
+#						, visit=makeLinks_arg['visit']\
+#						, scanNumber=makeLinks_arg['scanNumber']\
+#						, detector=makeLinks_arg['detector']\
+#						, firstImage=makeLinks_arg['firstImage']\
+#						, lastImage=makeLinks_arg['lastImage']\
+#						, outdir=(head+os.sep+proj_dir))
 
+	filenameFmt=detectorName+scanNumber_str+"-"+"%05d.tif"
+	makeLinksToOriginalFiles(\
+							proj_idx_decimated\
+							, indir=genAncestorPath(refFilename, 1)\
+							, inFilenameFmt=filenameFmt\
+							, outdir=(head+os.sep+proj_dir)\
+							, outFilenameFmt=filenameFmt)
 
 	print "\nFinished populating directories." 
+	return len(proj_idx_decimated), detectorName
 
 
 def createSoftLink(src, dst):
 	if not os.path.exists(src):
 		raise Exception("File cannot be linked to as it does not exist:"+`src`)
 	if os.path.exists(dst):
-		raise Exception("createSoftLink: Soft link already exists:"+`dst`)
+		msg="Fn createSoftLink: Soft link already exists:"+`dst`
+		print msg
+		#raise Exception("Fn createSoftLink: Soft link already exists:"+`dst`)
 	cmd="ln -s "+src+" "+dst
-	subprocess.call(cmd, shell=True)
+	print cmd
+	#subprocess.call(cmd, shell=True)
 
+
+def launchSinoListener(inDir, inFilenameFmt, nProjs, outDir, verbose=False, testing=True):
+	print launchSinoListener.__name__
+	args=["sino_listener.py"]
+	args+=[ "-i", inDir]
+	args+=[ "-I", inFilenameFmt]
+	args+=[ "-p", str(nProjs)]
+	args+=[ "-o", outDir]
+	if verbose:
+		args+=[ "-v"]
+	if testing:
+		args+=[ "-t"]
+	
+	print args
+	sino_listener.main(args)
+	#sino_listener.main(["sino_listener.py", "-i", "/home/vxu94780/processing/rawdata/564/projections", "-I", "pco1564-%05d.tif", "-p", "1200", "-t"])
 
 
 def makeLinksForNXSFile(\
@@ -332,13 +423,15 @@ def makeLinksForNXSFile(\
 					, stageInBeamPhys=0.0\
 					, stageOutOfBeamPhys=6.0\
 					, shutterNXSPath='/entry1/instrument/tomoScanDevice/tomography_shutter'\
-					, stageNXSPath='/entry1/instrument/tomoScanDevice/ss1_X'\
+					, stagePosNXSPath='/entry1/instrument/tomoScanDevice/ss1_X'\
+					, stageRotNXSPath='/entry1/instrument/tomoScanDevice/ss1_rot'\
 					, tifNXSPath='/entry1/instrument/pco1_tif/image_data'\
 					, outdir=None\
 					, minProjs=129\
 					, maxUnclassed=0\
-					, verbose=False\
+					, decimationRate=1\
 					, sino=False\
+					, verbose=False\
 					, dbg=False):
 	"""
 	Create directories and links to projection, dark and flat images required for sino_listener to create sinograms.
@@ -358,11 +451,14 @@ def makeLinksForNXSFile(\
 		print "stageInBeamPhys=%s"%stageInBeamPhys
 		print "stageOutOfBeamPhys=%s"%stageOutOfBeamPhys
 		print "shutterNXSPath=%s"%shutterNXSPath
-		print "stageNXSPath=%s"%stageNXSPath
+		print "stagePosNXSPath=%s"%stagePosNXSPath
+		print "stageRotNXSPath=%s"%stageRotNXSPath
 		print "tifNXSPath=%s"%tifNXSPath
 		print "outdir=%s"%outdir
 		print "minProjs=%s"%minProjs
 		print "maxUnclassed=%s"%maxUnclassed
+		print "decimationRate=%s"%decimationRate
+		print "sino=%s"%str(sino)
 		print "verbose=%s"%str(verbose)
 		print "dbg=%s"%str(dbg)
 		print "\n"
@@ -422,10 +518,11 @@ def makeLinksForNXSFile(\
 		for item in nxsFileHandle.attrs.keys():
 			print item+":", nxsFileHandle.attrs[item]
 
-
+	#get data arrays
 	tomography_shutter=nxsFileHandle[shutterNXSPath]
-	ss1_x=nxsFileHandle[stageNXSPath]
-	ss1_rot=nxsFileHandle['/entry1/instrument/tomoScanDevice/ss1_rot']
+	ss1_x=nxsFileHandle[stagePosNXSPath]
+	#ss1_rot=nxsFileHandle['/entry1/instrument/tomoScanDevice/ss1_rot']
+	ss1_rot=nxsFileHandle[stageRotNXSPath]
 	tif=nxsFileHandle[tifNXSPath]
 	
 	
@@ -440,9 +537,8 @@ def makeLinksForNXSFile(\
 		print "len_tomography_shutter=%s"%len_tomography_shutter
 		print "len_tif=%s"%len_tif
 
-	image_key={}
 	
-	# lists for the indices of DARK, FLAT and PROJ images, respectively
+	# lists to store the indices of DARK, FLAT and PROJ images, respectively
 	dark_idx=[]
 	flat_idx=[]
 	proj_idx=[]
@@ -454,10 +550,11 @@ def makeLinksForNXSFile(\
 	if len_ss1_x!=N or len_tomography_shutter!=N or len_tif!=N:
 		raise Exception("The lengths of NeXus datasets differ between each other! ")
 
-	if dbg:
+	if dbg and False:
 		N=min(10, N)
 
-# identify all entries as DARK, FLAT, PROJ or UNCLASSIFIED images 
+	image_key={}
+# identify each entry as DARK, FLAT, PROJ or UNCLASSIFIED image
 	for i in range(0, N):
 		image_key=genImageKey(inShutterPos=tomography_shutter[i], map01Def_shutter=map01Def_shutter, inStagePos=ss1_x[i], map01Def_stage=map01Def_stage, dfpDef=dfpDef) 
 		
@@ -501,22 +598,45 @@ def makeLinksForNXSFile(\
 		#msg="The number of unclassified images is: %s!"%len_unclassified_idx
 		raise Exception("Number of UNCLASSIFIED images is TOO HIGH to proceed: "+`len_unclassified_idx`+" > "+`hiUnclassifieds_exc`+" (the latter is the exclusive max)")
 	
-	# use the path of the first PROJ image file as a reference path for identifying the corresponding scanNumber, etc
+	if verbose:
+		theta_lo=ss1_rot[ proj_idx[0] ]
+		theta_hi=ss1_rot[ proj_idx[len_proj_idx-1] ] 
+		print "theta_lo = %s, zidx = %s"%(theta_lo, proj_idx[0])
+		print "theta_hi = %s, zidx = %s"%(theta_hi, proj_idx[len_proj_idx-1])
+	
+	# use the path of the first PROJ image file as a reference file path for identifying the corresponding scanNumber, etc
 	srcfile_proj=tif[proj_idx[0]][0]
 	mandatory_parent_foldername="processing"
 	
-	scanNumber_str, head, dark_dir, flat_dir, proj_dir=createDirs(filename=srcfile_proj, outdir=outdir, mandatorydir=mandatory_parent_foldername)
+	scanNumber_str, head, sino_dir, dark_dir, flat_dir, proj_dir=createDirs(refFilename=srcfile_proj, outdir=outdir, mandatorydir=mandatory_parent_foldername, verbose=verbose)
 	
-	populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, tif, dark_idx, flat_idx, proj_idx)
+	len_proj_idx_decimated, detectorName=populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, tif, dark_idx, flat_idx, proj_idx, decimationRate, verbose=verbose)
 	
 	if sino:
-		print "\nAbout top launch the sino_listener script." 
+		print "\n\tAbout to launch the sino_listener script from CWD = %s"%os.getcwd()
 		#sino=SinoListener(argv, out=sys.stdout, err=sys.stderr)
-		sino=SinoListener(["prog", "-h"], out=sys.stdout, err=sys.stderr, testing=True)
-		sino.run()
+		#sino_listener.py -i projections -I pco1564-%05d.tif -P 1201
+		#sino=SinoListener(["prog", "-h"], out=sys.stdout, err=sys.stderr, testing=True)
+		#sino=SinoListener(["prog", "-h"], out=sys.stdout, err=sys.stderr, testing=True)
+		#/dls/i13/data/2012/mt5811-1/processing/rawdata/564/projections
+			
+		with cd(head+os.sep+sino_dir):
+			print "\n\tInside context manager CWD = %s"%os.getcwd()
+			try:
+				inProjFmt="pco1564-%05d.tif"
+				inProjFmt=detectorName+scanNumber_str+"-"+"%05d.tif"
+				nprojs=len_proj_idx_decimated
+				nprojs=1200
+				launchSinoListener(head+os.sep+proj_dir, inProjFmt, nprojs, head+os.sep+sino_dir, verbose=True, testing=False)
+			except Exception, ex:
+				raise Exception ("ERROR Spawning the sino_listener script  "+str(ex))
+		
+		print "\nAfter launching the sino_listener script CWD = %s"%os.getcwd()
+		
 	else:
 		print "\nLaunch of the sino_listener script was not requested at the end of makeLinksForNXSFile." 
 	
+	#print "\nJust before closing NeXus file CWD = %s"%os.getcwd()
 	#don't forget to close the input NeXus file
 	nxsFileHandle.close()
 	
@@ -540,8 +660,10 @@ creates directories and links to projection, dark and flat images required for s
 	parser.add_option("--stageOutOfBeamPhys", action="store", type="float", dest="outOfBeamPos", help="The sample stage's PHYSICAL position when it was OUT-OF-BEAM during the scan. ")
 	parser.add_option("--minProjs", action="store", type="int", dest="minProjs", default=129, help="The absolute minimum number of projections; default value is %default.")
 	parser.add_option("--maxUnclassed", action="store", type="int", dest="maxUnclassed", default=0, help="The absolute maximum number of unclassified images; default value is %default.")
+	parser.add_option("-e", "--every", action="store", type="int", dest="decimationRate", default=1, help="Indicates that only every n-th projection image will be used for reconstruction; default value is %default.")
 	parser.add_option("--shutterNXSPath", action="store", type="string", dest="shutNXSPath", default="/entry1/instrument/tomoScanDevice/tomography_shutter", help="The path to the location of SHUTTER's physical positions inside the input NeXus file.")
-	parser.add_option("--stageNXSPath", action="store", type="string", dest="stageNXSPath", default="/entry1/instrument/tomoScanDevice/ss1_X", help="The path to the location of SAMPLE STAGE's physical positions inside the input NeXus file.")
+	parser.add_option("--stagePosNXSPath", action="store", type="string", dest="stagePosNXSPath", default="/entry1/instrument/tomoScanDevice/ss1_X", help="The path to the location of SAMPLE STAGE's physical positions inside the input NeXus file.")
+	parser.add_option("--stageRotNXSPath", action="store", type="string", dest="stageRotNXSPath", default="/entry1/instrument/tomoScanDevice/ss1_rot", help="The path to the location of SAMPLE STAGE's physical rotations inside the input NeXus file.")
 	parser.add_option("--tifNXSPath", action="store", type="string", dest="tifNXSPath", default="/entry1/instrument/pco1_tif/image_data", help="The path to the location of TIFF filenames inside the input NeXus file.")
 	parser.add_option("-o", "--outdir", action="store", type="string", dest="outdir", help="Path to folder in which directories and files are to be made. Default is current working folder")
 	parser.add_option("--verbose", action="store_true", dest="verbose", default=False, help="Verbose - useful for diagnosing the script")
@@ -561,8 +683,8 @@ creates directories and links to projection, dark and flat images required for s
 	#parser.print_help()
 	#parser.print_version()
 
-# Make sure all mandatory options were specified
-	mandatories=['filename', 'shutOpenPos', 'shutClosedPos', 'inBeamPos', 'outOfBeamPos', 'shutNXSPath', 'stageNXSPath', 'tifNXSPath']
+# Make sure all mandatory input variables have some values
+	mandatories=['filename', 'shutOpenPos', 'shutClosedPos', 'inBeamPos', 'outOfBeamPos', 'shutNXSPath', 'stagePosNXSPath', 'stageRotNXSPath', 'tifNXSPath']
 	for m in mandatories:
 		#print opts_dict[m]
 		if opts_dict[m] is None:
@@ -585,8 +707,10 @@ creates directories and links to projection, dark and flat images required for s
 					, minProjs=minProjs_loc\
 					, maxUnclassed=maxUnclassed_loc\
 					, shutterNXSPath=opts.shutNXSPath\
-					, stageNXSPath=opts.stageNXSPath\
+					, stagePosNXSPath=opts.stagePosNXSPath\
+					, stageRotNXSPath=opts.stageRotNXSPath\
 					, tifNXSPath=opts.tifNXSPath\
+					, decimationRate=opts.decimationRate\
 					, verbose=opts.verbose\
 					, sino=opts.sino\
 					, dbg=opts.dbg)
@@ -594,7 +718,24 @@ creates directories and links to projection, dark and flat images required for s
 if __name__=="__main__":
 	#use the line below when running unit-tests or from the command line
 	main(sys.argv)
-
+"""
+	main(["progname"\
+		, "--filename", "/dls/i13/data/2012/mt5811-1/564.nxs"\
+		, "--shutterOpenPhys", "1.0"\
+		, "--shutterClosedPhys", "0.0"\
+		, "--stageInBeamPhys", "0.0"\
+		, "--stageOutOfBeamPhys", "6.0"\
+		, "--outdir", "/home/vxu94780"\
+		#, "--outdir", "/dls/i13/data/2012/mt5811-1"\
+		#, "--outdir", "/dls/i13/data/2012/mt5811-1/processing"\
+		, "--minProjs", "1"\
+		, "--verbose", "True"\
+		#, "--every", "3"\
+		, "--every", "1"\
+		, "--sino", "False"\
+		, "--dbg", "True"\
+		])
+"""
 """
 	main(["progname"
 		, "--filename", "/dls/i13/data/2012/mt5811-1/564.nxs"\
@@ -621,6 +762,7 @@ if __name__=="__main__":
 		, "--verbose", "True"\
 		])
 """
+
 class Test1(unittest.TestCase):
 
 	def setUp(self):
