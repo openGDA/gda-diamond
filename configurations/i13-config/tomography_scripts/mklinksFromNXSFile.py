@@ -392,11 +392,11 @@ def createSoftLink(src, dst):
 		raise Exception("File cannot be linked to as it does not exist:"+`src`)
 	if os.path.exists(dst):
 		msg="Fn createSoftLink: Soft link already exists:"+`dst`
-		print msg
-		#raise Exception("Fn createSoftLink: Soft link already exists:"+`dst`)
+		#print msg
+		raise Exception("Fn createSoftLink: Soft link already exists:"+`dst`)
 	cmd="ln -s "+src+" "+dst
-	print cmd
-	#subprocess.call(cmd, shell=True)
+	#print cmd
+	subprocess.call(cmd, shell=True)
 
 
 def launchSinoListener(inDir, inFilenameFmt, nProjs, outDir, verbose=False, testing=True):

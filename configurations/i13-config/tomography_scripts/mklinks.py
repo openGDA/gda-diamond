@@ -72,7 +72,7 @@ def makeLinksToOriginalFiles(listOfProjIdx, indir="/dls/i13/data/2012/mt5811-1/5
 		if not os.path.exists(outdir):
 			print "Fn makeLinksToOriginalFiles is attempting to create dir: %s"%outdir
 			os.makedirs(outdir)
-	#j=0		
+	j=0		
 	for i in listOfProjIdx:
 		#print "projection index: i=%s"%i
 		#print "loop index: j=%s"%j
@@ -90,7 +90,7 @@ def makeLinksToOriginalFiles(listOfProjIdx, indir="/dls/i13/data/2012/mt5811-1/5
 			raise Exception("Soft link already exists:"+`filename_dst`)
 		cmd="ln -s "+fileToLinkTo+" "+filename_dst
 		#print cmd
-		#j+=1
+		j+=1
 		subprocess.call(cmd, shell=True)
 
 
