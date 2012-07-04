@@ -27,7 +27,7 @@
 	<bean id="__maxiPix2MultiFrameDetector" class="gda.device.detector.maxipix2.MaxiPix2MultiFrameDetector">
 		<property name="limaCCD" ref="__limaCCD" />
 		<property name="maxiPix2" ref="__maxiPix2" />
-		<property name="fastMode" value="true"/>
+		<property name="fastMode" value="false"/>
 		<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
 	</bean>
 

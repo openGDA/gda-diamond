@@ -1,5 +1,5 @@
 import time
-import pv_scannable_utils
+from epics_scripts import pv_scannable_utils
 from gda.device.scannable.scannablegroup import ScannableGroup
 
 

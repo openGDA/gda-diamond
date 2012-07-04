@@ -2,10 +2,10 @@
 echo "delete gda_commands"
 here=`dirname $0`
 echo $here
-config=`cd $here/../; pwd`
+config=`cd $here/../../; pwd`
 echo $config
-if [  -d "$config/../../../plugins" ]; then
-	root=$config/../../../plugins
+if [  -d "$config/../../plugins" ]; then
+	root=$config/../../plugins
 else
 	root=$config/../plugins
 fi

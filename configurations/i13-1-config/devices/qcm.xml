@@ -18,11 +18,11 @@
 	</bean>
 	<bean id="qcm_bragg1_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="qcm_bragg1_pitch_motor" />
-		<property name="userUnits" value="deg"/>
+		<property name="userUnits" value="urad"/>
 	</bean>
 	<bean id="qcm_bragg1_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="qcm_bragg1_roll_motor" />
-		<property name="userUnits" value="deg"/>
+		<property name="userUnits" value="urad"/>
 	</bean>
 
 <!--
@@ -46,11 +46,11 @@
 	</bean>
 	<bean id="qcm_bragg2_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="qcm_bragg2_pitch_motor" />
-		<property name="userUnits" value="deg"/>
+		<property name="userUnits" value="urad"/>
 	</bean>
 	<bean id="qcm_bragg2_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="qcm_bragg2_roll_motor" />
-		<property name="userUnits" value="deg"/>
+		<property name="userUnits" value="urad"/>
 	</bean>
 
 <!--

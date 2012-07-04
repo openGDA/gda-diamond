@@ -6,22 +6,10 @@ SURE=$?
 if [ $SURE == 1 ]; then
   exit
 fi
+
 #identify install folder and JAVA_HOME
 source /dls_sw/i13/etc/i13_profile.sh
 
-
-export JAVA_OPTS="-Xms128m -Xmx1024m -XX:MaxPermSize=128m -XX:+DisableExplicitGC"
-echo $@
-
-#commented out commands from when gdasrever ran on i13-ws
-#echo python2.5  /dls_sw/i13/software/gda_versions/gda_trunk/plugins/uk.ac.gda.core/bin/gda  --config=/dls_sw/i13/software/gda/i13i-config --smart --trace servers -v --mode=live_localhost --restart --debug
-#python2.5   /dls_sw/i13/software/gda_versions/gda_trunk/plugins/uk.ac.gda.core/bin/gda  --config=/dls_sw/i13/software/gda/i13i-config servers --smart --trace --mode=live_localhost --nsport 6701 --restart --debug $@
-#python2.5   /dls_sw/i13/software/gda_versions/gda_trunk/plugins/uk.ac.gda.core/bin/gda  --config=/dls_sw/i13/software/gda/i13i-config --smart --trace namemanager -v --mode=live_localhost --restart
-
-#exit
-
-
-#
 gdalog &
 
 gda_namemanager &

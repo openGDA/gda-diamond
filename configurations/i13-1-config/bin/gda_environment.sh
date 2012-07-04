@@ -15,7 +15,7 @@ then
 fi
 
 
-export PATH=$GDAFOLDER/$BEAMLINE-config/bin:${PATH}
+export PATH=${GDAFOLDER}/${BEAMLINE}-config/bin:${PATH}
 
 ( cd $HOME/Desktop && test -e "${BEAMLINE}_Launchers" || ln -s /usr/local/etc/"${BEAMLINE}_Launchers" . ) > /dev/null 2>&1
 ( cd $HOME/Desktop && test -e "DLS_Launchers" || ln -s /usr/local/etc/"DLS_Launchers" . ) > /dev/null 2>&1
@@ -26,4 +26,4 @@ export PATH=$GDAFOLDER/$BEAMLINE-config/bin:${PATH}
 #if [[ ! `groups` =~ "dls_staff" && -r /dls/${BEAMLINE}/data/${YEAR}/${VISNO} ]]; then
 #  ( cd $HOME && test -e "${VISNO}" || ln -s /dls/${BEAMLINE}/data/${YEAR}/"${VISNO}" . ) > /dev/null 2>&1
 #fi
-source $GDAFOLDER/builder/set_tools.sh > ~/.dasc_sw_setup.log
+source $GDAFOLDER/workspace/builder/set_tools.sh > ~/.dasc_sw_setup.log

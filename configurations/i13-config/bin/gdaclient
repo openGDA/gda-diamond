@@ -1,3 +1,5 @@
+#! /bin/sh 
+
 #runs the LogPanel and RCP client
 
 #identify install folder and JAVA_HOME
@@ -6,12 +8,12 @@ source /dls_sw/i13/etc/i13_profile.sh
 
 #gdalog
 
-export JAVA_OPTS="$JAVA_OPTS -Dgda.mode=$GDAMODE"
+#export JAVA_OPTS="$JAVA_OPTS -Dgda.mode=$GDAMODE"
 
 if [ "$1" = "--clean" ]
 then
-    echo "rf /scratch/i13i/.workspace-$(whoami)"
-    rm -rf /scratch/i13i/.workspace-$(whoami)
+    echo "rm -rf /scratch/.i13_workspace-$(whoami)-*"
+    rm -rf /scratch/.i13_workspace-$(whoami)-*
 fi
 
 echo "$GDAFOLDER/client/gda-i13i"

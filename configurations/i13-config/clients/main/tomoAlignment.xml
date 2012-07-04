@@ -15,29 +15,50 @@
 	<context:property-placeholder location="file:${gda.config}/properties/${gda.mode}/java.properties,file:${gda.config}/properties/java.properties" />
 	
 	<corba:import namespace="i13"
-		names="tiltBallRoiLut,moduleMotorPositionLUT,energyModuleLUT,eh_shtr" />
+		names="eh_shtr" />
 
+	<import resource="lut_camera_motion.xml" />
+	
+	
+	<!-- Device required by tomography alignment -->
+	<import resource="lut_energymodule.xml"/>
+	<import resource="lut_ball_position.xml"/>
+	<import resource="lut_moduleposition.xml"/>
+
+	<import resource="../../devices/cam1.xml"/>
+	<import resource="../../devices/sample_stage.xml"/>
+	<import resource="../../devices/t3.xml"/>
+
+	<!--  version to connect to objects on server
+	<import resource="cam1.xml"/>
+	<import resource="ss1.xml"/>
+	<import resource="t3.xml"/>
+-->
+	<import resource="pco.xml"/>
+	
 	<bean id="motorsHandler"
-		class="uk.ac.gda.client.tomo.view.handlers.impl.TomoAlignmentMotorHandler">
+			class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TomoAlignmentMotorHandler">
 		<property name="cam1XScannable" ref="cam1_x" />
 		<property name="cam1ZScannable" ref="cam1_z" />
 		<property name="cam1RollScannable" ref="cam1_roll" />
-		<property name="rotationScannable" ref="ss1_theta" />
-		<property name="ss1TxScannable" ref="ss1_tx" />
-		<property name="ss1TzScannable" ref="ss1_tz" />
-		<property name="ss1Y2Scannable" ref="ss1_y3" />
+		<property name="rotationScannable" ref="ss1_rot" />
+		<property name="ss1TxScannable" ref="ss1_samplex" />
+		<property name="ss1TzScannable" ref="ss1_samplez" />
+		<property name="ss1Y2Scannable" ref="ss1_sampley" />
 		<property name="t3xScannable" ref="t3_x" />
 		<property name="t3m1yScannable" ref="t3_m1y" />
-		<property name="sampleHolderScannable" ref="ss1_x" />
-		<property name="ss1RxScannable" ref="ss1_rx" />
-		<property name="ss1RzScannable" ref="ss1_rz" />
+		<property name="t3m1zScannable" ref="t3_m1z" />
+		<property name="sampleHolderScannable" ref="ss1_X" />
+		<property name="ss1RxScannable" ref="ss1_pitch" />
+		<property name="ss1RzScannable" ref="ss1_roll" />
 		<property name="defaultDistanceToMoveForFlat" value="-100.0" />
+		<property name="defaultSampleInPosition" value="0" />
 		<property name="eh1shtr" ref="eh_shtr" />
 		<property name="thethaOffset" value="0" />
 	</bean>
 
 	<bean id="detectorHandler"
-		class="uk.ac.gda.client.tomo.view.handlers.impl.TomoDetectorHandler">
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TomoDetectorHandler">
 		<property name="camera" ref="pcoTomography" />
 		<property name="imageFilePath" value="${gda.tomoAlignment.imageFilePath}" />
 		<property name="ffmjpegModel1" ref="pcoFfmjpeg1" />
@@ -52,7 +73,8 @@
 		<property name="flatImageFileName" value="flatFieldImage" />
 		<property name="flatFileTemplate" value="%s%s.tiff" />
 		<property name="defaultNumOfFlatImages" value="25" />
-		<property name="defaultExposureTime" value="0.1" />
+		<property name="defaultSampleExposureTime" value="0.1" />
+		<property name="defaultFlatExposureTime" value="1.0" />
 		<property name="defaultNumOfDarkImages" value="25" />
 		<property name="darkFilePath" value="${gda.tomoAlignment.darkFilePath}"/>
 		<property name="darkImageFileName" value="darkImage" />
@@ -64,23 +86,24 @@
 
 
 	<bean id="moduleLookupTableHandler"
-		class="uk.ac.gda.client.tomo.view.handlers.impl.ModuleLookupTableHandler">
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.ModuleLookupTableHandler">
 		<property name="moduleTable" ref="moduleMotorPositionLUT" />
 		<property name="moduleEnergyIntervalTable" ref="energyModuleLUT" />
 	</bean>
 
 	<bean id="cameraModuleHandler"
-		class="uk.ac.gda.client.tomo.view.handlers.impl.CameraModuleController">
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.CameraModuleController">
 		<property name="motorHandler" ref="motorsHandler" />
 		<property name="lookupTableHandler" ref="moduleLookupTableHandler" />
+		<property name="cameraMotionController" ref="cameraMotionController" />
 	</bean>
 
 	<bean id="tiltBallLookupTableHandler"
-		class="uk.ac.gda.client.tomo.view.handlers.impl.TiltBallLookupTableHandler">
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TiltBallLookupTableHandler">
 		<property name="moduleTable" ref="tiltBallRoiLut" />
 	</bean>
 
-	<bean id="tiltController" class="uk.ac.gda.client.tomo.view.handlers.impl.TiltController">
+	<bean id="tiltController" class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TiltController">
 		<property name="lookupTableHandler" ref="tiltBallLookupTableHandler" />
 		<property name="externalProgram1">
 			<bean class="uk.ac.gda.client.tomo.ExternalFunction">
@@ -107,17 +130,33 @@
 
 	<!-- Assuming that this is invoked after the pco.xml has been invoked. -->
 	<bean id="tomoAlignmentViewController"
-		class="uk.ac.gda.client.tomo.view.controller.TomoAlignmentViewController">
+		class="uk.ac.gda.client.tomo.alignment.view.controller.TomoAlignmentViewController">
 		<property name="motorHandler" ref="motorsHandler" />
 		<property name="cameraHandler" ref="detectorHandler" />
-		<property name="lookupTableHandler" ref="moduleLookupTableHandler" />
+		<property name="moduleLookupTableHandler" ref="moduleLookupTableHandler" />
 		<property name="cameraModuleController" ref="cameraModuleHandler" />
+		<property name="cameraMotionController" ref="cameraMotionController" />
 		<property name="tiltController" ref="tiltController" />
+		<property name="roiHandler" ref="roiHandler" />
+	</bean>
+
+	<bean id="roiHandler"
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.PCORoiPointsHandler" />
+
+	<bean id="cameraMotionController"
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.CameraMotionController">
+		<property name="cameraMotionLookupTableHandler" ref="cameraMotionLookupTableHandler" />
+		<property name="motorHandler" ref="motorsHandler" />
+	</bean>
+
+	<bean id="cameraMotionLookupTableHandler"
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.CameraMotionLookupTableHandler">
+		<property name="cameraMotionLookup" ref="cameraMotionLUT" />
 	</bean>
 
 	<!-- -->
 	<bean id="tomoAlignmentViewHolder"
-		class="uk.ac.gda.client.tomo.view.factory.TomoAlignmentViewFactoryFactory ">
+		class="uk.ac.gda.client.tomo.alignment.view.factory.TomoAlignmentViewFactoryFactory ">
 		<property name="viewPartName" value="Alignment" />
 		<property name="screenPixelSize" value="0.27" />
 		<property name="tomoAlignmentViewController" ref="tomoAlignmentViewController" />

@@ -70,21 +70,7 @@
 
 	<import resource="../../../devices/epics/pco1.xml" />
 
-	<!-- Device required by tomography alignment -->
-	<!-- 
-	<import resource="../../../devices/epics/cam1_motors.xml" />
-	<import resource="../../../devices/epics/ss1_motors.xml" />
-	<import resource="../../../devices/epics/t3_motors.xml" />
-	 -->
-	
-	<import resource="../../../devices/dummy/cam1_motors.xml"/>
-	<import resource="../../../devices/dummy/ss1_motors.xml"/>
-	<import resource="../../../devices/dummy/t3_motors.xml"/>	
 
-
-
-
-	<import resource="../../../devices/epics/pco2.xml" />
 
 	<import resource="../common.xml" />
 

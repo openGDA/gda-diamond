@@ -11,5 +11,5 @@
 	<context:property-placeholder location="file:${gda.config}/properties/live_localhost/java.properties,file:${gda.config}/properties/java.properties" />
 	<import resource="../live/live_server_common.xml" />
 	
-	
+	<import resource="../../../devices/dummy/tfg2.xml"/>	
 </beans>

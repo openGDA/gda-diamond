@@ -8,12 +8,34 @@ import gda.factory.FactoryException
 #try:
 from gda.device import Scannable
 from gda.jython.commands.GeneralCommands import ls_names, vararg_alias
+from gda.device.scannable import ScannableBase
+class ExperimentShutterEnumPositioner(ScannableBase):
+	"""
+	Class to handle 
+	"""
+	def __init__(self, name, delegate):
+		self.name = name
+		self.inputNames = [name]
+		self.delegate = delegate
+	def isBusy(self):
+		return self.delegate.isBusy()
+	def rawAsynchronousMoveTo(self,new_position):
+		if new_position == "Open":
+			self.delegate.asynchronousMoveTo(5.)
+		else:
+			self.delegate.asynchronousMoveTo(0.)
+	def rawGetPosition(self):
+		position = self.delegate.getPosition()
+		if int(position) == 5:
+			return "Open" 
+		return "Closed"
+
 
 def ls_scannables():
 	ls_names(Scannable)
 
 
-from pv_scannable_utils import createPVScannable, caput, caget
+from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget
 alias("createPVScannable")
 alias("caput")
 alias("caget")
@@ -49,6 +71,9 @@ actualTime=actualTimeClass("actualTime")
 from gdascripts.metadata.metadata_commands import setTitle
 alias("setTitle")
 
+import filter_array
+xia_filter=filter_array.filter_array("xia_filter", prefix="BL13J-OP-ATTN-02:", elements=["Cr", "Fe", "Cu", "Nb"])
+
 from flyscan_script import flyscan, flyscannable, WaitForScannableAtLineEnd
 vararg_alias("flyscan")
 try:
@@ -57,6 +82,11 @@ except NameError:
 	print "!!!!!!!!!!!!!!!!!!!!!!! qcm_bragg1 not found so could not create waitForQcm_bragg1 "
 	print "Continuing anyway..."
 #createPVScannable( "d1_total", "BL13J-DI-PHDGN-01:STAT:Total_RBV")
+
+if not LocalProperties.check("gda.dummy.mode"):
+	createPVScannable( "expt_fastshutter_raw", "BL13J-EA-FSHTR-01:RAWCONTROL", hasUnits=False)
+	expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", expt_fastshutter_raw)
+	createPVScannable( "ic", "BL13J-DI-IONC-01:I", hasUnits=True)
 
 #make scannablegroup for driving sample stage
 from gda.device.scannable.scannablegroup import ScannableGroup
@@ -70,7 +100,7 @@ t1_xy.configure()
 #make ScanPointProvider
 import sample_stage_position_provider
 two_motor_positions = sample_stage_position_provider.ScanPositionProviderFromFile()
-two_motor_positions.load("/dls_sw/i13-1/software/gda_versions/gda_trunk2/i13j-config/scripts/tests/sample_stage_position_provider_test.dat",(0.,0.))
+#two_motor_positions.load("/dls_sw/i13-1/software/gda_versions/gda_trunk2/i13j-config/scripts/tests/sample_stage_position_provider_test.dat",(0.,0.))
 
 imageFitter = finder.find("imageFitter")
 imageStats = finder.find("imageStats")
@@ -127,3 +157,9 @@ def vortex(vortexParameterName, outputfile):
 	mll_xmap.loadConfigurationFromFile()
 
 alias("vortex")
+
+import scan_aborter
+beam_check=scan_aborter.scan_aborter("beam_check",3, 300000., "Too high")
+imageROI.enable = True
+imageStats.enable = True
+imageROI.setROI(370, 390, 370, 390)#    ( y_start, y_end, x_start, x_end)

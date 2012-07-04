@@ -8,6 +8,11 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+	<bean class="gda.configuration.epics.EpicsConfiguration">
+		<constructor-arg value="${gda.epics.interface.xml}" />
+	</bean>
+
+
 	<import resource="../common.xml" />
 	<import resource="cameraview.xml" />
 	<import resource="pco.xml"/>
@@ -28,4 +33,8 @@
 		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL"/>
 		<property name="useNameAsExtraName" value="true"/>
 	</bean>	
+	
+	<import resource="tomoAlignment.xml" />
+
+	
 </beans>

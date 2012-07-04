@@ -5,6 +5,7 @@ Bundle-SymbolicName: uk.ac.gda.beamline.i13j;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: uk.ac.gda.beamline.i13j.I13JBeamlineActivator
 Require-Bundle: org.eclipse.ui,
+ org.eclipse.ui.workbench.texteditor;bundle-version="3.7.0",
  org.eclipse.core.runtime,
  uk.ac.gda.client;bundle-version="1.0.0",
  uk.ac.gda.core;bundle-version="1.0.0",

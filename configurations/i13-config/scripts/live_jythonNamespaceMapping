@@ -4,7 +4,7 @@
 #tomography_shutter=eh_shtr_dummy
 #tomography_translation=ss1_X_dummy
 tomography_optimizer=beam_optimizer
-tomography_detector=pco1_tif
+tomography_detector=pco1_hw_tif
 tomography_theta=ss1_rot
 tomography_shutter=expt_fastshutter
 tomography_translation=ss1_X
