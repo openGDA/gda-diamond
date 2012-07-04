@@ -7,6 +7,13 @@ import shutil
 import subprocess
 import sys
 import unittest
+#from mklinksFromNXSFile import removeTrailingSlash
+def removeTrailingSlash(path):
+# remove trailing slash if it exists
+	path_out=path
+	if path_out[-1:]=="/":
+		path_out=path_out[0:-1]
+	return path_out
 
 
 def makeLinks(scanNumber, lastImage, firstImage=2, visit="mt5811-1", year="2012", detector="pco1", outdir=None):
@@ -17,9 +24,11 @@ def makeLinks(scanNumber, lastImage, firstImage=2, visit="mt5811-1", year="2012"
 	firstImage - first image number. default(2)
 	visit-your visit to I13 default(mt5811-1)
 	"""
+	print makeLinks.__name__
 	if not outdir is None:
 		if not os.path.exists(outdir):
 			os.makedirs(outdir)
+			print "Fn makeLinks is attempting to create dir: %s"%outdir
 	for i in range(firstImage, lastImage+1):
 		#filename=detector+`scanNumber`+("-%05d.tif"%(i-firstImage))
 		filename_src=detector+`scanNumber`+("-%05d.tif"%i)
@@ -30,8 +39,58 @@ def makeLinks(scanNumber, lastImage, firstImage=2, visit="mt5811-1", year="2012"
 		if not outdir is None:
 			filename_dst=outdir+os.sep+filename_dst
 		if os.path.exists(filename_dst):
+			msg="Soft link already exists:"+`filename_dst`
+			#print msg
 			raise Exception("Soft link already exists:"+`filename_dst`)
 		cmd="ln -s "+fileToLinkTo+" "+filename_dst
+		#print cmd
+		subprocess.call(cmd, shell=True)
+
+
+def makeLinksToOriginalFiles(listOfProjIdx, indir="/dls/i13/data/2012/mt5811-1/564/pco1/", inFilenameFmt="p_%05d.tif", outdir=None, outFilenameFmt="p_%05d.tif"):
+	"""
+	Command to make soft links for of projections into current folder
+	scanNumber - the scan number e.g. 510
+	lastImage   - last image number 
+	firstImage - first image number. default(2)
+	visit-your visit to I13 default(mt5811-1)
+	"""
+	
+	#print "Fn: %s"%makeLinksToOriginalFiles.__name__
+	#print listOfProjIdx
+	#print indir
+	#print inFilenameFmt
+	#print outdir
+	#print outFilenameFmt
+	
+	indir_loc=removeTrailingSlash(indir)
+	
+	if not os.path.isdir(indir_loc):
+		raise Exception("Input directory does not exist:"+`indir`)
+	
+	if not outdir is None:
+		if not os.path.exists(outdir):
+			print "Fn makeLinksToOriginalFiles is attempting to create dir: %s"%outdir
+			os.makedirs(outdir)
+	#j=0		
+	for i in listOfProjIdx:
+		#print "projection index: i=%s"%i
+		#print "loop index: j=%s"%j
+		filename_src=inFilenameFmt%i
+		#filename_dst=inFilenameFmt%(i-firstImage)
+		filename_dst=outFilenameFmt%j
+		fileToLinkTo=indir_loc+os.sep+filename_src
+		if not os.path.exists(fileToLinkTo):
+			raise Exception("File cannot be linked to as it does not exist:"+`fileToLinkTo`)
+		if not outdir is None:
+			filename_dst=outdir+os.sep+filename_dst
+		if os.path.exists(filename_dst):
+			msg="Soft link already exists:"+`filename_dst`
+			#print msg
+			raise Exception("Soft link already exists:"+`filename_dst`)
+		cmd="ln -s "+fileToLinkTo+" "+filename_dst
+		#print cmd
+		#j+=1
 		subprocess.call(cmd, shell=True)
 
 
@@ -74,7 +133,7 @@ creates a set of soft links to a sequence of projection images stored in the tif
 				print key, value    
 
 
-# Make sure all mandatory options were specified
+# Make sure all mandatory variables are initialised
 		mandatories=['year', 'visitID', 'scanNumber', 'firstProjIdx', 'lastProjIdx', 'detector']
 		for m in mandatories:
 #        print opts_dict[m]
