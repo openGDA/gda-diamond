@@ -268,8 +268,8 @@ def createDirs(refFilename, outdir, mandatorydir="processing", verbose=False):
 	#from this stage the processing folder is guaranteed to exist (because it was created above or exists by DLS default)
 	if not os.path.exists(head):
 		msg="The processing dir does NOT exist in :"+`head`
-		print msg
-		#raise Exception("The processing dir does NOT exist in :"+`head`)
+		#print msg
+		raise Exception("The processing dir does NOT exist in :"+`head`)
 	
 	scanNumber_str=os.path.basename(genAncestorPath(refFilename, 2))
 	scanNumber_int=int(scanNumber_str)
@@ -301,6 +301,15 @@ def createDirs(refFilename, outdir, mandatorydir="processing", verbose=False):
 
 
 def decimate(inList, decimationRate=1):
+	"""
+	Selects every N-th element from input list, eg
+	
+	decimate([12,13,14,15,16,17,18,19,20], 3)= [14,17,20]
+	decimate([12,13,14,15,16,17,18,19,20], 9)= [20]
+	decimate([12,13,14,15,16,17,18,19,20], 10)= []
+	decimate([12,13,14,15,16,17,18,19,20], 11)= []
+	ecimate([12,13,14,15,16,17,18,19,20], 1)= [12,13,14,15,16,17,18,19,20]
+	"""
 	decimationRate_loc=int(decimationRate)
 	if decimationRate_loc<1:
 		decimationRate_loc=1
@@ -360,10 +369,10 @@ def populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, tif_lst, da
 
 	proj_idx_decimated=decimate(proj_idx, decimationRate)
 	
-	many=5
-	for i in range(0, len(proj_idx_decimated)):
-		if i<many or i>len(proj_idx_decimated)-1-many:
-			print proj_idx_decimated[i]
+	#many=5
+	#for i in range(0, len(proj_idx_decimated)):
+	#	if i<many or i>len(proj_idx_decimated)-1-many:
+	#		print proj_idx_decimated[i]
 
 
 	#makeLinks(scanNumber, lastImage, firstImage=2, visit="mt5811-1", year="2012", detector="pco1", outdir=None)
@@ -506,7 +515,7 @@ def makeLinksForNXSFile(\
 	# check if the input NeXus file exists
 	if not os.path.exists(filename):
 		#msg = "The input NeXus file, %s, does NOT exist!"%filename
-		raise Exception("The input NeXus file does NOT exist: "+`filename`)
+		raise Exception("The input NeXus file does not exist or insufficient filesystem permissions: "+`filename`)
 
 
 	#open the input NeXus file for reading 
@@ -613,7 +622,7 @@ def makeLinksForNXSFile(\
 	len_proj_idx_decimated, detectorName=populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, tif, dark_idx, flat_idx, proj_idx, decimationRate, verbose=verbose)
 	
 	if sino:
-		print "\n\tAbout to launch the sino_listener script from CWD = %s"%os.getcwd()
+		#print "\n\tAbout to launch the sino_listener script from CWD = %s"%os.getcwd()
 		#sino=SinoListener(argv, out=sys.stdout, err=sys.stderr)
 		#sino_listener.py -i projections -I pco1564-%05d.tif -P 1201
 		#sino=SinoListener(["prog", "-h"], out=sys.stdout, err=sys.stderr, testing=True)
@@ -621,13 +630,18 @@ def makeLinksForNXSFile(\
 		#/dls/i13/data/2012/mt5811-1/processing/rawdata/564/projections
 			
 		with cd(head+os.sep+sino_dir):
-			print "\n\tInside context manager CWD = %s"%os.getcwd()
+			#print "\n\tInside context manager CWD = %s"%os.getcwd()
 			try:
-				inProjFmt="pco1564-%05d.tif"
+				#inProjFmt="pco1564-%05d.tif"
 				inProjFmt=detectorName+scanNumber_str+"-"+"%05d.tif"
-				nprojs=len_proj_idx_decimated
-				nprojs=1200
-				launchSinoListener(head+os.sep+proj_dir, inProjFmt, nprojs, head+os.sep+sino_dir, verbose=True, testing=False)
+				#nprojs=len_proj_idx_decimated
+				#nprojs=1200
+				if len_proj_idx_decimated<loProjs_exc or len_proj_idx_decimated<2:
+					raise Exception("Number of provided projection images is TOO SMALL to run sino_listener: "+`len_proj_idx_decimated`+" < "+`loProjs_exc`+" (the latter is the exclusive min)")
+				
+				zidx_last=len_proj_idx_decimated-1
+				#print 'zidx_last=', zidx_last
+				launchSinoListener(head+os.sep+proj_dir, inProjFmt, zidx_last, head+os.sep+sino_dir, verbose=True, testing=False)
 			except Exception, ex:
 				raise Exception ("ERROR Spawning the sino_listener script  "+str(ex))
 		
