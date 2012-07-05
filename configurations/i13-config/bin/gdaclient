@@ -5,8 +5,9 @@
 #identify install folder and JAVA_HOME
 source /dls_sw/i13/etc/i13_profile.sh
 
+killall  java
 
-#gdalog
+gdalog
 
 #export JAVA_OPTS="$JAVA_OPTS -Dgda.mode=$GDAMODE"
 

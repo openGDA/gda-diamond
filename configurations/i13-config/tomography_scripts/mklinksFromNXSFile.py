@@ -1,3 +1,4 @@
+from __future__ import with_statement
 from optparse import OptionParser
 from sys import exit, stderr
 import math
@@ -6,7 +7,6 @@ import shutil
 import subprocess
 import sys
 import unittest
-
 
 import h5py
 import string
@@ -257,7 +257,7 @@ def createDirs(refFilename, outdir, mandatorydir="processing", verbose=False):
 			try:
 				os.makedirs(processing_dir)
 				#print "Fn createDirs is attempting to create dir:%s"%processing_dir
-			except OSError as ex:
+			except OSError, ex:
 				#Raises an error exception if the LEAF directory already exists or cannot be created.
 				raise Exception ("ERROR creating outdir "+str(ex))
 		elif verbose:
@@ -289,7 +289,7 @@ def createDirs(refFilename, outdir, mandatorydir="processing", verbose=False):
 			try:
 				os.makedirs(dirname)
 				#print "Fn createDirs is attempting to create dir:%s"%dirname
-			except OSError as ex:
+			except OSError, ex:
 				#Raises an error exception if the LEAF directory already exists or cannot be created.
 				raise Exception ("ERROR creating directory "+str(ex))
 		elif verbose:
@@ -628,7 +628,6 @@ def makeLinksForNXSFile(\
 		#sino=SinoListener(["prog", "-h"], out=sys.stdout, err=sys.stderr, testing=True)
 		#sino=SinoListener(["prog", "-h"], out=sys.stdout, err=sys.stderr, testing=True)
 		#/dls/i13/data/2012/mt5811-1/processing/rawdata/564/projections
-			
 		with cd(head+os.sep+sino_dir):
 			#print "\n\tInside context manager CWD = %s"%os.getcwd()
 			try:
@@ -792,7 +791,7 @@ class Test1(unittest.TestCase):
 	def test_noArgs(self):
 		try:
 			main(["progname"])
-		except  Exception as ex:
+		except  Exception,  ex:
 			self.assertEquals('Mandatory input value is missing! Use -h for help', str(ex))
 
 	def test_makeLinksNXS_InputFileInexistent(self):
@@ -806,7 +805,7 @@ class Test1(unittest.TestCase):
 				 , "--stageInBeamPhys", "0.0"\
 				 , "--stageOutOfBeamPhys", "6.0"\
 				 ])
-		except  Exception as ex:
+		except  Exception , ex:
 			self.assertEquals("The input NeXus file does not exist: "+nonExistentNXSFile, str(ex))
 
 	def test_makeLinksNXS_InsufficientProjections(self):
@@ -820,7 +819,7 @@ class Test1(unittest.TestCase):
 				 , "--stageInBeamPhys", "0.0"\
 				 , "--stageOutOfBeamPhys", "6.0"\
 				 ])
-		except  Exception as ex:
+		except  Exception, ex:
 			self.assertEquals("The number of projections is too small!", str(ex))
 
 	def test_makeLinksNXS_SoftLinkToProjAlreadyExists(self):
@@ -850,7 +849,7 @@ class Test1(unittest.TestCase):
 				 , "--minProjs", "1"\
 				 , "--outdir", outputDir\
 				 ])
-		except  Exception as ex:
+		except  Exception, ex:
 			self.assertEquals("Soft link to PROJECTION image already exists: "+dummyProjFile, str(ex))
 
 	def test_makeLinksNXS_SoftLinkToDarkAlreadyExists(self):
@@ -879,7 +878,7 @@ class Test1(unittest.TestCase):
 				 , "--minProjs", "1"\
 				 , "--outdir", outputDir\
 				 ])
-		except  Exception as ex:
+		except  Exception, ex:
 			self.assertEquals("Soft link to DARK image already exists: "+dummyDarkFile, str(ex))
 
 	def test_makeLinksNXS_SoftLinkToFlatAlreadyExists(self):
@@ -908,7 +907,7 @@ class Test1(unittest.TestCase):
 				 , "--minProjs", "1"\
 				 , "--outdir", outputDir\
 				 ])
-		except  Exception as ex:
+		except  Exception, ex:
 			self.assertEquals("Soft link to FLAT image already exists: "+dummyFlatFile, str(ex))
 
 	def test_makeLinksNXS_OutdirGiven(self):

@@ -20,6 +20,9 @@ from gda.device.scannable import ScannableBase, ScannableUtils
 from gda.device.scannable.scannablegroup import ScannableGroup
 
 class EnumPositionerDelegateScannable(ScannableBase):
+    """
+    Translate positions 0 and 1 to Close and Open
+    """
     def __init__(self, name, delegate):
         self.name = name
         self.inputNames = [name]
@@ -79,7 +82,8 @@ from gda.device.scannable import SimpleScannable
 perform a simple tomogrpahy scan
 """
 def tomoScan(step, darkFieldInterval, flatFieldInterval,
-             inBeamPosition, outOfBeamPosition, exposureTime, optimizeBeamInterval=0):
+             inBeamPosition, outOfBeamPosition, exposureTime, imagesPerDark=1, 
+             imagesPerFlat=1, optimizeBeamInterval=0):
     try:
         darkFieldInterval=int(darkFieldInterval)
         flatFieldInterval=int(flatFieldInterval)
@@ -139,10 +143,13 @@ def tomoScan(step, darkFieldInterval, flatFieldInterval,
         scan_points = []
         theta_pos = theta_points[0]
         index=0
-        scan_points.append((theta_pos, shutterClosed, inBeamPosition, optimizeBeamNo,index )) #dark
-        index = index + 1        
-        scan_points.append((theta_pos, shutterOpen, outOfBeamPosition,optimizeBeamNo, index )) #flat
-        index = index + 1        
+        for i in range(imagesPerDark):
+            scan_points.append((theta_pos, shutterClosed, inBeamPosition, optimizeBeamNo,index )) #dark
+            index = index + 1
+                    
+        for i in range(imagesPerFlat):
+            scan_points.append((theta_pos, shutterOpen, outOfBeamPosition,optimizeBeamNo, index )) #flat
+            index = index + 1        
         scan_points.append((theta_pos,shutterOpen, inBeamPosition, optimizeBeamNo,index )) #first
         index = index + 1        
         imageSinceDark=0
@@ -156,15 +163,17 @@ def tomoScan(step, darkFieldInterval, flatFieldInterval,
             
             imageSinceFlat = imageSinceFlat + 1
             if imageSinceFlat == flatFieldInterval and flatFieldInterval != 0:
-                scan_points.append((theta_pos, shutterOpen, outOfBeamPosition, optimizeBeamNo, index ))
-                index = index + 1        
-                imageSinceFlat=0
+                for i in range(imagesPerFlat):
+                    scan_points.append((theta_pos, shutterOpen, outOfBeamPosition, optimizeBeamNo, index ))
+                    index = index + 1        
+                    imageSinceFlat=0
             
             imageSinceDark = imageSinceDark + 1
             if imageSinceDark == darkFieldInterval and darkFieldInterval != 0:
-                scan_points.append((theta_pos, shutterClosed, inBeamPosition, optimizeBeamNo, index ))
-                index = index + 1        
-                imageSinceDark=0
+                for i in range(imagesPerDark):
+                    scan_points.append((theta_pos, shutterClosed, inBeamPosition, optimizeBeamNo, index ))
+                    index = index + 1        
+                    imageSinceDark=0
 
             optimizeBeam = optimizeBeam + 1
             if optimizeBeam == optimizeBeamInterval and optimizeBeamInterval != 0:
@@ -174,11 +183,13 @@ def tomoScan(step, darkFieldInterval, flatFieldInterval,
                 
         #add dark and flat only if not done in last steps
         if imageSinceFlat != 0:
-            scan_points.append((theta_pos, shutterOpen, outOfBeamPosition, optimizeBeamNo, index )) #flat
-            index = index + 1
+            for i in range(imagesPerFlat):
+                scan_points.append((theta_pos, shutterOpen, outOfBeamPosition, optimizeBeamNo, index )) #flat
+                index = index + 1
         if imageSinceDark != 0:
-            scan_points.append((theta_pos, shutterClosed, inBeamPosition, optimizeBeamNo, index )) #dark
-            index = index + 1        
+            for i in range(imagesPerDark):
+                scan_points.append((theta_pos, shutterClosed, inBeamPosition, optimizeBeamNo, index )) #dark
+                index = index + 1        
                 
         positionProvider = tomoScan_positions( step, darkFieldInterval, flatFieldInterval, \
                                                inBeamPosition, outOfBeamPosition, optimizeBeamInterval, scan_points ) 

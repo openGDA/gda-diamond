@@ -1,5 +1,6 @@
 import sys	
 import os
+import time
 from gdascripts.messages import handle_messages
 from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableBase
@@ -14,10 +15,13 @@ class ExperimentShutterEnumPositioner(ScannableBase):
 	def isBusy(self):
 		return self.delegate.isBusy()
 	def rawAsynchronousMoveTo(self,new_position):
+		if new_position == self.rawGetPosition():
+			return
 		if new_position == "Open":
 			self.delegate.asynchronousMoveTo(5.)
 		else:
 			self.delegate.asynchronousMoveTo(0.)
+		time.sleep(1) #sleep to allow shutter to 
 	def rawGetPosition(self):
 		position = self.delegate.getPosition()
 		if int(position) == 5:
