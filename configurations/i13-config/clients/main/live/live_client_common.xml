@@ -15,8 +15,8 @@
 
 	<import resource="../common.xml" />
 	<import resource="cameraview.xml" />
-<!-- 	<import resource="pco.xml"/>
- -->	<bean id="idGap" class="gda.device.scannable.EpicsScannable">
+	<import resource="pco.xml"/>
+	<bean id="idGap" class="gda.device.scannable.EpicsScannable">
 	<property name="pvName" value="SR13I-MO-SERVC-01:CURRGAPD"/>
 	<property name="useNameAsExtraName" value="true"/>
 	</bean>	
@@ -34,7 +34,5 @@
 		<property name="useNameAsExtraName" value="true"/>
 	</bean>	
 	
-<!-- 	<import resource="tomoAlignment.xml" />
- -->
 	
 </beans>
