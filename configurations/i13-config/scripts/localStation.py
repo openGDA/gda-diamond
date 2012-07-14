@@ -118,6 +118,9 @@ try:
 	import beam_optimizers
 	beam_optimizer = beam_optimizers.beam_optimizer("beam_optimizer", dummy=True)
 	beam_optimizer_dummy = beam_optimizers.beam_optimizer("beam_optimizer_dummy", dummy=True)
+	
+	import alignmentGui
+	tomodet = alignmentGui.TomoDet()
 #	run("i13diffcalc")
 
 
