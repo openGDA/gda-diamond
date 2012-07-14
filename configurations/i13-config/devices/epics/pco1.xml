@@ -193,7 +193,7 @@
 				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif"/>
 				<entry key="pco1_singleExposurePcoSoftwareTrigger" value-ref="pco1_singleExposurePcoSoftwareTrigger"/>
 				<entry key="pco1_singleExposurePco" value-ref="pco1_singleExposurePco"/>
-				<entry key="pco1_continuousSoftwareTrigger" value-ref="pco1_continuousSoftwareTrigger"/>
+				<entry key="pco1_autoContinuousTrigger" value-ref="pco1_autoContinuousTrigger"/>
 			</util:map>
 		</property>
 	</bean>
@@ -204,7 +204,7 @@
 	</bean>
 
 
-	<bean id="pco1_continuousSoftwareTrigger" class="gda.device.detector.addetector.triggering.PCOContinuous">
+	<bean id="pco1_autoContinuousTrigger" class="gda.device.detector.addetector.triggering.PCOAutoContinuous">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg ref="adDriverPco1" />
 	</bean>
