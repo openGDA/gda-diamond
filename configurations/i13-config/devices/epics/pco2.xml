@@ -320,8 +320,11 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="pcoTomography" class="gda.device.detector.pco.PCOTomography">
+<!-- 	<bean id="pcoTomography" class="gda.device.detector.pco.PCOTomography">
 		<property name="pcoDetector" ref="pco" />
+	</bean>
+ -->
+ 	<bean id="pcoTomography" class="uk.ac.gda.client.tomo.handlers.TomographyDetectorUsingScripts">
 	</bean>
 
 	<!-- do not export - this is used by tomoAlignment on client 

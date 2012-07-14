@@ -70,8 +70,9 @@
 		<property name="acqPeriodPV" value="BL13I-EA-DET-01:CAM:AcquirePeriod" />
 		<property name="gainPV" value="BL13I-EA-DET-01:CAM:Gain" />
 		<property name="acquirePV" value="BL13I-EA-DET-01:CAM:Acquire" />
-	</bean>
-
+<!-- 		<property name="scalePV" value="BL13I-EA-DET-01:PRO1:Scale" />
+		<property name="cmdFormatter" value="tomodet.setupStreamForCameraView(%f,%f,%f,%f)"/>
+ -->	</bean>
  	<bean id="WebCam_Middle" class="uk.ac.gda.video.views.CameraParameters">
 		<property name="name" value="WebCam Middle"/>
 		<property name="mjpegURL" value="http://172.23.113.196/mjpg/video.mjpg" />
@@ -85,13 +86,13 @@
 	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
 		<property name="cameras">
 			<list>
+				<ref bean= "pco_cam_config"/>
 				<ref bean= "d1_cam_config"/>
 				<ref bean= "d2_cam_config"/>
 				<ref bean= "d3_cam_config"/>
 				<ref bean= "d4_cam_config"/>
 				<ref bean= "shtr1_cam_config"/>
 				<ref bean= "d5_cam_config"/>
-				<ref bean= "pco_cam_config"/>
 				<ref bean= "WebCam_Middle"/>
 				<ref bean= "WebCam_DownStream"/>
 			</list>

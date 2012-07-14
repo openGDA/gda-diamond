@@ -160,5 +160,17 @@
 		<property name="viewPartName" value="Alignment" />
 		<property name="screenPixelSize" value="0.27" />
 		<property name="tomoAlignmentViewController" ref="tomoAlignmentViewController" />
+		<property name="cameraControllerFactory" >
+<!-- 			<bean class="uk.ac.gda.client.tomo.alignment.view.I13CameraControllerFactory"/>
+ -->
+ 			<bean class="uk.ac.gda.client.tomo.alignment.view.factory.CameraControllerFactory"/>
+		</property>
+		<property name="motionControllerFactory" >
+			<bean class="uk.ac.gda.client.tomo.alignment.view.I13MotionControllerFactory"/>
+		</property>
+		<property name="cameraControlListenerFactory" >
+			<bean class="uk.ac.gda.client.tomo.alignment.view.I13CameraControlListenerFactory"/>
+		</property>
+
 	</bean>
 </beans>
