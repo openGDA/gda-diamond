@@ -1,23 +1,31 @@
 #! /bin/sh 
-
+notify-send -t 10000 "GDA Client is starting..."
 #runs the LogPanel and RCP client
 
 #identify install folder and JAVA_HOME
 source /dls_sw/i13/etc/i13_profile.sh
 
-killall  java
-
 gdalog
-
-#export JAVA_OPTS="$JAVA_OPTS -Dgda.mode=$GDAMODE"
 
 if [ "$1" = "--clean" ]
 then
     echo "rm -rf /scratch/.i13_workspace-$(whoami)-*"
-    rm -rf /scratch/.i13_workspace-$(whoami)-*
+    rm -rf /scratch/.i13_workspace-$(whoami)*
 fi
 
-echo "$GDAFOLDER/client/gda-i13i"
 
-$GDAFOLDER/client/gda-i13i
+JAVA_OPTS="-Xms128m -Xmx4096m -XX:MaxPermSize=256m -XX:+DisableExplicitGC"
+JAVA_OPTS="-Dorg.eclipse.swt.browser.XULRunnerPath=/dls_sw/apps/xulrunner/x86_64/xulrunner-1.9.2 "$JAVA_OPTS
+JAVA_OPTS="-Declipse.pluginCustomization=/dls_sw/i13/software/gda/i13i-config/pluginCustomization.ini "$JAVA_OPTS
+JAVA_OPTS="-Duk.ac.diamond.scisoft.analysis.io.nocaching=true "$JAVA_OPTS
+JAVA_OPTS="-Dosgi.configuration.area=/scratch/gda_configs/$(whoami) "$JAVA_OPTS
+JAVA_OPTS="-DoconsoleLog "$JAVA_OPTS
+if [ "$1" = "--clean" ]
+then
+	JAVA_OPTS="-Dclean "$JAVA_OPTS
+fi
+
+export JAVA_OPTS
+$GDAFOLDER/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda  --config=$GDAFOLDER/$BEAMLINE-config --rcp_image=$GDAFOLDER/client/gda-i13i --verbose rcpclient
+
 
