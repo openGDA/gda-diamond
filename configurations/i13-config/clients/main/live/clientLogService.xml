@@ -9,10 +9,10 @@
         </layout>
     </appender>
     <logger name="gda">
-        <level value="ALL"/>
+        <level value="Warn"/>
     </logger>     
     <root>
-        <level value="INFO"/>
+        <level value="Warn"/>
         <appender-ref ref="LogPanel"/>
     </root>
 </configuration>
