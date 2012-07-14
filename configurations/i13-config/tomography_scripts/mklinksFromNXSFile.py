@@ -37,7 +37,7 @@ def dbgPrintNXSContent(nxsFileHandle, map01Def_shutter, map01Def_stage, dfpDef, 
 	ss1_x=nxsFileHandle['/entry1/instrument/tomoScanDevice/ss1_X']
 	ss1_rot=nxsFileHandle['/entry1/instrument/tomoScanDevice/ss1_rot']
 	tomography_shutter=nxsFileHandle['/entry1/instrument/tomoScanDevice/tomography_shutter']
-	tif=nxsFileHandle['/entry1/instrument/pco1_tif/image_data']
+	tif=nxsFileHandle['/entry1/instrument/pco1_hw_tif/image_data']
 	
 	len_ss1_x=len(ss1_x)
 	len_ss1_rot=len(ss1_rot)
@@ -434,7 +434,7 @@ def makeLinksForNXSFile(\
 					, shutterNXSPath='/entry1/instrument/tomoScanDevice/tomography_shutter'\
 					, stagePosNXSPath='/entry1/instrument/tomoScanDevice/ss1_X'\
 					, stageRotNXSPath='/entry1/instrument/tomoScanDevice/ss1_rot'\
-					, tifNXSPath='/entry1/instrument/pco1_tif/image_data'\
+					, tifNXSPath='/entry1/instrument/pco1_hw_tif/image_data'\
 					, outdir=None\
 					, minProjs=129\
 					, maxUnclassed=0\
@@ -448,7 +448,7 @@ def makeLinksForNXSFile(\
 	NXS paths to data:
 	SHUTTER PHYSICAL POSITIONS='/entry1/instrument/tomoScanDevice/tomography_shutter'
 	SAMPLE PHYSICAL STAGE POSITIONS='/entry1/instrument/tomoScanDevice/ss1_X'
-	TIF FILENAMES='/entry1/instrument/pco1_tif/image_data'
+	TIF FILENAMES='/entry1/instrument/pco1_hw_tif/image_data'
 	
 	STAGE ANGLES='/entry1/instrument/tomoScanDevice/ss1_rot'
 	"""
@@ -677,7 +677,7 @@ creates directories and links to projection, dark and flat images required for s
 	parser.add_option("--shutterNXSPath", action="store", type="string", dest="shutNXSPath", default="/entry1/instrument/tomoScanDevice/tomography_shutter", help="The path to the location of SHUTTER's physical positions inside the input NeXus file.")
 	parser.add_option("--stagePosNXSPath", action="store", type="string", dest="stagePosNXSPath", default="/entry1/instrument/tomoScanDevice/ss1_X", help="The path to the location of SAMPLE STAGE's physical positions inside the input NeXus file.")
 	parser.add_option("--stageRotNXSPath", action="store", type="string", dest="stageRotNXSPath", default="/entry1/instrument/tomoScanDevice/ss1_rot", help="The path to the location of SAMPLE STAGE's physical rotations inside the input NeXus file.")
-	parser.add_option("--tifNXSPath", action="store", type="string", dest="tifNXSPath", default="/entry1/instrument/pco1_tif/image_data", help="The path to the location of TIFF filenames inside the input NeXus file.")
+	parser.add_option("--tifNXSPath", action="store", type="string", dest="tifNXSPath", default="/entry1/instrument/pco1_hw_tif/image_data", help="The path to the location of TIFF filenames inside the input NeXus file.")
 	parser.add_option("-o", "--outdir", action="store", type="string", dest="outdir", help="Path to folder in which directories and files are to be made. Default is current working folder")
 	parser.add_option("--verbose", action="store_true", dest="verbose", default=False, help="Verbose - useful for diagnosing the script")
 	parser.add_option("-s", "--sino", action="store_true", dest="sino", default=False, help="If set to TRUE, the sino_listener script will be launched as well.")
