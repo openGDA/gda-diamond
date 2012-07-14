@@ -41,24 +41,29 @@ class EnumPositionerDelegateScannable(ScannableBase):
         return 0
 
 def make_tomoScanDevice(tomography_theta, tomography_shutter, tomography_translation, 
-                        tomography_optimizer, tomography_imageIndex):
+                        tomography_optimizer, tomography_imageIndex, image_key):
     tomoScanDevice = ScannableGroup()
     tomoScanDevice.addGroupMember(tomography_theta)
     tomoScanDevice.addGroupMember(EnumPositionerDelegateScannable("tomography_shutter", tomography_shutter))
     tomoScanDevice.addGroupMember(tomography_translation)
     tomoScanDevice.addGroupMember(tomography_optimizer)
     tomoScanDevice.addGroupMember(tomography_imageIndex)
+    tomoScanDevice.addGroupMember(image_key)
     tomoScanDevice.setName("tomoScanDevice")
     tomoScanDevice.configure()
     return tomoScanDevice
 
 
 class   tomoScan_positions(ScanPositionProvider):
-    def __init__(self, step, darkFieldInterval, flatFieldInterval,
+    def __init__(self, start, stop, step, darkFieldInterval, imagesPerDark, flatFieldInterval, imagesPerFlat,
              inBeamPosition, outOfBeamPosition, optimizeBeamInterval, points):
+        self.start = start
+        self.stop = stop
         self.step = step
         self.darkFieldInterval = darkFieldInterval
+        self.imagesPerDark = imagesPerDark
         self.flatFieldInterval = flatFieldInterval
+        self.imagesPerFlat = imagesPerFlat
         self.inBeamPosition = inBeamPosition
         self.outOfBeamPosition = outOfBeamPosition
         self.optimizeBeamInterval = optimizeBeamInterval
@@ -71,26 +76,43 @@ class   tomoScan_positions(ScanPositionProvider):
         return len(self.points)
     
     def __str__(self):
-        return "Step: %f Darks every:%d Flats every:%d InBeamPosition:%f OutOfBeamPosition:%f Optimize every:%d numImages %d " % \
-            ( self.step,self.darkFieldInterval,self.flatFieldInterval, self.inBeamPosition, self.outOfBeamPosition, self.optimizeBeamInterval, self.size() ) 
+        return "Start: %f Stop: %f Step: %f Darks every:%d imagesPerDark:%d Flats every:%d imagesPerFlat:%d InBeamPosition:%f OutOfBeamPosition:%f Optimize every:%d numImages %d " % \
+            ( self.start, self.stop, self.step,self.darkFieldInterval,self.imagesPerDark, self.flatFieldInterval, self.imagesPerFlat, self.inBeamPosition, self.outOfBeamPosition, self.optimizeBeamInterval, self.size() ) 
     def toString(self):
         return self.__str__()
 
 from gda.device.scannable import SimpleScannable
+image_key_dark=2
+image_key_flat=1 # also known as bright
+image_key_project=0 # also known as sample
+
 
 """
 perform a simple tomogrpahy scan
 """
-def tomoScan(step, darkFieldInterval, flatFieldInterval,
-             inBeamPosition, outOfBeamPosition, exposureTime, imagesPerDark=1, 
-             imagesPerFlat=1, optimizeBeamInterval=0):
+def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., optimizeBeamInterval=0):
+    """
+    Function to collect a tomogram
+ 	Arguments:
+    inBeamPosition - position of X drive to move sample into the beam to take a projection
+    outOfBeamPosition - position of X drive to move sample out of the beam to take a flat field image
+    exposureTime - exposure time in seconds ( default = 1)
+    start - first rotation angle ( default=0.)
+    stop  - last rotation angle (default=180.)
+    step - rotation step size (default = 0.1)
+    darkFieldInterval - number of projections between each dark field. Note that a dark is always taken at the start and end of a tomogram (default=0.)
+    flatFieldInterval - number of projections between each flat field. Note that a dark is always taken at the start and end of a tomogram (default=0.)
+    imagesPerDark - number of images to be taken for each dark (default=20)
+    imagesPerFlat - number of images to be taken for each flat (default=20)
+    min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
+
+    """
     try:
         darkFieldInterval=int(darkFieldInterval)
         flatFieldInterval=int(flatFieldInterval)
         optimizeBeamInterval=int(optimizeBeamInterval)
         
-        start=0.
-        stop=180.
         jns=beamline_parameters.JythonNameSpaceMapping()
         tomography_theta=jns.tomography_theta
         if tomography_theta is None:
@@ -117,6 +139,14 @@ def tomoScan(step, darkFieldInterval, flatFieldInterval,
         tomography_beammonitor=jns.tomography_beammonitor
         if tomography_beammonitor is None:
             raise "tomography_beammonitor is not defined in Jython namespace"
+
+        camera_stage = jns.cs1
+        if camera_stage is None:
+            raise "camera_stage is not defined in Jython namespace"
+
+        sample_stage = jns.sample_stage
+        if sample_stage is None:
+            raise "sample_stage is not defined in Jython namespace"
         
         index=SimpleScannable()
         index.setCurrentPosition(0.0)
@@ -124,8 +154,16 @@ def tomoScan(step, darkFieldInterval, flatFieldInterval,
         index.setName("imageNumber")
         index.configure()
         
+        image_key=SimpleScannable()
+        image_key.setCurrentPosition(0.0)
+        image_key.setInputNames(["image_key"])
+        image_key.setName("image_key")
+        image_key.configure()
+
         tomoScanDevice = make_tomoScanDevice(tomography_theta, tomography_shutter, 
-                                             tomography_translation, tomography_optimizer,  index)
+                                             tomography_translation, tomography_optimizer,  index, image_key)
+
+#        return tomoScanDevice
         #generate list of positions
         numberSteps = ScannableUtils.getNumberSteps(tomography_theta, start, stop, step)
         theta_points = []
@@ -144,56 +182,63 @@ def tomoScan(step, darkFieldInterval, flatFieldInterval,
         theta_pos = theta_points[0]
         index=0
         for i in range(imagesPerDark):
-            scan_points.append((theta_pos, shutterClosed, inBeamPosition, optimizeBeamNo,index )) #dark
+            scan_points.append((theta_pos, shutterClosed, inBeamPosition, optimizeBeamNo, image_key_dark,index )) #dark
             index = index + 1
                     
         for i in range(imagesPerFlat):
-            scan_points.append((theta_pos, shutterOpen, outOfBeamPosition,optimizeBeamNo, index )) #flat
+            scan_points.append((theta_pos, shutterOpen, outOfBeamPosition,optimizeBeamNo, image_key_flat, index )) #flat
             index = index + 1        
-        scan_points.append((theta_pos,shutterOpen, inBeamPosition, optimizeBeamNo,index )) #first
+        scan_points.append((theta_pos,shutterOpen, inBeamPosition, optimizeBeamNo,index,image_key_project )) #first
         index = index + 1        
         imageSinceDark=0
         imageSinceFlat=0
         optimizeBeam=0
         for i in range(numberSteps):
             theta_pos = theta_points[i+1]
-            scan_points.append((theta_pos, shutterOpen, inBeamPosition, optimizeBeamNo, index ))#main image
+            scan_points.append((theta_pos, shutterOpen, inBeamPosition, optimizeBeamNo,image_key_project, index ))#main image
             index = index + 1        
             
             
             imageSinceFlat = imageSinceFlat + 1
             if imageSinceFlat == flatFieldInterval and flatFieldInterval != 0:
                 for i in range(imagesPerFlat):
-                    scan_points.append((theta_pos, shutterOpen, outOfBeamPosition, optimizeBeamNo, index ))
+                    scan_points.append((theta_pos, shutterOpen, outOfBeamPosition, optimizeBeamNo, image_key_flat, index ))
                     index = index + 1        
                     imageSinceFlat=0
             
             imageSinceDark = imageSinceDark + 1
             if imageSinceDark == darkFieldInterval and darkFieldInterval != 0:
                 for i in range(imagesPerDark):
-                    scan_points.append((theta_pos, shutterClosed, inBeamPosition, optimizeBeamNo, index ))
+                    scan_points.append((theta_pos, shutterClosed, inBeamPosition, optimizeBeamNo, image_key_dark, index ))
                     index = index + 1        
                     imageSinceDark=0
 
             optimizeBeam = optimizeBeam + 1
             if optimizeBeam == optimizeBeamInterval and optimizeBeamInterval != 0:
-                scan_points.append((theta_pos, shutterOpen, inBeamPosition, optimizeBeamYes, index ))
+                scan_points.append((theta_pos, shutterOpen, inBeamPosition, optimizeBeamYes, image_key_projection, index ))
                 index = index + 1        
                 optimizeBeam=0
                 
         #add dark and flat only if not done in last steps
         if imageSinceFlat != 0:
             for i in range(imagesPerFlat):
-                scan_points.append((theta_pos, shutterOpen, outOfBeamPosition, optimizeBeamNo, index )) #flat
+                scan_points.append((theta_pos, shutterOpen, outOfBeamPosition, optimizeBeamNo, image_key_flat, index )) #flat
                 index = index + 1
         if imageSinceDark != 0:
             for i in range(imagesPerDark):
-                scan_points.append((theta_pos, shutterClosed, inBeamPosition, optimizeBeamNo, index )) #dark
+                scan_points.append((theta_pos, shutterClosed, inBeamPosition, optimizeBeamNo, image_key_dark, index )) #dark
                 index = index + 1        
                 
-        positionProvider = tomoScan_positions( step, darkFieldInterval, flatFieldInterval, \
+        positionProvider = tomoScan_positions( start, stop, step, darkFieldInterval, imagesPerDark, flatFieldInterval, imagesPerFlat, \
                                                inBeamPosition, outOfBeamPosition, optimizeBeamInterval, scan_points ) 
-        scan_args = [tomoScanDevice, positionProvider, tomography_time, tomography_beammonitor, tomography_detector, exposureTime  ]
+        scan_args = [tomoScanDevice, positionProvider, tomography_time, tomography_beammonitor, tomography_detector, exposureTime, camera_stage, sample_stage ]
+        if min_i > 0.:
+            import gdascripts.scannable.beamokay
+            ionc_i = jns.ionc_i
+            if ionc_i is None:
+                raise "ionc_i is not defined in Jython namespace"
+            beamok=gdascripts.scannable.beamokay.WaitWhileScannableBelowThresholdMonitorOnly("beamok", ionc_i, min_i)
+            scan_args.append(beamok)
         scanObject=createConcurrentScan(scan_args)
         scanObject.runScan()
         return scanObject;
@@ -201,7 +246,7 @@ def tomoScan(step, darkFieldInterval, flatFieldInterval,
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Error in tomoScan", exceptionType, exception, traceback, False)
 
-def test1_tomoScan():
+def __test1_tomoScan():
     jns=beamline_parameters.JythonNameSpaceMapping()    
     sc=tomoScan(step=5, darkFieldInterval=5, flatFieldInterval=5,
              inBeamPosition=0., outOfBeamPosition=10., exposureTime=1.)
@@ -211,7 +256,7 @@ def test1_tomoScan():
         print "Error - points are not correct :" + `positions`
     return sc
 
-def test2_tomoScan():
+def __test2_tomoScan():
     jns=beamline_parameters.JythonNameSpaceMapping()    
     sc=tomoScan(step=5, darkFieldInterval=5, flatFieldInterval=0,
              inBeamPosition=0., outOfBeamPosition=10., exposureTime=1.)
@@ -221,7 +266,7 @@ def test2_tomoScan():
         print "Error - points are not correct :" + `positions`
     return sc
 
-def test3_tomoScan():
+def __test3_tomoScan():
     jns=beamline_parameters.JythonNameSpaceMapping()    
     sc=tomoScan(step=5, darkFieldInterval=0, flatFieldInterval=5,
              inBeamPosition=0., outOfBeamPosition=10., exposureTime=1.)
@@ -231,7 +276,7 @@ def test3_tomoScan():
         print "Error - points are not correct :" + `positions`
     return sc
 
-def test4_tomoScan():
+def __test4_tomoScan():
     jns=beamline_parameters.JythonNameSpaceMapping()    
     sc=tomoScan(step=5, darkFieldInterval=0, flatFieldInterval=0,
              inBeamPosition=0., outOfBeamPosition=10., exposureTime=1.)
@@ -241,7 +286,7 @@ def test4_tomoScan():
         print "Error - points are not correct :" + `positions`
     return sc
 
-def test5_tomoScan():
+def __test5_tomoScan():
     """
     Test optimizeBeamInterval=10
     """
@@ -255,10 +300,10 @@ def test5_tomoScan():
     return sc
 
 def test_all():
-    test1_tomoScan()
-    test2_tomoScan()
-    test3_tomoScan()
-    test4_tomoScan()
+    __test1_tomoScan()
+    __test2_tomoScan()
+    __test3_tomoScan()
+    __test4_tomoScan()
 
 def standardtomoScan():
     jns=beamline_parameters.JythonNameSpaceMapping()    
