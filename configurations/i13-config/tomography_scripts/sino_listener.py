@@ -197,7 +197,7 @@ class SinoListener():
 		if len( err ) > 0:
 			self.err.write ( err + "\n" )
 
-	def queueJobsMonitor(self, nSec=5, totWait=5*160):
+	def queueJobsMonitor(self, nSec=5, totWait=60*45):
 		jobStateIdx=4
 		waiting=True
 		
