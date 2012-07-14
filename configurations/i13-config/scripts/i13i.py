@@ -1,6 +1,6 @@
 
 """
-I13-1
+I13
 
 This is the help for I13:
 
@@ -8,96 +8,10 @@ This is the help for I13:
 Scans are recorded in the visit folder given by VisitPath.getVisitPath()
 
 
-mpx_set_folder 
 
-See http://confluence.diamond.ac.uk/display/I13Tech/I13-1+Data+Acquisition+User+Guide for detailed help on using I13J
+See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Guide for detailed help on using I13I
 
-1. Set the folder and prefix for the images. The folder is relative to the visit folder.
-    e.g.mpx_set_folder("","sampleA")
-
-2. Take an image with the maxipix detector
-    pos mpx 1.
-    
-    The 1. is the exposure time
-    
-3. To read the threshold
-    pos mpx_threshold
-
-4. To change the threshold 
-    pos mpx_threshold nnn
-
-    To change the intergap fillmode
-    >>>mpx_maxipix.setFillMode(MaxiPix2.FillMode.ZERO)
-    >>>mpx_maxipix.setFillMode(MaxiPix2.FillMode.RAW)
-    >>>mpx_maxipix.setFillMode(MaxiPix2.FillMode.DISPATCH)
-    >>>mpx_maxipix.setFillMode(MaxiPix2.FillMode.MEAN)
-    
-    To change external trigger mode
-    mpx_limaCCD.setAcqTriggerMode(LimaCCD.AcqTriggerMode.EXTERNAL_TRIGGER)
-    
-    
-5. To scan a variable and at each point take an image form the maxipix    
-    scan ix 0. 10. 1 mpx 0.1
-    
-    This scans the dummy variable ix from 0 to 10 in steps of 1 and at each takes an image using exposure time = 0.1s
-    
-    
-6. To scan the sample stage using a list of numbers given in a 2 column file
-    a)First load the file into oan object that will provider the positions for the scan command
-
-    two_motor_positions.load(filepath, offset, scale)
-    e.g.
-    two_motor_positions.load("/dls_sw/i13-1/scripts/ptychography/ProbePos_10x10.txt", (1.,2.), 1.0)
-    
-    b)scan the stage stage t1_xy
-    
-    scan t1_xy two_motor_positions <det> <exposure>
-    
-    
- To create tiff files from the edf files produce in a scan use the command:
- >>>file_converter.create_tiffs("/dls/i13-1/data/2011/mt5659-1/490.nxs")
- 
-7. To control the detector robot
-    a)create the detector object
-    import robots
-    robot1=robots.Robot(ip="172.23.82.221")
-
-    b)Send home. You will need to call gotoHome2 and resetAlarm several times. Continue until robot1.getPulses returns a list of 0's
-    robot1.gotoHome2()
-    robot1.resetAlarm()
-
-    c)When homed tell the robot object to reset its internal value for the robot position
-    robot1.resetPosition()
-
-    d) You can query the internal value for the robot position by calling getPosition
-    robot1.getPosition()
-
-    e.1)To change the position first take a copy of the current position. 
-    posn=robot1.getPosition()
-
-    e.2)Change posn to the destination. # options posn.X, posn.Y, posn.Z, posn.RX posn.RY, posn.RZ
-    e.g. posn.X=1000
-
-    e.3)Make the robot move by calling the method moveTo with the required position
-    robot1.moveTo(posn)
-
-    N.B Once it has moved it will have set user frame to the current detector frame
-    so you can then only move further about Y by changing posn.Y and calling moveTo
-    
-    If you do not want to adjust the user frame then use the command moveToDoNotSetUserCoords instead of moveTo after resetPostion
-    robot1.moveToDoNotSetUserCoords(posn)
-    
-    
-    #to calculate the position of the detector robot for a certain theta, phi use the command:
-    robots.getDetectorRobotPositionFromThetaPhi(theta=45, phi=0)
-    
-    to get help on this function type
-    
-    help robots.getDetectorRobotPositionFromThetaPhi
-    
-    This will return an object in the same form as return by the getPosition method and used by the moveTo method.
-
-8. To perform a flyscan:
+1. To perform a flyscan:
     to perform a flyscan of scannable tx over range start, stop, end and measure detector d at each approx value of tx
     >flyscan   flyscannable(tx) start stop end d
     
@@ -106,17 +20,36 @@ See http://confluence.diamond.ac.uk/display/I13Tech/I13-1+Data+Acquisition+User+
     >flyscan   ty ystart ystop ystep flyscannable(tx) start stop end d
     
     
-9.  EPICS
+2.  EPICS
     >caput pv value  e.g. caput "BL13J-OP-ACOLL-01:AVERAGESIZE" 10.0
     >caget pv        e.g. caget "BL13J-OP-ACOLL-01:AVERAGESIZE"
     
     To make a scannable for a pv
     createPVScannable name, pv  e.g. createPVScannable "d1_total" "BL13J-DI-PHDGN-01:STAT:Total_RBV"
                                      Will make scannable d1_total
-10. SCANNING
+3. SCANNING
     >scan scannable start end step      e.g. scan ix 1 10 1
     >scan scannable list_of_positions   e.g. scan ix (1,2,4,5,6,5,4,3,2,1)
     
+4. Configuring the PCO camera for alignment
+    >tomodet.setupForAlignment( exposureTime=.1, scale=2)
+
+
+5. To perform a tomogram:
+	>tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1.):
+    
+   where:
+    inBeamPosition - position of X drive to move sample into the beam to take a projection
+    outOfBeamPosition - position of X drive to move sample out of the beam to take a flat field image
+    exposureTime - exposure time in seconds ( default = 1)
+    start - first rotation angle ( default=0.)
+    stop  - last rotation angle (default=180.)
+    step - rotation step size (default = 0.1)
+    darkFieldInterval - number of projections between each dark field. Note that a dark is always taken at the start and end of a tomogram (default=0.)
+    flatFieldInterval - number of projections between each flat field. Note that a dark is always taken at the start and end of a tomogram (default=0.)
+    imagesPerDark - number of images to be taken for each dark
+    imagesPerFlat - number of images to be taken for each flat
+    min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
+
 """
-
-
