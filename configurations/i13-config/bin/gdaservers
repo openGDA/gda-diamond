@@ -1,4 +1,5 @@
 #!/bin/bash
+notify-send -t 10000 "GDA Servers is starting..."
 # starts logpanel, servers and namemanager
 
 zenity --title "Are you sure?" --question --text "Are you sure you want to restart the GDA servers?" --window-icon=question

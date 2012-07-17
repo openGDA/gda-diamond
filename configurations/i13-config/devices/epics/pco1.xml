@@ -290,8 +290,8 @@
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 				<constructor-arg ref="pco1_ndfiletif" />
 				<constructor-arg value="pco1" />
-				<constructor-arg value="%%s%%s%d-%%05d.tif"/>
-				<constructor-arg value="%s/%d/pco1/"/>
+				<constructor-arg value="%s%s/%05d.tif"/>
+				<constructor-arg value="%s/%d_data/"/>
 				<constructor-arg value="true"/>
 				<constructor-arg value="true"/>
 				<property name="enable" value="true"/>
@@ -320,8 +320,8 @@
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 				<constructor-arg ref="pco1_ndfiletif" />
 				<constructor-arg value="pco1" />
-				<constructor-arg value="%%s%%s%d-%%05d.tif"/>
-				<constructor-arg value="%s/%d/pco1/"/>
+				<constructor-arg value="%s%s/%05d.tif"/>
+				<constructor-arg value="%s/%d_data/"/>
 				<constructor-arg value="true"/>
 				<constructor-arg value="true"/>
 				<property name="enable" value="true"/>
@@ -368,8 +368,8 @@
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 				<constructor-arg ref="pco1_ndfiletif" />
 				<constructor-arg value="dimax" />
-				<constructor-arg value="%%s%%s%d-%%05d.tif"/>
-				<constructor-arg value="%s/%d/dimax/"/>
+				<constructor-arg value="%s%s/%05d.tif"/>
+				<constructor-arg value="%s/%d_data/"/>
 				<constructor-arg value="true"/>
 				<constructor-arg value="true"/>
 				<property name="enable" value="true"/>
