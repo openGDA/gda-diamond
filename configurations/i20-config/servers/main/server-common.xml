@@ -100,9 +100,6 @@
 		<property name="serviceInterface"
 			value="gda.jython.scriptcontroller.logging.ILoggingScriptController" />
 	</bean>
-	
-	
-	
 
 	<corba:export namespace="i20" />
 </beans>

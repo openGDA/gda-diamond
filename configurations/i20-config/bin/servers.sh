@@ -1,11 +1,13 @@
 # runs the servers locally
 source /dls_sw/dasc/tools_versions/set_tools.sh
+#module load java  # does not work!  18thJuly 2012
 umask 0002
 
 # stop old servers
-/dls_sw/i20/software/gda/plugins/uk.ac.gda.core/bin/gda --stop objectserver
-/dls_sw/i20/software/gda/plugins/uk.ac.gda.core/bin/gda --stop eventserver
-/dls_sw/i20/software/gda/plugins/uk.ac.gda.core/bin/gda --stop nameserver
+pkill java
+#/dls_sw/i20/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda --stop objectserver
+#/dls_sw/i20/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda --stop eventserver
+#/dls_sw/i20/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda --stop nameserver
 
 # create log file and link to it
 export LOGFILE=/dls_sw/i20/logs/gda_output_`date +%F-%T`.txt
@@ -16,7 +18,7 @@ ln -s $LOGFILE /dls_sw/i20/logs/gda_output.txt
 SERVER_STARTUP_FILE=/tmp/object_server_startup_server_main; export SERVER_STARTUP_FILE
 rm -f $SERVER_STARTUP_FILE
 
-nohup /dls_sw/i20/software/gda/plugins/uk.ac.gda.core/bin/gda --config=/dls_sw/i20/software/gda/i20-config --mode=live --debug -p 8001 --restart servers > $LOGFILE 2>&1 &
+nohup /dls_sw/i20/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda --config=/dls_sw/i20/software/gda/config --mode=live --debug -p 8001 --restart servers > $LOGFILE 2>&1 &
 
 export THIS_MACHINE=`uname -n`
 echo ""
