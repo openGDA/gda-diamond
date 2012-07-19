@@ -111,7 +111,7 @@ from gda.configuration.properties import LocalProperties
 #rm = ReconManager()
 
 # set up the extra scans
-#from init_scan_commands_and_processing import * #@UnusedWildImport
+from init_scan_commands_and_processing import * #@UnusedWildImport
 #scan_processor.rootNamespaceDict=globals()
 
 #beam_optimizer_dummy is needed by tomographyScani13
