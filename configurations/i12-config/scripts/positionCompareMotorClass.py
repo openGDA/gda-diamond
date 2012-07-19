@@ -95,3 +95,16 @@ class PositionCompareMotorClass(ScannableMotionBase):
     def toString(self):
         return self.name + " : " + str(self.getPosition())
               
+    def setTolerance(self,new_tolerance):
+        self._tolerance=new_tolerance
+    
+    def getTolerance(self):
+        return self._tolerance
+    
+    # override the below two base class functions because they are ignored anyway
+    def setTolerances(self,new_tolerance):
+        self._tolerance=new_tolerance
+    
+    def getTolerances(self):
+        return self._tolerance
+    
