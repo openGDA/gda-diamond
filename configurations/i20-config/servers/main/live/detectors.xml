@@ -3,8 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!--detectors -->
-
 	<bean id="DAServer" class="gda.device.detector.DAServer">
 		<property name="local" value="True" />
 		<property name="host" value="i20-xspress0" />
@@ -18,63 +16,29 @@
 		<property name="replyTimeOut" value="5000" />
 	</bean>
 
-	<!-- <bean id="DAServer" class="gda.device.detector.DummyDAServer"> -->
-	<!-- <property name="local" value="True" /> -->
-	<!-- <property name="host" value="i20-xspress0" /> -->
-	<!-- <property name="port" value="1972" /> -->
-	<!-- <property name="startupCommands"> -->
-	<!-- <list> -->
-	<!-- <value>~config</value> -->
-	<!-- </list> -->
-	<!-- </property> -->
-	<!-- <property name="dataPort" value="20030" /> -->
-	<!-- <property name="replyTimeOut" value="5000" /> -->
-	<!-- <property name="dataFile" value="Mofoil2.dat" /> -->
-<!---->
-	<!-- <property name="xspressMode"> -->
-	<!-- <bean class="gda.device.detector.DUMMY_XSPRESS2_MODE" -->
-	<!-- factory-method="valueOf"> -->
-	<!-- <constructor-arg> -->
-	<!-- <value>XSPRESS2_FULL_MCA</value> -->
-	<!-- </constructor-arg> -->
-	<!-- </bean> -->
-	<!-- </property> -->
-	<!-- </bean> -->
-
-	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDController">
+	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="local" value="true" />
-		<property name="epicsDeviceName" value="edxd" />
+		<property name="epicsDeviceName" value="xmap_dxp" />
 		<property name="NUMBER_OF_ELEMENTS" value="1" />
+		<property name="elementOffset" value="1"/>
 	</bean>
-	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerI20">
-		<property name="edxdControllerName" value="edxdcontroller" />
-		<property name="local" value="true" />
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController3ROI">
+		<property name="edxdControllerName" value="edxdcontroller"/>
+		<property name="local" value="true"/>
 	</bean>
 
-
-	<!-- <bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController"> -->
-	<!-- <property name="numberOfMca" value="4" /> -->
-	<!-- <property name="numberOfBins" value="1024" /> -->
-	<!-- <property name="numberOfROIs" value="10" /> -->
-	<!-- <property name="local" value="true" /> -->
-	<!-- </bean> -->
-
-	<!-- <bean id="Stanford01" class="gda.device.currentamplifier.DummyCurrentAmplifier"/> -->
-	<!-- <bean id="Stanford02" class="gda.device.currentamplifier.DummyCurrentAmplifier"/> -->
-	<!-- <bean id="Stanford03" class="gda.device.currentamplifier.DummyCurrentAmplifier"/> -->
-	<!-- <bean id="Stanford04" class="gda.device.currentamplifier.DummyCurrentAmplifier"/> -->
-	<bean id="Stanford01" class="gda.device.currentamplifier.EpicsStanfordCurrentAmp">
-		<property name="deviceName" value="EAAMP1" />
-	</bean>
-	<bean id="Stanford02" class="gda.device.currentamplifier.EpicsStanfordCurrentAmp">
-		<property name="deviceName" value="EAAMP2" />
-	</bean>
-	<bean id="Stanford03" class="gda.device.currentamplifier.EpicsStanfordCurrentAmp">
-		<property name="deviceName" value="EAAMP3" />
-	</bean>
-	<bean id="Stanford04" class="gda.device.currentamplifier.EpicsStanfordCurrentAmp">
-		<property name="deviceName" value="EAAMP4" />
-	</bean>
+<!-- 	<bean id="Stanford01" class="gda.device.currentamplifier.EpicsStanfordCurrentAmp"> -->
+<!-- 		<property name="deviceName" value="EAAMP1" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="Stanford02" class="gda.device.currentamplifier.EpicsStanfordCurrentAmp"> -->
+<!-- 		<property name="deviceName" value="EAAMP2" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="Stanford03" class="gda.device.currentamplifier.EpicsStanfordCurrentAmp"> -->
+<!-- 		<property name="deviceName" value="EAAMP3" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="Stanford04" class="gda.device.currentamplifier.EpicsStanfordCurrentAmp"> -->
+<!-- 		<property name="deviceName" value="EAAMP4" /> -->
+<!-- 	</bean> -->
 
 	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2System">
 		<property name="daServerName" value="DAServer" />
@@ -131,14 +95,15 @@
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="4" />
+<!-- 		<property name="useReset" value="false"/> -->
 		<property name="outputFormat">
 			<list>
-				<value>%6.4g</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%.4g</value>
-				<value>%.4g</value>
+				<value>%.4f</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
+				<value>%.4f</value>
+				<value>%.4f</value>
 			</list>
 		</property>
 	</bean>
@@ -154,14 +119,44 @@
 		<property name="timeChannelRequired" value="false" />
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="1" />
+<!-- 		<property name="useReset" value="false"/> -->
+<!-- 		<property name="outputLogValues" value="false"/> -->
 		<property name="firstDataChannel" value="4" />
 		<property name="outputFormat">
 			<list>
 				<value>%6.4g</value>
-				<value>%9d</value>
+				<value>%7.2f</value>
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="allionchambers" class="gda.device.detector.countertimer.TfgScalerWithLogValues">
+		<property name="extraNames">
+			<list>
+				<value>I0</value>
+				<value>It</value>
+				<value>Iref</value>
+				<value>I1</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="timeChannelRequired" value="false" />
+		<property name="outputLogValues" value="false" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="5" />
+		<property name="useReset" value="false"/>
+		<property name="outputFormat">
+			<list>
+				<value>%6.4g</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
+			</list>
+		</property>
+	</bean>
+	
 	
 
 	<!-- merges data from xspress and ion chambers -->
