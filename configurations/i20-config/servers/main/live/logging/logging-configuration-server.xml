@@ -32,6 +32,12 @@
     <logger name="gda.jython.GDAJythonInterpreter">
         <level value="WARN"/>
     </logger>
+    <logger name="gda.device.motor.MoveEventQueue">
+        <level value="WARN"/>
+    </logger>
+    <logger name="gda.jython.logger.RedirectableFileLogger">
+        <level value="WARN"/>
+    </logger>
     <root>
         <level value="INFO"/>
         <appender-ref ref="Console"/>
