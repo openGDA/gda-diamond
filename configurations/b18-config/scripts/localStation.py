@@ -25,7 +25,7 @@ samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulse
 outputPreparer = B18OutputPreparer()
 loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
 xas = XasScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
-qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, qexafs_energy, qexafs_counterTimer01)
+qexafs = QexafsScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer, qexafs_energy, qexafs_counterTimer01)
 xanes = xas
 
 alias("xas")
