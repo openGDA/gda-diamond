@@ -41,10 +41,10 @@ import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
 import uk.ac.gda.devices.cirrus.CirrusDetector;
 
 /**
- * Sets up Sample Parameters for I20. Talks to hardware with hard coded parameter names.
- * <p>
- * Every piece fo hardware should also add its parameters to the nexus file header.
+ * Now replaced by Jython scripts - the logic in here is too variable
+ * 
  */
+@Deprecated()
 public class I20SampleParametersManager extends ParametersManager {
 
 	private static final Logger logger = LoggerFactory.getLogger(I20SampleParametersManager.class);
