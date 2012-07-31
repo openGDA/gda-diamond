@@ -10,13 +10,31 @@ from devices.RealBlades import SubtractAngle
 from devices.RealBlades import AverageAngle
 
 from exafsscripts.exafs import xas_scans
-from exafsscripts.exafs.xas_scans import xas, xanes, estimateXas, estimateXanes, xes
+from exafsscripts.exafs.xas_scans import estimateXas, estimateXanes
 
 from exafsscripts.vortex import vortexConfig
 from exafsscripts.vortex.vortexConfig import vortex
 
 from exafsscripts.xspress import xspressConfig
 from exafsscripts.xspress.xspressConfig import xspress
+
+from exafsscripts.exafs.i20DetectorPreparer import I20DetectorPreparer
+from exafsscripts.exafs.i20SamplePreparer import I20SamplePreparer
+from exafsscripts.exafs.i20OutputPreparer import I20OutputPreparer
+from exafsscripts.exafs.i20ScanScripts import I20XasScan
+from exafsscripts.exafs.i20ScanScripts import I20XesScan
+
+loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
+
+detectorPreparer = I20DetectorPreparer(xspress2system, loggingcontroller)
+samplePreparer = I20SamplePreparer()
+outputPreparer = I20OutputPreparer()
+
+# switch the commenting on these lines to move to the new scripts which include looping
+from exafsscripts.exafs.xas_scans import xas, xanes, xes
+#xas = I20XasScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
+#xes = I20XesScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
+#xanes = xas
 
 alias("xas")
 alias("xanes")
