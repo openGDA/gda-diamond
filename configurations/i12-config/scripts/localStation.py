@@ -21,10 +21,10 @@ print "------------------------------------------------"
 ### add epics plugin scripts library path
 from gda.util import PropertyUtils
 from java.lang import System
-_epicsScriptLibraryDir = PropertyUtils.getExistingDirFromLocalProperties("gda.root") + "uk.ac.gda.epics/scripts" + System.getProperty("file.separator");
+_epicsScriptLibraryDir = PropertyUtils.getExistingDirFromLocalProperties("gda.install.git.loc") + "/gda.install.git.loc/uk.ac.gda.epics/scripts" + System.getProperty("file.separator");
 sys.path.append(_epicsScriptLibraryDir)
 
-finder=Finder.getInstance()
+finder = Finder.getInstance()
 
 # set up a nice method for getting the latest file path
 i12NumTracker = NumTracker("i12");
@@ -42,7 +42,7 @@ alias("wd")
 def pwd():
     dir = PathConstructor.createFromDefaultProperty()
     filenumber = i12NumTracker.getCurrentFileNumber();
-    return os.path.join(dir,str(filenumber))
+    return os.path.join(dir, str(filenumber))
     
 alias("pwd")
 
@@ -50,14 +50,14 @@ alias("pwd")
 def nwd():
     dir = PathConstructor.createFromDefaultProperty()
     filenumber = i12NumTracker.getCurrentFileNumber();
-    return os.path.join(dir,str(filenumber+1))
+    return os.path.join(dir, str(filenumber + 1))
     
 alias("nwd")
 
 # function to find the next scan number
 def nfn():
     filenumber = i12NumTracker.getCurrentFileNumber();
-    return filenumber+1
+    return filenumber + 1
     
 alias("nfn")
 
@@ -70,15 +70,24 @@ alias("cfn")
 
 # the subdirectory parts
 def setSubdirectory(dirname):
-    finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
     try:
+        finder.find("GDAMetadata").setMetadataValue("subdirectory", dirname)
+    except:
+        exceptionType, exception, traceback = sys.exc_info()
+        handle_messages.log(None, "problem setting metadata value -'subdirectory' to " + dirname, exceptionType, exception, traceback, False)
+        print "Failed to set metadata (subdirectory) value to:", dirname, exception
+
+    try:
+        handle_messages.simpleLog("trying to create '" + dirname + "' subdirectory")
         os.mkdir(wd())
+        handle_messages.simpleLog("working directory '" + dirname + "' created:" + wd())
     except :
-        print "setSubdirectory failed to create: ",dirname
-        pass
+        exceptionType, exception, traceback = sys.exc_info()
+        handle_messages.log(None, "cannot create subdirectory::wd()=" + wd(), exceptionType, exception, traceback, False)
+        print "setSubdirectory failed to create: ", dirname, exception
     
 # Do this last
-setSubdirectory("default")
+#setSubdirectory("default")
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Create an 'interruptable()' function which can be used to make for-loop interruptable in GDA."
@@ -115,17 +124,18 @@ from gda.configuration.properties import LocalProperties
 #scan_processor.rootNamespaceDict=globals()
 
 #beam_optimizer_dummy is needed by tomographyScani13
-import beam_optimizers
-beam_optimizer_dummy = beam_optimizers.beam_optimizer("beam_optimizer_dummy", dummy=True)    
+
+#import beam_optimizers
+#beam_optimizer_dummy = beam_optimizers.beam_optimizer("beam_optimizer_dummy", dummy=True)    
 
 from gda.scan.RepeatScan import create_repscan, repscan
 vararg_alias("repscan")
 
 from gdascripts.pd.time_pds import waittimeClass2, showtimeClass, showincrementaltimeClass, actualTimeClass
-waittime=waittimeClass2('waittime')
-showtime=showtimeClass('showtime')
-inctime=showincrementaltimeClass('inctime')
-actualTime=actualTimeClass("actualTime")
+waittime = waittimeClass2('waittime')
+showtime = showtimeClass('showtime')
+inctime = showincrementaltimeClass('inctime')
+actualTime = actualTimeClass("actualTime")
 
 
 
@@ -143,7 +153,7 @@ try :
     edxdout = edxd2ascii("edxdout")
     ## removing binned for the moment
     from edxd_binned_counter import EdxdBinned
-    edxd_binned = EdxdBinned("edxd_binned",edxd) #@UndefinedVariable
+    edxd_binned = EdxdBinned("edxd_binned", edxd) #@UndefinedVariable
 
     from edxd_q_calibration_reader import set_edxd_q_calibration
     print("After set_edxd_q_calibration")
@@ -151,7 +161,7 @@ try :
     LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
     if LocalProperties.get("gda.data.scan.datawriter.dataFormat") != "NexusDataWriter":
         raise "Format not set to Nexus"
-    edxd.setOutputFormat(["%5.5g","%5.5g","%5.5g","%5.5g","%5.5g"])
+    edxd.setOutputFormat(["%5.5g", "%5.5g", "%5.5g", "%5.5g", "%5.5g"])
     
 except :
 	exceptionType, exception, traceback = sys.exc_info()
@@ -170,7 +180,7 @@ print "I12 specific commands: view <scannable>"
 print "-------------------------------------------------"
 def view(scannable): 
     for member in scannable.getGroupMembers() :
-        print member.toFormattedString().replace('_','.')
+        print member.toFormattedString().replace('_', '.')
 
 alias("view")
 
@@ -200,27 +210,27 @@ except :
 from gdascripts.pd.time_pds import * #@UnusedWildImport
 from gdascripts.pd.epics_pds import * #@UnusedWildImport
 try:
-    pixtimestamp=DisplayEpicsPVClass('pixtimestamp', 'BL12I-EA-DET-05:TIFF:TimeStamp_RBV', 's', '%.3f')
-    pixtemperature=DisplayEpicsPVClass('pixtemperature', 'BL12I-EA-DET-05:TIFF:Temperature_RBV', 'degree', '%.3f') 
-    pixtotalcount=DisplayEpicsPVClass('pixtotalcount', 'BL12I-EA-DET-05:STAT:Total_RBV', 'degree', '%d') 
-    pixexposure=DisplayEpicsPVClass('pixexposure', 'BL12I-EA-DET-05:PIX:AcquireTime_RBV', 's', '%.3f') 
+    pixtimestamp = DisplayEpicsPVClass('pixtimestamp', 'BL12I-EA-DET-05:TIFF:TimeStamp_RBV', 's', '%.3f')
+    pixtemperature = DisplayEpicsPVClass('pixtemperature', 'BL12I-EA-DET-05:TIFF:Temperature_RBV', 'degree', '%.3f') 
+    pixtotalcount = DisplayEpicsPVClass('pixtotalcount', 'BL12I-EA-DET-05:STAT:Total_RBV', 'degree', '%d') 
+    pixexposure = DisplayEpicsPVClass('pixexposure', 'BL12I-EA-DET-05:PIX:AcquireTime_RBV', 's', '%.3f') 
 except:
     print "cannot create pixium timestamp and temperature scannables"
      
 try:
-    pcotimestamp=DisplayEpicsPVClass('pcotimestamp', 'TEST:TIFF0:TimeStamp_RBV', 's', '%.3f')    
+    pcotimestamp = DisplayEpicsPVClass('pcotimestamp', 'TEST:TIFF0:TimeStamp_RBV', 's', '%.3f')    
 except:
     print "cannot create PCO timestamp scannable"
 try:
-    loadcell=DisplayEpicsPVClass('loadcell', 'BL12I-EA-ADC-01:00', 's', '%.3f')
-    HV_amp=EpicsReadWritePVClass('HV_amp', 'BL12I-EA-DAC-01:00', 's', '%.3f')
+    loadcell = DisplayEpicsPVClass('loadcell', 'BL12I-EA-ADC-01:00', 's', '%.3f')
+    HV_amp = EpicsReadWritePVClass('HV_amp', 'BL12I-EA-DAC-01:00', 's', '%.3f')
 except:
     print "cannot create loadcell or HV_amp scannables"
     
 print
 print "create ETL detector objects"
 print "--------------------------------------------------"
-pdnames=[]
+pdnames = []
 from detector_control_pds import * #@UnusedWildImport
 
 for pd in pds:
@@ -238,15 +248,15 @@ print
 print "create rocking motion objects:"
 print "---------------------------------------------------"
 from rockingMotion_class import RockingMotion #@UnresolvedImport
-rocktheta=RockingMotion("rocktheta", ss1.theta, -1, 1) #@UndefinedVariable
+rocktheta = RockingMotion("rocktheta", ss1.theta, -1, 1) #@UndefinedVariable
 print rocktheta.getName()
 
 from positionCompareMotorClass import PositionCompareMotorClass
-ss2x=PositionCompareMotorClass("ss2x", "BL12I-MO-TAB-06:X.VAL", "BL12I-MO-TAB-06:X.RBV", "BL12I-MO-TAB-06:X.STOP", 0.002, "mm", "%.3f")
-ss2y=PositionCompareMotorClass("ss2y", "BL12I-MO-TAB-06:Y.VAL", "BL12I-MO-TAB-06:Y.RBV", "BL12I-MO-TAB-06:Y.STOP", 0.002, "mm", "%.3f")
-ss2z=PositionCompareMotorClass("ss2z", "BL12I-MO-TAB-06:Z.VAL", "BL12I-MO-TAB-06:Z.RBV", "BL12I-MO-TAB-06:Z.STOP", 0.002, "mm", "%.3f")
-ss2rx=PositionCompareMotorClass("ss2rx", "BL12I-MO-TAB-06:PITCH.VAL", "BL12I-MO-TAB-06:PITCH.RBV", "BL12I-MO-TAB-06:PITCH.STOP", 0.002, "deg", "%.3f")
-ss2ry=PositionCompareMotorClass("ss2ry", "BL12I-MO-TAB-06:THETA.VAL", "BL12I-MO-TAB-06:THETA.RBV", "BL12I-MO-TAB-06:THETA.STOP", 0.002, "deg", "%.3f")
+ss2x = PositionCompareMotorClass("ss2x", "BL12I-MO-TAB-06:X.VAL", "BL12I-MO-TAB-06:X.RBV", "BL12I-MO-TAB-06:X.STOP", 0.002, "mm", "%.3f")
+ss2y = PositionCompareMotorClass("ss2y", "BL12I-MO-TAB-06:Y.VAL", "BL12I-MO-TAB-06:Y.RBV", "BL12I-MO-TAB-06:Y.STOP", 0.002, "mm", "%.3f")
+ss2z = PositionCompareMotorClass("ss2z", "BL12I-MO-TAB-06:Z.VAL", "BL12I-MO-TAB-06:Z.RBV", "BL12I-MO-TAB-06:Z.STOP", 0.002, "mm", "%.3f")
+ss2rx = PositionCompareMotorClass("ss2rx", "BL12I-MO-TAB-06:PITCH.VAL", "BL12I-MO-TAB-06:PITCH.RBV", "BL12I-MO-TAB-06:PITCH.STOP", 0.002, "deg", "%.3f")
+ss2ry = PositionCompareMotorClass("ss2ry", "BL12I-MO-TAB-06:THETA.VAL", "BL12I-MO-TAB-06:THETA.RBV", "BL12I-MO-TAB-06:THETA.STOP", 0.002, "deg", "%.3f")
 
 pco.setHdfFormat(False) #@UndefinedVariable
 
@@ -255,8 +265,10 @@ pco.setHdfFormat(False) #@UndefinedVariable
 pco.setExternalTriggered(True) #@UndefinedVariable
 
 print "create 'eurotherm1' and 'eurotherm2'" 
-eurotherm1=DisplayEpicsPVClass('eurotherm1', 'BL12I-EA-FURN-01:PV:RBV', 'c', '%.3f')
-eurotherm2=DisplayEpicsPVClass('eurotherm2', 'BL12I-EA-FURN-02:PV:RBV', 'c', '%.3f')
+eurotherm1 = DisplayEpicsPVClass('eurotherm1', 'BL12I-EA-FURN-01:PV:RBV', 'c', '%.3f')
+eurotherm2 = DisplayEpicsPVClass('eurotherm2', 'BL12I-EA-FURN-02:PV:RBV', 'c', '%.3f')
+
+from tomo import tomographyScani13
 #print
 #print "setup tomographyScan:"
 #from tomo import tomographyScan

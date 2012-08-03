@@ -3,7 +3,8 @@
 #tomography_detector=dummy_cam_ad
 #tomography_shutter=eh_shtr_dummy
 #tomography_translation=ss1_X_dummy
-tomography_optimizer=beam_optimizer_dummy
+#tomography_optimizer=beam_optimizer_dummy
+tomography_optimizer=ix
 #tomography_detector=dummy_cam
 tomography_detector=pco
 tomography_theta=ss1_theta

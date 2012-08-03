@@ -1,6 +1,6 @@
 from gda.device.scannable import ScannableMotionBase
 from gda.jython.commands import ScannableCommands
-from gda.scan import BasicScanDataPointPipeline
+#from gda.scan import BasicScanDataPointPipeline
 class beam_optimizer(ScannableMotionBase):
     def __init__(self, name, dummy, motor=None, start=None, end=None, step=None, monitor=None):
         self.setName(name)
@@ -27,6 +27,6 @@ class beam_optimizer(ScannableMotionBase):
         if self.dummy:
             return
         sc=ScannableCommands.createConcurrentScan([self. motor , self.start, self.end, self.step, self.monitor])
-        sc.setScanDataPointPipeline( BasicScanDataPointPipeline())
+        #sc.setScanDataPointPipeline( BasicScanDataPointPipeline())
         
         

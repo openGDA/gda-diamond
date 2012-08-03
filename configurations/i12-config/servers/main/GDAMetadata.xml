@@ -51,13 +51,18 @@
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="federalid" />
 				</bean>
-				
-				<ref bean="subdirectory"/>
-				
+
+				<ref bean="subdirectory" />
+
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="title" />
 					<property name="value" value="undefined" />
 				</bean>
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="visit" />
+					<property name="value" value="${gda.defVisit}" />
+				</bean>
+
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="note" />
 					<property name="value" value="undefined" />
@@ -65,10 +70,9 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="subdirectory" class="gda.data.metadata.StoredMetadataEntry">
-		<property name="name" value="subdirectory"/>
-		<property name="value" value=""/>
+
+	<bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry">
+		<property name="defaultSubdirectory" value="default" />
 	</bean>
-	
 
 </beans>
