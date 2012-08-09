@@ -13,5 +13,5 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="gda.factory.corba.util.ChannelServer"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="uk.ac.gda.core"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.root=${project_loc:uk.ac.gda.core}/..&#13;&#10;-Dgda.config=${project_loc:i20-config}&#13;&#10;-Djacorb.config.dir=${project_loc:i20-config}/jacorb/dummy&#10;-Dgda.propertiesFiles=${project_loc:i20-config}/properties/dummy/java.properties&#10;-Dgda.mode=dummy"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.install.workspace.loc=${workspace_loc}&#13;&#10;-Dgda.install.git.loc=${project_loc:uk.ac.gda.core/}/../..&#13;&#10;-Dgda.config=${project_loc:i20-config}&#13;&#10;-Djacorb.config.dir=${project_loc:i20-config}/jacorb/dummy&#10;-Dgda.propertiesFiles=${project_loc:i20-config}/properties/dummy/java.properties&#10;-Dgda.mode=dummy"/>
 </launchConfiguration>

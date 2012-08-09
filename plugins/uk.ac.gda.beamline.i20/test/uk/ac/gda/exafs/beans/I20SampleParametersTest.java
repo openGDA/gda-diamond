@@ -112,10 +112,11 @@ public class I20SampleParametersTest {
 		cps.setP(1d);
 		cps.setI(1d);
 		cps.setD(1d);
-		cps.setSampleHolder("2 Samples");
-		cps.setSampleNumber("2");
-		cps.setPosition("1.0");
-		cps.setFinePosition("0.1");
+		cps.setSampleHolder("4 Samples");
+		cps.setSampleNumbers("1");
+		cps.setPosition1(1.0);
+		cps.setFinePosition1(0.1);
+		cps.setSampleDescription1("My First Sample");
 		expectedValue.setCryostatParameters(cps);
 
 		isValidAndMatchesFile(expectedValue,"SampleParameters_withCryostat.xml");
@@ -146,7 +147,7 @@ public class I20SampleParametersTest {
 		expectedValue.setSampleWheelPosition("Copper");
 		expectedValue.setSampleEnvironment(I20SampleParameters.SAMPLE_ENV[3]);
 		FurnaceParameters fps = new FurnaceParameters();
-		fps.setTemperature(295.);
+		fps.setTemperature("295");
 		fps.setTolerance(1.5);
 		fps.setTime(5);
 		fps.setX(6.9);
@@ -253,7 +254,7 @@ public class I20SampleParametersTest {
 		sp.setSampleWheelPosition("Copper");
 		sp.setSampleEnvironment(I20SampleParameters.SAMPLE_ENV[3]);
 		FurnaceParameters fps = new FurnaceParameters();
-		fps.setTemperature(295.);
+		fps.setTemperature("295");
 		fps.setTolerance(1.5);
 		fps.setTime(5);
 		fps.setX(6.9);

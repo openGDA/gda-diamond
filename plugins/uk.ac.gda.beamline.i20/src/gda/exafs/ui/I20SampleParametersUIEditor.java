@@ -34,6 +34,8 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -65,12 +67,14 @@ import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
 import uk.ac.gda.exafs.ui.data.ScanObjectManager;
 import uk.ac.gda.richbeans.components.FieldComposite.NOTIFY_TYPE;
 import uk.ac.gda.richbeans.components.selector.VerticalListEditor;
+import uk.ac.gda.richbeans.components.wrappers.BooleanWrapper;
 import uk.ac.gda.richbeans.components.wrappers.ComboWrapper;
 import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
 import uk.ac.gda.richbeans.editors.DirtyContainer;
 import uk.ac.gda.richbeans.editors.RichBeanEditorPart;
 import uk.ac.gda.richbeans.event.ValueAdapter;
 import uk.ac.gda.richbeans.event.ValueEvent;
+import uk.ac.gda.richbeans.event.ValueListener;
 
 public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 
@@ -98,6 +102,8 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 	private StackLayout stackLayoutTemp;
 
 	private Composite blankTempComposite;
+
+	private BooleanWrapper useSampleWheel;
 
 	public I20SampleParametersUIEditor(String path, URL mappingURL, DirtyContainer dirtyContainer, Object editingBean) {
 		super(path, mappingURL, dirtyContainer, editingBean);
@@ -169,22 +175,34 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 			if (positions != null) {
 
 				final ExpandableComposite refWheelExpander = new ExpandableComposite(composite, ExpandableComposite.TWISTIE
-						| ExpandableComposite.COMPACT);
+						| ExpandableComposite.COMPACT | SWT.BORDER);
 				refWheelExpander.setText("Reference Sample Wheel");
 
-				final Composite wheelPos = new Composite(refWheelExpander, SWT.NONE);
-				wheelPos.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-				final GridLayout wheelPosLay = new GridLayout();
-				wheelPosLay.numColumns = 3;
-				wheelPos.setLayout(wheelPosLay);
+				final Composite refWheel = new Composite(refWheelExpander, SWT.NONE);
+				GridLayoutFactory.fillDefaults().numColumns(2).applyTo(refWheel);
+				GridDataFactory.swtDefaults().applyTo(refWheel);
+				
+				this.useSampleWheel = new BooleanWrapper(refWheel, SWT.NONE);
+				GridDataFactory.swtDefaults().span(2, 1).applyTo(useSampleWheel);
+				useSampleWheel.setText("Set reference sample");
+				useSampleWheel.setValue(true);
+				useSampleWheel.setToolTipText("Check the box to set the reference sample when running this experiment");
+				useSampleWheel.addValueListener(new ValueListener() {
+					
+					@Override
+					public void valueChangePerformed(ValueEvent e) {
+						Boolean boxTicked = (Boolean) e.getValue();
+						elementLabel.setEnabled(boxTicked);
+						sampleWheelPosition.setEnabled(boxTicked);
+					}
+					
+					@Override
+					public String getValueListenerName() {
+						return null;
+					}
+				});
 
-				final Composite left = new Composite(wheelPos, SWT.NONE);
-				left.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-				final GridLayout leftLay = new GridLayout();
-				leftLay.numColumns = 4;
-				left.setLayout(leftLay);
-
-				this.elementLabel = new Link(left, SWT.NONE);
+				this.elementLabel = new Link(refWheel, SWT.NONE);
 				elementLabel.setText("  <a>Position</a> ");
 				elementLabel.setToolTipText("Open the preferences to edit the sample elements.");
 				this.selectionListener = new SelectionAdapter() {
@@ -194,18 +212,22 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 					}
 				};
 				elementLabel.addSelectionListener(selectionListener);
+				elementLabel.setEnabled(false);
 
-				sampleWheelPosition = new ComboWrapper(left, SWT.BORDER);
-				// FIXME re-read the device to get live positions
+				sampleWheelPosition = new ComboWrapper(refWheel, SWT.BORDER);
 				sampleWheelPosition.setItems(positions);
 				sampleWheelPosition.setNotifyType(NOTIFY_TYPE.ALWAYS);
+				sampleWheelPosition.setEnabled(false);
 				
-				refWheelExpander.setClient(wheelPos);
+				refWheelExpander.setClient(refWheel);
 				refWheelExpander.setExpanded(false);
 				refWheelExpander.addExpansionListener(new ExpansionAdapter() {
 					@Override
 					public void expansionStateChanged(ExpansionEvent e) {
-						wheelPos.layout();
+						if(!e.getState()){
+							refWheelExpander.setExpanded(useSampleWheel.getValue());
+						}
+						refWheel.layout();
 						mainComp.layout();
 					}
 				});
@@ -216,7 +238,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 	private void createSampleEnvironmentGroup(final Composite composite) {
 		GridLayout gridLayout;
 		final ExpandableComposite sampleEnvExpander = new ExpandableComposite(composite, ExpandableComposite.TWISTIE
-				| ExpandableComposite.COMPACT);
+				| ExpandableComposite.COMPACT | SWT.BORDER);
 		sampleEnvExpander.setText("Sample Environment");
 
 		final Composite sampleEnvGroup = new Composite(sampleEnvExpander, SWT.NONE);
@@ -274,7 +296,15 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		sampleEnvExpander.addExpansionListener(new ExpansionAdapter() {
 			@Override
 			public void expansionStateChanged(ExpansionEvent e) {
+				if (!e.getState()) {
+					if (!cmbSampleEnv.getItem(cmbSampleEnv.getSelectionIndex())
+							.equals(I20SampleParameters.SAMPLE_ENV[0])) {
+						sampleEnvExpander.setExpanded(true);
+					}
+				}
+
 				sampleEnvExpander.layout();
+				sampleEnvGroup.layout();
 				mainComp.layout();
 			}
 		});
@@ -495,6 +525,10 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 
 	public ComboWrapper getSampleEnvironment() {
 		return cmbSampleEnv;
+	}
+
+	public BooleanWrapper getUseSampleWheel() {
+		return useSampleWheel;
 	}
 
 	public String _testGetElementName() {

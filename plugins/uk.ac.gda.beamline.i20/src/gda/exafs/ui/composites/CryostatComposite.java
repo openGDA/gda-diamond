@@ -18,12 +18,18 @@
 
 package gda.exafs.ui.composites;
 
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
@@ -31,22 +37,25 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 
 import uk.ac.gda.richbeans.components.FieldBeanComposite;
 import uk.ac.gda.richbeans.components.scalebox.NumberBox;
+import uk.ac.gda.richbeans.components.scalebox.RangeBox;
 import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
 import uk.ac.gda.richbeans.components.wrappers.ComboWrapper;
+import uk.ac.gda.richbeans.components.wrappers.RadioWrapper;
 import uk.ac.gda.richbeans.components.wrappers.SpinnerWrapper;
+import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
 import uk.ac.gda.richbeans.event.ValueAdapter;
 import uk.ac.gda.richbeans.event.ValueEvent;
 
 public class CryostatComposite extends FieldBeanComposite {
+	
+	public static final String[] LOOP_OPTION = new String[]{"Loop over sample, then temperature", "Loop over temperature, then sample"};
 
-	private ScaleBox finePosition;
-	private ScaleBox position;
-	private ScaleBox sampleNumber;
+	private TextWrapper sampleNumber;
 	private ComboWrapper sampleHolder;
 	private ComboWrapper profileType;
 	private ScaleBox time;
 	private SpinnerWrapper heaterRange;
-	private ScaleBox temperature;
+	private RangeBox temperature;
 	private ScaleBox p, i, d, ramp;
 	private StackLayout advStack;
 	private ScaleBox tolerance;
@@ -54,106 +63,261 @@ public class CryostatComposite extends FieldBeanComposite {
 	private Composite rampChoice, pidChoice, advChoice;
 	private ExpansionAdapter expansionListener;
 	private Label sampleNumberLabel;
+	private RadioWrapper loopChoice;
+	private Combo cmbSampleDetailsChoice;
+	private Composite positions;
 
-	@SuppressWarnings("unused")
+	private ScaleBox finePosition1;
+	private ScaleBox position1;
+	private TextWrapper description1;
+	private ScaleBox finePosition2;
+	private ScaleBox position2;
+	private TextWrapper description2;
+	private ScaleBox finePosition3;
+	private ScaleBox position3;
+	private TextWrapper description3;
+	private ScaleBox finePosition4;
+	private ScaleBox position4;
+	private TextWrapper description4;
+	private Composite[] positionComposites;
+	private StackLayout positionsStackLayout;
+	private Composite positionsStack;
+
 	public CryostatComposite(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new FillLayout(SWT.VERTICAL));
 
 		final Composite main = new Composite(this, SWT.NONE);
-		main.setLayout(new FillLayout());
+		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(main);
+		
+		final Composite options = new Composite(main, SWT.NONE);
+		options.setLayout(new FillLayout());
+		
+		loopChoice = new RadioWrapper(options,SWT.NONE, LOOP_OPTION);
+		loopChoice.setValue(LOOP_OPTION[0]);
 
-		final Composite left = new Composite(main, SWT.NONE);
+		createTemperatureComposite(main);
+
+		createSampleComposite(main);
+
+		this.layout();
+		
+	}
+
+	protected void createSampleComposite(final Composite main) {
+		final Group sampleComposite = new Group(main, SWT.BORDER);
+		sampleComposite.setText("Sample options");
+		GridDataFactory.fillDefaults().applyTo(sampleComposite);
+		GridLayoutFactory.fillDefaults().numColumns(3).applyTo(sampleComposite);
+
+		final Label sampleHolderLabel = new Label(sampleComposite, SWT.NONE);
+		sampleHolderLabel.setText("Type");
+		sampleHolder = new ComboWrapper(sampleComposite, SWT.READ_ONLY);
+		sampleHolder.select(0);
+		sampleHolder.setItems(new String[] { "4 Samples", "Liquid Cell" });
+		GridDataFactory.fillDefaults().applyTo(sampleHolder);
+		
+		positions = new Composite(sampleComposite, SWT.NONE);
+		GridDataFactory.fillDefaults().span(1,3).applyTo(positions);
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(positions);
+		
+		final Label lblSampleDetailsChoice = new Label(positions, SWT.NONE);
+		lblSampleDetailsChoice.setText("Details for sample:");
+		cmbSampleDetailsChoice = new Combo(positions, SWT.READ_ONLY);
+		GridDataFactory.fillDefaults().applyTo(cmbSampleDetailsChoice);
+		cmbSampleDetailsChoice.setItems(new String[] { "1","2","3","4" });
+		cmbSampleDetailsChoice.select(0);
+		cmbSampleDetailsChoice.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int index = cmbSampleDetailsChoice.getSelectionIndex();
+				positionsStackLayout.topControl = positionComposites[index];
+				positionComposites[index].layout();
+				positionsStack.layout(); 
+				positions.getParent().getParent().layout();
+				sampleComposite.layout();
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		});
+		
+		positionsStack = new Composite(positions, SWT.NONE);
+		GridDataFactory.fillDefaults().span(2, 1).applyTo(positionsStack);
+		positionsStackLayout = new  StackLayout();
+		positionsStack.setLayout(positionsStackLayout);
+		
+		positionComposites = new Composite[4];
+		
+		positionComposites[0] = new Composite(positionsStack, SWT.NONE);
+		GridDataFactory.swtDefaults().applyTo(positionComposites[0]);
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(positionComposites[0]);
+		positionsStackLayout.topControl = positionComposites[0];
+		final Label descLabel = new Label(positionComposites[0], SWT.NONE);
+		descLabel.setText("Description");
+		description1 = new TextWrapper(positionComposites[0], SWT.BORDER);
+		description1.setTextType(TextWrapper.TEXT_TYPE.FREE_TXT);
+		GridDataFactory.fillDefaults().applyTo(description1);
+		final Label positionLabel = new Label(positionComposites[0], SWT.NONE);
+		positionLabel.setText("Position");
+		position1 = new ScaleBox(positionComposites[0], SWT.NONE);
+		position1.setMinimum(-15);
+		position1.setMaximum(15);
+		position1.setUnit("mm");
+		GridDataFactory.fillDefaults().applyTo(position1);
+		final Label finePositionLabel = new Label(positionComposites[0], SWT.NONE);
+		finePositionLabel.setText("Fine Position");
+		finePosition1 = new ScaleBox(positionComposites[0], SWT.NONE);
+		finePosition1.setDecimalPlaces(4);
+		GridDataFactory.fillDefaults().applyTo(finePosition1);
+		finePosition1.setUnit("mm");
+		finePosition1.setMinimum(-1);
+		finePosition1.setMaximum(1);
+		positionComposites[0].layout();
+		
+		positionComposites[1] = new Composite(positionsStack, SWT.NONE);
+		GridDataFactory.swtDefaults().applyTo(positionComposites[1]);
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(positionComposites[1]);
+		final Label descLabel1 = new Label(positionComposites[1], SWT.NONE);
+		descLabel1.setText("Description");
+		description2 = new TextWrapper(positionComposites[1], SWT.BORDER);
+		description2.setTextType(TextWrapper.TEXT_TYPE.FREE_TXT);
+		GridDataFactory.fillDefaults().applyTo(description2);
+		final Label positionLabel1 = new Label(positionComposites[1], SWT.NONE);
+		positionLabel1.setText("Position");
+		position2 = new ScaleBox(positionComposites[1], SWT.NONE);
+		position2.setMinimum(-15);
+		position2.setMaximum(15);
+		position2.setUnit("mm");
+		GridDataFactory.fillDefaults().applyTo(position2);
+		final Label finePositionLabel1 = new Label(positionComposites[1], SWT.NONE);
+		finePositionLabel1.setText("Fine Position");
+		finePosition2 = new ScaleBox(positionComposites[1], SWT.NONE);
+		finePosition2.setDecimalPlaces(4);
+		GridDataFactory.fillDefaults().applyTo(finePosition2);
+		finePosition2.setUnit("mm");
+		finePosition2.setMinimum(-1);
+		finePosition2.setMaximum(1);
+		positionComposites[1].layout();
+		
+		positionComposites[2] = new Composite(positionsStack, SWT.NONE);
+		GridDataFactory.swtDefaults().applyTo(positionComposites[2]);
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(positionComposites[2]);
+		final Label descLabel2 = new Label(positionComposites[2], SWT.NONE);
+		descLabel2.setText("Description");
+		description3 = new TextWrapper(positionComposites[2], SWT.BORDER);
+		description3.setTextType(TextWrapper.TEXT_TYPE.FREE_TXT);
+		GridDataFactory.fillDefaults().applyTo(description3);
+		final Label positionLabel2 = new Label(positionComposites[2], SWT.NONE);
+		positionLabel2.setText("Position");
+		position3 = new ScaleBox(positionComposites[2], SWT.NONE);
+		position3.setMinimum(-15);
+		position3.setMaximum(15);
+		position3.setUnit("mm");
+		GridDataFactory.fillDefaults().applyTo(position3);
+		final Label finePositionLabel2 = new Label(positionComposites[2], SWT.NONE);
+		finePositionLabel2.setText("Fine Position");
+		finePosition3 = new ScaleBox(positionComposites[2], SWT.NONE);
+		finePosition3.setDecimalPlaces(4);
+		GridDataFactory.fillDefaults().applyTo(finePosition3);
+		finePosition3.setUnit("mm");
+		finePosition3.setMinimum(-1);
+		finePosition3.setMaximum(1);
+		positionComposites[2].layout();
+
+		positionComposites[3] = new Composite(positionsStack, SWT.NONE);
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(positionComposites[3]);
+		final Label descLabel3 = new Label(positionComposites[3], SWT.NONE);
+		descLabel3.setText("Description");
+		description4 = new TextWrapper(positionComposites[3], SWT.BORDER);
+		description4.setTextType(TextWrapper.TEXT_TYPE.FREE_TXT);
+		GridDataFactory.fillDefaults().applyTo(description4);
+		final Label positionLabel3 = new Label(positionComposites[3], SWT.NONE);
+		positionLabel3.setText("Position");
+		position4 = new ScaleBox(positionComposites[3], SWT.NONE);
+		position4.setMinimum(-15);
+		position4.setMaximum(15);
+		position4.setUnit("mm");
+		GridDataFactory.fillDefaults().applyTo(position4);
+		final Label finePositionLabel3 = new Label(positionComposites[3], SWT.NONE);
+		finePositionLabel3.setText("Fine Position");
+		finePosition4 = new ScaleBox(positionComposites[3], SWT.NONE);
+		finePosition4.setDecimalPlaces(4);
+		GridDataFactory.fillDefaults().applyTo(finePosition4);
+		finePosition4.setUnit("mm");
+		finePosition4.setMinimum(-1);
+		finePosition4.setMaximum(1);
+		positionComposites[3].layout();
+		
+		this.sampleNumberLabel = new Label(sampleComposite, SWT.NONE);
+		sampleNumberLabel.setText("Sample(s) to use:");
+		sampleNumber = new TextWrapper(sampleComposite, SWT.BORDER);
+		sampleNumber.setTextType(TextWrapper.TEXT_TYPE.FREE_TXT);
+		sampleNumber.setValue("1,2,3,4");
+		final GridData gd_temperature = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		sampleNumber.setLayoutData(gd_temperature);
+		sampleHolder.addValueListener(new ValueAdapter("sampleHolderListener") {
+			@Override
+			public void valueChangePerformed(ValueEvent e) {
+				updateSampleRange();
+				sampleComposite.layout();
+			}
+		});
+		sampleNumberLabel.setVisible(true);
+		sampleNumber.setVisible(true);
+		
+		sampleComposite.getParent().layout();
+	}
+
+	protected void createTemperatureComposite(final Composite main) {
+		final Group tempComposite = new Group(main, SWT.BORDER);
+		tempComposite.setText("Cryostat settings");
+		GridDataFactory.fillDefaults().applyTo(tempComposite);
 		final GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 2;
-		left.setLayout(gridLayout);
+		gridLayout.numColumns = 3;
+		tempComposite.setLayout(gridLayout);
 
-		final Label temperatureLabel = new Label(left, SWT.NONE);
-		temperatureLabel.setText("Set Point");
-
-		temperature = new ScaleBox(left, SWT.NONE);
+		final Label temperatureLabel = new Label(tempComposite, SWT.NONE);
+		temperatureLabel.setText("Temperature");
+		temperature = new RangeBox(tempComposite, SWT.NONE);
 		temperature.setMaximum(300);
 		temperature.setUnit("K");
 		final GridData gd_temperature = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		temperature.setLayoutData(gd_temperature);
+		
+		this.advancedExpandableComposite = new ExpandableComposite(tempComposite, SWT.NONE);
+		advancedExpandableComposite.setText("Advanced");
+		GridDataFactory.fillDefaults().span(1,4).applyTo(advancedExpandableComposite);
+		
+		final Composite advanced = new Composite(advancedExpandableComposite, SWT.NONE);
+		GridDataFactory.fillDefaults().applyTo(advanced);
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(advanced);
+		
+		createAdvancedComposite(advanced);
 
-		final Label toleranceLabel = new Label(left, SWT.NONE);
+		final Label toleranceLabel = new Label(tempComposite, SWT.NONE);
 		toleranceLabel.setText("Tolerance");
-
-		tolerance = new ScaleBox(left, SWT.NONE);
+		tolerance = new ScaleBox(tempComposite, SWT.NONE);
 		final GridData gd_tolerance = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		tolerance.setLayoutData(gd_tolerance);
 		tolerance.setMaximum(5);
 
-		final Label timeLabel = new Label(left, SWT.NONE);
+		final Label timeLabel = new Label(tempComposite, SWT.NONE);
 		timeLabel.setText("Wait Time");
-
-		time = new ScaleBox(left, SWT.NONE);
+		time = new ScaleBox(tempComposite, SWT.NONE);
 		final GridData gd_time = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		time.setLayoutData(gd_time);
 		time.setUnit("s");
 		time.setMaximum(400.0);
 
-		new Label(left, SWT.NONE);
-		new Label(left, SWT.NONE);
+//		return gd_temperature;
+	}
 
-		final Label sampleHolderLabel = new Label(left, SWT.NONE);
-		sampleHolderLabel.setText("Sample Holder");
-
-		sampleHolder = new ComboWrapper(left, SWT.READ_ONLY);
-		sampleHolder.select(0);
-		sampleHolder.setItems(new String[] { "2 Samples", "3 Samples", "4 Samples", "Liquid Cell" });
-		final GridData gd_sampleHolder = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		sampleHolder.setLayoutData(gd_sampleHolder);
-
-		this.sampleNumberLabel = new Label(left, SWT.NONE);
-		sampleNumberLabel.setText("Sample Number");
-
-		sampleNumber = new ScaleBox(left, SWT.NONE);
-		sampleNumber.setMinimum(1);
-		sampleNumber.setMaximum(2);
-		sampleNumber.setIntegerBox(true);
-		sampleNumber.setLayoutData(gd_temperature);
-
-		sampleHolder.addValueListener(new ValueAdapter("sampleHolderListener") {
-			@Override
-			public void valueChangePerformed(ValueEvent e) {
-				updateSampleRange();
-			}
-		});
-
-		final Label positionLabel = new Label(left, SWT.NONE);
-		positionLabel.setText("Position");
-
-		position = new ScaleBox(left, SWT.NONE);
-		position.setMinimum(-15);
-		position.setMaximum(15);
-		position.setUnit("mm");
-		final GridData gd_position = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		position.setLayoutData(gd_position);
-
-		final Label finePositionLabel = new Label(left, SWT.NONE);
-		finePositionLabel.setText("Fine Position");
-
-		finePosition = new ScaleBox(left, SWT.NONE);
-		finePosition.setDecimalPlaces(4);
-		final GridData gd_finePosition = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		finePosition.setLayoutData(gd_finePosition);
-		finePosition.setUnit("mm");
-		finePosition.setMinimum(-1);
-		finePosition.setMaximum(1);
-
-		final Composite right = new Composite(main, SWT.NONE);
-		right.setLayout(new FillLayout());
-
-		this.advancedExpandableComposite = new ExpandableComposite(right, SWT.NONE);
-		advancedExpandableComposite.setText("Advanced");
-
-		final Composite advanced = new Composite(advancedExpandableComposite, SWT.NONE);
-		final GridLayout gridLayout_2 = new GridLayout();
-		gridLayout_2.numColumns = 2;
-		advanced.setLayout(gridLayout_2);
-
+	@SuppressWarnings("unused")
+	protected void createAdvancedComposite(final Composite advanced) {
 		final Label temperatureChangeProfileLabel = new Label(advanced, SWT.NONE);
 		temperatureChangeProfileLabel.setText("Temperature Adjust");
 
@@ -170,7 +334,7 @@ public class CryostatComposite extends FieldBeanComposite {
 		advChoice.setLayout(advStack);
 
 		this.pidChoice = new Composite(advChoice, SWT.NONE);
-		pidChoice.setLayout(gridLayout_2);
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(pidChoice);
 		advStack.topControl = pidChoice;
 
 		final Label pLabel = new Label(pidChoice, SWT.NONE);
@@ -192,7 +356,7 @@ public class CryostatComposite extends FieldBeanComposite {
 		d.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		this.rampChoice = new Composite(advChoice, SWT.NONE);
-		rampChoice.setLayout(gridLayout_2);
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(rampChoice);
 
 		final Label rampLabel = new Label(rampChoice, SWT.NONE);
 		rampLabel.setText("Ramp");
@@ -217,7 +381,7 @@ public class CryostatComposite extends FieldBeanComposite {
 			@Override
 			public void expansionStateChanged(ExpansionEvent e) {
 				updatePidLayout();
-				getParent().getParent().getParent().layout();
+				getParent().getParent().getParent().getParent().getParent().layout();
 			}
 		};
 		advancedExpandableComposite.addExpansionListener(expansionListener);
@@ -236,14 +400,14 @@ public class CryostatComposite extends FieldBeanComposite {
 
 	protected void updateSampleRange() {
 		final int index = sampleHolder.getSelectionIndex();
-		if (index < 3) {
-			sampleNumber.setMaximum(index + 2);
+		if (index == 0) {
 			sampleNumberLabel.setVisible(true);
 			sampleNumber.setVisible(true);
+			positions.setVisible(true);
 		} else {
-			sampleNumber.setValue(1);
 			sampleNumberLabel.setVisible(false);
 			sampleNumber.setVisible(false);
+			positions.setVisible(false);
 		}
 	}
 
@@ -304,16 +468,56 @@ public class CryostatComposite extends FieldBeanComposite {
 		return sampleHolder;
 	}
 
-	public ScaleBox getSampleNumber() {
+	public TextWrapper getSampleNumbers() {
 		return sampleNumber;
 	}
 
-	public ScaleBox getPosition() {
-		return position;
+	public ScaleBox getFinePosition1() {
+		return finePosition1;
 	}
 
-	public ScaleBox getFinePosition() {
-		return finePosition;
+	public ScaleBox getPosition1() {
+		return position1;
+	}
+
+	public TextWrapper getSampleDescription1() {
+		return description1;
+	}
+
+	public ScaleBox getFinePosition2() {
+		return finePosition2;
+	}
+
+	public ScaleBox getPosition2() {
+		return position2;
+	}
+
+	public TextWrapper getSampleDescription2() {
+		return description2;
+	}
+
+	public ScaleBox getFinePosition3() {
+		return finePosition3;
+	}
+
+	public ScaleBox getPosition3() {
+		return position3;
+	}
+
+	public TextWrapper getSampleDescription3() {
+		return description3;
+	}
+
+	public ScaleBox getFinePosition4() {
+		return finePosition4;
+	}
+
+	public ScaleBox getPosition4() {
+		return position4;
+	}
+
+	public TextWrapper getSampleDescription4() {
+		return description4;
 	}
 
 	/**

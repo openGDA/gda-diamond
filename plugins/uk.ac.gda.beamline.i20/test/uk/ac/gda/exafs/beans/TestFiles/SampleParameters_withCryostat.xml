@@ -14,9 +14,10 @@
 		<p>1</p>
 		<i>1</i>
 		<d>1</d>
-		<sampleHolder>2 Samples</sampleHolder>
-		<sampleNumber>2</sampleNumber>
-		<position>1.0</position>
-		<finePosition>0.1</finePosition>
+		<sampleHolder>4 Samples</sampleHolder>
+		<sampleNumbers>1</sampleNumbers>
+		<position1>1.0</position1>
+		<finePosition1>0.1</finePosition1>
+		<sampleDescription1>My First Sample</sampleDescription1>
 	</cryostat>
 </I20SampleParameters>

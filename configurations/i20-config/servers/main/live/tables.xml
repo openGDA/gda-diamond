@@ -106,7 +106,13 @@
 	</bean>
 
 	<bean id="filterwheel" class="gda.device.enumpositioner.EpicsEditablePositionerCallback">
-		<property name="recordName" value="BL20I-MO-TABLE-03:MP" />
+		<property name="recordName" value="BL20I-OP-ATTN-06:MP" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/filterwheel" />
+		<property name="service" ref="filterwheel" />
+		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
 	</bean>
 
 </beans>

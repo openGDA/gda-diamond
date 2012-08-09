@@ -14,14 +14,18 @@ from gda.device.scannable import BeamMonitorScannableWithResume
 from gda.device.scannable import MonoCoolScannable
 from gda.factory import Finder
 from gda.configuration.properties import LocalProperties
+from gda.jython.scriptcontroller.logging import LoggingScriptController
+from gda.jython.scriptcontroller.logging import XasLoggingMessage
+
 
 original_header = Finder.getInstance().find("datawriterconfig").clone().getHeader()[:]
 
 detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, ionc_stanfords, ionc_gas_injectors)
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer()
-xas = XasScan(detectorPreparer, samplePreparer, outputPreparer)
-qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, qexafs_energy, qexafs_counterTimer01)
+loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
+xas = XasScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
+qexafs = QexafsScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer, qexafs_energy, qexafs_counterTimer01)
 xanes = xas
 
 alias("xas")
