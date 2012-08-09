@@ -51,7 +51,7 @@
 							<property name="type" value="CONFIG" />
 						</bean>
 						<bean class="gda.jython.ScriptProject">
-							<property name="path" value="${gda.root}/uk.ac.gda.core/scripts" />
+							<property name="path" value="../../../trunk_git/gda-core.git//uk.ac.gda.core/scripts" />
 							<property name="name" value="Scripts: Core" />
 							<property name="type" value="CORE" />
 						</bean>
