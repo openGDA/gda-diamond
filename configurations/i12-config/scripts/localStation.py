@@ -269,6 +269,7 @@ eurotherm1 = DisplayEpicsPVClass('eurotherm1', 'BL12I-EA-FURN-01:PV:RBV', 'c', '
 eurotherm2 = DisplayEpicsPVClass('eurotherm2', 'BL12I-EA-FURN-02:PV:RBV', 'c', '%.3f')
 
 from tomo import tomographyScani13
+from tomo import tomoAlignment
 #print
 #print "setup tomographyScan:"
 #from tomo import tomographyScan
