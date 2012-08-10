@@ -6,13 +6,30 @@
     <sampleWheelPosition>1</sampleWheelPosition>
     <sampleEnvironment>None</sampleEnvironment>
     <roomTemperature>
-        <x>0.0</x>
-        <y>0.0</y>
-        <z>0.0</z>
-        <rotation>0.0</rotation>
-        <fineRotation>0.0</fineRotation>
-        <roll>0.0</roll>
-        <yaw>0.0</yaw>
+        <sample1_x>0.0</sample1_x>
+        <sample1_y>0.0</sample1_y>
+        <sample1_z>0.0</sample1_z>
+        <sample1_rotation>0.0</sample1_rotation>
+        <sample1_roll>0.0</sample1_roll>
+        <sample1_pitch>0.0</sample1_pitch>
+        <sample2_x>0.0</sample2_x>
+        <sample2_y>0.0</sample2_y>
+        <sample2_z>0.0</sample2_z>
+        <sample2_rotation>0.0</sample2_rotation>
+        <sample2_roll>0.0</sample2_roll>
+        <sample2_pitch>0.0</sample2_pitch>
+        <sample3_x>0.0</sample3_x>
+        <sample3_y>0.0</sample3_y>
+        <sample3_z>0.0</sample3_z>
+        <sample3_rotation>0.0</sample3_rotation>
+        <sample3_roll>0.0</sample3_roll>
+        <sample3_pitch>0.0</sample3_pitch>
+        <sample4_x>0.0</sample4_x>
+        <sample4_y>0.0</sample4_y>
+        <sample4_z>0.0</sample4_z>
+        <sample4_rotation>0.0</sample4_rotation>
+        <sample4_roll>0.0</sample4_roll>
+        <sample4_pitch>0.0</sample4_pitch>
     </roomTemperature>
     <cryostat>
         <temperature>80.0</temperature>
@@ -23,7 +40,7 @@
         <p>1.0</p>
         <i>2.0</i>
         <d>3.0</d>
-        <sampleHolder>2 Samples</sampleHolder>
+        <sampleHolder>4 Samples</sampleHolder>
         <sampleNumber>2</sampleNumber>
         <position>1.0</position>
         <finePosition>0.1</finePosition>
