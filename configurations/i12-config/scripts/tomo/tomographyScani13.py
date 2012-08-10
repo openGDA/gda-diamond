@@ -2,33 +2,19 @@
 Performs software triggered tomography
 """
 
-from time import sleep
-from bisect import bisect_left
-from bisect import bisect_right
 #from pcoDetectorWrapper import PCODetectorWrapper
 from gda.jython.commands.ScannableCommands import inc, scan, pos, createConcurrentScan
 from gda.jython import InterfaceProvider
 
 import sys
-import time
-import shutil
-import gda
-import math
 from gdascripts.parameters import beamline_parameters
 from gdascripts.messages import handle_messages
-from gda.device.scannable import ScannableBase
-from gda.device.detector import DetectorBase
 from gda.scan import ScanPositionProvider
 from gda.device.scannable import ScannableBase, ScannableUtils
 from gda.device.scannable.scannablegroup import ScannableGroup
 
 from fast_scan import FastScan
 fastscan = FastScan("fastscan");
-
-from gda.factory import Finder
-from gda.commandqueue import JythonCommandCommandProvider
-from gdascripts.scan.gdascans import Scan
-
 
 class EnumPositionerDelegateScannable(ScannableBase):
     """
@@ -153,18 +139,11 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1., start=0., stop=
         tomography_beammonitor = jns.tomography_beammonitor
         if tomography_beammonitor is None:
             raise "tomography_beammonitor is not defined in Jython namespace"
-        print "after beam monitor"
         index = SimpleScannable()
         index.setCurrentPosition(0.0)
         index.setInputNames(["imageNumber"])
         index.setName("imageNumber")
         index.configure()
-        print "Before tomoScanDevice"
-        print "tomography_theta:" + `tomography_theta`
-        print "tomography_shutter:" + `tomography_shutter`
-        print "tomography_translation:" + `tomography_translation`
-        print "tomography_optimizer:" + `tomography_optimizer`
-        print "index" + `index`
         
         image_key=SimpleScannable()
         image_key.setCurrentPosition(0.0)
@@ -258,14 +237,9 @@ def __test1_tomoScan():
              inBeamPosition=0., outOfBeamPosition=10., exposureTime=1.)
     print `jns`
     lsdp = jns.lastScanDataPoint()
-    print 'type(lsdp)=', type(lsdp)
-    #print "lsdp1:"+`lsdp`
-    if type(lsdp) != 'NoneType':
-        positions = lsdp.getPositionsAsDoubles()
-        if positions[0] != 180. or positions[4] != 54.:
-            print "Error - points are not correct :" + `positions`
-    else:
-        print 'whatever'
+    positions = lsdp.getPositionsAsDoubles()
+    if positions[0] != 180. or positions[4] != 54.:
+        print "Error - points are not correct :" + `positions`
     return sc
 
 def __test2_tomoScan():
