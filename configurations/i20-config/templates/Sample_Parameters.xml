@@ -6,6 +6,7 @@
     <sampleWheelPosition>1</sampleWheelPosition>
     <sampleEnvironment>None</sampleEnvironment>
     <roomTemperature>
+    	<numberOfSamples>1</numberOfSamples>
         <sample1_x>0.0</sample1_x>
         <sample1_y>0.0</sample1_y>
         <sample1_z>0.0</sample1_z>

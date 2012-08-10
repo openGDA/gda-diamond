@@ -172,6 +172,7 @@ public class I20SampleParametersTest {
 		expectedValue.setSampleWheelPosition("Copper");
 		expectedValue.setSampleEnvironment(I20SampleParameters.SAMPLE_ENV[1]);
 		SampleStageParameters ssps = new SampleStageParameters();
+		ssps.setNumberOfSamples(1);
 		ssps.setSample1_x(3.4);
 		ssps.setSample1_y(6.8);
 		ssps.setSample1_z(2.5);
