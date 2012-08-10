@@ -12,5 +12,6 @@
 	<bean id="tomoConfigurationViewHolder"
 		class="uk.ac.gda.client.tomo.configuration.view.factory.TomoConfigurationViewFactoryFactory">
 		<property name="viewPartName" value="Configuration" />
+		<property name="tomoConfigResourceHandler" ref="saveHandler"/>
 	</bean>
 </beans>

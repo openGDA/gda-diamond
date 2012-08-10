@@ -273,6 +273,7 @@ from tomo import tomographyScani13
 #print "setup tomographyScan:"
 #from tomo import tomographyScan
 #run("tomo/tomographyScan.py")
+from tomo.tomographyScani13 import tomoScan
 
 print 
 print "==================================================="

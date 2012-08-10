@@ -1,1 +1,6 @@
-GDA_StartClient
+#!/bin/bash
+
+. /dls_sw/i12/software/gda/builder/set_tools.sh
+
+JAVA_OPTS="-Xms128m -Xmx1024m -XX:MaxPermSize=256m" `dirname $0`/gda rcpclient --rcp_image=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/client/gda  --restart  $@ #--debug --debugport=8003  --suspend=y
+#/$SOFTWAREFOLDER/$BEAMLINE/software/gda/client/gda -vmargs 

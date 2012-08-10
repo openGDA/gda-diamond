@@ -31,6 +31,12 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 	
+	<bean id="ss1_y1" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/gda/ss1_y1" />
+		<property name="serviceInterface" value="gda.device.IScannableMotor" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	
 	<bean id="ss1_y3" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}/gda/ss1_y3" />
 		<property name="serviceInterface" value="gda.device.IScannableMotor" />
