@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="dac30" class="gda.device.scannable.PVScannable">
+		<property name="deviceName" value="dac3.0"/>
+	</bean>
+	<bean id="dac31" class="gda.device.scannable.PVScannable">
+		<property name="deviceName" value="dac3.1"/>
+	</bean>
+	<bean id="dac32" class="gda.device.scannable.PVScannable">
+		<property name="deviceName" value="dac3.2"/>
+	</bean>
+	<bean id="dac33" class="gda.device.scannable.PVScannable">
+		<property name="deviceName" value="dac3.3"/>
+	</bean>
+	<bean id="dac34" class="gda.device.scannable.PVScannable">
+		<property name="deviceName" value="dac3.4"/>
+	</bean>
+	<bean id="dac35" class="gda.device.scannable.PVScannable">
+		<property name="deviceName" value="dac3.5"/>
+	</bean>
+	<bean id="dac36" class="gda.device.scannable.PVScannable">
+		<property name="deviceName" value="dac3.6"/>
+	</bean>
+	<bean id="dac37" class="gda.device.scannable.PVScannable">
+		<property name="deviceName" value="dac3.7"/>
+	</bean>
+
+</beans>

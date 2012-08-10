@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="adc30" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="adc3.0"/>
+	</bean>
+	<bean id="adc31" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="adc3.1"/>
+	</bean>
+	<bean id="adc32" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="adc3.2"/>
+	</bean>
+	<bean id="adc33" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="adc3.3"/>
+	</bean>
+	<bean id="adc34" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="adc3.4"/>
+	</bean>
+	<bean id="adc35" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="adc3.5"/>
+	</bean>
+	<bean id="adc36" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="adc3.6"/>
+	</bean>
+	<bean id="adc37" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="adc3.7"/>
+	</bean>
+
+</beans>

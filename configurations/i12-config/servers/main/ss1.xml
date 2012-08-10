@@ -156,6 +156,11 @@
 		<property name="serviceInterface" value="gda.device.IScannableMotor" />
 	</bean>
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ss1_y1" />
+		<property name="service" ref="ss1_y1" />
+		<property name="serviceInterface" value="gda.device.IScannableMotor" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/ss1_x" />
 		<property name="service" ref="ss1_x" />
 		<property name="serviceInterface" value="gda.device.IScannableMotor" />
