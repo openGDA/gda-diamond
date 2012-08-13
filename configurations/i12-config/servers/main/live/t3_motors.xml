@@ -25,13 +25,13 @@
 		<property name="deviceName" value="t3.m3z" />
 	</bean>
 	<bean id="t3m3_rx_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t3.m3ry" />
+		<property name="deviceName" value="t3.m3rx" />
 	</bean>
 	<bean id="t3m3_ry_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t3.m3rz" />
+		<property name="deviceName" value="t3.m3ry" />
 	</bean>
 	<bean id="t3m3_rz_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t3.m3rx" />
+		<property name="deviceName" value="t3.m3rz" />
 	</bean>
 	<bean id="t3m4_x_motor" class="gda.spring.EpicsMotorFactoryBean">
 		<property name="deviceName" value="t3.m4x" />
