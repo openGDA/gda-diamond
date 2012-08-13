@@ -19,7 +19,7 @@
 	<import resource="I0eh2.xml"/>	
 	<import resource="mcs1.xml"/>	
 	<import resource="monitors.xml"/>	
-	<!--<import resource="mono.xml"/>-->
+	<import resource="mono.xml"/>
 	<import resource="mono2.xml"/>
 	<import resource="pco2.xml"/>	
 	<import resource="pixium2.xml"/>	

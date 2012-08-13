@@ -189,6 +189,11 @@ print "--------------------------------------------------"
 from fast_scan import FastScan
 fastscan = FastScan("fastscan");
 
+print "setup 'sleeperWhileScan' object"
+print "--------------------------------------------------"
+from sleeperWhileScan import SleeperWhileScan
+sleeper = SleeperWhileScan("sleeper");
+
 #from tomo_scan import basicTomoScan #@UnusedImport
 
 print "Defines 'timer':"
@@ -274,6 +279,7 @@ from tomo import tomoAlignment
 #print "setup tomographyScan:"
 #from tomo import tomographyScan
 #run("tomo/tomographyScan.py")
+from tomo.tomographyScani13 import tomoScan
 
 
 print 

@@ -16,6 +16,7 @@ from gda.device.scannable.scannablegroup import ScannableGroup
 from fast_scan import FastScan
 fastscan = FastScan("fastscan");
 
+
 class EnumPositionerDelegateScannable(ScannableBase):
     """
     Translate positions 0 and 1 to Close and Open
