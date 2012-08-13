@@ -1,5 +1,5 @@
 # ignore a jythonCache directory anywhere in the project
 jythonCache/
-b18/var/XasLoggingMessage/*
+var/XasLoggingMessage/*
 *.class
 
