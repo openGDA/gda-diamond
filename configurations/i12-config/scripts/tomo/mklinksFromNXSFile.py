@@ -7,14 +7,12 @@ import shutil
 import subprocess
 import sys
 import unittest
+import numpy as np
 
 import h5py
 import string
 from mklinks import makeLinks, makeLinksToOriginalFiles
 
-
-from recon_arrayxml import *
-import recon_arrayxml
 
 from sino_listener import *
 import sino_listener
@@ -33,105 +31,6 @@ def cd(path):
 		os.chdir(saved_dir)
 
 
-def dbgPrintNXSContent(nxsFileHandle, map01Def_shutter, map01Def_stage, dfpDef, nEachEnd=5, verbose=True):
-	
-	print "\n>Entering dbgPrintNXSContent"
-	#hard-coded for now NeXus file paths to the bits of data relevant for tomography reconstruction, e.g. shutter and stage physical positions
-	ss1_x=nxsFileHandle['/entry1/instrument/tomoScanDevice/ss1_X']
-	ss1_rot=nxsFileHandle['/entry1/instrument/tomoScanDevice/ss1_rot']
-	tomography_shutter=nxsFileHandle['/entry1/instrument/tomoScanDevice/tomography_shutter']
-	tif=nxsFileHandle['/entry1/instrument/pco1_hw_tif/image_data']
-	
-	len_ss1_x=len(ss1_x)
-	len_ss1_rot=len(ss1_rot)
-	len_tomography_shutter=len(tomography_shutter)
-	len_tif=len(tif)
-	
-	if verbose:
-		print "len_ss1_x=%s"%len_ss1_x
-		print "len_ss1_rot=%s"%len_ss1_rot
-		print "len_tomography_shutter=%s"%len_tomography_shutter
-		print "len_tif=%s"%len_tif
-	
-	n=max(nEachEnd, 0)
-	n+=n
-	n=min(n, len_tif)
-	n/=2
-	
-	print "n=%s"%n
-	
-	image_key={}
-	image_key_tpl=()
-	
-	# lists for the indices of DARK, FLAT and PROJ images, respectively
-	dark_idx=[]
-	flat_idx=[]
-	proj_idx=[]
-	unclassified_idx=[]
-	
-	print "\n"
-	print "\nHEAD of NeXus file content:"
-	print "%s\t%s\t%s\t%s\t%s"%("#", "ss1_x", "ss1_rot", "tomography_shutter", "imagefile")
-#	for i in range(len(mr)):
-	for i in range(0, n):
-		#print "i=%d"%i
-		print "%d\t%g\t%g\t%d\t%s"%(i, ss1_x[i], ss1_rot[i], tomography_shutter[i], tif[i])
-#		print '{0:d} {1:g} {2:g} {3:g}'.format(i, ss1_x[i], ss1_rot[i], tomography_shutter[i])
-		shutter_key=mapPhysValTo01(tomography_shutter[i], map01Def_shutter)
-		print "shutter_key=%d"%shutter_key
-		stage_key=mapPhysValTo01(ss1_x[i], map01Def_stage)
-		print "stage_key=%d"%stage_key
-		image_key=genImageKey(inShutterPos=tomography_shutter[i], map01Def_shutter=map01Def_shutter, inStagePos=ss1_x[i], map01Def_stage=map01Def_stage, dfpDef=dfpDef) 
-		print image_key
-		image_key_tpl=image_key['dark'], image_key['flat'], image_key['proj'] 
-		print image_key_tpl
-		if image_key['dark']==1 and image_key['flat']==0 and image_key['proj']==0:
-			dark_idx.append(i)
-		elif image_key['dark']==0 and image_key['flat']==1 and image_key['proj']==0:
-			flat_idx.append(i)
-		elif image_key['dark']==0 and image_key['flat']==0 and image_key['proj']==1:
-			proj_idx.append(i)
-		else:
-			unclassified_idx.append(i)
-		print "\n"
-
-	print "\nTAIL of NeXus file content:"
-	print "%s\t%s\t%s\t%s\t%s"%("#", "ss1_x", "ss1_rot", "tomography_shutter", "imagefile")
-	for i in range(len_ss1_x-n, len_ss1_x):
-		print "i=%d"%i
-		print "%d\t%g\t%g\t%d\t%s"%(i, ss1_x[i], ss1_rot[i], tomography_shutter[i], tif[i])
-#		print '{0:d} {1:g} {2:g} {3:g}'.format(i, ss1_x[i], ss1_rot[i], tomography_shutter[i])
-		shutter_key=mapPhysValTo01(tomography_shutter[i], map01Def_shutter)
-		print "shutter_key=%d"%shutter_key
-		stage_key=mapPhysValTo01(ss1_x[i], map01Def_stage)
-		print "stage_key=%d"%stage_key
-		image_key=genImageKey(inShutterPos=tomography_shutter[i], map01Def_shutter=map01Def_shutter, inStagePos=ss1_x[i], map01Def_stage=map01Def_stage, dfpDef=dfpDef) 
-		print image_key
-		image_key_tpl=image_key['dark'], image_key['flat'], image_key['proj'] 
-		print image_key_tpl
-		if image_key['dark']==1 and image_key['flat']==0 and image_key['proj']==0:
-			dark_idx.append(i)
-		elif image_key['dark']==0 and image_key['flat']==1 and image_key['proj']==0:
-			flat_idx.append(i)
-		elif image_key['dark']==0 and image_key['flat']==0 and image_key['proj']==1:
-			proj_idx.append(i)
-		else:
-			unclassified_idx.append(i)
-		print "\n"
-
-	if verbose:
-		print "List of DARK indices:"
-		print dark_idx
-		print "List of FLAT indices:"
-		print flat_idx
-		print "List of PROJ indices:"
-		print proj_idx
-		print "List of UNCLASSIFIED indices:"
-		print unclassified_idx
-	
-	print "Leaving dbgPrintNXSContent\n"
-
-
 def genAncestorPath(path, ngenerationDown):
 	outpath=path
 	gen_loc=max(ngenerationDown, 0)
@@ -142,23 +41,23 @@ def genAncestorPath(path, ngenerationDown):
 	return outpath
 
 
-#def splitPathIntoConstituents(inPath, inConstituents=['dls', 'beamlineID', 'data', 'yearID', 'visitID', 'scanID', 'detectorID', 'filename'], fallback='unknown_'):
-#	len_inDir=len(inDir)
-#	#e.g. /dls/i13/data/2012/mt5811-1/564/pco1/pco1564-00002.tif
-#	inPath_split=string.split(inPath, "/")
-#	#Note that src_proj_split contains some empty strings, i.e.''
-#	outDct={}
-#	nmismatches=0
-#	inDir_idx=0
-#	for i in len(inPath_split):
-#		if inPath_split[i]!='':
-#			if inDir_idx<len_inDir:
-#				outDct[ inDir[inDir_idx] ]=inPath_split[i]
-#			else:
-#				outDct[ fallback+`i` ]=inPath_split[i]
-#				nmismatches+=1
-#			inDir_idx+=1
-#	return outDct, nmismatches
+def splitPathIntoDirs(inPath, inDir=['dls', 'beamlineID', 'data', 'yearID', 'visitID', 'scanID', 'detectorID', 'filename'], fallback='unknown_'):
+	len_inDir=len(inDir)
+	#e.g. /dls/i13/data/2012/mt5811-1/564/pco1/pco1564-00002.tif
+	inPath_split=string.split(inPath, "/")
+	#Note that src_proj_split contains some empty strings, i.e.''
+	outDct={}
+	nmismatches=0
+	inDir_idx=0
+	for i in len(inPath_split):
+		if inPath_split[i]!='':
+			if inDir_idx<len_inDir:
+				outDct[ inDir[inDir_idx] ]=inPath_split[i]
+			else:
+				outDct[ fallback+`i` ]=inPath_split[i]
+				nmismatches+=1
+			inDir_idx+=1
+	return outDct, nmismatches
 
 def removeTrailingSlash(path):
 # remove trailing slash if it exists
@@ -275,7 +174,7 @@ def createDirs(refFilename, outdir, mandatorydir="processing", verbose=False):
 		raise Exception("The processing dir does NOT exist in :"+`head`)
 	
 	scanNumber_str=os.path.basename(genAncestorPath(refFilename, 2))
-	scanNumber_int=int(scanNumber_str)
+	#scanNumber_int=int(scanNumber_str)
 
 
 	#the paths below are relative to the processing directory
@@ -359,7 +258,8 @@ def populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, tif_lst, da
 	makeLinks_arg['beamlineID']=src_proj_split[2]
 	makeLinks_arg['year']=int(src_proj_split[4])
 	makeLinks_arg['visit']=src_proj_split[5]
-	makeLinks_arg['scanNumber']=int(src_proj_split[6])
+	#makeLinks_arg['scanNumber']=int(src_proj_split[6])
+	makeLinks_arg['scanNumber']=src_proj_split[6]
 	makeLinks_arg['detector']=src_proj_split[7]
 	
 	makeLinks_arg['firstImage']=proj_idx[0]
@@ -387,7 +287,8 @@ def populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, tif_lst, da
 #						, lastImage=makeLinks_arg['lastImage']\
 #						, outdir=(head+os.sep+proj_dir))
 
-	filenameFmt=detectorName+scanNumber_str+"-"+"%05d.tif"
+	#filenameFmt=detectorName+scanNumber_str+"-"+"%05d.tif"
+	filenameFmt="p_%05d.tif"
 	makeLinksToOriginalFiles(\
 							proj_idx_decimated\
 							, indir=genAncestorPath(refFilename, 1)\
@@ -403,12 +304,12 @@ def createSoftLink(src, dst):
 	if not os.path.exists(src):
 		raise Exception("File cannot be linked to as it does not exist:"+`src`)
 	if os.path.exists(dst):
-			if os.path.realpath(src)!=os.path.realpath(dst):
-				msg="Soft link already exists:"+`src`+" but not to the required destination "+`dst`
-				raise Exception(msg)		
-	else:
-		cmd="ln -s "+src+" "+dst
-		subprocess.call(cmd, shell=True)
+		msg="Fn createSoftLink: Soft link already exists:"+`dst`
+		#print msg
+		raise Exception("Fn createSoftLink: Soft link already exists:"+`dst`)
+	cmd="ln -s "+src+" "+dst
+	#print cmd
+	subprocess.call(cmd, shell=True)
 
 
 def launchSinoListener(inDir, inFilenameFmt, nProjs, outDir, verbose=False, testing=True):
@@ -424,25 +325,9 @@ def launchSinoListener(inDir, inFilenameFmt, nProjs, outDir, verbose=False, test
 		args+=[ "-t"]
 	
 	print args
-	success=sino_listener.main(args)
+	sino_listener.main(args)
 	#sino_listener.main(["sino_listener.py", "-i", "/home/vxu94780/processing/rawdata/564/projections", "-I", "pco1564-%05d.tif", "-p", "1200", "-t"])
-	return success
 
-def launchReconArray(outDir, ctrCoord, verbose=True, testing=False):
-	print launchReconArray.__name__
-	args=["xrecon_arrayxml.py"]
-	#args+=[ "-h"]
-	#args+=[ "-I", "settings.xml"]
-	args+=[ "-o", outDir]
-	args+=[ "-C", str(ctrCoord)]
-	if verbose:
-		args+=[ "-v"]
-	if testing:
-		args+=[ "-t"]
-	
-	print args
-	success=xrecon_arrayxml.main(args)
-	return success
 
 def makeLinksForNXSFile(\
 					filename\
@@ -451,9 +336,9 @@ def makeLinksForNXSFile(\
 					, stageInBeamPhys=0.0\
 					, stageOutOfBeamPhys=6.0\
 					, shutterNXSPath='/entry1/instrument/tomoScanDevice/tomography_shutter'\
-					, stagePosNXSPath='/entry1/instrument/tomoScanDevice/ss1_X'\
-					, stageRotNXSPath='/entry1/instrument/tomoScanDevice/ss1_rot'\
-					, tifNXSPath='/entry1/instrument/pco1_hw_tif/image_data'\
+					, stagePosNXSPath='/entry1/instrument/tomoScanDevice/ss1_x'\
+					, stageRotNXSPath='/entry1/instrument/tomoScanDevice/ss1_theta'\
+					, tifNXSPath='/entry1/instrument/pco/data_file/file_name'\
 					, outdir=None\
 					, minProjs=129\
 					, maxUnclassed=0\
@@ -464,18 +349,12 @@ def makeLinksForNXSFile(\
 	"""
 	Create directories and links to projection, dark and flat images required for sino_listener to create sinograms.
 	
-	NXS paths to the relevant data arrays:
-	*primary:
-	SHUTTER PHYSICAL POSITIONS				='/entry1/instrument/tomoScanDevice/tomography_shutter'
-	SAMPLE-STAGE PHYSICAL POSITIONS	='/entry1/instrument/tomoScanDevice/ss1_X'
-	TIF FILENAMES										='/entry1/instrument/pco1_hw_tif/image_data'
-	IMAGE KEY 												='/entry1/instrument/tomoScanDevice/image_key'
+	NXS paths to data:
+	SHUTTER PHYSICAL POSITIONS='/entry1/instrument/tomoScanDevice/tomography_shutter'
+	SAMPLE STAGE PHYSICAL POSITIONS='/entry1/instrument/tomoScanDevice/ss1_x'
+	TIF FILENAMES='/entry1/instrument/pco/data_file/file_name'
 	
-	*secondary:
-	SAMPLE-STAGE ANGLES							='/entry1/instrument/tomoScanDevice/ss1_rot'
-	
-	*additional
-	SCAN COMMAND									='/entry1/scan_command'
+	STAGE ANGLES='/entry1/instrument/tomoScanDevice/ss1_theta'
 	"""
 	if verbose:
 		print "\nInput arguments for makeLinksForNXSFile:"
@@ -537,11 +416,18 @@ def makeLinksForNXSFile(\
 		print dfpDef
 	
 	
+	# check if the input filepath is absolute
+	if not os.path.isabs(filename):
+		#msg = "The input filepath, %s, is not absolute!"%filename
+		raise Exception("The input filepath is not absolute: "+`filename`)
+
 	# check if the input NeXus file exists
 	if not os.path.exists(filename):
 		#msg = "The input NeXus file, %s, does NOT exist!"%filename
-		raise Exception("The input NeXus file does not exist or insufficient file-system permissions: "+`filename`)
+		raise Exception("The input NeXus file does not exist or insufficient filesystem permissions: "+`filename`)
 
+	dirNXS = os.path.dirname(filename)
+	print '\tdirNXS =', dirNXS
 
 	#open the input NeXus file for reading 
 	nxsFileHandle=h5py.File(filename, 'r')
@@ -553,55 +439,30 @@ def makeLinksForNXSFile(\
 			print item+":", nxsFileHandle.attrs[item]
 
 	#get data arrays
-	try:
-		tomography_shutter=nxsFileHandle[shutterNXSPath]
-	except Exception, ex:
-		raise Exception ("Error on trying to access shutter's data inside the input NeXus file: \n"+str(ex))
+	tomography_shutter=nxsFileHandle[shutterNXSPath]
+	ss1_x=nxsFileHandle[stagePosNXSPath]
+	#ss1_rot=nxsFileHandle['/entry1/instrument/tomoScanDevice/ss1_rot']
+	ss1_rot=nxsFileHandle[stageRotNXSPath]
+	tif_=nxsFileHandle[tifNXSPath]
+
+	#take care of any relative paths 
+	tif=np.empty((len(tif_),1),dtype='object')
+	for i in range(0,len(tif_)):
+		s = tif_[i][0]
+		if s[:1]==".":
+			s1 = str(s[1:])
+			tif[i][0]=dirNXS + s1
+		else:
+			tif[i][0]=s
 	
-	try:
-		ss1_x=nxsFileHandle[stagePosNXSPath]
-	except Exception, ex:
-		raise Exception ("Error on trying to access  sample stage's translation data inside the input NeXus file: \n"+str(ex))
-	
-	try:
-		#ss1_rot=nxsFileHandle['/entry1/instrument/tomoScanDevice/ss1_rot']
-		ss1_rot=nxsFileHandle[stageRotNXSPath]
-	except Exception, ex:
-		raise Exception ("Error on trying to access  sample stage's angle data inside the input NeXus file: \n"+str(ex))
-	
-	try:
-		tif=nxsFileHandle[tifNXSPath]
-	except Exception, ex:
-		raise Exception ("Error on trying to access paths to TIF images inside the input NeXus file: \n"+str(ex))
-	
-	len_all=[]
-	imgkeyNXS=True
-	len_imgkey=-1
-	try:
-		imgkeyNXSPath='/entry1/instrument/tomoScanDevice/image_key'
-		imgkey=nxsFileHandle[imgkeyNXSPath]
-		print 'type(imgkey)=', type(imgkey)
-		len_imgkey=len(imgkey)
-		print 'len(imgkey)=', len_imgkey
-		len_all.append(len_imgkey)
-	except Exception, ex:
-		imgkeyNXS=False
-		msg1="Warning on trying to access image-key data inside the input NeXus file: \n"+str(ex)
-		print msg1
-		msg2="Falling back on generating image-keys from available data.\n"
-		print msg2
-		pass
-	
+	if verbose:
+		print 'tif[0][0]=',tif[0][0]
+	#return
+
 	len_ss1_x=len(ss1_x)
 	len_ss1_rot=len(ss1_rot)
 	len_tomography_shutter=len(tomography_shutter)
 	len_tif=len(tif)
-	
-	len_all.append(len_ss1_x)
-	len_all.append(len_ss1_rot)
-	len_all.append(len_tomography_shutter)
-	len_all.append(len_tif)
-	print 'len_all', len_all
 	
 	if verbose:
 		print "len_ss1_x=%s"%len_ss1_x
@@ -620,41 +481,24 @@ def makeLinksForNXSFile(\
 	N=min(len_ss1_x, len_tomography_shutter, len_tif)
 	
 	if len_ss1_x!=N or len_tomography_shutter!=N or len_tif!=N:
-		raise Exception("The lengths of NeXus data arrays differ between one other! ")
+		raise Exception("The lengths of NeXus datasets differ between each other! ")
 
 	if dbg and False:
 		N=min(10, N)
 
-	if not imgkeyNXS:
-		image_key_curr={}
-	# identify each entry as DARK, FLAT, PROJ or UNCLASSIFIED image
-		for i in range(0, N):
-			image_key_curr=genImageKey(inShutterPos=tomography_shutter[i], map01Def_shutter=map01Def_shutter, inStagePos=ss1_x[i], map01Def_stage=map01Def_stage, dfpDef=dfpDef) 
-			
-			if image_key_curr['dark']==1 and image_key_curr['flat']==0 and image_key_curr['proj']==0:
-				dark_idx.append(i)
-			elif image_key_curr['dark']==0 and image_key_curr['flat']==1 and image_key_curr['proj']==0:
-				flat_idx.append(i)
-			elif image_key_curr['dark']==0 and image_key_curr['flat']==0 and image_key_curr['proj']==1:
-				proj_idx.append(i)
-			else:
-				unclassified_idx.append(i)
-	else:
-		dfp={}
-		dfp['dark']=2
-		dfp['flat']=1
-		dfp['proj']=0
-		image_key_curr=-1
-		for i in range(0, N):
-			image_key_curr=int(imgkey[i])
-			if image_key_curr==dfp['dark']:
-				dark_idx.append(i)
-			elif image_key_curr==dfp['flat']:
-				flat_idx.append(i)
-			elif image_key_curr==dfp['proj']:
-				proj_idx.append(i)
-			else:
-				unclassified_idx.append(i)
+	image_key={}
+# identify each entry as DARK, FLAT, PROJ or UNCLASSIFIED image
+	for i in range(0, N):
+		image_key=genImageKey(inShutterPos=tomography_shutter[i], map01Def_shutter=map01Def_shutter, inStagePos=ss1_x[i], map01Def_stage=map01Def_stage, dfpDef=dfpDef) 
+		
+		if image_key['dark']==1 and image_key['flat']==0 and image_key['proj']==0:
+			dark_idx.append(i)
+		elif image_key['dark']==0 and image_key['flat']==1 and image_key['proj']==0:
+			flat_idx.append(i)
+		elif image_key['dark']==0 and image_key['flat']==0 and image_key['proj']==1:
+			proj_idx.append(i)
+		else:
+			unclassified_idx.append(i)
 	
 	if verbose:
 		print "List of DARK indices:"
@@ -708,14 +552,12 @@ def makeLinksForNXSFile(\
 		#sino=SinoListener(["prog", "-h"], out=sys.stdout, err=sys.stderr, testing=True)
 		#sino=SinoListener(["prog", "-h"], out=sys.stdout, err=sys.stderr, testing=True)
 		#/dls/i13/data/2012/mt5811-1/processing/rawdata/564/projections
-		sino_success=False
-		print ">>head=", head
-		print ">>sino_dir=", sino_dir
 		with cd(head+os.sep+sino_dir):
 			#print "\n\tInside context manager CWD = %s"%os.getcwd()
 			try:
 				#inProjFmt="pco1564-%05d.tif"
-				inProjFmt=detectorName+scanNumber_str+"-"+"%05d.tif"
+				#inProjFmt=detectorName+scanNumber_str+"-"+"%05d.tif"
+				inProjFmt="p_%05d.tif"
 				#nprojs=len_proj_idx_decimated
 				#nprojs=1200
 				if len_proj_idx_decimated<loProjs_exc or len_proj_idx_decimated<2:
@@ -723,34 +565,14 @@ def makeLinksForNXSFile(\
 				
 				zidx_last=len_proj_idx_decimated-1
 				#print 'zidx_last=', zidx_last
-				sino_success=launchSinoListener(\
-												head+os.sep+proj_dir
-												, inProjFmt
-												, zidx_last
-												, head+os.sep+sino_dir
-												, verbose=True
-												, testing=False)
+				launchSinoListener(head+os.sep+proj_dir, inProjFmt, zidx_last, head+os.sep+sino_dir, verbose=True, testing=False)
 			except Exception, ex:
-				sino_success=False
 				raise Exception ("ERROR Spawning the sino_listener script  "+str(ex))
+		
 		print "\nAfter launching the sino_listener script CWD = %s"%os.getcwd()
 		
-		if sino_success:
-			print 'sino_success TRUE'
-		else:
-			print 'sino_success FALSE'
-			
-		if sino_success:
-			#with cd(head+os.sep+"reconstruction/564"):
-			with cd(head+os.sep+sino_dir):
-				try:
-					launchReconArray(outDir="../../reconstruction/564", ctrCoord=1557.8)
-				except Exception, ex:
-					raise Exception ("ERROR Spawning the recon_arrayxml script  "+str(ex))
 	else:
 		print "\nLaunch of the sino_listener script was not requested at the end of makeLinksForNXSFile." 
-	
-	
 	
 	#print "\nJust before closing NeXus file CWD = %s"%os.getcwd()
 	#don't forget to close the input NeXus file
@@ -763,8 +585,8 @@ creates directories and links to projection, dark and flat images required for s
 """
 	usage="%prog -f input_filename --shutterOpenPhys shutOpenPos --shutterClosedPhys shutClosedPos --stageInBeamPhys inBeamPos --stageOutOfBeamPhys outOfBeamPos -o outdir\n"+\
 				" or\n%prog --filename input_filename --shutterOpenPhys shutOpenPos --shutterClosedPhys shutClosedPos --stageInBeamPhys inBeamPos --stageOutOfBeamPhys outOfBeamPos --outdir outdir\n"+\
-				"\nExample usage:\n%prog -f /dls/i13/data/2012/mt5811-1/564.nxs --shutterOpenPhys 1.0 --shutterClosedPhys 0.0 --stageInBeamPhys 0.0 --stageOutOfBeamPhys 6.0\n"+\
-				"or:\n%prog --filename /dls/i13/data/2012/mt5811-1/564.nxs --shutterOpenPhys 1.0 --shutterClosedPhys 0.0 --stageInBeamPhys 0.0 --stageOutOfBeamPhys 6.0"
+				"\nExample usage:\n%prog -f /dls/i12/data/2012/mt5811-1/564.nxs --shutterOpenPhys 1.0 --shutterClosedPhys 0.0 --stageInBeamPhys 0.0 --stageOutOfBeamPhys 6.0\n"+\
+				"or:\n%prog --filename /dls/i12/data/2012/mt5811-1/564.nxs --shutterOpenPhys 1.0 --shutterClosedPhys 0.0 --stageInBeamPhys 0.0 --stageOutOfBeamPhys 6.0"
 	vers="%prog version 1.0"
 
 	parser=OptionParser(usage=usage, description=desc, version=vers, prog=argv[0])
@@ -894,7 +716,7 @@ class Test1(unittest.TestCase):
 	def test_noArgs(self):
 		try:
 			main(["progname"])
-		except  Exception, ex:
+		except  Exception,  ex:
 			self.assertEquals('Mandatory input value is missing! Use -h for help', str(ex))
 
 	def test_makeLinksNXS_InputFileInexistent(self):
