@@ -6,11 +6,12 @@
 	<sampleWheelPosition>Copper</sampleWheelPosition>
 	<sampleEnvironment>Room Temperature</sampleEnvironment>
 	<roomTemperature>
-		<x>3.4</x>
-		<y>6.8</y>
-		<z>2.5</z>
-		<rotation>1.2</rotation>
-		<roll>0.5</roll>
-		<yaw>0.7</yaw>
+		<numberOfSamples>1</numberOfSamples>
+		<sample1_x>3.4</sample1_x>
+		<sample1_y>6.8</sample1_y>
+		<sample1_z>2.5</sample1_z>
+		<sample1_rotation>1.2</sample1_rotation>
+		<sample1_roll>0.5</sample1_roll>
+		<sample1_pitch>0.7</sample1_pitch>
 	</roomTemperature>
 </I20SampleParameters>
