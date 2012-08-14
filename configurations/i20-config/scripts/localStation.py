@@ -1,3 +1,6 @@
+print "\n\n****Running the I20 startup script****\n\n"
+
+
 from org.jscience.physics.quantities import Quantity
 from org.jscience.physics.units import Unit
 from gda.configuration.properties import LocalProperties
@@ -49,11 +52,11 @@ alias("xspress")
 scansReturnToOriginalPositions = 1
 
 # to delay scan points so they run afer a certain elapsed time
+print "Creating some scannables useful for recording time during scans..."
 from gdascripts.pd.time_pds import showtimeClass, waittime
-print ""
-print "creating scannable 'w' which will delay scan points until a time has been reached during a scan."
-print "usage of 'w':    scan <motor> <start> <stop> <step> w 0 <delay between points in s>"
-print ""
+print "Creating scannable 'w' which will delay scan points until a time has been reached during a scan."\
++ "\nusage of 'w':    scan <motor> <start> <stop> <step> w 0 <delay between points in s>\n\n"
+
 w = showtimeClass("w")
 w.setLevel(10) # so it is operated before anything else in a scan
 
@@ -120,4 +123,16 @@ if LocalProperties.get("gda.mode") == "live":
     # To set up the ADC for use in GDA
     run 'adc_monitor'
     # To make the scannables for controlling the mono crystal piezos through the EPICS closed-loop
-    run 'crystal_pid'
+    # July2012 do not need this script anymore 
+    #run 'crystal_pid'
+
+    run "xspress_config"
+    print "\nXspress detector set to high (>8KeV) mode."\
+    + "\nIf you wish to collect predominately at lower energies, type:"\
+    + "\nswitchXspressToLowEnergyMode()"\
+    + "\nto change the Xspress settings. Type:"\
+    + "\nswitchXspressToHighEnergyMode()"\
+    + "\n to changes the settings back again."\
+    + "\n"
+    
+print "****GDA startup script complete.****\n\n"
