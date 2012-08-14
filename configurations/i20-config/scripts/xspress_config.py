@@ -22,7 +22,7 @@ class SwitchToHighEnergy(_xspressconfigurer):
     
     def __call__(self):
         cmds = ArrayList()
-        cmds.add("~config 9000")
+        cmds.add("~config 9")
         self.daserver.setStartupCommands(cmds)
         self.daserver.reconnect()
         self.xspress.configure()
@@ -31,7 +31,7 @@ class SwitchToLowEnergy(_xspressconfigurer):
     
     def __call__(self):
         cmds = ArrayList()
-        cmds.add("~config 7000")
+        cmds.add("~config 7")
         self.daserver.setStartupCommands(cmds)
         self.daserver.reconnect()
         self.xspress.configure()
