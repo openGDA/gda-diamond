@@ -3,9 +3,9 @@
 #if lustre is down - set the GDA_DATADIR to scratch (i.e uncomment the below line)
 #export GDA_DATADIR=/scratch;
 
-/dls_sw/i12/software/gda_versions/gda_8.24_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_8.24_git/gda-dls-beamlines-i12.git/i12 --restart --mode=live nameserver
-/dls_sw/i12/software/gda_versions/gda_8.24_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_8.24_git/gda-dls-beamlines-i12.git/i12 --restart --mode=live logserver
-/dls_sw/i12/software/gda_versions/gda_8.24_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_8.24_git/gda-dls-beamlines-i12.git/i12 --restart --mode=live eventserver
+/dls_sw/i12/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_git/gda-dls-beamlines-i12.git/i12 --restart --mode=live nameserver
+/dls_sw/i12/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_git/gda-dls-beamlines-i12.git/i12 --restart --mode=live logserver
+/dls_sw/i12/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_git/gda-dls-beamlines-i12.git/i12 --restart --mode=live eventserver
 export JAVA_OPTS="-Xms128m -Xmx2056m -XX:MaxPermSize=256m -XX:+DisableExplicitGC"
-/dls_sw/i12/software/gda_versions/gda_8.24_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_8.24_git/gda-dls-beamlines-i12.git/i12 --debug -p 8001 --restart -v --mode=live objectserver
+/dls_sw/i12/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_git/gda-dls-beamlines-i12.git/i12 --debug -p 8001 --restart -v --mode=live objectserver
  

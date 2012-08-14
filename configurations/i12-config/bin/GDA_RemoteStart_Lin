@@ -15,7 +15,7 @@ fi
 #gda --stop --verbose client
 #sleep 2;
 #
-echo "Restaring GDA Log Panel locally"
+echo "Restarting GDA Log Panel locally"
 echo gda --restart logpanel &
 gda --restart --verbose logpanel &
 sleep 2
