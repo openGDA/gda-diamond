@@ -82,33 +82,33 @@ public class I20SampleParametersManager extends ParametersManager {
 		final String sampleEnv = sampleParameters.getSampleEnvironment();
 
 		if (I20SampleParameters.SAMPLE_ENV[1].equals(sampleEnv)) { // Room
-			log("Moving Sample Table");
-			final SampleStageParameters roomTemp = sampleParameters.getRoomTemperatureParameters();
-			setScannable("sample_x", roomTemp.getX());
-			setScannable("sample_y", roomTemp.getY());
-			setScannable("sample_z", roomTemp.getZ());
-			setScannable("sample_rot", roomTemp.getRotation());
-			setScannable("sample_pitch", roomTemp.getRoll());
-			setScannable("sample_roll", roomTemp.getYaw());
-
-			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("x", roomTemp.getX().toString(),
-					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
-					"sampletable"));
-			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("y", roomTemp.getY().toString(),
-					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
-					"sampletable"));
-			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("z", roomTemp.getZ().toString(),
-					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
-					"sampletable"));
-			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("rot", roomTemp.getRotation().toString(),
-					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
-					"sampletable"));
-			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("yaw", roomTemp.getYaw().toString(),
-					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
-					"sampletable"));
-			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("roll", roomTemp.getRoll().toString(),
-					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
-					"sampletable"));
+//			log("Moving Sample Table");
+//			final SampleStageParameters roomTemp = sampleParameters.getRoomTemperatureParameters();
+//			setScannable("sample_x", roomTemp.getX());
+//			setScannable("sample_y", roomTemp.getY());
+//			setScannable("sample_z", roomTemp.getZ());
+//			setScannable("sample_rot", roomTemp.getRotation());
+//			setScannable("sample_pitch", roomTemp.getRoll());
+//			setScannable("sample_roll", roomTemp.getYaw());
+//
+//			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("x", roomTemp.getX().toString(),
+//					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
+//					"sampletable"));
+//			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("y", roomTemp.getY().toString(),
+//					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
+//					"sampletable"));
+//			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("z", roomTemp.getZ().toString(),
+//					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
+//					"sampletable"));
+//			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("rot", roomTemp.getRotation().toString(),
+//					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
+//					"sampletable"));
+//			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("yaw", roomTemp.getYaw().toString(),
+//					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
+//					"sampletable"));
+//			NexusExtraMetadataDataWriter.addMetadataEntry(new NexusFileMetadata("roll", roomTemp.getRoll().toString(),
+//					NexusFileMetadata.EntryTypes.NXinstrument, NexusFileMetadata.NXinstrumentSubTypes.NXpositioner,
+//					"sampletable"));
 		} else if (I20SampleParameters.SAMPLE_ENV[2].equals(sampleEnv)) {
 			log("Preparing cryostat for experiment");
 

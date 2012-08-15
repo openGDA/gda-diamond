@@ -105,6 +105,8 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 
 	private BooleanWrapper useSampleWheel;
 
+	private TextWrapper sampleName;
+
 	public I20SampleParametersUIEditor(String path, URL mappingURL, DirtyContainer dirtyContainer, Object editingBean) {
 		super(path, mappingURL, dirtyContainer, editingBean);
 	}
@@ -321,13 +323,20 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		gridLayout.numColumns = 2;
 		experimentSample.setLayout(gridLayout);
 
-		final Label sampleNameLabel = new Label(experimentSample, SWT.NONE);
-		sampleNameLabel.setText("Sample name");
+		final Label filePrefixLabel = new Label(experimentSample, SWT.NONE);
+		filePrefixLabel.setText("File prefix");
 
 		name = new TextWrapper(experimentSample, SWT.BORDER);
 		name.setTextLimit(5000);
 		final GridData gd_name = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		name.setLayoutData(gd_name);
+
+		final Label sampleNameLabel = new Label(experimentSample, SWT.NONE);
+		sampleNameLabel.setText("Sample Name");
+
+		sampleName = new TextWrapper(experimentSample, SWT.BORDER);
+		sampleName.setTextLimit(5000);
+		sampleName.setLayoutData(gd_name);
 
 		final Label descriptionLabel = new Label(experimentSample, SWT.NONE);
 		descriptionLabel.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
@@ -493,6 +502,10 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 
 	public TextWrapper getName() {
 		return name;
+	}
+
+	public TextWrapper getSampleName() {
+		return sampleName;
 	}
 
 	public ComboWrapper getSampleWheelPosition() {
