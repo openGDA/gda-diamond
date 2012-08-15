@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <I20SampleParameters>
     <shouldValidate>true</shouldValidate>
-    <name>Please set a sample name...</name>
+    <name>Please set a file prefix...</name>
+    <sampleName>Please set a sample name...</sampleName>
     <description>Please add a description...</description>
     <sampleWheelPosition>1</sampleWheelPosition>
     <sampleEnvironment>None</sampleEnvironment>
