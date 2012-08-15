@@ -123,10 +123,6 @@ from gda.configuration.properties import LocalProperties
 from init_scan_commands_and_processing import * #@UnusedWildImport
 #scan_processor.rootNamespaceDict=globals()
 
-#beam_optimizer_dummy is needed by tomographyScani13
-
-#import beam_optimizers
-#beam_optimizer_dummy = beam_optimizers.beam_optimizer("beam_optimizer_dummy", dummy=True)    
 
 from gda.scan.RepeatScan import create_repscan, repscan
 vararg_alias("repscan")
@@ -194,7 +190,6 @@ print "--------------------------------------------------"
 from sleeperWhileScan import SleeperWhileScan
 sleeper = SleeperWhileScan("sleeper");
 
-#from tomo_scan import basicTomoScan #@UnusedImport
 
 print "Defines 'timer':"
 print "--------------------------------------------------"
@@ -273,13 +268,12 @@ print "create 'eurotherm1' and 'eurotherm2'"
 eurotherm1 = DisplayEpicsPVClass('eurotherm1', 'BL12I-EA-FURN-01:PV:RBV', 'c', '%.3f')
 eurotherm2 = DisplayEpicsPVClass('eurotherm2', 'BL12I-EA-FURN-02:PV:RBV', 'c', '%.3f')
 
-from tomo.tomographyScani13 import tomoScan
-from tomo import tomoAlignment
+from tomographyScan import tomoScan #@UnusedImport
+from tomo import tomoAlignment #@UnusedImport
 #print
 #print "setup tomographyScan:"
 #from tomo import tomographyScan
 #run("tomo/tomographyScan.py")
-from tomo.tomographyScani13 import tomoScan
 
 
 print 

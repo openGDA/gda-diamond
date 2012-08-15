@@ -9,10 +9,11 @@ from gdascripts.messages import handle_messages
 import sys
 import math
 
-from tomo.tomographyScani13 import tomoScan
 
 from gda.factory import Finder
 from gda.commandqueue import JythonCommandCommandProvider
+
+from tomographyScan import tomoScan
 
 """
 Performs software triggered tomography
@@ -336,7 +337,7 @@ class TomoAlignmentConfigurationManager:
         commandQ = Finder.getInstance().find("commandQueueProcessor")
         for i in range(len(self.tomoAlignmentConfigurations)):
             config = self.tomoAlignmentConfigurations[i]
-            cmdToQueue = 'tomographyScani13.tomographyConfigurationManager.tomoAlignmentConfigurations[' + `i` + '].doTomographyAlignmentAndScan()'
+            cmdToQueue = 'tomoAlignment.tomographyConfigurationManager.tomoAlignmentConfigurations[' + `i` + '].doTomographyAlignmentAndScan()'
 #            print 'Queued command:' + cmdToQueue
             commandQ.addToTail(JythonCommandCommandProvider(cmdToQueue, `i + 1` + ". Tomography Alignment and Scan : " + config.description, None))
             

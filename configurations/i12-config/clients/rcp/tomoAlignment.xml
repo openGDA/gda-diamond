@@ -77,7 +77,7 @@
 		<property name="motorHandler" ref="motorsHandler" />
 		<property name="lookupTableHandler" ref="moduleLookupTableHandler" />
 		<property name="cameraMotionController" ref="cameraMotionController" />
-		<property name="tomoScriptController" ref="tomoAlignmentConfigurationScriptController"/>
+		<property name="tomoScriptController" ref="tomoAlignmentConfigurationScriptController" />
 	</bean>
 
 	<!-- <bean id="cameraModuleHandler" class="uk.ac.gda.client.tomo.alignment.view.handlers.simulator.CameraModuleControllerSimulator" 
@@ -128,13 +128,8 @@
 		<property name="tiltController" ref="tiltController" />
 		<property name="roiHandler" ref="roiHandler" />
 		<property name="sampleWeightRotationHandler" ref="sampleWeightRotationHandler" />
-		<property name="saveHandler" ref="saveHandler" />
-	</bean>
-	
-	<bean id="saveHandler"
-		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TomoConfigResourceHandler">
-		<property name="fileLocation"
-			value="/dls_sw/i12/gda_versions/var/tomographyParameters.tomoconfig" />
+		<property name="saveHandler" ref="tomoConfigResourceHandler" />
+		<property name="scanController" ref="tomoScanController" /> <!-- Defined in the tomoConfiguration.xml -->
 	</bean>
 
 	<bean id="sampleWeightRotationHandler"
