@@ -24,9 +24,7 @@ export MATLABPATH=/$SOFTWAREFOLDER/$BEAMLINE/software/tomoTilt/code/release
 
 export PATH=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/i12-config/bin:/$SOFTWAREFOLDER/$BEAMLINE/software/tomoTilt/code/release:/dls_sw/dasc/bin/iKittenScripts:/$SOFTWAREFOLDER/$BEAMLINE/bin:$PATH
 
-if [ -f /$SOFTWAREFOLDER/${BEAMLINE}/software/gda/builder/set_tools.sh ]; then
-	source /$SOFTWAREFOLDER/${BEAMLINE}/software/gda/builder/set_tools.sh > ~/.set_tools_report.txt
-fi
+module load java/gda826
 
 # If for whatever reason GDA_Launchers failed to be created on user login, this will create it when user open a terminal.
 case $DISPLAY in 
