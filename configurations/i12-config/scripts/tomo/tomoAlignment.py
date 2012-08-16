@@ -4,7 +4,6 @@ Performs software triggered tomography
 
 from bisect import bisect_right
 from gdascripts.messages import handle_messages
-#from pcoDetectorWrapper import PCODetectorWrapper
 
 import sys
 import math
@@ -14,14 +13,15 @@ from gda.factory import Finder
 from gda.commandqueue import JythonCommandCommandProvider
 
 from tomographyScan import tomoScan
-
+from gda.jython.commands.ScannableCommands import scan
+import subprocess
+from fast_scan import FastScan
 """
 Performs software triggered tomography
 """
 
 from time import sleep
 from bisect import bisect_left
-#from pcoDetectorWrapper import PCODetectorWrapper
 
 def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection, numberofProjections,
                  isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat, positionOfBaseInBeam):
@@ -40,7 +40,43 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     print "positionOfBaseInBeam: " + `positionOfBaseInBeam`
     #scan([ix, 0, 200, 0.2])
     print 'Sample Acq#' + `sampleAcquisitionTime`
-    tomoScan(1, 0, 0, -1, 0, sampleAcquisitionTime)
+    fscan = FastScan("fscan")
+    tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, sampleAcquisitionTime, 0, 180, 1, 0, 0, 0, 0, 0, [fscan])
+
+def doTiltAlignment(module, exposureTime):
+    f = Finder.getInstance()
+    tiltBallLookupTable = f.find("tiltBallRoiLut")
+    currSubDir = f.find("GDAMetadata").getMetadataValue("subdirectory")
+    ss1_tx = f.find("ss1_tx")
+    ss1_theta = f.find("ss1_theta")
+    pco = f.find("pco")
+    currSs1TxPos = ss1_tx.getPosition() 
+    txOffset = tiltBallLookupTable.lookupValue(module, "balloffset")
+    pcoTomography = f.find("pcoTomography")
+    try:
+        minY = tiltBallLookupTable.lookupValue(module, "minY")
+        print minY
+        maxY = tiltBallLookupTable.lookupValue(module, "maxY")
+        print maxY
+        minX = tiltBallLookupTable.lookupValue(module, "minX")
+        print minX
+        maxX = tiltBallLookupTable.lookupValue(module, "maxX")
+        print maxX
+        
+        pcoTomography.setupForTilt(int(minY), int(maxY), int(minX), int(maxX))
+        
+        ss1_tx.moveTo(currSs1TxPos + txOffset)
+        
+        f.find("GDAMetadata").setMetadataValue("subdirectory", "tmp")
+        scan([ss1_theta, 0, 340, 20, pco, `exposureTime`])
+        
+    finally:
+        f.find("GDAMetadata").setMetadataValue("subdirectory", currSubDir)
+        if ss1_tx.getPosition != currSs1TxPos:
+            ss1_tx.moveTo(currSs1TxPos)
+        pcoTomography.resetAfterTiltToInitialValues()
+    print 'tomo tilt complete'
+    
 
 def moveTomoAlignmentMotors(motorMoveMap):
     scriptController = Finder.getInstance().find("tomoAlignmentConfigurationScriptController")
