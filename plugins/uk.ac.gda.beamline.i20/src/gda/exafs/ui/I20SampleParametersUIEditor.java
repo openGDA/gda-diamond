@@ -106,9 +106,14 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 	private BooleanWrapper useSampleWheel;
 
 	private TextWrapper sampleName;
+	
+	I20SampleParameters bean;
+
+	private ExpandableComposite refWheelExpander;
 
 	public I20SampleParametersUIEditor(String path, URL mappingURL, DirtyContainer dirtyContainer, Object editingBean) {
 		super(path, mappingURL, dirtyContainer, editingBean);
+		bean =(I20SampleParameters) editingBean;
 	}
 
 	@Override
@@ -176,7 +181,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 			}
 			if (positions != null) {
 
-				final ExpandableComposite refWheelExpander = new ExpandableComposite(composite, ExpandableComposite.TWISTIE
+				refWheelExpander = new ExpandableComposite(composite, ExpandableComposite.TWISTIE
 						| ExpandableComposite.COMPACT | SWT.BORDER);
 				refWheelExpander.setText("Reference Sample Wheel");
 
@@ -231,10 +236,14 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 						}
 						refWheel.layout();
 						mainComp.layout();
+						scrolledComposite.setMinSize(mainComp.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 					}
 				});
 			}
-		}
+			if (bean.getUseSampleWheel()){
+				refWheelExpander.setExpanded(true);
+			}
+		}		
 	}
 
 	private void createSampleEnvironmentGroup(final Composite composite) {
@@ -267,7 +276,8 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 
 		blankTempComposite = new Composite(complexTypesTemp, SWT.NONE);
 
-		this.sampleStageParameters = new RoomTemperatureComposite(complexTypesTemp, SWT.NONE);
+		int numSamples = bean.getRoomTemperatureParameters().getNumberOfSamples();
+		this.sampleStageParameters = new RoomTemperatureComposite(complexTypesTemp, SWT.NONE,numSamples);
 		sampleStageParameters.setEditorClass(SampleStageParameters.class);
 
 		if (!ScanObjectManager.isXESOnlyMode()) {
@@ -308,8 +318,13 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 				sampleEnvExpander.layout();
 				sampleEnvGroup.layout();
 				mainComp.layout();
+				scrolledComposite.setMinSize(mainComp.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			}
 		});
+		
+		if (!bean.getSampleEnvironment().equals(I20SampleParameters.SAMPLE_ENV[0])){
+			sampleEnvExpander.setExpanded(true);
+		}
 	}
 
 	private void createSampleDetailsGroup(final Composite composite) {

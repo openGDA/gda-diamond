@@ -34,10 +34,10 @@ samplePreparer = I20SamplePreparer()
 outputPreparer = I20OutputPreparer()
 
 # switch the commenting on these lines to move to the new scripts which include looping
-from exafsscripts.exafs.xas_scans import xas, xanes, xes
-#xas = I20XasScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
-#xes = I20XesScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
-#xanes = xas
+#from exafsscripts.exafs.xas_scans import xas, xanes, xes
+xas = I20XasScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
+xes = I20XesScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
+xanes = xas
 
 alias("xas")
 alias("xanes")

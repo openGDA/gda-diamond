@@ -71,7 +71,7 @@ public class RoomTemperatureComposite extends FieldBeanComposite {
 
 	private SelectionListener radioButtonListener;
 
-	public RoomTemperatureComposite(Composite parent, int style) {
+	public RoomTemperatureComposite(Composite parent, int style, int initialNumSamples) {
 		super(parent, style);
 		GridLayoutFactory.fillDefaults().applyTo(this);
 		GridDataFactory.fillDefaults().applyTo(this);
@@ -91,6 +91,8 @@ public class RoomTemperatureComposite extends FieldBeanComposite {
 		btnumSamples[2].setText("3");
 		btnumSamples[3] = new Button(numSamples, SWT.RADIO);
 		btnumSamples[3].setText("4");
+		
+		btnumSamples[initialNumSamples - 1].setSelection(true);
 		
 		Group sampleDetails = new Group(this, SWT.BORDER);
 		GridDataFactory.fillDefaults().applyTo(sampleDetails);
@@ -219,8 +221,8 @@ public class RoomTemperatureComposite extends FieldBeanComposite {
 		final Label xLabel = new Label(sampleComposite, SWT.NONE);
 		xLabel.setText("x");
 		x[i] = new ScaleBox(sampleComposite, SWT.NONE);
-		x[i].setMinimum(-15);
-		x[i].setMaximum(15);
+		x[i].setMinimum(-15.3);
+		x[i].setMaximum(14.1);
 		x[i].setUnit("mm");
 		final GridData gd_x = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		x[i].setLayoutData(gd_x);
@@ -229,8 +231,8 @@ public class RoomTemperatureComposite extends FieldBeanComposite {
 		yLabel.setText("y");
 
 		y[i] = new ScaleBox(sampleComposite, SWT.NONE);
-		y[i].setMinimum(-20.0);
-		y[i].setMaximum(20.0);
+		y[i].setMinimum(0.1);
+		y[i].setMaximum(40.3);
 		final GridData gd_y = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		y[i].setLayoutData(gd_y);
 		y[i].setUnit("mm");
@@ -239,8 +241,8 @@ public class RoomTemperatureComposite extends FieldBeanComposite {
 		zLabel.setText("z");
 
 		z[i] = new ScaleBox(sampleComposite, SWT.NONE);
-		z[i].setMinimum(-15.0);
-		z[i].setMaximum(15);
+		z[i].setMinimum(-15.3);
+		z[i].setMaximum(14.1);
 		final GridData gd_z = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		z[i].setLayoutData(gd_z);
 		z[i].setUnit("mm");
@@ -250,7 +252,8 @@ public class RoomTemperatureComposite extends FieldBeanComposite {
 
 		final GridData gd_rotation = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		rotation[i] = new ScaleBox(sampleComposite, SWT.NONE);
-		rotation[i].setMaximum(360);
+		rotation[i].setMinimum(-228);
+		rotation[i].setMaximum(51);
 		rotation[i].setLayoutData(gd_rotation);
 		rotation[i].setUnit("°");
 
@@ -270,21 +273,21 @@ public class RoomTemperatureComposite extends FieldBeanComposite {
 		rollLabel.setText("Roll");
 
 		roll[i] = new ScaleBox(sampleComposite, SWT.NONE);
-		roll[i].setMinimum(-5);
+		roll[i].setMinimum(-12.2);
 		final GridData gd_roll = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		roll[i].setLayoutData(gd_roll);
 		roll[i].setUnit("°");
-		roll[i].setMaximum(5);
+		roll[i].setMaximum(12.2);
 
 		final Link yawLabel = new Link(sampleComposite, SWT.NONE);
 		yawLabel.setText("Pitch");
 
 		pitch[i] = new ScaleBox(sampleComposite, SWT.NONE);
-		pitch[i].setMinimum(-5);
+		pitch[i].setMinimum(-10.6);
 		final GridData gd_yaw = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		pitch[i].setLayoutData(gd_yaw);
 		pitch[i].setUnit("°");
-		pitch[i].setMaximum(5);
+		pitch[i].setMaximum(10.6);
 		// }
 	}
 
