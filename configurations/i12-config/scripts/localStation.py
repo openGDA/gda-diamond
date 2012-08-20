@@ -3,18 +3,12 @@
 #    For beamline specific initialisation code
 import sys	
 from gdascripts.messages import handle_messages
-from gda.factory import Finder
 from gda.jython.commands import GeneralCommands
 
 print "Performing I12 specific initialisation code"
 print "=============================================="
 
 from gda.jython.commands.GeneralCommands import alias
-from gda.data import PathConstructor
-from gda.data import NumTracker
-
-import os
-import sys
 
 print "add EPICS scripts to system path"
 print "------------------------------------------------"
@@ -24,68 +18,37 @@ from java.lang import System
 _epicsScriptLibraryDir = PropertyUtils.getExistingDirFromLocalProperties("gda.install.git.loc") + "/gda.install.git.loc/uk.ac.gda.epics/scripts" + System.getProperty("file.separator");
 sys.path.append(_epicsScriptLibraryDir)
 
-finder = Finder.getInstance()
+import i12utilities
 
-# set up a nice method for getting the latest file path
-i12NumTracker = NumTracker("i12");
+
 
 print "create commands for folder operations: wd, pwd, nwd, nfn, setSubdirectory('subdir-name')"
 print "-------------------------------------------------"
 # function to find the last file path
-def wd():
-    dir = PathConstructor.createFromDefaultProperty()
-    return dir
-    
+def wd(): 
+    return i12utilities.wd()
 alias("wd")
 
-# function to find the last file path
-def pwd():
-    dir = PathConstructor.createFromDefaultProperty()
-    filenumber = i12NumTracker.getCurrentFileNumber();
-    return os.path.join(dir, str(filenumber))
-    
+def pwd(): 
+    return i12utilities.pwd()
 alias("pwd")
 
-# function to find the next file path
 def nwd():
-    dir = PathConstructor.createFromDefaultProperty()
-    filenumber = i12NumTracker.getCurrentFileNumber();
-    return os.path.join(dir, str(filenumber + 1))
-    
+    return i12utilities.nwd()
 alias("nwd")
 
-# function to find the next scan number
 def nfn():
-    filenumber = i12NumTracker.getCurrentFileNumber();
-    return filenumber + 1
-    
+    return i12utilities.nfn()
 alias("nfn")
 
-# function to find the next scan number
-def cfn():
-    filenumber = i12NumTracker.getCurrentFileNumber();
-    return filenumber
-    
+def cfn(): 
+    return i12utilities.cfn()
 alias("cfn")
 
-# the subdirectory parts
 def setSubdirectory(dirname):
-    try:
-        finder.find("GDAMetadata").setMetadataValue("subdirectory", dirname)
-    except:
-        exceptionType, exception, traceback = sys.exc_info()
-        handle_messages.log(None, "problem setting metadata value -'subdirectory' to " + dirname, exceptionType, exception, traceback, False)
-        print "Failed to set metadata (subdirectory) value to:", dirname, exception
+    i12utilities.setSubdirectory(dirname)
 
-    try:
-        handle_messages.simpleLog("trying to create '" + dirname + "' subdirectory")
-        os.mkdir(wd())
-        handle_messages.simpleLog("working directory '" + dirname + "' created:" + wd())
-    except :
-        exceptionType, exception, traceback = sys.exc_info()
-        handle_messages.log(None, "cannot create subdirectory::wd()=" + wd(), exceptionType, exception, traceback, False)
-        print "setSubdirectory failed to create: ", dirname, exception
-    
+
 # Do this last
 #setSubdirectory("default")
 print

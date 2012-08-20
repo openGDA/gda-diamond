@@ -92,31 +92,9 @@
 		/> -->
 	<bean id="tiltController"
 		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TiltController">
-		<property name="lookupTableHandler" ref="tiltBallLookupTableHandler" />
-		<property name="externalProgram1">
-			<bean class="uk.ac.gda.client.tomo.ExternalFunction">
-				<property name="command" value="call_matlab.sh" />
-				<property name="args">
-					<list>
-						<value>create_flatfield</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="externalProgram2">
-			<bean class="uk.ac.gda.client.tomo.ExternalFunction">
-				<property name="command" value="call_matlab.sh" />
-				<property name="args">
-					<list>
-						<value>call_tomography_level</value>
-						<value>false,0.4,true,</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="cameraHandler" ref="detectorHandler" />
-		<property name="motorHandler" ref="motorsHandler" />
+		<property name="tomoScriptController" ref="tomoAlignmentConfigurationScriptController" />
 	</bean>
+
 	<!-- Assuming that this is invoked after the pco.xml has been invoked. -->
 	<bean id="tomoAlignmentViewController"
 		class="uk.ac.gda.client.tomo.alignment.view.controller.TomoAlignmentViewController">
