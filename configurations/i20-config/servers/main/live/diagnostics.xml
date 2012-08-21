@@ -202,14 +202,14 @@
 		<property name="deviceName" value="D9"/>
 		<property name="controlValues">
 			<map>
-				<entry key="in" value="Open" />
-				<entry key="out" value="Close" />
+				<entry key="In" value="Open" />
+				<entry key="Out" value="Close" />
 			</map>
 		</property>
 		<property name="statusValues">
 			<map>
-				<entry key="Open" value="in" />
-				<entry key="Closed" value="out" />
+				<entry key="Open" value="In" />
+				<entry key="Closed" value="Out" />
 			</map>
 		</property>
 	</bean>
