@@ -52,6 +52,23 @@
 		</property>
 	</bean>	
 
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ss1_samplex" />
+		<property name="service" ref="ss1_samplex" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ss1_sampley" />
+		<property name="service" ref="ss1_sampley" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ss1_samplez" />
+		<property name="service" ref="ss1_samplez" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+
 <!-- 	<bean id="sampleXYZ" class="gda.device.scannable.SampleXYZScannable">
 		<property name="groupMembers">
 			<list>

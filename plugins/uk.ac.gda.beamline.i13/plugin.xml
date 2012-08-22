@@ -78,6 +78,14 @@
                  name="Status">
       </view>
                        <view
+                 allowMultiple="false"
+                 category="uk.ac.gda.beamline.i13i"
+                 class="gda.rcp.views.ViewFactory:alignmentView"
+                 icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png"
+                 id="uk.ac.gda.beamline.i13i.views.AlignmentView"
+                 name="Alignment">
+      </view>
+                       <view
                              allowMultiple="false"
                              category="uk.ac.diamond.scisoft.analysis.rcp"
                              class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
@@ -85,7 +93,7 @@
                              id="uk.ac.gda.beamline.i13i.DetectorPlot"
                              name="Detector Image"
                              restorable="true">
-                       </view>             
+                       </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">

@@ -66,9 +66,82 @@
 		<property name="buttonText" value="Cameras"/>
 		<property name="buttonImagePath" value="icons/eye.png"/>
 		</bean>
+		
+						<bean class="uk.ac.gda.beamline.i13i.StageCompositeFactory">
+							<property name="scannables">
+								<util:list>
+									<ref bean="ss1_samplex"/>
+								</util:list>
+							</property>
+							<property name="label" value="Base Stage"/>
+						</bean>
+		
 	</list>
 	</property>
 	</bean>
+
+
+	<bean id="ss1_samplex" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}ss1_samplex" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="ss1_sampley" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}ss1_sampley" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="ss1_samplez" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}ss1_samplez" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<bean id="alignmentView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
+	<property name="viewTitle" value="Alignment"/>
+	<property name="compositeFactories">
+	<list>
+		<bean class="uk.ac.gda.beamline.i13i.IImageModeCompositeFactory">
+		<property name="availableModes">
+			<util:list>
+				<bean class="uk.ac.gda.beamline.i13i.SimpleMode">
+					<property name="compositeFactory">
+						<bean class="uk.ac.gda.beamline.i13i.StageCompositeFactory">
+							<property name="scannables">
+								<util:list>
+									<ref bean="ss1_samplex"/>
+									<ref bean="ss1_sampley"/>
+									<ref bean="ss1_samplez"/>
+								</util:list>
+							</property>
+							<property name="label" value="Sample Stage"/>
+						</bean>
+					</property>
+					<property name="name" value="Sample Stage"/>
+				</bean>
+				<bean class="uk.ac.gda.beamline.i13i.SimpleMode">
+					<property name="compositeFactory">
+						<bean class="uk.ac.gda.beamline.i13i.StageCompositeFactory">
+							<property name="scannables">
+								<util:list>
+									<ref bean="ss1_samplex"/>
+									<ref bean="ss1_sampley"/>
+									<ref bean="ss1_samplez"/>
+								</util:list>
+							</property>
+							<property name="label" value="Base Stage"/>
+						</bean>
+					</property>
+					<property name="name" value="Sample Stage"/>
+				</bean>
+			</util:list>
+		</property>
+		</bean>
+	</list>
+	</property>
+	</bean>
+
+
 
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />
