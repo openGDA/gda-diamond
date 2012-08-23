@@ -29,8 +29,11 @@
 			</list>
 		</property>
 	</bean>
-
+	
+	
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 	
