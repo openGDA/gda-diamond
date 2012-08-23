@@ -21,6 +21,6 @@ gda --restart --verbose logpanel &
 sleep 2
  
 echo "Starting GDA Servers remotely..."
-echo ssh -i /$SOFTWAREFOLDER/$BEAMLINE/${BEAMLINE}ssh.key gda@${BEAMLINE}-control.diamond.ac.uk
-ssh -i /$SOFTWAREFOLDER/$BEAMLINE/${BEAMLINE}ssh.key gda@${BEAMLINE}-control.diamond.ac.uk
+echo ssh -i /$SOFTWAREFOLDER/$BEAMLINE/${BEAMLINE}ssh.key gda2@${BEAMLINE}-control.diamond.ac.uk
+ssh -i /$SOFTWAREFOLDER/$BEAMLINE/${BEAMLINE}ssh.key gda2@${BEAMLINE}-control.diamond.ac.uk
 
