@@ -11,6 +11,7 @@
 			value="file:${gda.config}/properties/java.properties" />
 	</bean>
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 
