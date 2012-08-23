@@ -15,6 +15,7 @@ import math
 import os
 import sys
 from fast_scan import FastScan
+from gda.jython.ScriptBase import checkForPauses 
 
 f = Finder.getInstance()
 
@@ -24,9 +25,7 @@ Performs software triggered tomography
 def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection, numberofProjections,
                  isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat, positionOfBaseInBeam):
     
-    scriptController = f.find("tomoAlignmentConfigurationScriptController")
-    if scriptController != None:
-        updateScriptController("Tomo scan starting")
+    updateScriptController("Tomo scan starting")
     print "Description: " + `description`
     print "Sample acquisition time: " + `sampleAcquisitionTime`
     print "flatAcquisitionTime: " + `flatAcquisitionTime`
@@ -138,6 +137,7 @@ def doTiltAlignment(module, exposureTime):
 def moveTomoAlignmentMotors(motorMoveMap):
     updateScriptController("Moving tomo alignment motors")
     for motor, position in motorMoveMap.iteritems():
+        checkForPauses()
         f.find(motor).asynchronousMoveTo(position)
         
     for motor, position in motorMoveMap.iteritems():
@@ -312,12 +312,14 @@ def moveToModule(moduleNum):
         sampleTiltZ = 0.0
         cameraSafeZ = -10.0
         updateScriptController("Module align:moving ss1_rx to" + `round(sampleTiltX, 2)`)
+        checkForPauses()
         ss1_rx.asynchronousMoveTo(sampleTiltX)
         while ss1_rz.isBusy():
             updateScriptController("Module align:waiting for ss1_rz to" + `round(ss1_rz.position, 2)`)
             sleep(5)
         
         updateScriptController("Module align:moving ss1_rz to" + `round(sampleTiltZ, 2)`)
+        checkForPauses()
         ss1_rz.asynchronousMoveTo(sampleTiltZ)
         
         cameraModuleLookup = f.find("moduleMotorPositionLUT")
@@ -332,12 +334,15 @@ def moveToModule(moduleNum):
         if offset > 0.1:
             displayVal = round(cameraSafeZ, 3)
             updateScriptController("Module align:moving cam1_z to " + `displayVal`)
+            checkForPauses()
             cam1_z.moveTo(cameraSafeZ)
             displayVal = round(cam1xLookup , 3)
             updateScriptController("Module align:moving cam1_x to " + `displayVal`)
+            checkForPauses()
             cam1_x.moveTo(cam1xLookup)
             displayVal = round(cam1zLookup, 3)
             updateScriptController("Module align:moving cam1_z to " + `displayVal`)
+            checkForPauses()
             cam1_z.moveTo(cam1zLookup)
             
         while ss1_rz.isBusy():
@@ -345,9 +350,12 @@ def moveToModule(moduleNum):
             updateScriptController("Module align:waiting for ss1_rz:" + `displayVal`)
             sleep(5)
             
+        checkForPauses()
         ss1_rz.asynchronousMoveTo(ss1RzLookup)
         
+        checkForPauses()
         t3_x.asynchronousMoveTo(t3xLookup)
+        checkForPauses()
         t3_m1y.asynchronousMoveTo(t3m1yLookup)
         
         while ss1_rx.isBusy():
@@ -382,17 +390,13 @@ class TomoAlignmentConfigurationManager:
         pass
     
     def getRunningConfig(self):
-        scriptController = Finder.getInstance().find("tomoAlignmentConfigurationScriptController");
-        if scriptController != None:
-            updateScriptController('RunningConfig#' + `self.currentConfigInProgress`)
+        updateScriptController('RunningConfig#' + `self.currentConfigInProgress`)
         return self.currentConfigInProgress
         
     def setupTomoScan(self, length, configIds, descriptions, moduleNums, motorMoveMaps, sampleAcquisitionTimes, flatAcquisitionTimes, numberOfFramesPerProjections, numberofProjectionss,
                  isContinuousScans, desiredResolutions, timeDividers, positionOfBaseAtFlats, positionOfBaseInBeam):
         if self.currentConfigInProgress != None:
-            scriptController = Finder.getInstance().find("tomoAlignmentConfigurationScriptController");
-            if scriptController != None:
-                updateScriptController('Tomography Scan already in progress...')
+            updateScriptController('Tomography Scan already in progress...')
             print "Tomography Scan already in progress..."
             return
         self.tomoAlignmentConfigurations.clear()
@@ -411,9 +415,7 @@ class TomoAlignmentConfigurationManager:
                 statusList[v.configId] = v.status
             self.currentConfigInProgress = statusList
         print self.currentConfigInProgress
-        scriptController = Finder.getInstance().find("tomoAlignmentConfigurationScriptController");
-        if scriptController != None:
-            updateScriptController('RunningConfig#' + `self.currentConfigInProgress`)
+        updateScriptController('RunningConfig#' + `self.currentConfigInProgress`)
         
     def runConfigs(self):
         #print "runconfigs"
@@ -423,7 +425,16 @@ class TomoAlignmentConfigurationManager:
             cmdToQueue = 'tomoAlignment.tomographyConfigurationManager.tomoAlignmentConfigurations[' + `i` + '].doTomographyAlignmentAndScan()'
 #            print 'Queued command:' + cmdToQueue
             commandQ.addToTail(JythonCommandCommandProvider(cmdToQueue, `i + 1` + ". Tomography Alignment and Scan : " + config.description, None))
-            
+    
+    def stopScan(self):
+        statusList = {}
+        for k, v in self.tomoAlignmentConfigurations.iteritems():
+            if v.status == None or v.status == "Running":
+                v.status = "Fail"
+            statusList[v.configId] = v.status
+        self.currentConfigInProgress = None
+        updateScriptController('RunningConfig#' + `statusList`)
+        
 tomographyConfigurationManager = TomoAlignmentConfigurationManager()
     
 class TomoAlignmentConfiguration:
@@ -453,10 +464,13 @@ class TomoAlignmentConfiguration:
             self.status = "Running"
             self.tomographyConfigurationManager.setConfigRunning(self.configId)
             print 'Aligning module'
+            checkForPauses()
             moveToModule(self.moduleNum)
             print 'Aligning alignment motors'
+            checkForPauses()
             moveTomoAlignmentMotors(self.motorMoveMap)
             print 'Tomography scan'
+            checkForPauses()
             tomoScani12(self.description,
                         self.sampleAcquisitionTime,
                         self.flatAcquisitionTime,
@@ -476,6 +490,4 @@ class TomoAlignmentConfiguration:
         finally:
             self.tomographyConfigurationManager.setConfigRunning(self.configId)
             self.tomographyConfigurationManager.setConfigRunning(None)
-            if scriptController != None:
-                updateScriptController('Tomography Scan Complete')
-       
+            updateScriptController('Tomography Scan Complete')
