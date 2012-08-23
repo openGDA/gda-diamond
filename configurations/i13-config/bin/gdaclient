@@ -13,6 +13,8 @@ then
     rm -rf /scratch/.i13_workspace-$(whoami)*
 fi
 
+$GDAFOLDER/client/gda-i13i -configuration /scratch/gda_configs/$(whoami)
+exit
 
 JAVA_OPTS="-Xms128m -Xmx4096m -XX:MaxPermSize=256m -XX:+DisableExplicitGC"
 JAVA_OPTS="-Dorg.eclipse.swt.browser.XULRunnerPath=/dls_sw/apps/xulrunner/x86_64/xulrunner-1.9.2 "$JAVA_OPTS

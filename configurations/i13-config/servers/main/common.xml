@@ -60,6 +60,9 @@
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="visitid" />
 				</bean>
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="title" />
+				</bean>
 			</list>
 		</property>
 	</bean>

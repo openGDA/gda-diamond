@@ -26,6 +26,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class SimpleMode implements IImageMode {
 	
@@ -33,6 +34,8 @@ public class SimpleMode implements IImageMode {
 	String name;
 	
 	CompositeFactory compositeFactory;
+	private String imagePluginId;
+	private String imageFilePath;
 	
 	
 
@@ -51,6 +54,26 @@ public class SimpleMode implements IImageMode {
 	}
 
 
+	public String getImagePluginId() {
+		return imagePluginId;
+	}
+
+
+	public void setImagePluginId(String imagePluginId) {
+		this.imagePluginId = imagePluginId;
+	}
+
+
+	public String getImageFilePath() {
+		return imageFilePath;
+	}
+
+
+	public void setImageFilePath(String imageFilePath) {
+		this.imageFilePath = imageFilePath;
+	}
+
+
 	@Override
 	public Control getTabControl(Composite parent) {
 
@@ -60,8 +83,8 @@ public class SimpleMode implements IImageMode {
 
 	@Override
 	public Image getTabImage() {
-		if (image == null) {
-			image = I13IBeamlineActivator.getImageDescriptor("icons/centring.gif").createImage();
+		if (image == null && imagePluginId != null) {
+			image = AbstractUIPlugin.imageDescriptorFromPlugin(imagePluginId, imageFilePath).createImage();
 		}
 		return image;
 	}

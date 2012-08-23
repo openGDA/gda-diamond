@@ -241,11 +241,12 @@
 		<property name="noLongerBusyTriggerSetupCommand" value="tfg setup-trig start adc5 alternate 1"/>
 	</bean>
 	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
-		<constructor-arg ref="pco1_ndhdf5file" />
-		<constructor-arg value="pco1"/>
-		<constructor-arg value="%s%s-%d.hdf"/>
-		<constructor-arg value="true"/>
-		<property name="enable" value="true"/>
+		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
+		<property name="fileNameTemplate" value="pco1"/>
+		<property name="filePathTemplate" value="$datadir$"/>
+		<property name="fileTemplate" value="%s%s-%d.hdf"/>
+		<property name="fileNumberAtScanStart" value="-1"/>
+		<property name="setFileNameAndNumber" value="true"/>
 		<property name="rowChunks" value="32"/>
 	</bean>
 
@@ -288,13 +289,8 @@
 		<property name="collectionStrategy" ref="pco1_singleExposurePco"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg ref="pco1_ndfiletif" />
-				<constructor-arg value="pco1" />
-				<constructor-arg value="%s%s/%05d.tif"/>
-				<constructor-arg value="%s/%d_data/"/>
-				<constructor-arg value="true"/>
-				<constructor-arg value="true"/>
-				<property name="enable" value="true"/>
+				<constructor-arg value="pco1"/>
+				<property name="ndFile" ref="pco1_ndfiletif" />
 				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
 				<property name="returnExpectedFullFileName" value="true"/>
 			</bean>
@@ -318,13 +314,8 @@
 		<property name="collectionStrategy" ref="pco1_tfg"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg ref="pco1_ndfiletif" />
-				<constructor-arg value="pco1" />
-				<constructor-arg value="%s%s/%05d.tif"/>
-				<constructor-arg value="%s/%d_data/"/>
-				<constructor-arg value="true"/>
-				<constructor-arg value="true"/>
-				<property name="enable" value="true"/>
+				<constructor-arg value="pco1"/>
+				<property name="ndFile" ref="pco1_ndfiletif" />
 				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
 				<property name="returnExpectedFullFileName" value="true"/>
 			</bean>
@@ -366,15 +357,10 @@
 		<property name="collectionStrategy" ref="pco1_multipleExposureHardwarePco"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg ref="pco1_ndfiletif" />
-				<constructor-arg value="dimax" />
-				<constructor-arg value="%s%s/%05d.tif"/>
-				<constructor-arg value="%s/%d_data/"/>
-				<constructor-arg value="true"/>
-				<constructor-arg value="true"/>
-				<property name="enable" value="true"/>
-				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+				<constructor-arg value="dimax"/>
+				<property name="ndFile" ref="pco1_ndfiletif" />
 				<property name="returnExpectedFullFileName" value="true"/>
+				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
 				<property name="ndArrayPortVal" value="pco1.prc1"/>
 			</bean>
 		</property>

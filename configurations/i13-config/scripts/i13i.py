@@ -36,7 +36,7 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
 
 
 5. To perform a tomogram:
-	>tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
+	>tomographyScan.tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
               imagesPerDark=20, imagesPerFlat=20, min_i=-1.):
     
    where:

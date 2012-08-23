@@ -37,14 +37,9 @@
 		<property name="readArray" value="true"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg ref="dummy_ad_ndfile" />
-				<constructor-arg value="dummy_cam" />
-				<constructor-arg value="%%s%%s%d-%%05d.tif"/>
-				<constructor-arg value="%s/%d/dummy_cam/"/>
-				<constructor-arg value="true"/>
-				<constructor-arg value="true"/>
-				<property name="enable" value="true"/>
-			</bean>			
+				<constructor-arg value="dummy_cam"/>
+				<property name="ndFile" ref="dummy_ad_ndfile" />
+			</bean>				
 		</property>
 		<property name="readFilepath" value="true"/>
 				

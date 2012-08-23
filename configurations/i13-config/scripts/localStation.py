@@ -57,6 +57,10 @@ try:
 	
 	from gda.scan.RepeatScan import create_repscan, repscan
 	vararg_alias("repscan")
+
+	from gdascripts.metadata.metadata_commands import setTitle
+	alias("setTitle")
+
 	
 	from gdascripts.pd.time_pds import waittimeClass2, showtimeClass, showincrementaltimeClass, actualTimeClass
 	waittime=waittimeClass2('waittime')
@@ -115,9 +119,6 @@ try:
 		autocollimator_script.setup()
 	
 	import tomographyScan
-	import beam_optimizers
-	beam_optimizer = beam_optimizers.beam_optimizer("beam_optimizer", dummy=True)
-	beam_optimizer_dummy = beam_optimizers.beam_optimizer("beam_optimizer_dummy", dummy=True)
 	
 	import alignmentGui
 	tomodet = alignmentGui.TomoDet()

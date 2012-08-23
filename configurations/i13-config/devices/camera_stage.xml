@@ -28,5 +28,22 @@
 		</property>
 	</bean>	
 	
+	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/cs1_x" />
+		<property name="service" ref="cs1_x" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/cs1_y" />
+		<property name="service" ref="cs1_y" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/cs1_z" />
+		<property name="service" ref="cs1_z" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	
 </beans>
 

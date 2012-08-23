@@ -18,7 +18,6 @@
 
 package uk.ac.gda.beamline.i13i;
 
-import gda.device.Scannable;
 import gda.rcp.views.CompositeFactory;
 
 import org.eclipse.jface.layout.GridDataFactory;
@@ -33,14 +32,17 @@ import uk.ac.gda.ui.viewer.RotationViewer;
 
 public class StageCompositeFactory implements CompositeFactory {
 	
+	StageCompositeDefinition[] stageCompositeDefinitions;
 	
-	Scannable[] scannables;
-	String label;
-	int decimalPlaces = 1;
-
-	public void setScannables(Scannable[] scannables) {
-		this.scannables = scannables;
+	public StageCompositeDefinition[] getStageCompositeDefinitions() {
+		return stageCompositeDefinitions;
 	}
+
+	public void setStageCompositeDefinitions(StageCompositeDefinition[] stageCompositeDefinitions) {
+		this.stageCompositeDefinitions = stageCompositeDefinitions;
+	}
+
+	String label;
 
 	public String getLabel() {
 		return label;
@@ -61,10 +63,16 @@ public class StageCompositeFactory implements CompositeFactory {
 
 		
 		
-		for(Scannable s :  scannables){
-			RotationViewer rotViewer = new RotationViewer(s, .1);
-			rotViewer.setNudgeSizeBoxDecimalPlaces(decimalPlaces);
-			rotViewer.createControls(translationGroup, SWT.SINGLE, true);
+		for(StageCompositeDefinition s :  stageCompositeDefinitions){
+			if( s.controlType == 0 || s.controlType==1){
+				RotationViewer rotViewer = new RotationViewer(s.scannable, s.stepSize);
+				rotViewer.setNudgeSizeBoxDecimalPlaces(s.decimalPlaces);
+				if( s.controlType ==0){
+					rotViewer.configureFixedStepButtons(s.smallStep, s.bigStep);
+				}
+				int style = s.controlType == 0 ? SWT.NONE : SWT.SINGLE;
+				rotViewer.createControls(translationGroup, style, true);
+			}
 			
 		}
 		
