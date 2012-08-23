@@ -44,7 +44,7 @@
 		</property>
 	</bean>
 	<!--  Define the scannable groups -->
-	<bean id="m" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="mono" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<!--  Scannables in the group -->
