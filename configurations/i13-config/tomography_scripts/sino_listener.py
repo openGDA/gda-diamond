@@ -9,7 +9,7 @@ import time
 import glob
 import platform
 import subprocess
-from optparse import OptionParser
+#from optparse import OptionParser
 
 
 
@@ -38,7 +38,8 @@ def main( argv, out = sys.stdout, err = sys.stderr ):
 	sl=SinoListener()
 	#sl.setOptions(opts)
 	sl.parseOptions(argv, out, err)
-	sl.run()
+	success = sl.run()
+	return success
 
 class SinoListener():
 
@@ -197,7 +198,7 @@ class SinoListener():
 		if len( err ) > 0:
 			self.err.write ( err + "\n" )
 
-	def queueJobsMonitor(self, nSec=5, totWait=60*45):
+	def monitorQueueJobs(self, nSec=5, totWait=60*45):
 		jobStateIdx=4
 		waiting=True
 		
@@ -368,7 +369,7 @@ class SinoListener():
 
 
 		if ( self.uniqueflag ):
-			self.mypid = uniqueid
+			self.mypid = self.uniqueid
 		else:
 			if self.testing:
 		 		self.mypid = "testing_pid"
@@ -687,11 +688,12 @@ mv *.trace %s
 		self.submitChunkScript()
 		self.submitFinishScript()
 
-		b=self.queueJobsMonitor()
-		if b:
-			print 'queueJobsMonitor returned TRUE'
+		sino_success = self.monitorQueueJobs()
+		if sino_success:
+			print 'All sinogram jobs appear to have completed successfully.'
 		else:
-			print 'queueJobsMonitor returned FALSE'
+			print 'This monitoring of sinogram jobs has timed out: please continue monitoring the status of these jobs using qstat.'
+		return sino_success
 
 
 if __name__ == "__main__":

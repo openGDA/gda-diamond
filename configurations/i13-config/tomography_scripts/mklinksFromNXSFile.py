@@ -16,7 +16,14 @@ from mklinks import makeLinks, makeLinksToOriginalFiles
 from sino_listener import *
 import sino_listener
 
+from recon_arrayxml import *
+import recon_arrayxml
+
 from contextlib import contextmanager
+
+from numpy import *
+import numpy as np
+import PIL.Image
 
 @contextmanager
 def cd(path):
@@ -30,105 +37,6 @@ def cd(path):
 		os.chdir(saved_dir)
 
 
-def dbgPrintNXSContent(nxsFileHandle, map01Def_shutter, map01Def_stage, dfpDef, nEachEnd=5, verbose=True):
-	
-	print "\n>Entering dbgPrintNXSContent"
-	#hard-coded for now NeXus file paths to the bits of data relevant for tomography reconstruction, e.g. shutter and stage physical positions
-	ss1_x=nxsFileHandle['/entry1/instrument/tomoScanDevice/ss1_X']
-	ss1_rot=nxsFileHandle['/entry1/instrument/tomoScanDevice/ss1_rot']
-	tomography_shutter=nxsFileHandle['/entry1/instrument/tomoScanDevice/tomography_shutter']
-	tif=nxsFileHandle['/entry1/instrument/pco1_hw_tif/image_data']
-	
-	len_ss1_x=len(ss1_x)
-	len_ss1_rot=len(ss1_rot)
-	len_tomography_shutter=len(tomography_shutter)
-	len_tif=len(tif)
-	
-	if verbose:
-		print "len_ss1_x=%s"%len_ss1_x
-		print "len_ss1_rot=%s"%len_ss1_rot
-		print "len_tomography_shutter=%s"%len_tomography_shutter
-		print "len_tif=%s"%len_tif
-	
-	n=max(nEachEnd, 0)
-	n+=n
-	n=min(n, len_tif)
-	n/=2
-	
-	print "n=%s"%n
-	
-	image_key={}
-	image_key_tpl=()
-	
-	# lists for the indices of DARK, FLAT and PROJ images, respectively
-	dark_idx=[]
-	flat_idx=[]
-	proj_idx=[]
-	unclassified_idx=[]
-	
-	print "\n"
-	print "\nHEAD of NeXus file content:"
-	print "%s\t%s\t%s\t%s\t%s"%("#", "ss1_x", "ss1_rot", "tomography_shutter", "imagefile")
-#	for i in range(len(mr)):
-	for i in range(0, n):
-		#print "i=%d"%i
-		print "%d\t%g\t%g\t%d\t%s"%(i, ss1_x[i], ss1_rot[i], tomography_shutter[i], tif[i])
-#		print '{0:d} {1:g} {2:g} {3:g}'.format(i, ss1_x[i], ss1_rot[i], tomography_shutter[i])
-		shutter_key=mapPhysValTo01(tomography_shutter[i], map01Def_shutter)
-		print "shutter_key=%d"%shutter_key
-		stage_key=mapPhysValTo01(ss1_x[i], map01Def_stage)
-		print "stage_key=%d"%stage_key
-		image_key=genImageKey(inShutterPos=tomography_shutter[i], map01Def_shutter=map01Def_shutter, inStagePos=ss1_x[i], map01Def_stage=map01Def_stage, dfpDef=dfpDef) 
-		print image_key
-		image_key_tpl=image_key['dark'], image_key['flat'], image_key['proj'] 
-		print image_key_tpl
-		if image_key['dark']==1 and image_key['flat']==0 and image_key['proj']==0:
-			dark_idx.append(i)
-		elif image_key['dark']==0 and image_key['flat']==1 and image_key['proj']==0:
-			flat_idx.append(i)
-		elif image_key['dark']==0 and image_key['flat']==0 and image_key['proj']==1:
-			proj_idx.append(i)
-		else:
-			unclassified_idx.append(i)
-		print "\n"
-
-	print "\nTAIL of NeXus file content:"
-	print "%s\t%s\t%s\t%s\t%s"%("#", "ss1_x", "ss1_rot", "tomography_shutter", "imagefile")
-	for i in range(len_ss1_x-n, len_ss1_x):
-		print "i=%d"%i
-		print "%d\t%g\t%g\t%d\t%s"%(i, ss1_x[i], ss1_rot[i], tomography_shutter[i], tif[i])
-#		print '{0:d} {1:g} {2:g} {3:g}'.format(i, ss1_x[i], ss1_rot[i], tomography_shutter[i])
-		shutter_key=mapPhysValTo01(tomography_shutter[i], map01Def_shutter)
-		print "shutter_key=%d"%shutter_key
-		stage_key=mapPhysValTo01(ss1_x[i], map01Def_stage)
-		print "stage_key=%d"%stage_key
-		image_key=genImageKey(inShutterPos=tomography_shutter[i], map01Def_shutter=map01Def_shutter, inStagePos=ss1_x[i], map01Def_stage=map01Def_stage, dfpDef=dfpDef) 
-		print image_key
-		image_key_tpl=image_key['dark'], image_key['flat'], image_key['proj'] 
-		print image_key_tpl
-		if image_key['dark']==1 and image_key['flat']==0 and image_key['proj']==0:
-			dark_idx.append(i)
-		elif image_key['dark']==0 and image_key['flat']==1 and image_key['proj']==0:
-			flat_idx.append(i)
-		elif image_key['dark']==0 and image_key['flat']==0 and image_key['proj']==1:
-			proj_idx.append(i)
-		else:
-			unclassified_idx.append(i)
-		print "\n"
-
-	if verbose:
-		print "List of DARK indices:"
-		print dark_idx
-		print "List of FLAT indices:"
-		print flat_idx
-		print "List of PROJ indices:"
-		print proj_idx
-		print "List of UNCLASSIFIED indices:"
-		print unclassified_idx
-	
-	print "Leaving dbgPrintNXSContent\n"
-
-
 def genAncestorPath(path, ngenerationDown):
 	outpath=path
 	gen_loc=max(ngenerationDown, 0)
@@ -139,7 +47,7 @@ def genAncestorPath(path, ngenerationDown):
 	return outpath
 
 
-def splitPathIntoConstituents(inPath, inConstituents=['dls', 'beamlineID', 'data', 'yearID', 'visitID', 'scanID', 'detectorID', 'filename'], fallback='unknown_'):
+def splitPathIntoDirs(inPath, inDir=['dls', 'beamlineID', 'data', 'yearID', 'visitID', 'scanID', 'detectorID', 'filename'], fallback='unknown_'):
 	len_inDir=len(inDir)
 	#e.g. /dls/i13/data/2012/mt5811-1/564/pco1/pco1564-00002.tif
 	inPath_split=string.split(inPath, "/")
@@ -164,7 +72,12 @@ def removeTrailingSlash(path):
 		path_out=path_out[0:-1]
 	return path_out
 
-
+def areApproxEqual(inVal0, inVal1, eps=0.001):
+	if abs(inVal0-inVal1)<eps:
+		return True
+	else:
+		return False
+		
 def mapPhysValTo01(inVal, map01Def, pct=0.1):
 	at0=map01Def[0]
 	at1=map01Def[1]
@@ -272,7 +185,7 @@ def createDirs(refFilename, outdir, mandatorydir="processing", verbose=False):
 		raise Exception("The processing dir does NOT exist in :"+`head`)
 	
 	scanNumber_str=os.path.basename(genAncestorPath(refFilename, 2))
-	scanNumber_int=int(scanNumber_str)
+	#scanNumber_int=int(scanNumber_str)
 
 
 	#the paths below are relative to the processing directory
@@ -280,8 +193,9 @@ def createDirs(refFilename, outdir, mandatorydir="processing", verbose=False):
 	sino_dir="sino"+os.sep+scanNumber_str
 	dark_dir="sino"+os.sep+scanNumber_str+os.sep+"dark"
 	flat_dir="sino"+os.sep+scanNumber_str+os.sep+"flat"
+	recon_dir="reconstruction"+os.sep+scanNumber_str
 
-	dirs=[proj_dir, dark_dir, flat_dir, ("reconstruction"+os.sep+scanNumber_str)]
+	dirs=[proj_dir, dark_dir, flat_dir, recon_dir]
 
 	for dirname in dirs:
 		dirname=head+os.sep+dirname
@@ -297,7 +211,7 @@ def createDirs(refFilename, outdir, mandatorydir="processing", verbose=False):
 
 
 	print "\nFinished creating directories." 
-	return scanNumber_str, head, sino_dir, dark_dir, flat_dir, proj_dir
+	return scanNumber_str, head, sino_dir, dark_dir, flat_dir, proj_dir, recon_dir
 
 
 def decimate(inList, decimationRate=1):
@@ -308,7 +222,7 @@ def decimate(inList, decimationRate=1):
 	decimate([12,13,14,15,16,17,18,19,20], 9)= [20]
 	decimate([12,13,14,15,16,17,18,19,20], 10)= []
 	decimate([12,13,14,15,16,17,18,19,20], 11)= []
-	ecimate([12,13,14,15,16,17,18,19,20], 1)= [12,13,14,15,16,17,18,19,20]
+	decimate([12,13,14,15,16,17,18,19,20], 1)= [12,13,14,15,16,17,18,19,20]
 	"""
 	decimationRate_loc=int(decimationRate)
 	if decimationRate_loc<1:
@@ -356,7 +270,8 @@ def populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, tif_lst, da
 	makeLinks_arg['beamlineID']=src_proj_split[2]
 	makeLinks_arg['year']=int(src_proj_split[4])
 	makeLinks_arg['visit']=src_proj_split[5]
-	makeLinks_arg['scanNumber']=int(src_proj_split[6])
+	#makeLinks_arg['scanNumber']=int(src_proj_split[6])
+	makeLinks_arg['scanNumber']=src_proj_split[6]
 	makeLinks_arg['detector']=src_proj_split[7]
 	
 	makeLinks_arg['firstImage']=proj_idx[0]
@@ -384,13 +299,15 @@ def populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, tif_lst, da
 #						, lastImage=makeLinks_arg['lastImage']\
 #						, outdir=(head+os.sep+proj_dir))
 
-	filenameFmt=detectorName+scanNumber_str+"-"+"%05d.tif"
+	#filenameFmt=detectorName+scanNumber_str+"-"+"%05d.tif"
+	inFnameFmt="%05d.tif"
+	outFnameFmt="p_%05d.tif"
 	makeLinksToOriginalFiles(\
 							proj_idx_decimated\
 							, indir=genAncestorPath(refFilename, 1)\
-							, inFilenameFmt=filenameFmt\
+							, inFilenameFmt=inFnameFmt\
 							, outdir=(head+os.sep+proj_dir)\
-							, outFilenameFmt=filenameFmt)
+							, outFilenameFmt=outFnameFmt)
 
 	print "\nFinished populating directories." 
 	return len(proj_idx_decimated), detectorName
@@ -400,12 +317,12 @@ def createSoftLink(src, dst):
 	if not os.path.exists(src):
 		raise Exception("File cannot be linked to as it does not exist:"+`src`)
 	if os.path.exists(dst):
-		msg="Fn createSoftLink: Soft link already exists:"+`dst`
-		#print msg
-		raise Exception("Fn createSoftLink: Soft link already exists:"+`dst`)
-	cmd="ln -s "+src+" "+dst
-	#print cmd
-	subprocess.call(cmd, shell=True)
+		if os.path.realpath(src)!=os.path.realpath(dst):
+				msg="Soft link already exists:"+`src`+" but not to the required destination "+`dst`
+				raise Exception(msg)		
+	else:
+		cmd="ln -s "+src+" "+dst
+		subprocess.call(cmd, shell=True)
 
 
 def launchSinoListener(inDir, inFilenameFmt, nProjs, outDir, verbose=False, testing=True):
@@ -421,8 +338,528 @@ def launchSinoListener(inDir, inFilenameFmt, nProjs, outDir, verbose=False, test
 		args+=[ "-t"]
 	
 	print args
-	sino_listener.main(args)
+	s_success=sino_listener.main(args)
 	#sino_listener.main(["sino_listener.py", "-i", "/home/vxu94780/processing/rawdata/564/projections", "-I", "pco1564-%05d.tif", "-p", "1200", "-t"])
+	return s_success
+
+def readTIFF_u16(path):
+	"""Read 16bit TIFF"""
+	print '\treadTIFF_u16 START'
+	print 'filepath=', path
+	im=PIL.Image.open(path)
+	print "im.format", im.format
+	print "im.mode", im.mode
+	print 'im.size', im.size
+	
+	#out=np.fromstring(im.tostring(), np.uint8).reshape(tuple(list(im.size)+[2]))
+	arr=np.fromstring(im.tostring(), np.uint8).reshape(im.size[1], im.size[0], 2)
+	print 'arr.shape', arr.shape
+	print 'im.size[0]*im.size[1] =', im.size[0]*im.size[1]
+	print '\treadTIFF_u16 END'
+	return im, (np.array(arr[:, :, 0], np.uint16)<<8)+arr[:, :, 1]
+
+def histogram_full(arr):
+	print '\thistogram_full START'
+	maxIntensity=arr.max()
+	maxIntensity_=np.amax(arr)
+	print 'maxIntensity=', maxIntensity
+	print 'maxIntensity_=', maxIntensity_
+	
+	bins=xrange(0, maxIntensity+1+1)
+	print 'bins=', bins
+	#hist=np.histogram(arr, maxIntensity+1)
+	hist=np.histogram(arr, bins)
+	print 'hist: ', hist
+	print 'len(hist)=', len(hist)
+	print 'len(hist[0])=', len(hist[0])
+	print 'len(hist[1])=', len(hist[1])
+	print 'type(hist[0])=', type(hist[0])
+	print 'hist[0].size=', hist[0].size
+	print 'hist[0][0]=', hist[0][0]
+	print 'hist[0][maxIntensity+1]=', hist[0][maxIntensity]
+	
+	print '\thistogram_full END'
+	return hist[0]
+		
+def find_threshold_otsu(arr, ignore_zeros=False):
+	print '\tfind_threshold_otsu START'
+	hist=histogram_full(arr)
+	hist=hist.astype(np.double)
+	
+	if ignore_zeros:
+		hist[0]=0
+		
+	Ng=len(hist)
+	nB=np.cumsum(hist)
+	nO=nB[-1]-nB
+	mu_B=0
+	mu_O=(np.arange(1, Ng)*hist[1:]).sum()/hist[1:].sum()
+	best=nB[0]*nO[0]*(mu_B-mu_O)*(mu_B-mu_O)
+	bestT=0
+
+	for T in xrange(1, Ng):
+		if nB[T]==0: continue
+		if nO[T]==0: break
+		mu_B=(mu_B*nB[T-1]+T*hist[T])/nB[T]
+		mu_O=(mu_O*nO[T-1]-T*hist[T])/nO[T]
+		sigma_between=nB[T]*nO[T]*(mu_B-mu_O)*(mu_B-mu_O)
+		if sigma_between>best:
+			best=sigma_between
+			bestT=T
+	
+	print '\tfind_threshold_otsu END'
+	return bestT
+
+def calc_centroid_arr(arr):
+	
+	sx=sy=n=0
+	for x in range(0, arr.shape[0]):
+		for y in range(0, arr.shape[1]):
+			if arr[x, y]:
+				n+=1
+				
+	if n>0:
+		print 'calc_centroid_arr: n=', n
+		n=1.0/n
+			
+	for x in range(0, arr.shape[0]):
+		for y in range(0, arr.shape[1]):
+			if arr[x, y]:
+				sx+=y*n
+				sy+=x*n
+	
+	return float(sx)+0.5, float(sy)+0.5
+
+def overwrite_timestamp(filename, dy=16+1, intensity=0):
+	fname=filename+'.tif'
+	im0, a0=readTIFF_u16(fname)
+	
+	w, h=a0.shape[1], a0.shape[0]
+	#w=a0.size[1]
+	#h=a0.size[0]
+	arr_ovr=np.zeros((w, h), np.uint16)
+	arr_ovr.shape=h, w
+	
+	#copy
+	for x in range(0, a0.shape[0]):
+		for y in range(0, a0.shape[1]):
+			arr_ovr[x, y]=a0[x, y]
+			
+	#overwrite
+	for x in range(0, min(a0.shape[0], dy)):
+		for y in range(0, a0.shape[1]):
+			arr_ovr[x, y]=intensity
+			
+	im_ovr=PIL.Image.frombuffer("I;16", (w, h) , arr_ovr, "raw", "I;16", 0, 1)
+	filename_ovr=filename+'_ovr'+`dy`
+	fname_ovr=filename_ovr+'.tif'
+	file=open(fname_ovr, 'w')
+	output_type="TIFF"
+	im_ovr.save(file, output_type)
+	file.close()
+	return filename_ovr
+
+def findLeastUpperBound( refVal, lstVal ):
+	len_lstVal = len( lstVal )
+	lstVal_sorted = sorted( lstVal )
+	#print lstVal_sorted
+	leastUpperBoundIdx = 0
+	leastUpperBoundVal = lstVal_sorted[leastUpperBoundIdx]
+	i = 0
+	while ( i<len_lstVal and lstVal_sorted[i]<refVal ):
+		#print 'i=', i
+		if lstVal_sorted[i]>leastUpperBoundVal:
+			leastUpperBoundVal = lstVal_sorted[i]
+			leastUpperBoundIdx = i
+		i+=1
+	return leastUpperBoundVal, leastUpperBoundIdx
+
+def findGreatestLowerBound( refVal, lstVal ):
+	len_lstVal = len( lstVal )
+	lstVal_sorted = sorted( lstVal )
+	#print lstVal_sorted
+	greatestLowerBoundIdx = len_lstVal-1
+	greatestLowerBoundVal = lstVal_sorted[greatestLowerBoundIdx]
+	i = len_lstVal
+	while ( (i-1)>0 and lstVal_sorted[i-1]>refVal ):
+		#print 'i-1=', (i-1)
+		if lstVal_sorted[i-1]<greatestLowerBoundVal:
+			greatestLowerBoundVal = lstVal_sorted[i-1]
+			greatestLowerBoundIdx = i-1
+		i-=1
+	return greatestLowerBoundVal, greatestLowerBoundIdx
+
+def estimateCOR(projFilename_0deg, flatFilename_0deg, darkFilename_0deg, projFilename_180deg, flatFilename_180deg, darkFilename_180deg):
+	print estimateCOR.__name__
+	print "projFilename_0deg=", projFilename_0deg
+	print "flatFilename_0deg=", flatFilename_0deg
+	print "darkFilename_0deg=", darkFilename_0deg
+	print "projFilename_180deg=", projFilename_180deg
+	print "flatFilename_180deg=", flatFilename_180deg
+	print "darkFilename_180deg=", darkFilename_180deg
+
+	#filename with ext
+	fname0=projFilename_0deg
+	fname180=projFilename_180deg
+
+	#filename without extension
+	filename0, filenameExt0 = os.path.splitext(fname0)
+	filename180, filenameExt180 = os.path.splitext(fname180)
+
+	#filename head and tail
+	head0, tail0 = os.path.split(filename0)
+	head180, tail180 = os.path.split(filename180)
+
+	filename0='/dls/tmp/vxu94780'+os.sep+tail0
+	filename180='/dls/tmp/vxu94780'+os.sep+tail180
+
+	print 'filename0=', filename0
+	print 'filename180=', filename180
+
+	print 'fname0=', fname0
+	print 'fname180=', fname180
+
+	#return 0, 0
+	
+	dbg_save = False
+
+	im0, a0=readTIFF_u16(fname0)
+	im180, a180=readTIFF_u16(fname180)
+	print 'im180.size', im180.size
+	print 'a180.shape', a180.shape
+	
+	w, h=a180.shape[1], a180.shape[0]
+	
+	useSubtraction=False
+	if useSubtraction:
+		filename0_flat=flatFilename_0deg
+		filename180_flat=flatFilename_180deg
+		
+		fname0_flat=filename0_flat+'.tif'
+		fname180_flat=filename180_flat+'.tif'
+		
+		im0_flat, a0_flat=readTIFF_u16(fname0_flat)
+		im180_flat, a180_flat=readTIFF_u16(fname180_flat)
+		print 'im180_flat.size=', im180_flat.size
+		print 'a180_flat.shape=', a180_flat.shape
+		
+		s=0
+		for x in range(0, a0.shape[0]):
+			for y in range(0, a0.shape[1]):
+				f=a0[x, y]
+				a0[x, y]-=a0_flat[x, y]
+				#a0[x, y]=a0_flat[x, y]-a0[x, y]
+				if a0[x, y]<0: 
+					a0[x, y]=0
+				#a0[x, y]=65535-a0[x, y]
+				if a0[x, y]>f:
+					
+					if s<10:
+						print "\n"
+						print "f=", f
+						print 'a0_flat[x, y]=', a0_flat[x, y]
+						print 'a0[x, y]=', a0[x, y]
+						print 'f-a0_flat[x, y]=', f-a0_flat[x, y]
+						s+=1
+				
+				a180[x, y]-=a180_flat[x, y]
+				#a180[x, y]=a180_flat[x, y]-a180[x, y]
+				if a180[x, y]<0: 
+					a180[x, y]=65535
+				#a180[x, y]=65535-a180[x, y]
+			
+		#im0_sub=im0.filter(PIL.ImageFilter.BLUR)
+		im0_sub=PIL.Image.frombuffer("I;16B", (w, h) , a0, "raw", "I;16B", 0, 1)
+		filename0_sub=filename0+'_sub'
+		fname0_sub=filename0+'_sub.tif'
+		file=open(fname0_sub, 'w')
+		output_type="TIFF"
+		im0_sub.save(file, output_type)
+		file.close()
+		print '>>im0: flat-subtracted'
+	
+		im180_sub=PIL.Image.frombuffer("I;16B", (w, h) , a180, "raw", "I;16B", 0, 1)
+		filename180_sub=filename180+'_sub'
+		fname180_sub=filename180+'_sub.tif'
+		file=open(fname180_sub, 'w')
+		output_type="TIFF"
+		im180_sub.save(file, output_type)
+		file.close()
+		print '>>im180: flat-subtracted'
+	
+	# im180 flipped LR 
+	a180_flp=np.zeros((w, h), np.uint16)
+	a180_flp.shape=h, w
+	
+	for x in range(0, a180.shape[0]):
+		for y in range(0, a180.shape[1]):
+			a180_flp[x, y]=a180[x, a180.shape[1]-y-1]
+	#		a180_flp[x, y]=a180[x, y]
+			
+	im180_flp=PIL.Image.frombuffer("I;16B", (w, h) , a180_flp, "raw", "I;16B", 0, 1)
+	filename180_flp=filename180+'_flp'
+	fname180_flp=filename180+'_flp.tif'
+	if dbg_save:
+		file=open(fname180_flp, 'w')
+		output_type="TIFF"
+		im180_flp.save(file, output_type)
+		file.close()
+	print 'File saving pt: ',fname180_flp
+	print '>>im180: LR-flipped'
+	
+	# im180 flipped LR, inverted
+	a180_flp_inv=np.zeros((w, h), np.uint16)
+	a180_flp_inv.shape=h, w
+	
+	for x in range(0, a180_flp.shape[0]):
+		for y in range(0, a180_flp.shape[1]):
+			if not useSubtraction:
+				a180_flp_inv[x, y]=65535-a180_flp[x, y]
+			else:
+				a180_flp_inv[x, y]=a180_flp[x, y]
+			
+	im180_flp_inv=PIL.Image.frombuffer("I;16B", (w, h) , a180_flp_inv, "raw", "I;16B", 0, 1)
+	filename180_flp_inv=filename180+'_flp_inv'
+	fname180_flp_inv=filename180+'_flp_inv.tif'
+	if dbg_save:
+		file=open(fname180_flp_inv, 'w')
+		output_type="TIFF"
+		im180_flp_inv.save(file, output_type)
+		file.close()
+	print 'File saving pt: ',fname180_flp_inv
+	print '>>im180: LR-flipped + inverted'
+	
+	# im0 inverted
+	a0_inv=np.zeros((w, h), np.uint16)
+	a0_inv.shape=h, w
+	
+	for x in range(0, a0.shape[0]):
+		for y in range(0, a0.shape[1]):
+			if not useSubtraction:
+				a0_inv[x, y]=65535-a0[x, y]
+			else:
+				a0_inv[x, y]=a0[x, y]
+			
+	im0_inv=PIL.Image.frombuffer("I;16B", (w, h) , a0_inv, "raw", "I;16B", 0, 1)
+	filename0_inv=filename0+'_inv'
+	fname0_inv=filename0+'_inv.tif'
+	if dbg_save:
+		file=open(fname0_inv, 'w')
+		output_type="TIFF"
+		im0_inv.save(file, output_type)
+		file.close()
+	print 'File saving pt: ',fname0_inv
+	print '>>im0: inverted'
+	
+	
+	arr_tmp=np.fromstring(im0_inv.tostring(), np.uint8).reshape(im0_inv.size[1], im0_inv.size[0], 2)
+	a0_inv_=(np.array(arr_tmp[:, :, 0], np.uint16)<<8)+arr_tmp[:, :, 1]
+
+	thr0=find_threshold_otsu(a0_inv_)
+	thr0_=find_threshold_otsu(a0_inv_, True)
+	print 'x thr0=', thr0
+	print 'x thr0_=', thr0_
+	
+	# apply threshold to im0
+	a0_inv_thr_=np.zeros((w, h), np.uint16)
+	a0_inv_thr_.shape=h, w
+	threshold0=thr0
+	lo=0
+	hi=65535
+	for x in range(0, a0_inv_.shape[0]):
+		for y in range(0, a0_inv_.shape[1]):
+			if a0_inv_[x, y]<threshold0:
+				a0_inv_thr_[x, y]=lo
+			else:
+				a0_inv_thr_[x, y]=hi
+			
+	im0_inv_thr=PIL.Image.frombuffer("I;16", (w, h) , a0_inv_thr_, "raw", "I;16", 0, 1)
+	filename0_inv_thr=filename0+'_inv_thr'+`threshold0`
+	fname0_inv_thr=filename0_inv_thr+'.tif'
+	if dbg_save: 
+		file=open(fname0_inv_thr, 'w')
+		output_type="TIFF"
+		im0_inv_thr.save(file, output_type)
+		file.close()
+	filename0_thr=filename0_inv_thr
+	
+	"""
+	im0_inv, a0_inv=readTIFF_u16(fname0_inv)
+	thr0=find_threshold_otsu(a0_inv)
+	thr0_=find_threshold_otsu(a0_inv, True)
+	print 'thr0=', thr0
+	print 'thr0_=', thr0_
+		
+	filename0_thr=apply_threshold(filename0_inv, thr0)
+	"""
+	print 'File saving pt: ',fname0_inv_thr
+	print 'filename0_thr=', filename0_thr
+	print '>>im0: inverted + thresholded'
+	
+	
+	arr_tmp=np.fromstring(im180_flp_inv.tostring(), np.uint8).reshape(im180_flp_inv.size[1], im180_flp_inv.size[0], 2)
+	a180_flp_inv_=(np.array(arr_tmp[:, :, 0], np.uint16)<<8)+arr_tmp[:, :, 1]
+	thr180=find_threshold_otsu(a180_flp_inv_)
+	thr180_=find_threshold_otsu(a180_flp_inv_, True)
+	print 'x thr180=', thr180
+	print 'x thr180_=', thr180_
+
+	# apply threshold to im180
+	a180_flp_inv_thr_=np.zeros((w, h), np.uint16)
+	a180_flp_inv_thr_.shape=h, w
+	threshold180=thr180
+	lo=0
+	hi=65535
+	for x in range(0, a180_flp_inv_.shape[0]):
+		for y in range(0, a180_flp_inv_.shape[1]):
+			if a180_flp_inv_[x, y]<threshold180:
+				a180_flp_inv_thr_[x, y]=lo
+			else:
+				a180_flp_inv_thr_[x, y]=hi
+			
+	im180_flp_inv_thr=PIL.Image.frombuffer("I;16", (w, h) , a180_flp_inv_thr_, "raw", "I;16", 0, 1)
+	filename180_flp_inv_thr=filename180+'_flp_inv_thr'+`threshold180`
+	fname180_flp_inv_thr=filename180_flp_inv_thr+'.tif'
+	if dbg_save:
+		file=open(fname180_flp_inv_thr, 'w')
+		output_type="TIFF"
+		im180_flp_inv_thr.save(file, output_type)
+		file.close()
+	filename180_thr=filename180_flp_inv_thr
+	
+	"""
+	im180_flp_inv, a180_flp_inv=readTIFF_u16(fname180_flp_inv)
+	thr180=find_threshold_otsu(a180_flp_inv)
+	thr180_=find_threshold_otsu(a180_flp_inv, True)
+	print 'thr180=', thr180
+	print 'thr180_=', thr180_
+	
+	filename180_thr=apply_threshold(filename180_flp_inv, thr180)
+	"""
+	print 'File saving pt: ',fname180_flp_inv_thr
+	print 'filename180_thr=', filename180_thr
+	print '>>im180: LR-flipped + inverted + thresholded'
+	
+	
+	# apply timestamp-overwrite to im0
+	a0_inv_thr_ovr_=np.zeros((w, h), np.uint16)
+	a0_inv_thr_ovr_.shape=h, w
+	intensity=0
+	dy=256
+	
+	# first copy the entire source content
+	for x in range(0, a0_inv_thr_.shape[0]):
+		for y in range(0, a0_inv_thr_.shape[1]):
+			a0_inv_thr_ovr_[x, y]=a0_inv_thr_[x, y]
+			
+	# then overwrite what's required 
+	for x in range(0, min(a0_inv_thr_.shape[0], dy)):
+		for y in range(0, a0_inv_thr_.shape[1]):
+			a0_inv_thr_ovr_[x, y]=intensity
+			
+	#for x in range(0, a0_inv_thr_.shape[0]):
+	#	for y in range(a0_inv_thr_.shape[1]-256*3, a0_inv_thr_.shape[1]):
+	#		a0_inv_thr_ovr_[x, y]=intensity
+			
+	im0_inv_thr_ovr=PIL.Image.frombuffer("I;16", (w, h) , a0_inv_thr_ovr_, "raw", "I;16", 0, 1)
+	filename0_inv_thr_ovr=filename0+'_inv_thr'+`threshold0`+'_ovr'+`dy`
+	fname0_inv_thr_ovr=filename0_inv_thr_ovr+'.tif'
+	if dbg_save:
+		file=open(fname0_inv_thr_ovr, 'w')
+		output_type="TIFF"
+		im0_inv_thr_ovr.save(file, output_type)
+		file.close()
+	filename0_ovr=filename0_inv_thr_ovr
+
+	#filename0_ovr=overwrite_timestamp(filename0_thr, dy=256)
+	print 'File saving pt: ',fname0_inv_thr_ovr
+	print 'filename0_ovr=', filename0_ovr
+	print '>>im0: inverted + thresholded + timestamp-overwritten'
+	
+	
+	
+	# apply timestamp-overwrite to im180
+	a180_flp_inv_thr_ovr_=np.zeros((w, h), np.uint16)
+	a180_flp_inv_thr_ovr_.shape=h, w
+	intensity=0
+	dy=256
+	
+	# first copy the entire source content 
+	for x in range(0, a180_flp_inv_thr_.shape[0]):
+		for y in range(0, a180_flp_inv_thr_.shape[1]):
+			a180_flp_inv_thr_ovr_[x, y]=a180_flp_inv_thr_[x, y]
+			
+	# then overwrite what's required 
+	for x in range(0, min(a180_flp_inv_thr_.shape[0], dy)):
+		for y in range(0, a180_flp_inv_thr_.shape[1]):
+			a180_flp_inv_thr_ovr_[x, y]=intensity
+			
+	#for x in range(0, a180_flp_inv_thr_.shape[0]):
+	#	for y in range(0, 256*3):
+	#		a180_flp_inv_thr_ovr_[x, y]=intensity
+			
+	im180_flp_inv_thr_ovr=PIL.Image.frombuffer("I;16", (w, h) , a180_flp_inv_thr_ovr_, "raw", "I;16", 0, 1)
+	filename180_flp_inv_thr_ovr=filename180+'_flp_inv_thr'+`threshold180`+'_ovr'+`dy`
+	fname180_flp_inv_thr_ovr=filename180_flp_inv_thr_ovr+'.tif'
+	if dbg_save:
+		file=open(fname180_flp_inv_thr_ovr, 'w')
+		output_type="TIFF"
+		im180_flp_inv_thr_ovr.save(file, output_type)
+		file.close()
+	filename180_ovr=filename180_flp_inv_thr_ovr
+
+	#filename180_ovr=overwrite_timestamp(filename180_thr, dy=256)
+	print 'File saving pt: ',fname180_flp_inv_thr_ovr
+	print 'filename180_ovr=', filename180_ovr
+	print '>>im180: LR-flipped + inverted + thresholded + timestamp-overwritten'
+	
+	
+	
+	
+	# calculate centroid for im0
+	#im0_centroid_x_, im0_centroid_y_=calc_centroid(filename0_ovr)
+	im0_centroid_x, im0_centroid_y=calc_centroid_arr(a0_inv_thr_ovr_)
+	print '\t(im0_centroid_x, im0_centroid_y)=', im0_centroid_x, im0_centroid_y
+	#print '\t(im0_centroid_x_, im0_centroid_y_)=', im0_centroid_x_, im0_centroid_y_
+	print '>>im0: centroid calculated'
+	
+	# calculate centroid for im180
+	#im180_centroid_x_, im180_centroid_y_=calc_centroid(filename180_ovr)
+	im180_centroid_x, im180_centroid_y=calc_centroid_arr(a180_flp_inv_thr_ovr_)
+	print '\t(im180_centroid_x, im180_centroid_y)=', im180_centroid_x, im180_centroid_y
+	#print '\t(im180_centroid_x_, im180_centroid_y_)=', im180_centroid_x_, im180_centroid_y_
+	print '>>im180: centroid calculated'
+	
+	# calc the relative displacement of the centroids
+	centroid_t_x=im180_centroid_x-im0_centroid_x
+	centroid_t_y=im180_centroid_y-im0_centroid_y
+	print '\t(centroid_t_x, centroid_t_y)=', centroid_t_x, centroid_t_y
+	
+	
+	# calc tomoaxis
+	tomoaxis_x=0.5*(im180.size[0]-centroid_t_x)
+	tomoaxis_y=centroid_t_y
+	print '>>tomoaxis=', (tomoaxis_x, tomoaxis_y)
+	
+	print '\testmateRotationCentre END'
+	return tomoaxis_x, tomoaxis_y
+
+
+def launchReconArray(outDir, ctrCoord, verbose=True, testing=False):
+	print launchReconArray.__name__
+	args=["recon_arrayxml.py"]
+	#args+=[ "-h"]
+	#args+=[ "-I", "settings.xml"]
+	args+=[ "-o", outDir]
+	args+=[ "-C", str(ctrCoord)]
+	if verbose:
+		args+=[ "-v"]
+	if testing:
+		args+=[ "-t"]
+	
+	print args
+	r_success=recon_arrayxml.main(args)
+	return r_success
 
 
 def makeLinksForNXSFile(\
@@ -440,17 +877,24 @@ def makeLinksForNXSFile(\
 					, maxUnclassed=0\
 					, decimationRate=1\
 					, sino=False\
+					, recon=False\
 					, verbose=False\
 					, dbg=False):
 	"""
 	Create directories and links to projection, dark and flat images required for sino_listener to create sinograms.
 	
-	NXS paths to data:
+	NXS paths to the relevant data arrays:
+	*primary:
 	SHUTTER PHYSICAL POSITIONS='/entry1/instrument/tomoScanDevice/tomography_shutter'
-	SAMPLE PHYSICAL STAGE POSITIONS='/entry1/instrument/tomoScanDevice/ss1_X'
+	SAMPLE-STAGE PHYSICAL POSITIONS	='/entry1/instrument/tomoScanDevice/ss1_X'
 	TIF FILENAMES='/entry1/instrument/pco1_hw_tif/image_data'
+	IMAGE KEY='/entry1/instrument/tomoScanDevice/image_key'
 	
-	STAGE ANGLES='/entry1/instrument/tomoScanDevice/ss1_rot'
+	*secondary:
+	SAMPLE-STAGE ANGLES='/entry1/instrument/tomoScanDevice/ss1_rot'
+	
+	*additional
+	SCAN COMMAND='/entry1/scan_command'
 	"""
 	if verbose:
 		print "\nInput arguments for makeLinksForNXSFile:"
@@ -468,6 +912,7 @@ def makeLinksForNXSFile(\
 		print "maxUnclassed=%s"%maxUnclassed
 		print "decimationRate=%s"%decimationRate
 		print "sino=%s"%str(sino)
+		print "recon=%s"%str(recon)
 		print "verbose=%s"%str(verbose)
 		print "dbg=%s"%str(dbg)
 		print "\n"
@@ -528,17 +973,55 @@ def makeLinksForNXSFile(\
 			print item+":", nxsFileHandle.attrs[item]
 
 	#get data arrays
-	tomography_shutter=nxsFileHandle[shutterNXSPath]
-	ss1_x=nxsFileHandle[stagePosNXSPath]
-	#ss1_rot=nxsFileHandle['/entry1/instrument/tomoScanDevice/ss1_rot']
-	ss1_rot=nxsFileHandle[stageRotNXSPath]
-	tif=nxsFileHandle[tifNXSPath]
+	try:
+		tomography_shutter=nxsFileHandle[shutterNXSPath]
+	except Exception, ex:
+		raise Exception ("Error on trying to access shutter's data inside the input NeXus file: \n"+str(ex))
 	
+	try:
+		ss1_x=nxsFileHandle[stagePosNXSPath]
+	except Exception, ex:
+		raise Exception ("Error on trying to access  sample stage's translation data inside the input NeXus file: \n"+str(ex))
 	
+	try:
+		#ss1_rot=nxsFileHandle['/entry1/instrument/tomoScanDevice/ss1_rot']
+		ss1_rot=nxsFileHandle[stageRotNXSPath]
+	except Exception, ex:
+		raise Exception ("Error on trying to access  sample stage's angle data inside the input NeXus file: \n"+str(ex))
+	
+	try:
+		tif=nxsFileHandle[tifNXSPath]
+	except Exception, ex:
+		raise Exception ("Error on trying to access paths to TIF images inside the input NeXus file: \n"+str(ex))
+
+	len_all=[]
+	imgkeyNXS=True
+	len_imgkey=-1
+	try:
+		imgkeyNXSPath='/entry1/instrument/tomoScanDevice/image_key'
+		imgkey=nxsFileHandle[imgkeyNXSPath]
+		#print 'type(imgkey)=', type(imgkey)
+		len_imgkey=len(imgkey)
+		#print 'len(imgkey)=', len_imgkey
+		len_all.append(len_imgkey)
+	except Exception, ex:
+		imgkeyNXS=False
+		msg1="Warning on trying to access image-key data inside the input NeXus file: \n"+str(ex)
+		print msg1
+		msg2="INFO: No image key data found; falling back on generating image keys from available data.\n"
+		print msg2
+		pass
+
 	len_ss1_x=len(ss1_x)
 	len_ss1_rot=len(ss1_rot)
 	len_tomography_shutter=len(tomography_shutter)
 	len_tif=len(tif)
+
+	len_all.append(len_ss1_x)
+	len_all.append(len_ss1_rot)
+	len_all.append(len_tomography_shutter)
+	len_all.append(len_tif)
+	print 'len_all=', len_all
 	
 	if verbose:
 		print "len_ss1_x=%s"%len_ss1_x
@@ -557,24 +1040,43 @@ def makeLinksForNXSFile(\
 	N=min(len_ss1_x, len_tomography_shutter, len_tif)
 	
 	if len_ss1_x!=N or len_tomography_shutter!=N or len_tif!=N:
-		raise Exception("The lengths of NeXus datasets differ between each other! ")
+		raise Exception("The lengths of NeXus data arrays differ between one other! ")
 
 	if dbg and False:
 		N=min(10, N)
 
-	image_key={}
-# identify each entry as DARK, FLAT, PROJ or UNCLASSIFIED image
-	for i in range(0, N):
-		image_key=genImageKey(inShutterPos=tomography_shutter[i], map01Def_shutter=map01Def_shutter, inStagePos=ss1_x[i], map01Def_stage=map01Def_stage, dfpDef=dfpDef) 
-		
-		if image_key['dark']==1 and image_key['flat']==0 and image_key['proj']==0:
-			dark_idx.append(i)
-		elif image_key['dark']==0 and image_key['flat']==1 and image_key['proj']==0:
-			flat_idx.append(i)
-		elif image_key['dark']==0 and image_key['flat']==0 and image_key['proj']==1:
-			proj_idx.append(i)
-		else:
-			unclassified_idx.append(i)
+	if not imgkeyNXS:
+		image_key_curr={}
+	# identify each entry as DARK, FLAT, PROJ or UNCLASSIFIED image
+		for i in range(0, N):
+			image_key_curr=genImageKey(inShutterPos=tomography_shutter[i], map01Def_shutter=map01Def_shutter, inStagePos=ss1_x[i], map01Def_stage=map01Def_stage, dfpDef=dfpDef) 
+			
+			if image_key_curr['dark']==1 and image_key_curr['flat']==0 and image_key_curr['proj']==0:
+				dark_idx.append(i)
+			elif image_key_curr['dark']==0 and image_key_curr['flat']==1 and image_key_curr['proj']==0:
+				flat_idx.append(i)
+			elif image_key_curr['dark']==0 and image_key_curr['flat']==0 and image_key_curr['proj']==1:
+				proj_idx.append(i)
+			else:
+				unclassified_idx.append(i)
+	else:
+		msg="INFO: Using image keys found in input NeXus file.\n"
+		print msg
+		dfp={}
+		dfp['dark']=2
+		dfp['flat']=1
+		dfp['proj']=0
+		image_key_curr=-1
+		for i in range(0, N):
+			image_key_curr=int(imgkey[i])
+			if image_key_curr==dfp['dark']:
+				dark_idx.append(i)
+			elif image_key_curr==dfp['flat']:
+				flat_idx.append(i)
+			elif image_key_curr==dfp['proj']:
+				proj_idx.append(i)
+			else:
+				unclassified_idx.append(i)
 	
 	if verbose:
 		print "List of DARK indices:"
@@ -607,17 +1109,42 @@ def makeLinksForNXSFile(\
 		#msg="The number of unclassified images is: %s!"%len_unclassified_idx
 		raise Exception("Number of UNCLASSIFIED images is TOO HIGH to proceed: "+`len_unclassified_idx`+" > "+`hiUnclassifieds_exc`+" (the latter is the exclusive max)")
 	
-	if verbose:
-		theta_lo=ss1_rot[ proj_idx[0] ]
-		theta_hi=ss1_rot[ proj_idx[len_proj_idx-1] ] 
+	theta_lo=ss1_rot[ proj_idx[0] ]
+	theta_hi=ss1_rot[ proj_idx[len_proj_idx-1] ]
+
+	#if verbose:
+		#theta_lo=ss1_rot[ proj_idx[0] ]
+		#theta_hi=ss1_rot[ proj_idx[len_proj_idx-1] ] 
+		#print "theta_lo = %s, zidx = %s"%(theta_lo, proj_idx[0])
+		#print "theta_hi = %s, zidx = %s"%(theta_hi, proj_idx[len_proj_idx-1])
+
+	path_proj_0deg=''
+	img_idx_proj_0deg=-1
+	if areApproxEqual(theta_lo, 0.0):
+		print 'Found projection at angle 0 with image index=', proj_idx[0]
+		path_proj_0deg = tif[ proj_idx[0] ][0]
+		img_idx_proj_0deg = proj_idx[0]
+	else:
+		msg = 'Failed to find projection at angle 0!' 
 		print "theta_lo = %s, zidx = %s"%(theta_lo, proj_idx[0])
+		raise Exception(msg)
+		
+	path_proj_180deg=''
+	img_idx_proj_180deg=-1
+	if areApproxEqual(theta_hi, 180.0):
+		print 'Found projection at angle 180 with image index=', proj_idx[len_proj_idx-1]
+		path_proj_180deg = tif[ proj_idx[len_proj_idx-1] ][0]
+		img_idx_proj_180deg = proj_idx[len_proj_idx-1]
+	else:
+		msg = 'Failed to find projection at angle 180!' 
 		print "theta_hi = %s, zidx = %s"%(theta_hi, proj_idx[len_proj_idx-1])
+		raise Exception(msg)
 	
 	# use the path of the first PROJ image file as a reference file path for identifying the corresponding scanNumber, etc
-	srcfile_proj=tif[proj_idx[0]][0]
+	srcfile_proj=tif[ proj_idx[0] ][0]
 	mandatory_parent_foldername="processing"
 	
-	scanNumber_str, head, sino_dir, dark_dir, flat_dir, proj_dir=createDirs(refFilename=srcfile_proj, outdir=outdir, mandatorydir=mandatory_parent_foldername, verbose=verbose)
+	scanNumber_str, head, sino_dir, dark_dir, flat_dir, proj_dir, recon_dir=createDirs(refFilename=srcfile_proj, outdir=outdir, mandatorydir=mandatory_parent_foldername, verbose=verbose)
 	
 	len_proj_idx_decimated, detectorName=populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, tif, dark_idx, flat_idx, proj_idx, decimationRate, verbose=verbose)
 	
@@ -628,11 +1155,13 @@ def makeLinksForNXSFile(\
 		#sino=SinoListener(["prog", "-h"], out=sys.stdout, err=sys.stderr, testing=True)
 		#sino=SinoListener(["prog", "-h"], out=sys.stdout, err=sys.stderr, testing=True)
 		#/dls/i13/data/2012/mt5811-1/processing/rawdata/564/projections
+		sino_success=False
 		with cd(head+os.sep+sino_dir):
-			#print "\n\tInside context manager CWD = %s"%os.getcwd()
+			#print "\n\tInside sino context manager CWD = %s"%os.getcwd()
 			try:
 				#inProjFmt="pco1564-%05d.tif"
-				inProjFmt=detectorName+scanNumber_str+"-"+"%05d.tif"
+				#inProjFmt=detectorName+scanNumber_str+"-"+"%05d.tif"
+				inProjFmt="p_%05d.tif"
 				#nprojs=len_proj_idx_decimated
 				#nprojs=1200
 				if len_proj_idx_decimated<loProjs_exc or len_proj_idx_decimated<2:
@@ -640,11 +1169,62 @@ def makeLinksForNXSFile(\
 				
 				zidx_last=len_proj_idx_decimated-1
 				#print 'zidx_last=', zidx_last
-				launchSinoListener(head+os.sep+proj_dir, inProjFmt, zidx_last, head+os.sep+sino_dir, verbose=True, testing=False)
+				sino_success=launchSinoListener(head+os.sep+proj_dir, inProjFmt, zidx_last, head+os.sep+sino_dir, verbose=True, testing=False)
 			except Exception, ex:
+				sino_success=False
 				raise Exception ("ERROR Spawning the sino_listener script  "+str(ex))
 		
 		print "\nAfter launching the sino_listener script CWD = %s"%os.getcwd()
+		
+		if sino_success:
+			print 'sino_success=TRUE'
+		else:
+			print 'sino_success=FALSE'
+		
+		#recon = True	
+		if sino_success and recon:
+			#with cd(head+os.sep+"reconstruction/564"):
+			with cd(head+os.sep+sino_dir):
+				try:
+					print "\n\tInside recon context manager CWD = %s"%os.getcwd()
+					#reconDir="../../reconstruction/564"
+					reconDir=head+os.sep+recon_dir
+					print "reconDir=",reconDir
+
+					print '\tpath_proj_0deg=', path_proj_0deg
+					print '\tpath_proj_180deg=', path_proj_180deg
+					
+					lubVal_flat_0deg, lubIdx_flat_0deg = findLeastUpperBound(img_idx_proj_0deg,flat_idx)
+					path_flat_0deg = tif[ lubVal_flat_0deg ][0]
+					lubVal_dark_0deg, lubIdx_dark_0deg = findLeastUpperBound(img_idx_proj_0deg, dark_idx)
+					path_dark_0deg = tif[ lubVal_dark_0deg ][0]
+					
+					glbVal_flat_180deg, glbIdx_flat_180deg = findGreatestLowerBound(img_idx_proj_180deg,flat_idx)
+					path_flat_180deg = tif[ glbVal_flat_180deg ][0]
+					glbVal_dark_180deg, glbIdx_dark_180deg = findGreatestLowerBound(img_idx_proj_180deg,dark_idx)
+					path_dark_180deg = tif[ glbVal_dark_180deg ][0]
+					
+					print '\tpath_flat_0deg=', path_flat_0deg
+					print '\tpath_dark_0deg=', path_dark_0deg
+
+					print '\tpath_flat_180deg=', path_flat_180deg
+					print '\tpath_dark_180deg=', path_dark_180deg
+															
+					projFilename_0deg = tif[ proj_idx[0] ][0]
+					flatFilename_0deg = tif[ flat_idx[0] ][0]
+					darkFilename_0deg = tif[ dark_idx[0] ][0]
+
+					#projFilename_180deg = tif[ proj_idx[len(proj_idx)-1] ][0]
+					projFilename_180deg = tif[ proj_idx[len_proj_idx_decimated-1] ][0]
+
+					flatFilename_180deg = tif[ flat_idx[0] ][0]
+					darkFilename_180deg = tif[ dark_idx[0] ][0]
+
+					CORx, CORy=estimateCOR(projFilename_0deg, flatFilename_0deg, darkFilename_0deg, projFilename_180deg, flatFilename_180deg, darkFilename_180deg)
+					#CORx=1557.8
+					launchReconArray(outDir=reconDir, ctrCoord=CORx)
+				except Exception, ex:
+					raise Exception ("ERROR Spawning the recon_arrayxml script  "+str(ex))
 		
 	else:
 		print "\nLaunch of the sino_listener script was not requested at the end of makeLinksForNXSFile." 
@@ -680,7 +1260,8 @@ creates directories and links to projection, dark and flat images required for s
 	parser.add_option("--tifNXSPath", action="store", type="string", dest="tifNXSPath", default="/entry1/instrument/pco1_hw_tif/image_data", help="The path to the location of TIFF filenames inside the input NeXus file.")
 	parser.add_option("-o", "--outdir", action="store", type="string", dest="outdir", help="Path to folder in which directories and files are to be made. Default is current working folder")
 	parser.add_option("--verbose", action="store_true", dest="verbose", default=False, help="Verbose - useful for diagnosing the script")
-	parser.add_option("-s", "--sino", action="store_true", dest="sino", default=False, help="If set to TRUE, the sino_listener script will be launched as well.")
+	parser.add_option("-s", "--sino", action="store_true", dest="sino", default=False, help="If present, then the sino_listener.py script will be launched to create sinograms.")
+	parser.add_option("-r", "--recon", action="store_true", dest="recon", default=False, help="If present, then the recon_arrayxml.py script will be launched to perform reconstruction.")
 	parser.add_option("--dbg", action="store_true", dest="dbg", default=False, help="Debug option set to TRUE limits the number of processed images to the first 10 (useful for testing, etc.")
 
 	(opts, args)=parser.parse_args(args=argv[1:])
@@ -726,6 +1307,7 @@ creates directories and links to projection, dark and flat images required for s
 					, decimationRate=opts.decimationRate\
 					, verbose=opts.verbose\
 					, sino=opts.sino\
+					, recon=opts.recon\
 					, dbg=opts.dbg)
 
 if __name__=="__main__":
