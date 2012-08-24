@@ -414,7 +414,7 @@ class TomoAlignmentConfigurationManager:
             for k, v in self.tomoAlignmentConfigurations.iteritems():
                 statusList[v.configId] = v.status
             self.currentConfigInProgress = statusList
-        print self.currentConfigInProgress
+        print "Config status:" + `self.currentConfigInProgress`
         updateScriptController('RunningConfig#' + `self.currentConfigInProgress`)
         
     def runConfigs(self):
