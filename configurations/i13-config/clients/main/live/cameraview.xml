@@ -105,6 +105,16 @@
 		<property name="service" ref="camera_config" />
 	</bean>
 	
-
+	<bean id="pco_mjpeg_receiver" class = "gda.images.camera.MotionJpegOverHttpReceiverSwt">
+		<property name="url" value="http://i13-pcodimax01:8080/pco1.mpeg1.mjpg"/>
+		<property name="displayName" value="Pco"/>
+	</bean>
+	<bean id="cameraViewPartConfig" class="uk.ac.gda.client.tomo.view.CameraViewPartConfigImpl">
+		<property name="receiver" ref="pco_mjpeg_receiver"/>
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.client.tomo.view.CameraViewPartConfig" />
+		<property name="service" ref="cameraViewPartConfig" />
+	</bean>
 
 </beans>
