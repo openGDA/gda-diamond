@@ -9,12 +9,13 @@
            http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/meta-data.xml" />
+
 	<bean class="gda.configuration.epics.EpicsConfiguration">
 		<constructor-arg value="${gda.config}/xml/BL20I-gda-interface.xml" />
 	</bean>
 
 	<!-- Meta Data File -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/meta-data.xml" />
 
 	<import resource="file:${gda.config}/servers/main/server-common.xml" />
 

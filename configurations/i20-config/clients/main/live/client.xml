@@ -46,7 +46,7 @@
 	
 	<bean id="d6cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="d6cam"/>
-		<property name="urlPV" value="http://i20-firewire01.diamond.ac.uk:8080/D6.CAM1.MJPG.mjpg" />
+		<property name="urlPV" value="BL20I-DI-PHDGN-06:MJPG:JPG_URL_RBV" />
 		<property name="exposurePV" value="BL20I-DI-PHDGN-06:CAM:AcquireTime" />
 <!-- 		<property name="frameratePV" value="" /> -->
 		<property name="gainPV" value="BL20I-DI-PHDGN-06:CAM:Gain" />

@@ -80,6 +80,7 @@
 
 
 	<bean id="ionchambers" class="gda.device.detector.countertimer.TfgScalerWithLogValues">
+<!-- 	<bean id="ionchambers" class="gda.device.detector.countertimer.CallableTfgScalerWithLogValues"> -->
 		<property name="extraNames">
 			<list>
 				<value>I0</value>
