@@ -16,9 +16,10 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views;
+package uk.ac.gda.beamline.i13i.views.cameraview;
 
-public class ViewFactoryIds {
-	public static String StatusViewID="uk.ac.gda.beamline.i13i.views.StatusView";
-	public static String AlignmentViewID="uk.ac.gda.beamline.i13i.views.AlignmentView";
+import org.eclipse.swt.graphics.ImageData;
+
+public interface NewImageListener {
+	void handlerNewImageNotification(ImageData lastImage2);
 }

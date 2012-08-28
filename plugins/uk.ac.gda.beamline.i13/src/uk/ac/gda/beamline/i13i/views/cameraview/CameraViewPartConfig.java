@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2011 Diamond Light Source Ltd.
+ * Copyright © 2012 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -16,9 +16,17 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views;
+package uk.ac.gda.beamline.i13i.views.cameraview;
 
-public class ViewFactoryIds {
-	public static String StatusViewID="uk.ac.gda.beamline.i13i.views.StatusView";
-	public static String AlignmentViewID="uk.ac.gda.beamline.i13i.views.AlignmentView";
+import gda.device.detector.areadetector.v17.ADBase;
+import gda.device.detector.areadetector.v17.FfmpegStream;
+import gda.device.detector.areadetector.v17.NDArray;
+import gda.device.detector.areadetector.v17.NDProcess;
+
+public interface CameraViewPartConfig {
+	ADBase getAdBase();
+	NDArray getNdArray();
+	NDProcess getNdProcess();
+	FfmpegStream getFfmpegStream();
+	String getSetExposureTimeCmd();
 }

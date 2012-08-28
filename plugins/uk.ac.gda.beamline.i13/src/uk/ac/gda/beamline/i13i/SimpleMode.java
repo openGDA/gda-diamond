@@ -32,6 +32,7 @@ public class SimpleMode implements IImageMode {
 	
 	private Image image;
 	String name;
+	String label;
 	
 	CompositeFactory compositeFactory;
 	private String imagePluginId;
@@ -56,6 +57,17 @@ public class SimpleMode implements IImageMode {
 
 	public String getImagePluginId() {
 		return imagePluginId;
+	}
+
+
+	@Override
+	public String getLabel() {
+		return label;
+	}
+
+
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
 

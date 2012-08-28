@@ -73,6 +73,11 @@ public interface IImageMode {
 	 * @return true if this mode supports move on click, else false
 	 */
 	public abstract boolean supportsMoveOnClick();
+
+	/**
+	 * The label displayed on the tab 
+	 */
+	public abstract String getLabel();
 	
 
 }

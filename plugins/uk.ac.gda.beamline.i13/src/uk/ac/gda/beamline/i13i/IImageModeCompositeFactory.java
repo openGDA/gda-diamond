@@ -35,15 +35,11 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPartSite;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import swing2swt.layout.BorderLayout;
@@ -79,7 +75,7 @@ public class IImageModeCompositeFactory implements CompositeFactory, Initializin
 	/*
 	 * Ensure plugin containing the icons is set to be the default working folder
 	 */
-	public static void main(String... args) throws Exception {
+	public static void main(String... args) {
 
 		Display display = new Display();
 		Shell shell = new Shell(display);
@@ -122,11 +118,16 @@ class DummyIImageMode implements IImageMode{
 	public boolean supportsMoveOnClick() {
 		return false;
 	}
+
+	@Override
+	public String getLabel() {
+		return "dummy";
+	}
 	
 }
 
 class IIMageModeComposite extends Composite {
-	private static final Logger logger = LoggerFactory.getLogger(IIMageModeComposite.class);
+//	private static final Logger logger = LoggerFactory.getLogger(IIMageModeComposite.class);
 	
 	private CTabFolder modeControl;
 	protected IImageMode[] availableModes;
@@ -174,6 +175,7 @@ class IIMageModeComposite extends Composite {
 			if (tabImage != null){
 				cTab.setImage(tabImage);
 			}
+			cTab.setText(mode.getLabel());
 			cTab.setToolTipText(mode.getName());
 			Control control = mode.getTabControl(modeControl);
 			cTab.setControl(control);

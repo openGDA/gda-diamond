@@ -94,6 +94,14 @@
                              name="Detector Image"
                              restorable="true">
                        </view>
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.beamline.i13i"
+            class="uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPart"
+            id="uk.ac.gda.client.tomo.CameraView"
+            name="Tomography Camera View"
+            restorable="true">
+      </view>                       
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
@@ -102,6 +110,12 @@
             icon="icons/releng_gears.gif"
             id="uk.ac.gda.beamline.i13i.perspectives.DataCollectionPerspective"
             name="Data Collection">
+      </perspective>
+      <perspective
+            class="uk.ac.gda.beamline.i13i.perspectives.ScriptingPerspective"
+            icon="icons/releng_gears.gif"
+            id="uk.ac.gda.beamline.i13i.perspectives.ScriptingPerspective"
+            name="Scripting">
       </perspective>
    </extension>
    <extension

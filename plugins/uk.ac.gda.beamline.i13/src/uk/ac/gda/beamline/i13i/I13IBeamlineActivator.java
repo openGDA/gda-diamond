@@ -21,6 +21,9 @@ package uk.ac.gda.beamline.i13i;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.osgi.util.tracker.ServiceTracker;
+
+import uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPartConfig;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -39,16 +42,22 @@ public class I13IBeamlineActivator extends AbstractUIPlugin {
 	public I13IBeamlineActivator() {
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		cameraConfigTracker = new ServiceTracker(context, CameraViewPartConfig.class.getName(), null);
+		cameraConfigTracker.open(true);
+		
 	}
 
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
+		cameraConfigTracker.close();		
+		
 	}
 
 	/**
@@ -69,4 +78,16 @@ public class I13IBeamlineActivator extends AbstractUIPlugin {
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
+	
+	@SuppressWarnings("rawtypes")
+	private static ServiceTracker cameraConfigTracker;
+	
+	
+	public static CameraViewPartConfig getCameraConfig() {
+		if( cameraConfigTracker==null||cameraConfigTracker.isEmpty())
+			return null;
+		return (CameraViewPartConfig) cameraConfigTracker.getService();
+	}
+
+	
 }

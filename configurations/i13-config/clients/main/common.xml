@@ -59,6 +59,8 @@
 		<property name="label" value="Latest Detector File"/>
 		<property name="fileProcessor" ref="imageFileDisplayer"/>
 		<property name="highestExistingFileMonitorDataProvider" ref="highestExistingFileMonitor"/>
+		<property name="showButtonSeparator" value="true"/>
+		<property name="separatePlayPauseButtons" value="true"/>
 		</bean>
 		<bean class="uk.ac.gda.dls.client.views.OpenViewCompositeFactory">
 		<property name="tooltipText" value="Display MJPEG streams from cameras and detectors"/>
@@ -171,6 +173,7 @@
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i"/>
 					<property name="imageFilePath" value="icons/samplestage.gif"/>
 					<property name="name" value="Sample Stage"/>
+					<property name="label" value="Top"/>
 				</bean>
 				<bean class="uk.ac.gda.beamline.i13i.SimpleMode">
 					<property name="compositeFactory">
@@ -194,6 +197,7 @@
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i"/>
 					<property name="imageFilePath" value="icons/samplebasestage.gif"/>
 					<property name="name" value="SampleBaseStage"/>
+					<property name="label" value="Base"/>
 				</bean>
 				<bean class="uk.ac.gda.beamline.i13i.SimpleMode">
 					<property name="compositeFactory">
@@ -217,6 +221,7 @@
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i"/>
 					<property name="imageFilePath" value="icons/camerastage.gif"/>
 					<property name="name" value="CameraStage"/>
+					<property name="label" value="Camera"/>
 				</bean>
 			</util:list>
 		</property>

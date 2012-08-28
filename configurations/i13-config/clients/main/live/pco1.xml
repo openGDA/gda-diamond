@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<import resource="../../../devices/epics/pco1_ndplugins.xml"/>
+	
+	<bean id="cameraViewPartConfig" class="uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPartConfigImpl">
+		<property name="adBase" ref="pco1_cam_base"/>
+		<property name="ndArray" ref="pco1_arr"/>
+		<property name="ndProcess" ref="pco1_proc1"/>
+		<property name="ffmpegStream" ref="pco1_ffmpeg1"/>
+		<property name="setExposureTimeCmd" value="tomodet.setupForAlignment( exposureTime=%s)"/>
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPartConfig" />
+		<property name="service" ref="cameraViewPartConfig" />
+	</bean>
+
+</beans>

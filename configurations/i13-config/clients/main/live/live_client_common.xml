@@ -15,7 +15,7 @@
 
 	<import resource="../common.xml" />
 	<import resource="cameraview.xml" />
-	<import resource="pco.xml"/>
+	<import resource="pco1.xml"/>
 	<bean id="idGap" class="gda.device.scannable.EpicsScannable">
 	<property name="pvName" value="SR13I-MO-SERVC-01:CURRGAPD"/>
 	<property name="useNameAsExtraName" value="true"/>
