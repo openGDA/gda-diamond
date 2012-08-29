@@ -9,8 +9,8 @@
 		<property name="metadataEntries">
 			<list>
 
-				<bean name="instrument" class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="propertyName" value="gda.instrument" />
+				<bean name="instrument" class="gda.data.metadata.StoredMetadataEntry">
+					<property name="value" value="i20" />
 				</bean>
 
 				<bean name="facility" class="gda.data.metadata.PropertyMetadataEntry">
