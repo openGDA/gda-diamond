@@ -87,7 +87,7 @@
       </view>
                        <view
                              allowMultiple="false"
-                             category="uk.ac.diamond.scisoft.analysis.rcp"
+                             category="uk.ac.gda.beamline.i13i"
                              class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
                              icon="icons/chart_curve.png"
                              id="uk.ac.gda.beamline.i13i.DetectorPlot"
