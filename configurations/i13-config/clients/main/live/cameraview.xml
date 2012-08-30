@@ -75,7 +75,7 @@
  -->	</bean>
  	<bean id="WebCam_Middle" class="uk.ac.gda.video.views.CameraParameters">
 		<property name="name" value="WebCam Middle"/>
-		<property name="mjpegURL" value="http://172.23.113.196/mjpg/video.mjpg" />
+		<property name="mjpegURL" value="http://172.23.113.210/mjpg/video.mjpg" />
 	</bean>
 	<!-- requires anonymous viewer login -->
  	<bean id="WebCam_DownStream" class="uk.ac.gda.video.views.CameraParameters">

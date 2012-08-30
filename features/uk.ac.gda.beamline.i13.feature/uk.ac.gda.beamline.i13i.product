@@ -13,6 +13,7 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    </aboutInfo>
 
    <configIni use="default">
+      <linux>/uk.ac.gda.beamline.i13i.feature/config.ini</linux>
    </configIni>
 
    <launcherArgs>

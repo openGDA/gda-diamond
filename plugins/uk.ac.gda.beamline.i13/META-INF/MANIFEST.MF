@@ -22,10 +22,15 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.video.views;bundle-version="1.0.0",
  uk.ac.gda.common.rcp,
  uk.ac.gda.epics;bundle-version="1.0.0",
- uk.ac.diamond.scisoft.analysis
+ uk.ac.diamond.scisoft.analysis,
+ uk.ac.diamond.org.jscience;bundle-version="2.0.2",
+ org.junit
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: uk.ac.gda.beamline.i13i
+Export-Package: uk.ac.gda.beamline.i13i,
+ uk.ac.gda.beamline.i13i.perspectives,
+ uk.ac.gda.beamline.i13i.views,
+ uk.ac.gda.beamline.i13i.views.cameraview
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.gda.core, uk.ac.gda.libs
 Import-Package: org.eclipse.draw2d,

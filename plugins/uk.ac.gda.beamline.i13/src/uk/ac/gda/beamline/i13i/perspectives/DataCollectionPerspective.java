@@ -67,6 +67,7 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 
 		IFolderLayout top = factory.createFolder("top", IPageLayout.TOP, (float) 0.4, editorArea);
 		top.addView(LivePlotView.ID);
+		top.addView("uk.ac.gda.beamline.i13i.DetectorPlot");
 
 		IFolderLayout leftTop = factory.createFolder("leftTop", IPageLayout.LEFT, (float) 0.50, "top"); //$NON-NLS-1$
 //		left.addView(IPageLayout.ID_PROJECT_EXPLORER);
@@ -75,8 +76,6 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 		IFolderLayout bottom = factory.createFolder("bottom", IPageLayout.LEFT, (float) 0.95, editorArea);
 
 		bottom.addView(ViewFactoryIds.AlignmentViewID);
-		
-		bottom.addView("uk.ac.gda.beamline.i13i.DetectorPlot");
 		bottom.addPlaceholder("org.eclipse.ui.browser.view");
 		bottom.addPlaceholder("data.dispenser.browser");
 		bottom.addPlaceholder("org.eclipse.ui.browser.view:data.dispenser.browser");

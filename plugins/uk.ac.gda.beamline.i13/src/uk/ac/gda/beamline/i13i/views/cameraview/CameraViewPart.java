@@ -18,6 +18,7 @@
 
 package uk.ac.gda.beamline.i13i.views.cameraview;
 
+import gda.device.detector.areadetector.v17.NDPluginBase;
 import gda.device.detector.areadetector.v17.NDProcess;
 import gda.images.camera.MotionJpegOverHttpReceiverSwt;
 import gda.jython.InterfaceProvider;
@@ -74,14 +75,19 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			return;
 		}
 		try {
-			cameraConfig.getNdArray().getPluginBase().enableCallbacks();
-			cameraConfig.getNdProcess().setEnableOffsetScale(1);
-			cameraConfig.getNdProcess();
-			cameraConfig.getNdProcess().setDataTypeOut(NDProcess.DatatypeOut_UInt8);
-			cameraConfig.getNdProcess().setEnableHighClip(1);
-			cameraConfig.getNdProcess().setEnableLowClip(1);
-			cameraConfig.getNdProcess().setHighClip(255);
-			cameraConfig.getNdProcess().setLowClip(0);
+			NDPluginBase arrayBase = cameraConfig.getNdArray().getPluginBase();
+			if(!arrayBase.isCallbacksEnabled_RBV())
+				arrayBase.enableCallbacks();
+			NDProcess ndProcess = cameraConfig.getNdProcess();
+			if( ndProcess.getEnableOffsetScale_RBV()!=1)
+				ndProcess.setEnableOffsetScale(1);
+			if( ndProcess.getDataTypeOut_RBV() != NDProcess.DatatypeOut_UInt8)
+				ndProcess.setDataTypeOut(NDProcess.DatatypeOut_UInt8);
+			
+			ndProcess.setEnableHighClip(1);
+			ndProcess.setEnableLowClip(1);
+			ndProcess.setHighClip(255);
+			ndProcess.setLowClip(0);
 
 			String url = cameraConfig.getFfmpegStream().getMJPG_URL_RBV();
 			videoReceiver = new MotionJpegOverHttpReceiverSwt();
@@ -153,14 +159,13 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		imageKeyAction.setChecked(false);//do not 
 		IActionBars actionBars = getViewSite().getActionBars();
 		IMenuManager dropDownMenu = actionBars.getMenuManager();
-		dropDownMenu.add(showRawData);
 		dropDownMenu.add(reconnect);
 		dropDownMenu.add(imageKeyAction);
 		IToolBarManager toolBar = actionBars.getToolBarManager();
 		toolBar.add(setExposureTime);
 		toolBar.add(autoBrightnessAction);
 		toolBar.add(zoomFit);
-		toolBar.add(reconnect);
+		toolBar.add(showRawData);
 
 	}
 	protected void showRawData() throws Exception {

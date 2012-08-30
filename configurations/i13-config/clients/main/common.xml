@@ -103,7 +103,17 @@
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-
+	<bean id="ss1_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}ss1_x" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+<!-- 	<bean id="ss1_y" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}ss1_y" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+ -->
 	<bean id="ss1_X" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}ss1_X" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
@@ -151,13 +161,45 @@
 							<property name="stageCompositeDefinitions">
 								<util:list value-type="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
 									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<property name="scannable" ref="ss1_samplex"/>
+									<property name="scannable" ref="ss1_x"/>
+									<property name="stepSize" value=".01"/>
 									</bean>
 									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
 									<property name="scannable" ref="ss1_sampley"/>
+									<property name="stepSize" value=".01"/>
+									</bean>
+									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+									<property name="scannable" ref="ss1_rot"/>
+									<property name="controlType" value="0"/>
+									<property name="smallStep" value="5"/>
+									<property name="bigStep" value="90"/>
+									</bean>
+								</util:list>
+							</property>
+							<property name="label" value="Sample Centring"/>
+						</bean>
+					</property>
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i"/>
+					<property name="imageFilePath" value="icons/samplestage.gif"/>
+					<property name="name" value="SampleCentring"/>
+					<property name="label" value="Sample Centring"/>
+				</bean>
+				<bean class="uk.ac.gda.beamline.i13i.SimpleMode">
+					<property name="compositeFactory">
+						<bean class="uk.ac.gda.beamline.i13i.StageCompositeFactory">
+							<property name="stageCompositeDefinitions">
+								<util:list value-type="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+									<property name="scannable" ref="ss1_samplex"/>
+									<property name="stepSize" value=".01"/>
+									</bean>
+									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+									<property name="scannable" ref="ss1_sampley"/>
+									<property name="stepSize" value=".01"/>
 									</bean>
 									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
 									<property name="scannable" ref="ss1_samplez"/>
+									<property name="stepSize" value=".01"/>
 									</bean>
 									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
 									<property name="scannable" ref="ss1_rot"/>

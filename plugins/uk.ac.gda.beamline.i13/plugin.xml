@@ -99,7 +99,7 @@
             category="uk.ac.gda.beamline.i13i"
             class="uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPart"
             id="uk.ac.gda.client.tomo.CameraView"
-            name="Tomography Camera View"
+            name="Tomography Camera Low Res  View"
             restorable="true">
       </view>                       
    </extension>
