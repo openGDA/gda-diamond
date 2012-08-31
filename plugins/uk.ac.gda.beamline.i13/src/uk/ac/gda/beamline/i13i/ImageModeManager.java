@@ -24,24 +24,10 @@ import org.eclipse.core.commands.common.EventManager;
  * Maintains the image mode for Mx Image View
  */
 public class ImageModeManager extends EventManager {
-	private static ImageModeManager manager; 
 	
 	private IImageMode currentMode;
 	
-	private ImageModeManager(){
-	}
 	
-	/**
-	 * Returns the singleton instance for this class
-	 * 
-	 * @return imageModeManager
-	 */
-	public static ImageModeManager getInstance(){
-		if (manager == null){
-			manager = new ImageModeManager();
-		}
-		return manager;
-	}
 	/**
 	 * Set the current image mode and notifies and listeners
 	 * of the change

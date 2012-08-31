@@ -53,10 +53,12 @@ import uk.ac.gda.ui.utils.SWTUtils;
 public class IImageModeCompositeFactory implements CompositeFactory, InitializingBean {
 	// private static final Logger logger = LoggerFactory.getLogger(LatestFileNameCompositeFactory.class);
 	protected IImageMode[] availableModes;
+	ImageModeManager imageModeManager;
+	
 
 	@Override
 	public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
-		final IIMageModeComposite comp = new IIMageModeComposite(parent, style, iWorkbenchPartSite, availableModes);
+		final IIMageModeComposite comp = new IIMageModeComposite(parent, style, iWorkbenchPartSite, imageModeManager, availableModes);
 		comp.createControls();
 		return comp;
 	}
@@ -65,8 +67,15 @@ public class IImageModeCompositeFactory implements CompositeFactory, Initializin
 		this.availableModes = availableModes;
 	}
 
+	public void setImageModeManager(ImageModeManager imageModeManager) {
+		this.imageModeManager = imageModeManager;
+	}
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		if (imageModeManager == null) {
+			throw new IllegalArgumentException("imageModeManager == null");
+		}
 		if (availableModes == null) {
 			throw new IllegalArgumentException("availableModes == null");
 		}
@@ -81,7 +90,8 @@ public class IImageModeCompositeFactory implements CompositeFactory, Initializin
 		Shell shell = new Shell(display);
 		shell.setLayout(new BorderLayout());
 
-		final IIMageModeComposite comp = new IIMageModeComposite(shell, SWT.NONE, null, new IImageMode[]{new DummyIImageMode()});
+		ImageModeManager imageModeManager = new ImageModeManager();
+		final IIMageModeComposite comp = new IIMageModeComposite(shell, SWT.NONE, null, imageModeManager, new IImageMode[]{new DummyIImageMode()});
 		comp.createControls();
 		comp.setLayoutData(BorderLayout.NORTH);
 		comp.setVisible(true);
@@ -134,12 +144,14 @@ class IIMageModeComposite extends Composite {
 	private HashMap<IImageMode, CTabItem> tabs;
 	private ImageModeChangeListener imageModeChangeListener;
 	private ISelectionProvider selectionProvider;
+	ImageModeManager imageModeManager;
 
 	private final IWorkbenchPartSite iWorkbenchPartSite;
 	
-	public IIMageModeComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite, IImageMode[] availableModes) {
+	public IIMageModeComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite, ImageModeManager imageModeManager, IImageMode[] availableModes) {
 		super(parent, style);
 		this.iWorkbenchPartSite = iWorkbenchPartSite;
+		this.imageModeManager = imageModeManager;
 		this.availableModes = availableModes;
 		selectionProvider = new ModePaneSelectionProvider();
 	}	
@@ -161,7 +173,7 @@ class IIMageModeComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				int selectionIndex = modeControl.getSelectionIndex();
 				IImageMode mode = availableModes[selectionIndex];
-				ImageModeManager.getInstance().setMode(mode);
+				imageModeManager.setMode(mode);
 			}
 		});
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(modeControl);
@@ -184,8 +196,6 @@ class IIMageModeComposite extends Composite {
 		}
 		imageModeChangeListener = new ImageModeChangeListener();
 	
-		// set initial tab
-		final ImageModeManager imageModeManager = ImageModeManager.getInstance();
 		imageModeManager.setMode(availableModes[0]);
 		imageModeManager.addListener(imageModeChangeListener);
 		modeControl.setSelection(0);

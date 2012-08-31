@@ -18,12 +18,17 @@
 
 package uk.ac.gda.beamline.i13i.views.cameraview;
 
+import gda.device.detector.areadetector.v17.FfmpegStream;
 import gda.device.detector.areadetector.v17.NDPluginBase;
 import gda.device.detector.areadetector.v17.NDProcess;
+import gda.images.camera.DummySwtVideoReceiver;
 import gda.images.camera.MotionJpegOverHttpReceiverSwt;
+import gda.images.camera.VideoReceiver;
 import gda.jython.InterfaceProvider;
+import gda.observable.IObserver;
 
-import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -46,6 +51,8 @@ import uk.ac.diamond.scisoft.analysis.SDAPlotter;
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IntegerDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.Stats;
+import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.IImagePositionEvent;
+import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.ImagePositionListener;
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
 
 /**
@@ -59,7 +66,8 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 	private CameraComposite cameraComposite;
 
 	private CameraViewPartConfig cameraConfig;
-	private MotionJpegOverHttpReceiverSwt videoReceiver;
+	private VideoReceiver<ImageData> videoReceiver;
+	
 
 	public CameraViewPart() {
 	}
@@ -88,19 +96,46 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			ndProcess.setEnableLowClip(1);
 			ndProcess.setHighClip(255);
 			ndProcess.setLowClip(0);
-
-			String url = cameraConfig.getFfmpegStream().getMJPG_URL_RBV();
-			videoReceiver = new MotionJpegOverHttpReceiverSwt();
-			videoReceiver.setUrl(url);
-			videoReceiver.configure();
+			NDPluginBase ffmjpgBase = cameraConfig.getFfmpegStream().getPluginBase();
+			ffmjpgBase.getArraySize0_RBV();
+			ffmjpgBase.getArraySize0_RBV();
+			
+			reconnect();
 		} catch (Exception e1) {
 			logger.error("Error creating controls for camera view", e1);
 			return;
 		}
-		videoReceiver.start();
 		
 		cameraComposite = new CameraComposite(parent, SWT.NONE, parent.getDisplay(), videoReceiver, this);
+		
+		if( cameraConfig.getImageViewerListener() != null){
+			cameraComposite.getViewer().getPositionTool().addImagePositionListener(new ImagePositionListener() {
+				
+				@Override
+				public void imageStart(IImagePositionEvent event) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void imageFinished(IImagePositionEvent event) {
+					cameraConfig.getImageViewerListener().imageFinished(event, cameraComposite.getViewer() );
+					
+				}
+				
+				@Override
+				public void imageDragged(IImagePositionEvent event) {
+					// TODO Auto-generated method stub
+					
+				}
+			}, null);
+			
+		}
 
+		IActionBars actionBars = getViewSite().getActionBars();
+		IMenuManager dropDownMenu = actionBars.getMenuManager();
+		
+		
 		Action setExposureTime = new Action("Set Exposure Time") {
 			@Override
 			public void run() {
@@ -128,7 +163,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				}
 			}
 		};
-		Action reconnect = new Action("Reconnect") {
+		dropDownMenu.add(new Action("Reconnect") {
 			@Override
 			public void run() {
 				try {
@@ -138,7 +173,9 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				}
 			}
 
-		};
+		});
+
+		
 		Action autoBrightnessAction = new Action("Auto-Contrast") {
 			@Override
 			public void run() {
@@ -149,7 +186,49 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				}
 			}
 		};
-		imageKeyAction = new Action("Image Key", IAction.AS_CHECK_BOX) {
+		if( cameraConfig.getBeamCenterProvider() != null){
+			final Action centreMarkerAction = new Action("Centre Marker", IAction.AS_CHECK_BOX) {
+				@Override
+				public void run() {
+					showCentreMarker(isChecked(), isChecked()? cameraConfig.getBeamCenterProvider().getBeamCenter():null);
+				}
+			};
+			showCentreMarker(true, cameraConfig.getBeamCenterProvider().getBeamCenter());
+			centreMarkerAction.setChecked(true);//do not 
+			cameraConfig.getBeamCenterProvider().addIObserver(new IObserver() {
+				
+				@Override
+				public void update(Object source, final Object arg) {
+					if( arg instanceof Point && centreMarkerAction.isChecked()){
+						getViewSite().getShell().getDisplay().asyncExec(new Runnable(){
+
+							@Override
+							public void run() {
+								showCentreMarker(true, (Point)arg);
+								
+							}
+
+							
+						});
+					}
+					
+				}
+			});
+			dropDownMenu.add(centreMarkerAction);
+		}
+		
+		Action beamScaleAction = new Action("Show Beam Scale", IAction.AS_CHECK_BOX) {
+			@Override
+			public void run() {
+				//this runs after the state has been changed
+				showBeamScale(isChecked());
+			}
+		};
+		showBeamScale(true);
+		beamScaleAction.setChecked(true);//do not 
+
+		
+		Action imageKeyAction = new Action("Image Key", IAction.AS_CHECK_BOX) {
 			@Override
 			public void run() {
 				//this runs after the state has been changed
@@ -157,15 +236,14 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			}
 		};
 		imageKeyAction.setChecked(false);//do not 
-		IActionBars actionBars = getViewSite().getActionBars();
-		IMenuManager dropDownMenu = actionBars.getMenuManager();
-		dropDownMenu.add(reconnect);
 		dropDownMenu.add(imageKeyAction);
 		IToolBarManager toolBar = actionBars.getToolBarManager();
 		toolBar.add(setExposureTime);
 		toolBar.add(autoBrightnessAction);
 		toolBar.add(zoomFit);
 		toolBar.add(showRawData);
+		
+		
 
 	}
 	protected void showRawData() throws Exception {
@@ -198,11 +276,21 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 	protected void reconnect() throws Exception {
 		if( videoReceiver != null)
 			videoReceiver.closeConnection();
-		else 
-			videoReceiver = new MotionJpegOverHttpReceiverSwt();
-		String url = cameraConfig.getFfmpegStream().getMJPG_URL_RBV();
-		videoReceiver.setUrl(url);
-		videoReceiver.configure();
+		
+		FfmpegStream ffmpegStream = cameraConfig.getFfmpegStream();
+		String url = ffmpegStream.getMJPG_URL_RBV();
+		if( url.equals("DummySwtVideoReceiver") ){
+			DummySwtVideoReceiver dummySwtVideoReceiver = new DummySwtVideoReceiver();
+			dummySwtVideoReceiver.setDesiredFrameRate(10);
+			videoReceiver = dummySwtVideoReceiver;
+			
+		} else {
+			MotionJpegOverHttpReceiverSwt motionJpegOverHttpReceiverSwt = new MotionJpegOverHttpReceiverSwt();
+			motionJpegOverHttpReceiverSwt.setUrl(url);
+			motionJpegOverHttpReceiverSwt.configure();
+			motionJpegOverHttpReceiverSwt.start();
+			videoReceiver = motionJpegOverHttpReceiverSwt;
+		}
 		videoReceiver.start();
 		
 	}
@@ -244,6 +332,8 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		return dataset;
 	}
 	private ImageKeyFigure imageKeyFigure;
+	private CrossHairFigure centreMarkerFigure;
+	private Figure beamScaleFigure;
 
 	private void showImageKey(boolean showImage) {
 		if(showImage){
@@ -254,6 +344,42 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			
 		}
 	}
+	private void showCentreMarker(boolean show, Point beamCentre) {
+		Figure centreMarkerFigure = getCentreMarkerFigure();
+		if( centreMarkerFigure.getParent() == cameraComposite.getTopFigure() )
+			cameraComposite.getTopFigure().remove(centreMarkerFigure);
+		if(show){
+			Rectangle bounds = centreMarkerFigure.getBounds();
+			Rectangle imageKeyBounds = new Rectangle(beamCentre.x-bounds.width/2, beamCentre.y-bounds.height/2, -1, -1);
+			cameraComposite.getTopFigure().add(centreMarkerFigure,imageKeyBounds);
+		}
+	}
+
+	
+	
+	private Figure getCentreMarkerFigure() {
+		if(centreMarkerFigure == null ){
+			centreMarkerFigure = new CrossHairFigure();
+			centreMarkerFigure.setSize(200,100);
+		}
+		return centreMarkerFigure;
+	}
+
+	
+	
+	private Figure getBeamScaleFigure() {
+		return beamScaleFigure != null ? beamScaleFigure : (beamScaleFigure= new BeamScaleFigure());
+	}
+
+	private void showBeamScale(boolean show) {
+		if(show){
+			Rectangle beamScaleBounds = new Rectangle(5, 5, -1, -1);
+			cameraComposite.getTopFigure().add(getBeamScaleFigure(),beamScaleBounds);
+		} else {
+			cameraComposite.getTopFigure().remove(getBeamScaleFigure());
+			
+		}
+	}
 
 	private ImageKeyFigure getImageKeyFigure() {
 		return imageKeyFigure != null ? imageKeyFigure : (imageKeyFigure= new ImageKeyFigure());
@@ -261,33 +387,19 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 	
 	
 	
+	
+	
 	@Override
 	public void setFocus() {
 	}
 
-	private BeamScaleFigure beamScaleFigure;
-
-
 	private boolean layoutReset = false;
-
-	private Action imageKeyAction;
 
 	@Override
 	public void handlerNewImageNotification(ImageData newImage) {
 		// On the first image, ensure we reset the display to match incoming image dimensions
 		if (!layoutReset) {
 			layoutReset = true;
-
-			// add figures
-/*			int offset = 200;
-			Rectangle imageBounds = cameraComposite.getViewer().getImageBounds();
-*//*			Rectangle scaleBounds = new Rectangle(imageBounds.width - offset, imageBounds.height - offset, -1, -1);
-*/			beamScaleFigure = new BeamScaleFigure();
-			beamScaleFigure.setBeamSize(100, 100);
-			beamScaleFigure.setXScale(1.0);
-			beamScaleFigure.setYScale(1.0);
-			beamScaleFigure.setBackgroundColor(ColorConstants.darkGray);
-//do not add yet			cameraComposite.getTopFigure().add(beamScaleFigure, scaleBounds);
 		}
 		getImageKeyFigure().newImage(newImage);
 

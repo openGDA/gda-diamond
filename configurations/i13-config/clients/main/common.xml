@@ -9,6 +9,7 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 	<import resource="commandQueueProcessor.xml" />
+	<import resource="cameraViewPartConfig.xml" />
 
 	<corba:import namespace="i13" names="plot_server" />
 	
@@ -148,11 +149,13 @@
 	</bean>
 
 
+	<bean id="imageModeManager" class="uk.ac.gda.beamline.i13i.ImageModeManager"/>
 	<bean id="alignmentView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
 	<property name="viewTitle" value="Alignment"/>
 	<property name="compositeFactories">
 	<list>
 		<bean class="uk.ac.gda.beamline.i13i.IImageModeCompositeFactory">
+		<property name="imageModeManager" ref="imageModeManager"/>
 		<property name="availableModes">
 			<util:list>
 				<bean class="uk.ac.gda.beamline.i13i.SimpleMode">

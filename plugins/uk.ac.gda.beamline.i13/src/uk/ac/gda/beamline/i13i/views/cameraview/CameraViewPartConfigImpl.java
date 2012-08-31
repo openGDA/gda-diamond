@@ -32,6 +32,8 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 	FfmpegStream ffmpegStream;
 	String setExposureTimeCmd;
 	ADBase adBase;
+	private BeamCenterProvider beamCenterProvider;
+	private ImageViewerListener imageViewerListener;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -93,4 +95,22 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 		this.adBase = adBase;
 	}
 
+	@Override
+	public BeamCenterProvider getBeamCenterProvider() {
+		return beamCenterProvider;
+	}	
+	public void setBeamCenterProvider(BeamCenterProvider beamCenterProvider) {
+		this.beamCenterProvider = beamCenterProvider;
+	}
+
+	@Override
+	public ImageViewerListener getImageViewerListener() {
+		return imageViewerListener;
+	}
+
+	public void setImageViewerListener(ImageViewerListener imageViewerListener) {
+		this.imageViewerListener = imageViewerListener;
+	}
+
+	
 }

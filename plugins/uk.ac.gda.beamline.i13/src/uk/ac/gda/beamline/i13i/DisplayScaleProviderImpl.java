@@ -16,20 +16,30 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.cameraview;
+package uk.ac.gda.beamline.i13i;
 
-import gda.device.detector.areadetector.v17.ADBase;
-import gda.device.detector.areadetector.v17.FfmpegStream;
-import gda.device.detector.areadetector.v17.NDArray;
-import gda.device.detector.areadetector.v17.NDProcess;
+public class DisplayScaleProviderImpl implements DisplayScaleProvider {
 
+	double pixelsPerMMInX=100;
+	double pixelsPerMMInY=100;
+	
+	
+	@Override
+	public double getPixelsPerMMInX() {
+		return pixelsPerMMInX;
+	}
 
-public interface CameraViewPartConfig {
-	ADBase getAdBase();
-	NDArray getNdArray();
-	NDProcess getNdProcess();
-	FfmpegStream getFfmpegStream();
-	String getSetExposureTimeCmd();
-	BeamCenterProvider getBeamCenterProvider();
-	ImageViewerListener getImageViewerListener();
+	@Override
+	public double getPixelsPerMMInY() {
+		return pixelsPerMMInY;
+	}
+
+	public void setPixelsPerMMInX(double pixelsPerMMInX) {
+		this.pixelsPerMMInX = pixelsPerMMInX;
+	}
+
+	public void setPixelsPerMMInY(double pixelsPerMMInY) {
+		this.pixelsPerMMInY = pixelsPerMMInY;
+	}
+
 }

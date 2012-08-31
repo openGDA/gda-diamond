@@ -18,18 +18,11 @@
 
 package uk.ac.gda.beamline.i13i.views.cameraview;
 
-import gda.device.detector.areadetector.v17.ADBase;
-import gda.device.detector.areadetector.v17.FfmpegStream;
-import gda.device.detector.areadetector.v17.NDArray;
-import gda.device.detector.areadetector.v17.NDProcess;
+import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.IImagePositionEvent;
+import uk.ac.gda.client.viewer.ImageViewer;
 
+public interface ImageViewerListener {
 
-public interface CameraViewPartConfig {
-	ADBase getAdBase();
-	NDArray getNdArray();
-	NDProcess getNdProcess();
-	FfmpegStream getFfmpegStream();
-	String getSetExposureTimeCmd();
-	BeamCenterProvider getBeamCenterProvider();
-	ImageViewerListener getImageViewerListener();
+	void imageFinished(IImagePositionEvent event, ImageViewer viewer);
+
 }
