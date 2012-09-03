@@ -19,6 +19,8 @@
 package uk.ac.gda.beamline.i13i;
 
 public interface DisplayScaleProvider {
-	double getPixelsPerMMInX();
-	double getPixelsPerMMInY();
+	double getSampleStagePixelsPerMMInX();
+	double getSampleStagePixelsPerMMInY();
+	double getCameraStagePixelsPerMMInX();
+	double getCameraStagePixelsPerMMInY();
 }

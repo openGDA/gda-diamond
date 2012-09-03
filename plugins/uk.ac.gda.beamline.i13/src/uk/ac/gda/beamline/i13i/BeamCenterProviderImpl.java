@@ -54,7 +54,7 @@ public class BeamCenterProviderImpl implements BeamCenterProvider {
 
 	@Override
 	public Point getBeamCenter() {
-		return new Point(100,800);
+		return new Point(1002,670);
 	}
 
 }

@@ -20,26 +20,40 @@ package uk.ac.gda.beamline.i13i;
 
 public class DisplayScaleProviderImpl implements DisplayScaleProvider {
 
-	double pixelsPerMMInX=100;
-	double pixelsPerMMInY=100;
+	double sampleStagePixelsPerMMInX=100;
+	double sampleStagePixelsPerMMInY=100;
+	double cameraStagePixelsPerMMInX=50;
+	double cameraStagePixelsPerMMInY=12.5;
 	
 	
 	@Override
-	public double getPixelsPerMMInX() {
-		return pixelsPerMMInX;
+	public double getSampleStagePixelsPerMMInX() {
+		return sampleStagePixelsPerMMInX;
 	}
-
+	public void setSampleStagePixelsPerMMInX(double sampleStagePixelsPerMMInX) {
+		this.sampleStagePixelsPerMMInX = sampleStagePixelsPerMMInX;
+	}
 	@Override
-	public double getPixelsPerMMInY() {
-		return pixelsPerMMInY;
+	public double getSampleStagePixelsPerMMInY() {
+		return sampleStagePixelsPerMMInY;
 	}
-
-	public void setPixelsPerMMInX(double pixelsPerMMInX) {
-		this.pixelsPerMMInX = pixelsPerMMInX;
+	public void setSampleStagePixelsPerMMInY(double sampleStagePixelsPerMMInY) {
+		this.sampleStagePixelsPerMMInY = sampleStagePixelsPerMMInY;
 	}
-
-	public void setPixelsPerMMInY(double pixelsPerMMInY) {
-		this.pixelsPerMMInY = pixelsPerMMInY;
+	@Override
+	public double getCameraStagePixelsPerMMInX() {
+		return cameraStagePixelsPerMMInX;
 	}
+	public void setCameraStagePixelsPerMMInX(double cameraStagePixelsPerMMInX) {
+		this.cameraStagePixelsPerMMInX = cameraStagePixelsPerMMInX;
+	}
+	@Override
+	public double getCameraStagePixelsPerMMInY() {
+		return cameraStagePixelsPerMMInY;
+	}
+	public void setCameraStagePixelsPerMMInY(double cameraStagePixelsPerMMInY) {
+		this.cameraStagePixelsPerMMInY = cameraStagePixelsPerMMInY;
+	}
+	
 
 }

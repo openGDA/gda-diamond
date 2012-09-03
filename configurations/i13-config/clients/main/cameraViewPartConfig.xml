@@ -10,8 +10,15 @@
 	<property name="imageModeManager" ref="imageModeManager"/>
 	<property name="beamCenterProvider" ref="beamCenterProvider"/>
 	<property name="displayScaleProvider" ref="displayScaleProvider"/>
-	<property name="xMotor" ref="ss1_x"/>
-	<property name="yMotor" ref="ss1_sampley"/>
+	<property name="sampleCentringXMotor" ref="ss1_x"/>
+	<property name="sampleCentringYMotor" ref="ss1_sampley"/>
+	<property name="cameraStageXMotor" ref="cs1_x"/>
+	<property name="cameraStageYMotor" ref="cs1_y"/>
+	<property name="sampleBaseXMotor" ref="ss1_X"/>
+	<property name="sampleBaseYMotor" ref="ss1_Y"/>
+	
+	<property name="imageWidth" value="4008"/>
+	<property name="imageHeight" value="2672"/>
 	</bean>
 	<bean id="cameraViewPartConfig" class="uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPartConfigImpl">
 		<property name="adBase" ref="pco1_cam_base"/>
