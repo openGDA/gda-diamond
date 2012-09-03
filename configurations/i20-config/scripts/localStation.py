@@ -64,6 +64,9 @@ w.setLevel(10) # so it is operated before anything else in a scan
 # These scannables are checked before any scan data point
 # You may comment them out to remove the checking.
 if LocalProperties.get("gda.mode") == "live":
+    # to speed up step scans
+    LocalProperties.set("gda.scan.concurrentScan.readoutConcurrently","true")
+    LocalProperties.set("gda.scan.multithreadedScanDataPointPipeline.length","10")
     if (machineMode() == "User"):
         add_default([topupChecker])
         add_default([absorberChecker])
