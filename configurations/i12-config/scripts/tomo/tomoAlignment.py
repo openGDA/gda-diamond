@@ -17,6 +17,7 @@ import sys
 from fast_scan import FastScan
 from gda.jython.ScriptBase import checkForPauses 
 
+verbose = False
 f = Finder.getInstance()
 
 """
@@ -26,18 +27,18 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
                  isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat, positionOfBaseInBeam):
     
     updateScriptController("Tomo scan starting")
-    print "Description: " + `description`
-    print "Sample acquisition time: " + `sampleAcquisitionTime`
-    print "flatAcquisitionTime: " + `flatAcquisitionTime`
-    print "numberOfFramesPerProjection: " + `numberOfFramesPerProjection`
-    print "numberofProjections: " + `numberofProjections`
-    print "isContinuousScan: " + `isContinuousScan`
-    print "timeDivider: " + `timeDivider`
-    print "positionOfBaseAtFlat:" + `positionOfBaseAtFlat`
-    print "positionOfBaseInBeam: " + `positionOfBaseInBeam`
-    #scan([ix, 0, 200, 0.2])
-    print 'Sample Acq#' + `sampleAcquisitionTime`
-    #fscan = FastScan("fscan")
+    if verbose:
+        print "Description: " + `description`
+        print "Sample acquisition time: " + `sampleAcquisitionTime`
+        print "flatAcquisitionTime: " + `flatAcquisitionTime`
+        print "numberOfFramesPerProjection: " + `numberOfFramesPerProjection`
+        print "numberofProjections: " + `numberofProjections`
+        print "isContinuousScan: " + `isContinuousScan`
+        print "timeDivider: " + `timeDivider`
+        print "positionOfBaseAtFlat:" + `positionOfBaseAtFlat`
+        print "positionOfBaseInBeam: " + `positionOfBaseInBeam`
+        #scan([ix, 0, 200, 0.2])
+        print 'Sample Acq#' + `sampleAcquisitionTime`
     fastScan = FastScan('fastScan')
     tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, sampleAcquisitionTime, 0, 180, 1, 0, 0, 0, 0, 0, [fastScan])
     
@@ -48,7 +49,8 @@ def runExternalMatlabForTilt(count):
     lastImageFilename = "p_00017.tif"
     finalImageFullPathName = os.path.join(pwd(), lastImageFilename)
     matlabCmdName = '/scratch/i12Workspc_git/gda-dls-beamlines-i12.git/i12/scripts/tomo/call_matlab.sh'
-    print "Calling matlab:" + matlabCmdName + "(" + 'create_flatfield' + "," + finalImageFullPathName + "," + str(count) + "," + 'true'
+    if verbose:
+        print "Calling matlab:" + matlabCmdName + "(" + 'create_flatfield' + "," + finalImageFullPathName + "," + str(count) + "," + 'true'
     updateScriptController("Calling matlab:" + matlabCmdName + "(" + 'create_flatfield' + "," + finalImageFullPathName + "," + str(count) + "," + 'true')
     p = Popen([matlabCmdName, 'create_flatfield', finalImageFullPathName, str(count), 'true'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
     result = ()
@@ -61,7 +63,8 @@ def runExternalMatlabForTilt(count):
                 raise Exception("Matlab code hasn't executed correctly - returned no values to move motors")
             t2 = [float(x) for x in splitsStripped]
             result = t2[0], t2[1]
-        print 'matlab>' + line.rstrip()
+        if verbose:
+            print 'matlab>' + line.rstrip()
         updateScriptController("matlab>" + line.rstrip())
     p.wait()
     return result
@@ -91,23 +94,28 @@ def doTiltAlignment(module, exposureTime):
         maxY = tiltBallLookupTable.lookupValue(module, "maxY")
         minX = tiltBallLookupTable.lookupValue(module, "minX")
         maxX = tiltBallLookupTable.lookupValue(module, "maxX")
-        print 'Setting camera for tilt'
+        if verbose:
+            print 'Setting camera for tilt'
         pcoTomography.setupForTilt(int(minY), int(maxY), int(minX), int(maxX))
         updateScriptController("Camera setup for tilt")
-        print 'Moving ss1_tx to ' + `currSs1TxPos + txOffset`
+        if verbose:
+            print 'Moving ss1_tx to ' + `currSs1TxPos + txOffset`
         updateScriptController("Moving ss1_tx from: " + `round(currSs1TxPos, 3)` + " to: " + `round(currSs1TxPos + txOffset, 3)`)
         ss1_tx.moveTo(currSs1TxPos + txOffset)
         f.find("GDAMetadata").setMetadataValue("subdirectory", "tmp")
-        print 'Scanning Theta with exposure time (1/2) ' + `exposureTime`
+        if verbose:
+            print 'Scanning Theta with exposure time (1/2) ' + `exposureTime`
         updateScriptController("Preparing to scan")
         scan([ss1_theta, 0, 340, 20, pco , `exposureTime`])
         updateScriptController("First Scan Complete")
         firstScanFolder = str(pwd())
         updateScriptController("Calling matlab analysis")
         motors_to_move_for_tilt = runExternalMatlabForTilt(1)
-        print 'Moving ss1_rz from ' + `ss1_rz.getPosition()` + ' by ' + `motors_to_move_for_tilt[0]`
+        if verbose:
+            print 'Moving ss1_rz from ' + `ss1_rz.getPosition()` + ' by ' + `motors_to_move_for_tilt[0]`
         updateScriptController('Moving ss1_rz from ' + `round(ss1_rz.getPosition(), 3)` + ' by ' + `round(motors_to_move_for_tilt[0] , 3)`)
-        print 'Moving ss1_rx from ' + `ss1_rx.getPosition()` + ' by ' + `motors_to_move_for_tilt[1]`
+        if verbose:
+            print 'Moving ss1_rx from ' + `ss1_rx.getPosition()` + ' by ' + `motors_to_move_for_tilt[1]`
         updateScriptController('Moving ss1_rx from ' + `round(ss1_rx.getPosition(), 3)` + ' by ' + `round(motors_to_move_for_tilt[1], 3)`)
         ss1_rz.asynchronousMoveTo(ss1_rz.getPosition() - motors_to_move_for_tilt[0])
         ss1_rx.asynchronousMoveTo(ss1_rx.getPosition() - motors_to_move_for_tilt[1])
@@ -122,7 +130,8 @@ def doTiltAlignment(module, exposureTime):
     except:
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Problem while doing tilt alignment", exceptionType, exception, traceback, False)
-        print "Problem while doing tilt alignment", exception
+        if verbose:
+            print "Problem while doing tilt alignment", exception
         raise exception
     finally:
         f.find("GDAMetadata").setMetadataValue("subdirectory", currSubDir)
@@ -130,8 +139,9 @@ def doTiltAlignment(module, exposureTime):
             ss1_tx.moveTo(currSs1TxPos)
         pco.setExternalTriggered(isExternalTriggered)
         pcoTomography.resetAfterTiltToInitialValues()
-    print 'Tomo tilt complete'
-    print "TiltReturn:" + firstScanFolder + "," + secondScanFolder
+    if verbose:
+        print 'Tomo tilt complete'
+        print "TiltReturn:" + firstScanFolder + "," + secondScanFolder
     updateScriptController("TiltReturn:" + firstScanFolder + "," + secondScanFolder)
 
 def moveTomoAlignmentMotors(motorMoveMap):
@@ -145,7 +155,8 @@ def moveTomoAlignmentMotors(motorMoveMap):
         while m.isBusy():
             updateScriptController("Aligning Tomo motors:" + m.name + ": " + `round(m.position, 2)`)
             sleep(5)
-    print f.find("ss1_tx").isBusy()
+    if verbose:
+        print f.find("ss1_tx").isBusy()
     
         
 def getModule():
@@ -243,7 +254,8 @@ def lookupT3M1y(moduleNum, t3m1ZValue):
     except:
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Problem moving camera stage", exceptionType, exception, traceback, False)
-        print "error in lookup t3x", exception
+        if verbose:
+            print "error in lookup t3x", exception
 
 def getT3M1y(moduleNum):
     t3_m1z = f.find("t3_m1z")
@@ -261,32 +273,38 @@ def moveT3M1ZTo(moduleNum, t3M1zPosition):
         t3_m1y = f.find("t3_m1y")
         t3_x = f.find("t3_x")
         #moving z
-        print "Moving t3_m1z to :" + `t3M1zPosition`
+        if verbose:
+            print "Moving t3_m1z to :" + `t3M1zPosition`
         t3_m1z.asynchronousMoveTo(t3M1zPosition)
         #moving y
         t3m1ZToLookup = t3M1zPosition - t3_m1z.userOffset
         lookupT3M1YVal = lookupT3M1y(moduleNum, t3m1ZToLookup)
         t3m1yOffset = t3_m1y.userOffset
         t3_m1y.asynchronousMoveTo(lookupT3M1YVal + t3m1yOffset)
-        print "Moving t3_m1y to :" + `lookupT3M1YVal + t3m1yOffset`
+        if verbose:
+            print "Moving t3_m1y to :" + `lookupT3M1YVal + t3m1yOffset`
         
         #moving x
         lookupT3xVal = lookupT3x(moduleNum, t3m1ZToLookup)
         t3xOffset = t3_x.userOffset
         t3_x.asynchronousMoveTo(lookupT3xVal + t3xOffset)
-        print "Moving t3_x to :" + `lookupT3xVal + t3xOffset`
+        if verbose:
+            print "Moving t3_x to :" + `lookupT3xVal + t3xOffset`
         #wait for motors to complete
         while t3_m1z.isBusy():
             updateScriptController("Waiting for t3_m1z")
-            print "Waiting for t3_m1z"
+            if verbose:
+                print "Waiting for t3_m1z"
             sleep(5)
         while t3_m1y.isBusy():
             updateScriptController("Waiting for t3_m1y")
-            print "Waiting for t3_m1y"
+            if verbose:
+                print "Waiting for t3_m1y"
             sleep(5)
         while t3_x.isBusy():
             updateScriptController("Waiting for t3_x")
-            print "Waiting for t3_x"
+            if verbose:
+                print "Waiting for t3_x"
             sleep(5)
     except:
         exceptionType, exception, traceback = sys.exc_info()
@@ -397,7 +415,8 @@ class TomoAlignmentConfigurationManager:
                  isContinuousScans, desiredResolutions, timeDividers, positionOfBaseAtFlats, positionOfBaseInBeam):
         if self.currentConfigInProgress != None:
             updateScriptController('Tomography Scan already in progress...')
-            print "Tomography Scan already in progress..."
+            if verbose:
+                print "Tomography Scan already in progress..."
             return
         self.tomoAlignmentConfigurations.clear()
         for i in range(length):
@@ -414,22 +433,19 @@ class TomoAlignmentConfigurationManager:
             for k, v in self.tomoAlignmentConfigurations.iteritems():
                 statusList[v.configId] = v.status
             self.currentConfigInProgress = statusList
-        print "Config status:" + `self.currentConfigInProgress`
         updateScriptController('RunningConfig#' + `self.currentConfigInProgress`)
         
     def runConfigs(self):
-        #print "runconfigs"
         commandQ = Finder.getInstance().find("commandQueueProcessor")
         for i in range(len(self.tomoAlignmentConfigurations)):
             config = self.tomoAlignmentConfigurations[i]
             cmdToQueue = 'tomoAlignment.tomographyConfigurationManager.tomoAlignmentConfigurations[' + `i` + '].doTomographyAlignmentAndScan()'
-#            print 'Queued command:' + cmdToQueue
             commandQ.addToTail(JythonCommandCommandProvider(cmdToQueue, `i + 1` + ". Tomography Alignment and Scan : " + config.description, None))
     
     def stopScan(self):
         statusList = {}
         for k, v in self.tomoAlignmentConfigurations.iteritems():
-            if v.status == None or v.status == "Running":
+            if v.status == None:
                 v.status = "Fail"
             statusList[v.configId] = v.status
         self.currentConfigInProgress = None
@@ -463,13 +479,16 @@ class TomoAlignmentConfiguration:
         try:
             self.status = "Running"
             self.tomographyConfigurationManager.setConfigRunning(self.configId)
-            print 'Aligning module'
+            if verbose:
+                print 'Aligning module'
             checkForPauses()
             moveToModule(self.moduleNum)
-            print 'Aligning alignment motors'
+            if verbose:
+                print 'Aligning alignment motors'
             checkForPauses()
             moveTomoAlignmentMotors(self.motorMoveMap)
-            print 'Tomography scan'
+            if verbose:
+                print 'Tomography scan'
             checkForPauses()
             tomoScani12(self.description,
                         self.sampleAcquisitionTime,
@@ -482,12 +501,15 @@ class TomoAlignmentConfiguration:
                         self.positionOfBaseAtFlat,
                         self.positionOfBaseInBeam)
             self.status = "Complete"
+            self.tomographyConfigurationManager.setConfigRunning(self.configId)
         except:
             exceptionType, exception, traceback = sys.exc_info()
             if scriptController != None:
                 updateScriptController(exception)
             self.status = "Fail"
-        finally:
             self.tomographyConfigurationManager.setConfigRunning(self.configId)
+        finally:
+            if verbose:
+                print `self.configId`
             self.tomographyConfigurationManager.setConfigRunning(None)
             updateScriptController('Tomography Scan Complete')
