@@ -1,7 +1,0 @@
-!img-l http://files/images/FitNesseLogoMedium.jpg
-!1 Welcome to [[Diamond Fitnesse][FrontPage]], the Beamline User Acceptance Test Server
-!3 ''Supported by [[!-FitNesse-!][http://fitnesse.org]], The fully integrated wiki based standalone acceptance testing framework.''
-
-|!c '''Table of Contents'''|
-|!img-l http://files/images/gda-logo.png | !c [[GDA Tests][DataAcquisitionTesting]]|''Beamline User Acceptance Testing Suits for GDA'' |
-

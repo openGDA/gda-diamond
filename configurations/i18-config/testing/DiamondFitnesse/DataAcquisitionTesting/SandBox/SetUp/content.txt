@@ -1,5 +1,0 @@
-!2 Test Information
-|GDA Server      |${GDA_SERVER}          |
-|GDA Installation|${GDA_ROOT}            |
-|GDA Version     | 7.2.0                 |
-
