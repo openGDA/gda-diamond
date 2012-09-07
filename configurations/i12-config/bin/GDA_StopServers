@@ -1,4 +1,11 @@
 #!/bin/bash
+if [ -f "/etc/profile.d/modules.sh" ]; then
+	. /etc/profile.d/modules.sh	
+	module load java/gda
+else
+	echo "cannot scd ..ource /etc/profile.d/modules.sh"	
+	exit 1
+fi
 
 echo `dirname $0`/gda servers --stop $@
 `dirname $0`/gda servers --stop $@
