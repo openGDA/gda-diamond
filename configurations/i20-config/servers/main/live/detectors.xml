@@ -98,7 +98,7 @@
 		<property name="timeChannelRequired" value="false" />
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="4" />
+		<property name="numChannelsToRead" value="3" />
 		<property name="useReset" value="false"/>
 		<property name="outputFormat">
 			<list>
