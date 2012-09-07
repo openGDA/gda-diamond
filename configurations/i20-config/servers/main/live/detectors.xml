@@ -9,7 +9,7 @@
 		<property name="port" value="1972" />
 		<property name="startupCommands">
 			<list>
-				<value>~config</value>
+				<value>~config 9</value>
 			</list>
 		</property>
 		<property name="dataPort" value="20030" />
@@ -40,6 +40,7 @@
 <!-- 		<property name="deviceName" value="EAAMP4" /> -->
 <!-- 	</bean> -->
 
+<!-- 	<bean id="xspress2system" class="gda.device.detector.xspress.PositionStreamingXspress"> -->
 	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2System">
 		<property name="daServerName" value="DAServer" />
 		<property name="tfgName" value="tfg" />
@@ -79,7 +80,9 @@
 	</bean>
 
 
-	<bean id="ionchambers" class="gda.device.detector.countertimer.TfgScalerWithLogValues">
+<!-- 	<bean id="ionchambers" class="gda.device.detector.countertimer.PositionStreamingTfgScaler"> -->
+<!-- 	<bean id="ionchambers" class="gda.device.detector.countertimer.CallableTfgScalerWithLogValues"> -->
+	<bean id="ionchambers" class="gda.device.detector.countertimer.TfgScalerWithFrames">
 		<property name="extraNames">
 			<list>
 				<value>I0</value>
@@ -91,11 +94,12 @@
 		</property>
 		<property name="scaler" ref="CalMemory" />
 		<property name="timer" ref="tfg" />
+<!-- 		<property name="daServer" ref="DAServer" /> -->
 		<property name="timeChannelRequired" value="false" />
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="4" />
-<!-- 		<property name="useReset" value="false"/> -->
+		<property name="numChannelsToRead" value="3" />
+		<property name="useReset" value="false"/>
 		<property name="outputFormat">
 			<list>
 				<value>%.4f</value>

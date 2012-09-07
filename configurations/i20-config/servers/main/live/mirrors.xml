@@ -3,24 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-
-	<!-- <bean id="m1_yaw_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m1_pitch_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m1_elip_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m1_y_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m1_bend_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m1_bend1_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m1_bend2_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="s2_hgap_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m2_yaw_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m2_pitch_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m2_elip_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m2_y_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m2_bend_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m2_bend1_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m2_bend2_motor" class="gda.device.motor.DummyMotor" /> -->
-
-
 	<bean id="m1_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M1.YAW" />
 		<property name="local" value="true"/>
@@ -95,22 +77,10 @@
 		<property name="local" value="true"/>
 	</bean>
 
-	<!-- <bean id="m3_stripe" class="gda.device.enumpositioner.DummyPositioner"> -->
-	<!-- <property name="positions"> -->
-	<!-- <list> -->
-	<!-- <value>Rhodium</value> -->
-	<!-- <value>Platinum</value> -->
-	<!-- <value>Zero</value> -->
-	<!-- </list> -->
-	<!-- </property> -->
-	<!-- </bean> -->
 	<bean id="m3_stripe" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="deviceName" value="M3P" />
 		<property name="local" value="true"/>
 	</bean>
-	<!-- <bean id="m3_pitch_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m3_yaw_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m3_y_motor" class="gda.device.motor.DummyMotor" /> -->
 	<bean id="m3_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M3.PITCH" />
 		<property name="local" value="true"/>
@@ -128,26 +98,10 @@
 		<property name="local" value="true"/>
 	</bean>
 
-	<!-- <bean id="m4_stripe" class="gda.device.enumpositioner.DummyPositioner"> -->
-	<!-- <property name="positions"> -->
-	<!-- <list> -->
-	<!-- <value>Rhodium</value> -->
-	<!-- <value>Platinum</value> -->
-	<!-- <value>Zero</value> -->
-	<!-- </list> -->
-	<!-- </property> -->
-	<!-- </bean> -->
 	<bean id="m4_stripe" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="deviceName" value="M4P" />
 		<property name="local" value="true"/>
 	</bean>
-	<!-- <bean id="m4_pitch_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m4_elip_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m4_y_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m4_yaw_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m4_bend_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m4_bend1_motor" class="gda.device.motor.DummyMotor" /> -->
-	<!-- <bean id="m4_bend2_motor" class="gda.device.motor.DummyMotor" /> -->
 	<bean id="m4_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M4.PITCH" />
 		<property name="local" value="true"/>
@@ -383,18 +337,6 @@
 		<property name="local" value="true"/>
 	</bean>
 
-<!--	<bean id="hr_stripe" class="gda.device.enumpositioner.DummyPositioner">
-		<property name="positions">
-			<list>
-				<value>Silicon</value>
-				<value>Rhodium</value>
-				<value>Zero</value>
-			</list>
-		</property>
-		<property name="local" value="true"/>
-	</bean> 
-	 <bean id="hr_height_motor" class="gda.device.motor.DummyMotor" /> 
-	 <bean id="hr_pitch_motor" class="gda.device.motor.DummyMotor" /> -->
 	<bean id="hr_stripe" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="deviceName" value="HRMP" />
 	</bean>
@@ -424,8 +366,9 @@
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="hrmcoating" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL20I-OP-HRM-05:MP:SELECT" />
+	<bean id="hrmcoating" class="gda.device.enumpositioner.EpicsPositioner">
+<!-- 		<property name="pvName" value="BL20I-OP-HRM-05:MP:SELECT" /> -->
+		<property name="deviceName" value="HRMP" />
 		<property name="local" value="true"/>
 	</bean>
 	<bean id="incidenceAngle" class="gda.device.monitor.EpicsMonitor">

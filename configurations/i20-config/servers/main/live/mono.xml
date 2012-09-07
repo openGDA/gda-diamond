@@ -7,14 +7,14 @@
 
 	<!-- mirrors and QCM -->
 
-	<bean id="m1m2_stripe" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="ohcoating" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="deviceName" value="M1P" />
 		<property name="local" value="true"/>
 	</bean>
-	<bean id="ohcoating" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL20I-OP-VCM-01:MP:SELECT" />
-		<property name="local" value="true"/>
-	</bean>
+<!-- 	<bean id="ohcoating" class="gda.device.monitor.EpicsMonitor"> -->
+<!-- 		<property name="pvName" value="BL20I-OP-VCM-01:MP:SELECT" /> -->
+<!-- 		<property name="local" value="true"/> -->
+<!-- 	</bean> -->
 	<bean id="crystalcut" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL" />
 		<property name="local" value="true"/>

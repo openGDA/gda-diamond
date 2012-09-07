@@ -1,3 +1,6 @@
+print "\n\n****Running the I20 startup script****\n\n"
+
+
 from org.jscience.physics.quantities import Quantity
 from org.jscience.physics.units import Unit
 from gda.configuration.properties import LocalProperties
@@ -31,10 +34,10 @@ samplePreparer = I20SamplePreparer()
 outputPreparer = I20OutputPreparer()
 
 # switch the commenting on these lines to move to the new scripts which include looping
-from exafsscripts.exafs.xas_scans import xas, xanes, xes
-#xas = I20XasScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
-#xes = I20XesScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
-#xanes = xas
+#from exafsscripts.exafs.xas_scans import xas, xanes, xes
+xas = I20XasScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
+xes = I20XesScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
+xanes = xas
 
 alias("xas")
 alias("xanes")
@@ -49,11 +52,11 @@ alias("xspress")
 scansReturnToOriginalPositions = 1
 
 # to delay scan points so they run afer a certain elapsed time
+print "Creating some scannables useful for recording time during scans..."
 from gdascripts.pd.time_pds import showtimeClass, waittime
-print ""
-print "creating scannable 'w' which will delay scan points until a time has been reached during a scan."
-print "usage of 'w':    scan <motor> <start> <stop> <step> w 0 <delay between points in s>"
-print ""
+print "Creating scannable 'w' which will delay scan points until a time has been reached during a scan."\
++ "\nusage of 'w':    scan <motor> <start> <stop> <step> w 0 <delay between points in s>\n\n"
+
 w = showtimeClass("w")
 w.setLevel(10) # so it is operated before anything else in a scan
 
@@ -61,6 +64,9 @@ w.setLevel(10) # so it is operated before anything else in a scan
 # These scannables are checked before any scan data point
 # You may comment them out to remove the checking.
 if LocalProperties.get("gda.mode") == "live":
+    # to speed up step scans
+    LocalProperties.set("gda.scan.concurrentScan.readoutConcurrently","true")
+    LocalProperties.set("gda.scan.multithreadedScanDataPointPipeline.length","10")
     if (machineMode() == "User"):
         add_default([topupChecker])
         add_default([absorberChecker])
@@ -68,6 +74,7 @@ if LocalProperties.get("gda.mode") == "live":
         remove_default([topupChecker])
         remove_default([absorberChecker])
 else:
+    LocalProperties.set("gda.data.scan.datawriter.dataFormat","XasAsciiDataWriter")
     remove_default([topupChecker])
     remove_default([absorberChecker])
     
@@ -120,4 +127,16 @@ if LocalProperties.get("gda.mode") == "live":
     # To set up the ADC for use in GDA
     run 'adc_monitor'
     # To make the scannables for controlling the mono crystal piezos through the EPICS closed-loop
-    run 'crystal_pid'
+    # July2012 do not need this script anymore 
+    #run 'crystal_pid'
+
+    run "xspress_config"
+    print "\nXspress detector set to high (>8KeV) mode."\
+    + "\nIf you wish to collect predominately at lower energies, type:"\
+    + "\nswitchXspressToLowEnergyMode()"\
+    + "\nto change the Xspress settings. Type:"\
+    + "\nswitchXspressToHighEnergyMode()"\
+    + "\n to changes the settings back again."\
+    + "\n"
+    
+print "****GDA startup script complete.****\n\n"

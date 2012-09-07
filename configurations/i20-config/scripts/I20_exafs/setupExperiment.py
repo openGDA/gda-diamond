@@ -17,7 +17,7 @@ def finish():
     
 
 def setup(beanGroup):
-    print "Setting up beamline and detectors"
+   # print "Setting up beamline and detectors"
     from uk.ac.gda.beans.exafs.i20 import I20SampleParameters
     from gda.exafs.scan import I20SampleParametersManager
     from gda.exafs.scan import DetectorParametersManager
@@ -29,7 +29,7 @@ def setup(beanGroup):
         detMan.init()
 
     if beanGroup.getDetector().getExperimentType() == "Fluorescence":
-        print "Setting up Fluorescence detector"
+        print "Configuring fluorescence detector..."
         configFluoDetector(beanGroup)
         
     elif beanGroup.getDetector().getExperimentType() == "XES" :

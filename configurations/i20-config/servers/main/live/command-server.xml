@@ -6,8 +6,15 @@
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
 		<property name="name" value="FileRegistrar" />
 		<property name="directory"
-			value="/dls/bl-misc/dropfiles/icat/dropZone/i20-" />
+			value="/dls/bl-misc/dropfiles2/icat/dropZone/i20-" />
 	</bean>
+
+	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
+		<property name="template" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
+		<property name="gdaMetadata" ref="GDAMetadata" />
+		<property name="local" value="true" />
+	</bean>
+
 
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
 		<property name="name" value="DataWriterFactory" />
