@@ -33,4 +33,6 @@ public interface CameraViewPartConfig {
 	BeamCenterProvider getBeamCenterProvider();
 	ImageViewerListener getImageViewerListener();
 	RotationAxisXProvider getRotationAxisXProvider();
+	int getfFMpegImgWidthRequired();
+	int getfFMpegImgHeightRequired();
 }

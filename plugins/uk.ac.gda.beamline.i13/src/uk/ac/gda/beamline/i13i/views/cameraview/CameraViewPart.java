@@ -103,12 +103,18 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			ndProcess.setEnableLowClip(1);
 			ndProcess.setHighClip(255);
 			ndProcess.setLowClip(0);
-			int imgWidth = ndProcess.getPluginBase().getArraySize0_RBV();
-			int imgHeight = ndProcess.getPluginBase().getArraySize1_RBV();
+			NDPluginBase procBase = ndProcess.getPluginBase();
+			if (!procBase.isCallbacksEnabled_RBV())
+				procBase.enableCallbacks();
+
 			FfmpegStream ffmpegStream = cameraConfig.getFfmpegStream();
-			ffmpegStream.setMAXW(imgWidth / 2);
-			ffmpegStream.setMAXH(imgHeight / 2);
+			ffmpegStream.setMAXW(cameraConfig.getfFMpegImgWidthRequired());
+			ffmpegStream.setMAXH(cameraConfig.getfFMpegImgHeightRequired());
 			ffmpegStream.setQUALITY(100.);
+			NDPluginBase ffmpegBase = ffmpegStream.getPluginBase();
+			ffmpegBase.setNDArrayPort(procBase.getNDArrayPort());
+			if (!ffmpegBase.isCallbacksEnabled_RBV())
+				ffmpegBase.enableCallbacks();
 
 			reconnect();
 		} catch (Exception e1) {
@@ -355,22 +361,27 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 	}
 
 	protected void reconnect() throws Exception {
-		if (videoReceiver != null)
+		if (videoReceiver != null){
 			videoReceiver.closeConnection();
+			if( videoReceiver instanceof MotionJpegOverHttpReceiverSwt){
+				((MotionJpegOverHttpReceiverSwt)videoReceiver).createConnection();
+			}
+		}
+		else {
+			FfmpegStream ffmpegStream = cameraConfig.getFfmpegStream();
+			String url = ffmpegStream.getMJPG_URL_RBV();
+			if (url.equals("DummySwtVideoReceiver")) {
+				DummySwtVideoReceiver dummySwtVideoReceiver = new DummySwtVideoReceiver();
+				dummySwtVideoReceiver.setDesiredFrameRate(10);
+				videoReceiver = dummySwtVideoReceiver;
 
-		FfmpegStream ffmpegStream = cameraConfig.getFfmpegStream();
-		String url = ffmpegStream.getMJPG_URL_RBV();
-		if (url.equals("DummySwtVideoReceiver")) {
-			DummySwtVideoReceiver dummySwtVideoReceiver = new DummySwtVideoReceiver();
-			dummySwtVideoReceiver.setDesiredFrameRate(10);
-			videoReceiver = dummySwtVideoReceiver;
-
-		} else {
-			MotionJpegOverHttpReceiverSwt motionJpegOverHttpReceiverSwt = new MotionJpegOverHttpReceiverSwt();
-			motionJpegOverHttpReceiverSwt.setUrl(url);
-			motionJpegOverHttpReceiverSwt.configure();
-			motionJpegOverHttpReceiverSwt.start();
-			videoReceiver = motionJpegOverHttpReceiverSwt;
+			} else {
+				MotionJpegOverHttpReceiverSwt motionJpegOverHttpReceiverSwt = new MotionJpegOverHttpReceiverSwt();
+				motionJpegOverHttpReceiverSwt.setUrl(url);
+				motionJpegOverHttpReceiverSwt.configure();
+				motionJpegOverHttpReceiverSwt.start();
+				videoReceiver = motionJpegOverHttpReceiverSwt;
+			}
 		}
 		videoReceiver.start();
 

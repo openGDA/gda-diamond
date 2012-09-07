@@ -14,16 +14,31 @@
 
 	<bean id="beamCenterProvider" class="uk.ac.gda.beamline.i13i.BeamCenterProviderImpl" />
 	<bean id="lensScannable" class="gda.device.scannable.DummyPersistentEnumScannable">
-		<property name="acceptableStrings" value="1,2,3" />
+		<property name="acceptableStrings" value="4.0,8.0,20.0" />
 	</bean>
 	<bean id="displayScaleProvider" class="uk.ac.gda.beamline.i13i.SelectableDisplayScaleProvider">
 		<property name="keyScannable" ref="lensScannable" />
 		<property name="providers">
 			<util:map value-type="uk.ac.gda.beamline.i13i.DisplayScaleProvider">
+				<!--  1.0  is equivalent to x4 -->
 				<entry key="1.0">
 					<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-						<property name="pixelsPerMMInX" value="100" />
-						<property name="pixelsPerMMInY" value="100" />
+						<property name="pixelsPerMMInX" value="534" />
+						<property name="pixelsPerMMInY" value="534" />
+					</bean>
+				</entry>
+				<!--  2.0  is equivalent to x8 -->
+				<entry key="2.0">
+					<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
+						<property name="pixelsPerMMInX" value="1088" />
+						<property name="pixelsPerMMInY" value="1088" />
+					</bean>
+				</entry>
+				<!--  3.0  is equivalent to x20 -->
+				<entry key="3.0">
+					<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
+						<property name="pixelsPerMMInX" value="2740" />
+						<property name="pixelsPerMMInY" value="2740" />
 					</bean>
 				</entry>
 			</util:map>
@@ -62,6 +77,8 @@
 		<property name="beamCenterProvider" ref="beamCenterProvider" />
 		<property name="imageViewerListener" ref="sampleAligner" />
 		<property name="rotationAxisXProvider" ref="rotationAxisXProvider"/>
+		<property name="fFMpegImgHeightRequired" value="1336"/>
+		<property name="fFMpegImgWidthRequired" value="2004"/>
 	</bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class"

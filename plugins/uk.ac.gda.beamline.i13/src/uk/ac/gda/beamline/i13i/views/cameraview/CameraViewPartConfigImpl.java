@@ -35,6 +35,9 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 	private BeamCenterProvider beamCenterProvider;
 	private ImageViewerListener imageViewerListener;
 	RotationAxisXProvider rotationAxisXProvider;
+	
+	int fFMpegImgWidthRequired=0;
+	int fFMpegImgHeightRequired=0;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -48,6 +51,10 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 			throw new IllegalArgumentException("setExposureTimeCmd not defined");
 		if (adBase == null)
 			throw new IllegalArgumentException("adBase not defined");
+		if (fFMpegImgWidthRequired < 1)
+			throw new IllegalArgumentException("fFMpegImgWidthRequired < 1");
+		if (fFMpegImgHeightRequired < 1)
+			throw new IllegalArgumentException("fFMpegImgHeightRequired < 1");
 
 	}
 
@@ -121,6 +128,26 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 	public void setImageViewerListener(ImageViewerListener imageViewerListener) {
 		this.imageViewerListener = imageViewerListener;
 	}
+
+	@Override
+	public int getfFMpegImgWidthRequired() {
+		return fFMpegImgWidthRequired;
+	}
+
+	public void setfFMpegImgWidthRequired(int fFMpegImgWidthRequired) {
+		this.fFMpegImgWidthRequired = fFMpegImgWidthRequired;
+	}
+
+	@Override
+	public int getfFMpegImgHeightRequired() {
+		return fFMpegImgHeightRequired;
+	}
+
+	public void setfFMpegImgHeightRequired(int fFMpegImgHeightRequired) {
+		this.fFMpegImgHeightRequired = fFMpegImgHeightRequired;
+	}
+
+
 
 	
 }
