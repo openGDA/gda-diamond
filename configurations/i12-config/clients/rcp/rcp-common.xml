@@ -17,7 +17,7 @@
 
 	<!-- Commonly commented in the simulation environment -->
 
-	<!-- <import resource="pixium.xml" /> -->
+	<import resource="pixium.xml" />
 	
 	<!--  -->
 	<import resource="pco.xml" />

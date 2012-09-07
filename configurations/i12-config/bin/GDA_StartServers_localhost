@@ -2,6 +2,13 @@
 
 #if lustre is down - set the GDA_DATADIR to scratch (i.e uncomment the below line)
 #export GDA_DATADIR=/scratch;
+if [ -f "/etc/profile.d/modules.sh" ]; then
+	. /etc/profile.d/modules.sh	
+	module load java/gda
+else
+	echo "cannot scd ..ource /etc/profile.d/modules.sh"	
+	exit 1
+fi
 
 /dls_sw/i12/software/gda_versions/gda_8.22/plugins/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_8.22/i12-config --restart --mode=localhost nameserver
 /dls_sw/i12/software/gda_versions/gda_8.22/plugins/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_8.22/i12-config --restart --mode=localhost logserver

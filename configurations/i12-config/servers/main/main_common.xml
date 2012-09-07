@@ -10,22 +10,22 @@
 
 
 	<!-- Commonly commented in the simulation environment -->
-	<!-- <import resource="pixium2.xml"/> -->
-	<!-- <import resource="edxd.xml"/> -->
-	<!-- <import resource="eurotherm.xml"/> -->
+	<import resource="pixium2.xml"/>
+	<import resource="edxd.xml"/>
+	<import resource="eurotherm.xml"/>
 
-	<!-- <import resource="t7.xml"/> -->
+	<import resource="t7.xml"/>
 
-	<!-- <import resource="mono.xml"/> -->
-	<!-- <import resource="mono2.xml" /> -->
+	<import resource="mono.xml"/>
+	<import resource="mono2.xml" />
 
-	<!-- <import resource="I0eh1.xml" /> -->
-	<!-- <import resource="I0eh2.xml" /> -->
-	<!-- <import resource="mcs1.xml" /> -->
-	<!-- <import resource="monitors.xml" /> -->
-	<!-- <import resource="tfg2.xml" /> -->
-	<!-- <import resource="ss2.xml" /> -->
-	<!-- <import resource="s1.xml"/> -->
+	<import resource="I0eh1.xml" />
+	<import resource="I0eh2.xml" />
+	<import resource="mcs1.xml" />
+	<import resource="monitors.xml" />
+	<import resource="tfg2.xml" />
+	<import resource="ss2.xml" />
+	<import resource="s1.xml"/>
 	<!-- End of comment for simulation environment -->
 	<import resource="cam1.xml" />
 	<import resource="dummies.xml" />

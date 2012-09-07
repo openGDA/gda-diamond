@@ -10,6 +10,13 @@ then
   echo "Please set BEAMLINE environment variable."
   exit 1
 fi
+if [ -f "/etc/profile.d/modules.sh" ]; then
+	. /etc/profile.d/modules.sh	
+	module load java/gda
+else
+	echo "cannot scd ..ource /etc/profile.d/modules.sh"	
+	exit 1
+fi
 
 #echo "Kill all GDA Clients running locally"
 #gda --stop --verbose client

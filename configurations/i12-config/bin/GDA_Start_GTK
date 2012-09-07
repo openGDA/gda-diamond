@@ -12,6 +12,14 @@ fi
 rm -f /$SOFTWAREFOLDER/$BEAMLINE/var/object_server_startup_server_*
 ssh  -i /$SOFTWAREFOLDER/$BEAMLINE/${BEAMLINE}ssh.key gda@${BEAMLINE}-control.diamond.ac.uk 
 
+if [ -f "/etc/profile.d/modules.sh" ]; then
+	. /etc/profile.d/modules.sh	
+	module load java/gda
+else
+	echo "cannot scd ..ource /etc/profile.d/modules.sh"	
+	exit 1
+fi
+
 echo "Restarting the GDA Server, please wait..."
 #removing the popup window because it's not working properly
 echo "Keep this window open, and you will see a pop-up when the restart has completed"

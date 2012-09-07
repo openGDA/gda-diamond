@@ -16,8 +16,9 @@ done`
 </Menu>
 EOF
 
-for host in `host -l diamond.ac.uk |awk '/^'$BEAMLINE'-ws[0-9][0-9][0-9]/ {print $1}'` ; do
+#for host in `host -l diamond.ac.uk |awk '/^'$BEAMLINE'-ws[0-9][0-9][0-9]/ {print $1}'` ; do
 
-ssh $host "sudo ln -sf /dls_sw/$BEAMLINE/software/gda/config/desktop/dataacq.directory /usr/share/desktop-directories/data-acquisition.directory ; sudo ln -sf /dls_sw/$BEAMLINE/software/gda/config/desktop/dataacq.menu /etc/xdg/menus/applications-merged/data-acquisition.menu ; sudo ln -sf /dls_sw/$BEAMLINE/software/gda/config/desktop/gda-xinit.sh /etc/X11/xinit/xinitrc.d/gda-xinit.sh"
+#ssh $host 
+sudo ln -sf /dls_sw/$BEAMLINE/software/gda/config/desktop/dataacq.directory /usr/share/desktop-directories/data-acquisition.directory ; sudo ln -sf /dls_sw/$BEAMLINE/software/gda/config/desktop/dataacq.menu /etc/xdg/menus/applications-merged/data-acquisition.menu ; sudo ln -sf /dls_sw/$BEAMLINE/software/gda/config/desktop/gda-xinit.sh /etc/X11/xinit/xinitrc.d/gda-xinit.sh
 
-done
+#done
