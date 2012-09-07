@@ -18,11 +18,12 @@
 
 package uk.ac.gda.beamline.i13i.views.cameraview;
 
+import gda.device.DeviceException;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.IImagePositionEvent;
 import uk.ac.gda.client.viewer.ImageViewer;
 
 public interface ImageViewerListener {
 
-	void imageFinished(IImagePositionEvent event, ImageViewer viewer);
+	void imageFinished(IImagePositionEvent event, ImageViewer viewer) throws DeviceException;
 
 }

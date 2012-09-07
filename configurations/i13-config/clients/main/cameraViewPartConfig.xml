@@ -1,36 +1,58 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="beamCenterProvider" class="uk.ac.gda.beamline.i13i.BeamCenterProviderImpl"/>
-	<bean id="displayScaleProvider" class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
+	<bean id="beamCenterProvider" class="uk.ac.gda.beamline.i13i.BeamCenterProviderImpl" />
+	<bean id="lensScannable" class="gda.device.scannable.DummyPersistentEnumScannable">
+		<property name="acceptableStrings" value="1,2,3" />
+	</bean>
+	<bean id="displayScaleProvider" class="uk.ac.gda.beamline.i13i.SelectableDisplayScaleProvider">
+		<property name="keyScannable" ref="lensScannable" />
+		<property name="providers">
+			<util:map value-type="uk.ac.gda.beamline.i13i.DisplayScaleProvider">
+				<entry key="1.0">
+					<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
+						<property name="pixelsPerMMInX" value="100" />
+						<property name="pixelsPerMMInY" value="100" />
+					</bean>
+				</entry>
+			</util:map>
+		</property>
 	</bean>
 	<bean id="sampleAligner" class="uk.ac.gda.beamline.i13i.SampleAligner">
-	<property name="imageModeManager" ref="imageModeManager"/>
-	<property name="beamCenterProvider" ref="beamCenterProvider"/>
-	<property name="displayScaleProvider" ref="displayScaleProvider"/>
-	<property name="sampleCentringXMotor" ref="ss1_x"/>
-	<property name="sampleCentringYMotor" ref="ss1_sampley"/>
-	<property name="cameraStageXMotor" ref="cs1_x"/>
-	<property name="cameraStageYMotor" ref="cs1_y"/>
-	<property name="sampleBaseXMotor" ref="ss1_X"/>
-	<property name="sampleBaseYMotor" ref="ss1_Y"/>
-	
-	<property name="imageWidth" value="4008"/>
-	<property name="imageHeight" value="2672"/>
+		<property name="imageModeManager" ref="imageModeManager" />
+		<property name="beamCenterProvider" ref="beamCenterProvider" />
+		<property name="displayScaleProvider" ref="displayScaleProvider" />
+		<property name="sampleCentringXMotor" ref="ss1_x" />
+		<property name="sampleCentringYMotor" ref="ss1_sampley" />
+		<property name="cameraStageXMotor" ref="cs1_x" />
+		<property name="cameraStageYMotor" ref="cs1_y" />
+		<property name="sampleBaseXMotor" ref="ss1_X" />
+		<property name="sampleBaseYMotor" ref="ss1_Y" />
+
+		<property name="imageWidth" value="4008" />
+		<property name="imageHeight" value="2672" />
 	</bean>
-	<bean id="cameraViewPartConfig" class="uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPartConfigImpl">
-		<property name="adBase" ref="pco1_cam_base"/>
-		<property name="ndArray" ref="pco1_arr"/>
-		<property name="ndProcess" ref="pco1_proc1"/>
-		<property name="ffmpegStream" ref="pco1_ffmpeg1"/>
-		<property name="setExposureTimeCmd" value="tomodet.setupForAlignment( exposureTime=%s)"/>
-		<property name="beamCenterProvider" ref="beamCenterProvider"/>
-		<property name="imageViewerListener" ref="sampleAligner"/>
+	<bean id="cameraViewPartConfig"
+		class="uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPartConfigImpl">
+		<property name="adBase" ref="pco1_cam_base" />
+		<property name="ndArray" ref="pco1_arr" />
+		<property name="ndProcess" ref="pco1_proc1" />
+		<property name="ffmpegStream" ref="pco1_ffmpeg1" />
+		<property name="setExposureTimeCmd" value="tomodet.setupForAlignment( exposureTime=%s)" />
+		<property name="beamCenterProvider" ref="beamCenterProvider" />
+		<property name="imageViewerListener" ref="sampleAligner" />
 	</bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPartConfig" />
+		<property name="class"
+			value="uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPartConfig" />
 		<property name="service" ref="cameraViewPartConfig" />
 	</bean>
 

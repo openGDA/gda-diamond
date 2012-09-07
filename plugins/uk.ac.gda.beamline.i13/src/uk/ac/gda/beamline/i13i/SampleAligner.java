@@ -145,7 +145,7 @@ public class SampleAligner  implements ImageViewerListener{
 		return MatrixUtils.createRealVector(data);
 	}
 	@Override
-	public void imageFinished(IImagePositionEvent event, ImageViewer viewer) {
+	public void imageFinished(IImagePositionEvent event, ImageViewer viewer) throws DeviceException {
 		final int[] clickCoordinates = event.getImagePosition();
 		final RealVector actualClickPoint = createVectorOf(clickCoordinates[0], clickCoordinates[1]);		
 		ImageData imageData = viewer.getImageData();
@@ -161,8 +161,8 @@ public class SampleAligner  implements ImageViewerListener{
 		
 		if(imageModeManager.getMode().getName().equals("SampleCentring")){
 			
-			double moveInX = pixelOffset.getEntry(0) / displayScaleProvider.getSampleStagePixelsPerMMInX();
-			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getSampleStagePixelsPerMMInY();
+			double moveInX = pixelOffset.getEntry(0) / displayScaleProvider.getPixelsPerMMInX();
+			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getPixelsPerMMInY();
 
 			try {
 				sampleCentringXMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(sampleCentringXMotor)[0]+moveInX);
@@ -174,8 +174,8 @@ public class SampleAligner  implements ImageViewerListener{
 		}
 		else if(imageModeManager.getMode().getName().equals("SampleBaseStage")){
 			
-			double moveInX = pixelOffset.getEntry(0) / displayScaleProvider.getSampleStagePixelsPerMMInX();
-			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getSampleStagePixelsPerMMInY();
+			double moveInX = pixelOffset.getEntry(0) / displayScaleProvider.getPixelsPerMMInX();
+			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getPixelsPerMMInY();
 
 			try {
 				sampleBaseXMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(sampleBaseXMotor)[0]+moveInX);
@@ -187,8 +187,8 @@ public class SampleAligner  implements ImageViewerListener{
 		}
 		else if(imageModeManager.getMode().getName().equals("CameraStage")){
 			
-			double moveInX = -pixelOffset.getEntry(0) / displayScaleProvider.getCameraStagePixelsPerMMInX();
-			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getCameraStagePixelsPerMMInY();
+			double moveInX = -pixelOffset.getEntry(0) / displayScaleProvider.getPixelsPerMMInX();
+			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getPixelsPerMMInX();
 
 			try {
 				cameraStageXMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(cameraStageXMotor)[0]+moveInX);

@@ -18,6 +18,7 @@
 
 package uk.ac.gda.beamline.i13i.views.cameraview;
 
+import gda.device.DeviceException;
 import gda.device.detector.areadetector.v17.FfmpegStream;
 import gda.device.detector.areadetector.v17.NDPluginBase;
 import gda.device.detector.areadetector.v17.NDProcess;
@@ -129,7 +130,11 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				@Override
 				public void imageFinished(IImagePositionEvent event) {
 					if (moveOnClickEnabled)
-						cameraConfig.getImageViewerListener().imageFinished(event, cameraComposite.getViewer());
+						try {
+							cameraConfig.getImageViewerListener().imageFinished(event, cameraComposite.getViewer());
+						} catch (DeviceException e) {
+							logger.error("Error processing imageFinished", e);
+						}
 
 				}
 

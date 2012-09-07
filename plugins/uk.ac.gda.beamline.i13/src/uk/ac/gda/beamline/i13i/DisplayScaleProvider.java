@@ -18,9 +18,10 @@
 
 package uk.ac.gda.beamline.i13i;
 
-public interface DisplayScaleProvider {
-	double getSampleStagePixelsPerMMInX();
-	double getSampleStagePixelsPerMMInY();
-	double getCameraStagePixelsPerMMInX();
-	double getCameraStagePixelsPerMMInY();
+import gda.device.DeviceException;
+import gda.observable.IObservable;
+
+public interface DisplayScaleProvider extends IObservable{
+	double getPixelsPerMMInX() throws DeviceException;
+	double getPixelsPerMMInY() throws DeviceException;
 }

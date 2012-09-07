@@ -20,25 +20,20 @@ package uk.ac.gda.beamline.i13i;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
+import gda.device.scannable.ScannableUtils;
 import gda.observable.IObserver;
 import gda.observable.ObservableComponent;
 
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
-public class DisplayScaleProviderImpl implements DisplayScaleProvider, InitializingBean {
-	private static final Logger logger = LoggerFactory.getLogger(DisplayScaleProviderImpl.class);
+public class SelectableDisplayScaleProvider implements DisplayScaleProvider, InitializingBean {
+//	private static final Logger logger = LoggerFactory.getLogger(SelectableDisplayScaleProvider.class);
 	public static final String NEWVAL = "NEWVAL";
 	ObservableComponent obsComp= new ObservableComponent();
-	double pixelsPerMMInX=100;
-	double pixelsPerMMInY=100;
-/*	double cameraStagePixelsPerMMInX=50;
-	double cameraStagePixelsPerMMInY=12.5;
-*/	
-	DisplayScaleProvider currentProvider=this;
+	
+	String currentKey="";
 	
 	Scannable keyScannable;
 	Map<String , DisplayScaleProvider> providers;
@@ -55,48 +50,56 @@ public class DisplayScaleProviderImpl implements DisplayScaleProvider, Initializ
 	public void deleteIObservers() {
 		obsComp.deleteIObservers();
 	}
+
 	
 	@Override
-	public double getPixelsPerMMInX() {
-		return pixelsPerMMInX;
-	}
-	public void setPixelsPerMMInX(double pixelsPerMMInX) {
-		this.pixelsPerMMInX = pixelsPerMMInX;
+	public double getPixelsPerMMInX() throws DeviceException {
+		return getProvider().getPixelsPerMMInX();
 	}
 	@Override
-	public double getPixelsPerMMInY() {
-		return pixelsPerMMInY;
+	public double getPixelsPerMMInY() throws DeviceException {
+		return getProvider().getPixelsPerMMInY();
 	}
-	public void setPixelsPerMMInY(double pixelsPerMMInY) {
-		this.pixelsPerMMInY = pixelsPerMMInY;
-	}
-	void getProvider() throws DeviceException{
-		if( keyScannable != null && providers != null){
-			String key = ((String[])keyScannable.getPosition())[0];
-			currentProvider= providers.get(key);
-		}
+	
+	
+	DisplayScaleProvider getProvider() throws DeviceException{
+		currentKey = Double.valueOf(ScannableUtils.getCurrentPositionArray(keyScannable)[0]).toString();
+		DisplayScaleProvider currentProvider = providers.get(currentKey);
 		if( currentProvider == null)
-			currentProvider = this;
+			throw new DeviceException("Unable to get provider from map. key="+currentKey);
+		return currentProvider;
 	}
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		getProvider();
+		if( keyScannable ==null)
+			throw new Exception("keyScannable==null");
+		if( providers ==null)
+			throw new Exception("providers==null");
+		
 		if(keyScannable != null){
 			keyScannable.addIObserver(new IObserver() {
 				
 				@Override
 				public void update(Object source, Object arg) {
-					try {
-						getProvider();
-						obsComp.notifyIObservers(DisplayScaleProviderImpl.this, NEWVAL);
-					} catch (DeviceException e) {
-						logger.error("Error getting display provider", e);
-					}
+					obsComp.notifyIObservers(SelectableDisplayScaleProvider.this, NEWVAL);
 				}
 			});
 		}
 		
 		
+	}
+	public Scannable getKeyScannable() {
+		return keyScannable;
+	}
+	public void setKeyScannable(Scannable keyScannable) {
+		this.keyScannable = keyScannable;
+	}
+	public Map<String, DisplayScaleProvider> getProviders() {
+		return providers;
+	}
+	public void setProviders(Map<String, DisplayScaleProvider> providers) {
+		this.providers = providers;
 	}
 	
 

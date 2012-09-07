@@ -275,8 +275,7 @@
 	</property>
 	</bean>
 
-
-
+<!-- 	<import resource="tomoAlignmentViewHolder.xml"/ -->
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />
 		<constructor-arg index="1">
