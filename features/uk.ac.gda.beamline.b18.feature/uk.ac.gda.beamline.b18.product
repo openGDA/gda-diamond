@@ -11,7 +11,8 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.root=/dls_sw/b18/software/gda/plugins
+      <vmArgs>-Dgda.install.workspace.loc=/dls_sw/b18/software/gda
+-Dgda.install.git.loc=/dls_sw/b18/software/gda_git
 -Dgda.config=/dls_sw/b18/software/gda/config
 -Dgda.users=/dls_sw/b18/
 -Dgda.propertiesFile=/dls_sw/b18/software/gda/config/properties/java.properties

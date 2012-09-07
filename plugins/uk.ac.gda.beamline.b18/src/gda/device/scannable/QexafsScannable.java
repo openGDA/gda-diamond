@@ -100,6 +100,17 @@ public class QexafsScannable extends ScannableMotor implements ContinuouslyScann
 
 	private String state = "idle";
 	
+	private double extraRunUp=0;
+	
+	
+	public double getExtraRunUp() {
+		return extraRunUp;
+	}
+
+	public void setExtraRunUp(double extraRunUp) {
+		this.extraRunUp = extraRunUp;
+	}
+
 	@Override
 	public void configure() throws FactoryException {
 		try {
@@ -315,31 +326,35 @@ public class QexafsScannable extends ScannableMotor implements ContinuouslyScann
 	
 	
 
-	public void calculateMotionInDegrees() throws TimeoutException, CAException, InterruptedException {
+	private void calculateMotionInDegrees() throws TimeoutException, CAException, InterruptedException {
 
-		Length twoD = Quantity.valueOf(0.327, SI.NANO(SI.METER));
+		Length twoD = getTwoD();
 
-		Energy startEng = Quantity.valueOf(21000, NonSI.ELECTRON_VOLT);
+		Energy startEng = Quantity.valueOf(continuousParameters.getStartPosition(), NonSI.ELECTRON_VOLT);
 		startAngle = BraggAngle.braggAngleOf(startEng, twoD);
 
-		Energy endEng = Quantity.valueOf(22000, NonSI.ELECTRON_VOLT);
+		Energy endEng = Quantity.valueOf(continuousParameters.getEndPosition(), NonSI.ELECTRON_VOLT);
 		endAngle = BraggAngle.braggAngleOf(endEng, twoD);
 
-		stepSize = (Angle) (startAngle.minus(endAngle)).divide(1000);
+		stepSize = (Angle) (startAngle.minus(endAngle)).divide(continuousParameters.getNumberDataPoints());
 
 		// v^2 = u^2 + 2as
-		double acceleration = 0.1;
-		desiredSpeed = Math.abs(radToDeg(endAngle) - radToDeg(startAngle)) / 20;
+		double acceleration = controller.cagetDouble(accelChnl);
+		desiredSpeed = Math.abs(radToDeg(endAngle) - radToDeg(startAngle)) / continuousParameters.getTotalTime();
 		double runUp = (desiredSpeed * desiredSpeed) / (2 * acceleration);
-		runUp *= 3.0; 
+		runUp *= 3.0; // to be safe add 10%
 		Angle runUpAngle = (Angle) QuantityFactory.createFromObject(runUp, NonSI.DEGREE_ANGLE);
 		// 1.165E-4 deg is a practical minimum to avoid the motor's deadband
-		double step = 0.0005;
+		double step = controller.cagetDouble(this.stepIncDegChnl);
 		
 		if (runUpAngle.doubleValue() < 10*step) {//0.0001165
 			runUpAngle = (Angle) QuantityFactory.createFromObject(10*step, NonSI.DEGREE_ANGLE);
 		}
-
+		
+		Quantity add = QuantityFactory.createFromObject(extraRunUp, NonSI.DEGREE_ANGLE);
+		
+		runUpAngle = (Angle) runUpAngle.plus(add);
+		
 		if (endAngle.getAmount() > startAngle.getAmount()) {
 			runupPosition = (Angle) startAngle.minus(runUpAngle);
 			runDownPosition = (Angle) endAngle.plus(runUpAngle);
@@ -347,9 +362,10 @@ public class QexafsScannable extends ScannableMotor implements ContinuouslyScann
 			runupPosition = (Angle) startAngle.plus(runUpAngle);
 			runDownPosition = (Angle) endAngle.minus(runUpAngle);
 		}
-		
 	}
 
+	
+	
 	@Override
 	public void setContinuousParameters(ContinuousParameters parameters) {
 		continuousParameters = parameters;

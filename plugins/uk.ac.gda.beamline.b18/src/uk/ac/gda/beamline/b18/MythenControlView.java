@@ -18,11 +18,13 @@
 
 package uk.ac.gda.beamline.b18;
 
+import gda.data.NumTracker;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
 import gda.jython.JythonServerFacade;
 import gda.observable.IObservable;
 import gda.observable.IObserver;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
@@ -51,6 +53,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.PlotServer;
+import uk.ac.diamond.scisoft.analysis.PlotServerProvider;
 import uk.ac.diamond.scisoft.analysis.plotserver.DataBean;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiBean;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiParameters;
@@ -64,7 +67,6 @@ import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotConsumer;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotJob;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotJobType;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotWindow;
-import uk.ac.diamond.scisoft.analysis.PlotServerProvider;
 import uk.ac.diamond.scisoft.analysis.rcp.views.PlotViewConfig;
 
 /**
@@ -198,7 +200,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 		gridData.heightHint = 500;
 		gridData.widthHint = 500;
 		
-		plotWindow.getMainPlotter().getComposite().setLayoutData(gridData);
+		//plotWindow.getMainPlotter().getComposite();//.setLayoutData(gridData);
 		
 		Composite controls = new Composite(composite, SWT.NONE);
 		controls.setLayout(new GridLayout(4, false));
@@ -216,6 +218,15 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 		btnSet.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				NumTracker scanNumTracker;
+				try {
+					scanNumTracker = new NumTracker("tmp");
+					long scanNumber = scanNumTracker.getCurrentFileNumber();
+					scanNumTracker.incrementNumber();
+				} catch (IOException e2) {
+					logger.error("Could not create NumTracker to track scan file numbers", e2);
+				}
+				
 				createMythen();
 				String header = JythonServerFacade
 						.getInstance()

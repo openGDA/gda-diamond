@@ -29,7 +29,7 @@ class MythenAcquisition:
         scan = ConcurrentScan([self.test, 0, 0, 1, self.mythen])
         scan.runScan()
         
-        self.rawFile = str(self.mythen.getDataDirectory()) + "/" + self.mythen.getCurrentFilename()+".raw"
+        self.rawFile = str(self.mythen.getDataDirectory()) +"/"+ self.mythen.getCurrentFilename()+".raw"
         prefix = self.rawFile[:self.rawFile.rfind("-")]
         fileNum = self.rawFile[self.rawFile.rfind("-"):self.rawFile.rfind(".")]
         self.outputFile = prefix + fileNum + ".dat"

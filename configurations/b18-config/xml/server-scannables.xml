@@ -494,7 +494,7 @@
 	</bean>
 	
 	<bean id="userstage" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="false" />
+		<property name="local" value="true" />
 		<property name="groupMembers">
 			<list>
 				<ref bean="user2" />

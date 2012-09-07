@@ -220,10 +220,8 @@ public class B18EnergyScannable extends ScannableMotor implements Initialization
 
 			if (startValue == 1) {
 				logger.info("Resetting the mono feedback control. This will take about 10s...");
-				controller.caput(energySwitch, 0); // off
-				Thread.sleep(1000);
-				controller.caput(energySwitch, 1); // on
-				Thread.sleep(10000);
+				controller.caputWait(energySwitch, 0); // off
+				controller.caputWait(energySwitch, 1); // on
 			}
 
 		} catch (TimeoutException e) {

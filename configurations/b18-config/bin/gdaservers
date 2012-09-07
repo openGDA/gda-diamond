@@ -1,2 +1,3 @@
 # ssh into b18-control as gda which should then run the servers script locally there
+echo "(Re)starting GDA server processes"
 ssh -i /dls_sw/b18/software/gda/config/.ssh/id_dsa gda@b18-control

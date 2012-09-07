@@ -38,7 +38,7 @@ import uk.ac.gda.exafs.ui.data.ScanObject;
 public class B18Validator extends ExafsValidator {
 
 	private static final double MINENERGY = 2000; // the lowest value out of I18, B18 and I20
-	private static final double MAXENERGY = 35000; // the highest value out of I18, B18 and I20
+	private static final double MAXENERGY = 40000; // the highest value out of I18, B18 and I20
 
 	@Override
 	public void validate(final IExperimentObject b) throws InvalidBeanException {

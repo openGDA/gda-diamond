@@ -26,7 +26,7 @@
 		</property>
 	</bean>
 
-	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.B18EDXDMappingController">
+	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="epicsDeviceName" value="xmap_dxp" />
 		<property name="elementOffset" value="1" />
 		<property name="local" value="true" />
@@ -41,10 +41,13 @@
 
 	<bean id="qexafs_xmap" class="gda.device.detector.xmap.XmapBufferedDetector">
 		<property name="xmap" ref="xmapMca" />
-		<property name="controller" ref="edxdcontroller">
-		</property>
-		<property name="daServer" ref="DAServer"></property>
+		<property name="controller" ref="edxdcontroller" />
+		<property name="daServer" ref="DAServer" />
 		<property name="local" value="true" />
+		<property name="inputNames">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 
@@ -80,6 +83,19 @@
 		<property name="data_pv" value="BL18B-EA-GEADC-01:RAWDATA_1_RBV.VAL" />
 		
 	</bean>
+	
+	<bean id="QexafsFFI0" class="gda.device.detector.QexafsFFoverIO">
+		<property name="qexafsXspress" ref="qexafs_xspress" />
+		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
+	</bean>
+	
+	<bean id="VortexQexafsFFI0" class="gda.device.detector.xmap.VortexQexafsFFIO">
+		<property name="qexafsXmap" ref="qexafs_xmap" />
+		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
+	</bean>
 
+<!-- 	<bean id="cirrus" class="uk.ac.gda.devices.cirrus.CirrusDetector"> -->
+<!-- 		<property name="cirrusHost" value="b18-cirrus01" /> -->
+<!-- 	</bean> -->
 
 </beans>

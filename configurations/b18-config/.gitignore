@@ -1,4 +1,1 @@
-# ignore a jythonCache directory anywhere in the project
-jythonCache/
 /var
-*.class

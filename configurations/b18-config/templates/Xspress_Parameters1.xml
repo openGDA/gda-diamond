@@ -8,8 +8,8 @@
     <DetectorElement>
         <name>Element0</name>
         <number>0</number>
-        <windowStart>895</windowStart>
-        <windowEnd>940</windowEnd>
+        <windowStart>621</windowStart>
+        <windowEnd>657</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
@@ -20,8 +20,8 @@
     <DetectorElement>
         <name>Element1</name>
         <number>1</number>
-        <windowStart>895</windowStart>
-        <windowEnd>940</windowEnd>
+        <windowStart>621</windowStart>
+        <windowEnd>657</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
@@ -32,8 +32,8 @@
     <DetectorElement>
         <name>Element2</name>
         <number>2</number>
-        <windowStart>895</windowStart>
-        <windowEnd>940</windowEnd>
+        <windowStart>621</windowStart>
+        <windowEnd>657</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
@@ -44,8 +44,8 @@
     <DetectorElement>
         <name>Element3</name>
         <number>3</number>
-        <windowStart>895</windowStart>
-        <windowEnd>940</windowEnd>
+        <windowStart>621</windowStart>
+        <windowEnd>657</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
@@ -56,8 +56,8 @@
     <DetectorElement>
         <name>Element4</name>
         <number>4</number>
-        <windowStart>895</windowStart>
-        <windowEnd>940</windowEnd>
+        <windowStart>621</windowStart>
+        <windowEnd>657</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
@@ -68,8 +68,8 @@
     <DetectorElement>
         <name>Element5</name>
         <number>5</number>
-        <windowStart>895</windowStart>
-        <windowEnd>940</windowEnd>
+        <windowStart>621</windowStart>
+        <windowEnd>657</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
@@ -80,8 +80,8 @@
     <DetectorElement>
         <name>Element6</name>
         <number>6</number>
-        <windowStart>895</windowStart>
-        <windowEnd>940</windowEnd>
+        <windowStart>621</windowStart>
+        <windowEnd>657</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
@@ -92,8 +92,8 @@
     <DetectorElement>
         <name>Element7</name>
         <number>7</number>
-        <windowStart>895</windowStart>
-        <windowEnd>940</windowEnd>
+        <windowStart>621</windowStart>
+        <windowEnd>657</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
@@ -104,8 +104,8 @@
     <DetectorElement>
         <name>Element8</name>
         <number>8</number>
-        <windowStart>895</windowStart>
-        <windowEnd>940</windowEnd>
+        <windowStart>621</windowStart>
+        <windowEnd>657</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>

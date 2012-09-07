@@ -20,11 +20,11 @@
 
 	<bean id="ringCurrent" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR21C-DI-DCCT-01:SIGNAL" />
-		<property name="local" value="false" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="ringEnergy" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
-		<property name="local" value="false" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="fillMode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="LI-TI-MTGEN-01:MODE" />
@@ -32,7 +32,7 @@
 	</bean>
 	<bean id="topup" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
-		<property name="local" value="false" />
+		<property name="local" value="true" />
 	</bean>
 
 	<!--	pressure sensors near FE (for commissioning)-->
@@ -414,27 +414,27 @@
 	
 	<bean id="USER2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-MO-USER-01:AXIS2" />
-		<property name="local" value="false" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="USER4_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-MO-USER-01:AXIS4" />
-		<property name="local" value="false" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="USER5_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-MO-USER-01:AXIS5" />
-		<property name="local" value="false" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="USER6_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-MO-USER-01:AXIS6" />
-		<property name="local" value="false" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="USER7_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-MO-USER-01:AXIS7" />
-		<property name="local" value="false" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="USER8_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-MO-USER-01:AXIS8" />
-		<property name="local" value="false" />
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="BRAGG_motor" class="gda.device.motor.EpicsMotor">
@@ -466,7 +466,7 @@
 	<bean id="energy" class="gda.device.scannable.B18EnergyScannable">
 		<property name="motor" ref="energy_motor" />
 		<property name="lowerGdaLimits" value="2000" />
-		<property name="upperGdaLimits" value="35000" />
+		<property name="upperGdaLimits" value="40000" />
 		<property name="outputFormat">
 			<list>
 				<value>%.2f</value>
@@ -477,7 +477,7 @@
 	<bean id="qexafs_energy" class="gda.device.scannable.QexafsScannable">
 		<property name="motor" ref="energy_motor" />
 		<property name="lowerGdaLimits" value="2000" />
-		<property name="upperGdaLimits" value="35000" />
+		<property name="upperGdaLimits" value="40000" />
 		<property name="outputFormat">
 			<list>
 				<value>%.2f</value>
@@ -627,6 +627,16 @@
 		<property name="pvName" value="BL18B-EA-GIR-01:PCTRL1:P:RD" />
 	</bean>
 
+	<bean id="ionc1hvstat" class="gda.device.scannable.GasFillFieldScannable">
+		<property name="pvName" value="BL18B-EA-ISEG-01:V1_START" />
+	</bean>
+	<bean id="ionc2hvstat" class="gda.device.scannable.GasFillFieldScannable">
+		<property name="pvName" value="BL18B-EA-ISEG-01:V2_START" />
+	</bean>
+	<bean id="ionc3hvstat" class="gda.device.scannable.GasFillFieldScannable">
+		<property name="pvName" value="BL18B-EA-ISEG-02:V1_START" />
+	</bean>
+
 	<bean id="ionc1_gas_injector" class="gda.device.scannable.GasInjectionScannable">
 		<property name="purge_pressure" ref="ionc_purge_pressure" />
 		<property name="purge_period" ref="ionc_purge_period" />
@@ -645,6 +655,7 @@
 		<property name="power_supply" ref="ionc1_power_supply" />
 		<property name="ion_chamber" value="0" />
 		<property name="base_pressure" ref="ionc_base_pressure" />
+		<property name="hvStatusScannable" ref="ionc1hvstat" />
 	</bean>
 
 	<bean id="ionc2_gas_injector" class="gda.device.scannable.GasInjectionScannable">
@@ -665,6 +676,7 @@
 		<property name="power_supply" ref="ionc2_power_supply" />
 		<property name="ion_chamber" value="1" />
 		<property name="base_pressure" ref="ionc_base_pressure" />
+		<property name="hvStatusScannable" ref="ionc2hvstat" />
 	</bean>
 
 	<bean id="ionc3_gas_injector" class="gda.device.scannable.GasInjectionScannable">
@@ -685,6 +697,7 @@
 		<property name="power_supply" ref="ionc3_power_supply" />
 		<property name="ion_chamber" value="2" />
 		<property name="base_pressure" ref="ionc_base_pressure" />
+		<property name="hvStatusScannable" ref="ionc3hvstat" />
 	</bean>
 	
 	<bean id="ionc1_pressure" class="gda.device.scannable.GasFillFieldScannable">
@@ -727,28 +740,28 @@
 
 <!-- 	<bean id="izero_monitor" class="gda.device.monitor.EpicsMonitor"> -->
 <!-- 		<property name="pvName" value="BL18B-DI-IZERO-01:I" /> -->
-<!-- 		<property name="local" value="false" /> -->
+<!-- 		<property name="local" value="true" /> -->
 <!-- 	</bean> -->
 <!-- 	<bean id="sam1_monitor" class="gda.device.monitor.EpicsMonitor"> -->
 <!-- 		<property name="pvName" value="BL18B-EA-SAMPL-01:I" /> -->
-<!-- 		<property name="local" value="false" /> -->
+<!-- 		<property name="local" value="true" /> -->
 <!-- 	</bean> -->
 <!-- 	<bean id="ionc1_monitor" class="gda.device.monitor.EpicsMonitor"> -->
 <!-- 		<property name="pvName" value="BL18B-EA-IONC-01:I" /> -->
-<!-- 		<property name="local" value="false" /> -->
+<!-- 		<property name="local" value="true" /> -->
 <!-- 	</bean> -->
 <!-- 	<bean id="ionc2_monitor" class="gda.device.monitor.EpicsMonitor"> -->
 <!-- 		<property name="pvName" value="BL18B-EA-IONC-02:I" /> -->
-<!-- 		<property name="local" value="false" /> -->
+<!-- 		<property name="local" value="true" /> -->
 <!-- 	</bean> -->
 <!-- 	<bean id="ionc3_monitor" class="gda.device.monitor.EpicsMonitor"> -->
 <!-- 		<property name="pvName" value="BL18B-EA-IONC-03:I" /> -->
-<!-- 		<property name="local" value="false" /> -->
+<!-- 		<property name="local" value="true" /> -->
 <!-- 	</bean> -->
 
  	<bean id="Cryojet" class="gda.device.monitor.EpicsMonitor">
  		<property name="pvName" value="BL18B-EA-TEMPC-03:STEMP" />
- 		<property name="local" value="false" />
+ 		<property name="local" value="true" />
  	</bean>
 
 	<bean id="pulsetube" class="gda.device.scannable.PulseTube">

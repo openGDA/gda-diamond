@@ -28,6 +28,10 @@
 
 	<bean id="qexafs_xspress" class="gda.device.detector.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
+		<property name="inputNames">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 	<!-- Time Frame Generator -->
@@ -65,7 +69,7 @@
 		<property name="outputFormat">
 			<list>
 				<!-- <value>%6.2g</value> -->
-				<value>%6.2g</value>
+				<value>%6.5g</value>
 				<value>%9d</value>
 				<value>%9d</value>
 				<value>%9d</value>
@@ -97,7 +101,7 @@
 		<property name="outputFormat">
 			<list>
 				<value>%.6g</value>
-				<value>%6.2g</value>
+				<value>%6.5g</value>
 				<value>%9d</value>
 				<value>%9d</value>
 				<value>%9d</value>
@@ -151,11 +155,6 @@
 	<bean id="FFI0" class="gda.device.detector.TfgFFoverI0">
 		<property name="xspress" ref="xspress2system" />
 		<property name="scalerName" value="counterTimer01" />
-	</bean>
-
-	<bean id="QexafsFFI0" class="gda.device.detector.QexafsFFoverIO">
-		<property name="qexafsXspress" ref="qexafs_xspress" />
-		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
 	</bean>
 
 	<bean id="FFI0_vortex" class="gda.device.detector.TfgXMapFFoverI0">

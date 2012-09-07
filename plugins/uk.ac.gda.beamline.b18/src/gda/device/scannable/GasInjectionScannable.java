@@ -46,6 +46,7 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	private Scannable gas_injection_status;
 	private Scannable power_supply;
 	private Scannable base_pressure;
+	private Scannable hvStatusScannable;
 
 	private String ion_chamber;
 
@@ -59,9 +60,9 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	private double gas_fill2_period_val;
 	private double base_pressure_val;
 	private int gas_select_val;
-
+	private String hvstatus;
 	private double original_voltage;
-	
+
 	@Override
 	public boolean isBusy() {
 		return false;
@@ -83,7 +84,15 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
-		log("Gas filling started");
+		String ionc = "";		
+		if(ion_chamber.equals("0"))
+			ionc="I0";
+		else if(ion_chamber.equals("1"))
+			ionc="It";
+		else if(ion_chamber.equals("2"))
+			ionc="Iref";
+		log("Gas filling of " + ionc + " started");
+		
 		if (!(position instanceof List<?>)) {
 			throw new DeviceException("Supplied array must be of type List<String> to move Scannable " + getName());
 		}
@@ -94,9 +103,7 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 		String flush = parameters.get(7);
 
 		original_voltage = Double.parseDouble(power_supply.getPosition().toString());
-		 
-		
-		
+
 		// pos ionc1_gas_injector ["2.0","1","0.024377","100.0","1.975623","100.0","2","True"]
 
 		// check if voltage is below 5v.
@@ -221,17 +228,16 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 				e1.printStackTrace();
 			}
 
-
 			if (checkVoltageInRange(-5, 5)) {
 				checkForAbort();
-				
+
 				log("Purge 1");
 				control_select.moveTo(2);
 				checkForAbort();
 				gas_fill_start.moveTo(1);// purge 1
 				checkForAbort();
 				waitUntilIdle(300);
-				
+
 				base_pressure_val = Double.parseDouble(base_pressure.getPosition().toString());
 				gas_fill1_pressure.moveTo(gas_fill1_pressure_val + base_pressure_val);
 
@@ -241,31 +247,33 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 				gas_fill_start.moveTo(1);// fill 1
 				checkForAbort();
 				waitUntilIdle(fillTimeout);
-				
+
 				log("Purge 2");
 				control_select.moveTo(4);
 				checkForAbort();
 				gas_fill_start.moveTo(1);// purge 2
 				checkForAbort();
 				waitUntilIdle(fillTimeout);
-				
+
 				log("Filling gas 2");
 				control_select.moveTo(5);
 				checkForAbort();
 				gas_fill_start.moveTo(1);// fill 2
 				checkForAbort();
 				waitUntilIdle(fillTimeout);
-				
+
 			} else
 				log("Voltage too high");
 
 			if (getFillStatus().equals("idle")) {
 				log("Setting voltage to " + original_voltage + "v");
-				
-				int voltageToSet = Math.abs((int)original_voltage);
+
+				int voltageToSet = Math.abs((int) original_voltage);
 				setVoltage(voltageToSet);// raise voltage to original voltage
-				int voltageTimeout = 10;
-				while ((!checkVoltageInRange(-((int)original_voltage-5), -((int)original_voltage+5))) && !checkVoltageInRange(((int)original_voltage-5), ((int)original_voltage+5)) && voltageTimeout > 0) {
+				int voltageTimeout = 30;
+				while ((!checkVoltageInRange(-((int) original_voltage - 5), -((int) original_voltage + 5)))
+						&& !checkVoltageInRange(((int) original_voltage - 5), ((int) original_voltage + 5))
+						&& voltageTimeout > 0) {
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
@@ -335,6 +343,27 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	public void setVoltage(int voltage) {
 		try {
 			power_supply.asynchronousMoveTo(voltage);
+			// check if BL18B-EA-ISEG-01:V1_START is "1" then try again for 10secs and try set again
+			// try 3 times
+			for (int i = 0; i < 3; i++) {
+				try {
+					Thread.sleep(10000);
+				} catch (InterruptedException e) {
+				}
+				hvstatus = hvStatusScannable.getPosition().toString();
+				if (hvstatus.equals("1")) {
+					log("Comms error with hv supply. Waiting for 10 seconds.");
+					try {
+						Thread.sleep(10000);
+					} catch (InterruptedException e) {
+					}
+					log("Apply voltage change retry.");
+					power_supply.asynchronousMoveTo(voltage);
+				} else
+					break;
+			}
+
+
 		} catch (DeviceException e) {
 			e.printStackTrace();
 		}
@@ -507,4 +536,14 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	public void setBase_pressure(Scannable basePressure) {
 		base_pressure = basePressure;
 	}
+
+	public Scannable getHvStatusScannable() {
+		return hvStatusScannable;
+	}
+
+	public void setHvStatusScannable(Scannable hvStatusScannable) {
+		this.hvStatusScannable = hvStatusScannable;
+	}
+	
+	
 }
