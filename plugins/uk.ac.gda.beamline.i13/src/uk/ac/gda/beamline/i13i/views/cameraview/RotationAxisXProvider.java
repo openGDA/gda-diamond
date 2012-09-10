@@ -18,19 +18,9 @@
 
 package uk.ac.gda.beamline.i13i.views.cameraview;
 
-import gda.device.detector.areadetector.v17.ADBase;
-import gda.device.detector.areadetector.v17.FfmpegStream;
-import gda.device.detector.areadetector.v17.NDArray;
-import gda.device.detector.areadetector.v17.NDProcess;
+import gda.device.DeviceException;
+import gda.observable.IObservable;
 
-
-public interface CameraViewPartConfig {
-	ADBase getAdBase();
-	NDArray getNdArray();
-	NDProcess getNdProcess();
-	FfmpegStream getFfmpegStream();
-	String getSetExposureTimeCmd();
-	BeamCenterProvider getBeamCenterProvider();
-	ImageViewerListener getImageViewerListener();
-	RotationAxisXProvider getRotationAxisXProvider();
+public interface RotationAxisXProvider extends IObservable{
+	int getRotationAxisX() throws DeviceException;
 }

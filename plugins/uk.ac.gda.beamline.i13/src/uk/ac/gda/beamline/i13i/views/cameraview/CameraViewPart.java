@@ -240,6 +240,47 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			});
 			dropDownMenu.add(centreMarkerAction);
 		}
+		if (cameraConfig.getRotationAxisXProvider() != null) {
+			final Action rotationAxisAction = new Action("Centre Marker", IAction.AS_CHECK_BOX) {
+				@Override
+				public void run() {
+					try {
+						showRotationAxis(isChecked());
+					} catch (DeviceException e) {
+						logger.error("Error showing rotation axis", e);
+					}
+				}
+			};
+			try {
+				showRotationAxis(true);
+				rotationAxisAction.setChecked(true);// do not
+			} catch (DeviceException e) {
+				logger.error("Error showing rotation axis", e);
+			}
+			cameraConfig.getRotationAxisXProvider().addIObserver(new IObserver() {
+
+				@Override
+				public void update(Object source, final Object arg) {
+					if (rotationAxisAction.isChecked()) {
+						getViewSite().getShell().getDisplay().asyncExec(new Runnable() {
+
+							@Override
+							public void run() {
+								try {
+									showRotationAxis(true);
+								} catch (DeviceException e) {
+									logger.error("Error showing rotation axis", e);
+								}
+
+							}
+
+						});
+					}
+
+				}
+			});
+			dropDownMenu.add(rotationAxisAction);
+		}
 
 		Action beamScaleAction = new Action("Show Beam Scale", IAction.AS_CHECK_BOX) {
 			@Override
@@ -429,6 +470,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 	private ImageKeyFigure imageKeyFigure;
 	private CrossHairFigure centreMarkerFigure;
+	private CrossHairFigure rotationAxisFigure;
 	private Figure beamScaleFigure;
 
 	private void showImageKey(boolean showImage) {
@@ -459,6 +501,27 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			centreMarkerFigure.setSize(200, 100);
 		}
 		return centreMarkerFigure;
+	}
+
+	private void showRotationAxis(boolean show) throws DeviceException {
+		Figure rotationAxisFigure = getRotationAxisFigure();
+		if (rotationAxisFigure.getParent() == cameraComposite.getTopFigure())
+			cameraComposite.getTopFigure().remove(rotationAxisFigure);
+		if (show) {
+			int rotationAxisX =cameraConfig.getRotationAxisXProvider().getRotationAxisX();
+			Rectangle bounds = rotationAxisFigure.getBounds();
+			Rectangle imageKeyBounds = new Rectangle(rotationAxisX - bounds.width / 2, 0,
+					-1, -1);
+			cameraComposite.getTopFigure().add(rotationAxisFigure, imageKeyBounds);
+		}
+	}
+
+	private Figure getRotationAxisFigure() {
+		if (rotationAxisFigure == null) {
+			rotationAxisFigure = new CrossHairFigure();
+			rotationAxisFigure.setSize(3, 1000);
+		}
+		return rotationAxisFigure;
 	}
 
 	private Figure getBeamScaleFigure() {

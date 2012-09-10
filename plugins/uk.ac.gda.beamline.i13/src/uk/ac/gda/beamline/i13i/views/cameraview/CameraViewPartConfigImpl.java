@@ -34,6 +34,7 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 	ADBase adBase;
 	private BeamCenterProvider beamCenterProvider;
 	private ImageViewerListener imageViewerListener;
+	RotationAxisXProvider rotationAxisXProvider;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -101,6 +102,15 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 	}	
 	public void setBeamCenterProvider(BeamCenterProvider beamCenterProvider) {
 		this.beamCenterProvider = beamCenterProvider;
+	}
+
+	@Override
+	public RotationAxisXProvider getRotationAxisXProvider() {
+		return rotationAxisXProvider;
+	}
+
+	public void setRotationAxisXProvider(RotationAxisXProvider rotationAxisXProvider) {
+		this.rotationAxisXProvider = rotationAxisXProvider;
 	}
 
 	@Override

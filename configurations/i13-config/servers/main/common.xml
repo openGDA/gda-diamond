@@ -126,6 +126,7 @@
 	</bean>
 
 	<import resource="../../devices/simpleScannables.xml" />
+	<import resource="../../devices/cameraViewPartScannables.xml" />
 
 	<!-- Start of real device list -->
 

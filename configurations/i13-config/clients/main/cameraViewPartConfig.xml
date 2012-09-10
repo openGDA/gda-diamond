@@ -9,6 +9,9 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+
+	<corba:import namespace="i13" names="rotationAxisX" />
+
 	<bean id="beamCenterProvider" class="uk.ac.gda.beamline.i13i.BeamCenterProviderImpl" />
 	<bean id="lensScannable" class="gda.device.scannable.DummyPersistentEnumScannable">
 		<property name="acceptableStrings" value="1,2,3" />
@@ -26,6 +29,15 @@
 			</util:map>
 		</property>
 	</bean>
+
+	<bean id="rotationAxisXProvider" class="uk.ac.gda.beamline.i13i.RotationAxisXProviderImpl">
+		<property name="offsetXScannable" ref="rotationAxisX" />
+		<property name="sampleStageXScannable" ref="ss1_X" />
+		<property name="cameraStageXScannable" ref="cs1_x" />
+		<property name="displayScaleProvider" ref="displayScaleProvider" />
+	</bean>
+
+
 	<bean id="sampleAligner" class="uk.ac.gda.beamline.i13i.SampleAligner">
 		<property name="imageModeManager" ref="imageModeManager" />
 		<property name="beamCenterProvider" ref="beamCenterProvider" />
@@ -49,6 +61,7 @@
 		<property name="setExposureTimeCmd" value="tomodet.setupForAlignment( exposureTime=%s)" />
 		<property name="beamCenterProvider" ref="beamCenterProvider" />
 		<property name="imageViewerListener" ref="sampleAligner" />
+		<property name="rotationAxisXProvider" ref="rotationAxisXProvider"/>
 	</bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class"
