@@ -43,9 +43,19 @@
         <i>2.0</i>
         <d>3.0</d>
         <sampleHolder>4 Samples</sampleHolder>
-        <sampleNumber>2</sampleNumber>
-        <position>1.0</position>
-        <finePosition>0.1</finePosition>
+        <sampleNumbers></sampleNumbers>
+        <position1>0.0</position1>
+        <finePosition1>0.0</finePosition1>
+        <sampleDescription1></sampleDescription1>
+        <position2>0.0</position2>
+        <finePosition2>0.0</finePosition2>
+        <sampleDescription2></sampleDescription2>
+        <position3>0.0</position3>
+        <finePosition3>0.0</finePosition3>
+        <sampleDescription3></sampleDescription3>
+        <position4>0.0</position4>
+        <finePosition4>0.0</finePosition4>
+        <sampleDescription4></sampleDescription4>
     </cryostat>
     <furnace>
         <temperature>295.0</temperature>
