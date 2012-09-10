@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.beamline.b18.feature"
       label="b18 Feature"
-      version="8.24.0"
+      version="8.26.0"
       provider-name="Diamond Light Source">
 
    <description url="http://www.example.com/description">
@@ -98,14 +98,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.dawb.gda.extensions"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.devices.cirrus"
+         id="com.springsource.org.apache.commons.lang"
          download-size="0"
          install-size="0"
          version="0.0.0"
