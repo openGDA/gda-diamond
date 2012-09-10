@@ -6,6 +6,7 @@ from org.jscience.physics.units import Unit
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable import DummyScannable
 from gda.jython import JythonServerFacade
+from gda.scan import ScanBase
 
 from devices import RealBlades
 from devices.RealBlades import BladeAngle
