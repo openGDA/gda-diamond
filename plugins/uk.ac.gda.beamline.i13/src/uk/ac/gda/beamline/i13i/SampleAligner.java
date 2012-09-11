@@ -38,7 +38,7 @@ public class SampleAligner  implements ImageViewerListener{
 	private static final Logger logger = LoggerFactory.getLogger(SampleAligner.class);	
 	
 	ImageModeManager imageModeManager;
-	BeamCenterProvider beamCenterProvider;
+	RotationAxisXScannable rotationAxisXScannable;
 	DisplayScaleProvider displayScaleProvider;
 	ScannableMotionUnits sampleCentringXMotor;
 	ScannableMotionUnits sampleCentringYMotor;
@@ -58,14 +58,16 @@ public class SampleAligner  implements ImageViewerListener{
 		this.imageModeManager = imageModeManager;
 	}	
 	
-	public BeamCenterProvider getBeamCenterProvider() {
-		return beamCenterProvider;
+
+
+
+	public RotationAxisXScannable getRotationAxisXScannable() {
+		return rotationAxisXScannable;
 	}
 
-	public void setBeamCenterProvider(BeamCenterProvider beamCenterProvider) {
-		this.beamCenterProvider = beamCenterProvider;
+	public void setRotationAxisXScannable(RotationAxisXScannable rotationAxisXScannable) {
+		this.rotationAxisXScannable = rotationAxisXScannable;
 	}
-
 
 	public DisplayScaleProvider getDisplayScaleProvider() {
 		return displayScaleProvider;
@@ -153,8 +155,8 @@ public class SampleAligner  implements ImageViewerListener{
 		final RealVector imageSize = createVectorOf(imageWidth, imageHeight );
 		
 		final RealVector clickPointInImage = actualClickPoint.ebeMultiply(imageSize).ebeDivide(imageDataSize);		
-		Point beamCenter = beamCenterProvider.getBeamCenter();
-		final RealVector beamCenterV = createVectorOf(beamCenter.x, beamCenter.y);
+		double beamCenterX = ScannableUtils.getCurrentPositionArray(rotationAxisXScannable)[0];
+		final RealVector beamCenterV = createVectorOf(beamCenterX, 0);
 		final RealVector beamCenterInImage = beamCenterV.ebeMultiply(imageSize).ebeDivide(imageDataSize);
 		final RealVector pixelOffset = beamCenterInImage.subtract(clickPointInImage);
 
@@ -162,11 +164,11 @@ public class SampleAligner  implements ImageViewerListener{
 		if(imageModeManager.getMode().getName().equals("SampleCentring")){
 			
 			double moveInX = pixelOffset.getEntry(0) / displayScaleProvider.getPixelsPerMMInX();
-			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getPixelsPerMMInY();
+//			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getPixelsPerMMInY();
 
 			try {
 				sampleCentringXMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(sampleCentringXMotor)[0]+moveInX);
-				sampleCentringYMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(sampleCentringYMotor)[0]+moveInY);
+//				sampleCentringYMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(sampleCentringYMotor)[0]+moveInY);
 			} catch (DeviceException e) {
 				logger.error("Error moving motor", e);
 			}
@@ -174,12 +176,12 @@ public class SampleAligner  implements ImageViewerListener{
 		}
 		else if(imageModeManager.getMode().getName().equals("SampleBaseStage")){
 			
-			double moveInX = pixelOffset.getEntry(0) / displayScaleProvider.getPixelsPerMMInX();
-			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getPixelsPerMMInY();
+			double moveInX = -pixelOffset.getEntry(0) / displayScaleProvider.getPixelsPerMMInX();
+//			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getPixelsPerMMInY();
 
 			try {
 				sampleBaseXMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(sampleBaseXMotor)[0]+moveInX);
-				sampleBaseYMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(sampleBaseYMotor)[0]+moveInY);
+//				sampleBaseYMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(sampleBaseYMotor)[0]+moveInY);
 			} catch (DeviceException e) {
 				logger.error("Error moving motor", e);
 			}
@@ -187,12 +189,12 @@ public class SampleAligner  implements ImageViewerListener{
 		}
 		else if(imageModeManager.getMode().getName().equals("CameraStage")){
 			
-			double moveInX = -pixelOffset.getEntry(0) / displayScaleProvider.getPixelsPerMMInX();
-			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getPixelsPerMMInX();
+			double moveInX = pixelOffset.getEntry(0) / displayScaleProvider.getPixelsPerMMInX();
+//			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getPixelsPerMMInX();
 
 			try {
 				cameraStageXMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(cameraStageXMotor)[0]+moveInX);
-				cameraStageYMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(cameraStageYMotor)[0]+moveInY);
+//				cameraStageYMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(cameraStageYMotor)[0]+moveInY);
 			} catch (DeviceException e) {
 				logger.error("Error moving motor", e);
 			}

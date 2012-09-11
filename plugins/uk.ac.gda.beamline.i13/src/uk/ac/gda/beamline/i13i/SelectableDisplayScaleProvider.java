@@ -24,7 +24,7 @@ import gda.device.scannable.ScannableUtils;
 import gda.observable.IObserver;
 import gda.observable.ObservableComponent;
 
-import java.util.Map;
+import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
 
@@ -33,10 +33,10 @@ public class SelectableDisplayScaleProvider implements DisplayScaleProvider, Ini
 	public static final String NEWVAL = "NEWVAL";
 	ObservableComponent obsComp= new ObservableComponent();
 	
-	String currentKey="";
+	int currentKey=0;
 	
 	Scannable keyScannable;
-	Map<String , DisplayScaleProvider> providers;
+	List<DisplayScaleProvider> providers;
 	
 	@Override
 	public void addIObserver(IObserver anIObserver) {
@@ -63,7 +63,7 @@ public class SelectableDisplayScaleProvider implements DisplayScaleProvider, Ini
 	
 	
 	DisplayScaleProvider getProvider() throws DeviceException{
-		currentKey = Double.valueOf(ScannableUtils.getCurrentPositionArray(keyScannable)[0]).toString();
+		currentKey = (int) (ScannableUtils.getCurrentPositionArray(keyScannable)[0]);
 		DisplayScaleProvider currentProvider = providers.get(currentKey);
 		if( currentProvider == null)
 			throw new DeviceException("Unable to get provider from map. key="+currentKey);
@@ -95,12 +95,13 @@ public class SelectableDisplayScaleProvider implements DisplayScaleProvider, Ini
 	public void setKeyScannable(Scannable keyScannable) {
 		this.keyScannable = keyScannable;
 	}
-	public Map<String, DisplayScaleProvider> getProviders() {
+	public List<DisplayScaleProvider> getProviders() {
 		return providers;
 	}
-	public void setProviders(Map<String, DisplayScaleProvider> providers) {
+	public void setProviders(List<DisplayScaleProvider> providers) {
 		this.providers = providers;
 	}
+
 	
 
 }

@@ -18,6 +18,7 @@
 
 package uk.ac.gda.beamline.i13i.views.cameraview;
 
+import gda.device.Scannable;
 import gda.device.detector.areadetector.v17.ADBase;
 import gda.device.detector.areadetector.v17.FfmpegStream;
 import gda.device.detector.areadetector.v17.NDArray;
@@ -32,7 +33,7 @@ public interface CameraViewPartConfig {
 	String getSetExposureTimeCmd();
 	BeamCenterProvider getBeamCenterProvider();
 	ImageViewerListener getImageViewerListener();
-	RotationAxisXProvider getRotationAxisXProvider();
 	int getfFMpegImgWidthRequired();
 	int getfFMpegImgHeightRequired();
+	Scannable getRotationAxisXScannable();
 }

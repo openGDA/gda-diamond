@@ -12,41 +12,32 @@
 
 	<corba:import namespace="i13" names="rotationAxisX" />
 
-	<bean id="beamCenterProvider" class="uk.ac.gda.beamline.i13i.BeamCenterProviderImpl" />
-	<bean id="lensScannable" class="gda.device.scannable.DummyPersistentEnumScannable">
-		<property name="acceptableStrings" value="4.0,8.0,20.0" />
-	</bean>
+	<bean id="lensScannable" class="gda.device.scannable.DummyPersistentScannable" />
 	<bean id="displayScaleProvider" class="uk.ac.gda.beamline.i13i.SelectableDisplayScaleProvider">
 		<property name="keyScannable" ref="lensScannable" />
 		<property name="providers">
-			<util:map value-type="uk.ac.gda.beamline.i13i.DisplayScaleProvider">
-				<!--  1.0  is equivalent to x4 -->
-				<entry key="1.0">
-					<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-						<property name="pixelsPerMMInX" value="534" />
-						<property name="pixelsPerMMInY" value="534" />
-					</bean>
-				</entry>
-				<!--  2.0  is equivalent to x8 -->
-				<entry key="2.0">
-					<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-						<property name="pixelsPerMMInX" value="1088" />
-						<property name="pixelsPerMMInY" value="1088" />
-					</bean>
-				</entry>
-				<!--  3.0  is equivalent to x20 -->
-				<entry key="3.0">
-					<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-						<property name="pixelsPerMMInX" value="2740" />
-						<property name="pixelsPerMMInY" value="2740" />
-					</bean>
-				</entry>
-			</util:map>
+			<util:list value-type="uk.ac.gda.beamline.i13i.DisplayScaleProvider">
+				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
+					<property name="pixelsPerMMInX" value="534" />
+					<property name="pixelsPerMMInY" value="534" />
+				</bean>
+			</util:list>
+			<util:list value-type="uk.ac.gda.beamline.i13i.DisplayScaleProvider">
+				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
+					<property name="pixelsPerMMInX" value="1088" />
+					<property name="pixelsPerMMInY" value="1088" />
+				</bean>
+			</util:list>
+			<util:list value-type="uk.ac.gda.beamline.i13i.DisplayScaleProvider">
+				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
+					<property name="pixelsPerMMInX" value="2740" />
+					<property name="pixelsPerMMInY" value="2740" />
+				</bean>
+			</util:list>
 		</property>
 	</bean>
 
-	<bean id="rotationAxisXProvider" class="uk.ac.gda.beamline.i13i.RotationAxisXProviderImpl">
-		<property name="offsetXScannable" ref="rotationAxisX" />
+	<bean id="rotationAxisXScannable" class="uk.ac.gda.beamline.i13i.RotationAxisXScannable">
 		<property name="sampleStageXScannable" ref="ss1_X" />
 		<property name="cameraStageXScannable" ref="cs1_x" />
 		<property name="displayScaleProvider" ref="displayScaleProvider" />
@@ -55,7 +46,7 @@
 
 	<bean id="sampleAligner" class="uk.ac.gda.beamline.i13i.SampleAligner">
 		<property name="imageModeManager" ref="imageModeManager" />
-		<property name="beamCenterProvider" ref="beamCenterProvider" />
+		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
 		<property name="displayScaleProvider" ref="displayScaleProvider" />
 		<property name="sampleCentringXMotor" ref="ss1_x" />
 		<property name="sampleCentringYMotor" ref="ss1_sampley" />
@@ -74,11 +65,10 @@
 		<property name="ndProcess" ref="pco1_proc1" />
 		<property name="ffmpegStream" ref="pco1_ffmpeg1" />
 		<property name="setExposureTimeCmd" value="tomodet.setupForAlignment( exposureTime=%s)" />
-		<property name="beamCenterProvider" ref="beamCenterProvider" />
 		<property name="imageViewerListener" ref="sampleAligner" />
-		<property name="rotationAxisXProvider" ref="rotationAxisXProvider"/>
 		<property name="fFMpegImgHeightRequired" value="1336"/>
 		<property name="fFMpegImgWidthRequired" value="2004"/>
+		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
 	</bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class"

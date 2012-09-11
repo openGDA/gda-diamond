@@ -22,6 +22,7 @@ import gda.device.DeviceException;
 import gda.device.detector.areadetector.v17.FfmpegStream;
 import gda.device.detector.areadetector.v17.NDPluginBase;
 import gda.device.detector.areadetector.v17.NDProcess;
+import gda.device.scannable.ScannableUtils;
 import gda.images.camera.DummySwtVideoReceiver;
 import gda.images.camera.MotionJpegOverHttpReceiverSwt;
 import gda.images.camera.VideoReceiver;
@@ -78,7 +79,8 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 	public CameraViewPart() {
 	}
-
+	int imageWidth=4008;
+	int imageHeight=2672;
 	@Override
 	public void createPartControl(Composite parent) {
 
@@ -216,7 +218,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				}
 			}
 		};
-		if (cameraConfig.getBeamCenterProvider() != null) {
+/*		if (cameraConfig.getBeamCenterProvider() != null) {
 			final Action centreMarkerAction = new Action("Centre Marker", IAction.AS_CHECK_BOX) {
 				@Override
 				public void run() {
@@ -246,8 +248,8 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			});
 			dropDownMenu.add(centreMarkerAction);
 		}
-		if (cameraConfig.getRotationAxisXProvider() != null) {
-			final Action rotationAxisAction = new Action("Centre Marker", IAction.AS_CHECK_BOX) {
+*/		if (cameraConfig.getRotationAxisXScannable() != null) {
+			final Action rotationAxisAction = new Action("Show rotation center", IAction.AS_CHECK_BOX) {
 				@Override
 				public void run() {
 					try {
@@ -263,7 +265,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			} catch (DeviceException e) {
 				logger.error("Error showing rotation axis", e);
 			}
-			cameraConfig.getRotationAxisXProvider().addIObserver(new IObserver() {
+			cameraConfig.getRotationAxisXScannable().addIObserver(new IObserver() {
 
 				@Override
 				public void update(Object source, final Object arg) {
@@ -494,7 +496,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		}
 	}
 
-	private void showCentreMarker(boolean show, Point beamCentre) {
+/*	private void showCentreMarker(boolean show, Point beamCentre) {
 		Figure centreMarkerFigure = getCentreMarkerFigure();
 		if (centreMarkerFigure.getParent() == cameraComposite.getTopFigure())
 			cameraComposite.getTopFigure().remove(centreMarkerFigure);
@@ -513,13 +515,13 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		}
 		return centreMarkerFigure;
 	}
-
+*/
 	private void showRotationAxis(boolean show) throws DeviceException {
 		Figure rotationAxisFigure = getRotationAxisFigure();
 		if (rotationAxisFigure.getParent() == cameraComposite.getTopFigure())
 			cameraComposite.getTopFigure().remove(rotationAxisFigure);
 		if (show) {
-			int rotationAxisX =cameraConfig.getRotationAxisXProvider().getRotationAxisX();
+			int rotationAxisX =(int) ScannableUtils.getCurrentPositionArray(cameraConfig.getRotationAxisXScannable())[0];
 			Rectangle bounds = rotationAxisFigure.getBounds();
 			Rectangle imageKeyBounds = new Rectangle(rotationAxisX - bounds.width / 2, 0,
 					-1, -1);
@@ -530,7 +532,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 	private Figure getRotationAxisFigure() {
 		if (rotationAxisFigure == null) {
 			rotationAxisFigure = new CrossHairFigure();
-			rotationAxisFigure.setSize(3, 1000);
+			rotationAxisFigure.setSize(3, imageHeight);
 		}
 		return rotationAxisFigure;
 	}

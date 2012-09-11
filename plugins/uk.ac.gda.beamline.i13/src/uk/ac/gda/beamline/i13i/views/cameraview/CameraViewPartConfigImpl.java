@@ -18,6 +18,7 @@
 
 package uk.ac.gda.beamline.i13i.views.cameraview;
 
+import gda.device.Scannable;
 import gda.device.detector.areadetector.v17.ADBase;
 import gda.device.detector.areadetector.v17.FfmpegStream;
 import gda.device.detector.areadetector.v17.NDArray;
@@ -38,6 +39,7 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 	
 	int fFMpegImgWidthRequired=0;
 	int fFMpegImgHeightRequired=0;
+	private Scannable rotationAxisXScannable;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -55,6 +57,8 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 			throw new IllegalArgumentException("fFMpegImgWidthRequired < 1");
 		if (fFMpegImgHeightRequired < 1)
 			throw new IllegalArgumentException("fFMpegImgHeightRequired < 1");
+		if (rotationAxisXScannable == null)
+			throw new IllegalArgumentException("rotationAxisXScannable not defined");
 
 	}
 
@@ -111,14 +115,6 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 		this.beamCenterProvider = beamCenterProvider;
 	}
 
-	@Override
-	public RotationAxisXProvider getRotationAxisXProvider() {
-		return rotationAxisXProvider;
-	}
-
-	public void setRotationAxisXProvider(RotationAxisXProvider rotationAxisXProvider) {
-		this.rotationAxisXProvider = rotationAxisXProvider;
-	}
 
 	@Override
 	public ImageViewerListener getImageViewerListener() {
@@ -148,6 +144,13 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 	}
 
 
+	public Scannable getRotationAxisXScannable() {
+		return rotationAxisXScannable;
+	}
+
+	public void setRotationAxisXScannable(Scannable rotationAxisXScannable) {
+		this.rotationAxisXScannable = rotationAxisXScannable;
+	}
 
 	
 }
