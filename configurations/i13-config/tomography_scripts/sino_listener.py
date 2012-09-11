@@ -83,7 +83,7 @@ class SinoListener():
 		self.cropleft = 0
 		self.cropright = 0
 		self.hflag = 0 # show help and exit
-		self.qsub_project = "i12" # project name given to qsub
+		self.qsub_project = "i13" # project name given to qsub
 		
 		self.jobID=[]
 
@@ -133,7 +133,7 @@ class SinoListener():
 		self.cropleft=0
 		self.cropright=0
 		self.hflag=0 # show help and exit
-		self.qsub_project="i12" # project name given to qsub
+		self.qsub_project="i13" # project name given to qsub
 
 
 	def usage( self ):
@@ -489,9 +489,9 @@ fi
 			args += [ "-P", self.qsub_project]
 		if self.settingsfolder != None:
 			#add error stream
-			args += ["-e", self.settingsfolder]
+			args += ["-e", self.settingsfolder+os.sep+'sge_err.txt']
 			#add output stream
-			args += ["-o", self.settingsfolder]
+			args += ["-o", self.settingsfolder+os.sep+'sge_out.txt']
 		if self.myqueue != None:
 			#add queue
 			args += ["-q", self.myqueue]
@@ -530,7 +530,8 @@ fi
 		#infinity.  (see -jsv option above or find more informa-
 		#tion concerning JSV in jsv(1))
 
-		args += [ "-pe", "smp", "4"]
+		#args += [ "-pe", "smp", "4"]
+		args += [ "-l", "tesla64", "-pe", "smp", "6"]
 
 		#submit array jobs
 		#self.firstchunk is used to define SGE-TASK_FIRST
@@ -565,7 +566,7 @@ fi
 		self.out.write ( "Spawning the sinogram finishing job ... " )
 		finishname = "f_%s" % self.jobname
 		self.out.write( "JOB NAME IS %s\n" % finishname )
-		args = ["qsub", "-P", self.qsub_project, "-e", self.settingsfolder, "-o", self.settingsfolder, "-q", "high.q", "-hold_jid", self.jobname, "-N", finishname, self.finishscript]
+		args = ["qsub", "-P", self.qsub_project, "-l", "tesla64", "-pe", "smp", "6", "-e", self.settingsfolder+os.sep+'sge_err.txt', "-o", self.settingsfolder+os.sep+'sge_out.txt', "-q", "medium.q", "-hold_jid", self.jobname, "-N", finishname, self.finishscript]
 
 		try:
 			self.PopenWait( args, env = qenviron )

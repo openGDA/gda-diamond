@@ -76,7 +76,7 @@ class ReconArrayXML():
 		self.interval=1 #time interval when checking for a resource in seconds - controlled by z 
 		self.lt=10 # timeout when checking for a resource in seconds - - controlled by Z
 
-		self.qsub_project="i12" # project name given to qsub		
+		self.qsub_project="i13" # project name given to qsub		
 		self.jobID=[]
 		self.copyright=\
 		"""
@@ -399,7 +399,8 @@ sed -i "s|^.*GPUDeviceNumber.*$|<GPUDeviceNumber>$mycuda</GPUDeviceNumber>|" $my
 
 		#execute job in current working directory
 		args+=["-cwd"]
-		args+=[ "-pe", "smp", "4"]
+		#args+=[ "-pe", "smp", "4"]
+		args+=[ "-l", "tesla64", "-pe", "smp", "6"]
 		args+=[ "-t", "%i-%i"%(self.firstchunk, self.nchunks)]
 
 		#script
