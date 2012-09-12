@@ -157,8 +157,8 @@ public class SampleAligner  implements ImageViewerListener{
 		final RealVector clickPointInImage = actualClickPoint.ebeMultiply(imageSize).ebeDivide(imageDataSize);		
 		double beamCenterX = ScannableUtils.getCurrentPositionArray(rotationAxisXScannable)[0];
 		final RealVector beamCenterV = createVectorOf(beamCenterX, 0);
-		final RealVector beamCenterInImage = beamCenterV.ebeMultiply(imageSize).ebeDivide(imageDataSize);
-		final RealVector pixelOffset = beamCenterInImage.subtract(clickPointInImage);
+//		final RealVector beamCenterInImage = beamCenterV.ebeMultiply(imageSize).ebeDivide(imageDataSize);
+		final RealVector pixelOffset = beamCenterV.subtract(clickPointInImage);
 
 		
 		if(imageModeManager.getMode().getName().equals("SampleCentring")){

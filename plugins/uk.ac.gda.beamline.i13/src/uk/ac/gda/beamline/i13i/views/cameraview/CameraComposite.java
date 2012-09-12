@@ -135,6 +135,8 @@ public class CameraComposite extends Composite {
 					// TODO Auto-generated catch block
 					logger.error("TODO put description of error here", e);
 				}
+				if( getDisplay().isDisposed())
+					return;
 				getDisplay().asyncExec(new Runnable() {
 					@Override
 					public void run() {

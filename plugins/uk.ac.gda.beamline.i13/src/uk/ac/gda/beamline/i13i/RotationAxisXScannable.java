@@ -22,6 +22,7 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.scannable.ScannableBase;
 import gda.device.scannable.ScannablePositionChangeEvent;
+import gda.device.scannable.ScannableStatus;
 import gda.device.scannable.ScannableUtils;
 import gda.factory.FactoryException;
 import gda.observable.IObserver;
@@ -90,12 +91,8 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 					
 					@Override
 					public void update(Object source, Object arg) {
-						ScannablePositionChangeEvent newPos;
-						try {
-							newPos = new ScannablePositionChangeEvent(getRotationAxisX());
-							notifyIObservers(RotationAxisXScannable.this, newPos);
-						} catch (DeviceException e) {
-							logger.error("Error getting position", e);
+						if( arg instanceof ScannableStatus){
+							notifyIObservers(RotationAxisXScannable.this, new ScannableStatus(getName(),((ScannableStatus)arg).status ));
 						}
 					}
 				};
@@ -113,7 +110,8 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 		double x1 = ScannableUtils.getCurrentPositionArray(sampleStageXScannable)[0];
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
 		double dist = offset+x1-x2;
-		return (int) Math.round((dist * displayScaleProvider.getPixelsPerMMInX()));
+		double a = dist * displayScaleProvider.getPixelsPerMMInX();
+		return (int) Math.round(a);
 	}
 
 	double getOffsetForRotationAxisX(double  array) throws DeviceException {

@@ -178,6 +178,7 @@
 	
 	<!-- end of device list -->
 
+	<bean id="lensScannable" class="gda.device.scannable.DummyPersistentScannable" />
 
 	<bean id="highestExistingFileMonitor"
 		class="gda.device.detectorfilemonitor.impl.SimpleHighestExistingFileMonitor" />

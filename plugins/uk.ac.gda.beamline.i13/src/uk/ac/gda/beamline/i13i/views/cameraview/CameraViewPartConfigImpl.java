@@ -26,6 +26,8 @@ import gda.device.detector.areadetector.v17.NDProcess;
 
 import org.springframework.beans.factory.InitializingBean;
 
+import uk.ac.gda.beamline.i13i.DisplayScaleProvider;
+
 public class CameraViewPartConfigImpl implements CameraViewPartConfig, InitializingBean {
 
 	NDArray ndArray;
@@ -35,11 +37,11 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 	ADBase adBase;
 	private BeamCenterProvider beamCenterProvider;
 	private ImageViewerListener imageViewerListener;
-	RotationAxisXProvider rotationAxisXProvider;
 	
 	int fFMpegImgWidthRequired=0;
 	int fFMpegImgHeightRequired=0;
 	private Scannable rotationAxisXScannable;
+	private DisplayScaleProvider displayScaleProvider;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -59,6 +61,8 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 			throw new IllegalArgumentException("fFMpegImgHeightRequired < 1");
 		if (rotationAxisXScannable == null)
 			throw new IllegalArgumentException("rotationAxisXScannable not defined");
+		if (displayScaleProvider == null)
+			throw new IllegalArgumentException("displayScaleProvider not defined");
 
 	}
 
@@ -144,12 +148,22 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 	}
 
 
+	@Override
 	public Scannable getRotationAxisXScannable() {
 		return rotationAxisXScannable;
 	}
 
 	public void setRotationAxisXScannable(Scannable rotationAxisXScannable) {
 		this.rotationAxisXScannable = rotationAxisXScannable;
+	}
+
+	@Override
+	public DisplayScaleProvider getDisplayScaleProvider() {
+		return displayScaleProvider;
+	}
+
+	public void setDisplayScaleProvider(DisplayScaleProvider displayScaleProvider) {
+		this.displayScaleProvider = displayScaleProvider;
 	}
 
 	

@@ -8,15 +8,16 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<import resource="commandQueueProcessor.xml" />
-	<import resource="cameraViewPartConfig.xml" />
-
 	<corba:import namespace="i13" names="plot_server" />
 	
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
 		<property name="service" ref="plot_server" />
 	</bean>
+
+	<import resource="commandQueueProcessor.xml" />
+	<import resource="cameraViewPartConfig.xml" />
+
 
 	<bean id="highestExistingFileMonitor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}highestExistingFileMonitor" />

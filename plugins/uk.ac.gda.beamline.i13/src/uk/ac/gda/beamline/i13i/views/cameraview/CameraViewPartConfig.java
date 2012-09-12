@@ -18,6 +18,7 @@
 
 package uk.ac.gda.beamline.i13i.views.cameraview;
 
+import uk.ac.gda.beamline.i13i.DisplayScaleProvider;
 import gda.device.Scannable;
 import gda.device.detector.areadetector.v17.ADBase;
 import gda.device.detector.areadetector.v17.FfmpegStream;
@@ -36,4 +37,5 @@ public interface CameraViewPartConfig {
 	int getfFMpegImgWidthRequired();
 	int getfFMpegImgHeightRequired();
 	Scannable getRotationAxisXScannable();
+	DisplayScaleProvider getDisplayScaleProvider();
 }

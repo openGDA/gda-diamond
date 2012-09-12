@@ -10,9 +10,8 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-	<corba:import namespace="i13" names="rotationAxisX" />
+	<corba:import namespace="i13" names="lensScannable" />
 
-	<bean id="lensScannable" class="gda.device.scannable.DummyPersistentScannable" />
 	<bean id="displayScaleProvider" class="uk.ac.gda.beamline.i13i.SelectableDisplayScaleProvider">
 		<property name="keyScannable" ref="lensScannable" />
 		<property name="providers">
@@ -21,14 +20,10 @@
 					<property name="pixelsPerMMInX" value="534" />
 					<property name="pixelsPerMMInY" value="534" />
 				</bean>
-			</util:list>
-			<util:list value-type="uk.ac.gda.beamline.i13i.DisplayScaleProvider">
 				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
 					<property name="pixelsPerMMInX" value="1088" />
 					<property name="pixelsPerMMInY" value="1088" />
 				</bean>
-			</util:list>
-			<util:list value-type="uk.ac.gda.beamline.i13i.DisplayScaleProvider">
 				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
 					<property name="pixelsPerMMInX" value="2740" />
 					<property name="pixelsPerMMInY" value="2740" />
@@ -69,6 +64,7 @@
 		<property name="fFMpegImgHeightRequired" value="1336"/>
 		<property name="fFMpegImgWidthRequired" value="2004"/>
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
+		<property name="displayScaleProvider" ref="displayScaleProvider" />
 	</bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class"
