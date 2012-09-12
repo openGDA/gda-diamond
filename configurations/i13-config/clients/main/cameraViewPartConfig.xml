@@ -38,10 +38,29 @@
 		<property name="displayScaleProvider" ref="displayScaleProvider" />
 	</bean>
 
+	<bean id="cameraXYScannable" class="uk.ac.gda.beamline.i13i.CameraXYScannable">
+		<property name="cameraStageXScannable" ref="cs1_x" />
+		<property name="cameraStageYScannable" ref="cs1_y" />
+		<property name="displayScaleProvider" ref="displayScaleProvider" />
+	</bean>
 
 	<bean id="sampleAligner" class="uk.ac.gda.beamline.i13i.SampleAligner">
 		<property name="imageModeManager" ref="imageModeManager" />
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
+		<property name="displayScaleProvider" ref="displayScaleProvider" />
+		<property name="sampleCentringXMotor" ref="ss1_x" />
+		<property name="sampleCentringYMotor" ref="ss1_sampley" />
+		<property name="cameraStageXMotor" ref="cs1_x" />
+		<property name="cameraStageYMotor" ref="cs1_y" />
+		<property name="sampleBaseXMotor" ref="ss1_X" />
+		<property name="sampleBaseYMotor" ref="ss1_Y" />
+
+		<property name="imageWidth" value="4008" />
+		<property name="imageHeight" value="2672" />
+	</bean>
+	<bean id="sampleAlignerRelImageMarker" class="uk.ac.gda.beamline.i13i.SampleAlignerRelImageMarker">
+		<property name="imageModeManager" ref="imageModeManager" />
+		<property name="cameraXYScannable" ref="cameraXYScannable" />
 		<property name="displayScaleProvider" ref="displayScaleProvider" />
 		<property name="sampleCentringXMotor" ref="ss1_x" />
 		<property name="sampleCentringYMotor" ref="ss1_sampley" />
@@ -61,10 +80,12 @@
 		<property name="ffmpegStream" ref="pco1_ffmpeg1" />
 		<property name="setExposureTimeCmd" value="tomodet.setupForAlignment( exposureTime=%s)" />
 		<property name="imageViewerListener" ref="sampleAligner" />
+		<property name="imageViewerListener2" ref="sampleAlignerRelImageMarker" />
 		<property name="fFMpegImgHeightRequired" value="1336"/>
 		<property name="fFMpegImgWidthRequired" value="2004"/>
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
 		<property name="displayScaleProvider" ref="displayScaleProvider" />
+		<property name="cameraXYScannable" ref="cameraXYScannable"/>
 	</bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class"

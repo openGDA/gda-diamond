@@ -30,7 +30,7 @@ public class CrossHairFigure  extends Figure {
 	private RectangleFigure lineAcross;
 	private RectangleFigure lineDown;
 	Color color=ColorConstants.red;
-	int lineWidth=2;
+	int lineWidth=3;
 	int alpha=50;
 	int height=100;
 	int width=100;

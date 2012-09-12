@@ -34,8 +34,10 @@ public interface CameraViewPartConfig {
 	String getSetExposureTimeCmd();
 	BeamCenterProvider getBeamCenterProvider();
 	ImageViewerListener getImageViewerListener();
+	ImageViewerListener getImageViewerListener2();
 	int getfFMpegImgWidthRequired();
 	int getfFMpegImgHeightRequired();
 	Scannable getRotationAxisXScannable();
 	DisplayScaleProvider getDisplayScaleProvider();
+	Scannable getCameraXYScannable();
 }

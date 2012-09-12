@@ -42,6 +42,8 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 	int fFMpegImgHeightRequired=0;
 	private Scannable rotationAxisXScannable;
 	private DisplayScaleProvider displayScaleProvider;
+	private Scannable cameraXYScannable;
+	private ImageViewerListener imageViewerListener2;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -63,6 +65,8 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 			throw new IllegalArgumentException("rotationAxisXScannable not defined");
 		if (displayScaleProvider == null)
 			throw new IllegalArgumentException("displayScaleProvider not defined");
+		if (imageViewerListener == null)
+			throw new IllegalArgumentException("imageViewerListener not defined");
 
 	}
 
@@ -164,6 +168,24 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 
 	public void setDisplayScaleProvider(DisplayScaleProvider displayScaleProvider) {
 		this.displayScaleProvider = displayScaleProvider;
+	}
+
+	@Override
+	public Scannable getCameraXYScannable() {
+		return cameraXYScannable;
+	}
+
+	public void setCameraXYScannable(Scannable cameraXYScannable) {
+		this.cameraXYScannable = cameraXYScannable;
+	}
+
+	@Override
+	public ImageViewerListener getImageViewerListener2() {
+		return imageViewerListener2;
+	}
+
+	public void setImageViewerListener2(ImageViewerListener imageViewerListener2) {
+		this.imageViewerListener2 = imageViewerListener2;
 	}
 
 	
