@@ -18,6 +18,8 @@
 
 package uk.ac.gda.exafs.ui.data;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.Serializable;
 
 import org.eclipse.core.resources.IFile;
@@ -126,38 +128,55 @@ public class EDEScan extends ExperimentObject implements IExperimentObject, Seri
 	public String toPersistenceString() {
 		final StringBuilder buf = new StringBuilder(getRunName());
 		buf.append(" ");
-		buf.append(getScanFileName());
-		buf.append(" ");
-		buf.append(getOptionsFileName());
-		buf.append(" ");
-		buf.append(getTfgParametersFileName());
-		buf.append(" ");
-		buf.append(getNumberRepetitions());
+		buf.append(getArgs());
 		return buf.toString();
+	}
+
+	private String getArgs() {
+		String buf = "'" + getScanFileName();
+		buf+= "' ' ";
+		buf+=getOptionsFileName();
+		buf+= "' ' ";
+		buf+=getTfgParametersFileName();
+		buf+= "' ";
+		buf+="\"" + getFolder().getName() + "\" ";
+		buf+=getNumberRepetitions();
+		return buf;
 	}
 
 	@Override
 	public String getCommandString() throws Exception {
-		return toPersistenceString();
+		return "ede " + getArgs();
 	}
 
-	@Override
-	public String getCommandSummaryString() {
-	
-		final StringBuilder buf = new StringBuilder(getNumberRepetitions() + " repeats: ");
-		buf.append(getRunName());
-		buf.append(" ");
-		buf.append(getScanFileName());
-		buf.append(" ");
-		buf.append(getOptionsFileName());
-		buf.append(" ");
-		buf.append(getTfgParametersFileName());
-		return null;
-	}
+//	@Override
+//	public String getCommandSummaryString() {
+//	
+//		final StringBuilder buf = new StringBuilder(getNumberRepetitions() + " repeats: ");
+//		buf.append(getRunName());
+//		buf.append(" ");
+//		buf.append(getScanFileName());
+//		buf.append(" ");
+//		buf.append(getOptionsFileName());
+//		buf.append(" ");
+//		buf.append(getTfgParametersFileName());
+//		return buf.toString();
+//	}
 
 	@Override
 	public void parseEditorFile(String fileName) throws Exception {
-		// TODO Auto-generated method stub
+		BufferedReader br = new BufferedReader(new FileReader(fileName));
+		String line = br.readLine();
+		br.close();
+		String[] parts = line.split(" ");
 		
+		if (parts.length != 5) {
+			throw new Exception("File contents incorrect! "  + fileName);
+		}
+
+		setScanFileName(parts[1]);
+		setOptionsFileName(parts[2]);
+		setTfgParametersFileName(parts[3]);
+		setNumberRepetitions(Integer.parseInt(parts[4]));
 	}	
 }

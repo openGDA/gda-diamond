@@ -405,9 +405,13 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 	public ExperimentStatus fetchStatus() {
 		String statusMessage = (String) daServer.sendCommand(createCommand("read-status", "verbose"), true);
+		if (statusMessage.startsWith("#")){
+			statusMessage = statusMessage.substring(1).trim();
+		}
 		String[] messageParts = statusMessage.split("[\n#:,]");
 
 		ExperimentStatus newStatus = new ExperimentStatus();
+		
 
 		if (messageParts[0].trim().equalsIgnoreCase("running")) {
 			newStatus.detectorStatus = Detector.BUSY;
