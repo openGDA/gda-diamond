@@ -1,4 +1,4 @@
-var returns = "java.lang.Double";
+var returns = "sds.double";
 var description = "attenuator4(attenuator4)";
 var parameters = new Array("attenuator4");
 
@@ -6,25 +6,25 @@ function execute(args) {
 	
 	var argument1 = args[0];
 	
-	var result =0.0;
+	var result =0;
 	
 	if(argument1 == 'Empty') {
-	    result = 5.0;  
+	    result = 5;  
 	}
-	else if(argument1 == 'Filter 1') {
-	    result = 4.0;
+	else if(argument1 == '4.0 um Ti') {
+	    result = 4;
 	}
-	else if(argument1 == '0.1 mm pC') {
-	    result = 3.0;
+	else if(argument1 == '4.0 um Cu') {
+	    result = 3;
 	}
-	else if(argument1 == '4.0 mm pC') {
-	    result = 2.0;
+	else if(argument1 == '10.0 um Au') {
+	    result = 2;
 	}
-	else if(argument1 == '0.5 mm SiC') {
-	    result = 1.0;
+	else if(argument1 == '12.5 um Zr') {
+	    result = 1;
 	}
-	else if(argument1 == '1.0 mm SiC') {
-	    result = 0.0;
+	else if(argument1 == '30.0 umm Sn') {
+	    result = 0;
 	}
 	return result;
 }

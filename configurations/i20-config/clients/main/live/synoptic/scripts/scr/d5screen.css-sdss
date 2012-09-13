@@ -15,7 +15,7 @@ function execute(args) {
 	    result = 0.0;
 	}
 	else if(argument1 == "Screen + Diode") {
-	    result = 80.0;
+	    result = 70.0;
 	}
 
 	return result;
