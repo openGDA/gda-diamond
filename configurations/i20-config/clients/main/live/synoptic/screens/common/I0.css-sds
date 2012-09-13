@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<display modelVersion="1.1">
+  <property type="sds.behavior" id="behavior" value="" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="DisplayModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.integer" id="position.x" value="0" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="width" value="290" />
+  <property type="sds.integer" id="height" value="200" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#c86464" />
+  </property>
+  <property type="sds.color" id="color.background">
+    <color hex="#ffffff" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.double" id="rotation" value="0.0" />
+  <property type="sds.paramstring" id="tooltip" value="" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="display_border_visibility" value="true" />
+  <property type="sds.boolean" id="grid_on" value="false" />
+  <property type="sds.boolean" id="ruler_on" value="false" />
+  <property type="sds.boolean" id="geometry_on" value="false" />
+  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+<widget type="org.csstudio.sds.components.Rectangle">
+  <property type="sds.behavior" id="behavior" value="" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="RectangleModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.integer" id="position.x" value="0" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="width" value="290" />
+  <property type="sds.integer" id="height" value="200" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#ffffff" />
+  </property>
+  <property type="sds.boolean" id="transparency" value="true" />
+  <property type="sds.color" id="color.background">
+    <color hex="#ffffff" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="1" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.double" id="fill" value="100.0" />
+  <property type="sds.boolean" id="orientation" value="true" />
+  <property type="sds.paramstring" id="tooltip" value="" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+</widget>
+<widget type="org.csstudio.sds.components.ImageButton">
+  <property type="sds.behavior" id="behavior" value="none" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="ImageButtonModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="I0chart" />
+        <property_attribut type="sds.string" id="value" value="I0chart" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="" value="" />
+      <outputChannel name="local://oeview, string" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.integer" id="position.x" value="213" />
+  <property type="sds.integer" id="position.y" value="29" />
+  <property type="sds.integer" id="width" value="49" />
+  <property type="sds.integer" id="height" value="29" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000C0" />
+  </property>
+  <property type="sds.color" id="color.background">
+    <color hex="#E6E6E6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="view chart" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="" />
+  </property>
+  <property type="sds.integer" id="style" value="0" />
+  <property type="sds.string" id="label" value=" chart" />
+  <property type="sds.color" id="colour.over">
+    <color hex="#ADD8E6" />
+  </property>
+  <property type="sds.color" id="colour.button">
+    <color hex="#8FBAD2" />
+  </property>
+  <property type="sds.color" id="colour.foreground">
+    <color hex="#000000" />
+  </property>
+  <property type="sds.string" id="viewid" value="" />
+</widget>
+<widget type="org.csstudio.sds.components.Label">
+  <property type="sds.behavior" id="behavior" value="" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="LabelModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.integer" id="position.x" value="118" />
+  <property type="sds.integer" id="position.y" value="19" />
+  <property type="sds.integer" id="width" value="83" />
+  <property type="sds.integer" id="height" value="23" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000c0" />
+  </property>
+  <property type="sds.font" id="font">
+    <font font="Cursor, 10" />
+  </property>
+  <property type="sds.option" id="textAlignment">
+    <option id="0" />
+  </property>
+  <property type="sds.double" id="text_rotation" value="90.0" />
+  <property type="sds.integer" id="offset.x" value="0" />
+  <property type="sds.integer" id="offset.y" value="0" />
+  <property type="sds.boolean" id="transparent_background" value="true" />
+  <property type="sds.color" id="color.background">
+    <color hex="#e6e6e6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="1" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="value.text" value="">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://Stanford01" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.string" id="value.text.unit" value="" />
+  <property type="sds.option" id="value_type">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="precision" value="4" />
+  <property type="sds.paramstring" id="tooltip" value="d1_current" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+</widget>
+<widget type="org.csstudio.sds.components.SVG">
+  <property type="sds.behavior" id="behavior" value="" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="SVGModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.integer" id="position.x" value="16" />
+  <property type="sds.integer" id="position.y" value="113" />
+  <property type="sds.integer" id="width" value="95" />
+  <property type="sds.integer" id="height" value="20" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000c0" />
+  </property>
+  <property type="sds.color" id="color.background">
+    <color hex="#e6e6e6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Image:&#x9;${filename}" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/oe images/beam_head.png" />
+  </property>
+  <property type="sds.integer" id="translate.y" value="0" />
+  <property type="sds.integer" id="translate.x" value="0" />
+  <property type="sds.string" id="Ready" value="Ready" />
+</widget>
+<widget type="org.csstudio.sds.components.ImageButton">
+  <property type="sds.behavior" id="behavior" value="" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="ImageButtonModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.integer" id="position.x" value="121" />
+  <property type="sds.integer" id="position.y" value="100" />
+  <property type="sds.integer" id="width" value="138" />
+  <property type="sds.integer" id="height" value="21" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000C0" />
+  </property>
+  <property type="sds.color" id="color.background">
+    <color hex="#E6E6E6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Image:&#x9;${filename}" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="" />
+  </property>
+  <property type="sds.integer" id="style" value="0" />
+  <property type="sds.string" id="label" value="   Ion chamber picture" />
+  <property type="sds.color" id="colour.over">
+    <color hex="#ADD8E6" />
+  </property>
+  <property type="sds.color" id="colour.button">
+    <color hex="#8FBAD2" />
+  </property>
+  <property type="sds.color" id="colour.foreground">
+    <color hex="#000000" />
+  </property>
+  <property type="sds.string" id="viewid" value="" />
+</widget>
+<widget type="org.csstudio.sds.components.Label">
+  <property type="sds.behavior" id="behavior" value="" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="LabelModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.integer" id="position.x" value="118" />
+  <property type="sds.integer" id="position.y" value="44" />
+  <property type="sds.integer" id="width" value="83" />
+  <property type="sds.integer" id="height" value="23" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000c0" />
+  </property>
+  <property type="sds.font" id="font">
+    <font font="Cursor, 10" />
+  </property>
+  <property type="sds.option" id="textAlignment">
+    <option id="0" />
+  </property>
+  <property type="sds.double" id="text_rotation" value="90.0" />
+  <property type="sds.integer" id="offset.x" value="0" />
+  <property type="sds.integer" id="offset.y" value="0" />
+  <property type="sds.boolean" id="transparent_background" value="true" />
+  <property type="sds.color" id="color.background">
+    <color hex="#e6e6e6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="1" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="value.text" value="">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://Stanford01" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.string" id="value.text.unit" value="" />
+  <property type="sds.option" id="value_type">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="precision" value="4" />
+  <property type="sds.paramstring" id="tooltip" value="I0 counts" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+</widget>
+
+</display>

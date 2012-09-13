@@ -26,5 +26,11 @@ function execute(args) {
 	else if(argument1 == '0.3 mm SiC') {
 	    result = 0.0;
 	}
+	else if(argument1 == 'all beams') {
+	    result = 5.0;
+	}
+	else if(argument1 == 'M1 Filter 1') {
+	    result = 4.0;
+	}
 	return result;
 }

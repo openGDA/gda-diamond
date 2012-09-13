@@ -1,4 +1,4 @@
-var returns = "java.lang.Double";
+var returns = "sds.int";
 var description = "attenuator3(attenuator3)";
 var parameters = new Array("attenuator3");
 
@@ -25,6 +25,15 @@ function execute(args) {
 	}
 	else if(argument1 == '1.0 mm SiC') {
 	    result = 0.0;
+	}
+	else if(argument1 == 'all beams') {
+	    result = 5.0;
+	}
+	else if(argument1 == 'M1 0.5mm SiC') {
+	    result = 1.0;
+	}
+		else if(argument1 == 'Direct 4mm pC') {
+	    result = 2.0;
 	}
 	return result;
 }
