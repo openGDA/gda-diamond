@@ -47,7 +47,8 @@ Runs the external program - matlab to evaluate the images collected and provide 
 def runExternalMatlabForTilt(count):
     lastImageFilename = "p_00017.tif"
     finalImageFullPathName = os.path.join(pwd(), lastImageFilename)
-    matlabCmdName = '/scratch/i12Workspc_git/gda-dls-beamlines-i12.git/i12/scripts/tomo/call_matlab.sh'
+    #matlabCmdName = '/dls_sw/i12/software/gda/config/scripts/tomo/call_matlab.sh'
+    matlabCmdName ='/dls_sw/i12/software/tomoTilt/code/release/call_matlab.sh'
     print "Calling matlab:" + matlabCmdName + "(" + 'create_flatfield' + "," + finalImageFullPathName + "," + str(count) + "," + 'true'
     updateScriptController("Calling matlab:" + matlabCmdName + "(" + 'create_flatfield' + "," + finalImageFullPathName + "," + str(count) + "," + 'true')
     p = Popen([matlabCmdName, 'create_flatfield', finalImageFullPathName, str(count), 'true'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
