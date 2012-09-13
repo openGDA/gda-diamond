@@ -177,7 +177,7 @@ public final class XesScanParametersComposite extends Composite {
 		lblRadiusOfCurvature.setText("<a>Radius</a>");
 		this.radiusOfCurvature = new ScaleBox(crystallGroup, SWT.NONE);
 		radiusOfCurvature.setMinimum(800.0);
-		radiusOfCurvature.setMaximum(1010.0);
+		radiusOfCurvature.setMaximum(1015.0);
 		radiusOfCurvature.setUnit("mm");
 		radiusOfCurvature.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		radiusOfCurvature.addValueListener(updateListener);
