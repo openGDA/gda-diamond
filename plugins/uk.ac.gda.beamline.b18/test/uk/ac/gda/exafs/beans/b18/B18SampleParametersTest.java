@@ -20,37 +20,26 @@ package uk.ac.gda.exafs.beans.b18;
 
 import static org.junit.Assert.fail;
 import gda.exafs.validation.B18Validator;
-import gda.util.TestUtils;
 
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.gda.beans.exafs.b18.B18SampleParameters;
 import uk.ac.gda.beans.exafs.b18.FurnaceParameters;
 import uk.ac.gda.beans.exafs.b18.XYThetaStageParameters;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
-import uk.ac.gda.util.PackageUtils;
 
 /**
  * class to hold sample parameters
  */
 public class B18SampleParametersTest {
-	final static String testScratchDirectoryName =
-		TestUtils.generateDirectorynameFromClassname(B18SampleParametersTest.class.getCanonicalName());
-
-
-	@BeforeClass
-	public static void beforeClass() throws Exception{
-		TestUtils.makeScratchDirectory(testScratchDirectoryName);
-	}
 
 	@Test
 	public void testCreateFromXML_FileDoesNotExist() {
 		try {
-			B18SampleParameters.createFromXML(PackageUtils.getTestPath(getClass(),"test") + "DoesNotExist");
+			B18SampleParameters.createFromXML("testfiles/DoesNotExist");
 			fail("File does not exist");
 		} catch (Exception ex) {
 			if (!(ex instanceof FileNotFoundException)) {
@@ -76,13 +65,11 @@ public class B18SampleParametersTest {
 		fps.setTime(5);
 		expectedValue.setFurnaceParameters(fps);
 
-		B18SampleParameters s = createFromXML("SampleParameters_withFurnace.xml");
+		B18SampleParameters s = B18SampleParameters.createFromXML("testfiles/uk/ac/gda/exafs/beans/b18/SampleParameters_withFurnace.xml");
 		validate(s);
 		testEquals(expectedValue, s);
 	}
 	
-	
-
 	
 	/**
 	 * test for xml file with sample stage parameters
@@ -102,16 +89,11 @@ public class B18SampleParametersTest {
 		ssps.setTheta(3);
 		expectedValue.setXYThetaStageParameters(ssps);
 
-		B18SampleParameters s = createFromXML("SampleParameters_withSmallStage.xml");
+		B18SampleParameters s = B18SampleParameters.createFromXML("testfiles/uk/ac/gda/exafs/beans/b18/SampleParameters_withSmallStage.xml");
 		validate(s);
 		testEquals(expectedValue, s);
 	}
 	
-	private B18SampleParameters createFromXML(String filename) throws Exception{
-		return B18SampleParameters
-				.createFromXML(PackageUtils.getTestPath(getClass(),"test") +filename);
-	}
-
 	private void testEquals(B18SampleParameters expectedValue, B18SampleParameters s) {
 		if (!expectedValue.equals(s)) {
 			fail("Values read are incorrect - " + s.toString());
