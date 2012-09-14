@@ -24,7 +24,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import uk.ac.gda.ui.components.MotionControlComposite;
+import uk.ac.gda.client.tomo.composites.MotionControlComposite;
 
 /**
  *
