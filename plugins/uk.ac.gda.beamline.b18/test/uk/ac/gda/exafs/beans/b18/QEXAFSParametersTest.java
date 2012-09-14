@@ -21,7 +21,6 @@ package uk.ac.gda.exafs.beans.b18;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import gda.exafs.validation.B18Validator;
-import gda.util.TestUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,28 +29,18 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.eclipse.core.runtime.content.IContentDescriber;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.gda.beans.exafs.QEXAFSParameters;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
 import uk.ac.gda.exafs.ui.describers.QEXAFSParametersDescriber;
-import uk.ac.gda.util.PackageUtils;
 
 public class QEXAFSParametersTest {
-	final static String testScratchDirectoryName = TestUtils
-			.generateDirectorynameFromClassname(QEXAFSParametersTest.class.getCanonicalName());
-
-	@BeforeClass
-	public static void beforeClass() throws Exception {
-		TestUtils.makeScratchDirectory(testScratchDirectoryName);
-	}
 
 	@Test
 	public void testDescriber() {
 		try {
-			InputStream contents = new FileInputStream(new File(PackageUtils.getTestPath(getClass(), "test")
-					+ "QEXAFSParameters_Valid.xml"));
+			InputStream contents = new FileInputStream(new File("testfiles/uk/ac/gda/exafs/beans/b18/QEXAFSParameters_Valid.xml"));
 			QEXAFSParametersDescriber describer = new QEXAFSParametersDescriber();
 			assertEquals(IContentDescriber.VALID, describer.describe(contents, null));
 		} catch (Exception e) {
@@ -62,7 +51,7 @@ public class QEXAFSParametersTest {
 	@Test
 	public void testCreateFromXML_FileDoesNotExist() {
 		try {
-			QEXAFSParameters.createFromXML(PackageUtils.getTestPath(getClass(), "test") + "DoesNotExist");
+			QEXAFSParameters.createFromXML("testfiles/DoesNotExist");
 			fail("File does not exist");
 		} catch (Exception ex) {
 			if (!(ex instanceof FileNotFoundException)) {
@@ -84,8 +73,7 @@ public class QEXAFSParametersTest {
 		//expectedValue.setTotalTime(1);
 		//expectedValue.setChooseNumberPoints(true);
 
-		QEXAFSParameters s = QEXAFSParameters.createFromXML(PackageUtils.getTestPath(getClass(), "test")
-				+ "QEXAFSParameters_Valid.xml");
+		QEXAFSParameters s = QEXAFSParameters.createFromXML("testfiles/uk/ac/gda/exafs/beans/b18/QEXAFSParameters_Valid.xml");
 		List<InvalidBeanMessage> errors = new B18Validator().validateQEXAFSParameters(s);
 		if (errors.size() > 0) {
 			fail(errors.get(0).getPrimaryMessage());
