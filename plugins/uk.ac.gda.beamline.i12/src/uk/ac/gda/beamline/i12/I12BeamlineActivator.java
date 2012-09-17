@@ -18,6 +18,7 @@
 
 package uk.ac.gda.beamline.i12;
 
+import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -31,7 +32,7 @@ public class I12BeamlineActivator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static I12BeamlineActivator plugin;
-	
+
 	/**
 	 * The constructor
 	 */
@@ -52,11 +53,17 @@ public class I12BeamlineActivator extends AbstractUIPlugin {
 
 	/**
 	 * Returns the shared instance
-	 *
+	 * 
 	 * @return the shared instance
 	 */
 	public static I12BeamlineActivator getDefault() {
 		return plugin;
 	}
 
+	@Override
+	protected void initializeImageRegistry(ImageRegistry reg) {
+		for (String imgPath : ImageConstants.IMAGES) {
+			reg.put(imgPath, imageDescriptorFromPlugin(PLUGIN_ID, imgPath));
+		}
+	}
 }
