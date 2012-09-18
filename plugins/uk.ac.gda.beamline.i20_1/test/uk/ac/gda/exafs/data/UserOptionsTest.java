@@ -20,38 +20,22 @@ package uk.ac.gda.exafs.data;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import gda.util.TestUtils;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
 import org.eclipse.core.runtime.content.IContentDescriber;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.gda.exafs.ui.data.UserOptions;
 import uk.ac.gda.exafs.ui.describers.UserOptionsDescriber;
-import uk.ac.gda.util.PackageUtils;
 
 public class UserOptionsTest {
-
-	final static String testScratchDirectoryName = TestUtils
-			.generateDirectorynameFromClassname(UserOptionsTest.class.getCanonicalName());
-
-	/**
-	 * @throws Exception
-	 */
-	@BeforeClass
-	public static void beforeClass() throws Exception {
-		TestUtils.makeScratchDirectory(testScratchDirectoryName);
-	}
 
 	@Test
 	public void testDescriber() {
 		try {
-			InputStream contents = new FileInputStream(new File(PackageUtils.getTestPath(getClass(),"test")
-					+ "User_Options.xml"));
+			InputStream contents = new FileInputStream("testfiles/uk/ac/gda/exafs/data/UserOptionsTest/User_Options.xml");
 			UserOptionsDescriber describer = new UserOptionsDescriber();
 			assertEquals(IContentDescriber.VALID, describer.describe(contents, null));
 		} catch (Exception e) {
@@ -66,8 +50,7 @@ public class UserOptionsTest {
 		
 
 		try {
-			UserOptions s = UserOptions.createFromXML(PackageUtils.getTestPath(getClass(),"test")
-					+ "User_Options.xml");
+			UserOptions s = UserOptions.createFromXML("testfiles/uk/ac/gda/exafs/data/UserOptionsTest/User_Options.xml");
 			if (!expectedValue.equals(s)) {
 				fail("Values read are incorrect - " + s.toString());
 			}

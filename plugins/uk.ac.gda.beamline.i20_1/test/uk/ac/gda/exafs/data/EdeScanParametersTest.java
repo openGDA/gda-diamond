@@ -20,39 +20,24 @@ package uk.ac.gda.exafs.data;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import gda.util.TestUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
 import org.eclipse.core.runtime.content.IContentDescriber;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.describers.EdeScanParametersDescriber;
-import uk.ac.gda.util.PackageUtils;
 
 public class EdeScanParametersTest {
-
-	final static String testScratchDirectoryName = TestUtils
-			.generateDirectorynameFromClassname(EdeScanParametersTest.class.getCanonicalName());
-
-	/**
-	 * @throws Exception
-	 */
-	@BeforeClass
-	public static void beforeClass() throws Exception {
-		TestUtils.makeScratchDirectory(testScratchDirectoryName);
-	}
 
 	@Test
 	public void testDescriber() {
 		try {
-			InputStream contents = new FileInputStream(new File(PackageUtils.getTestPath(getClass(),"test")
-					+ "EdeScan_Parameters.xml"));
+			InputStream contents = new FileInputStream(new File("testfiles/uk/ac/gda/exafs/data/EdeScanParametersTest/EdeScan_Parameters.xml"));
 			EdeScanParametersDescriber describer = new EdeScanParametersDescriber();
 			assertEquals(IContentDescriber.VALID, describer.describe(contents, null));
 		} catch (Exception e) {
@@ -79,8 +64,7 @@ public class EdeScanParametersTest {
 		
 
 		try {
-			EdeScanParameters s = EdeScanParameters.createFromXML(PackageUtils.getTestPath(getClass(),"test")
-					+ "EdeScan_Parameters.xml");
+			EdeScanParameters s = EdeScanParameters.createFromXML("testfiles/uk/ac/gda/exafs/data/EdeScanParametersTest/EdeScan_Parameters.xml");
 			if (!expectedValue.equals(s)) {
 				fail("Values read are incorrect - " + s.toString());
 			}
