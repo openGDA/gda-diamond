@@ -36,7 +36,6 @@ import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
 import uk.ac.gda.exafs.ui.describers.XesScanParametersDescriber;
-import uk.ac.gda.util.PackageUtils;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class XesScanParametersTest {
@@ -52,7 +51,7 @@ public class XesScanParametersTest {
 	@Test
 	public void testDescriber() {
 		try {
-			InputStream contents = new FileInputStream(new File(PackageUtils.getTestPath(getClass(),"test") + "XES_Parameters.xml"));
+			InputStream contents = new FileInputStream(new File("testfiles/uk/ac/gda/exafs/beans/XesScanParametersTest/XES_Parameters.xml"));
 			XesScanParametersDescriber describer = new XesScanParametersDescriber();
 			assertEquals(IContentDescriber.VALID, describer.describe(contents, null));
 		} catch (Exception e) {
@@ -66,7 +65,7 @@ public class XesScanParametersTest {
 	 */
 	@Test
 	public void testCreateFromXMLWithClass() throws Exception {
-		final File testFile = new File(PackageUtils.getTestPath(getClass(),"test") + "XES_Parameters.xml");
+		final File testFile = new File("testfiles/uk/ac/gda/exafs/beans/XesScanParametersTest/XES_Parameters.xml");
 		final XesScanParameters s = (XesScanParameters)XMLHelpers.createFromXML(XesScanParameters.mappingURL, 
 									XesScanParameters.class, 
 									XesScanParameters.schemaURL, 
@@ -97,9 +96,8 @@ public class XesScanParametersTest {
 		sp.setAdditionalCrystal2(false);
 		sp.setAdditionalCrystal3(false);
 		
-		XesScanParameters s = XesScanParameters.createFromXML(PackageUtils.getTestPath(getClass(),"test") + "XES_Parameters.xml");
-		DetectorParameters d = DetectorParameters.createFromXML(PackageUtils.getTestPath(getClass(),"test")
-				+ "DetectorParameters_withXES.xml");
+		XesScanParameters s = XesScanParameters.createFromXML("testfiles/uk/ac/gda/exafs/beans/XesScanParametersTest/XES_Parameters.xml");
+		DetectorParameters d = DetectorParameters.createFromXML("testfiles/uk/ac/gda/exafs/beans/XesScanParametersTest/DetectorParameters_withXES.xml");
 		List<InvalidBeanMessage> errors = new I20Validator().validateXesScanParameters(s,d);
 		if (errors.size() > 0){
 			fail(errors.get(0).getPrimaryMessage());
@@ -139,8 +137,7 @@ public class XesScanParametersTest {
 		}
 
 		XesScanParameters s = XesScanParameters.createFromXML(testScratchDirectoryName + "XesScanParameters_written.xml");
-		DetectorParameters d = DetectorParameters.createFromXML(PackageUtils.getTestPath(getClass(),"test")
-				+ "DetectorParameters_withXES.xml");
+		DetectorParameters d = DetectorParameters.createFromXML("testfiles/uk/ac/gda/exafs/beans/XesScanParametersTest/DetectorParameters_withXES.xml");
 		List<InvalidBeanMessage> errors = new I20Validator().validateXesScanParameters(s,d);
 		if (errors.size() > 0){
 			fail(errors.get(0).getPrimaryMessage());
