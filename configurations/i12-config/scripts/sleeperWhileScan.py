@@ -1,6 +1,6 @@
 from gda.device.scannable import PseudoDevice
 from gdascripts.utils import caput, caget
-import time
+from time import sleep
 
 TIMETOSLEEP=2
 
@@ -13,7 +13,7 @@ class SleeperWhileScan(PseudoDevice):
 
     # returns the value this scannable represents
     def rawGetPosition(self):
-        return
+        return self.timeToSleep
 
     # Does the operation this Scannable represents
     def rawAsynchronousMoveTo(self, new_position):

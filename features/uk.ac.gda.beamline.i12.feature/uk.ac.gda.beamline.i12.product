@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA I12 Beamline" uid="uk.ac.gda.beamline.i12.product" id="uk.ac.gda.beamline.i12.product" application="uk.ac.gda.client.application" version="8.24.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA I12 Beamline" uid="uk.ac.gda.beamline.i12.product" id="uk.ac.gda.beamline.i12.product" application="uk.ac.gda.client.application" version="8.26.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -20,8 +20,7 @@ http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.root=/dls_sw/i12/software/gda/plugins
--Dgda.config=/dls_sw/i12/software/gda/config
+      <vmArgs>-Dgda.config=/dls_sw/i12/software/gda/config
 -Dgda.data=/dls/i12/data
 -Dgda.propertiesFile=/dls_sw/i12/software/gda/config/properties/live/java.properties
 -Djacorb.config.dir=/dls_sw/i12/software/gda/config/jacorb/live
@@ -44,7 +43,6 @@ http://www.opengda.org
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>

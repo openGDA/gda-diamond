@@ -35,10 +35,10 @@ fi
 
 # copy files
 echo "Install/Update GDA desktop menu"
-sudo cp -f /$SOFTWAREFOLDER/$1/software/gda/config/Desktop/*.desktop /var/Desktop
-sudo cp -f /$SOFTWAREFOLDER/$1/software/gda/config/Desktop/*.menu /var/Desktop
-sudo cp -f /$SOFTWAREFOLDER/$1/software/gda/config/Desktop/*.directory /var/Desktop
-sudo cp -f /$SOFTWAREFOLDER/$1/software/gda/config/Desktop/.hidden /var/Desktop
+sudo cp -f /$SOFTWAREFOLDER/$1/software/gda/config/desktop/*.desktop /var/Desktop
+sudo cp -f /$SOFTWAREFOLDER/$1/software/gda/config/desktop/*.menu /var/Desktop
+sudo cp -f /$SOFTWAREFOLDER/$1/software/gda/config/desktop/*.directory /var/Desktop
+sudo cp -f /$SOFTWAREFOLDER/$1/software/gda/config/desktop/.hidden /var/Desktop
 
 # change permission to avoid the desktop launcher appear with no-entry emblems
 sudo chmod -R 777 /var/Desktop

@@ -24,18 +24,32 @@
 	</bean>
 	<bean id="scisoft_script_project" class="gda.jython.ScriptProject">
 		<constructor-arg index="0"
-			value="${gda.install.git.loc}/scisoft/scisoft-core.git/uk.ac.diamond.scisoft.analysis/src" />
+			value="${gda.install.git.loc}/scisoft-core.git/uk.ac.diamond.scisoft.analysis/src" />
 		<constructor-arg index="1" value="Scripts: Core" />
 		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
 			value="CORE" />
 	</bean>
-
-	<bean id="user_script_project" class="gda.jython.ScriptProject">
+	<bean id="tomography_script_project" class="gda.jython.ScriptProject">
+		<constructor-arg index="0"
+			value="${gda.install.git.loc}/gda-tomography.git/uk.ac.gda.tomography/scripts" />
+		<constructor-arg index="1" value="Scripts: Tomography" />
+		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
+			value="CORE" />
+	</bean>
+	<bean id="user_script_project_in_dls_sw" class="gda.jython.ScriptProject">
 		<constructor-arg index="0" value="/dls_sw/i12/scripts" />
-		<constructor-arg index="1" value="Scripts: User" />
+		<constructor-arg index="1" value="Scripts: User (in dls_sw)" />
 		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
 			value="USER" />
 	</bean>
+
+	<bean id="user_script_project_in_dls" class="gda.jython.ScriptProject">
+		<constructor-arg index="0" value="/dls/i12/scripts" />
+		<constructor-arg index="1" value="Scripts: User (in dls)" />
+		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
+			value="USER" />
+	</bean>
+
 	<bean id = "beamline_config_project" class="gda.jython.ScriptProject">
 		<constructor-arg index="0"
 			value="${gda.install.git.loc}/gda-dls-beamlines-i12.git/i12/scripts" />
@@ -43,16 +57,28 @@
 		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
 			value="CONFIG" />
 	</bean>
+	
+	<bean id = "lookupTable_config" class="gda.jython.ScriptProject">
+		<constructor-arg index="0"
+			value="${gda.install.git.loc}/gda-dls-beamlines-i12.git/i12/lookupTables" />
+		<constructor-arg index="1" value="Lookup Tables" />
+		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
+			value="CONFIG" />
+	</bean>
+
 	<bean id="command_server" class="gda.jython.JythonServer">
 		<property name="jythonScriptPaths">
 			<bean class="gda.jython.ScriptPaths">
 				<property name="projects">
 					<list>
-						<ref bean="user_script_project"/>
-						<ref bean="core_script_project"/>
-						<ref bean="epics_script_project"/>
-						<ref bean="scisoft_script_project"/>
-						<ref bean="beamline_config_project"/>
+						<ref bean="user_script_project_in_dls_sw"/>
+						<ref bean="user_script_project_in_dls"/>
+						<ref bean="core_script_project" />
+						<ref bean="epics_script_project" />
+						<ref bean="scisoft_script_project" />
+						<ref bean="beamline_config_project" />
+						<ref bean="tomography_script_project" />
+						<ref bean="lookupTable_config" />
 					</list>
 				</property>
 				<property name="startupScript" value="${gda.config}/scripts/localStation.py" />

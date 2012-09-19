@@ -3,18 +3,12 @@
 #    For beamline specific initialisation code
 import sys	
 from gdascripts.messages import handle_messages
-from gda.factory import Finder
 from gda.jython.commands import GeneralCommands
 
 print "Performing I12 specific initialisation code"
 print "=============================================="
 
 from gda.jython.commands.GeneralCommands import alias
-from gda.data import PathConstructor
-from gda.data import NumTracker
-
-import os
-import sys
 
 print "add EPICS scripts to system path"
 print "------------------------------------------------"
@@ -24,68 +18,37 @@ from java.lang import System
 _epicsScriptLibraryDir = PropertyUtils.getExistingDirFromLocalProperties("gda.install.git.loc") + "/gda.install.git.loc/uk.ac.gda.epics/scripts" + System.getProperty("file.separator");
 sys.path.append(_epicsScriptLibraryDir)
 
-finder = Finder.getInstance()
+import i12utilities
 
-# set up a nice method for getting the latest file path
-i12NumTracker = NumTracker("i12");
+
 
 print "create commands for folder operations: wd, pwd, nwd, nfn, setSubdirectory('subdir-name')"
 print "-------------------------------------------------"
 # function to find the last file path
-def wd():
-    dir = PathConstructor.createFromDefaultProperty()
-    return dir
-    
+def wd(): 
+    return i12utilities.wd()
 alias("wd")
 
-# function to find the last file path
-def pwd():
-    dir = PathConstructor.createFromDefaultProperty()
-    filenumber = i12NumTracker.getCurrentFileNumber();
-    return os.path.join(dir, str(filenumber))
-    
+def pwd(): 
+    return i12utilities.pwd()
 alias("pwd")
 
-# function to find the next file path
 def nwd():
-    dir = PathConstructor.createFromDefaultProperty()
-    filenumber = i12NumTracker.getCurrentFileNumber();
-    return os.path.join(dir, str(filenumber + 1))
-    
+    return i12utilities.nwd()
 alias("nwd")
 
-# function to find the next scan number
 def nfn():
-    filenumber = i12NumTracker.getCurrentFileNumber();
-    return filenumber + 1
-    
+    return i12utilities.nfn()
 alias("nfn")
 
-# function to find the next scan number
-def cfn():
-    filenumber = i12NumTracker.getCurrentFileNumber();
-    return filenumber
-    
+def cfn(): 
+    return i12utilities.cfn()
 alias("cfn")
 
-# the subdirectory parts
 def setSubdirectory(dirname):
-    try:
-        finder.find("GDAMetadata").setMetadataValue("subdirectory", dirname)
-    except:
-        exceptionType, exception, traceback = sys.exc_info()
-        handle_messages.log(None, "problem setting metadata value -'subdirectory' to " + dirname, exceptionType, exception, traceback, False)
-        print "Failed to set metadata (subdirectory) value to:", dirname, exception
+    i12utilities.setSubdirectory(dirname)
 
-    try:
-        handle_messages.simpleLog("trying to create '" + dirname + "' subdirectory")
-        os.mkdir(wd())
-        handle_messages.simpleLog("working directory '" + dirname + "' created:" + wd())
-    except :
-        exceptionType, exception, traceback = sys.exc_info()
-        handle_messages.log(None, "cannot create subdirectory::wd()=" + wd(), exceptionType, exception, traceback, False)
-        print "setSubdirectory failed to create: ", dirname, exception
-    
+
 # Do this last
 #setSubdirectory("default")
 print
@@ -123,10 +86,6 @@ from gda.configuration.properties import LocalProperties
 from init_scan_commands_and_processing import * #@UnusedWildImport
 #scan_processor.rootNamespaceDict=globals()
 
-#beam_optimizer_dummy is needed by tomographyScani13
-
-#import beam_optimizers
-#beam_optimizer_dummy = beam_optimizers.beam_optimizer("beam_optimizer_dummy", dummy=True)    
 
 from gda.scan.RepeatScan import create_repscan, repscan
 vararg_alias("repscan")
@@ -194,7 +153,6 @@ print "--------------------------------------------------"
 from sleeperWhileScan import SleeperWhileScan
 sleeper = SleeperWhileScan("sleeper");
 
-#from tomo_scan import basicTomoScan #@UnusedImport
 
 print "Defines 'timer':"
 print "--------------------------------------------------"
@@ -234,6 +192,15 @@ except:
     
 print
 print "create ETL detector objects"
+try:
+    eh1therm1 = DisplayEpicsPVClass('eh1therm1', 'BL12I-OP-THERM-01:TEMP:T1', 'degree', '%.3f')
+    eh1therm2 = DisplayEpicsPVClass('eh1therm2', 'BL12I-OP-THERM-01:TEMP:T2', 'degree', '%.3f')
+    eh1therm3 = DisplayEpicsPVClass('eh1therm3', 'BL12I-OP-THERM-01:TEMP:T3', 'degree', '%.3f')
+    eh1therm4 = DisplayEpicsPVClass('eh1therm4', 'BL12I-OP-THERM-01:TEMP:T4', 'degree', '%.3f')
+    eh1therm5 = DisplayEpicsPVClass('eh1therm5', 'BL12I-OP-THERM-01:TEMP:T5', 'degree', '%.3f')
+    eh1therm6 = DisplayEpicsPVClass('eh1therm6', 'BL12I-OP-THERM-01:TEMP:T6', 'degree', '%.3f')
+except:
+    print "cannot create thermocouple scannables"
 print "--------------------------------------------------"
 pdnames = []
 from detector_control_pds import * #@UnusedWildImport
@@ -273,13 +240,12 @@ print "create 'eurotherm1' and 'eurotherm2'"
 eurotherm1 = DisplayEpicsPVClass('eurotherm1', 'BL12I-EA-FURN-01:PV:RBV', 'c', '%.3f')
 eurotherm2 = DisplayEpicsPVClass('eurotherm2', 'BL12I-EA-FURN-02:PV:RBV', 'c', '%.3f')
 
-from tomo.tomographyScani13 import tomoScan
-from tomo import tomoAlignment
+from tomographyScan import tomoScan #@UnusedImport
+from tomo import tomoAlignment #@UnusedImport
 #print
 #print "setup tomographyScan:"
 #from tomo import tomographyScan
 #run("tomo/tomographyScan.py")
-from tomo.tomographyScani13 import tomoScan
 
 
 print 

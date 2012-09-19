@@ -3,6 +3,10 @@
 export BEAMLINE=i12
 umask 002
 
+if [ -f "/etc/profile.d/modules.sh" ]; then
+	. /etc/profile.d/modules.sh
+fi
+
 . /dls_sw/$BEAMLINE/etc/${BEAMLINE}_profile.sh
 
 # when remote server restart on a different date, a new gda_out file is logged, 

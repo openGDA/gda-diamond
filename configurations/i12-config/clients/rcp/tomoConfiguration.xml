@@ -12,8 +12,7 @@
 	<bean id="tomoConfigurationViewHolder"
 		class="uk.ac.gda.client.tomo.configuration.view.factory.TomoConfigurationViewFactoryFactory">
 		<property name="viewPartName" value="Configuration" />
-		<!-- The tomoConfigResourceHandler is declared in the tomoAlignment.xml -->
-		<property name="tomoConfigResourceHandler" ref="tomoConfigResourceHandler" />
+		<property name="tomoConfigResourceHandler" ref="tomoConfigResourceHandler" /> <!-- The tomoConfigResourceHandler is declared in the tomoAlignment.xml -->
 		<property name="tomoConfigViewController" ref="tomoConfigViewController" />
 	</bean>
 

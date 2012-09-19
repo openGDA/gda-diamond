@@ -8,6 +8,5 @@
 		<Include> <Filename>/dls_sw/i12/software/gda/config/desktop/launchers/GDA Logging.desktop</Filename> </Include>
 		<Include> <Filename>/dls_sw/i12/software/gda/config/desktop/launchers/GDA Server.desktop</Filename> </Include>
 		<Include> <Filename>/dls_sw/i12/software/gda/config/desktop/launchers/hdfview.desktop</Filename> </Include>
-		<Include> <Filename>/dls_sw/i12/software/gda/config/desktop/launchers/Synoptic Launcher.desktop</Filename> </Include>
 	</Menu>
 </Menu>

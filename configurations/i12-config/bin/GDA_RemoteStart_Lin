@@ -10,17 +10,24 @@ then
   echo "Please set BEAMLINE environment variable."
   exit 1
 fi
+if [ -f "/etc/profile.d/modules.sh" ]; then
+	. /etc/profile.d/modules.sh	
+	module load java/gda
+else
+	echo "cannot scd ..ource /etc/profile.d/modules.sh"	
+	exit 1
+fi
 
 #echo "Kill all GDA Clients running locally"
 #gda --stop --verbose client
 #sleep 2;
 #
-echo "Restaring GDA Log Panel locally"
+echo "Restarting GDA Log Panel locally"
 echo gda --restart logpanel &
 gda --restart --verbose logpanel &
 sleep 2
  
 echo "Starting GDA Servers remotely..."
-echo ssh -i /$SOFTWAREFOLDER/$BEAMLINE/${BEAMLINE}ssh.key gda@${BEAMLINE}-control.diamond.ac.uk
-ssh -i /$SOFTWAREFOLDER/$BEAMLINE/${BEAMLINE}ssh.key gda@${BEAMLINE}-control.diamond.ac.uk
+echo ssh -i /$SOFTWAREFOLDER/$BEAMLINE/${BEAMLINE}ssh.key gda2@${BEAMLINE}-control.diamond.ac.uk
+ssh -i /$SOFTWAREFOLDER/$BEAMLINE/${BEAMLINE}ssh.key gda2@${BEAMLINE}-control.diamond.ac.uk
 
