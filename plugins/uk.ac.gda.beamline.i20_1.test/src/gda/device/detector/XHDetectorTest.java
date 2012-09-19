@@ -20,6 +20,11 @@ package gda.device.detector;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
+
+import gda.configuration.properties.LocalProperties;
+import gda.util.TestUtils;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,6 +41,9 @@ public class XHDetectorTest {
 
 	@Before
 	public void createObject(){
+		final File scratchDir = TestUtils.createClassScratchDirectory(XHDetectorTest.class);
+		LocalProperties.set(LocalProperties.GDA_VAR_DIR, scratchDir.getAbsolutePath());
+		
 		daserver = new DummyXStripDAServer();
 		
 		xh = new XHDetector();
