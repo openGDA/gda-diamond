@@ -33,7 +33,6 @@ import org.junit.Test;
 
 import uk.ac.gda.ClientManager;
 import uk.ac.gda.exafs.ui.describers.EdeScanParametersDescriber;
-import uk.ac.gda.util.PackageUtils;
 
 /**
  * Run as junit plugin test.
@@ -58,7 +57,7 @@ public class EdeParametersUIEditorPluginTest {
 		
 		final IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		
-		final File xml = new File(PackageUtils.getTestPath(EdeParametersUIEditorPluginTest.class,"test")+"/EdeScan_Parameters.xml");
+		final File xml = new File("testfiles/uk/ac/gda/exafs/ui/EdeParametersUIEditorPluginTest/EdeScan_Parameters.xml");
 		
 		final FileStoreEditorInput fileInput = new FileStoreEditorInput(EFS.getLocalFileSystem().fromLocalFile(xml));
 		
