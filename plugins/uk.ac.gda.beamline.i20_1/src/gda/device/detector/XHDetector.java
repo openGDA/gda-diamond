@@ -22,6 +22,7 @@ import gda.data.nexus.tree.NexusTreeProvider;
 import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.Detector;
 import gda.device.DeviceException;
+import gda.factory.FactoryException;
 import gda.scan.ScanDataPoint;
 import gda.util.persistence.LocalParameters;
 
@@ -90,7 +91,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	}
 
 	@Override
-	public void configure() {
+	public void configure() throws FactoryException {
 		try {
 			if (getTemplateFileName() == null || getTemplateFileName().isEmpty()) {
 				logger.error("template filename needs to be set.");
@@ -105,11 +106,11 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 		loadROIsFromXML();
 
-		close();
 		try {
+			close();
 			createNewHandle();
 		} catch (DeviceException e) {
-			logger.error("Exception trying to create data readout handle to da.server", e);
+			throw new FactoryException("Exception trying to create data readout handle to da.server", e);
 		}
 	}
 
@@ -172,8 +173,9 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	 * @param finalFrame
 	 *            - absolute frame index ignoring the group num
 	 * @return NexusTreeProvider[]
+	 * @throws DeviceException 
 	 */
-	public NexusTreeProvider[] readFrames(int startFrame, int finalFrame) {
+	public NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException {
 		int[] elements = readoutFrames(startFrame, finalFrame);
 		int numberOfFrames = finalFrame - startFrame + 1;
 		int[][] rawDataInFrames = unpackRawDataToFrames(elements, numberOfFrames);
@@ -275,13 +277,18 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	 * @param finalFrame
 	 *            - absolute frame index ignoring the group num
 	 * @return int[] - raw data from da.server memory
+	 * @throws DeviceException 
 	 */
-	private synchronized int[] readoutFrames(int startFrame, int finalFrame) {
+	private synchronized int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException {
 		int[] value = null;
 		if (timingReadbackHandle >= 0 && daServer != null && daServer.isConnected()) {
 			int numFrames = finalFrame - startFrame + 1;
-			value = daServer.getIntBinaryData("read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames
-					+ " from " + timingReadbackHandle + " raw motorola", 1024 * numFrames);
+			try {
+				value = daServer.getIntBinaryData("read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames
+						+ " from " + timingReadbackHandle + " raw motorola", 1024 * numFrames);
+			} catch (Exception e) {
+				throw new DeviceException("Exception while reading data",e);
+			}
 		}
 		return value;
 
@@ -312,7 +319,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	}
 
 	@Override
-	public void close() {
+	public void close() throws DeviceException {
 		if (timingReadbackHandle >= 0 && daServer != null && daServer.isConnected()) {
 			daServer.sendCommand("close " + timingReadbackHandle);
 			timingReadbackHandle = -1;
@@ -366,8 +373,9 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	/**
 	 * Setup the TFG from parameters held by the template xml file. The template file would be been created during
 	 * configuration of this object
+	 * @throws DeviceException 
 	 */
-	public void loadTemplateParameters() {
+	public void loadTemplateParameters() throws DeviceException {
 		defineDataCollectionFromScanParameters();
 	}
 
@@ -376,8 +384,9 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	 * initiated by collectData().
 	 * 
 	 * @param newParameters
+	 * @throws DeviceException 
 	 */
-	public void loadParameters(EdeScanParameters newParameters) {
+	public void loadParameters(EdeScanParameters newParameters) throws DeviceException {
 		nextScan = newParameters;
 		defineDataCollectionFromScanParameters();
 	}
@@ -403,7 +412,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		defineDataCollectionFromScanParameters();
 	}
 
-	public ExperimentStatus fetchStatus() {
+	public ExperimentStatus fetchStatus() throws DeviceException {
 		String statusMessage = (String) daServer.sendCommand(createCommand("read-status", "verbose"), true);
 		if (statusMessage.startsWith("#")){
 			statusMessage = statusMessage.substring(1).trim();
@@ -440,7 +449,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		return newStatus;
 	}
 
-	private void defineDataCollectionFromScanParameters() {
+	private void defineDataCollectionFromScanParameters() throws DeviceException {
 		// read nextScan attribute and convert into daserver commands...
 
 		addOutSignals();
@@ -557,7 +566,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		return String.format("%d", Math.round(timeInS / XSTRIP_CLOCKRATE));
 	}
 
-	private void addOutSignals() {
+	private void addOutSignals() throws DeviceException {
 		double[] delaysInS = nextScan.getOutputWidths();
 		String[] delays = new String[delaysInS.length];
 		for (int i = 0; i < delaysInS.length; i++) {
@@ -595,8 +604,9 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	 * To send the continue command when a group has been setup to wait for an input from a software trigger (LEMO #9)
 	 * 
 	 * @return Object - what is returned from da.server
+	 * @throws DeviceException 
 	 */
-	public Object fireSoftTrig() {
+	public Object fireSoftTrig() throws DeviceException {
 		return daServer.sendCommand(createCommand("continue"));
 	}
 
@@ -613,8 +623,12 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 			createNewHandle();
 		}
 		if (timingReadbackHandle >= 0 && daServer != null && daServer.isConnected()) {
-			value = daServer.getIntBinaryData("read 0 0 0 30 1024 1 from " + timingReadbackHandle + " raw motorola",
-					30 * 1024);
+			try {
+				value = daServer.getIntBinaryData("read 0 0 0 30 1024 1 from " + timingReadbackHandle + " raw motorola",
+						30 * 1024);
+			} catch (Exception e) {
+				throw new DeviceException(e.getMessage(),e);
+			}
 		}
 		return value;
 	}
