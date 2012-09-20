@@ -54,6 +54,21 @@
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
 		<property name="service" ref="plot_server" />
 	</bean>
+	
+	<bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}commandQueueProcessor" />
+		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="gda.commandqueue.Processor" />
+		<property name="service" ref="commandQueueProcessor" />
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="gda.commandqueue.Queue" />
+		<property name="service" ref="commandQueueProcessor" />
+	</bean>
+	
 
 
 
