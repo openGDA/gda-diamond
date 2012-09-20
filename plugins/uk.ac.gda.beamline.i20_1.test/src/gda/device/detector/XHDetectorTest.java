@@ -23,6 +23,8 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 
 import gda.configuration.properties.LocalProperties;
+import gda.device.DeviceException;
+import gda.factory.FactoryException;
 import gda.util.TestUtils;
 
 import org.junit.Before;
@@ -40,7 +42,7 @@ public class XHDetectorTest {
 	private DummyXStripDAServer daserver;
 
 	@Before
-	public void createObject(){
+	public void createObject() throws FactoryException{
 		final File scratchDir = TestUtils.createClassScratchDirectory(XHDetectorTest.class);
 		LocalProperties.set(LocalProperties.GDA_VAR_DIR, scratchDir.getAbsolutePath());
 		
@@ -53,7 +55,7 @@ public class XHDetectorTest {
 	}
 	
 	@Test
-	public void testSimpleGroup(){
+	public void testSimpleGroup() throws DeviceException{
 		daserver.clearRecievedCommands();
 		
 		EdeScanParameters scan = new EdeScanParameters();
@@ -75,7 +77,7 @@ public class XHDetectorTest {
 	}
 	
 	@Test
-	public void testDelays(){
+	public void testDelays() throws DeviceException{
 		daserver.clearRecievedCommands();
 		
 		EdeScanParameters scan = new EdeScanParameters();
@@ -107,7 +109,7 @@ public class XHDetectorTest {
 	}
 	
 	@Test
-	public void testInputs(){
+	public void testInputs() throws DeviceException{
 		daserver.clearRecievedCommands();
 		
 		EdeScanParameters scan = new EdeScanParameters();
@@ -131,7 +133,7 @@ public class XHDetectorTest {
 	}
 	
 	@Test
-	public void testInputsFallingEdge(){
+	public void testInputsFallingEdge() throws DeviceException{
 		daserver.clearRecievedCommands();
 		
 		EdeScanParameters scan = new EdeScanParameters();
@@ -157,7 +159,7 @@ public class XHDetectorTest {
 
 	
 	@Test 
-	public void testOutputs(){
+	public void testOutputs() throws DeviceException{
 		daserver.clearRecievedCommands();
 		
 		EdeScanParameters scan = new EdeScanParameters();
@@ -182,7 +184,7 @@ public class XHDetectorTest {
 	}
 	
 	@Test 
-	public void testOutputsDelay(){
+	public void testOutputsDelay() throws DeviceException{
 		daserver.clearRecievedCommands();
 		
 		EdeScanParameters scan = new EdeScanParameters();
@@ -209,7 +211,7 @@ public class XHDetectorTest {
 
 	
 	@Test
-	public void testMixInputAndOuputs(){
+	public void testMixInputAndOuputs() throws DeviceException{
 		daserver.clearRecievedCommands();
 		
 		EdeScanParameters scan = new EdeScanParameters();
