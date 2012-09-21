@@ -18,7 +18,7 @@
                 <property key="targets" value="create.product" />
             </actorProperties>
             <properties>
-                <property key="profile" value="i11" />
+                <property key="profile" value="hrpd" />
                 <property key="iu" value="uk.ac.gda.beamline.i11.product" />
             </properties>
             <prerequisites alias="repository">
@@ -40,7 +40,22 @@
                 <path path="i11.${target.ws}.${target.os}.${target.arch}.zip" />
             </products>
         </public>
-	</actions>
+        <public name="install.product" actor="ant">
+            <actorProperties>
+                <property key="buildFile" value="product.ant" />
+                <property key="targets" value="create.product" />
+            </actorProperties>
+            <properties>
+                <property key="profile" value="hrpd" />
+                <property key="iu" value="uk.ac.gda.beamline.i11.product" />
+            </properties>
+            <prerequisites alias="repository">
+                <attribute name="site.p2" />
+            </prerequisites>
+            <products alias="destination" base="${gda.rcp.install.location}">
+                <path path="client/" />
+            </products>
+        </public>	</actions>
 	<groups>
 		<!-- Place your Groups here -->
 	</groups>
