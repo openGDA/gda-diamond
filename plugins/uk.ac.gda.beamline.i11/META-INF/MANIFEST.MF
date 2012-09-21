@@ -17,11 +17,8 @@ Require-Bundle: org.eclipse.core.runtime,
  uk.ac.diamond.scisoft.analysis.rcp;bundle-version="1.0.0",
  uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.gda.client;bundle-version="1.0.0",
- uk.ac.gda.client.sixd;bundle-version="1.0.0",
- uk.ac.gda.oe;bundle-version="1.0.0",
  uk.ac.gda.common;bundle-version="1.0.0",
- uk.ac.gda.common.rcp;bundle-version="1.0.0",
- uk.ac.gda.client.oe;bundle-version="1.0.0"
+ uk.ac.gda.common.rcp;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Diamond Light Source
