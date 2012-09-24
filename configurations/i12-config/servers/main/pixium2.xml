@@ -18,7 +18,7 @@
 	</description>
 	<!-- Set up the Area Detector base class which will manage the pix.cam -->
 	<bean id="pix.cam" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="deviceName" value="pixium.cam_ADBase" />
+		<property name="deviceName" value="pix.cam_ADBase" />
 		<property name="initialDataType" value="UInt16" />
 		<property name="initialMinX" value="0" />
 		<property name="initialMinY" value="0" />
@@ -30,12 +30,10 @@
 	</bean>
 
 	<bean id="pix.roi1" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
-		<property name="deviceName" value="pixium.roi_NDROI" />
-		<!-- <property name="basePVName" value="BL12I-EA-DET-05:ROI1:"/> -->
+		<property name="deviceName" value="pix.roi1_NDROI" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<!-- <property name="basePVName" value="BL12I-EA-DET-05:ROI1:"/> -->
-				<property name="deviceName" value="pixium.roi_NDPluginBase" />
+				<property name="deviceName" value="pix.roi1_NDPluginBase" />
 				<property name="initialArrayPort" value="pix.cam" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialBlockingCallbacks" value="true" />
@@ -51,12 +49,10 @@
 	</bean>
 
 	<bean id="pix.arr" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<!-- <property name="deviceName" value="pix.arr_NDStdArrays" /> -->
-		<property name="basePVName" value="BL12I-EA-DET-05:ARR:"/>
+		<property name="deviceName" value="pix.arr_NDStdArrays" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<!-- <property name="deviceName" value="pix.arr_NDPluginBase" /> -->
-				<property name="basePVName" value="BL12I-EA-DET-05:ARR:"/>
+				<property name="deviceName" value="pix.arr_NDPluginBase" />
 				<property name="initialArrayPort" value="pix.roi1" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -66,10 +62,10 @@
 	</bean>
 
 	<bean id="pix.proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
-		<property name="deviceName" value="pixium.proc_NDProcess" />
+		<property name="deviceName" value="pix.proc_NDProcess" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="deviceName" value="pixium.proc_NDPluginBase" />
+				<property name="deviceName" value="pix.proc_NDPluginBase" />
 				<property name="initialArrayPort" value="pix.cam" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -85,10 +81,10 @@
 	</bean>
 
 	<bean id="pix.stat" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
-		<property name="deviceName" value="pixium.stat_NDStats" />
+		<property name="deviceName" value="pix.stat_NDStats" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="deviceName" value="pixium.stat_NDPluginBase" />
+				<property name="deviceName" value="pix.stat_NDPluginBase" />
 				<property name="initialArrayPort" value="pix.cam" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -98,10 +94,10 @@
 	</bean>
 
 	<bean id="pix.draw" class="gda.device.detector.areadetector.v17.impl.NDOverlayImpl">
-		<property name="deviceName" value="pixium.draw_NDOverlay" />
+		<property name="deviceName" value="pix.draw_NDOverlay" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="deviceName" value="pixium.draw_NDPluginBase" />
+				<property name="deviceName" value="pix.draw_NDPluginBase" />
 				<property name="initialArrayPort" value="pix.cam" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -111,10 +107,10 @@
 	</bean>
 
 	<bean id="pix.tif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="deviceName" value="pixium.tiff_NDFile" />
+		<property name="deviceName" value="pix.tif_NDFile" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="deviceName" value="pixium.tiff_NDPluginBase" />
+				<property name="deviceName" value="pix.tif_NDPluginBase" />
 				<property name="initialArrayPort" value="pix.cam" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -130,12 +126,10 @@
 	</bean>
 
 	<bean id="pix.hdf" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<!-- <property name="deviceName" value="pixium.hdf_NDFileHDF5" /> -->
-		<property name="basePVName" value="BL12I-EA-DET-05:HDF:"/>
+		<property name="deviceName" value="pix.hdf_NDFileHDF5" />
 		<property name="file">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-				<!-- <property name="deviceName" value="pix.hdf_NDFile" /> -->
-				<property name="basePVName" value="BL12I-EA-DET-05:HDF:"/>
+				<property name="deviceName" value="pix.hdf_NDFile" />
 				<property name="pluginBase">
 					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 						<property name="deviceName" value="pix.hdf_NDPluginBase" />
@@ -166,10 +160,10 @@
 	</bean>
 	
 	<bean id="pix.mpeg" class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
-		<property name="deviceName" value="pixium.mpeg_ffmpegStream" />
+		<property name="deviceName" value="pix.mpeg_ffmpegStream" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="deviceName" value="pixium.mpeg_NDPluginBase" />
+				<property name="deviceName" value="pix.mpeg_NDPluginBase" />
 				<property name="initialArrayPort" value="pix.proc" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -182,7 +176,7 @@
 	</bean>
 	
 	<bean id="pixiumcontroller" class="gda.device.detector.pixium.PixiumControllerv17">
-		<property name="deviceName" value="pixium.cam_pixium" />
+		<property name="deviceName" value="pix.cam_pixium" />
 <!-- 		<property name="basePVName" value="BL12I-EA-DET-05:PIX:" /> -->
 		<property name="areaDetector" ref="pix.cam" />
 		<property name="roi" ref="pix.roi1" />
