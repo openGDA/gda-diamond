@@ -15,7 +15,7 @@ import math
 import os
 import sys
 from fast_scan import FastScan
-from gda.jython.ScriptBase import checkForPauses 
+from gda.jython.ScriptBase import checkForPauses
 
 verbose = False
 f = Finder.getInstance()
