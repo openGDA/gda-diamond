@@ -25,7 +25,11 @@ Performs software triggered tomography
 def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection, numberofProjections,
                  isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat, positionOfBaseInBeam):
     
+    steps = {1:0.03, 2:0.06, 4:0.06, 8:0.1}
+    xBin = {1:1, 2:1, 4:2, 8:2}
+    yBin = {1:1, 2:1, 4:2, 8:4}
     updateScriptController("Tomo scan starting")
+<<<<<<< OURS
     print "Description: " + `description`
     print "Sample acquisition time: " + `sampleAcquisitionTime`
     print "flatAcquisitionTime: " + `flatAcquisitionTime`
@@ -38,8 +42,32 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     #scan([ix, 0, 200, 0.2])
     print 'Sample Acq#' + `sampleAcquisitionTime`
     #fscan = FastScan("fscan")
+=======
+    timeDividedAcq = sampleAcquisitionTime * timeDivider
+    pco = f.find("pco")
+    pco.stop();
+    
+    ad = pco.getController().getAreaDetector()
+    ad.setBinX(xBin[desiredResolution])
+    ad.setBinY(yBin[desiredResolution])
+    if verbose:
+        print "Tomo scan starting"
+        print "type : " + `steps[desiredResolution]`
+        print "Description: " + `description`
+        print "Sample acquisition time: " + `sampleAcquisitionTime`
+        print "flatAcquisitionTime: " + `flatAcquisitionTime`
+        print "numberOfFramesPerProjection: " + `numberOfFramesPerProjection`
+        print "numberofProjections: " + `numberofProjections`
+        print "isContinuousScan: " + `isContinuousScan`
+        print "timeDivider: " + `timeDivider`
+        print "positionOfBaseAtFlat:" + `positionOfBaseAtFlat`
+        print "positionOfBaseInBeam: " + `positionOfBaseInBeam`
+        print "desiredResolution: " + `int(desiredResolution)`
+        print 'Sample Acq#' + `sampleAcquisitionTime`
+        print 'Sample Acq Time divided#' + `timeDividedAcq`
+>>>>>>> THEIRS
     fastScan = FastScan('fastScan')
-    tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, sampleAcquisitionTime, 0, 180, 1, 0, 0, 0, 0, 0, [fastScan])
+    tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, steps[desiredResolution], 0, 0, 0, 0, 0, additionalScannables=[fastScan])
     
 '''
 Runs the external program - matlab to evaluate the images collected and provide with resolutions for the motors to move
@@ -48,7 +76,13 @@ def runExternalMatlabForTilt(count):
     lastImageFilename = "p_00017.tif"
     finalImageFullPathName = os.path.join(pwd(), lastImageFilename)
     #matlabCmdName = '/dls_sw/i12/software/gda/config/scripts/tomo/call_matlab.sh'
+<<<<<<< OURS
     matlabCmdName ='/dls_sw/i12/software/tomoTilt/code/release/call_matlab.sh'
+=======
+    matlabCmdName = '/dls_sw/i12/software/tomoTilt/code/release/call_matlab.sh'
+    if verbose:
+        print "Calling matlab:" + matlabCmdName + "(" + 'create_flatfield' + "," + finalImageFullPathName + "," + str(count) + "," + 'true'
+>>>>>>> THEIRS
     print "Calling matlab:" + matlabCmdName + "(" + 'create_flatfield' + "," + finalImageFullPathName + "," + str(count) + "," + 'true'
     updateScriptController("Calling matlab:" + matlabCmdName + "(" + 'create_flatfield' + "," + finalImageFullPathName + "," + str(count) + "," + 'true')
     p = Popen([matlabCmdName, 'create_flatfield', finalImageFullPathName, str(count), 'true'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
@@ -395,7 +429,7 @@ class TomoAlignmentConfigurationManager:
         return self.currentConfigInProgress
         
     def setupTomoScan(self, length, configIds, descriptions, moduleNums, motorMoveMaps, sampleAcquisitionTimes, flatAcquisitionTimes, numberOfFramesPerProjections, numberofProjectionss,
-                 isContinuousScans, desiredResolutions, timeDividers, positionOfBaseAtFlats, positionOfBaseInBeam):
+                 isContinuousScans, desiredResolutions, timeDividers, positionOfBaseAtFlats, positionOfBaseInBeam, tomoAxisRotation):
         if self.currentConfigInProgress != None:
             updateScriptController('Tomography Scan already in progress...')
             print "Tomography Scan already in progress..."
@@ -403,7 +437,7 @@ class TomoAlignmentConfigurationManager:
         self.tomoAlignmentConfigurations.clear()
         for i in range(length):
             t = TomoAlignmentConfiguration(self, configIds[i], descriptions[i], moduleNums[i], motorMoveMaps[i], sampleAcquisitionTimes[i], flatAcquisitionTimes[i], numberOfFramesPerProjections[i], numberofProjectionss[i],
-                 isContinuousScans[i], desiredResolutions[i], timeDividers[i], positionOfBaseAtFlats[i], positionOfBaseInBeam[i])
+                 isContinuousScans[i], desiredResolutions[i], timeDividers[i], positionOfBaseAtFlats[i], positionOfBaseInBeam[i], tomoAxisRotation[i])
             self.tomoAlignmentConfigurations[i] = t
         self.runConfigs()
     
@@ -440,7 +474,7 @@ tomographyConfigurationManager = TomoAlignmentConfigurationManager()
     
 class TomoAlignmentConfiguration:
     def __init__(self, tomographyConfigurationManager, configId, description, moduleNum, motorMoveMap, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection, numberofProjections,
-                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat, positionOfBaseInBeam):
+                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat, positionOfBaseInBeam, tomoAxisRot):
         self.tomographyConfigurationManager = tomographyConfigurationManager
         self.configId = configId
         self.description = description
@@ -456,6 +490,7 @@ class TomoAlignmentConfiguration:
         self.positionOfBaseAtFlat = positionOfBaseAtFlat
         self.positionOfBaseInBeam = positionOfBaseInBeam
         self.configId = configId
+        self.tomoAxisRotation = tomoAxisRot
         self.status = None
         pass
     
