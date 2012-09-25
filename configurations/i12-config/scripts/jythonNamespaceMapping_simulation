@@ -6,9 +6,9 @@
 #tomography_optimizer=beam_optimizer_dummy
 #tomography_detector=dummy_cam
 tomography_optimizer=ix
-tomography_detector=ix
+tomography_detector=pco
 tomography_theta=ss1_theta
 tomography_shutter=eh1shtr
-tomography_translation=ss1_tx
+tomography_translation=ss1_x
 tomography_time=actualTime
 tomography_beammonitor=actualTime
