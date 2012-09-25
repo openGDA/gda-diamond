@@ -26,6 +26,13 @@ import java.util.ArrayList;
 
 import org.eclipse.core.commands.operations.IUndoContext;
 import org.eclipse.core.commands.operations.ObjectUndoContext;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IAction;
@@ -40,7 +47,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -52,11 +58,10 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.operations.RedoActionHandler;
 import org.eclipse.ui.operations.UndoActionHandler;
 import org.eclipse.ui.part.EditorPart;
+import org.eclipse.ui.part.FileEditorInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.beamline.i12.I12BeamlineActivator;
-import uk.ac.gda.beamline.i12.ImageConstants;
 import uk.ac.gda.beamline.i12.editors.LookupTableMultiPageEditor.ColumnLabelProviderCustom;
 
 public class LookupTableEditor extends EditorPart {
@@ -108,7 +113,7 @@ public class LookupTableEditor extends EditorPart {
 		glayout.verticalSpacing = 0;
 		composite.setLayout(glayout);
 
-		Composite buttonsCmp = new Composite(composite, SWT.None);
+		/*Composite buttonsCmp = new Composite(composite, SWT.None);
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		layoutData.heightHint = 40;
 		buttonsCmp.setLayoutData(layoutData);
@@ -121,7 +126,7 @@ public class LookupTableEditor extends EditorPart {
 		Button btnDelRow = new Button(buttonsCmp, SWT.PUSH);
 		btnDelRow.setText("Delete Row");
 		btnDelRow.setImage(I12BeamlineActivator.getDefault().getImageRegistry().get(ImageConstants.IMG_DEL));
-
+*/
 		Composite tvCmp = new Composite(composite, SWT.None);
 		tvCmp.setLayoutData(new GridData(GridData.FILL_BOTH));
 
@@ -310,7 +315,7 @@ public class LookupTableEditor extends EditorPart {
 
 		@Override
 		protected boolean canEdit(Object element) {
-			return true;
+			return false;
 		}
 
 		@Override
