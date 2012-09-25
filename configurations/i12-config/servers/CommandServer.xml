@@ -57,6 +57,14 @@
 		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
 			value="CONFIG" />
 	</bean>
+	
+	<bean id = "lookupTable_config" class="gda.jython.ScriptProject">
+		<constructor-arg index="0"
+			value="${gda.install.git.loc}/gda-dls-beamlines-i12.git/i12/lookupTables" />
+		<constructor-arg index="1" value="Lookup Tables" />
+		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
+			value="CONFIG" />
+	</bean>
 
 	<bean id="command_server" class="gda.jython.JythonServer">
 		<property name="jythonScriptPaths">
@@ -70,6 +78,7 @@
 						<ref bean="scisoft_script_project" />
 						<ref bean="beamline_config_project" />
 						<ref bean="tomography_script_project" />
+						<ref bean="lookupTable_config" />
 					</list>
 				</property>
 				<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
