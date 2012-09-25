@@ -5,14 +5,10 @@ Performs software triggered tomography
 from bisect import bisect_left, bisect_right
 from gda.commandqueue import JythonCommandCommandProvider
 from gda.factory import Finder
-from gda.jython.commands.ScannableCommands import scan
 from gdascripts.messages import handle_messages
-from i12utilities import pwd
-from subprocess import Popen, PIPE, STDOUT
 from time import sleep
 from tomographyScan import tomoScan
 import math
-import os
 import sys
 from fast_scan import FastScan
 from gda.jython.ScriptBase import checkForPauses
