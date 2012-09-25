@@ -12,6 +12,7 @@ import math
 import sys
 from fast_scan import FastScan
 from gda.jython.ScriptBase import checkForPauses
+from i12utilities import setSubdirectory
 
 verbose = False
 f = Finder.getInstance()
@@ -25,10 +26,16 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     steps = {1:0.03, 2:0.06, 4:0.06, 8:0.1}
     xBin = {1:1, 2:1, 4:2, 8:2}
     yBin = {1:1, 2:1, 4:2, 8:4}
+    exposureVsRes = {1:1, 2:1, 4:4, 8:8}
     updateScriptController("Tomo scan starting")
     timeDividedAcq = sampleAcquisitionTime * timeDivider
+    timeDividedAcq = timeDividedAcq/exposureVsRes[desiredResolution]
     pco = f.find("pco")
     pco.stop();
+    #
+    pco.setExternalTriggered(True)
+    #
+    
     
     ad = pco.getController().getAreaDetector()
     ad.setBinX(xBin[desiredResolution])
@@ -49,9 +56,18 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
         print 'Sample Acq#' + `sampleAcquisitionTime`
         print 'Sample Acq Time divided#' + `timeDividedAcq`
     fastScan = FastScan('fastScan')
-    tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, steps[desiredResolution], 0, 0, 0, 0, 0, additionalScannables=[fastScan])
+    tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, steps[desiredResolution], 0, 0, 1, 1, 0, additionalScannables=[fastScan])
     
 
+
+def changeSubDir(subdir):
+    setSubdirectory(subdir)
+    updateScriptController("Subdirectory set to " + subdir)
+    
+def getSubdir():
+    subdir = f.find("GDAMetadata").getMetadataValue("subdirectory")
+    updateScriptController("Subdirectory:" + subdir)
+    
 def updateScriptController(msg):
     scriptController = f.find("tomoAlignmentConfigurationScriptController")
     if scriptController != None:
