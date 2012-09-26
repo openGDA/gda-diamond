@@ -25,7 +25,7 @@
 		<property name="rotationScannable" ref="ss1_theta" />
 		<property name="ss1TxScannable" ref="ss1_tx" />
 		<property name="ss1TzScannable" ref="ss1_tz" />
-		<property name="ss1Y2Scannable" ref="ss1_y1" />
+		<property name="ss1Y2Scannable" ref="ss1_y3" />
 		<property name="sampleHolderScannable" ref="ss1_x" />
 		<property name="ss1RxScannable" ref="ss1_rx" />
 		<property name="ss1RzScannable" ref="ss1_rz" />

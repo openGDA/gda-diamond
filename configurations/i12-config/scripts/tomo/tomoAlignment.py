@@ -14,32 +14,35 @@ from fast_scan import FastScan
 from gda.jython.ScriptBase import checkForPauses
 from i12utilities import setSubdirectory
 
-verbose = False
+verbose = True
 f = Finder.getInstance()
 
 """
 Performs software triggered tomography
 """
 def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection, numberofProjections,
-                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat, positionOfBaseInBeam):
-    
-    steps = {1:0.03, 2:0.06, 4:0.06, 8:0.1}
+                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat=-100.0, positionOfBaseInBeam=0.0):
+    #
+    steps = {1:0.03, 2:0.06, 4:0.06, 8:0.2}
+    ##numprojections = {1:6000, 2:3000, 4:3000, 8:900}
     xBin = {1:1, 2:1, 4:2, 8:2}
-    yBin = {1:1, 2:1, 4:2, 8:4}
-    exposureVsRes = {1:1, 2:1, 4:4, 8:8}
+    yBin = {1:1, 2:1, 4:2, 8:1}
+    exposureVsRes = {1:1, 2:1, 4:4, 8:4}
     updateScriptController("Tomo scan starting")
     timeDividedAcq = sampleAcquisitionTime * timeDivider
-    timeDividedAcq = timeDividedAcq/exposureVsRes[desiredResolution]
+    timeDividedAcq = timeDividedAcq / exposureVsRes[desiredResolution]
     pco = f.find("pco")
     pco.stop();
     #
     pco.setExternalTriggered(True)
     #
-    
-    
     ad = pco.getController().getAreaDetector()
+    
+    cachedBinX = ad.getBinX()
+    cachedBinY = ad.getBinY() 
     ad.setBinX(xBin[desiredResolution])
     ad.setBinY(yBin[desiredResolution])
+    pco.getController().getRoi1().getPlugin
     if verbose:
         print "Tomo scan starting"
         print "type : " + `steps[desiredResolution]`
@@ -56,9 +59,13 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
         print 'Sample Acq#' + `sampleAcquisitionTime`
         print 'Sample Acq Time divided#' + `timeDividedAcq`
     fastScan = FastScan('fastScan')
-    tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, steps[desiredResolution], 0, 0, 1, 1, 0, additionalScannables=[fastScan])
-    
-
+    try:
+        #tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, steps[desiredResolution], 0, 0, 10, 10, 0, additionalScannables=[fastScan])
+        tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, steps[desiredResolution], 0, 0, 10, 10, 0, additionalScannables=[fastScan])
+    finally:
+        ad.setBinX(cachedBinX)
+        ad.setBinY(cachedBinY)
+        print 'tomo scan complete'
 
 def changeSubDir(subdir):
     setSubdirectory(subdir)
