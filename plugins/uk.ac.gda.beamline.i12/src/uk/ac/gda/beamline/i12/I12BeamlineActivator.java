@@ -60,10 +60,4 @@ public class I12BeamlineActivator extends AbstractUIPlugin {
 		return plugin;
 	}
 
-	@Override
-	protected void initializeImageRegistry(ImageRegistry reg) {
-		for (String imgPath : ImageConstants.IMAGES) {
-			reg.put(imgPath, imageDescriptorFromPlugin(PLUGIN_ID, imgPath));
-		}
-	}
 }
