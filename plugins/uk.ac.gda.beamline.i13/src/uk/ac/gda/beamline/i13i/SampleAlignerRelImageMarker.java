@@ -39,6 +39,7 @@ public class SampleAlignerRelImageMarker  implements ImageViewerListener{
 	ImageModeManager imageModeManager;
 	CameraXYScannable cameraXYScannable;
 	DisplayScaleProvider displayScaleProvider;
+	DisplayScaleProvider cameraScaleProvider;
 	ScannableMotionUnits sampleCentringXMotor;
 	ScannableMotionUnits sampleCentringYMotor;
 	ScannableMotionUnits sampleBaseXMotor;
@@ -187,8 +188,8 @@ public class SampleAlignerRelImageMarker  implements ImageViewerListener{
 		}
 		else if(imageModeManager.getMode().getName().equals("CameraStage")){
 			
-			double moveInX = pixelOffset.getEntry(0) / displayScaleProvider.getPixelsPerMMInX();
-			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getPixelsPerMMInX();
+			double moveInX = pixelOffset.getEntry(0) / cameraScaleProvider.getPixelsPerMMInX();
+			double moveInY = -pixelOffset.getEntry(1) / cameraScaleProvider.getPixelsPerMMInX();
 
 			try {
 				cameraStageXMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(cameraStageXMotor)[0]+moveInX);
@@ -200,6 +201,14 @@ public class SampleAlignerRelImageMarker  implements ImageViewerListener{
 		}
 
 		
+	}
+
+	public DisplayScaleProvider getCameraScaleProvider() {
+		return cameraScaleProvider;
+	}
+
+	public void setCameraScaleProvider(DisplayScaleProvider cameraScaleProvider) {
+		this.cameraScaleProvider = cameraScaleProvider;
 	}
 	
 

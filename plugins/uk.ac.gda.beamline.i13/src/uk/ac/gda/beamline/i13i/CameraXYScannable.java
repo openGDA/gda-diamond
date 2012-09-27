@@ -47,7 +47,7 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 	double offsetY=0.;
 	Scannable cameraStageXScannable;
 	Scannable cameraStageYScannable;
-	DisplayScaleProvider displayScaleProvider;
+	DisplayScaleProvider cameraScaleProvider;
 	private IObserver observer;
 
 	
@@ -102,7 +102,7 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 				};
 				cameraStageXScannable.addIObserver(observer);
 				cameraStageYScannable.addIObserver(observer);
-				displayScaleProvider.addIObserver(observer);
+				cameraScaleProvider.addIObserver(observer);
 			}
 		} catch (Exception e) {
 			throw new FactoryException("Error in configure for "+getName(), e);
@@ -113,23 +113,23 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 	int getRotationAxisX() throws DeviceException {
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
 		double dist = offsetX+x2;
-		double a = dist * displayScaleProvider.getPixelsPerMMInX();
+		double a = dist * cameraScaleProvider.getPixelsPerMMInX();
 		return (int) Math.round(a);
 	}
 	int getRotationAxisY() throws DeviceException {
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageYScannable)[0];
 		double dist = offsetY+x2;
-		double a = dist * displayScaleProvider.getPixelsPerMMInY();
+		double a = dist * cameraScaleProvider.getPixelsPerMMInY();
 		return (int) Math.round(a);
 	}
 
 	double getOffsetXForRotationAxisX(double  array) throws DeviceException {
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
-		return (array/displayScaleProvider.getPixelsPerMMInX() - x2);
+		return (array/cameraScaleProvider.getPixelsPerMMInX() - x2);
 	}
 	double getOffsetYForRotationAxisX(double  array) throws DeviceException {
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageYScannable)[0];
-		return (array/displayScaleProvider.getPixelsPerMMInY() - x2);
+		return (array/cameraScaleProvider.getPixelsPerMMInY() - x2);
 	}
 	
 	
@@ -142,7 +142,7 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 		if(cameraStageYScannable == null){
 			throw new Exception("cameraStageYScannable == null");
 		}
-		if(displayScaleProvider == null){
+		if(cameraScaleProvider == null){
 			throw new Exception("displayScaleProvider == null");
 		}
 	}
@@ -202,13 +202,14 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 	}
 
 
-	public DisplayScaleProvider getDisplayScaleProvider() {
-		return displayScaleProvider;
+	public DisplayScaleProvider getCameraScaleProvider() {
+		return cameraScaleProvider;
 	}
 
 
-	public void setDisplayScaleProvider(DisplayScaleProvider displayScaleProvider) {
-		this.displayScaleProvider = displayScaleProvider;
+	public void setCameraScaleProvider(DisplayScaleProvider cameraScaleProvider) {
+		this.cameraScaleProvider = cameraScaleProvider;
 	}
+
 
 }

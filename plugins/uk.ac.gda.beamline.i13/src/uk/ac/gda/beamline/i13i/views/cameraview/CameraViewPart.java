@@ -399,6 +399,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			}
 		};
 		moveOnClickAction.setChecked(false);// do not
+		moveOnClickAction.setToolTipText("In Base Mode - move rot axis to click point in X");
 
 		moveRelImageMarkerAction = new Action("Move On Click to Image Marker", IAction.AS_CHECK_BOX) {
 			@Override

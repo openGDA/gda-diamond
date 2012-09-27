@@ -38,6 +38,7 @@ public class SampleAligner  implements ImageViewerListener{
 	ImageModeManager imageModeManager;
 	RotationAxisXScannable rotationAxisXScannable;
 	DisplayScaleProvider displayScaleProvider;
+	DisplayScaleProvider cameraScaleProvider;
 	ScannableMotionUnits sampleCentringXMotor;
 	ScannableMotionUnits sampleCentringYMotor;
 	ScannableMotionUnits sampleBaseXMotor;
@@ -174,8 +175,8 @@ public class SampleAligner  implements ImageViewerListener{
 		}
 		else if(imageModeManager.getMode().getName().equals("SampleBaseStage")){
 			
-			double moveInX = -pixelOffset.getEntry(0) / displayScaleProvider.getPixelsPerMMInX();
-//			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getPixelsPerMMInY();
+			double moveInX = pixelOffset.getEntry(0) / displayScaleProvider.getPixelsPerMMInX();
+			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getPixelsPerMMInY();
 
 			try {
 				sampleBaseXMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(sampleBaseXMotor)[0]+moveInX);
@@ -187,7 +188,7 @@ public class SampleAligner  implements ImageViewerListener{
 		}
 		else if(imageModeManager.getMode().getName().equals("CameraStage")){
 			
-			double moveInX = pixelOffset.getEntry(0) / displayScaleProvider.getPixelsPerMMInX();
+			double moveInX = pixelOffset.getEntry(0) / cameraScaleProvider.getPixelsPerMMInX();
 //			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getPixelsPerMMInX();
 
 			try {
@@ -202,5 +203,11 @@ public class SampleAligner  implements ImageViewerListener{
 		
 	}
 	
+	public DisplayScaleProvider getCameraScaleProvider() {
+		return cameraScaleProvider;
+	}
 
+	public void setCameraScaleProvider(DisplayScaleProvider cameraScaleProvider) {
+		this.cameraScaleProvider = cameraScaleProvider;
+	}
 }

@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 public class RotationAxisXScannable extends ScannableBase implements InitializingBean{
-	private static final Logger logger = LoggerFactory.getLogger(RotationAxisXScannable.class);
+//	private static final Logger logger = LoggerFactory.getLogger(RotationAxisXScannable.class);
 	
 	
 	private FileConfiguration configuration;
@@ -48,6 +48,7 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 	Scannable sampleStageXScannable;
 	Scannable cameraStageXScannable;
 	DisplayScaleProvider displayScaleProvider;
+	DisplayScaleProvider cameraScaleProvider;
 	private IObserver observer;
 
 	
@@ -99,6 +100,8 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 				sampleStageXScannable.addIObserver(observer);
 				cameraStageXScannable.addIObserver(observer);
 				displayScaleProvider.addIObserver(observer);
+				cameraScaleProvider.addIObserver(observer);
+				
 			}
 		} catch (Exception e) {
 			throw new FactoryException("Error in configure for "+getName(), e);
@@ -109,15 +112,14 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 	int getRotationAxisX() throws DeviceException {
 		double x1 = ScannableUtils.getCurrentPositionArray(sampleStageXScannable)[0];
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
-		double dist = offset+x1-x2;
-		double a = dist * displayScaleProvider.getPixelsPerMMInX();
-		return (int) Math.round(a);
+		double dist = (offset-x1)*displayScaleProvider.getPixelsPerMMInX()-x2*cameraScaleProvider.getPixelsPerMMInX();
+		return (int) Math.round(dist);
 	}
 
 	double getOffsetForRotationAxisX(double  array) throws DeviceException {
 		double x1 = ScannableUtils.getCurrentPositionArray(sampleStageXScannable)[0];
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
-		return (array/displayScaleProvider.getPixelsPerMMInX() - (x1-x2));
+		return (array + x2*cameraScaleProvider.getPixelsPerMMInX())/displayScaleProvider.getPixelsPerMMInX() + x1;
 	}
 	
 	
@@ -183,6 +185,16 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 
 	public void setDisplayScaleProvider(DisplayScaleProvider displayScaleProvider) {
 		this.displayScaleProvider = displayScaleProvider;
+	}
+
+
+	public DisplayScaleProvider getCameraScaleProvider() {
+		return cameraScaleProvider;
+	}
+
+
+	public void setCameraScaleProvider(DisplayScaleProvider cameraScaleProvider) {
+		this.cameraScaleProvider = cameraScaleProvider;
 	}
 
 }
