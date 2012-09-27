@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: i12 Plug-in
 Bundle-SymbolicName: uk.ac.gda.beamline.i12;singleton:=true
-Bundle-Version: 8.13.0
+Bundle-Version: 8.26.0
 Bundle-Activator: uk.ac.gda.beamline.i12.I12BeamlineActivator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

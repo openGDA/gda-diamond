@@ -5,30 +5,30 @@ Performs software triggered tomography
 from bisect import bisect_left, bisect_right
 from gda.commandqueue import JythonCommandCommandProvider
 from gda.factory import Finder
-from gda.jython.commands.ScannableCommands import scan
 from gdascripts.messages import handle_messages
-from i12utilities import pwd
-from subprocess import Popen, PIPE, STDOUT
 from time import sleep
 from tomographyScan import tomoScan
 import math
-import os
 import sys
 from fast_scan import FastScan
-from gda.jython.ScriptBase import checkForPauses 
+from gda.jython.ScriptBase import checkForPauses
+from i12utilities import setSubdirectory
 
 verbose = False
+
 f = Finder.getInstance()
 
 """
 Performs software triggered tomography
 """
 def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection, numberofProjections,
-                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat, positionOfBaseInBeam):
-    
-    steps = {1:0.03, 2:0.06, 4:0.06, 8:0.1}
+                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat=-100.0, positionOfBaseInBeam=0.0):
+    #
+    steps = {1:0.03, 2:0.06, 4:0.06, 8:0.2}
+    ##numprojections = {1:6000, 2:3000, 4:3000, 8:900}
     xBin = {1:1, 2:1, 4:2, 8:2}
-    yBin = {1:1, 2:1, 4:2, 8:4}
+    yBin = {1:1, 2:1, 4:2, 8:1}
+    exposureVsRes = {1:1, 2:1, 4:4, 8:4}
     updateScriptController("Tomo scan starting")
     timeDividedAcq = sampleAcquisitionTime * timeDivider
     pco = f.find("pco")
@@ -54,110 +54,54 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
         print 'Sample Acq Time divided#' + `timeDividedAcq`
     fastScan = FastScan('fastScan')
     tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, steps[desiredResolution], 0, 0, 0, 0, 0, additionalScannables=[fastScan])
-    
-'''
-Runs the external program - matlab to evaluate the images collected and provide with resolutions for the motors to move
-'''
-def runExternalMatlabForTilt(count):
-    lastImageFilename = "p_00017.tif"
-    finalImageFullPathName = os.path.join(pwd(), lastImageFilename)
-    #matlabCmdName = '/dls_sw/i12/software/gda/config/scripts/tomo/call_matlab.sh'
-    matlabCmdName = '/dls_sw/i12/software/tomoTilt/code/release/call_matlab.sh'
+    timeDividedAcq = timeDividedAcq / exposureVsRes[desiredResolution]
+    pco = f.find("pco")
+    pco.stop();
+    #
+    pco.setExternalTriggered(True)
+    #
+    ad = pco.getController().getAreaDetector()
+    cachedBinX = ad.getBinX()
+    cachedBinY = ad.getBinY() 
+    ad.setBinX(xBin[desiredResolution])
+    ad.setBinY(yBin[desiredResolution])
+    pco.getController().getRoi1().getPlugin
     if verbose:
-        print "Calling matlab:" + matlabCmdName + "(" + 'create_flatfield' + "," + finalImageFullPathName + "," + str(count) + "," + 'true'
-    print "Calling matlab:" + matlabCmdName + "(" + 'create_flatfield' + "," + finalImageFullPathName + "," + str(count) + "," + 'true'
-    updateScriptController("Calling matlab:" + matlabCmdName + "(" + 'create_flatfield' + "," + finalImageFullPathName + "," + str(count) + "," + 'true')
-    p = Popen([matlabCmdName, 'create_flatfield', finalImageFullPathName, str(count), 'true'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
-    result = ()
-    for line in p.stdout:
-        if line.__len__() >= 7 and line[0:7] == 'output=':
-            splits = line[7:].rstrip().split(',')
-            splitsStripped = []
-            for x in splits: splitsStripped.append(x.strip())
-            if (splits[0] == 'NaN' or splits[1] == 'NaN'):
-                raise Exception("Matlab code hasn't executed correctly - returned no values to move motors")
-            t2 = [float(x) for x in splitsStripped]
-            result = t2[0], t2[1]
-        if verbose:
-            print 'matlab>' + line.rstrip()
-        updateScriptController("matlab>" + line.rstrip())
-    p.wait()
-    return result
+        print "Tomo scan starting"
+        print "type : " + `steps[desiredResolution]`
+        print "Description: " + `description`
+        print "Sample acquisition time: " + `sampleAcquisitionTime`
+        print "flatAcquisitionTime: " + `flatAcquisitionTime`
+        print "numberOfFramesPerProjection: " + `numberOfFramesPerProjection`
+        print "numberofProjections: " + `numberofProjections`
+        print "isContinuousScan: " + `isContinuousScan`
+        print "timeDivider: " + `timeDivider`
+        print "positionOfBaseAtFlat:" + `positionOfBaseAtFlat`
+        print "positionOfBaseInBeam: " + `positionOfBaseInBeam`
+        print "desiredResolution: " + `int(desiredResolution)`
+        print 'Sample Acq#' + `sampleAcquisitionTime`
+        print 'Sample Acq Time divided#' + `timeDividedAcq`
+    fastScan = FastScan('fastScan')
+    try:
+        #tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, steps[desiredResolution], 0, 0, 10, 10, 0, additionalScannables=[fastScan])
+        tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, steps[desiredResolution], 0, 0, 10, 10, 0, additionalScannables=[fastScan])
+    finally:
+        ad.setBinX(cachedBinX)
+        ad.setBinY(cachedBinY)
+        print 'tomo scan complete'
 
+def changeSubDir(subdir):
+    setSubdirectory(subdir)
+    updateScriptController("Subdirectory set to " + subdir)
+    
+def getSubdir():
+    subdir = f.find("GDAMetadata").getMetadataValue("subdirectory")
+    updateScriptController("Subdirectory:" + subdir)
+    
 def updateScriptController(msg):
     scriptController = f.find("tomoAlignmentConfigurationScriptController")
     if scriptController != None:
         scriptController.update(scriptController, msg)
-
-def doTiltAlignment(module, exposureTime):
-    tiltBallLookupTable = f.find("tiltBallRoiLut")
-    currSubDir = f.find("GDAMetadata").getMetadataValue("subdirectory")
-    ss1_tx = f.find("ss1_tx")
-    ss1_theta = f.find("ss1_theta")
-    pco = f.find('pco')
-    '''Set PCO external triggered to False'''
-    isExternalTriggered = pco.isExternalTriggered()
-    pco.setExternalTriggered(False)
-    ss1_rz = f.find('ss1_rz')
-    ss1_rx = f.find('ss1_rx')
-    currSs1TxPos = ss1_tx.getPosition() 
-    txOffset = tiltBallLookupTable.lookupValue(module, "balloffset")
-    pcoTomography = f.find("pcoTomography")
-    pcoTomography.abort()
-    try:
-        minY = tiltBallLookupTable.lookupValue(module, "minY")
-        maxY = tiltBallLookupTable.lookupValue(module, "maxY")
-        minX = tiltBallLookupTable.lookupValue(module, "minX")
-        maxX = tiltBallLookupTable.lookupValue(module, "maxX")
-        if verbose:
-            print 'Setting camera for tilt'
-        pcoTomography.setupForTilt(int(minY), int(maxY), int(minX), int(maxX))
-        updateScriptController("Camera setup for tilt")
-        if verbose:
-            print 'Moving ss1_tx to ' + `currSs1TxPos + txOffset`
-        updateScriptController("Moving ss1_tx from: " + `round(currSs1TxPos, 3)` + " to: " + `round(currSs1TxPos + txOffset, 3)`)
-        ss1_tx.moveTo(currSs1TxPos + txOffset)
-        f.find("GDAMetadata").setMetadataValue("subdirectory", "tmp")
-        if verbose:
-            print 'Scanning Theta with exposure time (1/2) ' + `exposureTime`
-        updateScriptController("Preparing to scan")
-        scan([ss1_theta, 0, 340, 20, pco , `exposureTime`])
-        updateScriptController("First Scan Complete")
-        firstScanFolder = str(pwd())
-        updateScriptController("Calling matlab analysis")
-        motors_to_move_for_tilt = runExternalMatlabForTilt(1)
-        if verbose:
-            print 'Moving ss1_rz from ' + `ss1_rz.getPosition()` + ' by ' + `motors_to_move_for_tilt[0]`
-        updateScriptController('Moving ss1_rz from ' + `round(ss1_rz.getPosition(), 3)` + ' by ' + `round(motors_to_move_for_tilt[0] , 3)`)
-        if verbose:
-            print 'Moving ss1_rx from ' + `ss1_rx.getPosition()` + ' by ' + `motors_to_move_for_tilt[1]`
-        updateScriptController('Moving ss1_rx from ' + `round(ss1_rx.getPosition(), 3)` + ' by ' + `round(motors_to_move_for_tilt[1], 3)`)
-        ss1_rz.asynchronousMoveTo(ss1_rz.getPosition() - motors_to_move_for_tilt[0])
-        ss1_rx.asynchronousMoveTo(ss1_rx.getPosition() - motors_to_move_for_tilt[1])
-        while ss1_rz.isBusy() or ss1_rx.isBusy():
-            updateScriptController("ss1_rz :" + `round(ss1_rz.getPosition(), 3)` + "  ss1_rx:" + `round(ss1_rx.getPosition(), 3)`)
-            sleep(2)
-        print 'Scanning Theta with exposure time (2/2) ' + `exposureTime`
-        updateScriptController("Preparing to scan (2/2) with exposure time " + `exposureTime`)
-        scan([ss1_theta, 0, 340, 20, pco , `exposureTime`])
-        secondScanFolder = str(pwd())
-        runExternalMatlabForTilt(2)
-    except:
-        exceptionType, exception, traceback = sys.exc_info()
-        handle_messages.log(None, "Problem while doing tilt alignment", exceptionType, exception, traceback, False)
-        if verbose:
-            print "Problem while doing tilt alignment", exception
-        raise exception
-    finally:
-        f.find("GDAMetadata").setMetadataValue("subdirectory", currSubDir)
-        if ss1_tx.getPosition != currSs1TxPos:
-            ss1_tx.moveTo(currSs1TxPos)
-        pco.setExternalTriggered(isExternalTriggered)
-        pcoTomography.resetAfterTiltToInitialValues()
-    if verbose:
-        print 'Tomo tilt complete'
-        print "TiltReturn:" + firstScanFolder + "," + secondScanFolder
-    updateScriptController("TiltReturn:" + firstScanFolder + "," + secondScanFolder)
 
 def moveTomoAlignmentMotors(motorMoveMap):
     updateScriptController("Moving tomo alignment motors")

@@ -25,15 +25,12 @@
          id="uk.ac.gda.dal.feature"
          version="0.0.0"/>
 
-   <plugin
-         id="uk.ac.gda.beamline.i12"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+   <includes
+         id="uk.ac.gda.client.tomo.feature"
+         version="0.0.0"/>
 
    <plugin
-         id="uk.ac.gda.client.tomo"
+         id="uk.ac.gda.beamline.i12"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -118,41 +115,6 @@
 
    <plugin
          id="uk.ac.gda.swingclient"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.tomography"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.nebula.widgets.xviewer"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.nebula.widgets.calendarcombo"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.nebula.widgets.tablecombo"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.nebula.widgets.grid"
          download-size="0"
          install-size="0"
          version="0.0.0"
