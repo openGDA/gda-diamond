@@ -3,6 +3,9 @@
 #identify install folder and JAVA_HOME
 source /dls_sw/i13/etc/i13_profile.sh
 
+. /usr/share/Modules/init/bash
+module load java/gda
+
 #this is needed to ensure the acls work properly
 umask 0002
 

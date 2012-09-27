@@ -188,7 +188,7 @@ public class SampleAlignerRelImageMarker  implements ImageViewerListener{
 		}
 		else if(imageModeManager.getMode().getName().equals("CameraStage")){
 			
-			double moveInX = pixelOffset.getEntry(0) / cameraScaleProvider.getPixelsPerMMInX();
+			double moveInX =-pixelOffset.getEntry(0) / cameraScaleProvider.getPixelsPerMMInX();
 			double moveInY = -pixelOffset.getEntry(1) / cameraScaleProvider.getPixelsPerMMInX();
 
 			try {

@@ -568,7 +568,9 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 					monitor.beginTask(title, 100);
 
 					try {
-						InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
+						String evaluateCommand = InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
+						if(evaluateCommand ==null)
+							logger.error("Error setting exposure using command:'" + cmd +"'. See server log for details");
 					} catch (Exception e) {
 						logger.error("Error in " + title, e);
 					}
@@ -715,6 +717,15 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		/*
 		 * get data and send to histogram code
 		 */
+		//if not enabled enable and wait and monitor frame
+		NDPluginBase arrayBase = cameraConfig.getNdArray().getPluginBase();
+		boolean arraysEnabled = arrayBase.isCallbacksEnabled_RBV();
+		if (!arraysEnabled){
+			arrayBase.enableCallbacks();	
+			double acquireTime = cameraConfig.getAdBase().getAcquireTime_RBV();
+			Thread.sleep((long) (acquireTime*2*1000));//ensure a frame is taken
+		}
+		
 		int arraySize0_RBV = cameraConfig.getNdArray().getPluginBase().getArraySize0_RBV();
 		int arraySize1_RBV = cameraConfig.getNdArray().getPluginBase().getArraySize1_RBV();
 		int expectedNumPixels = arraySize0_RBV * arraySize1_RBV;
@@ -723,6 +734,8 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		// as only 14 bits we can just use shorts
 		short[] shortArrayData = cameraConfig.getNdArray().getShortArrayData(expectedNumPixels);
 
+		if(!arraysEnabled)
+			arrayBase.disableCallbacks();		
 		int cd[] = new int[expectedNumPixels];
 		for (int i = 0; i < expectedNumPixels; i++) {
 			cd[i] = (shortArrayData[i] & 0xffff);
