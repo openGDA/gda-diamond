@@ -13,6 +13,7 @@ import sys
 from fast_scan import FastScan
 from gda.jython.ScriptBase import checkForPauses
 from i12utilities import setSubdirectory
+from gdascripts.configuration.properties.localProperties import LocalProperties
 
 verbose = True
 f = Finder.getInstance()
@@ -22,8 +23,9 @@ Performs software triggered tomography
 """
 def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection, numberofProjections,
                  isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat=-100.0, positionOfBaseInBeam=0.0):
-    
     #
+    if verbose:
+        print "About to start tomography scan"
     steps = {1:0.03, 2:0.06, 4:0.06, 8:0.2}
     ##numprojections = {1:6000, 2:3000, 4:3000, 8:900}
     xBin = {1:1, 2:1, 4:2, 8:2}
@@ -34,8 +36,10 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     timeDividedAcq = timeDividedAcq / exposureVsRes[desiredResolution]
     pco = f.find("pco")
     pco.stop();
-    #
-    pco.setExternalTriggered(True)
+    
+    pco.setExternalTriggered(False)
+    if verbose:
+        print "pco external triggered:"+`pco.isExternalTriggered()`
     #
     ad = pco.getController().getAreaDetector()
     
@@ -43,7 +47,6 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     cachedBinY = ad.getBinY() 
     ad.setBinX(xBin[desiredResolution])
     ad.setBinY(yBin[desiredResolution])
-    pco.getController().getRoi1().getPlugin
     if verbose:
         print "Tomo scan starting"
         print "type : " + `steps[desiredResolution]`
@@ -66,7 +69,6 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     finally:
         ad.setBinX(cachedBinX)
         ad.setBinY(cachedBinY)
-        print 'tomo scan complete'
 
 def changeSubDir(subdir):
     setSubdirectory(subdir)
@@ -434,15 +436,15 @@ class TomoAlignmentConfiguration:
             self.status = "Running"
             self.tomographyConfigurationManager.setConfigRunning(self.configId)
             if verbose:
-                print 'Aligning module'
+                print 'Attempting to move into requested module'
             checkForPauses()
             moveToModule(self.moduleNum)
             checkForPauses()
             if verbose:
-                print 'Aligning alignment motors'
+                print 'Aligning cam stage and sample stage motors'
             moveTomoAlignmentMotors(self.motorMoveMap)
             if verbose:
-                print 'Tomography scan'
+                print 'All motors in place - starting tomography scan'
             checkForPauses()
             tomoScani12(self.description,
                         self.sampleAcquisitionTime,
