@@ -22,6 +22,7 @@ Performs software triggered tomography
 """
 def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection, numberofProjections,
                  isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat=-100.0, positionOfBaseInBeam=0.0):
+    
     #
     steps = {1:0.03, 2:0.06, 4:0.06, 8:0.2}
     ##numprojections = {1:6000, 2:3000, 4:3000, 8:900}
@@ -82,17 +83,34 @@ def updateScriptController(msg):
 
 def moveTomoAlignmentMotors(motorMoveMap):
     updateScriptController("Moving tomo alignment motors")
-    for motor, position in motorMoveMap.iteritems():
-        checkForPauses()
-        f.find(motor).asynchronousMoveTo(position)
-        
-    for motor, position in motorMoveMap.iteritems():
-        m = f.find(motor)
-        while m.isBusy():
-            updateScriptController("Aligning Tomo motors:" + m.name + ": " + `round(m.position, 2)`)
-            sleep(5)
-    print f.find("ss1_tx").isBusy()
-    
+    if verbose:
+        print 'moveTomoAlignmentMotors'
+    try:
+        for motor, position in motorMoveMap.iteritems():
+            checkForPauses()
+            try:
+                f.find(motor).asynchronousMoveTo(position)
+            except:
+                exceptionType, exception, traceback = sys.exc_info()
+                if verbose:
+                    print "Problem moving tomo alignment motors" + `exception`
+                updateScriptController(exception)
+        for motor, position in motorMoveMap.iteritems():
+            m = f.find(motor)
+            while m.isBusy():
+                updateScriptController("Aligning Tomo motors:" + m.name + ": " + `round(m.position, 2)`)
+                if verbose:
+                    print 'waiting for motor '+`m.getName()`
+                sleep(5)
+        if verbose:
+            print "is ss1_tx busy:" +`f.find("ss1_tx").isBusy()`
+            print 'motor moving done'
+    except:
+        exceptionType, exception, traceback = sys.exc_info()
+        if verbose:
+            print "Problem moving tomo alignment motors" + `exception`
+        updateScriptController(exception)
+
         
 def getModule():
     cam1_x = f.find("cam1_x")
@@ -419,9 +437,9 @@ class TomoAlignmentConfiguration:
                 print 'Aligning module'
             checkForPauses()
             moveToModule(self.moduleNum)
+            checkForPauses()
             if verbose:
                 print 'Aligning alignment motors'
-            checkForPauses()
             moveTomoAlignmentMotors(self.motorMoveMap)
             if verbose:
                 print 'Tomography scan'

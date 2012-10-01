@@ -17,7 +17,7 @@
 	<bean id="tomoConfigResourceHandler"
 		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TomoConfigResourceHandler">
 		<property name="fileLocation"
-			value="${gda.config}/var/tomoConfiguration.tomoparameters" />
+			value="${gda.var}/tomoConfiguration.tomoparameters" />
 	</bean>
 
 	<bean id="sampleStagetMotorsHandler"
