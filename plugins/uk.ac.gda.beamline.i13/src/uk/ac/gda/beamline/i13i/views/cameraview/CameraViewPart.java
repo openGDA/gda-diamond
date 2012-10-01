@@ -35,7 +35,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealVector;
-import org.apache.derby.impl.sql.execute.OnceResultSet;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
@@ -226,12 +225,6 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 					} catch (DeviceException e) {
 						logger.error("Error processing imageFinished", e);
 					}
-				} else if (moveRelImageMarkerEnabled) {
-					try {
-						cameraConfig.getImageViewerListener2().imageFinished(event, cameraComposite.getViewer());
-					} catch (DeviceException e) {
-						logger.error("Error processing imageFinished", e);
-					}
 				}
 
 			}
@@ -290,6 +283,17 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 					autoBrightness(true);
 				} catch (Exception e) {
 					logger.error("Error performing auto-exposure", e);
+				}
+			}
+		};
+
+		Action autoCentreAction = new Action("Auto-Centre") {
+			@Override
+			public void run() {
+				try {
+					autoCentre();
+				} catch (Exception e) {
+					logger.error("Error performing auto-centre", e);
 				}
 			}
 		};
@@ -391,7 +395,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		};
 		imageKeyAction.setChecked(false);// do not
 
-		moveOnClickAction = new Action("Move On Click to Rotation Axis", IAction.AS_CHECK_BOX) {
+		moveOnClickAction = new Action("Move Sample On Click", IAction.AS_CHECK_BOX) {
 			@Override
 			public void run() {
 				// this runs after the state has been changed
@@ -399,22 +403,13 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			}
 		};
 		moveOnClickAction.setChecked(false);// do not
-		moveOnClickAction.setToolTipText("In Base Mode - move rot axis to click point in X");
 
-		moveRelImageMarkerAction = new Action("Move On Click to Image Marker", IAction.AS_CHECK_BOX) {
-			@Override
-			public void run() {
-				// this runs after the state has been changed
-				toggleMoveRelImageMarkerClick(isChecked());
-			}
-		};
-		moveRelImageMarkerAction.setChecked(false);// do not
 
 		dropDownMenu.add(imageKeyAction);
 		dropDownMenu.add(moveOnClickAction);
-		dropDownMenu.add(moveRelImageMarkerAction);
 		dropDownMenu.add(beamScaleAction);
 		IToolBarManager toolBar = actionBars.getToolBarManager();
+		toolBar.add(autoCentreAction);
 		toolBar.add(autoExposureAction);
 		toolBar.add(setExposureTime);
 		toolBar.add(autoBrightnessAction);
@@ -486,17 +481,8 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 	protected void toggleMoveOnClick(boolean checked) {
 		moveOnClickEnabled = checked;
-		if (checked)
-			moveRelImageMarkerAction.setChecked(false);
-
 	}
 
-	protected void toggleMoveRelImageMarkerClick(boolean checked) {
-		moveRelImageMarkerEnabled = checked;
-		if (checked)
-			moveOnClickAction.setChecked(false);
-
-	}
 	
 	private void showRotationAxisFromNonUIThread(final Action rotationAxisAction) {
 		if (rotationAxisAction.isChecked()) {
@@ -713,6 +699,28 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 	}
 
+	protected void autoCentre() throws Exception {
+
+		ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
+		pd.run(true /* fork */, true /* cancelable */, new IRunnableWithProgress() {
+			@Override
+			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+				String title = "Auto-centring. Running command '" + cameraConfig.getAutoCentreCmd() + "'";
+
+				monitor.beginTask(title, 100);
+
+				try {
+					InterfaceProvider.getCommandRunner().evaluateCommand(cameraConfig.getAutoCentreCmd());
+				} catch (Exception e) {
+					logger.error("Error in " + title, e);
+				}
+
+				monitor.done();
+			}
+		});
+
+	}
+
 	private AbstractDataset getArrayData() throws Exception {
 		/*
 		 * get data and send to histogram code
@@ -852,8 +860,6 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 	}
 
 	private boolean layoutReset = false;
-
-	private Action moveRelImageMarkerAction;
 
 	private Action moveOnClickAction;
 

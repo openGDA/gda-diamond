@@ -32,9 +32,9 @@ public interface CameraViewPartConfig {
 	NDProcess getNdProcess();
 	FfmpegStream getFfmpegStream();
 	String getSetExposureTimeCmd();
+	String getAutoCentreCmd();
 	BeamCenterProvider getBeamCenterProvider();
 	ImageViewerListener getImageViewerListener();
-	ImageViewerListener getImageViewerListener2();
 	int getfFMpegImgWidthRequired();
 	int getfFMpegImgHeightRequired();
 	Scannable getRotationAxisXScannable();

@@ -1,4 +1,7 @@
 from gda.factory import Finder
+import sys
+from gdascripts.parameters import beamline_parameters
+from gda.jython import InterfaceProvider
 class TomoDet():
     def __getController(self, name):
         finder = Finder.getInstance()
@@ -55,4 +58,12 @@ class TomoDet():
         self.pco1_autoContinuousTrigger.collectData()
         
         return True
+    
+    def autoCentre(self):
+        print "Auto-Centre"
+        jns = beamline_parameters.JythonNameSpaceMapping(InterfaceProvider.getJythonNamespace())
+        cameraXYScannable = jns.cameraXYScannable
+        cameraXYScannable.autoCentre(2004, 1336)
+        rotationAxisXScannable = jns.rotationAxisXScannable
+        rotationAxisXScannable.autoCentre(2004)
     

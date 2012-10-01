@@ -24,7 +24,11 @@ import gda.device.scannable.ScannableBase;
 import gda.device.scannable.ScannablePositionChangeEvent;
 import gda.device.scannable.ScannableStatus;
 import gda.device.scannable.ScannableUtils;
+import gda.device.scannable.corba.impl.ScannableAdapter;
+import gda.device.scannable.corba.impl.ScannableImpl;
 import gda.factory.FactoryException;
+import gda.factory.corba.util.CorbaAdapterClass;
+import gda.factory.corba.util.CorbaImplClass;
 import gda.observable.IObserver;
 import gda.util.persistence.LocalParameters;
 
@@ -34,6 +38,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
+@CorbaImplClass(ScannableImpl.class)
+@CorbaAdapterClass(ScannableAdapter.class)
 public class RotationAxisXScannable extends ScannableBase implements InitializingBean{
 //	private static final Logger logger = LoggerFactory.getLogger(RotationAxisXScannable.class);
 	
@@ -108,7 +114,15 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 		}
 		
 	}
-
+	public void autoCentre(double pixelsX) throws DeviceException, InterruptedException{
+		double x1 = ScannableUtils.getCurrentPositionArray(sampleStageXScannable)[0];
+		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0]; 
+		double move = offset - pixelsX/displayScaleProvider.getPixelsPerMMInX() -x2;
+		Double.valueOf(move);
+		sampleStageXScannable.asynchronousMoveTo(move);
+		sampleStageXScannable.waitWhileBusy();
+		
+	}
 	int getRotationAxisX() throws DeviceException {
 		double x1 = ScannableUtils.getCurrentPositionArray(sampleStageXScannable)[0];
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];

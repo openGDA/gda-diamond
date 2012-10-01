@@ -10,8 +10,6 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-	<corba:import namespace="i13" names="lensScannable, rotationAxisXScannable, cameraXYScannable" />
-
 	<bean id="displayScaleProvider" class="uk.ac.gda.beamline.i13i.SelectableDisplayScaleProvider">
 		<property name="keyScannable" ref="lensScannable" />
 		<property name="providers">
@@ -31,12 +29,8 @@
 			</util:list>
 		</property>
 	</bean>
-<!-- 	<bean id="cameraScaleProvider" class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-		<property name="pixelsPerMMInX" value="111" />
-		<property name="pixelsPerMMInY" value="111" />
-	</bean>
- -->
-<!-- 	<bean id="rotationAxisXScannable" class="uk.ac.gda.beamline.i13i.RotationAxisXScannable">
+
+	<bean id="rotationAxisXScannable" class="uk.ac.gda.beamline.i13i.RotationAxisXScannable">
 		<property name="sampleStageXScannable" ref="ss1_X" />
 		<property name="cameraStageXScannable" ref="cs1_x" />
 		<property name="displayScaleProvider" ref="displayScaleProvider" />
@@ -47,12 +41,11 @@
 		<property name="cameraStageXScannable" ref="cs1_x" />
 		<property name="cameraStageYScannable" ref="cs1_y" />
 		<property name="cameraScaleProvider" ref="displayScaleProvider" />
-	</bean> -->
+	</bean>
 
-	<bean id="sampleAligner" class="uk.ac.gda.beamline.i13i.SampleAligner">
+<!-- 	<bean id="sampleAligner" class="uk.ac.gda.beamline.i13i.SampleAligner">
 		<property name="imageModeManager" ref="imageModeManager" />
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
-		<property name="cameraXYScannable" ref="cameraXYScannable"/>
 		<property name="displayScaleProvider" ref="displayScaleProvider" />
 		<property name="cameraScaleProvider" ref="displayScaleProvider" />
 		<property name="sampleCentringXMotor" ref="ss1_x" />
@@ -64,7 +57,7 @@
 
 		<property name="imageWidth" value="4008" />
 		<property name="imageHeight" value="2672" />
-	</bean>
+	</bean> -->
 <!-- 	<bean id="sampleAlignerRelImageMarker" class="uk.ac.gda.beamline.i13i.SampleAlignerRelImageMarker">
 		<property name="imageModeManager" ref="imageModeManager" />
 		<property name="cameraXYScannable" ref="cameraXYScannable" />
@@ -80,26 +73,4 @@
 		<property name="imageWidth" value="4008" />
 		<property name="imageHeight" value="2672" />
 	</bean> -->
-	<bean id="cameraViewPartConfig"
-		class="uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPartConfigImpl">
-		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndArray" ref="pco1_arr" />
-		<property name="ndProcess" ref="pco1_proc1" />
-		<property name="ffmpegStream" ref="pco1_ffmpeg1" />
-		<property name="setExposureTimeCmd" value="tomodet.setupForAlignment( exposureTime=%s)" />
-		<property name="autoCentreCmd" value="tomodet.autoCentre()"/>
-		<property name="imageViewerListener" ref="sampleAligner" />
-<!-- 		<property name="imageViewerListener2" ref="sampleAlignerRelImageMarker" />
- -->		<property name="fFMpegImgHeightRequired" value="1336"/>
-		<property name="fFMpegImgWidthRequired" value="2004"/>
-		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
-		<property name="displayScaleProvider" ref="displayScaleProvider" />
-		<property name="cameraXYScannable" ref="cameraXYScannable"/>
-	</bean>
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class"
-			value="uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPartConfig" />
-		<property name="service" ref="cameraViewPartConfig" />
-	</bean>
-
 </beans>

@@ -179,6 +179,7 @@
 	<!-- end of device list -->
 
 	<bean id="lensScannable" class="gda.device.scannable.DummyPersistentScannable" />
+	<import resource="../../devices/cameraScaleProviders.xml"/>
 
 	<bean id="highestExistingFileMonitor"
 		class="gda.device.detectorfilemonitor.impl.SimpleHighestExistingFileMonitor" />

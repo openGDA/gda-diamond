@@ -20,6 +20,7 @@ package uk.ac.gda.beamline.i13i;
 
 
 import gda.device.DeviceException;
+import gda.device.Scannable;
 import gda.device.ScannableMotionUnits;
 import gda.device.scannable.ScannableUtils;
 
@@ -37,7 +38,7 @@ public class SampleAlignerRelImageMarker  implements ImageViewerListener{
 	private static final Logger logger = LoggerFactory.getLogger(SampleAlignerRelImageMarker.class);	
 	
 	ImageModeManager imageModeManager;
-	CameraXYScannable cameraXYScannable;
+	Scannable cameraXYScannable;
 	DisplayScaleProvider displayScaleProvider;
 	DisplayScaleProvider cameraScaleProvider;
 	ScannableMotionUnits sampleCentringXMotor;
@@ -61,11 +62,11 @@ public class SampleAlignerRelImageMarker  implements ImageViewerListener{
 
 
 
-	public CameraXYScannable getCameraXYScannable() {
+	public Scannable getCameraXYScannable() {
 		return cameraXYScannable;
 	}
 
-	public void setCameraXYScannable(CameraXYScannable cameraXYScannable) {
+	public void setCameraXYScannable(Scannable cameraXYScannable) {
 		this.cameraXYScannable = cameraXYScannable;
 	}
 

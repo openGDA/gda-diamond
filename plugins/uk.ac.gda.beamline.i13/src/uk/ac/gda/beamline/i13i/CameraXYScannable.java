@@ -24,7 +24,11 @@ import gda.device.scannable.ScannableBase;
 import gda.device.scannable.ScannablePositionChangeEvent;
 import gda.device.scannable.ScannableStatus;
 import gda.device.scannable.ScannableUtils;
+import gda.device.scannable.corba.impl.ScannableAdapter;
+import gda.device.scannable.corba.impl.ScannableImpl;
 import gda.factory.FactoryException;
+import gda.factory.corba.util.CorbaAdapterClass;
+import gda.factory.corba.util.CorbaImplClass;
 import gda.observable.IObserver;
 import gda.util.persistence.LocalParameters;
 
@@ -32,6 +36,8 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.FileConfiguration;
 import org.springframework.beans.factory.InitializingBean;
 
+@CorbaImplClass(ScannableImpl.class)
+@CorbaAdapterClass(ScannableAdapter.class)
 public class CameraXYScannable extends ScannableBase implements InitializingBean{
 //	private static final Logger logger = LoggerFactory.getLogger(CameraXYScannable.class);
 	
@@ -80,6 +86,16 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 
 
 
+
+
+	public double getOffsetX() {
+		return offsetX;
+	}
+
+
+	public double getOffsetY() {
+		return offsetY;
+	}
 
 
 	@Override
@@ -132,7 +148,13 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 		return (array/cameraScaleProvider.getPixelsPerMMInY() - x2);
 	}
 	
-	
+	public void autoCentre(double pixelsX, double pixelsY) throws DeviceException, InterruptedException{
+		cameraStageXScannable.asynchronousMoveTo(pixelsX/cameraScaleProvider.getPixelsPerMMInX() - offsetX);
+		cameraStageYScannable.asynchronousMoveTo(pixelsY/cameraScaleProvider.getPixelsPerMMInY() - offsetY);
+		cameraStageXScannable.waitWhileBusy();
+		cameraStageYScannable.waitWhileBusy();
+		
+	}
 	@Override
 	public void afterPropertiesSet() throws Exception {
 

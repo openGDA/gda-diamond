@@ -43,7 +43,7 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 	private Scannable rotationAxisXScannable;
 	private DisplayScaleProvider displayScaleProvider;
 	private Scannable cameraXYScannable;
-	private ImageViewerListener imageViewerListener2;
+	private String autoCentreCmd;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -55,6 +55,8 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 			throw new IllegalArgumentException("ffmpegStream not defined");
 		if (setExposureTimeCmd == null)
 			throw new IllegalArgumentException("setExposureTimeCmd not defined");
+		if (autoCentreCmd == null)
+			throw new IllegalArgumentException("autoCentreCmd not defined");
 		if (adBase == null)
 			throw new IllegalArgumentException("adBase not defined");
 		if (fFMpegImgWidthRequired < 1)
@@ -180,12 +182,12 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 	}
 
 	@Override
-	public ImageViewerListener getImageViewerListener2() {
-		return imageViewerListener2;
+	public String getAutoCentreCmd() {
+		return autoCentreCmd;
 	}
 
-	public void setImageViewerListener2(ImageViewerListener imageViewerListener2) {
-		this.imageViewerListener2 = imageViewerListener2;
+	public void setAutoCentreCmd(String autoCentreCmd) {
+		this.autoCentreCmd = autoCentreCmd;
 	}
 
 	
