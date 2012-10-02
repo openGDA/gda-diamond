@@ -112,7 +112,7 @@
 		</property>
 	</bean>
 	
-	<bean id="I1" class="gda.device.detector.countertimer.TfgScaler">
+	<bean id="I1" class="gda.device.detector.countertimer.TfgScalerWithLogValues">
 		<property name="extraNames">
 			<list>
 				<value>I1</value>
@@ -123,8 +123,8 @@
 		<property name="timeChannelRequired" value="false" />
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="1" />
-<!-- 		<property name="useReset" value="false"/> -->
-<!-- 		<property name="outputLogValues" value="false"/> -->
+		<property name="useReset" value="false"/>
+		<property name="outputLogValues" value="false"/>
 		<property name="firstDataChannel" value="4" />
 		<property name="outputFormat">
 			<list>
