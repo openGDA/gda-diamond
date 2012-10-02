@@ -21,7 +21,8 @@
     <detectorGroup>
         <name>XES</name>
         <detector>xmapMca</detector>
-        <detector>ionchambers</detector>
+        <detector>I1</detector>
+        <detector>FFI1</detector>
     </detectorGroup>
     <experimentType>XES</experimentType>    
     <transmission>
@@ -116,8 +117,8 @@
             <gasType>He</gasType>
             <percentAbsorption>1.0</percentAbsorption>
             <pressure>2823.152371036204</pressure>
-            <totalPressure>2.0</totalPressure>
-            <ionChamberLength>30.0</ionChamberLength>
+            <totalPressure>1.0</totalPressure>
+            <ionChamberLength>15.0</ionChamberLength>
         </ionChamber>
     </xes>
 </DetectorParameters>
