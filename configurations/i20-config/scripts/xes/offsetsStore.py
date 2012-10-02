@@ -52,7 +52,8 @@ def writeas(storeName):
     
     for scannable in scannables:
         name = scannable.getName()
-        value = scannable()
+        # now store the offset, not the motor position
+        value = scannable().getOffset()
         store.setProperty(name,value)
     store.save()
     
@@ -76,7 +77,9 @@ def applyfrom(storeName):
         name = scannable.getName()
         value = float(store.getProperty(name))
         valuesDict[name] = value
-    setOffsets.setFromExpectedValues(valuesDict)
+    #setOffsets.setFromExpectedValues(valuesDict)
+    # set the offsets directly
+    setOffsets._setFromDict(valuesDict)
     
 def view():
     """
