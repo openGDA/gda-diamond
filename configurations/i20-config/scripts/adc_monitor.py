@@ -56,5 +56,5 @@ d3plus = adcmonitor("d3plus","BL20I-DI-ADC-01","BL20I-DI-PHDGN-03:Y:PLUS:I","d3p
 d3minus = adcmonitor("d3minus","BL20I-DI-ADC-01","BL20I-DI-PHDGN-03:Y:MINUS:I","d3minus")
 d4 = adcmonitor("d4","BL20I-DI-ADC-01","BL20I-DI-PHDGN-04:DIODE1:I","d4")
 d5 = adcmonitor("d5","BL20I-DI-ADC-01","BL20I-DI-PHDGN-05:DIODE:I","d5")
-
+d9 = adcmonitor("d9","BL20I-DI-ADC-01","BL20I-DI-PHDGN-09:DIODE:I","d9")
 		
