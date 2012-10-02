@@ -19,8 +19,9 @@
     </detectorGroup>
     <detectorGroup>
         <name>XES</name>
+        <detector>FFI1</detector>
         <detector>xmapMca</detector>
-        <detector>ionchambers</detector>
+        <detector>I1</detector>
     </detectorGroup>
     <experimentType>Transmission</experimentType>    
     <transmission>
