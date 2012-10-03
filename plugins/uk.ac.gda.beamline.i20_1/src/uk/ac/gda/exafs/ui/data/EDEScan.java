@@ -142,9 +142,12 @@ public class EDEScan extends ExperimentObject implements IExperimentObject, Seri
 	}
 
 	@Override
-	public String getCommandSummaryString() {
+	public String getCommandSummaryString(boolean hasBeenStarted) {
 	
-		final StringBuilder buf = new StringBuilder(getNumberRepetitions() + " repeats: ");
+		final StringBuilder buf = new StringBuilder();
+		if (!hasBeenStarted){
+			buf.append(getNumberRepetitions() + " repeats: ");
+		}
 		buf.append(getRunName());
 		buf.append(" ");
 		buf.append(getScanFileName());
@@ -152,7 +155,7 @@ public class EDEScan extends ExperimentObject implements IExperimentObject, Seri
 		buf.append(getOptionsFileName());
 		buf.append(" ");
 		buf.append(getTfgParametersFileName());
-		return null;
+		return buf.toString();
 	}
 
 	@Override
