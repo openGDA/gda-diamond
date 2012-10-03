@@ -13,10 +13,14 @@
 	<import resource="file:${gda.config}/servers/main/lookupTables.xml" />
 
 
+	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
+		<property name="template" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
+		<property name="gdaMetadata" ref="GDAMetadata" />
+		<property name="local" value="true" />
+	</bean>
+
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 
-<!-- use the RCP plotter, not the swing one ! -->
-<!-- 	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" /> -->
 	<bean id="plot_server"
 		class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
 
@@ -27,22 +31,22 @@
 	</bean>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-	
+
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata" />
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
 	<bean class="uk.ac.gda.beans.BeansFactory">
-	    <property name="classList">
-	        <util:list>
-	           <value>uk.ac.gda.exafs.ui.data.EdeScanParameters</value>
-	           <value>uk.ac.gda.exafs.ui.data.TimingGroup</value>
-	           <value>uk.ac.gda.exafs.ui.data.UserOptions</value>
-	           <value>uk.ac.gda.exafs.ui.data.TFGParameters</value>
-	           <value>uk.ac.gda.exafs.ui.data.TimeFrame</value>
-	        </util:list>
-	    </property>
+		<property name="classList">
+			<util:list>
+				<value>uk.ac.gda.exafs.ui.data.EdeScanParameters</value>
+				<value>uk.ac.gda.exafs.ui.data.TimingGroup</value>
+				<value>uk.ac.gda.exafs.ui.data.UserOptions</value>
+				<value>uk.ac.gda.exafs.ui.data.TFGParameters</value>
+				<value>uk.ac.gda.exafs.ui.data.TimeFrame</value>
+			</util:list>
+		</property>
 	</bean>
-		
+
 	<bean id="commandQueue" class="gda.commandqueue.CommandQueue">
 	</bean>
 
@@ -57,7 +61,7 @@
 		<property name="service" ref="commandQueueProcessor" />
 		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
 	</bean>
-	
+
 
 	<corba:export namespace="i20-1" />
 </beans>
