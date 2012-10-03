@@ -140,4 +140,8 @@ if LocalProperties.get("gda.mode") == "live":
     + "\n to changes the settings back again."\
     + "\n"
     
+    
+    run "vortexLiveTime"
+    testVortexWiredCorrectly()
+    
 print "****GDA startup script complete.****\n\n"
