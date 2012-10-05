@@ -236,6 +236,14 @@
 		<property name="pvName" value="BL20I-EA-IAMP-03:SENS:SEL2" />
 		<property name="local" value="true" />
 	</bean>
+	<bean id="i1_stanford_sensitivity" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-EA-IAMP-04:SENS:SEL1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="i1_stanford_sensitivity_units" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-EA-IAMP-04:SENS:SEL2" />
+		<property name="local" value="true" />
+	</bean>
 
 
 </beans>
