@@ -68,12 +68,12 @@ if LocalProperties.get("gda.mode") == "live":
     # to speed up step scans
     LocalProperties.set("gda.scan.concurrentScan.readoutConcurrently","true")
     LocalProperties.set("gda.scan.multithreadedScanDataPointPipeline.length","10")
-    if (machineMode() == "User"):
-        add_default([topupChecker])
-        add_default([absorberChecker])
-    else:
+    if (machineMode() == "No Beam"):
         remove_default([topupChecker])
         remove_default([absorberChecker])
+    else:
+        add_default([topupChecker])
+        add_default([absorberChecker])
 else:
     LocalProperties.set("gda.data.scan.datawriter.dataFormat","XasAsciiDataWriter")
     remove_default([topupChecker])
