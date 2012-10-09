@@ -11,10 +11,6 @@
 		<property name="deviceName" value="M1P" />
 		<property name="local" value="true"/>
 	</bean>
-<!-- 	<bean id="ohcoating" class="gda.device.monitor.EpicsMonitor"> -->
-<!-- 		<property name="pvName" value="BL20I-OP-VCM-01:MP:SELECT" /> -->
-<!-- 		<property name="local" value="true"/> -->
-<!-- 	</bean> -->
 	<bean id="crystalcut" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL" />
 		<property name="local" value="true"/>
@@ -28,16 +24,12 @@
 		<property name="pvName" value="BL20I-OP-QCM-01:BRAGG2" />
 	</bean>
 	<bean id="crystal1_pitch_motor" class="gda.device.motor.EpicsMotor">
-<!-- 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL1:PITCH" /> -->
 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL1:PITCH:FBMTR" />
 	</bean>
 	<bean id="crystal2_roll_motor" class="gda.device.motor.EpicsMotor">
-<!-- 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL2:ROLL" /> -->
 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL2:ROLL:FBMTR" />
 	</bean>
-<!-- 	<bean id="pair2_roll_motor" class="gda.device.motor.EpicsMotor"> -->
 	<bean id="crystal34_roll_motor" class="gda.device.motor.EpicsMotor">
-<!-- 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL34:ROLL" /> -->
 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL34:ROLL:FBMTR" />
 	</bean>
 
@@ -54,8 +46,6 @@
 
 
 	<!-- QCM encoders -->
-<!-- 	 <bean id="bragg1enc_motor" class="gda.device.motor.DummyMotor"/>  -->
-<!-- 	 <bean id="bragg2enc_motor" class="gda.device.motor.DummyMotor"/>  -->
 	<bean id="bragg1enc_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-QCM-01:B1:ENC1234" />
 	</bean>
@@ -71,7 +61,7 @@
 		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<util:list>
-				<value>%.2f</value>
+				<value>%.4f</value>
 			</util:list>
 		</property>
 	</bean>
@@ -84,51 +74,28 @@
 		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<util:list>
-				<value>%.2f</value>
+				<value>%.4f</value>
 			</util:list>
 		</property>
 	</bean>
 
 	<bean id="crystal1_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-<!-- 		<property name="initialUserUnits" value="mRad" /> -->
 		<property name="motor" ref="crystal1_pitch_motor" />
-<!-- 		<property name="hardwareUnitString" value="mRad" /> -->
 		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="crystal2_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-<!-- 		<property name="initialUserUnits" value="mRad" /> -->
 		<property name="motor" ref="crystal2_roll_motor" />
-<!-- 		<property name="hardwareUnitString" value="mRad" /> -->
 		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="crystal34_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-<!-- 		<property name="initialUserUnits" value="mRad" /> -->
 		<property name="motor" ref="crystal34_roll_motor" />
-<!-- 		<property name="hardwareUnitString" value="mRad" /> -->
-<!-- 		<property name="lowerGdaLimits" value="0" /> -->
-<!-- 		<property name="upperGdaLimits" value="10" /> -->
 		<property name="local" value="true"/>
 	</bean>
-
-<!-- 	<bean id="energy" class="gda.device.scannable.ScannableMotor"> -->
-<!-- 		<property name="protectionLevel" value="3" /> -->
-<!-- 		<property name="initialUserUnits" value="eV" /> -->
-<!-- 		<property name="motor" ref="energy_motor" /> -->
-<!-- 		<property name="hardwareUnitString" value="eV" /> -->
-<!-- 		<property name="lowerGdaLimits" value="2000" /> -->
-<!-- 		<property name="upperGdaLimits" value="35000" /> -->
-<!-- 		<property name="outputFormat"> -->
-<!-- 			<util:list> -->
-<!-- 				<value>%.3f</value> -->
-<!-- 			</util:list> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
-
 
 	<bean id="bragg1enc" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
@@ -167,26 +134,4 @@
 		<property name="motor" ref="jena_crystal34_roll_motor" />
 		<property name="local" value="true"/>
 	</bean>
-
-<!-- 	<bean id="pzt_pitch_voltage" class="gda.device.monitor.EpicsMonitor"> -->
-<!-- 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL1:PITCH:PZT" /> -->
-<!-- 		<property name="local" value="true"/> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="pzt_roll2_voltage" class="gda.device.monitor.EpicsMonitor"> -->
-<!-- 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL2:ROLL:PZT" /> -->
-<!-- 		<property name="local" value="true"/> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="pzt_roll34_voltage" class="gda.device.monitor.EpicsMonitor"> -->
-<!-- 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL34:ROLL:PZT" /> -->
-<!-- 		<property name="local" value="true"/> -->
-<!-- 	</bean> -->
-	
-<!-- 	<bean id="pzt_pitch_analogue" class="gda.device.controlpoint.EpicsControlPoint"> -->
-<!-- 		<property name="pvNameSetPoint" value="BL20I-OP-QCM-01:XTAL1:PITCH:DMD" /> -->
-<!-- 		<property name="pvNameGetPoint" value="BL20I-OP-QCM-01:XTAL1:PITCH:RBV" /> -->
-<!-- 		<property name="local" value="true"/> -->
-<!-- 	</bean>	 -->
-
 </beans>

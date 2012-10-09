@@ -5,6 +5,6 @@
     <asciiDirectory>ascii</asciiDirectory>
     <nexusDirectory>nexus</nexusDirectory>
     <extraData>false</extraData>
-    <signalActive>false</signalActive>
+    <signalActive>true</signalActive>
     <metadataActive>false</metadataActive>
 </OutputParameters>
