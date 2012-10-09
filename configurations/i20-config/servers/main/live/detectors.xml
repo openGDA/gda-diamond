@@ -128,8 +128,8 @@
 		<property name="firstDataChannel" value="4" />
 		<property name="outputFormat">
 			<list>
-				<value>%6.4g</value>
-				<value>%7.2f</value>
+				<value>%.4f</value>
+				<value>%.2f</value>
 			</list>
 		</property>
 	</bean>

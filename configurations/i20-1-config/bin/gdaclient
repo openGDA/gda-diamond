@@ -1,5 +1,5 @@
 source /dls_sw/dasc/tools_versions/set_tools.sh
 
-export LD_LIBRARY_PATH=/dls_sw/i20-1/software/gda/plugins/uk.ac.gda.nexus/lib/Linux-i386:/dls_sw/i20-1/software/gda/plugins/uk.ac.gda.core/lib/Linux-i386
+export LD_LIBRARY_PATH=/dls_sw/i20-1/software/gda_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64/:/dls_sw/i20-1/software/gda_git/gda-core.git/uk.ac.gda.core/lib/linux-x86_64/
 
 /dls_sw/i20-1/software/gda/client/gda-i201

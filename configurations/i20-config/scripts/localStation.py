@@ -75,7 +75,7 @@ if LocalProperties.get("gda.mode") == "live":
         add_default([topupChecker])
         add_default([absorberChecker])
 else:
-    LocalProperties.set("gda.data.scan.datawriter.dataFormat","XasAsciiDataWriter")
+    #LocalProperties.set("gda.data.scan.datawriter.dataFormat","XasAsciiDataWriter")
     remove_default([topupChecker])
     remove_default([absorberChecker])
     
