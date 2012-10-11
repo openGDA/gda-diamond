@@ -32,6 +32,7 @@ import uk.ac.gda.client.experimentdefinition.ExperimentFactory;
 import uk.ac.gda.client.experimentdefinition.IExperimentEditorManager;
 import uk.ac.gda.exafs.ui.data.ScanObject;
 import uk.ac.gda.richbeans.components.FieldComposite;
+import uk.ac.gda.richbeans.components.wrappers.RadioWrapper;
 import uk.ac.gda.richbeans.editors.DirtyContainer;
 import uk.ac.gda.richbeans.editors.RichBeanEditorPart;
 
@@ -185,6 +186,10 @@ public final class XesScanParametersUIEditor extends RichBeanEditorPart {
 
 	public FieldComposite getAdditionalCrystal3() {
 		return beanComposite.getAdditionalCrystal3();
+	}
+
+	public RadioWrapper getLoopChoice() {
+		return beanComposite.getLoopChoice();
 	}
 
 }
