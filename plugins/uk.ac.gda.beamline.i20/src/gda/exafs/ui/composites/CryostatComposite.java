@@ -35,6 +35,7 @@ import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 
+import uk.ac.gda.beans.exafs.i20.CryostatParameters;
 import uk.ac.gda.richbeans.components.FieldBeanComposite;
 import uk.ac.gda.richbeans.components.scalebox.NumberBox;
 import uk.ac.gda.richbeans.components.scalebox.RangeBox;
@@ -47,8 +48,6 @@ import uk.ac.gda.richbeans.event.ValueAdapter;
 import uk.ac.gda.richbeans.event.ValueEvent;
 
 public class CryostatComposite extends FieldBeanComposite {
-	
-	public static final String[] LOOP_OPTION = new String[]{"Loop over sample, then temperature", "Loop over temperature, then sample"};
 
 	private TextWrapper sampleNumber;
 	private ComboWrapper sampleHolder;
@@ -93,8 +92,8 @@ public class CryostatComposite extends FieldBeanComposite {
 		final Composite options = new Composite(main, SWT.NONE);
 		options.setLayout(new FillLayout());
 		
-		loopChoice = new RadioWrapper(options,SWT.NONE, LOOP_OPTION);
-		loopChoice.setValue(LOOP_OPTION[0]);
+		loopChoice = new RadioWrapper(options,SWT.NONE, CryostatParameters.LOOP_OPTION);
+		loopChoice.setValue(CryostatParameters.LOOP_OPTION[0]);
 
 		createTemperatureComposite(main);
 
@@ -518,6 +517,10 @@ public class CryostatComposite extends FieldBeanComposite {
 
 	public TextWrapper getSampleDescription4() {
 		return description4;
+	}
+	
+	public RadioWrapper getLoopChoice(){
+		return loopChoice;
 	}
 
 	/**
