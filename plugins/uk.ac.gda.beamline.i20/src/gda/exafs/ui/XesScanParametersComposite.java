@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2009 Diamond Light Source Ltd.
+ * Copyright © 2012 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -17,7 +17,6 @@
  */
 
 package gda.exafs.ui;
-
 
 import gda.exafs.xes.XesUtils;
 import gda.exafs.xes.XesUtils.XesMaterial;
@@ -65,6 +64,7 @@ import uk.ac.gda.richbeans.components.wrappers.BooleanWrapper;
 import uk.ac.gda.richbeans.components.wrappers.ComboWrapper;
 import uk.ac.gda.richbeans.components.wrappers.LabelWrapper;
 import uk.ac.gda.richbeans.components.wrappers.LabelWrapper.TEXT_TYPE;
+import uk.ac.gda.richbeans.components.wrappers.RadioWrapper;
 import uk.ac.gda.richbeans.components.wrappers.SpinnerWrapper;
 import uk.ac.gda.richbeans.event.ValueAdapter;
 import uk.ac.gda.richbeans.event.ValueEvent;
@@ -74,7 +74,7 @@ import com.swtdesigner.SWTResourceManager;
 public final class XesScanParametersComposite extends Composite {
 
 	private static final Logger logger = LoggerFactory.getLogger(XesScanParametersComposite.class);
-	
+
 	private ComboWrapper scanType;
 	private ComboWrapper analyserType;
 	private SpinnerWrapper analyserCut0;
@@ -106,11 +106,13 @@ public final class XesScanParametersComposite extends Composite {
 
 	private ValueAdapter updateListener;
 
+	private RadioWrapper loopChoice;
+
 	public XesScanParametersComposite(Composite parent, int style) {
-		
+
 		super(parent, style);
 		setLayout(new GridLayout(2, false));
-		
+
 		this.updateListener = new ValueAdapter() {
 			@Override
 			public void valueChangePerformed(ValueEvent e) {
@@ -118,10 +120,10 @@ public final class XesScanParametersComposite extends Composite {
 			}
 		};
 
-		final Composite left = new Composite(this,SWT.NONE);
+		final Composite left = new Composite(this, SWT.NONE);
 		left.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
 		left.setLayout(new GridLayout(1, false));
-	
+
 		Group crystallGroup = new Group(left, SWT.NONE);
 		crystallGroup.setText("Analyser Properties");
 		crystallGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
@@ -131,9 +133,9 @@ public final class XesScanParametersComposite extends Composite {
 		lblAnalyzerType.setText("<a>Type</a>");
 		this.analyserType = new ComboWrapper(crystallGroup, SWT.READ_ONLY);
 		analyserType.addValueListener(updateListener);
-		analyserType.setItems(new String[]{"Si", "Ge"});
+		analyserType.setItems(new String[] { "Si", "Ge" });
 		analyserType.select(0);
-		ScannableValueListener.createLinkedLabel(lblAnalyzerType , "material", analyserType);
+		ScannableValueListener.createLinkedLabel(lblAnalyzerType, "material", analyserType);
 
 		Link lblAnalyzerCut = new Link(crystallGroup, SWT.NONE);
 		lblAnalyzerCut.setText("<a>Crystal Cut</a>");
@@ -169,9 +171,9 @@ public final class XesScanParametersComposite extends Composite {
 				updateEnergies();
 			}
 		});
-		ScannableValueListener.createLinkedLabel(lblAnalyzerCut , "cut1", analyserCut0);
-		ScannableValueListener.createLinkedLabel(lblAnalyzerCut , "cut2", analyserCut1);
-		ScannableValueListener.createLinkedLabel(lblAnalyzerCut , "cut3", analyserCut2);
+		ScannableValueListener.createLinkedLabel(lblAnalyzerCut, "cut1", analyserCut0);
+		ScannableValueListener.createLinkedLabel(lblAnalyzerCut, "cut2", analyserCut1);
+		ScannableValueListener.createLinkedLabel(lblAnalyzerCut, "cut3", analyserCut2);
 
 		Link lblRadiusOfCurvature = new Link(crystallGroup, SWT.NONE);
 		lblRadiusOfCurvature.setText("<a>Radius</a>");
@@ -181,8 +183,7 @@ public final class XesScanParametersComposite extends Composite {
 		radiusOfCurvature.setUnit("mm");
 		radiusOfCurvature.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		radiusOfCurvature.addValueListener(updateListener);
-		ScannableValueListener.createLinkedLabel(lblRadiusOfCurvature , "radius", radiusOfCurvature);
-		
+		ScannableValueListener.createLinkedLabel(lblRadiusOfCurvature, "radius", radiusOfCurvature);
 
 		Group grpCrystals = new Group(left, SWT.NONE);
 		grpCrystals.setText("Analyser Crystals");
@@ -190,7 +191,7 @@ public final class XesScanParametersComposite extends Composite {
 		grpCrystals.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		Label lblCrystalChoices = new Label(grpCrystals, SWT.NONE);
 		lblCrystalChoices.setText("Other Crystals In Use");
-		
+
 		additionalCrystal0 = new BooleanWrapper(grpCrystals, SWT.NONE);
 		additionalCrystal0.addValueListener(updateListener);
 		additionalCrystal0.setText("crystal -2");
@@ -203,44 +204,45 @@ public final class XesScanParametersComposite extends Composite {
 		additionalCrystal3 = new BooleanWrapper(grpCrystals, SWT.NONE);
 		additionalCrystal3.addValueListener(updateListener);
 		additionalCrystal3.setText("crystal 2");
-		//TODO I was here - test if the GUI compiles and writes the xml file correctly - then move on to testing the script
-		
+		// TODO I was here - test if the GUI compiles and writes the xml file correctly - then move on to testing the
+		// script
+
 		Group grpScan = new Group(left, SWT.NONE);
 		grpScan.setText("Scan");
 		grpScan.setLayout(new GridLayout(2, false));
 		grpScan.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		Label lblScanType = new Label(grpScan, SWT.NONE);
 		lblScanType.setText("Type");
-		
+
 		this.scanType = new ComboWrapper(grpScan, SWT.READ_ONLY);
 		{
 			GridData gridData = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 			gridData.widthHint = 200;
 			scanType.setLayoutData(gridData);
 		}
-		
-		final Map<String,Object> items = new HashMap<String,Object>(4);
-		items.put("Scan Ef, Fixed Eo",  1);
-		items.put("Fixed Ef, Scan Eo - XAS",   2);
+
+		final Map<String, Object> items = new HashMap<String, Object>(4);
+		items.put("Scan Ef, Fixed Eo", 1);
+		items.put("Fixed Ef, Scan Eo - XAS", 2);
 		items.put("Fixed Ef, Scan Eo - XANES", 3);
-		items.put("Scan Ef, Scan Eo",  4);
+		items.put("Scan Ef, Scan Eo", 4);
 		scanType.setItems(items);
 		scanType.addValueListener(new ValueAdapter("Prepopulate XAS/XANES file") {
 			@Override
-			public void valueChangePerformed(ValueEvent e)  {
+			public void valueChangePerformed(ValueEvent e) {
 				try {
 					if (e.getValue().equals(XesScanParameters.FIXED_XES_SCAN_XAS)) {
 						String name = BeansFactory.getFirstFileName(editorFolder, XasScanParameters.class);
 						if (name == null) { // Create one if not there
-							name = ExperimentBeanManager.INSTANCE.getXmlCommandHandler(XasScanParameters.class).doCopy(
-									(IFolder) editingFile.getParent()).getName();
+							name = ExperimentBeanManager.INSTANCE.getXmlCommandHandler(XasScanParameters.class)
+									.doCopy((IFolder) editingFile.getParent()).getName();
 						}
 						scanFileName.setText(name);
 					} else if (e.getValue().equals(XesScanParameters.FIXED_XES_SCAN_XANES)) {
 						String name = BeansFactory.getFirstFileName(editorFolder, XanesScanParameters.class);
 						if (name == null) { // Create one if not there
-							name = ExperimentBeanManager.INSTANCE.getXmlCommandHandler(XanesScanParameters.class).doCopy(
-									(IFolder) editingFile.getParent()).getName();
+							name = ExperimentBeanManager.INSTANCE.getXmlCommandHandler(XanesScanParameters.class)
+									.doCopy((IFolder) editingFile.getParent()).getName();
 						}
 						scanFileName.setText(name);
 					}
@@ -252,7 +254,7 @@ public final class XesScanParametersComposite extends Composite {
 		scanType.addValueListener(updateListener);
 		Composite spacer = new Composite(grpScan, SWT.NONE);
 		spacer.setLayout(new GridLayout(1, false));
-		
+
 		Composite scanTypeComposite = new Composite(grpScan, SWT.NONE);
 		GridLayout gridLayout = new GridLayout(1, false);
 		gridLayout.marginWidth = 0;
@@ -260,7 +262,7 @@ public final class XesScanParametersComposite extends Composite {
 		gridLayout.horizontalSpacing = 0;
 		scanTypeComposite.setLayout(gridLayout);
 		scanTypeComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
+
 		this.scanFileComposite = new Composite(scanTypeComposite, SWT.NONE);
 		{
 			GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
@@ -272,52 +274,55 @@ public final class XesScanParametersComposite extends Composite {
 		gridLayout_1.marginLeft = 5;
 		gridLayout_1.marginWidth = 0;
 		scanFileComposite.setLayout(gridLayout_1);
-				
+
 		Label label;
 		lblFileName = new Label(scanFileComposite, SWT.NONE);
 		lblFileName.setText("File Name");
 		this.scanFileName = new FileBox(scanFileComposite, SWT.NONE);
 		scanFileName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		scanFileName.setChoiceType(ChoiceType.NAME_ONLY);
-		scanFileName.setFilterExtensions(new String[]{"*.xml"});
+		scanFileName.setFilterExtensions(new String[] { "*.xml" });
 		scanFileName.addValueListener(new ValueAdapter("Test Eo scan file name") {
 			@Override
 			public void valueChangePerformed(ValueEvent e) {
-				final String name = (String)e.getValue();
-				final File   file = new File(scanFileName.getFolder(), name);
-				if (!file.exists()) return;
+				final String name = (String) e.getValue();
+				final File file = new File(scanFileName.getFolder(), name);
+				if (!file.exists())
+					return;
 				try {
-					if (BeansFactory.isBean(file, XasScanParameters.class) && scanType.getValue().equals(XesScanParameters.FIXED_XES_SCAN_XAS)) {
-						scanFileName.setError(false,null);
-					} else if (BeansFactory.isBean(file, XanesScanParameters.class) && scanType.getValue().equals(XesScanParameters.FIXED_XES_SCAN_XANES)) {
-						scanFileName.setError(false,null);
+					if (BeansFactory.isBean(file, XasScanParameters.class)
+							&& scanType.getValue().equals(XesScanParameters.FIXED_XES_SCAN_XAS)) {
+						scanFileName.setError(false, null);
+					} else if (BeansFactory.isBean(file, XanesScanParameters.class)
+							&& scanType.getValue().equals(XesScanParameters.FIXED_XES_SCAN_XANES)) {
+						scanFileName.setError(false, null);
 					} else {
-						final String fileType = scanType.getValue().equals(XesScanParameters.FIXED_XES_SCAN_XAS)
-						                      ? "XAS"
-						                      : "XANES";
-						scanFileName.setError(true,"File chosen is not of a scan type. It must be a "+fileType+" file.");
+						final String fileType = scanType.getValue().equals(XesScanParameters.FIXED_XES_SCAN_XAS) ? "XAS"
+								: "XANES";
+						scanFileName.setError(true, "File chosen is not of a scan type. It must be a " + fileType
+								+ " file.");
 					}
 					if (file.getParent().equals(editorFolder)) {
-						scanFileName.setError(true,"Please choose a detector file in the same folder.");
+						scanFileName.setError(true, "Please choose a detector file in the same folder.");
 					}
 				} catch (Exception e1) {
-					logger.error("Cannot get bean type of '"+file.getName()+"'.", e1);
+					logger.error("Cannot get bean type of '" + file.getName() + "'.", e1);
 				}
-			}	
+			}
 		});
-		
+
 		final Link openFile = new Link(scanFileComposite, SWT.NONE);
 		openFile.setText("    <a>Open</a>");
 		openFile.setToolTipText("Open monochromator scan file.");
 		openFile.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				final IFolder folder = (IFolder)XesScanParametersComposite.this.editingFile.getParent();
+				final IFolder folder = (IFolder) XesScanParametersComposite.this.editingFile.getParent();
 				final IFile scanFile = folder.getFile(scanFileName.getText());
 				ExperimentFactory.getExperimentEditorManager().openEditor(scanFile);
 			}
 		});
-		
+
 		label = new Label(scanFileComposite, SWT.NONE);
 		label.setText("Spectrometer Energy (Ef)");
 		this.xesEnergy = new ScaleBoxAndFixedExpression(scanFileComposite, SWT.NONE);
@@ -328,6 +333,15 @@ public final class XesScanParametersComposite extends Composite {
 		xesEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		xesEnergy.setExpressionLabelTooltip("65° < θ < 85°");
 		xesEnergy.setValue(3000);
+
+		loopChoice = new RadioWrapper(scanTypeComposite, SWT.NONE, XesScanParameters.LOOPOPTIONS);
+		{
+			GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+			gridData.widthHint = 500;
+			loopChoice.setLayoutData(gridData);
+		}
+		loopChoice.setValue(XesScanParameters.LOOPOPTIONS[0]);
+		loopChoice.setText("Loop order");
 
 		this.xasEnergyRangeComposite = new Group(scanTypeComposite, SWT.NONE);
 		xasEnergyRangeComposite.setText("XES Scan");
@@ -387,7 +401,7 @@ public final class XesScanParametersComposite extends Composite {
 		this.xesIntegrationTime = new ScaleBox(xasEnergyRangeComposite, SWT.NONE);
 		xesIntegrationTime.setUnit("s");
 		xesIntegrationTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
+
 		this.monoFixedEnergyComposite = new Composite(scanTypeComposite, SWT.NONE);
 		{
 			GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
@@ -399,11 +413,11 @@ public final class XesScanParametersComposite extends Composite {
 		gridLayout_1.marginLeft = 5;
 		gridLayout_1.marginWidth = 0;
 		monoFixedEnergyComposite.setLayout(gridLayout_1);
-		
+
 		this.lblMonoEnergy = new Link(monoFixedEnergyComposite, SWT.NONE);
 		lblMonoEnergy.setText("<a>Mono Energy</a>");
 		lblMonoEnergy.setToolTipText("Click to toggle element and edge controls for looking up edge energy.");
-		
+
 		monoEnergy = new ScaleBox(monoFixedEnergyComposite, SWT.NONE);
 		{
 			GridData gridData = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
@@ -413,22 +427,22 @@ public final class XesScanParametersComposite extends Composite {
 		monoEnergy.setMinimum(2000.0);
 		monoEnergy.setMaximum(35000.0);
 		monoEnergy.setUnit("eV");
-		
+
 		final Label lblElement = new Label(monoFixedEnergyComposite, SWT.NONE);
 		lblElement.setText("  Element");
-		
+
 		element = new ComboWrapper(monoFixedEnergyComposite, SWT.DROP_DOWN);
 		{
 			GridData gridData = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 			gridData.widthHint = 69;
 			element.setLayoutData(gridData);
 		}
-		element.setItems(Element.getSortedEdgeSymbols("Sc","U"));
+		element.setItems(Element.getSortedEdgeSymbols("Sc", "U"));
 		element.setValue("Fe");
-		
+
 		final Label lblEdge = new Label(monoFixedEnergyComposite, SWT.NONE);
 		lblEdge.setText("Edge");
-		
+
 		edge = new ComboWrapper(monoFixedEnergyComposite, SWT.READ_ONLY);
 		{
 			GridData gridData = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -472,8 +486,8 @@ public final class XesScanParametersComposite extends Composite {
 			gridData.widthHint = 150;
 			monoFinalEnergy.setLayoutData(gridData);
 		}
-//		monoFinalEnergy.setValue(3000);
-		
+		// monoFinalEnergy.setValue(3000);
+
 		label = new Label(monoEnergyRangeComposite, SWT.NONE);
 		label.setText("Step Size");
 		this.monoStepSize = new ScaleBox(monoEnergyRangeComposite, SWT.NONE);
@@ -483,10 +497,8 @@ public final class XesScanParametersComposite extends Composite {
 			gridData.widthHint = 150;
 			monoStepSize.setLayoutData(gridData);
 		}
-		
-		
-		
-		final Composite right = new Composite(this,SWT.NONE);
+
+		final Composite right = new Composite(this, SWT.NONE);
 		{
 			GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
 			gridData.widthHint = 200;
@@ -494,15 +506,16 @@ public final class XesScanParametersComposite extends Composite {
 		}
 		right.setLayout(new GridLayout(1, false));
 
-		final ExpandableComposite xesDiagramComposite = new ExpandableComposite(right, ExpandableComposite.COMPACT | ExpandableComposite.TWISTIE);
+		final ExpandableComposite xesDiagramComposite = new ExpandableComposite(right, ExpandableComposite.COMPACT
+				| ExpandableComposite.TWISTIE);
 		xesDiagramComposite.marginWidth = 5;
 		xesDiagramComposite.marginHeight = 5;
 		xesDiagramComposite.setText("XES Diagram");
 		xesDiagramComposite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true));
-		
+
 		final Composite xesComp = new Composite(xesDiagramComposite, SWT.NONE);
 		xesComp.setLayout(new GridLayout(1, false));
-		
+
 		final Label xesLabel = new Label(xesComp, SWT.NONE);
 		xesLabel.setImage(SWTResourceManager.getImage(getClass(), "/icons/XESDiagram.png"));
 		xesDiagramComposite.setClient(xesComp);
@@ -512,51 +525,51 @@ public final class XesScanParametersComposite extends Composite {
 			public void expansionStateChanged(ExpansionEvent e) {
 				layout();
 				right.layout();
-				final ScrolledComposite sc = (ScrolledComposite)getParent();
+				final ScrolledComposite sc = (ScrolledComposite) getParent();
 				sc.setMinSize(computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			}
 		});
-		
+
 		final Group xesDataComp = new Group(xesComp, SWT.NONE);
 		xesDataComp.setText("Properties");
 		xesDataComp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		xesDataComp.setLayout(new GridLayout(2, false));
-		
+
 		lblL = new Label(xesDataComp, SWT.NONE);
 		lblL.setText("L        ");
-		
+
 		L = new LabelWrapper(xesDataComp, SWT.NONE);
 		L.setTextType(TEXT_TYPE.NUMBER_WITH_UNIT);
 		L.setUnit("mm");
 		L.setText("790");
 		L.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
+
 		lblDx = new Label(xesDataComp, SWT.NONE);
 		lblDx.setText("dx");
-		
+
 		dx = new LabelWrapper(xesDataComp, SWT.NONE);
 		dx.setTextType(TEXT_TYPE.NUMBER_WITH_UNIT);
 		dx.setUnit("mm");
 		dx.setText("30");
 		dx.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
+
 		lblDy = new Label(xesDataComp, SWT.NONE);
 		lblDy.setText("dy");
-		
+
 		dy = new LabelWrapper(xesDataComp, SWT.NONE);
 		dy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		dy.setUnit("mm");
 		dy.setTextType(TEXT_TYPE.NUMBER_WITH_UNIT);
 		dy.setText("600");
-	
-		scanType.addValueListener(new ValueAdapter("Chanage XES Scan Type") {		
+
+		scanType.addValueListener(new ValueAdapter("Change XES Scan Type") {
 			@Override
 			public void valueChangePerformed(ValueEvent e) {
 				updateScanType();
 			}
 
 		});
-		
+
 		element.addValueListener(new ValueAdapter("elementListener") {
 			@Override
 			public void valueChangePerformed(ValueEvent e) {
@@ -566,46 +579,46 @@ public final class XesScanParametersComposite extends Composite {
 		edge.addValueListener(new ValueAdapter("edgeListener") {
 			@Override
 			public void valueChangePerformed(ValueEvent e) {
-				updateEdge((String)e.getValue());
+				updateEdge((String) e.getValue());
 			}
 		});
-		
+
 		lblElement.setVisible(false);
-        element.setVisible(false);
+		element.setVisible(false);
 		lblEdge.setVisible(false);
-        edge.setVisible(false);
-        
-        this.lblMonoEnergySelectionListener = new SelectionAdapter() {
-        	@Override
+		edge.setVisible(false);
+
+		this.lblMonoEnergySelectionListener = new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
-        		lblElement.setVisible(!lblElement.isVisible());
-                element.setVisible(!element.isVisible());
-        		lblEdge.setVisible(!lblEdge.isVisible());
-                edge.setVisible(!edge.isVisible());
-        	}
+				lblElement.setVisible(!lblElement.isVisible());
+				element.setVisible(!element.isVisible());
+				lblEdge.setVisible(!lblEdge.isVisible());
+				edge.setVisible(!edge.isVisible());
+			}
 		};
 		lblMonoEnergy.addSelectionListener(lblMonoEnergySelectionListener);
-		
+
 		createBounds();
 	}
 
 	protected void updateScanType() {
-		
-		final int val = (Integer)scanType.getValue();
-		setExcluded(scanFileComposite,val==XesScanParameters.FIXED_XES_SCAN_XAS||
-							          val==XesScanParameters.FIXED_XES_SCAN_XANES);
-				
-		setExcluded(xasEnergyRangeComposite,val==XesScanParameters.SCAN_XES_FIXED_MONO||
-				                            val==XesScanParameters.SCAN_XES_SCAN_MONO);
-		
-		setExcluded(monoFixedEnergyComposite,val==XesScanParameters.SCAN_XES_FIXED_MONO);
-		
-		setExcluded(monoEnergyRangeComposite,val==XesScanParameters.SCAN_XES_SCAN_MONO);
-		
+
+		final int val = (Integer) scanType.getValue();
+		setExcluded(scanFileComposite, val == XesScanParameters.FIXED_XES_SCAN_XAS
+				|| val == XesScanParameters.FIXED_XES_SCAN_XANES);
+
+		setExcluded(xasEnergyRangeComposite, val == XesScanParameters.SCAN_XES_FIXED_MONO
+				|| val == XesScanParameters.SCAN_XES_SCAN_MONO);
+
+		setExcluded(monoFixedEnergyComposite, val == XesScanParameters.SCAN_XES_FIXED_MONO);
+
+		setExcluded(monoEnergyRangeComposite, val == XesScanParameters.SCAN_XES_SCAN_MONO);
+		setExcluded(loopChoice, val == XesScanParameters.SCAN_XES_SCAN_MONO);
+
 		layout();
 		pack();
 	}
-
 
 	public void linkUI() {
 		updateScanType();
@@ -613,85 +626,75 @@ public final class XesScanParametersComposite extends Composite {
 	}
 
 	/**
-	 * This method sets the energies when crystal cut changes.
-	 * This is needed because the energy range with each cystall cut
-	 * is so limited.
+	 * This method sets the energies when crystal cut changes. This is needed because the energy range with each cystall
+	 * cut is so limited.
 	 */
 	private void updateEnergies() {
 
-		xesInitialEnergy.setValue(xesInitialEnergy.getMinimum()+1);
-		xesFinalEnergy.setValue(xesFinalEnergy.getMinimum()+1);
-		xesEnergy.setValue(xesEnergy.getMinimum()+1);
+		xesInitialEnergy.setValue(xesInitialEnergy.getMinimum() + 1);
+		xesFinalEnergy.setValue(xesFinalEnergy.getMinimum() + 1);
+		xesEnergy.setValue(xesEnergy.getMinimum() + 1);
 
 	}
 
 	private void updateProperties() {
-		
+
 		double thetaE = updateXesTheta(xesEnergy);
 		double thetaS = updateXesTheta(xesInitialEnergy);
 		updateXesTheta(xesFinalEnergy);
-		
+
 		updateEnergyMaxBounds(xesEnergy);
 		updateEnergyMaxBounds(xesFinalEnergy);
 		updateEnergyMinBounds(xesEnergy);
 		updateEnergyMinBounds(xesInitialEnergy);
-		
-		final double theta = ((Integer)scanType.getValue()==XesScanParameters.FIXED_XES_SCAN_XAS||
-				              (Integer)scanType.getValue()==XesScanParameters.FIXED_XES_SCAN_XANES)
-				           ? thetaE
-				           : thetaS;
-		L.setValue(XesUtils.getL((Double)getRadiusOfCurvature().getValue(), theta));
-		dx.setValue(XesUtils.getDx((Double)getRadiusOfCurvature().getValue(), theta));
-		dy.setValue(XesUtils.getDy((Double)getRadiusOfCurvature().getValue(), theta));
+
+		final double theta = ((Integer) scanType.getValue() == XesScanParameters.FIXED_XES_SCAN_XAS || (Integer) scanType
+				.getValue() == XesScanParameters.FIXED_XES_SCAN_XANES) ? thetaE : thetaS;
+		L.setValue(XesUtils.getL((Double) getRadiusOfCurvature().getValue(), theta));
+		dx.setValue(XesUtils.getDx((Double) getRadiusOfCurvature().getValue(), theta));
+		dy.setValue(XesUtils.getDy((Double) getRadiusOfCurvature().getValue(), theta));
 	}
 
 	private void updateEnergyMaxBounds(ScaleBoxAndFixedExpression energy) {
-		final XesMaterial material = "Si".equals(analyserType.getValue())
-							        ? XesMaterial.SILICON
-							        : XesMaterial.GERMANIUM;
+		final XesMaterial material = "Si".equals(analyserType.getValue()) ? XesMaterial.SILICON : XesMaterial.GERMANIUM;
 		final double E = XesUtils.getFluoEnergy(XesUtils.MIN_THETA, material, getAnalyserCutValues());
 		energy.setMaximum(E);
 	}
-	
+
 	private void updateEnergyMinBounds(ScaleBoxAndFixedExpression energy) {
-		final XesMaterial material  = "Si".equals(analyserType.getValue())
-									? XesMaterial.SILICON
-									: XesMaterial.GERMANIUM;
+		final XesMaterial material = "Si".equals(analyserType.getValue()) ? XesMaterial.SILICON : XesMaterial.GERMANIUM;
 		final double E = XesUtils.getFluoEnergy(XesUtils.MAX_THETA, material, getAnalyserCutValues());
 		energy.setMinimum(E);
 	}
 
 	private double updateXesTheta(ScaleBoxAndFixedExpression energyBox) {
-		final XesMaterial material = "Si".equals(analyserType.getValue())
-		                           ? XesMaterial.SILICON
-				                   : XesMaterial.GERMANIUM;
-		final double      energy   = energyBox.getNumericValue();
-		final double      theta    = XesUtils.getBragg(energy, material, getAnalyserCutValues());
+		final XesMaterial material = "Si".equals(analyserType.getValue()) ? XesMaterial.SILICON : XesMaterial.GERMANIUM;
+		final double energy = energyBox.getNumericValue();
+		final double theta = XesUtils.getBragg(energy, material, getAnalyserCutValues());
 		energyBox.setFixedExpressionValue(theta);
-        return theta;
+		return theta;
 	}
-	
-	public int[] getAnalyserCutValues(){
-		int int0 = (Integer)getAnalyserCut0().getValue();
-		int int1 = (Integer)getAnalyserCut1().getValue();
-		int int2 = (Integer)getAnalyserCut2().getValue();
-		
-		return new int[]{int0,int1,int2};
+
+	public int[] getAnalyserCutValues() {
+		int int0 = (Integer) getAnalyserCut0().getValue();
+		int int1 = (Integer) getAnalyserCut1().getValue();
+		int int2 = (Integer) getAnalyserCut2().getValue();
+
+		return new int[] { int0, int1, int2 };
 	}
 
 	private void setExcluded(Composite comp, boolean b) {
-		final GridData data = (GridData)comp.getLayoutData();
+		final GridData data = (GridData) comp.getLayoutData();
 		data.exclude = !b;
 		comp.setVisible(b);
 	}
-
 
 	private void createBounds() {
 		xesInitialEnergy.setMaximum(xesFinalEnergy);
 		xesFinalEnergy.setMinimum(xesInitialEnergy);
 		xesStepSize.setMinimum(0.01);
 		xesStepSize.setMaximum(1000);
-		
+
 		monoInitialEnergy.setMinimum(2000d);
 		monoInitialEnergy.setMaximum(monoFinalEnergy);
 		monoFinalEnergy.setMinimum(monoInitialEnergy);
@@ -701,41 +704,45 @@ public final class XesScanParametersComposite extends Composite {
 	}
 
 	private void updateElement() {
-		
+
 		Element ele = getSelectedElement();
-		if (ele==null) {
-			if (red==null||red.isDisposed()) red = getShell().getDisplay().getSystemColor(SWT.COLOR_RED);
+		if (ele == null) {
+			if (red == null || red.isDisposed())
+				red = getShell().getDisplay().getSystemColor(SWT.COLOR_RED);
 			element.setForeground(red);
-        	return;
+			return;
 		}
-		
-		if (black==null||black.isDisposed()) black = getShell().getDisplay().getSystemColor(SWT.COLOR_BLACK);
+
+		if (black == null || black.isDisposed())
+			black = getShell().getDisplay().getSystemColor(SWT.COLOR_BLACK);
 		element.setForeground(black);
-		 
-		String currentEdge = (String)edge.getValue();
-		
+
+		String currentEdge = (String) edge.getValue();
+
 		final List<String> edges = ele.getAllowedEdges();
 		this.edge.setItems(edges.toArray(new String[edges.size()]));
-		if (currentEdge==null || !edges.contains(currentEdge)) currentEdge = edges.get(0);
+		if (currentEdge == null || !edges.contains(currentEdge))
+			currentEdge = edges.get(0);
 		edge.select(edges.indexOf(currentEdge));
-		
+
 		final double edgeEn = ele.getEdgeEnergy(currentEdge);
 		getMonoEnergy().setValue(edgeEn); // Its in eV in Element.
 
 	}
 
 	private void updateEdge(final String edge) {
-		
+
 		Element ele = getSelectedElement();
-		if (ele==null) return;
+		if (ele == null)
+			return;
 		final double edgeEn = ele.getEdgeEnergy(edge);
 		getMonoEnergy().setValue(edgeEn); // Its in eV in Element.
 	}
-	
-	private Color red,black;
+
+	private Color red, black;
 	private Label lblFileName;
 
-	private File  editorFolder;
+	private File editorFolder;
 	private IFile editingFile;
 	private Label lblL;
 	private LabelWrapper L;
@@ -743,32 +750,33 @@ public final class XesScanParametersComposite extends Composite {
 	private LabelWrapper dx;
 	private Label lblDy;
 	private LabelWrapper dy;
-	
+
 	@Override
 	public void dispose() {
-		if (lblMonoEnergy!=null&&!lblMonoEnergy.isDisposed()) lblMonoEnergy.removeSelectionListener(lblMonoEnergySelectionListener);
+		if (lblMonoEnergy != null && !lblMonoEnergy.isDisposed())
+			lblMonoEnergy.removeSelectionListener(lblMonoEnergySelectionListener);
 		super.dispose();
 	}
 
 	protected Element getSelectedElement() {
-		final String symbol = (String)element.getValue();
-		final Element ele   = Element.getElement(symbol);
+		final String symbol = (String) element.getValue();
+		final Element ele = Element.getElement(symbol);
 		return ele;
 	}
-	
-	public FieldComposite getAdditionalCrystal0(){
+
+	public FieldComposite getAdditionalCrystal0() {
 		return additionalCrystal0;
 	}
-	
-	public FieldComposite getAdditionalCrystal1(){
+
+	public FieldComposite getAdditionalCrystal1() {
 		return additionalCrystal1;
 	}
-	
-	public FieldComposite getAdditionalCrystal2(){
+
+	public FieldComposite getAdditionalCrystal2() {
 		return additionalCrystal2;
 	}
-	
-	public FieldComposite getAdditionalCrystal3(){
+
+	public FieldComposite getAdditionalCrystal3() {
 		return additionalCrystal3;
 	}
 
@@ -783,11 +791,11 @@ public final class XesScanParametersComposite extends Composite {
 	public FieldComposite getAnalyserCut0() {
 		return analyserCut0;
 	}
-	
+
 	public FieldComposite getAnalyserCut1() {
 		return analyserCut1;
 	}
-	
+
 	public FieldComposite getAnalyserCut2() {
 		return analyserCut2;
 	}
@@ -844,8 +852,12 @@ public final class XesScanParametersComposite extends Composite {
 		return monoEnergy;
 	}
 
+	public RadioWrapper getLoopChoice() {
+		return loopChoice;
+	}
+
 	public void setEditingInput(final IEditorInput editing) {
-		this.editingFile  = EclipseUtils.getIFile(editing);
+		this.editingFile = EclipseUtils.getIFile(editing);
 		this.editorFolder = EclipseUtils.getFile(editing).getParentFile();
 		scanFileName.setFolder(editorFolder);
 	}
