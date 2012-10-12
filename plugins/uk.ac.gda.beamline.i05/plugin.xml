@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+  <extension point="org.eclipse.core.contenttype.contentTypes">
+     <content-type
+       base-type="org.eclipse.core.runtime.xml"
+       describer="uk.ac.gda.arpes.ui.ARPESScanBeanDescriber"
+       file-extensions="xml"
+       id="uk.ac.gda.arpes.beans.ARPESScanBeanContentType"
+       name="ARPESScanBean File Content"
+       priority="high">
+     </content-type>
+  </extension>
+  <extension point="org.eclipse.ui.editors">
+    <editor class="uk.ac.gda.arpes.ui.ARPESScanBeanEditor"
+            default="true"
+            id="uk.ac.gda.arpes.beans.ARPESScanBeanEditor"
+            name="ARPES Scan Editor">
+            <contentTypeBinding
+                contentTypeId="uk.ac.gda.arpes.beans.ARPESScanBeanContentType">
+            </contentTypeBinding>
+     </editor>
+  </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="Beamline I05">
+         <property
+               name="appName"
+               value="Beamline I05">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+         <property
+               name="windowImages"
+               value="icons/GDALogo16.png,icons/GDALogo32.png">
+         </property>         
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="uk.ac.gda.beamline.i05.I05StartupService">
+      </startup>
+   </extension>
+<extension
+          point="org.eclipse.ui.perspectiveExtensions">
+    <perspectiveExtension targetID="*">
+       <perspectiveShortcut
+             id="uk.ac.gda.pydev.extension.ui.JythonPerspective">
+       </perspectiveShortcut>
+-   </perspectiveExtension>
+-   </extension>
+<extension
+      point="uk.ac.gda.client.dashboard.objects">
+   <Scannable
+         name="ringcurrent"
+         tooltip="ring current reading.">
+   </Scannable>
+</extension>
+<extension
+      point="uk.ac.gda.client.preferences">
+   <preference
+         name="gda.client.max.size.cached.points"
+         value="10000">
+   </preference>
+</extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="uk.ac.gda.beamline.i05.perspectives.ArpesAlignmentPerspective"
+            id="uk.ac.gda.beamline.i05.perspectives.ArpesAlignmentPerspective"
+            icon="icons/application_view_gallery.png"
+            name="ARPES Alignment">
+      </perspective>     
+      <perspective
+            class="uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective"
+            id="uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective"
+            icon="icons/application_view_gallery.png"
+            name="ARPES Experiment">
+      </perspective>  
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Data Acquisition - ARPES"
+            id="gda.rcp.arpes">
+      </category>
+      <view
+            category="gda.rcp.arpes"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            icon="icons/sample.gif"
+            id="uk.ac.gda.client.arpes.cameraview"
+            name="Detector Plot"
+            restorable="true">
+      </view>
+   </extension>
+</plugin>

@@ -1,0 +1,133 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"	
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder location="file:${gda.config}/properties/${gda.mode}/java.properties,file:${gda.config}/properties/java.properties" />
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+	
+	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
+
+	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+
+	<bean id="plot_server"
+		class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
+       
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
+		<property name="metadataEntries">
+			<list>
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="instrument" />
+					<property name="propertyName" value="gda.instrument" />
+				</bean>
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="federalid" />
+					<property name="value" value="" />
+				</bean>
+	<!-- 			<ref bean="subdirectory" /> -->
+				<bean class="gda.data.metadata.StoredScanMetadataEntry">
+					<property name="name" value="title" />
+					<property name="value" value="undefined" />
+				</bean>
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="note" />
+					<property name="value" value="undefined" />
+				</bean>
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="instrument.source.energy" />
+					<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
+				</bean>
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="instrument.source.current" />
+					<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
+				</bean>
+				<bean class="gda.data.metadata.ScannableMetadataEntry">
+					<property name="name" value="instrument.monochromator.energy" />
+					<property name="scannableName" value="bkeV" />
+				</bean>
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="instrument.insertion_device.gap" />
+					<property name="pvName" value="SR05I-MO-SERVC-01:CURRGAPD" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry" />
+
+	<bean class="gda.data.metadata.MetadataBlaster" id="observableSubdirectory">
+		<property name="storedMetadataEntry" ref="subdirectory" />
+	</bean>
+
+	<bean class="gda.data.metadata.IntransparentLogFilePathProvider" id="logfilenameprovider">
+		<property name="storedMetadataEntry" ref="subdirectory" /> 
+		<property name="pathTemplate" value="/dls_sw/i05/software/data/$year$/$visit$/gda-console-$visit$.log" />
+	</bean>
+
+	<bean id="jython_server_facade" class="gda.jython.JythonServerFacade">
+		<constructor-arg ref="command_server" />
+	</bean>
+
+	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">
+		<constructor-arg ref="logfilenameprovider" />
+	</bean>
+	
+	<bean class="gda.jython.logger.OutputTerminalAdapter">
+		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="terminal_logger"/>
+	</bean>
+	<bean class="gda.jython.logger.InputTerminalAdapter">
+		<constructor-arg ref="command_server" />
+		<constructor-arg ref="terminal_logger"/>
+	</bean>
+	<bean class="gda.jython.logger.ScanDataPointAdapter">
+		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="terminal_logger"/>
+	</bean>
+	<bean class="gda.jython.logger.BatonChangedAdapter">
+		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="terminal_logger"/>
+	</bean>
+
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+
+	<bean class="gda.factory.corba.util.AdapterFactory">
+		<constructor-arg index="0" value="${gda.factory.factoryName}" />
+		<constructor-arg index="1">
+			<bean class="gda.spring.NetServiceFactoryBean" />
+		</constructor-arg>
+	</bean>
+        
+        <bean id="commandQueue" class="gda.commandqueue.CommandQueue" />
+
+
+        <bean id="commandQueueProcessor" class = "gda.commandqueue.FindableProcessorQueue">
+                <property name="queue" ref="commandQueue"/>
+                <property name="startImmediately" value="true"/>
+                <property name="logFilePath" value="${gda.var}/commandQueueProcessor.log"/>
+        </bean>
+
+        <bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+                <property name="serviceName" value="gda/commandQueueProcessor" />
+                <property name="service" ref="commandQueueProcessor" />
+                <property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
+        </bean>
+
+	<import resource="devices/${gda.mode}/i05_server_devices.xml" />
+	<import resource="i05_server_dummy.xml" />
+
+    <corba:export namespace="i05" />
+
+	<gda:rbac />
+
+</beans>

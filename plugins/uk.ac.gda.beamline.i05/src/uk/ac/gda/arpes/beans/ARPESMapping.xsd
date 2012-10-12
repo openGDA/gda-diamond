@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:simpleType name="lenstype">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Transmission" />
+			<xsd:enumeration value="Angular7" />
+			<xsd:enumeration value="Angular7_fix" />
+			<xsd:enumeration value="Angular14" />
+			<xsd:enumeration value="A14small" />
+			<xsd:enumeration value="Angular30" />
+			<xsd:enumeration value="A30small" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:element name="ARPESScanBean">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="label" type="xsd:string" minOccurs="0"
+					maxOccurs="1" />
+				<xsd:element name="lensMode" type="lenstype" minOccurs="1"
+					maxOccurs="1" />
+				<xsd:element name="sweptMode" type="xsd:boolean"
+					minOccurs="1" />
+				<xsd:element name="passEnergy" type="xsd:int" minOccurs="1" />
+				<xsd:element name="startEnergy" type="xsd:double"
+					minOccurs="1" />
+				<xsd:element name="endEnergy" type="xsd:double"
+					minOccurs="1" />
+				<xsd:element name="stepEnergy" type="xsd:double"
+					minOccurs="1" />
+				<xsd:element name="timePerStep" type="xsd:double"
+					minOccurs="1" />
+				<xsd:element name="iterations" type="xsd:int" minOccurs="0" />
+				<xsd:element name="photonEnergy" type="xsd:double"
+					minOccurs="0" />
+				<xsd:element name="sampleTemperature" type="xsd:double"
+					minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
