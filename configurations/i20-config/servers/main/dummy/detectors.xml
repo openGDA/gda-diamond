@@ -14,7 +14,7 @@
 		</property>
 		<property name="dataPort" value="20030" />
 		<property name="replyTimeOut" value="5000" />
-		<property name="dataFile" value="Mofoil2.dat" />
+<!-- 		<property name="dataFile" value="Mofoil2.dat" /> -->
 		<property name="xspressMode">
 			<bean class="gda.device.detector.DUMMY_XSPRESS2_MODE"
 				factory-method="valueOf">
@@ -82,7 +82,6 @@
 				<value>I0</value>
 				<value>It</value>
 				<value>Iref</value>
-				<value>I1</value>
 				<value>lnI0It</value>
 				<value>lnItIref</value>
 			</list>
@@ -92,17 +91,16 @@
 		<property name="timeChannelRequired" value="false" />
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="4" />
+		<property name="numChannelsToRead" value="3" />
 		<property name="darkCurrentRequired" value="false" />
 		<property name="outputFormat">
 			<list>
-				<value>%6.4g</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%.4g</value>
-				<value>%.4g</value>
+				<value>%.4f</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
+				<value>%.4f</value>
+				<value>%.4f</value>
 			</list>
 		</property>
 	</bean>
@@ -121,8 +119,8 @@
 		<property name="firstDataChannel" value="4" />
 		<property name="outputFormat">
 			<list>
-				<value>%6.4g</value>
-				<value>%9d</value>
+				<value>%.4f</value>
+				<value>%.2f</value>
 			</list>
 		</property>
 	</bean>
