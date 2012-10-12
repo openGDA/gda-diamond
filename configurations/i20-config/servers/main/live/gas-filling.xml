@@ -96,6 +96,7 @@
 		<property name="power_supply" ref="ionc1_power_supply" />
 		<property name="ion_chamber" value="0" />
 		<property name="base_pressure" ref="ionc_base_pressure" />
+		<property name="abortPV" value="BL20I-EA-GIR-01:CON" />
 	</bean>
 	
 	<bean id="ionc2_gas_injector" class="gda.device.scannable.GasInjectionScannable">
@@ -116,6 +117,7 @@
 		<property name="power_supply" ref="ionc2_power_supply" />
 		<property name="ion_chamber" value="1" />
 		<property name="base_pressure" ref="ionc_base_pressure" />
+		<property name="abortPV" value="BL20I-EA-GIR-01:CON" />
 	</bean>
 	
 	<bean id="ionc3_gas_injector" class="gda.device.scannable.GasInjectionScannable">
@@ -136,6 +138,7 @@
 		<property name="power_supply" ref="ionc3_power_supply" />
 		<property name="ion_chamber" value="2" />
 		<property name="base_pressure" ref="ionc_base_pressure" />
+		<property name="abortPV" value="BL20I-EA-GIR-01:CON" />
 	</bean>
 
 	<bean id="ionc1_pressure" class="gda.device.scannable.GasFillFieldScannable">

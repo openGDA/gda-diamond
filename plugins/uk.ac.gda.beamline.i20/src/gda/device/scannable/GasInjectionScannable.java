@@ -20,7 +20,9 @@ package gda.device.scannable;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
+import gda.epics.CAClient;
 import gda.factory.FactoryException;
+import gov.aps.jca.CAException;
 
 import java.util.List;
 
@@ -58,6 +60,8 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	private double gas_fill2_period_val;
 	private double base_pressure_val;
 	private int gas_select_val;
+	
+	private String abortPV;
 
 	@Override
 	public boolean isBusy() {
@@ -324,6 +328,22 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 		positions[7] = getFillStatus();
 		return positions;
 	}
+	
+	public void abort(){
+		CAClient ca_client = new CAClient();
+		try {
+			ca_client.caput(abortPV, 1);
+		} catch (CAException e) {
+			logger.error("Could not abort gas filling", e);
+		} catch (InterruptedException e) {
+			logger.error("Could not abort gas filling", e);
+		}
+	}
+	
+	public void setAbortPV(String pv){
+		abortPV = pv;
+	}
+	
 
 	public Scannable getPurge_pressure() {
 		return purge_pressure;
