@@ -145,8 +145,20 @@ public class EDEScan extends ExperimentObject implements IExperimentObject, Seri
 	}
 
 	@Override
-	public String getCommandString() throws Exception {
-		return "ede " + getArgs();
+	public String getCommandSummaryString(boolean hasBeenStarted) {
+	
+		final StringBuilder buf = new StringBuilder();
+		if (!hasBeenStarted){
+			buf.append(getNumberRepetitions() + " repeats: ");
+		}
+		buf.append(getRunName());
+		buf.append(" ");
+		buf.append(getScanFileName());
+		buf.append(" ");
+		buf.append(getOptionsFileName());
+		buf.append(" ");
+		buf.append(getTfgParametersFileName());
+		return buf.toString();
 	}
 
 //	@Override
