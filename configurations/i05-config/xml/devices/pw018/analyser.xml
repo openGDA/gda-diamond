@@ -106,5 +106,14 @@
 		<!-- <property name="ndStats" ref="stats" /> -->
 		<property name="ndFile" ref="filebase" />
 		<property name="local" value="false" />
+		<property name="capabilities" ref="AnalyserCapabilities" />
+	</bean>
+	
+	<bean id="AnalyserCapabilities" class="uk.ac.gda.arpes.detector.AnalyserCapabilties" />
+	
+	<bean id="AnalyserLive" class="uk.ac.gda.arpes.detector.AnalyserLiveDataDispatcher">
+		<property name="analyser" ref="analyser" />
+		<property name="plotName" value="Detector Plot" />
+		<property name="arrayPV" value="BL05I-EA-DET-01:ARR1:ArrayData" />
 	</bean>
 </beans>

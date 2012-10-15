@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class AnalyserCapabilties implements Findable {
 
-	public static String name = "AnalyserCapabilties";
+	private String name = "AnalyserCapabilties";
 	
 	public static Map<String, double[]> lens2angles = new HashMap<String, double[]>();
 	
@@ -54,6 +54,7 @@ public class AnalyserCapabilties implements Findable {
 	
 	@Override
 	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
