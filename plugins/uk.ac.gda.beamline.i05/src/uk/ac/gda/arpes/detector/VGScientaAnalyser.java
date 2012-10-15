@@ -29,6 +29,7 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 
 	private VGScientaController controller;
 	private AnalyserCapabilties ac;
+	private int[] fixedModeRegion;
 
 	public AnalyserCapabilties getCapabilities() {
 		return ac;
@@ -90,5 +91,24 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 			data.addAxis(getName(), aname, new int[] { axis.length }, NexusFile.NX_FLOAT64, axis, i + 1, 1, aunit,
 					false);
 		}
+	}
+	
+	public void prepareFixedMode() throws Exception {
+		controller.setAcquisitionMode("Fixed");
+		getAdBase().setMinX(fixedModeRegion[0]);
+		getAdBase().setMinY(fixedModeRegion[1]);
+		getAdBase().setSizeX(fixedModeRegion[2]);
+		getAdBase().setSizeY(fixedModeRegion[3]);
+		getAdBase().setImageMode(0);
+		getAdBase().setTriggerMode(0);
+		controller.setSlice(fixedModeRegion[3]);
+	}
+
+	public int[] getFixedModeRegion() {
+		return fixedModeRegion;
+	}
+
+	public void setFixedModeRegion(int[] fixedModeRegion) {
+		this.fixedModeRegion = fixedModeRegion;
 	}
 }

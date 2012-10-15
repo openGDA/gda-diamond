@@ -107,6 +107,14 @@
 		<property name="ndFile" ref="filebase" />
 		<property name="local" value="false" />
 		<property name="capabilities" ref="AnalyserCapabilities" />
+		<property name="fixedModeRegion">
+			<list>
+				<value>0</value>
+				<value>0</value>
+				<value>1015</value>
+				<value>948</value>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="AnalyserCapabilities" class="uk.ac.gda.arpes.detector.AnalyserCapabilties" />
