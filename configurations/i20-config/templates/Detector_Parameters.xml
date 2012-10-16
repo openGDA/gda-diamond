@@ -109,7 +109,7 @@
         <detectorType>Silicon</detectorType>
         <ionChamber>
             <name>I1</name>
-            <deviceName>ionchambers</deviceName>
+            <deviceName>I1</deviceName>
             <channel>1</channel>
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>1 nA/V</gain>
@@ -117,7 +117,7 @@
             <percentAbsorption>1.0</percentAbsorption>
             <pressure>2823.152371036204</pressure>
             <totalPressure>1.0</totalPressure>
-            <ionChamberLength>30.0</ionChamberLength>
+            <ionChamberLength>15.0</ionChamberLength>
         </ionChamber>
     </xes>
 </DetectorParameters>

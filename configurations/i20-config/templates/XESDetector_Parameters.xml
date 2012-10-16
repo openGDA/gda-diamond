@@ -110,7 +110,7 @@
         <detectorType>Silicon</detectorType>
         <ionChamber>
             <name>I1</name>
-            <deviceName>ionchambers</deviceName>
+            <deviceName>I1</deviceName>
             <channel>1</channel>
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>1 nA/V</gain>
