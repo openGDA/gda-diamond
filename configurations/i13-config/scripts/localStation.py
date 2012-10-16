@@ -18,13 +18,13 @@ class ExperimentShutterEnumPositioner(ScannableBase):
 		if new_position == self.rawGetPosition():
 			return
 		if new_position == "Open":
-			self.delegate.asynchronousMoveTo(5.)
+			self.delegate.asynchronousMoveTo(1)
 		else:
-			self.delegate.asynchronousMoveTo(0.)
+			self.delegate.asynchronousMoveTo(0)
 		time.sleep(1) #sleep to allow shutter to 
 	def rawGetPosition(self):
 		position = self.delegate.getPosition()
-		if int(position) == 5:
+		if int(position) == 1:
 			return "Open" 
 		return "Closed"
 
@@ -74,7 +74,7 @@ try:
 	
 	if not LocalProperties.check("gda.dummy.mode"):
 		createPVScannable( "d1_total", "BL13I-DI-PHDGN-01:STAT:Total_RBV")
-		createPVScannable( "expt_fastshutter_raw", "BL13I-EA-FSHTR-01:RAWCONTROL", hasUnits=False)
+		createPVScannable( "expt_fastshutter_raw", "BL13I-EA-FSHTR-01:CONTROL", hasUnits=False)
 		expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", expt_fastshutter_raw)
 	
 	#make scannablegroup for driving sample stage

@@ -5,7 +5,10 @@ notify-send -t 10000 "GDA Client is starting..."
 #identify install folder and JAVA_HOME
 source /dls_sw/i13/etc/i13_profile.sh
 
-gdalog
+. /usr/share/Modules/init/bash
+module load java/gda
+
+#gdalog
 
 if [ "$1" = "--clean" ]
 then

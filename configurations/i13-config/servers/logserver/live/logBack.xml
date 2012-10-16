@@ -16,7 +16,7 @@
     </appender>
 
     <logger name="gda">
-        <level value="INFO"/>
+        <level value="DEBUG"/>
     </logger>
 
     <logger name="gdascripts.messages.handle_messages">

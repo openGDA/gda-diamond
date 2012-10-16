@@ -81,7 +81,7 @@
 		<property name="fileTemplate" value="%s%s-%d.hdf"/>
 		<property name="fileNumberAtScanStart" value="-1"/>
 		<property name="setFileNameAndNumber" value="true"/>
-		<property name="rowChunks" value="32"/>
+		<property name="rowChunks" value="2672"/>
 	</bean>
 
 	<bean id="pco1_hdf" class="gda.device.detector.addetector.ADPco">

@@ -166,12 +166,12 @@
 		<constructor-arg ref="BeamLineEnergy_DCM_Angstrom_To_Deg_converter" />
 	</bean>
 	
-	<bean id="dcm_eV" class="gda.device.scannable.ConvertorScannable">
+	<bean id="dcm_keV" class="gda.device.scannable.ConvertorScannable">
 		<property name="scannable" ref="dcm_bragg"/>
 		<property name="convertor" ref="BeamLineEnergy_DCM_eV_To_Deg_converter"/>	
 		<property name="lowerGdaLimits" value="1000"/>
 		<property name="upperGdaLimits" value="50000"/>
-		<property name="initialUserUnits" value="eV" />
+		<property name="initialUserUnits" value="keV" />
 	</bean>
 	
 </beans>

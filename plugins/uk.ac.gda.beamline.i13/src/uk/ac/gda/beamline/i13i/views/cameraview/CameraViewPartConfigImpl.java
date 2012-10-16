@@ -44,6 +44,7 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 	private DisplayScaleProvider displayScaleProvider;
 	private Scannable cameraXYScannable;
 	private String autoCentreCmd;
+	private String showNormalisedImageCmd;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -188,6 +189,15 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 
 	public void setAutoCentreCmd(String autoCentreCmd) {
 		this.autoCentreCmd = autoCentreCmd;
+	}
+
+	@Override
+	public String getShowNormalisedImageCmd() {
+		return showNormalisedImageCmd;
+	}
+
+	public void setShowNormalisedImageCmd(String showNormalisedImageCmd) {
+		this.showNormalisedImageCmd = showNormalisedImageCmd;
 	}
 
 	

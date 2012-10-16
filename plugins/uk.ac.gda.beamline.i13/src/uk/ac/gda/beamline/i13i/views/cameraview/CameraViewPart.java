@@ -32,6 +32,8 @@ import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import java.util.Vector;
 
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealVector;
@@ -40,13 +42,15 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IMenuCreator;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -54,11 +58,15 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
@@ -82,12 +90,11 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 	static final Logger logger = LoggerFactory.getLogger(CameraViewPart.class);
 
 	static public String ID = "uk.ac.gda.client.tomo.CameraView";
-	private CameraComposite cameraComposite;
 
+	private CameraComposite cameraComposite;
 	private CameraViewPartConfig cameraConfig;
 	private VideoReceiver<ImageData> videoReceiver;
 
-	private boolean moveOnClickEnabled, moveRelImageMarkerEnabled;
 
 	public CameraViewPart() {
 	}
@@ -99,11 +106,22 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		return MatrixUtils.createRealVector(data);
 	}
 
+	private boolean layoutReset = false;
+
+	private Action moveOnClickAction, rotationAxisAction, reconnectAction, showImageMarkerAction;
+
+	private Composite cmp;
+
+	private Button reconnectButton;
+
 	private Menu rightClickMenu;
+
+	private MenuCreator moveMenu, exposureMenu, showMenu;
 
 	private MenuItem setRotationAxisX, setImageMarker;
 
-	protected boolean changeRotationAxisX, changeImageMarker;
+	protected boolean changeRotationAxisX, changeImageMarker, moveOnClickEnabled;
+
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -115,46 +133,31 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			lblCamera.setText("No CameraViewPartConfig service found");
 			return;
 		}
-		try {
-			NDProcess ndProcess = cameraConfig.getNdProcess();
-			if (ndProcess.getEnableOffsetScale_RBV() != 1)
-				ndProcess.setEnableOffsetScale(1);
-			if (ndProcess.getDataTypeOut_RBV() != NDProcess.DatatypeOut_UInt8)
-				ndProcess.setDataTypeOut(NDProcess.DatatypeOut_UInt8);
+		
+		cmp = new Composite(parent,SWT.NONE);
+		cmp.setLayout(new GridLayout());
 
-			ndProcess.setEnableHighClip(1);
-			ndProcess.setEnableLowClip(1);
-			ndProcess.setHighClip(255);
-			ndProcess.setLowClip(0);
-			NDPluginBase procBase = ndProcess.getPluginBase();
-			if (!procBase.isCallbacksEnabled_RBV())
-				procBase.enableCallbacks();
-
-			FfmpegStream ffmpegStream = cameraConfig.getFfmpegStream();
-			ffmpegStream.setMAXW(cameraConfig.getfFMpegImgWidthRequired());
-			ffmpegStream.setMAXH(cameraConfig.getfFMpegImgHeightRequired());
-			ffmpegStream.setQUALITY(100.);
-			NDPluginBase ffmpegBase = ffmpegStream.getPluginBase();
-			String procPortName_RBV = procBase.getPortName_RBV();
-			if (!ffmpegBase.getNDArrayPort_RBV().equals(procPortName_RBV))
-				ffmpegBase.setNDArrayPort(procPortName_RBV);
-			if (!ffmpegBase.isCallbacksEnabled_RBV())
-				ffmpegBase.enableCallbacks();
-
-			NDPluginBase arrayBase = cameraConfig.getNdArray().getPluginBase();
-			String procNdArrayPort_RBV = procBase.getNDArrayPort_RBV();
-			if (!arrayBase.getNDArrayPort_RBV().equals(procNdArrayPort_RBV))
-				arrayBase.setNDArrayPort(procNdArrayPort_RBV);
-			if (!arrayBase.isCallbacksEnabled_RBV())
-				arrayBase.enableCallbacks();
-
-			reconnect();
-		} catch (Exception e1) {
-			logger.error("Error creating controls for camera view", e1);
-			return;
-		}
-
-		cameraComposite = new CameraComposite(parent, SWT.NONE, parent.getDisplay(), videoReceiver, this);
+		reconnectButton = new Button(cmp, SWT.PUSH);
+		reconnectButton.setText("Camera not found. Press to try again.");
+		reconnectButton.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_RED));
+		//use grabHoriz to get the composite to ask its children for their size
+		GridDataFactory.fillDefaults().grab(true,false).applyTo(reconnectButton);
+		reconnectButton.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				reconnectAction.run();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		reconnectButton.setVisible(true);
+		
+		cameraComposite = new CameraComposite(cmp, SWT.NONE, parent.getDisplay(), this);
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(cameraComposite);
+		cameraComposite.setVisible(false);
 
 		cameraComposite.getViewer().getPositionTool().addImagePositionListener(new ImagePositionListener() {
 
@@ -185,7 +188,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 							cameraConfig.getRotationAxisXScannable().asynchronousMoveTo(clickPointInImage.getEntry(0));
 						} catch (DeviceException e) {
-							logger.error("Error setting rotationAxis", e);
+							reportErrorToUserAndLog("Error setting rotationAxis", e);
 						}
 					}
 					changeRotationAxisX = false;
@@ -213,7 +216,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 							cameraConfig.getCameraXYScannable().asynchronousMoveTo(
 									new double[] { clickPointInImage.getEntry(0), clickPointInImage.getEntry(1) });
 						} catch (DeviceException e) {
-							logger.error("Error setting image marker", e);
+							reportErrorToUserAndLog("Error setting image marker", e);
 						}
 					}
 					changeImageMarker = false;
@@ -223,7 +226,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 					try {
 						cameraConfig.getImageViewerListener().imageFinished(event, cameraComposite.getViewer());
 					} catch (DeviceException e) {
-						logger.error("Error processing imageFinished", e);
+						reportErrorToUserAndLog("Error processing imageFinished", e);
 					}
 				}
 
@@ -234,16 +237,14 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			}
 		}, null);
 
-		IActionBars actionBars = getViewSite().getActionBars();
-		IMenuManager dropDownMenu = actionBars.getMenuManager();
 
-		Action setExposureTime = new Action("Set Exposure Time") {
+		final Action setExposureTime = new Action("Set Exposure Time") {
 			@Override
 			public void run() {
 				try {
 					setExposureTime();
 				} catch (Exception e) {
-					logger.error("Error setting exposure time", e);
+					reportErrorToUserAndLog("Error setting exposure time", e);
 				}
 			}
 		};
@@ -254,27 +255,29 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				zoomToFit();
 			}
 		};
-		Action showRawData = new Action("Show Raw Data") {
+		Action showRawData = new Action("Show Hi Res Image") {
 			@Override
 			public void run() {
 				try {
 					showRawData();
 				} catch (Exception e) {
-					logger.error("Error showing raw data", e);
+					reportErrorToUserAndLog("Error showing raw data", e);
 				}
 			}
 		};
-		dropDownMenu.add(new Action("Reconnect") {
+		showRawData.setToolTipText("Displays hi resolution image in 'Detector Image' window");
+		
+		reconnectAction = new Action("Reconnect") {
 			@Override
 			public void run() {
 				try {
 					reconnect();
 				} catch (Exception e) {
-					logger.error("Error re-connecting to stream", e);
+					reportErrorToUserAndLog("Error re-connecting to stream", e);
 				}
 			}
 
-		});
+		};
 
 		Action autoExposureAction = new Action("Auto-Exposure") {
 			@Override
@@ -282,7 +285,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				try {
 					autoBrightness(true);
 				} catch (Exception e) {
-					logger.error("Error performing auto-exposure", e);
+					reportErrorToUserAndLog("Error performing auto-exposure", e);
 				}
 			}
 		};
@@ -293,7 +296,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				try {
 					autoCentre();
 				} catch (Exception e) {
-					logger.error("Error performing auto-centre", e);
+					reportErrorToUserAndLog("Error performing auto-centre", e);
 				}
 			}
 		};
@@ -304,17 +307,31 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				try {
 					autoBrightness(false);
 				} catch (Exception e) {
-					logger.error("Error performing auto-constrast", e);
+					reportErrorToUserAndLog("Error performing auto-constrast", e);
 				}
 			}
 		};
+
+		Action showNormalisedImageAction = new Action("Show Normalied Image") {
+			@Override
+			public void run() {
+				try {
+					showNormalisedImage();
+				} catch (Exception e) {
+					reportErrorToUserAndLog("Error performing showNormalisedImage", e);
+				}
+			}
+		};
+
+		
+		
 		rotationAxisAction = new Action("Show rotation axis", IAction.AS_CHECK_BOX) {
 			@Override
 			public void run() {
 				try {
 					showRotationAxis(isChecked());
 				} catch (DeviceException e) {
-					logger.error("Error showing rotation axis", e);
+					reportErrorToUserAndLog("Error showing rotation axis", e);
 				}
 			}
 		};
@@ -322,7 +339,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			showRotationAxis(true);
 			rotationAxisAction.setChecked(true);// do not
 		} catch (DeviceException e) {
-			logger.error("Error showing rotation axis", e);
+			reportErrorToUserAndLog("Error showing rotation axis", e);
 		}
 		cameraConfig.getRotationAxisXScannable().addIObserver(new IObserver() {
 
@@ -337,7 +354,6 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			}
 
 		});
-		dropDownMenu.add(rotationAxisAction);
 
 		showImageMarkerAction = new Action("Show image marker", IAction.AS_CHECK_BOX) {
 			@Override
@@ -345,7 +361,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				try {
 					showImageMarker(isChecked());
 				} catch (DeviceException e) {
-					logger.error("Error showing image marker", e);
+					reportErrorToUserAndLog("Error showing image marker", e);
 				}
 			}
 		};
@@ -353,7 +369,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			showImageMarker(true);
 			showImageMarkerAction.setChecked(true);// do not
 		} catch (DeviceException e) {
-			logger.error("Error showing image marker", e);
+			reportErrorToUserAndLog("Error showing image marker", e);
 		}
 		cameraConfig.getCameraXYScannable().addIObserver(new IObserver() {
 
@@ -366,7 +382,6 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			}
 
 		});
-		dropDownMenu.add(showImageMarkerAction);
 
 		final Action beamScaleAction = new Action("Show Beam Scale", IAction.AS_CHECK_BOX) {
 			@Override
@@ -375,7 +390,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				try {
 					showBeamScale(isChecked());
 				} catch (DeviceException e) {
-					logger.error("Error showing beamscale", e);
+					reportErrorToUserAndLog("Error showing beamscale", e);
 				}
 			}
 		};
@@ -383,7 +398,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		try {
 			showBeamScale(beamScaleAction.isChecked());
 		} catch (DeviceException e) {
-			logger.error("Error showing beamscale", e);
+			reportErrorToUserAndLog("Error showing beamscale", e);
 		}
 
 		Action imageKeyAction = new Action("Show Image Key", IAction.AS_CHECK_BOX) {
@@ -405,17 +420,37 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		moveOnClickAction.setChecked(false);// do not
 
 
-		dropDownMenu.add(imageKeyAction);
-		dropDownMenu.add(moveOnClickAction);
-		dropDownMenu.add(beamScaleAction);
-		IToolBarManager toolBar = actionBars.getToolBarManager();
-		toolBar.add(autoCentreAction);
-		toolBar.add(autoExposureAction);
-		toolBar.add(setExposureTime);
-		toolBar.add(autoBrightnessAction);
-		toolBar.add(zoomFit);
-		toolBar.add(showRawData);
+		Vector<Action> moveActions= new Vector<Action>();
+		moveActions.add(autoCentreAction);
+		moveActions.add(moveOnClickAction);
+		
+		moveMenu = new MenuCreator("Move","Actions that move the camera and stages",moveActions);
 
+		
+		Vector<Action> exposureActions= new Vector<Action>();
+		exposureActions.add(setExposureTime);
+		exposureActions.add(autoExposureAction);
+		exposureActions.add(autoBrightnessAction);
+		
+		exposureMenu = new MenuCreator("Exposure","Actions that effect the exposure",exposureActions);
+		
+		Vector<Action> showActions= new Vector<Action>();
+		showActions.add(imageKeyAction);
+		showActions.add(beamScaleAction);
+		showActions.add(showImageMarkerAction);
+		showActions.add(rotationAxisAction);
+		showActions.add(showRawData);
+		showActions.add(showNormalisedImageAction);
+		showActions.add(zoomFit);
+		
+		showMenu = new MenuCreator("Show","show",showActions);
+
+		IActionBars actionBars = getViewSite().getActionBars();
+        IToolBarManager toolBar = actionBars.getToolBarManager();
+        toolBar.add(moveMenu);
+        toolBar.add(exposureMenu);
+        toolBar.add(showMenu);
+		
 		ImageViewer viewer = cameraComposite.getViewer();
 		rightClickMenu = new Menu(viewer.getCanvas());
 		setRotationAxisX = new MenuItem(rightClickMenu, SWT.PUSH);
@@ -477,6 +512,28 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				});
 			}
 		});
+		getSite().getShell().getDisplay().asyncExec(new Runnable(){
+
+			@Override
+			public void run() {
+				reconnectAction.run();
+			}});
+	}
+
+
+	public static void reportErrorToUserAndLog(String s, Throwable th){
+		logger.error(s, th);
+		MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR);
+		messageBox.setMessage(s + ":" + th.getMessage());
+		messageBox.open();
+		
+	}
+	public static void reportErrorToUserAndLog(String s){
+		logger.error(s);
+		MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR);
+		messageBox.setMessage(s );
+		messageBox.open();
+		
 	}
 
 	protected void toggleMoveOnClick(boolean checked) {
@@ -494,7 +551,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 					try {
 						showRotationAxis(true);
 					} catch (DeviceException e) {
-						logger.error("Error showing rotation axis", e);
+						reportErrorToUserAndLog("Error showing rotation axis", e);
 					}
 
 				}
@@ -510,7 +567,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 					try {
 						showImageMarker(true);
 					} catch (DeviceException e) {
-						logger.error("Error showing image marker", e);
+						reportErrorToUserAndLog("Error showing image marker", e);
 					}
 
 				}
@@ -522,6 +579,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		AbstractDataset arrayData = getArrayData();
 		if (arrayData != null)
 			SDAPlotter.imagePlot("Detector Image", arrayData);
+		
 	}
 
 	protected void setExposureTime() throws Exception {
@@ -555,10 +613,11 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 					try {
 						String evaluateCommand = InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
-						if(evaluateCommand ==null)
-							logger.error("Error setting exposure using command:'" + cmd +"'. See server log for details");
+						if(evaluateCommand ==null){
+							throw new Exception("Error setting exposure using command:'" + cmd +"'. See server log for details");
+						}
 					} catch (Exception e) {
-						logger.error("Error in " + title, e);
+						throw new InvocationTargetException(e, "Error in " + title);
 					}
 
 					monitor.done();
@@ -568,28 +627,96 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		}
 	}
 
-	protected void reconnect() throws Exception {
+	protected void reconnect() {
+
+		ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
+		try {
+			pd.run(true /* fork */, true /* cancelable */, new IRunnableWithProgress() {
+				@Override
+				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+					String title = "Connecting to detector IOC";
+
+					monitor.beginTask(title, 100);
+
+					
+					try {
+						reconnectEx();
+						
+					} catch (Exception e) {
+						throw new InvocationTargetException(e, "Error in " + title);
+					}
+
+					monitor.done();
+				}
+
+			});
+		} catch (Exception e) {
+			reportErrorToUserAndLog("Error connected to the camera. Ensure IOC is running");
+		}
+		boolean connected= videoReceiver != null;
+		reconnectButton.setVisible(!connected);
+		cameraComposite.setVisible(connected);
+		moveMenu.setEnabled(connected);
+		showMenu.setEnabled(connected);
+		exposureMenu.setEnabled(connected);
+		cmp.layout();
+	}
+
+	protected void reconnectEx() throws Exception {
+
 		if (videoReceiver != null) {
 			videoReceiver.closeConnection();
-			if (videoReceiver instanceof MotionJpegOverHttpReceiverSwt) {
-				((MotionJpegOverHttpReceiverSwt) videoReceiver).createConnection();
-			}
-		} else {
-			FfmpegStream ffmpegStream = cameraConfig.getFfmpegStream();
-			String url = ffmpegStream.getMJPG_URL_RBV();
-			if (url.equals("DummySwtVideoReceiver")) {
-				DummySwtVideoReceiver dummySwtVideoReceiver = new DummySwtVideoReceiver();
-				dummySwtVideoReceiver.setDesiredFrameRate(10);
-				videoReceiver = dummySwtVideoReceiver;
-
-			} else {
-				MotionJpegOverHttpReceiverSwt motionJpegOverHttpReceiverSwt = new MotionJpegOverHttpReceiverSwt();
-				motionJpegOverHttpReceiverSwt.setUrl(url);
-				motionJpegOverHttpReceiverSwt.configure();
-				motionJpegOverHttpReceiverSwt.start();
-				videoReceiver = motionJpegOverHttpReceiverSwt;
-			}
+			videoReceiver = null;
+			cameraComposite.setVideoReceiver(null);
 		}
+
+		NDProcess ndProcess = cameraConfig.getNdProcess();
+		if (ndProcess.getEnableOffsetScale_RBV() != 1)
+			ndProcess.setEnableOffsetScale(1);
+		if (ndProcess.getDataTypeOut_RBV() != NDProcess.DatatypeOut_UInt8)
+			ndProcess.setDataTypeOut(NDProcess.DatatypeOut_UInt8);
+
+		ndProcess.setEnableHighClip(1);
+		ndProcess.setEnableLowClip(1);
+		ndProcess.setHighClip(255);
+		ndProcess.setLowClip(0);
+		NDPluginBase procBase = ndProcess.getPluginBase();
+		if (!procBase.isCallbacksEnabled_RBV())
+			procBase.enableCallbacks();
+
+		FfmpegStream ffmpegStream = cameraConfig.getFfmpegStream();
+		ffmpegStream.setMAXW(cameraConfig.getfFMpegImgWidthRequired());
+		ffmpegStream.setMAXH(cameraConfig.getfFMpegImgHeightRequired());
+		ffmpegStream.setQUALITY(100.);
+		NDPluginBase ffmpegBase = ffmpegStream.getPluginBase();
+		String procPortName_RBV = procBase.getPortName_RBV();
+		if (!ffmpegBase.getNDArrayPort_RBV().equals(procPortName_RBV))
+			ffmpegBase.setNDArrayPort(procPortName_RBV);
+		if (!ffmpegBase.isCallbacksEnabled_RBV())
+			ffmpegBase.enableCallbacks();
+
+		NDPluginBase arrayBase = cameraConfig.getNdArray().getPluginBase();
+		String procNdArrayPort_RBV = procBase.getNDArrayPort_RBV();
+		if (!arrayBase.getNDArrayPort_RBV().equals(procNdArrayPort_RBV))
+			arrayBase.setNDArrayPort(procNdArrayPort_RBV);
+		if (!arrayBase.isCallbacksEnabled_RBV())
+			arrayBase.enableCallbacks();		
+		
+
+		String url = ffmpegStream.getMJPG_URL_RBV();
+		if (url.equals("DummySwtVideoReceiver")) {
+			DummySwtVideoReceiver dummySwtVideoReceiver = new DummySwtVideoReceiver();
+			dummySwtVideoReceiver.setDesiredFrameRate(10);
+			videoReceiver = dummySwtVideoReceiver;
+
+		} else {
+			MotionJpegOverHttpReceiverSwt motionJpegOverHttpReceiverSwt = new MotionJpegOverHttpReceiverSwt();
+			motionJpegOverHttpReceiverSwt.setUrl(url);
+			motionJpegOverHttpReceiverSwt.configure();
+			motionJpegOverHttpReceiverSwt.start();
+			videoReceiver = motionJpegOverHttpReceiverSwt;
+		}
+		cameraComposite.setVideoReceiver(videoReceiver);
 		videoReceiver.start();
 
 	}
@@ -620,7 +747,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		final double topQuantileValToUse = topQuantileVal;
 
 		ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
-		pd.run(true /* fork */, true /* cancelable */, new IRunnableWithProgress() {
+		IRunnableWithProgress runnable1 = new IRunnableWithProgress() {
 			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				String title = autoExposureTime ? "Adjusting exposure" : "Adjusting constrast";
@@ -630,13 +757,12 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				try {
 					autoExposureTask(autoExposureTime, monitor);
 				} catch (Exception e) {
-					logger.error("Error in " + title, e);
+					throw new InvocationTargetException(e, "Error in autoExposureTask");
 				}
-
 				monitor.done();
 			}
 
-			private void autoExposureTask(final boolean autoExposureTime, IProgressMonitor monitor) throws Exception {
+			private void autoExposureTask(final boolean autoExposureTime, IProgressMonitor monitor) throws Exception  {
 
 				if (monitor.isCanceled())
 					return;
@@ -645,6 +771,8 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				AbstractDataset dataset = getArrayData();
 
 				if (dataset == null) {
+					if( !autoExposureTime)
+						throw new Exception("Unable to read array data for image");
 					double expoTime = 0.1;
 					String desiredAcquireTimeS = Double.toString(expoTime);
 					String cmd = String.format(cameraConfig.getSetExposureTimeCmd(), desiredAcquireTimeS);
@@ -658,19 +786,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				double[] m = Stats.quantile(dataset, 0.1, 0.9);
 
 				if (Double.compare(m[1], m[0]) <= 0) {
-					if (m[0] > 10000) {
-						double acquireTime = cameraConfig.getAdBase().getAcquireTime_RBV();
-						double desiredAcquireTime = acquireTime / 2;
-						String desiredAcquireTimeS = Double.toString(desiredAcquireTime);
-						String cmd = String.format(cameraConfig.getSetExposureTimeCmd(), desiredAcquireTimeS);
-						InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
-						monitor.subTask("The current exposure time is too high for auto adjustment. The exposure time is being set to "
-								+ desiredAcquireTimeS);
-						Thread.sleep((long) (2 * 1000 * desiredAcquireTime));
-						autoExposureTask(autoExposureTime, monitor);
-
-					}
-					return;
+					throw new Exception("The current exposure time is too high for auto adjustment.");
 				}
 				double max = m[1];
 				double min = m[0];
@@ -686,6 +802,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 					String cmd = String.format(cameraConfig.getSetExposureTimeCmd(), desireAcquireTimeS);
 					monitor.subTask("Setting exposure to " + desireAcquireTimeS);
 					InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
+					Thread.sleep((long) (2 * 1000 * desiredAcquireTime));
 
 					offset = offset * factor;
 					scale = scale / factor;
@@ -695,7 +812,12 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				cameraConfig.getNdProcess().setScale(scale);
 				cameraConfig.getNdProcess().setOffset(offset);
 			}
-		});
+		};
+		try{
+			pd.run(true /* fork */, true /* cancelable */, runnable1);
+		} catch(Exception e){
+			reportErrorToUserAndLog("Error in adjusting exposure or contrast", e);
+		}
 
 	}
 
@@ -712,7 +834,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				try {
 					InterfaceProvider.getCommandRunner().evaluateCommand(cameraConfig.getAutoCentreCmd());
 				} catch (Exception e) {
-					logger.error("Error in " + title, e);
+					throw new InvocationTargetException(e, "Error in " + title);
 				}
 
 				monitor.done();
@@ -721,7 +843,52 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 	}
 
-	private AbstractDataset getArrayData() throws Exception {
+	protected void showNormalisedImage() throws Exception {
+
+		InputDialog dlg = new InputDialog(Display.getCurrent().getActiveShell(), "Show Normalised Image",
+				"Enter the out of beam position", Double.toString(0.),
+				new IInputValidator() {
+
+					@Override
+					public String isValid(String newText) {
+						try {
+							Double.valueOf(newText);
+						} catch (Exception e) {
+							return "Value is not recognised as a number '" + newText + "'";
+						}
+						return null;
+					}
+
+				});
+		if (dlg.open() != Window.OK) {
+			return;
+		}
+		final String value = dlg.getValue();
+		final String cmd = String.format(cameraConfig.getShowNormalisedImageCmd() , value);
+		
+		ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
+		pd.run(true /* fork */, true /* cancelable */, new IRunnableWithProgress() {
+			@Override
+			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+				String title = "Running command '" + cmd+ "'";
+
+				monitor.beginTask(title, 100);
+
+				try {
+					String result = InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
+					if( result == null)
+						throw new Exception("Error executing command '" + cmd + "'");
+				} catch (Exception e) {
+					throw new InvocationTargetException(e, "Error in " + title);
+				}
+
+				monitor.done();
+			}
+		});
+
+	}
+	
+	private AbstractDataset getArrayData() throws Exception  {
 		/*
 		 * get data and send to histogram code
 		 */
@@ -767,15 +934,6 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		}
 	}
 
-	/*
-	 * private void showCentreMarker(boolean show, Point beamCentre) { Figure centreMarkerFigure =
-	 * getCentreMarkerFigure(); if (centreMarkerFigure.getParent() == cameraComposite.getTopFigure())
-	 * cameraComposite.getTopFigure().remove(centreMarkerFigure); if (show) { Rectangle bounds =
-	 * centreMarkerFigure.getBounds(); Rectangle imageKeyBounds = new Rectangle(beamCentre.x - bounds.width / 2,
-	 * beamCentre.y - bounds.height / 2, -1, -1); cameraComposite.getTopFigure().add(centreMarkerFigure,
-	 * imageKeyBounds); } } private Figure getCentreMarkerFigure() { if (centreMarkerFigure == null) {
-	 * centreMarkerFigure = new CrossHairFigure(); centreMarkerFigure.setSize(200, 100); } return centreMarkerFigure; }
-	 */
 	private void showRotationAxis(boolean show) throws DeviceException {
 		Figure rotationAxisFigure = getRotationAxisFigure();
 		if (rotationAxisFigure.getParent() == cameraComposite.getTopFigure())
@@ -859,13 +1017,10 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 	public void setFocus() {
 	}
 
-	private boolean layoutReset = false;
-
-	private Action moveOnClickAction;
-
-	private Action rotationAxisAction;
-
-	private Action showImageMarkerAction;
+	
+	protected Action getReconnectAction(){
+		return reconnectAction;
+	}
 
 	@Override
 	public void handlerNewImageNotification(ImageData newImage) {
@@ -893,4 +1048,53 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 	}
 
+}
+class MenuCreator extends Action implements IMenuCreator {
+
+    private Menu fMenu;
+	private List<Action> actions;
+
+    public MenuCreator(String title, String tooltip, List<Action> actions) {
+    	this.actions = actions;
+		fMenu = null;
+        setText(title);
+        setToolTipText(tooltip);
+        setMenuCreator(this);
+        setEnabled(true);
+    }
+
+    @Override
+	public Menu getMenu(Menu parent) {
+        return null;
+    }
+
+    @Override
+	public Menu getMenu(Control parent) {
+        if (fMenu != null) {
+            fMenu.dispose();
+        }
+        fMenu= new Menu(parent);
+        for( Action act : actions){
+    		addActionToMenu(fMenu, act);
+        }
+        return fMenu;
+    }
+
+    @Override
+	public void dispose() {
+    	actions = null;
+        if (fMenu != null) {
+            fMenu.dispose();
+            fMenu = null;
+        }
+    }
+
+    protected void addActionToMenu(Menu parent, Action action) {
+        ActionContributionItem item = new ActionContributionItem(action);
+        item.fill(parent, -1);
+    }
+
+    @Override
+	public void run() {
+    }
 }

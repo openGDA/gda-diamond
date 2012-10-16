@@ -47,7 +47,7 @@ def makeLinks(scanNumber, lastImage, firstImage=2, visit="mt5811-1", year="2012"
 		subprocess.call(cmd, shell=True)
 
 
-def makeLinksToOriginalFiles(listOfProjIdx, indir="/dls/i13/data/2012/mt5811-1/564/pco1/", inFilenameFmt="p_%05d.tif", outdir=None, outFilenameFmt="p_%05d.tif"):
+def makeLinksToOriginalFiles(listOfProjIdx, indir="/dls/i13/data/2012/mt5811-1/564/pco1/", inFilenameFmt="p_%05d.tif", outdir=None, outFilenameFmt="p_%05d.tif", inFilenameOffset=0):
 	"""
 	Command to make soft links for of projections into current folder
 	scanNumber - the scan number e.g. 510
@@ -76,7 +76,7 @@ def makeLinksToOriginalFiles(listOfProjIdx, indir="/dls/i13/data/2012/mt5811-1/5
 	for i in listOfProjIdx:
 		#print "projection index: i=%s"%i
 		#print "loop index: j=%s"%j
-		filename_src=inFilenameFmt%i
+		filename_src=inFilenameFmt%(i+inFilenameOffset)
 		#filename_dst=inFilenameFmt%(i-firstImage)
 		filename_dst=outFilenameFmt%j
 		fileToLinkTo=indir_loc+os.sep+filename_src

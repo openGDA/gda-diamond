@@ -18,6 +18,7 @@ from gda.device.detector import DetectorBase
 from gda.scan import ScanPositionProvider
 from gda.device.scannable import ScannableBase, ScannableUtils
 from gda.device.scannable.scannablegroup import ScannableGroup
+from gda.factory import Finder
 
 class EnumPositionerDelegateScannable(ScannableBase):
     """
@@ -30,10 +31,14 @@ class EnumPositionerDelegateScannable(ScannableBase):
     def isBusy(self):
         return self.delegate.isBusy()
     def rawAsynchronousMoveTo(self,new_position):
+        if int(new_position) == self.rawGetPosition():
+            return
         if int(new_position) == 1:
             self.delegate.asynchronousMoveTo("Open")
         else:
             self.delegate.asynchronousMoveTo("Close")
+        # wait for 1s
+        sleep(1.)
     def rawGetPosition(self):
         pos = self.delegate.getPosition()
         if pos == "Open":
@@ -85,6 +90,43 @@ image_key_flat=1 # also known as bright
 image_key_project=0 # also known as sample
 
 
+def showNormalisedImage(outOfBeamPosition, exposureTime=None):
+    jns=beamline_parameters.JythonNameSpaceMapping()
+    tomodet=jns.tomodet
+    if tomodet is None:
+        raise "tomodet is not defined in Jython namespace"
+    if exposureTime is not None:
+        exposureTime = float(exposureTime)
+    else:
+        exposureTime = tomodet.getCurrentExposureTime()
+
+    import scisoftpy as dnp
+    tomography_theta=jns.tomography_theta
+    if tomography_theta is None:
+            raise "tomography_theta is not defined in Jython namespace"    
+    tomography_translation=jns.tomography_translation
+    if tomography_translation is None:
+        raise "tomography_translation is not defined in Jython namespace"        
+
+    tomography_detector=jns.tomography_detector
+    if tomography_detector is None:
+        raise "tomography_detector is not defined in Jython namespace"    
+    currentTheta=tomography_theta()
+    tomoScan(tomography_translation(), outOfBeamPosition, exposureTime, start=currentTheta, stop=currentTheta, step=1., imagesPerDark=1, imagesPerFlat=1)
+    lsdp=jns.lastScanDataPoint()
+    detName=tomography_detector.getName()
+    dataset=dnp.io.load(lsdp.currentFilename)['entry1/pco1_hw_tif/image_data']
+    dark=dnp.array((dataset[0,:,:]).cast(6))
+    flat=dnp.array((dataset[1,:,:]).cast(6))
+    image=dnp.array((dataset[2,:,:]).cast(6))
+    t= (image-dark)/(flat-dark)
+    t.name="image-dark/flat-dark"
+    rcp=Finder.getInstance().find("RCPController")
+    rcp.openView("uk.ac.gda.beamline.i13i.NormalisedImage")
+    dnp.plot.image(t, name="Normalised Image")
+    #turn camera back on
+    tomodet.setupForAlignment()
+    return True
 """
 perform a simple tomogrpahy scan
 """
@@ -125,9 +167,9 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         if tomography_detector is None:
             raise "tomography_detector is not defined in Jython namespace"
 
-        tomography_optimizer=jns.tomography_optimizer
-        if tomography_optimizer is None:
-            raise "tomography_optimizer is not defined in Jython namespace"
+#        tomography_optimizer=jns.tomography_optimizer
+#        if tomography_optimizer is None:
+#            raise "tomography_optimizer is not defined in Jython namespace"
 
         tomography_time=jns.tomography_time
         if tomography_time is None:
@@ -158,7 +200,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         image_key.configure()
 
         tomoScanDevice = make_tomoScanDevice(tomography_theta, tomography_shutter, 
-                                             tomography_translation, tomography_optimizer,  image_key, index)
+                                             tomography_translation, image_key, index)
 
 #        return tomoScanDevice
         #generate list of positions

@@ -17,6 +17,9 @@ class TomoDet():
         self.pco1_roi1 = self.__getController("pco1_roi1")        
         self.pco1_cam_base = self.__getController("pco1_cam_base")        
         return
+    def getCurrentExposureTime(self):
+		return self.pco1_cam_base.getAcquireTime_RBV()
+
     def setupStream(self, acqTime=None, procScaleFactor= None):
         """
         Function called from java

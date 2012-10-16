@@ -40,4 +40,5 @@ public interface CameraViewPartConfig {
 	Scannable getRotationAxisXScannable();
 	DisplayScaleProvider getDisplayScaleProvider();
 	Scannable getCameraXYScannable();
+	String getShowNormalisedImageCmd();
 }

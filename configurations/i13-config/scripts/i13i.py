@@ -35,6 +35,13 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
     >tomodet.setupForAlignment( exposureTime=.1, scale=2)
 
 
+5. To get a normalised image:  (image-dark)/(flat-dark):
+    >tomographyScan.showNormalisedImage(outOfBeamPosition, exposureTime=1):
+   where:
+    outOfBeamPosition - position of X drive to move sample out of the beam to take a flat field image
+    exposureTime - exposure time in seconds ( default = 1)
+    
+    
 5. To perform a tomogram:
 	>tomographyScan.tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
               imagesPerDark=20, imagesPerFlat=20, min_i=-1.):

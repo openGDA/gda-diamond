@@ -18,6 +18,12 @@
 	<import resource="commandQueueProcessor.xml" />
 	<import resource="cameraViewPartConfig.xml" />
 
+	<bean id="RCPController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}rcpController" />
+		<property name="serviceInterface" value="gda.gui.RCPController" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
 
 	<bean id="highestExistingFileMonitor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}highestExistingFileMonitor" />
@@ -54,6 +60,12 @@
 					<property name="label" value="ID Gap"/>
 					<property name="units" value="mm"/>
 					</bean>
+<!-- needs server restart					<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+					<property name="scannable" ref="dcm_keV"/>
+					<property name="label" value="DCM"/>
+					<property name="units" value="keV"/>
+					</bean>
+-->
 				</list>
 			</property>
 		</bean>
@@ -110,12 +122,12 @@
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-<!-- 	<bean id="ss1_y" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}ss1_y" />
+	<bean id="ss1_z" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}ss1_z" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
- -->
+
 	<bean id="ss1_X" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}ss1_X" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
@@ -170,6 +182,10 @@
 									</bean>
 									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
 									<property name="scannable" ref="ss1_sampley"/>
+									<property name="stepSize" value=".01"/>
+									</bean>
+									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+									<property name="scannable" ref="ss1_z"/>
 									<property name="stepSize" value=".01"/>
 									</bean>
 									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">

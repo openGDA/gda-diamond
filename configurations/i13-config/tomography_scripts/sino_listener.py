@@ -78,7 +78,7 @@ class SinoListener():
 		self.jobname = "chunk_sino"#default - the finish job wait for the tasks with this naem to complete
 		self.existflag = " " #default# 2nd part of -b flag to chunk program, controlled by -E
 		self.jobsuffix = ""#default -j
-		self.myqueue = "low.q" #default name of queue to use - controlled by -Q
+		self.myqueue = "medium.q" #default name of queue to use - controlled by -Q
 		self.uniqueid = "U"#default if given replaces use of pid
 		self.cropleft = 0
 		self.cropright = 0
@@ -87,53 +87,53 @@ class SinoListener():
 		
 		self.jobID=[]
 
-	def setOptions(self, opts):
-		self.firstchunk=1 #number of first chunk
-		self.ht=2672#default. Length(height) of image controlled by l argument
-		self.idxflag=" " #last argument to chunkprogram - either blank or -1, controlled by -1 argument
-		
-		#self.infmt = "p_%05d.tif"
-		self.infmt=opts.inFilenameFmt
-		self.interval=1 #time interval when checking for a resource in seconds - controlled by z 
-		self.lastchunk=16 ## range end given in t argument to qsub. Controlled by -L argument otherwise set to nchunks
-		#-t argument controls number of simultaneous jobs on the cluster firstchunk-lastchunk
-		self.lastflag=False# indicates lastchunk is being controlled by -L command and that lastchunk is valid
-		self.lt=10 # timeout when checking for a resource in seconds - - controlled by Z
-		self.mypid=os.getpid()
-		self.nproj=0
-		self.outflag=False
-		self.pidnums=[]
-		self.pnums=[0, 0, 0]
-		self.pstrings=['p', 'f', 'a']
-		self.uniqueflag=False
-		self.tifflag=False
-		self.vflag=False #verbose flag default False controlled by -v
-		
-		#self.testing = testing
-		self.testing=opts.testingMode
-		self.wd=4008 #default
-		
-		#self.indir = "projections"
-		self.indir=opts.inDir
-		
-		#self.outdir="sinograms"
-		self.outdir=opts.outDir+os.sep+"sinograms"
-		self.bytes=2 #default
-		self.nchunks=16 #default number of chunks controlled by -n 
-		self.nsegs=1 #defaultb -s arg to chunkprogram - controlled by -s
-		
-		#self.nperseg = 6000#default number of projections -p arg to chunk program controlled by -p
-		self.nperseg=opts.numProjs #default number of projections -p arg to chunk program controlled by -p
-		self.jobbasename="chunk" #default - -J
-		self.jobname="chunk_sino"#default - the finish job wait for the tasks with this naem to complete
-		self.existflag=" " #default# 2nd part of -b flag to chunk program, controlled by -E
-		self.jobsuffix=""#default -j
-		self.myqueue="low.q" #default name of queue to use - controlled by -Q
-		self.uniqueid="U"#default if given replaces use of pid
-		self.cropleft=0
-		self.cropright=0
-		self.hflag=0 # show help and exit
-		self.qsub_project="i13" # project name given to qsub
+#	def setOptions(self, opts):
+#		self.firstchunk=1 #number of first chunk
+#		self.ht=2672#default. Length(height) of image controlled by l argument
+#		self.idxflag=" " #last argument to chunkprogram - either blank or -1, controlled by -1 argument
+#		
+#		#self.infmt = "p_%05d.tif"
+#		self.infmt=opts.inFilenameFmt
+#		self.interval=1 #time interval when checking for a resource in seconds - controlled by z 
+#		self.lastchunk=16 ## range end given in t argument to qsub. Controlled by -L argument otherwise set to nchunks
+#		#-t argument controls number of simultaneous jobs on the cluster firstchunk-lastchunk
+#		self.lastflag=False# indicates lastchunk is being controlled by -L command and that lastchunk is valid
+#		self.lt=10 # timeout when checking for a resource in seconds - - controlled by Z
+#		self.mypid=os.getpid()
+#		self.nproj=0
+#		self.outflag=False
+#		self.pidnums=[]
+#		self.pnums=[0, 0, 0]
+#		self.pstrings=['p', 'f', 'a']
+#		self.uniqueflag=False
+#		self.tifflag=False
+#		self.vflag=False #verbose flag default False controlled by -v
+#		
+#		#self.testing = testing
+#		self.testing=opts.testingMode
+#		self.wd=4008 #default
+#		
+#		#self.indir = "projections"
+#		self.indir=opts.inDir
+#		
+#		#self.outdir="sinograms"
+#		self.outdir=opts.outDir+os.sep+"sinograms"
+#		self.bytes=2 #default
+#		self.nchunks=16 #default number of chunks controlled by -n 
+#		self.nsegs=1 #defaultb -s arg to chunkprogram - controlled by -s
+#		
+#		#self.nperseg = 6000#default number of projections -p arg to chunk program controlled by -p
+#		self.nperseg=opts.numProjs #default number of projections -p arg to chunk program controlled by -p
+#		self.jobbasename="chunk" #default - -J
+#		self.jobname="chunk_sino"#default - the finish job wait for the tasks with this naem to complete
+#		self.existflag=" " #default# 2nd part of -b flag to chunk program, controlled by -E
+#		self.jobsuffix=""#default -j
+#		self.myqueue="low.q" #default name of queue to use - controlled by -Q
+#		self.uniqueid="U"#default if given replaces use of pid
+#		self.cropleft=0
+#		self.cropright=0
+#		self.hflag=0 # show help and exit
+#		self.qsub_project="i13" # project name given to qsub
 
 
 	def usage( self ):
@@ -531,7 +531,12 @@ fi
 		#tion concerning JSV in jsv(1))
 
 		#args += [ "-pe", "smp", "4"]
-		args += [ "-l", "tesla64", "-pe", "smp", "6"]
+#		args += [ "-l", "tesla64", "-pe", "smp", "6"]
+#       Advice from Tina
+#       In this, you use the "-pe smp 6" to make sure there are only two jobs on the node in total (it only offers 12 slots). 
+#       There is a different way of doing this which might be more sensible - there is a 'gpus' complex that's consumable, 
+#       i.e. the nodes offer two of it & if two jobs run you can't start another job. If you use that the above becomes:
+		args += [ "-l", "tesla64", "-l", "gpus=1"]
 
 		#submit array jobs
 		#self.firstchunk is used to define SGE-TASK_FIRST

@@ -44,17 +44,15 @@ public class CameraComposite extends Composite {
 	static final Logger logger = LoggerFactory.getLogger(CameraComposite.class);
 	ImageViewer viewer;
 	private VideoReceiver<ImageData> videoReceiver;
-	private VideoListener listener = new VideoListener();
+	private VideoListener listener;
 
 
 	Composite parent;
 
 	NewImageListener newImageListener;
-	public CameraComposite(Composite parent, int style, @SuppressWarnings("unused") Display display,
-			VideoReceiver<ImageData> videoReceiver, NewImageListener newImageListener) {
+	public CameraComposite(Composite parent, int style, @SuppressWarnings("unused") Display display,NewImageListener newImageListener) {
 		super(parent, style);
 		this.newImageListener = newImageListener;
-		this.videoReceiver = videoReceiver;
 
 		setLayout(new GridLayout(1, false));
 		viewer = new uk.ac.gda.client.viewer.ImageViewer(this, SWT.DOUBLE_BUFFERED);
@@ -62,7 +60,6 @@ public class CameraComposite extends Composite {
 
 		viewer.showDefaultImage();
 
-		videoReceiver.addImageListener(listener);
 		viewer.getCanvas().addListener(SWT.Resize, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -72,6 +69,25 @@ public class CameraComposite extends Composite {
 		zoomFit();
 		pack();
 	}
+	
+	private void disconnectFromReceiver(){
+		if( videoReceiver != null && listener != null){
+			videoReceiver.removeImageListener(listener);
+			videoReceiver = null;
+		}
+		
+	}
+	public void setVideoReceiver(VideoReceiver<ImageData> videoReceiver) {
+		disconnectFromReceiver();
+		if( listener == null){
+			listener = new VideoListener();
+		}
+		this.videoReceiver = videoReceiver;
+		if( videoReceiver != null){
+			this.videoReceiver.addImageListener(listener);
+		}
+	}
+
 	public IFigure getTopFigure() {
 		return viewer.getTopFigure();
 	}
@@ -86,7 +102,7 @@ public class CameraComposite extends Composite {
 	@Override
 	public void dispose() {
 		super.dispose();
-		videoReceiver.removeImageListener(listener);
+		disconnectFromReceiver();
 		viewer.dispose();
 	}
 

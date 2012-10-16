@@ -170,7 +170,7 @@ public class SampleAligner  implements ImageViewerListener{
 		final RealVector pixelOffset = beamCenterV.subtract(clickPointInImage);
 
 		
-			double moveInX = pixelOffset.getEntry(0) / displayScaleProvider.getPixelsPerMMInX();
+			double moveInX = -pixelOffset.getEntry(0) / displayScaleProvider.getPixelsPerMMInX();
 			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getPixelsPerMMInY();
 
 			try {
