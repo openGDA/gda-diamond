@@ -5,6 +5,7 @@
     <sampleName>Please set a sample name...</sampleName>
     <description>Please add a description...</description>
     <sampleWheelPosition>1</sampleWheelPosition>
+    <useSampleWheel>false</useSampleWheel>
     <sampleEnvironment>None</sampleEnvironment>
     <roomTemperature>
     	<numberOfSamples>1</numberOfSamples>
@@ -34,6 +35,7 @@
         <sample4_pitch>0.0</sample4_pitch>
     </roomTemperature>
     <cryostat>
+        <loopChoice>Loop over sample, then temperature</loopChoice>
         <temperature>80.0</temperature>
         <tolerance>1.0</tolerance>
         <time>60.0</time>
