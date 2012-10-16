@@ -92,7 +92,7 @@
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="3" />
-		<property name="darkCurrentRequired" value="false" />
+		<property name="darkCurrentRequired" value="true" />
 		<property name="outputFormat">
 			<list>
 				<value>%.4f</value>
@@ -108,18 +108,20 @@
 	<bean id="I1" class="gda.device.detector.countertimer.TfgScaler">
 		<property name="extraNames">
 			<list>
+				<value>Time</value>
 				<value>I1</value>
 			</list>
 		</property>
 		<property name="scaler" ref="CalMemory" />
 		<property name="timer" ref="tfg" />
-		<property name="timeChannelRequired" value="false" />
+		<property name="timeChannelRequired" value="true" />
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="1" />
 		<property name="firstDataChannel" value="4" />
 		<property name="outputFormat">
 			<list>
 				<value>%.4f</value>
+				<value>%.2f</value>
 				<value>%.2f</value>
 			</list>
 		</property>
