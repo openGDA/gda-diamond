@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QEXAFSParameters>
-	<initialEnergy>6911.14</initialEnergy>
-	<finalEnergy>7961.14</finalEnergy>
-	<numberPoints>2000</numberPoints>
-	<totalTime>1</totalTime>
-	<chooseNumberPoints>false</chooseNumberPoints>
-	<numberRepetitions>1</numberRepetitions>
+    <initialEnergy>10000.0</initialEnergy>
+    <finalEnergy>11000.0</finalEnergy>
+    <speed>10.0</speed>
+    <stepSize>1.0</stepSize>
+    <time>104.89</time>
 </QEXAFSParameters>

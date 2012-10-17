@@ -100,7 +100,7 @@
         <number>7</number>
         <windowStart>632</windowStart>
         <windowEnd>695</windowEnd>
-        <excluded>true</excluded>
+        <excluded>false</excluded>
         <Region>
             <roiName>Fe_Ka</roiName>
             <regionStart>632</regionStart>
