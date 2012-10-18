@@ -59,8 +59,20 @@
 <extension
       point="uk.ac.gda.client.dashboard.objects">
    <Scannable
-         name="ringcurrent"
-         tooltip="ring current reading.">
+         name="analyser_slit"
+         tooltip="analyser entrance slit setting">
+   </Scannable>
+      <Scannable
+         name="sampletemp"
+         tooltip="sample temperature">
+   </Scannable>
+      <Scannable
+         name="exit_slit"
+         tooltip="monochromator exit slit setting">
+   </Scannable>
+      <Scannable
+         name="energy"
+         tooltip="photon energy">
    </Scannable>
 </extension>
 <extension
@@ -97,6 +109,36 @@
             icon="icons/sample.gif"
             id="uk.ac.gda.client.arpes.cameraview"
             name="Detector Plot"
+            restorable="true">
+      </view>
+   </extension>
+      <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Data Acquisition - ARPES"
+            id="gda.rcp.arpes">
+      </category>
+      <view
+            category="gda.rcp.arpes"
+            class="uk.ac.gda.arpes.ui.ContinuousModeControllerView"
+            icon="icons/sample.gif"
+            id="uk.ac.gda.arpes.ui.continuousmodecontroller"
+            name="Continuous Mode"
+            restorable="true">
+      </view>
+   </extension>
+         <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Data Acquisition - ARPES"
+            id="gda.rcp.arpes">
+      </category>
+      <view
+            category="gda.rcp.arpes"
+            class="uk.ac.gda.arpes.ui.WatchView"
+            icon="icons/sample.gif"
+            id="uk.ac.gda.arpes.ui.watchview"
+            name="Watch View"
             restorable="true">
       </view>
    </extension>

@@ -28,14 +28,17 @@ public class ArpesAlignmentPerspective implements IPerspectiveFactory {
 	public void createInitialLayout(IPageLayout layout) {
 		layout.setEditorAreaVisible(false);
 	
-		layout.addView("uk.ac.gda.client.arpes.cameraview", IPageLayout.RIGHT, 0.52f, IPageLayout.ID_EDITOR_AREA);
-		layout.addView("uk.ac.gda.client.CommandQueueViewFactory", IPageLayout.TOP, 0.34f, "uk.ac.gda.client.arpes.cameraview");
+		layout.addView("uk.ac.gda.client.arpes.cameraview", IPageLayout.RIGHT, 0.41f, IPageLayout.ID_EDITOR_AREA);
+		layout.addView("uk.ac.gda.arpes.ui.continuousmodecontroller", IPageLayout.TOP, 0.34f, "uk.ac.gda.client.arpes.cameraview");
 
 		{
 			IFolderLayout folderLayout = layout.createFolder("folder_2", IPageLayout.BOTTOM, 0.5f, IPageLayout.ID_EDITOR_AREA);
 			folderLayout.addView("gda.rcp.jythonterminalview");
 			folderLayout.addView("gda.rcp.views.baton.BatonView");
 		}
-		layout.addView("uk.ac.gda.video.views.cameraview", IPageLayout.TOP, 0.5f, "folder_2");
+		{
+			IFolderLayout folderLayout = layout.createFolder("folder", IPageLayout.TOP, 0.26f, "folder_2");
+			folderLayout.addView("uk.ac.gda.client.CommandQueueViewFactory");
+		}
 	}
 }
