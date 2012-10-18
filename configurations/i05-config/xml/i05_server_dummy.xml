@@ -39,11 +39,15 @@
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
 		<property name="protectionLevel" value="3"></property>
 	</bean>
-
-
 	<bean
 		class="gda.device.scannable.DummyScannable" id="idgap">
 		<property name="inputNames"><list><value>idgap</value></list></property>
+		<property name="outputFormat"><list><value>%5.5g</value></list></property>
+		<property name="protectionLevel" value="3"></property>
+	</bean>
+	<bean
+		class="gda.device.scannable.DummyScannable" id="energy">
+		<property name="inputNames"><list><value>energy</value></list></property>
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
 		<property name="protectionLevel" value="3"></property>
 	</bean>
