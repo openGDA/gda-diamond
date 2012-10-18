@@ -18,7 +18,16 @@
 
 package gda.device.scannable;
 
+import gda.epics.CAClient;
+import gov.aps.jca.CAException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class GasInjectionScannablePumpOn {
+
+	private static final Logger logger = LoggerFactory.getLogger(GasInjectionScannablePumpOn.class);
+	CAClient ca_client = new CAClient();
 
 	// valve pvs
 	private String v1pv;
@@ -39,118 +48,108 @@ public class GasInjectionScannablePumpOn {
 	private String p5pv;
 
 	// pressure controller pvs
-	private String pc1pv;
-	private String pc2pv;
+	private String pc1modepv;
+	private String pc1targetpv;
+	private String pc2modepv;
+	private String pc2targetpv;
 
-	
 	// #pressure checking
 	// for a given pressure gauge, while pumping is occuring, check pressure every 5 seconds, until the difference
 	// between two measurements is less than or equal to 1mbar
 	// before anything check if there is any bias on the ICs. If there is, ramp it down and wait until it is zero before
 	// doing anything else
 	// pump is left on all the time that pumping/purging sequences are being run
-	private void pressureCheck(String pv){
-		
+	private void pressureCheck(String pv) {
+
 	}
-	
-	
-	// #purge cylinder lines
-	// only needed if the gas type has changed since the previous fill
-	// check that v1, v2, v3 are closed
-	// open v4
-	// pressure check p1
-	// close v4
-	// if Kr
-	//     open v1
-	//     wait 10s
-	//     close v1
-	// if N2
-	//     open v2
-	//     wait 10s
-	//     close v2
-	// if Ar
-	//     open v3
-	//     wait 10s
-	//     close v3
-	// open v4
-	// wait 30s
-	// close v4
-	private void purgeCylinderLines(){
-		
+
+	private void purgeCylinderLines(String gas) {
+		// only needed if the gas type has changed since the previous fill
+		// check that v1, v2, v3 are closed
+		caput(v4pv, "0");// open v4
+		// pressure check p1
+		caput(v4pv, "0");// close v4
+		if (gas.equals("Kr")) {// if Kr
+			caput(v1pv, "0");// open v1
+			sleep(10000);// wait 10s
+			caput(v1pv, "0");// close v1
+		}
+		if (gas.equals("N2")) {// if N2
+			caput(v2pv, "0");// open v2
+			sleep(10000);// wait 10s
+			caput(v2pv, "0");// close v2
+		}
+		if (gas.equals("Ar")) {// if Ar
+			caput(v3pv, "0");// open v3
+			sleep(10000);// wait 10s
+			caput(v3pv, "0");// close v3
+		}
+		caput(v4pv, "0");// open v4
+		sleep(30000);// wait 30s
+		caput(v4pv, "0");// close v4
 	}
-	
-	
-	// #purge I0
-	// repeat 3 times
-	//     open v5
-	//     open v6
-	//     cressure check p2
-	//     close v5
-	//     set pressure controller 2 to 1bar
-	//     set pressure controller 2 to control
-	//     wait 20s
-	//     set pressure controller 2 to hold
-	private void purgeI0(){
-		
+
+	private void purgeI0() {
+		for (int i = 0; i < 3; i++) {
+			caput(v5pv, "1");// open v5
+			caput(v6pv, "1");// open v6
+			// pressure check p2
+			caput(v5pv, "0");// close v5
+			caput(pc2targetpv, "1");// set pressure controller 2 to 1bar
+			caput(pc2modepv, "control");// set pressure controller 2 to control
+			sleep(20000);// wait 20s
+			caput(pc2modepv, "hold");// set pressure controller 2 to hold
+		}
 	}
-	
-	
-	// #fill I0
-	// open v5
-	// open v6
-	// pressure check p2
-	// close v5
-	// set pressure controller 1 to target pressure
-	// check v4 is closed
-	// if Kr
-	//     open v1
-	// if N2
-	//     open v2
-	// if Ar
-	//     open v3
-	// set mode of pressure controller 1 to control
-	// if cp1 or p1 rises, close v1, v2 and v3
-	// open v6
-	// set pressure controller 1 to hold
-	// if Kr
-	//     close v1
-	// if N2
-	//     close v2
-	// if Ar
-	//     close v3
-	private void fillI0(){
-		
+
+	private void fillI0(String gas, String pressure) {
+		// #fill I0
+		caput(v5pv, "1");// open v5
+		caput(v6pv, "1");// open v6
+		// pressure check p2
+		caput(v5pv, "0");// close v5
+		caput(pc1targetpv, pressure);// set pressure controller 1 to target pressure
+		// check v4 is closed
+		if (gas.equals("Kr"))// if Kr
+			caput(v1pv, "1");// open v1
+		if (gas.equals("N2"))// if N2
+			caput(v2pv, "1");// open v2
+		if (gas.equals("Ar"))// if Ar
+			caput(v3pv, "1");// open v3
+		caput(pc1modepv, "control");// set mode of pressure controller 1 to control
+		// if cp1 or p1 rises, close v1, v2 and v3
+		caput(v6pv, "1");// open v6
+		// set pressure controller 1 to hold
+		if (gas.equals("Kr"))// if Kr
+			caput(v1pv, "0");// close v1
+		if (gas.equals("N2"))// if N2
+			caput(v2pv, "0");// close v2
+		if (gas.equals("Ar"))// if Ar
+			caput(v3pv, "0");// close v3
 	}
-	
-	
-	// #purge IC lines
-	// open v5
-	// pressure check pc2
-	// close v5
-	// set pc2 to 1bar
-	// set pc1 to control
-	// wait 10s
-	// set pc1 to hold
-	// open v5
-	// pressure check pc2
-	// close v5
-	private void purgeIC(){
-		
+
+	private void purgeIC() {
+		caput(v5pv, "1");// open v5
+		// pressure check pc2
+		caput(v5pv, "0");// close v5
+		caput(pc2targetpv, "1");// set pc2 to 1bar
+		caput(pc1modepv, "control");// set pc1 to control
+		sleep(10000);// wait 10s
+		caput(pc1modepv, "hold");// set pc1 to hold
+		caput(v5pv, "1");// open v5
+		// pressure check pc2
+		caput(v5pv, "0");// close v5
 	}
-	
-	
-	// #top up helium
-	// set pc2 to 1 bar
-	// set pc2 to control
-	// open v6
-	// wait 20s
-	// close v6
-	// set pc2 to hold
-	private void topupHelium(){
-		
+
+	private void topupHelium() {
+		caput(pc2targetpv, "1");// set pc2 to 1 bar pc1targetpv
+		caput(pc2modepv, "control");// set pc2 to control pc1modepv
+		caput(v6pv, "1");// open v6
+		sleep(20000);// wait 20s
+		caput(v6pv, "0");// close v6
+		caput(pc2modepv, "hold");// set pc2 to hold
 	}
-	
-	
+
 	// #start
 	// turn on pump Bl20I-EA-GIR-01:VACP1:CON 'open'
 	// purge cylinder lines
@@ -159,4 +158,22 @@ public class GasInjectionScannablePumpOn {
 	// purge IC lines
 	// top up helium
 	// turn of pump Bl20I-EA-GIR-01:VACP1:CON 'closed'
+
+	private void sleep(int time) {
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
+			logger.error("Thread.sleep failed. Attempted time was " + time, e);
+		}
+	}
+
+	private void caput(String pv, String value) {
+		try {
+			ca_client.caput(pv, 1);
+		} catch (CAException e) {
+			logger.error("Could not set " + pv + " to " + value, e);
+		} catch (InterruptedException e) {
+			logger.error("Could not set " + pv + " to " + value, e);
+		}
+	}
 }
