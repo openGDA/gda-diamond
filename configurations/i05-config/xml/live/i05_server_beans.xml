@@ -52,7 +52,7 @@
                                                         <property name="type" value="CORE" />
                                                 </bean>
                                                    <bean class="gda.jython.ScriptProject">
-                                                        <property name="path" value="${gda.install.workspace.loc}/plugins/uk.ac.gda.beamline.i05/scripts/" />
+                                                        <property name="path" value="${gda.install.git.loc}/gda-dls-beamlines-i05.git/uk.ac.gda.beamline.i05/scripts/" />
                                                         <property name="name" value="Scripts: ARPES" />
                                                         <property name="type" value="CORE" />
                                                 </bean>

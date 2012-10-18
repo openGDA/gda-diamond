@@ -127,6 +127,7 @@
             restorable="true">
       </view>
    </extension>
+      <!--
          <extension
          point="org.eclipse.ui.views">
       <category
@@ -142,4 +143,5 @@
             restorable="true">
       </view>
    </extension>
+   -->
 </plugin>

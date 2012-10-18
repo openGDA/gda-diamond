@@ -1,0 +1,3 @@
+#! /bin/sh
+
+rdesktop -g 1200x900 -T analyserIOC -a 16 i05-1-ecam

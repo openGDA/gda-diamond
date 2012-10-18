@@ -10,6 +10,8 @@ LOGFILE=/dls_sw/$BEAMLINE/logs/gda_server.log
 mv -f nohup.out nohup.out.0 || true
 touch nohup.out
 
+export GDA_CONFIG=/dls_sw/$BEAMLINE/software/gda/config
+
 ( 
 /dls_sw/$BEAMLINE/software/gda/bin/gda --stop logserver || true
 nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --mode=live nameserver 
