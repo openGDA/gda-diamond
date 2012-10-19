@@ -82,19 +82,17 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 		this.extraNames = new String[] { "status" };
 	}
 
+	// pos ionc1_gas_injector ["2.0","1","0.024377","100.0","1.975623","100.0","2","True"]
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 
-		if (!(position instanceof List<?>)) {
+		if (!(position instanceof List<?>))
 			throw new DeviceException("Supplied array must be of type List<String> to move Scannable " + getName());
-		}
 
 		@SuppressWarnings("unchecked")
 		List<String> parameters = (List<String>) position;
 
 		String flush = parameters.get(7);
-
-		// pos ionc1_gas_injector ["2.0","1","0.024377","100.0","1.975623","100.0","2","True"]
 
 		// check if voltage is below 5v.
 		if (checkVoltageInRange(-5, 5)) {

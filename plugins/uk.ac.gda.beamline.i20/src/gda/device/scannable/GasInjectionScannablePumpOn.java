@@ -18,13 +18,18 @@
 
 package gda.device.scannable;
 
+import java.util.List;
+
+import gda.device.DeviceException;
+import gda.device.Scannable;
 import gda.epics.CAClient;
 import gov.aps.jca.CAException;
+import gov.aps.jca.TimeoutException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GasInjectionScannablePumpOn {
+public class GasInjectionScannablePumpOn extends ScannableBase implements Scannable {
 
 	private static final Logger logger = LoggerFactory.getLogger(GasInjectionScannablePumpOn.class);
 	CAClient ca_client = new CAClient();
@@ -52,15 +57,39 @@ public class GasInjectionScannablePumpOn {
 	private String pc1targetpv;
 	private String pc2modepv;
 	private String pc2targetpv;
-
-	// #pressure checking
-	// for a given pressure gauge, while pumping is occuring, check pressure every 5 seconds, until the difference
-	// between two measurements is less than or equal to 1mbar
-	// before anything check if there is any bias on the ICs. If there is, ramp it down and wait until it is zero before
-	// doing anything else
-	// pump is left on all the time that pumping/purging sequences are being run
+	
+	private String abortPV;
+	
+	private String statusPV;
+	
+	private String pumpPV;
+	
+	@Override
+	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
+		
+		if (!(position instanceof List<?>))
+			throw new DeviceException("Supplied array must be of type List<String> to move Scannable " + getName());
+		
+		List<String> parameters = (List<String>) position;
+		
+		String gasType = parameters.get(0);
+		String pressure = parameters.get(1);
+		
+		caput(pumpPV, "open");// turn on pump Bl20I-EA-GIR-01:VACP1:CON 'open'
+		purgeCylinderLines(gasType);// purge cylinder lines
+		purgeI0();// purge I0
+		fillI0(gasType, pressure);// fill I0
+		purgeIC();// purge IC lines
+		topupHelium();// top up helium
+		caput(pumpPV, "closed");// turn off pump Bl20I-EA-GIR-01:VACP1:CON 'closed'
+	}
+	
 	private void pressureCheck(String pv) {
-
+		// for a given pressure gauge, while pumping is occuring, check pressure every 5 seconds, until the difference
+		// between two measurements is less than or equal to 1mbar
+		// before anything check if there is any bias on the ICs. If there is, ramp it down and wait until it is zero before
+		// doing anything else
+		// pump is left on all the time that pumping/purging sequences are being run
 	}
 
 	private void purgeCylinderLines(String gas) {
@@ -103,13 +132,17 @@ public class GasInjectionScannablePumpOn {
 	}
 
 	private void fillI0(String gas, String pressure) {
-		// #fill I0
 		caput(v5pv, "1");// open v5
 		caput(v6pv, "1");// open v6
 		// pressure check p2
 		caput(v5pv, "0");// close v5
 		caput(pc1targetpv, pressure);// set pressure controller 1 to target pressure
+		
 		// check v4 is closed
+		if(caget(v4pv).equals("closed")){
+			
+		}
+		
 		if (gas.equals("Kr"))// if Kr
 			caput(v1pv, "1");// open v1
 		if (gas.equals("N2"))// if N2
@@ -119,7 +152,7 @@ public class GasInjectionScannablePumpOn {
 		caput(pc1modepv, "control");// set mode of pressure controller 1 to control
 		// if cp1 or p1 rises, close v1, v2 and v3
 		caput(v6pv, "1");// open v6
-		// set pressure controller 1 to hold
+		caput(pc1modepv, "hold");// set pressure controller 1 to hold
 		if (gas.equals("Kr"))// if Kr
 			caput(v1pv, "0");// close v1
 		if (gas.equals("N2"))// if N2
@@ -149,16 +182,7 @@ public class GasInjectionScannablePumpOn {
 		caput(v6pv, "0");// close v6
 		caput(pc2modepv, "hold");// set pc2 to hold
 	}
-
-	// #start
-	// turn on pump Bl20I-EA-GIR-01:VACP1:CON 'open'
-	// purge cylinder lines
-	// purge I0
-	// fill I0
-	// purge IC lines
-	// top up helium
-	// turn of pump Bl20I-EA-GIR-01:VACP1:CON 'closed'
-
+	
 	private void sleep(int time) {
 		try {
 			Thread.sleep(time);
@@ -175,5 +199,66 @@ public class GasInjectionScannablePumpOn {
 		} catch (InterruptedException e) {
 			logger.error("Could not set " + pv + " to " + value, e);
 		}
+	}
+	
+	private String caget(String pv){
+		try {
+			return ca_client.caget(pv);
+		} catch (CAException e) {
+			logger.error("Could not get pv "+pv, e);
+		} catch (TimeoutException e) {
+			logger.error("Could not get pv "+pv, e);
+		} catch (InterruptedException e) {
+			logger.error("Could not get pv "+pv, e);
+		}
+		return null;
+	}
+	
+	@Override
+	public void stop() throws DeviceException{
+		CAClient ca_client = new CAClient();
+		try {
+			ca_client.caput(abortPV, 1);
+		} catch (CAException e) {
+			logger.error("Could not abort gas filling", e);
+		} catch (InterruptedException e) {
+			logger.error("Could not abort gas filling", e);
+		}
+	}
+	
+	@Override
+	public boolean isBusy() throws DeviceException {
+		if(getFillStatus().equals("0"))
+			return false;
+		return true;
+	}
+	
+	private String getFillStatus() {
+		String status = null;
+		try {
+			status = caget(statusPV);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		if (status.equals('0'))
+			return "idle";
+		else if (status.equals("4"))
+			return "purging gas";
+		else if (status.equals("8"))
+			return "filling gas";
+		else if (status.equals("16"))
+			return "purging helium";
+		else if (status.equals("32"))
+			return "filling helium";
+		else if (status.equals("256"))
+			return "timeout";
+		else if (status.equals("512"))
+			return "aborted";
+		return null;
+	}
+	
+	@Override
+	public Object rawGetPosition() {
+		return getFillStatus();
 	}
 }
