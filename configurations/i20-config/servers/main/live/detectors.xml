@@ -106,8 +106,8 @@
 				<value>%.2f</value>
 				<value>%.2f</value>
 				<value>%.2f</value>
-				<value>%.4f</value>
-				<value>%.4f</value>
+				<value>%.5f</value>
+				<value>%.5f</value>
 			</list>
 		</property>
 	</bean>
@@ -126,6 +126,7 @@
 		<property name="useReset" value="false"/>
 		<property name="outputLogValues" value="false"/>
 		<property name="firstDataChannel" value="4" />
+		<property name="darkCurrentRequired" value="true" />
 		<property name="outputFormat">
 			<list>
 				<value>%.4f</value>
@@ -170,7 +171,7 @@
 		<property name="counterTimer" ref="ionchambers" />
 		<property name="outputFormat">
 			<list>
-				<value>%.2f</value>
+				<value>%.4f</value>
 			</list>
 		</property>
 	</bean>
