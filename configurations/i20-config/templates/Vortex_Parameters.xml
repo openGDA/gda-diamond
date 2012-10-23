@@ -19,4 +19,5 @@
         <excluded>false</excluded>
     </DetectorElement>
     <deadTime>999000.0</deadTime>
+    <saveRawSpectrum>false</saveRawSpectrum>
 </VortexParameters>
