@@ -99,6 +99,8 @@
 		<property name="basePVName" value="BL05I-EA-DET-01:CAM:" />
 	</bean>
 	
+	<bean id="AnalyserCapabilities" class="uk.ac.gda.arpes.detector.AnalyserCapabilties" />
+	
 	<bean id="analyser" class="uk.ac.gda.arpes.detector.VGScientaAnalyser">
 		<property name="controller" ref="controller" />
 		<property name="adBase" ref="area" />
@@ -106,5 +108,14 @@
 		<!-- <property name="ndStats" ref="stats" /> -->
 		<property name="ndFile" ref="filebase" />
 		<property name="local" value="false" />
+		<property name="capabilities" ref="AnalyserCapabilities" />
+		<property name="fixedModeRegion">
+			<list>
+				<value>0</value>
+				<value>0</value>
+				<value>1015</value>
+				<value>948</value>
+			</list>
+		</property>
 	</bean>
 </beans>
