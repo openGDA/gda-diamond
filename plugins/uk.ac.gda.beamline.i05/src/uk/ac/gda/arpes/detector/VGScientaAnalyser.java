@@ -18,6 +18,7 @@
 
 package uk.ac.gda.arpes.detector;
 
+import gda.device.DeviceException;
 import gda.device.detector.NXDetectorData;
 
 import org.nexusformat.NexusFile;
@@ -110,5 +111,23 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 
 	public void setFixedModeRegion(int[] fixedModeRegion) {
 		this.fixedModeRegion = fixedModeRegion;
+	}
+	
+	@Override
+	public double getCollectionTime() throws DeviceException {
+		try {
+			return getAdBase().getAcquireTime();
+		} catch (Exception e) {
+			throw new DeviceException("error getting collection time", e);
+		}
+	}
+	
+	@Override
+	public void setCollectionTime(double collectionTime) throws DeviceException {
+	try {
+		getAdBase().setAcquireTime(collectionTime);
+	} catch (Exception e) {
+		throw new DeviceException("error setting collection time", e);
+	}
 	}
 }

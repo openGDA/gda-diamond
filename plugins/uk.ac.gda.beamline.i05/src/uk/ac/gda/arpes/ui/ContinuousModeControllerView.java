@@ -30,6 +30,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
@@ -41,10 +42,10 @@ import uk.ac.gda.richbeans.event.ValueEvent;
 import uk.ac.gda.richbeans.event.ValueListener;
 import org.eclipse.swt.widgets.Button;
 
-public class ContinuousModeControllerView extends ViewPart implements ValueListener {
+public class ContinuousModeControllerView extends ViewPart {
 	private AnalyserCapabilties capabilities;
-	private ComboWrapper lensMode;
-	private ComboWrapper passEnergy;
+	private Combo lensMode;
+	private Combo passEnergy;
 	private ScaleBox centreEnergy;
 	private ScaleBox timePerStep;
 	private ScaleBox photonEnergy;
@@ -66,7 +67,7 @@ public class ContinuousModeControllerView extends ViewPart implements ValueListe
 		Label label = new Label(comp, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		label.setText("lensMode");
-		lensMode = new ComboWrapper(comp, SWT.NONE);
+		lensMode = new Combo(comp, SWT.NONE);
 		lensMode.setItems(new String[] {"Transmission", "Angular7", "Angular7_fix", "Angular14", "A14small", "Angular30", "A30small"});
 		lensMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
@@ -76,7 +77,7 @@ public class ContinuousModeControllerView extends ViewPart implements ValueListe
 				return Integer.valueOf(o1.substring(0, o1.lastIndexOf(" "))).compareTo(Integer.valueOf(o2.substring(0, o2.lastIndexOf(" "))));
 			}
 		};
-		Map<String, Short> passMap = 	new TreeMap<String, Short>(passEComparator) {{
+		final Map<String, Short> passMap = 	new TreeMap<String, Short>(passEComparator) {{
 			put("1 eV", (short) 1);
 			put("2 eV", (short) 2);
 			put("5 eV", (short) 5);
@@ -91,6 +92,21 @@ public class ContinuousModeControllerView extends ViewPart implements ValueListe
 		composite = new Composite(comp, SWT.NONE);
 		composite.setLayout(new GridLayout(1, false));
 		composite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 5));
+		SelectionListener lensModeListener = new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				JythonServerFacade.getInstance().runCommand(String.format("am.setLensMode(\"%s\")", lensMode.getItems()[lensMode.getSelectionIndex()] ));
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		lensMode.addSelectionListener(lensModeListener);
+			
 		
 		startButton = new Button(composite, SWT.NONE);
 		startButton.setText("Start");
@@ -133,9 +149,22 @@ public class ContinuousModeControllerView extends ViewPart implements ValueListe
 		label = new Label(comp, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		label.setText("passEnergy");
-		passEnergy = new ComboWrapper(comp, SWT.NONE);
-		passEnergy.setItems(passMap);
-		passEnergy.addValueListener(this);
+		passEnergy = new Combo(comp, SWT.NONE);
+		passEnergy.setItems(passMap.keySet().toArray(new String[] {}));
+		SelectionListener passEnergyListener = new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				JythonServerFacade.getInstance().runCommand(String.format("am.setPassEnergy(%d)", passMap.get(passEnergy.getItem(passEnergy.getSelectionIndex()))));
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		passEnergy.addSelectionListener(passEnergyListener);
 		passEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 		label = new Label(comp, SWT.NONE);
@@ -148,7 +177,7 @@ public class ContinuousModeControllerView extends ViewPart implements ValueListe
 		centreEnergy.setFieldName("centreEnergy");
 		new Label(centreEnergy, SWT.NONE);
 		centreEnergy.on();
-		centreEnergy.addValueListener(this);
+//		centreEnergy.addValueListener(this);
 		
 		label = new Label(comp, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -157,8 +186,7 @@ public class ContinuousModeControllerView extends ViewPart implements ValueListe
 		timePerStep.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		timePerStep.setUnit("s");
 		new Label(timePerStep, SWT.NONE);
-		timePerStep.addValueListener(this);
-		
+//		timePerStep.addValueListener(this);
 
 		label = new Label(comp, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -168,33 +196,33 @@ public class ContinuousModeControllerView extends ViewPart implements ValueListe
 		photonEnergy.setUnit("eV");
 		photonEnergy.setDecimalPlaces(3);
 		new Label(photonEnergy, SWT.NONE);
-		photonEnergy.addValueListener(this);
+//		photonEnergy.addValueListener(this);
 	}
 
 	@Override
 	public void setFocus() {
 	}
 	
-	@Override
-	public void valueChangePerformed(ValueEvent e) {
-	
-			if (e.getFieldName().equals("lensMode")) { 
-				JythonServerFacade.getInstance().runCommand(String.format("am.setLensMode(\"%s\")", lensMode.getItems()[lensMode.getSelectionIndex()] ));
-			}
-			if (e.getFieldName().equals("passEnergy")) { 
-				JythonServerFacade.getInstance().runCommand(String.format("am.setPassEnergy(\"%5.5f\")", passEnergy.getItems()[passEnergy.getSelectionIndex()] ));
-			}		
-			if (e.getFieldName().equals("timePerStep")) { 
-				JythonServerFacade.getInstance().runCommand(String.format("am.setCollectionTime(\"%5.5f\")", ((Number) timePerStep.getValue()).doubleValue() ));
-			}	
-			if (e.getFieldName().equals("photonEnergy")) { 
-				JythonServerFacade.getInstance().runCommand(String.format("am.setPhotonEnergy(\"%5.5f\")", ((Number) photonEnergy.getValue()).doubleValue() ));
-			}
-	}
+//	@Override
+//	public void valueChangePerformed(ValueEvent e) {
+//	
+//			if (e.getFieldName().equals("lensMode")) { 
+//				JythonServerFacade.getInstance().runCommand(String.format("am.setLensMode(\"%s\")", lensMode.getItems()[lensMode.getSelectionIndex()] ));
+//			}
+//			if (e.getFieldName().equals("passEnergy")) { 
+//				JythonServerFacade.getInstance().runCommand(String.format("am.setPassEnergy(\"%5.5f\")", passEnergy.getItems()[passEnergy.getSelectionIndex()] ));
+//			}		
+//			if (e.getFieldName().equals("timePerStep")) { 
+//				JythonServerFacade.getInstance().runCommand(String.format("am.setCollectionTime(\"%5.5f\")", ((Number) timePerStep.getValue()).doubleValue() ));
+//			}	
+//			if (e.getFieldName().equals("photonEnergy")) { 
+//				JythonServerFacade.getInstance().runCommand(String.format("am.setPhotonEnergy(\"%5.5f\")", ((Number) photonEnergy.getValue()).doubleValue() ));
+//			}
+//	}
 
-	@Override
-	public String getValueListenerName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public String getValueListenerName() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 }
