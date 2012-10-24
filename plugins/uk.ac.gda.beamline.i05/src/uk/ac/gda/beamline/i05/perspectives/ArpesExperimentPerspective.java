@@ -29,7 +29,8 @@ public class ArpesExperimentPerspective implements IPerspectiveFactory {
 		layout.setEditorAreaVisible(true);
 		
 		layout.addView("uk.ac.gda.client.arpes.cameraview", IPageLayout.RIGHT, 0.6f, IPageLayout.ID_EDITOR_AREA);
-		layout.addView("uk.ac.gda.client.CommandQueueViewFactory", IPageLayout.TOP, 0.24f, "uk.ac.gda.client.arpes.cameraview");
+		layout.addView("uk.ac.gda.client.CommandQueueViewFactory", IPageLayout.TOP, 0.38f, "uk.ac.gda.client.arpes.cameraview");
+		layout.addView("uk.ac.gda.exafs.ui.dashboardView", IPageLayout.TOP, 0.46f, "uk.ac.gda.client.CommandQueueViewFactory");
 
 		{
 			IFolderLayout folderLayout = layout.createFolder("folder_2", IPageLayout.BOTTOM, 0.6f, IPageLayout.ID_EDITOR_AREA);
@@ -37,6 +38,5 @@ public class ArpesExperimentPerspective implements IPerspectiveFactory {
 			folderLayout.addView("gda.rcp.views.baton.BatonView");
 		}
 		layout.addView("org.eclipse.ui.navigator.ProjectExplorer", IPageLayout.LEFT, 0.24f, IPageLayout.ID_EDITOR_AREA);
-		layout.addView("uk.ac.gda.exafs.ui.dashboardView", IPageLayout.BOTTOM, 0.74f, IPageLayout.ID_EDITOR_AREA);
 	}
 }

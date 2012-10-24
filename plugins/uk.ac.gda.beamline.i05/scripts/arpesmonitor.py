@@ -21,14 +21,12 @@ class ARPESMonitor:
         self.scienta.setCollectionTime(t)
         
     def configure(self):
-        self.scienta.controller.setAcquisitionMode("Fixed")
+        self.scienta.prepareFixedMode()
         self.scienta.getAdBase().setNumExposures(1)
-        self.scienta.setCollectionTime(1)
+        self.setCollectionTime(1)
         
     def start(self):
-        self.scienta.controller.setAcquisitionMode("Fixed")
-        self.scienta.getAdBase().setNumExposures(1)
-        self.scienta.setCollectionTime(1)
+        self.configure()
         self.scienta.getAdBase().setImageMode(2)
         self.scienta.getAdBase().startAcquiring()
     
