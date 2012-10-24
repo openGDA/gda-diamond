@@ -1,3 +1,3 @@
 #! /bin/sh
 
-EPICS_CA_SERVER_PORT=5064 /dls_sw/work/R3.14.11/ioc/BL05I/BL05I-EA-IOC-01/bin/linux-x86/stBL05I-EA-IOC-01-gui
+EPICS_CA_SERVER_PORT=5064 nohup /dls_sw/work/R3.14.11/ioc/BL05I/BL05I-EA-IOC-01/bin/linux-x86/stBL05I-EA-IOC-01-gui > /dev/null 2>&1 

@@ -1,0 +1,3 @@
+#! /bin/sh
+
+gnome-terminal -t "gda server startup" -x /dls_sw/$BEAMLINE/software/gda/bin/gdaservers
