@@ -168,8 +168,12 @@
 	<import resource="../../devices/s4.xml" />
 	<import resource="../../devices/s5.xml" />
 
-	<import resource="../../devices/sample_stage_t1.xml" />
+	<import resource="../../devices/m2.xml"/>
+	<import resource="../../devices/pin.xml"/>
+	<import resource="../../devices/diff.xml"/>
 	<import resource="../../devices/s6.xml" />
+
+	<import resource="../../devices/sample_stage_t1.xml" />
 	<import resource="../../devices/sample_stage_camera.xml" />
 	<import resource="../../devices/moveable_camera.xml" />
 	<import resource="../../devices/s7.xml" />

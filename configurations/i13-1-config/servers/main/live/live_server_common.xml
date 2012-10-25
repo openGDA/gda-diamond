@@ -76,6 +76,9 @@
 	<import resource="../../../devices/epics/s4_motors.xml"/>
 
 	<import resource="../../../devices/epics/s5_motors.xml"/>
+	<import resource="../../../devices/epics/m2_motors.xml"/>
+	<import resource="../../../devices/epics/pin_motors.xml"/>
+	<import resource="../../../devices/epics/diff_motors.xml"/>
 
 	<import resource="../../../devices/dummy/diffractometer_motors.xml"/>
 	

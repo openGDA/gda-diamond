@@ -5,7 +5,8 @@ source /dls_sw/i13-1/etc/i13-1_profile.sh
 
 #this is needed to ensure the acls work properly
 umask 0002
-
+echo USER_IS:
+whoami
 export LOGFILE=$GDALOGS/gda_output_`date +%F-%T`.txt
 touch $LOGFILE
 rm $GDALOGS/gda_output.txt
@@ -25,5 +26,13 @@ nohup python ${GDAFOLDER}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda  --s
 nohup python ${GDAFOLDER}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda --smart --trace --config=$GDAFOLDER/$BEAMLINE-config --debug -p 8002 --restart -v --mode=$GDAMODE eventserver > $LOGFILE 2>&1 &
 nohup python ${GDAFOLDER}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda --smart --trace --config=$GDAFOLDER/$BEAMLINE-config --debug -p 8001 --restart -v --mode=$GDAMODE objectserver > $LOGFILE 2>&1 &
 #nohup python ${GDAFOLDER}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda --smart --trace --config=$GDAFOLDER/$BEAMLINE-config --debug -p 8001 --restart -v --mode=$GDAMODE servers > $LOGFILE 2>&1 &
+
+
+#python ${GDAFOLDER}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=$GDAFOLDER/$BEAMLINE-config --restart -v --mode=$GDAMODE nameserver
+#python ${GDAFOLDER}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=$GDAFOLDER/$BEAMLINE-config --restart -v --mode=$GDAMODE logserver
+#python ${GDAFOLDER}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda --smart --trace --config=$GDAFOLDER/$BEAMLINE-config --debug -p 8002 --restart -v --mode=$GDAMODE eventserver
+#python ${GDAFOLDER}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda --smart --trace --config=$GDAFOLDER/$BEAMLINE-config --debug -p 8001 --restart -v --mode=$GDAMODE objectserver
+
+
 echo "Looking for file $SERVER_STARTUP_FILE"
 $GDAFOLDER/$BEAMLINE-config/bin/lookForFile $SERVER_STARTUP_FILE

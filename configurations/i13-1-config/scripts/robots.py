@@ -70,7 +70,7 @@ import math
 
 
 class Position():
-    def __init__(self, X=0., Y=0.,Z=0.,RX=0.,RY=0.,RZ=0.):
+    def __init__(self, X=0., Y=0.,Z=0.,RX=0.,RY=0.,RZ=0., ext1=0.):
         self.X=X
         self.Y=Y
         self.Z=Z
@@ -79,7 +79,7 @@ class Position():
         self.RZ=RZ
         self.type="0"
         self.tool = "0"
-        self.ext1=0.
+        self.ext1=ext1
         self.ext2=0.
         self.ext3=0.
         self.ext4=0.
@@ -109,6 +109,7 @@ class Position():
         res.RX -= other.RX
         res.RY -= other.RY
         res.RZ -= other.RZ
+        res.ext1 -= other.ext1
         return res
 
     def __add__(self,other):
@@ -119,6 +120,7 @@ class Position():
         res.RX += other.RX
         res.RY += other.RY
         res.RZ += other.RZ
+        res.ext1 += other.ext1
         return res
     
     def getCopy(self):
@@ -151,6 +153,7 @@ class Position():
         result.RX = self.__getValueForMoveTowards(result.RX, final.RX, steps.RX, res)
         result.RY = self.__getValueForMoveTowards(result.RY, final.RY, steps.RY, res)
         result.RZ = self.__getValueForMoveTowards(result.RZ, final.RZ, steps.RZ, res)
+        result.ext1 = self.__getValueForMoveTowards(result.ext1, final.ext1, steps.ext1, res)
         return result
     
     def withinResolution(self,other,res=.001):
@@ -159,7 +162,8 @@ class Position():
             (math.fabs(self.Z - other.Z) <= res) and \
             (math.fabs(self.RX - other.RX) <= res) and \
             (math.fabs(self.RY - other.RY) <= res) and \
-            (math.fabs(self.RZ - other.RZ) <= res) 
+            (math.fabs(self.RZ - other.RZ) <= res) and \
+            (math.fabs(self.ext1 - other.ext1) <= res) 
     
 
 
@@ -644,7 +648,11 @@ class Motoman(object):
 
     def readCurrentPositionInUser1SpaceWithExternalAxis(self):
         return self.doCommand("RPOSC","2,1").strip()
-    
+
+    def getUserCoordinateData(self, userCoord=2):
+        return self.doCommand("RUFRAME",`userCoord`).strip()
+        
+        
     def interpretAsBoolean(self,intAsString, bit ):
         b1=int(intAsString)
         return b1>>bit &0x1 == 1
@@ -728,8 +736,8 @@ class Motoman(object):
         while stat["running"]:
             time.sleep(0.1)
             ctr += 1
-            if ctr > 600:
-                raise Exception("Move did not complete in time - 60s")
+            if ctr > 1000:
+                raise Exception("Move did not complete in time - 100s")
             stat=self.readStatus()
 #            if stat["alarm"]:
 #                raise Exception("Robot went into alarm state during move")
@@ -745,10 +753,10 @@ class Motoman(object):
             if stat["alarm"]:
                 raise Exception("Robot in alarm state after reset")
         
-    def moveIncrementalInRobotSpace(self, xyz=Position(), speed=5, doIt=True, userCoordinates=0):
+    def moveIncrementalInRobotSpace(self, xyz=Position(), speed=1, doIt=True, userCoordinates=0):
         self.log("moveIncrementalInRobotSpacem called for xys=%s" %(xyz))
         arg = ""
-        arg += "0" +"," #speed selection
+        arg += "0" +"," #speed selection `0- V 1- VR, VR may be better for angles only, 
         arg += `speed` +","
         arg += `userCoordinates`  + ","# although this indicates Base it works with the values return by readRobotPositions
         xyz.type="0"
@@ -782,7 +790,7 @@ class Motoman(object):
     def abort(self):
         self.abort=True
         
-    def moveUsingIncrements(self, xyz_start=None, xyz_final=None, steps=None, res=0.001, speed=5, doIt=True, userCoordinates=0):
+    def moveUsingIncrements(self, xyz_start=None, xyz_final=None, steps=None, res=0.001, speed=1, doIt=True, userCoordinates=0):
         self.setServoOn()
         try:
             self.abort = False
@@ -867,7 +875,8 @@ class Motoman(object):
     def gotoHome2(self):
         try:
             self.setServoOn()
-            self.doCommand("PMOVJ","10,0,0,0,0,0,0,0,0,0,0,0,0,0")
+            #go to home at speed 1 
+            self.doCommand("PMOVJ","1,0,0,0,0,0,0,0,0,0,0,0,0,0")
             self.waitForEndOfMove()
             if not self.isAtHome2():
                 raise Exception("gotoHome2 error - trying resetting alarm ")
@@ -897,24 +906,32 @@ class Robot():
     positions are changed in a particular order
     
     to use first home the robot and call resetPosition()
-    if the robot is at expected home position the current robot positins are read and stored
+    if the robot is at expected home position the current robot positions are read and stored
     """
     def __init__(self, ip):
         self.__ctrl=Motoman(ip=ip)
         self.__pulses=""
         self.__position=Position()
         self.steps = Position()
-        self.steps.X=self.steps.Y=self.steps.Z=10
-        self.steps.RX=self.steps.RY=self.steps.RZ=3
-        self.speed=10
+        self.steps.X=self.steps.Y=self.steps.Z=1000
+        self.steps.RX=self.steps.RY=self.steps.RZ=300
+        self.steps.ext1 = 100
+        self.speed=1
         self.abort = True #must reset first
         self.usercoords=False
+        self.mustBeAtHomeForreset=True
         
+    def getCtrl(self):
+        """
+        Not to be used by normal users.
+        """
+        return self.__ctrl
+    
     def log(self,txt):
         handle_messages.log(None, txt)
     
     def resetPosition(self):
-        if not self.__ctrl.isAtHome2():
+        if self.mustBeAtHomeForreset and (not self.__ctrl.isAtHome2()):
             raise Exception("Error in resetPosition - robot not homed")
         self.__pulses = self.__ctrl.readPulses()
         self.__position = self.__ctrl.readRobotPositions()
@@ -971,6 +988,7 @@ class Robot():
         else:
             self.log("Moving to %s" % (pos))
 #            self.__moveToStep(Position(RY = -45 -self.__position.RY))
+            self.__moveToStep(Position(ext1= pos.ext1-self.__position.ext1))
             self.__moveToStep(Position(Z= pos.Z-self.__position.Z, Y= pos.Y-self.__position.Y, X= pos.X-self.__position.X))
             orig=self.speed
             try:

@@ -130,6 +130,9 @@
 				<entry key="pco1_roi" value-ref="pco1_roi" />
 				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file"/>
 				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif"/>
+				<entry key="pco1_singleExposurePco" value-ref="pco1_singleExposurePco"/>
+				<entry key="pco1_multipleExposurePco" value-ref="pco1_multipleExposurePco"/>
+				<entry key="pco1_singleExposurePcoSoftwareTrigger" value-ref="pco1_singleExposurePcoSoftwareTrigger"/>
 			</util:map>
 		</property>
 	</bean>
@@ -143,12 +146,12 @@
 	<bean id="pco1_singleExposurePcoSoftwareTrigger" class="gda.device.detector.addetector.triggering.SingleExposurePcoSoftwareTrigger">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg ref="adDriverPco1" />
-		<constructor-arg value=".03" />
+		<constructor-arg value="-.03" />
 	</bean>
 	<bean id="pco1_singleExposurePco" class="gda.device.detector.addetector.triggering.SingleExposurePco">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg ref="adDriverPco1" />
-		<constructor-arg value=".03" />
+		<constructor-arg value="-.03" />
 	</bean>
 	<bean id="pco1_multipleExposurePco" class="gda.device.detector.addetector.triggering.MultipleExposureSoftwareTriggerAutoMode">
 		<constructor-arg ref="pco1_cam_base" />
@@ -199,7 +202,7 @@
 		<property name="ndStats" ref="pco1_stat" />
 		<property name="ndArray" ref="pco1_arr" />
 		<property name="ndFile" ref="pco1_ndfiletif" />
-		<property name="collectionStrategy" ref="pco1_singleExposurePcoSoftwareTrigger"/>
+		<property name="collectionStrategy" ref="pco1_singleExposurePco"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 				<constructor-arg ref="pco1_ndfiletif" />
@@ -210,6 +213,7 @@
 				<constructor-arg value="true"/>
 				<property name="enable" value="true"/>
 				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+				<property name="returnExpectedFullFileName" value="true"/>
 			</bean>
 		</property>
 
@@ -219,6 +223,8 @@
 		<property name="computeStats" value="false" />
 		<property name="computeCentroid" value="false" />
 		<property name="readArray" value="false" />
+		<property name="checkFileExists" value="true"/>
 	</bean>
+
 
 </beans>	
