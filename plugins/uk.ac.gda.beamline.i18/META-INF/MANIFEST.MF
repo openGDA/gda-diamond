@@ -23,7 +23,8 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.diamond.org.jscience;bundle-version="[2.0.2,3.0.0)",
  uk.ac.gda.pydev.extension;bundle-version="1.0.0",
  org.eclipse.ui.workbench.texteditor;bundle-version="3.7.0",
- org.eclipse.draw2d;bundle-version="3.7.1"
+ org.eclipse.draw2d;bundle-version="3.7.1",
+ org.dawnsci.plotting.jreality;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: gda.device.scannable;uses:="gda.epics.connection,gda.device,uk.ac.gda.exafs.ui.views.scalersmonitor",

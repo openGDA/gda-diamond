@@ -24,6 +24,8 @@ import gda.images.camera.ImageListener;
 import gda.images.camera.RTPStreamReceiverSWT;
 import gda.images.camera.VideoReceiver;
 
+import org.dawnsci.plotting.jreality.tool.IImagePositionEvent;
+import org.dawnsci.plotting.jreality.tool.ImagePositionListener;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.action.Action;
@@ -41,8 +43,6 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.IImagePositionEvent;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.ImagePositionListener;
 import uk.ac.gda.beamline.i18.I18BeamlineActivator;
 import uk.ac.gda.client.microfocus.views.BeamCentreFigure;
 import uk.ac.gda.client.viewer.ImageViewer;

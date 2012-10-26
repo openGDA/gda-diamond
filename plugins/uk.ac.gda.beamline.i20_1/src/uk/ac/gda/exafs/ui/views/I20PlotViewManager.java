@@ -18,6 +18,7 @@
 
 package uk.ac.gda.exafs.ui.views;
 
+import org.dawnsci.plotting.jreality.impl.PlotException;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.slf4j.Logger;
@@ -25,7 +26,6 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotException;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.EdeTimingCalculator;
 import uk.ac.gda.exafs.ui.data.TFGParameters;

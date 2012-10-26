@@ -25,6 +25,7 @@ import gda.factory.Finder;
 
 import java.util.Vector;
 
+import org.dawnsci.plotting.jreality.impl.PlotException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -39,7 +40,6 @@ import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.DataSetPlotter;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotException;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlottingMode;
 
 public class SoftXRayDetectorRatesView extends ViewPart implements Runnable, IPartListener2{
