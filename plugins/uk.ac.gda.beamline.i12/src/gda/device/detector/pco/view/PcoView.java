@@ -18,6 +18,13 @@
 
 package gda.device.detector.pco.view;
 
+import org.dawnsci.plotting.jreality.overlay.Overlay2DConsumer;
+import org.dawnsci.plotting.jreality.overlay.Overlay2DProvider;
+import org.dawnsci.plotting.jreality.overlay.OverlayProvider;
+import org.dawnsci.plotting.jreality.overlay.OverlayType;
+import org.dawnsci.plotting.jreality.overlay.VectorOverlayStyles;
+import org.dawnsci.plotting.jreality.overlay.primitives.PrimitiveType;
+import org.dawnsci.plotting.jreality.tool.IImagePositionEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -33,15 +40,6 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiPlotMode;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.IPlotUI;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.Plot2DUI;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.enums.OverlayType;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.enums.PrimitiveType;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.enums.VectorOverlayStyles;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.overlay.Overlay2DConsumer;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.overlay.Overlay2DProvider;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.overlay.OverlayProvider;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.DataPositionEvent;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.IImagePositionEvent;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.ImagePositionEvent;
 import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
 import uk.ac.diamond.scisoft.analysis.rcp.views.SidePlotView;
 /**
