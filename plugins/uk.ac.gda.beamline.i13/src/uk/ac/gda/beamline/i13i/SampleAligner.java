@@ -25,11 +25,11 @@ import gda.device.scannable.ScannableUtils;
 
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealVector;
+import org.dawnsci.plotting.jreality.tool.IImagePositionEvent;
 import org.eclipse.swt.graphics.ImageData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.IImagePositionEvent;
 import uk.ac.gda.beamline.i13i.views.cameraview.ImageViewerListener;
 import uk.ac.gda.client.viewer.ImageViewer;
 

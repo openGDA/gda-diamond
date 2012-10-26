@@ -37,6 +37,8 @@ import java.util.Vector;
 
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealVector;
+import org.dawnsci.plotting.jreality.tool.IImagePositionEvent;
+import org.dawnsci.plotting.jreality.tool.ImagePositionListener;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
@@ -77,8 +79,6 @@ import uk.ac.diamond.scisoft.analysis.SDAPlotter;
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IntegerDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.Stats;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.IImagePositionEvent;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.ImagePositionListener;
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
 import uk.ac.gda.client.viewer.ImageViewer;
 
