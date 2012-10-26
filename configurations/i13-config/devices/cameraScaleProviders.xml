@@ -35,12 +35,14 @@
 		<property name="cameraStageXScannable" ref="cs1_x" />
 		<property name="displayScaleProvider" ref="displayScaleProvider" />
 		<property name="cameraScaleProvider" ref="displayScaleProvider" />
+		<property name="lensScannable" ref="lensScannable"/>
 	</bean>
 
 	<bean id="cameraXYScannable" class="uk.ac.gda.beamline.i13i.CameraXYScannable">
 		<property name="cameraStageXScannable" ref="cs1_x" />
 		<property name="cameraStageYScannable" ref="cs1_y" />
 		<property name="cameraScaleProvider" ref="displayScaleProvider" />
+		<property name="lensScannable" ref="lensScannable"/>
 	</bean>
 
 <!-- 	<bean id="sampleAligner" class="uk.ac.gda.beamline.i13i.SampleAligner">
