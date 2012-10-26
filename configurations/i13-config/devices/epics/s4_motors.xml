@@ -38,5 +38,8 @@
 		<property name="local" value="true" />
 	</bean>	
 	
-	
+	<bean id="fs" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="deviceName" value="fast_shutter" />
+	</bean>
+		
 </beans>	
