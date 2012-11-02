@@ -53,9 +53,11 @@ public class BeamScaleFigure extends Figure {
 		add(rectangle);
 		manager.setConstraint(rectangle, BorderLayout.CENTER);
 		xScaleLabel = new Label();
+		xScaleLabel.setForegroundColor(ColorConstants.red);
 		add(xScaleLabel);
 		manager.setConstraint(xScaleLabel, BorderLayout.TOP);
 		yScaleLabel = new Label();
+		yScaleLabel.setForegroundColor(ColorConstants.red);
 		add(yScaleLabel);
 		manager.setConstraint(yScaleLabel, BorderLayout.RIGHT);
 		update();

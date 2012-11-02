@@ -1,5 +1,5 @@
 #! /bin/sh 
-notify-send -t 10000 "GDA Client is starting..."
+notify-send -t 10000 "GDA Client is starting...if it fails to open try 'gdaclient --clean'"
 #runs the LogPanel and RCP client
 
 #identify install folder and JAVA_HOME
@@ -8,7 +8,7 @@ source /dls_sw/i13/etc/i13_profile.sh
 . /usr/share/Modules/init/bash
 module load java/gda
 
-#gdalog
+gdalog
 
 if [ "$1" = "--clean" ]
 then

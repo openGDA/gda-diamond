@@ -1319,8 +1319,8 @@ creates directories and links to projection, dark and flat images required for s
 	parser=OptionParser(usage=usage, description=desc, version=vers, prog=argv[0])
 
 	parser.add_option("-f", "--filename", action="store", type="string", dest="filename", help="NeXus filename to be processed.")
-	parser.add_option("--shutterOpenPhys", action="store", type="float", dest="shutOpenPos", help="The shutter's PHYSICAL position when it was OPEN during the scan.")
-	parser.add_option("--shutterClosedPhys", action="store", type="float", dest="shutClosedPos", help="The shutter's PHYSICAL position when it was CLOSED during the scan. ")
+	parser.add_option("--shutterOpenPhys", action="store", type="float", dest="shutOpenPos", default=1.0, help="The shutter's PHYSICAL position when it was OPEN during the scan.")
+	parser.add_option("--shutterClosedPhys", action="store", type="float", dest="shutClosedPos", default=0.0, help="The shutter's PHYSICAL position when it was CLOSED during the scan. ")
 	parser.add_option("--stageInBeamPhys", action="store", type="float", dest="inBeamPos", help="The sample stage's PHYSICAL position when it was IN-BEAM during the scan. ")
 	parser.add_option("--stageOutOfBeamPhys", action="store", type="float", dest="outOfBeamPos", help="The sample stage's PHYSICAL position when it was OUT-OF-BEAM during the scan. ")
 	parser.add_option("--minProjs", action="store", type="int", dest="minProjs", default=129, help="The absolute minimum number of projections; default value is %default.")

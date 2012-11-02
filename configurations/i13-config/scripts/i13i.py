@@ -59,4 +59,8 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
     imagesPerFlat - number of images to be taken for each flat
     min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
 
+
+
+6. To perform a raster_scan
+	>help raster_scan.scan
 """

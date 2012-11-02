@@ -86,15 +86,15 @@
 	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
 		<property name="cameras">
 			<list>
-				<ref bean= "pco_cam_config"/>
+				<!--ref bean= "pco_cam_config"/-->
+				<ref bean= "WebCam_Middle"/>
+				<ref bean= "WebCam_DownStream"/>
 				<ref bean= "d1_cam_config"/>
 				<ref bean= "d2_cam_config"/>
 				<ref bean= "d3_cam_config"/>
 				<ref bean= "d4_cam_config"/>
 				<ref bean= "shtr1_cam_config"/>
 				<ref bean= "d5_cam_config"/>
-				<ref bean= "WebCam_Middle"/>
-				<ref bean= "WebCam_DownStream"/>
 			</list>
 		</property>
 		<property name="plotViewID" value="uk.ac.gda.beamline.i13i.DetectorPlot"/>

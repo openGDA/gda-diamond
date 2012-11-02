@@ -43,14 +43,13 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 	
 	
 	private FileConfiguration configuration;
-
+	Scannable lensScannable;
 	private String configurationName="configuration";
 	private String propertyNameX="cameraXYScannableOffsetX";
 	private String propertyNameY="cameraXYScannableOffsetY";
 
 	
-	double offsetX=0.;
-	double offsetY=0.;
+
 	Scannable cameraStageXScannable;
 	Scannable cameraStageYScannable;
 	DisplayScaleProvider cameraScaleProvider;
@@ -62,16 +61,36 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 		return false;
 	}
 
+	private int getLensValue() throws DeviceException {
+		return (int)ScannableUtils.getCurrentPositionArray(lensScannable)[0];
+	}
+	
+	private void setOffset(double offsetX, double offsetY) throws DeviceException, ConfigurationException {
+		int lensPos = getLensValue();
+		configuration.setProperty(propertyNameX+ lensPos,offsetX);
+		configuration.setProperty(propertyNameY+ lensPos,offsetY);
+		configuration.save();
+	}	
+	
+	private double getOffsetX() throws DeviceException {
+		int lensPos = getLensValue();
+		double offset = configuration.getDouble(propertyNameX+ lensPos, 0.0);
+		return offset;
+	}	
 
+	private double getOffsetY() throws DeviceException {
+		int lensPos = getLensValue();
+		double offset = configuration.getDouble(propertyNameY+ lensPos, 0.0);
+		return offset;
+	}	
+	
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 		try {
 			Double[] array = ScannableUtils.objectToArray(position);
-			offsetX = getOffsetXForRotationAxisX(array[0]);
-			configuration.setProperty(propertyNameX,offsetX);
-			offsetY = getOffsetYForRotationAxisX(array[1]);
-			configuration.setProperty(propertyNameY,offsetY);
-			configuration.save();
+			double offsetX = getOffsetXForRotationAxisX(array[0]);
+			double offsetY = getOffsetYForRotationAxisX(array[1]);
+			setOffset(offsetX, offsetY);
 			notifyIObservers(getName(), new ScannablePositionChangeEvent(new double[]{offsetX, offsetY}));
 		} catch (ConfigurationException e) {
 			throw new DeviceException("Error saving new value",e);
@@ -85,27 +104,12 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 	}
 
 
-
-
-
-	public double getOffsetX() {
-		return offsetX;
-	}
-
-
-	public double getOffsetY() {
-		return offsetY;
-	}
-
-
 	@Override
 	public void configure() throws FactoryException {
 		super.configure();
 		setInputNames(new String[]{"X","Y"});
 		try {
 			configuration = LocalParameters.getThreadSafeXmlConfiguration(getConfigurationName());
-			offsetX = configuration.getDouble(propertyNameX, 0.0);
-			offsetY = configuration.getDouble(propertyNameY, 0.0);
 			if( observer == null){
 				observer = new IObserver() {
 					
@@ -128,13 +132,13 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 
 	int getRotationAxisX() throws DeviceException {
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
-		double dist = offsetX+x2;
+		double dist = getOffsetX()+x2;
 		double a = dist * cameraScaleProvider.getPixelsPerMMInX();
 		return (int) Math.round(a);
 	}
 	int getRotationAxisY() throws DeviceException {
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageYScannable)[0];
-		double dist = offsetY+x2;
+		double dist = getOffsetY()+x2;
 		double a = dist * cameraScaleProvider.getPixelsPerMMInY();
 		return (int) Math.round(a);
 	}
@@ -149,8 +153,8 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 	}
 	
 	public void autoCentre(double pixelsX, double pixelsY) throws DeviceException, InterruptedException{
-		cameraStageXScannable.asynchronousMoveTo(pixelsX/cameraScaleProvider.getPixelsPerMMInX() - offsetX);
-		cameraStageYScannable.asynchronousMoveTo(pixelsY/cameraScaleProvider.getPixelsPerMMInY() - offsetY);
+		cameraStageXScannable.asynchronousMoveTo(pixelsX/cameraScaleProvider.getPixelsPerMMInX() - getOffsetX());
+		cameraStageYScannable.asynchronousMoveTo(pixelsY/cameraScaleProvider.getPixelsPerMMInY() - getOffsetY());
 		cameraStageXScannable.waitWhileBusy();
 		cameraStageYScannable.waitWhileBusy();
 		
@@ -231,6 +235,15 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 
 	public void setCameraScaleProvider(DisplayScaleProvider cameraScaleProvider) {
 		this.cameraScaleProvider = cameraScaleProvider;
+	}
+
+	public Scannable getLensScannable() {
+		return lensScannable;
+	}
+
+
+	public void setLensScannable(Scannable lensScannable) {
+		this.lensScannable = lensScannable;
 	}
 
 

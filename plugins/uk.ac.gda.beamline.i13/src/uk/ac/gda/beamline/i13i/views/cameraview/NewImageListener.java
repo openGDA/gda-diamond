@@ -21,5 +21,5 @@ package uk.ac.gda.beamline.i13i.views.cameraview;
 import org.eclipse.swt.graphics.ImageData;
 
 public interface NewImageListener {
-	void handlerNewImageNotification(ImageData lastImage2);
+	void handlerNewImageNotification(ImageData lastImage2) throws Exception;
 }

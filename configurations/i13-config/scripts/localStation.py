@@ -28,6 +28,15 @@ class ExperimentShutterEnumPositioner(ScannableBase):
 			return "Open" 
 		return "Closed"
 
+def eh_shtr_control():
+	print "Entering the experiment shutter"
+	if eh_shtr()=="Open":
+		pos eh_shtr "Close"
+	else:
+		pos eh_shtr "Reset"
+		time.sleep(3)
+		pos eh_shtr "Open"
+		
 try:
 	from gda.device import Scannable
 	from gda.jython.commands.GeneralCommands import ls_names, vararg_alias
@@ -123,6 +132,7 @@ try:
 	import alignmentGui
 	tomodet = alignmentGui.TomoDet()
 #	run("i13diffcalc")
+	import raster_scan
 
 
 except :
