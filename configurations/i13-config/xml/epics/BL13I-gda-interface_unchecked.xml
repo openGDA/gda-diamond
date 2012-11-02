@@ -86,5 +86,11 @@
 		<RECORD desc="Motor" pv="BL13I-MO-STAGE-01:SAMPLEX" ro="false" type="motor"/>
 	</simpleMotor>
 
+	<simplePv desc="dummy" name="ionc_photonflux">
+		<RECORD desc="dummy" pv="BL13I-DI-IONC-01:PHOTONRATE" ro="true" type="pv" />
+	</simplePv>
 
+	<simpleMbbinary desc="" name="fast_shutter">
+		<RECORD desc="" pv="BL13I-EA-FSHTR-01:CONTROL" ro="false" type="mbbinary"/>
+	</simpleMbbinary>
 </devices>

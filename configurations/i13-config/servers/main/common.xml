@@ -150,6 +150,7 @@
 	<import resource="../../devices/dcm.xml" />
 	<import resource="../../devices/d5.xml" />
 	<import resource="../../devices/s4.xml" />
+	<import resource="../../devices/kb.xml" />
 	<import resource="../../devices/sample_stage.xml" />
 	<import resource="../../devices/table.xml" />
 	<import resource="../../devices/camera_stage.xml" />

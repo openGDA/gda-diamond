@@ -62,6 +62,7 @@
 	<import resource="../../../devices/epics/s4_motors.xml" />
 	<import resource="../../../devices/epics/absorbers4.xml" />
 	<import resource="../../../devices/epics/ion_chamber.xml" />
+	<import resource="../../../devices/epics/kb_motors.xml" />
 
 
 	<import resource="../../../devices/epics/sample_stage_motors.xml" />
@@ -70,7 +71,11 @@
 
 	<import resource="../../../devices/epics/pco1.xml" />
 
-
+	<bean id="fastshutter" class="gda.device.scannable.EpicsScannable"> 
+		<property name="pvName" value="BL13I-EA-FSHTR-01:CONTROL" /> 
+		<property name="useNameAsExtraName" value="false"/>
+		<property name="hasUnits" value="false"/>
+	</bean>
 
 	<import resource="../common.xml" />
 

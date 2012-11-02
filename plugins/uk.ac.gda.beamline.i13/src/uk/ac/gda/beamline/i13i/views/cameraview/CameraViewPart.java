@@ -19,12 +19,14 @@
 package uk.ac.gda.beamline.i13i.views.cameraview;
 
 import gda.device.DeviceException;
+import gda.device.Scannable;
 import gda.device.detector.areadetector.v17.FfmpegStream;
 import gda.device.detector.areadetector.v17.NDPluginBase;
 import gda.device.detector.areadetector.v17.NDProcess;
 import gda.device.scannable.ScannablePositionChangeEvent;
 import gda.device.scannable.ScannableStatus;
 import gda.device.scannable.ScannableUtils;
+import gda.factory.Finder;
 import gda.images.camera.DummySwtVideoReceiver;
 import gda.images.camera.MotionJpegOverHttpReceiverSwt;
 import gda.images.camera.VideoReceiver;
@@ -32,6 +34,8 @@ import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -54,15 +58,19 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -122,6 +130,8 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 	protected boolean changeRotationAxisX, changeImageMarker, moveOnClickEnabled;
 
+	private Label connectedLbl;
+
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -137,16 +147,26 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		cmp = new Composite(parent,SWT.NONE);
 		cmp.setLayout(new GridLayout());
 
-		reconnectButton = new Button(cmp, SWT.PUSH);
+		Composite btnCmp = new Composite(cmp, SWT.NONE);
+		RowLayout layout = new RowLayout();
+		btnCmp.setLayout(layout);
+		GridDataFactory.fillDefaults().grab(true,false).applyTo(btnCmp);
+
+		Group statusGroup = new Group(btnCmp,SWT.NONE);
+		statusGroup.setText("IOC Status");
+		statusGroup.setLayout( new RowLayout());
+		
+		
+		reconnectButton = new Button(statusGroup, SWT.PUSH);
 		reconnectButton.setText("Camera not found. Press to try again.");
 		reconnectButton.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_RED));
 		//use grabHoriz to get the composite to ask its children for their size
-		GridDataFactory.fillDefaults().grab(true,false).applyTo(reconnectButton);
+//		GridDataFactory.fillDefaults().grab(false,false).applyTo(reconnectButton);
 		reconnectButton.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				reconnectAction.run();
+				reconnectIOC();
 			}
 			
 			@Override
@@ -154,6 +174,63 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			}
 		});
 		reconnectButton.setVisible(true);
+
+		connectedLbl = new Label(statusGroup,SWT.NONE);
+		connectedLbl.setText("IOC Connected");
+		connectedLbl.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_DARK_GREEN));
+	//	GridDataFactory.fillDefaults().grab(false,false).applyTo(connectedLbl);
+		connectedLbl.setVisible(false);
+		
+		Group latestImageGroup = new Group(btnCmp,SWT.NONE);
+		latestImageGroup.setText("Time of last image");
+		latestImageGroup.setLayout( new RowLayout());
+		imageDateLabel = new Label(latestImageGroup,SWT.NONE);
+		imageDateLabel.setText("Waiting for image...");
+
+		Group group = new Group(btnCmp,SWT.NONE);
+		group.setText("Lens");
+		group.setLayout( new RowLayout());
+		pcom = new Combo(group, SWT.SINGLE|SWT.BORDER|SWT.CENTER|SWT.READ_ONLY);
+		pcom.setItems(new String[]{"X2 7.4mm * 4.9mm", "X4 3.7mm * 2.5mm", "X10 1.5mm * 1.0mm", "Unknown"});
+	//	GridDataFactory.fillDefaults().grab(false,false).applyTo(pcom);
+		
+		pcom.addSelectionListener(new SelectionAdapter() {
+		      @Override
+			public void widgetSelected(SelectionEvent e) {
+		    	  valueChanged((Combo)e.widget);
+		        }
+		      });		
+		
+		pcom.setVisible(true);
+//		group.pack();
+		lensScannable = Finder.getInstance().find("lensScannable");
+		lensScannable.addIObserver(new IObserver(){
+
+			@Override
+			public void update(Object source, Object arg) {
+				try {
+					final double pos = ScannableUtils.getCurrentPositionArray(lensScannable)[0];
+					Display.getDefault().asyncExec(new Runnable() {
+
+						@Override
+						public void run() {
+							pcom.select((int) pos);
+						}});
+					
+				} catch (DeviceException e) {
+					logger.error("Error getting position of "+lensScannable.getName(), e);
+				}
+				
+			}});
+		
+		int npi=0;
+		try {
+			npi  = (int) ScannableUtils.getCurrentPositionArray(lensScannable)[0];
+			pcom.select(npi);
+		} catch (DeviceException e1) {
+			pcom.select(3);
+			logger.error("Error setting value for " + lensScannable.getName() + " to " +npi, e1);
+		}
 		
 		cameraComposite = new CameraComposite(cmp, SWT.NONE, parent.getDisplay(), this);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(cameraComposite);
@@ -199,8 +276,8 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 					int beamCentreY = event.getImagePosition()[1];
 					boolean changeCentre = MessageDialog.openQuestion(
 							PlatformUI.getWorkbench().getDisplay().getActiveShell(),
-							"Change image marker",
-							"Are you sure you wish to change the image marker to this position ("
+							"Change beam centre marker",
+							"Are you sure you wish to change the beam centre marker to this position ("
 									+ Integer.toString(beamCentreX) + "," + Integer.toString(beamCentreY) + "?");
 					if (changeCentre) {
 						try {
@@ -216,7 +293,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 							cameraConfig.getCameraXYScannable().asynchronousMoveTo(
 									new double[] { clickPointInImage.getEntry(0), clickPointInImage.getEntry(1) });
 						} catch (DeviceException e) {
-							reportErrorToUserAndLog("Error setting image marker", e);
+							reportErrorToUserAndLog("Error setting beam centre marker", e);
 						}
 					}
 					changeImageMarker = false;
@@ -237,8 +314,9 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			}
 		}, null);
 
+		
 
-		final Action setExposureTime = new Action("Set Exposure Time") {
+		final Action setExposureTime = new Action("Start Camera or Change Exposure Time") {
 			@Override
 			public void run() {
 				try {
@@ -267,11 +345,11 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		};
 		showRawData.setToolTipText("Displays hi resolution image in 'Detector Image' window");
 		
-		reconnectAction = new Action("Reconnect") {
+		reconnectAction = new Action("Reconnect to Image Stream") {
 			@Override
 			public void run() {
 				try {
-					reconnect();
+					reconnectStream();
 				} catch (Exception e) {
 					reportErrorToUserAndLog("Error re-connecting to stream", e);
 				}
@@ -290,7 +368,18 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			}
 		};
 
-		Action autoCentreAction = new Action("Auto-Centre") {
+		Action autoCentreAction = new Action("Align camera and rotation axis on beam center") {
+			@Override
+			public void run() {
+				try {
+					autoCentre();
+				} catch (Exception e) {
+					reportErrorToUserAndLog("Error performing auto-centre", e);
+				}
+			}
+		};
+
+		Action readyForLoadAction = new Action("Move to sample load position") {
 			@Override
 			public void run() {
 				try {
@@ -355,13 +444,13 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 		});
 
-		showImageMarkerAction = new Action("Show image marker", IAction.AS_CHECK_BOX) {
+		showImageMarkerAction = new Action("Show beam centre", IAction.AS_CHECK_BOX) {
 			@Override
 			public void run() {
 				try {
 					showImageMarker(isChecked());
 				} catch (DeviceException e) {
-					reportErrorToUserAndLog("Error showing image marker", e);
+					reportErrorToUserAndLog("Error showing beam centre", e);
 				}
 			}
 		};
@@ -369,7 +458,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			showImageMarker(true);
 			showImageMarkerAction.setChecked(true);// do not
 		} catch (DeviceException e) {
-			reportErrorToUserAndLog("Error showing image marker", e);
+			reportErrorToUserAndLog("Error showing beam centre", e);
 		}
 		cameraConfig.getCameraXYScannable().addIObserver(new IObserver() {
 
@@ -383,14 +472,14 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 		});
 
-		final Action beamScaleAction = new Action("Show Beam Scale", IAction.AS_CHECK_BOX) {
+		final Action beamScaleAction = new Action("Show scale", IAction.AS_CHECK_BOX) {
 			@Override
 			public void run() {
 				// this runs after the state has been changed
 				try {
 					showBeamScale(isChecked());
 				} catch (DeviceException e) {
-					reportErrorToUserAndLog("Error showing beamscale", e);
+					reportErrorToUserAndLog("Error showing scale", e);
 				}
 			}
 		};
@@ -401,14 +490,6 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			reportErrorToUserAndLog("Error showing beamscale", e);
 		}
 
-		Action imageKeyAction = new Action("Show Image Key", IAction.AS_CHECK_BOX) {
-			@Override
-			public void run() {
-				// this runs after the state has been changed
-				showImageKey(isChecked());
-			}
-		};
-		imageKeyAction.setChecked(false);// do not
 
 		moveOnClickAction = new Action("Move Sample On Click", IAction.AS_CHECK_BOX) {
 			@Override
@@ -424,26 +505,26 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		moveActions.add(autoCentreAction);
 		moveActions.add(moveOnClickAction);
 		
-		moveMenu = new MenuCreator("Move","Actions that move the camera and stages",moveActions);
+		moveMenu = new MenuCreator("Alignment","Actions that move the camera and sample stages",moveActions);
 
 		
 		Vector<Action> exposureActions= new Vector<Action>();
+		exposureActions.add(reconnectAction);
 		exposureActions.add(setExposureTime);
 		exposureActions.add(autoExposureAction);
 		exposureActions.add(autoBrightnessAction);
 		
-		exposureMenu = new MenuCreator("Exposure","Actions that effect the exposure",exposureActions);
+		exposureMenu = new MenuCreator("Camera","Actions that effect the camera",exposureActions);
 		
 		Vector<Action> showActions= new Vector<Action>();
-		showActions.add(imageKeyAction);
-		showActions.add(beamScaleAction);
+//do not add as this scale is wrong		showActions.add(beamScaleAction);
 		showActions.add(showImageMarkerAction);
 		showActions.add(rotationAxisAction);
 		showActions.add(showRawData);
 		showActions.add(showNormalisedImageAction);
 		showActions.add(zoomFit);
 		
-		showMenu = new MenuCreator("Show","show",showActions);
+		showMenu = new MenuCreator("Show","Actions that lead to items shown on the image or in other views",showActions);
 
 		IActionBars actionBars = getViewSite().getActionBars();
         IToolBarManager toolBar = actionBars.getToolBarManager();
@@ -473,7 +554,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		});
 
 		setImageMarker = new MenuItem(rightClickMenu, SWT.PUSH);
-		setImageMarker.setText("Mark next click position as image marker");
+		setImageMarker.setText("Mark next click position as beam centre");
 		setImageMarker.addSelectionListener(new SelectionListener() {
 
 			@Override
@@ -516,11 +597,24 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 			@Override
 			public void run() {
-				reconnectAction.run();
+				reconnectIOC();
+				try {
+					autoBrightness(false);
+				} catch (Exception e) {
+					logger.error("Error setting brightness", e);
+				}
 			}});
 	}
 
-
+	public void valueChanged(Combo c) {
+		int npi=c.getSelectionIndex();
+		try {
+			lensScannable.asynchronousMoveTo( npi );
+		} catch (DeviceException e) {
+			logger.error("Error setting value for " + lensScannable.getName() + " to " +npi, e);
+		}
+	    
+	  }
 	public static void reportErrorToUserAndLog(String s, Throwable th){
 		logger.error(s, th);
 		MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR);
@@ -567,7 +661,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 					try {
 						showImageMarker(true);
 					} catch (DeviceException e) {
-						reportErrorToUserAndLog("Error showing image marker", e);
+						reportErrorToUserAndLog("Error showing beam centre", e);
 					}
 
 				}
@@ -575,10 +669,47 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		}
 	}
 
+	private void showRotationAxisFromUIThread(final Action rotationAxisAction) throws DeviceException {
+		if (rotationAxisAction.isChecked()) {
+			showRotationAxis(true);
+		}
+	}
+	private void showImageMarkerFromUIThread(final Action showImageMarkerAction) throws DeviceException {
+		if (showImageMarkerAction.isChecked()) {
+			showImageMarker(true);
+		}
+	}
+
 	protected void showRawData() throws Exception {
-		AbstractDataset arrayData = getArrayData();
-		if (arrayData != null)
-			SDAPlotter.imagePlot("Detector Image", arrayData);
+		
+		ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
+		try {
+			pd.run(true /* fork */, true /* cancelable */, new IRunnableWithProgress() {
+				@Override
+				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+					String title = "Reading image to display in 'Detector Image' view";
+
+					monitor.beginTask(title, 100);
+
+					
+					try {
+						AbstractDataset arrayData = getArrayData(monitor);
+						if (arrayData != null)
+							SDAPlotter.imagePlot("Detector Image", arrayData);
+						
+					} catch (Exception e) {
+						throw new InvocationTargetException(e, "Error in " + title);
+					}
+
+					monitor.done();
+				}
+
+			});
+		} catch (Exception e) {
+			reportErrorToUserAndLog("Error showing data");
+		}
+		
+		
 		
 	}
 
@@ -616,6 +747,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 						if(evaluateCommand ==null){
 							throw new Exception("Error setting exposure using command:'" + cmd +"'. See server log for details");
 						}
+						autoExposureTask(false, 0., monitor);
 					} catch (Exception e) {
 						throw new InvocationTargetException(e, "Error in " + title);
 					}
@@ -627,7 +759,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		}
 	}
 
-	protected void reconnect() {
+	protected void reconnectIOC() {
 
 		ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
 		try {
@@ -640,7 +772,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 					
 					try {
-						reconnectEx();
+						reconnectEx(true, monitor);
 						
 					} catch (Exception e) {
 						throw new InvocationTargetException(e, "Error in " + title);
@@ -655,6 +787,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		}
 		boolean connected= videoReceiver != null;
 		reconnectButton.setVisible(!connected);
+		connectedLbl.setVisible(connected);
 		cameraComposite.setVisible(connected);
 		moveMenu.setEnabled(connected);
 		showMenu.setEnabled(connected);
@@ -662,47 +795,79 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		cmp.layout();
 	}
 
-	protected void reconnectEx() throws Exception {
+	protected void reconnectStream() {
 
+		ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
+		try {
+			pd.run(true /* fork */, true /* cancelable */, new IRunnableWithProgress() {
+				@Override
+				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+					String title = "Connecting to image stream";
+
+					monitor.beginTask(title, 100);
+
+					
+					try {
+						reconnectEx(false, monitor);
+						
+					} catch (Exception e) {
+						throw new InvocationTargetException(e, "Error in " + title);
+					}
+
+					monitor.done();
+				}
+
+			});
+		} catch (Exception e) {
+			reportErrorToUserAndLog("Error connected to the camera. Ensure IOC is running");
+		}
+	
+	}
+	
+	
+	protected void reconnectEx(boolean resetPVFields, IProgressMonitor monitor) throws Exception {
+
+		monitor.beginTask("Reconnecting to IOC and image stream", 100);
 		if (videoReceiver != null) {
 			videoReceiver.closeConnection();
 			videoReceiver = null;
 			cameraComposite.setVideoReceiver(null);
 		}
-
-		NDProcess ndProcess = cameraConfig.getNdProcess();
-		if (ndProcess.getEnableOffsetScale_RBV() != 1)
-			ndProcess.setEnableOffsetScale(1);
-		if (ndProcess.getDataTypeOut_RBV() != NDProcess.DatatypeOut_UInt8)
-			ndProcess.setDataTypeOut(NDProcess.DatatypeOut_UInt8);
-
-		ndProcess.setEnableHighClip(1);
-		ndProcess.setEnableLowClip(1);
-		ndProcess.setHighClip(255);
-		ndProcess.setLowClip(0);
-		NDPluginBase procBase = ndProcess.getPluginBase();
-		if (!procBase.isCallbacksEnabled_RBV())
-			procBase.enableCallbacks();
-
 		FfmpegStream ffmpegStream = cameraConfig.getFfmpegStream();
-		ffmpegStream.setMAXW(cameraConfig.getfFMpegImgWidthRequired());
-		ffmpegStream.setMAXH(cameraConfig.getfFMpegImgHeightRequired());
-		ffmpegStream.setQUALITY(100.);
-		NDPluginBase ffmpegBase = ffmpegStream.getPluginBase();
-		String procPortName_RBV = procBase.getPortName_RBV();
-		if (!ffmpegBase.getNDArrayPort_RBV().equals(procPortName_RBV))
-			ffmpegBase.setNDArrayPort(procPortName_RBV);
-		if (!ffmpegBase.isCallbacksEnabled_RBV())
-			ffmpegBase.enableCallbacks();
 
-		NDPluginBase arrayBase = cameraConfig.getNdArray().getPluginBase();
-		String procNdArrayPort_RBV = procBase.getNDArrayPort_RBV();
-		if (!arrayBase.getNDArrayPort_RBV().equals(procNdArrayPort_RBV))
-			arrayBase.setNDArrayPort(procNdArrayPort_RBV);
-		if (!arrayBase.isCallbacksEnabled_RBV())
-			arrayBase.enableCallbacks();		
-		
+		if( resetPVFields){
+			NDProcess ndProcess = cameraConfig.getNdProcess();
+			if (ndProcess.getEnableOffsetScale_RBV() != 1)
+				ndProcess.setEnableOffsetScale(1);
+			if (ndProcess.getDataTypeOut_RBV() != NDProcess.DatatypeOut_UInt8)
+				ndProcess.setDataTypeOut(NDProcess.DatatypeOut_UInt8);
 
+			ndProcess.setEnableHighClip(1);
+			ndProcess.setEnableLowClip(1);
+			ndProcess.setHighClip(255);
+			ndProcess.setLowClip(0);
+			NDPluginBase procBase = ndProcess.getPluginBase();
+			if (!procBase.isCallbacksEnabled_RBV())
+				procBase.enableCallbacks();
+
+			ffmpegStream.setMAXW(cameraConfig.getfFMpegImgWidthRequired());
+			ffmpegStream.setMAXH(cameraConfig.getfFMpegImgHeightRequired());
+			ffmpegStream.setQUALITY(100.);
+			NDPluginBase ffmpegBase = ffmpegStream.getPluginBase();
+			String procPortName_RBV = procBase.getPortName_RBV();
+			if (!ffmpegBase.getNDArrayPort_RBV().equals(procPortName_RBV))
+				ffmpegBase.setNDArrayPort(procPortName_RBV);
+			if (!ffmpegBase.isCallbacksEnabled_RBV())
+				ffmpegBase.enableCallbacks();
+
+			NDPluginBase arrayBase = cameraConfig.getNdArray().getPluginBase();
+			String procNdArrayPort_RBV = procBase.getNDArrayPort_RBV();
+			if (!arrayBase.getNDArrayPort_RBV().equals(procNdArrayPort_RBV))
+				arrayBase.setNDArrayPort(procNdArrayPort_RBV);
+			if (!arrayBase.isCallbacksEnabled_RBV())
+				arrayBase.enableCallbacks();		
+			
+		}
 		String url = ffmpegStream.getMJPG_URL_RBV();
 		if (url.equals("DummySwtVideoReceiver")) {
 			DummySwtVideoReceiver dummySwtVideoReceiver = new DummySwtVideoReceiver();
@@ -755,63 +920,13 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				monitor.beginTask(title, 100);
 
 				try {
-					autoExposureTask(autoExposureTime, monitor);
+					autoExposureTask(autoExposureTime, topQuantileValToUse, monitor);
 				} catch (Exception e) {
 					throw new InvocationTargetException(e, "Error in autoExposureTask");
 				}
 				monitor.done();
 			}
 
-			private void autoExposureTask(final boolean autoExposureTime, IProgressMonitor monitor) throws Exception  {
-
-				if (monitor.isCanceled())
-					return;
-				monitor.subTask("Reading image");
-				monitor.subTask("Analysis image");
-				AbstractDataset dataset = getArrayData();
-
-				if (dataset == null) {
-					if( !autoExposureTime)
-						throw new Exception("Unable to read array data for image");
-					double expoTime = 0.1;
-					String desiredAcquireTimeS = Double.toString(expoTime);
-					String cmd = String.format(cameraConfig.getSetExposureTimeCmd(), desiredAcquireTimeS);
-					InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
-					monitor.subTask("The current image is empty. The exposure time is being set to "
-							+ desiredAcquireTimeS);
-					Thread.sleep((long) (2 * 1000 * expoTime));
-					autoExposureTask(autoExposureTime, monitor);
-					return;
-				}
-				double[] m = Stats.quantile(dataset, 0.1, 0.9);
-
-				if (Double.compare(m[1], m[0]) <= 0) {
-					throw new Exception("The current exposure time is too high for auto adjustment.");
-				}
-				double max = m[1];
-				double min = m[0];
-				double offset = -min;
-				double scale = 255 / (max - min);
-
-				if (autoExposureTime) {
-					double factor = topQuantileValToUse / max;
-					double acquireTime = cameraConfig.getAdBase().getAcquireTime_RBV();
-					double desiredAcquireTime = Math.min(5.0, factor * acquireTime);
-					factor = desiredAcquireTime / acquireTime;
-					String desireAcquireTimeS = Double.toString(desiredAcquireTime);
-					String cmd = String.format(cameraConfig.getSetExposureTimeCmd(), desireAcquireTimeS);
-					monitor.subTask("Setting exposure to " + desireAcquireTimeS);
-					InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
-					Thread.sleep((long) (2 * 1000 * desiredAcquireTime));
-
-					offset = offset * factor;
-					scale = scale / factor;
-				}
-
-				monitor.subTask("Setting up ffmjeg proc plugin for best constrast");
-				cameraConfig.getNdProcess().setScale(scale);
-				cameraConfig.getNdProcess().setOffset(offset);
-			}
 		};
 		try{
 			pd.run(true /* fork */, true /* cancelable */, runnable1);
@@ -821,26 +936,92 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 	}
 
+	private void autoExposureTask(final boolean autoExposureTime, double topQuantileValToUse, IProgressMonitor monitor) throws Exception  {
+
+		if (monitor.isCanceled())
+			return;
+		double acquireTime = cameraConfig.getAdBase().getAcquireTime_RBV();
+		monitor.subTask("Reading image");
+		AbstractDataset dataset = getArrayData(monitor);
+		monitor.subTask("Analysing image");
+
+		if (dataset == null) {
+			if( !autoExposureTime)
+				throw new Exception("Unable to read array data for image");
+			double expoTime = 0.1;
+			String desiredAcquireTimeS = Double.toString(expoTime);
+			String cmd = String.format(cameraConfig.getSetExposureTimeCmd(), desiredAcquireTimeS);
+			InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
+			monitor.subTask("The current image is empty. The exposure time is being set to "
+					+ desiredAcquireTimeS);
+			autoExposureTask(autoExposureTime, topQuantileValToUse, monitor);
+			return;
+		}
+		double[] m = Stats.quantile(dataset, 0.1, 0.9);
+
+		if (Double.compare(m[1], m[0]) <= 0) {
+			throw new Exception("The current exposure time is too high for auto adjustment.");
+		}
+		double max = m[1];
+		double min = m[0];
+		double offset = -min;
+		double scale = 255 / (max - min);
+		boolean autoBrightnessOnceAgain=false;
+		if (autoExposureTime) {
+			double factor = topQuantileValToUse / max;
+			;
+			double desiredAcquireTime = factor * acquireTime;
+			if( desiredAcquireTime > 5){
+				autoBrightnessOnceAgain = true;
+				desiredAcquireTime=5.;
+			}
+			factor = desiredAcquireTime / acquireTime;
+			String desireAcquireTimeS = Double.toString(desiredAcquireTime);
+			String cmd = String.format(cameraConfig.getSetExposureTimeCmd(), desireAcquireTimeS);
+			monitor.subTask("Setting exposure to " + desireAcquireTimeS);
+			InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
+			Thread.sleep((long) (2 * 1000 * desiredAcquireTime));
+
+			offset = offset * factor;
+			scale = scale / factor;
+		}
+		if( autoBrightnessOnceAgain){
+			autoExposureTask(false, topQuantileValToUse, monitor);
+		} else {
+			monitor.subTask("Setting up ffmjeg proc plugin for best constrast");
+			cameraConfig.getNdProcess().setScale(scale);
+			cameraConfig.getNdProcess().setOffset(offset);
+		}
+		reconnectEx(false, monitor);
+
+	}
+	
+	
 	protected void autoCentre() throws Exception {
 
-		ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
-		pd.run(true /* fork */, true /* cancelable */, new IRunnableWithProgress() {
-			@Override
-			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-				String title = "Auto-centring. Running command '" + cameraConfig.getAutoCentreCmd() + "'";
+		MessageBox box = new MessageBox(getSite().getShell());
+		box.setMessage("Are you sure?. " +
+				"The camera and base will be moved so that the beam center and rotation axis will be in the middle of the image");
+		int response = box.open();
+		if(response == SWT.OK){
+			ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
+			pd.run(true /* fork */, true /* cancelable */, new IRunnableWithProgress() {
+				@Override
+				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+					String title = "Auto-centring. Running command '" + cameraConfig.getAutoCentreCmd() + "'";
 
-				monitor.beginTask(title, 100);
+					monitor.beginTask(title, 100);
 
-				try {
-					InterfaceProvider.getCommandRunner().evaluateCommand(cameraConfig.getAutoCentreCmd());
-				} catch (Exception e) {
-					throw new InvocationTargetException(e, "Error in " + title);
+					try {
+						InterfaceProvider.getCommandRunner().evaluateCommand(cameraConfig.getAutoCentreCmd());
+					} catch (Exception e) {
+						throw new InvocationTargetException(e, "Error in " + title);
+					}
+
+					monitor.done();
 				}
-
-				monitor.done();
-			}
-		});
-
+			});
+		}
 	}
 
 	protected void showNormalisedImage() throws Exception {
@@ -888,7 +1069,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 	}
 	
-	private AbstractDataset getArrayData() throws Exception  {
+	private AbstractDataset getArrayData(IProgressMonitor monitor) throws Exception  {
 		/*
 		 * get data and send to histogram code
 		 */
@@ -896,6 +1077,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		NDPluginBase arrayBase = cameraConfig.getNdArray().getPluginBase();
 		boolean arraysEnabled = arrayBase.isCallbacksEnabled_RBV();
 		if (!arraysEnabled){
+			monitor.beginTask("enable array callback and waiting for the array to contain an image",100);
 			arrayBase.enableCallbacks();	
 			double acquireTime = cameraConfig.getAdBase().getAcquireTime_RBV();
 			Thread.sleep((long) (acquireTime*2*1000));//ensure a frame is taken
@@ -920,19 +1102,17 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		return dataset;
 	}
 
-	private ImageKeyFigure imageKeyFigure;
 	private CrossHairFigure rotationAxisFigure, imageMarkerFigure;
 	private BeamScaleFigure beamScaleFigure;
 
-	private void showImageKey(boolean showImage) {
-		if (showImage) {
-			Rectangle imageKeyBounds = new Rectangle(5, 5, -1, -1);
-			cameraComposite.getTopFigure().add(getImageKeyFigure(), imageKeyBounds);
-		} else {
-			cameraComposite.getTopFigure().remove(getImageKeyFigure());
+	private Scannable lensScannable;
 
-		}
-	}
+	private Combo pcom;
+
+	Label imageDateLabel;
+
+	DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
+
 
 	private void showRotationAxis(boolean show) throws DeviceException {
 		Figure rotationAxisFigure = getRotationAxisFigure();
@@ -1009,9 +1189,6 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		}
 	}
 
-	private ImageKeyFigure getImageKeyFigure() {
-		return imageKeyFigure != null ? imageKeyFigure : (imageKeyFigure = new ImageKeyFigure());
-	}
 
 	@Override
 	public void setFocus() {
@@ -1023,16 +1200,22 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 	}
 
 	@Override
-	public void handlerNewImageNotification(ImageData newImage) {
+	public void handlerNewImageNotification(ImageData newImage) throws DeviceException {
 		// On the first image, ensure we reset the display to match incoming image dimensions
 		if (!layoutReset) {
 			layoutReset = true;
-			showRotationAxisFromNonUIThread(rotationAxisAction);
-			showImageMarkerFromNonUIThread(showImageMarkerAction);
+			showRotationAxisFromUIThread(rotationAxisAction);
+			showImageMarkerFromUIThread(showImageMarkerAction);
 		}
-		getImageKeyFigure().newImage(newImage);
+		imageDateLabel.setText(df.format(new Date()));
+/*		getViewSite().getShell().getDisplay().asyncExec(new Runnable() {
 
-	}
+			@Override
+			public void run() {
+				imageDateLabel.setText(df.format(new Date()));
+				
+			}});
+*/	}
 
 	@Override
 	public void dispose() {

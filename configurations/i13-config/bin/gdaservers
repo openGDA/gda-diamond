@@ -1,5 +1,4 @@
 #!/bin/bash
-notify-send -t 10000 "GDA Servers is starting..."
 # starts logpanel, servers and namemanager
 
 zenity --title "Are you sure?" --question --text "Are you sure you want to restart the GDA servers?" --window-icon=question
@@ -7,11 +6,12 @@ SURE=$?
 if [ $SURE == 1 ]; then
   exit
 fi
+notify-send -t 10000 "GDA Servers is starting..."
 
 #identify install folder and JAVA_HOME
 source /dls_sw/i13/etc/i13_profile.sh
 
-#gdalog &
+gdalog &
 
 #gda_namemanager &
 

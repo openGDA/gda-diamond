@@ -34,8 +34,6 @@ import gda.util.persistence.LocalParameters;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.FileConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 @CorbaImplClass(ScannableImpl.class)
@@ -47,12 +45,12 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 	private FileConfiguration configuration;
 
 	private String configurationName="configuration";
-	private String propertyName="rotationXScannableOffset";
+	private String offsetPropertyName="rotationXScannableOffset";
 
 	
-	double offset=0.;
 	Scannable sampleStageXScannable;
 	Scannable cameraStageXScannable;
+	Scannable lensScannable;
 	DisplayScaleProvider displayScaleProvider;
 	DisplayScaleProvider cameraScaleProvider;
 	private IObserver observer;
@@ -68,13 +66,25 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 		try {
 			Double[] array = ScannableUtils.objectToArray(position);
-			offset = getOffsetForRotationAxisX(array[0]);
-			configuration.setProperty(propertyName,offset);
-			configuration.save();
-			notifyIObservers(getName(), new ScannablePositionChangeEvent(offset));
+			Double pos = array[0];
+			double offset = getOffsetForRotationAxisX(pos);
+			setOffset(offset);
+			notifyIObservers(getName(), new ScannablePositionChangeEvent(pos));
 		} catch (ConfigurationException e) {
 			throw new DeviceException("Error saving new value",e);
 		}
+	}
+
+
+	private void setOffset(double offset) throws DeviceException, ConfigurationException {
+		int lensPos = getLensValue();
+		configuration.setProperty(offsetPropertyName+ lensPos,offset);
+		configuration.save();
+	}
+
+
+	private int getLensValue() throws DeviceException {
+		return (int)ScannableUtils.getCurrentPositionArray(lensScannable)[0];
 	}
 
 
@@ -92,7 +102,6 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 		super.configure();
 		try {
 			configuration = LocalParameters.getThreadSafeXmlConfiguration(getConfigurationName());
-			offset = configuration.getDouble(propertyName, 0.0);
 			if( observer == null){
 				observer = new IObserver() {
 					
@@ -117,7 +126,8 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 	public void autoCentre(double pixelsX) throws DeviceException, InterruptedException{
 		double x1 = ScannableUtils.getCurrentPositionArray(sampleStageXScannable)[0];
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0]; 
-		double move = offset - pixelsX/displayScaleProvider.getPixelsPerMMInX() -x2;
+		
+		double move = getOffset() - pixelsX/displayScaleProvider.getPixelsPerMMInX() -x2;
 		Double.valueOf(move);
 		sampleStageXScannable.asynchronousMoveTo(move);
 		sampleStageXScannable.waitWhileBusy();
@@ -126,8 +136,16 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 	int getRotationAxisX() throws DeviceException {
 		double x1 = ScannableUtils.getCurrentPositionArray(sampleStageXScannable)[0];
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
+		double offset = getOffset();
 		double dist = (offset-x1)*displayScaleProvider.getPixelsPerMMInX()-x2*cameraScaleProvider.getPixelsPerMMInX();
 		return (int) Math.round(dist);
+	}
+
+
+	private double getOffset() throws DeviceException {
+		int lensPos = getLensValue();
+		double offset = configuration.getDouble(offsetPropertyName+ lensPos, 0.0);
+		return offset;
 	}
 
 	double getOffsetForRotationAxisX(double  array) throws DeviceException {
@@ -149,6 +167,9 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 		if(displayScaleProvider == null){
 			throw new Exception("displayScaleProvider == null");
 		}
+		if(lensScannable == null){
+			throw new Exception("lenScannable == null");
+		}
 	}
 
 
@@ -163,12 +184,12 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 
 
 	public String getPropertyName() {
-		return propertyName;
+		return offsetPropertyName;
 	}
 
 
 	public void setPropertyName(String propertyName) {
-		this.propertyName = propertyName;
+		this.offsetPropertyName = propertyName;
 	}
 
 
@@ -210,5 +231,17 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 	public void setCameraScaleProvider(DisplayScaleProvider cameraScaleProvider) {
 		this.cameraScaleProvider = cameraScaleProvider;
 	}
+
+
+	public Scannable getLensScannable() {
+		return lensScannable;
+	}
+
+
+	public void setLensScannable(Scannable lensScannable) {
+		this.lensScannable = lensScannable;
+	}
+
+
 
 }

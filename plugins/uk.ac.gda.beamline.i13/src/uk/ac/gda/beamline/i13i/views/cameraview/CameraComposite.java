@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,7 +93,7 @@ public class CameraComposite extends Composite {
 		return viewer.getTopFigure();
 	}
 
-	private boolean layoutReset = false;
+	boolean layoutReset = false;
 
 	@Override
 	public boolean setFocus() {
@@ -134,53 +135,70 @@ public class CameraComposite extends Composite {
 		}
 
 		boolean processingImage=false;
+		
+		NewImageHnadler latestUpdater = null;
 		@Override
 		public void processImage(final ImageData image) {
 			if (image == null)
 				return;
-			lastImage=image;
+			
+			
 			if (viewer != null) {
 				if(isDisposed())
 					return;
-				if(processingImage)
+/*				if(processingImage)
 					return;
 				processingImage=true;
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					logger.error("TODO put description of error here", e);
+					throw new RuntimeException("processImage interrupted");
 				}
-				if( getDisplay().isDisposed())
+*/				if( getDisplay().isDisposed())
 					return;
-				getDisplay().asyncExec(new Runnable() {
+				
+				lastImage=image;
+				
+				if( latestUpdater ==null || !latestUpdater.inqueue){
+					latestUpdater = new NewImageHnadler(CameraComposite.this);
+					if (!PlatformUI.getWorkbench().getDisplay().isDisposed()) {
+						PlatformUI.getWorkbench().getDisplay().asyncExec(latestUpdater);
+					}
+				}
+				
+/*				getDisplay().asyncExec(new Runnable() {
 					@Override
 					public void run() {
 						boolean showingDefault = viewer.isShowingDefault();
 						while(true){
 							//ensure we don't miss an image that arrives while we process the first
-							ImageData lastImage2 = lastImage;
-							viewer.loadImage(lastImage2);
-							if (showingDefault) {
-								zoomFit();
-							}
-							if (!layoutReset){
-								layoutReset = true;
-								viewer.resetView();
-							}
+								ImageData lastImage2 = lastImage;
+								viewer.loadImage(lastImage2);
+								if (showingDefault) {
+									zoomFit();
+								}
+								if (!layoutReset){
+									layoutReset = true;
+									viewer.resetView();
+								}
 
-							if( newImageListener != null)
-								newImageListener.handlerNewImageNotification(lastImage2);
-							if( lastImage2 == lastImage){
+								if( newImageListener != null){
+									try {
+										newImageListener.handlerNewImageNotification(lastImage2);
+									} catch (Exception e) {
+										logger.error("Error in handling new image", e);
+									}
+								}
+								if( lastImage2 == lastImage){
+									processingImage=false;
+									break;
+								}
 								processingImage=false;
-								break;
-							}
-							processingImage=false;
-							break; //TODO we may remain in UI thread if frame rate is very high
+								break; //TODO we may remain in UI thread if frame rate is very high
 						}
 					}
 				});
-			}
+*/			}
 		}
 	}
 	public ImageViewer getViewer() {
@@ -206,6 +224,46 @@ class SWTImageDataConverter {
 		return idataset;
 
 	}
+}
+
+class NewImageHnadler implements Runnable{
+	public boolean inqueue;
+
+	
+	CameraComposite listener;
+	
+	
+	public NewImageHnadler(CameraComposite listener) {
+		super();
+		this.listener = listener;
+		inqueue=true;
+	}
+
+
+	@Override
+	public void run() {
+		inqueue = false; 
+		boolean showingDefault = listener.viewer.isShowingDefault();
+		//ensure we don't miss an image that arrives while we process the first
+		ImageData lastImage2 = listener.lastImage;
+		listener.viewer.loadImage(lastImage2);
+		if (showingDefault) {
+			listener.zoomFit();
+		}
+		if (!listener.layoutReset){
+			listener.layoutReset = true;
+			listener.viewer.resetView();
+		}
+
+		if( listener.newImageListener != null){
+			try {
+				listener.newImageListener.handlerNewImageNotification(lastImage2);
+			} catch (Exception e) {
+				CameraComposite.logger.error("Error in handling new image", e);
+			}
+		}
+	}
+	
 }
 
 
