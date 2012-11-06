@@ -413,11 +413,8 @@
 	<property name="deviceName" value="PIN:Y"></property>
 	<property name="local" value="true"/>
 </bean>
-<!--MicroFocusStageMotors-->
-<bean id="sample_z_motor" class="gda.device.motor.EpicsMotor" >
-	<property name="deviceName" value="T1.Z"></property>
-	<property name="local" value="true"/>
-</bean>
+
+
 <bean id="sample_thetacoarse_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="T1.ROT"></property>
 	<property name="local" value="true"/>
@@ -426,10 +423,9 @@
 	<property name="deviceName" value="T1.FROT"></property>
 	<property name="local" value="true"/>
 </bean>
-<bean id="sample_x_motor" class="gda.device.motor.EpicsMotor" >
-	<property name="deviceName" value="T1.X"></property>
-	<property name="local" value="true"/>
-</bean>
+
+
+
 <bean id="sample_y1_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="T1.Y1"></property>
 	<property name="local" value="true"/>
@@ -441,15 +437,32 @@
 	<property name="deviceName" value="T1.Y3"></property>
 	<property name="local" value="true"/>
 </bean>
-  <!--   Sample Stage Motors 	-->  
-	<!--<bean id="sample_z_motor" class="gda.device.motor.DummyMotor" />	
-	<bean id="sample_thetacoarse_motor" class="gda.device.motor.DummyMotor" />	  
-	<bean id="sample_x_motor" class="gda.device.motor.DummyMotor" />	  
-	<bean id="sample_y1_motor" class="gda.device.motor.DummyMotor" />	  
-	<bean id="sample_y2_motor" class="gda.device.motor.DummyMotor" />	  
-	<bean id="sample_y3_motor" class="gda.device.motor.DummyMotor" />	  
-	<bean id="sample_thetafine_motor" class="gda.device.motor.DummyMotor" />
-	--><!--  Video Microscope (A) Motors -->
+
+
+<!-- Table 1 Motors -->
+<bean id="sample_x_motor" class="gda.device.motor.EpicsMotor" >
+	<property name="deviceName" value="T1.X"></property>
+	<property name="local" value="true"/>
+</bean>
+<bean id="sample_z_motor" class="gda.device.motor.EpicsMotor" >
+	<property name="deviceName" value="T1.Z"></property>
+	<property name="local" value="true"/>
+</bean>
+
+<!-- New table 3 Motors -->
+<!-- <bean id="sample_z_motor" class="gda.device.motor.EpicsMotor" > -->
+<!-- 	<property name="pvName" value="BL18I-MO-TABLE-03:Z"></property> -->
+<!-- 	<property name="local" value="true"/> -->
+<!-- </bean> -->
+<!-- <bean id="sample_x_motor" class="gda.device.motor.EpicsMotor" > -->
+<!-- 	<property name="pvName" value="BL18I-MO-TABLE-03:X"></property> -->
+<!-- 	<property name="local" value="true"/> -->
+<!-- </bean> -->
+<!-- <bean id="sample_y_motor" class="gda.device.motor.EpicsMotor" > -->
+<!-- 	<property name="pvName" value="BL18I-MO-TABLE-03:Y"></property> -->
+<!-- 	<property name="local" value="true"/> -->
+<!-- </bean> -->
+
 <bean id="vma_zoom_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="VMA:ZOOM"></property>
 	<property name="local" value="true"/>
@@ -471,33 +484,27 @@
 	<property name="deviceName" value="MLD:Z"></property>
 	<property name="local" value="true"/>
 </bean>
-<!-- WDS Detector Motors -->
-<!--  <bean id="wds_x_motor" class="gda.device.motor.EpicsMotor" >
-	<property name="deviceName" value="WDS:X"></property>
-	<property name="local" value="true"/>
-</bean>
-<bean id="wds_y_motor" class="gda.device.motor.EpicsMotor" >
-	<property name="deviceName" value="WDS:Y"></property>
-	<property name="local" value="true"/>
-</bean>
-<bean id="wds_z_motor" class="gda.device.motor.EpicsMotor" >
-	<property name="deviceName" value="WDS:Z"></property>
-	<property name="local" value="true"/>
-</bean>
-<bean id="wds_lambda_motor" class="gda.device.motor.EpicsMotor" >
-	<property name="deviceName" value="WDS:LAMBDA"></property>
-	<property name="local" value="true"/>
-</bean>
-<bean id="wds_slit_motor" class="gda.device.motor.EpicsMotor" >
-	<property name="deviceName" value="WDS:SLIT"></property>
-	<property name="local" value="true"/>
-</bean>-->
+
 <!-- *** End of Motors *** -->
+<!-- <bean id="epicsTrajectoryScanController" class="gda.scan.EpicsTrajectoryScanController" > -->
+<!-- 	<property name="deviceName" value="TRAJ3"></property> -->
+<!-- 	<property name="m1axis" value="samplex"></property> -->
+<!-- 	<property name="m2axis" value="empty"></property> -->
+<!-- 	<property name="m3axis" value="empty"></property> -->
+<!-- 	<property name="m4axis" value="empty"></property> -->
+<!-- 	<property name="m5axis" value="empty"></property> -->
+<!-- 	<property name="m6axis" value="empty"></property> -->
+<!-- 	<property name="m7axis" value="empty"></property> -->
+<!-- 	<property name="m8axis" value="empty"></property> -->
+<!-- 	<property name="accelerationTime" value="1"></property> -->
+<!-- 	<property name="local" value="true"/> -->
+<!-- </bean> -->
+
 <bean id="epicsTrajectoryScanController" class="gda.scan.EpicsTrajectoryScanController" >
 	<property name="deviceName" value="TRAJ"></property>
-	<property name="m1axis" value="samplez"></property>
-	<property name="m2axis" value="thetacoarse"></property>
-	<property name="m3axis" value="samplex"></property>
+	<property name="m1axis" value="samplex"></property>
+	<property name="m2axis" value="sampley"></property>
+	<property name="m3axis" value="samplez"></property>
 	<property name="m4axis" value="thetafine"></property>
 	<property name="m5axis" value="empty"></property>
 	<property name="m6axis" value="empty"></property>
@@ -506,6 +513,7 @@
 	<property name="accelerationTime" value="1"></property>
 	<property name="local" value="true"/>
 </bean>
+
 <bean id="D7A" class="gda.spring.EpicsPositionerFactoryBean">
 		<property name="deviceName" value="D7A.POSITIONER"/>
 	</bean>
@@ -518,13 +526,24 @@
 	<property name="pvNameGetPoint" value="BL18I-MO-XPS-01:DEFER" />
 	<property name="local" value="true" />
 </bean>
-<!-- <bean id="dcm_crystal" class="gda.device.enumpositioner.EpicsSimpleBinary">
-		<property name="epicsRecordName" value="BL18I-OP-DCM-01:XTAL_SWITCH" />
-		<property name="positions">
-			<list>
-				<value>Si(111)</value>
-				<value>Si(113)</value>
-			</list>
-		</property>
-	</bean> -->
+	
+<bean id="thor_x_motor" class="gda.device.motor.EpicsMotor" >
+	<property name="pvName" value="BL18I-MO-TABLE-02:X"></property>
+	<property name="local" value="true"/>
+</bean>
+
+<bean id="thor_y_motor" class="gda.device.motor.EpicsMotor" >
+	<property name="pvName" value="BL18I-MO-TABLE-02:Y"></property>
+	<property name="local" value="true"/>
+</bean>
+
+<bean id="epicsTopupMonitor" class="gda.device.monitor.EpicsMonitor" >
+	<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN"></property>
+	<property name="local" value="true"/>
+</bean>
+
+<!-- <bean id="epicsTopupMonitor" class="gda.device.monitor.DummyEpicsMonitor" > -->
+<!-- 	<property name="local" value="true"/> -->
+<!-- </bean> -->
+	
 </beans>

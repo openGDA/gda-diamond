@@ -189,9 +189,11 @@
 		<constructor-arg value="lookup_name_provider" />
 		<constructor-arg value="true" />	
 	</bean>
+	
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
-		 <property name="directory" value="/dls/bl-misc/dropfiles/icat/dropZone/i18/i18_" /> 
-		<!--<property name="directory" value="/tmp/i18/i18_" />-->
+		<property name="name" value="FileRegistrar" />
+		<property name="directory"
+			value="/dls/bl-misc/dropfiles2/icat/dropZone/${gda.instrument}-" />
 	</bean>
 	
 	<bean id="DataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
