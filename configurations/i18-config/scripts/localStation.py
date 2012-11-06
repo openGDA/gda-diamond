@@ -30,7 +30,7 @@ gdaDevScriptDir = LocalProperties.get("gda.jython.gdaDevScriptDir") + "/";
 from gda.data.fileregistrar import IcatXMLCreator
 archiver= IcatXMLCreator()
 #archiver.setDirectory("/tmp/i18_")
-archiver.setDirectory("/dls/bl-misc/dropfiles/icat/dropZone/i18/i18_")
+archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
 ########################################################################
 
 ########################################################################

@@ -1,6 +1,3 @@
-#localStation.py
-#For beamline specific initialisation code.
-#
 print "===================================================================";
 print "Performing beamline specific initialisation code (i18).";
 print
@@ -9,15 +6,12 @@ import sys
 import java
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable import DummyScannable
-# Get the location of the gda root  directory
+
 gdaRoot = str(LocalProperties.get("gda.root"))
 gdaMicroFocus = gdaRoot+ "/uk.ac.gda.client.microfocus/"
 print gdaMicroFocus +  "scripts/"
 sys.path.append(gdaMicroFocus +  "scripts/")
 
-######################################################################
-##RCP map scan and trajectory map scan
-######################################################################
 print "setting up mapscan"
 microfocusRoot = "/dls_sw/i18/software/gda_versions/gda_822ws_git/gda-xas-core.git/"
 execfile (microfocusRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/rastermap.py")
@@ -26,9 +20,7 @@ execfile (microfocusRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/map.p
 execfile(microfocusRoot+ "/uk.ac.gda.client.microfocus/scripts/microfocus/microfocus_elements.py")
 
 alias("map")
-#########################################################################
-##Get config path
-#########################################################################
+
 gdaConfigDir = LocalProperties.get("gda.config")
 gdaConfigDir = gdaConfigDir + "/"
 
@@ -37,19 +29,12 @@ execfile(gdaConfigDir + "scripts/scans/DummyExafsScanClass.py")
 
 execfile(gdaConfigDir + "scripts/I18Scans/XspressReadScannable.py")
 
-##########################################################################
-##Swing GUI xspress and Microfocus settings
-##########################################################################
 print "Setting XSPRESS2 Collection mode"
 xs=finder.find("xspress2system")
-#xs.setReadoutMode(0)
 
 sc_MicroFocusSampleX.setOutputFormat(["%.4f"])
 sc_MicroFocusSampleY.setOutputFormat(["%.4f"])
 
-###########################################################################
-##RCP exafs scan settings
-###########################################################################
 print "setting scans"
 from i18_exafs import setupExperiment
 setupExperiment.rootnamespace = globals()
@@ -71,16 +56,7 @@ alias("estimateXanes")
 alias("vortex")
 alias("xspress")
 alias("qexafs")
-#from gda.device.scannable import CurrentTimeScannable
-#curTime = CurrentTimeScannable()
-#curTime.setName("curTime")
-# to act as the energy during dev
-#from gda.device.scannable import CurrentTimeScannable
-#curTime = CurrentTimeScannable()
-#curTime.setName("curTime")
-################################################################################
-##default monitors
-################################################################################
+
 print "Create topup , detector and beam monitors to pause and resume scans"
 from gda.device.scannable import TopupScannable
 topupMonitor = TopupScannable()
@@ -88,26 +64,28 @@ topupMonitor.setName("topupMonitor")
 topupMonitor.setTolerance(1.0)
 topupMonitor.setWaittime(1)
 topupMonitor.setTimeout(600)
-topupMonitor.setTopupPV("SR-CS-FILL-01:COUNTDOWN")
-#topupMonitor.setScannableToBeMonitored(topupScannable)
+#topupMonitor.setTopupPV("SR-CS-FILL-01:COUNTDOWN")
+topupMonitor.setScannableToBeMonitored(epicsTopupMonitor)
 topupMonitor.configure()
 add_default topupMonitor
+
 from gda.device.scannable import BeamMonitorWithFeedbackSwitchScannable
-beam = BeamMonitorWithFeedbackSwitchScannable('FE18I-RS-ABSB-02:STA',['BL18I-OP-DCM-01:FPMTR:FFB.FBON','BL18I-OP-DCM-01:FRMTR:FFB.FBON'])
-#beam = BeamMonitorWithFeedbackSwitchScannable('FE18I-RS-ABSB-02:STA',['',''])
+
+#beam = BeamMonitorWithFeedbackSwitchScannable('FE18I-RS-ABSB-02:STA',['BL18I-OP-DCM-01:FPMTR:FFB.FBON'],['BL18I-OP-DCM-01:FRMTR:FFB.FBON'])
+beam = BeamMonitorWithFeedbackSwitchScannable('FE18I-RS-ABSB-02:STA', [''])
 beam.setName("beam")
 beam.setTimeout(7200)
 beam.setWaittime(60)
 beam.configure()
-#add_default beam
+
 from gda.device.scannable import DetectorFillingMonitorScannable
 detectorFillingMonitor = DetectorFillingMonitorScannable()
 detectorFillingMonitor.setName("detectorFillingMonitor")
 detectorFillingMonitor.setTimeout(7200)
 detectorFillingMonitor.setStartTime(9)
-detectorFillingMonitor.setDuration(30.0)
+detectorFillingMonitor.setDuration(25.0)
 detectorFillingMonitor.configure()
-#add_default detectorFillingMonitor
+
 from gda.device.scannable import BeamMonitorScannableForLineRepeat
 trajBeamMonitor = BeamMonitorScannableForLineRepeat(beam)
 trajBeamMonitor.setName("trajBeamMonitor")
@@ -123,24 +101,14 @@ print ""
 test = DummyScannable("test")
 print "===================================================================";
 
-###swing gui station script
-
 gdaRoot = LocalProperties.get("gda.root")
 gdaConfigDir = LocalProperties.get("gda.config")
 gdaConfigDir = gdaConfigDir + "/"
 
-#########################################################################
-###File Archiving
-#######################################################################
 from gda.data.fileregistrar import IcatXMLCreator
 archiver= IcatXMLCreator()
-archiver.setDirectory("/dls/bl-misc/dropfiles/icat/dropZone/i18/i18_")
-#archiver.setDirectory("/tmp/i18/i18_")
-########################################################################
+archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
 
-########################################################################
-####Scans and other scripts
-##########################################################################
 execfile(gdaConfigDir + "scripts/I18Scans/BeamMonitorClass.py")
 # transmission
 execfile(gdaConfigDir + "scripts/I18Scans/I18TransmissionMapV2FClass.py")
@@ -177,21 +145,12 @@ execfile("/dls_sw/i18/scripts/focus/SesoMethod/Setup_KBMotors_IDT_Mechanical.py"
 
 ##vortex xmap configuration script
 execfile(gdaConfigDir + "scripts/edxd_calibrator.py")
-###############################################################################
 
-###############################################################################
-###xspress setup
-#########################################################################
 print "Setting XSPRESS2 Collection mode"
 xs=finder.find("sw_xspress2system")
-#xs.setReadoutMode(0)
-#########################################################################
 
-##########################################################################
-##Sample stage setup
-#########################################################################
-MicroFocusSampleX.setOutputFormat(["%.4f"])
-MicroFocusSampleY.setOutputFormat(["%.4f"])
+#MicroFocusSampleX.setOutputFormat(["%.4f"])
+#MicroFocusSampleY.setOutputFormat(["%.4f"])
 #########################################################################
 
 #########################################################################
@@ -221,4 +180,3 @@ raster_xspress.setInputNames([])
 raster_xmap.setInputNames([])
 print "===================================================================";
 print
-
