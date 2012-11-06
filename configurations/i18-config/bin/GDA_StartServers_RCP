@@ -2,36 +2,28 @@
 unset GDA_ROOT
 unset GDA_CONFIG
 unset GDA_USERS
-
 unset GDA_JARS
 unset CLASSPATH
 gdaLocation=`dirname $0`/../..
 abs=`cd $gdaLocation ; pwd`
 echo $abs
 gdaLocation=$abs
-#export JAVA_HOME=$gdaLocation/java/jre
-gdaLauncher=/dls_sw/i18/software/gda_versions/gda_822ws/plugins/uk.ac.gda.core/bin/gda
-#gdaLauncher=$gdaLocation/gda/plugins/uk.ac.gda.core/bin/gda
-config=$gdaLocation/gda/i18-config
+gdaLauncher=/dls_sw/i18/software/gda/plugins/uk.ac.gda.core/bin/gda
+config=$gdaLocation/i18-config
 users=/dls/$BEAMLINE
 properties=$config/properties/java.rcp.properties
 jacorb=$config/properties
+
 echo "the gda startup location is"
 echo $gdaLauncher
 echo $gdaLauncher --config=$config --properties=$properties --jacorb=$jacorb logserver
-$gdaLauncher --config=$config  --properties=$properties --jacorb=$jacorb --verbose logserver
 
-#echo $gdaLauncher nameserver
-$gdaLauncher --config=$config --properties=$properties  --jacorb=$jacorb  nameserver
+#module load java
 
-#echo $gdaLauncher eventserver
-$gdaLauncher --config=$config --properties=$properties  --jacorb=$jacorb  eventserver
+$gdaLauncher --config=$config --properties=$properties --jacorb=$jacorb --verbose logserver
+$gdaLauncher --config=$config --properties=$properties --jacorb=$jacorb nameserver
+$gdaLauncher --config=$config --properties=$properties --jacorb=$jacorb eventserver
 
-#export JAVA_OPTS="-Xms512m -Xmx2048m -XX:PermSize=182m -XX:MaxPermSize=786m -XX:+DisableExplicitGC"
-export gda.nexus.instrumentApi=true
-#echo $gdaLauncher objectserver
-#export PROFILER_DIR=/dls_sw/dasc/jprofiler5
-#$gdaLauncher -d --config=$config --properties=$properties  --jacorb=$jacorb  objectserver --profiler --profilerport=8849 -v
-#$gdaLauncher -d --config=$config --properties=$properties  --jacorb=$jacorb  objectserver --profiler -v
-JAVA_OPTS="-Xms512m -Xmx8000m -XX:PermSize=182m -XX:MaxPermSize=786m -XX:+DisableExplicitGC -Dgda.nexus.instrumentApi=true" $gdaLauncher --config=$config --properties=$properties  --jacorb=$jacorb  objectserver  -d -v
-#echo $gdaLauncher objectserver
+#export gda.nexus.instrumentApi=true
+
+JAVA_OPTS="-Xms1024m -Xmx8000m -XX:PermSize=512m -XX:MaxPermSize=2048m -XX:+DisableExplicitGC -Dgda.nexus.instrumentApi=true" /dls_sw/i18/software/gda_versions/gda_822ws/plugins/uk.ac.gda.core/bin/gda --config=$config --properties=$properties --jacorb=$jacorb objectserver  --debug -p 8000 -v
