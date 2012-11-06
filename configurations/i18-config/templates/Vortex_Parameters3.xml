@@ -8,16 +8,16 @@
         <name>Element0</name>
         <number>1</number>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>853</windowStart>
-            <windowEnd>876</windowEnd>
-            <counts>1787</counts>
+            <name>Ti_Ka</name>
+            <windowStart>435</windowStart>
+            <windowEnd>467</windowEnd>
+            <counts>4600</counts>
         </ROI>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>850</windowStart>
-            <windowEnd>870</windowEnd>
-            <counts>0</counts>
+            <name>Sn_L3</name>
+            <windowStart>330</windowStart>
+            <windowEnd>360</windowEnd>
+            <counts>83</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -28,16 +28,16 @@
         <name>Element1</name>
         <number>1</number>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>853</windowStart>
-            <windowEnd>876</windowEnd>
-            <counts>1787</counts>
+            <name>Ti_Ka</name>
+            <windowStart>435</windowStart>
+            <windowEnd>467</windowEnd>
+            <counts>4600</counts>
         </ROI>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>850</windowStart>
-            <windowEnd>870</windowEnd>
-            <counts>0</counts>
+            <name>Sn_L3</name>
+            <windowStart>330</windowStart>
+            <windowEnd>360</windowEnd>
+            <counts>83</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -48,16 +48,16 @@
         <name>Element2</name>
         <number>1</number>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>853</windowStart>
-            <windowEnd>876</windowEnd>
-            <counts>1787</counts>
+            <name>Ti_Ka</name>
+            <windowStart>435</windowStart>
+            <windowEnd>467</windowEnd>
+            <counts>4600</counts>
         </ROI>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>850</windowStart>
-            <windowEnd>870</windowEnd>
-            <counts>0</counts>
+            <name>Sn_L3</name>
+            <windowStart>330</windowStart>
+            <windowEnd>360</windowEnd>
+            <counts>83</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -68,22 +68,22 @@
         <name>Element3</name>
         <number>1</number>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>853</windowStart>
-            <windowEnd>876</windowEnd>
-            <counts>1787</counts>
+            <name>Ti_Ka</name>
+            <windowStart>435</windowStart>
+            <windowEnd>467</windowEnd>
+            <counts>4600</counts>
         </ROI>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>850</windowStart>
-            <windowEnd>870</windowEnd>
-            <counts>0</counts>
+            <name>Sn_L3</name>
+            <windowStart>330</windowStart>
+            <windowEnd>360</windowEnd>
+            <counts>83</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
         <excluded>false</excluded>
     </DetectorElement>
-    <deadTime>-0.0</deadTime>
+    <deadTime>-0.01</deadTime>
     <saveRawSpectrum>false</saveRawSpectrum>
 </VortexParameters>

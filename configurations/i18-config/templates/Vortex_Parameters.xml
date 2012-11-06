@@ -8,16 +8,10 @@
         <name>Element0</name>
         <number>1</number>
         <ROI>
-            <name>Fe_Ka</name>
-            <windowStart>615</windowStart>
-            <windowEnd>659</windowEnd>
-            <counts>243451281</counts>
-        </ROI>
-        <ROI>
-            <name>Mn_Ka</name>
-            <windowStart>550</windowStart>
-            <windowEnd>618</windowEnd>
-            <counts>19804</counts>
+            <name>Zn_Ka</name>
+            <windowStart>835</windowStart>
+            <windowEnd>887</windowEnd>
+            <counts>18599</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -28,16 +22,10 @@
         <name>Element1</name>
         <number>1</number>
         <ROI>
-            <name>Fe_Ka</name>
-            <windowStart>615</windowStart>
-            <windowEnd>659</windowEnd>
-            <counts>234156778</counts>
-        </ROI>
-        <ROI>
-            <name>Mn_Ka</name>
-            <windowStart>550</windowStart>
-            <windowEnd>618</windowEnd>
-            <counts>19804</counts>
+            <name>Zn_Ka</name>
+            <windowStart>835</windowStart>
+            <windowEnd>887</windowEnd>
+            <counts>18599</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -48,16 +36,10 @@
         <name>Element2</name>
         <number>1</number>
         <ROI>
-            <name>Fe_Ka</name>
-            <windowStart>615</windowStart>
-            <windowEnd>659</windowEnd>
-            <counts>203555735</counts>
-        </ROI>
-        <ROI>
-            <name>Mn_Ka</name>
-            <windowStart>550</windowStart>
-            <windowEnd>618</windowEnd>
-            <counts>19804</counts>
+            <name>Zn_Ka</name>
+            <windowStart>835</windowStart>
+            <windowEnd>887</windowEnd>
+            <counts>18599</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -68,22 +50,16 @@
         <name>Element3</name>
         <number>1</number>
         <ROI>
-            <name>Fe_Ka</name>
-            <windowStart>615</windowStart>
-            <windowEnd>659</windowEnd>
-            <counts>191106192</counts>
-        </ROI>
-        <ROI>
-            <name>Mn_Ka</name>
-            <windowStart>550</windowStart>
-            <windowEnd>618</windowEnd>
-            <counts>19804</counts>
+            <name>Zn_Ka</name>
+            <windowStart>835</windowStart>
+            <windowEnd>887</windowEnd>
+            <counts>18599</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
         <excluded>false</excluded>
     </DetectorElement>
-    <deadTime>-0.01</deadTime>
+    <deadTime>-0.0</deadTime>
     <saveRawSpectrum>false</saveRawSpectrum>
 </VortexParameters>
