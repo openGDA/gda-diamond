@@ -53,7 +53,7 @@ def writeas(storeName):
     for scannable in scannables:
         name = scannable.getName()
         # now store the offset, not the motor position
-        value = scannable().getOffset()
+        value = scannable.getOffset()
         store.setProperty(name,value)
     store.save()
     
