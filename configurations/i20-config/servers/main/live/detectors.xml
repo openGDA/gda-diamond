@@ -204,6 +204,11 @@
 		<property name="xmap" ref="xmapMca" />
 		<!--property name="scaler" ref="CalMemory" / -->
 		<property name="counterTimer" ref="ionchambers" />
+		<property name="extraNames">
+			<list>
+				<value>FFI0</value>
+			</list>
+		</property>
 		<property name="outputFormat">
 			<list>
 				<value>%.6f</value>
