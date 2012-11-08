@@ -1,0 +1,23 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="S7XCentreMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S7.XCENTRE" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="S7XGapMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S7.XGAP" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="S7YCentreMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S7.YCENTRE" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="S7YGapMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S7.YGAP" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

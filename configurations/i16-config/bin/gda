@@ -1,0 +1,26 @@
+#!/bin/bash
+
+unset GDA_ROOT
+unset GDA_CONFIG
+unset GDA_USERS
+unset CLASSPATH
+
+PRGDIR=`dirname $0`
+PRGDIR=`cd $PRGDIR; pwd`
+
+if [ -z "${JAVA_HOME}" ]; then
+    . $PRGDIR/find_JAVA_HOME.sh
+fi
+
+. $PRGDIR/find_PYTHON.sh
+
+GDA_ROOT=`dirname $PRGDIR`
+$GDA_CONFIG
+. $PRGDIR/find_GDA_ROOT.sh
+
+
+echo JAVA_HOME: ${JAVA_HOME}
+echo PYTHON: ${PYTHON}
+echo GDA_ROOT: ${GDA_ROOT}
+
+${PYTHON} ${GDA_ROOT}/plugins/uk.ac.gda.core/bin/gda $@

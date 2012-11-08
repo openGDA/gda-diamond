@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="sixcGammaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D.Gamma" />
+		<property name="local" value="true" />
+		<property name="assertHomedBeforeMoving" value="true" />
+	</bean>
+	<bean id="sixcDeltaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D.2Theta" />
+		<property name="local" value="true" />
+		<property name="assertHomedBeforeMoving" value="true" />
+	</bean>
+	<bean id="sixcMuMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D.Mu" />
+		<property name="local" value="true" />
+		<property name="assertHomedBeforeMoving" value="true" />
+	</bean>
+	<bean id="sixcKthMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D.Theta" />
+		<property name="local" value="true" />
+		<property name="assertHomedBeforeMoving" value="true" />
+	</bean>
+	<bean id="sixcKappaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D.Kap" />
+		<property name="local" value="true" />
+		<property name="assertHomedBeforeMoving" value="true" />
+	</bean>
+	<bean id="sixcKphiMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D.Phi" />
+		<property name="local" value="true" />
+		<property name="assertHomedBeforeMoving" value="true" />
+	</bean>
+	
+	<bean id="xps2DeferFlag" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL16I-MO-XPS-02:DEFER" />
+		<property name="pvNameGetPoint" value="BL16I-MO-XPS-02:DEFER" />
+		<property name="local" value="true" />
+	</bean>
+	
+</beans>

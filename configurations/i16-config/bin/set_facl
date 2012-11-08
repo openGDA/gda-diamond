@@ -1,0 +1,10 @@
+#!/bin/bash
+
+setfacl -R -m default:user:gda:rwx /dls_sw/${BEAMLINE}/software/gda/config/var
+setfacl -R -m user:gda:rwx /dls_sw/${BEAMLINE}/software/gda/config/var
+setfacl -R -m g:${BEAMLINE}_staff:rwx,d:g:${BEAMLINE}_staff:rwx /dls_sw/${BEAMLINE}/software/gda/config/
+setfacl -m d:g:${BEAMLINE}_staff:rwx /dls_sw/${BEAMLINE}/software #give beamline staff permissions to change the softlinks in the software folder
+
+setfacl -R -m u:${BEAMLINE}user:rwx,d:u:${BEAMLINE}user:rwx /dls_sw/${BEAMLINE}/software/gda/config/ #i16user and gda edit perms to config...
+
+	

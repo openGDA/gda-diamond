@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="DCMBraggMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="DCMXMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="DCMBstopMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="DCMY1Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="DCMY2Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="DCMY3Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="DCMYawMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="DCMPitchMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="DCMRollMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="DCMYMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="DCMBaseHeightMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="DCMBasePitchMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="DCMBaseRollMotor" class="gda.device.motor.DummyMotor" />
+
+</beans>

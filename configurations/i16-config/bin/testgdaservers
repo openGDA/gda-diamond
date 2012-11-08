@@ -1,0 +1,9 @@
+#!/bin/bash
+unset JAVA_HOME
+unset BEAMLINE
+
+`dirname $0`/gda logserver --mode=dummy $@
+`dirname $0`/gda nameserver --mode=dummy $@
+`dirname $0`/gda eventserver --mode=dummy $@
+JAVA_OPTS="-Xms128m -Xmx1024m" `dirname $0`/gda objectserver --mode=dummy --debug $@
+

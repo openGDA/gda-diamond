@@ -1,0 +1,74 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="merlin_arr_pvProvider"
+		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="BL16B-EA-DET-06:ARR:" />
+	</bean>
+	<bean id="merlin_arr_ndpluginbase"
+		class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+		<property name="pvProvider" ref="merlin_arr_pvProvider" />
+	</bean>
+	<bean id="merlin_arr" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="pvProvider" ref="merlin_arr_pvProvider" />
+		<property name="pluginBase" ref="merlin_arr_ndpluginbase" />
+	</bean>
+	
+	<bean id="merlin_adbase_pvProvider"
+		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="BL16B-EA-DET-06:MPX:" />
+	</bean>
+	<bean id="merlin_adbase"  class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="pvProvider" ref="merlin_adbase_pvProvider" />
+	</bean>
+
+
+	<bean id="merlin_ndfiletif_pvProvider"
+		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="BL16B-EA-DET-06:TIFF:" />
+	</bean>
+
+	<bean id="merlin_ndfiletif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="pvProvider" ref="merlin_ndfiletif_pvProvider" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="pvProvider" ref="merlin_ndfiletif_pvProvider" />
+			</bean>
+		</property>
+		<property name="resetToInitialValues" value="false"/>
+	</bean>
+
+
+	<bean id="_medipix_det" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="merlin_adbase" />
+		<property name="ndArray" ref="merlin_arr" />
+		<property name="ndFile" ref="merlin_ndfiletif" />		
+		<property name="collectionStrategy">
+			<bean class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+				<constructor-arg ref="merlin_adbase" />
+				<constructor-arg value=".0" />
+			</bean>
+		</property>
+		<property name="fileWriter">
+			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+				<constructor-arg value="medipix" />
+				<constructor-arg ref="merlin_ndfiletif" />
+				<constructor-arg value="true"/>
+				<constructor-arg value="medipix/medipix" />
+				<constructor-arg value="tmp"/>   <!-- to match numbers used in scanning mechanism -->
+				<property name="enable" value="true" />
+			</bean>
+		</property>		
+		<property name="readAcquisitionTime" value="true" />
+		<property name="readFilepath" value="true" />
+		<property name="readAcquisitionPeriod" value="false" />
+		<property name="computeStats" value="false" />
+		<property name="computeCentroid" value="false" />
+		<property name="readArray" value="false" />
+		<property name="forceArrayCallbacks" value="true"/>
+	</bean>
+
+
+</beans>

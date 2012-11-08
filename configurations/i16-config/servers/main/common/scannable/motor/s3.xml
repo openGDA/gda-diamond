@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s3xcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S3XCentreMotor" />
+	</bean>
+	<bean id="s3xgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S3XSizeMotor" />
+	</bean>
+	<bean id="s3xminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S3XNegMotor" />
+	</bean>
+	<bean id="s3xplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S3XPosMotor" />
+	</bean>
+	<bean id="s3ycentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S3YCentreMotor" />
+	</bean>
+	<bean id="s3ygap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S3YSizeMotor" />
+	</bean>
+	<bean id="s3yminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S3YNegMotor" />
+	</bean>
+	<bean id="s3yplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S3YPosMotor" />
+	</bean>
+	
+	<bean id="s3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s3xcentre" />
+				<ref bean="s3xgap" />
+				<ref bean="s3xminus" />
+				<ref bean="s3xplus" />
+				<ref bean="s3ycentre" />
+				<ref bean="s3ygap" />
+				<ref bean="s3yminus" />
+				<ref bean="s3yplus" />
+			</list>
+		</property>
+	</bean>
+	
+
+</beans>

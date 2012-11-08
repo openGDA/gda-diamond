@@ -1,0 +1,2 @@
+module load cctbx
+cctbx.python [scrip name] [cif file] [wl in angstroms]

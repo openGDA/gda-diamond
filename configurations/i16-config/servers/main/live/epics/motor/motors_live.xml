@@ -1,0 +1,208 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+
+
+
+
+
+
+
+
+	<bean id="KBRoll1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="KB.Roll1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="KBT1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="KB.T1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="KBT2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="KB.T2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="KBT3Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="KB.T3" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="KBT4Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="KB.T4" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="KBRoll2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="KB.Roll2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="KBT5Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="KB.T5" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="KBT6Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="KB.T6" />
+		<property name="local" value="true" />
+	</bean>
+
+
+
+
+	<bean id="M3XMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M3.X" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M3YawMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M3.Yaw" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="M4XMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M4.X" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M4YawMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M4.Yaw" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="BraggMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ODDCMBR" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="Roll1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ODDCMRL1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="Roll2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ODDCMRL2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="PitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ODDCMPT" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="PerpMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ODDCMPD" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="P2TABY1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="P2TAB.Y1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="P2TABY2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="P2TAB.Y2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="P2TABY3Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="P2TAB.Y3" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="P2TABX1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="P2TAB.X1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="P2TABX2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="P2TAB.X2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="P2TABZ1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="P2TAB.Z1" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="PAEtaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PA.Eta" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="PAThetaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PA.Theta" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="PADet12thetaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PA.Det1.2Theta" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="PADet22thetaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PA.Det2.2Theta" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="PPRTMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PPR.T" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="PPRYMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PPR.Y" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="PPRXMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PPR.X" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="PPRCMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PPR.C" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="PXXMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PX.X" />
+		<property name="local" value="true" />
+	</bean>
+
+
+
+
+
+
+
+
+
+
+	<bean id="TABYMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TAB.Y" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="TABXMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TAB.X" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="USER11Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="USER1.1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="USER12Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="USER1.2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="USER13Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="USER1.3" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="USER14Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="USER1.4" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="USER21Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="USER2.1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="USER22Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="USER2.2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="USER23Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="USER2.3" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="USER24Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="USER2.4" />
+		<property name="local" value="true" />
+	</bean>
+
+	
+</beans>

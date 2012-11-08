@@ -1,0 +1,132 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util
+http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.diamond.ac.uk/schema/gda/corba
+http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<!--  ${gda.factory.factoryName} -->
+
+	<corba:import namespace="b16server" names="plot_server" />
+	
+	<bean class="gda.factory.corba.util.AdapterFactory">
+		<constructor-arg index="0" value="b16server" />
+		<constructor-arg index="1">
+			<bean class="gda.spring.NetServiceFactoryBean" />
+		</constructor-arg>
+	</bean>
+
+<!-- 
+	<bean id="Message" class="gda.util.LogPanel">
+		<property name="name" value="Message"/>
+	</bean>
+	<bean id="Debug" class="gda.util.LogPanel">
+		<property name="name" value="Debug"/>
+	</bean>
+-->
+	
+	<bean id="JythonEditor" class="gda.jython.gui.JythonEditor">
+		<property name="name" value="JythonEditor"/>
+	</bean>
+	
+	<bean id="JythonTerminal" class="gda.jython.gui.JythonTerminalAcqPanel">
+		<property name="name" value="JythonTerminal"/>
+		<property name="numberInitialGraphs" value="1"/>
+		<property name="extraGraphs" value="true"/>
+	</bean>
+
+	<!--  GeneralScanPanale not moved over from castor -->
+
+	<bean id="Vortex" class="gda.gui.mca.McaGUI">
+		<property name="label" value="Vortex"/>
+		<property name="mcaName" value="vortexMca"/>
+		<property name="adcName" value="vortexAdc"/>
+		<property name="tcaName" value="vortexTca"/>
+	</bean>
+	
+	<bean id="Data_Vector" class="gda.gui.dv.DataVectorPlot">
+		<property name="label" value="Data Vector" />
+		<property name="mainPlotPosition" value="West" />
+		<property name="panelList">
+			<list>
+				<value>gda.gui.dv.panels.vispanels.ColourSelector</value>
+				<value>gda.gui.dv.panels.vispanels.LineProfilePanel</value>
+				<value>gda.gui.dv.panels.vispanels.BasicIntegratorPanel</value>
+				<value>gda.gui.dv.panels.vispanels.SectorIntegratorPanel</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Secondary_Plot" class="gda.gui.dv.DataVectorPlot">
+		<property name="label" value="Secondary Plot" />
+		<property name="mainPlotPosition" value="West" />
+		<property name="panelList">
+			<list>
+				<value>gda.gui.dv.panels.vispanels.ColourSelector</value>
+				<value>gda.gui.dv.panels.vispanels.LineProfilePanel</value>
+				<value>gda.gui.dv.panels.vispanels.BasicIntegratorPanel</value>
+				<value>gda.gui.dv.panels.vispanels.SectorIntegratorPanel</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Pilatus_Plot" class="gda.gui.dv.DataVectorPlot">
+		<property name="label" value="Pilatus Plot" />
+		<property name="mainPlotPosition" value="West" />
+		<property name="panelList">
+			<list>
+				<value>gda.gui.dv.panels.vispanels.ColourSelector</value>
+				<value>gda.gui.dv.panels.vispanels.LineProfilePanel</value>
+				<value>gda.gui.dv.panels.vispanels.BasicIntegratorPanel</value>
+				<value>gda.gui.dv.panels.vispanels.SectorIntegratorPanel</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ImageProPlus_Plot" class="gda.gui.dv.DataVectorPlot">
+		<property name="label" value="ImageProPlus Plot" />
+		<property name="mainPlotPosition" value="West" />
+		<property name="panelList">
+			<list>
+				<value>gda.gui.dv.panels.vispanels.ColourSelector</value>
+				<value>gda.gui.dv.panels.vispanels.LineProfilePanel</value>
+				<value>gda.gui.dv.panels.vispanels.BasicIntegratorPanel</value>
+				<value>gda.gui.dv.panels.vispanels.SectorIntegratorPanel</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Andor_CCD" class="gda.gui.dv.DataVectorPlot">
+		<property name="label" value="Andor CCD" />
+		<property name="mainPlotPosition" value="West" />
+		<property name="panelList">
+			<list>
+				<value>gda.gui.dv.panels.vispanels.ColourSelector</value>
+				<value>gda.gui.dv.panels.vispanels.LineProfilePanel</value>
+				<value>gda.gui.dv.panels.vispanels.BasicIntegratorPanel</value>
+				<value>gda.gui.dv.panels.vispanels.SectorIntegratorPanel</value>
+			</list>
+		</property>
+	</bean>
+	
+
+
+
+</beans>
+
+<!--  <bean class="gda.factory.ClientXmlObjectCreator">
+	<property name="xmlFile" value="${gda.config}/xml/castor_i18_Client_dls.xml" />
+	<property name="doPropertySubstitution" value="True" />
+	<property name="useDefaultSchema" value="False" />
+	<property name="mappingFile" value="classpath:gda/factory/mapping_dls.xml" />
+</bean>-->

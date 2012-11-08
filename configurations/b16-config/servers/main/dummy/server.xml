@@ -1,0 +1,90 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/dummy/java.properties
+				</value>
+				<value>file:${gda.config}/properties/common/java.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<import resource="../common/plumbing.xml" />
+
+	<!--AngularPositioner> <name>DCMBasePitchPos</name> <motorName>DCMBasePitchMotor</motorName> 
+	<stepsPerUnit>17.453292519943293</stepsPerUnit> <poll>false</poll> </AngularPositioner> 
+	<AngularPositioner> <name>DCMBaseRollPos</name> <motorName>DCMBaseRollMotor</motorName> 
+	<stepsPerUnit>17.453292519943293</stepsPerUnit> <poll>false</poll> </AngularPositioner -->
+	<import resource="motor/dcm.xml" />
+	<import resource="motor/dif.xml" />
+	<import resource="motor/fc.xml" />
+	<import resource="motor/fcarm.xml" />
+	<!-- fcbase was dr1base, update doc -->
+	<import resource="motor/fcbase.xml" />
+	<import resource="motor/fcsamp.xml" />
+	<import resource="motor/geo2.xml" />
+	<import resource="motor/kbm.xml" />
+	<import resource="motor/m1.xml" />
+	<import resource="motor/mlm.xml" />
+	<import resource="motor/piezo1.xml" />
+	<import resource="motor/positioner_motors.xml" />
+	<import resource="motor/s1.xml" />
+	<import resource="motor/s2.xml" />
+	<import resource="motor/s3.xml" />
+	<import resource="motor/s4.xml" />
+	<import resource="motor/s5.xml" />
+	<import resource="motor/s6.xml" />
+	<import resource="motor/s7.xml" />
+	<import resource="motor/s8.xml" />
+	<import resource="motor/tbbase.xml" />
+	<import resource="motor/tbdet.xml" />
+	<import resource="motor/tbdiag.xml" />
+	<import resource="motor/tbopt.xml" />
+	<import resource="motor/test1.xml" />
+	<import resource="motor/test2.xml" />
+	<import resource="motor/test3.xml" />
+
+	<import resource="../common/scannable/motors.xml" />
+	
+	<import resource="controlpoint/analogueout.xml" />
+	<import resource="controlpoint/dcmpiezo.xml" />
+	
+	<import resource="monitor/analoguein.xml" />
+	<import resource="monitor/mstat.xml" />
+
+	<import resource="positioner/attenuator.xml" />
+	<import resource="positioner/diagnostic.xml" />
+	
+	<import resource="detector/scaler_vortex.xml" />
+	<import resource="detector/xmap_vortex.xml" />
+	<!-- import resource="detector/mca_vortex.xml" EMPTY-->
+	
+	<import resource="../common/jython_server.xml" />
+	<import resource="../common/loggingscriptcontroller.xml" />
+
+	<import resource="metadata.xml" />
+	
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+
+	<corba:export namespace="b16server" />
+	
+	<!-- bean class="gda.factory.ServerXmlObjectCreator">
+		<property name="xmlFile"
+			value="${gda.config}/xml_sim/castor_serversim_i18xmap.xml" />
+		<property name="buildProxies" value="${gda.accesscontrol.useAccessControl}" />
+	</bean-->
+	
+	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
+		<property name="path" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
+		<property name="local" value="true" />
+	</bean>
+
+
+</beans>

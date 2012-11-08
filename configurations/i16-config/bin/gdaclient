@@ -1,0 +1,3 @@
+#!/bin/bash
+unset JAVA_HOME
+JAVA_OPTS="-Xms512m -Xmx1024m" `dirname $0`/gda client --restart $@

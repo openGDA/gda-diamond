@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="fcarmTheta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DR1ARMThetaMotor" />
+	</bean>
+	<bean id="fcarm2Theta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DR1ARMTthetaMotor" />
+	</bean>
+
+	<bean id="fcarm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="fcarmTheta" />
+				<ref bean="fcarm2Theta" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="D3Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D3.MOT" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="D4Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D4.MOT" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="A1usMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="A1.MOTOR1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="A1dsMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="A1.MOTOR2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="A2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="A2.MOTOR" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="dr1baseY1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DR1BASEY1Motor" />
+	</bean>
+	<bean id="dr1baseY2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DR1BASEY2Motor" />
+	</bean>
+	<bean id="dr1baseX" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DR1BASEXMotor" />
+	</bean>
+	<bean id="dr1basePitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DR1BASEPitchMotor" />
+	</bean>
+	<bean id="dr1baseHeight" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DR1BASEHeightMotor" />
+	</bean>
+
+	<bean id="fcbase" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dr1baseY1" />
+				<ref bean="dr1baseY2" />
+				<ref bean="dr1baseX" />
+				<ref bean="dr1basePitch" />
+				<ref bean="dr1baseHeight" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

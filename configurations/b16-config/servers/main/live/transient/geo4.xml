@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="geo4mot1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="BRICK4.MOT1" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="geo4mot1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="geo4mot1Motor" />
+	</bean>
+
+	<bean id="geo4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="geo4mot1" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>
+

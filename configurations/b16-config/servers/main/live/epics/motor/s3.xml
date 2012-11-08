@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="S3YPlusMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S3.YPLUS" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="S3YMinusMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S3.YMINUS" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="S3XPlusMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S3.XPLUS" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="S3XMinusMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S3.XMINUS" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="S3XCentreMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S3.XCENTRE" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="S3YCentreMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S3.YCENTRE" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="S3XSizeMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S3.XSIZE" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="S3YSizeMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S3.YSIZE" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

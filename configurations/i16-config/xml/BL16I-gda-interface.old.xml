@@ -1,0 +1,1120 @@
+<?xml version="1.0" ?>
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2009-9/gdaApp/src/genericBeamlineSchema.xsd">
+	<simpleMotor desc="S1 Vertical axis 1 Motor" name="S1.YA">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-01:YA" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S1 Vertical axis 2 Motor" name="S1.YB">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-01:YB" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S1 Horizontal axis 1 Motor" name="S1.XA">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-01:XA" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S1 Horizontal axis 2 Motor" name="S1.XB">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-01:XB" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="A2 Vertical Rack Filter" name="A2">
+		<RECORD desc="Motor" pv="BL16I-OP-ATTN-02:POSN" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="D1 Vertical Rack Filter" name="D1">
+		<RECORD desc="Motor" pv="BL16I-DI-PHDGN-01:POSN" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S2 Vertical axis 1 Motor" name="S2.Y+">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-02:Y:PLUS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S2 Vertical axis 2 Motor" name="S2.Y-">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-02:Y:MINUS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S2 Horizontal axis 1 Motor" name="S2.X+">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-02:X:PLUS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S2 Horizontal axis 2 Motor" name="S2.X-">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-02:X:MINUS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="D3 Vertical Rack Filter" name="D3.A">
+		<RECORD desc="Motor" pv="BL16I-DI-PHDGN-03:ATTN:POSN" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="D3 Vertical Rack Diagnostic" name="D3.D">
+		<RECORD desc="Motor" pv="BL16I-DI-PHDGN-03:DIAG:POSN" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="PPR Theta axis Motor" name="PPR.T">
+		<RECORD desc="Motor" pv="BL16I-OP-PPR-01:THETA" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="PPR Y axis Motor (45deg +X+Y)" name="PPR.Y">
+		<RECORD desc="Motor" pv="BL16I-OP-PPR-01:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="PPR X axis Motor (45deg +X-Y)" name="PPR.X">
+		<RECORD desc="Motor" pv="BL16I-OP-PPR-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="PPR Chi axis Motor" name="PPR.C">
+		<RECORD desc="Motor" pv="BL16I-OP-PPR-01:CHI" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M1 Translation / Pitch 1 Motor" name="M1.X1">
+		<RECORD desc="Motor" pv="BL16I-OP-VFM-01:X1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M1 Translation / Pitch 2 Motor" name="M1.X2">
+		<RECORD desc="Motor" pv="BL16I-OP-VFM-01:X2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M1 Height / Yaw Motor" name="M1.Y1">
+		<RECORD desc="Motor" pv="BL16I-OP-VFM-01:Y1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M1 Height / Roll Motor" name="M1.Y2">
+		<RECORD desc="Motor" pv="BL16I-OP-VFM-01:Y2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M1 Height Motor" name="M1.Y3">
+		<RECORD desc="Motor" pv="BL16I-OP-VFM-01:Y3" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M2 Mirror Bender Motor" name="M2.B">
+		<RECORD desc="Motor" pv="BL16I-OP-HFM-01:BEND" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M2 Translation / Pitch 1 Motor" name="M2.X1">
+		<RECORD desc="Motor" pv="BL16I-OP-HFM-01:X1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M2 Translation / Pitch 2 Motor" name="M2.X2">
+		<RECORD desc="Motor" pv="BL16I-OP-HFM-01:X2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M2 Height / Yaw Motor" name="M2.Y1">
+		<RECORD desc="Motor" pv="BL16I-OP-HFM-01:Y1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M2 Height / Roll Motor" name="M2.Y2">
+		<RECORD desc="Motor" pv="BL16I-OP-HFM-01:Y2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M2 Height Motor" name="M2.Y3">
+		<RECORD desc="Motor" pv="BL16I-OP-HFM-01:Y3" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S3 Vertical axis 1 Motor" name="S3.Y+">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-03:Y:PLUS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S3 Vertical axis 2 Motor" name="S3.Y-">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-03:Y:MINUS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S3 Horizontal axis 1 Motor" name="S3.X+">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-03:X:PLUS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S3 Horizontal axis 2 Motor" name="S3.X-">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-03:X:MINUS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="D4 Vertical Rack Filter" name="D4.A">
+		<RECORD desc="Motor" pv="BL16I-DI-PHDGN-04:ATTN:POSN" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="D4 Vertical Rack Diagnostic" name="D4.D">
+		<RECORD desc="Motor" pv="BL16I-DI-PHDGN-04:DIAG:POSN" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="USER1 User axis 1" name="USER1.1">
+		<RECORD desc="Motor" pv="BL16I-MO-USER-01:AXIS1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="USER1 User axis 2" name="USER1.2">
+		<RECORD desc="Motor" pv="BL16I-MO-USER-01:AXIS2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="USER1 User axis 3" name="USER1.3">
+		<RECORD desc="Motor" pv="BL16I-MO-USER-01:AXIS3" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="USER1 User axis 4" name="USER1.4">
+		<RECORD desc="Motor" pv="BL16I-MO-USER-01:AXIS4" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S4 Vertical axis 1 Motor" name="S4.Y+">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-04:Y:PLUS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S4 Vertical axis 2 Motor" name="S4.Y-">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-04:Y:MINUS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S4 Horizontal axis 1 Motor" name="S4.X+">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-04:X:PLUS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S4 Horizontal axis 2 Motor" name="S4.X-">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-04:X:MINUS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="D5 Vertical Rack Filter" name="D5.A">
+		<RECORD desc="Motor" pv="BL16I-DI-PHDGN-05:ATTN:POSN" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="D5 Vertical Rack Diagnostic" name="D5.D">
+		<RECORD desc="Motor" pv="BL16I-DI-PHDGN-05:DIAG:POSN" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="TAB Height Motor" name="TAB.Y">
+		<RECORD desc="Motor" pv="BL16I-MO-TABLE-01:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="TAB Translation Motor" name="TAB.X">
+		<RECORD desc="Motor" pv="BL16I-MO-TABLE-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="USER2 User axis 1" name="USER2.1">
+		<RECORD desc="Motor" pv="BL16I-MO-USER-02:AXIS1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="USER2 User axis 2" name="USER2.2">
+		<RECORD desc="Motor" pv="BL16I-MO-USER-02:AXIS2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="USER2 User axis 3" name="USER2.3">
+		<RECORD desc="Motor" pv="BL16I-MO-USER-02:AXIS3" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="USER2 User axis 4" name="USER2.4">
+		<RECORD desc="Motor" pv="BL16I-MO-USER-02:AXIS4" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S5 Vertical Gap Motor" name="S5.YG">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-05:Y:GAP" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S5 Vertical Translation Motor" name="S5.YT">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-05:Y:TRANSLATION" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S5 Horizontal Gap Motor" name="S5.XG">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-05:X:GAP" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S5 Horizontal Translation 2 Motor" name="S5.XT">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-05:X:TRANSLATION" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S6 Vertical axis 1 Motor" name="S6.YG">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-06:Y:GAP" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S6 Vertical axis 2 Motor" name="S6.YT">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-06:Y:TRANSLATION" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S6 Horizontal axis 1 Motor" name="S6.XG">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-06:X:GAP" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S6 Horizontal axis 2 Motor" name="S6.XT">
+		<RECORD desc="Motor" pv="BL16I-AL-SLITS-06:X:TRANSLATION" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="PA Eta axis Motor" name="PA.Eta">
+		<RECORD desc="Motor" pv="BL16I-EA-POLAN-01:ETA" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="PA Theta axis Motor" name="PA.Theta">
+		<RECORD desc="Motor" pv="BL16I-EA-POLAN-01:THETAp" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="PA 1st Detector 2theta axis Motor" name="PA.Det1.2Theta">
+		<RECORD desc="Motor" pv="BL16I-EA-POLAN-01:DET1:2THETAp" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="PA X axis Motor" name="PX.X">
+		<RECORD desc="Motor" pv="BL16I-EA-POLAN-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="PA 2nd Detector 2theta axis Motor" name="PA.Det2.2Theta">
+		<RECORD desc="Motor" pv="BL16I-EA-POLAN-01:DET2:2THETAp" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M3 X Translation" name="M3.X">
+		<RECORD desc="Motor" pv="BL16I-OP-MFM-01:M3:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M3 Yaw" name="M3.Yaw">
+		<RECORD desc="Motor" pv="BL16I-OP-MFM-01:M3:YAW" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M4 X Translation" name="M4.X">
+		<RECORD desc="Motor" pv="BL16I-OP-MFM-01:M4:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M4 Yaw" name="M4.Yaw">
+		<RECORD desc="Motor" pv="BL16I-OP-MFM-01:M4:YAW" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 2 X Centre Motor" name="S2XCENTRE">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-02:X:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 2 X Size Motor" name="S2XSIZE">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-02:X:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 2 X Negative Motor" name="S2XNEG">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-02:X:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 2 X Positive Motor" name="S2XPOS">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-02:X:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 2 Y Centre Motor" name="S2YCENTRE">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-02:Y:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 2 Y Size Motor" name="S2YSIZE">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-02:Y:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 2 Y Negative Motor" name="S2YNEG">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-02:Y:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 2 Y Positive Motor" name="S2YPOS">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-02:Y:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 3 X Centre Motor" name="S3XCENTRE">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-03:X:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 3 X Size Motor" name="S3XSIZE">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-03:X:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 3 X Negative Motor" name="S3XNEG">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-03:X:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 3 X Positive Motor" name="S3XPOS">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-03:X:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 3 Y Centre Motor" name="S3YCENTRE">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-03:Y:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 3 Y Size Motor" name="S3YSIZE">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-03:Y:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 3 Y Negative Motor" name="S3YNEG">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-03:Y:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 3 Y Positive Motor" name="S3YPOS">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-03:Y:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 4 X Centre Motor" name="S4XCENTRE">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-04:X:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 4 X Size Motor" name="S4XSIZE">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-04:X:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 4 X Negative Motor" name="S4XNEG">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-04:X:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 4 X Positive Motor" name="S4XPOS">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-04:X:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 4 Y Centre Motor" name="S4YCENTRE">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-04:Y:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 4 Y Size Motor" name="S4YSIZE">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-04:Y:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 4 Y Negative Motor" name="S4YNEG">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-04:Y:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 4 Y Positive Motor" name="S4YPOS">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-04:Y:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 1 X Negative Motor" name="S1XNEG">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-01:X:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 1 X Positive Motor" name="S1XPOS">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-01:X:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 1 X Centre Motor" name="S1XCENTRE">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-01:X:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 1 X Size Motor" name="S1XSIZE">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-01:X:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 1 Y Negative Motor" name="S1YNEG">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-01:Y:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 1 Y Positive Motor" name="S1YPOS">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-01:Y:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 1 Y Centre Motor" name="S1YCENTRE">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-01:Y:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Slits 1 Y Size Motor" name="S1YSIZE">
+		<RECORD desc="Motor Record" pv="BL16I-AL-SLITS-01:Y:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M1 Pitch" name="M1PX.PITCH">
+		<RECORD desc="Motor Record" pv="BL16I-OP-VFM-01:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M1 Pitch" name="M1PX.X">
+		<RECORD desc="Motor Record" pv="BL16I-OP-VFM-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M2 Pitch" name="M2PX.PITCH">
+		<RECORD desc="Motor Record" pv="BL16I-OP-HFM-01:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M2 Pitch" name="M2PX.X">
+		<RECORD desc="Motor Record" pv="BL16I-OP-HFM-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M1 Height Yaw Roll Y Motor" name="M1YYR.Y">
+		<RECORD desc="Motor Record" pv="BL16I-OP-VFM-01:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M1 Height Yaw Roll YAW Motor" name="M1YYR.YAW">
+		<RECORD desc="Motor Record" pv="BL16I-OP-VFM-01:YAW" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M1 Height Yaw Roll ROLL Motor" name="M1YYR.ROLL">
+		<RECORD desc="Motor Record" pv="BL16I-OP-VFM-01:ROLL" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M2 Height Yaw Roll Y Motor" name="M2YYR.Y">
+		<RECORD desc="Motor Record" pv="BL16I-OP-HFM-01:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M2 Height Yaw Roll YAW Motor" name="M2YYR.YAW">
+		<RECORD desc="Motor Record" pv="BL16I-OP-HFM-01:YAW" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="M2 Height Yaw Roll ROLL Motor" name="M2YYR.ROLL">
+		<RECORD desc="Motor Record" pv="BL16I-OP-HFM-01:ROLL" ro="false" type="motor"/>
+	</simpleMotor>
+	<currAmpQuad desc="Diagnostic 7 Current Amp" name="D7.AMP">
+		<I1 desc="Channel 1 Current" pv="BL16I-DI-IAMP-08:PHD1:I" ro="true" type="pv"/>
+		<I2 desc="Channel 2 Current" pv="BL16I-DI-IAMP-08:PHD2:I" ro="true" type="pv"/>
+		<I3 desc="Channel 3 Current" pv="BL16I-DI-IAMP-08:PHD3:I" ro="true" type="pv"/>
+		<I4 desc="Channel 4 Current" pv="BL16I-DI-IAMP-08:PHD4:I" ro="true" type="pv"/>
+		<RANGE desc="Range Selection" pv="BL16I-DI-IAMP-08:RANGE_MENU" ro="false" type="mbbinary"/>
+		<VENDOR desc="Vendor String" pv="BL16I-DI-IAMP-08:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL16I-DI-IAMP-08:MODEL" ro="true" type="pv"/>
+	</currAmpQuad>
+	<bpm desc="Diagnostic 7 BPM" name="D7.BPM">
+		<INTENSITY desc="Summed intensity value" pv="BL16I-DI-IAMP-08:INTEN" ro="true" type="pv"/>
+		<XPOS desc="X Position" pv="BL16I-DI-IAMP-08:XPOS" ro="true" type="pv"/>
+		<YPOS desc="Y Position" pv="BL16I-DI-IAMP-08:YPOS" ro="true" type="pv"/>
+		<CAL_INTENSITY desc="Intensity calibrated with offsets" pv="BL16I-DI-IAMP-08:INTEN_C" ro="true" type="pv"/>
+		<NORM_INTENSITY desc="Intensity normalized to ring current" pv="BL16I-DI-IAMP-08:INTEN_N" ro="true" type="pv"/>
+	</bpm>
+	<currAmpQuad desc="Diagnostic 1 Current Amp" name="D1.AMP">
+		<I1 desc="Channel 1 Current" pv="BL16I-DI-IAMP-01:PHD1:I" ro="true" type="pv"/>
+		<I2 desc="Channel 2 Current" pv="BL16I-DI-IAMP-01:PHD2:I" ro="true" type="pv"/>
+		<I3 desc="Channel 3 Current" pv="BL16I-DI-IAMP-01:PHD3:I" ro="true" type="pv"/>
+		<I4 desc="Channel 4 Current" pv="BL16I-DI-IAMP-01:PHD4:I" ro="true" type="pv"/>
+		<RANGE desc="Range Selection" pv="BL16I-DI-IAMP-01:RANGE_MENU" ro="false" type="mbbinary"/>
+		<VENDOR desc="Vendor String" pv="BL16I-DI-IAMP-01:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL16I-DI-IAMP-01:MODEL" ro="true" type="pv"/>
+	</currAmpQuad>
+	<bpm desc="Diagnostic 1 BPM" name="D1.BPM">
+		<INTENSITY desc="Summed intensity value" pv="BL16I-DI-IAMP-01:INTEN" ro="true" type="pv"/>
+		<XPOS desc="X Position" pv="BL16I-DI-IAMP-01:XPOS" ro="true" type="pv"/>
+		<YPOS desc="Y Position" pv="BL16I-DI-IAMP-01:YPOS" ro="true" type="pv"/>
+		<CAL_INTENSITY desc="Intensity calibrated with offsets" pv="BL16I-DI-IAMP-01:INTEN_C" ro="true" type="pv"/>
+		<NORM_INTENSITY desc="Intensity normalized to ring current" pv="BL16I-DI-IAMP-01:INTEN_N" ro="true" type="pv"/>
+	</bpm>
+	<currAmpQuad desc="Diagnostic 6 Current Amp" name="D6.AMP">
+		<I1 desc="Channel 1 Current" pv="BL16I-DI-IAMP-06:PHD1:I" ro="true" type="pv"/>
+		<I2 desc="Channel 2 Current" pv="BL16I-DI-IAMP-06:PHD2:I" ro="true" type="pv"/>
+		<I3 desc="Channel 3 Current" pv="BL16I-DI-IAMP-06:PHD3:I" ro="true" type="pv"/>
+		<I4 desc="Channel 4 Current" pv="BL16I-DI-IAMP-06:PHD4:I" ro="true" type="pv"/>
+		<RANGE desc="Range Selection" pv="BL16I-DI-IAMP-06:RANGE_MENU" ro="false" type="mbbinary"/>
+		<VENDOR desc="Vendor String" pv="BL16I-DI-IAMP-06:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL16I-DI-IAMP-06:MODEL" ro="true" type="pv"/>
+	</currAmpQuad>
+	<bpm desc="Diagnostic 6 BPM" name="D6.BPM">
+		<INTENSITY desc="Summed intensity value" pv="BL16I-DI-IAMP-06:INTEN" ro="true" type="pv"/>
+		<XPOS desc="X Position" pv="BL16I-DI-IAMP-06:XPOS" ro="true" type="pv"/>
+		<YPOS desc="Y Position" pv="BL16I-DI-IAMP-06:YPOS" ro="true" type="pv"/>
+		<CAL_INTENSITY desc="Intensity calibrated with offsets" pv="BL16I-DI-IAMP-06:INTEN_C" ro="true" type="pv"/>
+		<NORM_INTENSITY desc="Intensity normalized to ring current" pv="BL16I-DI-IAMP-06:INTEN_N" ro="true" type="pv"/>
+	</bpm>
+	<currAmpQuad desc="Diagnostic 5 Current Amp" name="D5.AMP">
+		<I1 desc="Channel 1 Current" pv="BL16I-DI-IAMP-07:PHD1:I" ro="true" type="pv"/>
+		<I2 desc="Channel 2 Current" pv="BL16I-DI-IAMP-07:PHD2:I" ro="true" type="pv"/>
+		<I3 desc="Channel 3 Current" pv="BL16I-DI-IAMP-07:PHD3:I" ro="true" type="pv"/>
+		<I4 desc="Channel 4 Current" pv="BL16I-DI-IAMP-07:PHD4:I" ro="true" type="pv"/>
+		<RANGE desc="Range Selection" pv="BL16I-DI-IAMP-07:RANGE_MENU" ro="false" type="mbbinary"/>
+		<VENDOR desc="Vendor String" pv="BL16I-DI-IAMP-07:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL16I-DI-IAMP-07:MODEL" ro="true" type="pv"/>
+	</currAmpQuad>
+	<bpm desc="Diagnostic 5 BPM" name="D5.BPM">
+		<INTENSITY desc="Summed intensity value" pv="BL16I-DI-IAMP-07:INTEN" ro="true" type="pv"/>
+		<XPOS desc="X Position" pv="BL16I-DI-IAMP-07:XPOS" ro="true" type="pv"/>
+		<YPOS desc="Y Position" pv="BL16I-DI-IAMP-07:YPOS" ro="true" type="pv"/>
+		<CAL_INTENSITY desc="Intensity calibrated with offsets" pv="BL16I-DI-IAMP-07:INTEN_C" ro="true" type="pv"/>
+		<NORM_INTENSITY desc="Intensity normalized to ring current" pv="BL16I-DI-IAMP-07:INTEN_N" ro="true" type="pv"/>
+	</bpm>
+	<simplePv desc="Current 1 on D1" name="D1.I1">
+		<RECORD desc="Current Value" pv="BL16I-DI-PHDGN-01:DIODE:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Current 2 on D1" name="D1.I2">
+		<RECORD desc="Current Value" pv="BL16I-DI-PHDGN-01:DIODE2:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Current 1 on D5" name="D5.I1">
+		<RECORD desc="Current Value" pv="BL16I-DI-PHDGN-05:DIODE:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Current 2 on D5" name="D5.I2">
+		<RECORD desc="Current Value" pv="BL16I-DI-PHDGN-05:DIODE2:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="VFM Piezo Feedback" name="VFM.PIEZO.FBACK">
+		<RECORD desc="RECORD" pv="BL16I-OP-VFM-01:PIEZO:FBACK" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="VFM Piezo Control" name="VFM.PIEZO.OUT">
+		<RECORD desc="RECORD" pv="BL16I-OP-VFM-01:PIEZO:OUT" ro="false" type="pv"/>
+	</simplePv>
+	<simpleMotor desc="DCM BRAGG" name="DCM:BRAGG">
+		<RECORD desc="Motor" pv="BL16I-OP-DCM-01:BRAGG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DCM LATERAL" name="DCM:X">
+		<RECORD desc="Motor" pv="BL16I-OP-DCM-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="XTAL1 ROLL" name="DCM:XTAL1:ROLL">
+		<RECORD desc="Motor" pv="BL16I-OP-DCM-01:XTAL1:ROLL" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="XTAL2 PERP" name="DCM:XTAL2:YPRIME">
+		<RECORD desc="Motor" pv="BL16I-OP-DCM-01:XTAL2:YPRIME" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="XTAL2 PITCH" name="DCM:XTAL2:PITCH">
+		<RECORD desc="Motor" pv="BL16I-OP-DCM-01:XTAL2:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="XTAL2 ROLL" name="DCM:XTAL2:ROLL">
+		<RECORD desc="Motor" pv="BL16I-OP-DCM-01:XTAL2:ROLL" ro="false" type="motor"/>
+	</simpleMotor>
+	<positioner desc="Crystal Select" name="DCM:X:MP">
+		<SELECT desc="Position Selection" pv="BL16I-OP-DCM-01:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV desc="Done Moving Indicator" pv="BL16I-OP-DCM-01:MP:DMOV" ro="true" type="pv"/>
+		<ERROR desc="Error Indicator" pv="BL16I-OP-DCM-01:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS desc="In Position Indicator" pv="BL16I-OP-DCM-01:MP:INPOS" ro="true" type="pv"/>
+		<STOP desc="Stop Button" pv="BL16I-OP-DCM-01:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<simpleMotor desc="Fine Pitch Motor" name="DCM:XTAL2:FP">
+		<RECORD desc="Motor" pv="BL16I-OP-DCM-01:XTAL2:FPITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Fine Roll Motor" name="DCM:XTAL2:FR">
+		<RECORD desc="Motor" pv="BL16I-OP-DCM-01:XTAL2:FROLL" ro="false" type="motor"/>
+	</simpleMotor>
+	<simplePv desc="GBC1 TEMPERATURE 01" name="GBC1.T1">
+		<RECORD desc="Temperature" pv="BL16I-RS-GBC-01:TEMP1" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="GBC1 TEMPERATURE 02" name="GBC1.T2">
+		<RECORD desc="Temperature" pv="BL16I-RS-GBC-01:TEMP2" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="GBC1 TEMPERATURE 03" name="GBC1.T3">
+		<RECORD desc="Temperature" pv="BL16I-RS-GBC-01:TEMP3" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="GBC1 TEMPERATURE 04" name="GBC1.T4">
+		<RECORD desc="Temperature" pv="BL16I-RS-GBC-01:TEMP4" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S1 TEMPERATURE 01" name="S1.T1">
+		<RECORD desc="Temperature" pv="BL16I-AL-SLITS-01:A:TEMP1" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S1 TEMPERATURE 02" name="S1.T2">
+		<RECORD desc="Temperature" pv="BL16I-AL-SLITS-01:A:TEMP2" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S1 TEMPERATURE 03" name="S1.T3">
+		<RECORD desc="Temperature" pv="BL16I-AL-SLITS-01:A:TEMP3" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S1 TEMPERATURE 04" name="S1.T4">
+		<RECORD desc="Temperature" pv="BL16I-AL-SLITS-01:A:TEMP4" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S1 TEMPERATURE 05" name="S1.T5">
+		<RECORD desc="Temperature" pv="BL16I-AL-SLITS-01:B:TEMP1" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S1 TEMPERATURE 06" name="S1.T6">
+		<RECORD desc="Temperature" pv="BL16I-AL-SLITS-01:B:TEMP2" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S1 TEMPERATURE 07" name="S1.T7">
+		<RECORD desc="Temperature" pv="BL16I-AL-SLITS-01:B:TEMP3" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S1 TEMPERATURE 08" name="S1.T8">
+		<RECORD desc="Temperature" pv="BL16I-AL-SLITS-01:B:TEMP4" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="M1 X1 MOTOR TEMP" name="M1.T1">
+		<RECORD desc="Temperature" pv="BL16I-OP-VFM-01:X1:TEMP" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="M1 X2 MOTOR TEMP" name="M1.T2">
+		<RECORD desc="Temperature" pv="BL16I-OP-VFM-01:X2:TEMP" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="M2 X1 MOTOR TEMP" name="M2.T1">
+		<RECORD desc="Temperature" pv="BL16I-OP-HFM-01:X1:TEMP" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="M2 X2 MOTOR TEMP" name="M2.T2">
+		<RECORD desc="Temperature" pv="BL16I-OP-HFM-01:X2:TEMP" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Water Flow on GBC1" name="w1">
+		<RECORD desc="Waterflow Status Record" pv="BL16I-RS-GBC-01:FLOW:STATUS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Water Flow on S1" name="w2">
+		<RECORD desc="Waterflow Status Record" pv="BL16I-AL-SLITS-01:FLOW1:STATUS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Water Flow on S2" name="w3">
+		<RECORD desc="Waterflow Status Record" pv="BL16I-AL-SLITS-01:FLOW2:STATUS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Water Flow on A1" name="w4">
+		<RECORD desc="Waterflow Status Record" pv="BL16I-HO-FLOW-01:STATUS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Water Flow on GBC2" name="w5">
+		<RECORD desc="Waterflow Status Record" pv="BL16I-HO-FLOW-02:STATUS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Water Flow on DCM" name="w6">
+		<RECORD desc="Waterflow Status Record" pv="BL16I-OP-DCM-01:FLOW:STATUS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Water Flow on MLM" name="w7">
+		<RECORD desc="Waterflow Status Record" pv="BL16I-OP-MLM-01:FLOW:STATUS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Water Flow on WBS" name="w8">
+		<RECORD desc="Waterflow Status Record" pv="BL16I-RS-ABSB-01:FLOW:STATUS" ro="true" type="pv"/>
+	</simplePv>
+	<simpleBinary desc="DCM Vent Enable" name="DCM.VENTENABLE">
+		<RECORD desc="RECORD" pv="BL16I-VA-DCM-01:VENTENABLE" ro="true" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="DCM Service Mode" name="DCM.SER">
+		<RECORD desc="RECORD" pv="BL16I-VA-DCM-01:SERVICE" ro="true" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="DCM Test Mode" name="DCM.TEST">
+		<RECORD desc="RECORD" pv="BL16I-VA-DCM-01:TEST" ro="true" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="DCM Remote Service On" name="DCM.RSON">
+		<RECORD desc="RECORD" pv="BL16I-VA-DCM-01:REMOTESERVICEON" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="DCM Remote Service Off" name="DCM.RSOFF">
+		<RECORD desc="RECORD" pv="BL16I-VA-DCM-01:REMOTESERVICEOFF" ro="false" type="binary"/>
+	</simpleBinary>
+	<dlsMcaCanberra desc="Canberra MCA 1" name="MCA1">
+		<ERASE desc="Clear current MCA spectrum" pv="BL16I-EA-DET-01:aim_adc1Erase" ro="false" type="binary"/>
+		<ERASESTART desc="Clear spectrum and start acquiring" pv="BL16I-EA-DET-01:aim_adc1EraseStart" ro="false" type="binary"/>
+		<START desc="Start acquiring spectrum" pv="BL16I-EA-DET-01:aim_adc1Start" ro="false" type="binary"/>
+		<STOP desc="Stop acquiring spectrum" pv="BL16I-EA-DET-01:aim_adc1Stop" ro="false" type="binary"/>
+		<READRATE desc="Data readout rate" pv="BL16I-EA-DET-01:aim_adc1Read.SCAN" ro="false" type="pv"/>
+		<STATRATE desc="Acquisition status update rate" pv="BL16I-EA-DET-01:aim_adc1Status.SCAN" ro="false" type="pv"/>
+		<MCA desc="Canberra MCA record" pv="BL16I-EA-DET-01:aim_adc1" ro="false" type="mca"/>
+		<ADCGAIN desc="adc conversion gain" pv="BL16I-EA-DET-01:adc1GAIN" ro="false" type="mbbinary"/>
+		<ADCOFFSET desc="adc digital offset" pv="BL16I-EA-DET-01:adc1OFFSET" ro="false" type="pv"/>
+		<ADCLLD desc="adc lower level discr." pv="BL16I-EA-DET-01:adc1LLD" ro="false" type="pv"/>
+		<ADCULD desc="adc upper level discr." pv="BL16I-EA-DET-01:adc1ULD" ro="false" type="pv"/>
+	</dlsMcaCanberra>
+	<dlsMcaCanberra desc="Canberra MCA 2" name="MCA2">
+		<ERASE desc="Clear current MCA spectrum" pv="BL16I-EA-DET-02:aim_adc1Erase" ro="false" type="binary"/>
+		<ERASESTART desc="Clear spectrum and start acquiring" pv="BL16I-EA-DET-02:aim_adc1EraseStart" ro="false" type="binary"/>
+		<START desc="Start acquiring spectrum" pv="BL16I-EA-DET-02:aim_adc1Start" ro="false" type="binary"/>
+		<STOP desc="Stop acquiring spectrum" pv="BL16I-EA-DET-02:aim_adc1Stop" ro="false" type="binary"/>
+		<READRATE desc="Data readout rate" pv="BL16I-EA-DET-02:aim_adc1Read.SCAN" ro="false" type="pv"/>
+		<STATRATE desc="Acquisition status update rate" pv="BL16I-EA-DET-02:aim_adc1Status.SCAN" ro="false" type="pv"/>
+		<MCA desc="Canberra MCA record" pv="BL16I-EA-DET-02:aim_adc1" ro="false" type="mca"/>
+		<ADCGAIN desc="adc conversion gain" pv="BL16I-EA-DET-02:adc1GAIN" ro="false" type="mbbinary"/>
+		<ADCOFFSET desc="adc digital offset" pv="BL16I-EA-DET-02:adc1OFFSET" ro="false" type="pv"/>
+		<ADCLLD desc="adc lower level discr." pv="BL16I-EA-DET-02:adc1LLD" ro="false" type="pv"/>
+		<ADCULD desc="adc upper level discr." pv="BL16I-EA-DET-02:adc1ULD" ro="false" type="pv"/>
+	</dlsMcaCanberra>
+	<simpleScaler desc="Scalar Card 1" name="SCAL1">
+		<RECORD desc="Scaler" pv="BL16I-EA-DET-01:SCALER" ro="false" type="scaler"/>
+	</simpleScaler>
+	<mcaGroup desc="Scalar 1 MCS" name="SCAL1.MCS">
+		<ERASESTART desc="Clear all spectrums and start acquiring" pv="BL16I-EA-DET-01:MCA-01:EraseStart" ro="false" type="binary"/>
+		<ERASE desc="Clear all spectrums" pv="BL16I-EA-DET-01:MCA-01:EraseAll" ro="false" type="binary"/>
+		<START desc="Start acquiring" pv="BL16I-EA-DET-01:MCA-01:StartAll" ro="false" type="binary"/>
+		<STOP desc="Stop acquiring" pv="BL16I-EA-DET-01:MCA-01:StopAll" ro="false" type="binary"/>
+		<NBINS desc="Number of bins to use in spectrum" pv="BL16I-EA-DET-01:MCA-01:NuseAll" ro="false" type="pv"/>
+		<STATRATE desc="Status update rate" pv="BL16I-EA-DET-01:MCA-01:StatusAll.SCAN" ro="false" type="pv"/>
+		<READRATE desc="Data update rate" pv="BL16I-EA-DET-01:MCA-01:ReadAll.SCAN" ro="false" type="pv"/>
+		<TREAL desc="Real time since start of acquisition" pv="BL16I-EA-DET-01:MCA-01:ElapsedReal" ro="true" type="pv"/>
+		<ACQ desc="Acquiring status" pv="BL16I-EA-DET-01:MCA-01:Acquiring" ro="true" type="binary"/>
+		<TACQ desc="Set total acquisition time" pv="BL16I-EA-DET-01:MCA-01:PresetReal" ro="false" type="pv"/>
+		<TDWELL desc="Set integration time [s] for incrementing bin number" pv="BL16I-EA-DET-01:MCA-01:Dwell" ro="false" type="pv"/>
+		<BINADV desc="Set internal or external bin advance signal" pv="BL16I-EA-DET-01:MCA-01:ChannelAdvance" ro="false" type="binary"/>
+		<EXTPRE desc="External bin advance prescaler" pv="BL16I-EA-DET-01:MCA-01:Prescale" ro="false" type="pv"/>
+		<SIG1 desc="SIS3820 input signal number 1" pv="BL16I-EA-DET-01:MCA-01:mca1" ro="false" type="mca"/>
+		<SIG2 desc="SIS3820 input signal number 2" pv="BL16I-EA-DET-01:MCA-01:mca2" ro="false" type="mca"/>
+		<SIG3 desc="SIS3820 input signal number 3" pv="BL16I-EA-DET-01:MCA-01:mca3" ro="false" type="mca"/>
+		<SIG4 desc="SIS3820 input signal number 4" pv="BL16I-EA-DET-01:MCA-01:mca4" ro="false" type="mca"/>
+		<SIG5 desc="SIS3820 input signal number 5" pv="BL16I-EA-DET-01:MCA-01:mca5" ro="false" type="mca"/>
+		<SIG6 desc="SIS3820 input signal number 6" pv="BL16I-EA-DET-01:MCA-01:mca6" ro="false" type="mca"/>
+		<SIG7 desc="SIS3820 input signal number 7" pv="BL16I-EA-DET-01:MCA-01:mca7" ro="false" type="mca"/>
+		<SIG8 desc="SIS3820 input signal number 8" pv="BL16I-EA-DET-01:MCA-01:mca8" ro="false" type="mca"/>
+		<SIG9 desc="SIS3820 input signal number 9" pv="BL16I-EA-DET-01:MCA-01:mca9" ro="false" type="mca"/>
+		<SIG10 desc="SIS3820 input signal number 10" pv="BL16I-EA-DET-01:MCA-01:mca10" ro="false" type="mca"/>
+		<SIG11 desc="SIS3820 input signal number 11" pv="BL16I-EA-DET-01:MCA-01:mca11" ro="false" type="mca"/>
+		<SIG12 desc="SIS3820 input signal number 12" pv="BL16I-EA-DET-01:MCA-01:mca12" ro="false" type="mca"/>
+		<SIG13 desc="SIS3820 input signal number 13" pv="BL16I-EA-DET-01:MCA-01:mca13" ro="false" type="mca"/>
+		<SIG14 desc="SIS3820 input signal number 14" pv="BL16I-EA-DET-01:MCA-01:mca14" ro="false" type="mca"/>
+		<SIG15 desc="SIS3820 input signal number 15" pv="BL16I-EA-DET-01:MCA-01:mca15" ro="false" type="mca"/>
+		<SIG16 desc="SIS3820 input signal number 16" pv="BL16I-EA-DET-01:MCA-01:mca16" ro="false" type="mca"/>
+		<SIG17 desc="SIS3820 input signal number 17" pv="BL16I-EA-DET-01:MCA-01:mca17" ro="false" type="mca"/>
+		<SIG18 desc="SIS3820 input signal number 18" pv="BL16I-EA-DET-01:MCA-01:mca18" ro="false" type="mca"/>
+		<SIG19 desc="SIS3820 input signal number 19" pv="BL16I-EA-DET-01:MCA-01:mca19" ro="false" type="mca"/>
+		<SIG20 desc="SIS3820 input signal number 20" pv="BL16I-EA-DET-01:MCA-01:mca20" ro="false" type="mca"/>
+		<SIG21 desc="SIS3820 input signal number 21" pv="BL16I-EA-DET-01:MCA-01:mca21" ro="false" type="mca"/>
+		<SIG22 desc="SIS3820 input signal number 22" pv="BL16I-EA-DET-01:MCA-01:mca22" ro="false" type="mca"/>
+		<SIG23 desc="SIS3820 input signal number 23" pv="BL16I-EA-DET-01:MCA-01:mca23" ro="false" type="mca"/>
+		<SIG24 desc="SIS3820 input signal number 24" pv="BL16I-EA-DET-01:MCA-01:mca24" ro="false" type="mca"/>
+		<SIG25 desc="SIS3820 input signal number 25" pv="BL16I-EA-DET-01:MCA-01:mca25" ro="false" type="mca"/>
+		<SIG26 desc="SIS3820 input signal number 26" pv="BL16I-EA-DET-01:MCA-01:mca26" ro="false" type="mca"/>
+		<SIG27 desc="SIS3820 input signal number 27" pv="BL16I-EA-DET-01:MCA-01:mca27" ro="false" type="mca"/>
+		<SIG28 desc="SIS3820 input signal number 28" pv="BL16I-EA-DET-01:MCA-01:mca28" ro="false" type="mca"/>
+		<SIG29 desc="SIS3820 input signal number 29" pv="BL16I-EA-DET-01:MCA-01:mca29" ro="false" type="mca"/>
+		<SIG30 desc="SIS3820 input signal number 30" pv="BL16I-EA-DET-01:MCA-01:mca30" ro="false" type="mca"/>
+		<SIG31 desc="SIS3820 input signal number 31" pv="BL16I-EA-DET-01:MCA-01:mca31" ro="false" type="mca"/>
+		<SIG32 desc="SIS3820 input signal number 32" pv="BL16I-EA-DET-01:MCA-01:mca32" ro="false" type="mca"/>
+	</mcaGroup>
+	<simplePv desc="Analogue Input 1" name="AI1">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AI1" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Input 2" name="AI2">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AI2" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Input 3" name="AI3">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AI3" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Input 4" name="AI4">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AI4" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Input 5" name="AI5">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AI5" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Input 6" name="AI6">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AI6" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Input 7" name="AI7">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AI7" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Input 8" name="AI8">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AI8" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Av Analogue Input 1" name="AI1AV">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AI1AV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Av Analogue Input 2" name="AI2AV">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AI2AV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Av Analogue Input 3" name="AI3AV">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AI3AV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Av Analogue Input 4" name="AI4AV">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AI4AV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Av Analogue Input 5" name="AI5AV">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AI5AV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Av Analogue Input 6" name="AI6AV">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AI6AV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Av Analogue Input 7" name="AI7AV">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AI7AV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Av Analogue Input 8" name="AI8AV">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AI8AV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Output 1" name="AO1">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AO1" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Output 2" name="AO2">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AO2" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Output 3" name="AO3">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AO3" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Output 4" name="AO4">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AO4" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Output 5" name="AO5">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AO5" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Output 6" name="AO6">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AO6" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Output 7" name="AO7">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AO7" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Output 8" name="AO8">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AO8" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Output 9" name="AO9">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:AO9" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Output 10" name="AO10">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:A10" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Output 11" name="AO11">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:A11" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Output 12" name="AO12">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:A12" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Output 13" name="AO13">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:A13" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Output 14" name="AO14">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:A14" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Output 15" name="AO15">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:A15" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Analogue Output 16" name="AO16">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:A16" ro="false" type="pv"/>
+	</simplePv>
+	<simpleBinary desc="Binary Output 1" name="BO1">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:BO1" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="Binary Output 2" name="BO2">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:BO2" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="Binary Output 3" name="BO3">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:BO3" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="Binary Output 4" name="BO4">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:BO4" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="Binary Output 5" name="BO5">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:BO5" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="Binary Output 6" name="BO6">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:BO6" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="Binary Output 7" name="BO7">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:BO7" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="Binary Output 8" name="BO8">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:BO8" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleArray desc="Waveform for AI1" name="WAVE1">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:WAVE1" ro="true" type="array"/>
+	</simpleArray>
+	<simpleArray desc="Waveform for AI2" name="WAVE2">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:WAVE2" ro="true" type="array"/>
+	</simpleArray>
+	<simpleArray desc="Waveform for AI3" name="WAVE3">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:WAVE3" ro="true" type="array"/>
+	</simpleArray>
+	<simpleArray desc="Waveform for AI4" name="WAVE4">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:WAVE4" ro="true" type="array"/>
+	</simpleArray>
+	<simpleArray desc="Waveform for AI5" name="WAVE5">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:WAVE5" ro="true" type="array"/>
+	</simpleArray>
+	<simpleArray desc="Waveform for AI6" name="WAVE6">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:WAVE6" ro="true" type="array"/>
+	</simpleArray>
+	<simpleArray desc="Waveform for AI7" name="WAVE7">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:WAVE7" ro="true" type="array"/>
+	</simpleArray>
+	<simpleArray desc="Waveform for AI8" name="WAVE8">
+		<RECORD desc="RECORD" pv="BL16I-EA-USER-01:WAVE8" ro="true" type="array"/>
+	</simpleArray>
+	<currAmpSingle desc="Femto on IONC1" name="ION1.AMP">
+		<OVERLOAD desc="Get overload status" pv="BL16I-DI-FEMTO-01:OL" ro="true" type="binary"/>
+		<SETGAIN desc="Set gain" pv="BL16I-DI-FEMTO-01:GAIN" ro="false" type="mbbinary"/>
+		<SETACDC desc="Set AC or DC mode" pv="BL16I-DI-FEMTO-01:ACDC" ro="false" type="binary"/>
+		<VENDOR desc="Vendor String" pv="BL16I-DI-FEMTO-01:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL16I-DI-FEMTO-01:MODEL" ro="true" type="pv"/>
+		<I desc="Current Value" pv="BL16I-DI-FEMTO-01:I" ro="true" type="pv"/>
+	</currAmpSingle>
+	<currAmpSingle desc="Femto on IONC2" name="ION2.AMP">
+		<OVERLOAD desc="Get overload status" pv="BL16I-DI-FEMTO-02:OL" ro="true" type="binary"/>
+		<SETGAIN desc="Set gain" pv="BL16I-DI-FEMTO-02:GAIN" ro="false" type="mbbinary"/>
+		<SETACDC desc="Set AC or DC mode" pv="BL16I-DI-FEMTO-02:ACDC" ro="false" type="binary"/>
+		<VENDOR desc="Vendor String" pv="BL16I-DI-FEMTO-02:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL16I-DI-FEMTO-02:MODEL" ro="true" type="pv"/>
+		<I desc="Current Value" pv="BL16I-DI-FEMTO-02:I" ro="true" type="pv"/>
+	</currAmpSingle>
+	<currAmpSingle desc="Femto on Diffractometer Arm" name="DIFF.AMP">
+		<OVERLOAD desc="Get overload status" pv="BL16I-DI-FEMTO-03:OL" ro="true" type="binary"/>
+		<SETGAIN desc="Set gain" pv="BL16I-DI-FEMTO-03:GAIN" ro="false" type="mbbinary"/>
+		<SETACDC desc="Set AC or DC mode" pv="BL16I-DI-FEMTO-03:ACDC" ro="false" type="binary"/>
+		<VENDOR desc="Vendor String" pv="BL16I-DI-FEMTO-03:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL16I-DI-FEMTO-03:MODEL" ro="true" type="pv"/>
+		<I desc="Current Value" pv="BL16I-DI-FEMTO-03:I" ro="true" type="pv"/>
+	</currAmpSingle>
+	<simplePv desc="Femto 4 Current" name="FEM4.AMP">
+		<RECORD desc="RECORD" pv="BL16I-DI-FEMTO-04:I" ro="true" type="pv"/>
+	</simplePv>
+	<OXCS700 desc="Oxford Cryostream 1" name="ENV.CSTRM1">
+		<PHASE desc="phase id" pv="BL16I-CG-CSTRM-01:PHASE" ro="true" type="mbbinary"/>
+		<RUNMODE desc="run mode" pv="BL16I-CG-CSTRM-01:RUNMODE" ro="true" type="mbbinary"/>
+		<RAMPRATE desc="ramp rate" pv="BL16I-CG-CSTRM-01:RAMPRATE" ro="true" type="pv"/>
+		<TARGETTEMP desc="target temperature" pv="BL16I-CG-CSTRM-01:TARGETTEMP" ro="true" type="pv"/>
+		<REMAINING desc="time remaining in phase" pv="BL16I-CG-CSTRM-01:REMAINING" ro="true" type="pv"/>
+		<RUNTIME desc="pump uptime" pv="BL16I-CG-CSTRM-01:RUNTIME" ro="true" type="pv"/>
+		<RESTART desc="start/restart program" pv="BL16I-CG-CSTRM-01:RESTART" ro="false" type="pv"/>
+		<RAMP desc="start a ramp" pv="BL16I-CG-CSTRM-01:RAMP" ro="false" type="pv"/>
+		<RRATE desc="set ramp rate" pv="BL16I-CG-CSTRM-01:RRATE" ro="false" type="pv"/>
+		<PLAT desc="start a plat" pv="BL16I-CG-CSTRM-01:PLAT" ro="false" type="pv"/>
+		<PTIME desc="plat time" pv="BL16I-CG-CSTRM-01:PTIME" ro="false" type="pv"/>
+		<HOLD desc="start a hold" pv="BL16I-CG-CSTRM-01:HOLD" ro="false" type="pv"/>
+		<COOL desc="start a cool" pv="BL16I-CG-CSTRM-01:COOL" ro="false" type="pv"/>
+		<CTEMP desc="cool temp" pv="BL16I-CG-CSTRM-01:CTEMP" ro="false" type="pv"/>
+		<PURGE desc="start a purge/warm" pv="BL16I-CG-CSTRM-01:PURGE" ro="false" type="pv"/>
+		<PAUSE desc="pause program" pv="BL16I-CG-CSTRM-01:PAUSE" ro="false" type="pv"/>
+		<RESUME desc="resume program" pv="BL16I-CG-CSTRM-01:RESUME" ro="false" type="pv"/>
+		<STOP desc="stop program" pv="BL16I-CG-CSTRM-01:STOP" ro="false" type="pv"/>
+		<TEMP desc="current temperature" pv="BL16I-CG-CSTRM-01:TEMP" ro="true" type="pv"/>
+		<ALARM desc="Alarm Status" pv="BL16I-CG-CSTRM-01:ALARM.VALA" ro="true" type="pv"/>
+		<DISABLE desc="disable comms" pv="BL16I-CG-CSTRM-01:DISABLE" ro="false" type="binary"/>
+		<RTEMP desc="ramp target temp" pv="BL16I-CG-CSTRM-01:RTEMP" ro="false" type="pv"/>
+		<END desc="Warm to room temp and stop" pv="BL16I-CG-CSTRM-01:END" ro="false" type="pv"/>
+	</OXCS700>
+	<camera desc="Camera on D1" name="CAM1">
+		<HEIGHT desc="Image height" pv="BL16I-DI-PHDGN-01:CAM:HEIGHT" ro="true" type="pv"/>
+		<WIDTH desc="Image width" pv="BL16I-DI-PHDGN-01:CAM:WIDTH" ro="true" type="pv"/>
+		<DATA desc="snapshot image" pv="BL16I-DI-PHDGN-01:CAM:IMAGE" ro="true" type="array"/>
+		<CAPTURE desc="Capture one snapshot" pv="BL16I-DI-PHDGN-01:CAM:SNAPSHOT" ro="false" type="pv"/>
+	</camera>
+	<camera desc="Camera on D2" name="CAM2">
+		<HEIGHT desc="Image height" pv="BL16I-DI-PHDGN-02:CAM:HEIGHT" ro="true" type="pv"/>
+		<WIDTH desc="Image width" pv="BL16I-DI-PHDGN-02:CAM:WIDTH" ro="true" type="pv"/>
+		<DATA desc="snapshot image" pv="BL16I-DI-PHDGN-02:CAM:IMAGE" ro="true" type="array"/>
+		<CAPTURE desc="Capture one snapshot" pv="BL16I-DI-PHDGN-02:CAM:SNAPSHOT" ro="false" type="pv"/>
+	</camera>
+	<camera desc="Camera on DCM" name="CAM3">
+		<HEIGHT desc="Image height" pv="BL16I-OP-DCM-01:CAM:HEIGHT" ro="true" type="pv"/>
+		<WIDTH desc="Image width" pv="BL16I-OP-DCM-01:CAM:WIDTH" ro="true" type="pv"/>
+		<DATA desc="snapshot image" pv="BL16I-OP-DCM-01:CAM:IMAGE" ro="true" type="array"/>
+		<CAPTURE desc="Capture one snapshot" pv="BL16I-OP-DCM-01:CAM:SNAPSHOT" ro="false" type="pv"/>
+	</camera>
+	<camera desc="Camera on Absorber" name="CAM4">
+		<HEIGHT desc="Image height" pv="BL16I-RS-ABSB-01:CAM:HEIGHT" ro="true" type="pv"/>
+		<WIDTH desc="Image width" pv="BL16I-RS-ABSB-01:CAM:WIDTH" ro="true" type="pv"/>
+		<DATA desc="snapshot image" pv="BL16I-RS-ABSB-01:CAM:IMAGE" ro="true" type="array"/>
+		<CAPTURE desc="Capture one snapshot" pv="BL16I-RS-ABSB-01:CAM:SNAPSHOT" ro="false" type="pv"/>
+	</camera>
+	<camera desc="Camera on D3" name="CAM5">
+		<HEIGHT desc="Image height" pv="BL16I-DI-PHDGN-03:CAM:HEIGHT" ro="true" type="pv"/>
+		<WIDTH desc="Image width" pv="BL16I-DI-PHDGN-03:CAM:WIDTH" ro="true" type="pv"/>
+		<DATA desc="snapshot image" pv="BL16I-DI-PHDGN-03:CAM:IMAGE" ro="true" type="array"/>
+		<CAPTURE desc="Capture one snapshot" pv="BL16I-DI-PHDGN-03:CAM:SNAPSHOT" ro="false" type="pv"/>
+	</camera>
+	<camera desc="Camera on D4" name="CAM6">
+		<HEIGHT desc="Image height" pv="BL16I-DI-PHDGN-04:CAM:HEIGHT" ro="true" type="pv"/>
+		<WIDTH desc="Image width" pv="BL16I-DI-PHDGN-04:CAM:WIDTH" ro="true" type="pv"/>
+		<DATA desc="snapshot image" pv="BL16I-DI-PHDGN-04:CAM:IMAGE" ro="true" type="array"/>
+		<CAPTURE desc="Capture one snapshot" pv="BL16I-DI-PHDGN-04:CAM:SNAPSHOT" ro="false" type="pv"/>
+	</camera>
+	<camera desc="Camera on D5" name="CAM7">
+		<HEIGHT desc="Image height" pv="BL16I-DI-PHDGN-05:CAM:HEIGHT" ro="true" type="pv"/>
+		<WIDTH desc="Image width" pv="BL16I-DI-PHDGN-05:CAM:WIDTH" ro="true" type="pv"/>
+		<DATA desc="snapshot image" pv="BL16I-DI-PHDGN-05:CAM:IMAGE" ro="true" type="array"/>
+		<CAPTURE desc="Capture one snapshot" pv="BL16I-DI-PHDGN-05:CAM:SNAPSHOT" ro="false" type="pv"/>
+	</camera>
+	<camera desc="Camera on Sample" name="CAM8">
+		<HEIGHT desc="Image height" pv="BL16I-DI-DCAM-01:CAM:HEIGHT" ro="true" type="pv"/>
+		<WIDTH desc="Image width" pv="BL16I-DI-DCAM-01:CAM:WIDTH" ro="true" type="pv"/>
+		<DATA desc="snapshot image" pv="BL16I-DI-DCAM-01:CAM:IMAGE" ro="true" type="array"/>
+		<CAPTURE desc="Capture one snapshot" pv="BL16I-DI-DCAM-01:CAM:SNAPSHOT" ro="false" type="pv"/>
+	</camera>
+	<camera desc="Camera on Diff Arm" name="CAM9">
+		<HEIGHT desc="Image height" pv="BL16I-DI-DCAM-02:CAM:HEIGHT" ro="true" type="pv"/>
+		<WIDTH desc="Image width" pv="BL16I-DI-DCAM-02:CAM:WIDTH" ro="true" type="pv"/>
+		<DATA desc="snapshot image" pv="BL16I-DI-DCAM-02:CAM:IMAGE" ro="true" type="array"/>
+		<CAPTURE desc="Capture one snapshot" pv="BL16I-DI-DCAM-02:CAM:SNAPSHOT" ro="false" type="pv"/>
+	</camera>
+	<simplePv desc="Ring Energy in GeV" name="MSTAT.ENERGY">
+		<RECORD desc="Value" pv="CS-CS-MSTAT-01:BEAMENERGY" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Ring Current in mA" name="MSTAT.CURRENT">
+		<RECORD desc="Value" pv="SR21C-DI-DCCT-01:SIGNAL" ro="true" type="pv"/>
+	</simplePv>
+	<simpleArray desc="Status Message 1" name="MSTAT.MESS1">
+		<RECORD desc="Value" pv="CS-CS-MSTAT-01:MESS01" ro="true" type="array"/>
+	</simpleArray>
+	<simpleArray desc="Status Message 2" name="MSTAT.MESS2">
+		<RECORD desc="Value" pv="CS-CS-MSTAT-01:MESS02" ro="true" type="array"/>
+	</simpleArray>
+	<simpleMbbinary desc="Mode of operation" name="MSTAT.MODE">
+		<RECORD desc="Value" pv="CS-CS-MSTAT-01:MODE" ro="true" type="mbbinary"/>
+	</simpleMbbinary>
+	<simplePv desc="Beam Lifetime" name="MSTAT.LIFETIME">
+		<RECORD desc="Value" pv="SR21C-DI-DCCT-01:LIFETIME" ro="true" type="pv"/>
+	</simplePv>
+	<simpleMbbinary desc="Fill mode" name="MSTAT.FILL">
+		<RECORD desc="Value" pv="LI-TI-MTGEN-01:MODE" ro="true" type="mbbinary"/>
+	</simpleMbbinary>
+	<simplePv desc="ID name" name="MSTAT.IDNAME">
+		<RECORD desc="Value" pv="SR16I-MO-STAT-01:IDNAME" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="ID gap" name="MSTAT.GAP">
+		<RECORD desc="Value" pv="SR16I-MO-SERVC-01:CURRGAPD" ro="true" type="pv"/>
+	</simplePv>
+	<simpleMbbinary desc="FE Absorber status" name="MSTAT.ABSB">
+		<RECORD desc="Value" pv="FE16I-RS-ABSB-02:STA" ro="true" type="mbbinary"/>
+	</simpleMbbinary>
+	<simpleMbbinary desc="FE Shutter status" name="MSTAT.SHTR">
+		<RECORD desc="Value" pv="FE16I-PS-SHTR-02:STA" ro="true" type="mbbinary"/>
+	</simpleMbbinary>
+	<lakeshore340 desc="Lakeshore 340 Temperature Controller" name="LS340">
+		<DISABLE desc="disable comms" pv="BL16I-EA-LS340-01:DISABLE" ro="false" type="binary"/>
+		<KRDG0 desc="channel 0 temperature" pv="BL16I-EA-LS340-01:KRDG0" ro="true" type="pv"/>
+		<KRDG1 desc="channel 1 temperature" pv="BL16I-EA-LS340-01:KRDG1" ro="true" type="pv"/>
+		<KRDG2 desc="channel 2 temperature" pv="BL16I-EA-LS340-01:KRDG2" ro="true" type="pv"/>
+		<KRDG3 desc="channel 3 temperature" pv="BL16I-EA-LS340-01:KRDG3" ro="true" type="pv"/>
+		<SETP_S desc="setpoint temperature" pv="BL16I-EA-LS340-01:SETP_S" ro="false" type="pv"/>
+	</lakeshore340>
+	<!-- pilatus desc="Pilatus Detector 1 Control" name="PILATUS1">
+		<GEN_CMD desc="Generic command" pv="BL16I-EA-PILAT-01:GEN" ro="false" type="array"/>
+		<GEN_REPLY desc="Generic reply" pv="BL16I-EA-PILAT-01:GENIN" ro="true" type="array"/>
+		<GEN_SEND desc="Send command" pv="BL16I-EA-PILAT-01:GEN:SEND" ro="false" type="binary"/>
+		<PROBLEM desc="Data collection problem" pv="BL16I-EA-PILAT-01:PROBLEM" ro="true" type="binary"/>
+		<MODE desc="Data Acquisition Mode" pv="BL16I-EA-PILAT-01:AcquireMode" ro="false" type="mbbinary"/>
+		<START desc="Start Acquisition" pv="BL16I-EA-PILAT-01:Acquire" ro="false" type="pv"/>
+		<ABORT desc="Abort Acquisition" pv="BL16I-EA-PILAT-01:Abort" ro="false" type="pv"/>
+		<EXP_T desc="Exposure Time" pv="BL16I-EA-PILAT-01:ExposureTime" ro="false" type="pv"/>
+		<EXP_T_GET desc="Exposure Time Readback" pv="BL16I-EA-PILAT-01:ExposureTimeReadback" ro="true" type="pv"/>
+		<NIMAGES desc="Number of Images" pv="BL16I-EA-PILAT-01:NImages" ro="false" type="pv"/>
+		<EXP_P desc="Exposure Period" pv="BL16I-EA-PILAT-01:ExposurePeriod" ro="false" type="pv"/>
+		<EXP_P_GET desc="Exposure Period Readback" pv="BL16I-EA-PILAT-01:ExposurePeriodReadback" ro="true" type="pv"/>
+		<NEXPIMAGES desc="Exposures Per Image" pv="BL16I-EA-PILAT-01:NExposures" ro="false" type="pv"/>
+		<DELAY desc="Delay Time" pv="BL16I-EA-PILAT-01:DelayTime" ro="false" type="pv"/>
+		<PATH desc="Data File Path" pv="BL16I-EA-PILAT-01:FilePath" ro="false" type="pv"/>
+		<PATH_ARRAY desc="Data File Path Array" pv="BL16I-EA-PILAT-01:FilePathArray" ro="false" type="array"/>
+		<PATH_SEND desc="Send File Path Array" pv="BL16I-EA-PILAT-01:FilePath:SEND" ro="false" type="binary"/>
+		<BPNAME desc="Bad Pixel File Path" pv="BL16I-EA-PILAT-01:BadPixelFilepath" ro="false" type="array"/>
+		<FFNAME desc="Flat Field File Path" pv="BL16I-EA-PILAT-01:FlatFieldFilepath" ro="false" type="array"/>
+		<HEADER desc="Data File Header String" pv="BL16I-EA-PILAT-01:Header" ro="false" type="array"/>
+		<FILENAME desc="Data File Base Name" pv="BL16I-EA-PILAT-01:Filename" ro="false" type="array"/>
+		<FILEFORMAT desc="Data File Name Format" pv="BL16I-EA-PILAT-01:FileFormat" ro="false" type="array"/>
+		<FILENUMBER desc="Next File Number" pv="BL16I-EA-PILAT-01:FileNumber" ro="false" type="pv"/>
+		<AUTOINCREMENT desc="Autoincrement Filenumber" pv="BL16I-EA-PILAT-01:AutoIncrement" ro="false" type="pv"/>
+		<THRESHOLD desc="Energy Threshold" pv="BL16I-EA-PILAT-01:ThresholdEnergy" ro="false" type="pv"/>
+		<GAIN desc="Shaping Time and Gain" pv="BL16I-EA-PILAT-01:Gain" ro="false" type="mbbinary"/>
+		<TIMEOUT desc="Read TIFF Timeout" pv="BL16I-EA-PILAT-01:ReadTiffTimeout" ro="false" type="pv"/>
+	</pilatus-->
+	<simpleMotor desc="DR1S Sample X Motor" name="D.SX">
+		<RECORD desc="Motor" pv="BL16I-MO-DIFF-01:SAMPLE:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DR1S Sample Y Motor" name="D.SY">
+		<RECORD desc="Motor" pv="BL16I-MO-DIFF-01:SAMPLE:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DR1S Sample Z Motor" name="D.SZ">
+		<RECORD desc="Motor" pv="BL16I-MO-DIFF-01:SAMPLE:Z" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DR1A Sample Phi Motor" name="D.KPhi">
+		<RECORD desc="Motor" pv="BL16I-MO-DIFF-01:SAMPLE:KPHI" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DR1A Sample Kappa Motor" name="D.Kap">
+		<RECORD desc="Motor" pv="BL16I-MO-DIFF-01:SAMPLE:KAPPA" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DR1A Sample Theta Motor" name="D.KTHETA">
+		<RECORD desc="Motor" pv="BL16I-MO-DIFF-01:SAMPLE:KTHETA" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DR1A Sample Mu Motor" name="D.Mu">
+		<RECORD desc="Motor" pv="BL16I-MO-DIFF-01:SAMPLE:MU" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DR1A Detector Delta Motor" name="D.Delta">
+		<RECORD desc="Motor" pv="BL16I-MO-DIFF-01:ARM:DELTA" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DR1A Detector Gamma Motor" name="D.Gamma">
+		<RECORD desc="Motor" pv="BL16I-MO-DIFF-01:ARM:GAMMA" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DR1B Base Pitch / Height Motor" name="D.BH1">
+		<RECORD desc="Motor" pv="BL16I-MO-DIFF-01:BASE:Y1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DR1B Base Roll / Height Motor 1" name="D.BH2">
+		<RECORD desc="Motor" pv="BL16I-MO-DIFF-01:BASE:Y2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DR1B Base Roll / Height Motor 2" name="D.BH3">
+		<RECORD desc="Motor" pv="BL16I-MO-DIFF-01:BASE:Y3" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DR1B Base Translation Motor" name="D.BT">
+		<RECORD desc="Motor" pv="BL16I-MO-DIFF-01:BASE:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<trajectoryScan desc="Diffractometer Trajectory Scan" name="TRAJ">
+		<NELM desc="# of elements in trajectory" pv="BL16I-MO-DIFF-01:TRAJ1:Nelements" ro="false" type="pv"/>
+		<NPULSES desc="number of output pulses" pv="BL16I-MO-DIFF-01:TRAJ1:Npulses" ro="false" type="pv"/>
+		<SPULSES desc="element # to start pulses" pv="BL16I-MO-DIFF-01:TRAJ1:StartPulses" ro="false" type="pv"/>
+		<EPULSES desc="element # to end pulses" pv="BL16I-MO-DIFF-01:TRAJ1:EndPulses" ro="false" type="pv"/>
+		<APULSES desc="actual # of output pulses" pv="BL16I-MO-DIFF-01:TRAJ1:Nactual" ro="true" type="pv"/>
+		<TIME desc="trajectory time" pv="BL16I-MO-DIFF-01:TRAJ1:Time" ro="false" type="pv"/>
+		<M1MOVE desc="move m1 motor?" pv="BL16I-MO-DIFF-01:TRAJ1:M1Move" ro="false" type="binary"/>
+		<M2MOVE desc="move m2 motor?" pv="BL16I-MO-DIFF-01:TRAJ1:M2Move" ro="false" type="binary"/>
+		<M3MOVE desc="move m3 motor?" pv="BL16I-MO-DIFF-01:TRAJ1:M3Move" ro="false" type="binary"/>
+		<M4MOVE desc="move m4 motor?" pv="BL16I-MO-DIFF-01:TRAJ1:M4Move" ro="false" type="binary"/>
+		<M5MOVE desc="move m5 motor?" pv="BL16I-MO-DIFF-01:TRAJ1:M5Move" ro="false" type="binary"/>
+		<M6MOVE desc="move m6 motor?" pv="BL16I-MO-DIFF-01:TRAJ1:M6Move" ro="false" type="binary"/>
+		<M7MOVE desc="move m7 motor?" pv="BL16I-MO-DIFF-01:TRAJ1:M7Move" ro="false" type="binary"/>
+		<M8MOVE desc="move m8 motor?" pv="BL16I-MO-DIFF-01:TRAJ1:M8Move" ro="false" type="binary"/>
+		<M1TRAJ desc="m1 increments" pv="BL16I-MO-DIFF-01:TRAJ1:M1Traj" ro="false" type="array"/>
+		<M2TRAJ desc="m2 increments" pv="BL16I-MO-DIFF-01:TRAJ1:M2Traj" ro="false" type="array"/>
+		<M3TRAJ desc="m3 increments" pv="BL16I-MO-DIFF-01:TRAJ1:M3Traj" ro="false" type="array"/>
+		<M4TRAJ desc="m4 increments" pv="BL16I-MO-DIFF-01:TRAJ1:M4Traj" ro="false" type="array"/>
+		<M5TRAJ desc="m5 increments" pv="BL16I-MO-DIFF-01:TRAJ1:M5Traj" ro="false" type="array"/>
+		<M6TRAJ desc="m6 increments" pv="BL16I-MO-DIFF-01:TRAJ1:M6Traj" ro="false" type="array"/>
+		<M7TRAJ desc="m7 increments" pv="BL16I-MO-DIFF-01:TRAJ1:M7Traj" ro="false" type="array"/>
+		<M8TRAJ desc="m8 increments" pv="BL16I-MO-DIFF-01:TRAJ1:M8Traj" ro="false" type="array"/>
+		<BUILD desc="build and check trajectory" pv="BL16I-MO-DIFF-01:TRAJ1:Build" ro="false" type="pv"/>
+		<BSTATE desc="trajectory build state" pv="BL16I-MO-DIFF-01:TRAJ1:BuildState" ro="true" type="mbbinary"/>
+		<BSTATUS desc="trajectory build status" pv="BL16I-MO-DIFF-01:TRAJ1:BuildStatus" ro="true" type="mbbinary"/>
+		<BMESS desc="trajectory build message" pv="BL16I-MO-DIFF-01:TRAJ1:BuildMessage" ro="true" type="pv"/>
+		<EXECUTE desc="start trajectory motion" pv="BL16I-MO-DIFF-01:TRAJ1:Execute" ro="false" type="pv"/>
+		<ESTATE desc="trajectory execute state" pv="BL16I-MO-DIFF-01:TRAJ1:ExecState" ro="true" type="mbbinary"/>
+		<ESTATUS desc="trajectory execute status" pv="BL16I-MO-DIFF-01:TRAJ1:ExecStatus" ro="true" type="mbbinary"/>
+		<EMESS desc="trajectory execute message" pv="BL16I-MO-DIFF-01:TRAJ1:ExecMessage" ro="true" type="pv"/>
+		<ABORT desc="abort trajectory motion" pv="BL16I-MO-DIFF-01:TRAJ1:Abort" ro="false" type="pv"/>
+		<READ desc="read back actual positions" pv="BL16I-MO-DIFF-01:TRAJ1:Readback" ro="false" type="pv"/>
+		<RSTATE desc="readback state" pv="BL16I-MO-DIFF-01:TRAJ1:ReadState" ro="true" type="mbbinary"/>
+		<RSTATUS desc="readback status" pv="BL16I-MO-DIFF-01:TRAJ1:ReadStatus" ro="true" type="mbbinary"/>
+		<RMESS desc="trajectory read message" pv="BL16I-MO-DIFF-01:TRAJ1:ReadMessage" ro="true" type="pv"/>
+		<M1ACTUAL desc="m1 actual positions" pv="BL16I-MO-DIFF-01:TRAJ1:M1Actual" ro="true" type="array"/>
+		<M2ACTUAL desc="m2 actual positions" pv="BL16I-MO-DIFF-01:TRAJ1:M2Actual" ro="true" type="array"/>
+		<M3ACTUAL desc="m3 actual positions" pv="BL16I-MO-DIFF-01:TRAJ1:M3Actual" ro="true" type="array"/>
+		<M4ACTUAL desc="m4 actual positions" pv="BL16I-MO-DIFF-01:TRAJ1:M4Actual" ro="true" type="array"/>
+		<M5ACTUAL desc="m5 actual positions" pv="BL16I-MO-DIFF-01:TRAJ1:M5Actual" ro="true" type="array"/>
+		<M6ACTUAL desc="m6 actual positions" pv="BL16I-MO-DIFF-01:TRAJ1:M6Actual" ro="true" type="array"/>
+		<M7ACTUAL desc="m7 actual positions" pv="BL16I-MO-DIFF-01:TRAJ1:M7Actual" ro="true" type="array"/>
+		<M8ACTUAL desc="m8 actual positions" pv="BL16I-MO-DIFF-01:TRAJ1:M8Actual" ro="true" type="array"/>
+		<M1NAME desc="motor record pv for m1" pv="BL16I-MO-DIFF-01:TRAJ1:M1NAME" ro="true" type="pv"/>
+		<M2NAME desc="motor record pv for m2" pv="BL16I-MO-DIFF-01:TRAJ1:M2NAME" ro="true" type="pv"/>
+		<M3NAME desc="motor record pv for m3" pv="BL16I-MO-DIFF-01:TRAJ1:M3NAME" ro="true" type="pv"/>
+		<M4NAME desc="motor record pv for m4" pv="BL16I-MO-DIFF-01:TRAJ1:M4NAME" ro="true" type="pv"/>
+		<M5NAME desc="motor record pv for m5" pv="BL16I-MO-DIFF-01:TRAJ1:M5NAME" ro="true" type="pv"/>
+		<M6NAME desc="motor record pv for m6" pv="BL16I-MO-DIFF-01:TRAJ1:M6NAME" ro="true" type="pv"/>
+		<M7NAME desc="motor record pv for m7" pv="BL16I-MO-DIFF-01:TRAJ1:M7NAME" ro="true" type="pv"/>
+		<M8NAME desc="motor record pv for m8" pv="BL16I-MO-DIFF-01:TRAJ1:M8NAME" ro="true" type="pv"/>
+	</trajectoryScan>
+	<simpleBinary desc="XPS1 Defer MOves" name="XPS1.DEFER">
+		<RECORD desc="RECORD" pv="BL16I-MO-XPS-01:DEFER" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="XPS2 Defer MOves" name="XPS2.DEFER">
+		<RECORD desc="RECORD" pv="BL16I-MO-XPS-02:DEFER" ro="false" type="binary"/>
+	</simpleBinary>
+	<!-- pilatus desc="Pilatus Detector 2 Control" name="PILATUS2">
+		<GEN_CMD desc="Generic command" pv="BL16I-EA-PILAT-02:GEN" ro="false" type="array"/>
+		<GEN_REPLY desc="Generic reply" pv="BL16I-EA-PILAT-02:GENIN" ro="true" type="array"/>
+		<GEN_SEND desc="Send command" pv="BL16I-EA-PILAT-02:GEN:SEND" ro="false" type="binary"/>
+		<PROBLEM desc="Data collection problem" pv="BL16I-EA-PILAT-02:PROBLEM" ro="true" type="binary"/>
+		<MODE desc="Data Acquisition Mode" pv="BL16I-EA-PILAT-02:AcquireMode" ro="false" type="mbbinary"/>
+		<START desc="Start Acquisition" pv="BL16I-EA-PILAT-02:Acquire" ro="false" type="pv"/>
+		<ABORT desc="Abort Acquisition" pv="BL16I-EA-PILAT-02:Abort" ro="false" type="pv"/>
+		<EXP_T desc="Exposure Time" pv="BL16I-EA-PILAT-02:ExposureTime" ro="false" type="pv"/>
+		<EXP_T_GET desc="Exposure Time Readback" pv="BL16I-EA-PILAT-02:ExposureTimeReadback" ro="true" type="pv"/>
+		<NIMAGES desc="Number of Images" pv="BL16I-EA-PILAT-02:NImages" ro="false" type="pv"/>
+		<EXP_P desc="Exposure Period" pv="BL16I-EA-PILAT-02:ExposurePeriod" ro="false" type="pv"/>
+		<EXP_P_GET desc="Exposure Period Readback" pv="BL16I-EA-PILAT-02:ExposurePeriodReadback" ro="true" type="pv"/>
+		<NEXPIMAGES desc="Exposures Per Image" pv="BL16I-EA-PILAT-02:NExposures" ro="false" type="pv"/>
+		<DELAY desc="Delay Time" pv="BL16I-EA-PILAT-02:DelayTime" ro="false" type="pv"/>
+		<PATH desc="Data File Path" pv="BL16I-EA-PILAT-02:FilePath" ro="false" type="pv"/>
+		<PATH_ARRAY desc="Data File Path Array" pv="BL16I-EA-PILAT-02:FilePathArray" ro="false" type="array"/>
+		<PATH_SEND desc="Send File Path Array" pv="BL16I-EA-PILAT-02:FilePath:SEND" ro="false" type="binary"/>
+		<BPNAME desc="Bad Pixel File Path" pv="BL16I-EA-PILAT-02:BadPixelFilepath" ro="false" type="array"/>
+		<FFNAME desc="Flat Field File Path" pv="BL16I-EA-PILAT-02:FlatFieldFilepath" ro="false" type="array"/>
+		<HEADER desc="Data File Header String" pv="BL16I-EA-PILAT-02:Header" ro="false" type="array"/>
+		<FILENAME desc="Data File Base Name" pv="BL16I-EA-PILAT-02:Filename" ro="false" type="array"/>
+		<FILEFORMAT desc="Data File Name Format" pv="BL16I-EA-PILAT-02:FileFormat" ro="false" type="array"/>
+		<FILENUMBER desc="Next File Number" pv="BL16I-EA-PILAT-02:FileNumber" ro="false" type="pv"/>
+		<AUTOINCREMENT desc="Autoincrement Filenumber" pv="BL16I-EA-PILAT-02:AutoIncrement" ro="false" type="pv"/>
+		<THRESHOLD desc="Energy Threshold" pv="BL16I-EA-PILAT-02:ThresholdEnergy" ro="false" type="pv"/>
+		<GAIN desc="Shaping Time and Gain" pv="BL16I-EA-PILAT-02:Gain" ro="false" type="mbbinary"/>
+		<TIMEOUT desc="Read TIFF Timeout" pv="BL16I-EA-PILAT-02:ReadTiffTimeout" ro="false" type="pv"/>
+	</pilatus-->
+	<simpleMotor desc="KB Unit 1 Roll" name="KB.Roll1">
+		<RECORD desc="Motor" pv="BL16I-MO-KBM-01:ROLL1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KB Unit 1 T1" name="KB.T1">
+		<RECORD desc="Motor" pv="BL16I-MO-KBM-01:T1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KB Unit 1 T2" name="KB.T2">
+		<RECORD desc="Motor" pv="BL16I-MO-KBM-01:T2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KB Unit 1 T3" name="KB.T3">
+		<RECORD desc="Motor" pv="BL16I-MO-KBM-01:T3" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KB Unit 2 T4" name="KB.T4">
+		<RECORD desc="Motor" pv="BL16I-MO-KBM-01:T4" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KB Unit 2 Roll" name="KB.Roll2">
+		<RECORD desc="Motor" pv="BL16I-MO-KBM-01:ROLL2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KB Unit 2 T5" name="KB.T5">
+		<RECORD desc="Motor" pv="BL16I-MO-KBM-01:T5" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KB Unit 2 T6" name="KB.T6">
+		<RECORD desc="Motor" pv="BL16I-MO-KBM-01:T6" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="XPS3 Spare Newport Stage 1" name="XPS3.P1">
+		<RECORD desc="Motor" pv="BL16I-MO-XPS3-01:P1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="XPS3 Spare Newport Stage 2" name="XPS3.P2">
+		<RECORD desc="Motor" pv="BL16I-MO-XPS3-01:P2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="XPS3 Spare Newport Stage 3" name="XPS3.P3">
+		<RECORD desc="Motor" pv="BL16I-MO-XPS3-01:P3" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="XPS3 Spare Newport Stage 4" name="XPS3.P4">
+		<RECORD desc="Motor" pv="BL16I-MO-XPS3-01:P4" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="XPS3 Spare Newport Stage 5" name="XPS3.P5">
+		<RECORD desc="Motor" pv="BL16I-MO-XPS3-01:P5" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="XPS3 Spare Newport Stage 6" name="XPS3.P6">
+		<RECORD desc="Motor" pv="BL16I-MO-XPS3-01:P6" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="XPS3 Spare Newport Stage 7" name="XPS3.P7">
+		<RECORD desc="Motor" pv="BL16I-MO-XPS3-01:P7" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="XPS3 Spare Newport Stage 8" name="XPS3.P8">
+		<RECORD desc="Motor" pv="BL16I-MO-XPS3-01:P8" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="P2 Table Jack 1" name="P2TAB.Y1">
+		<RECORD desc="Motor" pv="BL16I-MO-P2TAB-01:Y1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="P2 Table Jack 2" name="P2TAB.Y2">
+		<RECORD desc="Motor" pv="BL16I-MO-P2TAB-01:Y2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="P2 Table Jack 3" name="P2TAB.Y3">
+		<RECORD desc="Motor" pv="BL16I-MO-P2TAB-01:Y3" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="P2 Table Trans X1" name="P2TAB.X1">
+		<RECORD desc="Motor" pv="BL16I-MO-P2TAB-01:X1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="P2 Table Trans X2" name="P2TAB.X2">
+		<RECORD desc="Motor" pv="BL16I-MO-P2TAB-01:X2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="P2 Table Trans Z1" name="P2TAB.Z1">
+		<RECORD desc="Motor" pv="BL16I-MO-P2TAB-01:Z1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleBinary desc="P2 Table Defer Moves" name="P2TAB.DEFER">
+		<RECORD desc="RECORD" pv="BL16I-MO-P2TAB-01:DEFER" ro="false" type="binary"/>
+	</simpleBinary>
+</devices>
+

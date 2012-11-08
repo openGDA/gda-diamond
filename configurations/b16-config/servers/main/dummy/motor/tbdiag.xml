@@ -1,0 +1,13 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="TBDIAGXcoarseMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="TBDIAGZcoarseMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="TBDIAGXMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="TBDIAGYMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="TBDIAGThetaMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="TBDIAGPhiMotor" class="gda.device.motor.DummyMotor" />
+
+</beans>

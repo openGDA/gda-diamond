@@ -1,0 +1,2 @@
+#!/bin/bash
+tail --lines=200 -f -s0.1  /dls_sw/$BEAMLINE/logs/gda_server.log

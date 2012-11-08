@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="dcmBragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DCMBraggMotor" />
+	</bean>
+	<bean id="dcmX" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DCMXMotor" />
+	</bean>
+	<bean id="dcmBstop" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DCMBstopMotor" />
+	</bean>
+	<bean id="dcmY1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DCMY1Motor" />
+	</bean>
+	<bean id="dcmY2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DCMY2Motor" />
+	</bean>
+	<bean id="dcmY3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DCMY3Motor" />
+	</bean>
+	<bean id="dcmYaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DCMYawMotor" />
+	</bean>
+	<bean id="dcmPitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DCMPitchMotor" />
+	</bean>
+	<bean id="dcmRoll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DCMRollMotor" />
+	</bean>
+	<bean id="dcmY" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DCMYMotor" />
+	</bean>
+	<bean id="dcmBaseHeight" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DCMBaseHeightMotor" />
+	</bean>
+	<bean id="dcmBasePitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DCMBasePitchMotor" />
+	</bean>
+	<bean id="dcmBaseRoll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DCMBaseRollMotor" />
+	</bean>
+
+	<bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dcmBragg" />
+				<ref bean="dcmX" />
+				<ref bean="dcmBstop" />
+				<ref bean="dcmY1" />
+				<ref bean="dcmY2" />
+				<ref bean="dcmY3" />
+				<ref bean="dcmYaw" />
+				<ref bean="dcmPitch" />
+				<ref bean="dcmRoll" />
+				<ref bean="dcmY" />
+				<ref bean="dcmBaseHeight" />
+				<ref bean="dcmBasePitch" />
+				<ref bean="dcmBaseRoll" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
