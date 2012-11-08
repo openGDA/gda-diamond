@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="d1a" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="D1Motor" />
+	</bean>
+	<bean id="d3a" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="D3AMotor" />
+	</bean>
+	<bean id="d3d" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="D3DMotor" />
+	</bean>
+	<bean id="d4a" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="D4AMotor" />
+	</bean>
+	<bean id="d4d" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="D4DMotor" />
+	</bean>
+	<bean id="d5a" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="D5AMotor" />
+	</bean>
+	<bean id="d5d" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="D5DMotor" />
+	</bean>
+
+	<bean id="d1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d1a" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="d3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d3a" />
+				<ref bean="d3d" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="d4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d4a" />
+				<ref bean="d4d" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="d5" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d5a" />
+				<ref bean="d5d" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>

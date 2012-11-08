@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="diag1" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="deviceName" value="d1"/>
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="diag2" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="deviceName" value="d2"/>
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>

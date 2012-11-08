@@ -1,0 +1,74 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="mlmXtal1Bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMBragg1Motor" />
+	</bean>
+	<bean id="mlmXtal2Bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMBragg2Motor" />
+	</bean>
+	<bean id="mlmXtal2Roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMRoll2Motor" />
+	</bean>
+	<bean id="mlmXtal1Y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMY1Motor" />
+	</bean>
+	<bean id="mlmXtal2Z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMZ2Motor" />
+	</bean>
+	<bean id="mlmX1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMX1Motor" />
+	</bean>
+	<bean id="mlmX2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMX2Motor" />
+	</bean>
+	<bean id="mlmJack1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMJack1Motor" />
+	</bean>
+	<bean id="mlmJack2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMJack2Motor" />
+	</bean>
+	<bean id="mlmJack3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMJack3Motor" />
+	</bean>
+	<bean id="mlmX" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMXMotor" />
+	</bean>
+	<bean id="mlmYaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMYawMotor" />
+	</bean>
+	<bean id="mlmBasePitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMPitchMotor" />
+	</bean>
+	<bean id="mlmBaseRoll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMRollMotor" />
+	</bean>
+	<bean id="mlmBaseHeight" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMYMotor" />
+	</bean>
+
+	<bean id="mlm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="mlmXtal1Bragg" />
+				<ref bean="mlmXtal2Bragg" />
+				<ref bean="mlmXtal2Roll" />
+				<ref bean="mlmXtal1Y" />
+				<ref bean="mlmXtal2Z" />
+				<ref bean="mlmX1" />
+				<ref bean="mlmX2" />
+				<ref bean="mlmJack1" />
+				<ref bean="mlmJack2" />
+				<ref bean="mlmJack3" />
+				<ref bean="mlmX" />
+				<ref bean="mlmYaw" />
+				<ref bean="mlmBasePitch" />
+				<ref bean="mlmBaseRoll" />
+				<ref bean="mlmBaseHeight" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

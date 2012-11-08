@@ -1,0 +1,64 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- AD hardware -->
+
+	<bean id="pcoedge_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="deviceName" value="pco.cam_ADBase" />
+	</bean>
+
+	<bean id="pcoedge_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="deviceName" value="pco.tif_NDFile" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="pcoedge_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="pcoedge_adbase" />
+		<constructor-arg value="0" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+	
+	<bean id="pcoedge_nxfilewriter_for_scans"
+		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="pcoedge" />
+		<property name="ndFile" ref="pcoedge_ndfile" />
+	</bean>
+
+	<bean id="pcoedge_nxfilewriter_for_snaps"
+		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		<constructor-arg value="pcoedge" />
+		<property name="ndFile" ref="pcoedge_ndfile" />
+		<property name="numTrackerExtension" value="pcoedge_snaps_numtracker" />
+	</bean>
+
+
+	<!-- NXDetectors -->
+
+	<bean id="_pcoedge" class="gda.device.detector.NXDetector">
+		<property name="name" value="pcoedge" />
+		<property name="collectionStrategy" ref="pcoedge_nxcollectionstrategy"/>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pcoedge_nxfilewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="_pcoedge_for_snaps" class="gda.device.detector.NXDetector">
+		<property name="name" value="pcoedge_for_snaps" />
+		<property name="collectionStrategy" ref="pcoedge_nxcollectionstrategy"/>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pcoedge_nxfilewriter_for_snaps" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

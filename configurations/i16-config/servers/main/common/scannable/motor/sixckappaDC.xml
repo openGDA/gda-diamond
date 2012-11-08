@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="kphiDC" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sixcKphiMotor" />
+	</bean>
+	<bean id="kapDC" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sixcKappaMotor" />
+	</bean>
+	<bean id="kthDC" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sixcKthMotor" />
+	</bean>
+	<bean id="muDC" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sixcMuMotor" />
+	</bean>
+	<bean id="deltaDC" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sixcDeltaMotor" />
+	</bean>
+	<bean id="gamDC" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sixcGammaMotor" />
+	</bean>
+
+	<bean id="sixckappaDC" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="muDC" />
+				<ref bean="deltaDC" />
+				<ref bean="gamDC" />
+				<ref bean="kthDC" />
+				<ref bean="kapDC" />
+				<ref bean="kphiDC" />
+			</list>
+		</property>
+		<property name="deferredControlPoint" ref="xps2DeferFlag" />
+	</bean>
+	
+</beans>

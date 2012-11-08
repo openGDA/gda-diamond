@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="ai1" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ai2" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ai3" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ai4" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ai5" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ai6" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ai7" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ai8" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ai9" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ai10" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ai11" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ai12" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ai13" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ai14" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ai15" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ai16" class="gda.device.monitor.DummyMonitor" />
+
+</beans>

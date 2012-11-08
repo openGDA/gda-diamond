@@ -1,0 +1,67 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="DMMBragg1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DMM.BRAGG1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DMMBragg2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DMM.BRAGG2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DMMY1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DMM.Y1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DMMRoll2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DMM.ROLL2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DMMZ2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DMM.Z2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DMMX1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DMM.X1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DMMX2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DMM.X2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DMMJack1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DMM.JACK1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DMMJack2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DMM.JACK2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DMMJack3Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DMM.JACK3" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DMMXMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DMM.X" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DMMYawMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DMM.YAW" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DMMPitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DMM.PITCH" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DMMRollMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DMM.ROLL" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DMMYMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DMM.Y" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

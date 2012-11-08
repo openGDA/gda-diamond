@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="re" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="MSTAT.ENERGY" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="rc" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="MSTAT.CURRENT" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="rlt" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="MSTAT.LIFETIME" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

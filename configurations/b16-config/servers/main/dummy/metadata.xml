@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
+
+		<property name="metadataEntries">
+			<list>
+
+				<bean class="gda.data.metadata.PersistantMetadataEntry">
+					<property name="name" value="visit" />
+					<property name="defaultValue" value="DEFAULT"/>
+				</bean>
+				
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="defaultVisit" />
+					<property name="value" value="DEFAULT_VISIT" />
+				</bean>
+
+				<bean class="gda.data.metadata.PersistantMetadataEntry">
+					<property name="name" value="subdirectory" />
+					<property name="defaultValue" value=""/>
+				</bean>
+
+								
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="instrument" />
+					<property name="value" value="b16" />
+				</bean>
+				
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="facility" />
+					<property name="value" value="DLS" />
+				</bean>
+				
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="instrument.source.type" />
+					<property name="value" value="Synchrotron X-Ray Source" />
+				</bean>
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="instrument.source.probe" />
+					<property name="value" value="X-ray" />
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,18 @@
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
+
+	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+
+	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
+
+	<bean id="plot_server"
+		class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
+
+</beans>

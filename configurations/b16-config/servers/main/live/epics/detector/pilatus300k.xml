@@ -1,0 +1,70 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- AD hardware -->
+
+	<bean id="pilatus_driver"
+		class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
+		<property name="deviceName" value="pilatus.CAM_pilatus" />
+	</bean>
+
+	<bean id="pilatus_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="deviceName" value="pilatus.CAM_ADBase" />
+	</bean>
+
+
+	<bean id="pilatus_camserver_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="deviceName" value="pilatus.CAM_NDFile" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="pilatus_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
+		<constructor-arg ref="pilatus_adbase" />
+		<constructor-arg value=".003" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+	
+	<bean id="pilatus_nxfilewriter_for_scans"
+		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="pilatus300k" />
+		<property name="ndFile" ref="pilatus_camserver_ndfile" />
+	</bean>
+
+	<bean id="pilatus_nxfilewriter_for_snaps"
+		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		<constructor-arg value="pilatus300k" />
+		<property name="ndFile" ref="pilatus_camserver_ndfile" />
+		<property name="numTrackerExtension" value="pilatus300k_snaps_numtracker" />
+	</bean>
+
+
+	<!-- NXDetectors -->
+
+	<bean id="_pilatus" class="gda.device.detector.NXDetector">
+		<property name="name" value="pilatus" />
+		<property name="collectionStrategy" ref="pilatus_nxcollectionstrategy"/>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus_nxfilewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="_pilatus_for_snaps" class="gda.device.detector.NXDetector">
+		<property name="name" value="pilatus_for_snaps" />
+		<property name="collectionStrategy" ref="pilatus_nxcollectionstrategy"/>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus_nxfilewriter_for_snaps" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

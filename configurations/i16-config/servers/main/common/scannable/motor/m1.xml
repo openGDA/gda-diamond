@@ -1,0 +1,54 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="m1pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1PitchMotor" />
+	</bean>
+	<bean id="m1x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1XMotor" />
+	</bean>
+	<bean id="m1y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1YMotor" />
+	</bean>
+	<bean id="m1yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1YawMotor" />
+	</bean>
+	<bean id="m1roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1RollMotor" />
+	</bean>
+	<bean id="m1us_trans" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1UTransMotor" />
+	</bean>
+	<bean id="m1ds_trans" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1DTransMotor" />
+	</bean>
+	<bean id="m1us_jack" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1UJackMotor" />
+	</bean>
+	<bean id="m1ds_in_jack" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1DIJackMotor" />
+	</bean>
+	<bean id="m1ds_out_jack" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1DOJackMotor" />
+	</bean>
+	
+	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m1pitch" />
+				<ref bean="m1x" />
+				<ref bean="m1y" />
+				<ref bean="m1yaw" />
+				<ref bean="m1roll" />
+				<ref bean="m1us_trans" />
+				<ref bean="m1ds_trans" />
+				<ref bean="m1us_jack" />
+				<ref bean="m1ds_in_jack" />
+				<ref bean="m1ds_out_jack" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

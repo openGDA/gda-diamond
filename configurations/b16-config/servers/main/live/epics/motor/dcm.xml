@@ -1,0 +1,59 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="DCMBraggMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.BRAGG" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DCMXMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.X" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DCMBstopMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.BSTOP" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DCMY1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.Y1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DCMY2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.Y2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DCMY3Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.Y3" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DCMYawMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.YAW" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DCMPitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.PITCH" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DCMRollMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.ROLL" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DCMYMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.Y" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DCMBaseHeightMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.BASEHEIGHT" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DCMBasePitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.BASEPITCH" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DCMBaseRollMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.BASEROLL" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

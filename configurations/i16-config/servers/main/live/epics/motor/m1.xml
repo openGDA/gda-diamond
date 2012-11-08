@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="M1PitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M1PX.PITCH" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M1XMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M1PX.X" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M1YMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M1YYR.Y" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M1YawMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M1YYR.YAW" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M1RollMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M1YYR.ROLL" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M1UTransMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M1.X1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M1DTransMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M1.X2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M1UJackMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M1.Y1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M1DIJackMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M1.Y2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M1DOJackMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M1.Y3" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

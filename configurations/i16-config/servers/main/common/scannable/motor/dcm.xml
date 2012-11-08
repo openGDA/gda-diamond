@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmBraggMotor" />
+	</bean>
+	<bean id="dcmpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmPitchMotor" />
+	</bean>
+	<bean id="dcmroll1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmRoll1Motor" />
+	</bean>
+	<bean id="dcmroll2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmRoll2Motor" />
+	</bean>
+	<bean id="perp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmPerpMotor" />
+	</bean>
+	<bean id="dcmfinepitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmFinepitchMotor" />
+	</bean>
+	<bean id="dcmfineroll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmFinerollMotor" />
+	</bean>
+	<bean id="dcmlat" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmLatMotor" />
+	</bean>
+	
+	<bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="bragg" />
+				<ref bean="dcmpitch" />
+				<ref bean="dcmroll1" />
+				<ref bean="dcmroll2" />
+				<ref bean="perp" />
+				<ref bean="dcmfinepitch" />
+				<ref bean="dcmfineroll" />
+				<ref bean="dcmlat" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

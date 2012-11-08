@@ -1,0 +1,60 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/dummy/java.properties
+				</value>
+				<value>file:${gda.config}/properties/common/java.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<import resource="../common/plumbing.xml" />
+
+	<import resource="motor/atten.xml" />
+	<import resource="motor/diag.xml" />
+	<import resource="motor/id.xml" />
+	<import resource="motor/dcm.xml" />
+	<import resource="motor/m1.xml" />
+	<import resource="motor/m2.xml" />
+	<import resource="motor/p2.xml" />
+	<import resource="motor/s1.xml" />
+	<import resource="motor/s2.xml" />
+	<import resource="motor/s3.xml" />
+	<import resource="motor/s4.xml" />
+	<import resource="motor/s5.xml" />
+	<import resource="motor/s6.xml" />
+	<import resource="motor/sixc.xml" />
+	<import resource="motor/sixcbase.xml" />
+	<import resource="motor/sixcsample.xml" />
+
+	<import resource="../common/scannable/motors.xml" />
+
+	<import resource="monitor/currentamps.xml" />
+	<import resource="monitor/machine.xml" />
+	<import resource="monitor/sixc.xml" />
+
+	<import resource="detector/struck.xml" />
+	<import resource="detector/vortex.xml" />
+	
+	<import resource="trajectory_scan_controller_xps2.xml" />
+	
+	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
+		<property name="local" value="true" />
+	</bean>
+
+	<import resource="../common/jython_server.xml" />
+
+	<!-- dummy only -->
+	<import resource="../live/epics/detector/pilatus100k.xml" />
+
+	<corba:export namespace="i16server" />
+
+</beans>

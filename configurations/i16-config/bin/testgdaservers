@@ -1,0 +1,7 @@
+#!/bin/bash
+`dirname $0`/gda logserver --mode=dummy $@
+`dirname $0`/gda nameserver --mode=dummy $@
+`dirname $0`/gda eventserver --mode=dummy $@
+JAVA_OPTS="-XX:MaxPermSize=512m -Xms512m -Xmx2048m -Dtest_user_dir=/home/i16user/testgda_i16" `dirname $0`/gda objectserver --datadir=/home/i16user/testgda_i16/data --mode=dummy --debug $@
+
+#TODO: gda.users is oldschool

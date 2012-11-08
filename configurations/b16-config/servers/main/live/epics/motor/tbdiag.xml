@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="TBDIAGXcoarseMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TBDIAG.XCOARSE" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="TBDIAGZcoarseMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TBDIAG.ZCOARSE" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="TBDIAGXMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TBDIAG.X" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="TBDIAGYMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TBDIAG.Y" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="TBDIAGThetaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TBDIAG.THETA" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="TBDIAGPhiMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TBDIAG.PHI" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

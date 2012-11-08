@@ -1,0 +1,38 @@
+ <beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	
+		<!--AngularPositioner> <name>DCMBasePitchPos</name> <motorName>DCMBasePitchMotor</motorName> 
+		<stepsPerUnit>17.453292519943293</stepsPerUnit> <poll>false</poll> </AngularPositioner> 
+		<AngularPositioner> <name>DCMBaseRollPos</name> <motorName>DCMBaseRollMotor</motorName> 
+		<stepsPerUnit>17.453292519943293</stepsPerUnit> <poll>false</poll> </AngularPositioner -->
+	
+	<import resource="motor/dcm.xml" />
+	<import resource="motor/dif.xml" />
+	<import resource="motor/fc.xml" />
+	<import resource="motor/fcarm.xml" />
+	<!-- fcbase was dr1base, update doc -->
+	<import resource="motor/fcbase.xml" />
+	<import resource="motor/fcsamp.xml" />
+	<import resource="motor/m1.xml" />
+	<import resource="motor/mlm.xml" />
+	<import resource="motor/positioner_motors.xml" />
+	<import resource="motor/s1.xml" />
+	<import resource="motor/s2.xml" />
+	<import resource="motor/s3.xml" />
+	<import resource="motor/s4.xml" />
+	<import resource="motor/s5.xml" />
+	<import resource="motor/s6.xml" />
+	<import resource="motor/s7.xml" />
+	<import resource="motor/s8.xml" />
+	<import resource="motor/tbbase.xml" />
+	<import resource="motor/tbdet.xml" />
+	<import resource="motor/tbdiag.xml" />
+	<import resource="motor/tbopt.xml" />
+	<import resource="motor/test1.xml" />
+	<import resource="motor/test2.xml" />
+	<!-- import resource="motor/test3.xml" Hanging in sd2/-->
+
+</beans>

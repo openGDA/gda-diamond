@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="M2BMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M2.B" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M2PitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M2PX.PITCH" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M2XMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M2PX.X" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M2YMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M2YYR.Y" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M2YawMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M2YYR.YAW" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M2RollMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M2YYR.ROLL" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M2UTransMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M2.X1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M2DTransMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M2.X2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M2UJackMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M2.Y1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M2DIJackMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M2.Y2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="M2DOJackMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M2.Y3" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

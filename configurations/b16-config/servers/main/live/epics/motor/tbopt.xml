@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="TBOPTXcoarseMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TBOPT.XCOARSE" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="TBOPTZcoarseMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TBOPT.ZCOARSE" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="TBOPTXMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TBOPT.X" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="TBOPTYMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TBOPT.Y" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="TBOPTThetaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TBOPT.THETA" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="TBOPTPhiMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TBOPT.PHI" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="TBOPTChiMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TBOPT.CHI" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

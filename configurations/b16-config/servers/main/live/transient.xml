@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+          
+<!--<import resource="epics/detector/pcoedge.xml" /> -->
+<!--<import resource="transient/ixs_slits.xml"/> -->
+<!--<import resource="transient/kbm.xml"/> -->
+<!--<import resource="transient/pinhole.xml"/> -->
+<!--<import resource="transient/dcm_for_i09.xml"/>-->
+<!--<import resource="transient/ixs_mirror.xml"/> -->
+<!--<import resource="transient/motion_tower.xml"/> -->
+<import resource="transient/geo2.xml" />
+<!--<import resource="transient/geo3.xml" /> -->
+<!--<import resource="transient/geo4.xml" /> -->
+<!--<import resource="transient/pcocam.xml" /> -->
+	
+</beans>

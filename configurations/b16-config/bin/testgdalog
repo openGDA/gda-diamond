@@ -1,0 +1,3 @@
+#!/bin/bash
+unset BEAMLINE
+`dirname $0`/gda logpanel --mode=dummy $@

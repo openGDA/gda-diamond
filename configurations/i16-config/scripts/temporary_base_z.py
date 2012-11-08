@@ -1,0 +1,5 @@
+
+
+basez1=SingleEpicsPositionerClass('basez1','BL16I-MO-DIFF-01:BASE:Y1.VAL','BL16I-MO-DIFF-01:BASE:Y1.RBV','BL16I-MO-DIFF-01:BASE:Y1.DMOV','BL16I-MO-DIFF-01:BASE:Y1.STOP','mm','%4f',command=None)
+basez2=SingleEpicsPositionerClass('basez2','BL16I-MO-DIFF-01:BASE:Y2.VAL','BL16I-MO-DIFF-01:BASE:Y2.RBV','BL16I-MO-DIFF-01:BASE:Y2.DMOV','BL16I-MO-DIFF-01:BASE:Y2.STOP','mm','%4f',command=None)
+basez3=SingleEpicsPositionerClass('basez3','BL16I-MO-DIFF-01:BASE:Y3.VAL','BL16I-MO-DIFF-01:BASE:Y3.RBV','BL16I-MO-DIFF-01:BASE:Y3.DMOV','BL16I-MO-DIFF-01:BASE:Y3.STOP','mm','%4f',command=None)

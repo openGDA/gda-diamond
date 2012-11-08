@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s7xcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S7XCentreMotor" />
+	</bean>
+	<bean id="s7xsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S7XGapMotor" />
+	</bean>
+	
+	<bean id="s7ycentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S7YCentreMotor" />
+	</bean>
+	<bean id="s7ysize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S7YGapMotor" />
+	</bean>
+
+	<bean id="s7" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s7xcentre" />
+				<ref bean="s7xsize" />
+				<ref bean="s7ycentre" />
+				<ref bean="s7ysize" />
+			</list>
+		</property>
+	</bean>
+
+
+</beans>
