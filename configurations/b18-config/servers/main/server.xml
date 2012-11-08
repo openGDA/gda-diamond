@@ -8,17 +8,13 @@
            http://www.diamond.ac.uk/schema/gda/corba
            http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-<!-- 	<import resource="file:${gda.config}/xml/server-simulated.xml" /> -->
-	<import resource="file:${gda.config}/xml/server-epics.xml" />
-
-<!-- 	<import resource="file:${gda.config}/xml/detectors-dummy.xml" /> -->
-	<import resource="file:${gda.config}/xml/detectors-live.xml" />
-	<import resource="file:${gda.config}/xml/detectors-common.xml" />
-
-	<import resource="file:${gda.config}/xml/server-scannables.xml" />
-	<import resource="file:${gda.config}/xml/server-sampleenvironments.xml" />
-	<import resource="file:${gda.config}/xml/server-datawriterconfig.xml" />
-	<import resource="file:${gda.config}/xml/server-core.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices.xml" />
+	<import resource="file:${gda.config}/servers/main/detectors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
+	<import resource="file:${gda.config}/servers/main/scannables.xml" />
+	<import resource="file:${gda.config}/servers/main/datawriter.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/metadata.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/qexafs_energy" />

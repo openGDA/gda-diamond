@@ -4,10 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!--
-		need to get the correct PV from EDM screen for OH shutter. Use a
-		EpicsPneumaticCallback
-	-->
 	<bean id="oh_shutter" class="gda.device.enumpositioner.DummyValve" />
 	<bean id="expt_shutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="deviceName" value="SHTR1" />
