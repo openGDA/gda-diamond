@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Type=Application
+Exec=/dls_sw/i22/bin/HotSaxsView
+TryExec=
+Icon=procman.png
+X-GNOME-DocPath=
+Terminal=false
+Name[en_GB]=HotSaxsView
+GenericName[en_GB]=
+Comment[en_GB]=

@@ -1,0 +1,182 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="file:${gda.config}/properties/java.properties" />
+	</bean>
+
+	<!--***************************************-->
+	<!-- *** NCD devices section *** -->
+	<!--***************************************-->
+
+	<bean id="DAServerHW" class="gda.device.detector.DAServer">
+		<property name="host" value="i22-hotwaxs-scal" />
+		<property name="port" value="1972" />
+		<property name="local" value="true" />
+		<property name="dataPort" value="20031" />
+		<property name="startupCommands">
+			<list>
+				<value>~config</value>
+			</list>
+		</property>
+	</bean>
+		<bean id="HotwaxsMemory" class="gda.device.memory.Gdscaler">
+		<property name="daServerName" value="DAServerHW" />
+		<property name="width" value="512" />
+		<property name="height" value="1" />
+		<property name="openCommand" value="gdscaler open 'waxs' 1" />
+		<property name="sizeCommand" value="gdscaler get-mem-size 'waxs'" />
+	</bean>
+	<bean id="Hotwaxs" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector">
+		<property name="detectorType" value="WAXS" />
+		<property name="memory" ref="HotwaxsMemory" />
+		<property name="pixelSize" value="0.000818" />
+		<property name="interpretation" value="spectrum" />
+	</bean>
+	<!-- 
+	<bean id="DAServerHS" class="gda.device.detector.DAServer">
+		<property name="host" value="i22-hotsaxs-scal" />
+		<property name="port" value="1972" />
+		<property name="local" value="true" />
+		<property name="dataPort" value="20032" />
+		<property name="startupCommands">
+			<list>
+				<value>~config</value>
+			</list>
+		</property>
+	</bean>
+		<bean id="HotsaxsMemory" class="gda.device.memory.Gdscaler">
+		<property name="daServerName" value="DAServerHS" />
+		<property name="width" value="512" />
+		<property name="height" value="1" />
+		<property name="openCommand" value="gdscaler open 'saxs' 1" />
+		<property name="sizeCommand" value="gdscaler get-mem-size 'saxs'" />
+	</bean>
+		<bean id="Hotsaxs" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector">
+		<property name="detectorType" value="SAXS" />
+		<property name="memory" ref="HotsaxsMemory" />
+		<property name="pixelSize" value="0.000435" />
+		<property name="interpretation" value="spectrum" />
+	</bean>
+	-->
+    <!--
+	    <bean id="DAServer" class="gda.device.detector.DummyDAServer">
+                <property name="local" value="true" />
+        </bean>
+   -->
+
+	<bean id="DAServer" class="gda.device.detector.DAServer">
+		<property name="host" value="i22-rapid-mem-gig" />
+		<property name="port" value="1972" />
+		<property name="local" value="true" />
+		<property name="dataPort" value="20030" />
+		<property name="startupCommands">
+			<list>
+				<value>~config2d</value>
+				<value>tfg setup-cc-mode scaler64</value>
+				<value>tfg setup-cc-chan -1 edge</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Tfg" class="gda.device.timer.Etfg">
+		<property name="daServerName" value="DAServer" />
+		<property name="showArmed" value="true" />
+	</bean>
+	<bean id="RapidMemory" class="gda.device.memory.Gdhist">
+		<property name="daServerName" value="DAServer" />
+		<property name="width" value="512" />
+		<property name="height" value="512" />
+		<property name="supportedDimensions">
+			<list>
+				<value>128</value>
+				<value>256</value>
+				<value>512</value>
+				<value>1024</value>
+				<value>2048</value>
+				<value>4096</value>
+				<value>8192</value>
+			</list>
+		</property>
+		<property name="openCommand" value="gdhist open 'saxs2d'" />
+		<property name="startupScript" value="set_res_xy" />
+		<property name="sizeCommand" value="gdscaler get-mem-size 'saxs2d'" />
+	</bean>
+		<bean id="Rapid2D" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector">
+		<property name="detectorType" value="SAXS" />
+		<property name="memory" ref="RapidMemory" />
+		<property name="pixelSize" value="0.000383" />
+		<property name="interpretation" value="image" />
+	</bean>
+	<bean id="CalibMemory" class="gda.device.memory.Scaler">
+		<property name="daServerName" value="DAServer" />
+		<property name="width" value="9" />
+		<property name="height" value="1" />
+		<property name="openCommand" value="tfg open-cc" />
+	</bean>
+	<bean id="Scalers" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector">
+		<property name="detectorType" value="CALIB" />
+		<property name="memory" ref="CalibMemory" />
+		<property name="transposedData" value="true" />
+	</bean>
+	<bean id="TimesMemory" class="gda.device.memory.GdhistTimes">
+		<property name="daServerName" value="DAServer" />
+		<property name="width" value="8" />
+		<property name="height" value="1" />
+		<property name="openCommand" value="module open 'tfg_times' header" />
+	</bean>
+	<bean id="TfgTimes" class="uk.ac.gda.server.ncd.subdetector.NcdTimesDetector">
+		<property name="detectorType" value="TIMES" />
+		<property name="memory" ref="TimesMemory" />
+	</bean>
+
+	<import resource="i22_pilatus.xml"/>
+
+<!-- 
+    <bean id="Mar" class="uk.ac.gda.server.ncd.subdetector.NcdMarDetector">
+                <property name="marName" value="mar165" />
+                <property name="pixelSize" value="0.000080" />
+                <property name="detectorType" value="SAXS" />
+    </bean> 
+
+	<import resource="i22_pilatus_waxs.xml"/>
+        <bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDController">
+			<property name="local" value="true" />
+            <property name="epicsDeviceName" value="edxd" />
+            <property name="NUMBER_OF_ELEMENTS" value="4" />
+        </bean>
+        <bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController2">
+			<property name="local" value="true" />
+            <property name="edxdControllerName" value="edxdcontroller" />
+        </bean>
+        <bean id="xmap" class="uk.ac.gda.server.ncd.subdetector.NcdXmapDetector">
+                <property name="xmapControllerName" value="xmapcontroller" />
+        </bean> 
+-->
+
+	<bean id="ncddetectors" class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem">
+		<property name="timer" ref="Tfg" />
+		<property name="detectors">
+                        <list>
+                                <ref bean="Pilatus2M" />
+                                <!--  <ref bean="Hotwaxs" /> -->
+                                <ref bean="Scalers" />
+                                <ref bean="TfgTimes" />
+                                <!-- <ref bean="xmap" /> --> 
+                        </list>
+                </property>
+	</bean>
+
+        <bean id="ncdlistener" class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher">
+        
+        <property name="ncdDetector" ref="ncddetectors"></property> </bean>
+        
+        <bean id="bssc" class="uk.ac.gda.devices.bssc.BioSAXSSampleChanger">
+                <property name="hostname" value="i22-biosaxs.diamond.ac.uk"/>
+                <property name="port" value="9555"/>
+        </bean>
+		<import resource="i22_biosaxscam.xml"/>
+</beans>

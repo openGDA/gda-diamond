@@ -1,0 +1,12 @@
+#! /bin/sh
+#
+#
+
+if [ -z $BEAMLINE ] ; then
+BEAMLINE=$BEAMLINE
+fi
+
+. /usr/share/Modules/init/bash
+module load java/gda
+
+exec /dls_sw/$BEAMLINE/software/gda/bin/gda logpanel

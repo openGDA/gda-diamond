@@ -1,0 +1,211 @@
+<?xml version="1.0" ?>
+<types>
+  <device name="VA-FANC">
+    <property name="Status" smon=":STA"/>
+  </device>
+  <device name="DI-8512">
+    <property name="Duration" setpoint.=":PRESET"/>
+    <property name="Time Elapsed" readback=":TIME"/>
+  </device>
+  <device name="MO-IOC">
+    <property name="Reboot" scon=":BT:REBOOT"/>
+    <property name="System temperature" readback=":SYSTEMP"/>
+    <property name="CA Connections" readback=":CA:CNX"/>
+    <property name="Startup Script 2" readback=":STCMD2"/>
+    <property name="Total FDs" readback=":FD:MAX"/>
+    <property name="FDs Available" readback=":FD:AV"/>
+    <property name="CPU Load Average" readback=":CPU:LOAD"/>
+    <property name="Boot Line 5" readback=":BT:LINE5"/>
+    <property name="Boot Line 4" readback=":BT:LINE4"/>
+    <property name="Boot Line 6" readback=":BT:LINE6"/>
+    <property name="Boot Line 1" readback=":BT:LINE1"/>
+    <property name="Boot Line 3" readback=":BT:LINE3"/>
+    <property name="Boot Line 2" readback=":BT:LINE2"/>
+    <property name="Kernel Version" readback=":KERNEL"/>
+    <property name="Largest Free RAM" readback=":MEM:FREEMB"/>
+    <property name="EPICS version" readback=":EPICS"/>
+    <property name="Startup Script 1" readback=":STCMD1"/>
+    <property name="Booted" readback=":BT:TIME"/>
+    <property name="Boot Enable" scon=":BT:ENABLE" smon=":BT:ENABLE"/>
+    <property name="Time" readback=":TIME"/>
+    <property name="Security" scon=":BT:ACCESS"/>
+    <property name="CPU slot" readback=":CPUSLOT"/>
+    <property name="CA Clients" readback=":CA:CLNT"/>
+    <property name="BSP Version" readback=":BSP"/>
+  </device>
+  <device name="VA-CMON">
+    <property name="Internal temperature" readback=":INTERNAL"/>
+    <property name="-12V supply" readback=":M12VSUPPLY"/>
+    <property name="5.0V supply" readback=":P50VSUPPLY"/>
+    <property name="Inlet temperature" readback=":INLET"/>
+    <property name="Outlet temperature" readback=":OUTLET"/>
+    <property name="3.3V supply" readback=":P33VSUPPLY"/>
+    <property name="Fan 2" readback=":FAN2"/>
+    <property name="Fan 3" readback=":FAN3"/>
+    <property name="+12V supply" readback=":P12VSUPPLY"/>
+    <property name="Fan 1" readback=":FAN1"/>
+    <property name="Fan 6" readback=":FAN6"/>
+    <property name="Fan 7" readback=":FAN7"/>
+    <property name="Fan 4" readback=":FAN4"/>
+    <property name="Fan 5" readback=":FAN5"/>
+  </device>
+  <device name="VA-GAUGE">
+    <property name="Pressure" readback=":P"/>
+  </device>
+  <device name="RS-RDMON">
+    <property name="Overrange" smon=":OVRRNG"/>
+    <property name="EHT at Detector Out of Spec" smon=":EHTOUT"/>
+    <property name="Dose Rate" readback=":RATE"/>
+    <property name="Detector" smon=":DETFAIL"/>
+    <property name="Recovery Mode" scon=":SETREC" smon=":REC"/>
+    <property name="Status" smon=":STA"/>
+    <property name="Dose Rate Alert" smon=":RATEALT"/>
+    <property name="Previous Day Dose" readback=":PRVDAYDOSE"/>
+    <property name="EHT Disabled" smon=":EHTDIS"/>
+    <property name="Date" readback=":DATE"/>
+    <property name="Recovery Enabled" smon=":RECENA"/>
+    <property name="Dose Alarm" smon=":DOSEALM"/>
+    <property name="Reset" scon=":RESET" smon=":OUTRESET"/>
+    <property name="Alarms Inhibited" smon=":ALMINH"/>
+    <property name="Time of Last Reset" readback=":RESETTIM"/>
+    <property name="Time" readback=":TIM"/>
+    <property name="Previous Hour Dose" readback=":PRVHRDOSE"/>
+    <property name="Temperature Error" smon=":TERR"/>
+    <property name="Dose Since Reset" readback=":DOSE"/>
+    <property name="Previous Month Dose" readback=":PRVMONDOSE"/>
+    <property name="Dose Rate Alarm" smon=":RATEALM"/>
+    <property name="Present Month Dose" readback=":PRSMONDOSE"/>
+    <property name="Present Hour Dose" readback=":PRSHRDOSE"/>
+    <property name="Present Day Dose" readback=":PRSDAYDOSE"/>
+  </device>
+  <device name="VA-IMG">
+    <property name="MPS Interlock" readback=":RLA:SP"/>
+    <property name="Pressure" readback=":P" scon=":CCHV" smon=":STA"/>
+    <property name="IMG Overpressure" readback=":PRO:SP"/>
+    <property name="Valve Interlock" readback=":RLY:SP"/>
+  </device>
+  <device name="VA-VALVE">
+    <property name="Status" scon=":CON" smon=":STA"/>
+    <property name="Plug" smon=":PLUG"/>
+    <property name="Interlock Status" smon=":ILKSTA"/>
+    <property name="Gauge Interlock Status" smon=":GILK"/>
+    <property name="Latched Interlock Status" smon=":ILK"/>
+    <property name="Initial Interlock Status" smon=":INIILK"/>
+    <property name="Number of Operations" readback=":OPS"/>
+    <property name="SR Valve" smon=":SRVC"/>
+    <property name="Mode" smon=":MODE"/>
+    <property name="IMG Interlock Status" smon=":IMGILK"/>
+    <property name="Air Pressure De-bounce Time" readback=":ADB" setpoint=":SETADB"/>
+    <property name="Pirani Interlock Status" smon=":PIRGILK"/>
+    <property name="Current Interlock Status" smon=":RAWILK"/>
+  </device>
+  <device name="VA-PIRG">
+    <property name="IMG Enable" readback=":CTL:SP"/>
+    <property name="Pressure" readback=":P" smon=":STA"/>
+    <property name="Ion Pump Interlock" readback=":RLY:SP"/>
+  </device>
+  <device name="MO-FANC">
+    <property name="Status" smon=":STA"/>
+  </device>
+  <device name="VA-VLVCC">
+    <property name="SR Valve" smon=":SRVC"/>
+    <property name="Air Pressure De-bounce Time" readback=":ADB" setpoint=":SETADB"/>
+  </device>
+  <device name="PS-SHTR">
+    <property name="Status" scon=":CON" smon=":STA"/>
+    <property name="Plug" smon=":PLUG"/>
+    <property name="Interlock Status" smon=":ILKSTA"/>
+    <property name="Gauge Interlock Status" smon=":GILK"/>
+    <property name="Latched Interlock Status" smon=":ILK"/>
+    <property name="Initial Interlock Status" smon=":INIILK"/>
+    <property name="Number of Operations" readback=":OPS"/>
+    <property name="SR Valve" smon=":SRVC"/>
+    <property name="Mode" smon=":MODE"/>
+    <property name="IMG Interlock Status" smon=":IMGILK"/>
+    <property name="Air Pressure De-bounce Time" readback=":ADB" setpoint=":SETADB"/>
+    <property name="Pirani Interlock Status" smon=":PIRGILK"/>
+    <property name="Current Interlock Status" smon=":RAWILK"/>
+  </device>
+  <device name="VA-GCTLR">
+    <property name="Slot B" smon=":MB"/>
+    <property name="Slot A" smon=":MA"/>
+    <property name="Pressure Unit" readback=":UNIT"/>
+    <property name="Communications Version" readback=":COMV"/>
+    <property name="Controller Version" readback=":CTLV"/>
+    <property name="Slot CC" smon=":MCC"/>
+    <property name="Line Frequency" readback=":F"/>
+  </device>
+  <device name="PS-FANC">
+    <property name="Status" smon=":STA"/>
+  </device>
+  <device name="MO-CMON">
+    <property name="Internal temperature" readback=":INTERNAL"/>
+    <property name="-12V supply" readback=":M12VSUPPLY"/>
+    <property name="5.0V supply" readback=":P50VSUPPLY"/>
+    <property name="Inlet temperature" readback=":INLET"/>
+    <property name="Outlet temperature" readback=":OUTLET"/>
+    <property name="3.3V supply" readback=":P33VSUPPLY"/>
+    <property name="Fan 2" readback=":FAN2"/>
+    <property name="Fan 3" readback=":FAN3"/>
+    <property name="+12V supply" readback=":P12VSUPPLY"/>
+    <property name="Fan 1" readback=":FAN1"/>
+    <property name="Fan 6" readback=":FAN6"/>
+    <property name="Fan 7" readback=":FAN7"/>
+    <property name="Fan 4" readback=":FAN4"/>
+    <property name="Fan 5" readback=":FAN5"/>
+  </device>
+  <device name="VA-MPC">
+    <property name="Reset Software" scon=":RESET"/>
+    <property name="Auto Restart" smon=":AUTOST"/>
+    <property name="Model Number" readback=":MODEL"/>
+    <property name="Firmware Revision" readback=":VERSION"/>
+    <property name="Line Voltage" readback=":V"/>
+    <property name="Fan" smon=":SETFAN"/>
+    <property name="Line Frequency" readback=":F"/>
+  </device>
+  <device name="VA-IONP">
+    <property name="Supply Status" scon=":START" smon=":STA"/>
+    <property name="Setpoint 1" readback=":SP1" setpoint=":SETSP1"/>
+    <property name="Setpoint 2" readback=":SP2" setpoint=":SETSP2"/>
+    <property name="Error Code" smon=":ERR"/>
+    <property name="Current" readback=":I"/>
+    <property name="Pressure" readback=":P"/>
+    <property name="HV Strapping" readback=":HV"/>
+    <property name="Voltage" readback=":V"/>
+    <property name="Pump Size" readback=":SIZE" setpoint=":SETSIZE"/>
+    <property name="Calibration Factor" readback=":CAL" setpoint=":SETCAL"/>
+  </device>
+  <device name="VA-SPACE">
+    <property name="Status" smon=":STA"/>
+    <property name="Pressure" readback=":P"/>
+    <property name="Pumps" scon=":START" smon=":STARTING"/>
+    <property name="Gauges" scon=":CCHV" smon=":SWITCHING"/>
+    <property name="Valves" scon=":CON" smon=":OPENING"/>
+  </device>
+  <device name="VA-IOC">
+    <property name="Reboot" scon=":BT:REBOOT"/>
+    <property name="System temperature" readback=":SYSTEMP"/>
+    <property name="CA Connections" readback=":CA:CNX"/>
+    <property name="Startup Script 2" readback=":STCMD2"/>
+    <property name="Total FDs" readback=":FD:MAX"/>
+    <property name="FDs Available" readback=":FD:AV"/>
+    <property name="CPU Load Average" readback=":CPU:LOAD"/>
+    <property name="Boot Line 5" readback=":BT:LINE5"/>
+    <property name="Boot Line 4" readback=":BT:LINE4"/>
+    <property name="Boot Line 6" readback=":BT:LINE6"/>
+    <property name="Boot Line 1" readback=":BT:LINE1"/>
+    <property name="Boot Line 3" readback=":BT:LINE3"/>
+    <property name="Boot Line 2" readback=":BT:LINE2"/>
+    <property name="Kernel Version" readback=":KERNEL"/>
+    <property name="Largest Free RAM" readback=":MEM:FREEMB"/>
+    <property name="EPICS version" readback=":EPICS"/>
+    <property name="Startup Script 1" readback=":STCMD1"/>
+    <property name="Booted" readback=":BT:TIME"/>
+    <property name="Boot Enable" scon=":BT:ENABLE" smon=":BT:ENABLE"/>
+    <property name="Time" readback=":TIME"/>
+    <property name="Security" scon=":BT:ACCESS"/>
+    <property name="CPU slot" readback=":CPUSLOT"/>
+    <property name="CA Clients" readback=":CA:CLNT"/>
+    <property name="BSP Version" readback=":BSP"/>
+  </device>
+</types>

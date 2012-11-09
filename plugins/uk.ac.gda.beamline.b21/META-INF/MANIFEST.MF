@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: b21 Plug-in
+Bundle-SymbolicName: uk.ac.gda.beamline.b21;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: uk.ac.gda.beamline.b21.B21BeamlineActivator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ uk.ac.gda.client,
+ uk.ac.gda.common.rcp;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: uk.ac.gda.beamline.b21
+Bundle-Vendor: Diamond Light Source
+Import-Package: org.slf4j

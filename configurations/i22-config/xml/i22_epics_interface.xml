@@ -1,0 +1,1037 @@
+<?xml version="1.0" ?>
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2009-2/gdaApp/src/genericBeamlineSchema.xsd">
+	<simpleMotor desc="HFM Y1" name="HFM:Y1">
+		<RECORD desc="Motor" pv="BL22I-OP-KBM-01:HFM:Y1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="HFM Y2" name="HFM:Y2">
+		<RECORD desc="Motor" pv="BL22I-OP-KBM-01:HFM:Y2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="HFM Y3" name="HFM:Y3">
+		<RECORD desc="Motor" pv="BL22I-OP-KBM-01:HFM:Y3" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="HFM X1" name="HFM:X1">
+		<RECORD desc="Motor" pv="BL22I-OP-KBM-01:HFM:X1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="HFM X2" name="HFM:X2">
+		<RECORD desc="Motor" pv="BL22I-OP-KBM-01:HFM:X2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="VFM Y1" name="VFM:Y1">
+		<RECORD desc="Motor" pv="BL22I-OP-KBM-01:VFM:Y1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="VFM Y2" name="VFM:Y2">
+		<RECORD desc="Motor" pv="BL22I-OP-KBM-01:VFM:Y2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="VFM Y3" name="VFM:Y3">
+		<RECORD desc="Motor" pv="BL22I-OP-KBM-01:VFM:Y3" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="VFM X1" name="VFM:X1">
+		<RECORD desc="Motor" pv="BL22I-OP-KBM-01:VFM:X1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="VFM X2" name="VFM:X2">
+		<RECORD desc="Motor" pv="BL22I-OP-KBM-01:VFM:X2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="PXY X" name="T3:X">
+		<RECORD desc="Motor" pv="BL22I-MO-TABLE-03:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="PXY Y" name="T3:Y">
+		<RECORD desc="Motor" pv="BL22I-MO-TABLE-03:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="ROT" name="T2:ROT">
+		<RECORD desc="Motor" pv="BL22I-MO-TABLE-02:ROT" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Base X" name="T1:X">
+		<RECORD desc="Motor" pv="BL22I-MO-TABLE-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Base Y" name="T1:Y">
+		<RECORD desc="Motor" pv="BL22I-MO-TABLE-01:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Base Pitch" name="T1:PITCH">
+		<RECORD desc="Motor" pv="BL22I-MO-TABLE-01:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Base Yaw" name="T1:YAW">
+		<RECORD desc="Motor" pv="BL22I-MO-TABLE-01:YAW" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="User mtr 1" name="USER:MTR1">
+		<RECORD desc="Motor" pv="BL22I-MO-USER-01:MTR1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="User mtr 2" name="USER:MTR2">
+		<RECORD desc="Motor" pv="BL22I-MO-USER-01:MTR2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="User mtr 3" name="USER:MTR3">
+		<RECORD desc="Motor" pv="BL22I-MO-USER-01:MTR3" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="User mtr 4" name="USER:MTR4">
+		<RECORD desc="Motor" pv="BL22I-MO-USER-01:MTR4" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="User mtr 5" name="USER:MTR5">
+		<RECORD desc="Motor" pv="BL22I-MO-USER-01:MTR5" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="User mtr 6" name="USER:MTR6">
+		<RECORD desc="Motor" pv="BL22I-MO-USER-01:MTR6" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="WDX X" name="DET1:X">
+		<RECORD desc="Motor" pv="BL22I-EA-DET-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="WDX Y" name="DET1:Y">
+		<RECORD desc="Motor" pv="BL22I-EA-DET-01:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="WDX Z" name="DET1:Z">
+		<RECORD desc="Motor" pv="BL22I-EA-DET-01:Z" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="SBS X" name="ABSB2:X">
+		<RECORD desc="Motor" pv="BL22I-RS-ABSB-02:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="SBS Y" name="ABSB2:Y">
+		<RECORD desc="Motor" pv="BL22I-RS-ABSB-02:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="SAX X" name="DET2:X">
+		<RECORD desc="Motor" pv="BL22I-EA-DET-02:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="SAX Y" name="DET2:Y">
+		<RECORD desc="Motor" pv="BL22I-EA-DET-02:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="SAX HPitch" name="DET2:HPITCH">
+		<RECORD desc="Motor" pv="BL22I-EA-DET-02:HPITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="SAX RPitch" name="DET2:RPITCH">
+		<RECORD desc="Motor" pv="BL22I-EA-DET-02:RPITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="BCO X" name="T4:X">
+		<RECORD desc="Motor" pv="BL22I-MO-TABLE-04:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="BCO Y" name="T4:Y">
+		<RECORD desc="Motor" pv="BL22I-MO-TABLE-04:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="BCO Pitch" name="T4:PITCH">
+		<RECORD desc="Motor" pv="BL22I-MO-TABLE-04:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Fast Shutter Y" name="SHTR1:Y">
+		<RECORD desc="Motor" pv="BL22I-EA-SHTR-01:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S1 X Centre Motor" name="S1.XCENTRE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-01:X:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S1 X Size Motor" name="S1.XSIZE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-01:X:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S1 X Negative Motor" name="S1.XNEG">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-01:X:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S1 X Positive Motor" name="S1.XPOS">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-01:X:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S1 Y Centre Motor" name="S1.YCENTRE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-01:Y:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S1 Y Size Motor" name="S1.YSIZE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-01:Y:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S1 Y Negative Motor" name="S1.YNEG">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-01:Y:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S1 Y Positive Motor" name="S1.YPOS">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-01:Y:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S2 X Centre Motor" name="S2.XCENTRE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-02:X:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S2 X Size Motor" name="S2.XSIZE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-02:X:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S2 X Negative Motor" name="S2.XNEG">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-02:X:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S2 X Positive Motor" name="S2.XPOS">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-02:X:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S2 Y Centre Motor" name="S2.YCENTRE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-02:Y:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S2 Y Size Motor" name="S2.YSIZE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-02:Y:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S2 Y Negative Motor" name="S2.YNEG">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-02:Y:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S2 Y Positive Motor" name="S2.YPOS">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-02:Y:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S3 X Centre Motor" name="S3.XCENTRE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-03:X:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S3 X Size Motor" name="S3.XSIZE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-03:X:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S3 X Negative Motor" name="S3.XNEG">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-03:X:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S3 X Positive Motor" name="S3.XPOS">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-03:X:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S3 Y Centre Motor" name="S3.YCENTRE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-03:Y:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S3 Y Size Motor" name="S3.YSIZE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-03:Y:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S3 Y Negative Motor" name="S3.YNEG">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-03:Y:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S3 Y Positive Motor" name="S3.YPOS">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-03:Y:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S4 X Centre Motor" name="S4.XCENTRE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-04:X:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S4 X Size Motor" name="S4.XSIZE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-04:X:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S4 X Negative Motor" name="S4.XNEG">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-04:X:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S4 X Positive Motor" name="S4.XPOS">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-04:X:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S4 Y Centre Motor" name="S4.YCENTRE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-04:Y:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S4 Y Size Motor" name="S4.YSIZE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-04:Y:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S4 Y Negative Motor" name="S4.YNEG">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-04:Y:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S4 Y Positive Motor" name="S4.YPOS">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-04:Y:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S5 X Centre Motor" name="S5.XCENTRE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-05:X:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S5 X Size Motor" name="S5.XSIZE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-05:X:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S5 X Negative Motor" name="S5.XNEG">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-05:X:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S5 X Positive Motor" name="S5.XPOS">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-05:X:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S5 Y Centre Motor" name="S5.YCENTRE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-05:Y:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S5 Y Size Motor" name="S5.YSIZE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-05:Y:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S5 Y Negative Motor" name="S5.YNEG">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-05:Y:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S5 Y Positive Motor" name="S5.YPOS">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-05:Y:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S6 X Centre Motor" name="S6.XCENTRE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-06:X:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S6 X Size Motor" name="S6.XSIZE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-06:X:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S6 X Negative Motor" name="S6.XNEG">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-06:X:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S6 X Positive Motor" name="S6.XPOS">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-06:X:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S6 Y Centre Motor" name="S6.YCENTRE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-06:Y:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S6 Y Size Motor" name="S6.YSIZE">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-06:Y:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S6 Y Negative Motor" name="S6.YNEG">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-06:Y:NEG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="S6 Y Positive Motor" name="S6.YPOS">
+		<RECORD desc="Motor Record" pv="BL22I-AL-SLITS-06:Y:POS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KBM VFM YAW Motor" name="KBM:VFM.YAW">
+		<RECORD desc="Motor Record" pv="BL22I-OP-KBM-01:VFM:YAW" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KBM VFM X Motor" name="KBM:VFM.X">
+		<RECORD desc="Motor Record" pv="BL22I-OP-KBM-01:VFM:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KBM HFM PITCH Motor" name="KBM:HFM.PITCH">
+		<RECORD desc="Motor Record" pv="BL22I-OP-KBM-01:HFM:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KBM HFM X Motor" name="KBM:HFM.X">
+		<RECORD desc="Motor Record" pv="BL22I-OP-KBM-01:HFM:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KBM VFM TIP Motor" name="KBM:VFM.TIP">
+		<RECORD desc="Motor Record" pv="BL22I-OP-KBM-01:VFM:TIP" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KBM VFM Y2Y3 Motor" name="KBM:VFM.Y2Y3">
+		<RECORD desc="Motor Record" pv="BL22I-OP-KBM-01:VFM:Y2Y3" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KBM VFM Y Motor" name="KBM:VFM.Y">
+		<RECORD desc="Motor Record" pv="BL22I-OP-KBM-01:VFM:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KBM VFM PITCH Motor" name="KBM:VFM.PITCH">
+		<RECORD desc="Motor Record" pv="BL22I-OP-KBM-01:VFM:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KBM VFM ROLL Motor" name="KBM:VFM.ROLL">
+		<RECORD desc="Motor Record" pv="BL22I-OP-KBM-01:VFM:ROLL" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KBM HFM Y Motor" name="KBM:HFM.Y">
+		<RECORD desc="Motor Record" pv="BL22I-OP-KBM-01:HFM:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KBM HFM YAW Motor" name="KBM:HFM.YAW">
+		<RECORD desc="Motor Record" pv="BL22I-OP-KBM-01:HFM:YAW" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="KBM HFM ROLL Motor" name="KBM:HFM.ROLL">
+		<RECORD desc="Motor Record" pv="BL22I-OP-KBM-01:HFM:ROLL" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DCM BRAGG" name="DCM:BRAGG">
+		<RECORD desc="Motor" pv="BL22I-OP-DCM-01:BRAGG" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="DCM LATERAL" name="DCM:X">
+		<RECORD desc="Motor" pv="BL22I-OP-DCM-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="XTAL1 ROLL" name="DCM:XTAL1:ROLL">
+		<RECORD desc="Motor" pv="BL22I-OP-DCM-01:XTAL1:ROLL" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="XTAL2 PERP" name="DCM:XTAL2:YPRIME">
+		<RECORD desc="Motor" pv="BL22I-OP-DCM-01:XTAL2:YPRIME" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="XTAL2 PITCH" name="DCM:XTAL2:PITCH">
+		<RECORD desc="Motor" pv="BL22I-OP-DCM-01:XTAL2:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="XTAL2 ROLL" name="DCM:XTAL2:ROLL">
+		<RECORD desc="Motor" pv="BL22I-OP-DCM-01:XTAL2:ROLL" ro="false" type="motor"/>
+	</simpleMotor>
+	<positioner desc="Crystal Select" name="DCM:X:MP">
+		<SELECT desc="Position Selection" pv="BL22I-OP-DCM-01:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV desc="Done Moving Indicator" pv="BL22I-OP-DCM-01:MP:DMOV" ro="true" type="pv"/>
+		<ERROR desc="Error Indicator" pv="BL22I-OP-DCM-01:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS desc="In Position Indicator" pv="BL22I-OP-DCM-01:MP:INPOS" ro="true" type="pv"/>
+		<STOP desc="Stop Button" pv="BL22I-OP-DCM-01:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<simpleMotor desc="Fine Pitch Motor" name="DCM:XTAL2:FP">
+		<RECORD desc="Motor" pv="BL22I-OP-DCM-01:XTAL2:FPITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Fine Roll Motor" name="DCM:XTAL2:FR">
+		<RECORD desc="Motor" pv="BL22I-OP-DCM-01:XTAL2:FROLL" ro="false" type="motor"/>
+	</simpleMotor>
+	<pneumaticCallback desc="Valve 01" name="GV1">
+		<CONTROL desc="control" pv="BL22I-VA-VALVE-01:CON" ro="false" type="mbbinary"/>
+		<STA desc="status" pv="BL22I-VA-VALVE-01:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
+	<pneumaticCallback desc="Valve 02" name="GV2">
+		<CONTROL desc="control" pv="BL22I-VA-VALVE-02:CON" ro="false" type="mbbinary"/>
+		<STA desc="status" pv="BL22I-VA-VALVE-02:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
+	<pneumaticCallback desc="Valve 03" name="GV3">
+		<CONTROL desc="control" pv="BL22I-VA-VALVE-03:CON" ro="false" type="mbbinary"/>
+		<STA desc="status" pv="BL22I-VA-VALVE-03:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
+	<pneumaticCallback desc="Valve 04" name="GV4">
+		<CONTROL desc="control" pv="BL22I-VA-VALVE-04:CON" ro="false" type="mbbinary"/>
+		<STA desc="status" pv="BL22I-VA-VALVE-04:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
+	<pneumaticCallback desc="Valve 05" name="GV5">
+		<CONTROL desc="control" pv="BL22I-VA-VALVE-05:CON" ro="false" type="mbbinary"/>
+		<STA desc="status" pv="BL22I-VA-VALVE-05:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
+	<pneumaticCallback desc="Valve 06" name="GV6">
+		<CONTROL desc="control" pv="BL22I-VA-VALVE-06:CON" ro="false" type="mbbinary"/>
+		<STA desc="status" pv="BL22I-VA-VALVE-06:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
+	<pneumaticCallback desc="Valve 07" name="GV7">
+		<CONTROL desc="control" pv="BL22I-VA-VALVE-07:CON" ro="false" type="mbbinary"/>
+		<STA desc="status" pv="BL22I-VA-VALVE-07:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
+	<pneumaticCallback desc="PS Shutter 01" name="PSSHTR01">
+		<CONTROL desc="control" pv="BL22I-PS-SHTR-01:CON" ro="false" type="mbbinary"/>
+		<STA desc="status" pv="BL22I-PS-SHTR-01:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
+	<pneumaticCallback desc="EH Shutter 01" name="EHSHTR01">
+		<CONTROL desc="control" pv="BL22I-CS-BEAM-01:CON" ro="false" type="mbbinary"/>
+		<STA desc="status" pv="BL22I-PS-SHTR-01:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
+	<simplePv desc="GBC1 waterflow" name="GBC:WFS1">
+		<RECORD desc="Waterflow Status Record" pv="BL22I-AL-APTR-01:WFS1:STATUS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S1 waterflow 1" name="S1:WFS1">
+		<RECORD desc="Waterflow Status Record" pv="BL22I-AL-SLITS-01:WFS1:STATUS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S1 waterflow 2" name="S1:WFS2">
+		<RECORD desc="Waterflow Status Record" pv="BL22I-AL-SLITS-01:WFS2:STATUS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S1 waterflow 3" name="S1:WFS3">
+		<RECORD desc="Waterflow Status Record" pv="BL22I-AL-SLITS-01:WFS1:STATUS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S1 waterflow 4" name="S1:WFS4">
+		<RECORD desc="Waterflow Status Record" pv="BL22I-AL-SLITS-01:WFS1:STATUS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D1 waterflow" name="D1:WFS1">
+		<RECORD desc="Waterflow Status Record" pv="BL22I-DI-PHDGN-01:WFS1:STATUS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="WBS/DCM flow" name="WBS:WFS1">
+		<RECORD desc="Waterflow Status Record" pv="BL22I-HO-FLWSW-01:WFS1:STATUS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Temperature Y Plus" name="GBC:Y:PLUS:TEMP">
+		<RECORD desc="Temperature" pv="BL22I-AL-APTR-01:Y:PLUS:TEMP" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Temperature Y Minus" name="GBC:Y:MINUS:TEMP">
+		<RECORD desc="Temperature" pv="BL22I-AL-APTR-01:Y:MINUS:TEMP" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Temperature X Plus" name="GBC:X:PLUS:TEMP">
+		<RECORD desc="Temperature" pv="BL22I-AL-APTR-01:X:PLUS:TEMP" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Temperature X Minus" name="GBC:X:MINUS:TEMP">
+		<RECORD desc="Temperature" pv="BL22I-AL-APTR-01:X:MINUS:TEMP" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Temperature Y Plus" name="S1:Y:PLUS:TEMP">
+		<RECORD desc="Temperature" pv="BL22I-AL-SLITS-01:Y:PLUS:TEMP" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Temperature Y Minus" name="S1:Y:MINUS:TEMP">
+		<RECORD desc="Temperature" pv="BL22I-AL-SLITS-01:Y:MINUS:TEMP" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Temperature X Plus" name="S1:X:PLUS:TEMP">
+		<RECORD desc="Temperature" pv="BL22I-AL-SLITS-01:X:PLUS:TEMP" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Temperature X Minus" name="S1:X:MINUS:TEMP">
+		<RECORD desc="Temperature" pv="BL22I-AL-SLITS-01:X:MINUS:TEMP" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="WBS Temperature" name="WBS:TEMP">
+		<RECORD desc="Temperature" pv="BL22I-RS-ABSB-01:TEMP" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="VFM Temperature 1" name="VFM:TEMP1">
+		<RECORD desc="Temperature" pv="BL22I-OP-KBM-01:VFM:TEMP1" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="VFM Temperature 2" name="VFM:TEMP2">
+		<RECORD desc="Temperature" pv="BL22I-OP-KBM-01:VFM:TEMP2" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="HFM Temperature 1" name="HFM:TEMP1">
+		<RECORD desc="Temperature" pv="BL22I-OP-KBM-01:HFM:TEMP1" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="HFM Temperature 2" name="HFM:TEMP2">
+		<RECORD desc="Temperature" pv="BL22I-OP-KBM-01:HFM:TEMP2" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Exp Hutch Temp 1" name="ROOM:TEMP1">
+		<RECORD desc="Temperature" pv="BL22I-EA-ROOM-01:TEMP1" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Exp Hutch Temp 2" name="ROOM:TEMP2">
+		<RECORD desc="Temperature" pv="BL22I-EA-ROOM-01:TEMP2" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Exp Hutch Temp 3" name="ROOM:TEMP3">
+		<RECORD desc="Temperature" pv="BL22I-EA-ROOM-01:TEMP3" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Exp Hutch Temp 4" name="ROOM:TEMP4">
+		<RECORD desc="Temperature" pv="BL22I-EA-ROOM-01:TEMP4" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Exp Hutch Temp 5" name="ROOM:TEMP5">
+		<RECORD desc="Temperature" pv="BL22I-EA-ROOM-01:TEMP5" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Exp Hutch Temp 6" name="ROOM:TEMP6">
+		<RECORD desc="Temperature" pv="BL22I-EA-ROOM-01:TEMP6" ro="true" type="pv"/>
+	</simplePv>
+	<simpleMotor desc="FE APTR X motor" name="FEAPTRX">
+		<RECORD desc="Motor Record" pv="FE22I-AL-APTR-02:XBL" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="FE APTR Y motor" name="FEAPTRY">
+		<RECORD desc="Motor Record" pv="FE22I-AL-APTR-02:YBL" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="FE ID gap motor gap soft motor" name="FEIDGAP.GAP">
+		<RECORD desc="Motor Record" pv="SR22I-MO-SERVC-01:BLGAPMTR" ro="false" type="motor"/>
+	</simpleMotor>
+	<pneumaticCallback desc="Front End Permit Beam" name="FE.BEAM">
+		<CONTROL desc="beamline permit beam control" pv="FE22I-CS-BEAM-01:BLCON" ro="false" type="mbbinary"/>
+		<STA desc="Status" pv="FE22I-CS-BEAM-01:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
+	<eurotherm2k desc="Eurotherm furnace" name="EUROTHERM1">
+		<SP desc="setpoint" pv="BL22I-EA-TEMPC-02:SP" ro="false" type="pv"/>
+		<SPRBV desc="setpoint readback" pv="BL22I-EA-TEMPC-02:SP:RBV" ro="true" type="pv"/>
+		<RR desc="ramprate" pv="BL22I-EA-TEMPC-02:RR" ro="false" type="pv"/>
+		<RRRBV desc="ramprate readback" pv="BL22I-EA-TEMPC-02:RR:RBV" ro="true" type="pv"/>
+		<O desc="output" pv="BL22I-EA-TEMPC-02:O" ro="false" type="pv"/>
+		<ORBV desc="ouptut readback" pv="BL22I-EA-TEMPC-02:O:RBV" ro="true" type="pv"/>
+		<PVRBV desc="temperature readback" pv="BL22I-EA-TEMPC-02:PV:RBV" ro="true" type="pv"/>
+		<P desc="p param" pv="BL22I-EA-TEMPC-02:P" ro="false" type="pv"/>
+		<PRBV desc="p param readback" pv="BL22I-EA-TEMPC-02:P:RBV" ro="true" type="pv"/>
+		<I desc="i param" pv="BL22I-EA-TEMPC-02:I" ro="false" type="pv"/>
+		<IRBV desc="i param readback" pv="BL22I-EA-TEMPC-02:I:RBV" ro="true" type="pv"/>
+		<D desc="d param" pv="BL22I-EA-TEMPC-02:D" ro="false" type="pv"/>
+		<DRBV desc="d param readback" pv="BL22I-EA-TEMPC-02:D:RBV" ro="true" type="pv"/>
+		<ERR desc="error message" pv="BL22I-EA-TEMPC-02:ERR" ro="false" type="pv"/>
+	</eurotherm2k>
+	<linkam desc="Linkam stage" name="LINKAM1">
+		<SETPUMPMODE desc="Set pump mode" pv="BL22I-EA-TEMPC-01:PUMP:MODE:SET" ro="false" type="binary"/>
+		<SETRAMPLIMIT desc="Set ramp limit" pv="BL22I-EA-TEMPC-01:RAMP:LIMIT:SET" ro="false" type="pv"/>
+		<SETRAMPRATE desc="Set ramp rate" pv="BL22I-EA-TEMPC-01:RAMP:RATE:SET" ro="false" type="pv"/>
+		<SETRAMPCONTROL desc="Set ramp control" pv="BL22I-EA-TEMPC-01:RAMP:CTRL:SET" ro="false" type="mbbinary"/>
+		<SETLOGPERIOD desc="Set log period" pv="BL22I-EA-TEMPC-01:LOG:PERIOD:SET" ro="false" type="mbbinary"/>
+		<CLEARLOG desc="Clear log" pv="BL22I-EA-TEMPC-01:LOG:RESET" ro="false" type="binary"/>
+		<SETLOGMODE desc="Set log mode" pv="BL22I-EA-TEMPC-01:LOG:MODE:SET" ro="false" type="mbbinary"/>
+		<STATUS desc="Get ramp status" pv="BL22I-EA-TEMPC-01:STATUS" ro="true" type="mbbinary"/>
+		<EB1 desc="Get EB1" pv="BL22I-EA-TEMPC-01:ERROR" ro="true" type="pv"/>
+		<GS1 desc="Get GS1" pv="BL22I-EA-TEMPC-01:GSTATUS" ro="true" type="pv"/>
+		<SB1 desc="Get SB1" pv="BL22I-EA-TEMPC-01:CALCSB1" ro="true" type="pv"/>
+		<PUMPSPEED desc="Get pump speed" pv="BL22I-EA-TEMPC-01:PUMP:SPEED" ro="true" type="pv"/>
+		<SETPUMPSPEED desc="Set manual pump speed" pv="BL22I-EA-TEMPC-01:PUMP:SPEED:SET" ro="false" type="pv"/>
+		<PUMPMODE desc="Get pump mode" pv="BL22I-EA-TEMPC-01:PUMP:MODE" ro="true" type="pv"/>
+		<STAGESTATUS desc="Get stage status" pv="BL22I-EA-TEMPC-01:RSTATUS2" ro="true" type="pv"/>
+		<STARTREAD desc="Read log" pv="BL22I-EA-TEMPC-01:LOG:STARTREAD" ro="false" type="binary"/>
+		<DISABLE desc="Disable comms" pv="BL22I-EA-TEMPC-01:DISABLE" ro="false" type="binary"/>
+		<LOGTEMP desc="Log temp data" pv="BL22I-EA-TEMPC-01:LOG:TEMP:CMP" ro="true" type="array"/>
+		<LOGDSC desc="Log DSC data" pv="BL22I-EA-TEMPC-01:LOG:DSC:CMP" ro="true" type="array"/>
+		<TEMP desc="Current temp" pv="BL22I-EA-TEMPC-01:TEMP" ro="true" type="pv"/>
+	</linkam>
+	<sampleChanger desc="Sample Changer 1" name="SAMPLECHANGER1">
+		<STATUS desc="fault and sw status" pv="BL22I-EA-SAMPC-01:STATUS" ro="true" type="mbbinary"/>
+		<TEMPSET1 desc="Set demand temp1" pv="BL22I-EA-SAMPC-01:TEMP1:SET" ro="false" type="pv"/>
+		<HEATERSET1 desc="Set heater1 on" pv="BL22I-EA-SAMPC-01:HEATER1:SET" ro="false" type="binary"/>
+		<HEATERGET1 desc="Get heater1 on" pv="BL22I-EA-SAMPC-01:HEATER1" ro="true" type="binary"/>
+		<HEATERSEL1 desc="Select heater1 cell" pv="BL22I-EA-SAMPC-01:TEMP1:SEL:SET" ro="false" type="mbbinary"/>
+		<TEMPSET2 desc="Set demand temp2" pv="BL22I-EA-SAMPC-01:TEMP2:SET" ro="false" type="pv"/>
+		<HEATERSET2 desc="Set heater2 on" pv="BL22I-EA-SAMPC-01:HEATER2:SET" ro="false" type="binary"/>
+		<HEATERGET2 desc="Get heater2 on" pv="BL22I-EA-SAMPC-01:HEATER2" ro="true" type="binary"/>
+		<HEATERSEL2 desc="Select heater2 cell" pv="BL22I-EA-SAMPC-01:TEMP2:SEL:SET" ro="false" type="mbbinary"/>
+		<TEMPSET3 desc="Set demand temp3" pv="BL22I-EA-SAMPC-01:TEMP3:SET" ro="false" type="pv"/>
+		<HEATERSET3 desc="Set heater3 on" pv="BL22I-EA-SAMPC-01:HEATER3:SET" ro="false" type="binary"/>
+		<HEATERGET3 desc="Get heater3 on" pv="BL22I-EA-SAMPC-01:HEATER3" ro="true" type="binary"/>
+		<HEATERSEL3 desc="Select heater3 cell" pv="BL22I-EA-SAMPC-01:TEMP3:SEL:SET" ro="false" type="mbbinary"/>
+		<TEMP11 desc="Get temp11" pv="BL22I-EA-SAMPC-01:TEMP11" ro="true" type="pv"/>
+		<TEMP12 desc="Get temp12" pv="BL22I-EA-SAMPC-01:TEMP12" ro="true" type="pv"/>
+		<TEMP13 desc="Get temp13" pv="BL22I-EA-SAMPC-01:TEMP13" ro="true" type="pv"/>
+		<TEMP14 desc="Get temp14" pv="BL22I-EA-SAMPC-01:TEMP14" ro="true" type="pv"/>
+		<TEMP15 desc="Get temp15" pv="BL22I-EA-SAMPC-01:TEMP15" ro="true" type="pv"/>
+		<TEMP16 desc="Get temp16" pv="BL22I-EA-SAMPC-01:TEMP16" ro="true" type="pv"/>
+		<TEMP17 desc="Get temp17" pv="BL22I-EA-SAMPC-01:TEMP17" ro="true" type="pv"/>
+		<TEMP18 desc="Get temp18" pv="BL22I-EA-SAMPC-01:TEMP18" ro="true" type="pv"/>
+		<TEMP19 desc="Get temp19" pv="BL22I-EA-SAMPC-01:TEMP19" ro="true" type="pv"/>
+		<TEMP21 desc="Get temp21" pv="BL22I-EA-SAMPC-01:TEMP21" ro="true" type="pv"/>
+		<TEMP22 desc="Get temp22" pv="BL22I-EA-SAMPC-01:TEMP22" ro="true" type="pv"/>
+		<TEMP23 desc="Get temp23" pv="BL22I-EA-SAMPC-01:TEMP23" ro="true" type="pv"/>
+		<TEMP24 desc="Get temp24" pv="BL22I-EA-SAMPC-01:TEMP24" ro="true" type="pv"/>
+		<TEMP25 desc="Get temp25" pv="BL22I-EA-SAMPC-01:TEMP25" ro="true" type="pv"/>
+		<TEMP26 desc="Get temp26" pv="BL22I-EA-SAMPC-01:TEMP26" ro="true" type="pv"/>
+		<TEMP27 desc="Get temp27" pv="BL22I-EA-SAMPC-01:TEMP27" ro="true" type="pv"/>
+		<TEMP28 desc="Get temp28" pv="BL22I-EA-SAMPC-01:TEMP28" ro="true" type="pv"/>
+		<TEMP29 desc="Get temp29" pv="BL22I-EA-SAMPC-01:TEMP29" ro="true" type="pv"/>
+		<TEMP31 desc="Get temp31" pv="BL22I-EA-SAMPC-01:TEMP31" ro="true" type="pv"/>
+		<TEMP32 desc="Get temp32" pv="BL22I-EA-SAMPC-01:TEMP32" ro="true" type="pv"/>
+		<TEMP33 desc="Get temp33" pv="BL22I-EA-SAMPC-01:TEMP33" ro="true" type="pv"/>
+		<TEMP34 desc="Get temp34" pv="BL22I-EA-SAMPC-01:TEMP34" ro="true" type="pv"/>
+		<TEMP35 desc="Get temp35" pv="BL22I-EA-SAMPC-01:TEMP35" ro="true" type="pv"/>
+		<TEMP36 desc="Get temp36" pv="BL22I-EA-SAMPC-01:TEMP36" ro="true" type="pv"/>
+		<TEMP37 desc="Get temp37" pv="BL22I-EA-SAMPC-01:TEMP37" ro="true" type="pv"/>
+		<TEMP38 desc="Get temp38" pv="BL22I-EA-SAMPC-01:TEMP38" ro="true" type="pv"/>
+		<TEMP39 desc="Get temp39" pv="BL22I-EA-SAMPC-01:TEMP39" ro="true" type="pv"/>
+	</sampleChanger>
+	<currAmpQuad desc="spare amp" name="AMP11">
+		<RANGE desc="Range Selection" pv="BL22I-DI-IAMP-11:RANGE_MENU" ro="false" type="mbbinary"/>
+		<VENDOR desc="Vendor String" pv="BL22I-DI-IAMP-11:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL22I-DI-IAMP-11:MODEL" ro="true" type="pv"/>
+	</currAmpQuad>
+	<simplePv desc="D10 current 1" name="D10I1">
+		<RECORD desc="Current Value" pv="BL22I-DI-PHDGN-10:DIODE1:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D10 current 2" name="D10I2">
+		<RECORD desc="Current Value" pv="BL22I-DI-PHDGN-10:DIODE2:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D10 current 3" name="D10I3">
+		<RECORD desc="Current Value" pv="BL22I-DI-PHDGN-10:DIODE3:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D10 current 4" name="D10I4">
+		<RECORD desc="Current Value" pv="BL22I-DI-PHDGN-10:DIODE4:I" ro="true" type="pv"/>
+	</simplePv>
+	<simpleBinary desc="USR1 B1" name="USR1:B1">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:B1" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="USR1 B2" name="USR1:B2">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:B2" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="USR1 B3" name="USR1:B3">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:B3" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="USR1 B4" name="USR1:B4">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:B4" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="USR1 B5" name="USR1:B5">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:B5" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="USR1 B6" name="USR1:B6">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:B6" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="USR1 B7" name="USR1:B7">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:B7" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="USR1 B8" name="USR1:B8">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:B8" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="USR1 B9" name="USR1:B9">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:B9" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="USR1 B10" name="USR1:B10">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:B10" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="USR1 B11" name="USR1:B11">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:B11" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="USR1 B12" name="USR1:B12">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:B12" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="USR1 B13" name="USR1:B13">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:B13" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="USR1 B14" name="USR1:B14">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:B14" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="USR1 B15" name="USR1:B15">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:B15" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="USR1 B16" name="USR1:B16">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:B16" ro="false" type="binary"/>
+	</simpleBinary>
+	<simplePv desc="USR1 A1" name="USR1:A1">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:A1" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="USR1 A2" name="USR1:A2">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:A2" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="USR1 A3" name="USR1:A3">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:A3" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="USR1 A4" name="USR1:A4">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:A4" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="USR1 A5" name="USR1:A5">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:A5" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="USR1 A6" name="USR1:A6">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:A6" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="USR1 A7" name="USR1:A7">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:A7" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="USR1 A8" name="USR1:A8">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:A8" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="USR1 A9" name="USR1:A9">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:A9" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="USR1 A10" name="USR1:A10">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:A10" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="USR1 A11" name="USR1:A11">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:A11" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="USR1 A12" name="USR1:A12">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:A12" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="USR1 A13" name="USR1:A13">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:A13" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="USR1 A14" name="USR1:A14">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:A14" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="USR1 A15" name="USR1:A15">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:A15" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="USR1 A16" name="USR1:A16">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:A16" ro="false" type="pv"/>
+	</simplePv>
+	<simpleArray desc="USR1 WV1" name="USR1:WV1">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:WV1" ro="true" type="array"/>
+	</simpleArray>
+	<simpleArray desc="USR1 WV2" name="USR1:WV2">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:WV2" ro="true" type="array"/>
+	</simpleArray>
+	<simpleArray desc="USR1 WV3" name="USR1:WV3">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:WV3" ro="true" type="array"/>
+	</simpleArray>
+	<simpleArray desc="USR1 WV4" name="USR1:WV4">
+		<RECORD desc="RECORD" pv="BL22I-EA-USER-01:WV4" ro="true" type="array"/>
+	</simpleArray>
+	<elettraSY900S desc="KB VFM bimorph" name="KBBIMORPHVFM">
+		<STATUS desc="Get busy status" pv="BL22I-OP-KBM-01:VFM:GET-STATUS" ro="true" type="mbbinary"/>
+		<LASTERR desc="Get last error" pv="BL22I-OP-KBM-01:VFM:GET-LASTERROR" ro="true" type="mbbinary"/>
+		<SETALLVOLT desc="Set all voltages" pv="BL22I-OP-KBM-01:VFM:SET-ALLVOLT" ro="false" type="pv"/>
+		<SETALLTRGT desc="Set all to target voltages" pv="BL22I-OP-KBM-01:VFM:SET-ALLTRGT" ro="false" type="pv"/>
+		<SETALLSHIFT desc="Set all voltages relative" pv="BL22I-OP-KBM-01:VFM:SET-ALLSHIFT" ro="false" type="pv"/>
+		<SETALLOFF desc="Set all channels off" pv="BL22I-OP-KBM-01:VFM:SET-ALLOFF" ro="false" type="binary"/>
+		<SETALLON desc="Set all channels on" pv="BL22I-OP-KBM-01:VFM:SET-ALLON" ro="false" type="binary"/>
+		<RESETERROR desc="Reset last error" pv="BL22I-OP-KBM-01:VFM:RESET-LASTERR" ro="false" type="binary"/>
+		<VOUT00 desc="Get voltage 00" pv="BL22I-OP-KBM-01:VFM:GET-VOUT00" ro="true" type="pv"/>
+		<VTRGT00 desc="Get target voltage 00" pv="BL22I-OP-KBM-01:VFM:GET-VTRGT00" ro="true" type="pv"/>
+		<STATUS00 desc="Get status 00" pv="BL22I-OP-KBM-01:VFM:GET-STATUS00" ro="true" type="mbbinary"/>
+		<SETVOUT00 desc="Set voltage 00" pv="BL22I-OP-KBM-01:VFM:SET-VOUT00" ro="false" type="pv"/>
+		<SETVTRGT00 desc="Set target voltage 00" pv="BL22I-OP-KBM-01:VFM:SET-VTRGT00" ro="false" type="pv"/>
+		<SETSHIFT00 desc="Set voltage 00 relative" pv="BL22I-OP-KBM-01:VFM:SET-SHIFT00" ro="false" type="pv"/>
+		<VOUT01 desc="Get voltage 01" pv="BL22I-OP-KBM-01:VFM:GET-VOUT01" ro="true" type="pv"/>
+		<VTRGT01 desc="Get target voltage 01" pv="BL22I-OP-KBM-01:VFM:GET-VTRGT01" ro="true" type="pv"/>
+		<STATUS01 desc="Get status 01" pv="BL22I-OP-KBM-01:VFM:GET-STATUS01" ro="true" type="mbbinary"/>
+		<SETVOUT01 desc="Set voltage 01" pv="BL22I-OP-KBM-01:VFM:SET-VOUT01" ro="false" type="pv"/>
+		<SETVTRGT01 desc="Set target voltage 01" pv="BL22I-OP-KBM-01:VFM:SET-VTRGT01" ro="false" type="pv"/>
+		<SETSHIFT01 desc="Set voltage 01 relative" pv="BL22I-OP-KBM-01:VFM:SET-SHIFT01" ro="false" type="pv"/>
+		<VOUT02 desc="Get voltage 02" pv="BL22I-OP-KBM-01:VFM:GET-VOUT02" ro="true" type="pv"/>
+		<VTRGT02 desc="Get target voltage 02" pv="BL22I-OP-KBM-01:VFM:GET-VTRGT02" ro="true" type="pv"/>
+		<STATUS02 desc="Get status 02" pv="BL22I-OP-KBM-01:VFM:GET-STATUS02" ro="true" type="mbbinary"/>
+		<SETVOUT02 desc="Set voltage 02" pv="BL22I-OP-KBM-01:VFM:SET-VOUT02" ro="false" type="pv"/>
+		<SETVTRGT02 desc="Set target voltage 02" pv="BL22I-OP-KBM-01:VFM:SET-VTRGT02" ro="false" type="pv"/>
+		<SETSHIFT02 desc="Set voltage 02 relative" pv="BL22I-OP-KBM-01:VFM:SET-SHIFT02" ro="false" type="pv"/>
+		<VOUT03 desc="Get voltage 03" pv="BL22I-OP-KBM-01:VFM:GET-VOUT03" ro="true" type="pv"/>
+		<VTRGT03 desc="Get target voltage 03" pv="BL22I-OP-KBM-01:VFM:GET-VTRGT03" ro="true" type="pv"/>
+		<STATUS03 desc="Get status 03" pv="BL22I-OP-KBM-01:VFM:GET-STATUS03" ro="true" type="mbbinary"/>
+		<SETVOUT03 desc="Set voltage 03" pv="BL22I-OP-KBM-01:VFM:SET-VOUT03" ro="false" type="pv"/>
+		<SETVTRGT03 desc="Set target voltage 03" pv="BL22I-OP-KBM-01:VFM:SET-VTRGT03" ro="false" type="pv"/>
+		<SETSHIFT03 desc="Set voltage 03 relative" pv="BL22I-OP-KBM-01:VFM:SET-SHIFT03" ro="false" type="pv"/>
+		<VOUT04 desc="Get voltage 04" pv="BL22I-OP-KBM-01:VFM:GET-VOUT04" ro="true" type="pv"/>
+		<VTRGT04 desc="Get target voltage 04" pv="BL22I-OP-KBM-01:VFM:GET-VTRGT04" ro="true" type="pv"/>
+		<STATUS04 desc="Get status 04" pv="BL22I-OP-KBM-01:VFM:GET-STATUS04" ro="true" type="mbbinary"/>
+		<SETVOUT04 desc="Set voltage 04" pv="BL22I-OP-KBM-01:VFM:SET-VOUT04" ro="false" type="pv"/>
+		<SETVTRGT04 desc="Set target voltage 04" pv="BL22I-OP-KBM-01:VFM:SET-VTRGT04" ro="false" type="pv"/>
+		<SETSHIFT04 desc="Set voltage 04 relative" pv="BL22I-OP-KBM-01:VFM:SET-SHIFT04" ro="false" type="pv"/>
+		<VOUT05 desc="Get voltage 05" pv="BL22I-OP-KBM-01:VFM:GET-VOUT05" ro="true" type="pv"/>
+		<VTRGT05 desc="Get target voltage 05" pv="BL22I-OP-KBM-01:VFM:GET-VTRGT05" ro="true" type="pv"/>
+		<STATUS05 desc="Get status 05" pv="BL22I-OP-KBM-01:VFM:GET-STATUS05" ro="true" type="mbbinary"/>
+		<SETVOUT05 desc="Set voltage 05" pv="BL22I-OP-KBM-01:VFM:SET-VOUT05" ro="false" type="pv"/>
+		<SETVTRGT05 desc="Set target voltage 05" pv="BL22I-OP-KBM-01:VFM:SET-VTRGT05" ro="false" type="pv"/>
+		<SETSHIFT05 desc="Set voltage 05 relative" pv="BL22I-OP-KBM-01:VFM:SET-SHIFT05" ro="false" type="pv"/>
+		<VOUT06 desc="Get voltage 06" pv="BL22I-OP-KBM-01:VFM:GET-VOUT06" ro="true" type="pv"/>
+		<VTRGT06 desc="Get target voltage 06" pv="BL22I-OP-KBM-01:VFM:GET-VTRGT06" ro="true" type="pv"/>
+		<STATUS06 desc="Get status 06" pv="BL22I-OP-KBM-01:VFM:GET-STATUS06" ro="true" type="mbbinary"/>
+		<SETVOUT06 desc="Set voltage 06" pv="BL22I-OP-KBM-01:VFM:SET-VOUT06" ro="false" type="pv"/>
+		<SETVTRGT06 desc="Set target voltage 06" pv="BL22I-OP-KBM-01:VFM:SET-VTRGT06" ro="false" type="pv"/>
+		<SETSHIFT06 desc="Set voltage 06 relative" pv="BL22I-OP-KBM-01:VFM:SET-SHIFT06" ro="false" type="pv"/>
+		<VOUT07 desc="Get voltage 07" pv="BL22I-OP-KBM-01:VFM:GET-VOUT07" ro="true" type="pv"/>
+		<VTRGT07 desc="Get target voltage 07" pv="BL22I-OP-KBM-01:VFM:GET-VTRGT07" ro="true" type="pv"/>
+		<STATUS07 desc="Get status 07" pv="BL22I-OP-KBM-01:VFM:GET-STATUS07" ro="true" type="mbbinary"/>
+		<SETVOUT07 desc="Set voltage 07" pv="BL22I-OP-KBM-01:VFM:SET-VOUT07" ro="false" type="pv"/>
+		<SETVTRGT07 desc="Set target voltage 07" pv="BL22I-OP-KBM-01:VFM:SET-VTRGT07" ro="false" type="pv"/>
+		<SETSHIFT07 desc="Set voltage 07 relative" pv="BL22I-OP-KBM-01:VFM:SET-SHIFT07" ro="false" type="pv"/>
+		<VOUT08 desc="Get voltage 08" pv="BL22I-OP-KBM-01:VFM:GET-VOUT08" ro="true" type="pv"/>
+		<VTRGT08 desc="Get target voltage 08" pv="BL22I-OP-KBM-01:VFM:GET-VTRGT08" ro="true" type="pv"/>
+		<STATUS08 desc="Get status 08" pv="BL22I-OP-KBM-01:VFM:GET-STATUS08" ro="true" type="mbbinary"/>
+		<SETVOUT08 desc="Set voltage 08" pv="BL22I-OP-KBM-01:VFM:SET-VOUT08" ro="false" type="pv"/>
+		<SETVTRGT08 desc="Set target voltage 08" pv="BL22I-OP-KBM-01:VFM:SET-VTRGT08" ro="false" type="pv"/>
+		<SETSHIFT08 desc="Set voltage 08 relative" pv="BL22I-OP-KBM-01:VFM:SET-SHIFT08" ro="false" type="pv"/>
+		<VOUT09 desc="Get voltage 09" pv="BL22I-OP-KBM-01:VFM:GET-VOUT09" ro="true" type="pv"/>
+		<VTRGT09 desc="Get target voltage 09" pv="BL22I-OP-KBM-01:VFM:GET-VTRGT09" ro="true" type="pv"/>
+		<STATUS09 desc="Get status 09" pv="BL22I-OP-KBM-01:VFM:GET-STATUS09" ro="true" type="mbbinary"/>
+		<SETVOUT09 desc="Set voltage 09" pv="BL22I-OP-KBM-01:VFM:SET-VOUT09" ro="false" type="pv"/>
+		<SETVTRGT09 desc="Set target voltage 09" pv="BL22I-OP-KBM-01:VFM:SET-VTRGT09" ro="false" type="pv"/>
+		<SETSHIFT09 desc="Set voltage 09 relative" pv="BL22I-OP-KBM-01:VFM:SET-SHIFT09" ro="false" type="pv"/>
+		<VOUT10 desc="Get voltage 10" pv="BL22I-OP-KBM-01:VFM:GET-VOUT10" ro="true" type="pv"/>
+		<VTRGT10 desc="Get target voltage 10" pv="BL22I-OP-KBM-01:VFM:GET-VTRGT10" ro="true" type="pv"/>
+		<STATUS10 desc="Get status 10" pv="BL22I-OP-KBM-01:VFM:GET-STATUS10" ro="true" type="mbbinary"/>
+		<SETVOUT10 desc="Set voltage 10" pv="BL22I-OP-KBM-01:VFM:SET-VOUT10" ro="false" type="pv"/>
+		<SETVTRGT10 desc="Set target voltage 10" pv="BL22I-OP-KBM-01:VFM:SET-VTRGT10" ro="false" type="pv"/>
+		<SETSHIFT10 desc="Set voltage 10 relative" pv="BL22I-OP-KBM-01:VFM:SET-SHIFT10" ro="false" type="pv"/>
+		<VOUT11 desc="Get voltage 11" pv="BL22I-OP-KBM-01:VFM:GET-VOUT11" ro="true" type="pv"/>
+		<VTRGT11 desc="Get target voltage 11" pv="BL22I-OP-KBM-01:VFM:GET-VTRGT11" ro="true" type="pv"/>
+		<STATUS11 desc="Get status 11" pv="BL22I-OP-KBM-01:VFM:GET-STATUS11" ro="true" type="mbbinary"/>
+		<SETVOUT11 desc="Set voltage 11" pv="BL22I-OP-KBM-01:VFM:SET-VOUT11" ro="false" type="pv"/>
+		<SETVTRGT11 desc="Set target voltage 11" pv="BL22I-OP-KBM-01:VFM:SET-VTRGT11" ro="false" type="pv"/>
+		<SETSHIFT11 desc="Set voltage 11 relative" pv="BL22I-OP-KBM-01:VFM:SET-SHIFT11" ro="false" type="pv"/>
+		<VOUT12 desc="Get voltage 12" pv="BL22I-OP-KBM-01:VFM:GET-VOUT12" ro="true" type="pv"/>
+		<VTRGT12 desc="Get target voltage 12" pv="BL22I-OP-KBM-01:VFM:GET-VTRGT12" ro="true" type="pv"/>
+		<STATUS12 desc="Get status 12" pv="BL22I-OP-KBM-01:VFM:GET-STATUS12" ro="true" type="mbbinary"/>
+		<SETVOUT12 desc="Set voltage 12" pv="BL22I-OP-KBM-01:VFM:SET-VOUT12" ro="false" type="pv"/>
+		<SETVTRGT12 desc="Set target voltage 12" pv="BL22I-OP-KBM-01:VFM:SET-VTRGT12" ro="false" type="pv"/>
+		<SETSHIFT12 desc="Set voltage 12 relative" pv="BL22I-OP-KBM-01:VFM:SET-SHIFT12" ro="false" type="pv"/>
+		<VOUT13 desc="Get voltage 13" pv="BL22I-OP-KBM-01:VFM:GET-VOUT13" ro="true" type="pv"/>
+		<VTRGT13 desc="Get target voltage 13" pv="BL22I-OP-KBM-01:VFM:GET-VTRGT13" ro="true" type="pv"/>
+		<STATUS13 desc="Get status 13" pv="BL22I-OP-KBM-01:VFM:GET-STATUS13" ro="true" type="mbbinary"/>
+		<SETVOUT13 desc="Set voltage 13" pv="BL22I-OP-KBM-01:VFM:SET-VOUT13" ro="false" type="pv"/>
+		<SETVTRGT13 desc="Set target voltage 13" pv="BL22I-OP-KBM-01:VFM:SET-VTRGT13" ro="false" type="pv"/>
+		<SETSHIFT13 desc="Set voltage 13 relative" pv="BL22I-OP-KBM-01:VFM:SET-SHIFT13" ro="false" type="pv"/>
+		<VOUT14 desc="Get voltage 14" pv="BL22I-OP-KBM-01:VFM:GET-VOUT14" ro="true" type="pv"/>
+		<VTRGT14 desc="Get target voltage 14" pv="BL22I-OP-KBM-01:VFM:GET-VTRGT14" ro="true" type="pv"/>
+		<STATUS14 desc="Get status 14" pv="BL22I-OP-KBM-01:VFM:GET-STATUS14" ro="true" type="mbbinary"/>
+		<SETVOUT14 desc="Set voltage 14" pv="BL22I-OP-KBM-01:VFM:SET-VOUT14" ro="false" type="pv"/>
+		<SETVTRGT14 desc="Set target voltage 14" pv="BL22I-OP-KBM-01:VFM:SET-VTRGT14" ro="false" type="pv"/>
+		<SETSHIFT14 desc="Set voltage 14 relative" pv="BL22I-OP-KBM-01:VFM:SET-SHIFT14" ro="false" type="pv"/>
+		<VOUT15 desc="Get voltage 15" pv="BL22I-OP-KBM-01:VFM:GET-VOUT15" ro="true" type="pv"/>
+		<VTRGT15 desc="Get target voltage 15" pv="BL22I-OP-KBM-01:VFM:GET-VTRGT15" ro="true" type="pv"/>
+		<STATUS15 desc="Get status 15" pv="BL22I-OP-KBM-01:VFM:GET-STATUS15" ro="true" type="mbbinary"/>
+		<SETVOUT15 desc="Set voltage 15" pv="BL22I-OP-KBM-01:VFM:SET-VOUT15" ro="false" type="pv"/>
+		<SETVTRGT15 desc="Set target voltage 15" pv="BL22I-OP-KBM-01:VFM:SET-VTRGT15" ro="false" type="pv"/>
+		<SETSHIFT15 desc="Set voltage 15 relative" pv="BL22I-OP-KBM-01:VFM:SET-SHIFT15" ro="false" type="pv"/>
+	</elettraSY900S>
+	<elettraSY900S desc="KB HFM bimorph" name="KBBIMORPHHFM">
+		<STATUS desc="Get busy status" pv="BL22I-OP-KBM-01:HFM:GET-STATUS" ro="true" type="mbbinary"/>
+		<LASTERR desc="Get last error" pv="BL22I-OP-KBM-01:HFM:GET-LASTERROR" ro="true" type="mbbinary"/>
+		<SETALLVOLT desc="Set all voltages" pv="BL22I-OP-KBM-01:HFM:SET-ALLVOLT" ro="false" type="pv"/>
+		<SETALLTRGT desc="Set all to target voltages" pv="BL22I-OP-KBM-01:HFM:SET-ALLTRGT" ro="false" type="pv"/>
+		<SETALLSHIFT desc="Set all voltages relative" pv="BL22I-OP-KBM-01:HFM:SET-ALLSHIFT" ro="false" type="pv"/>
+		<SETALLOFF desc="Set all channels off" pv="BL22I-OP-KBM-01:HFM:SET-ALLOFF" ro="false" type="binary"/>
+		<SETALLON desc="Set all channels on" pv="BL22I-OP-KBM-01:HFM:SET-ALLON" ro="false" type="binary"/>
+		<RESETERROR desc="Reset last error" pv="BL22I-OP-KBM-01:HFM:RESET-LASTERR" ro="false" type="binary"/>
+		<VOUT00 desc="Get voltage 00" pv="BL22I-OP-KBM-01:HFM:GET-VOUT00" ro="true" type="pv"/>
+		<VTRGT00 desc="Get target voltage 00" pv="BL22I-OP-KBM-01:HFM:GET-VTRGT00" ro="true" type="pv"/>
+		<STATUS00 desc="Get status 00" pv="BL22I-OP-KBM-01:HFM:GET-STATUS00" ro="true" type="mbbinary"/>
+		<SETVOUT00 desc="Set voltage 00" pv="BL22I-OP-KBM-01:HFM:SET-VOUT00" ro="false" type="pv"/>
+		<SETVTRGT00 desc="Set target voltage 00" pv="BL22I-OP-KBM-01:HFM:SET-VTRGT00" ro="false" type="pv"/>
+		<SETSHIFT00 desc="Set voltage 00 relative" pv="BL22I-OP-KBM-01:HFM:SET-SHIFT00" ro="false" type="pv"/>
+		<VOUT01 desc="Get voltage 01" pv="BL22I-OP-KBM-01:HFM:GET-VOUT01" ro="true" type="pv"/>
+		<VTRGT01 desc="Get target voltage 01" pv="BL22I-OP-KBM-01:HFM:GET-VTRGT01" ro="true" type="pv"/>
+		<STATUS01 desc="Get status 01" pv="BL22I-OP-KBM-01:HFM:GET-STATUS01" ro="true" type="mbbinary"/>
+		<SETVOUT01 desc="Set voltage 01" pv="BL22I-OP-KBM-01:HFM:SET-VOUT01" ro="false" type="pv"/>
+		<SETVTRGT01 desc="Set target voltage 01" pv="BL22I-OP-KBM-01:HFM:SET-VTRGT01" ro="false" type="pv"/>
+		<SETSHIFT01 desc="Set voltage 01 relative" pv="BL22I-OP-KBM-01:HFM:SET-SHIFT01" ro="false" type="pv"/>
+		<VOUT02 desc="Get voltage 02" pv="BL22I-OP-KBM-01:HFM:GET-VOUT02" ro="true" type="pv"/>
+		<VTRGT02 desc="Get target voltage 02" pv="BL22I-OP-KBM-01:HFM:GET-VTRGT02" ro="true" type="pv"/>
+		<STATUS02 desc="Get status 02" pv="BL22I-OP-KBM-01:HFM:GET-STATUS02" ro="true" type="mbbinary"/>
+		<SETVOUT02 desc="Set voltage 02" pv="BL22I-OP-KBM-01:HFM:SET-VOUT02" ro="false" type="pv"/>
+		<SETVTRGT02 desc="Set target voltage 02" pv="BL22I-OP-KBM-01:HFM:SET-VTRGT02" ro="false" type="pv"/>
+		<SETSHIFT02 desc="Set voltage 02 relative" pv="BL22I-OP-KBM-01:HFM:SET-SHIFT02" ro="false" type="pv"/>
+		<VOUT03 desc="Get voltage 03" pv="BL22I-OP-KBM-01:HFM:GET-VOUT03" ro="true" type="pv"/>
+		<VTRGT03 desc="Get target voltage 03" pv="BL22I-OP-KBM-01:HFM:GET-VTRGT03" ro="true" type="pv"/>
+		<STATUS03 desc="Get status 03" pv="BL22I-OP-KBM-01:HFM:GET-STATUS03" ro="true" type="mbbinary"/>
+		<SETVOUT03 desc="Set voltage 03" pv="BL22I-OP-KBM-01:HFM:SET-VOUT03" ro="false" type="pv"/>
+		<SETVTRGT03 desc="Set target voltage 03" pv="BL22I-OP-KBM-01:HFM:SET-VTRGT03" ro="false" type="pv"/>
+		<SETSHIFT03 desc="Set voltage 03 relative" pv="BL22I-OP-KBM-01:HFM:SET-SHIFT03" ro="false" type="pv"/>
+		<VOUT04 desc="Get voltage 04" pv="BL22I-OP-KBM-01:HFM:GET-VOUT04" ro="true" type="pv"/>
+		<VTRGT04 desc="Get target voltage 04" pv="BL22I-OP-KBM-01:HFM:GET-VTRGT04" ro="true" type="pv"/>
+		<STATUS04 desc="Get status 04" pv="BL22I-OP-KBM-01:HFM:GET-STATUS04" ro="true" type="mbbinary"/>
+		<SETVOUT04 desc="Set voltage 04" pv="BL22I-OP-KBM-01:HFM:SET-VOUT04" ro="false" type="pv"/>
+		<SETVTRGT04 desc="Set target voltage 04" pv="BL22I-OP-KBM-01:HFM:SET-VTRGT04" ro="false" type="pv"/>
+		<SETSHIFT04 desc="Set voltage 04 relative" pv="BL22I-OP-KBM-01:HFM:SET-SHIFT04" ro="false" type="pv"/>
+		<VOUT05 desc="Get voltage 05" pv="BL22I-OP-KBM-01:HFM:GET-VOUT05" ro="true" type="pv"/>
+		<VTRGT05 desc="Get target voltage 05" pv="BL22I-OP-KBM-01:HFM:GET-VTRGT05" ro="true" type="pv"/>
+		<STATUS05 desc="Get status 05" pv="BL22I-OP-KBM-01:HFM:GET-STATUS05" ro="true" type="mbbinary"/>
+		<SETVOUT05 desc="Set voltage 05" pv="BL22I-OP-KBM-01:HFM:SET-VOUT05" ro="false" type="pv"/>
+		<SETVTRGT05 desc="Set target voltage 05" pv="BL22I-OP-KBM-01:HFM:SET-VTRGT05" ro="false" type="pv"/>
+		<SETSHIFT05 desc="Set voltage 05 relative" pv="BL22I-OP-KBM-01:HFM:SET-SHIFT05" ro="false" type="pv"/>
+	</elettraSY900S>
+	<simpleBinary desc="ILK" name="SCAM1">
+		<RECORD desc="camera interlock" pv="BL22I-MO-SCAM-01:ILK:STA" ro="true" type="binary"/>
+	</simpleBinary>
+	<currAmpQuad desc="D2 D3 amp" name="AMP1">
+		<RANGE desc="Range Selection" pv="BL22I-DI-IAMP-01:RANGE_MENU" ro="false" type="mbbinary"/>
+		<VENDOR desc="Vendor String" pv="BL22I-DI-IAMP-01:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL22I-DI-IAMP-01:MODEL" ro="true" type="pv"/>
+	</currAmpQuad>
+	<currAmpQuad desc="S2 amp" name="S2.AMP">
+		<I1 desc="Channel 1 Current" pv="BL22I-DI-IAMP-02:PHD1:I" ro="true" type="pv"/>
+		<I2 desc="Channel 2 Current" pv="BL22I-DI-IAMP-02:PHD2:I" ro="true" type="pv"/>
+		<I3 desc="Channel 3 Current" pv="BL22I-DI-IAMP-02:PHD3:I" ro="true" type="pv"/>
+		<I4 desc="Channel 4 Current" pv="BL22I-DI-IAMP-02:PHD4:I" ro="true" type="pv"/>
+		<RANGE desc="Range Selection" pv="BL22I-DI-IAMP-02:RANGE_MENU" ro="false" type="mbbinary"/>
+		<VENDOR desc="Vendor String" pv="BL22I-DI-IAMP-02:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL22I-DI-IAMP-02:MODEL" ro="true" type="pv"/>
+	</currAmpQuad>
+	<currAmpQuad desc="D4 D6 amp" name="AMP3">
+		<RANGE desc="Range Selection" pv="BL22I-DI-IAMP-03:RANGE_MENU" ro="false" type="mbbinary"/>
+		<VENDOR desc="Vendor String" pv="BL22I-DI-IAMP-03:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL22I-DI-IAMP-03:MODEL" ro="true" type="pv"/>
+	</currAmpQuad>
+	<currAmpQuad desc="S3 amp" name="S3.AMP">
+		<I1 desc="Channel 1 Current" pv="BL22I-DI-IAMP-04:PHD1:I" ro="true" type="pv"/>
+		<I2 desc="Channel 2 Current" pv="BL22I-DI-IAMP-04:PHD2:I" ro="true" type="pv"/>
+		<I3 desc="Channel 3 Current" pv="BL22I-DI-IAMP-04:PHD3:I" ro="true" type="pv"/>
+		<I4 desc="Channel 4 Current" pv="BL22I-DI-IAMP-04:PHD4:I" ro="true" type="pv"/>
+		<RANGE desc="Range Selection" pv="BL22I-DI-IAMP-04:RANGE_MENU" ro="false" type="mbbinary"/>
+		<VENDOR desc="Vendor String" pv="BL22I-DI-IAMP-04:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL22I-DI-IAMP-04:MODEL" ro="true" type="pv"/>
+	</currAmpQuad>
+	<currAmpQuad desc="S4 amp" name="S4.AMP">
+		<I1 desc="Channel 1 Current" pv="BL22I-DI-IAMP-05:PHD1:I" ro="true" type="pv"/>
+		<I2 desc="Channel 2 Current" pv="BL22I-DI-IAMP-05:PHD2:I" ro="true" type="pv"/>
+		<I3 desc="Channel 3 Current" pv="BL22I-DI-IAMP-05:PHD3:I" ro="true" type="pv"/>
+		<I4 desc="Channel 4 Current" pv="BL22I-DI-IAMP-05:PHD4:I" ro="true" type="pv"/>
+		<RANGE desc="Range Selection" pv="BL22I-DI-IAMP-05:RANGE_MENU" ro="false" type="mbbinary"/>
+		<VENDOR desc="Vendor String" pv="BL22I-DI-IAMP-05:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL22I-DI-IAMP-05:MODEL" ro="true" type="pv"/>
+	</currAmpQuad>
+	<currAmpQuad desc="D7 amp" name="D7.AMP">
+		<I1 desc="Channel 1 Current" pv="BL22I-DI-IAMP-06:PHD1:I" ro="true" type="pv"/>
+		<I2 desc="Channel 2 Current" pv="BL22I-DI-IAMP-06:PHD2:I" ro="true" type="pv"/>
+		<I3 desc="Channel 3 Current" pv="BL22I-DI-IAMP-06:PHD3:I" ro="true" type="pv"/>
+		<I4 desc="Channel 4 Current" pv="BL22I-DI-IAMP-06:PHD4:I" ro="true" type="pv"/>
+		<RANGE desc="Range Selection" pv="BL22I-DI-IAMP-06:RANGE_MENU" ro="false" type="mbbinary"/>
+		<VENDOR desc="Vendor String" pv="BL22I-DI-IAMP-06:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL22I-DI-IAMP-06:MODEL" ro="true" type="pv"/>
+	</currAmpQuad>
+	<simplePv desc="D2 current" name="D2I">
+		<RECORD desc="Current Value" pv="BL22I-DI-PHDGN-02:DIODE:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D3 current 1" name="D3I1">
+		<RECORD desc="Current Value" pv="BL22I-DI-PHDGN-03:DIODE1:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D3 current 2" name="D3I2">
+		<RECORD desc="Current Value" pv="BL22I-DI-PHDGN-03:DIODE2:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S2X+ current" name="S2XPI">
+		<RECORD desc="Current Value" pv="BL22I-AL-SLITS-02:X:PLUS:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S2X- current" name="S2XMI">
+		<RECORD desc="Current Value" pv="BL22I-AL-SLITS-02:X:MINUS:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S2Y+ current" name="S2YPI">
+		<RECORD desc="Current Value" pv="BL22I-AL-SLITS-02:Y:PLUS:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S2Y- current" name="S2YMI">
+		<RECORD desc="Current Value" pv="BL22I-AL-SLITS-02:Y:MINUS:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D4 current 1" name="D4I1">
+		<RECORD desc="Current Value" pv="BL22I-DI-PHDGN-04:DIODE1:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D6 current 1" name="D6I1">
+		<RECORD desc="Current Value" pv="BL22I-DI-PHDGN-06:DIODE1:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D4 current 2" name="D4I2">
+		<RECORD desc="Current Value" pv="BL22I-DI-PHDGN-04:DIODE2:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D6 current 2" name="D6I2">
+		<RECORD desc="Current Value" pv="BL22I-DI-PHDGN-06:DIODE2:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S3X+ current" name="S3XPI">
+		<RECORD desc="Current Value" pv="BL22I-AL-SLITS-03:X:PLUS:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S3X- current" name="S3XMI">
+		<RECORD desc="Current Value" pv="BL22I-AL-SLITS-03:X:MINUS:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S3Y+ current" name="S3YPI">
+		<RECORD desc="Current Value" pv="BL22I-AL-SLITS-03:Y:PLUS:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S3Y- current" name="S3YMI">
+		<RECORD desc="Current Value" pv="BL22I-AL-SLITS-03:Y:MINUS:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S4X+ current" name="S4XPI">
+		<RECORD desc="Current Value" pv="BL22I-AL-SLITS-04:X:PLUS:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S4X- current" name="S4XMI">
+		<RECORD desc="Current Value" pv="BL22I-AL-SLITS-04:X:MINUS:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S4Y+ current" name="S4YPI">
+		<RECORD desc="Current Value" pv="BL22I-AL-SLITS-04:Y:PLUS:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="S4Y- current" name="S4YMI">
+		<RECORD desc="Current Value" pv="BL22I-AL-SLITS-04:Y:MINUS:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D7X+ current" name="D7XPI">
+		<RECORD desc="Current Value" pv="BL22I-DI-PHDGN-07:X:PLUS:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D7X- current" name="D7XMI">
+		<RECORD desc="Current Value" pv="BL22I-DI-PHDGN-07:X:MINUS:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D7Y+ current" name="D7YPI">
+		<RECORD desc="Current Value" pv="BL22I-DI-PHDGN-07:Y:PLUS:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="D7Y- current" name="D7YMI">
+		<RECORD desc="Current Value" pv="BL22I-DI-PHDGN-07:Y:MINUS:I" ro="true" type="pv"/>
+	</simplePv>
+	<bpm desc="Slits 2 BPM" name="S2.BPM">
+		<XPOS desc="X Position" pv="BL22I-AL-SLITS-02:XPOS" ro="true" type="pv"/>
+		<YPOS desc="Y Position" pv="BL22I-AL-SLITS-02:YPOS" ro="true" type="pv"/>
+		<INTENSITY desc="Summed intensity value" pv="BL22I-AL-SLITS-02:INTEN" ro="true" type="pv"/>
+	</bpm>
+	<bpm desc="Slits 3 BPM" name="S3.BPM">
+		<XPOS desc="X Position" pv="BL22I-AL-SLITS-03:XPOS" ro="true" type="pv"/>
+		<YPOS desc="Y Position" pv="BL22I-AL-SLITS-03:YPOS" ro="true" type="pv"/>
+		<INTENSITY desc="Summed intensity value" pv="BL22I-AL-SLITS-03:INTEN" ro="true" type="pv"/>
+	</bpm>
+	<bpm desc="Slits 4 BPM" name="S4.BPM">
+		<XPOS desc="X Position" pv="BL22I-AL-SLITS-04:XPOS" ro="true" type="pv"/>
+		<YPOS desc="Y Position" pv="BL22I-AL-SLITS-04:YPOS" ro="true" type="pv"/>
+		<INTENSITY desc="Summed intensity value" pv="BL22I-AL-SLITS-04:INTEN" ro="true" type="pv"/>
+	</bpm>
+	<bpm desc="D7 BPM" name="D7.BPM">
+		<XPOS desc="X Position" pv="BL22I-DI-PHDGN-07:XPOS" ro="true" type="pv"/>
+		<YPOS desc="Y Position" pv="BL22I-DI-PHDGN-07:YPOS" ro="true" type="pv"/>
+		<INTENSITY desc="Summed intensity value" pv="BL22I-DI-PHDGN-07:INTEN" ro="true" type="pv"/>
+	</bpm>
+	<currAmpSingle desc="Current amp10 control" name="IAMP10CTR">
+		<OVERLOAD desc="Get overload status" pv="BL22I-DI-IAMP-10:OL" ro="true" type="binary"/>
+		<SETGAIN desc="Set gain" pv="BL22I-DI-IAMP-10:GAIN" ro="false" type="mbbinary"/>
+		<SETACDC desc="Set AC or DC mode" pv="BL22I-DI-IAMP-10:ACDC" ro="false" type="binary"/>
+		<VENDOR desc="Vendor String" pv="BL22I-DI-IAMP-10:VENDOR" ro="true" type="pv"/>
+		<MODEL desc="Model String" pv="BL22I-DI-IAMP-10:MODEL" ro="true" type="pv"/>
+		<I desc="Current Value" pv="BL22I-RS-ABSB-02:DIODE:I" ro="true" type="pv"/>
+	</currAmpSingle>
+	<DLS8512 desc="scalar 1" name="scalar01">
+		<TIME desc="Integration Time" pv="BL22I-DI-8512-01:PRESET" ro="false" type="pv"/>
+		<TRIGGER desc="Restart counter" pv="BL22I-DI-8512-01:STARTCOUNT" ro="false" type="binary"/>
+		<SCALED0 desc="scaled value 0" pv="BL22I-DI-PHDGN-02:DIODE:IF" ro="true" type="pv"/>
+		<RAW0 desc="raw value 0" pv="BL22I-DI-PHDGN-02:DIODE:IF-RAW" ro="true" type="pv"/>
+		<SCALED1 desc="scaled value 1" pv="BL22I-DI-PHDGN-03:DIODE1:IF" ro="true" type="pv"/>
+		<RAW1 desc="raw value 1" pv="BL22I-DI-PHDGN-03:DIODE1:IF-RAW" ro="true" type="pv"/>
+		<SCALED2 desc="scaled value 2" pv="BL22I-DI-PHDGN-03:DIODE2:IF" ro="true" type="pv"/>
+		<RAW2 desc="raw value 2" pv="BL22I-DI-PHDGN-03:DIODE2:IF-RAW" ro="true" type="pv"/>
+		<SCALED3 desc="scaled value 3" pv="BL22I-DI-IAMP-01:I4F" ro="true" type="pv"/>
+		<RAW3 desc="raw value 3" pv="BL22I-DI-IAMP-01:I4F-RAW" ro="true" type="pv"/>
+		<SCALED4 desc="scaled value 4" pv="BL22I-AL-SLITS-02:X:PLUS:IF" ro="true" type="pv"/>
+		<RAW4 desc="raw value 4" pv="BL22I-AL-SLITS-02:X:PLUS:IF-RAW" ro="true" type="pv"/>
+		<SCALED5 desc="scaled value 5" pv="BL22I-AL-SLITS-02:X:MINUS:IF" ro="true" type="pv"/>
+		<RAW5 desc="raw value 5" pv="BL22I-AL-SLITS-02:X:MINUS:IF-RAW" ro="true" type="pv"/>
+		<SCALED6 desc="scaled value 6" pv="BL22I-AL-SLITS-02:Y:PLUS:IF" ro="true" type="pv"/>
+		<RAW6 desc="raw value 6" pv="BL22I-AL-SLITS-02:Y:PLUS:IF-RAW" ro="true" type="pv"/>
+		<SCALED7 desc="scaled value 7" pv="BL22I-AL-SLITS-02:Y:MINUS:IF" ro="true" type="pv"/>
+		<RAW7 desc="raw value 7" pv="BL22I-AL-SLITS-02:Y:MINUS:IF-RAW" ro="true" type="pv"/>
+		<SCALED8 desc="scaled value 8" pv="BL22I-DI-PHDGN-04:DIODE1:IF" ro="true" type="pv"/>
+		<RAW8 desc="raw value 8" pv="BL22I-DI-PHDGN-04:DIODE1:IF-RAW" ro="true" type="pv"/>
+		<SCALED9 desc="scaled value 9" pv="BL22I-DI-PHDGN-04:DIODE2:IF" ro="true" type="pv"/>
+		<RAW9 desc="raw value 9" pv="BL22I-DI-PHDGN-04:DIODE2:IF-RAW" ro="true" type="pv"/>
+		<SCALED10 desc="scaled value 10" pv="BL22I-DI-PHDGN-06:DIODE1:IF" ro="true" type="pv"/>
+		<RAW10 desc="raw value 10" pv="BL22I-DI-PHDGN-06:DIODE1:IF-RAW" ro="true" type="pv"/>
+		<SCALED11 desc="scaled value 11" pv="BL22I-DI-PHDGN-06:DIODE2:IF" ro="true" type="pv"/>
+		<RAW11 desc="raw value 11" pv="BL22I-DI-PHDGN-06:DIODE2:IF-RAW" ro="true" type="pv"/>
+		<SCALED12 desc="scaled value 12" pv="BL22I-AL-SLITS-03:X:PLUS:IF" ro="true" type="pv"/>
+		<RAW12 desc="raw value 12" pv="BL22I-AL-SLITS-03:X:PLUS:IF-RAW" ro="true" type="pv"/>
+		<SCALED13 desc="scaled value 13" pv="BL22I-AL-SLITS-03:X:MINUS:IF" ro="true" type="pv"/>
+		<RAW13 desc="raw value 13" pv="BL22I-AL-SLITS-03:X:MINUS:IF-RAW" ro="true" type="pv"/>
+		<SCALED14 desc="scaled value 14" pv="BL22I-AL-SLITS-03:Y:PLUS:IF" ro="true" type="pv"/>
+		<RAW14 desc="raw value 14" pv="BL22I-AL-SLITS-03:Y:PLUS:IF-RAW" ro="true" type="pv"/>
+	</DLS8512>
+	<DLS8512 desc="scalar 2" name="scalar02">
+		<TIME desc="Integration Time" pv="BL22I-DI-8512-02:PRESET" ro="false" type="pv"/>
+		<TRIGGER desc="Restart counter" pv="BL22I-DI-8512-02:STARTCOUNT" ro="false" type="binary"/>
+		<SCALED0 desc="scaled value 0" pv="BL22I-AL-SLITS-03:Y:MINUS:IF" ro="true" type="pv"/>
+		<RAW0 desc="raw value 0" pv="BL22I-AL-SLITS-03:Y:MINUS:IF-RAW" ro="true" type="pv"/>
+		<SCALED1 desc="scaled value 1" pv="BL22I-AL-SLITS-04:X:PLUS:IF" ro="true" type="pv"/>
+		<RAW1 desc="raw value 1" pv="BL22I-AL-SLITS-04:X:PLUS:IF-RAW" ro="true" type="pv"/>
+		<SCALED2 desc="scaled value 2" pv="BL22I-AL-SLITS-04:X:MINUS:IF" ro="true" type="pv"/>
+		<RAW2 desc="raw value 2" pv="BL22I-AL-SLITS-04:X:MINUS:IF-RAW" ro="true" type="pv"/>
+		<SCALED3 desc="scaled value 3" pv="BL22I-AL-SLITS-04:Y:PLUS:IF" ro="true" type="pv"/>
+		<RAW3 desc="raw value 3" pv="BL22I-AL-SLITS-04:Y:PLUS:IF-RAW" ro="true" type="pv"/>
+		<SCALED4 desc="scaled value 4" pv="BL22I-AL-SLITS-04:Y:MINUS:IF" ro="true" type="pv"/>
+		<RAW4 desc="raw value 4" pv="BL22I-AL-SLITS-04:Y:MINUS:IF-RAW" ro="true" type="pv"/>
+		<SCALED5 desc="scaled value 5" pv="BL22I-DI-PHDGN-07:X:PLUS:IF" ro="true" type="pv"/>
+		<RAW5 desc="raw value 5" pv="BL22I-DI-PHDGN-07:X:PLUS:IF-RAW" ro="true" type="pv"/>
+		<SCALED6 desc="scaled value 6" pv="BL22I-DI-PHDGN-07:X:MINUS:IF" ro="true" type="pv"/>
+		<RAW6 desc="raw value 6" pv="BL22I-DI-PHDGN-07:X:MINUS:IF-RAW" ro="true" type="pv"/>
+		<SCALED7 desc="scaled value 7" pv="BL22I-DI-PHDGN-07:Y:PLUS:IF" ro="true" type="pv"/>
+		<RAW7 desc="raw value 7" pv="BL22I-DI-PHDGN-07:Y:PLUS:IF-RAW" ro="true" type="pv"/>
+		<SCALED8 desc="scaled value 8" pv="BL22I-DI-PHDGN-07:Y:MINUS:IF" ro="true" type="pv"/>
+		<RAW8 desc="raw value 8" pv="BL22I-DI-PHDGN-07:Y:MINUS:IF-RAW" ro="true" type="pv"/>
+	</DLS8512>
+	<bimorphpsu desc="VFM bimorph" name="VFMBIMORPH">
+		<VOUT desc="Output voltage" pv="BL22I-OP-KBM-01:VFM:VOUT" ro="true" type="array"/>
+		<POWERON desc="Power on status" pv="BL22I-OP-KBM-01:VFM:POWERON" ro="true" type="binary"/>
+		<STATUS desc="Status" pv="BL22I-OP-KBM-01:VFM:STATUS" ro="true" type="mbbinary"/>
+		<ELECTRODES desc="Electrodes" pv="BL22I-OP-KBM-01:VFM:ELECTRODES" ro="true" type="pv"/>
+		<TARGETRBV desc="Read target voltages" pv="BL22I-OP-KBM-01:VFM:TARGETRBV" ro="true" type="array"/>
+		<TARGET desc="Set target voltages" pv="BL22I-OP-KBM-01:VFM:TARGET" ro="false" type="array"/>
+		<APPLYTARGET desc="Start ramping voltages" pv="BL22I-OP-KBM-01:VFM:APPLYTARGET" ro="false" type="binary"/>
+		<POWERONSET desc="Power on control" pv="BL22I-OP-KBM-01:VFM:POWERONSET" ro="false" type="binary"/>
+	</bimorphpsu>
+	<bimorphpsu desc="HFM bimorph" name="HFMBIMORPH">
+		<VOUT desc="Output voltage" pv="BL22I-OP-KBM-01:HFM:VOUT" ro="true" type="array"/>
+		<POWERON desc="Power on status" pv="BL22I-OP-KBM-01:HFM:POWERON" ro="true" type="binary"/>
+		<STATUS desc="Status" pv="BL22I-OP-KBM-01:HFM:STATUS" ro="true" type="mbbinary"/>
+		<ELECTRODES desc="Electrodes" pv="BL22I-OP-KBM-01:HFM:ELECTRODES" ro="true" type="pv"/>
+		<TARGETRBV desc="Read target voltages" pv="BL22I-OP-KBM-01:HFM:TARGETRBV" ro="true" type="array"/>
+		<TARGET desc="Set target voltages" pv="BL22I-OP-KBM-01:HFM:TARGET" ro="false" type="array"/>
+		<APPLYTARGET desc="Start ramping voltages" pv="BL22I-OP-KBM-01:HFM:APPLYTARGET" ro="false" type="binary"/>
+		<POWERONSET desc="Power on control" pv="BL22I-OP-KBM-01:HFM:POWERONSET" ro="false" type="binary"/>
+	</bimorphpsu>
+	<cryocooler desc="Cryocooler" name="CRYO">
+		<NFLOW desc="nitrogen flow rate" pv="BL22I-CG-CRYO-01:NFLOW" ro="true" type="pv"/>
+		<FEEDT desc="nitrogen feed temperature" pv="BL22I-CG-CRYO-01:FEEDT" ro="true" type="pv"/>
+		<COOLP desc="measured cooling power" pv="BL22I-CG-CRYO-01:COOLP" ro="true" type="pv"/>
+		<PSET desc="nitrogen pump speed" pv="BL22I-CG-CRYO-01:PSET" ro="false" type="pv"/>
+		<TPBUF desc="target pressure for buff." pv="BL22I-CG-CRYO-01:TPBUF" ro="false" type="pv"/>
+		<LP1L desc="vessel start fill level" pv="BL22I-CG-CRYO-01:LP1L" ro="false" type="pv"/>
+		<LP1H desc="vessel stop fill level" pv="BL22I-CG-CRYO-01:LP1H" ro="false" type="pv"/>
+	</cryocooler>
+</devices>

@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+        <bean id="mfbs_x_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-RS-ABSB-03:X" />
+		<property name="local" value="true" />
+        </bean>
+        <bean id="mfbs_y_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-RS-ABSB-03:Y" />
+		<property name="local" value="true" />
+        </bean>
+        
+        <bean id="mfbs_x" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="mfbs_x_motor" />
+		<property name="local" value="true" />
+        </bean>
+        <bean id="mfbs_y" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="mfbs_y_motor" />
+		<property name="local" value="true" />
+        </bean>
+
+        <bean id="mfbs" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true" />
+                <property name="groupMembers">
+                        <list>
+                                <ref bean="mfbs_x" />
+                                <ref bean="mfbs_y" />
+                        </list>
+                </property>
+        </bean>
+</beans>

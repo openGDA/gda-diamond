@@ -1,0 +1,91 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+        xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
+        http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+        <bean
+                class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+                <property name="location"
+                        value="file:${gda.config}/properties/java.properties" />
+        </bean>
+
+        <bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	    <corba:import namespace="b21" names="command_server"/>
+	    
+        <corba:import namespace="b21" names="plot_server" />    
+
+        <bean class="gda.rcp.util.OSGIServiceRegister">
+                <property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
+                <property name="service" ref="plot_server" />
+        </bean>
+        
+    <bean class="gda.factory.corba.util.AdapterFactory">
+		<constructor-arg index="0" value="${gda.factory.factoryName}" />
+		<constructor-arg index="1">
+			<bean class="gda.spring.NetServiceFactoryBean" />
+		</constructor-arg>
+	</bean>
+	
+        <!-- 
+        <bean id="biosaxs_cam_config" class="uk.ac.gda.video.views.CameraParameters">
+                <property name="name" value="BioSAXS Camera"/>
+                <property name="mjpegURL" value="http://b21-firewire01.diamond.ac.uk:8082/BSAXS.MJPEG.mjpg" />
+        </bean>        
+        
+        <bean id="webcam9_cam_config" class="uk.ac.gda.video.views.CameraParameters">
+                <property name="name" value="Webcam 9"/>
+                <property name="mjpegURL" value="http://b21-webcam9.diamond.ac.uk/mjpg/video.mjpg" />
+        </bean>
+        
+        <bean id="biosaxs_epics_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+                <property name="name" value="BioSAXS EPICS Camera"/>
+           		<property name="urlPV" value="BL22I-EA-BSAX-01:MJPG:MJPG_URL_RBV" />
+                <property name="exposurePV" value="BL22I-EA-BSAX-01:CAM:AcquireTime" />
+                <property name="acqPeriodPV" value="BL22I-EA-BSAX-01:CAM:AcquirePeriod" />
+                <property name="gainPV" value="BL22I-EA-BSAX-01:CAM:Gain" />
+                <property name="acquirePV" value="BL22I-EA-BSAX-01:CAM:Acquire" />        
+        </bean>
+        
+        <bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
+                <property name="cameras">
+                        <list>
+                                <ref bean="biosaxs_cam_config"/>
+                                <ref bean="biosaxs_epics_cam_config" />
+                                <ref bean="webcam9_cam_config"/>
+                        </list>
+                </property>
+                <property name="plotViewID" value="uk.ac.gda.beamline.i13j.DetectorPlot"/>
+        </bean>
+
+        <bean class="gda.rcp.util.OSGIServiceRegister">
+                <property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
+                <property name="service" ref="camera_config" />
+        </bean>
+-->
+        
+        <bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+        <!--  host should better be autodiscovered -->
+                <property name="serviceUrl"
+                        value="rmi://b21-control.diamond.ac.uk/gda/commandQueueProcessor" />
+                <property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
+                <property name="refreshStubOnConnectFailure" value="true" />
+        </bean>
+        <bean class="gda.rcp.util.OSGIServiceRegister">
+                <property name="class" value="gda.commandqueue.Processor" />
+                <property name="service" ref="commandQueueProcessor" />
+        </bean>
+        <bean class="gda.rcp.util.OSGIServiceRegister">
+                <property name="class" value="gda.commandqueue.Queue" />
+                <property name="service" ref="commandQueueProcessor" />
+        </bean>
+
+        <gda:rbac />
+</beans>

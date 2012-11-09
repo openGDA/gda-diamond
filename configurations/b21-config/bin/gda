@@ -1,0 +1,4 @@
+#! /bin/sh
+
+export BEAMLINE=b21
+exec /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda $@

@@ -1,0 +1,11 @@
+#  The Factory name MUST MATCH the name at top of the Instance XML files 
+gda.factory.factoryName 	= i22
+
+# Logging stuff
+#
+gda.server.logging.port = 6789
+
+gda.logserver.xml = ${gda.config}/xml/i22_logServerClient.xml 
+
+gda.logs.dir = /dls/i22/logs/
+

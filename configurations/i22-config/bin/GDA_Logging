@@ -1,0 +1,13 @@
+#! /bin/sh
+
+export LESS=
+COMMAND="less -f +F /dls_sw/i22/logs/gda_server.log"
+
+case $TERM in
+	xterm)
+		exec gnome-terminal --title="GDA Server Logfile" -x $COMMAND
+		;;
+	*) 
+		exec $COMMAND
+		;;
+esac

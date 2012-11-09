@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<user_permissions>
+
+<!-- by default users have permission 1 -->
+<!-- level 2 will allow them to drive some extra motors (e.g. energy at the moment) -->
+<!-- with the current configuration all motors are accessible with level 3 -->
+
+<!-- beamline staff -->
+<i22user>3</i22user>
+<njt78>3</njt78>
+<mm54>3</mm54>
+<lsd43>3</lsd43>
+<zbs27213>3</zbs27213>
+<vdf31527>3</vdf31527>>
+
+<!-- data acq -->
+<zjt21856>3</zjt21856>
+<tjs15132>3</tjs15132>
+
+<!--users on visit in5737-4, added by RobW on may 31st 2012 so users could change energy-->
+<tun44976>2</tun44976>
+<!--users on visit sm7886-1, added by NJT on Aug 8th 2012 so users could change mfsax position-->
+<sma86963>3</sma86963>
+<!--users on visit sm7899-1, added by MM on Sep 19th 2012 so users could change energy-->
+<wtw54624>3</wtw54624>
+
+</user_permissions>

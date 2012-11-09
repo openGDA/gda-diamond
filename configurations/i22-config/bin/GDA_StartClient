@@ -1,0 +1,23 @@
+#! /bin/bash
+#
+
+if [ -z $BEAMLINE ] ; then
+BEAMLINE=$BEAMLINE
+fi
+
+. /usr/share/Modules/init/bash
+module load java/gda
+
+export LD_LIBRARY_PATH=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86:/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/lib/linux-x86
+
+export MOZILLA_FIVE_HOME=/dls_sw/apps/firefox/8/x86_64/
+
+ulimit -c 10000000
+
+if [ -n $1 ] ; then
+DATA="-data $1"
+else 
+DATA=""
+fi 
+
+exec /dls_sw/$BEAMLINE/software/gda/client/gda-$BEAMLINE -showLocation $DATA -configuration /tmp/.gda-config-${USER}

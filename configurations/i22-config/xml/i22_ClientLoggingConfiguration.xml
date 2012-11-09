@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="LogPanel" class="gda.util.LogPanelAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%date %-5level %logger - %m %ex %n</pattern>
+        </layout>
+    </appender>
+    <appender name="DebugPanel" class="gda.util.DebugPanelAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%date %-5level %logger - %m %ex%n</pattern>
+        </layout>
+    </appender>
+    <appender name="SOCKET" class="ch.qos.logback.classic.net.SocketAppender">
+        <RemoteHost>i22-control.diamond.ac.uk</RemoteHost>
+        <Port>6789</Port>
+        <ReconnectionDelay>10000</ReconnectionDelay>
+        <IncludeCallerData>true</IncludeCallerData>
+    </appender>
+    <logger name="gda">
+        <level value="DEBUG"/>
+    </logger>
+    <logger name="gda.data.nexus.extractor.NexusExtractor">
+        <level value="DEBUG"/>
+    </logger>
+    <logger name="gda.data.nexus.NexusFileWrapper">
+        <level value="DEBUG"/>
+    </logger>    
+    
+    <root>
+        <level value="ALL"/>
+        <appender-ref ref="LogPanel"/>
+        <appender-ref ref="DebugPanel"/>
+        <appender-ref ref="SOCKET"/>
+    </root>
+</configuration>
