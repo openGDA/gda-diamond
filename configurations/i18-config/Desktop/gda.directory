@@ -1,7 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Type=Directory
-Comment=GDA - Generic Data Acquisition Software
-Icon=/dls/$BEAMLINE/software/gda/config/bin/icons/gda.png
-Icon[en_GB]=/dls/$BEAMLINE/software/gda/config/bin/icons/gda.png
-Name=Data Acquisition

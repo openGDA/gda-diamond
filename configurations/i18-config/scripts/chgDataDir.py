@@ -1,5 +1,3 @@
-#localStation.py
-#For beamline specific initialisation code.
 print "===================================================================";
 print "To change user data directory, call chgDir('proposal', visit)";
 print "For example: chgDir('sp0', 0) will set the data directory for beamline commissioning" ;
