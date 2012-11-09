@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s6_xpos_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-AL-SLITS-06:X:CENTRE" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="s6_xgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-AL-SLITS-06:X:GAP" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="s6_ypos_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-AL-SLITS-06:Y:CENTRE" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="s6_ygap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-AL-SLITS-06:Y:GAP" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s6_xpos" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s6_xpos_motor" />
+		<property name="protectionLevel" value="2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="s6_xgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s6_xgap_motor" />
+		<property name="protectionLevel" value="2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="s6_ypos" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s6_ypos_motor" />
+		<property name="protectionLevel" value="2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="s6_ygap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s6_ygap_motor" />
+		<property name="protectionLevel" value="2" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="S6" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="s6_xpos" />
+				<ref bean="s6_xgap" />
+				<ref bean="s6_ypos" />
+				<ref bean="s6_ygap" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="2" />
+	</bean>
+</beans>

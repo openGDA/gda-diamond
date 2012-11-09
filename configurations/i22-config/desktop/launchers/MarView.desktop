@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Type=Application
+Exec=vncviewer i22-mar01
+TryExec=
+Icon=procman.png
+X-GNOME-DocPath=
+Terminal=false
+Name[en_GB]=MarView
+GenericName[en_GB]=
+Comment[en_GB]=see mar computer to monitor detector state

@@ -1,0 +1,12 @@
+#! /bin/sh
+
+INSTALLDIR=/dls_sw/i22/software/nexus2otoko
+PYTHONPATH=$INSTALLDIR:/dls_sw/apps/numpy/1.3.0/lib/python2.6/site-packages
+export PYTHONPATH
+LD_LIBRARY_PATH=/dls_sw/apps/nexus/4.3-beta1-i586/lib/:/dls_sw/apps/hdf5/1.8.7/32/lib/
+export LD_LIBRARY_PATH
+
+# wait for file to appear on network
+sleep 10 
+
+/dls_sw/apps/python/2.6.2/bin/python $INSTALLDIR/ncd/nexus2otoko.py $@

@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<configs PV="BL22I-CS-MODE-01:CONFIG">
+  <branch description="SAXS/MicroFocus unconnected" name="Commissioning">
+    <config index="0" name="None">
+      <sect name="ALL"/>
+    </config>
+  </branch>
+  <branch description="MicroFocus connected" name="MF">
+    <config index="0" name="None">
+      <sect name="MF"/>
+    </config>
+    <config index="1" name="SAXS">
+      <sect name="MF"/>
+    </config>
+    <config index="2" name="MicroFocus">
+      <sect name="ALL"/>
+      <sect name="BOTH"/>
+      <sect name="MF"/>
+    </config>
+  </branch>
+  <branch description="SAXS connected" name="SAXS">
+    <config index="0" name="None">
+      <sect name="SAXS"/>
+      <sect name="BOTH"/>
+    </config>
+    <config index="1" name="SAXS">
+      <sect name="ALL"/>
+      <sect name="BOTH"/>
+      <sect name="SAX"/>
+    </config>
+    <config index="2" name="MicroFocus">
+      <sect name="SAXS"/>
+    </config>
+  </branch>
+</configs>

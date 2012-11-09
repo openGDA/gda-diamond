@@ -1,0 +1,14 @@
+#! /bin/sh
+
+#run on b22-control
+
+cd /dls_sw/b21/software/gda-devel/config
+chmod o+w .
+sudo su - gda2
+cd /dls_sw/b21/software/gda-devel/config
+cp b21ssh.key lala
+mv -f lala b21ssh.key
+^D
+chmod o-w .
+chmod a+x /dls_sw/b21/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
+setfacl -m g:b21_staff:rwx -m u:b21user:rwx xml/user_permissions.xml xml/beamlinestaff.xml

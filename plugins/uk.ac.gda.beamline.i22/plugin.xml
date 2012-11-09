@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="Beamline I22">
+         <property
+               name="appName"
+               value="Beamline I22">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+         <property
+               name="windowImages"
+               value="icons/GDALogo16.png,icons/GDALogo32.png">
+         </property>         
+      </product>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="uk.ac.gda.beamline.i22.I22StartupService">
+      </startup>
+   </extension>
+      <extension
+         point="org.eclipse.ui.intro">
+      <intro
+            class="uk.ac.gda.beamline.i22.I22Intro"
+            id="uk.ac.gda.beamline.i22.i22intro">
+      </intro>
+      <introProductBinding introId="uk.ac.gda.beamline.i22.i22intro" productId="uk.ac.gda.beamline.i22.product"/>
+   </extension>
+   <extension
+          point="org.eclipse.ui.perspectiveExtensions">
+    <perspectiveExtension targetID="*">
+       <perspectiveShortcut
+             id="gda.rcp.ncd.perspectives.SetupPerspective">
+       </perspectiveShortcut>      
+       <perspectiveShortcut id="gda.rcp.ncd.perspectives.NcdDetectorPerspective"/>
+       <perspectiveShortcut
+             id="gda.rcp.ncd.perspectives.SaxsPerspective">
+       </perspectiveShortcut>
+       <perspectiveShortcut
+             id="gda.rcp.ncd.perspectives.SaxsProcessingPerspective">
+       </perspectiveShortcut>
+       <perspectiveShortcut
+             id="gda.rcp.ncd.perspectives.WaxsPerspective">
+       </perspectiveShortcut>
+       <perspectiveShortcut
+             id="uk.ac.gda.pydev.extension.ui.JythonPerspective">
+       </perspectiveShortcut>
+       <perspectiveShortcut
+             id="gda.rcp.ncd.perspectives.GridScanPerspective">
+       </perspectiveShortcut>
+-   </perspectiveExtension>
+-   </extension>
+<extension
+      point="uk.ac.gda.client.dashboard.objects">
+   <Scannable
+         name="bsdiode"
+         tooltip="beamstop diode reading.">
+   </Scannable>
+</extension>
+<extension
+      point="uk.ac.gda.client.preferences">
+   <preference
+         name="gda.client.max.size.cached.points"
+         value="10000">
+   </preference>
+</extension>
+</plugin>

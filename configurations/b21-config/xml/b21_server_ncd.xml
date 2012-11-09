@@ -1,0 +1,78 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="file:${gda.config}/properties/java.properties" />
+	</bean>
+
+	<!--***************************************-->
+	<!-- *** NCD devices section *** -->
+	<!--***************************************-->
+
+	<bean id="DAServer" class="gda.device.detector.DAServer">
+		<property name="host" value="b21-tfg" />
+		<property name="port" value="1972" />
+		<property name="local" value="true" />
+		<property name="dataPort" value="20030" />
+		<property name="startupCommands">
+			<list>
+				<value>~config2d</value>
+				<value>tfg setup-cc-mode scaler64</value>
+				<value>tfg setup-cc-chan -1 edge</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="Tfg" class="gda.device.timer.Etfg">
+		<property name="daServerName" value="DAServer" />
+		<property name="showArmed" value="true" />
+	</bean>
+	<bean id="CalibMemory" class="gda.device.memory.Scaler">
+		<property name="daServerName" value="DAServer" />
+		<property name="width" value="9" />
+		<property name="height" value="1" />
+		<property name="openCommand" value="tfg open-cc" />
+	</bean>
+	<bean id="Scalers" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector">
+		<property name="detectorType" value="CALIB" />
+		<property name="memory" ref="CalibMemory" />
+		<property name="transposedData" value="true" />
+	</bean>
+	<bean id="TimesMemory" class="gda.device.memory.GdhistTimes">
+		<property name="daServerName" value="DAServer" />
+		<property name="width" value="8" />
+		<property name="height" value="1" />
+		<property name="openCommand" value="module open 'tfg_times' header" />
+	</bean>
+	<bean id="TfgTimes" class="uk.ac.gda.server.ncd.subdetector.NcdTimesDetector">
+		<property name="detectorType" value="TIMES" />
+		<property name="memory" ref="TimesMemory" />
+	</bean>
+
+	<bean id="ncddetectors" class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem">
+		<property name="timer" ref="Tfg" />
+		<property name="detectors">
+                        <list>
+                                <!-- <ref bean="Pilatus2M" /> -->
+                                <!--  <ref bean="Hotwaxs" /> -->
+                                <ref bean="Scalers" />
+                                <ref bean="TfgTimes" />
+                        </list>
+                </property>
+	</bean>
+
+        <bean id="ncdlistener" class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher">
+        	<property name="ncdDetector" ref="ncddetectors"></property> 
+	</bean>
+        
+<!--
+        <bean id="bssc" class="uk.ac.gda.devices.bssc.BioSAXSSampleChanger">
+                <property name="hostname" value="b21-biosaxs.diamond.ac.uk"/>
+                <property name="port" value="9555"/>
+        </bean>
+
+	<import resource="b21_biosaxscam.xml"/>
+-->
+</beans>

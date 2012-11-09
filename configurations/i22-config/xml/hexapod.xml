@@ -1,0 +1,80 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+        <bean id="hexapod_x_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-MO-HEX-01:X" />
+		<property name="local" value="true" />
+        </bean>
+        <bean id="hexapod_x" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="hexapod_x_motor" />
+		<property name="local" value="true" />
+        </bean>
+
+        <bean id="hexapod_y_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-MO-HEX-01:Y" />
+		<property name="local" value="true" />
+        </bean>
+        <bean id="hexapod_y" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="hexapod_y_motor" />
+		<property name="local" value="true" />
+        </bean>
+
+        <bean id="hexapod_z_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-MO-HEX-01:Z" />
+		<property name="local" value="true" />
+        </bean>
+        <bean id="hexapod_z" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="hexapod_z_motor" />
+		<property name="local" value="true" />
+        </bean>
+
+        <bean id="hexapod_pitch_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-MO-HEX-01:PITCH" />
+		<property name="local" value="true" />
+        </bean>
+        <bean id="hexapod_pitch" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="hexapod_pitch_motor" />
+		<property name="local" value="true" />
+        </bean>
+
+        <bean id="hexapod_roll_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-MO-HEX-01:ROLL" />
+		<property name="local" value="true" />
+        </bean>
+        <bean id="hexapod_roll" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="hexapod_roll_motor" />
+		<property name="local" value="true" />
+        </bean>
+
+        <bean id="hexapod_yaw_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-MO-HEX-01:YAW" />
+		<property name="local" value="true" />
+        </bean>
+        <bean id="hexapod_yaw" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="hexapod_yaw_motor" />
+		<property name="local" value="true" />
+        </bean>
+
+        <bean id="hexapod_defer" class="gda.device.controlpoint.EpicsControlPoint">
+                <property name="pvNameSetPoint" value="BL22I-MO-HEX-01:DEFER" />
+                <property name="pvNameGetPoint" value="BL22I-MO-HEX-01:DEFER" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="hexapod" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
+		<property name="local" value="true" />
+                <property name="groupMembers">
+                        <list>
+                                <ref bean="hexapod_x" />
+                                <ref bean="hexapod_y" />
+                                <ref bean="hexapod_z" />
+                                <ref bean="hexapod_pitch" />
+                                <ref bean="hexapod_roll" />
+                                <ref bean="hexapod_yaw" />
+                        </list>
+                </property>
+                <property name="deferredControlPoint" ref="hexapod_defer" />
+        </bean>
+</beans>

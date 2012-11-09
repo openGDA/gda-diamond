@@ -1,0 +1,224 @@
+<?xml version="1.0" ?>
+<devices>
+  <section name="BOTH">
+    <device description="Fast Shutter" epicsname="BL22I-EA-SHTR-01" name="SHTR2">
+      <type name="fastShutter"/>
+    </device>
+    <device description="HV Ion Chamber" epicsname="BL22I-DI-IONC-01" name="IONC"/>
+    <device description="SAXS Sample Table" epicsname="BL22I-MO-TABLE-01" name="BASE">
+      <type name="saxSampleTable"/>
+    </device>
+    <device description="Rotation Table" epicsname="BL22I-MO-TABLE-02" name="ROT">
+      <type name="rotationTable"/>
+    </device>
+    <device description="Precision Stage" epicsname="BL22I-MO-TABLE-03" name="PXY">
+      <type name="sampleManipulator"/>
+    </device>
+    <device description="Beam Conditioning" epicsname="BL22I-MO-TABLE-04" name="BCO">
+      <type name="beamConditioning"/>
+    </device>
+  </section>
+  <section name="ALL">
+    <device description="Optics Shutter" epicsname="FE22I-PS-SHTR-02" name="SHTR0"/>
+    <device description="Aperture + Gas Brem Coll" epicsname="BL22I-AL-APTR-01" name="GBC">
+      <type name="S1"/>
+    </device>
+    <device description="1st Slits" epicsname="BL22I-AL-SLITS-01" name="S1">
+      <type name="slit4blade_c"/>
+      <type name="slit4blade_i"/>
+      <type name="S1"/>
+    </device>
+    <device description="Diagnostic 1" epicsname="BL22I-DI-PHDGN-01" name="D1">
+      <type name="d1motor"/>
+      <type name="diagnostic1"/>
+    </device>
+    <device description="Diagnostic 2" epicsname="BL22I-DI-PHDGN-02" name="D2">
+      <type name="d2motor"/>
+      <type name="diagnostic2"/>
+      <type name="D2I"/>
+      <type name="D2D1IF"/>
+    </device>
+    <device description="Monochromator" epicsname="BL22I-OP-DCM-01" name="DCM">
+      <type name="mono"/>
+    </device>
+    <device description="Cryocooler" epicsname="BL22I-CG-CRYO-01" name="CRYO">
+      <type name="cryocooler"/>
+    </device>
+    <device description="2nd MultiLayer Crystal" epicsname="BL22I-OP-MLM-01" name="ML"/>
+    <device description="White Beam+Gas Brem Stop" epicsname="BL22I-RS-ABSB-01" name="WBS">
+      <type name="WBS"/>
+    </device>
+    <device description="2nd Slits" epicsname="BL22I-AL-SLITS-02" name="S2">
+      <type name="slit4blade_c"/>
+      <type name="slit4blade_i"/>
+      <type name="S2XPLUSmca"/>
+      <type name="S2XMINUSmca"/>
+      <type name="S2YPLUSmca"/>
+      <type name="S2YMINUSmca"/>
+      <type name="S2I"/>
+      <type name="S2XPIF"/>
+      <type name="S2XMIF"/>
+      <type name="S2YPIF"/>
+      <type name="S2YMIF"/>
+    </device>
+    <device description="Diagnostic 3" epicsname="BL22I-DI-PHDGN-03" name="D3">
+      <type name="d3motor"/>
+      <type name="diagnostic3"/>
+      <type name="D3I"/>
+      <type name="D3D1IF"/>
+      <type name="D3D2IF"/>
+    </device>
+    <device description="KB-Mirror" epicsname="BL22I-OP-KBM-01" name="KBM">
+      <type name="KBMirrorH"/>
+      <type name="KBMirrorV"/>
+      <type name="mirror2post_YAW_X"/>
+      <type name="mirror2post_PITCH_X"/>
+      <type name="mirror2post_TIP_Y2Y3"/>
+      <type name="mirror3jack_Y_PITCH_ROLL"/>
+      <type name="mirror3jack_Y_YAW_ROLL"/>
+      <type name="KBMV"/>
+      <type name="KBMH"/>
+      <type name="KBBimorphVFM"/>
+      <type name="KBBimorphHFM"/>
+      <type name="VFMBIMORPH"/>
+      <type name="HFMBIMORPH"/>
+    </device>
+    <device description="3rd Slits" epicsname="BL22I-AL-SLITS-03" name="S3">
+      <type name="slit4blade_c"/>
+      <type name="slit4blade_i"/>
+      <type name="S3I"/>
+      <type name="S3XPIF"/>
+      <type name="S3XMIF"/>
+      <type name="S3YPIF"/>
+      <type name="S3YMIF"/>
+    </device>
+    <device description="Diagnostic 4" epicsname="BL22I-DI-PHDGN-04" name="D4">
+      <type name="d4motor"/>
+      <type name="diagnostic4"/>
+      <type name="D4I"/>
+      <type name="D4D1IF"/>
+      <type name="D4D2IF"/>
+    </device>
+    <device description="Diagnostic 5" epicsname="BL22I-DI-PHDGN-05" name="D5">
+      <type name="d5motor"/>
+      <type name="diagnostic5"/>
+    </device>
+    <device description="Diagnostic 6" epicsname="BL22I-DI-PHDGN-06" name="D6">
+      <type name="d6motor"/>
+      <type name="diagnostic6"/>
+      <type name="D6I"/>
+      <type name="D6D1IF"/>
+      <type name="D6D2IF"/>
+    </device>
+    <device description="Experiment Shutter" epicsname="BL22I-PS-SHTR-01" name="SHTR1">
+      <type name="vacuumValve"/>
+    </device>
+    <device description="4th Slits" epicsname="BL22I-AL-SLITS-04" name="S4">
+      <type name="slit4blade_c"/>
+      <type name="slit4blade_i"/>
+      <type name="S4I"/>
+      <type name="S4XPIF"/>
+      <type name="S4XMIF"/>
+      <type name="S4YPIF"/>
+      <type name="S4YMIF"/>
+    </device>
+    <device description="Quad Diode Position Monitor" epicsname="BL22I-DI-PHDGN-07" name="QBPM">
+      <type name="d7motor"/>
+      <type name="diagnostic7"/>
+      <type name="D7I"/>
+      <type name="D7XPIF"/>
+      <type name="D7XMIF"/>
+      <type name="D7YPIF"/>
+      <type name="D7YMIF"/>
+    </device>
+    <device description="User Motors" epicsname="BL22I-MO-USER-01" name="USER">
+      <type name="userMotors"/>
+    </device>
+    <device description="WAX detector" epicsname="BL22I-EA-DET-01" name="WAX">
+      <type name="wdxDetector"/>
+    </device>
+    <device description="SAX Beamstop" epicsname="BL22I-RS-ABSB-02" name="SBS">
+      <type name="saxBeamstop"/>
+      <type name="ABSB2I"/>
+    </device>
+    <device description="SAX Detector" epicsname="BL22I-EA-DET-02" name="SAX">
+      <type name="saxDetector"/>
+    </device>
+    <device description="SAX Alignment Sensor" epicsname="BL22I-DI-PHDGN-11" name="SAS">
+      <type name="D11I"/>
+    </device>
+    <device description="Web Cam 1" epicsname="BL22I-EA-WCAM-01" name="WEB1"/>
+    <device description="Web Cam 2" epicsname="BL22I-EA-WCAM-02" name="WEB2"/>
+    <device description="Web Cam 3" epicsname="BL22I-EA-WCAM-03" name="WEB3"/>
+    <device description="Web Cam 4" epicsname="BL22I-EA-WCAM-04" name="WEB4"/>
+    <device description="Web Cam 5" epicsname="BL22I-EA-WCAM-05" name="WEB5"/>
+    <device description="Web Cam 6" epicsname="BL22I-EA-WCAM-06" name="WEB6"/>
+    <device description="Web Cam 7" epicsname="BL22I-EA-WCAM-07" name="WEB7"/>
+    <device description="XPS 1" epicsname="BL22I-MO-XPS-01" name="XPS1">
+      <type name="xps1"/>
+    </device>
+    <device description="Linkam stage" epicsname="BL22I-EA-TEMPC-01" name="LTC">
+      <type name="linkamStage"/>
+    </device>
+    <device description="Sample Changer" epicsname="BL22I-EA-SAMPC-01" name="SCH">
+      <type name="SAMPLECHANGER1"/>
+    </device>
+    <device description="User 1" epicsname="BL22I-EA-USER-01" name="USR1">
+      <type name="USR1B"/>
+      <type name="USR1A"/>
+      <type name="USR1WV"/>
+    </device>
+    <device description="Current Amp11" epicsname="BL22I-DI-IAMP-11" name="AMP11">
+      <type name="ODCurrAmp"/>
+    </device>
+    <device description="Current Amp1" epicsname="BL22I-DI-IAMP-01" name="AMP1">
+      <type name="ODCurrAmp"/>
+      <type name="IAMP1"/>
+    </device>
+    <device description="Current Amp2" epicsname="BL22I-DI-IAMP-02" name="AMP2">
+      <type name="ODCurrAmp"/>
+    </device>
+    <device description="Current Amp3" epicsname="BL22I-DI-IAMP-03" name="AMP3">
+      <type name="ODCurrAmp"/>
+    </device>
+    <device description="Current Amp4" epicsname="BL22I-DI-IAMP-04" name="AMP4">
+      <type name="ODCurrAmp"/>
+    </device>
+    <device description="Current Amp5" epicsname="BL22I-DI-IAMP-05" name="AMP5">
+      <type name="ODCurrAmp"/>
+    </device>
+    <device description="Current Amp6" epicsname="BL22I-DI-IAMP-06" name="AMP6">
+      <type name="ODCurrAmp"/>
+    </device>
+    <device description="Scalar 1" epicsname="BL22I-DI-8512-01" name="SCLR1">
+      <type name="ScalerCard"/>
+    </device>
+    <device description="Scalar 2" epicsname="BL22I-DI-8512-02" name="SCLR2">
+      <type name="ScalerCard"/>
+    </device>
+  </section>
+  <section name="MF">
+    <device description="6th JJ Slits" epicsname="BL22I-AL-SLITS-06" name="S6M"/>
+    <device description="Microfocus Platform (MF)" epicsname="BL22I-MO-TABLE-05" name="T5M">
+      <type name="mirror2post_PITCH_Y"/>
+    </device>
+    <device description="Mar CCD Detector (MF)" epicsname="BL22I-EA-DET-03" name="CCDM"/>
+    <device description="Microfocus Beamstop (MF)" epicsname="BL22I-RS-ABSB-03" name="BSM"/>
+    <device description="Lens Assembly (MF)" epicsname="BL22I-OP-LENS-01" name="LENSM"/>
+    <device description="Laser Tweezers (MF PI stage)" epicsname="BL22I-MO-LTWEE-01" name="LTM"/>
+    <device description="New Focus Stage (MF)" epicsname="BL22I-MO-TABLE-07" name="T7M"/>
+    <device description="Diagnostic 13" epicsname="BL22I-DI-PHDGN-13" name="D13M"/>
+  </section>
+  <section name="SAXS">
+    <device description="5th (SAXS) Slits" epicsname="BL22I-AL-SLITS-05" name="S5">
+      <type name="slit4blade_c"/>
+      <type name="slit4blade_i"/>
+    </device>
+    <device description="Laser + Microscope" epicsname="BL22I-DI-PHDGN-08" name="MIC"/>
+    <device description="Diagnostic 9" epicsname="BL22I-DI-PHDGN-9" name="D9"/>
+    <device description="Diagnostic 10" epicsname="BL22I-DI-PHDGN-10" name="D10">
+      <type name="D10I"/>
+    </device>
+    <device description="Diagnostic 12" epicsname="BL22I-DI-PHDGN-12" name="D12"/>
+  </section>
+</devices>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Beamline B21" id="uk.ac.gda.beamline.b21.product" application="uk.ac.gda.client.application" version="8.26.0" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Xms512m
+-Xmx1024m</vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+
+   <splash
+      location="uk.ac.gda.beamline.b21" />
+   <launcher name="gda-b21">
+      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <intro introId="uk.ac.gda.client.intro"/>
+
+   <vm>
+   </vm>
+
+   <license>
+        <url>http://www.gnu.org/licenses/</url>
+        <text>
+   Copyright © 2011 Diamond Light Source Ltd.
+
+GDA is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License version 3 as published by the Free
+Software Foundation.
+
+GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along
+with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
+         </text>
+   </license>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="uk.ac.gda.beamline.b21.feature"/>
+   </features>
+
+
+</product>

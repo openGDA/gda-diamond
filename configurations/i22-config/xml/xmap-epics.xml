@@ -1,0 +1,303 @@
+<?xml version="1.0" ?>
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/trunk/support/gda/gdaApp/src/genericBeamlineSchema.xsd">
+	<dxp desc="xmap dxp class instance" name="edxd">
+		<ACQUIRE desc="start or stop system" pv="BL22I-EA-DET-04:Acquire" ro="false" type="binary"/>
+		<SETRESUME desc="Set resume mode. Clear on start or resume acquiring into same spectrum." pv="BL22I-EA-DET-04:Resume" ro="false" type="binary"/>
+		<SETPRESETVALUE desc="set the preset acquisition value for all channels" pv="BL22I-EA-DET-04:PresetValue" ro="false" type="pv"/>
+		<SETPRESETTYPE desc="set the preset acquisition type for all channels" pv="BL22I-EA-DET-04:PresetMode" ro="false" type="mbbinary"/>
+		<ACQUIRING desc="system acquire status" pv="BL22I-EA-DET-04:Acquiring" ro="true" type="binary"/>
+		<SETPEAKTIME1 desc="Peaking time of the energy filter" pv="BL22I-EA-DET-04:DXP1:PeakingTime" ro="false" type="pv"/>
+		<GETPEAKTIME1 desc="Peaking time of the energy filter" pv="BL22I-EA-DET-04:DXP1:PeakingTime_RBV" ro="true" type="pv"/>
+		<GETDYNRANGE1 desc="Energy range corresponding to 40% of the total ADC range" pv="BL22I-EA-DET-04:DXP1:DynamicRange_RBV" ro="true" type="pv"/>
+		<SETTRIGTHRESH1 desc="Trigger filter threshold" pv="BL22I-EA-DET-04:DXP1:TriggerThreshold" ro="false" type="pv"/>
+		<GETTRIGTHRESH1 desc="Trigger filter threshold" pv="BL22I-EA-DET-04:DXP1:TriggerThreshold_RBV" ro="true" type="pv"/>
+		<SETBASETHRESH1 desc="Baseline filter threshold" pv="BL22I-EA-DET-04:DXP1:BaselineThreshold" ro="false" type="pv"/>
+		<GETBASETHRESH1 desc="Baseline filter threshold" pv="BL22I-EA-DET-04:DXP1:BaselineThreshold_RBV" ro="true" type="pv"/>
+		<SETBASELENGTH1 desc="Set the number of samples averaged in the baseline filter, specified as number of samples" pv="BL22I-EA-DET-04:DXP1:BaselineFilterLength" ro="false" type="mbbinary"/>
+		<GETBASELENGTH1 desc="Get the number of samples averaged in the baseline filter, specified as number of samples" pv="BL22I-EA-DET-04:DXP1:BaselineFilterLength_RBV" ro="true" type="pv"/>
+		<SETENERGYTHRESH1 desc="Get the energy filter threshold" pv="BL22I-EA-DET-04:DXP1:EnergyThreshold" ro="false" type="pv"/>
+		<GETENERGYTHRESH1 desc="Set the energy filter threshold" pv="BL22I-EA-DET-04:DXP1:EnergyThreshold_RBV" ro="true" type="pv"/>
+		<SETADCPERCENT1 desc="Set the ADC % rule" pv="BL22I-EA-DET-04:DXP1:ADCPercentRule" ro="false" type="pv"/>
+		<GETADCPERCENT1 desc="Get the ADC % rule" pv="BL22I-EA-DET-04:DXP1:ADCPercentRule_RBV" ro="true" type="pv"/>
+		<GETBINWIDTH1 desc="Width of the individual bin in the MCA spectrum" pv="BL22I-EA-DET-04:DXP1:MCABinWidth_RBV" ro="true" type="pv"/>
+		<SETMAXENERGY1 desc="Set the maximum energy for the spectrum" pv="BL22I-EA-DET-04:DXP1:MaxEnergy" ro="false" type="pv"/>
+		<GETMAXENERGY1 desc="Get the maximum energy for the spectrum" pv="BL22I-EA-DET-04:DXP1:MaxEnergy_RBV" ro="true" type="pv"/>
+		<SETPREAMPGAIN1 desc="Preamplifier gain value" pv="BL22I-EA-DET-04:DXP1:PreampGain" ro="false" type="pv"/>
+		<GETPREAMPGAIN1 desc="Preamplifier gain value" pv="BL22I-EA-DET-04:DXP1:PreampGain_RBV" ro="true" type="pv"/>
+		<SETRESETDELAY1 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL22I-EA-DET-04:DXP1:ResetDelay" ro="false" type="pv"/>
+		<GETRESETDELAY1 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL22I-EA-DET-04:DXP1:ResetDelay_RBV" ro="true" type="pv"/>
+		<SETGAPTIME1 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL22I-EA-DET-04:DXP1:GapTime" ro="false" type="pv"/>
+		<GETGAPTIME1 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL22I-EA-DET-04:DXP1:GapTime_RBV" ro="true" type="pv"/>
+		<SETTRIGPEAKTIME1 desc="The peaking time of the trigger filter" pv="BL22I-EA-DET-04:DXP1:TriggerPeakingTime" ro="false" type="pv"/>
+		<GETTRIGPEAKTIME1 desc="The peaking time of the trigger filter" pv="BL22I-EA-DET-04:DXP1:TriggerPeakingTime_RBV" ro="true" type="pv"/>
+		<SETTRIGGAPTIME1 desc="The gap time of the trigger filter" pv="BL22I-EA-DET-04:DXP1:TriggerGapTime" ro="false" type="pv"/>
+		<GETTRIGGAPTIME1 desc="The gap time of the trigger filter" pv="BL22I-EA-DET-04:DXP1:TriggerGapTime_RBV" ro="true" type="pv"/>
+		<SETMAXWIDTH1 desc="The maximum peak width for pile-up inspection" pv="BL22I-EA-DET-04:DXP1:MaxWidth" ro="false" type="pv"/>
+		<GETMAXWIDTH1 desc="The maximum peak width for pile-up inspection" pv="BL22I-EA-DET-04:DXP1:MaxWidth_RBV" ro="true" type="pv"/>
+		<REALTIME1 desc="channel aquisition time" pv="BL22I-EA-DET-04:DXP1:ElapsedRealTime" ro="true" type="pv"/>
+		<TLIVETIME1 desc="channel trigger live time" pv="BL22I-EA-DET-04:DXP1:ElapsedTriggerLiveTime" ro="true" type="pv"/>
+		<ELIVETIME1 desc="Elapsed live time" pv="BL22I-EA-DET-04:DXP1:ElapsedLiveTime" ro="true" type="pv"/>
+		<EVENTS1 desc="channel total number of events" pv="BL22I-EA-DET-04:DXP1:Events" ro="true" type="pv"/>
+		<INPUTCOUNTRATE1 desc="channel input count rate" pv="BL22I-EA-DET-04:DXP1:InputCountRate" ro="true" type="pv"/>
+		<OUTPUTCOUNTRATE1 desc="channel output count rate" pv="BL22I-EA-DET-04:DXP1:OutputCountRate" ro="true" type="pv"/>
+		<SETPEAKTIME2 desc="Peaking time of the energy filter" pv="BL22I-EA-DET-04:DXP2:PeakingTime" ro="false" type="pv"/>
+		<GETPEAKTIME2 desc="Peaking time of the energy filter" pv="BL22I-EA-DET-04:DXP2:PeakingTime_RBV" ro="true" type="pv"/>
+		<GETDYNRANGE2 desc="Energy range corresponding to 40% of the total ADC range" pv="BL22I-EA-DET-04:DXP2:DynamicRange_RBV" ro="true" type="pv"/>
+		<SETTRIGTHRESH2 desc="Trigger filter threshold" pv="BL22I-EA-DET-04:DXP2:TriggerThreshold" ro="false" type="pv"/>
+		<GETTRIGTHRESH2 desc="Trigger filter threshold" pv="BL22I-EA-DET-04:DXP2:TriggerThreshold_RBV" ro="true" type="pv"/>
+		<SETBASETHRESH2 desc="Baseline filter threshold" pv="BL22I-EA-DET-04:DXP2:BaselineThreshold" ro="false" type="pv"/>
+		<GETBASETHRESH2 desc="Baseline filter threshold" pv="BL22I-EA-DET-04:DXP2:BaselineThreshold_RBV" ro="true" type="pv"/>
+		<SETBASELENGTH2 desc="Set the number of samples averaged in the baseline filter, specified as number of samples" pv="BL22I-EA-DET-04:DXP2:BaselineFilterLength" ro="false" type="mbbinary"/>
+		<GETBASELENGTH2 desc="Get the number of samples averaged in the baseline filter, specified as number of samples" pv="BL22I-EA-DET-04:DXP2:BaselineFilterLength_RBV" ro="true" type="pv"/>
+		<SETENERGYTHRESH2 desc="Get the energy filter threshold" pv="BL22I-EA-DET-04:DXP2:EnergyThreshold" ro="false" type="pv"/>
+		<GETENERGYTHRESH2 desc="Set the energy filter threshold" pv="BL22I-EA-DET-04:DXP2:EnergyThreshold_RBV" ro="true" type="pv"/>
+		<SETADCPERCENT2 desc="Set the ADC % rule" pv="BL22I-EA-DET-04:DXP2:ADCPercentRule" ro="false" type="pv"/>
+		<GETADCPERCENT2 desc="Get the ADC % rule" pv="BL22I-EA-DET-04:DXP2:ADCPercentRule_RBV" ro="true" type="pv"/>
+		<GETBINWIDTH2 desc="Width of the individual bin in the MCA spectrum" pv="BL22I-EA-DET-04:DXP2:MCABinWidth_RBV" ro="true" type="pv"/>
+		<SETMAXENERGY2 desc="Set the maximum energy for the spectrum" pv="BL22I-EA-DET-04:DXP2:MaxEnergy" ro="false" type="pv"/>
+		<GETMAXENERGY2 desc="Get the maximum energy for the spectrum" pv="BL22I-EA-DET-04:DXP2:MaxEnergy_RBV" ro="true" type="pv"/>
+		<SETPREAMPGAIN2 desc="Preamplifier gain value" pv="BL22I-EA-DET-04:DXP2:PreampGain" ro="false" type="pv"/>
+		<GETPREAMPGAIN2 desc="Preamplifier gain value" pv="BL22I-EA-DET-04:DXP2:PreampGain_RBV" ro="true" type="pv"/>
+		<SETRESETDELAY2 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL22I-EA-DET-04:DXP2:ResetDelay" ro="false" type="pv"/>
+		<GETRESETDELAY2 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL22I-EA-DET-04:DXP2:ResetDelay_RBV" ro="true" type="pv"/>
+		<SETGAPTIME2 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL22I-EA-DET-04:DXP2:GapTime" ro="false" type="pv"/>
+		<GETGAPTIME2 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL22I-EA-DET-04:DXP2:GapTime_RBV" ro="true" type="pv"/>
+		<SETTRIGPEAKTIME2 desc="The peaking time of the trigger filter" pv="BL22I-EA-DET-04:DXP2:TriggerPeakingTime" ro="false" type="pv"/>
+		<GETTRIGPEAKTIME2 desc="The peaking time of the trigger filter" pv="BL22I-EA-DET-04:DXP2:TriggerPeakingTime_RBV" ro="true" type="pv"/>
+		<SETTRIGGAPTIME2 desc="The gap time of the trigger filter" pv="BL22I-EA-DET-04:DXP2:TriggerGapTime" ro="false" type="pv"/>
+		<GETTRIGGAPTIME2 desc="The gap time of the trigger filter" pv="BL22I-EA-DET-04:DXP2:TriggerGapTime_RBV" ro="true" type="pv"/>
+		<SETMAXWIDTH2 desc="The maximum peak width for pile-up inspection" pv="BL22I-EA-DET-04:DXP2:MaxWidth" ro="false" type="pv"/>
+		<GETMAXWIDTH2 desc="The maximum peak width for pile-up inspection" pv="BL22I-EA-DET-04:DXP2:MaxWidth_RBV" ro="true" type="pv"/>
+		<REALTIME2 desc="channel aquisition time" pv="BL22I-EA-DET-04:DXP2:ElapsedRealTime" ro="true" type="pv"/>
+		<TLIVETIME2 desc="channel trigger live time" pv="BL22I-EA-DET-04:DXP2:ElapsedTriggerLiveTime" ro="true" type="pv"/>
+		<ELIVETIME2 desc="Elapsed live time" pv="BL22I-EA-DET-04:DXP2:ElapsedLiveTime" ro="true" type="pv"/>
+		<EVENTS2 desc="channel total number of events" pv="BL22I-EA-DET-04:DXP2:Events" ro="true" type="pv"/>
+		<INPUTCOUNTRATE2 desc="channel input count rate" pv="BL22I-EA-DET-04:DXP2:InputCountRate" ro="true" type="pv"/>
+		<OUTPUTCOUNTRATE2 desc="channel output count rate" pv="BL22I-EA-DET-04:DXP2:OutputCountRate" ro="true" type="pv"/>
+		<SETPEAKTIME3 desc="Peaking time of the energy filter" pv="BL22I-EA-DET-04:DXP3:PeakingTime" ro="false" type="pv"/>
+		<GETPEAKTIME3 desc="Peaking time of the energy filter" pv="BL22I-EA-DET-04:DXP3:PeakingTime_RBV" ro="true" type="pv"/>
+		<GETDYNRANGE3 desc="Energy range corresponding to 40% of the total ADC range" pv="BL22I-EA-DET-04:DXP3:DynamicRange_RBV" ro="true" type="pv"/>
+		<SETTRIGTHRESH3 desc="Trigger filter threshold" pv="BL22I-EA-DET-04:DXP3:TriggerThreshold" ro="false" type="pv"/>
+		<GETTRIGTHRESH3 desc="Trigger filter threshold" pv="BL22I-EA-DET-04:DXP3:TriggerThreshold_RBV" ro="true" type="pv"/>
+		<SETBASETHRESH3 desc="Baseline filter threshold" pv="BL22I-EA-DET-04:DXP3:BaselineThreshold" ro="false" type="pv"/>
+		<GETBASETHRESH3 desc="Baseline filter threshold" pv="BL22I-EA-DET-04:DXP3:BaselineThreshold_RBV" ro="true" type="pv"/>
+		<SETBASELENGTH3 desc="Set the number of samples averaged in the baseline filter, specified as number of samples" pv="BL22I-EA-DET-04:DXP3:BaselineFilterLength" ro="false" type="mbbinary"/>
+		<GETBASELENGTH3 desc="Get the number of samples averaged in the baseline filter, specified as number of samples" pv="BL22I-EA-DET-04:DXP3:BaselineFilterLength_RBV" ro="true" type="pv"/>
+		<SETENERGYTHRESH3 desc="Get the energy filter threshold" pv="BL22I-EA-DET-04:DXP3:EnergyThreshold" ro="false" type="pv"/>
+		<GETENERGYTHRESH3 desc="Set the energy filter threshold" pv="BL22I-EA-DET-04:DXP3:EnergyThreshold_RBV" ro="true" type="pv"/>
+		<SETADCPERCENT3 desc="Set the ADC % rule" pv="BL22I-EA-DET-04:DXP3:ADCPercentRule" ro="false" type="pv"/>
+		<GETADCPERCENT3 desc="Get the ADC % rule" pv="BL22I-EA-DET-04:DXP3:ADCPercentRule_RBV" ro="true" type="pv"/>
+		<GETBINWIDTH3 desc="Width of the individual bin in the MCA spectrum" pv="BL22I-EA-DET-04:DXP3:MCABinWidth_RBV" ro="true" type="pv"/>
+		<SETMAXENERGY3 desc="Set the maximum energy for the spectrum" pv="BL22I-EA-DET-04:DXP3:MaxEnergy" ro="false" type="pv"/>
+		<GETMAXENERGY3 desc="Get the maximum energy for the spectrum" pv="BL22I-EA-DET-04:DXP3:MaxEnergy_RBV" ro="true" type="pv"/>
+		<SETPREAMPGAIN3 desc="Preamplifier gain value" pv="BL22I-EA-DET-04:DXP3:PreampGain" ro="false" type="pv"/>
+		<GETPREAMPGAIN3 desc="Preamplifier gain value" pv="BL22I-EA-DET-04:DXP3:PreampGain_RBV" ro="true" type="pv"/>
+		<SETRESETDELAY3 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL22I-EA-DET-04:DXP3:ResetDelay" ro="false" type="pv"/>
+		<GETRESETDELAY3 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL22I-EA-DET-04:DXP3:ResetDelay_RBV" ro="true" type="pv"/>
+		<SETGAPTIME3 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL22I-EA-DET-04:DXP3:GapTime" ro="false" type="pv"/>
+		<GETGAPTIME3 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL22I-EA-DET-04:DXP3:GapTime_RBV" ro="true" type="pv"/>
+		<SETTRIGPEAKTIME3 desc="The peaking time of the trigger filter" pv="BL22I-EA-DET-04:DXP3:TriggerPeakingTime" ro="false" type="pv"/>
+		<GETTRIGPEAKTIME3 desc="The peaking time of the trigger filter" pv="BL22I-EA-DET-04:DXP3:TriggerPeakingTime_RBV" ro="true" type="pv"/>
+		<SETTRIGGAPTIME3 desc="The gap time of the trigger filter" pv="BL22I-EA-DET-04:DXP3:TriggerGapTime" ro="false" type="pv"/>
+		<GETTRIGGAPTIME3 desc="The gap time of the trigger filter" pv="BL22I-EA-DET-04:DXP3:TriggerGapTime_RBV" ro="true" type="pv"/>
+		<SETMAXWIDTH3 desc="The maximum peak width for pile-up inspection" pv="BL22I-EA-DET-04:DXP3:MaxWidth" ro="false" type="pv"/>
+		<GETMAXWIDTH3 desc="The maximum peak width for pile-up inspection" pv="BL22I-EA-DET-04:DXP3:MaxWidth_RBV" ro="true" type="pv"/>
+		<REALTIME3 desc="channel aquisition time" pv="BL22I-EA-DET-04:DXP3:ElapsedRealTime" ro="true" type="pv"/>
+		<TLIVETIME3 desc="channel trigger live time" pv="BL22I-EA-DET-04:DXP3:ElapsedTriggerLiveTime" ro="true" type="pv"/>
+		<ELIVETIME3 desc="Elapsed live time" pv="BL22I-EA-DET-04:DXP3:ElapsedLiveTime" ro="true" type="pv"/>
+		<EVENTS3 desc="channel total number of events" pv="BL22I-EA-DET-04:DXP3:Events" ro="true" type="pv"/>
+		<INPUTCOUNTRATE3 desc="channel input count rate" pv="BL22I-EA-DET-04:DXP3:InputCountRate" ro="true" type="pv"/>
+		<OUTPUTCOUNTRATE3 desc="channel output count rate" pv="BL22I-EA-DET-04:DXP3:OutputCountRate" ro="true" type="pv"/>
+		<SETPEAKTIME4 desc="Peaking time of the energy filter" pv="BL22I-EA-DET-04:DXP4:PeakingTime" ro="false" type="pv"/>
+		<GETPEAKTIME4 desc="Peaking time of the energy filter" pv="BL22I-EA-DET-04:DXP4:PeakingTime_RBV" ro="true" type="pv"/>
+		<GETDYNRANGE4 desc="Energy range corresponding to 40% of the total ADC range" pv="BL22I-EA-DET-04:DXP4:DynamicRange_RBV" ro="true" type="pv"/>
+		<SETTRIGTHRESH4 desc="Trigger filter threshold" pv="BL22I-EA-DET-04:DXP4:TriggerThreshold" ro="false" type="pv"/>
+		<GETTRIGTHRESH4 desc="Trigger filter threshold" pv="BL22I-EA-DET-04:DXP4:TriggerThreshold_RBV" ro="true" type="pv"/>
+		<SETBASETHRESH4 desc="Baseline filter threshold" pv="BL22I-EA-DET-04:DXP4:BaselineThreshold" ro="false" type="pv"/>
+		<GETBASETHRESH4 desc="Baseline filter threshold" pv="BL22I-EA-DET-04:DXP4:BaselineThreshold_RBV" ro="true" type="pv"/>
+		<SETBASELENGTH4 desc="Set the number of samples averaged in the baseline filter, specified as number of samples" pv="BL22I-EA-DET-04:DXP4:BaselineFilterLength" ro="false" type="mbbinary"/>
+		<GETBASELENGTH4 desc="Get the number of samples averaged in the baseline filter, specified as number of samples" pv="BL22I-EA-DET-04:DXP4:BaselineFilterLength_RBV" ro="true" type="pv"/>
+		<SETENERGYTHRESH4 desc="Get the energy filter threshold" pv="BL22I-EA-DET-04:DXP4:EnergyThreshold" ro="false" type="pv"/>
+		<GETENERGYTHRESH4 desc="Set the energy filter threshold" pv="BL22I-EA-DET-04:DXP4:EnergyThreshold_RBV" ro="true" type="pv"/>
+		<SETADCPERCENT4 desc="Set the ADC % rule" pv="BL22I-EA-DET-04:DXP4:ADCPercentRule" ro="false" type="pv"/>
+		<GETADCPERCENT4 desc="Get the ADC % rule" pv="BL22I-EA-DET-04:DXP4:ADCPercentRule_RBV" ro="true" type="pv"/>
+		<GETBINWIDTH4 desc="Width of the individual bin in the MCA spectrum" pv="BL22I-EA-DET-04:DXP4:MCABinWidth_RBV" ro="true" type="pv"/>
+		<SETMAXENERGY4 desc="Set the maximum energy for the spectrum" pv="BL22I-EA-DET-04:DXP4:MaxEnergy" ro="false" type="pv"/>
+		<GETMAXENERGY4 desc="Get the maximum energy for the spectrum" pv="BL22I-EA-DET-04:DXP4:MaxEnergy_RBV" ro="true" type="pv"/>
+		<SETPREAMPGAIN4 desc="Preamplifier gain value" pv="BL22I-EA-DET-04:DXP4:PreampGain" ro="false" type="pv"/>
+		<GETPREAMPGAIN4 desc="Preamplifier gain value" pv="BL22I-EA-DET-04:DXP4:PreampGain_RBV" ro="true" type="pv"/>
+		<SETRESETDELAY4 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL22I-EA-DET-04:DXP4:ResetDelay" ro="false" type="pv"/>
+		<GETRESETDELAY4 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL22I-EA-DET-04:DXP4:ResetDelay_RBV" ro="true" type="pv"/>
+		<SETGAPTIME4 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL22I-EA-DET-04:DXP4:GapTime" ro="false" type="pv"/>
+		<GETGAPTIME4 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL22I-EA-DET-04:DXP4:GapTime_RBV" ro="true" type="pv"/>
+		<SETTRIGPEAKTIME4 desc="The peaking time of the trigger filter" pv="BL22I-EA-DET-04:DXP4:TriggerPeakingTime" ro="false" type="pv"/>
+		<GETTRIGPEAKTIME4 desc="The peaking time of the trigger filter" pv="BL22I-EA-DET-04:DXP4:TriggerPeakingTime_RBV" ro="true" type="pv"/>
+		<SETTRIGGAPTIME4 desc="The gap time of the trigger filter" pv="BL22I-EA-DET-04:DXP4:TriggerGapTime" ro="false" type="pv"/>
+		<GETTRIGGAPTIME4 desc="The gap time of the trigger filter" pv="BL22I-EA-DET-04:DXP4:TriggerGapTime_RBV" ro="true" type="pv"/>
+		<SETMAXWIDTH4 desc="The maximum peak width for pile-up inspection" pv="BL22I-EA-DET-04:DXP4:MaxWidth" ro="false" type="pv"/>
+		<GETMAXWIDTH4 desc="The maximum peak width for pile-up inspection" pv="BL22I-EA-DET-04:DXP4:MaxWidth_RBV" ro="true" type="pv"/>
+		<REALTIME4 desc="channel aquisition time" pv="BL22I-EA-DET-04:DXP4:ElapsedRealTime" ro="true" type="pv"/>
+		<TLIVETIME4 desc="channel trigger live time" pv="BL22I-EA-DET-04:DXP4:ElapsedTriggerLiveTime" ro="true" type="pv"/>
+		<ELIVETIME4 desc="Elapsed live time" pv="BL22I-EA-DET-04:DXP4:ElapsedLiveTime" ro="true" type="pv"/>
+		<EVENTS4 desc="channel total number of events" pv="BL22I-EA-DET-04:DXP4:Events" ro="true" type="pv"/>
+		<INPUTCOUNTRATE4 desc="channel input count rate" pv="BL22I-EA-DET-04:DXP4:InputCountRate" ro="true" type="pv"/>
+		<OUTPUTCOUNTRATE4 desc="channel output count rate" pv="BL22I-EA-DET-04:DXP4:OutputCountRate" ro="true" type="pv"/>
+		<ENERGYBINS1 desc="spectrum x-axis" pv="BL22I-EA-DET-04:MCA1:XAXIS" ro="true" type="array"/>
+		<MCA1 desc="XMAP MCA data record" pv="BL22I-EA-DET-04:MCA1" ro="false" type="mca"/>
+		<DATA1 desc="XMAP MCA spectrum data" pv="BL22I-EA-DET-04:MCA1.VAL" ro="true" type="array"/>
+		<RUNSTATE1 desc="current acquisition state" pv="BL22I-EA-DET-04:MCA1.ACQG" ro="true" type="pv"/>
+		<ENERGYBINS2 desc="spectrum x-axis" pv="BL22I-EA-DET-04:MCA2:XAXIS" ro="true" type="array"/>
+		<MCA2 desc="XMAP MCA data record" pv="BL22I-EA-DET-04:MCA2" ro="false" type="mca"/>
+		<DATA2 desc="XMAP MCA spectrum data" pv="BL22I-EA-DET-04:MCA2.VAL" ro="true" type="array"/>
+		<RUNSTATE2 desc="current acquisition state" pv="BL22I-EA-DET-04:MCA2.ACQG" ro="true" type="pv"/>
+		<ENERGYBINS3 desc="spectrum x-axis" pv="BL22I-EA-DET-04:MCA3:XAXIS" ro="true" type="array"/>
+		<MCA3 desc="XMAP MCA data record" pv="BL22I-EA-DET-04:MCA3" ro="false" type="mca"/>
+		<DATA3 desc="XMAP MCA spectrum data" pv="BL22I-EA-DET-04:MCA3.VAL" ro="true" type="array"/>
+		<RUNSTATE3 desc="current acquisition state" pv="BL22I-EA-DET-04:MCA3.ACQG" ro="true" type="pv"/>
+		<ENERGYBINS4 desc="spectrum x-axis" pv="BL22I-EA-DET-04:MCA4:XAXIS" ro="true" type="array"/>
+		<MCA4 desc="XMAP MCA data record" pv="BL22I-EA-DET-04:MCA4" ro="false" type="mca"/>
+		<DATA4 desc="XMAP MCA spectrum data" pv="BL22I-EA-DET-04:MCA4.VAL" ro="true" type="array"/>
+		<RUNSTATE4 desc="current acquisition state" pv="BL22I-EA-DET-04:MCA4.ACQG" ro="true" type="pv"/>
+		<SETNBINS desc="Number of elements in spectrum" pv="BL22I-EA-DET-04:MCA1.NUSE" ro="false" type="pv"/>
+		<GETNBINS desc="Number of elements in spectrum" pv="BL22I-EA-DET-04:MCA1:NBINS" ro="true" type="pv"/>
+	</dxp>
+	<NDPluginBase desc="netcdf NDPluginBase class instance" name="netcdf_NDPluginBase">
+		<PortName_RBV desc="Readback for PortName" pv="BL22I-EA-DET-04:CDF:PortName_RBV" ro="true" type="pv"/>
+		<PluginType_RBV desc="Readback for PluginType" pv="BL22I-EA-DET-04:CDF:PluginType_RBV" ro="true" type="pv"/>
+		<NDArrayPort desc="Set NDArrayPort" pv="BL22I-EA-DET-04:CDF:NDArrayPort" ro="false" type="pv"/>
+		<NDArrayPort_RBV desc="Readback for NDArrayPort" pv="BL22I-EA-DET-04:CDF:NDArrayPort_RBV" ro="true" type="pv"/>
+		<NDArrayAddress desc="Set NDArrayAddress" pv="BL22I-EA-DET-04:CDF:NDArrayAddress" ro="false" type="pv"/>
+		<NDArrayAddress_RBV desc="Readback for NDArrayAddress" pv="BL22I-EA-DET-04:CDF:NDArrayAddress_RBV" ro="true" type="pv"/>
+		<EnableCallbacks desc="Set EnableCallbacks" pv="BL22I-EA-DET-04:CDF:EnableCallbacks" ro="false" type="binary"/>
+		<EnableCallbacks_RBV desc="Readback for EnableCallbacks" pv="BL22I-EA-DET-04:CDF:EnableCallbacks_RBV" ro="true" type="binary"/>
+		<MinCallbackTime desc="Set MinCallbackTime" pv="BL22I-EA-DET-04:CDF:MinCallbackTime" ro="false" type="pv"/>
+		<MinCallbackTime_RBV desc="Readback for MinCallbackTime" pv="BL22I-EA-DET-04:CDF:MinCallbackTime_RBV" ro="true" type="pv"/>
+		<BlockingCallbacks desc="Set BlockingCallbacks" pv="BL22I-EA-DET-04:CDF:BlockingCallbacks" ro="false" type="binary"/>
+		<BlockingCallbacks_RBV desc="Readback for BlockingCallbacks" pv="BL22I-EA-DET-04:CDF:BlockingCallbacks_RBV" ro="true" type="binary"/>
+		<ArrayCounter desc="Set ArrayCounter" pv="BL22I-EA-DET-04:CDF:ArrayCounter" ro="false" type="pv"/>
+		<ArrayCounter_RBV desc="Readback for ArrayCounter" pv="BL22I-EA-DET-04:CDF:ArrayCounter_RBV" ro="true" type="pv"/>
+		<ArrayRate_RBV desc="Readback for ArrayRate" pv="BL22I-EA-DET-04:CDF:ArrayRate_RBV" ro="true" type="pv"/>
+		<DroppedArrays desc="Set DroppedArrays" pv="BL22I-EA-DET-04:CDF:DroppedArrays" ro="false" type="pv"/>
+		<DroppedArrays_RBV desc="Readback for DroppedArrays" pv="BL22I-EA-DET-04:CDF:DroppedArrays_RBV" ro="true" type="pv"/>
+		<NDimensions_RBV desc="Readback for NDimensions" pv="BL22I-EA-DET-04:CDF:NDimensions_RBV" ro="true" type="pv"/>
+		<ArraySize0_RBV desc="Readback for ArraySize0" pv="BL22I-EA-DET-04:CDF:ArraySize0_RBV" ro="true" type="pv"/>
+		<ArraySize1_RBV desc="Readback for ArraySize1" pv="BL22I-EA-DET-04:CDF:ArraySize1_RBV" ro="true" type="pv"/>
+		<ArraySize2_RBV desc="Readback for ArraySize2" pv="BL22I-EA-DET-04:CDF:ArraySize2_RBV" ro="true" type="pv"/>
+		<DataType_RBV desc="Readback for DataType" pv="BL22I-EA-DET-04:CDF:DataType_RBV" ro="true" type="mbbinary"/>
+		<ColorMode_RBV desc="Readback for ColorMode" pv="BL22I-EA-DET-04:CDF:ColorMode_RBV" ro="true" type="mbbinary"/>
+		<BayerPattern_RBV desc="Readback for BayerPattern" pv="BL22I-EA-DET-04:CDF:BayerPattern_RBV" ro="true" type="mbbinary"/>
+		<UniqueId_RBV desc="Readback for UniqueId" pv="BL22I-EA-DET-04:CDF:UniqueId_RBV" ro="true" type="pv"/>
+		<TimeStamp_RBV desc="Readback for TimeStamp" pv="BL22I-EA-DET-04:CDF:TimeStamp_RBV" ro="true" type="pv"/>
+		<NDAttributesFile desc="Set NDAttributesFile" pv="BL22I-EA-DET-04:CDF:NDAttributesFile" ro="false" type="array"/>
+	</NDPluginBase>
+	<NDPluginBase desc="hdf NDPluginBase class instance" name="hdf_NDPluginBase">
+		<PortName_RBV desc="Readback for PortName" pv="BL22I-EA-DET-04:HDF:PortName_RBV" ro="true" type="pv"/>
+		<PluginType_RBV desc="Readback for PluginType" pv="BL22I-EA-DET-04:HDF:PluginType_RBV" ro="true" type="pv"/>
+		<NDArrayPort desc="Set NDArrayPort" pv="BL22I-EA-DET-04:HDF:NDArrayPort" ro="false" type="pv"/>
+		<NDArrayPort_RBV desc="Readback for NDArrayPort" pv="BL22I-EA-DET-04:HDF:NDArrayPort_RBV" ro="true" type="pv"/>
+		<NDArrayAddress desc="Set NDArrayAddress" pv="BL22I-EA-DET-04:HDF:NDArrayAddress" ro="false" type="pv"/>
+		<NDArrayAddress_RBV desc="Readback for NDArrayAddress" pv="BL22I-EA-DET-04:HDF:NDArrayAddress_RBV" ro="true" type="pv"/>
+		<EnableCallbacks desc="Set EnableCallbacks" pv="BL22I-EA-DET-04:HDF:EnableCallbacks" ro="false" type="binary"/>
+		<EnableCallbacks_RBV desc="Readback for EnableCallbacks" pv="BL22I-EA-DET-04:HDF:EnableCallbacks_RBV" ro="true" type="binary"/>
+		<MinCallbackTime desc="Set MinCallbackTime" pv="BL22I-EA-DET-04:HDF:MinCallbackTime" ro="false" type="pv"/>
+		<MinCallbackTime_RBV desc="Readback for MinCallbackTime" pv="BL22I-EA-DET-04:HDF:MinCallbackTime_RBV" ro="true" type="pv"/>
+		<BlockingCallbacks desc="Set BlockingCallbacks" pv="BL22I-EA-DET-04:HDF:BlockingCallbacks" ro="false" type="binary"/>
+		<BlockingCallbacks_RBV desc="Readback for BlockingCallbacks" pv="BL22I-EA-DET-04:HDF:BlockingCallbacks_RBV" ro="true" type="binary"/>
+		<ArrayCounter desc="Set ArrayCounter" pv="BL22I-EA-DET-04:HDF:ArrayCounter" ro="false" type="pv"/>
+		<ArrayCounter_RBV desc="Readback for ArrayCounter" pv="BL22I-EA-DET-04:HDF:ArrayCounter_RBV" ro="true" type="pv"/>
+		<ArrayRate_RBV desc="Readback for ArrayRate" pv="BL22I-EA-DET-04:HDF:ArrayRate_RBV" ro="true" type="pv"/>
+		<DroppedArrays desc="Set DroppedArrays" pv="BL22I-EA-DET-04:HDF:DroppedArrays" ro="false" type="pv"/>
+		<DroppedArrays_RBV desc="Readback for DroppedArrays" pv="BL22I-EA-DET-04:HDF:DroppedArrays_RBV" ro="true" type="pv"/>
+		<NDimensions_RBV desc="Readback for NDimensions" pv="BL22I-EA-DET-04:HDF:NDimensions_RBV" ro="true" type="pv"/>
+		<ArraySize0_RBV desc="Readback for ArraySize0" pv="BL22I-EA-DET-04:HDF:ArraySize0_RBV" ro="true" type="pv"/>
+		<ArraySize1_RBV desc="Readback for ArraySize1" pv="BL22I-EA-DET-04:HDF:ArraySize1_RBV" ro="true" type="pv"/>
+		<ArraySize2_RBV desc="Readback for ArraySize2" pv="BL22I-EA-DET-04:HDF:ArraySize2_RBV" ro="true" type="pv"/>
+		<DataType_RBV desc="Readback for DataType" pv="BL22I-EA-DET-04:HDF:DataType_RBV" ro="true" type="mbbinary"/>
+		<ColorMode_RBV desc="Readback for ColorMode" pv="BL22I-EA-DET-04:HDF:ColorMode_RBV" ro="true" type="mbbinary"/>
+		<BayerPattern_RBV desc="Readback for BayerPattern" pv="BL22I-EA-DET-04:HDF:BayerPattern_RBV" ro="true" type="mbbinary"/>
+		<UniqueId_RBV desc="Readback for UniqueId" pv="BL22I-EA-DET-04:HDF:UniqueId_RBV" ro="true" type="pv"/>
+		<TimeStamp_RBV desc="Readback for TimeStamp" pv="BL22I-EA-DET-04:HDF:TimeStamp_RBV" ro="true" type="pv"/>
+		<NDAttributesFile desc="Set NDAttributesFile" pv="BL22I-EA-DET-04:HDF:NDAttributesFile" ro="false" type="array"/>
+	</NDPluginBase>
+	<NDFile desc="netcdf NDFile class instance" name="netcdf_NDFile">
+		<FilePath desc="Set FilePath" pv="BL22I-EA-DET-04:CDF:FilePath" ro="false" type="array"/>
+		<FilePath_RBV desc="Readback for FilePath" pv="BL22I-EA-DET-04:CDF:FilePath_RBV" ro="true" type="array"/>
+		<FileName desc="Set FileName" pv="BL22I-EA-DET-04:CDF:FileName" ro="false" type="array"/>
+		<FileName_RBV desc="Readback for FileName" pv="BL22I-EA-DET-04:CDF:FileName_RBV" ro="true" type="array"/>
+		<FileNumber desc="Set FileNumber" pv="BL22I-EA-DET-04:CDF:FileNumber" ro="false" type="pv"/>
+		<FileNumber_RBV desc="Readback for FileNumber" pv="BL22I-EA-DET-04:CDF:FileNumber_RBV" ro="true" type="pv"/>
+		<AutoIncrement desc="Set AutoIncrement" pv="BL22I-EA-DET-04:CDF:AutoIncrement" ro="false" type="binary"/>
+		<AutoIncrement_RBV desc="Readback for AutoIncrement" pv="BL22I-EA-DET-04:CDF:AutoIncrement_RBV" ro="true" type="binary"/>
+		<FileTemplate desc="Set FileTemplate" pv="BL22I-EA-DET-04:CDF:FileTemplate" ro="false" type="array"/>
+		<FileTemplate_RBV desc="Readback for FileTemplate" pv="BL22I-EA-DET-04:CDF:FileTemplate_RBV" ro="true" type="array"/>
+		<FullFileName_RBV desc="Readback for FullFileName" pv="BL22I-EA-DET-04:CDF:FullFileName_RBV" ro="true" type="array"/>
+		<AutoSave desc="Set AutoSave" pv="BL22I-EA-DET-04:CDF:AutoSave" ro="false" type="binary"/>
+		<AutoSave_RBV desc="Readback for AutoSave" pv="BL22I-EA-DET-04:CDF:AutoSave_RBV" ro="true" type="binary"/>
+		<WriteFile desc="Set WriteFile" pv="BL22I-EA-DET-04:CDF:WriteFile" ro="false" type="pv"/>
+		<WriteFile_RBV desc="Readback for WriteFile" pv="BL22I-EA-DET-04:CDF:WriteFile_RBV" ro="true" type="binary"/>
+		<ReadFile desc="Set ReadFile" pv="BL22I-EA-DET-04:CDF:ReadFile" ro="false" type="pv"/>
+		<ReadFile_RBV desc="Readback for ReadFile" pv="BL22I-EA-DET-04:CDF:ReadFile_RBV" ro="true" type="binary"/>
+		<FileFormat desc="Set FileFormat" pv="BL22I-EA-DET-04:CDF:FileFormat" ro="false" type="mbbinary"/>
+		<FileFormat_RBV desc="Readback for FileFormat" pv="BL22I-EA-DET-04:CDF:FileFormat_RBV" ro="true" type="mbbinary"/>
+		<FileWriteMode desc="Set FileWriteMode" pv="BL22I-EA-DET-04:CDF:FileWriteMode" ro="false" type="mbbinary"/>
+		<FileWriteMode_RBV desc="Readback for FileWriteMode" pv="BL22I-EA-DET-04:CDF:FileWriteMode_RBV" ro="true" type="mbbinary"/>
+		<Capture desc="Set Capture" pv="BL22I-EA-DET-04:CDF:Capture" ro="false" type="pv"/>
+		<Capture_RBV desc="Readback for Capture" pv="BL22I-EA-DET-04:CDF:Capture_RBV" ro="true" type="binary"/>
+		<NumCapture desc="Set NumCapture" pv="BL22I-EA-DET-04:CDF:NumCapture" ro="false" type="pv"/>
+		<NumCapture_RBV desc="Readback for NumCapture" pv="BL22I-EA-DET-04:CDF:NumCapture_RBV" ro="true" type="pv"/>
+		<NumCaptured_RBV desc="Readback for NumCaptured" pv="BL22I-EA-DET-04:CDF:NumCaptured_RBV" ro="true" type="pv"/>
+	</NDFile>
+	<NDFile desc="hdf NDFile class instance" name="hdf_NDFile">
+		<FilePath desc="Set FilePath" pv="BL22I-EA-DET-04:HDF:FilePath" ro="false" type="array"/>
+		<FilePath_RBV desc="Readback for FilePath" pv="BL22I-EA-DET-04:HDF:FilePath_RBV" ro="true" type="array"/>
+		<FileName desc="Set FileName" pv="BL22I-EA-DET-04:HDF:FileName" ro="false" type="array"/>
+		<FileName_RBV desc="Readback for FileName" pv="BL22I-EA-DET-04:HDF:FileName_RBV" ro="true" type="array"/>
+		<FileNumber desc="Set FileNumber" pv="BL22I-EA-DET-04:HDF:FileNumber" ro="false" type="pv"/>
+		<FileNumber_RBV desc="Readback for FileNumber" pv="BL22I-EA-DET-04:HDF:FileNumber_RBV" ro="true" type="pv"/>
+		<AutoIncrement desc="Set AutoIncrement" pv="BL22I-EA-DET-04:HDF:AutoIncrement" ro="false" type="binary"/>
+		<AutoIncrement_RBV desc="Readback for AutoIncrement" pv="BL22I-EA-DET-04:HDF:AutoIncrement_RBV" ro="true" type="binary"/>
+		<FileTemplate desc="Set FileTemplate" pv="BL22I-EA-DET-04:HDF:FileTemplate" ro="false" type="array"/>
+		<FileTemplate_RBV desc="Readback for FileTemplate" pv="BL22I-EA-DET-04:HDF:FileTemplate_RBV" ro="true" type="array"/>
+		<FullFileName_RBV desc="Readback for FullFileName" pv="BL22I-EA-DET-04:HDF:FullFileName_RBV" ro="true" type="array"/>
+		<AutoSave desc="Set AutoSave" pv="BL22I-EA-DET-04:HDF:AutoSave" ro="false" type="binary"/>
+		<AutoSave_RBV desc="Readback for AutoSave" pv="BL22I-EA-DET-04:HDF:AutoSave_RBV" ro="true" type="binary"/>
+		<WriteFile desc="Set WriteFile" pv="BL22I-EA-DET-04:HDF:WriteFile" ro="false" type="pv"/>
+		<WriteFile_RBV desc="Readback for WriteFile" pv="BL22I-EA-DET-04:HDF:WriteFile_RBV" ro="true" type="binary"/>
+		<ReadFile desc="Set ReadFile" pv="BL22I-EA-DET-04:HDF:ReadFile" ro="false" type="pv"/>
+		<ReadFile_RBV desc="Readback for ReadFile" pv="BL22I-EA-DET-04:HDF:ReadFile_RBV" ro="true" type="binary"/>
+		<FileFormat desc="Set FileFormat" pv="BL22I-EA-DET-04:HDF:FileFormat" ro="false" type="mbbinary"/>
+		<FileFormat_RBV desc="Readback for FileFormat" pv="BL22I-EA-DET-04:HDF:FileFormat_RBV" ro="true" type="mbbinary"/>
+		<FileWriteMode desc="Set FileWriteMode" pv="BL22I-EA-DET-04:HDF:FileWriteMode" ro="false" type="mbbinary"/>
+		<FileWriteMode_RBV desc="Readback for FileWriteMode" pv="BL22I-EA-DET-04:HDF:FileWriteMode_RBV" ro="true" type="mbbinary"/>
+		<Capture desc="Set Capture" pv="BL22I-EA-DET-04:HDF:Capture" ro="false" type="pv"/>
+		<Capture_RBV desc="Readback for Capture" pv="BL22I-EA-DET-04:HDF:Capture_RBV" ro="true" type="binary"/>
+		<NumCapture desc="Set NumCapture" pv="BL22I-EA-DET-04:HDF:NumCapture" ro="false" type="pv"/>
+		<NumCapture_RBV desc="Readback for NumCapture" pv="BL22I-EA-DET-04:HDF:NumCapture_RBV" ro="true" type="pv"/>
+		<NumCaptured_RBV desc="Readback for NumCaptured" pv="BL22I-EA-DET-04:HDF:NumCaptured_RBV" ro="true" type="pv"/>
+	</NDFile>
+	<NDFileNetCDF desc="netcdf NDFileNetCDF class instance" name="netcdf_NDFileNetCDF"/>
+	<NDFileHDF5 desc="hdf NDFileHDF5 class instance" name="hdf_NDFileHDF5">
+		<NumRowChunks desc="Number of rows to use per chunk" pv="BL22I-EA-DET-04:HDF:NumRowChunks" ro="false" type="pv"/>
+		<NumRowChunks_RBV desc="Readback of number of rows to use per chunk" pv="BL22I-EA-DET-04:HDF:NumRowChunks_RBV" ro="true" type="pv"/>
+		<NumExtraDims desc="Number of extra dimensions [0..2]" pv="BL22I-EA-DET-04:HDF:NumExtraDims" ro="false" type="pv"/>
+		<NumExtraDims_RBV desc="Readback number of extra dimensions" pv="BL22I-EA-DET-04:HDF:NumExtraDims_RBV" ro="true" type="pv"/>
+		<ExtraDimSizeN desc="Size of extra dimension N (no. of frames per point)" pv="BL22I-EA-DET-04:HDF:ExtraDimSizeN" ro="false" type="pv"/>
+		<ExtraDimSizeN_RBV desc="Readback size of extra dimension N (no. of frames per point)" pv="BL22I-EA-DET-04:HDF:ExtraDimSizeN_RBV" ro="true" type="pv"/>
+		<ExtraDimSizeX desc="Size of extra dimension X" pv="BL22I-EA-DET-04:HDF:ExtraDimSizeX" ro="false" type="pv"/>
+		<ExtraDimSizeX_RBV desc="Readback size of extra dimension X" pv="BL22I-EA-DET-04:HDF:ExtraDimSizeX_RBV" ro="true" type="pv"/>
+		<ExtraDimSizeY desc="Size of extra dimension Y" pv="BL22I-EA-DET-04:HDF:ExtraDimSizeY" ro="false" type="pv"/>
+		<ExtraDimSizeY_RBV desc="Readback size of extra dimension Y" pv="BL22I-EA-DET-04:HDF:ExtraDimSizeY_RBV" ro="true" type="pv"/>
+		<runtime desc="Total runtime from first frame to file closed" pv="BL22I-EA-DET-04:HDF:Runtime" ro="true" type="pv"/>
+		<IOSpeed desc="Overall IO speed from first frame to file closed" pv="BL22I-EA-DET-04:HDF:IOSpeed" ro="true" type="pv"/>
+		<Compression desc="Select or switch off compression filter" pv="BL22I-EA-DET-04:HDF:Compression" ro="false" type="mbbinary"/>
+		<Compression_RBV desc="Readback selected compression filter" pv="BL22I-EA-DET-04:HDF:Compression_RBV" ro="true" type="mbbinary"/>
+		<NumBitPrecision desc="N-bit compression filter: number of data bits per pixel" pv="BL22I-EA-DET-04:HDF:NumDataBits" ro="false" type="pv"/>
+		<NumBitPrecision_RBV desc="Readback N-bit compression filter: number of data bits per pixel" pv="BL22I-EA-DET-04:HDF:NumDataBits_RBV" ro="true" type="pv"/>
+		<NumBitOffset desc="N-bit compression filter: dataword bit-offset in pixel" pv="BL22I-EA-DET-04:HDF:DataBitsOffset" ro="false" type="pv"/>
+		<NumBitOffset_RBV desc="Readback N-bit compression filter: dataword bit-offset in pixel" pv="BL22I-EA-DET-04:HDF:DataBitsOffset_RBV" ro="true" type="pv"/>
+		<szipNumPixels desc="szip compression filter: number of pixels in filter" pv="BL22I-EA-DET-04:HDF:SZipNumPixels" ro="false" type="pv"/>
+		<szipNumPixels_RBV desc="Readback szip compression filter: number of pixels in filter" pv="BL22I-EA-DET-04:HDF:SZipNumPixels_RBV" ro="true" type="pv"/>
+		<ZCompressLevel desc="zlib compression filter: compression level" pv="BL22I-EA-DET-04:HDF:ZLevel" ro="false" type="pv"/>
+		<ZCompressLevel_RBV desc="Readback zlib compression filter: compression level" pv="BL22I-EA-DET-04:HDF:ZLevel_RBV" ro="true" type="pv"/>
+	</NDFileHDF5>
+</devices>
