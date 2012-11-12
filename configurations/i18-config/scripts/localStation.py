@@ -12,11 +12,6 @@ from gda.device.scannable import BeamMonitorWithFeedbackSwitchScannable
 from gda.device.scannable import DetectorFillingMonitorScannable
 from gda.device.scannable import BeamMonitorScannableForLineRepeat
 from gda.data.fileregistrar import IcatXMLCreator
-from gdascripts.pd.scaler8512_pds import ScalerChannelEpicsPVClass
-from gdascripts.pd.epics_pds import SingleEpicsPositionerClass
-from gdascripts.pd import time_pds
-from gdascripts import utils, constants
-from gdascripts.utils import * 
 from cid_photodiode import CidPhotoDiode
 
 print "Initialization Started";
@@ -39,12 +34,6 @@ gdaConfigDir = gdaConfigDir + "/"
 execfile(gdaConfigDir + "scripts/scans/DummySlaveCounterTimer.py")
 execfile(gdaConfigDir + "scripts/scans/DummyExafsScanClass.py")
 execfile(gdaConfigDir + "scripts/I18Scans/XspressReadScannable.py")
-
-print "Setting XSPRESS2 Collection mode"
-xs = finder.find("xspress2system")
-
-sc_MicroFocusSampleX.setOutputFormat(["%.4f"])
-sc_MicroFocusSampleY.setOutputFormat(["%.4f"])
 
 print "setting scans"
 setupExperiment.rootnamespace = globals()
@@ -122,19 +111,12 @@ execfile(gdaConfigDir + "scripts/I18Scans/vortex/I18VortexUtilities.py")
 execfile(gdaConfigDir + "scripts/I18Scans/read_xspress_counts.py")
 
 execfile(gdaConfigDir + "scripts/chgDataDir.py");
-execfile(gdaConfigDir + "scripts/microscope_limits.py")
 
 if (LocalProperties.get("gda.mode") == 'live'):
     execfile(gdaConfigDir + "scripts/I18Scans/StruckV2F.py")
-
-print "Setting up 8512 scalars...";
-execfile(gdaConfigDir + "scripts/scaler8512.py");
-execfile("/dls_sw/i18/scripts/focus/SesoMethod/Setup_KBMotors_IDT_Mechanical.py")
+    execfile("/dls_sw/i18/scripts/focus/SesoMethod/Setup_KBMotors_IDT_Mechanical.py")
 
 execfile(gdaConfigDir + "scripts/edxd_calibrator.py")
-
-print "Setting XSPRESS2 Collection mode"
-xs = finder.find("sw_xspress2system")
 
 print "Loading i18 custom script controls..."
 execfile(gdaConfigDir + "scripts/i18_scans.py")

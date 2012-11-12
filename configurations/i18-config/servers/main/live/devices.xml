@@ -165,29 +165,11 @@
 		<property name="pvName" value="BL18I-OP-DCM-01:BRAGG.VMAX" />
 		<property name="local" value="true" />
 	</bean>
-<!-- *****************************************************************
-	*********Quad Amplifiers************************************ -->
-<!-- <bean id="CurrAmpQuad8" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
-		<property name="deviceName" value="AMP8"/>
-</bean>
-<bean id="BpmController8" class="gda.device.monitor.EpicsBpmController">
-		<property name="deviceName" value="D8.BPM"/>
-</bean>
-<bean id="cid" class="gda.device.qbpm.EpicsQbpm">
-		<property name="currAmpQuadName" value="CurrAmpQuad8"/>
-		<property name="bpmName" value="BpmController8"/>		
-</bean> -->
-<!-- ********************* -->
-<!-- *** MOTOR SECTION *** -->
-<!-- ********************* -->
-<!-- Insertion Device -->
+
 <bean id="idgap_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="FEIDGAP.GAP"></property>
 </bean>
-<!--<bean id="idgap_motor" class="gda.device.motor.DummyMotor" >
-	<property name="speed" value="1000.0"></property>
-	</bean>
---><bean id="d1motor_motor" class="gda.device.motor.EpicsMotor" >
+<bean id="d1motor_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="D1.POSN"></property>
 	<property name="local" value="true"/>
 </bean>
@@ -297,10 +279,6 @@
 	<property name="deviceName" value="DCM:XTAL2:YPRIME"></property>
 	<property name="local" value="true"/>
 </bean>
-<!--<bean id="dcm_perp_motor" class="gda.device.motor.DummyMotor" >
-	<property name="speed" value="1000.0"></property>
-	</bean>
---><!-- S2 Motors (Compound Motions) -->
 <bean id="s2xpos_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="S2.XDISP"></property>
 	<property name="local" value="true"/>
@@ -317,7 +295,7 @@
 	<property name="deviceName" value="S2.YSIZE"></property>
 	<property name="local" value="true"/>
 </bean>
-<!-- S3 Motors (Compound Motions) -->
+
 <bean id="s3xpos_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="S3.XCENTRE"></property>
 	<property name="local" value="true"/>
@@ -334,7 +312,7 @@
 	<property name="deviceName" value="S3.YSIZE"></property>
 	<property name="local" value="true"/>
 </bean>
-<!-- S3 Motors (Individual Motions) -->
+
 <bean id="s3xplus_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="S3.XPOS"></property>
 	<property name="local" value="true"/>
@@ -414,7 +392,6 @@
 	<property name="local" value="true"/>
 </bean>
 
-
 <bean id="sample_thetacoarse_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="T1.ROT"></property>
 	<property name="local" value="true"/>
@@ -423,8 +400,6 @@
 	<property name="deviceName" value="T1.FROT"></property>
 	<property name="local" value="true"/>
 </bean>
-
-
 
 <bean id="sample_y1_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="T1.Y1"></property>
@@ -438,8 +413,6 @@
 	<property name="local" value="true"/>
 </bean>
 
-
-<!-- Table 1 Motors -->
 <bean id="sample_x_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="T1.X"></property>
 	<property name="local" value="true"/>
@@ -471,7 +444,7 @@
 	<property name="deviceName" value="VMA:FOCUS"></property>
 	<property name="local" value="true"/>
 </bean>
-<!-- Multilayer Detector Motors -->
+
 <bean id="ml_x_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="MLD:X"></property>
 	<property name="local" value="true"/>
@@ -541,9 +514,5 @@
 	<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN"></property>
 	<property name="local" value="true"/>
 </bean>
-
-<!-- <bean id="epicsTopupMonitor" class="gda.device.monitor.DummyEpicsMonitor" > -->
-<!-- 	<property name="local" value="true"/> -->
-<!-- </bean> -->
 	
 </beans>
