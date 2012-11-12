@@ -1,9 +1,0 @@
-#
-#
-#
-myscan=I18FluExafsPointScanClass()
-myscan.setWindows("/dls/i18/tmp/glasswindows.windows",'NiKalpha')
-#myscan.setHeaderInfo('','','','')
-#myscan.anglescan(13983.8,13762.0,-22.23000000000011,1000.0)
-myscan.anglescan(13762.0,13670.0,-9.179999999999927,1000.0)
-myscan.kscan(3.0,6.2,0.32,1000.0,1000.0,3,8.33159864354393,6.271000000000002)

@@ -31,8 +31,7 @@ execfile(microfocusRoot + "/uk.ac.gda.client.microfocus/scripts/microfocus/micro
 gdaConfigDir = LocalProperties.get("gda.config")
 gdaConfigDir = gdaConfigDir + "/"
 
-execfile(gdaConfigDir + "scripts/scans/DummySlaveCounterTimer.py")
-execfile(gdaConfigDir + "scripts/scans/DummyExafsScanClass.py")
+
 execfile(gdaConfigDir + "scripts/I18Scans/XspressReadScannable.py")
 
 print "setting scans"
@@ -101,7 +100,9 @@ archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
 execfile(gdaConfigDir + "scripts/I18Scans/BeamMonitorClass.py")
 execfile(gdaConfigDir + "scripts/I18Scans/I18TransmissionMapV2FClass.py")
 execfile(gdaConfigDir + "scripts/I18Scans/I18TransmissionExafsV2F.py")
+
 execfile(gdaConfigDir + "scripts/I18Scans/I18ExafsScanV2FClass.py")
+
 execfile(gdaConfigDir + "scripts/I18Scans/vortex/I18VortexExafsScanV2FClass.py")
 execfile(gdaConfigDir + "scripts/I18Scans/I18StepMapV2FClass.py")
 execfile(gdaConfigDir + "scripts/I18Scans/vortex/I18VortexStepMapV2FClass.py")
@@ -109,8 +110,6 @@ execfile(gdaConfigDir + "scripts/I18Scans/I18TrajectoryScan2.py")
 execfile(gdaConfigDir + "scripts/I18Scans/vortex/vortex_dtc_params2.py")
 execfile(gdaConfigDir + "scripts/I18Scans/vortex/I18VortexUtilities.py")
 execfile(gdaConfigDir + "scripts/I18Scans/read_xspress_counts.py")
-
-execfile(gdaConfigDir + "scripts/chgDataDir.py");
 
 if (LocalProperties.get("gda.mode") == 'live'):
     execfile(gdaConfigDir + "scripts/I18Scans/StruckV2F.py")

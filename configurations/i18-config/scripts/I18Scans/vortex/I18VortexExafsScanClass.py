@@ -33,7 +33,6 @@ from gda.data import PathConstructor
 #
 #
 class I18VortexExafsScanClass(ScriptBase):
-#class I18ExafsScanClass(ScriptBase):
     def __init__(self):
         self.das=finder.find("daserver")
         self.ionchambers=SlaveCounterTimer()

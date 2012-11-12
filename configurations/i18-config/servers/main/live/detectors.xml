@@ -220,9 +220,6 @@
 		<property name="port" value="20" />
 	</bean>
 
-	<bean id="mapdetector" class="gda.device.detector.DummyDetector" />
-	<bean id="vortexmapdetector" class="gda.device.detector.DummyDetector" />
-
 	<bean id="FFI0" class="gda.device.detector.TfgFFoverI0">
 		<property name="xspress" ref="xspress2system" />
 		<property name="counterTimer" ref="counterTimer01" />

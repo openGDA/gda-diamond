@@ -30,19 +30,6 @@ import time
 import os
 from java.lang import Boolean
 
-# ========================================
-# EXAFS SCAN
-# run SlaveCounterTimer.py
-# run I18ExafsClass.py
-# run BeamMonitorClass.py
-#
-#    Example of a full Pb scan
-#    myscan=I18ExafsScanClass()
-#    myscan.setWindows('/home/i18user/i18windows.windows','Pblalpha1')
-#    myscan.anglescan(8824.0,8739.460869565219,-3.8608695652174387,1000.0)
-#    myscan.anglescan(8735.599999999999,8698.5,-0.6999999999999865,1000.0)
-#    myscan.kscan(3.0,12.0,0.04,1000.0,1000.0,3,13.039848732586526,6.271000000000002)
-#========================================
 class I18ExafsScanClass(ScriptBase):
     def __init__(self,detectorList=None):
         # EXAFS PANEL CODE
