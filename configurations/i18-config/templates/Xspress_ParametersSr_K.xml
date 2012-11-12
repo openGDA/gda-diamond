@@ -2,6 +2,7 @@
 <XspressParameters>
     <detectorName>xspress2system</detectorName>
     <resGrade>res-none</resGrade>
+<regionType>Virtual Scaler</regionType>
     <readoutMode>Scalers and MCA</readoutMode>
     <editIndividualElements>true</editIndividualElements>
     <DetectorElement>
@@ -14,7 +15,6 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1365</regionStart>
             <regionEnd>1483</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -27,7 +27,6 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1373</regionStart>
             <regionEnd>1458</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -40,7 +39,6 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1365</regionStart>
             <regionEnd>1466</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -53,7 +51,6 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1382</regionStart>
             <regionEnd>1466</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -66,7 +63,6 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1373</regionStart>
             <regionEnd>1462</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -79,7 +75,6 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1386</regionStart>
             <regionEnd>1462</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -92,7 +87,6 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1369</regionStart>
             <regionEnd>1466</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -105,7 +99,6 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1377</regionStart>
             <regionEnd>1462</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -118,7 +111,6 @@
             <roiName>Sr_Ka</roiName>
             <regionStart>1377</regionStart>
             <regionEnd>1466</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <xspressOnlyShowFF>false</xspressOnlyShowFF>
