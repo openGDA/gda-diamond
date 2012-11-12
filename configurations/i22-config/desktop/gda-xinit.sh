@@ -15,14 +15,16 @@ if [ ! -n "$BEAMLINE" ]; then
         fi
 fi
 
-### Check beamline GDA installation ###
-if [ ! -d "/dls/$BEAMLINE/software/gda/config/." ]; then
-        echo "This script requires a valid installation in '/dls/$BEAMLINE/software/gda'"
-        exit 0
+if [ ! -f "$HOME/.config/autostart/launcherStatus.py.desktop" ]; then
+mkdir -p $HOME/.config/autostart/
+cat <<EOF >  $HOME/.config/autostart/launcherStatus.py.desktop
+[Desktop Entry]
+Type=Application
+Exec=/dls_sw/prod/etc/Launcher/launcherStatus.py
+Hidden=false
+X-GNOME-Autostart-enabled=true
+Name=Diamond Launcher
+Comment=Put a Diamond Launcher in your Notification Area
+EOF
 fi
 
-#rsync -a "/dls/$BEAMLINE/software/gda/config/desktop/launchers/" "/var/tmp/$USER-$BEAMLINE-LAUNCHERS"
-rsync -a --del "/dls/$BEAMLINE/software/gda/config/desktop/launchers/" "/var/tmp/$USER-$BEAMLINE-LAUNCHERS/"
-
-mkdir "$HOME/Desktop" > /dev/null 2>&1 || true
-ln -nsf "/var/tmp/$USER-$BEAMLINE-LAUNCHERS" "$HOME/Desktop/$BEAMLINE Launchers"
