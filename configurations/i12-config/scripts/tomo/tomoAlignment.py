@@ -14,8 +14,7 @@ from fast_scan import FastScan
 from gda.jython.ScriptBase import checkForPauses
 from i12utilities import setSubdirectory
 
-verbose = False
-
+verbose = True
 f = Finder.getInstance()
 
 """
@@ -31,29 +30,6 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     exposureVsRes = {1:1, 2:1, 4:4, 8:4}
     updateScriptController("Tomo scan starting")
     timeDividedAcq = sampleAcquisitionTime * timeDivider
-    pco = f.find("pco")
-    pco.stop();
-    
-    ad = pco.getController().getAreaDetector()
-    ad.setBinX(xBin[desiredResolution])
-    ad.setBinY(yBin[desiredResolution])
-    if verbose:
-        print "Tomo scan starting"
-        print "type : " + `steps[desiredResolution]`
-        print "Description: " + `description`
-        print "Sample acquisition time: " + `sampleAcquisitionTime`
-        print "flatAcquisitionTime: " + `flatAcquisitionTime`
-        print "numberOfFramesPerProjection: " + `numberOfFramesPerProjection`
-        print "numberofProjections: " + `numberofProjections`
-        print "isContinuousScan: " + `isContinuousScan`
-        print "timeDivider: " + `timeDivider`
-        print "positionOfBaseAtFlat:" + `positionOfBaseAtFlat`
-        print "positionOfBaseInBeam: " + `positionOfBaseInBeam`
-        print "desiredResolution: " + `int(desiredResolution)`
-        print 'Sample Acq#' + `sampleAcquisitionTime`
-        print 'Sample Acq Time divided#' + `timeDividedAcq`
-    fastScan = FastScan('fastScan')
-    tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, steps[desiredResolution], 0, 0, 0, 0, 0, additionalScannables=[fastScan])
     timeDividedAcq = timeDividedAcq / exposureVsRes[desiredResolution]
     pco = f.find("pco")
     pco.stop();
@@ -61,6 +37,7 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     pco.setExternalTriggered(True)
     #
     ad = pco.getController().getAreaDetector()
+    
     cachedBinX = ad.getBinX()
     cachedBinY = ad.getBinY() 
     ad.setBinX(xBin[desiredResolution])
@@ -114,8 +91,7 @@ def moveTomoAlignmentMotors(motorMoveMap):
         while m.isBusy():
             updateScriptController("Aligning Tomo motors:" + m.name + ": " + `round(m.position, 2)`)
             sleep(5)
-    if verbose:
-        print f.find("ss1_tx").isBusy()
+    print f.find("ss1_tx").isBusy()
     
         
 def getModule():
@@ -461,15 +437,12 @@ class TomoAlignmentConfiguration:
                         self.positionOfBaseAtFlat,
                         self.positionOfBaseInBeam)
             self.status = "Complete"
-            self.tomographyConfigurationManager.setConfigRunning(self.configId)
         except:
             exceptionType, exception, traceback = sys.exc_info()
             if scriptController != None:
                 updateScriptController(exception)
             self.status = "Fail"
-            self.tomographyConfigurationManager.setConfigRunning(self.configId)
         finally:
-            if verbose:
-                print `self.configId`
+            self.tomographyConfigurationManager.setConfigRunning(self.configId)
             self.tomographyConfigurationManager.setConfigRunning(None)
             updateScriptController('Tomography Scan Complete')
