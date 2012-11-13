@@ -3,12 +3,12 @@
 run on i22-control
 
 cd /dls/i22/software/gda-devel/config
-chmod o+w
+chmod o+w .
 sudo su - gda2
 cd /dls/i22/software/gda-devel/config
-cp i22ssh/key lala
+cp i22ssh.key lala
 mv -f lala i22ssh.key
 ^D
-chmod o-w
+chmod o-w .
 chmod a+x /dls_sw/i22/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
 setfacl -m g:i22_staff:rwx -m u:i22user:rwx xml/user_permissions.xml xml/beamlinestaff.xml
