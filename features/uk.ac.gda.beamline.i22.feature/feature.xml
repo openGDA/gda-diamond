@@ -21,22 +21,12 @@
          id="uk.ac.gda.diamond.feature"
          version="0.0.0"/>
 
+   <includes
+         id="uk.ac.gda.client.ncd.feature"
+         version="0.0.0"/>
+
    <plugin
          id="uk.ac.gda.beamline.i22"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.client.ncd"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.server.ncd"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -63,32 +53,6 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.diamond.scisoft.ncd"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="uk.ac.diamond.scisoft.ncd.rcp"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="uk.ac.diamond.org.uncommons.maths"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.diamond.org.jscience"
-         download-size="0"
-         install-size="0"
-         version="4.3.1"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.gda.client.experimentdefinition"
          download-size="0"
          install-size="0"
@@ -97,20 +61,6 @@
 
    <plugin
          id="uk.ac.gda.devices.bssc"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.commons.math"
-         download-size="0"
-         install-size="0"
-         version="3.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="com.springsource.org.apache.commons.lang"
          download-size="0"
          install-size="0"
          version="0.0.0"
