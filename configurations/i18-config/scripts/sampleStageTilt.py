@@ -1,8 +1,6 @@
 from org.jscience.physics.quantities import Quantity
 from org.jscience.physics.units import SI
 
-#stage = finder.find("MicroFocusSampleStage")
-
 def setOffset(axis, offset):
     offset_quantity = Quantity.valueOf(offset, SI.MILLI(SI.METER))
     MicroFocusSampleStage.setPositionOffset(axis.dofname, offset_quantity)
@@ -37,5 +35,3 @@ def helpTilt():
     print "\t setOffset(axis,offset)"
     print "\t \t e.g. setOffset(sample_y1, 0.24)"
     print "\t resetOffsets()"
-
-

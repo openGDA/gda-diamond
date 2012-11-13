@@ -1,8 +1,7 @@
 import sys
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable import DummyScannable
-from i18_exafs import setupExperiment
-from exafsscripts.exafs.xas_scans import xas, xanes, qexafs
+from exafsscripts.exafs.i18ScanScripts import xas, xanes, qexafs
 from exafsscripts.vortex import vortexConfig
 from exafsscripts.vortex.vortexConfig import vortex
 from exafsscripts.xspress import xspressConfig
@@ -15,15 +14,15 @@ from gda.data.fileregistrar import IcatXMLCreator
 from cid_photodiode import CidPhotoDiode
 from microfocus import map, raster_map, raster_map_return_write
 
+import edxd_calibrator
+import correctTrajInterface
+import sampleStageTilt
+
 print "Initialization Started";
 
 gdaConfigDir = LocalProperties.get("gda.config")
 gdaConfigDir = gdaConfigDir + "/"
 
-execfile(gdaConfigDir + "scripts/I18Scans/XspressReadScannable.py")
-
-print "setting scans"
-setupExperiment.rootnamespace = globals()
 map.rootnamespace = globals()
 raster_map.rootnamespace = globals()
 rootnamespace = globals()
@@ -80,35 +79,14 @@ if (LocalProperties.get("gda.mode") == 'live'):
     execfile(gdaConfigDir + "scripts/I18Scans/StruckV2F.py")
     execfile("/dls_sw/i18/scripts/focus/SesoMethod/Setup_KBMotors_IDT_Mechanical.py")
 
-
-print "creating scannable 'test' which will be used to represent energy during commissionning"
-print ""
 test = DummyScannable("test")
 
 gdaRoot = LocalProperties.get("gda.root")
 gdaConfigDir = LocalProperties.get("gda.config")
 gdaConfigDir = gdaConfigDir + "/"
 
-execfile(gdaConfigDir + "scripts/I18Scans/BeamMonitorClass.py")
-execfile(gdaConfigDir + "scripts/I18Scans/I18TransmissionMapV2FClass.py")
-execfile(gdaConfigDir + "scripts/I18Scans/I18TransmissionExafsV2F.py")
 
-execfile(gdaConfigDir + "scripts/I18Scans/I18ExafsScanV2FClass.py")
 
-execfile(gdaConfigDir + "scripts/I18Scans/vortex/I18VortexExafsScanV2FClass.py")
-execfile(gdaConfigDir + "scripts/I18Scans/I18StepMapV2FClass.py")
-execfile(gdaConfigDir + "scripts/I18Scans/vortex/I18VortexStepMapV2FClass.py")
-execfile(gdaConfigDir + "scripts/I18Scans/I18TrajectoryScan2.py")
-execfile(gdaConfigDir + "scripts/I18Scans/vortex/vortex_dtc_params2.py")
-execfile(gdaConfigDir + "scripts/I18Scans/vortex/I18VortexUtilities.py")
-execfile(gdaConfigDir + "scripts/I18Scans/read_xspress_counts.py")
-
-execfile(gdaConfigDir + "scripts/edxd_calibrator.py")
-
-print "Loading i18 custom script controls..."
-execfile(gdaConfigDir + "scripts/i18_scans.py")
-print "Loading Stage Offset routines..."
-execfile(gdaConfigDir + "scripts/sampleStageTilt.py")
 
 global mapRunning
 mapRunning = 0
@@ -117,7 +95,6 @@ cid = CidPhotoDiode('cid', 'BL18I-DI-PHDGN-08')
 cid.setExtraNames(['CID_Rminusdiode', 'CID_Rplusdiode', 'CID_Lminusdiode', 'CID_Lplusdiode']) 
 cid.setOutputFormat(['%4.10f', '%4.10f', '%4.10f', '%4.10f'])
 
-execfile(gdaConfigDir + "scripts/scans/correctTrajInterface.py"); 
 raster_xspress.setInputNames([])
 raster_xmap.setInputNames([])
 
