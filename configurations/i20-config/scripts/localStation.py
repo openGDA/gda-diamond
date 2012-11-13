@@ -138,10 +138,14 @@ if LocalProperties.get("gda.mode") == "live":
     + "\nto change the Xspress settings. Type:"\
     + "\nswitchXspressToHighEnergyMode()"\
     + "\n to changes the settings back again."\
-    + "\n"
+    + "\n"\
+    + "To find out current mode type:\n"\
+    + "finder.find(\"DAServer\").getStartupCommands()\n"
     
     
     run "vortexLiveTime"
     testVortexWiredCorrectly()
+    
+    FFI0.setInputNames([])
     
 print "****GDA startup script complete.****\n\n"
