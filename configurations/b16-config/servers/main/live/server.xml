@@ -16,7 +16,7 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<import resource="../common/plumbing.xml" />
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml"/>
 
 	<import resource="epics/motor/dcm.xml" />
 	<import resource="epics/motor/fc.xml" />
@@ -97,8 +97,28 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<import resource="../common/jython_server.xml" />
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/terminal_logger.xml" />
+
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
+	<bean id="command_server" parent="abstract_command_server">
+		<property name="stopJythonScannablesOnStopAll" value="false" />
+		<property name="disableBatonControlOverVisitMetadataEntry" value="true" />
+	</bean>
+	
+	<!-- EXAFS start -->
+	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+	<bean class="uk.ac.gda.beans.BeansFactory">
+		<property name="classList">
+			<list>
+				<value>uk.ac.gda.beans.exafs.DetectorParameters</value>
+				<value>uk.ac.gda.beans.vortex.VortexParameters</value>
+				<value>uk.ac.gda.beans.microfocus.MicroFocusScanParameters</value>
+				<value>uk.ac.gda.beans.bimorph.BimorphParameters</value>
+			</list>
+		</property>
+	</bean>
 	<import resource="../common/loggingscriptcontroller.xml" />	
+	<!-- EXAFS end -->
 	
 	<bean id="Beamline" class="gda.device.epicsdevice.FindableEpicsDevice">
 		<property name="deviceName" value="Beamline" />
