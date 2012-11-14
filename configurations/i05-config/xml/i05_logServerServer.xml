@@ -64,9 +64,6 @@
     <logger name="gda.data.nexus.NexusFileWrapper">
         <level value="DEBUG"/>
     </logger>    
-    <logger name="uk.ac.gda.server.ncd.detector.DAServer">
-        <level value="DEBUG"/>
-    </logger>    
     
     <root>
         <level value="All"/>

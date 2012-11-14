@@ -19,15 +19,14 @@
 		</property>
 	</bean>
 
-<!--
-	<bean id="subdirectory" class="uk.ac.gda.server.ncd.metadata.SubdirectoryMetadataEntry" />
+	<bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry" />
 
-	<bean class="uk.ac.gda.server.ncd.metadata.MetadataBlaster" id="observableSubdirectory">
+	<bean class="gda.data.metadata.MetadataBlaster" id="observableSubdirectory">
 		<property name="storedMetadataEntry" ref="subdirectory" />
 	</bean>
--->
+
 	<bean class="uk.ac.gda.arpes.metadata.IntransparentLogFilePathProvider" id="logfilenameprovider">
-	<!-- 	<property name="storedMetadataEntry" ref="subdirectory" /> -->
+	 	<property name="storedMetadataEntry" ref="subdirectory" />
 		<property name="pathTemplate" value="/dls/i05/data/$year$/$visit$/gda-console-$visit$.log" />
 	</bean>
 
