@@ -17,7 +17,12 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml"/>
-
+	
+	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
+		<property name="name" value="FileRegistrar"/>
+		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/b16-" />
+	</bean>
+	
 	<import resource="epics/motor/dcm.xml" />
 	<import resource="epics/motor/fc.xml" />
 	<import resource="epics/motor/fcarm.xml" />
@@ -105,30 +110,13 @@
 		<property name="disableBatonControlOverVisitMetadataEntry" value="true" />
 	</bean>
 	
-	<!-- EXAFS start -->
-	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
-	<bean class="uk.ac.gda.beans.BeansFactory">
-		<property name="classList">
-			<list>
-				<value>uk.ac.gda.beans.exafs.DetectorParameters</value>
-				<value>uk.ac.gda.beans.vortex.VortexParameters</value>
-				<value>uk.ac.gda.beans.microfocus.MicroFocusScanParameters</value>
-				<value>uk.ac.gda.beans.bimorph.BimorphParameters</value>
-			</list>
-		</property>
-	</bean>
-	<import resource="../common/loggingscriptcontroller.xml" />	
-	<!-- EXAFS end -->
-	
 	<bean id="Beamline" class="gda.device.epicsdevice.FindableEpicsDevice">
 		<property name="deviceName" value="Beamline" />
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
-		<property name="name" value="FileRegistrar"/>
-		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/b16-" />
-	</bean>
+	<import resource="exafs_stuff.xml" />
+
 
 	<corba:export namespace="b16server" />
 	
