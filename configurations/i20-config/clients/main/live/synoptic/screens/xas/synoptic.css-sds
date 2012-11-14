@@ -108,11 +108,12 @@
   <property type="sds.action" id="actionData">
     <actionData>
       <action_attribut type="COMMIT_VALUE">
-        <property_attribut type="sds.string" id="description" value="sample" />
-        <property_attribut type="sds.string" id="value" value="sample" />
+        <property_attribut type="sds.string" id="description" value="sample_xas" />
+        <property_attribut type="sds.string" id="value" value="sample_xas" />
       </action_attribut>
     </actionData>
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="" value="" />
       <outputChannel name="local://oeview, string" value="" />
     </dynamicsDescriptor>
   </property>
