@@ -1,5 +1,5 @@
 ScannableNames	Module	cam1_x	cam1_z	cam1_roll	t3_x	t3_m1y	s2_xs	s2_ys	magnification	object_pixel_size	Resolution	HFOV	VFOV	ss1_x	ball-diameter ss1_rz defaultExposureTime
-ScannableUnits	No.	mm	mm	deg	mm	mm	mm	mm	one	micron	micron	mm	mm	mm	mm deg sec
+ScannableUnits	No.	mm	mm	deg	mm	mm	mm	mm	No.	micron	micron	mm	mm	mm	mm deg sec
 1	55.300	-90.15	-1.007	1350.85	39.45	40.000	12.000	0.721	12.475	24.950	50.000	33.333	-100	5	-0.981	0.05
 2	137.05	-70.3	-0.647	1351.75	39.81	18.000	12.000	1.822	4.94	9.980	19.800	13.200	-100	3	-0.6413	0.5
 3	218.00	-51.2	-0.057	1352.54	40.21	8.000	7.000	5.066	1.776	4.491	7.120	4.747	-100	2	-0.2411	1

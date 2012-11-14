@@ -363,7 +363,108 @@ def moveToModule(moduleNum):
         exceptionType, exception, traceback = sys.exc_info()
         updateScriptController(exception)
         handle_messages.log(None, "Cannot change module", exceptionType, exception, traceback, False)
-        
+
+def moveVerticalBy(canMoveY1, moveY2BeforeY3Upwards, position):
+    y1 = f.find("ss1_y1")
+    y2 = f.find("ss1_y2")
+    y3 = f.find("ss1_y3")
+    movingUp = position > 0
+    remainingToMove = position
+    if movingUp:
+        print "Moving up:" + `position` 
+        if canMoveY1:
+            #Move y1 and then y2 and then y3
+            remainingToMove = moveVerticalMotorUp(y1, remainingToMove)
+        if remainingToMove > 0:
+            if moveY2BeforeY3Upwards:
+                remainingToMove = moveVerticalMotorUp(y2, remainingToMove)
+                if remainingToMove > 0:
+                    remainingToMove = moveVerticalMotorUp(y3, remainingToMove)
+            else:
+                remainingToMove = moveVerticalMotorUp(y3, remainingToMove)
+                if remainingToMove > 0:
+                    remainingToMove = moveVerticalMotorUp(y2, remainingToMove)
+    else:
+        print "Moving down" + `position`
+        if moveY2BeforeY3Upwards:
+            remainingToMove = moveVerticalMotorDown(y3, remainingToMove)
+            if remainingToMove < 0:
+                remainingToMove = moveVerticalMotorDown(y2, remainingToMove)
+        else:
+            remainingToMove = moveVerticalMotorDown(y2, remainingToMove)
+            if remainingToMove < 0:
+                remainingToMove = moveVerticalMotorDown(y3, remainingToMove)
+        if canMoveY1 and remainingToMove < 0:
+            #Move y1 and then y2 and then y3
+            remainingToMove = moveVerticalMotorDown(y1, remainingToMove)
+    print "Still remaining to move " + `remainingToMove`
+    while y1.isBusy() or y2.isBusy() or y3.isBusy():
+        updateScriptController("y1:" + `round(y1.getPosition(), 2)` + "  y2:" + `round(y2.getPosition(), 2)` + "  y3:" + `round(y3.getPosition(), 2)`)
+        sleep(2)
+    if remainingToMove != 0:
+        e = Exception("Cannot complete vertical move - Motors reached limit")
+        updateScriptController(e)
+        raise e
+    print "Vertical Move Complete"
+    updateScriptController("Vertical Move Complete")
+
+def moveVerticalMotorUp(motor, remainingToMove):
+    motorPos = motor.getPosition()
+    motorUpperLimit = motor.getUpperMotorLimit() - 0.2
+    if motorPos < motorUpperLimit:
+        movable = motorUpperLimit - motorPos
+        print "Motor movable" + `motor.getName()` + "  " + `movable`
+        print "remaining to move:" + `remainingToMove`
+        if remainingToMove > movable:
+            toMove = movable
+        else:
+            toMove = remainingToMove
+        remainingToMove = remainingToMove - toMove
+        try:
+            print `motor.getName()` + "to move to :" + `motorPos + toMove`
+            motor.asynchronousMoveTo(motorPos + toMove)
+        except:
+            exceptionType, exception, traceback = sys.exc_info()
+            print "Motor Up:" + `exception`
+            updateScriptController(exception)
+            remainingToMove = remainingToMove + toMove
+    print "remaining to move:" + `remainingToMove`
+    return remainingToMove
+
+def moveVerticalMotorDown(motor, remainingToMove):
+    #remainingToMove is always negative
+    motorPos = motor.getPosition()
+    motorLimit = motor.getLowerMotorLimit() + 0.2
+    if motorPos > motorLimit:
+        movable = motorPos - motorLimit
+        if abs(remainingToMove) > abs(movable):
+            toMove = abs(movable)
+        else:
+            toMove = abs(remainingToMove)
+        remainingToMove = remainingToMove + toMove
+        try:
+            print `motor.getName()` + "to move:" + `motorPos - toMove`
+            motor.asynchronousMoveTo(motorPos - toMove)
+        except:
+            exceptionType, exception, traceback = sys.exc_info()
+            print "Motor Down:" + `exception`
+            updateScriptController(exception)
+            remainingToMove = remainingToMove - toMove
+    return remainingToMove
+
+def getVerticalMotorPositions():
+    print "getting Vertical Motor Positions"
+    y1 = f.find("ss1_y1")
+    y2 = f.find("ss1_y2")
+    y3 = f.find("ss1_y3")
+    verticals = {}
+    verticals[y1.name] = y1.getPosition()
+    verticals[y2.name] = y2.getPosition()
+    verticals[y3.name] = y3.getPosition()
+    updateScriptController(verticals)
+    return verticals
+    
+
 class TomoAlignmentConfigurationManager:
     def __init__(self):
         self.tomoAlignmentConfigurations = {}
