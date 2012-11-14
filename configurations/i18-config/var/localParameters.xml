@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
-<localParameters>
-<!-- <xspress_gradient>10.334 9.597 10.035 10.741 9.735 10.537 9.972 9.980 10.925</xspress_gradient>
-<vortex_gradient>10.086 9.969 10.050 10.159</vortex_gradient>-->
-<xspress_gradient>10 10 10 10 10 10 10 10 10</xspress_gradient>
-<vortex_gradient>10 10 10 10</vortex_gradient>
-</localParameters>

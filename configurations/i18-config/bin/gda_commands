@@ -1,0 +1,16 @@
+#!/bin/bash
+here=`dirname $0`
+config=`cd $here/../; pwd`
+root=`cd $config/../plugins; pwd`
+if [ -z $GDA_SIMULATION ] ; then
+
+/dls_sw/tools/bin/python2.5  $root/uk.ac.gda.core/bin/gda  --config=$config  $@
+
+else
+users=`cd $config/../users; pwd`
+python2.5  ${root}/uk.ac.gda.core/bin/gda  --config=${config}  \
+--properties=${config}/properties/simulation/java.properties --jca=${config}/properties/simulation/JCALibrary.properties \
+--jacorb=${config}/properties/simulation   --users=${users} \
+--lib_subdir=Linux-i386 $@
+
+fi

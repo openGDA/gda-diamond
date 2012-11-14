@@ -2,106 +2,55 @@
 <XspressParameters>
     <detectorName>xspress2system</detectorName>
     <resGrade>res-none</resGrade>
+	<regionType>Virtual Scaler</regionType>
     <readoutMode>Scalers and MCA</readoutMode>
     <editIndividualElements>true</editIndividualElements>
     <DetectorElement>
         <name>Element0</name>
         <number>0</number>
-        <windowStart>617</windowStart>
-        <windowEnd>668</windowEnd>
+        <windowStart>622</windowStart>
+        <windowEnd>659</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>Fe_Ka</roiName>
-            <regionStart>617</regionStart>
-            <regionEnd>668</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>As_Ka</roiName>
-            <regionStart>1028</regionStart>
-            <regionEnd>1091</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>Zn_Ka</roiName>
-            <regionStart>840</regionStart>
-            <regionEnd>896</regionEnd>
-            <regionType>Virtual Scaler</regionType>
+            <regionStart>622</regionStart>
+            <regionEnd>659</regionEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element1</name>
         <number>1</number>
-        <windowStart>617</windowStart>
-        <windowEnd>654</windowEnd>
+        <windowStart>622</windowStart>
+        <windowEnd>659</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>Fe_Ka</roiName>
-            <regionStart>617</regionStart>
-            <regionEnd>654</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>As_Ka</roiName>
-            <regionStart>1036</regionStart>
-            <regionEnd>1091</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>Zn_Ka</roiName>
-            <regionStart>845</regionStart>
-            <regionEnd>887</regionEnd>
-            <regionType>Virtual Scaler</regionType>
+            <regionStart>622</regionStart>
+            <regionEnd>659</regionEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element2</name>
         <number>2</number>
-        <windowStart>617</windowStart>
-        <windowEnd>664</windowEnd>
+        <windowStart>622</windowStart>
+        <windowEnd>659</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>Fe_Ka</roiName>
-            <regionStart>617</regionStart>
-            <regionEnd>664</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>As_Ka</roiName>
-            <regionStart>1028</regionStart>
-            <regionEnd>1087</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>Zn_Ka</roiName>
-            <regionStart>845</regionStart>
-            <regionEnd>887</regionEnd>
-            <regionType>Virtual Scaler</regionType>
+            <regionStart>622</regionStart>
+            <regionEnd>659</regionEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element3</name>
         <number>3</number>
         <windowStart>622</windowStart>
-        <windowEnd>654</windowEnd>
+        <windowEnd>659</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>Fe_Ka</roiName>
             <regionStart>622</regionStart>
-            <regionEnd>654</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>As_Ka</roiName>
-            <regionStart>1024</regionStart>
-            <regionEnd>1087</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>Zn_Ka</roiName>
-            <regionStart>840</regionStart>
-            <regionEnd>882</regionEnd>
-            <regionType>Virtual Scaler</regionType>
+            <regionEnd>659</regionEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -114,121 +63,56 @@
             <roiName>Fe_Ka</roiName>
             <regionStart>622</regionStart>
             <regionEnd>659</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>As_Ka</roiName>
-            <regionStart>1028</regionStart>
-            <regionEnd>1099</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>Zn_Ka</roiName>
-            <regionStart>849</regionStart>
-            <regionEnd>887</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element5</name>
         <number>5</number>
-        <windowStart>617</windowStart>
+        <windowStart>622</windowStart>
         <windowEnd>659</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>Fe_Ka</roiName>
-            <regionStart>617</regionStart>
+            <regionStart>622</regionStart>
             <regionEnd>659</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>As_Ka</roiName>
-            <regionStart>1024</regionStart>
-            <regionEnd>1095</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>Zn_Ka</roiName>
-            <regionStart>845</regionStart>
-            <regionEnd>887</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element6</name>
         <number>6</number>
-        <windowStart>608</windowStart>
-        <windowEnd>673</windowEnd>
+        <windowStart>622</windowStart>
+        <windowEnd>659</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>Fe_Ka</roiName>
-            <regionStart>608</regionStart>
-            <regionEnd>673</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>As_Ka</roiName>
-            <regionStart>1028</regionStart>
-            <regionEnd>1104</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>Zn_Ka</roiName>
-            <regionStart>845</regionStart>
-            <regionEnd>882</regionEnd>
-            <regionType>Virtual Scaler</regionType>
+            <regionStart>622</regionStart>
+            <regionEnd>659</regionEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element7</name>
         <number>7</number>
-        <windowStart>632</windowStart>
-        <windowEnd>695</windowEnd>
-        <excluded>true</excluded>
+        <windowStart>622</windowStart>
+        <windowEnd>659</windowEnd>
+        <excluded>false</excluded>
         <Region>
             <roiName>Fe_Ka</roiName>
-            <regionStart>632</regionStart>
-            <regionEnd>695</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>As_Ka</roiName>
-            <regionStart>1024</regionStart>
-            <regionEnd>1091</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>Zn_Ka</roiName>
-            <regionStart>845</regionStart>
-            <regionEnd>887</regionEnd>
-            <regionType>Virtual Scaler</regionType>
+            <regionStart>622</regionStart>
+            <regionEnd>659</regionEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element8</name>
         <number>8</number>
-        <windowStart>613</windowStart>
-        <windowEnd>673</windowEnd>
+        <windowStart>622</windowStart>
+        <windowEnd>659</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>Fe_Ka</roiName>
-            <regionStart>613</regionStart>
-            <regionEnd>673</regionEnd>
-            <regionType>Virtual Scaler</regionType>
+            <regionStart>622</regionStart>
+            <regionEnd>659</regionEnd>
         </Region>
-        <Region>
-            <roiName>As_Ka</roiName>
-            <regionStart>1028</regionStart>
-            <regionEnd>1099</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-        <Region>
-            <roiName>Zn_Ka</roiName>
-            <regionStart>845</regionStart>
-            <regionEnd>887</regionEnd>
-            <regionType>Virtual Scaler</regionType>
-        </Region>
-    </DetectorElement>   
+    </DetectorElement>
     <xspressOnlyShowFF>false</xspressOnlyShowFF>
     <xspressShowDTRawValues>false</xspressShowDTRawValues>
     <saveRawSpectrum>false</saveRawSpectrum>

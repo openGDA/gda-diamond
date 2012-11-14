@@ -26,6 +26,7 @@ import java.util.List;
 
 import uk.ac.gda.beans.exafs.ISampleParameters;
 import uk.ac.gda.beans.exafs.IScanParameters;
+import uk.ac.gda.beans.exafs.QEXAFSParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
@@ -72,6 +73,8 @@ public class I18Validator extends ExafsValidator {
 			errors.addAll(validateXanesScanParameters((XanesScanParameters) scanParams));
 		} else if (scanParams instanceof MicroFocusScanParameters) {
 			errors.addAll(validateMicroFocusParameters((MicroFocusScanParameters) scanParams));
+		} else if (scanParams instanceof QEXAFSParameters) {
+			errors.addAll(validateQEXAFSParameters((QEXAFSParameters) scanParams));
 		} else if (scanParams == null) {
 			errors.add(new InvalidBeanMessage("Missing or Invalid Scan Parameters"));
 		} else {
@@ -127,4 +130,12 @@ public class I18Validator extends ExafsValidator {
 		return errors;
 	}
 
+	protected List<InvalidBeanMessage> validateQEXAFSParameters(QEXAFSParameters x) {
+		if (x == null) {
+			return Collections.emptyList();
+		}
+		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
+		// TODO add validation for QEXAFS
+		return errors;
+	}
 }

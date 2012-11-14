@@ -2,6 +2,7 @@
 <XspressParameters>
     <detectorName>xspress2system</detectorName>
     <resGrade>res-none</resGrade>
+<regionType>Virtual Scaler</regionType>
     <readoutMode>Scalers and MCA</readoutMode>
     <editIndividualElements>true</editIndividualElements>
     <DetectorElement>
@@ -14,19 +15,16 @@
             <roiName>Fe_Ka</roiName>
             <regionStart>622</regionStart>
             <regionEnd>654</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Zn_Ka</roiName>
             <regionStart>840</regionStart>
             <regionEnd>882</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Cu_Ka</roiName>
             <regionStart>778</regionStart>
             <regionEnd>837</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -39,25 +37,21 @@
             <roiName>Fe_Ka</roiName>
             <regionStart>622</regionStart>
             <regionEnd>654</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Zn_Ka</roiName>
             <regionStart>840</regionStart>
             <regionEnd>882</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Cu_Ka</roiName>
             <regionStart>778</regionStart>
             <regionEnd>837</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Mn_Ka</roiName>
             <regionStart>568</regionStart>
             <regionEnd>606</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -70,25 +64,21 @@
             <roiName>Fe_Ka</roiName>
             <regionStart>622</regionStart>
             <regionEnd>654</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Zn_Ka</roiName>
             <regionStart>840</regionStart>
             <regionEnd>882</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Cu_Ka</roiName>
             <regionStart>778</regionStart>
             <regionEnd>837</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Mn_Ka</roiName>
             <regionStart>568</regionStart>
             <regionEnd>606</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -101,25 +91,21 @@
             <roiName>Fe_Ka</roiName>
             <regionStart>622</regionStart>
             <regionEnd>654</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Zn_Ka</roiName>
             <regionStart>840</regionStart>
             <regionEnd>882</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Cu_Ka</roiName>
             <regionStart>778</regionStart>
             <regionEnd>837</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Mn_Ka</roiName>
             <regionStart>577</regionStart>
             <regionEnd>606</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -132,25 +118,21 @@
             <roiName>Fe_Ka</roiName>
             <regionStart>622</regionStart>
             <regionEnd>654</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Zn_Ka</roiName>
             <regionStart>840</regionStart>
             <regionEnd>882</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Cu_Ka</roiName>
             <regionStart>778</regionStart>
             <regionEnd>837</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Mn_Ka</roiName>
             <regionStart>552</regionStart>
             <regionEnd>615</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -163,25 +145,21 @@
             <roiName>Fe_Ka</roiName>
             <regionStart>622</regionStart>
             <regionEnd>654</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Zn_Ka</roiName>
             <regionStart>840</regionStart>
             <regionEnd>882</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Cu_Ka</roiName>
             <regionStart>778</regionStart>
             <regionEnd>837</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Mn_Ka</roiName>
             <regionStart>552</regionStart>
             <regionEnd>611</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -194,25 +172,21 @@
             <roiName>Fe_Ka</roiName>
             <regionStart>622</regionStart>
             <regionEnd>654</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Zn_Ka</roiName>
             <regionStart>840</regionStart>
             <regionEnd>882</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Cu_Ka</roiName>
             <regionStart>778</regionStart>
             <regionEnd>837</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Mn_Ka</roiName>
             <regionStart>556</regionStart>
             <regionEnd>619</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -225,25 +199,21 @@
             <roiName>Fe_Ka</roiName>
             <regionStart>622</regionStart>
             <regionEnd>654</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Zn_Ka</roiName>
             <regionStart>840</regionStart>
             <regionEnd>882</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Cu_Ka</roiName>
             <regionStart>778</regionStart>
             <regionEnd>837</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Mn_Ka</roiName>
             <regionStart>560</regionStart>
             <regionEnd>611</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -256,25 +226,21 @@
             <roiName>Fe_Ka</roiName>
             <regionStart>622</regionStart>
             <regionEnd>654</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Zn_Ka</roiName>
             <regionStart>840</regionStart>
             <regionEnd>882</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Cu_Ka</roiName>
             <regionStart>778</regionStart>
             <regionEnd>837</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
         <Region>
             <roiName>Mn_Ka</roiName>
             <regionStart>556</regionStart>
             <regionEnd>615</regionEnd>
-            <regionType>Virtual Scaler</regionType>
         </Region>
     </DetectorElement>
     <xspressOnlyShowFF>false</xspressOnlyShowFF>
