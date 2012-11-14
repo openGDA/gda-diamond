@@ -14,10 +14,6 @@ from gda.data.fileregistrar import IcatXMLCreator
 from cid_photodiode import CidPhotoDiode
 from microfocus import map, raster_map, raster_map_return_write
 
-import edxd_calibrator
-import correctTrajInterface
-import sampleStageTilt
-
 print "Initialization Started";
 
 gdaConfigDir = LocalProperties.get("gda.config")
@@ -84,9 +80,6 @@ test = DummyScannable("test")
 gdaRoot = LocalProperties.get("gda.root")
 gdaConfigDir = LocalProperties.get("gda.config")
 gdaConfigDir = gdaConfigDir + "/"
-
-
-
 
 global mapRunning
 mapRunning = 0

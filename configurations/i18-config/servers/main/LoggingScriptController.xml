@@ -4,8 +4,7 @@
            http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="commandQueue" class="gda.commandqueue.CommandQueue">
-	</bean>
+	<bean id="commandQueue" class="gda.commandqueue.CommandQueue" />
 
 	<bean id="commandQueueProcessor" class="gda.commandqueue.FindableProcessorQueue">
 		<property name="queue" ref="commandQueue" />
@@ -13,6 +12,7 @@
 		<property name="pauseWhenQueueEmpty" value="true" />
 		<property name="logFilePath" value="${gda.logs.dir}/commandQueueProcessor.log" />
 	</bean>
+	
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/commandQueueProcessor" />
 		<property name="service" ref="commandQueueProcessor" />
@@ -24,7 +24,7 @@
 		<property name="messageClassToLog"
 			value="gda.jython.scriptcontroller.logging.XasLoggingMessage" />
 		<property name="directory" value="${gda.var}/" />
-		<property name="local" value="true" />
+		<property name="local" value="true"/>
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
