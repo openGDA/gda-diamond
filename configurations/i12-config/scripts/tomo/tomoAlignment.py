@@ -22,7 +22,7 @@ f = Finder.getInstance()
 Performs software triggered tomography
 """
 def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection, numberofProjections,
-                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat=-100.0, positionOfBaseInBeam=0.0):
+                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat= -100.0, positionOfBaseInBeam=0.0):
     #
     if verbose:
         print "About to start tomography scan"
@@ -37,11 +37,19 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     pco = f.find("pco")
     pco.stop();
     
-    pco.setExternalTriggered(False)
+    pco.setExternalTriggered(True)
     if verbose:
-        print "pco external triggered:"+`pco.isExternalTriggered()`
+        print "pco external triggered:" + `pco.isExternalTriggered()`
     #
     ad = pco.getController().getAreaDetector()
+    
+    pco.getController().getProc1().getPluginBase().disableCallbacks()
+    pco.getController().getProc2().getPluginBase().disableCallbacks()
+    pco.getController().getRoi1().getPluginBase().disableCallbacks()
+    pco.getController().getRoi2().getPluginBase().disableCallbacks()
+    pco.getController().getArray().getPluginBase().disableCallbacks()
+    pco.getController().getMJpeg1().getPluginBase().disableCallbacks()
+    pco.getController().getMJpeg2().getPluginBase().disableCallbacks()
     
     cachedBinX = ad.getBinX()
     cachedBinY = ad.getBinY() 
@@ -102,10 +110,10 @@ def moveTomoAlignmentMotors(motorMoveMap):
             while m.isBusy():
                 updateScriptController("Aligning Tomo motors:" + m.name + ": " + `round(m.position, 2)`)
                 if verbose:
-                    print 'waiting for motor '+`m.getName()`
+                    print 'waiting for motor ' + `m.getName()`
                 sleep(5)
         if verbose:
-            print "is ss1_tx busy:" +`f.find("ss1_tx").isBusy()`
+            print "is ss1_tx busy:" + `f.find("ss1_tx").isBusy()`
             print 'motor moving done'
     except:
         exceptionType, exception, traceback = sys.exc_info()

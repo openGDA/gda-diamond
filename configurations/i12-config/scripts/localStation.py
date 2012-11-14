@@ -15,7 +15,7 @@ print "------------------------------------------------"
 ### add epics plugin scripts library path
 from gda.util import PropertyUtils
 from java.lang import System
-_epicsScriptLibraryDir = PropertyUtils.getExistingDirFromLocalProperties("gda.install.git.loc") + "/gda.install.git.loc/uk.ac.gda.epics/scripts" + System.getProperty("file.separator");
+_epicsScriptLibraryDir = PropertyUtils.getExistingDirFromLocalProperties("gda.install.git.loc") + "/gda-epics.git/uk.ac.gda.epics/scripts" + System.getProperty("file.separator");
 sys.path.append(_epicsScriptLibraryDir)
 
 import i12utilities
@@ -201,6 +201,17 @@ try:
     eh1therm6 = DisplayEpicsPVClass('eh1therm6', 'BL12I-OP-THERM-01:TEMP:T6', 'degree', '%.3f')
 except:
     print "cannot create thermocouple scannables"
+try:
+    dac01_0 = EpicsReadWritePVClass('dac01_0', 'BL12I-EA-DAC-01:00', 'volt', '%.3f')
+    dac01_1 = EpicsReadWritePVClass('dac01_1', 'BL12I-EA-DAC-01:01', 'volt', '%.3f')
+    dac01_2 = EpicsReadWritePVClass('dac01_2', 'BL12I-EA-DAC-01:02', 'volt', '%.3f')
+    dac01_3 = EpicsReadWritePVClass('dac01_3', 'BL12I-EA-DAC-01:03', 'volt', '%.3f')
+    dac01_4 = EpicsReadWritePVClass('dac01_4', 'BL12I-EA-DAC-01:04', 'volt', '%.3f')
+    dac01_5 = EpicsReadWritePVClass('dac01_5', 'BL12I-EA-DAC-01:05', 'volt', '%.3f')
+    dac01_6 = EpicsReadWritePVClass('dac01_6', 'BL12I-EA-DAC-01:06', 'volt', '%.3f')
+    dac01_7 = EpicsReadWritePVClass('dac01_7', 'BL12I-EA-DAC-01:07', 'volt', '%.3f')
+except:
+    print "cannot create DAC scannables"
 print "--------------------------------------------------"
 pdnames = []
 from detector_control_pds import * #@UnusedWildImport
