@@ -1,10 +1,7 @@
 import sys
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable import DummyScannable
-from exafsscripts.exafs.i18ScanScripts import xas, xanes, qexafs
-from exafsscripts.vortex import vortexConfig
 from exafsscripts.vortex.vortexConfig import vortex
-from exafsscripts.xspress import xspressConfig
 from exafsscripts.xspress.xspressConfig import xspress
 from gda.device.scannable import TopupScannable
 from gda.device.scannable import BeamMonitorWithFeedbackSwitchScannable
@@ -13,6 +10,12 @@ from gda.device.scannable import BeamMonitorScannableForLineRepeat
 from gda.data.fileregistrar import IcatXMLCreator
 from cid_photodiode import CidPhotoDiode
 from microfocus import map, raster_map, raster_map_return_write
+from gda.factory import Finder
+from exafsscripts.exafs.i18_detector_preparer import I18DetectorPreparer
+from exafsscripts.exafs.i18_sample_preparer import I18SamplePreparer
+from exafsscripts.exafs.output_preparer import OutputPreparer
+from exafsscripts.exafs.xas_scan import XasScan
+from exafsscripts.exafs.qexafs_scan import QexafsScan
 
 print "Initialization Started";
 
@@ -22,6 +25,15 @@ gdaConfigDir = gdaConfigDir + "/"
 map.rootnamespace = globals()
 raster_map.rootnamespace = globals()
 rootnamespace = globals()
+
+detectorPreparer = I18DetectorPreparer()
+samplePreparer = I18SamplePreparer()
+outputPreparer = OutputPreparer()
+
+loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
+xas = XasScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
+qexafs = QexafsScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer, qexafs_energy, qexafs_counterTimer01)
+xanes = xas
 
 alias("map")
 alias("xas")

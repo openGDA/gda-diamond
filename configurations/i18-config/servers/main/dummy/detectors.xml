@@ -10,7 +10,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="DAServer" class="gda.device.detector.DummyDAServer">
+	<bean id="daserver" class="gda.device.detector.DummyDAServer">
 		<property name="local" value="True" />
 		<property name="host" value="i18-xspress0" />
 		<property name="port" value="1972" />
@@ -34,7 +34,7 @@
 	</bean>
 	
 	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2System">
-		<property name="daServer" ref="DAServer" />
+		<property name="daServer" ref="daserver" />
 		<property name="tfg" ref="tfg" />
 		<property name="xspressSystemName" value="xsp1" />
 
@@ -59,11 +59,11 @@
 	</bean>
 
 	<bean id="tfg" class="gda.device.timer.Etfg">
-		<property name="daServer" ref="DAServer" />
+		<property name="daServer" ref="daserver" />
 	</bean>
 
 	<bean id="CalMemory" class="gda.device.memory.Scaler">
-		<property name="daServer" ref="DAServer" />
+		<property name="daServer" ref="daserver" />
 		<property name="width" value="3" />
 		<property name="height" value="1" />
 		<property name="openCommand" value="tfg open-cc" />
@@ -146,7 +146,7 @@
 		</property>
 		<property name="scaler" ref="CalMemory" />
 		<property name="timer" ref="tfg" />
-		<property name="daserver" ref="DAServer" />
+		<property name="daserver" ref="daserver" />
 		<property name="timeChannelRequired" value="true" />
 		<property name="darkCurrentRequired" value="false" />
 		<property name="outputLogValues" value="false" />
@@ -203,6 +203,37 @@
 				<value>/dls/i18/data/2011/cm2065-4/i18-6931-0-raster_xmap.h5</value>
 				<value>/dls/i18/data/2011/cm2065-4/i18-6931-0-raster_xmaporig.h5
 				</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
+		<property name="extraNames">
+			<list>
+				<!-- <value>liveTime</value> -->
+				<value>I0</value>
+				<value>It</value>
+				<value>Iother</value>
+				<!-- <value>lnI0It</value> -->
+				<!-- <value>lnItIref</value> -->
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="daserver" />
+		<property name="timeChannelRequired" value="true" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputLogValues" value="false" />
+		<property name="TFGv2" value="true" />
+		<property name="outputFormat">
+			<list>
+				<!-- <value>%6.4g</value> -->
+				<value>%6.4g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<!-- <value>%.6g</value> -->
+				<!-- <value>%.6g</value> -->
 			</list>
 		</property>
 	</bean>

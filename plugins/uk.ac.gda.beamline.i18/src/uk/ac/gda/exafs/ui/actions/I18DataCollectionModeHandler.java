@@ -22,7 +22,6 @@ import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorActionDelegate;
@@ -36,7 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.client.experimentdefinition.components.ExperimentPerspective;
-import uk.ac.gda.client.microfocus.ui.MicroFocusPespective;
+import uk.ac.gda.client.microfocus.ui.MicroFocusPerspective;
 import uk.ac.gda.exafs.ui.AlignmentPerspective;
 import uk.ac.gda.exafs.ui.PlottingPerspective;
 import uk.ac.gda.perspectives.DataExplorationPerspective;
@@ -58,7 +57,7 @@ public class I18DataCollectionModeHandler extends AbstractHandler implements IWo
 	}
 
 	private static String[] perspectivesToOpen = new String[] { JythonPerspective.ID, DataExplorationPerspective.ID,
-			PlottingPerspective.ID, ExperimentPerspective.ID, MicroFocusPespective.ID };
+			PlottingPerspective.ID, ExperimentPerspective.ID, MicroFocusPerspective.ID };
 
 	public static boolean doDataCollectionMode() {
 
