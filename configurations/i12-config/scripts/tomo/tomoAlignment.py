@@ -126,22 +126,25 @@ def getModule():
     cam1_x = f.find("cam1_x")
     cameraModuleLookup = f.find("moduleMotorPositionLUT")
     mod1Lookup = round(cameraModuleLookup.lookupValue(1, "cam1_x"), 2)
+    moduleNum = 1
     cam1_xPosition = round(cam1_x.position, 2)
     if cam1_xPosition == mod1Lookup:
-        return 1
-    
-    mod2Lookup = round(cameraModuleLookup.lookupValue(2, "cam1_x"), 2)
-    if cam1_xPosition == mod2Lookup:
-        return 2
-    
-    mod3Lookup = round(cameraModuleLookup.lookupValue(3, "cam1_x"), 2)
-    if cam1_xPosition == mod3Lookup:
-        return 3
-    
-    mod4Lookup = round(cameraModuleLookup.lookupValue(4, "cam1_x"), 2)
-    if cam1_xPosition == mod4Lookup:
-        return 4
-    return 0
+        moduleNum = 1
+    else:
+        mod2Lookup = round(cameraModuleLookup.lookupValue(2, "cam1_x"), 2)
+        if cam1_xPosition == mod2Lookup:
+            moduleNum = 2
+        else:
+            mod3Lookup = round(cameraModuleLookup.lookupValue(3, "cam1_x"), 2)
+            if cam1_xPosition == mod3Lookup:
+                moduleNum = 3
+            else:
+                mod4Lookup = round(cameraModuleLookup.lookupValue(4, "cam1_x"), 2)
+                if cam1_xPosition == mod4Lookup:
+                    moduleNum = 4
+    #Ravi changed this to test the GUI.
+    updateScriptController("Module:"+`moduleNum`)
+    return moduleNum
     
 def find_lt(a, x):
     'Find rightmost value less than x'

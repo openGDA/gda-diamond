@@ -16,22 +16,26 @@
 
 	<bean id="tomoConfigResourceHandler"
 		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TomoConfigResourceHandler">
-		<property name="fileLocation"
-			value="${gda.var}/tomoConfiguration.tomoparameters" />
+		<property name="fileLocation" value="${gda.var}/tomoConfiguration.tomoparameters" />
 	</bean>
 
 	<bean id="sampleStagetMotorsHandler"
-		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TomoAlignmentMotorHandler">
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TomoSampleStageMotorHandler">
 		<property name="rotationScannable" ref="ss1_theta" />
 		<property name="ss1TxScannable" ref="ss1_tx" />
 		<property name="ss1TzScannable" ref="ss1_tz" />
-		<property name="ss1Y2Scannable" ref="ss1_y3" />
 		<property name="sampleHolderScannable" ref="ss1_x" />
 		<property name="ss1RxScannable" ref="ss1_rx" />
 		<property name="ss1RzScannable" ref="ss1_rz" />
 		<property name="defaultDistanceToMoveForFlat" value="-100.0" />
 		<property name="defaultSampleInPosition" value="0" />
 		<property name="thethaOffset" value="0" />
+		<property name="verticalMotorMotionHandler" ref="verticalMotorMotionHandler" />
+	</bean>
+
+	<bean id="verticalMotorMotionHandler"
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TomoStageVerticalMotorMotionHandler">
+		<property name="tomoScriptController" ref="tomoAlignmentConfigurationScriptController" />
 	</bean>
 
 	<bean id="cameraStageMotorsHandler"
@@ -81,6 +85,8 @@
 		<property name="defaultAcqPeriod" value="0.1" />
 		<property name="defaultModule" value="1" />
 		<property name="saturationThreshold" value="15000000" />
+		<property name="defaultFastPreviewExposureTimeThreshold"
+			value="0.5" />
 	</bean>
 
 
@@ -126,8 +132,8 @@
 	</bean>
 
 	<!-- Assuming that this is invoked after the pco.xml has been invoked. -->
-	<bean id="tomoAlignmentViewController"
-		class="uk.ac.gda.client.tomo.alignment.view.controller.TomoAlignmentViewController">
+	<bean id="tomoAlignmentController"
+		class="uk.ac.gda.client.tomo.alignment.view.controller.TomoAlignmentController">
 		<property name="sampleStageMotorHandler" ref="sampleStagetMotorsHandler" />
 		<property name="cameraStageMotorHandler" ref="cameraStageMotorsHandler" />
 		<property name="cameraShutterHandler" ref="shutterHandler" />
@@ -149,6 +155,6 @@
 		class="uk.ac.gda.client.tomo.alignment.view.factory.TomoAlignmentViewFactoryFactory ">
 		<property name="viewPartName" value="Alignment" />
 		<property name="screenPixelSize" value="0.27" />
-		<property name="tomoAlignmentViewController" ref="tomoAlignmentViewController" />
+		<property name="tomoAlignmentController" ref="tomoAlignmentController" />
 	</bean>
 </beans>
