@@ -1,4 +1,3 @@
-import sys;
 import gda.configuration.properties.LocalProperties as LocalProperties
 from gda.jython import JythonServerFacade
 from gda.factory import Finder
