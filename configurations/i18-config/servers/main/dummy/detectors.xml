@@ -12,7 +12,7 @@
 
 	<bean id="daserver" class="gda.device.detector.DummyDAServer">
 		<property name="local" value="True" />
-		<property name="host" value="i18-xspress0" />
+		<property name="host" value="b18-xspress0" />
 		<property name="port" value="1972" />
 		<property name="startupCommands">
 			<list>
@@ -21,8 +21,6 @@
 		</property>
 		<property name="dataPort" value="20030" />
 		<property name="replyTimeOut" value="5000" />
-		<property name="dataFile" value="Mofoil2.dat" />
-		<!-- NOTE: Enums work -->
 		<property name="xspressMode">
 			<bean class="gda.device.detector.DUMMY_XSPRESS2_MODE"
 				factory-method="valueOf">
@@ -32,7 +30,7 @@
 			</bean>
 		</property>
 	</bean>
-	
+
 	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2System">
 		<property name="daServer" ref="daserver" />
 		<property name="tfg" ref="tfg" />
@@ -69,14 +67,15 @@
 		<property name="openCommand" value="tfg open-cc" />
 	</bean>
 
+
+
 	<bean id="counterTimer01" class="gda.device.detector.countertimer.TfgScalerWithLogValues">
 		<property name="extraNames">
 			<list>
 				<value>liveTime</value>
 				<value>I0</value>
 				<value>It</value>
-				<value>Iref</value>
-
+<!-- 				<value>Iref</value> -->
 			</list>
 		</property>
 		<property name="scaler" ref="CalMemory" />
@@ -91,8 +90,7 @@
 				<value>%6.4g</value>
 				<value>%9d</value>
 				<value>%9d</value>
-				<value>%9d</value>
-
+<!-- 				<value>%9d</value> -->
 			</list>
 		</property>
 	</bean>
@@ -170,7 +168,8 @@
 		<property name="fileNames">
 			<list>
 				<value>/dls/i18/data/2011/cm2065-4/i18-6931-0-raster_xmap.h5</value>
-				<value>/dls/i18/data/2011/cm2065-4/i18-6931-0-raster_xmaporig.h5</value>
+				<value>/dls/i18/data/2011/cm2065-4/i18-6931-0-raster_xmaporig.h5
+				</value>
 			</list>
 		</property>
 	</bean>
@@ -195,7 +194,7 @@
 		<property name="tfg" ref="tfg" />
 		<property name="sumAllElementData" value="true" />
 	</bean>
-	
+
 	<bean id="raster_xmap" class="gda.device.detector.xmap.DummyXmapBufferedDetector">
 		<property name="xmap" ref="xmapMca" />
 		<property name="fileNames">
@@ -206,7 +205,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">
 			<list>
@@ -237,5 +236,5 @@
 			</list>
 		</property>
 	</bean>
-	
+
 </beans>

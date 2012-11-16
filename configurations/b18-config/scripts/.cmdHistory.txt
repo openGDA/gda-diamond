@@ -1,0 +1,10 @@
+pos
+scan tese
+scan test 0 10 1
+scan test 0 10 1 counterTimer01 1
+scan test 0 10 1 xmapMca counterTimer01 1 
+xmapMca
+pos
+scan test 0 10 1 ringCurrent counterTimer01 1 
+ls Detector
+scan test 0 10 1 xspress2system counterTimer01 1 

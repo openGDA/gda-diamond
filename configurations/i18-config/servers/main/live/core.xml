@@ -59,6 +59,7 @@
 	</bean>
 	
 	<bean id="RCPController" class="gda.gui.RCPControllerImpl"/>
+	
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/rcpController" />
 		<property name="service" ref="RCPController" />

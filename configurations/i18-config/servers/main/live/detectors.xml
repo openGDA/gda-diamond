@@ -79,6 +79,7 @@
 				<value>%9d</value>
 				<value>%.6g</value>
 				<value>%.6g</value>
+
 			</list>
 		</property>
 	</bean>
