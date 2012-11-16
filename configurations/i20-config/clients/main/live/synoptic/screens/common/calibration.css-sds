@@ -447,8 +447,12 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
-  <property type="sds.string" id="server.command" value="" />
-  <property type="sds.string" id="server.command.variable" value="" />
+  <property type="sds.string" id="server.command" value="offsetsStore.writeas(&quot;var&quot;)" />
+  <property type="sds.string" id="server.command.variable" value="">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="local://file, string" value="" />
+    </dynamicsDescriptor>
+  </property>
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="" />
