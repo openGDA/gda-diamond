@@ -32,7 +32,7 @@
 		<property name="basePVName" value="BL22I-EA-PILAT-01:HDF5:" />
 		 		<property name="compression" value="zlib" /> 
 				<property name="zCompressLevel" value="1" /> 
-				<property name="numRowChunks" value="212" /> 
+				<property name="numRowChunks" value="848" /> 
 				<property name="framesPerChunk" value="1" />
 				<property name="columnsPerChunk" value="494" />
 				<property name="chunkAlignment" value="0" />
