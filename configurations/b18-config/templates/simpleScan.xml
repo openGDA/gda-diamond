@@ -1,27 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SimpleScan>
-    <scannableName>test</scannableName>
-    <fromPos>25.0</fromPos>
-    <toPos>26.0</toPos>
-    <stepSize>0.1</stepSize>
+    <scannableName>energy</scannableName>
+    <fromPos>3000.0</fromPos>
+    <toPos>4000.0</toPos>
+    <stepSize>0.6</stepSize>
     <acqTime>1.0</acqTime>
     <scannables>
         <scannableName>energy</scannableName>
     </scannables>
     <scannables>
-        <scannableName>sam2rot</scannableName>
-    </scannables>
-    <scannables>
-        <scannableName>sam2x</scannableName>
-    </scannables>
-    <scannables>
         <scannableName>test</scannableName>
     </scannables>
     <scannables>
-        <scannableName>sam2y</scannableName>
-    </scannables>
-    <scannables>
-        <scannableName>xtal2p</scannableName>
+        <scannableName>sam2x</scannableName>
     </scannables>
     <detectors>
         <enabled>false</enabled>
@@ -29,28 +20,13 @@
         <detectorDescription>ion chambers</detectorDescription>
     </detectors>
     <detectors>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
         <detectorName>xspress2system</detectorName>
-        <detectorDescription>germanium</detectorDescription>
-    </detectors>
-    <detectors>
-        <enabled>false</enabled>
-        <detectorName>xmapMca</detectorName>
-        <detectorDescription>vortex</detectorDescription>
+        <detectorDescription></detectorDescription>
     </detectors>
     <detectors>
         <enabled>false</enabled>
         <detectorName>mythen</detectorName>
-        <detectorDescription>strip</detectorDescription>
-    </detectors>
-    <detectors>
-        <enabled>true</enabled>
-        <detectorName>BPM1_2</detectorName>
-        <detectorDescription></detectorDescription>
-    </detectors>
-    <detectors>
-        <enabled>true</enabled>
-        <detectorName>BPM1_1</detectorName>
         <detectorDescription></detectorDescription>
     </detectors>
 </SimpleScan>
