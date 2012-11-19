@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimpleScan>
+    <scannableName>energy</scannableName>
+    <fromPos>3000.0</fromPos>
+    <toPos>4000.0</toPos>
+    <stepSize>0.6</stepSize>
+    <acqTime>1.0</acqTime>
+    <scannables>
+        <scannableName>energy</scannableName>
+    </scannables>
+    <scannables>
+        <scannableName>test</scannableName>
+    </scannables>
+    <scannables>
+        <scannableName>sam2x</scannableName>
+    </scannables>
+    <detectors>
+        <enabled>false</enabled>
+        <detectorName>counterTimer01</detectorName>
+        <detectorDescription>ion chambers</detectorDescription>
+    </detectors>
+    <detectors>
+        <enabled>true</enabled>
+        <detectorName>xspress2system</detectorName>
+        <detectorDescription></detectorDescription>
+    </detectors>
+    <detectors>
+        <enabled>false</enabled>
+        <detectorName>mythen</detectorName>
+        <detectorDescription></detectorDescription>
+    </detectors>
+</SimpleScan>
