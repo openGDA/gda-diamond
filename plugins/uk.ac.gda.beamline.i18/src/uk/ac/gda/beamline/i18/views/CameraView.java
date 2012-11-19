@@ -71,12 +71,11 @@ public class CameraView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 
-		boolean ipConfigured = LocalProperties.check("gda.cameraview.rtp.ip");
-		boolean portConfigured = LocalProperties.check("gda.cameraview.rtp.port");
-
-		if (ipConfigured && portConfigured) {
-			String ip = LocalProperties.get("gda.cameraview.rtp.ip");
-			String port = LocalProperties.get("gda.cameraview.rtp.port");
+		String ip = LocalProperties.get("gda.cameraview.rtp.ip");
+		String port = LocalProperties.get("gda.cameraview.rtp.port");
+		
+		if (ip!=null && port!=null) {
+			
 			viewer = new ImageViewer(parent, SWT.DOUBLE_BUFFERED);
 			RTPStreamReceiverSWT r = new RTPStreamReceiverSWT();
 			r.setHost(ip);

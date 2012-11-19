@@ -65,9 +65,6 @@ if (LocalProperties.get("gda.mode") == 'live'):
     archiver = IcatXMLCreator()
     archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
 
-    execfile(gdaConfigDir + "scripts/I18Scans/StruckV2F.py")
-    execfile("/dls_sw/i18/scripts/focus/SesoMethod/Setup_KBMotors_IDT_Mechanical.py")
-
 detectorPreparer = I18DetectorPreparer()
 rcpController = finder.find("RCPController")
 samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B)
