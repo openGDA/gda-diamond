@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimpleScan>
+    <scannableName>test</scannableName>
+    <fromPos>3000.0</fromPos>
+    <toPos>4000.0</toPos>
+    <stepSize>0.6</stepSize>
+    <acqTime></acqTime>
+    <scannables>
+        <scannableName>test</scannableName>
+    </scannables>
+</SimpleScan>

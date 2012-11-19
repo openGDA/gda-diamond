@@ -18,6 +18,7 @@
 
 package uk.ac.gda.beamline.i18.views;
 
+import gda.configuration.properties.LocalProperties;
 import gda.data.PathConstructor;
 import gda.factory.FactoryException;
 import gda.images.camera.ImageListener;
@@ -37,6 +38,7 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,26 +63,36 @@ public class CameraView extends ViewPart {
 	private BeamCentreFigure beamCentreFigure;
 	private boolean layoutReset;
 	private Action snap;
-	private String snapDirectory =PathConstructor.createFromProperty("gda.cameraview.snapshot.dir");
+	private String snapDirectory = PathConstructor.createFromProperty("gda.cameraview.snapshot.dir");
 
 	public CameraView() {
 	}
-	
+
 	@Override
 	public void createPartControl(Composite parent) {
-		viewer = new ImageViewer(parent, SWT.DOUBLE_BUFFERED);
-		RTPStreamReceiverSWT r = new RTPStreamReceiverSWT();
-		r.setHost("224.120.120.120");
-		r.setPort(22224);
-		try {
-			r.configure();
-		} catch (FactoryException e) {
-			logger.error("Unable to configure the video receiver ", e);
+
+		boolean ipConfigured = LocalProperties.check("gda.cameraview.rtp.ip");
+		boolean portConfigured = LocalProperties.check("gda.cameraview.rtp.port");
+
+		if (ipConfigured && portConfigured) {
+			String ip = LocalProperties.get("gda.cameraview.rtp.ip");
+			String port = LocalProperties.get("gda.cameraview.rtp.port");
+			viewer = new ImageViewer(parent, SWT.DOUBLE_BUFFERED);
+			RTPStreamReceiverSWT r = new RTPStreamReceiverSWT();
+			r.setHost(ip);
+			r.setPort(Integer.parseInt(port));
+			try {
+				r.configure();
+			} catch (FactoryException e) {
+				logger.error("Unable to configure the video receiver ", e);
+			}
+			videoReceiver = r;
+			videoReceiver.addImageListener(listener);
+			videoReceiver.start();
+			initializeToolBar();
 		}
-		videoReceiver = r;
-		videoReceiver.addImageListener(listener);
-		videoReceiver.start();
-		initializeToolBar();
+		else
+			new Label(parent, SWT.NONE).setText("No rtp stream properties defined. gda.cameraview.rtp.ip and gda.cameraview.rtp.port");
 	}
 
 	@Override
@@ -136,8 +148,8 @@ public class CameraView extends ViewPart {
 		stop.setText("stop");
 		stop.setToolTipText("stop video capture");
 		stop.setImageDescriptor(I18BeamlineActivator.getImageDescriptor("icons/stop.png"));
-		
-		snap = new Action(){
+
+		snap = new Action() {
 			@Override
 			public void run() {
 				FileDialog fileChooser = new FileDialog(viewer.getCanvas().getShell(), SWT.SAVE);
@@ -146,14 +158,14 @@ public class CameraView extends ViewPart {
 				fileChooser.setFilterExtensions(new String[] { "*.jpg" });
 				fileChooser.setFilterNames(new String[] { "SWT image" + " (jpg)" });
 				String filename = fileChooser.open();
-				if(filename != null)
+				if (filename != null)
 					saveImage(filename, fileChooser.getFilterExtensions()[0]);
 			}
 		};
 		snap.setText("Snapshot");
 		snap.setToolTipText("Snap shot");
 		snap.setImageDescriptor(I18BeamlineActivator.getImageDescriptor("icons/folder_camera.png"));
-			
+
 		toolbarManager.add(new Separator());
 		toolbarManager.add(openFiles);
 		toolbarManager.add(resetView);
@@ -163,13 +175,12 @@ public class CameraView extends ViewPart {
 		toolbarManager.add(snap);
 	}
 
-	public void saveImage(String  filename, String format)
-	{
+	public void saveImage(String filename, String format) {
 		ImageLoader loader = new ImageLoader();
-		loader.data = new ImageData[]{viewer.getImageData()};
+		loader.data = new ImageData[] { viewer.getImageData() };
 		try {
-			logger.info("Trying to save file " + filename + " of the format " + format );
-			if(loader.data != null && loader.data.length != 0 && loader.data[0] != null)
+			logger.info("Trying to save file " + filename + " of the format " + format);
+			if (loader.data != null && loader.data.length != 0 && loader.data[0] != null)
 				loader.save(filename, SWT.IMAGE_JPEG);
 			else
 				logger.error("No image available");
@@ -177,21 +188,23 @@ public class CameraView extends ViewPart {
 			logger.error("problem saving the image as " + format + "in file " + filename, e);
 		}
 	}
-	
+
 	private void initializeListeners() {
 		viewer.getCanvas().addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseDown(MouseEvent event) {
-				logger.debug( "Mouse Down");
+				logger.debug("Mouse Down");
 			}
+
 			@Override
 			public void mouseUp(MouseEvent event) {
-				logger.debug( "Mouse Up");
+				logger.debug("Mouse Up");
 			}
+
 			@Override
 			public void mouseDoubleClick(MouseEvent event) {
-				logger.debug( "Mouse Double Clicked");
+				logger.debug("Mouse Double Clicked");
 			}
 		});
 
@@ -202,12 +215,14 @@ public class CameraView extends ViewPart {
 				int[] imagePosition = event.getImagePosition();
 				updateStatus((int) position[0], (int) position[1], imagePosition[0], imagePosition[1]);
 			}
+
 			@Override
 			public void imageFinished(IImagePositionEvent event) {
 				double[] position = event.getPosition();
 				int[] imagePosition = event.getImagePosition();
 				updateStatus((int) position[0], (int) position[1], imagePosition[0], imagePosition[1]);
 			}
+
 			@Override
 			public void imageDragged(IImagePositionEvent event) {
 				double[] position = event.getPosition();
@@ -217,14 +232,14 @@ public class CameraView extends ViewPart {
 		};
 		viewer.getPositionTool().addImagePositionListener(newListener, null);
 	}
-	
-	private void updateStatus(int x, int y, int ix, int iy){
-		logger.debug("Mouse position at: (" + x + ", " + y + ")" );
+
+	private void updateStatus(int x, int y, int ix, int iy) {
+		logger.debug("Mouse position at: (" + x + ", " + y + ")");
 		logger.debug("Image position at: (" + ix + ", " + iy + ")");
 	}
 
 	private void initViewer() {
-		if (!layoutReset){
+		if (!layoutReset) {
 			layoutReset = true;
 			viewer.getCanvas().getDisplay().asyncExec(new Runnable() {
 				@Override
@@ -237,19 +252,21 @@ public class CameraView extends ViewPart {
 		}
 	}
 
-	private void updateBeamCentreFigure(){
-		int x =( viewer.getImageData().width- beamCentreFigure.getCrossHairSize().width) / 2;
-		int y = (viewer.getImageData().height- beamCentreFigure.getCrossHairSize().height)/2 ;
-		beamCentreFigurePosition = new Rectangle(x, y, -1,-1);
+	private void updateBeamCentreFigure() {
+		int x = (viewer.getImageData().width - beamCentreFigure.getCrossHairSize().width) / 2;
+		int y = (viewer.getImageData().height - beamCentreFigure.getCrossHairSize().height) / 2;
+		beamCentreFigurePosition = new Rectangle(x, y, -1, -1);
 		viewer.getTopFigure().setConstraint(beamCentreFigure, beamCentreFigurePosition);
 	}
+
 	private void initializeBeamFigures() {
-		if (beamCentreFigure == null){
-			beamCentreFigure = new BeamCentreFigure();	
+		if (beamCentreFigure == null) {
+			beamCentreFigure = new BeamCentreFigure();
 			beamCentreFigure.setForegroundColor(ColorConstants.red);
-			viewer.getTopFigure().add(beamCentreFigure,new Rectangle(0,0, -1,-1));
+			viewer.getTopFigure().add(beamCentreFigure, new Rectangle(0, 0, -1, -1));
 		}
 	}
+
 	private final class VideoListener implements ImageListener<ImageData> {
 		private String name;
 
@@ -265,12 +282,12 @@ public class CameraView extends ViewPart {
 
 		@Override
 		public void processImage(ImageData image) {
-			if (image == null) return;
-			if (viewer != null)	
-				{
-					viewer.loadImage(image);
-					initViewer();
-				}
+			if (image == null)
+				return;
+			if (viewer != null) {
+				viewer.loadImage(image);
+				initViewer();
+			}
 		}
 	}
 }
