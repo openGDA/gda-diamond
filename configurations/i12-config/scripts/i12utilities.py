@@ -4,7 +4,8 @@ import os
 from gda.data import PathConstructor
 from gda.factory import Finder
 import sys
-
+import gda.device.scannable.DummyScannable
+import subprocess
 # set up a nice method for getting the latest file path
 i12NumTracker = NumTracker("i12");
 finder = Finder.getInstance()
@@ -48,3 +49,17 @@ def setSubdirectory(dirname):
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "problem setting metadata value -'subdirectory' to " + dirname, exceptionType, exception, traceback, False)
         print "Failed to set metadata (subdirectory) value to:", dirname, exception
+        
+
+class DocumentationScannable(gda.device.scannable.DummyScannable):
+    def __init__(self, mesg, url=None):
+        self.mesg = mesg
+        self.url = url
+        pass
+    
+    def __doc__(self):
+        hSC = finder.find("helpScriptController")
+        if self.url != None and hSC != None:
+            #subprocess.Popen(['python2.6', '-m', 'webbrowser', '-t', self.url])
+            hSC.update(hSC, "URL:" + `self.url`)
+        return self.mesg

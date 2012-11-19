@@ -19,6 +19,7 @@ _epicsScriptLibraryDir = PropertyUtils.getExistingDirFromLocalProperties("gda.in
 sys.path.append(_epicsScriptLibraryDir)
 
 import i12utilities
+from i12utilities import DocumentationScannable
 
 
 
@@ -45,9 +46,20 @@ def cfn():
     return i12utilities.cfn()
 alias("cfn")
 
+def helpi12(): 
+    print "Help will be outputted"
+alias("helpi12")
+
 def setSubdirectory(dirname):
     i12utilities.setSubdirectory(dirname)
-
+    
+msg = "i12 Help\n======="
+msg += "\nPCO Help - type 'help i12pco'"
+msg += "\nPixium Help - type 'help i12pixium'"
+msg += "\nEDXD Help - type 'help i12edxd'"
+msg += "\n====="
+i12 = DocumentationScannable(msg, "http://confluence.diamond.ac.uk/display/BLXIIII/I13I+Imaging+Beamline")
+i12pco = DocumentationScannable("Documentation for i12pco")
 
 # Do this last
 #setSubdirectory("default")
