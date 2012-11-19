@@ -132,7 +132,22 @@
 		<property name="detectorType" value="TIMES" />
 		<property name="memory" ref="TimesMemory" />
 	</bean>
-
+	
+	<bean id="sao1" class="uk.ac.gda.server.ncd.subdetector.ConstantScalingAndOffset">
+		<property name="offset" value="10" />
+		<property name="scaling" value="0.5" />
+		<property name="description" value="test" />
+	</bean>
+	
+	<bean id="ScaledScaler" class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset">
+		<property name="detectorType" value="CALIB" />
+		<property name="memory" ref="CalibMemory" />
+		<property name="units" value="freds" />
+		<property name="channel" value="1" />
+		<property name="label" value="mydata" />
+		<property name="scalingAndOffset" ref="sao1" />
+	</bean>
+	
 	<import resource="i22_pilatus.xml"/>
 
 <!-- 
@@ -164,6 +179,7 @@
                                 <ref bean="Pilatus2M" />
                                 <!--  <ref bean="Hotwaxs" /> -->
                                 <ref bean="Scalers" />
+                                <ref bean="ScaledScaler" />
                                 <ref bean="TfgTimes" />
                                 <!-- <ref bean="xmap" /> --> 
                         </list>
