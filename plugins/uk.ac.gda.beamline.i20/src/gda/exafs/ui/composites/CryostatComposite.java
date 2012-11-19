@@ -113,7 +113,7 @@ public class CryostatComposite extends FieldBeanComposite {
 		sampleHolderLabel.setText("Type");
 		sampleHolder = new ComboWrapper(sampleComposite, SWT.READ_ONLY);
 		sampleHolder.select(0);
-		sampleHolder.setItems(new String[] { "4 Samples", "Liquid Cell" });
+		sampleHolder.setItems(CryostatParameters.SAMPLE_HOLDER_OPTION);
 		GridDataFactory.fillDefaults().applyTo(sampleHolder);
 		
 		positions = new Group(sampleComposite, SWT.NONE);
