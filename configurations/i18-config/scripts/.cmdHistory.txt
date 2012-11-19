@@ -40,3 +40,4 @@ reset_namespace
 if ggdesgdg==None:
     print "bla"
 reset_namespace
+pos
