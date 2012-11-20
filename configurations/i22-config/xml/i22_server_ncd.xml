@@ -8,6 +8,31 @@
 			value="file:${gda.config}/properties/java.properties" />
 	</bean>
 
+<bean id="d4d1gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
+	<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE1:AMP:GAIN" />
+</bean>
+<bean id="d4d2gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
+	<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE2:AMP:GAIN" />
+</bean>
+<bean id="d6d1gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
+	<property name="pvName" value="BL22I-DI-PHDGN-06:DIODE1:AMP:GAIN" />
+</bean>
+<bean id="d6d2gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
+	<property name="pvName" value="BL22I-DI-PHDGN-06:DIODE2:AMP:GAIN" />
+</bean>
+<bean id="bsdiodegain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
+	<property name="pvName" value="BL22I-DI-IAMP-10:GAIN" />
+</bean>
+<bean id="d10d1gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
+	<property name="pvName" value="BL22I-DI-IAMP-17:GAIN" />
+</bean>
+<bean id="d10d2gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
+	<property name="pvName" value="BL22I-DI-IAMP-18:GAIN" />
+</bean>
+<bean id="qbpmgain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
+	<property name="pvName" value="BL22I-DI-IAMP-06:RANGE_MENU" />
+</bean>
+
 	<!--***************************************-->
 	<!-- *** NCD devices section *** -->
 	<!--***************************************-->
