@@ -53,7 +53,7 @@ s2xminusi=DisplayEpicsPVClass("s2xminusi","BL22I-AL-SLITS-02:X:MINUS:I:FFB","","
 s2yminusi=DisplayEpicsPVClass("s2yminusi","BL22I-AL-SLITS-02:Y:MINUS:I:FFB","","%.3e")
 
 execfile(gdaScriptDir + "TopupCountdown.py")
-#execfile(gdaScriptDir + "gainpds.py")
+execfile(gdaScriptDir + "gainpds.py")
 execfile(gdaScriptDir + "feedback.py")
 execfile(gdaScriptDir + "microfocus.py")
 
