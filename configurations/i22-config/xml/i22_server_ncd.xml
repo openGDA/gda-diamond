@@ -10,6 +10,7 @@
 
 <bean id="d4d1gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 	<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE1:AMP:GAIN" />
+
 </bean>
 <bean id="d4d2gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 	<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE2:AMP:GAIN" />
@@ -22,6 +23,80 @@
 </bean>
 <bean id="bsdiodegain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 	<property name="pvName" value="BL22I-DI-IAMP-10:GAIN" />
+	<property name="gaintosando">
+		<map>
+			<entry key="0">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="1"/>
+				</bean>
+			</entry>
+			<entry key="1">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="10"/>
+				</bean>
+			</entry>
+			<entry key="2">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="100"/>
+				</bean>
+			</entry>
+			<entry key="3">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="1000"/>
+				</bean>
+			</entry>
+			<entry key="4">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="10000"/>
+				</bean>
+			</entry>
+			<entry key="5">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="10e5"/>
+				</bean>
+			</entry>
+			<entry key="6">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="100"/>
+				</bean>
+			</entry>
+			<entry key="7">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="1000"/>
+				</bean>
+			</entry>
+			<entry key="8">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="10000"/>
+				</bean>
+			</entry>
+			<entry key="9">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="10e5"/>
+				</bean>
+			</entry>
+			<entry key="10">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="10e6"></property>
+				</bean>
+			</entry>
+			<entry key="11">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="10e7"></property>
+				</bean>
+			</entry>
+			<entry key="12">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="10e6"></property>
+				</bean>
+			</entry>
+			<entry key="13">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="10e9"></property>
+				</bean>
+			</entry>
+		</map>
+	</property>
 </bean>
 <bean id="d10d1gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 	<property name="pvName" value="BL22I-DI-IAMP-17:GAIN" />
@@ -31,6 +106,40 @@
 </bean>
 <bean id="qbpmgain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 	<property name="pvName" value="BL22I-DI-IAMP-06:RANGE_MENU" />
+		<property name="gaintosando">
+		<map>
+			<entry key="1">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="2000"/>
+				</bean>
+			</entry>
+			<entry key="2">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="1000"/>
+				</bean>
+			</entry>
+			<entry key="3">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="500"/>
+				</bean>
+			</entry>
+			<entry key="4">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="100"/>
+				</bean>
+			</entry>
+			<entry key="5">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="10"/>
+				</bean>
+			</entry>
+			<entry key="6">
+				<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+					<property name="scaling" value="1"/>
+				</bean>
+			</entry>
+		</map>
+	</property>
 </bean>
 
 	<!--***************************************-->
@@ -164,13 +273,22 @@
 		<property name="description" value="test" />
 	</bean>
 	
-	<bean id="ScaledScaler" class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset">
+	<bean id="ItScaler" class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset">
 		<property name="detectorType" value="CALIB" />
 		<property name="memory" ref="CalibMemory" />
-		<property name="units" value="freds" />
+		<property name="units" value="counts" />
 		<property name="channel" value="1" />
-		<property name="label" value="mydata" />
-		<property name="scalingAndOffset" ref="sao1" />
+		<property name="label" value="It" />
+		<property name="scalingAndOffset" ref="bsdiodegain" />
+	</bean>
+	
+	<bean id="I0Scaler" class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset">
+		<property name="detectorType" value="CALIB" />
+		<property name="memory" ref="CalibMemory" />
+		<property name="units" value="counts" />
+		<property name="channel" value="1" />
+		<property name="label" value="I0" />
+		<property name="scalingAndOffset" ref="qbpmgain" />
 	</bean>
 	
 	<import resource="i22_pilatus.xml"/>
@@ -204,7 +322,8 @@
                                 <ref bean="Pilatus2M" />
                                 <!--  <ref bean="Hotwaxs" /> -->
                                 <ref bean="Scalers" />
-                                <ref bean="ScaledScaler" />
+                                <ref bean="ItScaler" />
+                                <ref bean="I0Scaler" />
                                 <ref bean="TfgTimes" />
                                 <!-- <ref bean="xmap" /> --> 
                         </list>
