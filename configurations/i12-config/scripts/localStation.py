@@ -58,8 +58,10 @@ msg += "\nPCO Help - type 'help i12pco'"
 msg += "\nPixium Help - type 'help i12pixium'"
 msg += "\nEDXD Help - type 'help i12edxd'"
 msg += "\n====="
-i12 = DocumentationScannable(msg, "http://confluence.diamond.ac.uk/display/BLXIIII/I13I+Imaging+Beamline")
-i12pco = DocumentationScannable("Documentation for i12pco")
+i12 = DocumentationScannable(msg, "http://confluence.diamond.ac.uk/display/I12Tech/I12+GDA+Help")
+i12pco = DocumentationScannable("Documentation for i12pco", "http://confluence.diamond.ac.uk/display/I12Tech/PCO+detector")
+i12pixium = DocumentationScannable("Documentation for i12pixium", "http://confluence.diamond.ac.uk/display/I12Tech/Pixium+in+GDA")
+i12edxd = DocumentationScannable("Documentation for i12pixium", "http://confluence.diamond.ac.uk/display/I12Tech/EDXD%3A+Use+in+GDA")
 
 # Do this last
 #setSubdirectory("default")

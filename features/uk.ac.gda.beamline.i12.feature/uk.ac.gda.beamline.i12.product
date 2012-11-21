@@ -26,6 +26,9 @@ http://www.opengda.org
 -Djacorb.config.dir=/dls_sw/i12/software/gda/config/jacorb/live
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i12/software/gda/config/jca/live/JCALibrary.properties
 -Dgda.gui.beans.xml=/dls_sw/i12/software/gda/config/clients/rcp/live/client.xml
+-Dorg.eclipse.swt.browser.XULRunnerPath=/dls_sw/apps/xulrunner/x86_64/usr/lib64/xulrunner-1.9.2
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True
+-Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True
 -Dgda.mode=live
 -Xms512m
 -Xmx1024m
