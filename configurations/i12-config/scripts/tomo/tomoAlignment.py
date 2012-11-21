@@ -13,6 +13,7 @@ import sys
 from fast_scan import FastScan
 from gda.jython.ScriptBase import checkForPauses
 from i12utilities import setSubdirectory
+from gdascripts.configuration.properties.localProperties import LocalProperties
 
 verbose = True
 f = Finder.getInstance()
@@ -21,8 +22,10 @@ f = Finder.getInstance()
 Performs software triggered tomography
 """
 def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection, numberofProjections,
-                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat=-100.0, positionOfBaseInBeam=0.0):
+                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat= -100.0, positionOfBaseInBeam=0.0):
     #
+    if verbose:
+        print "About to start tomography scan"
     steps = {1:0.03, 2:0.06, 4:0.06, 8:0.2}
     ##numprojections = {1:6000, 2:3000, 4:3000, 8:900}
     xBin = {1:1, 2:1, 4:2, 8:2}
@@ -33,8 +36,10 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     timeDividedAcq = timeDividedAcq / exposureVsRes[desiredResolution]
     pco = f.find("pco")
     pco.stop();
-    #
-    pco.setExternalTriggered(True)
+    
+    pco.setExternalTriggered(False)
+    if verbose:
+        print "pco external triggered:" + `pco.isExternalTriggered()`
     #
     ad = pco.getController().getAreaDetector()
     
@@ -42,7 +47,6 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     cachedBinY = ad.getBinY() 
     ad.setBinX(xBin[desiredResolution])
     ad.setBinY(yBin[desiredResolution])
-    pco.getController().getRoi1().getPlugin
     if verbose:
         print "Tomo scan starting"
         print "type : " + `steps[desiredResolution]`
@@ -65,7 +69,6 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     finally:
         ad.setBinX(cachedBinX)
         ad.setBinY(cachedBinY)
-        print 'tomo scan complete'
 
 def changeSubDir(subdir):
     setSubdirectory(subdir)
@@ -82,17 +85,34 @@ def updateScriptController(msg):
 
 def moveTomoAlignmentMotors(motorMoveMap):
     updateScriptController("Moving tomo alignment motors")
-    for motor, position in motorMoveMap.iteritems():
-        checkForPauses()
-        f.find(motor).asynchronousMoveTo(position)
-        
-    for motor, position in motorMoveMap.iteritems():
-        m = f.find(motor)
-        while m.isBusy():
-            updateScriptController("Aligning Tomo motors:" + m.name + ": " + `round(m.position, 2)`)
-            sleep(5)
-    print f.find("ss1_tx").isBusy()
-    
+    if verbose:
+        print 'moveTomoAlignmentMotors'
+    try:
+        for motor, position in motorMoveMap.iteritems():
+            checkForPauses()
+            try:
+                f.find(motor).asynchronousMoveTo(position)
+            except:
+                exceptionType, exception, traceback = sys.exc_info()
+                if verbose:
+                    print "Problem moving tomo alignment motors" + `exception`
+                updateScriptController(exception)
+        for motor, position in motorMoveMap.iteritems():
+            m = f.find(motor)
+            while m.isBusy():
+                updateScriptController("Aligning Tomo motors:" + m.name + ": " + `round(m.position, 2)`)
+                if verbose:
+                    print 'waiting for motor ' + `m.getName()`
+                sleep(5)
+        if verbose:
+            print "is ss1_tx busy:" + `f.find("ss1_tx").isBusy()`
+            print 'motor moving done'
+    except:
+        exceptionType, exception, traceback = sys.exc_info()
+        if verbose:
+            print "Problem moving tomo alignment motors" + `exception`
+        updateScriptController(exception)
+
         
 def getModule():
     cam1_x = f.find("cam1_x")
@@ -335,7 +355,108 @@ def moveToModule(moduleNum):
         exceptionType, exception, traceback = sys.exc_info()
         updateScriptController(exception)
         handle_messages.log(None, "Cannot change module", exceptionType, exception, traceback, False)
-        
+
+def moveVerticalBy(canMoveY1, moveY2BeforeY3Upwards, position):
+    y1 = f.find("ss1_y1")
+    y2 = f.find("ss1_y2")
+    y3 = f.find("ss1_y3")
+    movingUp = position > 0
+    remainingToMove = position
+    if movingUp:
+        print "Moving up:" + `position` 
+        if canMoveY1:
+            #Move y1 and then y2 and then y3
+            remainingToMove = moveVerticalMotorUp(y1, remainingToMove)
+        if remainingToMove > 0:
+            if moveY2BeforeY3Upwards:
+                remainingToMove = moveVerticalMotorUp(y2, remainingToMove)
+                if remainingToMove > 0:
+                    remainingToMove = moveVerticalMotorUp(y3, remainingToMove)
+            else:
+                remainingToMove = moveVerticalMotorUp(y3, remainingToMove)
+                if remainingToMove > 0:
+                    remainingToMove = moveVerticalMotorUp(y2, remainingToMove)
+    else:
+        print "Moving down" + `position`
+        if moveY2BeforeY3Upwards:
+            remainingToMove = moveVerticalMotorDown(y3, remainingToMove)
+            if remainingToMove < 0:
+                remainingToMove = moveVerticalMotorDown(y2, remainingToMove)
+        else:
+            remainingToMove = moveVerticalMotorDown(y2, remainingToMove)
+            if remainingToMove < 0:
+                remainingToMove = moveVerticalMotorDown(y3, remainingToMove)
+        if canMoveY1 and remainingToMove < 0:
+            #Move y1 and then y2 and then y3
+            remainingToMove = moveVerticalMotorDown(y1, remainingToMove)
+    print "Still remaining to move " + `remainingToMove`
+    while y1.isBusy() or y2.isBusy() or y3.isBusy():
+        updateScriptController("y1:" + `round(y1.getPosition(), 2)` + "  y2:" + `round(y2.getPosition(), 2)` + "  y3:" + `round(y3.getPosition(), 2)`)
+        sleep(2)
+    if remainingToMove != 0:
+        e = Exception("Cannot complete vertical move - Motors reached limit")
+        updateScriptController(e)
+        raise e
+    print "Vertical Move Complete"
+    updateScriptController("Vertical Move Complete")
+
+def moveVerticalMotorUp(motor, remainingToMove):
+    motorPos = motor.getPosition()
+    motorUpperLimit = motor.getUpperMotorLimit() - 0.2
+    if motorPos < motorUpperLimit:
+        movable = motorUpperLimit - motorPos
+        print "Motor movable" + `motor.getName()` + "  " + `movable`
+        print "remaining to move:" + `remainingToMove`
+        if remainingToMove > movable:
+            toMove = movable
+        else:
+            toMove = remainingToMove
+        remainingToMove = remainingToMove - toMove
+        try:
+            print `motor.getName()` + "to move to :" + `motorPos + toMove`
+            motor.asynchronousMoveTo(motorPos + toMove)
+        except:
+            exceptionType, exception, traceback = sys.exc_info()
+            print "Motor Up:" + `exception`
+            updateScriptController(exception)
+            remainingToMove = remainingToMove + toMove
+    print "remaining to move:" + `remainingToMove`
+    return remainingToMove
+
+def moveVerticalMotorDown(motor, remainingToMove):
+    #remainingToMove is always negative
+    motorPos = motor.getPosition()
+    motorLimit = motor.getLowerMotorLimit() + 0.2
+    if motorPos > motorLimit:
+        movable = motorPos - motorLimit
+        if abs(remainingToMove) > abs(movable):
+            toMove = abs(movable)
+        else:
+            toMove = abs(remainingToMove)
+        remainingToMove = remainingToMove + toMove
+        try:
+            print `motor.getName()` + "to move:" + `motorPos - toMove`
+            motor.asynchronousMoveTo(motorPos - toMove)
+        except:
+            exceptionType, exception, traceback = sys.exc_info()
+            print "Motor Down:" + `exception`
+            updateScriptController(exception)
+            remainingToMove = remainingToMove - toMove
+    return remainingToMove
+
+def getVerticalMotorPositions():
+    print "getting Vertical Motor Positions"
+    y1 = f.find("ss1_y1")
+    y2 = f.find("ss1_y2")
+    y3 = f.find("ss1_y3")
+    verticals = {}
+    verticals[y1.name] = y1.getPosition()
+    verticals[y2.name] = y2.getPosition()
+    verticals[y3.name] = y3.getPosition()
+    updateScriptController(verticals)
+    return verticals
+    
+
 class TomoAlignmentConfigurationManager:
     def __init__(self):
         self.tomoAlignmentConfigurations = {}
@@ -416,15 +537,15 @@ class TomoAlignmentConfiguration:
             self.status = "Running"
             self.tomographyConfigurationManager.setConfigRunning(self.configId)
             if verbose:
-                print 'Aligning module'
+                print 'Attempting to move into requested module'
             checkForPauses()
             moveToModule(self.moduleNum)
-            if verbose:
-                print 'Aligning alignment motors'
             checkForPauses()
+            if verbose:
+                print 'Aligning cam stage and sample stage motors'
             moveTomoAlignmentMotors(self.motorMoveMap)
             if verbose:
-                print 'Tomography scan'
+                print 'All motors in place - starting tomography scan'
             checkForPauses()
             tomoScani12(self.description,
                         self.sampleAcquisitionTime,

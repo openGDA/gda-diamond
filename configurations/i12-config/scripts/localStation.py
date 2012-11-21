@@ -15,10 +15,11 @@ print "------------------------------------------------"
 ### add epics plugin scripts library path
 from gda.util import PropertyUtils
 from java.lang import System
-_epicsScriptLibraryDir = PropertyUtils.getExistingDirFromLocalProperties("gda.install.git.loc") + "/gda.install.git.loc/uk.ac.gda.epics/scripts" + System.getProperty("file.separator");
+_epicsScriptLibraryDir = PropertyUtils.getExistingDirFromLocalProperties("gda.install.git.loc") + "/gda-epics.git/uk.ac.gda.epics/scripts" + System.getProperty("file.separator");
 sys.path.append(_epicsScriptLibraryDir)
 
 import i12utilities
+from i12utilities import DocumentationScannable
 
 
 
@@ -45,9 +46,22 @@ def cfn():
     return i12utilities.cfn()
 alias("cfn")
 
+def helpi12(): 
+    print "Help will be outputted"
+alias("helpi12")
+
 def setSubdirectory(dirname):
     i12utilities.setSubdirectory(dirname)
-
+    
+msg = "i12 Help\n======="
+msg += "\nPCO Help - type 'help i12pco'"
+msg += "\nPixium Help - type 'help i12pixium'"
+msg += "\nEDXD Help - type 'help i12edxd'"
+msg += "\n====="
+i12 = DocumentationScannable(msg, "http://confluence.diamond.ac.uk/display/I12Tech/I12+GDA+Help")
+i12pco = DocumentationScannable("Documentation for i12pco", "http://confluence.diamond.ac.uk/display/I12Tech/PCO+detector")
+i12pixium = DocumentationScannable("Documentation for i12pixium", "http://confluence.diamond.ac.uk/display/I12Tech/Pixium+in+GDA")
+i12edxd = DocumentationScannable("Documentation for i12pixium", "http://confluence.diamond.ac.uk/display/I12Tech/EDXD%3A+Use+in+GDA")
 
 # Do this last
 #setSubdirectory("default")
@@ -201,6 +215,17 @@ try:
     eh1therm6 = DisplayEpicsPVClass('eh1therm6', 'BL12I-OP-THERM-01:TEMP:T6', 'degree', '%.3f')
 except:
     print "cannot create thermocouple scannables"
+try:
+    dac01_0 = EpicsReadWritePVClass('dac01_0', 'BL12I-EA-DAC-01:00', 'volt', '%.3f')
+    dac01_1 = EpicsReadWritePVClass('dac01_1', 'BL12I-EA-DAC-01:01', 'volt', '%.3f')
+    dac01_2 = EpicsReadWritePVClass('dac01_2', 'BL12I-EA-DAC-01:02', 'volt', '%.3f')
+    dac01_3 = EpicsReadWritePVClass('dac01_3', 'BL12I-EA-DAC-01:03', 'volt', '%.3f')
+    dac01_4 = EpicsReadWritePVClass('dac01_4', 'BL12I-EA-DAC-01:04', 'volt', '%.3f')
+    dac01_5 = EpicsReadWritePVClass('dac01_5', 'BL12I-EA-DAC-01:05', 'volt', '%.3f')
+    dac01_6 = EpicsReadWritePVClass('dac01_6', 'BL12I-EA-DAC-01:06', 'volt', '%.3f')
+    dac01_7 = EpicsReadWritePVClass('dac01_7', 'BL12I-EA-DAC-01:07', 'volt', '%.3f')
+except:
+    print "cannot create DAC scannables"
 print "--------------------------------------------------"
 pdnames = []
 from detector_control_pds import * #@UnusedWildImport

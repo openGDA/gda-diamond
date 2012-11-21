@@ -6,14 +6,14 @@ if [ -f "/etc/profile.d/modules.sh" ]; then
 	. /etc/profile.d/modules.sh	
 	module load java/gda
 else
-	echo "cannot scd ..ource /etc/profile.d/modules.sh"	
+	echo "cannot source /etc/profile.d/modules.sh"	
 	exit 1
 fi
 
-/dls_sw/i12/software/gda_versions/gda_8.22/plugins/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_8.22/i12-config --restart --mode=localhost nameserver
-/dls_sw/i12/software/gda_versions/gda_8.22/plugins/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_8.22/i12-config --restart --mode=localhost logserver
-/dls_sw/i12/software/gda_versions/gda_8.22/plugins/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_8.22/i12-config --restart --mode=localhost eventserver
-export JAVA_OPTS="-Xms128m -Xmx2056m -XX:MaxPermSize=256m -XX:+DisableExplicitGC"
-/dls_sw/i12/software/gda_versions/gda_8.22/plugins/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_versions/gda_8.22/i12-config --debug -p 8001 --restart -v --mode=localhost objectserver
- 
 
+/dls_sw/i12/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_git/gda-dls-beamlines-i12.git/i12 --restart --mode=localhost nameserver
+/dls_sw/i12/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_git/gda-dls-beamlines-i12.git/i12 --restart --mode=localhost logserver
+/dls_sw/i12/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_git/gda-dls-beamlines-i12.git/i12 --restart --mode=localhost eventserver
+export JAVA_OPTS="-Xms128m -Xmx2056m -XX:MaxPermSize=256m -XX:+DisableExplicitGC"
+/dls_sw/i12/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i12/software/gda_git/gda-dls-beamlines-i12.git/i12 --debug -p 8001 --restart -v --mode=localhost objectserver
+ 

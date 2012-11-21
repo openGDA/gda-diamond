@@ -8,7 +8,8 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<corba:import namespace="i12" names="plot_server" />
+	<corba:import namespace="i12"
+		names="plot_server, helpScriptController" />
 
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
@@ -17,9 +18,10 @@
 
 	<!-- Commonly commented in the simulation environment -->
 
+
 	<import resource="pixium.xml" />
 	
-	<!--  -->
+
 	<import resource="pco.xml" />
 
 	<!-- The tomoAlignment.xml must follow the pco.xml since the tomoAlignment 
@@ -40,7 +42,7 @@
 		<property name="acqPeriodPV" value="BL12I-OP-DCM-01:CAM2:AcquirePeriod" />
 		<property name="gainPV" value="BL12I-OP-DCM-01:CAM2:Gain" />
 		<property name="acquirePV" value="BL12I-OP-DCM-01:CAM2:Acquire" />
-		<property name="urlPV" value="BL12I-OP-DCM-01:MPEG2:MJPG_URL_RBV"/>
+		<property name="urlPV" value="BL12I-OP-DCM-01:MPEG2:MJPG_URL_RBV" />
 	</bean>
 	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
 		<property name="cameras">
@@ -56,7 +58,11 @@
 		<property name="service" ref="camera_config" />
 	</bean>
 
-	<import resource="commandQueueProcessor.xml" /> 
+	<bean class="uk.ac.gda.beamline.i12.HelpListener">
+		<property name="helpObservable" ref="helpScriptController" />
+	</bean>
+
+	<import resource="commandQueueProcessor.xml" />
 	<import resource="../clients-common.xml" />
 
 </beans>
