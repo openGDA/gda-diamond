@@ -13,12 +13,7 @@
 <bean id="wdsmca" class="gda.device.detector.analyser.EpicsMCASimple">
 		<property name="mcaPV" value="BL18I-EA-DET-05:aim_adc1"/>
 </bean>
-<bean id="ip330a" class="gda.device.adc.EpicsADC">
-		<property name="deviceName" value="IP330ADC1SM"/>
-</bean>
-<bean id="ip330b" class="gda.device.adc.EpicsADC">
-		<property name="deviceName" value="IP330ADC2SM"/>
-</bean>
+
 <bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="epicsDeviceName" value="xmap_dxp"/>
 		<property name="elementOffset" value="1"/>

@@ -1,4 +1,3 @@
-import sys
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable import DummyScannable
 from exafsscripts.vortex.vortexConfig import vortex
@@ -9,22 +8,36 @@ from gda.device.scannable import DetectorFillingMonitorScannable
 from gda.device.scannable import BeamMonitorScannableForLineRepeat
 from gda.data.fileregistrar import IcatXMLCreator
 from cid_photodiode import CidPhotoDiode
-from microfocus import map, raster_map, raster_map_return_write
+
+from microfocus.map_select import MapSelect
+from microfocus.map import Map
+from microfocus.raster_map import RasterMap
+from microfocus.raster_map_return_write import RasterMapReturnWrite
+
 from gda.factory import Finder
 from exafsscripts.exafs.i18_detector_preparer import I18DetectorPreparer
 from exafsscripts.exafs.i18_sample_preparer import I18SamplePreparer
 from exafsscripts.exafs.output_preparer import OutputPreparer
 from exafsscripts.exafs.i18ScanScripts import I18XasScan
 from exafsscripts.exafs.qexafs_scan import QexafsScan
+from gda.data import PathConstructor
 
 print "Initialization Started";
+
+finder = Finder.getInstance()
 
 gdaConfigDir = LocalProperties.get("gda.config")
 gdaConfigDir = gdaConfigDir + "/"
 
-map.rootnamespace = globals()
-raster_map.rootnamespace = globals()
-rootnamespace = globals()
+
+xmldir = PathConstructor.createFromDefaultProperty() + "/xml/"
+
+non_raster_map = Map(D7A, D7B, counterTimer01, xmldir)
+raster_map = RasterMap(D7A, D7B, counterTimer01, trajectoryX, raster_counterTimer01, raster_xmap, realX, xmldir)
+raster_map_return_write = RasterMapReturnWrite(D7A, D7B, counterTimer01, trajectoryX, raster_counterTimer01, raster_xmap, realX, HTScaler, HTXmapMca, xmldir)
+
+# switch between raster_map and raster_map_return_write
+map = MapSelect(non_raster_map, raster_map, xmldir)
 
 if (LocalProperties.get("gda.mode") == 'live'):
     print "Create topup , detector and beam monitors to pause and resume scans"
@@ -81,7 +94,6 @@ else:
 qexafs = QexafsScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer, qexafs_energy, qexafs_counterTimer01)
 xanes = xas
 
-alias("map")
 alias("xas")
 alias("xanes")
 alias("vortex")

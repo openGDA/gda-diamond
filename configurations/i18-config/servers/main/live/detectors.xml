@@ -57,16 +57,16 @@
 				<value>liveTime</value>
 				<value>I0</value>
 				<value>It</value>
-				<value>Iother</value>
-				<value>lnI0It</value>
-				<value>lnItIref</value>
+<!-- 				<value>Iother</value> -->
+<!-- 				<value>lnI0It</value> -->
+<!-- 				<value>lnItIref</value> -->
 
 			</list>
 		</property>
 		<property name="scaler" ref="CalMemory" />
 		<property name="timer" ref="tfg" />
 		<property name="timeChannelRequired" value="true" />
-		<property name="outputLogValues" value="true" />
+		<property name="outputLogValues" value="false" />
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="4" />
 		<property name="darkCurrentRequired" value="false" />
@@ -76,9 +76,9 @@
 				<value>%6.4g</value>
 				<value>%9d</value>
 				<value>%9d</value>
-				<value>%9d</value>
-				<value>%.6g</value>
-				<value>%.6g</value>
+<!-- 				<value>%9d</value> -->
+<!-- 				<value>%.6g</value> -->
+<!-- 				<value>%.6g</value> -->
 
 			</list>
 		</property>
