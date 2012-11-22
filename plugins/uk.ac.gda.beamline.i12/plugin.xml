@@ -101,6 +101,10 @@
                <visibleWhen
                      checkEnabled="true">
                </visibleWhen>
+               <parameter
+                     name="uk.ac.gda.beamline.i12.openhelpurl"
+                     value="help i12">
+               </parameter>
             </command>
          </toolbar>
       </menuContribution>
@@ -111,6 +115,11 @@
             defaultHandler="uk.ac.gda.beamline.i12.I12HelpCommandHandler"
             id="uk.ac.gda.beamline.i12.openi12Help"
             name="I12 Help">
+         <commandParameter
+               id="uk.ac.gda.beamline.i12.openhelpurl"
+               name="Help Confluence URL"
+               optional="true">
+         </commandParameter>
       </command>
    </extension>
 </plugin>
