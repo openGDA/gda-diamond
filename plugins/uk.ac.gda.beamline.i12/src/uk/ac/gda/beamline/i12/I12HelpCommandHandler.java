@@ -26,9 +26,13 @@ import org.eclipse.core.commands.ExecutionException;
 
 public class I12HelpCommandHandler extends AbstractHandler {
 
+	private final static String CMD_PARAM = "uk.ac.gda.beamline.i12.openhelpurl";
+
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		InterfaceProvider.getCommandRunner().runCommand("help i12");
+		String parameter = event.getParameter(CMD_PARAM);
+		// InterfaceProvider.getCommandRunner().runCommand("help i12");
+		InterfaceProvider.getCommandRunner().runCommand(parameter);
 		return null;
 	}
 
