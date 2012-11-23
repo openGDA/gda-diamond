@@ -31,7 +31,6 @@
 	<import resource="epics/motor/fc.xml" />
 	<import resource="epics/motor/fcarm.xml" />
 	<import resource="epics/motor/fcbase.xml" />
-	<import resource="epics/motor/fcsamp.xml" />
 	<import resource="epics/motor/m1.xml" />
 	<import resource="epics/motor/mlm.xml" />
 	<import resource="epics/motor/positioner_motors.xml" />
@@ -46,9 +45,9 @@
 	<import resource="epics/motor/s7.xml" />
 	<import resource="epics/motor/s8.xml" />
 	<import resource="epics/motor/tbbase.xml" />
-	<import resource="epics/motor/tbdet.xml" />
-	<import resource="epics/motor/tbdiag.xml" />
-	<import resource="epics/motor/tbopt.xml" />
+	<import resource="epics/motor/tb3.xml" />
+	<import resource="epics/motor/tb2.xml" />
+	<import resource="epics/motor/tb1.xml" />
 	<import resource="epics/motor/test1.xml" />
 	<import resource="epics/motor/test2.xml" />
 	<import resource="epics/motor/test3.xml" />

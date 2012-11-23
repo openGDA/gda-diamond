@@ -13,9 +13,7 @@
 	<import resource="motor/dif.xml" />
 	<import resource="motor/fc.xml" />
 	<import resource="motor/fcarm.xml" />
-	<!-- fcbase was dr1base, update doc -->
 	<import resource="motor/fcbase.xml" />
-	<import resource="motor/fcsamp.xml" />
 	<import resource="motor/m1.xml" />
 	<import resource="motor/mlm.xml" />
 	<import resource="motor/positioner_motors.xml" />
@@ -28,9 +26,9 @@
 	<import resource="motor/s7.xml" />
 	<import resource="motor/s8.xml" />
 	<import resource="motor/tbbase.xml" />
-	<import resource="motor/tbdet.xml" />
-	<import resource="motor/tbdiag.xml" />
-	<import resource="motor/tbopt.xml" />
+	<import resource="motor/tb3.xml" />
+	<import resource="motor/tb2.xml" />
+	<import resource="motor/tb1.xml" />
 	<import resource="motor/test1.xml" />
 	<import resource="motor/test2.xml" />
 	<!-- import resource="motor/test3.xml" Hanging in sd2/-->

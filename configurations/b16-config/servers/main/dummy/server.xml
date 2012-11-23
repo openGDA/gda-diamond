@@ -44,9 +44,9 @@
 	<import resource="motor/s7.xml" />
 	<import resource="motor/s8.xml" />
 	<import resource="motor/tbbase.xml" />
-	<import resource="motor/tbdet.xml" />
-	<import resource="motor/tbdiag.xml" />
-	<import resource="motor/tbopt.xml" />
+	<import resource="motor/tb3.xml" />
+	<import resource="motor/tb2.xml" />
+	<import resource="motor/tb1.xml" />
 	<import resource="motor/test1.xml" />
 	<import resource="motor/test2.xml" />
 	<import resource="motor/test3.xml" />
