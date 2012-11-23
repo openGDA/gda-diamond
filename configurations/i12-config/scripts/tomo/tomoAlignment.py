@@ -10,6 +10,8 @@ from time import sleep
 from tomographyScan import tomoScan
 import math
 import sys
+import os
+import subprocess
 from fast_scan import FastScan
 from gda.jython.ScriptBase import checkForPauses
 from i12utilities import setSubdirectory
@@ -18,11 +20,16 @@ from gdascripts.configuration.properties.localProperties import LocalProperties
 verbose = True
 f = Finder.getInstance()
 
+from gda.data import NumTracker
+from gda.data import PathConstructor
+from gda.util import PropertyUtils
+
+
 """
 Performs software triggered tomography
 """
 def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection, numberofProjections,
-                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat= -100.0, positionOfBaseInBeam=0.0):
+                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat=-100.0, positionOfBaseInBeam=0.0, isToBeReconstructed=False):
     #
     if verbose:
         print "About to start tomography scan"
@@ -71,12 +78,103 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
         print 'Sample Acq#' + `sampleAcquisitionTime`
         print 'Sample Acq Time divided#' + `timeDividedAcq`
     fastScan = FastScan('fastScan')
+    isTomoScanSuccess = True
     try:
         #tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, steps[desiredResolution], 0, 0, 10, 10, 0, additionalScannables=[fastScan])
         tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, steps[desiredResolution], 0, 0, 10, 10, 0, additionalScannables=[fastScan])
+        #tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 1, 0.5, 0, 0, 1, 1, 0, additionalScannables=[fastScan]) #fast test
+    except Exception, ex:
+        isTomoScanSuccess = False
+        raise Exception ("ERROR running tomoScan: "+str(ex))
     finally:
         ad.setBinX(cachedBinX)
         ad.setBinY(cachedBinY)
+    
+    if isTomoScanSuccess and isToBeReconstructed:
+        try:
+            inNXSFile = getPathToNXSFile()
+            outDir = getPathToOutputDir()
+            localTomoFile = getPathToLocalTomoFile()
+            templateSettingsFile = getPathToTemplateSettingsFile()
+            launchRecon(inNXSFile, outDir, localTomoFile, templateSettingsFile)
+        except Exception, ex:
+            raise Exception ("Error launching reconstruction: "+str(ex))
+
+def launchRecon(inNXSFile, outDir, localTomoFile, templateSettingsFile):
+    exe_sh = getPathToReconstructionShellScript()
+    exe_py = getPathToReconstructionPythonScript()
+    
+    args = [exe_sh]
+    args += [exe_py]
+    #args += ["-h"]
+    args += [ "-f", inNXSFile]
+    args += [ "-o", outDir]
+    args += [ "--local", localTomoFile]
+    args += [ "--template", templateSettingsFile]
+    args += [ "--sino"]
+    args += [ "--recon"]
+    args += [ "--quick"]
+    print args
+    try:
+        proc = subprocess.Popen( args, executable = exe_sh, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
+        proc.wait()
+        (out, err) = proc.communicate()
+        print "Return value after spawning reconstruction script was %s\n" % proc.returncode
+        print "Reconstruction script's stout...\n", out
+        print "Reconstruction script's sterr...\n", err
+    except Exception, ex:
+        msg = "Error spawning reconstruction script: " + str(ex)
+        print msg
+        #raise Exception(msg)
+
+def getPathToTomographyReconstructionRoot():
+    # eg, '/dls_sw/i12/software/gda_git/gda-tomography.git/uk.ac.diamond.tomography.reconstruction'
+    git_dir = PropertyUtils.getExistingDirFromLocalProperties("gda.install.git.loc")
+    trr_path = os.path.join(git_dir, 'gda-tomography.git')
+    trr_path = os.path.join(trr_path, 'uk.ac.diamond.tomography.reconstruction')
+    return trr_path
+
+def getPathToReconstructionShellScript(scriptBasename='tomodo.sh'):
+    # eg, "/dls_sw/i12/software/gda_git/gda-tomography.git/uk.ac.diamond.tomography.reconstruction/scripts/tomodo.sh"
+    trr_path = getPathToTomographyReconstructionRoot()
+    shscript_dir = os.path.join(trr_path, 'scripts')
+    shscript_path = shscript_dir + os.sep + scriptBasename
+    return shscript_path
+
+def getPathToReconstructionPythonScript(scriptBasename='tomodo.py'):
+    # eg, "/dls_sw/i12/software/gda_git/gda-tomography.git/uk.ac.diamond.tomography.reconstruction/scripts/tomodo.py"
+    trr_path = getPathToTomographyReconstructionRoot()
+    pyscript_dir = os.path.join(trr_path, 'scripts')
+    pyscript_path = pyscript_dir + os.sep + scriptBasename
+    return pyscript_path
+
+def getPathToNXSFile():
+    numTracker = NumTracker(LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME))
+    # the line below uses GDA_DATAWRITER_DIR
+    dir = PathConstructor.createFromDefaultProperty()
+    scan_number = numTracker.getCurrentFileNumber()
+    file_path = os.path.join(dir, str(scan_number))
+    return file_path + '.nxs'
+
+def getPathToOutputDir(outDirBasename='processing'):
+    # the line below uses GDA_DATAWRITER_DIR
+    dir = PathConstructor.createFromDefaultProperty()
+    outputdir_path = os.path.join(os.path.dirname(dir), outDirBasename)
+    return outputdir_path
+
+def getPathToLocalTomoFile(localTomoBasename='localTomo.xml'):
+    # eg, '/dls_sw/i12/software/gda/i12-config/properties/localTomo.xml'
+    config_dir = LocalProperties.getConfigDir()
+    localtomo_dir = os.path.join(config_dir, 'properties')
+    localtomofile_path = localtomo_dir + os.sep + localTomoBasename
+    return localtomofile_path
+
+def getPathToTemplateSettingsFile(settingsBasename='settings.xml'):
+    # eg, '/dls_sw/i12/software/gda_git/gda-tomography.git/uk.ac.diamond.tomography.reconstruction/resources/settings.xml'
+    trr_path = getPathToTomographyReconstructionRoot()
+    settingsfile_dir = os.path.join(trr_path, 'resources')
+    settingsfile_path = settingsfile_dir + os.sep + settingsBasename
+    return settingsfile_path
 
 def changeSubDir(subdir):
     setSubdirectory(subdir)
