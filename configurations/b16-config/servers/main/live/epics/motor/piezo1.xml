@@ -3,6 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<!-- Missing on 23/10/2012, assumed replaces by moveable equipment -->
+
 	<bean id="PIEZO1XMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="PIEZO1.X" />
 		<property name="local" value="true" />

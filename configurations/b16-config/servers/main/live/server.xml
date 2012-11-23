@@ -23,6 +23,9 @@
 		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/b16-" />
 	</bean>
 	
+	<import
+		resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/live/moveable/me07m/all.xml" />
+
 	<import resource="epics/motor/dcm.xml" />
 	<import resource="epics/motor/fc.xml" />
 	<import resource="epics/motor/fcarm.xml" />
@@ -31,7 +34,8 @@
 	<import resource="epics/motor/m1.xml" />
 	<import resource="epics/motor/mlm.xml" />
 	<import resource="epics/motor/positioner_motors.xml" />
-	<import resource="epics/motor/piezo1.xml" />
+	<!-- <import resource="motor/piezo1.xml" Missing on 23/10/2012, assumed 
+		replaces by moveable equipment -->
 	<import resource="epics/motor/s1.xml" />
 	<import resource="epics/motor/s2.xml" />
 	<import resource="epics/motor/s3.xml" />
