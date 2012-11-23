@@ -16,13 +16,14 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml"/>
-	
+	<import
+		resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml" />
+
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
-		<property name="name" value="FileRegistrar"/>
+		<property name="name" value="FileRegistrar" />
 		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/b16-" />
 	</bean>
-	
+
 	<import
 		resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/live/moveable/me07m/all.xml" />
 
@@ -51,11 +52,10 @@
 	<import resource="epics/motor/test1.xml" />
 	<import resource="epics/motor/test2.xml" />
 	<import resource="epics/motor/test3.xml" />
-	
+
 	<import resource="../common/scannable/motors.xml" />
-	
+
 	<import resource="epics/controlpoint/analogueout.xml" />
-	<!-- import resource="epics/controlpoint/dcmpiezo.xml" /Removed from epics sd2-->
 
 	<import resource="epics/monitor/analoguein.xml" />
 	<import resource="epics/monitor/mstat.xml" />
@@ -69,9 +69,9 @@
 
 	<import resource="epics/detector/scaler_vortex.xml" />
 	<import resource="epics/detector/mca_vortex.xml" />
-<!-- 	<import resource="epics/detector/xmap_vortex.xml" /> -->
+	<!-- <import resource="epics/detector/xmap_vortex.xml" /> -->
 	<import resource="epics/detector/medipix.xml" />
-	
+
 
 	<bean id="dummyxMotor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="10000" />
@@ -93,7 +93,7 @@
 	</bean>
 
 	<!-- live only -->
- 	<import resource="transient.xml"/>
+	<import resource="transient.xml" />
 
 	<import resource="daserver.xml" />
 	<import resource="metadata.xml" />
@@ -101,14 +101,16 @@
 	<import resource="epics/detector/pilatus300k.xml" />
 
 	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
-		<property name="template" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
+		<property name="template"
+			value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
 		<property name="gdaMetadata" ref="GDAMetadata" />
 		<property name="local" value="true" />
 	</bean>
 
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/terminal_logger.xml" />
+	<import
+		resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/terminal_logger.xml" />
 
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml" />
 
 	<bean id="script_paths" parent="abstract_script_paths"/>
 
@@ -117,17 +119,17 @@
 		<property name="stopJythonScannablesOnStopAll" value="false" />
 		<property name="disableBatonControlOverVisitMetadataEntry" value="true" />
 	</bean>
-	
+
 	<bean id="Beamline" class="gda.device.epicsdevice.FindableEpicsDevice">
 		<property name="deviceName" value="Beamline" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<import resource="exafs_stuff.xml" />
 
 
 	<corba:export namespace="b16server" />
-	
+
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 
