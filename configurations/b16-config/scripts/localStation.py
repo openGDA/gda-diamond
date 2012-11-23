@@ -107,6 +107,8 @@ from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImp
 scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
+from gdascripts.analysis.datasetprocessor.oned.CenFromSPEC import CenFromSPEC
+scan_processor.processors.append(CenFromSPEC())
 
 
 #from gdascripts.scannable.installStandardScannableMetadataCollection import *
