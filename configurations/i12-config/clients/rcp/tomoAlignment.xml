@@ -73,7 +73,7 @@
 		<property name="detectorPixelSize" value="0.009" />
 		<property name="demandRawFileName" value="rawImage" />
 		<property name="flatImageFileName" value="flatFieldImage" />
-		<property name="flatFileTemplate" value="%s%s.tiff" />
+		<property name="flatFileTemplate" value="%s%s.tif" />
 		<property name="defaultNumOfFlatImages" value="5" />
 		<property name="defaultSampleExposureTime" value="0.1" />
 		<property name="defaultFlatExposureTime" value="1.0" />
@@ -82,7 +82,6 @@
 		<property name="darkFilePath" value="/dls/i12/gdavar/" />
 		<property name="darkImageFileName" value="darkImage" />
 		<property name="darkFileTemplate" value="%s%s.tif" />
-		<property name="defaultAcqPeriod" value="0.1" />
 		<property name="defaultModule" value="1" />
 		<property name="saturationThreshold" value="15000000" />
 		<property name="defaultFastPreviewExposureTimeThreshold"
