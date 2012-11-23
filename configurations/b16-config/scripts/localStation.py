@@ -378,12 +378,12 @@ print "Setting device levels and output formats"
 
 
 
-tbdiagY.setOutputFormat(['%5.7g']) #@UndefinedVariable
-tbdiagX.setOutputFormat(['%5.7g']) #@UndefinedVariable
-tboptX.setOutputFormat(['%5.7g']) #@UndefinedVariable
-tboptY.setOutputFormat(['%5.7g']) #@UndefinedVariable
-tbdetX.setOutputFormat(['%5.7g']) #@UndefinedVariable
-tbdetY.setOutputFormat(['%5.7g']) #@UndefinedVariable
+tb2y.setOutputFormat(['%5.7g']) #@UndefinedVariable
+tb2x.setOutputFormat(['%5.7g']) #@UndefinedVariable
+tb1x.setOutputFormat(['%5.7g']) #@UndefinedVariable
+tb1y.setOutputFormat(['%5.7g']) #@UndefinedVariable
+tb3x.setOutputFormat(['%5.7g']) #@UndefinedVariable
+tb3y.setOutputFormat(['%5.7g']) #@UndefinedVariable
 ippws4.setLevel(9)
 t.setOutputFormat(['%6.6f'])
 	
