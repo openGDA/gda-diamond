@@ -11,4 +11,4 @@ else
 fi
 echo $root
 
-python2.5  ${root}/uk.ac.gda.core/bin/gda  --config=${config} $@
+python2.6  ${root}/uk.ac.gda.core/bin/gda  --config=${config} $@

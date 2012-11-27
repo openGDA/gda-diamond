@@ -163,3 +163,21 @@ beam_check=scan_aborter.scan_aborter("beam_check",3, 300000., "Too high")
 imageROI.enable = True
 imageStats.enable = True
 imageROI.setROI(370, 390, 370, 390)#    ( y_start, y_end, x_start, x_end)
+
+
+import mtscripts.moveable.me07m
+from mtscripts.moveable.me07m import mepiezo1x, mepiezo1y, eembimorph, dummy_bimorph
+from gdascripts.pd.dummy_pds import DummyPD
+from gdascripts.scannable.detector.dummy.focused_beam_dataset import CreateImageReadingDummyDetector
+from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
+from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
+from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
+from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
+from gdascripts.bimorph.bimorph_mirror_optimising import SlitScanner, ScanAborter
+slitscanner = SlitScanner()
+x = DummyPD("x")
+x.asynchronousMoveTo(430)
+cam1det = CreateImageReadingDummyDetector.create(x)
+cam1 = ProcessingDetectorWrapper('cam1', cam1det, [], panel_name_rcp='Plot 1')
+peak2d = DetectorDataProcessorWithRoi('peak2d', cam1, [TwodGaussianPeak()])
+max2d = DetectorDataProcessorWithRoi('max2d', cam1, [SumMaxPositionAndValue()])

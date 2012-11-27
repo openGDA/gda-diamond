@@ -108,5 +108,5 @@
 <!--Not present 
 	<import resource="../../../devices/epics/z1_motors.xml"/>
  -->
-	
+	<import resource="file:/dls_sw/i13-1/software/gda_versions/gda_8_26/workspace_git/gda-mt.git/configurations/mt-config/servers/main/live/moveable/me07m/all.xml"/>
 </beans>

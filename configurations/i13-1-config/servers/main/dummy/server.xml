@@ -24,8 +24,9 @@
 		<property name="dummyMode" value="true"></property>
 	</bean>
 	
-	<import resource="../../../devices/mll.xml"/>	
-	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
+<!--MLL IS NOT CONNECTED 	<import resource="../../../devices/mll.xml"/>	
+ -->	
+ 	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
 			<map>
 				<entry key="Top" value="BL13J" />
@@ -73,6 +74,9 @@
 	<import resource="../../../devices/dummy/d4.xml"/>	
 
 	<import resource="../../../devices/dummy/s5_motors.xml"/>
+	<import resource="../../../devices/dummy/m2_motors.xml"/>
+	<import resource="../../../devices/dummy/pin_motors.xml"/>
+	<import resource="../../../devices/dummy/diff_motors.xml"/>
 
 	<import resource="../../../devices/dummy/diffractometer_motors.xml"/>
 
