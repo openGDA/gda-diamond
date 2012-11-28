@@ -13,8 +13,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Rb_Ka</roiName>
-            <regionStart>918</regionStart>
-            <regionEnd>962</regionEnd>
+            <roiStart>918</roiStart>
+            <roiEnd>962</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -25,8 +25,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Rb_Ka</roiName>
-            <regionStart>1025</regionStart>
-            <regionEnd>1077</regionEnd>
+            <roiStart>1025</roiStart>
+            <roiEnd>1077</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -37,8 +37,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Rb_Ka</roiName>
-            <regionStart>978</regionStart>
-            <regionEnd>1069</regionEnd>
+            <roiStart>978</roiStart>
+            <roiEnd>1069</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -49,8 +49,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Rb_Ka</roiName>
-            <regionStart>886</regionStart>
-            <regionEnd>950</regionEnd>
+            <roiStart>886</roiStart>
+            <roiEnd>950</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -61,8 +61,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Rb_Ka</roiName>
-            <regionStart>950</regionStart>
-            <regionEnd>1022</regionEnd>
+            <roiStart>950</roiStart>
+            <roiEnd>1022</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -73,8 +73,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Rb_Ka</roiName>
-            <regionStart>938</regionStart>
-            <regionEnd>986</regionEnd>
+            <roiStart>938</roiStart>
+            <roiEnd>986</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -85,8 +85,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Rb_Ka</roiName>
-            <regionStart>974</regionStart>
-            <regionEnd>1033</regionEnd>
+            <roiStart>974</roiStart>
+            <roiEnd>1033</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -97,8 +97,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Rb_Ka</roiName>
-            <regionStart>958</regionStart>
-            <regionEnd>1018</regionEnd>
+            <roiStart>958</roiStart>
+            <roiEnd>1018</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -109,8 +109,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Rb_Ka</roiName>
-            <regionStart>918</regionStart>
-            <regionEnd>974</regionEnd>
+            <roiStart>918</roiStart>
+            <roiEnd>974</roiEnd>
         </Region>
     </DetectorElement>
 </XspressParameters>

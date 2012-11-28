@@ -13,8 +13,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pt_L2</roiName>
-            <regionStart>1070</regionStart>
-            <regionEnd>1150</regionEnd>
+            <roiStart>1070</roiStart>
+            <roiEnd>1150</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -25,8 +25,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pt_L2</roiName>
-            <regionStart>1074</regionStart>
-            <regionEnd>1150</regionEnd>
+            <roiStart>1074</roiStart>
+            <roiEnd>1150</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -37,8 +37,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pt_L2</roiName>
-            <regionStart>1070</regionStart>
-            <regionEnd>1154</regionEnd>
+            <roiStart>1070</roiStart>
+            <roiEnd>1154</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -49,8 +49,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pt_L2</roiName>
-            <regionStart>1074</regionStart>
-            <regionEnd>1150</regionEnd>
+            <roiStart>1074</roiStart>
+            <roiEnd>1150</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -61,8 +61,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pt_L2</roiName>
-            <regionStart>1070</regionStart>
-            <regionEnd>1146</regionEnd>
+            <roiStart>1070</roiStart>
+            <roiEnd>1146</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -73,8 +73,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pt_L2</roiName>
-            <regionStart>1078</regionStart>
-            <regionEnd>1150</regionEnd>
+            <roiStart>1078</roiStart>
+            <roiEnd>1150</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -85,8 +85,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pt_L2</roiName>
-            <regionStart>1066</regionStart>
-            <regionEnd>1146</regionEnd>
+            <roiStart>1066</roiStart>
+            <roiEnd>1146</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -97,8 +97,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pt_L2</roiName>
-            <regionStart>1078</regionStart>
-            <regionEnd>1137</regionEnd>
+            <roiStart>1078</roiStart>
+            <roiEnd>1137</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -109,8 +109,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Pt_L2</roiName>
-            <regionStart>1082</regionStart>
-            <regionEnd>1146</regionEnd>
+            <roiStart>1082</roiStart>
+            <roiEnd>1146</roiEnd>
         </Region>
     </DetectorElement>
 </XspressParameters>
