@@ -22,6 +22,10 @@ from exafsscripts.exafs.i18ScanScripts import I18XasScan
 from exafsscripts.exafs.qexafs_scan import QexafsScan
 from gda.data import PathConstructor
 
+from microfocus.microfocus_elements import getXY,plotSpectrum,displayMap
+
+from uk.ac.gda.client.microfocus.scan.datawriter import MicroFocusWriterExtender
+
 print "Initialization Started";
 
 finder = Finder.getInstance()
@@ -33,8 +37,9 @@ gdaConfigDir = gdaConfigDir + "/"
 xmldir = PathConstructor.createFromDefaultProperty() + "/xml/"
 
 non_raster_map = Map(D7A, D7B, counterTimer01, xmldir)
-raster_map = RasterMap(D7A, D7B, counterTimer01, trajectoryX, raster_counterTimer01, raster_xmap, realX, xmldir)
+raster_map = RasterMap(D7A, D7B, counterTimer01, trajectoryX, raster_counterTimer01, raster_xmap, realX, xmldir, raster_xspress)
 raster_map_return_write = RasterMapReturnWrite(D7A, D7B, counterTimer01, trajectoryX, raster_counterTimer01, raster_xmap, realX, HTScaler, HTXmapMca, xmldir)
+
 
 # switch between raster_map and raster_map_return_write
 map = MapSelect(non_raster_map, raster_map, xmldir)

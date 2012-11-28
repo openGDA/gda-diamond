@@ -719,7 +719,7 @@
 	</bean>
 	<bean id="realX" class="gda.device.scannable.EpicsTrajectoryScanRealPositionReader">
 		<property name="protectionLevel" value="0" />
-		<property name="trajectoryIndex" value="0" />
+		<property name="trajectoryIndex" value="3" />
 	</bean>
 	<bean id="deferMFY" class="gda.device.scannable.DeferredScannable">
 	<property name="controlPointScannable" ref="sc_MicroFocusSampleY"></property>
