@@ -13,8 +13,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_L3</roiName>
-            <regionStart>781</regionStart>
-            <regionEnd>854</regionEnd>
+            <roiStart>781</roiStart>
+            <roiEnd>854</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -25,8 +25,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_L3</roiName>
-            <regionStart>785</regionStart>
-            <regionEnd>850</regionEnd>
+            <roiStart>785</roiStart>
+            <roiEnd>850</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -37,8 +37,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_L3</roiName>
-            <regionStart>788</regionStart>
-            <regionEnd>847</regionEnd>
+            <roiStart>788</roiStart>
+            <roiEnd>847</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -49,8 +49,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_L3</roiName>
-            <regionStart>790</regionStart>
-            <regionEnd>854</regionEnd>
+            <roiStart>790</roiStart>
+            <roiEnd>854</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -61,8 +61,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_L3</roiName>
-            <regionStart>779</regionStart>
-            <regionEnd>851</regionEnd>
+            <roiStart>779</roiStart>
+            <roiEnd>851</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -73,8 +73,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_L3</roiName>
-            <regionStart>790</regionStart>
-            <regionEnd>854</regionEnd>
+            <roiStart>790</roiStart>
+            <roiEnd>854</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -85,8 +85,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_L3</roiName>
-            <regionStart>777</regionStart>
-            <regionEnd>862</regionEnd>
+            <roiStart>777</roiStart>
+            <roiEnd>862</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -97,8 +97,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_L3</roiName>
-            <regionStart>785</regionStart>
-            <regionEnd>850</regionEnd>
+            <roiStart>785</roiStart>
+            <roiEnd>850</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -109,8 +109,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_L3</roiName>
-            <regionStart>777</regionStart>
-            <regionEnd>850</regionEnd>
+            <roiStart>777</roiStart>
+            <roiEnd>850</roiEnd>
         </Region>
     </DetectorElement>
 </XspressParameters>

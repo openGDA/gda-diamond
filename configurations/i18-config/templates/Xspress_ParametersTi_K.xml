@@ -13,8 +13,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ti_Ka</roiName>
-            <regionStart>425</regionStart>
-            <regionEnd>473</regionEnd>
+            <roiStart>425</roiStart>
+            <roiEnd>473</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -25,8 +25,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ti_Ka</roiName>
-            <regionStart>425</regionStart>
-            <regionEnd>469</regionEnd>
+            <roiStart>425</roiStart>
+            <roiEnd>469</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -37,8 +37,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ti_Ka</roiName>
-            <regionStart>421</regionStart>
-            <regionEnd>473</regionEnd>
+            <roiStart>421</roiStart>
+            <roiEnd>473</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -49,8 +49,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ti_Ka</roiName>
-            <regionStart>425</regionStart>
-            <regionEnd>473</regionEnd>
+            <roiStart>425</roiStart>
+            <roiEnd>473</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -61,8 +61,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ti_Ka</roiName>
-            <regionStart>417</regionStart>
-            <regionEnd>473</regionEnd>
+            <roiStart>417</roiStart>
+            <roiEnd>473</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -73,8 +73,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ti_Ka</roiName>
-            <regionStart>425</regionStart>
-            <regionEnd>473</regionEnd>
+            <roiStart>425</roiStart>
+            <roiEnd>473</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -85,8 +85,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ti_Ka</roiName>
-            <regionStart>417</regionStart>
-            <regionEnd>473</regionEnd>
+            <roiStart>417</roiStart>
+            <roiEnd>473</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -97,8 +97,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ti_Ka</roiName>
-            <regionStart>427</regionStart>
-            <regionEnd>477</regionEnd>
+            <roiStart>427</roiStart>
+            <roiEnd>477</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -109,8 +109,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ti_Ka</roiName>
-            <regionStart>434</regionStart>
-            <regionEnd>467</regionEnd>
+            <roiStart>434</roiStart>
+            <roiEnd>467</roiEnd>
         </Region>
     </DetectorElement>
 </XspressParameters>

@@ -13,8 +13,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ga_Ka</roiName>
-            <regionStart>900</regionStart>
-            <regionEnd>942</regionEnd>
+            <roiStart>900</roiStart>
+            <roiEnd>942</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -25,8 +25,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ga_Ka</roiName>
-            <regionStart>900</regionStart>
-            <regionEnd>946</regionEnd>
+            <roiStart>900</roiStart>
+            <roiEnd>946</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -37,8 +37,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ga_Ka</roiName>
-            <regionStart>900</regionStart>
-            <regionEnd>946</regionEnd>
+            <roiStart>900</roiStart>
+            <roiEnd>946</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -49,8 +49,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ga_Ka</roiName>
-            <regionStart>890</regionStart>
-            <regionEnd>970</regionEnd>
+            <roiStart>890</roiStart>
+            <roiEnd>970</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -61,8 +61,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ga_Ka</roiName>
-            <regionStart>896</regionStart>
-            <regionEnd>938</regionEnd>
+            <roiStart>896</roiStart>
+            <roiEnd>938</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -73,8 +73,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ga_Ka</roiName>
-            <regionStart>894</regionStart>
-            <regionEnd>966</regionEnd>
+            <roiStart>894</roiStart>
+            <roiEnd>966</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -85,8 +85,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ga_Ka</roiName>
-            <regionStart>904</regionStart>
-            <regionEnd>946</regionEnd>
+            <roiStart>904</roiStart>
+            <roiEnd>946</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -97,8 +97,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ga_Ka</roiName>
-            <regionStart>898</regionStart>
-            <regionEnd>958</regionEnd>
+            <roiStart>898</roiStart>
+            <roiEnd>958</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -109,8 +109,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ga_Ka</roiName>
-            <regionStart>892</regionStart>
-            <regionEnd>954</regionEnd>
+            <roiStart>892</roiStart>
+            <roiEnd>954</roiEnd>
         </Region>
     </DetectorElement>
 </XspressParameters>

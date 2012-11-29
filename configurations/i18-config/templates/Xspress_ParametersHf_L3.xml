@@ -13,8 +13,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Hf_L3</roiName>
-            <regionStart>750</regionStart>
-            <regionEnd>838</regionEnd>
+            <roiStart>750</roiStart>
+            <roiEnd>838</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -25,8 +25,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Hf_L3</roiName>
-            <regionStart>758</regionStart>
-            <regionEnd>821</regionEnd>
+            <roiStart>758</roiStart>
+            <roiEnd>821</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -37,8 +37,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Hf_L3</roiName>
-            <regionStart>741</regionStart>
-            <regionEnd>834</regionEnd>
+            <roiStart>741</roiStart>
+            <roiEnd>834</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -49,8 +49,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Hf_L3</roiName>
-            <regionStart>758</regionStart>
-            <regionEnd>825</regionEnd>
+            <roiStart>758</roiStart>
+            <roiEnd>825</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -61,8 +61,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Hf_L3</roiName>
-            <regionStart>741</regionStart>
-            <regionEnd>834</regionEnd>
+            <roiStart>741</roiStart>
+            <roiEnd>834</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -73,8 +73,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Hf_L3</roiName>
-            <regionStart>754</regionStart>
-            <regionEnd>817</regionEnd>
+            <roiStart>754</roiStart>
+            <roiEnd>817</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -85,8 +85,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Hf_L3</roiName>
-            <regionStart>745</regionStart>
-            <regionEnd>830</regionEnd>
+            <roiStart>745</roiStart>
+            <roiEnd>830</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -97,8 +97,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Hf_L3</roiName>
-            <regionStart>762</regionStart>
-            <regionEnd>838</regionEnd>
+            <roiStart>762</roiStart>
+            <roiEnd>838</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -109,8 +109,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Hf_L3</roiName>
-            <regionStart>750</regionStart>
-            <regionEnd>834</regionEnd>
+            <roiStart>750</roiStart>
+            <roiEnd>834</roiEnd>
         </Region>
     </DetectorElement>
 </XspressParameters>

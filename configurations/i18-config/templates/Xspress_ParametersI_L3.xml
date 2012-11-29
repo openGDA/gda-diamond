@@ -13,8 +13,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>I_L3</roiName>
-            <regionStart>381</regionStart>
-            <regionEnd>403</regionEnd>
+            <roiStart>381</roiStart>
+            <roiEnd>403</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -25,8 +25,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>I_L3</roiName>
-            <regionStart>372</regionStart>
-            <regionEnd>414</regionEnd>
+            <roiStart>372</roiStart>
+            <roiEnd>414</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -37,8 +37,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>I_L3</roiName>
-            <regionStart>368</regionStart>
-            <regionEnd>414</regionEnd>
+            <roiStart>368</roiStart>
+            <roiEnd>414</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -49,8 +49,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>I_L3</roiName>
-            <regionStart>385</regionStart>
-            <regionEnd>410</regionEnd>
+            <roiStart>385</roiStart>
+            <roiEnd>410</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -61,8 +61,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>I_L3</roiName>
-            <regionStart>372</regionStart>
-            <regionEnd>414</regionEnd>
+            <roiStart>372</roiStart>
+            <roiEnd>414</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -73,8 +73,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>I_L3</roiName>
-            <regionStart>368</regionStart>
-            <regionEnd>406</regionEnd>
+            <roiStart>368</roiStart>
+            <roiEnd>406</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -85,8 +85,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>I_L3</roiName>
-            <regionStart>372</regionStart>
-            <regionEnd>418</regionEnd>
+            <roiStart>372</roiStart>
+            <roiEnd>418</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -97,8 +97,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>I_L3</roiName>
-            <regionStart>372</regionStart>
-            <regionEnd>418</regionEnd>
+            <roiStart>372</roiStart>
+            <roiEnd>418</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -109,8 +109,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>I_L3</roiName>
-            <regionStart>376</regionStart>
-            <regionEnd>414</regionEnd>
+            <roiStart>376</roiStart>
+            <roiEnd>414</roiEnd>
         </Region>
     </DetectorElement>
 </XspressParameters>

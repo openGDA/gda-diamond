@@ -16,8 +16,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -31,8 +31,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -46,8 +46,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -61,8 +61,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -76,8 +76,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -91,8 +91,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -106,8 +106,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -121,8 +121,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -136,8 +136,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -151,8 +151,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -166,8 +166,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -181,8 +181,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -196,8 +196,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -211,8 +211,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -226,8 +226,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -241,8 +241,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -256,8 +256,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -271,8 +271,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -286,8 +286,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -301,8 +301,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -316,8 +316,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -331,8 +331,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -346,8 +346,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -361,8 +361,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -376,8 +376,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -391,8 +391,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -406,8 +406,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -421,8 +421,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -436,8 +436,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -451,8 +451,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -466,8 +466,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -481,8 +481,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -496,8 +496,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -511,8 +511,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -526,8 +526,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -541,8 +541,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zr</roiName>
-            <regionStart>1480</regionStart>
-            <regionEnd>1700</regionEnd>
+            <roiStart>1480</roiStart>
+            <roiEnd>1700</roiEnd>
         </Region>
     </DetectorElement>
 </XspressParameters>

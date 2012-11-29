@@ -13,8 +13,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_Ka</roiName>
-            <regionStart>942</regionStart>
-            <regionEnd>986</regionEnd>
+            <roiStart>942</roiStart>
+            <roiEnd>986</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -25,8 +25,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_Ka</roiName>
-            <regionStart>938</regionStart>
-            <regionEnd>990</regionEnd>
+            <roiStart>938</roiStart>
+            <roiEnd>990</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -37,8 +37,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_Ka</roiName>
-            <regionStart>946</regionStart>
-            <regionEnd>982</regionEnd>
+            <roiStart>946</roiStart>
+            <roiEnd>982</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -49,8 +49,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_Ka</roiName>
-            <regionStart>950</regionStart>
-            <regionEnd>982</regionEnd>
+            <roiStart>950</roiStart>
+            <roiEnd>982</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -61,8 +61,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_Ka</roiName>
-            <regionStart>942</regionStart>
-            <regionEnd>986</regionEnd>
+            <roiStart>942</roiStart>
+            <roiEnd>986</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -73,8 +73,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_Ka</roiName>
-            <regionStart>938</regionStart>
-            <regionEnd>994</regionEnd>
+            <roiStart>938</roiStart>
+            <roiEnd>994</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -85,8 +85,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_Ka</roiName>
-            <regionStart>938</regionStart>
-            <regionEnd>990</regionEnd>
+            <roiStart>938</roiStart>
+            <roiEnd>990</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -97,8 +97,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_Ka</roiName>
-            <regionStart>942</regionStart>
-            <regionEnd>986</regionEnd>
+            <roiStart>942</roiStart>
+            <roiEnd>986</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -109,8 +109,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Ta_Ka</roiName>
-            <regionStart>942</regionStart>
-            <regionEnd>990</regionEnd>
+            <roiStart>942</roiStart>
+            <roiEnd>990</roiEnd>
         </Region>
     </DetectorElement>
 </XspressParameters>
