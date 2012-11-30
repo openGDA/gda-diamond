@@ -33,10 +33,10 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     #
     if verbose:
         print "About to start tomography scan"
-    steps = {1:0.03, 2:0.06, 4:0.06, 8:0.2}
+    stepsSize = f.find('scanResolutionLut').lookupValue(desiredResolution, "Stepsize")
     ##numprojections = {1:6000, 2:3000, 4:3000, 8:900}
-    xBin = {1:1, 2:1, 4:2, 8:2}
-    yBin = {1:1, 2:1, 4:2, 8:1}
+    xBin = f.find('scanResolutionLut').lookupValue(desiredResolution, "XBin")
+    yBin = f.find('scanResolutionLut').lookupValue(desiredResolution, "YBin")
     exposureVsRes = {1:1, 2:1, 4:4, 8:4}
     updateScriptController("Tomo scan starting")
     timeDividedAcq = sampleAcquisitionTime * timeDivider
@@ -60,11 +60,11 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     
     cachedBinX = ad.getBinX()
     cachedBinY = ad.getBinY() 
-    ad.setBinX(xBin[desiredResolution])
-    ad.setBinY(yBin[desiredResolution])
+    ad.setBinX(xBin)
+    ad.setBinY(yBin)
     if verbose:
         print "Tomo scan starting"
-        print "type : " + `steps[desiredResolution]`
+        print "type : " + `stepsSize`
         print "Description: " + `description`
         print "Sample acquisition time: " + `sampleAcquisitionTime`
         print "flatAcquisitionTime: " + `flatAcquisitionTime`
@@ -80,9 +80,8 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     fastScan = FastScan('fastScan')
     isTomoScanSuccess = True
     try:
-        #tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, steps[desiredResolution], 0, 0, 10, 10, 0, additionalScannables=[fastScan])
-        tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, steps[desiredResolution], 0, 0, 10, 10, 0, additionalScannables=[fastScan])
-        #tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 1, 0.5, 0, 0, 1, 1, 0, additionalScannables=[fastScan]) #fast test
+        #tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize[desiredResolution], 0, 0, 10, 10, 0, additionalScannables=[fastScan])
+        tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, 10, 10, 0, additionalScannables=[fastScan])
     except Exception, ex:
         isTomoScanSuccess = False
         raise Exception ("ERROR running tomoScan: "+str(ex))
