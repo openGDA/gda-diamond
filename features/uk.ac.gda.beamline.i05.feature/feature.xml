@@ -20,8 +20,13 @@
    <includes
          id="uk.ac.gda.diamond.feature"
          version="0.0.0"/>
+
    <includes
          id="uk.ac.gda.dal.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="uk.ac.diamond.scisoft.feedback.feature"
          version="0.0.0"/>
 
    <plugin

@@ -43,7 +43,8 @@
   <property type="sds.boolean" id="grid_on" value="false" />
   <property type="sds.boolean" id="ruler_on" value="false" />
   <property type="sds.boolean" id="geometry_on" value="false" />
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_name="image" layer_index="0" layer_visibility="true" />
+  <layer layer_name="DEFAULT" layer_index="1" layer_visibility="true" />
 <widget type="org.csstudio.sds.components.Tank">
   <property type="sds.behavior" id="behavior" value="none" />
   <property type="sds.string" id="primary_pv" value="" />
@@ -130,10 +131,180 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="459" />
-  <property type="sds.integer" id="position.y" value="425" />
-  <property type="sds.integer" id="width" value="242" />
-  <property type="sds.integer" id="height" value="108" />
+  <property type="sds.integer" id="position.x" value="335" />
+  <property type="sds.integer" id="position.y" value="176" />
+  <property type="sds.integer" id="width" value="107" />
+  <property type="sds.integer" id="height" value="47" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000C0" />
+  </property>
+  <property type="sds.color" id="color.background">
+    <color hex="#E6E6E6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="Limits:Low=-10.0,High=10.0&#xD;Units=mm&#xD;Increment=1.0" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.double" id="readback" value="0.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://say" value="" />
+      <outputChannel name="gda://say, double" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.double" id="high" value="10.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://say.highlimit" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.double" id="low" value="-10.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://say.lowlimit" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.string" id="units" value="mm" />
+  <property type="sds.string" id="offset" value="mm" />
+  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.boolean" id="action buttons" value="false" />
+  <property type="sds.double" id="simulation readback" value="0.0" />
+  <property type="sds.double" id="default increment" value="1.0" />
+</widget>
+<widget type="org.csstudio.sds.components.SVG">
+  <property type="sds.behavior" id="behavior" value="" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="SVGModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.integer" id="position.x" value="1" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="width" value="719" />
+  <property type="sds.integer" id="height" value="749" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000C0" />
+  </property>
+  <property type="sds.color" id="color.background">
+    <color hex="#EFEFEF" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="${aliases}" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="image" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/screens/cryo.png" />
+  </property>
+  <property type="sds.integer" id="translate.y" value="0" />
+  <property type="sds.integer" id="translate.x" value="0" />
+  <property type="sds.string" id="Ready" value="Ready" />
+</widget>
+<widget type="org.csstudio.sds.components.ScannableControl">
+  <property type="sds.behavior" id="behavior" value="none" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="ScannableControlModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.integer" id="position.x" value="232" />
+  <property type="sds.integer" id="position.y" value="45" />
+  <property type="sds.integer" id="width" value="107" />
+  <property type="sds.integer" id="height" value="47" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000C0" />
+  </property>
+  <property type="sds.color" id="color.background">
+    <color hex="#E6E6E6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="Limits:Low=-10.0,High=10.0&#xD;Units=mm&#xD;Increment=1.0" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.double" id="readback" value="0.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://saz" value="" />
+      <outputChannel name="gda://saz, double" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.double" id="high" value="10.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://saz.highlimit" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.double" id="low" value="-10.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://saz.lowlimit" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.string" id="units" value="mm" />
+  <property type="sds.string" id="offset" value="mm" />
+  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.boolean" id="action buttons" value="false" />
+  <property type="sds.double" id="simulation readback" value="0.0" />
+  <property type="sds.double" id="default increment" value="1.0" />
+</widget>
+<widget type="org.csstudio.sds.components.ScannableControl">
+  <property type="sds.behavior" id="behavior" value="none" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="ScannableControlModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.integer" id="position.x" value="29" />
+  <property type="sds.integer" id="position.y" value="487" />
+  <property type="sds.integer" id="width" value="107" />
+  <property type="sds.integer" id="height" value="47" />
   <property type="sds.color" id="color.foreground">
     <color hex="#0000C0" />
   </property>
@@ -159,9 +330,22 @@
   <property type="sds.string" id="layer" value="DEFAULT" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
-  <property type="sds.double" id="readback" value="0.0" />
-  <property type="sds.double" id="high" value="10.0" />
-  <property type="sds.double" id="low" value="-10.0" />
+  <property type="sds.double" id="readback" value="0.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://satilt" value="" />
+      <outputChannel name="gda://satilt, double" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.double" id="high" value="10.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://satilt.highlimit" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.double" id="low" value="-10.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://satilt.lowlimit" value="" />
+    </dynamicsDescriptor>
+  </property>
   <property type="sds.string" id="units" value="deg" />
   <property type="sds.string" id="offset" value="deg" />
   <property type="sds.integer" id="decimal places" value="4" />
@@ -169,33 +353,23 @@
   <property type="sds.double" id="simulation readback" value="0.0" />
   <property type="sds.double" id="default increment" value="1.0" />
 </widget>
-<widget type="org.csstudio.sds.components.Label">
+<widget type="org.csstudio.sds.components.ScannableControl">
   <property type="sds.behavior" id="behavior" value="none" />
   <property type="sds.string" id="primary_pv" value="" />
-  <property type="sds.string" id="name" value="LabelModel" />
+  <property type="sds.string" id="name" value="ScannableControlModel" />
   <property type="sds.map" id="aliases">
     <map />
   </property>
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="565" />
-  <property type="sds.integer" id="position.y" value="211" />
-  <property type="sds.integer" id="width" value="125" />
-  <property type="sds.integer" id="height" value="71" />
+  <property type="sds.integer" id="position.x" value="159" />
+  <property type="sds.integer" id="position.y" value="576" />
+  <property type="sds.integer" id="width" value="107" />
+  <property type="sds.integer" id="height" value="47" />
   <property type="sds.color" id="color.foreground">
     <color hex="#0000C0" />
   </property>
-  <property type="sds.font" id="font">
-    <font font="Arial, 8" />
-  </property>
-  <property type="sds.option" id="textAlignment">
-    <option id="0" />
-  </property>
-  <property type="sds.double" id="text_rotation" value="90.0" />
-  <property type="sds.integer" id="offset.x" value="0" />
-  <property type="sds.integer" id="offset.y" value="0" />
-  <property type="sds.boolean" id="transparent_background" value="true" />
   <property type="sds.color" id="color.background">
     <color hex="#E6E6E6" />
   </property>
@@ -212,11 +386,203 @@
   <property type="sds.choiceoption" id="cursor">
     <option id="cursor.default" />
   </property>
-  <property type="sds.string" id="value.text" value="">
+  <property type="sds.paramstring" id="tooltip" value="Limits:Low=-10.0,High=10.0&#xD;Units=deg&#xD;Increment=1.0" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.double" id="readback" value="0.0">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://say" value="" />
+      <inputChannel name="gda://sapolar" value="" />
+      <outputChannel name="gda://sapolar, double" value="" />
     </dynamicsDescriptor>
   </property>
+  <property type="sds.double" id="high" value="10.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://sapolar.highlimit" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.double" id="low" value="-10.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://sapolar.lowlimit" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.string" id="units" value="deg" />
+  <property type="sds.string" id="offset" value="deg" />
+  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.boolean" id="action buttons" value="false" />
+  <property type="sds.double" id="simulation readback" value="0.0" />
+  <property type="sds.double" id="default increment" value="1.0" />
+</widget>
+<widget type="org.csstudio.sds.components.ScannableControl">
+  <property type="sds.behavior" id="behavior" value="none" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="ScannableControlModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.integer" id="position.x" value="350" />
+  <property type="sds.integer" id="position.y" value="576" />
+  <property type="sds.integer" id="width" value="107" />
+  <property type="sds.integer" id="height" value="47" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000C0" />
+  </property>
+  <property type="sds.color" id="color.background">
+    <color hex="#E6E6E6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="Limits:Low=-10.0,High=10.0&#xD;Units=deg&#xD;Increment=1.0" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.double" id="readback" value="0.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://saazimuth" value="" />
+      <outputChannel name="gda://saazimuth, double" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.double" id="high" value="10.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://saazimuth.highlimit" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.double" id="low" value="-10.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://saazimuth.lowlimit" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.string" id="units" value="deg" />
+  <property type="sds.string" id="offset" value="deg" />
+  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.boolean" id="action buttons" value="false" />
+  <property type="sds.double" id="simulation readback" value="0.0" />
+  <property type="sds.double" id="default increment" value="1.0" />
+</widget>
+<widget type="org.csstudio.sds.components.ScannableControl">
+  <property type="sds.behavior" id="behavior" value="none" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="ScannableControlModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.integer" id="position.x" value="108" />
+  <property type="sds.integer" id="position.y" value="173" />
+  <property type="sds.integer" id="width" value="107" />
+  <property type="sds.integer" id="height" value="47" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000C0" />
+  </property>
+  <property type="sds.color" id="color.background">
+    <color hex="#E6E6E6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="Limits:Low=-10.0,High=10.0&#xD;Units=mm&#xD;Increment=1.0" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.double" id="readback" value="0.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://sax" value="" />
+      <outputChannel name="gda://sax, double" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.double" id="high" value="10.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://sax.highlimit" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.double" id="low" value="-10.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://sax.lowlimit" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.string" id="units" value="mm" />
+  <property type="sds.string" id="offset" value="mm" />
+  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.boolean" id="action buttons" value="false" />
+  <property type="sds.double" id="simulation readback" value="0.0" />
+  <property type="sds.double" id="default increment" value="1.0" />
+</widget>
+<widget type="org.csstudio.sds.components.Label">
+  <property type="sds.behavior" id="behavior" value="none" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="LabelModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.integer" id="position.x" value="504" />
+  <property type="sds.integer" id="position.y" value="68" />
+  <property type="sds.integer" id="width" value="196" />
+  <property type="sds.integer" id="height" value="88" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000C0" />
+  </property>
+  <property type="sds.font" id="font">
+    <font font="Arial, 8, bold" />
+  </property>
+  <property type="sds.option" id="textAlignment">
+    <option id="1" />
+  </property>
+  <property type="sds.double" id="text_rotation" value="90.0" />
+  <property type="sds.integer" id="offset.x" value="0" />
+  <property type="sds.integer" id="offset.y" value="4" />
+  <property type="sds.boolean" id="transparent_background" value="true" />
+  <property type="sds.color" id="color.background">
+    <color hex="#E6E6E6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="3" />
+  </property>
+  <property type="sds.integer" id="border.width" value="1" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="value.text" value="Sample Temperature" />
   <property type="sds.string" id="value.text.unit" value="" />
   <property type="sds.option" id="value_type">
     <option id="1" />
@@ -228,6 +594,60 @@
   <property type="sds.string" id="layer" value="DEFAULT" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+</widget>
+<widget type="org.csstudio.sds.components.ScannableControl">
+  <property type="sds.behavior" id="behavior" value="none" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="ScannableControlModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.integer" id="position.x" value="556" />
+  <property type="sds.integer" id="position.y" value="100" />
+  <property type="sds.integer" id="width" value="105" />
+  <property type="sds.integer" id="height" value="53" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000C0" />
+  </property>
+  <property type="sds.color" id="color.background">
+    <color hex="#E6E6E6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="Limits:Low=0.0,High=300.0&#xD;Units=deg&#xD;Increment=1.0" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.double" id="readback" value="0.0">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="gda://sampletemp" value="" />
+      <outputChannel name="gda://sampletemp, double" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.double" id="high" value="300.0" />
+  <property type="sds.double" id="low" value="0.0" />
+  <property type="sds.string" id="units" value="deg" />
+  <property type="sds.string" id="offset" value="deg" />
+  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.boolean" id="action buttons" value="false" />
+  <property type="sds.double" id="simulation readback" value="0.0" />
+  <property type="sds.double" id="default increment" value="1.0" />
 </widget>
 
 </display>
