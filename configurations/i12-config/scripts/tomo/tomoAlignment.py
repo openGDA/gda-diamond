@@ -41,15 +41,16 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     updateScriptController("Tomo scan starting")
     timeDividedAcq = sampleAcquisitionTime * timeDivider
     timeDividedAcq = timeDividedAcq / exposureVsRes[desiredResolution]
+    
     pco = f.find("pco")
+    
     pco.stop();
     
-    pco.setExternalTriggered(True)
+    pco.setExternalTriggered(False)
     if verbose:
         print "pco external triggered:" + `pco.isExternalTriggered()`
     #
-    ad = pco.getController().getAreaDetector()
-    
+    adBase = pco.getController().getAreaDetector()
     pco.getController().getProc1().getPluginBase().disableCallbacks()
     pco.getController().getProc2().getPluginBase().disableCallbacks()
     pco.getController().getRoi1().getPluginBase().disableCallbacks()
@@ -58,10 +59,15 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     pco.getController().getMJpeg1().getPluginBase().disableCallbacks()
     pco.getController().getMJpeg2().getPluginBase().disableCallbacks()
     
-    cachedBinX = ad.getBinX()
-    cachedBinY = ad.getBinY() 
-    ad.setBinX(xBin)
-    ad.setBinY(yBin)
+    cachedBinX = adBase.getBinX()
+    cachedBinY = adBase.getBinY()
+    try:
+        adBase.setBinX(int(xBin))
+    except:
+        exceptionType, exception, traceback = sys.exc_info()
+        print "Problem moving tomo alignment motors" + `exception`
+    print `yBin`
+    adBase.setBinY(int(yBin))
     if verbose:
         print "Tomo scan starting"
         print "type : " + `stepsSize`
