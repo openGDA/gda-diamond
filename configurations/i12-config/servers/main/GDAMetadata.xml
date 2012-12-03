@@ -72,7 +72,7 @@
 	</bean>
 
 	<bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry">
-		<property name="defaultSubdirectory" value="default" />
+		<property name="defaultSubdirectory" value="rawdata" />
 	</bean>
 
 </beans>
