@@ -37,10 +37,10 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     ##numprojections = {1:6000, 2:3000, 4:3000, 8:900}
     xBin = f.find('scanResolutionLut').lookupValue(desiredResolution, "XBin")
     yBin = f.find('scanResolutionLut').lookupValue(desiredResolution, "YBin")
-    exposureVsRes = {1:1, 2:1, 4:4, 8:4}
+    exposureVsRes = f.find('scanResolutionLut').lookupValue(desiredResolution, "ExposureToDivideBy")
     updateScriptController("Tomo scan starting")
     timeDividedAcq = sampleAcquisitionTime * timeDivider
-    timeDividedAcq = timeDividedAcq / exposureVsRes[desiredResolution]
+    timeDividedAcq = timeDividedAcq / int(exposureVsRes)
     
     pco = f.find("pco")
     
@@ -92,8 +92,8 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
         isTomoScanSuccess = False
         raise Exception ("ERROR running tomoScan: "+str(ex))
     finally:
-        ad.setBinX(cachedBinX)
-        ad.setBinY(cachedBinY)
+        adBase.setBinX(cachedBinX)
+        adBase.setBinY(cachedBinY)
     
     if isTomoScanSuccess and isToBeReconstructed:
         try:

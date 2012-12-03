@@ -15,7 +15,8 @@
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
 		<property name="service" ref="plot_server" />
 	</bean>
-
+	
+	<import resource="simpleScannables.xml" />
 	<!-- Commonly commented in the simulation environment -->
 
 
