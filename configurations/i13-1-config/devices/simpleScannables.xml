@@ -21,5 +21,12 @@
 		</bean>
 		</property>
 	</bean>
+	<bean id="iz" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="0.0"/>
+		</bean>
+		</property>
+	</bean>
 </beans>
 

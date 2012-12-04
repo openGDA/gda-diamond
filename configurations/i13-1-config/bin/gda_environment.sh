@@ -26,4 +26,4 @@ export PATH=${GDAFOLDER}/${BEAMLINE}-config/bin:${PATH}
 #if [[ ! `groups` =~ "dls_staff" && -r /dls/${BEAMLINE}/data/${YEAR}/${VISNO} ]]; then
 #  ( cd $HOME && test -e "${VISNO}" || ln -s /dls/${BEAMLINE}/data/${YEAR}/"${VISNO}" . ) > /dev/null 2>&1
 #fi
-source $GDAFOLDER/workspace/builder/set_tools.sh > ~/.dasc_sw_setup.log
+#source $GDAFOLDER/workspace/builder/set_tools.sh > ~/.dasc_sw_setup.log

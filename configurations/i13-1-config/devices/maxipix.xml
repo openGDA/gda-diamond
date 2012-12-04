@@ -1,6 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
 			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
@@ -39,7 +40,7 @@
 		<property name="maxiPix2MultiFrameDetector" ref="__maxiPix2MultiFrameDetector" />
 	</bean>
 	
-	<bean id="mpx_processor" class="gda.device.detector.nexusprocessor.NexusProviderFilenameProcessor">
+	<bean id="mpx_processor1" class="gda.device.detector.nexusprocessor.NexusProviderFilenameProcessor">
 		<constructor-arg value="mpx" />
 		<constructor-arg value="image_data" />
 		<constructor-arg value="SDS" />
@@ -47,10 +48,28 @@
 		<constructor-arg ref="imageROI"/>
 	</bean>
 
+	<bean id="mpx_processor2" class="gda.device.detector.nexusprocessor.NexusProviderFilenameProcessor">
+		<constructor-arg value="mpx" />
+		<constructor-arg value="image_data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors2"/>
+		<constructor-arg ref="imageROI2"/>
+	</bean>
+
+	<bean id="mpx_processor3" class="gda.device.detector.nexusprocessor.NexusProviderFilenameProcessor">
+		<constructor-arg value="mpx" />
+		<constructor-arg value="image_data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors3"/>
+		<constructor-arg ref="imageROI3"/>
+	</bean>
+
 	<bean id="mpx_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
 		<property name="processors">
 			<list>
-				<ref bean="mpx_processor" />
+				<ref bean="mpx_processor1" />
+				<ref bean="mpx_processor2" />
+				<ref bean="mpx_processor3" />
 			</list>
 		</property>
 	</bean>
@@ -61,6 +80,7 @@
 		<property name="processor" ref="mpx_processors" />
 		<property name="mergeWithDetectorData" value="true"/>
 	</bean>	
+
 	
 	<!-- Not used as the preferred mode is accumulation with 1 image per many exposures 
 	bean id="maxiPix2RepScanNexusDetector" class="gda.device.detector.maxipix2.MaxiPix2RepScanNexusDetector">

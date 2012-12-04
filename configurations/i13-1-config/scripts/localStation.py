@@ -97,6 +97,15 @@ t1_xy.addGroupMember(ix)
 t1_xy.setName("t1_xy")
 t1_xy.configure()
 
+dummy_xy = ScannableGroup()
+dummy_xy.addGroupMember(ix)
+dummy_xy.addGroupMember(iy)
+dummy_xy.addGroupMember(iz)
+dummy_xy.setName("dummy_xy")
+dummy_xy.configure()
+
+
+
 #make ScanPointProvider
 import sample_stage_position_provider
 two_motor_positions = sample_stage_position_provider.ScanPositionProviderFromFile()
@@ -106,7 +115,18 @@ imageFitter = finder.find("imageFitter")
 imageStats = finder.find("imageStats")
 imagePlotter = finder.find("imagePlotter")
 imageROI = finder.find("imageROI")
+imageFitter2 = finder.find("imageFitter2")
+imageStats2 = finder.find("imageStats2")
+imagePlotter2 = finder.find("imagePlotter2")
+imageROI2 = finder.find("imageROI2")
+imageFitter3 = finder.find("imageFitter3")
+imageStats3 = finder.find("imageStats3")
+imagePlotter3 = finder.find("imagePlotter3")
+imageROI3 = finder.find("imageROI3")
 
+import roi_operations
+mpx_roi_total_diff = roi_operations.roi_diff("mpx_roi_total_diff","mpx_roi_total_diff",mpx_wrap)
+mpx_roi_average_diff = roi_operations.roi_diff("mpx_roi_average_diff","mpx_roi_average_diff",mpx_wrap, "mpx", "image_data.average", "image_data.average2")
 
 #create objects in namespace
 try:
@@ -149,6 +169,7 @@ from gdascripts.scannable.beamokay import WaitWhileScannableBelowThresholdMonito
 
 ix.setInputNames(["ix"])
 iy.setInputNames(["iy"])
+iz.setInputNames(["iz"])
 
 #stuff for Vortex editor
 def vortex(vortexParameterName, outputfile):
@@ -160,9 +181,9 @@ alias("vortex")
 
 import scan_aborter
 beam_check=scan_aborter.scan_aborter("beam_check",3, 300000., "Too high")
-imageROI.enable = True
-imageStats.enable = True
-imageROI.setROI(370, 390, 370, 390)#    ( y_start, y_end, x_start, x_end)
+#imageROI.enable = True
+#imageStats.enable = True
+#imageROI.setROI(370, 390, 370, 390)#    ( y_start, y_end, x_start, x_end)
 
 
 import mtscripts.moveable.me07m
@@ -173,11 +194,14 @@ from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDe
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
+from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
 from gdascripts.bimorph.bimorph_mirror_optimising import SlitScanner, ScanAborter
 slitscanner = SlitScanner()
-x = DummyPD("x")
-x.asynchronousMoveTo(430)
-cam1det = CreateImageReadingDummyDetector.create(x)
-cam1 = ProcessingDetectorWrapper('cam1', cam1det, [], panel_name_rcp='Plot 1')
+#x = DummyPD("x")
+#x.asynchronousMoveTo(430)
+#cam1det = CreateImageReadingDummyDetector.create(x)
+#cam1 = ProcessingDetectorWrapper('cam1', cam1det, [], panel_name_rcp='Plot 1')
+cam1 = ProcessingDetectorWrapper('cam1', pcoEdge_tif, [], panel_name_rcp='Plot 1')
 peak2d = DetectorDataProcessorWithRoi('peak2d', cam1, [TwodGaussianPeak()])
 max2d = DetectorDataProcessorWithRoi('max2d', cam1, [SumMaxPositionAndValue()])
+intensity2d = DetectorDataProcessorWithRoi('intensity2d', cam1, [PixelIntensity()])
