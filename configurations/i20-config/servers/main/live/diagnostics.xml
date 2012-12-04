@@ -146,7 +146,6 @@
 
 	<bean id="d6_screen" class="gda.device.enumpositioner.NameMappedEpicsPneumaticCallback">
 		<property name="local" value="false"/>
-		<property name="protectionLevel" value="3" />
 		<property name="deviceName" value="D6P"/>
 		<property name="controlValues">
 			<map>
@@ -164,7 +163,6 @@
 
 	<bean id="d7_screen" class="gda.device.enumpositioner.NameMappedEpicsPneumaticCallback">
 		<property name="local" value="false"/>
-		<property name="protectionLevel" value="3" />
 		<property name="deviceName" value="D7P"/>
 		<property name="controlValues">
 			<map>
@@ -186,7 +184,6 @@
 	</bean>
 	<bean id="d8_screen_pos" class="gda.device.scannable.ScannableMotor">
 		<property name="local" value="false"/>
-		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d8_motor" />
 		<property name="hardwareUnitString" value="mm" />
@@ -198,7 +195,6 @@
 	
 	<bean id="d9_diode" class="gda.device.enumpositioner.NameMappedEpicsPneumaticCallback">
 		<property name="local" value="false"/>
-		<property name="protectionLevel" value="3" />
 		<property name="deviceName" value="D9"/>
 		<property name="controlValues">
 			<map>

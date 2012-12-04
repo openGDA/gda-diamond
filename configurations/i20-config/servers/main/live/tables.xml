@@ -120,7 +120,6 @@
 	</bean>
 	<bean id="cryostick_pos" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="cryostick_pos_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="cryostick" class="gda.device.enumpositioner.EpicsEditablePositionerCallback">

@@ -79,32 +79,32 @@
 
 	<bean id="m3_stripe" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="deviceName" value="M3P" />
-		<property name="local" value="true"/>
+
 	</bean>
 	<bean id="m3_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M3.PITCH" />
-		<property name="local" value="true"/>
+		
 	</bean>
 	<bean id="m3_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M3.YAW" />
-		<property name="local" value="true"/>
+		
 	</bean>
 	<bean id="m3_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M3.Y" />
-		<property name="local" value="true"/>
+		
 	</bean>
 	<bean id="m3_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-HFM-03:X" />
-		<property name="local" value="true"/>
+		
 	</bean>
 
 	<bean id="m4_stripe" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="deviceName" value="M4P" />
-		<property name="local" value="true"/>
+		
 	</bean>
 	<bean id="m4_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M4.PITCH" />
-		<property name="local" value="true"/>
+		
 	</bean>
 	<bean id="m4_elip_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M4.ELLIP" />
@@ -332,7 +332,6 @@
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="hr_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mrad" />
 		<property name="motor" ref="hr_pitch_motor" />
 		<property name="hardwareUnitString" value="deg" />
