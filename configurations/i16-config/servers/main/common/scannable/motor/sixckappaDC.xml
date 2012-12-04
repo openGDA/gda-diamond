@@ -25,9 +25,9 @@
 	<bean id="sixckappaDC" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="muDC" />
-				<ref bean="deltaDC" />
-				<ref bean="gamDC" />
+				<ref bean="kmuDC" />
+				<ref bean="kdeltaDC" />
+				<ref bean="kgamDC" />
 				<ref bean="kthDC" />
 				<ref bean="kapDC" />
 				<ref bean="kphiDC" />
