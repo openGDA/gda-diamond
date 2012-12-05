@@ -26,18 +26,9 @@ import org.osgi.framework.BundleContext;
  */
 public class I05BeamlineActivator extends AbstractUIPlugin {
 
-	/**
-	 * plugin id
-	 */
 	public static final String PLUGIN_ID = "uk.ac.gda.beamline.i05";
-
-	/**
-	 *  The shared instance
-	 */
 	private static I05BeamlineActivator plugin;
 	
-	/**
-	 */
 	public I05BeamlineActivator() {
 	}
 

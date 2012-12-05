@@ -28,9 +28,9 @@ public class AnalyserCapabilties implements Findable {
 
 	private String name = "AnalyserCapabilties";
 	
-	public static Map<String, double[]> lens2angles = new HashMap<String, double[]>();
+	public Map<String, double[]> lens2angles = new HashMap<String, double[]>();
 	
-	static {
+	public AnalyserCapabilties() {
 		for(Object[] o: new Object[][] {
 											{"Transmission", 0., 0., 1000},
 											{"Angular14", -7., 14/1000., 1000},

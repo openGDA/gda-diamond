@@ -126,6 +126,14 @@
             name="Continuous Mode"
             restorable="true">
       </view>
+         <view
+            category="uk.ac.gda.client.general.category"
+            class="uk.ac.gda.rcp.views.dashboard.DashboardView"
+            icon="icons/sample.gif"
+            id="uk.ac.gda.rcp.views.dashboardView"
+            name="Polling Dashboard"
+            restorable="true">
+      </view>
    </extension>
       <!--
          <extension

@@ -68,7 +68,7 @@ public class ContinuousModeControllerView extends ViewPart {
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		label.setText("lensMode");
 		lensMode = new Combo(comp, SWT.NONE);
-		lensMode.setItems(new String[] {"Transmission", "Angular7", "Angular7_fix", "Angular14", "A14small", "Angular30", "A30small"});
+		lensMode.setItems(capabilities.lens2angles.keySet().toArray(new String[0]));
 		lensMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 		Comparator<String> passEComparator = new Comparator<String>() {

@@ -86,7 +86,9 @@ class AnalyserLiveDataDispatcher implements MonitorListener, Configurable, Finda
 			double[] value = (double[]) arg0.getDBR().getValue();
 			
 			int[] dims = new int[] {analyser.getNdArray().getPluginBase().getArraySize1_RBV(), analyser.getNdArray().getPluginBase().getArraySize0_RBV()};
-			value = Arrays.copyOf(value, dims[0]*dims[1]);
+			int arraysize = dims[0]*dims[1];
+			if (arraysize < 1) return;
+			value = Arrays.copyOf(value, arraysize);
 			AbstractDataset ds = new DoubleDataset(value, dims);
 			
 			double[] xdata = analyser.getEnergyAxis();
