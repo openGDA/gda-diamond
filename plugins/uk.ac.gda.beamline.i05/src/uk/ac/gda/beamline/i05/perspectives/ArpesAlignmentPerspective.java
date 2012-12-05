@@ -18,6 +18,10 @@
 
 package uk.ac.gda.beamline.i05.perspectives;
 
+import gda.configuration.properties.LocalProperties;
+
+import org.csstudio.sds.ui.runmode.RunModeService;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IFolderLayout;
@@ -27,10 +31,14 @@ public class ArpesAlignmentPerspective implements IPerspectiveFactory {
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
 		layout.setEditorAreaVisible(false);
-	
-		layout.addView("uk.ac.gda.client.arpes.cameraview", IPageLayout.RIGHT, 0.41f, IPageLayout.ID_EDITOR_AREA);
+		
+		String path = LocalProperties.get("gda.dal.screens") + "synoptic.css-sds";
+		Path sdsDisplay = new Path(path);
+		RunModeService.getInstance().openDisplayViewInRunMode(sdsDisplay);
+		
+		layout.addView("uk.ac.gda.client.arpes.cameraview", IPageLayout.RIGHT, 0.47f, IPageLayout.ID_EDITOR_AREA);
 		layout.addView("uk.ac.gda.arpes.ui.continuousmodecontroller", IPageLayout.TOP, 0.37f, "uk.ac.gda.client.arpes.cameraview");
-		layout.addView("uk.ac.gda.exafs.ui.dashboardView", IPageLayout.TOP, 0.45f, "uk.ac.gda.arpes.ui.continuousmodecontroller");
+		layout.addView("uk.ac.gda.rcp.views.dashboardView", IPageLayout.TOP, 0.45f, "uk.ac.gda.arpes.ui.continuousmodecontroller");
 
 		{
 			IFolderLayout folderLayout = layout.createFolder("folder_2", IPageLayout.BOTTOM, 0.5f, IPageLayout.ID_EDITOR_AREA);
@@ -41,5 +49,7 @@ public class ArpesAlignmentPerspective implements IPerspectiveFactory {
 			IFolderLayout folderLayout = layout.createFolder("folder", IPageLayout.TOP, 0.26f, "folder_2");
 			folderLayout.addView("uk.ac.gda.client.CommandQueueViewFactory");
 		}
+		layout.addView("org.csstudio.sds.ui.internal.runmode.DisplayViewPart", IPageLayout.TOP, 0.58f, "folder_2");
+
 	}
 }
