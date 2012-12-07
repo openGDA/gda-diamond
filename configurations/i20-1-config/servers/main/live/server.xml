@@ -12,12 +12,14 @@
 
 	<import resource="file:${gda.config}/servers/main/server-common.xml" />
 
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/frontend_and_shutters.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/attenuators.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
 <!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/meta-data.xml" /> -->
-<!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/frontend_and_shutters.xml" /> -->
-<!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/attenuators.xml" /> -->
-<!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors.xml" /> -->
-<!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" /> -->
-<!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" /> -->
 
 
 <!-- for when this used live: -->

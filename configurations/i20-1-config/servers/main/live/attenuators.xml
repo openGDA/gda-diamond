@@ -21,20 +21,20 @@
 		<property name="local" value="false"/>
 	</bean>
 
-	<bean id="d2" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="D2P" />
-		<property name="local" value="false"/>
-	</bean>
+<!-- 	<bean id="d2" class="gda.device.enumpositioner.EpicsPositionerCallback"> -->
+<!-- 		<property name="deviceName" value="D2P" /> -->
+<!-- 		<property name="local" value="false"/> -->
+<!-- 	</bean> -->
 
-	<bean id="d3" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="D3P" />
-		<property name="local" value="false"/>
-	</bean>
+<!-- 	<bean id="d3" class="gda.device.enumpositioner.EpicsPositionerCallback"> -->
+<!-- 		<property name="deviceName" value="D3P" /> -->
+<!-- 		<property name="local" value="false"/> -->
+<!-- 	</bean> -->
 
-	<bean id="d4" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="D4P" />
-		<property name="local" value="false"/>
-	</bean>
+<!-- 	<bean id="d4" class="gda.device.enumpositioner.EpicsPositionerCallback"> -->
+<!-- 		<property name="deviceName" value="D4P" /> -->
+<!-- 		<property name="local" value="false"/> -->
+<!-- 	</bean> -->
 
 	<bean id="atn4" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="ATN4P" />
@@ -46,14 +46,14 @@
 		<property name="local" value="false"/>
 	</bean>
 
-	<bean id="atn6" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="ATN6P" />
-		<property name="local" value="false"/>
-	</bean>
+<!-- 	<bean id="atn6" class="gda.device.enumpositioner.EpicsPositionerCallback"> -->
+<!-- 		<property name="deviceName" value="ATN6P" /> -->
+<!-- 		<property name="local" value="false"/> -->
+<!-- 	</bean> -->
 
-	<bean id="d5" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="D5P" />
-		<property name="local" value="false"/>
-	</bean>
+<!-- 	<bean id="d5" class="gda.device.enumpositioner.EpicsPositionerCallback"> -->
+<!-- 		<property name="deviceName" value="D5P" /> -->
+<!-- 		<property name="local" value="false"/> -->
+<!-- 	</bean> -->
 
 </beans>

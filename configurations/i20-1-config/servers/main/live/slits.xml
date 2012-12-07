@@ -2,26 +2,55 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
-	<bean id="s1xsize_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s1xcentre_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s1ysize_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s1ycentre_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_hgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-AL-SLITS-01:X:SIZE" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="s1_hoffset_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-AL-SLITS-01:X:CENTRE" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="s1_vgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-AL-SLITS-01:Y:SIZE" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="s1_voffset_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-AL-SLITS-01:Y:CENTRE" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="s1_xa_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-AL-SLITS-01:X:PLUS" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="s1_xb_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-AL-SLITS-01:X:MINUS" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="s1_ya_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-AL-SLITS-01:Y:PLUS" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="s1_yb_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-AL-SLITS-01:Y:MINUS" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="s1_xa_motor_mm" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-AL-SLITS-01:X:PLUS:MM" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="s1_xb_motor_mm" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-AL-SLITS-01:X:MINUS:MM" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="s1_ya_motor_mm" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-AL-SLITS-01:Y:PLUS:MM" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="s1_yb_motor_mm" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-AL-SLITS-01:Y:MINUS:MM" />
+		<property name="local" value="true"/>
+	</bean>
 
-	<bean id="s1xplus_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s1xminus_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s1yplus_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s1yminus_motor" class="gda.device.motor.DummyMotor" />
-
-
-	<bean id="s2xsize_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s2xcentre_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s2ysize_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s2ycentre_motor" class="gda.device.motor.DummyMotor" />
-
-	<bean id="s2xplus_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s2xminus_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s2yplus_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s2yminus_motor" class="gda.device.motor.DummyMotor" />
 
 	<import resource="file:${gda.config}/servers/main/slits-common.xml" />
 
