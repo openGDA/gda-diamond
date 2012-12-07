@@ -20,7 +20,7 @@ sys.path.append(_epicsScriptLibraryDir)
 
 import i12utilities
 from i12utilities import DocumentationScannable
-
+import lookupTables
 
 
 print "create commands for folder operations: wd, pwd, nwd, nfn, setSubdirectory('subdir-name')"
@@ -49,6 +49,22 @@ alias("cfn")
 def helpi12(): 
     print "Help will be outputted"
 alias("helpi12")
+
+def reloadModuleLookup():
+    lookupTables.reloadModuleLookup();
+alias("reloadModuleLookup")
+    
+def reloadCameraMotionLookup():
+    lookupTables.reloadCameraMotionLookup();
+alias("reloadCameraMotionLookup")
+    
+def reloadTiltBallPositionLookup():
+    lookupTables.reloadTiltBallPositionLookup();
+alias("reloadTiltBallPositionLookup")
+    
+def reloadScanResolutionLookup():
+    lookupTables.reloadScanResolutionLookup();
+alias("reloadScanResolutionLookup")
 
 def setSubdirectory(dirname):
     i12utilities.setSubdirectory(dirname)

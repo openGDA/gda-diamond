@@ -15,21 +15,23 @@ import subprocess
 from fast_scan import FastScan
 from gda.jython.ScriptBase import checkForPauses
 from i12utilities import setSubdirectory
+from i12utilities import pwd
 from gdascripts.configuration.properties.localProperties import LocalProperties
-
+from gda.jython.commands.ScannableCommands import scan
+import scisoftpy as dnp
 verbose = True
 f = Finder.getInstance()
 
 from gda.data import NumTracker
 from gda.data import PathConstructor
 from gda.util import PropertyUtils
-
+import uk.ac.diamond.scisoft.analysis.dataset.Image as Image
 
 """
 Performs software triggered tomography
 """
 def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection, numberofProjections,
-                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat=-100.0, positionOfBaseInBeam=0.0, isToBeReconstructed=False):
+                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat= -100.0, positionOfBaseInBeam=0.0, isToBeReconstructed=False):
     #
     if verbose:
         print "About to start tomography scan"
@@ -43,10 +45,10 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     timeDividedAcq = timeDividedAcq / int(exposureVsRes)
     
     pco = f.find("pco")
-    
+    pco.setADCMode(1)
     pco.stop();
     
-    pco.setExternalTriggered(False)
+    pco.setExternalTriggered(True)
     if verbose:
         print "pco external triggered:" + `pco.isExternalTriggered()`
     #
@@ -63,11 +65,12 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     cachedBinY = adBase.getBinY()
     try:
         adBase.setBinX(int(xBin))
+        adBase.setBinY(int(yBin))
+        initialisePCOPlugins(pco)
     except:
         exceptionType, exception, traceback = sys.exc_info()
         print "Problem moving tomo alignment motors" + `exception`
     print `yBin`
-    adBase.setBinY(int(yBin))
     if verbose:
         print "Tomo scan starting"
         print "type : " + `stepsSize`
@@ -90,10 +93,11 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
         tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, 10, 10, 0, additionalScannables=[fastScan])
     except Exception, ex:
         isTomoScanSuccess = False
-        raise Exception ("ERROR running tomoScan: "+str(ex))
+        raise Exception ("ERROR running tomoScan: " + str(ex))
     finally:
         adBase.setBinX(cachedBinX)
         adBase.setBinY(cachedBinY)
+        initialisePCOPlugins(pco)
     
     if isTomoScanSuccess and isToBeReconstructed:
         try:
@@ -103,7 +107,37 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
             templateSettingsFile = getPathToTemplateSettingsFile()
             launchRecon(inNXSFile, outDir, localTomoFile, templateSettingsFile)
         except Exception, ex:
-            raise Exception ("Error launching reconstruction: "+str(ex))
+            raise Exception ("Error launching reconstruction: " + str(ex))
+
+
+def initialisePCOPlugins(pco):
+    pcoController = pco.getController()
+    adBase = pcoController.getAreaDetector()
+    
+    pcoController.stop()
+    pcoController.disarmCamera()
+    
+    tiff = pcoController.getTiff()
+    isTiffCallbackEnabled = tiff.getPluginBase().isCallbacksEnabled_RBV()
+    
+    tiff.getPluginBase().enableCallbacks()
+    tiff.getPluginBase().setNDArrayPort(adBase.getPortName_RBV())
+    
+    hdf = pcoController.getHdf()
+    isHdfCallbackEnabled = hdf.getPluginBase().isCallbacksEnabled_RBV()
+    
+    hdf.getPluginBase().enableCallbacks()
+    hdf.getPluginBase().setNDArrayPort(adBase.getPortName_RBV())
+    
+    adBase.setAcquireTime(0.1)
+    adBase.setImageMode(0)
+    adBase.startAcquiring()
+    
+    if not isTiffCallbackEnabled:
+        tiff.getPluginBase().disableCallbacks()
+    
+    if not isHdfCallbackEnabled:
+        hdf.getPluginBase().disableCallbacks()
 
 def launchRecon(inNXSFile, outDir, localTomoFile, templateSettingsFile):
     exe_sh = getPathToReconstructionShellScript()
@@ -121,7 +155,7 @@ def launchRecon(inNXSFile, outDir, localTomoFile, templateSettingsFile):
     args += [ "--quick"]
     print args
     try:
-        proc = subprocess.Popen( args, executable = exe_sh, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
+        proc = subprocess.Popen(args, executable=exe_sh, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         proc.wait()
         (out, err) = proc.communicate()
         print "Return value after spawning reconstruction script was %s\n" % proc.returncode
@@ -224,12 +258,11 @@ def moveTomoAlignmentMotors(motorMoveMap):
             print "Problem moving tomo alignment motors" + `exception`
         updateScriptController(exception)
 
-        
 def getModule():
     cam1_x = f.find("cam1_x")
     cameraModuleLookup = f.find("moduleMotorPositionLUT")
     mod1Lookup = round(cameraModuleLookup.lookupValue(1, "cam1_x"), 2)
-    moduleNum = 1
+    moduleNum = 0
     cam1_xPosition = round(cam1_x.position, 2)
     if cam1_xPosition == mod1Lookup:
         moduleNum = 1
@@ -246,7 +279,7 @@ def getModule():
                 if cam1_xPosition == mod4Lookup:
                     moduleNum = 4
     #Ravi changed this to test the GUI.
-    updateScriptController("Module:"+`moduleNum`)
+    updateScriptController("Module:" + `moduleNum`)
     return moduleNum
     
 def find_lt(a, x):
@@ -395,6 +428,7 @@ def moveToModule(moduleNum):
         ss1_rz = f.find("ss1_rz")
         cam1_z = f.find("cam1_z")
         cam1_x = f.find("cam1_x")
+        cam1_roll = f.find("cam1_roll")
         sampleTiltX = 0.0615;
         sampleTiltZ = 0.0
         cameraSafeZ = -10.0
@@ -413,7 +447,9 @@ def moveToModule(moduleNum):
         
         cam1xLookup = cameraModuleLookup.lookupValue(moduleNum, "cam1_x")
         cam1zLookup = cameraModuleLookup.lookupValue(moduleNum, "cam1_z")
-        ss1RzLookup = cameraModuleLookup.lookupValue(moduleNum, "ss1_rz")
+        cam1RollLookup = cameraModuleLookup.lookupValue(moduleNum, "cam1_roll")
+        #ss1RzLookup = cameraModuleLookup.lookupValue(moduleNum, "ss1_rz")
+        
         t3xLookup = getT3x(moduleNum)
         t3m1yLookup = getT3M1y(moduleNum)
         offset = math.fabs(cam1_x.getPosition() - cam1xLookup)
@@ -433,12 +469,13 @@ def moveToModule(moduleNum):
             cam1_z.moveTo(cam1zLookup)
             
         while ss1_rz.isBusy():
-            displayVal = round(ss1_rz.position)
+            displayVal = round(ss1_rz.getPosition(), 3)
             updateScriptController("Module align:waiting for ss1_rz:" + `displayVal`)
             sleep(5)
             
         checkForPauses()
-        ss1_rz.asynchronousMoveTo(ss1RzLookup)
+        cam1_roll.asynchronousMoveTo(cam1RollLookup)
+        #ss1_rz.asynchronousMoveTo(ss1RzLookup)
         
         checkForPauses()
         t3_x.asynchronousMoveTo(t3xLookup)
@@ -446,7 +483,7 @@ def moveToModule(moduleNum):
         t3_m1y.asynchronousMoveTo(t3m1yLookup)
         
         while ss1_rx.isBusy():
-            displayVal = round(ss1_rx.position, 3)
+            displayVal = round(ss1_rx.getPosition(), 3)
             updateScriptController("Module align:waiting for ss1_rx:" + `displayVal`)
             sleep(5)
         
@@ -459,8 +496,13 @@ def moveToModule(moduleNum):
             updateScriptController("Module align:waiting for t3_m1y " + `displayVal`)
             
         while ss1_rz.isBusy():
-            displayVal = round(ss1_rz.position)
+            displayVal = round(ss1_rz.getPosition(), 3)
             updateScriptController("Module align:waiting for ss1_rz:" + `displayVal`)
+            sleep(5)
+            
+        while cam1_roll.isBusy():
+            displayVal = round(cam1_roll.getPosition(), 3)
+            updateScriptController("Module align:waiting for cam1_roll:" + `displayVal`)
             sleep(5)
             
         updateScriptController("Module align:complete")
@@ -569,6 +611,52 @@ def getVerticalMotorPositions():
     verticals[y3.name] = y3.getPosition()
     updateScriptController(verticals)
     return verticals
+
+def autoFocus(acqTime):
+    cam1_z = f.find("cam1_z")
+    pco = f.find("pco")
+    moduleLookup = f.find("moduleMotorPositionLUT")
+    module = getModule()
+    cam1zLookup = moduleLookup.lookupValue(module, "cam1_z")
+    afxCropStart = int(moduleLookup.lookupValue(module, "AFCropStartX"))
+    afyCropStart = int(moduleLookup.lookupValue(module, "AFCropStartY"))
+    afxCropEnd = int(moduleLookup.lookupValue(module, "AFCropEndX"))
+    afyCropEnd = int(moduleLookup.lookupValue(module, "AFCropEndY"))
+    #scan(ix, 0, 1, 0.1)
+    
+    scan([cam1_z, cam1zLookup - 2, cam1zLookup + 2.2, 0.2, pco, acqTime])
+    print pwd() + "/projections";
+    
+    numImgs = 21
+    pathname = pwd() + "/projections/"
+    index = 0
+    biggestSum = 0
+    biggestIndex = 0
+    for num in range(0, numImgs):
+        fileName = pathname + ("p_%05d.tif" % num)
+        print fileName
+        dataset = dnp.io.load(fileName)[0]
+        dataset.metadata = None
+        dnp.plot.image(dataset)
+        ds = dataset.getSlice([afyCropStart, afxCropStart], [afyCropEnd, afxCropEnd], [1, 1])
+        dnp.plot.image(ds)
+        medianFilter = Image.medianFilter(dnp.abs(ds), [3, 3])
+        sobell = Image.sobelFilter(dnp.abs(medianFilter))
+        dnp.plot.image(sobell)
+        sobellSum = dnp.abs(sobell).sum()
+        print "index" + `index`
+        print "SobellSum:" + `sobellSum`
+        if sobellSum > biggestSum :
+            biggestSum = sobellSum
+            biggestIndex = index
+        index = index + 1
+        print '________________'
+    print "BiggestIndex:" + `biggestIndex`
+    nexusFile = pwd() + ".nxs"
+    nxsModel = dnp.io.load(nexusFile)
+    print nxsModel.entry1.pco.cam1_z[biggestIndex]
+    #cam1_z.moveTo(nxsModel.entry1.pco.cam1_z[biggestIndex])
+    
     
 
 class TomoAlignmentConfigurationManager:
@@ -653,11 +741,11 @@ class TomoAlignmentConfiguration:
             if verbose:
                 print 'Attempting to move into requested module'
             checkForPauses()
-            moveToModule(self.moduleNum)
+            #moveToModule(self.moduleNum)
             checkForPauses()
             if verbose:
                 print 'Aligning cam stage and sample stage motors'
-            moveTomoAlignmentMotors(self.motorMoveMap)
+            #moveTomoAlignmentMotors(self.motorMoveMap)
             if verbose:
                 print 'All motors in place - starting tomography scan'
             checkForPauses()
@@ -681,3 +769,4 @@ class TomoAlignmentConfiguration:
             self.tomographyConfigurationManager.setConfigRunning(self.configId)
             self.tomographyConfigurationManager.setConfigRunning(None)
             updateScriptController('Tomography Scan Complete')
+

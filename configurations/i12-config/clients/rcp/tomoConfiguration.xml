@@ -15,6 +15,7 @@
 		<property name="tomoConfigResourceHandler" ref="tomoConfigResourceHandler" /> <!-- The tomoConfigResourceHandler is declared in the tomoAlignment.xml -->
 		<property name="tomoConfigViewController" ref="tomoConfigViewController" />
 		<property name="scanResolutionLookupProvider" ref="scanResolutionLookupProvider" />
+		<property name="cameraDistanceMotorName" value="t3_m1z"/>
 	</bean>
 
 	<bean id="tomoConfigViewController"

@@ -1,6 +1,6 @@
 ScannableNames	Module	minY maxY minX	maxX	balloffset
 ScannableUnits	No.	mm	mm	mm	mm	mm
 1	1200	1500	1461	2548	4
-2	970	1700	401	3608	4
-3	800	1800	601	3408	2
-4	700	2000	301	3708	0.8	
+2	970	1700	201	3808	4
+3	800	1800	401	3608	2
+4	700	2000	201	3808	0.8	

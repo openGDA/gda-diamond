@@ -367,7 +367,7 @@
 		<property name="fileTemplate" value="%s/%s_%05d.hdf"/>
 		<property name="fileNumberAtScanStart" value="-1"/>
 		<property name="setFileNameAndNumber" value="true"/>
-		<property name="rowChunks" value="2672"/>
+		<property name="rowChunks" value="16"/>
 	</bean>
 
 	<bean id="pco_hdf_singleExposurePco"
