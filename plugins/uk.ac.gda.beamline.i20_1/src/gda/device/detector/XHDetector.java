@@ -125,7 +125,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 				if (timingReadbackHandle < 0) {
 					throw new DeviceException("Failed to create the timing readback handle");
 				}
-				logger.info("Xspress2System: open() using timingReadbackHandle " + timingReadbackHandle);
+				logger.info("open() using timingReadbackHandle " + timingReadbackHandle);
 			}
 		}
 	}
@@ -162,6 +162,16 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	@Override
 	public NexusTreeProvider readout() throws DeviceException {
 		return readFrames(0, 0)[0];
+	}
+	
+	/**
+	 * Reads out the given frame to an array of ints. No corrections, no data reduction.
+	 * 
+	 * @param frame
+	 * @return int[] - the raw data 
+	 */
+	public int[] readFrameToArray(int frame) {
+		return readoutFrames(frame, frame);
 	}
 
 	/**
@@ -453,6 +463,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 			Integer numFrames = timingGroup.getNumberOfFrames();
 			double frameTimeInS = timingGroup.getTimePerFrame();
 			String frameTimeInCycles = secondsToClockCyclesString(frameTimeInS);
+			int numberOfScansPerFrame = timingGroup.getNumberOfScansPerFrame();
 			double scanTimeInS = timingGroup.getTimePerScan();
 			String scanTimeInClockCycles = secondsToClockCyclesString(scanTimeInS);
 
@@ -462,8 +473,15 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 			String delays = buildDelaysCommand(timingGroup);
 
- 			String command = createCommand("setup-group", i, numFrames, 0, scanTimeInClockCycles, "frame-time",
-					frameTimeInCycles, delays, lemoOut, extTrig);
+			String command;
+			if (numberOfScansPerFrame == 0) {
+				command = createCommand("setup-group", i, numFrames, 0, scanTimeInClockCycles, "frame-time",
+						frameTimeInCycles, delays, lemoOut, extTrig);
+			} else {
+				// use the frame-time qualifier
+				command = createCommand("setup-group", i, numFrames, numberOfScansPerFrame, scanTimeInClockCycles,
+						delays, lemoOut, extTrig);
+			}
 
 			if (i == nextScan.getGroups().size() - 1) {
 				command = command.trim() + " last";

@@ -1,0 +1,84 @@
+/*-
+ * Copyright © 2012 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package gda.device.detector;
+
+import gda.data.nexus.tree.NexusTreeProvider;
+import gda.device.DeviceException;
+import uk.ac.gda.exafs.ui.data.EdeScanParameters;
+import uk.ac.gda.exafs.ui.data.TimingGroup;
+
+/**
+ * Drive an XHDetector object so it can be used in 'regular' step scans. For ad hoc scans during commissioning /
+ * beamline alignment.
+ */
+public class StepScanXHDetector extends DetectorBase implements NexusDetector {
+
+	private XHDetector xh;
+
+	@Override
+	public void collectData() throws DeviceException {
+		EdeScanParameters myscan = new EdeScanParameters();
+		TimingGroup group1 = new TimingGroup();
+		group1.setLabel("group1");
+		group1.setNumberOfFrames(1);
+		group1.setTimePerScan(getCollectionTime());
+		group1.setNumberOfScansPerFrame(1);
+		myscan.addGroup(group1);
+		xh.loadParameters(myscan);
+		xh.collectData();
+	}
+
+	@Override
+	public int getStatus() throws DeviceException {
+		return xh.getStatus();
+	}
+
+	@Override
+	public boolean createsOwnFiles() throws DeviceException {
+		return false;
+	}
+
+	@Override
+	public NexusTreeProvider readout() throws DeviceException {
+		return xh.readout();
+	}
+
+	public XHDetector getXh() {
+		return xh;
+	}
+
+	public void setXh(XHDetector xh) {
+		this.xh = xh;
+	}
+	
+	@Override
+	public String[] getExtraNames() {
+		return xh.getExtraNames();
+	}
+	
+	@Override
+	public String[] getInputNames() {
+		return xh.getInputNames();
+	}
+	
+	@Override
+	public String[] getOutputFormat() {
+		return xh.getOutputFormat();
+	}
+}
