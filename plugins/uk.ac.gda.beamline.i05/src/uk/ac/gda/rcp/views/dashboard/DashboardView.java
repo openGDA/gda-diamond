@@ -18,8 +18,6 @@
 
 package uk.ac.gda.rcp.views.dashboard;
 
-import gda.rcp.GDAClientActivator;
-
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
@@ -60,7 +58,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.preferences.PreferenceConstants;
+import uk.ac.gda.beamline.i05.I05BeamlineActivator;
 import uk.ac.gda.ui.modifiers.DoubleClickModifier;
 
 public final class DashboardView extends ViewPart {
@@ -102,13 +100,17 @@ public final class DashboardView extends ViewPart {
 
 	public static final String ID = "uk.ac.gda.rcp.views.dashboardView"; //$NON-NLS-1$
 
+	public static final String FREQUENCY_LABEL = "update_frequency";
+
 	private TableViewer serverViewer;
 
-	private TableViewerColumn maxColumn, minColumn, desColumn;
+//	private TableViewerColumn maxColumn, minColumn, desColumn;
 
 	private List<SimpleScannableObject> data;
 
 	private Thread updater;
+
+	protected int sleeptime;
 
 	public void addScannableObject(SimpleScannableObject sso) {
 		try {
@@ -222,20 +224,20 @@ public final class DashboardView extends ViewPart {
 		value.getColumn().setWidth(150);
 		value.setLabelProvider(new TableLabelProvider(1));
 
-		this.minColumn = new TableViewerColumn(serverViewer, SWT.NONE);
-		minColumn.getColumn().setText("Minimum");
-		minColumn.getColumn().setWidth(150);
-		minColumn.setLabelProvider(new TableLabelProvider(2));
-
-		this.maxColumn = new TableViewerColumn(serverViewer, SWT.NONE);
-		maxColumn.getColumn().setText("Maximum");
-		maxColumn.getColumn().setWidth(150);
-		maxColumn.setLabelProvider(new TableLabelProvider(3));
-
-		this.desColumn = new TableViewerColumn(serverViewer, SWT.NONE);
-		desColumn.getColumn().setText("Description");
-		desColumn.getColumn().setWidth(150);
-		desColumn.setLabelProvider(new TableLabelProvider(4));
+//		this.minColumn = new TableViewerColumn(serverViewer, SWT.NONE);
+//		minColumn.getColumn().setText("Minimum");
+//		minColumn.getColumn().setWidth(150);
+//		minColumn.setLabelProvider(new TableLabelProvider(2));
+//
+//		this.maxColumn = new TableViewerColumn(serverViewer, SWT.NONE);
+//		maxColumn.getColumn().setText("Maximum");
+//		maxColumn.getColumn().setWidth(150);
+//		maxColumn.setLabelProvider(new TableLabelProvider(3));
+//
+//		this.desColumn = new TableViewerColumn(serverViewer, SWT.NONE);
+//		desColumn.getColumn().setText("Description");
+//		desColumn.getColumn().setWidth(150);
+//		desColumn.setLabelProvider(new TableLabelProvider(4));
 
 		serverViewer.setColumnProperties(new String[] { "Object Name", "Object Value" });
 		serverViewer.setCellEditors(createCellEditors(serverViewer));
@@ -246,22 +248,17 @@ public final class DashboardView extends ViewPart {
 		getSite().setSelectionProvider(serverViewer);
 		createRightClickMenu();
 
-		GDAClientActivator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
+		I05BeamlineActivator.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
 
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getProperty().equals(PreferenceConstants.DASHBOARD_FORMAT)) {
-					serverViewer.refresh();
-				} else if (event.getProperty().equals(PreferenceConstants.DASHBOARD_BOUNDS)) {
-					updateBoundsColumns();
-				} else if (event.getProperty().equals(PreferenceConstants.DASHBOARD_DESCRIPTION)) {
-					updateDummyColumn();
-				}
+				if (event.getProperty().equals(FREQUENCY_LABEL)) {
+					updateSleepTime();
+				} 
 			}
 		});
-
-		updateBoundsColumns();
-		updateDummyColumn();
+	
+		updateSleepTime();
 		
 		if (updater == null || !updater.isAlive()) {
 			updater = new Thread(new Runnable() {
@@ -270,13 +267,13 @@ public final class DashboardView extends ViewPart {
 				public void run() {
 					boolean keeprunning = true;
 					while(keeprunning) {
-					try {
+						try {
 							keeprunning = true;
 							refresh();
-							Thread.sleep(900);
-					} catch (Exception e) {
-						logger.warn("exception caugth in Dashboard Update Thread", e);
-					}
+							Thread.sleep(sleeptime*1000-100);
+						} catch (Exception e) {
+							logger.warn("exception caugth in Dashboard Update Thread", e);
+						}
 					}
 				}
 			});
@@ -284,15 +281,17 @@ public final class DashboardView extends ViewPart {
 		}
 	}
 
+	private void updateSleepTime() {
+		int delay = I05BeamlineActivator.getDefault().getPreferenceStore().getInt(FREQUENCY_LABEL);
+		sleeptime = delay == 0 ? 2 : delay;
+	}
+	
 	private void createRightClickMenu() {
 		final MenuManager menuManager = new MenuManager();
 		serverViewer.getControl().setMenu(menuManager.createContextMenu(serverViewer.getControl()));
 		getSite().registerContextMenu(menuManager, serverViewer);
 	}
 
-	/**
-	 * 
-	 */
 	public void deleteSelectedObject() {
 		try {
 			final SimpleScannableObject ob = (SimpleScannableObject) ((IStructuredSelection) serverViewer.getSelection())
@@ -387,11 +386,12 @@ public final class DashboardView extends ViewPart {
 			for (SimpleScannableObject sso : data) {
 				sso.refresh();
 			}
-			Display.getDefault().asyncExec(new Runnable() {
+			Display.getDefault().syncExec(new Runnable() {
 				
 				@Override
 				public void run() {
-					serverViewer.refresh();
+					if (!serverViewer.isCellEditorActive())
+						serverViewer.refresh();
 				}
 			});
 		} catch (Exception ne) {
@@ -425,33 +425,5 @@ public final class DashboardView extends ViewPart {
 	public void setFocus() {
 		if (this.serverViewer != null)
 			serverViewer.getControl().setFocus();
-	}
-
-	private void updateBoundsColumns() {
-		final boolean isVis = GDAClientActivator.getDefault().getPreferenceStore()
-				.getBoolean(PreferenceConstants.DASHBOARD_BOUNDS);
-		if (!isVis) {
-			maxColumn.getColumn().setWidth(0);
-			maxColumn.getColumn().setResizable(false);
-			minColumn.getColumn().setWidth(0);
-			minColumn.getColumn().setResizable(false);
-		} else {
-			maxColumn.getColumn().setWidth(150);
-			maxColumn.getColumn().setResizable(true);
-			minColumn.getColumn().setWidth(150);
-			minColumn.getColumn().setResizable(true);
-		}
-	}
-
-	private void updateDummyColumn() {
-		final boolean isVis = GDAClientActivator.getDefault().getPreferenceStore()
-				.getBoolean(PreferenceConstants.DASHBOARD_DESCRIPTION);
-		if (!isVis) {
-			desColumn.getColumn().setWidth(0);
-			desColumn.getColumn().setResizable(false);
-		} else {
-			desColumn.getColumn().setWidth(150);
-			desColumn.getColumn().setResizable(true);
-		}
 	}
 }
