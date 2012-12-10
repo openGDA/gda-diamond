@@ -30,6 +30,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 public class StepScanXHDetector extends DetectorBase implements NexusDetector {
 
 	private XHDetector xh;
+	private int numberScansPerFrame = 1;
 
 	@Override
 	public void collectData() throws DeviceException {
@@ -38,7 +39,7 @@ public class StepScanXHDetector extends DetectorBase implements NexusDetector {
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(1);
 		group1.setTimePerScan(getCollectionTime());
-		group1.setNumberOfScansPerFrame(1);
+		group1.setNumberOfScansPerFrame(numberScansPerFrame);
 		myscan.addGroup(group1);
 		xh.loadParameters(myscan);
 		xh.collectData();
@@ -80,5 +81,13 @@ public class StepScanXHDetector extends DetectorBase implements NexusDetector {
 	@Override
 	public String[] getOutputFormat() {
 		return xh.getOutputFormat();
+	}
+
+	public int getNumberScansPerFrame() {
+		return numberScansPerFrame;
+	}
+
+	public void setNumberScansPerFrame(int numberScansPerFrame) {
+		this.numberScansPerFrame = numberScansPerFrame;
 	}
 }

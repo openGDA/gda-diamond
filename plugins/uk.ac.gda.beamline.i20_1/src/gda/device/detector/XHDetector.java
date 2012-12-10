@@ -163,12 +163,12 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	public NexusTreeProvider readout() throws DeviceException {
 		return readFrames(0, 0)[0];
 	}
-	
+
 	/**
 	 * Reads out the given frame to an array of ints. No corrections, no data reduction.
 	 * 
 	 * @param frame
-	 * @return int[] - the raw data 
+	 * @return int[] - the raw data
 	 */
 	public int[] readFrameToArray(int frame) {
 		return readoutFrames(frame, frame);
@@ -415,13 +415,12 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 	public ExperimentStatus fetchStatus() {
 		String statusMessage = (String) daServer.sendCommand(createCommand("read-status", "verbose"), true);
-		if (statusMessage.startsWith("#")){
+		if (statusMessage.startsWith("#")) {
 			statusMessage = statusMessage.substring(1).trim();
 		}
 		String[] messageParts = statusMessage.split("[\n#:,]");
 
 		ExperimentStatus newStatus = new ExperimentStatus();
-		
 
 		if (messageParts[0].trim().equalsIgnoreCase("running")) {
 			newStatus.detectorStatus = Detector.BUSY;
@@ -737,13 +736,17 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 	}
 
-	private void setDefaultROIs() {
-		int numberDefaultROIs = 4;
-		XHROI[] defaults = new XHROI[numberDefaultROIs];
+	/**
+	 * Sets equally sized ROIs.
+	 * 
+	 * @param numberOfRois
+	 */
+	public void setNumberRois(int numberOfRois) {
+		XHROI[] defaults = new XHROI[numberOfRois];
 
-		int roiSize = NUMBER_ELEMENTS / numberDefaultROIs;
+		int roiSize = NUMBER_ELEMENTS / numberOfRois;
 
-		for (int i = 0; i < numberDefaultROIs; i++) {
+		for (int i = 0; i < numberOfRois; i++) {
 			XHROI thisRoi = new XHROI();
 			thisRoi.setLabel("ROI" + i);
 			thisRoi.setLowerLevel(roiSize * i);
@@ -752,6 +755,17 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		}
 		setRoisWithoutStoringAndNotifying(defaults);
 		saveROIsToXML();
+	}
+
+	/**
+	 * @return the number of ROIS, whether they have been set via the setNumberRois or setRois methods.
+	 */
+	public int getNumberRois() {
+		return rois.length;
+	}
+
+	private void setDefaultROIs() {
+		setNumberRois(4);
 	}
 
 	private void setRoisWithoutStoringAndNotifying(XHROI[] rois) {
