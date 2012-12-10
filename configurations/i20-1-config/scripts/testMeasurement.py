@@ -27,12 +27,6 @@ def _calcLnI0It(i0,it):
         else:
             lni0it[i] = math.log(float(i0[i])/float(it[i]))
     return lni0it
-
-def _arrayToTabString(array):
-    returnstring = ""
-    for i in range(len(array)):
-        returnstring += str(array[i]) + "\t"
-    return returnstring.strip() + "\n"
    
 
 #########################################
@@ -52,11 +46,11 @@ it_samy = 0.0
 it_samz = 0.0
 
 # define I0 integration time
-i0_scan_time = 1
+i0_scan_time = 0.1
 i0_num_scans = 1
 
 # define It integration time
-it_scan_time = 1
+it_scan_time = 0.005
 it_num_scans = 1
 
 ################
@@ -117,10 +111,10 @@ ds_it_corr = DoubleDataset(it_corrected, [len(it_corrected)]);
 ds_it_corr.setName("It corrected")
 SDAPlotter.plot("Plot 1",None, [ds_i0dk,ds_itdk,ds_i0,ds_i0_corr,ds_it,ds_it_corr])
 
-print "Calculating ln(I0\/It)..."
+print "Calculating ln(I0\It)..."
 lni0it = _calcLnI0It(i0_corrected,it_corrected)
 ds_lni0it = DoubleDataset(lni0it, [len(lni0it)]);
-ds_lni0it.setName("Ln(I0\/It) uncorrected")
+ds_lni0it.setName("Ln(I0\It) corrected")
 #   plot
 SDAPlotter.plot("Plot 1",None, [ds_i0dk,ds_itdk,ds_i0,ds_i0_corr,ds_it,ds_it_corr,ds_lni0it])
     
@@ -142,15 +136,29 @@ filename = dataDir + str(scanNumber) + ".dat"
 print "Writing data to",filename
 # open file and write above into it.
 file = open(filename,'w')
-file.write(_arrayToTabString(stripNames))
-file.write(_arrayToTabString(i0_corrected))
-file.write(_arrayToTabString(it_corrected))
-file.write(_arrayToTabString(lni0it))
+#file.write(_arrayToTabString(stripNames))
+#file.write(_arrayToTabString(i0_corrected))
+#file.write(_arrayToTabString(it_corrected))
+#file.write(_arrayToTabString(lni0it))
 #file.write(_arrayToTabString(energy))
-file.write(_arrayToTabString(i0_dk))
-file.write(_arrayToTabString(it_dk))
-file.write(_arrayToTabString(i0))
-file.write(_arrayToTabString(it))
+#file.write(_arrayToTabString(i0_dk))
+#file.write(_arrayToTabString(it_dk))
+#file.write(_arrayToTabString(i0))
+#file.write(_arrayToTabString(it))
+
+file.write("Strip #\tI0_corr\tIt_corr\tLn(I0/It)\tI0_dark\tIt_dark\tI0_raw\tIt_raw\n")
+for i in range(len(i0)):
+    stringToWrite = stripNames[i]+"\t"
+    stringToWrite += '%(value).2f' % {'value' : i0_corrected[i]} +"\t"
+    stringToWrite += '%(value).2f' % {'value' : it_corrected[i]}+"\t"
+    stringToWrite += '%(value).5f' % {'value' : lni0it[i]}+"\t"
+#    stringToWrite += energy[i]+"\t"
+    stringToWrite += '%(value)d' % {'value' : i0_dk[i]}+"\t"
+    stringToWrite += '%(value)d' % {'value' : it_dk[i]}+"\t"
+    stringToWrite += '%(value)d' % {'value' : i0[i]}+"\t"
+    stringToWrite += '%(value)d' % {'value' : it[i]}+"\n"
+    file.write(stringToWrite)
+
 file.close()
     
 print "Done."
