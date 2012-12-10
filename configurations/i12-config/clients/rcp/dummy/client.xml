@@ -17,6 +17,19 @@
 		file:${gda.config}/properties/dummy/java.properties,
 		file:${gda.config}/properties/gda.properties" />
 
-	<import resource="../rcp-common.xml"/>
+	<corba:import namespace="i12"
+		names="plot_server, helpScriptController" />
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
+		<property name="service" ref="plot_server" />
+	</bean>
+
+	<bean class="uk.ac.gda.beamline.i12.HelpListener">
+		<property name="helpObservable" ref="helpScriptController" />
+	</bean>
+
+	<import resource="../commandQueueProcessor.xml" />
+	<import resource="../../clients-common.xml" />
 	
 </beans>
