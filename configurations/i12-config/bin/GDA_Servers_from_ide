@@ -9,6 +9,9 @@ fi
 
 
 export JAVA_OPTS="-Xms128m -Xmx1024m -XX:MaxPermSize=128m -XX:+DisableExplicitGC"
-
-$1/bin/gda  --smart --trace --config=$2 --debug -p 8001 --restart -v --mode=simulation servers
+#$1 - location of gda-core
+#$2 - config
+#$3 mode
+#$4 stop/restart
+$1/bin/gda  --smart --trace --config=$2 --debug -p 8001 --$4 -v --mode=$3 servers
  
