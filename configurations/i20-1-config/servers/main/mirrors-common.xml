@@ -4,8 +4,10 @@
 
 
 	<!-- me1 -->
-
-
+	
+	<bean id="me1x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="me1_stripe_motor" />
+	</bean>
 	<bean id="me1y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="me1y_motor" />
 	</bean>
@@ -18,22 +20,59 @@
 	<bean id="me1curvature" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="me1curvature_motor" />
 	</bean>
+	
+	<bean id="me1ellip" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="me1ellip_motor" />
+	</bean>
+	<bean id="me1y1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="me1y1_motor" />
+	</bean>
+	<bean id="me1y2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="me1y2_motor" />
+	</bean>
+	<bean id="me1x1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="me1x1_motor" />
+	</bean>
+	<bean id="me1x2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="me1x2_motor" />
+	</bean>
+	<bean id="me1bend1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="me1bend1_motor" />
+	</bean>
+	<bean id="me1bend2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="me1bend2_motor" />
+	</bean>
+	<bean id="me1sag1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="me1sag1_motor" />
+	</bean>
 
 	<bean id="me1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
+				<ref bean="me1x" />
 				<ref bean="me1y" />
 				<ref bean="me1pitch" />
 				<ref bean="me1yaw" />
 				<ref bean="me1curvature" />
 				<ref bean="me1_stripe" />
+				<ref bean="me1ellip" />
+				<ref bean="me1y1" />
+				<ref bean="me1y2" />
+				<ref bean="me1x1" />
+				<ref bean="me1x2" />
+				<ref bean="me1bend1" />
+				<ref bean="me1bend2" />
+				<ref bean="me1sag1" />
 			</list>
 		</property>
 	</bean>
 
 
 	<!-- me2 -->
-
+	
+	<bean id="me2x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="me2_stripe_motor" />
+	</bean>
 	<bean id="me2y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="me2y_motor" />
 	</bean>
@@ -47,6 +86,7 @@
 	<bean id="me2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
+				<ref bean="me2x" />
 				<ref bean="me2y" />
 				<ref bean="me2pitch" />
 				<ref bean="me2roll" />
@@ -63,8 +103,17 @@
 	<bean id="polyy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_ybase_motor" />
 	</bean>
+	<bean id="polyy1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="poly_y1_motor" />
+	</bean>
+	<bean id="polyy2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="poly_y2_motor" />
+	</bean>
+	<bean id="polyy3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="poly_y3_motor" />
+	</bean>
 	<bean id="polytheta" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="poly_thetabase_motor" />
+		<property name="motor" ref="poly_theta_motor" />
 	</bean>
 	<bean id="polyyfine" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_yfine_motor" />
@@ -78,6 +127,12 @@
 	<bean id="polycurve" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_curvature_motor" />
 	</bean>
+	<bean id="polybend1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="poly_bend1_motor" />
+	</bean>
+	<bean id="polybend2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="poly_bend2_motor" />
+	</bean>
 	<bean id="polyyellip" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_ellip_motor" />
 	</bean>
@@ -90,11 +145,16 @@
 			<list>
 				<ref bean="polyx" />
 				<ref bean="polyy" />
+				<ref bean="polyy1" />
+				<ref bean="polyy2" />
+				<ref bean="polyy3" />
 				<ref bean="polytheta" />
 				<ref bean="polyyfine" />
 				<ref bean="polyyaw" />
 				<ref bean="polyroll" />
 				<ref bean="polycurve" />
+				<ref bean="polybend1" />
+				<ref bean="polybend2" />
 				<ref bean="polyyellip" />
 				<ref bean="polytwist" />
 			</list>

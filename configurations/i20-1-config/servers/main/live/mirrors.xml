@@ -8,6 +8,14 @@
 	<bean id="me1_stripe" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="deviceName" value="M1EP" />
 		<property name="local" value="true" />
+		<property name="inputNames">
+			<list>
+				<value>me1_stripe</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="me1_stripe_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-VFM-01:X" />
 	</bean>
 
 	<bean id="me1y_motor" class="gda.device.motor.EpicsMotor">
@@ -23,13 +31,43 @@
 		<property name="pvName" value="BL20J-OP-VFM-01:CURVE" />
 	</bean>
 
+	<bean id="me1ellip_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-VFM-01:ELLIP" />
+	</bean>
+	<bean id="me1y1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-VFM-01:Y1" />
+	</bean>
+	<bean id="me1y2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-VFM-01:Y2" />
+	</bean>
+	<bean id="me1x1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-VFM-01:X1" />
+	</bean>
+	<bean id="me1x2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-VFM-01:X2" />
+	</bean>
+	<bean id="me1bend1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-VFM-01:BEND1" />
+	</bean>
+	<bean id="me1bend2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-VFM-01:BEND2" />
+	</bean>
+	<bean id="me1sag1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-VFM-01:SAG1" />
+	</bean>
 
 	<!-- me2 -->
 
 	<bean id="me2_stripe" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="deviceName" value="M2EP" />
 		<property name="local" value="true" />
+		<property name="inputNames">
+			<list>
+				<value>me2_stripe</value>
+			</list>
+		</property>
 	</bean>
+	<bean id="me2_stripe_motor" class="gda.device.motor.DummyMotor" />
 
 	<bean id="me2y_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="me2pitch_motor" class="gda.device.motor.DummyMotor" />
@@ -42,7 +80,16 @@
 	<bean id="poly_ybase_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PCHRO-01:Y" />
 	</bean>
-	<bean id="poly_thetabase_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="poly_y1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-PCHRO-01:Y1" />
+	</bean>
+	<bean id="poly_y2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-PCHRO-01:Y2" />
+	</bean>
+	<bean id="poly_y3_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-PCHRO-01:Y3" />
+	</bean>
+	<bean id="poly_theta_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PCHRO-01:THETA" />
 	</bean>
 	<bean id="poly_yfine_motor" class="gda.device.motor.EpicsMotor">
@@ -57,13 +104,18 @@
 	<bean id="poly_curvature_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PCHRO-01:CURVE" />
 	</bean>
+	<bean id="poly_bend1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-PCHRO-01:BEND1" />
+	</bean>
+	<bean id="poly_bend2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-PCHRO-01:BEND2" />
+	</bean>
 	<bean id="poly_ellip_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PCHRO-01:ELLIP" />
 	</bean>
 	<bean id="poly_twist_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PCHRO-01:TWIST" />
 	</bean>
-	
 
 	<import resource="file:${gda.config}/servers/main/mirrors-common.xml" />
 
