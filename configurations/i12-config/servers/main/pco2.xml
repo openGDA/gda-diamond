@@ -43,7 +43,7 @@
 				<property name="basePVName" value="BL12I-EA-DET-02:PRO1:" />
 				<property name="initialArrayPort" value="pco.cam" />
 				<property name="initialArrayAddress" value="0" />
-				<property name="initialEnableCallbacks" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
 			</bean>
 		</property>
@@ -63,7 +63,7 @@
 				<property name="basePVName" value="BL12I-EA-DET-02:PRO2:" />
 				<property name="initialArrayPort" value="pco.cam" />
 				<property name="initialArrayAddress" value="0" />
-				<property name="initialEnableCallbacks" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
 			</bean>
 		</property>
