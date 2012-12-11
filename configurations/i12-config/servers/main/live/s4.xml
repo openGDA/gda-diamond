@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<!--  Define all the motors 
+  -->
+	<bean id="s4_top_motor" class="gda.spring.EpicsMotorFactoryBean">
+		<property name="deviceName" value="s4.top" />
+	</bean>
+	<bean id="s4_bottom_motor" class="gda.spring.EpicsMotorFactoryBean">
+		<property name="deviceName" value="s4.bottom" />
+	</bean>
+	<bean id="s4_in_motor" class="gda.spring.EpicsMotorFactoryBean">
+		<property name="deviceName" value="s4.in" />
+	</bean>
+	<bean id="s4_out_motor" class="gda.spring.EpicsMotorFactoryBean">
+		<property name="deviceName" value="s4.out" />
+	</bean>
+	<bean id="s4_xs_motor" class="gda.spring.EpicsMotorFactoryBean">
+		<property name="deviceName" value="s4.xs" />
+	</bean>
+	<bean id="s4_xc_motor" class="gda.spring.EpicsMotorFactoryBean">
+		<property name="deviceName" value="s4.xc" />
+	</bean>
+	<bean id="s4_ys_motor" class="gda.spring.EpicsMotorFactoryBean">
+		<property name="deviceName" value="s4.ys" />
+	</bean>
+	<bean id="s4_yc_motor" class="gda.spring.EpicsMotorFactoryBean">
+		<property name="deviceName" value="s4.yc" />
+	</bean>
+</beans>

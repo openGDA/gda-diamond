@@ -36,6 +36,7 @@
 	<import resource="ring.xml" />
 	<import resource="s2_new.xml" />
 	<import resource="s3.xml" />
+	<import resource="s4.xml" />
 	<import resource="scaler1.xml" />
 	<import resource="shutters.xml" />
 
