@@ -19,7 +19,6 @@
 package uk.ac.gda.arpes.ui;
 
 import gda.jython.JythonServerFacade;
-import gda.jython.JythonServerStatus;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -30,6 +29,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -37,10 +37,6 @@ import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.gda.arpes.detector.AnalyserCapabilties;
 import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
-import uk.ac.gda.richbeans.components.wrappers.ComboWrapper;
-import uk.ac.gda.richbeans.event.ValueEvent;
-import uk.ac.gda.richbeans.event.ValueListener;
-import org.eclipse.swt.widgets.Button;
 
 public class ContinuousModeControllerView extends ViewPart {
 	private AnalyserCapabilties capabilities;
@@ -49,6 +45,7 @@ public class ContinuousModeControllerView extends ViewPart {
 	private ScaleBox centreEnergy;
 	private ScaleBox timePerStep;
 	private ScaleBox photonEnergy;
+	private ScaleBox exitSlit;
 	private Composite composite;
 	private Button startButton;
 	private Button stopButton;
@@ -58,18 +55,18 @@ public class ContinuousModeControllerView extends ViewPart {
 	}
 
 	@Override
-	public void createPartControl(Composite parent) {
-		Composite comp = new Composite(parent, SWT.NONE);
-		comp.setLayout(new GridLayout(3, false));
-
+	public void createPartControl(Composite parent) {	
 		capabilities = new AnalyserCapabilties();
+		
+		Composite comp = new Composite(parent, SWT.NONE);
+		comp.setLayout(new GridLayout(5, false));
 		
 		Label label = new Label(comp, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		label.setText("lensMode");
 		lensMode = new Combo(comp, SWT.NONE);
 		lensMode.setItems(capabilities.lens2angles.keySet().toArray(new String[0]));
-		lensMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		lensMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 
 		Comparator<String> passEComparator = new Comparator<String>() {
 			@Override
@@ -91,7 +88,7 @@ public class ContinuousModeControllerView extends ViewPart {
 		
 		composite = new Composite(comp, SWT.NONE);
 		composite.setLayout(new GridLayout(1, false));
-		composite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 5));
+		composite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 4));
 		SelectionListener lensModeListener = new SelectionListener() {
 			
 			@Override
@@ -107,7 +104,6 @@ public class ContinuousModeControllerView extends ViewPart {
 		};
 		lensMode.addSelectionListener(lensModeListener);
 			
-		
 		startButton = new Button(composite, SWT.NONE);
 		startButton.setText("Start");
 		SelectionListener startListener = new SelectionListener() {
@@ -165,7 +161,7 @@ public class ContinuousModeControllerView extends ViewPart {
 			}
 		};
 		passEnergy.addSelectionListener(passEnergyListener);
-		passEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		passEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 
 		label = new Label(comp, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -175,9 +171,17 @@ public class ContinuousModeControllerView extends ViewPart {
 		centreEnergy.setUnit("eV");
 		centreEnergy.setDecimalPlaces(3);
 		centreEnergy.setFieldName("centreEnergy");
-		new Label(centreEnergy, SWT.NONE);
 		centreEnergy.on();
-//		centreEnergy.addValueListener(this);
+		
+		label = new Label(comp, SWT.NONE);
+		GridData gd_label = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		gd_label.horizontalIndent = 15;
+		label.setLayoutData(gd_label);
+		label.setText("photonEnergy");
+		photonEnergy = new ScaleBox(comp, SWT.NONE);
+		photonEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		photonEnergy.setUnit("eV");
+		photonEnergy.setDecimalPlaces(3);
 		
 		label = new Label(comp, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -185,18 +189,15 @@ public class ContinuousModeControllerView extends ViewPart {
 		timePerStep = new ScaleBox(comp, SWT.NONE);
 		timePerStep.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		timePerStep.setUnit("s");
-		new Label(timePerStep, SWT.NONE);
-//		timePerStep.addValueListener(this);
 
+		
 		label = new Label(comp, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		label.setText("photonEnergy");
-		photonEnergy = new ScaleBox(comp, SWT.NONE);
-		photonEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		photonEnergy.setUnit("eV");
-		photonEnergy.setDecimalPlaces(3);
-		new Label(photonEnergy, SWT.NONE);
-//		photonEnergy.addValueListener(this);
+		label.setText("exitSlit");
+		exitSlit = new ScaleBox(comp, SWT.NONE);
+		exitSlit.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		exitSlit.setUnit("mm");
+		exitSlit.setDecimalPlaces(3);
 	}
 
 	@Override
