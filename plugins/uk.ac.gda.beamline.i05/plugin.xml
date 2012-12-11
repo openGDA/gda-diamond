@@ -140,7 +140,7 @@
       <page
             category="uk.ac.gda.client.preferences.gdaroot"
             class="uk.ac.gda.rcp.views.dashboard.DashboardPreferencePage"
-            id="uk.ac.gda.rcp.views.dashboard.dashboardPreferences"
+            id="uk.ac.gda.rcp.views.dasboard.dashboardPreferences"
             name="Polling Dashboard">
       </page>
    </extension>
@@ -296,5 +296,11 @@
           style="push">
     </command>
  </menuContribution>
+</extension>
+<extension
+      point="org.eclipse.core.runtime.preferences">
+   <initializer
+         class="uk.ac.gda.beamline.i05.I05PreferenceInitializer">
+   </initializer>
 </extension>
 </plugin>

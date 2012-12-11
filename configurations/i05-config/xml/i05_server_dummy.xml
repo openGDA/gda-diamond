@@ -9,7 +9,7 @@
 		<property name="protectionLevel" value="3"></property>
 	</bean>
 	<bean
-		class="gda.device.scannable.DummyScannable" id="sampletemp">
+		class="gda.device.scannable.DummyScannable" id="sample_temp">
 		<property name="inputNames"><list><value>sampletemp</value></list></property>
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
 		<property name="protectionLevel" value="3"></property>
