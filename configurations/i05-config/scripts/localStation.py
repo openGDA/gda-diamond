@@ -25,7 +25,6 @@ execfile(gdascripts + "/utils.py");
 print "Creating beamline specific devices...";
 #execfile(gdaScriptDir + "TopupCountdown.py")
 
-# bsdiode=DisplayEpicsPVClass('bsdiode', 'BL22I-RS-ABSB-02:DIODE:I', '', '%5.5g')
 # d10d1=DisplayEpicsPVClass('d10d1', 'BL22I-DI-PHDGN-10:DIODE1:I', '', '%5.5g')
 # d10d2=DisplayEpicsPVClass('d10d2', 'BL22I-DI-PHDGN-10:DIODE2:I', '', '%5.5g')
 
