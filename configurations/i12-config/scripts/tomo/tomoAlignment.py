@@ -30,6 +30,11 @@ from gdascripts.utils import caput
 """
 Performs software triggered tomography
 """
+def isLiveMode():
+    if LocalProperties.check("gda.live.mode"):
+        return True
+    return False
+
 def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection, numberofProjections,
                  isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat= -100.0, positionOfBaseInBeam=0.0, isToBeReconstructed=False, minY=0, maxY=2672):
     #
@@ -47,8 +52,8 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     pco = f.find("pco")
     pco.setADCMode(1)
     pco.stop();
-    
-    pco.setExternalTriggered(True)
+    pco.setExternalTriggered(isLiveMode())
+        
     if verbose:
         print "pco external triggered:" + `pco.isExternalTriggered()`
     #
@@ -94,7 +99,7 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     try:
         pco.getController().disarmCamera()
         #tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize[desiredResolution], 0, 0, 10, 10, 0, additionalScannables=[fastScan])
-        tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, 10, 10, 0, additionalScannables=[fastScan])
+        tomoScan(description, positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, 10, 10, 0, additionalScannables=[fastScan])
     except Exception, ex:
         print "in exception"
         isTomoScanSuccess = False
