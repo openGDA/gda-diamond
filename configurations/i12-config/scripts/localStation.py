@@ -221,7 +221,7 @@ try:
 except:
     print "cannot create PCO timestamp scannable"
 try:
-    loadcell = DisplayEpicsPVClass('loadcell', 'BL12I-EA-ADC-01:00', 's', '%.3f')
+    loadcell = DisplayEpicsPVClass('loadcell', 'BL12I-EA-ADC-01:CH0', 's', '%.3f')
     HV_amp = EpicsReadWritePVClass('HV_amp', 'BL12I-EA-DAC-01:00', 's', '%.3f')
 except:
     print "cannot create loadcell or HV_amp scannables"
