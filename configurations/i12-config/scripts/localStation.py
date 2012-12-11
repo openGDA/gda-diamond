@@ -120,6 +120,12 @@ from init_scan_commands_and_processing import * #@UnusedWildImport
 from gda.scan.RepeatScan import create_repscan, repscan
 vararg_alias("repscan")
 
+from gdascripts.metadata.metadata_commands import setTitle
+alias("setTitle")
+
+if LocalProperties.check("gda.dummy.mode"):
+    print "Running in dummy mode"
+
 from gdascripts.pd.time_pds import waittimeClass2, showtimeClass, showincrementaltimeClass, actualTimeClass
 waittime = waittimeClass2('waittime')
 showtime = showtimeClass('showtime')
