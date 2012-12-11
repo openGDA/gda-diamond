@@ -294,6 +294,8 @@ from tomo import tomoAlignment #@UnusedImport
 #from tomo import tomographyScan
 #run("tomo/tomographyScan.py")
 
+from pv_scannable_utils import *
+print "added pv_scannable_utils" 
 
 print 
 print "==================================================="
