@@ -15,7 +15,7 @@
 <!-- 		comment out these lines if da.server was not freshly restarted -->
 		<property name="startupCommands">
 			<list>
-				<value>~config_xs 1</value>
+				<value>~config_xs</value>
 			</list>
 		</property>
 		
