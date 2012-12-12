@@ -636,8 +636,8 @@
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.double" id="readback" value="0.0">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://sampletemp" value="" />
-      <outputChannel name="gda://sampletemp, double" value="" />
+      <inputChannel name="gda://sample_temp" value="" />
+      <outputChannel name="gda://sample_temp, double" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.double" id="high" value="300.0" />

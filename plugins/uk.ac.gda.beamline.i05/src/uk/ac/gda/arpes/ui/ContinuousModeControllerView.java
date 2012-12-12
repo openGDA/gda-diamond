@@ -18,7 +18,10 @@
 
 package uk.ac.gda.arpes.ui;
 
+import gda.device.Scannable;
+import gda.factory.Finder;
 import gda.jython.JythonServerFacade;
+import gda.rcp.views.MotorPositionViewerComposite;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -44,8 +47,6 @@ public class ContinuousModeControllerView extends ViewPart {
 	private Combo passEnergy;
 	private ScaleBox centreEnergy;
 	private ScaleBox timePerStep;
-	private ScaleBox photonEnergy;
-	private ScaleBox exitSlit;
 	private Composite composite;
 	private Button startButton;
 	private Button stopButton;
@@ -75,15 +76,16 @@ public class ContinuousModeControllerView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {	
 		capabilities = new AnalyserCapabilties();
+		MotorPositionViewerComposite mpvc;
 		
 		Composite comp = new Composite(parent, SWT.NONE);
-		comp.setLayout(new GridLayout(5, false));
+		comp.setLayout(new GridLayout(4, false));
 		
 		Label label = new Label(comp, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		label.setText("lensMode");
 		lensMode = new Combo(comp, SWT.NONE);
-		lensMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+		lensMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		lensModes = capabilities.lens2angles.keySet().toArray(new String[0]);
 		lensMode.setItems(lensModes);
 		String activeLensMode = JythonServerFacade.getInstance().evaluateCommand("analyser.getLensMode()");
@@ -143,6 +145,7 @@ public class ContinuousModeControllerView extends ViewPart {
 				}
 			};
 			zeroButton.addSelectionListener(zeroListener);
+			
 		}
 		
 		Comparator<String> passEComparator = new Comparator<String>() {
@@ -180,42 +183,20 @@ public class ContinuousModeControllerView extends ViewPart {
 			}
 		};
 		passEnergy.addSelectionListener(passEnergyListener);
-		passEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+		passEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 
-		label = new Label(comp, SWT.NONE);
-		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		label.setText("centreEnergy");
-		centreEnergy = new ScaleBox(comp, SWT.NONE);
-		centreEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		centreEnergy.setUnit("eV");
-		centreEnergy.setDecimalPlaces(3);
-		centreEnergy.setFieldName("centreEnergy");
-		centreEnergy.on();
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("centre_energy")), true, "centreEnergy", 4, null, true);
+		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1));
 		
-		label = new Label(comp, SWT.NONE);
-		GridData gd_label = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
-		gd_label.horizontalIndent = 15;
-		label.setLayoutData(gd_label);
-		label.setText("photonEnergy");
-		photonEnergy = new ScaleBox(comp, SWT.NONE);
-		photonEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		photonEnergy.setUnit("eV");
-		photonEnergy.setDecimalPlaces(3);
-		
-		label = new Label(comp, SWT.NONE);
-		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		label.setText("timePerStep");
-		timePerStep = new ScaleBox(comp, SWT.NONE);
-		timePerStep.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		timePerStep.setUnit("s");
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("energy")), true, "photonEnergy", 4, null, true);
+		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+	
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("acquire_time")), true, "timePerStep", 2
+				, null, true);
+		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1));
 
-		label = new Label(comp, SWT.NONE);
-		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		label.setText("exitSlit");
-		exitSlit = new ScaleBox(comp, SWT.NONE);
-		exitSlit.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		exitSlit.setUnit("mm");
-		exitSlit.setDecimalPlaces(3);
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("exit_slit")), true, "exitSlit", 4, null, true);
+		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 	}
 
 	@Override
