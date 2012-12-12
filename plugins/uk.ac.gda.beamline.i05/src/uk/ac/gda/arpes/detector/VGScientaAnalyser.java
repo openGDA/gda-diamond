@@ -124,10 +124,62 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 	
 	@Override
 	public void setCollectionTime(double collectionTime) throws DeviceException {
-	try {
-		getAdBase().setAcquireTime(collectionTime);
-	} catch (Exception e) {
-		throw new DeviceException("error setting collection time", e);
+		try {
+			getAdBase().setAcquireTime(collectionTime);
+		} catch (Exception e) {
+			throw new DeviceException("error setting collection time", e);
+		}
 	}
+	
+	public void setLensMode(String value) throws Exception {
+		controller.setLensMode(value);
+	}
+	
+	public String getLensMode() throws Exception {
+		return controller.getLensMode();
+	}
+	
+	public void setPassEnergy(Integer value) throws Exception {
+		controller.setPassEnergy(value);
+	}
+	
+	public Integer getPassEnergy() throws Exception {
+			return controller.getPassEnergy();
+	}
+	
+	public void setStartEnergy(Double value) throws Exception {
+		controller.setStartEnergy(value);
+	}
+	
+	public Double getStartEnergy() throws Exception {
+		return getStartEnergy();
+	}
+
+	public void setCentreEnergy(Double value) throws Exception {
+		controller.setCentreEnergy(value);
+	}
+	
+	public Double getCentreEnergy() throws Exception {
+		return controller.getCentreEnergy();
+	}
+
+	public void setEndEnergy(Double value) throws Exception {
+		controller.setEndEnergy(value);
+	}
+	
+	public Double getEndEnergy() throws Exception {
+		return controller.getEndEnergy();
+	}
+
+	public void setEnergyStep(Double value) throws Exception {
+		controller.setEnergyStep(value);
+	}
+	
+	public Double getEnergyStep() throws Exception {
+		return controller.getEnergyStep();
+	}
+	
+	public void zeroSupplies() throws Exception {
+		controller.zeroSupplies();
 	}
 }

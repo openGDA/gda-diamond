@@ -56,6 +56,7 @@ public class VGScientaController implements Configurable {
 	public static final String FRAMES_RBV = "FRAMES_RBV";
 	public static final String SLICE = "SLICES";
 	public static final String SLICE_RBV = "SLICES_RBV";
+	public static final String ZERO_SUPPLIES = "ZERO_SUPPLIES";
 	
 	/**
 	 * Map that stores the channel against the PV name
@@ -112,7 +113,7 @@ public class VGScientaController implements Configurable {
 			i = i + 1;
 		}
 		
-		throw new Exception("unkown pass energy");
+		throw new Exception("unknown pass energy");
 	}
 	
 	public Integer getPassEnergy() throws Exception {
@@ -197,5 +198,9 @@ public class VGScientaController implements Configurable {
 	
 	public Integer getSlice() throws Exception {
 		return EPICS_CONTROLLER.cagetInt(getChannel(SLICE_RBV));
+	}
+	
+	public void zeroSupplies() throws Exception {
+		EPICS_CONTROLLER.caput(getChannel(ZERO_SUPPLIES), 1);
 	}
 }

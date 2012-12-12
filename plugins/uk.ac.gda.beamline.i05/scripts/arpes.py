@@ -41,13 +41,12 @@ class APRESRun:
         self.checkDevice()
         if self.bean.isSweptMode():
             raise "swept mode not supported"
-        self.scienta.prepareFixedMode()
-        self.scienta.controller.setPassEnergy(self.bean.getPassEnergy())
-        self.scienta.controller.setLensMode(self.bean.getLensMode())
-        self.scienta.controller.setCentreEnergy((self.bean.getEndEnergy()+self.bean.getStartEnergy())/2.0)
+        else:
+            self.scienta.prepareFixedMode()
+            self.scienta.setPassEnergy(self.bean.getPassEnergy())
+            self.scienta.setLensMode(self.bean.getLensMode())
+            self.scienta.setCentreEnergy((self.bean.getEndEnergy()+self.bean.getStartEnergy())/2.0)
         self.scienta.getAdBase().setNumExposures(self.bean.getIterations())
-        self.scienta.getAdBase().setTriggerMode(0)
-        self.scienta.getAdBase().setImageMode(0)
         self.scienta.setCollectionTime(self.bean.getTimePerStep())
         #set temperature
         #set photonenergy

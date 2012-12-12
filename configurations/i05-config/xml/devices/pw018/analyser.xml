@@ -100,6 +100,16 @@
 		</property>
 	</bean>
 	
+	<bean id="centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL05I-EA-DET-01:CAM:CENTRE_ENERGY_RBV" />
+		<property name="pvNameSetPoint" value="BL05I-EA-DET-01:CAM:CENTRE_ENERGY" />
+	</bean>	
+	
+	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL05I-EA-DET-01:CAM:AcquireTime_RBV" />
+		<property name="pvNameSetPoint" value="BL05I-EA-DET-01:CAM:AcquireTime" />
+	</bean>
+	
 	<bean id="AnalyserCapabilities" class="uk.ac.gda.arpes.detector.AnalyserCapabilties" />
 	
 	<bean id="AnalyserLive" class="uk.ac.gda.arpes.detector.AnalyserLiveDataDispatcher">
