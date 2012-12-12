@@ -63,7 +63,7 @@
          tooltip="analyser entrance slit setting">
    </Scannable>
       <Scannable
-         name="sampletemp"
+         name="sample_temp"
          tooltip="sample temperature">
    </Scannable>
       <Scannable
@@ -73,6 +73,10 @@
       <Scannable
          name="energy"
          tooltip="photon energy">
+   </Scannable>
+      <Scannable
+         name="sa"
+         tooltip="cryo manipulator">
    </Scannable>
 </extension>
 <extension

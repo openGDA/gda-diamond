@@ -50,10 +50,28 @@ public class ContinuousModeControllerView extends ViewPart {
 	private Button startButton;
 	private Button stopButton;
 	private Button zeroButton;
+	private String[] lensModes;
+	private String[] passArray;
 
 	public ContinuousModeControllerView() {
 	}
 
+	private int comboForMode(String mode) {
+		for (int i = 0; i < lensModes.length; i++) {
+			if (lensModes[i].equals(mode))
+				return i;
+		} 
+		return -1;
+	}
+	private int comboForPE(String pe) {
+		pe = pe + " eV";
+		for (int i = 0; i < passArray.length; i++) {
+			if (passArray[i].equals(pe))
+				return i;
+		} 
+		return -1;
+	}
+	
 	@Override
 	public void createPartControl(Composite parent) {	
 		capabilities = new AnalyserCapabilties();
@@ -65,9 +83,68 @@ public class ContinuousModeControllerView extends ViewPart {
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		label.setText("lensMode");
 		lensMode = new Combo(comp, SWT.NONE);
-		lensMode.setItems(capabilities.lens2angles.keySet().toArray(new String[0]));
 		lensMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-
+		lensModes = capabilities.lens2angles.keySet().toArray(new String[0]);
+		lensMode.setItems(lensModes);
+		String activeLensMode = JythonServerFacade.getInstance().evaluateCommand("analyser.getLensMode()");
+		lensMode.select(comboForMode(activeLensMode));
+		SelectionListener lensModeListener = new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				JythonServerFacade.getInstance().runCommand(String.format("analyser.setLensMode(\"%s\")", lensMode.getItems()[lensMode.getSelectionIndex()] ));
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		};
+		lensMode.addSelectionListener(lensModeListener);
+			
+		{
+			composite = new Composite(comp, SWT.NONE);
+			composite.setLayout(new GridLayout(1, false));
+			composite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 4));
+			startButton = new Button(composite, SWT.NONE);
+			
+			startButton.setText("Start");
+			SelectionListener startListener = new SelectionListener() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					JythonServerFacade.getInstance().runCommand("am.start()");				
+				}
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+			};
+			startButton.addSelectionListener(startListener);
+			
+			stopButton = new Button(composite, SWT.NONE);
+			stopButton.setText("Stop");
+			SelectionListener stopListener = new SelectionListener() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					JythonServerFacade.getInstance().runCommand("am.stop()");				
+				}
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+			};
+			stopButton.addSelectionListener(stopListener);
+			
+			zeroButton = new Button(composite, SWT.NONE);
+			zeroButton.setText("Zero Supplies");
+			zeroButton.setEnabled(true);
+			SelectionListener zeroListener = new SelectionListener() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					JythonServerFacade.getInstance().runCommand("analyser.zeroSupplies()");				
+				}
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+			};
+			zeroButton.addSelectionListener(zeroListener);
+		}
+		
 		Comparator<String> passEComparator = new Comparator<String>() {
 			@Override
 			public int compare(String o1, String o2) {
@@ -85,79 +162,21 @@ public class ContinuousModeControllerView extends ViewPart {
 			put("200 eV", (short) 200);
 			put("500 eV", (short) 500);
 		}};
-		
-		composite = new Composite(comp, SWT.NONE);
-		composite.setLayout(new GridLayout(1, false));
-		composite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 4));
-		SelectionListener lensModeListener = new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				JythonServerFacade.getInstance().runCommand(String.format("am.setLensMode(\"%s\")", lensMode.getItems()[lensMode.getSelectionIndex()] ));
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-		lensMode.addSelectionListener(lensModeListener);
-			
-		startButton = new Button(composite, SWT.NONE);
-		startButton.setText("Start");
-		SelectionListener startListener = new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				JythonServerFacade.getInstance().runCommand("am.start()");				
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-		startButton.addSelectionListener(startListener);
-		
-		stopButton = new Button(composite, SWT.NONE);
-		stopButton.setText("Stop");
-		SelectionListener stopListener = new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				JythonServerFacade.getInstance().runCommand("am.stop()");				
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-		stopButton.addSelectionListener(stopListener);
-		
-		zeroButton = new Button(composite, SWT.NONE);
-		zeroButton.setText("Zero Supplies");
-		zeroButton.setEnabled(false);
-		
 		label = new Label(comp, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		label.setText("passEnergy");
 		passEnergy = new Combo(comp, SWT.NONE);
-		passEnergy.setItems(passMap.keySet().toArray(new String[] {}));
+		passArray = passMap.keySet().toArray(new String[] {});
+		passEnergy.setItems(passArray);
+		String activePE = JythonServerFacade.getInstance().evaluateCommand("analyser.getPassEnergy()");
+		passEnergy.select(comboForPE(activePE));
 		SelectionListener passEnergyListener = new SelectionListener() {
-			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				JythonServerFacade.getInstance().runCommand(String.format("am.setPassEnergy(%d)", passMap.get(passEnergy.getItem(passEnergy.getSelectionIndex()))));
+				JythonServerFacade.getInstance().runCommand(String.format("analyser.setPassEnergy(%d)", passMap.get(passEnergy.getItem(passEnergy.getSelectionIndex()))));
 			}
-			
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 		};
 		passEnergy.addSelectionListener(passEnergyListener);
@@ -190,7 +209,6 @@ public class ContinuousModeControllerView extends ViewPart {
 		timePerStep.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		timePerStep.setUnit("s");
 
-		
 		label = new Label(comp, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		label.setText("exitSlit");
@@ -203,27 +221,4 @@ public class ContinuousModeControllerView extends ViewPart {
 	@Override
 	public void setFocus() {
 	}
-	
-//	@Override
-//	public void valueChangePerformed(ValueEvent e) {
-//	
-//			if (e.getFieldName().equals("lensMode")) { 
-//				JythonServerFacade.getInstance().runCommand(String.format("am.setLensMode(\"%s\")", lensMode.getItems()[lensMode.getSelectionIndex()] ));
-//			}
-//			if (e.getFieldName().equals("passEnergy")) { 
-//				JythonServerFacade.getInstance().runCommand(String.format("am.setPassEnergy(\"%5.5f\")", passEnergy.getItems()[passEnergy.getSelectionIndex()] ));
-//			}		
-//			if (e.getFieldName().equals("timePerStep")) { 
-//				JythonServerFacade.getInstance().runCommand(String.format("am.setCollectionTime(\"%5.5f\")", ((Number) timePerStep.getValue()).doubleValue() ));
-//			}	
-//			if (e.getFieldName().equals("photonEnergy")) { 
-//				JythonServerFacade.getInstance().runCommand(String.format("am.setPhotonEnergy(\"%5.5f\")", ((Number) photonEnergy.getValue()).doubleValue() ));
-//			}
-//	}
-
-//	@Override
-//	public String getValueListenerName() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 }
