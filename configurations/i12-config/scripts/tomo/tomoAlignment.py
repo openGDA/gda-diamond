@@ -13,6 +13,7 @@ import sys
 import os
 import subprocess
 from fast_scan import FastScan
+from topup_pause import TopupPause
 from gda.jython.ScriptBase import checkForPauses
 from i12utilities import setSubdirectory
 from i12utilities import pwd
@@ -52,7 +53,8 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     pco = f.find("pco")
     pco.setADCMode(1)
     pco.stop();
-    pco.setExternalTriggered(isLiveMode())
+    #pco.setExternalTriggered(isLiveMode())
+    pco.setExternalTriggered(True)
         
     if verbose:
         print "pco external triggered:" + `pco.isExternalTriggered()`
@@ -95,11 +97,12 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
         print 'Sample Acq#' + `sampleAcquisitionTime`
         print 'Sample Acq Time divided#' + `timeDividedAcq`
     fastScan = FastScan('fastScan')
+    topUp = TopupPause("topUp")
     isTomoScanSuccess = True
     try:
         pco.getController().disarmCamera()
         #tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize[desiredResolution], 0, 0, 10, 10, 0, additionalScannables=[fastScan])
-        tomoScan(description, positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, 10, 10, 0, additionalScannables=[fastScan])
+        tomoScan(description, positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, 10, 10, 0, additionalScannables=[fastScan,topUp])
     except Exception, ex:
         print "in exception"
         isTomoScanSuccess = False
@@ -459,12 +462,14 @@ def moveToModule(moduleNum):
         cam1_z = f.find("cam1_z")
         cam1_x = f.find("cam1_x")
         cam1_roll = f.find("cam1_roll")
-        sampleTiltX = 0.0615;
+        cameraModuleLookup = f.find("moduleMotorPositionLUT")
+        
+        ss1RxLookup = cameraModuleLookup.lookupValue(moduleNum, "ss1_rx")
         sampleTiltZ = 0.0
         cameraSafeZ = -10.0
-        updateScriptController("Module align:moving ss1_rx to" + `round(sampleTiltX, 2)`)
+        updateScriptController("Module align:moving ss1_rx to" + `round(ss1RxLookup, 2)`)
         checkForPauses()
-        ss1_rx.asynchronousMoveTo(sampleTiltX)
+        ss1_rx.asynchronousMoveTo(ss1RxLookup)
         while ss1_rz.isBusy():
             updateScriptController("Module align:waiting for ss1_rz to" + `round(ss1_rz.position, 2)`)
             sleep(5)
@@ -472,8 +477,6 @@ def moveToModule(moduleNum):
         updateScriptController("Module align:moving ss1_rz to" + `round(sampleTiltZ, 2)`)
         checkForPauses()
         ss1_rz.asynchronousMoveTo(sampleTiltZ)
-        
-        cameraModuleLookup = f.find("moduleMotorPositionLUT")
         
         cam1xLookup = cameraModuleLookup.lookupValue(moduleNum, "cam1_x")
         cam1zLookup = cameraModuleLookup.lookupValue(moduleNum, "cam1_z")
@@ -654,40 +657,62 @@ def autoFocus(acqTime):
     afyCropEnd = int(moduleLookup.lookupValue(module, "AFCropEndY"))
     #scan(ix, 0, 1, 0.1)
     
-    scan([cam1_z, cam1zLookup - 2, cam1zLookup + 2.2, 0.2, pco, acqTime])
+    #scan([cam1_z, cam1zLookup - 2, cam1zLookup + 2.2, 0.2, pco, acqTime])
+    scan([cam1_z, -76, -81, .1, pco, 2.5])
     print pwd() + "/projections";
     
-    numImgs = 21
+    numImgs = 51
     pathname = pwd() + "/projections/"
+    autofocusImages(pathname)
+   
+    #cam1_z.moveTo(nxsModel.entry1.pco.cam1_z[biggestIndex])
+def loadImageIntoPlot(tiffimageFullPath):
+    dataset = dnp.io.load(tiffimageFullPath)[0]
+    dataset.metadata=None
+    dnp.plot.image(dataset)
+
+def autoFocusRight(pathname, numImgs=51):
+    autofocusImages(pathname, 3265, 1137, 3815, 1534, numImgs)
+
+def autoFocusLeft(pathname, numImgs=51):
+    autofocusImages(pathname, 111, 974, 565, 1345, numImgs)
+    
+def autofocusImages(pathname, cropxStart, cropyStart, cropxEnd, cropyEnd, numImgs):
     index = 0
     biggestSum = 0
     biggestIndex = 0
+    imageName=None
+    print "CropX Start:"+`cropxStart`
+    print "CropY Start:"+`cropyStart`
+    print "CropX End:"+`cropxEnd`
+    print "CropY End:"+`cropyEnd`
+    
     for num in range(0, numImgs):
         fileName = pathname + ("p_%05d.tif" % num)
         print fileName
         dataset = dnp.io.load(fileName)[0]
         dataset.metadata = None
         dnp.plot.image(dataset)
-        ds = dataset.getSlice([afyCropStart, afxCropStart], [afyCropEnd, afxCropEnd], [1, 1])
+        ds = dataset.getSlice([cropyStart, cropxStart], [cropyEnd, cropxEnd], [1, 1])
         dnp.plot.image(ds)
         medianFilter = Image.medianFilter(dnp.abs(ds), [3, 3])
         sobell = Image.sobelFilter(dnp.abs(medianFilter))
         dnp.plot.image(sobell)
         sobellSum = dnp.abs(sobell).sum()
-        print "index" + `index`
+        print "index:" + `index`
         print "SobellSum:" + `sobellSum`
         if sobellSum > biggestSum :
             biggestSum = sobellSum
             biggestIndex = index
+            imageName=fileName
         index = index + 1
         print '________________'
     print "BiggestIndex:" + `biggestIndex`
+    print "Image Name:" + `imageName`
     nexusFile = pwd() + ".nxs"
+    print "Nexus file looking into :"+`nexusFile`
     nxsModel = dnp.io.load(nexusFile)
     print nxsModel.entry1.pco.cam1_z[biggestIndex]
-    #cam1_z.moveTo(nxsModel.entry1.pco.cam1_z[biggestIndex])
-    
-    
 
 class TomoAlignmentConfigurationManager:
     def __init__(self):
@@ -773,11 +798,11 @@ class TomoAlignmentConfiguration:
             if verbose:
                 print 'Attempting to move into requested module'
             checkForPauses()
-            #moveToModule(self.moduleNum)
+            moveToModule(self.moduleNum)
             checkForPauses()
             if verbose:
                 print 'Aligning cam stage and sample stage motors'
-            #moveTomoAlignmentMotors(self.motorMoveMap)
+            moveTomoAlignmentMotors(self.motorMoveMap)
             if verbose:
                 print 'All motors in place - starting tomography scan'
             checkForPauses()
