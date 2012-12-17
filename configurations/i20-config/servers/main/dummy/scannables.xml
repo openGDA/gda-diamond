@@ -55,4 +55,20 @@
 		<property name="motor" ref="test_motor" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
+	
+	<!-- more needs adding to this list -->
+	<bean id="sample_alignment" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sample_x" />
+				<ref bean="sample_y" />
+				<ref bean="sample_z" />
+				<ref bean="sample_pitch" />
+				<ref bean="sample_roll" />
+				<ref bean="sample_rot" />
+				<ref bean="filterwheel" />
+			</list>
+		</property>
+	</bean>
+	
 </beans>
