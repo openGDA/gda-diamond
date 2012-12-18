@@ -110,7 +110,7 @@
         <ionChamber>
             <name>I1</name>
             <deviceName>I1</deviceName>
-            <channel>1</channel>
+            <channel>4</channel>
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>1 nA/V</gain>
             <gasType>He</gasType>
