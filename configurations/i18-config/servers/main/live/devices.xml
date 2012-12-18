@@ -509,5 +509,26 @@
 	<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN"></property>
 	<property name="local" value="true"/>
 </bean>
+
+<bean id="qexafs_energy" class="gda.device.scannable.QexafsScannable">
+	<property name="motor" ref="energy_motor" />
+	<property name="lowerGdaLimits" value="2000" />
+	<property name="upperGdaLimits" value="40000" />
+	<property name="outputFormat">
+		<list>
+			<value>%.2f</value>
+		</list>
+	</property>
+	<property name="outputModePV" value="BL18I-OP-DCM-01:COMP:CTRL" />
+	<property name="startPV" value="BL18I-OP-DCM-01:COMP:START" />
+	<property name="stopPV" value="BL18I-OP-DCM-01:COMP:STOP" />
+	<property name="stepPV" value="BL18I-OP-DCM-01:COMP:STEP" />
+	<property name="accelPV" value="BL18I-OP-DCM-01:BRAGG.ACCL" />
+	<property name="braggCurrentSpeedPV" value="BL18I-OP-DCM-01:ENERGY.VELO" />
+	<property name="braggMaxSpeedPV" value="BL18I-OP-DCM-01:ENERGY.VMAX" />
+	<property name="stepIncDegPV" value="BL18I-OP-DCM-01:COMP:STEP" />
+	<property name="pulseWidthDegPV" value="BL18I-OP-DCM-01:COMP:PULSE" />
+	<property name="numPulsesPV" value="BL18I-OP-DCM-01:COMP:NPULSES" />
+</bean>
 	
 </beans>

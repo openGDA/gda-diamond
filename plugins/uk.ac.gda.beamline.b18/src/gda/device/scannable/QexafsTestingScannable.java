@@ -24,7 +24,6 @@ import gda.device.DeviceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.exafs.ui.views.scalersmonitor.IQexafsScannableState;
 
 /**
  * For testing the QEXAFS on B18 with the signals from the Bragg encoder replaced by a pulse generator.
