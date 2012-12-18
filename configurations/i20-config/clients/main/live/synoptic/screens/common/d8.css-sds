@@ -248,12 +248,24 @@
   <property type="sds.action" id="actionData">
     <actionData>
       <action_attribut type="COMMIT_VALUE">
-        <property_attribut type="sds.string" id="description" value="Screen in" />
-        <property_attribut type="sds.string" id="value" value="Screen" />
-      </action_attribut>
-      <action_attribut type="COMMIT_VALUE">
         <property_attribut type="sds.string" id="description" value="Out of beam" />
         <property_attribut type="sds.string" id="value" value="Out of beam" />
+      </action_attribut>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="HRM in" />
+        <property_attribut type="sds.string" id="value" value="HRM in" />
+      </action_attribut>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="current" />
+        <property_attribut type="sds.string" id="value" value="current" />
+      </action_attribut>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="current -2" />
+        <property_attribut type="sds.string" id="value" value="current -2" />
+      </action_attribut>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="current - 3" />
+        <property_attribut type="sds.string" id="value" value="current - 3" />
       </action_attribut>
     </actionData>
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
@@ -356,7 +368,9 @@
   <property type="sds.color" id="colour.foreground">
     <color hex="#000000" />
   </property>
-  <property type="sds.string" id="viewid" value="uk.ac.gda.video.views.cameraview:7" />
+  <property type="sds.string" id="viewid" value="uk.ac.gda.video.views.cameraview:6" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.Textinput">
   <property type="sds.behavior" id="behavior" value="" />
@@ -534,6 +548,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.Label">
   <property type="sds.behavior" id="behavior" value="" />

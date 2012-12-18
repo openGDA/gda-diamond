@@ -186,7 +186,9 @@
   <property type="sds.color" id="colour.foreground">
     <color hex="#000000" />
   </property>
-  <property type="sds.string" id="viewid" value="uk.ac.gda.video.views.cameraview:3" />
+  <property type="sds.string" id="viewid" value="uk.ac.gda.video.views.cameraview:2" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.Rectangle">
   <property type="sds.behavior" id="behavior" value="none" />
@@ -463,6 +465,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.SVG">
   <property type="sds.behavior" id="behavior" value="" />
@@ -1125,6 +1129,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.SVG">
   <property type="sds.behavior" id="behavior" value="" />

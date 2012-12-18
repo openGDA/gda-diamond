@@ -232,9 +232,9 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="0" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="133" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
@@ -272,14 +272,14 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="168" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="84" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
     <property type="sds.font" id="font">
-      <font font="Arial, 8" />
+      <font font="Cursor, 10" />
     </property>
     <property type="sds.option" id="textAlignment">
       <option id="0" />
@@ -380,14 +380,14 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="168" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="84" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
     <property type="sds.font" id="font">
-      <font font="Arial, 8" />
+      <font font="Cursor, 10" />
     </property>
     <property type="sds.option" id="textAlignment">
       <option id="0" />
@@ -440,9 +440,9 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="0" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="133" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
@@ -523,14 +523,14 @@
     <actionData />
   </property>
   <property type="sds.integer" id="position.x" value="36" />
-  <property type="sds.integer" id="position.y" value="24" />
+  <property type="sds.integer" id="position.y" value="27" />
   <property type="sds.integer" id="width" value="133" />
-  <property type="sds.integer" id="height" value="24" />
+  <property type="sds.integer" id="height" value="20" />
   <property type="sds.color" id="color.foreground">
     <color hex="#0000C0" />
   </property>
   <property type="sds.font" id="font">
-    <font font="Arial, 8" />
+    <font font="Cursor, 10" />
   </property>
   <property type="sds.option" id="textAlignment">
     <option id="0" />
@@ -584,14 +584,14 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="168" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="84" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
     <property type="sds.font" id="font">
-      <font font="Arial, 8" />
+      <font font="Cursor, 10" />
     </property>
     <property type="sds.option" id="textAlignment">
       <option id="0" />
@@ -644,9 +644,9 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="0" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="133" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
@@ -732,14 +732,14 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="168" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="84" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
     <property type="sds.font" id="font">
-      <font font="Arial, 8" />
+      <font font="Cursor, 10" />
     </property>
     <property type="sds.option" id="textAlignment">
       <option id="0" />
@@ -792,9 +792,9 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="0" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="133" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
@@ -880,14 +880,14 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="168" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="84" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
     <property type="sds.font" id="font">
-      <font font="Arial, 8" />
+      <font font="Cursor, 10" />
     </property>
     <property type="sds.option" id="textAlignment">
       <option id="0" />
@@ -940,9 +940,9 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="0" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="133" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
@@ -1028,14 +1028,14 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="168" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="84" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
     <property type="sds.font" id="font">
-      <font font="Arial, 8" />
+      <font font="Cursor, 10" />
     </property>
     <property type="sds.option" id="textAlignment">
       <option id="0" />
@@ -1088,9 +1088,9 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="0" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="133" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
@@ -1176,14 +1176,14 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="168" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="84" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
     <property type="sds.font" id="font">
-      <font font="Arial, 8" />
+      <font font="Cursor, 10" />
     </property>
     <property type="sds.option" id="textAlignment">
       <option id="0" />
@@ -1236,9 +1236,9 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="0" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="133" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
@@ -1324,14 +1324,14 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="168" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="84" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
     <property type="sds.font" id="font">
-      <font font="Arial, 8" />
+      <font font="Cursor, 10" />
     </property>
     <property type="sds.option" id="textAlignment">
       <option id="0" />
@@ -1384,9 +1384,9 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="0" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="133" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
@@ -1472,14 +1472,14 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="168" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="84" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
     <property type="sds.font" id="font">
-      <font font="Arial, 8" />
+      <font font="Cursor, 10" />
     </property>
     <property type="sds.option" id="textAlignment">
       <option id="0" />
@@ -1532,9 +1532,9 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="0" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="133" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
@@ -1620,14 +1620,14 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="168" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="84" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
     <property type="sds.font" id="font">
-      <font font="Arial, 8" />
+      <font font="Cursor, 10" />
     </property>
     <property type="sds.option" id="textAlignment">
       <option id="0" />
@@ -1680,9 +1680,9 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="0" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="133" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
@@ -1768,14 +1768,14 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="168" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="84" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
     <property type="sds.font" id="font">
-      <font font="Arial, 8" />
+      <font font="Cursor, 10" />
     </property>
     <property type="sds.option" id="textAlignment">
       <option id="0" />
@@ -1828,9 +1828,9 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="0" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="133" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
@@ -1916,14 +1916,14 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="168" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="84" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
     <property type="sds.font" id="font">
-      <font font="Arial, 8" />
+      <font font="Cursor, 10" />
     </property>
     <property type="sds.option" id="textAlignment">
       <option id="0" />
@@ -1976,9 +1976,9 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="0" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="133" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
@@ -2064,14 +2064,14 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="168" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="84" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
     <property type="sds.font" id="font">
-      <font font="Arial, 8" />
+      <font font="Cursor, 10" />
     </property>
     <property type="sds.option" id="textAlignment">
       <option id="0" />
@@ -2124,9 +2124,9 @@
       <actionData />
     </property>
     <property type="sds.integer" id="position.x" value="0" />
-    <property type="sds.integer" id="position.y" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="133" />
-    <property type="sds.integer" id="height" value="24" />
+    <property type="sds.integer" id="height" value="20" />
     <property type="sds.color" id="color.foreground">
       <color hex="#0000C0" />
     </property>
@@ -2166,154 +2166,6 @@
   </property>
   <property type="sds.integer" id="position.x" value="36" />
   <property type="sds.integer" id="position.y" value="336" />
-  <property type="sds.integer" id="width" value="265" />
-  <property type="sds.integer" id="height" value="29" />
-  <property type="sds.boolean" id="transparency" value="true" />
-  <property type="sds.color" id="color.foreground">
-    <color hex="#0000C0" />
-  </property>
-  <property type="sds.color" id="color.background">
-    <color hex="#E6E6E6" />
-  </property>
-  <property type="sds.boolean" id="visibility" value="true" />
-  <property type="sds.option" id="border.style">
-    <option id="1" />
-  </property>
-  <property type="sds.integer" id="border.width" value="0" />
-  <property type="sds.color" id="border.color">
-    <color hex="#640000" />
-  </property>
-  <property type="sds.boolean" id="enabled" value="true" />
-  <property type="sds.string" id="permission_id" value="" />
-  <property type="sds.choiceoption" id="cursor">
-    <option id="cursor.default" />
-  </property>
-  <property type="sds.double" id="rotation" value="0.0" />
-  <property type="sds.paramstring" id="tooltip" value="${aliases}" />
-  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
-  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
-  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
-  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
-</widget>
-<widget type="org.csstudio.sds.components.GroupingContainer">
-  <aliasDescriptors>
-    <aliasDescriptor name="call" value="gda://xtal_plus1_pitch" />
-  </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
-  <widget type="org.csstudio.sds.components.Label">
-    <property type="sds.behavior" id="behavior" value="none" />
-    <property type="sds.string" id="primary_pv" value="" />
-    <property type="sds.string" id="name" value="LabelModel" />
-    <property type="sds.map" id="aliases">
-      <map />
-    </property>
-    <property type="sds.action" id="actionData">
-      <actionData />
-    </property>
-    <property type="sds.integer" id="position.x" value="168" />
-    <property type="sds.integer" id="position.y" value="0" />
-    <property type="sds.integer" id="width" value="84" />
-    <property type="sds.integer" id="height" value="24" />
-    <property type="sds.color" id="color.foreground">
-      <color hex="#0000C0" />
-    </property>
-    <property type="sds.font" id="font">
-      <font font="Arial, 8" />
-    </property>
-    <property type="sds.option" id="textAlignment">
-      <option id="0" />
-    </property>
-    <property type="sds.double" id="text_rotation" value="90.0" />
-    <property type="sds.integer" id="offset.x" value="0" />
-    <property type="sds.integer" id="offset.y" value="0" />
-    <property type="sds.boolean" id="transparent_background" value="true" />
-    <property type="sds.color" id="color.background">
-      <color hex="#E6E6E6" />
-    </property>
-    <property type="sds.boolean" id="visibility" value="true" />
-    <property type="sds.option" id="border.style">
-      <option id="1" />
-    </property>
-    <property type="sds.integer" id="border.width" value="0" />
-    <property type="sds.color" id="border.color">
-      <color hex="#640000" />
-    </property>
-    <property type="sds.boolean" id="enabled" value="true" />
-    <property type="sds.string" id="permission_id" value="" />
-    <property type="sds.choiceoption" id="cursor">
-      <option id="cursor.default" />
-    </property>
-    <property type="sds.string" id="value.text" value="">
-      <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-        <inputChannel name="$call$.offset, double" value="" />
-      </dynamicsDescriptor>
-    </property>
-    <property type="sds.string" id="value.text.unit" value="" />
-    <property type="sds.option" id="value_type">
-      <option id="1" />
-    </property>
-    <property type="sds.integer" id="precision" value="4" />
-    <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
-    <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
-    <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
-    <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
-    <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
-  </widget>
-  <widget type="org.csstudio.sds.components.DeviceName">
-    <property type="sds.behavior" id="behavior" value="none" />
-    <property type="sds.string" id="primary_pv" value="" />
-    <property type="sds.string" id="name" value="DeviceNameModel" />
-    <property type="sds.map" id="aliases">
-      <map />
-    </property>
-    <property type="sds.action" id="actionData">
-      <actionData />
-    </property>
-    <property type="sds.integer" id="position.x" value="0" />
-    <property type="sds.integer" id="position.y" value="0" />
-    <property type="sds.integer" id="width" value="133" />
-    <property type="sds.integer" id="height" value="24" />
-    <property type="sds.color" id="color.foreground">
-      <color hex="#0000C0" />
-    </property>
-    <property type="sds.color" id="color.background">
-      <color hex="#E6E6E6" />
-    </property>
-    <property type="sds.boolean" id="visibility" value="true" />
-    <property type="sds.option" id="border.style">
-      <option id="1" />
-    </property>
-    <property type="sds.integer" id="border.width" value="0" />
-    <property type="sds.color" id="border.color">
-      <color hex="#640000" />
-    </property>
-    <property type="sds.boolean" id="enabled" value="true" />
-    <property type="sds.string" id="permission_id" value="" />
-    <property type="sds.choiceoption" id="cursor">
-      <option id="cursor.default" />
-    </property>
-    <property type="sds.paramstring" id="tooltip" value="${aliases}" />
-    <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
-    <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
-    <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
-    <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
-  </widget>
-  <property type="sds.behavior" id="behavior" value="none" />
-  <property type="sds.string" id="primary_pv" value="$channel$" />
-  <property type="sds.string" id="name" value="GroupingContainerModel" />
-  <property type="sds.map" id="aliases">
-    <map>
-      <mapEntry name="call" value="gda://xtal_plus1_pitch" />
-    </map>
-  </property>
-  <property type="sds.action" id="actionData">
-    <actionData />
-  </property>
-  <property type="sds.integer" id="position.x" value="36" />
-  <property type="sds.integer" id="position.y" value="360" />
   <property type="sds.integer" id="width" value="265" />
   <property type="sds.integer" id="height" value="29" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -2398,14 +2250,14 @@
     <actionData />
   </property>
   <property type="sds.integer" id="position.x" value="198" />
-  <property type="sds.integer" id="position.y" value="25" />
+  <property type="sds.integer" id="position.y" value="28" />
   <property type="sds.integer" id="width" value="97" />
-  <property type="sds.integer" id="height" value="24" />
+  <property type="sds.integer" id="height" value="20" />
   <property type="sds.color" id="color.foreground">
     <color hex="#0000C0" />
   </property>
   <property type="sds.font" id="font">
-    <font font="Arial, 8" />
+    <font font="Cursor, 10" />
   </property>
   <property type="sds.option" id="textAlignment">
     <option id="0" />
@@ -2437,6 +2289,154 @@
   </property>
   <property type="sds.integer" id="precision" value="2" />
   <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+</widget>
+<widget type="org.csstudio.sds.components.GroupingContainer">
+  <aliasDescriptors>
+    <aliasDescriptor name="call" value="gda://xtal_plus1_pitch" />
+  </aliasDescriptors>
+  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <widget type="org.csstudio.sds.components.Label">
+    <property type="sds.behavior" id="behavior" value="none" />
+    <property type="sds.string" id="primary_pv" value="" />
+    <property type="sds.string" id="name" value="LabelModel" />
+    <property type="sds.map" id="aliases">
+      <map />
+    </property>
+    <property type="sds.action" id="actionData">
+      <actionData />
+    </property>
+    <property type="sds.integer" id="position.x" value="168" />
+    <property type="sds.integer" id="position.y" value="3" />
+    <property type="sds.integer" id="width" value="84" />
+    <property type="sds.integer" id="height" value="20" />
+    <property type="sds.color" id="color.foreground">
+      <color hex="#0000C0" />
+    </property>
+    <property type="sds.font" id="font">
+      <font font="Cursor, 10" />
+    </property>
+    <property type="sds.option" id="textAlignment">
+      <option id="0" />
+    </property>
+    <property type="sds.double" id="text_rotation" value="90.0" />
+    <property type="sds.integer" id="offset.x" value="0" />
+    <property type="sds.integer" id="offset.y" value="0" />
+    <property type="sds.boolean" id="transparent_background" value="true" />
+    <property type="sds.color" id="color.background">
+      <color hex="#E6E6E6" />
+    </property>
+    <property type="sds.boolean" id="visibility" value="true" />
+    <property type="sds.option" id="border.style">
+      <option id="1" />
+    </property>
+    <property type="sds.integer" id="border.width" value="0" />
+    <property type="sds.color" id="border.color">
+      <color hex="#640000" />
+    </property>
+    <property type="sds.boolean" id="enabled" value="true" />
+    <property type="sds.string" id="permission_id" value="" />
+    <property type="sds.choiceoption" id="cursor">
+      <option id="cursor.default" />
+    </property>
+    <property type="sds.string" id="value.text" value="">
+      <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+        <inputChannel name="$call$.offset, double" value="" />
+      </dynamicsDescriptor>
+    </property>
+    <property type="sds.string" id="value.text.unit" value="" />
+    <property type="sds.option" id="value_type">
+      <option id="1" />
+    </property>
+    <property type="sds.integer" id="precision" value="4" />
+    <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
+    <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+    <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+    <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  </widget>
+  <widget type="org.csstudio.sds.components.DeviceName">
+    <property type="sds.behavior" id="behavior" value="none" />
+    <property type="sds.string" id="primary_pv" value="" />
+    <property type="sds.string" id="name" value="DeviceNameModel" />
+    <property type="sds.map" id="aliases">
+      <map />
+    </property>
+    <property type="sds.action" id="actionData">
+      <actionData />
+    </property>
+    <property type="sds.integer" id="position.x" value="0" />
+    <property type="sds.integer" id="position.y" value="3" />
+    <property type="sds.integer" id="width" value="133" />
+    <property type="sds.integer" id="height" value="20" />
+    <property type="sds.color" id="color.foreground">
+      <color hex="#0000C0" />
+    </property>
+    <property type="sds.color" id="color.background">
+      <color hex="#E6E6E6" />
+    </property>
+    <property type="sds.boolean" id="visibility" value="true" />
+    <property type="sds.option" id="border.style">
+      <option id="1" />
+    </property>
+    <property type="sds.integer" id="border.width" value="0" />
+    <property type="sds.color" id="border.color">
+      <color hex="#640000" />
+    </property>
+    <property type="sds.boolean" id="enabled" value="true" />
+    <property type="sds.string" id="permission_id" value="" />
+    <property type="sds.choiceoption" id="cursor">
+      <option id="cursor.default" />
+    </property>
+    <property type="sds.paramstring" id="tooltip" value="${aliases}" />
+    <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+    <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+    <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  </widget>
+  <property type="sds.behavior" id="behavior" value="none" />
+  <property type="sds.string" id="primary_pv" value="$channel$" />
+  <property type="sds.string" id="name" value="GroupingContainerModel" />
+  <property type="sds.map" id="aliases">
+    <map>
+      <mapEntry name="call" value="gda://xtal_plus1_pitch" />
+    </map>
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.integer" id="position.x" value="36" />
+  <property type="sds.integer" id="position.y" value="360" />
+  <property type="sds.integer" id="width" value="265" />
+  <property type="sds.integer" id="height" value="29" />
+  <property type="sds.boolean" id="transparency" value="true" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000C0" />
+  </property>
+  <property type="sds.color" id="color.background">
+    <color hex="#E6E6E6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.double" id="rotation" value="0.0" />
+  <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
   <property type="sds.string" id="layer" value="DEFAULT" />

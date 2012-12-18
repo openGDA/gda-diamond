@@ -8,10 +8,10 @@ function execute(args) {
 	
 	var result =0.0;
 	
-	if(argument1 == "in") {
+	if(argument1 == "In") {
 	    result = 40.0;  
 	}
-	else if(argument1 == "out") {
+	else if(argument1 == "Out") {
 	    result = 0.0;
 	}
 	return result;

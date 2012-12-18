@@ -217,18 +217,18 @@
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.double" id="readback" value="0.0">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://energy" value="" />
-      <outputChannel name="gda://energy, double" value="" />
+      <inputChannel name="gda://bragg1" value="" />
+      <outputChannel name="gda://bragg1, double" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.double" id="high" value="10.0">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://energy.highlimit" value="" />
+      <inputChannel name="gda://bragg1.highlimit" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.double" id="low" value="-10.0">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://energy.lowlimit" value="" />
+      <inputChannel name="gda://bragg1.lowlimit" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.string" id="units" value="deg" />
@@ -750,7 +750,7 @@
     </dynamicsDescriptor>
   </property>
   <property type="sds.option" id="value_type">
-    <option id="1" />
+    <option id="0" />
   </property>
   <property type="sds.integer" id="precision" value="2" />
   <property type="sds.paramstring" id="tooltip" value="" />
@@ -1013,12 +1013,12 @@
   </property>
   <property type="sds.double" id="high" value="10.0">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://bragg2.highlimit" value="" />
+      <inputChannel name="gda://bragg1.highlimit" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.double" id="low" value="-10.0">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://bragg2.lowlimit" value="" />
+      <inputChannel name="gda://bragg1.lowlimit" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.string" id="units" value="deg" />
@@ -1264,6 +1264,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="none" />
@@ -1328,6 +1330,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="none" />
@@ -1392,6 +1396,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="none" />
@@ -1456,6 +1462,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="none" />
@@ -1520,6 +1528,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 
 </display>
