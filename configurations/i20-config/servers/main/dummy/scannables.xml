@@ -44,6 +44,19 @@
 		<property name="local" value="true"/>
 	</bean>
 
+<!-- this is in machine.xml in the live config -->
+	<bean id="shutter1" class="gda.device.enumpositioner.DummyValve">
+		<property name="position" value="Open" />
+	</bean>
+
+	<bean id="shutterChecker" class="gda.device.scannable.ShutterChecker">
+		<constructor-arg index="0">
+			<ref bean="shutter1" />
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>BL20I-PS-IOC-01:M11:LOP</value>
+		</constructor-arg>
+	</bean>
 
 	<bean id="test_motor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="200" />
