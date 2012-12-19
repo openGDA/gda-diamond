@@ -21,4 +21,5 @@ package uk.ac.gda.beamline.i13i.views;
 public class ViewFactoryIds {
 	public static String StatusViewID="uk.ac.gda.beamline.i13i.views.StatusView";
 	public static String AlignmentViewID="uk.ac.gda.beamline.i13i.views.AlignmentView";
+	public static String HistogramViewID = "uk.ac.gda.beamline.i13i.ADScaleAdjustmentView";
 }

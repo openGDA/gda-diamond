@@ -110,6 +110,13 @@
             id="uk.ac.gda.beamline.i13i.NormalisedImage"
             name="Normalised Image"
             restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="gda.rcp.views.ViewFactory:adScaleAdjustmentView"
+            id="uk.ac.gda.beamline.i13i.ADScaleAdjustmentView"
+            name="ScaleAdjustmentView"
+            restorable="false">
       </view>                       
    </extension>
    <extension

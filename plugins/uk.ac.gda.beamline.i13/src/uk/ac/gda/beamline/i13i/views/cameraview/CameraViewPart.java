@@ -88,6 +88,7 @@ import uk.ac.diamond.scisoft.analysis.dataset.Stats;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.IImagePositionEvent;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.ImagePositionListener;
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
+import uk.ac.gda.beamline.i13i.views.ViewFactoryIds;
 import uk.ac.gda.client.viewer.ImageViewer;
 
 /**
@@ -344,6 +345,19 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			}
 		};
 		showRawData.setToolTipText("Displays hi resolution image in 'Detector Image' window");
+
+		Action showHistogram = new Action("Show Histogram") {
+			@Override
+			public void run() {
+				try {
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ViewFactoryIds.HistogramViewID);
+				} catch (Exception e) {
+					reportErrorToUserAndLog("Error showing histogram view", e);
+				}
+			}
+		};
+		showHistogram.setToolTipText("Displays the histogram of the stream");
+		
 		
 		reconnectAction = new Action("Reconnect to Image Stream") {
 			@Override
@@ -521,6 +535,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		showActions.add(showImageMarkerAction);
 		showActions.add(rotationAxisAction);
 		showActions.add(showRawData);
+		showActions.add(showHistogram);
 		showActions.add(showNormalisedImageAction);
 		showActions.add(zoomFit);
 		
