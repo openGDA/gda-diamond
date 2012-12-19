@@ -138,6 +138,14 @@
             name="Polling Dashboard"
             restorable="true">
       </view>
+         <view
+               category="gda.rcp.arpes"
+               class="uk.ac.gda.arpes.ui.views.SampleMetadataView"
+               icon="icons/sample.gif"
+               id="uk.ac.gda.arpes.ui.view.samplemetadata"
+               name="Sample Information"
+               restorable="true">
+         </view>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
