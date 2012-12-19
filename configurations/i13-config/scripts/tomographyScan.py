@@ -115,7 +115,8 @@ def showNormalisedImage(outOfBeamPosition, exposureTime=None):
     tomoScan(tomography_translation(), outOfBeamPosition, exposureTime, start=currentTheta, stop=currentTheta, step=1., imagesPerDark=1, imagesPerFlat=1)
     lsdp=jns.lastScanDataPoint()
     detName=tomography_detector.getName()
-    dataset=dnp.io.load(lsdp.currentFilename)['entry1/pco1_hw_tif/image_data']
+    key=str('entry1/' + tomography_detector.getName() + '/image_data')
+    dataset=dnp.io.load(lsdp.currentFilename)[key]
     dark=dnp.array((dataset[0,:,:]).cast(6))
     flat=dnp.array((dataset[1,:,:]).cast(6))
     image=dnp.array((dataset[2,:,:]).cast(6))
