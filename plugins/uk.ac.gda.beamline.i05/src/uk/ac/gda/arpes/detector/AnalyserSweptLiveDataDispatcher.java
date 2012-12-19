@@ -34,8 +34,8 @@ import uk.ac.diamond.scisoft.analysis.SDAPlotter;
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
-class AnalyserLiveDataDispatcher implements MonitorListener, Configurable, Findable {
-	private static final Logger logger = LoggerFactory.getLogger(AnalyserLiveDataDispatcher.class);
+class AnalyserSweptLiveDataDispatcher implements MonitorListener, Configurable, Findable {
+	private static final Logger logger = LoggerFactory.getLogger(AnalyserSweptLiveDataDispatcher.class);
 
 	private String plotName;
 	private VGScientaAnalyser analyser;

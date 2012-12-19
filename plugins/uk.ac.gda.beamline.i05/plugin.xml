@@ -115,13 +115,14 @@
             name="Detector Plot"
             restorable="true">
       </view>
-   </extension>
-      <extension
-         point="org.eclipse.ui.views">
-      <category
-            name="Data Acquisition - ARPES"
-            id="gda.rcp.arpes">
-      </category>
+      <view
+            category="gda.rcp.arpes"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            icon="icons/sample.gif"
+            id="uk.ac.gda.client.arpes.sweptview"
+            name="Swept Plot"
+            restorable="true">
+      </view>
       <view
             category="gda.rcp.arpes"
             class="uk.ac.gda.arpes.ui.ContinuousModeControllerView"

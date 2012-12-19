@@ -58,7 +58,7 @@ public class SampleMetadataView extends ViewPart {
 		parent.setLayout(gl_parent);
 		{
 			Group grpFrame = new Group(parent, SWT.NONE);
-			grpFrame.setText("Frame");
+			grpFrame.setText("Iteration");
 			GridData gd_grpElapsedTime = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 			gd_grpElapsedTime.widthHint = 60;
 			grpFrame.setLayoutData(gd_grpElapsedTime);
@@ -76,11 +76,11 @@ public class SampleMetadataView extends ViewPart {
 			GridData gd_grpElapsedTime = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 			gd_grpElapsedTime.widthHint = 120;
 			grpElapsedTime.setLayoutData(gd_grpElapsedTime);
-			grpElapsedTime.setText("Tfg Status");
+			grpElapsedTime.setText("Scan Status");
 			grpElapsedTime.setLayout(new FillLayout(SWT.HORIZONTAL));
 			{
 				frameStatus = new Label(grpElapsedTime, SWT.NONE);
-				frameStatus.setText("BORED");
+				frameStatus.setText("UNKNOWN");
 				frameStatus.setFont(SWTResourceManager.getFont("Sans", 12, SWT.NORMAL));
 				frameStatus.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
 				frameStatus.setAlignment(SWT.CENTER);
