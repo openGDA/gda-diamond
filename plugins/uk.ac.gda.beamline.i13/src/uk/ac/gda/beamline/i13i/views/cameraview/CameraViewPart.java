@@ -855,14 +855,16 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			ffmpegStream.setQUALITY(100.);
 			NDPluginBase ffmpegBase = ffmpegStream.getPluginBase();
 			String procPortName_RBV = procBase.getPortName_RBV();
-			if (!ffmpegBase.getNDArrayPort_RBV().equals(procPortName_RBV))
+			String ndArrayPort_RBV = ffmpegBase.getNDArrayPort_RBV();
+			if (ndArrayPort_RBV == null || !ndArrayPort_RBV.equals(procPortName_RBV))
 				ffmpegBase.setNDArrayPort(procPortName_RBV);
 			if (!ffmpegBase.isCallbacksEnabled_RBV())
 				ffmpegBase.enableCallbacks();
 
 			NDPluginBase arrayBase = cameraConfig.getNdArray().getPluginBase();
 			String procNdArrayPort_RBV = procBase.getNDArrayPort_RBV();
-			if (!arrayBase.getNDArrayPort_RBV().equals(procNdArrayPort_RBV))
+			String ndArrayPort_RBV2 = arrayBase.getNDArrayPort_RBV();
+			if (ndArrayPort_RBV2 == null || !ndArrayPort_RBV2.equals(procNdArrayPort_RBV))
 				arrayBase.setNDArrayPort(procNdArrayPort_RBV);
 			if (!arrayBase.isCallbacksEnabled_RBV())
 				arrayBase.enableCallbacks();		
@@ -882,7 +884,12 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			videoReceiver = motionJpegOverHttpReceiverSwt;
 		}
 		cameraComposite.setVideoReceiver(videoReceiver);
-		videoReceiver.start();
+		getSite().getShell().getDisplay().asyncExec(new Runnable(){
+			@Override
+			public void run() {
+				videoReceiver.start();
+			}});
+
 
 	}
 
@@ -922,7 +929,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				try {
 					autoExposureTask(autoExposureTime, topQuantileValToUse, monitor);
 				} catch (Exception e) {
-					throw new InvocationTargetException(e, "Error in autoExposureTask");
+					throw new InvocationTargetException(e, "Error in autoExposureTask :" + e.getMessage());
 				}
 				monitor.done();
 			}
@@ -1111,7 +1118,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 	Label imageDateLabel;
 
-	DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
+	DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
 
 	private void showRotationAxis(boolean show) throws DeviceException {
@@ -1199,6 +1206,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		return reconnectAction;
 	}
 
+	long timeOfLastImage=System.currentTimeMillis();
 	@Override
 	public void handlerNewImageNotification(ImageData newImage) throws DeviceException {
 		// On the first image, ensure we reset the display to match incoming image dimensions
@@ -1207,7 +1215,9 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			showRotationAxisFromUIThread(rotationAxisAction);
 			showImageMarkerFromUIThread(showImageMarkerAction);
 		}
-		imageDateLabel.setText(df.format(new Date()));
+		long ctime = System.currentTimeMillis();
+		imageDateLabel.setText(df.format(new Date(ctime)) + " Rate:"+ 1000.0/(ctime-timeOfLastImage) + "Hz");
+		timeOfLastImage = ctime;
 /*		getViewSite().getShell().getDisplay().asyncExec(new Runnable() {
 
 			@Override
@@ -1220,7 +1230,12 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 	@Override
 	public void dispose() {
 		super.dispose();
+		if (videoReceiver != null) {
+			videoReceiver.closeConnection();
+			videoReceiver = null;
+		}
 		if (cameraComposite != null) {
+			cameraComposite.setVideoReceiver(null);
 			cameraComposite.dispose();
 		}
 	}

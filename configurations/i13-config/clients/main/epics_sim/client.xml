@@ -10,5 +10,10 @@
 
 	<context:property-placeholder location="file:${gda.config}/properties/epics_sim/java.properties,file:${gda.config}/properties/java.properties" />
 
-	<import resource="../live/live_client_common.xml" />
+	<import resource="../common.xml" />
+	<import resource="../../../devices/epics_sim/pco1_ndplugins.xml"/>
+	<bean id="ringCurrent" class="gda.device.scannable.DummyScannable" />
+	<bean id="idGap" class="gda.device.scannable.DummyScannable"/>
+	<bean id="timeToRefill" class="gda.device.scannable.DummyScannable"/>
+	
 </beans>
