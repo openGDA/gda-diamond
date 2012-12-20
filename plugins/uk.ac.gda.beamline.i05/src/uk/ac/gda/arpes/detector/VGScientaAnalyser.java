@@ -48,22 +48,30 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 		this.controller = controller;
 	}
 
+	public int getNumberOfSweeptSteps() throws Exception {
+		//FIXME this is unreliable if not wrong
+		return (int) Math.round((controller.getEndEnergy() - controller.getStartEnergy()) / controller.getEnergyStep()); 
+	}
+	
 	public double[] getEnergyAxis() throws Exception {
 		double start, step;
+		int length, startChannel = 0;
 		if (controller.getAcquisitionMode().equalsIgnoreCase("Fixed")) {
 			int pass = controller.getPassEnergy().intValue();
 			start = controller.getCentreEnergy() - (getCapabilities().getEnergyWidthForPass(pass) / 2);
 			step = getCapabilities().getEnergyStepForPass(pass);
+			length = getAdBase().getSizeX();
+			startChannel = getAdBase().getMinX();
 		} else {
 			start = controller.getStartEnergy();
 			step = controller.getEnergyStep();
+			length = getNumberOfSweeptSteps();
 		}
 
-		int[] dims = determineDataDimensions(getNdArray());
 
-		double[] axis = new double[dims[1]];
-		for (int j = 0; j < dims[1]; j++) {
-			axis[j] = start + j * step;
+		double[] axis = new double[length];
+		for (int j = 0; j < length; j++) {
+			axis[j] = start + (j+startChannel) * step;
 		}
 		return axis;
 	}
@@ -85,8 +93,13 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 					false);
 
 			i = 0;
-			aname = "angles";
-			aunit = "degree";
+			if ("Transmission".equals(getLensMode())) {
+				aname = "angles";
+				aunit = "degree";
+			} else {
+				aname = "location";
+				aunit = "mm";
+			}
 			axis = getAngleAxis();
 
 			data.addAxis(getName(), aname, new int[] { axis.length }, NexusFile.NX_FLOAT64, axis, i + 1, 1, aunit,

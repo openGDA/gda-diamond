@@ -39,14 +39,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.gda.arpes.detector.AnalyserCapabilties;
-import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
 
 public class ContinuousModeControllerView extends ViewPart {
 	private AnalyserCapabilties capabilities;
 	private Combo lensMode;
 	private Combo passEnergy;
-	private ScaleBox centreEnergy;
-	private ScaleBox timePerStep;
 	private Composite composite;
 	private Button startButton;
 	private Button stopButton;
@@ -86,7 +83,7 @@ public class ContinuousModeControllerView extends ViewPart {
 		label.setText("lensMode");
 		lensMode = new Combo(comp, SWT.NONE);
 		lensMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-		lensModes = capabilities.lens2angles.keySet().toArray(new String[0]);
+		lensModes = capabilities.getLensModes();
 		lensMode.setItems(lensModes);
 		String activeLensMode = JythonServerFacade.getInstance().evaluateCommand("analyser.getLensMode()");
 		lensMode.select(comboForMode(activeLensMode));

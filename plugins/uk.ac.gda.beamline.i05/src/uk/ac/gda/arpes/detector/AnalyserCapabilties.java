@@ -28,7 +28,7 @@ public class AnalyserCapabilties implements Findable {
 
 	private String name = "AnalyserCapabilties";
 	
-	public Map<String, double[]> lens2angles = new HashMap<String, double[]>();
+	private Map<String, double[]> lens2angles = new HashMap<String, double[]>(8);
 	
 	public AnalyserCapabilties() {
 		for(Object[] o: new Object[][] {
@@ -69,15 +69,15 @@ public class AnalyserCapabilties implements Findable {
 	}
 	
 	public Short[] getPassEnergies() {
-		return new Short[] { 1, 2, 5, 10, 20, 50, 100, 200, 500 };
+		return new Short[] { 1, 2, 5, 10, 20, 50, 100, 200 };
 	}
 	
 	public double getEnergyWidthForPass(int pass) {
-		return pass/10.0;
+		return 16.7478/200*pass;
 	}
 	
 	public double getEnergyStepForPass(int pass) {
-		return pass/10000.0;
+		return 16.119/200*pass;
 	}
 	
 	public double[] getAngleAxis(String lensTable, int startChannel, int length) {
@@ -85,5 +85,9 @@ public class AnalyserCapabilties implements Findable {
 			throw new ArrayIndexOutOfBoundsException("unknown lens table "+lensTable);
 		double[] doubles = lens2angles.get(lensTable);
 		return Arrays.copyOfRange(doubles, startChannel, startChannel + length);
+	}
+	
+	public String[] getLensModes() {
+		return lens2angles.keySet().toArray(new String[0]);
 	}
 }
