@@ -18,7 +18,6 @@
 
 package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
 
-import gda.device.detector.areadetector.v17.NDStats;
 import gda.rcp.views.AbstractFindableExecutableExtension;
 
 import org.eclipse.core.runtime.CoreException;
@@ -27,7 +26,7 @@ public class ADScaleAdjustmentViewExecutableExtension extends AbstractFindableEx
 
 	
 	String viewTitle;
-	private NDStats ndStats;
+	private ScaleAdjustmentViewConfig config;
 	
 	
 	public String getViewTitle() {
@@ -41,11 +40,11 @@ public class ADScaleAdjustmentViewExecutableExtension extends AbstractFindableEx
 
 	@Override
 	public Object create() throws CoreException {
-		return new ADScaleAdjustmentView(ndStats);
+		return new ADScaleAdjustmentView(config);
 	}
 
-	public void setNdStats(NDStats ndStats) {
-		this.ndStats = ndStats;
+	public void setScaleAdjustmentViewConfig(ScaleAdjustmentViewConfig config) {
+		this.config = config;
 	}
 
 	@Override

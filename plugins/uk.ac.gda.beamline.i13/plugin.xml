@@ -112,11 +112,10 @@
             restorable="true">
       </view>
       <view
-            allowMultiple="true"
+            allowMultiple="false"
             class="gda.rcp.views.ViewFactory:adScaleAdjustmentView"
             id="uk.ac.gda.beamline.i13i.ADScaleAdjustmentView"
-            name="ScaleAdjustmentView"
-            restorable="false">
+            name="ScaleAdjustmentView">
       </view>                       
    </extension>
    <extension

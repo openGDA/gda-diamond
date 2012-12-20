@@ -45,6 +45,7 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 	private Scannable cameraXYScannable;
 	private String autoCentreCmd;
 	private String showNormalisedImageCmd;
+	private String histogramPlotId;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -70,6 +71,8 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 			throw new IllegalArgumentException("displayScaleProvider not defined");
 		if (imageViewerListener == null)
 			throw new IllegalArgumentException("imageViewerListener not defined");
+		if (histogramPlotId == null)
+			throw new IllegalArgumentException("histogramPlotId not defined");
 
 	}
 
@@ -198,6 +201,15 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 
 	public void setShowNormalisedImageCmd(String showNormalisedImageCmd) {
 		this.showNormalisedImageCmd = showNormalisedImageCmd;
+	}
+
+	@Override
+	public String getHistogramPlotId() {
+		return histogramPlotId;
+	}
+
+	public void setHistogramPlotId(String histogramPlotId) {
+		this.histogramPlotId = histogramPlotId;
 	}
 
 	

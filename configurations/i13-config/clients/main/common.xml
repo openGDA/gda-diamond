@@ -36,8 +36,14 @@
 	</bean>
 
 	<bean id="adScaleAdjustmentView" class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.ADScaleAdjustmentViewExecutableExtension">
-	<property name="ndStats" ref="pco1_stat"/>
+	<property name="ScaleAdjustmentViewConfig">
+		<bean class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.ScaleAdjustmentViewConfig">
+		<property name="ndStats" ref = "pco1_stat"/>
+		<property name="ndProcess" ref = "pco1_proc1"/>
+		</bean>
+		</property>
 	</bean>	
+	
 	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
 	<property name="viewTitle" value="Status"/>
 	<property name="compositeFactories">

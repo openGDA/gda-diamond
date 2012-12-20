@@ -34,6 +34,7 @@ Export-Package: uk.ac.gda.beamline.i13i,
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.gda.core, uk.ac.gda.libs
 Import-Package: org.dawb.common.ui.plot,
+ org.dawb.common.ui.plot.region,
  org.dawb.common.ui.plot.tool,
  org.dawb.common.ui.plot.trace,
  org.dawb.workbench.plotting.util,

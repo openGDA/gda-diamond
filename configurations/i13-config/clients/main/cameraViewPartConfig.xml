@@ -96,6 +96,7 @@
 		<property name="displayScaleProvider" ref="displayScaleProvider" />
 		<property name="cameraXYScannable" ref="cameraXYScannable"/>
 		<property name="showNormalisedImageCmd" value="tomographyScan.showNormalisedImage(%s)"/>
+		<property name="histogramPlotId" value="uk.ac.gda.beamline.i13i.ADScaleAdjustmentView"/>
 	</bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class"

@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2011 Diamond Light Source Ltd.
+ * Copyright © 2012 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -16,9 +16,26 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views;
+package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
 
-public class ViewFactoryIds {
-	public static String StatusViewID="uk.ac.gda.beamline.i13i.views.StatusView";
-	public static String AlignmentViewID="uk.ac.gda.beamline.i13i.views.AlignmentView";
+import gda.device.detector.areadetector.v17.NDProcess;
+import gda.device.detector.areadetector.v17.NDStats;
+
+public class ScaleAdjustmentViewConfig {
+	public NDStats ndStats;
+	public NDProcess ndProc;
+	public NDStats getNdStats() {
+		return ndStats;
+	}
+	public NDProcess getNdProc() {
+		return ndProc;
+	}
+	public void setNdStats(NDStats ndStats) {
+		this.ndStats = ndStats;
+	}
+	public void setNdProcess(NDProcess ndProc) {
+		this.ndProc = ndProc;
+	}
+	
+	
 }

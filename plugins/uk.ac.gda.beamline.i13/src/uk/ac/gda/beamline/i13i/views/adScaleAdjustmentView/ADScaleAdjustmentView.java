@@ -18,8 +18,10 @@
 
 package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
 
+import gda.device.detector.areadetector.v17.NDProcess;
 import gda.device.detector.areadetector.v17.NDStats;
 
+import org.dawb.common.ui.plot.tool.IToolPageSystem;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -30,11 +32,12 @@ import org.springframework.beans.factory.InitializingBean;
 
 public class ADScaleAdjustmentView extends ViewPart implements InitializingBean{
 	private static final Logger logger = LoggerFactory.getLogger(ADScaleAdjustmentView.class);
-	private NDStats ndStats;
-	private ADScaleAdjustmentComposite adScaleAdjustmentComposite;
 
-	public ADScaleAdjustmentView(NDStats ndStats2) {
-		ndStats = ndStats2;
+	private ADScaleAdjustmentComposite adScaleAdjustmentComposite;
+	ScaleAdjustmentViewConfig config;
+	
+	public ADScaleAdjustmentView(ScaleAdjustmentViewConfig config) {
+		this.config = config;
 	}
 
 	@Override
@@ -44,7 +47,7 @@ public class ADScaleAdjustmentView extends ViewPart implements InitializingBean{
 	@Override
 	public void createPartControl(Composite parent) {
 		parent.setLayout(new FillLayout());
-		adScaleAdjustmentComposite = new ADScaleAdjustmentComposite(this, parent, SWT.NONE, ndStats);
+		adScaleAdjustmentComposite = new ADScaleAdjustmentComposite(this, parent, SWT.NONE, config);
 		try {
 			adScaleAdjustmentComposite.start();
 		} catch (Exception e) {
@@ -64,4 +67,13 @@ public class ADScaleAdjustmentView extends ViewPart implements InitializingBean{
 		adScaleAdjustmentComposite.dispose();
 	}
 
+	@Override
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class clazz) {
+		if (clazz == IToolPageSystem.class) {
+			return this.adScaleAdjustmentComposite.getPlottingSystem();
+		}
+		return super.getAdapter(clazz);
+	}
+	
+	
 }

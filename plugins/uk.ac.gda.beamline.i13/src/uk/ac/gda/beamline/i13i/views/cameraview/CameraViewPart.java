@@ -35,6 +35,7 @@ import gda.observable.IObserver;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -88,7 +89,6 @@ import uk.ac.diamond.scisoft.analysis.dataset.Stats;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.IImagePositionEvent;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.ImagePositionListener;
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
-import uk.ac.gda.beamline.i13i.views.ViewFactoryIds;
 import uk.ac.gda.client.viewer.ImageViewer;
 
 /**
@@ -183,7 +183,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		connectedLbl.setVisible(false);
 		
 		Group latestImageGroup = new Group(btnCmp,SWT.NONE);
-		latestImageGroup.setText("Time of last image");
+		latestImageGroup.setText("Time of last image : Rate");
 		latestImageGroup.setLayout( new RowLayout());
 		imageDateLabel = new Label(latestImageGroup,SWT.NONE);
 		imageDateLabel.setText("Waiting for image...");
@@ -350,7 +350,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			@Override
 			public void run() {
 				try {
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ViewFactoryIds.HistogramViewID);
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(cameraConfig.getHistogramPlotId());
 				} catch (Exception e) {
 					reportErrorToUserAndLog("Error showing histogram view", e);
 				}
@@ -1133,7 +1133,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 	Label imageDateLabel;
 
-	DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+	DateFormat df = new SimpleDateFormat("hh:mm:ss");
 
 
 	private void showRotationAxis(boolean show) throws DeviceException {
@@ -1231,16 +1231,9 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			showImageMarkerFromUIThread(showImageMarkerAction);
 		}
 		long ctime = System.currentTimeMillis();
-		imageDateLabel.setText(df.format(new Date(ctime)) + " Rate:"+ 1000.0/(ctime-timeOfLastImage) + "Hz");
+		imageDateLabel.setText(df.format(new Date(ctime)) + String.format(": %3.3g Hz", 1000.0/(ctime-timeOfLastImage)));
 		timeOfLastImage = ctime;
-/*		getViewSite().getShell().getDisplay().asyncExec(new Runnable() {
-
-			@Override
-			public void run() {
-				imageDateLabel.setText(df.format(new Date()));
-				
-			}});
-*/	}
+	}
 
 	@Override
 	public void dispose() {
