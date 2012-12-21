@@ -1,8 +1,10 @@
-# Changed script to attempt to get Library path working.
 source /dls_sw/dasc/tools_versions/set_tools.sh
-
-#export gda.client.jython.automatic.interpreter=true
 
 export LD_LIBRARY_PATH=/dls_sw/b18/software/gda/plugins/uk.ac.gda.nexus/lib/linux-x86_64:/dls_sw/b18/software/gda/plugins/uk.ac.gda.core/lib/linux-x86_64
 
 /dls_sw/b18/software/gda/client/gda-b18
+
+
+#export LD_LIBRARY_PATH=/dls_sw/b18/software/gda_git/gda-core.git/uk.ac.gda.nexus/lib/linux-x86_64:/dls_sw/b18/software/gda_git/gda-core.git/uk.ac.gda.core/lib/linux-x86_64
+#/dls_sw/b18/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda --debug --rcp_image /dls_sw/b18/software/gda_versions/gda_rel_8_26/client client
+

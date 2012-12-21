@@ -11,9 +11,8 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-nosplash
--vmargs
--Declipse.pluginCustomization=/dls_sw/b18/software/gda/plugins/uk.ac.gda.beamline.b18/plugin_customization.ini
+      <programArgs>-nosplash</programArgs>
+      <vmArgs>-Declipse.pluginCustomization=/dls_sw/b18/software/gda_git/gda-dls-beamlines-xas.git/uk.ac.gda.beamline.b18/plugin_customization.ini
 -Dgda.mode=live
 -Dgda.install.workspace.loc=/dls_sw/b18/software/gda
 -Dgda.install.git.loc=/dls_sw/b18/software/gda_git
