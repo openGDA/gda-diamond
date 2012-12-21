@@ -18,9 +18,6 @@
 
 package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
 
-import gda.device.detector.areadetector.v17.NDProcess;
-import gda.device.detector.areadetector.v17.NDStats;
-
 import org.dawb.common.ui.plot.tool.IToolPageSystem;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -34,9 +31,9 @@ public class ADScaleAdjustmentView extends ViewPart implements InitializingBean{
 	private static final Logger logger = LoggerFactory.getLogger(ADScaleAdjustmentView.class);
 
 	private ADScaleAdjustmentComposite adScaleAdjustmentComposite;
-	ScaleAdjustmentViewConfig config;
+	ADController config;
 	
-	public ADScaleAdjustmentView(ScaleAdjustmentViewConfig config) {
+	public ADScaleAdjustmentView(ADController config) {
 		this.config = config;
 	}
 

@@ -18,36 +18,30 @@
 
 package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
 
-import gda.rcp.views.AbstractFindableExecutableExtension;
-
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExecutableExtension;
+import org.eclipse.core.runtime.IExecutableExtensionFactory;
 
-public class ADScaleAdjustmentViewExecutableExtension extends AbstractFindableExecutableExtension{
+import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
+
+public class ADScaleAdjustmentViewExecutableExtension implements IExecutableExtensionFactory, IExecutableExtension{
 
 	
-	String viewTitle;
-	private ScaleAdjustmentViewConfig config;
-	
-	
-	public String getViewTitle() {
-		return viewTitle;
-	}
-
-	public void setViewTitle(String viewTitle) {
-		this.viewTitle = viewTitle;
-	}
-
-
 	@Override
 	public Object create() throws CoreException {
-		return new ADScaleAdjustmentView(config);
+		Object namedService = I13IBeamlineActivator.getNamedService(ADController.class, serviceName);
+		ADController adController = (ADController) namedService;
+		return new ADScaleAdjustmentView(adController);
 	}
 
-	public void setScaleAdjustmentViewConfig(ScaleAdjustmentViewConfig config) {
-		this.config = config;
-	}
-
+	String serviceName="";
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void setInitializationData(IConfigurationElement config, String propertyName, Object data)
+			throws CoreException {
+		if( propertyName.equals("class") && data instanceof String){
+			serviceName = (String)data;
+		}
+
 	}
 }
