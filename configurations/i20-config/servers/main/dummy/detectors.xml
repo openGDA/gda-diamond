@@ -105,7 +105,7 @@
 		</property>
 	</bean>
 	
-	<bean id="I1" class="gda.device.detector.countertimer.TfgScaler">
+	<bean id="I1" class="gda.device.detector.countertimer.TfgScalerWithFrames">
 		<property name="extraNames">
 			<list>
 				<value>Time</value>
@@ -115,6 +115,8 @@
 		<property name="scaler" ref="CalMemory" />
 		<property name="timer" ref="tfg" />
 		<property name="timeChannelRequired" value="true" />
+		<property name="outputLogValues" value="false" />
+		<property name="darkCurrentRequired" value="true" />
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="1" />
 		<property name="firstDataChannel" value="4" />

@@ -64,13 +64,16 @@ if LocalProperties.get("gda.mode") == "live":
     if (machineMode() == "No Beam"):
         remove_default([topupChecker])
         remove_default([absorberChecker])
+        remove_default([shutterChecker])
     else:
         add_default([topupChecker])
         add_default([absorberChecker])
+        add_default([shutterChecker])
 else:
     #LocalProperties.set("gda.data.scan.datawriter.dataFormat","XasAsciiDataWriter")
     remove_default([topupChecker])
     remove_default([absorberChecker])
+    remove_default([shutterChecker])
     
 
 #

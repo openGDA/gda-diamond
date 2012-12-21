@@ -19,6 +19,7 @@
 package gda.device.detector;
 
 import static org.junit.Assert.assertEquals;
+import gda.device.DeviceException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +46,7 @@ public class XHDetectorTest {
 	}
 	
 	@Test
-	public void testSimpleGroup(){
+	public void testSimpleGroup() throws DeviceException{
 		daserver.clearRecievedCommands();
 		
 		EdeScanParameters scan = new EdeScanParameters();
@@ -67,7 +68,7 @@ public class XHDetectorTest {
 	}
 	
 	@Test
-	public void testDelays(){
+	public void testDelays() throws DeviceException{
 		daserver.clearRecievedCommands();
 		
 		EdeScanParameters scan = new EdeScanParameters();
@@ -99,7 +100,7 @@ public class XHDetectorTest {
 	}
 	
 	@Test
-	public void testInputs(){
+	public void testInputs() throws DeviceException{
 		daserver.clearRecievedCommands();
 		
 		EdeScanParameters scan = new EdeScanParameters();
@@ -123,7 +124,7 @@ public class XHDetectorTest {
 	}
 	
 	@Test
-	public void testInputsFallingEdge(){
+	public void testInputsFallingEdge() throws DeviceException{
 		daserver.clearRecievedCommands();
 		
 		EdeScanParameters scan = new EdeScanParameters();
@@ -149,7 +150,7 @@ public class XHDetectorTest {
 
 	
 	@Test 
-	public void testOutputs(){
+	public void testOutputs() throws DeviceException{
 		daserver.clearRecievedCommands();
 		
 		EdeScanParameters scan = new EdeScanParameters();
@@ -174,7 +175,7 @@ public class XHDetectorTest {
 	}
 	
 	@Test 
-	public void testOutputsDelay(){
+	public void testOutputsDelay() throws DeviceException{
 		daserver.clearRecievedCommands();
 		
 		EdeScanParameters scan = new EdeScanParameters();
@@ -201,7 +202,7 @@ public class XHDetectorTest {
 
 	
 	@Test
-	public void testMixInputAndOuputs(){
+	public void testMixInputAndOuputs() throws DeviceException{
 		daserver.clearRecievedCommands();
 		
 		EdeScanParameters scan = new EdeScanParameters();

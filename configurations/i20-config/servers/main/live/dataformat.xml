@@ -314,6 +314,12 @@
 						</list>
 					</property>
 				</bean>				
+				<bean id="newLine3" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value=" " />
+				</bean>
+				<bean id="newLine4" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value=" " />
+				</bean>
 			</list>
 		</property>
 		<property name="footer">

@@ -112,7 +112,7 @@
 		</property>
 	</bean>
 	
-	<bean id="I1" class="gda.device.detector.countertimer.TfgScalerWithLogValues">
+	<bean id="I1" class="gda.device.detector.countertimer.TfgScalerWithFrames">
 		<property name="extraNames">
 			<list>
 				<value>Time</value>
