@@ -38,12 +38,14 @@
 	</bean>
 
 	<bean id="i13ADController"
-		class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.ScaleAdjustmentViewConfig">
-		<property name="ndStats" ref="pco1_stat" />
-		<property name="ndProcess" ref="pco1_proc1" />
+		class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.ADControllerImpl">
+		<property name="imageNDStats" ref="pco1_stat" />
+		<property name="liveViewNDProc" ref="pco1_proc1" />
+		<property name="imageNDArray" ref="pco1_arr"/>
 		<property name="imageHistSize" value="100"/>
-		<property name="imageHistMin" value="0"/>
-		<property name="imageHistMax" value="65535"/>
+		<property name="imageMin" value="0"/>
+		<property name="imageMax" value="65535"/>
+		<property name="detectorName" value="PCO"/>
 	</bean>
 
 	<bean id="dictionary"  class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.MyDictionary">

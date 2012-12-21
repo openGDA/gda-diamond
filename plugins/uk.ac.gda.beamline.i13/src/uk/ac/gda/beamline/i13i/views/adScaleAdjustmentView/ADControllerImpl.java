@@ -18,52 +18,80 @@
 
 package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
 
+import gda.device.detector.areadetector.v17.NDArray;
 import gda.device.detector.areadetector.v17.NDProcess;
 import gda.device.detector.areadetector.v17.NDStats;
 
-public class ScaleAdjustmentViewConfig implements ADController {
-	public NDStats ndStats;
-	public NDProcess ndProc;
+public class ADControllerImpl implements ADController {
+	public NDStats imageNDStats;
+	public NDProcess liveViewNDProc;
+	private NDArray imageNDArray;
 	private int imageHistSize;
-	private int imageHistMin;
-	private int imageHistMax;
+	private int imageMin;
+	private int imageMax;
+	private String detectorName;
+
 	@Override
-	public NDStats getImageStats() {
-		return ndStats;
+	public NDStats getImageNDStats() {
+		return imageNDStats;
 	}
+
 	@Override
-	public NDProcess getLiveViewProc() {
-		return ndProc;
+	public NDProcess getLiveViewNDProc() {
+		return liveViewNDProc;
 	}
-	public void setNdStats(NDStats ndStats) {
-		this.ndStats = ndStats;
+
+	public void setLiveViewNDProc(NDProcess ndProc) {
+		this.liveViewNDProc = ndProc;
 	}
-	public void setNdProcess(NDProcess ndProc) {
-		this.ndProc = ndProc;
-	}
-	
-	
+
 	@Override
 	public int getImageHistSize() {
 		return imageHistSize;
 	}
+
 	@Override
 	public int getImageMin() {
-		return imageHistMin;
+		return imageMin;
 	}
+
 	@Override
 	public int getImageMax() {
-		return imageHistMax;
+		return imageMax;
 	}
+
+	@Override
+	public String getDetectorName() {
+		return detectorName;
+	}
+
+	@Override
+	public NDArray getImageNDArray() {
+		return imageNDArray;
+	}
+
+	public void setImageNDStats(NDStats ndStats) {
+		this.imageNDStats = ndStats;
+	}
+
 	public void setImageHistSize(int imageHistSize) {
 		this.imageHistSize = imageHistSize;
 	}
-	public void setImageHistMin(int imageHistMin) {
-		this.imageHistMin = imageHistMin;
+
+	public void setImageMin(int imageMin) {
+		this.imageMin = imageMin;
 	}
-	public void setImageHistMax(int imageHistMax) {
-		this.imageHistMax = imageHistMax;
+
+	public void setImageMax(int imageMax) {
+		this.imageMax = imageMax;
 	}
-	
-	
+
+	public void setDetectorName(String detectorName) {
+		this.detectorName = detectorName;
+	}
+
+	public void setImageNDArray(NDArray imageNDArray) {
+		this.imageNDArray = imageNDArray;
+	}
+
 }

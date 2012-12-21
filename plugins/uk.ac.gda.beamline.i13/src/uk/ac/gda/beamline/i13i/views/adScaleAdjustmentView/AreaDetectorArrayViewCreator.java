@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2009 Diamond Light Source Ltd.
+ * Copyright © 2012 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -22,17 +22,29 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IExecutableExtensionFactory;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
 
-public class ADScaleAdjustmentViewExecutableExtension implements IExecutableExtensionFactory, IExecutableExtension{
-
+public class AreaDetectorArrayViewCreator implements IExecutableExtensionFactory, IExecutableExtension{
+	private static final Logger logger = LoggerFactory.getLogger(AreaDetectorArrayViewCreator.class);
 	
 	@Override
 	public Object create() throws CoreException {
 		Object namedService = I13IBeamlineActivator.getNamedService(ADController.class, serviceName);
 		ADController adController = (ADController) namedService;
-		return new ADScaleAdjustmentView(adController);
+		AreaDetectorArrayView view = new AreaDetectorArrayView(adController);
+		try {
+			view.afterPropertiesSet();
+			return view;
+		} catch (Exception e) {
+			logger.error("Error creating view ", e);
+			throw new CoreException(new Status(IStatus.ERROR, I13IBeamlineActivator.PLUGIN_ID,
+					"Error creating view :'" + e.getMessage() + "'"));
+		}
 	}
 
 	String serviceName="";

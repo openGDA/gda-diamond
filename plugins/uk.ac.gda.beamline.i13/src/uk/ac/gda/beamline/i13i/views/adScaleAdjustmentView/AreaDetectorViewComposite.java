@@ -18,10 +18,14 @@
 
 package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
 
+import java.lang.reflect.Array;
+
+import gda.device.detector.areadetector.v17.impl.NDArrayImpl;
 import gda.observable.Observable;
 import gda.observable.Observer;
 
 import org.dawb.common.ui.plot.AbstractPlottingSystem;
+import org.dawb.common.ui.plot.IAxis;
 import org.dawb.common.ui.plot.PlotType;
 import org.dawb.common.ui.plot.PlottingFactory;
 import org.dawb.common.ui.plot.region.IROIListener;
@@ -50,14 +54,14 @@ import org.eclipse.ui.IViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.diamond.scisoft.analysis.dataset.IndexIterator;
-import uk.ac.diamond.scisoft.analysis.dataset.Stats;
+import uk.ac.diamond.scisoft.analysis.dataset.ObjectDataset;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 
-public class ADScaleAdjustmentComposite extends Composite {
-	private static final Logger logger = LoggerFactory.getLogger(ADScaleAdjustmentComposite.class);
+public class AreaDetectorViewComposite extends Composite {
+	private static final String PROFILE = "PROFILE";
+
+	private static final Logger logger = LoggerFactory.getLogger(AreaDetectorViewComposite.class);
 
 	private final ADController config;
 
@@ -65,8 +69,8 @@ public class ADScaleAdjustmentComposite extends Composite {
 
 	private ILineTrace histogramTrace = null;
 	private DoubleDataset histogramXAxisRange = null;
-	private Observable<Integer> statsArrayCounterObservable;
-	private Observer<Integer> statsArrayCounterObserver;
+	private Observable<Integer> arrayArrayCounterObservable;
+	private Observer<Integer> arrayArrayCounterObserver;
 
 	private boolean histogramMonitoring = false;
 	private Button histogramMonitoringBtn;
@@ -85,7 +89,7 @@ public class ADScaleAdjustmentComposite extends Composite {
 	long current_mpegROIMax = Long.MAX_VALUE;
 	private RectangularROI current_mpegROI;
 
-	public ADScaleAdjustmentComposite(IViewPart parentViewPart, Composite parent, int style, ADController config) {
+	public AreaDetectorViewComposite(IViewPart parentViewPart, Composite parent, int style, ADController config) {
 		super(parent, style);
 		this.config = config;
 
@@ -146,9 +150,9 @@ public class ADScaleAdjustmentComposite extends Composite {
 				double offset = -min;
 				double scale = 255.0 / (max - min);
 				try {
-					ADScaleAdjustmentComposite.this.config.getLiveViewProc().setScale(scale);
-					ADScaleAdjustmentComposite.this.config.getLiveViewProc().setOffset(offset);
-					ADScaleAdjustmentComposite.this.config.getLiveViewProc().setEnableOffsetScale(1);
+					AreaDetectorViewComposite.this.config.getLiveViewNDProc().setScale(scale);
+					AreaDetectorViewComposite.this.config.getLiveViewNDProc().setOffset(offset);
+					AreaDetectorViewComposite.this.config.getLiveViewNDProc().setEnableOffsetScale(1);
 				} catch (Exception e1) {
 					logger.error("Error auto-scaling", e1);
 				}
@@ -196,11 +200,11 @@ public class ADScaleAdjustmentComposite extends Composite {
 	}
 
 	private double getMPEGProcOffset() throws Exception {
-		return config.getLiveViewProc().getOffset();
+		return config.getLiveViewNDProc().getOffset();
 	}
 
 	private double getMPEGProcScale() throws Exception {
-		return config.getLiveViewProc().getScale();
+		return config.getLiveViewNDProc().getScale();
 	}
 
 	protected void updateROIInGuiThread() {
@@ -217,8 +221,8 @@ public class ADScaleAdjustmentComposite extends Composite {
 	}
 
 	protected void createOrUpdateROI() throws Exception {
-		double scale = ADScaleAdjustmentComposite.this.getMPEGProcScale();
-		double offset = ADScaleAdjustmentComposite.this.getMPEGProcOffset();
+		double scale = AreaDetectorViewComposite.this.getMPEGProcScale();
+		double offset = AreaDetectorViewComposite.this.getMPEGProcOffset();
 		RectangularROI roi;
 		long min = (long) -offset;
 		long max = (long) (255.0 / scale + min);
@@ -261,9 +265,9 @@ public class ADScaleAdjustmentComposite extends Composite {
 					double max = min + roi.getLengths()[0];
 					double offset = -min;
 					double scale = 255.0 / (max - min);
-					ADScaleAdjustmentComposite.this.config.getLiveViewProc().setScale(scale);
-					ADScaleAdjustmentComposite.this.config.getLiveViewProc().setOffset(offset);
-					ADScaleAdjustmentComposite.this.config.getLiveViewProc().setEnableOffsetScale(1);
+					AreaDetectorViewComposite.this.config.getLiveViewNDProc().setScale(scale);
+					AreaDetectorViewComposite.this.config.getLiveViewNDProc().setOffset(offset);
+					AreaDetectorViewComposite.this.config.getLiveViewNDProc().setEnableOffsetScale(1);
 				}
 
 				@Override
@@ -275,9 +279,9 @@ public class ADScaleAdjustmentComposite extends Composite {
 					}
 				}
 			});
-			mpegProcOffsetObservable = ADScaleAdjustmentComposite.this.config.getLiveViewProc()
+			mpegProcOffsetObservable = AreaDetectorViewComposite.this.config.getLiveViewNDProc()
 					.createOffsetObservable();
-			mpegProcScaleObservable = ADScaleAdjustmentComposite.this.config.getLiveViewProc().createScaleObservable();
+			mpegProcScaleObservable = AreaDetectorViewComposite.this.config.getLiveViewNDProc().createScaleObservable();
 			mpegProcObserver = new Observer<Double>() {
 
 				@Override
@@ -298,27 +302,27 @@ public class ADScaleAdjustmentComposite extends Composite {
 	}
 
 	public void stop() throws Exception {
-		config.getImageStats().setComputeHistogram(0);
-		if (statsArrayCounterObservable != null && statsArrayCounterObserver != null) {
-			statsArrayCounterObservable.deleteIObserver(statsArrayCounterObserver);
-			statsArrayCounterObserver = null;
-			statsArrayCounterObservable = null;
+		config.getImageNDStats().setComputeHistogram(0);
+		if (arrayArrayCounterObservable != null && arrayArrayCounterObserver != null) {
+			arrayArrayCounterObservable.deleteIObserver(arrayArrayCounterObserver);
+			arrayArrayCounterObserver = null;
+			arrayArrayCounterObservable = null;
 		}
 		setStarted(false);
 
 	}
 
-	Job updateHistogramJob;
+	Job updateArrayJob;
 
 	public void start() throws Exception {
 		final int histSize = getHistSize();
 		int histMin = getImageMin();
 		int histMax = getImageMax();
-		config.getImageStats().setHistSize(histSize);
-		config.getImageStats().setHistMin(histMin);
-		config.getImageStats().setHistMax(histMax);
-		config.getImageStats().getPluginBase().enableCallbacks();
-		config.getImageStats().setComputeHistogram(1);
+		config.getImageNDStats().setHistSize(histSize);
+		config.getImageNDStats().setHistMin(histMin);
+		config.getImageNDStats().setHistMax(histMax);
+		config.getImageNDStats().getPluginBase().enableCallbacks();
+		config.getImageNDStats().setComputeHistogram(1);
 		double step = (histMax - histMin) / histSize;
 		double[] range = new double[histSize];
 		range[0] = histMin;
@@ -327,18 +331,18 @@ public class ADScaleAdjustmentComposite extends Composite {
 		}
 		histogramXAxisRange = new DoubleDataset(range);
 		histogramXAxisRange.setName("Counts");
-		if (statsArrayCounterObservable == null) {
-			statsArrayCounterObservable = config.getImageStats().getPluginBase().createArrayCounterObservable();
+		if (arrayArrayCounterObservable == null) {
+			arrayArrayCounterObservable = config.getImageNDArray().getPluginBase().createArrayCounterObservable();
 		}
-		if (statsArrayCounterObserver == null) {
-			statsArrayCounterObserver = new Observer<Integer>() {
+		if (arrayArrayCounterObserver == null) {
+			arrayArrayCounterObserver = new Observer<Integer>() {
 
 				@Override
 				public void update(Observable<Integer> source, Integer arg) {
 					if (isDisposed())
 						return;
-					if (updateHistogramJob == null) {
-						updateHistogramJob = new Job("Update histogram") {
+					if (updateArrayJob == null) {
+						updateArrayJob = new Job("Update array") {
 
 							private Runnable updateUIRunnable;
 							volatile boolean runnableScheduled = false;
@@ -350,24 +354,16 @@ public class ADScaleAdjustmentComposite extends Composite {
 
 							@Override
 							protected IStatus run(IProgressMonitor monitor) {
-								double[] histogram_RBV;
-								try {
-									histogram_RBV = config.getImageStats().getHistogram_RBV(histSize);
-								} catch (Exception e) {
-									logger.error("Error getting histogram", e);
-									return Status.OK_STATUS;
-								}
+								Object arrayData = ((NDArrayImpl)config.getImageNDArray()).getArrayData();
+								if (!arrayData.getClass().isArray()) 
+									throw new Exception("data is not array");
 
-								if (histogram_RBV.length != histogramXAxisRange.getSize()) {
-									logger.error("Length of histogram does not match histSize");
-									return Status.OK_STATUS;
-								}
-								DoubleDataset ds = new DoubleDataset(histogram_RBV);
+								ObjectDataset ds = new ObjectDataset(arrayData);
 
-								ds.setName("Number in bin");
+								ds.setName("");
 
 								if (histogramTrace == null) {
-									histogramTrace = plottingSystem.createLineTrace("PROFILE");
+									histogramTrace = plottingSystem.createLineTrace(PROFILE);
 									histogramTrace.setTraceColor(ColorConstants.blue);
 								}
 
@@ -379,15 +375,18 @@ public class ADScaleAdjustmentComposite extends Composite {
 										@Override
 										public void run() {
 											runnableScheduled = false;
-											boolean firstTime = plottingSystem.getTrace("PROFILE") == null;
+											boolean firstTime = plottingSystem.getTrace(PROFILE) == null;
 											if (firstTime) {
 												plottingSystem.addTrace(histogramTrace);
 												plottingSystem.setTitle("");
+												IAxis yaxis = plottingSystem.getSelectedYAxis();
+												yaxis.setFormatPattern("#####");
+												yaxis.setTitle("Number of Pixels");
+												IAxis xaxis = plottingSystem.getSelectedXAxis();
+												xaxis.setFormatPattern("#####");
+												xaxis.setTitle("Counts");
 											}
 											plottingSystem.repaint();
-											plottingSystem.setTitle("");
-											plottingSystem.getSelectedYAxis().setFormatPattern("#####");
-											plottingSystem.getSelectedXAxis().setFormatPattern("#####");
 										}
 
 									};
@@ -399,15 +398,15 @@ public class ADScaleAdjustmentComposite extends Composite {
 								return Status.OK_STATUS;
 							}
 						};
-						updateHistogramJob.setUser(false);
-						updateHistogramJob.setPriority(Job.SHORT);
+						updateArrayJob.setUser(false);
+						updateArrayJob.setPriority(Job.SHORT);
 					}
-					updateHistogramJob.schedule(200); // limit to 5Hz
+					updateArrayJob.schedule(200); // limit to 5Hz
 
 				}
 			};
 		}
-		statsArrayCounterObservable.addObserver(statsArrayCounterObserver);
+		arrayArrayCounterObservable.addObserver(arrayArrayCounterObserver);
 		setStarted(true);
 	}
 

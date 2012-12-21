@@ -18,18 +18,23 @@
 
 package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
 
+import gda.device.detector.areadetector.v17.NDArray;
 import gda.device.detector.areadetector.v17.NDProcess;
 import gda.device.detector.areadetector.v17.NDStats;
 
 public interface ADController {
 
-	public abstract NDStats getImageStats();
+	public abstract NDStats getImageNDStats();
 
-	public abstract NDProcess getLiveViewProc();
+	public abstract NDProcess getLiveViewNDProc();
 
-	public int getImageHistSize();
+	public abstract int getImageHistSize();
 
-	public int getImageMin();
+	public abstract int getImageMin();
 
-	public int getImageMax();
+	public abstract int getImageMax();
+
+	public abstract String getDetectorName();
+
+	public abstract NDArray getImageNDArray();
 }

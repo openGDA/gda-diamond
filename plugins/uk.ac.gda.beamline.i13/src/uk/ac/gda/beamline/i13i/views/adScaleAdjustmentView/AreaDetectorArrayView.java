@@ -27,47 +27,54 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
-public class ADScaleAdjustmentView extends ViewPart implements InitializingBean{
-	private static final Logger logger = LoggerFactory.getLogger(ADScaleAdjustmentView.class);
+import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
 
-	private ADScaleAdjustmentComposite adScaleAdjustmentComposite;
+public class AreaDetectorArrayView extends ViewPart implements InitializingBean{
+	private static final Logger logger = LoggerFactory.getLogger(AreaDetectorArrayView.class);
+
+	private AreaDetectorViewComposite areaDetectorViewComposite;
 	ADController config;
 	
-	public ADScaleAdjustmentView(ADController config) {
+	public AreaDetectorArrayView(ADController config) {
 		this.config = config;
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		if( config == null)
+			throw new Exception("Config is null");
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {
+
 		parent.setLayout(new FillLayout());
-		adScaleAdjustmentComposite = new ADScaleAdjustmentComposite(this, parent, SWT.NONE, config);
+		areaDetectorViewComposite = new AreaDetectorViewComposite(this, parent, SWT.NONE, config);
 		try {
-			adScaleAdjustmentComposite.start();
+			areaDetectorViewComposite.start();
 		} catch (Exception e) {
-			logger.error("Error starting  adScaleAdjustmentComposite", e);
+			logger.error("Error starting  areaDetectorViewComposite", e);
 		}
+		setTitleImage(I13IBeamlineActivator.getImageDescriptor("icons/AreaDetectorProfileView.gif").createImage());
+		setPartName(config.getDetectorName() + " Array View" );
 
 	}
 
 	@Override
 	public void setFocus() {
-		adScaleAdjustmentComposite.setFocus();
+		areaDetectorViewComposite.setFocus();
 	}
 
 	@Override
 	public void dispose() {
 		super.dispose();
-		adScaleAdjustmentComposite.dispose();
+		areaDetectorViewComposite.dispose();
 	}
 
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class clazz) {
 		if (clazz == IToolPageSystem.class) {
-			return this.adScaleAdjustmentComposite.getPlottingSystem();
+			return this.areaDetectorViewComposite.getPlottingSystem();
 		}
 		return super.getAdapter(clazz);
 	}

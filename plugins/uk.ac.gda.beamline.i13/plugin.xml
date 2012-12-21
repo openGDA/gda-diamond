@@ -113,9 +113,15 @@
       </view>
       <view
             allowMultiple="false"
-            class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.ADScaleAdjustmentViewExecutableExtension:i13"
-            id="uk.ac.gda.beamline.i13i.ADScaleAdjustmentView"
-            name="ScaleAdjustmentView">
+            class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.AreaDetectorProfileViewCreator:i13"
+            id="uk.ac.gda.beamline.i13i.AreaDetectorProfileView"
+            name="AreaDetectorProfileView">
+      </view>                       
+      <view
+            allowMultiple="false"
+            class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.AreaDetectorArrayViewCreator:i13"
+            id="uk.ac.gda.beamline.i13i.AreaDetectorArrayView"
+            name="AreaDetectorArrayView">
       </view>                       
    </extension>
    <extension
