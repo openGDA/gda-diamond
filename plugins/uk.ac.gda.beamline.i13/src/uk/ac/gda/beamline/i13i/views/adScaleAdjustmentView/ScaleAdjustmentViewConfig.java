@@ -21,13 +21,18 @@ package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
 import gda.device.detector.areadetector.v17.NDProcess;
 import gda.device.detector.areadetector.v17.NDStats;
 
-public class ScaleAdjustmentViewConfig {
+public class ScaleAdjustmentViewConfig implements ADController {
 	public NDStats ndStats;
 	public NDProcess ndProc;
-	public NDStats getNdStats() {
+	private int imageHistSize;
+	private int imageHistMin;
+	private int imageHistMax;
+	@Override
+	public NDStats getImageStats() {
 		return ndStats;
 	}
-	public NDProcess getNdProc() {
+	@Override
+	public NDProcess getLiveViewProc() {
 		return ndProc;
 	}
 	public void setNdStats(NDStats ndStats) {
@@ -35,6 +40,29 @@ public class ScaleAdjustmentViewConfig {
 	}
 	public void setNdProcess(NDProcess ndProc) {
 		this.ndProc = ndProc;
+	}
+	
+	
+	@Override
+	public int getImageHistSize() {
+		return imageHistSize;
+	}
+	@Override
+	public int getImageMin() {
+		return imageHistMin;
+	}
+	@Override
+	public int getImageMax() {
+		return imageHistMax;
+	}
+	public void setImageHistSize(int imageHistSize) {
+		this.imageHistSize = imageHistSize;
+	}
+	public void setImageHistMin(int imageHistMin) {
+		this.imageHistMin = imageHistMin;
+	}
+	public void setImageHistMax(int imageHistMax) {
+		this.imageHistMax = imageHistMax;
 	}
 	
 	

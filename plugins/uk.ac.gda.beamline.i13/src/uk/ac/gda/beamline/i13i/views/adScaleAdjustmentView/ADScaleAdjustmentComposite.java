@@ -50,13 +50,16 @@ import org.eclipse.ui.IViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.diamond.scisoft.analysis.dataset.IndexIterator;
+import uk.ac.diamond.scisoft.analysis.dataset.Stats;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 
 public class ADScaleAdjustmentComposite extends Composite {
 	private static final Logger logger = LoggerFactory.getLogger(ADScaleAdjustmentComposite.class);
 
-	private final ScaleAdjustmentViewConfig config;
+	private final ADController config;
 
 	private AbstractPlottingSystem plottingSystem;
 
@@ -68,10 +71,6 @@ public class ADScaleAdjustmentComposite extends Composite {
 	private boolean histogramMonitoring = false;
 	private Button histogramMonitoringBtn;
 	private Label histogramMonitoringLbl;
-
-	int histSize = 100; // number of points in the histogram
-	int histMin = 0;//
-	int histMax = 65535;
 
 	private String mpegROIRegionName;
 	private Observable<Double> mpegProcOffsetObservable;
@@ -86,103 +85,7 @@ public class ADScaleAdjustmentComposite extends Composite {
 	long current_mpegROIMax = Long.MAX_VALUE;
 	private RectangularROI current_mpegROI;
 
-	private double getMPEGProcOffset() throws Exception {
-		return config.ndProc.getOffset();
-	}
-
-	private double getMPEGProcScale() throws Exception {
-		return config.ndProc.getScale();
-	}
-
-	protected void updateROIInGuiThread() {
-		getDisplay().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					createOrUpdateROI();
-				} catch (Exception e) {
-					logger.error("Error responding to external update of scale and offset", e);
-				}
-			}
-		});
-	}
-
-	protected void createOrUpdateROI() throws Exception {
-		double scale = ADScaleAdjustmentComposite.this.getMPEGProcScale();
-		double offset = ADScaleAdjustmentComposite.this.getMPEGProcOffset();
-		RectangularROI roi;
-		long min = (long) -offset;
-		long max = (long) (255.0 / scale + min);
-		roi = current_mpegROI;
-		if (min == current_mpegROIMin && max == current_mpegROIMax && roi != null)
-			return;
-		if (roi == null) {
-			roi = new RectangularROI();
-		}
-		roi.setPoint(new double[] { min, 0 });
-		roi.setLengths(new double[] { max - min, 0 });
-
-		if (mpegROIRegionName == null) {
-			mpegROIRegionName = RegionUtils.getUniqueName("Scaling Range", getPlottingSystem());
-		}
-		IRegion iRegion = getPlottingSystem().getRegion(mpegROIRegionName);
-		if (iRegion == null) {
-			iRegion = getPlottingSystem().createRegion(mpegROIRegionName, IRegion.RegionType.XAXIS);
-			iRegion.addROIListener(new IROIListener() {
-
-				@Override
-				public void roiDragged(ROIEvent evt) {
-					try {
-						handleROIChangeEvent(evt);
-					} catch (Exception e) {
-						logger.error("Error handling change to scaling roi", e);
-					}
-				}
-
-				private void handleROIChangeEvent(ROIEvent evt) throws Exception {
-					final IRegion region = (IRegion) evt.getSource();
-					RectangularROI roi = (RectangularROI) region.getROI();
-					double min = roi.getPointX();
-					double max = min + roi.getLengths()[0];
-					double offset = -min;
-					double scale = 255.0 / (max - min);
-					ADScaleAdjustmentComposite.this.config.ndProc.setScale(scale);
-					ADScaleAdjustmentComposite.this.config.ndProc.setOffset(offset);
-					ADScaleAdjustmentComposite.this.config.ndProc.setEnableOffsetScale(1);
-				}
-
-				@Override
-				public void roiChanged(ROIEvent evt) {
-					try {
-						handleROIChangeEvent(evt);
-					} catch (Exception e) {
-						logger.error("Error handling change to scaling roi", e);
-					}
-				}
-			});
-			mpegProcOffsetObservable = ADScaleAdjustmentComposite.this.config.ndProc.createOffsetObservable();
-			mpegProcScaleObservable = ADScaleAdjustmentComposite.this.config.ndProc.createScaleObservable();
-			mpegProcObserver = new Observer<Double>() {
-
-				@Override
-				public void update(Observable<Double> source, Double arg) {
-					updateROIInGuiThread();
-				}
-			};
-			mpegProcOffsetObservable.addObserver(mpegProcObserver);
-			mpegProcScaleObservable.addObserver(mpegProcObserver);
-
-			iRegion.setVisible(true);
-			getPlottingSystem().addRegion(iRegion);
-		}
-		iRegion.setROI(roi);
-		current_mpegROI = roi;
-		current_mpegROIMax = max;
-		current_mpegROIMin = min;
-	}
-
-	public ADScaleAdjustmentComposite(IViewPart parentViewPart, Composite parent, int style,
-			ScaleAdjustmentViewConfig config) {
+	public ADScaleAdjustmentComposite(IViewPart parentViewPart, Composite parent, int style, ADController config) {
 		super(parent, style);
 		this.config = config;
 
@@ -219,6 +122,58 @@ public class ADScaleAdjustmentComposite extends Composite {
 		});
 		setStarted(histogramMonitoring);
 
+		Button btn = new Button(left, SWT.PUSH);
+		btn.setText("Auto-Scale");
+		btn.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				double min = 0.;
+				double max = getImageMax();
+				if (histogramTrace != null) {
+					DoubleDataset yData = (DoubleDataset) histogramTrace.getYData();
+					DoubleDataset xData = (DoubleDataset) histogramTrace.getXData();
+					int j = getPosToIncludeFractionOfPopulation(yData, .95);
+					if (j >= 0) {
+						max = xData.getDouble(j);
+					}
+					j = getPosToIncludeFractionOfPopulation(yData, .05);
+					if (j >= 0) {
+						min = xData.getDouble(j);
+					}
+
+				}
+				double offset = -min;
+				double scale = 255.0 / (max - min);
+				try {
+					ADScaleAdjustmentComposite.this.config.getLiveViewProc().setScale(scale);
+					ADScaleAdjustmentComposite.this.config.getLiveViewProc().setOffset(offset);
+					ADScaleAdjustmentComposite.this.config.getLiveViewProc().setEnableOffsetScale(1);
+				} catch (Exception e1) {
+					logger.error("Error auto-scaling", e1);
+				}
+
+			}
+
+			private int getPosToIncludeFractionOfPopulation(DoubleDataset yData, Double fractionOfPopulationToInclude) {
+				Double sum = (Double) yData.sum();
+				double[] data = yData.getData();
+				int popIncluded = 0;
+				int j=0;
+				double popRequired = sum * fractionOfPopulationToInclude;
+				while (popIncluded < popRequired && j < data.length) {
+					popIncluded += data[j];
+					if( popIncluded < popRequired)
+						j++;
+				}
+				return Math.min(j, data.length-1);
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+
 		Composite right = new Composite(this, SWT.NONE);
 		GridDataFactory.fillDefaults().grab(true, true).align(SWT.FILL, SWT.FILL).applyTo(right);
 		right.setLayout(new FillLayout());
@@ -240,8 +195,110 @@ public class ADScaleAdjustmentComposite extends Composite {
 		}
 	}
 
+	private double getMPEGProcOffset() throws Exception {
+		return config.getLiveViewProc().getOffset();
+	}
+
+	private double getMPEGProcScale() throws Exception {
+		return config.getLiveViewProc().getScale();
+	}
+
+	protected void updateROIInGuiThread() {
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					createOrUpdateROI();
+				} catch (Exception e) {
+					logger.error("Error responding to external update of scale and offset", e);
+				}
+			}
+		});
+	}
+
+	protected void createOrUpdateROI() throws Exception {
+		double scale = ADScaleAdjustmentComposite.this.getMPEGProcScale();
+		double offset = ADScaleAdjustmentComposite.this.getMPEGProcOffset();
+		RectangularROI roi;
+		long min = (long) -offset;
+		long max = (long) (255.0 / scale + min);
+
+		if (min < getImageMin())
+			min = getImageMin(); // The lowest intensity is 0
+		if (max > getImageMax())
+			max = getImageMax();
+
+		roi = current_mpegROI;
+		if (min == current_mpegROIMin && max == current_mpegROIMax && roi != null)
+			return;
+		if (roi == null) {
+			roi = new RectangularROI();
+		}
+		roi.setPoint(new double[] { min, 0 });
+		roi.setLengths(new double[] { max - min, 0 });
+
+		if (mpegROIRegionName == null) {
+			mpegROIRegionName = RegionUtils.getUniqueName("Scaling Range", getPlottingSystem());
+		}
+		IRegion iRegion = getPlottingSystem().getRegion(mpegROIRegionName);
+		if (iRegion == null) {
+			iRegion = getPlottingSystem().createRegion(mpegROIRegionName, IRegion.RegionType.XAXIS);
+			iRegion.addROIListener(new IROIListener() {
+
+				@Override
+				public void roiDragged(ROIEvent evt) {
+					try {
+						handleROIChangeEvent(evt);
+					} catch (Exception e) {
+						logger.error("Error handling change to scaling roi", e);
+					}
+				}
+
+				private void handleROIChangeEvent(ROIEvent evt) throws Exception {
+					final IRegion region = (IRegion) evt.getSource();
+					RectangularROI roi = (RectangularROI) region.getROI();
+					double min = roi.getPointX();
+					double max = min + roi.getLengths()[0];
+					double offset = -min;
+					double scale = 255.0 / (max - min);
+					ADScaleAdjustmentComposite.this.config.getLiveViewProc().setScale(scale);
+					ADScaleAdjustmentComposite.this.config.getLiveViewProc().setOffset(offset);
+					ADScaleAdjustmentComposite.this.config.getLiveViewProc().setEnableOffsetScale(1);
+				}
+
+				@Override
+				public void roiChanged(ROIEvent evt) {
+					try {
+						handleROIChangeEvent(evt);
+					} catch (Exception e) {
+						logger.error("Error handling change to scaling roi", e);
+					}
+				}
+			});
+			mpegProcOffsetObservable = ADScaleAdjustmentComposite.this.config.getLiveViewProc()
+					.createOffsetObservable();
+			mpegProcScaleObservable = ADScaleAdjustmentComposite.this.config.getLiveViewProc().createScaleObservable();
+			mpegProcObserver = new Observer<Double>() {
+
+				@Override
+				public void update(Observable<Double> source, Double arg) {
+					updateROIInGuiThread();
+				}
+			};
+			mpegProcOffsetObservable.addObserver(mpegProcObserver);
+			mpegProcScaleObservable.addObserver(mpegProcObserver);
+
+			iRegion.setVisible(true);
+			getPlottingSystem().addRegion(iRegion);
+		}
+		iRegion.setROI(roi);
+		current_mpegROI = roi;
+		current_mpegROIMax = max;
+		current_mpegROIMin = min;
+	}
+
 	public void stop() throws Exception {
-		config.ndStats.setComputeHistogram(0);
+		config.getImageStats().setComputeHistogram(0);
 		if (statsArrayCounterObservable != null && statsArrayCounterObserver != null) {
 			statsArrayCounterObservable.deleteIObserver(statsArrayCounterObserver);
 			statsArrayCounterObserver = null;
@@ -251,12 +308,17 @@ public class ADScaleAdjustmentComposite extends Composite {
 
 	}
 
+	Job updateHistogramJob;
+
 	public void start() throws Exception {
-		config.ndStats.setHistSize(histSize);
-		config.ndStats.setHistMin(histMin);
-		config.ndStats.setHistMax(histMax);
-		config.ndStats.getPluginBase().enableCallbacks();
-		config.ndStats.setComputeHistogram(1);
+		final int histSize = getHistSize();
+		int histMin = getImageMin();
+		int histMax = getImageMax();
+		config.getImageStats().setHistSize(histSize);
+		config.getImageStats().setHistMin(histMin);
+		config.getImageStats().setHistMax(histMax);
+		config.getImageStats().getPluginBase().enableCallbacks();
+		config.getImageStats().setComputeHistogram(1);
 		double step = (histMax - histMin) / histSize;
 		double[] range = new double[histSize];
 		range[0] = histMin;
@@ -266,19 +328,17 @@ public class ADScaleAdjustmentComposite extends Composite {
 		histogramXAxisRange = new DoubleDataset(range);
 		histogramXAxisRange.setName("Counts");
 		if (statsArrayCounterObservable == null) {
-			statsArrayCounterObservable = config.ndStats.getPluginBase().createArrayCounterObservable();
+			statsArrayCounterObservable = config.getImageStats().getPluginBase().createArrayCounterObservable();
 		}
 		if (statsArrayCounterObserver == null) {
 			statsArrayCounterObserver = new Observer<Integer>() {
-
-				private Job job;
 
 				@Override
 				public void update(Observable<Integer> source, Integer arg) {
 					if (isDisposed())
 						return;
-					if (job == null) {
-						job = new Job("Update histogram") {
+					if (updateHistogramJob == null) {
+						updateHistogramJob = new Job("Update histogram") {
 
 							private Runnable updateUIRunnable;
 							volatile boolean runnableScheduled = false;
@@ -292,7 +352,7 @@ public class ADScaleAdjustmentComposite extends Composite {
 							protected IStatus run(IProgressMonitor monitor) {
 								double[] histogram_RBV;
 								try {
-									histogram_RBV = config.ndStats.getHistogram_RBV(histSize);
+									histogram_RBV = config.getImageStats().getHistogram_RBV(histSize);
 								} catch (Exception e) {
 									logger.error("Error getting histogram", e);
 									return Status.OK_STATUS;
@@ -339,10 +399,10 @@ public class ADScaleAdjustmentComposite extends Composite {
 								return Status.OK_STATUS;
 							}
 						};
-						job.setUser(false);
-						job.setPriority(Job.SHORT);
+						updateHistogramJob.setUser(false);
+						updateHistogramJob.setPriority(Job.SHORT);
 					}
-					job.schedule(200); // limit to 5Hz
+					updateHistogramJob.schedule(200); // limit to 5Hz
 
 				}
 			};
@@ -386,6 +446,18 @@ public class ADScaleAdjustmentComposite extends Composite {
 	 */
 	public AbstractPlottingSystem getPlottingSystem() {
 		return plottingSystem;
+	}
+
+	public int getHistSize() {
+		return config.getImageHistSize();
+	}
+
+	public int getImageMin() {
+		return config.getImageMin();
+	}
+
+	public int getImageMax() {
+		return config.getImageMax();
 	}
 
 }

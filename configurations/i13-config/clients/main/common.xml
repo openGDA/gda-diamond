@@ -8,8 +8,9 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<corba:import namespace="i13" names="plot_server, dcm_energy, eh_shtr, fs" />
-	
+	<corba:import namespace="i13"
+		names="plot_server, dcm_energy, eh_shtr, fs" />
+
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
 		<property name="service" ref="plot_server" />
@@ -27,124 +28,143 @@
 
 	<bean id="highestExistingFileMonitor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}highestExistingFileMonitor" />
-		<property name="serviceInterface" value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
+		<property name="serviceInterface"
+			value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 	<bean id="imageFileDisplayer" class="uk.ac.gda.dls.client.views.ImageFileDisplayer">
-		<property name="viewName" value="Detector Image"/>
-		<property name="viewID" value="uk.ac.gda.beamline.i13i.DetectorPlot"/>
+		<property name="viewName" value="Detector Image" />
+		<property name="viewID" value="uk.ac.gda.beamline.i13i.DetectorPlot" />
 	</bean>
 
-	<bean id="adScaleAdjustmentView" class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.ADScaleAdjustmentViewExecutableExtension">
-	<property name="ScaleAdjustmentViewConfig">
-		<bean class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.ScaleAdjustmentViewConfig">
-		<property name="ndStats" ref = "pco1_stat"/>
-		<property name="ndProcess" ref = "pco1_proc1"/>
-		</bean>
-		</property>
-	</bean>	
-	
-	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
-	<property name="viewTitle" value="Status"/>
-	<property name="compositeFactories">
-	<list>
-		<bean class="gda.rcp.views.GroupCompositeFactory">
-			<property name="label" value="Machine"/>
-			<property name="columns" value="2"/>
-			<property name="compositeFactories">
-				<list>
-					<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-					<property name="scannable" ref="ringCurrent"/>
-					<property name="label" value="Ring Current"/>
-					<property name="units" value="mA"/>
-					</bean>
-					<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-					<property name="scannable" ref="timeToRefill"/>
-					<property name="label" value="Time to refill"/>
-					<property name="units" value="s"/>
-					</bean>
-					<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-					<property name="scannable" ref="idGap"/>
-					<property name="label" value="ID Gap"/>
-					<property name="units" value="mm"/>
-					</bean>
-					<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-					<property name="scannable" ref="dcm_energy"/>
-					<property name="label" value="DCM"/>
-					<property name="units" value="keV"/>
-					</bean>
-				</list>
-			</property>
-		</bean>
-		<bean class="gda.rcp.views.GroupCompositeFactory">
-			<property name="label" value="Hutch Shutter"/>
-			<property name="columns" value="1"/>
-			<property name="compositeFactories">
-				<list>
-					<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-					<property name="scannable" ref="eh_shtr"/>
-					<property name="label" value="State"/>
-					</bean>
-					<bean class="uk.ac.gda.dls.client.views.QueueCommandCompositeFactory">
-					<property name="command" value="eh_shtr_control()"/>
-					<property name="label" value="Open/Close"/>
-					<property name="description" value="Opens or closes the experiment hutch shutter"/>
-					</bean>
-				</list>
-			</property>
-		</bean>		
-		<bean class="gda.rcp.views.GroupCompositeFactory">
-			<property name="label" value="Fast Shutter"/>
-			<property name="columns" value="1"/>
-			<property name="compositeFactories">
-				<list>
-					<bean class="uk.ac.gda.dls.client.views.EnumPositionerCompositeFactory">
-					<property name="positioner" ref="fs"/>
-					<property name="label" value=""/>
-					</bean>
-				</list>
-			</property>
-		</bean>		
-		<bean class="uk.ac.gda.dls.client.views.LatestFileNameCompositeFactory">
-		<property name="label" value="Latest Detector File"/>
-		<property name="fileProcessor" ref="imageFileDisplayer"/>
-		<property name="highestExistingFileMonitorDataProvider" ref="highestExistingFileMonitor"/>
-		<property name="showButtonSeparator" value="true"/>
-		<property name="separatePlayPauseButtons" value="true"/>
-		</bean>
-		<bean class="gda.rcp.views.GroupCompositeFactory">
-			<property name="label" value="Cameras and Detectors"/>
-			<property name="columns" value="2"/>
-			<property name="compositeFactories">
-				<list>
-		<bean class="uk.ac.gda.dls.client.views.OpenViewCompositeFactory">
-		<property name="tooltipText" value="Display MJPEG streams from diagnocstic cameras and webcams"/>
-		<property name="viewID" value="uk.ac.gda.video.views.cameraview"/>
-		<property name="buttonText" value="Diagnostics and WebCams"/>
-		<property name="buttonImagePath" value="icons/eye.png"/>
-		</bean>
-		<bean class="uk.ac.gda.dls.client.views.OpenViewCompositeFactory">
-		<property name="tooltipText" value="Open tomography alignment and exposure view"/>
-		<property name="viewID" value="uk.ac.gda.client.tomo.CameraView"/>
-		<property name="buttonText" value="Tomography - PCO "/>
-		<property name="buttonImagePath" value="icons/eye.png"/>
-		</bean>
-				</list>
-			</property>
-		</bean>		
+	<bean id="i13ADController"
+		class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.ScaleAdjustmentViewConfig">
+		<property name="ndStats" ref="pco1_stat" />
+		<property name="ndProcess" ref="pco1_proc1" />
+		<property name="imageHistSize" value="100"/>
+		<property name="imageHistMin" value="0"/>
+		<property name="imageHistMax" value="65535"/>
+	</bean>
 
-		
-<!-- 						<bean class="uk.ac.gda.beamline.i13i.StageCompositeFactory">
-							<property name="scannables">
-								<util:list>
-									<ref bean="ss1_samplex"/>
-								</util:list>
-							</property>
-							<property name="label" value="Base Stage"/>
-						</bean>
- -->		
-	</list>
-	</property>
+	<bean id="dictionary"  class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.MyDictionary">
+		<property name="map">
+		<map>
+		<entry key="SERVICE_NAME" value="i13"/>
+		</map>
+		</property>
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class"
+			value="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.ADController" />
+		<property name="service" ref="i13ADController" />
+		<property name="properties" ref="dictionary"/>
+	</bean>
+
+
+	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
+		<property name="viewTitle" value="Status" />
+		<property name="compositeFactories">
+			<list>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Machine" />
+					<property name="columns" value="2" />
+					<property name="compositeFactories">
+						<list>
+							<bean
+								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="ringCurrent" />
+								<property name="label" value="Ring Current" />
+								<property name="units" value="mA" />
+							</bean>
+							<bean
+								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="timeToRefill" />
+								<property name="label" value="Time to refill" />
+								<property name="units" value="s" />
+							</bean>
+							<bean
+								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="idGap" />
+								<property name="label" value="ID Gap" />
+								<property name="units" value="mm" />
+							</bean>
+							<bean
+								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="dcm_energy" />
+								<property name="label" value="DCM" />
+								<property name="units" value="keV" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Hutch Shutter" />
+					<property name="columns" value="1" />
+					<property name="compositeFactories">
+						<list>
+							<bean
+								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="eh_shtr" />
+								<property name="label" value="State" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.QueueCommandCompositeFactory">
+								<property name="command" value="eh_shtr_control()" />
+								<property name="label" value="Open/Close" />
+								<property name="description"
+									value="Opens or closes the experiment hutch shutter" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Fast Shutter" />
+					<property name="columns" value="1" />
+					<property name="compositeFactories">
+						<list>
+							<bean class="uk.ac.gda.dls.client.views.EnumPositionerCompositeFactory">
+								<property name="positioner" ref="fs" />
+								<property name="label" value="" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.LatestFileNameCompositeFactory">
+					<property name="label" value="Latest Detector File" />
+					<property name="fileProcessor" ref="imageFileDisplayer" />
+					<property name="highestExistingFileMonitorDataProvider"
+						ref="highestExistingFileMonitor" />
+					<property name="showButtonSeparator" value="true" />
+					<property name="separatePlayPauseButtons" value="true" />
+				</bean>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Cameras and Detectors" />
+					<property name="columns" value="2" />
+					<property name="compositeFactories">
+						<list>
+							<bean class="uk.ac.gda.dls.client.views.OpenViewCompositeFactory">
+								<property name="tooltipText"
+									value="Display MJPEG streams from diagnocstic cameras and webcams" />
+								<property name="viewID" value="uk.ac.gda.video.views.cameraview" />
+								<property name="buttonText" value="Diagnostics and WebCams" />
+								<property name="buttonImagePath" value="icons/eye.png" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.OpenViewCompositeFactory">
+								<property name="tooltipText"
+									value="Open tomography alignment and exposure view" />
+								<property name="viewID" value="uk.ac.gda.client.tomo.CameraView" />
+								<property name="buttonText" value="Tomography - PCO " />
+								<property name="buttonImagePath" value="icons/eye.png" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+
+
+				<!-- <bean class="uk.ac.gda.beamline.i13i.StageCompositeFactory"> <property 
+					name="scannables"> <util:list> <ref bean="ss1_samplex"/> </util:list> </property> 
+					<property name="label" value="Base Stage"/> </bean> -->
+			</list>
+		</property>
 	</bean>
 
 
@@ -213,137 +233,137 @@
 	</bean>
 
 
-	<bean id="imageModeManager" class="uk.ac.gda.beamline.i13i.ImageModeManager"/>
+	<bean id="imageModeManager" class="uk.ac.gda.beamline.i13i.ImageModeManager" />
 	<bean id="alignmentView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
-	<property name="viewTitle" value="Alignment"/>
-	<property name="compositeFactories">
-	<list>
-		<bean class="uk.ac.gda.beamline.i13i.IImageModeCompositeFactory">
-		<property name="imageModeManager" ref="imageModeManager"/>
-		<property name="availableModes">
-			<util:list>
-				<bean class="uk.ac.gda.beamline.i13i.SimpleMode">
-					<property name="compositeFactory">
-						<bean class="uk.ac.gda.beamline.i13i.StageCompositeFactory">
-							<property name="stageCompositeDefinitions">
-								<util:list value-type="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<property name="scannable" ref="ss1_x"/>
-									<property name="stepSize" value=".01"/>
+		<property name="viewTitle" value="Alignment" />
+		<property name="compositeFactories">
+			<list>
+				<bean class="uk.ac.gda.beamline.i13i.IImageModeCompositeFactory">
+					<property name="imageModeManager" ref="imageModeManager" />
+					<property name="availableModes">
+						<util:list>
+							<bean class="uk.ac.gda.beamline.i13i.SimpleMode">
+								<property name="compositeFactory">
+									<bean class="uk.ac.gda.beamline.i13i.StageCompositeFactory">
+										<property name="stageCompositeDefinitions">
+											<util:list value-type="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+													<property name="scannable" ref="ss1_x" />
+													<property name="stepSize" value=".01" />
+												</bean>
+												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+													<property name="scannable" ref="ss1_sampley" />
+													<property name="stepSize" value=".01" />
+												</bean>
+												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+													<property name="scannable" ref="ss1_z" />
+													<property name="stepSize" value=".01" />
+												</bean>
+												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+													<property name="scannable" ref="ss1_rot" />
+													<property name="controlType" value="0" />
+													<property name="smallStep" value="5" />
+													<property name="bigStep" value="90" />
+												</bean>
+											</util:list>
+										</property>
+										<property name="label" value="Sample Centring" />
 									</bean>
-									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<property name="scannable" ref="ss1_sampley"/>
-									<property name="stepSize" value=".01"/>
+								</property>
+								<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
+								<property name="imageFilePath" value="icons/samplestage.gif" />
+								<property name="name" value="SampleCentring" />
+								<property name="label" value="Sample Centring" />
+							</bean>
+							<bean class="uk.ac.gda.beamline.i13i.SimpleMode">
+								<property name="compositeFactory">
+									<bean class="uk.ac.gda.beamline.i13i.StageCompositeFactory">
+										<property name="stageCompositeDefinitions">
+											<util:list value-type="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+													<property name="scannable" ref="ss1_samplex" />
+													<property name="stepSize" value=".01" />
+												</bean>
+												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+													<property name="scannable" ref="ss1_sampley" />
+													<property name="stepSize" value=".01" />
+												</bean>
+												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+													<property name="scannable" ref="ss1_samplez" />
+													<property name="stepSize" value=".01" />
+												</bean>
+												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+													<property name="scannable" ref="ss1_rot" />
+													<property name="controlType" value="0" />
+													<property name="smallStep" value="5" />
+													<property name="bigStep" value="90" />
+												</bean>
+											</util:list>
+										</property>
+										<property name="label" value="Sample Stage" />
 									</bean>
-									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<property name="scannable" ref="ss1_z"/>
-									<property name="stepSize" value=".01"/>
+								</property>
+								<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
+								<property name="imageFilePath" value="icons/samplestage.gif" />
+								<property name="name" value="Sample Stage" />
+								<property name="label" value="Top" />
+							</bean>
+							<bean class="uk.ac.gda.beamline.i13i.SimpleMode">
+								<property name="compositeFactory">
+									<bean class="uk.ac.gda.beamline.i13i.StageCompositeFactory">
+										<property name="stageCompositeDefinitions">
+											<util:list value-type="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+													<property name="scannable" ref="ss1_X" />
+												</bean>
+												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+													<property name="scannable" ref="ss1_Y" />
+												</bean>
+												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+													<property name="scannable" ref="ss1_Z" />
+												</bean>
+											</util:list>
+										</property>
+										<property name="label" value="Sample Base Stage" />
 									</bean>
-									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<property name="scannable" ref="ss1_rot"/>
-									<property name="controlType" value="0"/>
-									<property name="smallStep" value="5"/>
-									<property name="bigStep" value="90"/>
+								</property>
+								<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
+								<property name="imageFilePath" value="icons/samplebasestage.gif" />
+								<property name="name" value="SampleBaseStage" />
+								<property name="label" value="Base" />
+							</bean>
+							<bean class="uk.ac.gda.beamline.i13i.SimpleMode">
+								<property name="compositeFactory">
+									<bean class="uk.ac.gda.beamline.i13i.StageCompositeFactory">
+										<property name="stageCompositeDefinitions">
+											<util:list value-type="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+													<property name="scannable" ref="cs1_x" />
+												</bean>
+												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+													<property name="scannable" ref="cs1_y" />
+												</bean>
+												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+													<property name="scannable" ref="cs1_z" />
+												</bean>
+											</util:list>
+										</property>
+										<property name="label" value="Camera Stage" />
 									</bean>
-								</util:list>
-							</property>
-							<property name="label" value="Sample Centring"/>
-						</bean>
+								</property>
+								<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
+								<property name="imageFilePath" value="icons/camerastage.gif" />
+								<property name="name" value="CameraStage" />
+								<property name="label" value="Camera" />
+							</bean>
+						</util:list>
 					</property>
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i"/>
-					<property name="imageFilePath" value="icons/samplestage.gif"/>
-					<property name="name" value="SampleCentring"/>
-					<property name="label" value="Sample Centring"/>
 				</bean>
-				<bean class="uk.ac.gda.beamline.i13i.SimpleMode">
-					<property name="compositeFactory">
-						<bean class="uk.ac.gda.beamline.i13i.StageCompositeFactory">
-							<property name="stageCompositeDefinitions">
-								<util:list value-type="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<property name="scannable" ref="ss1_samplex"/>
-									<property name="stepSize" value=".01"/>
-									</bean>
-									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<property name="scannable" ref="ss1_sampley"/>
-									<property name="stepSize" value=".01"/>
-									</bean>
-									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<property name="scannable" ref="ss1_samplez"/>
-									<property name="stepSize" value=".01"/>
-									</bean>
-									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<property name="scannable" ref="ss1_rot"/>
-									<property name="controlType" value="0"/>
-									<property name="smallStep" value="5"/>
-									<property name="bigStep" value="90"/>
-									</bean>
-								</util:list>
-							</property>
-							<property name="label" value="Sample Stage"/>
-						</bean>
-					</property>
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i"/>
-					<property name="imageFilePath" value="icons/samplestage.gif"/>
-					<property name="name" value="Sample Stage"/>
-					<property name="label" value="Top"/>
-				</bean>
-				<bean class="uk.ac.gda.beamline.i13i.SimpleMode">
-					<property name="compositeFactory">
-						<bean class="uk.ac.gda.beamline.i13i.StageCompositeFactory">
-							<property name="stageCompositeDefinitions">
-								<util:list value-type="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<property name="scannable" ref="ss1_X"/>
-									</bean>
-									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<property name="scannable" ref="ss1_Y"/>
-									</bean>
-									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<property name="scannable" ref="ss1_Z"/>
-									</bean>
-								</util:list>
-							</property>
-							<property name="label" value="Sample Base Stage"/>
-						</bean>
-					</property>
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i"/>
-					<property name="imageFilePath" value="icons/samplebasestage.gif"/>
-					<property name="name" value="SampleBaseStage"/>
-					<property name="label" value="Base"/>
-				</bean>
-				<bean class="uk.ac.gda.beamline.i13i.SimpleMode">
-					<property name="compositeFactory">
-						<bean class="uk.ac.gda.beamline.i13i.StageCompositeFactory">
-							<property name="stageCompositeDefinitions">
-								<util:list value-type="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<property name="scannable" ref="cs1_x"/>
-									</bean>
-									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<property name="scannable" ref="cs1_y"/>
-									</bean>
-									<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
-									<property name="scannable" ref="cs1_z"/>
-									</bean>
-								</util:list>
-							</property>
-							<property name="label" value="Camera Stage"/>
-						</bean>
-					</property>
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i"/>
-					<property name="imageFilePath" value="icons/camerastage.gif"/>
-					<property name="name" value="CameraStage"/>
-					<property name="label" value="Camera"/>
-				</bean>
-			</util:list>
+			</list>
 		</property>
-		</bean>
-	</list>
-	</property>
 	</bean>
 
-<!-- 	<import resource="tomoAlignmentViewHolder.xml"/ -->
+	<!-- <import resource="tomoAlignmentViewHolder.xml"/ -->
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />
 		<constructor-arg index="1">
@@ -353,5 +373,5 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
-	
+
 </beans>
