@@ -1,4 +1,0 @@
-# file to specify parameters to be used by the script that do no go in java.properties
-# valid entries
-# name = value
-# name value
