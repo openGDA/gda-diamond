@@ -22,7 +22,6 @@ import gda.observable.Observable;
 import gda.observable.Observer;
 
 import org.dawb.common.ui.plot.AbstractPlottingSystem;
-import org.dawb.common.ui.plot.IPlottingSystem;
 import org.dawb.common.ui.plot.PlotType;
 import org.dawb.common.ui.plot.PlottingFactory;
 import org.dawb.common.ui.plot.region.IROIListener;
@@ -36,209 +35,253 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.RowLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.diamond.scisoft.analysis.roi.ROIBase;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 
 public class ADScaleAdjustmentComposite extends Composite {
 	private static final Logger logger = LoggerFactory.getLogger(ADScaleAdjustmentComposite.class);
-	private static final String INTENSITIES_lbl = "Intensities";
 
-	private static final String HISTOGRAM_DATASET_lbl = "Histogram Dataset";
-
-	private static final String HISTOGRAM_PLOT_TITLE_lbl = "Histogram Plot";
-
-	private static final String HISTOGRAM_TRACE = "Histogram";
-	private AbstractPlottingSystem plottingSystem;
-
-	int histSize=1000; //number of points in the histogram
-	int histMin=0;//
-	int histMax=65535;
 	private final ScaleAdjustmentViewConfig config;
 
-	public ADScaleAdjustmentComposite(IViewPart parentViewPart, Composite parent, int style, ScaleAdjustmentViewConfig config) {
+	private AbstractPlottingSystem plottingSystem;
+
+	private ILineTrace histogramTrace = null;
+	private DoubleDataset histogramXAxisRange = null;
+	private Observable<Integer> statsArrayCounterObservable;
+	private Observer<Integer> statsArrayCounterObserver;
+
+	private boolean histogramMonitoring = false;
+	private Button histogramMonitoringBtn;
+	private Label histogramMonitoringLbl;
+
+	int histSize = 100; // number of points in the histogram
+	int histMin = 0;//
+	int histMax = 65535;
+
+	private String mpegROIRegionName;
+	private Observable<Double> mpegProcOffsetObservable;
+	private Observable<Double> mpegProcScaleObservable;
+	private Observer<Double> mpegProcObserver;
+
+	/**
+	 * To prevent cycles of Gui updates Epics, Epics update GUI, Gui updates EPICS... only update the GUI if the values
+	 * from EPICS do not match those used to last update the GUI
+	 */
+	long current_mpegROIMin = Long.MIN_VALUE;
+	long current_mpegROIMax = Long.MAX_VALUE;
+	private RectangularROI current_mpegROI;
+
+	private double getMPEGProcOffset() throws Exception {
+		return config.ndProc.getOffset();
+	}
+
+	private double getMPEGProcScale() throws Exception {
+		return config.ndProc.getScale();
+	}
+
+	protected void updateROIInGuiThread() {
+		getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					createOrUpdateROI();
+				} catch (Exception e) {
+					logger.error("Error responding to external update of scale and offset", e);
+				}
+			}
+		});
+	}
+
+	protected void createOrUpdateROI() throws Exception {
+		double scale = ADScaleAdjustmentComposite.this.getMPEGProcScale();
+		double offset = ADScaleAdjustmentComposite.this.getMPEGProcOffset();
+		RectangularROI roi;
+		long min = (long) -offset;
+		long max = (long) (255.0 / scale + min);
+		roi = current_mpegROI;
+		if (min == current_mpegROIMin && max == current_mpegROIMax && roi != null)
+			return;
+		if (roi == null) {
+			roi = new RectangularROI();
+		}
+		roi.setPoint(new double[] { min, 0 });
+		roi.setLengths(new double[] { max - min, 0 });
+
+		if (mpegROIRegionName == null) {
+			mpegROIRegionName = RegionUtils.getUniqueName("Scaling Range", getPlottingSystem());
+		}
+		IRegion iRegion = getPlottingSystem().getRegion(mpegROIRegionName);
+		if (iRegion == null) {
+			iRegion = getPlottingSystem().createRegion(mpegROIRegionName, IRegion.RegionType.XAXIS);
+			iRegion.addROIListener(new IROIListener() {
+
+				@Override
+				public void roiDragged(ROIEvent evt) {
+					try {
+						handleROIChangeEvent(evt);
+					} catch (Exception e) {
+						logger.error("Error handling change to scaling roi", e);
+					}
+				}
+
+				private void handleROIChangeEvent(ROIEvent evt) throws Exception {
+					final IRegion region = (IRegion) evt.getSource();
+					RectangularROI roi = (RectangularROI) region.getROI();
+					double min = roi.getPointX();
+					double max = min + roi.getLengths()[0];
+					double offset = -min;
+					double scale = 255.0 / (max - min);
+					ADScaleAdjustmentComposite.this.config.ndProc.setScale(scale);
+					ADScaleAdjustmentComposite.this.config.ndProc.setOffset(offset);
+					ADScaleAdjustmentComposite.this.config.ndProc.setEnableOffsetScale(1);
+				}
+
+				@Override
+				public void roiChanged(ROIEvent evt) {
+					try {
+						handleROIChangeEvent(evt);
+					} catch (Exception e) {
+						logger.error("Error handling change to scaling roi", e);
+					}
+				}
+			});
+			mpegProcOffsetObservable = ADScaleAdjustmentComposite.this.config.ndProc.createOffsetObservable();
+			mpegProcScaleObservable = ADScaleAdjustmentComposite.this.config.ndProc.createScaleObservable();
+			mpegProcObserver = new Observer<Double>() {
+
+				@Override
+				public void update(Observable<Double> source, Double arg) {
+					updateROIInGuiThread();
+				}
+			};
+			mpegProcOffsetObservable.addObserver(mpegProcObserver);
+			mpegProcScaleObservable.addObserver(mpegProcObserver);
+
+			iRegion.setVisible(true);
+			getPlottingSystem().addRegion(iRegion);
+		}
+		iRegion.setROI(roi);
+		current_mpegROI = roi;
+		current_mpegROIMax = max;
+		current_mpegROIMin = min;
+	}
+
+	public ADScaleAdjustmentComposite(IViewPart parentViewPart, Composite parent, int style,
+			ScaleAdjustmentViewConfig config) {
 		super(parent, style);
 		this.config = config;
-		
-		this.setLayout(new GridLayout(2,false));
-		Composite left = new Composite(this,SWT.NONE);
-		GridDataFactory.fillDefaults().grab(false,true).applyTo(left);
-		left.setLayout(new GridLayout());
-		Button button = new Button(left, SWT.PUSH);
-		button.setText("Set Scaling");
-		
-		
-		button.addSelectionListener(new SelectionListener() {
-			
-			private String regionName;
+
+		this.setLayout(new GridLayout(2, false));
+		Composite left = new Composite(this, SWT.NONE);
+		GridDataFactory.fillDefaults().grab(false, true).applyTo(left);
+		RowLayout layout = new RowLayout(SWT.VERTICAL);
+		layout.center = true;
+		layout.pack = false;
+		RowLayoutFactory vertRowLayoutFactory = RowLayoutFactory.createFrom(layout);
+		left.setLayout(vertRowLayoutFactory.create());
+		Group stateGroup = new Group(left, SWT.NONE);
+		stateGroup.setLayout(vertRowLayoutFactory.create());
+		histogramMonitoringLbl = new Label(stateGroup, SWT.CENTER);
+		histogramMonitoringBtn = new Button(stateGroup, SWT.PUSH | SWT.CENTER);
+		histogramMonitoringBtn.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					if( regionName == null){
-						regionName = RegionUtils.getUniqueName("Scaling Range", getPlottingSystem());
-					}
-					IRegion iRegion = getPlottingSystem().getRegion(regionName);
-					if(iRegion == null){
-						iRegion = getPlottingSystem().createRegion(regionName, IRegion.RegionType.XAXIS);
-						double scale = ADScaleAdjustmentComposite.this.config.ndProc.getScale();
-						double offset = ADScaleAdjustmentComposite.this.config.ndProc.getOffset();
-						double min = -offset ;
-						double max = (255.0/scale +min);
-						RectangularROI roi = new RectangularROI(min, 0, max-min, 0, 0);
-						iRegion.setROI(roi);
-						getPlottingSystem().addRegion(iRegion);
-						iRegion.addROIListener(new IROIListener(){
-
-							@Override
-							public void roiDragged(ROIEvent evt) {
-								try {
-									handleROIChangeEvent(evt);
-								} catch (Exception e) {
-									logger.error("Error handling change to scaling roi", e);
-								}
-							}
-
-							private void handleROIChangeEvent(ROIEvent evt) throws Exception {
-								final IRegion region = (IRegion)evt.getSource();
-								RectangularROI roi = (RectangularROI) region.getROI();
-								double min = roi.getPointX();
-								double max = min + roi.getLengths()[0];
-								double offset = - min;
-								double scale = 255.0/(max - min);
-								ADScaleAdjustmentComposite.this.config.ndProc.setScale(scale);
-								ADScaleAdjustmentComposite.this.config.ndProc.setOffset(offset);
-								ADScaleAdjustmentComposite.this.config.ndProc.setEnableOffsetScale(1);
-							}
-
-							@Override
-							public void roiChanged(ROIEvent evt) {
-								try {
-									handleROIChangeEvent(evt);
-								} catch (Exception e) {
-									logger.error("Error handling change to scaling roi", e);
-								}
-							}});
-					} else {
-						iRegion.setVisible(true);
-					}
-				} catch (Exception e1) {
-					logger.error("Error creating region", e1);
-				}
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
-		
-		GridDataFactory.fillDefaults().grab(false,false).applyTo(button);
-
-		stopStartedLbl = new Label(left, SWT.NONE);
-		GridDataFactory.fillDefaults().grab(false,false).applyTo(stopStartedLbl);
-		stopStartBtn = new Button(left, SWT.PUSH);
-		GridDataFactory.fillDefaults().grab(false,false).applyTo(stopStartBtn);
-		stopStartBtn.addSelectionListener(new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				try{
-					if( started){
+					if (histogramMonitoring) {
 						stop();
 					} else {
 						start();
 					}
-				} catch(Exception ex){
-					logger.error("Error responding to start_stop button",ex);
+				} catch (Exception ex) {
+					logger.error("Error responding to start_stop button", ex);
 				}
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
-		setStarted(started);
-		
-		
-		Composite right = new Composite(this,SWT.NONE);
-		GridDataFactory.fillDefaults().grab(true,true).align(SWT.FILL, SWT.FILL).applyTo(right);
+		setStarted(histogramMonitoring);
+
+		Composite right = new Composite(this, SWT.NONE);
+		GridDataFactory.fillDefaults().grab(true, true).align(SWT.FILL, SWT.FILL).applyTo(right);
 		right.setLayout(new FillLayout());
-		
-		
+
 		try {
-			// We always have a light weight one for this view as there is already
-			// another using DatasetPlot.
 			this.plottingSystem = PlottingFactory.getLightWeightPlottingSystem();
 		} catch (Exception ne) {
 			logger.error("Cannot create a plotting system!", ne);
 			return;
 		}
-		plottingSystem.createPlotPart(right, parentViewPart.getTitle(), parentViewPart.getViewSite().getActionBars(),
-				PlotType.PT1D, parentViewPart);
+		plottingSystem.createPlotPart(right, "", parentViewPart.getViewSite().getActionBars(), PlotType.PT1D,
+				parentViewPart);
 		plottingSystem.setXfirst(true);
+
+		try {
+			createOrUpdateROI();
+		} catch (Exception e1) {
+			logger.error("Error creating region", e1);
+		}
 	}
 
-	private ILineTrace histogramTrace= null;
-	private DoubleDataset xaxisRange = null;
-	private Observable<Integer> counterObserver;
-	private Observer<Integer> counterArrayObserver;
-	private boolean started = false;
-	private Button stopStartBtn;
-	private Label stopStartedLbl;
-
-	public void stop() throws Exception{
+	public void stop() throws Exception {
 		config.ndStats.setComputeHistogram(0);
-		if( counterObserver != null && counterArrayObserver != null){
-			counterObserver.deleteIObserver(counterArrayObserver);
-			counterArrayObserver = null;
-			counterObserver = null;
+		if (statsArrayCounterObservable != null && statsArrayCounterObserver != null) {
+			statsArrayCounterObservable.deleteIObserver(statsArrayCounterObserver);
+			statsArrayCounterObserver = null;
+			statsArrayCounterObservable = null;
 		}
 		setStarted(false);
-		
+
 	}
+
 	public void start() throws Exception {
 		config.ndStats.setHistSize(histSize);
 		config.ndStats.setHistMin(histMin);
 		config.ndStats.setHistMax(histMax);
 		config.ndStats.getPluginBase().enableCallbacks();
 		config.ndStats.setComputeHistogram(1);
-		double step = (histMax-histMin)/histSize;
-		double[] range=new double[histSize];
-		range[0] = histMin; 
-		for( int i=1; i< histSize; i++){
-			range[i] = range[i-1] + step;
+		double step = (histMax - histMin) / histSize;
+		double[] range = new double[histSize];
+		range[0] = histMin;
+		for (int i = 1; i < histSize; i++) {
+			range[i] = range[i - 1] + step;
 		}
-		xaxisRange = new DoubleDataset(range);
-		xaxisRange.setName(INTENSITIES_lbl);
-		if( counterObserver == null){
-			counterObserver = config.ndStats.getPluginBase().createArrayCounterObservable();
+		histogramXAxisRange = new DoubleDataset(range);
+		histogramXAxisRange.setName("Counts");
+		if (statsArrayCounterObservable == null) {
+			statsArrayCounterObservable = config.ndStats.getPluginBase().createArrayCounterObservable();
 		}
-		if( counterArrayObserver == null){
-			counterArrayObserver = new Observer<Integer>() {
+		if (statsArrayCounterObserver == null) {
+			statsArrayCounterObserver = new Observer<Integer>() {
 
 				private Job job;
 
 				@Override
 				public void update(Observable<Integer> source, Integer arg) {
-					if( isDisposed())
+					if (isDisposed())
 						return;
-					if( job == null){
-						job = new Job("Update histogram"){
+					if (job == null) {
+						job = new Job("Update histogram") {
 
 							private Runnable updateUIRunnable;
-							volatile boolean runnableScheduled=false;
+							volatile boolean runnableScheduled = false;
 
 							@Override
 							public boolean belongsTo(Object family) {
@@ -255,42 +298,43 @@ public class ADScaleAdjustmentComposite extends Composite {
 									return Status.OK_STATUS;
 								}
 
-								if( histogram_RBV.length != xaxisRange.getSize()){
+								if (histogram_RBV.length != histogramXAxisRange.getSize()) {
 									logger.error("Length of histogram does not match histSize");
 									return Status.OK_STATUS;
 								}
 								DoubleDataset ds = new DoubleDataset(histogram_RBV);
 
-								ds.setName(HISTOGRAM_DATASET_lbl);
+								ds.setName("Number in bin");
 
-								
 								if (histogramTrace == null) {
-									histogramTrace = plottingSystem.createLineTrace(HISTOGRAM_TRACE);
+									histogramTrace = plottingSystem.createLineTrace("PROFILE");
 									histogramTrace.setTraceColor(ColorConstants.blue);
 								}
 
-								histogramTrace.setData(xaxisRange, ds);
+								histogramTrace.setData(histogramXAxisRange, ds);
 
-								if( updateUIRunnable == null){
-									updateUIRunnable = new Runnable(){
+								if (updateUIRunnable == null) {
+									updateUIRunnable = new Runnable() {
 
 										@Override
 										public void run() {
 											runnableScheduled = false;
-											if (plottingSystem.getTrace(HISTOGRAM_TRACE) == null) {
+											boolean firstTime = plottingSystem.getTrace("PROFILE") == null;
+											if (firstTime) {
 												plottingSystem.addTrace(histogramTrace);
+												plottingSystem.setTitle("");
 											}
 											plottingSystem.repaint();
-											plottingSystem.setTitle(HISTOGRAM_PLOT_TITLE_lbl);
+											plottingSystem.setTitle("");
 											plottingSystem.getSelectedYAxis().setFormatPattern("#####");
 											plottingSystem.getSelectedXAxis().setFormatPattern("#####");
 										}
-									
+
 									};
 								}
-								if( !runnableScheduled){
+								if (!runnableScheduled) {
 									getDisplay().asyncExec(updateUIRunnable);
-									runnableScheduled=true;
+									runnableScheduled = true;
 								}
 								return Status.OK_STATUS;
 							}
@@ -298,20 +342,21 @@ public class ADScaleAdjustmentComposite extends Composite {
 						job.setUser(false);
 						job.setPriority(Job.SHORT);
 					}
-					job.schedule(200); //limit to 5Hz
-					
-					
+					job.schedule(200); // limit to 5Hz
+
 				}
 			};
 		}
-		counterObserver.addObserver(counterArrayObserver);
+		statsArrayCounterObservable.addObserver(statsArrayCounterObserver);
 		setStarted(true);
 	}
+
 	private void setStarted(boolean b) {
-		started = b;
-		stopStartBtn.setText(b ? "Stop" : "Start");
-		stopStartedLbl.setText(b ? "Running" : "Stopped");
+		histogramMonitoring = b;
+		histogramMonitoringBtn.setText(b ? "Stop" : "Start");
+		histogramMonitoringLbl.setText(b ? "Running" : "Stopped");
 	}
+
 	@Override
 	public void dispose() {
 		try {
@@ -319,13 +364,27 @@ public class ADScaleAdjustmentComposite extends Composite {
 		} catch (Exception e) {
 			logger.error("Error stopping histogram computation", e);
 		}
+		if (mpegProcObserver != null) {
+			if (mpegProcOffsetObservable != null && mpegProcObserver != null)
+				mpegProcOffsetObservable.deleteIObserver(mpegProcObserver);
+			if (mpegProcScaleObservable != null && mpegProcObserver != null)
+				mpegProcScaleObservable.deleteIObserver(mpegProcObserver);
+			mpegProcObserver = null;
+		}
+		mpegProcOffsetObservable = null;
+		mpegProcScaleObservable = null;
+		if (plottingSystem != null) {
+			plottingSystem.dispose();
+			plottingSystem = null;
+		}
 		super.dispose();
+
 	}
+
 	/**
 	 * Needed for the adapter of the parent view to return IToolPageSystem.class
-	 * 
 	 */
-	public IPlottingSystem getPlottingSystem() {
+	public AbstractPlottingSystem getPlottingSystem() {
 		return plottingSystem;
 	}
 
