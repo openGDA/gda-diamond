@@ -24,7 +24,6 @@ import gda.exafs.ui.composites.CryostatComposite;
 import gda.exafs.ui.composites.CustomParameterComposite;
 import gda.exafs.ui.composites.CustomXYZParameterComposite;
 import gda.exafs.ui.composites.FurnaceComposite;
-import gda.exafs.ui.composites.MicroreactorParametersComposite;
 import gda.exafs.ui.composites.RoomTemperatureComposite;
 import gda.exafs.ui.preferencepages.I20SampleReferenceWheelPreferencePage;
 import gda.factory.Finder;
@@ -65,6 +64,7 @@ import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
 import uk.ac.gda.beans.exafs.i20.MicroreactorParameters;
 import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
 import uk.ac.gda.exafs.ui.data.ScanObjectManager;
+import uk.ac.gda.exafs.ui.microreactor.MicroreactorParametersComposite;
 import uk.ac.gda.richbeans.components.FieldComposite.NOTIFY_TYPE;
 import uk.ac.gda.richbeans.components.selector.VerticalListEditor;
 import uk.ac.gda.richbeans.components.wrappers.BooleanWrapper;
@@ -219,12 +219,12 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 					}
 				};
 				elementLabel.addSelectionListener(selectionListener);
-				elementLabel.setEnabled(true);
+				elementLabel.setEnabled(false);
 
 				sampleWheelPosition = new ComboWrapper(refWheel, SWT.BORDER);
 				sampleWheelPosition.setItems(positions);
 				sampleWheelPosition.setNotifyType(NOTIFY_TYPE.ALWAYS);
-				sampleWheelPosition.setEnabled(true);
+				sampleWheelPosition.setEnabled(false);
 				
 				refWheelExpander.setClient(refWheel);
 				refWheelExpander.setExpanded(false);
