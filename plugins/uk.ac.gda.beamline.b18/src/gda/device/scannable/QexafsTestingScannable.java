@@ -40,34 +40,44 @@ public class QexafsTestingScannable extends ScannableMotor implements Continuous
 
 	private static final Logger logger = LoggerFactory.getLogger(QexafsTestingScannable.class);
 
-	// this object will not be used - the details will need to be manually set in the pulse generator for the test
 	private ContinuousParameters continuousParameters;
-	private volatile boolean doingcontinuousMove = false;
+
 	private String state = "idle";
-	@Override
-	public boolean isBusy() throws DeviceException {
-		return doingcontinuousMove ? true : super.isBusy();
-	}
+
 
 	@Override
 	public int prepareForContinuousMove() throws DeviceException {
 		state = "preparing";
 		notifyIObservers(this, state);
+		try {
+			super.setSpeed(1000);
+		} catch (DeviceException e) {
+			logger.error("Could not set speed to 1000", e);
+		}
+		super.moveTo(continuousParameters.getStartPosition()-1);
 		return continuousParameters.getNumberDataPoints();
 	}
 	
 	@Override
 	public void performContinuousMove() throws DeviceException {
-		doingcontinuousMove = true;
 		state = "running";
 		notifyIObservers(this, state);
 		logger.info(getName() + " - move not passed to real motor - you need to start the pulse generator now. Once the pulse generator has finished, call the pulseSequenceFinished on this object");
+		double start = continuousParameters.getStartPosition();
+		double end = continuousParameters.getEndPosition();
+		double speed = (end-start) / continuousParameters.getTotalTime();
+		super.setSpeed(speed);
+		super.asynchronousMoveTo(continuousParameters.getEndPosition()+1);
 	}
 	
 	@Override
 	public void continuousMoveComplete(){
-		doingcontinuousMove = false;
 		state = "idle";
+		try {
+			super.setSpeed(1000);
+		} catch (DeviceException e) {
+			logger.error("Could not set speed to 1000", e);
+		}
 		notifyIObservers(this, state);
 		logger.info(getName() + " - continuous move completed - ");
 	}
