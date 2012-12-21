@@ -13,8 +13,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zn_Ka</roiName>
-            <regionStart>829</regionStart>
-            <regionEnd>919</regionEnd>
+            <roiStart>829</roiStart>
+            <roiEnd>919</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -25,8 +25,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zn_Ka</roiName>
-            <regionStart>840</regionStart>
-            <regionEnd>896</regionEnd>
+            <roiStart>840</roiStart>
+            <roiEnd>896</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -37,8 +37,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zn_Ka</roiName>
-            <regionStart>840</regionStart>
-            <regionEnd>896</regionEnd>
+            <roiStart>840</roiStart>
+            <roiEnd>896</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -49,8 +49,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zn_Ka</roiName>
-            <regionStart>840</regionStart>
-            <regionEnd>896</regionEnd>
+            <roiStart>840</roiStart>
+            <roiEnd>896</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -61,8 +61,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zn_Ka</roiName>
-            <regionStart>840</regionStart>
-            <regionEnd>896</regionEnd>
+            <roiStart>840</roiStart>
+            <roiEnd>896</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -73,8 +73,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zn_Ka</roiName>
-            <regionStart>840</regionStart>
-            <regionEnd>896</regionEnd>
+            <roiStart>840</roiStart>
+            <roiEnd>896</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -85,8 +85,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zn_Ka</roiName>
-            <regionStart>840</regionStart>
-            <regionEnd>896</regionEnd>
+            <roiStart>840</roiStart>
+            <roiEnd>896</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -97,8 +97,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zn_Ka</roiName>
-            <regionStart>840</regionStart>
-            <regionEnd>896</regionEnd>
+            <roiStart>840</roiStart>
+            <roiEnd>896</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -109,8 +109,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Zn_Ka</roiName>
-            <regionStart>840</regionStart>
-            <regionEnd>896</regionEnd>
+            <roiStart>840</roiStart>
+            <roiEnd>896</roiEnd>
         </Region>
     </DetectorElement>
     <xspressOnlyShowFF>false</xspressOnlyShowFF>

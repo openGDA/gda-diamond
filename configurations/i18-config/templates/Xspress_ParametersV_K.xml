@@ -13,8 +13,8 @@
         <excluded>true</excluded>
         <Region>
             <roiName>V_Ka</roiName>
-            <regionStart>469</regionStart>
-            <regionEnd>535</regionEnd>
+            <roiStart>469</roiStart>
+            <roiEnd>535</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -25,8 +25,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>V_Ka</roiName>
-            <regionStart>469</regionStart>
-            <regionEnd>535</regionEnd>
+            <roiStart>469</roiStart>
+            <roiEnd>535</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -37,8 +37,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>V_Ka</roiName>
-            <regionStart>469</regionStart>
-            <regionEnd>535</regionEnd>
+            <roiStart>469</roiStart>
+            <roiEnd>535</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -49,8 +49,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>V_Ka</roiName>
-            <regionStart>469</regionStart>
-            <regionEnd>535</regionEnd>
+            <roiStart>469</roiStart>
+            <roiEnd>535</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -61,8 +61,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>V_Ka</roiName>
-            <regionStart>469</regionStart>
-            <regionEnd>535</regionEnd>
+            <roiStart>469</roiStart>
+            <roiEnd>535</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -73,8 +73,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>V_Ka</roiName>
-            <regionStart>469</regionStart>
-            <regionEnd>535</regionEnd>
+            <roiStart>469</roiStart>
+            <roiEnd>535</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -85,8 +85,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>V_Ka</roiName>
-            <regionStart>469</regionStart>
-            <regionEnd>535</regionEnd>
+            <roiStart>469</roiStart>
+            <roiEnd>535</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -97,8 +97,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>V_Ka</roiName>
-            <regionStart>469</regionStart>
-            <regionEnd>535</regionEnd>
+            <roiStart>469</roiStart>
+            <roiEnd>535</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -109,8 +109,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>V_Ka</roiName>
-            <regionStart>469</regionStart>
-            <regionEnd>535</regionEnd>
+            <roiStart>469</roiStart>
+            <roiEnd>535</roiEnd>
         </Region>
     </DetectorElement>
     <xspressOnlyShowFF>false</xspressOnlyShowFF>

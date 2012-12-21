@@ -20,7 +20,7 @@
 		<property name="serviceName" value="gda/qexafs_energy" />
 		<property name="service" ref="qexafs_energy" />
 		<property name="serviceInterface"
-			value="uk.ac.gda.exafs.ui.views.scalersmonitor.IQexafsScannableState" />
+			value="gda.device.scannable.IQexafsScannableState" />
 	</bean>
 
 	<corba:export namespace="b18" />

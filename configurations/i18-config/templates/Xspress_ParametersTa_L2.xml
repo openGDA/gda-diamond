@@ -12,9 +12,9 @@
         <windowEnd>731</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Bi_L2</roiName>
-            <regionStart>1292</regionStart>
-            <regionEnd>1338</regionEnd>
+            <roiName>Ta_Ka</roiName>
+            <roiStart>942</roiStart>
+            <roiEnd>986</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -24,9 +24,9 @@
         <windowEnd>731</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Bi_L2</roiName>
-            <regionStart>1292</regionStart>
-            <regionEnd>1338</regionEnd>
+            <roiName>Ta_Ka</roiName>
+            <roiStart>938</roiStart>
+            <roiEnd>990</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -36,9 +36,9 @@
         <windowEnd>731</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Bi_L2</roiName>
-            <regionStart>1292</regionStart>
-            <regionEnd>1338</regionEnd>
+            <roiName>Ta_Ka</roiName>
+            <roiStart>946</roiStart>
+            <roiEnd>982</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -48,9 +48,9 @@
         <windowEnd>731</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Bi_L2</roiName>
-            <regionStart>1292</regionStart>
-            <regionEnd>1338</regionEnd>
+            <roiName>Ta_Ka</roiName>
+            <roiStart>950</roiStart>
+            <roiEnd>982</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -60,9 +60,9 @@
         <windowEnd>731</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Bi_L2</roiName>
-            <regionStart>1292</regionStart>
-            <regionEnd>1338</regionEnd>
+            <roiName>Ta_Ka</roiName>
+            <roiStart>942</roiStart>
+            <roiEnd>986</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -72,9 +72,9 @@
         <windowEnd>731</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Bi_L2</roiName>
-            <regionStart>1292</regionStart>
-            <regionEnd>1338</regionEnd>
+            <roiName>Ta_Ka</roiName>
+            <roiStart>938</roiStart>
+            <roiEnd>994</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -84,9 +84,9 @@
         <windowEnd>731</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Bi_L2</roiName>
-            <regionStart>1292</regionStart>
-            <regionEnd>1338</regionEnd>
+            <roiName>Ta_Ka</roiName>
+            <roiStart>938</roiStart>
+            <roiEnd>990</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -96,9 +96,9 @@
         <windowEnd>731</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Bi_L2</roiName>
-            <regionStart>1292</regionStart>
-            <regionEnd>1338</regionEnd>
+            <roiName>Ta_Ka</roiName>
+            <roiStart>942</roiStart>
+            <roiEnd>986</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -108,9 +108,9 @@
         <windowEnd>731</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Bi_L2</roiName>
-            <regionStart>1292</regionStart>
-            <regionEnd>1338</regionEnd>
+            <roiName>Ta_Ka</roiName>
+            <roiStart>942</roiStart>
+            <roiEnd>990</roiEnd>
         </Region>
     </DetectorElement>
 </XspressParameters>

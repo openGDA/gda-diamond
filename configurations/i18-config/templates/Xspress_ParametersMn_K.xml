@@ -13,8 +13,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
-            <regionStart>553</regionStart>
-            <regionEnd>621</regionEnd>
+            <roiStart>553</roiStart>
+            <roiEnd>621</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -25,8 +25,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
-            <regionStart>553</regionStart>
-            <regionEnd>617</regionEnd>
+            <roiStart>553</roiStart>
+            <roiEnd>617</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -37,8 +37,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
-            <regionStart>544</regionStart>
-            <regionEnd>631</regionEnd>
+            <roiStart>544</roiStart>
+            <roiEnd>631</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -49,8 +49,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
-            <regionStart>544</regionStart>
-            <regionEnd>621</regionEnd>
+            <roiStart>544</roiStart>
+            <roiEnd>621</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -61,8 +61,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
-            <regionStart>555</regionStart>
-            <regionEnd>621</regionEnd>
+            <roiStart>555</roiStart>
+            <roiEnd>621</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -73,8 +73,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
-            <regionStart>555</regionStart>
-            <regionEnd>626</regionEnd>
+            <roiStart>555</roiStart>
+            <roiEnd>626</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -85,8 +85,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
-            <regionStart>549</regionStart>
-            <regionEnd>631</regionEnd>
+            <roiStart>549</roiStart>
+            <roiEnd>631</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -97,8 +97,8 @@
         <excluded>true</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
-            <regionStart>560</regionStart>
-            <regionEnd>636</regionEnd>
+            <roiStart>560</roiStart>
+            <roiEnd>636</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -109,8 +109,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
-            <regionStart>555</regionStart>
-            <regionEnd>621</regionEnd>
+            <roiStart>555</roiStart>
+            <roiEnd>621</roiEnd>
         </Region>
     </DetectorElement>
     <xspressOnlyShowFF>false</xspressOnlyShowFF>

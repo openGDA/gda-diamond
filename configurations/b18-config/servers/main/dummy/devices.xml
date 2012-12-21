@@ -154,10 +154,6 @@
 	
 
 	<bean id="energy" class="gda.device.scannable.ScannableMotor">
-		<!--
-			<bean id="energy"
-			class="gda.device.scannable.QexafsTestingScannable">
-		-->
 		<property name="name" value="energy" />
 		<property name="motor" ref="energy_bragg_pv" />
 		<property name="hardwareUnitString" value="eV" />
@@ -178,12 +174,13 @@
 		<property name="speed" value="2000" />
 	</bean>
 
-	<bean id="energy_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
 
 	
 	<bean id="eurotherm" class="gda.device.scannable.TestingEurotherm">
+	</bean>
+
+	<bean id="energy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="200" />
 	</bean>
 
 	<bean id="qexafs_energy" class="gda.device.scannable.QexafsTestingScannable">

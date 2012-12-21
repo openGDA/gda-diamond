@@ -95,62 +95,8 @@ public class I20Validator extends ExafsValidator {
 	public List<InvalidBeanMessage> validateI20SampleParameters(I20SampleParameters s) {
 
 		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
-		if (!s.isShouldValidate()) {
-			return errors;
-		}
-
-		final String environment = s.getSampleEnvironment();
-		if (environment.equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[1])) {
-
-//			final SampleStageParameters p = s.getRoomTemperatureParameters();
-//			final String message = "The sample stage parameters are out of bounds.";
-//			checkRangeBounds("x", p.getX().toString(), -15d, 15d, errors, message);
-//			checkRangeBounds("y", p.getY().toString(), -20.1d, 20.1d, errors, message);
-//			checkRangeBounds("z", p.getZ().toString(), -15d, 15d, errors, message);
-//
-//			checkRangeBounds("Rotation", p.getRotation().toString(), 0d, 360d, errors, message);
-//			checkRangeBounds("Roll", p.getRoll().toString(), -5d, 5d, errors, message);
-//			checkRangeBounds("Yaw", p.getYaw().toString(), -5d, 5d, errors, message);
-
-		}
-		// to be replaced when the hardware is available
-		/*
-		 * else if (environment.equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[2])) { final String message =
-		 * "The cyrostat parameters are out of bounds."; final CryostatParameters c = s.getCryostatParameters();
-		 * checkRangeBounds("Temperature", c.getTemperature(), 0d, 300d, errors, message); checkBounds("Tolerance",
-		 * c.getTolerance(), 0d, 5d, errors, message); checkBounds("Wait Time", c.getTime(), 0d, 400d, errors, message);
-		 * final String sampleHolder = c.getSampleHolder(); if ("2 samples".equalsIgnoreCase(sampleHolder)) {
-		 * checkRangeBounds("Sample Number", c.getSampleNumber(), 1d, 2d, errors, message); } else if
-		 * ("3 samples".equalsIgnoreCase(sampleHolder)) { checkRangeBounds("Sample Number", c.getSampleNumber(), 1d, 3d,
-		 * errors, message); } else if ("4 samples".equalsIgnoreCase(sampleHolder)) { checkRangeBounds("Sample Number",
-		 * c.getSampleNumber(), 1d, 4d, errors, message); } else if ("Liquid Cell".equalsIgnoreCase(sampleHolder)) { //
-		 * Sample number is ignored } else { errors.add(new InvalidBeanMessage("Cannot recognise sample holder '" +
-		 * sampleHolder + "'")); } checkRangeBounds("Position", c.getPosition(), -15d, 15d, errors, message);
-		 * checkRangeBounds("Fine Position", c.getFinePosition(), -1d, 1d, errors, message); checkBounds("Ramp",
-		 * c.getRamp(), 0.1d, 100, errors, message); checkBounds("Heater Range", c.getHeaterRange(), 1d, 5d, errors,
-		 * message); } else if (environment.equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[3])) { final String message
-		 * = "The furnace parameters are out of bounds."; final FurnaceParameters f = s.getFurnaceParameters();
-		 * checkRangeBounds("x", f.getX(), -15d, 15d, errors, message); checkRangeBounds("y", f.getY(), -20d, 20d,
-		 * errors, message); checkRangeBounds("z", f.getZ(), -15d, 15d, errors, message);
-		 * checkRangeBounds("Temperature", f.getTemperature(), 295, 1300, errors, message); checkBounds("Tolerance",
-		 * f.getTolerance(), 0d, 5d, errors, message); checkBounds("Time", f.getTime(), 0d, 400d, errors, message); }
-		 */
-		else if (environment.equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[5])) {
-			final List<CustomParameter> c = s.getCustomParameters();
-			for (CustomParameter cp : c) {
-				checkFindable("Device Name", cp.getDeviceName(), Scannable.class, errors);
-			}
-		}
-
-		if (bean != null) {
-			setFileName(errors, bean.getSampleFileName());
-		}
 		return errors;
 	}
-
-//	public List<InvalidBeanMessage> validateXesScanParameters(XesScanParameters x) {
-//		return validateXesScanParameters(x, null);
-//	}
 
 	public List<InvalidBeanMessage> validateXesScanParameters(XesScanParameters x, IDetectorParameters detParams) {
 

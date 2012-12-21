@@ -13,8 +13,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Y_Ka</roiName>
-            <regionStart>1420</regionStart>
-            <regionEnd>1546</regionEnd>
+            <roiStart>1420</roiStart>
+            <roiEnd>1546</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -25,8 +25,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Y_Ka</roiName>
-            <regionStart>1441</regionStart>
-            <regionEnd>1550</regionEnd>
+            <roiStart>1441</roiStart>
+            <roiEnd>1550</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -37,8 +37,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Y_Ka</roiName>
-            <regionStart>1441</regionStart>
-            <regionEnd>1554</regionEnd>
+            <roiStart>1441</roiStart>
+            <roiEnd>1554</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -49,8 +49,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Y_Ka</roiName>
-            <regionStart>1453</regionStart>
-            <regionEnd>1550</regionEnd>
+            <roiStart>1453</roiStart>
+            <roiEnd>1550</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -61,8 +61,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Y_Ka</roiName>
-            <regionStart>1424</regionStart>
-            <regionEnd>1576</regionEnd>
+            <roiStart>1424</roiStart>
+            <roiEnd>1576</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -73,8 +73,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Y_Ka</roiName>
-            <regionStart>1432</regionStart>
-            <regionEnd>1546</regionEnd>
+            <roiStart>1432</roiStart>
+            <roiEnd>1546</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -85,8 +85,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Y_Ka</roiName>
-            <regionStart>1428</regionStart>
-            <regionEnd>1554</regionEnd>
+            <roiStart>1428</roiStart>
+            <roiEnd>1554</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -97,8 +97,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Y_Ka</roiName>
-            <regionStart>1436</regionStart>
-            <regionEnd>1529</regionEnd>
+            <roiStart>1436</roiStart>
+            <roiEnd>1529</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -109,8 +109,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>Y_Ka</roiName>
-            <regionStart>1436</regionStart>
-            <regionEnd>1550</regionEnd>
+            <roiStart>1436</roiStart>
+            <roiEnd>1550</roiEnd>
         </Region>
     </DetectorElement>
 </XspressParameters>

@@ -34,7 +34,7 @@
 	<bean id="qexafs_energy" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}qexafs_energy" />
 		<property name="serviceInterface"
-			value="uk.ac.gda.exafs.ui.views.scalersmonitor.IQexafsScannableState" />
+			value="gda.device.scannable.IQexafsScannableState" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 

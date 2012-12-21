@@ -1,10 +1,104 @@
-pos
-scan tese
-scan test 0 10 1
-scan test 0 10 1 counterTimer01 1
-scan test 0 10 1 xmapMca counterTimer01 1 
-xmapMca
-pos
-scan test 0 10 1 ringCurrent counterTimer01 1 
-ls Detector
-scan test 0 10 1 xspress2system counterTimer01 1 
+qexafs_energy(7001)
+qexafs_energy(5999)
+qexafs_energy(9999)
+qexafs_energy(15001)
+qexafs_energy(9999)
+qexafs_energy(15001)
+qexafs_energy(14999)
+t.stop()
+qexafs_energy(15001)
+qexafs_energy(9999)
+qexafs_energy(15001)
+qexafs_energy(9999)
+qexafs_energy(15001)
+reset_namespace
+import cirrus
+reset_namespace
+energyScannable = finder.find("qexafs_energy")
+qexafs_energy()
+qexafs_energy(9999)
+qexafs_energy()
+qexafs_energy(15000)
+qexafs_energy(15001)
+qexafs_energy(9999)
+qexafs_energy(15001)
+qexafs_energy(9999)
+reset_namespace
+t
+reset_namespace
+qexafs_energy()
+reset_namespace
+qexafs_energy(11001)
+qexafs_energy()
+qexafs_energy(11001)
+qexafs_energy()
+qexafs_energy(11001)
+qexafs_energy(11008)
+qexafs_energy()
+qexafs_energy(11999)
+qexafs_energy(0)
+qexafs_energy(2000)
+qexafs_energy()
+qexafs_energy(3000)
+qexafs_energy()
+qexafs_energy(3000)
+qexafs
+qexafs_energy(11001)
+qexafs_energy.__class__
+qexafs
+qexafs_energy.__class__
+qexafs
+qexafs_energy
+qexafs_energy(12000)
+qexafs_energy
+qexafs_energy.getSpeed()
+xspress2system.__class__
+reset_namespace
+datetime.datetime.now()
+import datetime
+datetime.datetime.now()
+timeString = '{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
+str
+str.format()
+timeString = '{:%Y-%m-%d %H:%M:%S}' % (datetime.datetime.now())
+timeString = '{:%Y-%m-%d %H:%M:%S}' % datetime.datetime.now()
+datetime.datetime.now()
+timeString = '{:%Y-%m-%d %H:%M:%S}' % datetime.datetime.now()
+timeString = '{:-%m-%d %H:%M:%S}' % datetime.datetime.now()
+timeString = '{:%Y-%m-%d %H:%M:%S}' % datetime.datetime.now()
+datetime.datetime.strptime("2008-09-03T20:56:35.450686Z", "%Y-%m-%dT%H:%M:%S.%f%Z")
+import re,datetime
+s="2008-09-03T20:56:35.450686Z"
+d=datetime.datetime(*map(int, re.split('[^\d]', s)[:-1]))
+t
+g
+y-33
+::;''##3r3arweropi90i56,l;kop
+import re,datetime
+s="2008-09-03T20:56:35.450686Z"
+d=datetime.datetime(*map(int, re.split('[^\d]', s)[:-1]))-yy
+import re,datetime
+s="2008-09-03T20:56:35.450686Z"
+d=datetime.datetime(*
+(+77
+if
+ while True print 'Hello world'
+    print 2
+end
+exit
+break
+10 * (1/0)
+timeString = '{:%Y-%m-%d %H:%M:%S}' % datetime.datetime.now()
+import datetime
+timeString = '{:%Y-%m-%d %H:%M:%S}' % datetime.datetime.now()
+timeString = '{:%%Y-%%m-%%d %%H:%%M:%%S}' % datetime.datetime.now()
+d=datetime.datetime.now()
+d
+d[0]
+dir(d)
+d.strftime("%Y-%m-%d %H:%M:%S")
+reset_namespace
+cirrus
+cirrus.setMasses("1,2,3,4")
+cirrus.setMasses([1,2,3,4])
+cirrus.getMasses()
