@@ -18,25 +18,7 @@
 
 package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
 
-import gda.device.detector.areadetector.v17.NDArray;
-import gda.device.detector.areadetector.v17.NDProcess;
-import gda.device.detector.areadetector.v17.NDStats;
-
-public interface ADController {
-
-	public abstract NDStats getImageNDStats();
-
-	public abstract NDProcess getLiveViewNDProc();
-
-	public abstract int getImageHistSize();
-
-	public abstract int getImageMin();
-
-	public abstract int getImageMax();
-
-	public abstract String getDetectorName();
-
-	public abstract NDArray getImageNDArray();
-
-	public abstract ImageData getImageData() throws Exception;
+public class ImageData {
+	public int[] dimensions;
+	public Object data;
 }

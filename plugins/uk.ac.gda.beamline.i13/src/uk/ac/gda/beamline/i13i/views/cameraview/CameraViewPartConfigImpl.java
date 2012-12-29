@@ -46,6 +46,7 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 	private String autoCentreCmd;
 	private String showNormalisedImageCmd;
 	private String histogramPlotId;
+	private String imagePlotId;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -73,6 +74,8 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 			throw new IllegalArgumentException("imageViewerListener not defined");
 		if (histogramPlotId == null)
 			throw new IllegalArgumentException("histogramPlotId not defined");
+		if (imagePlotId == null)
+			throw new IllegalArgumentException("imagePlotId not defined");
 
 	}
 
@@ -210,6 +213,15 @@ public class CameraViewPartConfigImpl implements CameraViewPartConfig, Initializ
 
 	public void setHistogramPlotId(String histogramPlotId) {
 		this.histogramPlotId = histogramPlotId;
+	}
+
+	@Override
+	public String getImagePlotId() {
+		return imagePlotId;
+	}
+
+	public void setImagePlotId(String imagePlotId) {
+		this.imagePlotId = imagePlotId;
 	}
 
 	

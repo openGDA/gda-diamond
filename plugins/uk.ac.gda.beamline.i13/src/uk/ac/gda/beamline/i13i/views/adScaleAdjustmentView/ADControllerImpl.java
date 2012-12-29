@@ -19,6 +19,7 @@
 package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
 
 import gda.device.detector.areadetector.v17.NDArray;
+import gda.device.detector.areadetector.v17.NDPluginBase;
 import gda.device.detector.areadetector.v17.NDProcess;
 import gda.device.detector.areadetector.v17.NDStats;
 
@@ -65,11 +66,6 @@ public class ADControllerImpl implements ADController {
 		return detectorName;
 	}
 
-	@Override
-	public NDArray getImageNDArray() {
-		return imageNDArray;
-	}
-
 	public void setImageNDStats(NDStats ndStats) {
 		this.imageNDStats = ndStats;
 	}
@@ -92,6 +88,40 @@ public class ADControllerImpl implements ADController {
 
 	public void setImageNDArray(NDArray imageNDArray) {
 		this.imageNDArray = imageNDArray;
+	}
+
+	private int[] determineDataDimensions() throws Exception {
+		// only called if configured to readArrays (and hence ndArray is set)
+		NDPluginBase pluginBase = imageNDArray.getPluginBase();
+		int nDimensions = pluginBase.getNDimensions_RBV();
+		int[] dimFromEpics = new int[3];
+		dimFromEpics[0] = pluginBase.getArraySize2_RBV();
+		dimFromEpics[1] = pluginBase.getArraySize1_RBV();
+		dimFromEpics[2] = pluginBase.getArraySize0_RBV();
+
+		int[] dims = java.util.Arrays.copyOfRange(dimFromEpics, 3 - nDimensions, 3);
+		return dims;
+	}
+
+	@Override
+	public ImageData getImageData() throws Exception {
+
+		int[] dims = determineDataDimensions();
+
+		int expectedNumPixels = dims[0];
+		for (int i = 1; i < dims.length; i++) {
+			expectedNumPixels = expectedNumPixels * dims[i];
+		}
+		Object imageData = imageNDArray.getImageData(expectedNumPixels);
+		ImageData data = new ImageData();
+		data.dimensions = dims;
+		data.data = imageData;
+		return data;
+	}
+
+	@Override
+	public NDArray getImageNDArray() {
+		return imageNDArray;
 	}
 
 }

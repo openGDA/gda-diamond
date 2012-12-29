@@ -32,7 +32,7 @@ import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
 public class AreaDetectorArrayView extends ViewPart implements InitializingBean{
 	private static final Logger logger = LoggerFactory.getLogger(AreaDetectorArrayView.class);
 
-	private AreaDetectorViewComposite areaDetectorViewComposite;
+	private AreaDetectorArrayComposite areaDetectorViewComposite;
 	ADController config;
 	
 	public AreaDetectorArrayView(ADController config) {
@@ -49,7 +49,7 @@ public class AreaDetectorArrayView extends ViewPart implements InitializingBean{
 	public void createPartControl(Composite parent) {
 
 		parent.setLayout(new FillLayout());
-		areaDetectorViewComposite = new AreaDetectorViewComposite(this, parent, SWT.NONE, config);
+		areaDetectorViewComposite = new AreaDetectorArrayComposite(this, parent, SWT.NONE, config);
 		try {
 			areaDetectorViewComposite.start();
 		} catch (Exception e) {

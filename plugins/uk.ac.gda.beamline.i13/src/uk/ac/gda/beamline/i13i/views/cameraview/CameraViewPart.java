@@ -338,7 +338,8 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			@Override
 			public void run() {
 				try {
-					showRawData();
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(cameraConfig.getImagePlotId());
+//					showRawData();
 				} catch (Exception e) {
 					reportErrorToUserAndLog("Error showing raw data", e);
 				}
@@ -346,6 +347,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		};
 		showRawData.setToolTipText("Displays hi resolution image in 'Detector Image' window");
 
+		
 		Action showHistogram = new Action("Show Histogram") {
 			@Override
 			public void run() {
@@ -991,7 +993,6 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		boolean autoBrightnessOnceAgain=false;
 		if (autoExposureTime) {
 			double factor = topQuantileValToUse / max;
-			;
 			double desiredAcquireTime = factor * acquireTime;
 			if( desiredAcquireTime > 5){
 				autoBrightnessOnceAgain = true;
