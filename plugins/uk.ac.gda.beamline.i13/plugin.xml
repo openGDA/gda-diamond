@@ -115,13 +115,13 @@
             allowMultiple="false"
             class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.AreaDetectorProfileViewCreator:i13"
             id="uk.ac.gda.beamline.i13i.AreaDetectorProfileView"
-            name="AreaDetectorProfileView">
+            name="PCO Image Profile View">
       </view>                       
       <view
             allowMultiple="false"
             class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.AreaDetectorArrayViewCreator:i13"
             id="uk.ac.gda.beamline.i13i.AreaDetectorArrayView"
-            name="AreaDetectorArrayView">
+            name="PCO Image View">
       </view>                       
    </extension>
    <extension

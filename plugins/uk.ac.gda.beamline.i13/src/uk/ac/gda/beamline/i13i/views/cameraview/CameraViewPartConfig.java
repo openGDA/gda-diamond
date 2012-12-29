@@ -42,4 +42,5 @@ public interface CameraViewPartConfig {
 	Scannable getCameraXYScannable();
 	String getShowNormalisedImageCmd();
 	String getHistogramPlotId();
+	String getImagePlotId();
 }
