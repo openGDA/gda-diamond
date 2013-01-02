@@ -195,33 +195,5 @@
 		<property name="struck" ref="struckScaler" />
 		<property name="timer" ref="tfg" />
 	</bean>
-
-	<bean id="mythen" class="gda.device.detector.mythen.MythenDetectorImpl">
-		<property name="detectorID" value="b18-mcs01" />
-		<property name="mythenClient">
-			<bean class="gda.device.detector.mythen.client.TextClientMythenClient">
-				<property name="mythenClientCommand"
-					value="/dls_sw/b18/software/mythen/MythenSoft/bin/text_client" />
-				<property name="host" value="b18-mcs01" />
-			</bean>
-		</property>
-
-		<property name="dataConverter">
-			<bean class="gda.device.detector.mythen.data.DataConverter">
-				<property name="angularCalibrationParameters">
-					<bean
-						class="gda.device.detector.mythen.data.SimpleAngularCalibrationParameters">
-						<constructor-arg>
-							<bean class="java.io.File">
-								<constructor-arg>
-									<value>/dls_sw/b18/software/mythen/MythenSoft/module/calibration.dat</value>
-								</constructor-arg>
-							</bean>
-						</constructor-arg>
-					</bean>
-				</property>
-			</bean>
-		</property>
-	</bean>
 	
 </beans>
