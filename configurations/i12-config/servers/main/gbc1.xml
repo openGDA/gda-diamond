@@ -13,17 +13,6 @@
 					<property name="name" value="gbc1_flow" />
 					<property name="deviceName" value="gbc1.water" />
 				</bean>
-
-				<bean id="gbc1_t3" class="gda.device.monitor.EpicsMonitor">
-					<property name="name" value="gbc1_t3" />
-					<property name="deviceName" value="gbc1.temp3" />
-				</bean>
-
-				<bean id="gbc1_t4" class="gda.device.monitor.EpicsMonitor">
-					<property name="name" value="gbc1_t4" />
-					<property name="deviceName" value="gbc1.temp4" />
-				</bean>
-
 			</list>
 		</property>
 	</bean>

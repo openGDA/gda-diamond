@@ -1,9 +1,9 @@
-ScannableNames	Module	cam1_x	cam1_z	cam1_roll	t3_x	t3_m1y	s2_xs	s2_ys	magnification	object_pixel_size	Resolution	HFOV	VFOV	ss1_x	ball-diameter ss1_rz defaultExposureTime AFCropStartX	AFCropStartY	AFCropEndX	AFCropEndY
-ScannableUnits	No.	mm	mm	deg	mm	mm	mm	mm	No.	micron	micron	mm	mm	mm	mm deg sec	mm	mm	mm	mm
-1	53.300	-89.5	-0.845	1350.85	39.45	40.000	12.000	0.721	12.475	24.950	50.000	33.333	-100	5	0	0.05	1838	1237	2115	1421
-2	137.05	-69.4	-0.487	1351.75	39.81	18.000	12.000	1.822	4.94	9.980	19.800	13.200	-100	3	0	0.5	1706	1118	2220	1513
-3	214.80	-58.3	-0.087	1352.54	40.21	8.000	7.000	5.066	1.776	4.491	7.120	4.747	-100	2	0	1	1817	1127	2216	1506
-4	290.185	-56.3	-0.464	1351.66	39.61	5.000	3.500	9.321	0.966	1.796	3.870	2.580	-100	1	0	2.5	1704	1088	2204	1500
+ScannableNames	Module	cam1_x	cam1_z	cam1_roll	t3_x	t3_m1y	s2_xs	s2_ys	magnification	object_pixel_size	Resolution	HFOV	VFOV	ss1_x	ball-diameter ss1_rz defaultExposureTime AFCropStartX	AFCropStartY	AFCropEndX	AFCropEndY	ss1_rx
+ScannableUnits	No.	mm	mm	deg	mm	mm	mm	mm	No.	micron	micron	mm	mm	mm	mm deg sec	mm	mm	mm	mm	mm
+1	53.300	-89.5	-0.845	1350.85	39.45	40.000	12.000	0.721	12.475	24.950	50.000	33.333	-100	5	0	0.05	1838	1237	2115	1421	0.0887
+2	137.05	-69.4	-0.487	1351.75	39.81	18.000	12.000	1.822	4.94	9.980	19.800	13.200	-100	3	0	0.5	1706	1118	2220	1513	0.0887
+3	214.80	-53.75	-0.0847	1352.54	40.21	8.000	7.000	5.066	1.776	4.491	7.120	4.747	-100	2	0	1	1817	1127	2216	1506	0.0592
+4	290.185	-77.0	-0.465	1351.66	39.61	5.000	3.500	9.321	0.966	1.796	3.870	2.580	-100	1	0	2.5	1704	1088	2204	1500	0.0433
 
 #Values below for visible light lens system
 #1	52.000	-91.55	-0.777	1351.550	-40	40.000	12.000	0.721	49.6	24.950	50.000	33.333	-100	5	0.777
