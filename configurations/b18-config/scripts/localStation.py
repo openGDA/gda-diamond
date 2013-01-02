@@ -19,7 +19,10 @@ from gda.device.monitor import EpicsMonitor
 
 original_header = Finder.getInstance().find("datawriterconfig").clone().getHeader()[:]
 
-detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, ionc_stanfords, ionc_gas_injectors)
+if (LocalProperties.get("gda.mode") == 'live'):
+    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, ionc_stanfords, ionc_gas_injectors)
+else:
+    detectorPreparer = B18DetectorPreparer(qexafs_energy, None, ionc_stanfords, ionc_gas_injectors)
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = OutputPreparer()
 
