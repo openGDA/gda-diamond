@@ -77,7 +77,7 @@
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="m3_stripe" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="m3_stripe" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="M3P" />
 
 	</bean>
@@ -98,7 +98,7 @@
 		
 	</bean>
 
-	<bean id="m4_stripe" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="m4_stripe" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="M4P" />
 		
 	</bean>
@@ -315,7 +315,7 @@
 		
 	</bean>
 
-	<bean id="hr_stripe" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="hr_stripe" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="HRMP" />
 	</bean>
 	<bean id="hr_height_motor" class="gda.device.motor.EpicsMotor">
@@ -337,7 +337,7 @@
 		<property name="hardwareUnitString" value="deg" />
 	</bean>
 
-	<bean id="hrmcoating" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="hrmcoating" class="gda.device.enumpositioner.EpicsPositionerCallback">
 <!-- 		<property name="pvName" value="BL20I-OP-HRM-05:MP:SELECT" /> -->
 		<property name="deviceName" value="HRMP" />
 		
