@@ -17,12 +17,6 @@
 	</bean>
 	
 	<import resource="simpleScannables.xml" />
-	<!-- Commonly commented in the simulation environment -->
-
-
-	<import resource="pixium.xml" />
-	
-
 	<import resource="pco.xml" />
 
 	<!-- The tomoAlignment.xml must follow the pco.xml since the tomoAlignment 

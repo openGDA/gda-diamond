@@ -6,7 +6,7 @@ from bisect import bisect_left, bisect_right
 from gda.commandqueue import JythonCommandCommandProvider
 from gda.factory import Finder
 from gdascripts.messages import handle_messages
-from time import sleep
+from time import sleep, gmtime, strftime
 from tomographyScan import tomoScan
 import math
 import sys
@@ -14,9 +14,9 @@ import os
 import subprocess
 from fast_scan import FastScan
 from gda.jython.ScriptBase import checkForPauses
-from i12utilities import setSubdirectory
+from i12utilities import setSubdirectory, cfn
 from i12utilities import pwd
-from gdascripts.configuration.properties.localProperties import LocalProperties
+from gda.configuration.properties import LocalProperties
 from gda.jython.commands.ScannableCommands import scan
 import scisoftpy as dnp
 verbose = True
@@ -26,16 +26,20 @@ from gda.data import NumTracker
 from gda.data import PathConstructor
 from gda.util import PropertyUtils
 import uk.ac.diamond.scisoft.analysis.dataset.Image as Image
-from gdascripts.utils import caput
+import uk.ac.gda.tomography.TomographyResourceUtil
+import uk.ac.gda.tomography.parameters.TomoParametersFactory as TomoParametersFactory
+
 """
 Performs software triggered tomography
 """
 def isLiveMode():
-    if LocalProperties.check("gda.live.mode"):
+    gdaMode = LocalProperties.get("gda.mode")
+    print gdaMode
+    if gdaMode == "live" or gdaMode == "localhost":
         return True
     return False
 
-def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection, numberofProjections,
+def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection,
                  isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat= -100.0, positionOfBaseInBeam=0.0, isToBeReconstructed=False, minY=0, maxY=2672):
     #
     if verbose:
@@ -50,8 +54,9 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     timeDividedAcq = timeDividedAcq / int(exposureVsRes)
     
     pco = f.find("pco")
-    pco.setADCMode(1)
     pco.stop();
+    '''Setting the camera to is 2-ADC'''
+    pco.setADCMode(1)  
     pco.setExternalTriggered(isLiveMode())
         
     if verbose:
@@ -78,7 +83,6 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     except:
         exceptionType, exception, traceback = sys.exc_info()
         print "Problem moving tomo alignment motors" + `exception`
-    print `yBin`
     if verbose:
         print "Tomo scan starting"
         print "type : " + `stepsSize`
@@ -86,7 +90,6 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
         print "Sample acquisition time: " + `sampleAcquisitionTime`
         print "flatAcquisitionTime: " + `flatAcquisitionTime`
         print "numberOfFramesPerProjection: " + `numberOfFramesPerProjection`
-        print "numberofProjections: " + `numberofProjections`
         print "isContinuousScan: " + `isContinuousScan`
         print "timeDivider: " + `timeDivider`
         print "positionOfBaseAtFlat:" + `positionOfBaseAtFlat`
@@ -98,8 +101,12 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     isTomoScanSuccess = True
     try:
         pco.getController().disarmCamera()
-        #tomoScan(positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize[desiredResolution], 0, 0, 10, 10, 0, additionalScannables=[fastScan])
-        tomoScan(description, positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, 10, 10, 0, additionalScannables=[fastScan])
+        startTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+        stepsSize = 90
+        tomoScan(description, positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, 1, 1, 0, additionalScannables=[fastScan])
+        #tomoScan(description, positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, 10, 10, 0, additionalScannables=[fastScan])
+        endTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+        scanNumber = int(cfn())
     except Exception, ex:
         print "in exception"
         isTomoScanSuccess = False
@@ -123,6 +130,7 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
             launchRecon(inNXSFile, outDir, localTomoFile, templateSettingsFile)
         except Exception, ex:
             raise Exception ("Error launching reconstruction: " + str(ex))
+    return {"StartTime":startTime, "EndTime":endTime, "ScanNumber":scanNumber}
 
 def initialisePCOPlugins(pco):
     pcoController = pco.getController()
@@ -277,10 +285,9 @@ def moveTomoAlignmentMotors(motorMoveMap):
             while m.isBusy():
                 updateScriptController("Aligning Tomo motors:" + m.name + ": " + `round(m.position, 2)`)
                 if verbose:
-                    print 'waiting for motor ' + `m.getName()`
+                    print 'waiting for motor ' + `m.getName()` + " to move to " + `position` + " currently at " + `round(m.position, 2)`
                 sleep(5)
         if verbose:
-            print "is ss1_tx busy:" + `f.find("ss1_tx").isBusy()`
             print 'motor moving done'
     except:
         exceptionType, exception, traceback = sys.exc_info()
@@ -693,24 +700,32 @@ class TomoAlignmentConfigurationManager:
     def __init__(self):
         self.tomoAlignmentConfigurations = {}
         self.currentConfigInProgress = None
+        self.tomoResourceUtil = uk.ac.gda.tomography.TomographyResourceUtil()
         pass
     
     def getRunningConfig(self):
         updateScriptController('RunningConfig#' + `self.currentConfigInProgress`)
         return self.currentConfigInProgress
-        
-    def setupTomoScan(self, length, configIds, descriptions, moduleNums, motorMoveMaps, sampleAcquisitionTimes, flatAcquisitionTimes, numberOfFramesPerProjections, numberofProjectionss,
-                 isContinuousScans, desiredResolutions, timeDividers, positionOfBaseAtFlats, positionOfBaseInBeam, tomoAxisRotation, minY, maxY):
+    
+    def setupTomoScan(self, tomoConfigFilePath):
+        print tomoConfigFilePath
         if self.currentConfigInProgress != None:
             updateScriptController('Tomography Scan already in progress...')
             if verbose:
                 print "Tomography Scan already in progress..."
             return
+        tomoExperimentResource = self.tomoResourceUtil.getResource(tomoConfigFilePath, False)
+        tomoExperiment = tomoExperimentResource.getContents()[0]
+        tomoExperimentParams = tomoExperiment.getParameters()
+        tomoExperimentConfigSet = tomoExperimentParams.getConfigurationSet()
+        
         self.tomoAlignmentConfigurations.clear()
-        for i in range(length):
-            t = TomoAlignmentConfiguration(self, configIds[i], descriptions[i], moduleNums[i], motorMoveMaps[i], sampleAcquisitionTimes[i], flatAcquisitionTimes[i], numberOfFramesPerProjections[i], numberofProjectionss[i],
-                 isContinuousScans[i], desiredResolutions[i], timeDividers[i], positionOfBaseAtFlats[i], positionOfBaseInBeam[i], tomoAxisRotation[i], minY[i], maxY[i])
-            self.tomoAlignmentConfigurations[i] = t
+        
+        for i in range(tomoExperimentConfigSet.size()):
+            aC = tomoExperimentConfigSet.get(i)
+            if aC.getSelectedToRun():
+                tomoResourceUtil = TomoAlignmentConfiguration(self, aC)
+            self.tomoAlignmentConfigurations[i] = tomoResourceUtil
         self.runConfigs()
     
     def setConfigRunning(self, configId):
@@ -741,29 +756,53 @@ class TomoAlignmentConfigurationManager:
         
 tomographyConfigurationManager = TomoAlignmentConfigurationManager()
     
+
 class TomoAlignmentConfiguration:
-    def __init__(self, tomographyConfigurationManager, configId, description, moduleNum, motorMoveMap, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection, numberofProjections,
-                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat, positionOfBaseInBeam, tomoAxisRot, minY, maxY):
+    def __init__(self, tomographyConfigurationManager, aC):
         self.tomographyConfigurationManager = tomographyConfigurationManager
-        self.configId = configId
-        self.description = description
-        self.moduleNum = moduleNum
-        self.motorMoveMap = motorMoveMap
-        self.sampleAcquisitionTime = sampleAcquisitionTime
-        self.flatAcquisitionTime = flatAcquisitionTime
-        self.numberOfFramesPerProjection = numberOfFramesPerProjection
-        self.numberofProjections = numberofProjections
-        self.isContinuousScan = isContinuousScan
-        self.desiredResolution = desiredResolution
-        self.timeDivider = timeDivider
-        self.positionOfBaseAtFlat = positionOfBaseAtFlat
-        self.positionOfBaseInBeam = positionOfBaseInBeam
-        self.configId = configId
-        self.tomoAxisRotation = tomoAxisRot
-        self.minY = minY
-        self.maxY = maxY
+        self.alignmentConfiguration = aC
+        self.configId = aC.id
+        self.description = aC.description
+        self.moduleNum = aC.detectorProperties.moduleParameters.moduleNumber
+        self.sampleAcquisitionTime = aC.sampleExposureTime
+        self.flatAcquisitionTime = aC.flatExposureTime
+        self.numberOfFramesPerProjection = aC.detectorProperties.numberOfFramerPerProjection
+        self.isContinuousScan = (aC.scanMode == "Continuous")
+        self.desiredResolution = self.getResolutionInteger(aC.detectorProperties.desired3DResolution)
+        self.timeDivider = aC.detectorProperties.acquisitionTimeDivider
+        self.positionOfBaseAtFlat = aC.outOfBeamPosition
+        self.positionOfBaseInBeam = aC.inBeamPosition
+        self.tomoAxisRotation = aC.tomoRotationAxis
+        self.minY = aC.detectorProperties.detectorRoi.minY
+        self.maxY = aC.detectorProperties.detectorRoi.maxY
+        motorPositions = {}
+        for i in range(aC.motorPositions.size()):
+            motorPosition = aC.motorPositions[i]
+            motorPositions[motorPosition.name] = motorPosition.position
+        self.motorMoveMap = motorPositions
+
         self.status = None
-        pass
+
+    def getResolutionInteger(self, strValue):
+        if strValue == "X2":
+            return 2
+        elif strValue == "X4":
+            return 4
+        elif strValue == "X8":
+            return 8
+        return 1
+    
+    def writeInfoToAlignmentConfiguration(self, result):
+        print "StartTime" + `result['StartTime']`
+        print "EndTime" + `result['EndTime']`
+        print "ScanNumber" + `result['ScanNumber']`
+        scanCollected = TomoParametersFactory.eINSTANCE.createScanCollected()
+        scanCollected.startTime = result['StartTime']
+        scanCollected.endTime = result['EndTime']
+        scanCollected.scanNumber = str(result['ScanNumber'])
+        self.alignmentConfiguration.getScanCollected().add(scanCollected)
+        self.alignmentConfiguration.eResource().save(None)
+        
     
     def doTomographyAlignmentAndScan(self):
         scriptController = Finder.getInstance().find("tomoAlignmentConfigurationScriptController")
@@ -773,19 +812,18 @@ class TomoAlignmentConfiguration:
             if verbose:
                 print 'Attempting to move into requested module'
             checkForPauses()
-            #moveToModule(self.moduleNum)
+            moveToModule(self.moduleNum)
             checkForPauses()
             if verbose:
                 print 'Aligning cam stage and sample stage motors'
-            #moveTomoAlignmentMotors(self.motorMoveMap)
+            moveTomoAlignmentMotors(self.motorMoveMap)
             if verbose:
                 print 'All motors in place - starting tomography scan'
             checkForPauses()
-            tomoScani12(self.description,
+            result = tomoScani12(self.description,
                         self.sampleAcquisitionTime,
                         self.flatAcquisitionTime,
                         self.numberOfFramesPerProjection,
-                        self.numberofProjections,
                         self.isContinuousScan,
                         self.desiredResolution,
                         self.timeDivider,
@@ -793,6 +831,8 @@ class TomoAlignmentConfiguration:
                         self.positionOfBaseInBeam,
                         minY=self.minY,
                         maxY=self.maxY)
+            self.writeInfoToAlignmentConfiguration(result)
+           
             self.status = "Complete"
         except:
             exceptionType, exception, traceback = sys.exc_info()

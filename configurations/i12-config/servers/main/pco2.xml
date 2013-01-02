@@ -344,7 +344,7 @@
 
 	<!-- Kaz and Ravi testing for PCO HDF5 writer ability -->
 
-	<bean id="pco_hdf" class="gda.device.detector.addetector.ADPco">
+<!-- 	<bean id="pco_hdf" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco.cam" />
 		<property name="ndStats" ref="pco.stat" />
 		<property name="computeCentroid" value="true" />
@@ -380,7 +380,7 @@
 	<bean id="pco_hdf_adDriverPco"
 		class="gda.device.detector.areadetector.v17.impl.ADDriverPcoImpl">
 		<property name="basePvName" value="BL12I-EA-DET-02:CAM" />
-	</bean>
+	</bean> -->
 	<!--End of: Kaz and Ravi testing for PCO HDF5 writer ability -->
 
 </beans>

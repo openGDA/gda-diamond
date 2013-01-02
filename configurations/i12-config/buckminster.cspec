@@ -2,6 +2,10 @@
 <cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="i12-config" componentType="buckminster" version="1.0.0">
     <cs:dependencies>
         <cs:dependency name="ncsa.hdf" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.emf.common" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.emf.ecore" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.emf.ecore.xmi" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.emf.edit" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.analysis" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i12" componentType="osgi.bundle"/>

@@ -19,5 +19,5 @@
 		<constructor-arg value="${gda.epics.interface.xml}" />
 	</bean>
 	<import resource="../rcp-common.xml"/>
-	
+	<import resource="../pixium.xml" />
 </beans>
