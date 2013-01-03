@@ -158,5 +158,66 @@
    <toc
          file="toc.xml">
    </toc>
+</extension>
+<extension
+      point="org.eclipse.ui.commands">
+   <command
+         defaultHandler="uk.ac.gda.beamline.i13i.handlers.SetExposure"
+         id="uk.ac.gda.beamline.i13i.commands.setExposure"
+         name="SetExposure">
+      <commandParameter
+            id="uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName"
+            name="name"
+            optional="false">
+      </commandParameter>
+   </command>
+</extension>
+<extension
+      point="org.eclipse.ui.menus">
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i13i.AreaDetectorArrayView">
+      <command
+            commandId="uk.ac.gda.beamline.i13i.commands.setExposure"
+            label="Set Exposure"
+            style="push">
+         <parameter
+               name="uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName"
+               value="i13">
+         </parameter>
+      </command>
+   </menuContribution>
+</extension>       
+<extension
+      point="org.eclipse.ui.menus">
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i13i.AreaDetectorProfileView">
+      <command
+            commandId="uk.ac.gda.beamline.i13i.commands.setExposure"
+            label="Set Exposure"
+            style="push">
+         <parameter
+               name="uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName"
+               value="i13">
+         </parameter>
+      </command>
+   </menuContribution>
+</extension>       
+<extension
+      point="org.eclipse.ui.menus">
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.client.tomo.CameraView">
+      <command
+            commandId="uk.ac.gda.beamline.i13i.commands.setExposure"
+            label="Set Exposure"
+            style="push">
+         <parameter
+               name="uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName"
+               value="i13">
+         </parameter>
+      </command>
+   </menuContribution>
 </extension>       
 </plugin>

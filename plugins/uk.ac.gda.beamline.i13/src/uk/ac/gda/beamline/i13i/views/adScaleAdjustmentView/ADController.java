@@ -18,6 +18,7 @@
 
 package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
 
+import gda.device.detector.areadetector.v17.ADBase;
 import gda.device.detector.areadetector.v17.NDArray;
 import gda.device.detector.areadetector.v17.NDProcess;
 import gda.device.detector.areadetector.v17.NDStats;
@@ -39,4 +40,8 @@ public interface ADController {
 	public abstract NDArray getImageNDArray();
 
 	public abstract ImageData getImageData() throws Exception;
+
+	public abstract void setExposure(double d);
+
+	public abstract ADBase getAdBase();
 }

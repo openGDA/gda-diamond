@@ -46,6 +46,8 @@
 		<property name="imageMin" value="0"/>
 		<property name="imageMax" value="65535"/>
 		<property name="detectorName" value="PCO"/>
+		<property name="adBase" ref="pco1_cam_base"/>
+		<property name="setExposureTimeCmd" value="tomodet.setupForAlignment( exposureTime=%f)"/>
 	</bean>
 
 	<bean id="dictionary"  class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.MyDictionary">
