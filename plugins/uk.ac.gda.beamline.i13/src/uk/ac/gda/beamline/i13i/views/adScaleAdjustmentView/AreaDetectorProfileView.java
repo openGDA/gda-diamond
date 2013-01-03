@@ -22,6 +22,11 @@ import org.dawb.common.ui.plot.tool.IToolPageSystem;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IPartListener2;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +50,8 @@ public class AreaDetectorProfileView extends ViewPart implements InitializingBea
 			throw new Exception("Config is null");
 		
 	}
+	private IPartListener2 partListener;
+	
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -58,6 +65,66 @@ public class AreaDetectorProfileView extends ViewPart implements InitializingBea
 		}
 		setTitleImage(I13IBeamlineActivator.getImageDescriptor("icons/AreaDetectorProfileView.gif").createImage());
 		setPartName(config.getDetectorName() + " Profile View" );
+		
+		partListener = new IPartListener2() {
+			
+			@Override
+			public void partVisible(IWorkbenchPartReference partRef) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void partOpened(IWorkbenchPartReference partRef) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void partInputChanged(IWorkbenchPartReference partRef) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void partHidden(IWorkbenchPartReference partRef) {
+				IWorkbenchPage page = partRef.getPage();
+				page.toString();
+				IWorkbenchPart part = partRef.getPart(false);
+				part.toString();
+				if( part == AreaDetectorProfileView.this){
+					((AreaDetectorProfileView)part).toString();
+				}
+				
+			}
+			
+			@Override
+			public void partDeactivated(IWorkbenchPartReference partRef) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void partClosed(IWorkbenchPartReference partRef) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void partBroughtToTop(IWorkbenchPartReference partRef) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void partActivated(IWorkbenchPartReference partRef) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		getSite().getPage().addPartListener(partListener);
+		
+		
 
 	}
 
@@ -68,8 +135,12 @@ public class AreaDetectorProfileView extends ViewPart implements InitializingBea
 
 	@Override
 	public void dispose() {
-		super.dispose();
 		areaDetectorProfileComposite.dispose();
+		super.dispose();
+		if(partListener != null){
+			getSite().getPage().removePartListener(partListener);
+			partListener = null;
+		}
 	}
 
 	@Override
@@ -79,6 +150,8 @@ public class AreaDetectorProfileView extends ViewPart implements InitializingBea
 		}
 		return super.getAdapter(clazz);
 	}
+
+
 	
 	
 }

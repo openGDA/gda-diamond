@@ -317,7 +317,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 		
 
-		final Action setExposureTime = new Action("Start Camera or Change Exposure Time") {
+/*		final Action setExposureTime = new Action("Start Camera or Change Exposure Time") {
 			@Override
 			public void run() {
 				try {
@@ -326,7 +326,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 					reportErrorToUserAndLog("Error setting exposure time", e);
 				}
 			}
-		};
+		};*/
 
 		Action zoomFit = new Action("Zoom to Fit") {
 			@Override
@@ -526,7 +526,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		
 		Vector<Action> exposureActions= new Vector<Action>();
 		exposureActions.add(reconnectAction);
-		exposureActions.add(setExposureTime);
+//		exposureActions.add(setExposureTime);
 		exposureActions.add(autoExposureAction);
 		exposureActions.add(autoBrightnessAction);
 		
@@ -697,11 +697,11 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		}
 	}
 
-	protected void showRawData() throws Exception {
+/*	protected void showRawData() throws Exception {
 		
 		ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
 		try {
-			pd.run(true /* fork */, true /* cancelable */, new IRunnableWithProgress() {
+			pd.run(true  fork , true  cancelable , new IRunnableWithProgress() {
 				@Override
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 					String title = "Reading image to display in 'Detector Image' view";
@@ -729,8 +729,8 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		
 		
 	}
-
-	protected void setExposureTime() throws Exception {
+*/
+/*	protected void setExposureTime() throws Exception {
 		double acquireTime = cameraConfig.getAdBase().getAcquireTime_RBV();
 		InputDialog dlg = new InputDialog(Display.getCurrent().getActiveShell(), "Set exposure time",
 				"Enter a new value for the exposure time in secs:", Double.toString(acquireTime),
@@ -752,7 +752,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			final String cmd = String.format(cameraConfig.getSetExposureTimeCmd(), value);
 
 			ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
-			pd.run(true /* fork */, true /* cancelable */, new IRunnableWithProgress() {
+			pd.run(true  fork , true  cancelable , new IRunnableWithProgress() {
 				@Override
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 					String title = "Setting exposure time to " + value;
@@ -775,7 +775,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			});
 		}
 	}
-
+*/
 	protected void reconnectIOC() {
 
 		ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());

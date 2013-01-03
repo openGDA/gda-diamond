@@ -18,12 +18,16 @@
 
 package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
 
+import org.springframework.beans.factory.InitializingBean;
+
+import gda.device.detector.areadetector.v17.ADBase;
 import gda.device.detector.areadetector.v17.NDArray;
 import gda.device.detector.areadetector.v17.NDPluginBase;
 import gda.device.detector.areadetector.v17.NDProcess;
 import gda.device.detector.areadetector.v17.NDStats;
+import gda.jython.InterfaceProvider;
 
-public class ADControllerImpl implements ADController {
+public class ADControllerImpl implements ADController, InitializingBean {
 	public NDStats imageNDStats;
 	public NDProcess liveViewNDProc;
 	private NDArray imageNDArray;
@@ -31,6 +35,8 @@ public class ADControllerImpl implements ADController {
 	private int imageMin;
 	private int imageMax;
 	private String detectorName;
+	private ADBase adBase;
+	private String setExposureTimeCmd;
 
 	@Override
 	public NDStats getImageNDStats() {
@@ -122,6 +128,35 @@ public class ADControllerImpl implements ADController {
 	@Override
 	public NDArray getImageNDArray() {
 		return imageNDArray;
+	}
+
+	@Override
+	public void setExposure(double d) {
+		final String cmd = String.format(getSetExposureTimeCmd(), d);
+		InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
+	}
+
+	private String getSetExposureTimeCmd() {
+		return setExposureTimeCmd;
+	}
+
+	public void setSetExposureTimeCmd(String setExposureTimeCmd) {
+		this.setExposureTimeCmd = setExposureTimeCmd;
+	}
+
+	@Override
+	public ADBase getAdBase() {
+		return adBase;
+	}
+
+	public void setAdBase(ADBase adBase) {
+		this.adBase = adBase;
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		if( adBase == null) throw new Exception("adBase is null");
+		
 	}
 
 }

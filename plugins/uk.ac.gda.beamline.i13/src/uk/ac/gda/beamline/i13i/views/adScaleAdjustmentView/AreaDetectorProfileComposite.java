@@ -47,7 +47,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbenchPartReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,6 +86,7 @@ public class AreaDetectorProfileComposite extends Composite {
 	long current_mpegROIMin = Long.MIN_VALUE;
 	long current_mpegROIMax = Long.MAX_VALUE;
 	private RectangularROI current_mpegROI;
+
 
 	public AreaDetectorProfileComposite(IViewPart parentViewPart, Composite parent, int style, ADController config) {
 		super(parent, style);
@@ -333,10 +336,15 @@ public class AreaDetectorProfileComposite extends Composite {
 		if (statsArrayCounterObserver == null) {
 			statsArrayCounterObserver = new Observer<Integer>() {
 
+				boolean first = true;
 				@Override
 				public void update(Observable<Integer> source, Integer arg) {
 					if (isDisposed())
 						return;
+					if( first){
+						first = false;
+						return; //ignore first update
+					}
 					if (updateHistogramJob == null) {
 						updateHistogramJob = new Job("Update histogram") {
 
