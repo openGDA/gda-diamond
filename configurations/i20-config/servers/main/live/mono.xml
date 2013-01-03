@@ -7,7 +7,7 @@
 
 	<!-- mirrors and QCM -->
 
-	<bean id="ohcoating" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="ohcoating" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="M1P" />
 	</bean>
 	<bean id="crystalcut" class="gda.device.monitor.EpicsMonitor">

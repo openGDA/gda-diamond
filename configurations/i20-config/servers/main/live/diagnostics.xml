@@ -8,7 +8,7 @@
 		<property name="deviceName" value="D1.D1I" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="d1_screen" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="d1_screen" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="D1P" />
 		<property name="local" value="false"/>
 	</bean>
@@ -29,7 +29,7 @@
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 
-	<bean id="d3_screen" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="d3_screen" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="D3P" />
 		<property name="local" value="false"/>
 	</bean>
@@ -101,7 +101,7 @@
 		<property name="deviceName" value="D4.D1I" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="d4_screen" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="d4_screen" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="D4P" />
 		<property name="local" value="false"/>
 	</bean>
@@ -124,7 +124,7 @@
 		<property name="deviceName" value="D5.D1I" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="d5_screen" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="d5_screen" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="D5P" />
 		<property name="local" value="false"/>
 	</bean>
@@ -188,7 +188,7 @@
 		<property name="motor" ref="d8_motor" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
-	<bean id="d8_screen" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="d8_screen" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="local" value="false"/>
 		<property name="deviceName" value="D8P" />
 	</bean>
