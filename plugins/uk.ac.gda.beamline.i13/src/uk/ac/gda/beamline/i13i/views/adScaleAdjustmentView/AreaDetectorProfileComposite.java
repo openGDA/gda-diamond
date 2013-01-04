@@ -30,6 +30,11 @@ import org.dawb.common.ui.plot.region.IRegion;
 import org.dawb.common.ui.plot.region.ROIEvent;
 import org.dawb.common.ui.plot.region.RegionUtils;
 import org.dawb.common.ui.plot.trace.ILineTrace;
+import org.eclipse.core.commands.Command;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.IParameter;
+import org.eclipse.core.commands.Parameterization;
+import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -38,6 +43,8 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.RowLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -47,14 +54,15 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
+import org.eclipse.swt.layout.GridData;
 
 public class AreaDetectorProfileComposite extends Composite {
 	private static final String PROFILE = "PROFILE";
@@ -87,8 +95,7 @@ public class AreaDetectorProfileComposite extends Composite {
 	long current_mpegROIMax = Long.MAX_VALUE;
 	private RectangularROI current_mpegROI;
 
-
-	public AreaDetectorProfileComposite(IViewPart parentViewPart, Composite parent, int style, ADController config) {
+	public AreaDetectorProfileComposite(final IViewPart parentViewPart, Composite parent, int style, ADController config) {
 		super(parent, style);
 		this.config = config;
 
@@ -99,11 +106,26 @@ public class AreaDetectorProfileComposite extends Composite {
 		layout.center = true;
 		layout.pack = false;
 		RowLayoutFactory vertRowLayoutFactory = RowLayoutFactory.createFrom(layout);
-		left.setLayout(vertRowLayoutFactory.create());
+		left.setLayout(new GridLayout(1, false));
+		
+		statusComposite = new IOCStatusComposite(left, SWT.NONE);
+		GridData gd_statusComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_statusComposite.widthHint = 164;
+		statusComposite.setLayoutData(gd_statusComposite);
 		Group stateGroup = new Group(left, SWT.NONE);
-		stateGroup.setLayout(vertRowLayoutFactory.create());
+		stateGroup.setText("Profile View");
+		GridData gd_stateGroup = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		gd_stateGroup.widthHint = 158;
+		stateGroup.setLayoutData(gd_stateGroup);
+		stateGroup.setLayout(new GridLayout(2, false));
 		histogramMonitoringLbl = new Label(stateGroup, SWT.CENTER);
+		GridData gd_histogramMonitoringLbl = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_histogramMonitoringLbl.widthHint = 77;
+		histogramMonitoringLbl.setLayoutData(gd_histogramMonitoringLbl);
 		histogramMonitoringBtn = new Button(stateGroup, SWT.PUSH | SWT.CENTER);
+		GridData gd_histogramMonitoringBtn = new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1);
+		gd_histogramMonitoringBtn.widthHint = 58;
+		histogramMonitoringBtn.setLayoutData(gd_histogramMonitoringBtn);
 		histogramMonitoringBtn.addSelectionListener(new SelectionListener() {
 
 			@Override
@@ -125,52 +147,26 @@ public class AreaDetectorProfileComposite extends Composite {
 		});
 		setStarted(histogramMonitoring);
 
-		Button btn = new Button(left, SWT.PUSH);
-		btn.setText("Auto-Scale");
-		btn.addSelectionListener(new SelectionListener() {
+		autoScaleBtn = new Button(left, SWT.PUSH);
+		autoScaleBtn.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		autoScaleBtn.setText("Auto-Scale");
+		autoScaleBtn.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				double min = 0.;
-				double max = getImageMax();
-				if (histogramTrace != null) {
-					DoubleDataset yData = (DoubleDataset) histogramTrace.getYData();
-					DoubleDataset xData = (DoubleDataset) histogramTrace.getXData();
-					int j = getPosToIncludeFractionOfPopulation(yData, .95);
-					if (j >= 0) {
-						max = xData.getDouble(j);
-					}
-					j = getPosToIncludeFractionOfPopulation(yData, .05);
-					if (j >= 0) {
-						min = xData.getDouble(j);
-					}
-
-				}
-				double offset = -min;
-				double scale = 255.0 / (max - min);
 				try {
-					AreaDetectorProfileComposite.this.config.getLiveViewNDProc().setScale(scale);
-					AreaDetectorProfileComposite.this.config.getLiveViewNDProc().setOffset(offset);
-					AreaDetectorProfileComposite.this.config.getLiveViewNDProc().setEnableOffsetScale(1);
+					ICommandService cs = (ICommandService) parentViewPart.getSite().getService(ICommandService.class);
+					Command command = cs.getCommand("uk.ac.gda.beamline.i13i.commands.setLiveViewScale");
+					IParameter parameter = command.getParameter("uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName");
+					Parameterization[] parameterizations = new Parameterization[] { new Parameterization(parameter, "i13")};
+					ParameterizedCommand cmd = new ParameterizedCommand(command, parameterizations);
+					ExecutionEvent executionEvent = ((IHandlerService)parentViewPart.getSite().getService(IHandlerService.class)).createExecutionEvent(cmd, null);
+					command.executeWithChecks(executionEvent);
 				} catch (Exception e1) {
-					logger.error("Error auto-scaling", e1);
+					logger.error("Error setting live view scaling", e1);
 				}
-
 			}
 
-			private int getPosToIncludeFractionOfPopulation(DoubleDataset yData, Double fractionOfPopulationToInclude) {
-				Double sum = (Double) yData.sum();
-				double[] data = yData.getData();
-				int popIncluded = 0;
-				int j=0;
-				double popRequired = sum * fractionOfPopulationToInclude;
-				while (popIncluded < popRequired && j < data.length) {
-					popIncluded += data[j];
-					if( popIncluded < popRequired)
-						j++;
-				}
-				return Math.min(j, data.length-1);
-			}
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -196,6 +192,36 @@ public class AreaDetectorProfileComposite extends Composite {
 		} catch (Exception e1) {
 			logger.error("Error creating region", e1);
 		}
+		try {
+			statusComposite.setObservable(config.getImageNDStats().getPluginBase().createConnectionStateObservable());
+		} catch (Exception e1) {
+			logger.error("Error in monitoring connection state", e1);
+		}
+		addDisposeListener(new DisposeListener() {
+			
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+					try {
+						stop();
+					} catch (Exception ex) {
+						logger.error("Error stopping histogram computation", e);
+					}
+					if (mpegProcObserver != null) {
+						if (mpegProcOffsetObservable != null && mpegProcObserver != null)
+							mpegProcOffsetObservable.deleteIObserver(mpegProcObserver);
+						if (mpegProcScaleObservable != null && mpegProcObserver != null)
+							mpegProcScaleObservable.deleteIObserver(mpegProcObserver);
+						mpegProcObserver = null;
+					}
+					mpegProcOffsetObservable = null;
+					mpegProcScaleObservable = null;
+					if (plottingSystem != null) {
+						plottingSystem.dispose();
+						plottingSystem = null;
+					}
+
+			}
+		});
 	}
 
 	private double getMPEGProcOffset() throws Exception {
@@ -280,7 +306,8 @@ public class AreaDetectorProfileComposite extends Composite {
 			});
 			mpegProcOffsetObservable = AreaDetectorProfileComposite.this.config.getLiveViewNDProc()
 					.createOffsetObservable();
-			mpegProcScaleObservable = AreaDetectorProfileComposite.this.config.getLiveViewNDProc().createScaleObservable();
+			mpegProcScaleObservable = AreaDetectorProfileComposite.this.config.getLiveViewNDProc()
+					.createScaleObservable();
 			mpegProcObserver = new Observer<Double>() {
 
 				@Override
@@ -313,6 +340,9 @@ public class AreaDetectorProfileComposite extends Composite {
 
 	Job updateHistogramJob;
 
+	private Button autoScaleBtn;
+	private IOCStatusComposite statusComposite;
+
 	public void start() throws Exception {
 		final int histSize = getHistSize();
 		int histMin = getImageMin();
@@ -337,13 +367,14 @@ public class AreaDetectorProfileComposite extends Composite {
 			statsArrayCounterObserver = new Observer<Integer>() {
 
 				boolean first = true;
+
 				@Override
 				public void update(Observable<Integer> source, Integer arg) {
 					if (isDisposed())
 						return;
-					if( first){
+					if (first) {
 						first = false;
-						return; //ignore first update
+						return; // ignore first update
 					}
 					if (updateHistogramJob == null) {
 						updateHistogramJob = new Job("Update histogram") {
@@ -426,30 +457,6 @@ public class AreaDetectorProfileComposite extends Composite {
 		histogramMonitoring = b;
 		histogramMonitoringBtn.setText(b ? "Stop" : "Start");
 		histogramMonitoringLbl.setText(b ? "Running" : "Stopped");
-	}
-
-	@Override
-	public void dispose() {
-		try {
-			stop();
-		} catch (Exception e) {
-			logger.error("Error stopping histogram computation", e);
-		}
-		if (mpegProcObserver != null) {
-			if (mpegProcOffsetObservable != null && mpegProcObserver != null)
-				mpegProcOffsetObservable.deleteIObserver(mpegProcObserver);
-			if (mpegProcScaleObservable != null && mpegProcObserver != null)
-				mpegProcScaleObservable.deleteIObserver(mpegProcObserver);
-			mpegProcObserver = null;
-		}
-		mpegProcOffsetObservable = null;
-		mpegProcScaleObservable = null;
-		if (plottingSystem != null) {
-			plottingSystem.dispose();
-			plottingSystem = null;
-		}
-		super.dispose();
-
 	}
 
 	/**

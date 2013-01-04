@@ -53,6 +53,8 @@ public class NamedServiceProvider {
 		if (bundleContext == null)
 			throw new IllegalStateException("BundleContext is null");
 		ServiceTracker tracker = null;
+		if( name == null)
+			throw new IllegalArgumentException("Service name is null");
 		String serviceClassAndName = clzz.getName() + ":" + name;
 		tracker = serviceTrackers.get(serviceClassAndName);
 		if (tracker == null) {

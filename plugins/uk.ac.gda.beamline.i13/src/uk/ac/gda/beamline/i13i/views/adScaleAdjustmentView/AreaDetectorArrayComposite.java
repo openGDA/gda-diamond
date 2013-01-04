@@ -34,6 +34,8 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.RowLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -53,6 +55,7 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.FloatDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.LongDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.ShortDataset;
+import org.eclipse.swt.layout.GridData;
 
 public class AreaDetectorArrayComposite extends Composite {
 
@@ -69,8 +72,6 @@ public class AreaDetectorArrayComposite extends Composite {
 	private Button arrayMonitoringBtn;
 	private Label arrayMonitoringLbl;
 
-
-
 	public AreaDetectorArrayComposite(IViewPart parentViewPart, Composite parent, int style, ADController config) {
 		super(parent, style);
 		this.config = config;
@@ -82,11 +83,27 @@ public class AreaDetectorArrayComposite extends Composite {
 		layout.center = true;
 		layout.pack = false;
 		RowLayoutFactory vertRowLayoutFactory = RowLayoutFactory.createFrom(layout);
-		left.setLayout(vertRowLayoutFactory.create());
+		left.setLayout(new GridLayout(1, false));
+		
+		IOCStatusComposite statusComposite = new IOCStatusComposite(left, SWT.NONE);
+		GridData gd_statusComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_statusComposite.widthHint = 154;
+		statusComposite.setLayoutData(gd_statusComposite);
 		Group stateGroup = new Group(left, SWT.NONE);
-		stateGroup.setLayout(vertRowLayoutFactory.create());
+		GridData gd_stateGroup = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_stateGroup.widthHint = 150;
+		stateGroup.setLayoutData(gd_stateGroup);
+		stateGroup.setText("Array View");
+		stateGroup.setLayout(new GridLayout(3, false));
 		arrayMonitoringLbl = new Label(stateGroup, SWT.CENTER);
+		GridData gd_arrayMonitoringLbl = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_arrayMonitoringLbl.widthHint = 81;
+		arrayMonitoringLbl.setLayoutData(gd_arrayMonitoringLbl);
+		new Label(stateGroup, SWT.NONE);
 		arrayMonitoringBtn = new Button(stateGroup, SWT.PUSH | SWT.CENTER);
+		GridData gd_arrayMonitoringBtn = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		gd_arrayMonitoringBtn.widthHint = 48;
+		arrayMonitoringBtn.setLayoutData(gd_arrayMonitoringBtn);
 		arrayMonitoringBtn.addSelectionListener(new SelectionListener() {
 
 			@Override
@@ -108,7 +125,6 @@ public class AreaDetectorArrayComposite extends Composite {
 		});
 		setStarted(arrayMonitoring);
 
-
 		Composite right = new Composite(this, SWT.NONE);
 		GridDataFactory.fillDefaults().grab(true, true).align(SWT.FILL, SWT.FILL).applyTo(right);
 		right.setLayout(new FillLayout());
@@ -121,6 +137,32 @@ public class AreaDetectorArrayComposite extends Composite {
 		}
 		plottingSystem.createPlotPart(right, "", parentViewPart.getViewSite().getActionBars(), PlotType.IMAGE,
 				parentViewPart);
+
+		addDisposeListener(new DisposeListener() {
+
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				try {
+					stop();
+				} catch (Exception ee) {
+					logger.error("Error stopping histogram computation", ee);
+				}
+				if (plottingSystem != null) {
+					plottingSystem.dispose();
+					plottingSystem = null;
+				}
+			}
+		});
+		try {
+			start();
+		} catch (Exception e) {
+			logger.error("Error starting  areaDetectorViewComposite", e);
+		}
+		try {
+			statusComposite.setObservable(config.getImageNDArray().getPluginBase().createConnectionStateObservable());
+		} catch (Exception e1) {
+			logger.error("Error monitoring connection state", e1);
+		}
 
 	}
 
@@ -147,7 +189,6 @@ public class AreaDetectorArrayComposite extends Composite {
 
 				private IImageTrace trace;
 
-				
 				@Override
 				public void update(Observable<Integer> source, Integer arg) {
 					if (isDisposed())
@@ -155,7 +196,7 @@ public class AreaDetectorArrayComposite extends Composite {
 					if (updateArrayJob == null) {
 						updateArrayJob = new Job("Update array") {
 
-							AbstractDataset ads=null;
+							AbstractDataset ads = null;
 							private Runnable updateUIRunnable;
 							volatile boolean runnableScheduled = false;
 
@@ -172,23 +213,19 @@ public class AreaDetectorArrayComposite extends Composite {
 									imageData.toString();
 									if (imageData.data.getClass().isArray()) {
 										Object object = Array.get(imageData.data, 0);
-										if( object instanceof Short){
-											ads = new ShortDataset((short[])(imageData.data), imageData.dimensions);
-										}
-										else if( object instanceof Double){
-											ads = new DoubleDataset((double[])(imageData.data), imageData.dimensions);
-										}
-										else if( object instanceof Long){
-											ads = new LongDataset((long[])(imageData.data), imageData.dimensions);
-										}
-										else if( object instanceof Byte){
-											ads = new ByteDataset((byte[])(imageData.data), imageData.dimensions);
-										}
-										else if( object instanceof Float){
-											ads = new FloatDataset((float[])(imageData.data), imageData.dimensions);
-										} else
-										{
-											throw new IllegalArgumentException("Type of data not recognised: " + object.getClass().getName());
+										if (object instanceof Short) {
+											ads = new ShortDataset((short[]) (imageData.data), imageData.dimensions);
+										} else if (object instanceof Double) {
+											ads = new DoubleDataset((double[]) (imageData.data), imageData.dimensions);
+										} else if (object instanceof Long) {
+											ads = new LongDataset((long[]) (imageData.data), imageData.dimensions);
+										} else if (object instanceof Byte) {
+											ads = new ByteDataset((byte[]) (imageData.data), imageData.dimensions);
+										} else if (object instanceof Float) {
+											ads = new FloatDataset((float[]) (imageData.data), imageData.dimensions);
+										} else {
+											throw new IllegalArgumentException("Type of data not recognised: "
+													+ object.getClass().getName());
 										}
 										if (updateUIRunnable == null) {
 											updateUIRunnable = new Runnable() {
@@ -196,28 +233,31 @@ public class AreaDetectorArrayComposite extends Composite {
 												@Override
 												public void run() {
 													runnableScheduled = false;
-													if( trace == null){
-														trace = (IImageTrace) plottingSystem.updatePlot2D(getDataToPlot(), null, null);
+													if (trace == null) {
+														trace = (IImageTrace) plottingSystem.updatePlot2D(
+																getDataToPlot(), null, null);
 														trace.setRescaleHistogram(false);
 													} else {
 														plottingSystem.updatePlot2D(getDataToPlot(), null, null);
 													}
 												}
 
-
 											};
 										}
 										if (!runnableScheduled) {
-											getDisplay().asyncExec(updateUIRunnable);
-											runnableScheduled = true;
+											if (!isDisposed()) {
+												getDisplay().asyncExec(updateUIRunnable);
+												runnableScheduled = true;
+											}
 										}
-									}									
+									}
 
 								} catch (Exception e) {
 									logger.error("Error reading image data", e);
 								}
 								return Status.OK_STATUS;
 							}
+
 							private AbstractDataset getDataToPlot() {
 								return ads;
 							}
@@ -238,21 +278,6 @@ public class AreaDetectorArrayComposite extends Composite {
 		arrayMonitoring = b;
 		arrayMonitoringBtn.setText(b ? "Stop" : "Start");
 		arrayMonitoringLbl.setText(b ? "Running" : "Stopped");
-	}
-
-	@Override
-	public void dispose() {
-		try {
-			stop();
-		} catch (Exception e) {
-			logger.error("Error stopping histogram computation", e);
-		}
-		if (plottingSystem != null) {
-			plottingSystem.dispose();
-			plottingSystem = null;
-		}
-		super.dispose();
-
 	}
 
 	/**

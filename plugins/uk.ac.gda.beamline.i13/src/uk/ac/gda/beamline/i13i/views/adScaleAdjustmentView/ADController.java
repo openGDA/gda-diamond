@@ -19,6 +19,7 @@
 package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
 
 import gda.device.detector.areadetector.v17.ADBase;
+import gda.device.detector.areadetector.v17.FfmpegStream;
 import gda.device.detector.areadetector.v17.NDArray;
 import gda.device.detector.areadetector.v17.NDProcess;
 import gda.device.detector.areadetector.v17.NDStats;
@@ -44,4 +45,16 @@ public interface ADController {
 	public abstract void setExposure(double d);
 
 	public abstract ADBase getAdBase();
+
+	public abstract void setLiveViewRange(double d, double e) throws Exception;
+
+	public abstract FfmpegStream getFfmpegStream();
+
+	public abstract int getfFMpegImgWidthRequired();
+
+	public abstract int getfFMpegImgHeightRequired();
+
+	public abstract void startFfmpegStream() throws Exception;
+
+	public abstract void stopFfmpegStream() throws Exception;
 }
