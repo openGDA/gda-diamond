@@ -50,11 +50,6 @@ public class AreaDetectorArrayView extends ViewPart implements InitializingBean{
 
 		parent.setLayout(new FillLayout());
 		areaDetectorViewComposite = new AreaDetectorArrayComposite(this, parent, SWT.NONE, config);
-		try {
-			areaDetectorViewComposite.start();
-		} catch (Exception e) {
-			logger.error("Error starting  areaDetectorViewComposite", e);
-		}
 		setTitleImage(I13IBeamlineActivator.getImageDescriptor("icons/AreaDetectorProfileView.gif").createImage());
 		setPartName(config.getDetectorName() + " Array View" );
 
@@ -68,7 +63,6 @@ public class AreaDetectorArrayView extends ViewPart implements InitializingBean{
 	@Override
 	public void dispose() {
 		super.dispose();
-		areaDetectorViewComposite.dispose();
 	}
 
 	@Override

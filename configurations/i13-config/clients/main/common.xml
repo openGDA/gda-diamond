@@ -48,6 +48,9 @@
 		<property name="detectorName" value="PCO"/>
 		<property name="adBase" ref="pco1_cam_base"/>
 		<property name="setExposureTimeCmd" value="tomodet.setupForAlignment( exposureTime=%f)"/>
+		<property name="ffmpegStream" ref="pco1_ffmpeg1" />
+		<property name="fFMpegImgHeightRequired" value="1336"/>
+		<property name="fFMpegImgWidthRequired" value="2004"/>		
 	</bean>
 
 	<bean id="dictionary"  class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.MyDictionary">

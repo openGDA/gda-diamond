@@ -26,7 +26,6 @@ import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
-import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,13 +33,13 @@ import org.springframework.beans.factory.InitializingBean;
 
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
 
-public class AreaDetectorProfileView extends ViewPart implements InitializingBean{
-	private static final Logger logger = LoggerFactory.getLogger(AreaDetectorProfileView.class);
+public class AreaDetectorLiveView extends ViewPart implements InitializingBean{
+	private static final Logger logger = LoggerFactory.getLogger(AreaDetectorLiveView.class);
 
-	private AreaDetectorProfileComposite areaDetectorProfileComposite;
+	private AreaDetectorLiveComposite areaDetectorLiveComposite;
 	ADController config;
 	
-	public AreaDetectorProfileView(ADController config) {
+	public AreaDetectorLiveView(ADController config) {
 		this.config = config;
 	}
 
@@ -57,14 +56,9 @@ public class AreaDetectorProfileView extends ViewPart implements InitializingBea
 	public void createPartControl(Composite parent) {
 
 		parent.setLayout(new FillLayout());
-		areaDetectorProfileComposite = new AreaDetectorProfileComposite(this, parent, SWT.NONE, config);
-		try {
-			areaDetectorProfileComposite.start();
-		} catch (Exception e) {
-			logger.error("Error starting  areaDetectorProfileComposite", e);
-		}
-		setTitleImage(I13IBeamlineActivator.getImageDescriptor("icons/AreaDetectorProfileView.gif").createImage());
-		setPartName(config.getDetectorName() + " Profile View" );
+		areaDetectorLiveComposite = new AreaDetectorLiveComposite(parent, SWT.NONE, config);
+		setTitleImage(I13IBeamlineActivator.getImageDescriptor("icons/AreaDetectorLiveView.gif").createImage());
+		setPartName(config.getDetectorName() + " Live View" );
 		
 		partListener = new IPartListener2() {
 			
@@ -92,8 +86,8 @@ public class AreaDetectorProfileView extends ViewPart implements InitializingBea
 				page.toString();
 				IWorkbenchPart part = partRef.getPart(false);
 				part.toString();
-				if( part == AreaDetectorProfileView.this){
-					((AreaDetectorProfileView)part).toString();
+				if( part == AreaDetectorLiveView.this){
+					((AreaDetectorLiveView)part).toString();
 				}
 				
 			}
@@ -124,11 +118,13 @@ public class AreaDetectorProfileView extends ViewPart implements InitializingBea
 		};
 		getSite().getPage().addPartListener(partListener);
 		
+		
+
 	}
 
 	@Override
 	public void setFocus() {
-		areaDetectorProfileComposite.setFocus();
+		areaDetectorLiveComposite.setFocus();
 	}
 
 	@Override
@@ -140,15 +136,4 @@ public class AreaDetectorProfileView extends ViewPart implements InitializingBea
 		}
 	}
 
-	@Override
-	public Object getAdapter(@SuppressWarnings("rawtypes") Class clazz) {
-		if (clazz == IToolPageSystem.class) {
-			return this.areaDetectorProfileComposite.getPlottingSystem();
-		}
-		return super.getAdapter(clazz);
-	}
-
-
-	
-	
 }

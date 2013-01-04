@@ -24,6 +24,8 @@ import gda.images.camera.VideoReceiver;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -69,6 +71,15 @@ public class CameraComposite extends Composite {
 		});
 		zoomFit();
 		pack();
+		
+		addDisposeListener(new DisposeListener() {
+			
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				disconnectFromReceiver();
+				viewer.dispose();
+			}
+		});
 	}
 	
 	private void disconnectFromReceiver(){
@@ -98,13 +109,6 @@ public class CameraComposite extends Composite {
 	@Override
 	public boolean setFocus() {
 		return viewer != null ? viewer.setFocus() : false;
-	}
-
-	@Override
-	public void dispose() {
-		super.dispose();
-		disconnectFromReceiver();
-		viewer.dispose();
 	}
 
 	public void zoomFit() {
