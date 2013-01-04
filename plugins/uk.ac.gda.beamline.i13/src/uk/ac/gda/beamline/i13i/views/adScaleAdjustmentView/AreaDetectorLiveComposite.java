@@ -28,7 +28,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.RowLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -37,7 +36,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -72,11 +70,10 @@ public class AreaDetectorLiveComposite extends Composite {
 
 		this.setLayout(new GridLayout(2, false));
 		Composite left = new Composite(this, SWT.NONE);
+		GridData gd_left = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_left.widthHint = 208;
+		left.setLayoutData(gd_left);
 		GridDataFactory.fillDefaults().grab(false, true).applyTo(left);
-		RowLayout layout = new RowLayout(SWT.VERTICAL);
-		layout.center = true;
-		layout.pack = false;
-		RowLayoutFactory vertRowLayoutFactory = RowLayoutFactory.createFrom(layout);
 		left.setLayout(new GridLayout(1, false));
 		
 		
@@ -84,6 +81,8 @@ public class AreaDetectorLiveComposite extends Composite {
 		GridData gd_grpIocStatus1 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_grpIocStatus1.widthHint = 155;
 		statusComposite.setLayoutData(gd_grpIocStatus1);
+		
+		cameraStatus = new CameraStatus(left, SWT.NONE);
 
 		Group stateGroup = new Group(left, SWT.NONE);
 		GridData gd_stateGroup = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -148,6 +147,8 @@ public class AreaDetectorLiveComposite extends Composite {
 			long timeOfLastImage=System.currentTimeMillis();
 			@Override
 			public void handlerNewImageNotification(ImageData lastImage2) throws Exception {
+				if(isDisposed())
+					return;
 				// On the first image, ensure we reset the display to match incoming image dimensions
 				long ctime = System.currentTimeMillis();
 				txtTime.setText(df.format(new Date(ctime)));
@@ -164,6 +165,11 @@ public class AreaDetectorLiveComposite extends Composite {
 			statusComposite.setObservable(connectionStateObservable);
 		} catch (Exception e1) {
 			logger.error("Error monitoring ioc status", e1);
+		}
+		try {
+			cameraStatus.setADController(config);
+		} catch (Exception e2) {
+			logger.error("Error monitoring camera", e2);
 		}
 		
 		addDisposeListener(new DisposeListener() {
@@ -207,6 +213,7 @@ public class AreaDetectorLiveComposite extends Composite {
 	private Text txtRate;
 	private Composite composite;
 	private IOCStatusComposite statusComposite;
+	private CameraStatus cameraStatus;
 
 	public void start() throws Exception {
 		if (videoReceiver != null) {
