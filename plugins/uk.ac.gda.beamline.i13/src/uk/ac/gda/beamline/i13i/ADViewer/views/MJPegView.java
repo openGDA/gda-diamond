@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
+package uk.ac.gda.beamline.i13i.ADViewer.views;
 
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
@@ -32,14 +32,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
+import uk.ac.gda.beamline.i13i.ADViewer.ADController;
+import uk.ac.gda.beamline.i13i.ADViewer.composites.MJPeg;
 
-public class AreaDetectorLiveView extends ViewPart implements InitializingBean {
-	private static final Logger logger = LoggerFactory.getLogger(AreaDetectorLiveView.class);
+public class MJPegView extends ViewPart implements InitializingBean {
+	private static final Logger logger = LoggerFactory.getLogger(MJPegView.class);
 
-	protected AreaDetectorLiveComposite areaDetectorLiveComposite;
+	protected MJPeg areaDetectorLiveComposite;
 	ADController config;
 
-	public AreaDetectorLiveView(ADController config) {
+	public MJPegView(ADController config) {
 		this.config = config;
 	}
 
@@ -49,8 +51,6 @@ public class AreaDetectorLiveView extends ViewPart implements InitializingBean {
 			throw new Exception("Config is null");
 
 	}
-
-	boolean changeRotationAxisX = false;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -65,19 +65,37 @@ public class AreaDetectorLiveView extends ViewPart implements InitializingBean {
 
 		createTopRowControls(composite_1);
 
-
 		Composite composite_2 = new Composite(composite, SWT.NONE);
 		composite_2.setLayout(new FillLayout(SWT.HORIZONTAL));
 		composite_2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		areaDetectorLiveComposite = new AreaDetectorLiveComposite(composite_2, SWT.NONE);
+		areaDetectorLiveComposite = new MJPeg(composite_2, SWT.NONE);
 		areaDetectorLiveComposite.setADController(config);
 
 		setTitleImage(I13IBeamlineActivator.getImageDescriptor("icons/AreaDetectorLiveView.gif").createImage());
 		setPartName(config.getDetectorName() + " Live View");
 
+		createActions();
+		createMenu();
+		createToolbar();
+		createContextMenu();
+		hookGlobalActions();
+
 	}
 
+	protected void hookGlobalActions() {
+	}
 
+	protected void createContextMenu() {
+	}
+
+	protected void createToolbar() {
+	}
+
+	protected void createMenu() {
+	}
+
+	protected void createActions() {
+	}
 
 	@Override
 	public void setFocus() {
@@ -101,13 +119,8 @@ public class AreaDetectorLiveView extends ViewPart implements InitializingBean {
 		messageBox.open();
 
 	}
-	
-	
-
-
 
 	protected void createTopRowControls(@SuppressWarnings("unused") Composite composite_1) {
-	}	
-
+	}
 
 }

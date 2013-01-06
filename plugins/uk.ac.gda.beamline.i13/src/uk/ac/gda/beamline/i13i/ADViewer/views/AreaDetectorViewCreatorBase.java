@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
+package uk.ac.gda.beamline.i13i.ADViewer.views;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -34,12 +34,12 @@ public abstract class AreaDetectorViewCreatorBase implements IExecutableExtensio
 	public AreaDetectorViewCreatorBase() {
 		super();
 	}
-	private static final Logger logger = LoggerFactory.getLogger(AreaDetectorLiveViewCreator.class);
+	private static final Logger logger = LoggerFactory.getLogger(MJPegViewCreator.class);
 	
 	@Override
 	public Object create() throws CoreException {
-		Object namedService = I13IBeamlineActivator.getNamedService(ADViewCreator.class, serviceName);
-		ADViewCreator adController = (ADViewCreator) namedService;
+		Object namedService = I13IBeamlineActivator.getNamedService(ViewCreator.class, serviceName);
+		ViewCreator adController = (ViewCreator) namedService;
 		try {
 			return getView(adController);
 		} catch (Exception e) {
@@ -59,7 +59,7 @@ public abstract class AreaDetectorViewCreatorBase implements IExecutableExtensio
 
 	}
 	
-	abstract protected Object getView(ADViewCreator adController);
+	abstract protected Object getView(ViewCreator adController);
 
 
 }

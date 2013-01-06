@@ -16,14 +16,27 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
+package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
+import gda.device.Scannable;
 
-public class AreaDetectorArrayViewCreator extends AreaDetectorViewCreatorBase{
-	static public String Id="uk.ac.gda.beamline.i13i.AreaDetectorArrayView";
-	
-	@Override
-	protected Object getView(ADViewCreator adController) {
-		return adController.createArrayView();
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import uk.ac.gda.beamline.i13i.ADViewer.ADControllerImpl;
+
+public class I13ADControllerImpl extends ADControllerImpl {
+	@SuppressWarnings("unused")
+	private static final Logger logger = LoggerFactory.getLogger(I13ADControllerImpl.class);
+
+	private Scannable lensScannable;
+
+	public Scannable getLensScannable() {
+		return lensScannable;
 	}
+
+	public void setLensScannable(Scannable lensScannable) {
+		this.lensScannable = lensScannable;
+	}
+
 }

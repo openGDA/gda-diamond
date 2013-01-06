@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
+package uk.ac.gda.beamline.i13i.ADViewer.composites;
 
 import gda.images.camera.DummySwtVideoReceiver;
 import gda.images.camera.MotionJpegOverHttpReceiverSwt;
@@ -48,14 +48,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.ImagePositionListener;
+import uk.ac.gda.beamline.i13i.ADViewer.ADController;
 import uk.ac.gda.beamline.i13i.views.cameraview.CameraComposite;
 import uk.ac.gda.beamline.i13i.views.cameraview.NewImageListener;
 import uk.ac.gda.client.viewer.SWT2DOverlayProvider;
 import uk.ac.gda.client.viewer.SwtImagePositionTool;
 
-public class AreaDetectorLiveComposite extends Composite {
+public class MJPeg extends Composite {
 
-	private static final Logger logger = LoggerFactory.getLogger(AreaDetectorLiveComposite.class);
+	private static final Logger logger = LoggerFactory.getLogger(MJPeg.class);
 
 	private ADController config;
 
@@ -69,7 +70,7 @@ public class AreaDetectorLiveComposite extends Composite {
 
 
 
-	public AreaDetectorLiveComposite(Composite parent, int style) {
+	public MJPeg(Composite parent, int style) {
 		super(parent, style);
 
 		this.setLayout(new GridLayout(2, false));
@@ -81,7 +82,7 @@ public class AreaDetectorLiveComposite extends Composite {
 		left.setLayout(new GridLayout(1, false));
 		
 		
-		statusComposite = new IOCStatusComposite(left, SWT.NONE);
+		statusComposite = new IOCStatus(left, SWT.NONE);
 		GridData gd_grpIocStatus1 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_grpIocStatus1.widthHint = 155;
 		statusComposite.setLayoutData(gd_grpIocStatus1);
@@ -199,7 +200,7 @@ public class AreaDetectorLiveComposite extends Composite {
 			cameraComposite.getViewer().getPositionTool().removeImagePositionListener(listener);
 	}
 	
-	void setADController(ADController config){
+	public void setADController(ADController config){
 		this.config = config;
 		try {
 			Observable<Boolean> connectionStateObservable = config.getFfmpegStream().getPluginBase().createConnectionStateObservable();
@@ -232,7 +233,7 @@ public class AreaDetectorLiveComposite extends Composite {
 	private Label lblRates;
 	private Text txtRate;
 	private Composite composite;
-	private IOCStatusComposite statusComposite;
+	private IOCStatus statusComposite;
 	private CameraStatus cameraStatus;
 
 	public void start() throws Exception {

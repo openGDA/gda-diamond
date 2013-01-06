@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
+package uk.ac.gda.beamline.i13i.ADViewer.views;
 
 import org.dawb.common.ui.plot.tool.IToolPageSystem;
 import org.eclipse.swt.SWT;
@@ -28,14 +28,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
+import uk.ac.gda.beamline.i13i.ADViewer.ADController;
+import uk.ac.gda.beamline.i13i.ADViewer.composites.TwoDArray;
 
-public class AreaDetectorArrayView extends ViewPart implements InitializingBean{
-	private static final Logger logger = LoggerFactory.getLogger(AreaDetectorArrayView.class);
+public class TwoDArrayView extends ViewPart implements InitializingBean{
+	private static final Logger logger = LoggerFactory.getLogger(TwoDArrayView.class);
 
-	private AreaDetectorArrayComposite areaDetectorViewComposite;
+	private TwoDArray areaDetectorViewComposite;
 	ADController config;
 	
-	public AreaDetectorArrayView(ADController config) {
+	public TwoDArrayView(ADController config) {
 		this.config = config;
 	}
 
@@ -49,7 +51,7 @@ public class AreaDetectorArrayView extends ViewPart implements InitializingBean{
 	public void createPartControl(Composite parent) {
 
 		parent.setLayout(new FillLayout());
-		areaDetectorViewComposite = new AreaDetectorArrayComposite(this, parent, SWT.NONE, config);
+		areaDetectorViewComposite = new TwoDArray(this, parent, SWT.NONE, config);
 		setTitleImage(I13IBeamlineActivator.getImageDescriptor("icons/AreaDetectorProfileView.gif").createImage());
 		setPartName(config.getDetectorName() + " Array View" );
 

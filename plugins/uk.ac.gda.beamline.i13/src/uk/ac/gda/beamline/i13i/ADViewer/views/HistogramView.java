@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
+package uk.ac.gda.beamline.i13i.ADViewer.views;
 
 import org.dawb.common.ui.plot.tool.IToolPageSystem;
 import org.eclipse.swt.SWT;
@@ -33,14 +33,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
+import uk.ac.gda.beamline.i13i.ADViewer.ADController;
+import uk.ac.gda.beamline.i13i.ADViewer.composites.Histogram;
 
-public class AreaDetectorProfileView extends ViewPart implements InitializingBean{
-	private static final Logger logger = LoggerFactory.getLogger(AreaDetectorProfileView.class);
+public class HistogramView extends ViewPart implements InitializingBean{
+	private static final Logger logger = LoggerFactory.getLogger(HistogramView.class);
 
-	private AreaDetectorProfileComposite areaDetectorProfileComposite;
+	private Histogram areaDetectorProfileComposite;
 	ADController config;
 	
-	public AreaDetectorProfileView(ADController config) {
+	public HistogramView(ADController config) {
 		this.config = config;
 	}
 
@@ -57,7 +59,7 @@ public class AreaDetectorProfileView extends ViewPart implements InitializingBea
 	public void createPartControl(Composite parent) {
 
 		parent.setLayout(new FillLayout());
-		areaDetectorProfileComposite = new AreaDetectorProfileComposite(this, parent, SWT.NONE, config);
+		areaDetectorProfileComposite = new Histogram(this, parent, SWT.NONE, config);
 		try {
 			areaDetectorProfileComposite.start();
 		} catch (Exception e) {
@@ -92,8 +94,8 @@ public class AreaDetectorProfileView extends ViewPart implements InitializingBea
 				page.toString();
 				IWorkbenchPart part = partRef.getPart(false);
 				part.toString();
-				if( part == AreaDetectorProfileView.this){
-					((AreaDetectorProfileView)part).toString();
+				if( part == HistogramView.this){
+					((HistogramView)part).toString();
 				}
 				
 			}

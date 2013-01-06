@@ -16,12 +16,11 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
+package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.scannable.ScannableUtils;
-import gda.factory.Finder;
 import gda.observable.IObserver;
 
 import org.eclipse.swt.SWT;
@@ -66,7 +65,7 @@ public class LensScannableComposite extends Composite {
 
 	}
 	
-	void setLensScannable(Scannable s){
+	public void setLensScannable(Scannable s){
 		lensScannable =s;
 		lensObserver = new IObserver() {
 

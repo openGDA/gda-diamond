@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
+package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
 import java.util.Collection;
 import java.util.Dictionary;
@@ -29,7 +29,7 @@ import java.util.Set;
 import org.springframework.util.Assert;
 
 @SuppressWarnings("all")
-public class MyDictionary extends Dictionary implements Map {
+public class MapBasedDictionary extends Dictionary implements Map {
 
 	private Map map;
 
@@ -66,7 +66,7 @@ public class MyDictionary extends Dictionary implements Map {
 
 	}
 
-	public MyDictionary(Map map) {
+	public MapBasedDictionary(Map map) {
 		this.map = (map == null ? new LinkedHashMap() : map);
 	}
 
@@ -74,11 +74,11 @@ public class MyDictionary extends Dictionary implements Map {
 	 * Default constructor.
 	 * 
 	 */
-	public MyDictionary() {
+	public MapBasedDictionary() {
 		this.map = new LinkedHashMap();
 	}
 
-	public MyDictionary(int initialCapacity) {
+	public MapBasedDictionary(int initialCapacity) {
 		this.map = new LinkedHashMap(initialCapacity);
 	}
 
@@ -88,11 +88,11 @@ public class MyDictionary extends Dictionary implements Map {
 	 * 
 	 * @param dictionary
 	 */
-	public MyDictionary(Dictionary dictionary) {
+	public MapBasedDictionary(Dictionary dictionary) {
 		this(new LinkedHashMap(), dictionary);
 	}
 
-	public MyDictionary(Map map, Dictionary dictionary) {
+	public MapBasedDictionary(Map map, Dictionary dictionary) {
 		this(map);
 		if (dictionary != null)
 			putAll(dictionary);

@@ -16,30 +16,29 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
+package uk.ac.gda.beamline.i13i.ADViewer.composites;
 
-import gda.device.detector.areadetector.v17.ADBase;
 import gda.observable.Observable;
 import gda.observable.Observer;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
+import uk.ac.gda.beamline.i13i.ADViewer.ADController;
 import uk.ac.gda.richbeans.components.scalebox.StandardBox;
 import uk.ac.gda.richbeans.event.ValueEvent;
 import uk.ac.gda.richbeans.event.ValueListener;
-
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.FillLayout;
 
 public class CameraStatus extends Composite {
 
@@ -49,7 +48,6 @@ public class CameraStatus extends Composite {
 	private Observer<String> stateObserver;
 	private Observable<Double> timeObservable;
 	private Observer<Double> timeObserver;
-	private Composite composite;
 	private Button btnStart;
 
 	public CameraStatus(Composite parent, int style) {

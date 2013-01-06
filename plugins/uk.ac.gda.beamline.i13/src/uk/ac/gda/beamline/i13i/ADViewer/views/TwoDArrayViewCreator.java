@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2009 Diamond Light Source Ltd.
+ * Copyright © 2012 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -16,14 +16,14 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
+package uk.ac.gda.beamline.i13i.ADViewer.views;
 
 
-public class AreaDetectorProfileViewCreator extends AreaDetectorViewCreatorBase{
-	static public String Id="uk.ac.gda.beamline.i13i.AreaDetectorProfileView";
+public class TwoDArrayViewCreator extends AreaDetectorViewCreatorBase{
+	static public String Id="uk.ac.gda.beamline.i13i.AreaDetectorArrayView";
 	
 	@Override
-	protected Object getView(ADViewCreator adController) {
-		return adController.createProfileView();
+	protected Object getView(ViewCreator adController) {
+		return adController.createArrayView();
 	}
 }
