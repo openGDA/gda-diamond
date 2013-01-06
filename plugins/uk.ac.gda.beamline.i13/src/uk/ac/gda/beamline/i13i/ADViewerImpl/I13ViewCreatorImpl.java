@@ -16,13 +16,25 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
+package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
-public interface ADViewCreator {
+import uk.ac.gda.beamline.i13i.ADViewer.views.ViewCreatorImpl;
 
-	public abstract Object createLiveView();
+public class I13ViewCreatorImpl extends ViewCreatorImpl {
 
-	public abstract Object createArrayView();
+	
+	@Override
+	public Object createLiveView() {
+		return new I13MJPegView((I13ADControllerImpl)adController);
+	}
 
-	public abstract Object createProfileView();
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		super.afterPropertiesSet();
+		if( ! (adController instanceof I13ADControllerImpl) )
+			throw new Exception("adController is not of type I13ADControllerImpl");
+	}
+
+
 }
+

@@ -38,7 +38,7 @@
 	</bean>
 
 	<bean id="i13ADController"
-		class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.ADControllerImpl">
+		class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13ADControllerImpl">
 		<property name="imageNDStats" ref="pco1_stat" />
 		<property name="liveViewNDProc" ref="pco1_proc1" />
 		<property name="imageNDArray" ref="pco1_arr" />
@@ -55,12 +55,12 @@
 	</bean>
 
 	<bean id="i13ADViewcreator"
-		class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.ADViewCreatorImpl">
+		class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13ViewCreatorImpl">
 		<property name="adController" ref="i13ADController" />
 	</bean>
 
 	<bean id="dictionary"
-		class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.MyDictionary">
+		class="uk.ac.gda.beamline.i13i.ADViewerImpl.MapBasedDictionary">
 		<property name="map">
 			<map>
 				<entry key="SERVICE_NAME" value="i13" />
@@ -69,13 +69,13 @@
 	</bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class"
-			value="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.ADController" />
+			value="uk.ac.gda.beamline.i13i.ADViewer.ADController" />
 		<property name="service" ref="i13ADController" />
 		<property name="properties" ref="dictionary"/>
 	</bean>	
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class"
-			value="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.ADViewCreator" />
+			value="uk.ac.gda.beamline.i13i.ADViewer.views.ViewCreator" />
 		<property name="service" ref="i13ADViewcreator" />
 		<property name="properties" ref="dictionary" />
 	</bean>

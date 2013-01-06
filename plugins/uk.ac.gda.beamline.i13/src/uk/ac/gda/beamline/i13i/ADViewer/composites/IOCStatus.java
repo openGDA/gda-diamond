@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
+package uk.ac.gda.beamline.i13i.ADViewer.composites;
 
 import gda.observable.Observable;
 import gda.observable.Observer;
@@ -30,13 +30,13 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
-public class IOCStatusComposite extends Composite {
+public class IOCStatus extends Composite {
 
 	private Observable<Boolean> connectionStateObservable;
 	private Observer<Boolean> observer;
 	private Label label;
 
-	public IOCStatusComposite(Composite parent, int style) {
+	public IOCStatus(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 		

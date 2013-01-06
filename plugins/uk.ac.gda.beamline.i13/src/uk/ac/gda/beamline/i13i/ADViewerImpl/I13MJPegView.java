@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
+package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
 import java.util.Vector;
 
@@ -34,48 +34,18 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
-import org.springframework.beans.factory.InitializingBean;
 
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.IImagePositionEvent;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.ImagePositionListener;
+import uk.ac.gda.beamline.i13i.ADViewer.views.MJPegView;
 import uk.ac.gda.beamline.i13i.views.cameraview.CrossHairFigure;
 
-public class ADViewCreatorImpl implements ADViewCreator, InitializingBean {
+public class I13MJPegView extends MJPegView {
 
-	ADControllerImpl adController;
+	I13ADControllerImpl adControllerImpl = null;
+	boolean changeRotationAxisX = false;
 
-	@Override
-	public Object createLiveView() {
-		return new MyAreaDetectorLiveView(adController);
-	}
-
-	public void setAdController(ADControllerImpl adController) {
-		this.adController = adController;
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		if (adController == null)
-			throw new Exception("adController == null");
-
-	}
-
-	@Override
-	public Object createArrayView() {
-		return new AreaDetectorArrayView(adController);
-	}
-
-	@Override
-	public Object createProfileView() {
-		return new AreaDetectorProfileView(adController);
-	}
-}
-
-class MyAreaDetectorLiveView extends AreaDetectorLiveView {
-
-	ADControllerImpl adControllerImpl = null;
-
-	public MyAreaDetectorLiveView(ADControllerImpl config) {
+	public I13MJPegView(I13ADControllerImpl config) {
 		super(config);
 		adControllerImpl = config;
 	}
@@ -83,6 +53,7 @@ class MyAreaDetectorLiveView extends AreaDetectorLiveView {
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
+		
 		addSpecialisation();
 	}
 
@@ -93,6 +64,24 @@ class MyAreaDetectorLiveView extends AreaDetectorLiveView {
 
 	}
 
+	protected void hookGlobalActions() {
+	}
+
+	protected void createContextMenu() {
+
+		
+	}
+
+	protected void createToolbar() {
+	}
+
+	protected void createMenu() {
+	}
+
+	protected void createActions() {
+	}	
+	
+	
 	private void addSpecialisation() {
 		areaDetectorLiveComposite.getTopFigure().add(new CrossHairFigure());
 
@@ -173,7 +162,7 @@ class MyAreaDetectorLiveView extends AreaDetectorLiveView {
 
 			private void showNormalisedImage() {
 				// TODO Auto-generated method stub
-				
+
 			}
 		};
 		Action zoomFit = new Action("Zoom to Fit") {
@@ -185,17 +174,16 @@ class MyAreaDetectorLiveView extends AreaDetectorLiveView {
 		showActions.add(showNormalisedImageAction);
 		showActions.add(zoomFit);
 
-		MenuCreator showMenu = new MenuCreator("Show", "Actions that lead to items shown on the image or in other views",
-				showActions);
+		MenuCreator showMenu = new MenuCreator("Show",
+				"Actions that lead to items shown on the image or in other views", showActions);
 
 		IActionBars actionBars = getViewSite().getActionBars();
 		IToolBarManager toolBar = actionBars.getToolBarManager();
 		toolBar.add(showMenu);
 
 	}
-	
 
 	public void zoomToFit() {
 		areaDetectorLiveComposite.zoomFit();
-	}	
+	}
 }

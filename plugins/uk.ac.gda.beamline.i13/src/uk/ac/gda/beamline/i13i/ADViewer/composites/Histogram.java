@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
+package uk.ac.gda.beamline.i13i.ADViewer.composites;
 
 import gda.observable.Observable;
 import gda.observable.Observer;
@@ -62,12 +62,14 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
+import uk.ac.gda.beamline.i13i.ADViewer.ADController;
+
 import org.eclipse.swt.layout.GridData;
 
-public class AreaDetectorProfileComposite extends Composite {
+public class Histogram extends Composite {
 	private static final String PROFILE = "PROFILE";
 
-	private static final Logger logger = LoggerFactory.getLogger(AreaDetectorProfileComposite.class);
+	private static final Logger logger = LoggerFactory.getLogger(Histogram.class);
 
 	private final ADController config;
 
@@ -95,7 +97,7 @@ public class AreaDetectorProfileComposite extends Composite {
 	long current_mpegROIMax = Long.MAX_VALUE;
 	private RectangularROI current_mpegROI;
 
-	public AreaDetectorProfileComposite(final IViewPart parentViewPart, Composite parent, int style, ADController config) {
+	public Histogram(final IViewPart parentViewPart, Composite parent, int style, ADController config) {
 		super(parent, style);
 		this.config = config;
 
@@ -108,7 +110,7 @@ public class AreaDetectorProfileComposite extends Composite {
 		RowLayoutFactory vertRowLayoutFactory = RowLayoutFactory.createFrom(layout);
 		left.setLayout(new GridLayout(1, false));
 		
-		statusComposite = new IOCStatusComposite(left, SWT.NONE);
+		statusComposite = new IOCStatus(left, SWT.NONE);
 		GridData gd_statusComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_statusComposite.widthHint = 164;
 		statusComposite.setLayoutData(gd_statusComposite);
@@ -246,8 +248,8 @@ public class AreaDetectorProfileComposite extends Composite {
 	}
 
 	protected void createOrUpdateROI() throws Exception {
-		double scale = AreaDetectorProfileComposite.this.getMPEGProcScale();
-		double offset = AreaDetectorProfileComposite.this.getMPEGProcOffset();
+		double scale = Histogram.this.getMPEGProcScale();
+		double offset = Histogram.this.getMPEGProcOffset();
 		RectangularROI roi;
 		long min = (long) -offset;
 		long max = (long) (255.0 / scale + min);
@@ -290,9 +292,9 @@ public class AreaDetectorProfileComposite extends Composite {
 					double max = min + roi.getLengths()[0];
 					double offset = -min;
 					double scale = 255.0 / (max - min);
-					AreaDetectorProfileComposite.this.config.getLiveViewNDProc().setScale(scale);
-					AreaDetectorProfileComposite.this.config.getLiveViewNDProc().setOffset(offset);
-					AreaDetectorProfileComposite.this.config.getLiveViewNDProc().setEnableOffsetScale(1);
+					Histogram.this.config.getLiveViewNDProc().setScale(scale);
+					Histogram.this.config.getLiveViewNDProc().setOffset(offset);
+					Histogram.this.config.getLiveViewNDProc().setEnableOffsetScale(1);
 				}
 
 				@Override
@@ -304,9 +306,9 @@ public class AreaDetectorProfileComposite extends Composite {
 					}
 				}
 			});
-			mpegProcOffsetObservable = AreaDetectorProfileComposite.this.config.getLiveViewNDProc()
+			mpegProcOffsetObservable = Histogram.this.config.getLiveViewNDProc()
 					.createOffsetObservable();
-			mpegProcScaleObservable = AreaDetectorProfileComposite.this.config.getLiveViewNDProc()
+			mpegProcScaleObservable = Histogram.this.config.getLiveViewNDProc()
 					.createScaleObservable();
 			mpegProcObserver = new Observer<Double>() {
 
@@ -341,7 +343,7 @@ public class AreaDetectorProfileComposite extends Composite {
 	Job updateHistogramJob;
 
 	private Button autoScaleBtn;
-	private IOCStatusComposite statusComposite;
+	private IOCStatus statusComposite;
 
 	public void start() throws Exception {
 		final int histSize = getHistSize();

@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.handlers;
+package uk.ac.gda.beamline.i13i.ADViewer.handlers;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -34,7 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
-import uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.ADController;
+import uk.ac.gda.beamline.i13i.ADViewer.ADController;
 
 
 public class SetExposure extends AbstractHandler {

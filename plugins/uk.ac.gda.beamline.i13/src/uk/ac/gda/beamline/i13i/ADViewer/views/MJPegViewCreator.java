@@ -16,15 +16,15 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
+package uk.ac.gda.beamline.i13i.ADViewer.views;
 
 
-public class AreaDetectorLiveViewCreator extends AreaDetectorViewCreatorBase {
+public class MJPegViewCreator extends AreaDetectorViewCreatorBase {
 	
 	static public String Id="uk.ac.gda.beamline.i13i.AreaDetectorLiveView";
 	
 	@Override
-	protected Object getView(ADViewCreator adController) {
+	protected Object getView(ViewCreator adController) {
 		return adController.createLiveView();
 	}	
 }

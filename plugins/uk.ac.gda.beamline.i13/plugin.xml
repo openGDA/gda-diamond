@@ -113,20 +113,22 @@
       </view>
       <view
             allowMultiple="false"
-            class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.AreaDetectorProfileViewCreator:i13"
+            class="uk.ac.gda.beamline.i13i.ADViewer.views.HistogramViewCreator:i13"
             icon="icons/AreaDetectorProfileView.gif"
             id="uk.ac.gda.beamline.i13i.AreaDetectorProfileView"
             name="PCO Image Profile View">
       </view>                       
       <view
             allowMultiple="false"
-            class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.AreaDetectorArrayViewCreator:i13"
+            class="uk.ac.gda.beamline.i13i.ADViewer.views.TwoDArrayViewCreator:i13"
+            icon="icons/AreaDetectorImageView.gif"
             id="uk.ac.gda.beamline.i13i.AreaDetectorArrayView"
             name="PCO Image View">
       </view>
       <view
             allowMultiple="false"
-            class="uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView.AreaDetectorLiveViewCreator:i13"
+            class="uk.ac.gda.beamline.i13i.ADViewer.views.MJPegViewCreator:i13"
+            icon="icons/AreaDetectorLiveView.gif"
             id="uk.ac.gda.beamline.i13i.AreaDetectorLiveView"
             name="PCO Live View">
       </view>                       
@@ -201,11 +203,11 @@
 <extension
       point="org.eclipse.ui.handlers">
    <handler
-         class="uk.ac.gda.beamline.i13i.handlers.SetExposure"
+         class="uk.ac.gda.beamline.i13i.ADViewer.handlers.SetExposure"
          commandId="uk.ac.gda.beamline.i13i.commands.setExposure">
    </handler>
    <handler
-         class="uk.ac.gda.beamline.i13i.handlers.SetLiveViewScale"
+         class="uk.ac.gda.beamline.i13i.ADViewer.handlers.SetLiveViewScale"
          commandId="uk.ac.gda.beamline.i13i.commands.setLiveViewScale">
    </handler>
 </extension>

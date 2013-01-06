@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
+package uk.ac.gda.beamline.i13i.ADViewer.composites;
 
 import gda.observable.Observable;
 import gda.observable.Observer;
@@ -55,11 +55,14 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.FloatDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.LongDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.ShortDataset;
+import uk.ac.gda.beamline.i13i.ADViewer.ADController;
+import uk.ac.gda.beamline.i13i.ADViewer.ImageData;
+
 import org.eclipse.swt.layout.GridData;
 
-public class AreaDetectorArrayComposite extends Composite {
+public class TwoDArray extends Composite {
 
-	private static final Logger logger = LoggerFactory.getLogger(AreaDetectorArrayComposite.class);
+	private static final Logger logger = LoggerFactory.getLogger(TwoDArray.class);
 
 	private final ADController config;
 
@@ -72,7 +75,7 @@ public class AreaDetectorArrayComposite extends Composite {
 	private Button arrayMonitoringBtn;
 	private Label arrayMonitoringLbl;
 
-	public AreaDetectorArrayComposite(IViewPart parentViewPart, Composite parent, int style, ADController config) {
+	public TwoDArray(IViewPart parentViewPart, Composite parent, int style, ADController config) {
 		super(parent, style);
 		this.config = config;
 
@@ -85,7 +88,7 @@ public class AreaDetectorArrayComposite extends Composite {
 		RowLayoutFactory vertRowLayoutFactory = RowLayoutFactory.createFrom(layout);
 		left.setLayout(new GridLayout(1, false));
 		
-		IOCStatusComposite statusComposite = new IOCStatusComposite(left, SWT.NONE);
+		IOCStatus statusComposite = new IOCStatus(left, SWT.NONE);
 		GridData gd_statusComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_statusComposite.widthHint = 154;
 		statusComposite.setLayoutData(gd_statusComposite);
