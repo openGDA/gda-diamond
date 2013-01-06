@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2012 Diamond Light Source Ltd.
+ * Copyright © 2013 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -18,14 +18,14 @@
 
 package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
 
-import org.dawb.common.ui.plot.tool.IToolPageSystem;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IPartListener2;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,107 +33,81 @@ import org.springframework.beans.factory.InitializingBean;
 
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
 
-public class AreaDetectorLiveView extends ViewPart implements InitializingBean{
+public class AreaDetectorLiveView extends ViewPart implements InitializingBean {
 	private static final Logger logger = LoggerFactory.getLogger(AreaDetectorLiveView.class);
 
-	private AreaDetectorLiveComposite areaDetectorLiveComposite;
+	protected AreaDetectorLiveComposite areaDetectorLiveComposite;
 	ADController config;
-	
+
 	public AreaDetectorLiveView(ADController config) {
 		this.config = config;
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		if( config == null)
+		if (config == null)
 			throw new Exception("Config is null");
-		
+
 	}
-	private IPartListener2 partListener;
-	
+
+	boolean changeRotationAxisX = false;
 
 	@Override
 	public void createPartControl(Composite parent) {
 
 		parent.setLayout(new FillLayout());
-		areaDetectorLiveComposite = new AreaDetectorLiveComposite(parent, SWT.NONE, config);
+
+		Composite composite = new Composite(parent, SWT.NONE);
+		GridLayoutFactory.fillDefaults().applyTo(composite);
+
+		Composite composite_1 = new Composite(composite, SWT.NONE);
+		composite_1.setLayout(new RowLayout(SWT.HORIZONTAL));
+
+		createTopRowControls(composite_1);
+
+
+		Composite composite_2 = new Composite(composite, SWT.NONE);
+		composite_2.setLayout(new FillLayout(SWT.HORIZONTAL));
+		composite_2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		areaDetectorLiveComposite = new AreaDetectorLiveComposite(composite_2, SWT.NONE);
+		areaDetectorLiveComposite.setADController(config);
+
 		setTitleImage(I13IBeamlineActivator.getImageDescriptor("icons/AreaDetectorLiveView.gif").createImage());
-		setPartName(config.getDetectorName() + " Live View" );
-		
-		partListener = new IPartListener2() {
-			
-			@Override
-			public void partVisible(IWorkbenchPartReference partRef) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void partOpened(IWorkbenchPartReference partRef) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void partInputChanged(IWorkbenchPartReference partRef) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void partHidden(IWorkbenchPartReference partRef) {
-				IWorkbenchPage page = partRef.getPage();
-				page.toString();
-				IWorkbenchPart part = partRef.getPart(false);
-				part.toString();
-				if( part == AreaDetectorLiveView.this){
-					((AreaDetectorLiveView)part).toString();
-				}
-				
-			}
-			
-			@Override
-			public void partDeactivated(IWorkbenchPartReference partRef) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void partClosed(IWorkbenchPartReference partRef) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void partBroughtToTop(IWorkbenchPartReference partRef) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void partActivated(IWorkbenchPartReference partRef) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-		getSite().getPage().addPartListener(partListener);
-		
-		
+		setPartName(config.getDetectorName() + " Live View");
 
 	}
+
+
 
 	@Override
 	public void setFocus() {
 		areaDetectorLiveComposite.setFocus();
 	}
 
-	@Override
-	public void dispose() {
-		super.dispose();
-		if(partListener != null){
-			getSite().getPage().removePartListener(partListener);
-			partListener = null;
-		}
+	public static void reportErrorToUserAndLog(String s, Throwable th) {
+		logger.error(s, th);
+		MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				SWT.ICON_ERROR);
+		messageBox.setMessage(s + ":" + th.getMessage());
+		messageBox.open();
+
 	}
+
+	public static void reportErrorToUserAndLog(String s) {
+		logger.error(s);
+		MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				SWT.ICON_ERROR);
+		messageBox.setMessage(s);
+		messageBox.open();
+
+	}
+	
+	
+
+
+
+	protected void createTopRowControls(@SuppressWarnings("unused") Composite composite_1) {
+	}	
+
 
 }

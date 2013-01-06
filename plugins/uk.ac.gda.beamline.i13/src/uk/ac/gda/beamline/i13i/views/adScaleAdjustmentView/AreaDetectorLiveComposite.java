@@ -27,6 +27,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -38,6 +39,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -45,14 +47,17 @@ import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.ImagePositionListener;
 import uk.ac.gda.beamline.i13i.views.cameraview.CameraComposite;
 import uk.ac.gda.beamline.i13i.views.cameraview.NewImageListener;
+import uk.ac.gda.client.viewer.SWT2DOverlayProvider;
+import uk.ac.gda.client.viewer.SwtImagePositionTool;
 
 public class AreaDetectorLiveComposite extends Composite {
 
 	private static final Logger logger = LoggerFactory.getLogger(AreaDetectorLiveComposite.class);
 
-	private final ADController config;
+	private ADController config;
 
 
 	private boolean liveMonitoring = false;
@@ -64,9 +69,8 @@ public class AreaDetectorLiveComposite extends Composite {
 
 
 
-	public AreaDetectorLiveComposite(Composite parent, int style, ADController config) {
+	public AreaDetectorLiveComposite(Composite parent, int style) {
 		super(parent, style);
-		this.config = config;
 
 		this.setLayout(new GridLayout(2, false));
 		Composite left = new Composite(this, SWT.NONE);
@@ -160,17 +164,6 @@ public class AreaDetectorLiveComposite extends Composite {
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(cameraComposite);
 
 		
-		try {
-			Observable<Boolean> connectionStateObservable = config.getFfmpegStream().getPluginBase().createConnectionStateObservable();
-			statusComposite.setObservable(connectionStateObservable);
-		} catch (Exception e1) {
-			logger.error("Error monitoring ioc status", e1);
-		}
-		try {
-			cameraStatus.setADController(config);
-		} catch (Exception e2) {
-			logger.error("Error monitoring camera", e2);
-		}
 		
 		addDisposeListener(new DisposeListener() {
 			
@@ -191,14 +184,41 @@ public class AreaDetectorLiveComposite extends Composite {
 				}
 			}
 		});
+	}
+	
+	public IFigure getTopFigure(){
+		return cameraComposite == null ? null : cameraComposite.getTopFigure();	
+	}
+	
+	public void addImagePositionListener(ImagePositionListener newListener, SWT2DOverlayProvider swtProvider){
+		if( cameraComposite != null)
+			cameraComposite.getViewer().getPositionTool().addImagePositionListener(newListener, swtProvider);
+	}
+	public void removeImagePositionListener(ImagePositionListener listener){
+		if( cameraComposite != null)
+			cameraComposite.getViewer().getPositionTool().removeImagePositionListener(listener);
+	}
+	
+	void setADController(ADController config){
+		this.config = config;
+		try {
+			Observable<Boolean> connectionStateObservable = config.getFfmpegStream().getPluginBase().createConnectionStateObservable();
+			statusComposite.setObservable(connectionStateObservable);
+		} catch (Exception e1) {
+			logger.error("Error monitoring ioc status", e1);
+		}
+		try {
+			cameraStatus.setADController(config);
+		} catch (Exception e2) {
+			logger.error("Error monitoring camera", e2);
+		}
 		try {
 			start();
 		} catch (Exception e1) {
 			logger.error("Error starting the live stream", e1);
 		}
-
-
 	}
+
 	private VideoReceiver<ImageData> videoReceiver;
 
 	public void stop() throws Exception {
@@ -250,6 +270,21 @@ public class AreaDetectorLiveComposite extends Composite {
 		liveMonitoring = b;
 		liveMonitoringBtn.setText(b ? "Stop" : "Start");
 		livwMonitoringLbl.setText(b ? "Running" : "Stopped");
+	}
+
+	public Control getCanvas() {
+		return cameraComposite.getViewer().getCanvas();
+	}
+
+	public ImageData getImageData() {
+		return cameraComposite == null ? null : cameraComposite.getViewer().getImageData();
+	}
+
+	public void zoomFit() {
+		if( cameraComposite != null)
+			cameraComposite.zoomFit();
+
+		
 	}
 
 
