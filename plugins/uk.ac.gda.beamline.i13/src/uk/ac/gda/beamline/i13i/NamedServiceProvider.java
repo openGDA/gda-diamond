@@ -53,28 +53,34 @@ public class NamedServiceProvider {
 		if (bundleContext == null)
 			throw new IllegalStateException("BundleContext is null");
 		ServiceTracker tracker = null;
-		if( name == null)
-			throw new IllegalArgumentException("Service name is null");
-		String serviceClassAndName = clzz.getName() + ":" + name;
+		boolean checkName = name !=null && !name.isEmpty();
+		String serviceClassAndName = clzz.getName();
+		if(checkName){
+			serviceClassAndName += (":" + name);
+		}
 		tracker = serviceTrackers.get(serviceClassAndName);
 		if (tracker == null) {
-			tracker = new ServiceTracker(bundleContext, clzz.getName(), new ServiceTrackerCustomizer<Object, Object>() {
-
-				@Override
-				public Object addingService(ServiceReference<Object> reference) {
-					if (reference.getProperty("SERVICE_NAME").equals(name))
-						return bundleContext.getService(reference);
-					return null;
-				}
-
-				@Override
-				public void modifiedService(ServiceReference<Object> reference, Object service) {
-				}
-
-				@Override
-				public void removedService(ServiceReference<Object> reference, Object service) {
-				}
-			});
+			ServiceTrackerCustomizer<Object, Object> customizer=  null;
+			if( checkName){
+				customizer = new ServiceTrackerCustomizer<Object, Object>() {
+	
+					@Override
+					public Object addingService(ServiceReference<Object> reference) {
+						if (reference.getProperty("SERVICE_NAME").equals(name))
+							return bundleContext.getService(reference);
+						return null;
+					}
+	
+					@Override
+					public void modifiedService(ServiceReference<Object> reference, Object service) {
+					}
+	
+					@Override
+					public void removedService(ServiceReference<Object> reference, Object service) {
+					}
+				};
+			}
+			tracker = new ServiceTracker(bundleContext, clzz.getName(), customizer);
 			tracker.open(true);
 			serviceTrackers.put(serviceClassAndName, tracker);
 		}
