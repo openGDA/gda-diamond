@@ -18,6 +18,7 @@
 
 package uk.ac.gda.beamline.i13i.views.adScaleAdjustmentView;
 
+import gda.device.Scannable;
 import gda.device.detector.areadetector.v17.ADBase;
 import gda.device.detector.areadetector.v17.FfmpegStream;
 import gda.device.detector.areadetector.v17.NDArray;
@@ -28,11 +29,17 @@ import gda.jython.InterfaceProvider;
 import gda.observable.Observable;
 import gda.observable.Observer;
 
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
 
 public class ADControllerImpl implements ADController, InitializingBean {
 	private static final Logger logger = LoggerFactory.getLogger(ADControllerImpl.class);
@@ -52,6 +59,8 @@ public class ADControllerImpl implements ADController, InitializingBean {
 	private int fFMpegImgHeightRequired;
 
 	private FfmpegStream ffmpegStream;
+
+	private Scannable lensScannable;
 
 	@Override
 	public NDStats getImageNDStats() {
@@ -347,5 +356,17 @@ public class ADControllerImpl implements ADController, InitializingBean {
 		if (ffmpegBase.isCallbacksEnabled_RBV())
 			ffmpegBase.disableCallbacks();
 	}
+
+	public Scannable getLensScannable() {
+		return lensScannable;
+	}
+
+	public void setLensScannable(Scannable lensScannable) {
+		this.lensScannable = lensScannable;
+	}
+
+
+
+
 
 }
