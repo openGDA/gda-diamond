@@ -28,4 +28,7 @@
 	<bean id="s3_yc_motor" class="gda.spring.EpicsMotorFactoryBean">
 		<property name="deviceName" value="s3.yc" />
 	</bean>
+	<bean id="s3_y_motor" class="gda.spring.EpicsMotorFactoryBean">
+		<property name="deviceName" value="s3.y" />
+	</bean>
 </beans>

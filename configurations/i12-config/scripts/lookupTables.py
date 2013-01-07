@@ -14,6 +14,11 @@ def reloadCameraMotionLookup():
     cameraMotionLookup =Finder.getInstance().find("cameraMotionLUT")
     cameraMotionLookup.reload()
     
-def reloadTiltBallPosition():
+def reloadTiltBallPositionLookup():
     tiltBallPositionLookup= Finder.getInstance().find("tiltBallRoiLut")
     tiltBallPositionLookup.reload()
+    
+def reloadScanResolutionLookup():
+    tiltBallPositionLookup= Finder.getInstance().find("scanResolutionLut")
+    tiltBallPositionLookup.reload()
+    

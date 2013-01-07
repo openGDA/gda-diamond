@@ -1,4 +1,3 @@
-
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
@@ -27,5 +26,8 @@
 	</bean>
 	<bean id="s3_yc_motor" class="gda.spring.EpicsMotorFactoryBean">
 		<property name="deviceName" value="s3.yc" />
+	</bean>
+	<bean id="s3_y_motor" class="gda.spring.EpicsMotorFactoryBean">
+		<property name="deviceName" value="s3.y" />
 	</bean>
 </beans>

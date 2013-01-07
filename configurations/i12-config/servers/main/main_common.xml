@@ -36,6 +36,7 @@
 	<import resource="ring.xml" />
 	<import resource="s2_new.xml" />
 	<import resource="s3.xml" />
+	<import resource="s4.xml" />
 	<import resource="scaler1.xml" />
 	<import resource="shutters.xml" />
 
@@ -51,6 +52,7 @@
 	<import resource="lut_moduleposition.xml" />
 	<import resource="lut_camera_motion.xml" />
 	<import resource="lut_sample_weight.xml" />
+	<import resource="lut_scan_resolution.xml" />
 	<import resource="simpleScannables.xml" />
 	<import resource="dummyAD.xml" />
 	<import resource="../servers_common.xml" />

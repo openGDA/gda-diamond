@@ -7,8 +7,12 @@
 		objects, since tomography mainly uses the PCO camera
 	</description>
 	<corba:import namespace="i12"
-		names="cameraMotionLUT, tiltBallRoiLut,moduleMotorPositionLUT,energyModuleLUT, tomoAlignmentConfigurationScriptController" />
+		names="cameraMotionLUT, tiltBallRoiLut,moduleMotorPositionLUT,energyModuleLUT, scanResolutionLut, tomoAlignmentConfigurationScriptController" />
 
+	<bean id="scanResolutionLookupProvider"
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.ScanResolutionLookupProvider">
+		<property name="scanLookupTable" ref="scanResolutionLut" />
+	</bean>
 	<bean id="cameraModuleLookupTableHandler"
 		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.ModuleLookupTableHandler">
 		<property name="moduleTable" ref="moduleMotorPositionLUT" />
@@ -27,6 +31,11 @@
 		<property name="sampleHolderScannable" ref="ss1_x" />
 		<property name="ss1RxScannable" ref="ss1_rx" />
 		<property name="ss1RzScannable" ref="ss1_rz" />
+		<!-- <property name="rotationScannable" ref="idummyscannablemotor_x" /> 
+			<property name="ss1TxScannable" ref="idummyscannablemotor_x" /> <property 
+			name="ss1TzScannable" ref="idummyscannablemotor_x" /> <property name="sampleHolderScannable" 
+			ref="idummyscannablemotor_x" /> <property name="ss1RxScannable" ref="idummyscannablemotor_x" 
+			/> <property name="ss1RzScannable" ref="idummyscannablemotor_x" /> -->
 		<property name="defaultDistanceToMoveForFlat" value="-100.0" />
 		<property name="defaultSampleInPosition" value="0" />
 		<property name="thethaOffset" value="0" />
@@ -43,6 +52,9 @@
 		<property name="t3m1yScannable" ref="t3_m1y" />
 		<property name="t3m1zScannable" ref="t3_m1z" />
 		<property name="t3xScannable" ref="t3_x" />
+		<!-- <property name="t3m1yScannable" ref="idummyscannablemotor_x" /> <property 
+			name="t3m1zScannable" ref="idummyscannablemotor_x" /> <property name="t3xScannable" 
+			ref="idummyscannablemotor_x" /> -->
 	</bean>
 
 	<bean id="shutterHandler"
@@ -55,6 +67,9 @@
 		<property name="cam1XScannable" ref="cam1_x" />
 		<property name="cam1ZScannable" ref="cam1_z" />
 		<property name="cam1RollScannable" ref="cam1_roll" />
+		<!-- <property name="cam1XScannable" ref="idummyscannablemotor_x" /> <property 
+			name="cam1ZScannable" ref="idummyscannablemotor_x" /> <property name="cam1RollScannable" 
+			ref="idummyscannablemotor_x" /> -->
 	</bean>
 
 
@@ -91,7 +106,6 @@
 	<bean id="cameraModuleHandler"
 		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.CameraModuleController">
 		<property name="lookupTableHandler" ref="cameraModuleLookupTableHandler" />
-		<property name="cameraModuleMotorHandler" ref="cameraModuleMotorHandler" />
 		<property name="tomoScriptController" ref="tomoAlignmentConfigurationScriptController" />
 	</bean>
 
@@ -100,10 +114,18 @@
 		<property name="moduleTable" ref="tiltBallRoiLut" />
 	</bean>
 
+	<bean id="autofocusController"
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.AutoFocusController">
+		<property name="tomoScriptController" ref="tomoAlignmentConfigurationScriptController" />
+	</bean>
+
 	<bean id="tiltController"
 		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TiltController">
 		<property name="tomoScriptController" ref="tomoAlignmentConfigurationScriptController" />
+		<property name="cameraModuleMotorHandler" ref="cameraModuleMotorHandler" />
 		<property name="lookupTableHandler" ref="tiltBallLookupTableHandler" />
+		<property name="preTiltCam1RollVal" value="0.5" />
+		<property name="preTiltSs1RxVal" value="0.2" />
 		<property name="externalProgram1">
 			<bean class="uk.ac.gda.client.tomo.ExternalFunction">
 				<property name="command" value="call_matlab.sh" />
@@ -138,9 +160,11 @@
 		<property name="cameraHandler" ref="detectorHandler" />
 		<property name="cameraModuleController" ref="cameraModuleHandler" />
 		<property name="tiltController" ref="tiltController" />
+		<property name="autofocusController" ref="autofocusController"/>
 		<property name="roiHandler" ref="roiHandler" />
 		<property name="saveHandler" ref="tomoConfigResourceHandler" />
 		<property name="scanController" ref="tomoScanController" /> <!-- Defined in the tomoConfiguration.xml -->
+		<property name="scanResolutionLookupProvider" ref="scanResolutionLookupProvider" />
 	</bean>
 
 

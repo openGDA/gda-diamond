@@ -15,13 +15,8 @@
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
 		<property name="service" ref="plot_server" />
 	</bean>
-
-	<!-- Commonly commented in the simulation environment -->
-
-
-	<import resource="pixium.xml" />
 	
-
+	<import resource="simpleScannables.xml" />
 	<import resource="pco.xml" />
 
 	<!-- The tomoAlignment.xml must follow the pco.xml since the tomoAlignment 

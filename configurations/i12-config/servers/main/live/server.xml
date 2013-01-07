@@ -30,6 +30,7 @@
 	<import resource="pipediode.xml" />
 	<!-- <import resource="adc3.xml"/> <import resource="dac3.xml"/> -->
 	<import resource="s3.xml" />
+	<import resource="s4.xml" />
 	<import resource="ss1_motors.xml" />
 	<import resource="ss2.xml" />
 	<import resource="t1_motors.xml" />

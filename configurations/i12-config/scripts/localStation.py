@@ -20,7 +20,7 @@ sys.path.append(_epicsScriptLibraryDir)
 
 import i12utilities
 from i12utilities import DocumentationScannable
-
+import lookupTables
 
 
 print "create commands for folder operations: wd, pwd, nwd, nfn, setSubdirectory('subdir-name')"
@@ -49,6 +49,22 @@ alias("cfn")
 def helpi12(): 
     print "Help will be outputted"
 alias("helpi12")
+
+def reloadModuleLookup():
+    lookupTables.reloadModuleLookup();
+alias("reloadModuleLookup")
+    
+def reloadCameraMotionLookup():
+    lookupTables.reloadCameraMotionLookup();
+alias("reloadCameraMotionLookup")
+    
+def reloadTiltBallPositionLookup():
+    lookupTables.reloadTiltBallPositionLookup();
+alias("reloadTiltBallPositionLookup")
+    
+def reloadScanResolutionLookup():
+    lookupTables.reloadScanResolutionLookup();
+alias("reloadScanResolutionLookup")
 
 def setSubdirectory(dirname):
     i12utilities.setSubdirectory(dirname)
@@ -103,6 +119,12 @@ from init_scan_commands_and_processing import * #@UnusedWildImport
 
 from gda.scan.RepeatScan import create_repscan, repscan
 vararg_alias("repscan")
+
+from gdascripts.metadata.metadata_commands import setTitle
+alias("setTitle")
+
+if LocalProperties.check("gda.dummy.mode"):
+    print "Running in dummy mode"
 
 from gdascripts.pd.time_pds import waittimeClass2, showtimeClass, showincrementaltimeClass, actualTimeClass
 waittime = waittimeClass2('waittime')
@@ -199,7 +221,7 @@ try:
 except:
     print "cannot create PCO timestamp scannable"
 try:
-    loadcell = DisplayEpicsPVClass('loadcell', 'BL12I-EA-ADC-01:00', 's', '%.3f')
+    loadcell = DisplayEpicsPVClass('loadcell', 'BL12I-EA-ADC-01:CH0', 's', '%.3f')
     HV_amp = EpicsReadWritePVClass('HV_amp', 'BL12I-EA-DAC-01:00', 's', '%.3f')
 except:
     print "cannot create loadcell or HV_amp scannables"
@@ -272,6 +294,8 @@ from tomo import tomoAlignment #@UnusedImport
 #from tomo import tomographyScan
 #run("tomo/tomographyScan.py")
 
+from pv_scannable_utils import *
+print "added pv_scannable_utils" 
 
 print 
 print "==================================================="
