@@ -18,6 +18,7 @@
 
 package uk.ac.gda.beamline.i13i.ADViewer.composites;
 
+import gda.device.detector.areadetector.v17.NDStats;
 import gda.observable.Observable;
 import gda.observable.Observer;
 
@@ -52,6 +53,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IViewPart;
@@ -65,6 +67,7 @@ import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 import uk.ac.gda.beamline.i13i.ADViewer.ADController;
 
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.events.SelectionAdapter;
 
 public class Histogram extends Composite {
 	private static final String PROFILE = "PROFILE";
@@ -78,11 +81,7 @@ public class Histogram extends Composite {
 	private ILineTrace histogramTrace = null;
 	private DoubleDataset histogramXAxisRange = null;
 	private Observable<Integer> statsArrayCounterObservable;
-	private Observer<Integer> statsArrayCounterObserver;
-
-	private boolean histogramMonitoring = false;
-	private Button histogramMonitoringBtn;
-	private Label histogramMonitoringLbl;
+	private Observer<Integer> statsArrayCounterObserver, statsArrayCounterObserverStats;
 
 	private String mpegROIRegionName;
 	private Observable<Double> mpegProcOffsetObservable;
@@ -97,11 +96,13 @@ public class Histogram extends Composite {
 	long current_mpegROIMax = Long.MAX_VALUE;
 	private RectangularROI current_mpegROI;
 
+	private boolean grabOnceStats;
+
+
 	public Histogram(final IViewPart parentViewPart, Composite parent, int style, ADController config) {
 		super(parent, style);
 		this.config = config;
-
-		this.setLayout(new GridLayout(2, false));
+		setLayout(new GridLayout(2,false));
 		Composite left = new Composite(this, SWT.NONE);
 		GridDataFactory.fillDefaults().grab(false, true).applyTo(left);
 		RowLayout layout = new RowLayout(SWT.VERTICAL);
@@ -114,44 +115,15 @@ public class Histogram extends Composite {
 		GridData gd_statusComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_statusComposite.widthHint = 164;
 		statusComposite.setLayoutData(gd_statusComposite);
-		Group stateGroup = new Group(left, SWT.NONE);
-		stateGroup.setText("Profile View");
-		GridData gd_stateGroup = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_stateGroup.widthHint = 158;
-		stateGroup.setLayoutData(gd_stateGroup);
-		stateGroup.setLayout(new GridLayout(2, false));
-		histogramMonitoringLbl = new Label(stateGroup, SWT.CENTER);
-		GridData gd_histogramMonitoringLbl = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_histogramMonitoringLbl.widthHint = 77;
-		histogramMonitoringLbl.setLayoutData(gd_histogramMonitoringLbl);
-		histogramMonitoringBtn = new Button(stateGroup, SWT.PUSH | SWT.CENTER);
-		GridData gd_histogramMonitoringBtn = new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1);
-		gd_histogramMonitoringBtn.widthHint = 58;
-		histogramMonitoringBtn.setLayoutData(gd_histogramMonitoringBtn);
-		histogramMonitoringBtn.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				try {
-					if (histogramMonitoring) {
-						stop();
-					} else {
-						start();
-					}
-				} catch (Exception ex) {
-					logger.error("Error responding to start_stop button", ex);
-				}
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
-		setStarted(histogramMonitoring);
+		
+		histogramStatus = new HistogramStatus(left, SWT.NONE);
+		histogramStatus.setLayout(new GridLayout(1, false));
+		
+		statisticsStatus = new StatisticsStatus(left, SWT.NONE);
 
 		autoScaleBtn = new Button(left, SWT.PUSH);
 		autoScaleBtn.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-		autoScaleBtn.setText("Auto-Scale");
+		autoScaleBtn.setText("Auto-Scale MJPeg");
 		autoScaleBtn.addSelectionListener(new SelectionListener() {
 
 			@Override
@@ -195,16 +167,81 @@ public class Histogram extends Composite {
 			logger.error("Error creating region", e1);
 		}
 		try {
-			statusComposite.setObservable(config.getImageNDStats().getPluginBase().createConnectionStateObservable());
+			NDStats imageNDStats = config.getImageNDStats();
+			statusComposite.setObservable(imageNDStats.getPluginBase().createConnectionStateObservable());
+			statisticsStatus.setEnableObservable(imageNDStats.getPluginBase().createEnableObservable());
+			histogramStatus.setEnableObservable(imageNDStats.getPluginBase().createEnableObservable());
+			histogramStatus.setComputeHistogramObservable(imageNDStats.createComputeHistogramObservable());
+			statisticsStatus.setComputeObservable(imageNDStats.createComputeStatisticsObservable());
+			statisticsStatus.setMinObservable(imageNDStats.createMinObservable());
+			statisticsStatus.setMaxObservable(imageNDStats.createMaxObservable());
+			statisticsStatus.setMeanObservable(imageNDStats.createMeanObservable());
+			statisticsStatus.setTotalObservable(imageNDStats.createTotalObservable());
+			statisticsStatus.setSigmaObservable(imageNDStats.createSigmaObservable());
 		} catch (Exception e1) {
 			logger.error("Error in monitoring connection state", e1);
 		}
+		
+		histogramStatus.addHistogramMonitoringbtnSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					if (histogramStatus.getHistogramMonitoring()) {
+						stop();
+					} else {
+						start();
+					}
+				} catch (Exception ex) {
+					logger.error("Error responding to start_stop button", ex);
+				}
+			}
+		});
+		histogramStatus.addGrabOnceSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					grabOnce();
+				} catch (Exception e1) {
+					logger.error("Error grabbing histogram", e1);
+				}
+			}
+		});
+
+		statisticsStatus.addMonitoringbtnSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					if (statisticsStatus.getMonitoring()) {
+						stopStats();
+					} else {
+						startStats();
+					}
+				} catch (Exception ex) {
+					logger.error("Error responding to start_stop button", ex);
+				}
+			}
+		});
+		statisticsStatus.addGrabOnceSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					grabOnceStats();
+				} catch (Exception e1) {
+					logger.error("Error grabbing histogram", e1);
+				}
+			}
+		});
+		
+		
 		addDisposeListener(new DisposeListener() {
 			
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
 					try {
 						stop();
+						stopStats();
 					} catch (Exception ex) {
 						logger.error("Error stopping histogram computation", e);
 					}
@@ -221,10 +258,59 @@ public class Histogram extends Composite {
 						plottingSystem.dispose();
 						plottingSystem = null;
 					}
-
 			}
 		});
+
 	}
+
+
+	public void grabOnceStats() throws Exception {
+		grabOnceStats = !isComputingStats();
+		startStats();
+	}
+
+
+	
+	public void startStats() throws Exception {
+		config.getImageNDStats().getPluginBase().enableCallbacks();
+		config.getImageNDStats().setComputeStatistics(1);
+		if (statsArrayCounterObservable == null) {
+			statsArrayCounterObservable = config.getImageNDStats().getPluginBase().createArrayCounterObservable();
+		}
+		if (statsArrayCounterObserverStats == null) {
+			statsArrayCounterObserverStats = new Observer<Integer>() {
+
+				boolean first = true;
+
+				@Override
+				public void update(Observable<Integer> source, Integer arg) {
+					if (isDisposed())
+						return;
+					if (first) {
+						first = false;
+						return; // ignore first update
+					}
+					if( grabOnceStats){
+						try {
+							stopStats();
+						} catch (Exception e) {
+							logger.error("Error stopping histogram update", e);
+						}
+						grabOnceStats=false;
+					}
+				};
+			};
+		}
+		statsArrayCounterObservable.addObserver(statsArrayCounterObserverStats);
+	}
+
+	public void stopStats() throws Exception {
+		config.getImageNDStats().setComputeStatistics(0);
+		if (statsArrayCounterObservable != null && statsArrayCounterObserverStats!= null) {
+			statsArrayCounterObservable.deleteIObserver(statsArrayCounterObserverStats);
+		}
+	}
+
 
 	private double getMPEGProcOffset() throws Exception {
 		return config.getLiveViewNDProc().getOffset();
@@ -333,17 +419,26 @@ public class Histogram extends Composite {
 		config.getImageNDStats().setComputeHistogram(0);
 		if (statsArrayCounterObservable != null && statsArrayCounterObserver != null) {
 			statsArrayCounterObservable.deleteIObserver(statsArrayCounterObserver);
-			statsArrayCounterObserver = null;
-			statsArrayCounterObservable = null;
 		}
-		setStarted(false);
-
 	}
 
 	Job updateHistogramJob;
 
 	private Button autoScaleBtn;
 	private IOCStatus statusComposite;
+
+	private boolean grabOnce;
+	private HistogramStatus histogramStatus;
+	private StatisticsStatus statisticsStatus;
+
+	boolean isComputingHistogram() throws Exception{
+		NDStats imageNDStats = config.getImageNDStats();
+		return imageNDStats.getPluginBase().isCallbacksEnabled_RBV() && imageNDStats.getComputeHistogram_RBV()==1;
+	}
+	boolean isComputingStats() throws Exception{
+		NDStats imageNDStats = config.getImageNDStats();
+		return imageNDStats.getPluginBase().isCallbacksEnabled_RBV() && imageNDStats.getComputeStatistics_RBV()==1;
+	}
 
 	public void start() throws Exception {
 		final int histSize = getHistSize();
@@ -377,6 +472,14 @@ public class Histogram extends Composite {
 					if (first) {
 						first = false;
 						return; // ignore first update
+					}
+					if( grabOnce){
+						try {
+							stop();
+						} catch (Exception e) {
+							logger.error("Error stopping histogram update", e);
+						}
+						grabOnce=false;
 					}
 					if (updateHistogramJob == null) {
 						updateHistogramJob = new Job("Update histogram") {
@@ -452,14 +555,14 @@ public class Histogram extends Composite {
 			};
 		}
 		statsArrayCounterObservable.addObserver(statsArrayCounterObserver);
-		setStarted(true);
 	}
 
-	private void setStarted(boolean b) {
-		histogramMonitoring = b;
-		histogramMonitoringBtn.setText(b ? "Stop" : "Start");
-		histogramMonitoringLbl.setText(b ? "Running" : "Stopped");
-	}
+
+	
+	public void grabOnce() throws Exception {
+		grabOnce = !isComputingHistogram();
+		start();
+	}	
 
 	/**
 	 * Needed for the adapter of the parent view to return IToolPageSystem.class
@@ -479,5 +582,7 @@ public class Histogram extends Composite {
 	public int getImageMax() {
 		return config.getImageMax();
 	}
+
+
 
 }
