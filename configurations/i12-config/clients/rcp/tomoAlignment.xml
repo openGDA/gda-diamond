@@ -121,6 +121,8 @@
 		<property name="tomoScriptController" ref="tomoAlignmentConfigurationScriptController" />
 		<property name="cameraModuleMotorHandler" ref="cameraModuleMotorHandler" />
 		<property name="lookupTableHandler" ref="tiltBallLookupTableHandler" />
+		<property name="preTiltCam1RollVal" value="0.5" />
+		<property name="preTiltSs1RxVal" value="0.2" />
 		<property name="externalProgram1">
 			<bean class="uk.ac.gda.client.tomo.ExternalFunction">
 				<property name="command" value="call_matlab.sh" />
