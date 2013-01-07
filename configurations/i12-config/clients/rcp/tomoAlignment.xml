@@ -107,7 +107,6 @@
 	<bean id="cameraModuleHandler"
 		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.CameraModuleController">
 		<property name="lookupTableHandler" ref="cameraModuleLookupTableHandler" />
-		<property name="cameraModuleMotorHandler" ref="cameraModuleMotorHandler" />
 		<property name="tomoScriptController" ref="tomoAlignmentConfigurationScriptController" />
 	</bean>
 
