@@ -61,7 +61,8 @@ public class HistogramView extends ViewPart implements InitializingBean{
 		parent.setLayout(new FillLayout());
 		areaDetectorProfileComposite = new Histogram(this, parent, SWT.NONE, config);
 		try {
-			areaDetectorProfileComposite.start();
+//			areaDetectorProfileComposite.grabOnce();
+//			areaDetectorProfileComposite.grabOnceStats();
 		} catch (Exception e) {
 			logger.error("Error starting  areaDetectorProfileComposite", e);
 		}
