@@ -115,6 +115,11 @@
 		<property name="moduleTable" ref="tiltBallRoiLut" />
 	</bean>
 
+	<bean id="autofocusController"
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.AutoFocusController">
+		<property name="tomoScriptController" ref="tomoAlignmentConfigurationScriptController" />
+	</bean>
+
 	<bean id="tiltController"
 		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TiltController">
 		<property name="tomoScriptController" ref="tomoAlignmentConfigurationScriptController" />
@@ -156,6 +161,7 @@
 		<property name="cameraHandler" ref="detectorHandler" />
 		<property name="cameraModuleController" ref="cameraModuleHandler" />
 		<property name="tiltController" ref="tiltController" />
+		<property name="autofocusController" ref="autofocusController"/>
 		<property name="roiHandler" ref="roiHandler" />
 		<property name="saveHandler" ref="tomoConfigResourceHandler" />
 		<property name="scanController" ref="tomoScanController" /> <!-- Defined in the tomoConfiguration.xml -->

@@ -104,12 +104,11 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     try:
         pco.getController().disarmCamera()
         startTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-        stepsSize = 90
-        tomoScan(description, positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, 1, 1, 0, additionalScannables=[fastScan,topUp])
-        #tomoScan(description, positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, 10, 10, 0, additionalScannables=[fastScan])
+        #tomoScan(description, positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, 1, 1, 0, additionalScannables=[fastScan],topUp])
+        tomoScan(description, positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, 10, 10, 0, additionalScannables=[fastScan])
         endTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         scanNumber = int(cfn())
-   except Exception, ex:
+    except Exception, ex:
         print "in exception"
         isTomoScanSuccess = False
     finally:
@@ -654,27 +653,32 @@ def getVerticalMotorPositions():
 def autoFocus(acqTime):
     cam1_z = f.find("cam1_z")
     pco = f.find("pco")
+    print isLiveMode()
+    if not isLiveMode():
+        pco.setExternalTriggered(False)
     moduleLookup = f.find("moduleMotorPositionLUT")
     module = getModule()
+    if module < 1 and module > 4:
+        raise Exception("No module set so can't autofocus") 
     cam1zLookup = moduleLookup.lookupValue(module, "cam1_z")
     afxCropStart = int(moduleLookup.lookupValue(module, "AFCropStartX"))
     afyCropStart = int(moduleLookup.lookupValue(module, "AFCropStartY"))
     afxCropEnd = int(moduleLookup.lookupValue(module, "AFCropEndX"))
     afyCropEnd = int(moduleLookup.lookupValue(module, "AFCropEndY"))
-    #scan(ix, 0, 1, 0.1)
-    
-    #scan([cam1_z, cam1zLookup - 2, cam1zLookup + 2.2, 0.2, pco, acqTime])
-    scan([cam1_z, -76, -81, .1, pco, 2.5])
+    updateScriptController("Scanning cam1_z to auto-focus")
+    scan([cam1_z, cam1zLookup - 2, cam1zLookup + 2.2, 0.2, pco, acqTime])
+    #scan([cam1_z, -76, -81, .1, pco, 2.5])
     print pwd() + "/projections";
     
-    numImgs = 51
+    numImgs = 20
     pathname = pwd() + "/projections/"
-    autofocusImages(pathname)
-   
+    updateScriptController("About to analyse images in " + `pathname`)
+    autofocusImages(pathname, afxCropStart, afyCropStart, afxCropEnd, afyCropEnd, numImgs)
     #cam1_z.moveTo(nxsModel.entry1.pco.cam1_z[biggestIndex])
+    
 def loadImageIntoPlot(tiffimageFullPath):
     dataset = dnp.io.load(tiffimageFullPath)[0]
-    dataset.metadata=None
+    dataset.metadata = None
     dnp.plot.image(dataset)
 
 def autoFocusRight(pathname, numImgs=51):
@@ -683,42 +687,48 @@ def autoFocusRight(pathname, numImgs=51):
 def autoFocusLeft(pathname, numImgs=51):
     autofocusImages(pathname, 111, 974, 565, 1345, numImgs)
     
-def autofocusImages(pathname, cropxStart, cropyStart, cropxEnd, cropyEnd, numImgs):
-    index = 0
-    biggestSum = 0
-    biggestIndex = 0
-    imageName=None
-    print "CropX Start:"+`cropxStart`
-    print "CropY Start:"+`cropyStart`
-    print "CropX End:"+`cropxEnd`
-    print "CropY End:"+`cropyEnd`
-    
-    for num in range(0, numImgs):
-        fileName = pathname + ("p_%05d.tif" % num)
-        print fileName
-        dataset = dnp.io.load(fileName)[0]
-        dataset.metadata = None
-        dnp.plot.image(dataset)
-        ds = dataset.getSlice([cropyStart, cropxStart], [cropyEnd, cropxEnd], [1, 1])
-        dnp.plot.image(ds)
-        medianFilter = Image.medianFilter(dnp.abs(ds), [3, 3])
-        sobell = Image.sobelFilter(dnp.abs(medianFilter))
-        dnp.plot.image(sobell)
-        sobellSum = dnp.abs(sobell).sum()
-        print "index:" + `index`
-        print "SobellSum:" + `sobellSum`
-        if sobellSum > biggestSum :
-            biggestSum = sobellSum
-            biggestIndex = index
-            imageName=fileName
-        index = index + 1
-        print '________________'
-    print "BiggestIndex:" + `biggestIndex`
-    print "Image Name:" + `imageName`
-    nexusFile = pwd() + ".nxs"
-    print "Nexus file looking into :"+`nexusFile`
-    nxsModel = dnp.io.load(nexusFile)
-    print nxsModel.entry1.pco.cam1_z[biggestIndex]
+def autofocusImages(pathname, cropxStart, cropyStart, cropxEnd, cropyEnd, numImgs, shouldPlot=False):
+    try:
+        index = 0
+        biggestSum = 0
+        biggestIndex = 0
+        imageName = None
+        
+        for num in range(0, numImgs):
+            fileName = pathname + ("p_%05d.tif" % num)
+            updateScriptController("Analysing Image: " + `fileName`)
+            dataset = dnp.io.load(fileName)[0]
+            if shouldPlot:
+                dataset.metadata = None
+                dnp.plot.image(dataset)
+            
+            ds = dataset.getSlice([cropyStart, cropxStart], [cropyEnd, cropxEnd], [1, 1])
+            
+            if shouldPlot:
+                dnp.plot.image(ds)
+            medianFilter = Image.medianFilter(dnp.abs(ds), [3, 3])
+            sobell = Image.sobelFilter(dnp.abs(medianFilter))
+            if shouldPlot:
+                dnp.plot.image(sobell)
+            sobellSum = dnp.abs(sobell).sum()
+            print "index:" + `index`
+            print "SobellSum:" + `sobellSum`
+            if sobellSum > biggestSum :
+                biggestSum = sobellSum
+                biggestIndex = index
+                imageName = fileName
+            index = index + 1
+            print '________________'
+        
+        print "BiggestIndex:" + `biggestIndex`
+        print "Image Name:" + `imageName`
+        nexusFile = pwd() + ".nxs"
+        print "Nexus file looking into :" + `nexusFile`
+        nxsModel = dnp.io.load(nexusFile)
+        cam1_zBestFocusVal = nxsModel.entry1.pco.cam1_z[biggestIndex]
+        print cam1_zBestFocusVal
+    finally:
+        updateScriptController("Complete:\nImage Name:\n" + `str(imageName)` + "\nCam1_z value= " + `cam1_zBestFocusVal`)
 
 class TomoAlignmentConfigurationManager:
     def __init__(self):
@@ -739,17 +749,18 @@ class TomoAlignmentConfigurationManager:
                 print "Tomography Scan already in progress..."
             return
         tomoExperimentResource = self.tomoResourceUtil.getResource(tomoConfigFilePath, False)
+        self.tomoResourceUtil.reloadResource(tomoExperimentResource)
         tomoExperiment = tomoExperimentResource.getContents()[0]
         tomoExperimentParams = tomoExperiment.getParameters()
         tomoExperimentConfigSet = tomoExperimentParams.getConfigurationSet()
         
         self.tomoAlignmentConfigurations.clear()
-        
+        configCount = 0
         for i in range(tomoExperimentConfigSet.size()):
             aC = tomoExperimentConfigSet.get(i)
             if aC.getSelectedToRun():
-                tomoResourceUtil = TomoAlignmentConfiguration(self, aC)
-            self.tomoAlignmentConfigurations[i] = tomoResourceUtil
+                self.tomoAlignmentConfigurations[configCount] = TomoAlignmentConfiguration(self, aC)
+                configCount = configCount + 1
         self.runConfigs()
     
     def setConfigRunning(self, configId):
@@ -758,7 +769,7 @@ class TomoAlignmentConfigurationManager:
         else:
             statusList = {}
             for k, v in self.tomoAlignmentConfigurations.iteritems():
-                statusList[v.configId] = v.status
+                statusList[str(v.configId)] = v.status
             self.currentConfigInProgress = statusList
         updateScriptController('RunningConfig#' + `self.currentConfigInProgress`)
         
@@ -856,7 +867,6 @@ class TomoAlignmentConfiguration:
                         minY=self.minY,
                         maxY=self.maxY)
             self.writeInfoToAlignmentConfiguration(result)
-           
             self.status = "Complete"
         except:
             exceptionType, exception, traceback = sys.exc_info()
