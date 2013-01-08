@@ -60,6 +60,19 @@ public class SampleMetadataView extends ViewPart {
 		parent.setLayoutData(gridData);
 		parent.setLayout(gl_parent);
 		{
+			Group grpElapsedTime = new Group(parent, SWT.NONE);
+			GridData gd_grpElapsedTime = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+//			gd_grpElapsedTime.widthHint = 120;
+			grpElapsedTime.setLayoutData(gd_grpElapsedTime);
+			grpElapsedTime.setText("Scan Status");
+			grpElapsedTime.setLayout(new FillLayout(SWT.HORIZONTAL));
+			frameStatus = new Label(grpElapsedTime, SWT.NONE);
+			frameStatus.setText("UNKNOWN");
+			frameStatus.setFont(SWTResourceManager.getFont("Sans", 12, SWT.NORMAL));
+			frameStatus.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
+			frameStatus.setAlignment(SWT.CENTER);
+		}
+		{
 			Group grpFrame = new Group(parent, SWT.NONE);
 			grpFrame.setText("Iteration");
 			GridData gd_grpElapsedTime = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
@@ -71,19 +84,6 @@ public class SampleMetadataView extends ViewPart {
 				frameNumber.setFont(SWTResourceManager.getFont("Sans", 12, SWT.NORMAL));
 				frameNumber.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
 				frameNumber.setText("[0] / [0]");
-		}
-		{
-			Group grpElapsedTime = new Group(parent, SWT.NONE);
-			GridData gd_grpElapsedTime = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-//			gd_grpElapsedTime.widthHint = 120;
-			grpElapsedTime.setLayoutData(gd_grpElapsedTime);
-			grpElapsedTime.setText("Scan Status");
-			grpElapsedTime.setLayout(new FillLayout(SWT.HORIZONTAL));
-				frameStatus = new Label(grpElapsedTime, SWT.NONE);
-				frameStatus.setText("UNKNOWN");
-				frameStatus.setFont(SWTResourceManager.getFont("Sans", 12, SWT.NORMAL));
-				frameStatus.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
-				frameStatus.setAlignment(SWT.CENTER);
 		}
 		{
 			Group grpElapsedTime = new Group(parent, SWT.NONE);

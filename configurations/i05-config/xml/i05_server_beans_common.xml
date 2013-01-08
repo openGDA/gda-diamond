@@ -54,7 +54,7 @@
 				</bean>
 				<bean class="gda.data.metadata.ScannableMetadataEntry">
 					<property name="name" value="instrument.monochromator.energy" />
-					<property name="scannableName" value="bkeV" />
+					<property name="scannableName" value="energy" />
 				</bean>
 				<bean class="gda.data.metadata.EpicsMetadataEntry">
 					<property name="name" value="instrument.insertion_device.gap" />
