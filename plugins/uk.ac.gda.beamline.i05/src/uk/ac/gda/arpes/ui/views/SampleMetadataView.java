@@ -37,6 +37,9 @@ public class SampleMetadataView extends ViewPart {
 	protected Text subDirectory;
 	protected Text currentDirectory;
 	protected Text scanFile;
+	protected Text sampleName;
+
+	protected Label eta;
 	protected Label elapsedTime;
 	protected Label frameStatus;
 	protected Label frameNumber;
@@ -51,7 +54,7 @@ public class SampleMetadataView extends ViewPart {
 
 	private void createFirstHalf(Composite parent) {
 //		Composite parent = new Composite(up, SWT.NONE);
-		GridLayout gl_parent = new GridLayout(4, false);
+		GridLayout gl_parent = new GridLayout(4, true);
 		gl_parent.verticalSpacing = 12;
 		GridData gridData = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
 		parent.setLayoutData(gridData);
@@ -59,67 +62,73 @@ public class SampleMetadataView extends ViewPart {
 		{
 			Group grpFrame = new Group(parent, SWT.NONE);
 			grpFrame.setText("Iteration");
-			GridData gd_grpElapsedTime = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-			gd_grpElapsedTime.widthHint = 60;
+			GridData gd_grpElapsedTime = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+//			gd_grpElapsedTime.widthHint = 60;
 			grpFrame.setLayoutData(gd_grpElapsedTime);
 			grpFrame.setLayout(new FillLayout(SWT.HORIZONTAL));
-			{
 				frameNumber = new Label(grpFrame, SWT.NONE);
 				frameNumber.setAlignment(SWT.CENTER);
 				frameNumber.setFont(SWTResourceManager.getFont("Sans", 12, SWT.NORMAL));
 				frameNumber.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
-				frameNumber.setText("0");
-			}
+				frameNumber.setText("[0] / [0]");
 		}
 		{
 			Group grpElapsedTime = new Group(parent, SWT.NONE);
 			GridData gd_grpElapsedTime = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-			gd_grpElapsedTime.widthHint = 120;
+//			gd_grpElapsedTime.widthHint = 120;
 			grpElapsedTime.setLayoutData(gd_grpElapsedTime);
 			grpElapsedTime.setText("Scan Status");
 			grpElapsedTime.setLayout(new FillLayout(SWT.HORIZONTAL));
-			{
 				frameStatus = new Label(grpElapsedTime, SWT.NONE);
 				frameStatus.setText("UNKNOWN");
 				frameStatus.setFont(SWTResourceManager.getFont("Sans", 12, SWT.NORMAL));
 				frameStatus.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
 				frameStatus.setAlignment(SWT.CENTER);
-			}
 		}
 		{
 			Group grpElapsedTime = new Group(parent, SWT.NONE);
-			GridData gd_grpElapsedTime = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-			gd_grpElapsedTime.widthHint = 120;
+			GridData gd_grpElapsedTime = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+//			gd_grpElapsedTime.widthHint = 120;
 			grpElapsedTime.setLayoutData(gd_grpElapsedTime);
-			grpElapsedTime.setText("Elapsed Time");
+			grpElapsedTime.setText("Elapsed");
 			grpElapsedTime.setLayout(new FillLayout(SWT.HORIZONTAL));
-			{
 				elapsedTime = new Label(grpElapsedTime, SWT.NONE);
 				elapsedTime.setText("00:00:00");
 				elapsedTime.setFont(SWTResourceManager.getFont("Sans", 12, SWT.NORMAL));
 				elapsedTime.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
 				elapsedTime.setAlignment(SWT.CENTER);
-			}
+		}
+		{
+			Group grpElapsedTime = new Group(parent, SWT.NONE);
+			GridData gd_grpElapsedTime = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+//			gd_grpElapsedTime.widthHint = 120;
+			grpElapsedTime.setLayoutData(gd_grpElapsedTime);
+			grpElapsedTime.setText("Remaining");
+			grpElapsedTime.setLayout(new FillLayout(SWT.HORIZONTAL));
+				eta = new Label(grpElapsedTime, SWT.NONE);
+				eta.setText("00:00:00");
+				eta.setFont(SWTResourceManager.getFont("Sans", 12, SWT.NORMAL));
+				eta.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
+				eta.setAlignment(SWT.CENTER);
 		}
 		{
 			Label label = new Label(parent, SWT.NONE);
-			label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+			label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
 			label.setText("Progress");
-		}
-		{
+
 			progressBar = new ProgressBar(parent, SWT.NONE);
-			progressBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+			progressBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
+			progressBar.setMaximum(10000);
+			progressBar.setMinimum(0);
 		}
 	
 		{
 			Label label = new Label(parent, SWT.NONE);
 			label.setText("Scan File");
-			label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+			label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
-		}
-		{
 			scanFile = new Text(parent, SWT.NONE);
-			GridData gd_scanFile = new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1);
+			GridData gd_scanFile = new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1);
 			scanFile.setLayoutData(gd_scanFile);
 			scanFile.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			scanFile.setText("");
@@ -128,12 +137,10 @@ public class SampleMetadataView extends ViewPart {
 		{
 			Label label = new Label(parent, SWT.NONE);
 			label.setText("Current Directory");
-			label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+			label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
-		}
-		{
 			currentDirectory = new Text(parent, SWT.NONE);
-			GridData gd_currentDirectory = new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1);
+			GridData gd_currentDirectory = new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1);
 			currentDirectory.setLayoutData(gd_currentDirectory);
 			currentDirectory.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			currentDirectory.setText("");
@@ -142,15 +149,24 @@ public class SampleMetadataView extends ViewPart {
 		{
 			Label label = new Label(parent, SWT.NONE);
 			label.setText("Subdirectory");
-			label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+			label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
-		}
-		{
 			subDirectory = new Text(parent, SWT.BORDER);
-			GridData gd_subDirectory = new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1);
+			GridData gd_subDirectory = new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1);
 			subDirectory.setLayoutData(gd_subDirectory);
 			subDirectory.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			subDirectory.setText("");
+		}		
+		{
+			Label label = new Label(parent, SWT.NONE);
+			label.setText("Sample Name");
+			label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+
+			sampleName = new Text(parent, SWT.BORDER);
+			GridData gd_subDirectory = new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1);
+			sampleName.setLayoutData(gd_subDirectory);
+			sampleName.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+			sampleName.setText("");
 		}
 
 		new MetadataUpdater(this);

@@ -34,7 +34,8 @@
 					<property name="name" value="federalid" />
 					<property name="value" value="" />
 				</bean>
-	<!-- 			<ref bean="subdirectory" /> -->
+	 			<ref bean="subdirectory" />
+	 			<ref bean="samplename" />
 				<bean class="gda.data.metadata.StoredScanMetadataEntry">
 					<property name="name" value="title" />
 					<property name="value" value="undefined" />
@@ -63,6 +64,13 @@
 		</property>
 	</bean>
 
+	<bean class="gda.data.metadata.StoredMetadataEntry" id="samplename">
+		<property name="value" value="none" />
+	</bean>
+	<bean class="gda.data.metadata.MetadataBlaster" id="observableSamplename">
+		<property name="storedMetadataEntry" ref="samplename" />
+	</bean>
+	
 	<bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry" />
 
 	<bean class="gda.data.metadata.MetadataBlaster" id="observableSubdirectory">
@@ -71,7 +79,7 @@
 
 	<bean class="gda.data.metadata.IntransparentLogFilePathProvider" id="logfilenameprovider">
 		<property name="storedMetadataEntry" ref="subdirectory" /> 
-		<property name="pathTemplate" value="/dls_sw/i05/software/data/$year$/$visit$/gda-console-$visit$.log" />
+		<property name="pathTemplate" value="${gda.data}/$year$/$visit$/gda-console-$visit$.log" />
 	</bean>
 
 	<bean id="jython_server_facade" class="gda.jython.JythonServerFacade">
