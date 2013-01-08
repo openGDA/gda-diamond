@@ -18,8 +18,8 @@
     <monoInitialEnergy>2000.0</monoInitialEnergy>
     <monoFinalEnergy>15000.0</monoFinalEnergy>
     <monoStepSize>0.01</monoStepSize>
-    <additionalCrystal0>true</additionalCrystal0>
+    <additionalCrystal0>false</additionalCrystal0>
     <additionalCrystal1>true</additionalCrystal1>
-    <additionalCrystal2>false</additionalCrystal2>
+    <additionalCrystal2>true</additionalCrystal2>
     <additionalCrystal3>false</additionalCrystal3>    
 </XesScanParameters>
