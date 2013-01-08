@@ -402,6 +402,7 @@
 </bean>
 <bean id="sample_y2_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="T1.Y2"></property>
+	<property name="local" value="true"/>
 </bean>
 <bean id="sample_y3_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="T1.Y3"></property>

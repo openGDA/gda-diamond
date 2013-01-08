@@ -474,7 +474,7 @@
 		<property name="hardwareUnitString" value="mm" />
 		<property name="outputFormat">
 			<list>
-				<value>%.2f</value>
+				<value>%.4f</value>
 			</list>
 		</property>
 	</bean> 
@@ -501,6 +501,7 @@
 		<property name="initialUserUnits" value="Deg" />
 		<property name="motor" ref="sample_thetafine_motor" />
 		<property name="hardwareUnitString" value="Deg" />
+		
 	</bean>
 	
 	<bean id="sc_MicroFocusSampleY" class="gda.device.scannable.CoupledScannable">
@@ -515,13 +516,10 @@
 		<property name="hardwareUnitString" value="mm" />
 		<property name="outputFormat">
 			<list>
-				<value>%.2f</value>
+				<value>%.4f</value>
 			</list>
 		</property>
 	</bean>
-	
-	
-	
 	
 	<bean id="sc_sample_xz" class="gda.device.scannable.ConvertorScannable">
 		<property name="scannableName" value="sc_MicroFocusSampleX"/>
