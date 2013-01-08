@@ -313,7 +313,7 @@
   </property>
   <property type="sds.integer" id="action_pressed_index" value="0" />
   <property type="sds.integer" id="action_released_index" value="-1" />
-  <property type="sds.integer" id="position.x" value="372" />
+  <property type="sds.integer" id="position.x" value="367" />
   <property type="sds.integer" id="position.y" value="44" />
   <property type="sds.integer" id="width" value="41" />
   <property type="sds.integer" id="height" value="20" />
@@ -535,7 +535,7 @@
   </property>
   <property type="sds.integer" id="action_pressed_index" value="0" />
   <property type="sds.integer" id="action_released_index" value="-1" />
-  <property type="sds.integer" id="position.x" value="107" />
+  <property type="sds.integer" id="position.x" value="103" />
   <property type="sds.integer" id="position.y" value="260" />
   <property type="sds.integer" id="width" value="41" />
   <property type="sds.integer" id="height" value="20" />

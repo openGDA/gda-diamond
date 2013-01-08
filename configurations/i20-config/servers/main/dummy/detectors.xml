@@ -1,7 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<bean id="DAServer" class="gda.device.detector.DummyDAServer">
 		<property name="local" value="True" />
@@ -14,7 +17,7 @@
 		</property>
 		<property name="dataPort" value="20030" />
 		<property name="replyTimeOut" value="5000" />
-<!-- 		<property name="dataFile" value="Mofoil2.dat" /> -->
+		<!-- <property name="dataFile" value="Mofoil2.dat" /> -->
 		<property name="xspressMode">
 			<bean class="gda.device.detector.DUMMY_XSPRESS2_MODE"
 				factory-method="valueOf">
@@ -29,14 +32,14 @@
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
 		<property name="numberOfMca" value="1" />
 		<property name="numberOfBins" value="1024" />
-<!-- 		<property name="numberOfROIs" value="5" /> -->
+		<!-- <property name="numberOfROIs" value="5" /> -->
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="Stanford01" class="gda.device.currentamplifier.DummyCurrentAmplifier"/>
-	<bean id="Stanford02" class="gda.device.currentamplifier.DummyCurrentAmplifier"/>
-	<bean id="Stanford03" class="gda.device.currentamplifier.DummyCurrentAmplifier"/>
-	<bean id="Stanford04" class="gda.device.currentamplifier.DummyCurrentAmplifier"/>
+	<bean id="Stanford01" class="gda.device.currentamplifier.DummyCurrentAmplifier" />
+	<bean id="Stanford02" class="gda.device.currentamplifier.DummyCurrentAmplifier" />
+	<bean id="Stanford03" class="gda.device.currentamplifier.DummyCurrentAmplifier" />
+	<bean id="Stanford04" class="gda.device.currentamplifier.DummyCurrentAmplifier" />
 
 	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2System">
 		<property name="daServerName" value="DAServer" />
@@ -49,7 +52,7 @@
 
 		<property name="configFileName"
 			value="${gda.config}/templates/Xspress_Parameters.xml" />
-		
+
 		<property name="dtcConfigFileName"
 			value="${gda.config}/templates/Xspress_DeadTime_Parameters.xml" />
 		<property name="fullMCABits" value="12" />
@@ -59,7 +62,7 @@
 				<value>%9.2f</value>
 			</list>
 		</property>
-		<property name="ionChambersCounterTimer" ref="ionchambers"/>
+		<property name="ionChambersCounterTimer" ref="ionchambers" />
 	</bean>
 
 	<!-- Time Frame Generator -->
@@ -104,8 +107,8 @@
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="I1" class="gda.device.detector.countertimer.TfgScaler">
+
+	<bean id="I1" class="gda.device.detector.countertimer.TfgScalerWithFrames">
 		<property name="extraNames">
 			<list>
 				<value>Time</value>
@@ -115,6 +118,8 @@
 		<property name="scaler" ref="CalMemory" />
 		<property name="timer" ref="tfg" />
 		<property name="timeChannelRequired" value="true" />
+		<property name="outputLogValues" value="false" />
+		<property name="darkCurrentRequired" value="true" />
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="1" />
 		<property name="firstDataChannel" value="4" />
@@ -126,12 +131,12 @@
 			</list>
 		</property>
 	</bean>
-	
+
 
 	<!-- merges data from xspress and ion chambers -->
 	<bean id="FFI0" class="gda.device.detector.TfgFFoverI0">
 		<property name="xspress" ref="xspress2system" />
-		<property name="i0_channel" value="0"/>
+		<property name="i0_channel" value="0" />
 		<property name="counterTimer" ref="ionchambers" />
 	</bean>
 
@@ -152,19 +157,19 @@
 		<property name="tfg" ref="tfg" />
 	</bean>
 
-<!-- 	<bean id="I1" class="gda.device.detector.XesIf"> -->
-<!-- 		<property name="xmap" ref="xmapMca" /> -->
-<!-- 		<property name="gdhist" ref="CalMemory" /> -->
-<!-- 		<property name="scaler" ref="ionchambers" /> -->
-<!-- 		<property name="ifChannelNumber" value="4" /> -->
-<!-- 	</bean> -->
+	<!-- <bean id="I1" class="gda.device.detector.XesIf"> -->
+	<!-- <property name="xmap" ref="xmapMca" /> -->
+	<!-- <property name="gdhist" ref="CalMemory" /> -->
+	<!-- <property name="scaler" ref="ionchambers" /> -->
+	<!-- <property name="ifChannelNumber" value="4" /> -->
+	<!-- </bean> -->
 
 	<bean id="FFI0_vortex" class="gda.device.detector.TfgXMapFFoverI0">
 		<property name="xmap" ref="xmapMca" />
 		<property name="counterTimer" ref="ionchambers" />
-		<property name="i0_channel" value="0"/>
+		<property name="i0_channel" value="0" />
 	</bean>
-	
+
 	<bean id="FFI1" class="gda.device.detector.TfgXMapFFoverI0">
 		<property name="xmap" ref="xmapMca" />
 		<!--property name="scaler" ref="CalMemory" / -->
@@ -173,12 +178,215 @@
 			<list>
 				<value>FFI1</value>
 			</list>
-		</property>		
+		</property>
 	</bean>
-	
 
-<!-- 	<bean id="cirrus" class="uk.ac.gda.devices.cirrus.CirrusDetector"> -->
-<!-- 		<property name="cirrusHost" value="diamrl5244" /> -->
-<!-- 	</bean> -->
+
+	<!-- <bean id="cirrus" class="uk.ac.gda.devices.cirrus.CirrusDetector"> -->
+	<!-- <property name="cirrusHost" value="diamrl5244" /> -->
+	<!-- </bean> -->
+
+	<bean id="i0_stanford_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="i0_stanford_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+				<value>mA/V</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="i0_stanford_offset" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="i0_stanford_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="it_stanford_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="it_stanford_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+				<value>mA/V</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="it_stanford_offset" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="it_stanford_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+			</util:list>
+		</property>
+	</bean>
+
+
+	<bean id="iref_stanford_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="iref_stanford_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+				<value>mA/V</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="iref_stanford_offset" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="iref_stanford_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+			</util:list>
+		</property>
+	</bean>
+
+
+	<bean id="i1_stanford_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="i1_stanford_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+				<value>mA/V</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="i1_stanford_offset" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="i1_stanford_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+			</util:list>
+		</property>
+	</bean>
+
 
 </beans>

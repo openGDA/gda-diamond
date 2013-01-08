@@ -150,7 +150,7 @@
       <color hex="#000000" />
     </property>
     <property type="sds.font" id="font">
-      <font font="Arial, 8" />
+      <font font="Cursor, 10" />
     </property>
     <property type="sds.option" id="textAlignment">
       <option id="0" />
@@ -250,7 +250,7 @@
     <color hex="#000000" />
   </property>
   <property type="sds.font" id="font">
-    <font font="Arial, 8" />
+    <font font="Cursor, 10" />
   </property>
   <property type="sds.option" id="textAlignment">
     <option id="0" />
@@ -590,7 +590,7 @@
     <color hex="#000000" />
   </property>
   <property type="sds.font" id="font">
-    <font font="Arial, 8" />
+    <font font="Cursor, 10" />
   </property>
   <property type="sds.option" id="textAlignment">
     <option id="0" />

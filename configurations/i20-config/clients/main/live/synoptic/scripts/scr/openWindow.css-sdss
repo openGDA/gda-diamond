@@ -88,6 +88,8 @@ function execute(args) {
 	    result = analysers;
 	}else if ( argument1 == 'analysers_help') {
 	    result = analysers_help;
+	}else if ( argument1 == 'help_text1') {
+	    result = help_text1;
 	}else if ( argument1 == 'analysers_predict') {
 	    result = analysers_predict;
 	}else if ( argument1 == 'offsets') {

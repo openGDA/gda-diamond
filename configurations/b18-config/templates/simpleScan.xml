@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SimpleScan>
     <scannableName>energy</scannableName>
-    <fromPos>0.0</fromPos>
-    <toPos>10.0</toPos>
+    <fromPos>7100.0</fromPos>
+    <toPos>7105.0</toPos>
     <stepSize>1.0</stepSize>
     <acqTime>1.0</acqTime>
     <scannables>

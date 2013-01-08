@@ -7,13 +7,11 @@
 
 	<!-- mirrors and QCM -->
 
-	<bean id="ohcoating" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="ohcoating" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="M1P" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="crystalcut" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL" />
-		<property name="local" value="true"/>
 	</bean>
 
 
@@ -54,11 +52,9 @@
 <!-- 	</bean> -->
 
 	<bean id="bragg1" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="eV" />
 		<property name="motor" ref="bragg1_motor" />
 		<property name="hardwareUnitString" value="eV" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<util:list>
 				<value>%.4f</value>
@@ -71,7 +67,6 @@
 		<property name="initialUserUnits" value="eV" />
 		<property name="motor" ref="bragg2_motor" />
 		<property name="hardwareUnitString" value="eV" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<util:list>
 				<value>%.4f</value>
@@ -82,19 +77,16 @@
 	<bean id="crystal1_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="crystal1_pitch_motor" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="crystal2_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="crystal2_roll_motor" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="crystal34_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="crystal34_roll_motor" />
-		<property name="local" value="true"/>
 	</bean>
 
 <!-- 	<bean id="bragg1enc" class="gda.device.scannable.ScannableMotor"> -->
@@ -122,16 +114,13 @@
 	<bean id="jena_crystal1_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="jena_crystal1_pitch_motor" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="jena_crystal2_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="jena_crystal2_roll_motor" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="jena_crystal34_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="jena_crystal34_roll_motor" />
-		<property name="local" value="true"/>
 	</bean>
 </beans>

@@ -723,15 +723,6 @@
 	<property name="controlPointScannable" ref="sc_MicroFocusSampleY"></property>
 	<property name="deferredControlPoint" ref="xpsDeferFlag"></property>
 	</bean>	
-	
-	<bean id="qexafs_energy" class="gda.device.scannable.QexafsScannable">
-		<property name="motor" ref="dcm_energy_motor" />
-		<property name="outputFormat">
-			<list>
-				<value>%.2f</value>
-			</list>
-		</property>
-	</bean>
 
 	<bean id="thor_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="thor_x_motor" />

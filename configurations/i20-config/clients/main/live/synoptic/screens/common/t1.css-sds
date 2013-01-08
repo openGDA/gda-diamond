@@ -90,6 +90,56 @@
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
+<widget type="org.csstudio.sds.components.Image">
+  <property type="sds.behavior" id="behavior" value="none" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="ImageModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.integer" id="position.x" value="88" />
+  <property type="sds.integer" id="position.y" value="130" />
+  <property type="sds.integer" id="width" value="531" />
+  <property type="sds.integer" id="height" value="418" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000C0" />
+  </property>
+  <property type="sds.color" id="color.background">
+    <color hex="#E6E6E6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/dls_sw/i20/software/gda_versions/gda_release_8_18_new/i20-config/clients/main/live/synoptic/screens/common/table_right_scaled.jpg" />
+  </property>
+  <property type="sds.integer" id="crop.top" value="0" />
+  <property type="sds.integer" id="crop.bottom" value="0" />
+  <property type="sds.integer" id="crop.left" value="0" />
+  <property type="sds.integer" id="crop.right" value="0" />
+  <property type="sds.boolean" id="stretch" value="false" />
+  <property type="sds.boolean" id="autosize" value="true" />
+  <property type="sds.boolean" id="stopanimation" value="false" />
+</widget>
 <widget type="org.csstudio.sds.components.Label">
   <property type="sds.behavior" id="behavior" value="" />
   <property type="sds.string" id="primary_pv" value="" />
@@ -367,8 +417,6 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
-  <property type="sds.string" id="server.command" value="" />
-  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="none" />
@@ -433,8 +481,6 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
-  <property type="sds.string" id="server.command" value="" />
-  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.SVG">
   <property type="sds.behavior" id="behavior" value="" />
@@ -907,8 +953,6 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
-  <property type="sds.string" id="server.command" value="" />
-  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 
 </display>
