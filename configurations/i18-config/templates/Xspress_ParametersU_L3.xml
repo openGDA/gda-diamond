@@ -2,86 +2,86 @@
 <XspressParameters>
     <detectorName>xspress2system</detectorName>
     <resGrade>res-none</resGrade>
-<regionType>Virtual Scaler</regionType>
+    <regionType>Virtual Scaler</regionType>
     <readoutMode>Scalers and MCA</readoutMode>
     <editIndividualElements>true</editIndividualElements>
     <DetectorElement>
         <name>Element0</name>
         <number>0</number>
-        <windowStart>556</windowStart>
-        <windowEnd>731</windowEnd>
+        <windowStart>1331</windowStart>
+        <windowEnd>1411</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>U_L3</roiName>
             <roiStart>1331</roiStart>
-            <roiEnd>1399</roiEnd>
+            <roiEnd>1411</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element1</name>
         <number>1</number>
-        <windowStart>556</windowStart>
-        <windowEnd>731</windowEnd>
+        <windowStart>1331</windowStart>
+        <windowEnd>1411</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>U_L3</roiName>
-            <roiStart>1340</roiStart>
-            <roiEnd>1386</roiEnd>
+            <roiStart>1331</roiStart>
+            <roiEnd>1411</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element2</name>
         <number>2</number>
-        <windowStart>556</windowStart>
-        <windowEnd>731</windowEnd>
+        <windowStart>1331</windowStart>
+        <windowEnd>1411</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>U_L3</roiName>
-            <roiStart>1335</roiStart>
-            <roiEnd>1399</roiEnd>
+            <roiStart>1331</roiStart>
+            <roiEnd>1411</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element3</name>
         <number>3</number>
-        <windowStart>556</windowStart>
-        <windowEnd>731</windowEnd>
+        <windowStart>1331</windowStart>
+        <windowEnd>1411</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>U_L3</roiName>
-            <roiStart>1340</roiStart>
-            <roiEnd>1394</roiEnd>
+            <roiStart>1331</roiStart>
+            <roiEnd>1411</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element4</name>
         <number>4</number>
-        <windowStart>556</windowStart>
-        <windowEnd>731</windowEnd>
+        <windowStart>1331</windowStart>
+        <windowEnd>1411</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>U_L3</roiName>
-            <roiStart>1340</roiStart>
-            <roiEnd>1394</roiEnd>
+            <roiStart>1331</roiStart>
+            <roiEnd>1411</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element5</name>
         <number>5</number>
-        <windowStart>556</windowStart>
-        <windowEnd>731</windowEnd>
+        <windowStart>1331</windowStart>
+        <windowEnd>1411</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>U_L3</roiName>
             <roiStart>1331</roiStart>
-            <roiEnd>1399</roiEnd>
+            <roiEnd>1411</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element6</name>
         <number>6</number>
-        <windowStart>556</windowStart>
-        <windowEnd>731</windowEnd>
+        <windowStart>1331</windowStart>
+        <windowEnd>1411</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>U_L3</roiName>
@@ -92,25 +92,28 @@
     <DetectorElement>
         <name>Element7</name>
         <number>7</number>
-        <windowStart>556</windowStart>
-        <windowEnd>731</windowEnd>
+        <windowStart>1331</windowStart>
+        <windowEnd>1411</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>U_L3</roiName>
-            <roiStart>1336</roiStart>
-            <roiEnd>1394</roiEnd>
+            <roiStart>1331</roiStart>
+            <roiEnd>1411</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element8</name>
         <number>8</number>
-        <windowStart>556</windowStart>
-        <windowEnd>731</windowEnd>
+        <windowStart>1331</windowStart>
+        <windowEnd>1411</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>U_L3</roiName>
-            <roiStart>1335</roiStart>
-            <roiEnd>1403</roiEnd>
+            <roiStart>1331</roiStart>
+            <roiEnd>1411</roiEnd>
         </Region>
     </DetectorElement>
+    <xspressOnlyShowFF>false</xspressOnlyShowFF>
+    <xspressShowDTRawValues>false</xspressShowDTRawValues>
+    <saveRawSpectrum>false</saveRawSpectrum>
 </XspressParameters>

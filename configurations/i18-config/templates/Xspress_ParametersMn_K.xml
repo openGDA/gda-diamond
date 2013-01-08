@@ -2,31 +2,31 @@
 <XspressParameters>
     <detectorName>xspress2system</detectorName>
     <resGrade>res-none</resGrade>
-<regionType>Virtual Scaler</regionType>
+    <regionType>Virtual Scaler</regionType>
     <readoutMode>Scalers and MCA</readoutMode>
     <editIndividualElements>true</editIndividualElements>
     <DetectorElement>
         <name>Element0</name>
         <number>0</number>
-        <windowStart>553</windowStart>
-        <windowEnd>621</windowEnd>
+        <windowStart>544</windowStart>
+        <windowEnd>631</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
-            <roiStart>553</roiStart>
-            <roiEnd>621</roiEnd>
+            <roiStart>544</roiStart>
+            <roiEnd>631</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element1</name>
         <number>1</number>
-        <windowStart>553</windowStart>
-        <windowEnd>617</windowEnd>
+        <windowStart>544</windowStart>
+        <windowEnd>631</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
-            <roiStart>553</roiStart>
-            <roiEnd>617</roiEnd>
+            <roiStart>544</roiStart>
+            <roiEnd>631</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -45,72 +45,72 @@
         <name>Element3</name>
         <number>3</number>
         <windowStart>544</windowStart>
-        <windowEnd>621</windowEnd>
+        <windowEnd>631</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
             <roiStart>544</roiStart>
-            <roiEnd>621</roiEnd>
+            <roiEnd>631</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element4</name>
         <number>4</number>
-        <windowStart>555</windowStart>
-        <windowEnd>621</windowEnd>
+        <windowStart>544</windowStart>
+        <windowEnd>631</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
-            <roiStart>555</roiStart>
-            <roiEnd>621</roiEnd>
+            <roiStart>544</roiStart>
+            <roiEnd>631</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element5</name>
         <number>5</number>
-        <windowStart>555</windowStart>
-        <windowEnd>626</windowEnd>
+        <windowStart>544</windowStart>
+        <windowEnd>631</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
-            <roiStart>555</roiStart>
-            <roiEnd>626</roiEnd>
+            <roiStart>544</roiStart>
+            <roiEnd>631</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element6</name>
         <number>6</number>
-        <windowStart>549</windowStart>
+        <windowStart>544</windowStart>
         <windowEnd>631</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
-            <roiStart>549</roiStart>
+            <roiStart>544</roiStart>
             <roiEnd>631</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element7</name>
         <number>7</number>
-        <windowStart>560</windowStart>
-        <windowEnd>636</windowEnd>
-        <excluded>true</excluded>
+        <windowStart>544</windowStart>
+        <windowEnd>631</windowEnd>
+        <excluded>false</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
-            <roiStart>560</roiStart>
-            <roiEnd>636</roiEnd>
+            <roiStart>544</roiStart>
+            <roiEnd>631</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element8</name>
         <number>8</number>
-        <windowStart>555</windowStart>
-        <windowEnd>621</windowEnd>
+        <windowStart>544</windowStart>
+        <windowEnd>631</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>Mn_Ka</roiName>
-            <roiStart>555</roiStart>
-            <roiEnd>621</roiEnd>
+            <roiStart>544</roiStart>
+            <roiEnd>631</roiEnd>
         </Region>
     </DetectorElement>
     <xspressOnlyShowFF>false</xspressOnlyShowFF>
