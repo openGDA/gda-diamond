@@ -144,7 +144,7 @@ class CalibratedID(gda.device.scannable.PseudoDevice):
 		return self.harmonics[self.selectedHarmonic].getEnergy(id_position)
 
 	def asynchronousMoveTo(self,X):
-		self.id.asynchronousMoveTo(self.position(X))
+		self.id.asynchronousMoveTo(self.position(X)-0.025)
 
 	def getSelectedHarmonic(self, X):
 		n = len(self.harmonics)

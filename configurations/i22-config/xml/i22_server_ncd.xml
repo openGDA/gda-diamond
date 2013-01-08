@@ -146,7 +146,6 @@
 	<!-- *** NCD devices section *** -->
 	<!--***************************************-->
 
-<!--
 	<bean id="DAServerHW" class="gda.device.detector.DAServer">
 		<property name="host" value="i22-hotwaxs-scal" />
 		<property name="port" value="1972" />
@@ -165,6 +164,15 @@
 		<property name="openCommand" value="gdscaler open 'waxs' 1" />
 		<property name="sizeCommand" value="gdscaler get-mem-size 'waxs'" />
 	</bean>
+	<bean id="Hotwaxs" class="uk.ac.gda.beamline.i22.detector.I22Hotwaxs">
+		<property name="detectorType" value="WAXS" />
+		<property name="memory" ref="HotwaxsMemory" />
+		<property name="pixelSize" value="0.000818" />
+		<property name="interpretation" value="spectrum" />
+		<property name="caenPVbase" value="BL22I-EA-HV-01" />
+		<property name="flowPVName" value="BL22I-EA-GIR-01:HWAX:FLOW:RBV" />
+	</bean>
+<!--
 	<bean id="Hotwaxs" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector">
 		<property name="detectorType" value="WAXS" />
 		<property name="memory" ref="HotwaxsMemory" />
@@ -268,27 +276,36 @@
 	</bean>
 	
 	<bean id="sao1" class="uk.ac.gda.server.ncd.subdetector.ConstantScalingAndOffset">
-		<property name="offset" value="10" />
-		<property name="scaling" value="0.5" />
-		<property name="description" value="test" />
+		<property name="offset" value="0" />
+		<property name="scaling" value="1" />
+		<property name="description" value="no scaling or offset" />
 	</bean>
 	
-	<bean id="ItScaler" class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset">
+	<bean id="It" class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset">
 		<property name="detectorType" value="CALIB" />
 		<property name="memory" ref="CalibMemory" />
 		<property name="units" value="counts" />
-		<property name="channel" value="1" />
-		<property name="label" value="It" />
+		<property name="channel" value="3" />
+		<property name="label" value="data" />
 		<property name="scalingAndOffset" ref="bsdiodegain" />
 	</bean>
 	
-	<bean id="I0Scaler" class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset">
+	<bean id="I0" class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset">
 		<property name="detectorType" value="CALIB" />
 		<property name="memory" ref="CalibMemory" />
 		<property name="units" value="counts" />
 		<property name="channel" value="1" />
-		<property name="label" value="I0" />
+		<property name="label" value="data" />
 		<property name="scalingAndOffset" ref="qbpmgain" />
+	</bean>
+	
+	<bean id="IonChamber" class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset">
+		<property name="detectorType" value="CALIB" />
+		<property name="memory" ref="CalibMemory" />
+		<property name="units" value="counts" />
+		<property name="channel" value="1" />
+		<property name="label" value="data" />
+		<property name="scalingAndOffset" ref="sao1" />
 	</bean>
 	
 	<import resource="i22_pilatus.xml"/>
@@ -322,8 +339,9 @@
                                 <ref bean="Pilatus2M" />
                                 <!--  <ref bean="Hotwaxs" /> -->
                                 <ref bean="Scalers" />
-                                <ref bean="ItScaler" />
-                                <ref bean="I0Scaler" />
+                                <ref bean="It" />
+                                <ref bean="I0" />
+                                <ref bean="IonChamber" />
                                 <ref bean="TfgTimes" />
                                 <!-- <ref bean="xmap" /> --> 
                         </list>

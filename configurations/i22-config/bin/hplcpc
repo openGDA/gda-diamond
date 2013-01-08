@@ -1,0 +1,3 @@
+#! /bin/sh
+
+exec rdesktop -5 -a 16 -k en-gb -g 1910x1174 -K -T HPLC 172.23.122.80

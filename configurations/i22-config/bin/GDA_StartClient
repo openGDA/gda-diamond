@@ -10,6 +10,7 @@ module load java/gda
 
 export LD_LIBRARY_PATH=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86:/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/lib/linux-x86
 
+export http_proxy=http://WWWcache.RL.ac.UK:8080/
 export MOZILLA_FIVE_HOME=/dls_sw/apps/firefox/8/x86_64/
 
 ulimit -c 10000000
