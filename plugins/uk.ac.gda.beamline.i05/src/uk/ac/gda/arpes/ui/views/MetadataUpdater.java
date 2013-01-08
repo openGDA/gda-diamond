@@ -22,6 +22,7 @@ import gda.data.PathConstructor;
 import gda.data.metadata.GDAMetadataProvider;
 import gda.data.metadata.Metadata;
 import gda.device.Device;
+import gda.device.DeviceException;
 import gda.factory.Finder;
 import gda.jython.IAllScanDataPointsObserver;
 import gda.jython.IJythonServerStatusObserver;
@@ -39,6 +40,8 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.widgets.Display;
@@ -64,13 +67,27 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 	private Date started;
 
 
-	private class MetadataKeylistener extends KeyAdapter {
+	private class MetadataListener extends KeyAdapter implements FocusListener, IObserver {
 		private Text widget;
 		private String metadataName;
-		public MetadataKeylistener(Text widget, String metadataName) {
+		private Device blaster;
+		public MetadataListener(Text widget, String metadataName, Device blaster) {
 			this.widget = widget;
 			this.metadataName = metadataName;
+			this.blaster = blaster;
+			
+			widget.addFocusListener(this);
+			widget.addKeyListener(this);
+			
+			blaster.addIObserver(this);
+			
+			try {
+				widget.setText(metadata.getMetadataValue(metadataName));
+			} catch (DeviceException e1) {
+				widget.setText("");
+			}
 		}
+		
 		@Override
 		public void keyReleased(KeyEvent e) {
 			super.keyReleased(e);
@@ -82,6 +99,37 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 					widget.setText("");
 				}
 			}
+		}
+		@Override
+		public void focusGained(FocusEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void focusLost(FocusEvent e) {
+			try {
+				widget.setText(metadata.getMetadataValue(metadataName));
+			} catch (DeviceException e1) {
+				widget.setText("");
+			}
+		}
+		private void unobserve() {
+			blaster.deleteIObserver(this);
+		}
+
+		@Override
+		public void update(Object source, final Object arg) {
+			if (widget.isDisposed()) {
+				unobserve();
+				return;
+			}
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					widget.setText(arg.toString());
+					client.currentDirectory.setText(PathConstructor.createFromDefaultProperty());
+				}
+			});
 		}
 	}
 	
@@ -96,21 +144,18 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 
 		try {
 			metadata = GDAMetadataProvider.getInstance();
-			subdirectory = metadata.getMetadataValue("subdirectory");
 
-			Device blaster = Finder.getInstance().find("observableSubdirectory");
-			blaster.addIObserver(this);
+			new MetadataListener(client.subDirectory, "subdirectory", (Device) Finder.getInstance().find("observableSubdirectory"));
+			new MetadataListener(client.sampleName, "samplename", (Device) Finder.getInstance().find("observableSamplename"));
 
-			meUpdate();
 		} catch (Exception e) {
-			logger.warn("could not find subdirectory metadata", e);
+			logger.warn("could not find required metadata", e);
 		}
 
 		jsf = JythonServerFacade.getInstance();
 		jsf.addIObserver(this);
-
-		client.subDirectory.addKeyListener(new MetadataKeylistener(client.subDirectory, "subdirectory"));
-		client.sampleName.addKeyListener(new MetadataKeylistener(client.sampleName, "samplename"));
+		
+		client.currentDirectory.setText(PathConstructor.createFromDefaultProperty());
 	}
 
 	@Override
@@ -120,11 +165,6 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 			return;
 		}
 		Display.getDefault().asyncExec(new Updater(iObservable, arg));
-	}
-
-	private void meUpdate() {
-		client.subDirectory.setText(subdirectory);
-		client.currentDirectory.setText(PathConstructor.createFromDefaultProperty());
 	}
 
 	private class Updater implements Runnable {
@@ -184,10 +224,7 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 		@Override
 		public void run() {
 			if (arg != null) {
-				if (arg instanceof String) {
-						subdirectory = arg.toString();
-						meUpdate();
-				} else if (arg instanceof ScanDataPoint) {
+				if (arg instanceof ScanDataPoint) {
 					String filename = ((ScanDataPoint) arg).getCurrentFilename();
 					client.scanFile.setText(filename);
 					int currentPointNumber = ((ScanDataPoint) arg).getCurrentPointNumber();

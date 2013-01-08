@@ -65,6 +65,7 @@
 	</bean>
 
 	<bean class="gda.data.metadata.StoredMetadataEntry" id="samplename">
+		<property name="name" value="samplename" />
 		<property name="value" value="none" />
 	</bean>
 	<bean class="gda.data.metadata.MetadataBlaster" id="observableSamplename">
