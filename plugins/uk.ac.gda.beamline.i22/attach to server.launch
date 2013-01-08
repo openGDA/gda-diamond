@@ -12,7 +12,6 @@
 <mapAttribute key="org.eclipse.jdt.launching.CONNECT_MAP">
 <mapEntry key="hostname" value="i22-control"/>
 <mapEntry key="port" value="8000"/>
-<mapEntry key="timeout" value="20000"/>
 </mapAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="uk.ac.gda.beamline.i22"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_CONNECTOR_ID" value="org.eclipse.jdt.launching.socketAttachConnector"/>
