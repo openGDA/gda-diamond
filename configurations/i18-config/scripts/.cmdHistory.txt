@@ -41,3 +41,5 @@ if ggdesgdg==None:
     print "bla"
 reset_namespace
 pos
+reset_namespace
+sc_MicroFocusSampleStage

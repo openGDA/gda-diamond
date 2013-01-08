@@ -2,9 +2,9 @@ print "Initialization Started";
 
 from exafsscripts.vortex.vortexConfig import vortex
 from exafsscripts.xspress.xspressConfig import xspress
-from exafsscripts.exafs.b18_detector_preparer import B18DetectorPreparer
-from exafsscripts.exafs.b18_sample_preparer import B18SamplePreparer
-from exafsscripts.exafs.output_preparer import OutputPreparer
+from exafsscripts.exafs.b18DetectorPreparer import B18DetectorPreparer
+from exafsscripts.exafs.b18SamplePreparer import B18SamplePreparer
+from exafsscripts.exafs.b18OutputPreparer import B18OutputPreparer
 from exafsscripts.exafs.xas_scan import XasScan
 from exafsscripts.exafs.qexafs_scan import QexafsScan
 from gda.device.scannable import TopupScannable
@@ -24,7 +24,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
 else:
     detectorPreparer = B18DetectorPreparer(qexafs_energy, None, ionc_stanfords, ionc_gas_injectors)
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
-outputPreparer = OutputPreparer()
+outputPreparer = B18OutputPreparer()
 
 loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
 xas = XasScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)

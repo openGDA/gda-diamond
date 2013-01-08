@@ -15,9 +15,9 @@ from microfocus.raster_map import RasterMap
 from microfocus.raster_map_return_write import RasterMapReturnWrite
 
 from gda.factory import Finder
-from exafsscripts.exafs.i18_detector_preparer import I18DetectorPreparer
-from exafsscripts.exafs.i18_sample_preparer import I18SamplePreparer
-from exafsscripts.exafs.output_preparer import OutputPreparer
+from exafsscripts.exafs.i18DetectorPreparer import I18DetectorPreparer
+from exafsscripts.exafs.i18SamplePreparer import I18SamplePreparer
+from exafsscripts.exafs.i18OutputPreparer import I18OutputPreparer
 from exafsscripts.exafs.i18ScanScripts import I18XasScan
 from exafsscripts.exafs.qexafs_scan import QexafsScan
 from gda.data import PathConstructor
@@ -86,7 +86,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
 detectorPreparer = I18DetectorPreparer()
 rcpController = finder.find("RCPController")
 samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B)
-outputPreparer = OutputPreparer()
+outputPreparer = I18OutputPreparer()
 
 loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
 

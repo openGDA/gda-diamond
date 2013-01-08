@@ -165,4 +165,19 @@
 	<property name="speed" value="1000.0"></property>
 	</bean>
 	
+	<bean id="energy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="200" />
+	</bean>
+
+	<bean id="qexafs_energy" class="gda.device.scannable.QexafsTestingScannable">
+		<property name="motor" ref="energy_motor" />
+		<property name="lowerGdaLimits" value="2000" />
+		<property name="upperGdaLimits" value="35000" />
+		<property name="outputFormat">
+			<list>
+				<value>%.2f</value>
+			</list>
+		</property>
+	</bean>
+	
 </beans>

@@ -1,5 +1,3 @@
-t.stop()
-qexafs_energy(15001)
 qexafs_energy(9999)
 qexafs_energy(15001)
 qexafs_energy(9999)
@@ -98,3 +96,7 @@ cirrus.getMasses()
 cirrus
 cirrus.getMasses()
 reset_namespace
+pos
+reset_namespace
+s4xcentre
+s4xcentre(6)
