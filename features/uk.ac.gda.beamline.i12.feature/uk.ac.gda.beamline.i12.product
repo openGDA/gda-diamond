@@ -20,7 +20,8 @@ http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.config=/dls_sw/i12/software/gda/config
+      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i12/software/gda/config/pluginCustomization.ini
+-Dgda.config=/dls_sw/i12/software/gda/config
 -Dgda.data=/dls/i12/data
 -Dgda.propertiesFile=/dls_sw/i12/software/gda/config/properties/live/java.properties
 -Djacorb.config.dir=/dls_sw/i12/software/gda/config/jacorb/live
