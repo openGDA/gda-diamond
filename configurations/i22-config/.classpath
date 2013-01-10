@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
@@ -14,7 +13,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.hdf5"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.hdf5.editor"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.jlchart"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.org.csstudio.swt.xygraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.workbench.jmx"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.workbench.plotting"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawnsci.rcp.histogram"/>
