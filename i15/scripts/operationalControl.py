@@ -156,7 +156,7 @@ def align():           # open EH and fast shutter
 	"""
 	close mar, move d2 and d3 in and reset and open EH & Atlas shutter.
 	"""
-	marAuxiliary.closeMarShield()		# N.b. if mar disconnected, will just do nothing 
+	marAuxiliary.closeMarShield() 
 	d2in()
 	d3in()
 	shutterCommands.sh('o')

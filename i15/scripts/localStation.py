@@ -15,7 +15,8 @@ import pd_baseTable
 import dataDir
 import shutterCommands
 import marAuxiliary
-from marAuxiliary import closeMarShield, closeMarShield as closePeShield
+from marAuxiliary import closeMarShield as closeDetectorShield
+from marAuxiliary import openMarShield as openDetectorShield
 import ccdAuxiliary
 import ccdScanMechanics
 from ccdScanMechanics import setMaxVelocity
