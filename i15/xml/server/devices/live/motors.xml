@@ -762,33 +762,33 @@
 		<property name="local" value="true"/>
 	</bean>
 	
-	<bean id="skbjack1" class="gda.device.scannable.ScannableMotor">
+	<bean id="kbmjack1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="SKBjack1Motor" />
 	</bean>
-	<bean id="skbjack2" class="gda.device.scannable.ScannableMotor">
+	<bean id="kbmjack2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="SKBjack2Motor" />
 	</bean>
-	<bean id="skbjack3" class="gda.device.scannable.ScannableMotor">
+	<bean id="kbmjack3" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="SKBjack3Motor" />
 	</bean>
-	<bean id="skbypos" class="gda.device.scannable.ScannableMotor">
+	<bean id="kbmy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="SKByposMotor" />
 	</bean>
-	<bean id="skbpitch" class="gda.device.scannable.ScannableMotor">
+	<bean id="kbmpitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="SKBpitchMotor" />
 	</bean>
-	<bean id="skbroll" class="gda.device.scannable.ScannableMotor">
+	<bean id="kbmroll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="SKBrollMotor" />
 	</bean>
-	<bean id="skb" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="kbm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="skbjack1" />
-				<ref bean="skbjack2" />
-				<ref bean="skbjack3" />
-				<ref bean="skbypos" />
-				<ref bean="skbpitch" />
-				<ref bean="skbroll" />
+				<ref bean="kbmjack1" />
+				<ref bean="kbmjack2" />
+				<ref bean="kbmjack3" />
+				<ref bean="kbmy" />
+				<ref bean="kbmpitch" />
+				<ref bean="kbmroll" />
 			</list>
 		</property>
 	</bean>

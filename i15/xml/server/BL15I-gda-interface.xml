@@ -232,6 +232,9 @@
 	<simpleMotor desc="Diffractometer Detector Z" name="DIFF.DETECTZ">
 		<RECORD desc="Motor" pv="BL15I-MO-DIFF-01:ARM:DETECTOR:Z" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleMotor desc="Table 2 Detector Z" name="EHT2.DETECTZ">
+		<RECORD desc="Motor" pv="BL15I-MO-TABLE-03:DETECTOR2:Z" ro="false" type="motor"/>
+	</simpleMotor>
 	<simpleMotor desc="Movable Beamstop X" name="BS.X">
 		<RECORD desc="Motor" pv="BL15I-RS-ABSB-04:X" ro="false" type="motor"/>
 	</simpleMotor>
@@ -280,6 +283,18 @@
 	<simpleMotor desc="Small KB Jack 3" name="SKB.J3">
 		<RECORD desc="Motor" pv="BL15I-OP-MIRR-03:BASE:J3" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleMotor desc="" name="FS2.X">
+		<RECORD desc="Motor" pv="BL15I-EA-SHTR-02:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="FS2.Y">
+		<RECORD desc="Motor" pv="BL15I-EA-SHTR-02:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="X-Ray Eye X Translation" name="XEYE2.X">
+		<RECORD desc="Motor" pv="BL15I-DI-XEYE-02:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="X-Ray Eye Y Translation" name="XEYE2.Y">
+		<RECORD desc="Motor" pv="BL15I-DI-XEYE-02:Y" ro="false" type="motor"/>
+	</simpleMotor>
 	<simpleMotor desc="Small KB Y" name="SKB.Y">
 		<RECORD desc="Motor" pv="BL15I-OP-MIRR-03:BASE:Y" ro="false" type="motor"/>
 	</simpleMotor>
@@ -312,6 +327,21 @@
 	</simplePv>
 	<simplePv desc="Digital output" name="PATCH14.X7">
 		<RECORD desc="digital output bit" pv="BL15I-EA-PATCH-14:X7" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="d1.sum">
+		<RECORD desc="" pv="BL15I-DI-PHDGN-01:DIODESUM" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="d2.sum">
+		<RECORD desc="" pv="BL15I-DI-PHDGN-02:DIODESUM" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="d3.sum">
+		<RECORD desc="" pv="BL15I-DI-PHDGN-03:DIODESUM" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="d4.sum">
+		<RECORD desc="" pv="BL15I-DI-PHDGN-04:DIODESUM" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="d5.sum">
+		<RECORD desc="" pv="BL15I-DI-PHDGN-05:DIODESUM" ro="true" type="pv"/>
 	</simplePv>
 	<simpleMotor desc="Horizontal Focusing Mirror PITCH Motor" name="HFM.PITCH">
 		<RECORD desc="Motor Record" pv="BL15I-OP-HFM-01:PITCH" ro="false" type="motor"/>
@@ -502,11 +532,23 @@
 	<simpleMotor desc="Pinhole 2 Y" name="PIN2.Y">
 		<RECORD desc="Motor" pv="BL15I-AL-APTR-02:Y" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleMotor desc="Cross hair X" name="XHAIR1.X">
+		<RECORD desc="Motor" pv="BL15I-MO-XHAIR-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Cross hair Y" name="XHAIR1.Y">
+		<RECORD desc="Motor" pv="BL15I-MO-XHAIR-01:Y" ro="false" type="motor"/>
+	</simpleMotor>
 	<simpleBinary desc="Fast shutter" name="FSHTR.OVERRIDE">
 		<RECORD desc="RECORD" pv="BL15I-EA-FSHTR-01:OVERRIDE" ro="false" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="Fast shutter" name="FSHTR.STATE">
 		<RECORD desc="RECORD" pv="BL15I-EA-FSHTR-01:STATE" ro="true" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="Fast shutter" name="FSHTR2.OVERRIDE">
+		<RECORD desc="RECORD" pv="BL15I-EA-FSHTR-02:OVERRIDE" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="Fast shutter" name="FSHTR2.STATE">
+		<RECORD desc="RECORD" pv="BL15I-EA-FSHTR-02:STATE" ro="true" type="binary"/>
 	</simpleBinary>
 	<simpleMotor desc="Vertical Soft Motor" name="DIFF.V">
 		<RECORD desc="Motor" pv="BL15I-MO-DIFF-01:SAMPLE:V" ro="false" type="motor"/>
@@ -711,6 +753,21 @@
 	</simpleMotor>
 	<simpleMotor desc="" name="W3.Y">
 		<RECORD desc="Motor" pv="BL15I-OP-WIND-03:DCAM:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="D6.X">
+		<RECORD desc="Motor" pv="BL15I-DI-PHDGN-06:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="D7.X">
+		<RECORD desc="Motor" pv="BL15I-DI-PHDGN-07:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="D7.Y">
+		<RECORD desc="Motor" pv="BL15I-DI-PHDGN-07:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="BS2.X">
+		<RECORD desc="Motor" pv="BL15I-RS-ABSB-08:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="BS2.Y">
+		<RECORD desc="Motor" pv="BL15I-RS-ABSB-08:Y" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="" name="VCOLD.X">
 		<RECORD desc="Motor" pv="BL15I-MO-VCOLD-01:X" ro="false" type="motor"/>

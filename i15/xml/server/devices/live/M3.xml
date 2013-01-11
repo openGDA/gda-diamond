@@ -1,0 +1,103 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Vertical KB mirror motors -->
+
+	<bean id="kbmvbend1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SKB.VBEND1" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="kbmvbend2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SKB.VBEND2" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="kbmvy1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SKB.VY1" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="kbmvy2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SKB.VY2" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="kbmvbend1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbmvbend1_motor" />
+	</bean>
+
+	<bean id="kbmvbend2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbmvbend2_motor" />
+	</bean>
+
+	<bean id="kbmvy1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbmvy1_motor" />
+	</bean>
+
+	<bean id="kbmvy2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbmvy2_motor" />
+	</bean>
+
+	<bean id="kbmv" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="kbmvbend1" />
+				<ref bean="kbmvbend2" />
+				<ref bean="kbmvy1" />
+				<ref bean="kbmvy2" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Horizontal KB mirror motors -->
+	
+	<bean id="kbmhbend1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SKB.HBEND1" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="kbmhbend2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SKB.HBEND2" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="kbmhx1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SKB.HX1" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="kbmhx2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SKB.HX2" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="kbmhbend1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbmhbend1_motor" />
+	</bean>
+
+	<bean id="kbmhbend2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbmhbend2_motor" />
+	</bean>
+
+	<bean id="kbmhx1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbmhx1_motor" />
+	</bean>
+
+	<bean id="kbmhx2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbmhx2_motor" />
+	</bean>
+
+	<bean id="kbmh" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="kbmhbend1" />
+				<ref bean="kbmhbend2" />
+				<ref bean="kbmhx1" />
+				<ref bean="kbmhx2" />
+			</list>
+		</property>
+	</bean>
+</beans>

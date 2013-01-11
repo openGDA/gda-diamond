@@ -40,14 +40,27 @@
 	<import resource="devices/dummy/motors.xml" />
 
 	<import resource="devices/live/motors.xml" />
-	<import resource="devices/live/BASE2.xml" />
+	<!--
+	<import resource="devices/live/geo2.xml" />
+	 -->
 	<import resource="devices/live/FE.xml" />
 	<import resource="devices/live/FM.xml" />
-	<import resource="devices/live/SFAB.xml" />
 	<import resource="devices/live/slits6_motors.xml" />
 	<import resource="devices/live/diffractometer.xml" />
 	<import resource="devices/live/temperatures.xml" />
 	<import resource="devices/live/currents.xml" />
+	<!-- Second end table -->
+	<import resource="devices/live/BASE2.xml" />
+	<import resource="devices/live/D6.xml" />
+	<import resource="devices/live/FS2.xml" />
+	<!-- 
+	 -->
+	<import resource="devices/live/M3.xml" />
+	<import resource="devices/live/SFAB.xml" />
+	<import resource="devices/live/D7.xml" />
+	<import resource="devices/live/EYE2.xml" />
+	<import resource="devices/live/BS2.xml" />
+	<import resource="devices/live/DET2.xml" />
 
 	<!-- Multi-channel Analyser Crystal detectors: mac11, ... -->
  	<import resource="MACDetectors.xml" />

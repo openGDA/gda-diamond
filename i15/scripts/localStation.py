@@ -15,8 +15,10 @@ import pd_baseTable
 import dataDir
 import shutterCommands
 import marAuxiliary
+from marAuxiliary import closeMarShield
 import ccdAuxiliary
 import ccdScanMechanics
+from ccdScanMechanics import setMaxVelocity
 import ccdFloodCorrections
 import ccdScripts
 import mar_scripts
@@ -25,7 +27,7 @@ import operationalControl
 
 from operationalControl import *
 from dummy_scan_objects import SimpleDummyDetector
-from gda.configuration.properties import LocalProperties	
+from gda.configuration.properties import LocalProperties
 from gdascripts.parameters import beamline_parameters
 from gda.device.epicsdevice import ReturnType
 from gda.util import VisitPath
@@ -50,6 +52,38 @@ from dataDir import getDir, setDir, setFullUserDir
 from time import sleep
 from ccdFloodCorrections import exportMultiDark
 from gda.epics import CAClient
+
+global finder, run, etl, prop, add_default, vararg_regex, \
+	s1xpos, s1xgap, s1ypos, s1ygap,\
+	s1xplus, s1xminus, s1yplus, s1yminus,\
+	dcmbragg1, dcmbragg2, dcmxtl1y, dcmxtl2y,\
+	dcmxtl1roll, dcmxtl1z, dcmpiezo, dcmenergy,\
+	qbpm1_x, qbpm1_y, qbpm1A, qbpm1B, qbpm1C, qbpm1D, qbpm1total,\
+	s6ypos, s6ygap, s6yup, s6ydown,\
+	vfm_x, vfm_y, vfm_pitch, vfm_curve, vfm_ellipticity, vfm_gravsag,\
+	hfm_x, hfm_y, hfm_pitch, hfm_curve, hfm_ellipticity, hfm_yaw, hfm_roll,\
+	qbpm2_x, qbpm2_y, qbpm2A, qbpm2B, qbpm2C, qbpm2D, qbpm2total,\
+	s4xpos, s4xgap, s4ypos, s4ygap, s4yaw, s4pitch,\
+	fsx, fsy,\
+	pinx, piny, pinz, pinpitch, pinyaw,\
+	dx, dy, dz, dkphi, dkappa, dktheta,\
+	djack1, djack2, djack3, dtransx, drotation, detz, ddelta,\
+	shdx, shdy, shdz,\
+	bsx, bsy,\
+	xreye_x, xreye_y,\
+	tab2jack1, tab2jack2, tab2jack3, tab2transx, tab2rotation,\
+	s7xpos, s7ypos, s7xgap, s7xgap,\
+	d6x,\
+	fs2x, fs2y,\
+	kbmjack1, kbmjack2, kbmjack3, kbmy, kbmpitch, kbmroll,\
+	sx, sy, sz, spitch, syaw, sroll,\
+	spivotx, spivoty, spivotz, sphi,\
+	d7x, d7y,\
+	xreye2x, xreye2y,\
+	bs2x, bs2y,\
+	det2z,\
+	d1, d2, d3, d4, d5, d6, d7, d8, d9,\
+	cryox, cryoy, cryoz, cryorot\
 
 def peakFinder():
 	"""
@@ -85,8 +119,13 @@ def plot(detector):
 	detector.clearLastAcquisitionState();
 	detector.display()
 
+def localStation_exception(exc_info, msg):
+	typ, exception, traceback = exc_info
+	simpleLog("! Failure %s !" % msg)
+	handle_messages.log(None, "Error %s -  " % msg , typ, exception, traceback, False)
+
 try:
-	simpleLog("================INITIALISING I15 GDA================")	
+	simpleLog("================INITIALISING I15 GDA================")
 	
 	scansReturnToOriginalPositions = 1;
 	
@@ -100,11 +139,11 @@ try:
 		w = gdascripts.pd.time_pds.waittime
 		baseTab = pd_baseTable.BaseTable("baseTab", beamline, "-MO-DIFF-01:BASE:", djack1, djack2, djack3, 2.5)
 		baseTab2 = pd_baseTable.BaseTable("baseTab2", beamline, "-MO-TABLE-03:BASE:", tab2jack1, tab2jack2, tab2jack3, 2.5)
-		qbpm1total = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm1total", beamline, "-DI-QBPM-01:INTEN")	
-		qbpm2total = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2total", beamline, "-DI-QBPM-02:INTEN")	
+		qbpm1total = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm1total", beamline, "-DI-QBPM-01:INTEN")
+		qbpm2total = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2total", beamline, "-DI-QBPM-02:INTEN")
 		#s4pitch = pd_epicsdevice.Simple_PD_EpicsDevice("s4pitch", beamline, "-AL-SLITS-04:PITCH.VAL")
 		#s4yaw = pd_epicsdevice.Simple_PD_EpicsDevice("s4yaw", beamline, "-AL-SLITS-04:YAW.VAL")
-		#pin2x = pd_epicsdevice.Simple_PD_EpicsDevice("pin2x", beamline, "-AL-APTR-02:X")	
+		#pin2x = pd_epicsdevice.Simple_PD_EpicsDevice("pin2x", beamline, "-AL-APTR-02:X")
 		#pin2y = pd_epicsdevice.Simple_PD_EpicsDevice("pin2y", beamline, "-AL-APTR-02:Y")
 		#pin2pitch = pd_epicsdevice.Simple_PD_EpicsDevice("pin2pitch", beamline, "-AL-APTR-02:PITCH")
 		#pin2yaw = pd_epicsdevice.Simple_PD_EpicsDevice("pin2yaw", beamline, "-AL-APTR-02:YAW")
@@ -113,13 +152,13 @@ try:
 		#prop = pd_epicsdevice.Simple_PD_EpicsDevice("prop", beamline, "-DI-PROP-01:I")
 		dcmpiezo = pd_epicsdevice.Simple_PD_EpicsDevice("dcmpiezo", beamline, "-OP-DCM-01:PIEZO:OUT")
 		#s2ygap = pd_epicsdevice.Simple_PD_EpicsDevice("s2ygap", beamline, "-AL-SLITS-02:Y:GAP.VAL")
-		#s2ycen = pd_epicsdevice.Simple_PD_EpicsDevice("s2ycen", beamline, "-AL-SLITS-02:Y:CENTRE.VAL")	
+		#s2ycen = pd_epicsdevice.Simple_PD_EpicsDevice("s2ycen", beamline, "-AL-SLITS-02:Y:CENTRE.VAL")
 		#qbpX = pd_epicsdevice.Simple_PD_EpicsDevice("qbpX", beamline, "-DI-QBPMD-01:X.VAL")
 		#qbpY = pd_epicsdevice.Simple_PD_EpicsDevice("qbpY", beamline, "-DI-QBPMD-01:Y.VAL")
 		#qbpm2acurrent = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2acurrent", beamline, "-DI-IAMP-02:CHA:PEAK")
 		#qbpm2bcurrent = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2bcurrent", beamline, "-DI-IAMP-02:CHB:PEAK")
 		#qbpm2ccurrent = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2ccurrent", beamline, "-DI-IAMP-02:CHC:PEAK")
-		#qbpm2dcurrent = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2dcurrent", beamline, "-DI-IAMP-02:CHD:PEAK")	
+		#qbpm2dcurrent = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2dcurrent", beamline, "-DI-IAMP-02:CHD:PEAK")
 	
 		qbpm0A = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0A", beamline, "-DI-QBPM-00:A")
 		qbpm0B = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0B", beamline, "-DI-QBPM-00:B")
@@ -141,6 +180,7 @@ try:
 		spivotx = pd_epicsdevice.Simple_PD_EpicsDevice("spivotx", beamline, "-MO-SFAB-01:PIVOT:X")
 		spivoty = pd_epicsdevice.Simple_PD_EpicsDevice("spivoty", beamline, "-MO-SFAB-01:PIVOT:Y")
 		spivotz = pd_epicsdevice.Simple_PD_EpicsDevice("spivotz", beamline, "-MO-SFAB-01:PIVOT:Z")
+		sphi    = pd_epicsdevice.Simple_PD_EpicsDevice("sphi",    beamline, "-MO-SFAB-01:ROTARY")
 
 		patch12x7 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x7", beamline, "-EA-PATCH-12:X7")
 		patch12x8 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x8", beamline, "-EA-PATCH-12:X8")
@@ -152,17 +192,9 @@ try:
 		from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 		ringCurrent = DisplayEpicsPVClass("ringCurrent", "SR-DI-DCCT-01:SIGNAL", "mA", "%f")
 		wigglerField = DisplayEpicsPVClass("wigglerField", "SR15I-ID-SCMPW-01:B_REAL", "Tesla", "%f")
-
-		#cryox = pd_epicsdevice.Simple_PD_EpicsDevice("cryox", beamline, "-MO-VCOLD-01:X.VAL")
-		#cryoy = pd_epicsdevice.Simple_PD_EpicsDevice("cryoy", beamline, "-MO-VCOLD-01:Y.VAL")
-		#cryoz = pd_epicsdevice.Simple_PD_EpicsDevice("cryoz", beamline, "-MO-VCOLD-01:Z.VAL")
-		#cryorot = pd_epicsdevice.Simple_PD_EpicsDevice("cryorot", beamline, "-MO-VCOLD-01:THETA.VAL")
-		#cryobsx = pd_epicsdevice.Simple_PD_EpicsDevice("cryobsx", beamline, "-MO-VCOLD-01:BS:X.VAL")
-		#cryobsy = pd_epicsdevice.Simple_PD_EpicsDevice("cryobsy", beamline, "-MO-VCOLD-01:BS:Y.VAL")
-		
+		detz = DisplayEpicsPVClass("detz", "BL15I-MO-DIFF-01:ARM:DETECTOR:Z.VAL", "mm", "%f")
 	except:
-		type, exception, traceback = sys.exc_info()
-		handle_messages.log(None, "Error creating devices -  " , type, exception, traceback, False)
+		localStation_exception(sys.exc_info(), "creating devices")
 
 	dummyDetector = SimpleDummyDetector()
 	
@@ -170,7 +202,7 @@ try:
 		import pd_pilatus
 		pilatus = pd_pilatus.Pilatus("pilatus", "BL15I-EA-PILAT-02:", "/dls/i15/data/currentdir/", "pil")
 	except:
-		simpleLog("Pilatus did not connect")
+		localStation_exception(sys.exc_info(), "creating pilatus")
 
 	try:
 		from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
@@ -189,41 +221,37 @@ try:
 		pilpeak2d = DetectorDataProcessorWithRoi('pilpeak2d', pil, [TwodGaussianPeak()])
 		pilmax2d = DetectorDataProcessorWithRoi('pilmax2d', pil, [SumMaxPositionAndValue()])
 	except:
-		type, exception, traceback = sys.exc_info()
-		simpleLog("New Pilatus (pil) did not connect")
-		handle_messages.log(None, "Error -  " , type, exception, traceback, False)
+		localStation_exception(sys.exc_info(), "creating new pilatus (pil...)")
 		
 	try:
 		mar = finder.find("Mar345Detector")
 	except:
-		simpleLog("MAR did not connect")
-		
+		localStation_exception(sys.exc_info(), "creating mar")
+
 	try:
 		ccd = finder.find("ODCCD")
 	except:
-		simpleLog("ccd did not connect")
-		
+		localStation_exception(sys.exc_info(), "creating ccd")
+
 	try:
 		ruby = ruby_scripts.Ruby(ccd)
 	except:
-		simpleLog("Ruby did not connect")
-	
+		localStation_exception(sys.exc_info(), "creating ruby")
+
 	try:
 		ruby.connectIfNeeded()
 	except:
-		type, exception, traceback = sys.exc_info()
-		handle_messages.log(None, "ruby error -  " , type, exception, traceback, False)
-	
+		localStation_exception(sys.exc_info(), "connecting ruby")
+
 	try:
 		atlas = ruby_scripts.Atlas(ccd)
 	except:
-		simpleLog("Atlas did not connect")
+		localStation_exception(sys.exc_info(), "creating atlas")
 	
 	try:
 		atlas.connectIfNeeded()
 	except:
-		type, exception, traceback = sys.exc_info()
-		handle_messages.log(None, "atlas error -  " , type, exception, traceback, False)
+		localStation_exception(sys.exc_info(), "connecting ruby")
 
 	try:
 		import scannables.detectors.perkinElmer as sdpe
@@ -242,10 +270,8 @@ try:
 			'pe1peak2d', pe1, [TwodGaussianPeak()])
 		pe1max2d = DetectorDataProcessorWithRoi(
 			'pe1max2d', pe1, [SumMaxPositionAndValue()])
-
 	except:
-		type, exception, traceback = sys.exc_info()
-		handle_messages.log(None, "pe error -  " , type, exception, traceback, False)
+		localStation_exception(sys.exc_info(), "connecting creating pe...")
 
 	def gigeFactory(camdet_name, cam_name, peak2d_name, max2d_name, cam_pv):
 		from gdascripts.scannable.detector.epics.EpicsGigECamera import EpicsGigECamera
@@ -259,9 +285,8 @@ try:
 			max2d = DetectorDataProcessorWithRoi(max2d_name, cam, [SumMaxPositionAndValue()])
 			return camdet, cam, peak2d, max2d
 		except:
-			type, exception, traceback = sys.exc_info()
-			handle_messages.log(None, "%s error -  " % cam_name, type, exception, traceback, False)
-	
+			localStation_exception(sys.exc_info(), "creating %s" % cam_name)
+
 	cam1det, cam1, peak2d, max2d = gigeFactory(
 		'cam1det', 'cam1', 'peak2d', 'max2d', 'BL15I-DI-GIGE-01:')
 	cam2det, cam2, peak2d2, max2d2 = gigeFactory(
@@ -307,10 +332,14 @@ try:
 		d5_d1 = pd_ratio.Simple_PD_Ratio('d5_d1', d5, d1)
 		
 		from gdascripts.pd.epics_pds import DisplayEpicsPVClass
-		d1sum = DisplayEpicsPVClass("d1sum", "BL15I-EA-CSTRM-01:DIODESUM", "", "%f")
+		d1sum = DisplayEpicsPVClass("d1sum", "BL15I-DI-PHDGN-01:DIODESUM", "", "%f")
+		d2sum = DisplayEpicsPVClass("d2sum", "BL15I-DI-PHDGN-02:DIODESUM", "", "%f")
+		d3sum = DisplayEpicsPVClass("d3sum", "BL15I-DI-PHDGN-03:DIODESUM", "", "%f")
+		d4sum = DisplayEpicsPVClass("d4sum", "BL15I-DI-PHDGN-04:DIODESUM", "", "%f")
+		d5sum = DisplayEpicsPVClass("d5sum", "BL15I-DI-PHDGN-05:DIODESUM", "", "%f")
 		add_default d1sum
 	except:
-		simpleLog("Could not create diodes")
+		localStation_exception(sys.exc_info(), "creating diodes")
 
 	try:
 		simpleLog("Create mca's")
@@ -319,9 +348,9 @@ try:
 		d3_mca = finder.find("D3_MCA")
 		d4_mca = finder.find("D4_MCA")
 	except:
-		simpleLog("Could not create mca's")
-		
-	try:   
+		localStation_exception(sys.exc_info(), "creating mca's")
+
+	try:
 		simpleLog("Setup aliases")
 		vararg_regex("scan")
 		alias("dp")
@@ -352,8 +381,8 @@ try:
 		alias("resetMarScanNumber")
 		alias("resetPilatusScanNumber")
 	except:
-		simpleLog("Could not setup aliases")
-	
+		localStation_exception(sys.exc_info(), "setting up aliases")
+
 	try:
 		#simpleLog("Create ETL detector objects, names: etl_lowlim, etl_uplim, etl_gain")
 		from detector_control_pds import * #@UnusedWildImport
@@ -368,8 +397,8 @@ try:
 		etl.setLevel(7)
 		#print "ETL detector level: %d" % etl.getLevel()
 	except:
-		simpleLog("Could not create ETL detector objects")
-	
+		localStation_exception(sys.exc_info(), "creating etl detector")
+
 	try:
 		simpleLog("Create checkbeam objects: checkbeam")
 		from gdascripts.pd.pd_waitWhileScannableBelowThreshold import WaitWhileScannableBelowThreshold
@@ -378,14 +407,29 @@ try:
 		#from checkbeam_pds import * #@UnusedWildImport
 		print "checkbeam level: %d" % checkbeam.getLevel()
 	except:
-		simpleLog("Could not create checkbeam objects")
+		localStation_exception(sys.exc_info(), "creating checkbeam objects")
+
+	from future.toggleBinaryPvAndWait import ToggleBinaryPvAndWait
+	from future.binaryPvDetector import BinaryPvDetector
+	if False:
+		try:
+			xps7out1trig = ToggleBinaryPvAndWait('xps7out1trig', 'BL15I-MO-XPS-07:GPIO:OUT1', normalLevel='1', triggerLevel='0')
+		except:
+			localStation_exception(sys.exc_info(), "creating xps7out1trig object")
+	else:
+		simpleLog("* Not creating xps7out1trig object *")
 	
 	if True:
 		try:
-			from future.toggleBinaryPvAndWait import ToggleBinaryPvAndWait
-			xps7out1trig = ToggleBinaryPvAndWait('xps7out1trig', 'BL15I-MO-XPS-07:GPIO:OUT1', normalLevel='1', triggerLevel='0')
+			patch12x7trig = ToggleBinaryPvAndWait('patch12x7trig', 'BL15I-EA-PATCH-12:X7', normalLevel='Logic 0', triggerLevel='Logic 1')
+			patch14x7trig = ToggleBinaryPvAndWait('patch14x7trig', 'BL15I-EA-PATCH-14:X7', normalLevel='Logic 0', triggerLevel='Logic 1')
+
+			patch12x7trig2 = BinaryPvDetector('patch12x7trig2', 'BL15I-EA-PATCH-12:X7', normalLevel='Logic 0', triggerLevel='Logic 1')
+			patch14x7trig2 = BinaryPvDetector('patch14x7trig2', 'BL15I-EA-PATCH-14:X7', normalLevel='Logic 0', triggerLevel='Logic 1')
 		except:
-			simpleLog("Could not create trigger_xps1 object")
+			localStation_exception(sys.exc_info(), "creating patch x7trig object")
+	else:
+		simpleLog("* Not creating patch x7trig objects *")
 	
 	try:
 		from scannables.safeScannable import SafeScannable
@@ -393,25 +437,61 @@ try:
 			check_scannable=shdx, threshold=200, failIfGreaterNotLessThan=False)
 		alias('rot_dkphi')
 	except:
-		type, exception, traceback = sys.exc_info()
-		handle_messages.log(None, "localStation error -  " , type, exception, traceback, False)
-		simpleLog("Could not create rot_dkphi object")
+		localStation_exception(sys.exc_info(), "creating rot_dkphi object")
+
+	try:
+		dx.setOutputFormat(["%.6g"])
+		dy.setOutputFormat(["%.6g"])
+		dz.setOutputFormat(["%.6g"])
+	except:
+		localStation_exception(sys.exc_info(), "setting output formats")
 
 	run('utilities/centreBeam')
+
+	try:
+		from scannables.chiPseudoDevice import ChiPseudoDevice
+		chi=ChiPseudoDevice('chi', dktheta, dkappa, dkphi,
+									thoffset=2.2, phioffset=2.2)
+	except:
+		localStation_exception(sys.exc_info(), "creating chi object")
+
+	if False:
+		try:
+			print "Installing atto devices from epics BL15I-EA-ATTO..."
+			
+			from future.anc150axis import createAnc150Axis
+			
+			atto1 = createAnc150Axis("atto1", "BL15I-EA-ATTO-03:PIEZO1:", 0.25)
+			atto2 = createAnc150Axis("atto2", "BL15I-EA-ATTO-03:PIEZO2:", 0.25)
+			atto3 = createAnc150Axis("atto3", "BL15I-EA-ATTO-03:PIEZO3:", 0.25)
+			atto4 = createAnc150Axis("atto4", "BL15I-EA-ATTO-04:PIEZO1:", 0.25)
+			atto5 = createAnc150Axis("atto5", "BL15I-EA-ATTO-04:PIEZO2:", 0.25)
+			atto6 = createAnc150Axis("atto6", "BL15I-EA-ATTO-04:PIEZO3:", 0.25)
+			
+			atto1.setFrequency(900)
+			atto2.setFrequency(900)
+			atto3.setFrequency(900)
+			atto4.setFrequency(900)
+			atto5.setFrequency(900)
+			atto6.setFrequency(900)
+		except:
+			localStation_exception(sys.exc_info(), "creating atto devices")
+	else:
+		print "* Not installing atto devices *"
 
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	beamlineParameters = beamline_parameters.Parameters()
 	
-	dataDir.configure(jythonNameMap, beamlineParameters)	
-	shutterCommands.configure(jythonNameMap, beamlineParameters)	
-	marAuxiliary.configure(jythonNameMap, beamlineParameters)	
-	operationalControl.configure(jythonNameMap, beamlineParameters)	
-	ccdAuxiliary.configure(jythonNameMap, beamlineParameters)	
-	ccdScanMechanics.configure(jythonNameMap, beamlineParameters)	
-	ccdFloodCorrections.configure(jythonNameMap, beamlineParameters)	
-#	ccdScripts.configure(jythonNameMap, beamlineParameters)	
-	mar_scripts.configure(jythonNameMap, beamlineParameters)	
-	pilatus_scripts.configure(jythonNameMap, beamlineParameters)	
+	dataDir.configure(jythonNameMap, beamlineParameters)
+	shutterCommands.configure(jythonNameMap, beamlineParameters)
+	marAuxiliary.configure(jythonNameMap, beamlineParameters)
+	operationalControl.configure(jythonNameMap, beamlineParameters)
+	ccdAuxiliary.configure(jythonNameMap, beamlineParameters)
+	ccdScanMechanics.configure(jythonNameMap, beamlineParameters)
+	ccdFloodCorrections.configure(jythonNameMap, beamlineParameters)
+#	ccdScripts.configure(jythonNameMap, beamlineParameters)
+	mar_scripts.configure(jythonNameMap, beamlineParameters)
+	pilatus_scripts.configure(jythonNameMap, beamlineParameters)
 	
 	# meta should be created last to ensure we have all required scannables
 	try:
@@ -420,20 +500,40 @@ try:
 		note.rootNamespaceDict=globals()
 
 		def stdmeta():
-			stdmetadatascannables = (s1xpos, s1xgap, s1ypos, s1ygap,
-				s1xplus, s1xminus, s1yplus, s1yminus, ringCurrent, wigglerField,
-				dcmbragg1, dcmbragg2, 
-				dcmxtl1y, dcmxtl2y, dcmxtl1roll, dcmxtl1z, dcmpiezo, dcmenergy,
-				cryox, cryoy, cryoz, cryorot,
+			stdmetadatascannables = (ringCurrent, wigglerField,
+				s1xpos, s1xgap, s1ypos, s1ygap,
+				s1xplus, s1xminus, s1yplus, s1yminus,
+				dcmbragg1, dcmbragg2, dcmxtl1y, dcmxtl2y,
+				dcmxtl1roll, dcmxtl1z, dcmpiezo, dcmenergy,
+				qbpm1_x, qbpm1_y, qbpm1A, qbpm1B, qbpm1C, qbpm1D, qbpm1total,
 				s6ypos, s6ygap, s6yup, s6ydown,
-				hfm_x, hfm_y, hfm_pitch, hfm_curve, hfm_ellipticity, hfm_yaw, hfm_roll,
 				vfm_x, vfm_y, vfm_pitch, vfm_curve, vfm_ellipticity, vfm_gravsag,
-				qbpm1_x, qbpm1_y, qbpm2_x, qbpm2_y,
+				hfm_x, hfm_y, hfm_pitch, hfm_curve, hfm_ellipticity, hfm_yaw, hfm_roll,
+				qbpm2_x, qbpm2_y, qbpm2A, qbpm2B, qbpm2C, qbpm2D, qbpm2total,
 				s4xpos, s4xgap, s4ypos, s4ygap, s4yaw, s4pitch,
+				fsx, fsy,
 				pinx, piny, pinz, pinpitch, pinyaw,
 				dx, dy, dz, dkphi, dkappa, dktheta,
-				djack1, djack2, djack3, dtransx, drotation,
-				bsx, bsy)
+				djack1, djack2, djack3, dtransx, drotation, detz, ddelta,
+				shdx, shdy, shdz,
+				bsx, bsy,
+				xreye_x, xreye_y,
+				tab2jack1, tab2jack2, tab2jack3, tab2transx, tab2rotation,
+				s7xpos, s7ypos, s7xgap, s7xgap,
+				d6x,
+				fs2x, fs2y,
+				kbmjack1, kbmjack2, kbmjack3, kbmy, kbmpitch, kbmroll,
+				#kbmvbend1, kbmvbend2, kbmvy1, kbmvy2,
+				#kbmhbend1, kbmhbend2, kbmhx1, kbmhx2,
+				sx, sy, sz, spitch, syaw, sroll,
+				spivotx, spivoty, spivotz, sphi,
+				d7x, d7y,
+				xreye2x, xreye2y,
+				bs2x, bs2y,
+				det2z,
+				d1, d2, d3, d4, d5, d6, d7, d8, d9,
+				d1sum, d2sum, d3sum, d4sum, d5sum,
+				cryox, cryoy, cryoz, cryorot)
 			setmeta_ret=setmeta(*stdmetadatascannables)
 			simpleLog("Standard metadata scannables: " + setmeta_ret)
 			#return ''
@@ -445,11 +545,9 @@ try:
 		meta.quiet = True
 		
 	except:
-		simpleLog("Could not create metadata objects")
+		localStation_exception(sys.exc_info(), "creating metadata objects")
 
 except:
-	type, exception, traceback = sys.exc_info()
-	handle_messages.log(None, "localStation error -  " , type, exception, traceback, False)
-	simpleLog("localStation error")
-	
+	localStation_exception(sys.exc_info(), "in localStation")
+
 simpleLog("===================== GDA ONLINE =====================")
