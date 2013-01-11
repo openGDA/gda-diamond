@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-
 	<!-- Mirror 2 Motors-->
+
 	<bean id="HFMxMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="HFM.X" />
 	</bean>
@@ -26,10 +26,11 @@
 	<bean id="HFMellipticityMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="HFM.ELLIP" />
 	</bean>
-	
+
 	<!-- Pinhole 1 Motors have been removed -->
-	
+
 	<!-- Pinhole 2 Motors-->
+
 	<bean id="Pin2XMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="PIN2.X" />
 	</bean>
@@ -46,8 +47,8 @@
 		<property name="deviceName" value="PIN2.YAW" />
 	</bean>
 
-	
 	<!-- Slits 1 Motors-->
+
 	<bean id="S1xminusMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="S1.XMINUS" />
 	</bean>
@@ -122,9 +123,9 @@
 			</list>
 		</property>
 	</bean>
-	
-	
+
 	<!-- Mirror 1 Motors-->
+
 	<bean id="VFMpitchMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="VFM.PITCH" />
 		<property name="local" value="true"/>
@@ -149,9 +150,9 @@
 		<property name="deviceName" value="VFM.ELLIP" />
 		<property name="local" value="true"/>
 	</bean>
-	
-	
+
 	<!-- Slits 4 Motors-->
+
 	<bean id="S4xposMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="S4.XCENTRE" />
 		<property name="local" value="true"/>
@@ -176,11 +177,8 @@
 		<property name="deviceName" value="S4.YAW" />
 		<property name="local" value="true"/>
 	</bean>
-	
+
 	<!-- DCM Motors -->
-
-
-
 
 	<bean id="Bragg1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DCM.XTAL1THETA" />
@@ -227,7 +225,6 @@
 		<property name="motor" ref="Bragg2Motor" />
 	</bean>
 
-
 	<bean id="dcmxtl1y" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm"/>
 		<property name="motor" ref="Dcmxtl1yMotor" />
@@ -271,9 +268,9 @@
 			</list>
 		</property>
 	</bean>
-	
-	
+
 	<!-- Beamstop Motors-->
+
 	<bean id="Ab4xMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="BS.X" />
 		<property name="local" value="true"/>
@@ -282,7 +279,6 @@
 		<property name="deviceName" value="BS.Y" />
 		<property name="local" value="true"/>
 	</bean>	
-	
 	
 	<!-- EHT2 Motors-->
 	<!-- Not present at the moment
@@ -305,9 +301,9 @@
 		<property name="deviceName" value="FS.Y" />
 		<property name="local" value="true"/>
 	</bean>	
-	
-	
+
 	<!-- QBPM Motors-->
+
 	<bean id="QbpmXMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="QD1.X" />
 		<property name="local" value="true"/>
@@ -357,7 +353,6 @@
 <!--		<property name="motor" ref="qbpm1DMotor" />-->
 <!--	</bean>-->
 	
-	
 	<bean id="qbpm1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -370,8 +365,9 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- QBPM2 Motors -->
+
 	<bean id="Qbpm2XMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="QBPM2.X" />
 		<property name="local" value="true"/>
@@ -399,18 +395,19 @@
 		</property>
 	</bean>
 
-
 	<!-- S2 Motors -->
+
 	<bean id="S2YGapMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="S2.YGAP" />
 		<property name="local" value="true"/>
 	</bean>	
-	<bean id="S2YCentreMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="S2yposMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="S2.YCENTRE" />
 		<property name="local" value="true"/>
 	</bean>	
 	
 	<!-- Pinhole 2 (1 has been removed, but the motors may be reused) -->
+	
 	<bean id="pinx" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm"/>
 		<property name="motor" ref="Pin2XMotor" />
@@ -440,8 +437,9 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- Mirror 1 -->
+
 	<bean id="vfm_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mrad"/>
 		<property name="motor" ref="VFMpitchMotor" />
@@ -478,9 +476,9 @@
 			</list>
 		</property>
 	</bean>
-	
-	
+
 	<!-- Slits 4 -->
+
 	<bean id="s4xpos" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm"/>
 		<property name="motor" ref="S4xposMotor" />
@@ -515,12 +513,9 @@
 			</list>
 		</property>
 	</bean>
-	
-	
-
-
 
 	<!-- Beamstop -->	
+
 	<bean id="bsx" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm"/>
 		<property name="motor" ref="Ab4xMotor" />
@@ -537,9 +532,9 @@
 			</list>
 		</property>
 	</bean>
-	
-	
+
 	<!-- EHT2 -->
+
 	<!-- Not present at the moment
 	<bean id="eht2theta" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="deg"/>
@@ -560,9 +555,9 @@
 			</list>
 		</property>
 	</bean>
-	
-	
+
 	<!-- Fast Shutter -->	
+
 	<bean id="fsx" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm"/>
 		<property name="motor" ref="FsxMotor" />
@@ -579,15 +574,9 @@
 			</list>
 		</property>
 	</bean>
-	
-	
 
-	
-	
-
-	
-	
 	<!-- Mirror 2 -->
+
 	<bean id="hfm_x" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm"/>
 		<property name="motor" ref="HFMxMotor" />
@@ -629,21 +618,22 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- Slits 2 -->
+
 	<bean id="s2ygap" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm"/>
 		<property name="motor" ref="S2YGapMotor" />
 	</bean>
-	<bean id="s2ycen" class="gda.device.scannable.ScannableMotor">
+	<bean id="s2ypos" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="S2YCentreMotor" />
+		<property name="motor" ref="S2yposMotor" />
 	</bean>
 	<bean id="s2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="s2ygap" />
-				<ref bean="s2ycen" />
+				<ref bean="s2ypos" />
 			</list>
 		</property>
 	</bean>
@@ -734,9 +724,9 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- Small KB (Mirror 3) -->
-	
+
 	<bean id="SKBjack1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="SKB.J1" />
 		<property name="local" value="true"/>
@@ -762,33 +752,33 @@
 		<property name="local" value="true"/>
 	</bean>
 	
-	<bean id="kbmjack1" class="gda.device.scannable.ScannableMotor">
+	<bean id="skbjack1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="SKBjack1Motor" />
 	</bean>
-	<bean id="kbmjack2" class="gda.device.scannable.ScannableMotor">
+	<bean id="skbjack2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="SKBjack2Motor" />
 	</bean>
-	<bean id="kbmjack3" class="gda.device.scannable.ScannableMotor">
+	<bean id="skbjack3" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="SKBjack3Motor" />
 	</bean>
-	<bean id="kbmy" class="gda.device.scannable.ScannableMotor">
+	<bean id="skby" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="SKByposMotor" />
 	</bean>
-	<bean id="kbmpitch" class="gda.device.scannable.ScannableMotor">
+	<bean id="skbpitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="SKBpitchMotor" />
 	</bean>
-	<bean id="kbmroll" class="gda.device.scannable.ScannableMotor">
+	<bean id="skbroll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="SKBrollMotor" />
 	</bean>
-	<bean id="kbm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="skb" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="kbmjack1" />
-				<ref bean="kbmjack2" />
-				<ref bean="kbmjack3" />
-				<ref bean="kbmy" />
-				<ref bean="kbmpitch" />
-				<ref bean="kbmroll" />
+				<ref bean="skbjack1" />
+				<ref bean="skbjack2" />
+				<ref bean="skbjack3" />
+				<ref bean="skby" />
+				<ref bean="skbpitch" />
+				<ref bean="skbroll" />
 			</list>
 		</property>
 	</bean>
@@ -830,5 +820,4 @@
 	<bean id="cryobsy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="cryobsy_motor" />
 	</bean>
-	
 </beans>

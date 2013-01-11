@@ -75,7 +75,9 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	s7xpos, s7ypos, s7xgap, s7xgap,\
 	d6x,\
 	fs2x, fs2y,\
-	kbmjack1, kbmjack2, kbmjack3, kbmy, kbmpitch, kbmroll,\
+	skbjack1, skbjack2, skbjack3, skby, skbpitch, skbroll,\
+	svfmcurve, svfmellip, svfmy, svfmpitch, \
+	shfmcurve, shfmellip, shfmx, shfmyaw, \
 	sx, sy, sz, spitch, syaw, sroll,\
 	spivotx, spivoty, spivotz, sphi,\
 	d7x, d7y,\
@@ -160,10 +162,10 @@ try:
 		#qbpm2ccurrent = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2ccurrent", beamline, "-DI-IAMP-02:CHC:PEAK")
 		#qbpm2dcurrent = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2dcurrent", beamline, "-DI-IAMP-02:CHD:PEAK")
 	
-		qbpm0A = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0A", beamline, "-DI-QBPM-00:A")
-		qbpm0B = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0B", beamline, "-DI-QBPM-00:B")
-		qbpm0C = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0C", beamline, "-DI-QBPM-00:C")
-		qbpm0D = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0D", beamline, "-DI-QBPM-00:D")
+		#qbpm0A = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0A", beamline, "-DI-QBPM-00:A")
+		#qbpm0B = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0B", beamline, "-DI-QBPM-00:B")
+		#qbpm0C = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0C", beamline, "-DI-QBPM-00:C")
+		#qbpm0D = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0D", beamline, "-DI-QBPM-00:D")
 
 		qbpm1A = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm1A", beamline, "-DI-QBPM-01:A")
 		qbpm1B = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm1B", beamline, "-DI-QBPM-01:B")
@@ -337,7 +339,7 @@ try:
 		d3sum = DisplayEpicsPVClass("d3sum", "BL15I-DI-PHDGN-03:DIODESUM", "", "%f")
 		d4sum = DisplayEpicsPVClass("d4sum", "BL15I-DI-PHDGN-04:DIODESUM", "", "%f")
 		d5sum = DisplayEpicsPVClass("d5sum", "BL15I-DI-PHDGN-05:DIODESUM", "", "%f")
-		add_default d1sum
+		add_default(d1sum)
 	except:
 		localStation_exception(sys.exc_info(), "creating diodes")
 
@@ -443,6 +445,10 @@ try:
 		dx.setOutputFormat(["%.6g"])
 		dy.setOutputFormat(["%.6g"])
 		dz.setOutputFormat(["%.6g"])
+		sx.setOutputFormat(["%.6g"])
+		sy.setOutputFormat(["%.6g"])
+		sz.setOutputFormat(["%.6g"])
+		dkappa.setOutputFormat(["%.6g"])
 	except:
 		localStation_exception(sys.exc_info(), "setting output formats")
 
@@ -522,9 +528,9 @@ try:
 				s7xpos, s7ypos, s7xgap, s7xgap,
 				d6x,
 				fs2x, fs2y,
-				kbmjack1, kbmjack2, kbmjack3, kbmy, kbmpitch, kbmroll,
-				#kbmvbend1, kbmvbend2, kbmvy1, kbmvy2,
-				#kbmhbend1, kbmhbend2, kbmhx1, kbmhx2,
+				skbjack1, skbjack2, skbjack3, skby, skbpitch, skbroll,
+				svfmcurve, svfmellip, svfmy, svfmpitch,
+				shfmcurve, shfmellip, shfmx, shfmyaw,
 				sx, sy, sz, spitch, syaw, sroll,
 				spivotx, spivoty, spivotz, sphi,
 				d7x, d7y,
