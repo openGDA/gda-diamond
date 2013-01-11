@@ -10,7 +10,7 @@ from gda.jython.commands.GeneralCommands import pause
 from operationalControl import moveMotor
 from ccdScanMechanics import setMaxVelocity
 from ccdScanMechanics import deactivatePositionCompare
-from ccdScanMechanics import scanGeometry
+from ccdScanMechanics import scanGeometry, scanGeometryCheck
 from ccdScanMechanics import setVelocity
 from ccdAuxiliary import incrementCCDScanNumber
 from ccdAuxiliary import openCCDShield, closeCCDShield
@@ -34,11 +34,13 @@ from glob import glob
 from java.io import File
 
 class DetectorAxisWrapper(PseudoDevice):
-	def __init__(self, pause, prop_threshold, exposureTime):
+	def __init__(self, pause, prop_threshold, exposureTime, step):
 		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 		self.pause = pause
 		self.prop_threshold =prop_threshold
 		self.exposureTime = float(exposureTime)
+		self.step = float(step)
+		self.velocity = float(abs(self.step)) / self.exposureTime
 		
 		self.prop = jythonNameMap.qbpm1total
 		self.feabsb = jythonNameMap.feabsb
@@ -49,6 +51,24 @@ class DetectorAxisWrapper(PseudoDevice):
 		self.caclient = CAClient()
 		self.max_time_to_injection = exposureTime + 1.
 		self.wait_after_injection = exposureTime + 4.
+
+	def atScanStart(self):
+		scanGeometryCheck(self.axis, self.velocity, 0, self.step)
+		#if self.pause:
+		#	simpleLog("Scan will pause if proportional counter %f is below " +
+		#		"threshold value %f" % (self.prop(), self.prop_threshold))
+		self.visitPath = VisitPath.getVisitPath()
+		if self.visitPath != getDir():
+			simpleLog("Visit path is now: " + self.visitPath)
+			setFullUserDir(self.visitPath)
+			simpleLog("To use a different visit dir a user on that visit must take the baton.")
+		if self.axis:
+			self.originalPosition = self.axis()
+
+	def atScanEnd(self):
+		if self.axis:
+			setMaxVelocity(self.axis)
+			self.axis.asynchronousMoveTo(self.originalPosition)
 
 	def absorberOpen(self):
 		self.feabsb_pos = self.feabsb.getPosition()
@@ -186,7 +206,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			stop=None, step=None, sync=False, scanDoubleFlag=False,
 			fileName="isccd_scan", noOfExpPerPos=1, diff=0., pause=False,
 			overflow=False, multiFactor=1):
-		DetectorAxisWrapper.__init__(self, pause, -11, exposureTime)
+		DetectorAxisWrapper.__init__(self, pause, -11, exposureTime, step)
 		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 		self.isccd = isccd
 		self.prop = jythonNameMap.prop
@@ -196,7 +216,6 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 		self.fileName = fileName
 		self.scan_start = float(start)
 		self.scan_stop = float(stop)
-		self.step = float(step)
 		self.noOfExpPerPos = noOfExpPerPos
 		self.i0_mca = jythonNameMap.d1_mca
 		self.readOutDelay = 1.5 * detector.getReadOutDelay()
@@ -231,16 +250,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 
 	def atScanStart(self):
 		
-		if self.pause:
-			simpleLog("Scan will pause if proportional counter " +
-					"(%f) is below threshold value " % self.prop() +
-					"(%f)." % self.prop_threshold)
-		
-		userDir = VisitPath.getVisitPath()
-		if userDir != getDir():
-			simpleLog("Switching to visit directory: " + userDir)
-			setFullUserDir(userDir)
-			simpleLog("To use a different visit dir a user on that visit must take the baton.")
+		DetectorAxisWrapper.atScanStart(self)
 		
 		supportedDir = "X:/currentdir"
 		if self.detector.getDir() <> supportedDir:
@@ -325,19 +335,14 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 				dwnumofframesdone, self.exposureTime, experiment_name,
 				self.run_file)
 		
-		if self.axis:
-			self.originalPosition = self.axis()
-		
 		self.detector.flush()
 		openCCDShield()
 
 	def atScanEnd(self):
-		if self.axis:
-			setMaxVelocity(self.axis)
-			self.axis.asynchronousMoveTo(self.originalPosition)
+		DetectorAxisWrapper.atScanEnd(self)
 		closeCCDShield()
 
-	def syncExpose(self, position, runUp, velocity, filename, log_message, fast):
+	def syncExpose(self, position, runUp, filename, log_message, fast):
 		samples = []
 		# Zero the diode sum we can tell if it was triggered
 		self.caclient.caput(self.diodeSum, 0) 
@@ -348,11 +353,9 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			moveMotor(self.axis, position - runUp - self.diff)
 			
 			if self.step>0:
-				geometry = scanGeometry(self.axis, velocity, position, position + self.step)
+				geometry = scanGeometry(self.axis, self.velocity, position, position + self.step)
 			else:
-				geometry = scanGeometry(self.axis, velocity, position + self.step, position)
-			
-			setVelocity(self.axis, velocity)
+				geometry = scanGeometry(self.axis, self.velocity, position + self.step, position)
 			
 			self.preExposeCheck()
 			
@@ -370,7 +373,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			if self.axis:
 				setMaxVelocity(self.axis)
 				moveMotor(self.axis, position - runUp - self.diff)
-				setVelocity(self.axis, velocity)
+				setVelocity(self.axis, self.velocity)
 				self.axis.asynchronousMoveTo(position + self.step + runUp)
 				simpleLog("(fast shutter not synchronised with motor)")
 			else:
@@ -434,12 +437,10 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 		return imonAverage, diodeSum
 
 	def performMove(self, position, fast=False):
-		velocity = float(abs(self.step)) / self.exposureTime
-		
 		if self.step > 0:
-			runUp = velocity / 10
+			runUp = self.velocity / 10
 		else:
-			runUp = -1*(velocity / 10)
+			runUp = -1*(self.velocity / 10)
 		
 		if self.axis and self.axis.getName() == "dktheta":
 			runUp = runUp * 2
@@ -460,11 +461,11 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			
 			self.fullFileName = self.detector.path + "/" + filename + ".img"
 			
-			imonAverage, diodeSum = self.syncExpose(position, runUp, velocity, filename,
+			imonAverage, diodeSum = self.syncExpose(position, runUp, filename,
 					"Exposing %s", fast)
 			
 			if self.postExposeCheckFailed():
-				imonAverage, diodeSum = self.syncExpose(position, runUp, velocity, filename,
+				imonAverage, diodeSum = self.syncExpose(position, runUp, filename,
 					"Re-exposing %s because of beam loss during expose")
 			
 			self.files.append(filename)
@@ -541,12 +542,11 @@ class AtlasAxisWrapper(ISCCDAxisWrapper):
 
 class PilatusAxisWrapper(DetectorAxisWrapper):
 	def __init__(self, detector, isccd, exposureTime=0, axis=None, step=1, sync=False, fileName="P100K_scan", noOfExpPerPos=1):
-		DetectorAxisWrapper.__init__(self, False, -11, exposureTime)
+		DetectorAxisWrapper.__init__(self, False, -11, exposureTime, step)
 		self.isccd = isccd
 		self.detector = detector
 		self.sync = sync
 		self.fileName = fileName
-		self.step = float(step)	
 		self.noOfExpPerPos = noOfExpPerPos
 		self.axis = axis
 		self.originalPosition = 0
@@ -563,22 +563,15 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 			self.setExtraNames(["File Name"])
 
 	def atScanStart(self):
-		userDir = VisitPath.getVisitPath() 
-		if userDir != getDir():
-			simpleLog("User  full user dir to " + userDir)
-			setFullUserDir(userDir)
+		DetectorAxisWrapper.atScanStart(self)
 		
 		self.isccd.flush()
 		
-		if self.axis:
-			self.originalPosition = self.axis.getPosition()
 		if self.detector.getFilePath()[-1:] != "/":
 			self.detector.setFilePath(self.detector.getFilePath() + "/")
 	
 	def atScanEnd(self):
-		if self.axis:
-			setMaxVelocity(self.axis)
-			self.axis.asynchronousMoveTo(self.originalPosition)
+		DetectorAxisWrapper.atScanEnd(self)
 
 	def rawAsynchronousMoveTo(self, position):
 		if type(position) == list:
@@ -589,8 +582,7 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 		self.files = []
 		self.fullFileLocation = ""
 		self.detector.setFilename(self.fileName + "_")
-		velocity = float(abs(self.step)) / self.exposureTime
-		runUp = velocity / 10
+		runUp = self.velocity / 10
 		axisRunUpAndDownDelay = 2
 		
 		for exp in range(self.noOfExpPerPos):
@@ -603,7 +595,7 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 				setMaxVelocity(self.axis)
 				deactivatePositionCompare() #Prevent false triggers when debounce on
 				moveMotor(self.axis, position - runUp)
-				scanGeometry(self.axis, velocity, position, position + self.step)
+				scanGeometry(self.axis, self.velocity, position, position + self.step)
 				sleep(0.2)
 				self.isccd.xpsSync("dummy", self.exposureTime + axisRunUpAndDownDelay)
 				self.detector.expose(self.exposureTime)
@@ -616,7 +608,7 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 					simpleLog("(fast shutter not synchronised with motor)")
 					setMaxVelocity(self.axis)
 					moveMotor(self.axis, position - runUp)
-					setVelocity(self.axis, velocity)
+					setVelocity(self.axis, self.velocity)
 				else:
 					simpleLog("Pilatus expose for " + str(self.exposureTime) + "s")
 		
@@ -641,7 +633,7 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 
 class MarAxisWrapper(DetectorAxisWrapper):
 	def __init__(self, detector, isccd, exposureTime=1, axis=None, step=None, sync=False, fileName="mar_scan", noOfExpPerPos=1, rock=False, pause=False):
-		DetectorAxisWrapper.__init__(self, pause, -11, exposureTime)
+		DetectorAxisWrapper.__init__(self, pause, -11, exposureTime, step)
 		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 		self.isccd = isccd
 		self.detector = jythonNameMap.mar
@@ -652,7 +644,6 @@ class MarAxisWrapper(DetectorAxisWrapper):
 		self.fullFileName = ""
 		self.exposureNo = 0
 		self.noOfExpPerPos = noOfExpPerPos
-		self.step = float(step)
 		self.files = []
 		self.originalPosition = 0
 		#self.nextScanNo = getNextMarScanNumber()
@@ -670,32 +661,24 @@ class MarAxisWrapper(DetectorAxisWrapper):
 			self.setInputNames(["Exposure Time"])
 			self.setOutputFormat(["%6.4f", "%s"])
 			self.setExtraNames(["file name"])
-			
-		self.velocity = float(abs(self.step)) / self.exposureTime
 
 	def atScanStart(self):
+		DetectorAxisWrapper.atScanStart(self)
 		
 		incrementMarScanNumber()
 		
-		userDir = VisitPath.getVisitPath() 
-		#if userDir != getDir():
-		simpleLog("User  full user dir to " + userDir)
-		setFullUserDir(userDir)
+		simpleLog("MAR: Force setting of full user dir to " + self.visitPath)
+		setFullUserDir(self.visitPath)
 			
 		self.isccd.flush()
 		
-		if self.axis:
-			self.originalPosition = self.axis()
-			
 		checkMarIsReady()
 		openMarShield()
 	
 	def atScanEnd(self):
 		closeMarShield()
 		
-		if self.axis:
-			setMaxVelocity(self.axis)
-			self.axis.asynchronousMoveTo(self.originalPosition)
+		DetectorAxisWrapper.atScanEnd(self)
 
 	def rawAsynchronousMoveTo(self, position):
 		if type(position) == list:

@@ -1,6 +1,6 @@
 from time import sleep
 from gdascripts.messages.handle_messages import simpleLog
-from ccdScanMechanics import setMaxVelocity
+from ccdScanMechanics import setMaxVelocity, scanGeometryCheck
 from gda.device.scannable import PseudoDevice
 from dataDir import getDir, setFullUserDir #, setDir 
 from gda.util import VisitPath
@@ -52,7 +52,7 @@ detector_scan_commands:
 
 class DetectorAxisWrapperNew(PseudoDevice):
 	def __init__(self, detector, isccd, prop, feabsb, fmfabsb,
-				 pause, prop_threshold, exposureTime, axis, sync,
+				 pause, prop_threshold, exposureTime, step, axis, sync,
 				 exposeDark=False):
 		self.detector = detector
 		self.isccd = isccd
@@ -62,6 +62,8 @@ class DetectorAxisWrapperNew(PseudoDevice):
 		self.pause = pause
 		self.prop_threshold =prop_threshold
 		self.exposureTime = float(exposureTime)
+		self.step = float(step)
+		self.velocity = float(abs(self.step)) / float(self.exposureTime)
 		self.axis = axis
 		self.sync = sync
 		self.exposeDark = exposeDark
@@ -86,6 +88,8 @@ class DetectorAxisWrapperNew(PseudoDevice):
 			self.setExtraNames(["file name"])
 
 	def atScanStart(self):
+		scanGeometryCheck(self.axis, self.velocity, 0, self.step)
+		
 		if self.pause:
 			simpleLog("Scan will pause if proportional counter %f is below " +
 				"threshold value %f" % (self.prop(), self.prop_threshold))
@@ -94,6 +98,7 @@ class DetectorAxisWrapperNew(PseudoDevice):
 		if self.visitPath != getDir():
 			simpleLog("Visit path is now: " + self.visitPath)
 			setFullUserDir(self.visitPath)
+			simpleLog("To use a different visit dir a user on that visit must take the baton.")
 		
 		self.isccd.flush()
 		

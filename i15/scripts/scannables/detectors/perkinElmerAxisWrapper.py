@@ -19,7 +19,7 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
                  noOfExpPerPos=1, rock=False, pause=False, exposeDark=False):
         
         DetectorAxisWrapperNew.__init__(self, detector, isccd, prop, feabsb,
-            fmfabsb, pause, -11, exposureTime, axis, sync, exposeDark)
+            fmfabsb, pause, -11, exposureTime, step, axis, sync, exposeDark)
         self.fileName = fileName
         #self.fullFileName = ""
         self.exposureNo = 1
@@ -28,12 +28,6 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
         self.inc = 1;
         self.setName("perkin elmer wrapper")
         self.rock=rock
-        
-        if step:
-            self.step = float(step)
-            self.velocity = float(abs(self.step)) / float(self.exposureTime)
-        else:
-            self.velocity = 0
         
         self.caclient = CAClient()
         self.diodeSum = "BL15I-DI-PHDGN-01:DIODESUM"
@@ -52,6 +46,7 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
             closePeShield() 
 
     def atScanEnd(self):
+        DetectorAxisWrapperNew.atScanEnd(self)
         closePeShield()
 
     def acquireOneImage(self, position):
