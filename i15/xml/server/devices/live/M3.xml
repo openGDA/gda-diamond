@@ -69,8 +69,8 @@
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="shfmyaw_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SHFM.YAW" />
+	<bean id="shfmpitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SHFM.PITCH" />
 		<property name="local" value="true"/>
 	</bean>
 
@@ -86,8 +86,8 @@
 		<property name="motor" ref="shfmx_motor" />
 	</bean>
 
-	<bean id="shfmyaw" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="shfmyaw_motor" />
+	<bean id="shfmpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="shfmpitch_motor" />
 	</bean>
 
 	<bean id="shfm" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -96,7 +96,7 @@
 				<ref bean="shfmcurve" />
 				<ref bean="shfmellip" />
 				<ref bean="shfmx" />
-				<ref bean="shfmyaw" />
+				<ref bean="shfmpitch" />
 			</list>
 		</property>
 	</bean>

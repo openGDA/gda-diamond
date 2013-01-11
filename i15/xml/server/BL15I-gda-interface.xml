@@ -1,23 +1,5 @@
 <?xml version="1.0" ?>
 <devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2011-9/gdaApp/src/genericBeamlineSchema.xsd">
-	<simplePv desc="EH1 Diode 2" name="PHDGN2">
-		<RECORD desc="Current Value" pv="BL15I-DI-PHDGN-02:I" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="EH1 Diode 3" name="PHDGN3">
-		<RECORD desc="Current Value" pv="BL15I-DI-PHDGN-03:I" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="EH1 Diode 4" name="PHDGN4">
-		<RECORD desc="Current Value" pv="BL15I-DI-PHDGN-04:I" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="EH1 Diode 1" name="PHDGN1">
-		<RECORD desc="Current Value" pv="BL15I-DI-PHDGN-01:I" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="EH1 Diode 5" name="PHDGN5">
-		<RECORD desc="Current Value" pv="BL15I-DI-PHDGN-05:I" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="EH1 Ion Chamber 1" name="IONC1">
-		<RECORD desc="Current Value" pv="BL15I-DI-IONC-01:I" ro="true" type="pv"/>
-	</simplePv>
 	<currAmpSingle desc="D2 femto amp" name="FEMTO2">
 		<OVERLOAD desc="Get overload status" pv="BL15I-DI-FEMTO-02:OL" ro="true" type="binary"/>
 		<SETGAIN desc="Set gain" pv="BL15I-DI-FEMTO-02:GAIN" ro="false" type="mbbinary"/>
@@ -212,17 +194,23 @@
 	<simplePv desc="" name="QBPM2.D">
 		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-02:D" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="" name="QBPM0.A">
-		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-00:A" ro="true" type="pv"/>
+	<simplePv desc="EH1 Diode 1" name="PHDGN1">
+		<RECORD desc="RECORD" pv="BL15I-DI-PHDGN-01:I" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="" name="QBPM0.B">
-		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-00:B" ro="true" type="pv"/>
+	<simplePv desc="EH1 Diode 2" name="PHDGN2">
+		<RECORD desc="RECORD" pv="BL15I-DI-PHDGN-02:I" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="" name="QBPM0.C">
-		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-00:C" ro="true" type="pv"/>
+	<simplePv desc="EH1 Diode 3" name="PHDGN3">
+		<RECORD desc="RECORD" pv="BL15I-DI-PHDGN-03:I" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="" name="QBPM0.D">
-		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-00:D" ro="true" type="pv"/>
+	<simplePv desc="EH1 Diode 4" name="PHDGN4">
+		<RECORD desc="RECORD" pv="BL15I-DI-PHDGN-04:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="EH1 Diode 5" name="PHDGN5">
+		<RECORD desc="RECORD" pv="BL15I-DI-PHDGN-05:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="EH1 Ion Chamber 1" name="IONC1">
+		<RECORD desc="RECORD" pv="BL15I-DI-IONC-01:I" ro="true" type="pv"/>
 	</simplePv>
 	<simpleMotor desc="Vertical Focusing Mirror Curve Motor" name="VFM.CURVE">
 		<RECORD desc="Motor Record" pv="BL15I-OP-VFM-01:CURVE" ro="false" type="motor"/>
@@ -292,6 +280,12 @@
 	</simpleMotor>
 	<simpleMotor desc="" name="FS2.Y">
 		<RECORD desc="Motor" pv="BL15I-EA-SHTR-02:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="PIN3.X">
+		<RECORD desc="Motor" pv="BL15I-AL-APTR-03:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="PIN3.Y">
+		<RECORD desc="Motor" pv="BL15I-AL-APTR-03:Y" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="X-Ray Eye X Translation" name="XEYE2.X">
 		<RECORD desc="Motor" pv="BL15I-DI-XEYE-02:X" ro="false" type="motor"/>
@@ -545,8 +539,8 @@
 	<simpleMotor desc="Small Vertical Focusing Mirror Y Motor" name="SVFM.Y">
 		<RECORD desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:Y" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="Small Horizontal Focusing Mirror YAW Motor" name="SHFM.YAW">
-		<RECORD desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:YAW" ro="false" type="motor"/>
+	<simpleMotor desc="Small Horizontal Focusing Mirror PITCH Motor" name="SHFM.PITCH">
+		<RECORD desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:PITCH" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="Small Horizontal Focusing Mirror X Motor" name="SHFM.X">
 		<RECORD desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:X" ro="false" type="motor"/>

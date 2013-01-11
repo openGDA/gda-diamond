@@ -47,6 +47,15 @@
 		<property name="deviceName" value="PIN2.YAW" />
 	</bean>
 
+	<!-- Pinhole 3 Motors-->
+
+	<bean id="Pin3XMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PIN3.X" />
+	</bean>
+	<bean id="Pin3YMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PIN3.Y" />
+	</bean>
+
 	<!-- Slits 1 Motors-->
 
 	<bean id="S1xminusMotor" class="gda.device.motor.EpicsMotor">
@@ -406,7 +415,9 @@
 		<property name="local" value="true"/>
 	</bean>	
 	
-	<!-- Pinhole 2 (1 has been removed, but the motors may be reused) -->
+	<!-- Pinhole 1 has been removed, but the motors may be reused. -->
+
+	<!-- Pinhole 2 -->
 	
 	<bean id="pinx" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm"/>
@@ -434,6 +445,25 @@
 				<ref bean="pinz" />
 				<ref bean="pinpitch" />
 				<ref bean="pinyaw" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Pinhole 3 -->
+	
+	<bean id="pin3x" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="Pin3XMotor" />
+	</bean>
+	<bean id="pin3y" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="Pin3YMotor" />
+	</bean>
+	<bean id="pin3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="pin3x" />
+				<ref bean="pin3y" />
 			</list>
 		</property>
 	</bean>

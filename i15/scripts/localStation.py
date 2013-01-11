@@ -78,7 +78,8 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	fs2x, fs2y,\
 	skbjack1, skbjack2, skbjack3, skby, skbpitch, skbroll,\
 	svfmcurve, svfmellip, svfmy, svfmpitch, \
-	shfmcurve, shfmellip, shfmx, shfmyaw, \
+	shfmcurve, shfmellip, shfmx, shfmpitch, \
+	pin3x, pin3y,\
 	sx, sy, sz, spitch, syaw, sroll,\
 	spivotx, spivoty, spivotz, sphi,\
 	d7x, d7y,\
@@ -580,7 +581,8 @@ try:
 				fs2x, fs2y,
 				skbjack1, skbjack2, skbjack3, skby, skbpitch, skbroll,
 				svfmcurve, svfmellip, svfmy, svfmpitch,
-				shfmcurve, shfmellip, shfmx, shfmyaw,
+				shfmcurve, shfmellip, shfmx, shfmpitch,
+				pin3x, pin3y,
 				sx, sy, sz, spitch, syaw, sroll,
 				spivotx, spivoty, spivotz, sphi,
 				d7x, d7y,
