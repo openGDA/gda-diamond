@@ -77,7 +77,7 @@ if [ $OK != 0 ]; then
 	echo $KNOWN_HOST $KNOWN_HOST_KEY >> ~/.ssh/known_hosts
 fi
 
-ssh  -i /dls_sw/i15/software/gda/i15-config/i15ssh.key gda@i15-control.diamond.ac.uk
+ssh  -i /dls_sw/i15/software/gda/i15-config/i15ssh.key gda2@i15-control.diamond.ac.uk
 OK=$?
 
 # 127 if ssh cannot run command, 0 if ran ok, maybe other values if remote command returns them
