@@ -116,29 +116,59 @@ jmp atlas_image_exported
 #-------------------------------------------------------------------------------
 label slow_image
 
-if (Exist("/tmp_fast/Data/Image")) jmp fast_image_exists
+((max_fast):real)
 
-root echo = /tmp_fast/Data/Image doesn't exist!
-
-jmp atlas_image_not_exported
-
-#-------------------------------------------------------------------------------
-label fast_image_exists
-
-# Copy /tmp/Data to /tmp_replaced and restore multifactor from /tmp_fast
+# Copy /tmp/Data to /tmp_replaced
 
 call setup_node "/tmp_replaced"
 db cp -r /tmp/Data to /tmp_replaced
-
-($(multifactor)=$(/tmp_fast/multifactor))
-
-# Replace overflow
 
 ((/tmp_replaced/Data/Image/overflow/pixels):integer=1)
 # If overflow/pixels exists then overflow/threshold (default 0) must exist too
 # for export_img to work
 ((/tmp_replaced/Data/Image/overflow/threshold):integer=0)
+
+# Check if a fast image exists
+
+if (Exist("/tmp_fast/Data/Image")) jmp fast_image_exists
+
+root echo = /tmp_fast/Data/Image doesn't exist! Assume scan with multifactor of 1
+
+($(max_fast)=-999.999)
+
+jmp fast_image_doesnt_exist
+
+#-------------------------------------------------------------------------------
+label fast_image_exists
+
+if ($(/tmp_fast/multifactor)==1) jmp fast_image_is_stale
+
+jmp fast_image_is_current
+
+#-------------------------------------------------------------------------------
+label fast_image_is_stale
+
+root echo = /tmp_fast/Data/Image has a multifactor of 1! Assume scan with multifactor of 1
+
+($(max_fast)=-999.999)
+
+jmp fast_image_doesnt_exist
+
+#-------------------------------------------------------------------------------
+label fast_image_is_current
+
+# Restore multifactor from /tmp_fast
+
+($(multifactor)=$(/tmp_fast/multifactor))
+
+# Replace overflow
+
 ($(/tmp_replaced/Data/Image)=ReplaceOverflow($(/tmp/Data/Image),$(detector_maxval),$(/tmp_fast/Data/Image),$(multifactor)))
+
+($(max_fast)=Max($(/tmp_fast/Data/Image)))
+
+#-------------------------------------------------------------------------------
+label fast_image_doesnt_exist
 
 # Copy /tmp_replaced to /tmp_final
 
@@ -160,12 +190,10 @@ db cp -r /tmp_replaced/Data to /tmp_final
 # Report stats
 
 ((max_slow):real)
-((max_fast):real)
 ((max_replaced):real)
 ((max_final):real)
 
 ($(max_slow)=Max($(/tmp/Data/Image)))
-($(max_fast)=Max($(/tmp_fast/Data/Image)))
 ($(max_replaced)=Max($(/tmp_replaced/Data/Image)))
 ($(max_final)=Max($(/tmp_final/Data/Image)))
 
@@ -185,9 +213,22 @@ cmd="call runlistAddImage \""+$(experiment_name)+"\" \""+$(run_filename)+"\""
 # Clean up
 
 # Does getting rid of the cleanup stop us getting the images with large blank areas?
-#db rm /tmp_fast
 #db rm /tmp_replaced
 #db rm /tmp_final
+#db rm /tmp_fast
+
+if (Exist("/tmp_fast/multifactor")) jmp cleanup_tmp_fast_multifactor
+
+jmp atlas_image_exported
+
+#-------------------------------------------------------------------------------
+label cleanup_tmp_fast_multifactor
+
+# To protect against accidentally using stale rmp_fast images when switching
+# between scan with multifactor=1 and multifactor>1 reset the tmp_fast
+# multifactor once the tmp_fast image has been used once.
+
+($(/tmp_fast/multifactor)=1)
 
 #-------------------------------------------------------------------------------
 label atlas_image_exported
