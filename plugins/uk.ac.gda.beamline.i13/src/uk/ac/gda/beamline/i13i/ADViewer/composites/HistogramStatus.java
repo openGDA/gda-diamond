@@ -18,13 +18,14 @@
 
 package uk.ac.gda.beamline.i13i.ADViewer.composites;
 
-import gda.device.detector.areadetector.v17.NDStats;
 import gda.observable.Observable;
 import gda.observable.Observer;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -48,13 +49,15 @@ public class HistogramStatus extends Composite {
 	private Observable<String> computeHistogramObservable;
 	private Observer<String> enableObserver;
 	private Observer<String> computeHistogramObserver;
+	private Button btnFreezePlot;
+	protected boolean freezeSelected;
 
 
 	public HistogramStatus(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new GridLayout(1, false));
 		Group stateGroup = new Group(this, SWT.NONE);
-		stateGroup.setText("Profile View");
+		stateGroup.setText("Histogram Plot");
 		GridData gd_stateGroup = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_stateGroup.widthHint = 158;
 		stateGroup.setLayoutData(gd_stateGroup);
@@ -73,6 +76,17 @@ public class HistogramStatus extends Composite {
 		gd_histogramMonitoringBtn.widthHint = 58;
 		histogramMonitoringBtn.setLayoutData(gd_histogramMonitoringBtn);
 		
+		btnFreezePlot = new Button(stateGroup, SWT.CHECK);
+		btnFreezePlot.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+		btnFreezePlot.setText("Freeze Plot");
+		btnFreezePlot.addSelectionListener(new SelectionAdapter(){
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				super.widgetSelected(e);
+				freezeSelected = btnFreezePlot.getSelection();
+			}});
+		btnFreezePlot.setSelection(false);
 		
 		addDisposeListener(new DisposeListener() {
 			
@@ -158,7 +172,8 @@ public class HistogramStatus extends Composite {
 	}
 
 
-
-	
-
+	/* return vaue of local variable so that this function doe snot have to be called on UI thread */
+	public boolean isFreezeSelected(){
+		return freezeSelected;
+	}
 }
