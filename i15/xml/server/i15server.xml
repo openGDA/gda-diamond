@@ -62,6 +62,7 @@
 	<import resource="devices/live/BS2.xml" />
 	<import resource="devices/live/DET2.xml" />
 
+	<import resource="devices/live/OxfordCryoStream.xml"/>
 	<!-- Multi-channel Analyser Crystal detectors: mac11, ... -->
  	<import resource="MACDetectors.xml" />
 	<!-- ?? <import resource="MACScannables.xml"/>  -->
