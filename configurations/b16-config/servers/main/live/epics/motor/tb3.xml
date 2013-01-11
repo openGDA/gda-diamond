@@ -3,19 +3,19 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="TBDETXcoarseMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="TB3XcoarseMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="TBDET.XCOARSE" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="TBDETZcoarseMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="TB3ZcoarseMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="TBDET.ZCOARSE" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="TBDETXMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="TB3XMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="TBDET.X" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="TBDETYMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="TB3YMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="TBDET.Y" />
 		<property name="local" value="true" />
 	</bean>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[2.8.0.201110170010-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.0.0.201208090952-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -25,11 +25,8 @@
 		<config>servers/main/common/scannable/motor/fcbase.xml</config>
 		<config>servers/main/dummy/motor/fcbase.xml</config>
 		<config>servers/main/live/epics/motor/fcbase.xml</config>
-		<config>servers/main/common/scannable/motor/fcsamp.xml</config>
 		<config>servers/main/dummy/motor/fcsamp.xml</config>
-		<config>servers/main/live/epics/motor/fcsamp.xml</config>
 		<config>servers/main/live/ippserver.xml</config>
-		<config>servers/main/common/jython_server.xml</config>
 		<config>servers/main/common/scannable/motor/m1.xml</config>
 		<config>servers/main/dummy/motor/m1.xml</config>
 		<config>servers/main/live/epics/motor/m1.xml</config>
@@ -39,7 +36,6 @@
 		<config>servers/main/common/scannable/motors.xml</config>
 		<config>servers/main/dummy/motor/piezo1.xml</config>
 		<config>servers/main/live/epics/motor/piezo1.xml</config>
-		<config>servers/main/common/plumbing.xml</config>
 		<config>servers/main/common/scannable/motor/positioner_motors.xml</config>
 		<config>servers/main/dummy/motor/positioner_motors.xml</config>
 		<config>servers/main/live/epics/motor/positioner_motors.xml</config>
@@ -72,15 +68,9 @@
 		<config>servers/main/common/scannable/motor/tbbase.xml</config>
 		<config>servers/main/dummy/motor/tbbase.xml</config>
 		<config>servers/main/live/epics/motor/tbbase.xml</config>
-		<config>servers/main/common/scannable/motor/tbdet.xml</config>
 		<config>servers/main/dummy/motor/tbdet.xml</config>
-		<config>servers/main/live/epics/motor/tbdet.xml</config>
-		<config>servers/main/common/scannable/motor/tbdiag.xml</config>
 		<config>servers/main/dummy/motor/tbdiag.xml</config>
-		<config>servers/main/live/epics/motor/tbdiag.xml</config>
-		<config>servers/main/common/scannable/motor/tbopt.xml</config>
 		<config>servers/main/dummy/motor/tbopt.xml</config>
-		<config>servers/main/live/epics/motor/tbopt.xml</config>
 		<config>servers/main/common/scannable/motor/test1.xml</config>
 		<config>servers/main/dummy/motor/test1.xml</config>
 		<config>servers/main/live/epics/motor/test1.xml</config>
@@ -125,6 +115,12 @@
 		<config>servers/main/dummy/detector/xmap_vortex.xml</config>
 		<config>servers/main/live/epics/detector/xmap_vortex.xml</config>
 		<config>servers/main/live/transient/geo2.xml</config>
+		<config>servers/main/common/scannable/motor/tb3.xml</config>
+		<config>servers/main/common/scannable/motor/tb2.xml</config>
+		<config>servers/main/common/scannable/motor/tb1.xml</config>
+		<config>servers/main/live/epics/motor/tb1.xml</config>
+		<config>servers/main/live/epics/motor/tb2.xml</config>
+		<config>servers/main/live/epics/motor/tb3.xml</config>
 	</configs>
 	<configSets>
 	</configSets>
