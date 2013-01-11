@@ -485,6 +485,55 @@ try:
 	else:
 		print "* Not installing atto devices *"
 
+	try:
+		from gdascripts.scan.process.ScannableScan import ScannableScan
+		from gdascripts.scan.gdascans import Rscan
+		from gdascripts.scan.gdascans import Scan
+		from future.TwoGaussianEdges import TwoGaussianEdges
+
+		wirescanner = ScannableScan('wirescanner', TwoGaussianEdges(), Rscan, sx, -2, 3, 0.1, w, 0.5, d7)
+		wirescanner.__doc__ = """
+	This is an example wirescanner, created with the command
+	
+		wirescanner = ScannableScan('wirescanner', TwoGaussianEdges(), Rscan, sx, -2, 3, 0.1, w, 0.5, d7)
+			
+	This performs a wirescan of sx from its starting position -2 to +3 in steps
+	of 0.1, at each point waiting for 0.5s and taking the value of d7.
+
+		>>>pos wirescanner
+		Writing data to file:/dls/i15/data/2012/cm5709-3/45678.dat
+		     sx	Time	      d7	    d1sum
+		-7.1970	0.00	0.041284	16.850816
+		...
+		-3.1970	0.00	0.040710	16.850816
+		Scan complete.
+		wirescanner : scan: 45010 upos: -5.897000 ufwhm: 0.250358 dpos: -3.197000 dfwhm: 0.107779 area: 0.008844 fwhm: 0.179069
+
+	To scan between absolute positions, use "Scan" instead of "Rscan", e.g.
+	
+		wirescansx = ScannableScan('wirescansx', TwoGaussianEdges(), Scan, sx, -5.235, -5.236, 0.0005, w, 0.2, d7)
+
+	This performs a wirescan of sx from -5.235 to -5.236 in steps of half a
+	micron, at each point waiting for 0.2s and taking the value of d7.
+	
+	It is probably best to create new wirescanners each time, but if you you
+	want to re-use an existing name, you will need to del the old one.
+	
+	For example, if you want to change the position on wirescansx:
+	
+		>>>wirescansx = ScannableScan('wirescansx', TwoGaussianEdges(), Scan, sx, -5.255, -5.256, 0.0005, w, 0.2, d7)
+		Traceback (most recent call last):
+		  File "<input>", line 1, in <module>
+		Exception: Trying to overwrite a Scannable: wirescansx
+		>>>del wirescansx
+		>>>wirescansx = ScannableScan('wirescansx', TwoGaussianEdges(), Scan, sx, -5.255, -5.256, 0.0005, w, 0.2, d7)
+		
+	Note: If you delete and recreate this wirescanner, you will lose this help. 
+"""
+		simpleLog("For help on wirescanner run `help wirescanner`")
+	except:
+		localStation_exception(sys.exc_info(), "creating example wirescan")
+
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	beamlineParameters = beamline_parameters.Parameters()
 	
