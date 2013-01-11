@@ -30,10 +30,15 @@ def centre(rotation_axis, scanRange, scanStep, rockAngle, diode,
 	if   rotation_axis == jythonNameMap.dkphi:
 		perp2rot_axis	= jythonNameMap.dx
 		focus_axis		= jythonNameMap.dy
+		default_rotcen=58.
 		if  rotation_centre==None:
-			rotation_centre=58.
-		#print "!!! Focus axis temporarily inverted because dy is reversed !!!"
-		#focus_axis_inverted = True
+			rotation_centre=default_rotcen
+		if (default_rotcen-90 > rotation_centre or
+								rotation_centre > default_rotcen+90 ):
+			print "!!! Inverting focus axis because sample is rotated !!!"
+			focus_axis_inverted = True
+			print "NOTE: This function is unverified, if your focus diverges"
+			print "      you should call your GDA representative to debug it."
 	
 	elif rotation_axis == jythonNameMap.dktheta:
 		perp2rot_axis	= jythonNameMap.dv
