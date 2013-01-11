@@ -1,5 +1,23 @@
 <?xml version="1.0" ?>
 <devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2011-9/gdaApp/src/genericBeamlineSchema.xsd">
+	<simplePv desc="EH1 Diode 2" name="PHDGN2">
+		<RECORD desc="Current Value" pv="BL15I-DI-PHDGN-02:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="EH1 Diode 3" name="PHDGN3">
+		<RECORD desc="Current Value" pv="BL15I-DI-PHDGN-03:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="EH1 Diode 4" name="PHDGN4">
+		<RECORD desc="Current Value" pv="BL15I-DI-PHDGN-04:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="EH1 Diode 1" name="PHDGN1">
+		<RECORD desc="Current Value" pv="BL15I-DI-PHDGN-01:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="EH1 Diode 5" name="PHDGN5">
+		<RECORD desc="Current Value" pv="BL15I-DI-PHDGN-05:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="EH1 Ion Chamber 1" name="IONC1">
+		<RECORD desc="Current Value" pv="BL15I-DI-IONC-01:I" ro="true" type="pv"/>
+	</simplePv>
 	<currAmpSingle desc="D2 femto amp" name="FEMTO2">
 		<OVERLOAD desc="Get overload status" pv="BL15I-DI-FEMTO-02:OL" ro="true" type="binary"/>
 		<SETGAIN desc="Set gain" pv="BL15I-DI-FEMTO-02:GAIN" ro="false" type="mbbinary"/>
@@ -194,23 +212,17 @@
 	<simplePv desc="" name="QBPM2.D">
 		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-02:D" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="EH1 Diode 1" name="PHDGN1">
-		<RECORD desc="RECORD" pv="BL15I-DI-PHDGN-01:I" ro="true" type="pv"/>
+	<simplePv desc="" name="QBPM0.A">
+		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-00:A" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="EH1 Diode 2" name="PHDGN2">
-		<RECORD desc="RECORD" pv="BL15I-DI-PHDGN-02:I" ro="true" type="pv"/>
+	<simplePv desc="" name="QBPM0.B">
+		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-00:B" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="EH1 Diode 3" name="PHDGN3">
-		<RECORD desc="RECORD" pv="BL15I-DI-PHDGN-03:I" ro="true" type="pv"/>
+	<simplePv desc="" name="QBPM0.C">
+		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-00:C" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="EH1 Diode 4" name="PHDGN4">
-		<RECORD desc="RECORD" pv="BL15I-DI-PHDGN-04:I" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="EH1 Diode 5" name="PHDGN5">
-		<RECORD desc="RECORD" pv="BL15I-DI-PHDGN-05:I" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="EH1 Ion Chamber 1" name="IONC1">
-		<RECORD desc="RECORD" pv="BL15I-DI-IONC-01:I" ro="true" type="pv"/>
+	<simplePv desc="" name="QBPM0.D">
+		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-00:D" ro="true" type="pv"/>
 	</simplePv>
 	<simpleMotor desc="Vertical Focusing Mirror Curve Motor" name="VFM.CURVE">
 		<RECORD desc="Motor Record" pv="BL15I-OP-VFM-01:CURVE" ro="false" type="motor"/>
@@ -362,6 +374,13 @@
 	<simpleMotor desc="Horizontal Focusing Mirror Ellipticity Motor" name="HFM.ELLIP">
 		<RECORD desc="Motor Record" pv="BL15I-OP-HFM-01:ELLIP" ro="false" type="motor"/>
 	</simpleMotor>
+	<positioner desc="" name="d1.mp">
+		<SELECT desc="Position Selection" pv="BL15I-RS-ABSB-10:X:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV desc="Done Moving Indicator" pv="BL15I-RS-ABSB-10:X:MP:DMOV" ro="true" type="pv"/>
+		<ERROR desc="Error Indicator" pv="BL15I-RS-ABSB-10:X:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS desc="In Position Indicator" pv="BL15I-RS-ABSB-10:X:MP:INPOS" ro="true" type="pv"/>
+		<STOP desc="Stop Button" pv="BL15I-RS-ABSB-10:X:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
 	<simpleMotor desc="" name="T2.Y1">
 		<RECORD desc="Motor" pv="BL15I-MO-TABLE-02:Y1" ro="false" type="motor"/>
 	</simpleMotor>
@@ -401,14 +420,8 @@
 	<simpleMotor desc="QBPM2 Drive Y Translation" name="QBPM2.Y">
 		<RECORD desc="Motor" pv="BL15I-DI-QBPM-02:Y" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="S3 X Centre (compound)" name="S3.XCENTRE">
-		<RECORD desc="Motor" pv="BL15I-AL-SLITS-03:X:CENTER" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="S3 Y Size (compound)" name="S3.YSIZE">
-		<RECORD desc="Motor" pv="BL15I-AL-SLITS-03:Y:SIZE" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="S3 Y Centre(compound)" name="S3.YCENTRE">
-		<RECORD desc="Motor" pv="BL15I-AL-SLITS-03:Y:CENTER" ro="false" type="motor"/>
+	<simpleMotor desc="Filter 2" name="F2.X">
+		<RECORD desc="Motor" pv="BL15I-RS-ABSB-10:X" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="S4 Y Centre" name="S4.YCENTRE">
 		<RECORD desc="Motor" pv="BL15I-AL-SLITS-04:Y:CENTER" ro="false" type="motor"/>
@@ -625,12 +638,6 @@
 	</simpleMotor>
 	<simpleMotor desc="Main Table Rotation" name="EHT2.DELTAZ">
 		<RECORD desc="Motor" pv="BL15I-MO-TABLE-03:TABLE:DELTAZ" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Translation Stage" name="EHT2.DTX">
-		<RECORD desc="Motor" pv="BL15I-MO-TABLE-03:TABLE:DTX" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Central Sample Rotation" name="EHT2.THETAZ1">
-		<RECORD desc="Motor" pv="BL15I-MO-TABLE-03:TABLE:THETAZ1" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="" name="SKB.VBEND1">
 		<RECORD desc="Motor" pv="BL15I-OP-MIRR-03:VFM:BEND1" ro="false" type="motor"/>
@@ -1199,6 +1206,31 @@
 		<CONTROL desc="beamline absorber control" pv="FE15I-RS-ABSB-01:BLCON" ro="false" type="mbbinary"/>
 		<STA desc="Status" pv="FE15I-RS-ABSB-01:STA" ro="true" type="mbbinary"/>
 	</pneumaticCallback>
+	<OXCS700 desc="Oxford Cryostream" name="ENV.CSTRM1">
+		<PHASE desc="phase id" pv="BL15I-EA-CSTRM-01:PHASE" ro="true" type="mbbinary"/>
+		<RUNMODE desc="run mode" pv="BL15I-EA-CSTRM-01:RUNMODE" ro="true" type="mbbinary"/>
+		<RAMPRATE desc="ramp rate" pv="BL15I-EA-CSTRM-01:RAMPRATE" ro="true" type="pv"/>
+		<TARGETTEMP desc="target temperature" pv="BL15I-EA-CSTRM-01:TARGETTEMP" ro="true" type="pv"/>
+		<REMAINING desc="time remaining in phase" pv="BL15I-EA-CSTRM-01:REMAINING" ro="true" type="pv"/>
+		<RUNTIME desc="pump uptime" pv="BL15I-EA-CSTRM-01:RUNTIME" ro="true" type="pv"/>
+		<RESTART desc="start/restart program" pv="BL15I-EA-CSTRM-01:RESTART" ro="false" type="pv"/>
+		<RAMP desc="start a ramp" pv="BL15I-EA-CSTRM-01:RAMP" ro="false" type="pv"/>
+		<RRATE desc="set ramp rate" pv="BL15I-EA-CSTRM-01:RRATE" ro="false" type="pv"/>
+		<PLAT desc="start a plat" pv="BL15I-EA-CSTRM-01:PLAT" ro="false" type="pv"/>
+		<PTIME desc="plat time" pv="BL15I-EA-CSTRM-01:PTIME" ro="false" type="pv"/>
+		<HOLD desc="start a hold" pv="BL15I-EA-CSTRM-01:HOLD" ro="false" type="pv"/>
+		<COOL desc="start a cool" pv="BL15I-EA-CSTRM-01:COOL" ro="false" type="pv"/>
+		<CTEMP desc="cool temp" pv="BL15I-EA-CSTRM-01:CTEMP" ro="false" type="pv"/>
+		<PURGE desc="start a purge/warm" pv="BL15I-EA-CSTRM-01:PURGE" ro="false" type="pv"/>
+		<PAUSE desc="pause program" pv="BL15I-EA-CSTRM-01:PAUSE" ro="false" type="pv"/>
+		<RESUME desc="resume program" pv="BL15I-EA-CSTRM-01:RESUME" ro="false" type="pv"/>
+		<STOP desc="stop program" pv="BL15I-EA-CSTRM-01:STOP" ro="false" type="pv"/>
+		<TEMP desc="current temperature" pv="BL15I-EA-CSTRM-01:TEMP" ro="true" type="pv"/>
+		<ALARM desc="Alarm Status" pv="BL15I-EA-CSTRM-01:ALARM.VALA" ro="true" type="pv"/>
+		<DISABLE desc="disable comms" pv="BL15I-EA-CSTRM-01:DISABLE" ro="false" type="binary"/>
+		<RTEMP desc="ramp target temp" pv="BL15I-EA-CSTRM-01:RTEMP" ro="false" type="pv"/>
+		<END desc="Warm to room temp and stop" pv="BL15I-EA-CSTRM-01:END" ro="false" type="pv"/>
+	</OXCS700>
 	<simplePv desc="Perkin-Elmer" name="PE1.ACQUIRE">
 		<RECORD desc="RECORD" pv="BL15I-EA-PELM-01:ACQUIRE" ro="false" type="pv"/>
 	</simplePv>
