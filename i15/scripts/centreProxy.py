@@ -32,6 +32,8 @@ def centre(rotation_axis, scanRange, scanStep, rockAngle, diode,
 		focus_axis		= jythonNameMap.dy
 		if  rotation_centre==None:
 			rotation_centre=58.
+		#print "!!! Focus axis temporarily inverted because dy is reversed !!!"
+		#focus_axis_inverted = True
 	
 	elif rotation_axis == jythonNameMap.dktheta:
 		perp2rot_axis	= jythonNameMap.dv
