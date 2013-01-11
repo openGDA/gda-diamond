@@ -660,6 +660,7 @@ class Atlas(ISCCD):
 		self.connectIfNeeded()
 		# One side effect of calling setup_node is that if the node exists, it
 		# gets deleted first. Deleting the node removes it's invalid state.
+		self.runCommand('call echo "Clearing image data"')
 		self.runCommand('call setup_node "/ppcdirpnp/data/Image"')
 		simpleLog ("IS told to clear error by deleting the last failed image "+
 			"acquisition.")

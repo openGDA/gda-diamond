@@ -493,7 +493,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			return
 		
 		self.files = []
-		if self.overflow:
+		if self.overflow and self.multiFactor > 1:
 			normalTime = self.exposureTime
 			self.exposureTime = float(normalTime)/float(self.multiFactor)
 			simpleLog("performing at fast speed")
