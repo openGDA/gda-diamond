@@ -11,6 +11,7 @@ from ccdScanMechanics import scanGeometry
 from ccdScanMechanics import setVelocity
 from gda.data.fileregistrar import FileRegistrarHelper
 from scannables.detectors.detector_axis_wrapper import DetectorAxisWrapperNew
+from marAuxiliary import openMarShield as openPeShield, closeMarShield as closePeShield
 
 class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
     def __init__(self, detector, isccd, prop, feabsb, fmfabsb, exposureTime=1,
@@ -45,6 +46,13 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
         # Zero the diode sum we can tell if it was triggered
         self.caclient.caput(self.diodeSum, 0) 
         self.detector.prepareForCollection()
+        if not self.exposeDark:
+            openPeShield()
+        else: # Just in case the shield is still open from a failed expose()
+            closePeShield() 
+
+    def atScanEnd(self):
+        closePeShield()
 
     def acquireOneImage(self, position):
         if self.detector.verbose:
@@ -77,6 +85,8 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
                 print ".",
             print "."
             self.detector.skipExpose = False
+        
+        self.detector.darkExpose = self.exposeDark
         
         if self.detector.verbose:
             simpleLog("Setting collection time...")
@@ -114,7 +124,6 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
             self.isccd.closeS()
             
         elif self.exposeDark:
-            self.detector.darkExpose = True
             self.detector.collectData()
             sleep(self.exposureTime+0.1)
         else:
@@ -140,7 +149,12 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
 
     def rawAsynchronousMoveTo(self, position):
         if type(position) == list:
-            simpleLog("rawAsynchronousMoveTo(%r) returning early." % position)
+            if self.sync:
+                simpleLog("rawAsynchronousMoveTo(%r) returning..." % position)
+                setMaxVelocity(self.axis)
+                moveMotor(self.axis, position[1])
+            else:
+                simpleLog("rawAsynchronousMoveTo(%r) returning early." % position)
             return
         
         self.files = []
