@@ -35,6 +35,22 @@ class PerkinElmer(DetectorBase):
 
     ###    DetectorBase implementations:
 
+    def calculateSummedFramesNeeded(self):
+        return int(ceil(self.collectionTime / self.pe.exposureTime_get()))
+
+    def checkDarkMatches(self, summed):
+        if summed != self.pe.darkSummed_get():
+            print "#"*80
+            print '# ERROR: New summed value %d is not the same' % summed, \
+                  'as the last dark summed value %d' % self.pe.summed_get()
+            print '# Collection was aborted - A new dark is required. Use:'
+            print "-"*80
+            print "darkExpose(%s, %f, 1, '%s')" % \
+                (self.name, self.collectionTime,
+                 path.join(self.relativePath, self.filePattern))
+            print "#"*80
+            raise
+
     def prepareForCollection(self):
         DetectorBase.prepareForCollection(self)
         if self.verbose:
@@ -62,6 +78,11 @@ class PerkinElmer(DetectorBase):
             print "#"*80
             print "\n".join(warnings)
             print "#"*80
+        
+        # self.collectionTime doesn't appear to be set at this stage, so we
+        # can't check this here.
+        #if not self.darkExpose:
+        #    self.checkDarkMatches(self.calculateSummedFramesNeeded())
 
     def collectData(self):
         """ Tells the detector to begin to collect a set of data, then returns
@@ -71,25 +92,17 @@ class PerkinElmer(DetectorBase):
             print "skipExpose=%r," % self.skipExpose,
             print "darkExpose=%r" % self.darkExpose
         
-        summed = int(ceil(self.collectionTime / self.pe.exposureTime_get()))
+        summed = self.calculateSummedFramesNeeded()
         
         if self.skipExpose:
             self.pe.summed_set(self.skippedAtStart)
+        
         if self.darkExpose:
             self.pe.summed_set(summed)
             self.pe.darkSummed_set(summed)
         else:
-            if summed != self.pe.darkSummed_get():
-                print "#"*80
-                print '# ERROR: New summed value %d is not the same' % summed, \
-                      'as the last dark summed value %d' % self.pe.summed_get()
-                print '# Collection was aborted - A new dark is required. Use:'
-                print "-"*80
-                print "darkExpose(%s, %f, 1, '%s')" % \
-                    (self.name, self.collectionTime,
-                     path.join(self.relativePath, self.filePattern))
-                print "#"*80
-                raise
+            self.checkDarkMatches(summed)
+        
         #outputDir = ntpath.join(self.outputDirRoot, self.relativePath)
         self.pe.outputDir_set(self.outputDir())
         if self.skipExpose:
@@ -105,10 +118,17 @@ class PerkinElmer(DetectorBase):
             self.pe.acquire()
             self.fileIndexExpectedToBeDifferent = True
 
-#    def setCollectionTime(self):
+    def setCollectionTime(self, collectionTime):
         """ Sets the collection time, in seconds, to be used during the next
             call of collectData.
         self.collectionTime defined by DetectorBase """
+        if self.verbose:
+            print "PerkinElmer.setCollectionTime(%f) started..." % (collectionTime)
+        
+        DetectorBase.setCollectionTime(self, collectionTime)
+        
+        if not self.darkExpose:
+            self.checkDarkMatches(self.calculateSummedFramesNeeded())
 
 #    def getCollectionTime(self):
         """ Returns the time, in seconds, the detector collects for during the

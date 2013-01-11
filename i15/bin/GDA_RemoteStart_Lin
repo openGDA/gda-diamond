@@ -22,7 +22,7 @@ fi
 echo
 echo Fix the OD PC issues
 echo
-rdesktop -T "OD PC" -5 -a 16 -u i15detector -p \!i15d3t3ct0r# -d DIAMOND -k en-gb -g 1850x1150 i15-rubiccd01 &
+nohup rdesktop -T "OD PC" -5 -a 16 -u i15detector -p \!i15d3t3ct0r# -d DIAMOND -k en-gb -g 1850x1150 i15-rubiccd01 > /dev/null &
 
 WINDOWTITLE="Please restart IS"
 (sleep 5; wmctrl -a "$WINDOWTITLE")& # bring zenity to front after 5 secs.
@@ -77,7 +77,7 @@ if [ $OK != 0 ]; then
 	echo $KNOWN_HOST $KNOWN_HOST_KEY >> ~/.ssh/known_hosts
 fi
 
-ssh  -i /dls_sw/i15/software/gda/i15-config/i15ssh.key gda@i15-control.diamond.ac.uk
+ssh  -i /dls_sw/i15/software/gda/i15-config/i15ssh.key gda2@i15-control.diamond.ac.uk
 OK=$?
 
 # 127 if ssh cannot run command, 0 if ran ok, maybe other values if remote command returns them

@@ -147,15 +147,16 @@ def remove_001Suffix(filePaths):
 		else:
 			simpleLog("Could not find file " + fileWithSuffix + " to rename")
 	return filesCreated
-	
+
+# This now acts as openPEShield and openDetectorShield
 def openMarShield():
 	"""
-	Open mar shield
+	Open Detector shield
 	"""
 	try:
 		status = beamline.getValue(None,"Top","-RS-ABSB-06:CON")
 		if (status == 0):
-			simpleLog("Mar shield already open")
+			simpleLog("Detector shield already open")
 		else:
 			beamline.setValue("Top","-RS-ABSB-06:CON", 0)
 			
@@ -163,22 +164,23 @@ def openMarShield():
 			sleep(3)
 			status = beamline.getValue(None,"Top","-RS-ABSB-06:CON")
 			if (status == 0):
-				simpleLog("Mar shield opened")
+				simpleLog("Detector shield opened")
 			else:
-				simpleLog("Mar shield failed to open - status is: " + `status`)
+				simpleLog("Detector shield failed to open - status is: " + `status`)
 	except:
-		type, exception, traceback = sys.exc_info()
-		handle_messages.log(None, "Problem opening mar shield - ", type, exception)
+		typ, exception, traceback = sys.exc_info()
+		handle_messages.log(None, "Problem opening Detector shield - ", typ, exception, traceback)
 
 ######################################################################################
+# This now acts as closePEShield and closeDetectorShield
 def closeMarShield():
 	"""
-	Close mar shield
+	Close Detector shield
 	"""
 	try:
 		status = beamline.getValue(None,"Top","-RS-ABSB-06:CON")
 		if (status == 1):
-			simpleLog("Mar shield already closed")
+			simpleLog("Detector shield already closed")
 		else:
 			beamline.setValue("Top","-RS-ABSB-06:CON", 1)
 			
@@ -186,9 +188,9 @@ def closeMarShield():
 			sleep(3)
 			status = beamline.getValue(None,"Top","-RS-ABSB-06:CON")
 			if (status == 1):
-				simpleLog("Mar shield closed")
+				simpleLog("Detector shield closed")
 			else:
-				simpleLog("Mar shield failed to close - status is: " + `status`)
+				simpleLog("Detector shield failed to close - status is: " + `status`)
 	except:
-		type, exception, traceback = sys.exc_info()
-		handle_messages.log(None, "Problem closing mar shield - ", type, exception)
+		typ, exception, traceback = sys.exc_info()
+		handle_messages.log(None, "Problem closing mar shield - ", typ, exception, traceback)

@@ -15,7 +15,7 @@ from shutterCommands import openEHShutter, closeEHShutter
 from ccdScanMechanics import scanGeometry
 from ccdScanMechanics import setMaxVelocity
 from ccdScanMechanics import deactivatePositionCompare
-from marAuxiliary import openMarShield
+from marAuxiliary import openMarShield, closeMarShield
 from marAuxiliary import incrementMarScanNumber
 from marAuxiliary import checkMarIsReady
 

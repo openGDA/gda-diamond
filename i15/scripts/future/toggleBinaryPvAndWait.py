@@ -3,6 +3,7 @@
 from gda.device.scannable import PseudoDevice
 from gda.epics import CAClient 
 from gdascripts.pd.time_pds import tictoc
+from gdascripts.messages.handle_messages import simpleLog
 from time import sleep
 
 
@@ -26,13 +27,18 @@ class ToggleBinaryPvAndWait(PseudoDevice):
         self.cli.configure()
         self.normalLevel = normalLevel
         self.triggerLevel = triggerLevel
+        self.verbose=False
         self.setNormal()
         self.lastExposureTime=0
 
-    def setNormal(self): 
+    def setNormal(self):
+        if self.verbose:
+            simpleLog("self.cli.caput(%r)" % self.normalLevel)
         self.cli.caput(self.normalLevel)
 
     def setTrigger(self): 
+        if self.verbose:
+            simpleLog("self.cli.caput(%r)" % self.triggerLevel)
         self.cli.caput(self.triggerLevel)
             
     def trigger(self, exposureTime):
@@ -64,6 +70,13 @@ class ToggleBinaryPvAndWait(PseudoDevice):
         return self.lastExposureTime
 
     def asynchronousMoveTo(self,waittime=0):
+        if waittime <= 0: # Ignore invalid wait times. This also fixes the
+            #               the problem of return to start no wait toggles.
+            if self.verbose:
+                simpleLog("ToggleBinaryPvAndWait return move ignored.")
+            return        
+        if self.verbose:
+            simpleLog("ToggleBinaryPvAndWait.asynchronousMoveTo(%r)" % waittime)
         self.lastExposureTime = waittime
         self.waitfortime=self.timer()+waittime
         self.trigger(waittime)

@@ -11,6 +11,7 @@ from ccdScanMechanics import scanGeometry
 from ccdScanMechanics import setVelocity
 from gda.data.fileregistrar import FileRegistrarHelper
 from scannables.detectors.detector_axis_wrapper import DetectorAxisWrapperNew
+from marAuxiliary import openMarShield as openPeShield, closeMarShield as closePeShield
 
 class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
     def __init__(self, detector, isccd, prop, feabsb, fmfabsb, exposureTime=1,
@@ -18,7 +19,7 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
                  noOfExpPerPos=1, rock=False, pause=False, exposeDark=False):
         
         DetectorAxisWrapperNew.__init__(self, detector, isccd, prop, feabsb,
-            fmfabsb, pause, -11, exposureTime, axis, sync, exposeDark)
+            fmfabsb, pause, -11, exposureTime, step, axis, sync, exposeDark)
         self.fileName = fileName
         #self.fullFileName = ""
         self.exposureNo = 1
@@ -28,14 +29,8 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
         self.setName("perkin elmer wrapper")
         self.rock=rock
         
-        if step:
-            self.step = float(step)
-            self.velocity = float(abs(self.step)) / float(self.exposureTime)
-        else:
-            self.velocity = 0
-        
         self.caclient = CAClient()
-        self.diodeSum = "BL15I-EA-CSTRM-01:DIODESUM"
+        self.diodeSum = "BL15I-DI-PHDGN-01:DIODESUM"
         # Note, this PV currently reads the BL15I-DI-PHDGN-01:I PV. If you want
         # to sum another PV, use BL15I-EA-CSTRM-01:DIODECALC.INPB to set the PV
         # you want to sum atScanStart.
@@ -45,6 +40,14 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
         # Zero the diode sum we can tell if it was triggered
         self.caclient.caput(self.diodeSum, 0) 
         self.detector.prepareForCollection()
+        if not self.exposeDark:
+            openPeShield()
+        else: # Just in case the shield is still open from a failed expose()
+            closePeShield() 
+
+    def atScanEnd(self):
+        DetectorAxisWrapperNew.atScanEnd(self)
+        closePeShield()
 
     def acquireOneImage(self, position):
         if self.detector.verbose:
@@ -77,6 +80,8 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
                 print ".",
             print "."
             self.detector.skipExpose = False
+        
+        self.detector.darkExpose = self.exposeDark
         
         if self.detector.verbose:
             simpleLog("Setting collection time...")
@@ -114,7 +119,6 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
             self.isccd.closeS()
             
         elif self.exposeDark:
-            self.detector.darkExpose = True
             self.detector.collectData()
             sleep(self.exposureTime+0.1)
         else:
@@ -140,7 +144,12 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
 
     def rawAsynchronousMoveTo(self, position):
         if type(position) == list:
-            simpleLog("rawAsynchronousMoveTo(%r) returning early." % position)
+            if self.sync:
+                simpleLog("rawAsynchronousMoveTo(%r) returning..." % position)
+                setMaxVelocity(self.axis)
+                moveMotor(self.axis, position[1])
+            else:
+                simpleLog("rawAsynchronousMoveTo(%r) returning early." % position)
             return
         
         self.files = []

@@ -5,31 +5,49 @@
 
 	<!-- Space fab motors -->
 	
-	<bean id="tab2jack1Motor" class="gda.device.motor.EpicsMotor">
+	<bean id="tab2jack1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="EHT2.Y1" />
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="tab2jack2Motor" class="gda.device.motor.EpicsMotor">
+	<bean id="tab2jack2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="EHT2.Y2" />
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="tab2jack3Motor" class="gda.device.motor.EpicsMotor">
+	<bean id="tab2jack3_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="EHT2.Y3" />
 		<property name="local" value="true"/>
 	</bean>
 
+	<bean id="tab2x2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="EHT2.X2" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="tab2rot_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="EHT2.RY" />
+		<property name="local" value="true"/>
+	</bean>
+
 	<bean id="tab2jack1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="tab2jack1Motor" />
+		<property name="motor" ref="tab2jack1_motor" />
 	</bean>
 
 	<bean id="tab2jack2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="tab2jack2Motor" />
+		<property name="motor" ref="tab2jack2_motor" />
 	</bean>
 
 	<bean id="tab2jack3" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="tab2jack3Motor" />
+		<property name="motor" ref="tab2jack3_motor" />
+	</bean>
+
+	<bean id="tab2transx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tab2x2_motor" />
+	</bean>
+
+	<bean id="tab2rotation" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tab2rot_motor" />
 	</bean>
 
 	<bean id="base2" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -38,6 +56,8 @@
 				<ref bean="tab2jack1" />
 				<ref bean="tab2jack2" />
 				<ref bean="tab2jack3" />
+				<ref bean="tab2transx" />
+				<ref bean="tab2rotation" />
 			</list>
 		</property>
 	</bean>

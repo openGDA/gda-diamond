@@ -8,4 +8,10 @@ rm $LOGDIR/$LOGNAME.txt
 ln -s $LOGFILE $LOGDIR/$LOGNAME.txt
 
 GDA=/dls_sw/i15/software/gda/plugins/uk.ac.gda.core/bin/gda
-nohup $GDA logpanel > $LOGFILE 2>&1&
+module load java
+
+echo -------------------------------------------------------- >> $LOGFILE
+echo $USER@$HOSTNAME:           $GDA logpanel                 to $LOGFILE
+echo $USER@$HOSTNAME:           $GDA logpanel                 >> $LOGFILE
+                          nohup $GDA logpanel                 >> $LOGFILE 2>&1 &
+echo -------------------------------------------------------- >> $LOGFILE

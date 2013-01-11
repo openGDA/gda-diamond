@@ -62,21 +62,25 @@
 	</currAmpSingle>
 	<currAmpQuad desc="" name="enz1">
 		<RANGE desc="Range Selection" pv="BL15I-DI-IAMP-01:SETRANGE" ro="false" type="mbbinary"/>
+		<RANGE_READBACK desc="Range Readback" pv="BL15I-DI-IAMP-01:MRREADBACK" ro="true" type="mbbinary"/>
 		<VENDOR desc="Vendor String" pv="BL15I-DI-IAMP-01:VENDOR" ro="true" type="pv"/>
 		<MODEL desc="Model String" pv="BL15I-DI-IAMP-01:MODEL" ro="true" type="pv"/>
 	</currAmpQuad>
 	<currAmpQuad desc="" name="enz2">
 		<RANGE desc="Range Selection" pv="BL15I-DI-IAMP-02:SETRANGE" ro="false" type="mbbinary"/>
+		<RANGE_READBACK desc="Range Readback" pv="BL15I-DI-IAMP-02:MRREADBACK" ro="true" type="mbbinary"/>
 		<VENDOR desc="Vendor String" pv="BL15I-DI-IAMP-02:VENDOR" ro="true" type="pv"/>
 		<MODEL desc="Model String" pv="BL15I-DI-IAMP-02:MODEL" ro="true" type="pv"/>
 	</currAmpQuad>
 	<currAmpQuad desc="" name="enz0">
 		<RANGE desc="Range Selection" pv="BL15I-DI-IAMP-00:SETRANGE" ro="false" type="mbbinary"/>
+		<RANGE_READBACK desc="Range Readback" pv="BL15I-DI-IAMP-00:MRREADBACK" ro="true" type="mbbinary"/>
 		<VENDOR desc="Vendor String" pv="BL15I-DI-IAMP-00:VENDOR" ro="true" type="pv"/>
 		<MODEL desc="Model String" pv="BL15I-DI-IAMP-00:MODEL" ro="true" type="pv"/>
 	</currAmpQuad>
 	<currAmpQuad desc="" name="enz3">
 		<RANGE desc="Range Selection" pv="BL15I-DI-IAMP-03:SETRANGE" ro="false" type="mbbinary"/>
+		<RANGE_READBACK desc="Range Readback" pv="BL15I-DI-IAMP-03:MRREADBACK" ro="true" type="mbbinary"/>
 		<VENDOR desc="Vendor String" pv="BL15I-DI-IAMP-03:VENDOR" ro="true" type="pv"/>
 		<MODEL desc="Model String" pv="BL15I-DI-IAMP-03:MODEL" ro="true" type="pv"/>
 	</currAmpQuad>
@@ -163,42 +167,6 @@
 	<simplePv desc="Power Meter Power" name="PWRM.P">
 		<RECORD desc="Power" pv="BL15I-DI-PWRM-01:P" ro="false" type="pv"/>
 	</simplePv>
-	<simplePv desc="" name="QBPM1.A">
-		<RECORD desc="" pv="BL15I-DI-QBPM-01:A" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="" name="QBPM1.B">
-		<RECORD desc="" pv="BL15I-DI-QBPM-01:B" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="" name="QBPM1.C">
-		<RECORD desc="" pv="BL15I-DI-QBPM-01:C" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="" name="QBPM1.D">
-		<RECORD desc="" pv="BL15I-DI-QBPM-01:D" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="" name="QBPM2.A">
-		<RECORD desc="" pv="BL15I-DI-QBPM-02:A" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="" name="QBPM2.B">
-		<RECORD desc="" pv="BL15I-DI-QBPM-02:B" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="" name="QBPM2.C">
-		<RECORD desc="" pv="BL15I-DI-QBPM-02:C" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="" name="QBPM2.D">
-		<RECORD desc="" pv="BL15I-DI-QBPM-02:D" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="" name="QBPM0.A">
-		<RECORD desc="" pv="BL15I-DI-QBPM-00:A" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="" name="QBPM0.B">
-		<RECORD desc="" pv="BL15I-DI-QBPM-00:B" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="" name="QBPM0.C">
-		<RECORD desc="" pv="BL15I-DI-QBPM-00:C" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="" name="QBPM0.D">
-		<RECORD desc="" pv="BL15I-DI-QBPM-00:D" ro="true" type="pv"/>
-	</simplePv>
 	<simplePv desc="" name="PHDGN6">
 		<RECORD desc="" pv="BL15I-DI-PHDGN-06:I" ro="true" type="pv"/>
 	</simplePv>
@@ -220,6 +188,42 @@
 	<simplePv desc="" name="PATCH14.X6">
 		<RECORD desc="" pv="BL15I-EA-PATCH-14:X6" ro="true" type="pv"/>
 	</simplePv>
+	<simplePv desc="" name="QBPM1.A">
+		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-01:A" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="QBPM1.B">
+		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-01:B" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="QBPM1.C">
+		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-01:C" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="QBPM1.D">
+		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-01:D" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="QBPM2.A">
+		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-02:A" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="QBPM2.B">
+		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-02:B" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="QBPM2.C">
+		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-02:C" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="QBPM2.D">
+		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-02:D" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="QBPM0.A">
+		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-00:A" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="QBPM0.B">
+		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-00:B" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="QBPM0.C">
+		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-00:C" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="QBPM0.D">
+		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-00:D" ro="true" type="pv"/>
+	</simplePv>
 	<simpleMotor desc="Vertical Focusing Mirror Curve Motor" name="VFM.CURVE">
 		<RECORD desc="Motor Record" pv="BL15I-OP-VFM-01:CURVE" ro="false" type="motor"/>
 	</simpleMotor>
@@ -231,6 +235,9 @@
 	</simpleMotor>
 	<simpleMotor desc="Diffractometer Detector Z" name="DIFF.DETECTZ">
 		<RECORD desc="Motor" pv="BL15I-MO-DIFF-01:ARM:DETECTOR:Z" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Table 2 Detector Z" name="EHT2.DETECTZ">
+		<RECORD desc="Motor" pv="BL15I-MO-TABLE-03:DETECTOR2:Z" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="Movable Beamstop X" name="BS.X">
 		<RECORD desc="Motor" pv="BL15I-RS-ABSB-04:X" ro="false" type="motor"/>
@@ -280,6 +287,24 @@
 	<simpleMotor desc="Small KB Jack 3" name="SKB.J3">
 		<RECORD desc="Motor" pv="BL15I-OP-MIRR-03:BASE:J3" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleMotor desc="" name="FS2.X">
+		<RECORD desc="Motor" pv="BL15I-EA-SHTR-02:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="FS2.Y">
+		<RECORD desc="Motor" pv="BL15I-EA-SHTR-02:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="PIN3.X">
+		<RECORD desc="Motor" pv="BL15I-AL-APTR-03:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="PIN3.Y">
+		<RECORD desc="Motor" pv="BL15I-AL-APTR-03:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="X-Ray Eye X Translation" name="XEYE2.X">
+		<RECORD desc="Motor" pv="BL15I-DI-XEYE-02:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="X-Ray Eye Y Translation" name="XEYE2.Y">
+		<RECORD desc="Motor" pv="BL15I-DI-XEYE-02:Y" ro="false" type="motor"/>
+	</simpleMotor>
 	<simpleMotor desc="Small KB Y" name="SKB.Y">
 		<RECORD desc="Motor" pv="BL15I-OP-MIRR-03:BASE:Y" ro="false" type="motor"/>
 	</simpleMotor>
@@ -313,6 +338,21 @@
 	<simplePv desc="Digital output" name="PATCH14.X7">
 		<RECORD desc="digital output bit" pv="BL15I-EA-PATCH-14:X7" ro="false" type="pv"/>
 	</simplePv>
+	<simplePv desc="" name="d1.sum">
+		<RECORD desc="" pv="BL15I-DI-PHDGN-01:DIODESUM" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="d2.sum">
+		<RECORD desc="" pv="BL15I-DI-PHDGN-02:DIODESUM" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="d3.sum">
+		<RECORD desc="" pv="BL15I-DI-PHDGN-03:DIODESUM" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="d4.sum">
+		<RECORD desc="" pv="BL15I-DI-PHDGN-04:DIODESUM" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="d5.sum">
+		<RECORD desc="" pv="BL15I-DI-PHDGN-05:DIODESUM" ro="true" type="pv"/>
+	</simplePv>
 	<simpleMotor desc="Horizontal Focusing Mirror PITCH Motor" name="HFM.PITCH">
 		<RECORD desc="Motor Record" pv="BL15I-OP-HFM-01:PITCH" ro="false" type="motor"/>
 	</simpleMotor>
@@ -334,30 +374,13 @@
 	<simpleMotor desc="Horizontal Focusing Mirror Ellipticity Motor" name="HFM.ELLIP">
 		<RECORD desc="Motor Record" pv="BL15I-OP-HFM-01:ELLIP" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="Small Vertical Focusing Mirror PITCH Motor" name="SVFM.PITCH">
-		<RECORD desc="Motor Record" pv="BL15I-OP-VFM-02:PITCH" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Small Vertical Focusing Mirror Y Motor" name="SVFM.Y">
-		<RECORD desc="Motor Record" pv="BL15I-OP-VFM-02:Y" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Small Horizontal Focusing Mirror PITCH Motor" name="SHFM.PITCH">
-		<RECORD desc="Motor Record" pv="BL15I-OP-HFM-02:PITCH" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Small Horizontal Focusing Mirror X Motor" name="SHFM.X">
-		<RECORD desc="Motor Record" pv="BL15I-OP-HFM-02:X" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Small Vertical Focusing Mirror Curve Motor" name="SVFM.CURVE">
-		<RECORD desc="Motor Record" pv="BL15I-OP-VFM-02:CURVE" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Small Vertical Focusing Mirror Ellipticity Motor" name="SVFM.ELLIP">
-		<RECORD desc="Motor Record" pv="BL15I-OP-VFM-02:ELLIP" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Small Horizontal Focusing Mirror Curve Motor" name="SHFM.CURVE">
-		<RECORD desc="Motor Record" pv="BL15I-OP-HFM-02:CURVE" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Small Horizontal Focusing Mirror Ellipticity Motor" name="SHFM.ELLIP">
-		<RECORD desc="Motor Record" pv="BL15I-OP-HFM-02:ELLIP" ro="false" type="motor"/>
-	</simpleMotor>
+	<positioner desc="" name="d1.mp">
+		<SELECT desc="Position Selection" pv="BL15I-RS-ABSB-10:X:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV desc="Done Moving Indicator" pv="BL15I-RS-ABSB-10:X:MP:DMOV" ro="true" type="pv"/>
+		<ERROR desc="Error Indicator" pv="BL15I-RS-ABSB-10:X:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS desc="In Position Indicator" pv="BL15I-RS-ABSB-10:X:MP:INPOS" ro="true" type="pv"/>
+		<STOP desc="Stop Button" pv="BL15I-RS-ABSB-10:X:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
 	<simpleMotor desc="" name="T2.Y1">
 		<RECORD desc="Motor" pv="BL15I-MO-TABLE-02:Y1" ro="false" type="motor"/>
 	</simpleMotor>
@@ -397,17 +420,8 @@
 	<simpleMotor desc="QBPM2 Drive Y Translation" name="QBPM2.Y">
 		<RECORD desc="Motor" pv="BL15I-DI-QBPM-02:Y" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="S3 X Size (compound)" name="S3.XSIZE">
-		<RECORD desc="Motor" pv="BL15I-AL-SLITS-03:X:SIZE" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="S3 X Centre (compound)" name="S3.XCENTRE">
-		<RECORD desc="Motor" pv="BL15I-AL-SLITS-03:X:CENTER" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="S3 Y Size (compound)" name="S3.YSIZE">
-		<RECORD desc="Motor" pv="BL15I-AL-SLITS-03:Y:SIZE" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="S3 Y Centre(compound)" name="S3.YCENTRE">
-		<RECORD desc="Motor" pv="BL15I-AL-SLITS-03:Y:CENTER" ro="false" type="motor"/>
+	<simpleMotor desc="Filter 2" name="F2.X">
+		<RECORD desc="Motor" pv="BL15I-RS-ABSB-10:X" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="S4 Y Centre" name="S4.YCENTRE">
 		<RECORD desc="Motor" pv="BL15I-AL-SLITS-04:Y:CENTER" ro="false" type="motor"/>
@@ -445,20 +459,32 @@
 	<simplePv desc="Spacefab Pivot Point X Coord" name="SFAB.PIVOTX">
 		<RECORD desc="Pivot Point Coord" pv="BL15I-MO-SFAB-01:PIVOT:X" ro="false" type="pv"/>
 	</simplePv>
-	<simplePv desc="Spacefab Pivot Point Y Cord" name="SFAB.PIVOTY">
+	<simplePv desc="Spacefab Pivot Point Y Coord" name="SFAB.PIVOTY">
 		<RECORD desc="Pivot Point Coord" pv="BL15I-MO-SFAB-01:PIVOT:Y" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="Spacefab Pivot Point Z Coord" name="SFAB.PIVOTZ">
 		<RECORD desc="Pivot Point Coord" pv="BL15I-MO-SFAB-01:PIVOT:Z" ro="false" type="pv"/>
 	</simplePv>
+	<simplePv desc="Spacefab Demand Sync" name="SFAB.SYNC">
+		<RECORD desc="Sync demands with readbacks" pv="BL15I-MO-SFAB-01:SYNCDEMANDS" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Spacefab Reset" name="SFAB.RESET">
+		<RECORD desc="Reset system error" pv="BL15I-MO-SFAB-01:RESETERR" ro="false" type="pv"/>
+	</simplePv>
 	<simplePv desc="Paros Pivot Point X Coord" name="PAROS.PIVOTX">
 		<RECORD desc="Pivot Point Coord" pv="BL15I-MO-PAROS-01:PIVOT:X" ro="false" type="pv"/>
 	</simplePv>
-	<simplePv desc="Paros Pivot Point Y Cord" name="PAROS.PIVOTY">
+	<simplePv desc="Paros Pivot Point Y Coord" name="PAROS.PIVOTY">
 		<RECORD desc="Pivot Point Coord" pv="BL15I-MO-PAROS-01:PIVOT:Y" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="Paros Pivot Point Z Coord" name="PAROS.PIVOTZ">
 		<RECORD desc="Pivot Point Coord" pv="BL15I-MO-PAROS-01:PIVOT:Z" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Paros Demand Sync" name="PAROS.SYNC">
+		<RECORD desc="Sync demands with readbacks" pv="BL15I-MO-PAROS-01:SYNCDEMANDS" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Paros Reset" name="PAROS.RESET">
+		<RECORD desc="Reset system error" pv="BL15I-MO-PAROS-01:RESETERR" ro="false" type="pv"/>
 	</simplePv>
 	<simpleMotor desc="" name="SFAB.X">
 		<RECORD desc="Motor" pv="BL15I-MO-SFAB-01:X" ro="false" type="motor"/>
@@ -502,12 +528,48 @@
 	<simpleMotor desc="Pinhole 2 Y" name="PIN2.Y">
 		<RECORD desc="Motor" pv="BL15I-AL-APTR-02:Y" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleMotor desc="Cross hair X" name="XHAIR1.X">
+		<RECORD desc="Motor" pv="BL15I-MO-XHAIR-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Cross hair Y" name="XHAIR1.Y">
+		<RECORD desc="Motor" pv="BL15I-MO-XHAIR-01:Y" ro="false" type="motor"/>
+	</simpleMotor>
 	<simpleBinary desc="Fast shutter" name="FSHTR.OVERRIDE">
 		<RECORD desc="RECORD" pv="BL15I-EA-FSHTR-01:OVERRIDE" ro="false" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="Fast shutter" name="FSHTR.STATE">
 		<RECORD desc="RECORD" pv="BL15I-EA-FSHTR-01:STATE" ro="true" type="binary"/>
 	</simpleBinary>
+	<simpleBinary desc="Fast shutter" name="FSHTR2.OVERRIDE">
+		<RECORD desc="RECORD" pv="BL15I-EA-FSHTR-02:OVERRIDE" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="Fast shutter" name="FSHTR2.STATE">
+		<RECORD desc="RECORD" pv="BL15I-EA-FSHTR-02:STATE" ro="true" type="binary"/>
+	</simpleBinary>
+	<simpleMotor desc="Small Vertical Focusing Mirror PITCH Motor" name="SVFM.PITCH">
+		<RECORD desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Vertical Focusing Mirror Y Motor" name="SVFM.Y">
+		<RECORD desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Horizontal Focusing Mirror PITCH Motor" name="SHFM.PITCH">
+		<RECORD desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Horizontal Focusing Mirror X Motor" name="SHFM.X">
+		<RECORD desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Vertical Focusing Mirror Curve Motor" name="SVFM.CURVE">
+		<RECORD desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:CURVE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Vertical Focusing Mirror Ellipticity Motor" name="SVFM.ELLIP">
+		<RECORD desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:ELLIP" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Horizontal Focusing Mirror Curve Motor" name="SHFM.CURVE">
+		<RECORD desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:CURVE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Horizontal Focusing Mirror Ellipticity Motor" name="SHFM.ELLIP">
+		<RECORD desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:ELLIP" ro="false" type="motor"/>
+	</simpleMotor>
 	<simpleMotor desc="Vertical Soft Motor" name="DIFF.V">
 		<RECORD desc="Motor" pv="BL15I-MO-DIFF-01:SAMPLE:V" ro="false" type="motor"/>
 	</simpleMotor>
@@ -577,15 +639,6 @@
 	<simpleMotor desc="Main Table Rotation" name="EHT2.DELTAZ">
 		<RECORD desc="Motor" pv="BL15I-MO-TABLE-03:TABLE:DELTAZ" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="Translation Stage" name="EHT2.DTX">
-		<RECORD desc="Motor" pv="BL15I-MO-TABLE-03:TABLE:DTX" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Central Sample Rotation" name="EHT2.THETAZ1">
-		<RECORD desc="Motor" pv="BL15I-MO-TABLE-03:TABLE:THETAZ1" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Off-Axis Rotation" name="EHT2.THETAZ2">
-		<RECORD desc="Motor" pv="BL15I-MO-TABLE-03:TABLE:THETAZ2" ro="false" type="motor"/>
-	</simpleMotor>
 	<simpleMotor desc="" name="SKB.VBEND1">
 		<RECORD desc="Motor" pv="BL15I-OP-MIRR-03:VFM:BEND1" ro="false" type="motor"/>
 	</simpleMotor>
@@ -610,9 +663,6 @@
 	<simpleMotor desc="" name="SKB.HX2">
 		<RECORD desc="Motor" pv="BL15I-OP-MIRR-03:HFM:X2" ro="false" type="motor"/>
 	</simpleMotor>
-	<simplePv desc="XPS7 GP output 1" name="XPS7.OUT1">
-		<RECORD desc="digital output 1" pv="BL15I-MO-XPS-07:GPIO:OUT1" ro="false" type="pv"/>
-	</simplePv>
 	<simpleMotor desc="Vertical Focusing Mirror PITCH Motor" name="VFM.PITCH">
 		<RECORD desc="Motor Record" pv="BL15I-OP-VFM-01:PITCH" ro="false" type="motor"/>
 	</simpleMotor>
@@ -711,6 +761,21 @@
 	</simpleMotor>
 	<simpleMotor desc="" name="W3.Y">
 		<RECORD desc="Motor" pv="BL15I-OP-WIND-03:DCAM:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="D6.X">
+		<RECORD desc="Motor" pv="BL15I-DI-PHDGN-06:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="D7.X">
+		<RECORD desc="Motor" pv="BL15I-DI-PHDGN-07:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="D7.Y">
+		<RECORD desc="Motor" pv="BL15I-DI-PHDGN-07:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="BS2.X">
+		<RECORD desc="Motor" pv="BL15I-RS-ABSB-08:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="BS2.Y">
+		<RECORD desc="Motor" pv="BL15I-RS-ABSB-08:Y" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="" name="VCOLD.X">
 		<RECORD desc="Motor" pv="BL15I-MO-VCOLD-01:X" ro="false" type="motor"/>
@@ -1141,6 +1206,31 @@
 		<CONTROL desc="beamline absorber control" pv="FE15I-RS-ABSB-01:BLCON" ro="false" type="mbbinary"/>
 		<STA desc="Status" pv="FE15I-RS-ABSB-01:STA" ro="true" type="mbbinary"/>
 	</pneumaticCallback>
+	<OXCS700 desc="Oxford Cryostream" name="ENV.CSTRM1">
+		<PHASE desc="phase id" pv="BL15I-EA-CSTRM-01:PHASE" ro="true" type="mbbinary"/>
+		<RUNMODE desc="run mode" pv="BL15I-EA-CSTRM-01:RUNMODE" ro="true" type="mbbinary"/>
+		<RAMPRATE desc="ramp rate" pv="BL15I-EA-CSTRM-01:RAMPRATE" ro="true" type="pv"/>
+		<TARGETTEMP desc="target temperature" pv="BL15I-EA-CSTRM-01:TARGETTEMP" ro="true" type="pv"/>
+		<REMAINING desc="time remaining in phase" pv="BL15I-EA-CSTRM-01:REMAINING" ro="true" type="pv"/>
+		<RUNTIME desc="pump uptime" pv="BL15I-EA-CSTRM-01:RUNTIME" ro="true" type="pv"/>
+		<RESTART desc="start/restart program" pv="BL15I-EA-CSTRM-01:RESTART" ro="false" type="pv"/>
+		<RAMP desc="start a ramp" pv="BL15I-EA-CSTRM-01:RAMP" ro="false" type="pv"/>
+		<RRATE desc="set ramp rate" pv="BL15I-EA-CSTRM-01:RRATE" ro="false" type="pv"/>
+		<PLAT desc="start a plat" pv="BL15I-EA-CSTRM-01:PLAT" ro="false" type="pv"/>
+		<PTIME desc="plat time" pv="BL15I-EA-CSTRM-01:PTIME" ro="false" type="pv"/>
+		<HOLD desc="start a hold" pv="BL15I-EA-CSTRM-01:HOLD" ro="false" type="pv"/>
+		<COOL desc="start a cool" pv="BL15I-EA-CSTRM-01:COOL" ro="false" type="pv"/>
+		<CTEMP desc="cool temp" pv="BL15I-EA-CSTRM-01:CTEMP" ro="false" type="pv"/>
+		<PURGE desc="start a purge/warm" pv="BL15I-EA-CSTRM-01:PURGE" ro="false" type="pv"/>
+		<PAUSE desc="pause program" pv="BL15I-EA-CSTRM-01:PAUSE" ro="false" type="pv"/>
+		<RESUME desc="resume program" pv="BL15I-EA-CSTRM-01:RESUME" ro="false" type="pv"/>
+		<STOP desc="stop program" pv="BL15I-EA-CSTRM-01:STOP" ro="false" type="pv"/>
+		<TEMP desc="current temperature" pv="BL15I-EA-CSTRM-01:TEMP" ro="true" type="pv"/>
+		<ALARM desc="Alarm Status" pv="BL15I-EA-CSTRM-01:ALARM.VALA" ro="true" type="pv"/>
+		<DISABLE desc="disable comms" pv="BL15I-EA-CSTRM-01:DISABLE" ro="false" type="binary"/>
+		<RTEMP desc="ramp target temp" pv="BL15I-EA-CSTRM-01:RTEMP" ro="false" type="pv"/>
+		<END desc="Warm to room temp and stop" pv="BL15I-EA-CSTRM-01:END" ro="false" type="pv"/>
+	</OXCS700>
 	<simplePv desc="Perkin-Elmer" name="PE1.ACQUIRE">
 		<RECORD desc="RECORD" pv="BL15I-EA-PELM-01:ACQUIRE" ro="false" type="pv"/>
 	</simplePv>

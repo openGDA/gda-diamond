@@ -1,4 +1,4 @@
-# Syntax: call ./testing.testmbb
+# Syntax: call ./testing/testmbb
 
 #! --------------------------------------------------------------
 mode echo

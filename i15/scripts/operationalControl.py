@@ -12,15 +12,12 @@ from gda.jython.commands.ScannableCommands import cscan
 global configured, isccd, beamline, dkappa, dktheta
 configured = False
 
-def configure(jythonNameMap, beamlineParameters, rubyNotAtlas=False):
+def configure(jythonNameMap, beamlineParameters):
 	global configured, isccd, beamline, dkappa, dktheta
 	"""
 	sets module variables from jython namespace, finder and beamline parameters
 	"""
-	if rubyNotAtlas:
-		isccd = jythonNameMap.ruby
-	else:
-		isccd = jythonNameMap.atlas
+	isccd = jythonNameMap.atlas
 	beamline = jythonNameMap.beamline
 	dkappa = jythonNameMap.dkappa
 	dktheta = jythonNameMap.dktheta
@@ -32,7 +29,7 @@ def checkConfigured():
 
 def shopen():
 	"""
-	sh('o')  - Reset and Open EH & Ruby/Atlas shutter.
+	sh('o')  - Reset and Open EH & Atlas shutter.
 	"""
 	shutterCommands.sh('o')
 
@@ -48,7 +45,7 @@ def oehs():
 
 def shclose():
 	"""
-	sh('c')  - Close EH & Ruby/Atlas Shutter
+	sh('c')  - Close EH & Atlas Shutter
 	"""
 	shutterCommands.sh('c')
 
@@ -65,26 +62,38 @@ def cehs():
 
 def shopenall():
 	"""
-	sh('oa') - Reset and Open FE, OH, EH & Ruby/Atlas Shutters
+	sh('oa') - Reset and Open FE, OH, EH & Atlas Shutters
 	"""
 	shutterCommands.sh('oa')
 
 def shcloseall():
 	"""
-	sh('ca') - Close FE, OH, EH & Ruby/Atlas Shutters"
+	sh('ca') - Close FE, OH, EH & Atlas Shutters"
 	"""
 	shutterCommands.sh('ca')
 
 def cfs():
 	"""
-	Close Ruby/Atlas fast shutter
+	Close Atlas fast shutter
+	
+	Note: If the Atlas is switched to Ext. trigger rather than Atlas, then
+		the Atlas shutter will follow the Epics synoptic FS control and
+		Newport XPS position compare.
+	
+	See: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Atlas%20detector%20does%20not%20acquire%20images
 	"""
 	checkConfigured()
 	isccd.closeS()
 
 def ofs():
 	"""
-	open Ruby/Atlas fast shutter
+	Open Atlas fast shutter
+	
+	Note: If the Atlas is switched to Ext. trigger rather than Atlas, then
+		the Atlas shutter will follow the Epics synoptic FS control and
+		Newport XPS position compare.
+	
+	See: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Atlas%20detector%20does%20not%20acquire%20images
 	"""
 	checkConfigured()
 	isccd.openS()
@@ -145,16 +154,16 @@ def setState(name, pv, newState):
 		
 def align():           # open EH and fast shutter
 	"""
-	close mar, move d2 and d3 in and reset and open EH & Ruby/Atlas shutter.
+	close mar, move d2 and d3 in and reset and open EH & Atlas shutter.
 	"""
-	marAuxiliary.closeMarShield()		# N.b. if mar disconnected, will just do nothing 
+	marAuxiliary.closeMarShield() 
 	d2in()
 	d3in()
 	shutterCommands.sh('o')
 	
 def ready():
 	"""
-	close EH & Ruby/Atlas shutter, move d2 and d3 out and open the mar
+	close EH & Atlas shutter, move d2 and d3 out and open the mar
 	"""
 	shutterCommands.sh('c')
 	d1out()
@@ -187,8 +196,8 @@ def genericScanChecks(alignFlag, cscanFlag, motor, start, stop, step, param1, pa
 	an interrupt
 	"""	
 	if (alignFlag):
-	   align()
-	   
+		align()
+	
 	initialPosition = motor.getPosition()
 	
 	args = []	

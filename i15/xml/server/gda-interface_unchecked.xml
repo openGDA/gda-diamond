@@ -35,4 +35,28 @@
 		<CONTROL desc="" pv="BL15I-MP-FABSB-01:CON" ro="false" type="mbbinary"/>
 		<STA desc="Status" pv="BL15I-MP-FABSB-01:STA" ro="true" type="mbbinary"/>
 	</pneumaticCallback>
+    <simpleMotor desc="Newport 25mm stage 1" name="BRICK2.MOT1">
+            <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS1" ro="false" type="motor"/>
+    </simpleMotor>
+    <simpleMotor desc="Newport 25mm stage 2" name="BRICK2.MOT2">
+            <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS2" ro="false" type="motor"/>
+    </simpleMotor>
+    <simpleMotor desc="Newport 25mm stage 3" name="BRICK2.MOT3">
+            <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS3" ro="false" type="motor"/>
+    </simpleMotor>
+    <simpleMotor desc="Newport 25mm stage 4" name="BRICK2.MOT4">
+            <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS4" ro="false" type="motor"/>
+    </simpleMotor>
+    <simpleMotor desc="Newport 25mm stage 5" name="BRICK2.MOT5">
+            <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS5" ro="false" type="motor"/>
+    </simpleMotor>
+    <simpleMotor desc="Newport 25mm stage 6" name="BRICK2.MOT6">
+            <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS6" ro="false" type="motor"/>
+    </simpleMotor>
+    <simpleMotor desc="Newport 25mm stage 7" name="BRICK2.MOT7">
+            <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS7" ro="false" type="motor"/>
+    </simpleMotor>
+    <simpleMotor desc="Newport 25mm stage 8" name="BRICK2.MOT8">
+            <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS8" ro="false" type="motor"/>
+    </simpleMotor>
 </devices>

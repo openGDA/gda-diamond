@@ -40,15 +40,29 @@
 	<import resource="devices/dummy/motors.xml" />
 
 	<import resource="devices/live/motors.xml" />
-	<import resource="devices/live/BASE2.xml" />
+	<!--
+	<import resource="devices/live/geo2.xml" />
+	 -->
 	<import resource="devices/live/FE.xml" />
 	<import resource="devices/live/FM.xml" />
-	<import resource="devices/live/SFAB.xml" />
 	<import resource="devices/live/slits6_motors.xml" />
 	<import resource="devices/live/diffractometer.xml" />
 	<import resource="devices/live/temperatures.xml" />
 	<import resource="devices/live/currents.xml" />
+	<!-- Second end table -->
+	<import resource="devices/live/BASE2.xml" />
+	<import resource="devices/live/D6.xml" />
+	<import resource="devices/live/FS2.xml" />
+	<!-- 
+	 -->
+	<import resource="devices/live/M3.xml" />
+	<import resource="devices/live/SFAB.xml" />
+	<import resource="devices/live/D7.xml" />
+	<import resource="devices/live/EYE2.xml" />
+	<import resource="devices/live/BS2.xml" />
+	<import resource="devices/live/DET2.xml" />
 
+	<import resource="devices/live/OxfordCryoStream.xml"/>
 	<!-- Multi-channel Analyser Crystal detectors: mac11, ... -->
  	<import resource="MACDetectors.xml" />
 	<!-- ?? <import resource="MACScannables.xml"/>  -->
@@ -64,7 +78,14 @@
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
 		<property name="name" value="FileRegistrar" />
 		<property name="directory"
-			value="/dls/bl-misc/dropfiles/icat/dropZone/${gda.instrument}-" />
+			value="/dls/bl-misc/dropfiles2/icat/dropZone/${gda.instrument}-" />
+	</bean>
+
+	<!-- Copy FileRegistrar xml files for debugging unknown instrument problems. -->
+	<bean id="FileRegistrarDebug" class="gda.data.fileregistrar.FileRegistrar">
+		<property name="name" value="FileRegistrarDebug" />
+		<property name="directory"
+			value="/dls/${gda.instrument}/var/dropZone/${gda.instrument}-" />
 	</bean>
 
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
@@ -72,6 +93,7 @@
 		<property name="dataWriterExtenders">
 			<list>
 				<ref bean="FileRegistrar" />
+				<ref bean="FileRegistrarDebug" />
 			</list>
 		</property>
 	</bean>
@@ -108,10 +130,11 @@
 				<property name="startupScript" value="${gda.config}/scripts/localStation.py" /> 
 			</bean>
 		</property>
-		<property name="gdaVarDirectory" value="${gda.config}/var" />
-		<property name="cacheDirectory" value="${gda.config}/var/jythonCache" />
+		<property name="gdaVarDirectory" value="${gda.var}" />
+		<property name="cacheDirectory" value="${gda.var}/jythonCache" />
 		<property name="remotePort" value="9999" />
 	</bean>
 
 	<corba:export namespace="i15server" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 </beans>

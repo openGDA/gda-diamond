@@ -1,9 +1,7 @@
 ##
 ## Functions required for scanning with ccd using XPS Position Compare
 ##
-from gdascripts.messages import handle_messages
 from gdascripts.messages.handle_messages import simpleLog
-from gdascripts.parameters import beamline_parameters
 
 global configured, beamline, atlas
 configured = False
@@ -28,6 +26,11 @@ def scanGeometry(axis, velocity, A, B):
 	geometry = getGeometry(axis, velocity, A, B)
 	setVelocity(axis, velocity)
 
+	debounce, A, B, suffix = scanGeometryCheck(axis, velocity, A, B)
+	
+	return scanGeometryApply(axis, geometry, debounce, A, B, suffix)
+
+def scanGeometryCheck(axis, velocity, A, B):
 	correctedA = A
 	correctedB = B
 	suffix = ""
@@ -60,6 +63,9 @@ def scanGeometry(axis, velocity, A, B):
 		raise "Error: velocity (%f) is below minimum supported velocity (%f)" \
 			% (velocity, velocityMinimumWithDebounce_DegPerSec)
 	
+	return debounce, correctedA, correctedB, suffix
+
+def scanGeometryApply(axis, geometry, debounce, correctedA, correctedB, suffix):
 	debounce_current = beamline.getValue(None, "Top", "-EA-PCMP-01:STRETCH")
 	if debounce <> debounce_current:
 		simpleLog("Debounce circuit currently %r , needs to be %r " %
