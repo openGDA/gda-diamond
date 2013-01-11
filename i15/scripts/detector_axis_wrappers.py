@@ -484,7 +484,12 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 
 	def rawAsynchronousMoveTo(self, position):
 		if type(position) == list:
-			simpleLog("rawAsynchronousMoveTo(%r) returning early." % position)
+			if self.axis:
+				simpleLog("rawAsynchronousMoveTo(%r) returning..." % position)
+				setMaxVelocity(self.axis)
+				moveMotor(self.axis, position[1])
+			else:
+				simpleLog("rawAsynchronousMoveTo(%r) returning early." % position)
 			return
 		
 		self.files = []
@@ -577,6 +582,7 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 
 	def rawAsynchronousMoveTo(self, position):
 		if type(position) == list:
+			# Pilatus rawGetPosition never records self.axis position.
 			simpleLog("rawAsynchronousMoveTo(%r) returning early." % position)
 			return
 		
@@ -693,7 +699,12 @@ class MarAxisWrapper(DetectorAxisWrapper):
 
 	def rawAsynchronousMoveTo(self, position):
 		if type(position) == list:
-			simpleLog("rawAsynchronousMoveTo(%r) returning early." % position)
+			if self.sync:
+				simpleLog("rawAsynchronousMoveTo(%r) returning..." % position)
+				setMaxVelocity(self.axis)
+				moveMotor(self.axis, position[1])
+			else:
+				simpleLog("rawAsynchronousMoveTo(%r) returning early." % position)
 			return
 		
 		self.files = []
