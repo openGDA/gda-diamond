@@ -35,7 +35,7 @@ class PerkinElmerAxisWrapper(DetectorAxisWrapperNew):
             self.velocity = 0
         
         self.caclient = CAClient()
-        self.diodeSum = "BL15I-EA-CSTRM-01:DIODESUM"
+        self.diodeSum = "BL15I-DI-PHDGN-01:DIODESUM"
         # Note, this PV currently reads the BL15I-DI-PHDGN-01:I PV. If you want
         # to sum another PV, use BL15I-EA-CSTRM-01:DIODECALC.INPB to set the PV
         # you want to sum atScanStart.
