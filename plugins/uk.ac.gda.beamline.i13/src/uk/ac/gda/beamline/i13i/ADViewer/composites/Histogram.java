@@ -98,8 +98,12 @@ public class Histogram extends Composite {
 
 	private boolean grabOnceStats;
 
+	private boolean computeHistAlreadyRunning=true;
 
-	public Histogram(final IViewPart parentViewPart, Composite parent, int style, ADController config) {
+	private boolean computeStatsAlreadyRunning=true;
+
+
+	public Histogram(final IViewPart parentViewPart, Composite parent, int style, final ADController config) {
 		super(parent, style);
 		this.config = config;
 		setLayout(new GridLayout(2,false));
@@ -121,32 +125,6 @@ public class Histogram extends Composite {
 		
 		statisticsStatus = new StatisticsStatus(left, SWT.NONE);
 
-		autoScaleBtn = new Button(left, SWT.PUSH);
-		autoScaleBtn.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-		autoScaleBtn.setText("Auto-Scale MJPeg");
-		autoScaleBtn.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				try {
-					ICommandService cs = (ICommandService) parentViewPart.getSite().getService(ICommandService.class);
-					Command command = cs.getCommand("uk.ac.gda.beamline.i13i.commands.setLiveViewScale");
-					IParameter parameter = command.getParameter("uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName");
-					Parameterization[] parameterizations = new Parameterization[] { new Parameterization(parameter, "i13")};
-					ParameterizedCommand cmd = new ParameterizedCommand(command, parameterizations);
-					ExecutionEvent executionEvent = ((IHandlerService)parentViewPart.getSite().getService(IHandlerService.class)).createExecutionEvent(cmd, null);
-					command.executeWithChecks(executionEvent);
-				} catch (Exception e1) {
-					logger.error("Error setting live view scaling", e1);
-				}
-			}
-
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
-
 		Composite right = new Composite(this, SWT.NONE);
 		GridDataFactory.fillDefaults().grab(true, true).align(SWT.FILL, SWT.FILL).applyTo(right);
 		right.setLayout(new FillLayout());
@@ -161,6 +139,13 @@ public class Histogram extends Composite {
 				parentViewPart);
 		plottingSystem.setXfirst(true);
 
+		try {
+			computeHistAlreadyRunning = config.getImageNDStats().getComputeHistogram()==1;
+			computeStatsAlreadyRunning = config.getImageNDStats().getComputeStatistics()==1;
+		} catch (Exception e2) {
+			logger.error("Error reading current state of image plugin", e2);
+		}
+		
 		try {
 			createOrUpdateROI();
 		} catch (Exception e1) {
@@ -178,6 +163,49 @@ public class Histogram extends Composite {
 			statisticsStatus.setMeanObservable(imageNDStats.createMeanObservable());
 			statisticsStatus.setTotalObservable(imageNDStats.createTotalObservable());
 			statisticsStatus.setSigmaObservable(imageNDStats.createSigmaObservable());
+			
+			grpMjpegRange = new Group(left, SWT.NONE);
+			grpMjpegRange.setText("MJPeg Range");
+			grpMjpegRange.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+			grpMjpegRange.setLayout(new GridLayout(2, false));
+					
+					btnDisplayMJPegRange = new Button(grpMjpegRange, SWT.CHECK);
+					btnDisplayMJPegRange.addSelectionListener(new SelectionAdapter() {
+						@Override
+						public void widgetSelected(SelectionEvent e) {
+							IRegion iRegion = getPlottingSystem().getRegion(mpegROIRegionName);
+							if( iRegion != null)
+								iRegion.setVisible(btnDisplayMJPegRange.getSelection());
+						}
+					});
+					btnDisplayMJPegRange.setSelection(true);
+					btnDisplayMJPegRange.setText("Display");
+					
+							autoScaleBtn = new Button(grpMjpegRange, SWT.PUSH);
+							autoScaleBtn.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+							autoScaleBtn.setText("Auto-Scale");
+							autoScaleBtn.addSelectionListener(new SelectionListener() {
+
+								@Override
+								public void widgetSelected(SelectionEvent e) {
+									try {
+										ICommandService cs = (ICommandService) parentViewPart.getSite().getService(ICommandService.class);
+										Command command = cs.getCommand("uk.ac.gda.beamline.i13i.commands.setLiveViewScale");
+										IParameter parameter = command.getParameter("uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName");
+										Parameterization[] parameterizations = new Parameterization[] { new Parameterization(parameter, "i13")};
+										ParameterizedCommand cmd = new ParameterizedCommand(command, parameterizations);
+										ExecutionEvent executionEvent = ((IHandlerService)parentViewPart.getSite().getService(IHandlerService.class)).createExecutionEvent(cmd, null);
+										command.executeWithChecks(executionEvent);
+									} catch (Exception e1) {
+										logger.error("Error setting live view scaling", e1);
+									}
+								}
+
+
+								@Override
+								public void widgetDefaultSelected(SelectionEvent e) {
+								}
+							});
 		} catch (Exception e1) {
 			logger.error("Error in monitoring connection state", e1);
 		}
@@ -207,7 +235,6 @@ public class Histogram extends Composite {
 				}
 			}
 		});
-
 		statisticsStatus.addMonitoringbtnSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -234,7 +261,160 @@ public class Histogram extends Composite {
 			}
 		});
 		
-		
+		try{
+			if (statsArrayCounterObservable == null) {
+				statsArrayCounterObservable = config.getImageNDStats().getPluginBase().createArrayCounterObservable();
+			}
+			if (statsArrayCounterObserverStats == null) {
+				statsArrayCounterObserverStats = new Observer<Integer>() {
+
+					boolean first = true;
+
+					@Override
+					public void update(Observable<Integer> source, Integer arg) {
+						if (isDisposed())
+							return;
+						if (first) {
+							first = false;
+							return; // ignore first update
+						}
+						if( grabOnceStats){
+							try {
+								stopStats();
+							} catch (Exception e) {
+								logger.error("Error stopping histogram update", e);
+							}
+							grabOnceStats=false;
+						}
+					};
+				};
+			}
+			statsArrayCounterObservable.addObserver(statsArrayCounterObserverStats);
+		} catch(Exception e){
+			logger.error("Error monitoring stats",e);
+		}
+		try
+		{
+			final int histSize = getHistSize();
+			int histMin = getImageMin();
+			int histMax = getImageMax();
+			config.getImageNDStats().setHistSize(histSize);
+			config.getImageNDStats().setHistMin(histMin);
+			config.getImageNDStats().setHistMax(histMax);
+			double step = (histMax - histMin) / histSize;
+			double[] range = new double[histSize];
+			range[0] = histMin;
+			for (int i = 1; i < histSize; i++) {
+				range[i] = range[i - 1] + step;
+			}
+			histogramXAxisRange = new DoubleDataset(range);
+			histogramXAxisRange.setName("Counts");
+			if (statsArrayCounterObservable == null) {
+				statsArrayCounterObservable = config.getImageNDStats().getPluginBase().createArrayCounterObservable();
+			}
+			if (statsArrayCounterObserver == null) {
+				statsArrayCounterObserver = new Observer<Integer>() {
+
+					boolean first = true;
+
+					@Override
+					public void update(Observable<Integer> source, Integer arg) {
+						if (isDisposed())
+							return;
+						if (first) {
+							first = false;
+							return; // ignore first update
+						}
+						if(histogramStatus.isFreezeSelected() && !grabOnce)
+							return;
+						if( grabOnce){
+							try {
+								stop();
+							} catch (Exception e) {
+								logger.error("Error stopping histogram update", e);
+							}
+							grabOnce=false;
+						}
+						if (updateHistogramJob == null) {
+							updateHistogramJob = new Job("Update histogram") {
+
+								private Runnable updateUIRunnable;
+								volatile boolean runnableScheduled = false;
+
+								@Override
+								public boolean belongsTo(Object family) {
+									return super.belongsTo(family);
+								}
+
+								@Override
+								protected IStatus run(IProgressMonitor monitor) {
+									if( plottingSystem == null)
+										return Status.OK_STATUS;
+									double[] histogram_RBV;
+									try {
+										histogram_RBV = config.getImageNDStats().getHistogram_RBV(histSize);
+									} catch (Exception e) {
+										logger.error("Error getting histogram", e);
+										return Status.OK_STATUS;
+									}
+
+									if (histogram_RBV.length != histogramXAxisRange.getSize()) {
+										logger.error("Length of histogram does not match histSize");
+										return Status.OK_STATUS;
+									}
+									DoubleDataset ds = new DoubleDataset(histogram_RBV);
+
+									ds.setName("");
+
+									if (histogramTrace == null) {
+										histogramTrace = plottingSystem.createLineTrace(PROFILE);
+										histogramTrace.setTraceColor(ColorConstants.blue);
+									}
+
+									histogramTrace.setData(histogramXAxisRange, ds);
+
+									if (updateUIRunnable == null) {
+										updateUIRunnable = new Runnable() {
+
+											@Override
+											public void run() {
+												runnableScheduled = false;
+												boolean firstTime = plottingSystem.getTrace(PROFILE) == null;
+												if (firstTime) {
+													plottingSystem.addTrace(histogramTrace);
+													plottingSystem.setTitle("Histogram");
+													IAxis yaxis = plottingSystem.getSelectedYAxis();
+													yaxis.setFormatPattern("#####");
+													yaxis.setTitle("Number of Pixels");
+													IAxis xaxis = plottingSystem.getSelectedXAxis();
+													xaxis.setFormatPattern("#####");
+													xaxis.setTitle("Counts");
+												}
+												plottingSystem.repaint();
+											}
+
+										};
+									}
+									if (!runnableScheduled) {
+										getDisplay().asyncExec(updateUIRunnable);
+										runnableScheduled = true;
+									}
+									return Status.OK_STATUS;
+								}
+							};
+							updateHistogramJob.setUser(false);
+							updateHistogramJob.setPriority(Job.SHORT);
+						}
+						updateHistogramJob.schedule(200); // limit to 5Hz
+
+					}
+				};
+			}
+			statsArrayCounterObservable.addObserver(statsArrayCounterObserver);
+		}
+		catch(Exception e){
+			logger.error("Error monitoring histogram",e);
+		}
 		addDisposeListener(new DisposeListener() {
 			
 			@Override
@@ -258,6 +438,13 @@ public class Histogram extends Composite {
 						plottingSystem.dispose();
 						plottingSystem = null;
 					}
+					if (statsArrayCounterObservable != null && statsArrayCounterObserverStats!= null) {
+						statsArrayCounterObservable.deleteIObserver(statsArrayCounterObserverStats);
+					}
+					if (statsArrayCounterObservable != null && statsArrayCounterObserver != null) {
+						statsArrayCounterObservable.deleteIObserver(statsArrayCounterObserver);
+					}
+					
 			}
 		});
 
@@ -274,41 +461,11 @@ public class Histogram extends Composite {
 	public void startStats() throws Exception {
 		config.getImageNDStats().getPluginBase().enableCallbacks();
 		config.getImageNDStats().setComputeStatistics(1);
-		if (statsArrayCounterObservable == null) {
-			statsArrayCounterObservable = config.getImageNDStats().getPluginBase().createArrayCounterObservable();
-		}
-		if (statsArrayCounterObserverStats == null) {
-			statsArrayCounterObserverStats = new Observer<Integer>() {
-
-				boolean first = true;
-
-				@Override
-				public void update(Observable<Integer> source, Integer arg) {
-					if (isDisposed())
-						return;
-					if (first) {
-						first = false;
-						return; // ignore first update
-					}
-					if( grabOnceStats){
-						try {
-							stopStats();
-						} catch (Exception e) {
-							logger.error("Error stopping histogram update", e);
-						}
-						grabOnceStats=false;
-					}
-				};
-			};
-		}
-		statsArrayCounterObservable.addObserver(statsArrayCounterObserverStats);
 	}
 
 	public void stopStats() throws Exception {
-		config.getImageNDStats().setComputeStatistics(0);
-		if (statsArrayCounterObservable != null && statsArrayCounterObserverStats!= null) {
-			statsArrayCounterObservable.deleteIObserver(statsArrayCounterObserverStats);
-		}
+		if( !computeStatsAlreadyRunning)
+			config.getImageNDStats().setComputeStatistics(0);
 	}
 
 
@@ -416,10 +573,8 @@ public class Histogram extends Composite {
 	}
 
 	public void stop() throws Exception {
-		config.getImageNDStats().setComputeHistogram(0);
-		if (statsArrayCounterObservable != null && statsArrayCounterObserver != null) {
-			statsArrayCounterObservable.deleteIObserver(statsArrayCounterObserver);
-		}
+		if( !computeHistAlreadyRunning)
+			config.getImageNDStats().setComputeHistogram(0);
 	}
 
 	Job updateHistogramJob;
@@ -430,6 +585,8 @@ public class Histogram extends Composite {
 	private boolean grabOnce;
 	private HistogramStatus histogramStatus;
 	private StatisticsStatus statisticsStatus;
+	private Group grpMjpegRange;
+	private Button btnDisplayMJPegRange;
 
 	boolean isComputingHistogram() throws Exception{
 		NDStats imageNDStats = config.getImageNDStats();
@@ -441,124 +598,10 @@ public class Histogram extends Composite {
 	}
 
 	public void start() throws Exception {
-		final int histSize = getHistSize();
-		int histMin = getImageMin();
-		int histMax = getImageMax();
-		config.getImageNDStats().setHistSize(histSize);
-		config.getImageNDStats().setHistMin(histMin);
-		config.getImageNDStats().setHistMax(histMax);
 		config.getImageNDStats().getPluginBase().enableCallbacks();
 		config.getImageNDStats().setComputeHistogram(1);
-		double step = (histMax - histMin) / histSize;
-		double[] range = new double[histSize];
-		range[0] = histMin;
-		for (int i = 1; i < histSize; i++) {
-			range[i] = range[i - 1] + step;
-		}
-		histogramXAxisRange = new DoubleDataset(range);
-		histogramXAxisRange.setName("Counts");
-		if (statsArrayCounterObservable == null) {
-			statsArrayCounterObservable = config.getImageNDStats().getPluginBase().createArrayCounterObservable();
-		}
-		if (statsArrayCounterObserver == null) {
-			statsArrayCounterObserver = new Observer<Integer>() {
-
-				boolean first = true;
-
-				@Override
-				public void update(Observable<Integer> source, Integer arg) {
-					if (isDisposed())
-						return;
-					if (first) {
-						first = false;
-						return; // ignore first update
-					}
-					if( grabOnce){
-						try {
-							stop();
-						} catch (Exception e) {
-							logger.error("Error stopping histogram update", e);
-						}
-						grabOnce=false;
-					}
-					if (updateHistogramJob == null) {
-						updateHistogramJob = new Job("Update histogram") {
-
-							private Runnable updateUIRunnable;
-							volatile boolean runnableScheduled = false;
-
-							@Override
-							public boolean belongsTo(Object family) {
-								return super.belongsTo(family);
-							}
-
-							@Override
-							protected IStatus run(IProgressMonitor monitor) {
-								double[] histogram_RBV;
-								try {
-									histogram_RBV = config.getImageNDStats().getHistogram_RBV(histSize);
-								} catch (Exception e) {
-									logger.error("Error getting histogram", e);
-									return Status.OK_STATUS;
-								}
-
-								if (histogram_RBV.length != histogramXAxisRange.getSize()) {
-									logger.error("Length of histogram does not match histSize");
-									return Status.OK_STATUS;
-								}
-								DoubleDataset ds = new DoubleDataset(histogram_RBV);
-
-								ds.setName("");
-
-								if (histogramTrace == null) {
-									histogramTrace = plottingSystem.createLineTrace(PROFILE);
-									histogramTrace.setTraceColor(ColorConstants.blue);
-								}
-
-								histogramTrace.setData(histogramXAxisRange, ds);
-
-								if (updateUIRunnable == null) {
-									updateUIRunnable = new Runnable() {
-
-										@Override
-										public void run() {
-											runnableScheduled = false;
-											boolean firstTime = plottingSystem.getTrace(PROFILE) == null;
-											if (firstTime) {
-												plottingSystem.addTrace(histogramTrace);
-												plottingSystem.setTitle("");
-												IAxis yaxis = plottingSystem.getSelectedYAxis();
-												yaxis.setFormatPattern("#####");
-												yaxis.setTitle("Number of Pixels");
-												IAxis xaxis = plottingSystem.getSelectedXAxis();
-												xaxis.setFormatPattern("#####");
-												xaxis.setTitle("Counts");
-											}
-											plottingSystem.repaint();
-										}
-
-									};
-								}
-								if (!runnableScheduled) {
-									getDisplay().asyncExec(updateUIRunnable);
-									runnableScheduled = true;
-								}
-								return Status.OK_STATUS;
-							}
-						};
-						updateHistogramJob.setUser(false);
-						updateHistogramJob.setPriority(Job.SHORT);
-					}
-					updateHistogramJob.schedule(200); // limit to 5Hz
-
-				}
-			};
-		}
-		statsArrayCounterObservable.addObserver(statsArrayCounterObserver);
 	}
 
-
-	
 	public void grabOnce() throws Exception {
 		grabOnce = !isComputingHistogram();
 		start();

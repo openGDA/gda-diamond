@@ -18,6 +18,10 @@
 
 package uk.ac.gda.beamline.i13i.ADViewer.composites;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import gda.observable.Observable;
 import gda.observable.Observer;
 
@@ -62,17 +66,13 @@ public class StatisticsStatus extends Composite {
 		stateGroup.setLayout(new GridLayout(2, false));
 		monitoringLbl = new Label(stateGroup, SWT.CENTER);
 		monitoringLbl.setText("running");
-		GridData gd_histogramMonitoringLbl = new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1);
-		gd_histogramMonitoringLbl.widthHint = 77;
-		monitoringLbl.setLayoutData(gd_histogramMonitoringLbl);
+		monitoringLbl.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 1));
 		
 		btnGrabOnce = new Button(stateGroup, SWT.NONE);
 		btnGrabOnce.setText("Grab Once");
 		monitoringBtn = new Button(stateGroup, SWT.PUSH | SWT.CENTER);
+		monitoringBtn.setAlignment(SWT.LEFT);
 		monitoringBtn.setText("Start");
-		GridData gd_histogramMonitoringBtn = new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1);
-		gd_histogramMonitoringBtn.widthHint = 58;
-		monitoringBtn.setLayoutData(gd_histogramMonitoringBtn);
 		
 		
 		
@@ -90,7 +90,6 @@ public class StatisticsStatus extends Composite {
 		max.setDecimalPlaces(1);
 		max.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,2,1));		
 		
-		
 		mean = new ValueBox(stateGroup, SWT.NONE);
 		mean.setLabelWidth(60);
 		mean.setLabel("Mean");
@@ -102,13 +101,14 @@ public class StatisticsStatus extends Composite {
 		total.setLabel("Total");
 		total.setDecimalPlaces(1);
 		total.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,2,1));		
+		total.setNumberFormat(new DecimalFormat("0.###E0"));
 		
 		sigma = new ValueBox(stateGroup, SWT.NONE);
 		sigma.setLabelWidth(60);
 		sigma.setLabel("Sigma");
 		sigma.setDecimalPlaces(1);
 		sigma.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,2,1));		
-		
+		sigma.setNumberFormat(new DecimalFormat("0.###E0"));
 		
 		addDisposeListener(new DisposeListener() {
 			
@@ -250,7 +250,7 @@ class ValueBox extends StandardBox{
 							@Override
 							public void run() {
 								scheduled=false;
-								setNumericValue(ValueBox.this.arg);
+								setValue(ValueBox.this.arg);
 							}
 						};
 					}
