@@ -66,7 +66,11 @@
 	<import resource="epics/trajectory_scan_controller_xps2.xml" />
 
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
+
+	<bean id="script_paths" parent="abstract_script_paths"/>
+
 	<bean id="command_server" parent="abstract_command_server">
+		<property name="jythonScriptPaths" ref="script_paths"/>
 		<property name="stopJythonScannablesOnStopAll" value="false" />
 		<property name="disableBatonControlOverVisitMetadataEntry" value="true" />
 	</bean>
