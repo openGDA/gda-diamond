@@ -6,15 +6,12 @@ from gdascripts.messages.handle_messages import simpleLog
 global configured, isccd, beamline
 configured = False
 
-def configure(jythonNameMap, beamlineParameters, rubyNotAtlas=False):
+def configure(jythonNameMap, beamlineParameters):
 	global configured, isccd, beamline
 	"""
 	sets module variables from jython namespace, finder and beamline parameters
 	"""
-	if rubyNotAtlas:
-		isccd = jythonNameMap.ruby
-	else:
-		isccd = jythonNameMap.atlas
+	isccd = jythonNameMap.atlas
 	beamline = jythonNameMap.beamline
 	configured = True
 
@@ -24,21 +21,27 @@ def checkConfigured():
 	
 def sh(cmd):
 	"""
-	sh('o')  - Reset and Open EH & Ruby/Atlas shutter.
-	sh('oa') - Reset and Open FE, OH, EH & Ruby/Atlas Shutters
-	sh('c')  - Close EH & Ruby/Atlas Shutter
-	sh('ca') - Close FE, OH, EH & Ruby/Atlas Shutters"
+	sh('o')  - Reset and Open EH & Atlas shutter.
+	sh('oa') - Reset and Open FE, OH, EH & Atlas Shutters
+	sh('c')  - Close EH & Atlas Shutter
+	sh('ca') - Close FE, OH, EH & Atlas Shutters"
 	sh('status') - get Status
+
+	Note: If the Atlas is switched to Ext. trigger rather than Atlas, then
+		the Atlas shutter will follow the Epics synoptic FS control and
+		Newport XPS position compare.
+	
+	See: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Atlas%20detector%20does%20not%20acquire%20images
 	"""
 	checkConfigured()
 	try:
 		if (cmd=="o"):
-			#Reset and Open EH & Ruby/Atlas shutter (Open takes 4-5 seconds).
+			#Reset and Open EH & Atlas shutter (Open takes 4-5 seconds).
 			openEHShutter()
 			isccd.openS()
 			return
 		elif (cmd=="c"):
-			#Close EH & Ruby/Atlas Shutter
+			#Close EH & Atlas Shutter
 			closeEHShutter()
 			isccd.closeS()
 			return
@@ -49,7 +52,7 @@ def sh(cmd):
 			isccd.openS()
 			return
 		elif (cmd=="ca"):
-			#Close EH & Ruby/Atlas Shutter
+			#Close EH & Atlas Shutter
 			closeOH2Shutter()
 			closeEHShutter()
 			isccd.closeS()
