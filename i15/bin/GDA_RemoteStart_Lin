@@ -22,7 +22,7 @@ fi
 echo
 echo Fix the OD PC issues
 echo
-rdesktop -T "OD PC" -5 -a 16 -u i15detector -p \!i15d3t3ct0r# -d DIAMOND -k en-gb -g 1850x1150 i15-rubiccd01 &
+nohup rdesktop -T "OD PC" -5 -a 16 -u i15detector -p \!i15d3t3ct0r# -d DIAMOND -k en-gb -g 1850x1150 i15-rubiccd01 > /dev/null &
 
 WINDOWTITLE="Please restart IS"
 (sleep 5; wmctrl -a "$WINDOWTITLE")& # bring zenity to front after 5 secs.
