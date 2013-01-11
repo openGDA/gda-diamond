@@ -3,7 +3,6 @@ import pd_pilatus
 import os
 import sys
 from time import sleep
-from time import clock
 from time import time
 from threading import Thread
 from gdascripts.messages.handle_messages import simpleLog
@@ -223,6 +222,12 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 		else:
 			self.setOutputFormat(["%2d", "%s"])
 			self.setExtraNames(["file name"])
+		
+		self.caclient = CAClient()
+		self.diodeSum = "BL15I-DI-PHDGN-02:DIODESUM"
+		# Note, this PV currently reads the BL15I-DI-PHDGN-02:I PV. If you want
+		# to sum another PV, use BL15I-DI-PHDGN-02:DIODECALC.INPB to set the PV
+		# you want to sum atScanStart.
 
 	def atScanStart(self):
 		
@@ -334,6 +339,8 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 
 	def syncExpose(self, position, runUp, velocity, filename, log_message, fast):
 		samples = []
+		# Zero the diode sum we can tell if it was triggered
+		self.caclient.caput(self.diodeSum, 0) 
 		
 		if self.sync:
 			setMaxVelocity(self.axis)
@@ -421,9 +428,10 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 				self.detector.expsSaveIntensityB(
 					filename, self.exposureTime, geometry, 0)
 		
-		simpleLog("imonAverage="+str(imonAverage) + " " + repr(samples))
+		diodeSum = float(self.caclient.caget(self.diodeSum))
+		simpleLog("diodeSum="+str(diodeSum) + ", imonAverage="+str(imonAverage) + " " + repr(samples))
 		
-		return imonAverage
+		return imonAverage, diodeSum
 
 	def performMove(self, position, fast=False):
 		velocity = float(abs(self.step)) / self.exposureTime
@@ -452,19 +460,20 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			
 			self.fullFileName = self.detector.path + "/" + filename + ".img"
 			
-			imonAverage = self.syncExpose(position, runUp, velocity, filename,
+			imonAverage, diodeSum = self.syncExpose(position, runUp, velocity, filename,
 					"Exposing %s", fast)
 			
 			if self.postExposeCheckFailed():
-				imonAverage = self.syncExpose(position, runUp, velocity, filename,
+				imonAverage, diodeSum = self.syncExpose(position, runUp, velocity, filename,
 					"Re-exposing %s because of beam loss during expose")
 			
 			self.files.append(filename)
 			linuxFilename = getDir() + "/" + filename + ".img"
+			diodeSumScaled = diodeSum * 1000
 			imonScaledAvg = imonAverage * 100000
 			crysalisFile = ModifyCrysalisHeader(linuxFilename)
 			names = ["imon1", "imon2", "dexposuretimeinsec"]
-			values = [imonScaledAvg,imonScaledAvg,self.exposureTime]
+			values = [diodeSumScaled, imonScaledAvg, self.exposureTime]
 			mod1 = modHeader(crysalisFile, names, values)
 			mod1.start()
 			deactivatePositionCompare()
@@ -579,8 +588,8 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 		axisRunUpAndDownDelay = 2
 		
 		for exp in range(self.noOfExpPerPos):
-			simpleLog("rawAsynchronousMoveTo %r sync %r runUp %r exp %r" %
-					(self.axis, self.sync, runUp, exp))
+			simpleLog("rawAsynchronousMoveTo(%r) %r sync %r runUp %r exp %r" %
+					(position, self.axis, self.sync, runUp, exp))
 			
 			self.isccd.flush()
 			
@@ -694,8 +703,8 @@ class MarAxisWrapper(DetectorAxisWrapper):
 		for exp in range(self.noOfExpPerPos):
 			runUp = ((self.velocity*.25)/2) + 0.1 # acceleration time .25 may change. This seems to solve the problem of the fast shutter not staying open.
 			
-			simpleLog("rawAsynchronousMoveTo %r sync %r runUp %r exp %r" %
-					(self.axis, self.sync, runUp, exp))
+			simpleLog("rawAsynchronousMoveTo(%r) %r sync %r runUp %r exp %r" %
+					(position, self.axis, self.sync, runUp, exp))
 			
 			if self.velocity <= 8.0:
 			
@@ -851,13 +860,13 @@ class MarAxisWrapper(DetectorAxisWrapper):
 
 	def waitForStatus(self, timeout, status):
 		
-		t0 = clock()
+		t0 = time()
 		t1 = t0
 		while ((t1 - t0) < timeout): 
 			if (self.detector.getStatus() == status):
 				simpleLog("Mar status of " + str(status) + " reached in time %.2f" % (t1 - t0) + "s")
 				return (t1 - t0)
-			t1 = clock()
+			t1 = time()
 			pause()					 # ensures script can be stopped promptly
 	
 		simpleLog("Timed out waiting for mar status of " + str(status) + " (waited " + str(timeout) + "s)")
