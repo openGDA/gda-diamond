@@ -73,6 +73,8 @@ def modechange(logicalMode, offref, timeout):  # this is changing the logical mo
     caput("BL12I-EA-DET-05:PIX:Acquire", 1)
 ###	caput("BL12I-PS-SHTR-02:CON", 0) ### 1 is closed. 0 is open
     print "******* Finished dark field calibration. \n"	
+    caput("BL12I-EA-DET-05:PIX:ImageMode", 2)
+    caput("BL12I-EA-DET-05:PIX:Acquire", 1)
     print "*** Finished changing pixium mode. \n"
 
 def pixiumExp80ms():
