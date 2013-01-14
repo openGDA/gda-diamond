@@ -640,4 +640,14 @@ try:
 except:
 	localStation_exception(sys.exc_info(), "in localStation")
 
+print "*"*80
+print "Attempting to run localStationUser.py from users script directory"
+try:
+	run("localStationUser")
+	print "localStationUser.py completed."
+except java.io.FileNotFoundException, e:
+	print "No localStationUser.py found in user scripts directory"
+except:
+	localStation_exception(sys.exc_info(), "running localStationUser user script")
+
 simpleLog("===================== GDA ONLINE =====================")
