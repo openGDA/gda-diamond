@@ -57,6 +57,8 @@ public class CameraStatus extends Composite {
 		Group group = new Group(this, SWT.NONE);
 		group.setText("Camera");
 		GridLayout gl_group = new GridLayout(1, false);
+		gl_group.marginHeight = 0;
+		gl_group.marginWidth = 0;
 		group.setLayout(gl_group);
 		
 		btnStart = new Button(group, SWT.NONE);

@@ -59,7 +59,10 @@ public class HistogramStatus extends Composite {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 		Group stateGroup = new Group(this, SWT.NONE);
 		stateGroup.setText("Histogram Plot");
-		stateGroup.setLayout(new GridLayout(2, false));
+		GridLayout gl_stateGroup = new GridLayout(2, false);
+		gl_stateGroup.marginHeight = 0;
+		gl_stateGroup.marginWidth = 0;
+		stateGroup.setLayout(gl_stateGroup);
 		histogramMonitoringLbl = new Label(stateGroup, SWT.NONE);
 		histogramMonitoringLbl.setAlignment(SWT.LEFT);
 		histogramMonitoringLbl.setText("running");

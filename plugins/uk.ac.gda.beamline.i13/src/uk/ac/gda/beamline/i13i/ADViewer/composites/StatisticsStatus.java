@@ -60,7 +60,10 @@ public class StatisticsStatus extends Composite {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 		Group stateGroup = new Group(this, SWT.NONE);
 		stateGroup.setText("Statistics");
-		stateGroup.setLayout(new GridLayout(1, false));
+		GridLayout gl_stateGroup = new GridLayout(1, false);
+		gl_stateGroup.marginWidth = 0;
+		gl_stateGroup.marginHeight = 0;
+		stateGroup.setLayout(gl_stateGroup);
 		monitoringLbl = new Label(stateGroup, SWT.CENTER);
 		monitoringLbl.setText("Running__");
 		

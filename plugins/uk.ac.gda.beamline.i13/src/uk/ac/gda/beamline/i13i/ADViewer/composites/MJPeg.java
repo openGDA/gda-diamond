@@ -104,7 +104,10 @@ public class MJPeg extends Composite {
 		gd_stateGroup.widthHint = 153;
 		stateGroup.setLayoutData(gd_stateGroup);
 		stateGroup.setText(" Live View");
-		stateGroup.setLayout(new GridLayout(2, false));
+		GridLayout gl_stateGroup = new GridLayout(2, false);
+		gl_stateGroup.marginWidth = 0;
+		gl_stateGroup.marginHeight = 0;
+		stateGroup.setLayout(gl_stateGroup);
 		livwMonitoringLbl = new Label(stateGroup, SWT.CENTER);
 		GridData gd_livwMonitoringLbl = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_livwMonitoringLbl.widthHint = 80;
@@ -134,7 +137,10 @@ public class MJPeg extends Composite {
 		GridData gd_composite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_composite.widthHint = 160;
 		composite.setLayoutData(gd_composite);
-		composite.setLayout(new GridLayout(1, false));
+		GridLayout gl_composite = new GridLayout(1, false);
+		gl_composite.marginWidth = 0;
+		gl_composite.marginHeight = 0;
+		composite.setLayout(gl_composite);
 		
 		lblTime = new Label(composite, SWT.NONE);
 		lblTime.setText("Time of last image");

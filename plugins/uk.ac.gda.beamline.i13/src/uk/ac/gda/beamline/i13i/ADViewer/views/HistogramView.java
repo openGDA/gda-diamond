@@ -26,7 +26,6 @@ import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
-import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +58,8 @@ public class HistogramView extends ViewPart implements InitializingBean{
 	public void createPartControl(Composite parent) {
 
 		parent.setLayout(new FillLayout());
-		areaDetectorProfileComposite = new Histogram(this, parent, SWT.NONE, config);
+		areaDetectorProfileComposite = new Histogram(this, parent, SWT.NONE);
+		areaDetectorProfileComposite.setADController(config);
 		try {
 //			areaDetectorProfileComposite.grabOnce();
 //			areaDetectorProfileComposite.grabOnceStats();

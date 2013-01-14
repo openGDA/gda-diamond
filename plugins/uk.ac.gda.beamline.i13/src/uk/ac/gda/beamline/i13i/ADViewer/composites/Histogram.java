@@ -70,7 +70,7 @@ public class Histogram extends Composite {
 
 	private static final Logger logger = LoggerFactory.getLogger(Histogram.class);
 
-	private final ADController config;
+	private ADController config;
 
 	private AbstractPlottingSystem plottingSystem;
 
@@ -94,32 +94,33 @@ public class Histogram extends Composite {
 
 	private boolean grabOnceStats;
 
-	private boolean computeHistAlreadyRunning=true;
+	private boolean computeHistAlreadyRunning = true;
 
-	private boolean computeStatsAlreadyRunning=true;
+	private boolean computeStatsAlreadyRunning = true;
 
+	private IViewPart parentViewPart;
 
-	public Histogram(final IViewPart parentViewPart, Composite parent, int style, final ADController config) {
+	public Histogram(IViewPart parentViewPart, Composite parent, int style) {
 		super(parent, style);
-		this.config = config;
-		setLayout(new GridLayout(2,false));
+		this.parentViewPart =parentViewPart;
+		setLayout(new GridLayout(2, false));
 		Composite left = new Composite(this, SWT.NONE);
 		GridDataFactory.fillDefaults().grab(false, true).applyTo(left);
 		RowLayout layout = new RowLayout(SWT.VERTICAL);
 		layout.center = true;
 		layout.pack = false;
 		left.setLayout(new GridLayout(1, false));
-		
+
 		statusComposite = new IOCStatus(left, SWT.NONE);
 		GridData gd_statusComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_statusComposite.widthHint = 164;
 		statusComposite.setLayoutData(gd_statusComposite);
-		
+
 		minCallbackTimeComposite = new MinCallbackTimeComposite(left, SWT.NONE);
-		
+
 		histogramStatus = new HistogramStatus(left, SWT.NONE);
 		histogramStatus.setLayout(new GridLayout(1, false));
-		
+
 		statisticsStatus = new StatisticsStatus(left, SWT.NONE);
 
 		Composite right = new Composite(this, SWT.NONE);
@@ -135,17 +136,66 @@ public class Histogram extends Composite {
 			logger.error("Cannot create a plotting system!", ne);
 		}
 
-		try {
-			computeHistAlreadyRunning = config.getImageNDStats().getComputeHistogram()==1;
-			computeStatsAlreadyRunning = config.getImageNDStats().getComputeStatistics()==1;
-		} catch (Exception e2) {
-			logger.error("Error reading current state of image plugin", e2);
-		}
-		
+		grpMjpegRange = new Group(left, SWT.NONE);
+		grpMjpegRange.setText("MJPeg Range");
+		grpMjpegRange.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		grpMjpegRange.setLayout(new GridLayout(2, false));
+
+		btnDisplayMJPegRange = new Button(grpMjpegRange, SWT.CHECK);
+		btnDisplayMJPegRange.setSelection(true);
+		btnDisplayMJPegRange.setText("Display");
+
+		autoScaleBtn = new Button(grpMjpegRange, SWT.PUSH);
+		autoScaleBtn.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		autoScaleBtn.setText("Auto-Scale");
+
 		try {
 			createOrUpdateROI();
 		} catch (Exception e1) {
 			logger.error("Error creating region", e1);
+		}
+		addDisposeListener(new DisposeListener() {
+
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				try {
+					stop();
+					stopStats();
+				} catch (Exception ex) {
+					logger.error("Error stopping histogram computation", e);
+				}
+				if (mpegProcObserver != null) {
+					if (mpegProcOffsetObservable != null && mpegProcObserver != null)
+						mpegProcOffsetObservable.deleteIObserver(mpegProcObserver);
+					if (mpegProcScaleObservable != null && mpegProcObserver != null)
+						mpegProcScaleObservable.deleteIObserver(mpegProcObserver);
+					mpegProcObserver = null;
+				}
+				mpegProcOffsetObservable = null;
+				mpegProcScaleObservable = null;
+				if (plottingSystem != null) {
+					plottingSystem.dispose();
+					plottingSystem = null;
+				}
+				if (statsArrayCounterObservable != null && statsArrayCounterObserverStats != null) {
+					statsArrayCounterObservable.deleteIObserver(statsArrayCounterObserverStats);
+				}
+				if (statsArrayCounterObservable != null && statsArrayCounterObserver != null) {
+					statsArrayCounterObservable.deleteIObserver(statsArrayCounterObserver);
+				}
+
+			}
+		});
+
+	}
+
+	public void setADController(ADController config) {
+		this.config = config;
+		try {
+			computeHistAlreadyRunning = config.getImageNDStats().getComputeHistogram() == 1;
+			computeStatsAlreadyRunning = config.getImageNDStats().getComputeStatistics() == 1;
+		} catch (Exception e2) {
+			logger.error("Error reading current state of image plugin", e2);
 		}
 		try {
 			NDStats imageNDStats = config.getImageNDStats();
@@ -159,53 +209,44 @@ public class Histogram extends Composite {
 			statisticsStatus.setMeanObservable(imageNDStats.createMeanObservable());
 			statisticsStatus.setTotalObservable(imageNDStats.createTotalObservable());
 			statisticsStatus.setSigmaObservable(imageNDStats.createSigmaObservable());
-			
-			grpMjpegRange = new Group(left, SWT.NONE);
-			grpMjpegRange.setText("MJPeg Range");
-			grpMjpegRange.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-			grpMjpegRange.setLayout(new GridLayout(2, false));
-					
-					btnDisplayMJPegRange = new Button(grpMjpegRange, SWT.CHECK);
-					btnDisplayMJPegRange.addSelectionListener(new SelectionAdapter() {
-						@Override
-						public void widgetSelected(SelectionEvent e) {
-							IRegion iRegion = getPlottingSystem().getRegion(mpegROIRegionName);
-							if( iRegion != null)
-								iRegion.setVisible(btnDisplayMJPegRange.getSelection());
-						}
-					});
-					btnDisplayMJPegRange.setSelection(true);
-					btnDisplayMJPegRange.setText("Display");
-					
-							autoScaleBtn = new Button(grpMjpegRange, SWT.PUSH);
-							autoScaleBtn.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-							autoScaleBtn.setText("Auto-Scale");
-							autoScaleBtn.addSelectionListener(new SelectionListener() {
 
-								@Override
-								public void widgetSelected(SelectionEvent e) {
-									try {
-										ICommandService cs = (ICommandService) parentViewPart.getSite().getService(ICommandService.class);
-										Command command = cs.getCommand("uk.ac.gda.beamline.i13i.commands.setLiveViewScale");
-										IParameter parameter = command.getParameter("uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName");
-										Parameterization[] parameterizations = new Parameterization[] { new Parameterization(parameter, "i13")};
-										ParameterizedCommand cmd = new ParameterizedCommand(command, parameterizations);
-										ExecutionEvent executionEvent = ((IHandlerService)parentViewPart.getSite().getService(IHandlerService.class)).createExecutionEvent(cmd, null);
-										command.executeWithChecks(executionEvent);
-									} catch (Exception e1) {
-										logger.error("Error setting live view scaling", e1);
-									}
-								}
+			btnDisplayMJPegRange.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					IRegion iRegion = getPlottingSystem().getRegion(mpegROIRegionName);
+					if (iRegion != null)
+						iRegion.setVisible(btnDisplayMJPegRange.getSelection());
+				}
+			});
+			autoScaleBtn.addSelectionListener(new SelectionListener() {
 
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					try {
+						ICommandService cs = (ICommandService) parentViewPart.getSite().getService(
+								ICommandService.class);
+						Command command = cs.getCommand("uk.ac.gda.beamline.i13i.commands.setLiveViewScale");
+						IParameter parameter = command
+								.getParameter("uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName");
+						Parameterization[] parameterizations = new Parameterization[] { new Parameterization(parameter,
+								"i13") };
+						ParameterizedCommand cmd = new ParameterizedCommand(command, parameterizations);
+						ExecutionEvent executionEvent = ((IHandlerService) parentViewPart.getSite().getService(
+								IHandlerService.class)).createExecutionEvent(cmd, null);
+						command.executeWithChecks(executionEvent);
+					} catch (Exception e1) {
+						logger.error("Error setting live view scaling", e1);
+					}
+				}
 
-								@Override
-								public void widgetDefaultSelected(SelectionEvent e) {
-								}
-							});
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+			});
 		} catch (Exception e1) {
 			logger.error("Error in monitoring connection state", e1);
 		}
-		
+
 		histogramStatus.addHistogramMonitoringbtnSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -256,15 +297,16 @@ public class Histogram extends Composite {
 				}
 			}
 		});
-		
+
 		minCallbackTimeComposite.setPluginBase(config.getImageNDStats().getPluginBase());
 		try {
-			minCallbackTimeComposite.setMinTimeObservable(config.getImageNDStats().getPluginBase().createMinCallbackTimeObservable());
+			minCallbackTimeComposite.setMinTimeObservable(config.getImageNDStats().getPluginBase()
+					.createMinCallbackTimeObservable());
 		} catch (Exception e1) {
 			logger.error("Error setting up minCallback", e1);
 		}
-		
-		try{
+
+		try {
 			if (statsArrayCounterObservable == null) {
 				statsArrayCounterObservable = config.getImageNDStats().getPluginBase().createArrayCounterObservable();
 			}
@@ -281,23 +323,22 @@ public class Histogram extends Composite {
 							first = false;
 							return; // ignore first update
 						}
-						if( grabOnceStats){
+						if (grabOnceStats) {
 							try {
 								stopStats();
 							} catch (Exception e) {
 								logger.error("Error stopping histogram update", e);
 							}
-							grabOnceStats=false;
+							grabOnceStats = false;
 						}
 					}
 				};
 			}
 			statsArrayCounterObservable.addObserver(statsArrayCounterObserverStats);
-		} catch(Exception e){
-			logger.error("Error monitoring stats",e);
+		} catch (Exception e) {
+			logger.error("Error monitoring stats", e);
 		}
-		try
-		{
+		try {
 			final int histSize = getHistSize();
 			int histMin = getImageMin();
 			int histMax = getImageMax();
@@ -328,15 +369,15 @@ public class Histogram extends Composite {
 							first = false;
 							return; // ignore first update
 						}
-						if(histogramStatus.isFreezeSelected() && !grabOnce)
+						if (histogramStatus.isFreezeSelected() && !grabOnce)
 							return;
-						if( grabOnce){
+						if (grabOnce) {
 							try {
 								stop();
 							} catch (Exception e) {
 								logger.error("Error stopping histogram update", e);
 							}
-							grabOnce=false;
+							grabOnce = false;
 						}
 						if (updateHistogramJob == null) {
 							updateHistogramJob = new Job("Update histogram") {
@@ -351,11 +392,11 @@ public class Histogram extends Composite {
 
 								@Override
 								protected IStatus run(IProgressMonitor monitor) {
-									if( plottingSystem == null)
+									if (plottingSystem == null)
 										return Status.OK_STATUS;
 									double[] histogram_RBV;
 									try {
-										histogram_RBV = config.getImageNDStats().getHistogram_RBV(histSize);
+										histogram_RBV = Histogram.this.config.getImageNDStats().getHistogram_RBV(histSize);
 									} catch (Exception e) {
 										logger.error("Error getting histogram", e);
 										return Status.OK_STATUS;
@@ -414,63 +455,26 @@ public class Histogram extends Composite {
 				};
 			}
 			statsArrayCounterObservable.addObserver(statsArrayCounterObserver);
+		} catch (Exception e) {
+			logger.error("Error monitoring histogram", e);
 		}
-		catch(Exception e){
-			logger.error("Error monitoring histogram",e);
-		}
-		addDisposeListener(new DisposeListener() {
-			
-			@Override
-			public void widgetDisposed(DisposeEvent e) {
-					try {
-						stop();
-						stopStats();
-					} catch (Exception ex) {
-						logger.error("Error stopping histogram computation", e);
-					}
-					if (mpegProcObserver != null) {
-						if (mpegProcOffsetObservable != null && mpegProcObserver != null)
-							mpegProcOffsetObservable.deleteIObserver(mpegProcObserver);
-						if (mpegProcScaleObservable != null && mpegProcObserver != null)
-							mpegProcScaleObservable.deleteIObserver(mpegProcObserver);
-						mpegProcObserver = null;
-					}
-					mpegProcOffsetObservable = null;
-					mpegProcScaleObservable = null;
-					if (plottingSystem != null) {
-						plottingSystem.dispose();
-						plottingSystem = null;
-					}
-					if (statsArrayCounterObservable != null && statsArrayCounterObserverStats!= null) {
-						statsArrayCounterObservable.deleteIObserver(statsArrayCounterObserverStats);
-					}
-					if (statsArrayCounterObservable != null && statsArrayCounterObserver != null) {
-						statsArrayCounterObservable.deleteIObserver(statsArrayCounterObserver);
-					}
-					
-			}
-		});
 
 	}
-
 
 	public void grabOnceStats() throws Exception {
 		grabOnceStats = !isComputingStats();
 		startStats();
 	}
 
-
-	
 	public void startStats() throws Exception {
 		config.getImageNDStats().getPluginBase().enableCallbacks();
 		config.getImageNDStats().setComputeStatistics(1);
 	}
 
 	public void stopStats() throws Exception {
-		if( computeStatsAlreadyRunning)
+		if (computeStatsAlreadyRunning)
 			config.getImageNDStats().setComputeStatistics(0);
 	}
-
 
 	private double getMPEGProcOffset() throws Exception {
 		return config.getLiveViewNDProc().getOffset();
@@ -552,10 +556,8 @@ public class Histogram extends Composite {
 					}
 				}
 			});
-			mpegProcOffsetObservable = Histogram.this.config.getLiveViewNDProc()
-					.createOffsetObservable();
-			mpegProcScaleObservable = Histogram.this.config.getLiveViewNDProc()
-					.createScaleObservable();
+			mpegProcOffsetObservable = Histogram.this.config.getLiveViewNDProc().createOffsetObservable();
+			mpegProcScaleObservable = Histogram.this.config.getLiveViewNDProc().createScaleObservable();
 			mpegProcObserver = new Observer<Double>() {
 
 				@Override
@@ -576,7 +578,7 @@ public class Histogram extends Composite {
 	}
 
 	public void stop() throws Exception {
-		if( computeHistAlreadyRunning)
+		if (computeHistAlreadyRunning)
 			config.getImageNDStats().setComputeHistogram(0);
 	}
 
@@ -592,13 +594,14 @@ public class Histogram extends Composite {
 	private Button btnDisplayMJPegRange;
 	private MinCallbackTimeComposite minCallbackTimeComposite;
 
-	boolean isComputingHistogram() throws Exception{
+	boolean isComputingHistogram() throws Exception {
 		NDStats imageNDStats = config.getImageNDStats();
-		return imageNDStats.getPluginBase().isCallbacksEnabled_RBV() && imageNDStats.getComputeHistogram_RBV()==1;
+		return imageNDStats.getPluginBase().isCallbacksEnabled_RBV() && imageNDStats.getComputeHistogram_RBV() == 1;
 	}
-	boolean isComputingStats() throws Exception{
+
+	boolean isComputingStats() throws Exception {
 		NDStats imageNDStats = config.getImageNDStats();
-		return imageNDStats.getPluginBase().isCallbacksEnabled_RBV() && imageNDStats.getComputeStatistics_RBV()==1;
+		return imageNDStats.getPluginBase().isCallbacksEnabled_RBV() && imageNDStats.getComputeStatistics_RBV() == 1;
 	}
 
 	public void start() throws Exception {
@@ -609,7 +612,7 @@ public class Histogram extends Composite {
 	public void grabOnce() throws Exception {
 		grabOnce = !isComputingHistogram();
 		start();
-	}	
+	}
 
 	/**
 	 * Needed for the adapter of the parent view to return IToolPageSystem.class
@@ -629,7 +632,5 @@ public class Histogram extends Composite {
 	public int getImageMax() {
 		return config.getImageMax();
 	}
-
-
 
 }
