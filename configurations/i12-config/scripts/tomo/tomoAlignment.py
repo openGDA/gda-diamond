@@ -56,7 +56,6 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     
     pco = f.find("pco")
     pco.stop();
-
     '''Setting the camera to is 2-ADC'''
     pco.setADCMode(1)  
     pco.setExternalTriggered(isLiveMode())
@@ -64,7 +63,6 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     if verbose:
         print "pco external triggered:" + `pco.isExternalTriggered()`
     #
-
     adBase = pco.getController().getAreaDetector()
     pco.getController().getProc1().getPluginBase().disableCallbacks()
     pco.getController().getProc2().getPluginBase().disableCallbacks()
@@ -73,7 +71,6 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     pco.getController().getArray().getPluginBase().disableCallbacks()
     pco.getController().getMJpeg1().getPluginBase().disableCallbacks()
     pco.getController().getMJpeg2().getPluginBase().disableCallbacks()
-
     
     cachedBinX = adBase.getBinX()
     cachedBinY = adBase.getBinY()
@@ -104,11 +101,15 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     fastScan = FastScan('fastScan')
     topUp = TopupPause("topUp")
     isTomoScanSuccess = True
+    numberOfDarks = 1
+    numberOfFlats = 1
+    stepsSize = 90
+    
     try:
         pco.getController().disarmCamera()
         startTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         #tomoScan(description, positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, 1, 1, 0, additionalScannables=[fastScan],topUp])
-        tomoScan(description, positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, 10, 10, 0, additionalScannables=[fastScan])
+        tomoScan(description, positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, numberOfDarks, numberOfFlats, 0, additionalScannables=[fastScan])
         endTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         scanNumber = int(cfn())
     except Exception, ex:
@@ -306,7 +307,7 @@ def getModule():
     moduleNum = 0
     cam1_xPosition = round(cam1_x.position, 2)
     if cam1_xPosition == mod1Lookup:
-        return 1
+        moduleNum = 1
     else:
         mod2Lookup = round(cameraModuleLookup.lookupValue(2, "cam1_x"), 2)
         if cam1_xPosition == mod2Lookup:
@@ -845,7 +846,7 @@ class TomoAlignmentConfiguration:
     def doTomographyAlignmentAndScan(self):
         scriptController = Finder.getInstance().find("tomoAlignmentConfigurationScriptController")
         try:
-            self.status = "Running"
+            self.status = "Starting"
             self.tomographyConfigurationManager.setConfigRunning(self.configId)
             if verbose:
                 print 'Attempting to move into requested module'
@@ -858,6 +859,9 @@ class TomoAlignmentConfiguration:
             if verbose:
                 print 'All motors in place - starting tomography scan'
             checkForPauses()
+            self.status = "Running"
+            self.tomographyConfigurationManager.setConfigRunning(self.configId)
+            
             result = tomoScani12(self.description,
                         self.sampleAcquisitionTime,
                         self.flatAcquisitionTime,
