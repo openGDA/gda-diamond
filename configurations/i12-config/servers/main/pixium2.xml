@@ -286,7 +286,7 @@
 	
 	<bean id="pixium_multipleExposurePco" class="gda.device.detector.addetector.triggering.MultipleExposureSoftwareTriggerAutoMode">
 		<constructor-arg ref="pixium_cam_base" />
-		<constructor-arg value="2.0" />
+		<constructor-arg value="10.0" />
 		<property name="ndProcess" ref ="pixium_proc1"/>
 		<property name="exposureTime" value="0.5"/>
 		<property name="readAcquireTimeFromHardware" value="true"/>
@@ -346,11 +346,12 @@
 	
 	<bean id="pixium_hdf_multipleExposurePco" class="gda.device.detector.addetector.triggering.MultipleExposureSoftwareTriggerAutoMode">
 		<constructor-arg ref="pixium_cam_base" />
-		<constructor-arg value="2.0" />
+		<constructor-arg value="10.0" />
 		<property name="ndProcess" ref ="pixium_proc1"/>
 		<property name="exposureTime" value="0.5"/>
 		<property name="readAcquireTimeFromHardware" value="true"/>
-		<property name="ndFile" ref="pixium_ndfiletif"/>
+		<property name="ndFile" ref="pco1_ndfilehdf5_base"/>
+		<property name="useFileCaptureForTiming" value="false"/>
 	</bean>		
 	
 	<bean id="pixium_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
@@ -367,7 +368,7 @@
 		<property name="adBase" ref="pixium_cam_base" />
 		<property name="ndStats" ref="pixium_stat" />
 		<property name="ndArray" ref="pixium_arr" />
-		<property name="ndFile" ref="pco1_ndhdf5file" />
+		<property name="ndFile" ref="pco1_ndfilehdf5_base" />
 		<property name="collectionStrategy" ref="pixium_hdf_multipleExposurePco"/>
 		<property name="fileWriter" ref="pixium_hdf5_filewriter"/>
 		<property name="readAcquisitionTime" value="true" />
