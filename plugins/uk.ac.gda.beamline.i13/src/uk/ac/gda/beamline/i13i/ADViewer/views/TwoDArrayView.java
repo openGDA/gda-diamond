@@ -51,7 +51,8 @@ public class TwoDArrayView extends ViewPart implements InitializingBean{
 	public void createPartControl(Composite parent) {
 
 		parent.setLayout(new FillLayout());
-		areaDetectorViewComposite = new TwoDArray(this, parent, SWT.NONE, config);
+		areaDetectorViewComposite = new TwoDArray(this, parent, SWT.NONE);
+		areaDetectorViewComposite.setADController(config);
 		setTitleImage(I13IBeamlineActivator.getImageDescriptor("icons/AreaDetectorProfileView.gif").createImage());
 		setPartName(config.getDetectorName() + " Array View" );
 

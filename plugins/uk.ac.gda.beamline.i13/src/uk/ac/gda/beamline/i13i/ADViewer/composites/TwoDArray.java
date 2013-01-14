@@ -18,6 +18,7 @@
 
 package uk.ac.gda.beamline.i13i.ADViewer.composites;
 
+import gda.device.detector.areadetector.v17.NDPluginBase;
 import gda.observable.Observable;
 import gda.observable.Observer;
 
@@ -32,13 +33,13 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.RowLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
@@ -58,13 +59,11 @@ import uk.ac.diamond.scisoft.analysis.dataset.ShortDataset;
 import uk.ac.gda.beamline.i13i.ADViewer.ADController;
 import uk.ac.gda.beamline.i13i.ADViewer.ImageData;
 
-import org.eclipse.swt.layout.GridData;
-
 public class TwoDArray extends Composite {
 
 	private static final Logger logger = LoggerFactory.getLogger(TwoDArray.class);
 
-	private final ADController config;
+	private ADController config;
 
 	private AbstractPlottingSystem plottingSystem;
 
@@ -75,9 +74,8 @@ public class TwoDArray extends Composite {
 	private Button arrayMonitoringBtn;
 	private Label arrayMonitoringLbl;
 
-	public TwoDArray(IViewPart parentViewPart, Composite parent, int style, ADController config) {
+	public TwoDArray(IViewPart parentViewPart, Composite parent, int style) {
 		super(parent, style);
-		this.config = config;
 
 		this.setLayout(new GridLayout(2, false));
 		Composite left = new Composite(this, SWT.NONE);
@@ -85,13 +83,14 @@ public class TwoDArray extends Composite {
 		RowLayout layout = new RowLayout(SWT.VERTICAL);
 		layout.center = true;
 		layout.pack = false;
-		RowLayoutFactory vertRowLayoutFactory = RowLayoutFactory.createFrom(layout);
 		left.setLayout(new GridLayout(1, false));
 		
-		IOCStatus statusComposite = new IOCStatus(left, SWT.NONE);
+		statusComposite = new IOCStatus(left, SWT.NONE);
 		GridData gd_statusComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_statusComposite.widthHint = 154;
 		statusComposite.setLayoutData(gd_statusComposite);
+		
+		minCallbackTimeComposite = new MinCallbackTimeComposite(left, SWT.NONE);
 		Group stateGroup = new Group(left, SWT.NONE);
 		GridData gd_stateGroup = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_stateGroup.widthHint = 150;
@@ -102,31 +101,10 @@ public class TwoDArray extends Composite {
 		GridData gd_arrayMonitoringLbl = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_arrayMonitoringLbl.widthHint = 81;
 		arrayMonitoringLbl.setLayoutData(gd_arrayMonitoringLbl);
-		new Label(stateGroup, SWT.NONE);
 		arrayMonitoringBtn = new Button(stateGroup, SWT.PUSH | SWT.CENTER);
 		GridData gd_arrayMonitoringBtn = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
 		gd_arrayMonitoringBtn.widthHint = 48;
 		arrayMonitoringBtn.setLayoutData(gd_arrayMonitoringBtn);
-		arrayMonitoringBtn.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				try {
-					if (arrayMonitoring) {
-						stop();
-					} else {
-						start();
-					}
-				} catch (Exception ex) {
-					logger.error("Error responding to start_stop button", ex);
-				}
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
-		setStarted(arrayMonitoring);
 
 		Composite right = new Composite(this, SWT.NONE);
 		GridDataFactory.fillDefaults().grab(true, true).align(SWT.FILL, SWT.FILL).applyTo(right);
@@ -156,19 +134,52 @@ public class TwoDArray extends Composite {
 				}
 			}
 		});
+	}
+
+	public void setADController(ADController config){
+		this.config = config;
+		
+		NDPluginBase pluginBase = config.getImageNDArray().getPluginBase();
+		minCallbackTimeComposite.setPluginBase(pluginBase);
+		try {
+			minCallbackTimeComposite.setMinTimeObservable(pluginBase.createMinCallbackTimeObservable());
+		} catch (Exception e2) {
+			logger.error("Error setting min cakkback time", e2);
+		}
+		
+		arrayMonitoringBtn.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					if (arrayMonitoring) {
+						stop();
+					} else {
+						start();
+					}
+				} catch (Exception ex) {
+					logger.error("Error responding to start_stop button", ex);
+				}
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		setStarted(arrayMonitoring);
 		try {
 			start();
 		} catch (Exception e) {
 			logger.error("Error starting  areaDetectorViewComposite", e);
 		}
 		try {
-			statusComposite.setObservable(config.getImageNDArray().getPluginBase().createConnectionStateObservable());
+			statusComposite.setObservable(pluginBase.createConnectionStateObservable());
 		} catch (Exception e1) {
 			logger.error("Error monitoring connection state", e1);
 		}
 
+		
 	}
-
 	public void stop() throws Exception {
 		config.getImageNDArray().getPluginBase().disableCallbacks();
 		if (arrayArrayCounterObservable != null && arrayArrayCounterObserver != null) {
@@ -181,6 +192,10 @@ public class TwoDArray extends Composite {
 	}
 
 	Job updateArrayJob;
+
+	private IOCStatus statusComposite;
+
+	private MinCallbackTimeComposite minCallbackTimeComposite;
 
 	public void start() throws Exception {
 		config.getImageNDArray().getPluginBase().enableCallbacks();

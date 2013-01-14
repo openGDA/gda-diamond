@@ -149,11 +149,6 @@ public class Histogram extends Composite {
 		autoScaleBtn.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		autoScaleBtn.setText("Auto-Scale");
 
-		try {
-			createOrUpdateROI();
-		} catch (Exception e1) {
-			logger.error("Error creating region", e1);
-		}
 		addDisposeListener(new DisposeListener() {
 
 			@Override
@@ -197,6 +192,14 @@ public class Histogram extends Composite {
 		} catch (Exception e2) {
 			logger.error("Error reading current state of image plugin", e2);
 		}
+
+		try {
+			createOrUpdateROI();
+		} catch (Exception e1) {
+			logger.error("Error creating region", e1);
+		}
+		
+		
 		try {
 			NDStats imageNDStats = config.getImageNDStats();
 			statusComposite.setObservable(imageNDStats.getPluginBase().createConnectionStateObservable());
