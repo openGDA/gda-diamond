@@ -103,11 +103,6 @@
 	</bean>
 
 	<bean id="command_server" class="gda.jython.JythonServer">
-		<!-- 
-		<property name="userScriptDirectory" value="${gda.data}/scripts" />
-		<property name="gdaScriptDirectory" value="${gda.config}/scripts" />
-		<property name="gdaScriptLibraryDirectory" value="${gda.root}/uk.ac.gda.core/scripts" />
-		 -->
 		<property name="jythonScriptPaths">
 			<bean class="gda.jython.ScriptPaths">
 				<property name="projects"><list>
@@ -122,7 +117,7 @@
 						<property name="type" value="CONFIG" />
 					</bean>
 					<bean class="gda.jython.ScriptProject">
-						<property name="path" value="${gda.root}/uk.ac.gda.core/scripts" /> 
+						<property name="path" value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.core/scripts" /> 
 						<property name="name" value="Scripts: Core" /> 
 						<property name="type" value="CORE" /> 
 					</bean>
