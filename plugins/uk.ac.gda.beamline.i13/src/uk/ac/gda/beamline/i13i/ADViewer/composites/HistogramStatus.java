@@ -36,6 +36,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.eclipse.swt.layout.FillLayout;
 
 public class HistogramStatus extends Composite {
 	private static final Logger logger = LoggerFactory.getLogger(HistogramStatus.class);
@@ -55,16 +56,14 @@ public class HistogramStatus extends Composite {
 
 	public HistogramStatus(Composite parent, int style) {
 		super(parent, style);
-		setLayout(new GridLayout(1, false));
+		setLayout(new FillLayout(SWT.HORIZONTAL));
 		Group stateGroup = new Group(this, SWT.NONE);
 		stateGroup.setText("Histogram Plot");
-		GridData gd_stateGroup = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_stateGroup.widthHint = 158;
-		stateGroup.setLayoutData(gd_stateGroup);
 		stateGroup.setLayout(new GridLayout(2, false));
-		histogramMonitoringLbl = new Label(stateGroup, SWT.CENTER);
+		histogramMonitoringLbl = new Label(stateGroup, SWT.NONE);
+		histogramMonitoringLbl.setAlignment(SWT.LEFT);
 		histogramMonitoringLbl.setText("running");
-		GridData gd_histogramMonitoringLbl = new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1);
+		GridData gd_histogramMonitoringLbl = new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1);
 		gd_histogramMonitoringLbl.widthHint = 77;
 		histogramMonitoringLbl.setLayoutData(gd_histogramMonitoringLbl);
 		
@@ -72,7 +71,7 @@ public class HistogramStatus extends Composite {
 		btnGrabOnce.setText("Grab Once");
 		histogramMonitoringBtn = new Button(stateGroup, SWT.PUSH | SWT.CENTER);
 		histogramMonitoringBtn.setText("Start");
-		GridData gd_histogramMonitoringBtn = new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1);
+		GridData gd_histogramMonitoringBtn = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
 		gd_histogramMonitoringBtn.widthHint = 58;
 		histogramMonitoringBtn.setLayoutData(gd_histogramMonitoringBtn);
 		

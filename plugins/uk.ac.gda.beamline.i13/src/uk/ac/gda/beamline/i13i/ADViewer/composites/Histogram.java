@@ -42,20 +42,19 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.RowLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.IHandlerService;
@@ -65,9 +64,6 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 import uk.ac.gda.beamline.i13i.ADViewer.ADController;
-
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.events.SelectionAdapter;
 
 public class Histogram extends Composite {
 	private static final String PROFILE = "PROFILE";
@@ -112,13 +108,14 @@ public class Histogram extends Composite {
 		RowLayout layout = new RowLayout(SWT.VERTICAL);
 		layout.center = true;
 		layout.pack = false;
-		RowLayoutFactory vertRowLayoutFactory = RowLayoutFactory.createFrom(layout);
 		left.setLayout(new GridLayout(1, false));
 		
 		statusComposite = new IOCStatus(left, SWT.NONE);
 		GridData gd_statusComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_statusComposite.widthHint = 164;
 		statusComposite.setLayoutData(gd_statusComposite);
+		
+		minCallbackTimeComposite = new MinCallbackTimeComposite(left, SWT.NONE);
 		
 		histogramStatus = new HistogramStatus(left, SWT.NONE);
 		histogramStatus.setLayout(new GridLayout(1, false));
@@ -131,13 +128,12 @@ public class Histogram extends Composite {
 
 		try {
 			this.plottingSystem = PlottingFactory.getLightWeightPlottingSystem();
+			plottingSystem.createPlotPart(right, "", parentViewPart.getViewSite().getActionBars(), PlotType.PT1D,
+					parentViewPart);
+			plottingSystem.setXfirst(true);
 		} catch (Exception ne) {
 			logger.error("Cannot create a plotting system!", ne);
-			return;
 		}
-		plottingSystem.createPlotPart(right, "", parentViewPart.getViewSite().getActionBars(), PlotType.PT1D,
-				parentViewPart);
-		plottingSystem.setXfirst(true);
 
 		try {
 			computeHistAlreadyRunning = config.getImageNDStats().getComputeHistogram()==1;
@@ -261,6 +257,13 @@ public class Histogram extends Composite {
 			}
 		});
 		
+		minCallbackTimeComposite.setPluginBase(config.getImageNDStats().getPluginBase());
+		try {
+			minCallbackTimeComposite.setMinTimeObservable(config.getImageNDStats().getPluginBase().createMinCallbackTimeObservable());
+		} catch (Exception e1) {
+			logger.error("Error setting up minCallback", e1);
+		}
+		
 		try{
 			if (statsArrayCounterObservable == null) {
 				statsArrayCounterObservable = config.getImageNDStats().getPluginBase().createArrayCounterObservable();
@@ -286,7 +289,7 @@ public class Histogram extends Composite {
 							}
 							grabOnceStats=false;
 						}
-					};
+					}
 				};
 			}
 			statsArrayCounterObservable.addObserver(statsArrayCounterObserverStats);
@@ -464,7 +467,7 @@ public class Histogram extends Composite {
 	}
 
 	public void stopStats() throws Exception {
-		if( !computeStatsAlreadyRunning)
+		if( computeStatsAlreadyRunning)
 			config.getImageNDStats().setComputeStatistics(0);
 	}
 
@@ -573,7 +576,7 @@ public class Histogram extends Composite {
 	}
 
 	public void stop() throws Exception {
-		if( !computeHistAlreadyRunning)
+		if( computeHistAlreadyRunning)
 			config.getImageNDStats().setComputeHistogram(0);
 	}
 
@@ -587,6 +590,7 @@ public class Histogram extends Composite {
 	private StatisticsStatus statisticsStatus;
 	private Group grpMjpegRange;
 	private Button btnDisplayMJPegRange;
+	private MinCallbackTimeComposite minCallbackTimeComposite;
 
 	boolean isComputingHistogram() throws Exception{
 		NDStats imageNDStats = config.getImageNDStats();

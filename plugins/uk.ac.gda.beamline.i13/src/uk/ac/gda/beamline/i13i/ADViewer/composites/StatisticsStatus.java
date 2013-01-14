@@ -18,17 +18,16 @@
 
 package uk.ac.gda.beamline.i13i.ADViewer.composites;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Locale;
-
 import gda.observable.Observable;
 import gda.observable.Observer;
+
+import java.text.DecimalFormat;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -54,23 +53,25 @@ public class StatisticsStatus extends Composite {
 	private Observer<String> enableObserver;
 	private Observer<String> computeObserver;
 	private ValueBox min, max, mean, total, sigma;
+	private Composite composite;
 
 	public StatisticsStatus(Composite parent, int style) {
 		super(parent, style);
-		setLayout(new GridLayout(1, false));
+		setLayout(new FillLayout(SWT.HORIZONTAL));
 		Group stateGroup = new Group(this, SWT.NONE);
 		stateGroup.setText("Statistics");
-		GridData gd_stateGroup = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_stateGroup.widthHint = 158;
-		stateGroup.setLayoutData(gd_stateGroup);
-		stateGroup.setLayout(new GridLayout(2, false));
+		stateGroup.setLayout(new GridLayout(1, false));
 		monitoringLbl = new Label(stateGroup, SWT.CENTER);
-		monitoringLbl.setText("running");
-		monitoringLbl.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 1));
+		monitoringLbl.setText("Running__");
 		
-		btnGrabOnce = new Button(stateGroup, SWT.NONE);
+		composite = new Composite(stateGroup, SWT.NONE);
+		composite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1));
+		composite.setLayout(new GridLayout(2, false));
+		
+		btnGrabOnce = new Button(composite, SWT.NONE);
+		btnGrabOnce.setAlignment(SWT.LEFT);
 		btnGrabOnce.setText("Grab Once");
-		monitoringBtn = new Button(stateGroup, SWT.PUSH | SWT.CENTER);
+		monitoringBtn = new Button(composite, SWT.NONE);
 		monitoringBtn.setAlignment(SWT.LEFT);
 		monitoringBtn.setText("Start");
 		
@@ -79,35 +80,45 @@ public class StatisticsStatus extends Composite {
 		
 		
 		min = new ValueBox(stateGroup, SWT.NONE);
+		((GridData) min.getControl().getLayoutData()).horizontalAlignment = SWT.LEFT;
 		min.setLabel("Min");
 		min.setLabelWidth(60);
 		min.setDecimalPlaces(1);
-		min.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,2,1));		
+		min.setMaximum(Double.MAX_VALUE);
+		min.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,1,1));		
 		
 		max = new ValueBox(stateGroup, SWT.NONE);
+		((GridData) max.getControl().getLayoutData()).horizontalAlignment = SWT.LEFT;
 		max.setLabel("Max");
 		max.setLabelWidth(60);
 		max.setDecimalPlaces(1);
-		max.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,2,1));		
+		max.setMaximum(Double.MAX_VALUE);
+		max.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,1,1));		
 		
 		mean = new ValueBox(stateGroup, SWT.NONE);
+		((GridData) mean.getControl().getLayoutData()).horizontalAlignment = SWT.LEFT;
 		mean.setLabelWidth(60);
 		mean.setLabel("Mean");
 		mean.setDecimalPlaces(1);
-		mean.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,2,1));		
+		mean.setMaximum(Double.MAX_VALUE);
+		mean.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,1,1));		
 		
 		total = new ValueBox(stateGroup, SWT.NONE);
+		((GridData) total.getControl().getLayoutData()).horizontalAlignment = SWT.LEFT;
 		total.setLabelWidth(60);
 		total.setLabel("Total");
 		total.setDecimalPlaces(1);
-		total.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,2,1));		
+		total.setMaximum(Double.MAX_VALUE);
+		total.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,1,1));		
 		total.setNumberFormat(new DecimalFormat("0.###E0"));
 		
 		sigma = new ValueBox(stateGroup, SWT.NONE);
+		((GridData) sigma.getControl().getLayoutData()).horizontalAlignment = SWT.LEFT;
 		sigma.setLabelWidth(60);
 		sigma.setLabel("Sigma");
 		sigma.setDecimalPlaces(1);
-		sigma.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,2,1));		
+		sigma.setMaximum(Double.MAX_VALUE);
+		sigma.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,1,1));		
 		sigma.setNumberFormat(new DecimalFormat("0.###E0"));
 		
 		addDisposeListener(new DisposeListener() {

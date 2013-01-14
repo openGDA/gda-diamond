@@ -27,7 +27,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.FrameBorder;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.geometry.Insets;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -44,9 +50,13 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.python.antlr.ast.RaiseDerived;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.analysis.rcp.plotting.enums.OverlayType;
+import uk.ac.diamond.scisoft.analysis.rcp.plotting.enums.PrimitiveType;
+import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.IImagePositionEvent;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.ImagePositionListener;
 import uk.ac.gda.beamline.i13i.ADViewer.ADController;
 import uk.ac.gda.beamline.i13i.views.cameraview.CameraComposite;
@@ -164,7 +174,36 @@ public class MJPeg extends Composite {
 		cameraComposite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1));
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(cameraComposite);
 
+		RaisedBorder border = new RaisedBorder(50,100,50,100);
+		cameraComposite.getViewer().setImageBorder(border);
 		
+		SWT2DOverlayProvider fig = new SWT2DOverlayProvider(getTopFigure());
+		OverlayType type = OverlayType.IMAGE;
+		fig.begin(type );
+		int primitive = fig.registerPrimitive(PrimitiveType.BOX);
+		fig.drawBox(primitive, 0, 0, 100, 100);
+		fig.end(type);
+		
+		addImagePositionListener(new ImagePositionListener() {
+			
+			@Override
+			public void imageStart(IImagePositionEvent event) {
+				event.toString();
+				
+			}
+			
+			@Override
+			public void imageFinished(IImagePositionEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void imageDragged(IImagePositionEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+		}, fig);
 		
 		addDisposeListener(new DisposeListener() {
 			
@@ -288,5 +327,52 @@ public class MJPeg extends Composite {
 		
 	}
 
+
+}
+/**
+ * @author Pratik Shah
+ */
+class RaisedBorder extends MarginBorder {
+
+	private static final Insets DEFAULT_INSETS = new Insets(1, 1, 1, 1);
+
+	/**
+	 * @see org.eclipse.draw2d.Border#getInsets(IFigure)
+	 */
+	public Insets getInsets(IFigure figure) {
+		return insets;
+	}
+
+	public RaisedBorder() {
+		this(DEFAULT_INSETS);
+	}
+
+	public RaisedBorder(Insets insets) {
+		super(insets);
+	}
+
+	public RaisedBorder(int t, int l, int b, int r) {
+		super(t, l, b, r);
+	}
+
+	public boolean isOpaque() {
+		return true;
+	}
+
+	/**
+	 * @see org.eclipse.draw2d.Border#paint(IFigure, Graphics, Insets)
+	 */
+	public void paint(IFigure figure, Graphics g, Insets insets) {
+		g.setLineStyle(Graphics.LINE_SOLID);
+		g.setLineWidth(1);
+		g.setForegroundColor(ColorConstants.buttonDarker);
+		Rectangle r = getPaintRectangle(figure, insets);
+		r.resize(-1, -1);
+		g.drawLine(r.x, r.y, r.right(), r.y);
+		g.drawLine(r.x, r.y, r.x, r.bottom());
+		g.setForegroundColor(ColorConstants.buttonDarker);
+		g.drawLine(r.x, r.bottom(), r.right(), r.bottom());
+		g.drawLine(r.right(), r.y, r.right(), r.bottom());
+	}
 
 }
