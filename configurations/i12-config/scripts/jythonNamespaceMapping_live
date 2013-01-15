@@ -7,7 +7,8 @@
 tomography_optimizer=iz
 #tomography_detector=dummy_cam
 tomography_detector=pco
-#tomography_detector=pco_hdf
+#tomography_detector=pco4000_dio_tif
+#tomography_detector=pco4000_dio_hdf
 tomography_theta=ss1_theta
 #tomography_theta=idummyscannablemotor_x
 tomography_shutter=eh1shtr

@@ -297,6 +297,14 @@ from tomo import tomoAlignment #@UnusedImport
 from pv_scannable_utils import *
 print "added pv_scannable_utils" 
 
+from PixiumAfterIOCStart_ModeChange import pixiumExp80ms, pixiumExp500ms, pixiumExp1000ms,pixiumExp2000ms, pixiumExp4000ms,pixiumAfterIOCStart
+alias("pixiumExp80ms")
+alias("pixiumExp500ms")
+alias("pixiumExp1000ms")
+alias("pixiumExp2000ms")
+alias("pixiumExp4000ms")
+alias("pixiumAfterIOCStart")
+
 print 
 print "==================================================="
 print "local station initialisation completed."
