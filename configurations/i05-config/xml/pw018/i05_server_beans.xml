@@ -21,15 +21,6 @@
 	</bean>
 
 -->
-	<bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry" />
-
-	<bean class="gda.data.metadata.MetadataBlaster" id="observableSubdirectory">
-		<property name="storedMetadataEntry" ref="subdirectory" />
-	</bean>
-	<bean class="uk.ac.gda.arpes.metadata.IntransparentLogFilePathProvider" id="logfilenameprovider">
-	 	<property name="storedMetadataEntry" ref="subdirectory" />
-		<property name="pathTemplate" value="${gda.data}/$year$/$visit$/gda-console-$visit$.log" />
-	</bean>
 
 	<bean id="command_server" class="gda.jython.JythonServer">
                 <property name="jythonScriptPaths">

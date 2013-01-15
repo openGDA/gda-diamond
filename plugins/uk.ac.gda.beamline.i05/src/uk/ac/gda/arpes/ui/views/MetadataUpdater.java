@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2009 Diamond Light Source Ltd.
+ * Copyright © 2012 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -22,29 +22,117 @@ import gda.data.PathConstructor;
 import gda.data.metadata.GDAMetadataProvider;
 import gda.data.metadata.Metadata;
 import gda.device.Device;
+import gda.device.DeviceException;
 import gda.factory.Finder;
 import gda.jython.IAllScanDataPointsObserver;
-import gda.jython.InterfaceProvider;
+import gda.jython.IJythonServerStatusObserver;
+import gda.jython.Jython;
+import gda.jython.JythonServerFacade;
+import gda.jython.JythonServerStatus;
 import gda.observable.IObserver;
 import gda.scan.ScanDataPoint;
 
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A system status display panel
+ * A system status display panel updater, this contains all the logic, so the 
+ * GUI class be edited by graphical SWT layout editors without breaking functionality.
  */
-public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver {
+public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, IJythonServerStatusObserver {
 
 	private static final Logger logger = LoggerFactory.getLogger(MetadataUpdater.class);
 
 	private SampleMetadataView client;
 	private String subdirectory;
 	private Metadata metadata;
+	private JythonServerFacade jsf;
+	private List<Integer> scandimensions;
+	private String scanstring;
+	private Integer totalScanPoints;
+	private Date started;
 
+
+	private class MetadataListener extends KeyAdapter implements FocusListener, IObserver {
+		private Text widget;
+		private String metadataName;
+		private Device blaster;
+		public MetadataListener(Text widget, String metadataName, Device blaster) {
+			this.widget = widget;
+			this.metadataName = metadataName;
+			this.blaster = blaster;
+			
+			widget.addFocusListener(this);
+			widget.addKeyListener(this);
+			
+			blaster.addIObserver(this);
+			
+			try {
+				widget.setText(metadata.getMetadataValue(metadataName));
+			} catch (DeviceException e1) {
+				widget.setText("");
+			}
+		}
+		
+		@Override
+		public void keyReleased(KeyEvent e) {
+			super.keyReleased(e);
+			if (e.character == SWT.CR) {
+
+				try {
+					metadata.setMetadataValue(metadataName, widget.getText().trim());
+				} catch (Exception e1) {
+					widget.setText("");
+				}
+			}
+		}
+		@Override
+		public void focusGained(FocusEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void focusLost(FocusEvent e) {
+			try {
+				widget.setText(metadata.getMetadataValue(metadataName));
+			} catch (DeviceException e1) {
+				widget.setText("");
+			}
+		}
+		private void unobserve() {
+			blaster.deleteIObserver(this);
+		}
+
+		@Override
+		public void update(Object source, final Object arg) {
+			if (widget.isDisposed()) {
+				unobserve();
+				return;
+			}
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					widget.setText(arg.toString());
+					client.currentDirectory.setText(PathConstructor.createFromDefaultProperty());
+				}
+			});
+		}
+	}
+	
 	/**
 	 * Constructor
 	 * 
@@ -56,42 +144,27 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver {
 
 		try {
 			metadata = GDAMetadataProvider.getInstance();
-			subdirectory = metadata.getMetadataValue("subdirectory");
 
-			Device blaster = Finder.getInstance().find("observableSubdirectory");
-			blaster.addIObserver(this);
+			new MetadataListener(client.subDirectory, "subdirectory", (Device) Finder.getInstance().find("observableSubdirectory"));
+			new MetadataListener(client.sampleName, "samplename", (Device) Finder.getInstance().find("observableSamplename"));
 
-			meUpdate();
 		} catch (Exception e) {
-			logger.warn("could not find subdirectory metadata", e);
+			logger.warn("could not find required metadata", e);
 		}
 
-		InterfaceProvider.getScanDataPointProvider().addIScanDataPointObserver(this);
-
-		client.subDirectory.addKeyListener(new org.eclipse.swt.events.KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				super.keyReleased(e);
-				if (e.character == SWT.CR) {
-
-					try {
-						metadata.setMetadataValue("subdirectory", client.subDirectory.getText().trim());
-					} catch (Exception e1) {
-						client.subDirectory.setText("");
-					}
-				}
-			}
-		});
+		jsf = JythonServerFacade.getInstance();
+		jsf.addIObserver(this);
+		
+		client.currentDirectory.setText(PathConstructor.createFromDefaultProperty());
 	}
 
 	@Override
 	public void update(Object iObservable, Object arg) {
+		if (client.frameStatus.isDisposed()) {
+			jsf.deleteIObserver(this);
+			return;
+		}
 		Display.getDefault().asyncExec(new Updater(iObservable, arg));
-	}
-
-	private void meUpdate() {
-		client.subDirectory.setText(subdirectory);
-		client.currentDirectory.setText(PathConstructor.createFromDefaultProperty());
 	}
 
 	private class Updater implements Runnable {
@@ -107,15 +180,85 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver {
 			this.arg = arg;
 		}
 
+		private List<Integer> parseScanDimensions(String string) {
+			StringTokenizer st = new StringTokenizer(string, "[], ");
+			List<Integer> sd = new Vector<Integer>();
+			while (st.hasMoreTokens()) {
+				sd.add(Integer.valueOf(st.nextToken()));
+			}
+			return sd;
+		}
+		
+		private String pointNoAsStr(Integer point) {
+			Vector<Integer> currentLoc = new Vector<Integer>(scandimensions);
+			int totalsofar = 1;
+			for (int j = currentLoc.size()-1; j >= 0 ; j--) {
+				int inhere = currentLoc.get(j);
+				currentLoc.set(j, point / totalsofar % inhere + 1);
+				totalsofar *= inhere;
+			}
+			return currentLoc.toString();
+		}
+		
+		private Integer multiply(Collection<Integer> c) {
+			int a = 1; 
+			for (Iterator<Integer> iterator = c.iterator(); iterator.hasNext();) {
+				a = a * iterator.next();
+			}
+			return a;
+		}
+		
+		private String hms4millis(long millis) {
+			if (millis == 0) return "--:--:--";
+			int h = (int) (millis / (3600 * 1000));
+			int m = (int) (millis / (60 * 1000) % 60);
+			int s = (int) (millis / 1000 % 60);
+			return String.format("%02d:%02d:%02d", h,m,s);
+		}
+		
+		private long noddyETAprediction(int currentpoint, int total, long elapsed) {
+			if (currentpoint == 0) return 0;
+			return (elapsed * total / currentpoint) - elapsed;
+		}
+		
 		@Override
 		public void run() {
 			if (arg != null) {
-				if (arg instanceof String) {
-						subdirectory = arg.toString();
-						meUpdate();
-				} else if (arg instanceof ScanDataPoint) {
+				if (arg instanceof ScanDataPoint) {
 					String filename = ((ScanDataPoint) arg).getCurrentFilename();
 					client.scanFile.setText(filename);
+					int currentPointNumber = ((ScanDataPoint) arg).getCurrentPointNumber();
+					client.frameNumber.setText(String.format("%s / %s",pointNoAsStr(currentPointNumber), scanstring));
+					client.progressBar.setSelection(10000*currentPointNumber/totalScanPoints);
+					long elapsed = (new Date ()).getTime() - started.getTime();
+					client.elapsedTime.setText(hms4millis(elapsed));
+					client.eta.setText(hms4millis(noddyETAprediction(currentPointNumber, totalScanPoints, elapsed)));
+				} else if (arg instanceof JythonServerStatus) {
+					JythonServerStatus jss = (JythonServerStatus) arg;
+					switch (jss.scanStatus) {
+					case Jython.IDLE:
+						client.frameStatus.setText("IDLE");
+						client.frameNumber.setText("[0] / [0]");
+						client.progressBar.setSelection(10000);
+						client.elapsedTime.setText("--:--:--");
+						client.eta.setText("--:--:--");
+						break;
+					case Jython.PAUSED:
+						client.frameStatus.setText("PAUSED");
+						break;
+					case Jython.RUNNING:
+						started = new Date();
+						client.frameStatus.setText("RUNNING");
+						client.elapsedTime.setText("00:00:00");
+						scanstring = jsf.evaluateCommand("finder.find(\"command_server\").getCurrentScanInformation().getDimensions().tolist()");
+						scandimensions = parseScanDimensions(scanstring);
+						totalScanPoints = multiply(scandimensions);
+						client.frameNumber.setText(String.format("%s / %s",pointNoAsStr(0), scanstring));
+						break;
+					default:
+						client.frameStatus.setText("UNKNOWN");
+						break;
+					}
 				}
 			} 
 		}

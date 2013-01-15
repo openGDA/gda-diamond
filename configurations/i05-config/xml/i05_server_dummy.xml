@@ -9,14 +9,14 @@
 		<property name="protectionLevel" value="3"></property>
 	</bean>
 	<bean
-		class="gda.device.scannable.DummyScannable" id="sample_temp">
+		class="gda.device.scannable.DummyUnitsScannable" id="sample_temp">
 		<property name="inputNames"><list><value>sample_temp</value></list></property>
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
 		<property name="protectionLevel" value="3"></property>
 	</bean>
 
 	<bean
-		class="gda.device.scannable.DummyScannable" id="analyser_slit">
+		class="gda.device.scannable.DummyUnitsScannable" id="analyser_slit">
 		<property name="inputNames"><list><value>analyser_slit</value></list></property>
 		<property name="outputFormat"><list><value>%5.0f</value></list></property>
 		<property name="protectionLevel" value="3"></property>
@@ -25,7 +25,7 @@
 	</bean>
 
 	<bean
-		class="gda.device.scannable.DummyScannable" id="exit_slit">
+		class="gda.device.scannable.DummyUnitsScannable" id="exit_slit">
 		<property name="inputNames"><list><value>exit_slit</value></list></property>
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
 		<property name="protectionLevel" value="3"></property>
@@ -34,22 +34,23 @@
 	</bean>
 
 	<bean
-		class="gda.device.scannable.DummyScannable" id="ringcurrent">
+		class="gda.device.scannable.DummyUnitsScannable" id="ringcurrent">
 		<property name="inputNames"><list><value>ringcurrent</value></list></property>
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
-		<property name="protectionLevel" value="3"></property>
+		<property name="protectionLevel" value="3" />
 	</bean>
 	<bean
-		class="gda.device.scannable.DummyScannable" id="idgap">
+		class="gda.device.scannable.DummyUnitsScannable" id="idgap">
 		<property name="inputNames"><list><value>idgap</value></list></property>
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
-		<property name="protectionLevel" value="3"></property>
+		<property name="protectionLevel" value="3" />
 	</bean>
 	<bean
-		class="gda.device.scannable.DummyScannable" id="energy">
+		class="gda.device.scannable.DummyUnitsScannable" id="energy">
+		<property name="name" value="energy" />
 		<property name="inputNames"><list><value>energy</value></list></property>
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
-		<property name="protectionLevel" value="3"></property>
+		<property name="protectionLevel" value="3" />
 	</bean>
 
 	<import resource="gonio.xml" />
