@@ -25,7 +25,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.analysis.rcp.contributions"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.deprecated"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.deprecated.rcp"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.feedback"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.ncd"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.ncd.rcp"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.python"/>
