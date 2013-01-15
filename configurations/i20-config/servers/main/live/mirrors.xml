@@ -342,9 +342,11 @@
 		<property name="deviceName" value="HRMP" />
 		
 	</bean>
-	<bean id="incidenceAngle" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL20I-OP-HRM-05:PITCH.RBV" />
-		
+<!-- 	<bean id="incidenceAngle" class="gda.device.monitor.EpicsMonitor"> -->
+<!-- 		<property name="pvName" value="BL20I-OP-HRM-05:PITCH.RBV" /> -->
+<!-- 	</bean> -->
+	<bean id="incidenceAngle" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-OP-HRM-05:PITCH.RBV" />
+		<property name="pvNameSetPoint" value="BL20I-OP-HRM-05:PITCH.RBV" />
 	</bean>
-
 </beans>
