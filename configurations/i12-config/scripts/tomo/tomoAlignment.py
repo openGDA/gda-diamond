@@ -76,11 +76,7 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     cachedBinY = adBase.getBinY()
     try:
         pco.getController().disarmCamera()
-        #adBase.setBinX(int(xBin))
-        #adBase.setBinY(int(yBin))
-        #adBase.setMinY(minY)
-        #adBase.setSizeY(maxY - minY)
-        #initialisePCOPlugins(pco)
+        setAdBaseRoi(adBase, pco, int(xBin), int(yBin), minY, maxY - minY)
     except:
         exceptionType, exception, traceback = sys.exc_info()
         print "Problem moving tomo alignment motors" + `exception`
@@ -101,9 +97,9 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     fastScan = FastScan('fastScan')
     topUp = TopupPause("topUp")
     isTomoScanSuccess = True
-    numberOfDarks = 1
-    numberOfFlats = 1
-    stepsSize = 90
+    #numberOfDarks = 1
+    #numberOfFlats = 1
+    #stepsSize = 90
     
     try:
         pco.getController().disarmCamera()
@@ -117,12 +113,9 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
         isTomoScanSuccess = False
     finally:
         pco.getController().disarmCamera()
-        #adBase.setBinX(cachedBinX)
-        #adBase.setBinY(cachedBinY)
-        #adBase.setMinY(1)
-        #sleep(2)
-        #adBase.setSizeY(2672)
-        #initialisePCOPlugins(pco)
+        #
+        setAdBaseRoi(adBase, pco, cachedBinX, cachedBinY, 1, 2672)
+        #
         if not isTomoScanSuccess:
             raise Exception ("ERROR running tomoScan: " + str(ex))
     
@@ -136,6 +129,13 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
         except Exception, ex:
             raise Exception ("Error launching reconstruction: " + str(ex))
     return {"StartTime":startTime, "EndTime":endTime, "ScanNumber":scanNumber}
+
+def setAdBaseRoi(adBase, pco, xBin, yBin, minY, sizeY):
+    adBase.setBinX(xBin)
+    adBase.setBinY(yBin)
+    adBase.setMinY(minY)
+    adBase.setSizeY(sizeY)
+    initialisePCOPlugins(pco)
 
 def initialisePCOPlugins(pco):
     pcoController = pco.getController()
