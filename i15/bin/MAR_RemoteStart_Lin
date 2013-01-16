@@ -10,7 +10,8 @@ echo "======================="
 echo " "
 echo "Mounting /dls/i15..."
 
-ssh -i /dls_sw/i15/software/gda/i15-config/i15ssh.key root@i15-mar01 mount -a i15-storage:/exports/data /dls/i15 
+#ssh -i /dls_sw/i15/software/gda/i15-config/i15ssh.key root@i15-mar01 mount -a i15-storage:/exports/data /dls/i15 
+ssh -i /dls_sw/i15/software/gda/i15-config/i15ssh.key root@i15-mar01 mount -a dls-bl-storage.diamond.ac.uk:/srv/bl-data/i15 /dls/i15
 
 echo "======================="
 echo " "
