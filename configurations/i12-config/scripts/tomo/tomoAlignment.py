@@ -97,7 +97,6 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     fastScan = FastScan('fastScan')
     topUp = TopupPause("topUp")
     isTomoScanSuccess = True
-
     numberOfDarks = 10 
     numberOfFlats = 10
     #stepsSize = 90
