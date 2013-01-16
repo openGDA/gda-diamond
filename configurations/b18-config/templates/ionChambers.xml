@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IonChambersBean>
+    <log>hello world</log>
+    <energy>4.0</energy>
+</IonChambersBean>
