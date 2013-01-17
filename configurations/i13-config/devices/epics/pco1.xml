@@ -57,7 +57,8 @@
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg value=".04" />
 		<constructor-arg ref="adDriverPco1" />
-		<!--property name="ndProcess" ref ="pco1_proc1"/-->
+		<property name="ndProcess" ref ="pco1_proc2"/>
+		<property name="exposureTime" value=".04"/>
 	</bean>
 	<bean id="pco1_multipleExposureHardwarePco" class="gda.device.detector.addetector.triggering.PCOMultipleExposureHardwareTrigger">
 		<constructor-arg ref="pco1_cam_base" />
@@ -65,7 +66,9 @@
 		<constructor-arg ref="adDriverPco1" />
 		<property name="ndProcess" ref="pco1_proc1" />
 		<property name="etfg" ref="tfg"/>
+		<property name="exposureTime" value=".04"/>
 	</bean>
+
 	<bean id="pco1_tfg" class="gda.device.detector.addetector.triggering.PCOTFGTrigger">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg ref="adDriverPco1" />
@@ -183,6 +186,33 @@
 	</bean>
 
 
+	<bean id="dimax_tif" class="gda.device.detector.addetector.ADPco">
+		<property name="adBase" ref="pco1_cam_base" />
+		<property name="ndStats" ref="pco1_stat" />
+		<property name="ndArray" ref="pco1_arr" />
+		<property name="ndFile" ref="pco1_ndfiletif" />
+		<property name="collectionStrategy" ref="pco1_multipleExposurePco"/>
+		<property name="fileWriter">
+			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+				<constructor-arg value="dimax"/>
+				<property name="ndFile" ref="pco1_ndfiletif" />
+				<property name="returnExpectedFullFileName" value="true"/>
+				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+				<property name="ndArrayPortVal" value="pco1.prc2"/> <!-- use same proc as in collectionStrategy  -->
+			</bean>
+		</property>
+
+		<property name="readAcquisitionTime" value="true" />
+		<property name="readFilepath" value="true" />
+		<property name="readAcquisitionPeriod" value="false" />
+		<property name="computeStats" value="false" />
+		<property name="computeCentroid" value="false" />
+		<property name="readArray" value="false" />
+		<property name="checkFileExists" value="true"/>
+		<property name="usePipeline" value="true"/>
+	</bean>
+
+<!-- Does not work - the triggering is wrong
 	<bean id="dimax_hw_tif" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
 		<property name="ndStats" ref="pco1_stat" />
@@ -207,6 +237,6 @@
 		<property name="readArray" value="false" />
 		<property name="checkFileExists" value="true"/>
 		<property name="usePipeline" value="true"/>
-	</bean>
+	</bean> -->
 
 </beans>	

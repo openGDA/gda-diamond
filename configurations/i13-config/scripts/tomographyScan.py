@@ -187,7 +187,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         sample_stage = jns.sample_stage
         if sample_stage is None:
             raise "sample_stage is not defined in Jython namespace"
-        
+
         index=SimpleScannable()
         index.setCurrentPosition(0.0)
         index.setInputNames(["imageNumber"])
@@ -263,6 +263,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         positionProvider = tomoScan_positions( start, stop, step, darkFieldInterval, imagesPerDark, flatFieldInterval, imagesPerFlat, \
                                                inBeamPosition, outOfBeamPosition, scan_points ) 
         scan_args = [tomoScanDevice, positionProvider, tomography_time, tomography_beammonitor, tomography_detector, exposureTime, camera_stage, sample_stage ]
+        print `scan_args`
         if min_i > 0.:
             import gdascripts.scannable.beamokay
             ionc_i = jns.ionc_i

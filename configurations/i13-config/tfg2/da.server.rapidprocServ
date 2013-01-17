@@ -28,7 +28,15 @@ d_start() {
 #	Function that stops the daemon/service.
 #
 d_stop() {
-	su -c "killall procServ" rapid2
+        echo `ps -ef | grep procServ`
+        PROCSERVPID=`ps -ef | grep "procServ -n daserver" | grep -v grep | awk '{print $2}'`
+        echo "ProcServ_PID="$PROCSERVPID
+        if [ -n "$PROCSERVPID" ]; then
+                CMD="kill -9 $PROCSERVPID"; export CMD
+                echo "CMD="+$CMD
+                su -c $CMD i13detector
+        fi
+
 }
 
 case "$1" in
