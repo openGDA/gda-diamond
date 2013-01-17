@@ -512,7 +512,7 @@
             bean="uk.ac.gda.beans.exafs.XanesScanParameters"
             commandId="uk.ac.gda.client.exafs.CopyXANESCommand"
             contentType="uk.ac.diamond.gda.client.exafs.getXanesContent"
-            includeInNew="false"
+            includeInNew="true"
             name="XANES Scan"
             template="ANGLE_Parameters"
             type="Scan">
@@ -521,7 +521,7 @@
             bean="uk.ac.gda.beans.microfocus.MicroFocusScanParameters"
             commandId="uk.ac.gda.client.exafs.CopyMICROFOCUSCommand"
             contentType="uk.ac.diamond.gda.client.microfocus.getMicroFocusContent"
-            includeInNew="false"
+            includeInNew="true"
             name="Micro Focus"
             template="MicroFocus_Parameters"
             type="Scan">
@@ -530,7 +530,7 @@
             bean="uk.ac.gda.beans.exafs.QEXAFSParameters"
             commandId="uk.ac.gda.client.exafs.CopyQEXAFSCommand"
             contentType="uk.ac.diamond.gda.client.exafs.getQexafsContent"
-            includeInNew="false"
+            includeInNew="true"
             name="QEXAFS Scan"
             template="QEXAFS_Parameters"
             type="Scan">
