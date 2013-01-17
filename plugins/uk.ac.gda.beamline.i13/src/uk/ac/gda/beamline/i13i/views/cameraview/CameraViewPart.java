@@ -35,6 +35,7 @@ import gda.observable.IObserver;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -182,7 +183,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		connectedLbl.setVisible(false);
 		
 		Group latestImageGroup = new Group(btnCmp,SWT.NONE);
-		latestImageGroup.setText("Time of last image");
+		latestImageGroup.setText("Time of last image : Rate");
 		latestImageGroup.setLayout( new RowLayout());
 		imageDateLabel = new Label(latestImageGroup,SWT.NONE);
 		imageDateLabel.setText("Waiting for image...");
@@ -316,17 +317,6 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 		
 
-		final Action setExposureTime = new Action("Start Camera or Change Exposure Time") {
-			@Override
-			public void run() {
-				try {
-					setExposureTime();
-				} catch (Exception e) {
-					reportErrorToUserAndLog("Error setting exposure time", e);
-				}
-			}
-		};
-
 		Action zoomFit = new Action("Zoom to Fit") {
 			@Override
 			public void run() {
@@ -337,13 +327,28 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			@Override
 			public void run() {
 				try {
-					showRawData();
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(cameraConfig.getImagePlotId());
+//					showRawData();
 				} catch (Exception e) {
 					reportErrorToUserAndLog("Error showing raw data", e);
 				}
 			}
 		};
 		showRawData.setToolTipText("Displays hi resolution image in 'Detector Image' window");
+
+		
+		Action showHistogram = new Action("Show Histogram") {
+			@Override
+			public void run() {
+				try {
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(cameraConfig.getHistogramPlotId());
+				} catch (Exception e) {
+					reportErrorToUserAndLog("Error showing histogram view", e);
+				}
+			}
+		};
+		showHistogram.setToolTipText("Displays the histogram of the stream");
+		
 		
 		reconnectAction = new Action("Reconnect to Image Stream") {
 			@Override
@@ -510,7 +515,6 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		
 		Vector<Action> exposureActions= new Vector<Action>();
 		exposureActions.add(reconnectAction);
-		exposureActions.add(setExposureTime);
 		exposureActions.add(autoExposureAction);
 		exposureActions.add(autoBrightnessAction);
 		
@@ -521,6 +525,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		showActions.add(showImageMarkerAction);
 		showActions.add(rotationAxisAction);
 		showActions.add(showRawData);
+		showActions.add(showHistogram);
 		showActions.add(showNormalisedImageAction);
 		showActions.add(zoomFit);
 		
@@ -680,85 +685,6 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		}
 	}
 
-	protected void showRawData() throws Exception {
-		
-		ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
-		try {
-			pd.run(true /* fork */, true /* cancelable */, new IRunnableWithProgress() {
-				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-					String title = "Reading image to display in 'Detector Image' view";
-
-					monitor.beginTask(title, 100);
-
-					
-					try {
-						AbstractDataset arrayData = getArrayData(monitor);
-						if (arrayData != null)
-							SDAPlotter.imagePlot("Detector Image", arrayData);
-						
-					} catch (Exception e) {
-						throw new InvocationTargetException(e, "Error in " + title);
-					}
-
-					monitor.done();
-				}
-
-			});
-		} catch (Exception e) {
-			reportErrorToUserAndLog("Error showing data");
-		}
-		
-		
-		
-	}
-
-	protected void setExposureTime() throws Exception {
-		double acquireTime = cameraConfig.getAdBase().getAcquireTime_RBV();
-		InputDialog dlg = new InputDialog(Display.getCurrent().getActiveShell(), "Set exposure time",
-				"Enter a new value for the exposure time in secs:", Double.toString(acquireTime),
-				new IInputValidator() {
-
-					@Override
-					public String isValid(String newText) {
-						try {
-							Double.valueOf(newText);
-						} catch (Exception e) {
-							return "Value is not recognised as a number '" + newText + "'";
-						}
-						return null;
-					}
-
-				});
-		if (dlg.open() == Window.OK) {
-			final String value = dlg.getValue();
-			final String cmd = String.format(cameraConfig.getSetExposureTimeCmd(), value);
-
-			ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
-			pd.run(true /* fork */, true /* cancelable */, new IRunnableWithProgress() {
-				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-					String title = "Setting exposure time to " + value;
-
-					monitor.beginTask(title, 100);
-
-					try {
-						String evaluateCommand = InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
-						if(evaluateCommand ==null){
-							throw new Exception("Error setting exposure using command:'" + cmd +"'. See server log for details");
-						}
-						autoExposureTask(false, 0., monitor);
-					} catch (Exception e) {
-						throw new InvocationTargetException(e, "Error in " + title);
-					}
-
-					monitor.done();
-				}
-
-			});
-		}
-	}
-
 	protected void reconnectIOC() {
 
 		ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
@@ -855,14 +781,16 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			ffmpegStream.setQUALITY(100.);
 			NDPluginBase ffmpegBase = ffmpegStream.getPluginBase();
 			String procPortName_RBV = procBase.getPortName_RBV();
-			if (!ffmpegBase.getNDArrayPort_RBV().equals(procPortName_RBV))
+			String ndArrayPort_RBV = ffmpegBase.getNDArrayPort_RBV();
+			if (ndArrayPort_RBV == null || !ndArrayPort_RBV.equals(procPortName_RBV))
 				ffmpegBase.setNDArrayPort(procPortName_RBV);
 			if (!ffmpegBase.isCallbacksEnabled_RBV())
 				ffmpegBase.enableCallbacks();
 
 			NDPluginBase arrayBase = cameraConfig.getNdArray().getPluginBase();
 			String procNdArrayPort_RBV = procBase.getNDArrayPort_RBV();
-			if (!arrayBase.getNDArrayPort_RBV().equals(procNdArrayPort_RBV))
+			String ndArrayPort_RBV2 = arrayBase.getNDArrayPort_RBV();
+			if (ndArrayPort_RBV2 == null || !ndArrayPort_RBV2.equals(procNdArrayPort_RBV))
 				arrayBase.setNDArrayPort(procNdArrayPort_RBV);
 			if (!arrayBase.isCallbacksEnabled_RBV())
 				arrayBase.enableCallbacks();		
@@ -882,7 +810,12 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			videoReceiver = motionJpegOverHttpReceiverSwt;
 		}
 		cameraComposite.setVideoReceiver(videoReceiver);
-		videoReceiver.start();
+		getSite().getShell().getDisplay().asyncExec(new Runnable(){
+			@Override
+			public void run() {
+				videoReceiver.start();
+			}});
+
 
 	}
 
@@ -922,7 +855,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 				try {
 					autoExposureTask(autoExposureTime, topQuantileValToUse, monitor);
 				} catch (Exception e) {
-					throw new InvocationTargetException(e, "Error in autoExposureTask");
+					throw new InvocationTargetException(e, "Error in autoExposureTask :" + e.getMessage());
 				}
 				monitor.done();
 			}
@@ -969,7 +902,6 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		boolean autoBrightnessOnceAgain=false;
 		if (autoExposureTime) {
 			double factor = topQuantileValToUse / max;
-			;
 			double desiredAcquireTime = factor * acquireTime;
 			if( desiredAcquireTime > 5){
 				autoBrightnessOnceAgain = true;
@@ -1111,7 +1043,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 
 	Label imageDateLabel;
 
-	DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
+	DateFormat df = new SimpleDateFormat("hh:mm:ss");
 
 
 	private void showRotationAxis(boolean show) throws DeviceException {
@@ -1199,6 +1131,7 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 		return reconnectAction;
 	}
 
+	long timeOfLastImage=System.currentTimeMillis();
 	@Override
 	public void handlerNewImageNotification(ImageData newImage) throws DeviceException {
 		// On the first image, ensure we reset the display to match incoming image dimensions
@@ -1207,20 +1140,20 @@ public class CameraViewPart extends ViewPart implements NewImageListener {
 			showRotationAxisFromUIThread(rotationAxisAction);
 			showImageMarkerFromUIThread(showImageMarkerAction);
 		}
-		imageDateLabel.setText(df.format(new Date()));
-/*		getViewSite().getShell().getDisplay().asyncExec(new Runnable() {
-
-			@Override
-			public void run() {
-				imageDateLabel.setText(df.format(new Date()));
-				
-			}});
-*/	}
+		long ctime = System.currentTimeMillis();
+		imageDateLabel.setText(df.format(new Date(ctime)) + String.format(": %3.3g Hz", 1000.0/(ctime-timeOfLastImage)));
+		timeOfLastImage = ctime;
+	}
 
 	@Override
 	public void dispose() {
 		super.dispose();
+		if (videoReceiver != null) {
+			videoReceiver.closeConnection();
+			videoReceiver = null;
+		}
 		if (cameraComposite != null) {
+			cameraComposite.setVideoReceiver(null);
 			cameraComposite.dispose();
 		}
 	}

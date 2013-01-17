@@ -29,6 +29,7 @@ import uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPartConfig;
  * The activator class controls the plug-in life cycle
  */
 public class I13IBeamlineActivator extends AbstractUIPlugin {
+	private static BundleContext bundleContext;
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "uk.ac.gda.beamline.i13i";
@@ -42,22 +43,26 @@ public class I13IBeamlineActivator extends AbstractUIPlugin {
 	public I13IBeamlineActivator() {
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		bundleContext = context;
 		plugin = this;
-		cameraConfigTracker = new ServiceTracker(context, CameraViewPartConfig.class.getName(), null);
-		cameraConfigTracker.open(true);
-		
 	}
 
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
-		cameraConfigTracker.close();		
-		
+		if (cameraConfigTracker != null) {
+			cameraConfigTracker.close();
+			cameraConfigTracker = null;
+		}		
+		if(namedServiceProvider != null){
+			namedServiceProvider.close();
+			namedServiceProvider = null;
+		}
+		bundleContext = null;
 	}
 
 	/**
@@ -80,14 +85,23 @@ public class I13IBeamlineActivator extends AbstractUIPlugin {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	private static ServiceTracker cameraConfigTracker;
-	
-	
+	private static ServiceTracker cameraConfigTracker= null;
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static CameraViewPartConfig getCameraConfig() {
-		if( cameraConfigTracker==null||cameraConfigTracker.isEmpty())
-			return null;
-		return (CameraViewPartConfig) cameraConfigTracker.getService();
+		if( cameraConfigTracker==null){
+			cameraConfigTracker = new ServiceTracker(bundleContext, CameraViewPartConfig.class.getName(), null);
+			cameraConfigTracker.open(true);
+		}
+		return cameraConfigTracker.isEmpty() ? null : (CameraViewPartConfig) cameraConfigTracker.getService();
 	}
 
+	private static NamedServiceProvider namedServiceProvider;
 	
+	public static Object getNamedService(Class clzz, final String name) {
+		if(namedServiceProvider == null){
+			namedServiceProvider = new NamedServiceProvider(bundleContext);
+		}
+		return namedServiceProvider.getNamedService(clzz, name);
+		
+	}
 }

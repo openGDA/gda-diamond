@@ -41,4 +41,126 @@
 		<MODEL desc="Model String" pv="BL13J-DI-FEMTO-01:MODEL" ro="true" type="pv"/>
 	</currAmpSingle>	 -->
 
+ <!-- moveable component for bimorph -->
+
+	<simpleMotor desc="Piezo E516" name="E516.X">
+		<RECORD desc="Motor" pv="ME07M-EA-PIEZO-02:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Piezo E516" name="E516.Y">
+		<RECORD desc="Motor" pv="ME07M-EA-PIEZO-02:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="25mm stage1" name="NEWPORT1">
+		<RECORD desc="Motor" pv="ME07M-MO-BRICK-02:AXIS1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="25mm stage2" name="NEWPORT2">
+		<RECORD desc="Motor" pv="ME07M-MO-BRICK-02:AXIS2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="25mm stage3" name="NEWPORT3">
+		<RECORD desc="Motor" pv="ME07M-MO-BRICK-02:AXIS3" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="25mm stage4" name="NEWPORT4">
+		<RECORD desc="Motor" pv="ME07M-MO-BRICK-02:AXIS4" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="25mm stage5" name="NEWPORT5">
+		<RECORD desc="Motor" pv="ME07M-MO-BRICK-02:AXIS5" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="25mm stage6" name="NEWPORT6">
+		<RECORD desc="Motor" pv="ME07M-MO-BRICK-02:AXIS6" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="25mm stage7" name="NEWPORT7">
+		<RECORD desc="Motor" pv="ME07M-MO-BRICK-02:AXIS7" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="25mm stage8" name="NEWPORT8">
+		<RECORD desc="Motor" pv="ME07M-MO-BRICK-02:AXIS8" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Newstep" name="newstep">
+		<RECORD desc="Motor" pv="ME07M-MO-NSC-01:AXIS1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simplePv desc="Piezo controller PIE625 X" name="E625X.val">
+		<RECORD desc="PI piezo controller E625 demand" pv="ME07M-EA-PIEZO-01:E625:X:MOV:WR" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Piezo controller PIE625 X" name="E625X.rbv">
+		<RECORD desc="PI piezo controller E625 readback" pv="ME07M-EA-PIEZO-01:E625:X:POS:RD" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Piezo controller PIE625 Y" name="E625Y.val">
+		<RECORD desc="PI piezo controller E625 demand" pv="ME07M-EA-PIEZO-01:E625:Y:MOV:WR" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Piezo controller PIE625 Y" name="E625Y.rbv">
+		<RECORD desc="PI piezo controller E625 readback" pv="ME07M-EA-PIEZO-01:E625:Y:POS:RD" ro="true" type="pv"/>
+	</simplePv>
+	<bimorphpsu desc="EEM bimorph" name="eembimorph">
+		<VOUT desc="Output voltage" pv="EEM_Bimorph:VOUT" ro="true" type="array"/>
+		<POWERON desc="Power on status" pv="EEM_Bimorph:POWERON" ro="true" type="binary"/>
+		<STATUS desc="Status" pv="EEM_Bimorph:STATUS" ro="true" type="mbbinary"/>
+		<ELECTRODES desc="Electrodes" pv="EEM_Bimorph:ELECTRODES" ro="true" type="pv"/>
+		<TARGETRBV desc="Read target voltages" pv="EEM_Bimorph:TARGETRBV" ro="true" type="array"/>
+		<TARGET desc="Set target voltages" pv="EEM_Bimorph:TARGET" ro="false" type="array"/>
+		<APPLYTARGET desc="Start ramping voltages" pv="EEM_Bimorph:APPLYTARGET" ro="false" type="binary"/>
+		<POWERONSET desc="Power on control" pv="EEM_Bimorph:POWERONSET" ro="false" type="binary"/>
+	</bimorphpsu>
+	<simplePv desc="Diode reading" name="diode">
+		<RECORD desc="Diode reading" pv="ME07M-DI-CURR-01" ro="true" type="pv"/>
+	</simplePv>
+	<elettraSY900S desc="EEM bimorph mirror" name="eem">
+		<STATUS desc="Get busy status" pv="EEM_Bimorph:GET-STATUS" ro="true" type="mbbinary"/>
+		<LASTERR desc="Get last error" pv="EEM_Bimorph:GET-LASTERROR" ro="true" type="mbbinary"/>
+		<SETALLVOLT desc="Set all voltages" pv="EEM_Bimorph:SET-ALLVOLT" ro="false" type="pv"/>
+		<SETALLTRGT desc="Set all to target voltages" pv="EEM_Bimorph:SET-ALLTRGT" ro="false" type="pv"/>
+		<SETALLSHIFT desc="Set all voltages relative" pv="EEM_Bimorph:SET-ALLSHIFT" ro="false" type="pv"/>
+		<SETALLOFF desc="Set all channels off" pv="EEM_Bimorph:SET-ALLOFF" ro="false" type="binary"/>
+		<SETALLON desc="Set all channels on" pv="EEM_Bimorph:SET-ALLON" ro="false" type="binary"/>
+		<RESETERROR desc="Reset last error" pv="EEM_Bimorph:RESET-LASTERR" ro="false" type="binary"/>
+		<VOUT00 desc="Get voltage 00" pv="EEM_Bimorph:GET-VOUT00" ro="true" type="pv"/>
+		<VTRGT00 desc="Get target voltage 00" pv="EEM_Bimorph:GET-VTRGT00" ro="true" type="pv"/>
+		<STATUS00 desc="Get status 00" pv="EEM_Bimorph:GET-STATUS00" ro="true" type="mbbinary"/>
+		<SETVOUT00 desc="Set voltage 00" pv="EEM_Bimorph:SET-VOUT00" ro="false" type="pv"/>
+		<SETVTRGT00 desc="Set target voltage 00" pv="EEM_Bimorph:SET-VTRGT00" ro="false" type="pv"/>
+		<SETSHIFT00 desc="Set voltage 00 relative" pv="EEM_Bimorph:SET-SHIFT00" ro="false" type="pv"/>
+		<VOUT01 desc="Get voltage 01" pv="EEM_Bimorph:GET-VOUT01" ro="true" type="pv"/>
+		<VTRGT01 desc="Get target voltage 01" pv="EEM_Bimorph:GET-VTRGT01" ro="true" type="pv"/>
+		<STATUS01 desc="Get status 01" pv="EEM_Bimorph:GET-STATUS01" ro="true" type="mbbinary"/>
+		<SETVOUT01 desc="Set voltage 01" pv="EEM_Bimorph:SET-VOUT01" ro="false" type="pv"/>
+		<SETVTRGT01 desc="Set target voltage 01" pv="EEM_Bimorph:SET-VTRGT01" ro="false" type="pv"/>
+		<SETSHIFT01 desc="Set voltage 01 relative" pv="EEM_Bimorph:SET-SHIFT01" ro="false" type="pv"/>
+		<VOUT02 desc="Get voltage 02" pv="EEM_Bimorph:GET-VOUT02" ro="true" type="pv"/>
+		<VTRGT02 desc="Get target voltage 02" pv="EEM_Bimorph:GET-VTRGT02" ro="true" type="pv"/>
+		<STATUS02 desc="Get status 02" pv="EEM_Bimorph:GET-STATUS02" ro="true" type="mbbinary"/>
+		<SETVOUT02 desc="Set voltage 02" pv="EEM_Bimorph:SET-VOUT02" ro="false" type="pv"/>
+		<SETVTRGT02 desc="Set target voltage 02" pv="EEM_Bimorph:SET-VTRGT02" ro="false" type="pv"/>
+		<SETSHIFT02 desc="Set voltage 02 relative" pv="EEM_Bimorph:SET-SHIFT02" ro="false" type="pv"/>
+		<VOUT03 desc="Get voltage 03" pv="EEM_Bimorph:GET-VOUT03" ro="true" type="pv"/>
+		<VTRGT03 desc="Get target voltage 03" pv="EEM_Bimorph:GET-VTRGT03" ro="true" type="pv"/>
+		<STATUS03 desc="Get status 03" pv="EEM_Bimorph:GET-STATUS03" ro="true" type="mbbinary"/>
+		<SETVOUT03 desc="Set voltage 03" pv="EEM_Bimorph:SET-VOUT03" ro="false" type="pv"/>
+		<SETVTRGT03 desc="Set target voltage 03" pv="EEM_Bimorph:SET-VTRGT03" ro="false" type="pv"/>
+		<SETSHIFT03 desc="Set voltage 03 relative" pv="EEM_Bimorph:SET-SHIFT03" ro="false" type="pv"/>
+		<VOUT04 desc="Get voltage 04" pv="EEM_Bimorph:GET-VOUT04" ro="true" type="pv"/>
+		<VTRGT04 desc="Get target voltage 04" pv="EEM_Bimorph:GET-VTRGT04" ro="true" type="pv"/>
+		<STATUS04 desc="Get status 04" pv="EEM_Bimorph:GET-STATUS04" ro="true" type="mbbinary"/>
+		<SETVOUT04 desc="Set voltage 04" pv="EEM_Bimorph:SET-VOUT04" ro="false" type="pv"/>
+		<SETVTRGT04 desc="Set target voltage 04" pv="EEM_Bimorph:SET-VTRGT04" ro="false" type="pv"/>
+		<SETSHIFT04 desc="Set voltage 04 relative" pv="EEM_Bimorph:SET-SHIFT04" ro="false" type="pv"/>
+		<VOUT05 desc="Get voltage 05" pv="EEM_Bimorph:GET-VOUT05" ro="true" type="pv"/>
+		<VTRGT05 desc="Get target voltage 05" pv="EEM_Bimorph:GET-VTRGT05" ro="true" type="pv"/>
+		<STATUS05 desc="Get status 05" pv="EEM_Bimorph:GET-STATUS05" ro="true" type="mbbinary"/>
+		<SETVOUT05 desc="Set voltage 05" pv="EEM_Bimorph:SET-VOUT05" ro="false" type="pv"/>
+		<SETVTRGT05 desc="Set target voltage 05" pv="EEM_Bimorph:SET-VTRGT05" ro="false" type="pv"/>
+		<SETSHIFT05 desc="Set voltage 05 relative" pv="EEM_Bimorph:SET-SHIFT05" ro="false" type="pv"/>
+		<VOUT06 desc="Get voltage 06" pv="EEM_Bimorph:GET-VOUT06" ro="true" type="pv"/>
+		<VTRGT06 desc="Get target voltage 06" pv="EEM_Bimorph:GET-VTRGT06" ro="true" type="pv"/>
+		<STATUS06 desc="Get status 06" pv="EEM_Bimorph:GET-STATUS06" ro="true" type="mbbinary"/>
+		<SETVOUT06 desc="Set voltage 06" pv="EEM_Bimorph:SET-VOUT06" ro="false" type="pv"/>
+		<SETVTRGT06 desc="Set target voltage 06" pv="EEM_Bimorph:SET-VTRGT06" ro="false" type="pv"/>
+		<SETSHIFT06 desc="Set voltage 06 relative" pv="EEM_Bimorph:SET-SHIFT06" ro="false" type="pv"/>
+		<VOUT07 desc="Get voltage 07" pv="EEM_Bimorph:GET-VOUT07" ro="true" type="pv"/>
+		<VTRGT07 desc="Get target voltage 07" pv="EEM_Bimorph:GET-VTRGT07" ro="true" type="pv"/>
+		<STATUS07 desc="Get status 07" pv="EEM_Bimorph:GET-STATUS07" ro="true" type="mbbinary"/>
+		<SETVOUT07 desc="Set voltage 07" pv="EEM_Bimorph:SET-VOUT07" ro="false" type="pv"/>
+		<SETVTRGT07 desc="Set target voltage 07" pv="EEM_Bimorph:SET-VTRGT07" ro="false" type="pv"/>
+		<SETSHIFT07 desc="Set voltage 07 relative" pv="EEM_Bimorph:SET-SHIFT07" ro="false" type="pv"/>
+	</elettraSY900S>
+	
+
+
+
 </devices>

@@ -11,5 +11,10 @@
 	<bean id="s4_xplus_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="s4_xminus_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="s4_yplus_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="s4_yminus_motor" class="gda.device.motor.DummyMotor"/>		
+	<bean id="s4_yminus_motor" class="gda.device.motor.DummyMotor"/>	
+	
+	<bean id="fs" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="Open, Closed"/>
+	</bean>
+		
 </beans>	

@@ -139,6 +139,14 @@ To take an image from the maxipix detector:
 	e.g. d4_cam.rescanProcessors()
 
 
+11b Region of Interest Support for maxipix
+
+    mpx_wrap supports  2 region of interests imageROI and imageROI2. These report the average and total of counts over the ROI
+    
+    mpx is also supported by scannables that reports the difference between the two regions of interest
+    
+    repscan 5 mpx_wrap .1 mpx_roi_average_diff mpx_roi_total_diff
+
 12. Beammonitor
     To pause the scan if the value of a scannable goes below a minimum threshold add thescannable beammonitor to a scan command
     e.g. scan ix 0 10 1 beammonitor

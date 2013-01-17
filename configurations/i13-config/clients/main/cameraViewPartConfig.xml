@@ -96,6 +96,8 @@
 		<property name="displayScaleProvider" ref="displayScaleProvider" />
 		<property name="cameraXYScannable" ref="cameraXYScannable"/>
 		<property name="showNormalisedImageCmd" value="tomographyScan.showNormalisedImage(%s)"/>
+		<property name="histogramPlotId" value="uk.ac.gda.beamline.i13i.AreaDetectorProfileView"/>
+		<property name="imagePlotId" value="uk.ac.gda.beamline.i13i.AreaDetectorArrayView"/>
 	</bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class"

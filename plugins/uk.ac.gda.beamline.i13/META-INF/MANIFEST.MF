@@ -35,7 +35,12 @@ Export-Package: uk.ac.gda.beamline.i13i,
  uk.ac.gda.beamline.i13i.views.cameraview
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.gda.core, uk.ac.gda.libs
-Import-Package: org.eclipse.draw2d,
+Import-Package: org.dawb.common.ui.plot,
+ org.dawb.common.ui.plot.region,
+ org.dawb.common.ui.plot.tool,
+ org.dawb.common.ui.plot.trace,
+ org.dawb.workbench.plotting.util,
+ org.eclipse.draw2d,
  org.eclipse.draw2d.geometry,
  org.slf4j;version="[1.5.0,2.0.0)",
  org.springframework.beans.factory;version="3.0.4",

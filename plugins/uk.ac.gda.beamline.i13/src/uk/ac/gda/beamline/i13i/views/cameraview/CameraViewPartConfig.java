@@ -41,4 +41,6 @@ public interface CameraViewPartConfig {
 	DisplayScaleProvider getDisplayScaleProvider();
 	Scannable getCameraXYScannable();
 	String getShowNormalisedImageCmd();
+	String getHistogramPlotId();
+	String getImagePlotId();
 }
