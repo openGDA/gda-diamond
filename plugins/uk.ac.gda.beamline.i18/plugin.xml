@@ -491,7 +491,7 @@
    <extension
          point="uk.ac.microfocus.elementlist.refresh">
       <ElementListViewIDList
-            viewId="uk.ac.gda.client.microfocus.MFElementListView">
+            viewId="uk.ac.gda.client.microfocus.XspressElementListView">
       </ElementListViewIDList>
       <ElementListViewIDList
             viewId="uk.ac.gda.client.microfocus.VortexElementListView">
