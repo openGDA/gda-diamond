@@ -31,12 +31,12 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
-	<bean id="qexafs_energy" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}qexafs_energy" />
-		<property name="serviceInterface"
-			value="gda.device.scannable.IQexafsScannableState" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+<!-- 	<bean id="qexafs_energy" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
+<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}qexafs_energy" /> -->
+<!-- 		<property name="serviceInterface" -->
+<!-- 			value="gda.device.scannable.IQexafsScannableState" /> -->
+<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
+<!-- 	</bean> -->
 
 	<corba:import namespace="b18" names="plot_server" />
 	<bean class="gda.rcp.util.OSGIServiceRegister">
