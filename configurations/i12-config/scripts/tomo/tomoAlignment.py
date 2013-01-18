@@ -97,9 +97,9 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     fastScan = FastScan('fastScan')
     topUp = TopupPause("topUp")
     isTomoScanSuccess = True
-    numberOfDarks = 10 
-    numberOfFlats = 10
-    #stepsSize = 90
+    numberOfDarks = 1
+    numberOfFlats = 1
+    stepsSize = 90
     
     try:
         pco.getController().disarmCamera()
@@ -692,6 +692,7 @@ def autoFocusLeft(pathname, numImgs=51):
     autofocusImages(pathname, 111, 974, 565, 1345, numImgs)
     
 def autofocusImages(pathname, cropxStart, cropyStart, cropxEnd, cropyEnd, numImgs, shouldPlot=False):
+    cam1_zBestFocusVal=None
     try:
         index = 0
         biggestSum = 0
