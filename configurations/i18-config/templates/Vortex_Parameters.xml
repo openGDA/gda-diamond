@@ -9,9 +9,15 @@
         <number>1</number>
         <ROI>
             <name>S_Ka</name>
-            <windowStart>216</windowStart>
-            <windowEnd>246</windowEnd>
-            <counts>67856</counts>
+            <windowStart>0</windowStart>
+            <windowEnd>1</windowEnd>
+            <counts>0</counts>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>0</windowStart>
+            <windowEnd>1</windowEnd>
+            <counts>0</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -23,9 +29,15 @@
         <number>1</number>
         <ROI>
             <name>S_Ka</name>
-            <windowStart>216</windowStart>
-            <windowEnd>246</windowEnd>
-            <counts>69890</counts>
+            <windowStart>215</windowStart>
+            <windowEnd>240</windowEnd>
+            <counts>8531</counts>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>250</windowStart>
+            <windowEnd>280</windowEnd>
+            <counts>4724</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -37,9 +49,15 @@
         <number>1</number>
         <ROI>
             <name>S_Ka</name>
-            <windowStart>216</windowStart>
-            <windowEnd>246</windowEnd>
-            <counts>58614</counts>
+            <windowStart>215</windowStart>
+            <windowEnd>240</windowEnd>
+            <counts>9191</counts>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>250</windowStart>
+            <windowEnd>280</windowEnd>
+            <counts>4724</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -51,15 +69,21 @@
         <number>1</number>
         <ROI>
             <name>S_Ka</name>
-            <windowStart>216</windowStart>
-            <windowEnd>246</windowEnd>
-            <counts>65818</counts>
+            <windowStart>215</windowStart>
+            <windowEnd>240</windowEnd>
+            <counts>10789</counts>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>250</windowStart>
+            <windowEnd>280</windowEnd>
+            <counts>4724</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
         <excluded>false</excluded>
     </DetectorElement>
-    <deadTime>-0.01</deadTime>
+    <deadTime>0.01</deadTime>
     <saveRawSpectrum>false</saveRawSpectrum>
 </VortexParameters>

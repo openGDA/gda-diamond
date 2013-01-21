@@ -1,0 +1,258 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="oh_shutter" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="expt_shutter" class="gda.device.enumpositioner.DummyValve" />
+
+	<bean id="ringCurrent" class="gda.device.monitor.DummyMonitor">
+		<property name="local" value="true" />
+	</bean>
+	<bean id="ringEnergy" class="gda.device.monitor.DummyMonitor">
+		<property name="local" value="true" />
+	</bean>
+	<bean id="fillMode" class="gda.device.monitor.DummyMonitor">
+		<property name="local" value="true" />
+	</bean>
+	<bean id="topup" class="gda.device.monitor.DummyMonitor">
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="bragg_speed" class="gda.device.monitor.DummyMonitor">
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="S1X1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S1X2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S1Y1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S1Y2_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="M1B_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M1Y1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M1Y2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m1b" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1B_motor" />
+	</bean>
+	<bean id="m1y1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1B_motor" />
+	</bean>
+	<bean id="m1y2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1B_motor" />
+	</bean>
+	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m1b" />
+				<ref bean="m1y1" />
+				<ref bean="m1y2" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="S2X1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S2X2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S2Y1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S2Y2_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="A1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Al 1 mm</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="S3X1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S3X2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S3Y1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S3Y2_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="A2" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Al 1 mm</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="M2B_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M2Y1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M2Y2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M2Y_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M2YAW_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M2Pitch_motor" class="gda.device.motor.DummyMotor" />
+
+
+	<bean id="HRY1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="HRY2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="HRY_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="HRPITCH_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="i0_position_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="S4X1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S4X2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S4Y1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S4Y2_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="A3" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Al 1 mm</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="IZERO_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="SAM1Y_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="SAM1ROT_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="TAB1Y1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="TAB1Y2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="TAB1Y3_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="TAB1Y_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="TAB1X1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="TAB1X2_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="SAM2X_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="SAM2Y_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="SAM2Z_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="SAM2ROT_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="SAM3Y_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="USER2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER4_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER5_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER6_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER7_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER8_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="HVDTYX_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="HVDTYY_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="CRYOX_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="CRYOROT_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="M1PITCHPITCH_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M1PITCHY_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="HRMPITCHPITCH_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="HRMPITCHY_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="BRAGG_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="XTAL1X_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="XTAL2P_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="XTAL2R_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="XTAL2Y_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="GAP_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="test_motor" class="gda.device.motor.DummyMotor" />
+	
+
+	<bean id="energy" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="energy" />
+		<property name="motor" ref="energy_bragg_pv" />
+		<property name="hardwareUnitString" value="eV" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="lowerGdaLimits">
+			<list>
+				<value>2000</value>
+			</list>
+		</property>
+		<property name="upperGdaLimits">
+			<list>
+				<value>35000</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="energy_bragg_pv" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="2000" />
+	</bean>
+
+
+	
+	<bean id="eurotherm" class="gda.device.scannable.TestingEurotherm">
+	</bean>
+
+	<bean id="energy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="200" />
+	</bean>
+
+	<bean id="qexafs_energy" class="gda.device.scannable.QexafsTestingScannable">
+		<property name="motor" ref="energy_motor" />
+		<property name="lowerGdaLimits" value="2000" />
+		<property name="upperGdaLimits" value="35000" />
+		<property name="outputFormat">
+			<list>
+				<value>%.2f</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="dcm_crystal" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Si(111)</value>
+				<value>Si(113)</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="oh_coating" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Cr</value>
+				<value>Pt</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="hr_coating" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Bran 1</value>
+				<value>Bran 2</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="hr_inout" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>in</value>
+				<value>out</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="dcm_branch" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Bran 1</value>
+				<value>Bran 2</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ionc1_stanford" class="gda.device.scannable.DummyStanfordScannable" />
+	<bean id="ionc2_stanford" class="gda.device.scannable.DummyStanfordScannable" />
+	<bean id="ionc3_stanford" class="gda.device.scannable.DummyStanfordScannable" />
+	
+	<bean id="ionc1_gas_injector" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc2_gas_injector" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc3_gas_injector" class="gda.device.scannable.DummyScannable" />
+	
+	<bean id="lakeshore" class="gda.device.scannable.DummyScannable" />
+	<bean id="pulsetube" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="samplewheel" class="gda.device.scannable.DummySampleWheel">
+		<property name="name" value="samplewheel" />
+		<property name="numberOfFilters" value="36" />
+	</bean>
+
+</beans>

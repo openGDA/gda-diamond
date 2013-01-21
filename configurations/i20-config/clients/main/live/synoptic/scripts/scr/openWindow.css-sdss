@@ -19,8 +19,8 @@ var d8 = new Packages.org.eclipse.core.runtime.Path("screens/common/d8.css-sds")
 var d9 = new Packages.org.eclipse.core.runtime.Path("screens/common/d9.css-sds");
 var t1 = new Packages.org.eclipse.core.runtime.Path("screens/common/t1.css-sds");
 var t2 = new Packages.org.eclipse.core.runtime.Path("screens/common/t2.css-sds");
-var sample_xas = new Packages.org.eclipse.core.runtime.Path("screens/common/sample_xas.css-sds");
-var sample_xes = new Packages.org.eclipse.core.runtime.Path("screens/common/sample_xes.css-sds");
+var sample_xas = new Packages.org.eclipse.core.runtime.Path("screens/xas/sample.css-sds");
+var sample_xes = new Packages.org.eclipse.core.runtime.Path("screens/xes/sample.css-sds");
 var xes = new Packages.org.eclipse.core.runtime.Path("screens/common/xes.css-sds");
 var help_text1 = new Packages.org.eclipse.core.runtime.Path("screens/common/help_text1.css-sds");
 var analysers_predict = new Packages.org.eclipse.core.runtime.Path("screens/common/simulated_positions.css-sds");
@@ -88,6 +88,8 @@ function execute(args) {
 	    result = analysers;
 	}else if ( argument1 == 'analysers_help') {
 	    result = analysers_help;
+	}else if ( argument1 == 'help_text1') {
+	    result = help_text1;
 	}else if ( argument1 == 'analysers_predict') {
 	    result = analysers_predict;
 	}else if ( argument1 == 'offsets') {

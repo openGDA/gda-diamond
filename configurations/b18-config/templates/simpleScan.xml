@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SimpleScan>
     <scannableName>energy</scannableName>
-    <fromPos>3000.0</fromPos>
-    <toPos>4000.0</toPos>
-    <stepSize>0.6</stepSize>
+    <fromPos>7100.0</fromPos>
+    <toPos>7105.0</toPos>
+    <stepSize>1.0</stepSize>
     <acqTime>1.0</acqTime>
     <scannables>
         <scannableName>energy</scannableName>
@@ -16,8 +16,13 @@
     </scannables>
     <detectors>
         <enabled>false</enabled>
-        <detectorName>counterTimer01</detectorName>
-        <detectorDescription>ion chambers</detectorDescription>
+        <detectorName>mythen</detectorName>
+        <detectorDescription></detectorDescription>
+    </detectors>
+    <detectors>
+        <enabled>false</enabled>
+        <detectorName>xmapMca</detectorName>
+        <detectorDescription></detectorDescription>
     </detectors>
     <detectors>
         <enabled>true</enabled>
@@ -25,8 +30,8 @@
         <detectorDescription></detectorDescription>
     </detectors>
     <detectors>
-        <enabled>false</enabled>
-        <detectorName>mythen</detectorName>
+        <enabled>true</enabled>
+        <detectorName>counterTimer01</detectorName>
         <detectorDescription></detectorDescription>
     </detectors>
 </SimpleScan>

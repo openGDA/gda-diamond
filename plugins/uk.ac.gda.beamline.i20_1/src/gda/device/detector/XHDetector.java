@@ -287,7 +287,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 				value = daServer.getIntBinaryData("read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames
 						+ " from " + timingReadbackHandle + " raw motorola", 1024 * numFrames);
 			} catch (Exception e) {
-				throw new DeviceException("Exception while reading data",e);
+				throw new DeviceException("Exception trying to get binary data from da.server", e);
 			}
 		}
 		return value;
@@ -321,7 +321,11 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	@Override
 	public void close() throws DeviceException {
 		if (timingReadbackHandle >= 0 && daServer != null && daServer.isConnected()) {
-			daServer.sendCommand("close " + timingReadbackHandle);
+			try {
+				daServer.sendCommand("close " + timingReadbackHandle);
+			} catch (DeviceException e) {
+				throw new DeviceException("Exception trying to close handle in da.server",e);
+			}
 			timingReadbackHandle = -1;
 		}
 	}
@@ -413,7 +417,12 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	}
 
 	public ExperimentStatus fetchStatus() throws DeviceException {
-		String statusMessage = (String) daServer.sendCommand(createCommand("read-status", "verbose"), true);
+		String statusMessage;
+		try {
+			statusMessage = (String) daServer.sendCommand(createCommand("read-status", "verbose"), true);
+		} catch (DeviceException e) {
+			throw new DeviceException("Exception trying to read status from da.server",e);
+		}
 		if (statusMessage.startsWith("#")){
 			statusMessage = statusMessage.substring(1).trim();
 		}
@@ -627,7 +636,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 				value = daServer.getIntBinaryData("read 0 0 0 30 1024 1 from " + timingReadbackHandle + " raw motorola",
 						30 * 1024);
 			} catch (Exception e) {
-				throw new DeviceException(e.getMessage(),e);
+				throw new DeviceException("Exception trying to get binary data from da.server",e);
 			}
 		}
 		return value;

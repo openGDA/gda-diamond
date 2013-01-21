@@ -1,2 +1,0 @@
-#!/bin/bash
-ssh -i /dls_sw/i18/software/gda/config/i18ssh.key gda2@i18-control.diamond.ac.uk

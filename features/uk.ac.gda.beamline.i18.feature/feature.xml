@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.beamline.i18.feature"
       label="I18-feature"
-      version="8.30.0"
+      version="8.26.0"
       provider-name="Diamond Light Source">
 
    <description url="http://www.example.com/description">
@@ -83,6 +83,13 @@
 
    <plugin
          id="uk.ac.diamond.scisoft.spectroscopy.rcp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.dawb.workbench.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

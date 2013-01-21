@@ -52,7 +52,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.client.experimentdefinition.components.ExperimentExperimentView;
 import uk.ac.gda.client.experimentdefinition.components.ExperimentPerspective;
 import uk.ac.gda.client.experimentdefinition.ui.handlers.RefreshProjectAction;
-import uk.ac.gda.client.microfocus.ui.MicroFocusPespective;
+import uk.ac.gda.client.microfocus.ui.MicroFocusPerspective;
 import uk.ac.gda.client.microfocus.views.ExafsSelectionView;
 import uk.ac.gda.client.microfocus.views.scan.MicroFocusElementListView;
 
@@ -94,7 +94,7 @@ public class EarlyStartup implements IStartup {
 							// TODO Auto-generated method stub
 							super.perspectiveActivated(page, perspective);
 							IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor("uk.ac.microfocus.elementlist.refresh");
-							if (perspective.getId().indexOf(MicroFocusPespective.ID) > -1) {
+							if (perspective.getId().indexOf(MicroFocusPerspective.ID) > -1) {
 								IViewReference[] viewReference = page.getViewReferences();
 								for (IViewReference view : viewReference) {
 									if (view.getId().equals(ExafsSelectionView.ID) ) {

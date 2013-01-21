@@ -108,11 +108,28 @@
 	<bean id="filterwheel" class="gda.device.enumpositioner.EpicsEditablePositionerCallback">
 		<property name="recordName" value="BL20I-OP-ATTN-06:MP" />
 	</bean>
-
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/filterwheel" />
 		<property name="service" ref="filterwheel" />
 		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
 	</bean>
+
+	<bean id="cryostick_pos_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20I-CG-CRYO-02:POSN" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="cryostick_pos" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cryostick_pos_motor" />
+	</bean>
+
+	<bean id="cryostick" class="gda.device.enumpositioner.EpicsEditablePositionerCallback">
+		<property name="recordName" value="BL20I-CG-CRYO-02:MP" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/cryostick" />
+		<property name="service" ref="cryostick" />
+		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
+	</bean>
+
 
 </beans>

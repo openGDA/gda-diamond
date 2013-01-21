@@ -13,6 +13,12 @@
             <windowEnd>876</windowEnd>
             <counts>1787</counts>
         </ROI>
+        <ROI>
+            <name>Zn_Ka</name>
+            <windowStart>850</windowStart>
+            <windowEnd>870</windowEnd>
+            <counts>0</counts>
+        </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
@@ -26,6 +32,12 @@
             <windowStart>853</windowStart>
             <windowEnd>876</windowEnd>
             <counts>1787</counts>
+        </ROI>
+        <ROI>
+            <name>Zn_Ka</name>
+            <windowStart>850</windowStart>
+            <windowEnd>870</windowEnd>
+            <counts>0</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -41,6 +53,12 @@
             <windowEnd>876</windowEnd>
             <counts>1787</counts>
         </ROI>
+        <ROI>
+            <name>Zn_Ka</name>
+            <windowStart>850</windowStart>
+            <windowEnd>870</windowEnd>
+            <counts>0</counts>
+        </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
@@ -55,11 +73,17 @@
             <windowEnd>876</windowEnd>
             <counts>1787</counts>
         </ROI>
+        <ROI>
+            <name>Zn_Ka</name>
+            <windowStart>850</windowStart>
+            <windowEnd>870</windowEnd>
+            <counts>0</counts>
+        </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
         <excluded>false</excluded>
     </DetectorElement>
-    <deadTime>-0.02</deadTime>
+    <deadTime>-0.0</deadTime>
     <saveRawSpectrum>false</saveRawSpectrum>
 </VortexParameters>

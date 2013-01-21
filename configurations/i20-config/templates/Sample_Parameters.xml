@@ -10,27 +10,31 @@
     <roomTemperature>
     	<numberOfSamples>1</numberOfSamples>
         <sample1_x>0.0</sample1_x>
-        <sample1_y>0.0</sample1_y>
+        <sample1_y>20</sample1_y>
         <sample1_z>0.0</sample1_z>
         <sample1_rotation>0.0</sample1_rotation>
+        <sample1_finerotation>0.0</sample1_finerotation>
         <sample1_roll>0.0</sample1_roll>
         <sample1_pitch>0.0</sample1_pitch>
         <sample2_x>0.0</sample2_x>
-        <sample2_y>0.0</sample2_y>
+        <sample2_y>20</sample2_y>
         <sample2_z>0.0</sample2_z>
         <sample2_rotation>0.0</sample2_rotation>
+        <sample2_finerotation>0.0</sample2_finerotation>
         <sample2_roll>0.0</sample2_roll>
         <sample2_pitch>0.0</sample2_pitch>
         <sample3_x>0.0</sample3_x>
-        <sample3_y>0.0</sample3_y>
+        <sample3_y>20</sample3_y>
         <sample3_z>0.0</sample3_z>
         <sample3_rotation>0.0</sample3_rotation>
+        <sample3_finerotation>0.0</sample3_finerotation>
         <sample3_roll>0.0</sample3_roll>
         <sample3_pitch>0.0</sample3_pitch>
         <sample4_x>0.0</sample4_x>
-        <sample4_y>0.0</sample4_y>
+        <sample4_y>20</sample4_y>
         <sample4_z>0.0</sample4_z>
         <sample4_rotation>0.0</sample4_rotation>
+        <sample4_finerotation>0.0</sample4_finerotation>
         <sample4_roll>0.0</sample4_roll>
         <sample4_pitch>0.0</sample4_pitch>
     </roomTemperature>
@@ -45,9 +49,19 @@
         <i>2.0</i>
         <d>3.0</d>
         <sampleHolder>4 Samples</sampleHolder>
-        <sampleNumber>2</sampleNumber>
-        <position>1.0</position>
-        <finePosition>0.1</finePosition>
+        <sampleNumbers></sampleNumbers>
+        <position1>0.0</position1>
+        <finePosition1>0.0</finePosition1>
+        <sampleDescription1></sampleDescription1>
+        <position2>0.0</position2>
+        <finePosition2>0.0</finePosition2>
+        <sampleDescription2></sampleDescription2>
+        <position3>0.0</position3>
+        <finePosition3>0.0</finePosition3>
+        <sampleDescription3></sampleDescription3>
+        <position4>0.0</position4>
+        <finePosition4>0.0</finePosition4>
+        <sampleDescription4></sampleDescription4>
     </cryostat>
     <furnace>
         <temperature>295.0</temperature>

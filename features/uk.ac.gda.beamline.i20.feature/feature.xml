@@ -103,16 +103,23 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.diamond.scisoft.spectroscopy.rcp"
+         id="org.python.pydev.jython"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.dawb.workbench.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.python.pydev.jython"
+         id="uk.ac.diamond.scisoft.spectroscopy.rcp"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>

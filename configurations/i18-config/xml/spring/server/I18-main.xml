@@ -28,6 +28,7 @@
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-meta-data.xml"/> 
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-detectors.xml"/>	
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-scannables.xml"/>
+	<import resource="file:${gda.config}/xml/spring/server/gda/I18-swing-objects.xml"/>
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-rmiserver.xml"/>
 	<import resource="file:${gda.config}/xml/spring/server/gda/I18-server-datawriterconfig.xml"/>
 	<!--  <import resource="file:${gda.config}/xml/spring/server/gda/i18_attocubes.xml"/>-->

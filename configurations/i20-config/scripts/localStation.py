@@ -6,14 +6,12 @@ from org.jscience.physics.units import Unit
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable import DummyScannable
 from gda.jython import JythonServerFacade
+from gda.scan import ScanBase
 
 from devices import RealBlades
 from devices.RealBlades import BladeAngle
 from devices.RealBlades import SubtractAngle
 from devices.RealBlades import AverageAngle
-
-from exafsscripts.exafs import xas_scans
-from exafsscripts.exafs.xas_scans import estimateXas, estimateXanes
 
 from exafsscripts.vortex import vortexConfig
 from exafsscripts.vortex.vortexConfig import vortex
@@ -29,12 +27,16 @@ from exafsscripts.exafs.i20ScanScripts import I20XesScan
 
 loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
 
-detectorPreparer = I20DetectorPreparer(xspress2system, loggingcontroller)
+
+sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity,i1_stanford_sensitivity]
+sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units,iref_stanford_sensitivity_units,i1_stanford_sensitivity_units]
+offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset,i1_stanford_offset]
+offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_offset_units,i1_stanford_offset_units]
+
+detectorPreparer = I20DetectorPreparer(xspress2system, loggingcontroller,sensitivities, sensitivity_units ,offsets, offset_units)
 samplePreparer = I20SamplePreparer()
 outputPreparer = I20OutputPreparer()
 
-# switch the commenting on these lines to move to the new scripts which include looping
-#from exafsscripts.exafs.xas_scans import xas, xanes, xes
 xas = I20XasScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
 xes = I20XesScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
 xanes = xas
@@ -42,8 +44,6 @@ xanes = xas
 alias("xas")
 alias("xanes")
 alias("xes")
-alias("estimateXas")
-alias("estimateXanes")
 alias("vortex")
 alias("xspress")
 
@@ -67,16 +67,19 @@ if LocalProperties.get("gda.mode") == "live":
     # to speed up step scans
     LocalProperties.set("gda.scan.concurrentScan.readoutConcurrently","true")
     LocalProperties.set("gda.scan.multithreadedScanDataPointPipeline.length","10")
-    if (machineMode() == "User"):
-        add_default([topupChecker])
-        add_default([absorberChecker])
-    else:
+    if (machineMode() == "No Beam"):
         remove_default([topupChecker])
         remove_default([absorberChecker])
+        remove_default([shutterChecker])
+    else:
+        add_default([topupChecker])
+        add_default([absorberChecker])
+        add_default([shutterChecker])
 else:
     #LocalProperties.set("gda.data.scan.datawriter.dataFormat","XasAsciiDataWriter")
     remove_default([topupChecker])
     remove_default([absorberChecker])
+    remove_default([shutterChecker])
     
 
 #
@@ -137,7 +140,15 @@ if LocalProperties.get("gda.mode") == "live":
     + "\nto change the Xspress settings. Type:"\
     + "\nswitchXspressToHighEnergyMode()"\
     + "\n to changes the settings back again."\
-    + "\n"
+    + "\n"\
+    + "To find out current mode type:\n"\
+    + "finder.find(\"DAServer\").getStartupCommands()\n"
+    
+    
+    run "vortexLiveTime"
+    testVortexWiredCorrectly()
+    
+    FFI0.setInputNames([])
     
     
     run "vortexLiveTime"

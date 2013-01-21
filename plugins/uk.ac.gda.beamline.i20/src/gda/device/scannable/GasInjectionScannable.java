@@ -96,8 +96,11 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 
 		// check if voltage is below 5v.
 		if (checkVoltageInRange(-5, 5)) {
-			if (Boolean.parseBoolean(flush))
+			if (Boolean.parseBoolean(flush)){
 				flush();
+				flush();
+				flush();
+			}
 			configurePurgeAndFill(parameters);
 			performFill((int) (purge_period_val + gas_fill1_period_val + gas_fill2_period_val));
 		} else {
@@ -121,8 +124,11 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 				if (gas_fill1_pressure_val + purge_pressure_val < 1100) {
 					// check if voltage is below 5v.
 					if (checkVoltageInRange(-5, 5)) {
-						if (Boolean.parseBoolean(flush))
+						if (Boolean.parseBoolean(flush)){
 							flush();
+							flush();
+							flush();
+						}
 						configurePurgeAndFill(parameters);
 						performFill((int) (purge_period_val + gas_fill1_period_val + gas_fill2_period_val));
 					}

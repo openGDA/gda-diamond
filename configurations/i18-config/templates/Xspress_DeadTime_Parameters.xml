@@ -3,64 +3,64 @@
     <DetectorDeadTimeElement>
         <name>Element0</name>
         <number>0</number>        
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>0.000000320820720432</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>0.00000051350897705</processDeadTimeInWindow>
+        <processDeadTimeAllEventGradient>2.5304E-9</processDeadTimeAllEventGradient>
+        <processDeadTimeAllEventOffset>2.2534E-7</processDeadTimeAllEventOffset>
+        <processDeadTimeInWindow>2.5454E-7</processDeadTimeInWindow>
     </DetectorDeadTimeElement>
     <DetectorDeadTimeElement>
         <name>Element1</name>
         <number>1</number>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>0.000000214500054044</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>0.000000457914243257</processDeadTimeInWindow>        
+        <processDeadTimeAllEventGradient>7.3896E-9</processDeadTimeAllEventGradient>
+        <processDeadTimeAllEventOffset>2.1191E-7</processDeadTimeAllEventOffset>
+        <processDeadTimeInWindow>2.528E-7</processDeadTimeInWindow>
     </DetectorDeadTimeElement>
     <DetectorDeadTimeElement>
         <name>Element2</name>
         <number>2</number>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>0.000000325492558979</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>0.000000405848355804</processDeadTimeInWindow>        
+       <processDeadTimeAllEventGradient>5.4777E-9</processDeadTimeAllEventGradient>
+        <processDeadTimeAllEventOffset>2.2083E-7</processDeadTimeAllEventOffset>
+        <processDeadTimeInWindow>2.5959E-7</processDeadTimeInWindow>
     </DetectorDeadTimeElement>
     <DetectorDeadTimeElement>
         <name>Element3</name>
         <number>3</number>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>0.000000186215696608</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>0.000000522182337946</processDeadTimeInWindow>        
+        <processDeadTimeAllEventGradient>3.378E-9</processDeadTimeAllEventGradient>
+        <processDeadTimeAllEventOffset>2.7202E-7</processDeadTimeAllEventOffset>
+        <processDeadTimeInWindow>2.9629E-7</processDeadTimeInWindow>
     </DetectorDeadTimeElement>
     <DetectorDeadTimeElement>
         <name>Element4</name>
         <number>4</number>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>0.000000444739786984</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>0.000000602382959575</processDeadTimeInWindow>        
+       <processDeadTimeAllEventGradient>9.345E-10</processDeadTimeAllEventGradient>
+        <processDeadTimeAllEventOffset>3.4939E-7</processDeadTimeAllEventOffset>
+        <processDeadTimeInWindow>3.7473E-7</processDeadTimeInWindow>
     </DetectorDeadTimeElement>
     <DetectorDeadTimeElement>
         <name>Element5</name>
         <number>5</number>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>0.000000259732801652</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>0.000000523130334365</processDeadTimeInWindow>        
+         <processDeadTimeAllEventGradient>1.2027E-9</processDeadTimeAllEventGradient>
+        <processDeadTimeAllEventOffset>2.8489E-7</processDeadTimeAllEventOffset>
+        <processDeadTimeInWindow>2.9782E-7</processDeadTimeInWindow>
     </DetectorDeadTimeElement>
     <DetectorDeadTimeElement>
         <name>Element6</name>
         <number>6</number>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>0.000000274414575729</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>0.000000430372408052</processDeadTimeInWindow>
+         <processDeadTimeAllEventGradient>1.2089E-9</processDeadTimeAllEventGradient>
+        <processDeadTimeAllEventOffset>2.9556E-7</processDeadTimeAllEventOffset>
+        <processDeadTimeInWindow>3.1879E-7</processDeadTimeInWindow>
     </DetectorDeadTimeElement>
     <DetectorDeadTimeElement>
         <name>Element7</name>
         <number>7</number>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>0.00000019534282045</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>0.000000466831164553</processDeadTimeInWindow>        
+        <processDeadTimeAllEventGradient>1.6609E-9</processDeadTimeAllEventGradient>
+        <processDeadTimeAllEventOffset>3.1269E-7</processDeadTimeAllEventOffset>
+        <processDeadTimeInWindow>3.2348E-7</processDeadTimeInWindow>
     </DetectorDeadTimeElement>
     <DetectorDeadTimeElement>
         <name>Element8</name>
         <number>8</number>
-        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
-        <processDeadTimeAllEventOffset>0.000000303781610871</processDeadTimeAllEventOffset>
-        <processDeadTimeInWindow>0.00000044331215199</processDeadTimeInWindow>
+       <processDeadTimeAllEventGradient>3.3832E-9</processDeadTimeAllEventGradient>
+        <processDeadTimeAllEventOffset>2.3057E-7</processDeadTimeAllEventOffset>
+        <processDeadTimeInWindow>2.5922E-7</processDeadTimeInWindow>
     </DetectorDeadTimeElement>   
 </XspressDeadTimeParameters>

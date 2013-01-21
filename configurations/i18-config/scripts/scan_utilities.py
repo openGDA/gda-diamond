@@ -1,6 +1,7 @@
 from gda.configuration.properties import LocalProperties
+
 class Scan_Utilities:
-    #global SRSWriteAtFileCreation
+    
     def __init__(self):
         print "constructor"
         self.JythonNS = finder.find("command_server")
@@ -31,4 +32,3 @@ class Scan_Utilities:
         SRSWriteAtFileCreation = command
         print SRSWriteAtFileCreation
         self.JythonNS.placeInJythonNamespace("SRSWriteAtFileCreation",SRSWriteAtFileCreation, None)
-    
