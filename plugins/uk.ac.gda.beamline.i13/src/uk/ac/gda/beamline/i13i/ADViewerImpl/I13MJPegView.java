@@ -37,8 +37,8 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.gda.beamline.i13i.ADViewer.views.MJPegView;
 import uk.ac.gda.beamline.i13i.views.cameraview.CrossHairFigure;
+import uk.ac.gda.epics.adviewer.views.MJPegView;
 
 public class I13MJPegView extends MJPegView {
 
@@ -64,28 +64,33 @@ public class I13MJPegView extends MJPegView {
 
 	}
 
+	@Override
 	protected void hookGlobalActions() {
 	}
 
+	@Override
 	protected void createContextMenu() {
 
 		
 	}
 
+	@Override
 	protected void createToolbar() {
 	}
 
+	@Override
 	protected void createMenu() {
 	}
 
+	@Override
 	protected void createActions() {
 	}	
 	
 	
 	private void addSpecialisation() {
-		areaDetectorLiveComposite.getTopFigure().add(new CrossHairFigure());
+		mJPeg.getTopFigure().add(new CrossHairFigure());
 
-		Menu rightClickMenu = new Menu(areaDetectorLiveComposite.getCanvas());
+		Menu rightClickMenu = new Menu(mJPeg.getCanvas());
 		MenuItem setRotationAxisX = new MenuItem(rightClickMenu, SWT.PUSH);
 		setRotationAxisX.setText("Mark next click position as rotationAxisX");
 		setRotationAxisX.addSelectionListener(new SelectionListener() {
@@ -103,9 +108,9 @@ public class I13MJPegView extends MJPegView {
 			}
 		});
 
-		areaDetectorLiveComposite.getCanvas().setMenu(rightClickMenu);
+		mJPeg.getCanvas().setMenu(rightClickMenu);
 
-		areaDetectorLiveComposite.addImagePositionListener(new ImagePositionListener() {
+		mJPeg.addImagePositionListener(new ImagePositionListener() {
 
 			@Override
 			public void imageStart(IImagePositionEvent event) {
@@ -125,7 +130,7 @@ public class I13MJPegView extends MJPegView {
 						// try {
 						final int[] clickCoordinates = event.getImagePosition();
 						// final RealVector actualClickPoint = createVectorOf(clickCoordinates[0], clickCoordinates[1]);
-						ImageData imageData = areaDetectorLiveComposite.getImageData();
+						ImageData imageData = mJPeg.getImageData();
 						// final RealVector imageDataSize = createVectorOf(imageData.width, imageData.height);
 						// final RealVector imageSize = createVectorOf(imageWidth, imageHeight);
 
@@ -184,6 +189,6 @@ public class I13MJPegView extends MJPegView {
 	}
 
 	public void zoomToFit() {
-		areaDetectorLiveComposite.zoomFit();
+		mJPeg.zoomFit();
 	}
 }

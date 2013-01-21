@@ -18,7 +18,7 @@
 
 package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
-import uk.ac.gda.beamline.i13i.ADViewer.views.ViewCreatorImpl;
+import uk.ac.gda.epics.adviewer.views.ViewCreatorImpl;
 
 public class I13ViewCreatorImpl extends ViewCreatorImpl {
 

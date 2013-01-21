@@ -113,21 +113,21 @@
       </view>
       <view
             allowMultiple="false"
-            class="uk.ac.gda.beamline.i13i.ADViewer.views.HistogramViewCreator:i13"
+            class="uk.ac.gda.epics.adviewer.views.HistogramViewCreator:i13"
             icon="icons/AreaDetectorProfileView.gif"
             id="uk.ac.gda.beamline.i13i.AreaDetectorProfileView"
             name="PCO Image Profile View">
       </view>                       
       <view
             allowMultiple="false"
-            class="uk.ac.gda.beamline.i13i.ADViewer.views.TwoDArrayViewCreator:i13"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayViewCreator:i13"
             icon="icons/AreaDetectorImageView.gif"
             id="uk.ac.gda.beamline.i13i.AreaDetectorArrayView"
             name="PCO Image View">
       </view>
       <view
             allowMultiple="false"
-            class="uk.ac.gda.beamline.i13i.ADViewer.views.MJPegViewCreator:i13"
+            class="uk.ac.gda.epics.adviewer.views.MJPegViewCreator:i13"
             icon="icons/AreaDetectorLiveView.gif"
             id="uk.ac.gda.beamline.i13i.AreaDetectorLiveView"
             name="PCO Live View">
@@ -169,47 +169,15 @@
    </toc>
 </extension>
 <extension
-      point="org.eclipse.ui.commands">
-   <command
-         id="uk.ac.gda.beamline.i13i.commands.setExposure"
-         name="SetExposure">
-      <commandParameter
-            id="uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName"
-            name="name"
-            optional="false">
-      </commandParameter>
-   </command>
-   <command
-         id="uk.ac.gda.beamline.i13i.commands.setLiveViewScale"
-         name="SetLiveViewScale">
-      <commandParameter
-            id="uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName"
-            name="name"
-            optional="false">
-      </commandParameter>
-   </command>
-</extension>
-<extension
       point="org.eclipse.ui.commandImages">
    <image
-         commandId="uk.ac.gda.beamline.i13i.commands.setLiveViewScale"
+         commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
          icon="icons/setLiveViewScale.gif">
    </image>
    <image
-         commandId="uk.ac.gda.beamline.i13i.commands.setExposure"
+         commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
          icon="icons/setExposure.gif">
    </image>
-</extension>
-<extension
-      point="org.eclipse.ui.handlers">
-   <handler
-         class="uk.ac.gda.beamline.i13i.ADViewer.handlers.SetExposure"
-         commandId="uk.ac.gda.beamline.i13i.commands.setExposure">
-   </handler>
-   <handler
-         class="uk.ac.gda.beamline.i13i.ADViewer.handlers.SetLiveViewScale"
-         commandId="uk.ac.gda.beamline.i13i.commands.setLiveViewScale">
-   </handler>
 </extension>
 <extension
       name="tst"
@@ -218,11 +186,11 @@
          allPopups="false"
          locationURI="toolbar:uk.ac.gda.beamline.i13i.AreaDetectorArrayView">
       <command
-            commandId="uk.ac.gda.beamline.i13i.commands.setExposure"
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
             label="Set Exposure"
             style="push">
          <parameter
-               name="uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName"
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
                value="i13">
          </parameter>
       </command>
@@ -231,20 +199,20 @@
          allPopups="false"
          locationURI="toolbar:uk.ac.gda.beamline.i13i.AreaDetectorProfileView">
       <command
-            commandId="uk.ac.gda.beamline.i13i.commands.setExposure"
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
             label="Set Exposure"
             style="push">
          <parameter
-               name="uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName"
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
                value="i13">
          </parameter>
       </command>
       <command
-            commandId="uk.ac.gda.beamline.i13i.commands.setLiveViewScale"
+            commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
             label="Set LiveView Scale"
             style="push">
          <parameter
-               name="uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName"
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
                value="i13">
          </parameter>
       </command>
@@ -263,26 +231,27 @@
          allPopups="false"
          locationURI="toolbar:uk.ac.gda.beamline.i13i.AreaDetectorLiveView">
       <command
-            commandId="uk.ac.gda.beamline.i13i.commands.setExposure"
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
             label="Set Exposure"
             style="push">
          <parameter
-               name="uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName"
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
                value="i13">
          </parameter>
       </command>
       <command
-            commandId="uk.ac.gda.beamline.i13i.commands.setLiveViewScale"
+            commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
+            icon="icons/AreaDetectorLiveView.gif"
             label="Set LiveView Scale"
             style="push">
          <parameter
-               name="uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName"
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
                value="i13">
          </parameter>
       </command>
       <command
             commandId="org.eclipse.ui.views.showView"
-            icon="icons/AreaDetectorProfileView.gif"
+            icon="icons/AreaDetectorLiveView.gif"
             label="Show Profile View"
             style="push">
          <parameter
@@ -305,11 +274,11 @@
          allPopups="false"
          locationURI="toolbar:uk.ac.gda.client.tomo.CameraView">
       <command
-            commandId="uk.ac.gda.beamline.i13i.commands.setExposure"
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
             label="Set Exposure"
             style="push">
          <parameter
-               name="uk.ac.gda.beamline.i13i.commandParameters.adcontrollerServiceName"
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
                value="i13">
          </parameter>
       </command>

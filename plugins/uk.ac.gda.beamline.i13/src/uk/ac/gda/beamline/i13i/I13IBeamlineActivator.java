@@ -24,6 +24,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
 import uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPartConfig;
+import uk.ac.gda.common.rcp.NamedServiceProvider;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -97,11 +98,11 @@ public class I13IBeamlineActivator extends AbstractUIPlugin {
 
 	private static NamedServiceProvider namedServiceProvider;
 	
-	public static Object getNamedService(Class clzz, final String name) {
+	public static Object getNamedService(@SuppressWarnings("rawtypes") Class clzz, final String name) {
 		if(namedServiceProvider == null){
 			namedServiceProvider = new NamedServiceProvider(bundleContext);
 		}
-		return namedServiceProvider.getNamedService(clzz, name);
+		return namedServiceProvider.getNamedService(clzz, "SERVICE_NAME", name);
 		
 	}
 }

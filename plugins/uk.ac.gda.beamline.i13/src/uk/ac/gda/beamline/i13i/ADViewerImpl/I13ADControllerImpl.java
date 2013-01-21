@@ -19,15 +19,33 @@
 package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
 import gda.device.Scannable;
+import gda.jython.InterfaceProvider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 
-import uk.ac.gda.beamline.i13i.ADViewer.ADControllerImpl;
+import uk.ac.gda.epics.adviewer.ADControllerImpl;
 
-public class I13ADControllerImpl extends ADControllerImpl {
+public class I13ADControllerImpl extends  ADControllerImpl implements InitializingBean {
 	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(I13ADControllerImpl.class);
+
+	private String setExposureTimeCmd;
+
+	@Override
+	public void setExposure(double d) {
+		final String cmd = String.format(getSetExposureTimeCmd(), d);
+		InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
+	}
+
+	private String getSetExposureTimeCmd() {
+		return setExposureTimeCmd;
+	}
+
+	public void setSetExposureTimeCmd(String setExposureTimeCmd) {
+		this.setExposureTimeCmd = setExposureTimeCmd;
+	}
 
 	private Scannable lensScannable;
 
@@ -37,6 +55,14 @@ public class I13ADControllerImpl extends ADControllerImpl {
 
 	public void setLensScannable(Scannable lensScannable) {
 		this.lensScannable = lensScannable;
+	}
+
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		if (setExposureTimeCmd == null)
+			throw new IllegalArgumentException("setExposureTimeCmd == null");		
+		
 	}
 
 }

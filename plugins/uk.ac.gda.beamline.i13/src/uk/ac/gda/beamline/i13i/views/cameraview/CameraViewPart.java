@@ -84,12 +84,13 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.SDAPlotter;
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IntegerDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.Stats;
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
 import uk.ac.gda.client.viewer.ImageViewer;
+import uk.ac.gda.epics.adviewer.composites.CameraComposite;
+import uk.ac.gda.epics.adviewer.composites.NewImageListener;
 
 /**
  * View to display the live images from the camera Used in alignment and monitoring
