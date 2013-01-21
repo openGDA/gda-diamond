@@ -692,7 +692,7 @@ def autoFocusLeft(pathname, numImgs=51):
     autofocusImages(pathname, 111, 974, 565, 1345, numImgs)
     
 def autofocusImages(pathname, cropxStart, cropyStart, cropxEnd, cropyEnd, numImgs, shouldPlot=False):
-    cam1_zBestFocusVal=None
+    cam1_zBestFocusVal = None
     try:
         index = 0
         biggestSum = 0
@@ -790,7 +790,7 @@ class TomoAlignmentConfigurationManager:
         for k, v in self.tomoAlignmentConfigurations.iteritems():
             if v.status == None or v.status == "Running":
                 v.status = "Fail"
-            statusList[v.configId] = v.status
+            statusList[str(v.configId)] = v.status
         self.currentConfigInProgress = None
         updateScriptController('RunningConfig#' + `statusList`)
         
@@ -833,9 +833,9 @@ class TomoAlignmentConfiguration:
         return 1
     
     def writeInfoToAlignmentConfiguration(self, result):
-        print "StartTime" + `result['StartTime']`
-        print "EndTime" + `result['EndTime']`
-        print "ScanNumber" + `result['ScanNumber']`
+        print "StartTime:" + `result['StartTime']`
+        print "EndTime:" + `result['EndTime']`
+        print "ScanNumber:" + `result['ScanNumber']`
         scanCollected = TomoParametersFactory.eINSTANCE.createScanCollected()
         scanCollected.startTime = result['StartTime']
         scanCollected.endTime = result['EndTime']
