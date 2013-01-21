@@ -20,6 +20,8 @@ package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
 import java.util.Vector;
 
+import org.dawnsci.plotting.jreality.tool.IImagePositionEvent;
+import org.dawnsci.plotting.jreality.tool.ImagePositionListener;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -28,7 +30,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
@@ -36,8 +37,6 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.IImagePositionEvent;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.ImagePositionListener;
 import uk.ac.gda.beamline.i13i.ADViewer.views.MJPegView;
 import uk.ac.gda.beamline.i13i.views.cameraview.CrossHairFigure;
 

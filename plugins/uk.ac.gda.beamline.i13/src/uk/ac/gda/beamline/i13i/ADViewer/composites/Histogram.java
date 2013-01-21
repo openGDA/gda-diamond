@@ -23,9 +23,9 @@ import gda.observable.Observable;
 import gda.observable.Observer;
 
 import org.dawb.common.ui.plot.AbstractPlottingSystem;
-import org.dawb.common.ui.plot.IAxis;
 import org.dawb.common.ui.plot.PlotType;
 import org.dawb.common.ui.plot.PlottingFactory;
+import org.dawb.common.ui.plot.axis.IAxis;
 import org.dawb.common.ui.plot.region.IROIListener;
 import org.dawb.common.ui.plot.region.IRegion;
 import org.dawb.common.ui.plot.region.ROIEvent;
@@ -129,7 +129,7 @@ public class Histogram extends Composite {
 
 		try {
 			this.plottingSystem = PlottingFactory.getLightWeightPlottingSystem();
-			plottingSystem.createPlotPart(right, "", parentViewPart.getViewSite().getActionBars(), PlotType.PT1D,
+			plottingSystem.createPlotPart(right, "", parentViewPart.getViewSite().getActionBars(), PlotType.XY,
 					parentViewPart);
 			plottingSystem.setXfirst(true);
 		} catch (Exception ne) {
@@ -557,6 +557,12 @@ public class Histogram extends Composite {
 					} catch (Exception e) {
 						logger.error("Error handling change to scaling roi", e);
 					}
+				}
+
+				@Override
+				public void roiSelected(ROIEvent evt) {
+					// TODO Auto-generated method stub
+					
 				}
 			});
 			mpegProcOffsetObservable = Histogram.this.config.getLiveViewNDProc().createOffsetObservable();

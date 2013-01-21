@@ -27,8 +27,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.dawnsci.plotting.jreality.overlay.OverlayType;
+import org.dawnsci.plotting.jreality.overlay.primitives.PrimitiveType;
+import org.dawnsci.plotting.jreality.tool.IImagePositionEvent;
+import org.dawnsci.plotting.jreality.tool.ImagePositionListener;
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.FrameBorder;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MarginBorder;
@@ -50,19 +53,13 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.python.antlr.ast.RaiseDerived;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.enums.OverlayType;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.enums.PrimitiveType;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.IImagePositionEvent;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.tools.ImagePositionListener;
 import uk.ac.gda.beamline.i13i.ADViewer.ADController;
 import uk.ac.gda.beamline.i13i.views.cameraview.CameraComposite;
 import uk.ac.gda.beamline.i13i.views.cameraview.NewImageListener;
 import uk.ac.gda.client.viewer.SWT2DOverlayProvider;
-import uk.ac.gda.client.viewer.SwtImagePositionTool;
 
 public class MJPeg extends Composite {
 
@@ -180,8 +177,8 @@ public class MJPeg extends Composite {
 		cameraComposite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1));
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(cameraComposite);
 
-		RaisedBorder border = new RaisedBorder(50,100,50,100);
-		cameraComposite.getViewer().setImageBorder(border);
+//		RaisedBorder border = new RaisedBorder(50,100,50,100);
+//		cameraComposite.getViewer().setImageBorder(border);
 		
 		SWT2DOverlayProvider fig = new SWT2DOverlayProvider(getTopFigure());
 		OverlayType type = OverlayType.IMAGE;

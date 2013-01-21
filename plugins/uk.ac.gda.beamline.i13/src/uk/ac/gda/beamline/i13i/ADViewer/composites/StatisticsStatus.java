@@ -110,19 +110,19 @@ public class StatisticsStatus extends Composite {
 		((GridData) total.getControl().getLayoutData()).horizontalAlignment = SWT.LEFT;
 		total.setLabelWidth(60);
 		total.setLabel("Total");
-		total.setDecimalPlaces(1);
 		total.setMaximum(Double.MAX_VALUE);
 		total.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,1,1));		
 		total.setNumberFormat(new DecimalFormat("0.###E0"));
+		total.setDecimalPlaces(3);
 		
 		sigma = new ValueBox(stateGroup, SWT.NONE);
 		((GridData) sigma.getControl().getLayoutData()).horizontalAlignment = SWT.LEFT;
 		sigma.setLabelWidth(60);
 		sigma.setLabel("Sigma");
-		sigma.setDecimalPlaces(1);
 		sigma.setMaximum(Double.MAX_VALUE);
 		sigma.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,1,1));		
 		sigma.setNumberFormat(new DecimalFormat("0.###E0"));
+		sigma.setDecimalPlaces(3);
 		
 		addDisposeListener(new DisposeListener() {
 			
