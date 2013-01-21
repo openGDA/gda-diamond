@@ -150,8 +150,4 @@ if LocalProperties.get("gda.mode") == "live":
     
     FFI0.setInputNames([])
     
-    
-    run "vortexLiveTime"
-    testVortexWiredCorrectly()
-    
 print "****GDA startup script complete.****\n\n"
