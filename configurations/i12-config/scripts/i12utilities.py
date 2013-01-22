@@ -5,6 +5,7 @@ from gda.data import PathConstructor
 from gda.factory import Finder
 import sys
 import gda.device.scannable.DummyScannable
+from gda.configuration.properties import LocalProperties
 import subprocess
 # set up a nice method for getting the latest file path
 i12NumTracker = NumTracker("i12");
@@ -51,6 +52,23 @@ def setSubdirectory(dirname):
         print "Failed to set metadata (subdirectory) value to:", dirname, exception
         
 
+def setDataWriterToNexus():
+    oldDW = LocalProperties.get("gda.data.scan.datawriter.dataFormat")
+    LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
+    newDW = LocalProperties.get("gda.data.scan.datawriter.dataFormat")
+    print "Old DataWriter: ", oldDW
+    print "New DataWriter: ", newDW
+    
+def setDataWriterToSrs():
+    oldDW = LocalProperties.get("gda.data.scan.datawriter.dataFormat")
+    LocalProperties.set("gda.data.scan.datawriter.dataFormat", "SrsDataFile")
+    newDW = LocalProperties.get("gda.data.scan.datawriter.dataFormat")
+    print "Old DataWriter: ", oldDW
+    print "New DataWriter: ", newDW
+    
+def getDataWriter():
+    return LocalProperties.get("gda.data.scan.datawriter.dataFormat")
+    
 class DocumentationScannable(gda.device.scannable.DummyScannable):
     def __init__(self, mesg, url=None):
         self.mesg = mesg

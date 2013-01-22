@@ -46,6 +46,19 @@ def cfn():
     return i12utilities.cfn()
 alias("cfn")
 
+def setDataWriterToNexus():
+    i12utilities.setDataWriterToNexus()
+alias("setDataWriterToNexus")
+
+def setDataWriterToSrs():
+    i12utilities.setDataWriterToSrs()
+alias("setDataWriterToSrs")
+
+def getDataWriter():
+    return i12utilities.getDataWriter()
+alias("getDataWriter")
+
+
 def helpi12(): 
     print "Help will be outputted"
 alias("helpi12")
