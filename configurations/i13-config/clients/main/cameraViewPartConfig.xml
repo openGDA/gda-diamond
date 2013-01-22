@@ -50,7 +50,6 @@
 	</bean> -->
 
 	<bean id="sampleAligner" class="uk.ac.gda.beamline.i13i.SampleAligner">
-		<property name="imageModeManager" ref="imageModeManager" />
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
 		<property name="cameraXYScannable" ref="cameraXYScannable"/>
 		<property name="displayScaleProvider" ref="displayScaleProvider" />

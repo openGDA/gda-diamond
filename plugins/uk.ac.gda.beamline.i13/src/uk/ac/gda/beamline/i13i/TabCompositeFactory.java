@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2010 Diamond Light Source Ltd.
+ * Copyright © 2011 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -19,22 +19,36 @@
 package uk.ac.gda.beamline.i13i;
 
 
-/**
- * Interface for listening to image mode changes
- * <p>
- * This interface may be implemented by clients.
- * <p>
- */
-public interface IImageModeListener {
+import gda.rcp.views.CompositeFactory;
+
+import org.eclipse.swt.graphics.Image;
+
+
+public interface TabCompositeFactory extends CompositeFactory{
+
+	/**
+	 * Return a user-friendly name for this mode
+	 * @return String name
+	 */
+	public abstract String getTooltip();
+	
+
+	/**
+	 * Returns the image to be used when displaying the tab
+	 * for this mode.
+	 * <p>
+	 * It is up to the mode to dispose of any image
+	 * resources created.
+	 * </p>
+	 * @return a tab image, or null to use default image
+	 */
+	public abstract Image getImage();
+	
 	
 	/**
-	 * Notifies this listener that the image mode has changed.
-	 * <p>
-	 * This method is called when the image mode changes. 
-	 * <p>
-	 * 
-	 * @param mode the current mode {@link IImageMode}
+	 * The label displayed on the tab 
 	 */
-	public void imageModeChanged(IImageMode mode);
+	public abstract String getLabel();
+	
 
 }

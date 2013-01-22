@@ -36,7 +36,6 @@ import uk.ac.gda.epics.adviewer.composites.imageviewer.ImageViewer;
 public class SampleAligner  implements ImageViewerListener{
 	private static final Logger logger = LoggerFactory.getLogger(SampleAligner.class);	
 	
-	ImageModeManager imageModeManager;
 	Scannable rotationAxisXScannable;
 	Scannable cameraXYScannable;
 	DisplayScaleProvider displayScaleProvider;
@@ -51,15 +50,6 @@ public class SampleAligner  implements ImageViewerListener{
 	int imageHeight=2672;
 	
 	
-	public ImageModeManager getImageModeManager() {
-		return imageModeManager;
-	}
-
-	public void setImageModeManager(ImageModeManager imageModeManager) {
-		this.imageModeManager = imageModeManager;
-	}	
-	
-
 
 
 	public Scannable getRotationAxisXScannable() {

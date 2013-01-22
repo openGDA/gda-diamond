@@ -20,30 +20,22 @@ package uk.ac.gda.beamline.i13i;
 
 import gda.rcp.views.CompositeFactory;
 
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-public class SimpleMode implements IImageMode {
+public class TabCompositeFactoryImpl implements TabCompositeFactory {
 	
 	private Image image;
-	String name;
-	String label;
-	
-	CompositeFactory compositeFactory;
+	private CompositeFactory compositeFactory;
 	private String imagePluginId;
 	private String imageFilePath;
+	private String tooltip;
+	private String label;
 	
 	
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 
 	public CompositeFactory getCompositeFactory() {
 		return compositeFactory;
@@ -57,17 +49,6 @@ public class SimpleMode implements IImageMode {
 
 	public String getImagePluginId() {
 		return imagePluginId;
-	}
-
-
-	@Override
-	public String getLabel() {
-		return label;
-	}
-
-
-	public void setLabel(String label) {
-		this.label = label;
 	}
 
 
@@ -87,33 +68,40 @@ public class SimpleMode implements IImageMode {
 
 
 	@Override
-	public Control getTabControl(Composite parent) {
-
-		return compositeFactory.createComposite(parent, SWT.NONE, null);
-	}
-	
-
-	@Override
-	public Image getTabImage() {
+	public Image getImage() {
 		if (image == null && imagePluginId != null) {
 			image = AbstractUIPlugin.imageDescriptorFromPlugin(imagePluginId, imageFilePath).createImage();
 		}
 		return image;
 	}
 
-	@Override
-	public ISelection getSelection() {
-		return new StructuredSelection();
-	}
 
 	@Override
-	public boolean supportsMoveOnClick() {
-		return true;
+	public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
+		return compositeFactory.createComposite(parent, SWT.NONE, null);
 	}
 
+
 	@Override
-	public String getName() {
-		return name;
+	public String getTooltip() {
+		return tooltip != null ? tooltip : label;
 	}
+
+
+	@Override
+	public String getLabel() {
+		return label;
+	}
+
+
+	public void setTooltip(String tooltip) {
+		this.tooltip = tooltip;
+	}
+
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
 
 }
