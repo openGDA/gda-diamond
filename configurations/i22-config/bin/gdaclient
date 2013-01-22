@@ -1,1 +1,62 @@
-GDA_StartClient
+#! /bin/bash
+#
+
+if [ -z $BEAMLINE ] ; then
+BEAMLINE=$BEAMLINE
+fi
+
+ARGS=$(getopt -a -o \? -l help,data:,reset -n "gdaclient" -- "$@");
+
+#Bad arguments
+if [ $? -ne 0 ];
+then
+  exit 1
+fi
+
+eval set -- "$ARGS";
+
+DATA=""
+
+while true; do
+  case "$1" in
+    --help)
+	cat 1>&2 <<EOF
+Options understood are:
+
+	--help 		Print this help and exit.
+	--data <folder>	Try and set alternative workspace.
+	--reset		Reset (delete) workspace (use in case gdaclient does not start).
+
+EOF
+	exit 0
+      ;;
+    --reset)
+      shift;
+	echo deleting workspaces
+	rm -rf /dls/${BEAMLINE}/data/`date +%Y`/*/tmp/gda-workspace-${USER}-*/
+      ;;
+    --data)
+      shift;
+      if [ -n "$1" ]; then
+	DATA="-data $1"
+        shift;
+      fi
+      ;;
+    --)
+      shift;
+      break;
+      ;;
+  esac
+done
+
+. /usr/share/Modules/init/bash
+module load java/gda
+
+export LD_LIBRARY_PATH=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86:/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/lib/linux-x86
+
+export http_proxy=http://WWWcache.RL.ac.UK:8080/
+export MOZILLA_FIVE_HOME=/dls_sw/apps/firefox/8/x86_64/
+
+ulimit -c 10000000
+
+echo /dls_sw/$BEAMLINE/software/gda/client/gda-$BEAMLINE -showLocation $DATA -configuration /tmp/.gda-config-${USER}
