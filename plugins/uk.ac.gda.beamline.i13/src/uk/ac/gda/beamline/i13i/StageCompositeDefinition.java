@@ -22,15 +22,15 @@ import gda.device.Scannable;
 
 public class StageCompositeDefinition {
 	Scannable scannable;
+	String label=null;
 	int decimalPlaces = 3;
 	double stepSize=1.;
 	double smallStep=1.;
 	double bigStep=10.;
-	/**
-	 * 0 - RotationView - SWT_NONE
-	 * 1 - RotationView - SWT_SINGLE
-	 */
-	int controlType=1;
+	boolean useSteps=false;
+	boolean singleLineNudge=true;
+	boolean singleLine=true;
+	boolean resetToZero=false;
 	public Scannable getScannable() {
 		return scannable;
 	}
@@ -49,12 +49,6 @@ public class StageCompositeDefinition {
 	public void setStepSize(double stepSize) {
 		this.stepSize = stepSize;
 	}
-	public int getControlType() {
-		return controlType;
-	}
-	public void setControlType(int controlType) {
-		this.controlType = controlType;
-	}
 	public double getSmallStep() {
 		return smallStep;
 	}
@@ -67,6 +61,38 @@ public class StageCompositeDefinition {
 	public void setBigStep(double bigStep) {
 		this.bigStep = bigStep;
 	}
+
+	public boolean isSingleLineNudge() {
+		return singleLineNudge;
+	}
+	public void setSingleLineNudge(boolean singleLineNudge) {
+		this.singleLineNudge = singleLineNudge;
+	}
+	public boolean isSingleLine() {
+		return singleLine;
+	}
+	public void setSingleLine(boolean singleLine) {
+		this.singleLine = singleLine;
+	}
+	public boolean isResetToZero() {
+		return resetToZero;
+	}
+	public void setResetToZero(boolean resetToZero) {
+		this.resetToZero = resetToZero;
+	}
+	public boolean isUseSteps() {
+		return useSteps;
+	}
+	public void setUseSteps(boolean useSteps) {
+		this.useSteps = useSteps;
+	}
+	public String getLabel() {
+		return label;
+	}
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
 	
 
 }

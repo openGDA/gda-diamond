@@ -42,8 +42,6 @@ import java.util.Vector;
 
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealVector;
-import org.dawnsci.plotting.jreality.tool.IImagePositionEvent;
-import org.dawnsci.plotting.jreality.tool.ImagePositionListener;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
@@ -88,9 +86,11 @@ import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IntegerDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.Stats;
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
-import uk.ac.gda.client.viewer.ImageViewer;
 import uk.ac.gda.epics.adviewer.composites.CameraComposite;
-import uk.ac.gda.epics.adviewer.composites.NewImageListener;
+import uk.ac.gda.epics.adviewer.composites.imageviewer.IImagePositionEvent;
+import uk.ac.gda.epics.adviewer.composites.imageviewer.ImagePositionListener;
+import uk.ac.gda.epics.adviewer.composites.imageviewer.ImageViewer;
+import uk.ac.gda.epics.adviewer.composites.imageviewer.NewImageListener;
 
 /**
  * View to display the live images from the camera Used in alignment and monitoring

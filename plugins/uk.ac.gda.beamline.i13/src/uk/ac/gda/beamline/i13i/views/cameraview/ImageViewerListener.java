@@ -19,10 +19,8 @@
 package uk.ac.gda.beamline.i13i.views.cameraview;
 
 import gda.device.DeviceException;
-
-import org.dawnsci.plotting.jreality.tool.IImagePositionEvent;
-
-import uk.ac.gda.client.viewer.ImageViewer;
+import uk.ac.gda.epics.adviewer.composites.imageviewer.IImagePositionEvent;
+import uk.ac.gda.epics.adviewer.composites.imageviewer.ImageViewer;
 
 public interface ImageViewerListener {
 

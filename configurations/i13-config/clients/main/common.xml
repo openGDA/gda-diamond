@@ -52,6 +52,7 @@
 		<property name="fFMpegImgHeightRequired" value="1336" />
 		<property name="fFMpegImgWidthRequired" value="2004" />
 		<property name="lensScannable" ref="lensScannable" />
+		<property name="compositeFactory" ref="iImageModeCompositeFactory"/>
 	</bean>
 
 	<bean id="i13ADViewcreator"
@@ -252,20 +253,8 @@
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-
-
-	<bean id="imageModeManager" class="uk.ac.gda.beamline.i13i.ImageModeManager" />
-	<bean id="alignmentView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
-		<property name="viewTitle" value="Alignment" />
-		<property name="compositeFactories">
-			<list>
-				<bean class="uk.ac.gda.beamline.i13i.IImageModeCompositeFactory">
-					<property name="imageModeManager" ref="imageModeManager" />
-					<property name="availableModes">
-						<util:list>
-							<bean class="uk.ac.gda.beamline.i13i.SimpleMode">
-								<property name="compositeFactory">
-									<bean class="uk.ac.gda.beamline.i13i.StageCompositeFactory">
+	
+	<bean id="sampleCentring" class="uk.ac.gda.beamline.i13i.StageCompositeFactory">
 										<property name="stageCompositeDefinitions">
 											<util:list value-type="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
 												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
@@ -273,24 +262,34 @@
 													<property name="stepSize" value=".01" />
 												</bean>
 												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
+													<property name="scannable" ref="ss1_x" />
+													<property name="stepSize" value=".01" />
+												</bean>
+ 												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
 													<property name="scannable" ref="ss1_sampley" />
 													<property name="stepSize" value=".01" />
 												</bean>
 												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
 													<property name="scannable" ref="ss1_z" />
 													<property name="stepSize" value=".01" />
-												</bean>
+												</bean> 
 												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
 													<property name="scannable" ref="ss1_rot" />
-													<property name="controlType" value="0" />
 													<property name="smallStep" value="5" />
 													<property name="bigStep" value="90" />
+													<property name="useSteps" value="true"/>
 												</bean>
 											</util:list>
 										</property>
-										<property name="label" value="Sample Centring" />
 									</bean>
-								</property>
+
+
+				<bean id="iImageModeCompositeFactory" class="uk.ac.gda.beamline.i13i.IImageModeCompositeFactory">
+					<property name="imageModeManager" ref="imageModeManager" />
+					<property name="availableModes">
+						<util:list>
+							<bean class="uk.ac.gda.beamline.i13i.SimpleMode">
+								<property name="compositeFactory" ref="sampleCentring"/>
 								<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
 								<property name="imageFilePath" value="icons/samplestage.gif" />
 								<property name="name" value="SampleCentring" />
@@ -315,9 +314,9 @@
 												</bean>
 												<bean class="uk.ac.gda.beamline.i13i.StageCompositeDefinition">
 													<property name="scannable" ref="ss1_rot" />
-													<property name="controlType" value="0" />
 													<property name="smallStep" value="5" />
 													<property name="bigStep" value="90" />
+													<property name="useSteps" value="true"/>
 												</bean>
 											</util:list>
 										</property>
@@ -380,6 +379,13 @@
 						</util:list>
 					</property>
 				</bean>
+
+	<bean id="imageModeManager" class="uk.ac.gda.beamline.i13i.ImageModeManager" />
+	<bean id="alignmentView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
+		<property name="viewTitle" value="Alignment" />
+		<property name="compositeFactories">
+			<list>
+			<ref bean="iImageModeCompositeFactory"/>
 			</list>
 		</property>
 	</bean>

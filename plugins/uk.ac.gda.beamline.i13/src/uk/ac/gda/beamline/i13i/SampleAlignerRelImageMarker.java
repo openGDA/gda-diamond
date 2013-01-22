@@ -26,13 +26,13 @@ import gda.device.scannable.ScannableUtils;
 
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealVector;
-import org.dawnsci.plotting.jreality.tool.IImagePositionEvent;
 import org.eclipse.swt.graphics.ImageData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beamline.i13i.views.cameraview.ImageViewerListener;
-import uk.ac.gda.client.viewer.ImageViewer;
+import uk.ac.gda.epics.adviewer.composites.imageviewer.IImagePositionEvent;
+import uk.ac.gda.epics.adviewer.composites.imageviewer.ImageViewer;
 
 public class SampleAlignerRelImageMarker  implements ImageViewerListener{
 	private static final Logger logger = LoggerFactory.getLogger(SampleAlignerRelImageMarker.class);	

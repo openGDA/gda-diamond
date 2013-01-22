@@ -21,8 +21,8 @@ package uk.ac.gda.beamline.i13i;
 import gda.rcp.views.CompositeFactory;
 
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
@@ -52,31 +52,32 @@ public class StageCompositeFactory implements CompositeFactory {
 		this.label = label;
 	}
 
+
 	public Control getTabControl(Composite parent) {
-
-		
-		Group translationGroup = new Group(parent, SWT.SHADOW_NONE);
-		GridDataFactory.fillDefaults().applyTo(translationGroup);
-
-		translationGroup.setText(label);
-		translationGroup.setLayout(new GridLayout());
+		Composite cmp;
+		if( label != null){
+			Group translationGroup = new Group(parent, SWT.SHADOW_NONE);
+			translationGroup.setText(label);
+			cmp = translationGroup;
+		} else {
+			cmp = new Composite(parent, SWT.NONE);
+		}
+		GridDataFactory.fillDefaults().applyTo(cmp);
+		GridLayoutFactory.fillDefaults().margins(1, 1).spacing(2, 2).applyTo(cmp);
 
 		
 		
 		for(StageCompositeDefinition s :  stageCompositeDefinitions){
-			if( s.controlType == 0 || s.controlType==1){
-				RotationViewer rotViewer = new RotationViewer(s.scannable, s.stepSize);
-				rotViewer.setNudgeSizeBoxDecimalPlaces(s.decimalPlaces);
-				if( s.controlType ==0){
-					rotViewer.configureFixedStepButtons(s.smallStep, s.bigStep);
-				}
-				int style = s.controlType == 0 ? SWT.NONE : SWT.SINGLE;
-				rotViewer.createControls(translationGroup, style, true);
+			RotationViewer rotViewer = new RotationViewer(s.scannable, s.getLabel() != null ?s.getLabel() : s.scannable.getName(), s.isResetToZero());
+			rotViewer.configureStandardStep(s.stepSize);
+			rotViewer.setNudgeSizeBoxDecimalPlaces(s.decimalPlaces);
+			if( s.isUseSteps() ){
+				rotViewer.configureFixedStepButtons(s.smallStep, s.bigStep);
 			}
-			
+			rotViewer.createControls(cmp, s.isSingleLineNudge()? SWT.SINGLE : SWT.NONE, s.isSingleLine());
 		}
 		
-		return translationGroup;
+		return cmp;
 	}
 
 	@Override

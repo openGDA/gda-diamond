@@ -32,6 +32,8 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -139,7 +141,7 @@ class DummyIImageMode implements IImageMode{
 class IIMageModeComposite extends Composite {
 //	private static final Logger logger = LoggerFactory.getLogger(IIMageModeComposite.class);
 	
-	private CTabFolder modeControl;
+	private CTabFolder tabFolder;
 	protected IImageMode[] availableModes;
 	private HashMap<IImageMode, CTabItem> tabs;
 	private ImageModeChangeListener imageModeChangeListener;
@@ -154,12 +156,23 @@ class IIMageModeComposite extends Composite {
 		this.imageModeManager = imageModeManager;
 		this.availableModes = availableModes;
 		selectionProvider = new ModePaneSelectionProvider();
+		
+		addDisposeListener(new DisposeListener() {
+			
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				if( imageModeChangeListener != null){
+					IIMageModeComposite.this.imageModeManager.removeListener(imageModeChangeListener);
+					imageModeChangeListener = null;
+				}
+			}
+		});
 	}	
 	
 	
 	
 	void createControls() {
-		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(this);
+		GridLayoutFactory.fillDefaults().numColumns(1).margins(0,0).spacing(0,0).applyTo(this);
 		GridDataFactory.fillDefaults().applyTo(this);		
 /*		GridLayout gl = new GridLayout();
 		gl.numColumns = 4;
@@ -167,29 +180,29 @@ class IIMageModeComposite extends Composite {
 		GridData data3 = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data3.horizontalSpan = 4;
 		modeComp.setLayoutData(data3);
-*/		modeControl = new CTabFolder(this, SWT.TOP | SWT.BORDER);
-		modeControl.addSelectionListener(new SelectionAdapter() {
+*/		tabFolder = new CTabFolder(this, SWT.TOP | SWT.BORDER);
+		tabFolder.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				int selectionIndex = modeControl.getSelectionIndex();
+				int selectionIndex = tabFolder.getSelectionIndex();
 				IImageMode mode = availableModes[selectionIndex];
 				imageModeManager.setMode(mode);
 			}
 		});
-		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(modeControl);
-		GridDataFactory.fillDefaults().applyTo(modeControl);
+		GridLayoutFactory.fillDefaults().numColumns(1).margins(0,0).spacing(0,0).applyTo(tabFolder);
+		GridDataFactory.fillDefaults().applyTo(tabFolder);
 		
 		tabs = new HashMap<IImageMode, CTabItem>();
 		for (int i = 0; i < availableModes.length; i++) {
 			IImageMode mode = availableModes[i];
-			CTabItem cTab = new CTabItem(modeControl, SWT.NONE);
+			CTabItem cTab = new CTabItem(tabFolder, SWT.NONE);
 			Image tabImage = mode.getTabImage();
 			if (tabImage != null){
 				cTab.setImage(tabImage);
 			}
 			cTab.setText(mode.getLabel());
 			cTab.setToolTipText(mode.getName());
-			Control control = mode.getTabControl(modeControl);
+			Control control = mode.getTabControl(tabFolder);
 			cTab.setControl(control);
 			tabs.put(mode, cTab);
 			
@@ -198,7 +211,7 @@ class IIMageModeComposite extends Composite {
 	
 		imageModeManager.setMode(availableModes[0]);
 		imageModeManager.addListener(imageModeChangeListener);
-		modeControl.setSelection(0);
+		tabFolder.setSelection(0);
 		if(iWorkbenchPartSite != null )
 			iWorkbenchPartSite.setSelectionProvider(selectionProvider);
 		setVisible(true);
@@ -208,7 +221,7 @@ class IIMageModeComposite extends Composite {
 	private final class ImageModeChangeListener implements IImageModeListener {
 		@Override
 		public void imageModeChanged(final IImageMode mode) {
-			Display display = modeControl.getDisplay();
+			Display display = tabFolder.getDisplay();
 			if (display.getThread() ==Thread.currentThread()){
 				doSwitch(mode);
 			} else {
@@ -223,7 +236,7 @@ class IIMageModeComposite extends Composite {
 		}
 
 		private void doSwitch(IImageMode mode) {
-			modeControl.setSelection(tabs.get(mode));
+			tabFolder.setSelection(tabs.get(mode));
 			selectionProvider.setSelection(mode.getSelection());
 		}
 	}

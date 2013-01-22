@@ -20,6 +20,7 @@ package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
 import gda.device.Scannable;
 import gda.jython.InterfaceProvider;
+import gda.rcp.views.CompositeFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +50,8 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 
 	private Scannable lensScannable;
 
+	private CompositeFactory compositeFactory;
+
 	public Scannable getLensScannable() {
 		return lensScannable;
 	}
@@ -64,5 +67,15 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 			throw new IllegalArgumentException("setExposureTimeCmd == null");		
 		
 	}
+
+	public CompositeFactory getCompositeFactory(){
+		return compositeFactory;
+	}
+
+	public void setCompositeFactory(CompositeFactory compositeFactory) {
+		this.compositeFactory = compositeFactory;
+	}
+	
+	
 
 }
