@@ -19,6 +19,11 @@
 package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
 import gda.device.Scannable;
+import gda.device.ScannableMotionUnits;
+import gda.device.detector.areadetector.v17.ADBase;
+import gda.device.detector.areadetector.v17.FfmpegStream;
+import gda.device.detector.areadetector.v17.NDArray;
+import gda.device.detector.areadetector.v17.NDProcess;
 import gda.jython.InterfaceProvider;
 import gda.rcp.views.CompositeFactory;
 
@@ -26,6 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
+import uk.ac.gda.beamline.i13i.DisplayScaleProvider;
+import uk.ac.gda.beamline.i13i.views.cameraview.BeamCenterProvider;
+import uk.ac.gda.beamline.i13i.views.cameraview.ImageViewerListener;
 import uk.ac.gda.epics.adviewer.ADControllerImpl;
 
 public class I13ADControllerImpl extends  ADControllerImpl implements InitializingBean {
@@ -75,7 +83,122 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 	public void setCompositeFactory(CompositeFactory compositeFactory) {
 		this.compositeFactory = compositeFactory;
 	}
+
+	private BeamCenterProvider beamCenterProvider;
+	private ImageViewerListener imageViewerListener;
 	
+	private Scannable rotationAxisXScannable;
+	private DisplayScaleProvider displayScaleProvider;
+	private Scannable cameraXYScannable;
+	private String autoCentreCmd;
+	private String showNormalisedImageCmd;
+	private String histogramPlotId;
+	private String imagePlotId;
+
+	private DisplayScaleProvider cameraScaleProvider;
+
+	private ScannableMotionUnits sampleCentringXMotor;
+
+	private ScannableMotionUnits sampleCentringYMotor;
+
+
+	public BeamCenterProvider getBeamCenterProvider() {
+		return beamCenterProvider;
+	}	
+	public void setBeamCenterProvider(BeamCenterProvider beamCenterProvider) {
+		this.beamCenterProvider = beamCenterProvider;
+	}
+
+
+	public ImageViewerListener getImageViewerListener() {
+		return imageViewerListener;
+	}
+
+	public void setImageViewerListener(ImageViewerListener imageViewerListener) {
+		this.imageViewerListener = imageViewerListener;
+	}
+
+
+
+	public Scannable getRotationAxisXScannable() {
+		return rotationAxisXScannable;
+	}
+
+	public void setRotationAxisXScannable(Scannable rotationAxisXScannable) {
+		this.rotationAxisXScannable = rotationAxisXScannable;
+	}
+
+	public DisplayScaleProvider getDisplayScaleProvider() {
+		return displayScaleProvider;
+	}
+
+	public void setDisplayScaleProvider(DisplayScaleProvider displayScaleProvider) {
+		this.displayScaleProvider = displayScaleProvider;
+	}
+
+	public Scannable getCameraXYScannable() {
+		return cameraXYScannable;
+	}
+
+	public void setCameraXYScannable(Scannable cameraXYScannable) {
+		this.cameraXYScannable = cameraXYScannable;
+	}
+
+	public String getAutoCentreCmd() {
+		return autoCentreCmd;
+	}
+
+	public void setAutoCentreCmd(String autoCentreCmd) {
+		this.autoCentreCmd = autoCentreCmd;
+	}
+
+	public String getShowNormalisedImageCmd() {
+		return showNormalisedImageCmd;
+	}
+
+	public void setShowNormalisedImageCmd(String showNormalisedImageCmd) {
+		this.showNormalisedImageCmd = showNormalisedImageCmd;
+	}
+
+	public String getHistogramPlotId() {
+		return histogramPlotId;
+	}
+
+	public void setHistogramPlotId(String histogramPlotId) {
+		this.histogramPlotId = histogramPlotId;
+	}
+
+	public String getImagePlotId() {
+		return imagePlotId;
+	}
+
+	public void setImagePlotId(String imagePlotId) {
+		this.imagePlotId = imagePlotId;
+	}
+
 	
+	public DisplayScaleProvider getCameraScaleProvider() {
+		return cameraScaleProvider;
+	}
+
+	public void setCameraScaleProvider(DisplayScaleProvider cameraScaleProvider) {
+		this.cameraScaleProvider = cameraScaleProvider;
+	}
+
+	public ScannableMotionUnits getSampleCentringXMotor() {
+		return sampleCentringXMotor;
+	}
+
+	public void setSampleCentringXMotor(ScannableMotionUnits sampleCentringXMotor) {
+		this.sampleCentringXMotor = sampleCentringXMotor;
+	}
+
+	public ScannableMotionUnits getSampleCentringYMotor() {
+		return sampleCentringYMotor;
+	}
+
+	public void setSampleCentringYMotor(ScannableMotionUnits sampleCentringYMotor) {
+		this.sampleCentringYMotor = sampleCentringYMotor;
+	}
 
 }

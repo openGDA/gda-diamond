@@ -147,31 +147,6 @@ public class SampleAligner  implements ImageViewerListener{
 	}
 	@Override
 	public void imageFinished(IImagePositionEvent event, ImageViewer viewer) throws DeviceException {
-		final int[] clickCoordinates = event.getImagePosition();
-		final RealVector actualClickPoint = createVectorOf(clickCoordinates[0], clickCoordinates[1]);		
-		ImageData imageData = viewer.getImageData();
-		final RealVector imageDataSize = createVectorOf(imageData.width, imageData.height);
-		final RealVector imageSize = createVectorOf(imageWidth, imageHeight );
-		
-		final RealVector clickPointInImage = actualClickPoint.ebeMultiply(imageSize).ebeDivide(imageDataSize);		
-		double beamCenterX = ScannableUtils.getCurrentPositionArray(rotationAxisXScannable)[0];
-		double beamCenterY = ScannableUtils.getCurrentPositionArray(cameraXYScannable)[1];
-		final RealVector beamCenterV = createVectorOf(beamCenterX, beamCenterY);
-		final RealVector pixelOffset = beamCenterV.subtract(clickPointInImage);
-
-		
-			double moveInX = -pixelOffset.getEntry(0) / displayScaleProvider.getPixelsPerMMInX();
-			double moveInY = -pixelOffset.getEntry(1) / displayScaleProvider.getPixelsPerMMInY();
-
-			try {
-				sampleCentringXMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(sampleCentringXMotor)[0]+moveInX);
-				sampleCentringYMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(sampleCentringYMotor)[0]+moveInY);
-			} catch (DeviceException e) {
-				logger.error("Error moving motor", e);
-			}
-			
-
-		
 	}
 	
 	public DisplayScaleProvider getCameraScaleProvider() {
