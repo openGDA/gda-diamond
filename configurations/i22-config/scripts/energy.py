@@ -4,6 +4,7 @@ from math import sin, cos, asin, acos, sqrt
 from gdascripts.pd.time_pds import tictoc
 from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
+from gda.device import DeviceException
 
 class Energy(gda.device.scannable.PseudoDevice):
 	"""

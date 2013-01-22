@@ -6,13 +6,9 @@ class I22(gda.device.scannable.PseudoDevice):
 	def __init__(self):
 		self.name = "i22"
 		self.setInputNames(["i22"])
-		self.i22Busy = 0
 		self.status = "Awake"
-		self.vfmZeroVoltages = [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
-		self.hfmZeroVoltages = [0.0,0.0,0.0,0.0,0.0,0.0]
 		self.AWAKE = "Awake"
 		self.SHUTDOWN = "Shutdown"
-		self.directory = "/dls/i22/scripts/voltages/"
 		self.HFM = "hfm"
 		self.VFM = "vfm"
 		
@@ -24,88 +20,36 @@ class I22(gda.device.scannable.PseudoDevice):
 
 	def asynchronousMoveTo(self,status):
 		if ( status != self.AWAKE and status != self.SHUTDOWN):
-			raise DeviceException("Choice are "+self.AWAKE+" or "+ self.SHUTDOWN)
-		self.i22Busy = 1
+			print ("Choice are "+self.AWAKE+" or "+ self.SHUTDOWN)
 		if ( status == self.AWAKE and self.isAwake() != self.AWAKE):
 			self.status = self.AWAKE
 			self.wakeUp()
 		if ( status == self.SHUTDOWN and self.isAwake() != self.SHUTDOWN):
 			self.status = self.SHUTDOWN
 			self.shutdown()
-		self.i22Busy = 0	
 		return
 
 	def shutdown(self):
 		valves.close()
 		mirrorsVoltages.off()
-		self.setHotwaxsOff()
+		hotwaxs.off()
 		# print positions of the motor in elog
 
 	def wakeUp(self):
 		valves.open()
-		vfmVoltages = mirrorsVoltages.on()
-		
-		self.setHotwaxsOn()
+		mirrorsVoltages.on()		
+		hotwaxs.on()
 
 	def isAwake(self):
-		valvesAwake = valves.isAwake()
-		vfmAwake = mirrorsVolates.isOn(self.VFM)
-		hfmAwake = mirrorsVolates.isOn(self.HFM)
-		
-		nAwake = 0
-		if ( caget("BL22I-VA-VALVE-05:CON") == 0):
-			nAwake = nAwake+1
-			nDevices = nDevices + 1
-		if ( caget("BL22I-VA-VALVE-04:CON") == 0):
-			nAwake = nAwake+1
-			nDevices = nDevices + 1 
-		if ( caget("BL22I-VA-VALVE-03:CON") == 0):
-			nAwake = nAwake+1
-			nDevices = nDevices + 1
-		if ( caget("BL22I-VA-VALVE-02:CON") == 0):
-			nAwake = nAwake+1
-			nDevices = nDevices + 1
-		if ( caget("BL22I-VA-VALVE-01:CON") == 0):
-			nAwake = nAwake+1
-			nDevices = nDevices + 1
-
-		voltages = vfm.getPosition()
-		nVoltages = len(voltages)
-		for i in range(nVoltages):
-			if ( voltages[i] != 0.0)
-				nAwake=nAwake+1
-			nDevices = nDevices + 1
-			
-		voltages = hfm.getPosition()
-		nVoltages = len(voltages)
-		for i in range(nVoltages):
-			if ( voltages[i] != 0.0)
-				nAwake=nAwake+1
-			nDevices = nDevices + 1
-			
-		if ( caget("BL22I-EA-ISEG-04:HWAX1:V1_ACTUAL") != 0.0):
-			nAwake = nAwake+1
-			nDevices = nDevices + 1
-		if ( caget("BL22I-EA-ISEG-04:HWAX1:V2_ACTUAL") != 0.0):
-			nAwake = nAwake+1
-			nDevices = nDevices + 1
-		if ( caget("BL22I-EA-ISEG-05:HWAX1:V1_ACTUAL") != 0.0):
-			nAwake = nAwake+1
-			nDevices = nDevices + 1
-		if ( caget("BL22I-EA-ISEG-05:HWAX1:V2_ACTUAL") != 0.0):
-			nAwake = nAwake+1
-			nDevices = nDevices + 1
-		
-		ratio = nAwake/nDevices
-		if ( ratio == 1 ):
-			return self.AWAKE
-		if ( ratio == 0 ):
-			return self.SHUTDOWN
-		return "Drowsy"
+		status = valves.isAwake() and mirrorsVoltages.isOn(self.VFM) and mirrorsVoltages.isOn(self.HFM) and hotwaxs.isOn()
+		if int(status) == 0:
+			status = "SHUTDOWN"
+			return status
+		return "AWAKE"
 
 class Valves():
 
-		def __init__(self):
+	def __init__(self):
 		v = []
 		v.append("BL22I-VA-VALVE-05:CON")
 		v.append("BL22I-VA-VALVE-04:CON")
@@ -117,40 +61,45 @@ class Valves():
 	def close(self):
 		print "Closing all valves"
 		for i in self.valves:
-			caput(self.valves[i] , 1)
+			caput(i , 1)
 		print "All valves closed"
 
 	def open(self):
 		print "Opening all valves"
-		for i in self.valves:
+		n = 5
+		nValves = len(self.valves)
+		for i in range (nValves):
 			# reset the valves
 			caput(self.valves[i],2)
+			sleep(1)
 			# open the valve
 			caput(self.valves[i],0)
-			sleep(2)
-			print "Valve "+str(5-i)+" open"
+			sleep(1)
+			print "Valve "+str(n)+" open"
 			
-			if ( i == self.valves[0]):
+			if ( i == 0):
 				caput("BL22I-VA-FVALV-01:CON",3)
-				sleep(2)
+				sleep(1)
 				print "Fast valve armed"
-
+			n = n-1
 		print "All valves open"
 
 	def isAwake(self):
 		for i in self.valves:
 			# If close or reset, return "shutdown"
-			if ( caget(self.valves) != 0):
+			if ( caget(i) != 0):
 				return "Shutdown"
 		return "Awake"
 
 		
 class MirrorsVoltages():
 
-	def init(self):	
+	def __init__(self):
 		self.directory = "/dls/i22/scripts/voltages/"
 		self.HFM = "hfm"
 		self.VFM = "vfm"
+		self.vfmZeroVoltages = [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
+		self.hfmZeroVoltages = [0.0,0.0,0.0,0.0,0.0,0.0]
 
 	def save(self , name):
 		filename = self.directory+name+".dat"
@@ -178,12 +127,12 @@ class MirrorsVoltages():
 
 	def set(self, name, voltages):
 		if ( name == self.VFM ):
-			print "Set voltages of the VFM to", vfmVoltages
-			pos vfm vfmVoltages
+			print "Set voltages of the VFM to", voltages
+			pos vfm voltages
 			print "vfm: ", vfm.getPosition()
 		if ( name == self.HFM):	
-			print "Set voltages of the HFM to", hfmVoltages
-			pos hfm hfmVoltages
+			print "Set voltages of the HFM to", voltages
+			pos hfm voltages
 			print "hfm: ", hfm.getPosition()
 
 	def on(self):
@@ -205,7 +154,7 @@ class MirrorsVoltages():
 		nVoltages = len(v)
 		n = 0
 		for i in v:			
-			if ( v[i] == 0):
+			if ( i == 0):
 				n = n + 1
 		# If all voltages at 0.0, return "shutdown"
 		if ( n == nVoltages ):
@@ -214,105 +163,93 @@ class MirrorsVoltages():
 		
 class Hotwaxs():
 
-	def init(self):	
-		self.cathodes = "BL22I-EA-HV-01:"
-		self.cathodesRBV = "BL22I-EA-HV-01:STAT0:RBV"
-		self.windowRBV = "BL22I-EA-HV-01:STAT1:RBV"
-		self.sideRBV = "BL22I-EA-HV-01:STAT2:RBV"
-		self.driftRBV = "BL22I-EA-HV-01:STAT3:RBV"
+	def __init__(self):	
+		self.name = "BL22I-EA-HV-01:"
+		self.cathodes = HotWaxsVoltages( self.name , 0 )
+		self.window = HotWaxsVoltages( self.name , 1 )
+		self.side = HotWaxsVoltages( self.name , 2 )
+		self.drift = HotWaxsVoltages( self.name , 3 )
 		
 	def on(self):
+		if ( self.cathodes.isEnabled() == 0 or self.window.isEnabled() == 0 or self.side.isEnabled() == 0 or self.drift.isEnabled()==0 ):
+			print "One or more channels are off. Turn the power supply on"
+			return
 		print "Set HOTWAXS high voltages ON"
-		if ( self.cathodes+"STAT0:RBV"
-		caput(self.cathodes, 200 )
-		caput("BL22I-EA-ISEG-04:HWAX1:SET_V2_DEMAND", 600 )
-		caput("BL22I-EA-ISEG-05:HWAX2:SET_V1_DEMAND", 600 )
-		caput("BL22I-EA-ISEG-05:HWAX2:SET_V2_DEMAND", 1200 )
-		caput("BL22I-EA-ISEG-04:HWAX1:V1_START" , "ON" )
-		caput("BL22I-EA-ISEG-04:HWAX1:V2_START" , "ON" )
-		caput("BL22I-EA-ISEG-05:HWAX2:V1_START" , "ON" )
-		caput("BL22I-EA-ISEG-05:HWAX2:V2_START" , "ON" )
-		sleep(15)
-		caput("BL22I-EA-ISEG-04:HWAX1:SET_V1_DEMAND", 400 )
-		caput("BL22I-EA-ISEG-04:HWAX1:SET_V2_DEMAND", 1200 )
-		caput("BL22I-EA-ISEG-05:HWAX2:SET_V1_DEMAND", 1200 )
-		caput("BL22I-EA-ISEG-05:HWAX2:SET_V2_DEMAND", 2400 )
-		caput("BL22I-EA-ISEG-04:HWAX1:V1_START" , "ON" )
-		caput("BL22I-EA-ISEG-04:HWAX1:V2_START" , "ON" )
-		caput("BL22I-EA-ISEG-05:HWAX2:V1_START" , "ON" )
-		caput("BL22I-EA-ISEG-05:HWAX2:V2_START" , "ON" )
-		sleep(15)
-		caput("BL22I-EA-ISEG-04:HWAX1:SET_V1_DEMAND", 470 )
-		caput("BL22I-EA-ISEG-04:HWAX1:SET_V2_DEMAND", 1500 )
-		caput("BL22I-EA-ISEG-05:HWAX2:SET_V1_DEMAND", 1500 )
-		caput("BL22I-EA-ISEG-05:HWAX2:SET_V2_DEMAND", 3000 )
-		caput("BL22I-EA-ISEG-04:HWAX1:V1_START" , "ON" )
-		caput("BL22I-EA-ISEG-04:HWAX1:V2_START" , "ON" )
-		caput("BL22I-EA-ISEG-05:HWAX2:V1_START" , "ON" )
-		caput("BL22I-EA-ISEG-05:HWAX2:V2_START" , "ON" )
-		sleep(15)
-	
-	def setCathodes(self , voltage):		
-		pvSet = self.cathodes+"VSET0"
-		pvRBV = self.cathodes+"STAT0:RBV"
-		if ( caget(pvRBV+".BA") == 1 ):
-			print "Power supply OFF"
-		caput(pvSet , voltage)
-		print "Cathodes: "+str(voltage)+"V"
+		pos self.cathodes 200
+		pos self.window 600
+		pos self.side 600
+		pos self.drift 1200
 		
-	def setHotwaxsOff(self):
-		print "Set HOTWAXS high voltages OFF"
-		caput("BL22I-EA-ISEG-04:HWAX1:SET_V1_DEMAND", 400 )
-		caput("BL22I-EA-ISEG-04:HWAX1:SET_V2_DEMAND", 1200 )
-		caput("BL22I-EA-ISEG-05:HWAX2:SET_V1_DEMAND", 1200 )
-		caput("BL22I-EA-ISEG-05:HWAX2:SET_V2_DEMAND", 2400 )
-		caput("BL22I-EA-ISEG-04:HWAX1:V1_START" , "ON" )
-		caput("BL22I-EA-ISEG-04:HWAX1:V2_START" , "ON" )
-		caput("BL22I-EA-ISEG-05:HWAX2:V1_START" , "ON" )
-		caput("BL22I-EA-ISEG-05:HWAX2:V2_START" , "ON" )
-		sleep(15)
-		caput("BL22I-EA-ISEG-04:HWAX1:SET_V1_DEMAND", 200 )
-		caput("BL22I-EA-ISEG-04:HWAX1:SET_V2_DEMAND", 600 )
-		caput("BL22I-EA-ISEG-05:HWAX2:SET_V1_DEMAND", 600 )
-		caput("BL22I-EA-ISEG-05:HWAX2:SET_V2_DEMAND", 1200 )
-		caput("BL22I-EA-ISEG-04:HWAX1:V1_START" , "ON" )
-		caput("BL22I-EA-ISEG-04:HWAX1:V2_START" , "ON" )
-		caput("BL22I-EA-ISEG-05:HWAX2:V1_START" , "ON" )
-		caput("BL22I-EA-ISEG-05:HWAX2:V2_START" , "ON" )
-		sleep(15)
-		caput("BL22I-EA-ISEG-04:HWAX1:SET_V1_DEMAND", 0 )
-		caput("BL22I-EA-ISEG-04:HWAX1:SET_V2_DEMAND", 0 )
-		caput("BL22I-EA-ISEG-05:HWAX2:SET_V1_DEMAND", 0 )
-		caput("BL22I-EA-ISEG-05:HWAX2:SET_V2_DEMAND", 0 )
-		caput("BL22I-EA-ISEG-04:HWAX1:V1_START" , "ON" )
-		caput("BL22I-EA-ISEG-04:HWAX1:V2_START" , "ON" )
-		caput("BL22I-EA-ISEG-05:HWAX2:V1_START" , "ON" )
-		caput("BL22I-EA-ISEG-05:HWAX2:V2_START" , "ON" )
-		sleep(15)
+		inc self.cathodes 200
+		inc self.window 600
+		inc self.side 600
+		inc self.drift 1200
+
+		inc self.cathodes 70
+		inc self.window 300
+		inc self.side 300
+		inc self.drift 600
+		
+		print "Cathodes at: "+str(self.cathodes.getPosition())
+		print "Window at: "+str(self.window.getPosition())
+		print "Side at: "+str(self.side.getPosition())
+		print "Drift at: "+str(self.drift.getPosition())
+	
+	def off(self):
+		if ( self.cathodes.isEnabled() ):
+			pos self.cathodes 0.0
+			self.cathodes.off()
+			
+		if (self.window.isEnabled() ):
+			pos self.window 0.0
+			self.window.off()
+			
+		if ( self.side.isEnabled() ):
+			pos self.side 0.0
+			self.side.off()
+		
+		if ( self.drift.isEnabled() ):
+			pos self.drift 0.0
+			self.drift.off()
+
+		print "All voltages at 0.0V"
+
+	def isOn(self):
+		return (self.cathodes.isEnabled() and self.window.isEnabled and self.side.isEnabled() and self.drift.isEnabled())
 		
 class HotWaxsVoltages(gda.device.scannable.PseudoDevice):
 	
-	def init(self , name):	
+	def __init__(self , name , channel):	
 		self.pvName = name
-		self.pvSet = self.pvName+"VSET0"
-		self.pvEnabled = self.pvName+"STAT0:RBV.BA"
-		self.readout = self.pvName+"VMONO:RBV"
-		self.rampUp = self.pvName+"STAT0:RBV.1"
-		self.rampDown = self.pvName+"STAT0:RBV.2"
+		self.pvOn = self.pvName+"ON"+str(channel)
+		self.pvSet = self.pvName+"VSET"+str(channel)
+		self.readout = self.pvName+"VMON"+str(channel)+":RBV"
+		self.rampUp = self.pvName+"STAT"+str(channel)+":RBV.B0"
+		self.rampUp = self.pvName+"STAT"+str(channel)+":RBV.B1"
+		self.rampDown = self.pvName+"STAT"+str(channel)+":RBV.B2"
+		self.pvTripped = self.pvName+"STAT"+str(channel)+":RBV.B7"
+		self.pvEnabled = self.pvName+"STAT"+str(channel)+":RBV.BA"
 
 	def isBusy(self):
-		return self.bragg.isBusy()
+		return 0
 
 	def getPosition(self):
-		""" Return the keV value"""
-		X=float(self.bragg.getPosition())
-		exp = X / self.coefficient 
-		return 12.3985/(6.2712*sin(exp*3.14159265/180)) 
+		return self.readout 
 
 	def asynchronousMoveTo(self,X):
-		""" Moves to the keV value supplied """
-		self.bragg.asynchronousMoveTo(180/3.14159265*asin(12.3985/(X*6.2712))*self.coefficient)
+		if ( caget(self.pvEnabled) == 1 ):
+			print "Channel OFF."
+		caput(self.pvSet , X)
+		if ( caget( self.pvOn ) == 0 ):
+			caput ( self.pvOn , 1)
 
+	def isEnabled(self):
+		return caget(self.pvEnabled)
+	
+	def off(self):
+			caput ( self.pvOn , 0)
+		
 valves = Valves()
 mirrorsVoltages = MirrorsVoltages()
+hotwaxs = Hotwaxs()
 i22 = I22()
