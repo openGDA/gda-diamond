@@ -12,7 +12,11 @@ class ExtraNameHider(PseudoDevice):
         self.delegate.asynchronousMoveTo(position)
     
     def rawGetPosition(self):
-        return self.delegate.getPosition()[0]
+        position = self.delegate.getPosition()
+        try:
+            return position[0]
+        except TypeError:
+            return position
     
     def isBusy(self):
         return self.delegate.isBusy()
