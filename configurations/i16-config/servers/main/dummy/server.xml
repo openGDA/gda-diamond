@@ -16,7 +16,7 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<import resource="../common/plumbing.xml" />
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml"/>
 
 	<import resource="motor/atten.xml" />
 	<import resource="motor/diag.xml" />
@@ -50,10 +50,16 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<import resource="../common/jython_server.xml" />
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
+	<bean id="command_server" parent="abstract_command_server">
+		<property name="stopJythonScannablesOnStopAll" value="false" />
+		<property name="disableBatonControlOverVisitMetadataEntry" value="true" />
+	</bean>
+
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/terminal_logger.xml" />
 
 	<!-- dummy only -->
-	<import resource="../live/epics/detector/pilatus100k.xml" />
+<!-- 	<import resource="../live/epics/detector/pilatus100k.xml" /> -->
 
 	<corba:export namespace="i16server" />
 

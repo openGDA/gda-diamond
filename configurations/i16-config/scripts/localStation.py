@@ -7,9 +7,12 @@ print "============================================================="
 print "Running I16 specific initialisation code from localStation.py"
 print "============================================================="
 
-
-USE_DIFFCALC = False
-USE_DUMMY_IDGAP_MOTOR = True
+import installation
+if installation.isDummy():
+	USE_DIFFCALC = True
+else:
+	USE_DIFFCALC = False  # <-- change here for live gda!
+USE_DUMMY_IDGAP_MOTOR = False
 USE_XMAP= False
 
 # Java
@@ -267,7 +270,21 @@ scan_processor.processors.append(Rcen())
 print "Creating diffractometer base scannable base_z"
 base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/07
 
-run("startup_diffractometer_euler")
+sixckappa.getContinuousMoveController().setScannableForMovingGroupToStart(sixckappa)
+
+if not USE_DIFFCALC:
+	run("startup_diffractometer_euler")
+else:
+	raise Exception("Relative limits not configured, nor trajscan tested for safety. ---RobW Jan16 2013")
+	print "Replacing ScannableMotors kphi, kap. kth, kmu, kdelta and kgam with wrappers supporting coordinated movement"
+	exec("kphi=sixckappaDC.kphiDC")
+	exec("kap=sixckappaDC.kapDC")
+	exec("kth=sixckappaDC.kthDC")
+	exec("kmu=sixckappaDC.kmuDC")
+	exec("kdelta=sixckappaDC.kdeltaDC")
+	exec("kgam=sixckappaDC.kgamDC")
+	run("startup_diffractometer_euler_for_diffcalc") #TODO: This differs on from startup_diffractometer_euler on only one line
+	delta_axis_offset.scannableToOffset = kdeltaDC
 if installation.isLive():
 	thp=SingleEpicsPositionerClass('thp','BL16I-EA-POLAN-01:THETAp.VAL','BL16I-EA-POLAN-01:THETAp.RBV','BL16I-EA-POLAN-01:THETAp.DMOV','BL16I-EA-POLAN-01:THETAp.STOP','deg','%.4f')
 	tthp=SingleEpicsPositionerClass('tthp','BL16I-EA-POLAN-01:DET1:2THETAp.VAL','BL16I-EA-POLAN-01:DET1:2THETAp.RBV','BL16I-EA-POLAN-01:DET1:2THETAp.DMOV','BL16I-EA-POLAN-01:DET1:2THETAp.STOP','deg','%.3f')
@@ -279,12 +296,14 @@ if not USE_DIFFCALC:
 	psi.setInputNames(['psi'])
 	psic.setInputNames(['psic'])
 else:
-	del sixckappa, kphi, kap, kth, mu, delta, gam
-	exec("kphi = kphiDC")
-	exec("kap = kapDC")
-	exec("kth = kthDC")
-	raise Exception("Check axes configuration before running Diffcalc - RobW")
+	del sixc
 	run("startup_diffcalc")
+	exec("phi=euler.phi")
+	exec("chi=euler.chi")
+	exec("eta=euler.eta")
+	exec("mu=euler.mu")
+	exec("delta=euler.delta")
+	exec("gam=nu=euler.nu")
 
 hkl.setLevel(6)
 
@@ -558,6 +577,9 @@ run("startup_energy_related")
 energy.maxEnergyChangeBeforeMovingMirrors=0.01	#energy value to prevent mirrors or diffractomter moving for small energy step
 energy.moveDiffWhenNotMovingMirrors=True	#set this to True to move diffractometer to compensate for inverted beam movement
 
+if USE_DIFFCALC:
+	# This could not be done earlier because energy was not available when diffcalc was started
+	simple_energy.delegate = energy
 
 
 ###############################################################################
@@ -613,6 +635,8 @@ pil2ms = DetectorWithShutter(pil2m, x1)
 
 ### 100k ###
 pil100kdet = pilatus1
+_pilatus1_counter_monitor = Finder.getInstance().find("pilatus1_plugins").get('pilatus1_counter_monitor')
+
 pil100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil100k',
 																pilatus1,
 																pilatus1_hardware_triggered,
@@ -623,7 +647,8 @@ pil100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil100k',
 																replacement=None,
 																iFileLoader=PilatusTiffLoader,
 																fileLoadTimout=60,
-																returnPathAsImageNumberOnly=True)
+																returnPathAsImageNumberOnly=True,
+																array_monitor_for_hardware_triggering = _pilatus1_counter_monitor)
 pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
 pil100k.printNfsTimes = False
 pil100ks = DetectorWithShutter(pil100k, x1)
@@ -770,11 +795,11 @@ print "Configuring metadata capture"
 run('Sample_perpMotion')
 
 if installation.isLive():
-	try:
+	if not USE_DIFFCALC:
 		d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample',[delta, eta, chi, phi, gam, mu, hkl, psi, en, kphi, azihkl, hkl, beta, delta_axis_offset])
 		xtal_info=ReadPDGroupClass('xtal_info',[xtalinfo])
-	except NameError:
-		print "DIFFCALC: d=diffractometer_sample *not* created"
+	else:
+		d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample',[delta, eta, chi, phi, gam, mu, hkl, en, kphi, hkl, delta_axis_offset])
 	source=ReadPDGroupClass('source',[rc, idgap, uharmonic])
 	beamline_slits=ReadPDGroupClass('beamline_slits',[s1xcentre,s1xgap,s1ycentre, s1ygap,s2xcentre,s2xgap,s2ycentre, s2ygap,s3xcentre,s3xgap,s3ycentre, s3ygap,s4xcentre,s4xgap,s4ycentre, s4ygap])
 	jjslits=ReadPDGroupClass('beamline_slits',[s5xgap, s5xtrans, s5ygap, s5ytrans, s6xgap, s6xtrans, s6ygap, s6ytrans])
@@ -807,7 +832,11 @@ if installation.isLive():
 	#adctab=ReadPDGroupClass('adctab',[adch,adcv])
 	#add_default(adctab)
 try:
-	meta.set(mrwolf, diffractometer_sample,xtalinfo,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
+	if not USE_DIFFCALC:
+		meta.set(mrwolf, diffractometer_sample,xtalinfo,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
+	else:
+		meta.set(mrwolf, diffractometer_sample,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
+		
 	meta.prepend_keys_with_scannable_names = False
 	mds=meta
 	print "Removing frontend from metadata collection"
@@ -880,7 +909,8 @@ def open_valves():
 #ci=256.0; cj=105.0	#29/11/11
 #ci=226.0; cj=104.0	#31/01/12
 #ci=226.0; cj=104.0	#17/04/12
-ci=228.0; cj=101.0	#31/10/12
+#ci=228.0; cj=101.0	#31/10/12
+ci=234.0; cj=107.0	#/01/13
 maxi=486; maxj=194
 
 #small centred
