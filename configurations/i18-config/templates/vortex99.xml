@@ -8,10 +8,15 @@
         <name>Element0</name>
         <number>1</number>
         <ROI>
-            <name>Cr_Ka</name>
-            <windowStart>513</windowStart>
-            <windowEnd>556</windowEnd>
-            <counts>37554</counts>
+            <name>Zn_Ka</name>
+            <windowStart>838</windowStart>
+            <windowEnd>882</windowEnd>
+            <counts>1</counts>
+        </ROI>
+        <ROI>
+            <windowStart>0</windowStart>
+            <windowEnd>0</windowEnd>
+            <counts>0</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -22,10 +27,10 @@
         <name>Element1</name>
         <number>1</number>
         <ROI>
-            <name>Cr_Ka</name>
-            <windowStart>520</windowStart>
-            <windowEnd>562</windowEnd>
-            <counts>29</counts>
+            <name>Zn_Ka</name>
+            <windowStart>838</windowStart>
+            <windowEnd>882</windowEnd>
+            <counts>7197</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -36,10 +41,10 @@
         <name>Element2</name>
         <number>1</number>
         <ROI>
-            <name>Cr_Ka</name>
-            <windowStart>519</windowStart>
-            <windowEnd>552</windowEnd>
-            <counts>26</counts>
+            <name>Zn_Ka</name>
+            <windowStart>838</windowStart>
+            <windowEnd>882</windowEnd>
+            <counts>7197</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -50,10 +55,10 @@
         <name>Element3</name>
         <number>1</number>
         <ROI>
-            <name>Cr_Ka</name>
-            <windowStart>506</windowStart>
-            <windowEnd>553</windowEnd>
-            <counts>43</counts>
+            <name>Zn_Ka</name>
+            <windowStart>838</windowStart>
+            <windowEnd>882</windowEnd>
+            <counts>7197</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

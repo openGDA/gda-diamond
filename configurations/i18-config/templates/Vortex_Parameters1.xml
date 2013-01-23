@@ -11,7 +11,13 @@
             <name>Fe_Ka</name>
             <windowStart>619</windowStart>
             <windowEnd>661</windowEnd>
-            <counts>0</counts>
+            <counts>143848</counts>
+        </ROI>
+        <ROI>
+            <name>Mn_Ka</name>
+            <windowStart>550</windowStart>
+            <windowEnd>618</windowEnd>
+            <counts>2978</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -25,7 +31,13 @@
             <name>Fe_Ka</name>
             <windowStart>619</windowStart>
             <windowEnd>661</windowEnd>
-            <counts>0</counts>
+            <counts>145802</counts>
+        </ROI>
+        <ROI>
+            <name>Mn_Ka</name>
+            <windowStart>550</windowStart>
+            <windowEnd>618</windowEnd>
+            <counts>2978</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -39,7 +51,13 @@
             <name>Fe_Ka</name>
             <windowStart>619</windowStart>
             <windowEnd>661</windowEnd>
-            <counts>0</counts>
+            <counts>128985</counts>
+        </ROI>
+        <ROI>
+            <name>Mn_Ka</name>
+            <windowStart>550</windowStart>
+            <windowEnd>618</windowEnd>
+            <counts>2978</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -53,7 +71,13 @@
             <name>Fe_Ka</name>
             <windowStart>619</windowStart>
             <windowEnd>661</windowEnd>
-            <counts>0</counts>
+            <counts>144388</counts>
+        </ROI>
+        <ROI>
+            <name>Mn_Ka</name>
+            <windowStart>550</windowStart>
+            <windowEnd>618</windowEnd>
+            <counts>2978</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

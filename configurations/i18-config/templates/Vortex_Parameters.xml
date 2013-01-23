@@ -8,16 +8,34 @@
         <name>Element0</name>
         <number>1</number>
         <ROI>
-            <name>S_Ka</name>
-            <windowStart>0</windowStart>
-            <windowEnd>1</windowEnd>
-            <counts>0</counts>
+            <name>Mn_Ka</name>
+            <windowStart>562</windowStart>
+            <windowEnd>604</windowEnd>
+            <counts>933</counts>
         </ROI>
         <ROI>
-            <name>Cl_Ka</name>
-            <windowStart>0</windowStart>
-            <windowEnd>1</windowEnd>
-            <counts>0</counts>
+            <name>Ti_Ka</name>
+            <windowStart>430</windowStart>
+            <windowEnd>470</windowEnd>
+            <counts>536</counts>
+        </ROI>
+        <ROI>
+            <name>K_Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>340</windowEnd>
+            <counts>1753</counts>
+        </ROI>
+        <ROI>
+            <name>Ca_Ka</name>
+            <windowStart>357</windowStart>
+            <windowEnd>378</windowEnd>
+            <counts>13</counts>
+        </ROI>
+        <ROI>
+            <name>Fe_Ka</name>
+            <windowStart>620</windowStart>
+            <windowEnd>674</windowEnd>
+            <counts>15321</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -28,16 +46,34 @@
         <name>Element1</name>
         <number>1</number>
         <ROI>
-            <name>S_Ka</name>
-            <windowStart>215</windowStart>
-            <windowEnd>240</windowEnd>
-            <counts>8531</counts>
+            <name>Mn_Ka</name>
+            <windowStart>562</windowStart>
+            <windowEnd>604</windowEnd>
+            <counts>1006</counts>
         </ROI>
         <ROI>
-            <name>Cl_Ka</name>
-            <windowStart>250</windowStart>
-            <windowEnd>280</windowEnd>
-            <counts>4724</counts>
+            <name>Ti_Ka</name>
+            <windowStart>430</windowStart>
+            <windowEnd>470</windowEnd>
+            <counts>536</counts>
+        </ROI>
+        <ROI>
+            <name>K_Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>340</windowEnd>
+            <counts>1753</counts>
+        </ROI>
+        <ROI>
+            <name>Ca_Ka</name>
+            <windowStart>357</windowStart>
+            <windowEnd>378</windowEnd>
+            <counts>13</counts>
+        </ROI>
+        <ROI>
+            <name>Fe_Ka</name>
+            <windowStart>620</windowStart>
+            <windowEnd>674</windowEnd>
+            <counts>15321</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -48,16 +84,34 @@
         <name>Element2</name>
         <number>1</number>
         <ROI>
-            <name>S_Ka</name>
-            <windowStart>215</windowStart>
-            <windowEnd>240</windowEnd>
-            <counts>9191</counts>
+            <name>Mn_Ka</name>
+            <windowStart>562</windowStart>
+            <windowEnd>604</windowEnd>
+            <counts>964</counts>
         </ROI>
         <ROI>
-            <name>Cl_Ka</name>
-            <windowStart>250</windowStart>
-            <windowEnd>280</windowEnd>
-            <counts>4724</counts>
+            <name>Ti_Ka</name>
+            <windowStart>430</windowStart>
+            <windowEnd>470</windowEnd>
+            <counts>536</counts>
+        </ROI>
+        <ROI>
+            <name>K_Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>340</windowEnd>
+            <counts>1753</counts>
+        </ROI>
+        <ROI>
+            <name>Ca_Ka</name>
+            <windowStart>357</windowStart>
+            <windowEnd>378</windowEnd>
+            <counts>13</counts>
+        </ROI>
+        <ROI>
+            <name>Fe_Ka</name>
+            <windowStart>620</windowStart>
+            <windowEnd>674</windowEnd>
+            <counts>15321</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -68,22 +122,40 @@
         <name>Element3</name>
         <number>1</number>
         <ROI>
-            <name>S_Ka</name>
-            <windowStart>215</windowStart>
-            <windowEnd>240</windowEnd>
-            <counts>10789</counts>
+            <name>Mn_Ka</name>
+            <windowStart>562</windowStart>
+            <windowEnd>604</windowEnd>
+            <counts>1041</counts>
         </ROI>
         <ROI>
-            <name>Cl_Ka</name>
-            <windowStart>250</windowStart>
-            <windowEnd>280</windowEnd>
-            <counts>4724</counts>
+            <name>Ti_Ka</name>
+            <windowStart>430</windowStart>
+            <windowEnd>470</windowEnd>
+            <counts>536</counts>
+        </ROI>
+        <ROI>
+            <name>K_Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>340</windowEnd>
+            <counts>1753</counts>
+        </ROI>
+        <ROI>
+            <name>Ca_Ka</name>
+            <windowStart>357</windowStart>
+            <windowEnd>378</windowEnd>
+            <counts>13</counts>
+        </ROI>
+        <ROI>
+            <name>Fe_Ka</name>
+            <windowStart>620</windowStart>
+            <windowEnd>674</windowEnd>
+            <counts>15321</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
         <excluded>false</excluded>
     </DetectorElement>
-    <deadTime>0.01</deadTime>
+    <deadTime>-0.0</deadTime>
     <saveRawSpectrum>false</saveRawSpectrum>
 </VortexParameters>
