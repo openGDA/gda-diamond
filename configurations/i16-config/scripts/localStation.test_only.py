@@ -1,4 +1,7 @@
 print "In localStation.testonly.py"
+energy = dummy_energy
+energy.asynchronousMoveTo(12.39842)
+raise Exception("Manually INTERRUPTING localStation.testonly.py")
 
 class Wavelength(PseudoDevice):
     
@@ -34,7 +37,7 @@ class Energy(PseudoDevice):
     def asynchronousMoveTo(self, en):
         BLi.setEnergy(float(en))   
 
-wl = Wavelength('wl')
+#wl = Wavelength('wl')
 energy = Energy('energy')
 
 
