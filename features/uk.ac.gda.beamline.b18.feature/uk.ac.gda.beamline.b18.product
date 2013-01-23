@@ -14,6 +14,7 @@
       <programArgs>-nosplash</programArgs>
       <vmArgs>-Declipse.pluginCustomization=/dls_sw/b18/software/gda_git/gda-dls-beamlines-xas.git/uk.ac.gda.beamline.b18/plugin_customization.ini
 -Dgda.mode=live
+-Dosgi.locking=none
 -Dgda.install.workspace.loc=/dls_sw/b18/software/gda
 -Dgda.install.git.loc=/dls_sw/b18/software/gda_git
 -Dgda.config=/dls_sw/b18/software/gda/config
