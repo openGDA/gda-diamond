@@ -219,12 +219,12 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 					}
 				};
 				elementLabel.addSelectionListener(selectionListener);
-				elementLabel.setEnabled(false);
+				elementLabel.setEnabled(true);
 
 				sampleWheelPosition = new ComboWrapper(refWheel, SWT.BORDER);
 				sampleWheelPosition.setItems(positions);
 				sampleWheelPosition.setNotifyType(NOTIFY_TYPE.ALWAYS);
-				sampleWheelPosition.setEnabled(false);
+				sampleWheelPosition.setEnabled(true);
 				
 				refWheelExpander.setClient(refWheel);
 				refWheelExpander.setExpanded(false);
