@@ -212,3 +212,7 @@ magi=SingleEpicsPositionerSetAndGetOnlyClass('magi','BL16I-EA-MAG-01:IPROG','BL1
 
 bpmin=SingleEpicsPositionerSetAndGetOnlyClass('bpmin','BL16I-DI-BPM-01:DIAG.VAL','BL16I-DI-BPM-01:DIAG.RBV','%.2f','%.2f',help='bpm screen motor')
 
+shtr3x=shx=SingleEpicsPositionerClass('shtr3x','BL16I-EA-SHTR-03:X.VAL','BL16I-EA-SHTR-03:X.RBV','BL16I-EA-SHTR-03:X.DMOV','BL16I-EA-SHTR-03:X.STOP','mm','%.2f')
+shtr3y=shy=SingleEpicsPositionerClass('shtr3y','BL16I-EA-SHTR-03:Y.VAL','BL16I-EA-SHTR-03:Y.RBV','BL16I-EA-SHTR-03:Y.DMOV','BL16I-EA-SHTR-03:Y.STOP','mm','%.2f')
+
+
