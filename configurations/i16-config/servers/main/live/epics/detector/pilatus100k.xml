@@ -53,7 +53,7 @@
 		<property name="waitForFileArrival" value="false" />
 		<property name="fileNumberAtScanStart" value="0" />
 		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
-		
+		<property name="returnExpectedFullFileName" value="true" />		
 	</bean>
 
 	<bean id="pilatus1_nxfilewriter_for_snaps"
@@ -62,7 +62,10 @@
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
 		<property name="numTrackerExtension" value="pilatus100ksnaps" />
 	</bean>
-
+	
+	<bean id="pilatus1_counter_monitor" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayCounterMonitor">
+		<constructor-arg ref="pilatus1_adbase" />
+	</bean>
 
 	<!-- NXDetectors -->
 
@@ -102,5 +105,16 @@
 			</list>
 		</property>
 	</bean>
+
+	<!-- Note most plugins are exposed via NXDetector's component system -->
+	<!-- >>>Finder.getInstance().find("pilatus1_plugins").get('pilatus1_counter_monitor') -->
+	<bean id="pilatus1_plugins" class="gda.device.FindableObjectHolder">
+		<property name="map">
+			<map>
+				<entry key="pilatus1_counter_monitor" value-ref="pilatus1_counter_monitor" />
+			</map>
+		</property>
+	</bean>
+	
 
 </beans>
