@@ -26,7 +26,6 @@ import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IViewLayout;
 
 import uk.ac.gda.beamline.i13i.views.ViewFactoryIds;
-import uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPart;
 import uk.ac.gda.client.CommandQueueViewFactory;
 import uk.ac.gda.client.liveplot.LivePlotView;
 
@@ -60,34 +59,30 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 		// Note that each new Folder uses a percentage of the remaining EditorArea.
 
 		String editorArea = factory.getEditorArea();
-		factory.addStandaloneView(ViewFactoryIds.StatusViewID, false, IPageLayout.TOP, 0.125f, editorArea);
+		factory.addStandaloneView(ViewFactoryIds.StatusViewID, false, IPageLayout.TOP, 0.1f, editorArea);
 		IViewLayout statusLayout = factory.getViewLayout(ViewFactoryIds.StatusViewID);
 		statusLayout.setCloseable(false);
 		statusLayout.setMoveable(false);
 
-		IFolderLayout top = factory.createFolder("top", IPageLayout.TOP, (float) 0.4, editorArea);
-		top.addView("uk.ac.gda.beamline.i13i.DetectorPlot");
-		top.addPlaceholder("uk.ac.gda.beamline.i13i.NormalisedImage");
+		IFolderLayout left = factory.createFolder("left", IPageLayout.LEFT, 0.95f, editorArea);
+		left.addView(ViewFactoryIds.PCOLiveViewId);
 
-		IFolderLayout leftTop = factory.createFolder("leftTop", IPageLayout.LEFT, (float) 0.50, "top"); //$NON-NLS-1$
+		IFolderLayout rightTop = factory.createFolder("rightTop", IPageLayout.RIGHT, (float) 0.50, "left"); //$NON-NLS-1$
 //		left.addView(IPageLayout.ID_PROJECT_EXPLORER);
-		leftTop.addView(JythonTerminalView.ID);
+		rightTop.addView("uk.ac.gda.beamline.i13i.DetectorPlot");
+		rightTop.addPlaceholder("uk.ac.gda.beamline.i13i.NormalisedImage");
+		rightTop.addPlaceholder(LivePlotView.ID);
+		rightTop.addPlaceholder("uk.ac.gda.video.views.cameraview");
+		rightTop.addPlaceholder(ViewFactoryIds.PCOImageProfileViewId);
+		rightTop.addPlaceholder(ViewFactoryIds.PCOImageViewId);
 		
-		IFolderLayout bottom = factory.createFolder("bottom", IPageLayout.LEFT, (float) 0.95, editorArea);
+		IFolderLayout rightBottom = factory.createFolder("rightBottom", IPageLayout.BOTTOM, (float) 0.5, "rightTop");
+		rightBottom.addView(JythonTerminalView.ID);
+		rightBottom.addPlaceholder("org.eclipse.ui.browser.view");
+		rightBottom.addPlaceholder("data.dispenser.browser");
+		rightBottom.addPlaceholder("org.eclipse.ui.browser.view:data.dispenser.browser");
+		rightBottom.addPlaceholder(CommandQueueViewFactory.ID);
 
-		bottom.addView(ViewFactoryIds.AlignmentViewID);
-		bottom.addPlaceholder(LivePlotView.ID);
-		bottom.addPlaceholder("org.eclipse.ui.browser.view");
-		bottom.addPlaceholder("data.dispenser.browser");
-		bottom.addPlaceholder("org.eclipse.ui.browser.view:data.dispenser.browser");
-		bottom.addPlaceholder("uk.ac.diamond.scisoft.analysis.rcp.plotViewDP");
-		bottom.addPlaceholder(CommandQueueViewFactory.ID);
-
-		IFolderLayout leftBottom = factory.createFolder("leftBottom", IPageLayout.LEFT, (float) 0.50, "bottom"); //$NON-NLS-1$
-		
-
-		leftBottom.addView(CameraViewPart.ID);
-		
 
 	}
 

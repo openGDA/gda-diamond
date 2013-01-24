@@ -167,16 +167,9 @@
 						<list>
 							<bean class="uk.ac.gda.dls.client.views.OpenViewCompositeFactory">
 								<property name="tooltipText"
-									value="Display MJPEG streams from diagnocstic cameras and webcams" />
+									value="Display MJPEG streams from diagnostic cameras and webcams" />
 								<property name="viewID" value="uk.ac.gda.video.views.cameraview" />
 								<property name="buttonText" value="Diagnostics and WebCams" />
-								<property name="buttonImagePath" value="icons/eye.png" />
-							</bean>
-							<bean class="uk.ac.gda.dls.client.views.OpenViewCompositeFactory">
-								<property name="tooltipText"
-									value="Open tomography alignment and exposure view" />
-								<property name="viewID" value="uk.ac.gda.client.tomo.CameraView" />
-								<property name="buttonText" value="Tomography - PCO " />
 								<property name="buttonImagePath" value="icons/eye.png" />
 							</bean>
 						</list>

@@ -41,27 +41,9 @@
                menubarPath="help/helpStart"               
                style="push">
                <class class="org.eclipse.help.ui.browser.LaunchURL">
-                    <parameter name="url" value="http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=I13%20-%20X-ray%20Imaging%20and%20Coherence" />
+                    <parameter name="url" value="http://confluence.diamond.ac.uk/display/I13Tech/The+I13+Beamlines" />
                </class>               
         	</action>
-         <action
-               id="gda.rcp.help.elog"
-               label="ELog - Send Feedback"
-               menubarPath="help/helpStart"               
-               style="push">
-                <class class="org.eclipse.help.ui.browser.LaunchURL">
-                    <parameter name="url" value="https://elog.pri.diamond.ac.uk/" />
-               </class>               
-        	</action>          
-         <action
-               id="gda.rcp.help.reportabug"
-               label="Report A Problem"
-               menubarPath="help/helpStart"               
-               style="push">
-                <class class="org.eclipse.help.ui.browser.LaunchURL">
-                    <parameter name="url" value="http://trac.diamond.ac.uk/beam/login" />
-               </class>               
-        	</action>        	
       </actionSet>
    </extension>
    <extension
@@ -78,14 +60,6 @@
                  name="Status">
       </view>
                        <view
-                 allowMultiple="false"
-                 category="uk.ac.gda.beamline.i13i"
-                 class="gda.rcp.views.ViewFactory:alignmentView"
-                 icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png"
-                 id="uk.ac.gda.beamline.i13i.views.AlignmentView"
-                 name="Alignment">
-      </view>
-                       <view
                              allowMultiple="false"
                              category="uk.ac.gda.beamline.i13i"
                              class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
@@ -94,14 +68,6 @@
                              name="Detector Image"
                              restorable="true">
                        </view>
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i13i"
-            class="uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPart"
-            id="uk.ac.gda.client.tomo.CameraView"
-            name="Tomography Camera Low Res  View"
-            restorable="true">
-      </view>
       <view
             allowMultiple="false"
             category="uk.ac.gda.beamline.i13i"
@@ -115,21 +81,21 @@
             allowMultiple="false"
             class="uk.ac.gda.epics.adviewer.views.HistogramViewCreator:i13"
             icon="icons/AreaDetectorProfileView.gif"
-            id="uk.ac.gda.beamline.i13i.AreaDetectorProfileView"
+            id="uk.ac.gda.beamline.i13i.PCOAreaDetectorProfileView"
             name="PCO Image Profile View">
       </view>                       
       <view
             allowMultiple="false"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayViewCreator:i13"
             icon="icons/AreaDetectorImageView.gif"
-            id="uk.ac.gda.beamline.i13i.AreaDetectorArrayView"
+            id="uk.ac.gda.beamline.i13i.PCOAreaDetectorArrayView"
             name="PCO Image View">
       </view>
       <view
             allowMultiple="false"
             class="uk.ac.gda.epics.adviewer.views.MJPegViewCreator:i13"
             icon="icons/AreaDetectorLiveView.gif"
-            id="uk.ac.gda.beamline.i13i.AreaDetectorLiveView"
+            id="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView"
             name="PCO Live View">
       </view>                       
    </extension>
@@ -184,7 +150,7 @@
       point="org.eclipse.ui.menus">
    <menuContribution
          allPopups="false"
-         locationURI="toolbar:uk.ac.gda.beamline.i13i.AreaDetectorArrayView">
+         locationURI="toolbar:uk.ac.gda.beamline.i13i.PCOAreaDetectorArrayView">
       <command
             commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
             label="Set Exposure"
@@ -197,7 +163,7 @@
    </menuContribution>
    <menuContribution
          allPopups="false"
-         locationURI="toolbar:uk.ac.gda.beamline.i13i.AreaDetectorProfileView">
+         locationURI="toolbar:uk.ac.gda.beamline.i13i.PCOAreaDetectorProfileView">
       <command
             commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
             label="Set Exposure"
@@ -223,13 +189,13 @@
             style="push">
          <parameter
                name="org.eclipse.ui.views.showView.viewId"
-               value="uk.ac.gda.beamline.i13i.AreaDetectorLiveView">
+               value="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView">
          </parameter>
       </command>
    </menuContribution>
    <menuContribution
          allPopups="false"
-         locationURI="toolbar:uk.ac.gda.beamline.i13i.AreaDetectorLiveView">
+         locationURI="toolbar:uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView">
       <command
             commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
             label="Set Exposure"
@@ -255,7 +221,7 @@
             style="push">
          <parameter
                name="org.eclipse.ui.views.showView.viewId"
-               value="uk.ac.gda.beamline.i13i.AreaDetectorProfileView">
+               value="uk.ac.gda.beamline.i13i.PCOAreaDetectorProfileView">
          </parameter>
       </command>
       <command
@@ -265,7 +231,7 @@
             style="push">
          <parameter
                name="org.eclipse.ui.views.showView.viewId"
-               value="uk.ac.gda.beamline.i13i.AreaDetectorArrayView">
+               value="uk.ac.gda.beamline.i13i.PCOAreaDetectorArrayView">
          </parameter>
       </command>
    </menuContribution>
@@ -281,6 +247,20 @@
                value="i13">
          </parameter>
       </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="menu:org.eclipse.ui.main.menu?after=window">
+      <menu
+            label="GDA"
+            mnemonic="G">
+         <command
+               commandId="uk.ac.gda.client.datadispenser.controller.command"
+               label="Data Dispenser"
+               mnemonic="D"
+               style="push">
+         </command>
+      </menu>
    </menuContribution>
 </extension>       
 </plugin>
