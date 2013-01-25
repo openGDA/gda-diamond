@@ -173,6 +173,7 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 
 	def stop(self):
 		self.kappa.stop()
+		ScannableMotionWithScannableFieldsBase.stop(self)
 
 #[u'phi', u'chi', u'eta', u'mu', u'delta', u'gam'])
 
