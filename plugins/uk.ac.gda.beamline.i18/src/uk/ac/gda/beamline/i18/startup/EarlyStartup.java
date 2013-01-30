@@ -91,7 +91,6 @@ public class EarlyStartup implements IStartup {
 
 						@Override
 						public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor perspective) {
-							// TODO Auto-generated method stub
 							super.perspectiveActivated(page, perspective);
 							IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor("uk.ac.microfocus.elementlist.refresh");
 							if (perspective.getId().indexOf(MicroFocusPerspective.ID) > -1) {
@@ -99,17 +98,6 @@ public class EarlyStartup implements IStartup {
 								for (IViewReference view : viewReference) {
 									if (view.getId().equals(ExafsSelectionView.ID) ) {
 										((ExafsSelectionView) view.getView(true)).refresh();
-									}
-									else if(config != null)
-									{ 
-										for(IConfigurationElement icg : config)
-										{
-											System.out.println(icg.getAttribute("viewId"));
-											if (view.getId().equals(icg.getAttribute("viewId")) )
-											((MicroFocusElementListView) view.getView(true)).refresh();
-											
-										}
-										
 									}
 								}
 

@@ -48,6 +48,8 @@
 			<list>
 			</list>
 		</property>
+		<property name="capturepv" value="BL18B-EA-DET-03:HDF:Capture" />
+		<property name="deadTimeEnabled" value = "false" />
 	</bean>
 
 
