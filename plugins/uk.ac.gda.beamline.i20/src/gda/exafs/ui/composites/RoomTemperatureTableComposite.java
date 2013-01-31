@@ -39,7 +39,6 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.ui.data.ScanObjectManager;
 import uk.ac.gda.richbeans.components.FieldBeanComposite;
-import uk.ac.gda.richbeans.components.scalebox.IntegerBox;
 import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
 import uk.ac.gda.richbeans.components.wrappers.BooleanWrapper;
 import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
@@ -49,20 +48,16 @@ public class RoomTemperatureTableComposite extends FieldBeanComposite {
 
 	private static Logger logger = LoggerFactory.getLogger(RoomTemperatureTableComposite.class);
 
-	private String[] XES_COLUMNS = new String[] { "", "", "Use?", "", "            X            ",
+	private String[] XES_COLUMNS = new String[] { "", "", "", "Sample", "", "            X            ",
 			"            Y            ", "            Z            ", "       Rotation      ", "      Fine Rot      ",
 			"       Sample Name       ", "                   Description                         " };
-	private String[] XAS_COLUMNS = new String[] { "", "Use?", "", "            X            ",
+	private String[] XAS_COLUMNS = new String[] { "","", "Sample", "", "            X            ",
 			"            Y            ", "            Z            ", "       Rotation      ",
 			"           Roll          ", "          Pitch          ", "       Sample Name       ",
 			"                   Description                         " };
 
 	private static final int MAX_NUM_SAMPLES = 4;
 
-	/*
-	 * TODO change the script to read the boolean and change the file
-	 * name and file description accordingly
-	 */
 	private BooleanWrapper[] sampleInUse = new BooleanWrapper[MAX_NUM_SAMPLES];
 	private Button[] btnGetLiveValues = new Button[4];
 	private ScaleBox[] x = new ScaleBox[MAX_NUM_SAMPLES];
@@ -75,7 +70,6 @@ public class RoomTemperatureTableComposite extends FieldBeanComposite {
 	private TextWrapper[] sampleName = new TextWrapper[MAX_NUM_SAMPLES];
 	private TextWrapper[] sampleDesc = new TextWrapper[MAX_NUM_SAMPLES];
 
-	private IntegerBox numberOfSamples;
 	private Composite main;
 
 	public RoomTemperatureTableComposite(Composite parent, int style) {
@@ -84,10 +78,10 @@ public class RoomTemperatureTableComposite extends FieldBeanComposite {
 		main = new Composite(this, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(main);
 
-		numberOfSamples = new IntegerBox(main, SWT.NONE);
-		numberOfSamples.setVisible(false);
-
 		buildTable();
+		
+		Label info = new Label(this, SWT.None);
+		info.setText("Scan will repeat over selected samples.\nFile prefix and sample description will be taken from the table and override the details above.");
 
 		this.layout();
 	}
@@ -116,9 +110,11 @@ public class RoomTemperatureTableComposite extends FieldBeanComposite {
 			}
 		}
 		table.layout();
+		
+		
 	}
 
-	private void createXesRow(Group table, final int row) {
+	private void createXesRow(Group table, final Integer row) {
 		roll[row] = new ScaleBox(table, SWT.None);
 		roll[row].setMinimum(-12.2);
 		roll[row].setUnit("°");
@@ -136,6 +132,9 @@ public class RoomTemperatureTableComposite extends FieldBeanComposite {
 				.setToolTipText("If selected the sample support stage will move to these positions.\nIf multiple samples selected then experiment will be repeated for each sample.");
 		GridDataFactory.fillDefaults().applyTo(sampleInUse[row]);
 
+		Label lbl = new Label(table, SWT.CENTER);
+		lbl.setText("   " + row.toString()+ "   ");
+		
 		btnGetLiveValues[row] = new Button(table, SWT.None);
 		btnGetLiveValues[row].setText("Fetch");
 		btnGetLiveValues[row].setToolTipText("Fill text boxes with current motor positions");
@@ -202,18 +201,21 @@ public class RoomTemperatureTableComposite extends FieldBeanComposite {
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(sampleDesc[row]);
 	}
 
-	private void createXasRow(Group table, final int row) {
+	private void createXasRow(Group table, final Integer row) {
 		finerotation[row] = new ScaleBox(table, SWT.None);
 		finerotation[row].setSize(0, 0);
 		finerotation[row].setVisible(false);
 		finerotation[row].setMaximum(360);
 		finerotation[row].setUnit("°");
 
-		sampleInUse[row] = new BooleanWrapper(table, SWT.None);
+		sampleInUse[row] = new BooleanWrapper(table, SWT.CENTER);
 		sampleInUse[row]
 				.setToolTipText("If selected the sample support stage will move to these positions.\nIf multiple samples selected then experiment will be repeated for each sample.");
 		GridDataFactory.fillDefaults().applyTo(sampleInUse[row]);
 
+		Label lbl = new Label(table, SWT.CENTER);
+		lbl.setText("   " + row.toString()+ "   ");
+		
 		btnGetLiveValues[row] = new Button(table, SWT.None);
 		btnGetLiveValues[row].setText("Fetch");
 		btnGetLiveValues[row].setToolTipText("Fill text boxes with current motor positions");
@@ -303,10 +305,6 @@ public class RoomTemperatureTableComposite extends FieldBeanComposite {
 		String strPosition = ArrayUtils.toString(position);
 		strPosition = strPosition.substring(1, strPosition.length() - 1);
 		return strPosition;
-	}
-
-	public IntegerBox getNumberOfSamples() {
-		return numberOfSamples;
 	}
 
 	public BooleanWrapper getUseSample1() {
