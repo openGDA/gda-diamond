@@ -790,7 +790,10 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	private void saveROIsToXML() {
 		try {
 			FileConfiguration store = LocalParameters.getXMLConfiguration(STORENAME);
-
+			store.clear();
+			store.save();
+			store = LocalParameters.getXMLConfiguration(STORENAME);
+	
 			for (XHROI roi : getRois()) {
 				store.setProperty(roi.getName() + "_lowerlevel", roi.getLowerLevel());
 				store.setProperty(roi.getName() + "_upperlevel", roi.getUpperLevel());
