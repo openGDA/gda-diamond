@@ -34,7 +34,6 @@ import org.junit.Test;
 import uk.ac.gda.ClientManager;
 import uk.ac.gda.exafs.ui.describers.I20SampleDescriber;
 import uk.ac.gda.richbeans.components.scalebox.NumberBox;
-import uk.ac.gda.richbeans.components.selector.VerticalListEditor;
 import uk.ac.gda.util.PackageUtils;
 
 /**
@@ -73,49 +72,49 @@ public class I20SampleParametersUIEditorPluginTest {
 	 * Bounds working
 	 * @throws Throwable
 	 */ 
-	@Test
-	public final void testFurnaceBounds() throws Throwable {
-		
-		if (!uiEd.getSampleEnvironment().getValue().equals("Furnace")) {
-			throw new Exception("The configuration loaded should be furnace and is "+uiEd.getSampleEnvironment().getValue());
-		}
-		
-		// Check bounds are ok then set them wrong and check they are red.
-		checkBounds(uiEd.getFurnaceParameters().getX(), true);
-		checkBounds(uiEd.getFurnaceParameters().getY(), true);
-		checkBounds(uiEd.getFurnaceParameters().getZ(), true);
-		checkBounds(uiEd.getFurnaceParameters().getTemperature(), true);
-		checkBounds(uiEd.getFurnaceParameters().getTolerance(),   true);
-		checkBounds(uiEd.getFurnaceParameters().getTime(),        true);
-		
-		uiEd.getFurnaceParameters().getX().setValue(16d);
-		uiEd.getFurnaceParameters().getY().setValue(21d);
-		uiEd.getFurnaceParameters().getZ().setValue(16d);
-		uiEd.getFurnaceParameters().getTemperature().setValue(1301d);
-		uiEd.getFurnaceParameters().getTolerance().setValue(6d);
-		uiEd.getFurnaceParameters().getTime().setValue(401d);
-		
-		checkBounds(uiEd.getFurnaceParameters().getX(), false);
-		checkBounds(uiEd.getFurnaceParameters().getY(), false);
-		checkBounds(uiEd.getFurnaceParameters().getZ(), false);
-		checkBounds(uiEd.getFurnaceParameters().getTemperature(), false);
-		checkBounds(uiEd.getFurnaceParameters().getTolerance(),   false);
-		checkBounds(uiEd.getFurnaceParameters().getTime(),        false);
-		
-		uiEd.getFurnaceParameters().getX().setValue(0d);
-		uiEd.getFurnaceParameters().getY().setValue(0d);
-		uiEd.getFurnaceParameters().getZ().setValue(0d);
-		uiEd.getFurnaceParameters().getTemperature().setValue(295d);
-		uiEd.getFurnaceParameters().getTolerance().setValue(0d);
-		uiEd.getFurnaceParameters().getTime().setValue(0d);
-
-		checkBounds(uiEd.getFurnaceParameters().getX(), true);
-		checkBounds(uiEd.getFurnaceParameters().getY(), true);
-		checkBounds(uiEd.getFurnaceParameters().getZ(), true);
-		checkBounds(uiEd.getFurnaceParameters().getTemperature(), true);
-		checkBounds(uiEd.getFurnaceParameters().getTolerance(),   true);
-		checkBounds(uiEd.getFurnaceParameters().getTime(),        true);
-	}
+//	@Test
+//	public final void testFurnaceBounds() throws Throwable {
+//		
+//		if (!uiEd.getSampleEnvironment().getValue().equals("Furnace")) {
+//			throw new Exception("The configuration loaded should be furnace and is "+uiEd.getSampleEnvironment().getValue());
+//		}
+//		
+//		// Check bounds are ok then set them wrong and check they are red.
+//		checkBounds(uiEd.getFurnaceParameters().getX(), true);
+//		checkBounds(uiEd.getFurnaceParameters().getY(), true);
+//		checkBounds(uiEd.getFurnaceParameters().getZ(), true);
+//		checkBounds(uiEd.getFurnaceParameters().getTemperature(), true);
+//		checkBounds(uiEd.getFurnaceParameters().getTolerance(),   true);
+//		checkBounds(uiEd.getFurnaceParameters().getTime(),        true);
+//		
+//		uiEd.getFurnaceParameters().getX().setValue(16d);
+//		uiEd.getFurnaceParameters().getY().setValue(21d);
+//		uiEd.getFurnaceParameters().getZ().setValue(16d);
+//		uiEd.getFurnaceParameters().getTemperature().setValue(1301d);
+//		uiEd.getFurnaceParameters().getTolerance().setValue(6d);
+//		uiEd.getFurnaceParameters().getTime().setValue(401d);
+//		
+//		checkBounds(uiEd.getFurnaceParameters().getX(), false);
+//		checkBounds(uiEd.getFurnaceParameters().getY(), false);
+//		checkBounds(uiEd.getFurnaceParameters().getZ(), false);
+//		checkBounds(uiEd.getFurnaceParameters().getTemperature(), false);
+//		checkBounds(uiEd.getFurnaceParameters().getTolerance(),   false);
+//		checkBounds(uiEd.getFurnaceParameters().getTime(),        false);
+//		
+//		uiEd.getFurnaceParameters().getX().setValue(0d);
+//		uiEd.getFurnaceParameters().getY().setValue(0d);
+//		uiEd.getFurnaceParameters().getZ().setValue(0d);
+//		uiEd.getFurnaceParameters().getTemperature().setValue(295d);
+//		uiEd.getFurnaceParameters().getTolerance().setValue(0d);
+//		uiEd.getFurnaceParameters().getTime().setValue(0d);
+//
+//		checkBounds(uiEd.getFurnaceParameters().getX(), true);
+//		checkBounds(uiEd.getFurnaceParameters().getY(), true);
+//		checkBounds(uiEd.getFurnaceParameters().getZ(), true);
+//		checkBounds(uiEd.getFurnaceParameters().getTemperature(), true);
+//		checkBounds(uiEd.getFurnaceParameters().getTolerance(),   true);
+//		checkBounds(uiEd.getFurnaceParameters().getTime(),        true);
+//	}
 	
 	/**
 	 * 
@@ -140,19 +139,19 @@ public class I20SampleParametersUIEditorPluginTest {
 		if (cryo._testIsPidTop()) throw new Exception("Ramp should be the visible top component.");
 	}
 
-	/**
-	 * 
-	 * @throws Throwable
-	 */ 
-	@Test
-	public final void testCustomBeamList() throws Throwable {
-		
-		uiEd.getSampleEnvironment().setValue("Custom (XYZ)");
-		
-		final VerticalListEditor comp = uiEd.getCustomXYZParameters();
-		comp.addBean(); // Add one from nothing.
-		if (comp.getListSize()!=1) throw new Exception("Added custom XYZ parameter but did not show up!");
-	}
+//	/**
+//	 * 
+//	 * @throws Throwable
+//	 */ 
+//	@Test
+//	public final void testCustomBeamList() throws Throwable {
+//		
+//		uiEd.getSampleEnvironment().setValue("Custom (XYZ)");
+//		
+//		final VerticalListEditor comp = uiEd.getCustomXYZParameters();
+//		comp.addBean(); // Add one from nothing.
+//		if (comp.getListSize()!=1) throw new Exception("Added custom XYZ parameter but did not show up!");
+//	}
 	
 //	/**
 //	 * 
