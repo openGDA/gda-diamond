@@ -388,6 +388,8 @@ try:
 		alias("d2out")
 		alias("d3out")
 		alias("d4out")
+		alias("d4cryoIn")
+		alias("d4cryoOut")
 		alias("align")
 		alias("ready")
 		alias("homeToMinus")

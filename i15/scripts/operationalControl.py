@@ -9,11 +9,11 @@ import java
 from scan_commands import *
 from gda.jython.commands.ScannableCommands import cscan
 
-global configured, isccd, beamline, dkappa, dktheta
+global configured, isccd, beamline, dkappa, dktheta, cryobsx
 configured = False
 
 def configure(jythonNameMap, beamlineParameters):
-	global configured, isccd, beamline, dkappa, dktheta
+	global configured, isccd, beamline, dkappa, dktheta, cryobsx
 	"""
 	sets module variables from jython namespace, finder and beamline parameters
 	"""
@@ -21,11 +21,12 @@ def configure(jythonNameMap, beamlineParameters):
 	beamline = jythonNameMap.beamline
 	dkappa = jythonNameMap.dkappa
 	dktheta = jythonNameMap.dktheta
+	cryobsx = jythonNameMap.cryobsx
 	configured = True
 	
 def checkConfigured():
 	if not configured:
-		raise "operationalControl not configured"	
+		raise Exception, "operationalControl not configured"	
 
 def shopen():
 	"""
@@ -140,6 +141,47 @@ def d4out():
 	"""
 	setState("D4", "-DI-PHDGN-04:CON", 0)
 		
+#def d4cryoIn(moveBeamStopOut=False):
+#	print """=============================================
+#PLEASE ENSURE THE DETECTOR SHIELD IS IN PLACE
+#============================================="""
+#	print "Beamstop cryobsx is at %f0.0000" % cryobsx()
+#	if moveBeamStopOut:
+#		ans = InputCommands.requestInput("Do you want to move cryobsx out 5mm? [y/n]:")
+#		if ans == 'y':
+#			print "Record the current cryobsx value so that you know where to return the beamstop later."
+#			print "Moving beamstop cryobsx out..."
+#			cryobsx(cryobsx()+5)
+#			print "Beamstop cryobsx out, now at %f0.0000" % cryobsx()
+#	d4cryoIn()
+
+def d4cryoIn():
+	print "Moving d4cryo in."
+	setState("D4cryo", "-RS-ABSB-04:CON", 1)
+
+#def d4cryoOut(moveBeamStopIn=False):
+#	print """=============================================
+#PLEASE ENSURE THE DETECTOR SHIELD IS IN PLACE
+#================================================================
+#Beamstop cryobsx is at %f0.0000""" % cryobsx()
+#	if moveBeamStopIn:
+#		ans = InputCommands.requestInput("Enter the value of the cryobsx position which you are certain blocks the beam:")
+#		cryobsx_pos = float(ans)
+#		print "Moving cryobsx to %f0.000" % cryobsx_pos
+#		cryobsx(cryobsx_pos)
+#		print "Beamstop cryobsx in, now at %f0.0000" % cryobsx()
+#		print """=============================================
+#WARNING: NOW CHECK THAT THE BEAMSTOP IS BLOCKING THE DIRECT BEAM
+#================================================================"""
+#		ans = InputCommands.requestInput("Do you want to move d4cryo out? [y/n]:")
+#		if not (ans == 'y'):
+#			return
+#	d4cryoOut()
+
+def d4cryoOut():
+	print "Moving d4cryo out."
+	setState("D4cryo", "-RS-ABSB-04:CON", 0)
+
 def setState(name, pv, newState):
 	text = "IN"
 	if (newState == 0):
@@ -300,7 +342,7 @@ def moveMotor(motor, newPos):
 	
 	tolerance = 0.1           # = motor.tolerance?
 	if (abs(motor.getPosition() - newPos) > tolerance):
-		raise "Error: motor has not moved to target position (currently at: " +  str(motor.getPosition()) + ") - SCRIPT TERMINATED"
+		raise Exception, "Error: motor has not moved to target position (currently at: " +  str(motor.getPosition()) + ") - SCRIPT TERMINATED"
 	
 	simpleLog( "Now at: " + str(motor.getPosition()) )
 
