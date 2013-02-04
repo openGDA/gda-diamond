@@ -59,4 +59,4 @@ export MOZILLA_FIVE_HOME=/dls_sw/apps/firefox/8/x86_64/
 
 ulimit -c 10000000
 
-echo /dls_sw/$BEAMLINE/software/gda/client/gda-$BEAMLINE -showLocation $DATA -configuration /tmp/.gda-config-${USER}
+exec /dls_sw/$BEAMLINE/software/gda/client/gda-$BEAMLINE -showLocation $DATA -configuration /tmp/.gda-config-${USER}
