@@ -135,7 +135,7 @@ class CalibratedID(gda.device.scannable.PseudoDevice):
 
 	def getPosition(self):
 		X = float(bkeV.getPosition())
-		id_position = self.id.getPosition()
+		id_position = self.id.getPosition()+0.025
 		if (id_position < 5.9):
 			raise DeviceException("ID gap out of range (<6mm)")
 		if (id_position > 10.0):

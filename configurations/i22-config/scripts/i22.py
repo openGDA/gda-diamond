@@ -164,11 +164,11 @@ class MirrorsVoltages():
 class Hotwaxs():
 
 	def __init__(self):	
-		self.name = "BL22I-EA-HV-01:"
-		self.cathodes = HotWaxsVoltages( self.name , 0 )
-		self.window = HotWaxsVoltages( self.name , 1 )
-		self.side = HotWaxsVoltages( self.name , 2 )
-		self.drift = HotWaxsVoltages( self.name , 3 )
+		self.PVname = "BL22I-EA-HV-01:"
+		self.cathodes = HotWaxsVoltages( self.PVname , "Cathodes" , 0 )
+		self.window = HotWaxsVoltages( self.PVname , "Window" , 1 )
+		self.side = HotWaxsVoltages( self.PVname , "Side" , 2 )
+		self.drift = HotWaxsVoltages( self.PVname , "Drift" , 3 )
 		
 	def on(self):
 		if ( self.cathodes.isEnabled() == 0 or self.window.isEnabled() == 0 or self.side.isEnabled() == 0 or self.drift.isEnabled()==0 ):
@@ -219,8 +219,9 @@ class Hotwaxs():
 		
 class HotWaxsVoltages(gda.device.scannable.PseudoDevice):
 	
-	def __init__(self , name , channel):	
-		self.pvName = name
+	def __init__(self , pvName , name , channel):
+		self.name = name
+		self.pvName = pvName
 		self.pvOn = self.pvName+"ON"+str(channel)
 		self.pvSet = self.pvName+"VSET"+str(channel)
 		self.readout = self.pvName+"VMON"+str(channel)+":RBV"
@@ -234,11 +235,12 @@ class HotWaxsVoltages(gda.device.scannable.PseudoDevice):
 		return 0
 
 	def getPosition(self):
-		return self.readout 
+		return caget(self.readout) 
 
 	def asynchronousMoveTo(self,X):
 		if ( caget(self.pvEnabled) == 1 ):
 			print "Channel OFF."
+			return
 		caput(self.pvSet , X)
 		if ( caget( self.pvOn ) == 0 ):
 			caput ( self.pvOn , 1)
