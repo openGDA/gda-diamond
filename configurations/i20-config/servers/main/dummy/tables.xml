@@ -18,8 +18,7 @@
 	<bean id="sample_pitch_motor" class="gda.device.motor.DummyMotor"/> 
 	<bean id="sample_roll_motor" class="gda.device.motor.DummyMotor"/> 
 	<bean id="sample_rot_motor" class="gda.device.motor.DummyMotor"/> 
-	<bean id="sample_finex_motor" class="gda.device.motor.DummyMotor"/> 
-	<bean id="sample_finey_motor" class="gda.device.motor.DummyMotor"/> 
+	<bean id="sample_fine_rot_motor" class="gda.device.motor.DummyMotor"/> 
 	
 	
 	
@@ -71,23 +70,14 @@
 		<property name="lowerGdaLimits" value="0" />
 		<property name="upperGdaLimits" value="10" />
 	</bean>      
-	<bean id="sample_finex" class="gda.device.scannable.ScannableMotor">
+	<bean id="sample_fine_rot" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="sample_finex_motor" />
+		<property name="motor" ref="sample_fine_rot_motor" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="lowerGdaLimits" value="0" />
 		<property name="upperGdaLimits" value="10" />
 	</bean>
-	<bean id="sample_finey" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="sample_finey_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="0" />
-		<property name="upperGdaLimits" value="10" />
-	</bean>
-	
 	
 	<bean id="table1_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />

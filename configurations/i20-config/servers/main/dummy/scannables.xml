@@ -79,6 +79,7 @@
 				<ref bean="sample_pitch" />
 				<ref bean="sample_roll" />
 				<ref bean="sample_rot" />
+				<ref bean="sample_fine_rot" />
 				<ref bean="filterwheel" />
 			</list>
 		</property>

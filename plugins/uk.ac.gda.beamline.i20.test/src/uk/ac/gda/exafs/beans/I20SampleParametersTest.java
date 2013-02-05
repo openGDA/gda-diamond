@@ -96,7 +96,6 @@ public class I20SampleParametersTest {
 		
 		I20SampleParameters expectedValue = new I20SampleParameters();
 		expectedValue.setName("Cytochrome");
-		expectedValue.setSampleName("cryostat sample");
 		expectedValue.addDescription("Cytochrome preparation #7");
 		expectedValue.addDescription("bla bla bla");
 		expectedValue.setSampleWheelPosition("Copper");
@@ -167,7 +166,6 @@ public class I20SampleParametersTest {
 
 		I20SampleParameters expectedValue = new I20SampleParameters();
 		expectedValue.setName("Cytochrome");
-		expectedValue.setSampleName("roomtemp sample");
 		expectedValue.addDescription("Cytochrome preparation #7");
 		expectedValue.addDescription("bla bla bla");
 		expectedValue.setSampleWheelPosition("Copper");
