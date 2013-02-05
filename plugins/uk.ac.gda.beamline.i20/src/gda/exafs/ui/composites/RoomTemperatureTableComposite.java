@@ -79,16 +79,12 @@ public class RoomTemperatureTableComposite extends FieldBeanComposite {
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(main);
 
 		buildTable();
-		
-		Label info = new Label(this, SWT.None);
-		info.setText("Scan will repeat over selected samples.\nFile prefix and sample description will be taken from the table and override the details above.");
-
 		this.layout();
 	}
 
 	private void buildTable() {		
 		Group table = new Group(main, SWT.BORDER);
-		table.setText("Sample positions");
+		table.setText("Sample Details and Positions");
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(table);
 		GridLayoutFactory.fillDefaults().spacing(0, 0).numColumns(XAS_COLUMNS.length).applyTo(table);
 

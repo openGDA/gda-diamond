@@ -61,6 +61,7 @@ import uk.ac.gda.richbeans.components.FieldComposite.NOTIFY_TYPE;
 import uk.ac.gda.richbeans.components.wrappers.BooleanWrapper;
 import uk.ac.gda.richbeans.components.wrappers.ComboWrapper;
 import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
+import uk.ac.gda.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
 import uk.ac.gda.richbeans.editors.DirtyContainer;
 import uk.ac.gda.richbeans.editors.RichBeanEditorPart;
 import uk.ac.gda.richbeans.event.ValueAdapter;
@@ -96,11 +97,15 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 
 	private BooleanWrapper useSampleWheel;
 
-	private TextWrapper sampleName;
+//	private TextWrapper sampleName;
 	
 	I20SampleParameters bean;
 
 	private ExpandableComposite refWheelExpander;
+
+	private Group sampleDetails;
+
+	private GridData sampleDetailsGridData;
 
 	public I20SampleParametersUIEditor(String path, URL mappingURL, DirtyContainer dirtyContainer, Object editingBean) {
 		super(path, mappingURL, dirtyContainer, editingBean);
@@ -320,35 +325,29 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 
 	private void createSampleDetailsGroup(final Composite composite) {
 		GridLayout gridLayout;
-		final Group experimentSample = new Group(composite, SWT.NONE);
-		experimentSample.setText("Sample Details");
-		GridData experimentSampleGridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		experimentSampleGridData.minimumWidth = 350;
-		experimentSample.setLayoutData(experimentSampleGridData);
+		sampleDetails = new Group(composite, SWT.NONE);
+		sampleDetails.setText("Sample Details");
+		sampleDetailsGridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		sampleDetailsGridData.minimumWidth = 350;
+		sampleDetails.setLayoutData(sampleDetailsGridData);
 		gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
-		experimentSample.setLayout(gridLayout);
+		sampleDetails.setLayout(gridLayout);
 
-		final Label filePrefixLabel = new Label(experimentSample, SWT.NONE);
-		filePrefixLabel.setText("File prefix");
-
-		name = new TextWrapper(experimentSample, SWT.BORDER);
-		name.setTextLimit(5000);
+		final Label sampleNameLabel = new Label(sampleDetails, SWT.NONE);
+		sampleNameLabel.setText("Sample Name");
+		
+		name = new TextWrapper(sampleDetails, SWT.BORDER);
+		name.setTextType(TEXT_TYPE.FILENAME);
+		name.setTextLimit(50);
 		final GridData gd_name = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		name.setLayoutData(gd_name);
 
-		final Label sampleNameLabel = new Label(experimentSample, SWT.NONE);
-		sampleNameLabel.setText("Sample Name");
-
-		sampleName = new TextWrapper(experimentSample, SWT.BORDER);
-		sampleName.setTextLimit(5000);
-		sampleName.setLayoutData(gd_name);
-
-		final Label descriptionLabel = new Label(experimentSample, SWT.NONE);
+		final Label descriptionLabel = new Label(sampleDetails, SWT.NONE);
 		descriptionLabel.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
 		descriptionLabel.setText("Description");
 
-		descriptions = new TextWrapper(experimentSample, SWT.WRAP | SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
+		descriptions = new TextWrapper(sampleDetails, SWT.WRAP | SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
 		final GridData gd_descriptions = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		gd_descriptions.heightHint = 73;
 		descriptions.setLayoutData(gd_descriptions);
@@ -390,6 +389,9 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		final I20SampleParameters params = (I20SampleParameters) editingBean;
 		Control control = null;
 
+		sampleDetails.setVisible(true);
+		sampleDetailsGridData.exclude = false;
+
 		if (ScanObjectManager.isXESOnlyMode()) {
 			Object val = null;
 			switch (index) {
@@ -398,6 +400,8 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 				break;
 			case 1:
 				control = sampleStageParameters;
+				sampleDetails.setVisible(false);
+				sampleDetailsGridData.exclude = true;
 				val = getRoomTemperatureParameters().getValue();
 				if (val == null) {
 					params.getRoomTemperatureParameters();
@@ -431,6 +435,8 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 				break;
 			case 1:
 				control = sampleStageParameters;
+				sampleDetails.setVisible(false);
+				sampleDetailsGridData.exclude = true;
 				val = getRoomTemperatureParameters().getValue();
 				if (val == null) {
 					params.getRoomTemperatureParameters();
@@ -496,6 +502,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 
 		stackLayoutTemp.topControl = control;
 		complexTypesTemp.layout();
+		mainComp.layout();
 	}
 
 	@Override
@@ -510,9 +517,9 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		return name;
 	}
 
-	public TextWrapper getSampleName() {
-		return sampleName;
-	}
+//	public TextWrapper getSampleName() {
+//		return sampleName;
+//	}
 
 	public ComboWrapper getSampleWheelPosition() {
 		return sampleWheelPosition;
