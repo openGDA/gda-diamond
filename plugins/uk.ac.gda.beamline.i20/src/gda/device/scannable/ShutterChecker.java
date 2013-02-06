@@ -55,6 +55,16 @@ public final class ShutterChecker extends ScannableBase {
 	@Override
 	public void configure() throws FactoryException {
 	}
+	
+	@Override
+	public Object rawGetPosition() throws DeviceException {
+		return null;
+	}
+	
+	@Override
+	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
+		// do nothing
+	}
 
 	@Override
 	public void atScanStart() throws DeviceException {
