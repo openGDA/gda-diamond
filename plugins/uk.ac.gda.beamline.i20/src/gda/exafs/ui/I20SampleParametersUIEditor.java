@@ -20,7 +20,7 @@ package gda.exafs.ui;
 
 import gda.device.DeviceException;
 import gda.device.EnumPositioner;
-import gda.exafs.ui.composites.CryostatComposite;
+import gda.exafs.ui.composites.CryostatTableComposite;
 import gda.exafs.ui.composites.RoomTemperatureTableComposite;
 import gda.exafs.ui.preferencepages.I20SampleReferenceWheelPreferencePage;
 import gda.factory.Finder;
@@ -79,7 +79,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 	private TextWrapper descriptions;
 	private TextWrapper name;
 	private RoomTemperatureTableComposite sampleStageParameters;
-	private CryostatComposite cryostatParameters;
+	private CryostatTableComposite cryostatParameters;
 //	private FurnaceComposite furnaceParameters;
 //	private MicroreactorParametersComposite microreactorParameters;
 //	private VerticalListEditor customParameters;
@@ -277,7 +277,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		sampleStageParameters.setEditorClass(SampleStageParameters.class);
 
 		if (!ScanObjectManager.isXESOnlyMode()) {
-			this.cryostatParameters = new CryostatComposite(complexTypesTemp, SWT.NONE);
+			this.cryostatParameters = new CryostatTableComposite(complexTypesTemp, SWT.NONE);
 			cryostatParameters.setEditorClass(CryostatParameters.class);
 
 //			this.furnaceParameters = new FurnaceComposite(complexTypesTemp, SWT.NONE);
@@ -529,7 +529,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		return sampleStageParameters;
 	}
 
-	public CryostatComposite getCryostatParameters() {
+	public CryostatTableComposite getCryostatParameters() {
 		return cryostatParameters;
 	}
 

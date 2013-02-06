@@ -18,12 +18,6 @@
 
 package gda.exafs.ui.composites;
 
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.device.scannable.ScannableUtils;
-import gda.factory.Finder;
-
-import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
@@ -34,19 +28,15 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.ui.data.ScanObjectManager;
-import uk.ac.gda.richbeans.components.FieldBeanComposite;
 import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
 import uk.ac.gda.richbeans.components.wrappers.BooleanWrapper;
 import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
 import uk.ac.gda.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
 
-public class RoomTemperatureTableComposite extends FieldBeanComposite {
+public class RoomTemperatureTableComposite extends I20SampleParamsComposite {
 
-	private static Logger logger = LoggerFactory.getLogger(RoomTemperatureTableComposite.class);
 
 	private String[] XES_COLUMNS = new String[] { "", "", "", "Sample", "", "            X            ",
 			"            Y            ", "            Z            ", "       Rotation      ", "      Fine Rot      ",
@@ -193,7 +183,7 @@ public class RoomTemperatureTableComposite extends FieldBeanComposite {
 
 		sampleDesc[row] = new TextWrapper(table, SWT.BORDER | SWT.SINGLE);
 		sampleDesc[row].setTextType(TEXT_TYPE.FREE_TXT);
-		sampleDesc[row].setTextLimit(30);
+		sampleDesc[row].setTextLimit(60);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(sampleDesc[row]);
 	}
 
@@ -280,28 +270,10 @@ public class RoomTemperatureTableComposite extends FieldBeanComposite {
 
 		sampleDesc[row] = new TextWrapper(table, SWT.BORDER | SWT.SINGLE);
 		sampleDesc[row].setTextType(TEXT_TYPE.FREE_TXT);
-		sampleDesc[row].setTextLimit(30);
+		sampleDesc[row].setTextLimit(60);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(sampleDesc[row]);
 	}
 
-	private String getValueAsString(String scannableName) {
-
-		final Scannable scannable = (Scannable) Finder.getInstance().find(scannableName);
-		if (scannable == null) {
-			logger.error("Scannable " + scannableName + " cannot be found");
-			return "";
-		}
-		String[] position;
-		try {
-			position = ScannableUtils.getFormattedCurrentPositionArray(scannable);
-		} catch (DeviceException e) {
-			logger.error("Scannable " + scannableName + " position cannot be resolved.");
-			return "";
-		}
-		String strPosition = ArrayUtils.toString(position);
-		strPosition = strPosition.substring(1, strPosition.length() - 1);
-		return strPosition;
-	}
 
 	public BooleanWrapper getUseSample1() {
 		return sampleInUse[0];
