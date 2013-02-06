@@ -170,7 +170,7 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 
 		final Composite advanced = new Composite(advancedExpandableComposite, SWT.NONE);
 		GridDataFactory.fillDefaults().applyTo(advanced);
-		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(advanced);
+		GridLayoutFactory.fillDefaults().numColumns(4).applyTo(advanced);
 
 		createAdvancedComposite(advanced);
 
@@ -199,6 +199,11 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 		controlMode.setItems(CryostatParameters.CONTROL_MODE);
 		controlMode.select(0);
 
+		final Label pLabel = new Label(advanced, SWT.RIGHT);
+		pLabel.setText("P");
+		this.p = new ScaleBox(advanced, SWT.NONE);
+		p.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
 		final Label heaterRangeLabel = new Label(advanced, SWT.NONE);
 		heaterRangeLabel.setText("Heater Range");
 		heaterRange = new ComboWrapper(advanced, SWT.READ_ONLY);
@@ -206,27 +211,18 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 		heaterRange.setItems(CryostatParameters.HEATER_RANGE);
 		heaterRange.select(0);
 
-		final Label outputLabel = new Label(advanced, SWT.NONE);
-		outputLabel.setText("Manual output");
-
-		this.manualOutput = new ScaleBox(advanced, SWT.NONE);
-		manualOutput.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		final Label pLabel = new Label(advanced, SWT.NONE);
-		pLabel.setText("P");
-
-		this.p = new ScaleBox(advanced, SWT.NONE);
-		p.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		final Label iLabel = new Label(advanced, SWT.NONE);
+		final Label iLabel = new Label(advanced, SWT.RIGHT);
 		iLabel.setText("I");
-
 		this.i = new ScaleBox(advanced, SWT.NONE);
 		i.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		final Label dLabel = new Label(advanced, SWT.NONE);
-		dLabel.setText("D");
+		final Label outputLabel = new Label(advanced, SWT.NONE);
+		outputLabel.setText("Manual output");
+		this.manualOutput = new ScaleBox(advanced, SWT.NONE);
+		manualOutput.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
+		final Label dLabel = new Label(advanced, SWT.RIGHT);
+		dLabel.setText("D");
 		this.d = new ScaleBox(advanced, SWT.NONE);
 		d.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
@@ -235,7 +231,8 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 			@Override
 			public void expansionStateChanged(ExpansionEvent e) {
 				getParent().getParent().getParent().getParent().layout();
-//				CryostatTableComposite.this.getParent().getParent().getParent().getParent().getParent().layout();
+				Composite temp = CryostatTableComposite.this.getParent().getParent().getParent().getParent().getParent();
+				temp.layout();
 			}
 		};
 		advancedExpandableComposite.addExpansionListener(expansionListener);
