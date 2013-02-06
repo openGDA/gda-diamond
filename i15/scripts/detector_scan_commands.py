@@ -122,11 +122,11 @@ def rockScan(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 	scan.runScan()
 	
 def rockScanUnsync(axis, centre, rockSize, noOfRocks, detector, exposureTime,
-		fileName="rock_scan_test", d1out=True, d2out=True):
+		fileName="rock_scan_test", d1out=True, d2out=True, fixedVelocity=False):
 	wrappedDetector = detector_axis_wrappers._getWrappedDetector(
 		axis, centre - abs(rockSize), centre + abs(rockSize), abs(2*rockSize),
 		detector,  exposureTime, noOfExpPerPos=noOfRocks, fileName=fileName,
-		sync=False)
+		sync=False, fixedVelocity=fixedVelocity)
 	scan = ConcurrentScan([DiodeController(d1out, d2out), 1, 1, 1,
 		wrappedDetector, centre - abs(rockSize), centre - abs(rockSize),
 			abs(2*rockSize)])
