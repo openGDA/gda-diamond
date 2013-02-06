@@ -93,7 +93,7 @@
 				<property name="basePVName" value="BL12I-OP-DCM-01:DRAW2:" />
 				<!-- <property name="deviceName" value="mono2.draw_NDPluginBase" /> -->
 				<!-- <property name="initialArrayPort" value="mono2.cam" /> -->
-				<property name="initialArrayPort" value="mono2.prc1" />
+				<property name="initialArrayPort" value="mono2.cam" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="0" />
 				<property name="initialBlockingCallbacks" value="false" />
