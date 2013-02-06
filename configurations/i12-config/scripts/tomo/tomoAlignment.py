@@ -97,10 +97,8 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     fastScan = FastScan('fastScan')
     topUp = TopupPause("topUp")
     isTomoScanSuccess = True
-    numberOfDarks = 1
-    numberOfFlats = 1
-    stepsSize = 90
-    
+    numberOfDarks = 10
+    numberOfFlats = 10
     try:
         pco.getController().disarmCamera()
         startTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
@@ -568,22 +566,22 @@ def moveVerticalBy(canMoveY1, moveY2BeforeY3Upwards, position):
         if remainingToMove > 0:
             if moveY2BeforeY3Upwards:
                 remainingToMove = moveVerticalMotorUp(y2, remainingToMove)
-                if remainingToMove > 0:
-                    remainingToMove = moveVerticalMotorUp(y3, remainingToMove)
+                #if remainingToMove > 0:
+                    #remainingToMove = moveVerticalMotorUp(y3, remainingToMove)
             else:
-                remainingToMove = moveVerticalMotorUp(y3, remainingToMove)
+                #remainingToMove = moveVerticalMotorUp(y3, remainingToMove)
                 if remainingToMove > 0:
                     remainingToMove = moveVerticalMotorUp(y2, remainingToMove)
     else:
         print "Moving down" + `position`
         if moveY2BeforeY3Upwards:
-            remainingToMove = moveVerticalMotorDown(y3, remainingToMove)
+            #remainingToMove = moveVerticalMotorDown(y3, remainingToMove)
             if remainingToMove < 0:
                 remainingToMove = moveVerticalMotorDown(y2, remainingToMove)
         else:
             remainingToMove = moveVerticalMotorDown(y2, remainingToMove)
-            if remainingToMove < 0:
-                remainingToMove = moveVerticalMotorDown(y3, remainingToMove)
+            #if remainingToMove < 0:
+                #remainingToMove = moveVerticalMotorDown(y3, remainingToMove)
         if canMoveY1 and remainingToMove < 0:
             #Move y1 and then y2 and then y3
             remainingToMove = moveVerticalMotorDown(y1, remainingToMove)
@@ -643,7 +641,6 @@ def moveVerticalMotorDown(motor, remainingToMove):
     return remainingToMove
 
 def getVerticalMotorPositions():
-    print "getting Vertical Motor Positions"
     y1 = f.find("ss1_y1")
     y2 = f.find("ss1_y2")
     y3 = f.find("ss1_y3")
@@ -657,9 +654,11 @@ def getVerticalMotorPositions():
 def autoFocus(acqTime):
     cam1_z = f.find("cam1_z")
     pco = f.find("pco")
+    #pco = f.find("pco4000_dio_tif")
     print isLiveMode()
     if not isLiveMode():
         pco.setExternalTriggered(False)
+        #pass
     moduleLookup = f.find("moduleMotorPositionLUT")
     module = getModule()
     if module < 1 and module > 4:
@@ -676,6 +675,7 @@ def autoFocus(acqTime):
     
     numImgs = 20
     pathname = pwd() + "/projections/"
+    #pathname = pwd() + "-pco1-files/"
     updateScriptController("About to analyse images in " + `pathname`)
     autofocusImages(pathname, afxCropStart, afyCropStart, afxCropEnd, afyCropEnd, numImgs)
     #cam1_z.moveTo(nxsModel.entry1.pco.cam1_z[biggestIndex])
@@ -691,7 +691,7 @@ def autoFocusRight(pathname, numImgs=51):
 def autoFocusLeft(pathname, numImgs=51):
     autofocusImages(pathname, 111, 974, 565, 1345, numImgs)
     
-def autofocusImages(pathname, cropxStart, cropyStart, cropxEnd, cropyEnd, numImgs, shouldPlot=False):
+def autofocusImages(pathname, cropxStart, cropyStart, cropxEnd, cropyEnd, numImgs, shouldPlot=True):
     cam1_zBestFocusVal = None
     try:
         index = 0
@@ -700,6 +700,8 @@ def autofocusImages(pathname, cropxStart, cropyStart, cropxEnd, cropyEnd, numImg
         imageName = None
         
         for num in range(0, numImgs):
+        #for num in range(1, numImgs):
+            #fileName = pathname + ("%05d.tif" % num)
             fileName = pathname + ("p_%05d.tif" % num)
             updateScriptController("Analysing Image: " + `fileName`)
             dataset = dnp.io.load(fileName)[0]
@@ -808,7 +810,7 @@ class TomoAlignmentConfiguration:
         self.flatAcquisitionTime = aC.flatExposureTime
         self.numberOfFramesPerProjection = aC.detectorProperties.numberOfFramerPerProjection
         self.isContinuousScan = (aC.scanMode == "Continuous")
-        self.desiredResolution = self.getResolutionInteger(aC.detectorProperties.desired3DResolution)
+        self.desiredResolution = self.getResolutionInteger(str(aC.detectorProperties.desired3DResolution))
         self.timeDivider = aC.detectorProperties.acquisitionTimeDivider
         self.positionOfBaseAtFlat = aC.outOfBeamPosition
         self.positionOfBaseInBeam = aC.inBeamPosition
