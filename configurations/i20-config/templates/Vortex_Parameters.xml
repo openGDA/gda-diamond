@@ -9,15 +9,15 @@
         <number>1</number>
         <ROI>
             <name>ROI 1</name>
-            <windowStart>429</windowStart>
-            <windowEnd>592</windowEnd>
-            <counts>899801061</counts>
+            <windowStart>805</windowStart>
+            <windowEnd>1040</windowEnd>
+            <counts>19773</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
         <excluded>false</excluded>
     </DetectorElement>
-    <deadTime>0.999</deadTime>
+    <deadTime>3.474</deadTime>
     <saveRawSpectrum>false</saveRawSpectrum>
 </VortexParameters>
