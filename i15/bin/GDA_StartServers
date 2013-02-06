@@ -2,6 +2,6 @@
 
 . /dls_sw/i15/software/gda/i15-config/bin/jvm.sh
 
-export JAVA_OPTS="-Dgda.deploytype=1"
+export JAVA_OPTS="-Dgda.deploytype=1 -XX:MaxPermSize=1024m" # Seems to fix the reset_namespace problem
 GDA=/dls_sw/i15/software/gda/plugins/uk.ac.gda.core/bin/gda
 $GDA --headless servers --debug --debugport=8001
