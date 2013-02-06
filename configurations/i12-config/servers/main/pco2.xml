@@ -291,9 +291,9 @@
 		<property name="readout1ADC32Mhz" value="500" />
 		<property name="readout2ADC8Mhz" value="750" />
 		<property name="readout2ADC32Mhz" value="400" />
-		<!-- <property name="triggerPV" value="BL12I-EA-DIO-01:OUT:00" /> -->
+		<property name="triggerPV" value="BL12I-EA-DIO-01:OUT:00" />
 		<!-- <property name="triggerPV" value="BL12I-EA-DIO-01:OUT:02" /> -->
-		<property name="triggerPV" value="BL12I-MO-TAB-02:ST1:THETA:POSCOMP:CTRL" />
+		<!--<property name="triggerPV" value="BL12I-MO-TAB-02:ST1:THETA:POSCOMP:CTRL" />-->
 		<property name="initialTimestampMode" value="1" />
 	</bean>
 
@@ -420,7 +420,11 @@
 		<property name="collectionStrategy" ref="pco_hdf_singleExposurePco"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg value="pco1"/>
+				<!--<constructor-arg value="pco1"/>-->
+				<property name="fileTemplate" value="%s%s%05d.tif" />
+				<property name="filePathTemplate" value="$datadir$/$scan$/projections/" />
+				<property name="fileNameTemplate" value="p_" />
+				<property name="fileNumberAtScanStart" value="0" />
 				<property name="ndFile" ref="pco_tif" />
 				<property name="returnExpectedFullFileName" value="true"/>
 			</bean>

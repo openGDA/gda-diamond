@@ -300,11 +300,15 @@
 		<property name="collectionStrategy" ref="pixium_multipleExposurePco"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg value="pixium"/>
+				<!--<constructor-arg value="pixium"/>-->
+				<property name="fileTemplate" value="%s%s%05d.tif"/>
+				<property name="filePathTemplate" value="$datadir$/$scan$/"/>
+				<property name="fileNameTemplate" value="pixi_"/>
+				<property name="fileNumberAtScanStart" value="1"/>
 				<property name="ndFile" ref="pixium_ndfiletif" />
 				<property name="returnExpectedFullFileName" value="true"/>
 				<property name="ndArrayPortVal" value="pix.proc"/>
-				<property name="fileWriteMode" value="CAPTURE"/>
+				<property name="fileWriteMode" value="STREAM"/>
 			</bean>
 		</property>
 
