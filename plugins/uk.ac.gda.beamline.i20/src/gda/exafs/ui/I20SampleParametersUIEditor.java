@@ -337,7 +337,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		final Label sampleNameLabel = new Label(sampleDetails, SWT.NONE);
 		sampleNameLabel.setText("Sample Name");
 		
-		name = new TextWrapper(sampleDetails, SWT.BORDER);
+		name = new TextWrapper(sampleDetails, SWT.BORDER | SWT.SINGLE);
 		name.setTextType(TEXT_TYPE.FILENAME);
 		name.setTextLimit(50);
 		final GridData gd_name = new GridData(SWT.FILL, SWT.CENTER, true, false);
