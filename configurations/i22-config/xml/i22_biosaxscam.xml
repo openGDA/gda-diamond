@@ -33,7 +33,7 @@
 	
 	<bean id="bsaxscam" class="uk.ac.gda.server.ncd.camera.ADCameraDetector">
 		<property name="basePVName" value="BL22I-EA-BSAXS-01:" />
-		<property name="areaDetector" ref="mfgige_ad" />
-		<property name="array" ref="mfgige_array" />
+		<property name="areaDetector" ref="bsaxscam_ad" />
+		<property name="array" ref="bsaxscam_array" />
 	</bean>
 </beans>
