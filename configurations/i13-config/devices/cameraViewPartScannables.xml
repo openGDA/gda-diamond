@@ -7,7 +7,7 @@
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
-	<bean id="rotationAxisX" class="gda.device.scannable.SimpleScannable">
+<!-- 	<bean id="rotationAxisXNoUsed" class="gda.device.scannable.SimpleScannable">
 		<property name="currentPosition">
 		<bean class="java.lang.Double">
 		  <constructor-arg value="0.0"/>
@@ -15,5 +15,5 @@
 		</property>
 		<property name="inputNames" value="simpleScannables.xml"/>
 	</bean>
-</beans>
+ --></beans>
 

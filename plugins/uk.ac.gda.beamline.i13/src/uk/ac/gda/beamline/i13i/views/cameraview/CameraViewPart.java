@@ -87,6 +87,7 @@ import uk.ac.diamond.scisoft.analysis.dataset.IntegerDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.Stats;
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
 import uk.ac.gda.epics.adviewer.composites.CameraComposite;
+import uk.ac.gda.epics.adviewer.composites.imageviewer.CrossHairFigure;
 import uk.ac.gda.epics.adviewer.composites.imageviewer.IImagePositionEvent;
 import uk.ac.gda.epics.adviewer.composites.imageviewer.ImagePositionListener;
 import uk.ac.gda.epics.adviewer.composites.imageviewer.ImageViewer;

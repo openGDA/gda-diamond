@@ -120,6 +120,7 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 						}
 					}
 				};
+				lensScannable.addIObserver(observer);
 				cameraStageXScannable.addIObserver(observer);
 				cameraStageYScannable.addIObserver(observer);
 				cameraScaleProvider.addIObserver(observer);
@@ -169,7 +170,10 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 			throw new Exception("cameraStageYScannable == null");
 		}
 		if(cameraScaleProvider == null){
-			throw new Exception("displayScaleProvider == null");
+			throw new Exception("cameraScaleProvider == null");
+		}
+		if(lensScannable == null){
+			throw new Exception("lensScannable == null");
 		}
 	}
 

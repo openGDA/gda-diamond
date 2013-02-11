@@ -9,30 +9,7 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-
-	<corba:import namespace="i13" names="lensScannable, rotationAxisXScannable, cameraXYScannable" />
-
-	<bean id="displayScaleProvider" class="uk.ac.gda.beamline.i13i.SelectableDisplayScaleProvider">
-		<property name="keyScannable" ref="lensScannable" />
-		<property name="providers">
-			<util:list value-type="uk.ac.gda.beamline.i13i.DisplayScaleProvider">
-				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-					<property name="pixelsPerMMInX" value="534" />
-					<property name="pixelsPerMMInY" value="534" />
-				</bean>
-				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-					<property name="pixelsPerMMInX" value="1088" />
-					<property name="pixelsPerMMInY" value="1088" />
-				</bean>
-				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-					<property name="pixelsPerMMInX" value="2740" />
-					<property name="pixelsPerMMInY" value="2740" />
-				</bean>
-			</util:list>
-		</property>
-	</bean>
-
-	<bean id="sampleAligner" class="uk.ac.gda.beamline.i13i.SampleAligner">
+<!-- 	<bean id="sampleAligner" class="uk.ac.gda.beamline.i13i.SampleAligner">
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
 		<property name="cameraXYScannable" ref="cameraXYScannable"/>
 		<property name="displayScaleProvider" ref="displayScaleProvider" />
@@ -47,6 +24,7 @@
 		<property name="imageWidth" value="4008" />
 		<property name="imageHeight" value="2672" />
 	</bean>
+
 	<bean id="cameraViewPartConfig"
 		class="uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPartConfigImpl">
 		<property name="adBase" ref="pco1_cam_base" />
@@ -70,5 +48,5 @@
 			value="uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPartConfig" />
 		<property name="service" ref="cameraViewPartConfig" />
 	</bean>
-
+ -->
 </beans>
