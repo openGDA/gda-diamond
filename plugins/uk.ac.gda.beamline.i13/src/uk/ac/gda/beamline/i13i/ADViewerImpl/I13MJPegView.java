@@ -316,13 +316,6 @@ public class I13MJPegView extends MJPegView {
 
 			}
 		};
-		Action zoomFit = new Action("Zoom to Fit") {
-			@Override
-			public void run() {
-				zoomToFit();
-			}
-		};
-
 		final Action rotationAxisAction = new Action("Show rotation axis", IAction.AS_CHECK_BOX) {
 			@Override
 			public void run() {
@@ -357,7 +350,6 @@ public class I13MJPegView extends MJPegView {
 		}
 
 		showActions.add(showNormalisedImageAction);
-		showActions.add(zoomFit);
 		showActions.add(rotationAxisAction);
 		showActions.add(showImageMarkerAction);
 
@@ -496,7 +488,4 @@ public class I13MJPegView extends MJPegView {
 		return imageMarkerFigure;
 	}
 
-	public void zoomToFit() {
-		mJPeg.zoomFit();
-	}
 }

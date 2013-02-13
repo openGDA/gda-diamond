@@ -197,9 +197,16 @@
          allPopups="false"
          locationURI="toolbar:uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView">
       <command
+            commandId="uk.ac.gda.epics.adviewer.command.zoomToFit"
+            label="Zoom To Fit"
+            style="push"
+            tooltip="Zoom To Fit">
+      </command>
+      <command
             commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
             label="Set Exposure"
-            style="push">
+            style="push"
+            tooltip="Set Exposure">
          <parameter
                name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
                value="i13">
@@ -208,7 +215,8 @@
       <command
             commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
             label="Set LiveView Scale"
-            style="push">
+            style="push"
+            tooltip="Set LiveView Scale">
          <parameter
                name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
                value="i13">
@@ -218,7 +226,8 @@
             commandId="org.eclipse.ui.views.showView"
             icon="icons/AreaDetectorProfileView.gif"
             label="Show Profile View"
-            style="push">
+            style="push"
+            tooltip="Show Profile ">
          <parameter
                name="org.eclipse.ui.views.showView.viewId"
                value="uk.ac.gda.beamline.i13i.PCOAreaDetectorProfileView">
@@ -228,7 +237,8 @@
             commandId="org.eclipse.ui.views.showView"
             icon="icons/AreaDetectorImageView.gif"
             label="Show Image View"
-            style="push">
+            style="push"
+            tooltip="Show Full Image">
          <parameter
                name="org.eclipse.ui.views.showView.viewId"
                value="uk.ac.gda.beamline.i13i.PCOAreaDetectorArrayView">
