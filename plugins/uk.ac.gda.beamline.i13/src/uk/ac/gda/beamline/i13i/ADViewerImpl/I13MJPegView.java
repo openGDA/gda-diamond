@@ -23,20 +23,28 @@ import gda.device.ScannableMotionUnits;
 import gda.device.scannable.ScannablePositionChangeEvent;
 import gda.device.scannable.ScannableStatus;
 import gda.device.scannable.ScannableUtils;
+import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
 
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealVector;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.dialogs.IInputValidator;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -270,8 +278,47 @@ public class I13MJPegView extends MJPegView {
 				}
 			}
 
-			private void showNormalisedImage() {
-				// TODO Auto-generated method stub
+			private void showNormalisedImage() throws InvocationTargetException, InterruptedException {
+				InputDialog dlg = new InputDialog(Display.getCurrent().getActiveShell(), "Show Normalised Image",
+						"Enter the out of beam position", Double.toString(0.),
+						new IInputValidator() {
+
+							@Override
+							public String isValid(String newText) {
+								try {
+									Double.valueOf(newText);
+								} catch (Exception e) {
+									return "Value is not recognised as a number '" + newText + "'";
+								}
+								return null;
+							}
+
+						});
+				if (dlg.open() != Window.OK) {
+					return;
+				}
+				final String value = dlg.getValue();
+				final String cmd = String.format(adControllerImpl.getShowNormalisedImageCmd() , value);
+				
+				ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
+				pd.run(true /* fork */, true /* cancelable */, new IRunnableWithProgress() {
+					@Override
+					public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+						String title = "Running command '" + cmd+ "'";
+
+						monitor.beginTask(title, 100);
+
+						try {
+							String result = InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
+							if( result == null)
+								throw new Exception("Error executing command '" + cmd + "'");
+						} catch (Exception e) {
+							throw new InvocationTargetException(e, "Error in " + title);
+						}
+
+						monitor.done();
+					}
+				});
 
 			}
 		};
