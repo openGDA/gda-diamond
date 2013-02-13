@@ -83,8 +83,8 @@
 		<property name="cameraScaleProvider" ref="displayScaleProvider" />
 		<property name="sampleCentringXMotor" ref="ss1_x" />
 		<property name="sampleCentringYMotor" ref="ss1_sampley" />
-		<property name="cameraImageWidthMax" value="2600"/>
-		<property name="cameraImageHeightMax" value="2000"/>
+		<property name="cameraImageWidthMax" value="4008"/>
+		<property name="cameraImageHeightMax" value="2672"/>
 		<property name="ffmpegImageInOffsetX" value="100"/>
 		<property name="ffmpegImageInOffsetY" value="100"/>
 	</bean>
