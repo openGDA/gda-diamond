@@ -51,7 +51,6 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 	Scannable sampleStageXScannable;
 	Scannable cameraStageXScannable;
 	Scannable lensScannable;
-	DisplayScaleProvider displayScaleProvider;
 	DisplayScaleProvider cameraScaleProvider;
 	private IObserver observer;
 
@@ -63,9 +62,9 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 
 
 	@Override
-	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
+	public void rawAsynchronousMoveTo(Object positionInCameraImage) throws DeviceException {
 		try {
-			Double[] array = ScannableUtils.objectToArray(position);
+			Double[] array = ScannableUtils.objectToArray(positionInCameraImage);
 			Double pos = array[0];
 			double offset = getOffsetForRotationAxisX(pos);
 			setOffset(offset);
@@ -114,8 +113,8 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 				};
 				sampleStageXScannable.addIObserver(observer);
 				cameraStageXScannable.addIObserver(observer);
-				displayScaleProvider.addIObserver(observer);
 				cameraScaleProvider.addIObserver(observer);
+				lensScannable.addIObserver(observer);
 				
 			}
 		} catch (Exception e) {
@@ -124,10 +123,9 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 		
 	}
 	public void autoCentre(double pixelsX) throws DeviceException, InterruptedException{
-		double x1 = ScannableUtils.getCurrentPositionArray(sampleStageXScannable)[0];
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0]; 
 		
-		double move = getOffset() - pixelsX/displayScaleProvider.getPixelsPerMMInX() -x2;
+		double move = getOffset() - pixelsX/cameraScaleProvider.getPixelsPerMMInX() -x2;
 		Double.valueOf(move);
 		sampleStageXScannable.asynchronousMoveTo(move);
 		sampleStageXScannable.waitWhileBusy();
@@ -137,7 +135,7 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 		double x1 = ScannableUtils.getCurrentPositionArray(sampleStageXScannable)[0];
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
 		double offset = getOffset();
-		double dist = (offset-x1)*displayScaleProvider.getPixelsPerMMInX()-x2*cameraScaleProvider.getPixelsPerMMInX();
+		double dist = (offset-x1-x2)*cameraScaleProvider.getPixelsPerMMInX();
 		return (int) Math.round(dist);
 	}
 
@@ -148,10 +146,23 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 		return offset;
 	}
 
-	double getOffsetForRotationAxisX(double  array) throws DeviceException {
+	/**
+	 * The value position of the rotation axis in the camera image is given by
+	 * 
+	 * ((offset - sampleStageXInMM)* pixelsPerMMinX) - cameraStageXInMM*pixelsPerMMinX = positionInCameraImage 
+	 * 
+	 * (offset - sampleStageXInMM - cameraStageXInMM)*pixelsPerMMinX = positionInCameraImage 
+	 *
+	 * (offset - sampleStageXInMM - cameraStageXInMM)*pixelsPerMMinX = positionInCameraImage
+	 * 
+	 *  where offset is the offset of the rotationAxis from the sampleStage 0 position + the offset of the 
+	 *  cameraStage 0 position from the sample stage.
+	 * 
+	 */
+	double getOffsetForRotationAxisX(double  positionInCameraImage) throws DeviceException {
 		double x1 = ScannableUtils.getCurrentPositionArray(sampleStageXScannable)[0];
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
-		return (array + x2*cameraScaleProvider.getPixelsPerMMInX())/displayScaleProvider.getPixelsPerMMInX() + x1;
+		return positionInCameraImage/cameraScaleProvider.getPixelsPerMMInX() + x2 + x1;
 	}
 	
 	
@@ -163,9 +174,6 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 		}
 		if(cameraStageXScannable == null){
 			throw new Exception("cameraStageXScannable == null");
-		}
-		if(displayScaleProvider == null){
-			throw new Exception("displayScaleProvider == null");
 		}
 		if(lensScannable == null){
 			throw new Exception("lenScannable == null");
@@ -210,16 +218,6 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 
 	public void setCameraStageXScannable(Scannable cameraStageXScannable) {
 		this.cameraStageXScannable = cameraStageXScannable;
-	}
-
-
-	public DisplayScaleProvider getDisplayScaleProvider() {
-		return displayScaleProvider;
-	}
-
-
-	public void setDisplayScaleProvider(DisplayScaleProvider displayScaleProvider) {
-		this.displayScaleProvider = displayScaleProvider;
 	}
 
 

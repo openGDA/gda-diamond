@@ -20,10 +20,6 @@ package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
 import gda.device.Scannable;
 import gda.device.ScannableMotionUnits;
-import gda.device.detector.areadetector.v17.ADBase;
-import gda.device.detector.areadetector.v17.FfmpegStream;
-import gda.device.detector.areadetector.v17.NDArray;
-import gda.device.detector.areadetector.v17.NDProcess;
 import gda.jython.InterfaceProvider;
 import gda.rcp.views.CompositeFactory;
 
@@ -58,7 +54,7 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 
 	private Scannable lensScannable;
 
-	private CompositeFactory compositeFactory;
+	private CompositeFactory mjpegViewCompositeFactory;
 
 	public Scannable getLensScannable() {
 		return lensScannable;
@@ -76,12 +72,13 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 		
 	}
 
-	public CompositeFactory getCompositeFactory(){
-		return compositeFactory;
+
+	public CompositeFactory getMjpegViewCompositeFactory() {
+		return mjpegViewCompositeFactory;
 	}
 
-	public void setCompositeFactory(CompositeFactory compositeFactory) {
-		this.compositeFactory = compositeFactory;
+	public void setMjpegViewCompositeFactory(CompositeFactory mjpegViewCompositeFactory) {
+		this.mjpegViewCompositeFactory = mjpegViewCompositeFactory;
 	}
 
 	private BeamCenterProvider beamCenterProvider;
