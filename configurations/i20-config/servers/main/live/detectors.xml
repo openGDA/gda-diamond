@@ -74,7 +74,7 @@
 	<!-- Scaler channels -->
 	<bean id="CalMemory" class="gda.device.memory.Scaler">
 		<property name="daServerName" value="DAServer" />
-		<property name="width" value="5" />
+		<property name="width" value="6" />
 		<property name="height" value="1" />
 		<property name="openCommand" value="tfg open-cc" />
 	</bean>
@@ -136,6 +136,31 @@
 			</list>
 		</property>
 	</bean>
+
+	<bean id="apd" class="gda.device.detector.AceApdDetector">
+		<property name="extraNames">
+			<list>
+				<value>Time</value>
+				<value>APD</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="timeChannelRequired" value="true" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="1" />
+		<property name="useReset" value="false"/>
+		<property name="outputLogValues" value="false"/>
+		<property name="firstDataChannel" value="4" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputFormat">
+			<list>
+				<value>%.4f</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="allionchambers" class="gda.device.detector.countertimer.TfgScalerWithLogValues">
 		<property name="extraNames">
@@ -144,6 +169,7 @@
 				<value>It</value>
 				<value>Iref</value>
 				<value>I1</value>
+				<value>APD</value>
 			</list>
 		</property>
 		<property name="scaler" ref="CalMemory" />
@@ -151,11 +177,12 @@
 		<property name="timeChannelRequired" value="false" />
 		<property name="outputLogValues" value="false" />
 		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="5" />
+		<property name="numChannelsToRead" value="6" />
 		<property name="useReset" value="false"/>
 		<property name="outputFormat">
 			<list>
 				<value>%6.4g</value>
+				<value>%.2f</value>
 				<value>%.2f</value>
 				<value>%.2f</value>
 				<value>%.2f</value>

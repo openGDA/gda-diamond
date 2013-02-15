@@ -34,7 +34,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
 <!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas-filling.xml" /> -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas.xml" />
+<!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas.xml" /> -->
 
 	<!--should normally be called last -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/command-server.xml" />

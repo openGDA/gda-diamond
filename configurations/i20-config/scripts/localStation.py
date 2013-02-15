@@ -25,6 +25,9 @@ from exafsscripts.exafs.i20OutputPreparer import I20OutputPreparer
 from exafsscripts.exafs.i20ScanScripts import I20XasScan
 from exafsscripts.exafs.i20ScanScripts import I20XesScan
 
+ScanBase.interrupted = False
+ScriptBase.interrupted = False
+
 loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
 
 
