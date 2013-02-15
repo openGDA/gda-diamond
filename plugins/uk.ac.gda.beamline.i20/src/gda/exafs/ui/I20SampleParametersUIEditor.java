@@ -453,6 +453,8 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 				break;
 			case 2:
 				control = cryostatParameters;
+				sampleDetails.setVisible(false);
+				sampleDetailsGridData.exclude = true;
 				val = getCryostatParameters().getValue();
 				if (val == null)
 					params.getCryostatParameters();
