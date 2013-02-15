@@ -37,23 +37,30 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.dialogs.IInputValidator;
-import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 
@@ -62,6 +69,7 @@ import uk.ac.gda.epics.adviewer.composites.imageviewer.CrossHairFigure;
 import uk.ac.gda.epics.adviewer.composites.imageviewer.IImagePositionEvent;
 import uk.ac.gda.epics.adviewer.composites.imageviewer.ImagePositionListener;
 import uk.ac.gda.epics.adviewer.views.MJPegView;
+import uk.ac.gda.tomography.scan.editor.ScanParameterDialog;
 
 public class I13MJPegView extends MJPegView {
 
@@ -85,12 +93,99 @@ public class I13MJPegView extends MJPegView {
 	@Override
 	protected void createTopRowControls(Composite composite_1) {
 		Composite c = new Composite(composite_1, SWT.NONE);
-		c.setLayout(new GridLayout(2, false));
+		c.setLayout(new GridLayout(3, false));
 		LensScannableComposite lensScannableComposite = new LensScannableComposite(c, SWT.NONE);
 		lensScannableComposite.setLensScannable(adControllerImpl.getLensScannable());
 		GridDataFactory.swtDefaults().applyTo(lensScannableComposite);
 		adControllerImpl.getMjpegViewCompositeFactory().createComposite(c, SWT.NONE, null);
+		Composite btnComp = new Composite(c, SWT.NONE);
+		btnComp.setLayout(new RowLayout(SWT.VERTICAL));
 
+		Button showNormalisedImage = new Button(btnComp, SWT.PUSH);
+		showNormalisedImage.setText("Get Normalised Image...");
+		showNormalisedImage.addSelectionListener(new SelectionAdapter() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Dialog dlg = new Dialog(Display.getCurrent().getActiveShell()){
+
+					private Text outBeamX;
+					private Text exposureTime;
+
+					@Override
+					protected void configureShell(Shell newShell) {
+						super.configureShell(newShell);
+						newShell.setText("Get Normalised Image");
+					}
+
+					@Override
+					protected Control createDialogArea(Composite parent) {
+						Composite cmp = new Composite(parent, SWT.NONE);
+						GridDataFactory.fillDefaults().applyTo(cmp);
+						cmp.setLayout(new GridLayout(2,false));
+						Label lblOutOfBeam = new Label(cmp, SWT.NONE);
+						lblOutOfBeam.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+						lblOutOfBeam.setText("Out of beam position/mm");
+						outBeamX = new Text(cmp, SWT.BORDER);
+						outBeamX.setText("0.0");
+						GridData outBeamXLayoutData = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+						outBeamXLayoutData.minimumWidth=50;
+						outBeamX.setLayoutData(outBeamXLayoutData);
+						
+						Label lblExposure = new Label(cmp, SWT.NONE);
+						lblExposure.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+						lblExposure.setText("Exposure time/s");
+						exposureTime = new Text(cmp, SWT.BORDER);
+						exposureTime.setText("1.0");
+						exposureTime.setLayoutData(outBeamXLayoutData);
+						return cmp;
+					}
+
+					@Override
+					protected void okPressed() {
+						final String cmd = String.format(adControllerImpl.getShowNormalisedImageCmd() , outBeamX.getText(), exposureTime.getText());
+						ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
+						try{
+							pd.run(true /* fork */, true /* cancelable */, new IRunnableWithProgress() {
+								@Override
+								public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+									String title = "Running command '" + cmd+ "'";
+
+									monitor.beginTask(title, 100);
+
+									try {
+										String result = InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
+										if( result == null)
+											throw new Exception("Error executing command '" + cmd + "'");
+									} catch (Exception e) {
+										throw new InvocationTargetException(e, "Error in " + title);
+									}
+
+									monitor.done();
+								}
+							});
+						} catch (Exception e1) {
+							reportErrorToUserAndLog("Error showing normalised image", e1);
+						}
+						super.okPressed();
+					}
+					
+				};
+				dlg.open();
+			}
+		});
+
+		Button openScanDlg = new Button(btnComp, SWT.PUSH);
+		openScanDlg.setText("Start a tomography scan...");
+		openScanDlg.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ScanParameterDialog scanParameterDialog = new ScanParameterDialog(getSite().getShell());
+				scanParameterDialog.setBlockOnOpen(true);
+				scanParameterDialog.open();
+			}
+		});
 	}
 
 	@Override
@@ -262,60 +357,7 @@ public class I13MJPegView extends MJPegView {
 		}, null);
 
 		Vector<Action> showActions = new Vector<Action>();
-		Action showNormalisedImageAction = new Action("Show Normalised Image") {
-			@Override
-			public void run() {
-				try {
-					showNormalisedImage();
-				} catch (Exception e) {
-					reportErrorToUserAndLog("Error performing showNormalisedImage", e);
-				}
-			}
 
-			private void showNormalisedImage() throws InvocationTargetException, InterruptedException {
-				InputDialog dlg = new InputDialog(Display.getCurrent().getActiveShell(), "Show Normalised Image",
-						"Enter the out of beam position", Double.toString(0.),
-						new IInputValidator() {
-
-							@Override
-							public String isValid(String newText) {
-								try {
-									Double.valueOf(newText);
-								} catch (Exception e) {
-									return "Value is not recognised as a number '" + newText + "'";
-								}
-								return null;
-							}
-
-						});
-				if (dlg.open() != Window.OK) {
-					return;
-				}
-				final String value = dlg.getValue();
-				final String cmd = String.format(adControllerImpl.getShowNormalisedImageCmd() , value);
-				
-				ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
-				pd.run(true /* fork */, true /* cancelable */, new IRunnableWithProgress() {
-					@Override
-					public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-						String title = "Running command '" + cmd+ "'";
-
-						monitor.beginTask(title, 100);
-
-						try {
-							String result = InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
-							if( result == null)
-								throw new Exception("Error executing command '" + cmd + "'");
-						} catch (Exception e) {
-							throw new InvocationTargetException(e, "Error in " + title);
-						}
-
-						monitor.done();
-					}
-				});
-
-			}
-		};
 		final Action rotationAxisAction = new Action("Show rotation axis", IAction.AS_CHECK_BOX) {
 			@Override
 			public void run() {
@@ -349,7 +391,7 @@ public class I13MJPegView extends MJPegView {
 			reportErrorToUserAndLog("Error showing beam centre", e);
 		}
 
-		showActions.add(showNormalisedImageAction);
+
 		showActions.add(rotationAxisAction);
 		showActions.add(showImageMarkerAction);
 

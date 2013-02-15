@@ -278,6 +278,26 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Error in tomoScan", exceptionType, exception, traceback, False)
 
+from gda.commandqueue import JythonScriptProgressProvider
+def updateProgress( percent, msg):
+    JythonScriptProgressProvider.sendProgress( percent, msg)
+    print "percentage %d %s" % (percent, msg)
+    
+from uk.ac.gda.tomography.scan.util import ScanXMLProcessor
+from java.io import FileInputStream
+
+def ProcessScanParameters(scanParameterModelXML):
+    print scanParameterModelXML
+    scanXMLProcessor = ScanXMLProcessor();
+    resource = scanXMLProcessor.load(FileInputStream(scanParameterModelXML), None);
+    parameters = resource.getContents().get(0);
+    updateProgress(0, "Starting tomoscan");
+    tomoScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
+             darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
+              imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI)    
+    updateProgress(100,"Done");
+    
+
 def __test1_tomoScan():
     jns=beamline_parameters.JythonNameSpaceMapping()    
     sc=tomoScan(step=5, darkFieldInterval=5, flatFieldInterval=5,
