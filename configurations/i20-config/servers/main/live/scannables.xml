@@ -7,7 +7,7 @@
 	<bean id="topupChecker" class="gda.device.scannable.TopupScannable">
 		<property name="scannableToBeMonitored" ref="topup" />
 		<property name="tolerance" value="10" />
-		<property name="timeout" value="60" />
+		<property name="timeout" value="300" />
 		<property name="waittime" value="10" />
 		<property name="level" value="0" />
 		<property name="pauseBeforePoint" value="true" />
