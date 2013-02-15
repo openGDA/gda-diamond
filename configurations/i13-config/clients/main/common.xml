@@ -87,6 +87,7 @@
 		<property name="cameraImageHeightMax" value="2672"/>
 		<property name="ffmpegImageInOffsetX" value="100"/>
 		<property name="ffmpegImageInOffsetY" value="100"/>
+		<property name="showNormalisedImageCmd" value="tomographyScan.showNormalisedImage(%s)"/>
 	</bean>
 
 	<bean id="i13ADViewcreator" class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13ViewCreatorImpl">

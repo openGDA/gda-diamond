@@ -19,7 +19,7 @@ from gda.scan import ScanPositionProvider
 from gda.device.scannable import ScannableBase, ScannableUtils
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.factory import Finder
-
+from uk.ac.gda.analysis.hdf5 import Hdf5Helper, Hdf5HelperData, HDF5HelperLocations
 class EnumPositionerDelegateScannable(ScannableBase):
     """
     Translate positions 0 and 1 to Close and Open
@@ -122,6 +122,10 @@ def showNormalisedImage(outOfBeamPosition, exposureTime=None):
     image=dnp.array((dataset[2,:,:]).cast(6))
     t= (image-dark)/(flat-dark)
     t.name="image-dark/flat-dark"
+    hdfData = Hdf5HelperData(t.shape, t.getBuffer())
+    locs = HDF5HelperLocations("entry1")
+    locs.add(tomography_detector.getName())
+    Hdf5Helper.getInstance().writeToFileSimple(hdfData, lsdp.currentFilename,locs , "normalisedImage")
     rcp=Finder.getInstance().find("RCPController")
     rcp.openView("uk.ac.gda.beamline.i13i.NormalisedImage")
     dnp.plot.image(t, name="Normalised Image")
