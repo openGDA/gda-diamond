@@ -65,6 +65,7 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 	private Button[] btnGetLiveValues = new Button[4];
 	private ScaleBox[] y = new ScaleBox[MAX_NUM_SAMPLES];
 	private ScaleBox[] fineposition = new ScaleBox[MAX_NUM_SAMPLES];
+	private TextWrapper[] sampleName = new TextWrapper[MAX_NUM_SAMPLES];
 	private TextWrapper[] sampleDesc = new TextWrapper[MAX_NUM_SAMPLES];
 
 	public CryostatTableComposite(Composite parent, int style) {
@@ -90,7 +91,8 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 
 	protected void createSampleComposite(final Composite main) {
 		String[] columns = new String[] { "", "Number", "", "       Position      ",
-				"           Fine Position          ", "                   Description                         " };
+				"           Fine Position          ", "       Sample Name       ",
+				"                   Description                         " };
 
 		final Group sampleComposite = new Group(main, SWT.BORDER);
 		sampleComposite.setText("Sample holder options");
@@ -142,6 +144,11 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 		fineposition[row].setUnit("mm");
 		GridDataFactory.fillDefaults().applyTo(fineposition[row]);
 
+		sampleName[row] = new TextWrapper(table, SWT.BORDER | SWT.SINGLE);
+		sampleName[row].setTextType(TEXT_TYPE.FILENAME);
+		sampleName[row].setTextLimit(12);
+		GridDataFactory.fillDefaults().applyTo(sampleName[row]);
+
 		sampleDesc[row] = new TextWrapper(table, SWT.BORDER | SWT.SINGLE);
 		sampleDesc[row].setTextType(TEXT_TYPE.FREE_TXT);
 		sampleDesc[row].setTextLimit(30);
@@ -158,7 +165,8 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 
 		final Label temperatureLabel = new Label(tempComposite, SWT.NONE);
 		temperatureLabel.setText("Temperature");
-		temperature = new RangeBox(tempComposite, SWT.NONE);
+		temperature = new RangeBox(tempComposite, SWT.NONE, "Define setpoints...",
+				"Set a single value, list all value or define a range.");
 		temperature.setMaximum(300);
 		temperature.setUnit("K");
 		final GridData gd_temperature = new GridData(SWT.FILL, SWT.CENTER, true, false);
@@ -231,7 +239,8 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 			@Override
 			public void expansionStateChanged(ExpansionEvent e) {
 				getParent().getParent().getParent().getParent().layout();
-				Composite temp = CryostatTableComposite.this.getParent().getParent().getParent().getParent().getParent();
+				Composite temp = CryostatTableComposite.this.getParent().getParent().getParent().getParent()
+						.getParent();
 				temp.layout();
 			}
 		};
@@ -296,6 +305,10 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 		return y[0];
 	}
 
+	public TextWrapper getSample1_name() {
+		return sampleName[0];
+	}
+
 	public TextWrapper getSampleDescription1() {
 		return sampleDesc[0];
 	}
@@ -312,6 +325,10 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 		return y[1];
 	}
 
+	public TextWrapper getSample2_name() {
+		return sampleName[1];
+	}
+
 	public TextWrapper getSampleDescription2() {
 		return sampleDesc[1];
 	}
@@ -326,6 +343,10 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 
 	public ScaleBox getPosition3() {
 		return y[2];
+	}
+
+	public TextWrapper getSample3_name() {
+		return sampleName[2];
 	}
 
 	public TextWrapper getSampleDescription3() {

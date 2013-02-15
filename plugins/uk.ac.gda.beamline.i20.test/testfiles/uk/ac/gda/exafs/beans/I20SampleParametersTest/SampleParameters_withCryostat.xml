@@ -18,6 +18,7 @@
 		<useSample1>true</useSample1>
 		<position1>1.0</position1>
 		<finePosition1>0.1</finePosition1>
+		<sample1_name>Sample1</sample1_name>
 		<sampleDescription1>My First Sample</sampleDescription1>
 	</cryostat>
 </I20SampleParameters>

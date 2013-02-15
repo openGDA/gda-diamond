@@ -116,6 +116,7 @@ public class I20SampleParametersTest {
 		cps.setUseSample1(true);
 		cps.setPosition1(1.0);
 		cps.setFinePosition1(0.1);
+		cps.setSample1_name("Sample1");
 		cps.setSampleDescription1("My First Sample");
 		expectedValue.setCryostatParameters(cps);
 
