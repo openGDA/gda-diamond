@@ -35,10 +35,11 @@ gdaConfigDir = gdaConfigDir + "/"
 
 non_raster_map = Map(D7A, D7B, counterTimer01)
 raster_map = RasterMap(D7A, D7B, counterTimer01, trajectoryX, raster_counterTimer01, raster_xmap, realX, raster_xspress)
-raster_map_return_write = RasterMapReturnWrite(D7A, D7B, counterTimer01, trajectoryX, raster_counterTimer01, raster_xmap, realX, HTScaler, HTXmapMca)
+raster_map_return_write = RasterMapReturnWrite(D7A, D7B, counterTimer01, trajectoryX, raster_counterTimer01, raster_xmap, realX, HTScaler, HTXmapMca, continuousSampleX)
 
 # switch between raster_map and raster_map_return_write
 map = MapSelect(non_raster_map, raster_map)
+#map = MapSelect(non_raster_map, raster_map_return_write)
 
 if (LocalProperties.get("gda.mode") == 'live'):
     print "Create topup , detector and beam monitors to pause and resume scans"

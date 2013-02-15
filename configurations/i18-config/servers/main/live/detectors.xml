@@ -147,6 +147,7 @@
 		</property>
 		<property name="daServer" ref="daserver"></property>
 		<property name="local" value="true" />
+		<property name="capturepv" value="BL18I-EA-DET-04:HDF:Capture" />
 	</bean>
 
 	<bean id="raster_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
