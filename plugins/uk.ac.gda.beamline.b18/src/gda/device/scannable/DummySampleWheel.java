@@ -120,7 +120,7 @@ public class DummySampleWheel extends ScannableBase implements Scannable {
 			return pos;
 		}
 		
-		public void setPos(){
+		public void setPos(double pos){
 			this.pos = pos;
 		}
 	}

@@ -1,6 +1,13 @@
 # runs the servers locally
-source /dls_sw/dasc/tools_versions/set_tools.sh
-#module load java  # does not work!  18thJuly 2012
+. /usr/share/Modules/init/bash
+export IS_64_BIT=`uname -a | grep _64 | wc -l`
+if [ $IS_64_BIT==1 ]; then less 
+       module load java/6u37-64
+else
+       module load java/6u37-32
+fi
+
+
 umask 0002
 
 # stop old servers
