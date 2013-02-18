@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.arpes.ui;
+package uk.ac.gda.arpes.ui.views;
 
 import gda.device.Scannable;
 import gda.factory.Finder;
