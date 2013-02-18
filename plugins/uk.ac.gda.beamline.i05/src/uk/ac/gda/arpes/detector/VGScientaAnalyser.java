@@ -59,7 +59,7 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 		if (controller.getAcquisitionMode().equalsIgnoreCase("Fixed")) {
 			int pass = controller.getPassEnergy().intValue();
 			start = controller.getCentreEnergy() - (getCapabilities().getEnergyWidthForPass(pass) / 2);
-			step = getCapabilities().getEnergyStepForPass(pass);
+			step = getCapabilities().getEnergyStepForPass(pass) / 1000.0;
 			length = getAdBase().getSizeX();
 			startChannel = getAdBase().getMinX();
 		} else {
