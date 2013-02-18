@@ -11,7 +11,6 @@
             <name>ROI 1</name>
             <windowStart>840</windowStart>
             <windowEnd>1050</windowEnd>
-            <counts>1226</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
