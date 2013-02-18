@@ -89,7 +89,7 @@
 	
 	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL05I-EA-DET-01:CAM:AcquireTime_RBV" />
-		<property name="pvNameSetPoint" value="BL05I-EA-DET-01:CAM:AcquireTime" />
+		<property name="pvNameSetPoint" value="BL05I-EA-DET-01:CAM:STEP_TIME" />
 	</bean>
 	
 	<bean id="AnalyserCapabilities" class="uk.ac.gda.arpes.detector.AnalyserCapabilties" />
