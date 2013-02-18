@@ -109,7 +109,7 @@
       </category>
       <view
             category="gda.rcp.arpes"
-            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.ROIProfilePlotView"
             icon="icons/sample.gif"
             id="uk.ac.gda.client.arpes.cameraview"
             name="Detector Plot"
