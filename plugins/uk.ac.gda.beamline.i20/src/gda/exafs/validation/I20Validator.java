@@ -19,7 +19,6 @@
 package gda.exafs.validation;
 
 import gda.data.PathConstructor;
-import gda.device.Scannable;
 import gda.exafs.scan.ExafsValidator;
 
 import java.util.ArrayList;
@@ -32,9 +31,7 @@ import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
-import uk.ac.gda.beans.exafs.i20.CustomParameter;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
-import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
 import uk.ac.gda.beans.validation.InvalidBeanException;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
 import uk.ac.gda.client.experimentdefinition.IExperimentObject;
@@ -92,7 +89,7 @@ public class I20Validator extends ExafsValidator {
 		return errors;
 	}
 
-	public List<InvalidBeanMessage> validateI20SampleParameters(I20SampleParameters s) {
+	public List<InvalidBeanMessage> validateI20SampleParameters(@SuppressWarnings("unused") I20SampleParameters s) {
 
 		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
 		return errors;
