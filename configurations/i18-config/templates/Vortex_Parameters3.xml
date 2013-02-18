@@ -11,7 +11,6 @@
             <name>S_Ka</name>
             <windowStart>207</windowStart>
             <windowEnd>253</windowEnd>
-            <counts>54151</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -25,7 +24,6 @@
             <name>S_Ka</name>
             <windowStart>207</windowStart>
             <windowEnd>253</windowEnd>
-            <counts>55619</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -39,7 +37,6 @@
             <name>S_Ka</name>
             <windowStart>207</windowStart>
             <windowEnd>253</windowEnd>
-            <counts>47758</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -53,7 +50,6 @@
             <name>S_Ka</name>
             <windowStart>207</windowStart>
             <windowEnd>253</windowEnd>
-            <counts>52611</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

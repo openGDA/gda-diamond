@@ -11,7 +11,6 @@
             <name>Cu_Ka</name>
             <windowStart>766</windowStart>
             <windowEnd>834</windowEnd>
-            <counts>0</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -25,7 +24,6 @@
             <name>Cu_Ka</name>
             <windowStart>762</windowStart>
             <windowEnd>830</windowEnd>
-            <counts>0</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -39,7 +37,6 @@
             <name>Cu_Ka</name>
             <windowStart>771</windowStart>
             <windowEnd>830</windowEnd>
-            <counts>1</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -53,7 +50,6 @@
             <name>Cu_Ka</name>
             <windowStart>771</windowStart>
             <windowEnd>834</windowEnd>
-            <counts>0</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

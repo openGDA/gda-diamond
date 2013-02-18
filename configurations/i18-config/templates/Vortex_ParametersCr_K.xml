@@ -11,7 +11,6 @@
             <name>Cr_Ka</name>
             <windowStart>513</windowStart>
             <windowEnd>556</windowEnd>
-            <counts>652</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -25,7 +24,6 @@
             <name>Cr_Ka</name>
             <windowStart>520</windowStart>
             <windowEnd>562</windowEnd>
-            <counts>29</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -39,7 +37,6 @@
             <name>Cr_Ka</name>
             <windowStart>519</windowStart>
             <windowEnd>552</windowEnd>
-            <counts>26</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -53,7 +50,6 @@
             <name>Cr_Ka</name>
             <windowStart>506</windowStart>
             <windowEnd>553</windowEnd>
-            <counts>43</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

@@ -11,7 +11,6 @@
             <name>Mn_Ka</name>
             <windowStart>550</windowStart>
             <windowEnd>618</windowEnd>
-            <counts>2978</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -25,7 +24,6 @@
             <name>Mn_Ka</name>
             <windowStart>559</windowStart>
             <windowEnd>620</windowEnd>
-            <counts>17292</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -39,7 +37,6 @@
             <name>Mn_Ka</name>
             <windowStart>552</windowStart>
             <windowEnd>620</windowEnd>
-            <counts>21399</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -53,7 +50,6 @@
             <name>Mn_Ka</name>
             <windowStart>550</windowStart>
             <windowEnd>617</windowEnd>
-            <counts>20830</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
