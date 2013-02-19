@@ -146,6 +146,7 @@
 	<!-- *** NCD devices section *** -->
 	<!--***************************************-->
 
+<!--
 	<bean id="DAServerHW" class="gda.device.detector.DAServer">
 		<property name="host" value="i22-hotwaxs-scal" />
 		<property name="port" value="1972" />
@@ -172,43 +173,12 @@
 		<property name="caenPVbase" value="BL22I-EA-HV-01" />
 		<property name="flowPVName" value="BL22I-EA-GIR-01:HWAX:FLOW:RBV" />
 	</bean>
+-->
 <!--
-	<bean id="Hotwaxs" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector">
-		<property name="detectorType" value="WAXS" />
-		<property name="memory" ref="HotwaxsMemory" />
-		<property name="pixelSize" value="0.000818" />
-		<property name="interpretation" value="spectrum" />
-	</bean>
-	<bean id="DAServerHS" class="gda.device.detector.DAServer">
-		<property name="host" value="i22-hotsaxs-scal" />
-		<property name="port" value="1972" />
-		<property name="local" value="true" />
-		<property name="dataPort" value="20032" />
-		<property name="startupCommands">
-			<list>
-				<value>~config</value>
-			</list>
-		</property>
-	</bean>
-		<bean id="HotsaxsMemory" class="gda.device.memory.Gdscaler">
-		<property name="daServerName" value="DAServerHS" />
-		<property name="width" value="512" />
-		<property name="height" value="1" />
-		<property name="openCommand" value="gdscaler open 'saxs' 1" />
-		<property name="sizeCommand" value="gdscaler get-mem-size 'saxs'" />
-	</bean>
-		<bean id="Hotsaxs" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector">
-		<property name="detectorType" value="SAXS" />
-		<property name="memory" ref="HotsaxsMemory" />
-		<property name="pixelSize" value="0.000435" />
-		<property name="interpretation" value="spectrum" />
-	</bean>
-	-->
-    <!--
 	    <bean id="DAServer" class="gda.device.detector.DummyDAServer">
                 <property name="local" value="true" />
         </bean>
-   -->
+-->
 
 	<bean id="DAServer" class="gda.device.detector.DAServer">
 		<property name="host" value="i22-rapid-mem-gig" />
@@ -357,4 +327,11 @@
                 <property name="port" value="9555"/>
         </bean>
 		<import resource="i22_biosaxscam.xml"/>
+
+        <bean class="uk.ac.gda.devices.bssc.ispyb.BioSAXSDBFactory">
+                <property name="jdbcURL" value="jdbc:oracle:thin:@sci-serv2.diamond.ac.uk:1521:xe" />
+                <!-- // protected String testURL = "jdbc:oracle:thin:@sci-serv2.diamond.ac.uk:1521:xe"; -->
+                <!-- // protected String liveURL = "jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb"; -->
+        </bean>
+
 </beans>
