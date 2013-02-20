@@ -28,7 +28,6 @@ public class ARPESScanBean implements IRichBean {
 	static public final URL mappingURL = ARPESScanBean.class.getResource("ARPESMapping.xml");
 	static public final URL schemaURL  = ARPESScanBean.class.getResource("ARPESMapping.xsd");
 
-	String label;
 	String lensMode;
 	short passEnergy;
 	double photonEnergy;
@@ -49,14 +48,6 @@ public class ARPESScanBean implements IRichBean {
 	@Override
 	public void clear() {
 		// TODO
-	}
-
-	public String getLabel() {
-		return label;
-	}
-
-	public void setLabel(String label) {
-		this.label = label;
 	}
 
 	public String getLensMode() {

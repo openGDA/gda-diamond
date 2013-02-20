@@ -28,12 +28,15 @@ import java.util.TreeMap;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ExpandAdapter;
+import org.eclipse.swt.events.ExpandEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Label;
@@ -58,7 +61,6 @@ import uk.ac.gda.richbeans.event.ValueListener;
 public final class ARPESScanBeanComposite extends Composite implements ValueListener {
 	private static final Logger logger = LoggerFactory.getLogger(ARPESScanBeanComposite.class);
 	
-	private final FieldComposite label;
 	private final ComboWrapper lensMode;
 	private final ComboWrapper passEnergy;
 	private final NumberBox photonEnergy;
@@ -109,12 +111,6 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 				}
 			}
 		});
-		
-		label = new Label(this, SWT.NONE);
-		label.setText("label");
-		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		this.label = new TextWrapper(this, SWT.NONE);
-		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 		label = new Label(this, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -231,8 +227,8 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		iterations.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		iterations.addValueListener(this);
 		
-		ExpandBar bar = new ExpandBar(this, SWT.FILL);
-		bar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 10));
+		ExpandBar bar = new ExpandBar(this, SWT.V_SCROLL);
+		bar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2, 10));
 
 		Composite composite = new Composite (bar, SWT.NONE);
 		GridLayout layout = new GridLayout (2, false);
@@ -250,7 +246,7 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		ExpandItem item0 = new ExpandItem(bar, SWT.NONE, 0);
 		item0.setText("Source");
 		item0.setHeight(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
-		item0.setHeight(200);
+//		item0.setHeight(200);
 		item0.setControl(composite);
 		
 		composite = new Composite (bar, SWT.NONE);
@@ -265,15 +261,34 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		sampleTemperature.setUnit("K");
 		sampleTemperature.addValueListener(this);
 		
-		ExpandItem item1 = new ExpandItem (bar, SWT.NONE, 0);
+		ExpandItem item1 = new ExpandItem(bar, SWT.NONE, 0);
 		item1.setText("Sample");
 		item1.setHeight(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
-		item1.setHeight(100);
+//		item1.setHeight(100);
 		item1.setControl(composite);
-	}
-
-	public FieldComposite getLabel() {
-		return label;
+		
+        bar.addExpandListener(new ExpandAdapter() {
+        	 
+            @Override
+            public void itemCollapsed(ExpandEvent e) {
+                Display.getCurrent().asyncExec(new Runnable() {
+                    @Override
+					public void run() {
+                        layout();
+                    }
+                });
+            }
+ 
+            @Override
+            public void itemExpanded(ExpandEvent e) {
+                Display.getCurrent().asyncExec(new Runnable() {
+                    @Override
+					public void run() {
+                        layout();
+                    }
+                });
+            }
+        });
 	}
 
 	public FieldComposite getLensMode() {

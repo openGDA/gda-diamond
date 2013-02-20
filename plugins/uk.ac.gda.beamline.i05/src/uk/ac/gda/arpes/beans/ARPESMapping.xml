@@ -2,9 +2,6 @@
 <mapping>
 	<class name="uk.ac.gda.arpes.beans.ARPESScanBean">
 		<map-to xml="ARPESScanBean"/>
-		<field name="label" type="string">
-			<bind-xml name="label" node="element"/>
-		</field>
 		<field name="lensMode" type="string">
 			<bind-xml name="lensMode" node="element"/>
 		</field>
