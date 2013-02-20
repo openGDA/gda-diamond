@@ -122,6 +122,12 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 		}
 		
 	}
+	/**
+	 * Move sample stage so that rotation axis is moved by pixelsX
+	 * @param pixelsX
+	 * @throws DeviceException
+	 * @throws InterruptedException
+	 */
 	public void autoCentre(double pixelsX) throws DeviceException, InterruptedException{
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0]; 
 		
@@ -135,7 +141,7 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 		double x1 = ScannableUtils.getCurrentPositionArray(sampleStageXScannable)[0];
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
 		double offset = getOffset();
-		double dist = (offset-x1-x2)*cameraScaleProvider.getPixelsPerMMInX();
+		double dist = (offset+x1-x2)*cameraScaleProvider.getPixelsPerMMInX();
 		return (int) Math.round(dist);
 	}
 
@@ -149,11 +155,11 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 	/**
 	 * The value position of the rotation axis in the camera image is given by
 	 * 
-	 * ((offset - sampleStageXInMM)* pixelsPerMMinX) - cameraStageXInMM*pixelsPerMMinX = positionInCameraImage 
+	 * ((offset + sampleStageXInMM)* pixelsPerMMinX) - cameraStageXInMM*pixelsPerMMinX = positionInCameraImage 
 	 * 
-	 * (offset - sampleStageXInMM - cameraStageXInMM)*pixelsPerMMinX = positionInCameraImage 
+	 * (offset + sampleStageXInMM - cameraStageXInMM)*pixelsPerMMinX = positionInCameraImage 
 	 *
-	 * (offset - sampleStageXInMM - cameraStageXInMM)*pixelsPerMMinX = positionInCameraImage
+	 * (offset + sampleStageXInMM - cameraStageXInMM)*pixelsPerMMinX = positionInCameraImage
 	 * 
 	 *  where offset is the offset of the rotationAxis from the sampleStage 0 position + the offset of the 
 	 *  cameraStage 0 position from the sample stage.
@@ -162,7 +168,7 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 	double getOffsetForRotationAxisX(double  positionInCameraImage) throws DeviceException {
 		double x1 = ScannableUtils.getCurrentPositionArray(sampleStageXScannable)[0];
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
-		return positionInCameraImage/cameraScaleProvider.getPixelsPerMMInX() + x2 + x1;
+		return positionInCameraImage/cameraScaleProvider.getPixelsPerMMInX() + x2 - x1;
 	}
 	
 	

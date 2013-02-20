@@ -133,24 +133,24 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 
 	int getRotationAxisX() throws DeviceException {
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
-		double dist = getOffsetX()+x2;
+		double dist = getOffsetX()-x2;
 		double a = dist * cameraScaleProvider.getPixelsPerMMInX();
 		return (int) Math.round(a);
 	}
 	int getRotationAxisY() throws DeviceException {
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageYScannable)[0];
-		double dist = getOffsetY()+x2;
+		double dist = getOffsetY()-x2;
 		double a = dist * cameraScaleProvider.getPixelsPerMMInY();
 		return (int) Math.round(a);
 	}
 
 	double getOffsetXForRotationAxisX(double  array) throws DeviceException {
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
-		return (array/cameraScaleProvider.getPixelsPerMMInX() - x2);
+		return (array/cameraScaleProvider.getPixelsPerMMInX() + x2);
 	}
 	double getOffsetYForRotationAxisX(double  array) throws DeviceException {
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageYScannable)[0];
-		return (array/cameraScaleProvider.getPixelsPerMMInY() - x2);
+		return (array/cameraScaleProvider.getPixelsPerMMInY() + x2);
 	}
 	
 	public void autoCentre(double pixelsX, double pixelsY) throws DeviceException, InterruptedException{

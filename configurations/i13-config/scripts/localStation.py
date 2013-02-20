@@ -29,13 +29,18 @@ class ExperimentShutterEnumPositioner(ScannableBase):
 		return "Closed"
 
 def eh_shtr_control():
-	print "Entering the experiment shutter"
 	if eh_shtr()=="Open":
 		pos eh_shtr "Close"
 	else:
 		pos eh_shtr "Reset"
 		time.sleep(3)
 		pos eh_shtr "Open"
+
+def fs_control():
+	if fs()=="Open":
+		pos fs "Closed"
+	else:
+		pos fs "Open"
 		
 try:
 	from gda.device import Scannable

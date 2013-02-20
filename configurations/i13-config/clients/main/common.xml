@@ -37,7 +37,8 @@
 		<property name="viewID" value="uk.ac.gda.beamline.i13i.DetectorPlot" />
 	</bean>
 
-	<corba:import namespace="i13" names="lensScannable, rotationAxisXScannable, cameraXYScannable" />
+	<corba:import namespace="i13"
+		names="lensScannable, rotationAxisXScannable, cameraXYScannable" />
 
 	<bean id="displayScaleProvider" class="uk.ac.gda.beamline.i13i.SelectableDisplayScaleProvider">
 		<property name="keyScannable" ref="lensScannable" />
@@ -78,16 +79,17 @@
 		<property name="lensScannable" ref="lensScannable" />
 		<property name="mjpegViewCompositeFactory" ref="stages" />
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
-		<property name="cameraXYScannable" ref="cameraXYScannable"/>
+		<property name="cameraXYScannable" ref="cameraXYScannable" />
 		<property name="displayScaleProvider" ref="displayScaleProvider" />
 		<property name="cameraScaleProvider" ref="displayScaleProvider" />
 		<property name="sampleCentringXMotor" ref="ss1_x" />
 		<property name="sampleCentringYMotor" ref="ss1_sampley" />
-		<property name="cameraImageWidthMax" value="4008"/>
-		<property name="cameraImageHeightMax" value="2672"/>
-		<property name="ffmpegImageInOffsetX" value="100"/>
-		<property name="ffmpegImageInOffsetY" value="100"/>
-		<property name="showNormalisedImageCmd" value="tomographyScan.showNormalisedImage(%s)"/>
+		<property name="cameraImageWidthMax" value="4008" />
+		<property name="cameraImageHeightMax" value="2672" />
+		<property name="ffmpegImageInOffsetX" value="100" />
+		<property name="ffmpegImageInOffsetY" value="100" />
+		<property name="showNormalisedImageCmd"
+			value="tomographyScan.showNormalisedImage(%s,exposureTime=%s)" />
 	</bean>
 
 	<bean id="i13ADViewcreator" class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13ViewCreatorImpl">
@@ -112,6 +114,16 @@
 		<property name="properties" ref="dictionary" />
 	</bean>
 
+	<bean id="expt_sht_stat" class="gda.device.scannable.EpicsScannable">
+		<property name="hasUnits" value="False" />
+		<property name="getAsString" value="True" />
+		<property name="pvName" value="BL13I-PS-SHTR-02:STA"/>
+	</bean>
+	<bean id="fast_shtr_stat" class="gda.device.scannable.EpicsScannable">
+		<property name="hasUnits" value="False" />
+		<property name="getAsString" value="True" />
+		<property name="pvName" value="BL13I-EA-FSHTR-01:CONTROL"/>
+	</bean>
 
 
 	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
@@ -157,7 +169,7 @@
 						<list>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="eh_shtr" />
+								<property name="scannable" ref="expt_sht_stat"/>
 								<property name="label" value="State" />
 							</bean>
 							<bean class="uk.ac.gda.dls.client.views.QueueCommandCompositeFactory">
@@ -174,9 +186,16 @@
 					<property name="columns" value="1" />
 					<property name="compositeFactories">
 						<list>
-							<bean class="uk.ac.gda.dls.client.views.EnumPositionerCompositeFactory">
-								<property name="positioner" ref="fs" />
-								<property name="label" value="" />
+							<bean
+								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="fast_shtr_stat"/>
+								<property name="label" value="State" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.QueueCommandCompositeFactory">
+								<property name="command" value="fs_control()" />
+								<property name="label" value="Open/Close" />
+								<property name="description"
+									value="Opens or closes the experiment fast shutter" />
 							</bean>
 						</list>
 					</property>
@@ -273,6 +292,28 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
+	<bean id="s4_xplus" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}s4_xplus" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="s4_yplus" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}s4_yplus" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="s4_xminus" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}s4_xminus" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="s4_yminus" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}s4_yminus" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+
 	<bean id="sampleCentring" class="gda.rcp.views.StageCompositeFactory">
 		<property name="stageCompositeDefinitions">
 			<util:list value-type="gda.rcp.views.StageCompositeDefinition">
@@ -315,19 +356,19 @@
 								<util:list value-type="gda.rcp.views.StageCompositeDefinition">
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="ss1_samplex" />
-										<property name="stepSize" value=".01" />
+										<property name="stepSize" value=".1" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="ss1_sampley" />
-										<property name="stepSize" value=".01" />
+										<property name="stepSize" value=".1" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="ss1_samplez" />
-										<property name="stepSize" value=".01" />
+										<property name="stepSize" value=".1" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="ss1_rot" />
-										<property name="smallStep" value="5" />
+										<property name="smallStep" value="30" />
 										<property name="bigStep" value="90" />
 										<property name="useSteps" value="true" />
 									</bean>
@@ -346,12 +387,15 @@
 								<util:list value-type="gda.rcp.views.StageCompositeDefinition">
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="ss1_X" />
+										<property name="stepSize" value=".1" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="ss1_Y" />
+										<property name="stepSize" value=".1" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="ss1_Z" />
+										<property name="stepSize" value=".1" />
 									</bean>
 								</util:list>
 							</property>
@@ -368,12 +412,15 @@
 								<util:list value-type="gda.rcp.views.StageCompositeDefinition">
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="cs1_x" />
+										<property name="stepSize" value=".1" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="cs1_y" />
+										<property name="stepSize" value=".1" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="cs1_z" />
+										<property name="stepSize" value=".1" />
 									</bean>
 								</util:list>
 							</property>
@@ -382,6 +429,35 @@
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
 					<property name="imageFilePath" value="icons/camerastage.gif" />
 					<property name="label" value="Camera" />
+				</bean>
+				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
+					<property name="compositeFactory">
+						<bean class="gda.rcp.views.StageCompositeFactory">
+							<property name="stageCompositeDefinitions">
+								<util:list value-type="gda.rcp.views.StageCompositeDefinition">
+									<bean class="gda.rcp.views.StageCompositeDefinition">
+										<property name="scannable" ref="s4_xplus" />
+										<property name="stepSize" value=".1" />
+									</bean>
+									<bean class="gda.rcp.views.StageCompositeDefinition">
+										<property name="scannable" ref="s4_xminus" />
+										<property name="stepSize" value=".1" />
+									</bean>
+									<bean class="gda.rcp.views.StageCompositeDefinition">
+										<property name="scannable" ref="s4_yplus" />
+										<property name="stepSize" value=".1" />
+									</bean>
+									<bean class="gda.rcp.views.StageCompositeDefinition">
+										<property name="scannable" ref="s4_yminus" />
+										<property name="stepSize" value=".1" />
+									</bean>
+								</util:list>
+							</property>
+						</bean>
+					</property>
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
+					<property name="imageFilePath" value="icons/camerastage.gif" />
+					<property name="label" value="Slit4" />
 				</bean>
 			</util:list>
 		</property>
