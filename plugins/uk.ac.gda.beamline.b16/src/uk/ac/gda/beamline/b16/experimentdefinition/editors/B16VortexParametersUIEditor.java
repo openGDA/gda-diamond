@@ -196,8 +196,6 @@ public class B16VortexParametersUIEditor extends VortexParametersUIEditor {
 			sashPlotForm.appendStatus("Collected data from detector successfully.", logger);
 		}
 
-		final double deadTimeFinal = deadTime;
-		
 		// Note: currently has to be in this order.
 		getSite().getShell().getDisplay().asyncExec(new Runnable() {
 			@Override
@@ -205,7 +203,6 @@ public class B16VortexParametersUIEditor extends VortexParametersUIEditor {
 				getDetectorElementComposite().setEndMaximum(detectorData[0][0].length-1);
 				plot(getDetectorList().getSelectedIndex());
 				setEnabled(true);
-				getDeadTime().setValue(deadTimeFinal);
 			}
 		});
 
