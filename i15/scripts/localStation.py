@@ -603,7 +603,7 @@ try:
 				s4xpos, s4xgap, s4ypos, s4ygap, s4yaw, s4pitch,
 				fsx, fsy,
 				pinx, piny, pinz, pinpitch, pinyaw,
-				thermo1, pt100_1,
+				thermo1, thermo2, thermo3, pt100_1,
 				dx, dy, dz, dkphi, dkappa, dktheta,
 				djack1, djack2, djack3, dtransx, drotation, detz, ddelta,
 				shdx, shdy, shdz,
