@@ -194,8 +194,8 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		this.stepEnergy = new ScaleBox(this, SWT.NONE);
 		stepEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		stepEnergy.setUnit("meV");
-		stepEnergy.setDecimalPlaces(4);
-		stepEnergy.setMaximum(10);
+		stepEnergy.setDecimalPlaces(3);
+		stepEnergy.setMaximum(10000);
 		stepEnergy.setMinimum(0.0001);
 		stepEnergy.addValueListener(this);
 		
@@ -245,7 +245,6 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		ExpandItem item0 = new ExpandItem(bar, SWT.NONE, 0);
 		item0.setText("Source");
 		item0.setHeight(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
-//		item0.setHeight(200);
 		item0.setControl(composite);
 		
 		composite = new Composite (bar, SWT.NONE);
@@ -263,7 +262,6 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		ExpandItem item1 = new ExpandItem(bar, SWT.NONE, 0);
 		item1.setText("Sample");
 		item1.setHeight(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
-//		item1.setHeight(100);
 		item1.setControl(composite);
 		
         bar.addExpandListener(new ExpandAdapter() {
