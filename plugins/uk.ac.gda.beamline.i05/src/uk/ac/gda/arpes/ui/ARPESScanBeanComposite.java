@@ -53,7 +53,6 @@ import uk.ac.gda.richbeans.components.scalebox.NumberBox;
 import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
 import uk.ac.gda.richbeans.components.wrappers.ComboWrapper;
 import uk.ac.gda.richbeans.components.wrappers.RadioWrapper;
-import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
 import uk.ac.gda.richbeans.editors.RichBeanEditorPart;
 import uk.ac.gda.richbeans.event.ValueEvent;
 import uk.ac.gda.richbeans.event.ValueListener;
@@ -194,7 +193,7 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		label.setText("stepEnergy");
 		this.stepEnergy = new ScaleBox(this, SWT.NONE);
 		stepEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		stepEnergy.setUnit("eV");
+		stepEnergy.setUnit("meV");
 		stepEnergy.setDecimalPlaces(4);
 		stepEnergy.setMaximum(10);
 		stepEnergy.setMinimum(0.0001);
@@ -352,12 +351,14 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 				stepEnergy.setMinimum(capabilities.getEnergyStepForPass(((Number) passEnergy.getValue()).intValue()));
 				if (!isSwept()) {
 					stepEnergy.setValue(capabilities.getEnergyStepForPass(((Number) passEnergy.getValue()).intValue()));
+					stepEnergy.setEditable(false);
 					energyWidth.setValue(capabilities.getEnergyWidthForPass(((Number) passEnergy.getValue()).intValue()));
 					energyWidth.setActive(false);
 					startEnergy.setValue(((Number) centreEnergy.getValue()).doubleValue() - ((Number) energyWidth.getValue()).doubleValue()/2.0);
 					endEnergy.setValue(((Number) centreEnergy.getValue()).doubleValue() + ((Number) energyWidth.getValue()).doubleValue()/2.0);
 
 				} else {
+					stepEnergy.setEditable(true);
 					energyWidth.setActive(true);
 				}
 			}
@@ -425,8 +426,10 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 			stepEnergy.setMinimum(capabilities.getEnergyStepForPass(((Number) passEnergy.getValue()).intValue()));
 			if (!isSwept()) {
 				stepEnergy.setValue(capabilities.getEnergyStepForPass(((Number) passEnergy.getValue()).intValue()));
+				stepEnergy.setEditable(false);
 				energyWidth.setActive(false);
 			} else {
+				stepEnergy.setEditable(true);
 				energyWidth.setActive(true);
 			}
 			centreEnergy.setValue((((Number) endEnergy.getValue()).doubleValue() + ((Number) startEnergy.getValue()).doubleValue())/2.0);
