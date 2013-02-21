@@ -59,7 +59,7 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 		if (controller.getAcquisitionMode().equalsIgnoreCase("Fixed")) {
 			int pass = controller.getPassEnergy().intValue();
 			start = controller.getCentreEnergy() - (getCapabilities().getEnergyWidthForPass(pass) / 2);
-			step = getCapabilities().getEnergyStepForPass(pass);
+			step = getCapabilities().getEnergyStepForPass(pass) / 1000.0;
 			length = getAdBase().getSizeX();
 			startChannel = getAdBase().getMinX();
 		} else {
@@ -107,8 +107,15 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 		}
 	}
 	
+	public void setFixedMode(boolean fixed) throws Exception {
+		if (fixed) 
+			controller.setAcquisitionMode("Fixed");
+		else 
+			controller.setAcquisitionMode("Swept");
+	}
+	
 	public void prepareFixedMode() throws Exception {
-		controller.setAcquisitionMode("Fixed");
+		setFixedMode(true);
 		getAdBase().setMinX(fixedModeRegion[0]);
 		getAdBase().setMinY(fixedModeRegion[1]);
 		getAdBase().setSizeX(fixedModeRegion[2]);

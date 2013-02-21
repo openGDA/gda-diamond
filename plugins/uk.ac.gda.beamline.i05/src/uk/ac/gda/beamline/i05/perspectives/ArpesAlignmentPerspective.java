@@ -35,10 +35,13 @@ public class ArpesAlignmentPerspective implements IPerspectiveFactory {
 		String path = LocalProperties.get("gda.dal.screens") + "synoptic.css-sds";
 		Path sdsDisplay = new Path(path);
 		RunModeService.getInstance().openDisplayViewInRunMode(sdsDisplay);
-		
-		layout.addView("uk.ac.gda.client.arpes.cameraview", IPageLayout.RIGHT, 0.47f, IPageLayout.ID_EDITOR_AREA);
-		layout.addView("uk.ac.gda.arpes.ui.continuousmodecontroller", IPageLayout.TOP, 0.37f, "uk.ac.gda.client.arpes.cameraview");
-		layout.addView("uk.ac.gda.rcp.views.dashboardView", IPageLayout.TOP, 0.45f, "uk.ac.gda.arpes.ui.continuousmodecontroller");
+		{
+			IFolderLayout folderLayout = layout.createFolder("folder_3", IPageLayout.RIGHT, 0.47f, IPageLayout.ID_EDITOR_AREA);
+			folderLayout.addView("uk.ac.gda.client.arpes.cameraview");
+			folderLayout.addView("uk.ac.gda.client.arpes.sweptview");
+		}
+		layout.addView("uk.ac.gda.arpes.ui.continuousmodecontroller", IPageLayout.TOP, 0.5f, "uk.ac.gda.client.arpes.cameraview");
+		layout.addView("uk.ac.gda.rcp.views.dashboardView", IPageLayout.TOP, 0.39f, "uk.ac.gda.arpes.ui.continuousmodecontroller");
 
 		{
 			IFolderLayout folderLayout = layout.createFolder("folder_2", IPageLayout.BOTTOM, 0.5f, IPageLayout.ID_EDITOR_AREA);
@@ -49,7 +52,10 @@ public class ArpesAlignmentPerspective implements IPerspectiveFactory {
 			IFolderLayout folderLayout = layout.createFolder("folder", IPageLayout.TOP, 0.26f, "folder_2");
 			folderLayout.addView("uk.ac.gda.client.CommandQueueViewFactory");
 		}
-		layout.addView("org.csstudio.sds.ui.internal.runmode.DisplayViewPart", IPageLayout.TOP, 0.58f, "folder_2");
+		{
+			IFolderLayout folderLayout = layout.createFolder("folder_1", IPageLayout.TOP, 0.58f, "folder_2");
+			folderLayout.addView("org.csstudio.sds.ui.internal.runmode.DisplayViewPart");
+		}
 
 	}
 }

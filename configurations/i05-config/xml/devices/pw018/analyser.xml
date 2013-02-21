@@ -107,7 +107,7 @@
 	
 	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL05I-EA-DET-01:CAM:AcquireTime_RBV" />
-		<property name="pvNameSetPoint" value="BL05I-EA-DET-01:CAM:AcquireTime" />
+		<property name="pvNameSetPoint" value="BL05I-EA-DET-01:CAM:STEP_TIME" />
 	</bean>
 	
 	<bean id="AnalyserCapabilities" class="uk.ac.gda.arpes.detector.AnalyserCapabilties" />
@@ -116,5 +116,10 @@
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Detector Plot" />
 		<property name="arrayPV" value="BL05I-EA-DET-01:ARR1:ArrayData" />
+	</bean>
+	<bean id="AnalyserSweptLive" class="uk.ac.gda.arpes.detector.AnalyserSweptLiveDataDispatcher">
+		<property name="analyser" ref="analyser" />
+		<property name="plotName" value="Swept Plot" />
+		<property name="arrayPV" value="BL05I-EA-DET-01:CAM:IMAGE" />
 	</bean>
 </beans>
