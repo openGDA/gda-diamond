@@ -27,8 +27,11 @@ public class ArpesExperimentPerspective implements IPerspectiveFactory {
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
 		layout.setEditorAreaVisible(true);
-		
-		layout.addView("uk.ac.gda.client.arpes.cameraview", IPageLayout.RIGHT, 0.55f, IPageLayout.ID_EDITOR_AREA);
+		{
+			IFolderLayout folderLayout = layout.createFolder("folder", IPageLayout.RIGHT, 0.55f, IPageLayout.ID_EDITOR_AREA);
+			folderLayout.addView("uk.ac.gda.client.arpes.cameraview");
+			folderLayout.addView("uk.ac.gda.client.arpes.sweptview");
+		}
 		layout.addView("uk.ac.gda.client.CommandQueueViewFactory", IPageLayout.TOP, 0.41f, "uk.ac.gda.client.arpes.cameraview");
 		layout.addView("uk.ac.gda.rcp.views.dashboardView", IPageLayout.TOP, 0.51f, "uk.ac.gda.client.CommandQueueViewFactory");
 		{
