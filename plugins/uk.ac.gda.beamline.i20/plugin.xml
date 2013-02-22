@@ -60,7 +60,7 @@
          </contentTypeBinding>
       </editor>
       <editor
-            class="gda.exafs.ui.XesScanParametersEditor"
+            class="uk.ac.gda.exafs.ui.XesScanParametersEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             icon="icons/XesParametersIcon.png"
