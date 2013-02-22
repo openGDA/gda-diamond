@@ -8,6 +8,7 @@ jythonCache/
 /var/*.xml
 /var/*.tmp
 /var/*.scanbase_numtracker
-
+/var/*.py
+/var/.tempScript2
 *$py.class
 .cmdHistory.txt
