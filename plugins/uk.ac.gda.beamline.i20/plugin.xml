@@ -540,6 +540,9 @@
       <editormanager
         class="gda.exafs.ui.I20ExperimentEditorManager">
       </editormanager>
+      <templatesLocation
+            folderName="${gda.var}/templates">
+      </templatesLocation>
    </extension>
   <extension
          point="uk.ac.gda.richbeans.beantypes">
