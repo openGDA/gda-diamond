@@ -67,7 +67,7 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	s4xpos, s4xgap, s4ypos, s4ygap, s4yaw, s4pitch,\
 	fsx, fsy,\
 	pinx, piny, pinz, pinpitch, pinyaw,\
-	dx, dy, dz, dkphi, dkappa, dktheta,\
+	dx, dy, dz, dmu, dkphi, dkappa, dktheta,\
 	djack1, djack2, djack3, dtransx, drotation, detz, ddelta,\
 	shdx, shdy, shdz,\
 	bsx, bsy,\
@@ -197,6 +197,21 @@ try:
 		ringCurrent = DisplayEpicsPVClass("ringCurrent", "SR-DI-DCCT-01:SIGNAL", "mA", "%f")
 		wigglerField = DisplayEpicsPVClass("wigglerField", "SR15I-ID-SCMPW-01:B_REAL", "Tesla", "%f")
 		detz = DisplayEpicsPVClass("detz", "BL15I-MO-DIFF-01:ARM:DETECTOR:Z.VAL", "mm", "%f")
+		
+		patch12x6 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x6", beamline, "-EA-PATCH-12:X6")
+		
+		thermo1 = DisplayEpicsPVClass("thermo1", "BL15I-EA-PATCH-50:TEMP1", "deg C", "%f")
+		thermo2 = DisplayEpicsPVClass("thermo2", "BL15I-EA-PATCH-50:TEMP2", "deg C", "%f")
+		thermo3 = DisplayEpicsPVClass("thermo3", "BL15I-EA-PATCH-50:TEMP3", "deg C", "%f")
+		pt100_1 = DisplayEpicsPVClass("pt100_1", "BL15I-EA-PATCH-51:TEMP1", "deg C", "%f")
+		pt100_2 = DisplayEpicsPVClass("pt100_2", "BL15I-EA-PATCH-51:TEMP2", "deg C", "%f")
+		pt100_3 = DisplayEpicsPVClass("pt100_3", "BL15I-EA-PATCH-51:TEMP3", "deg C", "%f")
+
+		patch12x13 = DisplayEpicsPVClass("patch12x13", "BL15I-EA-PATCH-12:X13", "", "%f")
+		patch12x14 = DisplayEpicsPVClass("patch12x14", "BL15I-EA-PATCH-12:X14", "", "%f")
+		
+		add_default(thermo1)
+		add_default(pt100_1)
 	except:
 		localStation_exception(sys.exc_info(), "creating devices")
 
@@ -373,6 +388,8 @@ try:
 		alias("d2out")
 		alias("d3out")
 		alias("d4out")
+		alias("d4cryoIn")
+		alias("d4cryoOut")
 		alias("align")
 		alias("ready")
 		alias("homeToMinus")
@@ -487,54 +504,70 @@ try:
 	else:
 		print "* Not installing atto devices *"
 
-	try:
-		from gdascripts.scan.process.ScannableScan import ScannableScan
-		from gdascripts.scan.gdascans import Rscan
-		from gdascripts.scan.gdascans import Scan
-		from future.TwoGaussianEdges import TwoGaussianEdges
-
-		wirescanner = ScannableScan('wirescanner', TwoGaussianEdges(), Rscan, sx, -2, 3, 0.1, w, 0.5, d7)
-		wirescanner.__doc__ = """
-	This is an example wirescanner, created with the command
+	if False:
+		print "Installing example wirescanner..."
+		try:
+			from gdascripts.scan.process.ScannableScan import ScannableScan
+			from gdascripts.scan.gdascans import Rscan
+			from gdascripts.scan.gdascans import Scan
+			from future.TwoGaussianEdges import TwoGaussianEdges
 	
-		wirescanner = ScannableScan('wirescanner', TwoGaussianEdges(), Rscan, sx, -2, 3, 0.1, w, 0.5, d7)
-			
-	This performs a wirescan of sx from its starting position -2 to +3 in steps
-	of 0.1, at each point waiting for 0.5s and taking the value of d7.
-
-		>>>pos wirescanner
-		Writing data to file:/dls/i15/data/2012/cm5709-3/45678.dat
-		     sx	Time	      d7	    d1sum
-		-7.1970	0.00	0.041284	16.850816
-		...
-		-3.1970	0.00	0.040710	16.850816
-		Scan complete.
-		wirescanner : scan: 45010 upos: -5.897000 ufwhm: 0.250358 dpos: -3.197000 dfwhm: 0.107779 area: 0.008844 fwhm: 0.179069
-
-	To scan between absolute positions, use "Scan" instead of "Rscan", e.g.
-	
-		wirescansx = ScannableScan('wirescansx', TwoGaussianEdges(), Scan, sx, -5.235, -5.236, 0.0005, w, 0.2, d7)
-
-	This performs a wirescan of sx from -5.235 to -5.236 in steps of half a
-	micron, at each point waiting for 0.2s and taking the value of d7.
-	
-	It is probably best to create new wirescanners each time, but if you you
-	want to re-use an existing name, you will need to del the old one.
-	
-	For example, if you want to change the position on wirescansx:
-	
-		>>>wirescansx = ScannableScan('wirescansx', TwoGaussianEdges(), Scan, sx, -5.255, -5.256, 0.0005, w, 0.2, d7)
-		Traceback (most recent call last):
-		  File "<input>", line 1, in <module>
-		Exception: Trying to overwrite a Scannable: wirescansx
-		>>>del wirescansx
-		>>>wirescansx = ScannableScan('wirescansx', TwoGaussianEdges(), Scan, sx, -5.255, -5.256, 0.0005, w, 0.2, d7)
+			wirescanner = ScannableScan('wirescanner', TwoGaussianEdges(), Rscan, sx, -2, 3, 0.1, w, 0.5, d7)
+			wirescanner.__doc__ = """
+		This is an example wirescanner, created with the command
 		
-	Note: If you delete and recreate this wirescanner, you will lose this help. 
-"""
-		simpleLog("For help on wirescanner run `help wirescanner`")
-	except:
-		localStation_exception(sys.exc_info(), "creating example wirescan")
+			wirescanner = ScannableScan('wirescanner', TwoGaussianEdges(), Rscan, sx, -2, 3, 0.1, w, 0.5, d7)
+				
+		This performs a wirescan of sx from its starting position -2 to +3 in steps
+		of 0.1, at each point waiting for 0.5s and taking the value of d7.
+	
+			>>>pos wirescanner
+			Writing data to file:/dls/i15/data/2012/cm5709-3/45678.dat
+			     sx	Time	      d7	    d1sum
+			-7.1970	0.00	0.041284	16.850816
+			...
+			-3.1970	0.00	0.040710	16.850816
+			Scan complete.
+			wirescanner : scan: 45010 upos: -5.897000 ufwhm: 0.250358 dpos: -3.197000 dfwhm: 0.107779 area: 0.008844 fwhm: 0.179069
+	
+		To scan between absolute positions, use "Scan" instead of "Rscan", e.g.
+		
+			wirescansx = ScannableScan('wirescansx', TwoGaussianEdges(), Scan, sx, -5.235, -5.236, 0.0005, w, 0.2, d7)
+	
+		This performs a wirescan of sx from -5.235 to -5.236 in steps of half a
+		micron, at each point waiting for 0.2s and taking the value of d7.
+		
+		It is probably best to create new wirescanners each time, but if you you
+		want to re-use an existing name, you will need to del the old one.
+		
+		For example, if you want to change the position on wirescansx:
+		
+			>>>wirescansx = ScannableScan('wirescansx', TwoGaussianEdges(), Scan, sx, -5.255, -5.256, 0.0005, w, 0.2, d7)
+			Traceback (most recent call last):
+			  File "<input>", line 1, in <module>
+			Exception: Trying to overwrite a Scannable: wirescansx
+			>>>del wirescansx
+			>>>wirescansx = ScannableScan('wirescansx', TwoGaussianEdges(), Scan, sx, -5.255, -5.256, 0.0005, w, 0.2, d7)
+			
+		Note: If you delete and recreate this wirescanner, you will lose this help. 
+	"""
+			simpleLog("For help on wirescanner run `help wirescanner`")
+		except:
+			localStation_exception(sys.exc_info(), "creating example wirescan")
+	else:
+		print "* Not installing example wirescanner *"
+
+	if True:
+		from scannables.PerpendicularSampleMotion import PerpendicularSampleMotion, ParallelSampleMotion
+	
+		try:
+			simpleLog("Creating dperp & dpara")
+			dperp=PerpendicularSampleMotion("dperp", dx, dy, dmu, dkphi, True, 0, 58)
+			dpara=ParallelSampleMotion     ("dpara", dx, dy, dmu, dkphi, True, 0, 58)
+		except:
+			localStation_exception(sys.exc_info(), "creating dperp & dpara")
+	else:
+		simpleLog("* Not creating dperp & dpara *")
 
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	beamlineParameters = beamline_parameters.Parameters()
@@ -570,6 +603,7 @@ try:
 				s4xpos, s4xgap, s4ypos, s4ygap, s4yaw, s4pitch,
 				fsx, fsy,
 				pinx, piny, pinz, pinpitch, pinyaw,
+				thermo1, thermo2, thermo3, pt100_1,
 				dx, dy, dz, dkphi, dkappa, dktheta,
 				djack1, djack2, djack3, dtransx, drotation, detz, ddelta,
 				shdx, shdy, shdz,
@@ -607,5 +641,15 @@ try:
 
 except:
 	localStation_exception(sys.exc_info(), "in localStation")
+
+print "*"*80
+print "Attempting to run localStationUser.py from users script directory"
+try:
+	run("localStationUser")
+	print "localStationUser.py completed."
+except java.io.FileNotFoundException, e:
+	print "No localStationUser.py found in user scripts directory"
+except:
+	localStation_exception(sys.exc_info(), "running localStationUser user script")
 
 simpleLog("===================== GDA ONLINE =====================")

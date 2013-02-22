@@ -4,7 +4,7 @@ import os
 import sys
 from time import sleep
 from time import time
-from threading import Thread
+from threading import Thread, Timer
 from gdascripts.messages.handle_messages import simpleLog
 from gda.jython.commands.GeneralCommands import pause
 from operationalControl import moveMotor
@@ -632,7 +632,7 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 
 
 class MarAxisWrapper(DetectorAxisWrapper):
-	def __init__(self, detector, isccd, exposureTime=1, axis=None, step=None, sync=False, fileName="mar_scan", noOfExpPerPos=1, rock=False, pause=False):
+	def __init__(self, detector, isccd, exposureTime=1, axis=None, step=None, sync=False, fileName="mar_scan", noOfExpPerPos=1, rock=False, pause=False, fixedVelocity=False):
 		DetectorAxisWrapper.__init__(self, pause, -11, exposureTime, step)
 		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 		self.isccd = isccd
@@ -650,6 +650,7 @@ class MarAxisWrapper(DetectorAxisWrapper):
 		self.inc = 1;
 		self.setName("mar wrapper")
 		self.rock=rock
+		self.fixedVelocity = fixedVelocity
 		
 		self.exposureNo = 1
 
@@ -679,6 +680,13 @@ class MarAxisWrapper(DetectorAxisWrapper):
 		closeMarShield()
 		
 		DetectorAxisWrapper.atScanEnd(self)
+
+	def _closeS_and_Log_timer_factory(self):
+		return Timer(self.exposureTime, self._closeS_and_Log)
+
+	def _closeS_and_Log(self):
+		self.isccd.closeS()
+		simpleLog("Shutter closed")
 
 	def rawAsynchronousMoveTo(self, position):
 		if type(position) == list:
@@ -737,6 +745,26 @@ class MarAxisWrapper(DetectorAxisWrapper):
 					deactivatePositionCompare()
 					sleep(10)
 				
+				elif self.fixedVelocity:
+					simpleLog("(fast shutter not synchronised with fixed velocity motor)")
+					setMaxVelocity(self.axis)
+					moveMotor(self.axis, position)
+					
+					close_timer = self._closeS_and_Log_timer_factory()
+					
+					self.isccd.openS()
+					close_timer.start()
+					
+					moveMotor(self.axis, position + self.step)
+					if not close_timer.isAlive():
+						simpleLog("Warning: Shutter closed before the end of the first rock!")
+					
+					while close_timer.isAlive():
+						simpleLog("Completed one fast rock, starting another...")
+						moveMotor(self.axis, position)
+						moveMotor(self.axis, position + self.step)
+					
+					simpleLog("Completed last fixed velocity rock.")
 				else:
 					if self.axis:
 						simpleLog("(fast shutter not synchronised with motor)")
@@ -881,7 +909,7 @@ class MarAxisWrapper(DetectorAxisWrapper):
 
 def _getWrappedDetector(axis, start, stop, step, detector, exposureTime,
 		noOfExpPerPos, fileName, sync, diff=0., pause=False, rock=False,
-		overflow=False, multiFactor=1, exposeDark=False):
+		overflow=False, multiFactor=1, exposeDark=False, fixedVelocity=False):
 	
 	from gdascripts.scannable.detector.ProcessingDetectorWrapper import \
 									   ProcessingDetectorWrapper
@@ -925,7 +953,7 @@ def _getWrappedDetector(axis, start, stop, step, detector, exposureTime,
 		# Not used: start, stop, diff=0., overflow=False, multiFactor=1
 		wrappedDetector = MarAxisWrapper(detector, isccd, exposureTime,
 			axis, step, sync=sync, fileName=fileName,
-			noOfExpPerPos=noOfExpPerPos, rock=rock, pause=pause)
+			noOfExpPerPos=noOfExpPerPos, rock=rock, pause=pause, fixedVelocity=fixedVelocity)
 	
 	elif isinstance(detector, PerkinElmer):
 		# Not used: start, stop, diff=0., overflow=False, multiFactor=1

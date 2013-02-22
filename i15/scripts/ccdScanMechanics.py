@@ -16,7 +16,7 @@ def configure(jythonNameMap, beamlineParameters):
 	
 def checkConfigured():
 	if not configured:
-		raise "ccdMechanics not configured"
+		raise Exception, "ccdMechanics not configured"
 		
 ######################################################################################
 def scanGeometry(axis, velocity, A, B):
@@ -53,14 +53,14 @@ def scanGeometryCheck(axis, velocity, A, B):
 			correctedB = B - (velocity*stretchedPulseLengthMs/1000)
 		suffix = "(corrected from A, B = %f %f)" % (A, B)
 		if correctedA > correctedB:
-			raise "Error: Move is either too short or too slow, so the " + \
+			raise Exception, "Error: Move is either too short or too slow, so the " + \
 				"start position (%f) is after the end position (%f)" % (
 				correctedA, correctedB) + "with de-bounce correction! " + \
 				"Moves must take more than %f ms with velocities below %f." % (
 				stretchedPulseLengthMs, velocityMinimumWithoutDebounce_DegPerSec)
 	
 	else:
-		raise "Error: velocity (%f) is below minimum supported velocity (%f)" \
+		raise Exception, "Error: velocity (%f) is below minimum supported velocity (%f)" \
 			% (velocity, velocityMinimumWithDebounce_DegPerSec)
 	
 	return debounce, correctedA, correctedB, suffix
@@ -129,7 +129,7 @@ def getGeometry(axis, velocity, A, B):
 		
 	
 	else:
-		raise "Error: axis (%s) not valid in scan" % axis.name
+		raise Exception, "Error: axis (%s) is not supported by geometry" % axis.name
 	
 	# Return formatted geometry string 
 	geometry = '%.3f %.3f %.4f %.3f %.3f %.4f %.3f %.3f %.4f %.3f %.3f %.4f %.3f %.3f %.4f ' % (phiStart, phiStop, phiVel, 
@@ -168,7 +168,7 @@ def activatePositionCompare(start, stop, axis):
 	elif (axis.name =='dkappa'):
 		pvRoot = '-MO-XPS-02:PCO5'
 	else:
-		raise "Error: axis (%s) not valid in scan" % axis.name
+		raise Exception, "Error: axis (%s) is not supported by position compare" % axis.name
 
 	beamline.setValue("Top", pvRoot + ":ENABLE", 0)					   #Deactivate position compare
 	beamline.setValue("Top", pvRoot + ":START", start - PCOOffset)	   	#Set Start of position compare
@@ -217,8 +217,11 @@ def getVelocityPvRoot(axis):
 		return "-MO-DIFF-01:SAMPLE:MU"
 	elif (axis.name == 'cryorot'):
 		return "-MO-VCOLD-01:THETA"
+	elif (axis.name == 'syaw'):
+		simpleLog("WARNING: the syaw motor ignores the velocity setting and always moves at full speed!")
+		return "-MO-SFAB-01:YAW"
 	
-	raise "Error: axis (%s) not valid in scan" % axis.name
+	raise Exception, "Error: axis (%s) is not supported by velocity change script" % axis.name
 ######################################################################################
 def deactivatePositionCompare():
 	"""

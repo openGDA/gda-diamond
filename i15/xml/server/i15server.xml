@@ -98,16 +98,7 @@
 		</property>
 	</bean>
 
-	<bean id="jythonServerFacade" class="gda.jython.JythonServerFacade">
-		<constructor-arg ref="command_server" />
-	</bean>
-
 	<bean id="command_server" class="gda.jython.JythonServer">
-		<!-- 
-		<property name="userScriptDirectory" value="${gda.data}/scripts" />
-		<property name="gdaScriptDirectory" value="${gda.config}/scripts" />
-		<property name="gdaScriptLibraryDirectory" value="${gda.root}/uk.ac.gda.core/scripts" />
-		 -->
 		<property name="jythonScriptPaths">
 			<bean class="gda.jython.ScriptPaths">
 				<property name="projects"><list>
@@ -122,7 +113,7 @@
 						<property name="type" value="CONFIG" />
 					</bean>
 					<bean class="gda.jython.ScriptProject">
-						<property name="path" value="${gda.root}/uk.ac.gda.core/scripts" /> 
+						<property name="path" value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.core/scripts" /> 
 						<property name="name" value="Scripts: Core" /> 
 						<property name="type" value="CORE" /> 
 					</bean>
@@ -133,6 +124,41 @@
 		<property name="gdaVarDirectory" value="${gda.var}" />
 		<property name="cacheDirectory" value="${gda.var}/jythonCache" />
 		<property name="remotePort" value="9999" />
+	</bean>
+
+	<!-- This gda.data.ObservablePathConstructor should only be in live -->
+	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
+		<property name="template" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
+		<property name="gdaMetadata" ref="GDAMetadata" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="jython_server_facade" class="gda.jython.JythonServerFacade">
+		<constructor-arg ref="command_server" />
+	</bean>
+
+	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">
+		<constructor-arg ref="terminallog_path_provider" />
+	</bean>
+
+	<bean class="gda.jython.logger.OutputTerminalAdapter">
+		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="terminal_logger"/>
+	</bean>
+
+	<bean class="gda.jython.logger.InputTerminalAdapter">
+		<constructor-arg ref="command_server" />
+		<constructor-arg ref="terminal_logger"/>
+	</bean>
+
+	<bean class="gda.jython.logger.ScanDataPointAdapter">
+		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="terminal_logger"/>
+	</bean>
+
+	<bean class="gda.jython.logger.BatonChangedAdapter">
+		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="terminal_logger"/>
 	</bean>
 
 	<corba:export namespace="i15server" />

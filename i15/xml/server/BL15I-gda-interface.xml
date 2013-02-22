@@ -188,6 +188,9 @@
 	<simplePv desc="" name="PATCH14.X6">
 		<RECORD desc="" pv="BL15I-EA-PATCH-14:X6" ro="true" type="pv"/>
 	</simplePv>
+	<simplePv desc="" name="PATCH12.X6">
+		<RECORD desc="" pv="BL15I-EA-PATCH-12:X6" ro="true" type="pv"/>
+	</simplePv>
 	<simplePv desc="" name="QBPM1.A">
 		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-01:A" ro="true" type="pv"/>
 	</simplePv>
@@ -223,6 +226,12 @@
 	</simplePv>
 	<simplePv desc="" name="QBPM0.D">
 		<RECORD desc="RECORD" pv="BL15I-DI-QBPM-00:D" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="PATCH12.X13">
+		<RECORD desc="" pv="BL15I-EA-PATCH-12:X13" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="PATCH12.X14">
+		<RECORD desc="" pv="BL15I-EA-PATCH-12:X14" ro="false" type="pv"/>
 	</simplePv>
 	<simpleMotor desc="Vertical Focusing Mirror Curve Motor" name="VFM.CURVE">
 		<RECORD desc="Motor Record" pv="BL15I-OP-VFM-01:CURVE" ro="false" type="motor"/>
@@ -1173,6 +1182,24 @@
 	<simplePv desc="HO10 Outgoing Water Temp" name="HO10.T2">
 		<RECORD desc="Temperature" pv="BL15I-HO-FLOW-11:TEMP2" ro="true" type="pv"/>
 	</simplePv>
+	<simplePv desc="" name="PATCH50.T1">
+		<RECORD desc="Temperature" pv="BL15I-EA-PATCH-50:TEMP1" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="PATCH50.T2">
+		<RECORD desc="Temperature" pv="BL15I-EA-PATCH-50:TEMP2" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="PATCH50.T3">
+		<RECORD desc="Temperature" pv="BL15I-EA-PATCH-50:TEMP3" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="PATCH51.T1">
+		<RECORD desc="Temperature" pv="BL15I-EA-PATCH-51:TEMP1" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="PATCH51.T2">
+		<RECORD desc="Temperature" pv="BL15I-EA-PATCH-51:TEMP2" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="PATCH51.T3">
+		<RECORD desc="Temperature" pv="BL15I-EA-PATCH-51:TEMP3" ro="true" type="pv"/>
+	</simplePv>
 	<pneumaticCallback desc="" name="FM.FABSB">
 		<CONTROL desc="CONTROL" pv="BL15I-MP-FABSB-01:CON" ro="false" type="mbbinary"/>
 		<STA desc="STA" pv="BL15I-MP-FABSB-01:STA" ro="true" type="mbbinary"/>
@@ -1445,13 +1472,11 @@
 		<Temperature desc="Set Temperature" pv="BL15I-DI-GIGE-01:CAM:Temperature" ro="false" type="pv"/>
 		<Temperature_RBV desc="Readback for Temperature" pv="BL15I-DI-GIGE-01:CAM:Temperature_RBV" ro="true" type="pv"/>
 	</ADBase>
-	<!-- 
 	<aravisCamera desc="gige1.cam aravisCamera class instance" name="gige1.cam_aravisCamera">
 		<COMPLETED_RBV desc="Readback for Frames Completed" pv="BL15I-DI-GIGE-01:CAM:COMPLETED_RBV" ro="true" type="pv"/>
 		<FAILURES_RBV desc="Readback for Frame Failures" pv="BL15I-DI-GIGE-01:CAM:FAILURES_RBV" ro="true" type="pv"/>
 		<UNDERRUNS_RBV desc="Readback for Frame Underruns" pv="BL15I-DI-GIGE-01:CAM:UNDERRUNS_RBV" ro="true" type="pv"/>
 	</aravisCamera>
-	 -->
 	<NDPluginBase desc="gige1.arr NDPluginBase class instance" name="gige1.arr_NDPluginBase">
 		<PortName_RBV desc="Readback for PortName" pv="BL15I-DI-GIGE-01:ARR:PortName_RBV" ro="true" type="pv"/>
 		<PluginType_RBV desc="Readback for PluginType" pv="BL15I-DI-GIGE-01:ARR:PluginType_RBV" ro="true" type="pv"/>
@@ -1824,7 +1849,6 @@
 		<DataTypeOut desc="Set DataTypeOut" pv="BL15I-DI-GIGE-01:ROI:DataTypeOut" ro="false" type="mbbinary"/>
 		<DataTypeOut_RBV desc="Readback for DataTypeOut" pv="BL15I-DI-GIGE-01:ROI:DataTypeOut_RBV" ro="true" type="mbbinary"/>
 	</NDROI>
-	<!-- 
 	<NDFile desc="gige1.tiff NDFile class instance" name="gige1.tiff_NDFile">
 		<FilePath desc="Set FilePath" pv="BL15I-DI-GIGE-01:TIFF:FilePath" ro="false" type="array"/>
 		<FilePath_RBV desc="Readback for FilePath" pv="BL15I-DI-GIGE-01:TIFF:FilePath_RBV" ro="true" type="array"/>
@@ -1853,6 +1877,7 @@
 		<NumCapture_RBV desc="Readback for NumCapture" pv="BL15I-DI-GIGE-01:TIFF:NumCapture_RBV" ro="true" type="pv"/>
 		<NumCaptured_RBV desc="Readback for NumCaptured" pv="BL15I-DI-GIGE-01:TIFF:NumCaptured_RBV" ro="true" type="pv"/>
 	</NDFile>
+	<!-- 
 	<NDFileTIFF desc="gige1.tiff NDFileTIFF class instance" name="gige1.tiff_NDFileTIFF"/>
 	 -->
 	<NDOverlay desc="gige1.draw NDOverlay class instance" name="gige1.draw_NDOverlay">
@@ -2065,7 +2090,6 @@
 		<Blue7 desc="Set Blue7" pv="BL15I-DI-GIGE-01:DRAW:8:Blue" ro="false" type="pv"/>
 		<Blue7_RBV desc="Readback for Blue7" pv="BL15I-DI-GIGE-01:DRAW:8:Blue_RBV" ro="true" type="pv"/>
 	</NDOverlay>
-	<!-- 
 	<ffmpegStream desc="gige1.ffmpeg ffmpegStream class instance" name="gige1.ffmpeg_ffmpegStream">
 		<QUALITY desc="Set QUALITY" pv="BL15I-DI-GIGE-01:FFMPEG:QUALITY" ro="false" type="pv"/>
 		<QUALITY_RBV desc="Readback for QUALITY" pv="BL15I-DI-GIGE-01:FFMPEG:QUALITY_RBV" ro="true" type="pv"/>
@@ -2083,7 +2107,6 @@
 		<JPG_URL_RBV desc="Readback for JPG URL" pv="BL15I-DI-GIGE-01:FFMPEG:JPG_URL_RBV" ro="true" type="pv"/>
 		<MJPG_URL_RBV desc="Readback for MJPG URL" pv="BL15I-DI-GIGE-01:FFMPEG:MJPG_URL_RBV" ro="true" type="pv"/>
 	</ffmpegStream>
-	 -->
 	<ADBase desc="gige2.cam ADBase class instance" name="gige2.cam_ADBase">
 		<PortName_RBV desc="Readback for PortName" pv="BL15I-DI-GIGE-02:CAM:PortName_RBV" ro="true" type="pv"/>
 		<Manufacturer_RBV desc="Readback for Manufacturer" pv="BL15I-DI-GIGE-02:CAM:Manufacturer_RBV" ro="true" type="pv"/>
@@ -2166,13 +2189,11 @@
 		<Temperature desc="Set Temperature" pv="BL15I-DI-GIGE-02:CAM:Temperature" ro="false" type="pv"/>
 		<Temperature_RBV desc="Readback for Temperature" pv="BL15I-DI-GIGE-02:CAM:Temperature_RBV" ro="true" type="pv"/>
 	</ADBase>
-	<!-- 
 	<aravisCamera desc="gige2.cam aravisCamera class instance" name="gige2.cam_aravisCamera">
 		<COMPLETED_RBV desc="Readback for Frames Completed" pv="BL15I-DI-GIGE-02:CAM:COMPLETED_RBV" ro="true" type="pv"/>
 		<FAILURES_RBV desc="Readback for Frame Failures" pv="BL15I-DI-GIGE-02:CAM:FAILURES_RBV" ro="true" type="pv"/>
 		<UNDERRUNS_RBV desc="Readback for Frame Underruns" pv="BL15I-DI-GIGE-02:CAM:UNDERRUNS_RBV" ro="true" type="pv"/>
 	</aravisCamera>
-	 -->
 	<NDPluginBase desc="gige2.arr NDPluginBase class instance" name="gige2.arr_NDPluginBase">
 		<PortName_RBV desc="Readback for PortName" pv="BL15I-DI-GIGE-02:ARR:PortName_RBV" ro="true" type="pv"/>
 		<PluginType_RBV desc="Readback for PluginType" pv="BL15I-DI-GIGE-02:ARR:PluginType_RBV" ro="true" type="pv"/>
@@ -2545,7 +2566,6 @@
 		<DataTypeOut desc="Set DataTypeOut" pv="BL15I-DI-GIGE-02:ROI:DataTypeOut" ro="false" type="mbbinary"/>
 		<DataTypeOut_RBV desc="Readback for DataTypeOut" pv="BL15I-DI-GIGE-02:ROI:DataTypeOut_RBV" ro="true" type="mbbinary"/>
 	</NDROI>
-	<!-- 
 	<NDFile desc="gige2.tiff NDFile class instance" name="gige2.tiff_NDFile">
 		<FilePath desc="Set FilePath" pv="BL15I-DI-GIGE-02:TIFF:FilePath" ro="false" type="array"/>
 		<FilePath_RBV desc="Readback for FilePath" pv="BL15I-DI-GIGE-02:TIFF:FilePath_RBV" ro="true" type="array"/>
@@ -2574,6 +2594,7 @@
 		<NumCapture_RBV desc="Readback for NumCapture" pv="BL15I-DI-GIGE-02:TIFF:NumCapture_RBV" ro="true" type="pv"/>
 		<NumCaptured_RBV desc="Readback for NumCaptured" pv="BL15I-DI-GIGE-02:TIFF:NumCaptured_RBV" ro="true" type="pv"/>
 	</NDFile>
+	<!-- 
 	<NDFileTIFF desc="gige2.tiff NDFileTIFF class instance" name="gige2.tiff_NDFileTIFF"/>
 	 -->
 	<NDOverlay desc="gige2.draw NDOverlay class instance" name="gige2.draw_NDOverlay">
@@ -2786,7 +2807,6 @@
 		<Blue7 desc="Set Blue7" pv="BL15I-DI-GIGE-02:DRAW:8:Blue" ro="false" type="pv"/>
 		<Blue7_RBV desc="Readback for Blue7" pv="BL15I-DI-GIGE-02:DRAW:8:Blue_RBV" ro="true" type="pv"/>
 	</NDOverlay>
-	<!-- 
 	<ffmpegStream desc="gige2.ffmpeg ffmpegStream class instance" name="gige2.ffmpeg_ffmpegStream">
 		<QUALITY desc="Set QUALITY" pv="BL15I-DI-GIGE-02:FFMPEG:QUALITY" ro="false" type="pv"/>
 		<QUALITY_RBV desc="Readback for QUALITY" pv="BL15I-DI-GIGE-02:FFMPEG:QUALITY_RBV" ro="true" type="pv"/>
@@ -2804,7 +2824,6 @@
 		<JPG_URL_RBV desc="Readback for JPG URL" pv="BL15I-DI-GIGE-02:FFMPEG:JPG_URL_RBV" ro="true" type="pv"/>
 		<MJPG_URL_RBV desc="Readback for MJPG URL" pv="BL15I-DI-GIGE-02:FFMPEG:MJPG_URL_RBV" ro="true" type="pv"/>
 	</ffmpegStream>
-	 -->
 	<ADBase desc="gige3.cam ADBase class instance" name="gige3.cam_ADBase">
 		<PortName_RBV desc="Readback for PortName" pv="BL15I-DI-GIGE-03:CAM:PortName_RBV" ro="true" type="pv"/>
 		<Manufacturer_RBV desc="Readback for Manufacturer" pv="BL15I-DI-GIGE-03:CAM:Manufacturer_RBV" ro="true" type="pv"/>
@@ -2887,13 +2906,11 @@
 		<Temperature desc="Set Temperature" pv="BL15I-DI-GIGE-03:CAM:Temperature" ro="false" type="pv"/>
 		<Temperature_RBV desc="Readback for Temperature" pv="BL15I-DI-GIGE-03:CAM:Temperature_RBV" ro="true" type="pv"/>
 	</ADBase>
-	<!-- 
 	<aravisCamera desc="gige3.cam aravisCamera class instance" name="gige3.cam_aravisCamera">
 		<COMPLETED_RBV desc="Readback for Frames Completed" pv="BL15I-DI-GIGE-03:CAM:COMPLETED_RBV" ro="true" type="pv"/>
 		<FAILURES_RBV desc="Readback for Frame Failures" pv="BL15I-DI-GIGE-03:CAM:FAILURES_RBV" ro="true" type="pv"/>
 		<UNDERRUNS_RBV desc="Readback for Frame Underruns" pv="BL15I-DI-GIGE-03:CAM:UNDERRUNS_RBV" ro="true" type="pv"/>
 	</aravisCamera>
-	 -->
 	<NDPluginBase desc="gige3.arr NDPluginBase class instance" name="gige3.arr_NDPluginBase">
 		<PortName_RBV desc="Readback for PortName" pv="BL15I-DI-GIGE-03:ARR:PortName_RBV" ro="true" type="pv"/>
 		<PluginType_RBV desc="Readback for PluginType" pv="BL15I-DI-GIGE-03:ARR:PluginType_RBV" ro="true" type="pv"/>
@@ -3266,7 +3283,6 @@
 		<DataTypeOut desc="Set DataTypeOut" pv="BL15I-DI-GIGE-03:ROI:DataTypeOut" ro="false" type="mbbinary"/>
 		<DataTypeOut_RBV desc="Readback for DataTypeOut" pv="BL15I-DI-GIGE-03:ROI:DataTypeOut_RBV" ro="true" type="mbbinary"/>
 	</NDROI>
-	<!-- 
 	<NDFile desc="gige3.tiff NDFile class instance" name="gige3.tiff_NDFile">
 		<FilePath desc="Set FilePath" pv="BL15I-DI-GIGE-03:TIFF:FilePath" ro="false" type="array"/>
 		<FilePath_RBV desc="Readback for FilePath" pv="BL15I-DI-GIGE-03:TIFF:FilePath_RBV" ro="true" type="array"/>
@@ -3295,6 +3311,7 @@
 		<NumCapture_RBV desc="Readback for NumCapture" pv="BL15I-DI-GIGE-03:TIFF:NumCapture_RBV" ro="true" type="pv"/>
 		<NumCaptured_RBV desc="Readback for NumCaptured" pv="BL15I-DI-GIGE-03:TIFF:NumCaptured_RBV" ro="true" type="pv"/>
 	</NDFile>
+	<!-- 
 	<NDFileTIFF desc="gige3.tiff NDFileTIFF class instance" name="gige3.tiff_NDFileTIFF"/>
 	 -->
 	<NDOverlay desc="gige3.draw NDOverlay class instance" name="gige3.draw_NDOverlay">
@@ -3507,7 +3524,6 @@
 		<Blue7 desc="Set Blue7" pv="BL15I-DI-GIGE-03:DRAW:8:Blue" ro="false" type="pv"/>
 		<Blue7_RBV desc="Readback for Blue7" pv="BL15I-DI-GIGE-03:DRAW:8:Blue_RBV" ro="true" type="pv"/>
 	</NDOverlay>
-	<!-- 
 	<ffmpegStream desc="gige3.ffmpeg ffmpegStream class instance" name="gige3.ffmpeg_ffmpegStream">
 		<QUALITY desc="Set QUALITY" pv="BL15I-DI-GIGE-03:FFMPEG:QUALITY" ro="false" type="pv"/>
 		<QUALITY_RBV desc="Readback for QUALITY" pv="BL15I-DI-GIGE-03:FFMPEG:QUALITY_RBV" ro="true" type="pv"/>
@@ -3525,7 +3541,6 @@
 		<JPG_URL_RBV desc="Readback for JPG URL" pv="BL15I-DI-GIGE-03:FFMPEG:JPG_URL_RBV" ro="true" type="pv"/>
 		<MJPG_URL_RBV desc="Readback for MJPG URL" pv="BL15I-DI-GIGE-03:FFMPEG:MJPG_URL_RBV" ro="true" type="pv"/>
 	</ffmpegStream>
-	 -->
 	<ADBase desc="gige4.cam ADBase class instance" name="gige4.cam_ADBase">
 		<PortName_RBV desc="Readback for PortName" pv="BL15I-DI-GIGE-04:CAM:PortName_RBV" ro="true" type="pv"/>
 		<Manufacturer_RBV desc="Readback for Manufacturer" pv="BL15I-DI-GIGE-04:CAM:Manufacturer_RBV" ro="true" type="pv"/>
@@ -3608,13 +3623,11 @@
 		<Temperature desc="Set Temperature" pv="BL15I-DI-GIGE-04:CAM:Temperature" ro="false" type="pv"/>
 		<Temperature_RBV desc="Readback for Temperature" pv="BL15I-DI-GIGE-04:CAM:Temperature_RBV" ro="true" type="pv"/>
 	</ADBase>
-	<!-- 
 	<aravisCamera desc="gige4.cam aravisCamera class instance" name="gige4.cam_aravisCamera">
 		<COMPLETED_RBV desc="Readback for Frames Completed" pv="BL15I-DI-GIGE-04:CAM:COMPLETED_RBV" ro="true" type="pv"/>
 		<FAILURES_RBV desc="Readback for Frame Failures" pv="BL15I-DI-GIGE-04:CAM:FAILURES_RBV" ro="true" type="pv"/>
 		<UNDERRUNS_RBV desc="Readback for Frame Underruns" pv="BL15I-DI-GIGE-04:CAM:UNDERRUNS_RBV" ro="true" type="pv"/>
 	</aravisCamera>
-	 -->
 	<NDPluginBase desc="gige4.arr NDPluginBase class instance" name="gige4.arr_NDPluginBase">
 		<PortName_RBV desc="Readback for PortName" pv="BL15I-DI-GIGE-04:ARR:PortName_RBV" ro="true" type="pv"/>
 		<PluginType_RBV desc="Readback for PluginType" pv="BL15I-DI-GIGE-04:ARR:PluginType_RBV" ro="true" type="pv"/>
@@ -3987,7 +4000,6 @@
 		<DataTypeOut desc="Set DataTypeOut" pv="BL15I-DI-GIGE-04:ROI:DataTypeOut" ro="false" type="mbbinary"/>
 		<DataTypeOut_RBV desc="Readback for DataTypeOut" pv="BL15I-DI-GIGE-04:ROI:DataTypeOut_RBV" ro="true" type="mbbinary"/>
 	</NDROI>
-	<!-- 
 	<NDFile desc="gige4.tiff NDFile class instance" name="gige4.tiff_NDFile">
 		<FilePath desc="Set FilePath" pv="BL15I-DI-GIGE-04:TIFF:FilePath" ro="false" type="array"/>
 		<FilePath_RBV desc="Readback for FilePath" pv="BL15I-DI-GIGE-04:TIFF:FilePath_RBV" ro="true" type="array"/>
@@ -4016,6 +4028,7 @@
 		<NumCapture_RBV desc="Readback for NumCapture" pv="BL15I-DI-GIGE-04:TIFF:NumCapture_RBV" ro="true" type="pv"/>
 		<NumCaptured_RBV desc="Readback for NumCaptured" pv="BL15I-DI-GIGE-04:TIFF:NumCaptured_RBV" ro="true" type="pv"/>
 	</NDFile>
+	<!-- 
 	<NDFileTIFF desc="gige4.tiff NDFileTIFF class instance" name="gige4.tiff_NDFileTIFF"/>
 	 -->
 	<NDOverlay desc="gige4.draw NDOverlay class instance" name="gige4.draw_NDOverlay">
@@ -4228,7 +4241,6 @@
 		<Blue7 desc="Set Blue7" pv="BL15I-DI-GIGE-04:DRAW:8:Blue" ro="false" type="pv"/>
 		<Blue7_RBV desc="Readback for Blue7" pv="BL15I-DI-GIGE-04:DRAW:8:Blue_RBV" ro="true" type="pv"/>
 	</NDOverlay>
-	<!-- 
 	<ffmpegStream desc="gige4.ffmpeg ffmpegStream class instance" name="gige4.ffmpeg_ffmpegStream">
 		<QUALITY desc="Set QUALITY" pv="BL15I-DI-GIGE-04:FFMPEG:QUALITY" ro="false" type="pv"/>
 		<QUALITY_RBV desc="Readback for QUALITY" pv="BL15I-DI-GIGE-04:FFMPEG:QUALITY_RBV" ro="true" type="pv"/>
@@ -4246,5 +4258,4 @@
 		<JPG_URL_RBV desc="Readback for JPG URL" pv="BL15I-DI-GIGE-04:FFMPEG:JPG_URL_RBV" ro="true" type="pv"/>
 		<MJPG_URL_RBV desc="Readback for MJPG URL" pv="BL15I-DI-GIGE-04:FFMPEG:MJPG_URL_RBV" ro="true" type="pv"/>
 	</ffmpegStream>
-	 -->
 </devices>
