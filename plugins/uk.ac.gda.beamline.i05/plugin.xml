@@ -13,10 +13,12 @@
      </content-type>
   </extension>
   <extension point="org.eclipse.ui.editors">
-    <editor class="uk.ac.gda.arpes.ui.ARPESScanBeanEditor"
-            default="true"
-            id="uk.ac.gda.arpes.beans.ARPESScanBeanEditor"
-            name="ARPES Scan Editor">
+    <editor
+          class="uk.ac.gda.arpes.ui.ARPESScanBeanEditor"
+          default="true"
+          icon="icons/anaico.png"
+          id="uk.ac.gda.arpes.beans.ARPESScanBeanEditor"
+          name="ARPES Scan Editor">
             <contentTypeBinding
                 contentTypeId="uk.ac.gda.arpes.beans.ARPESScanBeanContentType">
             </contentTypeBinding>
