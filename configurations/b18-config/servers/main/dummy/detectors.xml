@@ -60,7 +60,7 @@
 		</property>
 	</bean>
 	
-	<bean id="cirrus" class="uk.ac.gda.devices.cirrus.DummyCirrusDetector">
-	</bean>
+<!-- 	<bean id="cirrus" class="uk.ac.gda.devices.cirrus.DummyCirrusDetector"> -->
+<!-- 	</bean> -->
 	
 </beans>
