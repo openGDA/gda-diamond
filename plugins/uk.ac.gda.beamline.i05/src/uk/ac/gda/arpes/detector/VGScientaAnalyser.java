@@ -20,6 +20,7 @@ package uk.ac.gda.arpes.detector;
 
 import gda.device.DeviceException;
 import gda.device.detector.NXDetectorData;
+import gda.factory.FactoryException;
 
 import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
@@ -32,6 +33,16 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 	private AnalyserCapabilties ac;
 	private int[] fixedModeRegion;
 
+	@Override
+	public void configure() throws FactoryException {
+		super.configure();
+		try {
+			getNdArray().getPluginBase().enableCallbacks();
+		} catch (Exception e) {
+			throw new FactoryException("error enabling callbacks on NDArray", e);
+		}
+	}
+	
 	public AnalyserCapabilties getCapabilities() {
 		return ac;
 	}
@@ -50,6 +61,7 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 
 	public int getNumberOfSweeptSteps() throws Exception {
 		//FIXME this is unreliable if not wrong
+		// proper value would need to come out of the IOC or SESWrapper, but there is no way to get it at the moment.
 		return (int) Math.round((controller.getEndEnergy() - controller.getStartEnergy()) / controller.getEnergyStep()); 
 	}
 	
