@@ -6,18 +6,19 @@
 	<sampleWheelPosition>Copper</sampleWheelPosition>
 	<sampleEnvironment>Cryostat</sampleEnvironment>
 	<cryostat>
-		<temperature>295</temperature>
+		<loopChoice>Loop over sample, then temperature</loopChoice>
 		<tolerance>1</tolerance>
-		<time>5.0</time>
-		<heaterRange>1</heaterRange>
-		<profileType>PID</profileType>
+		<waitTime>5.0</waitTime>
+		<temperature>295</temperature>
+		<controlMode>Manual PID</controlMode>
+		<heaterRange>4mW</heaterRange>
 		<p>1</p>
 		<i>1</i>
 		<d>1</d>
-		<sampleHolder>4 Samples</sampleHolder>
-		<sampleNumbers>1</sampleNumbers>
+		<useSample1>true</useSample1>
 		<position1>1.0</position1>
 		<finePosition1>0.1</finePosition1>
+		<sample1_name>Sample1</sample1_name>
 		<sampleDescription1>My First Sample</sampleDescription1>
 	</cryostat>
 </I20SampleParameters>

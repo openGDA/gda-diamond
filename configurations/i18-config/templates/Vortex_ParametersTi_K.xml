@@ -11,7 +11,6 @@
             <name>Ti_Ka</name>
             <windowStart>430</windowStart>
             <windowEnd>470</windowEnd>
-            <counts>308</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -25,7 +24,6 @@
             <name>Ti_Ka</name>
             <windowStart>430</windowStart>
             <windowEnd>470</windowEnd>
-            <counts>308</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -39,7 +37,6 @@
             <name>Ti_Ka</name>
             <windowStart>430</windowStart>
             <windowEnd>470</windowEnd>
-            <counts>308</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -53,7 +50,6 @@
             <name>Ti_Ka</name>
             <windowStart>430</windowStart>
             <windowEnd>470</windowEnd>
-            <counts>308</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

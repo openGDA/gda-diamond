@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2009 Diamond Light Source Ltd.
+ * Copyright © 2013 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -32,7 +32,6 @@ import java.util.List;
 
 import org.eclipse.core.runtime.content.IContentDescriber;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import uk.ac.gda.beans.exafs.ElementPosition;
@@ -48,7 +47,7 @@ import uk.ac.gda.exafs.ui.describers.I20SampleDescriber;
 /**
  * class to hold I20 sample parameters
  */
-@Ignore("2012/09/18 - raises xml parse errors")
+
 public class I20SampleParametersTest {
 	final static String testScratchDirectoryName =
 		TestUtils.generateDirectorynameFromClassname(I20SampleParametersTest.class.getCanonicalName());
@@ -105,18 +104,19 @@ public class I20SampleParametersTest {
 		eles.add(new ElementPosition("Si", 2));
 		expectedValue.setSampleEnvironment(I20SampleParameters.SAMPLE_ENV[2]);
 		CryostatParameters cps = new CryostatParameters();
-		cps.setTemperature(295.);
+		cps.setLoopChoice(CryostatParameters.LOOP_OPTION[0]);
+		cps.setTemperature("295");
 		cps.setTolerance(1d);
-		cps.setHeaterRange(1);
-		cps.setTime(5d);
-		cps.setProfileType("PID");
+		cps.setHeaterRange(CryostatParameters.HEATER_RANGE[0]);
+		cps.setWaitTime(5.0);
+		cps.setControlMode(CryostatParameters.CONTROL_MODE[0]);
 		cps.setP(1d);
 		cps.setI(1d);
 		cps.setD(1d);
-		cps.setSampleHolder("4 Samples");
-		cps.setSampleNumbers("1");
+		cps.setUseSample1(true);
 		cps.setPosition1(1.0);
 		cps.setFinePosition1(0.1);
+		cps.setSample1_name("Sample1");
 		cps.setSampleDescription1("My First Sample");
 		expectedValue.setCryostatParameters(cps);
 
@@ -139,7 +139,6 @@ public class I20SampleParametersTest {
 	 * test for xml file with furnace parameters
 	 * @throws Exception 
 	 */
-	@Test
 	public void testCreateFromXML_withFurnace()  throws Exception{
 		I20SampleParameters expectedValue = new I20SampleParameters();
 		expectedValue.setName("Cytochrome");
@@ -173,13 +172,15 @@ public class I20SampleParametersTest {
 		expectedValue.setSampleWheelPosition("Copper");
 		expectedValue.setSampleEnvironment(I20SampleParameters.SAMPLE_ENV[1]);
 		SampleStageParameters ssps = new SampleStageParameters();
-		ssps.setNumberOfSamples(1);
+		ssps.setUseSample1(true);
 		ssps.setSample1_x(3.4);
 		ssps.setSample1_y(6.8);
 		ssps.setSample1_z(2.5);
 		ssps.setSample1_rotation(1.2);
 		ssps.setSample1_roll(0.5);
 		ssps.setSample1_pitch(0.7);
+		ssps.setSample1_name("my_sample");
+		ssps.setSample1_description("this is my sample");
 		expectedValue.setRoomTemperatureParameters(ssps);
 
 		isValidAndMatchesFile(expectedValue,"SampleParameters_withSampleStage.xml");
@@ -190,7 +191,6 @@ public class I20SampleParametersTest {
 	 * test for xml file with sample stage parameters
 	 * @throws Exception 
 	 */
-	@Test
 	public void testCreateFromXML_withMicroreactor()  throws Exception{
 
 		I20SampleParameters expectedValue = new I20SampleParameters();
@@ -222,7 +222,6 @@ public class I20SampleParametersTest {
 	 * test for xml file with custom parameters
 	 * @throws Exception 
 	 */
-	@Test
 	public void testCreateFromXML_withCustom()  throws Exception{
 
 		I20SampleParameters expectedValue = new I20SampleParameters();
@@ -247,7 +246,6 @@ public class I20SampleParametersTest {
 	 * Test method for {@link uk.ac.gda.beans.exafs.i20.I20SampleParameters#writeToXML(uk.ac.gda.beans.exafs.i20.I20SampleParameters, java.lang.String)}.
 	 * @throws Exception 
 	 */
-	@Test
 	public void testWriteToXML()  throws Exception{
 		I20SampleParameters sp = new I20SampleParameters();
 		sp.setName("Cytochrome");

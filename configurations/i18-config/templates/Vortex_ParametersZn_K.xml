@@ -11,13 +11,11 @@
             <name>Zn_Ka</name>
             <windowStart>853</windowStart>
             <windowEnd>876</windowEnd>
-            <counts>1787</counts>
         </ROI>
         <ROI>
             <name>Zn_Ka</name>
             <windowStart>850</windowStart>
             <windowEnd>870</windowEnd>
-            <counts>0</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -31,13 +29,11 @@
             <name>Zn_Ka</name>
             <windowStart>853</windowStart>
             <windowEnd>876</windowEnd>
-            <counts>1787</counts>
         </ROI>
         <ROI>
             <name>Zn_Ka</name>
             <windowStart>850</windowStart>
             <windowEnd>870</windowEnd>
-            <counts>0</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -51,13 +47,11 @@
             <name>Zn_Ka</name>
             <windowStart>853</windowStart>
             <windowEnd>876</windowEnd>
-            <counts>1787</counts>
         </ROI>
         <ROI>
             <name>Zn_Ka</name>
             <windowStart>850</windowStart>
             <windowEnd>870</windowEnd>
-            <counts>0</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -71,13 +65,11 @@
             <name>Zn_Ka</name>
             <windowStart>853</windowStart>
             <windowEnd>876</windowEnd>
-            <counts>1787</counts>
         </ROI>
         <ROI>
             <name>Zn_Ka</name>
             <windowStart>850</windowStart>
             <windowEnd>870</windowEnd>
-            <counts>0</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

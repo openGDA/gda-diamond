@@ -11,7 +11,6 @@
             <name>Ag_L2</name>
             <windowStart>310</windowStart>
             <windowEnd>330</windowEnd>
-            <counts>10</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -25,7 +24,6 @@
             <name>Ag_L2</name>
             <windowStart>310</windowStart>
             <windowEnd>330</windowEnd>
-            <counts>10</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -39,7 +37,6 @@
             <name>Ag_L2</name>
             <windowStart>310</windowStart>
             <windowEnd>330</windowEnd>
-            <counts>10</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -53,7 +50,6 @@
             <name>Ag_L2</name>
             <windowStart>310</windowStart>
             <windowEnd>330</windowEnd>
-            <counts>10</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

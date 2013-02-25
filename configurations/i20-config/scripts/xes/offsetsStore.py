@@ -19,8 +19,9 @@ import os
 #
 # There is an unamed default store for convenience. the underlying file for this is xes_store.
 
-global DEFAULT_STORE_NAME,STORE_DIR
+global DEFAULT_STORE_NAME,STORE_DIR,STORE_IN_USE_NAME
 DEFAULT_STORE_NAME="xes_store"
+STORE_IN_USE_NAME="current_store"
 STORE_DIR = LocalProperties.getVarDir() +"/xes_offsets/"
 
 def list():
@@ -59,6 +60,10 @@ def writeas(storeName):
         store.setProperty(name,value)
     store.save()
     
+def reapply():
+    print "Reapplying previous spectrometer offsets..."
+    applyfrom(STORE_IN_USE_NAME)
+    
 def apply():
     """
     Loads and sets the Spectrometer offsets from the default store.
@@ -84,6 +89,7 @@ def applyfrom(storeName):
     #setOffsets.setFromExpectedValues(valuesDict)
     # set the offsets directly
     setOffsets._setFromDict(valuesDict)
+    writeas(STORE_IN_USE_NAME)
     
 def view():
     """

@@ -11,7 +11,6 @@
             <name>ROI 1</name>
             <windowStart>123</windowStart>
             <windowEnd>1259</windowEnd>
-            <counts>12503</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -25,7 +24,6 @@
             <name>ROI 1</name>
             <windowStart>1336</windowStart>
             <windowEnd>1383</windowEnd>
-            <counts>0</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -39,7 +37,6 @@
             <name>ROI 1</name>
             <windowStart>1336</windowStart>
             <windowEnd>1383</windowEnd>
-            <counts>13238</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -53,7 +50,6 @@
             <name>ROI 1</name>
             <windowStart>1336</windowStart>
             <windowEnd>1383</windowEnd>
-            <counts>0</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

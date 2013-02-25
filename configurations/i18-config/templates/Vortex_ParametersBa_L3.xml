@@ -11,7 +11,6 @@
             <name>Ba_L3</name>
             <windowStart>416</windowStart>
             <windowEnd>458</windowEnd>
-            <counts>45</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -25,7 +24,6 @@
             <name>Ba_L3</name>
             <windowStart>427</windowStart>
             <windowEnd>464</windowEnd>
-            <counts>31</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -39,7 +37,6 @@
             <name>Ba_L3</name>
             <windowStart>421</windowStart>
             <windowEnd>458</windowEnd>
-            <counts>57</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -53,7 +50,6 @@
             <name>Ba_L3</name>
             <windowStart>415</windowStart>
             <windowEnd>453</windowEnd>
-            <counts>55</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

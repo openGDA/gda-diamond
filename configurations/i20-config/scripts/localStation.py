@@ -25,6 +25,9 @@ from exafsscripts.exafs.i20OutputPreparer import I20OutputPreparer
 from exafsscripts.exafs.i20ScanScripts import I20XasScan
 from exafsscripts.exafs.i20ScanScripts import I20XesScan
 
+ScanBase.interrupted = False
+ScriptBase.interrupted = False
+
 loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
 
 
@@ -86,6 +89,10 @@ else:
 # XES offsets section
 #
 from xes import calcExpectedPositions, offsetsStore, setOffsets
+try:
+    offsetsStore.reapply()
+except:
+    pass
 from gda.device.scannable import TwoDScanPlotter
 twodplotter = TwoDScanPlotter()
 twodplotter.setName("twodplotter")

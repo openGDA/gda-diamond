@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2009 Diamond Light Source Ltd.
+ * Copyright © 2013 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -20,11 +20,8 @@ package gda.exafs.ui;
 
 import gda.device.DeviceException;
 import gda.device.EnumPositioner;
-import gda.exafs.ui.composites.CryostatComposite;
-import gda.exafs.ui.composites.CustomParameterComposite;
-import gda.exafs.ui.composites.CustomXYZParameterComposite;
-import gda.exafs.ui.composites.FurnaceComposite;
-import gda.exafs.ui.composites.RoomTemperatureComposite;
+import gda.exafs.ui.composites.CryostatTableComposite;
+import gda.exafs.ui.composites.RoomTemperatureTableComposite;
 import gda.exafs.ui.preferencepages.I20SampleReferenceWheelPreferencePage;
 import gda.factory.Finder;
 import gda.observable.IObserver;
@@ -57,19 +54,14 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.slf4j.Logger;
 
 import uk.ac.gda.beans.exafs.i20.CryostatParameters;
-import uk.ac.gda.beans.exafs.i20.CustomParameter;
-import uk.ac.gda.beans.exafs.i20.CustomXYZParameter;
-import uk.ac.gda.beans.exafs.i20.FurnaceParameters;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
-import uk.ac.gda.beans.exafs.i20.MicroreactorParameters;
 import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
 import uk.ac.gda.exafs.ui.data.ScanObjectManager;
-import uk.ac.gda.exafs.ui.microreactor.MicroreactorParametersComposite;
 import uk.ac.gda.richbeans.components.FieldComposite.NOTIFY_TYPE;
-import uk.ac.gda.richbeans.components.selector.VerticalListEditor;
 import uk.ac.gda.richbeans.components.wrappers.BooleanWrapper;
 import uk.ac.gda.richbeans.components.wrappers.ComboWrapper;
 import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
+import uk.ac.gda.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
 import uk.ac.gda.richbeans.editors.DirtyContainer;
 import uk.ac.gda.richbeans.editors.RichBeanEditorPart;
 import uk.ac.gda.richbeans.event.ValueAdapter;
@@ -86,12 +78,12 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 	private ComboWrapper sampleWheelPosition;
 	private TextWrapper descriptions;
 	private TextWrapper name;
-	private RoomTemperatureComposite sampleStageParameters;
-	private CryostatComposite cryostatParameters;
-	private FurnaceComposite furnaceParameters;
-	private MicroreactorParametersComposite microreactorParameters;
-	private VerticalListEditor customParameters;
-	private VerticalListEditor customXYZParameters;
+	private RoomTemperatureTableComposite sampleStageParameters;
+	private CryostatTableComposite cryostatParameters;
+//	private FurnaceComposite furnaceParameters;
+//	private MicroreactorParametersComposite microreactorParameters;
+//	private VerticalListEditor customParameters;
+//	private VerticalListEditor customXYZParameters;
 
 	private SelectionAdapter selectionListener;
 
@@ -105,11 +97,15 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 
 	private BooleanWrapper useSampleWheel;
 
-	private TextWrapper sampleName;
+//	private TextWrapper sampleName;
 	
 	I20SampleParameters bean;
 
 	private ExpandableComposite refWheelExpander;
+
+	private Group sampleDetails;
+
+	private GridData sampleDetailsGridData;
 
 	public I20SampleParametersUIEditor(String path, URL mappingURL, DirtyContainer dirtyContainer, Object editingBean) {
 		super(path, mappingURL, dirtyContainer, editingBean);
@@ -240,7 +236,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 					}
 				});
 			}
-			if (bean.getUseSampleWheel()){
+			if (bean != null && bean.getUseSampleWheel()){
 				refWheelExpander.setExpanded(true);
 			}
 		}		
@@ -276,32 +272,32 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 
 		blankTempComposite = new Composite(complexTypesTemp, SWT.NONE);
 
-		int numSamples = bean.getRoomTemperatureParameters().getNumberOfSamples();
-		this.sampleStageParameters = new RoomTemperatureComposite(complexTypesTemp, SWT.NONE,numSamples);
+		this.sampleStageParameters = new RoomTemperatureTableComposite(complexTypesTemp, SWT.NONE);
+		sampleStageParameters.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		sampleStageParameters.setEditorClass(SampleStageParameters.class);
 
 		if (!ScanObjectManager.isXESOnlyMode()) {
-			this.cryostatParameters = new CryostatComposite(complexTypesTemp, SWT.NONE);
+			this.cryostatParameters = new CryostatTableComposite(complexTypesTemp, SWT.NONE);
 			cryostatParameters.setEditorClass(CryostatParameters.class);
 
-			this.furnaceParameters = new FurnaceComposite(complexTypesTemp, SWT.NONE);
-			furnaceParameters.setEditorClass(FurnaceParameters.class);
-
-			this.microreactorParameters = new MicroreactorParametersComposite(complexTypesTemp, SWT.NONE);
-			microreactorParameters.setEditorClass(MicroreactorParameters.class);
+//			this.furnaceParameters = new FurnaceComposite(complexTypesTemp, SWT.NONE);
+//			furnaceParameters.setEditorClass(FurnaceParameters.class);
+//
+//			this.microreactorParameters = new MicroreactorParametersComposite(complexTypesTemp, SWT.NONE);
+//			microreactorParameters.setEditorClass(MicroreactorParameters.class);
 		}
 
-		this.customXYZParameters = new VerticalListEditor(complexTypesTemp, SWT.NONE);
-		customXYZParameters.setNameField("deviceName");
-		customXYZParameters.setEditorClass(CustomXYZParameter.class);
-		customXYZParameters.setEditorUI(new CustomXYZParameterComposite(customXYZParameters, SWT.NONE));
-		customXYZParameters.setTemplateName("Custom XYZ Parameter");
-
-		this.customParameters = new VerticalListEditor(complexTypesTemp, SWT.NONE);
-		customParameters.setNameField("deviceName");
-		customParameters.setEditorClass(CustomParameter.class);
-		customParameters.setEditorUI(new CustomParameterComposite(customParameters, SWT.NONE));
-		customParameters.setTemplateName("Custom Parameter");
+//		this.customXYZParameters = new VerticalListEditor(complexTypesTemp, SWT.NONE);
+//		customXYZParameters.setNameField("deviceName");
+//		customXYZParameters.setEditorClass(CustomXYZParameter.class);
+//		customXYZParameters.setEditorUI(new CustomXYZParameterComposite(customXYZParameters, SWT.NONE));
+//		customXYZParameters.setTemplateName("Custom XYZ Parameter");
+//
+//		this.customParameters = new VerticalListEditor(complexTypesTemp, SWT.NONE);
+//		customParameters.setNameField("deviceName");
+//		customParameters.setEditorClass(CustomParameter.class);
+//		customParameters.setEditorUI(new CustomParameterComposite(customParameters, SWT.NONE));
+//		customParameters.setTemplateName("Custom Parameter");
 		
 		sampleEnvExpander.setClient(sampleEnvGroup);
 		sampleEnvExpander.setExpanded(false);
@@ -322,42 +318,36 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 			}
 		});
 		
-		if (!bean.getSampleEnvironment().equals(I20SampleParameters.SAMPLE_ENV[0])){
+		if (bean != null && !bean.getSampleEnvironment().equals(I20SampleParameters.SAMPLE_ENV[0])){
 			sampleEnvExpander.setExpanded(true);
 		}
 	}
 
 	private void createSampleDetailsGroup(final Composite composite) {
 		GridLayout gridLayout;
-		final Group experimentSample = new Group(composite, SWT.NONE);
-		experimentSample.setText("Sample Details");
-		GridData experimentSampleGridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		experimentSampleGridData.minimumWidth = 350;
-		experimentSample.setLayoutData(experimentSampleGridData);
+		sampleDetails = new Group(composite, SWT.NONE);
+		sampleDetails.setText("Sample Details");
+		sampleDetailsGridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		sampleDetailsGridData.minimumWidth = 350;
+		sampleDetails.setLayoutData(sampleDetailsGridData);
 		gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
-		experimentSample.setLayout(gridLayout);
+		sampleDetails.setLayout(gridLayout);
 
-		final Label filePrefixLabel = new Label(experimentSample, SWT.NONE);
-		filePrefixLabel.setText("File prefix");
-
-		name = new TextWrapper(experimentSample, SWT.BORDER);
-		name.setTextLimit(5000);
+		final Label sampleNameLabel = new Label(sampleDetails, SWT.NONE);
+		sampleNameLabel.setText("Sample Name");
+		
+		name = new TextWrapper(sampleDetails, SWT.BORDER | SWT.SINGLE);
+		name.setTextType(TEXT_TYPE.FILENAME);
+		name.setTextLimit(50);
 		final GridData gd_name = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		name.setLayoutData(gd_name);
 
-		final Label sampleNameLabel = new Label(experimentSample, SWT.NONE);
-		sampleNameLabel.setText("Sample Name");
-
-		sampleName = new TextWrapper(experimentSample, SWT.BORDER);
-		sampleName.setTextLimit(5000);
-		sampleName.setLayoutData(gd_name);
-
-		final Label descriptionLabel = new Label(experimentSample, SWT.NONE);
+		final Label descriptionLabel = new Label(sampleDetails, SWT.NONE);
 		descriptionLabel.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
 		descriptionLabel.setText("Description");
 
-		descriptions = new TextWrapper(experimentSample, SWT.WRAP | SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
+		descriptions = new TextWrapper(sampleDetails, SWT.WRAP | SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
 		final GridData gd_descriptions = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		gd_descriptions.heightHint = 73;
 		descriptions.setLayoutData(gd_descriptions);
@@ -399,6 +389,9 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		final I20SampleParameters params = (I20SampleParameters) editingBean;
 		Control control = null;
 
+		sampleDetails.setVisible(true);
+		sampleDetailsGridData.exclude = false;
+
 		if (ScanObjectManager.isXESOnlyMode()) {
 			Object val = null;
 			switch (index) {
@@ -407,6 +400,8 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 				break;
 			case 1:
 				control = sampleStageParameters;
+				sampleDetails.setVisible(false);
+				sampleDetailsGridData.exclude = true;
 				val = getRoomTemperatureParameters().getValue();
 				if (val == null) {
 					params.getRoomTemperatureParameters();
@@ -421,12 +416,12 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 					getRoomTemperatureParameters().setEditingBean(val);
 				}
 				break;
-			case 2:
-				control = customXYZParameters;
-				break;
-			case 3:
-				control = customParameters;
-				break;
+//			case 2:
+//				control = customXYZParameters;
+//				break;
+//			case 3:
+//				control = customParameters;
+//				break;
 			default:
 				break;
 			}
@@ -440,6 +435,8 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 				break;
 			case 1:
 				control = sampleStageParameters;
+				sampleDetails.setVisible(false);
+				sampleDetailsGridData.exclude = true;
 				val = getRoomTemperatureParameters().getValue();
 				if (val == null) {
 					params.getRoomTemperatureParameters();
@@ -456,6 +453,8 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 				break;
 			case 2:
 				control = cryostatParameters;
+				sampleDetails.setVisible(false);
+				sampleDetailsGridData.exclude = true;
 				val = getCryostatParameters().getValue();
 				if (val == null)
 					params.getCryostatParameters();
@@ -467,37 +466,37 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 					getCryostatParameters().setEditingBean(val);
 
 				break;
-			case 3:
-				control = furnaceParameters;
-				val = getFurnaceParameters().getValue();
-				if (val == null)
-					params.getFurnaceParameters();
-				if (val == null)
-					val = new FurnaceParameters();
-				if (params.getFurnaceParameters() == null)
-					params.setFurnaceParameters((FurnaceParameters) val);
-				if (getFurnaceParameters().getValue() == null)
-					getFurnaceParameters().setEditingBean(val);
-				break;
-			case 4:
-				control = microreactorParameters;
-				val = getMicroreactorParameters().getValue();
-				if (val == null)
-					params.getMicroreactorParameters();
-				if (val == null)
-					val = new MicroreactorParameters();
-				if (params.getMicroreactorParameters() == null)
-					params.setMicroreactorParameters((MicroreactorParameters) val);
-				if (getMicroreactorParameters().getValue() == null)
-					getMicroreactorParameters().setEditingBean(val);
-				break;
-
-			case 5:
-				control = customXYZParameters;
-				break;
-			case 6:
-				control = customParameters;
-				break;
+//			case 3:
+//				control = furnaceParameters;
+//				val = getFurnaceParameters().getValue();
+//				if (val == null)
+//					params.getFurnaceParameters();
+//				if (val == null)
+//					val = new FurnaceParameters();
+//				if (params.getFurnaceParameters() == null)
+//					params.setFurnaceParameters((FurnaceParameters) val);
+//				if (getFurnaceParameters().getValue() == null)
+//					getFurnaceParameters().setEditingBean(val);
+//				break;
+//			case 4:
+//				control = microreactorParameters;
+//				val = getMicroreactorParameters().getValue();
+//				if (val == null)
+//					params.getMicroreactorParameters();
+//				if (val == null)
+//					val = new MicroreactorParameters();
+//				if (params.getMicroreactorParameters() == null)
+//					params.setMicroreactorParameters((MicroreactorParameters) val);
+//				if (getMicroreactorParameters().getValue() == null)
+//					getMicroreactorParameters().setEditingBean(val);
+//				break;
+//
+//			case 5:
+//				control = customXYZParameters;
+//				break;
+//			case 6:
+//				control = customParameters;
+//				break;
 			default:
 				break;
 			}
@@ -505,6 +504,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 
 		stackLayoutTemp.topControl = control;
 		complexTypesTemp.layout();
+		mainComp.layout();
 	}
 
 	@Override
@@ -519,37 +519,37 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		return name;
 	}
 
-	public TextWrapper getSampleName() {
-		return sampleName;
-	}
+//	public TextWrapper getSampleName() {
+//		return sampleName;
+//	}
 
 	public ComboWrapper getSampleWheelPosition() {
 		return sampleWheelPosition;
 	}
 
-	public RoomTemperatureComposite getRoomTemperatureParameters() {
+	public RoomTemperatureTableComposite getRoomTemperatureParameters() {
 		return sampleStageParameters;
 	}
 
-	public CryostatComposite getCryostatParameters() {
+	public CryostatTableComposite getCryostatParameters() {
 		return cryostatParameters;
 	}
 
-	public FurnaceComposite getFurnaceParameters() {
-		return furnaceParameters;
-	}
-
-	public MicroreactorParametersComposite getMicroreactorParameters() {
-		return microreactorParameters;
-	}
-
-	public VerticalListEditor getCustomParameters() {
-		return customParameters;
-	}
-
-	public VerticalListEditor getCustomXYZParameters() {
-		return customXYZParameters;
-	}
+//	public FurnaceComposite getFurnaceParameters() {
+//		return furnaceParameters;
+//	}
+//
+//	public MicroreactorParametersComposite getMicroreactorParameters() {
+//		return microreactorParameters;
+//	}
+//
+//	public VerticalListEditor getCustomParameters() {
+//		return customParameters;
+//	}
+//
+//	public VerticalListEditor getCustomXYZParameters() {
+//		return customXYZParameters;
+//	}
 
 	public ComboWrapper getSampleEnvironment() {
 		return cmbSampleEnv;

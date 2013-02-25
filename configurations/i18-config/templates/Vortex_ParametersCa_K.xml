@@ -11,7 +11,6 @@
             <name>Ca_Ka</name>
             <windowStart>353</windowStart>
             <windowEnd>378</windowEnd>
-            <counts>2</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -25,7 +24,6 @@
             <name>Ca_Ka</name>
             <windowStart>355</windowStart>
             <windowEnd>382</windowEnd>
-            <counts>14</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -39,7 +37,6 @@
             <name>Ca_Ka</name>
             <windowStart>353</windowStart>
             <windowEnd>385</windowEnd>
-            <counts>16</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -53,7 +50,6 @@
             <name>Ca_Ka</name>
             <windowStart>357</windowStart>
             <windowEnd>378</windowEnd>
-            <counts>13</counts>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
