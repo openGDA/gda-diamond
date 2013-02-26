@@ -59,7 +59,10 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 		try {
 			getNdArray().getPluginBase().enableCallbacks();
 			epicsController = EpicsController.getInstance();
-			epicsController.setMonitor(epicsController.createChannel(((ADBaseImpl) getAdBase()).getBasePVName() + ADBase.Acquire_RBV), this);		
+			epicsController.setMonitor(epicsController.createChannel(((ADBaseImpl) getAdBase()).getBasePVName() + ADBase.Acquire_RBV), this);
+			FlexibleFrameStrategy flex = new FlexibleFrameStrategy(getAdBase(), 0.); 
+			setCollectionStrategy(flex);
+			flex.setMaxNumberOfFrames(10);
 		} catch (Exception e) {
 			throw new FactoryException("error setting up areadetector and related listeners ", e);
 		}
