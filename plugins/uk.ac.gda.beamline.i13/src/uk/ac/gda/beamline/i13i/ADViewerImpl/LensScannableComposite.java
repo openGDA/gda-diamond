@@ -20,39 +20,49 @@ package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
-import gda.device.scannable.ScannableUtils;
+import gda.device.scannable.ScannablePositionChangeEvent;
 import gda.observable.IObserver;
 
+import java.io.Serializable;
+
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.common.rcp.util.GridUtils;
+
 public class LensScannableComposite extends Composite {
 	static final Logger logger = LoggerFactory.getLogger(LensScannableComposite.class);
-	private Combo pcom;
 	private Scannable lensScannable;
 	private IObserver lensObserver;
+	private Label text;
+	private Group group;
 
 	public LensScannableComposite(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new GridLayout(1, false));
 
-		Group group = new Group(this, SWT.NONE);
+		group = new Group(this, SWT.NONE);
+		group.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		GridDataFactory.fillDefaults().applyTo(group);
 		group.setText("Lens");
-		group.setLayout(new RowLayout());
-		pcom = new Combo(group, SWT.SINGLE | SWT.BORDER | SWT.CENTER | SWT.READ_ONLY);
-		pcom.setItems(new String[] { "X2 7.4mm * 4.9mm", "X4 3.7mm * 2.5mm", "X10 1.5mm * 1.0mm", "Unknown" });
-		pcom.setVisible(true);
+		GridLayout gl_group = new GridLayout(1, false);
+		gl_group.marginBottom = 1;
+		gl_group.marginWidth = 1;
+		group.setLayout(gl_group);
+		text = new Label(group, SWT.NONE);
+		text.setText("x10 2mm x 3mm");
+		text.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		GridDataFactory.fillDefaults().applyTo(text);
 		
 		addDisposeListener(new DisposeListener() {
 			
@@ -70,52 +80,29 @@ public class LensScannableComposite extends Composite {
 		lensObserver = new IObserver() {
 
 			@Override
-			public void update(Object source, Object arg) {
-				try {
-					final double pos = ScannableUtils.getCurrentPositionArray(lensScannable)[0];
+			public void update(Object source, final Object arg) {
 					Display.getDefault().asyncExec(new Runnable() {
 
 						@Override
 						public void run() {
-							pcom.select((int) pos);
+							String val="";
+							if( arg instanceof ScannablePositionChangeEvent){
+								val = (String) ((ScannablePositionChangeEvent)arg).newPosition;
+							} else {
+								val = arg.toString();
+							}
+							text.setText(val);
+							GridUtils.layout(group);
 						}
 					});
-
-				} catch (DeviceException e) {
-					logger.error("Error getting position of " + lensScannable.getName(), e);
-				}
-
 			}
 		};
 		lensScannable.addIObserver(lensObserver);
-
-		pcom.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				valueChanged((Combo) e.widget);
-			}
-
-			public void valueChanged(Combo c) {
-				int npi = c.getSelectionIndex();
-				try {
-					lensScannable.asynchronousMoveTo(npi);
-				} catch (DeviceException e) {
-					logger.error("Error setting value for " + lensScannable.getName() + " to " + npi, e);
-				}
-
-			}
-		});
-
-		
-		int npi = 0;
 		try {
-			npi = (int) ScannableUtils.getCurrentPositionArray(lensScannable)[0];
-			pcom.select(npi);
-		} catch (DeviceException e1) {
-			pcom.select(3);
-			logger.error("Error setting value for " + lensScannable.getName() + " to " + npi, e1);
+			lensObserver.update(lensScannable, new ScannablePositionChangeEvent((Serializable) lensScannable.getPosition()));
+		} catch (DeviceException e) {
+			logger.error("Error reading lens", e);
 		}
-		
 	}
 
 }

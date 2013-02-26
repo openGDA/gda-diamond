@@ -21,9 +21,7 @@ package uk.ac.gda.beamline.i13i;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
 
-import uk.ac.gda.beamline.i13i.views.cameraview.CameraViewPartConfig;
 import uk.ac.gda.common.rcp.NamedServiceProvider;
 
 /**
@@ -55,10 +53,6 @@ public class I13IBeamlineActivator extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
-		if (cameraConfigTracker != null) {
-			cameraConfigTracker.close();
-			cameraConfigTracker = null;
-		}		
 		if(namedServiceProvider != null){
 			namedServiceProvider.close();
 			namedServiceProvider = null;
@@ -85,16 +79,6 @@ public class I13IBeamlineActivator extends AbstractUIPlugin {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
 	
-	@SuppressWarnings("rawtypes")
-	private static ServiceTracker cameraConfigTracker= null;
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static CameraViewPartConfig getCameraConfig() {
-		if( cameraConfigTracker==null){
-			cameraConfigTracker = new ServiceTracker(bundleContext, CameraViewPartConfig.class.getName(), null);
-			cameraConfigTracker.open(true);
-		}
-		return cameraConfigTracker.isEmpty() ? null : (CameraViewPartConfig) cameraConfigTracker.getService();
-	}
 
 	private static NamedServiceProvider namedServiceProvider;
 	

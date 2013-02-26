@@ -89,12 +89,18 @@ image_key_dark=2
 image_key_flat=1 # also known as bright
 image_key_project=0 # also known as sample
 
-
 def showNormalisedImage(outOfBeamPosition, exposureTime=None):
+	try:
+		showNormalisedImageEx(outOfBeamPosition, exposureTime=exposureTime)
+	except :
+		exceptionType, exception, traceback = sys.exc_info()
+		handle_messages.log(None, "Error in showNormalisedImage", exceptionType, exception, traceback, False)
+
+def showNormalisedImageEx(outOfBeamPosition, exposureTime=None):
     jns=beamline_parameters.JythonNameSpaceMapping()
     tomodet=jns.tomodet
     if tomodet is None:
-        raise "tomodet is not defined in Jython namespace"
+	    raise "tomodet is not defined in Jython namespace"
     if exposureTime is not None:
         exposureTime = float(exposureTime)
     else:
@@ -115,12 +121,25 @@ def showNormalisedImage(outOfBeamPosition, exposureTime=None):
     tomoScan(tomography_translation(), outOfBeamPosition, exposureTime, start=currentTheta, stop=currentTheta, step=1., imagesPerDark=1, imagesPerFlat=1)
     lsdp=jns.lastScanDataPoint()
     detName=tomography_detector.getName()
-    key=str('entry1/' + tomography_detector.getName() + '/image_data')
-    dataset=dnp.io.load(lsdp.currentFilename)[key]
+
+    nxdata=dnp.io.load(lsdp.currentFilename)[str('entry1/' + tomography_detector.getName())] 
+    datakey=None
+    for key in nxdata.keys():
+        if key == "image_data":
+            dataKey=key
+            break
+        if key == "data":
+            dataKey=key
+            break
+    if dataKey == None:
+        raise "Unable to find data in file"
+    dataset=nxdata[dataKey]
     dark=dnp.array((dataset[0,:,:]).cast(6))
     flat=dnp.array((dataset[1,:,:]).cast(6))
     image=dnp.array((dataset[2,:,:]).cast(6))
-    t= (image-dark)/(flat-dark)
+    imageD=image-dark
+    flatD=flat-dark
+    t=imageD/dnp.select( dnp.not_equal(flatD,0), flatD, 1.)
     t.name="image-dark/flat-dark"
     hdfData = Hdf5HelperData(t.shape, t.getBuffer())
     locs = HDF5HelperLocations("entry1")
@@ -289,13 +308,14 @@ def updateProgress( percent, msg):
     
 from uk.ac.gda.tomography.scan.util import ScanXMLProcessor
 from java.io import FileInputStream
-
+from gdascripts.metadata.metadata_commands import setTitle
 def ProcessScanParameters(scanParameterModelXML):
     print scanParameterModelXML
     scanXMLProcessor = ScanXMLProcessor();
     resource = scanXMLProcessor.load(FileInputStream(scanParameterModelXML), None);
     parameters = resource.getContents().get(0);
-    updateProgress(0, "Starting tomoscan");
+    setTitle(parameters.getTitle())
+    updateProgress(0, "Starting tomoscan" + parameters.getTitle());
     tomoScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
              darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
               imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI)    

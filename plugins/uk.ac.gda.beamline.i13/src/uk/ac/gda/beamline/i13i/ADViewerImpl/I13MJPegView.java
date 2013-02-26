@@ -18,30 +18,27 @@
 
 package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
+import gda.commandqueue.JythonCommandCommandProvider;
+import gda.commandqueue.Queue;
 import gda.device.ScannableMotionUnits;
 import gda.device.scannable.ScannablePositionChangeEvent;
 import gda.device.scannable.ScannableStatus;
 import gda.device.scannable.ScannableUtils;
-import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
 
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealVector;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -67,7 +64,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beamline.i13i.DisplayScaleProvider;
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
-import uk.ac.gda.epics.adviewer.composites.imageviewer.CrossHairFigure;
+import uk.ac.gda.client.CommandQueueViewFactory;
 import uk.ac.gda.epics.adviewer.composites.imageviewer.IImagePositionEvent;
 import uk.ac.gda.epics.adviewer.composites.imageviewer.ImagePositionListener;
 import uk.ac.gda.epics.adviewer.views.MJPegView;
@@ -78,8 +75,10 @@ public class I13MJPegView extends MJPegView {
 
 	I13ADControllerImpl adControllerImpl = null;
 	boolean changeRotationAxisX, changeImageMarker, moveOnClickEnabled;
-	private CrossHairFigure rotationAxisFigure;
-	private CrossHairFigure imageMarkerFigure;
+	private RectangleFigure rotationAxisFigure;
+
+	RectangleFigure imageMarkerFigureX, imageMarkerFigureY;
+
 
 	public I13MJPegView(I13ADControllerImpl config) {
 		super(config);
@@ -100,7 +99,7 @@ public class I13MJPegView extends MJPegView {
 		Composite btnLens = new Composite(c, SWT.NONE);
 		GridDataFactory.swtDefaults().applyTo(btnLens);
 		RowLayout layout = new RowLayout(SWT.VERTICAL);
-		layout.center=true;
+		layout.center = true;
 		btnLens.setLayout(layout);
 
 		LensScannableComposite lensScannableComposite = new LensScannableComposite(btnLens, SWT.NONE);
@@ -122,14 +121,13 @@ public class I13MJPegView extends MJPegView {
 
 		Button xaxis = new Button(btnLens, SWT.NONE);
 		xaxis.setImage(I13IBeamlineActivator.getImageDescriptor("icons/axes.png").createImage());
-		
-		
+
 		adControllerImpl.getMjpegViewCompositeFactory().createComposite(c, SWT.NONE, null);
 		Composite btnComp = new Composite(c, SWT.NONE);
 		btnComp.setLayout(layout);
 
 		Button showNormalisedImage = new Button(btnComp, SWT.PUSH);
-		showNormalisedImage.setText("Get Normalised Image...");
+		showNormalisedImage.setText("Get Normalised\nImage...");
 		showNormalisedImage.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -172,27 +170,15 @@ public class I13MJPegView extends MJPegView {
 					protected void okPressed() {
 						final String cmd = String.format(adControllerImpl.getShowNormalisedImageCmd(),
 								outBeamX.getText(), exposureTime.getText());
-						ProgressMonitorDialog pd = new ProgressMonitorDialog(getSite().getShell());
 						try {
-							pd.run(true /* fork */, true /* cancelable */, new IRunnableWithProgress() {
-								@Override
-								public void run(IProgressMonitor monitor) throws InvocationTargetException,
-										InterruptedException {
-									String title = "Running command '" + cmd + "'";
-
-									monitor.beginTask(title, 100);
-
-									try {
-										String result = InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
-										if (result == null)
-											throw new Exception("Error executing command '" + cmd + "'");
-									} catch (Exception e) {
-										throw new InvocationTargetException(e, "Error in " + title);
-									}
-
-									monitor.done();
-								}
-							});
+							Queue queue = CommandQueueViewFactory.getQueue();
+							if (queue != null) {
+								queue.addToTail(new JythonCommandCommandProvider(cmd, "Running command '" + cmd + "'",
+										null));
+								CommandQueueViewFactory.showView();
+							} else {
+								throw new Exception("Queue not found");
+							}
 						} catch (Exception e1) {
 							reportErrorToUserAndLog("Error showing normalised image", e1);
 						}
@@ -205,7 +191,7 @@ public class I13MJPegView extends MJPegView {
 		});
 
 		Button openScanDlg = new Button(btnComp, SWT.PUSH);
-		openScanDlg.setText("Start a tomography scan...");
+		openScanDlg.setText("Start a\ntomography scan...");
 		openScanDlg.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -361,11 +347,10 @@ public class I13MJPegView extends MJPegView {
 						final RealVector imageSize = createVectorOf(adControllerImpl.getFfmpegImageInWidth(),
 								adControllerImpl.getFfmpegImageInHeight());
 
-						RealVector clickPointInImage = actualClickPoint.ebeMultiply(imageSize).ebeDivide(
-								imageDataSize);
-						
-						//correct for left right reflection
-						//beam Centre is measure from bottom whilst clickPoint is from top
+						RealVector clickPointInImage = actualClickPoint.ebeMultiply(imageSize).ebeDivide(imageDataSize);
+
+						// correct for left right reflection
+						// beam Centre is measure from bottom whilst clickPoint is from top
 						final RealVector clickPointInImageCorrected = imageSize.subtract(clickPointInImage);
 						double beamCenterX = ScannableUtils.getCurrentPositionArray(adControllerImpl
 								.getRotationAxisXScannable())[0];
@@ -525,7 +510,7 @@ public class I13MJPegView extends MJPegView {
 	}
 
 	private void showRotationAxis(boolean show) throws Exception {
-		Figure rotationAxisFigure = getRotationAxisFigure();
+		RectangleFigure rotationAxisFigure = getRotationAxisFigure();
 		if (rotationAxisFigure.getParent() == mJPeg.getTopFigure())
 			mJPeg.getTopFigure().remove(rotationAxisFigure);
 		if (show) {
@@ -534,49 +519,136 @@ public class I13MJPegView extends MJPegView {
 			Rectangle bounds = rotationAxisFigure.getBounds();
 			int ffmpegImageInWidth = adControllerImpl.getFfmpegImageInWidth();
 			// the image is reflected so subtract from full width to get position on the screen
-			int x = (ffmpegImageInWidth - rotationAxisX) * mJPeg.getImageData().width / ffmpegImageInWidth
-					- bounds.width / 2;
-			Rectangle imageKeyBounds = new Rectangle(x, 0, -1, -1);
-			mJPeg.getTopFigure().add(rotationAxisFigure, imageKeyBounds);
+			int pixelInImage = ffmpegImageInWidth - rotationAxisX;
+
+			ImageData imageData = mJPeg.getImageData();
+			int width = imageData.width;
+			int height = imageData.height;
+			int x = pixelInImage * width / ffmpegImageInWidth;
+			// ensure the axis is not shown off the image
+			int constraintX = x- bounds.width / 2;
+
+			int maxConstraintX = width-widthOffAxis/2;
+			int minConstraintX = widthOffAxis/2;
+			constraintX = Math.min(constraintX, maxConstraintX );
+			constraintX = Math.max(constraintX, minConstraintX);
+			
+			boolean offAxis = constraintX == minConstraintX || constraintX == maxConstraintX;
+			rotationAxisFigure.setSize(offAxis ? widthOffAxis : 5, height);
+			rotationAxisFigure.setAlpha(offAxis ? 100 : 50);
+			rotationAxisFigure.setLineWidth(offAxis ? widthOffAxis : 5);
+
+			mJPeg.getTopFigure().add(rotationAxisFigure, new Rectangle(constraintX , 0, -1, -1));
+			
 		}
 	}
 
-	private Figure getRotationAxisFigure() {
+	private RectangleFigure getRotationAxisFigure() {
 		if (rotationAxisFigure == null) {
-			rotationAxisFigure = new CrossHairFigure();
-			rotationAxisFigure.setSize(3, adControllerImpl.getCameraImageHeightMax());
+			rotationAxisFigure = new RectangleFigure();
+			rotationAxisFigure.setFill(true);
+			rotationAxisFigure.setSize(5, adControllerImpl.getCameraImageHeightMax());
+			rotationAxisFigure.setLineWidth(5);
+			rotationAxisFigure.setForegroundColor(ColorConstants.red);
+			rotationAxisFigure.setAlpha(50);
 		}
 		return rotationAxisFigure;
 	}
-
+	static int widthOffAxis=20;
+	static int widthOffAxisHalf=widthOffAxis/2;
 	private void showImageMarker(boolean show) throws Exception {
-		Figure imageMarkerFigure = getImageMarkerFigure();
-		if (imageMarkerFigure.getParent() == mJPeg.getTopFigure())
-			mJPeg.getTopFigure().remove(imageMarkerFigure);
+		RectangleFigure imageMarkerFigureX = getImageMarkerFigureX();
+		if (imageMarkerFigureX.getParent() == mJPeg.getTopFigure())
+			mJPeg.getTopFigure().remove(imageMarkerFigureX);
+		if (show) {
+			double[] pos = ScannableUtils.getCurrentPositionArray(adControllerImpl.getCameraXYScannable());
+			int imageMarkerY = (int) pos[1];
+			Rectangle bounds = imageMarkerFigureX.getBounds();
+			ImageData imageData = mJPeg.getImageData();
+			int ffmpegImageInHeight = adControllerImpl.getFfmpegImageInHeight();
+			// the image is reflected so subtract from full width to get position on the screen
+			// ensure the axis is not shown off the image
+
+			// y is measure from top down but imageMarkY is from bottom up
+			int pixelInImageY = ffmpegImageInHeight - imageMarkerY;
+			int height = imageData.height;
+			int y = (pixelInImageY * height / ffmpegImageInHeight);
+
+			int halfHeight = bounds.height / 2;
+			int constraintY = y- halfHeight;
+			
+			int maxConstraintY = height- halfHeight - widthOffAxisHalf;
+			int minConstraintY = widthOffAxisHalf - halfHeight;
+			constraintY = Math.min(constraintY, maxConstraintY );
+			constraintY = Math.max(constraintY, minConstraintY);
+			
+			
+			boolean offAxis = constraintY == minConstraintY || constraintY == maxConstraintY;
+			imageMarkerFigureX.setSize(imageData.width, offAxis ? widthOffAxis : 5);
+			imageMarkerFigureX.setAlpha(offAxis ? 100 : 50);
+			imageMarkerFigureX.setLineWidth(offAxis ? widthOffAxis : 5);
+			
+			mJPeg.getTopFigure().add(imageMarkerFigureX, new Rectangle(0, constraintY, -1, -1));
+			
+			
+			
+		}
+		RectangleFigure imageMarkerFigureY = getImageMarkerFigureY();
+		if (imageMarkerFigureY.getParent() == mJPeg.getTopFigure())
+			mJPeg.getTopFigure().remove(imageMarkerFigureY);
 		if (show) {
 			double[] pos = ScannableUtils.getCurrentPositionArray(adControllerImpl.getCameraXYScannable());
 			int imageMarkerX = (int) pos[0];
-			int imageMarkerY = (int) pos[1];
-			Rectangle bounds = imageMarkerFigure.getBounds();
+			Rectangle bounds = imageMarkerFigureY.getBounds();
 			ImageData imageData = mJPeg.getImageData();
 			int ffmpegImageInWidth = adControllerImpl.getFfmpegImageInWidth();
 			// the image is reflected so subtract from full width to get position on the screen
-			int x = (ffmpegImageInWidth - imageMarkerX) * imageData.width / ffmpegImageInWidth - bounds.width / 2;
-			int ffmpegImageInHeight = adControllerImpl.getFfmpegImageInHeight();
-			//y is measure from top down but imageMarkY is from bottom up
-			int y= ((ffmpegImageInHeight - imageMarkerY) * imageData.height	/ ffmpegImageInHeight - bounds.height / 2);
-			Rectangle imageKeyBounds = new Rectangle(x, y, -1, -1);
-			mJPeg.getTopFigure().add(imageMarkerFigure, imageKeyBounds);
+			// ensure the axis is not shown off the image
+
+			int pixelInImageX = ffmpegImageInWidth - imageMarkerX;
+			int width = imageData.width;
+			int x = pixelInImageX * width / ffmpegImageInWidth;
+			int halfWidth = bounds.width / 2;
+			int constraintX = x- halfWidth;
+			
+
+			int maxConstraintX = width- halfWidth-widthOffAxisHalf;
+			int minConstraintX = widthOffAxisHalf - halfWidth;
+			constraintX = Math.min(constraintX, maxConstraintX );
+			constraintX = Math.max(constraintX, minConstraintX);
+			
+			boolean offAxis = constraintX == minConstraintX || constraintX == maxConstraintX;
+			
+			imageMarkerFigureY.setSize(offAxis ? widthOffAxis : 5, imageData.height);
+			imageMarkerFigureY.setAlpha(offAxis ? 100 : 50);
+			imageMarkerFigureY.setLineWidth(offAxis ? widthOffAxis : 5);
+			
+			mJPeg.getTopFigure().add(imageMarkerFigureY, new Rectangle(constraintX, 0, -1, -1));
+
 		}
 	}
 
-	private Figure getImageMarkerFigure() {
-		if (imageMarkerFigure == null) {
-			imageMarkerFigure = new CrossHairFigure();
-			imageMarkerFigure.setSize(1000, 1000);
-			imageMarkerFigure.setColor(ColorConstants.lightBlue);
+	private RectangleFigure getImageMarkerFigureX() {
+		if (imageMarkerFigureX == null) {
+			imageMarkerFigureX = new RectangleFigure();
+			imageMarkerFigureX.setFill(true);
+			imageMarkerFigureX.setSize(adControllerImpl.getCameraImageWidthMax(),5);
+			imageMarkerFigureX.setLineWidth(5);
+			imageMarkerFigureX.setForegroundColor(ColorConstants.lightBlue);
+			imageMarkerFigureX.setAlpha(50);			
 		}
-		return imageMarkerFigure;
+		return imageMarkerFigureX;
+	}
+	private RectangleFigure getImageMarkerFigureY() {
+		if ( imageMarkerFigureY == null) {
+			imageMarkerFigureY = new RectangleFigure();
+			imageMarkerFigureY.setFill(true);
+			imageMarkerFigureY.setSize(5, adControllerImpl.getCameraImageHeightMax());
+			imageMarkerFigureY.setLineWidth(5);
+			imageMarkerFigureY.setForegroundColor(ColorConstants.lightBlue);
+			imageMarkerFigureY.setAlpha(50);			
+		}
+		return imageMarkerFigureY;
 	}
 
 }

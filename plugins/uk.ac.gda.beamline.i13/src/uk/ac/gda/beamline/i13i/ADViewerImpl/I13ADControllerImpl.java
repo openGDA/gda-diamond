@@ -28,8 +28,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import uk.ac.gda.beamline.i13i.DisplayScaleProvider;
-import uk.ac.gda.beamline.i13i.views.cameraview.BeamCenterProvider;
-import uk.ac.gda.beamline.i13i.views.cameraview.ImageViewerListener;
 import uk.ac.gda.epics.adviewer.ADControllerImpl;
 
 public class I13ADControllerImpl extends  ADControllerImpl implements InitializingBean {
@@ -81,9 +79,6 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 		this.mjpegViewCompositeFactory = mjpegViewCompositeFactory;
 	}
 
-	private BeamCenterProvider beamCenterProvider;
-	private ImageViewerListener imageViewerListener;
-	
 	private Scannable rotationAxisXScannable;
 	private DisplayScaleProvider displayScaleProvider;
 	private Scannable cameraXYScannable;
@@ -97,23 +92,6 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 	private ScannableMotionUnits sampleCentringXMotor;
 
 	private ScannableMotionUnits sampleCentringYMotor;
-
-
-	public BeamCenterProvider getBeamCenterProvider() {
-		return beamCenterProvider;
-	}	
-	public void setBeamCenterProvider(BeamCenterProvider beamCenterProvider) {
-		this.beamCenterProvider = beamCenterProvider;
-	}
-
-
-	public ImageViewerListener getImageViewerListener() {
-		return imageViewerListener;
-	}
-
-	public void setImageViewerListener(ImageViewerListener imageViewerListener) {
-		this.imageViewerListener = imageViewerListener;
-	}
 
 
 

@@ -1,14 +1,16 @@
 #This file is used by beamline_parameters.jythonNamespaceMapping
 #tomography_theta=ss1_rot_dummy
-#tomography_shutter=eh_shtr_dummy
+tomography_shutter=eh_shtr_dummy
 #tomography_translation=ss1_X_dummy
 tomography_optimizer=beam_optimizer
 #tomography_detector=dummy_cam_ad
-tomography_detector=pco1_hw_tif
-#tomography_detector=pco1_hw_hdf
+#tomography_detector=pco1_hw_tif
+tomography_detector=pco1_hw_hdf
 #tomography_detector=dimax_tif
 tomography_theta=ss1_rot
-tomography_shutter=expt_fastshutter
+#make sure pco1_tif.collectionStrategy.shutterDarkScannable is set to this 
+#epg 21/2/2013 for pco1_tif. use dummy
+#tomography_shutter=expt_fastshutter
 tomography_translation=ss1_X
 tomography_time=actualTime
 tomography_beammonitor=ionc_i

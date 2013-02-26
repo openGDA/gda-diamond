@@ -21,7 +21,7 @@ class ExperimentShutterEnumPositioner(ScannableBase):
 			self.delegate.asynchronousMoveTo(1)
 		else:
 			self.delegate.asynchronousMoveTo(0)
-		time.sleep(1) #sleep to allow shutter to 
+		time.sleep(.25) #sleep to allow shutter to 
 	def rawGetPosition(self):
 		position = self.delegate.getPosition()
 		if int(position) == 1:
@@ -55,6 +55,18 @@ try:
 	alias("caput")
 	alias("caget")
 	
+
+#	caput("BL13I-EA-TURR-01:DEMAND.ZRST", "1 X2 7mm x 5mm")
+#	caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", "1 X2 7mm x 5mm")
+	caput("BL13I-EA-TURR-01:DEMAND.TWST", "X4 CWD 200")
+	caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", "X4 CWD 200")
+	caput("BL13I-EA-TURR-01:DEMAND.FRST", "X2 7mm x 5mm")
+	caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", "X2 7mm x 5mm")
+	caput("BL13I-EA-TURR-01:DEMAND.FVST", "X4 4mm x 3mm")
+	caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", "X4 4mm x 3mm")
+	caput("BL13I-EA-TURR-01:DEMAND.SXST", "X10 2mm x 1mm")
+	caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", "X10 2mm x 1mm")
+
 	from gda.factory import Finder
 	from gda.configuration.properties import LocalProperties
 #	from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
@@ -146,7 +158,10 @@ try:
 	tomodet = alignmentGui.TomoDet()
 #	run("i13diffcalc")
 	import raster_scan
-
+	
+	#setup trigger for pink beam
+	pco1_hw_tif.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
+	pco1_hw_hdf.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
 
 except :
 	exceptionType, exception, traceback = sys.exc_info()

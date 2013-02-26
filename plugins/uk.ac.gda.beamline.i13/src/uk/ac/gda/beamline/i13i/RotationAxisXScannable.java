@@ -54,7 +54,9 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 	DisplayScaleProvider cameraScaleProvider;
 	private IObserver observer;
 
-	
+	String getAllowedKey(String key){
+		return key.replace(" ", "_");
+	}
 	@Override
 	public boolean isBusy() throws DeviceException {
 		return false;
@@ -76,14 +78,14 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 
 
 	private void setOffset(double offset) throws DeviceException, ConfigurationException {
-		int lensPos = getLensValue();
-		configuration.setProperty(offsetPropertyName+ lensPos,offset);
+		String lensPos = getLensValue();
+		configuration.setProperty(getAllowedKey(offsetPropertyName+ lensPos),offset);
 		configuration.save();
 	}
 
 
-	private int getLensValue() throws DeviceException {
-		return (int)ScannableUtils.getCurrentPositionArray(lensScannable)[0];
+	private String getLensValue() throws DeviceException {
+		return (String)lensScannable.getPosition();
 	}
 
 
@@ -108,6 +110,8 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 					public void update(Object source, Object arg) {
 						if( arg instanceof ScannableStatus){
 							notifyIObservers(RotationAxisXScannable.this, new ScannableStatus(getName(),((ScannableStatus)arg).status ));
+						} else if( arg instanceof ScannablePositionChangeEvent){
+							notifyIObservers(RotationAxisXScannable.this, arg);
 						}
 					}
 				};
@@ -147,8 +151,8 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 
 
 	private double getOffset() throws DeviceException {
-		int lensPos = getLensValue();
-		double offset = configuration.getDouble(offsetPropertyName+ lensPos, 0.0);
+		String lensPos = getLensValue();
+		double offset = configuration.getDouble(getAllowedKey(offsetPropertyName+ lensPos), 0.0);
 		return offset;
 	}
 
