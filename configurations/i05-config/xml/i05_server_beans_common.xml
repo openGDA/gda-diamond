@@ -134,6 +134,8 @@
 	<import resource="devices/${gda.mode}/i05_server_devices.xml" />
 	<import resource="i05_server_dummy.xml" />
 
+	<import resource="analyser.xml" />
+
     <corba:export namespace="i05" />
 
 	<gda:rbac />

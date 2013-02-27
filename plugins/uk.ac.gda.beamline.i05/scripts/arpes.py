@@ -20,7 +20,6 @@ class APRESRun:
             self.totalSteps = self.progresscounter
             print "max progress steps: %d" % self.totalSteps
         JythonScriptProgressProvider.sendProgress(100.0*self.progresscounter/self.totalSteps, "%s  (%3.1f%% done)" % (message, 100.0*self.progresscounter/self.totalSteps))
-    
         
     def checkDevice(self):
         pass
@@ -39,12 +38,15 @@ class APRESRun:
     def run(self):
         self.reportProgress("Initialising")
         self.checkDevice()
+        self.scienta.setPassEnergy(self.bean.getPassEnergy())
+        self.scienta.setLensMode(self.bean.getLensMode())
         if self.bean.isSweptMode():
-            raise "swept mode not supported"
+            self.scienta.setFixedMode(False)
+            self.scienta.setStartEnergy(self.bean.getStartEnergy())
+            self.scienta.setEndEnergy(self.bean.getEndEnergy())
+            self.scienta.setEnergyStep(self.bean.getStepEnergy()/1000.0)
         else:
             self.scienta.prepareFixedMode()
-            self.scienta.setPassEnergy(self.bean.getPassEnergy())
-            self.scienta.setLensMode(self.bean.getLensMode())
             self.scienta.setCentreEnergy((self.bean.getEndEnergy()+self.bean.getStartEnergy())/2.0)
         self.scienta.getAdBase().setNumExposures(self.bean.getIterations())
         self.scienta.setCollectionTime(self.bean.getTimePerStep())
