@@ -55,11 +55,23 @@ public class I20Validator extends ExafsValidator {
 
 		try {
 			errors.addAll(validateIScanParameters(bean.getScanParameters(), bean.getDetectorParameters()));
+		} catch (Exception e) {
+			throw new InvalidBeanException("Error in scan XML file: " + e.getMessage());
+		}
+		try {
 			errors.addAll(validateI20SampleParameters((I20SampleParameters) bean.getSampleParameters()));
+		} catch (Exception e) {
+			throw new InvalidBeanException("Error in sample environment XML file: " + e.getMessage());
+		}
+		try {
 			errors.addAll(validateIDetectorParameters(bean.getDetectorParameters()));
+		} catch (Exception e) {
+			throw new InvalidBeanException("Error in detector XML file: " + e.getMessage());
+		}
+		try {
 			errors.addAll(validateIOutputParameters(bean.getOutputParameters()));
 		} catch (Exception e) {
-			throw new InvalidBeanException("Exception retrieving parameters objects: " + e.getMessage());
+			throw new InvalidBeanException("Error in output options XML file: " + e.getMessage());
 		}
 
 		if (!errors.isEmpty()) {
