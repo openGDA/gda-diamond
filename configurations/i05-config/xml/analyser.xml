@@ -78,6 +78,15 @@
 		</property>
 	</bean>
 	
+	<bean id="proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="basePVName" value="BL05I-EA-DET-01:PROC:" />
+						<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL05I-EA-DET-01:PROC:" />
+			</bean>
+		</property>
+	</bean>
+	
 	<bean id="controller" class="uk.ac.gda.arpes.detector.VGScientaController">
 		<property name="basePVName" value="BL05I-EA-DET-01:CAM:" />
 	</bean>
@@ -85,6 +94,7 @@
 	<bean id="analyser" class="uk.ac.gda.arpes.detector.VGScientaAnalyser">
 		<property name="controller" ref="controller" />
 		<property name="adBase" ref="area" />
+		<property name="ndProc" ref="proc" />
 		<property name="ndArray" ref="array" />
 		<!-- <property name="ndStats" ref="stats" /> -->
 		<property name="ndFile" ref="filebase" />
