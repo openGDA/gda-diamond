@@ -31,6 +31,11 @@ import uk.ac.gda.richbeans.editors.RichBeanMultiPageEditorPart;
 public final class ARPESScanBeanEditor extends RichBeanMultiPageEditorPart {
 	private static final Logger logger = LoggerFactory.getLogger(ARPESScanBeanEditor.class);
 
+	public ARPESScanBeanEditor() {
+		super();
+		setPartProperty("RichBeanEditorPart", null);
+	}
+	
 	@Override
 	public Class<?> getBeanClass() {
 		return ARPESScanBean.class;

@@ -16,11 +16,14 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.arpes.ui;
+package uk.ac.gda.arpes.ui.views;
 
+import gda.device.Device;
+import gda.device.MotorStatus;
 import gda.device.Scannable;
 import gda.factory.Finder;
 import gda.jython.JythonServerFacade;
+import gda.observable.IObserver;
 import gda.rcp.views.MotorPositionViewerComposite;
 
 import java.util.Comparator;
@@ -35,12 +38,13 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.gda.arpes.detector.AnalyserCapabilties;
 
-public class ContinuousModeControllerView extends ViewPart {
+public class ContinuousModeControllerView extends ViewPart implements IObserver {
 	private AnalyserCapabilties capabilities;
 	private Combo lensMode;
 	private Combo passEnergy;
@@ -50,6 +54,8 @@ public class ContinuousModeControllerView extends ViewPart {
 	private Button zeroButton;
 	private String[] lensModes;
 	private String[] passArray;
+	private Device analyser;
+	private boolean running = false;
 
 	public ContinuousModeControllerView() {
 	}
@@ -188,15 +194,66 @@ public class ContinuousModeControllerView extends ViewPart {
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("energy")), true, "photonEnergy", 4, null, true);
 		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 	
-		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("acquire_time")), true, "timePerStep", 2
-				, null, true);
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("acquire_time")), true, "timePerStep", 2, null, true);
 		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1));
 
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("exit_slit")), true, "exitSlit", 4, null, true);
 		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sax")), true, "sax", 4, null, true);
+		GridData gd;
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1);
+		gd.verticalIndent = 8;
+		mpvc.setLayoutData(gd);
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("say")), true, "say", 4, null, true);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		gd.verticalIndent = 8;
+		mpvc.setLayoutData(gd);		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saz")), true, "saz", 4, null, true);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		gd.verticalIndent = 8;
+		mpvc.setLayoutData(gd);		
+		
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("satilt")), true, "satilt", 4, null, true);
+		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1));
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sapolar")), true, "sapolar", 4, null, true);
+		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saazimuth")), true, "saazimuth", 4, null, true);
+		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sample_temp")), true, "sample_temp", 4, null, true);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1);
+		gd.verticalIndent = 8;
+		mpvc.setLayoutData(gd);
+		
+		analyser = (Device) Finder.getInstance().find("analyser");
+		if (analyser != null) {
+			analyser.addIObserver(this);
+		}
 	}
 
 	@Override
 	public void setFocus() {
+	}
+
+	@Override
+	public void update(Object source, Object arg) {
+		if (startButton.isDisposed()) {
+			analyser.deleteIObserver(this);
+			return;
+		}
+		
+		if (arg instanceof MotorStatus) {
+			running = MotorStatus.BUSY.equals(arg);
+			
+				Display.getDefault().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						startButton.setEnabled(!running);
+						startButton.setSelection(running);
+						stopButton.setEnabled(running);
+						stopButton.setSelection(!running);
+					}
+				});
+		}
 	}
 }

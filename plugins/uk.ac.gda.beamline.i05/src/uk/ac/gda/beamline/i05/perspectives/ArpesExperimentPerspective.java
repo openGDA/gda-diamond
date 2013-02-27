@@ -27,13 +27,17 @@ public class ArpesExperimentPerspective implements IPerspectiveFactory {
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
 		layout.setEditorAreaVisible(true);
-		
-		layout.addView("uk.ac.gda.client.arpes.cameraview", IPageLayout.RIGHT, 0.6f, IPageLayout.ID_EDITOR_AREA);
-		layout.addView("uk.ac.gda.client.CommandQueueViewFactory", IPageLayout.TOP, 0.38f, "uk.ac.gda.client.arpes.cameraview");
-		layout.addView("uk.ac.gda.rcp.views.dashboardView", IPageLayout.TOP, 0.46f, "uk.ac.gda.client.CommandQueueViewFactory");
+		{
+			IFolderLayout folderLayout = layout.createFolder("folder", IPageLayout.RIGHT, 0.55f, IPageLayout.ID_EDITOR_AREA);
+			folderLayout.addView("uk.ac.gda.client.arpes.cameraview");
+			folderLayout.addView("uk.ac.gda.client.arpes.sweptview");
+		}
+		layout.addView("uk.ac.gda.client.CommandQueueViewFactory", IPageLayout.TOP, 0.41f, "uk.ac.gda.client.arpes.cameraview");
+		layout.addView("uk.ac.gda.rcp.views.dashboardView", IPageLayout.TOP, 0.51f, "uk.ac.gda.client.CommandQueueViewFactory");
 		{
 			IFolderLayout folderLayout = layout.createFolder("folder_2", IPageLayout.BOTTOM, 0.6f, IPageLayout.ID_EDITOR_AREA);
 			folderLayout.addView("gda.rcp.jythonterminalview");
+			folderLayout.addView("uk.ac.gda.arpes.ui.view.samplemetadata");
 			folderLayout.addView("gda.rcp.views.baton.BatonView");
 		}
 		layout.addView("org.eclipse.ui.navigator.ProjectExplorer", IPageLayout.LEFT, 0.24f, IPageLayout.ID_EDITOR_AREA);

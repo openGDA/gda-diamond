@@ -64,10 +64,6 @@ public final class ARPESScanBeanUIEditor extends RichBeanEditorPart {
 	public void setFocus() {
 	}
 
-	public FieldComposite getLabel() {
-		return beanComposite.getLabel();
-	}
-
 	public FieldComposite getLensMode() {
 		return beanComposite.getLensMode();
 	}

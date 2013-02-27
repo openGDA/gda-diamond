@@ -51,11 +51,19 @@
 				<property name="file" ref="filebase" />
 	</bean>	
 	
-	<bean id="array" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+	<bean id="array1" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
 		<property name="basePVName" value="BL05I-EA-DET-01:ARR1:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL05I-EA-DET-01:ARR1:" />
+			</bean>
+		</property>
+	</bean>		
+	<bean id="array2" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL05I-EA-DET-01:ARR2:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL05I-EA-DET-01:ARR2:" />
 			</bean>
 		</property>
 	</bean>	
@@ -78,6 +86,15 @@
 		</property>
 	</bean>
 	
+	<bean id="proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="basePVName" value="BL05I-EA-DET-01:PROC:" />
+						<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL05I-EA-DET-01:PROC:" />
+			</bean>
+		</property>
+	</bean>
+	
 	<bean id="controller" class="uk.ac.gda.arpes.detector.VGScientaController">
 		<property name="basePVName" value="BL05I-EA-DET-01:CAM:" />
 	</bean>
@@ -85,7 +102,8 @@
 	<bean id="analyser" class="uk.ac.gda.arpes.detector.VGScientaAnalyser">
 		<property name="controller" ref="controller" />
 		<property name="adBase" ref="area" />
-		<property name="ndArray" ref="array" />
+		<property name="ndProc" ref="proc" />
+		<property name="ndArray" ref="array2" />
 		<!-- <property name="ndStats" ref="stats" /> -->
 		<property name="ndFile" ref="filebase" />
 		<property name="local" value="false" />
@@ -94,8 +112,8 @@
 			<list>
 				<value>0</value>
 				<value>0</value>
-				<value>948</value>
-				<value>948</value>
+				<value>1040</value>
+				<value>1000</value>
 			</list>
 		</property>
 	</bean>
@@ -107,14 +125,24 @@
 	
 	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL05I-EA-DET-01:CAM:AcquireTime_RBV" />
-		<property name="pvNameSetPoint" value="BL05I-EA-DET-01:CAM:AcquireTime" />
+		<property name="pvNameSetPoint" value="BL05I-EA-DET-01:CAM:STEP_TIME" />
 	</bean>
 	
 	<bean id="AnalyserCapabilities" class="uk.ac.gda.arpes.detector.AnalyserCapabilties" />
 	
+	<bean id="AnalyserSumLive" class="uk.ac.gda.arpes.detector.AnalyserLiveDataDispatcher">
+		<property name="analyser" ref="analyser" />
+		<property name="plotName" value="Detector Sum Plot" />
+		<property name="arrayPV" value="BL05I-EA-DET-01:ARR2:ArrayData" />
+	</bean>
 	<bean id="AnalyserLive" class="uk.ac.gda.arpes.detector.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Detector Plot" />
 		<property name="arrayPV" value="BL05I-EA-DET-01:ARR1:ArrayData" />
+	</bean>
+	<bean id="AnalyserSweptLive" class="uk.ac.gda.arpes.detector.AnalyserSweptLiveDataDispatcher">
+		<property name="analyser" ref="analyser" />
+		<property name="plotName" value="Swept Plot" />
+		<property name="arrayPV" value="BL05I-EA-DET-01:CAM:IMAGE" />
 	</bean>
 </beans>
