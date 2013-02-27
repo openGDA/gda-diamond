@@ -39,8 +39,9 @@ public class FlexibleFrameStrategy extends SimpleAcquire implements MonitorListe
 	private NDProcess proc;
 	private EpicsController epicsController;
 	
-	public FlexibleFrameStrategy(ADBase base, double time) throws CAException, InterruptedException, TimeoutException {
+	public FlexibleFrameStrategy(ADBase base, double time, NDProcess ndProcess) throws CAException, InterruptedException, TimeoutException {
 		super(base, time);
+		proc = ndProcess;
 		epicsController = EpicsController.getInstance();
 		epicsController.setMonitor(epicsController.createChannel(((ADBaseImpl) getAdBase()).getBasePVName() + ADBase.ArrayCounter_RBV), this);
 	}
@@ -48,7 +49,7 @@ public class FlexibleFrameStrategy extends SimpleAcquire implements MonitorListe
 	@Override
 	public void collectData() throws Exception {
 		getAdBase().setArrayCounter(0);
-//		proc.setResetFilter(1);
+		proc.setResetFilter(1);
 		wethinkweareincharge = true;
 		interactWithDeviceIfRequired();
 		getAdBase().startAcquiring();
@@ -106,8 +107,9 @@ public class FlexibleFrameStrategy extends SimpleAcquire implements MonitorListe
 	public void setMaxNumberOfFrames(int maxNumberOfFrames) {
 		if (maxNumberOfFrames < 1)
 			throw new IllegalArgumentException("must collect at least one frame");
-		if (maxNumberOfFrames <= currentFrame)
+		if (maxNumberOfFrames < currentFrame)
 			throw new IllegalArgumentException("cannot reduce number of frames when I already collected more");
 		this.maxNumberOfFrames = maxNumberOfFrames;
+		interactWithDeviceIfRequired();
 	}
 }

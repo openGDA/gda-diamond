@@ -43,7 +43,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.gda.arpes.detector.AnalyserCapabilties;
-import uk.ac.gda.arpes.detector.VGScientaAnalyser;
 
 public class ContinuousModeControllerView extends ViewPart implements IObserver {
 	private AnalyserCapabilties capabilities;
@@ -253,7 +252,6 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 						startButton.setSelection(running);
 						stopButton.setEnabled(running);
 						stopButton.setSelection(!running);
-						
 					}
 				});
 		}

@@ -24,6 +24,7 @@ import gda.device.corba.impl.DeviceAdapter;
 import gda.device.corba.impl.DeviceImpl;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.areadetector.v17.ADBase;
+import gda.device.detector.areadetector.v17.NDProcess;
 import gda.device.detector.areadetector.v17.impl.ADBaseImpl;
 import gda.epics.connection.EpicsController;
 import gda.factory.FactoryException;
@@ -49,6 +50,8 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 	private int[] fixedModeRegion;
 	private EpicsController epicsController;
 	
+	private NDProcess ndProc;
+	
 	public final static MotorStatus stopped = MotorStatus.READY;
 	public final static MotorStatus running = MotorStatus.BUSY;
 	
@@ -60,9 +63,9 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 			getNdArray().getPluginBase().enableCallbacks();
 			epicsController = EpicsController.getInstance();
 			epicsController.setMonitor(epicsController.createChannel(((ADBaseImpl) getAdBase()).getBasePVName() + ADBase.Acquire_RBV), this);
-			FlexibleFrameStrategy flex = new FlexibleFrameStrategy(getAdBase(), 0.); 
+			FlexibleFrameStrategy flex = new FlexibleFrameStrategy(getAdBase(), 0., getNdProc()); 
 			setCollectionStrategy(flex);
-			flex.setMaxNumberOfFrames(10);
+			flex.setMaxNumberOfFrames(1);
 		} catch (Exception e) {
 			throw new FactoryException("error setting up areadetector and related listeners ", e);
 		}
@@ -255,5 +258,13 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 			else 
 				notifyIObservers(this, running);
 		}
+	}
+
+	public NDProcess getNdProc() {
+		return ndProc;
+	}
+
+	public void setNdProc(NDProcess ndProc) {
+		this.ndProc = ndProc;
 	}
 }
