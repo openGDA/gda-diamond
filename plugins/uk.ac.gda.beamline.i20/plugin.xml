@@ -60,11 +60,11 @@
          </contentTypeBinding>
       </editor>
       <editor
-            class="gda.exafs.ui.XesScanParametersEditor"
+            class="uk.ac.gda.exafs.ui.XesScanParametersEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             icon="icons/XesParametersIcon.png"
-            id="gda.exafs.ui.XesScanParametersEditor"
+            id="uk.ac.gda.exafs.ui.XesScanParametersEditor"
             name="XesScanParameters">
          <contentTypeBinding
                contentTypeId="uk.ac.gda.beans.exafs.XesScanParametersContentType">
@@ -540,6 +540,9 @@
       <editormanager
         class="gda.exafs.ui.I20ExperimentEditorManager">
       </editormanager>
+      <templatesLocation
+            folderName="${gda.var}/templates">
+      </templatesLocation>
    </extension>
   <extension
          point="uk.ac.gda.richbeans.beantypes">

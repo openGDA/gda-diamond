@@ -55,11 +55,23 @@ public class I20Validator extends ExafsValidator {
 
 		try {
 			errors.addAll(validateIScanParameters(bean.getScanParameters(), bean.getDetectorParameters()));
+		} catch (Exception e) {
+			throw new InvalidBeanException("Error in scan XML file: " + e.getMessage());
+		}
+		try {
 			errors.addAll(validateI20SampleParameters((I20SampleParameters) bean.getSampleParameters()));
+		} catch (Exception e) {
+			throw new InvalidBeanException("Error in sample environment XML file: " + e.getMessage());
+		}
+		try {
 			errors.addAll(validateIDetectorParameters(bean.getDetectorParameters()));
+		} catch (Exception e) {
+			throw new InvalidBeanException("Error in detector XML file: " + e.getMessage());
+		}
+		try {
 			errors.addAll(validateIOutputParameters(bean.getOutputParameters()));
 		} catch (Exception e) {
-			throw new InvalidBeanException("Exception retrieving parameters objects: " + e.getMessage());
+			throw new InvalidBeanException("Error in output options XML file: " + e.getMessage());
 		}
 
 		if (!errors.isEmpty()) {
@@ -112,11 +124,6 @@ public class I20Validator extends ExafsValidator {
 					+ detParams.getExperimentType() + " which should be XES"));
 		}
 
-		// Check type
-		if (!"Si".equals(x.getAnalyserType()) && !"Ge".equals(x.getAnalyserType())) {
-			errors.add(new InvalidBeanMessage("The analyser type is " + x.getAnalyserType() + " which is not "));
-		}
-
 		checkBounds("Radius of Curvature", x.getRadiusOfCurvature(), 800d, 1010d, errors);
 
 		if (x.getScanType() == XesScanParameters.SCAN_XES_FIXED_MONO) {
@@ -128,7 +135,6 @@ public class I20Validator extends ExafsValidator {
 				errors.add(new InvalidBeanMessage("The initial energy is greater than or equal to the final energy."));
 			}
 
-			// TODO Actually a function of crystall cut.
 			checkBounds("XES Initial Energy", initialE, 0d, finalE, errors);
 			checkBounds("XES Final Energy", finalE, initialE, 35000d, errors);
 
@@ -141,7 +147,6 @@ public class I20Validator extends ExafsValidator {
 				errors.add(new InvalidBeanMessage("The initial energy is greater than or equal to the final energy."));
 			}
 
-			// TODO Actually a function of crystall cut.
 			checkBounds("XES Initial Energy", initialE, 0d, finalE, errors);
 			checkBounds("XES Final Energy", finalE, initialE, 35000d, errors);
 

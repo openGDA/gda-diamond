@@ -18,7 +18,6 @@
 
 package uk.ac.gda.beamline.i18.startup;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,8 +26,6 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorInput;
@@ -51,10 +48,9 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.client.experimentdefinition.components.ExperimentExperimentView;
 import uk.ac.gda.client.experimentdefinition.components.ExperimentPerspective;
-import uk.ac.gda.client.experimentdefinition.ui.handlers.RefreshProjectAction;
+import uk.ac.gda.client.experimentdefinition.ui.handlers.RefreshProjectCommandHandler;
 import uk.ac.gda.client.microfocus.ui.MicroFocusPerspective;
 import uk.ac.gda.client.microfocus.views.ExafsSelectionView;
-import uk.ac.gda.client.microfocus.views.scan.MicroFocusElementListView;
 
 public class EarlyStartup implements IStartup {
 
@@ -62,28 +58,14 @@ public class EarlyStartup implements IStartup {
 
 	private HashMap<String, ArrayList<IEditorReference>> perspectiveEditors = new HashMap<String, ArrayList<IEditorReference>>();
 	private HashMap<String, IEditorReference> lastActiveEditors = new HashMap<String, IEditorReference>();
-	
+
 	@Override
 	public void earlyStartup() {
-		/*
-		 * 06. * The registration of the listener should have been done in the UI thread 07. * since
-		 * PlatformUI.getWorkbench().getActiveWorkbenchWindow() returns null 08. * if it is called outside of the UI
-		 * thread. 09. *
-		 */
 		Display.getDefault().asyncExec(new Runnable() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.lang.Runnable#run()
-			 */
+
 			@Override
 			public void run() {
-				
-				/*try {
-					PlatformUI.getWorkbench().openWorkbenchWindow(CommonPerspective.ID, null);
-				} catch (WorkbenchException e1) {
-					// TODO Auto-generated catch block
-					logger.error("Unable to open the common perspective", e1);
-				}*/
+
 				setupPartListener();
 				final IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 				if (workbenchWindow != null) {
@@ -92,26 +74,23 @@ public class EarlyStartup implements IStartup {
 						@Override
 						public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor perspective) {
 							super.perspectiveActivated(page, perspective);
-							IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor("uk.ac.microfocus.elementlist.refresh");
 							if (perspective.getId().indexOf(MicroFocusPerspective.ID) > -1) {
 								IViewReference[] viewReference = page.getViewReferences();
 								for (IViewReference view : viewReference) {
-									if (view.getId().equals(ExafsSelectionView.ID) ) {
+									if (view.getId().equals(ExafsSelectionView.ID)) {
 										((ExafsSelectionView) view.getView(true)).refresh();
 									}
 								}
 
-							}
-							else if(perspective.getId().indexOf(ExperimentPerspective.ID) > -1)
-							{
+							} else if (perspective.getId().indexOf(ExperimentPerspective.ID) > -1) {
 								IViewReference[] viewReference = page.getViewReferences();
 								for (IViewReference view : viewReference) {
 									if (view.getId().equals(ExperimentExperimentView.ID)) {
-										IHandlerService handlerService = (IHandlerService)((ExperimentExperimentView) view.getView(true)).getSite(
-										).getService( IHandlerService.class );
+										IHandlerService handlerService = (IHandlerService) ((ExperimentExperimentView) view
+												.getView(true)).getSite().getService(IHandlerService.class);
 										// Execute the command
 										try {
-											handlerService.executeCommand( RefreshProjectAction.ID, new Event());
+											handlerService.executeCommand(RefreshProjectCommandHandler.ID, new Event());
 										} catch (ExecutionException e) {
 											logger.error("Error during refresh ", e);
 										} catch (NotDefinedException e) {
@@ -123,9 +102,9 @@ public class EarlyStartup implements IStartup {
 										}
 									}
 								}
-								
+
 							}
-							
+
 							/*----------------------------------------------
 							 * part to hide all open editors
 							 */
@@ -134,32 +113,33 @@ public class EarlyStartup implements IStartup {
 							for (int i = 0; i < editors.length; i++) {
 								page.hideEditor(editors[i]);
 							}
-							
+
 							// Show the editors associated with this perspective
 							ArrayList<IEditorReference> editorRefs = perspectiveEditors.get(perspective.getId());
 							if (editorRefs != null) {
-								for (Iterator<IEditorReference> it = editorRefs.iterator(); it.hasNext(); ) {
+								for (Iterator<IEditorReference> it = editorRefs.iterator(); it.hasNext();) {
 									IEditorReference editorInput = it.next();
 									page.showEditor(editorInput);
 								}
-								
+
 								// Send the last active editor to the top
 								IEditorReference lastActiveRef = lastActiveEditors.get(perspective.getId());
-								if(lastActiveRef != null)
+								if (lastActiveRef != null)
 									page.bringToTop(lastActiveRef.getPart(true));
 							}
 							/*-----Part to hide all editor**/
-							
+
 						}
-						
+
 						@Override
 						public void perspectiveDeactivated(IWorkbenchPage page, IPerspectiveDescriptor perspective) {
-							//updateTitle();
+							// updateTitle();
 							IEditorPart activeEditor = page.getActiveEditor();
 							if (activeEditor != null) {
 
 								// Find the editor reference that relates to this editor input
-								IEditorReference[] editorRefs = page.findEditors(activeEditor.getEditorInput(), null, IWorkbenchPage.MATCH_INPUT);
+								IEditorReference[] editorRefs = page.findEditors(activeEditor.getEditorInput(), null,
+										IWorkbenchPage.MATCH_INPUT);
 								if (editorRefs.length > 0) {
 									lastActiveEditors.put(perspective.getId(), editorRefs[0]);
 								}
@@ -171,50 +151,50 @@ public class EarlyStartup implements IStartup {
 			}
 		});
 	}
-	
-	private void setupPartListener(){
+
+	private void setupPartListener() {
 		final IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		IPartService service = (IPartService) workbenchWindow.getService(IPartService.class);
-	service.addPartListener(new IPartListener() {
+		service.addPartListener(new IPartListener() {
 
-		@Override
-		public void partActivated(IWorkbenchPart part) {
-		}
+			@Override
+			public void partActivated(IWorkbenchPart part) {
+			}
 
-		@Override
-		public void partBroughtToTop(IWorkbenchPart part) {
-		}
+			@Override
+			public void partBroughtToTop(IWorkbenchPart part) {
+			}
 
-		@Override
-		public void partClosed(IWorkbenchPart part) {
-		}
+			@Override
+			public void partClosed(IWorkbenchPart part) {
+			}
 
-		@Override
-		public void partDeactivated(IWorkbenchPart part) {
-		}
+			@Override
+			public void partDeactivated(IWorkbenchPart part) {
+			}
 
-		@Override
-		public void partOpened(IWorkbenchPart part) {
-			if (part instanceof EditorPart) {
-				EditorPart editor = (EditorPart)part;
-				IWorkbenchPage page = part.getSite().getPage();
-				IEditorInput editorInput = editor.getEditorInput();
-				IPerspectiveDescriptor activePerspective = page.getPerspective();
-				
-				ArrayList<IEditorReference> editors = perspectiveEditors.get(activePerspective.getId());
-				if (editors == null)
-					editors = new ArrayList<IEditorReference>();
+			@Override
+			public void partOpened(IWorkbenchPart part) {
+				if (part instanceof EditorPart) {
+					EditorPart editor = (EditorPart) part;
+					IWorkbenchPage page = part.getSite().getPage();
+					IEditorInput editorInput = editor.getEditorInput();
+					IPerspectiveDescriptor activePerspective = page.getPerspective();
 
-				// Find the editor reference that relates to this editor input
-				IEditorReference[] editorRefs = page.findEditors(editorInput, null, IWorkbenchPage.MATCH_INPUT);
-				
-				if (editorRefs.length > 0) {
-					editors.add(editorRefs[0]);
-					perspectiveEditors.put(activePerspective.getId(), editors);
+					ArrayList<IEditorReference> editors = perspectiveEditors.get(activePerspective.getId());
+					if (editors == null)
+						editors = new ArrayList<IEditorReference>();
+
+					// Find the editor reference that relates to this editor input
+					IEditorReference[] editorRefs = page.findEditors(editorInput, null, IWorkbenchPage.MATCH_INPUT);
+
+					if (editorRefs.length > 0) {
+						editors.add(editorRefs[0]);
+						perspectiveEditors.put(activePerspective.getId(), editors);
+					}
 				}
 			}
-		}
-	});
-   
+		});
+
 	}
 }
