@@ -5,12 +5,10 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/ncsa.hdf"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.common.services"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.common.ui"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.common.util"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.gda.extensions"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.hdf5"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.hdf5.editor"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.jlchart"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.workbench.jmx"/>
