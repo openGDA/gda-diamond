@@ -33,7 +33,7 @@ class BinaryPvDetector(DetectorBase):
         return self.name, self.pe
 
     def __repr__(self):
-        return "PerkinElmer(name=%r, %r)" % (self.get_values())
+        return "BinaryPvDetector(name=%r, %r)" % (self.get_values())
 
     def setNormal(self):
         if self.verbose:
