@@ -36,7 +36,7 @@
 			name="ss1TzScannable" ref="idummyscannablemotor_x" /> <property name="sampleHolderScannable" 
 			ref="idummyscannablemotor_x" /> <property name="ss1RxScannable" ref="idummyscannablemotor_x" 
 			/> <property name="ss1RzScannable" ref="idummyscannablemotor_x" /> -->
-		<property name="defaultDistanceToMoveForFlat" value="-100.0" />
+		<property name="defaultDistanceToMoveForFlat" value="-150.0" />
 		<property name="defaultSampleInPosition" value="0" />
 		<property name="thethaOffset" value="0" />
 		<property name="verticalMotorMotionHandler" ref="verticalMotorMotionHandler" />
@@ -151,6 +151,18 @@
 		<property name="sampleStageMotorHandler" ref="sampleStagetMotorsHandler" />
 	</bean>
 
+	<bean id="cameraMotionLookupTableHandler"
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.CameraMotionLookupTableHandler">
+		<property name="cameraMotionLookup" ref="cameraMotionLUT" />
+	</bean>
+
+	<bean id="cameraMotionController"
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.CameraMotionController">
+		<property name="cameraStageMotorHandler" ref="cameraStageMotorsHandler" />
+		<property name="cameraMotionLookupTableHandler" ref="cameraMotionLookupTableHandler" />
+		<property name="tomoScriptController" ref="tomoAlignmentConfigurationScriptController" />
+	</bean>
+
 	<!-- Assuming that this is invoked after the pco.xml has been invoked. -->
 	<bean id="tomoAlignmentController"
 		class="uk.ac.gda.client.tomo.alignment.view.controller.TomoAlignmentController">
@@ -160,11 +172,12 @@
 		<property name="cameraHandler" ref="detectorHandler" />
 		<property name="cameraModuleController" ref="cameraModuleHandler" />
 		<property name="tiltController" ref="tiltController" />
-		<property name="autofocusController" ref="autofocusController"/>
+		<property name="autofocusController" ref="autofocusController" />
 		<property name="roiHandler" ref="roiHandler" />
 		<property name="saveHandler" ref="tomoConfigResourceHandler" />
 		<property name="scanController" ref="tomoScanController" /> <!-- Defined in the tomoConfiguration.xml -->
 		<property name="scanResolutionLookupProvider" ref="scanResolutionLookupProvider" />
+		<property name="cameraMotionController" ref="cameraMotionController" />
 	</bean>
 
 

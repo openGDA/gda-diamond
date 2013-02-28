@@ -22,13 +22,16 @@ def pixiumAfterIOCStart():
     
     curr_logical_mode_output_as_string = caget("BL12I-EA-DET-05:PIX:LogicalMode_RBV")
     print "\n Complete output from caget for current logical mode: ", curr_logical_mode_output_as_string
-    # just in case, strip any whitespace
-    curr_logical_mode_output_as_string.strip()
-    # assume the above caget output to be of the form: 'logical mode 0', 'logical mode 1', etc
-    curr_logical_mode_output_as_string_array = curr_logical_mode_output_as_string.split()
-    curr_logical_mode_as_str = curr_logical_mode_output_as_string_array[2].strip()
-#    print "\n Current logical mode as string: ", curr_logical_mode_as_str
-    
+    try:
+        # just in case, strip any whitespace
+        curr_logical_mode_output_as_string.strip()
+        # assume the above caget output to be of the form: 'logical mode 0', 'logical mode 1', etc
+        curr_logical_mode_output_as_string_array = curr_logical_mode_output_as_string.split()
+        curr_logical_mode_as_str = curr_logical_mode_output_as_string_array[2].strip()
+        #print "\n Current logical mode as string: ", curr_logical_mode_as_str
+    except:
+        # assume the above caget output to be of the form: '0', '1', etc
+        curr_logical_mode_as_str = curr_logical_mode_output_as_string
     #modeno=int(caget("BL12I-EA-DET-05:PIX:LogicalMode_RBV")) # checks current mode number
     modeno=int(curr_logical_mode_as_str) # checks current mode number
 #    print "\n Current logical mode as integer: ", modeno

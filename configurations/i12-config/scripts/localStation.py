@@ -307,8 +307,8 @@ from tomo import tomoAlignment #@UnusedImport
 #from tomo import tomographyScan
 #run("tomo/tomographyScan.py")
 
-from pv_scannable_utils import *
-print "added pv_scannable_utils" 
+#from pv_scannable_utils import *
+#print "added pv_scannable_utils" 
 
 from PixiumAfterIOCStart_ModeChange import pixiumExp80ms, pixiumExp500ms, pixiumExp1000ms,pixiumExp2000ms, pixiumExp4000ms,pixiumAfterIOCStart
 alias("pixiumExp80ms")

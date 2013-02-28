@@ -29,10 +29,20 @@ from gda.util import PropertyUtils
 import uk.ac.diamond.scisoft.analysis.dataset.Image as Image
 import uk.ac.gda.tomography.TomographyResourceUtil
 import uk.ac.gda.tomography.parameters.TomoParametersFactory as TomoParametersFactory
+from gdascripts.utils import * #@UnusedWildImport
 
 """
 Performs software triggered tomography
 """
+
+'''This is the offset to add to the raw dial value i.e drbv 
+(which doesn't include the user offset) to obtain the distance of the camera from the source. (mm)'''
+DISTANCE_FROM_SOURCE_CONSTANT = 54295.0 
+'''the distance from the sample to the source (in mm)'''
+SAMPLE_FROM_SOURCE_CONSTANT = 52000.0
+
+MODULE_WITH_WHICH_THE_LOOKUPTABLE_WAS_PREPARED = 3
+
 def isLiveMode():
     gdaMode = LocalProperties.get("gda.mode")
     print gdaMode
@@ -99,6 +109,9 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     isTomoScanSuccess = True
     numberOfDarks = 10
     numberOfFlats = 10
+    #stepsSize = 90
+    #numberOfDarks = 1
+    #numberOfFlats = 1
     try:
         pco.getController().disarmCamera()
         startTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
@@ -336,27 +349,20 @@ def find_gt(a, x):
         return a[i]
     raise ValueError
 
-def getT3xLookupValue(moduleNum, t3m1ZValue):
+def getT3xLookupValue(t3m1ZValue):
     motionLut = f.find("cameraMotionLUT")
-    if moduleNum == 1:
-        return motionLut.lookupValue(t3m1ZValue, "m1_t3_x")
-    elif moduleNum == 2:
-        return motionLut.lookupValue(t3m1ZValue, "m2_t3_x")
-    elif moduleNum == 3:
-        return motionLut.lookupValue(t3m1ZValue, "m3_t3_x")
-    elif moduleNum == 4:
-        return motionLut.lookupValue(t3m1ZValue, "m4_t3_x")
+    return motionLut.lookupValue(t3m1ZValue, "t3_x")
 
 
-def lookupT3x(moduleNum, t3m1ZValue):
+def lookupT3x(t3m1ZValue):
     lookupKeys = Finder.getInstance().find("cameraMotionLUT").getLookupKeys()
     if lookupKeys.__contains__(t3m1ZValue):
-        return getT3xLookupValue(moduleNum, t3m1ZValue)
+        return getT3xLookupValue(t3m1ZValue)
     try:
         z0 = find_lt(lookupKeys, t3m1ZValue)
-        x0 = getT3xLookupValue(moduleNum, z0)
+        x0 = getT3xLookupValue(z0)
         z1 = find_gt(lookupKeys, t3m1ZValue)
-        x1 = getT3xLookupValue(moduleNum, z1)
+        x1 = getT3xLookupValue(z1)
         x = x0 + ((x1 - x0) * (t3m1ZValue - z0) / (z1 - z0))
         return x
     except:
@@ -368,85 +374,103 @@ def getT3x(moduleNum):
     t3_m1z = f.find("t3_m1z")
     t3_x = f.find("t3_x")
     t3_m1z_to_lookup = t3_m1z.getPosition() - t3_m1z.getUserOffset()
-    lookupT3xVal = lookupT3x(moduleNum, t3_m1z_to_lookup)
+    lookupT3xVal = lookupT3x(t3_m1z_to_lookup)
     return lookupT3xVal - t3_x.userOffset
 
-def getT3M1yLookupValue(moduleNum, t3m1ZValue):
+def getT3M1yLookupValue(t3m1ZValue):
     motionLut = Finder.getInstance().find("cameraMotionLUT")
-    if moduleNum == 1:
-        return motionLut.lookupValue(t3m1ZValue, "m1_t3_m1y")
-    elif moduleNum == 2:
-        return motionLut.lookupValue(t3m1ZValue, "m2_t3_m1y")
-    elif moduleNum == 3:
-        return motionLut.lookupValue(t3m1ZValue, "m3_t3_m1y")
-    elif moduleNum == 4:
-        return motionLut.lookupValue(t3m1ZValue, "m4_t3_m1y")
+    return motionLut.lookupValue(t3m1ZValue, "t3_m1y")
 
-def lookupT3M1y(moduleNum, t3m1ZValue):
+def lookupT3M1y(t3m1ZValue):
     lookupKeys = Finder.getInstance().find("cameraMotionLUT").getLookupKeys()
     if lookupKeys.__contains__(t3m1ZValue):
-        return getT3M1yLookupValue(moduleNum, t3m1ZValue)
+        return getT3M1yLookupValue(t3m1ZValue)
     try:
         z0 = find_lt(lookupKeys, t3m1ZValue)
-        y0 = getT3M1yLookupValue(moduleNum, z0)
+        y0 = getT3M1yLookupValue(z0)
         z1 = find_gt(lookupKeys, t3m1ZValue)
-        y1 = getT3M1yLookupValue(moduleNum, z1)
+        y1 = getT3M1yLookupValue(z1)
         y = y0 + ((y1 - y0) * (t3m1ZValue - z0) / (z1 - z0))
         return y
     except:
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Problem moving camera stage", exceptionType, exception, traceback, False)
         if verbose:
-            print "error in lookup t3x", exception
+            print "error in lookup t3m1y", exception
 
 def getT3M1y(moduleNum):
     t3_m1z = f.find("t3_m1z")
     t3_m1y = f.find("t3_m1y")
     t3_m1z_to_lookup = t3_m1z.getPosition() - t3_m1z.getUserOffset()
-    lookupT3m1yVal = lookupT3M1y(moduleNum, t3_m1z_to_lookup)
+    lookupT3m1yVal = lookupT3M1y(t3_m1z_to_lookup)
     return lookupT3m1yVal - t3_m1y.userOffset
+
+def getPixelSizeForModule(t3m1ZToLookup, moduleNum):
+    cameraModuleLookup = f.find("moduleMotorPositionLUT")
+    #ravi add exception checks
+    lookupObjectPixSize = cameraModuleLookup.lookupValue(moduleNum, "object_pixel_size") #in microns
+    basePixelSize = lookupObjectPixSize / 1000.0
+    distanceToSource = t3m1ZToLookup + DISTANCE_FROM_SOURCE_CONSTANT
+    resultPixelSize = basePixelSize * (distanceToSource / SAMPLE_FROM_SOURCE_CONSTANT)
+    return resultPixelSize
 
 '''
 move t3_m1z to the desired position, subsequently move t3_x and t3_m1y to positions relevant
+Comment by rsr31645(26Feb13) Used by Christina's modeSwitch script.
 '''
+
+def moveT3M1yAndT3XgivenT3M1zPos(moduleNum):
+    t3_x = f.find("t3_x")
+    t3_m1y = f.find("t3_m1y")
+    cameraModuleLookup = f.find("moduleMotorPositionLUT")
+    baseT3xValue = cameraModuleLookup.lookupValue(moduleNum, "t3_x")
+    baseT3m1yValue = cameraModuleLookup.lookupValue(moduleNum, "t3_m1y")
+    t3m1ZToLookup = float(caget("BL12I-MO-TAB-03:MOD1:Z.DRBV")) #t3M1zPosition - t3_m1z.userOffset
+    pixelSizeForModule = cameraModuleLookup.lookupValue(MODULE_WITH_WHICH_THE_LOOKUPTABLE_WAS_PREPARED, "object_pixel_size") / 1000.0  #getPixelSizeForModule(t3m1ZToLookup, MODULE_WITH_WHICH_THE_LOOKUPTABLE_WAS_PREPARED) #moving y
+    lookupT3M1YVal = lookupT3M1y(t3m1ZToLookup)
+    t3m1yPositionOffset = pixelSizeForModule * lookupT3M1YVal
+    t3m1yPositionToMoveTo = baseT3m1yValue - t3m1yPositionOffset
+    #t3m1yOffset = t3_m1y.userOffset
+    t3_m1y.asynchronousMoveTo(t3m1yPositionToMoveTo)
+    if verbose:
+        print "Moving t3_m1y to :" + `t3m1yPositionToMoveTo`
+        #moving x
+    lookupT3xVal = lookupT3x(t3m1ZToLookup)
+    t3xPositionOffset = pixelSizeForModule * lookupT3xVal
+    if verbose:
+        print "t3x offset :" + `t3xPositionOffset`
+        print "t3x base :" + `baseT3xValue`
+    t3xPositionToMoveTo = baseT3xValue + t3xPositionOffset
+    #t3xOffset = t3_x.userOffset
+    t3_x.asynchronousMoveTo(t3xPositionToMoveTo)
+    if verbose:
+        print "Moving t3_x to :" + `t3xPositionToMoveTo` #wait for motors to complete
+    while t3_m1y.isBusy():
+        updateScriptController("Waiting for t3_m1y")
+        if verbose:
+            print "Waiting for t3_m1y"
+        sleep(5)
+    
+    while t3_x.isBusy():
+        updateScriptController("Waiting for t3_x")
+        if verbose:
+            print "Waiting for t3_x"
+        sleep(5)
+
 def moveT3M1ZTo(moduleNum, t3M1zPosition):
     try:
         t3_m1z = f.find("t3_m1z")
-        t3_m1y = f.find("t3_m1y")
-        t3_x = f.find("t3_x")
         #moving z
         if verbose:
             print "Moving t3_m1z to :" + `t3M1zPosition`
-        t3_m1z.asynchronousMoveTo(t3M1zPosition)
-        #moving y
-        t3m1ZToLookup = t3M1zPosition - t3_m1z.userOffset
-        lookupT3M1YVal = lookupT3M1y(moduleNum, t3m1ZToLookup)
-        t3m1yOffset = t3_m1y.userOffset
-        t3_m1y.asynchronousMoveTo(lookupT3M1YVal + t3m1yOffset)
-        if verbose:
-            print "Moving t3_m1y to :" + `lookupT3M1YVal + t3m1yOffset`
+        updateScriptController("Waiting for t3_m1z" + `t3M1zPosition`)
+        t3_m1z.moveTo(t3M1zPosition)
         
-        #moving x
-        lookupT3xVal = lookupT3x(moduleNum, t3m1ZToLookup)
-        t3xOffset = t3_x.userOffset
-        t3_x.asynchronousMoveTo(lookupT3xVal + t3xOffset)
-        if verbose:
-            print "Moving t3_x to :" + `lookupT3xVal + t3xOffset`
-        #wait for motors to complete
+        moveT3M1yAndT3XgivenT3M1zPos(moduleNum)
         while t3_m1z.isBusy():
             updateScriptController("Waiting for t3_m1z")
             if verbose:
                 print "Waiting for t3_m1z"
-            sleep(5)
-        while t3_m1y.isBusy():
-            updateScriptController("Waiting for t3_m1y")
-            if verbose:
-                print "Waiting for t3_m1y"
-            sleep(5)
-        while t3_x.isBusy():
-            updateScriptController("Waiting for t3_x")
-            if verbose:
-                print "Waiting for t3_x"
             sleep(5)
     except:
         exceptionType, exception, traceback = sys.exc_info()
@@ -490,8 +514,6 @@ def moveToModule(moduleNum):
         cam1RollLookup = cameraModuleLookup.lookupValue(moduleNum, "cam1_roll")
         #ss1RzLookup = cameraModuleLookup.lookupValue(moduleNum, "ss1_rz")
         
-        t3xLookup = getT3x(moduleNum)
-        t3m1yLookup = getT3M1y(moduleNum)
         offset = math.fabs(cam1_x.getPosition() - cam1xLookup)
         handle_messages.simpleLog("offset:" + `offset`)
         if offset > 0.1:
@@ -516,11 +538,12 @@ def moveToModule(moduleNum):
         checkForPauses()
         cam1_roll.asynchronousMoveTo(cam1RollLookup)
         #ss1_rz.asynchronousMoveTo(ss1RzLookup)
-        
+        #t3_x.asynchronousMoveTo(t3xLookup)
+        #checkForPauses()
+        #t3_m1y.asynchronousMoveTo(t3m1yLookup)
+        #checkForPauses()
+
         checkForPauses()
-        t3_x.asynchronousMoveTo(t3xLookup)
-        checkForPauses()
-        t3_m1y.asynchronousMoveTo(t3m1yLookup)
         
         while ss1_rx.isBusy():
             displayVal = round(ss1_rx.getPosition(), 3)
@@ -887,4 +910,3 @@ class TomoAlignmentConfiguration:
             self.tomographyConfigurationManager.setConfigRunning(self.configId)
             self.tomographyConfigurationManager.setConfigRunning(None)
             updateScriptController('Tomography Scan Complete')
-
