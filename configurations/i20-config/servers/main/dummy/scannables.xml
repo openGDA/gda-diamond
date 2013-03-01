@@ -54,7 +54,15 @@
 			<ref bean="shutter1" />
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>BL20I-PS-IOC-01:M11:LOP</value>
+			<null />
+		</constructor-arg>
+		<constructor-arg index="2">
+			<list>
+				<value>xspress2system</value>
+				<value>ionchambers</value>
+				<value>I1</value>
+				<value>xmapMca</value>
+			</list>
 		</constructor-arg>
 	</bean>
 

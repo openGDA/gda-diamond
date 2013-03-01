@@ -29,6 +29,14 @@
 		<constructor-arg index="1">
 			<value>BL20I-PS-IOC-01:M11:LOP</value>
 		</constructor-arg>
+		<constructor-arg index="2">
+			<list>
+				<value>xspress2system</value>
+				<value>ionchambers</value>
+				<value>I1</value>
+				<value>xmapMca</value>
+			</list>
+		</constructor-arg>
 	</bean>
 
 	<bean id="test_motor" class="gda.device.motor.DummyMotor">
