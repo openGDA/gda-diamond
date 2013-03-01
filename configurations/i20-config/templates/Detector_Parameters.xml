@@ -33,7 +33,7 @@
             <channel>1</channel>
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>1 nA/V</gain>
-            <offset>1 pA/V</offset>
+            <offset>1 pA</offset>
             <gasType>He</gasType>
             <percentAbsorption>1.0</percentAbsorption>
             <pressure>986.6494125122085</pressure>
@@ -46,7 +46,7 @@
             <channel>2</channel>
             <currentAmplifierName>Stanford02</currentAmplifierName>
             <gain>1 nA/V</gain>
-            <offset>1 pA/V</offset>
+            <offset>1 pA</offset>
             <gasType>He</gasType>
             <percentAbsorption>2.0</percentAbsorption>
             <pressure>2398.2255980303107</pressure>
@@ -59,7 +59,7 @@
             <channel>3</channel>
             <currentAmplifierName>Stanford03</currentAmplifierName>
             <gain>1 nA/V</gain>
-            <offset>1 pA/V</offset>
+            <offset>1 pA</offset>
             <gasType>He</gasType>
             <percentAbsorption>3.0</percentAbsorption>
             <pressure>2149.659370269412</pressure>
@@ -76,7 +76,7 @@
             <channel>1</channel>
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>1 nA/V</gain>
-            <offset>1 pA/V</offset>
+            <offset>1 pA</offset>
             <gasType>He</gasType>
             <percentAbsorption>1.0</percentAbsorption>
             <pressure>2823.152371036204</pressure>
@@ -89,7 +89,7 @@
             <channel>2</channel>
             <currentAmplifierName>Stanford02</currentAmplifierName>
             <gain>1 nA/V</gain>
-            <offset>1 pA/V</offset>
+            <offset>1 pA</offset>
             <gasType>He</gasType>
             <percentAbsorption>2.0</percentAbsorption>
             <pressure>2398.2255980303107</pressure>
@@ -102,7 +102,7 @@
             <channel>3</channel>
             <currentAmplifierName>Stanford03</currentAmplifierName>
             <gain>1 nA/V</gain>
-            <offset>1 pA/V</offset>
+            <offset>1 pA</offset>
             <gasType>He</gasType>
             <percentAbsorption>3.0</percentAbsorption>
             <pressure>2149.659370269412</pressure>
@@ -119,7 +119,7 @@
             <channel>4</channel>
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>1 nA/V</gain>
-            <offset>1 pA/V</offset>
+            <offset>1 pA</offset>
             <gasType>He</gasType>
             <percentAbsorption>1.0</percentAbsorption>
             <pressure>2823.152371036204</pressure>
