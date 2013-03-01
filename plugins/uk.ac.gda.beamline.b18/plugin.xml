@@ -515,7 +515,7 @@
          <perspectiveExtension
                targetID="uk.ac.gda.client.experimentdefinition.experimentperspective">
             <view
-                  id="uk.ac.gda.exafs.ui.views.B18ScalersMonitor"
+                  id="uk.ac.gda.exafs.ui.views.scalersmonitor"
                   minimized="false"
                   relationship="stack"
                   relative="gda.gui.scriptcontroller.logging.scriptcontrollerlogview"
@@ -562,11 +562,18 @@
          <perspectiveExtension
                targetID="org.diamond.exafs.ui.PlottingPerspective">
             <view
-                  id="uk.ac.gda.exafs.ui.views.B18ScalersMonitor"
+                  id="uk.ac.gda.exafs.ui.views.scalersmonitor"
                   minimized="false"
                   relationship="top"
                   relative="gda.rcp.jythonterminalview"
                   showTitle="true"
+                  visible="true">
+            </view>
+            <view
+                  id="uk.ac.gda.client.simplescanview"
+                  minimized="false"
+                  relationship="top"
+                  relative="gda.rcp.jythonterminalview"
                   visible="true">
             </view>
             <hiddenToolBarItem
