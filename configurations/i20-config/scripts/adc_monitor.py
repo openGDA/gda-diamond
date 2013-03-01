@@ -1,6 +1,8 @@
 from gda.device.detector import DetectorBase
 from gda.epics import CAClient
 
+import time
+
 class adcmonitor(DetectorBase):
 
 
@@ -22,7 +24,9 @@ class adcmonitor(DetectorBase):
 		self.ca.caput(self.pvPrefix + ":PERIOD",integrationTime)
 		#self.ca.caput(self.pvPrefix + ":MODE","Trigger")
 		self.integrating = True
+		#self.ca.caputWait(self.pvPrefix + ":SOFTTRIGGER.VAL",1)
 		self.ca.caput(self.pvPrefix + ":SOFTTRIGGER.VAL",1)
+		time.sleep(0.25)
 
 	def getStatus(self):
 		if self.integrating == False:
