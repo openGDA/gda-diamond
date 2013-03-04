@@ -32,6 +32,7 @@ import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
+import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
 import uk.ac.gda.beans.validation.InvalidBeanException;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
 import uk.ac.gda.client.experimentdefinition.IExperimentObject;
@@ -106,18 +107,40 @@ public class I20Validator extends ExafsValidator {
 
 		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
 		
+		//none
 		if (s.getSampleEnvironment().equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[0])){
 			if (s.getName().startsWith(DEFAULT_SAMPLE_NAME)){
 				errors.add(new InvalidBeanMessage("Sample Name has not been set in " + bean.getSampleFileName()));
-			} else if (s.getName().startsWith("-")
-					|| s.getName().contains(";") || s.getName().contains("<") || s.getName().contains("\t")
-					|| s.getName().contains("'") || s.getName().contains("\"") || s.getName().contains("\\")
-					|| s.getName().contains("\n")|| s.getName().contains("..")){
+			} else if (!stringCouldBeConvertedToValidUnixFilename(s.getName())){
 				errors.add(new InvalidBeanMessage("The given Sample Name in " + bean.getSampleFileName() + " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));				
+			}
+		} 
+		// room temp
+		else if (s.getSampleEnvironment().equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[1])){
+			SampleStageParameters ssp = s.getRoomTemperatureParameters();
+			String[] names = ssp.getSampleNames();
+			Boolean[] uses = ssp.getUses();
+			for (int i = 0; i < names.length; i++) {
+				if (uses[i] && !stringCouldBeConvertedToValidUnixFilename(names[i])) {
+					errors.add(new InvalidBeanMessage("The name for sample " + (i + 1) + " in "
+							+ bean.getSampleFileName()
+							+ " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
+				}
 			}
 		}
 		
 		return errors;
+	}
+	
+	private boolean stringCouldBeConvertedToValidUnixFilename(String sampleName){
+		// ignore spaces as these will have underscores automatically substituted
+		if (sampleName.startsWith("-")
+		|| sampleName.contains(";") || sampleName.contains("<") || sampleName.contains("\t")
+		|| sampleName.contains("'") || sampleName.contains("\"") || sampleName.contains("\\")
+		|| sampleName.contains("\n")|| sampleName.contains("..")){
+			return false;
+		}
+		return true;
 	}
 
 	public List<InvalidBeanMessage> validateXesScanParameters(XesScanParameters x, IDetectorParameters detParams) {
