@@ -2,14 +2,14 @@
 
 for i in 1 2 3 4 ; do 
 sh mots2xml.sh s$i << EOF
-xcentre S$i.XCENTRE
-xgap S$i.XSIZE
-ycentre S$i.YCENTRE
-ygap S$i.YSIZE
-xplus S$i.XPLUS
-xminus S$i.XMINUS
-yplus S$i.YPLUS
-yminus S$i.YMINUS
+xcentre SLITS$i.XGAPCENTRE
+xgap SLITS$i.XGAPSIZE
+ycentre SLITS$i.YGAPCENTRE
+ygap SLITS$i.YGAPSIZE
+xring SLITS$i.XRING
+xhall SLITS$i.XHALL
+ytop SLITS$i.YPLUS
+ybottom SLITS$i.YMINUS
 EOF
 done
 
