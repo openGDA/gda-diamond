@@ -472,6 +472,9 @@
       <editormanager
             class="gda.exfas.ui.I18ExperimentEditorManager">
       </editormanager>
+      <templatesLocation
+            folderName="${gda.config}/templates">
+      </templatesLocation>
      <!-- <editormanager
             class="gda.exfas.ui.I18ExperimentEditorManager">
       </editormanager>-->
