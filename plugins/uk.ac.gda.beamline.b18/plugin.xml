@@ -490,6 +490,9 @@
       <validator 
       		class="gda.exafs.validation.B18Validator">
       </validator>
+      <templatesLocation
+            folderName="${gda.config}/templates">
+      </templatesLocation>
    </extension>
       <extension
             point="org.eclipse.ui.commands">
