@@ -43,6 +43,7 @@ import uk.ac.gda.exafs.ui.data.ScanObject;
  */
 public class I20Validator extends ExafsValidator {
 
+	private static final String DEFAULT_SAMPLE_NAME = "Please set a sample name";
 	private static final double MINENERGY = 2000; // the lowest value out of I18, B18 and I20
 	private static final double MAXENERGY = 35000; // the highest value out of I18, B18 and I20
 
@@ -101,9 +102,21 @@ public class I20Validator extends ExafsValidator {
 		return errors;
 	}
 
-	public List<InvalidBeanMessage> validateI20SampleParameters(@SuppressWarnings("unused") I20SampleParameters s) {
+	public List<InvalidBeanMessage> validateI20SampleParameters(I20SampleParameters s) {
 
 		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
+		
+		if (s.getSampleEnvironment().equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[0])){
+			if (s.getName().startsWith(DEFAULT_SAMPLE_NAME)){
+				errors.add(new InvalidBeanMessage("Sample Name has not been set in " + bean.getSampleFileName()));
+			} else if (s.getName().startsWith("-")
+					|| s.getName().contains(";") || s.getName().contains("<") || s.getName().contains("\t")
+					|| s.getName().contains("'") || s.getName().contains("\"") || s.getName().contains("\\")
+					|| s.getName().contains("\n")|| s.getName().contains("..")){
+				errors.add(new InvalidBeanMessage("The given Sample Name in " + bean.getSampleFileName() + " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));				
+			}
+		}
+		
 		return errors;
 	}
 
