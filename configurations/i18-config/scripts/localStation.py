@@ -33,7 +33,9 @@ finder = Finder.getInstance()
 gdaConfigDir = LocalProperties.get("gda.config")
 gdaConfigDir = gdaConfigDir + "/"
 
-non_raster_map = Map(D7A, D7B, counterTimer01)
+rcpController = finder.find("RCPController")
+
+non_raster_map = Map(D7A, D7B, counterTimer01, rcpController)
 raster_map = RasterMap(D7A, D7B, counterTimer01, trajectoryX, raster_counterTimer01, raster_xmap, realX, raster_xspress)
 raster_map_return_write = RasterMapReturnWrite(D7A, D7B, counterTimer01, trajectoryX, raster_counterTimer01, raster_xmap, realX, HTScaler, HTXmapMca, continuousSampleX)
 
@@ -81,7 +83,6 @@ if (LocalProperties.get("gda.mode") == 'live'):
     archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
 
 detectorPreparer = I18DetectorPreparer()
-rcpController = finder.find("RCPController")
 samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B)
 outputPreparer = I18OutputPreparer()
 
