@@ -82,7 +82,7 @@ else:
     #LocalProperties.set("gda.data.scan.datawriter.dataFormat","XasAsciiDataWriter")
     remove_default([topupChecker])
     remove_default([absorberChecker])
-    add_default([shutterChecker])
+    remove_default([shutterChecker])
     
 
 #

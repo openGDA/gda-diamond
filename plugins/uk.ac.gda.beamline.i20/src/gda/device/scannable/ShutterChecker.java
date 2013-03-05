@@ -29,7 +29,6 @@ import gda.scan.ScanBase;
 
 import java.io.IOException;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,30 +40,27 @@ public final class ShutterChecker extends ScannableBase {
 	private static final Logger logger = LoggerFactory.getLogger(ShutterChecker.class);
 
 	private final EnumPositioner shutter;
-	private ReadOnlyPV<Double> pssState = null;
-	private String[] detectorsInEH;
+	private ReadOnlyPV<Double> pssState;
 
-	public ShutterChecker(EnumPositioner shutter, String pssPVName, String[] detectorsInEH) {
+	public ShutterChecker(EnumPositioner shutter, String pssPVName) {
 		this.shutter = shutter;
-		this.setDetectorsInEH(detectorsInEH);
 
-		if (pssPVName != null && !pssPVName.isEmpty())
-			pssState = LazyPVFactory.newReadOnlyDoublePV(pssPVName);
-
-		inputNames = new String[] {};
-		extraNames = new String[] {};
-		outputFormat = new String[] {};
+		pssState = LazyPVFactory.newReadOnlyDoublePV(pssPVName);
+		
+		inputNames = new String[]{};
+		extraNames = new String[]{};
+		outputFormat = new String[]{};
 	}
-
+	
 	@Override
 	public void configure() throws FactoryException {
 	}
-
+	
 	@Override
 	public Object rawGetPosition() throws DeviceException {
 		return null;
 	}
-
+	
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 		// do nothing
@@ -73,62 +69,42 @@ public final class ShutterChecker extends ScannableBase {
 	@Override
 	public void atScanStart() throws DeviceException {
 
-		if (!EHDetectorsInScan()) {
-			return;
-		}
+		// check if shutter open
 
 		String position = (String) shutter.getPosition();
 		if (!position.equals(ValveBase.OPEN)) {
-			if (pssState != null) {
-				waitForPSSReady();
-			}
-			shutter.moveTo(ValveBase.OPEN);
-		}
-	}
 
-	private void waitForPSSReady() throws DeviceException {
-		try {
-			// if closed, is PSS OK to open it?
-			double state = pssState.get();
-			// when PSS ready open the shutter
-			int attempts = 0;
-			while (state != 0) {
-				ScanBase.checkForInterrupts();
-				// check timeout
-				if (attempts > 120) {
-					throw new DeviceException(
-							"Time out while waiting for the hutch to be searched!\nSearch the hutch, open shutter "
-									+ shutter.getName() + ", and restart the scan.");
+			try {
+				// if closed, is PSS OK to open it?
+				double state = pssState.get();
+				// when PSS ready open the shutter
+				int attempts = 0;
+				while (state != 0) {
+					ScanBase.checkForInterrupts();
+					// check timeout
+					if (attempts > 120) {
+						throw new DeviceException(
+								"Time out while waiting for the hutch to be searched!\nSearch the hutch, open shutter "
+										+ shutter.getName() + ", and restart the scan.");
+					}
+					updateUser("Experimental shutter closed and hutch not searched. Waiting for search to complete...");
+					Thread.sleep(1000);
+					state = pssState.get();
 				}
-				updateUser("Experimental shutter closed and hutch not searched. Waiting for search to complete...");
-				Thread.sleep(1000);
-				state = pssState.get();
-			}
-			if (attempts > 0) {
-				updateUser("Search complete; opening shutter " + shutter.getName());
-			} else {
-				updateUser("Opening shutter " + shutter.getName());
-			}
-		} catch (IOException e) {
-			logger.error("IOException while checking shutter is open.", e);
-			throw new DeviceException("IOException while checking shutter is open.", e);
-		} catch (InterruptedException e) {
-			logger.error("Interrupted exception while checking shutter is open", e);
-			throw new DeviceException("Interrupted exception while checking shutter is open.", e);
-		}
-	}
-
-	private boolean EHDetectorsInScan() {
-		String[] detectorsInScan = InterfaceProvider.getCurrentScanInformationHolder().getCurrentScanInformation()
-				.getDetectorNames();
-
-		for (String EHDetector : detectorsInEH) {
-			if (ArrayUtils.contains(detectorsInScan, EHDetector)) {
-				return true;
+				if (attempts > 0){
+					updateUser("Search complete; opening shutter " + shutter.getName());
+				} else {
+					updateUser("Opening shutter " + shutter.getName());
+				}
+				shutter.moveTo(ValveBase.OPEN);
+			} catch (IOException e) {
+				logger.error("IOException while checking shutter is open.", e);
+				throw new DeviceException("IOException while checking shutter is open.", e);
+			} catch (InterruptedException e) {
+				logger.error("Interrupted exception while checking shutter is open", e);
+				throw new DeviceException("Interrupted exception while checking shutter is open.", e);
 			}
 		}
-
-		return false;
 	}
 
 	private void updateUser(String message) {
@@ -139,14 +115,6 @@ public final class ShutterChecker extends ScannableBase {
 	@Override
 	public boolean isBusy() throws DeviceException {
 		return false;
-	}
-
-	public String[] getDetectorsInEH() {
-		return detectorsInEH;
-	}
-
-	public void setDetectorsInEH(String[] detectorsInEH) {
-		this.detectorsInEH = detectorsInEH;
 	}
 
 }

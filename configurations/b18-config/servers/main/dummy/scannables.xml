@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean id="ionc1_stanford" class="gda.device.scannable.DummyStanfordScannable" />
+	<bean id="ionc2_stanford" class="gda.device.scannable.DummyStanfordScannable" />
+	<bean id="ionc3_stanford" class="gda.device.scannable.DummyStanfordScannable" />
+	
+	<bean id="ionc1_gas_injector" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc2_gas_injector" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc3_gas_injector" class="gda.device.scannable.DummyScannable" />
+	
+	<bean id="lakeshore" class="gda.device.scannable.DummyScannable" />
+	<bean id="pulsetube" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="samplewheel" class="gda.device.scannable.DummySampleWheel">
+		<property name="name" value="samplewheel" />
+		<property name="numberOfFilters" value="36" />
+	</bean>
+		<bean id="qexafs_energy" class="gda.device.scannable.QexafsTestingScannable">
+		<property name="motor" ref="energy_motor" />
+		<property name="lowerGdaLimits" value="2000" />
+		<property name="upperGdaLimits" value="35000" />
+		<property name="outputFormat">
+			<list>
+				<value>%.2f</value>
+			</list>
+		</property>
+	</bean>
+
+	
+</beans>
