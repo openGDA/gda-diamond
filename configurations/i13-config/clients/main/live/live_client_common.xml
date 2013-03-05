@@ -16,6 +16,7 @@
 	<import resource="../common.xml" />
 	
 	<import resource="cameraview.xml" />
+	<import resource="../../../devices/epics/lens.xml"/>
 	<import resource="../../../devices/epics/pco1_ndplugins.xml"/>
 	
 

@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<description> Simulation of ND Plugins for tomography alignment gui
+	</description>
+
+	<bean id="pcoAdBaseModel" class="uk.ac.gda.epics.client.views.model.simulator.AdBaseModelSimulator">
+	</bean>
+
+	<bean id="pcoFileSaverModel"
+		class="uk.ac.gda.epics.client.views.model.simulator.FileSaverModelSimulator">
+	</bean>
+
+	<bean id="pcoFfmjpeg1"
+		class="uk.ac.gda.epics.client.views.model.simulator.FfMpegModelSimulator">
+	</bean>
+
+	<bean id="pcoFfmjpeg2"
+		class="uk.ac.gda.epics.client.views.model.simulator.FfMpegModelSimulator">
+	</bean>
+
+	<bean id="pcoNdProc1" class="uk.ac.gda.epics.client.views.model.simulator.NdProcModelSimulator">
+	</bean>
+
+	<bean id="pcoNdProc2" class="uk.ac.gda.epics.client.views.model.simulator.NdProcModelSimulator">
+	</bean>
+
+	<bean id="pcoNdROI1" class="uk.ac.gda.epics.client.views.model.simulator.NdRoiModelSimulator">
+	</bean>
+
+	<bean id="pcoNdROI2" class="uk.ac.gda.epics.client.views.model.simulator.NdRoiModelSimulator">
+	</bean>
+
+	<bean id="pcoNdArray"
+		class="uk.ac.gda.epics.client.views.model.simulator.NdArrayModelSimulator">
+	</bean>
+
+	<bean id="pcoNdStat" class="uk.ac.gda.epics.client.views.model.simulator.NdStatModelSimulator">
+	</bean>
+
+
+</beans>

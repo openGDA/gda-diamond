@@ -56,19 +56,11 @@ try:
 	alias("caget")
 	
 
-#	caput("BL13I-EA-TURR-01:DEMAND.ZRST", "1 X2 7mm x 5mm")
-#	caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", "1 X2 7mm x 5mm")
-	caput("BL13I-EA-TURR-01:DEMAND.TWST", "X4 CWD 200")
-	caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", "X4 CWD 200")
-	caput("BL13I-EA-TURR-01:DEMAND.FRST", "X2 7mm x 5mm")
-	caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", "X2 7mm x 5mm")
-	caput("BL13I-EA-TURR-01:DEMAND.FVST", "X4 4mm x 3mm")
-	caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", "X4 4mm x 3mm")
-	caput("BL13I-EA-TURR-01:DEMAND.SXST", "X10 2mm x 1mm")
-	caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", "X10 2mm x 1mm")
 
 	from gda.factory import Finder
 	from gda.configuration.properties import LocalProperties
+
+
 #	from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
 	import i13i
 	
@@ -103,6 +95,14 @@ try:
 			createPVScannable( "d1_total", "BL13I-DI-PHDGN-01:STAT:Total_RBV")
 			createPVScannable( "expt_fastshutter_raw", "BL13I-EA-FSHTR-01:CONTROL", hasUnits=False)
 			expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", expt_fastshutter_raw)
+			caput("BL13I-EA-TURR-01:DEMAND.TWST", "X4 CWD 200")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", "X4 CWD 200")
+			caput("BL13I-EA-TURR-01:DEMAND.FRST", "X2 7mm x 5mm")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", "X2 7mm x 5mm")
+			caput("BL13I-EA-TURR-01:DEMAND.FVST", "X4 4mm x 3mm")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", "X4 4mm x 3mm")
+			caput("BL13I-EA-TURR-01:DEMAND.SXST", "X10 2mm x 1mm")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", "X10 2mm x 1mm")
 	except :
 		exceptionType, exception, traceback = sys.exc_info()
 		handle_messages.log(None, "Error creating pvScannables", exceptionType, exception, traceback, False)
@@ -148,20 +148,20 @@ try:
 		if not LocalProperties.check("gda.dummy.mode"):
 			import autocollimator_script
 			autocollimator_script.setup()
+			import alignmentGui
+			tomodet = alignmentGui.TomoDet()
+			#setup trigger for pink beam
+			pco1_hw_tif.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
+			pco1_hw_hdf.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
 	except :
 		exceptionType, exception, traceback = sys.exc_info()
 		handle_messages.log(None, "Error connecting to autocollimator", exceptionType, exception, traceback, False)
 	
 	import tomographyScan
 	
-	import alignmentGui
-	tomodet = alignmentGui.TomoDet()
 #	run("i13diffcalc")
 	import raster_scan
 	
-	#setup trigger for pink beam
-	pco1_hw_tif.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
-	pco1_hw_hdf.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
 
 except :
 	exceptionType, exception, traceback = sys.exc_info()

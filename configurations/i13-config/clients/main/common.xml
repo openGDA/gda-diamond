@@ -39,14 +39,6 @@
 	<corba:import namespace="i13"
 		names="rotationAxisXScannable, cameraXYScannable" />
 
-	<bean id="lens" class="gda.device.scannable.EpicsScannable">
-		<property name="hasUnits" value="False" />
-		<property name="getAsString" value="True" />
-		<property name="useNameAsExtraName" value="True"/>
-		<property name="pvName" value="BL13I-EA-TURR-01:CURRENTPOS"/>
-		<property name="local" value="true"/>
-	</bean>
-
 	<bean id="displayScaleProvider" class="uk.ac.gda.beamline.i13i.SelectableDisplayScaleProvider">
 		<property name="keyScannable" ref="lens" />
 		<property name="providers">

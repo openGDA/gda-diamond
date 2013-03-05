@@ -9,8 +9,8 @@
 <booleanAttribute key="clearConfig" value="true"/>
 <booleanAttribute key="clearws" value="false"/>
 <booleanAttribute key="clearwslog" value="false"/>
-<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/uk.ac.gda.beamline.i13i.product dummy"/>
-<booleanAttribute key="default" value="false"/>
+<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/uk.ac.gda.beamline.i13i.product zebra"/>
+<booleanAttribute key="default" value="true"/>
 <stringAttribute key="featureDefaultLocation" value="workspace"/>
 <stringAttribute key="featurePluginResolution" value="workspace"/>
 <booleanAttribute key="includeOptional" value="true"/>
@@ -22,9 +22,13 @@
 <listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
 <listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 </listAttribute>
+<listAttribute key="org.eclipse.jdt.launching.CLASSPATH">
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry containerPath=&quot;org.eclipse.jdt.launching.JRE_CONTAINER&quot; path=&quot;1&quot; type=&quot;4&quot;/&gt;&#10;"/>
+</listAttribute>
+<booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl}"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Declipse.pluginCustomization=${project_loc:i13i-config}/pluginCustomization.ini&#10;-Dentry=EntryGdaShipment&#10;-DidaEmbedded=yes&#10;-Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true&#10;-Dgda.mode=dummy&#10;-Dgda.root=${project_loc:uk.ac.gda.core}/../&#13;&#10;-Dgda.config=${project_loc:i13i-config}&#10;-Dgda.users=${project_loc:i13i-config}/users&#13;&#10;-Dgda.propertiesFile=${project_loc:i13i-config}/properties/dummy/java.properties&#13;&#10;-Djacorb.config.dir=${project_loc:i13i-config}/jacorb/dummy&#13;&#10;-Dgov.aps.jca.JCALibrary.properties=${project_loc:i13i-config}/jca/dummy/JCALibrary.properties&#13;&#10;-Xms256m&#10;-Xmx1024m&#10;-XX:MaxPermSize=256m&#10;-XX:+DisableExplicitGC"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Drebel.log=true &#10;${jrebel_args} &#10;-Declipse.pluginCustomization=${project_loc:i13i-config}/pluginCustomization.ini&#10;-Dentry=EntryGdaShipment&#10;-DidaEmbedded=yes&#10;-Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true&#10;-Dgda.mode=zebra&#10;-Dgda.root=${project_loc:uk.ac.gda.core}/../&#13;&#10;-Dgda.config=${project_loc:i13i-config}&#10;-Dgda.users=${project_loc:i13i-config}/users&#13;&#10;-Dgda.propertiesFile=${project_loc:i13i-config}/properties/zebra/java.properties&#13;&#10;-Djacorb.config.dir=${project_loc:i13i-config}/jacorb/zebra/&#13;&#10;-Dgov.aps.jca.JCALibrary.properties=${project_loc:i13i-config}/jca/zebra/JCALibrary.properties&#13;&#10;-Xms256m&#10;-Xmx1024m&#10;-XX:MaxPermSize=256m&#10;-XX:+DisableExplicitGC"/>
 <stringAttribute key="pde.version" value="3.3"/>
 <stringAttribute key="product" value="uk.ac.gda.beamline.i13i.product"/>
 <stringAttribute key="productFile" value="\uk.ac.gda.beamline.skeleton-feature\uk.ac.gda.beamline.skeleton.product"/>
