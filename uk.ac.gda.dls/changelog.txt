@@ -1,0 +1,11 @@
+uk.ac.gda.dls CHANGELOG
+=======================
+
+Changes in version 8.2 (2010-02-xx)
+-----------------------------------
+
+* RTPImageProcessorBase has been removed. RTPCameraClient (used by JCameramanDisplayPanel on MX beamlines, and
+  CmuCameraDisplayPanel on I19) and RTPCameraImageROISelector (used by CameraDisplayPanel on I18), which extended it,
+  now just extend JLayeredPane directly. RTP streams can be received using an instance of the new RTPStreamReceiver
+  class. RTPCameraClient and RTPCameraImageROISelector now implement the new ImageListener interface, and are added as
+  listeners of the RTPStreamReceiver instance to receive images from the stream.

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+  <extension point="org.eclipse.ui.editors">
+    <editor class="uk.ac.gda.dls.client.bimorph.BimorphParametersEditor"
+            default="true"
+            id="gda.org.myls.bimorph.BimorphParametersEditor"
+            name="BimorphParametersEditor">
+         <contentTypeBinding
+               contentTypeId="org.myls.bimorph.BimorphParametersEditor">
+         </contentTypeBinding>            
+     </editor>
+  </extension>
+  <extension point="org.eclipse.core.contenttype.contentTypes">
+     <content-type
+       base-type="org.eclipse.core.runtime.xml"
+       describer="uk.ac.gda.dls.client.bimorph.BimorphParametersDescriber"
+       file-extensions="xml"
+       id="org.myls.bimorph.BimorphParametersEditor"
+       name="BimorphParameters File Content"
+       priority="high">
+     </content-type>
+    
+  </extension>
+   <extension point="uk.ac.common.beans.factory">
+      <bean
+            class="uk.ac.gda.beans.bimorph.BimorphParameters"
+            describer="uk.ac.gda.dls.client.bimorph.BimorphParametersDescriber">
+      </bean>
+      
+  </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="GDA Example">
+         <property
+               name="appName"
+               value="GDA Example">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="aboutText"
+               value="GDA Example Client&#x0A;&#x0A;The GDA project is an open-source framework for creating customised data acquisition software for science facilities such as neutron and x-ray sources. The software is Java/Eclipse-based, free and released under the GPLv3.&#x0A;&#x0A;It is based on the Generic Data Acquisition (GDA) software developed at Diamond Light Source. The GDA was initially developed at SRS Daresbury but since 2003 it has been adopted by Diamond Light Source who took over as the principal developer. The team at Diamond have developed the GDA for the majority of Diamond beamlines across all the scientific techniques at Diamond. GDA is the evolution of that project and is intended to be applicable for any beamline on any synchrotron facility.&#x0A;&#x0A;See &lt;http://www.opengda.org/&gt;">
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>         
+      </product>
+   </extension>
+   </plugin>

@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test
+Bundle-SymbolicName: uk.ac.gda.dls.client.test
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: uk.ac.gda.dls.client
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.junit4,
+ uk.ac.diamond.scisoft.analysis;bundle-version="1.0.0",
+ uk.ac.diamond.scisoft.spectroscopy;bundle-version="1.0.0"
+Export-Package: uk.ac.gda.dls.exafs.test

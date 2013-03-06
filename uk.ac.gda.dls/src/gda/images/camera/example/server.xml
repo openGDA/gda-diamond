@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+	
+	<bean id="sampleXyz" class="gda.images.camera.DummySampleStageScannable" />
+	
+	<bean id="omega" class="gda.device.scannable.DummyScannable" />
+	
+	<bean id="x" class="gda.device.scannable.DummyScannable" />
+	
+	<bean id="y" class="gda.device.scannable.DummyScannable" />
+	
+	<bean id="z" class="gda.device.scannable.DummyScannable" />
+	
+	<bean id="sampleMovementService" class="gda.images.camera.ScannableSampleMovementService">
+		<property name="sampleXyz" ref="sampleXyz" />
+		<property name="omegaScannable" ref="omega" />
+		<property name="omegaDirection" value="CLOCKWISE" />
+		<property name="axisOrientationMatrix" value="{{0,0,1},{0,1,0},{1,0,0}}" />
+	</bean>
+	
+	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="service" ref="sampleMovementService" />
+		<property name="serviceInterface" value="gda.images.camera.SampleMovementService" />
+		<property name="serviceName" value="gda/sampleMovementService" />
+	</bean>
+
+</beans>

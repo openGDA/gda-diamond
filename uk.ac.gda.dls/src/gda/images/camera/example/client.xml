@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="sampleMovementService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://localhost/gda/sampleMovementService" />
+		<property name="serviceInterface" value="gda.images.camera.SampleMovementService" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	
+	<bean id="opticalCamera" class="gda.images.camera.DummyOpticalCamera" />
+	
+	<bean id="clientSampleMovementService" class="gda.images.camera.ClientSideSampleMovementServiceImpl">
+		<property name="sampleMovementService" ref="sampleMovementService" />
+		<property name="gonioOnLeftOfImage" value="true" />
+		<property name="imageScaleProvider" ref="opticalCamera" />
+	</bean>
+
+</beans>
