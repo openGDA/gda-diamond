@@ -51,10 +51,10 @@
 		<property name="startupScript" value="xspress2 format-run 'xsp1' res-none" />
 
 		<property name="configFileName"
-			value="${gda.config}/var/templates/Xspress_Parameters.xml" />
+			value="${gda.config}/templates/Xspress_Parameters.xml" />
 		
 		<property name="dtcConfigFileName"
-			value="${gda.config}/var/templates/Xspress_DeadTime_Parameters.xml" />
+			value="${gda.config}/templates/Xspress_DeadTime_Parameters.xml" />
 			
 		<property name="fullMCABits" value="12" />
 		<property name="onlyDisplayFF" value="true" />
@@ -216,7 +216,7 @@
 
 		<property name="slave" value="false" />
 		<property name="configFileName"
-			value="${gda.config}/var/templates/Vortex_Parameters.xml" />
+			value="${gda.config}/templates/Vortex_Parameters.xml" />
 		<property name="tfg" ref="tfg" />
 	</bean>
 
