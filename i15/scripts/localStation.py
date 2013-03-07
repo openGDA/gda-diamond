@@ -432,6 +432,7 @@ try:
 
 	from future.toggleBinaryPvAndWait import ToggleBinaryPvAndWait
 	from future.binaryPvDetector import BinaryPvDetector
+	from future.timeOverThresholdDetector import TimeOverThresholdDetector
 	if False:
 		try:
 			xps7out1trig = ToggleBinaryPvAndWait('xps7out1trig', 'BL15I-MO-XPS-07:GPIO:OUT1', normalLevel='1', triggerLevel='0')
@@ -453,6 +454,14 @@ try:
 
 			patch12x7trig2low = BinaryPvDetector('patch12x7trig2low', 'BL15I-EA-PATCH-12:X7', normalLevel='Logic 1', triggerLevel='Logic 0')
 			patch14x7trig2low = BinaryPvDetector('patch14x7trig2low', 'BL15I-EA-PATCH-14:X7', normalLevel='Logic 1', triggerLevel='Logic 0')
+			
+			totatboxtrig = TimeOverThresholdDetector('totatboxtrig',
+				'BL15I-EA-PATCH-12:X7', normalLevel='Logic 1', triggerLevel='Logic 0',
+				edgeDetectorPvString="BL15I-EA-PATCH-12:X6:EDGE:WAIT")
+
+			totatboxtrig14 = TimeOverThresholdDetector('totatboxtrig',
+				'BL15I-EA-PATCH-14:X7', normalLevel='Logic 1', triggerLevel='Logic 0',
+				edgeDetectorPvString="BL15I-EA-PATCH-14:X6:EDGE:WAIT")
 		except:
 			localStation_exception(sys.exc_info(), "creating patch x7trig object")
 	else:
