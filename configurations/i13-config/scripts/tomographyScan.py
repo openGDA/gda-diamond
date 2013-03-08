@@ -296,6 +296,8 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
             scan_args.append(beamok)
         scanObject=createConcurrentScan(scan_args)
         scanObject.runScan()
+        #ensure the soft control of the shutter is open at the end of the scan
+        tomography_shutter.moveTo( "Open")		
         return scanObject;
     except :
         exceptionType, exception, traceback = sys.exc_info()
