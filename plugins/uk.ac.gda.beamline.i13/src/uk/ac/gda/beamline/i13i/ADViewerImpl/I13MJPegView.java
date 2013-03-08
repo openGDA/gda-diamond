@@ -20,6 +20,7 @@ package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
 import gda.commandqueue.JythonCommandCommandProvider;
 import gda.commandqueue.Queue;
+import gda.device.EnumPositioner;
 import gda.device.ScannableMotionUnits;
 import gda.device.scannable.ScannablePositionChangeEvent;
 import gda.device.scannable.ScannableStatus;
@@ -103,7 +104,7 @@ public class I13MJPegView extends MJPegView {
 		btnLens.setLayout(layout);
 
 		LensScannableComposite lensScannableComposite = new LensScannableComposite(btnLens, SWT.NONE);
-		lensScannableComposite.setLensScannable(adControllerImpl.getLensScannable());
+		lensScannableComposite.setLensScannable((EnumPositioner) adControllerImpl.getLensScannable());
 		Button showRotAxis = new Button(btnLens, SWT.PUSH);
 		showRotAxis.setText("Show Rotation Axis\n and Beam Center");
 		showRotAxis.addSelectionListener(new SelectionAdapter() {

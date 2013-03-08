@@ -19,22 +19,27 @@
 package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
 import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.device.scannable.ScannablePositionChangeEvent;
+import gda.device.EnumPositioner;
+import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
 
-import java.io.Serializable;
-
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.MessageBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,10 +47,10 @@ import uk.ac.gda.common.rcp.util.GridUtils;
 
 public class LensScannableComposite extends Composite {
 	static final Logger logger = LoggerFactory.getLogger(LensScannableComposite.class);
-	private Scannable lensScannable;
+	private EnumPositioner lensScannable;
 	private IObserver lensObserver;
-	private Label text;
 	private Group group;
+	private Combo pcom;
 
 	public LensScannableComposite(Composite parent, int style) {
 		super(parent, style);
@@ -59,10 +64,34 @@ public class LensScannableComposite extends Composite {
 		gl_group.marginBottom = 1;
 		gl_group.marginWidth = 1;
 		group.setLayout(gl_group);
-		text = new Label(group, SWT.NONE);
-		text.setText("x10 2mm x 3mm");
-		text.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
-		GridDataFactory.fillDefaults().applyTo(text);
+		
+		
+		pcom = new Combo(group, SWT.SINGLE | SWT.BORDER | SWT.CENTER | SWT.READ_ONLY);
+		pcom.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String newVal = pcom.getText();
+				if( newVal.equals(currentPos))
+					return;
+				pcom.setText(currentPos);
+				MessageBox box = new MessageBox(LensScannableComposite.this.getShell(),SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+				box.setMessage("Are you sure you want to change the camera lens to '" + newVal +"'");
+				int open = box.open();
+				if(open == SWT.YES){
+					Job job = new Job("tomodet.setCameraLens('" + newVal + "')"){
+
+						@Override
+						protected IStatus run(IProgressMonitor monitor) {
+							InterfaceProvider.getCommandRunner().evaluateCommand(getName());
+							return Status.OK_STATUS;
+						}};
+					job.schedule();
+				} 
+			}
+		});
+		GridDataFactory.fillDefaults().applyTo(pcom);
+		pcom.setItems(new String[] {  });
+		pcom.setVisible(true);
 		
 		addDisposeListener(new DisposeListener() {
 			
@@ -74,9 +103,21 @@ public class LensScannableComposite extends Composite {
 		});
 
 	}
-	
-	public void setLensScannable(Scannable s){
+	private void updateLensDisplay(){
+		lensObserver.update(lensScannable, null);
+	}
+	public void setLensScannable(EnumPositioner s){
 		lensScannable =s;
+		try {
+			pcom.removeAll();
+			for(String pos : lensScannable.getPositions()){
+				if( pos.length() > 1)
+					pcom.add(pos);
+			}
+		} catch (DeviceException e1) {
+			logger.error("Error getting positions from the lens", e1);
+		}
+
 		lensObserver = new IObserver() {
 
 			@Override
@@ -85,24 +126,22 @@ public class LensScannableComposite extends Composite {
 
 						@Override
 						public void run() {
-							String val="";
-							if( arg instanceof ScannablePositionChangeEvent){
-								val = (String) ((ScannablePositionChangeEvent)arg).newPosition;
-							} else {
-								val = arg.toString();
+							try {
+								currentPos = (String) lensScannable.getPosition();
+								pcom.setText(currentPos);
+								GridUtils.layout(group);
+							} catch (DeviceException e) {
+								logger.error("Error reading the lens position", e);
 							}
-							text.setText(val);
-							GridUtils.layout(group);
 						}
 					});
 			}
 		};
 		lensScannable.addIObserver(lensObserver);
-		try {
-			lensObserver.update(lensScannable, new ScannablePositionChangeEvent((Serializable) lensScannable.getPosition()));
-		} catch (DeviceException e) {
-			logger.error("Error reading lens", e);
-		}
+		updateLensDisplay();
+
 	}
+	private String currentPos;
+
 
 }

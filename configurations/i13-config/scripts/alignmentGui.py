@@ -1,5 +1,6 @@
 from gda.factory import Finder
 import sys
+from gdascripts.messages import handle_messages
 from gdascripts.parameters import beamline_parameters
 from gda.jython import InterfaceProvider
 class TomoDet():
@@ -70,3 +71,13 @@ class TomoDet():
         rotationAxisXScannable = jns.rotationAxisXScannable
         rotationAxisXScannable.autoCentre(2004)
     
+    def setCameraLens(self, position):
+        try:
+            print "Setting lens to " + `position`
+            lens=Finder.getInstance().find("lens")
+            lens.moveTo(position)
+            lens.waitWhileBusy()
+            print "Done"
+        except :
+            exceptionType, exception, traceback = sys.exc_info()
+            handle_messages.log(None, "Error setting lens to "+ `position` , exceptionType, exception, traceback, False)        

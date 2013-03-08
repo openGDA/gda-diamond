@@ -95,14 +95,33 @@ try:
 			createPVScannable( "d1_total", "BL13I-DI-PHDGN-01:STAT:Total_RBV")
 			createPVScannable( "expt_fastshutter_raw", "BL13I-EA-FSHTR-01:CONTROL", hasUnits=False)
 			expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", expt_fastshutter_raw)
-			caput("BL13I-EA-TURR-01:DEMAND.TWST", "X4 CWD 200")
-			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", "X4 CWD 200")
-			caput("BL13I-EA-TURR-01:DEMAND.FRST", "X2 7mm x 5mm")
-			caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", "X2 7mm x 5mm")
-			caput("BL13I-EA-TURR-01:DEMAND.FVST", "X4 4mm x 3mm")
-			caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", "X4 4mm x 3mm")
-			caput("BL13I-EA-TURR-01:DEMAND.SXST", "X10 2mm x 1mm")
-			caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", "X10 2mm x 1mm")
+			
+			#if you change these you need to change the values in cameraScaleProviders
+			lensX2="X2 7mm x 5mm"
+			lensX4="X4 4mm x 3mm"
+			lensX4Pink="X4 CWD 200"
+			lensX10="X10 2mm x 1mm"
+			
+			caput("BL13I-EA-TURR-01:DEMAND.ZRST",lensX2 )
+			caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", lensX2)
+		
+			caput("BL13I-EA-TURR-01:DEMAND.ONST", "2")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.ONST", "2")
+			caput("BL13I-EA-TURR-01:DEMAND.TWST", "3")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", "3")
+			caput("BL13I-EA-TURR-01:DEMAND.THST", "4")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.THST", "4")
+			caput("BL13I-EA-TURR-01:DEMAND.FRST", "5")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", "5")
+		
+		
+			caput("BL13I-EA-TURR-01:DEMAND.FVST", lensX4)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", lensX4)
+			caput("BL13I-EA-TURR-01:DEMAND.SXST", lensX10)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", lensX10)
+			#make the lens re-read its list of positions following setting them in EPICS above
+			lens.initializationCompleted()
+
 	except :
 		exceptionType, exception, traceback = sys.exc_info()
 		handle_messages.log(None, "Error creating pvScannables", exceptionType, exception, traceback, False)
