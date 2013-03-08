@@ -73,6 +73,7 @@
 <!-- 		<property name="scalePV" value="BL13I-EA-DET-01:PRO1:Scale" />
 		<property name="cmdFormatter" value="tomodet.setupStreamForCameraView(%f,%f,%f,%f)"/>
  -->	</bean>
+	<!-- requires anonymous viewer access to be enabled-->
  	<bean id="WebCam_UpStream" class="uk.ac.gda.video.views.CameraParameters">
 		<property name="name" value="WebCam UpStream"/>
 		<property name="mjpegURL" value="http://172.23.113.209/mjpg/video.mjpg" />

@@ -1135,8 +1135,8 @@ def makeLinksForNXSFile(\
 	
 	# check if we've identified a sufficient number of images as DARK, FLAT and PROJ images to perform a reconstruction 
 	len_proj_idx=len(proj_idx)
-	if len_proj_idx<loProjs_exc:
-		raise Exception("Number of the identified PROJECTION images is TOO SMALL to proceed: "+`len_proj_idx`+" < "+`loProjs_exc`+" (the latter is the exclusive min)")
+	#if len_proj_idx<loProjs_exc:
+	#	raise Exception("Number of the identified PROJECTION images is TOO SMALL to proceed: "+`len_proj_idx`+" < "+`loProjs_exc`+" (the latter is the exclusive min)")
 	
 	#unclassified_idx.append(1300)
 	if len(dark_idx)==0:
