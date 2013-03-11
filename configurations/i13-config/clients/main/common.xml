@@ -41,6 +41,8 @@
 
 	<import resource="../../devices/cameraScaleProviders.xml"/>
 
+	<bean id = "i13MJPegViewInitialiser" class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13MJPegViewInitialiser"/>
+	
 	<bean id="i13ADController"
 		class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13ADControllerImpl">
 		<property name="imageNDStats" ref="pco1_stat" />
@@ -56,7 +58,12 @@
 		<property name="ffmpegImageOutHeightMax" value="1336" />
 		<property name="ffmpegImageOutWidthMax" value="2004" />
 		<property name="lensScannable" ref="lens" />
-		<property name="mjpegViewCompositeFactory" ref="stages" />
+		<property name="mjpegViewCompositeFactory" >
+		<bean class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13MJPegViewCompositeFactory">
+		<constructor-arg ref="i13MJPegViewInitialiser"/>
+		</bean>
+		</property>
+		<property name="stagesCompositeFactory" ref="stages" />
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
 		<property name="cameraXYScannable" ref="cameraXYScannable" />
 		<property name="displayScaleProvider" ref="displayScaleProvider" />
@@ -71,7 +78,7 @@
 			value="tomographyScan.showNormalisedImage(%s,exposureTime=%s)" />
 	</bean>
 
-	<bean id="i13ADViewcreator" class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13ViewCreatorImpl">
+	<bean id="i13ADViewcreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
 		<property name="adController" ref="i13ADController" />
 	</bean>
 

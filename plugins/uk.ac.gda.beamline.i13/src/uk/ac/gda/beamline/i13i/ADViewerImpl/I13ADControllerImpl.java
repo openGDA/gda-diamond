@@ -84,6 +84,8 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 
 	private ScannableMotionUnits sampleCentringYMotor;
 
+	private CompositeFactory stagesCompositeFactory;
+
 
 
 	public Scannable getRotationAxisXScannable() {
@@ -166,5 +168,14 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 	public void setSampleCentringYMotor(ScannableMotionUnits sampleCentringYMotor) {
 		this.sampleCentringYMotor = sampleCentringYMotor;
 	}
+
+	public CompositeFactory getStagesCompositeFactory() {
+		return stagesCompositeFactory;
+	}
+
+	public void setStagesCompositeFactory(CompositeFactory stagesCompositeFactory) {
+		this.stagesCompositeFactory = stagesCompositeFactory;
+	}
+
 
 }
