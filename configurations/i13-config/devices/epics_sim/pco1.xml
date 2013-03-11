@@ -91,4 +91,24 @@
 		<property name="usePipeline" value="true"/>
 	</bean>
 
+
+
+	<bean id="pco4000_Zebra" class="gda.device.detector.addetector.triggering.HardwareTriggeredStandard">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg value=".1" />	
+	</bean>
+
+
+	<bean id="pco1_hdf5_Zebra" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
+		<property name="fileNameTemplate" value="pco1"/>
+		<property name="filePathTemplate" value="$datadir$"/>
+		<property name="fileTemplate" value="%s%s-%d.hdf"/>
+		<property name="fileNumberAtScanStart" value="-1"/>
+		<property name="setFileNameAndNumber" value="true"/>
+		<property name="setChunking" value="false"/>
+		<property name="blocking" value="false"/>
+	</bean>
+
+
 </beans>	
