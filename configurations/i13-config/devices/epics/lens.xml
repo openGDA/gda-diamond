@@ -2,11 +2,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
- 	<bean id="lens" class="gda.device.scannable.EpicsScannable">
+<!--  	<bean id="lens" class="gda.device.scannable.EpicsScannable">
 	<property name="hasUnits" value="False" />
 		<property name="getAsString" value="True" />
 		<property name="useNameAsExtraName" value="True"/>
 		<property name="pvName" value="BL13I-EA-TURR-01:CURRENTPOS"/>
 		<property name="local" value="true"/>
-	</bean>
+	</bean> -->
 </beans>

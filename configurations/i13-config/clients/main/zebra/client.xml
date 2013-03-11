@@ -13,7 +13,6 @@
 	<import resource="pco.xml" />
 	<import resource="../common.xml" />
 	<import resource="../../../devices/zebra/pco1_ndplugins.xml"/>
-	<import resource="../../../devices/dummy/lens.xml"/>
 		
 	<bean id="ringCurrent" class="gda.device.scannable.DummyScannable" />
 	<bean id="idGap" class="gda.device.scannable.DummyScannable"/>

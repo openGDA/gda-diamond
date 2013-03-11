@@ -155,6 +155,7 @@
 	<import resource="../../devices/table.xml" />
 	<import resource="../../devices/camera_stage.xml" />
 	<import resource="../../devices/pco1.xml" />
+	<import resource="../../devices/zebra.xml" />
 
 
 
