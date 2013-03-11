@@ -52,7 +52,6 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 
 	private Scannable lensScannable;
 
-	private CompositeFactory mjpegViewCompositeFactory;
 
 	public Scannable getLensScannable() {
 		return lensScannable;
@@ -70,14 +69,6 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 		
 	}
 
-
-	public CompositeFactory getMjpegViewCompositeFactory() {
-		return mjpegViewCompositeFactory;
-	}
-
-	public void setMjpegViewCompositeFactory(CompositeFactory mjpegViewCompositeFactory) {
-		this.mjpegViewCompositeFactory = mjpegViewCompositeFactory;
-	}
 
 	private Scannable rotationAxisXScannable;
 	private DisplayScaleProvider displayScaleProvider;

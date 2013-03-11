@@ -59,6 +59,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +67,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.beamline.i13i.DisplayScaleProvider;
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
 import uk.ac.gda.client.CommandQueueViewFactory;
+import uk.ac.gda.epics.adviewer.composites.CompositeFactory;
 import uk.ac.gda.epics.adviewer.composites.imageviewer.IImagePositionEvent;
 import uk.ac.gda.epics.adviewer.composites.imageviewer.ImagePositionListener;
 import uk.ac.gda.epics.adviewer.views.MJPegView;
@@ -84,6 +86,124 @@ public class I13MJPegView extends MJPegView {
 	public I13MJPegView(I13ADControllerImpl config) {
 		super(config);
 		adControllerImpl = config;
+		
+		
+		CompositeFactory mjpegViewCompositeFactory = new CompositeFactory() {
+			
+			@Override
+			public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
+				Composite c = new Composite(parent, SWT.NONE);
+				c.setLayout(new GridLayout(3, false));
+				Composite btnLens = new Composite(c, SWT.NONE);
+				GridDataFactory.swtDefaults().applyTo(btnLens);
+				RowLayout layout = new RowLayout(SWT.VERTICAL);
+				layout.center = true;
+				btnLens.setLayout(layout);
+
+				LensScannableComposite lensScannableComposite = new LensScannableComposite(btnLens, SWT.NONE);
+				lensScannableComposite.setLensScannable((EnumPositioner) adControllerImpl.getLensScannable());
+				Button showRotAxis = new Button(btnLens, SWT.PUSH);
+				showRotAxis.setText("Show Rotation Axis\n and Beam Center");
+				showRotAxis.addSelectionListener(new SelectionAdapter() {
+
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						try {
+							showRotationAxis(true);
+							showImageMarker(true);
+						} catch (Exception e1) {
+							logger.error("Error showing rot axis or beam center", e1);
+						}
+					}
+				});
+
+				Button xaxis = new Button(btnLens, SWT.NONE);
+				xaxis.setImage(I13IBeamlineActivator.getImageDescriptor("icons/axes.png").createImage());
+
+				adControllerImpl.getMjpegViewCompositeFactory().createComposite(c, SWT.NONE, null);
+				Composite btnComp = new Composite(c, SWT.NONE);
+				btnComp.setLayout(layout);
+
+				Button showNormalisedImage = new Button(btnComp, SWT.PUSH);
+				showNormalisedImage.setText("Get Normalised\nImage...");
+				showNormalisedImage.addSelectionListener(new SelectionAdapter() {
+
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						Dialog dlg = new Dialog(Display.getCurrent().getActiveShell()) {
+
+							private Text outBeamX;
+							private Text exposureTime;
+
+							@Override
+							protected void configureShell(Shell newShell) {
+								super.configureShell(newShell);
+								newShell.setText("Get Normalised Image");
+							}
+
+							@Override
+							protected Control createDialogArea(Composite parent) {
+								Composite cmp = new Composite(parent, SWT.NONE);
+								GridDataFactory.fillDefaults().applyTo(cmp);
+								cmp.setLayout(new GridLayout(2, false));
+								Label lblOutOfBeam = new Label(cmp, SWT.NONE);
+								lblOutOfBeam.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+								lblOutOfBeam.setText("Out of beam position/mm");
+								outBeamX = new Text(cmp, SWT.BORDER);
+								outBeamX.setText("0.0");
+								GridData outBeamXLayoutData = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+								outBeamXLayoutData.minimumWidth = 50;
+								outBeamX.setLayoutData(outBeamXLayoutData);
+
+								Label lblExposure = new Label(cmp, SWT.NONE);
+								lblExposure.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+								lblExposure.setText("Exposure time/s");
+								exposureTime = new Text(cmp, SWT.BORDER);
+								exposureTime.setText("1.0");
+								exposureTime.setLayoutData(outBeamXLayoutData);
+								return cmp;
+							}
+
+							@Override
+							protected void okPressed() {
+								final String cmd = String.format(adControllerImpl.getShowNormalisedImageCmd(),
+										outBeamX.getText(), exposureTime.getText());
+								try {
+									Queue queue = CommandQueueViewFactory.getQueue();
+									if (queue != null) {
+										queue.addToTail(new JythonCommandCommandProvider(cmd, "Running command '" + cmd + "'",
+												null));
+										CommandQueueViewFactory.showView();
+									} else {
+										throw new Exception("Queue not found");
+									}
+								} catch (Exception e1) {
+									reportErrorToUserAndLog("Error showing normalised image", e1);
+								}
+								super.okPressed();
+							}
+
+						};
+						dlg.open();
+					}
+				});
+
+				Button openScanDlg = new Button(btnComp, SWT.PUSH);
+				openScanDlg.setText("Start a\ntomography scan...");
+				openScanDlg.addSelectionListener(new SelectionAdapter() {
+
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						ScanParameterDialog scanParameterDialog = new ScanParameterDialog(getSite().getShell());
+						scanParameterDialog.setBlockOnOpen(true);
+						scanParameterDialog.open();
+					}
+				});
+				
+				return c;
+			}
+		};
+		adControllerImpl.setMjpegViewCompositeFactory(mjpegViewCompositeFactory);
 	}
 
 	@Override
@@ -91,117 +211,6 @@ public class I13MJPegView extends MJPegView {
 		super.createPartControl(parent);
 
 		addSpecialisation();
-	}
-
-	@Override
-	protected void createTopRowControls(Composite composite_1) {
-		Composite c = new Composite(composite_1, SWT.NONE);
-		c.setLayout(new GridLayout(3, false));
-		Composite btnLens = new Composite(c, SWT.NONE);
-		GridDataFactory.swtDefaults().applyTo(btnLens);
-		RowLayout layout = new RowLayout(SWT.VERTICAL);
-		layout.center = true;
-		btnLens.setLayout(layout);
-
-		LensScannableComposite lensScannableComposite = new LensScannableComposite(btnLens, SWT.NONE);
-		lensScannableComposite.setLensScannable((EnumPositioner) adControllerImpl.getLensScannable());
-		Button showRotAxis = new Button(btnLens, SWT.PUSH);
-		showRotAxis.setText("Show Rotation Axis\n and Beam Center");
-		showRotAxis.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				try {
-					showRotationAxis(true);
-					showImageMarker(true);
-				} catch (Exception e1) {
-					logger.error("Error showing rot axis or beam center", e1);
-				}
-			}
-		});
-
-		Button xaxis = new Button(btnLens, SWT.NONE);
-		xaxis.setImage(I13IBeamlineActivator.getImageDescriptor("icons/axes.png").createImage());
-
-		adControllerImpl.getMjpegViewCompositeFactory().createComposite(c, SWT.NONE, null);
-		Composite btnComp = new Composite(c, SWT.NONE);
-		btnComp.setLayout(layout);
-
-		Button showNormalisedImage = new Button(btnComp, SWT.PUSH);
-		showNormalisedImage.setText("Get Normalised\nImage...");
-		showNormalisedImage.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Dialog dlg = new Dialog(Display.getCurrent().getActiveShell()) {
-
-					private Text outBeamX;
-					private Text exposureTime;
-
-					@Override
-					protected void configureShell(Shell newShell) {
-						super.configureShell(newShell);
-						newShell.setText("Get Normalised Image");
-					}
-
-					@Override
-					protected Control createDialogArea(Composite parent) {
-						Composite cmp = new Composite(parent, SWT.NONE);
-						GridDataFactory.fillDefaults().applyTo(cmp);
-						cmp.setLayout(new GridLayout(2, false));
-						Label lblOutOfBeam = new Label(cmp, SWT.NONE);
-						lblOutOfBeam.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-						lblOutOfBeam.setText("Out of beam position/mm");
-						outBeamX = new Text(cmp, SWT.BORDER);
-						outBeamX.setText("0.0");
-						GridData outBeamXLayoutData = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-						outBeamXLayoutData.minimumWidth = 50;
-						outBeamX.setLayoutData(outBeamXLayoutData);
-
-						Label lblExposure = new Label(cmp, SWT.NONE);
-						lblExposure.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-						lblExposure.setText("Exposure time/s");
-						exposureTime = new Text(cmp, SWT.BORDER);
-						exposureTime.setText("1.0");
-						exposureTime.setLayoutData(outBeamXLayoutData);
-						return cmp;
-					}
-
-					@Override
-					protected void okPressed() {
-						final String cmd = String.format(adControllerImpl.getShowNormalisedImageCmd(),
-								outBeamX.getText(), exposureTime.getText());
-						try {
-							Queue queue = CommandQueueViewFactory.getQueue();
-							if (queue != null) {
-								queue.addToTail(new JythonCommandCommandProvider(cmd, "Running command '" + cmd + "'",
-										null));
-								CommandQueueViewFactory.showView();
-							} else {
-								throw new Exception("Queue not found");
-							}
-						} catch (Exception e1) {
-							reportErrorToUserAndLog("Error showing normalised image", e1);
-						}
-						super.okPressed();
-					}
-
-				};
-				dlg.open();
-			}
-		});
-
-		Button openScanDlg = new Button(btnComp, SWT.PUSH);
-		openScanDlg.setText("Start a\ntomography scan...");
-		openScanDlg.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				ScanParameterDialog scanParameterDialog = new ScanParameterDialog(getSite().getShell());
-				scanParameterDialog.setBlockOnOpen(true);
-				scanParameterDialog.open();
-			}
-		});
 	}
 
 	@Override
