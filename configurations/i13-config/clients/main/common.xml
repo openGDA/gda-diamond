@@ -63,6 +63,7 @@
 		<constructor-arg ref="i13MJPegViewInitialiser"/>
 		</bean>
 		</property>
+		<property name="mjpegViewInitialiser" ref="i13MJPegViewInitialiser"/>
 		<property name="stagesCompositeFactory" ref="stages" />
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
 		<property name="cameraXYScannable" ref="cameraXYScannable" />

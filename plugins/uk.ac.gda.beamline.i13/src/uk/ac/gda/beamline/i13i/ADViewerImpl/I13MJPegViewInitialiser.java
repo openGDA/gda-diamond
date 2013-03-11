@@ -56,7 +56,7 @@ import uk.ac.gda.epics.adviewer.views.MJPegViewInitialiser;
 
 public class I13MJPegViewInitialiser implements MJPegViewInitialiser {
 
-	I13ADControllerImpl adControllerImpl = null;
+	I13ADControllerImpl adControllerImpl;
 	boolean changeRotationAxisX, changeImageMarker, moveOnClickEnabled;
 	private RectangleFigure rotationAxisFigure;
 
@@ -71,7 +71,7 @@ public class I13MJPegViewInitialiser implements MJPegViewInitialiser {
 			if( !(adController instanceof I13ADControllerImpl)){
 				throw new IllegalArgumentException("ADController must be of type I13ADControllerImpl");
 			}
-		final I13ADControllerImpl adControllerImpl = (I13ADControllerImpl)adController;		
+		adControllerImpl = (I13ADControllerImpl)adController;		
 		this.mJPeg = mJPeg;
 		this.mjPegView = mjPegView;
 		Menu rightClickMenu = new Menu(mJPeg.getCanvas());
