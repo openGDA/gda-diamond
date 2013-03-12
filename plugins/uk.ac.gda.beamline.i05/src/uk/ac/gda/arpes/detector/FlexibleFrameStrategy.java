@@ -29,7 +29,11 @@ import gov.aps.jca.dbr.DBR_Int;
 import gov.aps.jca.event.MonitorEvent;
 import gov.aps.jca.event.MonitorListener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class FlexibleFrameStrategy extends SimpleAcquire implements MonitorListener {
+	static final Logger logger = LoggerFactory.getLogger(FlexibleFrameStrategy.class);
 
 	private int maxNumberOfFrames = 1;
 
@@ -50,6 +54,7 @@ public class FlexibleFrameStrategy extends SimpleAcquire implements MonitorListe
 	public void collectData() throws Exception {
 		getAdBase().setArrayCounter(0);
 		proc.setResetFilter(1);
+		currentFrame = 0;
 		wethinkweareincharge = true;
 		interactWithDeviceIfRequired();
 		getAdBase().startAcquiring();

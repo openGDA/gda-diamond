@@ -108,7 +108,6 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 			length = getNumberOfSweeptSteps();
 		}
 
-
 		double[] axis = new double[length];
 		for (int j = 0; j < length; j++) {
 			axis[j] = start + (j+startChannel) * step;
@@ -123,6 +122,19 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 
 	@Override
 	protected void appendDataAxes(NXDetectorData data) throws Exception {
+		short state = getAdBase().getDetectorState_RBV();
+		switch (state) {
+		case 6:
+			throw new DeviceException("analyser in error state during readout");
+		case 1:
+			throw new DeviceException("analyser acquiring during readout");
+		case 10:
+			logger.warn("analyser in aborted state during readout");
+			break;
+		default:
+			break;
+		}
+
 		if (firstReadoutInScan) {
 			int i = 1;
 			String aname = "energies";
