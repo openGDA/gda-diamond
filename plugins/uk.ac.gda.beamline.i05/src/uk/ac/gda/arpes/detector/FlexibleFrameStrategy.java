@@ -117,4 +117,9 @@ public class FlexibleFrameStrategy extends SimpleAcquire implements MonitorListe
 		this.maxNumberOfFrames = maxNumberOfFrames;
 		interactWithDeviceIfRequired();
 	}
+	
+	@Override
+	public double getAcquireTime() throws Exception {
+		return super.getAcquireTime() * proc.getNumFiltered_RBV();
+	}
 }
