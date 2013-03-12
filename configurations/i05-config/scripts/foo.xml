@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ARPESScanBean>
     <lensMode>Angular14</lensMode>
-    <sweptMode>true</sweptMode>
+    <sweptMode>false</sweptMode>
     <passEnergy>50</passEnergy>
-    <startEnergy>12.0</startEnergy>
-    <endEnergy>22.0</endEnergy>
-    <stepEnergy>100.0</stepEnergy>
+    <startEnergy>14.906</startEnergy>
+    <endEnergy>19.094</endEnergy>
+    <stepEnergy>4.03</stepEnergy>
     <timePerStep>0.1</timePerStep>
     <iterations>1</iterations>
     <photonEnergy>59.0</photonEnergy>
