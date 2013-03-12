@@ -7,6 +7,8 @@ import sys
 import gda.device.scannable.DummyScannable
 from gda.configuration.properties import LocalProperties
 import subprocess
+from gda.device import Scannable
+from gda.jython.commands.GeneralCommands import ls_names, vararg_alias
 # set up a nice method for getting the latest file path
 i12NumTracker = NumTracker("i12");
 finder = Finder.getInstance()
@@ -81,3 +83,6 @@ class DocumentationScannable(gda.device.scannable.DummyScannable):
             #subprocess.Popen(['python2.6', '-m', 'webbrowser', '-t', self.url])
             hSC.update(hSC, "URL:" + `self.url`)
         return self.mesg
+
+def ls_scannables():
+    ls_names(Scannable)
