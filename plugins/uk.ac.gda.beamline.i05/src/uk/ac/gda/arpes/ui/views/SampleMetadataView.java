@@ -48,12 +48,10 @@ public class SampleMetadataView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-//		parent.setLayout(new RowLayout(SWT.VERTICAL));
 		createFirstHalf(parent);
 	}
 
 	private void createFirstHalf(Composite parent) {
-//		Composite parent = new Composite(up, SWT.NONE);
 		GridLayout gl_parent = new GridLayout(4, true);
 		gl_parent.verticalSpacing = 12;
 		GridData gridData = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
@@ -62,7 +60,6 @@ public class SampleMetadataView extends ViewPart {
 		{
 			Group grpElapsedTime = new Group(parent, SWT.NONE);
 			GridData gd_grpElapsedTime = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-//			gd_grpElapsedTime.widthHint = 120;
 			grpElapsedTime.setLayoutData(gd_grpElapsedTime);
 			grpElapsedTime.setText("Scan Status");
 			grpElapsedTime.setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -76,7 +73,6 @@ public class SampleMetadataView extends ViewPart {
 			Group grpFrame = new Group(parent, SWT.NONE);
 			grpFrame.setText("Iteration");
 			GridData gd_grpElapsedTime = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-//			gd_grpElapsedTime.widthHint = 60;
 			grpFrame.setLayoutData(gd_grpElapsedTime);
 			grpFrame.setLayout(new FillLayout(SWT.HORIZONTAL));
 				frameNumber = new Label(grpFrame, SWT.NONE);
@@ -88,7 +84,6 @@ public class SampleMetadataView extends ViewPart {
 		{
 			Group grpElapsedTime = new Group(parent, SWT.NONE);
 			GridData gd_grpElapsedTime = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-//			gd_grpElapsedTime.widthHint = 120;
 			grpElapsedTime.setLayoutData(gd_grpElapsedTime);
 			grpElapsedTime.setText("Elapsed");
 			grpElapsedTime.setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -101,7 +96,6 @@ public class SampleMetadataView extends ViewPart {
 		{
 			Group grpElapsedTime = new Group(parent, SWT.NONE);
 			GridData gd_grpElapsedTime = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-//			gd_grpElapsedTime.widthHint = 120;
 			grpElapsedTime.setLayoutData(gd_grpElapsedTime);
 			grpElapsedTime.setText("Remaining");
 			grpElapsedTime.setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -121,7 +115,6 @@ public class SampleMetadataView extends ViewPart {
 			progressBar.setMaximum(10000);
 			progressBar.setMinimum(0);
 		}
-	
 		{
 			Label label = new Label(parent, SWT.NONE);
 			label.setText("Scan File");

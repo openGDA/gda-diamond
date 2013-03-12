@@ -58,7 +58,6 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 	private static final Logger logger = LoggerFactory.getLogger(MetadataUpdater.class);
 
 	private SampleMetadataView client;
-	private String subdirectory;
 	private Metadata metadata;
 	private JythonServerFacade jsf;
 	private List<Integer> scandimensions;
