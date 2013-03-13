@@ -33,7 +33,8 @@ public class TimingGroup implements Serializable {
 	// basic info
 	private String label; // to uniquely identify each frame in the UI
 	private double timePerScan; // in s
-	private double timePerFrame; // in s
+	private int numberOfScansPerFrame = 0; // if zero then use the timePerFrame when setting up the TimingGroup in TFG
+	private double timePerFrame; // in s  // use only if numberOfScansPerFrame == 0
 	private int numberOfFrames = 1; // number of times to repeat the same set of scans before the EDE scan should move
 									// on to the next TimingGroup
 
@@ -68,10 +69,17 @@ public class TimingGroup implements Serializable {
 	private boolean outLemo7;
 	
 	public int getTotalNumberScans() {
-		// just an estimate
-		Double scansPerFrame = Math.floor(timePerFrame/timePerScan);
-		if (scansPerFrame.isNaN() || scansPerFrame < 1){
-			scansPerFrame = 1d;
+		
+		Double scansPerFrame;
+		if (numberOfScansPerFrame == 0) {
+
+			// just an estimate
+			scansPerFrame = Math.floor(timePerFrame / timePerScan);
+			if (scansPerFrame.isNaN() || scansPerFrame < 1) {
+				scansPerFrame = 1d;
+			}
+		} else {
+			scansPerFrame = (double) numberOfScansPerFrame;
 		}
 		
 		int numFrame = numberOfFrames;
@@ -294,6 +302,20 @@ public class TimingGroup implements Serializable {
 		this.groupTrigRisingEdge = groupTrigRisingEdge;
 	}
 
+	public int getNumberOfScansPerFrame() {
+		return numberOfScansPerFrame;
+	}
+
+	/**
+	 * If this is 0 then the timePerFrame attribute will be used when creating the timing group. I.e. in the setup-group
+	 * command the frame-time qualifier will be used when numberOfScansPerFrame == 0
+	 * 
+	 * @param numberOfScansPerFrame
+	 */
+	public void setNumberOfScansPerFrame(int numberOfScansPerFrame) {
+		this.numberOfScansPerFrame = numberOfScansPerFrame;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -312,6 +334,7 @@ public class TimingGroup implements Serializable {
 		result = prime * result + (groupTrigRisingEdge ? 1231 : 1237);
 		result = prime * result + ((label == null) ? 0 : label.hashCode());
 		result = prime * result + numberOfFrames;
+		result = prime * result + numberOfScansPerFrame;
 		result = prime * result + (outLemo0 ? 1231 : 1237);
 		result = prime * result + (outLemo1 ? 1231 : 1237);
 		result = prime * result + (outLemo2 ? 1231 : 1237);
@@ -367,6 +390,8 @@ public class TimingGroup implements Serializable {
 		} else if (!label.equals(other.label))
 			return false;
 		if (numberOfFrames != other.numberOfFrames)
+			return false;
+		if (numberOfScansPerFrame != other.numberOfScansPerFrame)
 			return false;
 		if (outLemo0 != other.outLemo0)
 			return false;
