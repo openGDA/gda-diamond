@@ -173,7 +173,7 @@ public class B16VortexParametersUIEditor extends VortexParametersUIEditor {
 
 			if (monitor!=null)  monitor.worked(10);
 			
-			final double realTime = xmapDetector.getRealTime()*1000d;
+//			final double realTime = xmapDetector.getRealTime()*1000d;
 //			deadTime              = realTime-collectionTimeValue;
 			if(writeToDisk && monitor != null)
 			{
