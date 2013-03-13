@@ -581,19 +581,19 @@
 		<property name="protectionLevel" value="0" />
 	</bean>
 	
-	<bean id="ml_x" class="gda.device.scannable.ScannableMotor">
+	<bean id="sid_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="ml_x_motor" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
-	<bean id="ml_y" class="gda.device.scannable.ScannableMotor">
+	<bean id="sid_y" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="ml_y_motor" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
-	<bean id="ml_z" class="gda.device.scannable.ScannableMotor">
+	<bean id="sid_z" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="ml_z_motor" />
@@ -603,9 +603,9 @@
 	<bean id="sc_MultiLayer" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="ml_x" />
-				<ref bean="ml_y" />
-				<ref bean="ml_z" />
+				<ref bean="sid_x" />
+				<ref bean="sid_y" />
+				<ref bean="sid_z" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />

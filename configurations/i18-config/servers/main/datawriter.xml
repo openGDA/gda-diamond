@@ -88,6 +88,14 @@
 						</list>
 					</property>
 				</bean>
+				<bean id="sid_x" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="sid x = %4.0f" />
+					<property name="labelValues">
+						<list>
+							<ref bean="sid_x" />
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
