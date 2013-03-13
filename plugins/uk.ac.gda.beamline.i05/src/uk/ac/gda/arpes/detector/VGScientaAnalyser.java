@@ -54,6 +54,7 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 	
 	public final static MotorStatus stopped = MotorStatus.READY;
 	public final static MotorStatus running = MotorStatus.BUSY;
+	private MotorStatus currentstatus = stopped;
 	
 
 	@Override
@@ -133,11 +134,15 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 	@Override
 	protected void appendDataAxes(NXDetectorData data) throws Exception {
 		short state = getAdBase().getDetectorState_RBV();
+//		if (currentstatus == running)
+//			throw new DeviceException("analyser being read out while acquiring - we do not expect that");
 		switch (state) {
 		case 6:
 			throw new DeviceException("analyser in error state during readout");
 		case 1:
-			throw new DeviceException("analyser acquiring during readout");
+			// The IOC can report acquiring for quite a while after being stopped
+			logger.debug("analyser status is acquiring during readout although we think it has stopped");
+			break;
 		case 10:
 			logger.warn("analyser in aborted state during readout");
 			break;
@@ -273,12 +278,17 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 	@Override
 	public void monitorChanged(MonitorEvent arg0) {
 		if (((CAJChannel) arg0.getSource()).getName().endsWith(ADBase.Acquire_RBV)) {
+			logger.debug("been informed of some sort of change to acquire status");
 			DBR_Enum en = (DBR_Enum) arg0.getDBR();
 			short[] no = (short[]) en.getValue();
-			if (no[0] == 0)
-				notifyIObservers(this, stopped);
-			else 
-				notifyIObservers(this, running);
+			if (no[0] == 0) {
+				logger.info("been informed of a stop");
+				currentstatus = stopped;
+			} else {
+				logger.info("been informed of a start");
+				currentstatus = running;
+			}
+			notifyIObservers(this, currentstatus);
 		}
 	}
 
