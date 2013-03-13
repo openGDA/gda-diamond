@@ -127,19 +127,24 @@ public class B16VortexParametersUIEditor extends VortexParametersUIEditor {
 	 */
 	@Override
 	protected void acquire(final IProgressMonitor monitor, final double collectionTimeValue) {
-		
-		if (monitor!=null) monitor.beginTask("Acquire xMap data", 100);
-				
-		final XmapDetector xmapDetector = (XmapDetector)Finder.getInstance().find(vortexParameters.getDetectorName());
-//		final Timer        tfg          = (Timer) Finder.getInstance().find(vortexParameters.getTfgName());
 
-		double deadTime = 0d;
-        try {
-        	if (monitor!=null)  xmapDetector.setAcquisitionTime(collectionTimeValue);
-        	if (monitor!=null)  xmapDetector.clearAndStart();
-        	if (monitor!=null)  monitor.worked(10);
-//			tfg.countAsync(collectionTimeValue);
-			if (monitor!=null)  monitor.worked(10);
+		if (monitor != null)
+			monitor.beginTask("Acquire xMap data", 100);
+
+		final XmapDetector xmapDetector = (XmapDetector) Finder.getInstance().find(vortexParameters.getDetectorName());
+		// final Timer tfg = (Timer) Finder.getInstance().find(vortexParameters.getTfgName());
+
+//		double deadTime = 0d;
+		try {
+			if (monitor != null)
+				xmapDetector.setAcquisitionTime(collectionTimeValue);
+			if (monitor != null)
+				xmapDetector.clearAndStart();
+			if (monitor != null)
+				monitor.worked(10);
+			// tfg.countAsync(collectionTimeValue);
+			if (monitor != null)
+				monitor.worked(10);
 			while (xmapDetector.getStatus() != Detector.IDLE) {
 				try {
 					Thread.sleep(100);
@@ -154,7 +159,7 @@ public class B16VortexParametersUIEditor extends VortexParametersUIEditor {
 				}
 			}
 			if (monitor!=null)  if (monitor.isCanceled()) return;
-       	
+
 			if (monitor!=null)  logger.debug("Stopping xmap detector " + xmapDetector.getStatus());
 			if (monitor!=null)  xmapDetector.stop();
 			if (monitor!=null)  monitor.worked(10);
@@ -163,13 +168,13 @@ public class B16VortexParametersUIEditor extends VortexParametersUIEditor {
 			if (monitor!=null)  monitor.worked(10);
 		
 			final int [][][] data3d = get3DArray(data);
-			getData().setValue(ElementCountsData.getDataFor(data3d));
+			getDataWrapper().setValue(ElementCountsData.getDataFor(data3d));
 			detectorData = getData(data3d);
-			  
+
 			if (monitor!=null)  monitor.worked(10);
 			
 			final double realTime = xmapDetector.getRealTime()*1000d;
-			deadTime              = realTime-collectionTimeValue;
+//			deadTime              = realTime-collectionTimeValue;
 			if(writeToDisk && monitor != null)
 			{
 				String spoolDirPath = LocalProperties.get("gda.device.vortex.spoolDir");
@@ -207,6 +212,4 @@ public class B16VortexParametersUIEditor extends VortexParametersUIEditor {
 		});
 
 	}
-	
-
 }
