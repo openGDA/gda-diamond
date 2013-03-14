@@ -7,3 +7,5 @@ if energyTable != None:
     
 from edescan import ede
 alias ede
+
+run "roi_control"

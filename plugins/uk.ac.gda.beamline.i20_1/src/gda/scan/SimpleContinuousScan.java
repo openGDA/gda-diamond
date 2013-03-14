@@ -154,7 +154,8 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 //		absLowFrame++;
 		int absHighFrame = ExperimentLocationUtils
 				.getAbsoluteFrameNumber(xhDet.getLoadedParameters(), progressData.loc);
-		if (progressData.detectorStatus != Detector.IDLE)
+		// something wrong with the logic here!
+//		if (progressData.detectorStatus != Detector.IDLE)
 			absHighFrame--;
 		createDataPoints(absLowFrame, absHighFrame);
 	}

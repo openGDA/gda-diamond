@@ -1,5 +1,7 @@
 # runs the servers locally
-source /dls_sw/dasc/tools_versions/set_tools.sh
+#source /dls_sw/dasc/tools_versions/set_tools.sh
+. /usr/share/Modules/init/bash
+module load java/6u37-64
 umask 0002
 
 # stop old servers

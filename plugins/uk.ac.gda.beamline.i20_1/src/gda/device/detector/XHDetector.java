@@ -126,7 +126,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 				if (timingReadbackHandle < 0) {
 					throw new DeviceException("Failed to create the timing readback handle");
 				}
-				logger.info("Xspress2System: open() using timingReadbackHandle " + timingReadbackHandle);
+				logger.info("open() using timingReadbackHandle " + timingReadbackHandle);
 			}
 		}
 	}
@@ -163,6 +163,17 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	@Override
 	public NexusTreeProvider readout() throws DeviceException {
 		return readFrames(0, 0)[0];
+	}
+
+	/**
+	 * Reads out the given frame to an array of ints. No corrections, no data reduction.
+	 * 
+	 * @param frame
+	 * @return int[] - the raw data
+	 * @throws DeviceException 
+	 */
+	public int[] readFrameToArray(int frame) throws DeviceException {
+		return readoutFrames(frame, frame);
 	}
 
 	/**
@@ -429,7 +440,6 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		String[] messageParts = statusMessage.split("[\n#:,]");
 
 		ExperimentStatus newStatus = new ExperimentStatus();
-		
 
 		if (messageParts[0].trim().equalsIgnoreCase("running")) {
 			newStatus.detectorStatus = Detector.BUSY;
@@ -471,6 +481,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 			Integer numFrames = timingGroup.getNumberOfFrames();
 			double frameTimeInS = timingGroup.getTimePerFrame();
 			String frameTimeInCycles = secondsToClockCyclesString(frameTimeInS);
+			int numberOfScansPerFrame = timingGroup.getNumberOfScansPerFrame();
 			double scanTimeInS = timingGroup.getTimePerScan();
 			String scanTimeInClockCycles = secondsToClockCyclesString(scanTimeInS);
 
@@ -480,8 +491,15 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 			String delays = buildDelaysCommand(timingGroup);
 
- 			String command = createCommand("setup-group", i, numFrames, 0, scanTimeInClockCycles, "frame-time",
-					frameTimeInCycles, delays, lemoOut, extTrig);
+			String command;
+			if (numberOfScansPerFrame == 0) {
+				command = createCommand("setup-group", i, numFrames, 0, scanTimeInClockCycles, "frame-time",
+						frameTimeInCycles, delays, lemoOut, extTrig);
+			} else {
+				// use the frame-time qualifier
+				command = createCommand("setup-group", i, numFrames, numberOfScansPerFrame, scanTimeInClockCycles,
+						delays, lemoOut, extTrig);
+			}
 
 			if (i == nextScan.getGroups().size() - 1) {
 				command = command.trim() + " last";
@@ -742,13 +760,17 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 	}
 
-	private void setDefaultROIs() {
-		int numberDefaultROIs = 4;
-		XHROI[] defaults = new XHROI[numberDefaultROIs];
+	/**
+	 * Sets equally sized ROIs.
+	 * 
+	 * @param numberOfRois
+	 */
+	public void setNumberRois(int numberOfRois) {
+		XHROI[] defaults = new XHROI[numberOfRois];
 
-		int roiSize = NUMBER_ELEMENTS / numberDefaultROIs;
+		int roiSize = NUMBER_ELEMENTS / numberOfRois;
 
-		for (int i = 0; i < numberDefaultROIs; i++) {
+		for (int i = 0; i < numberOfRois; i++) {
 			XHROI thisRoi = new XHROI();
 			thisRoi.setLabel("ROI" + i);
 			thisRoi.setLowerLevel(roiSize * i);
@@ -757,6 +779,61 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		}
 		setRoisWithoutStoringAndNotifying(defaults);
 		saveROIsToXML();
+	}
+	
+	/**
+	 * Creates ROIs for the lowest and highest channels, then in the central zone sets a number of evenly spaced ROIs.
+	 * <p>
+	 * Use {@link #getRois()} to see what this method has created.
+	 * 
+	 * @param numberRoisInCentralZone
+	 * @param lowerChannelOfCentralZone
+	 * @param upperChannelOfCentralZone
+	 */
+	public void setEvenRoisWithBookends(int numberRoisInCentralZone, int lowerChannelOfCentralZone,
+			int upperChannelOfCentralZone) {
+
+		XHROI[] newROIS = new XHROI[numberRoisInCentralZone + 2];
+		
+		XHROI lowRoi = new XHROI();
+		lowRoi.setLabel("Low Channels");
+		lowRoi.setLowerLevel(0);
+		lowRoi.setUpperLevel(lowerChannelOfCentralZone);
+		
+		newROIS[0] = lowRoi;
+		
+		
+		int roiSize = Math.round((upperChannelOfCentralZone -  lowerChannelOfCentralZone)/ numberRoisInCentralZone);
+		
+		int lowChannel = lowerChannelOfCentralZone + 1;
+		for (int roiNum = 1; roiNum < numberRoisInCentralZone + 1; roiNum++) {
+			XHROI thisRoi = new XHROI();
+			thisRoi.setLabel("ROI" + (roiNum - 1));
+			thisRoi.setLowerLevel(lowChannel);
+			thisRoi.setUpperLevel(lowChannel + roiSize - 1);
+			newROIS[roiNum] = thisRoi;
+			lowChannel += roiSize;
+		}
+
+		XHROI highRoi = new XHROI();
+		highRoi.setLabel("High Channels");
+		highRoi.setLowerLevel(lowChannel);
+		highRoi.setUpperLevel(NUMBER_ELEMENTS -1);
+		newROIS[numberRoisInCentralZone + 1] = highRoi;
+		
+		setRoisWithoutStoringAndNotifying(newROIS);
+		saveROIsToXML();
+	}
+
+	/**
+	 * @return the number of ROIS, whether they have been set via the setNumberRois or setRois methods.
+	 */
+	public int getNumberRois() {
+		return rois.length;
+	}
+
+	private void setDefaultROIs() {
+		setNumberRois(4);
 	}
 
 	private void setRoisWithoutStoringAndNotifying(XHROI[] rois) {

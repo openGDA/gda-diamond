@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="apertureX_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="FE20I-AL-APTR-02:X.VAL" />
+		<property name="pvName" value="FE20I-AL-APTR-02:X" />
 	</bean>
 
 	<bean id="apertureX" class="gda.device.scannable.ScannableMotor">
@@ -13,7 +13,7 @@
 	</bean>
 
 	<bean id="apertureY_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="FE20I-AL-APTR-02:Y.VAL" />
+		<property name="pvName" value="FE20I-AL-APTR-02:Y" />
 	</bean>
 
 	<bean id="apertureY" class="gda.device.scannable.ScannableMotor">
@@ -21,7 +21,7 @@
 		<property name="motor" ref="apertureY_motor" />
 	</bean>
 
-	<bean id="optics_shutter" class="gda.device.enumpositioner.EpicsValve">
+	<bean id="optics_shutter" class="gda.device.enumpositioner.EpicsValveCallback">
 		<property name="epicsRecordName" value="FE20I-PS-SHTR-02" />
 		<property name="outputFormat">
 			<list>
@@ -34,7 +34,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="shutter1" class="gda.device.enumpositioner.EpicsValve">
+	<bean id="shutter1" class="gda.device.enumpositioner.EpicsValveCallback">
 		<property name="epicsRecordName" value="BL20J-PS-SHTR-01" />
 		<property name="outputFormat">
 			<list>
@@ -47,20 +47,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="pshut" class="gda.device.enumpositioner.EpicsValve">
-		<property name="epicsRecordName" value="BL20J-EA-SHTR-01" />
-		<property name="outputFormat">
-			<list>
-				<value>%s</value>
-			</list>
-		</property>
-		<property name="inputNames">
-			<list>
-				<value>shutter1</value>
-			</list>
-		</property>
-	</bean>
-	<bean id="shutter2" class="gda.device.enumpositioner.EpicsValve">
+	<bean id="shutter2" class="gda.device.enumpositioner.EpicsValveCallback">
 		<property name="epicsRecordName" value="BL20J-PS-SHTR-02" />
 		<property name="outputFormat">
 			<list>
