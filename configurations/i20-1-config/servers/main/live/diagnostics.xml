@@ -13,9 +13,11 @@
 	<bean id="d2_motor" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="d2motor" />
 	</bean>
-	<bean id="d2_current"
-		class="gda.device.monitor.EpicsMonitor">
+	<bean id="d2_current" class="gda.device.monitor.EpicsMonitor">
 		<property name="deviceName" value="D2.D1I" />
+	</bean>
+	<bean id="d2_gain" class="gda.device.currentamplifier.EpicsCurrAmpGain">
+		<property name="pvName" value="BL20J-DI-IAMP-01:GAIN" />
 	</bean>
 	
 	<bean id="d3_screen"
@@ -44,8 +46,7 @@
 <!-- 	<bean id="d5_motor" class="gda.device.motor.EpicsMotor"> -->
 <!-- 		<property name="pvName" value="BL20J-DI-PHDGN-05:POSN" /> -->
 <!-- 	</bean> -->
-	<bean id="d5_current"
-		class="gda.device.monitor.EpicsMonitor">
+	<bean id="d5_current" class="gda.device.monitor.EpicsMonitor">
 		<property name="deviceName" value="D5.D1I" />
 	</bean>
 
