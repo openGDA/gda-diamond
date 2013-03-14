@@ -63,4 +63,6 @@ alias("setVisit")
 from arpesmonitor import ARPESMonitor
 am=ARPESMonitor()
 
+caput("BL05I-EA-DET-01:ARR1:EnableCallbacks",1)
+
 print "==================================================================="

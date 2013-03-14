@@ -54,6 +54,7 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 	
 	public final static MotorStatus stopped = MotorStatus.READY;
 	public final static MotorStatus running = MotorStatus.BUSY;
+	private MotorStatus currentstatus = stopped;
 	
 
 	@Override
@@ -61,11 +62,21 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 		super.configure();
 		try {
 			getNdArray().getPluginBase().enableCallbacks();
-			epicsController = EpicsController.getInstance();
-			epicsController.setMonitor(epicsController.createChannel(((ADBaseImpl) getAdBase()).getBasePVName() + ADBase.Acquire_RBV), this);
+			getNdArray().getPluginBase().setNDArrayPort(getNdProc().getPluginBase().getPortName_RBV());
+			getNdProc().setEnableFilter(1);
+			getNdProc().setAutoResetFilter(0);
+			getNdProc().setFilterType(2);
+			getNdProc().setNumFilter(1000000);
+			getNdProc().getPluginBase().enableCallbacks();
+			
 			FlexibleFrameStrategy flex = new FlexibleFrameStrategy(getAdBase(), 0., getNdProc()); 
 			setCollectionStrategy(flex);
 			flex.setMaxNumberOfFrames(1);
+			
+			// for updates to GUI
+			epicsController = EpicsController.getInstance();
+			epicsController.setMonitor(epicsController.createChannel(((ADBaseImpl) getAdBase()).getBasePVName() + ADBase.Acquire_RBV), this);
+			
 		} catch (Exception e) {
 			throw new FactoryException("error setting up areadetector and related listeners ", e);
 		}
@@ -108,7 +119,6 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 			length = getNumberOfSweeptSteps();
 		}
 
-
 		double[] axis = new double[length];
 		for (int j = 0; j < length; j++) {
 			axis[j] = start + (j+startChannel) * step;
@@ -123,6 +133,23 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 
 	@Override
 	protected void appendDataAxes(NXDetectorData data) throws Exception {
+		short state = getAdBase().getDetectorState_RBV();
+//		if (currentstatus == running)
+//			throw new DeviceException("analyser being read out while acquiring - we do not expect that");
+		switch (state) {
+		case 6:
+			throw new DeviceException("analyser in error state during readout");
+		case 1:
+			// The IOC can report acquiring for quite a while after being stopped
+			logger.debug("analyser status is acquiring during readout although we think it has stopped");
+			break;
+		case 10:
+			logger.warn("analyser in aborted state during readout");
+			break;
+		default:
+			break;
+		}
+
 		if (firstReadoutInScan) {
 			int i = 1;
 			String aname = "energies";
@@ -251,12 +278,17 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 	@Override
 	public void monitorChanged(MonitorEvent arg0) {
 		if (((CAJChannel) arg0.getSource()).getName().endsWith(ADBase.Acquire_RBV)) {
+			logger.debug("been informed of some sort of change to acquire status");
 			DBR_Enum en = (DBR_Enum) arg0.getDBR();
 			short[] no = (short[]) en.getValue();
-			if (no[0] == 0)
-				notifyIObservers(this, stopped);
-			else 
-				notifyIObservers(this, running);
+			if (no[0] == 0) {
+				logger.info("been informed of a stop");
+				currentstatus = stopped;
+			} else {
+				logger.info("been informed of a start");
+				currentstatus = running;
+			}
+			notifyIObservers(this, currentstatus);
 		}
 	}
 
