@@ -43,6 +43,7 @@
 				<ref bean="t1_sz" />
 				<ref bean="t1_x" />
 				<ref bean="t1_y" />
+				<ref bean="t1_z" />
 				<ref bean="t1_pitch" />
 				<ref bean="t1_roll" />
 				<ref bean="t1_theta" />

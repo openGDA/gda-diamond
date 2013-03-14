@@ -186,22 +186,45 @@ beam_check=scan_aborter.scan_aborter("beam_check",3, 300000., "Too high")
 #imageROI.setROI(370, 390, 370, 390)#    ( y_start, y_end, x_start, x_end)
 
 
+import average
+d4_i_avg = average.Average(d4_i,numPoints=10, timeBetweenReadings=0.1)
+
 import mtscripts.moveable.me07m
 from mtscripts.moveable.me07m import mepiezo1x, mepiezo1y, eembimorph, dummy_bimorph
-from gdascripts.pd.dummy_pds import DummyPD
-from gdascripts.scannable.detector.dummy.focused_beam_dataset import CreateImageReadingDummyDetector
-from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
+
+import dataset_provider
+
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
 from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
-from gdascripts.bimorph.bimorph_mirror_optimising import SlitScanner, ScanAborter
-slitscanner = SlitScanner()
+
+detDSProvider = dataset_provider.NXDetectorDataWithFilepathForSrsDatasetProvider(pcoEdge_tif,fileLoadTimout=5.)
+
+peak2d = DetectorDataProcessorWithRoi('peak2d', detDSProvider, [TwodGaussianPeak()])
+max2d = DetectorDataProcessorWithRoi('max2d', detDSProvider, [SumMaxPositionAndValue()])
+intensity2d = DetectorDataProcessorWithRoi('intensity2d', detDSProvider, [PixelIntensity()])
+from gdascripts.bimorph import bimorph
+
+#from gdascripts.pd.dummy_pds import DummyPD
+#from gdascripts.scannable.detector.dummy.focused_beam_dataset import CreateImageReadingDummyDetector
+#from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
+#from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
+#from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
+#from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
+#from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
 #x = DummyPD("x")
 #x.asynchronousMoveTo(430)
 #cam1det = CreateImageReadingDummyDetector.create(x)
 #cam1 = ProcessingDetectorWrapper('cam1', cam1det, [], panel_name_rcp='Plot 1')
-cam1 = ProcessingDetectorWrapper('cam1', pcoEdge_tif, [], panel_name_rcp='Plot 1')
-peak2d = DetectorDataProcessorWithRoi('peak2d', cam1, [TwodGaussianPeak()])
-max2d = DetectorDataProcessorWithRoi('max2d', cam1, [SumMaxPositionAndValue()])
-intensity2d = DetectorDataProcessorWithRoi('intensity2d', cam1, [PixelIntensity()])
+#cam1 = ProcessingDetectorWrapper('cam1', pcoEdge_tif, [], panel_name_rcp='Plot 1')
+#peak2d = DetectorDataProcessorWithRoi('peak2d', cam1, [TwodGaussianPeak()])
+#max2d = DetectorDataProcessorWithRoi('max2d', cam1, [SumMaxPositionAndValue()])
+#intensity2d = DetectorDataProcessorWithRoi('intensity2d', cam1, [PixelIntensity()])
+#cam1.returnPathAsImageNumberOnly=True
+
+from gdascripts.bimorph.bimorph_mirror_optimising import SlitScanner, ScanAborter, TopupCountdown
+scanAborter=ScanAborter("scanAborter",ic, -10)
+slitscanner = SlitScanner()
+slitscanner.setScanAborter(scanAborter)
+bm_topup = TopupCountdown("bm_topup")

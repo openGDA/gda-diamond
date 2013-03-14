@@ -16,12 +16,12 @@
 		<property name="motor" ref="scope1_y_motor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
-	<bean id="scope1_focus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="scope1_focus_motor" />
+	<bean id="scope1_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="scope1_z_motor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
-	<bean id="scope1_laser" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="scope1_laser_motor" />
+	<bean id="scope1_yraw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="scope1_yraw_motor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
 	

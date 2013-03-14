@@ -85,13 +85,14 @@
 	<import resource="../../../devices/dummy/s6_motors.xml"/>	
 
 	<import resource="../../../devices/dummy/sample_stage_t1_motors.xml"/>
+	<import resource="../../../devices/dummy/g1_motors.xml"/>
 	
 	<import resource="../../../devices/dummy/sample_stage_camera.xml"/>
 	<import resource="../../../devices/dummy/moveable_camera.xml"/>
 	
 	<import resource="../../../devices/dummy/s7_motors.xml"/>
 
-	<import resource="../../../devices/dummy/alignment_scope_motors.xml"/>
+	<import resource="../../../devices/dummy/scope1_motors.xml"/>
 
 	<import resource="../../../devices/dummy/maxipix_tango.xml"/>
 	

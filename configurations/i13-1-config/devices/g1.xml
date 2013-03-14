@@ -7,17 +7,21 @@
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
-
-	<bean id="alignmemt_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="alignment_x_motor" />
+	<!--  the motors assignments and scaling will need to be reset once EPICS is correct-->
+	<bean id="g1_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="g1_pitch_motor" />
 	</bean>
-	<bean id="alignmemt_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="alignment_x_motor" />
+	<bean id="g1_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="g1_roll_motor" />
 	</bean>
-	<bean id="alignmemt_z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="alignment_x_motor" />
-	</bean>
-	
+	<bean id="g1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="g1_pitch" />
+				<ref bean="g1_roll" />
+			</list>
+		</property>
+	</bean>	
 	
 </beans>
 
