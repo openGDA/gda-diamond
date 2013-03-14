@@ -89,6 +89,20 @@
 		<constructor-arg value="1" />
 		<constructor-arg type="java.lang.String" value="Both" />
 	</bean>
+	<bean id="harmonic21_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic21_converter" />
+		<constructor-arg value="lookuptable_harmonic21_140313.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic23_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic23_converter" />
+		<constructor-arg value="lookuptable_harmonic23_140313.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
 	
 	
 	<bean id="harmonic1" class="gda.util.converters.util.RangeandConverterNameHolder">
@@ -148,9 +162,24 @@
 	<bean id="harmonic19" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic19" />
 		<constructor-arg value="harmonic19_converter" />
-		<constructor-arg value="5450" />
+		<constructor-arg value="5733" />
 		<constructor-arg value="6700" />
 	</bean>
+	<bean id="harmonic21" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic21" />
+		<constructor-arg value="harmonic21_converter" />
+		<constructor-arg value="5431" />
+		<constructor-arg value="5732" />
+	</bean>
+	<bean id="harmonic23" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic23" />
+		<constructor-arg value="harmonic23_converter" />
+		<constructor-arg value="5300" />
+		<constructor-arg value="5430" />
+	</bean>
+	
+	
+	
 	 <bean id="lookup_name_provider" class="gda.util.converters.util.RangeConverterNameProvider">
 		<constructor-arg value="lookup_name_provider" />
 		<constructor-arg value="harmonic1_converter" />
@@ -166,6 +195,8 @@
 				<ref bean="harmonic15" />
 				<ref bean="harmonic17" />
 				<ref bean="harmonic19" />
+				<ref bean="harmonic21" />
+				<ref bean="harmonic23" />
 			</list>
 		</property>
 	</bean>
