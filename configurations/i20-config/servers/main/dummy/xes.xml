@@ -431,13 +431,15 @@
 		<property name="material" ref="material" />
 	</bean>	
 	
+	<bean id="xes_slit_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="false"/>
+		<property name="speed" value="200" />
+	</bean>
 	
-	
-	
-	
-	
-	
-	
-	
+	<bean id="xes_slits" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xes_slit_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
 
 </beans>
