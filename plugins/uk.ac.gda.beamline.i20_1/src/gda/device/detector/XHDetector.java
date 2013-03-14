@@ -756,6 +756,50 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		setRoisWithoutStoringAndNotifying(defaults);
 		saveROIsToXML();
 	}
+	
+	/**
+	 * Creates ROIs for the lowest and highest channels, then in the central zone sets a number of evenly spaced ROIs.
+	 * <p>
+	 * Use {@link #getRois()} to see what this method has created.
+	 * 
+	 * @param numberRoisInCentralZone
+	 * @param lowerChannelOfCentralZone
+	 * @param upperChannelOfCentralZone
+	 */
+	public void setEvenRoisWithBookends(int numberRoisInCentralZone, int lowerChannelOfCentralZone,
+			int upperChannelOfCentralZone) {
+
+		XHROI[] newROIS = new XHROI[numberRoisInCentralZone + 2];
+		
+		XHROI lowRoi = new XHROI();
+		lowRoi.setLabel("Low Channels");
+		lowRoi.setLowerLevel(0);
+		lowRoi.setUpperLevel(lowerChannelOfCentralZone);
+		
+		newROIS[0] = lowRoi;
+		
+		
+		int roiSize = Math.round((upperChannelOfCentralZone -  lowerChannelOfCentralZone)/ numberRoisInCentralZone);
+		
+		int lowChannel = lowerChannelOfCentralZone + 1;
+		for (int roiNum = 1; roiNum < numberRoisInCentralZone + 1; roiNum++) {
+			XHROI thisRoi = new XHROI();
+			thisRoi.setLabel("ROI" + (roiNum - 1));
+			thisRoi.setLowerLevel(lowChannel);
+			thisRoi.setUpperLevel(lowChannel + roiSize - 1);
+			newROIS[roiNum] = thisRoi;
+			lowChannel += roiSize;
+		}
+
+		XHROI highRoi = new XHROI();
+		highRoi.setLabel("High Channels");
+		highRoi.setLowerLevel(lowChannel);
+		highRoi.setUpperLevel(NUMBER_ELEMENTS -1);
+		newROIS[numberRoisInCentralZone + 1] = highRoi;
+		
+		setRoisWithoutStoringAndNotifying(newROIS);
+		saveROIsToXML();
+	}
 
 	/**
 	 * @return the number of ROIS, whether they have been set via the setNumberRois or setRois methods.
