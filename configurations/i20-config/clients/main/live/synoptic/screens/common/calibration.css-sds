@@ -174,8 +174,8 @@
     </property>
     <property type="sds.string" id="inputText" value="">
       <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-        <inputChannel name="$call$, double" value="" />
-        <outputChannel name="$call$, double" value="" />
+        <inputChannel name="$call$, string" value="" />
+        <outputChannel name="$call$, string" value="" />
       </dynamicsDescriptor>
     </property>
     <property type="sds.option" id="value_type">
