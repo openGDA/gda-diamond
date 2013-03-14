@@ -1,20 +1,2 @@
-#!/bin/bash
-unset GDA_ROOT
-unset GDA_CONFIG
-unset GDA_USERS
-unset GDA_JARS
-unset CLASSPATH
-#export PATH=/dls_sw/dasc/Python-2.4.4/bin/:$PATH
-gdaLocation=`dirname $0`/../..
-abs=`cd $gdaLocation ; pwd`
-echo $abs
-gdaLocation=$abs
-#export JAVA_HOME=$gdaLocation/java/jdk/
-gdaLauncher=/dls_sw/i18/software/gda_versions/gda_822ws/plugins/uk.ac.gda.core/bin/gda
-config=$gdaLocation/gda/i18-config
-users=$gdaLocation/gda/i18-config/users
-properties=$config/properties/java.properties 
-jacorb=$config/properties/
-
-echo $gdaLauncher --config=$config --properties=$properties --jacorb=$jacorb logserver
-$gdaLauncher --config=$config --properties=$properties --jacorb=$jacorb --verbose logpanel
+module load java
+/dls_sw/i18/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda --config=/dls_sw/i18/software/gda/config --mode=live --restart logpanel

@@ -18,6 +18,4 @@ unset JAVA_HOME
 unset JYTHON_HOME
 unset SVN_HOME
 
-source /$SOFTWAREFOLDER/$BEAMLINE/software/gda/builder/set_tools.sh  > ~/.dasc_sw_setup.log
-
-export PATH=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/bin:/$SOFTWAREFOLDER/$BEAMLINE/software/gda/$BEAMLINE-config/bin:/$SOFTWAREFOLDER/$BEAMLINE/bin:${PATH}
+export PATH=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/bin:/$SOFTWAREFOLDER/$BEAMLINE/bin:${PATH}

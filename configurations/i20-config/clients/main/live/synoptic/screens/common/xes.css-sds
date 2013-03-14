@@ -1895,8 +1895,8 @@
     <property type="sds.action" id="actionData">
       <actionData />
     </property>
-    <property type="sds.integer" id="position.x" value="58" />
-    <property type="sds.integer" id="position.y" value="1" />
+    <property type="sds.integer" id="position.x" value="165" />
+    <property type="sds.integer" id="position.y" value="5" />
     <property type="sds.integer" id="width" value="100" />
     <property type="sds.integer" id="height" value="41" />
     <property type="sds.color" id="color.foreground">
@@ -1949,8 +1949,8 @@
     <property type="sds.action" id="actionData">
       <actionData />
     </property>
-    <property type="sds.integer" id="position.x" value="1" />
-    <property type="sds.integer" id="position.y" value="2" />
+    <property type="sds.integer" id="position.x" value="106" />
+    <property type="sds.integer" id="position.y" value="4" />
     <property type="sds.integer" id="width" value="77" />
     <property type="sds.integer" id="height" value="19" />
     <property type="sds.color" id="color.foreground">
@@ -1979,6 +1979,72 @@
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
+  <widget type="org.csstudio.sds.components.ImageButton">
+    <property type="sds.behavior" id="behavior" value="none" />
+    <property type="sds.string" id="primary_pv" value="" />
+    <property type="sds.string" id="name" value="ImageButtonModel" />
+    <property type="sds.map" id="aliases">
+      <map />
+    </property>
+    <property type="sds.action" id="actionData">
+      <actionData>
+        <action_attribut type="COMMIT_VALUE">
+          <property_attribut type="sds.string" id="description" value="send stop signal to channel" />
+          <property_attribut type="sds.string" id="value" value="1.0" />
+        </action_attribut>
+      </actionData>
+      <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+        <inputChannel name="" value="" />
+        <outputChannel name="$call$.stop, double" value="" />
+      </dynamicsDescriptor>
+    </property>
+    <property type="sds.integer" id="position.x" value="16" />
+    <property type="sds.integer" id="position.y" value="11" />
+    <property type="sds.integer" id="width" value="81" />
+    <property type="sds.integer" id="height" value="30" />
+    <property type="sds.color" id="color.foreground">
+      <color hex="#FF0000" />
+    </property>
+    <property type="sds.color" id="color.background">
+      <color hex="#E6E6E6" />
+    </property>
+    <property type="sds.boolean" id="visibility" value="true" />
+    <property type="sds.option" id="border.style">
+      <option id="1" />
+    </property>
+    <property type="sds.integer" id="border.width" value="1" />
+    <property type="sds.color" id="border.color">
+      <color hex="#000000" />
+    </property>
+    <property type="sds.boolean" id="enabled" value="true" />
+    <property type="sds.string" id="permission_id" value="" />
+    <property type="sds.choiceoption" id="cursor">
+      <option id="cursor.default" />
+    </property>
+    <property type="sds.paramstring" id="tooltip" value="Stop motion" />
+    <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+    <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+    <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+    <property type="sds.path" id="filename">
+      <path value="" />
+    </property>
+    <property type="sds.integer" id="style" value="1" />
+    <property type="sds.string" id="label" value=" STOP XES" />
+    <property type="sds.color" id="colour.over">
+      <color hex="#ADD8E6" />
+    </property>
+    <property type="sds.color" id="colour.button">
+      <color hex="#FFFFFF" />
+    </property>
+    <property type="sds.color" id="colour.foreground">
+      <color hex="#000000" />
+    </property>
+    <property type="sds.string" id="viewid" value="" />
+    <property type="sds.string" id="server.command" value="" />
+    <property type="sds.string" id="server.command.variable" value="" />
+  </widget>
   <property type="sds.behavior" id="behavior" value="" />
   <property type="sds.string" id="primary_pv" value="$channel$" />
   <property type="sds.string" id="name" value="GroupingContainerModel" />
@@ -1990,10 +2056,10 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="532" />
+  <property type="sds.integer" id="position.x" value="420" />
   <property type="sds.integer" id="position.y" value="11" />
-  <property type="sds.integer" id="width" value="161" />
-  <property type="sds.integer" id="height" value="45" />
+  <property type="sds.integer" id="width" value="273" />
+  <property type="sds.integer" id="height" value="53" />
   <property type="sds.boolean" id="transparency" value="true" />
   <property type="sds.color" id="color.foreground">
     <color hex="#0000C0" />
@@ -2005,9 +2071,9 @@
   <property type="sds.option" id="border.style">
     <option id="1" />
   </property>
-  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.integer" id="border.width" value="1" />
   <property type="sds.color" id="border.color">
-    <color hex="#640000" />
+    <color hex="#000000" />
   </property>
   <property type="sds.boolean" id="enabled" value="true" />
   <property type="sds.string" id="permission_id" value="" />
@@ -2037,8 +2103,8 @@
     <property type="sds.action" id="actionData">
       <actionData />
     </property>
-    <property type="sds.integer" id="position.x" value="165" />
-    <property type="sds.integer" id="position.y" value="4" />
+    <property type="sds.integer" id="position.x" value="164" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="100" />
     <property type="sds.integer" id="height" value="41" />
     <property type="sds.color" id="color.foreground">
@@ -2091,8 +2157,8 @@
     <property type="sds.action" id="actionData">
       <actionData />
     </property>
-    <property type="sds.integer" id="position.x" value="113" />
-    <property type="sds.integer" id="position.y" value="4" />
+    <property type="sds.integer" id="position.x" value="110" />
+    <property type="sds.integer" id="position.y" value="3" />
     <property type="sds.integer" id="width" value="70" />
     <property type="sds.integer" id="height" value="19" />
     <property type="sds.color" id="color.foreground">
@@ -2132,10 +2198,10 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="427" />
-  <property type="sds.integer" id="position.y" value="59" />
-  <property type="sds.integer" id="width" value="265" />
-  <property type="sds.integer" id="height" value="45" />
+  <property type="sds.integer" id="position.x" value="420" />
+  <property type="sds.integer" id="position.y" value="63" />
+  <property type="sds.integer" id="width" value="273" />
+  <property type="sds.integer" id="height" value="52" />
   <property type="sds.boolean" id="transparency" value="true" />
   <property type="sds.color" id="color.foreground">
     <color hex="#0000C0" />
@@ -2147,9 +2213,9 @@
   <property type="sds.option" id="border.style">
     <option id="1" />
   </property>
-  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.integer" id="border.width" value="1" />
   <property type="sds.color" id="border.color">
-    <color hex="#640000" />
+    <color hex="#000000" />
   </property>
   <property type="sds.boolean" id="enabled" value="true" />
   <property type="sds.string" id="permission_id" value="" />
@@ -2391,72 +2457,6 @@
   <property type="sds.string" id="layer" value="DEFAULT" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
-</widget>
-<widget type="org.csstudio.sds.components.ImageButton">
-  <property type="sds.behavior" id="behavior" value="none" />
-  <property type="sds.string" id="primary_pv" value="" />
-  <property type="sds.string" id="name" value="ImageButtonModel" />
-  <property type="sds.map" id="aliases">
-    <map />
-  </property>
-  <property type="sds.action" id="actionData">
-    <actionData>
-      <action_attribut type="COMMIT_VALUE">
-        <property_attribut type="sds.string" id="description" value="send stop signal to channel" />
-        <property_attribut type="sds.string" id="value" value="1.0" />
-      </action_attribut>
-    </actionData>
-    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="" value="" />
-      <outputChannel name="$call$.stop, double" value="" />
-    </dynamicsDescriptor>
-  </property>
-  <property type="sds.integer" id="position.x" value="445" />
-  <property type="sds.integer" id="position.y" value="35" />
-  <property type="sds.integer" id="width" value="81" />
-  <property type="sds.integer" id="height" value="30" />
-  <property type="sds.color" id="color.foreground">
-    <color hex="#FF0000" />
-  </property>
-  <property type="sds.color" id="color.background">
-    <color hex="#E6E6E6" />
-  </property>
-  <property type="sds.boolean" id="visibility" value="true" />
-  <property type="sds.option" id="border.style">
-    <option id="1" />
-  </property>
-  <property type="sds.integer" id="border.width" value="1" />
-  <property type="sds.color" id="border.color">
-    <color hex="#000000" />
-  </property>
-  <property type="sds.boolean" id="enabled" value="true" />
-  <property type="sds.string" id="permission_id" value="" />
-  <property type="sds.choiceoption" id="cursor">
-    <option id="cursor.default" />
-  </property>
-  <property type="sds.paramstring" id="tooltip" value="Stop motion" />
-  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
-  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
-  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
-  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
-  <property type="sds.path" id="filename">
-    <path value="" />
-  </property>
-  <property type="sds.integer" id="style" value="1" />
-  <property type="sds.string" id="label" value=" STOP XES" />
-  <property type="sds.color" id="colour.over">
-    <color hex="#ADD8E6" />
-  </property>
-  <property type="sds.color" id="colour.button">
-    <color hex="#FFFFFF" />
-  </property>
-  <property type="sds.color" id="colour.foreground">
-    <color hex="#000000" />
-  </property>
-  <property type="sds.string" id="viewid" value="" />
-  <property type="sds.string" id="server.command" value="" />
-  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="" />

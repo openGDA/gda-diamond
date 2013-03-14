@@ -227,28 +227,24 @@
 	
 
 	<bean id="s2_hgap" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s2_hgap_motor" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
 	</bean>
 	<bean id="s2_vgap" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s2_vgap_motor" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
 	</bean>
 	<bean id="s2_hoffset" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s2_hoffset_motor" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
 	</bean>
 	<bean id="s2_voffset" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s2_voffset_motor" />
 		<property name="hardwareUnitString" value="mm" />
@@ -288,37 +284,27 @@
 	</bean>
 
 	<bean id="s3_hgap" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s3_hgap_motor" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
 	</bean>
 	<bean id="s3_vgap" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s3_vgap_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-3" />
-		<property name="upperGdaLimits" value="3" />
 		<property name="local" value="false"/>
 	</bean>
 	<bean id="s3_hoffset" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s3_hoffset_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-3" />
-		<property name="upperGdaLimits" value="3" />
 		<property name="local" value="false"/>
 	</bean>
 	<bean id="s3_voffset" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s3_voffset_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-3" />
-		<property name="upperGdaLimits" value="3" />
 		<property name="local" value="false"/>
 	</bean>
 	
@@ -354,7 +340,7 @@
 		</property>
 	</bean>
 	
-	<bean id="photonshutter" class="gda.device.enumpositioner.EpicsValve">
+	<bean id="photonshutter" class="gda.device.enumpositioner.EpicsValveCallback">
 		<property name="epicsRecordName" value="BL20I-EA-SHTR-01" />
 		<property name="outputFormat">
 			<list>

@@ -232,6 +232,9 @@
 		<property name="xtal_plus1_y" ref="xtal_plus1_y" />
 		<property name="xtal_plus1_pitch" ref="xtal_plus1_pitch" />
 		<property name="xtal_plus1_rot" ref="xtal_plus1_rot" />
+		
+		<property name="trajectoryStepSize" value="0.1" /> 
+		
 	</bean>
 	
 	<bean id="XESEnergy" class="gda.device.scannable.XESEnergyScannable">
@@ -240,6 +243,12 @@
 		<property name="cut2" ref="cut2" />
 		<property name="cut3" ref="cut3" />
 		<property name="material" ref="material" />
+		<property name="outputFormat">
+			<list>
+				<value>%.4f</value>
+			</list>
+		</property>
+		
 	</bean>
 	
 	
@@ -427,6 +436,9 @@
 		<property name="xtal_plus1_y" ref="dummy_xtal_plus1_y" />
 		<property name="xtal_plus1_pitch" ref="dummy_xtal_plus1_pitch" />
 		<property name="xtal_plus1_rot" ref="dummy_xtal_plus1_rot" />
+		
+<!-- 		i.e. switch this functionality off -->
+		<property name="trajectoryStepSize" value="100" /> 
 	</bean>
 	
 	<bean id="dummy_XESEnergy" class="gda.device.scannable.XESEnergyScannable">

@@ -1,0 +1,45 @@
+test
+scan test 0 10 1
+scan test 0 10 1 counterTimer01 1
+reset_namespace
+scan test 0 10 1
+pos
+xpos
+s3xpos
+scan s3xpos 0 10 1
+reset_namespace
+RCPController
+"RCPController"
+reset_namespace
+RCPController
+"RCPController"
+RCPController
+reset_namespace
+counterTimer01
+counterTimer01.collectData()
+counterTimer01.readout()
+scan test 0 10 1 counterTimer01 1
+counterTimer01.getInputNames()
+counterTimer01.getExtraNames()
+counterTimer01.getOutputFormat()
+energy
+scan test 0 10 1 counterTimer01 1
+counterTimer01.collectData()
+counterTimer01.readout()
+counterTimer01.collectData()
+counterTimer01.readout()
+counterTimer01.collectData()
+counterTimer01.readout()
+counterTimer01.collectData()
+counterTimer01.readout()
+counterTimer01.collectData()
+counterTimer01.readout()
+reset_namespace
+command_server
+reset_namespace
+if ggdesgdg==None:
+    print "bla"
+reset_namespace
+pos
+reset_namespace
+sc_MicroFocusSampleStage

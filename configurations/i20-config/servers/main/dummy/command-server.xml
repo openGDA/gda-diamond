@@ -20,7 +20,7 @@
 							<!-- beamline -->
 							<!-- <property name="path" value="/dls_sw/i20/scripts" /> -->
 							<!-- offline -->
-							<property name="path" value="${gda.config}/users/scripts" />
+							<property name="path" value="/scratch/users/scripts" />
 							<property name="name" value="Scripts: User" />
 							<property name="type" value="USER" />
 						</bean>

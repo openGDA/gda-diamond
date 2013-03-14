@@ -1,6 +1,3 @@
-#!/bin/bash
-. "/dls_sw/i18/etc/i18_profile.sh"
-. "/$SOFTWAREFOLDER/$BEAMLINE/software/gda/$BEAMLINE-config/bin/gda_environment.sh"
-echo "remote startup from dls_sw"
-##/$SOFTWAREFOLDER/$BEAMLINE/software/gda/bin/GDA_StartServers > /dls/i18/var/gda_output.txt 2>&1 &
-/$SOFTWAREFOLDER/$BEAMLINE/software/gda/bin/GDA_StartServers_RCP > /dls/i18/var/gda_output.txt 2>&1 &
+source /dls_sw/dasc/tools_versions/set_tools.sh
+killall java
+JAVA_OPTS="-Xms1024m -Xmx4096m -XX:PermSize=512m -XX:MaxPermSize=1024m" /dls_sw/i18/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda --config=/dls_sw/i18/software/gda/config --debug -p 8001 --restart servers

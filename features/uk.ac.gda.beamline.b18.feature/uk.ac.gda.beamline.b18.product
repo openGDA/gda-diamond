@@ -11,15 +11,21 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.install.workspace.loc=/dls_sw/b18/software/gda
+      <programArgs>-nosplash</programArgs>
+      <vmArgs>-Declipse.pluginCustomization=/dls_sw/b18/software/gda_git/gda-dls-beamlines-xas.git/uk.ac.gda.beamline.b18/plugin_customization.ini
+-Dgda.mode=live
+-Dosgi.locking=none
+-Dgda.install.workspace.loc=/dls_sw/b18/software/gda
 -Dgda.install.git.loc=/dls_sw/b18/software/gda_git
 -Dgda.config=/dls_sw/b18/software/gda/config
--Dgda.users=/dls_sw/b18/
--Dgda.propertiesFile=/dls_sw/b18/software/gda/config/properties/java.properties
--Djacorb.config.dir=/dls_sw/b18/software/gda/config/properties
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/b18/software/gda/config/properties/JCALibrary.properties
+-Djava.library.path=/dls_sw/b18/software/gda_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64
+-Dgda.propertiesFile=/dls_sw/b18/software/gda/config/properties/live/java.properties
+-Djacorb.config.dir=/dls_sw/b18/software/gda/config/jacorb/live
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/b18/software/gda/config/jca/live/JCALibrary.properties
 -Xms512m
--Xmx1024m</vmArgs>
+-Xmx1024m
+-XX:MaxPermSize=1024m
+-XX:+DisableExplicitGC</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 

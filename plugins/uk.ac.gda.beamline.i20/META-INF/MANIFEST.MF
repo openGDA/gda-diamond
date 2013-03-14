@@ -32,8 +32,8 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.server.exafs.epics;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: gda.device.scannable,
- gda.exafs.scan,
+Export-Package: gda.device.detector,
+ gda.device.scannable,
  gda.exafs.ui,
  gda.exafs.ui.composites,
  gda.exafs.validation,

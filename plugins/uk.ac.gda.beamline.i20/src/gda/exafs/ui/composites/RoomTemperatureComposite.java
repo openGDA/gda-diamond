@@ -40,6 +40,7 @@ import org.eclipse.swt.widgets.Link;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.exafs.ui.data.ScanObjectManager;
 import uk.ac.gda.richbeans.components.FieldBeanComposite;
 import uk.ac.gda.richbeans.components.scalebox.IntegerBox;
 import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
@@ -54,6 +55,7 @@ public class RoomTemperatureComposite extends FieldBeanComposite {
 	private ScaleBox[] y = new ScaleBox[4];
 	private ScaleBox[] z = new ScaleBox[4];
 	private ScaleBox[] rotation = new ScaleBox[4];
+	private ScaleBox[] finerotation = new ScaleBox[4];
 	private ScaleBox[] roll = new ScaleBox[4];
 	private ScaleBox[] pitch = new ScaleBox[4];
 	
@@ -204,12 +206,12 @@ public class RoomTemperatureComposite extends FieldBeanComposite {
 				y[i].setValue(getValueAsString("sample_y"));
 				z[i].setValue(getValueAsString("sample_z"));
 				rotation[i].setValue(getValueAsString("sample_rot"));
-				// if (ScanObjectManager.isXESOnlyMode()) {
-				// fineRotation.setValue(getValueAsString("sample_fine_rot"));
-				// } else {
-				roll[i].setValue(getValueAsString("sample_roll"));
-				pitch[i].setValue(getValueAsString("sample_pitch"));
-				// }
+				if (ScanObjectManager.isXESOnlyMode()) {
+					finerotation[i].setValue(getValueAsString("sample_fine_rot"));
+				} else {
+					roll[i].setValue(getValueAsString("sample_roll"));
+					pitch[i].setValue(getValueAsString("sample_pitch"));
+				}
 			}
 
 			@Override
@@ -257,16 +259,16 @@ public class RoomTemperatureComposite extends FieldBeanComposite {
 		rotation[i].setLayoutData(gd_rotation);
 		rotation[i].setUnit("°");
 
-		// if (ScanObjectManager.isXESOnlyMode()) {
-		// // fine rotation when in XES position
-		// final Label fineRotationLabel = new Label(sampleComposite, SWT.NONE);
-		// fineRotationLabel.setText("Fine Rotation");
-		//
-		// fineRotation = new ScaleBox(sampleComposite, SWT.NONE);
-		// fineRotation.setMaximum(360);
-		// fineRotation.setLayoutData(gd_rotation);
-		// fineRotation.setUnit("°");
-		// } else {
+		if (ScanObjectManager.isXESOnlyMode()) {
+			// fine rotation when in XES position
+			final Label fineRotationLabel = new Label(sampleComposite, SWT.NONE);
+			fineRotationLabel.setText("Fine Rotation");
+
+			finerotation[i] = new ScaleBox(sampleComposite, SWT.NONE);
+			finerotation[i].setMaximum(360);
+			finerotation[i].setLayoutData(gd_rotation);
+			finerotation[i].setUnit("°");
+		} else {
 
 		// roll and yaw when in XAS position
 		final Label rollLabel = new Label(sampleComposite, SWT.NONE);
@@ -288,7 +290,7 @@ public class RoomTemperatureComposite extends FieldBeanComposite {
 		pitch[i].setLayoutData(gd_yaw);
 		pitch[i].setUnit("°");
 		pitch[i].setMaximum(10.6);
-		// }
+		 }
 	}
 
 	private String getValueAsString(String scannableName) {
@@ -330,6 +332,10 @@ public class RoomTemperatureComposite extends FieldBeanComposite {
 		return rotation[0];
 	}
 
+	public ScaleBox getSample1_finerotation() {
+		return finerotation[0];
+	}
+
 	public ScaleBox getSample1_roll() {
 		return roll[0];
 	}
@@ -352,6 +358,10 @@ public class RoomTemperatureComposite extends FieldBeanComposite {
 
 	public ScaleBox getSample2_rotation() {
 		return rotation[1];
+	}
+
+	public ScaleBox getSample2_finerotation() {
+		return finerotation[1];
 	}
 
 	public ScaleBox getSample2_roll() {
@@ -378,6 +388,10 @@ public class RoomTemperatureComposite extends FieldBeanComposite {
 		return rotation[2];
 	}
 
+	public ScaleBox getSample3_finerotation() {
+		return finerotation[2];
+	}
+
 	public ScaleBox getSample3_roll() {
 		return roll[2];
 	}
@@ -400,6 +414,10 @@ public class RoomTemperatureComposite extends FieldBeanComposite {
 
 	public ScaleBox getSample4_rotation() {
 		return rotation[3];
+	}
+
+	public ScaleBox getSample4_finerotation() {
+		return finerotation[3];
 	}
 
 	public ScaleBox getSample4_roll() {
