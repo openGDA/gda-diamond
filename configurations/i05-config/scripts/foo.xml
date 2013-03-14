@@ -6,7 +6,7 @@
     <startEnergy>14.906</startEnergy>
     <endEnergy>19.094</endEnergy>
     <stepEnergy>4.03</stepEnergy>
-    <timePerStep>0.1</timePerStep>
+    <timePerStep>3.0</timePerStep>
     <iterations>1</iterations>
     <photonEnergy>59.0</photonEnergy>
     <sampleTemperature>300.0</sampleTemperature>
