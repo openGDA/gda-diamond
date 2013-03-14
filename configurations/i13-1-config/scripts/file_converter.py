@@ -25,9 +25,11 @@ def create_tiffs(filepath):
         TIFFSaver(newfilename,False,32).save(dh)
 #        dnp.io.save(newfilename, dh, format="tiff")
 
-def sum_edfImages(filepath):
+def sum_edfImages(filepath,outpath):
     """
     reads edf files from scan file and creates a tiff from the sum of the data in it
+    filepath: input Nexus filepath
+    outpath: output Tiff filepath
     """
     filenames = getFileNames(filepath)
     dh0=dnp.io.load(filenames[0], format="edf")
@@ -37,8 +39,6 @@ def sum_edfImages(filepath):
         dh=dnp.io.load(filename, format="edf")
         summed += dh[0]
     
-    newfilename=filepath.replace(".nxs",".tiff")
-    print "Creating %s from %s " % (newfilename,filepath)
-    dnp.io.save(newfilename, summed, format="tiff", signed=False, bits=32) 
+    dnp.io.save(outpath, summed, format="tiff", signed=False, bits=32) 
 
 

@@ -87,13 +87,14 @@
 	<import resource="../../../devices/epics/s6_motors.xml"/>
 
 	<import resource="../../../devices/epics/sample_stage_t1_motors.xml"/>
+	<import resource="../../../devices/epics/g1_motors.xml"/>
 
 	<import resource="../../../devices/epics/sample_stage_camera.xml"/>
 	<import resource="../../../devices/epics/moveable_camera.xml"/>
 	
 	<import resource="../../../devices/epics/s7_motors.xml"/>
 
-	<import resource="../../../devices/epics/alignment_scope_motors.xml"/>
+	<import resource="../../../devices/epics/scope1_motors.xml"/>
 
 	<import resource="../../../devices/epics/pco1.xml"/>
 	
@@ -108,5 +109,7 @@
 <!--Not present 
 	<import resource="../../../devices/epics/z1_motors.xml"/>
  -->
-	<import resource="file:/dls_sw/i13-1/software/gda_versions/gda_8_26/workspace_git/gda-mt.git/configurations/mt-config/servers/main/live/moveable/me07m/all.xml"/>
+
+<!--  not present	<import resource="file:/dls_sw/i13-1/software/gda_versions/gda_8_26/workspace_git/gda-mt.git/configurations/mt-config/servers/main/live/moveable/me07m/all.xml"/>
+-->
 </beans>

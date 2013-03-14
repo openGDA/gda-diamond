@@ -15,16 +15,25 @@
 		<property name="processors">
 			<list>
 				<ref bean="cam_ad_filename_processor" />
+				<ref bean="cam_ad_filename_processor2" />
+				<ref bean="cam_ad_filename_processor3" />
 			</list>
 		</property>
 	</bean>
-
 
 	<bean id="pco1" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
 		<property name="detector" ref="pco1_tif" />
 		<property name="processor" ref="pco1_tif_processors" />
 		<property name="mergeWithDetectorData" value="true"/>
 	</bean>	
+	
+	<bean id="pcoEdge" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+		<property name="detector" ref="pcoEdge_tif" />
+		<property name="processor" ref="pco1_tif_processors" />
+		<property name="mergeWithDetectorData" value="true"/>
+	</bean>	
+	
+	
 
 </beans>
 
