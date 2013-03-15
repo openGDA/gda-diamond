@@ -46,21 +46,21 @@ public final class ShutterChecker extends ScannableBase {
 		this.shutter = shutter;
 
 		pssState = LazyPVFactory.newReadOnlyDoublePV(pssPVName);
-		
-		inputNames = new String[]{};
-		extraNames = new String[]{};
-		outputFormat = new String[]{};
+
+		inputNames = new String[] {};
+		extraNames = new String[] {};
+		outputFormat = new String[] {};
 	}
-	
+
 	@Override
 	public void configure() throws FactoryException {
 	}
-	
+
 	@Override
 	public Object rawGetPosition() throws DeviceException {
 		return null;
 	}
-	
+
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 		// do nothing
@@ -91,12 +91,23 @@ public final class ShutterChecker extends ScannableBase {
 					Thread.sleep(1000);
 					state = pssState.get();
 				}
-				if (attempts > 0){
+				if (attempts > 0) {
 					updateUser("Search complete; opening shutter " + shutter.getName());
 				} else {
 					updateUser("Opening shutter " + shutter.getName());
 				}
+				shutter.moveTo(ValveBase.RESET);
 				shutter.moveTo(ValveBase.OPEN);
+				Thread.sleep(100);
+				if (!position.equals(ValveBase.OPEN)) {
+					throw new DeviceException(
+							getName()
+									+ " failed to successfully open shutter "
+									+ shutter.getName()
+									+ ". Aborting scan.\nYou need to check if the shutter is operating properly within GDA."
+									+ "\nIf you do not want the shutter to open as you are testing, then run the jython command: remove_default "
+									+ shutter.getName());
+				}
 			} catch (IOException e) {
 				logger.error("IOException while checking shutter is open.", e);
 				throw new DeviceException("IOException while checking shutter is open.", e);
