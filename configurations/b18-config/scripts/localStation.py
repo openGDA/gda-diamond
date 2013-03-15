@@ -18,6 +18,8 @@ from gda.jython.scriptcontroller.logging import XasLoggingMessage
 from gda.device.monitor import EpicsMonitor
 
 original_header = Finder.getInstance().find("datawriterconfig").clone().getHeader()[:]
+from gda.data.scan.datawriter import NexusExtraMetadataDataWriter
+NexusExtraMetadataDataWriter.removeAllMetadataEntries()
 
 if (LocalProperties.get("gda.mode") == 'live'):
     detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, ionc_stanfords, ionc_gas_injectors.getGroupMembers())
