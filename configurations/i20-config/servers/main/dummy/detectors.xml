@@ -46,6 +46,8 @@
 		<property name="tfgName" value="tfg" />
 		<property name="xspressSystemName" value="xsp1" />
 
+		<property name="alwaysRecordRawMCAs" value="true"/>
+
 		<property name="mcaOpenCommand" value="xspress2 open-mca 'xsp1'" />
 		<property name="scalerOpenCommand" value="xspress2 open-scalers 'xsp1'" />
 		<property name="startupScript" value="xspress2 format-run 'xsp1' res-none" />
