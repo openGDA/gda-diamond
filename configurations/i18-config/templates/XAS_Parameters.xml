@@ -4,18 +4,23 @@
     <scannableName>energy</scannableName>
     <element>Fe</element>
     <edge>K</edge>
-    <initialEnergy>6911.14</initialEnergy>
-    <finalEnergy>7961.14</finalEnergy>
+    <initialEnergy>6912.0</initialEnergy>
+    <finalEnergy>7400.0</finalEnergy>
     <edgeEnergy>7112.0</edgeEnergy>
-    <A>7080.75</A>
+    <gaf1>30.0</gaf1>
+    <gaf2>10.0</gaf2>
+    <gaf3>10.0</gaf3>
+    <A>7087.0</A>
     <B>7099.5</B>
-    <C>7124.5</C>
+    <C>7200.0</C>
     <preEdgeStep>5.0</preEdgeStep>
     <preEdgeTime>0.5</preEdgeTime>
     <edgeStep>1.0</edgeStep>
     <edgeTime>0.5</edgeTime>
-    <exafsStep>0.04</exafsStep>
+    <exafsStep>2.0</exafsStep>
     <exafsTime>0.5</exafsTime>
-    <exafsStepType>k</exafsStepType>
+    <exafsFromTime>1.0</exafsFromTime>
+    <exafsToTime>1.0</exafsToTime>
+    <kWeighting>1.0</kWeighting>
+    <exafsStepType>E</exafsStepType>
 </XasScanParameters>
-
