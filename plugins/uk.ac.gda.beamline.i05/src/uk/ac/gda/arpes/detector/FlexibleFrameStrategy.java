@@ -66,6 +66,7 @@ public class FlexibleFrameStrategy extends SimpleAcquire implements MonitorListe
 			if (arg0.getDBR() instanceof DBR_Int) {
 				currentFrame = ((DBR_Int) arg0.getDBR()).getIntValue()[0];
 				interactWithDeviceIfRequired();
+				logger.debug(String.format("processed updates for frame %d.",currentFrame));
 			}
 		}
 	}
@@ -100,6 +101,8 @@ public class FlexibleFrameStrategy extends SimpleAcquire implements MonitorListe
 	
 	@Override
 	public void completeCollection() throws Exception {
+		if (!wethinkweareincharge) 
+			return;
 		wethinkweareincharge = false;
 		currentFrame = -1;
 		super.completeCollection();
