@@ -61,26 +61,29 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 		return false;
 	}
 
-	private int getLensValue() throws DeviceException {
-		return (int)ScannableUtils.getCurrentPositionArray(lensScannable)[0];
+	private String getLensValue() throws DeviceException {
+		return (String)lensScannable.getPosition();
 	}
 	
 	private void setOffset(double offsetX, double offsetY) throws DeviceException, ConfigurationException {
-		int lensPos = getLensValue();
-		configuration.setProperty(propertyNameX+ lensPos,offsetX);
-		configuration.setProperty(propertyNameY+ lensPos,offsetY);
+		String lensPos = getLensValue();
+		configuration.setProperty(getAllowedKey(propertyNameX+ lensPos),offsetX);
+		configuration.setProperty(getAllowedKey(propertyNameY+ lensPos),offsetY);
 		configuration.save();
 	}	
 	
+	String getAllowedKey(String key){
+		return key.replace(" ", "_");
+	}
 	private double getOffsetX() throws DeviceException {
-		int lensPos = getLensValue();
-		double offset = configuration.getDouble(propertyNameX+ lensPos, 0.0);
+		String lensPos = getLensValue();
+		double offset = configuration.getDouble(getAllowedKey(propertyNameX+ lensPos), 0.0);
 		return offset;
 	}	
 
 	private double getOffsetY() throws DeviceException {
-		int lensPos = getLensValue();
-		double offset = configuration.getDouble(propertyNameY+ lensPos, 0.0);
+		String lensPos = getLensValue();
+		double offset = configuration.getDouble(getAllowedKey(propertyNameY+ lensPos), 0.0);
 		return offset;
 	}	
 	
@@ -117,6 +120,8 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 					public void update(Object source, Object arg) {
 						if( arg instanceof ScannableStatus){
 							notifyIObservers(CameraXYScannable.this, new ScannableStatus(getName(),((ScannableStatus)arg).status ));
+						} else if( arg instanceof ScannablePositionChangeEvent){
+							notifyIObservers(CameraXYScannable.this, arg);
 						}
 					}
 				};

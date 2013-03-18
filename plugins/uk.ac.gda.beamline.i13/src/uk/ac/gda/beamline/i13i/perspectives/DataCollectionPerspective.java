@@ -59,7 +59,7 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 		// Note that each new Folder uses a percentage of the remaining EditorArea.
 
 		String editorArea = factory.getEditorArea();
-		factory.addStandaloneView(ViewFactoryIds.StatusViewID, false, IPageLayout.TOP, 0.1f, editorArea);
+		factory.addStandaloneView(ViewFactoryIds.StatusViewID, false, IPageLayout.TOP, 0.15f, editorArea);
 		IViewLayout statusLayout = factory.getViewLayout(ViewFactoryIds.StatusViewID);
 		statusLayout.setCloseable(false);
 		statusLayout.setMoveable(false);
@@ -82,6 +82,8 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 		rightBottom.addPlaceholder("data.dispenser.browser");
 		rightBottom.addPlaceholder("org.eclipse.ui.browser.view:data.dispenser.browser");
 		rightBottom.addPlaceholder(CommandQueueViewFactory.ID);
+		rightBottom.addPlaceholder("org.dawb.workbench.plotting.views.toolPageView.*");
+		
 
 
 	}
