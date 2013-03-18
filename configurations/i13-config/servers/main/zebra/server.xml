@@ -1,0 +1,129 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder
+		location="file:${gda.config}/properties/dummy/java.properties,file:${gda.config}/properties/java.properties" />
+	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata" />
+
+	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
+		<property name="recordPvs">
+			<map>
+				<entry key="Current" value="SR-DI-DCCT-01:SIGNAL" />
+				<entry key="FastCurrent" value="SR21C-DI-DCCT-01:SIGNAL" />
+				<entry key="TimeUntilRefill" value="SR-CS-FILL-01:COUNTDOWN" />
+				<entry key="BeamMode" value="CS-CS-MSTAT-01:MODE" />
+			</map>
+		</property>
+		<property name="dummyMode" value="true"></property>
+	</bean>
+	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
+		<property name="recordPvs">
+			<map>
+				<entry key="Top" value="BL13I" />
+			</map>
+		</property>
+		<property name="dummyMode" value="true"></property>
+	</bean>
+
+
+	<import resource="../../../devices/dummy/undulator.xml" />
+	<import resource="../../../devices/dummy/front_end.xml" />
+	<!-- start of internal building -->
+	<import resource="../../../devices/dummy/dcm_motors.xml" />
+	<import resource="../../../devices/dummy/s1_motors.xml" />
+	<import resource="../../../devices/dummy/filter_motors.xml" />
+
+	<import resource="../../../devices/dummy/m1.xml" />
+
+	<import resource="../../../devices/dummy/d1.xml" />
+
+	<import resource="../../../devices/dummy/d2.xml" />
+	<import resource="../../../devices/dummy/absorbers1.xml" />
+	<import resource="../../../devices/dummy/absorbers2.xml" />
+	<import resource="../../../devices/dummy/s2_motors.xml" />
+	<!-- <import resource="../../../devices/dummy/d3.xml"/> -->
+	<import resource="../../../devices/dummy/d4.xml" />
+
+	<!-- End of internal Building/ Start of external Building -->
+	<import resource="../../../devices/dummy/optics_hutch4_shutter.xml" />
+	<import resource="../../../devices/dummy/s3_motors.xml" />
+	<import resource="../../../devices/dummy/absorbers3.xml" />
+	<import resource="../../../devices/dummy/dcm_motors.xml" />
+	<import resource="../../../devices/dummy/experiment_hutch_shutter.xml" />
+
+	<import resource="../../../devices/dummy/d5.xml" />
+	<import resource="../../../devices/dummy/s4_motors.xml" />
+	<import resource="../../../devices/dummy/absorbers4.xml" />
+	<import resource="../../../devices/dummy/kb_motors.xml" />
+
+	<!-- <import resource="../../../devices/dummy/s5_motors.xml"/> -->
+	<import resource="../../../devices/dummy/sample_stage_motors.xml" />
+	<import resource="../../../devices/dummy/table_motors.xml" />
+	<import resource="../../../devices/dummy/camera_stage_motors.xml" />
+
+	<import resource="../../../devices/zebra/pco1.xml" />
+
+
+	<import resource="../../../devices/dummy/tfg2.xml" />
+
+	<bean id="zebraSM1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="TESTZEBRA:M1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="zebra" class="gda.device.zebra.controller.impl.ZebraImpl">
+	<property name="zebraPrefix" value="TESTZEBRA:ZEBRA:"/>
+	</bean>
+	<bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
+	<property name="zebra" ref="zebra"/>
+	</bean>
+	<bean id="zebraSM1" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="zebraSM1_motor" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+	</bean>	
+	
+	<bean id="zebra_hardwareTriggeredCollectionStrategy" class="gda.device.detector.addetector.triggering.HardwareTriggeredStandard">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg value=".1" />	
+	</bean>
+<!-- 	<bean id="zebra_det" class="gda.device.detector.addetector.HardwareTriggerableADDetector">
+		<property name="adBase" ref="pco1_cam_base" />
+		<property name="ndFile" ref="pco1_ndfilehdf5_base" />
+		<property name="collectionStrategy" ref="pco1_singleExposure"/>
+		<property name="fileWriter" ref="pco1_hdf5_filewriter"/>
+		<property name="readAcquisitionTime" value="true" />
+		<property name="readFilepath" value="true" />
+		<property name="readAcquisitionPeriod" value="false" />
+		<property name="disableCallbacks" value="false"/>
+		<property name="computeStats" value="false" />
+		<property name="computeCentroid" value="false" />
+		<property name="readArray" value="false" />
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="hardwareTriggeredCollectionStrategy" ref="zebra_hardwareTriggeredCollectionStrategy"/>
+		<property name="nonHardwareTriggeredCollectionStrategy" ref="pco1_singleExposure"/>
+		<property name="integratesBetweenPoints" value="true"/>
+		<property name="exposureCompleteWhenArrayCounterSaysSo" value="true"/>
+	</bean> -->
+	
+	
+	<bean id="zebra_det" class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="zebra_det"/>
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="zebra_hardwareTriggeredCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter" />
+			</list>
+		</property>
+	</bean>
+		
+	<import resource="../common.xml" />
+
+</beans>

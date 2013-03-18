@@ -72,6 +72,9 @@
 
 	<import resource="../../../devices/epics_sim/pco1.xml"/>
 	<import resource="../../../devices/epics_sim/pco1_ndplugins.xml"/>
+	<import resource="../../../devices/dummy/lens.xml" />
+	
+	<import resource="../../../devices/epics_sim/zebra.xml" />
 	
 	
 	<import resource="../../../devices/dummy/tfg2.xml"/>

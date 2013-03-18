@@ -21,7 +21,7 @@ class ExperimentShutterEnumPositioner(ScannableBase):
 			self.delegate.asynchronousMoveTo(1)
 		else:
 			self.delegate.asynchronousMoveTo(0)
-		time.sleep(1) #sleep to allow shutter to 
+		time.sleep(.25) #sleep to allow shutter to 
 	def rawGetPosition(self):
 		position = self.delegate.getPosition()
 		if int(position) == 1:
@@ -55,8 +55,12 @@ try:
 	alias("caput")
 	alias("caget")
 	
+
+
 	from gda.factory import Finder
 	from gda.configuration.properties import LocalProperties
+
+
 #	from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
 	import i13i
 	
@@ -91,6 +95,33 @@ try:
 			createPVScannable( "d1_total", "BL13I-DI-PHDGN-01:STAT:Total_RBV")
 			createPVScannable( "expt_fastshutter_raw", "BL13I-EA-FSHTR-01:CONTROL", hasUnits=False)
 			expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", expt_fastshutter_raw)
+			
+			#if you change these you need to change the values in cameraScaleProviders
+			lensX2="X2 7mm x 5mm"
+			lensX4="X4 4mm x 3mm"
+			lensX4Pink="X4 CWD 200"
+			lensX10="X10 2mm x 1mm"
+			
+			caput("BL13I-EA-TURR-01:DEMAND.ZRST",lensX2 )
+			caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", lensX2)
+		
+			caput("BL13I-EA-TURR-01:DEMAND.ONST", "2")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.ONST", "2")
+			caput("BL13I-EA-TURR-01:DEMAND.TWST", "3")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", "3")
+			caput("BL13I-EA-TURR-01:DEMAND.THST", "4")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.THST", "4")
+			caput("BL13I-EA-TURR-01:DEMAND.FRST", "5")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", "5")
+		
+		
+			caput("BL13I-EA-TURR-01:DEMAND.FVST", lensX4)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", lensX4)
+			caput("BL13I-EA-TURR-01:DEMAND.SXST", lensX10)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", lensX10)
+			#make the lens re-read its list of positions following setting them in EPICS above
+			lens.initializationCompleted()
+
 	except :
 		exceptionType, exception, traceback = sys.exc_info()
 		handle_messages.log(None, "Error creating pvScannables", exceptionType, exception, traceback, False)
@@ -136,17 +167,20 @@ try:
 		if not LocalProperties.check("gda.dummy.mode"):
 			import autocollimator_script
 			autocollimator_script.setup()
+			import alignmentGui
+			tomodet = alignmentGui.TomoDet()
+			#setup trigger for pink beam
+			pco1_hw_tif.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
+			pco1_hw_hdf.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
 	except :
 		exceptionType, exception, traceback = sys.exc_info()
 		handle_messages.log(None, "Error connecting to autocollimator", exceptionType, exception, traceback, False)
 	
 	import tomographyScan
 	
-	import alignmentGui
-	tomodet = alignmentGui.TomoDet()
 #	run("i13diffcalc")
 	import raster_scan
-
+	
 
 except :
 	exceptionType, exception, traceback = sys.exc_info()

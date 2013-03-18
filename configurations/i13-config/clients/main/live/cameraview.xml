@@ -73,6 +73,11 @@
 <!-- 		<property name="scalePV" value="BL13I-EA-DET-01:PRO1:Scale" />
 		<property name="cmdFormatter" value="tomodet.setupStreamForCameraView(%f,%f,%f,%f)"/>
  -->	</bean>
+	<!-- requires anonymous viewer access to be enabled-->
+ 	<bean id="WebCam_UpStream" class="uk.ac.gda.video.views.CameraParameters">
+		<property name="name" value="WebCam UpStream"/>
+		<property name="mjpegURL" value="http://172.23.113.209/mjpg/video.mjpg" />
+	</bean>
  	<bean id="WebCam_Middle" class="uk.ac.gda.video.views.CameraParameters">
 		<property name="name" value="WebCam Middle"/>
 		<property name="mjpegURL" value="http://172.23.113.210/mjpg/video.mjpg" />
@@ -80,13 +85,14 @@
 	<!-- requires anonymous viewer login -->
  	<bean id="WebCam_DownStream" class="uk.ac.gda.video.views.CameraParameters">
 		<property name="name" value="WebCam DownStream"/>
-		<property name="mjpegURL" value="http://172.23.113.195/mjpg/video.mjpg" />
+		<property name="mjpegURL" value="http://172.23.113.211/mjpg/video.mjpg" />
 	</bean>
 
 	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
 		<property name="cameras">
 			<list>
 				<!--ref bean= "pco_cam_config"/-->
+				<ref bean= "WebCam_UpStream"/>
 				<ref bean= "WebCam_Middle"/>
 				<ref bean= "WebCam_DownStream"/>
 				<ref bean= "d1_cam_config"/>

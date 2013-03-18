@@ -17,7 +17,6 @@
 	</bean>
 
 	<import resource="commandQueueProcessor.xml" />
-	<import resource="cameraViewPartConfig.xml" />
 
 	<bean id="RCPController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}rcpController" />
@@ -38,30 +37,12 @@
 	</bean>
 
 	<corba:import namespace="i13"
-		names="lensScannable, rotationAxisXScannable, cameraXYScannable" />
+		names="rotationAxisXScannable, cameraXYScannable, lens" />
 
-	<bean id="displayScaleProvider" class="uk.ac.gda.beamline.i13i.SelectableDisplayScaleProvider">
-		<property name="keyScannable" ref="lensScannable" />
-		<property name="providers">
-			<util:list value-type="uk.ac.gda.beamline.i13i.DisplayScaleProvider">
-				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-					<property name="pixelsPerMMInX" value="534" />
-					<property name="pixelsPerMMInY" value="534" />
-				</bean>
-				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-					<property name="pixelsPerMMInX" value="1088" />
-					<property name="pixelsPerMMInY" value="1088" />
-				</bean>
-				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-					<property name="pixelsPerMMInX" value="2740" />
-					<property name="pixelsPerMMInY" value="2740" />
-				</bean>
-			</util:list>
-		</property>
-	</bean>
+	<import resource="../../devices/cameraScaleProviders.xml"/>
 
-
-
+	<bean id = "i13MJPegViewInitialiser" class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13MJPegViewInitialiser"/>
+	
 	<bean id="i13ADController"
 		class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13ADControllerImpl">
 		<property name="imageNDStats" ref="pco1_stat" />
@@ -76,8 +57,14 @@
 		<property name="ffmpegStream" ref="pco1_ffmpeg1" />
 		<property name="ffmpegImageOutHeightMax" value="1336" />
 		<property name="ffmpegImageOutWidthMax" value="2004" />
-		<property name="lensScannable" ref="lensScannable" />
-		<property name="mjpegViewCompositeFactory" ref="stages" />
+		<property name="lensScannable" ref="lens" />
+		<property name="mjpegViewCompositeFactory" >
+		<bean class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13MJPegViewCompositeFactory">
+		<constructor-arg ref="i13MJPegViewInitialiser"/>
+		</bean>
+		</property>
+		<property name="mjpegViewInitialiser" ref="i13MJPegViewInitialiser"/>
+		<property name="stagesCompositeFactory" ref="stages" />
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
 		<property name="cameraXYScannable" ref="cameraXYScannable" />
 		<property name="displayScaleProvider" ref="displayScaleProvider" />
@@ -92,7 +79,7 @@
 			value="tomographyScan.showNormalisedImage(%s,exposureTime=%s)" />
 	</bean>
 
-	<bean id="i13ADViewcreator" class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13ViewCreatorImpl">
+	<bean id="i13ADViewcreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
 		<property name="adController" ref="i13ADController" />
 	</bean>
 
@@ -125,6 +112,12 @@
 		<property name="pvName" value="BL13I-EA-FSHTR-01:CONTROL"/>
 	</bean>
 
+	<bean id="commandRunner" class="gda.jython.CommandRunnerBean" />
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="gda.jython.ICommandRunner" />
+		<property name="service" ref="commandRunner" />
+	</bean>
 
 	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
 		<property name="viewTitle" value="Status" />
@@ -140,24 +133,29 @@
 								<property name="scannable" ref="ringCurrent" />
 								<property name="label" value="Ring Current" />
 								<property name="units" value="mA" />
+								<property name="decimalPlaces" value="2"/>
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="timeToRefill" />
 								<property name="label" value="Time to refill" />
 								<property name="units" value="s" />
+								<property name="decimalPlaces" value="0"/>
 							</bean>
+
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="idGap" />
 								<property name="label" value="ID Gap" />
 								<property name="units" value="mm" />
+								<property name="decimalPlaces" value="2"/>
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="dcm_energy" />
 								<property name="label" value="DCM" />
 								<property name="units" value="keV" />
+								<property name="decimalPlaces" value="4"/>
 							</bean>
 						</list>
 					</property>
@@ -172,11 +170,13 @@
 								<property name="scannable" ref="expt_sht_stat"/>
 								<property name="label" value="State" />
 							</bean>
-							<bean class="uk.ac.gda.dls.client.views.QueueCommandCompositeFactory">
+							<bean class="uk.ac.gda.dls.client.views.RunCommandCompositeFactory">
 								<property name="command" value="eh_shtr_control()" />
+								<property name="commandRunner" ref="commandRunner"/>
 								<property name="label" value="Open/Close" />
-								<property name="description"
+								<property name="tooltip"
 									value="Opens or closes the experiment hutch shutter" />
+								<property name="jobTitle" value="Experiment Hutch Open/Close"/>
 							</bean>
 						</list>
 					</property>
@@ -191,11 +191,13 @@
 								<property name="scannable" ref="fast_shtr_stat"/>
 								<property name="label" value="State" />
 							</bean>
-							<bean class="uk.ac.gda.dls.client.views.QueueCommandCompositeFactory">
+							<bean class="uk.ac.gda.dls.client.views.RunCommandCompositeFactory">
+								<property name="commandRunner" ref="commandRunner"/>
 								<property name="command" value="fs_control()" />
 								<property name="label" value="Open/Close" />
-								<property name="description"
+								<property name="tooltip"
 									value="Opens or closes the experiment fast shutter" />
+								<property name="jobTitle" value="Fast Shutter Open/Close"/>
 							</bean>
 						</list>
 					</property>
@@ -319,19 +321,19 @@
 			<util:list value-type="gda.rcp.views.StageCompositeDefinition">
 				<bean class="gda.rcp.views.StageCompositeDefinition">
 					<property name="scannable" ref="ss1_x" />
-					<property name="stepSize" value=".01" />
+					<property name="stepSize" value=".1" />
 				</bean>
 				<bean class="gda.rcp.views.StageCompositeDefinition">
 					<property name="scannable" ref="ss1_sampley" />
-					<property name="stepSize" value=".01" />
+					<property name="stepSize" value=".1" />
 				</bean>
 				<bean class="gda.rcp.views.StageCompositeDefinition">
 					<property name="scannable" ref="ss1_z" />
-					<property name="stepSize" value=".01" />
+					<property name="stepSize" value=".1" />
 				</bean>
 				<bean class="gda.rcp.views.StageCompositeDefinition">
 					<property name="scannable" ref="ss1_rot" />
-					<property name="smallStep" value="5" />
+					<property name="smallStep" value="30" />
 					<property name="bigStep" value="90" />
 					<property name="useSteps" value="true" />
 				</bean>
