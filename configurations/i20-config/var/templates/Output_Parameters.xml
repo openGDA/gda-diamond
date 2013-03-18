@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<OutputParameters>
+<I20OutputParameters>
     <shouldValidate>true</shouldValidate>
     <asciiFileName>FeKedge</asciiFileName>
     <asciiDirectory>ascii</asciiDirectory>
@@ -7,4 +7,4 @@
     <extraData>false</extraData>
     <signalActive>true</signalActive>
     <metadataActive>false</metadataActive>
-</OutputParameters>
+</I20OutputParameters>

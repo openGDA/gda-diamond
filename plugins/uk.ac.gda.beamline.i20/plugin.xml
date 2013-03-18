@@ -49,14 +49,14 @@
          </contentTypeBinding>
       </editor>
       <editor
-            class="uk.ac.gda.exafs.ui.OutputParametersEditor"
+            class="uk.ac.gda.exafs.ui.I20OutputParametersEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             icon="icons/OutputParametersIcon.png"
-            id="uk.ac.gda.exafs.ui.OutputParametersEditor"
-            name="Output Parameters">
+            id="uk.ac.gda.exafs.ui.I20OutputParametersEditor"
+            name="I20 Output Parameters">
          <contentTypeBinding
-               contentTypeId="uk.ac.diamond.gda.client.exafs.getOutputContent">
+               contentTypeId="uk.ac.diamond.gda.client.exafs.getI20OutputContent">
          </contentTypeBinding>
       </editor>
       <editor
@@ -129,10 +129,10 @@
       </content-type>
       <content-type
             base-type="org.eclipse.core.runtime.xml"
-            describer="uk.ac.gda.exafs.ui.describers.OutputDescriber"
+            describer="uk.ac.gda.exafs.ui.describers.I20OutputDescriber"
             file-extensions="xml"
-            id="uk.ac.diamond.gda.client.exafs.getOutputContent"
-            name="Output Bean File Content"
+            id="uk.ac.diamond.gda.client.exafs.getI20OutputContent"
+            name="I20 Output Bean File Content"
             priority="high">
       </content-type>
       <content-type
@@ -505,8 +505,8 @@
             describer="uk.ac.gda.exafs.ui.describers.DetectorDescriber">
       </bean>
       <bean
-            class="uk.ac.gda.beans.exafs.OutputParameters"
-            describer="uk.ac.gda.exafs.ui.describers.OutputDescriber">
+            class="uk.ac.gda.beans.exafs.i20.I20OutputParameters"
+            describer="uk.ac.gda.exafs.ui.describers.I20OutputDescriber">
       </bean>
       <bean
             class="uk.ac.gda.beans.exafs.SampleElements">
@@ -592,9 +592,9 @@
             type="Detector">
       </describer>
       <describer
-            bean="uk.ac.gda.beans.exafs.OutputParameters"
+            bean="uk.ac.gda.beans.exafs.i20.I20OutputParameters"
             commandId="uk.ac.gda.client.exafs.CopyOutputCommand"
-            contentType="uk.ac.diamond.gda.client.exafs.getOutputContent"
+            contentType="uk.ac.diamond.gda.client.exafs.getI20OutputContent"
             includeInNew="true"
             name="Output"
             template="Output_Parameters"
