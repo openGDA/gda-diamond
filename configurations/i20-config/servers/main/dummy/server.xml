@@ -20,13 +20,15 @@
 
 <!--	 GDA configuration split up by part type -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/attenuators.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mono.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/tables.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xes.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/environments.xml" />
+<!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/environments.xml" /> -->
 
 	<!--should normally be called last -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/command-server.xml" />
