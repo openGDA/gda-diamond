@@ -19,20 +19,16 @@
 package uk.ac.gda.beamline.i20;
 
 import gda.configuration.properties.LocalProperties;
-import gda.exafs.ui.I20SampleParametersEditor;
-import gda.exafs.ui.I20SampleParametersUIEditor;
 
-import org.eclipse.ui.IEditorReference;
+import java.io.File;
+
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IStartup;
-import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import uk.ac.gda.common.rcp.util.EclipseUtils;
-import uk.ac.gda.exafs.ui.describers.I20SampleDescriber;
 
 /**
  * Setting up the data prior to other views connecting to it.
@@ -41,47 +37,37 @@ public class StartupService implements IStartup {
 
 	private static final Logger logger = LoggerFactory.getLogger(StartupService.class);
 
-
 	@Override
 	public void earlyStartup() {
 
 		if (!LocalProperties.get("gda.factory.factoryName").equals("i20"))
 			return;
 
-		// open a second workbench displaying the synoptic
-		try {
-			if (PlatformUI.getWorkbench().getWorkbenchWindows().length < 2) {
+		String path = Platform.getInstanceLocation().getURL().getPath();
+		String synopticProjectFile = path + "/SDS/.project";
 
-				// check if welcome screen visible
-				IWorkbenchWindow window = PlatformUI.getWorkbench().getWorkbenchWindows()[0];
-				final IViewPart welcomeScreen = window.getActivePage().findView("org.eclipse.ui.internal.introview");
-
-				if (welcomeScreen == null) {
-
-					SynopticControl.showSynoptic();
+		// if synoptic does not exist, then this is the first time the GDA has been run in this workspace, so show the
+		// Welcome screen
+		if (new File(synopticProjectFile).exists()) {
+			SynopticControl.showSynoptic();
+		} else {
+			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+								.showView("org.eclipse.ui.internal.introview");
+						IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+						page.setPartState(page.findViewReference("org.eclipse.ui.internal.introview"),
+								IWorkbenchPage.STATE_MAXIMIZED);
+					} catch (PartInitException e) {
+						logger.error(
+								"Failed to open the welcome screen. The client will be in XAS/XANES mode. PartInitException:",
+								e);
+					}
 				}
-			}
-		} catch (Exception e) {
-			logger.warn("Exception while trying to open Synoptic in a separate workbench", e);
+			});
 		}
-
-		// If the SampleParametersEditor is there, we refresh its element list. This is because
-		// it needs the definition of beans which are not made until this startup method is run,
-		// but editors are created *before* this method is run.
-//		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-//			@Override
-//			public void run() {
-//				final IEditorReference[] eds = EclipseUtils.getDefaultPage().findEditors(null, I20SampleDescriber.ID,
-//						IWorkbenchPage.MATCH_ID);
-//				if (eds != null) {
-//					for (int i = 0; i < eds.length; i++) {
-//						I20SampleParametersUIEditor ed = (I20SampleParametersUIEditor) ((I20SampleParametersEditor) eds[i]
-//								.getEditor(false)).getRichBeanEditor();
-//						ed.updateElementLabel();
-//					}
-//				}
-//			}
-//		});
 
 	}
 }

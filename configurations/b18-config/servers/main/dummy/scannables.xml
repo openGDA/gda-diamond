@@ -17,13 +17,31 @@
 		<property name="name" value="samplewheel" />
 		<property name="numberOfFilters" value="36" />
 	</bean>
-		<bean id="qexafs_energy" class="gda.device.scannable.QexafsTestingScannable">
+	
+	<bean id="qexafs_energy" class="gda.device.scannable.QexafsTestingScannable">
 		<property name="motor" ref="energy_motor" />
 		<property name="lowerGdaLimits" value="2000" />
 		<property name="upperGdaLimits" value="35000" />
 		<property name="outputFormat">
 			<list>
 				<value>%.2f</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="energy" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="energy" />
+		<property name="motor" ref="energy_bragg_pv" />
+		<property name="hardwareUnitString" value="eV" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="lowerGdaLimits">
+			<list>
+				<value>2000</value>
+			</list>
+		</property>
+		<property name="upperGdaLimits">
+			<list>
+				<value>35000</value>
 			</list>
 		</property>
 	</bean>
