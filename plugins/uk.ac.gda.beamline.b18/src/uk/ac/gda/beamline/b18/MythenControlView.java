@@ -200,8 +200,6 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 		gridData.heightHint = 500;
 		gridData.widthHint = 500;
 		
-		//plotWindow.getMainPlotter().getComposite();//.setLayoutData(gridData);
-		
 		Composite controls = new Composite(composite, SWT.NONE);
 		controls.setLayout(new GridLayout(4, false));
 
@@ -221,7 +219,6 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 				NumTracker scanNumTracker;
 				try {
 					scanNumTracker = new NumTracker("tmp");
-					long scanNumber = scanNumTracker.getCurrentFileNumber();
 					scanNumTracker.incrementNumber();
 				} catch (IOException e2) {
 					logger.error("Could not create NumTracker to track scan file numbers", e2);
