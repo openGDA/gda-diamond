@@ -1,1 +1,7 @@
-GDA_StartServers
+#!/bin/bash
+##This is an example script file to restart GDA server from a remote client
+##This requires generation of ssh keys and copying the public key to the authorized_keys file in the server
+##Please refer to the document howtoSSH.txt for key generation.
+##To use this script change the key file path, user name and the server machine name
+
+ssh -x -o StrictHostKeyChecking=false -i /dls_sw/${BEAMLINE}/software/gda/config/${BEAMLINE}ssh.key gda2@${BEAMLINE}-control.diamond.ac.uk
