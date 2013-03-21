@@ -1,0 +1,36 @@
+#!/bin/bash
+unset GDA_ROOT
+unset GDA_CONFIG
+unset GDA_USERS
+unset GDA_JARS
+unset CLASSPATH
+#source /$SOFTWAREFOLDER/$BEAMLINE/software/gda/i10-config/bin/gda_environment.sh
+
+GDALOCATIONREL=`dirname $0`/../..
+#GDALOCATION=`cd $GDALOCATIONREL ; pwd`
+GDALOCATION=`readlink -f $GDALOCATIONREL`
+GDACONFIG=$GDALOCATION/i10-config
+
+source /$GDACONFIG/bin/gda_environment.sh
+
+LOGNAME=gda_log_output
+LOGBASE=/$SOFTWAREFOLDER/$BEAMLINE/software/gda_versions/var/$LOGNAME
+LOGFILE=$LOGBASE/$LOGNAME-`date +%Y-%m-%d_%H-%M-%S`.txt
+touch $LOGFILE
+rm             $LOGBASE/$LOGNAME.txt
+ln -s $LOGFILE $LOGBASE/$LOGNAME.txt
+
+# Build up command line
+GDALAUNCHER="$GDALOCATION/plugins/uk.ac.gda.core/bin/gda"
+GDALAUNCHER="$GDALAUNCHER --config=$GDACONFIG"  
+GDALAUNCHER="$GDALAUNCHER --properties=$GDACONFIG/properties/java.properties"
+GDALAUNCHER="$GDALAUNCHER --jacorb=$GDACONFIG/properties"
+
+GDALAUNCHER="$GDALAUNCHER --restart logpanel --verbose"
+#GDALAUNCHER="$GDALAUNCHER --debug"
+
+echo -------------------------------------------------------- >> $LOGFILE
+echo $USER@$HOSTNAME:           $GDALAUNCHER                  to $LOGFILE
+echo $USER@$HOSTNAME:           $GDALAUNCHER                  >> $LOGFILE
+                                $GDALAUNCHER                  >> $LOGFILE 2>&1 &
+echo -------------------------------------------------------- >> $LOGFILE

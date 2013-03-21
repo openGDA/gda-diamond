@@ -1,0 +1,17 @@
+#!/bin/bash
+unset GDA_ROOT
+unset GDA_CONFIG
+unset GDA_USERS
+unset GDA_JARS
+unset CLASSPATH
+source /$SOFTWAREFOLDER/$BEAMLINE/software/gda/i10-config/bin/gda_environment.sh
+gdaLocation=`dirname $0`/../..
+abs=`cd $gdaLocation ; pwd`
+gdaLocation=$abs
+gdaLauncher=$gdaLocation/plugins/uk.ac.gda.core/bin/gda
+config=$gdaLocation/i10-config
+properties=$config/properties/java.properties
+jacorb=$config/properties
+
+echo $gdaLauncher -d --config=$config --properties=$properties  userpermissions
+     $gdaLauncher -d --config=$config --properties=$properties  userpermissions

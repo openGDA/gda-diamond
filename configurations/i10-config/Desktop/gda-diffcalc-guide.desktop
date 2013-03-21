@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=gda-user-guide
+Type=Application
+Exec=firefox http://www.opengda.org/downloads/gda/v8.6/DiffcalcGuide_html/user/manual.html
+Icon=/usr/share/pixmaps/nautilus/Bluecurve/emblem-web.png
+Icon[en_GB]=/usr/share/pixmaps/nautilus/Bluecurve/emblem-web.png
+Terminal=false
+Name[en_GB]=GDA Diffcalc User Guide
+GenericName[en_GB]=GDA Diffcalc User Guide
+Comment[en_GB]=Open GDA Diffcalc User Guide
+Categories=X-ogda;
+

@@ -1,0 +1,46 @@
+#!/bin/bash
+unset GDA_ROOT
+unset GDA_CONFIG
+unset GDA_USERS
+unset GDA_JARS
+unset CLASSPATH
+#source /$SOFTWAREFOLDER/$BEAMLINE/software/gda/i10-config/bin/gda_environment.sh
+
+GDALOCATIONREL=`dirname $0`/../..
+GDAWORKSPACE=`cd $GDALOCATIONREL ; pwd`
+GDALOCATION=`readlink -f $GDALOCATIONREL`
+GDACONFIG=$GDALOCATION/i10-config
+
+source /$GDACONFIG/bin/gda_environment.sh
+
+LOGNAME=gda_client_output
+LOGBASE=/$SOFTWAREFOLDER/$BEAMLINE/software/gda_versions/var/$LOGNAME
+LOGFILE=$LOGBASE/$LOGNAME-`date +%Y-%m-%d_%H-%M-%S`.txt
+touch $LOGFILE
+rm             $LOGBASE/$LOGNAME.txt
+ln -s $LOGFILE $LOGBASE/$LOGNAME.txt
+
+# Build up command line
+GDALAUNCHER="$GDALOCATION/plugins/uk.ac.gda.core/bin/gda"
+GDALAUNCHER="$GDALAUNCHER --config=$GDACONFIG"  
+GDALAUNCHER="$GDALAUNCHER --properties=$GDACONFIG/properties/java.properties"
+GDALAUNCHER="$GDALAUNCHER --jacorb=$GDACONFIG/properties"
+GDALAUNCHER="$GDALAUNCHER --rcp_image=${GDAWORKSPACE}/client/gda-${BEAMLINE}"
+#GDALAUNCHER="$GDALAUNCHER --rcp_image=client/gda-${BEAMLINE}"
+GDALAUNCHER="$GDALAUNCHER --start rcpclient -v --trace"
+#GDALAUNCHER="$GDALAUNCHER --debug"
+
+#GDA_JAVA_OPTS="-Xms512m -Xmx2048m -XX:PermSize=128m -XX:MaxPermSize=1024m" # Client fails to load
+#GDA_JAVA_OPTS="-Xms512m -Xmx2048m -XX:PermSize=128m -XX:MaxPermSize=768m"  # Client fails to load
+#GDA_JAVA_OPTS="-Xms512m -Xmx2048m -XX:PermSize=128m -XX:MaxPermSize=640m"  # Client jvm often crashes between 300 and 1000 seconds after start
+GDA_JAVA_OPTS="-Xms512m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=256m"
+#GDA_JAVA_OPTS="$GDA_JAVA_OPTS -v -XX:+PrintHeapAtGC" # Client fails on x86_64
+GDA_JAVA_OPTS="$GDA_JAVA_OPTS -XX:+PrintHeapAtGC"
+GDA_JAVA_OPTS="$GDA_JAVA_OPTS -Declipse.pluginCustomization=$GDACONFIG/client/pluginCustomization.ini"
+GDA_JAVA_OPTS="$GDA_JAVA_OPTS -Dgda.gui.beans.xml=$GDACONFIG/client/client.xml"
+
+echo -------------------------------------------------------- >> $LOGFILE
+echo $USER@$HOSTNAME:           $GDALAUNCHER                  to $LOGFILE
+echo $USER@$HOSTNAME:           $GDALAUNCHER                  >> $LOGFILE
+JAVA_OPTS=$GDA_JAVA_OPTS        $GDALAUNCHER                  >> $LOGFILE 2>&1 &
+echo -------------------------------------------------------- >> $LOGFILE

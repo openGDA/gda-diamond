@@ -1,0 +1,76 @@
+#!/bin/bash
+
+function usage {
+  echo "Usage: `basename $0` [OPTIONS] GDA_ROOT" >&2
+  echo "Options:"
+  echo "  -b BEAMLINE Force a particular beamline." >&2
+  echo "  -h          Print this usage information." >&2
+  echo "  -s          Sudo each setfacl. Without this option you must own" >&2
+  echo "              all of the files you want to setfacl. With it, you" >&2
+  echo "              must be running on a machine where you have sudo " >&2
+  echo "              privs and where setfacl works for all directories." >&2
+  echo "  -p          Don't pause before each setfacl." >&2
+  exit 1
+}
+
+PAUSE="read -p Continue..."
+SUDO=""
+MAX=0
+
+while getopts "b:hps" flag; do # Process options
+  #echo "$flag" $OPTIND $OPTARG $MAX
+  case "$flag" in
+    b) BEAMLINE=$OPTARG;;
+    h) usage;;
+    p) PAUSE="";;
+    s) SUDO=sudo;;
+  esac
+  if [ $OPTIND -gt $MAX ]; then MAX=$OPTIND; fi
+done
+
+if [ $MAX -gt 0 ]; then # Remove processed options
+  shift $((MAX-1)) 
+fi
+
+# Once options are processed, only one argument should remain.
+if [ $# -ne 1 ]; then
+  if [ $# -eq 0 ]; then
+    echo "ERROR: GDA_ROOT directory was not specified." >&2
+  else
+    echo ERROR: More than one GDA_ROOT not allowed: $* >&2
+  fi
+  usage
+fi
+
+if [ "$BEAMLINE" == "" ]; then
+  echo "ERROR: The BEAMLINE is not defined." >&2
+  usage
+fi
+
+# Since $1 may be . convert it to a full path.
+GDA_ROOT=`cd $1; pwd`
+SOFTWARE_ROOT=/dls_sw/${BEAMLINE}
+
+echo $SUDO Setting facls on $GDA_ROOT
+
+echo $SUDO Give gda, gda2 and dls_dasc all permissions to $GDA_ROOT/, otherwise r-x only...
+$PAUSE
+$SUDO setfacl -R -m g::rwX,g:dls_dasc:rwX,g:gda:rwX,g:gda2:rwX,o::rX,d:u::rwx,d:g::rwx,d:g:dls_dasc:rwx,d:g:gda:rwx,g:gda2:rwx,d:o::rx $GDA_ROOT/
+# "Operation not permitted" on i10-control
+# On i10-storage1 & i10-ws001: Sorry, user voo82358 is not allowed to execute '/usr/bin/setfacl...
+
+echo $SUDO Give ${BEAMLINE}_staff edit permissions on $GDA_ROOT/${BEAMLINE}-config...
+$PAUSE
+$SUDO setfacl -R -m g:${BEAMLINE}_staff:rwX,d:g:${BEAMLINE}_staff:rwx,m::rwX $GDA_ROOT/${BEAMLINE}-config/
+# "Operation not permitted" on i10-control
+
+echo $SUDO Give everyone permissions to $GDA_ROOT/${BEAMLINE}-config/var...
+$PAUSE
+$SUDO setfacl -R -m o::rwX,d:o::rwx $GDA_ROOT/${BEAMLINE}-config/var
+$SUDO setfacl -R -m o::rwX,d:o::rwx $SOFTWARE_ROOT/software/gda_versions/var
+# "Operation not permitted" on i10-control
+
+echo $SUDO Give ${BEAMLINE}_staff permissions to change the softlinks in the $DLS_ROOT/software
+$PAUSE
+$SUDO setfacl -m d:g:${BEAMLINE}_staff:rwx $DLS_ROOT/software
+# Runs ok on i10-control
