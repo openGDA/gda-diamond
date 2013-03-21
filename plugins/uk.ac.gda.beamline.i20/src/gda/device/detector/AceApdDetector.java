@@ -51,8 +51,8 @@ public class AceApdDetector extends TfgScalerWithFrames {
 	@Override
 	public void collectData() throws DeviceException {
 		try {
-			stopPV.put(1);
-			startPV.put(1);
+			stopPV.putNoWait(1);
+			startPV.putNoWait(1);
 			super.collectData();
 		} catch (IOException e) {
 			throw new DeviceException("Exception trying to start the " + getName() + " detector", e);
