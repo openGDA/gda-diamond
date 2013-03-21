@@ -42,7 +42,7 @@ import com.cosylab.epics.caj.CAJChannel;
 
 @CorbaAdapterClass(DeviceAdapter.class)
 @CorbaImplClass(DeviceImpl.class)
-public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector implements MonitorListener {
+public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector implements MonitorListener, FlexibleFrameDetector {
 	private static final Logger logger = LoggerFactory.getLogger(VGScientaAnalyser.class);
 
 	private VGScientaController controller;
@@ -57,7 +57,8 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 	private MotorStatus currentstatus = stopped;
 
 	private int[] sweptModeRegion;
-	
+
+	private FlexibleFrameStrategy flex;
 
 	@Override
 	public void configure() throws FactoryException {
@@ -71,7 +72,7 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 			getNdProc().setNumFilter(1000000);
 			getNdProc().getPluginBase().enableCallbacks();
 			
-			FlexibleFrameStrategy flex = new FlexibleFrameStrategy(getAdBase(), 0., getNdProc()); 
+			flex = new FlexibleFrameStrategy(getAdBase(), 0., getNdProc()); 
 			setCollectionStrategy(flex);
 			flex.setMaxNumberOfFrames(1);
 			
@@ -283,11 +284,6 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 	public void zeroSupplies() throws Exception {
 		controller.zeroSupplies();
 	}
-	
-	@Override
-	public boolean isLocal() {
-		return false;
-	}
 
 	@Override
 	public void monitorChanged(MonitorEvent arg0) {
@@ -312,5 +308,20 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 
 	public void setNdProc(NDProcess ndProc) {
 		this.ndProc = ndProc;
+	}
+
+	@Override
+	public int getCurrentFrame() {
+		return flex.getCurrentFrame();
+	}
+
+	@Override
+	public int getMaximumFrame() {
+		return flex.getMaxNumberOfFrames();
+	}
+
+	@Override
+	public void setMaximumFrame(int max) {
+		flex.setMaxNumberOfFrames(max);
 	}
 }

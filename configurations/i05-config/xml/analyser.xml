@@ -106,7 +106,7 @@
 		<property name="ndArray" ref="array2" />
 		<!-- <property name="ndStats" ref="stats" /> -->
 		<property name="ndFile" ref="filebase" />
-		<property name="local" value="false" />
+		<property name="local" value="true" />
 		<property name="capabilities" ref="AnalyserCapabilities" />
 		<property name="fixedModeRegion">
 			<list>
@@ -117,6 +117,13 @@
 			</list>
 		</property>
 	</bean>
+	
+	    <bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+                <property name="serviceName" value="${gda.rmi.prefix}/analyser" />
+                <property name="service" ref="analyser" />
+                <property name="serviceInterface" value="uk.ac.gda.arpes.detector.FlexibleFrameDetector" />
+        </bean>
+	
 	
 	<bean id="centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL05I-EA-DET-01:CAM:CENTRE_ENERGY_RBV" />

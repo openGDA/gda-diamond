@@ -40,6 +40,13 @@
                 <property name="class" value="gda.commandqueue.Queue" />
                 <property name="service" ref="commandQueueProcessor" />
         </bean>
+        
+        <bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+                <property name="serviceUrl" value="${gda.rmi.prefix}/analyser" />
+                <property name="serviceInterface" value="uk.ac.gda.arpes.detector.FlexibleFrameDetector" />
+                <property name="refreshStubOnConnectFailure" value="true" />
+        </bean>
+
 
         <gda:rbac />
 </beans>
