@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="i22-config" componentType="buckminster" version="1.0.0">
     <cs:dependencies>
+        <cs:dependency name="dls-config" componentType="buckminster"/>
         <cs:dependency name="uk.ac.gda.beamline.i22.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i22" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.server.ncd.epics" componentType="osgi.bundle"/>
