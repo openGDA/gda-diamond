@@ -335,7 +335,7 @@
 		<property name="pcoDetector" ref="pco" />
 	</bean>
 
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 		<property name="serviceName" value="gda/pcoTomography" />
 		<property name="service" ref="pcoTomography" />
 		<property name="serviceInterface"

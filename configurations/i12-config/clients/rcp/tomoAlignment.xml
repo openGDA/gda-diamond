@@ -129,6 +129,7 @@
 		<property name="externalProgram1">
 			<bean class="uk.ac.gda.client.tomo.ExternalFunction">
 				<property name="command" value="call_matlab.sh" />
+				<!-- <property name="command" value="/scratch/i12Trunk_git/gda-dls-beamlines-i12.git/i12/scripts/tomo/call_matlab.sh" /> -->
 				<property name="args">
 					<list>
 						<value>create_flatfield</value>
