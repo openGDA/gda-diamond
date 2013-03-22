@@ -1009,6 +1009,10 @@ roi6.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
 # This depends on lcroi
 run('FlipperClass')
 
+from scannable.tripod import TripodToolBase
+kbmtool = TripodToolBase("kbmtool", kbmbase)
+
+
 ###############################################################################
 ###                             Complete Localstation                       ###
 ###############################################################################
