@@ -816,6 +816,7 @@ if installation.isLive():
 	#positions=ReadPDGroupClass('positions',[sx,sy,sz,base_y,base_z,ytable, ztable])
 	positions=ReadPDGroupClass('positions',[sx,sy,sz,sperp, spara, base_y,base_z,ytable, ztable])# sperp spara added SPC 3/2/12
 	xps2=ReadPDGroupClass('xps2',[gam,delta,mu,kth,kap,kphi])
+	dummypd=ReadPDGroupClass('dummypd',[x,y,z])
 	try:
 		xps3=ReadPDGroupClass('xps3',[xps3m1, xps3m2, xps3m3, xps3m4, xps3m5, xps3m6])
 	except NameError, e:
@@ -833,9 +834,9 @@ if installation.isLive():
 	#add_default(adctab)
 try:
 	if not USE_DIFFCALC:
-		meta.set(mrwolf, diffractometer_sample,xtalinfo,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
+		meta.set(dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
 	else:
-		meta.set(mrwolf, diffractometer_sample,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
+		meta.set(dummypd, mrwolf, diffractometer_sample, sixckappa, source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
 		
 	meta.prepend_keys_with_scannable_names = False
 	mds=meta
@@ -910,7 +911,10 @@ def open_valves():
 #ci=226.0; cj=104.0	#31/01/12
 #ci=226.0; cj=104.0	#17/04/12
 #ci=228.0; cj=101.0	#31/10/12
-ci=234.0; cj=107.0	#/01/13
+#ci=234.0; cj=107.0	#/01/13
+#ci=242.0; cj=104.0	#/03/13
+ci=237.0; cj=121.0	#17/03/13
+
 maxi=486; maxj=194
 
 #small centred
@@ -1054,5 +1058,6 @@ if installation.isLive():
 run('bpm')
 run('align1')
 run('select_and_move_detector')
+run('showdiff')
 #run('pd_searchref2') #put at the end as it gave some errors
 
