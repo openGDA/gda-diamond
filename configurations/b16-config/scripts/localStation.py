@@ -75,13 +75,13 @@ daserver = Finder.getInstance().find('daserver')
 from scannable.laser_experiment import LaserShutterPulseController
 laserxray = LaserShutterPulseController('laserxray', daserver)
 
-if installation.isLive():
-	from pd_setPvAndWait import SetPvAndWait
-	shutterWidth = SetPvAndWait('shutterWidth', 'BL16B-EA-EVR-01:FRONT-WIDTH:SET', .2)
-	shutterDelay = SetPvAndWait('shutterDelay', 'BL16B-EA-EVR-01:FRONT-DELAY:SET', .2)
-	caput('BL16B-EA-EVR-01:SELECT-FPS2','External')
-	caput('BL16B-EA-EVR-01:FRONT-ENABLE:SET','Enabled')
-	caput('BL16B-EA-EVR-01:FRONT-POLARITY:SET', 'Normal')
+#if installation.isLive():
+#	from pd_setPvAndWait import SetPvAndWait
+#	shutterWidth = SetPvAndWait('shutterWidth', 'BL16B-EA-EVR-01:FRONT-WIDTH:SET', .2)
+#	shutterDelay = SetPvAndWait('shutterDelay', 'BL16B-EA-EVR-01:FRONT-DELAY:SET', .2)
+#	caput('BL16B-EA-EVR-01:SELECT-FPS2','External')
+#	caput('BL16B-EA-EVR-01:FRONT-ENABLE:SET','Enabled')
+#	caput('BL16B-EA-EVR-01:FRONT-POLARITY:SET', 'Normal')
 
 ###############################################################################
 ###                          Print environmental info                       ###
