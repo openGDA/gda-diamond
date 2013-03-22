@@ -12,6 +12,7 @@
 	<import resource="motor/dcm.xml" />
 	<import resource="motor/dif.xml" />
 	<import resource="motor/fc.xml" />
+	<import resource="motor/fourc.xml" />
 	<import resource="motor/fcarm.xml" />
 	<import resource="motor/fcbase.xml" />
 	<import resource="motor/m1.xml" />

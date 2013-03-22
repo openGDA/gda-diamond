@@ -64,6 +64,8 @@ print "Running B16 specific initialisation code"
 print "======================================================================"
 ENABLE_PILATUS = True
 ENABLE_PCOEDGE = False
+#USE_YOU_DIFFCALC_ENGINE = True
+USE_YOU_DIFFCALC_ENGINE = False  # Use old diffcalc
 
 
 print "<<< Running init/microfocus_startup.py"
@@ -572,7 +574,11 @@ if installation.isLive():
 ###############################################################################
 diffcalc_path = LocalProperties.get("gda.install.git.loc") + '/diffcalc.git'
 sys.path = [diffcalc_path] + sys.path
-execfile(diffcalc_path + '/example/startup/b16fivecircle.py')
+
+if USE_YOU_DIFFCALC_ENGINE:
+	execfile(diffcalc_path + '/example/startup/b16fourcircle_you_engine.py')
+else:
+	execfile(diffcalc_path + '/example/startup/b16fivecircle.py')
 energy.setLevel(4)
 hkl.setLevel(5) #@UndefinedVariable
 
