@@ -1,5 +1,5 @@
 #!/bin/bash
-unset BEAMLINE
+#unset BEAMLINE
 `dirname $0`/gda logserver --mode=dummy $@
 `dirname $0`/gda nameserver --mode=dummy $@
 `dirname $0`/gda eventserver --mode=dummy $@

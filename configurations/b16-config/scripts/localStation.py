@@ -350,15 +350,16 @@ else:
 ###############################################################################
 
 #NOTE: The following is now in b16/scripts/localStationUser
+import pd_setPvAndWait
+if installation.isLive():
+	dcmpiezo=pd_setPvAndWait.SetPvAndWait("dcmpiezo","BL16B-OP-DCM-01:FB:DAC:02", 0.5)
+	dcmpiezo.setOutputFormat(['%.4f'])
 
-dcmpiezo=pd_setPvAndWait.SetPvAndWait("dcmpiezo","BL16B-OP-DCM-01:FB:DAC:02", 0.5)
-dcmpiezo.setOutputFormat(['%.4f'])
 
-
-bi= SelectableCollectionOfScannables('bi', [ct7, ai13, ai5])#@UndefinedVariable
-#monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmPitch, .145, .16, 0.0002, bi, .5) #@UndefinedVariable
-monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmpiezo, 1.0, 8.0, 0.1, bi, .2) #@UndefinedVariable
-monotuner.use_backlash_correction = True
+	bi= SelectableCollectionOfScannables('bi', [ct7, ai13, ai5])#@UndefinedVariable
+	#monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmPitch, .145, .16, 0.0002, bi, .5) #@UndefinedVariable
+	monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmpiezo, 1.0, 8.0, 0.1, bi, .2) #@UndefinedVariable
+	monotuner.use_backlash_correction = True
 
 ###############################################################################
 ###                                 A3 XIA Filters                          ###
@@ -828,8 +829,9 @@ print "creating waitForAi8 (to be less than .1)"
 import scannable.condition
 waitForAi8 = scannable.condition.WaitForCondition('waitForAi8', ai8, 'val<1')  # @UndefinedVariable
 
-micospiezo1.outputFormat = ['%f']
-micospiezo2.outputFormat = ['%f']
+if installation.isLive():
+	micospiezo1.outputFormat = ['%f']
+	micospiezo2.outputFormat = ['%f']
 
 print "Done!"
 

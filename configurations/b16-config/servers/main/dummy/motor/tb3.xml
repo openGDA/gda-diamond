@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="TBDETXcoarseMotor" class="gda.device.motor.DummyMotor" />
-	<bean id="TBDETZcoarseMotor" class="gda.device.motor.DummyMotor" />
-	<bean id="TBDETXMotor" class="gda.device.motor.DummyMotor" />
-	<bean id="TBDETYMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="TB3XcoarseMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="TB3ZcoarseMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="TB3XMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="TB3YMotor" class="gda.device.motor.DummyMotor" />
 
 </beans>
