@@ -1,0 +1,243 @@
+helpub
+ubhelp
+help ub
+help gda
+dif
+1+1
+dif
+fourc
+ScannableGroup
+eta
+chi
+type(eta)
+type(chi)
+eta
+chi
+phi
+delta
+omega
+fourc
+reset_namespace
+fourc
+help ub
+help hkl
+hkl.__doc__
+reset_namespace
+alpha
+reset_namespace
+fourc
+hkl
+help hkl
+help ub
+diffcalc.gdasupport.factory.override_gda_help_command(globals())
+help hkl
+help ub
+alias('help')
+help ub
+help hkl
+fourc
+help(ub)
+help(hkl)
+newub 'test'
+setlat
+pos wl 1
+c2th [1 0 0]
+pos fourc
+pos fourc 60 30 0 0
+pos fourc [60 30 0 0]
+addref [1 0 0]
+pos phi 90
+addref [0 1 0]
+ub
+checkub
+hkl
+pos hkl
+con
+con psi 90
+sim hkl [1 0 0]
+sim hkl [0 1 0]
+sim hkl [0 0 1]
+type(help)
+help
+help(chi)
+chi.__doc__
+chi.__doc__()
+help ub
+help hkl
+reset_namespace
+help
+help ub
+help hkl
+_help
+_gdahelp
+_gdahelp(ub)
+_gdahelp(hkl))
+_gdahelp(hkl)
+reset_namespace
+help ub
+help hkl
+reset_namespace
+help
+help ub
+help hkl
+help
+reset_namespace
+help
+reset_namespace
+help
+help ub
+help hkl
+ub
+listub
+loadub 0
+ub
+con
+con mu 0 nu 0 psi 90
+con psi 90
+psi
+#bo1enable.setOutsideScan(); scan x 1 32400 1 bo1enable mcs1 mcs_y mcs_x mcs_apd 0.05; bo1enable.setOutsideScan()
+phi
+1+1
+help ub
+help hkl
+listub
+loadub 0
+ub
+dc
+dc._ubcalc.reference
+print dc._ubcalc.reference
+calcub
+print dc._ubcalc.reference
+reset_namespace
+listub
+loadub 0
+dc._ubcalc.reference
+calcub
+dc._ubcalc.reference
+con
+con psi 90
+checkub
+sim hkl [1 0 0]
+wl
+energy
+pos wl 1
+sim hkl [1 0 0]
+dc._ubcalc.reference
+dc._ubcalc.reference.n_hkl_configured
+dc._ubcalc.reference.n_hkl_configured = matrix('0; 0; 1')
+from numjy import matrix
+dc._ubcalc.reference.n_hkl_configured = matrix('0; 0; 1')
+sim hkl [1 0 0]
+dc._ubcalc.reference
+ub
+dc._ubcalc.reference
+sim hkl [1 0 0]
+con
+dc._ubcalc.reference.n_hkl_configured = matrix('0; 1; 0')
+psi
+pos psi 0
+con
+sim hkl [1 1 1]
+dc._ubcalc.reference.n_hkl_configured = matrix('0; 0; 1')
+sim hkl [1 1 1]
+pos energy 8000
+wl
+newub
+ub
+help ub
+setu [[1 0 0], [0 1 0], [0 0 1]]
+ub
+con
+pos psi 0
+ub
+con
+dc._ubcalc.reference.n_hkl_configured = matrix('0; 0; 1')
+dc._ubcalc.reference
+sim hkl [1 1 1]
+dc._ubcalc.reference.n_hkl_configured = matrix('0; 1; 0')
+sim hkl [1 1 1]
+ub
+con
+dc._ubcalc.reference
+con
+dc._ubcalc.reference
+sim hkl [1 0 0]
+sim hkl [0 0 1]
+pos psi 10
+sim hkl [0 0 1]
+scan psi 0 180 10 hkl [0 0 1]
+scan x 1 5 1
+visit
+datadir
+newub
+pos energy 8900
+wl
+pos fourc [34.6086  17.1000  90.6300   0.0000]
+addref [1 1 1]
+pos fourc [57.7000  28.7000  55.2400 -32.0000]
+addref [0 2 2]
+checkub
+ub
+con psi 0
+sim hkl [1 1 1]
+help hkl
+setmin chi -1
+setmin eta -1
+sim hkl [1 1 1]
+dc._ubcalc.reference
+dc._ubcalc.reference.n_hkl_configured = matrix('0; 0; 1')
+sim hkl [1 1 1]
+dc._ubcalc.reference.n_hkl_configured = matrix('1; 0; 0')
+sim hkl [1 1 1]
+178.4596 - 58.4627
+psi
+ub
+dc._ubcalc.reference.n_hkl_configured = matrix('0; 1; 0')
+sim hkl [1 1 1]
+dc._ubcalc.reference.n_hkl_configured = matrix('0; 0; 1')
+sim hkl [1 1 1]
+178.4596 - 260
+178.4596 - 360
+_ + 61
+sim hkl [1 1 1]
+pos psi
+pos psi .1
+sim hkl [1 1 1]
+dc._ubcalc.reference.n_hkl_configured = matrix('1; 0; 0')
+sim hkl [1 1 1]
+pos psi 0
+sim hkl [1 1 1]
+dc._ubcalc.reference.n_hkl_configured = matrix('0; 1; 0')
+sim hkl [1 1 1]
+dc._ubcalc.reference.n_hkl_configured = matrix('0; 0; 1')
+sim hkl [1 1 1]
+psi
+con
+pos psi 0.1
+dc._ubcalc.reference.n_hkl_configured = matrix('0; 1; 0')
+sim hkl [1 1 1]
+dc._ubcalc.reference.n_hkl_configured = matrix('0; 0; 1')
+sim hkl [1 1 1]
+298.36 - 178.35
+pos psi .00001
+sim hkl [1 1 1]
+pos psi 50
+sim hkl [1 1 1]
+pos psi .0001
+sim hkl [1 1 1]
+pos hkl [1 1 1]
+fourc
+psi
+hkl_verbose
+hklverbose
+psi
+pos hkl [1 1 1]
+dc._ubcalc.reference.n_hkl_configured = matrix('0; 1; 0')
+sim hkl [1 1 1]
+psi
+inc psi 1
+sim hkl [1 1 1]
+#dc._ubcalc.reference.n_hkl_configured = matrix('0; 1; 0')
+dc._ubcalc.reference
+from numjy import matrix
+pos pil 1
