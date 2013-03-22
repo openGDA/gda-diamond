@@ -58,7 +58,7 @@ public class B16VortexParametersUIEditor extends VortexParametersUIEditor {
 		final Serializable bean;
 		if (upLoadbean.length == 0) {
 			// We save
-			bean = (Serializable) getEditingBean();
+			bean = (Serializable) updateFromUIAndReturnEditingBean();
 		} else {
 			bean = (Serializable) upLoadbean[0];
 		}
