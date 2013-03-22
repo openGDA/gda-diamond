@@ -11,7 +11,7 @@ import time
 #from gda.epics.connection import EpicsController
 #from gov.aps.jca.event import MonitorListener
 
-
+# TODO: A copy has been made in mt-config
 
 
 
