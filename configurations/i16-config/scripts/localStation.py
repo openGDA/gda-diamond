@@ -13,6 +13,7 @@ if installation.isDummy():
 else:
 	USE_DIFFCALC = False  # <-- change here for live gda!
 USE_DUMMY_IDGAP_MOTOR = False
+#USE_DUMMY_IDGAP_MOTOR = True
 USE_XMAP= False
 
 # Java
