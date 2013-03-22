@@ -64,6 +64,8 @@ print "Running B16 specific initialisation code"
 print "======================================================================"
 ENABLE_PILATUS = True
 ENABLE_PCOEDGE = False
+#USE_YOU_DIFFCALC_ENGINE = True
+USE_YOU_DIFFCALC_ENGINE = False  # Use old diffcalc
 
 
 print "<<< Running init/microfocus_startup.py"
@@ -75,13 +77,13 @@ daserver = Finder.getInstance().find('daserver')
 from scannable.laser_experiment import LaserShutterPulseController
 laserxray = LaserShutterPulseController('laserxray', daserver)
 
-if installation.isLive():
-	from pd_setPvAndWait import SetPvAndWait
-	shutterWidth = SetPvAndWait('shutterWidth', 'BL16B-EA-EVR-01:FRONT-WIDTH:SET', .2)
-	shutterDelay = SetPvAndWait('shutterDelay', 'BL16B-EA-EVR-01:FRONT-DELAY:SET', .2)
-	caput('BL16B-EA-EVR-01:SELECT-FPS2','External')
-	caput('BL16B-EA-EVR-01:FRONT-ENABLE:SET','Enabled')
-	caput('BL16B-EA-EVR-01:FRONT-POLARITY:SET', 'Normal')
+#if installation.isLive():
+#	from pd_setPvAndWait import SetPvAndWait
+#	shutterWidth = SetPvAndWait('shutterWidth', 'BL16B-EA-EVR-01:FRONT-WIDTH:SET', .2)
+#	shutterDelay = SetPvAndWait('shutterDelay', 'BL16B-EA-EVR-01:FRONT-DELAY:SET', .2)
+#	caput('BL16B-EA-EVR-01:SELECT-FPS2','External')
+#	caput('BL16B-EA-EVR-01:FRONT-ENABLE:SET','Enabled')
+#	caput('BL16B-EA-EVR-01:FRONT-POLARITY:SET', 'Normal')
 
 ###############################################################################
 ###                          Print environmental info                       ###
@@ -350,15 +352,16 @@ else:
 ###############################################################################
 
 #NOTE: The following is now in b16/scripts/localStationUser
+import pd_setPvAndWait
+if installation.isLive():
+	dcmpiezo=pd_setPvAndWait.SetPvAndWait("dcmpiezo","BL16B-OP-DCM-01:FB:DAC:02", 0.5)
+	dcmpiezo.setOutputFormat(['%.4f'])
 
-dcmpiezo=pd_setPvAndWait.SetPvAndWait("dcmpiezo","BL16B-OP-DCM-01:FB:DAC:02", 0.5)
-dcmpiezo.setOutputFormat(['%.4f'])
 
-
-bi= SelectableCollectionOfScannables('bi', [ct7, ai13, ai5])#@UndefinedVariable
-#monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmPitch, .145, .16, 0.0002, bi, .5) #@UndefinedVariable
-monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmpiezo, 1.0, 8.0, 0.1, bi, .2) #@UndefinedVariable
-monotuner.use_backlash_correction = True
+	bi= SelectableCollectionOfScannables('bi', [ct7, ai13, ai5])#@UndefinedVariable
+	#monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmPitch, .145, .16, 0.0002, bi, .5) #@UndefinedVariable
+	monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmpiezo, 1.0, 8.0, 0.1, bi, .2) #@UndefinedVariable
+	monotuner.use_backlash_correction = True
 
 ###############################################################################
 ###                                 A3 XIA Filters                          ###
@@ -571,7 +574,11 @@ if installation.isLive():
 ###############################################################################
 diffcalc_path = LocalProperties.get("gda.install.git.loc") + '/diffcalc.git'
 sys.path = [diffcalc_path] + sys.path
-execfile(diffcalc_path + '/example/startup/b16fivecircle.py')
+
+if USE_YOU_DIFFCALC_ENGINE:
+	execfile(diffcalc_path + '/example/startup/b16fourcircle_you_engine.py')
+else:
+	execfile(diffcalc_path + '/example/startup/b16fivecircle.py')
 energy.setLevel(4)
 hkl.setLevel(5) #@UndefinedVariable
 
@@ -828,8 +835,9 @@ print "creating waitForAi8 (to be less than .1)"
 import scannable.condition
 waitForAi8 = scannable.condition.WaitForCondition('waitForAi8', ai8, 'val<1')  # @UndefinedVariable
 
-micospiezo1.outputFormat = ['%f']
-micospiezo2.outputFormat = ['%f']
+if installation.isLive():
+	micospiezo1.outputFormat = ['%f']
+	micospiezo2.outputFormat = ['%f']
 
 print "Done!"
 
