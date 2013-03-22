@@ -38,6 +38,7 @@ from gda.jython.commands.GeneralCommands import alias, run
 from gda.util.persistence import LocalJythonShelfManager
 
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
+from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeakWithCalibration import TwodGaussianPeakWithCalibration
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
 from gdascripts.analysis.datasetprocessor.oned.scan_stitching import Lcen, Rcen
 import gdascripts.scan.concurrentScanWrapper
@@ -694,10 +695,11 @@ bpm = SwitchableHardwareTriggerableProcessingDetectorWrapper('bpm',
 							returnPathAsImageNumberOnly=True)
 
 bpm.display_image = True
-bpm.processors=[DetectorDataProcessorWithRoi('peak', bpm, [SumMaxPositionAndValue(), TwodGaussianPeak()], False)]
+bpm.processors=[DetectorDataProcessorWithRoi('peak', bpm, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
+bpm.processors[0].processors[1].setScalingFactors(0.0027, 0.00375)
 bpmpeak2d = DetectorDataProcessorWithRoi('bpmpeak2d', bpm, [TwodGaussianPeak()])
 bpmmax2d = DetectorDataProcessorWithRoi('bpmmax2d', bpm, [SumMaxPositionAndValue()])
-
+#bpm.processors[0].processors[1].calibrate()
 
 ###############################################################################
 ###                              Configure andor                            ###
