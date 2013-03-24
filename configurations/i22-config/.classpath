@@ -42,7 +42,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.client.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.common.client"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.common.client.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.common.rcp"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.devices.bssc"/>
