@@ -68,5 +68,8 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <feature id="uk.ac.gda.beamline.i20.feature" version="8.26.0"/>
    </features>
 
+   <configurations>
+      <plugin id="uk.ac.gda.dal" autoStart="false" startLevel="0" />
+   </configurations>
 
 </product>
