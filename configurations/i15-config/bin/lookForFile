@@ -1,0 +1,10 @@
+while true; do
+  if [ -r $1 ]; then
+        echo .
+        rm -f $1
+        exit 0
+  fi
+
+  sleep 1
+  echo -n .
+done

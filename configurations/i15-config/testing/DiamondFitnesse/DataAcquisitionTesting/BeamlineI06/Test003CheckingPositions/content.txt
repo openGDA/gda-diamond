@@ -1,0 +1,45 @@
+!2 Key OE Position Checking
+!contents
+
+|!-uk.ac.diamond.dlsfitnesse.GDACommandActionFixture-!|
+|evaluate  |pos s1hall         |s1hall : 0.59800 mm dof(-1.9000 : 5.7960)|
+|evaluate  |pos s1ring         |s1ring :   |
+|evaluate  |pos s1top          |s1top :    |
+|evaluate  |pos s1bottom       |s1bottom : |
+
+!3 Check Slits:
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?       |deviceName| getValue?      |deviceName| getValue?     |deviceName | getValue?        |
+|s2hall    |-1.0005<_<2.0000 |s2ring    | -5.0<_<-1.001  |s2top     | 0.99950<_<1.0 |s2bottom   | -2.0000<_<-1.0020|
+
+!3 Check Diagnostic Motors:
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?       |deviceName| getValue?      |deviceName| getValue?     |deviceName | getValue?        |
+|d4x       |-1.5<_<47.0      |d5x       | -10<_<48       |d6y       | -44<_<0       |d8x        |-5<_<45           |
+|d7x       |-2.0<_<46.0      |d7ax      | -30<_<71       |d9y       | -46<_<21      |           |                  |
+
+!3 Check Counter Timers:
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?       |deviceName| getValue?      |deviceName| getValue?     |deviceName | getValue?        |
+|ca11      | >0              |ca12      | >0             |ca13      | >0            |ca14       | >0               |
+|ca21      | >0              |ca22      | >0             |ca23      | >0            |ca24       | >0               |
+|ca31      | >0              |ca32      | >0             |ca33      | >0            |ca34       | >0               |
+|ca41      | >0              |ca42      | >0             |ca43      | >0            |ca44       | >0               |
+
+!3 Check Mirrors:
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?       |deviceName| getValue?      |deviceName| getValue?       |
+|m1x       | -10 <_<10       |m1y       | -10 <_<10      |m1z       | -10 <_<10       |
+|m1yaw     | -3500 <_<3500   |m1pitch   | -3500 <_<3500  |m1roll    | -10000 <_<10000 |
+|m3x       | -10 <_<10       |m3y       | -10 <_<10      |m3z       | -10 <_<10       |
+|m3yaw     | -3500 <_<3500   |m3pitch   | -3500 <_<3500  |m3roll    | -10000 <_<10000 |
+
+!3 Check PGM
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?      |
+|cff       | >0             |
+|pgmenergy | >0             |
+
+
+----
+!lastmodified

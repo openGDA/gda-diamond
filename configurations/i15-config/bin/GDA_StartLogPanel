@@ -1,0 +1,17 @@
+#! /bin/bash
+
+LOGDIR=/dls_sw/i15/var
+LOGNAME=gda_log_output
+export LOGFILE=$LOGDIR/$LOGNAME/$LOGNAME_`date +%F-%T`.txt
+touch $LOGFILE
+rm $LOGDIR/$LOGNAME.txt
+ln -s $LOGFILE $LOGDIR/$LOGNAME.txt
+
+GDA=/dls_sw/i15/software/gda/plugins/uk.ac.gda.core/bin/gda
+module load java/gda826
+
+echo -------------------------------------------------------- >> $LOGFILE
+echo $USER@$HOSTNAME:           $GDA logpanel                 to $LOGFILE
+echo $USER@$HOSTNAME:           $GDA logpanel                 >> $LOGFILE
+                          nohup $GDA logpanel                 >> $LOGFILE 2>&1 &
+echo -------------------------------------------------------- >> $LOGFILE

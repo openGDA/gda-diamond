@@ -1,0 +1,41 @@
+!3 Can we do the scan properly?
+!contents
+
+Using a ColumnFixture to check the scan command
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!                                                                                   |
+|gdaCommand               |getFileName?|fileExist?|waitInSecond | run? |fileExist?|
+|scan testMotor1 0 10 1   |            | false    |1            |      | true     |
+|scan testMotor2 0 10 0.5 |            | false    |0            |      | true     |
+|scan testMotor1 4500 5100 100|        | false    |0            |      | true     |
+----
+Using an ActionFixture to check the scan command
+
+First, what is the next scan file name?
+Secondly, confirm this file does not exist before the scan
+Thirdly Confirming SRS file existance
+
+|!-uk.ac.diamond.dlsfitnesse.GDACommandActionFixture-!|
+|whichFile   |                       |
+|noFileExists|                       |
+|run         |scan testMotor1 0 10 1 |
+|pause       |10                     |
+|fileExists  |                       |
+|compareWith |http://files/samples/scan01.dat|
+
+
+|!-uk.ac.diamond.dlsfitnesse.GDACommandActionFixture-!|
+|whichFile   |                       |
+|noFileExists|                       |
+|run         |scan testMotor1 4500 5100 100 |
+|pause       |10                     |
+|fileExists  |                       |
+|compareWith |http://files/samples/scan01.dat|
+
+
+#|!-fitlibrary.CompareFilesFixture-!  |
+#|check | file | newFile  | same as | http://files/samples/scan01.dat| |
+
+----
+!lastmodified
+
+

@@ -1,0 +1,3 @@
+((LineNo):=$(~/Objects/SourceText/Selitemindex))
+($(LineNo)++)
+debug break $(LineNo)

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+LOGDIR=/dls_sw/i15/var
+LOGNAME=gda_client_output
+export LOGFILE=$LOGDIR/$LOGNAME/$LOGNAME_`date +%F-%T`.txt
+touch $LOGFILE
+rm $LOGDIR/$LOGNAME.txt
+ln -s $LOGFILE $LOGDIR/$LOGNAME.txt
+
+module load java/gda826
+nohup /dls_sw/i15/software/gda/client/gda-i15 > $LOGFILE 2>&1&
