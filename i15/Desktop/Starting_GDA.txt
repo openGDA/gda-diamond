@@ -1,0 +1,75 @@
+--------------------------------------------------------------------------------
+			Notes on starting GDA
+--------------------------------------------------------------------------------
+
+If you stop the GUI then you do NOT have to restart the Server.  Stopping the
+GUI does not stop the GDA server.
+
+A restart of the GDA servers should take around a minute, if there are no
+problems connecting. The end is signalled by
+the message, in either the LogPanel or console log file:
+
+	INFO  gda.util.ObjectServer - Server initialisation complete. xmlFile = /dls/i15/software/gda/i15-config/xml/server_epics.xml
+
+--------------------------------------------------------------------------------
+Description of Icons:
+--------------------
+
+"Start GDA Log Display"             (or command GDA_StartlogPanel in a terminal)
+
+	- Opens the LogPanel that displays the messages from the different
+	  GDA processes.
+
+"Restart GDA Server"              (or command GDA_RemoteStart_Lin in a terminal)
+
+	- Restarts the backend processes. The expected output of this command
+	  is detailed below.
+
+"Start new GDA gui"                      (or command GDA_StartRCP in a terminal)
+
+	- Start the client. This can only be done once the background servers
+	  have started fully.
+
+"Restart MAR Detector"            (or command MAR_RemoteStart_Lin in a terminal)
+
+	- Restarts the MAR backend processes.
+
+"View GDA Log File"                   (or command GDA_ShowLogFile in a terminal)
+
+	- Displays the console log file from the backend processes
+
+--------------------------------------------------------------------------------
+Expected output of "Restart GDA Server":
+---------------------------------------
+
+Making sure we want to restart GDA servers now...
+
+Starting GDA Log Panel...
+
+Restarting the GDA Server, please wait...
+
+Keep this window open, and you will see a pop-up when the restart has completed
+
+/dls_sw/i15/software/gda/i15-config/bin/GDA_StartServers to /dls_sw/i15/var/gda_output_2011-03-31-13:17:49.txt
+............................................................
+Connection to i15-control.diamond.ac.uk closed.
+
+Making sure we want to start GDA client now...
+
+Starting new GDA RCP Client...
+
+Moving GDA Log Panel to ...
+
+..........
+
+--------------------------------------------------------------------------------
+Obsolete Icons:
+--------------
+
+"Start GDA Client"                    (or command GDA_StartClient in a terminal)
+
+	- Start the client. This can only be done once the background servers
+	  have started fully.
+
+--------------------------------------------------------------------------------
+Updated 31 March 2010

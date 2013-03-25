@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- D1 IMCA -->	
+	<!-- These never return when used in a pos command, so they cause the I15
+		 user acceptance test (beamline wiki) to fail. 
+		 Comment them out them until we can work out why. 
+	 --> <!-- 
+	<bean id="d1imca" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="D1.MCA" />
+	</bean>
+	<bean id="d2imca" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="D2.MCA" />
+	</bean>
+	<bean id="d3imca" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="D3.MCA" />
+	</bean>
+	<bean id="d4imca" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="D4.MCA" />
+	</bean>
+	 -->
+	 
+	<!-- Ring Current -->	
+	<!-- This causes an error in the gda log when used in a pos command, so
+		 causes I15 user acceptance test (beamline wiki) to fail. 
+		 Comment this out them until we can work out why. 
+	 --> <!-- 
+	<bean id="ringCurrent" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SED1:MBBO" />
+	</bean>
+	 -->
+	<!-- Also tried this, but it failed with a connection timeout during
+		 configuration:
+	<bean id="ringCurrent" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL"/>
+		<property name="useNameAsExtraName" value="true"/>
+	</bean>
+	 -->
+	
+	<!-- Proportional Counter -->	
+	<bean id="prop" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="PRCNT1.I" />
+	</bean>
+
+</beans>

@@ -1,0 +1,55 @@
+#!/bin/bash
+
+function usage {
+  echo "Usage: `basename $0` GDA_ROOT [sudo]" >&2
+  echo "Note: Without sudo you must own all the files you want to setfacl." >&2
+  echo "Note: With sudo you must be running on a machine where you have" >&2
+  echo "      sudo privs and where setfacl works." >&2
+  exit 1
+}
+
+if [ $# -eq 2 ]; then
+  if [ "$2" == "sudo" ]; then
+  	SUDO=sudo
+  else
+    usage
+  fi
+elif [ $# -eq 1 ]; then
+  SUDO=""
+else 
+  usage
+fi
+
+# Since $1 may be . convert it to a full path.
+GDA_ROOT=`cd $1; pwd`
+DLS_ROOT=/dls_sw/${BEAMLINE}
+
+if [ "$BEAMLINE" == "" ]; then
+  echo "BEAMLINE is not defined." >&2
+  exit 1
+fi
+
+echo $SUDO Setting facls on $GDA_ROOT \& $DLS_ROOT 
+
+# i10-1-{storage,control} are Lustre clients. Workstations mount /dls/i10 using NFS.
+# 'sudo setfacl' can be used on i10-control, but not on i10-storage.
+#if [[ "`hostname -s`" != "i10-control" ]]; then
+#  echo "Run this on i10-control, a Lustre client on which 'sudo setfacl' can be used." >&2
+#  exit 1
+#fi
+
+echo "gda and dls_dasc all permissions to /gda, otherwise rw only..."
+read -p Continue...
+$SUDO setfacl -R -m u::rwx,g::rwx,g:dls_dasc:rwx,g:gda:rwx,o::rx,d:u::rwx,d:g::rwx,d:g:dls_dasc:rwx,d:g:gda:rwx,d:o::rx $GDA_ROOT/
+
+echo "beamline staff edit perms to config..."
+read -p Continue...
+$SUDO setfacl -R -m g:${BEAMLINE}_staff:rwx,d:g:${BEAMLINE}_staff:rwx $GDA_ROOT/i15-config/
+
+echo "everyone permissions to config/var..."
+read -p Continue...
+$SUDO setfacl -R -m o::rwx,d:o::rwx $GDA_ROOT/i15-config/var
+
+echo "give beamline staff permissions to change the softlinks in the software folder"
+read -p Continue...
+$SUDO setfacl -m d:g:${BEAMLINE}_staff:rwx $DLS_ROOT/software
