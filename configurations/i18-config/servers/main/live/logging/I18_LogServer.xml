@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+	<!--  the include statement in the following java.properties file is not read so you need to reference both -->
+	<property file="${gda.config}/properties/${gda.mode}/java.properties" />
+	<property file="${gda.config}/properties/java.properties" />
 	<turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
         <Name>Finest</Name>
         <Marker>FINEST</Marker>
@@ -37,10 +40,10 @@
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
     </appender>    
-    <appender name="DebugFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>/dls/i18/logs/gda_server.log</File>
+    <appender name="LogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${gda.logs.dir}/gda_server.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>/dls/i18/logs/gda_server.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
+            <FileNamePattern>${gda.logs.dir}/gda_server.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d %-5level [%logger] %ex - %m%n</pattern>
@@ -81,6 +84,6 @@
         <!--<appender-ref ref="CONSOLE"/>-->
         <appender-ref ref="SOCKET"/>
         <!--<appender-ref ref="EMAIL"/>-->
-        <appender-ref ref="DebugFILE"/>
+        <appender-ref ref="LogFile"/>
     </root>
 </configuration>
