@@ -8,16 +8,19 @@
   </property>
   <property type="sds.action" id="actionData">
     <actionData />
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="local://oeview, string" value="" />
+    </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="10" />
-  <property type="sds.integer" id="position.y" value="10" />
+  <property type="sds.integer" id="position.x" value="0" />
+  <property type="sds.integer" id="position.y" value="0" />
   <property type="sds.integer" id="width" value="620" />
   <property type="sds.integer" id="height" value="595" />
   <property type="sds.color" id="color.foreground">
-    <color hex="#C86464" />
+    <color hex="#000000" />
   </property>
   <property type="sds.color" id="color.background">
-    <color hex="#F0F0F0" />
+    <color hex="#ffffff" />
   </property>
   <property type="sds.boolean" id="visibility" value="true" />
   <property type="sds.option" id="border.style">
