@@ -10,13 +10,14 @@
 				<value>file:${gda.config}/properties/live/java.properties
 				</value>
 				<value>file:${gda.config}/properties/common/java.properties</value>
+<!-- 				<value>file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/properties/common/derived.propertiesyy</value> -->
 			</list>
 		</property>
 	</bean>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<import resource="../common/plumbing.xml" />
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml"/>
 
 	<import resource="epics/motor/atten.xml" />
 	<import resource="epics/motor/diag.xml" />
@@ -33,6 +34,8 @@
 	<import resource="epics/motor/s6.xml" />
 	<import resource="epics/motor/sixc.xml" />
 	<import resource="epics/motor/sixcbase.xml" />
+	<import resource="transient/kbmbase.xml" />
+	
 	<import resource="epics/motor/sixcsample.xml" />
 
 	<import resource="../common/scannable/motors.xml" />
@@ -57,16 +60,29 @@
 	<import resource="epics/detector/pilatus100k.xml" />
 	<import resource="epics/detector/pilatus2M.xml" />
 	<import resource="epics/detector/andor1.xml" />
+	<import resource="epics/detector/cam2.xml" />
+	<import resource="epics/detector/cam1.xml" />
+	<import resource="epics/detector/medipix.xml" />
 
 
 	<import resource="epics/trajectory_scan_controller_xps2.xml" />
 
-	
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
+
+	<bean id="script_paths" parent="abstract_script_paths"/>
+
+	<bean id="command_server" parent="abstract_command_server">
+		<property name="jythonScriptPaths" ref="script_paths"/>
+		<property name="stopJythonScannablesOnStopAll" value="false" />
+		<property name="disableBatonControlOverVisitMetadataEntry" value="true" />
+	</bean>
+
 	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
 		<property name="local" value="true" />
 	</bean>
 
-	<import resource="../common/jython_server.xml" />
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/terminal_logger.xml" />
+
 
 	<!-- live only -->
 
@@ -83,7 +99,7 @@
 
 	<corba:export namespace="i16server" />
 	
-		<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 	
 
 </beans>

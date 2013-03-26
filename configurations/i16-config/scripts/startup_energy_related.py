@@ -31,8 +31,8 @@ enf = EnergyFromBraggFixedoffsetwithHarmonicPD('energy',BLi,dcmharmonic) # GLOBA
 ### Undulator
 print "Setting up undulator"
 run("pd_undulator")
-id = Undulator2('Undulator',uharmonic,idgap,idgap_offset,en,GBHfile='/dls_sw/i16/software/gda/config/var/U27_GBH.dat')
-#u27 = Undulator('U27-I16',idgap,idgap_offset,'/dls_sw/i16/software/gda/config/var/U27_GBH.dat')
+id = Undulator2('Undulator',uharmonic,idgap,idgap_offset,en,GBHfile='/dls_sw/i16/var/U27_GBH.dat')
+#u27 = Undulator('U27-I16',idgap,idgap_offset,'/dls_sw/i16/var/U27_GBH.dat')
 #uenergy = EnergyFromUndulator('Undulator Energy',u27)
 uenergy = EnergyFromUndulator2('Uenergy',id)
 energy2 = EnergyFromIDandDCM('Energy',uenergy,enf) # could rename

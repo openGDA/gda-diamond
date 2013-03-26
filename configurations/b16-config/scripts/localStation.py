@@ -21,7 +21,7 @@ from gdascripts.scan.process.tuner import Tuner #@UnusedImport
 from gdascripts.scannable.ScanFileHolderScannable import ScanFileHolderScannable
 from gdascripts.scannable.SelectableCollectionOfScannables import SelectableCollectionOfScannables #@UnusedImport
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
-from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
+from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper, SwitchableHardwareTriggerableProcessingDetectorWrapper
 from gdascripts.scannable.detector.epics.EpicsPilatus import EpicsPilatus
 from gdascripts.scannable.timerelated import t, dt, w, clock, epoch #@UnusedImport
 from gdascripts.scannable.dummy import SingleInputDummy #@UnusedImport
@@ -64,6 +64,8 @@ print "Running B16 specific initialisation code"
 print "======================================================================"
 ENABLE_PILATUS = True
 ENABLE_PCOEDGE = False
+#USE_YOU_DIFFCALC_ENGINE = True
+USE_YOU_DIFFCALC_ENGINE = False  # Use old diffcalc
 
 
 print "<<< Running init/microfocus_startup.py"
@@ -75,13 +77,13 @@ daserver = Finder.getInstance().find('daserver')
 from scannable.laser_experiment import LaserShutterPulseController
 laserxray = LaserShutterPulseController('laserxray', daserver)
 
-if installation.isLive():
-	from pd_setPvAndWait import SetPvAndWait
-	shutterWidth = SetPvAndWait('shutterWidth', 'BL16B-EA-EVR-01:FRONT-WIDTH:SET', .2)
-	shutterDelay = SetPvAndWait('shutterDelay', 'BL16B-EA-EVR-01:FRONT-DELAY:SET', .2)
-	caput('BL16B-EA-EVR-01:SELECT-FPS2','External')
-	caput('BL16B-EA-EVR-01:FRONT-ENABLE:SET','Enabled')
-	caput('BL16B-EA-EVR-01:FRONT-POLARITY:SET', 'Normal')
+#if installation.isLive():
+#	from pd_setPvAndWait import SetPvAndWait
+#	shutterWidth = SetPvAndWait('shutterWidth', 'BL16B-EA-EVR-01:FRONT-WIDTH:SET', .2)
+#	shutterDelay = SetPvAndWait('shutterDelay', 'BL16B-EA-EVR-01:FRONT-DELAY:SET', .2)
+#	caput('BL16B-EA-EVR-01:SELECT-FPS2','External')
+#	caput('BL16B-EA-EVR-01:FRONT-ENABLE:SET','Enabled')
+#	caput('BL16B-EA-EVR-01:FRONT-POLARITY:SET', 'Normal')
 
 ###############################################################################
 ###                          Print environmental info                       ###
@@ -107,6 +109,8 @@ from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImp
 scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
+from gdascripts.analysis.datasetprocessor.oned.CenFromSPEC import CenFromSPEC
+scan_processor.processors.append(CenFromSPEC())
 
 
 #from gdascripts.scannable.installStandardScannableMetadataCollection import *
@@ -348,15 +352,16 @@ else:
 ###############################################################################
 
 #NOTE: The following is now in b16/scripts/localStationUser
+import pd_setPvAndWait
+if installation.isLive():
+	dcmpiezo=pd_setPvAndWait.SetPvAndWait("dcmpiezo","BL16B-OP-DCM-01:FB:DAC:02", 0.5)
+	dcmpiezo.setOutputFormat(['%.4f'])
 
-dcmpiezo=pd_setPvAndWait.SetPvAndWait("dcmpiezo","BL16B-OP-DCM-01:FB:DAC:02", 0.5)
-dcmpiezo.setOutputFormat(['%.4f'])
 
-
-bi= SelectableCollectionOfScannables('bi', [ct7, ai13, ai5])#@UndefinedVariable
-#monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmPitch, .145, .16, 0.0002, bi, .5) #@UndefinedVariable
-monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmpiezo, 1.0, 8.0, 0.1, bi, .2) #@UndefinedVariable
-monotuner.use_backlash_correction = True
+	bi= SelectableCollectionOfScannables('bi', [ct7, ai13, ai5])#@UndefinedVariable
+	#monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmPitch, .145, .16, 0.0002, bi, .5) #@UndefinedVariable
+	monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmpiezo, 1.0, 8.0, 0.1, bi, .2) #@UndefinedVariable
+	monotuner.use_backlash_correction = True
 
 ###############################################################################
 ###                                 A3 XIA Filters                          ###
@@ -376,12 +381,12 @@ print "Setting device levels and output formats"
 
 
 
-tbdiagY.setOutputFormat(['%5.7g']) #@UndefinedVariable
-tbdiagX.setOutputFormat(['%5.7g']) #@UndefinedVariable
-tboptX.setOutputFormat(['%5.7g']) #@UndefinedVariable
-tboptY.setOutputFormat(['%5.7g']) #@UndefinedVariable
-tbdetX.setOutputFormat(['%5.7g']) #@UndefinedVariable
-tbdetY.setOutputFormat(['%5.7g']) #@UndefinedVariable
+tb2y.setOutputFormat(['%5.7g']) #@UndefinedVariable
+tb2x.setOutputFormat(['%5.7g']) #@UndefinedVariable
+tb1x.setOutputFormat(['%5.7g']) #@UndefinedVariable
+tb1y.setOutputFormat(['%5.7g']) #@UndefinedVariable
+tb3x.setOutputFormat(['%5.7g']) #@UndefinedVariable
+tb3y.setOutputFormat(['%5.7g']) #@UndefinedVariable
 ippws4.setLevel(9)
 t.setOutputFormat(['%6.6f'])
 	
@@ -451,11 +456,16 @@ if installation.isLive() and ENABLE_PILATUS:
 	print "-------------------------------PILATUS INIT---------------------------------------"
 	try:
 
-		visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(pilatus300k, create_folder=True, subfolder='pilatus300k'))
-
-		pil = ProcessingDetectorWrapper('pil', pilatus300k, [],
-									panel_name='Pilatus Plot',  panel_name_rcp='Plot 1', 
-									iFileLoader=PilatusTiffLoader, fileLoadTimout=60, printNfsTimes=False,
+		pil = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil',
+									_pilatus,
+									None,
+									_pilatus_for_snaps,
+									[],
+									panel_name='Pilatus Plot',
+									panel_name_rcp='Plot 1', 
+									iFileLoader=PilatusTiffLoader,
+									fileLoadTimout=60,
+									printNfsTimes=False,
 									returnPathAsImageNumberOnly=False)
 		
 		#pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
@@ -494,9 +504,16 @@ if installation.isLive():
 		
 		#visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(_medipix_det, create_folder=True, subfolder='medipix'))
 
-		medipix = ProcessingDetectorWrapper('medipix', _medipix_det, [],
-									panel_name='Data Vector',  panel_name_rcp='Plot 1', 
-									iFileLoader=PilatusTiffLoader, fileLoadTimout=60, printNfsTimes=False,
+		medipix = SwitchableHardwareTriggerableProcessingDetectorWrapper('medipix',
+																		_medipix,
+																		None,
+																		_medipix_for_snaps,
+																		[],
+																		panel_name='Data Vector',
+																		panel_name_rcp='Plot 1',
+																		iFileLoader=PilatusTiffLoader,
+																		fileLoadTimout=60,
+																		printNfsTimes=False,
 									returnPathAsImageNumberOnly=False)
 		medipix.disable_operation_outside_scans = True
 		medipix_threshold0_kev = SetPvAndWaitForCallbackWithSeparateReadback('medipix_threshold_kev', 'BL16B-EA-DET-06:MPX:ThresholdEnergy0', 'BL16B-EA-DET-06:MPX:ThresholdEnergy0_RBV', 10)
@@ -505,8 +522,13 @@ if installation.isLive():
 		#pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
 		#pil100k.printNfsTimes = True
 		
-		
 		medipix.processors=[DetectorDataProcessorWithRoi('max', medipix, [SumMaxPositionAndValue()], False)]
+		
+		# TODO: MBB Start - Rob, please check this
+		medipix.display_image = True
+		medipixpeak2d = DetectorDataProcessorWithRoi('medipixpeak2d', medipix, [TwodGaussianPeak()])
+		medipixmax2d = DetectorDataProcessorWithRoi('medipixmax2d', medipix, [SumMaxPositionAndValue()])
+		# TODO: MBB End
 
 	except gda.factory.FactoryException:
 		print " *** Could not connect to pilatus (FactoryException)"
@@ -550,9 +572,13 @@ if installation.isLive():
 ###############################################################################
 ###                                Diffcalc                                 ###
 ###############################################################################
-diffcalc_path = gda.data.PathConstructor.createFromProperty("gda.root").split('/plugins')[0] + '/diffcalc'
+diffcalc_path = LocalProperties.get("gda.install.git.loc") + '/diffcalc.git'
 sys.path = [diffcalc_path] + sys.path
-execfile(diffcalc_path + '/example/startup/b16fivecircle.py')
+
+if USE_YOU_DIFFCALC_ENGINE:
+	execfile(diffcalc_path + '/example/startup/b16fourcircle_you_engine.py')
+else:
+	execfile(diffcalc_path + '/example/startup/b16fivecircle.py')
 energy.setLevel(4)
 hkl.setLevel(5) #@UndefinedVariable
 
@@ -809,8 +835,9 @@ print "creating waitForAi8 (to be less than .1)"
 import scannable.condition
 waitForAi8 = scannable.condition.WaitForCondition('waitForAi8', ai8, 'val<1')  # @UndefinedVariable
 
-micospiezo1.outputFormat = ['%f']
-micospiezo2.outputFormat = ['%f']
+if installation.isLive():
+	micospiezo1.outputFormat = ['%f']
+	micospiezo2.outputFormat = ['%f']
 
 print "Done!"
 

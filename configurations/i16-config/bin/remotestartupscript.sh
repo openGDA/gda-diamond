@@ -1,15 +1,11 @@
 #!/bin/bash -l
 umask 0002
-echo Sourcing /dls_sw/$BEAMLINE/etc/${BEAMLINE}.sh
-. /dls_sw/$BEAMLINE/etc/${BEAMLINE}.sh
-
-CMD="$SSH_ORIGINAL_COMMAND"
-: ${CMD:="$*"}
 
 mv -f nohup.out nohup.out.0 || true
 touch nohup.out
 
-touch /dls_sw/i16/logs/gda_client.logs_are_in_workstation_scratch_var_log_folders
+touch /dls_sw/i16/logs/gda_client.logs_are_in_workstation_scratch_var_log
+
 (
 nohup `dirname $0`/gda logserver $@
 nohup `dirname $0`/gda nameserver $@

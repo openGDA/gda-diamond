@@ -7,7 +7,7 @@ from gda.data import NumTracker
 from gda.data import PathConstructor
 from gda.analysis.functions import AFunction
 from math import exp
-numTracker = NumTracker("tmp")
+numTracker = NumTracker("scanbase_numtracker")
 def edgeDetectRobust(relativefilenumber,axis1,axis2):
 	if relativefilenumber > 0:
 		file = PathConstructor.createFromDefaultProperty()	

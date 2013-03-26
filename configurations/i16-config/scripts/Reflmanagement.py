@@ -33,7 +33,7 @@ class Reflmanagement(java.lang.Object):
       if installation.isDummy():
          f=open(os.path.join(gda.data.PathConstructor.createFromProperty('gda.var'), 'reffilename.log'),'r')
       else:
-         f=open('/dls_sw/i16/software/gda/config/var/reffilename.log','r')
+         f=open('/dls_sw/i16/var/reffilename.log','r')
       
       lista=f.readlines()
       f.close()
@@ -74,7 +74,7 @@ class Reflmanagement(java.lang.Object):
       if installation.isDummy():
          f=open(os.path.join(gda.data.PathConstructor.createFromProperty('gda.var'), 'reffilename.log'),'a')
       else:
-         f=open('/dls_sw/i16/software/gda/config/var/reffilename.log','a')
+         f=open('/dls_sw/i16/var/reffilename.log','a')
       
       stringa=fname+'\n'
       f.write(stringa)

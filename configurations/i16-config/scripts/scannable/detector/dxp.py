@@ -26,7 +26,7 @@ class DxpSingleChannelRoiOnly(DetectorBase):
         self.outputFormat = ['%.2f'] +['%i'] * len(roi_indexes)
         
         self._pvs = PvManager(pvroot=pvroot)
-        self._pv_erase_and_start = LazyPVFactory.newBinaryFromEnumPV(pvroot + 'EraseStart')
+        self._pv_erase_and_start = LazyPVFactory.newBooleanFromEnumPV(pvroot + 'EraseStart')
         self.configure()
         
     def configure(self):

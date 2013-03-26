@@ -42,7 +42,7 @@ def FindScanPeak2(ordinateName, printNameList=[], abscissaNameList=[], scanID=0,
 		# If no scanID given, use current scan number
 		if scanID <= 0:
 			import gda.data.NumTracker
-			numtracker = gda.data.NumTracker('tmp')
+			numtracker = gda.data.NumTracker('scanbase_numtracker')
 			scanID = numtracker.getCurrentFileNumber() + scanID
 		
 		# Implicit else: scanID must be a positive number

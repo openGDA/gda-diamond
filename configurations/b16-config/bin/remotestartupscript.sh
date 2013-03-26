@@ -1,11 +1,5 @@
 #!/bin/bash -l
 umask 0002
-#echo Sourcing /dls_sw/$BEAMLINE/etc/${BEAMLINE}.sh
-# GONE! RobW . /dls_sw/$BEAMLINE/etc/${BEAMLINE}.sh
-
-CMD="$SSH_ORIGINAL_COMMAND"
-: ${CMD:="$*"}
-
 
 rm -f nohup.out || true
 touch nohup.out
@@ -15,7 +9,7 @@ touch /dls_sw/b16/logs/gda_client.logs_are_in_workstation_scratch_var_log_folder
 nohup `dirname $0`/gda logserver $@
 nohup `dirname $0`/gda nameserver $@
 nohup `dirname $0`/gda eventserver $@
-JAVA_OPTS="-XX:MaxPermSize=128m -Xms512m -Xmx2048m" nohup `dirname $0`/gda objectserver --debug --verbose $@
+JAVA_OPTS="-XX:MaxPermSize=512m -Xms512m -Xmx4096m" nohup `dirname $0`/gda objectserver --debug --verbose $@
 ) &
 
 ## show log until 'Server initialisation complete' is seen

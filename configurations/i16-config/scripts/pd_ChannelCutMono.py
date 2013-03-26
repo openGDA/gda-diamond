@@ -10,8 +10,9 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 	energy.rh() - change to Rh coating. Gives worse harmonic rejection but usually high reflectivity up to 15 keV
 	energy.coating() - tells you the current mirror coating
 	energy.calibrate() recalibrates heights (don''t do it unless you are sure!!)
-	self.maxEnergyChangeBeforeMovingMirrors=energy value to prevent mirrors or diffractomter moving for small  energy step
+	self.maxEnergyChangeBeforeMovingMirrors=energy 	value to prevent mirrors or diffractomter moving for small  energy step
 	self.moveDiffWhenNotMovingMirrors=False		set this to True to move diffractometer to compensate for inverted beam movement
+	self.mirrormag=-0.666				ratio of vertical movement of focus to source (correct for normal focus)
 	'''
 	def __init__(self,NoWarning=0):
 		self.NoWarning=NoWarning

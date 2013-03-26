@@ -1,13 +1,20 @@
 #@PydevCodeAnalysisIgnore
+
+
 from gda.jython import ScriptBase
 ScriptBase.interrupted = False
 print "============================================================="
 print "Running I16 specific initialisation code from localStation.py"
 print "============================================================="
 
-
-USE_DIFFCALC = False
+import installation
+if installation.isDummy():
+	USE_DIFFCALC = True
+else:
+	USE_DIFFCALC = False  # <-- change here for live gda!
 USE_DUMMY_IDGAP_MOTOR = False
+#USE_DUMMY_IDGAP_MOTOR = True
+USE_XMAP= False
 
 # Java
 import java
@@ -31,6 +38,7 @@ from gda.jython.commands.GeneralCommands import alias, run
 from gda.util.persistence import LocalJythonShelfManager
 
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
+from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeakWithCalibration import TwodGaussianPeakWithCalibration
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
 from gdascripts.analysis.datasetprocessor.oned.scan_stitching import Lcen, Rcen
 import gdascripts.scan.concurrentScanWrapper
@@ -38,7 +46,7 @@ from gdascripts.utils import jobs
 from gdascripts.scan import gdascans
 from gdascripts.scannable.installStandardScannableMetadataCollection import * #@UnusedWildImport
 from gdascripts.scannable.detector.epics.EpicsPilatus import EpicsPilatus
-from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper, HardwareTriggerableProcessingDetectorWrapper
+from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper, HardwareTriggerableProcessingDetectorWrapper, SwitchableHardwareTriggerableProcessingDetectorWrapper
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessor, DetectorDataProcessorWithRoi, HardwareTriggerableDetectorDataProcessor
 from gdascripts.scannable.dummy import MultiInputExtraFieldsDummy
 from gdascripts.scannable.detector.epics.EpicsFirewireCamera import EpicsFirewireCamera
@@ -46,6 +54,15 @@ from gdascripts.scannable.detector.epics.EpicsFirewireCamera import EpicsFirewir
 # I16
 import installation
 import ShelveIO
+
+### Configure shelveIO path
+print "Configuring ShelveIO system"
+installation.setLoadOldShelf(0)
+shelveIoDir = LocalProperties.get("gda.var")
+shelveIoDir  = shelveIoDir + "/oldStyleShelveIO/"
+ShelveIO.ShelvePath = shelveIoDir
+print "  ShelveIO path = ", shelveIoDir
+
 from constants import *
 from element_library import *
 from scannable.toggleBinaryPvAndWaitScannable import ToggleBinaryPvAndWait
@@ -88,13 +105,7 @@ from spechelp import * # aliases man objects
 
 alias("jobs")
 
-### Configure shelveIO path
-print "Configuring ShelveIO system"
-installation.setLoadOldShelf(0)
-shelveIoDir = LocalProperties.get("gda.var")
-shelveIoDir  = shelveIoDir + "/oldStyleShelveIO/"
-ShelveIO.ShelvePath = shelveIoDir
-print "  ShelveIO path = ", shelveIoDir
+
 
 meta.rootNamespaceDict=globals()
 note.rootNamespaceDict=globals()
@@ -261,7 +272,21 @@ scan_processor.processors.append(Rcen())
 print "Creating diffractometer base scannable base_z"
 base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/07
 
-run("startup_diffractometer_euler")
+sixckappa.getContinuousMoveController().setScannableForMovingGroupToStart(sixckappa)
+
+if not USE_DIFFCALC:
+	run("startup_diffractometer_euler")
+else:
+	raise Exception("Relative limits not configured, nor trajscan tested for safety. ---RobW Jan16 2013")
+	print "Replacing ScannableMotors kphi, kap. kth, kmu, kdelta and kgam with wrappers supporting coordinated movement"
+	exec("kphi=sixckappaDC.kphiDC")
+	exec("kap=sixckappaDC.kapDC")
+	exec("kth=sixckappaDC.kthDC")
+	exec("kmu=sixckappaDC.kmuDC")
+	exec("kdelta=sixckappaDC.kdeltaDC")
+	exec("kgam=sixckappaDC.kgamDC")
+	run("startup_diffractometer_euler_for_diffcalc") #TODO: This differs on from startup_diffractometer_euler on only one line
+	delta_axis_offset.scannableToOffset = kdeltaDC
 if installation.isLive():
 	thp=SingleEpicsPositionerClass('thp','BL16I-EA-POLAN-01:THETAp.VAL','BL16I-EA-POLAN-01:THETAp.RBV','BL16I-EA-POLAN-01:THETAp.DMOV','BL16I-EA-POLAN-01:THETAp.STOP','deg','%.4f')
 	tthp=SingleEpicsPositionerClass('tthp','BL16I-EA-POLAN-01:DET1:2THETAp.VAL','BL16I-EA-POLAN-01:DET1:2THETAp.RBV','BL16I-EA-POLAN-01:DET1:2THETAp.DMOV','BL16I-EA-POLAN-01:DET1:2THETAp.STOP','deg','%.3f')
@@ -273,12 +298,14 @@ if not USE_DIFFCALC:
 	psi.setInputNames(['psi'])
 	psic.setInputNames(['psic'])
 else:
-	del sixckappa, kphi, kap, kth, mu, delta, gam
-	exec("kphi = kphiDC")
-	exec("kap = kapDC")
-	exec("kth = kthDC")
-	raise Exception("Check axes configuration before running Diffcalc - RobW")
+	del sixc
 	run("startup_diffcalc")
+	exec("phi=euler.phi")
+	exec("chi=euler.chi")
+	exec("eta=euler.eta")
+	exec("mu=euler.mu")
+	exec("delta=euler.delta")
+	exec("gam=nu=euler.nu")
 
 hkl.setLevel(6)
 
@@ -338,7 +365,6 @@ pitchup=pitchupClass()
 if installation.isLive():
 
 	### Various ###
-	
 	print "   running startup_epics_monitors.py"      # [TODO: Replace with imports]
 	run("startup_epics_monitors")
 
@@ -454,7 +480,7 @@ if installation.isLive():
 	print "   creating checkbeam scannables"
 	checkbeamcurrent=WaitForBeamPDClass('BeamOK',rc,10)
 #	checkbeam=WaitForBeamPDClass('BeamOK',ic1monitor,1); checkbeam.command_string='fill_if_needed()'	#fill cryocooler vessel while waiting for beam
-	checkbeam=WaitForBeamPDClass('BeamOK',ic1monitor,1); checkbeam.command_string='None'	#Need to use 'None' if no commands
+	checkbeam=WaitForBeamPDClass('BeamOK',ic1monitor,1); checkbeam.command_string='None'
 	timetoinjection=TimeToMachineInjectionClass('TimeToInjection','SR-CS-FILL-01:COUNTDOWN', 'sec', '%.1f')
 	waitforinjection=WaitForInjectionPDClass('WaitForInjection',timetoinjection, 5, 5)
 
@@ -553,6 +579,9 @@ run("startup_energy_related")
 energy.maxEnergyChangeBeforeMovingMirrors=0.01	#energy value to prevent mirrors or diffractomter moving for small energy step
 energy.moveDiffWhenNotMovingMirrors=True	#set this to True to move diffractometer to compensate for inverted beam movement
 
+if USE_DIFFCALC:
+	# This could not be done earlier because energy was not available when diffcalc was started
+	simple_energy.delegate = energy
 
 
 ###############################################################################
@@ -575,6 +604,10 @@ if installation.isLive():
 ###############################################################################
 ###                              Set user limits                            ###
 ###############################################################################
+import limits
+reload(limits)
+from limits import * #@UnusedWildImport
+limits.ROOT_NAMESPACE = globals()
 print "Setting user limits (running ConfigureLimits.py)"
 run("ConfigureLimits")
 
@@ -586,7 +619,17 @@ from scannable.detector.DetectorWithShutter import DetectorWithShutter
 ### 2m ###
 #pil2mdet = EpicsPilatus('pil2mdet', 'BL16I-EA-PILAT-02:','/dls/i16/detectors/im/','test','%s%s%d.tif')
 pil2mdet = pilatus2
-pil2m = HardwareTriggerableProcessingDetectorWrapper('pil2m', pil2mdet, [], panel_name='Pilatus2M', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=60, returnPathAsImageNumberOnly=True)
+pil2m = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil2m',
+															pilatus2,
+															pilatus2_hardware_triggered,
+															pilatus2_for_snaps,
+															[],
+															panel_name='Pilatus2M',
+															toreplace=None,
+															replacement=None,
+															iFileLoader=PilatusTiffLoader,
+															fileLoadTimout=60,
+															returnPathAsImageNumberOnly=True)
 pil2m.processors=[DetectorDataProcessorWithRoi('max', pil2m, [SumMaxPositionAndValue()], False)]
 pil2m.printNfsTimes = True
 pil2m.display_image = True
@@ -594,7 +637,20 @@ pil2ms = DetectorWithShutter(pil2m, x1)
 
 ### 100k ###
 pil100kdet = pilatus1
-pil100k = HardwareTriggerableProcessingDetectorWrapper('pil100k', pil100kdet, [], panel_name='Pilatus100k', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=60, returnPathAsImageNumberOnly=True)
+_pilatus1_counter_monitor = Finder.getInstance().find("pilatus1_plugins").get('pilatus1_counter_monitor')
+
+pil100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil100k',
+																pilatus1,
+																pilatus1_hardware_triggered,
+																pilatus1_for_snaps,
+																[],
+																panel_name='Pilatus100k',
+																toreplace=None,
+																replacement=None,
+																iFileLoader=PilatusTiffLoader,
+																fileLoadTimout=60,
+																returnPathAsImageNumberOnly=True,
+																array_monitor_for_hardware_triggering = _pilatus1_counter_monitor)
 pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
 pil100k.printNfsTimes = False
 pil100ks = DetectorWithShutter(pil100k, x1)
@@ -606,30 +662,108 @@ pils = pil100ks
 #pil100kthresh=SingleEpicsPositionerSetAndGetOnlyClass('P100k_threshold','BL16I-EA-PILAT-01:ThresholdEnergy','BL16I-EA-PILAT-01:ThresholdEnergy','','%.0f',help='set energy threshold for pilatus (eV)\nReturns set value rather than true readback')
 
 from scannable.pilatus import PilatusThreshold, PilatusGain
-pilatus1.getHardwareTriggeredCollectionStrategy().getAdDriverPilatus()
-pil100kthresh = PilatusThreshold('pil100kthresh', pilatus1.getHardwareTriggeredCollectionStrategy().getAdDriverPilatus())
-pil100kgain = PilatusGain('pil100kgain', pilatus1.getHardwareTriggeredCollectionStrategy().getAdDriverPilatus())
+pil100kthresh = PilatusThreshold('pil100kthresh', pilatus1_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
+pil100kgain = PilatusGain('pil100kgain', pilatus1_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
 
+
+### cam2 ###
+cor = SwitchableHardwareTriggerableProcessingDetectorWrapper('cor',
+							cam2,
+							None,
+							cam2_for_snaps,
+							[],
+							panel_name='Firecam',
+							panel_name_rcp='Plot 1', 
+							fileLoadTimout=60,
+							printNfsTimes=False,
+							returnPathAsImageNumberOnly=True)
+
+cor.display_image = True
+corpeak2d = DetectorDataProcessorWithRoi('corpeak2d', cor, [TwodGaussianPeak()])
+cormax2d = DetectorDataProcessorWithRoi('cormax2d', cor, [SumMaxPositionAndValue()])
+
+### cam1 ###
+bpm = SwitchableHardwareTriggerableProcessingDetectorWrapper('bpm',
+							_cam1,
+							None,
+							_cam1_for_snaps,
+							[],
+							panel_name='Firecam',
+							panel_name_rcp='Plot 1', 
+							fileLoadTimout=60,
+							printNfsTimes=False,
+							returnPathAsImageNumberOnly=True)
+
+bpm.display_image = True
+bpm.processors=[DetectorDataProcessorWithRoi('peak', bpm, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
+bpm.processors[0].processors[1].setScalingFactors(0.0027, 0.00375)
+bpmpeak2d = DetectorDataProcessorWithRoi('bpmpeak2d', bpm, [TwodGaussianPeak()])
+bpmmax2d = DetectorDataProcessorWithRoi('bpmmax2d', bpm, [SumMaxPositionAndValue()])
+#bpm.processors[0].processors[1].calibrate()
 
 ###############################################################################
 ###                              Configure andor                            ###
 ###############################################################################
 from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
-andor = ProcessingDetectorWrapper('andor', andor1det, [], panel_name='Andor CCD',
-								 toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
-								  fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+# the andor has no hardware triggered mode configured. This class is used to hijak its DetectorSnapper implementation.
+andor = SwitchableHardwareTriggerableProcessingDetectorWrapper('andor',
+								andor1,
+								None,
+								andor1_for_snaps,
+								[],
+								panel_name='Andor CCD',
+								toreplace=None,
+								replacement=None,
+								iFileLoader=TIFFImageLoader,
+								fileLoadTimout=15,
+								returnPathAsImageNumberOnly=True)
 
 from scannable.adbase import ADTemperature
-andortemp = ADTemperature('andortemp', andor1det.getAdBase())
+andortemp = ADTemperature('andortemp', andor1.getCollectionStrategy().getAdBase())
 from scannable.andor import andor_trigger_output_enable, andor_trigger_output_disable
 alias('andor_trigger_output_disable')
 alias('andor_trigger_output_enable')
 andor_trigger_output_enable()
+
+
+print "-------------------------------MEDIPIX INIT---------------------------------------"
+try:
+	
+	#visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(_medipix_det, create_folder=True, subfolder='medipix'))
+
+	medipix = SwitchableHardwareTriggerableProcessingDetectorWrapper('medipix',
+																	_medipix,
+																	None,
+																	_medipix_for_snaps,
+																	[],
+																	panel_name='Medipix',
+																	panel_name_rcp='Plot 1',
+																	iFileLoader=PilatusTiffLoader,
+																	fileLoadTimout=60,
+																	printNfsTimes=False,
+																	returnPathAsImageNumberOnly=True)
+	medipix.disable_operation_outside_scans = False # True
+	# medipix_threshold0_kev = SetPvAndWaitForCallbackWithSeparateReadback('medipix_threshold_kev', 'BL16I-EA-DET-02:Merlin:ThresholdEnergy0', 'BL16B-EA-DET-02:Merlin:ThresholdEnergy0_RBV', 10)
+	#pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
+	#pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], panel_name='Pilatus100k', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+	#pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
+	#pil100k.printNfsTimes = True
+	
+	
+	medipix.processors=[DetectorDataProcessorWithRoi('max', medipix, [SumMaxPositionAndValue()], False)]
+
+except gda.factory.FactoryException:
+	print " *** Could not connect to pilatus (FactoryException)"
+except 	java.lang.IllegalStateException:
+	print " *** Could not connect to pilatus (IllegalStateException)"
+print "-------------------------------MEDIPIX INIT COMPLETE---------------------------------------"
+
 ###############################################################################
 ###                              Configure Xmap                            ###
 ###############################################################################
 from scannable.detector.dxp import DxpSingleChannelRoiOnly
-xmap = DxpSingleChannelRoiOnly('xmap', 'BL16I-EA-XMAP-01:')
+if USE_XMAP:
+	xmap = DxpSingleChannelRoiOnly('xmap', 'BL16I-EA-XMAP-01:')
 ###############################################################################
 ###                             Configure firecam                           ###
 ###############################################################################
@@ -651,7 +785,7 @@ thv=OffsetAxisClass('thv',mu,mu_offset,help='mu device with offset given by mu_o
 if installation.isLive():
 	tthp.apd = 3.5 #2/10/11 - changed from 1.75
 	tthp.diode=56.4#2/10/11 - changed from 55.6
-	tthp.camera=33.4 #31/1/10
+	tthp.camera=34.4 #14/10/12 -changed from 33.4
 	tthp.vortex=-14.75 #31/1/10
 	tthp.ccd=70
 
@@ -664,11 +798,11 @@ print "Configuring metadata capture"
 run('Sample_perpMotion')
 
 if installation.isLive():
-	try:
+	if not USE_DIFFCALC:
 		d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample',[delta, eta, chi, phi, gam, mu, hkl, psi, en, kphi, azihkl, hkl, beta, delta_axis_offset])
 		xtal_info=ReadPDGroupClass('xtal_info',[xtalinfo])
-	except NameError:
-		print "DIFFCALC: d=diffractometer_sample *not* created"
+	else:
+		d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample',[delta, eta, chi, phi, gam, mu, hkl, en, kphi, hkl, delta_axis_offset])
 	source=ReadPDGroupClass('source',[rc, idgap, uharmonic])
 	beamline_slits=ReadPDGroupClass('beamline_slits',[s1xcentre,s1xgap,s1ycentre, s1ygap,s2xcentre,s2xgap,s2ycentre, s2ygap,s3xcentre,s3xgap,s3ycentre, s3ygap,s4xcentre,s4xgap,s4ycentre, s4ygap])
 	jjslits=ReadPDGroupClass('beamline_slits',[s5xgap, s5xtrans, s5ygap, s5ytrans, s6xgap, s6xtrans, s6ygap, s6ytrans])
@@ -685,6 +819,7 @@ if installation.isLive():
 	#positions=ReadPDGroupClass('positions',[sx,sy,sz,base_y,base_z,ytable, ztable])
 	positions=ReadPDGroupClass('positions',[sx,sy,sz,sperp, spara, base_y,base_z,ytable, ztable])# sperp spara added SPC 3/2/12
 	xps2=ReadPDGroupClass('xps2',[gam,delta,mu,kth,kap,kphi])
+	dummypd=ReadPDGroupClass('dummypd',[x,y,z])
 	try:
 		xps3=ReadPDGroupClass('xps3',[xps3m1, xps3m2, xps3m3, xps3m4, xps3m5, xps3m6])
 	except NameError, e:
@@ -701,7 +836,11 @@ if installation.isLive():
 	#adctab=ReadPDGroupClass('adctab',[adch,adcv])
 	#add_default(adctab)
 try:
-	meta.set(mrwolf, diffractometer_sample,xtalinfo,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
+	if not USE_DIFFCALC:
+		meta.set(dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
+	else:
+		meta.set(dummypd, mrwolf, diffractometer_sample, sixckappa, source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
+		
 	meta.prepend_keys_with_scannable_names = False
 	mds=meta
 	print "Removing frontend from metadata collection"
@@ -773,7 +912,12 @@ def open_valves():
 #ci=246.5; cj=106.5	#02/10/11
 #ci=256.0; cj=105.0	#29/11/11
 #ci=226.0; cj=104.0	#31/01/12
-ci=226.0; cj=104.0	#17/04/12
+#ci=226.0; cj=104.0	#17/04/12
+#ci=228.0; cj=101.0	#31/10/12
+#ci=234.0; cj=107.0	#/01/13
+#ci=242.0; cj=104.0	#/03/13
+ci=237.0; cj=121.0	#17/03/13
+
 maxi=486; maxj=194
 
 #small centred
@@ -868,6 +1012,10 @@ roi6.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
 # This depends on lcroi
 run('FlipperClass')
 
+from scannable.tripod import TripodToolBase
+kbmtool = TripodToolBase("kbmtool", kbmbase)
+
+
 ###############################################################################
 ###                             Complete Localstation                       ###
 ###############################################################################
@@ -904,10 +1052,11 @@ run('diffractometer/pid.py')
 ###                           Defaults - keep at end                        ###
 ###############################################################################
 if installation.isLive():
-	add_default(meta)
-	add_default(ic1monitor) 
-	add_default(rc)
-	add_default(waitforinjection)
+	add_default meta
+	add_default atime
+	add_default ic1monitor 
+	add_default rc
+	add_default waitforinjection
 	waitforinjection.due=5	#wait for injection if due in this period of time (sec)
 
 ###############################################################################
@@ -916,5 +1065,6 @@ if installation.isLive():
 run('bpm')
 run('align1')
 run('select_and_move_detector')
+run('showdiff')
 #run('pd_searchref2') #put at the end as it gave some errors
 

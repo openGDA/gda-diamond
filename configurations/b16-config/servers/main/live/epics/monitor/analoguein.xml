@@ -28,6 +28,11 @@
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
+	<bean id="ic0" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="AI.VAL5" />
+		<property name="local" value="true" />
+		<property name="poll" value="true" />
+	</bean>
 	<bean id="ai6" class="gda.device.monitor.EpicsMonitor">
 		<property name="deviceName" value="AI.VAL6" />
 		<property name="local" value="true" />

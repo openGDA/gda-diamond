@@ -28,6 +28,33 @@
                 <RECORD desc="Motor" pv="BL16B-MO-BRICK-03:AXIS6" ro="false" type="motor"/>
         </simpleMotor>
 
+
+
+       <simpleMotor desc="Bend 1 Motor" name="BEND.BEND1">
+                <RECORD desc="Motor" pv="BL16B-CS-BEND-01:BEND1" ro="false" type="motor"/>
+        </simpleMotor>
+        <simpleMotor desc="Bend 2 Motor" name="BEND.BEND2">
+                <RECORD desc="Motor" pv="BL16B-CS-BEND-01:BEND2" ro="false" type="motor"/>
+        </simpleMotor>
+        <simpleMotor desc="Bend 1 Encoder" name="BEND.BEND1ENC">
+                <RECORD desc="Motor" pv="BL16B-CS-BEND-01:BEND1ENC" ro="false" type="motor"/>
+        </simpleMotor>
+        <simpleMotor desc="Bend 2 Encoder" name="BEND.BEND2ENC">
+                <RECORD desc="Motor" pv="BL16B-CS-BEND-01:BEND2ENC" ro="false" type="motor"/>
+        </simpleMotor>
+        <simpleMotor desc="Yaw" name="BEND.YAW">
+                <RECORD desc="Motor" pv="BL16B-CS-BEND-01:YAW" ro="false" type="motor"/>
+        </simpleMotor>
+        <simpleMotor desc="Radius (compound)" name="BEND.RADIUS">
+                <RECORD desc="Motor" pv="BL16B-CS-BEND-01:RADIUS" ro="false" type="motor"/>
+        </simpleMotor>
+        <simpleMotor desc="Offset (compound)" name="BEND.OFFSET">
+                <RECORD desc="Motor" pv="BL16B-CS-BEND-01:OFFSET" ro="false" type="motor"/>
+        </simpleMotor>
+
+
+
+
 <simpleMotor desc="Kohzu tilt" name="BRICK4.MOT1">
 	<RECORD desc="Motor" pv="BL16B-MO-BRICK-04:AXIS1" ro="false" type="motor"/>
 </simpleMotor>

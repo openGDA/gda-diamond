@@ -1,9 +1,8 @@
+def set_kth_minus_kdelta_max(val):
+	sixckappa.getAdditionalPositionValidators()['kth_minus_kdelta_max'].setMaximumDifference(val)
 
-
-import limits
-reload(limits)
-from limits import * #@UnusedWildImport
-limits.ROOT_NAMESPACE = globals()
+def set_kgam_minus_kmu_min(val):
+	sixckappa.getAdditionalPositionValidators()['kgam_minus_kmu_min'].setMinimumDifference(val)
 
 NOMINAL_LIMITS = {phi : (-999, 999),
 				chi : (-90, 99),
@@ -17,6 +16,10 @@ NOMINAL_LIMITS = {phi : (-999, 999),
 				kap: (-180, 180),
 				}
 
+kgam_minus_kmu_min = -11
+kth_minus_kdelta_max_MODE1 = 80
+kth_minus_kdelta_max_MODE2 = 136
+
 # Record same defaults from kappa axes to make non-nominal limits report complete
 limits.NOMINAL_LIMITS = NOMINAL_LIMITS
 NOMINAL_LIMITS[kmu] = NOMINAL_LIMITS[mu]
@@ -26,21 +29,6 @@ NOMINAL_LIMITS[kdelta] = NOMINAL_LIMITS[delta]
 for scn, lower_upper_tuple in NOMINAL_LIMITS.iteritems():
 	lower, upper = lower_upper_tuple
 	setlm_no_offset(scn, lower, upper)
-
-################################################################################
-### put new limits in here ###
-
-#setllm phi -900 
-#setulm phi 900 
-#setlm phi -900 900
-
-kgam_minus_kmu_min = -11
-kth_minus_kdelta_max_MODE1 = 80
-kth_minus_kdelta_max_MODE2 = 136
-################################################################################
-################################################################################
-
-
 
 if EKCM.getEuleriantoKmode() == 1:
 	print "e2k mode is 1: This is the standard vertical mode of the diffractometer"
@@ -57,8 +45,36 @@ elif EKCM.getEuleriantoKmode() == 2:
 	kth_minus_kdelta_max = kth_minus_kdelta_max_MODE2 ###check this one
 	print "   kth_minus_kdelta_max:", kth_minus_kdelta_max
 
-sixckappa.getAdditionalPositionValidators()['kth_minus_kdelta_max'].setMaximumDifference(kth_minus_kdelta_max)
-sixckappa.getAdditionalPositionValidators()['kgam_minus_kmu_min'].setMinimumDifference(kgam_minus_kmu_min)
+
+################################################################################
+### put new limits in here ###
+
+#setllm phi -900 
+#setulm phi 900 
+#setlm phi -900 900
+
+#print "Setting limits for alessandro's horizontal geometry (Obtober 5th 2012)"
+#setlm gam -2 130
+#setlm chi 89.9 90.1
+#setlm eta -0.1 0.1
+#setlm delta -1 9
+#setulm mu 60
+#kgam_minus_kmu_min = -3
+
+################################################################################
+################################################################################
+
+
+# DO NOT REMOVE THESE TWO LINES!
+
+set_kth_minus_kdelta_max(kth_minus_kdelta_max)
+set_kgam_minus_kmu_min(kgam_minus_kmu_min)
+
+
+
+
+
+
 
 
 

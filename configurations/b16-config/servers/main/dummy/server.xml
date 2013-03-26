@@ -16,7 +16,9 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<import resource="../common/plumbing.xml" />
+	<import
+		resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml" />
+
 
 	<!--AngularPositioner> <name>DCMBasePitchPos</name> <motorName>DCMBasePitchMotor</motorName> 
 	<stepsPerUnit>17.453292519943293</stepsPerUnit> <poll>false</poll> </AngularPositioner> 
@@ -44,9 +46,9 @@
 	<import resource="motor/s7.xml" />
 	<import resource="motor/s8.xml" />
 	<import resource="motor/tbbase.xml" />
-	<import resource="motor/tbdet.xml" />
-	<import resource="motor/tbdiag.xml" />
-	<import resource="motor/tbopt.xml" />
+	<import resource="motor/tb3.xml" />
+	<import resource="motor/tb2.xml" />
+	<import resource="motor/tb1.xml" />
 	<import resource="motor/test1.xml" />
 	<import resource="motor/test2.xml" />
 	<import resource="motor/test3.xml" />
@@ -66,10 +68,19 @@
 	<import resource="detector/xmap_vortex.xml" />
 	<!-- import resource="detector/mca_vortex.xml" EMPTY-->
 	
-	<import resource="../common/jython_server.xml" />
-	<import resource="../common/loggingscriptcontroller.xml" />
 
 	<import resource="metadata.xml" />
+	
+	
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml" />
+
+	<bean id="script_paths" parent="abstract_script_paths"/>
+
+	<bean id="command_server" parent="abstract_command_server">
+		<property name="jythonScriptPaths" ref="script_paths"/>
+		<property name="stopJythonScannablesOnStopAll" value="false" />
+		<property name="disableBatonControlOverVisitMetadataEntry" value="true" />
+	</bean>
 	
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 

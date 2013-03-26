@@ -8,7 +8,5 @@
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_VERSION">jython 2.5</pydev_property>
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">Jython2.5.1</pydev_property>
 
-<pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
-<path>/dls_sw/i16/software/gda_versions/gda_8_8/plugins/uk.ac.gda.core/scripts/gdascripts</path>
-</pydev_pathproperty>
+
 </pydev_project>

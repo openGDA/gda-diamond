@@ -1,7 +1,4 @@
 #!/bin/sh
-# This script assumes that $BEAMLINE is set (e.g. i02, i18, b16) if not exit...
-
-# **** DO NOT EDIT THIS SCRIPT AS IT MAY BE AUTOMATICALLY OVERWRITTEN *****
 
 if [ ! -n "$BEAMLINE" ]; 
 then
@@ -9,9 +6,7 @@ then
   exit 1
 fi
 
-export GDA_ROOT=/dls_sw/$BEAMLINE/software/gda
-
-export PATH=$GDA_ROOT/bin:/dls_sw/$BEAMLINE/bin:${PATH}
+export PATH=/dls_sw/$BEAMLINE/software/gda/config/bin:/dls_sw/$BEAMLINE/bin:${PATH}
 
 
 case $DISPLAY in 

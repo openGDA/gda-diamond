@@ -210,3 +210,13 @@ m1piezo=SingleEpicsPositionerSetAndGetOnlyClass('m1piezo','BL16I-OP-VFM-01:PIEZO
 magv=SingleEpicsPositionerSetAndGetOnlyClass('magv','BL16I-EA-MAG-01:VPROG','BL16I-EA-MAG-01:VMON','%.2f','%.2f',help='1T magnet volts. See also magi')
 magi=SingleEpicsPositionerSetAndGetOnlyClass('magi','BL16I-EA-MAG-01:IPROG','BL16I-EA-MAG-01:IMON','%.2f','%.2f',help='1T magnet current (A). See also magv')
 
+bpmin=SingleEpicsPositionerSetAndGetOnlyClass('bpmin','BL16I-DI-BPM-01:DIAG.VAL','BL16I-DI-BPM-01:DIAG.RBV','%.2f','%.2f',help='bpm screen motor')
+
+shtr3x=shx=SingleEpicsPositionerClass('shtr3x','BL16I-EA-SHTR-03:X.VAL','BL16I-EA-SHTR-03:X.RBV','BL16I-EA-SHTR-03:X.DMOV','BL16I-EA-SHTR-03:X.STOP','mm','%.2f')
+shtr3y=shy=SingleEpicsPositionerClass('shtr3y','BL16I-EA-SHTR-03:Y.VAL','BL16I-EA-SHTR-03:Y.RBV','BL16I-EA-SHTR-03:Y.DMOV','BL16I-EA-SHTR-03:Y.STOP','mm','%.2f')
+
+hx=huberx=SingleEpicsPositionerClass('huberx','BL16I-MO-HUB-01:X.VAL','BL16I-MO-HUB-01:X.RBV','BL16I-MO-HUB-01:X.DMOV','BL16I-MO-HUB-01:X.STOP','mm','%.3f',help='Huber xy stage x motor')
+hy=hubery=SingleEpicsPositionerClass('hubery','BL16I-MO-HUB-01:Y.VAL','BL16I-MO-HUB-01:Y.RBV','BL16I-MO-HUB-01:Y.DMOV','BL16I-MO-HUB-01:Y.STOP','mm','%.3f',help='Huber xy stage y motor')
+fsgap=frontslitgap=SingleEpicsPositionerClass('frontslity','BL16I-MO-TMP-07:Y:GAP.VAL','BL16I-MO-TMP-07:Y:GAP.RBV','BL16I-MO-TMP-07:Y:GAP.DMOV','BL16I-MO-TMP-07:Y:GAP.STOP','mm','%.3f',help='Front slits y gap (mm)')
+fsy=fontslity=SingleEpicsPositionerClass('frontslity','BL16I-MO-TMP-07:Y:TRANSLATION.VAL','BL16I-MO-TMP-07:Y:TRANSLATION.RBV','BL16I-MO-TMP-07:Y:TRANSLATION.DMOV','BL16I-MO-TMP-07:Y:TRANSLATION.STOP','mm','%.3f',help='Front slits y offset (mm)')
+

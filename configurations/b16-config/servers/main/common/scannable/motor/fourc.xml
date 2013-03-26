@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!-- 	<bean id="alpha" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="motor" ref="DR1AlphaMotor" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="delta" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="motor" ref="DR1TthetaMotor" /> -->
+<!-- 	</bean> -->
+	<bean id="eta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DR1ThetaMotor" />
+	</bean>
+<!-- 	<bean id="chi" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="motor" ref="DR1ChiMotor" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="phi" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="motor" ref="DR1PhiMotor" /> -->
+<!-- 	</bean> -->
+
+	<bean id="_fourc" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="delta" />
+				<ref bean="eta" />
+				<ref bean="chi" />
+				<ref bean="phi" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
