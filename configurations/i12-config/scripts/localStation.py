@@ -58,6 +58,9 @@ def getDataWriter():
     return i12utilities.getDataWriter()
 alias("getDataWriter")
 
+def ls_scannables():
+    return i12utilities.ls_scannables()
+alias("ls_scannables")
 
 def helpi12(): 
     print "Help will be outputted"
@@ -300,7 +303,8 @@ print "create 'eurotherm1' and 'eurotherm2'"
 eurotherm1 = DisplayEpicsPVClass('eurotherm1', 'BL12I-EA-FURN-01:PV:RBV', 'c', '%.3f')
 eurotherm2 = DisplayEpicsPVClass('eurotherm2', 'BL12I-EA-FURN-02:PV:RBV', 'c', '%.3f')
 
-from tomographyScan import tomoScan #@UnusedImport
+from tomographyScan import tomoScan, reportJythonNamespaceMapping #@UnusedImport
+alias("reportJythonNamespaceMapping")
 from tomo import tomoAlignment #@UnusedImport
 #print
 #print "setup tomographyScan:"

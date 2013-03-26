@@ -298,6 +298,7 @@
 		<property name="exposureTime" value="0.5" />
 		<property name="readAcquireTimeFromHardware" value="true" />
 		<property name="ndFile" ref="pixium_ndfiletif" />
+		<property name="procDataTypeOut" value="6"/><!-- float32 -->
 	</bean>
 	<bean id="pixium_tif" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="pixium_cam_base" />
