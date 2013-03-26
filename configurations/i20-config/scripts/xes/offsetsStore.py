@@ -75,6 +75,7 @@ def applyfrom(storeName):
     store = LocalParameters.getXMLConfiguration(STORE_DIR,storeName,False)
 
     valuesDict = {}
+    print "Applying offsets from store",storeName,"..."
     for scannable in scannables:
         name = scannable.getName()
         prop = store.getProperty(name)
@@ -84,6 +85,7 @@ def applyfrom(storeName):
     #setOffsets.setFromExpectedValues(valuesDict)
     # set the offsets directly
     setOffsets._setFromDict(valuesDict)
+    print "Offsets applied."
     
 def view():
     """
