@@ -71,8 +71,9 @@ actualTime=actualTimeClass("actualTime")
 from gdascripts.metadata.metadata_commands import setTitle
 alias("setTitle")
 
-import filter_array
-xia_filter=filter_array.filter_array("xia_filter", prefix="BL13J-OP-ATTN-02:", elements=["Cr", "Fe", "Cu", "Nb"])
+if not LocalProperties.check("gda.dummy.mode"):
+	import filter_array
+	xia_filter=filter_array.filter_array("xia_filter", prefix="BL13J-OP-ATTN-02:", elements=["Cr", "Fe", "Cu", "Nb"])
 
 from flyscan_script import flyscan, flyscannable, WaitForScannableAtLineEnd
 vararg_alias("flyscan")
@@ -189,8 +190,9 @@ beam_check=scan_aborter.scan_aborter("beam_check",3, 300000., "Too high")
 import average
 d4_i_avg = average.Average(d4_i,numPoints=10, timeBetweenReadings=0.1)
 
-import mtscripts.moveable.me07m
-from mtscripts.moveable.me07m import mepiezo1x, mepiezo1y, eembimorph, dummy_bimorph
+#mtscripts have been commented out of JythonServerFacade as this is used temprarily for moveable equipment
+#import mtscripts.moveable.me07m
+#from mtscripts.moveable.me07m import mepiezo1x, mepiezo1y, eembimorph, dummy_bimorph
 
 import dataset_provider
 
