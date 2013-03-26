@@ -541,7 +541,7 @@
         class="gda.exafs.ui.I20ExperimentEditorManager">
       </editormanager>
       <templatesLocation
-            folderName="${gda.var}/templates">
+            folderName="${gda.config}/var/templates">
       </templatesLocation>
    </extension>
   <extension
