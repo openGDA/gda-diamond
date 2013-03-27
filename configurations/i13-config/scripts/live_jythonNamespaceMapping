@@ -14,3 +14,7 @@ tomography_theta=ss1_rot
 tomography_translation=ss1_X
 tomography_time=actualTime
 tomography_beammonitor=ionc_i
+
+
+tomography_flyscan_theta=zebraSM1
+tomography_flyscan_det=zebra_det

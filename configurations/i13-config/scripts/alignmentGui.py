@@ -14,9 +14,12 @@ class TomoDet():
     def __init__(self):
         self.pco1_autoContinuousTrigger = self.__getController("pco1_autoContinuousTrigger")
         self.pco1_ffmpeg1 = self.__getController("pco1_ffmpeg1")
+        self.pco1_ffmpeg2 = self.__getController("pco1_ffmpeg2")
         self.pco1_proc1 = self.__getController("pco1_proc1")
         self.pco1_roi1 = self.__getController("pco1_roi1")        
         self.pco1_cam_base = self.__getController("pco1_cam_base")        
+        self.pco1_stat = self.__getController("pco1_stat")        
+        self.pco1_arr = self.__getController("pco1_arr")        
         return
     def getCurrentExposureTime(self):
 		return self.pco1_cam_base.getAcquireTime_RBV()
@@ -45,24 +48,57 @@ class TomoDet():
         else:
             scale = self.pco1_proc1.getScale_RBV()
         
+        self.pco1_cam_base.stopAcquiring() 
+        
+        if self.pco1_cam_base.model_RBV == "PCO.Camera Dimax":
+            self.pco1_autoContinuousTrigger.triggerMode=2 #EXTERNAL_AND_SOFTWARE otherwise it runs too fast
+        else:
+            self.pco1_autoContinuousTrigger.triggerMode=0 #AUTO - ok for PCO4000
+            
         self.pco1_autoContinuousTrigger.prepareForCollection(exposureTime,1)
-        self.pco1_proc1.getPluginBase().disableCallbacks()
-        self.pco1_proc1.getPluginBase().setBlockingCallbacks(0)
-        self.pco1_proc1.getPluginBase().setNDArrayPort(self.pco1_cam_base.getPortName_RBV())
 
+        self.pco1_proc1.getPluginBase().disableCallbacks()
+        self.pco1_proc1.getPluginBase().setBlockingCallbacks(1)
+        self.pco1_proc1.getPluginBase().setMinCallbackTime(0.5)
+        self.pco1_proc1.getPluginBase().setNDArrayPort(self.pco1_cam_base.getPortName_RBV())
         self.pco1_proc1.setEnableOffsetScale(1)
         self.pco1_proc1.setScale(scale)
         self.pco1_proc1.getPluginBase().enableCallbacks()
+
+        self.pco1_stat.getPluginBase().disableCallbacks()
+        self.pco1_stat.getPluginBase().setBlockingCallbacks(1)
+        self.pco1_stat.getPluginBase().setMinCallbackTime(0.5)
+        self.pco1_stat.getPluginBase().setNDArrayPort(self.pco1_cam_base.getPortName_RBV())
+        self.pco1_stat.getPluginBase().enableCallbacks()
+        
+        
+        self.pco1_roi1.getPluginBase().disableCallbacks()
+        self.pco1_roi1.getPluginBase().setMinCallbackTime(0.5)
+        self.pco1_roi1.getPluginBase().setBlockingCallbacks(1)
+        self.pco1_roi1.getPluginBase().setNDArrayPort(self.pco1_cam_base.getPortName_RBV())
+        self.pco1_roi1.getPluginBase().enableCallbacks()
+ 
+        self.pco1_arr.getPluginBase().disableCallbacks()
+        self.pco1_arr.getPluginBase().setMinCallbackTime(0.5)
+        self.pco1_arr.getPluginBase().setBlockingCallbacks(1)
+        self.pco1_arr.getPluginBase().setNDArrayPort(self.pco1_roi1.getPluginBase().getPortName_RBV())
+        self.pco1_arr.getPluginBase().enableCallbacks()
  
         self.pco1_ffmpeg1.getPluginBase().disableCallbacks()
         self.pco1_ffmpeg1.getPluginBase().setBlockingCallbacks(0)
         self.pco1_ffmpeg1.getPluginBase().setNDArrayPort(self.pco1_proc1.getPluginBase().getPortName_RBV())
         self.pco1_ffmpeg1.getPluginBase().enableCallbacks()
         
+        self.pco1_ffmpeg2.getPluginBase().disableCallbacks()
+
         self.pco1_autoContinuousTrigger.collectData()
-        
+        if self.pco1_cam_base.model_RBV == "PCO.Camera Dimax":
+            self.pco1_cam_base.startAcquiring() 
         return True
     
+    def stop(self):
+        self.pco1_cam_base.stopAcquiring() 
+        
     def autoCentre(self):
         print "Auto-Centre"
         jns = beamline_parameters.JythonNameSpaceMapping(InterfaceProvider.getJythonNamespace())

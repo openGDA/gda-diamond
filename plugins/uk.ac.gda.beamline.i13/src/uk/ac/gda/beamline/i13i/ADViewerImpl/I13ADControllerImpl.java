@@ -39,7 +39,13 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 	@Override
 	public void setExposure(double d) {
 		final String cmd = String.format(getSetExposureTimeCmd(), d);
-		InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
+		try {
+			String result = InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
+			if( result == null)
+				throw new Exception("Error executing command '" + cmd + "'");
+		} catch (Exception e) {
+			logger.error("Error setting exposure time", e);
+		}		
 	}
 
 	private String getSetExposureTimeCmd() {

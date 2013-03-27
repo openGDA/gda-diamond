@@ -41,8 +41,6 @@
 
 	<import resource="../../devices/cameraScaleProviders.xml"/>
 
-	<bean id = "i13MJPegViewInitialiser" class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13MJPegViewInitialiser"/>
-	
 	<bean id="i13ADController"
 		class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13ADControllerImpl">
 		<property name="imageNDStats" ref="pco1_stat" />
@@ -59,11 +57,8 @@
 		<property name="ffmpegImageOutWidthMax" value="2004" />
 		<property name="lensScannable" ref="lens" />
 		<property name="mjpegViewCompositeFactory" >
-		<bean class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13MJPegViewCompositeFactory">
-		<constructor-arg ref="i13MJPegViewInitialiser"/>
-		</bean>
+		<bean class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13MJPegViewCompositeFactory"/>
 		</property>
-		<property name="mjpegViewInitialiser" ref="i13MJPegViewInitialiser"/>
 		<property name="stagesCompositeFactory" ref="stages" />
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
 		<property name="cameraXYScannable" ref="cameraXYScannable" />
@@ -77,6 +72,7 @@
 		<property name="ffmpegImageInOffsetY" value="100" />
 		<property name="showNormalisedImageCmd"
 			value="tomographyScan.showNormalisedImage(%s,exposureTime=%s)" />
+		<property name="imageNDROI" ref="pco1_roi1"/>
 	</bean>
 
 	<bean id="i13ADViewcreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
