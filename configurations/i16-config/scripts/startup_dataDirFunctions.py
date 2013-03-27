@@ -27,9 +27,8 @@ def datadir(newpath=None):
 		LocalProperties.set("gda.data.scan.datawriter.datadir", newpath)
 		shelf=LocalJythonShelfManager.open("properties")
 		shelf['gda.data.scan.datawriter.datadir'] = newpath
-		setPildir(newpath)
-		setAndorDir(newpath)
-		setFirecamDir(newpath)
+#		setPildir(newpath)
+#		setAndorDir(newpath)
 		setTerminalLoggerDir(newpath)
 		return LocalProperties.getPath("gda.data.scan.datawriter.datadir",None)
 
@@ -39,44 +38,6 @@ def setTerminalLoggerDir(newdir):
 	tpp = Finder.getInstance().find("terminallog_path_provider")
 	print "new record log: ", newpath
 	tpp.setPath(newpath)
-
-def setPildir(newpath):
-	## Try to set pilatus scannable (it may not exist) ##
-	print "pil100kdet.setFilepath('%s/pilatus100k/')"%newpath
-	try:
-		global pil100kdet
-		pil100kdet.setFilePath(newpath + '/pilatus100k/')
-	except NameError, _:
-		print "   No pil100k scannable found to set path"
-	
-	print "pil2mkdet.setFilepath('%s/pilatus2M/')"%newpath	
-	try:
-		global pil2mdet
-		pil2mdet.setFilePath(newpath + '/pilatus2M/')
-	except NameError, _:
-		print "   No pil2m scannable found to set path"	
-
-def setAndorDir(newpath):
-	andorpath = newpath + '/andor'
-	if not os.path.exists(andorpath):
-		os.makedirs(andorpath)
-	print "andor1det.setFilepath('%s')"%andorpath
-	try:
-		global andor1det
-		andor1det.setFilePath(andorpath)
-	except NameError, _:
-		print "   No andorDetector found to set path."
-
-def setFirecamDir(newpath):
-	firepath = newpath + '/firecam/'
-	if not os.path.exists(firepath):
-		os.makedirs(firepath)
-	print "firecamDetector.setFilepath('%s')"%firepath
-	try:
-		global firecamDetector
-		firecamDetector.setFilepath(firepath)
-	except NameError, _:
-		print "   No firecamDetector found to set path."
 
 def visit(visitname=None):
 	# Reads or sets the data directory based only on the visit name or run number

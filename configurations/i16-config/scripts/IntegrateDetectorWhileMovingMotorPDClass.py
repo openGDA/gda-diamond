@@ -1,3 +1,8 @@
+def setkthspeed(speed):
+	#sleep(.5)
+	caput('BL16I-MO-DIFF-01:SAMPLE:KTHETA.VELO',speed)
+	#sleep(.5)
+
 class IntegrateDetectorWhileMovingMotorPDClass(PseudoDevice):
 	'''
 	Experimental - do not use!!
@@ -15,9 +20,11 @@ class IntegrateDetectorWhileMovingMotorPDClass(PseudoDevice):
 	def asynchronousMoveTo(self,invec):
 		[self.range, self.speed]=invec
 		kthpos=kth()
-		self.mot.setSpeed(4)
+		#self.mot.setSpeed(4) #no longer works
+		setkthspeed(4)
 		kth.r(-self.range/2)
-		self.mot.setSpeed(self.speed)
+		#self.mot.setSpeed(self.speed)
+		setkthspeed(self.speed)
 		print "start move"
 #		mca1.stop()
 #		mca1.erase()
@@ -33,7 +40,8 @@ class IntegrateDetectorWhileMovingMotorPDClass(PseudoDevice):
 		self.counts=ct3()
 		#print ct3
 		print "end move"
-		self.mot.setSpeed(4)
+		#self.mot.setSpeed(4)
+		setkthspeed(4)
 		#kth(kthpos)
 
 	def getPosition(self):
@@ -102,7 +110,7 @@ class IntegrateDetectorWhileMovingMotorPDClass(PseudoDevice):
 		self.mot.stop()
 		self.mot.setSpeed(4)
 
-rocketa4= IntegrateDetectorWhileMovingMotorPDClass()
+#rocketa4= IntegrateDetectorWhileMovingMotorPDClass()
 
 
 class CountDetectorWhileMovingMotorPDClass(PseudoDevice):

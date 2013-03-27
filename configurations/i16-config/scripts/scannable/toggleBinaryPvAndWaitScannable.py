@@ -24,7 +24,6 @@ class ToggleBinaryPvAndWait(PseudoDevice):
         self.currenttime=0
         self.cli.configure()
         self.normalLevel = normalLevel
-        self.setNormal()
         self.triggerLength=0
         self.lastExposureTime=0
 

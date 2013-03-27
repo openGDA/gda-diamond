@@ -23,5 +23,17 @@
 		<property name="deviceName" value="DR1.PHI" />
 		<property name="local" value="true" />
 	</bean>
-
+	
+	<bean id="DR1SAMPXMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DR1SAMP.X" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DR1SAMPYMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DR1SAMP.Y" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="DR1SAMPZMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DR1SAMP.Z" />
+		<property name="local" value="true" />
+	</bean>
 </beans>

@@ -1,3 +1,2 @@
 #!/bin/bash
-unset JAVA_HOME
 `dirname $0`/gda logpanel $@

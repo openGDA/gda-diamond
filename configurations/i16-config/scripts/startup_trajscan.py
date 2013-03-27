@@ -11,6 +11,8 @@ from gdascripts.scan.process.ScanDataProcessor import loadScanFile
 from gdascripts.scan.trajscans import setDefaultScannables
 from time import sleep
 
+PERFORM_SECOND_SCAN_TO_SHOW_ACTUAL_POSITIONS = True
+
 class ActualTrajectoryPositionScannable(object): # new interface required
 	"""Generates an actual position and error for every motor and a list of demand positions for those explicitely moved"""
 	def __init__(self, group):
@@ -86,28 +88,29 @@ class TrajectoryControllerHelper(ScanListener):
 		self.actual_group.atScanStart()
 	
 	def update(self, scanObject):
-		# TODO: Won't work for x scannables with multiple input fields yet
-		# get x scannable
-		xfieldname = scanObject.getScanPlotSettings().getXAxisName()
-		xscannable = determineScannableContainingField(xfieldname, scanObject.getUserListedScannables())
-		
-		# get x positions
-		all_detectors_and_scannables = list(scanObject.getAllScannables()) + list(scanObject.getDetectors())
-		sfh = loadScanFile(scanObject, [xfieldname], all_detectors_and_scannables)
-		self.x_values = list(sfh.getDataset(xfieldname))
-		
-		column_names = [xfieldname] + list(self.actual_group.getNames())
-		formats = [xscannable.outputFormat[0]] + list(self.actual_group.getFormats())
-		
-		self.pa = PreloadedArray('kappa_positions', column_names, formats, True)
-		for x, line in zip(self.x_values, self.actual_group.getPositions()):
-			self.pa.append([x] + list(line))
-		try:
-			original_default_scannables = setDefaultScannables([])
-			s = ConcurrentScan([self.pa, 0, self.pa.getLength()-1, 1])
-		finally:
-			setDefaultScannables(original_default_scannables)
-		s.runScan()
+		if PERFORM_SECOND_SCAN_TO_SHOW_ACTUAL_POSITIONS:
+			# TODO: Won't work for x scannables with multiple input fields yet
+			# get x scannable
+			xfieldname = scanObject.getScanPlotSettings().getXAxisName()
+			xscannable = determineScannableContainingField(xfieldname, scanObject.getUserListedScannables())
+			
+			# get x positions
+			all_detectors_and_scannables = list(scanObject.getAllScannables()) + list(scanObject.getDetectors())
+			sfh = loadScanFile(scanObject, [xfieldname], all_detectors_and_scannables)
+			self.x_values = list(sfh.getDataset(xfieldname))
+			
+			column_names = [xfieldname] + list(self.actual_group.getNames())
+			formats = [xscannable.outputFormat[0]] + list(self.actual_group.getFormats())
+			
+			self.pa = PreloadedArray('kappa_positions', column_names, formats, True)
+			for x, line in zip(self.x_values, self.actual_group.getPositions()):
+				self.pa.append([x] + list(line))
+			try:
+				original_default_scannables = setDefaultScannables([])
+				s = ConcurrentScan([self.pa, 0, self.pa.getLength()-1, 1])
+			finally:
+				setDefaultScannables(original_default_scannables)
+			s.runScan()
 
 
 st = DummyHardwareTriggerableDetector('st')

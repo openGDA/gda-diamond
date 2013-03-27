@@ -125,10 +125,10 @@ class Undulator2(PseudoDevice):
 		print 'new gap offset:', self.gapoffset()
 		nowstr = date.today().strftime('%d-%m-%y')
 		wstr = nowstr+'\t'+str(self.harmonic())+'\t'+str(newenergy)+'\t'+str(self.gap())+'\t'+str(self.gapoffset())+'\n'
-		f=open('/dls_sw/i16/software/gda/config/var/ucalibrate.log','a')
+		f=open('/dls_sw/i16/var/ucalibrate.log','a')
 		f.write(wstr)
 		f.close()
-		print 'new calibration saved in /dls_sw/i16/software/gda/config/var/ucalibrate.log'
+		print 'new calibration saved in /dls_sw/i16/var/ucalibrate.log'
 
 
 class Undulator(PseudoDevice):

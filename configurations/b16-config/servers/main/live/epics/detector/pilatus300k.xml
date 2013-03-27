@@ -4,87 +4,67 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="pilatus1_driver" class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
+	<!-- AD hardware -->
+
+	<bean id="pilatus_driver"
+		class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
 		<property name="deviceName" value="pilatus.CAM_pilatus" />
 	</bean>
-	
-	<bean id="pilatus1_adbase"  class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+
+	<bean id="pilatus_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="deviceName" value="pilatus.CAM_ADBase" />
 	</bean>
 
 
-	<bean id="pilatus300k" class="gda.device.detector.addetector.ADDetector">
-
-		<property name="readAcquisitionTime" value="true" />
-		
-		<property name="readFilepath" value="true" />
-		
-		<property name="readAcquisitionPeriod" value="false" />
-		
-		<property name="computeStats" value="false" />
-		
-		<property name="computeCentroid" value="false" />
-		
-		<property name="readArray" value="false" />
-
-		<property name="adBase" ref="pilatus1_adbase"/>
-		
-<!-- 		<property name="hardwareTriggerProvider" ref="xpsTrajController" /> -->
+	<bean id="pilatus_camserver_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="deviceName" value="pilatus.CAM_NDFile" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
 
 
-<!-- 	<property name="hardwareTriggeredCollectionStrategy"> -->
-<!-- 		<bean class="gda.device.detector.addetector.triggering.HardwareTriggeredPilatus"> -->
-<!-- 			<constructor-arg ref="pilatus1_adbase" /> -->
-<!-- 			<constructor-arg ref="pilatus1_driver" /> -->
-<!-- 			<constructor-arg value=".003" /> -->
-<!-- 			<constructor-arg value="EXTERNAL_TRIGGER" /> -->
-<!-- 		</bean> -->
-<!-- 	</property> -->
-	<property name="collectionStrategy">
-		<bean class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
-			<constructor-arg ref="pilatus1_adbase" />
-			<constructor-arg value=".003" />
-		</bean>
-	</property>
-		
-		<property name="ndFile">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-				<property name="deviceName" value="pilatus.CAM_NDFile" />
-				<property name="initialAutoSave" value="Not hooked up to anything!" /> <!-- currently yes -->
-				<property name="initialAutoIncrement" value="Not hooked up to anything!" /> <!-- currently true -->
-				<property name="initialWriteMode" value="0" /> <!-- Single(current), Capture, Stream, -->
-				<property name="initialNumCapture" value="1" /> <!-- current = 1 -->
-				<property name="initialFileName" value="p" />
-				<property name="initialFileTemplate" value="%s%s%d.tif" />
-			</bean>
+	<!-- NXDetector collection strategies -->
+
+	<bean id="pilatus_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
+		<constructor-arg ref="pilatus_adbase" />
+		<constructor-arg value=".003" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+	
+	<bean id="pilatus_nxfilewriter_for_scans"
+		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="pilatus300k" />
+		<property name="ndFile" ref="pilatus_camserver_ndfile" />
+	</bean>
+
+	<bean id="pilatus_nxfilewriter_for_snaps"
+		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		<constructor-arg value="pilatus300k" />
+		<property name="ndFile" ref="pilatus_camserver_ndfile" />
+		<property name="numTrackerExtension" value="pilatus300k_snaps_numtracker" />
+	</bean>
+
+
+	<!-- NXDetectors -->
+
+	<bean id="_pilatus" class="gda.device.detector.NXDetector">
+		<property name="name" value="pilatus" />
+		<property name="collectionStrategy" ref="pilatus_nxcollectionstrategy"/>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus_nxfilewriter_for_scans" />
+			</list>
 		</property>
+	</bean>
 
-		<property name="fileWriter">
-			<bean class="gda.device.detector.addetector.filewriter.NullFileWriter"></bean>
+	<bean id="_pilatus_for_snaps" class="gda.device.detector.NXDetector">
+		<property name="name" value="pilatus_for_snaps" />
+		<property name="collectionStrategy" ref="pilatus_nxcollectionstrategy"/>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus_nxfilewriter_for_snaps" />
+			</list>
 		</property>
-		
-		<property name="ndArray">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-				<property name="deviceName" value="pilatus.ARR1_NDStdArrays" />
-				<property name="pluginBase">
-					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-						<property name="deviceName" value="pilatus.ARR1_NDPluginBase" />
-					</bean>
-				</property>
-			</bean>
-		</property>
-		
-		<property name="ndStats">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
-				<property name="deviceName" value="pilatus.STATS1_NDStats" />
-				<property name="pluginBase">
-					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-						<property name="deviceName" value="pilatus.STATS1_NDPluginBase" />
-					</bean>
-				</property>
-			</bean>
-		</property>
-
 	</bean>
 
 </beans>

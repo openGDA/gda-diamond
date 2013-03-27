@@ -52,7 +52,7 @@ def alignpinh():
 #	pos diodegain 0
 #	pos qbpm6inserter 1
 	#qbpm6.set_range(3)
-	pos s5vgap 5 s5hgap 5 s6vgap 5 s6hgap 5
+	pos s5vgap 5 s5hgap 5 s6vgap 5 s6hgap 5 #uncomment
 	bypos=base_y()
 	#scan base_y bypos-1 bypos+1 .02 w 1 diode hpos
 	scan base_y bypos-1 bypos+1 .02 w 1 checkbeam diode
@@ -62,7 +62,7 @@ def alignpinh():
 	#print "===Now you must move base_y to centre...";
 	baseycen=(edge(0,'base_y','diode')[1]+edge(-1,'base_y','diode')[1])/2.
 	go baseycen
-	pos s5vgap .5 s5hgap .5 s6vgap 1 s6hgap 1
+	#pos s5vgap .5 s5hgap .5 s6vgap 1 s6hgap 1
 	print 'Moving base_y to ' + str(baseycen)
 
 def alignpinv():

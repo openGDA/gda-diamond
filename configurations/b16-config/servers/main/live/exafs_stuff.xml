@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+	<bean class="uk.ac.gda.beans.BeansFactory">
+		<property name="classList">
+			<list>
+				<value>uk.ac.gda.beans.exafs.DetectorParameters</value>
+				<value>uk.ac.gda.beans.vortex.VortexParameters</value>
+				<value>uk.ac.gda.beans.microfocus.MicroFocusScanParameters</value>
+				<value>uk.ac.gda.beans.bimorph.BimorphParameters</value>
+			</list>
+		</property>
+	</bean>
+	<import resource="../common/loggingscriptcontroller.xml" />	
+
+</beans>

@@ -21,6 +21,7 @@ class DisplayEpicsPVClass(PseudoDevice):
 		self.setOutputFormat([formatstring])
 		self.setLevel(8)
 		self.cli=CAClient(pvstring)
+		print self.name + " connecting to: " + pvstring
 		self.cli.configure()
 
 	def getPosition(self):
@@ -36,10 +37,16 @@ class DisplayEpicsPVClass(PseudoDevice):
 class SingleEpicsPositionerClass(PseudoDevice):
 	'''
 	Create PD for single EPICS positioner
-	dev=SingleEpicsPositionerClass(name, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring,command=None)
+	dev=SingleEpicsPositionerClass(name, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring, help=None, command=None)
 	'''
-	def __init__(self, name, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring,command=None):
+	def __init__(self, name, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring, help=None, command=None):
 		self.setName(name);
+		if help is not None:
+			print self.__doc__
+			print type(self.__doc__)
+			print help
+			print type(help)
+			self.__doc__+='\nHelp specific to '+self.name+':\n'+str(help)
 		self.setInputNames([name])
 		#self.setExtraNames([name])
 		self.Units=[unitstring]

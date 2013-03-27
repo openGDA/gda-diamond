@@ -13,7 +13,7 @@ pitchcommand=DisplayEpicsPVClass('Pitchcommand', 'BL16I-MO-DCM-01:PTMTR:MOT.VAL'
 showroll1=DisplayEpicsPVClass('Roll1', 'BL16I-MO-DCM-01:RLMTR1:MOT.RBV', 'mrad', '%.4f')
 showroll2=DisplayEpicsPVClass('Roll2', 'BL16I-MO-DCM-01:RLMTR2:MOT.RBV', 'mrad', '%.4f')
 
-cc1=DisplayEpicsPVClass('cc1', 'BL16I-DI-IAMP-01:PHD1:I', 'uA', '%.9e'); cc1.setLevel(9)
+cc1=DisplayEpicsPVClass('cc1', 'BL16I-DI-IAMP-01:PHD1:I', 'uA', '%.9e'); cc1.setLevel(9)  # <---hangs
 cc2=DisplayEpicsPVClass('cc2', 'BL16I-DI-IAMP-01:PHD2:I', 'uA', '%.9e'); cc2.setLevel(9)
 cc3=DisplayEpicsPVClass('cc3', 'BL16I-DI-IAMP-01:PHD3:I', 'uA', '%.9e'); cc3.setLevel(9)
 cc4=DisplayEpicsPVClass('cc4', 'BL16I-DI-IAMP-01:PHD4:I', 'uA', '%.9e'); cc4.setLevel(9)
@@ -71,7 +71,7 @@ BPM1YR=DisplayEpicsPVClass('BPM1YR','FE16I-DI-PBPM-01:BEAMY', 'mm', '%.4f')	#PBP
 BPM2XR=DisplayEpicsPVClass('BPM2XR','FE16I-DI-PBPM-02:BEAMX', 'mm', '%.4f')	#PBPM2 x-relative
 BPM2YR=DisplayEpicsPVClass('BPM2YR','FE16I-DI-PBPM-02:BEAMY', 'mm', '%.4f')	#PBPM2 y-relative
 
-m1piezo_readback=BPM1XR=DisplayEpicsPVClass('m1piezo_readback','BL16I-OP-VFM-01:PIEZO:FBACK','V','%.3f')
+m1piezo_readback=DisplayEpicsPVClass('m1piezo_readback','BL16I-OP-VFM-01:PIEZO:FBACK','V','%.3f')
 
 showkphi=DisplayEpicsPVClass('showkphi','BL16I-MO-DIFF-01:SAMPLE:KPHI.RBV', 'deg', '%.5f')
 showkap=DisplayEpicsPVClass('showkap','BL16I-MO-DIFF-01:SAMPLE:KAPPA.RBV', 'deg', '%.5f')

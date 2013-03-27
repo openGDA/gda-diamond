@@ -173,6 +173,7 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 
 	def stop(self):
 		self.kappa.stop()
+		ScannableMotionWithScannableFieldsBase.stop(self)
 
 #[u'phi', u'chi', u'eta', u'mu', u'delta', u'gam'])
 
@@ -183,9 +184,9 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 		super_euler_limits = ScannableMotionWithScannableFieldsBase.getLowerGdaLimits(self)
 		if self.diffcalc_ordering:
 			eta, chi, phi = (None, None, None) if super_euler_limits==None else super_euler_limits[3:6]
-			mu = n(self.kappa.muDC.getLowerGdaLimits())
-			delta = n(self.kappa.deltaDC.getLowerGdaLimits())
-			gam = n(self.kappa.gamDC.getLowerGdaLimits())
+			mu = n(self.kappa.kmuDC.getLowerGdaLimits())
+			delta = n(self.kappa.kdeltaDC.getLowerGdaLimits())
+			gam = n(self.kappa.kgamDC.getLowerGdaLimits())
 			if phi==chi==eta==mu==delta==gam==None:
 				return None
 			return mu, delta, gam, eta, chi, phi
@@ -202,9 +203,9 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 		super_euler_limits = ScannableMotionWithScannableFieldsBase.getUpperGdaLimits(self)
 		if self.diffcalc_ordering:
 			eta, chi, phi = (None, None, None) if super_euler_limits==None else super_euler_limits[3:6]
-			mu = n(self.kappa.muDC.getUpperGdaLimits())
-			delta = n(self.kappa.deltaDC.getUpperGdaLimits())
-			gam = n(self.kappa.gamDC.getUpperGdaLimits())
+			mu = n(self.kappa.kmuDC.getUpperGdaLimits())
+			delta = n(self.kappa.kdeltaDC.getUpperGdaLimits())
+			gam = n(self.kappa.kgamDC.getUpperGdaLimits())
 			if phi==chi==eta==mu==delta==gam==None:
 				return None
 			return mu, delta, gam, eta, chi, phi
@@ -231,9 +232,9 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 			super_euler_limits = None if phi==chi==eta==None else (None, None, None, eta, chi, phi)
 			ScannableMotionWithScannableFieldsBase.setUpperGdaLimits(self, super_euler_limits)
 			# mu, delta, gam		
-			self.kappa.muDC.setUpperGdaLimits(mu)
-			self.kappa.deltaDC.setUpperGdaLimits(delta)
-			self.kappa.gamDC.setUpperGdaLimits(gam)
+			self.kappa.kmuDC.setUpperGdaLimits(mu)
+			self.kappa.kdeltaDC.setUpperGdaLimits(delta)
+			self.kappa.kgamDC.setUpperGdaLimits(gam)
 		else:
 			# phi, chi, eta			
 			super_euler_limits = None if phi==chi==eta==None else (phi, chi, eta, None, None, None)
@@ -257,9 +258,9 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 			super_euler_limits = None if phi==chi==eta==None else (None, None, None, eta, chi, phi)
 			ScannableMotionWithScannableFieldsBase.setLowerGdaLimits(self, super_euler_limits)
 			# mu, delta, gam		
-			self.kappa.muDC.setLowerGdaLimits(mu)
-			self.kappa.deltaDC.setLowerGdaLimits(delta)
-			self.kappa.gamDC.setLowerGdaLimits(gam)
+			self.kappa.kmuDC.setLowerGdaLimits(mu)
+			self.kappa.kdeltaDC.setLowerGdaLimits(delta)
+			self.kappa.kgamDC.setLowerGdaLimits(gam)
 		else:
 			# phi, chi, eta			
 			super_euler_limits = None if phi==chi==eta==None else (phi, chi, eta, None, None, None)
@@ -285,6 +286,7 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 		return self.kappa.isOperatingContinously()
 
 	def getContinuousMoveController(self):
+		raise Exception("Eulerian axes cannot be traj scanned. Use the axes on the group 'kappa' (e.g. kth) instead. (Due to a multi-axes traj scans not triggering reliably from Epics)")
 		return self.kappa.getContinuousMoveController()
 	
 	def setContinuousMoveController(self, controller):

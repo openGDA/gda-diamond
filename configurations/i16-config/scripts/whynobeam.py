@@ -170,65 +170,65 @@ class whynobeam:
         '''Check for potential problems and give suggestions'''
         errors=0
 #        type 1
-        print "\nList of possible actions to be taken:\n"
+        print "\nList of possible actions to be taken:\n" + "--------------------------------------------------\n"
         for x in range(0, len(outdev[0])):
             if outdev[0].items()[x]!=outdev[3].items()[x]:
                 errors += 1
 #                print "- " + str(outdev[0].keys()[x])+ " is " + str(round(outdev[0].values()[x],4)) + ", Open it to start the measurements, type: pos " + str(outdev[0].keys()[x]) + " 1"
-                print "- " + str(outdev[0].keys()[x])+ " is " + str(round(outdev[0].values()[x],4)) + ", Open it to start the measurements, type: pos " + str(outdev[18].values()[x]).strip('()') + ' ' + str(outdev[3].values()[x]).strip('.0')
+                print "-> " + str(outdev[0].keys()[x])+ " is " + str(round(outdev[0].values()[x],4)) + ", Open it to start the measurements, type: pos " + str(outdev[18].values()[x]).strip('()') + ' ' + str(outdev[3].values()[x]).strip('.0')
 #        type 2
         for x in range(0, len(outdev[1])):
             if outdev[1].items()[x]<outdev[4].items()[x]:
-                print "- " + str(outdev[1].keys()[x])+ " is " + str(round(outdev[1].values()[x],4)) + ", "+str(outdev[1].keys()[x]) +" may be too small \nOpen it to start the measurements, type: pos " + str(outdev[19].values()[x]).strip('()') + " " + str(outdev[4].values()[x])
+                print "-> " + str(outdev[1].keys()[x])+ " is " + str(round(outdev[1].values()[x],4)) + ", "+str(outdev[1].keys()[x]) +" may be too small \nOpen it to start the measurements, type: pos " + str(outdev[19].values()[x]).strip('()') + " " + str(outdev[4].values()[x])
                 errors += 1
 #        type 3
         for x in range(0, (len(outdev[2]))):
             if outdev[2].items()[x]>outdev[5].items()[x]:
-                print "- " + str(outdev[2].keys()[x])+ " is " + str(round(outdev[2].values()[x],4)) + ", "+str(outdev[2].keys()[x]) +" may be too large\nDecrease it to start the measurements, type: pos " + str(outdev[20].values()[x]).strip('()') + " " + str(outdev[5].values()[x])
+                print "-> " + str(outdev[2].keys()[x])+ " is " + str(round(outdev[2].values()[x],4)) + ", "+str(outdev[2].keys()[x]) +" may be too large\nDecrease it to start the measurements, type: pos " + str(outdev[20].values()[x]).strip('()') + " " + str(outdev[5].values()[x])
                 errors += 1
 #        type 4
         for x in range(0, (len(outdev[6]))):
             if round(outdev[6].values()[x],4)==outdev[7].values()[x]:
-                print "- " + str(outdev[6].keys()[x]) + " is " + str(round(outdev[6].values()[x],4)) 
+                print "-> " + str(outdev[6].keys()[x]) + " is " + str(round(outdev[6].values()[x],4)) 
 #                errors += 1
             else:
-                print "- " + str(outdev[6].keys()[x]) + " is " + str(round(outdev[6].values()[x],4)) + ", Check it to start the measurements"
+                print "-> " + str(outdev[6].keys()[x]) + " is " + str(round(outdev[6].values()[x],4)) + ", Check it to start the measurements"
 #        type 6
         for x in range(0, (len(outdev[16]))):
 #            print outdev[16].values()[x][0] #print check for atten=[atten, transm]
             if round(outdev[16].values()[x][0],4)==outdev[17].values()[x]:
-                print "- " + str(outdev[16].keys()[x]) + " is " + str(round(outdev[16].values()[x][0],4))
+                print "-> " + str(outdev[16].keys()[x]) + " is " + str(round(outdev[16].values()[x][0],4))
 #                errors += 1
             else:
-                print "- " + str(outdev[16].keys()[x]) + " is " + str(round(outdev[16].values()[x][0],4)) + ", Check it to start the measurements"
+                print "-> " + str(outdev[16].keys()[x]) + " is " + str(round(outdev[16].values()[x][0],4)) + ", Check it to start the measurements"
 #        type -1
         for x in range(0, (len(outdev[8]))):
             if outdev[8].items()[x][0]!=outdev[9].items()[x][0] or str(outdev[8].items()[x][1])!=str(round(outdev[9].items()[x][1],1)):
                 print str(outdev[8].items()[x][1]),str(outdev[9].items()[x])
 #                print "- " + str(outdev[8].keys()[x])+ " is " + str(round(outdev[8].values()[x],4)) + ", Open it to start the measurements, type: pos " + str(outdev[8].keys()[x]) + " 1"
-                print "- " + str(outdev[8].keys()[x])+ " is " + str(round(outdev[8].values()[x],4)) + ", Open it to start the measurements, type: caput(" + str(outdev[22].values()[x]).strip('caget(').strip(')') + ',' + str(outdev[9].values()[x]).strip('.0') + ')'
+                print "-> " + str(outdev[8].keys()[x])+ " is " + str(round(outdev[8].values()[x],4)) + ", Open it to start the measurements, type: caput(" + str(outdev[22].values()[x]).strip('caget(').strip(')') + ',' + str(outdev[9].values()[x]).strip('.0') + ')'
                 errors += 1
             else:
-                print "- " + str(outdev[8].keys()[x]) + " is open."
+                print "-> " + str(outdev[8].keys()[x]) + " is open."
 #        type -2
         for x in range(0, len(outdev[10])):
             if outdev[10].items()[x]<=outdev[11].items()[x]:
 #                print "- " + str(outdev[10].keys()[x])+ " is " + str(round(outdev[10].values()[x],4)) + ", "+str(outdev[10].keys()[x]) +" may be too small \nOpen it to start the measurements, type: pos " + str(outdev[10].keys()[x]) + " " + str(outdev[11].values()[x])
-                print "- " + str(outdev[10].keys()[x])+ " is " + str(round(outdev[10].values()[x],2)) + ", "+str(outdev[10].keys()[x]) +" may be too small \nOpen it to start the measurements, type: caput(" + str(outdev[23].values()[x]).strip('caget(').strip(')') + "," + str(outdev[11].values()[x]) + ")"
+                print "-> " + str(outdev[10].keys()[x])+ " is " + str(round(outdev[10].values()[x],2)) + ", "+str(outdev[10].keys()[x]) +" may be too small \nOpen it to start the measurements, type: caput(" + str(outdev[23].values()[x]).strip('caget(').strip(')') + "," + str(outdev[11].values()[x]) + ")"
                 errors += 1
 #        type -3
         for x in range(0, (len(outdev[12]))):
             if outdev[12].items()[x]>outdev[13].items()[x]:
 #                print "- " + str(outdev[12].keys()[x])+ " is " + str(round(outdev[12].values()[x],4)) + ", "+str(outdev[12].keys()[x]) +" may be too large\nDecrease it to start the measurements, type: pos " + str(outdev[12].keys()[x]) + " " + str(outdev[13].values()[x])
-                print "- " + str(outdev[12].keys()[x])+ " is " + str(round(outdev[12].values()[x],2)) + ", "+str(outdev[12].keys()[x]) +" may be too large\nDecrease it to start the measurements, type: caput(" + str(outdev[24].values()[x]).strip('caget(').strip(')') + "," + str(outdev[13].values()[x]) + ")"
+                print "-> " + str(outdev[12].keys()[x])+ " is " + str(round(outdev[12].values()[x],2)) + ", "+str(outdev[12].keys()[x]) +" may be too large\nDecrease it to start the measurements, type: caput(" + str(outdev[24].values()[x]).strip('caget(').strip(')') + "," + str(outdev[13].values()[x]) + ")"
                 errors += 1
 #        type -4
         for x in range(0, (len(outdev[14]))):
             if round(outdev[14].values()[x],4)==outdev[15].values()[x]:
-                print "- " + str(outdev[14].keys()[x])+ " is " + str(round(outdev[14].values()[x],4)) 
+                print "-> " + str(outdev[14].keys()[x])+ " is " + str(round(outdev[14].values()[x],4)) 
 #                errors += 1
             else:
-                print "- " + str(outdev[14].keys()[x]) + " is " + str(round(outdev[14].values()[x],4)) + ", Check it to start the measurements"
+                print "-> " + str(outdev[14].keys()[x]) + " is " + str(round(outdev[14].values()[x],4)) + ", Check it to start the measurements"
         return errors
     
 ################################################################################
@@ -241,9 +241,9 @@ class whynobeam:
         if errors==0:
             goodness="\n--------------------------------------------------" + "\nEverything is OK, please check beam current in the ring if no beam is available.\nIf the problem still persists, \nCall your local contact, the numbers are on the whiteboard.\n--------------------------------------------------"      
         else:
-            goodness="\n--------------------------------------------------" + "\nP(beam) factor: " + str(0.1*(len(outdev[0])+len(outdev[1])+len(outdev[2])+len(outdev[6])+len(outdev[8])+len(outdev[10])+len(outdev[12])+len(outdev[14])+1)/errors) + " (higher is better),\nPossible errors: " + str(errors) +"\n--------------------------------------------------"
+            goodness="\n--------------------------------------------------" + "\nPossible errors: " + str(errors) +"\n--------------------------------------------------"
         print goodness
-        print 'Device Name'.ljust(20) + " ---->  " + "Value".ljust(10) + " ( " + "Best Value".ljust(7) + " )\n"
+        print '\nDevice Name'.ljust(20) + " ---->  " + "Value".ljust(10) + " ( " + "Best Value".ljust(7) + " )\n"
         for x in range(0, len(outdev[0])):
             print str(outdev[0].keys()[x]).ljust(20) + " ---->  " + str(round(outdev[0].values()[x],3)).ljust(10) + " ( " + '= ' + str(outdev[3].values()[x]).strip('.0').ljust(7) + " )"
         for x in range(0, len(outdev[1])):
@@ -352,7 +352,18 @@ class whynobeam:
             print "minimirros are out"
         else:
             print "minimirrors are in"
+ 
+################################################################################
+#Tells what is the current energy and relative information
+################################################################################
     
+#    def energyinfo(self):
+#        '''Tells what is the current energy'''
+#	mirrorcoating=en.coating()
+#	print "\nCurrent Energy: " + str(round(en(),5)) 
+#	print "With mirror coating: " + str(mirrorcoating) + " Selectect harmonic: " + str(uharmonic()) + " with idgap: " + str(idgap())
+    
+   
 ################################################################################
 #Default device list
 ################################################################################

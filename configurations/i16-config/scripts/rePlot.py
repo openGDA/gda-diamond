@@ -7,7 +7,7 @@ from gda.data import NumTracker
 from gda.data import PathConstructor
 import random
 
-numTracker = NumTracker("tmp")
+numTracker = NumTracker("scanbase_numtracker")
 def replot(relativefilenumber,axis1,axis2):
 	if relativefilenumber > 0:
 		file = PathConstructor.createFromDefaultProperty()	

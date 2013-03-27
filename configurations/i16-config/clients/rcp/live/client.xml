@@ -37,5 +37,24 @@ http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 		<property name="service" ref="plot_server" />
 	</bean>
 
+	
+	<bean id="webcam2" class="uk.ac.gda.video.views.CameraParameters">
+		<property name="name" value="webcam2"/>
+		<property name="mjpegURL" value="http://i16-webcam2/mjpg/video.mjpg" />
+	</bean>
+	
+	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
+		<property name="cameras">
+			<list>
+				<ref bean= "webcam2"/>
+			</list>
+		</property>
+		<property name="plotViewID" value=""/>
+	</bean>
+	
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
+		<property name="service" ref="camera_config" />
+	</bean>
 
 </beans>

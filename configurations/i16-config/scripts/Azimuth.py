@@ -14,7 +14,7 @@ import Rotations
 import Diffractometer as sixC
 import MatrixAlgebra as MaAl
 
-
+VERBOSE = True
 ## This class allows to set and get the azimuathal settings and it
 #  allows to calculate the value of the azimuthal angle for a given
 #  reflection.
@@ -212,8 +212,9 @@ class Azimuth(java.lang.Object):
                psi2=-psi2
          except:
             argpsi=(-cos(self.tau)*sin(ttheta_mes/2.*pi/180.)+sin(beta*pi/180.))/(sin(self.tau)*cos(ttheta_mes/2.*pi/180.))
-            print "Warning::psi not well defined"
-            print  "arg of the cos >1?", argpsi                 
+            if VERBOSE:
+                print "Warning::psi not well defined"
+                print  "arg of the cos >1?", argpsi                 
             if argpsi >1: 
                psi1=0.
                psi2=0.
