@@ -168,9 +168,13 @@ public class I13MJPegViewCompositeFactory implements ADViewerCompositeFactory{
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				ScanParameterDialog scanParameterDialog = new ScanParameterDialog(e.display.getActiveShell());
-				scanParameterDialog.setBlockOnOpen(true);
-				scanParameterDialog.open();
+				try{
+					ScanParameterDialog scanParameterDialog = new ScanParameterDialog(e.display.getActiveShell());
+					scanParameterDialog.setBlockOnOpen(true);
+					scanParameterDialog.open();
+				}catch(Exception ex){
+					logger.error("Error displaying dialog",ex);
+				}
 			}
 		});
 		
