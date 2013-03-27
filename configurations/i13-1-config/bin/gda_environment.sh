@@ -13,17 +13,7 @@ then
   echo "Please set GDAFOLDER environment variable."
   exit 1
 fi
+GDA_CLIENT=${GDAFOLDER}/client/gda-i13j; export GDA_CLIENT
 
+export PATH=${GDAFOLDER}/config/bin:${GDAFOLDER}/workspace_git/gda-diamond.git/dls-config/bin:${PATH}
 
-export PATH=${GDAFOLDER}/${BEAMLINE}-config/bin:${PATH}
-
-( cd $HOME/Desktop && test -e "${BEAMLINE}_Launchers" || ln -s /usr/local/etc/"${BEAMLINE}_Launchers" . ) > /dev/null 2>&1
-( cd $HOME/Desktop && test -e "DLS_Launchers" || ln -s /usr/local/etc/"DLS_Launchers" . ) > /dev/null 2>&1
-
-#export VISNO=`/dls_sw/apps/mx-scripts/visit_tools/currentvisit`
-#export YEAR=`date +%Y`
-
-#if [[ ! `groups` =~ "dls_staff" && -r /dls/${BEAMLINE}/data/${YEAR}/${VISNO} ]]; then
-#  ( cd $HOME && test -e "${VISNO}" || ln -s /dls/${BEAMLINE}/data/${YEAR}/"${VISNO}" . ) > /dev/null 2>&1
-#fi
-#source $GDAFOLDER/workspace/builder/set_tools.sh > ~/.dasc_sw_setup.log
