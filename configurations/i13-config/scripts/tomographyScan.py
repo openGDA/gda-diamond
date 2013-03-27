@@ -6,6 +6,7 @@ from time import sleep
 
 from pcoDetectorWrapper import PCODetectorWrapper
 from gda.jython.commands.ScannableCommands import inc, scan, pos, createConcurrentScan
+from gda.scan import ConstantVelocityScanLine
 
 import sys
 import time
@@ -149,8 +150,60 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None):
     rcp.openView("uk.ac.gda.beamline.i13i.NormalisedImage")
     dnp.plot.image(t, name="Normalised Image")
     #turn camera back on
-    tomodet.setupForAlignment()
     return True
+"""
+perform a continuous tomogrpahy scan
+"""
+def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1.):
+    """
+    Function to collect a tomogram
+     Arguments:
+    inBeamPosition - position of X drive to move sample into the beam to take a projection
+    outOfBeamPosition - position of X drive to move sample out of the beam to take a flat field image
+    exposureTime - exposure time in seconds ( default = 1)
+    start - first rotation angle ( default=0.)
+    stop  - last rotation angle (default=180.)
+    step - rotation step size (default = 0.1)
+    darkFieldInterval - number of projections between each dark field. Note that a dark is always taken at the start and end of a tomogram (default=0.)
+    flatFieldInterval - number of projections between each flat field. Note that a dark is always taken at the start and end of a tomogram (default=0.)
+    imagesPerDark - number of images to be taken for each dark (default=20)
+    imagesPerFlat - number of images to be taken for each flat (default=20)
+    min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
+
+    """
+    try:
+        jns=beamline_parameters.JythonNameSpaceMapping()
+        tomodet=jns.tomodet
+        if tomodet is None:
+	        raise "tomodet is not defined in Jython namespace"
+        tomography_flyscan_theta=jns.tomography_flyscan_theta
+        if tomography_flyscan_theta is None:
+            raise "tomography_flyscan_theta is not defined in Jython namespace"
+
+        tomography_flyscan_det=jns.tomography_flyscan_det
+        if tomography_flyscan_det is None:
+            raise "tomography_flyscan_det is not defined in Jython namespace"
+        
+        tomography_shutter=jns.tomography_shutter
+        if tomography_shutter is None:
+            raise "tomography_shutter is not defined in Jython namespace"
+
+        #ensure the soft control of the shutter is open at the end of the scan
+        tomography_shutter.moveTo( "Open")        
+
+        scanObject=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step, tomography_flyscan_det, exposureTime])
+        tomodet.stop()
+        
+        scanObject.runScan()
+        #turn camera back on
+        tomodet.setupForAlignment()
+        return scanObject;
+    except :
+        exceptionType, exception, traceback = sys.exc_info()
+        handle_messages.log(None, "Error in tomoFlyScanScan", exceptionType, exception, traceback, False)
+
+
 """
 perform a simple tomogrpahy scan
 """
@@ -177,6 +230,10 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         flatFieldInterval=int(flatFieldInterval)
         
         jns=beamline_parameters.JythonNameSpaceMapping()
+        tomodet=jns.tomodet
+        if tomodet is None:
+	        raise "tomodet is not defined in Jython namespace"
+
         tomography_theta=jns.tomography_theta
         if tomography_theta is None:
             raise "tomography_theta is not defined in Jython namespace"
@@ -294,14 +351,20 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
                 raise "ionc_i is not defined in Jython namespace"
             beamok=gdascripts.scannable.beamokay.WaitWhileScannableBelowThresholdMonitorOnly("beamok", ionc_i, min_i)
             scan_args.append(beamok)
+            
         scanObject=createConcurrentScan(scan_args)
+
+        tomodet.stop()
         scanObject.runScan()
         #ensure the soft control of the shutter is open at the end of the scan
-        tomography_shutter.moveTo( "Open")		
+        tomography_shutter.moveTo( "Open")	
+        #turn camera back on
+        tomodet.setupForAlignment()
         return scanObject;
     except :
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Error in tomoScan", exceptionType, exception, traceback, False)
+
 
 from gda.commandqueue import JythonScriptProgressProvider
 def updateProgress( percent, msg):
@@ -318,10 +381,16 @@ def ProcessScanParameters(scanParameterModelXML):
     parameters = resource.getContents().get(0);
     setTitle(parameters.getTitle())
     updateProgress(0, "Starting tomoscan" + parameters.getTitle());
-    tomoScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
-             darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
-              imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI)    
-    updateProgress(100,"Done");
+    print "Flyscan:" + `parameters.flyScan`
+    if( parameters.flyScan ):
+        tomoFlyScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
+                 darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
+                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI)    
+    else:
+        tomoScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
+                 darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
+                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI)    
+        updateProgress(100,"Done");
     
 
 def __test1_tomoScan():

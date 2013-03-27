@@ -47,14 +47,12 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 
 import uk.ac.gda.beamline.i13i.DisplayScaleProvider;
-import uk.ac.gda.epics.adviewer.ADController;
 import uk.ac.gda.epics.adviewer.composites.MJPeg;
 import uk.ac.gda.epics.adviewer.composites.imageviewer.IImagePositionEvent;
 import uk.ac.gda.epics.adviewer.composites.imageviewer.ImagePositionListener;
 import uk.ac.gda.epics.adviewer.views.MJPegView;
-import uk.ac.gda.epics.adviewer.views.MJPegViewInitialiser;
 
-public class I13MJPegViewInitialiser implements MJPegViewInitialiser {
+public class I13MJPegViewInitialiser  {
 
 	I13ADControllerImpl adControllerImpl;
 	boolean changeRotationAxisX, changeImageMarker, moveOnClickEnabled;
@@ -65,15 +63,12 @@ public class I13MJPegViewInitialiser implements MJPegViewInitialiser {
 	private MJPeg mJPeg;
 	MJPegView mjPegView;
 
-	@Override
-	public void init(ADController adController, MJPegView mjPegView, MJPeg mJPeg) {
-		
-			if( !(adController instanceof I13ADControllerImpl)){
-				throw new IllegalArgumentException("ADController must be of type I13ADControllerImpl");
-			}
-		adControllerImpl = (I13ADControllerImpl)adController;		
+	public I13MJPegViewInitialiser(I13ADControllerImpl adController, MJPeg mJPeg, MJPegView mjPegView) {
+		super();
+		this.adControllerImpl = adController;
 		this.mJPeg = mJPeg;
 		this.mjPegView = mjPegView;
+
 		Menu rightClickMenu = new Menu(mJPeg.getCanvas());
 		MenuItem setRotationAxisX = new MenuItem(rightClickMenu, SWT.PUSH);
 		setRotationAxisX.setText("Mark next click position as rotationAxisX");
@@ -288,7 +283,7 @@ public class I13MJPegViewInitialiser implements MJPegViewInitialiser {
 		toolBar.add(showMenu);
 		toolBar.add(moveMenu);
 
-		adControllerImpl.getRotationAxisXScannable().addIObserver(new IObserver() {
+		rotationAxisObserver = new IObserver() {
 
 			@Override
 			public void update(Object source, final Object arg) {
@@ -300,9 +295,10 @@ public class I13MJPegViewInitialiser implements MJPegViewInitialiser {
 				}
 			}
 
-		});
+		};
+		adControllerImpl.getRotationAxisXScannable().addIObserver(rotationAxisObserver);
 
-		adControllerImpl.getCameraXYScannable().addIObserver(new IObserver() {
+		cameraXYObserver = new IObserver() {
 
 			@Override
 			public void update(Object source, final Object arg) {
@@ -312,7 +308,8 @@ public class I13MJPegViewInitialiser implements MJPegViewInitialiser {
 				}
 			}
 
-		});
+		};
+		adControllerImpl.getCameraXYScannable().addIObserver(cameraXYObserver);
 
 		showRotationAxisFromNonUIThread(rotationAxisAction);
 		showImageMarkerFromNonUIThread(showImageMarkerAction);
@@ -402,6 +399,8 @@ public class I13MJPegViewInitialiser implements MJPegViewInitialiser {
 
 	static int widthOffAxis = 20;
 	static int widthOffAxisHalf = widthOffAxis / 2;
+	private IObserver rotationAxisObserver;
+	private IObserver cameraXYObserver;
 
 	void showImageMarker(boolean show) throws Exception {
 		RectangleFigure imageMarkerFigureX = getImageMarkerFigureX();
@@ -499,4 +498,15 @@ public class I13MJPegViewInitialiser implements MJPegViewInitialiser {
 		return MatrixUtils.createRealVector(data);
 	}
 
+	void  dispose(){
+		if( rotationAxisObserver != null ){
+			adControllerImpl.getRotationAxisXScannable().deleteIObserver(rotationAxisObserver);
+			rotationAxisObserver = null;
+		}
+		if( cameraXYObserver != null ){
+			adControllerImpl.getCameraXYScannable().deleteIObserver(cameraXYObserver);
+			cameraXYObserver = null;
+		}
+		
+	}
 }

@@ -25,6 +25,8 @@ import gda.device.EnumPositioner;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -37,13 +39,13 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IWorkbenchPartSite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
 import uk.ac.gda.client.CommandQueueViewFactory;
 import uk.ac.gda.epics.adviewer.ADController;
+import uk.ac.gda.epics.adviewer.composites.MJPeg;
 import uk.ac.gda.epics.adviewer.views.ADViewerCompositeFactory;
 import uk.ac.gda.epics.adviewer.views.MJPegView;
 import uk.ac.gda.tomography.scan.editor.ScanParameterDialog;
@@ -53,14 +55,13 @@ public class I13MJPegViewCompositeFactory implements ADViewerCompositeFactory{
 
 	I13MJPegViewInitialiser i13MJPegViewInitialiser;	
 	
-	public I13MJPegViewCompositeFactory(I13MJPegViewInitialiser i13mjPegViewInitialiser) {
+	public I13MJPegViewCompositeFactory() {
 		super();
-		i13MJPegViewInitialiser = i13mjPegViewInitialiser;
 	}
 
 
 	@Override
-	public Composite createComposite(ADController adController, Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
+	public Composite createComposite(ADController adController, Composite parent, MJPegView mjPegView, MJPeg mJPeg) {
 		if( !(adController instanceof I13ADControllerImpl)){
 			throw new IllegalArgumentException("ADController must be of type I13ADControllerImpl");
 		}
@@ -170,6 +171,17 @@ public class I13MJPegViewCompositeFactory implements ADViewerCompositeFactory{
 				ScanParameterDialog scanParameterDialog = new ScanParameterDialog(e.display.getActiveShell());
 				scanParameterDialog.setBlockOnOpen(true);
 				scanParameterDialog.open();
+			}
+		});
+		
+		
+		i13MJPegViewInitialiser = new I13MJPegViewInitialiser(adControllerImpl, mJPeg, mjPegView);
+		c.addDisposeListener(new DisposeListener() {
+			
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				if( i13MJPegViewInitialiser != null)
+					i13MJPegViewInitialiser.dispose();
 			}
 		});
 		

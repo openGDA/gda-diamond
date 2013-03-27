@@ -23,6 +23,7 @@
 				<entry key="pco1_proc2" value-ref="pco1_proc2" />
 				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file"/>
 				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif"/>
+				<entry key="pco1_stat" value-ref="pco1_stat"/>
 				<entry key="pco1_singleExposurePcoSoftwareTrigger" value-ref="pco1_singleExposurePcoSoftwareTrigger"/>
 				<entry key="pco1_singleExposurePco" value-ref="pco1_singleExposurePco"/>
 				<entry key="pco1_autoContinuousTrigger" value-ref="pco1_autoContinuousTrigger"/>
@@ -78,6 +79,7 @@
 		<property name="noLongerBusyTriggerInVal" value="39"/>
 		<property name="noLongerBusyTriggerSetupCommand" value="tfg setup-trig start adc5 alternate 1"/>
 		<property name="adcMode" value="0"/>
+		<property name="useShutterPV" value="true"/>
 	</bean>
 	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
@@ -92,13 +94,11 @@
 		<property name="framesFlush" value="64"/>
 	</bean>
 
-	<bean id="pco4000_Zebra" class="gda.device.detector.addetector.triggering.PCOMultipleExposureHardwareTrigger">
+	<bean id="pco4000_Zebra" class="gda.device.detector.addetector.triggering.HardwareTriggeredPCO">
 		<constructor-arg ref="pco1_cam_base" />
-		<constructor-arg value="10000" />
+		<constructor-arg value=".001" />
 		<constructor-arg ref="adDriverPco1" />
-		<property name="adcMode" value="1"/>
-		<property name="timeStamp" value="1"/>
-		<property name="readoutTime" value="0.2"/>
+		<property name="etfg" ref="tfg"/>
 	</bean>
 
 
@@ -119,9 +119,9 @@
 
 	<bean id="pco1_hdf" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndStats" ref="pco1_stat" />
+<!-- 		<property name="ndStats" ref="pco1_stat" />
 		<property name="ndArray" ref="pco1_arr" />
-		<property name="ndFile" ref="pco1_ndfilehdf5_base" />
+ -->		<property name="ndFile" ref="pco1_ndfilehdf5_base" />
 		<property name="collectionStrategy" ref="pco1_singleExposurePco"/>
 		<property name="fileWriter" ref="pco1_hdf5_filewriter"/>
 		<property name="readAcquisitionTime" value="true" />
@@ -134,9 +134,9 @@
 
 	<bean id="pco1_hdf_longExposure" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndStats" ref="pco1_stat" />
+<!-- 		<property name="ndStats" ref="pco1_stat" />
 		<property name="ndArray" ref="pco1_arr" />
-		<property name="ndFile" ref="pco1_ndfilehdf5_base" />
+ -->		<property name="ndFile" ref="pco1_ndfilehdf5_base" />
 		<property name="collectionStrategy" ref="pco1_multipleExposurePco"/>
 		<property name="fileWriter" ref="pco1_hdf5_filewriter"/>
 		<property name="readAcquisitionTime" value="true" />
@@ -150,9 +150,9 @@
 
 	<bean id="pco1_tif" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndStats" ref="pco1_stat" />
+<!-- 		<property name="ndStats" ref="pco1_stat" />
 		<property name="ndArray" ref="pco1_arr" />
-		<property name="ndFile" ref="pco1_ndfiletif" />
+ -->		<property name="ndFile" ref="pco1_ndfiletif" />
 		<property name="collectionStrategy" ref="pco1_singleExposurePco"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
@@ -175,9 +175,9 @@
 
 	<bean id="pco1_hw_tif" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndStats" ref="pco1_stat" />
+<!-- 		<property name="ndStats" ref="pco1_stat" />
 		<property name="ndArray" ref="pco1_arr" />
-		<property name="ndFile" ref="pco1_ndfiletif" />
+ -->		<property name="ndFile" ref="pco1_ndfiletif" />
 		<property name="collectionStrategy" ref="pco1_tfg"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
@@ -200,9 +200,9 @@
 
 	<bean id="pco1_hw_hdf" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndStats" ref="pco1_stat" />
+<!-- 		<property name="ndStats" ref="pco1_stat" />
 		<property name="ndArray" ref="pco1_arr" />
-		<property name="ndFile" ref="pco1_ndfiletif" />
+ -->		<property name="ndFile" ref="pco1_ndfiletif" />
 		<property name="collectionStrategy" ref="pco1_tfg"/>
 		<property name="fileWriter" ref="pco1_hdf5_filewriter"/>
 		<property name="readAcquisitionTime" value="true" />
@@ -218,9 +218,9 @@
 
 	<bean id="dimax_tif" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndStats" ref="pco1_stat" />
+<!-- 		<property name="ndStats" ref="pco1_stat" />
 		<property name="ndArray" ref="pco1_arr" />
-		<property name="ndFile" ref="pco1_ndfiletif" />
+ -->		<property name="ndFile" ref="pco1_ndfiletif" />
 		<property name="collectionStrategy" ref="pco1_multipleExposurePco"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">

@@ -107,16 +107,16 @@ try:
 		
 			caput("BL13I-EA-TURR-01:DEMAND.ONST", "2")
 			caput("BL13I-EA-TURR-01:CURRENTPOS.ONST", "2")
-			caput("BL13I-EA-TURR-01:DEMAND.TWST", "3")
-			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", "3")
+			caput("BL13I-EA-TURR-01:DEMAND.TWST", lensX4)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", lensX4)
 			caput("BL13I-EA-TURR-01:DEMAND.THST", "4")
 			caput("BL13I-EA-TURR-01:CURRENTPOS.THST", "4")
 			caput("BL13I-EA-TURR-01:DEMAND.FRST", "5")
 			caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", "5")
 		
 		
-			caput("BL13I-EA-TURR-01:DEMAND.FVST", lensX4)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", lensX4)
+			caput("BL13I-EA-TURR-01:DEMAND.FVST", "6")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", "6")
 			caput("BL13I-EA-TURR-01:DEMAND.SXST", lensX10)
 			caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", lensX10)
 			#make the lens re-read its list of positions following setting them in EPICS above
