@@ -93,6 +93,8 @@
 	</bean>
 	<bean id="imageStats" class="gda.device.detector.nexusprocessor.DatasetStats" >
 		<property name="enable" value="true" />
+		<property name="profileX" value="true"/>
+		<property name="profileY" value="true"/>
 	</bean>
 	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
 		<property name="plotName" value="Detector Image" />
@@ -175,6 +177,21 @@
 		<constructor-arg ref="imageProcessors"/>
 		<constructor-arg ref="imageROI"/>
 	</bean>
+	<bean id="cam_ad_filename_processor2" class="gda.device.detector.nexusprocessor.NexusProviderFilenameProcessor">
+		<constructor-arg value="" />
+		<constructor-arg value="image_data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors2"/>
+		<constructor-arg ref="imageROI2"/>
+	</bean>
+	<bean id="cam_ad_filename_processor3" class="gda.device.detector.nexusprocessor.NexusProviderFilenameProcessor">
+		<constructor-arg value="" />
+		<constructor-arg value="image_data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors3"/>
+		<constructor-arg ref="imageROI3"/>
+	</bean>
+
 
 	<bean id="cam_ad_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
 		<property name="processors">
@@ -224,11 +241,12 @@
  -->	<import resource="../../devices/s6.xml" />
 
 	<import resource="../../devices/sample_stage_t1.xml" />
+	<import resource="../../devices/g1.xml" />
 	<import resource="../../devices/sample_stage_camera.xml" />
 	<import resource="../../devices/moveable_camera.xml" />
 	<import resource="../../devices/s7.xml" />
 
-	<import resource="../../devices/alignment_scope.xml" />
+	<import resource="../../devices/scope1.xml" />
 
 	<import resource="../../devices/dummyAD.xml" />
 

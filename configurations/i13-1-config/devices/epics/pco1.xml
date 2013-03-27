@@ -176,10 +176,10 @@
 	
 	<bean id="pco1_multipleExposurePco" class="gda.device.detector.addetector.triggering.PCOMultipleExposureSoftwareTriggerAutoMode">
 		<constructor-arg ref="pco1_cam_base" />
-		<constructor-arg value="2" />
+		<constructor-arg value="2." />
 		<constructor-arg ref="adDriverPco1" />
 		<property name="ndProcess" ref ="pco1_proc1"/>
-		<property name="exposureTime" value="2"/>
+		<property name="exposureTime" value="1."/>
 	</bean>
 	
 <!-- 	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
@@ -254,7 +254,7 @@
 		<property name="collectionStrategy" ref="pco1_multipleExposurePco"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg value="dimax"/>
+				<constructor-arg value="pcoEdge"/>
 				<property name="ndFile" ref="pco1_ndfiletif" />
 				<property name="returnExpectedFullFileName" value="true"/>
 				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>

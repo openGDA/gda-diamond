@@ -123,9 +123,10 @@
       </perspectiveExtension>
    </extension>    
    
+<!--
 <extension point="org.eclipse.ui.activities">
 
-	<!--category
+	<category
 	    name="I13 GDA"
 	    id="uk.ac.gda.beamline.i13.GDACategory">
 	</category>
@@ -168,7 +169,7 @@
                 		<equals value="uk.ac.gda.beamline.i13j.perspectives.DataCollectionPerspective"/>
             		</with>
     		</disableWhen>
-	</activity-->
+	</activity>
 
     <activity id="rcpcolibri.disablextensions" name="Hidden activities">
 			<enabledWhen><not>
@@ -182,7 +183,7 @@
     		</enabledWhen>
     </activity>
     <activityPatternBinding activityId="rcpcolibri.disablextensions" pattern="org.dawb.*"/>
-   </extension>  
+   </extension>  -->
    <extension point="org.eclipse.ui.menus">   
 	<menuContribution
             locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">

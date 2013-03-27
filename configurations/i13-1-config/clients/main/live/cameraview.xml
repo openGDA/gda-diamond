@@ -64,7 +64,7 @@
 
 	<bean id="pco_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="PCO"/>
-		<property name="urlPV" value="BL13J-EA-DET-01:MPEG:MJPG_URL_RBV" />
+		<property name="urlPV" value="BL13J-EA-DET-01:MPG1:MJPG_URL_RBV" />
 		<property name="exposurePV" value="BL13J-EA-DET-01:CAM:AcquireTime" />
 		<property name="acqPeriodPV" value="BL13J-EA-DET-01:CAM:AcquirePeriod" />
 		<property name="gainPV" value="BL13J-EA-DET-01:CAM:Gain" />

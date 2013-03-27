@@ -15,11 +15,11 @@ if [ "$1" = "--clean" ]
 then
     echo "rm -rf /scratch/.i13-1_workspace-$(whoami)"
     rm -rf /scratch/.i13-1_workspace-$(whoami)
-    rm -rf /scratch/gda_configs/$(whoami)
+    rm -rf /scratch/.i13-1_eclipse_config-$(whoami)
 fi
 
 LD_LIBRARY_PATH=$GDAFOLDER/client/plugins/uk.ac.gda.nexus_1.0.0/lib/linux-x86_64/:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
 
-$GDAFOLDER/client/gda-i13j -configuration /scratch/gda_configs/$(whoami)
+$GDAFOLDER/client/gda-i13j -configuration /scratch/.i13-1_eclipse_config-$(whoami)
 
