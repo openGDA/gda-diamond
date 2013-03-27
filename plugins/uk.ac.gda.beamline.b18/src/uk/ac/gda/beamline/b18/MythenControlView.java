@@ -221,7 +221,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 				NumTracker scanNumTracker;
 				try {
 					scanNumTracker = new NumTracker("tmp");
-					long scanNumber = scanNumTracker.getCurrentFileNumber();
+//					long scanNumber = scanNumTracker.getCurrentFileNumber();
 					scanNumTracker.incrementNumber();
 				} catch (IOException e2) {
 					logger.error("Could not create NumTracker to track scan file numbers", e2);
@@ -476,8 +476,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 	}
 
 	public void updatePlotMode(GuiPlotMode mode) {
-		plotWindow.updatePlotMode(mode);
-
+		plotWindow.updatePlotMode(mode, true);
 	}
 
 	public void processPlotUpdate(DataBean dBean) {
