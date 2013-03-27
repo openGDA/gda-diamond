@@ -69,20 +69,24 @@
 			<property name="columns" value="2"/>
 			<property name="compositeFactories">
 				<list>
-					<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+					<bean
+						class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 					<property name="scannable" ref="ringCurrent"/>
 					<property name="label" value="Ring Current"/>
 					<property name="units" value="mA"/>
+					<property name="decimalPlaces" value="3"/>
 					</bean>
 					<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 					<property name="scannable" ref="timeToRefill"/>
 					<property name="label" value="Time to refill"/>
 					<property name="units" value="s"/>
+					<property name="decimalPlaces" value="3"/>
 					</bean>
 					<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 					<property name="scannable" ref="idGap"/>
 					<property name="label" value="ID Gap"/>
 					<property name="units" value="mm"/>
+					<property name="decimalPlaces" value="3"/>
 					</bean>
 				</list>
 			</property>
