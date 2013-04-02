@@ -91,9 +91,19 @@
 		<constructor-arg ref="BL20I-OP-QCM-01:BRAGG1:ACTUAL"/>
 	</bean>
 
+	<bean id="bragg1_cal_set" class="gda.device.scannable.PVScannable">
+		<constructor-arg ref="bragg1_cal_energy" />
+		<constructor-arg ref="BL20I-OP-QCM-01:CALC:B1OFF.PROC"/>
+	</bean>
+
 	<bean id="bragg2_cal_energy" class="gda.device.scannable.PVScannable">
 		<constructor-arg ref="bragg1_cal_energy" />
 		<constructor-arg ref="BL20I-OP-QCM-01:BRAGG2:ACTUAL"/>
+	</bean>
+
+	<bean id="bragg2_cal_set" class="gda.device.scannable.PVScannable">
+		<constructor-arg ref="bragg1_cal_energy" />
+		<constructor-arg ref="BL20I-OP-QCM-01:CALC:B2OFF.PROC"/>
 	</bean>
 
 	<bean id="crystal1_pitch" class="gda.device.scannable.Crystal1PitchScannable">
