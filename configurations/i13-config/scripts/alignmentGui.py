@@ -55,7 +55,7 @@ class TomoDet():
         else:
             self.pco1_autoContinuousTrigger.triggerMode=0 #AUTO - ok for PCO4000
             
-        self.pco1_autoContinuousTrigger.prepareForCollection(exposureTime,1)
+        self.pco1_autoContinuousTrigger.prepareForCollection(exposureTime,1,None)
 
         self.pco1_proc1.getPluginBase().disableCallbacks()
         self.pco1_proc1.getPluginBase().setBlockingCallbacks(1)
