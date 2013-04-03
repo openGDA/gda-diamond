@@ -9,7 +9,7 @@ class ARPESMonitor:
         self.configure()
 
     def configure(self):
-        self.scienta.prepareFixedMode()
+        self.scienta.setFixedMode(True)
         self.scienta.getAdBase().setNumExposures(1)
         #self.scienta.setCollectionTime(1)
         

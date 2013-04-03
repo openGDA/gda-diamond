@@ -55,6 +55,8 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 	public final static MotorStatus stopped = MotorStatus.READY;
 	public final static MotorStatus running = MotorStatus.BUSY;
 	private MotorStatus currentstatus = stopped;
+
+	private int[] sweptModeRegion;
 	
 
 	@Override
@@ -149,6 +151,9 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 		default:
 			break;
 		}
+		
+		if (getNdProc().getResetFilter_RBV() == 1)
+			throw new DeviceException("processing plugin has not seen any data");
 
 		if (firstReadoutInScan) {
 			int i = 1;
@@ -175,23 +180,32 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 	}
 	
 	public void setFixedMode(boolean fixed) throws Exception {
-		if (fixed) 
+		int[] region = fixedModeRegion;
+		if (fixed) {
 			controller.setAcquisitionMode("Fixed");
-		else 
+		} else {
 			controller.setAcquisitionMode("Swept");
-	}
-	
-	public void prepareFixedMode() throws Exception {
-		setFixedMode(true);
-		getAdBase().setMinX(fixedModeRegion[0]);
-		getAdBase().setMinY(fixedModeRegion[1]);
-		getAdBase().setSizeX(fixedModeRegion[2]);
-		getAdBase().setSizeY(fixedModeRegion[3]);
+			if (sweptModeRegion != null) {
+				region = sweptModeRegion;
+			}
+		}
+		getAdBase().setMinX(region[0]);
+		getAdBase().setMinY(region[1]);
+		getAdBase().setSizeX(region[2]);
+		getAdBase().setSizeY(region[3]);
+		controller.setSlice(region[3]-region[0]);
 		getAdBase().setImageMode(0);
 		getAdBase().setTriggerMode(0);
-		controller.setSlice(fixedModeRegion[3]);
 	}
 
+	public int[] getSWeptModeRegion() {
+		return sweptModeRegion;
+	}
+
+	public void setSweptModeRegion(int[] sweptModeRegion) {
+		this.sweptModeRegion = sweptModeRegion;
+	}
+	
 	public int[] getFixedModeRegion() {
 		return fixedModeRegion;
 	}

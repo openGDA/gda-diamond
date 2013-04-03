@@ -46,10 +46,10 @@ class APRESRun:
             self.scienta.setEndEnergy(self.bean.getEndEnergy())
             self.scienta.setEnergyStep(self.bean.getStepEnergy()/1000.0)
         else:
-            self.scienta.prepareFixedMode()
+            self.scienta.setFixedMode(True)
             self.scienta.setCentreEnergy((self.bean.getEndEnergy()+self.bean.getStartEnergy())/2.0)
-        self.scienta.getAdBase().setNumExposures(self.bean.getIterations())
         self.scienta.setCollectionTime(self.bean.getTimePerStep())
+        self.scienta.getCollectionStrategy().setMaxNumberOfFrames(self.bean.getIterations())
         #set temperature
         #set photonenergy
         self.reportProgress("Running Acquisition")
