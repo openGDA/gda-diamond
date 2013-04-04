@@ -21,6 +21,9 @@
 	<bean id="bragg2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-QCM-01:BRAGG2" />
 	</bean>
+	<bean id="braggoffset_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20I-OP-QCM-01:OFFSET" />
+	</bean>
 	<bean id="crystal1_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL1:PITCH:FBMTR" />
 	</bean>
@@ -74,7 +77,36 @@
 		</property>
 	</bean>
 
-	<bean id="crystal1_pitch" class="gda.device.scannable.ScannableMotor">
+	<bean id="braggoffset" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="braggoffset_motor" />
+		<property name="outputFormat">
+			<util:list>
+				<value>%.4f</value>
+			</util:list>
+		</property>
+	</bean>
+	
+	<bean id="bragg1_cal_energy" class="gda.device.scannable.PVScannable">
+		<constructor-arg ref="bragg1_cal_energy" />
+		<constructor-arg ref="BL20I-OP-QCM-01:BRAGG1:ACTUAL"/>
+	</bean>
+
+	<bean id="bragg1_cal_set" class="gda.device.scannable.PVScannable">
+		<constructor-arg ref="bragg1_cal_energy" />
+		<constructor-arg ref="BL20I-OP-QCM-01:CALC:B1OFF.PROC"/>
+	</bean>
+
+	<bean id="bragg2_cal_energy" class="gda.device.scannable.PVScannable">
+		<constructor-arg ref="bragg1_cal_energy" />
+		<constructor-arg ref="BL20I-OP-QCM-01:BRAGG2:ACTUAL"/>
+	</bean>
+
+	<bean id="bragg2_cal_set" class="gda.device.scannable.PVScannable">
+		<constructor-arg ref="bragg1_cal_energy" />
+		<constructor-arg ref="BL20I-OP-QCM-01:CALC:B2OFF.PROC"/>
+	</bean>
+
+	<bean id="crystal1_pitch" class="gda.device.scannable.Crystal1PitchScannable">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="crystal1_pitch_motor" />
 	</bean>

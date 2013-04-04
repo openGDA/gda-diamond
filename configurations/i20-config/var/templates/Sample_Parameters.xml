@@ -3,7 +3,7 @@
 	<shouldValidate>true</shouldValidate>
 	<name>Please set a sample name / file prefix...</name>
 	<description>Please add a description...</description>
-	<sampleWheelPosition>1</sampleWheelPosition>
+	<sampleWheelPosition>Empty</sampleWheelPosition>
 	<useSampleWheel>false</useSampleWheel>
 	<sampleEnvironment>None</sampleEnvironment>
 	<roomTemperature>

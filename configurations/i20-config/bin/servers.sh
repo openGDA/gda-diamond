@@ -1,20 +1,18 @@
+#!/bin/bash
 # runs the servers locally
-. /usr/share/Modules/init/bash
-export IS_64_BIT=`uname -a | grep _64 | wc -l`
-if [ $IS_64_BIT==1 ]; then less 
-       module load java/6u37-64
-else
-       module load java/6u37-32
-fi
 
+# module command not working, so instead explicitly give the link for this GDA release
+export JAVA_HOME=/dls_sw/apps/java/x64/jdk1.6.0_37/jre
+export PATH=$PATH:/dls_sw/apps/java/x64/jdk1.6.0_37/jre/bin
 
 umask 0002
 
 # stop old servers
 pkill java
-#/dls_sw/i20/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda --stop objectserver
-#/dls_sw/i20/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda --stop eventserver
-#/dls_sw/i20/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda --stop nameserver
+
+# run the XMAP configuration script
+echo "Configure the XMAP/Vortex detector before (re)starting GDA servers..."
+/dls_sw/i20/software/gda/bin/vortex_config.sh
 
 # create log file and link to it
 export LOGFILE=/dls_sw/i20/logs/gda_output_`date +%F-%T`.txt
@@ -22,12 +20,11 @@ touch $LOGFILE
 rm /dls_sw/i20/logs/gda_output.txt
 ln -s $LOGFILE /dls_sw/i20/logs/gda_output.txt
 
-SERVER_STARTUP_FILE=/tmp/object_server_startup_server_main; export SERVER_STARTUP_FILE
+export SERVER_STARTUP_FILE=/tmp/object_server_startup_server_main
 rm -f $SERVER_STARTUP_FILE
 
-#nohup /dls_sw/i20/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda --config=/dls_sw/i20/software/gda/config --mode=live --debug -p 8001 --profiler --restart servers > $LOGFILE 2>&1 &
-
-
+echo ""
+echo "Now starting GDA servers..."
 nohup python /dls_sw/i20/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i20/software/gda/config --restart -v --mode=live nameserver > $LOGFILE 2>&1 &
 
 
