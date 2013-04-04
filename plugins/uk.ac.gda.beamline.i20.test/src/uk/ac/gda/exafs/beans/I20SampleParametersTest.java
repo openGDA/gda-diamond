@@ -109,7 +109,7 @@ public class I20SampleParametersTest {
 		cps.setTolerance(1d);
 		cps.setHeaterRange(CryostatParameters.HEATER_RANGE[0]);
 		cps.setWaitTime(5.0);
-		cps.setControlMode(CryostatParameters.CONTROL_MODE[0]);
+		cps.setControlMode(CryostatParameters.CONTROL_MODE[1]);
 		cps.setP(1d);
 		cps.setI(1d);
 		cps.setD(1d);
