@@ -2,16 +2,12 @@
 <XesScanParameters>
     <shouldValidate>true</shouldValidate>
     <scanType>1</scanType>
-    <analyserType>Si</analyserType>
-    <analyserCut0>1</analyserCut0>
-    <analyserCut1>1</analyserCut1>
-    <analyserCut2>1</analyserCut2>
     <radiusOfCurvature>900.0</radiusOfCurvature>
     <element>Fe</element>
     <edge>K</edge>
     <xesEnergy>2000.0</xesEnergy>
-    <xesInitialEnergy>2000.0</xesInitialEnergy>
-    <xesFinalEnergy>2200.0</xesFinalEnergy>
+    <xesInitialEnergy>5700</xesInitialEnergy>
+    <xesFinalEnergy>5900</xesFinalEnergy>
     <xesStepSize>1.0</xesStepSize>
     <xesIntegrationTime>0.0</xesIntegrationTime>
     <monoEnergy>15000.0</monoEnergy>

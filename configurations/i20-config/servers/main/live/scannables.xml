@@ -23,12 +23,8 @@
 	</bean>
 
 	<bean id="shutterChecker" class="gda.device.scannable.ShutterChecker">
-		<constructor-arg index="0">
-			<ref bean="shutter1" />
-		</constructor-arg>
-		<constructor-arg index="1">
-			<value>BL20I-PS-IOC-01:M11:LOP</value>
-		</constructor-arg>
+		<property name="shutter" ref="shutter1" />
+		<property name="pssPVName" value="BL20I-PS-IOC-01:M11:LOP"/>
 	</bean>
 
 	<bean id="test_motor" class="gda.device.motor.DummyMotor">
