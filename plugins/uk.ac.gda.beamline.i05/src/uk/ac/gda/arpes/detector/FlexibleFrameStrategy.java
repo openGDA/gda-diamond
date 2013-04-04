@@ -126,6 +126,11 @@ public class FlexibleFrameStrategy extends SimpleAcquire implements MonitorListe
 		return super.getAcquireTime() * proc.getNumFiltered_RBV();
 	}
 
+	public int getLastAcquired() throws Exception {
+		return proc.getNumFiltered_RBV();
+
+	}
+	
 	public int getCurrentFrame() {
 		return currentFrame;
 	}
