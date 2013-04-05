@@ -30,6 +30,7 @@ import gda.epics.connection.EpicsController;
 import gda.factory.FactoryException;
 import gda.factory.corba.util.CorbaAdapterClass;
 import gda.factory.corba.util.CorbaImplClass;
+import gda.observable.IObserver;
 import gov.aps.jca.dbr.DBR_Enum;
 import gov.aps.jca.event.MonitorEvent;
 import gov.aps.jca.event.MonitorListener;
@@ -42,7 +43,7 @@ import com.cosylab.epics.caj.CAJChannel;
 
 @CorbaAdapterClass(DeviceAdapter.class)
 @CorbaImplClass(DeviceImpl.class)
-public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector implements MonitorListener, FlexibleFrameDetector {
+public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector implements MonitorListener, FlexibleFrameDetector, IObserver {
 	private static final Logger logger = LoggerFactory.getLogger(VGScientaAnalyser.class);
 
 	private VGScientaController controller;
@@ -75,6 +76,7 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 			flex = new FlexibleFrameStrategy(getAdBase(), 0., getNdProc()); 
 			setCollectionStrategy(flex);
 			flex.setMaxNumberOfFrames(1);
+			flex.addIObserver(this);
 			
 			// for updates to GUI
 			epicsController = EpicsController.getInstance();
@@ -348,5 +350,11 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 	@Override
 	public void setMaximumFrame(int max) {
 		flex.setMaxNumberOfFrames(max);
+	}
+
+	@Override
+	public void update(Object source, Object arg) {
+		if (flex == source) 
+			notifyIObservers(source, arg);
 	}
 }
