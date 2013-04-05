@@ -39,7 +39,7 @@
         <level value="WARN"/>
     </logger>
     <root>
-        <level value="INFO"/>
+        <level value="ALL"/>
         <appender-ref ref="Console"/>
         <appender-ref ref="LogServer"/>
     </root>
