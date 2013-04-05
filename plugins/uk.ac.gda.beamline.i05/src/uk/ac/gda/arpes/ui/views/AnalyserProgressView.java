@@ -52,10 +52,17 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		parent.setLayout(new GridLayout(6, false));
+		GridLayout gl_parent = new GridLayout(6, false);
+		gl_parent.verticalSpacing = 15;
+		gl_parent.marginTop = 5;
+		gl_parent.marginRight = 5;
+		gl_parent.marginLeft = 5;
+		gl_parent.marginBottom = 5;
+		parent.setLayout(gl_parent);
 		
-		ProgressBar progressBar = new ProgressBar(parent, SWT.NONE);
-		progressBar.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 6, 1));
+		ProgressBar progressBar = new ProgressBar(parent, SWT.FILL);
+		progressBar.setSelection(100);
+		progressBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 6, 1));
 		
 		Label lblCurrentSweep = new Label(parent, SWT.NONE);
 		lblCurrentSweep.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -66,7 +73,9 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 		csweep.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		Label lblMaximumSweep = new Label(parent, SWT.NONE);
-		lblMaximumSweep.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		GridData gd_lblMaximumSweep = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		gd_lblMaximumSweep.horizontalIndent = 15;
+		lblMaximumSweep.setLayoutData(gd_lblMaximumSweep);
 		lblMaximumSweep.setText("Maximum Sweep");
 		
 		msweep = new Text(parent, SWT.BORDER | SWT.RIGHT);
@@ -74,6 +83,9 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 		msweep.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		Label lblNewMaximum = new Label(parent, SWT.NONE);
+		GridData gd_lblNewMaximum = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_lblNewMaximum.horizontalIndent = 15;
+		lblNewMaximum.setLayoutData(gd_lblNewMaximum);
 		lblNewMaximum.setText("New Maximum");
 		
 		sweepSpinner = new Spinner(parent, SWT.BORDER);
