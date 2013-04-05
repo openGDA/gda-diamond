@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <I20SampleParameters>
+	<shouldValidate>true</shouldValidate>
 	<name>Cytochrome</name>
 	<description>Cytochrome preparation #7</description>
 	<description>bla bla bla</description>
 	<sampleWheelPosition>Copper</sampleWheelPosition>
+	<useSampleWheel>false</useSampleWheel>
 	<sampleEnvironment>Cryostat</sampleEnvironment>
 	<cryostat>
 		<loopChoice>Loop over sample, then temperature</loopChoice>
