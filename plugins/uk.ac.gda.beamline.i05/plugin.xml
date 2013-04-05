@@ -133,5 +133,13 @@
             name="Continuous Mode"
             restorable="true">
       </view>
+            <view
+            category="gda.rcp.arpes"
+            class="uk.ac.gda.arpes.ui.views.AnalyserProgressView"
+            icon="icons/sample.gif"
+            id="uk.ac.gda.arpes.ui.analyserprogress"
+            name="Analyser Progress"
+            restorable="true">
+      </view>
    </extension>
 </plugin>

@@ -30,6 +30,7 @@ import gda.epics.connection.EpicsController;
 import gda.factory.FactoryException;
 import gda.factory.corba.util.CorbaAdapterClass;
 import gda.factory.corba.util.CorbaImplClass;
+import gda.observable.IObserver;
 import gov.aps.jca.dbr.DBR_Enum;
 import gov.aps.jca.event.MonitorEvent;
 import gov.aps.jca.event.MonitorListener;
@@ -42,7 +43,7 @@ import com.cosylab.epics.caj.CAJChannel;
 
 @CorbaAdapterClass(DeviceAdapter.class)
 @CorbaImplClass(DeviceImpl.class)
-public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector implements MonitorListener {
+public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector implements MonitorListener, FlexibleFrameDetector, IObserver {
 	private static final Logger logger = LoggerFactory.getLogger(VGScientaAnalyser.class);
 
 	private VGScientaController controller;
@@ -57,7 +58,8 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 	private MotorStatus currentstatus = stopped;
 
 	private int[] sweptModeRegion;
-	
+
+	private FlexibleFrameStrategy flex;
 
 	@Override
 	public void configure() throws FactoryException {
@@ -71,9 +73,10 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 			getNdProc().setNumFilter(1000000);
 			getNdProc().getPluginBase().enableCallbacks();
 			
-			FlexibleFrameStrategy flex = new FlexibleFrameStrategy(getAdBase(), 0., getNdProc()); 
+			flex = new FlexibleFrameStrategy(getAdBase(), 0., getNdProc()); 
 			setCollectionStrategy(flex);
 			flex.setMaxNumberOfFrames(1);
+			flex.addIObserver(this);
 			
 			// for updates to GUI
 			epicsController = EpicsController.getInstance();
@@ -139,17 +142,17 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 //		if (currentstatus == running)
 //			throw new DeviceException("analyser being read out while acquiring - we do not expect that");
 		switch (state) {
-		case 6:
-			throw new DeviceException("analyser in error state during readout");
-		case 1:
-			// The IOC can report acquiring for quite a while after being stopped
-			logger.debug("analyser status is acquiring during readout although we think it has stopped");
-			break;
-		case 10:
-			logger.warn("analyser in aborted state during readout");
-			break;
-		default:
-			break;
+			case 6:
+				throw new DeviceException("analyser in error state during readout");
+			case 1:
+				// The IOC can report acquiring for quite a while after being stopped
+				logger.debug("analyser status is acquiring during readout although we think it has stopped");
+				break;
+			case 10:
+				logger.warn("analyser in aborted state during readout");
+				break;
+			default:
+				break;
 		}
 		
 		if (getNdProc().getResetFilter_RBV() == 1)
@@ -176,7 +179,32 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 
 			data.addAxis(getName(), aname, new int[] { axis.length }, NexusFile.NX_FLOAT64, axis, i + 1, 1, aunit,
 					false);
+          
+//			<field name="entrance_slit_setting" type="NX_ANY">
+//			            <doc>dial setting of the entrance slit</doc>
+//			</field>
+//			<field name="entrance_slit_size" units="NX_LENGTH">
+//			            <doc>size of the entrance slit</doc>
+//			</field>
+
+			data.addData(getName(), "pass_energy", new int[] {1}, NexusFile.NX_INT32, new int[] { getPassEnergy() }, null, null);
+
+			data.addData(getName(), "sensor_size", new int[] {2}, NexusFile.NX_INT32, new int[] { getAdBase().getMaxSizeX_RBV(), getAdBase().getMaxSizeY_RBV() }, null, null);
+
+			data.addData(getName(), "region_origin", new int[] {2}, NexusFile.NX_INT32, new int[] { getAdBase().getMinX_RBV(), getAdBase().getMinY_RBV() }, null, null);
+
+			data.addData(getName(), "region_size", new int[] {2}, NexusFile.NX_INT32, new int[] { getAdBase().getSizeX_RBV(), getAdBase().getSizeY_RBV() }, null, null);
+
 		}
+		
+		int acquired = flex.getLastAcquired(); 
+		data.addData(getName(), "number_of_cycles", new int[] {1}, NexusFile.NX_INT32, new int[] { acquired }, null, null);
+	}
+	
+	@Override
+	protected void appendNXDetectorDataFromCollectionStrategy(NXDetectorData data) throws Exception {
+			double acquireTime_RBV = getCollectionStrategy().getAcquireTime(); // TODO: PERFORMANCE, cache or listen
+			addDoubleItemToNXData(data, "time_per_channel", acquireTime_RBV);
 	}
 	
 	public void setFixedMode(boolean fixed) throws Exception {
@@ -193,7 +221,7 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 		getAdBase().setMinY(region[1]);
 		getAdBase().setSizeX(region[2]);
 		getAdBase().setSizeY(region[3]);
-		controller.setSlice(region[3]-region[0]);
+		controller.setSlice(region[3]);
 		getAdBase().setImageMode(0);
 		getAdBase().setTriggerMode(0);
 	}
@@ -283,11 +311,6 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 	public void zeroSupplies() throws Exception {
 		controller.zeroSupplies();
 	}
-	
-	@Override
-	public boolean isLocal() {
-		return false;
-	}
 
 	@Override
 	public void monitorChanged(MonitorEvent arg0) {
@@ -312,5 +335,26 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 
 	public void setNdProc(NDProcess ndProc) {
 		this.ndProc = ndProc;
+	}
+
+	@Override
+	public int getCurrentFrame() {
+		return flex.getCurrentFrame();
+	}
+
+	@Override
+	public int getMaximumFrame() {
+		return flex.getMaxNumberOfFrames();
+	}
+
+	@Override
+	public void setMaximumFrame(int max) {
+		flex.setMaxNumberOfFrames(max);
+	}
+
+	@Override
+	public void update(Object source, Object arg) {
+		if (flex == source) 
+			notifyIObservers(source, arg);
 	}
 }

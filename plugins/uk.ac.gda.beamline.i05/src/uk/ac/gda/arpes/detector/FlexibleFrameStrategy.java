@@ -18,11 +18,15 @@
 
 package uk.ac.gda.arpes.detector;
 
+
 import gda.device.detector.addetector.triggering.SimpleAcquire;
 import gda.device.detector.areadetector.v17.ADBase;
 import gda.device.detector.areadetector.v17.NDProcess;
 import gda.device.detector.areadetector.v17.impl.ADBaseImpl;
 import gda.epics.connection.EpicsController;
+import gda.observable.IObservable;
+import gda.observable.IObserver;
+import gda.observable.ObservableComponent;
 import gov.aps.jca.CAException;
 import gov.aps.jca.TimeoutException;
 import gov.aps.jca.dbr.DBR_Int;
@@ -32,9 +36,11 @@ import gov.aps.jca.event.MonitorListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FlexibleFrameStrategy extends SimpleAcquire implements MonitorListener {
+public class FlexibleFrameStrategy extends SimpleAcquire implements MonitorListener, IObservable {
 	static final Logger logger = LoggerFactory.getLogger(FlexibleFrameStrategy.class);
 
+	private ObservableComponent oc = new ObservableComponent();
+	
 	private int maxNumberOfFrames = 1;
 
 	private int currentFrame = -1;
@@ -97,6 +103,8 @@ public class FlexibleFrameStrategy extends SimpleAcquire implements MonitorListe
 	//			logger.error("TODO put description of error here", e);
 			}
 		}
+		
+		notifyObservers();
 	}
 	
 	@Override
@@ -106,6 +114,7 @@ public class FlexibleFrameStrategy extends SimpleAcquire implements MonitorListe
 		wethinkweareincharge = false;
 		currentFrame = -1;
 		super.completeCollection();
+		notifyObservers();
 	}
 	
 	public int getMaxNumberOfFrames() {
@@ -124,5 +133,33 @@ public class FlexibleFrameStrategy extends SimpleAcquire implements MonitorListe
 	@Override
 	public double getAcquireTime() throws Exception {
 		return super.getAcquireTime() * proc.getNumFiltered_RBV();
+	}
+
+	public int getLastAcquired() throws Exception {
+		return proc.getNumFiltered_RBV();
+
+	}
+	
+	public int getCurrentFrame() {
+		return currentFrame;
+	}
+
+	@Override
+	public void addIObserver(IObserver observer) {
+		oc.addIObserver(observer);		
+	}
+
+	@Override
+	public void deleteIObserver(IObserver observer) {
+		oc.deleteIObserver(observer);
+	}
+
+	@Override
+	public void deleteIObservers() {
+		oc.deleteIObservers();		
+	}
+	
+	private void notifyObservers() {
+		oc.notifyIObservers(this, new FrameUpdate(currentFrame, maxNumberOfFrames));
 	}
 }
