@@ -9,7 +9,8 @@
 	<import resource="devices/s2.xml" />
 	<import resource="devices/s3.xml" />
 	<import resource="devices/dcm.xml" />
-	<!--  class cast exception <import resource="devices/d1.xml" /> -->
-	<!--  <import resource="devices/d2.xml" /> -->
+	<import resource="devices/shutter.xml" />
+	<import resource="devices/d1.xml" />
+	<import resource="devices/d2.xml" />
 
 </beans>

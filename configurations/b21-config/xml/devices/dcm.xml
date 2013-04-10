@@ -1,95 +1,93 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-<!-- 
-        <bean id="dcm_energy_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="dcm_energy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DCM.ENERGY" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="dcm_energy" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="dcm_energy_motor" />
-                <property name="local" value="true" />
-        </bean>
--->
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_energy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_energy_motor" />
+		<property name="local" value="true" />
+	</bean>
 
-        <bean id="dcm_offset_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="dcm_offset_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DCM.OFFSET" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="dcm_offset" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="dcm_offset_motor" />
-                <property name="local" value="true" />
-        </bean>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_offset" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_offset_motor" />
+		<property name="local" value="true" />
+	</bean>
 
-        <bean id="dcm_zcentre_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="dcm_zcentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DCM.ZCENTRE" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="dcm_zcentre" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="dcm_zcentre_motor" />
-                <property name="local" value="true" />
-        </bean>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_zcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_zcentre_motor" />
+		<property name="local" value="true" />
+	</bean>
 
-        <bean id="dcm_bragg_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="dcm_bragg_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DCM.BRAGG" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="dcm_bragg" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="dcm_bragg_motor" />
-                <property name="local" value="true" />
-        </bean>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_bragg_motor" />
+		<property name="local" value="true" />
+	</bean>
 
-        <bean id="dcm_z_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="dcm_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DCM.Z" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="dcm_z" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="dcm_z_motor" />
-                <property name="local" value="true" />
-        </bean>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_z_motor" />
+		<property name="local" value="true" />
+	</bean>
 
-        <bean id="dcm_perp_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="dcm_perp_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DCM.PERP" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="dcm_perp" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="dcm_perp_motor" />
-                <property name="local" value="true" />
-        </bean>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_perp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_perp_motor" />
+		<property name="local" value="true" />
+	</bean>
 
-        <bean id="dcm_pitch_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="dcm_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DCM.PITCH" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="dcm_pitch" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="dcm_pitch_motor" />
-                <property name="local" value="true" />
-        </bean>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_pitch_motor" />
+		<property name="local" value="true" />
+	</bean>
 
-        <bean id="dcm_roll_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="dcm_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DCM.ROLL" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="dcm_roll" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="dcm_roll_motor" />
-                <property name="local" value="true" />
-        </bean>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_roll_motor" />
+		<property name="local" value="true" />
+	</bean>
 
-        <bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
-                <property name="groupMembers">
-                        <list>
-                               <!--  <ref bean="dcm_energy" /> -->
-                                <ref bean="dcm_offset" />
-                                <ref bean="dcm_zcentre" />
-                                <ref bean="dcm_bragg" />
-                                <ref bean="dcm_z" />
-                                <ref bean="dcm_perp" />
-                                <ref bean="dcm_pitch" />
-                                <ref bean="dcm_roll" />
-                        </list>
-                </property>
-                <property name="local" value="true" />
-        </bean>
+	<bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dcm_energy" />
+				<ref bean="dcm_offset" />
+				<ref bean="dcm_zcentre" />
+				<ref bean="dcm_bragg" />
+				<ref bean="dcm_z" />
+				<ref bean="dcm_perp" />
+				<ref bean="dcm_pitch" />
+				<ref bean="dcm_roll" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
 </beans>

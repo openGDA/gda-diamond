@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.0.0.201208090952-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>xml/b21_biosaxscam.xml</config>
+		<config>xml/b21_client_beans.xml</config>
+		<config>xml/b21_mfgige.xml</config>
+		<config>xml/b21_pilatus.xml</config>
+		<config>xml/b21_server_beans.xml</config>
+		<config>xml/b21_server_devices.xml</config>
+		<config>xml/b21_server_dummy.xml</config>
+		<config>xml/b21_server_ncd.xml</config>
+		<config>xml/bsaxs-axes.xml</config>
+		<config>xml/devices/d1.xml</config>
+		<config>xml/devices/d2.xml</config>
+		<config>xml/devices/dcm.xml</config>
+		<config>xml/devices/s1.xml</config>
+		<config>xml/devices/s2.xml</config>
+		<config>xml/devices/s3.xml</config>
+		<config>xml/devices/s4.xml</config>
+		<config>xml/devices/shutter.xml</config>
+	</configs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>
