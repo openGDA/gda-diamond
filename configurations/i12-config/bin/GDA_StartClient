@@ -1,13 +1,1 @@
-#!/bin/bash
-
-
-if [ -f "/etc/profile.d/modules.sh" ]; then
-	. /etc/profile.d/modules.sh	
-	module load java/gda
-else
-	echo "cannot source /etc/profile.d/modules.sh"	
-	exit 1
-fi
-
-JAVA_OPTS="-Dorg.eclipse.swt.browser.XULRunnerPath=/dls_sw/apps/xulrunner/x86_64/usr/lib64/xulrunner-1.9.2 -Xms128m -Xmx1024m -XX:MaxPermSize=256m" `dirname $0`/gda rcpclient --rcp_image=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/client/gda  --restart  $@ #--debug --debugport=8003  --suspend=y
-#/$SOFTWAREFOLDER/$BEAMLINE/software/gda/client/gda -vmargs 
+/dls_sw/i12/software/gda_git/gda-diamond.git/dls-config/bin/gdaclient
