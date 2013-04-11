@@ -21,4 +21,4 @@ ssh -X -i /dls_sw/i15/software/gda/i15-config/i15ssh.key i15detector@i15-mar01 m
 
 echo Exit code from ssh: $?
 # 255 - Ctrl+C'ed out of mar345
-# 0   - mar345 exitted normally
+# 0   - mar345 exited normally
