@@ -1,54 +1,53 @@
+from gda.configuration.properties import LocalProperties
 print "<<< Entering: startup_diffcalc.py ..."
 
 import sys
-import gda.data.PathConstructor
-diffcalc_path = gda.data.PathConstructor.createFromProperty("gda.root").split('/plugins')[0] + '/diffcalc'
+diffcalc_path = LocalProperties.get("gda.install.git.loc") + '/diffcalc.git'
 sys.path = [diffcalc_path] + sys.path
-import diffcalc
-from diffcalc.external.GdaDiffcalcObjectFactory import createDiffcalcObjects, addObjectsToNamespace
+
+import diffcalc.hkl.you.geometry
+from diffcalc.gdasupport.factory import create_objects, add_objects_to_namespace
 from scannable.extraNameHider import ExtraNameHider
 
 
 
-from EulerianKconversionModes import EulerianKconversionModes
-EKCM = EulerianKconversionModes()
-mode e2k 1
+from gdascripts.pd.dummy_pds import DummyPD
+dummy_energy = DummyPD('dummy_energy')
 
+simple_energy = ExtraNameHider('energy', dummy_energy)  # @UndefinedVariable
+# For dummy: del mu, delta, gam, eta, chi, phi  # @UndefinedVariable
+demo_commands = []
+_tmp_names = list(euler.inputNames)
+_tmp_names[2] = 'nu'
+euler.inputNames = _tmp_names
 
-
-from diffractometer.scannable.EulerKappa import EulerKappa
-euler = EulerKappa('euler',sixckappaDC)
-phi = euler.phi; chi = euler.chi; eta = euler.eta; mu  = euler.mu; delta= euler.delta; gam = euler.gam
-
-simple_energy = ExtraNameHider('energy', energy)
-
-demoCommands = []
-#demoCommands.append( "newub 'cubic'" )
-#demoCommands.append( "setlat 'cubic' 1 1 1 90 90 90" )
-#demoCommands.append( "pos wl 1" )
-#demoCommands.append( "pos sixc [0 60 0 30 1 0]" )
-#demoCommands.append( "addref 1 0 0" )
-#demoCommands.append( "pos chi 91" )
-#demoCommands.append( "addref 0 0 1" )
-#demoCommands.append( "checkub" )
-#demoCommands.append( "ub" )
-#demoCommands.append( "hklmode" )
-
-diffcalcObjects=createDiffcalcObjects(
-                                      
-    axesGroupScannable = euler,
-    energyScannable = simple_energy,
-    energyScannableMultiplierToGetKeV = 1,
-    geometryPlugin = 'sixc',
-    hklverboseVirtualAnglesToReport=('2theta','alpha','beta','psi'),
-    demoCommands = demoCommands
+diffcalcObjects=create_objects(
+    #dummy_axis_names = ['mu', 'delta', 'gam', 'eta', 'chi', 'phi'],
+    axes_group_scannable = euler, #@UndefinedVariable
+    energy_scannable = simple_energy,
+    #dummy_energy_name = 'dummyenergy',
+    energy_scannable_multiplier_to_get_KeV = 1,
+    geometry = diffcalc.hkl.you.geometry.SixCircle(),
+    hklverbose_virtual_angles_to_report=('theta','alpha','beta','psi'),
+    demo_commands = demo_commands,
+    engine_name = 'you'
+    
 )
 
+#diffcalcObjects['diffcalcdemo'].commands = demo_commands;
+add_objects_to_namespace( diffcalcObjects, globals() )
 
-diffcalcObjects['diffcalcdemo'].commands = demoCommands;
-addObjectsToNamespace( diffcalcObjects, globals() )
+hkl.setLevel(6) #@UndefinedVariable
 
+#demo_commands.append( "newub 'cubic'" )
+#demo_commands.append( "setlat 'cubic' 1 1 1 90 90 90" )
+#demo_commands.append( "pos wl 1" )
+#demo_commands.append( "pos sixc [0 60 0 30 1 0]" )
+#demo_commands.append( "addref 1 0 0" )
+#demo_commands.append( "pos chi 91" )
+#demo_commands.append( "addref 0 0 1" )
+#demo_commands.append( "checkub" )
+#demo_commands.append( "ub" )
+#demo_commands.append( "hklmode" )
 
-
-hkl.setLevel(6)
 print "... Leaving: startup_diffcalc.py >>>"

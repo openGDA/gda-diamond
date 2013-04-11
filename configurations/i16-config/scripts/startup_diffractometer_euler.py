@@ -1,14 +1,4 @@
-print "<<< Entering: startup_diffractometer_euler_new.py ..."
-
-print "RENAMING on sixckappa and namespace: mu-->kmu, delta--> kdelta and gam-->kgam"
-#del sixckappa
-#exec("sixckappa = gda.device.scannable.DeferredAndTrajectoryScannableGroup()")
-#sixckappa.name = 'sixckappa'
-#sixckappa.setGroupMembers([kphi, kap, kth, kmu, kdelta, kgam])
-#sixckappa.setDeferredControlPoint(xps2DeferFlag)
-#sixckappa.setContinuousMoveController(Finder.getInstance().find("xpsTrajController"))
-#
-#sixckappa.configure()
+print "<<< Entering: startup_diffractometer_euler.py ..."
 
 from EulerianKconversionModes import EulerianKconversionModes
 EKCM = EulerianKconversionModes()
@@ -22,11 +12,9 @@ eta = euler.eta
 exec("mu=euler.mu")
 exec("delta=euler.delta")
 exec("gam=euler.gam")
-print "... Leaving: startup_diffractometer_euler_new.py >>>"
-
+print "... Leaving: startup_diffractometer_euler.py >>>"
 
 import beamline_objects as BLobjects
-
 
 BLobjects.my_kphi = kphi
 BLobjects.my_kap = kap

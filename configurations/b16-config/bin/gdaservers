@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ssh -x -o StrictHostKeyChecking=false -i /dls_sw/${BEAMLINE}/software/gda/config/${BEAMLINE}ssh.key gda@${BEAMLINE}-control.diamond.ac.uk
+ssh -x -o StrictHostKeyChecking=false -i /dls_sw/${BEAMLINE}/software/gda/config/${BEAMLINE}ssh.key gda2@${BEAMLINE}-control.diamond.ac.uk

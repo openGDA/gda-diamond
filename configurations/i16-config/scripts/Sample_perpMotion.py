@@ -1,7 +1,8 @@
 #sperp and spara using rotation matrix method
+#15/10/2012 implemented horizontal scattering mode (mu different from zero)
 
 class PerpStageMotion(PseudoDevice):
-	'''Device to move sample stage perpendicular or parallel to the beam when phi is not zero'''
+	'''Device to move sample stage perpendicular or parallel to the beam when phi and mu are not zero'''
 	def __init__(self,name,_sx,_sy,help=None):
 		self.setName(name)		
 		if help is not None: self.__doc__+='\nHelp specific to '+self.name+':\n'+help 
@@ -11,32 +12,39 @@ class PerpStageMotion(PseudoDevice):
 		self.setLevel(5)
 
 	def asynchronousMoveTo(self,value):
-		# get new x position
-		self.anticlock_x=sx.getPosition()*cos(phi.getPosition()/(180/pi))+sy.getPosition()*sin(phi.getPosition()/(180/pi))
-		self.clock_x=self.anticlock_x*cos(phi.getPosition()/(180/pi))-value*sin(phi.getPosition()/(180/pi))
-		self.clock_y=value*cos(phi.getPosition()/(180/pi))+self.anticlock_x*sin(phi.getPosition()/(180/pi))
+		murad=mu()*(pi/180)
+		phirad=phi()*(pi/180)
+		self.anticlock_x=sx()*cos(phirad-murad)+sy()*sin(phirad-murad)
+		self.clock_x=self.anticlock_x*cos(phirad-murad)-value*sin(phirad-murad)
+		self.clock_y=value*cos(phirad-murad)+self.anticlock_x*sin(phirad-murad)
 		sy.asynchronousMoveTo(self.clock_y)
 		sx.asynchronousMoveTo(self.clock_x)	
 		
 	def getPosition(self):
-		return sy.getPosition()*cos(phi.getPosition()/(180/pi))-sx.getPosition()*sin(phi.getPosition()/(180/pi))
+		murad=mu()*(pi/180)
+		phirad=phi()*(pi/180)
+		return sy()*cos(phirad-murad)-sx()*sin(phirad-murad)
 		
 	def isBusy(self):
 		return sx.isBusy() or sy.isBusy()
 
 sperp=PerpStageMotion("sperp", sx, sy, help="To move sample stage perpendicular to the beam.")
 
+		
 class ParaStageMotion(PerpStageMotion):
-	'''Device to move sample stage parallel to the beam when phi is not zero'''
+	'''Device to move sample stage parallel to the beam when phi and mu are not zero'''
 	def asynchronousMoveTo(self,value):
-
-		self.anticlock_y=sy.getPosition()*cos(phi.getPosition()/(180/pi))-sx.getPosition()*sin(phi.getPosition()/(180/pi))
-		self.clock_x=value*cos(phi.getPosition()/(180/pi))-self.anticlock_y*sin(phi.getPosition()/(180/pi))
-		self.clock_y=self.anticlock_y*cos(phi.getPosition()/(180/pi))+value*sin(phi.getPosition()/(180/pi))	
+		murad=mu()*(pi/180)
+		phirad=phi()*(pi/180)
+		self.anticlock_y=sy()*cos(phirad-murad)-sx()*sin(phirad-murad)
+		self.clock_x=value*cos(phirad-murad)-self.anticlock_y*sin(phirad-murad)
+		self.clock_y=self.anticlock_y*cos(phirad-murad)+value*sin(phirad-murad)	
 		sy.asynchronousMoveTo(self.clock_y)
 		sx.asynchronousMoveTo(self.clock_x)
 			
 	def getPosition(self):
-		return sx.getPosition()*cos(phi.getPosition()/(180/pi))+sy.getPosition()*sin(phi.getPosition()/(180/pi))
-		
-spara=ParaStageMotion("spara",sx,sy,help="To move sample stage parallel to the beam.")
+		murad=mu()*(pi/180)
+		phirad=phi()*(pi/180)
+		return sx()*cos(phirad-murad)+sy()*sin(phirad-murad)
+
+spara=ParaStageMotion("spara", sx, sy, help="To move sample stage parallel to the beam.")

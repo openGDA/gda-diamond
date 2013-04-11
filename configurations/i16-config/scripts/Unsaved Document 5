@@ -1,8 +1,0 @@
-
-for mytemp in frange(-8.4349,61.5651,2):
-
-	scan fixed_alpha_phi [mytemp+25 0.3] [mytemp-4 0.3] [-0.2 0] gam 73.76186-50 0.4 checkbeam t 0.3
-	mytemp2=mytemp+1
-	scan fixed_alpha_phi [mytemp2-4 0.3] [mytemp2+25 0.3] [0.2 0] gam 73.76186+8 -0.4 checkbeam t 0.3
-
-pos shutter 0
