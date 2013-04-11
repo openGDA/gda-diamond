@@ -1,0 +1,104 @@
+#!/bin/bash
+
+echo Ensure the Log panel is running...
+gdalog
+
+echo
+echo Making sure we want to restart GDA servers now...
+echo
+
+zenity --title "Are you sure?" --question --text "Are you sure you want to restart the GDA servers?" --window-icon=question
+SURE=$?
+if [ $SURE == 1 ]; then
+  exit
+fi
+
+echo Fix the OD PC issues
+echo
+nohup rdesktop -T "OD PC" -5 -a 16 -u i15detector -p \!i15d3t3ct0r# -d DIAMOND -k en-gb -g 1850x1150 i15-rubiccd01 > /dev/null &
+
+WINDOWTITLE="Please restart IS"
+(sleep 5; wmctrl -a "$WINDOWTITLE")& # bring zenity to front after 5 secs.
+zenity --title "$WINDOWTITLE" --info --text "\
+Due to a problem with the Oxford Diffraction software, the GDA server cannot\
+ reconnect to the IS application automatically when it restarts.\n
+When this happens the fast shutter will not open for *any* detector.\n
+To correct this, please use the remote desktop just opened \
+('OD PC' in your Window List) to:\n
+1. Close the IS application ('CMD: root' in the task bar).\n
+2. Restart the IS application (by clicking on the yellow diffractometer\
+ icon in the quick launch bar, near the start menu, which has the tooltip\
+ 'Shortcut to is_win32_2.1.1936_18A_Release.exe'.\n
+3. Disconnect from the OD PC by closing the 'OD PC' window.\n
+When you have done this, click Ok and the GDA server restart will continue."
+
+##This is an example script file to restart GDA server from a remote client
+##This requires generation of ssh keys and copying the public key to the authorized_keys file in the server
+##Please refer to the document howtoSSH.txt for key generation.
+##To use this script change the key file path, user name and the server machine name
+
+echo
+echo Checking for an old known_host key
+
+KNOWN_HOST="i15-control.diamond.ac.uk,172.23.115.32 ssh-rsa"
+KNOWN_HOST_OLDKEY="AAAAB3NzaC1yc2EAAAABIwAAAQEAzJZZ0/24hraQavEZEHlG+u8Aitw43YzDLUTd9i/BHHS5KuIiLUgaQV/gn2EnE3Oscd9u/JFUmKUNZESUTYGe6s07/YrdbpGZavBJvLrHkmmtFfOCCVemILZJDqzG2iIxqz9MVznMVf5ctSbqCOE1z+aR/AfcWUuP2LsrRtZ1mQzjRV21Fy+NGknPQ8d4aOY7phQfWQLqWKDM63JdCP3ZcnIWA+53QUt5Trrjty8fG/aah4at8gMyvZjAQHrR/CcVA2MB9OjkaTs2gCm0nNXGKxKJk4/pXCwAXYoWKLynSiHMaz1xl7hNjzTPvKzM65F60pigIz3137PKuXv8WWBZDQ=="
+KNOWN_HOST_KEY="AAAAB3NzaC1yc2EAAAABIwAAAQEAukEds96jTVQGxMIemckxTvlFRj39hvgx3z2hkKVLvIhMMVI8BQrq4pH+Lgh7fofYgCs6FRs6arqF2Sa6Fcvlm2228bf5Xiimieon1cZi+Ntacmayi2xVR4Dx+PYmb/vbyDwHRHsWxWrtSYz+40HEeXguTEsD1tEm82xAK3Jbc12ew1/VeTpDY9i+gkFRtNulZLc6UHB75G1sHAlGKhxtbp7pLT+AQVSIl9Mx5ruRO/CmWsMVh2HFGhpgsH0amuFcTUQTopjq2pKqP2y0gUN8ZXGXBxn2n+PnGRKV7gU0YSbTSpReUu14eV16W+VOseOM9M9oAvLb0cGoy9VAXTgnrQ=="
+
+grep "i15-control" ~/.ssh/known_hosts > 2&>1 /dev/null
+OK=$?	# 0 if ok, 2 if file doesn't exist, 1 if file doesn't contain pattern
+
+if [ $OK == 0 ]; then
+	grep $KNOWN_HOST_OLDKEY ~/.ssh/known_hosts > 2&>1 /dev/null
+	OLD=$? # 0 if ok, 2 if file doesn't exist, 1 if file doesn't contain pattern
+
+	if [ $OLD == 0 ]; then
+		echo Removing old known_host key
+		sed -i /i15-control/d ~/.ssh/known_hosts
+		OK=1
+	fi
+else
+	echo i15-control not in ~/.ssh/known_hosts, adding...
+fi
+
+# if known_host or file doesn't exist
+if [ $OK != 0 ]; then
+	echo $KNOWN_HOST $KNOWN_HOST_KEY >> ~/.ssh/known_hosts
+fi
+
+echo
+echo "Restarting the GDA Server, please wait..."
+echo
+echo "Keep this window open, and you will see a pop-up when the restart has completed"
+echo
+
+ssh  -i /dls_sw/i15/software/gda/i15-config/i15ssh.key gda2@i15-control.diamond.ac.uk
+OK=$?
+
+# 127 if ssh cannot run command, 0 if ran ok, maybe other values if remote command returns them
+
+if [ $OK != 0 ]; then
+  zenity --title "Error starting GDA Server" --error --text "Something went wrong starting GDA server. Please try logging out and back in again before contacting your GDA representative." 
+  exit
+fi
+#
+# wait for the remote command, which will look for the output file which will
+# tell us when the servers have started before returning, then display to the
+# user that a client may be started.
+#
+echo
+echo Making sure we want to start GDA client now...
+echo
+
+zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
+STARTCLIENT=$?
+if [ ! -z $STARTCLIENT ] ; then
+  echo Starting GDA RCP Client...
+  echo
+  gdaclient
+  echo
+  echo Moving GDA Log Panel...
+  wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
+fi
+
+echo
+for i in {10..1}; do echo -n . ; sleep 1 ; done ; echo .

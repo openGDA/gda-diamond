@@ -1,0 +1,5 @@
+#!/bin/bash
+
+. GDA_common gda_client_output
+
+$GDACLIENT --keep --nohup $LOGFILE $*
