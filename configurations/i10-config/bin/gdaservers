@@ -1,0 +1,52 @@
+#!/bin/bash
+
+echo Ensure the Log panel is running...
+gdalog
+
+echo
+echo Making sure we want to restart GDA servers now...
+echo
+
+zenity --title "Are you sure?" --question --text "Are you sure you want to restart the GDA servers?" --window-icon=question
+SURE=$?
+if [ $SURE == 1 ]; then
+  exit
+fi
+
+echo
+echo "Restarting the GDA Server, please wait..."
+echo
+echo "Keep this window open, and you will see a pop-up when the restart has completed"
+echo
+
+ssh  -i /dls_sw/i10/software/gda/i10-config/i10ssh.key gda2@i10-control.diamond.ac.uk
+OK=$?
+
+# 127 if ssh cannot run command, 0 if ran ok, maybe other values if remote command returns them
+
+if [ $OK != 0 ]; then
+  zenity --title "Error starting GDA Server" --error --text "Something went wrong starting GDA server. Please try logging out and back in again before contacting your GDA representative." 
+  exit
+fi
+#
+# wait for the remote command, which will look for the output file which will
+# tell us when the servers have started before returning, then display to the
+# user that a client may be started.
+#
+echo
+echo Making sure we want to start GDA client now...
+echo
+
+zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
+STARTCLIENT=$?
+if [ ! -z $STARTCLIENT ] ; then
+  echo Starting GDA RCP Client...
+  echo
+  gdaclient
+  echo
+  echo Moving GDA Log Panel...
+  wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
+fi
+
+echo
+for i in {10..1}; do echo -n . ; sleep 1 ; done ; echo .

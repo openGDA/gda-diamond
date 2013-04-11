@@ -1,0 +1,16 @@
+#!/bin/bash
+
+LOGPANEL=$(ps -ef | grep LogPanel | grep -v grep)
+if [ "X$LOGPANEL" == "X" ] ; then
+  . GDA_common gda_log_output
+
+  echo Starting GDA Log Panel...
+  echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
+  echo  $GDACORE logpanel
+  echo  $GDACORE logpanel >> $LOGFILE
+  nohup $GDACORE logpanel >> $LOGFILE 2>&1 &
+
+else
+  echo Raising GDA Log Panel...
+  wmctrl -R "GDA Log Panel"
+fi

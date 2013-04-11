@@ -11,10 +11,23 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Djacorb.config.dir=/dls_sw/i10/software/gda/i10-config/properties
--Dgda.propertiesFile=/dls_sw/i10/software/gda/i10-config/properties/java.properties
+      <vmArgs>-Djava.library.path=/dls_sw/i10/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/lib/linux-x86_64/
+-Declipse.pluginCustomization=/dls_sw/i10/software/gda/i10-config/client/pluginCustomization.ini
+-Dgda.client.jython.automatic.interpreter=1
 -Dgda.config=/dls_sw/i10/software/gda/i10-config
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i10/software/gda/i10-config/properties/JCALibrary.properties</vmArgs>
+-Dgda.gui.beans.xml=/dls_sw/i10/software/gda/i10-config/client/client.xml
+-Dgda.var=/dls_sw/i10/software/gda_versions/var
+-Dgda.data=/dls/i10
+-Dgda.logs.dir=/dls/i10/logs
+-Dgda.propertiesFile=/dls_sw/i10/software/gda/i10-config/properties/java.properties
+-Djacorb.config.dir=/dls_sw/i10/software/gda/i10-config/properties
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i10/software/gda/i10-config/properties/JCALibrary.properties
+-Xms512m
+-Xmx1024m
+-XX:PermSize=128m
+-XX:MaxPermSize=1024m
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True
+-Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
@@ -23,7 +36,6 @@
    <splash
       location="uk.ac.gda.client"
       handlerType="browser" />
-
    <launcher name="gda-i10">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.xpm"/>
       <solaris/>
@@ -31,6 +43,7 @@
          <bmp/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>

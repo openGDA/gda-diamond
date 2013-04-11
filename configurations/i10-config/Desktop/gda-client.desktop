@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Name=gda-client
 Type=Application
-Exec=/dls_sw/i10/software/gda/i10-config/bin/GDA_StartClient
+Exec=gdaclient
 Icon=/dls_sw/i10/software/gda/i10-config/bin/icons/cgda.png
 Icon[en_GB]=/dls_sw/i10/software/gda/i10-config/bin/icons/cgda.png
 Terminal=false

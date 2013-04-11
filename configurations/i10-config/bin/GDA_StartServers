@@ -1,42 +1,14 @@
 #!/bin/bash
-unset GDA_ROOT
-unset GDA_CONFIG
-unset GDA_USERS
-unset GDA_JARS
-unset CLASSPATH
-#source /$SOFTWAREFOLDER/$BEAMLINE/software/gda/i10-config/bin/gda_environment.sh
+
+. GDA_common gda_output
 
 umask 0002 # Some voodoo copied from GDA-mt/configurations/i16-config/bin/remotestartupscript.sh at d024aae
 # This should fix a problem where sub-directories created in a visit folder end up
 # with a different mask to the default.
 
-GDALOCATIONREL=`dirname $0`/../..
-#GDALOCATION=`cd $GDALOCATIONREL ; pwd`
-GDALOCATION=`readlink -f $GDALOCATIONREL`
-GDACONFIG=$GDALOCATION/i10-config
+export JAVA_OPTS="-Dgda.deploytype=1 -XX:MaxPermSize=1024m" # Seems to fix the reset_namespace problem
+GDACORE_OPTIONS="--headless servers --debug --debugport=8001"
 
-source /$GDACONFIG/bin/gda_environment.sh
-
-LOGNAME=gda_server_output
-LOGBASE=/$SOFTWAREFOLDER/$BEAMLINE/software/gda_versions/var/$LOGNAME
-LOGFILE=$LOGBASE/$LOGNAME-`date +%Y-%m-%d_%H-%M-%S`.txt
-touch $LOGFILE
-rm             $LOGBASE/$LOGNAME.txt
-ln -s $LOGFILE $LOGBASE/$LOGNAME.txt
-
-# Build up command line
-GDALAUNCHER="$GDALOCATION/plugins/uk.ac.gda.core/bin/gda"
-GDALAUNCHER="$GDALAUNCHER --config=$GDACONFIG"  
-GDALAUNCHER="$GDALAUNCHER --properties=$GDACONFIG/properties/java.properties"
-GDALAUNCHER="$GDALAUNCHER --jacorb=$GDACONFIG/properties"
-GDALAUNCHER="$GDALAUNCHER --jca=$GDACONFIG/properties/JCALibrary-i10.properties"
-GDALAUNCHER="$GDALAUNCHER --restart servers"
-#GDALAUNCHER="$GDALAUNCHER --debug"
-
-export JAVA_OPTS="-XX:MaxPermSize=1024m -XX:+PrintHeapAtGC" # Seems to fix the reset_namespace problem
-
-echo -------------------------------------------------------- >> $LOGFILE
-echo $USER@$HOSTNAME:           $GDALAUNCHER                  to $LOGFILE
-echo $USER@$HOSTNAME:           $GDALAUNCHER                  >> $LOGFILE
-                          nohup $GDALAUNCHER                  >> $LOGFILE 2>&1
-echo -------------------------------------------------------- >> $LOGFILE
+echo  $GDACORE $GDACORE_OPTIONS
+echo  $GDACORE $GDACORE_OPTIONS >> $LOGFILE
+nohup $GDACORE $GDACORE_OPTIONS >> $LOGFILE  2>&1 &

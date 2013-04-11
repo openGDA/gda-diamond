@@ -1,7 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 # This script assumes that $BEAMLINE is set (e.g. i02, i18, b16) if not exit...
-
-# **** DO NOT EDIT THIS SCRIPT AS IT MAY BE AUTOMATICALLY OVERWRITTEN *****
 
 if [ ! -n "$BEAMLINE" ]; 
 then
@@ -18,15 +16,13 @@ unset JAVA_HOME
 unset JYTHON_HOME
 unset SVN_HOME
 
-. /usr/share/Modules/init/bash
-module load java/gda826 # Needed for GDA_StartLogPanel
+export GDA_SW=/$SOFTWAREFOLDER/$BEAMLINE/software
+export GDA_ROOT=$GDA_SW/gda
+export GDA_CONFIG=$GDA_ROOT/${BEAMLINE}-config
+
+export GDA_USERS=/dls/$BEAMLINE
 
 export PATH=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/${BEAMLINE}-config/bin:/$SOFTWAREFOLDER/$BEAMLINE/bin:${PATH}
-
-GDA_SW=/$SOFTWAREFOLDER/$BEAMLINE/software
-GDA_ROOT=$GDA_SW/gda
-GDA_CONFIG=$GDA_ROOT/${BEAMLINE}-config
-GDA_USERS=/dls/$BEAMLINE
 
 DESKTOP=$HOME/Desktop
 BL_LAUNCHERS=$DESKTOP/${BEAMLINE}_Launchers
