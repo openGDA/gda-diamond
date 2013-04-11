@@ -297,7 +297,7 @@ if poms_installed:
     try:
         from poms.PomsSocketDevice import PomsSockteDeviceClass, FlipperDeviceClass
         
-        vmag = PomsSockteDeviceClass('vmag','172.23.110.195', 4042 );
+        vmag = PomsSockteDeviceClass('vmag','172.23.110.198', 4042 );
         
         vflipper = FlipperDeviceClass('vflipper', 'vmag', 'mac116', 'mac117', 'mac118');
     except:
