@@ -40,11 +40,11 @@ public class RoomTemperatureTableComposite extends I20SampleParamsComposite {
 
 	private String[] XES_COLUMNS = new String[] { "", "", "", "Sample", "", "            X            ",
 			"            Y            ", "            Z            ", "       Rotation      ", "      Fine Rot      ",
-			"       Sample Name       ", "                   Description                         " };
+			"        File Name        ", "              Sample Description                       " };
 	private String[] XAS_COLUMNS = new String[] { "","", "Sample", "", "            X            ",
 			"            Y            ", "            Z            ", "       Rotation      ",
-			"           Roll          ", "          Pitch          ", "       Sample Name       ",
-			"                   Description                         " };
+			"           Roll          ", "          Pitch          ", "        File Name        ",
+			"              Sample Description                       " };
 
 	private static final int MAX_NUM_SAMPLES = 4;
 

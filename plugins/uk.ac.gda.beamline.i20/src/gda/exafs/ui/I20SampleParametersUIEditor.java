@@ -335,7 +335,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		sampleDetails.setLayout(gridLayout);
 
 		final Label sampleNameLabel = new Label(sampleDetails, SWT.NONE);
-		sampleNameLabel.setText("Sample Name");
+		sampleNameLabel.setText("File Name");
 		
 		name = new TextWrapper(sampleDetails, SWT.BORDER | SWT.SINGLE);
 		name.setTextType(TEXT_TYPE.FILENAME);
@@ -345,7 +345,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 
 		final Label descriptionLabel = new Label(sampleDetails, SWT.NONE);
 		descriptionLabel.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
-		descriptionLabel.setText("Description");
+		descriptionLabel.setText("Sample Description");
 
 		descriptions = new TextWrapper(sampleDetails, SWT.WRAP | SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
 		final GridData gd_descriptions = new GridData(SWT.FILL, SWT.CENTER, true, false);
