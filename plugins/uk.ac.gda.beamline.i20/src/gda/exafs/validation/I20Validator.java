@@ -31,6 +31,7 @@ import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
+import uk.ac.gda.beans.exafs.i20.CryostatParameters;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
 import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
 import uk.ac.gda.beans.validation.InvalidBeanException;
@@ -109,7 +110,7 @@ public class I20Validator extends ExafsValidator {
 		
 		//none
 		if (s.getSampleEnvironment().equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[0])){
-			if (s.getName().startsWith(DEFAULT_SAMPLE_NAME)){
+			if (s.getName().startsWith(DEFAULT_SAMPLE_NAME) || s.getName().isEmpty()){
 				errors.add(new InvalidBeanMessage("Sample Name has not been set in " + bean.getSampleFileName()));
 			} else if (!stringCouldBeConvertedToValidUnixFilename(s.getName())){
 				errors.add(new InvalidBeanMessage("The given Sample Name in " + bean.getSampleFileName() + " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));				
@@ -121,14 +122,26 @@ public class I20Validator extends ExafsValidator {
 			String[] names = ssp.getSampleNames();
 			Boolean[] uses = ssp.getUses();
 			for (int i = 0; i < names.length; i++) {
-				if (uses[i] && !stringCouldBeConvertedToValidUnixFilename(names[i])) {
+				if (uses[i] && (!stringCouldBeConvertedToValidUnixFilename(names[i]) || names[i].isEmpty())) {
 					errors.add(new InvalidBeanMessage("The name for sample " + (i + 1) + " in "
 							+ bean.getSampleFileName()
 							+ " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
 				}
 			}
 		}
-		
+		// cryostat
+		else if (s.getSampleEnvironment().equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[2])){
+			CryostatParameters ssp = s.getCryostatParameters();
+			String[] names = ssp.getSampleNames();
+			Boolean[] uses = ssp.getUses();
+			for (int i = 0; i < names.length; i++) {
+				if (uses[i] && (!stringCouldBeConvertedToValidUnixFilename(names[i]) || names[i].isEmpty())) {
+					errors.add(new InvalidBeanMessage("The name for sample " + (i + 1) + " in "
+							+ bean.getSampleFileName()
+							+ " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
+				}
+			}
+		}
 		return errors;
 	}
 	
