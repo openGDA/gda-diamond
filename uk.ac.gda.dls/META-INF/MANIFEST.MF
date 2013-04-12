@@ -42,6 +42,7 @@ Export-Package: gda.analysis.io,
  gda.util,
  uk.ac.gda.beans.bimorph
 Import-Package: gda.device.detectorfilemonitor,
+ org.apache.commons.lang.exception,
  org.apache.commons.math.linear;version="[2.2.0,3.0.0)",
  org.slf4j;version="[1.5.0,2.0.0)",
  org.springframework.beans;version="3.0.4",
