@@ -27,13 +27,11 @@
                         <bean class="gda.jython.ScriptPaths">
                                 <property name="projects">
                                         <list>
-                                        <!-- 
                                                 <bean class="gda.jython.ScriptProject">
-                                                        <property name="path" value="/dls_sw/i05/scripts/" />
+                                                        <property name="path" value="${gda.config}/data/scripts/" />
                                                         <property name="name" value="Scripts: User" />
                                                         <property name="type" value="USER" />
                                                 </bean>
-                                                -->
                                                 <bean class="gda.jython.ScriptProject">
                                                         <property name="path" value="${gda.config}/scripts/" />
                                                         <property name="name" value="Scripts: Config" />

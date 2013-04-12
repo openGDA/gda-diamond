@@ -43,16 +43,15 @@ import uk.ac.gda.arpes.detector.FrameUpdate;
 
 public class AnalyserProgressView extends ViewPart implements IObserver {
 	private Text csweep;
-	private Text msweep;
 	private FlexibleFrameDetector analyser;
 	private Spinner sweepSpinner;
-	private int oldMax = -1;
+	private int oldMax = -1, compSweep = -1;
 	public AnalyserProgressView() {
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {
-		GridLayout gl_parent = new GridLayout(6, false);
+		GridLayout gl_parent = new GridLayout(4, true);
 		gl_parent.verticalSpacing = 15;
 		gl_parent.marginTop = 5;
 		gl_parent.marginRight = 5;
@@ -62,47 +61,41 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 		
 		ProgressBar progressBar = new ProgressBar(parent, SWT.FILL);
 		progressBar.setSelection(100);
-		progressBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 6, 1));
+		progressBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 4, 1));
 		
 		Label lblCurrentSweep = new Label(parent, SWT.NONE);
 		lblCurrentSweep.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblCurrentSweep.setText("Completed Sweeps");
+		lblCurrentSweep.setText("Sweeps");
 		
 		csweep = new Text(parent, SWT.BORDER | SWT.RIGHT);
 		csweep.setEditable(false);
 		csweep.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Label lblMaximumSweep = new Label(parent, SWT.NONE);
-		GridData gd_lblMaximumSweep = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
-		gd_lblMaximumSweep.horizontalIndent = 15;
-		lblMaximumSweep.setLayoutData(gd_lblMaximumSweep);
-		lblMaximumSweep.setText("Maximum Sweep");
-		
-		msweep = new Text(parent, SWT.BORDER | SWT.RIGHT);
-		msweep.setEditable(false);
-		msweep.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
 		Label lblNewMaximum = new Label(parent, SWT.NONE);
 		GridData gd_lblNewMaximum = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_lblNewMaximum.horizontalIndent = 15;
 		lblNewMaximum.setLayoutData(gd_lblNewMaximum);
-		lblNewMaximum.setText("New Maximum");
+		lblNewMaximum.setText("Maximum");
 		
 		sweepSpinner = new Spinner(parent, SWT.BORDER);
 		sweepSpinner.setIncrement(1);
-		sweepSpinner.setMinimum(1);
+		sweepSpinner.setMinimum(1);		
+		sweepSpinner.setMaximum(1000);
 		sweepSpinner.setSelection(1);
 		sweepSpinner.addModifyListener(new ModifyListener() {
 			
 			@Override
 			public void modifyText(ModifyEvent e) {
-				oldMax = sweepSpinner.getSelection();
+				int newMax = sweepSpinner.getSelection();
+				if (newMax < compSweep)
+					return;
+				oldMax = newMax;
 				analyser.setMaximumFrame(oldMax);
 			}
 		});
 		
 		Button btnCompleteAndStop = new Button(parent, SWT.NONE);
-		btnCompleteAndStop.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 3, 1));
+		btnCompleteAndStop.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
 		btnCompleteAndStop.setText("Complete and Stop");
 		btnCompleteAndStop.addSelectionListener(new SelectionListener() {
 			@Override
@@ -116,7 +109,7 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 		});
 		
 		Button btnStop = new Button(parent, SWT.NONE);
-		btnStop.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 3, 1));
+		btnStop.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
 		btnStop.setText("Stop");
 		btnStop.addSelectionListener(new SelectionListener() {
 			@Override
@@ -146,8 +139,8 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					csweep.setText(String.valueOf(fu.cFrame));
-					msweep.setText(String.valueOf(fu.mFrame));
+					compSweep = fu.cFrame;
+					csweep.setText(String.valueOf(compSweep));
 					if (fu.mFrame != oldMax) {
 						sweepSpinner.setSelection(fu.mFrame);
 					}
