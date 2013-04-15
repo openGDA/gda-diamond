@@ -21,7 +21,7 @@
 		<corba:import namespace="i22" names="command_server, GDAMetadata,
 											SimpleServlet, ScanDataStore, 
 											observableSubdirectory,
-											ncddetectors, Tfg, Rapid2D, Hotwaxs, Scalers,  Pilatus2M, Pilatus100k,
+											ncddetectors, Tfg, Rapid2D, Scalers,  Pilatus2M, Hotwaxs,
 											shutter" /> 
 
 											<!-- ncddetectors, Tfg, Rapid2D, Hotwaxs, Hotsaxs, Scalers, Mar, Pilatus2M, -->
