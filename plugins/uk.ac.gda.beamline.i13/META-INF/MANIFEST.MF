@@ -29,7 +29,9 @@ Require-Bundle: org.eclipse.ui,
  javax.vecmath;bundle-version="[1.5.2,2.0.0)",
  org.dawb.common.ui,
  uk.ac.gda.epics.adviewer;bundle-version="1.0.0",
- uk.ac.gda.tomography.scan.editor;bundle-version="1.0.0"
+ uk.ac.gda.tomography.scan.editor;bundle-version="1.0.0",
+ org.dawnsci.plotting.api;bundle-version="1.0.0",
+ uk.ac.diamond.scisoft.analysis.api;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: uk.ac.gda.beamline.i13i,
@@ -38,11 +40,7 @@ Export-Package: uk.ac.gda.beamline.i13i,
  uk.ac.gda.beamline.i13i.views.cameraview
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.gda.core, uk.ac.gda.libs
-Import-Package: org.dawb.common.ui.plot,
- org.dawb.common.ui.plot.region,
- org.dawb.common.ui.plot.tool,
- org.dawb.common.ui.plot.trace,
- org.eclipse.draw2d,
+Import-Package: org.eclipse.draw2d,
  org.eclipse.draw2d.geometry,
  org.slf4j;version="[1.5.0,2.0.0)",
  org.springframework.beans.factory;version="3.0.4",
