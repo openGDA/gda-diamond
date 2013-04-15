@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+        <bean id="m1_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M1.Y" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="m1_y" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="m1_y_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="m1_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M1.PITCH" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="m1_pitch" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="m1_pitch_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+                <property name="groupMembers">
+                        <list>
+                                <ref bean="m1_y" />
+                                <ref bean="m1_pitch" />
+                        </list>
+                </property>
+                <property name="local" value="true" />
+        </bean>
+</beans>
