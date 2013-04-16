@@ -30,7 +30,16 @@ import gda.epics.PV;
 public class Crystal1PitchScannable extends ScannableMotor {
 
 
+	private String intensityFeedbackPVName = "BL20I-OP-QCM-01:PY:FBON";
 	private PV<Boolean> intensityFeedbackPV;
+
+	public String getIntensityFeedbackPVName() {
+		return intensityFeedbackPVName;
+	}
+
+	public void setIntensityFeedbackPVName(String intensityFeedbackPVName) {
+		this.intensityFeedbackPVName = intensityFeedbackPVName;
+	}
 
 	@Override
 	public void rawAsynchronousMoveTo(Object internalPosition) throws DeviceException {
@@ -42,7 +51,7 @@ public class Crystal1PitchScannable extends ScannableMotor {
 
 	private boolean isIntensityFeedbackDisabled() throws DeviceException {
 		if (intensityFeedbackPV == null){
-			intensityFeedbackPV = LazyPVFactory.newBooleanFromEnumPV("BL20I-OP-QCM-01:XTAL1:PITCH:FB.FBON");
+			intensityFeedbackPV = LazyPVFactory.newBooleanFromEnumPV(intensityFeedbackPVName);
 		}
 		try {
 			return !intensityFeedbackPV.get();
