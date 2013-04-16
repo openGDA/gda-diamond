@@ -46,6 +46,8 @@
 
 	<import resource="../filters.xml" />
 	<import resource="../pco2.xml" />
+	
+	<import resource="../edxd.xml" />
 	<import resource="../ring.xml" />
 	<import resource="../s2_new.xml" />
 	<import resource="../scaler1.xml" />

@@ -9,4 +9,19 @@
 		<property name="numberOfElements" value="24" />
 	</bean>
 
+	<bean id="edxdAlignment" class="gda.device.detector.edxd.EDXDAlignment">
+		<property name="edxdController" ref="edxd" />
+		<property name="edxdCalibrationResourceHandler" ref="edxdCalibrationResourceHandler" />
+	</bean>
+
+	<bean id="edxdCalibrationResourceHandler"
+		class="uk.ac.gda.edxd.calibration.edxdcalibration.util.EdxdCalibrationResourceHandler">
+		<property name="fileLocation" value="${gda.var}/edxdcalibration.ec" />
+	</bean>
+
+	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="serviceName" value="gda/edxdAlignment" />
+		<property name="service" ref="edxdAlignment" />
+		<property name="serviceInterface" value="uk.ac.gda.edxd.common.IEdxdAlignment" />
+	</bean>
 </beans>
