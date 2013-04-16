@@ -23,68 +23,38 @@ from i12utilities import DocumentationScannable
 import lookupTables
 
 
-print "create commands for folder operations: wd, pwd, nwd, nfn, setSubdirectory('subdir-name')"
+print "create commands for folder operations: wd, pwd, nwd, nfn, cfn, setSubdirectory('subdir-name')"
 print "-------------------------------------------------"
 # function to find the last file path
-def wd(): 
-    return i12utilities.wd()
+
+from i12utilities import wd, pwd, nwd, nfn, cfn, setDataWriterToNexus, getDataWriter, ls_scannables
 alias("wd")
-
-def pwd(): 
-    return i12utilities.pwd()
 alias("pwd")
-
-def nwd():
-    return i12utilities.nwd()
 alias("nwd")
-
-def nfn():
-    return i12utilities.nfn()
 alias("nfn")
-
-def cfn(): 
-    return i12utilities.cfn()
 alias("cfn")
+alias("setSubdirectory")
 
-def setDataWriterToNexus():
-    i12utilities.setDataWriterToNexus()
+
+print "create commands for Data Writer operations: setDataWriterToNexus, setDataWriterToSrs, getDataWriter"
+print "-------------------------------------------------"
+
 alias("setDataWriterToNexus")
-
-def setDataWriterToSrs():
-    i12utilities.setDataWriterToSrs()
 alias("setDataWriterToSrs")
-
-def getDataWriter():
-    return i12utilities.getDataWriter()
 alias("getDataWriter")
 
-def ls_scannables():
-    return i12utilities.ls_scannables()
+print "Command to find list all the scannables: ls_scannables"
+print "-------------------------------------------------"
 alias("ls_scannables")
 
-def helpi12(): 
-    print "Help will be outputted"
-alias("helpi12")
-
-def reloadModuleLookup():
-    lookupTables.reloadModuleLookup();
+print "Commands to reload lookup tables: reloadModuleLookup, reloadCameraMotionLookup, reloadTiltBallPositionLookup, reloadScanResolutionLookup"
+from lookupTables import reloadModuleLookup, reloadCameraMotionLookup, reloadTiltBallPositionLookup, reloadScanResolutionLookup
 alias("reloadModuleLookup")
-    
-def reloadCameraMotionLookup():
-    lookupTables.reloadCameraMotionLookup();
 alias("reloadCameraMotionLookup")
-    
-def reloadTiltBallPositionLookup():
-    lookupTables.reloadTiltBallPositionLookup();
 alias("reloadTiltBallPositionLookup")
-    
-def reloadScanResolutionLookup():
-    lookupTables.reloadScanResolutionLookup();
 alias("reloadScanResolutionLookup")
 
-def setSubdirectory(dirname):
-    i12utilities.setSubdirectory(dirname)
-    
+
 msg = "i12 Help\n======="
 msg += "\nPCO Help - type 'help i12pco'"
 msg += "\nPixium Help - type 'help i12pixium'"
