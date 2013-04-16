@@ -72,7 +72,8 @@ def getDataWriter():
     return LocalProperties.get("gda.data.scan.datawriter.dataFormat")
     
 class DocumentationScannable(gda.device.scannable.DummyScannable):
-    def __init__(self, mesg, url=None):
+    def __init__(self, name, mesg, url=None):
+        super(DocumentationScannable, self).__init__(name)
         self.mesg = mesg
         self.url = url
         pass
