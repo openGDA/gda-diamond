@@ -221,21 +221,21 @@ def launchRecon(inNXSFile, outDir, localTomoFile, templateSettingsFile):
         #raise Exception(msg)
 
 def getPathToTomographyReconstructionRoot():
-    # eg, '/dls_sw/i12/software/gda_git/gda-tomography.git/uk.ac.diamond.tomography.reconstruction'
+    # eg, '/dls_sw/i12/software/gda/workspace_git/gda-tomography.git/uk.ac.diamond.tomography.reconstruction'
     git_dir = PropertyUtils.getExistingDirFromLocalProperties("gda.install.git.loc")
     trr_path = os.path.join(git_dir, 'gda-tomography.git')
     trr_path = os.path.join(trr_path, 'uk.ac.diamond.tomography.reconstruction')
     return trr_path
 
 def getPathToReconstructionShellScript(scriptBasename='tomodo.sh'):
-    # eg, "/dls_sw/i12/software/gda_git/gda-tomography.git/uk.ac.diamond.tomography.reconstruction/scripts/tomodo.sh"
+    # eg, "/dls_sw/i12/software/gda/workspace_git/gda-tomography.git/uk.ac.diamond.tomography.reconstruction/scripts/tomodo.sh"
     trr_path = getPathToTomographyReconstructionRoot()
     shscript_dir = os.path.join(trr_path, 'scripts')
     shscript_path = shscript_dir + os.sep + scriptBasename
     return shscript_path
 
 def getPathToReconstructionPythonScript(scriptBasename='tomodo.py'):
-    # eg, "/dls_sw/i12/software/gda_git/gda-tomography.git/uk.ac.diamond.tomography.reconstruction/scripts/tomodo.py"
+    # eg, "/dls_sw/i12/software/gda/workspace_git/gda-tomography.git/uk.ac.diamond.tomography.reconstruction/scripts/tomodo.py"
     trr_path = getPathToTomographyReconstructionRoot()
     pyscript_dir = os.path.join(trr_path, 'scripts')
     pyscript_path = pyscript_dir + os.sep + scriptBasename
@@ -263,7 +263,7 @@ def getPathToLocalTomoFile(localTomoBasename='localTomo.xml'):
     return localtomofile_path
 
 def getPathToTemplateSettingsFile(settingsBasename='settings.xml'):
-    # eg, '/dls_sw/i12/software/gda_git/gda-tomography.git/uk.ac.diamond.tomography.reconstruction/resources/settings.xml'
+    # eg, '/dls_sw/i12/software/gda/workspace_git/gda-tomography.git/uk.ac.diamond.tomography.reconstruction/resources/settings.xml'
     trr_path = getPathToTomographyReconstructionRoot()
     settingsfile_dir = os.path.join(trr_path, 'resources')
     settingsfile_path = settingsfile_dir + os.sep + settingsBasename

@@ -1,1 +1,1 @@
-/$SOFTWAREFOLDER/$BEAMLINE/software/gda/$BEAMLINE-config/bin/GDA_StartClient
+/$SOFTWAREFOLDER/$BEAMLINE/software/gda/$BEAMLINE-config/bin/GDA_StartClient $@

@@ -362,9 +362,9 @@
 		<property name="fileTemplate" value="%s/%s_%05d.hdf"/>
 		<property name="fileNumberAtScanStart" value="-1"/>
 		<property name="setFileNameAndNumber" value="true"/>
-		<property name="rowChunks" value="2672"/>
+		<property name="rowChunks" value="64"/>
 		<property name="colChunks" value="4008"/>
-		<property name="framesChunks" value="1"/>
+		<property name="framesChunks" value="64"/>
 		<property name="framesFlush" value="64"/>
 		<property name="blocking" value="False"/>
 	</bean>

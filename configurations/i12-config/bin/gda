@@ -2,9 +2,9 @@
 # a gda launcher wrapper that permits easy switch between real GDA and Simulation GDA for a beamline;
 # To access this from anywhere, you must put config/bin in the PATH in gda_environment; 
 # Note the location of the original python gda launcher must point to its correct location
-here=`dirname $0`
-config=`cd $here/../; pwd`
-root=`cd $config/../../../../gda_git/gda-core.git; pwd`
+#here=`dirname $0`
+config=`cd /dls_sw/i12/software/gda/config`
+root=`cd /dls_sw/i12/software/gda/workspace_git/gda-core.git; pwd`
 if [ ! -f $root/uk.ac.gda.core/bin/gda ]; then
 	echo "Can not find gda launcher at $root/uk.ac.gda.core/bin/gda"
 	exit 1

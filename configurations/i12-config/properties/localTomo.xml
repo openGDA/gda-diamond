@@ -26,7 +26,7 @@
 		</nexusfile>
 		
 		<settingsfile>
-			<blueprint>/dls_sw/i12/software/gda_git/gda-tomography.git/uk.ac.diamond.tomography.reconstruction/resources/settings.xml</blueprint>
+			<blueprint>/dls_sw/i12/software/gda/workspace_git/gda-tomography.git/uk.ac.diamond.tomography.reconstruction/resources/settings.xml</blueprint>
 			<settingsDirPostfix/>
 		</settingsfile>
 

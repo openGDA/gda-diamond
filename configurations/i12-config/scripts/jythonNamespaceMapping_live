@@ -17,3 +17,5 @@ tomography_translation=ss1_x
 #tomography_translation=iy
 tomography_time=actualTime
 tomography_beammonitor=actualTime
+tomography_camera_stage=cam1
+tomography_sample_stage=ss1
