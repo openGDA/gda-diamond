@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+        <bean id="cryostat_temp" class="gda.device.scannable.EpicsScannable">
+        	<property name="pvName" value="BL05I-EA-TCTRL-02:KRDG0" />
+        	<property name="useNameAsExtraName" value="true" />
+        </bean>
+        <bean id="sample_temp" class="gda.device.scannable.EpicsScannable">
+        	<property name="pvName" value="BL05I-EA-TCTRL-02:KRDG1" />
+        	<property name="useNameAsExtraName" value="true" />
+        </bean>
+        <bean id="shield_temp" class="gda.device.scannable.EpicsScannable">
+        	<property name="pvName" value="BL05I-EA-TCTRL-02:KRDG2" />
+        	<property name="useNameAsExtraName" value="true" />
+        </bean>
+</beans>

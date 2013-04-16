@@ -14,5 +14,10 @@
 	<import resource="devices/d2.xml" />
 	<import resource="analyser.xml" />
 -->
-
+	<bean
+		class="gda.device.scannable.DummyUnitsScannable" id="sample_temp">
+		<property name="inputNames"><list><value>sample_temp</value></list></property>
+		<property name="outputFormat"><list><value>%5.5g</value></list></property>
+		<property name="protectionLevel" value="3"></property>
+	</bean>
 </beans>
