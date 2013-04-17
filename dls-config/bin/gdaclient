@@ -50,7 +50,7 @@ EOF
 }
 
 if [ -z $BEAMLINE ] ; then
-	cat "ERROR: BEAMLINE not set" 1>&2
+	echo "ERROR: BEAMLINE not set" 1>&2
 	exit 1
 fi
 
