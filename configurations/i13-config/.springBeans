@@ -99,13 +99,9 @@
 		<config>servers/main/live/live_server_common.xml</config>
 		<config>devices/dummy/m1.xml</config>
 		<config>devices/epics/m1.xml</config>
-		<config>devices/dummy/maxipix_tango.xml</config>
 		<config>devices/dummy/optics_hutch4_shutter.xml</config>
 		<config>devices/epics/optics_hutch4_shutter.xml</config>
 		<config>devices/optics_hutch4_shutter.xml</config>
-		<config>clients/main/dummy/pco.xml</config>
-		<config>clients/main/pco.xml</config>
-		<config>clients/main/zebra/pco.xml</config>
 		<config>devices/dummy/pco1_ndplugins.xml</config>
 		<config>devices/epics/pco1_ndplugins.xml</config>
 		<config>devices/epics_sim/pco1_ndplugins.xml</config>
@@ -140,6 +136,7 @@
 		<config>devices/epics/zebra.xml</config>
 		<config>devices/epics_sim/zebra.xml</config>
 		<config>devices/zebra.xml</config>
+		<config>devices/zebra/zebra.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

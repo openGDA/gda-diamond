@@ -65,64 +65,17 @@
 	<import resource="../../../devices/dummy/kb_motors.xml" />
 
 	<!-- <import resource="../../../devices/dummy/s5_motors.xml"/> -->
-	<import resource="../../../devices/dummy/sample_stage_motors.xml" />
+	<import resource="../../../devices/zebra/sample_stage_motors.xml" />
 	<import resource="../../../devices/dummy/table_motors.xml" />
 	<import resource="../../../devices/dummy/camera_stage_motors.xml" />
+	<import resource="../../../devices/dummy/lens.xml" />
 
 	<import resource="../../../devices/zebra/pco1.xml" />
+	<import resource="../../../devices/zebra/zebra.xml" />
 
 
 	<import resource="../../../devices/dummy/tfg2.xml" />
 
-	<bean id="zebraSM1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="TESTZEBRA:M1" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="zebra" class="gda.device.zebra.controller.impl.ZebraImpl">
-	<property name="zebraPrefix" value="TESTZEBRA:ZEBRA:"/>
-	</bean>
-	<bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
-	<property name="zebra" ref="zebra"/>
-	</bean>
-	<bean id="zebraSM1" class="gda.device.zebra.ZebraScannableMotor">
-		<property name="motor" ref="zebraSM1_motor" />
-		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
-	</bean>	
-	
-	<bean id="zebra_hardwareTriggeredCollectionStrategy" class="gda.device.detector.addetector.triggering.HardwareTriggeredStandard">
-		<constructor-arg ref="pco1_cam_base" />
-		<constructor-arg value=".1" />	
-	</bean>
-<!-- 	<bean id="zebra_det" class="gda.device.detector.addetector.HardwareTriggerableADDetector">
-		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndFile" ref="pco1_ndfilehdf5_base" />
-		<property name="collectionStrategy" ref="pco1_singleExposure"/>
-		<property name="fileWriter" ref="pco1_hdf5_filewriter"/>
-		<property name="readAcquisitionTime" value="true" />
-		<property name="readFilepath" value="true" />
-		<property name="readAcquisitionPeriod" value="false" />
-		<property name="disableCallbacks" value="false"/>
-		<property name="computeStats" value="false" />
-		<property name="computeCentroid" value="false" />
-		<property name="readArray" value="false" />
-		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
-		<property name="hardwareTriggeredCollectionStrategy" ref="zebra_hardwareTriggeredCollectionStrategy"/>
-		<property name="nonHardwareTriggeredCollectionStrategy" ref="pco1_singleExposure"/>
-		<property name="integratesBetweenPoints" value="true"/>
-		<property name="exposureCompleteWhenArrayCounterSaysSo" value="true"/>
-	</bean> -->
-	
-	
-	<bean id="zebra_det" class="gda.device.detector.HardwareTriggeredNXDetector">
-		<property name="name" value="zebra_det"/>
-		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
-		<property name="collectionStrategy" ref="zebra_hardwareTriggeredCollectionStrategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="pco1_hdf5_filewriter" />
-			</list>
-		</property>
-	</bean>
 		
 	<import resource="../common.xml" />
 

@@ -10,7 +10,6 @@
 
 	<context:property-placeholder location="file:${gda.config}/properties/dummy/java.properties,file:${gda.config}/properties/java.properties" />
 
-	<import resource="pco.xml" />
 	<import resource="../common.xml" />
 	<import resource="../../../devices/zebra/pco1_ndplugins.xml"/>
 		

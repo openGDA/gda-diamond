@@ -5,6 +5,7 @@
         <cs:dependency name="org.eclipse.emf.common" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.emf.ecore" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.diamond.scisoft.analysis" componentType="osgi.bundle"/>
+        <cs:dependency name="com.springsource.javax.media.jai.core" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i13i" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i13i.site" componentType="eclipse.feature"/>

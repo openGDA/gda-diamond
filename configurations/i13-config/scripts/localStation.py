@@ -91,7 +91,7 @@ try:
 #	waitForQcm_bragg1 = WaitForScannableAtLineEnd('waitForQcm_bragg1', qcm_bragg1)
 	
 	try:
-		if not LocalProperties.check("gda.dummy.mode"):
+		if LocalProperties.get("gda.mode") =="live":
 			createPVScannable( "d1_total", "BL13I-DI-PHDGN-01:STAT:Total_RBV")
 			createPVScannable( "expt_fastshutter_raw", "BL13I-EA-FSHTR-01:CONTROL", hasUnits=False)
 			expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", expt_fastshutter_raw)
@@ -164,17 +164,19 @@ try:
 	#from tests.testRunner import run_tests
 
 	try:
-		if not LocalProperties.check("gda.dummy.mode"):
+		if LocalProperties.get("gda.mode") == "live":
 			import autocollimator_script
 			autocollimator_script.setup()
-			import alignmentGui
-			tomodet = alignmentGui.TomoDet()
-			#setup trigger for pink beam
-			pco1_hw_tif.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
-			pco1_hw_hdf.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
 	except :
 		exceptionType, exception, traceback = sys.exc_info()
 		handle_messages.log(None, "Error connecting to autocollimator", exceptionType, exception, traceback, False)
+
+	import alignmentGui
+	tomodet = alignmentGui.TomoDet()
+	#setup trigger for pink beam
+	if LocalProperties.get("gda.mode") == "live":
+		pco1_hw_tif.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
+		pco1_hw_hdf.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
 	
 	import tomographyScan
 	
