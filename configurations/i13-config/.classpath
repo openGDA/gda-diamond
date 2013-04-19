@@ -2,7 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="servers"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.core"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.client"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/uk.ac.gda.core"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/uk.ac.gda.client"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.epics"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

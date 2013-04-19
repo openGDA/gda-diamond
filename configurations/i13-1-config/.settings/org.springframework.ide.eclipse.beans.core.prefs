@@ -1,4 +1,7 @@
-#Wed Nov 10 15:31:02 GMT 2010
+//org.springframework.ide.eclipse.beans.core.default.version.http\://activemq.apache.org/schema/core=
+//org.springframework.ide.eclipse.beans.core.default.version.http\://www.diamond.ac.uk/schema/gda/corba=
+//org.springframework.ide.eclipse.beans.core.default.version.http\://www.diamond.ac.uk/schema/gda/gda=
+//org.springframework.ide.eclipse.beans.core.default.version.http\://www.diamond.ac.uk/schema/gda/jetty=
 //org.springframework.ide.eclipse.beans.core.default.version.http\://www.osgi.org/xmlns/blueprint/v1.0.0=
 //org.springframework.ide.eclipse.beans.core.default.version.http\://www.springframework.org/schema/aop=
 //org.springframework.ide.eclipse.beans.core.default.version.http\://www.springframework.org/schema/batch=
@@ -35,6 +38,10 @@
 //org.springframework.ide.eclipse.beans.core.default.version.http\://www.springframework.org/schema/util=
 //org.springframework.ide.eclipse.beans.core.default.version.http\://www.springframework.org/schema/web-services=
 //org.springframework.ide.eclipse.beans.core.default.version.http\://www.springframework.org/schema/webflow-config=
+//org.springframework.ide.eclipse.beans.core.prefix.http\://activemq.apache.org/schema/core=core
+//org.springframework.ide.eclipse.beans.core.prefix.http\://www.diamond.ac.uk/schema/gda/corba=corba
+//org.springframework.ide.eclipse.beans.core.prefix.http\://www.diamond.ac.uk/schema/gda/gda=gda
+//org.springframework.ide.eclipse.beans.core.prefix.http\://www.diamond.ac.uk/schema/gda/jetty=jetty
 //org.springframework.ide.eclipse.beans.core.prefix.http\://www.osgi.org/xmlns/blueprint/v1.0.0=bp
 //org.springframework.ide.eclipse.beans.core.prefix.http\://www.springframework.org/schema/aop=aop
 //org.springframework.ide.eclipse.beans.core.prefix.http\://www.springframework.org/schema/batch=batch
@@ -73,6 +80,6 @@
 //org.springframework.ide.eclipse.beans.core.prefix.http\://www.springframework.org/schema/webflow-config=flow
 eclipse.preferences.version=1
 org.springframework.ide.eclipse.beans.core.default.version.check.classpath=true
-org.springframework.ide.eclipse.beans.core.enable.project.preferences=false
+org.springframework.ide.eclipse.beans.core.enable.project.preferences=true
 org.springframework.ide.eclipse.beans.core.ignoreMissingNamespaceHandler=false
-org.springframework.ide.eclipse.beans.core.loadNamespaceHandlerFromClasspath=false
+org.springframework.ide.eclipse.beans.core.loadNamespaceHandlerFromClasspath=true

@@ -335,6 +335,7 @@
 				</bean>
 			</util:list>
 		</property>
+		<property name="labelWidth" value="70"/>
 	</bean>
 
 
@@ -372,6 +373,7 @@
 									</bean>
 								</util:list>
 							</property>
+						<property name="labelWidth" value="70"/>
 						</bean>
 					</property>
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
@@ -397,6 +399,7 @@
 									</bean>
 								</util:list>
 							</property>
+							<property name="labelWidth" value="70"/>
 						</bean>
 					</property>
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
@@ -422,6 +425,7 @@
 									</bean>
 								</util:list>
 							</property>
+							<property name="labelWidth" value="70"/>
 						</bean>
 					</property>
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
@@ -451,6 +455,7 @@
 									</bean>
 								</util:list>
 							</property>
+							<property name="labelWidth" value="70"/>
 						</bean>
 					</property>
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />

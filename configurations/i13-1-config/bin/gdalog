@@ -8,7 +8,7 @@ source /dls_sw/i13-1/etc/i13-1_profile.sh
 CLASSPATH=$GDAFOLDER/workspace/plugins/uk.ac.gda.swingclient/bin; export CLASSPATH
 LOGPANEL=$(ps -ef | grep LogPanel | grep -v grep)
 if [ "X$LOGPANEL" == "X" ] ; then
-python $GDAFOLDER/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda --config=$GDAFOLDER/$BEAMLINE-config --restart --mode=$GDAMODE logpanel
+python $GDAFOLDER/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda --config=$GDAFOLDER/config --restart --mode=$GDAMODE logpanel
 else
 wmctrl -R "GDA Log Panel"
 fi

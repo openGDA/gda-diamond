@@ -23,13 +23,12 @@
 				<entry key="pco1_proc2" value-ref="pco1_proc2" />
 				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file"/>
 				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif"/>
+				<entry key="pco1_stat" value-ref="pco1_stat"/>
 				<entry key="pco1_singleExposure" value-ref="pco1_singleExposure"/>
 				<entry key="pco1_autoContinuousTrigger" value-ref="pco1_autoContinuousTrigger"/>
 			</util:map>
 		</property>
 	</bean>
-
-
 
 
 	<bean id="pco1_autoContinuousTrigger" class="gda.device.detector.addetector.triggering.SoftwareContinuous">
@@ -40,6 +39,7 @@
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg value="-.1" />
 	</bean>
+	
 	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
 		<property name="fileNameTemplate" value="pco1"/>
@@ -48,6 +48,7 @@
 		<property name="fileNumberAtScanStart" value="-1"/>
 		<property name="setFileNameAndNumber" value="true"/>
 		<property name="setChunking" value="false"/>
+		<property name="blocking" value="true"/>
 	</bean>
 
 	<bean id="pco1_hdf" class="gda.device.detector.addetector.ADPco">
@@ -90,4 +91,60 @@
 		<property name="usePipeline" value="true"/>
 	</bean>
 
+
+	<bean id="pco4000_Zebra" class="gda.device.detector.addetector.triggering.HardwareTriggeredStandard">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg value=".001" />
+	</bean>
+
+
+
+	<bean id="pco1_hdf5_Zebra" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
+		<property name="fileNameTemplate" value="pco1"/>
+		<property name="filePathTemplate" value="$datadir$"/>
+		<property name="fileTemplate" value="%s%s-%d.hdf"/>
+		<property name="fileNumberAtScanStart" value="-1"/>
+		<property name="setFileNameAndNumber" value="true"/>
+		<property name="setChunking" value="false"/>
+		<property name="blocking" value="false"/>
+	</bean>
+	
+	<bean id="pco1_hw_hdf" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
+		<property name="fileNameTemplate" value="pco1"/>
+		<property name="filePathTemplate" value="$datadir$"/>
+		<property name="fileTemplate" value="%s%s-%d.hdf"/>
+		<property name="fileNumberAtScanStart" value="-1"/>
+		<property name="setFileNameAndNumber" value="true"/>
+		<property name="setChunking" value="false"/>
+		<property name="blocking" value="false"/>
+	</bean>
+	
+	
+	
+	<bean id="pco1_hw_tif" class="gda.device.detector.addetector.ADPco">
+		<property name="adBase" ref="pco1_cam_base" />
+		<property name="ndStats" ref="pco1_stat" />
+		<property name="ndArray" ref="pco1_arr" />
+		<property name="ndFile" ref="pco1_ndfiletif" />
+		<property name="collectionStrategy" ref="pco1_singleExposure"/>
+		<property name="fileWriter">
+			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+				<constructor-arg value="pco1"/>
+				<property name="ndFile" ref="pco1_ndfiletif" />
+				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+				<property name="returnExpectedFullFileName" value="true"/>
+			</bean>
+		</property>
+
+		<property name="readAcquisitionTime" value="true" />
+		<property name="readFilepath" value="true" />
+		<property name="readAcquisitionPeriod" value="false" />
+		<property name="computeStats" value="false" />
+		<property name="computeCentroid" value="false" />
+		<property name="readArray" value="false" />
+		<property name="checkFileExists" value="true"/>
+		<property name="usePipeline" value="true"/>
+	</bean>
 </beans>	

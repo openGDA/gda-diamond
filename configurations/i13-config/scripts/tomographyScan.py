@@ -185,6 +185,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         if tomography_flyscan_det is None:
             raise "tomography_flyscan_det is not defined in Jython namespace"
         
+
         tomography_shutter=jns.tomography_shutter
         if tomography_shutter is None:
             raise "tomography_shutter is not defined in Jython namespace"
@@ -192,7 +193,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         #ensure the soft control of the shutter is open at the end of the scan
         tomography_shutter.moveTo( "Open")        
 
-        scanObject=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step, tomography_flyscan_det, exposureTime])
+        scanObject=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
         tomodet.stop()
         
         scanObject.runScan()
