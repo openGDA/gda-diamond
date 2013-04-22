@@ -91,9 +91,10 @@ class TomoDet():
         
         self.pco1_ffmpeg2.getPluginBase().disableCallbacks()
 
-        self.pco1_autoContinuousTrigger.collectData()
         if self.pco1_cam_base.model_RBV == "PCO.Camera Dimax":
-            self.pco1_cam_base.startAcquiring() 
+            self.pco1_cam_base.startAcquiring() #this will arm it as well
+        else:
+            self.pco1_autoContinuousTrigger.collectData()
         return True
     
     def stop(self):
