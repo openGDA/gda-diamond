@@ -162,4 +162,18 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="uk.ac.gda.edxd.calibration"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.edxd.common"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
