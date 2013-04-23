@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA I20 EDE Branchline" id="uk.ac.gda.beamline.i20_1.product" application="uk.ac.gda.client.application" version="8.30.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA I20 EDE Offline" uid="uk.ac.gda.beamline.i20-1.product.offline" id="uk.ac.gda.beamline.i20_1.product" application="uk.ac.gda.client.application" version="8.30.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -11,21 +11,21 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-vmargs
--Dgda.install.workspace.loc=/dls_sw/i20-1/software/gda
--Dgda.install.git.loc=/dls_sw/i20-1/software/gda_git
--Dgda.config=/dls_sw/i20-1/software/gda/config
--Djava.library.path=/dls_sw/i20-1/software/gda_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64
--Dgda.propertiesFile=/dls_sw/i20-1/software/gda/config/properties/live/java.properties
--Djacorb.config.dir=/dls_sw/i20-1/software/gda/config/jacorb/live
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i20-1/software/gda/config/jca/live/JCALibrary.properties
--Dgda.mode=live
+      <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl}</programArgs>
+      <vmArgs>-Dgda.install.workspace.loc=${workspace_loc}
+-Dgda.install.git.loc=${project_loc:uk.ac.gda.core/}/../..
+-Dgda.config=${project_loc:i20-1-config}
+-Djava.library.path=${project_loc:uk.ac.gda.nexus}/lib/linux-x86_64
+-Dgda.propertiesFile=${project_loc:i20-1-config}/properties/dummy/java.properties
+-Djacorb.config.dir=${project_loc:i20-1-config}/jacorb/dummy
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:i20-1-config}/jca/dummy/JCALibrary.properties
+-Dgda.mode=dummy
 -Dgda.client.jython.automatic.interpreter=1
--Xms128m
--Xmx1024m
--XX:PermSize=128m 
--XX:MaxPermSize=256m
--XX:+DisableExplicitGC</vmArgs>
+-XX:+DisableExplicitGC
+-Xms256m
+-Xmx1280m
+-XX:PermSize=512m
+-XX:MaxPermSize=1024m</vmArgs>
       <vmArgsMac>-XstartOnFirstThread
 			-Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>

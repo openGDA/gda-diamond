@@ -17,80 +17,7 @@
          </property>
       </product>
    </extension>
-	<extension
-	     point="uk.ac.common.beans.factory">
-		<bean
-		    class="uk.ac.gda.exafs.ui.data.EdeScanParameters"
-		        describer="uk.ac.gda.exafs.ui.describers.EdeScanParametersDescriber">
-		  </bean>
-		<bean
-		    class="uk.ac.gda.exafs.ui.data.UserOptions"
-		        describer="uk.ac.gda.exafs.ui.describers.UserOptionsDescriber">
-		  </bean>
-		<bean
-		    class="uk.ac.gda.exafs.ui.data.TFGParameters"
-		        describer="uk.ac.gda.exafs.ui.describers.TFGParametersDescriber">
-		  </bean>
-	</extension>
    
-   <extension
-         point="org.eclipse.ui.editors">
-      <editor
-            class="uk.ac.gda.exafs.ui.EdeScanParametersEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="true"
-            icon="icons/XasParametersIcon.png"
-            id="uk.ac.gda.exafs.ui.EdeScanParametersEditor"
-            name="EDE Scan Parameters">
-         <contentTypeBinding
-               contentTypeId="uk.ac.diamond.gda.client.exafs.getEdeContent">
-         </contentTypeBinding>
-      </editor>
-    <editor class="uk.ac.gda.exafs.ui.UserOptionsEditor"
-            default="true"
-            icon="icons/OutputParametersIcon.png"
-            id="uk.ac.gda.exafs.ui.data.UserOptionsEditor"
-            name="UserOptions">
-            <contentTypeBinding
-                contentTypeId="uk.ac.gda.exafs.ui.data.UserOptionsContentType">
-            </contentTypeBinding>
-     </editor>
-    <editor class="uk.ac.gda.exafs.ui.TFGParametersEditor"
-            default="true"
-            id="uk.ac.gda.exafs.ui.data.TFGParametersEditor"
-            name="TFGParameters">
-            <contentTypeBinding
-                contentTypeId="uk.ac.gda.exafs.ui.data.TFGParametersContentType">
-            </contentTypeBinding>
-     </editor>
-    </extension>
-   <extension
-         point="org.eclipse.core.contenttype.contentTypes">
-      <content-type
-            base-type="org.eclipse.core.runtime.xml"
-            describer="uk.ac.gda.exafs.ui.describers.EdeScanParametersDescriber"
-            file-extensions="xml"
-            id="uk.ac.diamond.gda.client.exafs.getEdeContent"
-            name="EDE Bean File Content"
-            priority="high">
-      </content-type>
-      <content-type
-            base-type="org.eclipse.core.runtime.xml"
-            describer="uk.ac.gda.exafs.ui.describers.UserOptionsDescriber"
-            file-extensions="xml"
-            id="uk.ac.gda.exafs.ui.data.UserOptionsContentType"
-            name="UserOptions File Content"
-            priority="high">
-      </content-type>
-     <content-type
-       base-type="org.eclipse.core.runtime.xml"
-       describer="uk.ac.gda.exafs.ui.describers.TFGParametersDescriber"
-       file-extensions="xml"
-       id="uk.ac.gda.exafs.ui.data.TFGParametersContentType"
-       name="TFGParameters File Content"
-       priority="high">
-     </content-type>
-   </extension>
    <extension
          point="uk.ac.gda.client.preferences">
       <preference
@@ -122,64 +49,33 @@
       </startup>
    </extension>
    <extension
-         point="uk.ac.gda.client.experimentdefinition">
-      <experimentobjectmanager
-            class="uk.ac.gda.exafs.ui.data.EDEObjectManager">
-      </experimentobjectmanager>
-      <validator 
-            class="uk.ac.gda.exafs.ui.data.EDEValidator">
-      </validator>
-   </extension>
-   <extension
-         point="uk.ac.gda.richbeans.beantypes">
-      <describer
-            bean="uk.ac.gda.exafs.ui.data.EdeScanParameters"
-            commandId=""
-            contentType="uk.ac.diamond.gda.client.exafs.getEdeContent"
-            includeInNew="true"
-            name="EDE Scan"
-            template="EdeScan_Parameters"
-            type="Scan">
-      </describer>
-      <describer
-            bean="uk.ac.gda.exafs.ui.data.UserOptions"
-            commandId=""
-            contentType="uk.ac.gda.exafs.ui.data.UserOptionsContentType"
-            includeInNew="true"
-            name="User Options"
-            template="User_Options"
-            type="Options">
-      </describer>
-      <describer
-            bean="uk.ac.gda.exafs.ui.data.TFGParameters"
-            commandId=""
-            contentType="uk.ac.gda.exafs.ui.data.TFGParametersContentType"
-            includeInNew="true"
-            name="TFG Parameters"
-            template="TFG_Parameters"
-            type="TFG">
-      </describer>
-   </extension>
-   <extension
          point="org.eclipse.ui.views">
       <view
-            class="uk.ac.gda.exafs.ui.views.XHAndTFGEditorPlotView"
-            icon="icons/chart_curve.png"
-            id="uk.ac.gda.exafs.ui.views.xhandtfgeditorplotter"
-            name="EDE Time Plotter ">
+            class="uk.ac.gda.exafs.ui.views.BeamlineAlignmentView"
+            icon="icons/crosshairs.gif"
+            id="uk.ac.gda.exafs.ui.views.beamlinealignmentview"
+            name="Optics"
+            restorable="true">
       </view>
       <view
             class="uk.ac.gda.exafs.ui.views.DetectorSetupView"
             icon="icons/cog.png"
             id="uk.ac.gda.exafs.ui.views.detectorsetupview"
-            name="Detector Setup"
+            name="Detector"
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.exafs.ui.views.BeamlineAlignmentView"
-            icon="icons/crosshairs.gif"
-            id="uk.ac.gda.exafs.ui.views.beamlinealignmentview"
-            name="Beamline Alignment"
+            class="uk.ac.gda.exafs.ui.views.AlignmentStageView"
+            icon="icons/brick.png"
+            id="uk.ac.gda.exafs.ui.views.alignmentstageview"
+            name="Stage"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.exafs.ui.views.SingleSpectrumView"
+            icon="icons/1-star.gif"
+            id="uk.ac.gda.exafs.ui.views.singlespectrumview"
+            name="Single Collection"
             restorable="true">
       </view>
    </extension>
@@ -188,83 +84,9 @@
       <perspective
             class="uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective"
             icon="icons/chart_curve.png"
-            id="uk.ac.gda.beamline.i20_1.SpectraPerspective"
+            id="uk.ac.gda.beamline.i20_1.AlignmentPerspective"
             name="Alignment">
       </perspective>
-   </extension>
-   <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="uk.ac.gda.client.experimentdefinition.experimentperspective">
-         <view
-               id="uk.ac.gda.exafs.ui.views.xhandtfgeditorplotter"
-               minimized="false"
-               relationship="stack"
-               relative="uk.ac.gda.client.CommandQueueViewFactory"
-               showTitle="true"
-               visible="true">
-         </view>
-      </perspectiveExtension>
-   </extension>
-   <extension
-         point="org.eclipse.ui.commands">
-      <command
-            defaultHandler="uk.ac.gda.exafs.ui.views.commandhandlers.ShowSingleTimingGroupHandler"
-            id="uk.ac.gda.beamline.i20_1.showSingleTimingGroup"
-            name="Show Single Group">
-      </command>
-      <command
-            defaultHandler="uk.ac.gda.exafs.ui.views.commandhandlers.ShowHideRegionsHandler"
-            id="uk.ac.gda.beamline.i20_1.ShowHideRegionsHandler"
-            name="Show/hide regions in plot">
-      </command>
-      <command
-            defaultHandler="uk.ac.gda.exafs.ui.views.commandhandlers.FetchXHRegionsHandler"
-            id="uk.ac.gda.beamline.i20_1.FetchXHRegionsHandler"
-            name="Fetch current regions from detector">
-      </command>
-      <command
-            defaultHandler="uk.ac.gda.exafs.ui.views.commandhandlers.SetXHRegionsHandler"
-            id="uk.ac.gda.beamline.i20_1.SetXHRegionsHandler"
-            name="Update detector">
-      </command>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:uk.ac.gda.exafs.ui.views.xhandtfgeditorplotter">
-         <command
-               commandId="uk.ac.gda.beamline.i20_1.showSingleTimingGroup"
-               icon="icons/magnifier_zoom_in.png"
-               label="Show single timing group"
-               style="toggle"
-               tooltip="Toggle showing a single timing group">
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:uk.ac.gda.exafs.ui.views.detectorsetupview">
-         <command
-               commandId="uk.ac.gda.beamline.i20_1.SetXHRegionsHandler"
-               icon="/icons/pencil.png"
-               label="Update detector"
-               style="push"
-               tooltip="Update detector">
-         </command>
-         <command
-               commandId="uk.ac.gda.beamline.i20_1.FetchXHRegionsHandler"
-               icon="/icons/arrow_refresh.png"
-               label="Fetch from detector"
-               style="push">
-         </command>
-         <command
-               commandId="uk.ac.gda.beamline.i20_1.ShowHideRegionsHandler"
-               icon="/icons/chart_curve_link.png"
-               label="Show/hide selected region"
-               style="toggle">
-         </command>
-      </menuContribution>
    </extension>
    <extension point="org.eclipse.core.runtime.preferences">
       <initializer

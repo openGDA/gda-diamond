@@ -19,7 +19,6 @@
 package uk.ac.gda.exafs.ui.composites;
 
 import gda.device.Detector;
-import gda.device.Device;
 import gda.device.DeviceException;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.XHDetector;
@@ -32,21 +31,12 @@ import gda.jython.JythonServerStatus;
 import gda.observable.IObserver;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Vector;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.dawnsci.plotting.jreality.overlay.Overlay1DConsumer;
-import org.dawnsci.plotting.jreality.overlay.Overlay1DProvider;
-import org.dawnsci.plotting.jreality.overlay.OverlayProvider;
-import org.dawnsci.plotting.jreality.overlay.OverlayType;
-import org.dawnsci.plotting.jreality.overlay.primitives.PrimitiveType;
-import org.dawnsci.plotting.jreality.tool.AreaSelectEvent;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
@@ -59,8 +49,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IViewReference;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
@@ -69,19 +57,15 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.analysis.SDAPlotter;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
-import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
 import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
-import uk.ac.gda.richbeans.components.selector.BeanSelectionEvent;
-import uk.ac.gda.richbeans.components.selector.BeanSelectionListener;
-import uk.ac.gda.richbeans.components.selector.VerticalListEditor;
 
 import com.swtdesigner.ResourceManager;
 
-public class XHControlComposite extends Composite implements IObserver, Overlay1DConsumer, DetectorSetupComposite {
+public class XHControlComposite extends Composite implements IObserver {
 
 	public static final String ID = "uk.ac.gda.exafs.ui.composites.xhcontrolcomposite"; //$NON-NLS-1$
 
@@ -91,7 +75,6 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 
 	private ViewPart site;
 	private Composite contents;
-	private Group roisGroup;
 	private Group timesgroup;
 
 	private Text txtSnapTime;
@@ -108,29 +91,25 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 
 	private Thread liveLoop;
 
-	private VerticalListEditor theList;
-	private Overlay1DProvider oProvider;
-
-	private int[] lineReferences = new int[0];
-
-	// flags to ensure there is no loop in the refresh of the graph - whenever the table is changed by a mouse event, an
-	// necessary redraw of the graph occurs.
-	private volatile boolean ignoreTableUpdates = false;
-	private volatile boolean displayLockHeld = false;
-
-	private boolean displayOverlay = false;
-
 	private Group snapshotgroup;
 
 	private Text txtLiveTime;
+
+	private static Detector xh;
+	
+	private static Detector getDetector(){
+		if (xh == null){
+			xh = (Detector) Finder.getInstance().find("xh");
+		}
+		return xh;
+	}
 
 	public XHControlComposite(Composite parent, ViewPart site) {
 		super(parent, SWT.NONE);
 		this.site = site;
 
 		InterfaceProvider.getJSFObserver().addIObserver(this);
-
-		((Detector) Finder.getInstance().find("XHDetector")).addIObserver(this);
+		getDetector().addIObserver(this);
 
 		createUI();
 	}
@@ -143,8 +122,6 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 
 	private synchronized void rebuildUI() {
 
-		removeOverlay();
-
 		contents = new Composite(this, SWT.NONE);
 		contents.setLayout(new GridLayout(1, true));
 		contents.setLayoutData(new GridData(SWT.BEGINNING, SWT.BEGINNING, true, false));
@@ -154,38 +131,7 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 
 		createSnapShotGroup();
 
-		createROIConfigGroup();
-
 		contents.pack(true);
-	}
-
-	private void createROIConfigGroup() {
-		roisGroup = new Group(contents, SWT.BORDER);
-		GridDataFactory.fillDefaults().span(2, 1).applyTo(roisGroup);
-		roisGroup.setLayout(new GridLayout(1, false));
-		roisGroup.setText("Edit ROIs");
-
-		theList = new VerticalListEditor(roisGroup, SWT.NONE);
-		GridDataFactory.fillDefaults().applyTo(theList);
-		final XHROIComposite theROIs = new XHROIComposite(theList, SWT.NONE);
-		theROIs.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		theList.setEditorClass(XHROI.class);
-		theList.setEditorUI(theROIs);
-		theList.setNameField("Label");
-		theList.setMinItems(0);
-		theList.on();
-
-		theList.addBeanSelectionListener(new BeanSelectionListener() {
-
-			@Override
-			public void selectionChanged(BeanSelectionEvent evt) {
-				if (!ignoreTableUpdates) {
-					theROIs.selectionChanged((XHROI) evt.getSelectedBean());
-					refreshOverlay();
-				}
-			}
-		});
-		fetchLiveValues();
 	}
 
 	private void createSnapShotGroup() {
@@ -348,8 +294,7 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 	}
 
 	private XHROI[] getROI() throws DeviceException {
-		Detector xhdet = Finder.getInstance().find("XHDetector");
-		return (XHROI[]) xhdet.getAttribute(XHDetector.ATTR_ROIS);
+		return (XHROI[]) getDetector().getAttribute(XHDetector.ATTR_ROIS);
 	}
 
 	private void createActions() {
@@ -425,12 +370,9 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 		group1.setTimePerFrame(collectionPeriod);
 		simpleParams.addGroup(group1);
 
-		Detector xhdet = Finder.getInstance().find("XHDetector");
-		xhdet.setAttribute(XHDetector.ATTR_LOADPARAMETERS, simpleParams);
-
-		xhdet.collectData();
-
-		xhdet.waitWhileBusy();
+		getDetector().setAttribute(XHDetector.ATTR_LOADPARAMETERS, simpleParams);
+		getDetector().collectData();
+		getDetector().waitWhileBusy();
 	}
 
 	/**
@@ -447,8 +389,7 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 			collectData(collectionPeriod, numberScans);
 
 			// will return a double[] of corrected data
-			Detector xhdet = Finder.getInstance().find("XHDetector");
-			Object results = xhdet.getAttribute(XHDetector.ATTR_READFIRSTFRAME);
+			Object results = getDetector().getAttribute(XHDetector.ATTR_READFIRSTFRAME);
 
 			if (results != null) {
 				DoubleDataset resultsDataSet = new DoubleDataset((double[]) results);
@@ -458,10 +399,10 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 			}
 
 			if (writeData) {
-				xhdet.getAttribute(XHDetector.ATTR_WRITEFIRSTFRAME);
+				getDetector().getAttribute(XHDetector.ATTR_WRITEFIRSTFRAME);
 			}
 
-			NXDetectorData readout = (NXDetectorData) xhdet.readout();
+			NXDetectorData readout = (NXDetectorData) getDetector().readout();
 			return readout.getDoubleVals();
 
 		} catch (Exception e) {
@@ -581,210 +522,6 @@ public class XHControlComposite extends Composite implements IObserver, Overlay1
 		stop.setEnabled(false);
 		snapshot.setEnabled(true);
 		snapshotAndSave.setEnabled(true);
-	}
-
-	@Override
-	public void setROIs() {
-		try {
-			@SuppressWarnings("unchecked")
-			List<? extends XHROI> regions = ((List<? extends XHROI>) theList.getValue());
-			Device det = Finder.getInstance().find("XHDetector");
-			det.setAttribute(XHDetector.ATTR_ROIS, regions.toArray(new XHROI[0]));
-		} catch (DeviceException e) {
-			logger.error("Exception fetching ROIs from XHDetector", e);
-		}
-	}
-
-	@Override
-	public void fetchLiveValues() {
-		try {
-			Device det = Finder.getInstance().find("XHDetector");
-			XHROI[] regions = (XHROI[]) det.getAttribute(XHDetector.ATTR_ROIS);
-			if (regions.length > 0) {
-				Vector<XHROI> items = new Vector<XHROI>();
-				for (XHROI region : regions) {
-					items.add(region);
-				}
-				theList.setValue(items);
-			}
-		} catch (DeviceException e) {
-			logger.error("Exception fetching ROIs from XHDetector", e);
-		}
-	}
-
-	@Override
-	public void showHideOverlay() {
-		if (oProvider == null) {
-			registerWithPlot1();
-		}
-		displayOverlay = !displayOverlay;
-		refreshOverlay();
-	}
-
-	private void refreshOverlay() {
-		removeOverlay();
-		if (displayOverlay && !displayLockHeld) {
-			addOverlayToPlot();
-		}
-	}
-
-	private void registerWithPlot1() {
-		getPlot1().getMainPlotter().registerOverlay(this);
-	}
-
-	private PlotView getPlot1() {
-		IWorkbenchPage page = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage();
-		final IViewReference viewReference = page.findViewReference(PlotView.ID + "1", null);
-		return ((PlotView) viewReference.getPart(true));
-	}
-
-	@Override
-	public void registerProvider(OverlayProvider provider) {
-		oProvider = (Overlay1DProvider) provider;
-
-	}
-
-	@Override
-	public void unregisterProvider() {
-		oProvider = null;
-	}
-
-	@Override
-	public void removePrimitives() {
-	}
-
-	@Override
-	public void areaSelected(final AreaSelectEvent event) {
-
-		if (!displayOverlay) {
-			return;
-		}
-
-		if (event.getMode() == 0) {
-			// let go again
-			final double x = event.getX();
-			// fetch the current mouse position
-			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-				@Override
-				public void run() {
-					updateSelectedRegion(x, true, false);
-				}
-			});
-		} else if (event.getMode() == 1) {
-			// move while pressed
-			final double x = event.getX();
-			// fetch the current mouse position
-			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-				@Override
-				public void run() {
-					updateSelectedRegion(x, false, true);
-				}
-
-			});
-		} else
-
-		if (event.getMode() == 2) {
-			// let go again
-			final double x = event.getX();
-			// fetch the current mouse position
-			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-				@Override
-				public void run() {
-					updateSelectedRegion(x, false, true);
-					ignoreTableUpdates = false;
-				}
-			});
-		}
-	}
-
-	private void updateSelectedRegion(final double x, final boolean xIsLower, boolean refresh) {
-		int selectedValue = theList.getSelectedIndex();
-		@SuppressWarnings("unchecked")
-		List<? extends XHROI> regions = ((List<? extends XHROI>) theList.getValue());
-		int upperLevel;
-		int lowerLevel;
-		if (xIsLower) {
-			lowerLevel = (int) Math.round(x);
-			upperLevel = regions.get(selectedValue).getUpperLevel();
-		} else {
-			lowerLevel = regions.get(selectedValue).getLowerLevel();
-			upperLevel = (int) Math.round(x);
-		}
-		if (upperLevel > lowerLevel) {
-			regions.get(selectedValue).setLowerLevel(lowerLevel);
-			regions.get(selectedValue).setUpperLevel(upperLevel);
-		} else {
-			if (xIsLower) {
-				regions.get(selectedValue).setLowerLevel(lowerLevel);
-				regions.get(selectedValue).setUpperLevel(lowerLevel);
-			} else {
-				regions.get(selectedValue).setLowerLevel(upperLevel);
-				regions.get(selectedValue).setUpperLevel(lowerLevel);
-			}
-		}
-		ignoreTableUpdates = true;
-		theList.setValue(regions);
-		theList.setSelectedIndex(selectedValue);
-		if (refresh) {
-			// update the roi limit and change the overlay with a new line
-			refreshOverlay();
-		}
-	}
-
-	private void addOverlayToPlot() {
-
-		displayLockHeld = true;
-		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-
-				try {
-					int selectedValue = theList.getSelectedIndex();
-
-					int ymax = getCurrentYMax();
-
-					@SuppressWarnings("unchecked")
-					List<? extends XHROI> regions = ((List<? extends XHROI>) theList.getValue());
-
-					for (int regionNum = 0; regionNum < regions.size(); regionNum++) {
-
-						XHROI region = regions.get(regionNum);
-						int minValue = region.getLowerLevel();
-						int maxvalue = region.getUpperLevel();
-
-						oProvider.begin(OverlayType.VECTOR2D);
-						int minline = oProvider.registerPrimitive(PrimitiveType.LINE);
-						int maxline = oProvider.registerPrimitive(PrimitiveType.LINE);
-						if (regionNum == selectedValue) {
-							oProvider.setColour(minline, java.awt.Color.RED);
-							oProvider.setColour(maxline, java.awt.Color.RED);
-						} else {
-							oProvider.setColour(minline, java.awt.Color.GRAY);
-							oProvider.setColour(maxline, java.awt.Color.GRAY);
-						}
-						oProvider.drawLine(minline, minValue, 0, minValue, ymax);
-						oProvider.drawLine(maxline, maxvalue, 0, maxvalue, ymax);
-						oProvider.end(OverlayType.VECTOR2D);
-						lineReferences = ArrayUtils.add(lineReferences, minline);
-						lineReferences = ArrayUtils.add(lineReferences, maxline);
-					}
-				} finally {
-					displayLockHeld = false;
-				}
-			}
-		});
-	}
-
-	private int getCurrentYMax() {
-		Number yMax = getPlot1().getMainPlotter().getCurrentDataSet().max();
-		return yMax.intValue();
-	}
-
-	private void removeOverlay() {
-		for (int line : lineReferences) {
-			oProvider.unregisterPrimitive(line);
-		}
-		lineReferences = new int[0];
 	}
 
 	@Override

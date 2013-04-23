@@ -36,13 +36,6 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.client.experimentdefinition"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.gda.server.exafs"
          download-size="0"
          install-size="0"
@@ -51,6 +44,18 @@
 
    <plugin
          id="org.junit4"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.diamond.scisoft.analysis.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.diamond.scisoft.analysis"
          download-size="0"
          install-size="0"
          version="0.0.0"/>

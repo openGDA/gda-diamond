@@ -8,22 +8,21 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.gda.nexus,
  uk.ac.gda.common;bundle-version="1.0.0",
  uk.ac.gda.common.rcp;bundle-version="1.0.0",
- uk.ac.gda.client.experimentdefinition;bundle-version="1.0.0",
  uk.ac.diamond.org.jscience;bundle-version="[2.0.2,3.0.0)",
  uk.ac.diamond.scisoft.analysis;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.analysis.rcp;bundle-version="1.0.0",
  uk.ac.gda.server.exafs;bundle-version="1.0.0",
  uk.ac.gda.client;bundle-version="1.0.0",
  uk.ac.gda.common.client;bundle-version="1.0.0",
- org.dawnsci.plotting.jreality;bundle-version="1.0.0"
+ org.dawnsci.plotting.jreality;bundle-version="1.0.0",
+ org.dawb.common.ui;bundle-version="1.3.0",
+ org.dawnsci.plotting.api;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: gda.device.detector,
  uk.ac.gda.beamline.i20_1,
  uk.ac.gda.exafs.data,
- uk.ac.gda.exafs.ui,
  uk.ac.gda.exafs.ui.composites,
- uk.ac.gda.exafs.ui.controller,
  uk.ac.gda.exafs.ui.data,
  uk.ac.gda.exafs.ui.describers
 Eclipse-RegisterBuddy: uk.ac.gda.client.experimentdefinition, uk.ac.gda.common, uk.ac.gda.core, uk.ac.gda.api

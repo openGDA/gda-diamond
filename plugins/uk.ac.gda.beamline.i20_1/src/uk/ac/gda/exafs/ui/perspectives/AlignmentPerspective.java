@@ -25,15 +25,17 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
 import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
+import uk.ac.gda.exafs.ui.views.AlignmentStageView;
 import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
 import uk.ac.gda.exafs.ui.views.DetectorSetupView;
+import uk.ac.gda.exafs.ui.views.SingleSpectrumView;
 
 /**
  * Shows recent data from the XH detector for I20-1 EDE branchline.
  */
 public class AlignmentPerspective implements IPerspectiveFactory {
 	
-	public static final String ID = "uk.ac.gda.beamline.i20_1.SpectraPerspective";
+	public static final String ID = "uk.ac.gda.beamline.i20_1.AlignmentPerspective";
 	
 	// plot where snapshot spectra placed
 	public static String SPECTRAPLOTID =  PlotView.ID + "1";
@@ -51,9 +53,11 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		IFolderLayout alignmentControlsFolder = layout.createFolder("alignmentControls", IPageLayout.LEFT, 0.22f, editorArea);
 		alignmentControlsFolder.addView(BeamlineAlignmentView.ID);
 		alignmentControlsFolder.addView(DetectorSetupView.ID);
+		alignmentControlsFolder.addView(AlignmentStageView.ID);
+		alignmentControlsFolder.addView(SingleSpectrumView.ID);
 
 		layout.addView(LINEPLOTID, IPageLayout.RIGHT, 0.25f, editorArea);
-		layout.addView(SPECTRAPLOTID, IPageLayout.BOTTOM, 0.50f, LINEPLOTID);
+		layout.addView(SPECTRAPLOTID, IPageLayout.TOP, 0.50f, LINEPLOTID);
 		layout.addView(JythonTerminalView.ID, IPageLayout.RIGHT, 0.50f, LINEPLOTID);
 	}
 }

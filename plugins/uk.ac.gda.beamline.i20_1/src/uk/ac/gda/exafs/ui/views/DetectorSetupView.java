@@ -30,7 +30,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-import uk.ac.gda.exafs.ui.composites.DetectorSetupComposite;
 import uk.ac.gda.exafs.ui.composites.XHControlComposite;
 
 /**
@@ -120,23 +119,6 @@ private XHControlComposite xhComposite;
 
 	@Override
 	public void setFocus() {
-	}
-	
-	public void setROIs() {
-		getSelectedComposite().setROIs();
-	}
-
-	private DetectorSetupComposite getSelectedComposite() {
-		return xhComposite;
-	}
-
-	public void showHideOverlay() {
-		getSelectedComposite().showHideOverlay();
-		
-	}
-
-	public void fetchLiveValues() {
-		getSelectedComposite().fetchLiveValues();		
 	}
 
 	public void startCollectingRates() {

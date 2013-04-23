@@ -685,6 +685,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 			sdp.setScanDimensions(new int[1]);
 
 			NexusDataWriter writer = new NexusDataWriter();
+			writer.configureScanNumber(null);
 			writer.addData(sdp);
 
 		} catch (Exception e) {
