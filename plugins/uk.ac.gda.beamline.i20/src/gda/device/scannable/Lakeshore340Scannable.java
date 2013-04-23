@@ -58,14 +58,6 @@ public class Lakeshore340Scannable extends ScannableBase implements Scannable {
 	private ReadOnlyPV<Double> tempReadback2PV;
 	private ReadOnlyPV<Double> tempReadback3PV;
 
-	public Lakeshore340Scannable(String pvName) {
-		super();
-		if (!pvName.endsWith(":")) {
-			pvName += ":";
-		}
-		this.pvName = pvName;
-	}
-
 	@Override
 	public void configure() throws FactoryException {
 		setpointControlPV = LazyPVFactory.newDoublePV(getPvName() + "SETP_S");
@@ -186,7 +178,7 @@ public class Lakeshore340Scannable extends ScannableBase implements Scannable {
 		try {
 			Double currentValue = rawGetPosition();
 			Double currentSetpoint = getSetpoint();
-			return Math.abs(currentValue - currentSetpoint) > tolerance;
+			return Math.abs(currentValue - currentSetpoint) < tolerance;
 		} catch (IOException e) {
 			throw new DeviceException("IOException while trying to get the temperature reading", e);
 		}
@@ -197,6 +189,9 @@ public class Lakeshore340Scannable extends ScannableBase implements Scannable {
 	}
 
 	public void setPvName(String pvName) {
+		if (!pvName.endsWith(":")) {
+			pvName += ":";
+		}
 		this.pvName = pvName;
 	}
 

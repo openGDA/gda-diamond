@@ -91,8 +91,8 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 
 	protected void createSampleComposite(final Composite main) {
 		String[] columns = new String[] { "", "Number", "", "       Position      ",
-				"           Fine Position          ", "       Sample Name       ",
-				"                   Description                         " };
+				"           Fine Position          ", "        File Name        ",
+				"              Sample Description                       " };
 
 		final Group sampleComposite = new Group(main, SWT.BORDER);
 		sampleComposite.setText("Sample holder options");

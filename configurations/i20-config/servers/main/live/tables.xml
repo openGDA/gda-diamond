@@ -130,6 +130,11 @@
 		<property name="service" ref="cryostick" />
 		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
 	</bean>
+	
+	<bean id="cryostat" class="gda.device.scannable.Lakeshore340Scannable">
+		<property name="pvName" value="BL20I-EA-TEMPC-01:" />
+	</bean>
+	
 
 
 </beans>

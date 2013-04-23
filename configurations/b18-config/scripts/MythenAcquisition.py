@@ -48,3 +48,15 @@ class MythenAcquisition:
     
     def isAcquiring(self):
         return self.acquiring
+    
+#Alternate method using non depricated file loader
+
+#data = ScanFileLoader("84054-mythen-0001", "/dls/b18/data/2013/cm5943-2/").getSFH()
+#data.getNames()
+#array(java.lang.String, [u'Angle', u'Count', u'Error', u'Channel'])
+
+#channels = data.getLazyDataset("Channel")
+#counts = data.getLazyDataset("Count")
+#angles = data.getLazyDataset("Angle")
+
+#RCPPlotter.plot("Mythen Controller",angles, counts)

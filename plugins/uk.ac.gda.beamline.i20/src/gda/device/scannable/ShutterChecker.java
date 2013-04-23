@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2012 Diamond Light Source Ltd.
+ * Copyright © 2013 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -35,18 +35,16 @@ import org.slf4j.LoggerFactory;
 /**
  * Zero-in, zero-out scannable intended to be used a default scannable to confirm that the EH shutter is open.
  */
-public final class ShutterChecker extends ScannableBase {
+public class ShutterChecker extends ScannableBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(ShutterChecker.class);
 
-	private final EnumPositioner shutter;
+	private String pssPVName;
+	private EnumPositioner shutter;
 	private ReadOnlyPV<Double> pssState;
 
-	public ShutterChecker(EnumPositioner shutter, String pssPVName) {
-		this.shutter = shutter;
-
-		pssState = LazyPVFactory.newReadOnlyDoublePV(pssPVName);
-
+	public ShutterChecker() {
+		super();
 		inputNames = new String[] {};
 		extraNames = new String[] {};
 		outputFormat = new String[] {};
@@ -126,6 +124,23 @@ public final class ShutterChecker extends ScannableBase {
 	@Override
 	public boolean isBusy() throws DeviceException {
 		return false;
+	}
+
+	public String getPssPVName() {
+		return pssPVName;
+	}
+
+	public void setPssPVName(String pssPVName) {
+		this.pssPVName = pssPVName;
+		pssState = LazyPVFactory.newReadOnlyDoublePV(pssPVName);
+	}
+
+	public EnumPositioner getShutter() {
+		return shutter;
+	}
+
+	public void setShutter(EnumPositioner shutter) {
+		this.shutter = shutter;
 	}
 
 }

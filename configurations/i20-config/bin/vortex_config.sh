@@ -74,11 +74,11 @@ export PATH=$PATH:/dls_sw/epics/R3.14.11/base/bin/linux-x86/
     caput BL20I-EA-DET-01:CopyTriggerGapTime 1
     sleep 1
     set trigger threshold level
-    caput BL20I-EA-DET-01:DXP1:TriggerThreshold 0.996
+    caput BL20I-EA-DET-01:DXP1:TriggerThreshold 0.995
     caput BL20I-EA-DET-01:CopyTriggerThreshold 1
     sleep 1
     #Set energy peaking time
-    caput BL20I-EA-DET-01:DXP1:PeakingTime 0.4
+    caput BL20I-EA-DET-01:DXP1:PeakingTime 0.26
     caput BL20I-EA-DET-01:CopyPeakingTime 1
     sleep 1
     #Set energy gap time
@@ -132,18 +132,21 @@ export PATH=$PATH:/dls_sw/epics/R3.14.11/base/bin/linux-x86/
     # RJW: these differ from B18 was 2, I20: 0
     caput BL20I-EA-DET-01:HDF:FileWriteMode 0
     # RJW: these differ from B18 was 1, I20: 0
-    caput BL20I-EA-DET-01:HDF:EnableCallbacks 1
-    caput BL20I-EA-DET-01:HDF:AutoSave 1
-    caput BL20I-EA-DET-01:HDF:AutoIncrement 1
-    #caput BL20I-EA-DET-01:HDF:FilePath "X://data/2012/cm5712-1/"
-    #caput BL20I-EA-DET-01:HDF:FileName "b18"
-    #caput BL20I-EA-DET-01:HDF:FileTemplate "%s%s-%d-35-raster_xmap.h5"
+    caput BL20I-EA-DET-01:HDF:EnableCallbacks 0
+    caput BL20I-EA-DET-01:HDF:AutoSave 0
+    caput BL20I-EA-DET-01:HDF:AutoIncrement 0
+
+	# for I20, ensure that the bin width is always 0.01 kev
+	caput BL20I-EA-DET-01:DXP1:MaxEnergy 20.480
+	caput BL20I-EA-DET-01:DXP2:MaxEnergy 20.480
+	caput BL20I-EA-DET-01:DXP3:MaxEnergy 20.480
+	caput BL20I-EA-DET-01:DXP4:MaxEnergy 20.480
 
     #take some data to fill the ndarray
     caput BL20I-EA-DET-01:CollectMode 1
-    caput BL20I-EA-DET-01:EraseStart 1
+    caput -c BL20I-EA-DET-01:EraseStart 1
     sleep 1
-    caput BL20I-EA-DET-01:StopAll 1
+    caput -c BL20I-EA-DET-01:StopAll 1
     caput BL20I-EA-DET-01:CollectMode 0
     echo 'Configuration of Vortex complete.'
 

@@ -5,37 +5,45 @@ from gdascripts.analysis.datasetprocessor.oned.CentreOfMass import CentreOfMass
 from gdascripts.analysis.datasetprocessor.oned.GaussianPeakAndBackground import  GaussianPeakAndBackground
 from gdascripts.scan import specscans
 import math
+from BeamlineParameters import JythonNameSpaceMapping
 
-def calibrate_mono(calibration_energy,energy_range=50,energy_step=5,diagnostic_scannable=None):
+def calibrate_mono(current_peak_energy, expected_energy, offset_range=20.0,offset_step=0.2,acquire_time=1.0):
+    '''
+        Usage: calibrate_mono mono_peak_energy actual_peak_energy [range of offset scan] [ step isze of offset scan] [acquire time of offset scan]
+    '''
     
     scan_processor = ScanDataProcessor( [MaxPositionAndValue(),MinPositionAndValue(),CentreOfMass(), GaussianPeakAndBackground() ], globals() )
     ascan  = specscans.Ascan([scan_processor])
-#    alias('ascan');print ascan.__doc__.split('\n')[3]
-    
-    # get what we need from the system
-    finder = Finder.getInstance()
-    bragg1 = finder.find("bragg1")
-    bragg_offset = finder.find("bragg_offset")
-    bragg1_cal_energy = finder.find("bragg1_cal_energy")
-    bragg1_cal_set = finder.find("bragg1_cal_set")
-    bragg2_cal_energy = finder.find("bragg2_cal_energy")
-    bragg2_cal_set = finder.find("bragg2_cal_set")
     
     # move bragg1 to the calibration energy
-    if diagnostic_scannable == None:
-        diagnostic_scannable = finder.find("d5_current")
-#    myscan = CentroidScan([bragg1,energy_range,energy_step,diagnostic_scannable])
-#    myscan.runScan()
-#    filename = myscan.getDataWriter().
-    start_energy = calibration_energy - float(energy_range/2.)
-    final_energy = calibration_energy + float(energy_range/2.)
-    result = ascan([bragg1, start_energy, final_energy, energy_step, diagnostic_scannable])
+    jnm = JythonNameSpaceMapping()
+    diagnostic_scannable = jnm.d5
     
-    calculated_peak = scan_processor.result.peak
-    if Math.abs(calculated_peak - calibration_energy) > energy_range:
-        raise DeviceException("Calibration failed!")
+    print "Moving d5 screen in to beam and set the gain (this may take a while!)..."
+    d5_screen('Diode')
+    d5_gain(3)
+    
+    print "Moving bragg1 to",current_peak_energy,"eV using current (old) calibration"
+    bragg1(current_peak_energy)
+    
+    start_energy = - float(offset_range/2.)
+    final_energy = float(offset_range/2.)
+    intervals = (final_energy-start_energy)/offset_step
+    
+    print "Running scan over",braggoffset.getName(),"from",start_energy,"to",final_energy,"in steps of",offset_step,"using",diagnostic_scannable.getName(),"collecting for",acquire_time,"s"
+    result = ascan([braggoffset, start_energy, final_energy, intervals, diagnostic_scannable,acquire_time])
+    calculated_peak = result.peak.result.pos
+    print "Peak found at",calculated_peak
 
     # set the calibration values and press the 'set' buttons
-    scan_processor.go("peak")
-    bragg1_cal_set(1)
-    bragg2_cal_set(1)
+    print "Now will move",braggoffset.getName(),"to",calculated_peak,"and set the calibration."
+    #braggoffset(calculated_peak)
+    #bragg1_cal_energy(expected_energy)
+    #bragg2_cal_energy(expected_energy)
+    #bragg1_cal_set(1)
+    #bragg2_cal_set(1)
+    
+    print "Moving d5 screen out of beam (this may take a while!)..."
+    d5_screen('Empty')
+    
+    print "Calibration complete."
