@@ -118,7 +118,7 @@ public class I05Apple extends ScannableMotionWithScannableFieldsBase {
 		throw new DeviceException("setting energy not implemented yet");
 	}
 
-	public Scannable getGapScannable() {
+	public ScannableMotion getGapScannable() {
 		return gapScannable;
 	}
 
@@ -126,7 +126,7 @@ public class I05Apple extends ScannableMotionWithScannableFieldsBase {
 		this.gapScannable = gapScannable;
 	}
 
-	public Scannable getUpperPhaseScannable() {
+	public ScannableMotion getUpperPhaseScannable() {
 		return upperPhaseScannable;
 	}
 
@@ -134,7 +134,7 @@ public class I05Apple extends ScannableMotionWithScannableFieldsBase {
 		this.upperPhaseScannable = upperPhaseScannable;
 	}
 
-	public Scannable getLowerPhaseScannable() {
+	public ScannableMotion getLowerPhaseScannable() {
 		return lowerPhaseScannable;
 	}
 
