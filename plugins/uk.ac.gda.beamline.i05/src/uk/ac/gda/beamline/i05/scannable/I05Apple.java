@@ -19,7 +19,6 @@
 package uk.ac.gda.beamline.i05.scannable;
 
 import gda.device.DeviceException;
-import gda.device.Scannable;
 import gda.device.ScannableMotion;
 import gda.device.scannable.scannablegroup.ScannableMotionWithScannableFieldsBase;
 
@@ -47,12 +46,6 @@ public class I05Apple extends ScannableMotionWithScannableFieldsBase {
 	public void checkPhases() throws DeviceException {
 		if (!upperPhaseScannable.isAt(lowerPhaseScannable.getPosition()))
 			throw new DeviceException("upper and lower phase out of sync");
-	}
-	
-	@Override
-	public Object getPosition() throws DeviceException {
-		checkPhases();
-		return null;
 	}
 	
 	public double getPhaseForGap(String polarisation) throws DeviceException {
@@ -140,5 +133,16 @@ public class I05Apple extends ScannableMotionWithScannableFieldsBase {
 
 	public void setLowerPhaseScannable(ScannableMotion lowerPhaseScannable) {
 		this.lowerPhaseScannable = lowerPhaseScannable;
+	}
+	
+	@Override
+	public Object getPosition() throws DeviceException {
+		checkPhases();
+		return new Object[] { getEnergy(), getPolarisation() };
+	}
+	
+	@Override
+	public boolean isBusy() throws DeviceException {
+		return gapScannable.isBusy() || upperPhaseScannable.isBusy() || lowerPhaseScannable.isBusy();
 	}
 }
