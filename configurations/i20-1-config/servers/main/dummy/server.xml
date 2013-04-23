@@ -12,12 +12,20 @@
 
 	<import resource="file:${gda.config}/servers/main/server-common.xml" />
 
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/meta-data.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/frontend_and_shutters.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/attenuators.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/eh_motors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
+<!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/meta-data.xml" /> -->
+
+<!-- 	do this here as it may have object references to earlier XML files -->
+	<import resource="file:${gda.config}/servers/main/dataformat.xml" />
+
 
 
 <!-- for when this used live: -->
@@ -41,15 +49,6 @@
 	<!-- </bean> -->
 
 
-<!-- command server stuff -->
-
-	<bean class="uk.ac.gda.beans.BeansFactory">
-		<property name="classList">
-			<util:list>
-				<value>uk.ac.gda.exafs.ui.data.EdeScanParameters</value>
-			</util:list>
-		</property>
-	</bean>
 
 	<bean id="jythonServerFacade" class="gda.jython.JythonServerFacade">
 		<constructor-arg ref="command_server" />
@@ -61,7 +60,7 @@
 				<property name="projects">
 					<list>
 						<bean class="gda.jython.ScriptProject">
-						<property name="path" value="/tmp/users/scripts" />
+						<property name="path" value="/scratch/users/scripts" />
 						<property name="name" value="Scripts: User" />
 						<property name="type" value="USER" />
 						</bean>
@@ -71,7 +70,7 @@
 							<property name="type" value="CONFIG" />
 						</bean>
 						<bean class="gda.jython.ScriptProject">
-							<property name="path" value="${gda.root}/uk.ac.gda.core/scripts" />
+							<property name="path" value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.core/scripts" />
 							<property name="name" value="Scripts: Core" />
 							<property name="type" value="CORE" />
 						</bean>
@@ -111,12 +110,7 @@
 		<constructor-arg ref="terminal_logger"/>
 	</bean>
 
-
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
-
-	<bean id="EdeScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase">
-	</bean>
-
 
 	<corba:export namespace="i20-1" />
 

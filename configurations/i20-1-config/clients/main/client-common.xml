@@ -36,17 +36,17 @@
 		</constructor-arg>
 	</bean>
 
-	<bean class="uk.ac.gda.beans.BeansFactory">
-	    <property name="classList">
-	        <util:list>
-	           <value>uk.ac.gda.exafs.ui.data.EdeScanParameters</value>
-	           <value>uk.ac.gda.exafs.ui.data.TimingGroup</value>
-	           <value>uk.ac.gda.exafs.ui.data.UserOptions</value>
-	           <value>uk.ac.gda.exafs.ui.data.TFGParameters</value>
-	           <value>uk.ac.gda.exafs.ui.data.TimeFrame</value>
-	        </util:list>
-	    </property>
-	</bean>
+<!-- 	<bean class="uk.ac.gda.beans.BeansFactory"> -->
+<!-- 	    <property name="classList"> -->
+<!-- 	        <util:list> -->
+<!-- 	           <value>uk.ac.gda.exafs.ui.data.EdeScanParameters</value> -->
+<!-- 	           <value>uk.ac.gda.exafs.ui.data.TimingGroup</value> -->
+<!-- 	           <value>uk.ac.gda.exafs.ui.data.UserOptions</value> -->
+<!-- 	           <value>uk.ac.gda.exafs.ui.data.TFGParameters</value> -->
+<!-- 	           <value>uk.ac.gda.exafs.ui.data.TimeFrame</value> -->
+<!-- 	        </util:list> -->
+<!-- 	    </property> -->
+<!-- 	</bean> -->
 
 	<corba:import namespace="i20-1" names="plot_server" />
 

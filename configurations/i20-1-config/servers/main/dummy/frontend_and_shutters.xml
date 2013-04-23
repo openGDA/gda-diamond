@@ -33,14 +33,14 @@
 		</property>
 	</bean>
 
-	<bean id="pshut" class="gda.device.enumpositioner.DummyPositioner">
-		<property name="positions">
-			<list>
-				<value>In</value>
-				<value>Out</value>
-			</list>
-		</property>
-	</bean>
+<!-- 	<bean id="pshut" class="gda.device.enumpositioner.DummyPositioner"> -->
+<!-- 		<property name="positions"> -->
+<!-- 			<list> -->
+<!-- 				<value>In</value> -->
+<!-- 				<value>Out</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 
 	<bean id="shutter2" class="gda.device.enumpositioner.DummyPositioner">
 		<property name="positions">
