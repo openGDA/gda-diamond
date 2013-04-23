@@ -178,7 +178,7 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None):
     if tomography_detector is None:
         raise "tomography_detector is not defined in Jython namespace"    
     currentTheta=tomography_theta()
-    tomoScan(tomography_translation(), outOfBeamPosition, exposureTime, start=currentTheta, stop=currentTheta, step=1., imagesPerDark=1, imagesPerFlat=1)
+    tomoScan(tomography_translation(), outOfBeamPosition, exposureTime, start=currentTheta, stop=currentTheta, step=1., imagesPerDark=1, imagesPerFlat=1, addNXEntry=False)
     lsdp=jns.lastScanDataPoint()
     detName=tomography_detector.getName()
 
@@ -268,7 +268,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 perform a simple tomogrpahy scan
 """
 def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1.):
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True):
     """
     Function to collect a tomogram
  	Arguments:
@@ -413,7 +413,8 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
             scan_args.append(beamok)
             
         scanObject=createConcurrentScan(scan_args)
-        addNXTomoSubentry(scanObject, tomography_detector.name, tomography_theta.name)
+        if addNXEntry:
+            addNXTomoSubentry(scanObject, tomography_detector.name, tomography_theta.name)
         tomodet.stop()
         scanObject.runScan()
         #ensure the soft control of the shutter is open at the end of the scan
