@@ -220,3 +220,18 @@ hy=hubery=SingleEpicsPositionerClass('hubery','BL16I-MO-HUB-01:Y.VAL','BL16I-MO-
 fsgap=frontslitgap=SingleEpicsPositionerClass('frontslity','BL16I-MO-TMP-07:Y:GAP.VAL','BL16I-MO-TMP-07:Y:GAP.RBV','BL16I-MO-TMP-07:Y:GAP.DMOV','BL16I-MO-TMP-07:Y:GAP.STOP','mm','%.3f',help='Front slits y gap (mm)')
 fsy=fontslity=SingleEpicsPositionerClass('frontslity','BL16I-MO-TMP-07:Y:TRANSLATION.VAL','BL16I-MO-TMP-07:Y:TRANSLATION.RBV','BL16I-MO-TMP-07:Y:TRANSLATION.DMOV','BL16I-MO-TMP-07:Y:TRANSLATION.STOP','mm','%.3f',help='Front slits y offset (mm)')
 
+
+zp1x=SingleEpicsPositionerClass('zp1x','BL16I-MO-ZPT-02:X1.VAL','BL16I-MO-ZPT-02:X1.RBV','BL16I-MO-ZPT-02:X1.DMOV','BL16I-MO-ZPT-02:X1.VAL.STOP','mm','%.4f')
+zp1y=SingleEpicsPositionerClass('zp1y','BL16I-MO-ZPT-02:Y1.VAL','BL16I-MO-ZPT-02:Y1.RBV','BL16I-MO-ZPT-02:Y1.DMOV','BL16I-MO-ZPT-02:Y1.VAL.STOP','mm','%.4f')
+zp1z=SingleEpicsPositionerClass('zp1z','BL16I-MO-ZPT-02:Z1.VAL','BL16I-MO-ZPT-02:Z1.RBV','BL16I-MO-ZPT-02:Z1.DMOV','BL16I-MO-ZPT-02:Z1.VAL.STOP','mm','%.4f')
+zp1x=SingleEpicsPositionerClass('zp2x','BL16I-MO-ZPT-02:X2.VAL','BL16I-MO-ZPT-02:X2.RBV','BL16I-MO-ZPT-02:X2.DMOV','BL16I-MO-ZPT-02:X2.VAL.STOP','mm','%.4f')
+zp1y=SingleEpicsPositionerClass('zp2y','BL16I-MO-ZPT-02:Y2.VAL','BL16I-MO-ZPT-02:Y2.RBV','BL16I-MO-ZPT-02:Y2.DMOV','BL16I-MO-ZPT-02:Y2.VAL.STOP','mm','%.4f')
+zp1z=SingleEpicsPositionerClass('zp2z','BL16I-MO-ZPT-02:Z2.VAL','BL16I-MO-ZPT-02:Z2.RBV','BL16I-MO-ZPT-02:Z2.DMOV','BL16I-MO-ZPT-02:Z2.VAL.STOP','mm','%.4f')
+
+micosx=SingleEpicsPositionerClass('micosx','BL16I-MO-PIEZO-03:MMC:01:DEMAND','BL16I-MO-PIEZO-03:MMC:01:POS:ENC','BL16I-MO-PIEZO-03:MMC:01:ACT:BUSY','BL16I-MO-PIEZO-03:MMC:01:STOP','mm','%.4f')
+micosy=SingleEpicsPositionerClass('micosy','BL16I-MO-PIEZO-03:MMC:02:DEMAND','BL16I-MO-PIEZO-03:MMC:02:POS:ENC','BL16I-MO-PIEZO-03:MMC:02:ACT:BUSY','BL16I-MO-PIEZO-03:MMC:02:STOP','mm','%.4f')
+
+#BL16I-MO-PIEZO-03:MMC:02:POS:ENC
+#BL16I-MO-ZPT-02:X1.VAL
+
+
