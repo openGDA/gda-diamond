@@ -272,7 +272,7 @@ scan_processor.processors.append(Rcen())
 print "Creating diffractometer base scannable base_z"
 base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/07
 
-sixckappa.getContinuousMoveController().setScannableForMovingGroupToStart(sixckappa)
+sixckappa.getContinuousMoveController().setScannableForMovingGroupToStart(_sixckappa_deffered_only)
 
 if not USE_DIFFCALC:
 	run("startup_diffractometer_euler")
