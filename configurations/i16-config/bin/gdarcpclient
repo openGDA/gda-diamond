@@ -1,2 +1,5 @@
 #!/bin/bash
-/dls_sw/i16/software/gda/client/gda-i16
+#/dls_sw/i16/software/gda/client/gda-i16
+
+echo /dls_sw/i16/software/gda_versions/gda_8.30/workspace_git/gda-diamond.git/dls-config/bin/gdaclient
+/dls_sw/i16/software/gda_versions/gda_8.30/workspace_git/gda-diamond.git/dls-config/bin/gdaclient
