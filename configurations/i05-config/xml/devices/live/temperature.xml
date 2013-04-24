@@ -3,16 +3,19 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-        <bean id="cryostat_temp" class="gda.device.scannable.EpicsScannable">
+        <bean id="cryostat_temp" class="uk.ac.gda.beamline.i05.scannable.NonLocalEpicsScannable">
         	<property name="pvName" value="BL05I-EA-TCTRL-02:KRDG0" />
         	<property name="useNameAsExtraName" value="true" />
+        	<property name="local" value="false" />
         </bean>
-        <bean id="sample_temp" class="gda.device.scannable.EpicsScannable">
+        <bean id="sample_temp" class="uk.ac.gda.beamline.i05.scannable.NonLocalEpicsScannable">
         	<property name="pvName" value="BL05I-EA-TCTRL-02:KRDG1" />
         	<property name="useNameAsExtraName" value="true" />
+        	<property name="local" value="false" />
         </bean>
-        <bean id="shield_temp" class="gda.device.scannable.EpicsScannable">
+        <bean id="shield_temp" class="uk.ac.gda.beamline.i05.scannable.NonLocalEpicsScannable">
         	<property name="pvName" value="BL05I-EA-TCTRL-02:KRDG2" />
         	<property name="useNameAsExtraName" value="true" />
+        	<property name="local" value="false" />
         </bean>
 </beans>

@@ -118,7 +118,7 @@
 		</property>
 	</bean>
 	
-	    <bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
                 <property name="serviceName" value="analyser" />
                 <property name="service" ref="analyser" />
                 <property name="serviceInterface" value="uk.ac.gda.arpes.detector.FlexibleFrameDetector" />
