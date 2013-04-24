@@ -1177,7 +1177,8 @@ def makeLinksForNXSFile(\
 	else:
 		msg = 'Failed to find projection at angle 0!' 
 		print "theta_lo = %s, zidx = %s"%(theta_lo, proj_idx[0])
-		raise Exception(msg)
+		if recon:
+			raise Exception(msg)
 		
 	path_proj_180deg=''
 	img_idx_proj_180deg=-1
@@ -1188,7 +1189,8 @@ def makeLinksForNXSFile(\
 	else:
 		msg = 'Failed to find projection at angle 180!' 
 		print "theta_hi = %s, zidx = %s"%(theta_hi, proj_idx[len_proj_idx-1])
-		raise Exception(msg)
+		if recon:
+			raise Exception(msg)
 	
 	# use the path of the first PROJ image file as a reference file path for identifying the corresponding scanNumber, etc
 	srcfile_proj=tif[ proj_idx[0] ][0]
