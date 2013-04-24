@@ -3,12 +3,9 @@
 	<xsd:simpleType name="lenstype">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="Transmission" />
-			<xsd:enumeration value="Angular7" />
-			<xsd:enumeration value="Angular7_fix" />
+			<xsd:enumeration value="Angular7NF" />
 			<xsd:enumeration value="Angular14" />
-			<xsd:enumeration value="A14small" />
 			<xsd:enumeration value="Angular30" />
-			<xsd:enumeration value="A30small" />
 		</xsd:restriction>
 	</xsd:simpleType>
 

@@ -18,6 +18,7 @@
 
 package uk.ac.gda.arpes.detector;
 
+import gda.data.nexus.extractor.NexusGroupData;
 import gda.device.DeviceException;
 import gda.device.MotorStatus;
 import gda.device.corba.impl.DeviceAdapter;
@@ -169,17 +170,17 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 
 			i = 0;
 			if ("Transmission".equals(getLensMode())) {
-				aname = "angles";
-				aunit = "degree";
-			} else {
 				aname = "location";
 				aunit = "mm";
+			} else {
+				aname = "angles";
+				aunit = "degree";
 			}
 			axis = getAngleAxis();
 
 			data.addAxis(getName(), aname, new int[] { axis.length }, NexusFile.NX_FLOAT64, axis, i + 1, 1, aunit,
 					false);
-          
+
 //			<field name="entrance_slit_setting" type="NX_ANY">
 //			            <doc>dial setting of the entrance slit</doc>
 //			</field>
@@ -187,6 +188,8 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 //			            <doc>size of the entrance slit</doc>
 //			</field>
 
+			data.addData(getName(), "lens_mode", new NexusGroupData(getLensMode()), null, null);
+			
 			data.addData(getName(), "pass_energy", new int[] {1}, NexusFile.NX_INT32, new int[] { getPassEnergy() }, null, null);
 
 			data.addData(getName(), "sensor_size", new int[] {2}, NexusFile.NX_INT32, new int[] { getAdBase().getMaxSizeX_RBV(), getAdBase().getMaxSizeY_RBV() }, null, null);

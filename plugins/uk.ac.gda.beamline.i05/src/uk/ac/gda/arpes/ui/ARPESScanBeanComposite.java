@@ -115,7 +115,7 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		label.setText("lensMode");
 		this.lensMode = new ComboWrapper(this, SWT.NONE);
-		this.lensMode.setItems(new String[] {"Transmission", "Angular7", "Angular7_fix", "Angular14", "A14small", "Angular30", "A30small"});
+		this.lensMode.setItems(capabilities.getLensModes());
 		lensMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 		Comparator<String> passEComparator = new Comparator<String>() {
@@ -124,17 +124,10 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 				return Integer.valueOf(o1.substring(0, o1.lastIndexOf(" "))).compareTo(Integer.valueOf(o2.substring(0, o2.lastIndexOf(" "))));
 			}
 		};
-		Map<String, Short> passMap = 	new TreeMap<String, Short>(passEComparator) {{
-			put("1 eV", (short) 1);
-			put("2 eV", (short) 2);
-			put("5 eV", (short) 5);
-			put("10 eV", (short) 10);
-			put("20 eV", (short) 20);
-			put("50 eV", (short) 50);
-			put("100 eV", (short) 100);
-			put("200 eV", (short) 200);
-			put("500 eV", (short) 500);
-		}};
+		Map<String, Short> passMap = 	new TreeMap<String, Short>(passEComparator);
+		for (short s: capabilities.getPassEnergies()) {
+			passMap.put(String.format("%d eV", s), s);
+		}
 		label = new Label(this, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		label.setText("passEnergy");
