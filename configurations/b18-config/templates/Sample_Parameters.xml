@@ -16,8 +16,8 @@
         <angle>0.0</angle>
         <calibAngle>0.0</calibAngle>
         <calibHeight>0.0</calibHeight>
-        <sampleNumberA>0</sampleNumberA>
-        <sampleNumberB>0</sampleNumberB>
+        <sampleNumberA>1</sampleNumberA>
+        <sampleNumberB>1</sampleNumberB>
         <cylinderType>fluo</cylinderType>
         <manual>true</manual>
         <editCalibration>false</editCalibration>
