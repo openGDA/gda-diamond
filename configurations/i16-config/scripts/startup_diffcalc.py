@@ -1,9 +1,6 @@
-from gda.configuration.properties import LocalProperties
 print "<<< Entering: startup_diffcalc.py ..."
 
-import sys
-diffcalc_path = LocalProperties.get("gda.install.git.loc") + '/diffcalc.git'
-sys.path = [diffcalc_path] + sys.path
+from gda.configuration.properties import LocalProperties
 
 import diffcalc.hkl.you.geometry
 from diffcalc.gdasupport.factory import create_objects, add_objects_to_namespace
