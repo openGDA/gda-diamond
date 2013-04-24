@@ -1,7 +1,0 @@
-#!/bin/bash
-
-#. /dls_sw/i15/software/gda/i15-config/bin/jvm.sh
-source /dls_sw/i15/software/gda/builder/set_tools.sh
-
-GDA=/dls_sw/i15/software/gda/plugins/uk.ac.gda.core/bin/gda
-$GDA client
