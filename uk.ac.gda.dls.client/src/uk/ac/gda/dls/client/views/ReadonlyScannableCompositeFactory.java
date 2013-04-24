@@ -18,34 +18,18 @@
 
 package uk.ac.gda.dls.client.views;
 
-import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.monitor.DummyMonitor;
-import gda.device.scannable.ScannableGetPositionWrapper;
-import gda.device.scannable.ScannablePositionChangeEvent;
-import gda.device.scannable.ScannableStatus;
-import gda.observable.IObserver;
 import gda.rcp.views.CompositeFactory;
 
-import java.text.NumberFormat;
-import java.util.Scanner;
-
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPartSite;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.util.StringUtils;
 
 import swing2swt.layout.BorderLayout;
-import uk.ac.gda.common.rcp.util.EclipseWidgetUtils;
 import uk.ac.gda.ui.utils.SWTUtils;
 
 public class ReadonlyScannableCompositeFactory implements CompositeFactory, InitializingBean {
@@ -116,111 +100,4 @@ public class ReadonlyScannableCompositeFactory implements CompositeFactory, Init
 			throw new IllegalArgumentException("scannable is null");
 
 	}
-}
-
-class ReadonlyScannableComposite extends Composite {
-	private static final Logger logger = LoggerFactory.getLogger(ReadonlyScannableComposite.class);
-	private Text text;
-	Scannable scannable;
-	IObserver observer;
-	String val = "...";
-	Display display;
-	private Runnable setTextRunnable;
-	String [] formats;
-	String suffix="";
-	Integer decimalPlaces;
-
-	ReadonlyScannableComposite(Composite parent, int style, final Display display, final Scannable scannable, String label, final String units, 
-			Integer decimalPlaces) {
-		super(parent, style);
-		this.display = display;
-		this.scannable = scannable;
-		this.decimalPlaces = decimalPlaces;
-		
-		if( StringUtils.hasLength(units)){
-			suffix = " " + units;
-		}
-		
-		formats = scannable.getOutputFormat();
-		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(this);
-		GridDataFactory.fillDefaults().applyTo(this);		
-		
-		Label lbl = new Label(this, SWT.NONE | SWT.CENTER);
-		lbl.setText(StringUtils.hasLength(label) ? label : scannable.getName());
-		
-		int textStyle = SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY | SWT.CENTER;
-		text = new Text(this,textStyle);
-		text.setEditable(false);
-		setTextRunnable = new Runnable() {
-			@Override
-			public void run() {
-				int currentLength = text.getText().length();
-				String valPlusUnits = val+suffix;
-				text.setText(valPlusUnits);
-				int diff = valPlusUnits.length()-currentLength;
-				if ( diff > 0 || diff < -3)
-					EclipseWidgetUtils.forceLayoutOfTopParent(ReadonlyScannableComposite.this);
-			}
-		};		
-		
-		observer = new IObserver() {
-			
-			@Override
-			public void update(Object source, Object arg) {
-				if( arg instanceof ScannablePositionChangeEvent){
-					final ScannablePositionChangeEvent event = (ScannablePositionChangeEvent)arg;
-					setVal(event.newPosition.toString());
-				} else if( arg instanceof ScannableStatus && ((ScannableStatus)arg).status == ScannableStatus.IDLE){
-					try {
-						ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(scannable.getPosition(),formats );
-						val = wrapper.getStringFormattedValues()[0];
-					} catch (DeviceException e1) {
-						val = "Error";
-						logger.error("Error getting position for " + scannable.getName(),e1);
-					}
-					setVal(val);
-				} else if( arg instanceof String){
-					setVal((String)arg);
-				} else {
-					ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(arg,formats );
-					setVal(wrapper.getStringFormattedValues()[0]);
-				}
-			}
-		};
-		
-		try {
-			ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(scannable.getPosition(),formats );
-			val = wrapper.getStringFormattedValues()[0];
-		} catch (DeviceException e1) {
-			val = "Error";
-			logger.error("Error getting position for " + scannable.getName(),e1);
-		}
-		setVal(val);
-
-		scannable.addIObserver(observer);
-	}
-
-	void setVal(String newVal) {
-		if (decimalPlaces != null) {
-			Scanner sc = new Scanner(newVal.trim());
-			
-			if (sc.hasNextDouble()) {
-				NumberFormat format = NumberFormat.getInstance();
-				format.setMaximumFractionDigits(decimalPlaces.intValue());
-				newVal = format.format(sc.nextDouble());
-			}
-		}
-		val = newVal;
-		if(!isDisposed()){
-			display.asyncExec(setTextRunnable);
-		}
-	}
-
-	@Override
-	public void dispose() {
-		scannable.deleteIObserver(observer);
-		super.dispose();
-	}
-	
-
 }

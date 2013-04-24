@@ -162,7 +162,7 @@ class HealthCheckComposite extends Composite {
 				gc.setAntialias(SWT.ON);
 				gc.setBackground(color);
 				// gc.setForeground(COLOR_BAD)
-				gc.setLineWidth(2);
+				gc.setLineWidth(1);
 				Rectangle clientArea = healthCanvas.getClientArea();
 				final int margin = 4;
 				final Point topLeft = new Point(margin, margin);

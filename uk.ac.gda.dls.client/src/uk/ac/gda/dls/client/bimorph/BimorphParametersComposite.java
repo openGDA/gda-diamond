@@ -167,6 +167,7 @@ public final class BimorphParametersComposite extends Composite {
 		String exposure = exposureTime.getValue().toString();
 		String settleTimeValue = settleTime.getValue().toString();
 		String otherSlitSizeValue = otherSlitSize.getValue().toString();
+		String otherSlitPosValue = otherSlitPos.getValue().toString();
 		String autoOptimise = "False";
 		String groups_string = bimorphGroups.getValue().toString();
 		String grouped = "None";
@@ -187,7 +188,7 @@ public final class BimorphParametersComposite extends Composite {
 		String command = "slitscanner.run(globals(),\"" + mirror + "\"," + increment + ",\"" + slitToScanSize + "\",\""
 		+ slitToScanPos + "\"," + slitSizeValue + ",\"" + otherSlitSizeScannableName + "\",\""
 		+ otherSlitPosScannableName + "\"," + slitStartValue + "," + slitEndValue + "," + slitStepValue
-		+ ",\"" + detector + "\"," + exposure + "," + settleTimeValue + "," + otherSlitSizeValue + ","
+		+ ",\"" + detector + "\"," + exposure + "," + settleTimeValue + "," + otherSlitSizeValue + "," + otherSlitPosValue + ","
 		+ autoOptimise + "," + grouped + ",\"" + groups_string + "\")";
 		
 		JythonServerFacade.getInstance().runCommand(command);

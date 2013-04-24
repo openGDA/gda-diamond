@@ -1,17 +1,56 @@
-#!/bin/sh 
+#!/bin/bash 
 
-# Command to start the gda client
-#gdaclient options are:
-#	--help	Print this help and exit.
-#	--reset	Delete default workspace (use in case gdaclient does not start).
-#	--data	Set workspace to following argument
-#	--	End argument parsing. Send rest of command line to gdaclient
-#
+# Command to start the GDA client
+
+function gdaclienthelp {
+	cat 1>&2 <<EOF
+Usage: gdaclient [OPTION]... [-- CLIENT_OPTION [CLIENT_OPTION]... ]
+
+Start the GDA client with the default workspace: ${WORKSPACE}
+
+OPTIONS:
+    --help      Print this help and exit.
+    --data X    Set the workspace to X.
+    --reset     Delete the workspace. Either the default location or the
+                location specified by the --data option.
+    --keep      Keep (rename) the old workspace rather than deleting it.
+    --log       Don't start the log client when the GDA client is started.
+    --nohup Y   Start the client using nohup, redirecting output to file Y.
+    --client Z  Use client Z, overriding default and GDA_CLIENT variable.
+    --          End argument parsing, send remaining options to the GDA client.
+
+EXAMPLES:
+
+    gdaclient
+
+        This will start the client using the preference and projects stored in
+        the default workspace.
+
+    gdaclient --reset
+
+        This will reset the client preferences and projects back to the initial
+        state.
+
+    gdaclient -data /scratch/myworkspace
+
+        This will start the client using the preference and projects stored in
+        /scratch/myworkspace
+
+    gdaclient -data /scratch/myworkspace -reset
+
+        This will delete /scratch/myworkspace and and start the client with
+        workspace set to /scratch/myworkspace
+
+    gdaclient --reset -- -debug
+
+        This will reset the client preferences and projects back to the initial
+        state and pass the -debug option to the GDA client.
+
+EOF
+}
 
 if [ -z $BEAMLINE ] ; then
-	cat 1>&2 <<EOF
-ERROR: BEAMLINE not set 
-EOF
+	echo "ERROR: BEAMLINE not set" 1>&2
 	exit 1
 fi
 
@@ -19,37 +58,12 @@ fi
 WORKSPACE="/scratch/${BEAMLINE}_workspace-$(whoami)"
 CONFIG="/scratch/${BEAMLINE}_config-$(whoami)"
 
-ARGS=$(getopt -a -o \? -l help,data:,reset -n "gdaclient" -- "$@")
+ARGS=$(getopt -a -o \? -l help,data:,reset,log,keep,nohup:,client: -n "gdaclient" -- "$@")
 
 #Bad arguments - getopt returns non-zero
 if [ $? -ne 0 ];
 then
-	cat 1>&2 <<EOF
-gdaclient options are:
-	--help	Print this help and exit.
-	--data	Set workspace to following argument
-	--reset	Delete workspace. Either default or the value specified in data if follows data option
-	--	End argument parsing. Send rest of command line to gdaclient
-
-Default workspace is ${WORKSPACE}
-e.g.
-	gdaclient
-This will start the client using the preference and projects stored in the default workspace
-
-
-	gdaclient -reset
-
-This will reset the client preferences and projects back to the initial state.
-
-	gdaclient -data /scratch/myworkspace
-
-This will start the client using the preference and projects stored in /scratch/myworkspace
-
-	gdaclient -data /scratch/myworkspace -reset
-
-This will delete /scratch/myworkspace and and start the client with workspace set to /scratch/myworkspace
-
-EOF
+	gdaclienthelp
 	exit 1
 fi
 
@@ -62,65 +76,73 @@ eval set -- "$ARGS";
 while true; do
   case "$1" in
     --help)
-	cat 1>&2 <<EOF
-gdaclient options are:
-	--help	Print this help and exit.
-	--data	Set workspace to following argument
-	--reset	Delete workspace. Either default or the value specified in data if follows data option
-	--	End argument parsing. Send rest of command line to gdaclient
-
-Default workspace is ${WORKSPACE}
-e.g.
-	gdaclient
-This will start the client using the preference and projects stored in the default workspace
-
-
-	gdaclient -reset
-
-This will reset the client preferences and projects back to the initial state.
-
-	gdaclient -data /scratch/myworkspace
-
-This will start the client using the preference and projects stored in /scratch/myworkspace
-
-	gdaclient -data /scratch/myworkspace -reset
-
-This will delete /scratch/myworkspace and and start the client with workspace set to /scratch/myworkspace
-
-EOF
-	exit 0
+        gdaclienthelp
+        exit 0
       ;;
     --reset)
-      shift;
-	echo deleting workspaces ${WORKSPACE}
-	rm -rf ${WORKSPACE}
-	echo deleting config ${CONFIG}
-	rm -rf ${CONFIG}
-	break;
+        shift;
+        GDA_RESET=1
+        break;
       ;;
     --data)
-      shift;
-      if [ -n "$1" ]; then
-	WORKSPACE="$1"
         shift;
-      fi
+        if [ -n "$1" ]; then
+          WORKSPACE="$1"
+          shift;
+        fi
+      ;;
+    --keep)
+        shift;
+        GDA_KEEP=1
+      ;;
+    --log)
+        shift;
+        GDA_LOG=0
+      ;;
+    --nohup)
+        shift;
+        if [ -n "$1" ]; then
+          NOHUP_LOGFILE="$1"
+          shift;
+        fi
+      ;;
+    --client)
+        shift;
+        if [ -n "$1" ]; then
+          GDA_CLIENT="$1"
+          shift;
+        fi
       ;;
     --)
-      shift;
-      break;
+        shift;
+        break;
       ;;
   esac
 done
 
-
 . /usr/share/Modules/init/bash
 module load java/gda830-64
 
-gdalog
+if [ ! -z $GDA_RESET ] ; then
+  if [ ! -z $GDA_KEEP ] ; then
+    DATETIME=`date +%F-%T`
+    echo moving workspace ${WORKSPACE} to ${WORKSPACE}.${DATETIME}
+    mv ${WORKSPACE} ${WORKSPACE}.${DATETIME}
+    echo moving config ${CONFIG} to ${CONFIG}.${DATETIME}
+    mv ${CONFIG} ${CONFIG}.${DATETIME}
+  else
+    echo deleting workspace ${WORKSPACE}
+    rm -rf ${WORKSPACE}
+    echo deleting config ${CONFIG}
+    rm -rf ${CONFIG}
+  fi
+fi
+
+if [ -z $GDA_LOG ] ; then
+  gdalog
+fi
 
 ARCH=`/bin/arch`
-
-#export LD_LIBRARY_PATH=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-${ARCH}:/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/lib/linux-${ARCH}
 
 export http_proxy=http://WWWcache.RL.ac.UK:8080/
 export MOZILLA_FIVE_HOME=/dls_sw/apps/firefox/8/${ARCH}/
@@ -129,10 +151,18 @@ export MOZILLA_FIVE_HOME=/dls_sw/apps/firefox/8/${ARCH}/
 ulimit -c 10000000
 
 if [ -z $GDA_CLIENT ] ; then
-	GDA_CLIENT=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE}; export GDA_CLIENT
+  GDA_CLIENT=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE}; export GDA_CLIENT
 fi
 
-notify-send -t 10000 "GDA Client is starting...if it fails to open try 'gdaclient -reset'"
+notify-send -t 10000 "GDA client is starting... If it fails to open try 'gdaclient --reset'"
 COMMAND="${GDA_CLIENT} -showLocation -data ${WORKSPACE} -configuration ${CONFIG} $@"
-echo $COMMAND
-exec $COMMAND
+
+echo Starting GDA Client...
+if [ -z $NOHUP_LOGFILE ] ; then
+  echo $COMMAND
+  exec $COMMAND
+else
+  echo  $COMMAND
+  echo  $COMMAND >> $NOHUP_LOGFILE
+  nohup $COMMAND >> $NOHUP_LOGFILE 2>&1 &
+fi
