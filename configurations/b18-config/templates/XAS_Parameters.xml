@@ -14,5 +14,7 @@
     <edgeTime>1.0</edgeTime>
     <exafsStep>0.05</exafsStep>
     <exafsTime>1.0</exafsTime>
+    <exafsFromTime>1.0</exafsFromTime>
+    <exafsToTime>1.0</exafsToTime>
     <exafsStepType>k</exafsStepType>
 </XasScanParameters>
