@@ -7,9 +7,7 @@
 		<constructor-arg value="${gda.config}/servers/main/live/BL18I-gda-interface2-0.xml" />
 	</bean>      
 <!--EPICS Detector SECTION-->
- <bean id="triggersignal" class="gda.device.detector.analyser.EpicsMCASimple">
-		<property name="mcaPV" value="BL18I-EA-IP330-01:TRIG:MCA"/>
-</bean> 
+
 <bean id="wdsmca" class="gda.device.detector.analyser.EpicsMCASimple">
 		<property name="mcaPV" value="BL18I-EA-DET-05:aim_adc1"/>
 </bean>
@@ -387,50 +385,7 @@
 	<property name="local" value="true"/>
 </bean>
 
-<bean id="sample_thetacoarse_motor" class="gda.device.motor.EpicsMotor" >
-	<property name="deviceName" value="T1.ROT"></property>
-	<property name="local" value="true"/>
-</bean>
-<bean id="sample_thetafine_motor" class="gda.device.motor.EpicsMotor" >
-	<property name="deviceName" value="T1.FROT"></property>
-	<property name="local" value="true"/>
-</bean>
 
-<bean id="sample_y1_motor" class="gda.device.motor.EpicsMotor" >
-	<property name="deviceName" value="T1.Y1"></property>
-	<property name="local" value="true"/>
-</bean>
-<bean id="sample_y2_motor" class="gda.device.motor.EpicsMotor" >
-	<property name="deviceName" value="T1.Y2"></property>
-	<property name="local" value="true"/>
-</bean>
-<bean id="sample_y3_motor" class="gda.device.motor.EpicsMotor" >
-	<property name="deviceName" value="T1.Y3"></property>
-	<property name="local" value="true"/>
-</bean>
-
-<bean id="sample_x_motor" class="gda.device.motor.EpicsMotor" >
-	<property name="deviceName" value="T1.X"></property>
-	<property name="local" value="true"/>
-</bean>
-<bean id="sample_z_motor" class="gda.device.motor.EpicsMotor" >
-	<property name="deviceName" value="T1.Z"></property>
-	<property name="local" value="true"/>
-</bean>
-
-<!-- New table 3 Motors -->
-<!-- <bean id="sample_z_motor" class="gda.device.motor.EpicsMotor" > -->
-<!-- 	<property name="pvName" value="BL18I-MO-TABLE-03:Z"></property> -->
-<!-- 	<property name="local" value="true"/> -->
-<!-- </bean> -->
-<!-- <bean id="sample_x_motor" class="gda.device.motor.EpicsMotor" > -->
-<!-- 	<property name="pvName" value="BL18I-MO-TABLE-03:X"></property> -->
-<!-- 	<property name="local" value="true"/> -->
-<!-- </bean> -->
-<!-- <bean id="sample_y_motor" class="gda.device.motor.EpicsMotor" > -->
-<!-- 	<property name="pvName" value="BL18I-MO-TABLE-03:Y"></property> -->
-<!-- 	<property name="local" value="true"/> -->
-<!-- </bean> -->
 
 <bean id="vma_zoom_motor" class="gda.device.motor.EpicsMotor" >
 	<property name="deviceName" value="VMA:ZOOM"></property>
@@ -454,34 +409,7 @@
 	<property name="local" value="true"/>
 </bean>
 
-<!-- *** End of Motors *** -->
-<!-- <bean id="epicsTrajectoryScanController" class="gda.scan.EpicsTrajectoryScanController" > -->
-<!-- 	<property name="deviceName" value="TRAJ3"></property> -->
-<!-- 	<property name="m1axis" value="samplex"></property> -->
-<!-- 	<property name="m2axis" value="empty"></property> -->
-<!-- 	<property name="m3axis" value="empty"></property> -->
-<!-- 	<property name="m4axis" value="empty"></property> -->
-<!-- 	<property name="m5axis" value="empty"></property> -->
-<!-- 	<property name="m6axis" value="empty"></property> -->
-<!-- 	<property name="m7axis" value="empty"></property> -->
-<!-- 	<property name="m8axis" value="empty"></property> -->
-<!-- 	<property name="accelerationTime" value="1"></property> -->
-<!-- 	<property name="local" value="true"/> -->
-<!-- </bean> -->
 
-<bean id="epicsTrajectoryScanController" class="gda.scan.EpicsTrajectoryScanController" >
-	<property name="deviceName" value="TRAJ"></property>
-	<property name="m1axis" value="samplex"></property>
-	<property name="m2axis" value="sampley"></property>
-	<property name="m3axis" value="samplez"></property>
-	<property name="m4axis" value="thetafine"></property>
-	<property name="m5axis" value="empty"></property>
-	<property name="m6axis" value="empty"></property>
-	<property name="m7axis" value="empty"></property>
-	<property name="m8axis" value="empty"></property>
-	<property name="accelerationTime" value="1"></property>
-	<property name="local" value="true"/>
-</bean>
 
 <bean id="D7A" class="gda.spring.EpicsPositionerFactoryBean">
 		<property name="deviceName" value="D7A.POSITIONER"/>
@@ -511,25 +439,25 @@
 	<property name="local" value="true"/>
 </bean>
 
-<bean id="qexafs_energy" class="gda.device.scannable.QexafsScannable">
-	<property name="motor" ref="dcm_energy_motor" />
-	<property name="lowerGdaLimits" value="2000" />
-	<property name="upperGdaLimits" value="40000" />
-	<property name="outputFormat">
-		<list>
-			<value>%.2f</value>
-		</list>
-	</property>
-	<property name="outputModePV" value="BL18I-OP-DCM-01:COMP:CTRL" />
-	<property name="startPV" value="BL18I-OP-DCM-01:COMP:START" />
-	<property name="stopPV" value="BL18I-OP-DCM-01:COMP:STOP" />
-	<property name="stepPV" value="BL18I-OP-DCM-01:COMP:STEP" />
-	<property name="accelPV" value="BL18I-OP-DCM-01:BRAGG.ACCL" />
-	<property name="braggCurrentSpeedPV" value="BL18I-OP-DCM-01:ENERGY.VELO" />
-	<property name="braggMaxSpeedPV" value="BL18I-OP-DCM-01:ENERGY.VMAX" />
-	<property name="stepIncDegPV" value="BL18I-OP-DCM-01:COMP:STEP" />
-	<property name="pulseWidthDegPV" value="BL18I-OP-DCM-01:COMP:PULSE" />
-	<property name="numPulsesPV" value="BL18I-OP-DCM-01:COMP:NPULSES" />
-</bean>
+<!-- <bean id="qexafs_energy" class="gda.device.scannable.QexafsScannable"> -->
+<!-- 	<property name="motor" ref="dcm_energy_motor" /> -->
+<!-- 	<property name="lowerGdaLimits" value="2000" /> -->
+<!-- 	<property name="upperGdaLimits" value="40000" /> -->
+<!-- 	<property name="outputFormat"> -->
+<!-- 		<list> -->
+<!-- 			<value>%.2f</value> -->
+<!-- 		</list> -->
+<!-- 	</property> -->
+<!-- 	<property name="outputModePV" value="BL18I-OP-DCM-01:COMP:CTRL" /> -->
+<!-- 	<property name="startPV" value="BL18I-OP-DCM-01:COMP:START" /> -->
+<!-- 	<property name="stopPV" value="BL18I-OP-DCM-01:COMP:STOP" /> -->
+<!-- 	<property name="stepPV" value="BL18I-OP-DCM-01:COMP:STEP" /> -->
+<!-- 	<property name="accelPV" value="BL18I-OP-DCM-01:BRAGG.ACCL" /> -->
+<!-- 	<property name="braggCurrentSpeedPV" value="BL18I-OP-DCM-01:ENERGY.VELO" /> -->
+<!-- 	<property name="braggMaxSpeedPV" value="BL18I-OP-DCM-01:ENERGY.VMAX" /> -->
+<!-- 	<property name="stepIncDegPV" value="BL18I-OP-DCM-01:COMP:STEP" /> -->
+<!-- 	<property name="pulseWidthDegPV" value="BL18I-OP-DCM-01:COMP:PULSE" /> -->
+<!-- 	<property name="numPulsesPV" value="BL18I-OP-DCM-01:COMP:NPULSES" /> -->
+<!-- </bean> -->
 	
 </beans>

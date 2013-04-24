@@ -34,5 +34,6 @@
         <position>in line diode</position>
         <selectedPosition>gap</selectedPosition>
 	</Attenuator2>   
-
+	<vfmx>7.0</vfmx>
+    <vfmxActive>false</vfmxActive>
 </I18SampleParameters>

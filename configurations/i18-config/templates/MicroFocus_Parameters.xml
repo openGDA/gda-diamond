@@ -13,7 +13,7 @@
     <energy>10000.0</energy>
     <zScannableName>sc_sample_z</zScannableName>
     <zValue>2.5</zValue>
-    <continuousScannableName>sc_sample_z</continuousScannableName>
+    <continuousScannableName>sc_MicroFocusSampleX</continuousScannableName>
     <raster>false</raster>
     <rowTime>10.0</rowTime>
 </MicroFocusScanParameters>

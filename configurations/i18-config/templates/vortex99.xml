@@ -65,6 +65,5 @@
         <offset>-21.0</offset>
         <excluded>false</excluded>
     </DetectorElement>
-    <deadTime>-0.0</deadTime>
     <saveRawSpectrum>false</saveRawSpectrum>
 </VortexParameters>

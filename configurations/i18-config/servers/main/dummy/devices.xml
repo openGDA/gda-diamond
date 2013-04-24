@@ -134,18 +134,6 @@
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="epicsTrajectoryScanController" class="gda.scan.DummyTrajectoryScanController">
-		<property name="m1axis" value="sample_z_motor" />
-		<property name="m2axis" value="sample_thetacoarse_motor" />
-		<property name="m3axis" value="sample_x_motor" />
-		<property name="m4axis" value="sample_thetafine_motor" />
-		<property name="m5axis" value="empty" />
-		<property name="m6axis" value="empty" />
-		<property name="m7axis" value="empty" />
-		<property name="m8axis" value="empty" />
-		<property name="motorToMove" ref="sc_MicroFocusSampleX" />
-	</bean>
 
 	<bean id="xpsDeferFlag" class="gda.device.controlpoint.DummyControlPoint" />
 	
@@ -169,15 +157,15 @@
 		<property name="speed" value="200" />
 	</bean>
 
-	<bean id="qexafs_energy" class="gda.device.scannable.QexafsTestingScannable">
-		<property name="motor" ref="energy_motor" />
-		<property name="lowerGdaLimits" value="2000" />
-		<property name="upperGdaLimits" value="35000" />
-		<property name="outputFormat">
-			<list>
-				<value>%.2f</value>
-			</list>
-		</property>
-	</bean>
+<!-- 	<bean id="qexafs_energy" class="gda.device.scannable.QexafsTestingScannable"> -->
+<!-- 		<property name="motor" ref="energy_motor" /> -->
+<!-- 		<property name="lowerGdaLimits" value="2000" /> -->
+<!-- 		<property name="upperGdaLimits" value="35000" /> -->
+<!-- 		<property name="outputFormat"> -->
+<!-- 			<list> -->
+<!-- 				<value>%.2f</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 	
 </beans>
