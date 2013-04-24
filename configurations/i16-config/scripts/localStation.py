@@ -274,12 +274,12 @@ scan_processor.processors.append(Rcen())
 print "Creating diffractometer base scannable base_z"
 base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/07
 
-sixckappa.getContinuousMoveController().setScannableForMovingGroupToStart(_sixckappa_deffered_only)
+if installation.isLive():
+	sixckappa.getContinuousMoveController().setScannableForMovingGroupToStart(_sixckappa_deffered_only)
 
 if not USE_DIFFCALC:
 	run("startup_diffractometer_euler")
 else:
-	raise Exception("Relative limits not configured, nor trajscan tested for safety. ---RobW Jan16 2013")
 	print "Replacing ScannableMotors kphi, kap. kth, kmu, kdelta and kgam with wrappers supporting coordinated movement"
 	exec("kphi=sixckappaDC.kphiDC")
 	exec("kap=sixckappaDC.kapDC")
