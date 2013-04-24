@@ -19,12 +19,16 @@ from exafsscripts.exafs.i18DetectorPreparer import I18DetectorPreparer
 from exafsscripts.exafs.i18SamplePreparer import I18SamplePreparer
 from exafsscripts.exafs.i18OutputPreparer import I18OutputPreparer
 from exafsscripts.exafs.i18ScanScripts import I18XasScan
-from exafsscripts.exafs.qexafs_scan import QexafsScan
+#from exafsscripts.exafs.qexafs_scan import QexafsScan
 from gda.data import PathConstructor
 
 from microfocus.microfocus_elements import getXY,plotSpectrum,displayMap
 
 from uk.ac.gda.client.microfocus.scan.datawriter import MicroFocusWriterExtender
+
+from edxd_calibrator import refinement #script refinement that is used to calibrate the vortex about once a year
+
+from sampleStageTilt import *
 
 print "Initialization Started";
 
@@ -34,13 +38,6 @@ gdaConfigDir = LocalProperties.get("gda.config")
 gdaConfigDir = gdaConfigDir + "/"
 
 rcpController = finder.find("RCPController")
-
-non_raster_map = Map(D7A, D7B, counterTimer01, rcpController)
-raster_map = RasterMap(D7A, D7B, counterTimer01, trajectoryX, raster_counterTimer01, raster_xmap, realX, raster_xspress)
-raster_map_return_write = RasterMapReturnWrite(D7A, D7B, counterTimer01, trajectoryX, raster_counterTimer01, raster_xmap, realX, HTScaler, HTXmapMca, continuousSampleX, raster_xspress)
-
-
-map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
 
 if (LocalProperties.get("gda.mode") == 'live'):
     print "Create topup , detector and beam monitors to pause and resume scans"
@@ -82,25 +79,31 @@ if (LocalProperties.get("gda.mode") == 'live'):
     archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
 
 detectorPreparer = I18DetectorPreparer()
-samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B)
+samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
 outputPreparer = I18OutputPreparer()
 
 loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
 
 xas = I18XasScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer, None)
+
+non_raster_map = Map(D7A, D7B, counterTimer01, rcpController)
+raster_map = RasterMap(D7A, D7B, counterTimer01, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, rcpController)
+raster_map_return_write = RasterMapReturnWrite(D7A, D7B, counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, rcpController)
+map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
+
 if (LocalProperties.get("gda.mode") == 'live'):
     xas.addMonitors(topupMonitor, beam, detectorFillingMonitor, trajBeamMonitor)
 else:
     xas.addMonitors(None, None, None, None)
 
-qexafs = QexafsScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer, qexafs_energy, qexafs_counterTimer01)
+#qexafs = QexafsScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer, qexafs_energy, qexafs_counterTimer01)
 xanes = xas
 
 alias("xas")
 alias("xanes")
 alias("vortex")
 alias("xspress")
-alias("qexafs")
+#alias("qexafs")
 alias("map")
 alias("raster_map")
 alias("raster_map_return_write")

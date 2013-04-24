@@ -9,18 +9,13 @@
         <number>1</number>
         <ROI>
             <name>Fe_Ka</name>
-            <windowStart>619</windowStart>
-            <windowEnd>661</windowEnd>
+            <windowStart>618</windowStart>
+            <windowEnd>670</windowEnd>
         </ROI>
         <ROI>
-            <name>Mn_Ka</name>
-            <windowStart>550</windowStart>
-            <windowEnd>618</windowEnd>
-        </ROI>
-        <ROI>
-            <name>Ti_Ka</name>
-            <windowStart>430</windowStart>
-            <windowEnd>470</windowEnd>
+            <name>Br_Ka</name>
+            <windowStart>1170</windowStart>
+            <windowEnd>1220</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -32,18 +27,13 @@
         <number>1</number>
         <ROI>
             <name>Fe_Ka</name>
-            <windowStart>619</windowStart>
-            <windowEnd>661</windowEnd>
+            <windowStart>618</windowStart>
+            <windowEnd>670</windowEnd>
         </ROI>
         <ROI>
-            <name>Mn_Ka</name>
-            <windowStart>550</windowStart>
-            <windowEnd>618</windowEnd>
-        </ROI>
-        <ROI>
-            <name>Ti_Ka</name>
-            <windowStart>430</windowStart>
-            <windowEnd>470</windowEnd>
+            <name>Br_Ka</name>
+            <windowStart>1170</windowStart>
+            <windowEnd>1220</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -55,18 +45,13 @@
         <number>1</number>
         <ROI>
             <name>Fe_Ka</name>
-            <windowStart>619</windowStart>
-            <windowEnd>661</windowEnd>
+            <windowStart>618</windowStart>
+            <windowEnd>670</windowEnd>
         </ROI>
         <ROI>
-            <name>Mn_Ka</name>
-            <windowStart>550</windowStart>
-            <windowEnd>618</windowEnd>
-        </ROI>
-        <ROI>
-            <name>Ti_Ka</name>
-            <windowStart>430</windowStart>
-            <windowEnd>470</windowEnd>
+            <name>Br_Ka</name>
+            <windowStart>1170</windowStart>
+            <windowEnd>1220</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -78,24 +63,19 @@
         <number>1</number>
         <ROI>
             <name>Fe_Ka</name>
-            <windowStart>619</windowStart>
-            <windowEnd>661</windowEnd>
+            <windowStart>618</windowStart>
+            <windowEnd>670</windowEnd>
         </ROI>
         <ROI>
-            <name>Mn_Ka</name>
-            <windowStart>550</windowStart>
-            <windowEnd>618</windowEnd>
-        </ROI>
-        <ROI>
-            <name>Ti_Ka</name>
-            <windowStart>430</windowStart>
-            <windowEnd>470</windowEnd>
+            <name>Br_Ka</name>
+            <windowStart>1170</windowStart>
+            <windowEnd>1220</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
         <excluded>false</excluded>
     </DetectorElement>
-    <deadTime>6.417</deadTime>
     <saveRawSpectrum>false</saveRawSpectrum>
+    <selectedRegionNumber>0</selectedRegionNumber>
 </VortexParameters>

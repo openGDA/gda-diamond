@@ -1,9 +1,9 @@
 import math
 from gda.analysis.utils import GeneticAlg
-from gda.analysis.functions import *
 from gda.analysis import DataSet
 from gda.analysis import Plotter
 from time import sleep
+from gda.factory import Finder
 
 #ref = refinement()
 #ref.calibrateElement(20.0,0,23. 24. 22.4 0.001)
@@ -12,8 +12,8 @@ class refinement() :
 	
 	def __init__(self):
 		self.edxd = Finder.getInstance().find("edxdcontroller")	   
-		self.tfg = finder.find("tfg")
-		self.vortex = xmapMca
+		self.tfg = Finder.getInstance().find("tfg")
+		self.vortex = Finder.getInstance().find("xmapMca")
 
 	def collectdata(self,time) :
 	

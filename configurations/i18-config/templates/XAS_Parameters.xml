@@ -5,22 +5,24 @@
     <element>Fe</element>
     <edge>K</edge>
     <initialEnergy>6912.0</initialEnergy>
-    <finalEnergy>7400.0</finalEnergy>
+    <finalEnergy>14.94</finalEnergy>
     <edgeEnergy>7112.0</edgeEnergy>
     <gaf1>30.0</gaf1>
     <gaf2>10.0</gaf2>
     <gaf3>10.0</gaf3>
-    <A>7087.0</A>
+    <A>7074.0</A>
     <B>7099.5</B>
-    <C>7200.0</C>
+    <C>1.81</C>
     <preEdgeStep>5.0</preEdgeStep>
     <preEdgeTime>0.5</preEdgeTime>
-    <edgeStep>1.0</edgeStep>
+    <edgeStep>0.5</edgeStep>
     <edgeTime>0.5</edgeTime>
-    <exafsStep>2.0</exafsStep>
+    <exafsStep>0.04</exafsStep>
     <exafsTime>0.5</exafsTime>
     <exafsFromTime>1.0</exafsFromTime>
-    <exafsToTime>1.0</exafsToTime>
-    <kWeighting>1.0</kWeighting>
-    <exafsStepType>E</exafsStepType>
+    <exafsToTime>3.0</exafsToTime>
+    <kWeighting>3.0</kWeighting>
+    <exafsStepType>k</exafsStepType>
+    <exafsTimeType>Variable Time</exafsTimeType>
+    <abGafChoice>A/B</abGafChoice>
 </XasScanParameters>
