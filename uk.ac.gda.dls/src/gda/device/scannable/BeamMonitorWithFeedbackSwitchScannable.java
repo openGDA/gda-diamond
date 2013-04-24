@@ -93,11 +93,12 @@ public class BeamMonitorWithFeedbackSwitchScannable extends TopupScannable imple
 				int pvIndex =0;
 				for(String fbPv : feedbackPVs)
 				{
+					if(fbPv!=null && !fbPv.equals(""))
 					feedback[pvIndex++] = channelManager.createChannel(fbPv, false);
 				}
 			}
 		} catch (Exception e) {
-			logger.error(getName() + " had Exception during configure. Scans will not be protected by this Scannable.",
+			logger.error(getName() + " Beam monitor failed to configure.",
 					e);
 		}
 	}
@@ -126,7 +127,7 @@ public class BeamMonitorWithFeedbackSwitchScannable extends TopupScannable imple
 		{
 			for(Channel fbPv : feedback)
 			{
-				if(!fbPv.getConnectionState().isEqualTo(ConnectionState.CONNECTED))
+				if(fbPv!=null && !fbPv.getConnectionState().isEqualTo(ConnectionState.CONNECTED))
 					return false;
 			}
 		}
@@ -188,7 +189,7 @@ public class BeamMonitorWithFeedbackSwitchScannable extends TopupScannable imple
 	{
 		
 			//switch the feedback on 
-			if(feedback != null && feedback.length > 0)
+			if(feedback != null && feedback.length > 0 && feedback[0]!=null)
 			{
 				for(Channel fbPv : feedback){
 					try {
