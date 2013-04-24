@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.0.0.201208090952-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.1.0.201210040510-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -84,7 +84,6 @@
 		<config>servers/main/common/scannable/motor/xps3.xml</config>
 		<config>servers/main/dummy/motor/xps3.xml</config>
 		<config>servers/main/live/epics/motor/xps3.xml</config>
-		<config>servers/main/common/plumbing.xml</config>
 	</configs>
 	<configSets>
 	</configSets>
