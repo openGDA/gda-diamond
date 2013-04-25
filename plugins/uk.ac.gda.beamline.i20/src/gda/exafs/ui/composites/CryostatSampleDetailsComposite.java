@@ -23,6 +23,7 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
@@ -47,34 +48,35 @@ public class CryostatSampleDetailsComposite extends I20SampleParamsComposite imp
 	private Button btnGetLiveValues;
 	private Composite main;
 
-	@SuppressWarnings("unused")
 	public CryostatSampleDetailsComposite(Composite parent, int style) {
 		super(parent, style);
 
 		GridLayoutFactory.fillDefaults().applyTo(this);
 
 		main = new Composite(this, SWT.NONE);
-		GridLayoutFactory.fillDefaults().numColumns(5).applyTo(main);
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(main);
 
 		final Label lblSamname = new Label(main, SWT.NONE);
 		lblSamname.setText("Filename");
+		GridDataFactory.fillDefaults().grab(false, false).applyTo(lblSamname);
 		sample_name = new TextWrapper(main, SWT.NONE);
 		sample_name.setTextType(TEXT_TYPE.FILENAME);
-		GridDataFactory.fillDefaults().span(2, 1).applyTo(sample_name);
+		GridDataFactory.fillDefaults().applyTo(sample_name);
 
-		new Label(main, SWT.NONE);
-		new Label(main, SWT.NONE);
 
 		final Label lblSamdesc = new Label(main, SWT.NONE);
 		lblSamdesc.setText("Sample description");
-		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(lblSamdesc);
-		sample_description = new TextWrapper(main, SWT.NONE);
-		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(sample_description);
+		GridDataFactory.fillDefaults().grab(false, false).applyTo(lblSamdesc);
+		sample_description = new TextWrapper(main, SWT.WRAP | SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
+		final GridData gd_descriptions = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gd_descriptions.heightHint = 73;
+		gd_descriptions.widthHint = 400;
+		sample_description.setLayoutData(gd_descriptions);
 		
 		final Label lblNumOfRep = new Label(main, SWT.NONE);
-		lblNumOfRep.setText("Number of repetitions");
+		lblNumOfRep.setText("Repetitions");
 		lblNumOfRep.setToolTipText("Number of repetitions over this sample");
-		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(lblNumOfRep);
+		GridDataFactory.fillDefaults().grab(false, false).applyTo(lblNumOfRep);
 		numberOfRepetitions = new SpinnerWrapper(main, SWT.NONE);
 		numberOfRepetitions.setValue(1);
 		numberOfRepetitions.setToolTipText("Number of repetitions over this sample");
@@ -83,7 +85,7 @@ public class CryostatSampleDetailsComposite extends I20SampleParamsComposite imp
 		Group motorPositionsGroup = new Group(main, SWT.NONE);
 		motorPositionsGroup.setText("Motor positions");
 		GridDataFactory.fillDefaults().grab(true, false).span(5, 1).applyTo(motorPositionsGroup);
-		GridLayoutFactory.fillDefaults().numColumns(4).applyTo(motorPositionsGroup);
+		GridLayoutFactory.fillDefaults().numColumns(5).applyTo(motorPositionsGroup);
 		
 		btnGetLiveValues = new Button(motorPositionsGroup, SWT.None);
 		btnGetLiveValues.setText("Fetch");
@@ -100,10 +102,6 @@ public class CryostatSampleDetailsComposite extends I20SampleParamsComposite imp
 				widgetSelected(arg0);
 			}
 		});
-
-		new Label(motorPositionsGroup, SWT.NONE);
-		new Label(motorPositionsGroup, SWT.NONE);
-		new Label(motorPositionsGroup, SWT.NONE);
 
 		final Label lblSamx = new Label(motorPositionsGroup, SWT.NONE);
 		lblSamx.setText("Position");

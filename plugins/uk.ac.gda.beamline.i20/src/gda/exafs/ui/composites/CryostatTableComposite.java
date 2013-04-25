@@ -59,13 +59,6 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 	
 	private VerticalListEditor sampleDetails;
 
-//	private BooleanWrapper[] sampleInUse = new BooleanWrapper[MAX_NUM_SAMPLES];
-//	private Button[] btnGetLiveValues = new Button[4];
-//	private ScaleBox[] y = new ScaleBox[MAX_NUM_SAMPLES];
-//	private ScaleBox[] fineposition = new ScaleBox[MAX_NUM_SAMPLES];
-//	private TextWrapper[] sampleName = new TextWrapper[MAX_NUM_SAMPLES];
-//	private TextWrapper[] sampleDesc = new TextWrapper[MAX_NUM_SAMPLES];
-
 	public CryostatTableComposite(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new FillLayout(SWT.VERTICAL));
@@ -75,7 +68,6 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 
 		final Composite options = new Composite(main, SWT.NONE);
 		options.setLayout(new FillLayout());
-
 		loopChoice = new RadioWrapper(options, SWT.NONE, CryostatParameters.LOOP_OPTION);
 		loopChoice.setValue(CryostatParameters.LOOP_OPTION[0]);
 
@@ -84,39 +76,21 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 		createSampleComposite(main);
 
 		this.layout();
-
 	}
 
 	protected void createSampleComposite(final Composite main) {
-
-//		sampleStageParameters = new VerticalListEditor(complexTypesTemp, SWT.NONE);
-//		sampleStageParameters.setTemplateName("sampleposition");
-//		sampleStageParameters.setRequireSelectionPack(false);
-//		GridDataFactory.swtDefaults().grab(true, false).applyTo(sampleStageParameters);
-//		sampleStageParameters.setEditorClass(SampleStagePosition.class);
-//		sampleStageParameters.setFieldName("sampleposition");
-//		sampleStageParameters.setNameField("sample_name");
-//		final SampleStageComposite sspComposite = new SampleStageComposite(sampleStageParameters, SWT.NONE);
-//		GridDataFactory.swtDefaults().grab(true, false).applyTo(sspComposite);
-//		sampleStageParameters.setEditorUI(sspComposite);
-//		sampleStageParameters.setListEditorUI(sspComposite);
-//		sampleStageParameters.addBeanSelectionListener(new BeanSelectionListener() {
-//			@Override
-//			public void selectionChanged(BeanSelectionEvent evt) {
-//				sspComposite.selectionChanged((SampleStagePosition) evt.getSelectedBean());
-//			}
-//		});
-		
-		
-		sampleDetails = new VerticalListEditor(main, SWT.NONE);
+		final Group sampleComposite = new Group(main, SWT.BORDER);
+		sampleComposite.setText("Sample details");
+		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(sampleComposite);
+		sampleDetails = new VerticalListEditor(sampleComposite, SWT.NONE);
 		sampleDetails.setTemplateName("Sample");
 		sampleDetails.setRequireSelectionPack(false);
-		GridDataFactory.swtDefaults().grab(true, false).applyTo(sampleDetails);
+		GridDataFactory.fillDefaults().hint(600, 400).grab(true, false).applyTo(sampleDetails);
 		sampleDetails.setEditorClass(CryostatSampleDetails.class);
 		sampleDetails.setFieldName("samples");
 		sampleDetails.setNameField("sample_name");
 		final CryostatSampleDetailsComposite sspComposite = new CryostatSampleDetailsComposite(sampleDetails, SWT.NONE);
-		GridDataFactory.swtDefaults().grab(true, false).applyTo(sspComposite);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(sspComposite);
 		sampleDetails.setEditorUI(sspComposite);
 		sampleDetails.setListEditorUI(sspComposite);
 		sampleDetails.addBeanSelectionListener(new BeanSelectionListener() {
@@ -126,7 +100,6 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 			}
 		});
 	}
-
 
 	protected void createTemperatureComposite(final Composite main) {
 		final Group tempComposite = new Group(main, SWT.BORDER);

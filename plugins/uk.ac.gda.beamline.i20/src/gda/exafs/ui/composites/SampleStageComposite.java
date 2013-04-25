@@ -23,6 +23,7 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
@@ -60,27 +61,29 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 		GridLayoutFactory.fillDefaults().applyTo(this);
 
 		main = new Composite(this, SWT.NONE);
-		GridLayoutFactory.fillDefaults().numColumns(5).applyTo(main);
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(main);
 
 		final Label lblSamname = new Label(main, SWT.NONE);
 		lblSamname.setText("Filename");
+		GridDataFactory.swtDefaults().applyTo(lblSamname);
 		sample_name = new TextWrapper(main, SWT.NONE);
 		sample_name.setTextType(TEXT_TYPE.FILENAME);
-		GridDataFactory.fillDefaults().span(2, 1).applyTo(sample_name);
-
-		new Label(main, SWT.NONE);
-		new Label(main, SWT.NONE);
+		GridDataFactory.fillDefaults().applyTo(sample_name);
 
 		final Label lblSamdesc = new Label(main, SWT.NONE);
 		lblSamdesc.setText("Sample description");
-		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(lblSamdesc);
-		sample_description = new TextWrapper(main, SWT.NONE);
-		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(sample_description);
+		GridDataFactory.fillDefaults().applyTo(lblSamdesc);
+		sample_description = new TextWrapper(main, SWT.WRAP | SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
+		final GridData gd_descriptions = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gd_descriptions.heightHint = 73;
+		gd_descriptions.widthHint = 400;
+		sample_description.setLayoutData(gd_descriptions);
+
 		
 		final Label lblNumOfRep = new Label(main, SWT.NONE);
 		lblNumOfRep.setText("Number of repetitions");
 		lblNumOfRep.setToolTipText("Number of repetitions over this sample");
-		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(lblNumOfRep);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(lblNumOfRep);
 		numberOfRepetitions = new SpinnerWrapper(main, SWT.NONE);
 		numberOfRepetitions.setValue(1);
 		numberOfRepetitions.setToolTipText("Number of repetitions over this sample");
@@ -90,24 +93,24 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 			sample_roll = new ScaleBox(main, SWT.NONE);
 			sample_roll.setUnit("deg");
 			sample_roll.setDecimalPlaces(2);
-
+			sample_roll.setVisible(false);
+			GridDataFactory.fillDefaults().exclude(true).applyTo(sample_roll);
 			sample_pitch = new ScaleBox(main, SWT.NONE);
 			sample_pitch.setUnit("deg");
 			sample_pitch.setDecimalPlaces(2);
-
-			sample_roll.setVisible(false);
 			sample_pitch.setVisible(false);
+			GridDataFactory.fillDefaults().exclude(true).applyTo(sample_pitch);
 		} else {
 			sample_finerotation = new ScaleBox(main, SWT.NONE);
 			sample_finerotation.setUnit("deg");
 			sample_finerotation.setDecimalPlaces(2);
 			sample_finerotation.setVisible(false);
-			new Label(main, SWT.NONE);
+			GridDataFactory.fillDefaults().exclude(true).applyTo(sample_finerotation);
 		}
 
 		Group motorPositionsGroup = new Group(main, SWT.NONE);
 		motorPositionsGroup.setText("Motor positions");
-		GridDataFactory.fillDefaults().grab(true, false).span(5, 1).applyTo(motorPositionsGroup);
+		GridDataFactory.fillDefaults().hint(450, 150).grab(true, false).span(2, 1).applyTo(motorPositionsGroup);
 		GridLayoutFactory.fillDefaults().numColumns(4).applyTo(motorPositionsGroup);
 		
 		btnGetLiveValues = new Button(motorPositionsGroup, SWT.None);
@@ -143,7 +146,7 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 		sample_x = new ScaleBox(motorPositionsGroup, SWT.NONE);
 		sample_x.setUnit("mm");
 		sample_x.setDecimalPlaces(5);
-		GridDataFactory.fillDefaults().applyTo(sample_x);
+		GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_x);
 
 		final Label lblSamrot = new Label(motorPositionsGroup, SWT.NONE);
 		lblSamrot.setText("Sample rotation");
@@ -165,14 +168,14 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 			sample_finerotation = new ScaleBox(motorPositionsGroup, SWT.NONE);
 			sample_finerotation.setUnit("deg");
 			sample_finerotation.setDecimalPlaces(5);
-			GridDataFactory.fillDefaults().applyTo(sample_finerotation);
+			GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_finerotation);
 		} else {
 			final Label lblSamroll = new Label(motorPositionsGroup, SWT.NONE);
 			lblSamroll.setText("Sample roll");
 			sample_roll = new ScaleBox(motorPositionsGroup, SWT.NONE);
 			sample_roll.setUnit("deg");
 			sample_roll.setDecimalPlaces(5);
-			GridDataFactory.fillDefaults().applyTo(sample_roll);
+			GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_roll);
 		}
 		
 		final Label lblSamz = new Label(motorPositionsGroup, SWT.NONE);
