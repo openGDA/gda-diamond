@@ -107,14 +107,14 @@ public class CryostatSampleDetailsComposite extends I20SampleParamsComposite imp
 		lblSamx.setText("Position");
 		position = new ScaleBox(motorPositionsGroup, SWT.NONE);
 		position.setUnit("deg");
-		position.setDecimalPlaces(5);
+		position.setDecimalPlaces(2);
 		GridDataFactory.fillDefaults().applyTo(position);
 
 		final Label lblSamy = new Label(motorPositionsGroup, SWT.NONE);
 		lblSamy.setText("Fine position");
 		fineposition = new ScaleBox(motorPositionsGroup, SWT.NONE);
 		fineposition.setUnit("deg");
-		fineposition.setDecimalPlaces(5);
+		fineposition.setDecimalPlaces(2);
 		GridDataFactory.fillDefaults().applyTo(fineposition);
 
 		this.layout();
