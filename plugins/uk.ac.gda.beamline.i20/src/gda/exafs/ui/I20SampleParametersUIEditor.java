@@ -82,10 +82,6 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 	private TextWrapper name;
 	private VerticalListEditor sampleStageParameters;
 	private CryostatTableComposite cryostatParameters;
-//	private FurnaceComposite furnaceParameters;
-//	private MicroreactorParametersComposite microreactorParameters;
-//	private VerticalListEditor customParameters;
-//	private VerticalListEditor customXYZParameters;
 
 	private SelectionAdapter selectionListener;
 
@@ -98,8 +94,6 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 	private Composite blankTempComposite;
 
 	private BooleanWrapper useSampleWheel;
-
-//	private TextWrapper sampleName;
 	
 	I20SampleParameters bean;
 
@@ -389,7 +383,6 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		sampleDetailsGridData.exclude = false;
 
 		if (ScanObjectManager.isXESOnlyMode()) {
-//			Object val = null;
 			switch (index) {
 			case 0:
 				control = blankTempComposite;
@@ -398,26 +391,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 				control = sampleStageParameters;
 				sampleDetails.setVisible(false);
 				sampleDetailsGridData.exclude = true;
-//				val = getRoomTemperatureParameters().getValue();
-//				if (val == null) {
-//					params.getRoomTemperatureParameters();
-//				}
-//				if (val == null) {
-//					val = new SampleStageParameters();
-//				}
-//				if (params.getRoomTemperatureParameters() == null) {
-//					params.setRoomTemperatureParameters((SampleStageParameters) val);
-//				}
-//				if (getRoomTemperatureParameters().getValue() == null) {
-//					getRoomTemperatureParameters().setEditingBean(val);
-//				}
 				break;
-//			case 2:
-//				control = customXYZParameters;
-//				break;
-//			case 3:
-//				control = customParameters;
-//				break;
 			default:
 				break;
 			}
@@ -433,19 +407,6 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 				control = sampleStageParameters;
 				sampleDetails.setVisible(false);
 				sampleDetailsGridData.exclude = true;
-//				val = getRoomTemperatureParameters().getValue();
-//				if (val == null) {
-//					params.getRoomTemperatureParameters();
-//				}
-//				if (val == null) {
-//					val = new SampleStageParameters();
-//				}
-//				if (params.getRoomTemperatureParameters() == null) {
-//					params.setRoomTemperatureParameters((SampleStageParameters) val);
-//				}
-//				if (getRoomTemperatureParameters().getValue() == null) {
-//					getRoomTemperatureParameters().setEditingBean(val);
-//				}
 				break;
 			case 2:
 				control = cryostatParameters;
@@ -462,37 +423,6 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 					getCryostatParameters().setEditingBean(val);
 
 				break;
-//			case 3:
-//				control = furnaceParameters;
-//				val = getFurnaceParameters().getValue();
-//				if (val == null)
-//					params.getFurnaceParameters();
-//				if (val == null)
-//					val = new FurnaceParameters();
-//				if (params.getFurnaceParameters() == null)
-//					params.setFurnaceParameters((FurnaceParameters) val);
-//				if (getFurnaceParameters().getValue() == null)
-//					getFurnaceParameters().setEditingBean(val);
-//				break;
-//			case 4:
-//				control = microreactorParameters;
-//				val = getMicroreactorParameters().getValue();
-//				if (val == null)
-//					params.getMicroreactorParameters();
-//				if (val == null)
-//					val = new MicroreactorParameters();
-//				if (params.getMicroreactorParameters() == null)
-//					params.setMicroreactorParameters((MicroreactorParameters) val);
-//				if (getMicroreactorParameters().getValue() == null)
-//					getMicroreactorParameters().setEditingBean(val);
-//				break;
-//
-//			case 5:
-//				control = customXYZParameters;
-//				break;
-//			case 6:
-//				control = customParameters;
-//				break;
 			default:
 				break;
 			}
