@@ -312,7 +312,6 @@
 	<bean id="m4_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="m4_x_motor" />
-		
 	</bean>
 
 	<bean id="hr_stripe" class="gda.device.enumpositioner.EpicsPositionerCallback">
@@ -342,9 +341,6 @@
 		<property name="deviceName" value="HRMP" />
 		
 	</bean>
-<!-- 	<bean id="incidenceAngle" class="gda.device.monitor.EpicsMonitor"> -->
-<!-- 		<property name="pvName" value="BL20I-OP-HRM-05:PITCH.RBV" /> -->
-<!-- 	</bean> -->
 	<bean id="incidenceAngle" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL20I-OP-HRM-05:PITCH.RBV" />
 		<property name="pvNameSetPoint" value="BL20I-OP-HRM-05:PITCH.RBV" />

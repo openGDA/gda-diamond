@@ -12,6 +12,10 @@
 	<!-- Meta Data File -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/meta-data.xml" />           
 
+	<bean class="gda.configuration.epics.EpicsConfiguration">
+		<constructor-arg value="${gda.config}/xml/BL20I-gda-interface.xml" />
+	</bean>
+
 	<import resource="file:${gda.config}/servers/main/server-common.xml" />
 
 	<!-- Definition of the ascii data format -->
@@ -19,6 +23,7 @@
 
 
 <!--	 GDA configuration split up by part type -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/attenuators.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors.xml" />
