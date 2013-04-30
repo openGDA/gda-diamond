@@ -32,13 +32,13 @@ class I22(gda.device.scannable.PseudoDevice):
 	def shutdown(self):
 		valves.close()
 		mirrorsVoltages.off()
-		hotwaxs.off()
+		pos hw "off"
 		# print positions of the motor in elog
 
 	def wakeUp(self):
 		valves.open()
 		mirrorsVoltages.on()		
-		#hotwaxs.on()
+		pos hw "on"
 
 	def isAwake(self):
 		status = valves.isAwake() and mirrorsVoltages.isOn(self.VFM) and mirrorsVoltages.isOn(self.HFM) and hotwaxs.isOn()
