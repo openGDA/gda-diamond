@@ -187,7 +187,7 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		this.stepEnergy = new ScaleBox(this, SWT.NONE);
 		stepEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		stepEnergy.setUnit("meV");
-		stepEnergy.setDecimalPlaces(3);
+		stepEnergy.setDecimalPlaces(5);
 		stepEnergy.setMaximum(10000);
 		stepEnergy.setMinimum(0.0001);
 		stepEnergy.addValueListener(this);
@@ -359,9 +359,10 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 				if (!isSwept()) {
 					stepEnergy.setValue(capabilities.getEnergyStepForPass(((Number) passEnergy.getValue()).intValue()));
 
-					energyWidth.setValue(capabilities.getEnergyWidthForPass(((Number) passEnergy.getValue()).intValue()));
-					startEnergy.setValue(((Number) centreEnergy.getValue()).doubleValue() - e.getDoubleValue()/2.0);
-					endEnergy.setValue(((Number) centreEnergy.getValue()).doubleValue() + e.getDoubleValue()/2.0);
+					double width = capabilities.getEnergyWidthForPass(((Number) passEnergy.getValue()).intValue());
+					energyWidth.setValue(width);
+					startEnergy.setValue(((Number) centreEnergy.getValue()).doubleValue() - width/2.0);
+					endEnergy.setValue(((Number) centreEnergy.getValue()).doubleValue() + width/2.0);
 				}
 			}
 		
