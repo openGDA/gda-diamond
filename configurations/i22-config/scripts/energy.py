@@ -45,7 +45,9 @@ class BraggInkeV(gda.device.scannable.PseudoDevice):
 		self.name = name
 		self.setInputNames([name])
 		self.bragg = bragg
-		self.coefficient = 0.99896
+#		self.coefficient = 0.99896
+		self.slope = 1.00161                # April 2013, coefficient changed to slope
+		self.intercept = -0.03189            # April 2013, intercept added
 
 	def isBusy(self):
 		return self.bragg.isBusy()
@@ -53,12 +55,15 @@ class BraggInkeV(gda.device.scannable.PseudoDevice):
 	def getPosition(self):
 		""" Return the keV value"""
 		X=float(self.bragg.getPosition())
-		exp = X / self.coefficient 
+		exp = (X-self.intercept) / self.slope 
 		return 12.3985/(6.2712*sin(exp*3.14159265/180)) 
 
 	def asynchronousMoveTo(self,X):
 		""" Moves to the keV value supplied """
-		self.bragg.asynchronousMoveTo(180/3.14159265*asin(12.3985/(X*6.2712))*self.coefficient)
+		theta = 180/3.14159265*asin(12.3985/(X*6.2712))
+		thetaExp = self.slope*theta+self.intercept
+		#self.bragg.asynchronousMoveTo(180/3.14159265*asin(12.3985/(X*6.2712))*self.coefficient)
+		self.bragg.asynchronousMoveTo(thetaExp)
 
 class Harmonic:
 	""" Constructor method give the initial values"""
