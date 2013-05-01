@@ -11,19 +11,19 @@
 <mm54>3</mm54>
 <lsd43>3</lsd43>
 <zbs27213>3</zbs27213>
-<vdf31527>3</vdf31527>>
+<vdf31527>3</vdf31527>
+<ckn54496>3</ckn54496>
 
 <!-- data acq -->
 <zjt21856>3</zjt21856>
 <tjs15132>3</tjs15132>
 
-<!--users on visit in5737-4, added by RobW on may 31st 2012 so users could change energy-->
-<tun44976>2</tun44976>
 <!--users on visit sm7886-1, added by NJT on Aug 8th 2012 so users could change mfsax position-->
 <sma86963>3</sma86963>
 <!--users on visit sm8174-1, added by NJT on Feb 6th 2013 so users could change mfsax position-->
 <evy60329>3</evy60329>
 <!--users on visit sm7899-1, added by MM on Sep 19th 2012 so users could change energy-->
 <wtw54624>3</wtw54624>
-
+<!--users on visit sm8812-1, added by AS on 26 Apr 2013 so users could change energy-->
+<tni13765>3</tni13765>
 </user_permissions>
