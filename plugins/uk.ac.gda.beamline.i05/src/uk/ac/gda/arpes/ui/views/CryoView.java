@@ -42,10 +42,6 @@ public class CryoView extends ViewPart {
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(null);
 		container.setBounds(0, 0, 720, 750);
-		
-		Label lblNewLabel = new Label(container, SWT.NONE);
-		lblNewLabel.setImage(ResourceManager.getPluginImage("uk.ac.gda.beamline.i05", "icons/cryo.png"));
-		lblNewLabel.setBounds(0, 0, 720, 750);
 		{
 			Label lblSay = new Label(container, SWT.NONE);
 			lblSay.setBounds(350, 166, 66, 18);
@@ -78,12 +74,12 @@ public class CryoView extends ViewPart {
 		}
 		{
 			Label lblEnergy = new Label(container, SWT.NONE);
-			lblEnergy.setBounds(613, 393, 66, 18);
+			lblEnergy.setBounds(613, 424, 66, 18);
 			lblEnergy.setText("energy");
 		}
 		{
 			Label lblPolarisation = new Label(container, SWT.NONE);
-			lblPolarisation.setBounds(613, 424, 66, 18);
+			lblPolarisation.setBounds(613, 393, 66, 18);
 			lblPolarisation.setText("polarisation");
 		}
 		{
@@ -96,6 +92,10 @@ public class CryoView extends ViewPart {
 			lblSampletemp.setBounds(613, 61, 66, 18);
 			lblSampletemp.setText("sampletemp");
 		}
+		
+		Label lblNewLabel = new Label(container, SWT.BACKGROUND);
+		lblNewLabel.setImage(ResourceManager.getPluginImage("uk.ac.gda.beamline.i05", "icons/cryo.png"));
+		lblNewLabel.setBounds(0, 0, 720, 750);
 		
 
 		createActions();
