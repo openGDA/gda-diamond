@@ -141,5 +141,10 @@
             name="Analyser Progress"
             restorable="true">
       </view>
+            <view
+                  class="uk.ac.gda.arpes.ui.views.CryoView"
+                  id="uk.ac.gda.arpes.ui.views.CryoView"
+                  name="Cryo View">
+            </view>
    </extension>
 </plugin>
