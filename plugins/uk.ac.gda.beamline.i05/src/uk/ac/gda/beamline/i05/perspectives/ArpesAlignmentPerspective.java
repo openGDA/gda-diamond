@@ -48,7 +48,7 @@ public class ArpesAlignmentPerspective implements IPerspectiveFactory {
 		{
 			IFolderLayout folderLayout = layout.createFolder("folder_1", IPageLayout.TOP, 0.79f, "folder_2");
 			folderLayout.addView("uk.ac.gda.client.arpes.cameraview");
-//			folderLayout.addView("org.csstudio.sds.ui.internal.runmode.DisplayViewPart");
+			folderLayout.addView("uk.ac.gda.arpes.ui.views.CryoView");
 		}
 	}
 }
