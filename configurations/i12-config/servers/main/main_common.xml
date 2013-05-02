@@ -10,13 +10,13 @@
 
 
 	<!-- Commonly commented in the simulation environment -->
-	<import resource="pixium2.xml"/>
-	<import resource="edxd.xml"/>
-	<import resource="eurotherm.xml"/>
+	<import resource="pixium2.xml" />
+	<import resource="edxd.xml" />
+	<import resource="eurotherm.xml" />
 
-	<import resource="t7.xml"/>
+	<import resource="t7.xml" />
 
-	<import resource="mono.xml"/>
+	<import resource="mono.xml" />
 	<import resource="mono2.xml" />
 
 	<import resource="I0eh1.xml" />
@@ -25,11 +25,13 @@
 	<import resource="monitors.xml" />
 	<import resource="tfg2.xml" />
 	<import resource="ss2.xml" />
-	<import resource="s1.xml"/>
+	<import resource="s1.xml" />
 	<!-- End of comment for simulation environment -->
+	<import resource="eh1.xml" />
+	<import resource="eh2.xml" />
 	<import resource="cam1.xml" />
 	<import resource="dummies.xml" />
-	
+
 	<import resource="filters.xml" />
 	<import resource="gbc1.xml" />
 	<import resource="pco2.xml" />

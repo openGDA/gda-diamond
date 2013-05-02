@@ -12,6 +12,8 @@
 	<bean id="edxdAlignment" class="gda.device.detector.edxd.EDXDAlignment">
 		<property name="edxdController" ref="edxd" />
 		<property name="edxdCalibrationResourceHandler" ref="edxdCalibrationResourceHandler" />
+		<property name="eh1" ref="eh1" />
+		<property name="eh2" ref="eh2" />
 	</bean>
 
 	<bean id="edxdCalibrationResourceHandler"

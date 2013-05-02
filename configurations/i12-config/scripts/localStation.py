@@ -275,7 +275,11 @@ eurotherm2 = DisplayEpicsPVClass('eurotherm2', 'BL12I-EA-FURN-02:PV:RBV', 'c', '
 
 from tomographyScan import tomoScan, reportJythonNamespaceMapping #@UnusedImport
 alias("reportJythonNamespaceMapping")
-from tomo import tomoAlignment #@UnusedImport
+
+try:
+    from tomo import tomoAlignment #@UnusedImport
+except:
+    print "Unable to import 'tomoAlignment'"
 #print
 #print "setup tomographyScan:"
 #from tomo import tomographyScan

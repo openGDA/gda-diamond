@@ -85,7 +85,7 @@
 			</bean>
 		</property>
 		<property name="gdaVarDirectory" value="${gda.config}/var" />
-		<property name="cacheDirectory" value="/dls_sw/i12/var/jythonCache" />
+		<property name="cacheDirectory" value="{gda.var}" />
 		<property name="remotePort" value="9999" />
 	</bean>
 
