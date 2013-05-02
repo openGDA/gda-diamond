@@ -18,6 +18,10 @@
 
 package uk.ac.gda.arpes.ui.views;
 
+import gda.device.Scannable;
+import gda.factory.Finder;
+import gda.rcp.views.MotorPositionViewerComposite;
+
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
@@ -39,61 +43,51 @@ public class CryoView extends ViewPart {
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		Composite container = new Composite(parent, SWT.NONE);
-		container.setLayout(null);
-		container.setBounds(0, 0, 720, 750);
+		Composite comp = new Composite(parent, SWT.NONE);
+		comp.setLayout(null);
+		comp.setBounds(0, 0, 720, 750);
 		{
-			Label lblSay = new Label(container, SWT.NONE);
-			lblSay.setBounds(350, 166, 66, 18);
-			lblSay.setText("say");
+			MotorPositionViewerComposite lblSay = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("say")), true, "photonEnergy", 4, null, true, true);
+			lblSay.setBounds(350, 166, 120, 24);
 		}
 		{
-			Label lblSaz = new Label(container, SWT.NONE);
-			lblSaz.setBounds(242, 61, 66, 18);
-			lblSaz.setText("saz");
+			MotorPositionViewerComposite lblSaz = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saz")), true, "photonEnergy", 4, null, true, true);
+			lblSaz.setBounds(212, 61, 120, 24);
 		}
 		{
-			Label lblSax = new Label(container, SWT.NONE);
-			lblSax.setBounds(120, 166, 66, 18);
-			lblSax.setText("sax");
+			MotorPositionViewerComposite lblSax = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sax")), true, "photonEnergy", 4, null, true, true);
+			lblSax.setBounds(72, 166, 120, 24);
 		}
 		{
-			Label lblSatilt = new Label(container, SWT.NONE);
-			lblSatilt.setBounds(38, 487, 66, 18);
-			lblSatilt.setText("satilt");
+			MotorPositionViewerComposite lblSatilt = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("satilt")), true, "photonEnergy", 4, null, true, true);
+			lblSatilt.setBounds(8, 497, 120, 24);
 		}
 		{
-			Label lblSaploar = new Label(container, SWT.NONE);
-			lblSaploar.setBounds(232, 596, 66, 18);
-			lblSaploar.setText("saploar");
+			MotorPositionViewerComposite lblSaploar = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sapolar")), true, "photonEnergy", 4, null, true, true);
+			lblSaploar.setBounds(212, 596, 120, 24);
 		}
 		{
-			Label lblSaazimuth = new Label(container, SWT.NONE);
-			lblSaazimuth.setBounds(355, 596, 66, 18);
-			lblSaazimuth.setText("saazimuth");
+			MotorPositionViewerComposite lblSaazimuth = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saazimuth")), true, "photonEnergy", 4, null, true, true);
+			lblSaazimuth.setBounds(333, 584, 120, 24);
 		}
 		{
-			Label lblEnergy = new Label(container, SWT.NONE);
-			lblEnergy.setBounds(613, 424, 66, 18);
-			lblEnergy.setText("energy");
+			MotorPositionViewerComposite lblEnergy = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("energy")), true, "photonEnergy", 4, null, true, true);
+			lblEnergy.setBounds(590, 418, 120, 24);
+		}
+//		{
+//			MotorPositionViewerComposite lblPolarisation = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("energy")), true, "photonEnergy", 4, null, true, true);
+//			lblPolarisation.setBounds(590, 393, 120, 24);
+//		}
+		{
+			MotorPositionViewerComposite lblEntranceslit = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("analyser_slit")), true, "photonEnergy", 4, null, true, true);
+			lblEntranceslit.setBounds(565, 498, 120, 24);
 		}
 		{
-			Label lblPolarisation = new Label(container, SWT.NONE);
-			lblPolarisation.setBounds(613, 393, 66, 18);
-			lblPolarisation.setText("polarisation");
-		}
-		{
-			Label lblEntranceslit = new Label(container, SWT.NONE);
-			lblEntranceslit.setBounds(565, 498, 66, 18);
-			lblEntranceslit.setText("entranceslit");
-		}
-		{
-			Label lblSampletemp = new Label(container, SWT.NONE);
-			lblSampletemp.setBounds(613, 61, 66, 18);
-			lblSampletemp.setText("sampletemp");
+			MotorPositionViewerComposite lblSampletemp = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sample_temp")), true, "photonEnergy", 4, null, true, true);
+			lblSampletemp.setBounds(590, 61, 120, 24);
 		}
 		
-		Label lblNewLabel = new Label(container, SWT.BACKGROUND);
+		Label lblNewLabel = new Label(comp, SWT.BACKGROUND);
 		lblNewLabel.setImage(ResourceManager.getPluginImage("uk.ac.gda.beamline.i05", "icons/cryo.png"));
 		lblNewLabel.setBounds(0, 0, 720, 750);
 		
