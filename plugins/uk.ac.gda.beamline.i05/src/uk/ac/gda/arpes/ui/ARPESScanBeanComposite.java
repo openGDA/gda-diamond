@@ -190,6 +190,7 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		stepEnergy.setDecimalPlaces(3);
 		stepEnergy.setMaximum(10000);
 		stepEnergy.setMinimum(0.0001);
+		stepEnergy.setMinimumValid(true);
 		stepEnergy.addValueListener(this);
 		
 		label = new Label(this, SWT.NONE);

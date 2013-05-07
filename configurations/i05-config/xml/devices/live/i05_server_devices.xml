@@ -20,4 +20,5 @@
 	<import resource="id.xml" />
 	<import resource="temperature.xml" />
 
+	<import resource="ring.xml" />
 </beans>

@@ -69,7 +69,7 @@
          tooltip="sample temperature">
    </Scannable>
       <Scannable
-         name="exit_slit"
+         name="s6_ysize"
          tooltip="monochromator exit slit setting">
    </Scannable>
       <Scannable

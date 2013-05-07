@@ -43,6 +43,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.gda.arpes.detector.AnalyserCapabilties;
+import uk.ac.gda.beamline.i05.I05BeamlineActivator;
 
 public class ContinuousModeControllerView extends ViewPart implements IObserver {
 	private AnalyserCapabilties capabilities;
@@ -189,7 +190,7 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("acquire_time")), true, "timePerStep", 2, null, true, false);
 		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1));
 
-		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("exit_slit")), true, "exitSlit", 4, null, true, false);
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find(I05BeamlineActivator.EXIT_SLIT_SIZE_SCANNABLE)), true, "exitSlit", 4, null, true, false);
 		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sax")), true, "sax", 4, null, true, false);
