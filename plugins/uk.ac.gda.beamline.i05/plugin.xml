@@ -147,4 +147,37 @@
                   name="Cryo View">
             </view>
    </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="uk.ac.gda.beamline.i05.toolbar.handler.NewExperimentHandler"
+            description="Create a blank defintion for a new experiement"
+            id="uk.ac.gda.beamline.i05.newexperiment"
+            name="New Experiment">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:uk.ac.gda.client.toolbar?after=additions">
+         <command
+               commandId="uk.ac.gda.beamline.i05.newexperiment"
+               icon="icons/anaiconew.png"
+               label="New Experiment"
+               mode="FORCE_TEXT"
+               style="push"
+               tooltip="Create a blank defintion file for an ARPES experiment">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="activeWorkbenchWindow.activePerspective">
+                  <equals
+                        value="uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
 </plugin>
