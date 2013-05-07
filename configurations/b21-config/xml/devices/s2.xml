@@ -75,6 +75,34 @@
                 <property name="local" value="true" />
         </bean>
 
+	<bean id="s2_xplusi" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL21B-AL-SLITS-02:X:PLUS:I" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s2_xminusi" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL21B-AL-SLITS-02:X:MINUS:I" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s2_yplusi" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL21B-AL-SLITS-02:Y:PLUS:I" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s2_yminusi" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL21B-AL-SLITS-02:Y:MINUS:I" />
+		<property name="local" value="true" />
+	</bean>
+
         <bean id="s2" class="gda.device.scannable.scannablegroup.ScannableGroup">
                 <property name="groupMembers">
                         <list>
@@ -86,6 +114,10 @@
                                 <ref bean="s2_xminus" />
                                 <ref bean="s2_yplus" />
                                 <ref bean="s2_yminus" />
+                                <ref bean="s2_xplusi" />
+                                <ref bean="s2_xminusi" />
+                                <ref bean="s2_yplusi" />
+                                <ref bean="s2_yminusi" />
                         </list>
                 </property>
                 <property name="local" value="true" />

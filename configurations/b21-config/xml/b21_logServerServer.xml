@@ -1,80 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <!-- display message in Logger Server's console -->
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-      <level>INFO</level>
-    </filter>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%date %-5level %logger{36} - %m %ex%n</Pattern>
-        </layout>
-    </appender>
-    <!-- Socket for forwarding log message to LogPanel in GDA Client or other viewers -->
-    <appender name="SOCKET1" class="ch.qos.logback.classic.net.SocketAppender">
-        <RemoteHost>b21-ws001.diamond.ac.uk</RemoteHost>
-        <Port>4321</Port>
-        <ReconnectionDelay>10000</ReconnectionDelay>
-        <IncludeCallerData>true</IncludeCallerData>
-    </appender>
-    <appender name="SOCKET2" class="ch.qos.logback.classic.net.SocketAppender">
-        <RemoteHost>b21-ws002.diamond.ac.uk</RemoteHost>
-        <Port>4321</Port>
-        <ReconnectionDelay>10000</ReconnectionDelay>
-        <IncludeCallerData>true</IncludeCallerData>
-    </appender>
-    <appender name="DebugFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${gda.logs.dir}/gda_server.log</File>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${gda.logs.dir}/gda_server.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
-        </rollingPolicy>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d %-5level %logger - %m %ex %n</pattern>
-        </layout>
-    </appender>
-    <logger name="gda">
-        <level value="DEBUG"/>
-    </logger>
-    <logger name="gda.device.corba.impl">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.device.temperature.corba.impl">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.jython.corba.impl">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.oe.corba.impl">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.device.monitor.corba.impl">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.device.motor">
-        <level value="INFO"/> 
-    </logger>
-    <logger name="httpclient.wire.content">
-        <level value="INFO"/> 
-    </logger>
-    <logger name="org.apache.commons.httpclient">
-        <level value="INFO"/> 
-    </logger>
-    <logger name="gda.data.nexus.extractor.NexusExtractor">
-        <level value="DEBUG"/>
-    </logger>    
-    <logger name="gda.data.nexus.NexusFileWrapper">
-        <level value="DEBUG"/>
-    </logger>    
-    <logger name="uk.ac.gda.server.ncd.detector.DAServer">
-        <level value="DEBUG"/>
-    </logger>    
-    
-    <root>
-        <level value="All"/>
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="SOCKET1"/>
-        <appender-ref ref="SOCKET2"/>
-        <appender-ref ref="SOCKET7"/>
-        <appender-ref ref="SOCKET8"/>
-        <appender-ref ref="DebugFILE"/>
-    </root>
+	<!-- display message in Logger Server's console -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%date %-5level %logger{36} - %m %ex%n</Pattern>
+		</layout>
+	</appender>
+	<!-- Socket for forwarding log message to LogPanel in GDA Client or other 
+		viewers -->
+	<appender name="SOCKET1" class="ch.qos.logback.classic.net.SocketAppender">
+		<RemoteHost>b21-ws001.diamond.ac.uk</RemoteHost>
+		<Port>4321</Port>
+		<ReconnectionDelay>10000</ReconnectionDelay>
+		<IncludeCallerData>true</IncludeCallerData>
+	</appender>
+	<appender name="SOCKET2" class="ch.qos.logback.classic.net.SocketAppender">
+		<RemoteHost>b21-ws002.diamond.ac.uk</RemoteHost>
+		<Port>4321</Port>
+		<ReconnectionDelay>10000</ReconnectionDelay>
+		<IncludeCallerData>true</IncludeCallerData>
+	</appender>
+	<appender name="DebugFILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${gda.logs.dir}/gda_server.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${gda.logs.dir}/gda_server.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%d %-5level %logger - %m %ex %n</pattern>
+		</layout>
+	</appender>
+	<logger name="gda">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="gda.device.corba.impl">
+		<level value="INFO" />
+	</logger>
+	<logger name="gda.device.temperature.corba.impl">
+		<level value="INFO" />
+	</logger>
+	<logger name="gda.jython.corba.impl">
+		<level value="INFO" />
+	</logger>
+	<logger name="gda.oe.corba.impl">
+		<level value="INFO" />
+	</logger>
+	<logger name="gda.device.monitor.corba.impl">
+		<level value="INFO" />
+	</logger>
+	<logger name="gda.device.motor">
+		<level value="INFO" />
+	</logger>
+	<logger name="httpclient.wire.content">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.apache.commons.httpclient">
+		<level value="INFO" />
+	</logger>
+	<logger name="gda.data.nexus.extractor.NexusExtractor">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="gda.data.nexus.NexusFileWrapper">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="uk.ac.gda.server.ncd.detector.DAServer">
+		<level value="DEBUG" />
+	</logger>
+
+	<root>
+		<level value="All" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="SOCKET1" />
+		<appender-ref ref="SOCKET2" />
+		<appender-ref ref="SOCKET7" />
+		<appender-ref ref="SOCKET8" />
+		<appender-ref ref="DebugFILE" />
+	</root>
 </configuration>
