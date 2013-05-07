@@ -8,9 +8,9 @@
 			value="file:${gda.config}/properties/java.properties" />
 	</bean>
 
-	<!--***************************************-->
+	<!--*************************************** -->
 	<!-- *** NCD devices section *** -->
-	<!--***************************************-->
+	<!--*************************************** -->
 
 	<bean id="DAServer" class="gda.device.detector.DAServer">
 		<property name="host" value="b21-tfg" />
@@ -54,25 +54,20 @@
 	<bean id="ncddetectors" class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem">
 		<property name="timer" ref="Tfg" />
 		<property name="detectors">
-                        <list>
-                                <!-- <ref bean="Pilatus2M" /> -->
-                                <!--  <ref bean="Hotwaxs" /> -->
-                                <ref bean="Scalers" />
-                                <ref bean="TfgTimes" />
-                        </list>
-                </property>
+			<list>
+				<!-- <ref bean="Pilatus2M" /> -->
+				<!-- <ref bean="Hotwaxs" /> -->
+				<ref bean="Scalers" />
+				<ref bean="TfgTimes" />
+			</list>
+		</property>
 	</bean>
 
-        <bean id="ncdlistener" class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher">
-        	<property name="ncdDetector" ref="ncddetectors"></property> 
+	<bean id="ncdlistener" class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher">
+		<property name="ncdDetector" ref="ncddetectors"></property>
 	</bean>
-        
-<!--
-        <bean id="bssc" class="uk.ac.gda.devices.bssc.BioSAXSSampleChanger">
-                <property name="hostname" value="b21-biosaxs.diamond.ac.uk"/>
-                <property name="port" value="9555"/>
-        </bean>
 
-	<import resource="b21_biosaxscam.xml"/>
--->
+	<!-- <bean id="bssc" class="uk.ac.gda.devices.bssc.BioSAXSSampleChanger"> 
+		<property name="hostname" value="b21-biosaxs.diamond.ac.uk"/> <property name="port" 
+		value="9555"/> </bean> <import resource="b21_biosaxscam.xml"/> -->
 </beans>

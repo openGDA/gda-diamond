@@ -24,6 +24,21 @@ motor=${1}_${axis}_motor
 scannable=${1}_${axis}
 pv=`echo $pv | sed 's/.VAL$//'`
 
+case $axis in 
+*i) 
+
+cat >> $xmlfile << EOF
+
+	<bean id="$scannable" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="$pv" />
+		<property name="local" value="true" />
+	</bean>
+EOF
+	;;
+*)
+
 case $pv in
  *-*)
 # is a PV
@@ -53,6 +68,9 @@ cat >> $xmlfile <<EOF
                 <property name="local" value="true" />
         </bean>
 EOF
+
+	;;
+esac
 
 scannables="$scannables $scannable"
 

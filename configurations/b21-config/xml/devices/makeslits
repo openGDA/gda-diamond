@@ -1,6 +1,6 @@
 
 
-for i in 1 2 3 4 ; do 
+for i in 2 3 4 ; do 
 sh mots2xml.sh s$i << EOF
 xcentre S$i.XCENTRE
 xgap S$i.XSIZE
@@ -10,6 +10,10 @@ xplus S$i.XPLUS
 xminus S$i.XMINUS
 yplus S$i.YPLUS
 yminus S$i.YMINUS
+xplusi BL21B-AL-SLITS-0${i}:X:PLUS:I
+xminusi BL21B-AL-SLITS-0${i}:X:MINUS:I
+yplusi BL21B-AL-SLITS-0${i}:Y:PLUS:I
+yminusi BL21B-AL-SLITS-0${i}:Y:MINUS:I
 EOF
 done
 

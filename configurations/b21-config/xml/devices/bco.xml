@@ -1,0 +1,113 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+        <bean id="bco_pitch_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL21B-MO-TABLE-01:PITCH" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="bco_pitch" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="bco_pitch_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_roll_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL21B-MO-TABLE-01:ROLL" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="bco_roll" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="bco_roll_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_y_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL21B-MO-TABLE-01:Y" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="bco_y" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="bco_y_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_x_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL21B-MO-TABLE-01:X" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="bco_x" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="bco_x_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_yaw_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL21B-MO-TABLE-01:YAW" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="bco_yaw" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="bco_yaw_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_jack1_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL21B-MO-TABLE-01:Y1" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="bco_jack1" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="bco_jack1_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_jack2_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL21B-MO-TABLE-01:Y2" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="bco_jack2" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="bco_jack2_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_jack3_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL21B-MO-TABLE-01:Y3" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="bco_jack3" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="bco_jack3_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_xslide1_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL21B-MO-TABLE-01:X1" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="bco_xslide1" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="bco_xslide1_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_xslide2_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL21B-MO-TABLE-01:X2" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="bco_xslide2" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="bco_xslide2_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco" class="gda.device.scannable.scannablegroup.ScannableGroup">
+                <property name="groupMembers">
+                        <list>
+                                <ref bean="bco_pitch" />
+                                <ref bean="bco_roll" />
+                                <ref bean="bco_y" />
+                                <ref bean="bco_x" />
+                                <ref bean="bco_yaw" />
+                                <ref bean="bco_jack1" />
+                                <ref bean="bco_jack2" />
+                                <ref bean="bco_jack3" />
+                                <ref bean="bco_xslide1" />
+                                <ref bean="bco_xslide2" />
+                        </list>
+                </property>
+                <property name="local" value="true" />
+        </bean>
+</beans>

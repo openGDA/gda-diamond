@@ -8,22 +8,33 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
         http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 	
-	<bean id="d2motor_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="D2.POSN" />
+	<bean id="d3motor_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D3.POSN" />
 		<property name="local" value="true" />
 	</bean>
 	
-	<bean id="d2motor" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="d2motor_motor" />
+	<bean id="d3motor" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d3motor_motor" />
 		<property name="local" value="true" />
 	</bean>
 	
-	<bean id="d2d1" class="gda.device.scannable.EpicsScannable">
+	<bean id="d3d1" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
 		<property name="pvProvider">
 			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="D2.AMP" />
+				<property name="deviceName" value="D3.AMP1" />
+				<property name="fieldName" value="I" />
+			</bean>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="d3d2" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvProvider">
+			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
+				<property name="deviceName" value="D3.AMP2" />
 				<property name="fieldName" value="I" />
 			</bean>
 		</property>
@@ -34,7 +45,7 @@
 		<property name="pvBase" value="D2.AMP" />
 	</bean>
 	-->
-	<bean id="d2filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
-		<property name="pvBase" value="BL21B-DI-PHDGN-02:MP" />
+	<bean id="d3filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
+		<property name="pvBase" value="BL21B-DI-PHDGN-03:MP" />
 	</bean>
 </beans>
