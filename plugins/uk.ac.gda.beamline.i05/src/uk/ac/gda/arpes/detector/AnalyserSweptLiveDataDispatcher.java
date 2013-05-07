@@ -85,12 +85,6 @@ class AnalyserSweptLiveDataDispatcher implements MonitorListener, Configurable, 
 			logger.debug("sending some thing from "+arg0.toString()+" to plot "+plotName+" with axes from "+analyser.getName());
 			double[] value = (double[]) arg0.getDBR().getValue();
 			
-			int[] dims = new int[] {analyser.getNdArray().getPluginBase().getArraySize1_RBV(), analyser.getNdArray().getPluginBase().getArraySize0_RBV()};
-			int arraysize = dims[0]*dims[1];
-			if (arraysize < 1) return;
-			value = Arrays.copyOf(value, arraysize);
-			AbstractDataset ds = new DoubleDataset(value, dims);
-			
 			double[] xdata = analyser.getEnergyAxis();
 			double[] ydata = analyser.getAngleAxis();
 			DoubleDataset xAxis = new DoubleDataset(xdata, new int[] { xdata.length });
@@ -98,8 +92,15 @@ class AnalyserSweptLiveDataDispatcher implements MonitorListener, Configurable, 
 			xAxis.setName("energies (eV)");
 			if ("Transmission".equalsIgnoreCase(analyser.getLensMode())) {
 				yAxis.setName("location (mm)");				
-			} else 
-			yAxis.setName("angles (deg)");
+			} else {
+				yAxis.setName("angles (deg)");
+			}
+			
+			int[] dims = new int[] {ydata.length, xdata.length};
+			int arraysize = dims[0]*dims[1];
+			if (arraysize < 1) return;
+			value = Arrays.copyOf(value, arraysize);
+			AbstractDataset ds = new DoubleDataset(value, dims);
 			
 			SDAPlotter.imagePlot(plotName, xAxis, yAxis, ds);
 		} catch (Exception e) {

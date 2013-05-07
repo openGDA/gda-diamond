@@ -77,7 +77,7 @@ public class AnalyserCapabilties implements Findable {
 	}
 	
 	public double getEnergyStepForPass(int pass) {
-		return 16.119/200*pass;
+		return Math.round(16.119/200*pass*100000)/100000.0;
 	}
 	
 	public double[] getAngleAxis(String lensTable, int startChannel, int length) {

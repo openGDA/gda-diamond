@@ -18,13 +18,9 @@
 
 package uk.ac.gda.beamline.i05.perspectives;
 
-import gda.configuration.properties.LocalProperties;
-
-import org.csstudio.sds.ui.runmode.RunModeService;
-import org.eclipse.core.runtime.Path;
+import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
-import org.eclipse.ui.IFolderLayout;
 
 public class ArpesAlignmentPerspective implements IPerspectiveFactory {
 
@@ -32,9 +28,6 @@ public class ArpesAlignmentPerspective implements IPerspectiveFactory {
 	public void createInitialLayout(IPageLayout layout) {
 		layout.setEditorAreaVisible(false);
 		
-		String path = LocalProperties.get("gda.dal.screens") + "synoptic.css-sds";
-		Path sdsDisplay = new Path(path);
-		RunModeService.getInstance().openDisplayViewInRunMode(sdsDisplay);
 		{
 			IFolderLayout folderLayout = layout.createFolder("folder_3", IPageLayout.RIGHT, 0.62f, IPageLayout.ID_EDITOR_AREA);
 			folderLayout.addView("uk.ac.gda.client.arpes.sweptview");
@@ -55,7 +48,7 @@ public class ArpesAlignmentPerspective implements IPerspectiveFactory {
 		{
 			IFolderLayout folderLayout = layout.createFolder("folder_1", IPageLayout.TOP, 0.79f, "folder_2");
 			folderLayout.addView("uk.ac.gda.client.arpes.cameraview");
-			folderLayout.addView("org.csstudio.sds.ui.internal.runmode.DisplayViewPart");
+			folderLayout.addView("uk.ac.gda.arpes.ui.views.CryoView");
 		}
 	}
 }
