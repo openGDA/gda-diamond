@@ -75,41 +75,33 @@
                 <property name="local" value="true" />
         </bean>
 
-        <bean id="s2_xplusi_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL21B-AL-SLITS-02:X:PLUS:I" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="s2_xplusi" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="s2_xplusi_motor" />
-                <property name="local" value="true" />
-        </bean>
+	<bean id="s2_xplusi" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL21B-AL-SLITS-02:X:PLUS:I" />
+		<property name="local" value="true" />
+	</bean>
 
-        <bean id="s2_xminusi_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL21B-AL-SLITS-02:X:MINUS:I" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="s2_xminusi" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="s2_xminusi_motor" />
-                <property name="local" value="true" />
-        </bean>
+	<bean id="s2_xminusi" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL21B-AL-SLITS-02:X:MINUS:I" />
+		<property name="local" value="true" />
+	</bean>
 
-        <bean id="s2_yplusi_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL21B-AL-SLITS-02:Y:PLUS:I" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="s2_yplusi" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="s2_yplusi_motor" />
-                <property name="local" value="true" />
-        </bean>
+	<bean id="s2_yplusi" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL21B-AL-SLITS-02:Y:PLUS:I" />
+		<property name="local" value="true" />
+	</bean>
 
-        <bean id="s2_yminusi_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL21B-AL-SLITS-02:Y:MINUS:I" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="s2_yminusi" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="s2_yminusi_motor" />
-                <property name="local" value="true" />
-        </bean>
+	<bean id="s2_yminusi" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL21B-AL-SLITS-02:Y:MINUS:I" />
+		<property name="local" value="true" />
+	</bean>
 
         <bean id="s2" class="gda.device.scannable.scannablegroup.ScannableGroup">
                 <property name="groupMembers">
