@@ -193,10 +193,10 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="268" />
-  <property type="sds.integer" id="position.y" value="78" />
+  <property type="sds.integer" id="position.x" value="242" />
+  <property type="sds.integer" id="position.y" value="42" />
   <property type="sds.integer" id="width" value="166" />
-  <property type="sds.integer" id="height" value="93" />
+  <property type="sds.integer" id="height" value="119" />
   <property type="sds.color" id="color.foreground">
     <color hex="#ffffff" />
   </property>
@@ -236,10 +236,10 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="439" />
-  <property type="sds.integer" id="position.y" value="78" />
+  <property type="sds.integer" id="position.x" value="413" />
+  <property type="sds.integer" id="position.y" value="42" />
   <property type="sds.integer" id="width" value="167" />
-  <property type="sds.integer" id="height" value="93" />
+  <property type="sds.integer" id="height" value="119" />
   <property type="sds.color" id="color.foreground">
     <color hex="#ffffff" />
   </property>
@@ -279,10 +279,10 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="73" />
-  <property type="sds.integer" id="position.y" value="78" />
+  <property type="sds.integer" id="position.x" value="47" />
+  <property type="sds.integer" id="position.y" value="42" />
   <property type="sds.integer" id="width" value="171" />
-  <property type="sds.integer" id="height" value="93" />
+  <property type="sds.integer" id="height" value="120" />
   <property type="sds.color" id="color.foreground">
     <color hex="#ffffff" />
   </property>
@@ -322,8 +322,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="36" />
-  <property type="sds.integer" id="position.y" value="489" />
+  <property type="sds.integer" id="position.x" value="40" />
+  <property type="sds.integer" id="position.y" value="497" />
   <property type="sds.integer" id="width" value="62" />
   <property type="sds.integer" id="height" value="20" />
   <property type="sds.color" id="color.foreground">
@@ -378,8 +378,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="362" />
-  <property type="sds.integer" id="position.y" value="505" />
+  <property type="sds.integer" id="position.x" value="353" />
+  <property type="sds.integer" id="position.y" value="507" />
   <property type="sds.integer" id="width" value="102" />
   <property type="sds.integer" id="height" value="43" />
   <property type="sds.color" id="color.foreground">
@@ -545,8 +545,8 @@
       <outputChannel name="gda://table1_x.stop" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="45" />
-  <property type="sds.integer" id="position.y" value="549" />
+  <property type="sds.integer" id="position.x" value="49" />
+  <property type="sds.integer" id="position.y" value="557" />
   <property type="sds.integer" id="width" value="43" />
   <property type="sds.integer" id="height" value="19" />
   <property type="sds.color" id="color.foreground">
@@ -611,8 +611,8 @@
       <outputChannel name="gda://table1_y.stop" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="389" />
-  <property type="sds.integer" id="position.y" value="544" />
+  <property type="sds.integer" id="position.x" value="380" />
+  <property type="sds.integer" id="position.y" value="546" />
   <property type="sds.integer" id="width" value="43" />
   <property type="sds.integer" id="height" value="19" />
   <property type="sds.color" id="color.foreground">
@@ -668,8 +668,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="340" />
-  <property type="sds.integer" id="position.y" value="494" />
+  <property type="sds.integer" id="position.x" value="331" />
+  <property type="sds.integer" id="position.y" value="496" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="86" />
   <property type="sds.color" id="color.foreground">
@@ -718,8 +718,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="378" />
-  <property type="sds.integer" id="position.y" value="484" />
+  <property type="sds.integer" id="position.x" value="369" />
+  <property type="sds.integer" id="position.y" value="486" />
   <property type="sds.integer" id="width" value="58" />
   <property type="sds.integer" id="height" value="20" />
   <property type="sds.color" id="color.foreground">
@@ -774,8 +774,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="17" />
-  <property type="sds.integer" id="position.y" value="510" />
+  <property type="sds.integer" id="position.x" value="21" />
+  <property type="sds.integer" id="position.y" value="518" />
   <property type="sds.integer" id="width" value="102" />
   <property type="sds.integer" id="height" value="43" />
   <property type="sds.color" id="color.foreground">
@@ -1284,8 +1284,8 @@
       <outputChannel name="gda://i0_stanford_offset.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="154" />
-  <property type="sds.integer" id="position.y" value="140" />
+  <property type="sds.integer" id="position.x" value="128" />
+  <property type="sds.integer" id="position.y" value="104" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -1335,8 +1335,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="76" />
-  <property type="sds.integer" id="position.y" value="110" />
+  <property type="sds.integer" id="position.x" value="50" />
+  <property type="sds.integer" id="position.y" value="74" />
   <property type="sds.integer" id="width" value="76" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -1408,8 +1408,8 @@
       <outputChannel name="gda://i0_stanford_sensitivity_units.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="194" />
-  <property type="sds.integer" id="position.y" value="110" />
+  <property type="sds.integer" id="position.x" value="168" />
+  <property type="sds.integer" id="position.y" value="74" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -1476,8 +1476,8 @@
       <outputChannel name="gda://i0_stanford_offset_units.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="194" />
-  <property type="sds.integer" id="position.y" value="140" />
+  <property type="sds.integer" id="position.x" value="168" />
+  <property type="sds.integer" id="position.y" value="104" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -1527,8 +1527,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="98" />
-  <property type="sds.integer" id="position.y" value="140" />
+  <property type="sds.integer" id="position.x" value="72" />
+  <property type="sds.integer" id="position.y" value="104" />
   <property type="sds.integer" id="width" value="55" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -1624,8 +1624,8 @@
       <outputChannel name="gda://i0_stanford_sensitivity.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="154" />
-  <property type="sds.integer" id="position.y" value="110" />
+  <property type="sds.integer" id="position.x" value="128" />
+  <property type="sds.integer" id="position.y" value="74" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -1692,8 +1692,8 @@
       <outputChannel name="gda://it_stanford_sensitivity_units.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="387" />
-  <property type="sds.integer" id="position.y" value="110" />
+  <property type="sds.integer" id="position.x" value="361" />
+  <property type="sds.integer" id="position.y" value="74" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -1760,8 +1760,8 @@
       <outputChannel name="gda://it_stanford_offset_units.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="387" />
-  <property type="sds.integer" id="position.y" value="140" />
+  <property type="sds.integer" id="position.x" value="361" />
+  <property type="sds.integer" id="position.y" value="104" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -1852,8 +1852,8 @@
       <outputChannel name="gda://it_stanford_sensitivity.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="347" />
-  <property type="sds.integer" id="position.y" value="110" />
+  <property type="sds.integer" id="position.x" value="321" />
+  <property type="sds.integer" id="position.y" value="74" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -1944,8 +1944,8 @@
       <outputChannel name="gda://it_stanford_offset.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="347" />
-  <property type="sds.integer" id="position.y" value="140" />
+  <property type="sds.integer" id="position.x" value="321" />
+  <property type="sds.integer" id="position.y" value="104" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -1995,8 +1995,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="269" />
-  <property type="sds.integer" id="position.y" value="110" />
+  <property type="sds.integer" id="position.x" value="243" />
+  <property type="sds.integer" id="position.y" value="74" />
   <property type="sds.integer" id="width" value="76" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -2051,8 +2051,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="291" />
-  <property type="sds.integer" id="position.y" value="140" />
+  <property type="sds.integer" id="position.x" value="265" />
+  <property type="sds.integer" id="position.y" value="104" />
   <property type="sds.integer" id="width" value="55" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -2107,8 +2107,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="86" />
-  <property type="sds.integer" id="position.y" value="83" />
+  <property type="sds.integer" id="position.x" value="60" />
+  <property type="sds.integer" id="position.y" value="47" />
   <property type="sds.integer" id="width" value="144" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -2163,8 +2163,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="279" />
-  <property type="sds.integer" id="position.y" value="84" />
+  <property type="sds.integer" id="position.x" value="253" />
+  <property type="sds.integer" id="position.y" value="48" />
   <property type="sds.integer" id="width" value="133" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -2219,8 +2219,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="462" />
-  <property type="sds.integer" id="position.y" value="140" />
+  <property type="sds.integer" id="position.x" value="436" />
+  <property type="sds.integer" id="position.y" value="104" />
   <property type="sds.integer" id="width" value="55" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -2316,8 +2316,8 @@
       <outputChannel name="gda://iref_stanford_offset.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="518" />
-  <property type="sds.integer" id="position.y" value="140" />
+  <property type="sds.integer" id="position.x" value="492" />
+  <property type="sds.integer" id="position.y" value="104" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -2367,8 +2367,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="440" />
-  <property type="sds.integer" id="position.y" value="110" />
+  <property type="sds.integer" id="position.x" value="414" />
+  <property type="sds.integer" id="position.y" value="74" />
   <property type="sds.integer" id="width" value="76" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -2440,8 +2440,8 @@
       <outputChannel name="gda://iref_stanford_sensitivity_units.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="558" />
-  <property type="sds.integer" id="position.y" value="110" />
+  <property type="sds.integer" id="position.x" value="532" />
+  <property type="sds.integer" id="position.y" value="74" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -2508,8 +2508,8 @@
       <outputChannel name="gda://iref_stanford_offset_units.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="558" />
-  <property type="sds.integer" id="position.y" value="140" />
+  <property type="sds.integer" id="position.x" value="532" />
+  <property type="sds.integer" id="position.y" value="104" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -2600,8 +2600,8 @@
       <outputChannel name="gda://iref_stanford_sensitivity.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="518" />
-  <property type="sds.integer" id="position.y" value="110" />
+  <property type="sds.integer" id="position.x" value="492" />
+  <property type="sds.integer" id="position.y" value="74" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -2651,8 +2651,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="443" />
-  <property type="sds.integer" id="position.y" value="84" />
+  <property type="sds.integer" id="position.x" value="417" />
+  <property type="sds.integer" id="position.y" value="48" />
   <property type="sds.integer" id="width" value="150" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -2875,21 +2875,21 @@
   <property type="sds.action" id="actionData">
     <actionData>
       <action_attribut type="COMMIT_VALUE">
-        <property_attribut type="sds.string" id="description" value="1" />
-        <property_attribut type="sds.string" id="value" value="Off" />
+        <property_attribut type="sds.string" id="description" value="ON" />
+        <property_attribut type="sds.string" id="value" value="1" />
       </action_attribut>
       <action_attribut type="COMMIT_VALUE">
-        <property_attribut type="sds.string" id="description" value="2" />
-        <property_attribut type="sds.string" id="value" value="On" />
+        <property_attribut type="sds.string" id="description" value="OFF" />
+        <property_attribut type="sds.string" id="value" value="0" />
       </action_attribut>
     </actionData>
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="" value="" />
+      <inputChannel name="epics://BL20I-EA-IAMP-01:IOON" value="" />
       <outputChannel name="epics://BL20I-EA-IAMP-01:IOON" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="90" />
-  <property type="sds.integer" id="position.y" value="176" />
+  <property type="sds.integer" id="position.x" value="129" />
+  <property type="sds.integer" id="position.y" value="132" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -2919,7 +2919,135 @@
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.string" id="label" value="">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="epics://BL20I-EA-IAMP-01:IOON" value="" />
+      <inputChannel name="epics://BL20I-EA-IAMP-01:IOON, string" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.font" id="font">
+    <font font="Arial, 10" />
+  </property>
+  <property type="sds.option" id="textAlignment">
+    <option id="0" />
+  </property>
+</widget>
+<widget type="uk.ac.gda.dal.combo">
+  <property type="sds.behavior" id="behavior" value="" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="ComboModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="ON" />
+        <property_attribut type="sds.string" id="value" value="1" />
+      </action_attribut>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="OFF" />
+        <property_attribut type="sds.string" id="value" value="0" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="epics://BL20I-EA-IAMP-02:IOON" value="" />
+      <outputChannel name="epics://BL20I-EA-IAMP-02:IOON" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.integer" id="position.x" value="321" />
+  <property type="sds.integer" id="position.y" value="133" />
+  <property type="sds.integer" id="width" value="40" />
+  <property type="sds.integer" id="height" value="23" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000c0" />
+  </property>
+  <property type="sds.color" id="color.background">
+    <color hex="#e6e6e6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="3" />
+  </property>
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="Sensitivity value&#xA;${actionData}" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.string" id="label" value="">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="epics://BL20I-EA-IAMP-02:IOON, string" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.font" id="font">
+    <font font="Arial, 10" />
+  </property>
+  <property type="sds.option" id="textAlignment">
+    <option id="0" />
+  </property>
+</widget>
+<widget type="uk.ac.gda.dal.combo">
+  <property type="sds.behavior" id="behavior" value="" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="ComboModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="ON" />
+        <property_attribut type="sds.string" id="value" value="1" />
+      </action_attribut>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="OFF" />
+        <property_attribut type="sds.string" id="value" value="0" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="epics://BL20I-EA-IAMP-03:IOON" value="" />
+      <outputChannel name="epics://BL20I-EA-IAMP-03:IOON" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.integer" id="position.x" value="493" />
+  <property type="sds.integer" id="position.y" value="131" />
+  <property type="sds.integer" id="width" value="40" />
+  <property type="sds.integer" id="height" value="23" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000c0" />
+  </property>
+  <property type="sds.color" id="color.background">
+    <color hex="#e6e6e6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="3" />
+  </property>
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="Sensitivity value&#xA;${actionData}" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.string" id="label" value="">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="epics://BL20I-EA-IAMP-03:IOON, string" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.font" id="font">
