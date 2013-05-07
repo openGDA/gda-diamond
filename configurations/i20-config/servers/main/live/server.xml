@@ -19,8 +19,6 @@
 
 	<import resource="file:${gda.config}/servers/main/server-common.xml" />
 
-	<!-- Definition of the ascii data format -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/dataformat.xml" />
 
 	<!-- GDA configuration split up by part type -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
@@ -35,6 +33,9 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
 <!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas-filling.xml" /> -->
 <!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas.xml" /> -->
+
+	<!-- Definition of the ascii data format -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/dataformat.xml" />
 
 	<!--should normally be called last -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/command-server.xml" />

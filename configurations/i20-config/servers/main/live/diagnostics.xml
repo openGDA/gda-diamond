@@ -218,5 +218,44 @@
 		<property name="local" value="false"/>
 	</bean>
 	
+<!-- 	<bean id="d1" class="gda.device.scannable.ADCMonitor"> -->
+<!-- 		<constructor-arg index="0" value="d1"/> -->
+<!-- 		<constructor-arg index="1" value="BL20I-DI-ADC-01"  /> -->
+<!-- 		<constructor-arg index="2" value="BL20I-DI-PHDGN-01:DIODE:I"  /> -->
+<!-- 		<constructor-arg index="3" value="d1"  /> -->
+<!-- 	</bean> -->
+         
+<!-- 	<bean id="d3plus" class="gda.device.scannable.ADCMonitor"> -->
+<!-- 		<constructor-arg index="0" value="d3plus"/> -->
+<!-- 		<constructor-arg index="1" value="BL20I-DI-ADC-01"  /> -->
+<!-- 		<constructor-arg index="2" value="BL20I-DI-PHDGN-03:Y:PLUS:I"  /> -->
+<!-- 		<constructor-arg index="3" value="d3plus"  /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="d3minus" class="gda.device.scannable.ADCMonitor"> -->
+<!-- 		<constructor-arg index="0" value="d3minus"/> -->
+<!-- 		<constructor-arg index="1" value="BL20I-DI-ADC-01"  /> -->
+<!-- 		<constructor-arg index="2" value="BL20I-DI-PHDGN-03:Y:MINUS:I"  /> -->
+<!-- 		<constructor-arg index="3" value="d3minus"  /> -->
+<!-- 	</bean> -->
+         
+<!-- 	<bean id="d4" class="gda.device.scannable.ADCMonitor"> -->
+<!-- 		<constructor-arg index="0" value="d4"/> -->
+<!-- 		<constructor-arg index="1" value="BL20I-DI-ADC-01"  /> -->
+<!-- 		<constructor-arg index="2" value="BL20I-DI-PHDGN-04:DIODE:I"  /> -->
+<!-- 		<constructor-arg index="3" value="d4"  /> -->
+<!-- 	</bean> -->
 
+<!-- 	<bean id="d5" class="gda.device.scannable.ADCMonitor"> -->
+<!-- 		<constructor-arg index="0" value="d5"/> -->
+<!-- 		<constructor-arg index="1" value="BL20I-DI-ADC-01"  /> -->
+<!-- 		<constructor-arg index="2" value="BL20I-DI-PHDGN-05:DIODE:I"  /> -->
+<!-- 		<constructor-arg index="3" value="d5"  /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="d9" class="gda.device.scannable.ADCMonitor"> -->
+<!-- 		<constructor-arg index="0" value="d9"/> -->
+<!-- 		<constructor-arg index="1" value="BL20I-DI-ADC-01"  /> -->
+<!-- 		<constructor-arg index="2" value="BL20I-DI-PHDGN-09:DIODE:I"  /> -->
+<!-- 		<constructor-arg index="3" value="d9"  /> -->
+<!-- 	</bean> -->
 </beans>
