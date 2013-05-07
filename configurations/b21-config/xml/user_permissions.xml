@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <user_permissions>
 
-<!-- beamline staff -->
-<b21user>3</b21user>
-<njt78>3</njt78>
-<mm54>3</mm54>
-<dgh72365>3</dgh72365>
-<lsd43>3</lsd43>
-<tyz49132>3</tyz49132>
-<!-- data acq -->
-<zjt21856>3</zjt21856>
-<tjs15132>3</tjs15132>
+	<!-- beamline staff -->
+	<b21user>3</b21user>
+	<njt78>3</njt78>
+	<mm54>3</mm54>
+	<dgh72365>3</dgh72365>
+	<lsd43>3</lsd43>
+	<tyz49132>3</tyz49132>
+	<!-- data acq -->
+	<zjt21856>3</zjt21856>
+	<tjs15132>3</tjs15132>
 
 </user_permissions>
