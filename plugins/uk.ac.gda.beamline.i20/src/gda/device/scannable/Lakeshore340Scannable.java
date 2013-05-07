@@ -30,13 +30,16 @@ import java.io.IOException;
 import org.apache.commons.lang.ArrayUtils;
 
 import uk.ac.gda.beans.exafs.i20.CryostatParameters;
+import uk.ac.gda.util.ThreadManager;
 
 public class Lakeshore340Scannable extends ScannableBase implements Scannable {
 
 	private String pvName;
 	private double tolerance = 0.0;
 	private double deadtime = 0.0;
+	private int waitTime = 20;
 	private int tempSelect = 0;
+	protected boolean isMoving = false;
 	private PV<Double> setpointControlPV;
 	private ReadOnlyPV<Double> setpointReadbackPV;
 	private PV<Double> rangeControlPV;
@@ -51,12 +54,12 @@ public class Lakeshore340Scannable extends ScannableBase implements Scannable {
 	private ReadOnlyPV<Double> iValueReadbackPV;
 	private PV<Double> dValueControlPV;
 	private ReadOnlyPV<Double> dValueReadbackPV;
-	private PV<Boolean> rampEnableControlPV;
-	private ReadOnlyPV<Boolean> rampEnableReadbackPV;
 	private ReadOnlyPV<Double> tempReadback0PV;
 	private ReadOnlyPV<Double> tempReadback1PV;
 	private ReadOnlyPV<Double> tempReadback2PV;
 	private ReadOnlyPV<Double> tempReadback3PV;
+	private Lakeshore340StatusRunner statusRunner;
+	private Thread statusThread;
 
 	@Override
 	public void configure() throws FactoryException {
@@ -74,26 +77,28 @@ public class Lakeshore340Scannable extends ScannableBase implements Scannable {
 		iValueReadbackPV = LazyPVFactory.newReadOnlyDoublePV(getPvName() + "I");
 		dValueControlPV = LazyPVFactory.newDoublePV(getPvName() + "D_S");
 		dValueReadbackPV = LazyPVFactory.newReadOnlyDoublePV(getPvName() + "D");
-		rampEnableControlPV = LazyPVFactory.newBooleanFromDoublePV(getPvName() + "RAMPST_S");
-		rampEnableReadbackPV = LazyPVFactory.newReadOnlyBooleanFromDoublePV(getPvName() + "RAMPST_S");
 		tempReadback0PV = LazyPVFactory.newReadOnlyDoublePV(getPvName() + "KRDG0");
 		tempReadback1PV = LazyPVFactory.newReadOnlyDoublePV(getPvName() + "KRDG1");
 		tempReadback2PV = LazyPVFactory.newReadOnlyDoublePV(getPvName() + "KRDG2");
 		tempReadback3PV = LazyPVFactory.newReadOnlyDoublePV(getPvName() + "KRDG3");
+		
+		statusRunner = new Lakeshore340StatusRunner(this);
+		statusThread = ThreadManager.getThread(statusRunner);
+		statusThread.start();
 	}
 
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 		Double demandValue = Double.parseDouble(position.toString());
 		try {
+			isMoving = true;
+			if (!statusThread.isAlive()){
+				statusThread.start();
+			}
 			setpointControlPV.putWait(demandValue);
 		} catch (IOException e) {
+			isMoving = false;
 			throw new DeviceException("IOException while trying to get the apply the setpoint", e);
-		}
-		try {
-			rampEnableControlPV.putWait(true);
-		} catch (IOException e) {
-			throw new DeviceException("IOException while trying to enable the ramp", e);
 		}
 	}
 
@@ -115,38 +120,52 @@ public class Lakeshore340Scannable extends ScannableBase implements Scannable {
 
 	@Override
 	public boolean isBusy() throws DeviceException {
+		return statusThread.isAlive() && isMoving;
+	}
+	
+	@Override
+	public void stop() throws DeviceException {
+		statusRunner.keepRunning = false;
 		try {
-			return rampEnableReadbackPV.get() && !withinDeadband();
+			setpointControlPV.putWait(rawGetPosition());
 		} catch (IOException e) {
-			throw new DeviceException("IOException while trying to get the Lakeshore status", e);
+			throw new DeviceException("IOException while trying to 'stop' the cryostat by setting the setpoint to the current temperature reading", e);
 		}
 	}
 
 	public void setupFromBean(CryostatParameters bean) throws DeviceException {
-		// FIXME no logic here, should we set all parameters all the time??
-		// not using waittime. Should I? Should this relate to ramp rate?
 		setControlmode(bean.getControlMode());
 		setRange(bean.getHeaterRange());
-		try {
-			setManualOutput(bean.getManualOutput());
-		} catch (IOException e) {
-			throw new DeviceException("IOException when setting manual output value!");
+		setWaitTime((int) Math.round(bean.getWaitTime()));
+		
+		// if manual output
+		if (bean.getControlMode() == CryostatParameters.CONTROL_MODE[0]) {
+			try {
+				setManualOutput(bean.getManualOutput());
+			} catch (IOException e) {
+				throw new DeviceException("IOException when setting manual output value!");
+			}
 		}
-		try {
-			setpValue(bean.getP());
-		} catch (IOException e) {
-			throw new DeviceException("IOException when setting p value!");
+		
+		// if manual PID
+		if (bean.getControlMode() == CryostatParameters.CONTROL_MODE[1]) {
+			try {
+				setpValue(bean.getP());
+			} catch (IOException e) {
+				throw new DeviceException("IOException when setting p value!");
+			}
+			try {
+				setiValue(bean.getI());
+			} catch (IOException e1) {
+				throw new DeviceException("IOException when setting i value!");
+			}
+			try {
+				setdValue(bean.getD());
+			} catch (IOException e) {
+				throw new DeviceException("IOException when setting d value!");
+			}
 		}
-		try {
-			setiValue(bean.getI());
-		} catch (IOException e1) {
-			throw new DeviceException("IOException when setting i value!");
-		}
-		try {
-			setdValue(bean.getD());
-		} catch (IOException e) {
-			throw new DeviceException("IOException when setting d value!");
-		}
+		
 		setTolerance(bean.getTolerance());
 	}
 
@@ -174,7 +193,7 @@ public class Lakeshore340Scannable extends ScannableBase implements Scannable {
 		}
 	}
 
-	private boolean withinDeadband() throws DeviceException {
+	protected boolean withinDeadband() throws DeviceException {
 		try {
 			Double currentValue = rawGetPosition();
 			Double currentSetpoint = getSetpoint();
@@ -211,6 +230,14 @@ public class Lakeshore340Scannable extends ScannableBase implements Scannable {
 		this.deadtime = deadtime;
 	}
 
+	public int getWaitTime() {
+		return waitTime;
+	}
+
+	public void setWaitTime(int waitTime) {
+		this.waitTime = waitTime;
+	}
+
 	public void setSetpoint(Double setpoint) throws IOException {
 		this.setpointControlPV.putWait(setpoint);
 	}
@@ -226,6 +253,11 @@ public class Lakeshore340Scannable extends ScannableBase implements Scannable {
 	public Double getRange() throws IOException {
 		return rangeReadbackPV.get();
 	}
+	
+	public String getRangeString() throws IOException {
+		int index = (int) Math.round(getRange());
+		return CryostatParameters.HEATER_RANGE[index];
+	}
 
 	public void setControlmode(Double controlmode) throws IOException {
 		this.controlmodeControlPV.putWait(controlmode);
@@ -233,6 +265,11 @@ public class Lakeshore340Scannable extends ScannableBase implements Scannable {
 
 	public Double getControlmode() throws IOException {
 		return controlmodeReadbackPV.get();
+	}
+	
+	public String getControlmodeString() {
+		int index = (int) Math.round(getDeadtime());
+		return CryostatParameters.CONTROL_MODE[index];
 	}
 
 	public void setManualOutput(Double manualOutput) throws IOException {
