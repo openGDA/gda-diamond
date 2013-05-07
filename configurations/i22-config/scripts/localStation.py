@@ -83,20 +83,20 @@ execfile(gdaScriptDir + "DiodeAverage.py")
 #scan slit start end step cam1 620 peak2d
 #run "setupBimorphOptimisation"
 
-## import gridscan
-## 
-## print "Create ncdgridscan"
-## try:
-       ## del(gridxy)
-## except:
-       ## pass
-## 
-## gridxy=ScannableGroup()
-## gridxy.setName("gridxy")
-## gridxy.setGroupMembers([mfstage_x, mfstage_y])
-## gridxy.configure()
-## ncdgridscan=gridscan.Grid("Camera View", "Mapping Grid", mfgige, gridxy, ncddetectors)
-## ncdgridscan.snap()
+import gridscan
+
+print "Create ncdgridscan"
+try:
+       del(gridxy)
+except:
+       pass
+
+gridxy=ScannableGroup()
+gridxy.setName("gridxy")
+gridxy.setGroupMembers([mfstage_x, mfstage_y])
+gridxy.configure()
+ncdgridscan=gridscan.Grid("Camera View", "Mapping Grid", mfgige, gridxy, ncddetectors)
+ncdgridscan.snap()
 
 import metadatatweaks
 getTitle = metadatatweaks.getTitle
@@ -107,4 +107,8 @@ getVisit = metadatatweaks.getVisit
 alias("getVisit")
 setVisit = metadatatweaks.setVisit
 alias("setVisit")
+print "\n adding hotwaxs device"
+# has GDA pos etc in it, so we need to "run"
+#execfile("/dls/i22/scripts/commissioning/Marc/shutdown/hotwaxs.py")
+run("/commissioning/Marc/shutdown/hotwaxs.py")
 print "==================================================================="

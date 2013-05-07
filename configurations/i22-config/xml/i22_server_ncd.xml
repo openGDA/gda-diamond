@@ -146,7 +146,6 @@
 	<!-- *** NCD devices section *** -->
 	<!--***************************************-->
 
-<!--
 	<bean id="DAServerHW" class="gda.device.detector.DAServer">
 		<property name="host" value="i22-hotwaxs-scal" />
 		<property name="port" value="1972" />
@@ -173,6 +172,7 @@
 		<property name="caenPVbase" value="BL22I-EA-HV-01" />
 		<property name="flowPVName" value="BL22I-EA-GIR-01:HWAX:FLOW:RBV" />
 	</bean>
+<!--
 -->
 <!--
 	    <bean id="DAServer" class="gda.device.detector.DummyDAServer">
@@ -306,7 +306,7 @@
 		<property name="timer" ref="Tfg" />
 		<property name="detectors">
                         <list>
-                                <ref bean="Pilatus2M" />
+                                <ref bean="Pilatus2M" /> 
                                 <!--  <ref bean="Hotwaxs" /> -->
                                 <ref bean="Scalers" />
                                 <ref bean="It" />
@@ -321,17 +321,16 @@
         <bean id="ncdlistener" class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher">
         
         <property name="ncdDetector" ref="ncddetectors"></property> </bean>
-        
         <bean id="bssc" class="uk.ac.gda.devices.bssc.BioSAXSSampleChanger">
                 <property name="hostname" value="i22-biosaxs.diamond.ac.uk"/>
                 <property name="port" value="9555"/>
         </bean>
+       <!-- 
 		<import resource="i22_biosaxscam.xml"/>
-
+	-->
         <bean class="uk.ac.gda.devices.bssc.ispyb.BioSAXSDBFactory">
-                <property name="jdbcURL" value="jdbc:oracle:thin:@sci-serv2.diamond.ac.uk:1521:xe" />
+                <property name="jdbcURL" value="jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb" />
                 <!-- // protected String testURL = "jdbc:oracle:thin:@sci-serv2.diamond.ac.uk:1521:xe"; -->
                 <!-- // protected String liveURL = "jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb"; -->
         </bean>
-
 </beans>
