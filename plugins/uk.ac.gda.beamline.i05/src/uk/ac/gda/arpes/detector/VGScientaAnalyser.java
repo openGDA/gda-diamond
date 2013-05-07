@@ -105,9 +105,7 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 	}
 
 	public int getNumberOfSweeptSteps() throws Exception {
-		//FIXME this is unreliable if not wrong
-		// proper value would need to come out of the IOC or SESWrapper, but there is no way to get it at the moment.
-		return (int) Math.round((controller.getEndEnergy() - controller.getStartEnergy()) / controller.getEnergyStep()); 
+		return controller.getSweepSteps(); 
 	}
 	
 	public double[] getEnergyAxis() throws Exception {
@@ -197,7 +195,6 @@ public class VGScientaAnalyser extends gda.device.detector.addetector.ADDetector
 			data.addData(getName(), "region_origin", new int[] {2}, NexusFile.NX_INT32, new int[] { getAdBase().getMinX_RBV(), getAdBase().getMinY_RBV() }, null, null);
 
 			data.addData(getName(), "region_size", new int[] {2}, NexusFile.NX_INT32, new int[] { getAdBase().getSizeX_RBV(), getAdBase().getSizeY_RBV() }, null, null);
-
 		}
 		
 		int acquired = flex.getLastAcquired(); 
