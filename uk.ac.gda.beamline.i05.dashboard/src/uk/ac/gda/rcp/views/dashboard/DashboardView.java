@@ -381,6 +381,9 @@ public final class DashboardView extends ViewPart {
 	 * Called to refresh all the values in the table.
 	 */
 	public void refresh() {
+		if (serverViewer.getControl().isDisposed())
+			return;
+		
 		try {
 			for (SimpleScannableObject sso : data) {
 				sso.refresh();
