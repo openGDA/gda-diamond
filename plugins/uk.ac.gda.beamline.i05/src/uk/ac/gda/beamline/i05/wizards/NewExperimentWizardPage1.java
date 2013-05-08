@@ -100,10 +100,16 @@ public class NewExperimentWizardPage1 extends WizardPage {
 		setControl(container);
 	}
 
-	/**
-	 * Tests if the current workbench selection is a suitable container to use.
-	 */
 	private void initialize() {
+		populateContainer();
+		populateFileName();
+	}
+
+	private void populateFileName() {
+		fileText.setText("arpes.xml");
+	}
+
+	private void populateContainer() {
 		if (selection != null && selection.isEmpty() == false && selection instanceof IStructuredSelection) {
 			IStructuredSelection ssel = (IStructuredSelection) selection;
 			if (ssel.size() > 1) {
@@ -120,7 +126,6 @@ public class NewExperimentWizardPage1 extends WizardPage {
 				containerText.setText(container.getFullPath().toString());
 			}
 		}
-		fileText.setText("arpes.xml");
 	}
 
 	/**

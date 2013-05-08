@@ -20,4 +20,14 @@
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
 		<property name="protectionLevel" value="3"></property>
 	</bean>
+
+ 	<bean
+ 		class="gda.device.scannable.DummyUnitsScannable" id="s6_ysize">
+ 		<property name="inputNames"><list><value>s6_ysize</value></list></property>
+ 		<property name="outputFormat"><list><value>%5.0f</value></list></property>
+ 		<property name="protectionLevel" value="3"></property>
+ 		<property name="lowerGdaLimits" value="0" />
+ 		<property name="upperGdaLimits" value="5" />
+ 	</bean>
+ 
 </beans>
