@@ -56,9 +56,9 @@ public class VGScientaController implements Configurable {
 	public static final String FRAMES_RBV = "FRAMES_RBV";
 	public static final String SLICE = "SLICES";
 	public static final String SLICE_RBV = "SLICES_RBV";
-	public static final String TOTAL_POINTS_ITERATION_RBV = "TOTAL_POINTS_ITERATION_RBV";
 	public static final String ZERO_SUPPLIES = "ZERO_SUPPLIES";
-	
+	public static final String TOTAL_POINTS_ITERATION_RBV = "TOTAL_POINTS_ITERATION_RBV";
+	public static final String TOTAL_LEAD_POINTS_RBV = "TOTAL_LEAD_POINTS_RBV";
 	/**
 	 * Map that stores the channel against the PV name
 	 */
@@ -206,6 +206,6 @@ public class VGScientaController implements Configurable {
 	}
 
 	public int getSweepSteps() throws Exception {
-		return EPICS_CONTROLLER.cagetInt(getChannel(TOTAL_POINTS_ITERATION_RBV));
+		return EPICS_CONTROLLER.cagetInt(getChannel(TOTAL_POINTS_ITERATION_RBV))-EPICS_CONTROLLER.cagetInt(getChannel(TOTAL_LEAD_POINTS_RBV));
 	}
 }
