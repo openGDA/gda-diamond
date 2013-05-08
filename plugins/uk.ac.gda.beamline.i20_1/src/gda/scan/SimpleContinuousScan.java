@@ -104,8 +104,8 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 
 	private Boolean collectionFinished(ExperimentStatus progressData) {
 		//FIXME this will fail when collection having a delay as this returns idle,0,0,0!!
-		return progressData.detectorStatus == Detector.IDLE && progressData.loc.groupNum == 0
-				&& progressData.loc.frameNum == 0 && progressData.loc.scanNum == 0;
+		return progressData.detectorStatus == Detector.IDLE && progressData.loc.groupNum <= 0
+				&& progressData.loc.frameNum <= 0 && progressData.loc.scanNum <= 0;
 	}
 
 	private Boolean canReadoutMoreFrames(ExperimentStatus progressData, ExperimentLocation lastReadLoc) {
