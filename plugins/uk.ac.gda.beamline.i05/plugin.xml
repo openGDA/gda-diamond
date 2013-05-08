@@ -147,4 +147,41 @@
                   name="Cryo View">
             </view>
    </extension>
+     <extension
+        point="org.eclipse.ui.newWizards">
+     <category
+           id="uk.ac.gda.beamline.i05"
+           name="Experiment">
+     </category>
+     <wizard
+           category="uk.ac.gda.beamline.i05"
+           class="uk.ac.gda.beamline.i05.wizards.NewExperimentWizard"
+           icon="icons/anaiconew.png"
+           id="uk.ac.gda.beamline.i05.wizards.NewExperimentWizard"
+           name="New Region">
+     </wizard>
+  </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:uk.ac.gda.client.toolbar?after=additions">
+         <command
+               commandId="org.eclipse.ui.newWizard"
+               mode="FORCE_TEXT"
+               style="push"
+               tooltip="Create a blank defintion file for an ARPES experiment">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="activeWorkbenchWindow.activePerspective">
+                  <equals
+                        value="uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective">
+                  </equals>
+               </with>
+            </visibleWhen>
+            <parameter name="newWizardId" value="uk.ac.gda.beamline.i05.wizards.NewExperimentWizard" />
+         </command>
+      </menuContribution>
+   </extension>
 </plugin>
