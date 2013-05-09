@@ -74,7 +74,11 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	// must be in configuration info
 	private String templateFileName;
 
-	private int timingReadbackHandle = -1;
+	// da.server memory handles for reading back timing information and data
+	private int timingHandle = -1;
+	private int dataHandle = -1;
+	
+	private int scanDelayInMilliseconds = 0;
 
 	private EdeScanParameters nextScan;
 
@@ -107,25 +111,45 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 		try {
 			close();
-			createNewHandle();
+			// to read back data
+			createNewDataHandle();
+			// to read back timing data
+			createNewTimingHandle();
 		} catch (DeviceException e) {
 			logger.error("Exception trying to create data readout handle to da.server", e);
 		}
 	}
 
-	private void createNewHandle() throws DeviceException {
+	private void createNewTimingHandle() throws DeviceException {
 		Object obj;
 		if (daServer != null && !daServer.isConnected()) {
 			daServer.connect();
 		}
 
 		if (daServer != null && daServer.isConnected()) {
-			if ((obj = daServer.sendCommand(createCommand("open"))) != null) {
-				timingReadbackHandle = ((Integer) obj).intValue();
-				if (timingReadbackHandle < 0) {
+			if ((obj = daServer.sendCommand("xstrip timing open \"xh0\"")) != null) {
+				timingHandle = ((Integer) obj).intValue();
+				if (timingHandle < 0) {
 					throw new DeviceException("Failed to create the timing readback handle");
 				}
-				logger.info("open() using timingReadbackHandle " + timingReadbackHandle);
+				logger.info("open() using timingReadbackHandle " + timingHandle);
+			}
+		}
+	}
+
+	private void createNewDataHandle() throws DeviceException {
+		Object obj;
+		if (daServer != null && !daServer.isConnected()) {
+			daServer.connect();
+		}
+
+		if (daServer != null && daServer.isConnected()) {
+			if ((obj = daServer.sendCommand("xstrip open \"xh0\"")) != null) {
+				dataHandle = ((Integer) obj).intValue();
+				if (dataHandle < 0) {
+					throw new DeviceException("Failed to create the timing readback handle");
+				}
+				logger.info("open() using timingReadbackHandle " + dataHandle);
 			}
 		}
 	}
@@ -291,17 +315,12 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	 */
 	private synchronized int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException {
 		int[] value = null;
-		if (timingReadbackHandle >= 0 && daServer != null && daServer.isConnected()) {
+		if (hasValidDataHandle()) {
 			int numFrames = finalFrame - startFrame + 1;
-			try {
-				value = daServer.getIntBinaryData("read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames
-						+ " from " + timingReadbackHandle + " raw motorola", 1024 * numFrames);
-			} catch (Exception e) {
-				throw new DeviceException("Exception trying to get binary data from da.server", e);
-			}
+			value = daServer.getIntBinaryData("read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames
+					+ " from " + dataHandle + " raw motorola", 1024 * numFrames);
 		}
 		return value;
-
 	}
 
 	@Override
@@ -321,51 +340,57 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 	@Override
 	public void stop() throws DeviceException {
-		daServer.sendCommand(createCommand("stop"));
+		daServer.sendCommand(createTimingCommand("stop"));
 
-		if (hasValidHandle()) {
-			sendCommand("disable ", timingReadbackHandle);
+		if (hasValidDataHandle()) {
+			sendCommand("disable "+ dataHandle);
 		}
 	}
 
 	@Override
 	public void close() throws DeviceException {
-		if (timingReadbackHandle >= 0 && daServer != null && daServer.isConnected()) {
-			try {
-				daServer.sendCommand("close " + timingReadbackHandle);
-			} catch (DeviceException e) {
-				throw new DeviceException("Exception trying to close handle in da.server",e);
-			}
-			timingReadbackHandle = -1;
+		if (hasValidTimingHandle()) {
+			sendCommand("close "+ timingHandle);
+			timingHandle = -1;
+		}
+		if (hasValidDataHandle()) {
+			sendCommand("close "+ dataHandle);
+			dataHandle = -1;
 		}
 	}
 
 	public void clear() throws DeviceException {
-		if (timingReadbackHandle < 0) {
-			createNewHandle();
+		if (!hasValidDataHandle()) {
+			createNewDataHandle();
 		}
-		if (hasValidHandle()) {
-			sendCommand("clear ", timingReadbackHandle);
+		if (hasValidDataHandle()) {
+			sendCommand("clear "+ dataHandle);
 		}
 	}
 
-	private boolean hasValidHandle() {
-		return timingReadbackHandle >= 0 && daServer != null && daServer.isConnected();
+	private boolean hasValidTimingHandle() {
+		return this.timingHandle >= 0 && daServer != null && daServer.isConnected();
+	}
+
+	private boolean hasValidDataHandle() {
+		return this.dataHandle >= 0 && daServer != null && daServer.isConnected();
 	}
 
 	public void start() throws DeviceException {
-		if (timingReadbackHandle < 0) {
-			createNewHandle();
+		if (!hasValidDataHandle()) {
+			createNewDataHandle();
 		}
-		if (timingReadbackHandle >= 0 && daServer != null && daServer.isConnected()) {
-			sendCommand("enable ", timingReadbackHandle);
-			daServer.sendCommand(createCommand("start"));
+		if (!hasValidTimingHandle()) {
+			createNewTimingHandle();
+		}
+		if (hasValidDataHandle() && hasValidTimingHandle()) {
+			daServer.sendCommand(createTimingCommand("start"));
 		}
 	}
 
-	private synchronized void sendCommand(String command, int handle) throws DeviceException {
+	private synchronized void sendCommand(String command) throws DeviceException {
 		Object obj;
-		if ((obj = daServer.sendCommand(command + handle)) == null) {
+		if ((obj = daServer.sendCommand(command)) == null) {
 			throw new DeviceException("Null reply received from daserver during " + command);
 		} else if (((Integer) obj).intValue() == -1) {
 			logger.error(getName() + ": " + command + " failed");
@@ -374,7 +399,12 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		}
 	}
 
-	private String createCommand(String command, Object... otherArgs) {
+	/**
+	 * @param command
+	 * @param otherArgs
+	 * @return  the given command with 'xstrip timing' prefixed and detectorName suffixed
+	 */
+	private String createTimingCommand(String command, Object... otherArgs) {
 		String theCommand = "xstrip timing " + command + " \"" + detectorName + "\"";
 		for (Object arg : otherArgs) {
 			if (!arg.toString().isEmpty()) {
@@ -426,14 +456,9 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		defineDataCollectionFromScanParameters();
 	}
 
-	public ExperimentStatus fetchStatus() throws DeviceException {
-		String statusMessage;
-		try {
-			statusMessage = (String) daServer.sendCommand(createCommand("read-status", "verbose"), true);
-		} catch (DeviceException e) {
-			throw new DeviceException("Exception trying to read status from da.server",e);
-		}
-		if (statusMessage.startsWith("#")){
+	public ExperimentStatus fetchStatus() {
+		String statusMessage = (String) daServer.sendCommand(createTimingCommand("read-status", "verbose"), true);
+		if (statusMessage.startsWith("#")) {
 			statusMessage = statusMessage.substring(1).trim();
 		}
 		String[] messageParts = statusMessage.split("[\n#:,]");
@@ -492,13 +517,21 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 			String command;
 			if (numberOfScansPerFrame == 0) {
-				command = createCommand("setup-group", i, numFrames, 0, scanTimeInClockCycles, "frame-time",
+				// use the frame-time qualifier
+				command = createTimingCommand("setup-group", i, numFrames, 0, scanTimeInClockCycles, "frame-time",
 						frameTimeInCycles, delays, lemoOut, extTrig);
 			} else {
-				// use the frame-time qualifier
-				command = createCommand("setup-group", i, numFrames, numberOfScansPerFrame, scanTimeInClockCycles,
-						delays, lemoOut, extTrig);
+
+				command = createTimingCommand("setup-group", i, numFrames, numberOfScansPerFrame, scanTimeInClockCycles,
+						 delays, lemoOut, extTrig);
+				
+				if (scanDelayInMilliseconds > 0) {
+					float scanDelayInSeconds = (float) (scanDelayInMilliseconds / 1000.0);
+					String scanPeriodInClockCycles = secondsToClockCyclesString(scanTimeInS + scanDelayInSeconds);
+					command += " scan-period " + scanPeriodInClockCycles;
+				}
 			}
+			
 
 			if (i == nextScan.getGroups().size() - 1) {
 				command = command.trim() + " last";
@@ -600,13 +633,13 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		}
 
 		String[] extOuts = nextScan.getOutputsChoices();
-		daServer.sendCommand(createCommand("ext-output", -1, "dc"));
+		daServer.sendCommand(createTimingCommand("ext-output", -1, "dc"));
 		for (int i = 0; i < 8; i++) {
 			if (!delays[i].isEmpty() && !extOuts[i].equals(EdeScanParameters.TRIG_NONE)) {
-				daServer.sendCommand(createCommand("ext-output", i, userToDAServerTrigOut(extOuts[i]), "width",
+				daServer.sendCommand(createTimingCommand("ext-output", i, userToDAServerTrigOut(extOuts[i]), "width",
 						delays[i]));
 			} else if (!extOuts[i].equals(EdeScanParameters.TRIG_NONE)) {
-				daServer.sendCommand(createCommand("ext-output", i, userToDAServerTrigOut(extOuts[i])));
+				daServer.sendCommand(createTimingCommand("ext-output", i, userToDAServerTrigOut(extOuts[i])));
 			}
 		}
 	}
@@ -630,10 +663,9 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	 * To send the continue command when a group has been setup to wait for an input from a software trigger (LEMO #9)
 	 * 
 	 * @return Object - what is returned from da.server
-	 * @throws DeviceException 
 	 */
-	public Object fireSoftTrig() throws DeviceException {
-		return daServer.sendCommand(createCommand("continue"));
+	public Object fireSoftTrig() {
+		return daServer.sendCommand(createTimingCommand("continue"));
 	}
 
 	/**
@@ -645,16 +677,12 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	 */
 	public int[] getRawTimingSettings() throws DeviceException {
 		int[] value = null;
-		if (timingReadbackHandle < 0) {
-			createNewHandle();
+		if (!hasValidTimingHandle()) {
+			createNewTimingHandle();
 		}
-		if (timingReadbackHandle >= 0 && daServer != null && daServer.isConnected()) {
-			try {
-				value = daServer.getIntBinaryData("read 0 0 0 30 1024 1 from " + timingReadbackHandle + " raw motorola",
-						30 * 1024);
-			} catch (Exception e) {
-				throw new DeviceException("Exception trying to get binary data from da.server",e);
-			}
+		if (hasValidTimingHandle()) {
+			value = daServer.getIntBinaryData("read 0 0 0 30 1024 1 from " + timingHandle + " raw motorola",
+					30 * 1024);
 		}
 		return value;
 	}
@@ -757,6 +785,14 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		saveROIsToXML();
 		notifyIObservers(this, XHDetector.ROIS_CHANGED);
 
+	}
+
+	public int getScanDelayInMilliseconds() {
+		return scanDelayInMilliseconds;
+	}
+
+	public void setScanDelayInMilliseconds(int scanDelayInMilliseconds) {
+		this.scanDelayInMilliseconds = scanDelayInMilliseconds;
 	}
 
 	/**
