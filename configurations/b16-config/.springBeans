@@ -68,9 +68,6 @@
 		<config>servers/main/common/scannable/motor/tbbase.xml</config>
 		<config>servers/main/dummy/motor/tbbase.xml</config>
 		<config>servers/main/live/epics/motor/tbbase.xml</config>
-		<config>servers/main/dummy/motor/tbdet.xml</config>
-		<config>servers/main/dummy/motor/tbdiag.xml</config>
-		<config>servers/main/dummy/motor/tbopt.xml</config>
 		<config>servers/main/common/scannable/motor/test1.xml</config>
 		<config>servers/main/dummy/motor/test1.xml</config>
 		<config>servers/main/live/epics/motor/test1.xml</config>

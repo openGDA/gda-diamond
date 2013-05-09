@@ -84,7 +84,6 @@
 		<config>servers/main/common/scannable/motor/xps3.xml</config>
 		<config>servers/main/dummy/motor/xps3.xml</config>
 		<config>servers/main/live/epics/motor/xps3.xml</config>
-		<config>servers/main/common/plumbing.xml</config>
 	</configs>
 	<configSets>
 	</configSets>
