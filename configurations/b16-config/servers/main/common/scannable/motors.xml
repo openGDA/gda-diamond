@@ -32,6 +32,6 @@
 	<import resource="motor/tb1.xml" />
 	<import resource="motor/test1.xml" />
 	<import resource="motor/test2.xml" />
-	<!-- import resource="motor/test3.xml" Hanging in sd2/-->
+	<import resource="motor/test3.xml"/>
 
 </beans>
