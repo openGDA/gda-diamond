@@ -1,12 +1,5 @@
 #!/bin/bash
-/dls_sw/b16/software/gda/client/gda-b16
+#/dls_sw/b16/software/gda/client/gda-b16
 
-#PRGDIR=`dirname $0`
-#PRGDIR=`cd $PRGDIR; pwd`
-#GDA_ROOT=`dirname $PRGDIR`
-#$GDA_CONFIG
-#. $PRGDIR/find_GDA_ROOT.sh
-#RCP_IMAGE=$GDA_ROOT/client/gda-b16
-#
-#echo RCP_IMAGE: ${RCP_IMAGE}
-#`RCP_IMAGE`
+echo /dls_sw/i16/software/gda_versions/gda_8.30/workspace_git/gda-diamond.git/dls-config/bin/gdaclient
+/dls_sw/b16/software/gda_versions/gda_8.30/workspace_git/gda-diamond.git/dls-config/bin/gdaclient

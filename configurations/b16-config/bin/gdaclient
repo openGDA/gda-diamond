@@ -1,2 +1,2 @@
 #!/bin/bash
-JAVA_OPTS="-Xms512m -Xmx1024m" `dirname $0`/gda client --start $@
+/dls_sw/b16/software/gda/workspace_git/gda-mt.git/configurations/mt-config/bin/gdaswingclient $@
