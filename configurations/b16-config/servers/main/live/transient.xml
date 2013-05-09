@@ -12,8 +12,9 @@
 <import resource="transient/motion_tower.xml"/>
 <!-- <import resource="transient/geo2.xml" /> -->
 <!-- <import resource="transient/bend.xml" /> -->
-<!--<import resource="transient/geo3.xml" /> -->
+<import resource="transient/geo3.xml" />
 <!--<import resource="transient/geo4.xml" /> -->
+<import resource="transient/kb_geo4.xml" />
 <!--<import resource="transient/pcocam.xml" /> -->
 
 
