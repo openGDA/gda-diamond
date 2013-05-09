@@ -389,8 +389,11 @@ tb3x.setOutputFormat(['%5.7g']) #@UndefinedVariable
 tb3y.setOutputFormat(['%5.7g']) #@UndefinedVariable
 ippws4.setLevel(9)
 t.setOutputFormat(['%6.6f'])
-	
-
+try:
+	kbwireX.setOutputFormat(['%.3f'])	
+	kbwireY.setOutputFormat(['%.3f'])	
+except NameError:
+	pass
 ###############################################################################
 ###                           Wait for beam device                          ###
 ###############################################################################
@@ -480,6 +483,12 @@ if installation.isLive() and ENABLE_PILATUS:
 		pilpeak2d = DetectorDataProcessorWithRoi('pilpeak2d', pil, [TwodGaussianPeak()])
 		pilmax2d = DetectorDataProcessorWithRoi('pilmax2d', pil, [SumMaxPositionAndValue()])
 		
+		pilroi1 = DetectorDataProcessorWithRoi('pilroi1', pil, [SumMaxPositionAndValue()])
+		pilroi2 = DetectorDataProcessorWithRoi('pilroi2', pil, [SumMaxPositionAndValue()])
+		pilroi3 = DetectorDataProcessorWithRoi('pilroi3', pil, [SumMaxPositionAndValue()])
+		pilroi4 = DetectorDataProcessorWithRoi('pilroi4', pil, [SumMaxPositionAndValue()])
+		pilroi5 = DetectorDataProcessorWithRoi('pilroi5', pil, [SumMaxPositionAndValue()])
+
 		pilgain = pd_setPvAndWait.SetPvAndWait('pilgain', 'BL16B-EA-PILAT-01:Gain', delayAfterAskingToMove=0.5)
 		pilgain.setOutputFormat(['%.0f'])
 		pilthresh = pd_setPvAndWait.SetPvAndWait('pilthresh', 'BL16B-EA-PILAT-01:ThresholdEnergy', delayAfterAskingToMove=0.5) 
