@@ -10,7 +10,12 @@
 	<bean id="atn1" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>Empty</value>
+				<value>none</value>
+				<value>PyroC1</value>
+				<value>PyroC2</value>
+				<value>PyroC4</value>
+				<value>PyroC6</value>
+				<value>PyroC8</value>
 			</list>
 		</property>
 	</bean>
@@ -18,7 +23,12 @@
 	<bean id="atn2" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>Empty</value>
+				<value>none</value>
+				<value>PyroC1</value>
+				<value>PyroC10</value>
+				<value>PyroC20</value>
+				<value>SiC2</value>
+				<value>SiC4</value>
 			</list>
 		</property>
 	</bean>
@@ -26,7 +36,11 @@
 	<bean id="atn3" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>Empty</value>
+				<value>none</value>
+				<value>PyroC10</value>
+				<value>PyroC20</value>
+				<value>SiC6</value>
+				<value>SiC15</value>
 			</list>
 		</property>
 	</bean>
