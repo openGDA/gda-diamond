@@ -105,7 +105,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="mc2_x" class="gda.device.scannable.ScannableMotor">
+	<!-- <bean id="mc2_x" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="mc2_x" />
 		<property name="motor" ref="mc2_x_motor" />
 		<property name="tolerance" value="0.01" />
@@ -114,7 +114,7 @@
 				<value>%.3f</value>
 			</list>
 		</property>
-	</bean>
+	</bean> -->
 	
 	<bean id="mc2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -123,7 +123,7 @@
 				<ref bean="mc2_bragg"/>
 <!-- 				<ref bean="mc2_tilt"/> -->
 				<ref bean="mc2_z"/>
-				<ref bean="mc2_x"/>
+				<!-- <ref bean="mc2_x"/> -->
 			</list>
 		</property>
 	</bean>
