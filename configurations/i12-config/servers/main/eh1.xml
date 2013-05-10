@@ -25,6 +25,8 @@
 				<property name="initialBlockingCallbacks" value="false" />
 			</bean>
 		</property>
+		<property name="initialEnableX" value="true"/>
+		<property name="initialEnableY" value="true"/>
 		<property name="initialMinX" value="1" />
 		<property name="initialMinY" value="1" />
 		<property name="initialBinX" value="1" />
@@ -133,7 +135,7 @@
 				<property name="basePVName" value="BL12I-DI-PHDGN-03:HDF:" />
 				<property name="pluginBase">
 					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-						<property name="basePVName" value="BL12I-OP-DCM-01:HDF2:" />
+						<property name="basePVName" value="BL12I-DI-PHDGN-03:HDF:" />
 						<property name="initialArrayPort" value="eh1.cam" />
 						<property name="initialArrayAddress" value="0" />
 						<property name="initialEnableCallbacks" value="1" />

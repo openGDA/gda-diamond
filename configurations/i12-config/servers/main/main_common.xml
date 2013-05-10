@@ -17,8 +17,16 @@
 	<import resource="t7.xml" />
 
 	<import resource="mono.xml" />
+
+	<!-- GigE cameras -->	
+	<import resource="mono1.xml" />
 	<import resource="mono2.xml" />
 
+	<import resource="eh1.xml" />
+	<import resource="eh2.xml" />
+	<import resource="oh1.xml" />
+	<!--  -->
+	
 	<import resource="I0eh1.xml" />
 	<import resource="I0eh2.xml" />
 	<import resource="mcs1.xml" />
@@ -27,8 +35,6 @@
 	<import resource="ss2.xml" />
 	<import resource="s1.xml" />
 	<!-- End of comment for simulation environment -->
-	<import resource="eh1.xml" />
-	<import resource="eh2.xml" />
 	<import resource="cam1.xml" />
 	<import resource="dummies.xml" />
 

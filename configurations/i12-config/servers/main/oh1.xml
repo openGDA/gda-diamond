@@ -2,9 +2,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	<!-- Set up the Area Detector base class which will manage the eh2.cam -->
-	<bean id="eh2.cam" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL12I-DI-PHDGN-04:CAM:" />
+	<!-- Set up the Area Detector base class which will manage the oh1.cam -->
+	<bean id="oh1.cam" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL12I-AL-ATTN-01:CAM:" />
 		<property name="initialDataType" value="UInt16" />
 		<property name="initialMinX" value="1" />
 		<property name="initialMinY" value="1" />
@@ -14,31 +14,31 @@
 		<property name="initialBinY" value="1" />
 	</bean>
 
-	<bean id="eh2.roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
-		<property name="basePVName" value="BL12I-DI-PHDGN-04:ROI:" />
+	<bean id="oh1.roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
+		<property name="basePVName" value="BL12I-AL-ATTN-01:ROI:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL12I-DI-PHDGN-04:ROI:" />
-				<property name="initialArrayPort" value="eh2.cam" />
+				<property name="basePVName" value="BL12I-AL-ATTN-01:ROI:" />
+				<property name="initialArrayPort" value="oh1.cam" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
 			</bean>
 		</property>
-		<property name="initialEnableX" value="true" />
-		<property name="initialEnableY" value="true" />
+		<property name="initialEnableX" value="true"/>
+		<property name="initialEnableY" value="true"/>
 		<property name="initialMinX" value="1" />
 		<property name="initialMinY" value="1" />
 		<property name="initialBinX" value="1" />
 		<property name="initialBinY" value="1" />
 	</bean>
 
-	<bean id="eh2.arr" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="basePVName" value="BL12I-DI-PHDGN-04:ARR:" />
+	<bean id="oh1.arr" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL12I-AL-ATTN-01:ARR:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL12I-DI-PHDGN-04:ARR:" />
-				<property name="initialArrayPort" value="eh2.cam" />
+				<property name="basePVName" value="BL12I-AL-ATTN-01:ARR:" />
+				<property name="initialArrayPort" value="oh1.cam" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -46,12 +46,12 @@
 		</property>
 	</bean>
 
-	<bean id="eh2.proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
-		<property name="basePVName" value="BL12I-DI-PHDGN-04:PROC:" />
+	<bean id="oh1.proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="basePVName" value="BL12I-AL-ATTN-01:PROC:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL12I-DI-PHDGN-04:PROC:" />
-				<property name="initialArrayPort" value="eh2.roi" />
+				<property name="basePVName" value="BL12I-AL-ATTN-01:PROC:" />
+				<property name="initialArrayPort" value="oh1.roi" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -65,12 +65,12 @@
 		<property name="initialEnableFilter" value="0" />
 	</bean>
 
-	<bean id="eh2.stat" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
-		<property name="basePVName" value="BL12I-DI-PHDGN-04:STAT:" />
+	<bean id="oh1.stat" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL12I-AL-ATTN-01:STAT:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL12I-DI-PHDGN-04:STAT:" />
-				<property name="initialArrayPort" value="eh2.roi" />
+				<property name="basePVName" value="BL12I-AL-ATTN-01:STAT:" />
+				<property name="initialArrayPort" value="oh1.roi" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -78,12 +78,12 @@
 		</property>
 	</bean>
 
-	<bean id="eh2.draw" class="gda.device.detector.areadetector.v17.impl.NDOverlayImpl">
-		<property name="basePVName" value="BL12I-DI-PHDGN-04:DRAW:" />
+	<bean id="oh1.draw" class="gda.device.detector.areadetector.v17.impl.NDOverlayImpl">
+		<property name="basePVName" value="BL12I-AL-ATTN-01:DRAW:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL12I-DI-PHDGN-04:DRAW:" />
-				<property name="initialArrayPort" value="eh2.roi" />
+				<property name="basePVName" value="BL12I-AL-ATTN-01:DRAW:" />
+				<property name="initialArrayPort" value="oh1.roi" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -91,13 +91,13 @@
 		</property>
 	</bean>
 
-	<bean id="eh2.mpeg"
+	<bean id="oh1.mpeg"
 		class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
-		<property name="basePVName" value="BL12I-DI-PHDGN-04:MPEG:" />
+		<property name="basePVName" value="BL12I-AL-ATTN-01:MPEG:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL12I-DI-PHDGN-04:MPEG:" />
-				<property name="initialArrayPort" value="eh2.draw" />
+				<property name="basePVName" value="BL12I-AL-ATTN-01:MPEG:" />
+				<property name="initialArrayPort" value="oh1.draw" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -108,12 +108,12 @@
 		<property name="initialAlwaysOn" value="0" />
 	</bean>
 
-	<bean id="eh2.tif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="BL12I-DI-PHDGN-04:TIFF:" />
+	<bean id="oh1.tif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL12I-AL-ATTN-01:TIFF:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL12I-DI-PHDGN-04:TIFF:" />
-				<property name="initialArrayPort" value="eh2.draw" />
+				<property name="basePVName" value="BL12I-AL-ATTN-01:TIFF:" />
+				<property name="initialArrayPort" value="oh1.draw" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -127,16 +127,16 @@
 		<property name="initialFileTemplate" value="%s/%s_%05d.tif" />
 	</bean>
 
-	<bean id="eh2.hdf"
+	<bean id="oh1.hdf"
 		class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<property name="basePVName" value="BL12I-DI-PHDGN-04:HDF:" />
+		<property name="basePVName" value="BL12I-AL-ATTN-01:HDF:" />
 		<property name="file">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-				<property name="basePVName" value="BL12I-DI-PHDGN-04:HDF:" />
+				<property name="basePVName" value="BL12I-AL-ATTN-01:HDF:" />
 				<property name="pluginBase">
 					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-						<property name="basePVName" value="BL12I-DI-PHDGN-04:HDF:" />
-						<property name="initialArrayPort" value="eh2.cam" />
+						<property name="basePVName" value="BL12I-AL-ATTN-01:HDF:" />
+						<property name="initialArrayPort" value="oh1.cam" />
 						<property name="initialArrayAddress" value="0" />
 						<property name="initialEnableCallbacks" value="1" />
 						<property name="initialBlockingCallbacks" value="false" />
@@ -162,14 +162,14 @@
 		<property name="initialZCompressLevel" value="6" />
 	</bean>
 
-	<bean id="eh2" class="gda.device.detector.AdDetectorExtRoiDraw">
-		<property name="adBase" ref="eh2.cam" />
-		<property name="ndStats" ref="eh2.stat" />
-		<property name="ndArray" ref="eh2.arr" />
-		<property name="ndFile" ref="eh2.tif" />
-		<property name="ndRoi" ref="eh2.roi" />
-		<property name="ndDraw" ref="eh2.draw" />
-		<property name="mjpeg" ref="eh2.mpeg" />
+	<bean id="oh1" class="gda.device.detector.AdDetectorExtRoiDraw">
+		<property name="adBase" ref="oh1.cam" />
+		<property name="ndStats" ref="oh1.stat" />
+		<property name="ndArray" ref="oh1.arr" />
+		<property name="ndFile" ref="oh1.tif" />
+		<property name="ndRoi" ref="oh1.roi" />
+		<property name="ndDraw" ref="oh1.draw" />
+		<property name="mjpeg" ref="oh1.mpeg" />
 		<property name="computeCentroid" value="true" />
 		<property name="computeStats" value="true" />
 	</bean>
