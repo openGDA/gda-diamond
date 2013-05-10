@@ -178,13 +178,13 @@ def _calDetDistance(parametersBean):
     
     q_m = parametersBean.getQ()
     
-    s_m = 0.05120 # XH
+    s_mm = 51.20 # XH
     
     if parametersBean.getDetector() == "XSTRIP":
-        s_m = 0.02560
+        s_mm = 25.60
     # elif parametersBean.getDetector() = AlignmentParametersBean.Detector.CCD
     
-    det_dist_m = (s_m * q_m) / (alpha_mrad * dist_poly_to_source)
+    det_dist_m = (s_mm * q_m) / (alpha_mrad * dist_poly_to_source)
     
     parametersBean.setDetectorDistance(det_dist_m)
     
