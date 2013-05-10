@@ -83,9 +83,6 @@ public class BeamlineAlignmentView extends ViewPart {
 	private ScaleBox txtDetDistTarget;
 	private Button btnDetDistMove;
 	private Label lblDetDistReadback;
-	// private ScaleBox txtPolyTarget;
-	// private Button btnPolyMove;
-	// private Label lblPolyReadback;
 	private GridData comboGD;
 	private GridData textGD;
 	private GridData readbackGD;
@@ -168,7 +165,8 @@ public class BeamlineAlignmentView extends ViewPart {
 		textGD = new GridData(SWT.FILL, SWT.CENTER, false, false);
 		textGD.widthHint = 120;
 
-		readbackGD = new GridData(SWT.LEFT, SWT.CENTER, false, false);
+		readbackGD = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		readbackGD.widthHint = 120;
 	}
 
 	private GridData createLabelGridData() {
@@ -579,15 +577,8 @@ public class BeamlineAlignmentView extends ViewPart {
 				Double q = Double.parseDouble(qString);
 
 				String xtalCutString = cmbCrystalCut.getItem(cmbCrystalCut.getSelectionIndex());
-				// AlignmentParametersBean.CrystalCut xtalCut =
-				// AlignmentParametersBean.CrystalCut.valueOf(xtalCutString);
-
 				String xtalTypeString = cmbCrystalType.getItem(cmbCrystalType.getSelectionIndex());
-				// AlignmentParametersBean.CrystalType xtalType = AlignmentParametersBean.CrystalType
-				// .valueOf(xtalTypeString);
-
 				String detectorString = cmbDetectorType.getItem(cmbDetectorType.getSelectionIndex());
-				// AlignmentParametersBean.Detector detector = AlignmentParametersBean.Detector.valueOf(detectorString);
 
 				try {
 					AlignmentParametersBean bean = new AlignmentParametersBean(xtalTypeString, xtalCutString, q,
