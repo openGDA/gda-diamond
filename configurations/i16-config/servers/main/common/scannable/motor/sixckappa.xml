@@ -48,6 +48,16 @@
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 
+	<bean id="cryophi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sixcCryoPhiMotor" />
+		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
+		<property name="returnDemandPosition" value="true" />
+		<property name="demandPositionTolerance" value=".01" />
+		<property name="logMoveRequestsWithInfo" value="true" />
+	</bean>
+	
+	
+
 
 	<bean id="sixc_additional_position_validators" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
@@ -97,6 +107,29 @@
 		<property name="logDefFlagChangesAsInfo" value="true" />
 
 	</bean>
+	
+		<bean id="sixckappa_cryo" class="gda.device.scannable.scannablegroup.DeferredAndTrajectoryScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="cryophi" />
+				<ref bean="kap" />
+				<ref bean="kth" />
+				<ref bean="kmu" />
+				<ref bean="kdelta" />
+				<ref bean="kgam" />
+			</list>
+		</property>
+
+		<property name="additionalPositionValidators" ref="sixc_additional_position_validators"/>
+
+		<property name="deferredControlPoint" ref="xps2DeferFlag" />
+
+		<property name="continuousMoveController" ref="xpsTrajController" />
+
+		<property name="logDefFlagChangesAsInfo" value="true" />
+
+	</bean>
+	
 	
 	<bean id="_sixckappa_deffered_only" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
 		<property name="groupMembers">

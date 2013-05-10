@@ -11,8 +11,10 @@ import installation
 
 if installation.isDummy():
 	USE_DIFFCALC = True
+	USE_CRYO_GEOMETRY = True
 else:
 	USE_DIFFCALC = False  # <-- change here for live gda!
+	USE_CRYO_GEOMETRY = False
 
 USE_DUMMY_IDGAP_MOTOR = False
 #USE_DUMMY_IDGAP_MOTOR = True
@@ -117,8 +119,15 @@ note.rootNamespaceDict=globals()
 ###############################################################################
 ### Expose wrapped motors for Coordinated motion
 print "Replacing ScannableMotors kphi, kap. kth, kmu, kdelta and kgam with wrappers supporting coordinated movement"
-sixc = sixckappa #@UndefinedVariable
-exec("kphi=sixc.kphi")
+if USE_CRYO_GEOMETRY:
+	sixc = sixckappa_cryo #@UndefinedVariable
+else:
+	sixc = sixckappa #@UndefinedVariable
+if USE_CRYO_GEOMETRY:	
+	exec("cryophi=sixc.cryophi")
+else:
+	exec("kphi=sixc.kphi")
+	
 exec("kap=sixc.kap")
 exec("kth=sixc.kth")
 exec("kmu=sixc.kmu")
@@ -277,18 +286,13 @@ base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/
 if installation.isLive():
 	sixckappa.getContinuousMoveController().setScannableForMovingGroupToStart(_sixckappa_deffered_only)
 
-if not USE_DIFFCALC:
-	run("startup_diffractometer_euler")
-else:
-	print "Replacing ScannableMotors kphi, kap. kth, kmu, kdelta and kgam with wrappers supporting coordinated movement"
-	exec("kphi=sixckappaDC.kphiDC")
-	exec("kap=sixckappaDC.kapDC")
-	exec("kth=sixckappaDC.kthDC")
-	exec("kmu=sixckappaDC.kmuDC")
-	exec("kdelta=sixckappaDC.kdeltaDC")
-	exec("kgam=sixckappaDC.kgamDC")
-	run("startup_diffractometer_euler_for_diffcalc") #TODO: This differs on from startup_diffractometer_euler on only one line
-	delta_axis_offset.scannableToOffset = kdeltaDC
+
+run("startup_diffractometer_euler")
+
+if USE_CRYO_GEOMETRY:
+	chi.setOffset(-90)
+	chi.setUpperGdaLimits(8)
+
 if installation.isLive():
 	thp=SingleEpicsPositionerClass('thp','BL16I-EA-POLAN-01:THETAp.VAL','BL16I-EA-POLAN-01:THETAp.RBV','BL16I-EA-POLAN-01:THETAp.DMOV','BL16I-EA-POLAN-01:THETAp.STOP','deg','%.4f')
 	tthp=SingleEpicsPositionerClass('tthp','BL16I-EA-POLAN-01:DET1:2THETAp.VAL','BL16I-EA-POLAN-01:DET1:2THETAp.RBV','BL16I-EA-POLAN-01:DET1:2THETAp.DMOV','BL16I-EA-POLAN-01:DET1:2THETAp.STOP','deg','%.3f')
@@ -307,7 +311,7 @@ else:
 	exec("eta=euler.eta")
 	exec("mu=euler.mu")
 	exec("delta=euler.delta")
-	exec("gam=nu=euler.nu")
+	exec("gam=euler.gam")
 
 hkl.setLevel(6)
 
