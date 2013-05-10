@@ -486,7 +486,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="106" />
+  <property type="sds.integer" id="position.x" value="113" />
   <property type="sds.integer" id="position.y" value="499" />
   <property type="sds.integer" id="width" value="70" />
   <property type="sds.integer" id="height" value="60" />
@@ -668,9 +668,9 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="340" />
+  <property type="sds.integer" id="position.x" value="328" />
   <property type="sds.integer" id="position.y" value="494" />
-  <property type="sds.integer" id="width" value="40" />
+  <property type="sds.integer" id="width" value="31" />
   <property type="sds.integer" id="height" value="86" />
   <property type="sds.color" id="color.foreground">
     <color hex="#0000c0" />

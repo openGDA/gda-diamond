@@ -68,6 +68,7 @@ import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotJob;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotJobType;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotWindow;
 import uk.ac.diamond.scisoft.analysis.rcp.views.PlotViewConfig;
+import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
 
 /**
  * Plot View is the main Analysis panel that can display any n-D scalar data it is the replacement of the Data Vector
@@ -113,7 +114,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 	String plotCalibCommand;
 	String plotRawAndCalibCommand;
 	String timeVal;
-	Spinner time;
+	TextWrapper time;
 	private Set<IObserver> dataObservers = Collections.synchronizedSet(new LinkedHashSet<IObserver>());
 	Button btnSet;
 	ProgressBar progress;
@@ -206,7 +207,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 		Label lblTime = new Label(controls, SWT.NONE);
 		lblTime.setText("Acquisition Time ");
 
-		time = new Spinner(controls, SWT.NONE);
+		time = new TextWrapper(controls, SWT.NONE);
 
 		btnSet = new Button(controls, SWT.NONE);
 		btnSet.setText("Acquire");
@@ -231,7 +232,6 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 								"str(Finder.getInstance().listAllObjects(\"AsciiDataWriterConfiguration\")[0].getHeader())[1:-1]");
 
 				JythonServerFacade.getInstance().runCommand("ma.setHeader(\"" + header + "\")");
-
 				timeVal = time.getText();
 				acquireCommand = "ma.acquire(" + timeVal + ")";
 				JythonServerFacade.getInstance().runCommand(acquireCommand);
