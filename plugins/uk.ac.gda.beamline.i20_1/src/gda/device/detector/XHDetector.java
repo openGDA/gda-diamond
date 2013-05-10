@@ -318,8 +318,12 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		int[] value = null;
 		if (hasValidDataHandle()) {
 			int numFrames = finalFrame - startFrame + 1;
-			value = daServer.getIntBinaryData("read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames
-					+ " from " + dataHandle + " raw motorola", 1024 * numFrames);
+			try {
+				value = daServer.getIntBinaryData("read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames
+						+ " from " + dataHandle + " raw motorola", 1024 * numFrames);
+			} catch (Exception e) {
+				throw new DeviceException("Exception while reading data from da.server",e);
+			}
 		}
 		return value;
 	}
@@ -457,7 +461,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		defineDataCollectionFromScanParameters();
 	}
 
-	public ExperimentStatus fetchStatus() {
+	public ExperimentStatus fetchStatus() throws DeviceException {
 		String statusMessage = (String) daServer.sendCommand(createTimingCommand("read-status", "verbose"), true);
 		if (statusMessage.startsWith("#")) {
 			statusMessage = statusMessage.substring(1).trim();
@@ -664,8 +668,9 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	 * To send the continue command when a group has been setup to wait for an input from a software trigger (LEMO #9)
 	 * 
 	 * @return Object - what is returned from da.server
+	 * @throws DeviceException 
 	 */
-	public Object fireSoftTrig() {
+	public Object fireSoftTrig() throws DeviceException {
 		return daServer.sendCommand(createTimingCommand("continue"));
 	}
 
@@ -682,8 +687,12 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 			createNewTimingHandle();
 		}
 		if (hasValidTimingHandle()) {
-			value = daServer.getIntBinaryData("read 0 0 0 30 1024 1 from " + timingHandle + " raw motorola",
-					30 * 1024);
+			try {
+				value = daServer.getIntBinaryData("read 0 0 0 30 1024 1 from " + timingHandle + " raw motorola",
+						30 * 1024);
+			} catch (Exception e) {
+				throw new DeviceException("Exception while setting timing data from da.server",e);
+			}
 		}
 		return value;
 	}
