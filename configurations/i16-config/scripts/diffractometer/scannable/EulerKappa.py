@@ -57,12 +57,12 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 			if index in (0,1,2):
 				return self.kappa.getPosition()[index]
 			else:
-				return self.rawGetPosition()[index]
+				return self.getPosition()[index]
 		else:
 			if index in (3,4,5): #kmu, kdelta, kgam
 				return self.kappa.getPosition()[index]
 			else:
-				return self.rawGetPosition()[index]
+				return self.getPosition()[index]
 			
 	
 	def eulerToKappa(self, eta, chi, phi):
