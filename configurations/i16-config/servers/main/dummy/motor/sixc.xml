@@ -21,7 +21,11 @@
 	<bean id="sixcGammaMotor" class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
 	</bean>
+
+	<bean id="sixcCryoPhiMotor" class="gda.device.motor.DummyMotor" >
+		<property name="speed" value="360000000" />
+	</bean>
 	
-		<bean id="xps2DeferFlag" class="gda.device.controlpoint.DummyControlPoint"/>
+	<bean id="xps2DeferFlag" class="gda.device.controlpoint.DummyControlPoint"/>
 	
 </beans>
