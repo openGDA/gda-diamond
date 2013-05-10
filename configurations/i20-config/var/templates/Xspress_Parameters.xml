@@ -3,13 +3,13 @@
     <detectorName>xspress2system</detectorName>
     <resGrade>res-thres 1.0</resGrade>
     <regionType>Virtual Scaler</regionType>
-    <readoutMode>Scalers and MCA</readoutMode>
+    <readoutMode>Scalers only</readoutMode>
     <editIndividualElements>true</editIndividualElements>
     <DetectorElement>
         <name>Element 0</name>
         <number>0</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -20,8 +20,8 @@
     <DetectorElement>
         <name>Element 1</name>
         <number>1</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -32,8 +32,8 @@
     <DetectorElement>
         <name>Element 2</name>
         <number>2</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -44,8 +44,8 @@
     <DetectorElement>
         <name>Element 3</name>
         <number>3</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -56,8 +56,8 @@
     <DetectorElement>
         <name>Element 4</name>
         <number>4</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -68,8 +68,8 @@
     <DetectorElement>
         <name>Element 5</name>
         <number>5</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -80,8 +80,8 @@
     <DetectorElement>
         <name>Element 6</name>
         <number>6</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -92,8 +92,8 @@
     <DetectorElement>
         <name>Element 7</name>
         <number>7</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -104,8 +104,8 @@
     <DetectorElement>
         <name>Element 8</name>
         <number>8</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -116,8 +116,8 @@
     <DetectorElement>
         <name>Element 9</name>
         <number>9</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -128,8 +128,8 @@
     <DetectorElement>
         <name>Element 10</name>
         <number>10</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -140,8 +140,8 @@
     <DetectorElement>
         <name>Element 11</name>
         <number>11</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -152,8 +152,8 @@
     <DetectorElement>
         <name>Element 12</name>
         <number>12</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -164,8 +164,8 @@
     <DetectorElement>
         <name>Element 13</name>
         <number>13</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -176,8 +176,8 @@
     <DetectorElement>
         <name>Element 14</name>
         <number>14</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -188,8 +188,8 @@
     <DetectorElement>
         <name>Element 15</name>
         <number>15</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -200,8 +200,8 @@
     <DetectorElement>
         <name>Element 16</name>
         <number>16</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -212,8 +212,8 @@
     <DetectorElement>
         <name>Element 17</name>
         <number>17</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -224,8 +224,8 @@
     <DetectorElement>
         <name>Element 18</name>
         <number>18</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -236,8 +236,8 @@
     <DetectorElement>
         <name>Element 19</name>
         <number>19</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -248,8 +248,8 @@
     <DetectorElement>
         <name>Element 20</name>
         <number>20</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -260,8 +260,8 @@
     <DetectorElement>
         <name>Element 21</name>
         <number>21</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -272,8 +272,8 @@
     <DetectorElement>
         <name>Element 22</name>
         <number>22</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -284,8 +284,8 @@
     <DetectorElement>
         <name>Element 23</name>
         <number>23</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -296,8 +296,8 @@
     <DetectorElement>
         <name>Element 24</name>
         <number>24</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -308,8 +308,8 @@
     <DetectorElement>
         <name>Element 25</name>
         <number>25</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -320,8 +320,8 @@
     <DetectorElement>
         <name>Element 26</name>
         <number>26</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -332,8 +332,8 @@
     <DetectorElement>
         <name>Element 27</name>
         <number>27</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -344,8 +344,8 @@
     <DetectorElement>
         <name>Element 28</name>
         <number>28</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -356,8 +356,8 @@
     <DetectorElement>
         <name>Element 29</name>
         <number>29</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -368,8 +368,8 @@
     <DetectorElement>
         <name>Element 30</name>
         <number>30</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -380,8 +380,8 @@
     <DetectorElement>
         <name>Element 31</name>
         <number>31</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -392,8 +392,8 @@
     <DetectorElement>
         <name>Element 32</name>
         <number>32</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -404,8 +404,8 @@
     <DetectorElement>
         <name>Element 33</name>
         <number>33</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -416,8 +416,8 @@
     <DetectorElement>
         <name>Element 34</name>
         <number>34</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -428,8 +428,8 @@
     <DetectorElement>
         <name>Element 35</name>
         <number>35</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -440,8 +440,8 @@
     <DetectorElement>
         <name>Element 36</name>
         <number>36</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -452,8 +452,8 @@
     <DetectorElement>
         <name>Element 37</name>
         <number>37</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -464,8 +464,8 @@
     <DetectorElement>
         <name>Element 38</name>
         <number>38</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -476,8 +476,8 @@
     <DetectorElement>
         <name>Element 39</name>
         <number>39</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -488,8 +488,8 @@
     <DetectorElement>
         <name>Element 40</name>
         <number>40</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -500,8 +500,8 @@
     <DetectorElement>
         <name>Element 41</name>
         <number>41</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -512,8 +512,8 @@
     <DetectorElement>
         <name>Element 42</name>
         <number>42</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -524,8 +524,8 @@
     <DetectorElement>
         <name>Element 43</name>
         <number>43</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -536,8 +536,8 @@
     <DetectorElement>
         <name>Element 44</name>
         <number>44</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -548,8 +548,8 @@
     <DetectorElement>
         <name>Element 45</name>
         <number>45</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -560,8 +560,8 @@
     <DetectorElement>
         <name>Element 46</name>
         <number>46</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -572,8 +572,8 @@
     <DetectorElement>
         <name>Element 47</name>
         <number>47</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -584,8 +584,8 @@
     <DetectorElement>
         <name>Element 48</name>
         <number>48</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -596,8 +596,8 @@
     <DetectorElement>
         <name>Element 49</name>
         <number>49</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -608,8 +608,8 @@
     <DetectorElement>
         <name>Element 50</name>
         <number>50</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -620,8 +620,8 @@
     <DetectorElement>
         <name>Element 51</name>
         <number>51</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -632,8 +632,8 @@
     <DetectorElement>
         <name>Element 52</name>
         <number>52</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -644,8 +644,8 @@
     <DetectorElement>
         <name>Element 53</name>
         <number>53</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -656,8 +656,8 @@
     <DetectorElement>
         <name>Element 54</name>
         <number>54</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -668,8 +668,8 @@
     <DetectorElement>
         <name>Element 55</name>
         <number>55</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -680,8 +680,8 @@
     <DetectorElement>
         <name>Element 56</name>
         <number>56</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -692,8 +692,8 @@
     <DetectorElement>
         <name>Element 57</name>
         <number>57</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -704,8 +704,8 @@
     <DetectorElement>
         <name>Element 58</name>
         <number>58</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -716,8 +716,8 @@
     <DetectorElement>
         <name>Element 59</name>
         <number>59</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -728,8 +728,8 @@
     <DetectorElement>
         <name>Element 60</name>
         <number>60</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -740,8 +740,8 @@
     <DetectorElement>
         <name>Element 61</name>
         <number>61</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -752,8 +752,8 @@
     <DetectorElement>
         <name>Element 62</name>
         <number>62</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -764,8 +764,8 @@
     <DetectorElement>
         <name>Element 63</name>
         <number>63</number>
-        <windowStart>728</windowStart>
-        <windowEnd>772</windowEnd>
+        <windowStart>725</windowStart>
+        <windowEnd>1330</windowEnd>
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
@@ -776,4 +776,5 @@
     <xspressOnlyShowFF>true</xspressOnlyShowFF>
     <xspressShowDTRawValues>true</xspressShowDTRawValues>
     <saveRawSpectrum>false</saveRawSpectrum>
+    <selectedRegionNumber>0</selectedRegionNumber>
 </XspressParameters>
