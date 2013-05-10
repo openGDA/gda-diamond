@@ -65,9 +65,6 @@ lrm4k=LinkamRampMaster4000("lrm4k",linkam)
 from installStandardScansWithProcessing import *
 scan_processor.rootNamespaceDict=globals()
 
-from redux import NcdRedux
-ncdredux = NcdRedux(ncddetectors)
-
 # preseed listener dispatcher
 finder.find("ncdlistener").monitorLive("Saxs Plot", "SAXS")
 finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
