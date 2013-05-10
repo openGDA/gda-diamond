@@ -287,11 +287,11 @@ public class BeamlineAlignmentView extends ViewPart {
 		txtWigglerTarget.setUnit("mm");
 		btnWigglerMove = new Button(motorGroup, SWT.NONE);
 		btnWigglerMove.setText("Move");
-		linkButtonToScannable(btnWigglerMove,"wigglerGap",txtWigglerTarget);
+		linkButtonToScannable(btnWigglerMove, "wigglerGap", txtWigglerTarget);
 		lblWigglerReadback = new Label(motorGroup, SWT.NONE);
 		lblWigglerReadback.setText("1.95 mm");
 		lblWigglerReadback.setLayoutData(readbackGD);
-		linkLabelToScannable(lblWigglerReadback,"wigglerGap");
+		linkLabelToScannable(lblWigglerReadback, "wigglerGap");
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Primary Slit HGap");
@@ -303,93 +303,93 @@ public class BeamlineAlignmentView extends ViewPart {
 		txtSlitTarget.setUnit("mrad");
 		btnSlitMove = new Button(motorGroup, SWT.NONE);
 		btnSlitMove.setText("Move");
-		linkButtonToScannable(btnSlitMove,"s1_hgap",txtSlitTarget);
+		linkButtonToScannable(btnSlitMove, "s1_hgap", txtSlitTarget);
 		lblSlitReadback = new Label(motorGroup, SWT.NONE);
 		lblSlitReadback.setText("25.50 mrad");
 		lblSlitReadback.setLayoutData(readbackGD);
-		linkLabelToScannable(lblSlitReadback,"s1_hgap");
+		linkLabelToScannable(lblSlitReadback, "s1_hgap");
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Attenuator 1");
 		lbl.setLayoutData(createLabelGridData());
 		cmbAtn1Target = new Combo(motorGroup, SWT.CENTER);
-//		cmbAtn1Target.setItems(AlignmentParametersBean.ATN1Values);
-		fillComboFromScannable(cmbAtn1Target,"atn1");
+		// cmbAtn1Target.setItems(AlignmentParametersBean.ATN1Values);
+		fillComboFromScannable(cmbAtn1Target, "atn1");
 		cmbAtn1Target.select(0);
-		cmbAtn1Target.setLayoutData(comboGD);		
+		cmbAtn1Target.setLayoutData(comboGD);
 		btnAtn1Move = new Button(motorGroup, SWT.NONE);
 		btnAtn1Move.setText("Move");
-		linkComboButtonToScannable(btnAtn1Move,"atn1",cmbAtn1Target);
+		linkComboButtonToScannable(btnAtn1Move, "atn1", cmbAtn1Target);
 		lblAtn1Readback = new Label(motorGroup, SWT.NONE);
 		lblAtn1Readback.setText(AlignmentParametersBean.ATN1Values[0]);
 		lblAtn1Readback.setLayoutData(readbackGD);
-		linkLabelToScannable(lblAtn1Readback,"atn1");
-		
+		linkLabelToScannable(lblAtn1Readback, "atn1");
+
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Attenuator 2");
 		lbl.setLayoutData(createLabelGridData());
 		cmbAtn2Target = new Combo(motorGroup, SWT.CENTER);
-//		cmbAtn2Target.setItems(AlignmentParametersBean.ATN2Values);
-		fillComboFromScannable(cmbAtn2Target,"atn2");
+		// cmbAtn2Target.setItems(AlignmentParametersBean.ATN2Values);
+		fillComboFromScannable(cmbAtn2Target, "atn2");
 		cmbAtn2Target.select(0);
 		cmbAtn2Target.setLayoutData(comboGD);
 		btnAtn2Move = new Button(motorGroup, SWT.NONE);
 		btnAtn2Move.setText("Move");
-		linkComboButtonToScannable(btnAtn2Move,"atn2",cmbAtn2Target);
+		linkComboButtonToScannable(btnAtn2Move, "atn2", cmbAtn2Target);
 		lblAtn2Readback = new Label(motorGroup, SWT.NONE);
 		lblAtn2Readback.setText(AlignmentParametersBean.ATN2Values[0]);
 		lblAtn2Readback.setLayoutData(readbackGD);
-		linkLabelToScannable(lblAtn2Readback,"atn2");
+		linkLabelToScannable(lblAtn2Readback, "atn2");
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Attenuator 3");
 		lbl.setLayoutData(createLabelGridData());
 		cmbAtn3Target = new Combo(motorGroup, SWT.CENTER);
-//		cmbAtn3Target.setItems(AlignmentParametersBean.ATN3Values);
-		fillComboFromScannable(cmbAtn3Target,"atn3");
+		// cmbAtn3Target.setItems(AlignmentParametersBean.ATN3Values);
+		fillComboFromScannable(cmbAtn3Target, "atn3");
 		cmbAtn3Target.select(0);
 		cmbAtn3Target.setLayoutData(comboGD);
 		btnAtn3Move = new Button(motorGroup, SWT.NONE);
 		btnAtn3Move.setText("Move");
-		linkComboButtonToScannable(btnAtn3Move,"atn3",cmbAtn3Target);
+		linkComboButtonToScannable(btnAtn3Move, "atn3", cmbAtn3Target);
 		lblAtn3Readback = new Label(motorGroup, SWT.NONE);
 		lblAtn3Readback.setText(AlignmentParametersBean.ATN3Values[0]);
 		lblAtn3Readback.setLayoutData(readbackGD);
-		linkLabelToScannable(lblAtn3Readback,"atn3");
+		linkLabelToScannable(lblAtn3Readback, "atn3");
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("ME1 Stripe");
 		lbl.setLayoutData(createLabelGridData());
 		cmbME1StripeTarget = new Combo(motorGroup, SWT.CENTER);
-//		cmbME1StripeTarget.setItems(new String[] { AlignmentParametersBean.ME1Stripe[0],
-//				AlignmentParametersBean.ME1Stripe[1] });
-		fillComboFromScannable(cmbME1StripeTarget,"me1_stripe");
+		// cmbME1StripeTarget.setItems(new String[] { AlignmentParametersBean.ME1Stripe[0],
+		// AlignmentParametersBean.ME1Stripe[1] });
+		fillComboFromScannable(cmbME1StripeTarget, "me1_stripe");
 		cmbME1StripeTarget.select(0);
 		cmbME1StripeTarget.setLayoutData(comboGD);
 		btnME1StripeMove = new Button(motorGroup, SWT.NONE);
 		btnME1StripeMove.setText("Move");
-		linkComboButtonToScannable(btnME1StripeMove,"me1_stripe",cmbME1StripeTarget);
+		linkComboButtonToScannable(btnME1StripeMove, "me1_stripe", cmbME1StripeTarget);
 		lblME1StripeReadback = new Label(motorGroup, SWT.NONE);
 		lblME1StripeReadback.setText(AlignmentParametersBean.ME1Stripe[0]);
 		lblME1StripeReadback.setLayoutData(readbackGD);
-		linkLabelToScannable(lblME1StripeReadback,"me1_stripe");
+		linkLabelToScannable(lblME1StripeReadback, "me1_stripe");
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("ME2 Stripe");
 		lbl.setLayoutData(createLabelGridData());
 		cmbME2StripeTarget = new Combo(motorGroup, SWT.CENTER);
-//		cmbME2StripeTarget.setItems(new String[] { AlignmentParametersBean.ME2Stripe[0],
-//				AlignmentParametersBean.ME2Stripe[1], AlignmentParametersBean.ME2Stripe[2] });
-		fillComboFromScannable(cmbME2StripeTarget,"me2_stripe");
+		// cmbME2StripeTarget.setItems(new String[] { AlignmentParametersBean.ME2Stripe[0],
+		// AlignmentParametersBean.ME2Stripe[1], AlignmentParametersBean.ME2Stripe[2] });
+		fillComboFromScannable(cmbME2StripeTarget, "me2_stripe");
 		cmbME2StripeTarget.select(0);
 		cmbME2StripeTarget.setLayoutData(comboGD);
 		btnME2StripeMove = new Button(motorGroup, SWT.NONE);
 		btnME2StripeMove.setText("Move");
-		linkComboButtonToScannable(btnME2StripeMove,"me2_stripe",cmbME2StripeTarget);
+		linkComboButtonToScannable(btnME2StripeMove, "me2_stripe", cmbME2StripeTarget);
 		lblME2StripeReadback = new Label(motorGroup, SWT.NONE);
 		lblME2StripeReadback.setText(AlignmentParametersBean.ME2Stripe[0]);
 		lblME2StripeReadback.setLayoutData(readbackGD);
-		linkLabelToScannable(lblME2StripeReadback,"me2_stripe");
+		linkLabelToScannable(lblME2StripeReadback, "me2_stripe");
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("ME2 Pitch");
@@ -401,13 +401,12 @@ public class BeamlineAlignmentView extends ViewPart {
 		txtME2PitchTarget.setUnit("mrad");
 		btnME2PitchMove = new Button(motorGroup, SWT.NONE);
 		btnME2PitchMove.setText("Move");
-		linkButtonToScannable(btnME2PitchMove,"me2pitch",txtME2PitchTarget);
+		linkButtonToScannable(btnME2PitchMove, "me2pitch", txtME2PitchTarget);
 		lblME2PitchReadback = new Label(motorGroup, SWT.NONE);
 		lblME2PitchReadback.setText("1.95 mrad");
 		lblME2PitchReadback.setLayoutData(readbackGD);
-		linkLabelToScannable(lblME2PitchReadback,"me2pitch");
+		linkLabelToScannable(lblME2PitchReadback, "me2pitch");
 
-		
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Poly Bend1");
 		lbl.setLayoutData(createLabelGridData());
@@ -418,13 +417,12 @@ public class BeamlineAlignmentView extends ViewPart {
 		txtPolyBendTarget.setUnit("mm");
 		btnPolyBendMove = new Button(motorGroup, SWT.NONE);
 		btnPolyBendMove.setText("Move");
-		linkButtonToScannable(btnPolyBendMove,"polybend1",txtPolyBendTarget);
+		linkButtonToScannable(btnPolyBendMove, "polybend1", txtPolyBendTarget);
 		lblPolyBendReadback = new Label(motorGroup, SWT.NONE);
 		lblPolyBendReadback.setText("20.00 mm");
 		lblPolyBendReadback.setLayoutData(readbackGD);
-		linkLabelToScannable(lblPolyBendReadback,"polybend1");
+		linkLabelToScannable(lblPolyBendReadback, "polybend1");
 
-		
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Poly Bend2");
 		lbl.setLayoutData(createLabelGridData());
@@ -435,11 +433,11 @@ public class BeamlineAlignmentView extends ViewPart {
 		txtPolyBendTarget2.setUnit("mm");
 		btnPolyBendMove2 = new Button(motorGroup, SWT.NONE);
 		btnPolyBendMove2.setText("Move");
-		linkButtonToScannable(btnPolyBendMove2,"polybend2",txtPolyBendTarget2);
+		linkButtonToScannable(btnPolyBendMove2, "polybend2", txtPolyBendTarget2);
 		lblPolyBendReadback2 = new Label(motorGroup, SWT.NONE);
 		lblPolyBendReadback2.setText("20.00 mm");
 		lblPolyBendReadback2.setLayoutData(readbackGD);
-		linkLabelToScannable(lblPolyBendReadback2,"polybend2");
+		linkLabelToScannable(lblPolyBendReadback2, "polybend2");
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Poly Bragg");
@@ -451,15 +449,50 @@ public class BeamlineAlignmentView extends ViewPart {
 		txtPolyThetaTarget.setUnit("deg");
 		btnPolyThetaMove = new Button(motorGroup, SWT.NONE);
 		btnPolyThetaMove.setText("Move");
-		linkButtonToScannable(btnPolyThetaMove,"polytheta",txtPolyThetaTarget);
+		linkButtonToScannable(btnPolyThetaMove, "polytheta", txtPolyThetaTarget);
 		lblPolyThetaReadback = new Label(motorGroup, SWT.NONE);
 		lblPolyThetaReadback.setText("60.00 deg");
 		lblPolyThetaReadback.setLayoutData(readbackGD);
-		linkLabelToScannable(lblPolyThetaReadback,"polytheta");
+		linkLabelToScannable(lblPolyThetaReadback, "polytheta");
 
 		btnSynchroniseThetas = new Button(motorGroup, SWT.CHECK);
-		btnSynchroniseThetas.setText("Match TwoTheta arm to Poly Theta value");
+		btnSynchroniseThetas.setText("Match TwoTheta arm to Poly Bragg value");
 		GridDataFactory.swtDefaults().span(4, 1).applyTo(btnSynchroniseThetas);
+		btnSynchroniseThetas.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean selected = btnSynchroniseThetas.getSelection();
+				txtThetaTarget.setEnabled(!selected);
+				btnThetaMove.setEnabled(!selected);
+			}
+		});
+		
+		btnPolyThetaMove.addSelectionListener(new SelectionAdapter() {
+
+			private Scannable theScannable;
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (btnSynchroniseThetas.getSelection()) {
+					// get value from the scalebox
+					Double target = txtPolyThetaTarget.getNumericValue();
+					target *= 2;
+
+					// get the scannable from finder
+					if (theScannable == null)
+						theScannable = Finder.getInstance().find("twotheta");
+
+					// move the scannable to the value
+					try {
+						if (theScannable != null)
+							theScannable.asynchronousMoveTo(target);
+					} catch (Exception e1) {
+						logger.error("Exception while moving twotheta to " + target + ": " + e1.getMessage(), e1);
+					}
+				}
+			}
+		});
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Two Theta");
@@ -471,11 +504,11 @@ public class BeamlineAlignmentView extends ViewPart {
 		txtThetaTarget.setUnit("deg");
 		btnThetaMove = new Button(motorGroup, SWT.NONE);
 		btnThetaMove.setText("Move");
-		linkButtonToScannable(btnThetaMove,"twotheta",txtThetaTarget);
+		linkButtonToScannable(btnThetaMove, "twotheta", txtThetaTarget);
 		lblThetaReadback = new Label(motorGroup, SWT.NONE);
 		lblThetaReadback.setText("60.00 deg");
 		lblThetaReadback.setLayoutData(readbackGD);
-		linkLabelToScannable(lblThetaReadback,"twotheta");
+		linkLabelToScannable(lblThetaReadback, "twotheta");
 
 		Group grpPowerEst = new Group(motorGroup, SWT.NONE);
 		GridDataFactory.swtDefaults().span(2, 2).applyTo(grpPowerEst);
