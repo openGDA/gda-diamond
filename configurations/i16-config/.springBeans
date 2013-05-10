@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.1.0.201210040510-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.0.0.201208090952-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -71,7 +71,6 @@
 		<config>servers/main/dummy/motor/sixcbase.xml</config>
 		<config>servers/main/live/epics/motor/sixcbase.xml</config>
 		<config>servers/main/common/scannable/motor/sixckappa.xml</config>
-		<config>servers/main/common/scannable/motor/sixckappaDC.xml</config>
 		<config>servers/main/common/scannable/motor/sixcsample.xml</config>
 		<config>servers/main/dummy/motor/sixcsample.xml</config>
 		<config>servers/main/live/epics/motor/sixcsample.xml</config>
