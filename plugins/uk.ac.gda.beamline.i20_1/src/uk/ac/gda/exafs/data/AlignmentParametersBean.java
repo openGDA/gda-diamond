@@ -59,16 +59,18 @@ public class AlignmentParametersBean implements Serializable {
 
 	// outputs
 	private Double wigglerGap = 18.5; // mm
-	private Double polyBend1 = 5.0; // mm
-	private Double polyBend2 = 5.0; // mm
+	private Double primarySlitGap = null; // mrad
 
 	private String me1stripe = null;
 	private String me2stripe = null;
+	private Double me2Pitch = null; // mrad
+	private Double polyBend1 = 5.0; // mm
+	private Double polyBend2 = 5.0; // mm
 	private Double braggAngle = null; // deg
-	private Double primarySlitGap = null; // mrad
 	private Double arm2Theta = null; // deg, 2*bragg [fixed]
 	private Double detectorDistance = null; // m
-	private Double me2Pitch = null; // mrad
+	private Double detectorHeight = null; // mm
+	private Double sampleHeight = null; // mm
 
 	private String atn1 = null;
 	private String atn2 = null;
@@ -242,6 +244,22 @@ public class AlignmentParametersBean implements Serializable {
 		this.power = power;
 	}
 
+	public Double getDetectorHeight() {
+		return detectorHeight;
+	}
+
+	public void setDetectorHeight(Double detectorHeight) {
+		this.detectorHeight = detectorHeight;
+	}
+
+	public Double getSampleHeight() {
+		return sampleHeight;
+	}
+
+	public void setSampleHeight(Double sampleHeight) {
+		this.sampleHeight = sampleHeight;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -255,6 +273,8 @@ public class AlignmentParametersBean implements Serializable {
 		result = prime * result + ((crystalType == null) ? 0 : crystalType.hashCode());
 		result = prime * result + ((detector == null) ? 0 : detector.hashCode());
 		result = prime * result + ((detectorDistance == null) ? 0 : detectorDistance.hashCode());
+		result = prime * result + ((detectorHeight == null) ? 0 : detectorHeight.hashCode());
+		result = prime * result + ((edge == null) ? 0 : edge.hashCode());
 		result = prime * result + ((me1stripe == null) ? 0 : me1stripe.hashCode());
 		result = prime * result + ((me2Pitch == null) ? 0 : me2Pitch.hashCode());
 		result = prime * result + ((me2stripe == null) ? 0 : me2stripe.hashCode());
@@ -263,6 +283,7 @@ public class AlignmentParametersBean implements Serializable {
 		result = prime * result + ((power == null) ? 0 : power.hashCode());
 		result = prime * result + ((primarySlitGap == null) ? 0 : primarySlitGap.hashCode());
 		result = prime * result + ((q == null) ? 0 : q.hashCode());
+		result = prime * result + ((sampleHeight == null) ? 0 : sampleHeight.hashCode());
 		result = prime * result + ((wigglerGap == null) ? 0 : wigglerGap.hashCode());
 		return result;
 	}
@@ -281,36 +302,70 @@ public class AlignmentParametersBean implements Serializable {
 				return false;
 		} else if (!arm2Theta.equals(other.arm2Theta))
 			return false;
-		if (atn1 != other.atn1)
+		if (atn1 == null) {
+			if (other.atn1 != null)
+				return false;
+		} else if (!atn1.equals(other.atn1))
 			return false;
-		if (atn2 != other.atn2)
+		if (atn2 == null) {
+			if (other.atn2 != null)
+				return false;
+		} else if (!atn2.equals(other.atn2))
 			return false;
-		if (atn3 != other.atn3)
+		if (atn3 == null) {
+			if (other.atn3 != null)
+				return false;
+		} else if (!atn3.equals(other.atn3))
 			return false;
 		if (braggAngle == null) {
 			if (other.braggAngle != null)
 				return false;
 		} else if (!braggAngle.equals(other.braggAngle))
 			return false;
-		if (crystalCut != other.crystalCut)
+		if (crystalCut == null) {
+			if (other.crystalCut != null)
+				return false;
+		} else if (!crystalCut.equals(other.crystalCut))
 			return false;
-		if (crystalType != other.crystalType)
+		if (crystalType == null) {
+			if (other.crystalType != null)
+				return false;
+		} else if (!crystalType.equals(other.crystalType))
 			return false;
-		if (detector != other.detector)
+		if (detector == null) {
+			if (other.detector != null)
+				return false;
+		} else if (!detector.equals(other.detector))
 			return false;
 		if (detectorDistance == null) {
 			if (other.detectorDistance != null)
 				return false;
 		} else if (!detectorDistance.equals(other.detectorDistance))
 			return false;
-		if (me1stripe != other.me1stripe)
+		if (detectorHeight == null) {
+			if (other.detectorHeight != null)
+				return false;
+		} else if (!detectorHeight.equals(other.detectorHeight))
+			return false;
+		if (edge == null) {
+			if (other.edge != null)
+				return false;
+		} else if (!edge.equals(other.edge))
+			return false;
+		if (me1stripe == null) {
+			if (other.me1stripe != null)
+				return false;
+		} else if (!me1stripe.equals(other.me1stripe))
 			return false;
 		if (me2Pitch == null) {
 			if (other.me2Pitch != null)
 				return false;
 		} else if (!me2Pitch.equals(other.me2Pitch))
 			return false;
-		if (me2stripe != other.me2stripe)
+		if (me2stripe == null) {
+			if (other.me2stripe != null)
+				return false;
+		} else if (!me2stripe.equals(other.me2stripe))
 			return false;
 		if (polyBend1 == null) {
 			if (other.polyBend1 != null)
@@ -337,6 +392,11 @@ public class AlignmentParametersBean implements Serializable {
 				return false;
 		} else if (!q.equals(other.q))
 			return false;
+		if (sampleHeight == null) {
+			if (other.sampleHeight != null)
+				return false;
+		} else if (!sampleHeight.equals(other.sampleHeight))
+			return false;
 		if (wigglerGap == null) {
 			if (other.wigglerGap != null)
 				return false;
@@ -344,5 +404,4 @@ public class AlignmentParametersBean implements Serializable {
 			return false;
 		return true;
 	}
-
 }

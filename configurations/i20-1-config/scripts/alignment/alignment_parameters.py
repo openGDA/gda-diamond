@@ -24,7 +24,7 @@ def calc_parameters(parametersBean):
     parametersBean = _calDetDistance(parametersBean)
     
     parametersBean = _calcPower(parametersBean)
-    
+
     return parametersBean
 
 def _calcEnergy(parametersBean):
@@ -188,6 +188,11 @@ def _calDetDistance(parametersBean):
     
     parametersBean.setDetectorDistance(det_dist_m)
     
+    # TODO beam is going upwards at an angle of 6mrad, so based on
+    # detector and sample z values, their height needs to be calculated 
+    parametersBean.setDetectorHeight(0.0)
+    parametersBean.setSampleHeight(0.0)
+
     return parametersBean
     
 def _calcPower(parametersBean):
