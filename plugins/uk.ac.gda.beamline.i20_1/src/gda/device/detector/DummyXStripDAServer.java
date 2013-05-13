@@ -120,7 +120,11 @@ public class DummyXStripDAServer extends DummyDAServer {
 			fail = true;
 			return 0;
 		} else if (command.contains("xstrip timing open")) {
-			// not sure if this is the correct command, based this on other detectors
+			// handle to the timing readback
+			handles.put(++key, "xstrip");
+			rc = (fail) ? -1 : key;
+		} else if (command.startsWith("xstrip open")) {
+			// data handle
 			handles.put(++key, "xstrip");
 			rc = (fail) ? -1 : key;
 		} else if (command.startsWith("close")) {

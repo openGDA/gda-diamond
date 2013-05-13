@@ -99,10 +99,10 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		try {
 			if (getTemplateFileName() == null || getTemplateFileName().isEmpty()) {
 				logger.error("template filename needs to be set.");
-			}
-
-			nextScan = (EdeScanParameters) XMLHelpers.createFromXML(EdeScanParameters.mappingURL,
+			} else {
+				nextScan = (EdeScanParameters) XMLHelpers.createFromXML(EdeScanParameters.mappingURL,
 					EdeScanParameters.class, EdeScanParameters.schemaURL, getTemplateFileName());
+			}
 		} catch (Exception e) {
 			logger.error("Exception trying to read scan parameters into " + getName()
 					+ " detector. Detector will not collect data correctly." + e.getMessage(), e);
@@ -150,7 +150,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 				if (dataHandle < 0) {
 					throw new DeviceException("Failed to create the timing readback handle");
 				}
-				logger.info("open() using timingReadbackHandle " + dataHandle);
+				logger.info("open() using data handle " + dataHandle);
 			}
 		}
 	}
