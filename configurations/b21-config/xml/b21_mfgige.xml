@@ -4,9 +4,11 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	<description>
 		There are 3 ways of configure EPICS access:
-		1. use Java content objects provided by epics-x.x.x.jar to specify
+		1. use Java content objects
+		provided by epics-x.x.x.jar to specify
 		'deviceName' property;
-		e.g. <!-- property name="deviceName" value="pilad.cam_ADBase"/ -->
+		e.g. <!-- property 
+			name="deviceName" value="pilad.cam_ADBase"/ -->
 		2. set pvProvider property which in turn uses XMLPVProvider bean to
 		specify 'deviceName' property;
 		e.g. <!-- property name="pvProvider"> <bean 
@@ -14,7 +16,8 @@
 			value="pilad.cam_ADBase" /> </bean> </property -->
 		3. set base PV name property with field or sub-element being coded in
 		Java classes.
-		e.g. <!-- property name="basePVName" value="BL12I-EA-DET-05:PIX:" / -->
+		e.g. <!-- property name="basePVName" value="BL12I-EA-DET-05:PIX:" 
+			/ -->
 	</description>
 
 	<bean id="mfgige_ad" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
@@ -29,8 +32,8 @@
 				<property name="basePVName" value="BL22I-DI-PHDGN-13:ARR:" />
 			</bean>
 		</property>
-	</bean>	
-	
+	</bean>
+
 	<bean id="mfgige" class="uk.ac.gda.server.ncd.camera.ADCameraDetector">
 		<property name="basePVName" value="BL22I-DI-PHDGN-13:" />
 		<property name="areaDetector" ref="mfgige_ad" />
