@@ -112,16 +112,26 @@
 		<property name="lowerGdaLimits" value="0" />
 		<property name="upperGdaLimits" value="10" />
 	</bean>
-	
+
 	<bean id="filterwheel" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>Filter 1</value>
-				<value>Filter 2</value>
-				<value>Filter 3</value>
-				<value>Filter 4</value>
-				<value>Filter 5</value>
-				<value>Filter 6</value>
+				<value>Empty</value>
+				<value>Mn 5um</value>
+				<value> Fe 5um</value>
+				<value> Co 5um</value>
+				<value> Ni 5um</value>
+				<value> Cu 5um</value>
+				<value> Zn 5um</value>
+				<value> Zr 20um</value>
+				<value> Pb 10um</value>
+				<value> Rh (empty)</value>
+				<value> Pd 25um</value>
+				<value> Ag (empty)</value>
+				<value> Cd 25um</value>
+				<value>W 4um</value>
+				<value> Pt 5um</value>
+				<value> User</value>
 			</list>
 		</property>
 	</bean>
