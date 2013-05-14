@@ -874,6 +874,61 @@
 		<M7NAME desc="motor record pv for m7" pv="BL18I-MO-TABLE-01:TRAJ1:M7NAME" ro="true" type="pv"/>
 		<M8NAME desc="motor record pv for m8" pv="BL18I-MO-TABLE-01:TRAJ1:M8NAME" ro="true" type="pv"/>
 	</trajectoryScan>
+	
+	<trajectoryScan desc="T3 Trajectory Scan" name="TRAJ3">
+		<NELM desc="# of elements in trajectory" pv="BL18I-MO-TABLE-03:TRAJ1:Nelements" ro="false" type="pv"/>
+		<NPULSES desc="number of output pulses" pv="BL18I-MO-TABLE-03:TRAJ1:Npulses" ro="false" type="pv"/>
+		<SPULSES desc="element # to start pulses" pv="BL18I-MO-TABLE-03:TRAJ1:StartPulses" ro="false" type="pv"/>
+		<EPULSES desc="element # to end pulses" pv="BL18I-MO-TABLE-03:TRAJ1:EndPulses" ro="false" type="pv"/>
+		<APULSES desc="actual # of output pulses" pv="BL18I-MO-TABLE-03:TRAJ1:Nactual" ro="true" type="pv"/>
+		<TIME desc="trajectory time" pv="BL18I-MO-TABLE-03:TRAJ1:Time" ro="false" type="pv"/>
+		<M1MOVE desc="move m1 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M1Move" ro="false" type="binary"/>
+		<M2MOVE desc="move m2 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M2Move" ro="false" type="binary"/>
+		<M3MOVE desc="move m3 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M3Move" ro="false" type="binary"/>
+		<M4MOVE desc="move m4 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M4Move" ro="false" type="binary"/>
+		<M5MOVE desc="move m5 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M5Move" ro="false" type="binary"/>
+		<M6MOVE desc="move m6 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M6Move" ro="false" type="binary"/>
+		<M7MOVE desc="move m7 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M7Move" ro="false" type="binary"/>
+		<M8MOVE desc="move m8 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M8Move" ro="false" type="binary"/>
+		<M1TRAJ desc="m1 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M1Traj" ro="false" type="array"/>
+		<M2TRAJ desc="m2 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M2Traj" ro="false" type="array"/>
+		<M3TRAJ desc="m3 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M3Traj" ro="false" type="array"/>
+		<M4TRAJ desc="m4 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M4Traj" ro="false" type="array"/>
+		<M5TRAJ desc="m5 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M5Traj" ro="false" type="array"/>
+		<M6TRAJ desc="m6 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M6Traj" ro="false" type="array"/>
+		<M7TRAJ desc="m7 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M7Traj" ro="false" type="array"/>
+		<M8TRAJ desc="m8 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M8Traj" ro="false" type="array"/>
+		<BUILD desc="build and check trajectory" pv="BL18I-MO-TABLE-03:TRAJ1:Build" ro="false" type="pv"/>
+		<BSTATE desc="trajectory build state" pv="BL18I-MO-TABLE-03:TRAJ1:BuildState" ro="true" type="mbbinary"/>
+		<BSTATUS desc="trajectory build status" pv="BL18I-MO-TABLE-03:TRAJ1:BuildStatus" ro="true" type="mbbinary"/>
+		<BMESS desc="trajectory build message" pv="BL18I-MO-TABLE-03:TRAJ1:BuildMessage" ro="true" type="pv"/>
+		<EXECUTE desc="start trajectory motion" pv="BL18I-MO-TABLE-03:TRAJ1:Execute" ro="false" type="pv"/>
+		<ESTATE desc="trajectory execute state" pv="BL18I-MO-TABLE-03:TRAJ1:ExecState" ro="true" type="mbbinary"/>
+		<ESTATUS desc="trajectory execute status" pv="BL18I-MO-TABLE-03:TRAJ1:ExecStatus" ro="true" type="mbbinary"/>
+		<EMESS desc="trajectory execute message" pv="BL18I-MO-TABLE-03:TRAJ1:ExecMessage" ro="true" type="pv"/>
+		<ABORT desc="abort trajectory motion" pv="BL18I-MO-TABLE-03:TRAJ1:Abort" ro="false" type="pv"/>
+		<READ desc="read back actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:Readback" ro="false" type="pv"/>
+		<RSTATE desc="readback state" pv="BL18I-MO-TABLE-03:TRAJ1:ReadState" ro="true" type="mbbinary"/>
+		<RSTATUS desc="readback status" pv="BL18I-MO-TABLE-03:TRAJ1:ReadStatus" ro="true" type="mbbinary"/>
+		<RMESS desc="trajectory read message" pv="BL18I-MO-TABLE-03:TRAJ1:ReadMessage" ro="true" type="pv"/>
+		<M1ACTUAL desc="m1 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M1Actual" ro="true" type="array"/>
+		<M2ACTUAL desc="m2 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M2Actual" ro="true" type="array"/>
+		<M3ACTUAL desc="m3 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M3Actual" ro="true" type="array"/>
+		<M4ACTUAL desc="m4 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M4Actual" ro="true" type="array"/>
+		<M5ACTUAL desc="m5 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M5Actual" ro="true" type="array"/>
+		<M6ACTUAL desc="m6 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M6Actual" ro="true" type="array"/>
+		<M7ACTUAL desc="m7 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M7Actual" ro="true" type="array"/>
+		<M8ACTUAL desc="m8 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M8Actual" ro="true" type="array"/>
+		<M1NAME desc="motor record pv for m1" pv="BL18I-MO-TABLE-03:TRAJ1:M1NAME" ro="true" type="pv"/>
+		<M2NAME desc="motor record pv for m2" pv="BL18I-MO-TABLE-03:TRAJ1:M2NAME" ro="true" type="pv"/>
+		<M3NAME desc="motor record pv for m3" pv="BL18I-MO-TABLE-03:TRAJ1:M3NAME" ro="true" type="pv"/>
+		<M4NAME desc="motor record pv for m4" pv="BL18I-MO-TABLE-03:TRAJ1:M4NAME" ro="true" type="pv"/>
+		<M5NAME desc="motor record pv for m5" pv="BL18I-MO-TABLE-03:TRAJ1:M5NAME" ro="true" type="pv"/>
+		<M6NAME desc="motor record pv for m6" pv="BL18I-MO-TABLE-03:TRAJ1:M6NAME" ro="true" type="pv"/>
+		<M7NAME desc="motor record pv for m7" pv="BL18I-MO-TABLE-03:TRAJ1:M7NAME" ro="true" type="pv"/>
+		<M8NAME desc="motor record pv for m8" pv="BL18I-MO-TABLE-03:TRAJ1:M8NAME" ro="true" type="pv"/>
+	</trajectoryScan>
+	
 	<simpleMotor desc="ANC1 X" name="ANC1.X">
 		<RECORD desc="Motor" pv="BL18I-MO-ANC-01:X" ro="false" type="motor"/>
 	</simpleMotor>

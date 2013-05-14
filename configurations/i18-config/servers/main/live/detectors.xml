@@ -126,13 +126,6 @@
 		<property name="sumAllElementData" value="true" />
 	</bean>
 
-	<bean id="HTXmapMca" class="gda.device.detector.xmap.HardwareTriggeredNexusXmapImpl">
-		<property name="hardwareTriggerProvider" ref="xpsTrajController" />
-		<property name="xmap" ref="xmapMca" />
-		<property name="controller" ref="edxdcontroller" />
-		<property name="daServer" ref="daserver" />
-	</bean>
-
 	<bean id="counterTimer03" class="gda.device.detector.countertimer.TfgXmap">
 		<property name="xmap" ref="xmapMca" />
 		<property name="timer" ref="tfg" />
@@ -145,7 +138,7 @@
 		<property name="xmap" ref="xmapMca" />
 		<property name="controller" ref="edxdcontroller">
 		</property>
-		<property name="daServer" ref="daserver"></property>
+		<property name="daServer" ref="daserver" />
 		<property name="local" value="true" />
 		<property name="capturepv" value="BL18I-EA-DET-04:HDF:Capture" />
 	</bean>
@@ -178,36 +171,6 @@
 		</property>
 	</bean>
 	
-	<bean id="HTScaler"
-		class="gda.device.detector.countertimer.TFGTriggeredScaler">
-		<property name="extraNames">
-			<list>
-				<value>liveTime</value>
-				<value>I0</value>
-				<value>It</value>
-				<value>Iother</value>
-			</list>
-		</property>
-		<property name="scaler" ref="CalMemory" />
-		<property name="timer" ref="tfg" />
-		<property name="timeChannelRequired" value="true" />
-		<property name="darkCurrentRequired" value="false" />
-		<property name="outputLogValues" value="false" />
-		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="4" />
-		<property name="daserver" ref="daserver" />
-		<property name="outputFormat">
-			<list>
-				<value>%6.4g</value>
-				<value>%6.4g</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-			</list>
-		</property>
-		<property name="hardwareTriggerProvider" ref="xpsTrajController" />
-	</bean>
-
 	<bean id="photonccd" class="gda.device.detector.IPPserver">
 		<property name="outputFolderRoot" value="x:/data/2012/cm5712-5/xrd/" />
 		<property name="fileNameRoot" value="i18-" />
@@ -242,39 +205,39 @@
 		</property>
 	</bean>
 
-	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
-		<property name="extraNames">
-			<list>
-				<!-- <value>liveTime</value> -->
-				<value>I0</value>
-				<value>It</value>
-				<value>Iother</value>
-				<!-- <value>lnI0It</value> -->
-				<!-- <value>lnItIref</value> -->
-			</list>
-		</property>
-		<property name="scaler" ref="CalMemory" />
-		<property name="timer" ref="tfg" />
-		<property name="daserver" ref="daserver" />
-		<property name="timeChannelRequired" value="true" />
-		<property name="darkCurrentRequired" value="false" />
-		<property name="outputLogValues" value="false" />
-		<property name="TFGv2" value="true" />
-		<property name="outputFormat">
-			<list>
-				<!-- <value>%6.4g</value> -->
-				<value>%6.4g</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<!-- <value>%.6g</value> -->
-				<!-- <value>%.6g</value> -->
-			</list>
-		</property>
-	</bean>
+<!-- 	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler"> -->
+<!-- 		<property name="extraNames"> -->
+<!-- 			<list> -->
+<!-- 				<value>liveTime</value> -->
+<!-- 				<value>I0</value> -->
+<!-- 				<value>It</value> -->
+<!-- 				<value>Iother</value> -->
+<!-- 				<value>lnI0It</value> -->
+<!-- 				<value>lnItIref</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 		<property name="scaler" ref="CalMemory" /> -->
+<!-- 		<property name="timer" ref="tfg" /> -->
+<!-- 		<property name="daserver" ref="daserver" /> -->
+<!-- 		<property name="timeChannelRequired" value="true" /> -->
+<!-- 		<property name="darkCurrentRequired" value="false" /> -->
+<!-- 		<property name="outputLogValues" value="false" /> -->
+<!-- 		<property name="TFGv2" value="true" /> -->
+<!-- 		<property name="outputFormat"> -->
+<!-- 			<list> -->
+<!-- 				<value>%6.4g</value> -->
+<!-- 				<value>%6.4g</value> -->
+<!-- 				<value>%9d</value> -->
+<!-- 				<value>%9d</value> -->
+<!-- 				<value>%9d</value> -->
+<!-- 				<value>%.6g</value> -->
+<!-- 				<value>%.6g</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 
-	<bean id="QexafsFFI0" class="gda.device.detector.QexafsFFoverIO">
-		<property name="qexafsXspress" ref="qexafs_xspress" />
-		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-	</bean>
+<!-- 	<bean id="QexafsFFI0" class="gda.device.detector.QexafsFFoverIO"> -->
+<!-- 		<property name="qexafsXspress" ref="qexafs_xspress" /> -->
+<!-- 		<property name="qexafsScaler" ref="qexafs_counterTimer01" /> -->
+<!-- 	</bean> -->
 </beans>

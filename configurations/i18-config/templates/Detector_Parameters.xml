@@ -30,24 +30,15 @@
             <deviceName>counterTimer01</deviceName>
             <channel>1</channel>
             <currentAmplifierName>Stanford01</currentAmplifierName>
-            <gain>1 nA/V</gain>
+            <gain>10^3 V/A</gain>
             <useGasProperties>false</useGasProperties>
-            
         </ionChamber>
         <ionChamber>
             <name>It</name>
             <deviceName>counterTimer01</deviceName>
             <channel>2</channel>
             <currentAmplifierName>Stanford02</currentAmplifierName>
-            <gain>1 nA/V</gain>
-            <useGasProperties>false</useGasProperties>            
-        </ionChamber>
-        <ionChamber>
-            <name>Iother</name>
-            <deviceName>counterTimer01</deviceName>
-            <channel>3</channel>
-            <currentAmplifierName>Stanford03</currentAmplifierName>
-            <gain>1 nA/V</gain>
+            <gain>10^3 V/A</gain>
             <useGasProperties>false</useGasProperties>            
         </ionChamber>
     </transmission>
@@ -59,7 +50,7 @@
             <deviceName>counterTimer01</deviceName>
             <channel>1</channel>
             <currentAmplifierName>Stanford01</currentAmplifierName>
-            <gain>1 nA/V</gain>
+            <gain>10^3 V/A</gain>
             <useGasProperties>false</useGasProperties>           
         </ionChamber>
         <ionChamber>
@@ -67,16 +58,8 @@
             <deviceName>counterTimer01</deviceName>
             <channel>2</channel>
             <currentAmplifierName>Stanford02</currentAmplifierName>
-            <gain>1 nA/V</gain>
+            <gain>10^3 V/A</gain>
             <useGasProperties>false</useGasProperties>
-        </ionChamber>
-        <ionChamber>
-            <name>Iref</name>
-            <deviceName>counterTimer01</deviceName>
-            <channel>3</channel>
-            <currentAmplifierName>Stanford03</currentAmplifierName>
-            <gain>1 nA/V</gain>
-             <useGasProperties>false</useGasProperties>
         </ionChamber>
     </fluorescence>
 </DetectorParameters>
