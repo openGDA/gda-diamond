@@ -11,8 +11,8 @@
   </property>
   <property type="sds.integer" id="position.x" value="0" />
   <property type="sds.integer" id="position.y" value="0" />
-  <property type="sds.integer" id="width" value="1200" />
-  <property type="sds.integer" id="height" value="600" />
+  <property type="sds.integer" id="width" value="1920" />
+  <property type="sds.integer" id="height" value="1200" />
   <property type="sds.color" id="color.foreground">
     <color hex="#000000" />
   </property>
