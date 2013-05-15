@@ -99,7 +99,7 @@ public class Utilities {
 		return micronToXYZMove(h, v, b, omega, axisOrientationMatrix, omegaDirection, allowBeamAxisMovement, gonioOnLeftOfImage);
 	}
 	
-	static boolean isGonioOnLeftOfImage() {
+	public static boolean isGonioOnLeftOfImage() {
 		// Get the direction of the z axis wrt the horizontal movement when viewed from the image's viewpoint (this
 		// depends on the camera oreintation wrt the z-axis). It must be assumed that otherwise, the camera views in
 		// the beam vector and its image edges are parallel to the microglide axes)
