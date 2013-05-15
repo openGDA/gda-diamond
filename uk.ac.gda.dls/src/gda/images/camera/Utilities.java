@@ -68,6 +68,23 @@ public class Utilities {
 		ANTICLOCKWISE
 	}
 	
+	public static RealMatrix createMatrixFromProperty(String propName) {
+		
+		String propValue = LocalProperties.get(propName);
+		
+		// workaround for GDA-2492 - can't use commas in property values
+		propValue = propValue.replace(";", ",");
+		
+		RealMatrixPropertyEditor mpe = new RealMatrixPropertyEditor();
+		mpe.setAsText(propValue);
+		RealMatrix axisOrientationMatrix = mpe.getValue();
+		if (axisOrientationMatrix.getRowDimension() != 3 || axisOrientationMatrix.getColumnDimension() != 3) {
+			throw new IllegalArgumentException("Axis orientation matrix is not 3×3: " + axisOrientationMatrix);
+		}
+		
+		return axisOrientationMatrix;
+	}
+	
 	/**
 	 * @param h horizontal movement
 	 * @param v vertical movement
@@ -77,19 +94,10 @@ public class Utilities {
 	 * @return beamline-specific movement
 	 */
 	public static double[] micronToXYZMove(double h, double v, double b, double omega) {
-		String orientationMatrixProperty = LocalProperties.get(LocalProperties.GDA_PX_SAMPLE_CONTROL_AXIS_ORIENTATION);
 		final String omegaDirectionProperty = LocalProperties.get(LocalProperties.GDA_PX_SAMPLE_CONTROL_OMEGA_DIRECTION);
 		boolean allowBeamAxisMovement = LocalProperties.check(LocalProperties.GDA_PX_SAMPLE_CONTROL_ALLOW_BEAM_AXIS_MOVEMENT);
 		
-		// workaround for GDA-2492 - can't use commas in property values
-		orientationMatrixProperty = orientationMatrixProperty.replace(";", ",");
-		
-		RealMatrixPropertyEditor mpe = new RealMatrixPropertyEditor();
-		mpe.setAsText(orientationMatrixProperty);
-		RealMatrix axisOrientationMatrix = mpe.getValue();
-		if (axisOrientationMatrix.getRowDimension() != 3 || axisOrientationMatrix.getColumnDimension() != 3) {
-			throw new IllegalArgumentException("Axis orientation matrix is not 3×3: " + axisOrientationMatrix);
-		}
+		RealMatrix axisOrientationMatrix = createMatrixFromProperty(LocalProperties.GDA_PX_SAMPLE_CONTROL_AXIS_ORIENTATION);
 		
 		boolean omegaPositiveIsAnticlockwise = omegaDirectionProperty.equalsIgnoreCase("anticlockwise");
 		OmegaDirection omegaDirection = omegaPositiveIsAnticlockwise ? OmegaDirection.ANTICLOCKWISE : OmegaDirection.CLOCKWISE;
