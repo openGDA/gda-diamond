@@ -161,4 +161,27 @@
 		</property>
 	</bean>
 
+<!-- rmi exports -->
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/polybend1" />
+		<property name="service" ref="polybend1" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>  
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/polybend2" />
+		<property name="service" ref="polybend2" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>  
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/polycurve" />
+		<property name="service" ref="polycurve" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>  
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/polyyellip" />
+		<property name="service" ref="polyyellip" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>  
+
 </beans>
