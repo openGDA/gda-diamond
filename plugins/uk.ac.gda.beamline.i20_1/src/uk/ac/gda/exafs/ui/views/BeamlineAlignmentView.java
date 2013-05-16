@@ -243,23 +243,6 @@ public class BeamlineAlignmentView extends ViewPart {
 		lblDetHeightReadback.setText("1.95 mm");
 		lblDetHeightReadback.setLayoutData(readbackGD);
 		linkLabelToScannable(lblDetHeightReadback,"detector_y");
-		
-		Group grpBandWidthEst = new Group(motorGroup, SWT.NONE);
-		GridDataFactory.swtDefaults().span(2, 2).applyTo(grpBandWidthEst);
-		GridLayout subPanelLayout = new GridLayout();
-		subPanelLayout.numColumns = 2;
-		grpBandWidthEst.setLayout(subPanelLayout);
-
-		lbl = new Label(grpBandWidthEst, SWT.NONE);
-		lbl.setText("Predicted bandwidth\n on detector");
-		lbl.setLayoutData(createLabelGridData());
-
-		lbl = new Label(grpBandWidthEst, SWT.NONE);
-		lbl.setText("750eV");
-		lbl.setForeground(PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_RED));
-
-		grpBandWidthEst.pack(); // pack now to get the right size before the rest of the view is packed.
-
 	}
 
 	private void createMotorControls(Composite parent) {
