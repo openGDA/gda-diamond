@@ -137,7 +137,7 @@ public class XHControlComposite extends Composite implements IObserver {
 	private void createSnapShotGroup() {
 		snapshotgroup = new Group(contents, SWT.BORDER);
 		snapshotgroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		snapshotgroup.setLayout(new GridLayout(2, false));
+		snapshotgroup.setLayout(new GridLayout(3, false));
 		snapshotgroup.setText("Single Spectrum (snapshot) time settings");
 
 		Label lbl = new Label(snapshotgroup, SWT.NONE);
@@ -176,6 +176,9 @@ public class XHControlComposite extends Composite implements IObserver {
 				}
 			}
 		});
+		lbl = new Label(snapshotgroup, SWT.NONE);
+		lbl.setText("ms");
+		lbl.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 
 		lbl = new Label(snapshotgroup, SWT.NONE);
 		lbl.setText("Scans per frame");
@@ -211,12 +214,15 @@ public class XHControlComposite extends Composite implements IObserver {
 				}
 			}
 		});
+		lbl = new Label(snapshotgroup, SWT.NONE);
+		lbl.setText("s");
+		lbl.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 	}
 
 	private void createTimesGroup() {
 		timesgroup = new Group(contents, SWT.BORDER);
 		timesgroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		timesgroup.setLayout(new GridLayout(2, false));
+		timesgroup.setLayout(new GridLayout(3, false));
 		timesgroup.setText("Live Mode time settings");
 
 		Label lbl = new Label(timesgroup, SWT.NONE);
@@ -255,6 +261,9 @@ public class XHControlComposite extends Composite implements IObserver {
 				}
 			}
 		});
+		lbl = new Label(timesgroup, SWT.NONE);
+		lbl.setText("ms");
+		lbl.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 
 		lbl = new Label(timesgroup, SWT.NONE);
 		lbl.setText("Refresh Period");
@@ -291,6 +300,10 @@ public class XHControlComposite extends Composite implements IObserver {
 				}
 			}
 		});
+		lbl = new Label(timesgroup, SWT.NONE);
+		lbl.setText("s");
+		lbl.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+
 	}
 
 	private XHROI[] getROI() throws DeviceException {
@@ -343,11 +356,11 @@ public class XHControlComposite extends Composite implements IObserver {
 			@Override
 			public void run() {
 				try {
-					final Integer snapshotIntTime = Activator.getDefault().getPreferenceStore()
+					final Integer snapshotIntTime_ms = Activator.getDefault().getPreferenceStore()
 							.getInt(I20_1PreferenceInitializer.SNAPSHOTTIME);
 					final Integer numScans = Activator.getDefault().getPreferenceStore()
 							.getInt(I20_1PreferenceInitializer.SCANSPERFRAME);
-					collectAndPlotSnapshot(true, snapshotIntTime, numScans, snapshotIntTime + "s Snapshot");
+					collectAndPlotSnapshot(true, snapshotIntTime_ms, numScans, snapshotIntTime_ms + "ms Snapshot");
 				} catch (Exception e) {
 					logger.error("Error trying to collect detector snapshot", e);
 				}
@@ -366,8 +379,8 @@ public class XHControlComposite extends Composite implements IObserver {
 		group1.setDelayBetweenFrames(0);
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(numberScans);
-		group1.setTimePerScan(collectionPeriod);
-		group1.setTimePerFrame(collectionPeriod);
+		group1.setTimePerScan(collectionPeriod / 1000);
+		group1.setTimePerFrame(collectionPeriod / 1000);
 		simpleParams.addGroup(group1);
 
 		getDetector().setAttribute(XHDetector.ATTR_LOADPARAMETERS, simpleParams);
@@ -378,8 +391,10 @@ public class XHControlComposite extends Composite implements IObserver {
 	/**
 	 * Collects a single frame of data and plots it.
 	 * 
-	 * @param writeData
-	 *            - writes a file of the data
+	 * @param writeData - writes a file of the data
+	 * @param collectionPeriod - ms
+	 * @param numberScans
+	 * @param title
 	 * @return double values from the detector - the FF and sector totals
 	 */
 	public static Double[] collectAndPlotSnapshot(boolean writeData, Integer collectionPeriod, Integer numberScans,
@@ -453,6 +468,10 @@ public class XHControlComposite extends Composite implements IObserver {
 			stop.setEnabled(true);
 			snapshot.setEnabled(false);
 			snapshotAndSave.setEnabled(false);
+			txtLiveTime.setEnabled(false);
+			txtNumScansPerFrame.setEnabled(false);
+			txtRefreshPeriod.setEnabled(false);
+			txtSnapTime.setEnabled(false);
 			liveLoop = uk.ac.gda.util.ThreadManager.getThread(new Runnable() {
 				@Override
 				public void run() {
@@ -467,10 +486,10 @@ public class XHControlComposite extends Composite implements IObserver {
 							final Integer refreshPeriod_s = Activator.getDefault().getPreferenceStore()
 									.getInt(I20_1PreferenceInitializer.REFRESHRATE);
 
-							final Integer collectionPeriod = Activator.getDefault().getPreferenceStore()
+							final Integer collectionPeriod_ms = Activator.getDefault().getPreferenceStore()
 									.getInt(I20_1PreferenceInitializer.LIVEMODETIME);
-							final Double[] results = collectAndPlotSnapshot(false, collectionPeriod, 1,
-									"Live reading (" + collectionPeriod + "s integration, every " + refreshPeriod_s
+							final Double[] results = collectAndPlotSnapshot(false, collectionPeriod_ms, 1,
+									"Live reading (" + collectionPeriod_ms + "ms integration, every " + refreshPeriod_s
 											+ " s)");
 
 							allValues = ArrayUtils.add(allValues, results[2]);
@@ -522,6 +541,11 @@ public class XHControlComposite extends Composite implements IObserver {
 		stop.setEnabled(false);
 		snapshot.setEnabled(true);
 		snapshotAndSave.setEnabled(true);
+		txtLiveTime.setEnabled(true);
+		txtNumScansPerFrame.setEnabled(true);
+		txtRefreshPeriod.setEnabled(true);
+		txtSnapTime.setEnabled(true);
+
 	}
 
 	@Override
