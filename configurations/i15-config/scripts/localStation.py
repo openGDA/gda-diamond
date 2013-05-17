@@ -467,6 +467,15 @@ try:
 	else:
 		simpleLog("* Not creating patch x7trig objects *")
 	
+	if True:
+		try:
+			from scannables.detectors.fastShutterDetector import FastShutterDetector
+			fsdet = FastShutterDetector('fsdet', atlas)
+		except:
+			localStation_exception(sys.exc_info(), "creating fsdet object")
+	else:
+		simpleLog("* Not creating fsdet object *")
+	
 	try:
 		from scannables.safeScannable import SafeScannable
 		rot_dkphi = SafeScannable('rot_dkphi', control_scannable=dkphi,
