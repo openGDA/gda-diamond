@@ -23,6 +23,7 @@ import gda.factory.Findable;
 
 import java.io.File;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IPartService;
@@ -59,12 +60,10 @@ public class ImageFileDisplayer implements FileProcessor, InitializingBean, Find
 			return loadImage;
 		}
 
-		Boolean scheduled = false;
+		final AtomicBoolean scheduled = new AtomicBoolean(false);
 		@Override
 		public void run() {
-			synchronized (scheduled) {
-				scheduled = false;
-			}
+			scheduled.set(false);
 			try {
 				if( !partVisible){
 					final IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -78,11 +77,8 @@ public class ImageFileDisplayer implements FileProcessor, InitializingBean, Find
 		
 		void process(DataBean loadImage){
 			this.loadImage = loadImage;
-			synchronized (scheduled) {
-				if( !scheduled){
-					scheduled = true;
-					PlatformUI.getWorkbench().getDisplay().asyncExec(this);
-				}
+			if (scheduled.compareAndSet(false, true)) {
+				PlatformUI.getWorkbench().getDisplay().asyncExec(this);
 			}
 		}
 	}
