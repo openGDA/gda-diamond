@@ -1,0 +1,23 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- rmi exports -->
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/atn1" />
+		<property name="service" ref="atn1" />
+		<property name="serviceInterface" value="gda.device.EnumPositioner" />
+	</bean>  
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/atn2" />
+		<property name="service" ref="atn2" />
+		<property name="serviceInterface" value="gda.device.EnumPositioner" />
+	</bean>  
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/atn3" />
+		<property name="service" ref="atn3" />
+		<property name="serviceInterface" value="gda.device.EnumPositioner" />
+	</bean>  
+	
+</beans>

@@ -70,6 +70,6 @@
 	</bean>
 	
 
-
+	<import resource="file:${gda.config}/clients/main/AlignmentPerspectiveCompositeFactories.xml" />
 
 </beans>

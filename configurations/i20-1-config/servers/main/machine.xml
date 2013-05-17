@@ -40,4 +40,13 @@
 		<property name="pvName" value="FE20I-RS-ABSB-01:STA" />
 		<property name="local" value="true" />
 	</bean>
+	
+<!-- rmi exports -->
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/wigglerGap" />
+		<property name="service" ref="wigglerGap" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>  
+
 </beans>

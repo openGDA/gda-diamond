@@ -9,6 +9,7 @@
            http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 	<import resource="file:${gda.config}/servers/i20-1-common.xml" />
+	<import resource="file:${gda.config}/servers/main/machine.xml" />
 
 	<import resource="file:${gda.config}/servers/main/lookupTables.xml" />
 

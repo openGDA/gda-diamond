@@ -63,4 +63,33 @@
 		<property name="motor" ref="counterbalance_motor" />
 	</bean>
 
+
+<!-- 	rmi exports -->
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/detector_x" />
+		<property name="service" ref="detector_x" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>  
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/detector_y" />
+		<property name="service" ref="detector_y" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>  
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/detector_z" />
+		<property name="service" ref="detector_z" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>  
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/sample_x" />
+		<property name="service" ref="sample_x" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>  
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/twotheta" />
+		<property name="service" ref="twotheta" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>  
+
 </beans>

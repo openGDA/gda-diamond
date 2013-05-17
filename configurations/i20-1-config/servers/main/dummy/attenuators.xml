@@ -101,4 +101,6 @@
 		</property>
 	</bean>
 
+	<import resource="file:${gda.config}/servers/main/attenuators-common.xml" />
+
 </beans>

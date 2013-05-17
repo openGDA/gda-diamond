@@ -78,6 +78,18 @@
             name="Single Collection"
             restorable="true">
       </view>
+      <view
+            class="gda.rcp.views.ViewFactory:focussingmotorsview"
+            id="uk.ac.gda.exafs.ui.views.focussingmotorsview"
+            name="Focus motors"
+            restorable="true">
+      </view>
+      <view
+            class="gda.rcp.views.ViewFactory:alignmentmotorsview"
+            id="uk.ac.gda.exafs.ui.views.alignmentmotorsview"
+            name="Align motors"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
