@@ -65,7 +65,7 @@ public class ImageFileDisplayer implements FileProcessor, InitializingBean, Find
 		public void run() {
 			scheduled.set(false);
 			try {
-				if( !partVisible){
+				if (!partVisible && openViewAutomatically) {
 					final IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 					showView = window.getActivePage().showView(viewID);
 				}
