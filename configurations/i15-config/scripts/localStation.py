@@ -213,8 +213,9 @@ try:
 		#patch12x13 = DisplayEpicsPVClass("patch12x13", "BL15I-EA-PATCH-12:X13", "", "%f")
 		#patch12x14 = DisplayEpicsPVClass("patch12x14", "BL15I-EA-PATCH-12:X14", "", "%f")
 		
-		add_default(thermo1)
-		add_default(pt100_1)
+		#
+		#add_default(thermo1) - Moved to /dls/i15/scripts/localStationUser.py
+		#add_default(pt100_1) - Moved to /dls/i15/scripts/localStationUser.py
 	except:
 		localStation_exception(sys.exc_info(), "creating devices")
 
@@ -359,7 +360,7 @@ try:
 		d3sum = DisplayEpicsPVClass("d3sum", "BL15I-DI-PHDGN-03:DIODESUM", "", "%f")
 		d4sum = DisplayEpicsPVClass("d4sum", "BL15I-DI-PHDGN-04:DIODESUM", "", "%f")
 		d5sum = DisplayEpicsPVClass("d5sum", "BL15I-DI-PHDGN-05:DIODESUM", "", "%f")
-		add_default(d1sum)
+		#add_default(d1sum) - Moved to /dls/i15/scripts/localStationUser.py
 	except:
 		localStation_exception(sys.exc_info(), "creating diodes")
 
