@@ -33,6 +33,8 @@ import java.io.IOException;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
@@ -313,12 +315,6 @@ class LatestFileNameComposite extends Composite {
 		this.forwardOneImage = forwardOneImage;
 	}
 
-	@Override
-	public void dispose() {
-		super.dispose();
-		highestExistingFileMonitorDataProvider.deleteIObserver(observer);
-	}
-
 	public LatestFileNameComposite(Composite parent, int style) {
 		super(parent, style);
 	}
@@ -544,6 +540,13 @@ class LatestFileNameComposite extends Composite {
 			}
 		};
 		highestExistingFileMonitorDataProvider.addIObserver(observer);
+		
+		addDisposeListener(new DisposeListener() {
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				highestExistingFileMonitorDataProvider.deleteIObserver(observer);
+			}
+		});
 	}
 	
 	private void setPlaying(boolean playing) {
