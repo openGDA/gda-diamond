@@ -54,9 +54,13 @@ if [ -z $BEAMLINE ] ; then
 	exit 1
 fi
 
-#default values for folders
-WORKSPACE="/scratch/${BEAMLINE}_workspace-$(whoami)"
-CONFIG="/scratch/${BEAMLINE}_config-$(whoami)"
+if [ -z $WORKSPACE ] ; then
+	WORKSPACE="/scratch/${BEAMLINE}_workspace-$(whoami)"
+fi
+
+if [ -z $CONFIG ] ; then
+	CONFIG="/scratch/${BEAMLINE}_config-$(whoami)"
+fi
 
 ARGS=$(getopt -a -o \? -l help,data:,reset,log,keep,nohup:,client: -n "gdaclient" -- "$@")
 
@@ -139,7 +143,12 @@ if [ ! -z $GDA_RESET ] ; then
 fi
 
 if [ -z $GDA_LOG ] ; then
-  gdalog
+	LOGPANEL=$(ps -ef | grep LogPanel | grep -v grep)
+	if [ "X$LOGPANEL" == "X" ] ; then
+		nohup gdalog 2>/dev/null &
+	else
+		wmctrl -R "GDA Log Panel"
+	fi
 fi
 
 ARCH=`/bin/arch`
@@ -151,7 +160,8 @@ export MOZILLA_FIVE_HOME=/dls_sw/apps/firefox/8/${ARCH}/
 ulimit -c 10000000
 
 if [ -z $GDA_CLIENT ] ; then
-  GDA_CLIENT=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE}; export GDA_CLIENT
+  GDA_CLIENT=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE}
+  GDA_CLIENT=`readlink -f $GDA_CLIENT`
 fi
 
 notify-send -t 10000 "GDA client is starting... If it fails to open try 'gdaclient --reset'"
