@@ -30,7 +30,7 @@ SELF=$(readlink -f $0)
 # config/bin directory.
 
 # For example, on i15 ROOT is 5 directories up from config/bin:
-#   workspace_git/gda-mt.git/configurations/i15-config/bin/bleclipse
+#   workspace_git/gda-mt.git/configurations/config/bin/bleclipse
 GDA_ROOT=$(dirname $SELF)/../../../../..
 
 # But on i13, ROOT is only 4 directories up from config/bin:

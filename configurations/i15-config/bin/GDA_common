@@ -1,8 +1,14 @@
 # No Shebang since this will always be sourced.
 
 module load java/gda830-64
+
+# TODO: Make this location independent
 export GDACORE=/dls_sw/i15/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
 export GDACLIENT=/dls_sw/i15/software/gda/workspace_git/gda-diamond.git/dls-config/bin/gdaclient
+
+# GDACLIENT required $BEAMLINE to be set, so make sure it is set for
+# dummy operation off the beamline.
+export BEAMLINE=i15
 
 LOGDIR=/dls_sw/i15/var
 LOGNAME=$1

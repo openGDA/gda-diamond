@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="S4xposMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S4.XCENTRE" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="S4xgapMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S4.XGAP" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="S4yposMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S4.YCENTRE" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="S4ygapMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S4.YGAP" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="S4pitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S4.PITCH" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="S4yawMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S4.YAW" />
+		<property name="local" value="true"/>
+	</bean>
+</beans>
