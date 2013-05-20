@@ -192,6 +192,9 @@ try:
 		patch14x6 = pd_epicsdevice.Simple_PD_EpicsDevice("patch14x6", beamline, "-EA-PATCH-14:X6")
 		patch14x7 = pd_epicsdevice.Simple_PD_EpicsDevice("patch14x7", beamline, "-EA-PATCH-14:X7")
 
+		patch12x13 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x13", beamline, "-EA-PATCH-12:X13")
+		patch12x14 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x14", beamline, "-EA-PATCH-12:X14")
+
 		#ring= finder.find("Ring")
 		from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 		ringCurrent = DisplayEpicsPVClass("ringCurrent", "SR-DI-DCCT-01:SIGNAL", "mA", "%f")
@@ -207,11 +210,12 @@ try:
 		pt100_2 = DisplayEpicsPVClass("pt100_2", "BL15I-EA-PATCH-51:TEMP2", "deg C", "%f")
 		pt100_3 = DisplayEpicsPVClass("pt100_3", "BL15I-EA-PATCH-51:TEMP3", "deg C", "%f")
 
-		patch12x13 = DisplayEpicsPVClass("patch12x13", "BL15I-EA-PATCH-12:X13", "", "%f")
-		patch12x14 = DisplayEpicsPVClass("patch12x14", "BL15I-EA-PATCH-12:X14", "", "%f")
+		#patch12x13 = DisplayEpicsPVClass("patch12x13", "BL15I-EA-PATCH-12:X13", "", "%f")
+		#patch12x14 = DisplayEpicsPVClass("patch12x14", "BL15I-EA-PATCH-12:X14", "", "%f")
 		
-		add_default(thermo1)
-		add_default(pt100_1)
+		#
+		#add_default(thermo1) - Moved to /dls/i15/scripts/localStationUser.py
+		#add_default(pt100_1) - Moved to /dls/i15/scripts/localStationUser.py
 	except:
 		localStation_exception(sys.exc_info(), "creating devices")
 
@@ -356,7 +360,7 @@ try:
 		d3sum = DisplayEpicsPVClass("d3sum", "BL15I-DI-PHDGN-03:DIODESUM", "", "%f")
 		d4sum = DisplayEpicsPVClass("d4sum", "BL15I-DI-PHDGN-04:DIODESUM", "", "%f")
 		d5sum = DisplayEpicsPVClass("d5sum", "BL15I-DI-PHDGN-05:DIODESUM", "", "%f")
-		add_default(d1sum)
+		#add_default(d1sum) - Moved to /dls/i15/scripts/localStationUser.py
 	except:
 		localStation_exception(sys.exc_info(), "creating diodes")
 
@@ -466,6 +470,15 @@ try:
 			localStation_exception(sys.exc_info(), "creating patch x7trig object")
 	else:
 		simpleLog("* Not creating patch x7trig objects *")
+	
+	if True:
+		try:
+			from scannables.detectors.fastShutterDetector import FastShutterDetector
+			fsdet = FastShutterDetector('fsdet', atlas)
+		except:
+			localStation_exception(sys.exc_info(), "creating fsdet object")
+	else:
+		simpleLog("* Not creating fsdet object *")
 	
 	try:
 		from scannables.safeScannable import SafeScannable
