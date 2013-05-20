@@ -137,6 +137,7 @@
 		<config>devices/epics_sim/zebra.xml</config>
 		<config>devices/zebra.xml</config>
 		<config>devices/zebra/zebra.xml</config>
+		<config>devices/zebra/sample_stage_motors.xml</config>
 	</configs>
 	<configSets>
 	</configSets>
