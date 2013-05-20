@@ -18,13 +18,10 @@
 
 package uk.ac.gda.exafs.ui.views;
 
-import gda.device.DeviceException;
 import gda.device.EnumPositioner;
 import gda.device.Scannable;
-import gda.device.scannable.ScannableUtils;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
-import gda.observable.IObserver;
 import gda.util.exafs.AbsorptionEdge;
 import gda.util.exafs.Element;
 
@@ -46,7 +43,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
@@ -59,6 +55,8 @@ import uk.ac.gda.richbeans.components.FieldComposite.NOTIFY_TYPE;
 import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
 import uk.ac.gda.richbeans.components.wrappers.LabelWrapper;
 import uk.ac.gda.richbeans.components.wrappers.LabelWrapper.TEXT_TYPE;
+import uk.ac.gda.richbeans.event.ValueAdapter;
+import uk.ac.gda.richbeans.event.ValueEvent;
 import uk.ac.gda.ui.viewer.EnumPositionViewer;
 import uk.ac.gda.ui.viewer.MotorPositionViewer;
 import uk.ac.gda.ui.viewer.RotationViewer;
@@ -131,6 +129,9 @@ public class BeamlineAlignmentView extends ViewPart {
 	private LabelWrapper txtDetHeightTarget;
 	private Button btnDetHeightMove;
 	private MotorPositionViewer lblDetHeightReadback;
+	
+	private Scannable twoThetaScannable;
+
 
 	@Override
 	public void createPartControl(final Composite parent) {
@@ -367,6 +368,14 @@ public class BeamlineAlignmentView extends ViewPart {
 		btnPolyThetaMove.setText("Move");
 		linkButtonToScannable(btnPolyThetaMove, "polytheta", txtPolyThetaTarget);
 		lblPolyThetaReadback = createRotationViewer(motorGroup,"polytheta");
+		lblPolyThetaReadback.addValueListener(new ValueAdapter("polytheta") {
+			
+			@Override
+			public void valueChangePerformed(ValueEvent e) {
+				moveTwoThetaWithPolyBragg(e);
+			}
+		});
+		
 
 		btnSynchroniseThetas = new Button(motorGroup, SWT.CHECK);
 		btnSynchroniseThetas.setText("Match TwoTheta arm to Poly Bragg value");
@@ -383,35 +392,9 @@ public class BeamlineAlignmentView extends ViewPart {
 		});
 		
 		btnPolyThetaMove.addSelectionListener(new SelectionAdapter() {
-
-			private Scannable theScannable;
-
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (btnSynchroniseThetas.getSelection()) {
-					// get value from the scalebox
-					Double target;
-					try {
-						target = txtPolyThetaTarget.getNumericValue();
-					} catch (ParseException e2) {
-						logger.error("ParseException: twotheta could not be moved as the entered value "
-								+ txtPolyThetaTarget.getValue() + " is not acceptable: " + e2.getMessage(), e2);
-						return;
-					}
-					target *= 2;
-
-					// get the scannable from finder
-					if (theScannable == null)
-						theScannable = Finder.getInstance().find("twotheta");
-
-					// move the scannable to the value
-					try {
-						if (theScannable != null)
-							theScannable.asynchronousMoveTo(target);
-					} catch (Exception e1) {
-						logger.error("Exception while moving twotheta to " + target + ": " + e1.getMessage(), e1);
-					}
-				}
+				moveTwoThetaWithPolyBragg(null);
 			}
 		});
 
@@ -424,10 +407,6 @@ public class BeamlineAlignmentView extends ViewPart {
 		btnThetaMove = new Button(motorGroup, SWT.NONE);
 		btnThetaMove.setText("Move");
 		linkButtonToScannable(btnThetaMove, "twotheta", txtThetaTarget);
-//		lblThetaReadback = new Label(motorGroup, SWT.NONE);
-//		lblThetaReadback.setText("60.00 deg");
-//		lblThetaReadback.setLayoutData(readbackGD);
-//		linkLabelToScannable(lblThetaReadback, "twotheta");
 		lblThetaReadback = createRotationViewer(motorGroup,"twotheta");
 
 		Group grpPowerEst = new Group(motorGroup, SWT.NONE);
@@ -496,11 +475,11 @@ public class BeamlineAlignmentView extends ViewPart {
 		edgeEnergy_Label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		edgeEnergy_Label.setUnit("eV");
 		edgeEnergy_Label.setNotifyType(NOTIFY_TYPE.VALUE_CHANGED);
-		edgeEnergy_Label.on();
 		edgeEnergy_Label.setValue(9442.3);
 		edgeEnergy_Label.setToolTipText("Will be the centre of the spectrum");
 		edgeEnergy_Label.setMinimum(6000);
 		edgeEnergy_Label.setMaximum(26000);
+		edgeEnergy_Label.on();
 
 		lbl = new Label(mainControls, SWT.NONE);
 		lbl.setText("Crystal Type");
@@ -711,59 +690,6 @@ public class BeamlineAlignmentView extends ViewPart {
 		});
 	}
 	
-//	private void linkComboButtonToScannable(Button theButton, final String scannableName, final Combo combo) {
-//		theButton.addSelectionListener(new SelectionListener() {
-//
-//			Scannable theScannable = null;
-//
-//			@Override
-//			public void widgetSelected(SelectionEvent e) {
-//				// get value from the scalebox
-//				int index = combo.getSelectionIndex();
-//				if (index == -1) return;
-//				
-//				String selected  =combo.getItem(index);
-//
-//				// get the scannable from finder
-//				if (theScannable == null)
-//					theScannable = Finder.getInstance().find(scannableName);
-//
-//				// move the scannable to the value
-//				try {
-//					if (theScannable != null)
-//						theScannable.asynchronousMoveTo(selected);
-//				} catch (Exception e1) {
-//					logger.error("Exception while moving " + scannableName + " to " + selected + ": " + e1.getMessage(),
-//							e1);
-//				}
-//			}
-//
-//			@Override
-//			public void widgetDefaultSelected(SelectionEvent e) {
-//				widgetSelected(e);
-//			}
-//		});
-//	}
-
-
-//	private void fillComboFromScannable(final Combo combo, final String scannableName) {
-//
-//		// get the scannable from the finder
-//		final EnumPositioner theScannable = Finder.getInstance().find(scannableName);
-//		if (theScannable == null){
-//			return;
-//		}
-//
-//		String[] positions;
-//		try {
-//			positions = theScannable.getPositions();
-//			combo.setItems(positions);
-//		} catch (DeviceException e) {
-//			logger.error("Exception while getting positions from  " + scannableName +": "+e.getMessage(), e);
-//		}
-//		
-//	}
-
 	private RotationViewer createRotationViewer(Composite parent, String scannableName) {
 
 		final Scannable theScannable = Finder.getInstance().find(scannableName);
@@ -809,44 +735,39 @@ public class BeamlineAlignmentView extends ViewPart {
 		return label;
 	}
 	
-//	private void linkLabelToScannable(final Label lblPolyDistReadback2, final String scannableName) {
-//
-//		// get the scannable from the finder
-//		final Scannable theScannable = Finder.getInstance().find(scannableName);
-//		if (theScannable == null){
-//			lblPolyDistReadback2.setText("not connected");
-//			return;
-//		}
-//
-//		theScannable.addIObserver(new IObserver() {
-//
-//			@Override
-//			public void update(Object source, Object arg) {
-//				try {
-//					//String or double?
-//					final String newPosition;
-//					if (theScannable.getOutputFormat()[0].contains("s")){
-//						newPosition = ScannableUtils.getFormattedCurrentPositionArray(theScannable)[0];
-//					} else {
-//						double[] values = ScannableUtils.positionToArray(theScannable.getPosition(),theScannable);
-//						newPosition = String.format(theScannable.getOutputFormat()[0], values[0]);
-//					}
-//					Display.getDefault().asyncExec(new Runnable() {
-//						@Override
-//						public void run() {
-//							lblPolyDistReadback2.setText(newPosition);
-//						}
-//					});
-//				} catch (DeviceException e) {
-//					logger.error("Exception while getting position of  " + scannableName + ": "+e.getMessage(), e);
-//				}
-//
-//			}
-//		});
-//	}
-
 	@Override
 	public void setFocus() {
+	}
+	
+	private void moveTwoThetaWithPolyBragg(ValueEvent e) {
+		if (btnSynchroniseThetas.getSelection()) {
+			// get value from the scalebox
+			Double target;
+			if (e == null) {
+				try {
+					target = txtPolyThetaTarget.getNumericValue();
+				} catch (ParseException e2) {
+					logger.error("ParseException: twotheta could not be moved as the entered value "
+							+ txtPolyThetaTarget.getValue() + " is not acceptable: " + e2.getMessage(), e2);
+					return;
+				}
+				target *= 2;
+			} else {
+				target = e.getDoubleValue() * 2;
+			}
+
+			// get the scannable from finder
+			if (twoThetaScannable == null)
+				twoThetaScannable = Finder.getInstance().find("twotheta");
+
+			// move the scannable to the value
+			try {
+				if (twoThetaScannable != null)
+					twoThetaScannable.asynchronousMoveTo(target);
+			} catch (Exception e1) {
+				logger.error("Exception while moving twotheta to " + target + ": " + e1.getMessage(), e1);
+			}
+		}
 	}
 
 }
