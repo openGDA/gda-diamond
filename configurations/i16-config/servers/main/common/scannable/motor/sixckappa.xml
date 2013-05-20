@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-
+           
 	<bean id="kphi" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sixcKphiMotor" />
 		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
@@ -47,20 +47,10 @@
 		<property name="demandPositionTolerance" value=".01" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
-	
-	<bean id="sixckappa" class="gda.device.scannable.scannablegroup.DeferredAndTrajectoryScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="kphi" />
-				<ref bean="kap" />
-				<ref bean="kth" />
-				<ref bean="kmu" />
-				<ref bean="kdelta" />
-				<ref bean="kgam" />
-			</list>
-		</property>
 
-		<property name="additionalPositionValidators">
+
+	<bean id="sixc_additional_position_validators" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
 			<map>
 
 				<entry key="kth_minus_kdelta_max">
@@ -82,13 +72,47 @@
 						<property name="minimumDifference" value="-11" />
 					</bean>
 				</entry>
-
 			</map>
 		</property>
+	</bean>
+	
+	<bean id="sixckappa" class="gda.device.scannable.scannablegroup.DeferredAndTrajectoryScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="kphi" />
+				<ref bean="kap" />
+				<ref bean="kth" />
+				<ref bean="kmu" />
+				<ref bean="kdelta" />
+				<ref bean="kgam" />
+			</list>
+		</property>
+
+		<property name="additionalPositionValidators" ref="sixc_additional_position_validators"/>
 
 		<property name="deferredControlPoint" ref="xps2DeferFlag" />
 
 		<property name="continuousMoveController" ref="xpsTrajController" />
+
+		<property name="logDefFlagChangesAsInfo" value="true" />
+
+	</bean>
+	
+	<bean id="_sixckappa_deffered_only" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="kphi" />
+				<ref bean="kap" />
+				<ref bean="kth" />
+				<ref bean="kmu" />
+				<ref bean="kdelta" />
+				<ref bean="kgam" />
+			</list>
+		</property>
+
+		<property name="additionalPositionValidators" ref="sixc_additional_position_validators"/>
+
+		<property name="deferredControlPoint" ref="xps2DeferFlag" />
 
 		<property name="logDefFlagChangesAsInfo" value="true" />
 

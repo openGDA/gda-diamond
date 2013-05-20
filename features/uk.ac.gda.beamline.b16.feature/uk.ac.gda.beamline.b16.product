@@ -11,8 +11,20 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Xms512m
--Xmx1024m</vmArgs>
+      <vmArgs>-Declipse.pluginCustomization=/dls_sw/b16/software/gda/config/pluginCustomization.ini
+-Djacorb.config.dir=/dls_sw/b16/software/gda/config/jacorb/live
+-Dgda.install.workspace.loc=/dls_sw/b16/software/gda/workspace
+-Dgda.config=/dls_sw/b16/software/gda/config
+-Dgda.propertiesFile=/dls_sw/b16/software/gda/config/properties/live/java.properties
+-Dgda.data=/dls/b16/data
+-Dgda.mode=live
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/b16/software/gda/config/jca/live/JCALibrary.properties
+-Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+-Duk.ac.diamond.scisoft.analysis.io.nocaching=true
+-Xms256m
+-Xmx2024m
+-XX:MaxPermSize=256m
+-XX:+DisableExplicitGC</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 

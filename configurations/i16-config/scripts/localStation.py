@@ -8,10 +8,12 @@ print "Running I16 specific initialisation code from localStation.py"
 print "============================================================="
 
 import installation
+
 if installation.isDummy():
 	USE_DIFFCALC = True
 else:
 	USE_DIFFCALC = False  # <-- change here for live gda!
+
 USE_DUMMY_IDGAP_MOTOR = False
 #USE_DUMMY_IDGAP_MOTOR = True
 USE_XMAP= False
@@ -272,7 +274,7 @@ scan_processor.processors.append(Rcen())
 print "Creating diffractometer base scannable base_z"
 base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/07
 
-sixckappa.getContinuousMoveController().setScannableForMovingGroupToStart(sixckappa)
+sixckappa.getContinuousMoveController().setScannableForMovingGroupToStart(_sixckappa_deffered_only)
 
 if not USE_DIFFCALC:
 	run("startup_diffractometer_euler")
@@ -916,8 +918,8 @@ def open_valves():
 #ci=228.0; cj=101.0	#31/10/12
 #ci=234.0; cj=107.0	#/01/13
 #ci=242.0; cj=104.0	#/03/13
-ci=237.0; cj=121.0	#17/03/13
-
+#ci=237.0; cj=121.0	#17/03/13
+ci=236.0; cj=106.0	#16/04/13
 maxi=486; maxj=194
 
 #small centred
@@ -1067,4 +1069,8 @@ run('align1')
 run('select_and_move_detector')
 run('showdiff')
 #run('pd_searchref2') #put at the end as it gave some errors
+run('pd_read_list')	#to make PD's that can scan a list
+run('pd_function')	#to make PD's that return a variable
+#run('PDFromFunctionClass')#to make PD's that return the value of a function  - already run!
+
 
