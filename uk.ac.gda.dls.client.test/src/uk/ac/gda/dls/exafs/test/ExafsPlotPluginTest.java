@@ -46,7 +46,8 @@ import uk.ac.gda.util.io.TokenFileParser;
 public class ExafsPlotPluginTest {
 	
 	private PlotView view;
-	private XafsFittingUtils xafsFittingUtils = new XafsFittingUtils();
+	private static final Long seed = 1237L;
+	private XafsFittingUtils xafsFittingUtils = new XafsFittingUtils(seed);
 	
 	@Before
 	public void setup() throws PartInitException {
@@ -102,11 +103,11 @@ public class ExafsPlotPluginTest {
 	@Test
 	public void testNormalisedDataGenetic() throws Exception {
 		
-		testNormalisedFile("Cofoil_4_845.dat",  7650d,    new GeneticAlg(1e-10));
+		testNormalisedFile("Cofoil_4_845.dat",  7650d,    new GeneticAlg(1e-10, seed));
 		EclipseUtils.delay(3000);
-		testNormalisedFile("Mo_1_1247.dat",     19992d,   new GeneticAlg(1e-10));
+		testNormalisedFile("Mo_1_1247.dat",     19992d,   new GeneticAlg(1e-10, seed));
 		EclipseUtils.delay(3000);
-		testNormalisedFile("Ptfoil3_5_570.dat", 11537.0d, new GeneticAlg(1e-10));
+		testNormalisedFile("Ptfoil3_5_570.dat", 11537.0d, new GeneticAlg(1e-10, seed));
 		EclipseUtils.delay(3000);
 	}
 
@@ -163,11 +164,11 @@ public class ExafsPlotPluginTest {
 	@Test
 	public void testSpline() throws Exception {
 		
-		testSplineFile("Cofoil_4_845.dat",  7650d,    new GeneticAlg(0.0001));
+		testSplineFile("Cofoil_4_845.dat",  7650d,    new GeneticAlg(0.0001, seed));
 		EclipseUtils.delay(5000);
-		testSplineFile("Mo_1_1247.dat",     19992d,   new GeneticAlg(0.0001));
+		testSplineFile("Mo_1_1247.dat",     19992d,   new GeneticAlg(0.0001, seed));
 		EclipseUtils.delay(5000);
-		testSplineFile("Ptfoil3_5_570.dat", 11537.0d, new GeneticAlg(0.0001));
+		testSplineFile("Ptfoil3_5_570.dat", 11537.0d, new GeneticAlg(0.0001, seed));
 		EclipseUtils.delay(5000);
 	}
 
@@ -190,22 +191,22 @@ public class ExafsPlotPluginTest {
 	@Test
 	public void testKWeightedK1() throws Exception {
 		
-		testKWeightedFile("Cofoil_4_845.dat",  7650d,    new GeneticAlg(0.0001), 1);
+		testKWeightedFile("Cofoil_4_845.dat",  7650d,    new GeneticAlg(0.0001, seed), 1);
 		EclipseUtils.delay(5000);
-		testKWeightedFile("Mo_1_1247.dat",     19992d,   new GeneticAlg(0.0001), 1);
+		testKWeightedFile("Mo_1_1247.dat",     19992d,   new GeneticAlg(0.0001, seed), 1);
 		EclipseUtils.delay(5000);
-		testKWeightedFile("Ptfoil3_5_570.dat", 11537.0d, new GeneticAlg(0.0001), 1);
+		testKWeightedFile("Ptfoil3_5_570.dat", 11537.0d, new GeneticAlg(0.0001, seed), 1);
 		EclipseUtils.delay(5000);
 	}
 	
 	@Test
 	public void testKWeightedK3() throws Exception {
 		
-		testKWeightedFile("Cofoil_4_845.dat",  7650d,    new GeneticAlg(0.0001), 3);
+		testKWeightedFile("Cofoil_4_845.dat",  7650d,    new GeneticAlg(0.0001, seed), 3);
 		EclipseUtils.delay(5000);
-		testKWeightedFile("Mo_1_1247.dat",     19992d,   new GeneticAlg(0.0001), 3);
+		testKWeightedFile("Mo_1_1247.dat",     19992d,   new GeneticAlg(0.0001, seed), 3);
 		EclipseUtils.delay(5000);
-		testKWeightedFile("Ptfoil3_5_570.dat", 11537.0d, new GeneticAlg(0.0001), 3);
+		testKWeightedFile("Ptfoil3_5_570.dat", 11537.0d, new GeneticAlg(0.0001, seed), 3);
 		EclipseUtils.delay(5000);
 	}
 
@@ -228,11 +229,11 @@ public class ExafsPlotPluginTest {
 	@Test
 	public void testFFT() throws Exception {
 		
-		testFFTFile("Cofoil_4_845.dat",  7650d,    new GeneticAlg(0.0001), 1);
+		testFFTFile("Cofoil_4_845.dat",  7650d,    new GeneticAlg(0.0001, seed), 1);
 		EclipseUtils.delay(5000);
-		testFFTFile("Mo_1_1247.dat",     19992d,   new GeneticAlg(0.0001), 1);
+		testFFTFile("Mo_1_1247.dat",     19992d,   new GeneticAlg(0.0001, seed), 1);
 		EclipseUtils.delay(5000);
-		testFFTFile("Ptfoil3_5_570.dat", 11537.0d, new GeneticAlg(0.0001), 1);
+		testFFTFile("Ptfoil3_5_570.dat", 11537.0d, new GeneticAlg(0.0001, seed), 1);
 		EclipseUtils.delay(5000);
 	}
 
