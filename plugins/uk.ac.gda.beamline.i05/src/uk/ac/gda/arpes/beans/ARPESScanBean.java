@@ -28,12 +28,12 @@ public class ARPESScanBean implements IRichBean {
 	static public final URL mappingURL = ARPESScanBean.class.getResource("ARPESMapping.xml");
 	static public final URL schemaURL  = ARPESScanBean.class.getResource("ARPESMapping.xsd");
 
-	String lensMode;
-	short passEnergy;
+	String lensMode = "Transmission";
+	short passEnergy = 5;
 	double photonEnergy;
-	double startEnergy, endEnergy, stepEnergy;
-	double timePerStep;
-	short iterations;
+	double startEnergy = 15, endEnergy = 20, stepEnergy = 0.5;
+	double timePerStep = 1;
+	short iterations = 1;
 	double sampleTemperature;
 	boolean sweptMode;
 	

@@ -38,8 +38,8 @@ import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
 
-import uk.ac.gda.arpes.detector.FlexibleFrameDetector;
-import uk.ac.gda.arpes.detector.FrameUpdate;
+import uk.ac.gda.devices.vgscienta.FlexibleFrameDetector;
+import uk.ac.gda.devices.vgscienta.FrameUpdate;
 
 public class AnalyserProgressView extends ViewPart implements IObserver {
 	private Text csweep;

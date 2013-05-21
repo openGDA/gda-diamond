@@ -5,7 +5,7 @@ import uk.ac.diamond.scisoft.analysis.SDAPlotter
 class ARPESMonitor:
     
     def __init__(self):
-        self.scienta = gda.factory.Finder.getInstance().listAllLocalObjects("uk.ac.gda.arpes.detector.VGScientaAnalyser")[0]
+        self.scienta = gda.factory.Finder.getInstance().listAllLocalObjects("uk.ac.gda.devices.vgscienta.VGScientaAnalyser")[0]
         self.configure()
 
     def configure(self):

@@ -95,11 +95,11 @@
 		</property>
 	</bean>
 	
-	<bean id="controller" class="uk.ac.gda.arpes.detector.VGScientaController">
+	<bean id="controller" class="uk.ac.gda.devices.vgscienta.VGScientaController">
 		<property name="basePVName" value="BL05I-EA-DET-01:CAM:" />
 	</bean>
 	
-	<bean id="analyser" class="uk.ac.gda.arpes.detector.VGScientaAnalyser">
+	<bean id="analyser" class="uk.ac.gda.devices.vgscienta.VGScientaAnalyser">
 		<property name="controller" ref="controller" />
 		<property name="adBase" ref="area" />
 		<property name="ndProc" ref="proc" />
@@ -119,10 +119,10 @@
 	</bean>
 	
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-                <property name="serviceName" value="analyser" />
-                <property name="service" ref="analyser" />
-                <property name="serviceInterface" value="uk.ac.gda.arpes.detector.FlexibleFrameDetector" />
-        </bean>
+		<property name="serviceName" value="analyser" />
+		<property name="service" ref="analyser" />
+		<property name="serviceInterface" value="uk.ac.gda.devices.vgscienta.FlexibleFrameDetector" />
+	</bean>
 	
 	
 	<bean id="centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
@@ -135,19 +135,19 @@
 		<property name="pvNameSetPoint" value="BL05I-EA-DET-01:CAM:STEP_TIME" />
 	</bean>
 	
-	<bean id="AnalyserCapabilities" class="uk.ac.gda.arpes.detector.AnalyserCapabilties" />
+	<bean id="AnalyserCapabilities" class="uk.ac.gda.beamline.i05.analyser.I05AnalyserCapabilties"	/>
 	
-	<bean id="AnalyserSumLive" class="uk.ac.gda.arpes.detector.AnalyserLiveDataDispatcher">
+	<bean id="AnalyserSumLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Detector Sum Plot" />
 		<property name="arrayPV" value="BL05I-EA-DET-01:ARR2:ArrayData" />
 	</bean>
-	<bean id="AnalyserLive" class="uk.ac.gda.arpes.detector.AnalyserLiveDataDispatcher">
+	<bean id="AnalyserLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Detector Plot" />
 		<property name="arrayPV" value="BL05I-EA-DET-01:ARR1:ArrayData" />
 	</bean>
-	<bean id="AnalyserSweptLive" class="uk.ac.gda.arpes.detector.AnalyserSweptLiveDataDispatcher">
+	<bean id="AnalyserSweptLive" class="uk.ac.gda.devices.vgscienta.AnalyserSweptLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Swept Plot" />
 		<property name="arrayPV" value="BL05I-EA-DET-01:CAM:IMAGE" />
