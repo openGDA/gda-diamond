@@ -16,21 +16,21 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.arpes.detector;
-
-import gda.factory.Findable;
+package uk.ac.gda.beamline.i05.analyser;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AnalyserCapabilties implements Findable {
+import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
+
+public class I05AnalyserCapabilties implements AnalyserCapabilties {
 
 	private String name = "AnalyserCapabilties";
 	
 	private Map<String, double[]> lens2angles = new HashMap<String, double[]>(8);
 	
-	public AnalyserCapabilties() {
+	public I05AnalyserCapabilties() {
 		for(Object[] o: new Object[][] {
 											{"Transmission",
 												new double[] {
@@ -68,18 +68,22 @@ public class AnalyserCapabilties implements Findable {
 		return name;
 	}
 	
+	@Override
 	public Short[] getPassEnergies() {
 		return new Short[] { 1, 2, 5, 10, 20, 50 };
 	}
 	
+	@Override
 	public double getEnergyWidthForPass(int pass) {
 		return 16.7478/200*pass;
 	}
 	
+	@Override
 	public double getEnergyStepForPass(int pass) {
 		return Math.round(16.119/200*pass*100000)/100000.0;
 	}
 	
+	@Override
 	public double[] getAngleAxis(String lensTable, int startChannel, int length) {
 		if (!lens2angles.containsKey(lensTable))
 			throw new ArrayIndexOutOfBoundsException("unknown lens table "+lensTable);
@@ -87,6 +91,7 @@ public class AnalyserCapabilties implements Findable {
 		return Arrays.copyOfRange(doubles, startChannel, startChannel + length);
 	}
 	
+	@Override
 	public String[] getLensModes() {
 		return lens2angles.keySet().toArray(new String[0]);
 	}

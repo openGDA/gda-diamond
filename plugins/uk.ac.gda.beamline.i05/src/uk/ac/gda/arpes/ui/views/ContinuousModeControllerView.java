@@ -42,8 +42,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 
-import uk.ac.gda.arpes.detector.AnalyserCapabilties;
 import uk.ac.gda.beamline.i05.I05BeamlineActivator;
+import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 
 public class ContinuousModeControllerView extends ViewPart implements IObserver {
 	private AnalyserCapabilties capabilities;
@@ -79,7 +79,7 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 	
 	@Override
 	public void createPartControl(Composite parent) {	
-		capabilities = new AnalyserCapabilties();
+		capabilities = (AnalyserCapabilties) Finder.getInstance().listAllLocalObjects(AnalyserCapabilties.class.getCanonicalName()).get(0);
 		MotorPositionViewerComposite mpvc;
 		
 		Composite comp = new Composite(parent, SWT.NONE);

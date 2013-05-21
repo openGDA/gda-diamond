@@ -43,10 +43,11 @@
         
         <bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
                 <property name="serviceUrl" value="${gda.rmi.prefix}/analyser" />
-                <property name="serviceInterface" value="uk.ac.gda.arpes.detector.FlexibleFrameDetector" />
+                <property name="serviceInterface" value="uk.ac.gda.devices.vgscienta.FlexibleFrameDetector" />
                 <property name="refreshStubOnConnectFailure" value="true" />
         </bean>
 
+    	<bean id="AnalyserCapabilities" class="uk.ac.gda.beamline.i05.analyser.I05AnalyserCapabilties"	/>
 
         <gda:rbac />
 </beans>

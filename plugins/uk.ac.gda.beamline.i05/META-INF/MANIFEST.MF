@@ -16,20 +16,11 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.epics,
  uk.ac.diamond.scisoft.analysis.rcp;bundle-version="1.2.0",
  uk.ac.gda.nexus;bundle-version="1.0.0",
- uk.ac.diamond.scisoft.analysis;bundle-version="1.2.0"
+ uk.ac.diamond.scisoft.analysis;bundle-version="1.2.0",
+ uk.ac.gda.devices.vgscienta;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: uk.ac.gda.arpes.beans;uses:="uk.ac.gda.beans",
- uk.ac.gda.arpes.detector;
-  uses:="gda.device.detector,
-   gda.device,
-   gda.factory,
-   gov.aps.jca.event,
-   gda.device.detector.addetector.triggering,
-   gda.device.detector.addetector,
-   gda.device.detector.areadetector.v17,
-   gda.observable,
-   org.slf4j",
  uk.ac.gda.arpes.ui;
   uses:="uk.ac.gda.richbeans.xml,
    uk.ac.gda.richbeans.editors,

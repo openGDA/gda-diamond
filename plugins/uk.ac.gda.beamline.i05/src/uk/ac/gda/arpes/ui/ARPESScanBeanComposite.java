@@ -20,6 +20,7 @@ package uk.ac.gda.arpes.ui;
 
 import gda.commandqueue.JythonCommandCommandProvider;
 import gda.commandqueue.Queue;
+import gda.factory.Finder;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -43,8 +44,8 @@ import org.eclipse.swt.widgets.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.arpes.detector.AnalyserCapabilties;
 import uk.ac.gda.client.CommandQueueViewFactory;
+import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 import uk.ac.gda.richbeans.ACTIVE_MODE;
 import uk.ac.gda.richbeans.beans.IFieldWidget;
 import uk.ac.gda.richbeans.components.FieldComposite;
@@ -79,7 +80,7 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		super(parent, style);
 		setLayout(new GridLayout(2, false));
 
-		capabilities = new AnalyserCapabilties();
+		capabilities = (AnalyserCapabilties) Finder.getInstance().listAllLocalObjects(AnalyserCapabilties.class.getCanonicalName()).get(0);
 		
 		Label label = new Label(this, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
