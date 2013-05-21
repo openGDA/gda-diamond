@@ -20,6 +20,18 @@
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
 		<property name="protectionLevel" value="3"></property>
 	</bean>
+	<bean
+		class="gda.device.scannable.DummyUnitsScannable" id="cff">
+		<property name="inputNames"><list><value>cff</value></list></property>
+		<property name="outputFormat"><list><value>%5.5g</value></list></property>
+		<property name="protectionLevel" value="3"></property>
+	</bean>
+	<bean
+		class="gda.device.scannable.DummyUnitsScannable" id="rawid_gap">
+		<property name="inputNames"><list><value>rawid_gap</value></list></property>
+		<property name="outputFormat"><list><value>%5.5g</value></list></property>
+		<property name="protectionLevel" value="3"></property>
+	</bean>
 
  	<bean
  		class="gda.device.scannable.DummyUnitsScannable" id="s6_ysize">
