@@ -379,8 +379,8 @@ public class XHControlComposite extends Composite implements IObserver {
 		group1.setDelayBetweenFrames(0);
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(numberScans);
-		group1.setTimePerScan(collectionPeriod / 1000);
-		group1.setTimePerFrame(collectionPeriod / 1000);
+		group1.setTimePerScan(new Double(collectionPeriod) / 1000);
+		group1.setTimePerFrame(new Double(collectionPeriod) / 1000);
 		simpleParams.addGroup(group1);
 
 		getDetector().setAttribute(XHDetector.ATTR_LOADPARAMETERS, simpleParams);
@@ -468,10 +468,15 @@ public class XHControlComposite extends Composite implements IObserver {
 			stop.setEnabled(true);
 			snapshot.setEnabled(false);
 			snapshotAndSave.setEnabled(false);
-			txtLiveTime.setEnabled(false);
-			txtNumScansPerFrame.setEnabled(false);
-			txtRefreshPeriod.setEnabled(false);
-			txtSnapTime.setEnabled(false);
+			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					txtLiveTime.setEnabled(false);
+					txtNumScansPerFrame.setEnabled(false);
+					txtRefreshPeriod.setEnabled(false);
+					txtSnapTime.setEnabled(false);
+				}
+			});
 			liveLoop = uk.ac.gda.util.ThreadManager.getThread(new Runnable() {
 				@Override
 				public void run() {
@@ -541,11 +546,15 @@ public class XHControlComposite extends Composite implements IObserver {
 		stop.setEnabled(false);
 		snapshot.setEnabled(true);
 		snapshotAndSave.setEnabled(true);
-		txtLiveTime.setEnabled(true);
-		txtNumScansPerFrame.setEnabled(true);
-		txtRefreshPeriod.setEnabled(true);
-		txtSnapTime.setEnabled(true);
-
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				txtLiveTime.setEnabled(true);
+				txtNumScansPerFrame.setEnabled(true);
+				txtRefreshPeriod.setEnabled(true);
+				txtSnapTime.setEnabled(true);
+			}
+		});
 	}
 
 	@Override

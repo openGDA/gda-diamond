@@ -25,7 +25,7 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
 import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
-import uk.ac.gda.exafs.ui.views.AlignmentStageView;
+import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
 import uk.ac.gda.exafs.ui.views.DetectorSetupView;
 import uk.ac.gda.exafs.ui.views.SingleSpectrumView;
@@ -50,14 +50,18 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(false);
 		
-		IFolderLayout alignmentControlsFolder = layout.createFolder("alignmentControls", IPageLayout.LEFT, 0.25f, editorArea);
+		IFolderLayout alignmentControlsFolder = layout.createFolder("alignmentControls", IPageLayout.LEFT, 0.30f, editorArea);
 		alignmentControlsFolder.addView(BeamlineAlignmentView.ID);
 		alignmentControlsFolder.addView(DetectorSetupView.ID);
-		alignmentControlsFolder.addView(AlignmentStageView.ID);
+//		alignmentControlsFolder.addView(AlignmentStageView.ID);
 		alignmentControlsFolder.addView(SingleSpectrumView.ID);
 
 		layout.addView(LINEPLOTID, IPageLayout.RIGHT, 0.25f, editorArea);
-		layout.addView(SPECTRAPLOTID, IPageLayout.TOP, 0.50f, LINEPLOTID);
+
+		IFolderLayout topPlotFolder = layout.createFolder("topplot", IPageLayout.TOP, 0.50f, LINEPLOTID);
+		topPlotFolder.addView(SPECTRAPLOTID);
+		topPlotFolder.addView(LivePlotView.ID);
+		
 		layout.addView(JythonTerminalView.ID, IPageLayout.RIGHT, 0.50f, LINEPLOTID);
 	}
 }

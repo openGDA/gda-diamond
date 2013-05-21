@@ -75,25 +75,19 @@ public class BeamlineAlignmentView extends ViewPart {
 	private Combo cmbDetectorType;
 	private LabelWrapper txtWigglerTarget;
 	private Button btnWigglerMove;
-	private MotorPositionViewer lblWigglerReadback;
 	private LabelWrapper txtSlitTarget;
 	private Button btnSlitMove;
-	private MotorPositionViewer lblSlitReadback;
 	private LabelWrapper cmbME1StripeTarget;
 	private Button btnME1StripeMove;
-	private EnumPositionViewer lblME1StripeReadback;
 	private LabelWrapper txtThetaTarget;
 	private Button btnThetaMove;
 	private RotationViewer lblThetaReadback;
 	private LabelWrapper cmbME2StripeTarget;
 	private Button btnME2StripeMove;
-	private EnumPositionViewer lblME2StripeReadback;
 	private LabelWrapper txtME2PitchTarget;
 	private Button btnME2PitchMove;
-	private MotorPositionViewer lblME2PitchReadback;
 	private LabelWrapper txtDetDistTarget;
 	private Button btnDetDistMove;
-	private MotorPositionViewer lblDetDistReadback;
 	private GridData comboGD;
 	private GridData textGD;
 	private GridData readbackGD;
@@ -107,29 +101,21 @@ public class BeamlineAlignmentView extends ViewPart {
 	private RotationViewer lblPolyThetaReadback;
 	private LabelWrapper txtPolyBendTarget;
 	private Button btnPolyBendMove;
-	private RotationViewer lblPolyBendReadback;
 	private Button btnSynchroniseThetas;
 	private LabelWrapper txtPolyBendTarget2;
 	private Button btnPolyBendMove2;
-	private RotationViewer lblPolyBendReadback2;
 	private Label lblPolyPower;
 	private LabelWrapper cmbAtn1Target;
 	private Button btnAtn1Move;
-	private EnumPositionViewer lblAtn1Readback;
 	private LabelWrapper cmbAtn2Target;
 	private Button btnAtn2Move;
-	private EnumPositionViewer lblAtn2Readback;
 	private LabelWrapper cmbAtn3Target;
 	private Button btnAtn3Move;
-	private EnumPositionViewer lblAtn3Readback;
 	private Composite mainControls;
 	private LabelWrapper txtSampleHeight;
 	private Button btnSampleHeightMove;
-	private MotorPositionViewer lblSampleHeightReadback;
 	private LabelWrapper txtDetHeightTarget;
 	private Button btnDetHeightMove;
-	private MotorPositionViewer lblDetHeightReadback;
-	
 	private Scannable twoThetaScannable;
 
 
@@ -198,38 +184,37 @@ public class BeamlineAlignmentView extends ViewPart {
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Detector Distance");
 		lbl.setLayoutData(createLabelGridData());
-		txtDetDistTarget = new LabelWrapper(motorGroup, SWT.NONE);
+		txtDetDistTarget = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtDetDistTarget.setLayoutData(textGD);
 		txtDetDistTarget.setUnit("mm");
 		btnDetDistMove = new Button(motorGroup, SWT.NONE);
 		btnDetDistMove.setText("Move");
 		linkButtonToScannable(btnDetDistMove,"detector_z",txtDetDistTarget);
-		lblDetDistReadback = createMotorPositionViewer(motorGroup,"detector_z");
+		createMotorPositionViewer(motorGroup,"detector_z");
 
 
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Sample Height");
 		lbl.setLayoutData(createLabelGridData());
-		txtSampleHeight = new LabelWrapper(motorGroup, SWT.NONE);
+		txtSampleHeight = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtSampleHeight.setLayoutData(textGD);
 		txtSampleHeight.setUnit("mm");
 		btnSampleHeightMove = new Button(motorGroup, SWT.NONE);
 		btnSampleHeightMove.setText("Move");
-		// there is no sample y in EDM!
-		lblSampleHeightReadback = createMotorPositionViewer(motorGroup,"sample_x");
+		createMotorPositionViewer(motorGroup,"sample_x");
 		
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Detector Height");
 		lbl.setLayoutData(createLabelGridData());
-		txtDetHeightTarget = new LabelWrapper(motorGroup, SWT.NONE);
+		txtDetHeightTarget = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtDetHeightTarget.setLayoutData(textGD);
 		txtDetHeightTarget.setUnit("mm");
 		btnDetHeightMove = new Button(motorGroup, SWT.NONE);
 		btnDetHeightMove.setText("Move");
 		linkButtonToScannable(btnDetHeightMove,"detector_y",txtDetHeightTarget);
-		lblDetHeightReadback = createMotorPositionViewer(motorGroup,"detector_y");
+		createMotorPositionViewer(motorGroup,"detector_y");
 	}
 
 	private void createMotorControls(Composite parent) {
@@ -250,25 +235,25 @@ public class BeamlineAlignmentView extends ViewPart {
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Wiggler Gap");
 		lbl.setLayoutData(createLabelGridData());
-		txtWigglerTarget = new LabelWrapper(motorGroup, SWT.NONE);
+		txtWigglerTarget = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtWigglerTarget.setLayoutData(textGD);
 		txtWigglerTarget.setUnit("mm");
 		btnWigglerMove = new Button(motorGroup, SWT.NONE);
 		btnWigglerMove.setText("Move");
 		linkButtonToScannable(btnWigglerMove, "wigglerGap", txtWigglerTarget);
-		lblWigglerReadback = createMotorPositionViewer(motorGroup,"wigglerGap");
+		createMotorPositionViewer(motorGroup,"wigglerGap");
 		
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Primary Slit HGap");
 		lbl.setLayoutData(createLabelGridData());
-		txtSlitTarget = new LabelWrapper(motorGroup, SWT.NONE);
+		txtSlitTarget = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtSlitTarget.setLayoutData(textGD);
 		txtSlitTarget.setUnit("mrad");
 		btnSlitMove = new Button(motorGroup, SWT.NONE);
 		btnSlitMove.setText("Move");
 		linkButtonToScannable(btnSlitMove, "s1_hgap", txtSlitTarget);
-		lblSlitReadback = createMotorPositionViewer(motorGroup,"s1_hgap");
+		createMotorPositionViewer(motorGroup,"s1_hgap");
 		
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Attenuator 1");
@@ -279,7 +264,7 @@ public class BeamlineAlignmentView extends ViewPart {
 		btnAtn1Move = new Button(motorGroup, SWT.NONE);
 		btnAtn1Move.setText("Move");
 		linkButtonToScannable(btnAtn1Move, "atn1", cmbAtn1Target);
-		lblAtn1Readback = createEnumPositionerViewer(motorGroup,"atn1");
+		createEnumPositionerViewer(motorGroup,"atn1");
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Attenuator 2");
@@ -290,7 +275,7 @@ public class BeamlineAlignmentView extends ViewPart {
 		btnAtn2Move = new Button(motorGroup, SWT.NONE);
 		btnAtn2Move.setText("Move");
 		linkButtonToScannable(btnAtn2Move, "atn2", cmbAtn2Target);
-		lblAtn2Readback = createEnumPositionerViewer(motorGroup,"atn2");
+		createEnumPositionerViewer(motorGroup,"atn2");
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Attenuator 3");
@@ -301,7 +286,7 @@ public class BeamlineAlignmentView extends ViewPart {
 		btnAtn3Move = new Button(motorGroup, SWT.NONE);
 		btnAtn3Move.setText("Move");
 		linkButtonToScannable(btnAtn3Move, "atn3", cmbAtn3Target);
-		lblAtn3Readback = createEnumPositionerViewer(motorGroup,"atn3");
+		createEnumPositionerViewer(motorGroup,"atn3");
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("ME1 Stripe");
@@ -312,7 +297,7 @@ public class BeamlineAlignmentView extends ViewPart {
 		btnME1StripeMove = new Button(motorGroup, SWT.NONE);
 		btnME1StripeMove.setText("Move");
 		linkButtonToScannable(btnAtn1Move, "me1_stripe", cmbME1StripeTarget);
-		lblME1StripeReadback = createEnumPositionerViewer(motorGroup,"me1_stripe");
+		createEnumPositionerViewer(motorGroup,"me1_stripe");
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("ME2 Stripe");
@@ -323,50 +308,56 @@ public class BeamlineAlignmentView extends ViewPart {
 		btnME2StripeMove = new Button(motorGroup, SWT.NONE);
 		btnME2StripeMove.setText("Move");
 		linkButtonToScannable(btnME2StripeMove, "me2_stripe", cmbME2StripeTarget);
-		lblME2StripeReadback = createEnumPositionerViewer(motorGroup,"me2_stripe");
+		createEnumPositionerViewer(motorGroup,"me2_stripe");
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("ME2 Pitch");
 		lbl.setLayoutData(createLabelGridData());
-		txtME2PitchTarget = new LabelWrapper(motorGroup, SWT.NONE);
+		txtME2PitchTarget = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtME2PitchTarget.setLayoutData(textGD);
 		txtME2PitchTarget.setUnit("mrad");
 		btnME2PitchMove = new Button(motorGroup, SWT.NONE);
 		btnME2PitchMove.setText("Move");
 		linkButtonToScannable(btnME2PitchMove, "me2pitch", txtME2PitchTarget);
-		lblME2PitchReadback = createMotorPositionViewer(motorGroup,"me2pitch");
+		createMotorPositionViewer(motorGroup,"me2pitch");
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Poly Bend1");
 		lbl.setLayoutData(createLabelGridData());
-		txtPolyBendTarget = new LabelWrapper(motorGroup, SWT.NONE);
+		txtPolyBendTarget = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtPolyBendTarget.setLayoutData(textGD);
 		txtPolyBendTarget.setUnit("mm");
 		btnPolyBendMove = new Button(motorGroup, SWT.NONE);
 		btnPolyBendMove.setText("Move");
 		linkButtonToScannable(btnPolyBendMove, "polybend1", txtPolyBendTarget);
-		lblPolyBendReadback = createRotationViewer(motorGroup,"polybend1");
+		createRotationViewer(motorGroup,"polybend1");
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Poly Bend2");
 		lbl.setLayoutData(createLabelGridData());
-		txtPolyBendTarget2 = new LabelWrapper(motorGroup, SWT.NONE);
+		txtPolyBendTarget2 = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtPolyBendTarget2.setLayoutData(textGD);
 		txtPolyBendTarget2.setUnit("mm");
 		btnPolyBendMove2 = new Button(motorGroup, SWT.NONE);
 		btnPolyBendMove2.setText("Move");
 		linkButtonToScannable(btnPolyBendMove2, "polybend2", txtPolyBendTarget2);
-		lblPolyBendReadback2 = createRotationViewer(motorGroup,"polybend2");
+		createRotationViewer(motorGroup,"polybend2");
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Poly Bragg");
 		lbl.setLayoutData(createLabelGridData());
-		txtPolyThetaTarget = new LabelWrapper(motorGroup, SWT.NONE);
+		txtPolyThetaTarget = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtPolyThetaTarget.setLayoutData(textGD);
 		txtPolyThetaTarget.setUnit("deg");
 		btnPolyThetaMove = new Button(motorGroup, SWT.NONE);
 		btnPolyThetaMove.setText("Move");
 		linkButtonToScannable(btnPolyThetaMove, "polytheta", txtPolyThetaTarget);
+		btnPolyThetaMove.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				moveTwoThetaWithPolyBragg(null);
+			}
+		});
 		lblPolyThetaReadback = createRotationViewer(motorGroup,"polytheta");
 		lblPolyThetaReadback.addValueListener(new ValueAdapter("polytheta") {
 			
@@ -377,6 +368,18 @@ public class BeamlineAlignmentView extends ViewPart {
 		});
 		
 
+		lbl = new Label(motorGroup, SWT.NONE);
+		lbl.setText("Two Theta");
+		lbl.setLayoutData(createLabelGridData());
+		txtThetaTarget = new LabelWrapper(motorGroup, SWT.CENTER);
+		txtThetaTarget.setLayoutData(textGD);
+		txtThetaTarget.setUnit("deg");
+		btnThetaMove = new Button(motorGroup, SWT.NONE);
+		btnThetaMove.setText("Move");
+		linkButtonToScannable(btnThetaMove, "twotheta", txtThetaTarget);
+		lblThetaReadback = createRotationViewer(motorGroup,"twotheta");
+		
+		
 		btnSynchroniseThetas = new Button(motorGroup, SWT.CHECK);
 		btnSynchroniseThetas.setText("Match TwoTheta arm to Poly Bragg value");
 		GridDataFactory.swtDefaults().span(4, 1).applyTo(btnSynchroniseThetas);
@@ -391,23 +394,6 @@ public class BeamlineAlignmentView extends ViewPart {
 			}
 		});
 		
-		btnPolyThetaMove.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				moveTwoThetaWithPolyBragg(null);
-			}
-		});
-
-		lbl = new Label(motorGroup, SWT.NONE);
-		lbl.setText("Two Theta");
-		lbl.setLayoutData(createLabelGridData());
-		txtThetaTarget = new LabelWrapper(motorGroup, SWT.NONE);
-		txtThetaTarget.setLayoutData(textGD);
-		txtThetaTarget.setUnit("deg");
-		btnThetaMove = new Button(motorGroup, SWT.NONE);
-		btnThetaMove.setText("Move");
-		linkButtonToScannable(btnThetaMove, "twotheta", txtThetaTarget);
-		lblThetaReadback = createRotationViewer(motorGroup,"twotheta");
 
 		Group grpPowerEst = new Group(motorGroup, SWT.NONE);
 		GridDataFactory.swtDefaults().span(2, 2).applyTo(grpPowerEst);
