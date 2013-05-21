@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<xsd:simpleType name="lenstype">
-		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="Transmission" />
-			<xsd:enumeration value="Angular7NF" />
-			<xsd:enumeration value="Angular14" />
-			<xsd:enumeration value="Angular30" />
-		</xsd:restriction>
-	</xsd:simpleType>
-
 	<xsd:element name="ARPESScanBean">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element name="lensMode" type="lenstype" minOccurs="1"
+				<xsd:element name="lensMode" type="xsd:string" minOccurs="1"
 					maxOccurs="1" />
 				<xsd:element name="sweptMode" type="xsd:boolean"
 					minOccurs="1" />
