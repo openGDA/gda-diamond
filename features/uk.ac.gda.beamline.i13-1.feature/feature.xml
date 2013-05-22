@@ -60,48 +60,6 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.client.exafs"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.server.exafs"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.server.exafs.epics"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.client.microfocus"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.client.experimentdefinition"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.diamond.scisoft.spectroscopy"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="com.springsource.org.apache.commons.lang"
          download-size="0"
          install-size="0"
@@ -109,14 +67,14 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.diamond.scisoft.spectroscopy.rcp"
+         id="org.dawb.workbench.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.dawb.workbench.ui"
+         id="uk.ac.gda.epics.adviewer"
          download-size="0"
          install-size="0"
          version="0.0.0"

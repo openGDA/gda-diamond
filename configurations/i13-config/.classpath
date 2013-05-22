@@ -5,5 +5,6 @@
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/uk.ac.gda.core"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/uk.ac.gda.client"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.epics"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.epics.adviewer"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
