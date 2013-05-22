@@ -319,15 +319,15 @@
 	</bean>
 
         <bean id="ncdlistener" class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher">
-        
-        <property name="ncdDetector" ref="ncddetectors"></property> </bean>
+        	<property name="ncdDetector" ref="ncddetectors"></property> 
+        </bean>
+
         <bean id="bssc" class="uk.ac.gda.devices.bssc.BioSAXSSampleChanger">
                 <property name="hostname" value="i22-biosaxs.diamond.ac.uk"/>
                 <property name="port" value="9555"/>
         </bean>
-       <!-- 
-		<import resource="i22_biosaxscam.xml"/>
-	-->
+
+	<import resource="i22_biosaxscam.xml"/>
         <bean class="uk.ac.gda.devices.bssc.ispyb.BioSAXSDBFactory">
                 <property name="jdbcURL" value="jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb" />
                 <!-- // protected String testURL = "jdbc:oracle:thin:@sci-serv2.diamond.ac.uk:1521:xe"; -->
