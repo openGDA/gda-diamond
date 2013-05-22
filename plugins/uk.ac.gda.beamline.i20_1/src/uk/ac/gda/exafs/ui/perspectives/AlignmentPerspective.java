@@ -52,7 +52,7 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		
 		IFolderLayout alignmentControlsFolder = layout.createFolder("alignmentControls", IPageLayout.LEFT, 0.30f, editorArea);
 		alignmentControlsFolder.addView(BeamlineAlignmentView.ID);
-		alignmentControlsFolder.addView(DetectorSetupView.ID);
+//		alignmentControlsFolder.addView(DetectorSetupView.ID);
 //		alignmentControlsFolder.addView(AlignmentStageView.ID);
 		alignmentControlsFolder.addView(SingleSpectrumView.ID);
 
@@ -61,6 +61,7 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		IFolderLayout topPlotFolder = layout.createFolder("topplot", IPageLayout.TOP, 0.50f, LINEPLOTID);
 		topPlotFolder.addView(SPECTRAPLOTID);
 		topPlotFolder.addView(LivePlotView.ID);
+		layout.addView(DetectorSetupView.ID, IPageLayout.LEFT, 0.24f, "topplot");
 		
 		layout.addView(JythonTerminalView.ID, IPageLayout.RIGHT, 0.50f, LINEPLOTID);
 	}
