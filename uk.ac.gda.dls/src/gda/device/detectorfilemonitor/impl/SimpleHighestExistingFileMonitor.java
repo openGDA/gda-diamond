@@ -87,6 +87,7 @@ public class SimpleHighestExistingFileMonitor implements HighestExistingFileMoni
 				if (!running)
 					return;
 				if (highestExitingFileMonitorSettings_InUse != highestExitingFileMonitorSettings) {
+					latestNumberFound = null;
 					highestExitingFileMonitorSettings_InUse = highestExitingFileMonitorSettings;
 					numberToLookFor = highestExitingFileMonitorSettings_InUse.startNumber;
 					templateInUse = highestExitingFileMonitorSettings_InUse.fileTemplatePrefix + highestExitingFileMonitorSettings_InUse.fileTemplate;
