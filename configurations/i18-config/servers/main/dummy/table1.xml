@@ -3,40 +3,19 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="sample_theta_coarse_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="T1.ROT"></property>
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sample_theta_coarse_motor" class="gda.device.motor.DummyMotor" />
 
-	<bean id="sample_theta_fine_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="T1.FROT"></property>
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sample_theta_fine_motor" class="gda.device.motor.DummyMotor" />
 
-	<bean id="sample_y1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="T1.Y1"></property>
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sample_y1_motor" class="gda.device.motor.DummyMotor" />
 
-	<bean id="sample_y2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="T1.Y2"></property>
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sample_y2_motor" class="gda.device.motor.DummyMotor" />
 
-	<bean id="sample_y3_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="T1.Y3"></property>
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sample_y3_motor" class="gda.device.motor.DummyMotor" />
 
-	<bean id="sample_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="T1.X"></property>
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sample_x_motor" class="gda.device.motor.DummyMotor" />
 
-	<bean id="sample_z_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="T1.Z"></property>
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sample_z_motor" class="gda.device.motor.DummyMotor" />
 
 	<bean id="sc_sample_z" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="0" />

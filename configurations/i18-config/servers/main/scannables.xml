@@ -655,11 +655,6 @@
 		</property>
 		<property name="protectionLevel" value="0" />
 	</bean>
-	
-	<bean id="deferMFY" class="gda.device.scannable.DeferredScannable">
-		<property name="controlPointScannable" ref="sc_MicroFocusSampleY"></property>
-		<property name="deferredControlPoint" ref="xpsDeferFlag"></property>
-	</bean>	
 
 	<bean id="thor_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="thor_x_motor" />
