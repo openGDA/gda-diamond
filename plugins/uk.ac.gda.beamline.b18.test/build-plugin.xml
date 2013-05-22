@@ -1,4 +1,4 @@
-<project name="plugin-uk.ac.gda.beamline.b18" basedir=".">
+<project name="plugin-uk.ac.gda.beamline.b18.test" basedir=".">
 
     <dirname property="GDA-plugin.basedir" file="${ant.file.${ant.project.name}}" />
     <pathconvert property="workspace.loc" setonempty="false">
