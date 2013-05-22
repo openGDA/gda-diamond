@@ -12,7 +12,6 @@ from gda.device.scannable.scannablegroup import ScannableGroup
 from time import sleep
 from gda.jython.commands.GeneralCommands import alias
 
-
 # Get the locatation of the GDA beamline script directory
 gdaScriptDir = "/dls/i22/software/gda/config/scripts/"
 gdascripts = "/dls/i22/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/"
@@ -21,12 +20,6 @@ execfile(gdascripts + "/pd/epics_pds.py");
 execfile(gdascripts + "/pd/time_pds.py");
 execfile(gdascripts + "/pd/dummy_pds.py");
 execfile(gdascripts + "/utils.py");
-
-#execfile(gdaScriptDir + "i22.py")
-
-print "Creating beamline specific devices...";
-execfile(gdaScriptDir + "energy.py")
-execfile(gdaScriptDir + "ExafsScannable.py")
 
 #Set up the Bimorph Mirror 
 #print "Setting up access to Bimorph Mirror Channels...";
@@ -54,7 +47,6 @@ s2yminusi=DisplayEpicsPVClass("s2yminusi","BL22I-AL-SLITS-02:Y:MINUS:I:FFB","","
 
 execfile(gdaScriptDir + "TopupCountdown.py")
 execfile(gdaScriptDir + "gainpds.py")
-execfile(gdaScriptDir + "feedback.py")
 execfile(gdaScriptDir + "microfocus.py")
 
 from linkam import Linkam
@@ -65,16 +57,15 @@ lrm4k=LinkamRampMaster4000("lrm4k",linkam)
 from installStandardScansWithProcessing import *
 scan_processor.rootNamespaceDict=globals()
 
-from redux import NcdRedux
-ncdredux = NcdRedux(ncddetectors)
+from ncdutils import DetectorMeta
+waxs_distance = DetectorMeta("waxs_distance", ncddetectors, "WAXS", "distance", "m")
+saxs_distance = DetectorMeta("saxs_distance", ncddetectors, "SAXS", "distance", "m")
+saxs_centre_x = DetectorMeta("saxs_centre_x", ncddetectors, "SAXS", "beam_center_x")
+saxs_centre_y = DetectorMeta("saxs_centre_y", ncddetectors, "SAXS", "beam_center_y")
 
 # preseed listener dispatcher
 finder.find("ncdlistener").monitorLive("Saxs Plot", "SAXS")
 finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
-
-execfile(gdaScriptDir + "atten.py")
-execfile(gdaScriptDir + "rate.py")
-execfile(gdaScriptDir + "DiodeAverage.py")
 
 #hexapod pivot
 #execfile(gdaScriptDir + "hexapod.py")
@@ -107,8 +98,9 @@ getVisit = metadatatweaks.getVisit
 alias("getVisit")
 setVisit = metadatatweaks.setVisit
 alias("setVisit")
-print "\n adding hotwaxs device"
-# has GDA pos etc in it, so we need to "run"
-#execfile("/dls/i22/scripts/commissioning/Marc/shutdown/hotwaxs.py")
-run("/commissioning/Marc/shutdown/hotwaxs.py")
+
+run("/BeamlineScripts/master.py")
+execfile(gdaScriptDir + "atten.py")
+execfile(gdaScriptDir + "rate.py")
+
 print "==================================================================="
