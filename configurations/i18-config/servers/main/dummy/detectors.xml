@@ -67,35 +67,6 @@
 		<property name="openCommand" value="tfg open-cc" />
 	</bean>
 
-<!-- 	<bean id="HTScaler" -->
-<!-- 		class="gda.device.detector.countertimer.HardwareTriggeredScaler"> -->
-<!-- 		<property name="extraNames"> -->
-<!-- 			<list> -->
-<!-- 				<value>liveTime</value> -->
-<!-- 				<value>I0</value> -->
-<!-- 				<value>It</value> -->
-<!-- 				<value>Iother</value> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 		<property name="scaler" ref="CalMemory" /> -->
-<!-- 		<property name="timer" ref="tfg" /> -->
-<!-- 		<property name="timeChannelRequired" value="true" /> -->
-<!-- 		<property name="darkCurrentRequired" value="false" /> -->
-<!-- 		<property name="outputLogValues" value="false" /> -->
-<!-- 		<property name="TFGv2" value="true" /> -->
-<!-- 		<property name="numChannelsToRead" value="4" /> -->
-<!-- 		<property name="outputFormat"> -->
-<!-- 			<list> -->
-<!-- 				<value>%6.4g</value> -->
-<!-- 				<value>%6.4g</value> -->
-<!-- 				<value>%9d</value> -->
-<!-- 				<value>%9d</value> -->
-<!-- 				<value>%9d</value> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 		<property name="hardwareTriggerProvider" ref="xpsTrajController" /> -->
-<!-- 	</bean> -->
-
 	<bean id="counterTimer01" class="gda.device.detector.countertimer.TfgScalerWithFrames">
 		<property name="extraNames">
 			<list>
@@ -194,18 +165,6 @@
 		</property>
 	</bean>
 
-	<bean id="HTXmapMca"
-		class="gda.device.detector.xmap.DummyHardwareTriggeredNexusXmap">
-		<property name="hardwareTriggerProvider" ref="xpsTrajController" />
-		<property name="xmap" ref="xmapMca" />
-		<property name="fileNames">
-			<list>
-				<value>/dls/i18/data/2011/cm2065-4/i18-6931-0-raster_xmap.h5</value>
-				<value>/dls/i18/data/2011/cm2065-4/i18-6931-0-raster_xmaporig.h5</value>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
 		<property name="controller" ref="xmapcontroller" />
 
@@ -234,37 +193,6 @@
 				<value>/dls/i18/data/2011/cm2065-4/i18-6931-0-raster_xmap.h5</value>
 				<value>/dls/i18/data/2011/cm2065-4/i18-6931-0-raster_xmaporig.h5
 				</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
-		<property name="extraNames">
-			<list>
-				<!-- <value>liveTime</value> -->
-				<value>I0</value>
-				<value>It</value>
-				<value>Iother</value>
-				<!-- <value>lnI0It</value> -->
-				<!-- <value>lnItIref</value> -->
-			</list>
-		</property>
-		<property name="scaler" ref="CalMemory" />
-		<property name="timer" ref="tfg" />
-		<property name="daserver" ref="daserver" />
-		<property name="timeChannelRequired" value="true" />
-		<property name="darkCurrentRequired" value="false" />
-		<property name="outputLogValues" value="false" />
-		<property name="TFGv2" value="true" />
-		<property name="outputFormat">
-			<list>
-				<!-- <value>%6.4g</value> -->
-				<value>%6.4g</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<!-- <value>%.6g</value> -->
-				<!-- <value>%.6g</value> -->
 			</list>
 		</property>
 	</bean>
