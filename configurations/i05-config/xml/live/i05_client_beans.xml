@@ -52,5 +52,8 @@
                 <property name="refreshStubOnConnectFailure" value="true" />
         </bean>
 
+		<bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
+			<property name="clientFileAnnouncerName" value="sockpuppet" />
+		</bean>
         <import resource="../i05_client_beans_common.xml" />
 </beans>
