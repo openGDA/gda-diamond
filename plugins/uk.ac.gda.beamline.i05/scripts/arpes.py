@@ -9,7 +9,7 @@ class APRESRun:
     
     def __init__(self, beanFile):
         self.bean = uk.ac.gda.arpes.beans.ARPESScanBean.createFromXML(beanFile)
-        self.scienta = gda.factory.Finder.getInstance().listAllLocalObjects("uk.ac.gda.arpes.detector.VGScientaAnalyser")[0]
+        self.scienta = gda.factory.Finder.getInstance().listAllLocalObjects("uk.ac.gda.devices.vgscienta.VGScientaAnalyser")[0]
         self.progresscounter = 0
         self.totalSteps = 5
         self.lastreportedmeasurement = None
