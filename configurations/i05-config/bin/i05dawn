@@ -7,6 +7,6 @@ BEAMLINE=i05
 fi
 
 . /usr/share/Modules/init/sh
-module load dawn/I05
+module load dawn
 
 exec dawn
