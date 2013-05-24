@@ -12,6 +12,15 @@
                 <property name="local" value="true" />
         </bean>
 
+        <bean id="pgm_cff_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL05I-OP-PGM-01:CFF" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="pgm_cff" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="pgm_cff_motor" />
+                <property name="local" value="true" />
+        </bean>
+
         <bean id="pgm_mpitch_motor" class="gda.device.motor.EpicsMotor">
                 <property name="pvName" value="BL05I-OP-PGM-01:MIR:PITCH" />
                 <property name="local" value="true" />
@@ -52,6 +61,7 @@
                 <property name="groupMembers">
                         <list>
                                 <ref bean="pgm_energy" />
+                                <ref bean="pgm_cff" />
                                 <ref bean="pgm_mpitch" />
                                 <ref bean="pgm_mtrans" />
                                 <ref bean="pgm_gpitch" />
