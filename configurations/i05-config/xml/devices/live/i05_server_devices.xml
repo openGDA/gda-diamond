@@ -17,6 +17,8 @@
 
 	<import resource="pgm.xml" />
 
+	<import resource="gonio.xml" />
+
 	<import resource="id.xml" />
 	<import resource="temperature.xml" />
 
