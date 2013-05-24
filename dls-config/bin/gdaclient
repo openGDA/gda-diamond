@@ -121,7 +121,8 @@ while true; do
 done
 
 . /usr/share/Modules/init/bash
-module load java/gda830-64
+module load java/gda832
+module load global/http_proxy
 
 if [ ! -z $GDA_RESET ] ; then
   if [ ! -z $GDA_KEEP ] ; then
@@ -144,7 +145,6 @@ fi
 
 ARCH=`/bin/arch`
 
-export http_proxy=http://WWWcache.RL.ac.UK:8080/
 export MOZILLA_FIVE_HOME=/dls_sw/apps/firefox/8/${ARCH}/
 
 #set max size of core file created if process terminates unexpectedly
