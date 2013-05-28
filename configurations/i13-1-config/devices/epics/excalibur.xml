@@ -4,14 +4,14 @@
 						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<bean id="adFem" class="uk.ac.gda.devices.excalibur.impl.AdFem">
-		<property name="basePVName" value="EXCALIBUR:CONFIG:ACQUIRE:" />
+		<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:" />
 	</bean>
 
 
 
 	<bean id="excalibur_config_arr_pvProvider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:CONFIG:ARR:" />
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:ARR:" />
 	</bean>
 
 	<bean id="excalibur_config_arr_ndpluginbase"
@@ -26,7 +26,7 @@
 
 	<bean id="excalibur_roi_pvProvider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:CONFIG:ROI:" />
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:ROI:" />
 	</bean>
 
 	<bean id="excalibur_roi_ndpluginbase"
@@ -41,7 +41,7 @@
 
 	<bean id="excalibur_sync_pvProvider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:SYNC:" />
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:SYNC:" />
 	</bean>
 
 	<bean id="excalibur_sync" class="uk.ac.gda.devices.excalibur.impl.MasterSlaveSyncImpl">
@@ -50,7 +50,7 @@
 
 	<bean id="excalibur_config_base_pvProvider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:CONFIG:ACQUIRE:" />
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:" />
 	</bean>
 
 	<bean id="excalibur_config_base"
@@ -61,7 +61,7 @@
 				class="uk.ac.gda.devices.excalibur.impl.ExcaliburConfigAdbaseImpl.ArrayCountsImpl">
 				<property name="pvProvider">
 					<bean class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-						<property name="prefix" value="EXCALIBUR:CONFIG:" />
+						<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:" />
 					</bean>
 				</property>
 			</bean>
@@ -77,7 +77,7 @@
 
 	<bean id="excalibur_config_proc_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:CONFIG:PROC:"></property>
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:PROC:"></property>
 	</bean>
 
 	<bean id="excalibur_config_proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
@@ -91,7 +91,7 @@
 
 	<bean id="excalibur_config_roi_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:CONFIG:ROI:"></property>
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:ROI:"></property>
 	</bean>
 
 	<bean id="excalibur_config_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
@@ -105,7 +105,7 @@
 
 	<bean id="excalibur_config_hdf_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:CONFIG:HDF:"></property>
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:HDF:"></property>
 	</bean>
 
 	<bean id="excalibur_config_hdf"
@@ -126,7 +126,7 @@
 
 	<bean id="excalibur_config_gap_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:CONFIG:GAP:"></property>
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:GAP:"></property>
 	</bean>
 
 	<bean id="excalibur_config_gap" class="uk.ac.gda.devices.excalibur.impl.GapImpl">
@@ -140,7 +140,7 @@
 
 	<bean id="excalibur_config_mst_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:CONFIG:MASTER:"></property>
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:MASTER:"></property>
 	</bean>
 
 	<bean id="excalibur_config_mst" class="uk.ac.gda.devices.excalibur.impl.MasterImpl">
@@ -154,7 +154,7 @@
 
 	<bean id="excalibur_config_fix_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:CONFIG:FIX:"></property>
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:FIX:"></property>
 	</bean>
 
 	<bean id="excalibur_config_fix" class="uk.ac.gda.devices.excalibur.impl.ConfigFixImpl">
@@ -208,14 +208,14 @@
 	<bean id="excalibur_burstmode"
 		class="uk.ac.gda.devices.ExcaliburCollectionStrategy">
 		<constructor-arg ref="excalibur_config_base" />
-		<property name="operationModePVName" value="EXCALIBUR:CONFIG:ACQUIRE:OperationMode"/>
 		<property name="burst" value="True"/>
+		<property name="operationModePVName" value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:OperationMode"/>
 	</bean>
 
 	<bean id="excalibur_normalmode"
 		class="uk.ac.gda.devices.ExcaliburCollectionStrategy">
 		<constructor-arg ref="excalibur_config_base" />
-		<property name="operationModePVName" value="EXCALIBUR:CONFIG:ACQUIRE:OperationMode"/>
+		<property name="operationModePVName" value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:OperationMode"/>
 		<property name="burst" value="False"/>
 	</bean>
 

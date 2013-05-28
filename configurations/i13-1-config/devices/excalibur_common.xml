@@ -7,7 +7,7 @@
 	<bean id="excalibur_softwaretrigger"
 		class="uk.ac.gda.devices.ExcaliburCollectionStrategy">
 		<constructor-arg ref="excalibur_config_base" />
-		<property name="operationModePVName" value="EXCALIBUR:CONFIG:ACQUIRE:OperationMode"/>
+		<property name="operationModePVName" value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:OperationMode"/>
 		<property name="burst" value="False"/>
 		<property name="softwareTrigger" value="True"/>
 	</bean>

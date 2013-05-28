@@ -6,7 +6,7 @@
 
 	<bean id="excalibur_readoutNode3_fem_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:3:FEM:" />
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:FEM:" />
 	</bean>
 
 	<bean id="excalibur_readoutNode3_fem"
@@ -16,17 +16,17 @@
 			<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegImpl">
 				<property name="pvProvider">
 					<bean class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-						<property name="prefix" value="EXCALIBUR:3:FEM:1:"></property>
+						<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:FEM:1:"></property>
 					</bean>
 				</property>
 				<property name="anper">
 					<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegAnper">
-						<property name="basePVName" value="EXCALIBUR:3:FEM:1:Anper:"></property>
+						<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:3:FEM:1:Anper:"></property>
 					</bean>
 				</property>
 				<property name="pixel">
 					<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegPixel">
-						<property name="basePVName" value="EXCALIBUR:3:FEM:1:Pixel:"></property>
+						<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:3:FEM:1:Pixel:"></property>
 					</bean>
 				</property>
 			</bean>
@@ -35,17 +35,17 @@
 			<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegImpl">
 				<property name="pvProvider">
 					<bean class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-						<property name="prefix" value="EXCALIBUR:3:FEM:2:"></property>
+						<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:FEM:2:"></property>
 					</bean>
 				</property>
 				<property name="anper">
 					<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegAnper">
-						<property name="basePVName" value="EXCALIBUR:3:FEM:2:Anper:"></property>
+						<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:3:FEM:2:Anper:"></property>
 					</bean>
 				</property>
 				<property name="pixel">
 					<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegPixel">
-						<property name="basePVName" value="EXCALIBUR:3:FEM:2:Pixel:"></property>
+						<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:3:FEM:2:Pixel:"></property>
 					</bean>
 				</property>
 			</bean>
@@ -54,17 +54,17 @@
 			<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegImpl">
 				<property name="pvProvider">
 					<bean class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-						<property name="prefix" value="EXCALIBUR:3:FEM:3:"></property>
+						<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:FEM:3:"></property>
 					</bean>
 				</property>
 				<property name="anper">
 					<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegAnper">
-						<property name="basePVName" value="EXCALIBUR:3:FEM:3:Anper:"></property>
+						<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:3:FEM:3:Anper:"></property>
 					</bean>
 				</property>
 				<property name="pixel">
 					<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegPixel">
-						<property name="basePVName" value="EXCALIBUR:3:FEM:3:Pixel:"></property>
+						<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:3:FEM:3:Pixel:"></property>
 					</bean>
 				</property>
 			</bean>
@@ -73,17 +73,17 @@
 			<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegImpl">
 				<property name="pvProvider">
 					<bean class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-						<property name="prefix" value="EXCALIBUR:3:FEM:4:"></property>
+						<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:FEM:4:"></property>
 					</bean>
 				</property>
 				<property name="anper">
 					<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegAnper">
-						<property name="basePVName" value="EXCALIBUR:3:FEM:4:Anper:"></property>
+						<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:3:FEM:4:Anper:"></property>
 					</bean>
 				</property>
 				<property name="pixel">
 					<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegPixel">
-						<property name="basePVName" value="EXCALIBUR:3:FEM:4:Pixel:"></property>
+						<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:3:FEM:4:Pixel:"></property>
 					</bean>
 				</property>
 			</bean>
@@ -92,17 +92,17 @@
 			<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegImpl">
 				<property name="pvProvider">
 					<bean class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-						<property name="prefix" value="EXCALIBUR:3:FEM:5:"></property>
+						<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:FEM:5:"></property>
 					</bean>
 				</property>
 				<property name="anper">
 					<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegAnper">
-						<property name="basePVName" value="EXCALIBUR:3:FEM:5:Anper:"></property>
+						<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:3:FEM:5:Anper:"></property>
 					</bean>
 				</property>
 				<property name="pixel">
 					<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegPixel">
-						<property name="basePVName" value="EXCALIBUR:3:FEM:5:Pixel:"></property>
+						<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:3:FEM:5:Pixel:"></property>
 					</bean>
 				</property>
 			</bean>
@@ -111,17 +111,17 @@
 			<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegImpl">
 				<property name="pvProvider">
 					<bean class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-						<property name="prefix" value="EXCALIBUR:3:FEM:6:"></property>
+						<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:FEM:6:"></property>
 					</bean>
 				</property>
 				<property name="anper">
 					<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegAnper">
-						<property name="basePVName" value="EXCALIBUR:3:FEM:6:Anper:"></property>
+						<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:3:FEM:6:Anper:"></property>
 					</bean>
 				</property>
 				<property name="pixel">
 					<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegPixel">
-						<property name="basePVName" value="EXCALIBUR:3:FEM:6:Pixel:"></property>
+						<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:3:FEM:6:Pixel:"></property>
 					</bean>
 				</property>
 			</bean>
@@ -130,17 +130,17 @@
 			<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegImpl">
 				<property name="pvProvider">
 					<bean class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-						<property name="prefix" value="EXCALIBUR:3:FEM:7:"></property>
+						<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:FEM:7:"></property>
 					</bean>
 				</property>
 				<property name="anper">
 					<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegAnper">
-						<property name="basePVName" value="EXCALIBUR:3:FEM:7:Anper:"></property>
+						<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:3:FEM:7:Anper:"></property>
 					</bean>
 				</property>
 				<property name="pixel">
 					<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegPixel">
-						<property name="basePVName" value="EXCALIBUR:3:FEM:7:Pixel:"></property>
+						<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:3:FEM:7:Pixel:"></property>
 					</bean>
 				</property>
 			</bean>
@@ -149,17 +149,17 @@
 			<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegImpl">
 				<property name="pvProvider">
 					<bean class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-						<property name="prefix" value="EXCALIBUR:3:FEM:8:"></property>
+						<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:FEM:8:"></property>
 					</bean>
 				</property>
 				<property name="anper">
 					<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegAnper">
-						<property name="basePVName" value="EXCALIBUR:3:FEM:8:Anper:"></property>
+						<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:3:FEM:8:Anper:"></property>
 					</bean>
 				</property>
 				<property name="pixel">
 					<bean class="uk.ac.gda.devices.excalibur.impl.MpxiiiChipRegPixel">
-						<property name="basePVName" value="EXCALIBUR:3:FEM:8:Pixel:"></property>
+						<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:3:FEM:8:Pixel:"></property>
 					</bean>
 				</property>
 			</bean>
@@ -168,7 +168,7 @@
 
 	<bean id="excalibur_readoutNode3_proc_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:3:PROC:"></property>
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:PROC:"></property>
 	</bean>
 
 	<bean id="excalibur_readoutNode3_proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
@@ -182,7 +182,7 @@
 
 	<bean id="excalibur_readoutNode3_roi_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:3:ROI:"></property>
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:ROI:"></property>
 	</bean>
 
 	<bean id="excalibur_readoutNode3_roi" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
@@ -196,7 +196,7 @@
 
 	<bean id="excalibur_readoutNode3_hdf_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:3:HDF:"></property>
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:HDF:"></property>
 	</bean>
 
 	<bean id="excalibur_readoutNode3_hdf"
@@ -224,7 +224,7 @@
 
 	<bean id="excalibur_readoutNode3_tiff_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:3:TIFF:"></property>
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:TIFF:"></property>
 	</bean>
 
 	<bean id="excalibur_readoutNode3_tiff" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
@@ -239,7 +239,7 @@
 
 	<bean id="excalibur_readoutNode3_arr_pvProvider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:3:ARR:" />
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:ARR:" />
 	</bean>
 
 	<bean id="excalibur_readoutNode3_arr" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
@@ -254,7 +254,7 @@
 
 	<bean id="excalibur_readoutNode3_mjpg_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:3:FFMPEG:"></property>
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:FFMPEG:"></property>
 	</bean>
 
 	<bean id="excalibur_readoutNode3_mjpg"
@@ -269,7 +269,7 @@
 
 	<bean id="excalibur_readoutNode3_mst_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:3:MASTER:"></property>
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:MASTER:"></property>
 	</bean>
 
 	<bean id="excalibur_readoutNode3_mst" class="uk.ac.gda.devices.excalibur.impl.MasterImpl">
@@ -283,7 +283,7 @@
 
 	<bean id="excalibur_readoutNode3_fix_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:3:FIX:"></property>
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:FIX:"></property>
 	</bean>
 
 	<bean id="excalibur_readoutNode3_fix" class="uk.ac.gda.devices.excalibur.impl.NodeFixImpl">
@@ -297,7 +297,7 @@
 
 	<bean id="excalibur_readoutNode3_gap_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="EXCALIBUR:3:GAP:"></property>
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:3:GAP:"></property>
 	</bean>
 
 	<bean id="excalibur_readoutNode3_gap" class="uk.ac.gda.devices.excalibur.impl.GapImpl">
