@@ -36,4 +36,10 @@
 		<property name="local" value="true" />
 	</bean>
 
+<!--  No good as motor is not an Epics motor record DMOV is invalid		<bean id="dcm_energy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-OP-DCM-01:ENERGY.VAL" />
+		<property name="local" value="true" />
+	</bean>
+ -->
+
 </beans>	

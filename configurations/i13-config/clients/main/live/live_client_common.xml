@@ -37,5 +37,5 @@
 		<property name="useNameAsExtraName" value="true"/>
 	</bean>	
 	
-	
+	<import resource="../../../devices/epics/ion_chamber.xml" />
 </beans>

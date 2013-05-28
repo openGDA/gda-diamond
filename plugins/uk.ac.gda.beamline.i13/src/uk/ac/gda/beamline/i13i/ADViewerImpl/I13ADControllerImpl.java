@@ -31,7 +31,6 @@ import uk.ac.gda.beamline.i13i.DisplayScaleProvider;
 import uk.ac.gda.epics.adviewer.ADControllerImpl;
 
 public class I13ADControllerImpl extends  ADControllerImpl implements InitializingBean {
-	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(I13ADControllerImpl.class);
 
 	private String setExposureTimeCmd;
