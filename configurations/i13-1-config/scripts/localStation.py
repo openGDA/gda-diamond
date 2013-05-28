@@ -68,8 +68,9 @@ showtime=showtimeClass('showtime')
 inctime=showincrementaltimeClass('inctime')
 actualTime=actualTimeClass("actualTime")
 
-from gdascripts.metadata.metadata_commands import setTitle
+from gdascripts.metadata.metadata_commands import setTitle, getTitle
 alias("setTitle")
+alias("getTitle")
 
 if not LocalProperties.check("gda.dummy.mode"):
 	import filter_array

@@ -102,23 +102,23 @@ try:
 			lensX4Pink="X4 CWD 200"
 			lensX10="X10 2mm x 1mm"
 			
-			caput("BL13I-EA-TURR-01:DEMAND.ZRST",lensX2 )
-			caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", lensX2)
+			caput("BL13I-EA-TURR-01:DEMAND.ZRST",lensX10 )
+			caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", lensX10)
 		
 			caput("BL13I-EA-TURR-01:DEMAND.ONST", "2")
 			caput("BL13I-EA-TURR-01:CURRENTPOS.ONST", "2")
-			caput("BL13I-EA-TURR-01:DEMAND.TWST", lensX4)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", lensX4)
-			caput("BL13I-EA-TURR-01:DEMAND.THST", "4")
-			caput("BL13I-EA-TURR-01:CURRENTPOS.THST", "4")
+			caput("BL13I-EA-TURR-01:DEMAND.TWST", "3")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", "3")
+			caput("BL13I-EA-TURR-01:DEMAND.THST", "6")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.THST", "6")
 			caput("BL13I-EA-TURR-01:DEMAND.FRST", "5")
 			caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", "5")
 		
 		
-			caput("BL13I-EA-TURR-01:DEMAND.FVST", "6")
-			caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", "6")
-			caput("BL13I-EA-TURR-01:DEMAND.SXST", lensX10)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", lensX10)
+			caput("BL13I-EA-TURR-01:DEMAND.FVST", lensX4)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", lensX4)
+			caput("BL13I-EA-TURR-01:DEMAND.SXST", lensX2)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", lensX2)
 			#make the lens re-read its list of positions following setting them in EPICS above
 			lens.initializationCompleted()
 

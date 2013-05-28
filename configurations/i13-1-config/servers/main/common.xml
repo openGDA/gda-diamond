@@ -257,7 +257,9 @@
 	<import resource="../../devices/maxipix.xml" />
 	<import resource="../../devices/pco1.xml" />
 
+	<!-- This is no longer present - T2 now contains beamstop abut not the detector xyz motors
 	<import resource="../../devices/detector_stage_t2.xml" />
+	-->
 
 	<!-- end of device list -->
 

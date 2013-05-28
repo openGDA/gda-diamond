@@ -21,6 +21,10 @@ from gda.device.scannable import ScannableBase, ScannableUtils
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.factory import Finder
 from uk.ac.gda.analysis.hdf5 import Hdf5Helper, Hdf5HelperData, HDF5HelperLocations
+
+from gda.data.scan.datawriter.DefaultDataWriterFactory import createDataWriterFromFactory
+from gda.data.scan.datawriter import *
+
 class EnumPositionerDelegateScannable(ScannableBase):
     """
     Translate positions 0 and 1 to Close and Open
@@ -85,6 +89,61 @@ class   tomoScan_positions(ScanPositionProvider):
     def toString(self):
         return self.__str__()
 
+def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_name):
+    if scanObject is None:
+        raise "Input scanObject must not be None"
+   
+    nxLinkCreator = NXTomoEntryLinkCreator()
+   
+    # detector independent items
+    nxLinkCreator.setControl_data_target("entry1:NXentry/instrument:NXinstrument/ionc_i:NXpositioner/ionc_i:NXdata")
+    nxLinkCreator.setInstrument_detector_image_key_target("entry1:NXentry/instrument:NXinstrument/tomoScanDevice:NXpositioner/image_key:NXdata")
+    nxLinkCreator.setInstrument_source_target("entry1:NXentry/instrument:NXinstrument/source:NXsource")
+   
+    sample_rotation_angle_target = "entry1:NXentry/instrument:NXinstrument/tomoScanDevice:NXpositioner/"
+    sample_rotation_angle_target += tomography_theta_name + ":NXdata"
+    nxLinkCreator.setSample_rotation_angle_target(sample_rotation_angle_target);
+   
+    nxLinkCreator.setTitle_target("entry1:NXentry/title:NXdata")
+   
+    # detector dependent items
+    if tomography_detector_name == "pco1_hw_hdf":
+        # external file
+        instrument_detector_data_target = "!entry1:NXentry/instrument:NXinstrument/"
+        instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
+        instrument_detector_data_target += "data:SDS"
+        nxLinkCreator.setInstrument_detector_data_target(instrument_detector_data_target)
+    elif tomography_detector_name == "pco1_hw_tif":
+        # image filenames
+        instrument_detector_data_target = "entry1:NXentry/instrument:NXinstrument/"
+        instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
+        instrument_detector_data_target += "image_data:NXdata"
+        nxLinkCreator.setInstrument_detector_data_target(instrument_detector_data_target)
+    else:
+        print "Defaults used for unsupported tomography detector in addNXTomoSubentry: " + tomography_detector_name
+   
+    nxLinkCreator.afterPropertiesSet()
+   
+    dataWriter = createDataWriterFromFactory()
+    subEntryWriter = NXSubEntryWriter(nxLinkCreator)
+    dataWriter.addDataWriterExtender(subEntryWriter)
+    scanObject.setDataWriter(dataWriter)
+
+def reportJythonNamespaceMapping():
+    jns=beamline_parameters.JythonNameSpaceMapping()
+    objectOfInterest = {}
+    objectOfInterest['tomography_theta'] = jns.tomography_theta
+    objectOfInterest['tomography_shutter'] = jns.tomography_shutter
+    objectOfInterest['tomography_translation'] = jns.tomography_translation
+    objectOfInterest['tomography_detector'] = jns.tomography_detector
+    objectOfInterest['tomography_beammonitor'] = jns.tomography_beammonitor
+  
+    for key, val in objectOfInterest.iteritems():
+        print key + ' = ' + str(val)
+    msg = "\n These mappings can be changed by editing a file named live_jythonNamespaceMapping, "
+    msg += "\n located in i13i-config/scripts (this can be done by beamline staff)."
+    print msg
+
 from gda.device.scannable import SimpleScannable
 image_key_dark=2
 image_key_flat=1 # also known as bright
@@ -119,7 +178,7 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None):
     if tomography_detector is None:
         raise "tomography_detector is not defined in Jython namespace"    
     currentTheta=tomography_theta()
-    tomoScan(tomography_translation(), outOfBeamPosition, exposureTime, start=currentTheta, stop=currentTheta, step=1., imagesPerDark=1, imagesPerFlat=1)
+    tomoScan(tomography_translation(), outOfBeamPosition, exposureTime, start=currentTheta, stop=currentTheta, step=1., imagesPerDark=1, imagesPerFlat=1, addNXEntry=False)
     lsdp=jns.lastScanDataPoint()
     detName=tomography_detector.getName()
 
@@ -209,7 +268,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 perform a simple tomogrpahy scan
 """
 def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1.):
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True):
     """
     Function to collect a tomogram
  	Arguments:
@@ -354,7 +413,8 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
             scan_args.append(beamok)
             
         scanObject=createConcurrentScan(scan_args)
-
+        if addNXEntry:
+            addNXTomoSubentry(scanObject, tomography_detector.name, tomography_theta.name)
         tomodet.stop()
         scanObject.runScan()
         #ensure the soft control of the shutter is open at the end of the scan

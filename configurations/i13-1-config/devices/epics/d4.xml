@@ -132,6 +132,10 @@
 		<property name="pluginBase" ref="d4_ffmpeg_ndpluginbase" />
 	</bean>
 
+	<bean id="d4_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL13J-DI-PHDGN-05:PROC:" />
+	</bean>
+
 
 	<bean id="d4_cam_ad_plugins" class="gda.device.FindableObjectHolder">
 		<property name="map">
@@ -140,6 +144,7 @@
 				<entry key="d4_arr" value-ref="d4_arr" />
 				<entry key="d4_ffmpeg" value-ref="d4_ffmpeg" />
 				<entry key="d4_roi" value-ref="d4_roi" />
+				<entry key="d4_proc" value-ref="d4_proc" />
 			</util:map>
 		</property>
 	</bean>

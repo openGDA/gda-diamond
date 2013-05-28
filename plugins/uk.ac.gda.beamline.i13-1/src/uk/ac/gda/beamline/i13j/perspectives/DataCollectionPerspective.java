@@ -27,7 +27,7 @@ import org.eclipse.ui.IViewLayout;
 
 import uk.ac.gda.beamline.i13j.views.ViewFactoryIds;
 import uk.ac.gda.client.CommandQueueViewFactory;
-import uk.ac.gda.client.XYPlotView;
+import uk.ac.gda.client.liveplot.LivePlotView;
 
 /**
  */
@@ -67,7 +67,7 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 		left.addView(IPageLayout.ID_PROJECT_EXPLORER);
 
 		IFolderLayout right = factory.createFolder("right", IPageLayout.RIGHT, (float) 0.50, factory.getEditorArea()); //$NON-NLS-1$
-		right.addView(XYPlotView.ID);
+		right.addView(LivePlotView.ID);
 		
 		IFolderLayout rightBottom = factory.createFolder("rightBottom", IPageLayout.BOTTOM, (float) 0.50, "right");
 		rightBottom.addView("uk.ac.gda.beamline.i13j.DetectorPlot");
@@ -97,6 +97,7 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 		factory.addNewWizardShortcut("org.eclipse.ui.wizards.new.file");// NON-NLS-1
 	}
 
+	@SuppressWarnings("deprecation")
 	private void addViewShortcuts() {
 		factory.addShowViewShortcut(IPageLayout.ID_RES_NAV);
 		factory.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);

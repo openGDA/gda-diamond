@@ -1083,6 +1083,11 @@ def makeLinksForNXSFile(\
 		N=min(10, N)
 
 	if not imgkeyNXS:
+		if (inBeamPos is None) or (outOfBeamPos is None):
+			msg = "INFO: Image-key data are not available in input NeXus file - please re-run this script using \n"
+			msg += "the stageInBeamPhys and stageOutOfBeamPhys options, followed by appropriate values \n"
+			msg += "(the latter can be found in scan_command recorded in scan's NeXus file)."
+			raise Exception(msg)
 		image_key_curr={}
 	# identify each entry as DARK, FLAT, PROJ or UNCLASSIFIED image
 		for i in range(0, N):
@@ -1172,7 +1177,8 @@ def makeLinksForNXSFile(\
 	else:
 		msg = 'Failed to find projection at angle 0!' 
 		print "theta_lo = %s, zidx = %s"%(theta_lo, proj_idx[0])
-		raise Exception(msg)
+		if recon:
+			raise Exception(msg)
 		
 	path_proj_180deg=''
 	img_idx_proj_180deg=-1
@@ -1183,7 +1189,8 @@ def makeLinksForNXSFile(\
 	else:
 		msg = 'Failed to find projection at angle 180!' 
 		print "theta_hi = %s, zidx = %s"%(theta_hi, proj_idx[len_proj_idx-1])
-		raise Exception(msg)
+		if recon:
+			raise Exception(msg)
 	
 	# use the path of the first PROJ image file as a reference file path for identifying the corresponding scanNumber, etc
 	srcfile_proj=tif[ proj_idx[0] ][0]
@@ -1350,7 +1357,7 @@ creates directories and links to projection, dark and flat images required for s
 	#parser.print_version()
 
 # Make sure all mandatory input variables have some values
-	mandatories=['filename', 'shutOpenPos', 'shutClosedPos', 'inBeamPos', 'outOfBeamPos', 'shutNXSPath', 'stagePosNXSPath', 'stageRotNXSPath', 'tifNXSPath']
+	mandatories=['filename', 'shutOpenPos', 'shutClosedPos', 'shutNXSPath', 'stagePosNXSPath', 'stageRotNXSPath', 'tifNXSPath']
 	for m in mandatories:
 		#print opts_dict[m]
 		if opts_dict[m] is None:

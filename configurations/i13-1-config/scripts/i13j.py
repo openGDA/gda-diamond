@@ -163,6 +163,12 @@ To take an image from the maxipix detector:
     
 13. repscan 10 random_move_scannable.CreateRandomMoveScannable(ix, [(0,10)]) 1 ix iy
     
+14. To set a title to be recorded in the scan file use the command:
+    >setTitle xxxx
+
+    To view the current title use the command:
+    >getTitle
+
 """
 
 
