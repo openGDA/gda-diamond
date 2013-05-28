@@ -52,6 +52,16 @@ public class ReadonlyScannableComposite extends Composite {
 	String [] formats;
 	String suffix="";
 	Integer decimalPlaces;
+	private Integer minPeriodMS=null;
+	private Boolean textUpdateScheduled=false;
+
+	public Integer getMinPeriodMS() {
+		return minPeriodMS;
+	}
+
+	public void setMinPeriodMS(Integer minPeriodMS) {
+		this.minPeriodMS = minPeriodMS;
+	}
 
 	public ReadonlyScannableComposite(Composite parent, int style, final Display display, final Scannable scannable, String label, final String units, 
 			Integer decimalPlaces) {
@@ -83,6 +93,7 @@ public class ReadonlyScannableComposite extends Composite {
 				int diff = valPlusUnits.length()-currentLength;
 				if ( diff > 0 || diff < -3)
 					EclipseWidgetUtils.forceLayoutOfTopParent(ReadonlyScannableComposite.this);
+				textUpdateScheduled=false;
 			}
 		};		
 		
@@ -92,7 +103,7 @@ public class ReadonlyScannableComposite extends Composite {
 			public void update(Object source, Object arg) {
 				if( arg instanceof ScannablePositionChangeEvent){
 					final ScannablePositionChangeEvent event = (ScannablePositionChangeEvent)arg;
-					setVal(event.newPosition.toString());
+					setVal(new ScannableGetPositionWrapper(event.newPosition, formats).getStringFormattedValues()[0]);
 				} else if( arg instanceof ScannableStatus && ((ScannableStatus)arg).status == ScannableStatus.IDLE){
 					try {
 						ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(scannable.getPosition(),formats );
@@ -135,7 +146,19 @@ public class ReadonlyScannableComposite extends Composite {
 		}
 		val = newVal;
 		if(!isDisposed()){
-			display.asyncExec(setTextRunnable);
+			if( minPeriodMS != null){
+				if( !textUpdateScheduled){
+					textUpdateScheduled=true;
+					display.asyncExec(new Runnable(){
+
+						@Override
+						public void run() {
+							display.timerExec(minPeriodMS, setTextRunnable);
+						}});
+				}
+			} else {
+				display.asyncExec(setTextRunnable);
+			}
 		}
 	}
 

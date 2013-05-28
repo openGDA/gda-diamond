@@ -71,10 +71,40 @@ public class ReadonlyScannableCompositeFactory implements CompositeFactory, Init
 		this.decimalPlaces = decimalPlaces;
 	}
 	
+	Boolean forceLayoutOnLengthChange=true;
+
+	public Boolean getForceLayoutOnLengthChange() {
+		return forceLayoutOnLengthChange;
+	}
+
+	public void setForceLayoutOnLengthChange(Boolean forceLayoutOnLengthChange) {
+		this.forceLayoutOnLengthChange = forceLayoutOnLengthChange;
+	}	
+	
+	private Integer minPeriodMS;
+	
+
+	
+	public Integer getMinPeriodMS() {
+		return minPeriodMS;
+	}
+
+	/**
+	 * 
+	 * @param minPeriodMS
+	 * 
+	 * Is set the composite is updated at max once every minPeriodMS (ms)
+	 */
+	public void setMinPeriodMS(Integer minPeriodMS) {
+		this.minPeriodMS = minPeriodMS;
+	}
+
 	@Override
 	public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
-		return new ReadonlyScannableComposite(parent, style, iWorkbenchPartSite.getShell().getDisplay(), scannable,
+		ReadonlyScannableComposite readonlyScannableComposite = new ReadonlyScannableComposite(parent, style, iWorkbenchPartSite.getShell().getDisplay(), scannable,
 				label, units, decimalPlaces);
+		readonlyScannableComposite.setMinPeriodMS(minPeriodMS);
+		return readonlyScannableComposite;
 	}
 
 	public static void main(String... args) {
