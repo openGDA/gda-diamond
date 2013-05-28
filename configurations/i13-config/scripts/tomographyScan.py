@@ -39,8 +39,10 @@ class EnumPositionerDelegateScannable(ScannableBase):
         if int(new_position) == self.rawGetPosition():
             return
         if int(new_position) == 1:
+            print "Move To Open"
             self.delegate.asynchronousMoveTo("Open")
         else:
+            print "Move To Close"
             self.delegate.asynchronousMoveTo("Close")
         # wait for 1s
         sleep(1.)
@@ -149,14 +151,14 @@ image_key_dark=2
 image_key_flat=1 # also known as bright
 image_key_project=0 # also known as sample
 
-def showNormalisedImage(outOfBeamPosition, exposureTime=None):
+def showNormalisedImage(outOfBeamPosition, exposureTime=None, imagesPerDark=1, imagesPerFlat=1, getDataOnly=False):
 	try:
-		showNormalisedImageEx(outOfBeamPosition, exposureTime=exposureTime)
+		showNormalisedImageEx(outOfBeamPosition, exposureTime=exposureTime, imagesPerDark=imagesPerDark, imagesPerFlat=imagesPerFlat, getDataOnly=getDataOnly)
 	except :
 		exceptionType, exception, traceback = sys.exc_info()
 		handle_messages.log(None, "Error in showNormalisedImage", exceptionType, exception, traceback, False)
 
-def showNormalisedImageEx(outOfBeamPosition, exposureTime=None):
+def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1, imagesPerFlat=1, getDataOnly=False):
     jns=beamline_parameters.JythonNameSpaceMapping()
     tomodet=jns.tomodet
     if tomodet is None:
@@ -178,7 +180,11 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None):
     if tomography_detector is None:
         raise "tomography_detector is not defined in Jython namespace"    
     currentTheta=tomography_theta()
-    tomoScan(tomography_translation(), outOfBeamPosition, exposureTime, start=currentTheta, stop=currentTheta, step=1., imagesPerDark=1, imagesPerFlat=1, addNXEntry=False)
+    tomoScan(tomography_translation(), outOfBeamPosition, exposureTime, start=currentTheta, stop=currentTheta, step=1., imagesPerDark=imagesPerDark, imagesPerFlat=imagesPerFlat, addNXEntry=False)
+
+    if getDataOnly:
+        return True
+    
     lsdp=jns.lastScanDataPoint()
     detName=tomography_detector.getName()
 
@@ -195,12 +201,12 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None):
         raise "Unable to find data in file"
     dataset=nxdata[dataKey]
     dark=dnp.array((dataset[0,:,:]).cast(6))
-    flat=dnp.array((dataset[1,:,:]).cast(6))
-    image=dnp.array((dataset[2,:,:]).cast(6))
+    flat=dnp.array((dataset[imagesPerDark,:,:]).cast(6))
+    image=dnp.array((dataset[imagesPerDark+imagesPerFlat,:,:]).cast(6))
     imageD=image-dark
     flatD=flat-dark
     t=imageD/dnp.select( dnp.not_equal(flatD,0), flatD, 1.)
-    t.name="image-dark/flat-dark"
+    t.name=lsdp.getScanIdentifier() + " image-dark/flat-dark"
     hdfData = Hdf5HelperData(t.shape, t.getBuffer())
     locs = HDF5HelperLocations("entry1")
     locs.add(tomography_detector.getName())
@@ -214,7 +220,7 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None):
 perform a continuous tomogrpahy scan
 """
 def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1.):
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=True):
     """
     Function to collect a tomogram
      Arguments:
@@ -253,11 +259,13 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         tomography_shutter.moveTo( "Open")        
 
         scanObject=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
+#        scanObject=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step, tomography_flyscan_det, exposureTime])
         tomodet.stop()
-        
         scanObject.runScan()
-        #turn camera back on
-        tomodet.setupForAlignment()
+
+        if setupForAlignment:
+            tomodet.setupForAlignment()
+            
         return scanObject;
     except :
         exceptionType, exception, traceback = sys.exc_info()
@@ -358,6 +366,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         shutterClosed=0
         scan_points = []
         theta_pos = theta_points[0]
+        tomoScanDevice.tomography_shutter.moveTo(shutterClosed) 
         index=0
         for i in range(imagesPerDark):
             scan_points.append((theta_pos, shutterClosed, inBeamPosition, image_key_dark,index )) #dark
@@ -444,6 +453,10 @@ def ProcessScanParameters(scanParameterModelXML):
     updateProgress(0, "Starting tomoscan" + parameters.getTitle());
     print "Flyscan:" + `parameters.flyScan`
     if( parameters.flyScan ):
+        if parameters.imagesPerDark > 0:
+            updateProgress(5, "Getting flats and darks")
+            showNormalisedImageEx(parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, getDataOnly=True)
+        updateProgress(10, "Starting collection of tomograms")
         tomoFlyScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
                  darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
                   imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI)    
@@ -451,7 +464,7 @@ def ProcessScanParameters(scanParameterModelXML):
         tomoScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
                  darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
                   imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI)    
-        updateProgress(100,"Done");
+    updateProgress(100,"Done");
     
 
 def __test1_tomoScan():

@@ -12,6 +12,9 @@
 		<property name="motor" ref="dcm_bragg_motor" />
 		<property name="userUnits" value="deg"/>
 	</bean>
+<!-- No good as motor is not an Epics motor record DMOV is invalid	<bean id="dcm_energy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_energy_motor" />
+	</bean> -->
 	<bean id="dcm_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcm_pitch_motor" />
 <!-- 		<property name="userUnits" value="deg"/>

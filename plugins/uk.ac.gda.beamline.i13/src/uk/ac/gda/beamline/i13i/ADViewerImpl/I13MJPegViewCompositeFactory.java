@@ -23,6 +23,7 @@ import gda.commandqueue.Queue;
 import gda.device.EnumPositioner;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -53,20 +54,30 @@ import uk.ac.gda.tomography.scan.editor.ScanParameterDialog;
 public class I13MJPegViewCompositeFactory implements ADViewerCompositeFactory{
 	private static final Logger logger = LoggerFactory.getLogger(I13MJPegViewCompositeFactory.class);
 
-	I13MJPegViewInitialiser i13MJPegViewInitialiser;	
+	I13MJPegViewInitialiser i13MJPegViewInitialiser;
+
+	private Button btnmoveSampleOnClick;	
 	
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public I13MJPegViewCompositeFactory() {
 		super();
 	}
 
 
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	@Override
 	public Composite createComposite(ADController adController, Composite parent, MJPegView mjPegView, MJPeg mJPeg) {
 		if( !(adController instanceof I13ADControllerImpl)){
 			throw new IllegalArgumentException("ADController must be of type I13ADControllerImpl");
 		}
 		final I13ADControllerImpl adControllerImpl = (I13ADControllerImpl)adController;
-		Composite c = new Composite(parent, SWT.NONE);
+		Composite top = new Composite(parent, SWT.NONE);
+		top.setLayout(new RowLayout(SWT.VERTICAL));
+		Composite c = new Composite(top, SWT.NONE);
 		c.setLayout(new GridLayout(3, false));
 		Composite btnLens = new Composite(c, SWT.NONE);
 		GridDataFactory.swtDefaults().applyTo(btnLens);
@@ -113,6 +124,15 @@ public class I13MJPegViewCompositeFactory implements ADViewerCompositeFactory{
 					protected void configureShell(Shell newShell) {
 						super.configureShell(newShell);
 						newShell.setText("Get Normalised Image");
+					}
+
+					@Override
+					protected void createButtonsForButtonBar(Composite parent) {
+						// create OK and Cancel buttons by default
+						createButton(parent, IDialogConstants.OK_ID, "Run",
+								false);
+						createButton(parent, IDialogConstants.CANCEL_ID,
+								IDialogConstants.CANCEL_LABEL, false);
 					}
 
 					@Override
@@ -178,6 +198,17 @@ public class I13MJPegViewCompositeFactory implements ADViewerCompositeFactory{
 			}
 		});
 		
+		Composite bottom = new Composite(top, SWT.NONE);
+		bottom.setLayout(new RowLayout());
+		btnmoveSampleOnClick = new Button(bottom, SWT.CHECK);
+		btnmoveSampleOnClick.setText("Move Sample on Click");
+		btnmoveSampleOnClick.setToolTipText("When enabled the point clicked on in teh image is moved to the rotation axis position");
+		btnmoveSampleOnClick.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				i13MJPegViewInitialiser.setMoveOnClick(btnmoveSampleOnClick.getSelection());
+			}
+		});
 		
 		i13MJPegViewInitialiser = new I13MJPegViewInitialiser(adControllerImpl, mJPeg, mjPegView);
 		c.addDisposeListener(new DisposeListener() {

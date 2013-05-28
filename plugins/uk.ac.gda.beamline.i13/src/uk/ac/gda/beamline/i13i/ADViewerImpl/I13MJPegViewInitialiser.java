@@ -264,7 +264,7 @@ public class I13MJPegViewInitialiser  {
 		MenuCreator showMenu = new MenuCreator("Show",
 				"Actions that lead to items shown on the image or in other views", showActions);
 
-		Action moveOnClickAction = new Action("Move Sample On Click", IAction.AS_CHECK_BOX) {
+/*		moveOnClickAction = new Action("Move Sample On Click", IAction.AS_CHECK_BOX) {
 			@Override
 			public void run() {
 				moveOnClickEnabled = !moveOnClickEnabled;
@@ -277,11 +277,11 @@ public class I13MJPegViewInitialiser  {
 
 		MenuCreator moveMenu = new MenuCreator("Alignment", "Actions that move the camera and sample stages",
 				moveActions);
-
+*/
 		IActionBars actionBars = mjPegView.getViewSite().getActionBars();
 		IToolBarManager toolBar = actionBars.getToolBarManager();
 		toolBar.add(showMenu);
-		toolBar.add(moveMenu);
+//		toolBar.add(moveMenu);
 
 		rotationAxisObserver = new IObserver() {
 
@@ -401,6 +401,7 @@ public class I13MJPegViewInitialiser  {
 	static int widthOffAxisHalf = widthOffAxis / 2;
 	private IObserver rotationAxisObserver;
 	private IObserver cameraXYObserver;
+	public Action moveOnClickAction;
 
 	void showImageMarker(boolean show) throws Exception {
 		RectangleFigure imageMarkerFigureX = getImageMarkerFigureX();
@@ -508,5 +509,9 @@ public class I13MJPegViewInitialiser  {
 			cameraXYObserver = null;
 		}
 		
+	}
+
+	public void setMoveOnClick(boolean selection) {
+		moveOnClickEnabled = selection;
 	}
 }

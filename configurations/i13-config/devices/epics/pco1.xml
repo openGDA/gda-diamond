@@ -79,7 +79,7 @@
 		<property name="noLongerBusyTriggerInVal" value="39"/>
 		<property name="noLongerBusyTriggerSetupCommand" value="tfg setup-trig start adc5 alternate 1"/>
 		<property name="adcMode" value="0"/>
-		<property name="useShutterPV" value="true"/>
+		<property name="useShutterPV" value="false"/><!-- Change to false as the shutter is slow -->
 	</bean>
 	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />

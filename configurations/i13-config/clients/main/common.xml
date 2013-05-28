@@ -9,7 +9,7 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 	<corba:import namespace="i13"
-		names="plot_server, dcm_energy, eh_shtr, fs" />
+		names="plot_server, dcm_energy, dcm_bragg, eh_shtr, fs" />
 
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
@@ -39,7 +39,7 @@
 	<corba:import namespace="i13"
 		names="rotationAxisXScannable, cameraXYScannable, lens" />
 
-	<import resource="../../devices/cameraScaleProviders.xml"/>
+	<import resource="../../devices/cameraScaleProviders.xml" />
 
 	<bean id="i13ADController"
 		class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13ADControllerImpl">
@@ -56,8 +56,9 @@
 		<property name="ffmpegImageOutHeightMax" value="1336" />
 		<property name="ffmpegImageOutWidthMax" value="2004" />
 		<property name="lensScannable" ref="lens" />
-		<property name="mjpegViewCompositeFactory" >
-		<bean class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13MJPegViewCompositeFactory"/>
+		<property name="mjpegViewCompositeFactory">
+			<bean
+				class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13MJPegViewCompositeFactory" />
 		</property>
 		<property name="stagesCompositeFactory" ref="stages" />
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
@@ -72,7 +73,7 @@
 		<property name="ffmpegImageInOffsetY" value="100" />
 		<property name="showNormalisedImageCmd"
 			value="tomographyScan.showNormalisedImage(%s,exposureTime=%s)" />
-		<property name="imageNDROI" ref="pco1_roi1"/>
+		<property name="imageNDROI" ref="pco1_roi1" />
 	</bean>
 
 	<bean id="i13ADViewcreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
@@ -100,12 +101,12 @@
 	<bean id="expt_sht_stat" class="gda.device.scannable.EpicsScannable">
 		<property name="hasUnits" value="False" />
 		<property name="getAsString" value="True" />
-		<property name="pvName" value="BL13I-PS-SHTR-02:STA"/>
+		<property name="pvName" value="BL13I-PS-SHTR-02:STA" />
 	</bean>
 	<bean id="fast_shtr_stat" class="gda.device.scannable.EpicsScannable">
 		<property name="hasUnits" value="False" />
 		<property name="getAsString" value="True" />
-		<property name="pvName" value="BL13I-EA-FSHTR-01:CONTROL"/>
+		<property name="pvName" value="BL13I-EA-FSHTR-01:CONTROL" />
 	</bean>
 
 	<bean id="commandRunner" class="gda.jython.CommandRunnerBean" />
@@ -121,7 +122,7 @@
 			<list>
 				<bean class="gda.rcp.views.GroupCompositeFactory">
 					<property name="label" value="Machine" />
-					<property name="columns" value="2" />
+					<property name="columns" value="1" />
 					<property name="compositeFactories">
 						<list>
 							<bean
@@ -129,30 +130,53 @@
 								<property name="scannable" ref="ringCurrent" />
 								<property name="label" value="Ring Current" />
 								<property name="units" value="mA" />
-								<property name="decimalPlaces" value="2"/>
+								<property name="minPeriodMS" value="1000" />
+								<property name="decimalPlaces" value="2" />
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="timeToRefill" />
 								<property name="label" value="Time to refill" />
 								<property name="units" value="s" />
-								<property name="decimalPlaces" value="0"/>
+								<property name="minPeriodMS" value="1000" />
+								<property name="decimalPlaces" value="0" />
 							</bean>
+
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Beamline" />
+					<property name="columns" value="2" />
+					<property name="compositeFactories">
+						<list>
 
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="idGap" />
 								<property name="label" value="ID Gap" />
 								<property name="units" value="mm" />
-								<property name="decimalPlaces" value="2"/>
+								<property name="minPeriodMS" value="1000" />
+								<property name="decimalPlaces" value="2" />
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="dcm_energy" />
-								<property name="label" value="DCM" />
-								<property name="units" value="keV" />
-								<property name="decimalPlaces" value="4"/>
+								<property name="scannable" ref="dcm_bragg" />
+								<property name="label" value="Bragg" />
+								<property name="units" value="degrees" />
+								<property name="minPeriodMS" value="1000" />
+								<property name="decimalPlaces" value="4" />
 							</bean>
+
+							<bean class="gda.rcp.views.MotorPositionViewerCompositeFactory">
+								<property name="scannable" ref="dcm_energy" />
+								<property name="label" value="Energy" />
+								<property name="restoreValueWhenFocusLost" value="true"/>
+								<property name="commandFormat" value="bl.setFromScript(%5.5g)"/>
+								<property name="hideLabel" value="false"/>
+							</bean>
+
+
 						</list>
 					</property>
 				</bean>
@@ -163,16 +187,32 @@
 						<list>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="expt_sht_stat"/>
+								<property name="scannable" ref="expt_sht_stat" />
 								<property name="label" value="State" />
 							</bean>
 							<bean class="uk.ac.gda.dls.client.views.RunCommandCompositeFactory">
 								<property name="command" value="eh_shtr_control()" />
-								<property name="commandRunner" ref="commandRunner"/>
+								<property name="commandRunner" ref="commandRunner" />
 								<property name="label" value="Open/Close" />
 								<property name="tooltip"
 									value="Opens or closes the experiment hutch shutter" />
-								<property name="jobTitle" value="Experiment Hutch Open/Close"/>
+								<property name="jobTitle" value="Experiment Hutch Open/Close" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Ion Chamber." />
+					<property name="columns" value="1" />
+					<property name="compositeFactories">
+						<list>
+							<bean
+								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="ionc_i" />
+								<property name="label" value="i" />
+								<property name="units" value="V" />
+								<property name="minPeriodMS" value="1000" />
+								<property name="decimalPlaces" value="3" />
 							</bean>
 						</list>
 					</property>
@@ -184,16 +224,16 @@
 						<list>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="fast_shtr_stat"/>
+								<property name="scannable" ref="fast_shtr_stat" />
 								<property name="label" value="State" />
 							</bean>
 							<bean class="uk.ac.gda.dls.client.views.RunCommandCompositeFactory">
-								<property name="commandRunner" ref="commandRunner"/>
+								<property name="commandRunner" ref="commandRunner" />
 								<property name="command" value="fs_control()" />
 								<property name="label" value="Open/Close" />
 								<property name="tooltip"
 									value="Opens or closes the experiment fast shutter" />
-								<property name="jobTitle" value="Fast Shutter Open/Close"/>
+								<property name="jobTitle" value="Fast Shutter Open/Close" />
 							</bean>
 						</list>
 					</property>
@@ -335,7 +375,7 @@
 				</bean>
 			</util:list>
 		</property>
-		<property name="labelWidth" value="70"/>
+		<property name="labelWidth" value="70" />
 	</bean>
 
 
@@ -373,7 +413,7 @@
 									</bean>
 								</util:list>
 							</property>
-						<property name="labelWidth" value="70"/>
+							<property name="labelWidth" value="80" />
 						</bean>
 					</property>
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
@@ -399,7 +439,7 @@
 									</bean>
 								</util:list>
 							</property>
-							<property name="labelWidth" value="70"/>
+							<property name="labelWidth" value="80" />
 						</bean>
 					</property>
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
@@ -425,7 +465,7 @@
 									</bean>
 								</util:list>
 							</property>
-							<property name="labelWidth" value="70"/>
+							<property name="labelWidth" value="80" />
 						</bean>
 					</property>
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
@@ -455,7 +495,7 @@
 									</bean>
 								</util:list>
 							</property>
-							<property name="labelWidth" value="70"/>
+							<property name="labelWidth" value="80" />
 						</bean>
 					</property>
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />

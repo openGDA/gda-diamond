@@ -42,6 +42,10 @@ def fs_control():
 	else:
 		pos fs "Open"
 		
+def isLive():
+	mode = LocalProperties.get("gda.mode")
+	return mode =="live" or mode =="live_localhost"
+
 try:
 	from gda.device import Scannable
 	from gda.jython.commands.GeneralCommands import ls_names, vararg_alias
@@ -91,7 +95,9 @@ try:
 #	waitForQcm_bragg1 = WaitForScannableAtLineEnd('waitForQcm_bragg1', qcm_bragg1)
 	
 	try:
-		if LocalProperties.get("gda.mode") =="live":
+		if isLive():
+			createPVScannable( "mono_fine_pitch_demand", "BL13I-OP-DCM-01:BRAGG:FINE:DEMANDPOS")
+			createPVScannable( "mono_fine_pitch", "BL13I-OP-DCM-01:BRAGG:FINE:CURPOS")
 			createPVScannable( "d1_total", "BL13I-DI-PHDGN-01:STAT:Total_RBV")
 			createPVScannable( "expt_fastshutter_raw", "BL13I-EA-FSHTR-01:CONTROL", hasUnits=False)
 			expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", expt_fastshutter_raw)
@@ -164,7 +170,7 @@ try:
 	#from tests.testRunner import run_tests
 
 	try:
-		if LocalProperties.get("gda.mode") == "live":
+		if isLive():
 			import autocollimator_script
 			autocollimator_script.setup()
 	except :
@@ -174,15 +180,23 @@ try:
 	import alignmentGui
 	tomodet = alignmentGui.TomoDet()
 	#setup trigger for pink beam
-	if LocalProperties.get("gda.mode") == "live":
+	if isLive():
 		pco1_hw_tif.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
 		pco1_hw_hdf.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
 	
 	import tomographyScan
+	#for fast flyscans
+	zebra_det.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="C:\data"	
 	
+	from gda.device.detector.areadetector.v17 import ADDriverPco
+	zebra_det.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_AND_SOFTWARE	
 #	run("i13diffcalc")
 	import raster_scan
 	
+
+	import beamLineEnergy
+	bl = beamLineEnergy.beamLineEnergy()
+	bl.setName("bl")
 
 except :
 	exceptionType, exception, traceback = sys.exc_info()

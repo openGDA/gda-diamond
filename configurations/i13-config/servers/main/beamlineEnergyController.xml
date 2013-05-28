@@ -146,7 +146,7 @@
 	</bean>
 
 
-	<bean id="BeamLineEnergy_Angstrom_To_eV_converter" class="gda.util.converters.JEPConverterHolder">
+ 	<bean id="BeamLineEnergy_Angstrom_To_eV_converter" class="gda.util.converters.JEPConverterHolder">
 		<constructor-arg value="BeamLineEnergy_Angstrom_To_eV_converter" />
 		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/BeamLineEnergy_Angstrom_To_eV_converter.xml" />
 	</bean>
