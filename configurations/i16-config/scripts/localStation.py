@@ -11,8 +11,10 @@ import installation
 
 if installation.isDummy():
 	USE_DIFFCALC = True
+	USE_CRYO_GEOMETRY = False
 else:
 	USE_DIFFCALC = False  # <-- change here for live gda!
+	USE_CRYO_GEOMETRY = False
 
 USE_DUMMY_IDGAP_MOTOR = False
 #USE_DUMMY_IDGAP_MOTOR = True
@@ -117,8 +119,15 @@ note.rootNamespaceDict=globals()
 ###############################################################################
 ### Expose wrapped motors for Coordinated motion
 print "Replacing ScannableMotors kphi, kap. kth, kmu, kdelta and kgam with wrappers supporting coordinated movement"
-sixc = sixckappa #@UndefinedVariable
-exec("kphi=sixc.kphi")
+if USE_CRYO_GEOMETRY:
+	sixc = sixckappa_cryo #@UndefinedVariable
+else:
+	sixc = sixckappa #@UndefinedVariable
+if USE_CRYO_GEOMETRY:	
+	exec("cryophi=sixc.cryophi")
+else:
+	exec("kphi=sixc.kphi")
+	
 exec("kap=sixc.kap")
 exec("kth=sixc.kth")
 exec("kmu=sixc.kmu")
@@ -274,21 +283,16 @@ scan_processor.processors.append(Rcen())
 print "Creating diffractometer base scannable base_z"
 base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/07
 
-sixckappa.getContinuousMoveController().setScannableForMovingGroupToStart(_sixckappa_deffered_only)
+if installation.isLive():
+	sixckappa.getContinuousMoveController().setScannableForMovingGroupToStart(_sixckappa_deffered_only)
 
-if not USE_DIFFCALC:
-	run("startup_diffractometer_euler")
-else:
-	raise Exception("Relative limits not configured, nor trajscan tested for safety. ---RobW Jan16 2013")
-	print "Replacing ScannableMotors kphi, kap. kth, kmu, kdelta and kgam with wrappers supporting coordinated movement"
-	exec("kphi=sixckappaDC.kphiDC")
-	exec("kap=sixckappaDC.kapDC")
-	exec("kth=sixckappaDC.kthDC")
-	exec("kmu=sixckappaDC.kmuDC")
-	exec("kdelta=sixckappaDC.kdeltaDC")
-	exec("kgam=sixckappaDC.kgamDC")
-	run("startup_diffractometer_euler_for_diffcalc") #TODO: This differs on from startup_diffractometer_euler on only one line
-	delta_axis_offset.scannableToOffset = kdeltaDC
+
+run("startup_diffractometer_euler")
+
+if USE_CRYO_GEOMETRY:
+	chi.setOffset(-90)
+	chi.setUpperGdaLimits(8)
+
 if installation.isLive():
 	thp=SingleEpicsPositionerClass('thp','BL16I-EA-POLAN-01:THETAp.VAL','BL16I-EA-POLAN-01:THETAp.RBV','BL16I-EA-POLAN-01:THETAp.DMOV','BL16I-EA-POLAN-01:THETAp.STOP','deg','%.4f')
 	tthp=SingleEpicsPositionerClass('tthp','BL16I-EA-POLAN-01:DET1:2THETAp.VAL','BL16I-EA-POLAN-01:DET1:2THETAp.RBV','BL16I-EA-POLAN-01:DET1:2THETAp.DMOV','BL16I-EA-POLAN-01:DET1:2THETAp.STOP','deg','%.3f')
@@ -307,7 +311,7 @@ else:
 	exec("eta=euler.eta")
 	exec("mu=euler.mu")
 	exec("delta=euler.delta")
-	exec("gam=nu=euler.nu")
+	exec("gam=euler.gam")
 
 hkl.setLevel(6)
 
@@ -834,9 +838,10 @@ if installation.isLive():
 		lakeshore=ReadPDGroupClass('lakeshore',[]) # LS340 is often not present
 	#minimirrors=ReadPDGroupClass('minimirrors',[m3x, m4x, m3pitch, m4pitch]) #added to metadata as mirror3
 	offsets=ReadPDGroupClass('offsets',[m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, idgap_offset])
-	mt6138=ReadPDGroupClass('6138', [xps3m1, xps3m2])
+	#mt6138=ReadPDGroupClass('6138', [xps3m1, xps3m2])
 	#adctab=ReadPDGroupClass('adctab',[adch,adcv])
 	#add_default(adctab)
+	#fzp=ReadPDGroupClass('FZP_motors',[zp1x, zp1y, zp1z, zp2x, zp2y, zp2z, xps3m1, xps3m2, micosx, micosy])
 try:
 	if not USE_DIFFCALC:
 		meta.set(dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
@@ -919,7 +924,9 @@ def open_valves():
 #ci=234.0; cj=107.0	#/01/13
 #ci=242.0; cj=104.0	#/03/13
 #ci=237.0; cj=121.0	#17/03/13
-ci=236.0; cj=106.0	#16/04/13
+#ci=236.0; cj=106.0	#16/04/13
+ci=240.0; cj=106.0	#26/04/13
+
 maxi=486; maxj=194
 
 #small centred
