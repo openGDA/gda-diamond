@@ -37,4 +37,14 @@ diffcalcObjects=create_objects(
 add_objects_to_namespace( diffcalcObjects, globals() ) #@UndefinedVariable
 hkl.setLevel(6) #@UndefinedVariable
 
+setmin(chi, -2)
+setmax(chi, 100)
+setmin(eta, -2)
+setmax(eta, 92)
+setmin(delta, -2)
+setmax(delta, 179)
+setmin(gam, -2)
+setmax(gam, 179)
+
+
 print "... Leaving: startup_diffcalc.py >>>"
