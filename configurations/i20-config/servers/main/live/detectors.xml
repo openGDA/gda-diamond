@@ -5,11 +5,17 @@
 
 	<bean id="DAServer" class="gda.device.detector.DAServer">
 		<property name="local" value="True" />
-		<property name="host" value="i20-xspress0" />
+<!-- 		for 36Ge: -->
+		<property name="host" value="i20-xspress1" />
+<!-- 		for 64Ge: -->
+<!--		<property name="host" value="i20-xspress0" /> -->
 		<property name="port" value="1972" />
 		<property name="startupCommands">
 			<list>
-				<value>~config 9</value>
+<!-- 		for 36Ge: -->
+ 					<value>~config</value> 
+<!-- 		for 64Ge: -->
+<!-- 				<value>~config 9</value> -->
 			</list>
 		</property>
 		<property name="dataPort" value="20030" />

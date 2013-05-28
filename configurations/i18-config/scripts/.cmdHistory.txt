@@ -43,3 +43,4 @@ reset_namespace
 pos
 reset_namespace
 sc_MicroFocusSampleStage
+scan test 0 10 1

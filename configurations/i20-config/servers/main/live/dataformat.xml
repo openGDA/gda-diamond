@@ -160,7 +160,34 @@
 						</list>
 					</property>
 				</bean>
-				
+				<bean id="atn5_xas" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Atn5 (Xia) filters: %s %s %s %s %s %s %s %s" />
+					<property name="labelValues">
+						<list> 
+							<ref bean="atn5_filter1_name" />
+							<ref bean="atn5_filter1" />
+							<ref bean="atn5_filter2_name" />
+							<ref bean="atn5_filter2" />
+							<ref bean="atn5_filter3_name" />
+							<ref bean="atn5_filter3" />
+							<ref bean="atn5_filter4_name" />
+							<ref bean="atn5_filter4" />
+						</list>
+					</property>
+				</bean>
+				<bean id="sample_xas" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Sample stage: x: %.2f mm y: %.2f mm z: %.2f mm rot: %.2f deg roll: %.2f deg pitch: %.2f deg" />
+					<property name="labelValues">
+						<list>
+							<ref bean="sample_x" />
+							<ref bean="sample_y" />
+							<ref bean="sample_z" />
+							<ref bean="sample_rot" />
+							<ref bean="sample_roll" />
+							<ref bean="sample_pitch" />
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 		<property name="footer">
@@ -327,6 +354,33 @@
 				</bean>
 				<bean id="newLine4" class="gda.data.scan.datawriter.AsciiMetadataConfig">
 					<property name="label" value=" " />
+				</bean>
+				<bean id="atn5_xes" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Atn5 (Xia) filters: %s %s %s %s %s %s %s %s" />
+					<property name="labelValues">
+						<list> 
+							<ref bean="atn5_filter1_name" />
+							<ref bean="atn5_filter1" />
+							<ref bean="atn5_filter2_name" />
+							<ref bean="atn5_filter2" />
+							<ref bean="atn5_filter3_name" />
+							<ref bean="atn5_filter3" />
+							<ref bean="atn5_filter4_name" />
+							<ref bean="atn5_filter4" />
+						</list>
+					</property>
+				</bean>
+				<bean id="sample_xes" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Sample stage: x: %.2f mm y: %.2f mm z: %.2f mm rot: %.2f deg fine_rot: %.2f deg" />
+					<property name="labelValues">
+						<list>
+							<ref bean="sample_x" />
+							<ref bean="sample_y" />
+							<ref bean="sample_z" />
+							<ref bean="sample_rot" />
+							<ref bean="sample_fine_rot" />
+						</list>
+					</property>
 				</bean>
 			</list>
 		</property>

@@ -43,6 +43,8 @@ import uk.ac.gda.richbeans.components.wrappers.ComboWrapper;
 import uk.ac.gda.richbeans.components.wrappers.RadioWrapper;
 import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
 import uk.ac.gda.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
+import uk.ac.gda.richbeans.event.ValueEvent;
+import uk.ac.gda.richbeans.event.ValueListener;
 
 public class CryostatTableComposite extends I20SampleParamsComposite {
 
@@ -194,6 +196,7 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 		waitTime = new ScaleBox(tempComposite, SWT.NONE);
 		final GridData gd_time = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		waitTime.setLayoutData(gd_time);
+		waitTime.setDecimalPlaces(0);
 		waitTime.setUnit("s");
 		waitTime.setMaximum(400.0);
 	}
@@ -206,6 +209,18 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 		controlMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		controlMode.setItems(CryostatParameters.CONTROL_MODE);
 		controlMode.select(0);
+		controlMode.addValueListener(new ValueListener() {
+			
+			@Override
+			public void valueChangePerformed(ValueEvent e) {
+				manualOutput.setEnabled(controlMode.getSelectionIndex() == 0);
+			}
+			
+			@Override
+			public String getValueListenerName() {
+				return "grey out manual output listener";
+			}
+		});
 
 		final Label pLabel = new Label(advanced, SWT.RIGHT);
 		pLabel.setText("P");

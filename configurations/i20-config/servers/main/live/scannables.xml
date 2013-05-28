@@ -33,7 +33,7 @@
 	</bean>
 
 	<bean id="test" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
+		<property name="protectionLevel" value="1" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="test_motor" />
 		<property name="hardwareUnitString" value="mm" />

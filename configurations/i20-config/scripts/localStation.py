@@ -151,10 +151,10 @@ if LocalProperties.get("gda.mode") == "live":
     + "To find out current mode type:\n"\
     + "finder.find(\"DAServer\").getStartupCommands()\n"
     
+    FFI0.setInputNames([])
     
     run "vortexLiveTime"
     testVortexWiredCorrectly()
     
-    FFI0.setInputNames([])
     
 print "****GDA startup script complete.****\n\n"
