@@ -114,21 +114,21 @@ class TrajectoryControllerHelper(ScanListener):
 
 
 st = DummyHardwareTriggerableDetector('st')
-st.setHardwareTriggerProvider(sixc.getContinuousMoveController()) #@UndefinedVariable
-xps_controller = sixc.getContinuousMoveController() #@UndefinedVariable
+st.setHardwareTriggerProvider(sixckappa.getContinuousMoveController()) #@UndefinedVariable
+xps_controller = sixckappa.getContinuousMoveController() #@UndefinedVariable
 trajectory_controller_helper = TrajectoryControllerHelper(xps_controller, sixckappa) #@UndefinedVariable
 
 
 
 mcs_controller = McsController("BL16I-EA-DET-01:MCA-01:")
 mcs1 = McsChannelScannable('mcs1', mcs_controller, "BL16I-EA-DET-01:MCA-01:", 1)
-mcs1.setHardwareTriggerProvider(sixc.getContinuousMoveController()) #@UndefinedVariable
+mcs1.setHardwareTriggerProvider(sixckappa.getContinuousMoveController()) #@UndefinedVariable
 mcs2 = McsChannelScannable('mcs2', mcs_controller, "BL16I-EA-DET-01:MCA-01:", 2)
-mcs2.setHardwareTriggerProvider(sixc.getContinuousMoveController()) #@UndefinedVariable
+mcs2.setHardwareTriggerProvider(sixckappa.getContinuousMoveController()) #@UndefinedVariable
 mcs3 = McsChannelScannable('mcs3', mcs_controller, "BL16I-EA-DET-01:MCA-01:", 3)
-mcs3.setHardwareTriggerProvider(sixc.getContinuousMoveController()) #@UndefinedVariable
+mcs3.setHardwareTriggerProvider(sixckappa.getContinuousMoveController()) #@UndefinedVariable
 mcs4 = McsChannelScannable('mcs4', mcs_controller, "BL16I-EA-DET-01:MCA-01:", 4)
-mcs4.setHardwareTriggerProvider(sixc.getContinuousMoveController()) #@UndefinedVariable
+mcs4.setHardwareTriggerProvider(sixckappa.getContinuousMoveController()) #@UndefinedVariable
 
 
 
