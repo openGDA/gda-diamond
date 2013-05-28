@@ -3,8 +3,9 @@ from gda.analysis.utils import GeneticAlg
 from gda.analysis import DataSet, Fitter, RCPPlotter
 from gda.analysis.functions import Gaussian, StraightLine
 
+# call these 2 lines to get this to work.
 #ref = refinement()
-#ref.calibrate(20.0,23. 24. 22.4 0.001)
+#ref.calibrate(20.0, 22., 24., 22.4, 0.001)
 
 class refinement() :		
 
