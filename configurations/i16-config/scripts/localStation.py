@@ -11,7 +11,7 @@ import installation
 
 if installation.isDummy():
 	USE_DIFFCALC = True
-	USE_CRYO_GEOMETRY = True
+	USE_CRYO_GEOMETRY = False
 else:
 	USE_DIFFCALC = False  # <-- change here for live gda!
 	USE_CRYO_GEOMETRY = False
@@ -838,9 +838,10 @@ if installation.isLive():
 		lakeshore=ReadPDGroupClass('lakeshore',[]) # LS340 is often not present
 	#minimirrors=ReadPDGroupClass('minimirrors',[m3x, m4x, m3pitch, m4pitch]) #added to metadata as mirror3
 	offsets=ReadPDGroupClass('offsets',[m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, idgap_offset])
-	mt6138=ReadPDGroupClass('6138', [xps3m1, xps3m2])
+	#mt6138=ReadPDGroupClass('6138', [xps3m1, xps3m2])
 	#adctab=ReadPDGroupClass('adctab',[adch,adcv])
 	#add_default(adctab)
+	#fzp=ReadPDGroupClass('FZP_motors',[zp1x, zp1y, zp1z, zp2x, zp2y, zp2z, xps3m1, xps3m2, micosx, micosy])
 try:
 	if not USE_DIFFCALC:
 		meta.set(dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
@@ -923,7 +924,9 @@ def open_valves():
 #ci=234.0; cj=107.0	#/01/13
 #ci=242.0; cj=104.0	#/03/13
 #ci=237.0; cj=121.0	#17/03/13
-ci=236.0; cj=106.0	#16/04/13
+#ci=236.0; cj=106.0	#16/04/13
+ci=240.0; cj=106.0	#26/04/13
+
 maxi=486; maxj=194
 
 #small centred
