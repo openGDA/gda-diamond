@@ -27,7 +27,7 @@ print "create commands for folder operations: wd, pwd, nwd, nfn, cfn, setSubdire
 print "-------------------------------------------------"
 # function to find the last file path
 
-from i12utilities import wd, pwd, nwd, nfn, cfn, setDataWriterToNexus, getDataWriter, ls_scannables
+from i12utilities import wd, pwd, nwd, nfn, cfn, setDataWriterToNexus, setDataWriterToSrs, getDataWriter, ls_scannables
 alias("wd")
 alias("pwd")
 alias("nwd")
@@ -207,8 +207,42 @@ try:
 except:
     print "cannot create PCO timestamp scannable"
 try:
-    loadcell = DisplayEpicsPVClass('loadcell', 'BL12I-EA-ADC-01:CH0', 's', '%.3f')
-    HV_amp = EpicsReadWritePVClass('HV_amp', 'BL12I-EA-DAC-01:00', 's', '%.3f')
+    loadcell = DisplayEpicsPVClass('loadcell', 'BL12I-EA-ADC-01:CH0', 's', '%.3g')
+    adc01 = DisplayEpicsPVClass('adc01', 'BL12I-EA-ADC-01:CH1', 'V', '%.3g')
+    adc02 = DisplayEpicsPVClass('adc02', 'BL12I-EA-ADC-01:CH2', 'V', '%.3g')
+    adc03 = DisplayEpicsPVClass('adc03', 'BL12I-EA-ADC-01:CH3', 'V', '%.3g')
+    adc04 = DisplayEpicsPVClass('adc04', 'BL12I-EA-ADC-01:CH4', 'V', '%.3g')
+    adc05 = DisplayEpicsPVClass('adc05', 'BL12I-EA-ADC-01:CH5', 'V', '%.3g')
+    adc06 = DisplayEpicsPVClass('adc06', 'BL12I-EA-ADC-01:CH6', 'V', '%.3g')
+    adc07 = DisplayEpicsPVClass('adc07', 'BL12I-EA-ADC-01:CH7', 'V', '%.3g')
+
+    HV_amp = EpicsReadWritePVClass('HV_amp', 'BL12I-EA-DAC-01:00', 'V', '%.3g')
+    dac01 = EpicsReadWritePVClass('dac01', 'BL12I-EA-DAC-01:01', 'V', '%.3g')
+    dac02 = EpicsReadWritePVClass('dac02', 'BL12I-EA-DAC-01:02', 'V', '%.3g')
+    dac03 = EpicsReadWritePVClass('dac03', 'BL12I-EA-DAC-01:03', 'V', '%.3g')
+    dac04 = EpicsReadWritePVClass('dac04', 'BL12I-EA-DAC-01:04', 'V', '%.3g')
+    dac05 = EpicsReadWritePVClass('dac05', 'BL12I-EA-DAC-01:05', 'V', '%.3g')
+    dac06 = EpicsReadWritePVClass('dac06', 'BL12I-EA-DAC-01:06', 'V', '%.3g')
+    dac07 = EpicsReadWritePVClass('dac07', 'BL12I-EA-DAC-01:07', 'V', '%.3g')
+    
+    ttlout00 = EpicsReadWritePVClass('ttlout08','BL12I-EA-DIO-01:OUT:00','bool','%i')
+    ttlout01 = EpicsReadWritePVClass('ttlout01','BL12I-EA-DIO-01:OUT:01','bool','%i')
+    ttlout02 = EpicsReadWritePVClass('ttlout02','BL12I-EA-DIO-01:OUT:02','bool','%i')
+    ttlout03 = EpicsReadWritePVClass('ttlout03','BL12I-EA-DIO-01:OUT:03','bool','%i')
+    ttlout04 = EpicsReadWritePVClass('ttlout04','BL12I-EA-DIO-01:OUT:04','bool','%i')
+    ttlout05 = EpicsReadWritePVClass('ttlout05','BL12I-EA-DIO-01:OUT:05','bool','%i')
+    ttlout06 = EpicsReadWritePVClass('ttlout06','BL12I-EA-DIO-01:OUT:06','bool','%i')
+    ttlout07 = EpicsReadWritePVClass('ttlout07','BL12I-EA-DIO-01:OUT:07','bool','%i')
+
+    ttlin00 = DisplayEpicsPVClass('ttlin08','BL12I-EA-DIO-01:IN:00','bool','%i')
+    ttlin01 = DisplayEpicsPVClass('ttlin01','BL12I-EA-DIO-01:IN:01','bool','%i')
+    ttlin02 = DisplayEpicsPVClass('ttlin02','BL12I-EA-DIO-01:IN:02','bool','%i')
+    ttlin03 = DisplayEpicsPVClass('ttlin03','BL12I-EA-DIO-01:IN:03','bool','%i')
+    ttlin04 = DisplayEpicsPVClass('ttlin04','BL12I-EA-DIO-01:IN:04','bool','%i')  
+    ttlin05 = DisplayEpicsPVClass('ttlin05','BL12I-EA-DIO-01:IN:05','bool','%i')
+    ttlin06 = DisplayEpicsPVClass('ttlin06','BL12I-EA-DIO-01:IN:06','bool','%i')
+    ttlin07 = DisplayEpicsPVClass('ttlin07','BL12I-EA-DIO-01:IN:07','bool','%i')  
+    
 except:
     print "cannot create loadcell or HV_amp scannables"
     
@@ -295,6 +329,16 @@ alias("pixiumExp1000ms")
 alias("pixiumExp2000ms")
 alias("pixiumExp4000ms")
 alias("pixiumAfterIOCStart")
+
+
+print "\n Add default scannables:"
+default_scannables = []
+default_scannables.append(ring_topup_countdown)
+default_scannables.append(actualTime)
+
+for s in default_scannables:
+    add_default s
+
 
 print 
 print "==================================================="
