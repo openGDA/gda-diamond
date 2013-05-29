@@ -19,6 +19,7 @@
 package gda.device.detector.edxd;
 
 import gda.device.detector.AdDetectorExtRoiDraw;
+import gda.jython.JythonServerFacade;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -127,6 +128,8 @@ public class EDXDAlignment implements IEdxdAlignment {
 	@Override
 	public void runPreampGain() {
 		logger.debug("Request to run preamp gain");
+		JythonServerFacade.getInstance().runCommand(
+				"run('edxd_calibrator_v3');ref=refinement();ref.calibrate(20.0, 22., 24., 22.4, 0.001);");
 	}
 
 	@Override
@@ -138,32 +141,35 @@ public class EDXDAlignment implements IEdxdAlignment {
 	@Override
 	public void runDetectorXYAlignment() {
 		logger.debug("Request to run detector XY Alignment");
+		JythonServerFacade.getInstance().runCommand("run('EDXD/edxdAlignment');testMisAlignmentForElementsPlot();");
 	}
 
 	@Override
 	public void runCollimatorXYZAlignment() {
 		logger.debug("Request to run collimator XYZ Alignment");
+		JythonServerFacade.getInstance().runCommand("run('EDXD/edxdAlignment');testCollimatorXyzAlignment();");
 	}
 
 	@Override
 	public void runCollimatorAngularAlignment() {
 		logger.debug("Request to run collimator Angular Alignment");
+		JythonServerFacade.getInstance().runCommand("run('EDXD/edxdAlignment');runCollimatorAngularAlignment();");
 	}
 
 	@Override
 	public String runQAxisCalibration() {
+		JythonServerFacade.getInstance().runCommand("run('EDXD/edxdAlignment');runQAxisCalibration();");
 		return null;
 	}
 
 	@Override
 	public void loadEnergyCalibrationFile(String fileName) {
-		// set the as the energy calibration file on the edxd controller and save this into the edxd calibration config
-
+		JythonServerFacade.getInstance().runCommand("run('EDXD/edxdAlignment');loadEnergyCalibrationFile();");
 	}
 
 	@Override
 	public void loadQCalibrationFile(String fileName) {
-
+		JythonServerFacade.getInstance().runCommand("run('EDXD/edxdAlignment');loadQCalibrationFile();");
 	}
 
 	private EdxdCalibration getEdxdCalibrationConfiguration() {
@@ -203,12 +209,12 @@ public class EDXDAlignment implements IEdxdAlignment {
 	public void setEh2(AdDetectorExtRoiDraw eh2) {
 		this.eh2 = eh2;
 	}
-	
+
 	@Override
 	public void startEh1Camera() throws Exception {
 		eh1.getAdBase().startAcquiring();
 	}
-	
+
 	@Override
 	public void startEh2Camera() throws Exception {
 		eh2.getAdBase().startAcquiring();

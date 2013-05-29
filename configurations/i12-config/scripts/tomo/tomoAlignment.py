@@ -20,8 +20,6 @@ from i12utilities import pwd
 from gda.configuration.properties import LocalProperties
 from gda.jython.commands.ScannableCommands import scan
 import scisoftpy as dnp
-verbose = True
-f = Finder.getInstance()
 
 from gda.data import NumTracker
 from gda.data import PathConstructor
@@ -30,6 +28,15 @@ import uk.ac.diamond.scisoft.analysis.dataset.Image as Image
 import uk.ac.gda.tomography.TomographyResourceUtil
 import uk.ac.gda.tomography.parameters.TomoParametersFactory as TomoParametersFactory
 from gdascripts.utils import * #@UnusedWildImport
+
+
+'''
+TomoAlignment specific member variables.
+'''
+verbose = True
+TESTMODE = False
+
+f = Finder.getInstance()
 
 """
 Performs software triggered tomography
@@ -51,7 +58,7 @@ def isLiveMode():
     return False
 
 def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberOfFramesPerProjection,
-                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat= -100.0, positionOfBaseInBeam=0.0, isToBeReconstructed=False, minY=0, maxY=2672):
+                 isContinuousScan, desiredResolution, timeDivider, positionOfBaseAtFlat= -100.0, positionOfBaseInBeam=0.0, isToBeReconstructed=False, tomoRotationAxis=0, minY=0, maxY=2672):
     #
     if verbose:
         print "About to start tomography scan"
@@ -84,6 +91,12 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     
     cachedBinX = adBase.getBinX()
     cachedBinY = adBase.getBinY()
+    
+    minX = adBase.getMinX()
+    maxX = adBase.getSizeX()
+    if tomoRotationAxis < 1:
+        tomoRotationAxis = (maxX - minX) / 2
+    tomoRotationAxis = tomoRotationAxis - minX
     try:
         pco.getController().disarmCamera()
         setAdBaseRoi(adBase, pco, int(xBin), int(yBin), minY, maxY - minY)
@@ -104,23 +117,27 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
         print "desiredResolution: " + `int(desiredResolution)`
         print 'Sample Acq#' + `sampleAcquisitionTime`
         print 'Sample Acq Time divided#' + `timeDividedAcq`
+        print 'Tomography Axis of Rotation#' + `tomoRotationAxis`
     fastScan = FastScan('fastScan')
     topUp = TopupPause("topUp")
     isTomoScanSuccess = True
     numberOfDarks = 10
     numberOfFlats = 10
-    #stepsSize = 90
-    #numberOfDarks = 1
-    #numberOfFlats = 1
+    if TESTMODE:
+        print "Please ensure that this is switched off during actual scan"
+        stepsSize = 90
+        numberOfDarks = 1
+        numberOfFlats = 1
     try:
         pco.getController().disarmCamera()
         startTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         #tomoScan(description, positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, 1, 1, 0, additionalScannables=[fastScan],topUp])
-        tomoScan(description, positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, numberOfDarks, numberOfFlats, 0, additionalScannables=[fastScan])
+        tomoScan(description, positionOfBaseInBeam, positionOfBaseAtFlat, timeDividedAcq, 0, 180, stepsSize, 0, 0, numberOfDarks, numberOfFlats, 0,
+                 pattern="default", tomoRotationAxis=tomoRotationAxis, additionalScannables=[fastScan])
         endTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         scanNumber = int(cfn())
     except Exception, ex:
-        print "in exception"
+        print "in exception: " + `ex`
         isTomoScanSuccess = False
     finally:
         pco.getController().disarmCamera()
@@ -897,6 +914,7 @@ class TomoAlignmentConfiguration:
                         self.timeDivider,
                         self.positionOfBaseAtFlat,
                         self.positionOfBaseInBeam,
+                        tomoRotationAxis=self.tomoAxisRotation,
                         minY=self.minY,
                         maxY=self.maxY)
             self.writeInfoToAlignmentConfiguration(result)
