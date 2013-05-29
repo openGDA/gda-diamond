@@ -25,6 +25,9 @@
 	<import resource="eh1.xml" />
 	<import resource="eh2.xml" />
 	<import resource="oh1.xml" />
+	
+	<import resource="eh1EOH.xml" />
+	<import resource="floatCam.xml" />
 	<!--  -->
 	
 	<import resource="I0eh1.xml" />
