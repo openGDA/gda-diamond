@@ -183,7 +183,7 @@ public class EDXDAlignment implements IEdxdAlignment {
 	@Override
 	public String getEh1MpegUrl() throws Exception {
 		if (eh1 != null) {
-			return eh1.getMjpeg().getMJPG_URL_RBV();
+			return eh1.getMjpeg1().getMJPG_URL_RBV();
 		}
 		return null;
 	}
@@ -191,7 +191,7 @@ public class EDXDAlignment implements IEdxdAlignment {
 	@Override
 	public String getEh2MpegUrl() throws Exception {
 		if (eh2 != null) {
-			return eh2.getMjpeg().getMJPG_URL_RBV();
+			return eh2.getMjpeg1().getMJPG_URL_RBV();
 		}
 		return null;
 	}
