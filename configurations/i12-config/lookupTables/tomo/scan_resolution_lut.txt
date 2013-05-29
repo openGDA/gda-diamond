@@ -1,7 +1,7 @@
 ScannableNames	Resolution	NumProjections XBin YBin	Stepsize	ExposureToDivideBy
 ScannableUnits	No.	No.	No.	No.	No.	No.
-1	900	1	1	0.2	1
+1	3000	1	1	0.06	1
 #1 - Full	
-2	3000	1	1	0.06	1
-4	1800	1	1	0.1	1
-8	900	2	2	0.1	4
+2	6000	1	1	0.03	1
+4	1440	1	1	0.125	1
+8	720	1	1	0.25	1
