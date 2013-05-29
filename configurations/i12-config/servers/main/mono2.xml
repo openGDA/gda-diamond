@@ -242,7 +242,7 @@
 		<property name="ndArray" ref="mono2.arr" />
 		<property name="ndFile" ref="mono2.tif" />
 		<property name="ndRoi1" ref="mono2.roi1" />
-		<property name="ndRoi1" ref="mono2.roi2" />
+		<property name="ndRoi2" ref="mono2.roi2" />
 		<property name="ndDraw" ref="mono2.draw" />
 		<property name="mjpeg1" ref="mono2.mjpeg1" />
 		<property name="mjpeg2" ref="mono2.mjpeg2" />
