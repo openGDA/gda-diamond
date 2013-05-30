@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- I07 GUI Client Configuration -->
+
+<ObjectFactory xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/dls/i07/software/gda/plugins/uk.ac.gda.core/src/gda/configuration/object/schema/GDASchema.xsd">
+   <name>${gda.factory.factoryName}</name>
+   
+   <LogPanel>
+      <name>Message</name>
+   </LogPanel>
+   
+   <DebugPanel>
+      <name>Debug</name>
+   </DebugPanel>
+   
+   <JythonTerminal>
+      <name>Scripting Terminal</name>
+      <numberInitialGraphs>1</numberInitialGraphs>
+      <extraGraphs>true</extraGraphs>
+   </JythonTerminal>
+
+<!--
+   <JythonClient>
+      <name>Jython Client</name>
+   </JythonClient>
+-->
+   
+   <JythonEditor>
+      <name>Scripting Editor</name>
+   </JythonEditor>
+
+   <BatonPanel>
+      <name>Baton Control</name>
+   </BatonPanel>
+
+   <DataVectorPlot>
+      <name>Data Vector</name>
+      <mainPlotPosition>West</mainPlotPosition>
+      <panelClassName>gda.gui.dv.panels.vispanels.ColourSelector</panelClassName>
+      <panelClassName>gda.gui.dv.panels.vispanels.LineProfilePanel</panelClassName> 
+      <panelClassName>gda.gui.dv.panels.vispanels.BasicIntegratorPanel</panelClassName>   
+      <panelClassName>gda.gui.dv.panels.vispanels.SectorIntegratorPanel</panelClassName> 
+   </DataVectorPlot>
+
+</ObjectFactory>

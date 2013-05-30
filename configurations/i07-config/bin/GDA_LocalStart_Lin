@@ -1,0 +1,80 @@
+#!/bin/bash
+##This is an example script file to restart GDA servers on local workstation
+
+if [ ! -n "$BEAMLINE" ];
+then
+  echo "Please set BEAMLINE environment variable."
+  exit 1
+fi
+
+mkdir -p  /tmp/gda/var/
+mkdir -p  /tmp/gda/logs/
+
+export GDA_HOME=/dls_sw/$BEAMLINE/software/gda
+#export GDA_HOME=/scratch/Dev/gdaDev/gda-trunk
+
+GDA_CONFIG=$GDA_HOME/config
+#GDA_CONFIG=/scratch/Dev/gdaDev/gda-config/i07
+
+#varDir=/dls_sw/$BEAMLINE/var
+varDir=/tmp/gda/var
+
+#dataDir=/dls/$BEAMLINE
+dataDir=/tmp/gda
+
+#logDir=/dls_sw/$BEAMLINE/logs
+logDir=/tmp/gda/logs
+
+Properties=$GDA_CONFIG/properties/java.properties
+JacorbDir=$GDA_CONFIG/properties/jacorb_local
+
+
+gda="$GDA_HOME/plugins/uk.ac.gda.core/bin/gda --config=$GDA_CONFIG --properties=$Properties --jacorb=$JacorbDir --vardir=$varDir --datadir=$dataDir --logsdir=$logDir" 
+
+
+
+echo Kill all GDA Clients running locally
+#GDA_KillClients &
+$gda --stop client
+sleep 2;
+
+echo Stop all server
+$gda --stop nameserver
+$gda --stop logserver
+$gda --stop eventserver
+$gda --stop objectserver
+ 
+echo Restarting all GDA servers locally
+echo nameserver
+$gda nameserver
+
+echo logserver
+$gda logserver
+
+echo eventserver
+$gda eventserver
+
+echo JAVA_OPTS="-Xms512m -Xmx2048m -XX:PermSize=182m -XX:MaxPermSize=786m" $gda objectserver
+JAVA_OPTS="-Xms512m -Xmx2048m -XX:PermSize=182m -XX:MaxPermSize=786m" $gda objectserver >> /tmp/gda/gda_output.txt 2>&1 &
+
+sleep 2;
+
+echo Waiting server starting...
+## show log until 'Server initialisation complete' is seen
+PIP=/tmp/`basename $0`-$$
+mknod $PIP p
+tail -n 1 -f /tmp/gda/gda_output.txt >  $PIP &
+awk '{
+        if (!/DEBUG/) print ;
+        if (/Server initialisation complete. xmlFile/) {
+                print "\n\033[4;32m  All GDA servers are running, you can start the client now. \033[0m\n"
+                exit ;
+        }
+}' < $PIP
+
+#echo -e "\033[1;32mAll GDA servers are running, you can start the client now\033[1;0m\n"
+
+tailPID=`ps ux | awk '/tail/ && !/awk/ {print $2}'`
+killall $tailPID > /dev/null 2>&1
+sleep 3
+rm -f $PIP

@@ -1,0 +1,16 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=gda-rcpclient
+Type=Application
+Exec=GDA_StartRCP
+Icon=/dls_sw/i07/software/gda/config/Desktop/icons/GDALogo48.xpm
+Terminal=false
+Name[en_GB]=Start GDA RCP Client
+GenericName=GDA RCP Client
+GenericName[en_GB]=GDA RCP Client
+Comment=Start GDA RCP Client
+Comment[en_GB]=Start GDA RCP Client
+Categories=X-ogda;
+X-KDE-SubstituteUID=false
+X-KDE-Username=

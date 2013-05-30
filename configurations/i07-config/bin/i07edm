@@ -1,0 +1,7 @@
+#!/bin/sh
+
+#Old style
+#(cd /home/diamond/R3.13.9/prod/support/Launcher/Rx-y && ./from_configure_ioc.sh 5064 BL07I-BL-IOC-01 &)
+ 
+#New Launcher from: /dls_sw/prod/etc/Launcher, using applications.xml
+(cd /dls_sw/prod/etc/Launcher && ./from_configure_ioc.sh 5064 BL07I-gui &)

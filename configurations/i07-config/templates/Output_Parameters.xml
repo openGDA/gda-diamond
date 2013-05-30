@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OutputParameters>
+    <asciiFileName>Scan</asciiFileName>
+    <asciiDirectory>ascii</asciiDirectory>
+    <nexusDirectory>nexus</nexusDirectory>
+    <extraData>false</extraData>
+    <signalActive>false</signalActive>
+    <xspressOnlyShowFF>false</xspressOnlyShowFF>
+    <xspressShowDTRawValues>false</xspressShowDTRawValues>
+</OutputParameters>

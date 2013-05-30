@@ -1,0 +1,86 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="file:${gda.config}/properties/java.properties"/>
+    </bean>
+
+    <bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
+        
+        <property name="icat">
+            <bean class="gda.data.metadata.icat.IcatConnectionDetails">
+                <property name="name" value=""/>
+                <property name="url" value="${gda.config}/xml/testicat.xml"/>
+                <property name="user" value=""/>
+                <property name="password" value=""/>
+                <property name="shiftTolerance" value="1440"/>
+                <property name="icatClassName" value="gda.data.metadata.icat.XMLIcat"/>
+            </bean>
+        </property>
+        
+        <property name="metadataEntries">
+            <list>
+                
+                <bean class="gda.data.metadata.PropertyMetadataEntry">
+                    <property name="name" value="instrument"/>
+                    <property name="propertyName" value="gda.instrument"/>
+                </bean>
+                <bean class="gda.data.metadata.PropertyMetadataEntry">
+                    <property name="name" value="defVisit"/>
+                    <property name="propertyName" value="gda.defVisit"/>
+                </bean>
+                <bean class="gda.data.metadata.StoredMetadataEntry">
+                    <property name="name" value="visitid" />
+                </bean>
+                <bean class="gda.data.metadata.StoredMetadataEntry">
+                    <property name="name" value="federalid" />
+                </bean>
+                <bean class="gda.data.metadata.ScannableMetadataEntry">
+                    <property name="name" value="instrument.monochromator.energy"/>
+                    <property name="scannableName" value="MonoEnergy"/>
+                </bean>
+                
+            </list>
+        </property>
+    </bean>
+    
+    
+    <bean id="delta" class="gda.device.scannable.DummyScannable">
+        <property name="name" value="delta" />
+    </bean>
+    
+    <bean id="fastshutter" class="gda.device.scannable.DummyScannable">
+        <property name="name" value="fastshutter" />
+    </bean>
+    <!--
+        <bean id="mythen" class="gda.device.detector.mythen.PlottingMythenDetectorImpl">
+        <property name="name" value="mythen"/>
+        <property name="detectorID" value="mcs01"/>
+        <property name="mythenClient">
+        <bean class="gda.device.detector.mythen.client.TextClientMythenClient">
+        <property name="host" value="localhost"/>
+        </bean>
+        </property>
+        <property name="dataConverter">
+        <bean class="gda.device.detector.mythen.data.DataConverter">
+        <property name="badChannelProvider">
+        <bean class="gda.device.detector.mythen.data.FileBadChannelProvider">
+        <constructor-arg
+        value="${gda.config}/mythen/badchannel_detector_standard.list"/>
+        </bean>
+        </property>
+        <property name="angularCalibrationParameters">
+        <bean class="gda.device.detector.mythen.data.AngularCalibrationParameters">
+        <constructor-arg value="${gda.config}/mythen/ang.off"/>
+        </bean>
+        </property>
+        </bean>
+        </property>
+        <property name="dataDirectory" value="${gda.users}/data/0-0"/>
+        <property name="deltaScannable" ref="delta" />
+        <property name="shutterScannable" ref="fastshutter" />
+        <property name="panelName" value="Data Vector" />
+        </bean>
+    -->    
+</beans>
