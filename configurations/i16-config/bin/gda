@@ -8,13 +8,12 @@ module load java/gda826
 
 PYTHON=/dls_sw/tools/bin/python2.5
 
-GDA_INSTALL_WORKSPACE_LOC=`readlink -f /dls_sw/$BEAMLINE/software/gda`
-GDA_INSTALL_GIT_LOC=`readlink -f $GDA_INSTALL_WORKSPACE_LOC/../workspace_git`
+GDA_VERSION_LOC=`readlink -f /dls_sw/$BEAMLINE/software/gda`
 
-echo 'JAVA_HOME:' $JAVA_HOME
-echo '   PYTHON:' $PYTHON
-echo 'WORKSPACE:' $GDA_INSTALL_WORKSPACE_LOC
+echo '      JAVA_HOME:' $JAVA_HOME
+echo '         PYTHON:' $PYTHON
+echo 'GDA_VERSION_LOC:' $GDA_VERSION_LOC
 
-GDA=$GDA_INSTALL_GIT_LOC/gda-core.git/uk.ac.gda.core/bin/gda
-$PYTHON $GDA $@
+GDA=$GDA_VERSION_LOC/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
+$PYTHON $GDA --config $GDA_VERSION_LOC/config $@
 

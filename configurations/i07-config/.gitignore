@@ -1,0 +1,7 @@
+# ignore a jythonCache directory anywhere in the project
+jythonCache/
+
+/users
+/var
+/.settings/
+*.class

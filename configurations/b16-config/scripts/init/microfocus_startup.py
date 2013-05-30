@@ -3,8 +3,8 @@
 from gda.configuration.properties import LocalProperties
 import os.path
 print "setting up scripts which run behind the microfocus and experiment perspectives"
-gda_root = (LocalProperties.get("gda.root"))
-uk_ac_gda_beamline_b16 = os.path.join(LocalProperties.get("gda.install.git.loc"), 'gda-dls-beamlines-b16.git', 'uk.ac.gda.beamline.b16')
+
+uk_ac_gda_beamline_b16 = os.path.join(LocalProperties.get("gda.install.git.loc"), 'gda-mt.git', 'plugins', 'uk.ac.gda.beamline.b16')
 execfile(os.path.join(uk_ac_gda_beamline_b16, 'scripts', 'microfocus', 'map.py'))
 execfile(os.path.join(uk_ac_gda_beamline_b16, 'scripts', 'microfocus', 'microfocus_elements.py'))
 

@@ -71,7 +71,6 @@
 		<config>servers/main/dummy/motor/sixcbase.xml</config>
 		<config>servers/main/live/epics/motor/sixcbase.xml</config>
 		<config>servers/main/common/scannable/motor/sixckappa.xml</config>
-		<config>servers/main/common/scannable/motor/sixckappaDC.xml</config>
 		<config>servers/main/common/scannable/motor/sixcsample.xml</config>
 		<config>servers/main/dummy/motor/sixcsample.xml</config>
 		<config>servers/main/live/epics/motor/sixcsample.xml</config>
@@ -84,7 +83,6 @@
 		<config>servers/main/common/scannable/motor/xps3.xml</config>
 		<config>servers/main/dummy/motor/xps3.xml</config>
 		<config>servers/main/live/epics/motor/xps3.xml</config>
-		<config>servers/main/common/plumbing.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

@@ -35,6 +35,7 @@
 		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pilatus300k" />
 		<property name="ndFile" ref="pilatus_camserver_ndfile" />
+		<property name="returnPathRelativeToDatadir" value="false" />
 	</bean>
 
 	<bean id="pilatus_nxfilewriter_for_snaps"
@@ -42,6 +43,7 @@
 		<constructor-arg value="pilatus300k" />
 		<property name="ndFile" ref="pilatus_camserver_ndfile" />
 		<property name="numTrackerExtension" value="pilatus300k_snaps_numtracker" />
+		<property name="returnPathRelativeToDatadir" value="false" />
 	</bean>
 
 

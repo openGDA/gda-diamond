@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- I07 Object Server Configuration -->
+<ObjectFactory xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/dls/i07/software/gda/plugins/uk.ac.gda.core/src/gda/configuration/object/schema/GDASchema.xsd">
+    <name>${gda.factory.factoryName}</name>
+
+    <DummyCounterTimer>
+        <name>testCounterTimer</name>
+        <useGaussian>true</useGaussian>
+        <timeChannelRequired>false</timeChannelRequired>
+    </DummyCounterTimer>
+
+    <DummyCounterTimer>
+        <name>testCounterTimer2</name>
+        <channelLabel>time</channelLabel>
+        <channelLabel>I0</channelLabel>
+        <channelLabel>It</channelLabel>
+        <channelLabel>If</channelLabel>
+        <channelLabel>TEY</channelLabel>
+        <channelLabel>PEY</channelLabel>
+        <channelLabel>FY</channelLabel>
+        <channelLabel>Drain</channelLabel>
+        <useGaussian>true</useGaussian>
+        <timeChannelRequired>false</timeChannelRequired>
+    </DummyCounterTimer>
+    
+<!--  ============================== Dummy Motor definition section ============================== -->
+
+    <!-- Dummy Motors for testing-->
+    <!-- Dummy Motor Motor 1 -->
+    <DummyMotor>
+       <name>MotorTestMotor1</name>
+       <fastSpeed>400</fastSpeed>
+       <mediumSpeed>200</mediumSpeed>
+       <slowSpeed>100</slowSpeed>
+    </DummyMotor>
+    <!-- Dummy Motor Motor 2 -->
+    <DummyMotor>
+       <name>MotorTestMotor2</name>
+       <fastSpeed>1000</fastSpeed>
+       <mediumSpeed>500</mediumSpeed>
+       <slowSpeed>250</slowSpeed>
+    </DummyMotor>
+    <!-- Dummy Motor Motor 3 -->
+    <DummyMotor>
+        <name>MotorTestMotor3</name>
+        <fastSpeed>400</fastSpeed>
+        <mediumSpeed>200</mediumSpeed>
+        <slowSpeed>100</slowSpeed>
+    </DummyMotor>
+    
+    <!-- Dummy Motor Motor 4 -->
+    <DummyMotor>
+        <name>MotorTestMotor4</name>
+        <fastSpeed>400</fastSpeed>
+        <mediumSpeed>200</mediumSpeed>
+        <slowSpeed>100</slowSpeed>
+    </DummyMotor>
+
+</ObjectFactory>

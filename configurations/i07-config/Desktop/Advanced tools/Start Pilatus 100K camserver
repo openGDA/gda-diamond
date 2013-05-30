@@ -1,0 +1,19 @@
+[Desktop Entry]
+Comment=
+Comment[en_GB]=
+Encoding=UTF-8
+Exec=Pilatus100k_RemoteStart_Camserver & kdialog --msgbox "Don't forget to restart the P100K Soft IOC\\n from the EPICS Hardware Status screen"
+GenericName=Start the camserver for the Pilatus 100K detector
+GenericName[en_GB]=Start the camserver for the Pilatus 100K detector
+Icon=camera
+MimeType=
+Name=Start Pilatus 100K camserver
+Name[en_GB]=Start Pilatus 100K camserver
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DCOP-ServiceType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

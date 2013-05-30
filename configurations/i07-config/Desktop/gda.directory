@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Directory
+Comment=GDA - Generic Data Acquisition Software
+Icon=/dls/i07/software/gda/config/Desktop/icons/gda.png
+Icon[en_GB]=/dls/i06/software/gda/config/Desktop/icons/gda.png
+Name=Data Acquisition

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Start GDA RCP Client
+Type=Application
+Exec=GDA_StartRCP
+TryExec=
+Icon=/dls/i07/etc/eclipse.xpm
+X-GNOME-DocPath=
+Terminal=false
+Name[en_GB]=GDA RCP Client
+GenericName[en_GB]=Start GDA RCP Client
+Comment[en_GB]=Start GDA RCP Client

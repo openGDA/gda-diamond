@@ -5,7 +5,9 @@ EKCM = EulerianKconversionModes()
 mode e2k 1
 
 from diffractometer.scannable.EulerKappa import EulerKappa
+
 euler = EulerKappa('euler',sixc)
+
 phi = euler.phi
 chi = euler.chi 
 eta = euler.eta

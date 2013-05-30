@@ -24,9 +24,6 @@
 		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/b16-" />
 	</bean>
 
-	<import
-		resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/live/moveable/me07m/all.xml" />
-
 	<import resource="epics/motor/dcm.xml" />
 	<import resource="epics/motor/fc.xml" />
 	<import resource="epics/motor/fcarm.xml" />

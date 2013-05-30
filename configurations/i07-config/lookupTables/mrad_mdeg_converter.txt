@@ -1,0 +1,4 @@
+#Motor steps to mm converter - simple 1-1 that changes the units
+Units mRad mDeg
+0.0	0.0
+1000000000.0	1000000000.0

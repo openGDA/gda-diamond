@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ ! -n "$BEAMLINE" ];
+then
+  echo "Please set BEAMLINE environment variable."
+  exit 1
+fi
+
+export gdaLauncher=/dls_sw/$BEAMLINE/software/gda/plugins/uk.ac.gda.core/bin/gda
+varDir=/dls_sw/$BEAMLINE/var
+dataDir==/dls/$BEAMLINE
+logDir=/dls_sw/$BEAMLINE/logs
+
+echo JAVA_OPTS="-Xms512m -Xmx2048m" $gdaLauncher --vardir=$varDir --start client
+JAVA_OPTS="-Xms256m -Xmx1024m" $gdaLauncher --vardir=$varDir --datadir=$dataDir --logsdir=$logDir --start client

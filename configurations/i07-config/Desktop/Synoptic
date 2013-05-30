@@ -1,0 +1,20 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Synoptic
+Comment=
+Comment[en_GB]=
+Exec=I07edm
+GenericName=I07 Synoptic
+GenericName[en_GB]=I07 Synoptic
+Icon=/dls/i07/etc/start/.synoptic.png
+MimeType=;
+Name[en_GB]=I07 EPICS Synoptic
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DCOP-ServiceType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

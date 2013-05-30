@@ -57,12 +57,12 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 			if index in (0,1,2):
 				return self.kappa.getPosition()[index]
 			else:
-				return self.rawGetPosition()[index]
+				return self.getPosition()[index]
 		else:
 			if index in (3,4,5): #kmu, kdelta, kgam
 				return self.kappa.getPosition()[index]
 			else:
-				return self.rawGetPosition()[index]
+				return self.getPosition()[index]
 			
 	
 	def eulerToKappa(self, eta, chi, phi):
@@ -286,7 +286,7 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 		return self.kappa.isOperatingContinously()
 
 	def getContinuousMoveController(self):
-		raise Exception("Eulerian axes cannot be traj scanned. Use the axes on the group 'kappa' (e.g. kth) instead. (Due to a multi-axes traj scans not triggering reliably from Epics)")
+		#raise Exception("Eulerian axes cannot be traj scanned. Use the axes on the group 'kappa' (e.g. kth) instead. (Due to a multi-axes traj scans not triggering reliably from Epics)")
 		return self.kappa.getContinuousMoveController()
 	
 	def setContinuousMoveController(self, controller):

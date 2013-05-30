@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- I07 Object Server Configuration -->
+<ObjectFactory>
+    <name>${gda.factory.factoryName}</name>
+    
+</ObjectFactory>

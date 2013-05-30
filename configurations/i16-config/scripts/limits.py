@@ -3,6 +3,8 @@ from gda.device.scannable.scannablegroup import DeferredAndTrajectoryScannableGr
     ScannableGroup, CoordinatedScannableGroup, CoordinatedScannableGroup, ScannableMotionWithScannableFieldsBase
 ScannableMotionWithScannableFieldsBase.ScannableField
 from gda.jython.commands.GeneralCommands import alias
+
+
 NOT_SPECIFIED = object()
 ROOT_NAMESPACE = {}
 NOMINAL_LIMITS = {}
@@ -42,11 +44,15 @@ def setllm(scn, new_lower=NOT_SPECIFIED):
 
 def setulm_no_offset(scn, new_upper_below_offset=NOT_SPECIFIED):
     scn_offset = scn.getOffset()[0] if scn.getOffset()!=None else 0.
+    if scn_offset is None:
+        scn_offset = 0
     old_upper, current_upper = _set_ulm(scn, new_upper_below_offset + scn_offset)
     print scn.name + " upper limit (below offset) : %s --> %s" % (None if old_upper is None else (old_upper - scn_offset), current_upper - scn_offset)
 
 def setllm_no_offset(scn, new_lower_below_offset=NOT_SPECIFIED):
     scn_offset = scn.getOffset()[0] if scn.getOffset()!=None else 0.
+    if scn_offset is None:
+        scn_offset = 0
     old_lower, current_lower = _set_llm(scn, new_lower_below_offset + scn_offset)
     print scn.name + " upper limit (below offset) : %s --> %s" % (None if old_lower is None else (old_lower - scn_offset), current_lower - scn_offset)
 
@@ -66,53 +72,58 @@ def setlm_no_offset(scn, new_lower, new_upper):
 def _nearly_equal(a, b):
     return abs(float(b) - float(a)) < .0001
 
+def _show_scn(scn):
+    lower = scn.getLowerGdaLimits()
+    upper = scn.getUpperGdaLimits()
+    if upper is not None or lower is not None:
+        if lower is not None:
+            lower = tuple(lower) if len(lower) > 1 else lower[0]
+        if upper is not None:
+            upper = tuple(upper) if len(upper) > 1 else upper[0]
+        
+        offset = 0 if scn.getOffset() is None else scn.getOffset()[0]
+        
+        if offset is None:  #  scn.getOffset()[0] was None
+            offset = 0
+        
+        if NOMINAL_LIMITS.has_key(scn):
+            nom_lower, nom_upper =  NOMINAL_LIMITS[scn]
+            # print "lower, upper, nom_lower, nom_upper, offset = ", lower, upper, nom_lower, nom_upper, offset
+            nom_lower += offset
+            nom_upper += offset
+            nom_differ_lower = None if ((lower is None) or _nearly_equal(nom_lower, lower)) else nom_lower
+            nom_differ_upper = None if ((upper is None) or _nearly_equal(nom_upper, upper)) else nom_upper
+            nominal = nom_differ_lower is None and nom_differ_upper is None
+            has_nominal = True
+            #print nom_differ_lower, nom_differ_upper, nominal
+        else:
+            nom_differ_lower = None
+            nom_differ_upper = None
+            nominal = False
+            has_nominal = False
+            
+        s = ('/' if has_nominal and not nominal else ' ')
+        s += '           ' if lower is None else '%8s <= '%(lower,)
+        s += '%-6s'%scn.name
+        s += '' if upper is None else ' <= %s'%(upper,)
+        if offset:
+            s += ' (+ %s)' % offset
+        if not has_nominal:
+            s += ' (no nominal)'
+        if has_nominal and not nominal:
+            s += ' (*non nominal)\n'
+            s += '\\' + ('            ' if nom_differ_lower is None else '%8s <= '%(nom_differ_lower,))
+            s += '      '
+            s += '' if nom_differ_upper is None else ' <= %s'%(nom_differ_upper,)
+            
+
+        
+        return s
+    return None
+
 def showlm():
     """Print the gda limits for all scannables in namespace that possess them"""
-    def _show_scn(scn):
-        #print "DEBUG --", scn.name
-        lower = scn.getLowerGdaLimits()
-        upper = scn.getUpperGdaLimits()
-        if upper is not None or lower is not None:
-            if lower is not None:
-                lower = tuple(lower) if len(lower) > 1 else lower[0]
-            if upper is not None:
-                upper = tuple(upper) if len(upper) > 1 else upper[0]
-            
-            offset = 0 if scn.getOffset() is None else scn.getOffset()[0]
-            
-            if NOMINAL_LIMITS.has_key(scn):
-                nom_lower, nom_upper =  NOMINAL_LIMITS[scn]
-                nom_lower += offset
-                nom_upper += offset
-                nom_differ_lower = None if _nearly_equal(nom_lower, lower) else nom_lower
-                nom_differ_upper = None if _nearly_equal(nom_upper, upper) else nom_upper
-                nominal = nom_differ_lower is None and nom_differ_upper is None
-                has_nominal = True
-                #print nom_differ_lower, nom_differ_upper, nominal
-            else:
-                nom_differ_lower = None
-                nom_differ_upper = None
-                nominal = False
-                has_nominal = False
-                
-            s = ('/' if has_nominal and not nominal else ' ')
-            s += '           ' if lower is None else '%8s <= '%(lower,)
-            s += '%-6s'%scn.name
-            s += '' if upper is None else ' <= %s'%(upper,)
-            if offset:
-                s += ' (+ %s)' % offset
-            if not has_nominal:
-                s += ' (no nominal)'
-            if has_nominal and not nominal:
-                s += ' (*non nominal)\n'
-                s += '\\' + ('            ' if nom_differ_lower is None else '%8s <= '%(nom_differ_lower,))
-                s += '      '
-                s += '' if nom_differ_upper is None else ' <= %s'%(nom_differ_upper,)
-                
 
-            
-            return s
-        return None
             
     scannable_groups = sorted(list(set([o for o in ROOT_NAMESPACE.values() if isinstance(o, (ScannableGroup, ScannableMotionWithScannableFieldsBase))])))
     scannable_group_members = []

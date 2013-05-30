@@ -15,6 +15,7 @@ class HklEuler(ScannableMotionWithScannableFieldsBase):
 		self.cal= cal
 		self.EDi = EDi
 		self.az=az
+		self.autoCompletePartialMoveToTargets = True
 
 	def isBusy(self):
 		return self.euler.isBusy()
@@ -22,7 +23,7 @@ class HklEuler(ScannableMotionWithScannableFieldsBase):
 	def waitWhileBusy(self):
 		return self.euler.waitWhileBusy()
 
-	def getPosition(self,muin=None,etain=None,chiin=None,phiin=None,deltain=None,gammain=None,UB=None,wavelength=None):	
+	def rawGetPosition(self,muin=None,etain=None,chiin=None,phiin=None,deltain=None,gammain=None,UB=None,wavelength=None):	
 		(phi,chi,eta,mu,delta,gam) = self.euler.getPosition()
 		#-->
 		if phiin: phi = phiin
@@ -40,6 +41,10 @@ class HklEuler(ScannableMotionWithScannableFieldsBase):
 	
 	def stop(self):
 		self.euler.stop()
+		ScannableMotionWithScannableFieldsBase.stop(self)
+		
+	def atCommandFailure(self):
+		ScannableMotionWithScannableFieldsBase.atCommandFailure(self)
 	
 	def getFieldPosition(self, index):
 		return self.getPosition()[index]
@@ -53,7 +58,7 @@ class HklEuler(ScannableMotionWithScannableFieldsBase):
 			angles = self.cal.getAngles(self.EDi.getMode(),hklPos)
 		return (angles.Phi,angles.Chi,angles.Eta,angles.Mu,angles.Delta,angles.Gamma)
 
-	def asynchronousMoveTo(self, hklPos):
+	def rawAsynchronousMoveTo(self, hklPos):
 		eulerPos = self.hklToEuler(hklPos)
 		self.euler.asynchronousMoveTo( eulerPos )
 

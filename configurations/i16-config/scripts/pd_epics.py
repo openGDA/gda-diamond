@@ -5,7 +5,7 @@ from gda.device.scannable import PseudoDevice
 
 from time import sleep
 from javashell import shellexecute
-
+import misc_functions
 
 
 class DisplayEpicsPVClass(PseudoDevice):
@@ -147,6 +147,73 @@ class SingleEpicsPositionerClass(PseudoDevice):
 				self.optflag =0
 
 
+class SingleEpicsPositionerNotDmovClass(SingleEpicsPositionerClass):
+	'''
+	Create PD for single EPICS positioner
+	dev=SingleEpicsPositionerNotDmovClass(name, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring, help=None, command=None)
+	As SingleEpicsPositionerClass but invertig status in case busy PV used instead of DMOV
+	'''
+	def isBusy(self):
+		try:
+			if self.has_returned_not_busy:
+				#print self.getName()+'#1'
+				return 0
+			else:
+ 				self.status_string=self.statecli.caget()
+				#self.status=not int(float(self.status_string)) 
+				self.status=int(float(self.status_string)) 
+				if self.status:
+					self.has_returned_busy=1
+					#print self.getName()+'#2'
+					return 1
+				else:
+					if self.timer()>self.delay or self.has_returned_busy:
+						self.has_returned_not_busy=1
+						#print self.getName()+'#3'
+						return 0
+					else:
+						#print self.getName()+'#4'
+						return 1
+
+		except:	
+			print "Device: "+self.getName()+"  Problem with DMOV string: "+self.status_string+": Returning busy status"
+			return 1
+
+
+class SingleEpicsPositionerNotDmovClassDirtyPiezo(SingleEpicsPositionerClass):
+	'''
+	Create PD for single EPICS positioner
+	dev=SingleEpicsPositionerNotDmovClass(name, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring, help=None, command=None)
+	As SingleEpicsPositionerClass but invertig status in case busy PV used instead of DMOV
+	======= Dirty fix for piezo
+	'''
+	def isBusy(self):
+		misc_functions.caget('BL16I-MO-PIEZO-03:MMC:01:ACT:RBV.PROC')	# dirty fix for piezo ststus problem
+		misc_functions.caget('BL16I-MO-PIEZO-03:MMC:02:ACT:RBV.PROC')	# dirty fix for piezo ststus problem
+		try:
+			if self.has_returned_not_busy:
+				#print self.getName()+'#1'
+				return 0
+			else:
+ 				self.status_string=self.statecli.caget()
+				#self.status=not int(float(self.status_string)) 
+				self.status=int(float(self.status_string)) 
+				if self.status:
+					self.has_returned_busy=1
+					#print self.getName()+'#2'
+					return 1
+				else:
+					if self.timer()>self.delay or self.has_returned_busy:
+						self.has_returned_not_busy=1
+						#print self.getName()+'#3'
+						return 0
+					else:
+						#print self.getName()+'#4'
+						return 1
+
+		except:	
+			print "Device: "+self.getName()+"  Problem with DMOV string: "+self.status_string+": Returning busy status"
+			return 1
 
 
 		
