@@ -1,0 +1,20 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Start Pilatus 2M camserver
+Comment=
+Comment[en_GB]=
+Exec=Pilatus2m_RemoteStart_Camserver & kdialog --msgbox "Don't forget to restart the P2M Soft IOC\\n from the EPICS Hardware Status screen"
+GenericName=Start the camserver for the Pilatus 2M detector
+GenericName[en_GB]=Start the camserver for the Pilatus 2M detector
+Icon=camera
+MimeType=;
+Name[en_GB]=Start Pilatus 2M camserver
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DCOP-ServiceType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

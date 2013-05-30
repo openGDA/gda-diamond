@@ -1,0 +1,11 @@
+#!/bin/bash
+##To remove the user's Eclipse RCP workspace 
+
+
+tp=/tmp/.workspace-`whoami`
+
+echo The Eclipse RCP workspace at $tp will be cleared. Please re-start the GDA client after.
+echo rm -f -R $tp
+rm -f -R $tp
+
+ 

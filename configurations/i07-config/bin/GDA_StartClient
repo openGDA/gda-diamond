@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if [ ! -n "$BEAMLINE" ];
+then
+  echo "Please set BEAMLINE environment variable."
+  exit 1
+fi
+
+#To find the OS type
+if [ `uname -p | grep -c i686` -eq 1 ]; then
+    outputDir=client/${BEAMLINE}.gtk.linux.x86
+elif [ `uname -p | grep -c x86_64` -eq 1 ]; then
+    outputDir=client/${BEAMLINE}.gtk.linux.x86_64
+fi
+
+outputDir=client
+
+#export gdaLauncher=/dls_sw/${BEAMLINE}/software/gda/plugins/uk.ac.gda.core/bin/gda
+export gdaLauncher=/dls_sw/$BEAMLINE/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda
+
+varDir=/dls_sw/$BEAMLINE/var
+dataDir=/dls/$BEAMLINE
+logDir=/dls_sw/$BEAMLINE/logs
+
+#Using the GDA launcher to launch the RCP client
+#echo JAVA_OPTS="-Xms512m -Xmx1024m -XX:PermSize=182m -XX:MaxPermSize=786m" $gdaLauncher --vardir=$varDir --rcp_image=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE} --start rcpclient
+#JAVA_OPTS="-client -Xms128m -Xmx1024m -XX:PermSize=512m -XX:MaxPermSize=786m -XX:MaxHeapFreeRatio=70 -XX:+DisableExplicitGC -XX:+UseGCOverheadLimit -XX:-UseParallelGC -XX:ParallelGCThreads=8" $gdaLauncher --vardir=$varDir --datadir=$dataDir --logsdir=$logDir --rcp_image=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE} --start rcpclient
+
+#To run the RCP client directly
+/dls_sw/${BEAMLINE}/software/gda/${outputDir}/gda-${BEAMLINE} &
+

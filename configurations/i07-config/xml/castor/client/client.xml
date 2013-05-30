@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="file:${gda.config}/properties/java.properties" />
+    </bean>
+    
+    <bean class="gda.factory.ClientXmlObjectCreator">
+        <property name="xmlFile" value="${gda.config}/xml/castor/client/client_core.xml" />
+        <property name="doPropertySubstitution" value="${gda.factory.doStringInterpolation}"/>
+        <property name="useDefaultSchema" value="True"/>
+        <property name="useDefaultMapping" value="True"/>
+    </bean>
+    
+    <bean class="gda.factory.ClientXmlObjectCreator">
+        <property name="xmlFile" value="${gda.config}/xml/castor/client/client_oe.xml" />
+        <property name="doPropertySubstitution" value="${gda.factory.doStringInterpolation}"/>
+        <property name="useDefaultSchema" value="False"/>
+        <property name="useDefaultMapping" value="False"/>
+        <property name="mappingFile" value="classpath:gda/factory/mapping_oe.xml"/>
+    </bean>
+
+    
+    <bean class="gda.factory.AdapterObjectCreator">
+        <property name="name" value="${gda.factory.factoryName}" />
+    </bean>
+    
+</beans>

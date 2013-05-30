@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- I07 GUI Client Configuration -->
+
+<ObjectFactory>
+   <name>${gda.factory.factoryName}</name>
+   
+   <OEMovePanel>
+      <name>Beamline Optics</name>
+   </OEMovePanel>
+	
+<!--		
+  <OEEditorPanel>
+      <name>OE Editor</name>
+   </OEEditorPanel>
+-->	
+
+</ObjectFactory>
