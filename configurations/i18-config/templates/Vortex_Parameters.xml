@@ -8,14 +8,9 @@
         <name>Element0</name>
         <number>1</number>
         <ROI>
-            <name>Fe_Ka</name>
-            <windowStart>618</windowStart>
-            <windowEnd>670</windowEnd>
-        </ROI>
-        <ROI>
-            <name>Br_Ka</name>
-            <windowStart>1170</windowStart>
-            <windowEnd>1220</windowEnd>
+            <name>Cr_Ka</name>
+            <windowStart>525</windowStart>
+            <windowEnd>555</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -26,14 +21,9 @@
         <name>Element1</name>
         <number>1</number>
         <ROI>
-            <name>Fe_Ka</name>
-            <windowStart>618</windowStart>
-            <windowEnd>670</windowEnd>
-        </ROI>
-        <ROI>
-            <name>Br_Ka</name>
-            <windowStart>1170</windowStart>
-            <windowEnd>1220</windowEnd>
+            <name>Cr_Ka</name>
+            <windowStart>525</windowStart>
+            <windowEnd>555</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -44,14 +34,9 @@
         <name>Element2</name>
         <number>1</number>
         <ROI>
-            <name>Fe_Ka</name>
-            <windowStart>618</windowStart>
-            <windowEnd>670</windowEnd>
-        </ROI>
-        <ROI>
-            <name>Br_Ka</name>
-            <windowStart>1170</windowStart>
-            <windowEnd>1220</windowEnd>
+            <name>Cr_Ka</name>
+            <windowStart>525</windowStart>
+            <windowEnd>555</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -62,14 +47,9 @@
         <name>Element3</name>
         <number>1</number>
         <ROI>
-            <name>Fe_Ka</name>
-            <windowStart>618</windowStart>
-            <windowEnd>670</windowEnd>
-        </ROI>
-        <ROI>
-            <name>Br_Ka</name>
-            <windowStart>1170</windowStart>
-            <windowEnd>1220</windowEnd>
+            <name>Cr_Ka</name>
+            <windowStart>525</windowStart>
+            <windowEnd>555</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

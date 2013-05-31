@@ -124,4 +124,6 @@ cid.setOutputFormat(['%4.10f', '%4.10f', '%4.10f', '%4.10f'])
 raster_xspress.setInputNames([])
 raster_xmap.setInputNames([])
 
+photonccd.setOutputFolderRoot("x:/data/2013/nt3894-1/xrd/")
+
 print "Initialization Complete";

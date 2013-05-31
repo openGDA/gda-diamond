@@ -9,7 +9,7 @@
         <number>1</number>
         <ROI>
             <name>Ca_Ka</name>
-            <windowStart>353</windowStart>
+            <windowStart>350</windowStart>
             <windowEnd>378</windowEnd>
         </ROI>
         <gain>2.0</gain>
@@ -22,8 +22,8 @@
         <number>1</number>
         <ROI>
             <name>Ca_Ka</name>
-            <windowStart>355</windowStart>
-            <windowEnd>382</windowEnd>
+            <windowStart>350</windowStart>
+            <windowEnd>378</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -35,8 +35,8 @@
         <number>1</number>
         <ROI>
             <name>Ca_Ka</name>
-            <windowStart>353</windowStart>
-            <windowEnd>385</windowEnd>
+            <windowStart>350</windowStart>
+            <windowEnd>378</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -48,7 +48,7 @@
         <number>1</number>
         <ROI>
             <name>Ca_Ka</name>
-            <windowStart>357</windowStart>
+            <windowStart>350</windowStart>
             <windowEnd>378</windowEnd>
         </ROI>
         <gain>2.0</gain>
@@ -57,4 +57,5 @@
         <excluded>false</excluded>
     </DetectorElement>
     <saveRawSpectrum>false</saveRawSpectrum>
+    <selectedRegionNumber>0</selectedRegionNumber>
 </VortexParameters>
