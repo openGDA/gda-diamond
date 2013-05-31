@@ -9,8 +9,8 @@
         <number>1</number>
         <ROI>
             <name>Cr_Ka</name>
-            <windowStart>513</windowStart>
-            <windowEnd>556</windowEnd>
+            <windowStart>525</windowStart>
+            <windowEnd>555</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -22,8 +22,8 @@
         <number>1</number>
         <ROI>
             <name>Cr_Ka</name>
-            <windowStart>520</windowStart>
-            <windowEnd>562</windowEnd>
+            <windowStart>525</windowStart>
+            <windowEnd>555</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -35,8 +35,8 @@
         <number>1</number>
         <ROI>
             <name>Cr_Ka</name>
-            <windowStart>519</windowStart>
-            <windowEnd>552</windowEnd>
+            <windowStart>525</windowStart>
+            <windowEnd>555</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -48,8 +48,8 @@
         <number>1</number>
         <ROI>
             <name>Cr_Ka</name>
-            <windowStart>506</windowStart>
-            <windowEnd>553</windowEnd>
+            <windowStart>525</windowStart>
+            <windowEnd>555</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -57,4 +57,5 @@
         <excluded>false</excluded>
     </DetectorElement>
     <saveRawSpectrum>false</saveRawSpectrum>
+    <selectedRegionNumber>0</selectedRegionNumber>
 </VortexParameters>
