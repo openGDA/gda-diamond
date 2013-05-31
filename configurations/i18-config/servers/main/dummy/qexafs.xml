@@ -38,7 +38,7 @@
 		<property name="daserver" ref="daserver" />
 		<property name="timeChannelRequired" value="true" />
 		<property name="darkCurrentRequired" value="false" />
-		<property name="outputLogValues" value="false" />
+		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
 		<property name="outputFormat">
 			<list>

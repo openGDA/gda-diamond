@@ -19,7 +19,7 @@ from exafsscripts.exafs.i18DetectorPreparer import I18DetectorPreparer
 from exafsscripts.exafs.i18SamplePreparer import I18SamplePreparer
 from exafsscripts.exafs.i18OutputPreparer import I18OutputPreparer
 from exafsscripts.exafs.i18ScanScripts import I18XasScan
-#from exafsscripts.exafs.qexafs_scan import QexafsScan
+from exafsscripts.exafs.qexafs_scan import QexafsScan
 from gda.data import PathConstructor
 
 from microfocus.microfocus_elements import getXY,plotSpectrum,displayMap
@@ -95,14 +95,14 @@ if (LocalProperties.get("gda.mode") == 'live'):
 else:
     xas.addMonitors(None, None, None, None)
 
-#qexafs = QexafsScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer, qexafs_energy, qexafs_counterTimer01)
+qexafs = QexafsScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer, qexafs_energy, qexafs_counterTimer01)
 xanes = xas
 
 alias("xas")
 alias("xanes")
 alias("vortex")
 alias("xspress")
-#alias("qexafs")
+alias("qexafs")
 alias("map")
 alias("raster_map")
 alias("raster_map_return_write")

@@ -12,7 +12,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="DAServer" class="gda.device.detector.DummyDAServer">
+	<bean id="daserver" class="gda.device.detector.DummyDAServer">
 		<property name="local" value="True" />
 		<property name="host" value="b18-xspress0" />
 		<property name="port" value="1972" />
