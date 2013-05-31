@@ -7,12 +7,12 @@
 <stringAttribute key="bad_container_name" value="/uk.ac.gda.beamline.b1-feature"/>
 <stringAttribute key="bootstrap" value=""/>
 <booleanAttribute key="clearConfig" value="false"/>
-<booleanAttribute key="clearws" value="true"/>
+<booleanAttribute key="clearws" value="false"/>
 <booleanAttribute key="clearwslog" value="false"/>
 <stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/uk.ac.gda.beamline.b18.product_beamline"/>
 <booleanAttribute key="default" value="false"/>
 <booleanAttribute key="includeOptional" value="true"/>
-<stringAttribute key="location" value="/scratch/rjw82"/>
+<stringAttribute key="location" value="${workspace_loc:b18-config/var}"/>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="GDK_NATIVE_WINDOWS" value="true"/>
 <mapEntry key="LD_LIBRARY_PATH" value="${workspace_loc:uk.ac.gda.nexus}/lib/${target.os}-${target.arch}:${workspace_loc:uk.ac.gda.core}/lib/${target.os}-${target.arch}"/>
@@ -20,7 +20,7 @@
 <mapAttribute key="org.eclipse.debug.core.preferred_launchers">
 <mapEntry key="[debug]" value="org.eclipse.pde.ui.RuntimeWorkbench"/>
 </mapAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+<stringAttribute key="org.eclipse.jdt.launching.JAVA_COMMAND" value="java"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl}"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.install.workspace.loc=${workspace_loc}&#13;&#10;-Dgda.install.git.loc=${project_loc:uk.ac.gda.core/}/../..&#13;&#10;-Dgda.config=${project_loc:b18-config}&#10;-Dgda.propertiesFile=${project_loc:b18-config}/properties/live/java.properties&#10;-Djacorb.config.dir=${project_loc:b18-config}/jacorb/live&#10;-Dgov.aps.jca.JCALibrary.properties=${project_loc:b18-config}/jca/live/JCALibrary.properties&#10;-Dgda.mode=live&#10;-Dgda.client.jython.automatic.interpreter=1&#10;-XX:+DisableExplicitGC&#13;&#10;-Xms256m&#13;&#10;-Xmx1280m&#13;&#10;-XX:PermSize=512m -XX:MaxPermSize=1024m"/>
