@@ -18,7 +18,6 @@
 
 package gda.device.detector;
 
-import gda.device.detector.xspress.Xspress2DetectorConfiguration;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.jython.scriptcontroller.event.ScriptProgressEvent;
@@ -38,7 +37,6 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
  * The difference for this detector is that its template is a copy of the last scan file to be run as its the scan which
  * sets the detector parameters.
  * 
- * @see Xspress2DetectorConfiguration
  */
 public class XHDetectorConfiguration extends DetectorConfiguration {
 

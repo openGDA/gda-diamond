@@ -11,7 +11,7 @@
 <booleanAttribute key="clearConfig" value="false"/>
 <booleanAttribute key="clearws" value="true"/>
 <booleanAttribute key="clearwslog" value="false"/>
-<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/uk.ac.gda.beamline.i20_1.product_offline"/>
+<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/uk.ac.gda.beamline.i20_1.product_online"/>
 <booleanAttribute key="default" value="false"/>
 <stringAttribute key="featureDefaultLocation" value="workspace"/>
 <stringAttribute key="featurePluginResolution" value="workspace"/>
@@ -22,7 +22,7 @@
 </mapAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl}"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.install.workspace.loc=${workspace_loc}&#13;&#10;-Dgda.install.git.loc=${project_loc:uk.ac.gda.core/}/../..&#10;-Dgda.config=${project_loc:i20-1-config}&#13;&#10;-Djacorb.config.dir=${project_loc:i20-1-config}/jacorb/dummy&#13;&#10;-Djava.library.path=${workspace_loc}/plugins/uk.ac.gda.nexus/lib/${target.os}-${target.arch}&#13;&#10;-Dgov.aps.jca.JCALibrary.properties=${project_loc:i20-1-config}/jca/dummy/JCALibrary.properties&#10;-Dgda.propertiesFiles=${project_loc:i20-1-config}/properties/dummy/java.properties&#10;-Dgda.mode=dummy&#10;-Dgda.client.jython.automatic.interpreter=1&#10;-XX:+DisableExplicitGC&#13;&#10;-Xms64m&#13;&#10;-Xmx1024m&#13;&#10;-XX:PermSize=128m -XX:MaxPermSize=256m"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.install.workspace.loc=${workspace_loc}&#13;&#10;-Dgda.install.git.loc=${project_loc:uk.ac.gda.core/}/../..&#10;-Dgda.config=${project_loc:i20-1-config}&#13;&#10;-Djacorb.config.dir=${project_loc:i20-1-config}/jacorb/live&#13;&#10;-Djava.library.path=${workspace_loc}/plugins/uk.ac.gda.nexus/lib/${target.os}-${target.arch}&#13;&#10;-Dgov.aps.jca.JCALibrary.properties=${project_loc:i20-1-config}/jca/live/JCALibrary.properties&#10;-Dgda.propertiesFiles=${project_loc:i20-1-config}/properties/live/java.properties&#10;-Dgda.mode=live&#10;-Dgda.client.jython.automatic.interpreter=1&#10;-XX:+DisableExplicitGC&#13;&#10;-Xms64m&#13;&#10;-Xmx1024m&#13;&#10;-XX:PermSize=128m -XX:MaxPermSize=256m"/>
 <stringAttribute key="pde.version" value="3.3"/>
 <stringAttribute key="product" value="uk.ac.gda.beamline.i20_1.product"/>
 <stringAttribute key="productFile" value="/uk.ac.gda.beamline.i20j-feature/uk.ac.gda.beamline.i20j.product"/>

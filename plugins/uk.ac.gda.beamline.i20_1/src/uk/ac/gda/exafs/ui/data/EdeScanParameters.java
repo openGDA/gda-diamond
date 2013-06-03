@@ -23,14 +23,13 @@ import java.net.URL;
 import java.util.List;
 import java.util.Vector;
 
-import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 /**
  * Defines the collection parameters for linear or cycling experiments on the I20-1 Energy Dispersive EXAFS (EDE)
  * beamline.
  */
-public class EdeScanParameters implements Serializable, IScanParameters {
+public class EdeScanParameters implements Serializable {
 
 	public static final String TRIG_NONE = "none";
 	public static final String TRIG_GROUP_BEFORE = "Group start, before delay";
@@ -262,15 +261,10 @@ public class EdeScanParameters implements Serializable, IScanParameters {
 				getOutputsChoice4(), getOutputsChoice5(), getOutputsChoice6(), getOutputsChoice7() };
 	}
 
-	/**
-	 * Must implement clear() method on beans being used with BeanUI.
-	 */
-	@Override
 	public void clear() {
 		timingGroups.clear();
 	}
 
-	@Override
 	public String getScannableName() {
 		// no moving parts (I know of yet)...
 		return null;
