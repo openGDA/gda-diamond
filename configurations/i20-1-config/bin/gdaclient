@@ -1,5 +1,5 @@
 #source /dls_sw/dasc/tools_versions/set_tools.sh
-module load java/6u37-64
+module load java/gda832
 
 export LD_LIBRARY_PATH=/dls_sw/i20-1/software/gda_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64/:/dls_sw/i20-1/software/gda_git/gda-core.git/uk.ac.gda.core/lib/linux-x86_64/
 

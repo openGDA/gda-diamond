@@ -1,3 +1,4 @@
 #!/bin/bash
-module load eclipse
-eclipse -data /dls_sw/i20-1/software/gda_versions/8_26/workspace
+module load eclipse/422
+module load git
+eclipse -data /dls_sw/i20-1/software/gda_versions/8_32/workspace
