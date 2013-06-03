@@ -14,12 +14,14 @@
 		<property name="pvName" value="BL20J-MO-TABLE-01:Z" />
 	</bean>
 
-	<bean id="sample_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20J-MO-TABLE-02:X" />
-	</bean>
-	<bean id="sample_z_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20J-MO-TABLE-02:Z" />
-	</bean>
+	<bean id="sample_x_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="sample_z_motor" class="gda.device.motor.DummyMotor"/>
+<!-- 	<bean id="sample_x_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="pvName" value="BL20J-MO-TABLE-02:X" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="sample_z_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="pvName" value="BL20J-MO-TABLE-02:Z" /> -->
+<!-- 	</bean> -->
 
 	<bean id="stage3_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-MO-TABLE-03:Z" />
