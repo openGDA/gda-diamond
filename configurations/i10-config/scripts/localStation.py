@@ -49,9 +49,8 @@ alias('wa')
 run("rasor/saveAndReload.py")
 
 ###delay scannable
-run("rasor/pd_wait.py")
-#wait = WaitPD("wait", 0.1)
-#add_default wait
+import gdascripts.pd.time_pds
+wait = gdascripts.pd.time_pds.waittime
 
 try:
     print "creating 'dummy' & `denergy` scannables"
