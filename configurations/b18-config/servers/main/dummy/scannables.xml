@@ -18,8 +18,6 @@
 		<property name="numberOfFilters" value="36" />
 	</bean>
 	
-
-	
 	<bean id="energy" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="energy" />
 		<property name="motor" ref="energy_bragg_pv" />
@@ -36,6 +34,5 @@
 			</list>
 		</property>
 	</bean>
-
 	
 </beans>

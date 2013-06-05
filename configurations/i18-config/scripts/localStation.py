@@ -86,11 +86,12 @@ loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
 
 xas = I18XasScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer, None)
 
+non_raster_map = Map(D7A, D7B, counterTimer01, rcpController)
+raster_map = RasterMap(D7A, D7B, counterTimer01, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, rcpController)
+raster_map_return_write = RasterMapReturnWrite(D7A, D7B, counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, rcpController)
+map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
+
 if (LocalProperties.get("gda.mode") == 'live'):
-    non_raster_map = Map(D7A, D7B, counterTimer01, rcpController)
-    raster_map = RasterMap(D7A, D7B, counterTimer01, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, rcpController)
-    raster_map_return_write = RasterMapReturnWrite(D7A, D7B, counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, rcpController)
-    map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
     xas.addMonitors(topupMonitor, beam, detectorFillingMonitor, trajBeamMonitor)
 else:
     xas.addMonitors(None, None, None, None)
@@ -122,5 +123,7 @@ cid.setOutputFormat(['%4.10f', '%4.10f', '%4.10f', '%4.10f'])
 
 raster_xspress.setInputNames([])
 raster_xmap.setInputNames([])
+
+photonccd.setOutputFolderRoot("x:/data/2013/nt3894-1/xrd/")
 
 print "Initialization Complete";
