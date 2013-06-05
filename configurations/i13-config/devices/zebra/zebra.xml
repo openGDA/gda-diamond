@@ -35,5 +35,20 @@
 		<property name="readOutTime" value=".03"></property>
 	</bean>
 
+	<bean id="zebra_simpleAcquire" class="gda.device.detector.addetector.triggering.SimpleAcquire">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg value=".1" />	
+	</bean>
+
+
+	<bean id="zebra_detb" class="gda.device.detector.NXDetector">
+		<property name="name" value="zebra_detb"/>
+		<property name="collectionStrategy" ref="zebra_simpleAcquire" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter" />
+			</list>
+		</property>
+	</bean>
 
 </beans>	

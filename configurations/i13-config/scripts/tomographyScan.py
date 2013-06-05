@@ -6,7 +6,7 @@ from time import sleep
 
 from pcoDetectorWrapper import PCODetectorWrapper
 from gda.jython.commands.ScannableCommands import inc, scan, pos, createConcurrentScan
-from gda.scan import ConstantVelocityScanLine
+from gda.scan import ConstantVelocityScanLine, MultiScan, ConcurrentScan
 
 import sys
 import time
@@ -14,7 +14,7 @@ import shutil
 import gda
 from gdascripts.parameters import beamline_parameters
 from gdascripts.messages import handle_messages
-from gda.device.scannable import ScannableBase
+from gda.device.scannable import ScannableBase, SimpleScannable
 from gda.device.detector import DetectorBase
 from gda.scan import ScanPositionProvider
 from gda.device.scannable import ScannableBase, ScannableUtils
@@ -258,15 +258,33 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         #ensure the soft control of the shutter is open at the end of the scan
         tomography_shutter.moveTo( "Open")        
 
-        scanObject=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
-#        scanObject=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step, tomography_flyscan_det, exposureTime])
-        tomodet.stop()
-        scanObject.runScan()
+        ix=tomography_flyscan_theta.getContinuousMoveController().createScannable(jns.ix)
+        ss=SimpleScannable()
+        ss.name = tomography_flyscan_theta.name
+        ss.currentPosition=0.
+        ss.inputNames = tomography_flyscan_theta.inputNames
+        ss.extraNames = tomography_flyscan_theta.extraNames
+        ss.configure()
 
+        ss1=SimpleScannable()
+        ss1.name = tomography_flyscan_theta.getContinuousMoveController().name
+        ss1.currentPosition=0.
+        ss1.inputNames = tomography_flyscan_theta.getContinuousMoveController().inputNames
+        ss1.extraNames = tomography_flyscan_theta.getContinuousMoveController().extraNames
+        ss1.configure()
+        jns.zebra_detb.name = tomography_flyscan_det.name
+        darkFlatScan=ConcurrentScan([jns.ix, 0, 1, 1, ss, ss1, jns.zebra_detb, exposureTime])
+        scanObject=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step, ix, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
+        scanObject2=ConstantVelocityScanLine([tomography_flyscan_theta, stop, start, step,ix, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
+        scanObject3=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,ix, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
+        tomodet.stop()
+        
+        multiScanObj = MultiScan([darkFlatScan, scanObject, scanObject2,scanObject3])
+        multiScanObj.runScan()
+        #turn camera back on
         if setupForAlignment:
             tomodet.setupForAlignment()
-            
-        return scanObject;
+        return multiScanObj;
     except :
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Error in tomoFlyScanScan", exceptionType, exception, traceback, False)
@@ -453,10 +471,10 @@ def ProcessScanParameters(scanParameterModelXML):
     updateProgress(0, "Starting tomoscan" + parameters.getTitle());
     print "Flyscan:" + `parameters.flyScan`
     if( parameters.flyScan ):
-        if parameters.imagesPerDark > 0:
-            updateProgress(5, "Getting flats and darks")
-            showNormalisedImageEx(parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, getDataOnly=True)
-        updateProgress(10, "Starting collection of tomograms")
+#        if parameters.imagesPerDark > 0:
+#            updateProgress(5, "Getting flats and darks")
+#            showNormalisedImageEx(parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, getDataOnly=True)
+#        updateProgress(10, "Starting collection of tomograms")
         tomoFlyScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
                  darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
                   imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI)    
