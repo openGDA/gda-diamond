@@ -3,12 +3,13 @@
     <cs:dependencies>
         <cs:dependency name="dls-config" componentType="buckminster"/>
         <cs:dependency name="ncsa.hdf" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.core.jobs" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.core.resources" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.equinox.common" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i20_1" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i20_1.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.core.jobs" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.core.resources" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.equinox.common" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.server.exafs" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
