@@ -1,10 +1,11 @@
 import math
 from gda.analysis.utils import GeneticAlg
 from gda.analysis import DataSet
-from gda.analysis import Plotter
+from gda.analysis import RCPPlotter
 from time import sleep
 from gda.factory import Finder
-
+from uk.ac.diamond.scisoft.analysis.fitting import Fitter
+from uk.ac.diamond.scisoft.analysis.fitting.functions import StraightLine, Gaussian
 #ref = refinement()
 #ref.calibrateElement(20.0,0,23. 24. 22.4 0.001)
 
@@ -26,7 +27,7 @@ class refinement() :
 		while (math.fabs(self.ppos-value)) > toll:
 			print (math.fabs(self.ppos-value)), count
 			self.ds =  self.acquire(time)
-			gain = ref.refine(chan, min, max, value)
+			gain = self.refine(chan, min, max, value)
 			self.edxd.getSubDetector(chan).setPreampGain(gain)
 			if count > 10 :
 				break
@@ -75,11 +76,12 @@ class refinement() :
 		# Fit the data using a GA
 		fit = Fitter.fit (xds, yds,GeneticAlg(0.01),[StraightLine(-yds.max(),yds.max(),yds.min(),yds.max()), Gaussian(min,max,2*(max-min),1000)])
 
-		Plotter.plot("Plot 1", xds ,[yds, fit.getFunction().makeDataSet([xds])])
+		RCPPlotter.plot("Scan Plot 1", xds ,[yds, fit.getFunction(0).makeDataset([xds])])
 	
 		# get out the 2 peak values
-		peak1 = fit[2].getValue()
-		fwhm1 = fit[3].getValue()
+		gaussian=fit.getFunction(1)
+		peak1 = gaussian.getPosition()
+		fwhm1 = gaussian.getFWHM()
 
 		print "peak position = %f with width %f " % (peak1, fwhm1)
 
@@ -117,5 +119,5 @@ class refinement() :
 			
 		yaxis = DataSet("Energy", self.edxd.getSubDetector(0).getEnergyBins())
 		##plot
-		Plotter.plot("Plot 1", yaxis, data);
+		RCPPlotter.plot("Scan Plot 1", yaxis, data);
 		return data

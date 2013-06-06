@@ -1,9 +1,3 @@
-qexafs_energy(9999)
-qexafs_energy(15001)
-qexafs_energy(9999)
-qexafs_energy(15001)
-reset_namespace
-import cirrus
 reset_namespace
 energyScannable = finder.find("qexafs_energy")
 qexafs_energy()
@@ -100,3 +94,7 @@ pos
 reset_namespace
 s4xcentre
 s4xcentre(6)
+qexafs
+qexafs_counterTimer01
+scan test 0 10 1 qexafs_counterTimer01 1
+reset_namespace
