@@ -192,10 +192,11 @@ try:
 	zebra_det.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_AND_SOFTWARE	
 #	run("i13diffcalc")
 	import raster_scan
-	
+	LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/tmp")
+	LocalProperties.set("gda.data", "/dls/$instrument$/data/$year$/$visit$/tmp")
 
-	import beamLineEnergy
-	bl = beamLineEnergy.beamLineEnergy()
+	import beamlineEnergy
+	bl = beamlineEnergy.beamLineEnergy()
 	bl.setName("bl")
 
 except :

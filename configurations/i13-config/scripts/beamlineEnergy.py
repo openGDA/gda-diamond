@@ -1,6 +1,7 @@
 from gda.device.scannable import PseudoDevice
 from gda.factory import Finder
 from gda.configuration.properties import LocalProperties
+from gda.epics import CAClient
 
 from gdascripts.messages import handle_messages
 from gdascripts.parameters import beamline_parameters
@@ -10,7 +11,6 @@ ca=CAClient()
 # to set a value in EPICS use
 # ca.put("PVNAME", value)
 
-from gda.epics import CAClient
 class beamLineEnergy(PseudoDevice):
 	def __init__(self):
 		self.name = "bl"
