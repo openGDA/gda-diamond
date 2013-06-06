@@ -17,7 +17,7 @@
 	<bean id="crystal2_roll_motor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="500" />
 	</bean>
-	<bean id="pair2_roll_motor" class="gda.device.motor.DummyMotor">
+	<bean id="crystal34_roll_motor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="500" />
 	</bean> 
 	<bean id="energy_motor" class="gda.device.motor.DummyMotor">
@@ -57,10 +57,10 @@
 		<property name="hardwareUnitString" value="mRad" />
 	</bean>
 
-	<bean id="pair2_roll" class="gda.device.scannable.ScannableMotor">
+	<bean id="crystal34_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mRad" />
-		<property name="motor" ref="pair2_roll_motor" />
+		<property name="motor" ref="crystal34_roll_motor" />
 		<property name="hardwareUnitString" value="mRad" />
 		<property name="lowerGdaLimits" value="0" />
 		<property name="upperGdaLimits" value="10" />
