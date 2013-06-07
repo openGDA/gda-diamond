@@ -527,7 +527,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 						frameTimeInCycles, delays, lemoOut, extTrig);
 			} else {
 
-				command = createTimingCommand("setup-group", i, numFrames, numberOfScansPerFrame, scanTimeInClockCycles,
+				command = createTimingCommand("setup-group", i, numFrames, numberOfScansPerFrame, frameTimeInCycles,
 						 delays, lemoOut, extTrig);
 				
 				if (scanDelayInMilliseconds > 0) {
