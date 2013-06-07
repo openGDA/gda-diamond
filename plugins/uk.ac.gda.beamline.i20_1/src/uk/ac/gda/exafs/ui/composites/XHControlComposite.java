@@ -341,9 +341,9 @@ public class XHControlComposite extends Composite implements IObserver {
 				try {
 					final Integer snapshotIntTime = Activator.getDefault().getPreferenceStore()
 							.getInt(I20_1PreferenceInitializer.SNAPSHOTTIME);
-					final Integer numScans = Activator.getDefault().getPreferenceStore()
+					final Integer scansPerFrame = Activator.getDefault().getPreferenceStore()
 							.getInt(I20_1PreferenceInitializer.SCANSPERFRAME);
-					collectAndPlotSnapshot(false, snapshotIntTime, numScans, snapshotIntTime + "s Snapshot");
+					collectAndPlotSnapshot(false, snapshotIntTime, scansPerFrame, snapshotIntTime + "s Snapshot");
 				} catch (Exception e) {
 					logger.error("Error trying to collect detector snapshot", e);
 				}
@@ -358,9 +358,9 @@ public class XHControlComposite extends Composite implements IObserver {
 				try {
 					final Integer snapshotIntTime_ms = Activator.getDefault().getPreferenceStore()
 							.getInt(I20_1PreferenceInitializer.SNAPSHOTTIME);
-					final Integer numScans = Activator.getDefault().getPreferenceStore()
+					final Integer scansPerFrame = Activator.getDefault().getPreferenceStore()
 							.getInt(I20_1PreferenceInitializer.SCANSPERFRAME);
-					collectAndPlotSnapshot(true, snapshotIntTime_ms, numScans, snapshotIntTime_ms + "ms Snapshot");
+					collectAndPlotSnapshot(true, snapshotIntTime_ms, scansPerFrame, snapshotIntTime_ms + "ms Snapshot");
 				} catch (Exception e) {
 					logger.error("Error trying to collect detector snapshot", e);
 				}
@@ -371,7 +371,7 @@ public class XHControlComposite extends Composite implements IObserver {
 				"/icons/camera_edit.png"));
 	}
 
-	private static void collectData(int collectionPeriod, int numberScans) throws DeviceException, InterruptedException {
+	private static void collectData(int collectionPeriod, int numberScans, Integer scansPerFrame) throws DeviceException, InterruptedException {
 
 		// collect data from XHDetector and send the spectrum to local Plot 1 window
 		EdeScanParameters simpleParams = new EdeScanParameters();
@@ -379,7 +379,11 @@ public class XHControlComposite extends Composite implements IObserver {
 		group1.setDelayBetweenFrames(0);
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(numberScans);
-		group1.setTimePerScan(new Double(collectionPeriod) / 1000);
+		if (scansPerFrame > 0) {
+			group1.setNumberOfScansPerFrame(scansPerFrame);
+		} else {
+			group1.setTimePerScan(new Double(collectionPeriod) / 1000);
+		}
 		group1.setTimePerFrame(new Double(collectionPeriod) / 1000);
 		simpleParams.addGroup(group1);
 
@@ -393,15 +397,14 @@ public class XHControlComposite extends Composite implements IObserver {
 	 * 
 	 * @param writeData - writes a file of the data
 	 * @param collectionPeriod - ms
-	 * @param numberScans
 	 * @param title
 	 * @return double values from the detector - the FF and sector totals
 	 */
-	public static Double[] collectAndPlotSnapshot(boolean writeData, Integer collectionPeriod, Integer numberScans,
+	public static Double[] collectAndPlotSnapshot(boolean writeData, Integer collectionPeriod, Integer scansPerFrame,
 			String title) {
 
 		try {
-			collectData(collectionPeriod, numberScans);
+			collectData(collectionPeriod, 1,scansPerFrame);
 
 			// will return a double[] of corrected data
 			Object results = getDetector().getAttribute(XHDetector.ATTR_READFIRSTFRAME);
