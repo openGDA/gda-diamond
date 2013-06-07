@@ -80,8 +80,12 @@ try:
 	from gda.scan.RepeatScan import create_repscan, repscan
 	vararg_alias("repscan")
 
-	from gdascripts.metadata.metadata_commands import setTitle
+	from gdascripts.metadata.metadata_commands import setTitle, meta_add, meta_ll, meta_ls, meta_rm
 	alias("setTitle")
+	alias("meta_add")
+	alias("meta_ll")
+	alias("meta_ls")
+	alias("meta_rm")
 
 	
 	from gdascripts.pd.time_pds import waittimeClass2, showtimeClass, showincrementaltimeClass, actualTimeClass
