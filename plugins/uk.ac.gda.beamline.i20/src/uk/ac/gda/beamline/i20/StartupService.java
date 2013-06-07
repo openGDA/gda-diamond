@@ -49,7 +49,7 @@ public class StartupService implements IStartup {
 		// if synoptic does not exist, then this is the first time the GDA has been run in this workspace, so show the
 		// Welcome screen
 		if (new File(synopticProjectFile).exists()) {
-			SynopticControl.showSynoptic();
+			// SynopticControl.showSynoptic();
 		} else {
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 				@Override

@@ -142,7 +142,7 @@ public class I20IntroPart extends IntroPart {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				SynopticControl.showSynoptic();
+//				SynopticControl.showSynoptic();
 			}
 		});
 
