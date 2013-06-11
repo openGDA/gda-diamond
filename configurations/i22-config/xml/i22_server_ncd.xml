@@ -146,6 +146,7 @@
 	<!-- *** NCD devices section *** -->
 	<!--***************************************-->
 
+<!--
 	<bean id="DAServerHW" class="gda.device.detector.DAServer">
 		<property name="host" value="i22-hotwaxs-scal" />
 		<property name="port" value="1972" />
@@ -172,7 +173,6 @@
 		<property name="caenPVbase" value="BL22I-EA-HV-01" />
 		<property name="flowPVName" value="BL22I-EA-GIR-01:HWAX:FLOW:RBV" />
 	</bean>
-<!--
 -->
 <!--
 	    <bean id="DAServer" class="gda.device.detector.DummyDAServer">
@@ -318,8 +318,13 @@
                 </property>
 	</bean>
 
+		<bean id="energy" class="uk.ac.gda.server.ncd.scannable.EnergyScannable">
+			<property name="bragg" ref="bragg" />
+		</bean>
+
         <bean id="ncdlistener" class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher">
         	<property name="ncdDetector" ref="ncddetectors"></property> 
+        	<property name="energyScannable" ref="energy" />
         </bean>
 
         <bean id="bssc" class="uk.ac.gda.devices.bssc.BioSAXSSampleChanger">

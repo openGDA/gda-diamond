@@ -99,7 +99,6 @@ alias("getVisit")
 setVisit = metadatatweaks.setVisit
 alias("setVisit")
 
-print "ENERGY CONFIG NEEDS TO CHANGE - TELL TOBIAS"
 run("/BeamlineScripts/master.py")
 execfile(gdaScriptDir + "atten.py")
 execfile(gdaScriptDir + "rate.py")
