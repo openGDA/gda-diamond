@@ -44,9 +44,12 @@
                 </property>
         </bean>
 
+	<bean id="sockpuppet" class="gda.data.fileregistrar.ClientFileAnnouncer" />
+	
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
 		<property name="name" value="FileRegistrar" />
 		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/i22-" />
+		<property name="clientFileAnnouncer" ref="sockpuppet" />
 	</bean>
 
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">

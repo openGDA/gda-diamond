@@ -20,7 +20,7 @@
 
 		<corba:import namespace="i22" names="command_server, GDAMetadata,
 											SimpleServlet, ScanDataStore, 
-											observableSubdirectory,
+											observableSubdirectory, sockpuppet,
 											ncddetectors, Tfg, Rapid2D, Scalers, Pilatus2M,
 											shutter" /> 
 
@@ -94,6 +94,10 @@
                 <property name="class" value="gda.commandqueue.Queue" />
                 <property name="service" ref="commandQueueProcessor" />
         </bean>
+
+		<bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
+			<property name="clientFileAnnouncerName" value="sockpuppet" />
+		</bean>
 
         <gda:rbac />
 </beans>
