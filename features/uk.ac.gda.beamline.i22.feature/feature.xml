@@ -29,6 +29,10 @@
          id="uk.ac.diamond.scisoft.feedback.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.dawb.visualization.feature"
+         version="0.0.0"/>
+
    <plugin
          id="uk.ac.gda.beamline.i22"
          download-size="0"
@@ -79,6 +83,40 @@
 
    <plugin
          id="uk.ac.gda.dls"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.dawnsci.conversion"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.dawnsci.jexl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.dawnsci.persistence"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.diamond.scisoft.analysis"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.diamond.scisoft.analysis.osgi"
          download-size="0"
          install-size="0"
          version="0.0.0"
