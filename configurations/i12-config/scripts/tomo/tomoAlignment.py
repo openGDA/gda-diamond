@@ -8,6 +8,7 @@ from gda.factory import Finder
 from gdascripts.messages import handle_messages
 from time import sleep, gmtime, strftime
 from tomographyScan import tomoScan
+from tomographyTiltAlignment import getFullDataSet, analyseData
 import math
 import sys
 import os
@@ -28,6 +29,7 @@ import uk.ac.diamond.scisoft.analysis.dataset.Image as Image
 import uk.ac.gda.tomography.TomographyResourceUtil
 import uk.ac.gda.tomography.parameters.TomoParametersFactory as TomoParametersFactory
 from gdascripts.utils import * #@UnusedWildImport
+from uk.ac.gda.tomography.tilt import TiltParameters
 
 
 '''
@@ -294,10 +296,10 @@ def getSubdir():
     subdir = f.find("GDAMetadata").getMetadataValue("subdirectory")
     updateScriptController("Subdirectory:" + subdir)
     
-def updateScriptController(msg):
+def updateScriptController(arg):
     scriptController = f.find("tomoAlignmentConfigurationScriptController")
     if scriptController != None:
-        scriptController.update(scriptController, msg)
+        scriptController.update(scriptController, arg)
 
 def moveTomoAlignmentMotors(motorMoveMap):
     updateScriptController("Moving tomo alignment motors")
@@ -839,6 +841,116 @@ class TomoAlignmentConfigurationManager:
 tomographyConfigurationManager = TomoAlignmentConfigurationManager()
     
 
+def tiltAlignment(module, exposureTime, cam1RollPresetValue=0.5, ss1RxPresetValue=0.2):
+    Testing = True
+    updateScriptController("Starting Tilt Alignment")
+    tiltParameters = TiltParameters()
+    if Testing:
+        testBadDataSet = False
+        
+        if testBadDataSet:
+            ff = dnp.io.load('/dls/i12/data/2013/ee8336-1/rawdata/16098.nxs')
+            data = getFullDataSet(ff)
+            dd = data[:, 1100:1500, :]
+            results = analyseData(dd)
+            print "X tilt deviation:" + `results[0]`
+            print "Z tilt deviation:" + `results[1]`
+            pointList = results[2]
+            
+            i = 0
+            while i < len(pointList):
+                tiltParameters.addPreTiltPoint(pointList[i][1], pointList[i][0])
+                i += 1
+                
+            updateScriptController(tiltParameters)
+            return tiltParameters
+        
+        else:
+            ff = dnp.io.load('/dls/i12/data/2013/cm5936-2/processing/testDataForTilt/20561.nxs')
+            data = getFullDataSet(ff)
+            dd = data[...]
+            results = analyseData(dd)
+            print "X tilt deviation:" + `results[0]`
+            print "Z tilt deviation:" + `results[1]`
+            pointList = results[2]
+            
+            i = 0
+            while i < len(pointList):
+                tiltParameters.addPreTiltPoint(pointList[i][1], pointList[i][0])
+                i += 1
+                
+            
+            ff = dnp.io.load('/dls/i12/data/2013/cm5936-2/processing/testDataForTilt/20562.nxs')
+            data = getFullDataSet(ff)
+            dd = data[...]
+            results = analyseData(dd)
+            pointList = results[2]
+            
+            i = 0
+            while i < len(pointList):
+                tiltParameters.addPostTiltPoint(pointList[i][1], pointList[i][0])
+                i += 1
+            
+            #tiltParameters.setPostTiltPoints(pointSets[1])
+            updateScriptController(tiltParameters)
+            return tiltParameters
+        
+    
+    currentSubDir = Finder.getInstance().find("GDAMetadata").getMetadataValue("subdirectory")
+    print "Current Sub dir:" + `currentSubDir`
+    try:
+        print "Changing sub dir to 'tmp'"
+        changeSubDir("tmp")
+        
+        print "Setting cam1_roll to presetValue "
+        cam1_roll = Finder.getInstance().find("cam1_roll")
+        cam1_roll.moveTo(cam1RollPresetValue)
+        
+        print "Setting ss1_rx to presetValue "
+        ss1_rx = Finder.getInstance().find("ss1_rx")
+        ss1_rx.moveTo(ss1RxPresetValue)
+        
+        print "tilt Alignment called"
+        print "module :" + `module`
+        print  type(exposureTime)
+        ss1Theta = Finder.getInstance().find("ss1_theta")
+        pco = Finder.getInstance().find("pco")
+        if not isLiveMode():
+            print "Setting pco external triggered"
+            pco.setExternalTriggered(False)
+        #Before tilt
+        scan([ss1Theta, 0, 340, 20, pco, exposureTime])
+        pathname = str(pwd()) + ".nxs"
+        ff = dnp.io.load(pathname)
+        data = getFullDataSet(ff)
+        dnp.plot.image(data[0, :, :])
+        dd = data[...]
+        print "PathName of files to be analysed:" + `pathname`
+        
+        ss1rxVal, ss1rzVal = analyseData(dd)
+        print "ss1rxVal:" + `ss1rxVal`
+        print "ss1rzVal:" + `ss1rzVal`
+        #Do Mark's stuff
+    
+        #After tilt
+        scan([ss1Theta, 0, 340, 20, pco, exposureTime])
+        pathname = pwd() + ".nxs"
+        print "PathName of files to be analysed:" + `pathname`
+        ff = dnp.io.load(pathname)
+        data = getFullDataSet(ff)
+        dnp.plot.image(data[0, :, :])
+        dd = data[:, :, :]
+        dataAnalysed = analyseData(dd)
+        print "Data Analysed: " + dataAnalysed
+        #Do Mark's stuff
+        print "End of tilt Alignment"
+    except:
+        print "problem with tilt alignment"
+    finally:
+        print "Changing sub dir to " + `currentSubDir`
+        changeSubDir(currentSubDir)
+        updateScriptController(tiltParameters)
+    
 class TomoAlignmentConfiguration:
     def __init__(self, tomographyConfigurationManager, aC):
         self.tomographyConfigurationManager = tomographyConfigurationManager
@@ -928,3 +1040,5 @@ class TomoAlignmentConfiguration:
             self.tomographyConfigurationManager.setConfigRunning(self.configId)
             self.tomographyConfigurationManager.setConfigRunning(None)
             updateScriptController('Tomography Scan Complete')
+            
+    
