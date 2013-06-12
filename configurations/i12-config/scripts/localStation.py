@@ -330,15 +330,16 @@ alias("pixiumExp2000ms")
 alias("pixiumExp4000ms")
 alias("pixiumAfterIOCStart")
 
-
-print "\n Add default scannables:"
-default_scannables = []
-default_scannables.append(ring_topup_countdown)
-default_scannables.append(actualTime)
-
-for s in default_scannables:
-    add_default s
-
+try:
+    print "\n Add default scannables:"
+    default_scannables = []
+    default_scannables.append(ring_topup_countdown)
+    default_scannables.append(actualTime)
+    
+    for s in default_scannables:
+        add_default s
+except:
+    print "Unable to add default scannables"
 
 print 
 print "==================================================="
