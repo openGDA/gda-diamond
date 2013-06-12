@@ -41,6 +41,8 @@ import uk.ac.gda.richbeans.components.selector.BeanSelectionListener;
 import uk.ac.gda.richbeans.components.selector.VerticalListEditor;
 import uk.ac.gda.richbeans.components.wrappers.ComboWrapper;
 import uk.ac.gda.richbeans.components.wrappers.RadioWrapper;
+import uk.ac.gda.richbeans.event.ValueEvent;
+import uk.ac.gda.richbeans.event.ValueListener;
 
 public class CryostatTableComposite extends I20SampleParamsComposite {
 
