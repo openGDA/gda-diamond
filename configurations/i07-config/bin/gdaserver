@@ -24,12 +24,12 @@ fi
 
 if [ ! -n "$GDA_HOME" ]; then
 	GDA_HOME=/dls_sw/$BEAMLINE/software/gda
-	echo "No GDA_HOME setup, use the default $GDA_HOME."
+	echo "No GDA_HOME setup, gdaserver script is setting GDA_HOME to $GDA_HOME."
 fi
 
 if [ ! -n "$GDA_CONFIG" ]; then
-	GDA_CONFIG=$GDA_HOME/config
-	echo "No GDA_CONFIG setup, use the default $GDA_CONFIG."
+	export GDA_CONFIG=$GDA_HOME/config
+	echo "No GDA_CONFIG setup, gdaserver script is setting GDA_CONFIG to $GDA_CONFIG."
 fi
 
 
@@ -41,7 +41,7 @@ if [ $1 = "local" ]; then
 	echo "To start GDA Servers locally."
 	$GDA_CONFIG/bin/GDA_LocalStart_Lin
 elif [ $1 = "remote" ]; then
-	echo "To start GDA Servers on Beamline Control Server."
+	echo "Starting GDA Servers on Beamline Control Server. Calling $GDA_CONFIG/bin/GDA_RemoteStart_Lin"
 	$GDA_CONFIG/bin/GDA_RemoteStart_Lin
 else
 	usage

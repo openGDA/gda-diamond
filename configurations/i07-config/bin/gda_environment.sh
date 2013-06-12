@@ -26,7 +26,7 @@ module load java/gda830
 export DASC_SOFTWARE=/dls_sw/$BEAMLINE/software
 
 #export GDA_CORE=$DASC_SOFTWARE/gda/plugins/uk.ac.gda.core
-export GDA_CORE=$DASC_SOFTWARE/gda_git/gda-core.git/uk.ac.gda.core
+export GDA_CORE=$DASC_SOFTWARE/gda/workspace_git/gda-core.git/uk.ac.gda.core
 
 export NEXUS=$DASC_SOFTWARE/gda/plugins/uk.ac.gda.nexus
 

@@ -6,12 +6,16 @@ then
   exit 1
 fi
 
+
+echo GDA_CONFIG: $GDA_CONFIG
+
 #export gdaLauncher=/dls_sw/$BEAMLINE/software/gda/plugins/uk.ac.gda.core/bin/gda
-export gdaLauncher=/dls_sw/$BEAMLINE/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda
+export gdaLauncher=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
 varDir=/dls_sw/$BEAMLINE/var
 dataDir=/dls/$BEAMLINE
 logDir=/dls_sw/$BEAMLINE/logs
 
+export GDA_CONFIG=/dls_sw/i07/software/gda/config
 
 #echo $gdaLauncher servers
 #$gdaLauncher servers
