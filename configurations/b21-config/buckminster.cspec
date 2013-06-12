@@ -8,7 +8,10 @@
         <cs:dependency name="uk.ac.diamond.scisoft.analysis" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.diamond.scisoft.deprecated" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.analysis" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.client.ncd" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.diamond.scisoft.ncd.rcp" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.server.ncd" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.server.ncd.epics" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>

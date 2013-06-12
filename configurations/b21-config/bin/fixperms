@@ -1,6 +1,6 @@
 #! /bin/sh
 
-#run on b22-control
+#run on b21-control
 
 cd /dls_sw/b21/software/gda-devel/config
 chmod o+w .
