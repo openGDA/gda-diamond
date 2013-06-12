@@ -1,9 +1,9 @@
 #!/bin/bash
 # runs the servers locally
 
-# module command not working, so instead explicitly give the link for this GDA release
-export JAVA_HOME=/dls_sw/apps/java/x64/jdk1.6.0_37/jre
-export PATH=$PATH:/dls_sw/apps/java/x64/jdk1.6.0_37/jre/bin
+. /usr/share/Modules/init/bash
+module load java/gda830-64
+echo $JAVA_HOME
 
 umask 0002
 
