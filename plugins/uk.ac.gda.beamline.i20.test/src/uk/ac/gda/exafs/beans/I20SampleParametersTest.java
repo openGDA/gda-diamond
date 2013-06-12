@@ -36,11 +36,12 @@ import org.junit.Test;
 
 import uk.ac.gda.beans.exafs.ElementPosition;
 import uk.ac.gda.beans.exafs.i20.CryostatParameters;
+import uk.ac.gda.beans.exafs.i20.CryostatSampleDetails;
 import uk.ac.gda.beans.exafs.i20.CustomParameter;
 import uk.ac.gda.beans.exafs.i20.FurnaceParameters;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
 import uk.ac.gda.beans.exafs.i20.MicroreactorParameters;
-import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
+import uk.ac.gda.beans.exafs.i20.SampleStagePosition;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
 import uk.ac.gda.exafs.ui.describers.I20SampleDescriber;
 
@@ -113,11 +114,15 @@ public class I20SampleParametersTest {
 		cps.setP(1d);
 		cps.setI(1d);
 		cps.setD(1d);
-		cps.setUseSample1(true);
-		cps.setPosition1(1.0);
-		cps.setFinePosition1(0.1);
-		cps.setSample1_name("Sample1");
-		cps.setSampleDescription1("My First Sample");
+		
+		CryostatSampleDetails sample1 = new CryostatSampleDetails();
+		sample1.setPosition(1.0);
+		sample1.setFinePosition(0.1);
+		sample1.setSample_name("Sample1");
+		sample1.setSampleDescription("My First Sample");
+		sample1.setNumberOfRepetitions(2);
+		cps.addSample(sample1);
+		
 		expectedValue.setCryostatParameters(cps);
 
 		isValidAndMatchesFile(expectedValue,"SampleParameters_withCryostat.xml");
@@ -171,17 +176,29 @@ public class I20SampleParametersTest {
 		expectedValue.addDescription("bla bla bla");
 		expectedValue.setSampleWheelPosition("Copper");
 		expectedValue.setSampleEnvironment(I20SampleParameters.SAMPLE_ENV[1]);
-		SampleStageParameters ssps = new SampleStageParameters();
-		ssps.setUseSample1(true);
-		ssps.setSample1_x(3.4);
-		ssps.setSample1_y(6.8);
-		ssps.setSample1_z(2.5);
-		ssps.setSample1_rotation(1.2);
-		ssps.setSample1_roll(0.5);
-		ssps.setSample1_pitch(0.7);
-		ssps.setSample1_name("my_sample");
-		ssps.setSample1_description("this is my sample");
-		expectedValue.setRoomTemperatureParameters(ssps);
+		SampleStagePosition ssps = new SampleStagePosition();
+		ssps.setSample_x(3.4);
+		ssps.setSample_y(6.8);
+		ssps.setSample_z(2.5);
+		ssps.setSample_rotation(1.2);
+		ssps.setSample_roll(0.5);
+		ssps.setSample_pitch(0.7);
+		ssps.setSample_name("my_sample");
+		ssps.setSample_description("this is my sample");
+		ssps.setNumberOfRepetitions(3);
+		expectedValue.addRoomTemperatureParameter(ssps);
+
+		SampleStagePosition ssps2 = new SampleStagePosition();
+		ssps2.setSample_x(13.4);
+		ssps2.setSample_y(6.8);
+		ssps2.setSample_z(2.5);
+		ssps2.setSample_rotation(1.2);
+		ssps2.setSample_roll(0.5);
+		ssps2.setSample_pitch(0.7);
+		ssps2.setSample_name("my_other_sample");
+		ssps2.setSample_description("this is my sample");
+		ssps2.setNumberOfRepetitions(2);
+		expectedValue.addRoomTemperatureParameter(ssps2);
 
 		isValidAndMatchesFile(expectedValue,"SampleParameters_withSampleStage.xml");
 	}

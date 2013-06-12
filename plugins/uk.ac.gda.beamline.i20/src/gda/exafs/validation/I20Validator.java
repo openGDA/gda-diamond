@@ -32,8 +32,9 @@ import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
 import uk.ac.gda.beans.exafs.i20.CryostatParameters;
+import uk.ac.gda.beans.exafs.i20.CryostatSampleDetails;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
-import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
+import uk.ac.gda.beans.exafs.i20.SampleStagePosition;
 import uk.ac.gda.beans.validation.InvalidBeanException;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
 import uk.ac.gda.client.experimentdefinition.IExperimentObject;
@@ -118,12 +119,10 @@ public class I20Validator extends ExafsValidator {
 		} 
 		// room temp
 		else if (s.getSampleEnvironment().equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[1])){
-			SampleStageParameters ssp = s.getRoomTemperatureParameters();
-			String[] names = ssp.getSampleNames();
-			Boolean[] uses = ssp.getUses();
-			for (int i = 0; i < names.length; i++) {
-				if (uses[i] && (!stringCouldBeConvertedToValidUnixFilename(names[i]) || names[i].isEmpty())) {
-					errors.add(new InvalidBeanMessage("The name for sample " + (i + 1) + " in "
+			List<SampleStagePosition> ssp = s.getRoomTemperatureParameters();
+			for (SampleStagePosition position : ssp){
+				if (!stringCouldBeConvertedToValidUnixFilename(position.getSample_name())) {
+					errors.add(new InvalidBeanMessage("The sample name " + position.getSample_name() + " in "
 							+ bean.getSampleFileName()
 							+ " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
 				}
@@ -132,11 +131,9 @@ public class I20Validator extends ExafsValidator {
 		// cryostat
 		else if (s.getSampleEnvironment().equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[2])){
 			CryostatParameters ssp = s.getCryostatParameters();
-			String[] names = ssp.getSampleNames();
-			Boolean[] uses = ssp.getUses();
-			for (int i = 0; i < names.length; i++) {
-				if (uses[i] && (!stringCouldBeConvertedToValidUnixFilename(names[i]) || names[i].isEmpty())) {
-					errors.add(new InvalidBeanMessage("The name for sample " + (i + 1) + " in "
+			for (CryostatSampleDetails details : ssp.getSamples()) {
+				if (!stringCouldBeConvertedToValidUnixFilename(details.getSample_name()) || details.getSample_name().isEmpty()) {
+					errors.add(new InvalidBeanMessage("The sample name " + details.getSample_name() + " in "
 							+ bean.getSampleFileName()
 							+ " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
 				}

@@ -14,27 +14,27 @@
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
     <!-- enable this if you want log message appear on local console -->
-   <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d %-5level [%logger{36}] - %m%n</pattern>
-        </layout>
-    </appender>
+<!--    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender"> -->
+<!--         <layout class="ch.qos.logback.classic.PatternLayout"> -->
+<!--             <pattern>%d %-5level [%logger{36}] - %m%n</pattern> -->
+<!--         </layout> -->
+<!--     </appender> -->
 
-    <logger name="gda">
-        <level value="DEBUG"/>
-    </logger>
-    <logger name="gda.device.motor.EpicsMotor">
-        <level value="WARN"/>
-    </logger>
-    <logger name="gda.jython.GDAInteractiveConsole">
-        <level value="INFO"/>
-    </logger>  
-    <logger name="gda.jython.GDAJythonInterpreter">
-        <level value="WARN"/>
-    </logger>
+<!--     <logger name="gda"> -->
+<!--         <level value="DEBUG"/> -->
+<!--     </logger> -->
+<!--     <logger name="gda.device.motor.EpicsMotor"> -->
+<!--         <level value="WARN"/> -->
+<!--     </logger> -->
+<!--     <logger name="gda.jython.GDAInteractiveConsole"> -->
+<!--         <level value="INFO"/> -->
+<!--     </logger>   -->
+<!--     <logger name="gda.jython.GDAJythonInterpreter"> -->
+<!--         <level value="WARN"/> -->
+<!--     </logger> -->
     <root>
-        <level value="INFO"/>
-        <appender-ref ref="Console"/>
+        <level value="DEBUG"/>
+<!--         <appender-ref ref="Console"/> -->
         <appender-ref ref="LogServer"/>
     </root>
     <consolePlugin />

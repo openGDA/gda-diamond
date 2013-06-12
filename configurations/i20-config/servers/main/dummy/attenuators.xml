@@ -1,48 +1,32 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-
-	<!-- <bean id="atn1_pos_demand" class="gda.device.scannable.ScannableMotor"> -->
-	<!-- <property name="protectionLevel" value="3" /> -->
-	<!-- <property name="initialUserUnits" value="mm" /> -->
-	<!-- <property name="motor" ref="atn1_motor_demand" /> -->
-	<!-- <property name="hardwareUnitString" value="mm" /> -->
-	<!-- </bean> -->
 
 	<!--attenuators -->
 	<bean id="atn1" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="ATN1P" />
 	</bean>
-	<bean id="atn1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ATN1P.MOTOR" />
-	</bean>
-	<!-- <bean id="atn1_motor_demand" class="gda.device.motor.EpicsMotor"> -->
-	<!-- <property name="pvName" value="BL20I-OP-ATTN-01:P:SETVALUE2"/> -->
-	<!-- </bean> -->
-
+	<bean id="atn1_motor" class="gda.device.motor.DummyMotor"/>
 
 
 	<bean id="atn2" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="ATN2P" />
 	</bean>
-	<bean id="atn2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ATN2P.MOTOR" />
-	</bean>
+	<bean id="atn2_motor" class="gda.device.motor.DummyMotor"/>
 
 	<bean id="atn3" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="ATN3P" />
 	</bean>
-	<bean id="atn3_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ATN3P.MOTOR" />
-	</bean>
+	<bean id="atn3_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="atn4" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="ATN4P" />
 	</bean>
-	<bean id="atn4_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ATN4P.MOTOR" />
-	</bean>
+	<bean id="atn4_motor" class="gda.device.motor.DummyMotor"/>
 
 	<bean id="atn1_pos" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
@@ -67,6 +51,39 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="atn4_motor" />
 		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="eh1filter1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>out</value>
+				<value>in</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="eh1filter2" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>out</value>
+				<value>in</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="eh1filter3" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>out</value>
+				<value>in</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="eh1filter4" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>out</value>
+				<value>in</value>
+			</util:list>
+		</property>
 	</bean>
 
 </beans>

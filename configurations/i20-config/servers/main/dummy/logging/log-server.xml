@@ -81,9 +81,9 @@
      <logger name="gda.factory.corba.util.PushEventQueue">
         <level value="ERROR"/>
     </logger>
-    <logger name="uk.ac.gda.exafs.iu.XasScanParametersUIEditor">
-        <level value="ERROR"/>
-    </logger>
+<!--     <logger name="uk.ac.gda.exafs.iu.XasScanParametersUIEditor"> -->
+<!--         <level value="ERROR"/> -->
+<!--     </logger> -->
     
     <root>
         <level value="ALL"/>
