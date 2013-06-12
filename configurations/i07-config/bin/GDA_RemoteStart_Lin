@@ -12,7 +12,7 @@ then
 fi
 
 #export gdaLauncher=/dls_sw/$BEAMLINE/software/gda/plugins/uk.ac.gda.core/bin/gda
-export gdaLauncher=/dls_sw/$BEAMLINE/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda
+export gdaLauncher=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
 
 varDir=/dls_sw/$BEAMLINE/var
 dataDir=/dls/$BEAMLINE
