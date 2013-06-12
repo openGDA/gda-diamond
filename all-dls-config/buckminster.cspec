@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="all-dls-config" componentType="buckminster" version="1.0.0">
+    <cs:dependencies>
+        <cs:dependency name="all-mt-config" componentType="buckminster"/>
+        <cs:dependency name="all-mx-config" componentType="buckminster"/>
+        <cs:dependency name="b18-config" componentType="buckminster"/>
+        <cs:dependency name="b21-config" componentType="buckminster"/>
+        <cs:dependency name="b22-config" componentType="buckminster"/>
+        <cs:dependency name="example-config" componentType="buckminster"/>
+        <cs:dependency name="excalibur-config" componentType="buckminster"/>
+        <cs:dependency name="i05-config" componentType="buckminster"/>
+        <cs:dependency name="i06-config" componentType="buckminster"/>
+        <cs:dependency name="i09-config" componentType="buckminster"/>
+        <cs:dependency name="i11-config" componentType="buckminster"/>
+        <cs:dependency name="i12-config" componentType="buckminster"/>
+        <cs:dependency name="i13i-config" componentType="buckminster"/>
+        <cs:dependency name="i13j-config" componentType="buckminster"/>
+        <cs:dependency name="i18-config" componentType="buckminster"/>
+        <cs:dependency name="i20-config" componentType="buckminster"/>
+        <cs:dependency name="i20-1-config" componentType="buckminster"/>
+        <cs:dependency name="i22-config" componentType="buckminster"/>
+        <cs:dependency name="lab11-config" componentType="buckminster"/>
+        <cs:dependency name="lpd-config" componentType="buckminster"/>
+        <cs:dependency name="ncdsim-config" componentType="buckminster"/>
+    </cs:dependencies>
+</cs:cspec>
