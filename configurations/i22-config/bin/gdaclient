@@ -33,7 +33,7 @@ EOF
     --reset)
       shift;
 	echo deleting workspaces
-	rm -rf /dls/${BEAMLINE}/data/`date +%Y`/*/tmp/gda-workspace-${USER}-*/
+	rm -rf /tmp/gda-[a-z]-${USER}/
       ;;
     --data)
       shift;

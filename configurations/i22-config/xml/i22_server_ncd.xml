@@ -323,7 +323,7 @@
 		</bean>
 
         <bean id="ncdlistener" class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher">
-        	<property name="ncdDetector" ref="ncddetectors"></property> 
+        	<property name="ncdDetector" ref="ncddetectors" /> 
         	<property name="energyScannable" ref="energy" />
         </bean>
 
