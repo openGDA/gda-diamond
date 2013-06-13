@@ -6,6 +6,8 @@
         <cs:dependency name="b18-config" componentType="buckminster"/>
         <cs:dependency name="b21-config" componentType="buckminster"/>
         <cs:dependency name="b22-config" componentType="buckminster"/>
+        <cs:dependency name="bm26-config" componentType="buckminster"/>
+        <cs:dependency name="bm26a-config" componentType="buckminster"/>
         <cs:dependency name="example-config" componentType="buckminster"/>
         <cs:dependency name="excalibur-config" componentType="buckminster"/>
         <cs:dependency name="i05-config" componentType="buckminster"/>
@@ -19,7 +21,9 @@
         <cs:dependency name="i20-1-config" componentType="buckminster"/>
         <cs:dependency name="i20-config" componentType="buckminster"/>
         <cs:dependency name="i22-config" componentType="buckminster"/>
+        <cs:dependency name="id18-config" componentType="buckminster"/>
         <cs:dependency name="lab11-config" componentType="buckminster"/>
+        <cs:dependency name="lpd-config" componentType="buckminster"/>
         <cs:dependency name="ncdsim-config" componentType="buckminster"/>
     </cs:dependencies>
 </cs:cspec>
