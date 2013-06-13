@@ -714,12 +714,6 @@
       <introProductBinding introId="uk.ac.gda.client.i20.intro" productId="uk.ac.gda.beamline.i20.product"/>
    </extension>
    <extension
-         point="org.eclipse.ui.startup">
-      <startup
-            class="uk.ac.gda.beamline.i20.StartupService">
-      </startup>
-   </extension>
-   <extension
          point="org.eclipse.ui.commands">
       <command
             defaultHandler="uk.ac.gda.beamline.i20.ui.handlers.SwitchExperimentModeHandler"
