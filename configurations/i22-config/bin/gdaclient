@@ -33,7 +33,7 @@ EOF
     --reset)
       shift;
 	echo deleting workspaces
-	rm -rf /tmp/gda-[a-z]-${USER}/
+	rm -rf /tmp/.gda-[a-z]*-${USER}/
       ;;
     --data)
       shift;
