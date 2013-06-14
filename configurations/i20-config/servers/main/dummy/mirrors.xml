@@ -100,12 +100,6 @@
 	</bean>
 	<bean id="m1_sag" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="m1_sag_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-	<bean id="m1_sag" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="m1_sag_motor" />
 	</bean>
 	<bean id="m1_x" class="gda.device.scannable.ScannableMotor">
@@ -153,12 +147,6 @@
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="m2_bend2_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-	<bean id="m2_sag" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="m2_sag_motor" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="m2_sag" class="gda.device.scannable.ScannableMotor">
