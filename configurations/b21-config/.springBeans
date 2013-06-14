@@ -9,8 +9,6 @@
 	<configs>
 		<config>xml/b21_biosaxscam.xml</config>
 		<config>xml/b21_client_beans.xml</config>
-		<config>xml/b21_mfgige.xml</config>
-		<config>xml/b21_pilatus.xml</config>
 		<config>xml/b21_server_beans.xml</config>
 		<config>xml/b21_server_devices.xml</config>
 		<config>xml/b21_server_dummy.xml</config>

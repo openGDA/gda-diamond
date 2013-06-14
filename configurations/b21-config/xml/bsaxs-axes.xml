@@ -4,14 +4,14 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="bsaxs_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-EA-BSAX-01:X" />
+		<property name="pvName" value="BL21B-EA-BSAXS-01:X" />
 	</bean>
 	<bean id="bsaxs_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="bsaxs_x_motor" />
 	</bean>
 
 	<bean id="bsaxs_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-EA-BSAX-01:Y" />
+		<property name="pvName" value="BL21B-EA-BSAXS-01:Y" />
 	</bean>
 	<bean id="bsaxs_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="bsaxs_y_motor" />

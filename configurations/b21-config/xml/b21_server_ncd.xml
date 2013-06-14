@@ -13,13 +13,13 @@
 	<!--*************************************** -->
 
 	<bean id="DAServer" class="gda.device.detector.DAServer">
-		<property name="host" value="b21-tfg" />
+		<property name="host" value="bl21b-ea-tfg2-01" />
 		<property name="port" value="1972" />
 		<property name="local" value="true" />
 		<property name="dataPort" value="20030" />
 		<property name="startupCommands">
 			<list>
-				<value>~config2d</value>
+				<value>tfg config "etfg0" tfg2</value>
 				<value>tfg setup-cc-mode scaler64</value>
 				<value>tfg setup-cc-chan -1 edge</value>
 			</list>
@@ -51,11 +51,12 @@
 		<property name="memory" ref="TimesMemory" />
 	</bean>
 
+	<import resource="b21_pilatus_saxs.xml"/>
 	<bean id="ncddetectors" class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem">
 		<property name="timer" ref="Tfg" />
 		<property name="detectors">
 			<list>
-				<!-- <ref bean="Pilatus2M" /> -->
+				<ref bean="Pilatus2M" />
 				<!-- <ref bean="Hotwaxs" /> -->
 				<ref bean="Scalers" />
 				<ref bean="TfgTimes" />
@@ -67,7 +68,9 @@
 		<property name="ncdDetector" ref="ncddetectors"></property>
 	</bean>
 
-	<!-- <bean id="bssc" class="uk.ac.gda.devices.bssc.BioSAXSSampleChanger"> 
-		<property name="hostname" value="b21-biosaxs.diamond.ac.uk"/> <property name="port" 
-		value="9555"/> </bean> <import resource="b21_biosaxscam.xml"/> -->
+	<bean id="bssc" class="uk.ac.gda.devices.bssc.BioSAXSSampleChanger"> 
+		<property name="hostname" value="b21-biosaxs.diamond.ac.uk"/> 
+		<property name="port" value="9555"/> 
+	</bean> 
+	<import resource="b21_biosaxscam.xml"/>
 </beans>

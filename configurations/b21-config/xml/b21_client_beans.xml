@@ -66,6 +66,10 @@
 		<property name="class" value="gda.commandqueue.Queue" />
 		<property name="service" ref="commandQueueProcessor" />
 	</bean>
+	
+                <bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
+                        <property name="clientFileAnnouncerName" value="sockpuppet" />
+                </bean>
 
 	<gda:rbac />
 </beans>

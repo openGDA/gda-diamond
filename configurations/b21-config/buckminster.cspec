@@ -5,7 +5,8 @@
         <cs:dependency name="uk.ac.gda.beamline.b21.site" componentType="eclipse.feature"/>
         <cs:dependency name="ncsa.hdf" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.diamond.scisoft.analysis" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.devices.bssc" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.diamond.scisoft.deprecated" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.analysis" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.client.ncd" componentType="osgi.bundle"/>
