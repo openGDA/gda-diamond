@@ -21,22 +21,31 @@
          id="uk.ac.gda.diamond.feature"
          version="0.0.0"/>
 
+   <includes
+         id="uk.ac.gda.client.ncd.feature"
+         version="0.0.0"/>
+
    <plugin
          id="uk.ac.gda.beamline.b21"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+   <plugin
+         id="org.junit4"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
 
    <plugin
-         id="uk.ac.gda.client.ncd"
+         id="uk.ac.gda.dls.client"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.server.ncd"
+         id="uk.ac.gda.client.experimentdefinition"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -44,6 +53,26 @@
 
    <plugin
          id="uk.ac.gda.devices.bssc"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.video.views"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.beamline.i05.dashboard"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+   <plugin
+         id="uk.ac.gda.dls"
          download-size="0"
          install-size="0"
          version="0.0.0"
