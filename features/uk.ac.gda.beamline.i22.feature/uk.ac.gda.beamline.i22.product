@@ -59,12 +59,5 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <feature id="uk.ac.gda.beamline.i22.feature"/>
    </features>
 
-   <configurations>
-      <plugin id="org.dawnsci.conversion" autoStart="true" startLevel="2" />
-      <plugin id="org.dawnsci.jexl" autoStart="true" startLevel="2" />
-      <plugin id="org.dawnsci.persistence" autoStart="true" startLevel="2" />
-      <plugin id="uk.ac.diamond.scisoft.analysis" autoStart="true" startLevel="2" />
-      <plugin id="uk.ac.diamond.scisoft.analysis.osgi" autoStart="true" startLevel="2" />
-   </configurations>
 
 </product>
