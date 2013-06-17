@@ -6,7 +6,7 @@ from time import sleep
 
 from pcoDetectorWrapper import PCODetectorWrapper
 from gda.jython.commands.ScannableCommands import inc, scan, pos, createConcurrentScan
-from gda.scan import ConstantVelocityScanLine, MultiScan, ConcurrentScan
+from gda.scan import ConstantVelocityScanLine, MultiScanItem, MultiScanRunner, ConcurrentScan
 
 import sys
 import time
@@ -24,6 +24,14 @@ from uk.ac.gda.analysis.hdf5 import Hdf5Helper, Hdf5HelperData, HDF5HelperLocati
 
 from gda.data.scan.datawriter.DefaultDataWriterFactory import createDataWriterFromFactory
 from gda.data.scan.datawriter import *
+
+from gda.commandqueue import JythonScriptProgressProvider
+
+
+def updateProgress( percent, msg):
+    JythonScriptProgressProvider.sendProgress( percent, msg)
+    print "percentage %d %s" % (percent, msg)
+
 
 class EnumPositionerDelegateScannable(ScannableBase):
     """
@@ -131,6 +139,51 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
     dataWriter.addDataWriterExtender(subEntryWriter)
     scanObject.setDataWriter(dataWriter)
 
+
+def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_name, externalhdf=True):
+    if scanObject is None:
+        raise "Input scanObject must not be None"
+   
+    nxLinkCreator = NXTomoEntryLinkCreator()
+   
+    # detector independent items
+    nxLinkCreator.setControl_data_target("entry1:NXentry/instrument:NXinstrument/ionc_i:NXpositioner/ionc_i:NXdata")
+    nxLinkCreator.setInstrument_detector_image_key_target("entry1:NXentry/instrument:NXinstrument/image_key:NXpositioner/image_key:NXdata")
+    nxLinkCreator.setInstrument_source_target("entry1:NXentry/instrument:NXinstrument/source:NXsource")
+   
+    sample_rotation_angle_target = "entry1:NXentry/instrument:NXinstrument/zebraSM1:NXpositioner/"
+    sample_rotation_angle_target += tomography_theta_name + ":NXdata"
+    nxLinkCreator.setSample_rotation_angle_target(sample_rotation_angle_target);
+    nxLinkCreator.setSample_x_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_samplex:NXdata")
+    nxLinkCreator.setSample_y_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_sampley:NXdata")
+    nxLinkCreator.setSample_z_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_samplez:NXdata")
+    
+    
+   
+    nxLinkCreator.setTitle_target("entry1:NXentry/title:NXdata")
+   
+    # detector dependent items
+    if externalhdf:
+        # external file
+        instrument_detector_data_target = "!entry1:NXentry/instrument:NXinstrument/"
+        instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
+        instrument_detector_data_target += "data:SDS"
+        nxLinkCreator.setInstrument_detector_data_target(instrument_detector_data_target)
+    else:
+        # image filenames
+        instrument_detector_data_target = "entry1:NXentry/instrument:NXinstrument/"
+        instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
+        instrument_detector_data_target += "image_data:NXdata"
+        nxLinkCreator.setInstrument_detector_data_target(instrument_detector_data_target)
+   
+    nxLinkCreator.afterPropertiesSet()
+   
+    dataWriter = createDataWriterFromFactory()
+    subEntryWriter = NXSubEntryWriter(nxLinkCreator)
+    dataWriter.addDataWriterExtender(subEntryWriter)
+    scanObject.setDataWriter(dataWriter)
+
+
 def reportJythonNamespaceMapping():
     jns=beamline_parameters.JythonNameSpaceMapping()
     objectOfInterest = {}
@@ -216,6 +269,28 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
     dnp.plot.image(t, name="Normalised Image")
     #turn camera back on
     return True
+
+from java.lang import Runnable
+class PreScanRunnable(Runnable):
+    def __init__(self, msg, percentage, shutter, shutterPosition, xMotor, xMotorPosition, image_key, image_key_value):
+        self.msg = msg
+        self.percentage = percentage
+        self.shutter=shutter
+        self.shutterPosition = shutterPosition
+        self.xMotor = xMotor
+        self.xMotorPosition =xMotorPosition
+        self.image_key =image_key
+        self.image_key_value =image_key_value
+        
+    def run(self):
+        updateProgress(self.percentage, self.msg)
+        self.shutter.moveTo(self.shutterPosition)
+        self.xMotor.moveTo(self.xMotorPosition)
+        self.image_key.moveTo(self.image_key_value)
+
+
+
+
 """
 perform a continuous tomogrpahy scan
 """
@@ -237,8 +312,10 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
     min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
 
     """
+    jns=beamline_parameters.JythonNameSpaceMapping()
+    zebra_detb=jns.zebra_detb
+    savename=zebra_detb.name
     try:
-        jns=beamline_parameters.JythonNameSpaceMapping()
         tomodet=jns.tomodet
         if tomodet is None:
 	        raise "tomodet is not defined in Jython namespace"
@@ -250,15 +327,53 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         if tomography_flyscan_det is None:
             raise "tomography_flyscan_det is not defined in Jython namespace"
         
+        tomography_translation=jns.tomography_translation
+        if tomography_translation is None:
+            raise "tomography_translation is not defined in Jython namespace"
+        
 
         tomography_shutter=jns.tomography_shutter
         if tomography_shutter is None:
             raise "tomography_shutter is not defined in Jython namespace"
+        
+        meta_add = jns.meta_add
+        if meta_add is None:
+            raise "meta_add is not defined in Jython namespace"
 
-        #ensure the soft control of the shutter is open at the end of the scan
-        tomography_shutter.moveTo( "Open")        
+        camera_stage = jns.cs1
+        if camera_stage is None:
+            raise "camera_stage is not defined in Jython namespace"
 
-        ix=tomography_flyscan_theta.getContinuousMoveController().createScannable(jns.ix)
+        sample_stage = jns.sample_stage
+        if sample_stage is None:
+            raise "sample_stage is not defined in Jython namespace"        
+
+        ionc_i = jns.ionc_i
+        if ionc_i is None:
+            raise "ionc_i is not defined in Jython namespace"
+        ionc_i_cont=tomography_flyscan_theta.getContinuousMoveController().createScannable(ionc_i)
+
+
+        meta_add( camera_stage)
+        meta_add( sample_stage)
+               
+
+        index=SimpleScannable()
+        index.setCurrentPosition(0.0)
+        index.setInputNames(["imageNumber"])
+        index.setName("imageNumber")
+        index.configure()
+        index_cont=tomography_flyscan_theta.getContinuousMoveController().createScannable(index)
+
+
+        image_key=SimpleScannable()
+        image_key.setCurrentPosition(0.0)
+        image_key.setInputNames(["image_key"])
+        image_key.setName("image_key")
+        image_key.configure()
+        image_key_cont=tomography_flyscan_theta.getContinuousMoveController().createScannable(image_key)
+
+
         ss=SimpleScannable()
         ss.name = tomography_flyscan_theta.name
         ss.currentPosition=0.
@@ -272,22 +387,41 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         ss1.inputNames = tomography_flyscan_theta.getContinuousMoveController().inputNames
         ss1.extraNames = tomography_flyscan_theta.getContinuousMoveController().extraNames
         ss1.configure()
-        jns.zebra_detb.name = tomography_flyscan_det.name
-        darkFlatScan=ConcurrentScan([jns.ix, 0, 1, 1, ss, ss1, jns.zebra_detb, exposureTime])
-        scanObject=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step, ix, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
-        scanObject2=ConstantVelocityScanLine([tomography_flyscan_theta, stop, start, step,ix, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
-        scanObject3=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,ix, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
+        
+        
+
+        
+        zebra_detb.name = tomography_flyscan_det.name
+        
+        darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ionc_i, ss, ss1, jns.zebra_detb, exposureTime])
+        flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ionc_i, ss, ss1, jns.zebra_detb, exposureTime])
+        scanForward=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step, index_cont, image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
+        scanBackward=ConstantVelocityScanLine([tomography_flyscan_theta, stop, start, step, index_cont, image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
+#        scanObject3=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,ix, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
         tomodet.stop()
         
-        multiScanObj = MultiScan([darkFlatScan, scanObject, scanObject2,scanObject3])
-        multiScanObj.runScan()
+#        multiScanObj = MultiScan([darkFlatScan, scanObject, scanObject2,scanObject3])
+        multiScanItems = []
+        multiScanItems.append(MultiScanItem(darkScan, PreScanRunnable("Preparing for darks", 0, tomography_shutter, "Close", tomography_translation, inBeamPosition, image_key, image_key_dark)))
+        multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat)))
+        multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Preparing for projections",20, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
+#        multiScanItems.append(MultiScanItem(scanBackward, PreScanRunnable("Preparing for projections",60, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
+        multiScanObj = MultiScanRunner(multiScanItems)
+        #must pass fist scan to be run
+        addFlyScanNXTomoSubentry(darkScan, tomography_flyscan_det.name, tomography_flyscan_theta.name)
+        multiScanObj.run()
+        time.sleep(2)
         #turn camera back on
+        zebra_detb.name = savename
         if setupForAlignment:
             tomodet.setupForAlignment()
         return multiScanObj;
     except :
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Error in tomoFlyScanScan", exceptionType, exception, traceback, False)
+        zebra_detb.name = savename
+
+
 
 
 """

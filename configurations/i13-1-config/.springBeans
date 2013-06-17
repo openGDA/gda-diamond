@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.1.0.201210040510-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.0.0.201208090952-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -137,6 +137,15 @@
 		<config>devices/dummy/undulator.xml</config>
 		<config>devices/epics/undulator.xml</config>
 		<config>devices/undulator.xml</config>
+		<config>devices/epics/excalibur.xml</config>
+		<config>devices/epics/excalibur_readout1.xml</config>
+		<config>devices/epics/excalibur_readout2.xml</config>
+		<config>devices/epics/excalibur_readout3.xml</config>
+		<config>devices/epics/excalibur_readout4.xml</config>
+		<config>devices/epics/excalibur_readout5.xml</config>
+		<config>devices/epics/excalibur_readout6.xml</config>
+		<config>devices/epics/excalibur_summary.xml</config>
+		<config>devices/excalibur_common.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

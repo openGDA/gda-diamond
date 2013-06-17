@@ -11,32 +11,7 @@
 	<context:property-placeholder
 		location="file:${gda.config}/properties/dummy/java.properties,file:${gda.config}/properties/java.properties" />
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
-	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata" />
 
-
-	<bean id="test_det_collection_strategy"
-		class="gda.device.detector.nxdetector.plugin.NullNXCollectionStrategy">
-		<constructor-arg index="0" value="test_det_cs" />
-	</bean>
-
-	<bean id="test_det" class="gda.device.detector.NXDetector">
-		<property name="name" value="Kaz_det" />
-		<property name="collectionStrategy" ref="test_det_collection_strategy" />
-	</bean>
-
-	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
-		<property name="metaScannables">
-			<list>
-				<ref bean="ix" />
-			</list>
-		</property>
-		<property name="metaTexts">
-			<map>
-				<entry key="Rav" value="s" />
-				<entry key="Kaz" value="W" />
-			</map>
-		</property>
-	</bean>
 
 	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">

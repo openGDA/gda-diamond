@@ -86,7 +86,8 @@ try:
 	alias("meta_ll")
 	alias("meta_ls")
 	alias("meta_rm")
-
+	from gda.data.scan.datawriter import NexusDataWriter
+	LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 	
 	from gdascripts.pd.time_pds import waittimeClass2, showtimeClass, showincrementaltimeClass, actualTimeClass
 	waittime=waittimeClass2('waittime')
@@ -190,10 +191,10 @@ try:
 	
 	import tomographyScan
 	#for fast flyscans
-	zebra_det.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="C:\data"	
+	zebra_det.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="t:\\i13\\data"	
 	
 	from gda.device.detector.areadetector.v17 import ADDriverPco
-	zebra_det.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_AND_SOFTWARE	
+	zebra_det.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_PULSE	
 #	run("i13diffcalc")
 	import raster_scan
 	LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/tmp")

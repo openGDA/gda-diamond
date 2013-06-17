@@ -30,5 +30,17 @@
 			</list>
 		</property>
 	</bean>	
+	
+
+
+	<bean id="zebra_detb" class="gda.device.detector.NXDetector">
+		<property name="name" value="zebra_detb"/>
+		<property name="collectionStrategy" ref="zebra_singleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_Zebra" />
+			</list>
+		</property>
+	</bean>	
 </beans>
 
