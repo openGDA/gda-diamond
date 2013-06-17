@@ -1,4 +1,4 @@
-from gdascripts.scannable.detector.epics.EpicsFirewireCamera import EpicsFirewireCamera
+from gdascripts.scannable.detector.epics.EpicsGigECamera import EpicsGigECamera
 from gda.configuration.properties import LocalProperties
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
@@ -25,11 +25,13 @@ if USE_DUMMY_DETECTOR:
     x.asynchronousMoveTo(430)
     cam1det = CreateImageReadingDummyDetector.create(x)
 else:
-    print "Creating cam1det, writing to:", datadir
-    cam1det = EpicsFirewireCamera('cam1det', 'BL22I-DI-PHDGN-10:CAM:', datadir)
+    print "Creating cam1det"
+    cam1det = EpicsGigECamera('cam1det', 'BL22I-DI-DCAM-01:CAM:', None, False)
     
 print "Creating cam1, peak2d and max2d"
-cam1 = ProcessingDetectorWrapper('cam1', cam1det, [], panel_name='Firewire Camera')
+cam1 = ProcessingDetectorWrapper('cam1', cam1det, [], panel_name='GigE Camera')
+cam1.include_path_in_output=False
+
 peak2d = DetectorDataProcessorWithRoi('peak2d', cam1, [TwodGaussianPeak()])
 max2d = DetectorDataProcessorWithRoi('max2d', cam1, [SumMaxPositionAndValue()])
 
