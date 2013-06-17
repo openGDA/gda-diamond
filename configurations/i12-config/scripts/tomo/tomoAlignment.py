@@ -8,7 +8,7 @@ from gda.factory import Finder
 from gdascripts.messages import handle_messages
 from time import sleep, gmtime, strftime
 from tomographyScan import tomoScan
-from tomographyTiltAlignment import getFullDataSet, analyseData
+from tomographyTiltAlignment import analyseData
 import math
 import sys
 import os
@@ -37,6 +37,7 @@ TomoAlignment specific member variables.
 '''
 verbose = True
 TESTMODE = False
+plotData = True
 
 f = Finder.getInstance()
 
@@ -842,10 +843,19 @@ tomographyConfigurationManager = TomoAlignmentConfigurationManager()
     
 
 def tiltAlignment(module, exposureTime, cam1RollPresetValue=0.5, ss1RxPresetValue=0.2):
-    Testing = True
+    '''
+        Performs the tilt alignment provided the ball is centered on its rotation axis.
+        
+        Arguments:
+        module --  the PCO camera module in which this procedure needs to be run
+        exposureTime -- the exposure time at which the camera should acquire
+        
+        Returns:
+        updates the scriptcontroller with the points for pretilt, and postTilt centre positions
+    '''
     updateScriptController("Starting Tilt Alignment")
     tiltParameters = TiltParameters()
-    if Testing:
+    if TESTMODE:
         testBadDataSet = False
         
         if testBadDataSet:
@@ -900,56 +910,147 @@ def tiltAlignment(module, exposureTime, cam1RollPresetValue=0.5, ss1RxPresetValu
     print "Current Sub dir:" + `currentSubDir`
     try:
         print "Changing sub dir to 'tmp'"
+        updateScriptController("Changing sub dir to 'tmp'")
         changeSubDir("tmp")
         
-        print "Setting cam1_roll to presetValue "
+        print "Setting cam1_roll to presetValue: " + `cam1RollPresetValue`
+        updateScriptController("Setting cam1_roll to presetValue: " + `cam1RollPresetValue`);
         cam1_roll = Finder.getInstance().find("cam1_roll")
         cam1_roll.moveTo(cam1RollPresetValue)
         
-        print "Setting ss1_rx to presetValue "
+        
+        print "Setting ss1_rx to presetValue: " + `ss1RxPresetValue` 
+        updateScriptController("Setting ss1_rx to presetValue: " + `ss1RxPresetValue`);
         ss1_rx = Finder.getInstance().find("ss1_rx")
         ss1_rx.moveTo(ss1RxPresetValue)
         
-        print "tilt Alignment called"
-        print "module :" + `module`
-        print  type(exposureTime)
         ss1Theta = Finder.getInstance().find("ss1_theta")
-        pco = Finder.getInstance().find("pco")
+        pco = f.find("pco")
         if not isLiveMode():
             print "Setting pco external triggered"
             pco.setExternalTriggered(False)
         #Before tilt
+        updateScriptController("First Scan for tilt Procedure");
         scan([ss1Theta, 0, 340, 20, pco, exposureTime])
         pathname = str(pwd()) + ".nxs"
+        updateScriptController("Scan complete: Nexus File " + `pathname`);
+        print "Looking at : " + `pathname`
         ff = dnp.io.load(pathname)
         data = getFullDataSet(ff)
-        dnp.plot.image(data[0, :, :])
-        dd = data[...]
+        yMinyMax = getYMinYMax(getModule())
+        minY = int(yMinyMax[0])
+        maxY = int(yMinyMax[1])
+        print "Y min:" + `minY`
+        print "Y max:" + `maxY`
+        dnp.plot.image(data[0, minY:maxY, :])
+        dd = data[:, minY:maxY, :]
         print "PathName of files to be analysed:" + `pathname`
+        updateScriptController("Analysing data... ");
+        results = analyseData(dd)
+        ss1rxVal = results[0]
+        cam1Roll = results[1]
+        if abs(ss1rxVal) > 90:
+            ss1rxVal = 180 - ss1rxVal
+            
+        if abs(cam1Roll) > 90:
+            cam1Roll = 180 - cam1Roll
         
-        ss1rxVal, ss1rzVal = analyseData(dd)
+        i = 0
+        pointList = results[2]
+        while i < len(pointList):
+            tiltParameters.addPreTiltPoint(pointList[i][1], pointList[i][0])
+            i += 1
+        
+        
         print "ss1rxVal:" + `ss1rxVal`
-        print "ss1rzVal:" + `ss1rzVal`
-        #Do Mark's stuff
-    
+        print "cam1Roll:" + `cam1Roll`
+        
+        cam1RollCurrentPosition = cam1_roll.getPosition()
+        cam1RollMoveToPosition = cam1RollCurrentPosition - cam1Roll
+        updateScriptController("Moving cam1_roll to " + `cam1RollMoveToPosition`)
+        cam1_roll.moveTo(cam1RollMoveToPosition)
+        
+        ss1RxCurrentPosition = ss1_rx.getPosition()
+        ss1RxMoveToPosition = ss1RxCurrentPosition - ss1rxVal
+        ss1_rx.moveTo(ss1RxMoveToPosition)
+        updateScriptController("Moving ss1_rx to " + `ss1RxMoveToPosition`)
+       
         #After tilt
+        updateScriptController("Running second scan for confirming tilt is corrected...")
         scan([ss1Theta, 0, 340, 20, pco, exposureTime])
         pathname = pwd() + ".nxs"
+        updateScriptController("Analysing file " + `pathname`)
         print "PathName of files to be analysed:" + `pathname`
         ff = dnp.io.load(pathname)
         data = getFullDataSet(ff)
-        dnp.plot.image(data[0, :, :])
-        dd = data[:, :, :]
-        dataAnalysed = analyseData(dd)
-        print "Data Analysed: " + dataAnalysed
+        dnp.plot.image(data[0, minY:maxY, :])
+        dd = data[:, minY:maxY, :]
+        results = analyseData(dd)
+        ss1rxVal = results[0]
+        cam1Roll = results[1]
+        if abs(ss1rxVal) > 90:
+            ss1rxVal = 180 - ss1rxVal
+            
+        if abs(cam1Roll) > 90:
+            cam1Roll = 180 - cam1Roll
+        
+        i = 0
+        pointList = results[2]
+        
+        while i < len(pointList):
+            tiltParameters.addPreTiltPoint(pointList[i][1], pointList[i][0])
+            i += 1
+            
+        print "ss1rxVal:" + `ss1rxVal`
+        print "cam1Roll:" + `cam1Roll`
         #Do Mark's stuff
         print "End of tilt Alignment"
+        updateScriptController("Tilt Procedure Complete")
     except:
-        print "problem with tilt alignment"
+        exceptionType, exception, traceback = sys.exc_info()
+        print "problem with tilt alignment: " + `exception`
+        tiltParameters.setErrorMessage(exception)
+        raise exception
     finally:
         print "Changing sub dir to " + `currentSubDir`
         changeSubDir(currentSubDir)
         updateScriptController(tiltParameters)
+        
+def getYMinYMax(module):
+    print "Y min and Y max for module:" + `module`
+    tiltBallLut = f.find("tiltBallRoiLut")
+    minY = tiltBallLut.lookupValue(module, "minY")
+    maxY = tiltBallLut.lookupValue(module, "maxY")
+    return minY, maxY
+    
+def getFullDataSet(dataHolder):
+    return dataHolder['/entry1/instrument/pco/data_file/file_name']
+
+
+def testGoodDataSet():
+    ff = dnp.io.load('/dls/i12/data/2013/cm5936-2/processing/testDataForTilt/20561.nxs')
+    data = getFullDataSet(ff)
+    '''
+    for i in range(18):
+        dnp.plot.image(data[i, :, :])
+        print i
+        Sleep.sleep(1000)
+    '''
+    dd = data[...]
+    results = analyseData(dd)
+    del(dd)
+    print "X tilt deviation:" + `results[0]`
+    print "Z tilt deviation:" + `results[1]`
+    
+def testBadDataSet():
+    ff = dnp.io.load('/dls/i12/data/2013/ee8336-1/rawdata/16098.nxs')
+    data = getFullDataSet(ff)
+    if plotData: dnp.plot.image(data[0, 1100:1500, :])
+    dd = data[:, 1100:1500, :]
+    results = analyseData(dd)
+    del(dd)
+    print "X tilt deviation:" + `results[0]`
+    print "Z tilt deviation:" + `results[1]`
     
 class TomoAlignmentConfiguration:
     def __init__(self, tomographyConfigurationManager, aC):
