@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.configuration.FileConfiguration;
+import org.apache.commons.lang.ArrayUtils;
 import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +87,6 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	private XHROI[] rois = new XHROI[0];
 	private int lowerChannel = 0;
 	private int upperChannel = NUMBER_ELEMENTS;
-	private int[] biases;
 	private int[] excludedStrips;
 
 	public XHDetector() {
@@ -166,7 +166,13 @@ public class XHDetector extends DetectorBase implements StripDetector {
 
 		for (int frame = 0; frame < frameCount; frame++) {
 			for (int element = 0; element < NUMBER_ELEMENTS; element++) {
-				out[frame][element] = rawData[(frame * NUMBER_ELEMENTS) + element];
+				
+				// simply set excluded strips to be zero
+				if (ArrayUtils.contains(excludedStrips, element)){
+					out[frame][element] = 0.0;
+				} else {
+					out[frame][element] = rawData[(frame * NUMBER_ELEMENTS) + element];
+				}
 			}
 		}
 		return out;
@@ -933,19 +939,32 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	}
 
 	@Override
-	public void setChannelBiases(int[] biases) throws DeviceException {
-		
-		if (biases.length != NUMBER_ELEMENTS){
-			throw new IllegalArgumentException("setChannelBiases needs an array of "+ NUMBER_ELEMENTS+" ints");
+	public void setBias(Double biasVoltage) throws DeviceException {
+		// TODO what should be the volatge upper limit?
+		if (biasVoltage < 0.0 || biasVoltage > 10000) {
+			throw new DeviceException ("Bias volatge of " + biasVoltage + " is unacceptable.");
 		}
 		
-		this.biases = biases;
-		// TODO apply to the hardware
+		// TODO test with hardware
+		// TODO add to dummydaserver the correct response from da.server
+		Double currentValue = getBias();
+		if (currentValue == 0.0) {
+			daServer.sendCommand("xstrip hv init");
+			daServer.sendCommand("xstrip hv enable " + detectorName);
+		}
+		daServer.sendCommand("xstrip hv set-dac " + detectorName + " " + biasVoltage);
+		
 	}
 
 	@Override
-	public int[] getChannelBiases() {
-		return biases;
+	public Double getBias() throws DeviceException {
+		// TODO test against hardware
+		String result = (String) daServer.sendCommand("xstrip hv summary " + detectorName);
+		// TODO parse the result string at this point
+		if (!result.isEmpty()) {
+			return (Double) daServer.sendCommand("xstrip hv get-adc hv " + detectorName);
+		}
+		return 0.0;
 	}
 
 	@Override

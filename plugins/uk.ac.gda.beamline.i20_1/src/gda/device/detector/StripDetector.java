@@ -43,8 +43,7 @@ public interface StripDetector extends NexusDetector {
 	 * @throws DeviceException
 	 */
 	public void loadParameters(EdeScanParameters newParameters) throws DeviceException;
-	
-	
+
 	/**
 	 * Reload the last scan as defined by the last call to loadParameters;
 	 * 
@@ -94,17 +93,21 @@ public interface StripDetector extends NexusDetector {
 	public void setUpperChannel(int channel);
 
 	public int getUpperChannel();
-	
+
 	/**
-	 * Set the bias for each channel. The array should be the same length as the number of channels of the detector.
+	 * Sets the bias voltage. If the given value is 0.0 then the bias will be switched off. If non-zero then the bias
+	 * will be swicthed on if necessary and then applied.
 	 * 
-	 * @param biases
 	 * @throws DeviceException
 	 */
-	public void setChannelBiases(int[] biases) throws DeviceException;
-	
-	public int[] getChannelBiases();
-	
+	public void setBias(Double biasVoltage) throws DeviceException;
+
+	/**
+	 * @return the current bias voltage or 0.0 if biad switched off
+	 * @throws DeviceException - thrown if there is a problem reading the current status
+	 */
+	public Double getBias() throws DeviceException;
+
 	/**
 	 * The numbers of the strips which should be excluded when returning the data and creating region totals.
 	 * <p>
@@ -114,9 +117,9 @@ public interface StripDetector extends NexusDetector {
 	 * @throws DeviceException
 	 */
 	public void setExcludedStrips(int[] excludedStrips) throws DeviceException;
-	
+
 	public int[] getExcludedStrips();
-	
+
 	/**
 	 * @return details of the experiment progress using an enhanced progress bean object
 	 * @throws DeviceException
@@ -129,5 +132,5 @@ public interface StripDetector extends NexusDetector {
 	 * @throws DeviceException
 	 */
 	public void fireSoftTrig() throws DeviceException;
-	
+
 }
