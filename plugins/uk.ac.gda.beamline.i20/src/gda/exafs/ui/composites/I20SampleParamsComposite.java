@@ -36,7 +36,6 @@ public abstract class I20SampleParamsComposite  extends FieldBeanComposite {
 
 	public I20SampleParamsComposite(Composite parent, int style, String listenerName) {
 		super(parent, style, listenerName);
-		// TODO Auto-generated constructor stub
 	}
 
 	public I20SampleParamsComposite(Composite parent, int style) {

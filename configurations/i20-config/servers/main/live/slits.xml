@@ -147,7 +147,6 @@
 		<property name="hardwareUnitString" value="mrad" />
 		<property name="local" value="false"/>
 	</bean>
-
 	<bean id="s1_xa" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mrad" />
@@ -176,7 +175,6 @@
 		<property name="hardwareUnitString" value="mrad" />
 		<property name="local" value="false"/>
 	</bean>
-
 	<bean id="s1_xa_mm" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
@@ -205,7 +203,6 @@
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
 	</bean>
-	
 	<bean id="s1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -249,8 +246,7 @@
 		<property name="motor" ref="s2_voffset_motor" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
-	</bean>
-	
+	</bean>	
 	<bean id="s2_xplus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s2_xplus_motor" />
 		<property name="local" value="false"/>
@@ -267,7 +263,6 @@
 		<property name="motor" ref="s2_yminus_motor" />
 		<property name="local" value="false"/>
 	</bean>
-	
 	<bean id="s2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

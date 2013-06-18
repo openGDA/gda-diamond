@@ -27,7 +27,6 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 
-import uk.ac.gda.beamline.i20.SynopticControl;
 import uk.ac.gda.exafs.ui.data.ScanObjectManager;
 
 /**
@@ -68,7 +67,7 @@ public class SwitchExperimentModeHandler extends AbstractHandler {
 				MessageDialog
 						.openInformation(Display.getCurrent().getActiveShell(), "Experiment mode changed", message);
 				
-				SynopticControl.switchSynoptic();
+//				SynopticControl.switchSynoptic();
 			}
 		});
 

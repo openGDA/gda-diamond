@@ -4,13 +4,6 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<!-- <bean id="atn1_pos_demand" class="gda.device.scannable.ScannableMotor"> -->
-	<!-- <property name="protectionLevel" value="3" /> -->
-	<!-- <property name="initialUserUnits" value="mm" /> -->
-	<!-- <property name="motor" ref="atn1_motor_demand" /> -->
-	<!-- <property name="hardwareUnitString" value="mm" /> -->
-	<!-- </bean> -->
-
 	<!--attenuators -->
 	<bean id="atn1" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="ATN1P" />
@@ -20,11 +13,6 @@
 		<property name="deviceName" value="ATN1P.MOTOR" />
 		<property name="local" value="false"/>
 	</bean>
-	<!-- <bean id="atn1_motor_demand" class="gda.device.motor.EpicsMotor"> -->
-	<!-- <property name="pvName" value="BL20I-OP-ATTN-01:P:SETVALUE2"/> -->
-	<!-- </bean> -->
-
-
 
 	<bean id="atn2" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="ATN2P" />

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <XspressParameters>
     <detectorName>xspress2system</detectorName>
-    <resGrade>res-thres 1.0</resGrade>
+    <resGrade>res-none</resGrade>
     <regionType>Virtual Scaler</regionType>
     <readoutMode>Scalers only</readoutMode>
     <editIndividualElements>true</editIndividualElements>
@@ -13,8 +13,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -25,8 +25,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -37,8 +37,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -49,8 +49,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -61,8 +61,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -73,8 +73,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -85,8 +85,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -97,8 +97,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -109,8 +109,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -121,8 +121,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -133,8 +133,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -145,8 +145,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -157,8 +157,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -169,8 +169,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -181,8 +181,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -193,8 +193,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -205,8 +205,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -217,8 +217,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -229,8 +229,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -241,8 +241,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -253,8 +253,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -265,8 +265,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -277,8 +277,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -289,8 +289,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -301,8 +301,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -313,8 +313,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -325,8 +325,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -337,8 +337,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -349,8 +349,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -361,8 +361,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -373,8 +373,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -385,8 +385,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -397,8 +397,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -409,8 +409,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -421,8 +421,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
@@ -433,8 +433,8 @@
         <excluded>false</excluded>
         <Region>
             <roiName>ROI_1</roiName>
-            <roiStart>0</roiStart>
-            <roiEnd>0</roiEnd>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>

@@ -23,9 +23,7 @@
 	<bean id="fillMode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="LI-TI-MTGEN-01:MODE" />
 	</bean>
-	<bean id="wigglerGap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="WIGGLER.GAP" />
-	</bean>
+	<bean id="wigglerGap_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="wigglerGap" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
