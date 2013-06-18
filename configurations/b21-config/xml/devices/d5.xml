@@ -20,5 +20,6 @@
 	
 	<bean id="d5filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL21B-DI-PHDGN-05:MP" />
+		<property name="local" value="true" />
 	</bean>
 </beans>

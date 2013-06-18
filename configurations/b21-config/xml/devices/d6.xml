@@ -58,5 +58,6 @@
 	-->
 	<bean id="d6filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL21B-DI-PHDGN-06:MP" />
+		<property name="local" value="true" />
 	</bean>
 </beans>

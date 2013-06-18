@@ -10,9 +10,11 @@
 	
 	<bean id="fs1" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL21B-EA-SHTR-01:MP" />
+		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="fs2" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL21B-EA-SHTR-02:MP" />
+		<property name="local" value="true" />
 	</bean>
 </beans>
