@@ -5,17 +5,19 @@ Epics gda-interface
 Epics gui by using configure-ioc:
 
 $ configure-ioc show BL15I-gui
-BL15I-gui /dls_sw/prod/R3.14.11/ioc/BL15I/BL/2-10/bin/linux-x86/stBL15I-gui
+BL15I-gui /dls_sw/prod/R3.14.11/ioc/BL15I/BL/2-11/bin/linux-x86/stBL15I-gui
 
 	Sometimes though, these do not match up, so it is worth checking in the
 data directories too: 
 
-$ ll -t --time-style=long-iso /dls_sw/prod/*/ioc/BL15I/BL/*/data/BL15I-gda-interface.xml /dls_sw/work/*/ioc/BL15I/BL/data/BL15I-gda-interface.xml /dls_sw/i15/software/gda/i15-config/xml/server/BL15I-gda-interface.xml /scratch/gda/i15/branches/*/i15-config/xml/server/BL15I-gda-interface.xml /dls_sw/i15/software/gda_versions/*/i15-config/xml/server/BL15I-gda-interface.xml
--rwxrwxr-x. 1 voo82358 dls_dasc 371343 2013-04-12 14:19 /dls_sw/i15/software/gda/i15-config/xml/server/BL15I-gda-interface.xml
--rwxrwxr-x. 1 voo82358 dls_dasc 371343 2013-04-12 14:19 /dls_sw/i15/software/gda_versions/gda_8.30b/i15-config/xml/server/BL15I-gda-interface.xml
+$ll -t --time-style=long-iso /dls_sw/prod/*/ioc/BL15I/BL/*/data/BL15I-gda-interface.xml /dls_sw/work/*/ioc/BL15I/BL/data/BL15I-gda-interface.xml /dls_sw/i15/software/gda/i15-config/xml/server/BL15I-gda-interface.xml /dls_sw/i15/software/gda_versions/*/i15-config/xml/server/BL15I-gda-interface.xml
+-rwxr-xr-x. 1 voo82358 dls_dasc 467763 2013-06-18 10:55 /dls_sw/i15/software/gda/i15-config/xml/server/BL15I-gda-interface.xml
+-rwxr-xr-x. 1 voo82358 dls_dasc 467763 2013-06-18 10:55 /dls_sw/i15/software/gda_versions/gda_8.30b/i15-config/xml/server/BL15I-gda-interface.xml
+-r-xr-xr-x. 1    37523    37523 467711 2013-06-14 14:38 /dls_sw/prod/R3.14.11/ioc/BL15I/BL/2-11/data/BL15I-gda-interface.xml
+-r-xr-xr-x. 1 fgz73762 dcs      467711 2013-06-14 14:36 /dls_sw/work/R3.14.11/ioc/BL15I/BL/data/BL15I-gda-interface.xml
+-rwxrwxr-x. 1 voo82358 dls_dasc 470225 2013-06-13 16:45 /dls_sw/i15/software/gda_versions/gda_8.30a/i15-config/xml/server/BL15I-gda-interface.xml
+-rwxrwxr-x. 1 voo82358 dls_dasc 470225 2013-05-20 19:03 /dls_sw/i15/software/gda_versions/gda_8.30c/i15-config/xml/server/BL15I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 470173 2013-04-10 16:21 /dls_sw/prod/R3.14.11/ioc/BL15I/BL/2-10/data/BL15I-gda-interface.xml
--r-xr-xr-x. 1 fgz73762 cgred    470173 2013-04-10 16:17 /dls_sw/work/R3.14.11/ioc/BL15I/BL/data/BL15I-gda-interface.xml
--rwxrw-r--. 1 voo82358 dls_dasc 371343 2013-03-27 14:02 /dls_sw/i15/software/gda_versions/gda_8.30a/i15-config/xml/server/BL15I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 373663 2013-02-05 19:38 /dls_sw/prod/R3.14.11/ioc/BL15I/BL/2-9/data/BL15I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 373663 2013-01-18 11:12 /dls_sw/prod/R3.14.11/ioc/BL15I/BL/2-8/data/BL15I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 371291 2012-11-23 16:35 /dls_sw/prod/R3.14.11/ioc/BL15I/BL/2-7/data/BL15I-gda-interface.xml
@@ -25,4 +27,4 @@ $ ll -t --time-style=long-iso /dls_sw/prod/*/ioc/BL15I/BL/*/data/BL15I-gda-inter
 -r-xr-xr-x. 1    37523    37523 367338 2012-04-14 15:58 /dls_sw/prod/R3.14.11/ioc/BL15I/BL/2-5/data/BL15I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 364814 2012-03-06 14:37 /dls_sw/prod/R3.14.11/ioc/BL15I/BL/2-4-4/data/BL15I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 364814 2012-01-24 12:03 /dls_sw/prod/R3.14.11/ioc/BL15I/BL/2-4-3/data/BL15I-gda-interface.xml
--r-xr-xr-x. 1 fgz73762 cgred     48095 2010-06-21 15:12 /dls_sw/work/R3.14.8.2/ioc/BL15I/BL/data/BL15I-gda-interface.xml
+-r-xr-xr-x. 1 fgz73762 dcs       48095 2010-06-21 15:12 /dls_sw/work/R3.14.8.2/ioc/BL15I/BL/data/BL15I-gda-interface.xml
