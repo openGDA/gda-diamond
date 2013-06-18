@@ -101,6 +101,9 @@
 		<property name="saturationThreshold" value="15000000" />
 		<property name="defaultFastPreviewExposureTimeThreshold"
 			value="0.5" />
+		<property name="leftWindowBinValue" value="4" />
+		<property name="imgWidth" value="4008" />
+		<property name="imgHeight" value="2672" />
 	</bean>
 
 	<bean id="cameraModuleHandler"
