@@ -1,5 +1,6 @@
 # Based on gda-mt.git/configurations/i16-config/scripts/scannable/scaler.py
 
+from datetime import datetime
 from gda.device.detector.hardwaretriggerable import HardwareTriggerableDetectorBase
 from gda.device.scannable import PositionCallableProvider, PositionInputStream, \
     PositionStreamIndexer
@@ -57,7 +58,8 @@ TIMEOUT = 5
 class McsController(object):
     # e.g. mca_root_pv = BL16I-EA-DET-01:MCA-01
     
-    def __init__(self, mca_root_pv):
+    def __init__(self, name, mca_root_pv):
+        self.name = name
         self.pv_stop= CAClient(mca_root_pv + 'StopAll')
         self.pv_dwell= CAClient(mca_root_pv + 'Dwell')
         self.pv_channeladvance= CAClient(mca_root_pv + 'ChannelAdvance')
@@ -73,13 +75,17 @@ class McsController(object):
         self.pv_erasestart.configure()
 
     def erase_and_start(self):
+        print str(datetime.now()), self.name, 'erase_and_start...'
         self.pv_stop.caput(1)  # scaler wonn't start if already running
         self.pv_dwell.caput(TIMEOUT, self.exposure_time)
         self.pv_channeladvance.caput(TIMEOUT, 0)  # internal
         self.pv_erasestart.caput(1)
+        print str(datetime.now()), self.name, '...erase_and_start'
 
     def stop(self):
+        print str(datetime.now()), self.name, 'stop...'
         self.pv_stop.caput(1)
+        print str(datetime.now()), self.name, '...stop'
 
 
 class McsChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvider):
@@ -100,12 +106,14 @@ class McsChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvi
         return True
 
     def collectData(self):
+        print str(datetime.now()), self.name, 'collectData()'
         pass
 
     def getStatus(self):
         return Detector.IDLE
 
     def setCollectionTime(self, t):
+        print str(datetime.now()), self.name, 'setCollectionTime(%r)' % t
         # does not effect Epics controller
         self.controller.exposure_time = t
 
@@ -117,16 +125,20 @@ class McsChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvi
         raise Exception(self.name + "for use only in Continuous scans")
 
     def atScanLineStart(self):
+        print str(datetime.now()), self.name, 'atScanLineStart...'
         self.controller.erase_and_start() # nord will read 0
         self.mca_input_stream.reset()
         self.stream_indexer = PositionStreamIndexer(self.mca_input_stream);
+        print str(datetime.now()), self.name, '...atScanLineStart'
 
     def atScanLineEnd(self):
+        print str(datetime.now()), self.name, 'atScanLineEnd'
         pass
         # TODO: Must wait for all callables to have been called
         #self.controller.stop() # nord will read 0
 
     def getPositionCallable(self):
+        print str(datetime.now()), self.name, 'getPositionCallable'
         return self.stream_indexer.getPositionCallable()
 
     def createsOwnFiles(self):
