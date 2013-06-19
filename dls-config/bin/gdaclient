@@ -62,6 +62,9 @@ if [ -z $CONFIG ] ; then
 	CONFIG="/scratch/${BEAMLINE}_config-$(whoami)"
 fi
 
+export WORKSPACE
+export CONFIG
+
 ARGS=$(getopt -a -o \? -l help,data:,reset,log,keep,nohup:,client: -n "gdaclient" -- "$@")
 
 #Bad arguments - getopt returns non-zero
