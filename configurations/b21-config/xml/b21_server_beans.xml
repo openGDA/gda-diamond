@@ -109,6 +109,7 @@
 	</bean>
 
 	<import resource="b21_server_dummy.xml" />
+	<import resource="b21_server_devices.xml" />
 	<import resource="b21_server_ncd.xml" /> 
 	<import resource="bsaxs-axes.xml" /> 
 
@@ -201,8 +202,6 @@
 		<property name="service" ref="commandQueueProcessor" />
 		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
 	</bean>
-
-	<import resource="b21_server_devices.xml" />
 
 	<corba:export namespace="b21" />
 

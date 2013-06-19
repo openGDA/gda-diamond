@@ -51,12 +51,23 @@
 		<property name="memory" ref="TimesMemory" />
 	</bean>
 
+        <bean id="It" class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset">
+                        <property name="detectorType" value="CALIB" />
+                        <property name="memory" ref="CalibMemory" />
+			<property name="units" value="counts" />
+			<property name="channel" value="0" />
+			<property name="label" value="data" />
+			<property name="scalingAndOffset" ref="bsdiodegain" />
+	</bean>
+
 	<import resource="b21_pilatus_saxs.xml"/>
+
 	<bean id="ncddetectors" class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem">
 		<property name="timer" ref="Tfg" />
 		<property name="detectors">
 			<list>
 				<ref bean="Pilatus2M" />
+				<ref bean="It" />
 				<!-- <ref bean="Hotwaxs" /> -->
 				<ref bean="Scalers" />
 				<ref bean="TfgTimes" />
