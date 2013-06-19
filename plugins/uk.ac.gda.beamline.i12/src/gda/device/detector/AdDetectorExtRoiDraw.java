@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import gda.device.DeviceException;
 import gda.device.detector.addetector.ADDetector;
 import gda.device.detector.areadetector.v17.FfmpegStream;
+import gda.device.detector.areadetector.v17.NDFileHDF5;
 import gda.device.detector.areadetector.v17.NDOverlay;
 import gda.device.detector.areadetector.v17.NDProcess;
 import gda.device.detector.areadetector.v17.NDROI;
@@ -45,6 +46,8 @@ public class AdDetectorExtRoiDraw extends ADDetector {
 
 	private NDProcess ndProc1;
 	private NDProcess ndProc2;
+
+	private NDFileHDF5 hdf;
 
 	@Override
 	public void atScanStart() throws DeviceException {
@@ -108,6 +111,9 @@ public class AdDetectorExtRoiDraw extends ADDetector {
 		if (ndProc2 != null) {
 			ndProc2.reset();
 		}
+		if (hdf != null) {
+			hdf.reset();
+		}
 	}
 
 	public NDROI getNdRoi2() {
@@ -140,5 +146,13 @@ public class AdDetectorExtRoiDraw extends ADDetector {
 
 	public void setNdProc2(NDProcess ndProc2) {
 		this.ndProc2 = ndProc2;
+	}
+
+	public NDFileHDF5 getHdf() {
+		return hdf;
+	}
+
+	public void setHdf(NDFileHDF5 hdf) {
+		this.hdf = hdf;
 	}
 }
