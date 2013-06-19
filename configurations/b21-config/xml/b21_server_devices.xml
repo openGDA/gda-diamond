@@ -5,31 +5,5 @@
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-       <bean class="gda.configuration.epics.EpicsConfiguration">
-                <constructor-arg value="${gda.config}/xml/BL21B-gda-interface.xml" />
-        </bean>
-
-	<import resource="devices/s1.xml" />
-	<import resource="devices/s2.xml" />
-	<import resource="devices/s3.xml" />
-	<import resource="devices/s4.xml" />
-	<import resource="devices/s5.xml" />
-	<import resource="devices/s6.xml" />
-	<import resource="devices/dcm.xml" />
-	<import resource="devices/shutter.xml" />
-	<import resource="devices/d1.xml" />
-	<import resource="devices/d2.xml" />
-	<import resource="devices/d3.xml" />
-	<import resource="devices/d4.xml" />
-	<import resource="devices/d5.xml" />
-	<import resource="devices/d6.xml" />
-	<import resource="devices/d7.xml" />
-
-	<import resource="devices/m1.xml" />
-
-	<import resource="devices/fs.xml" />
-	<import resource="devices/base.xml" />
-	<import resource="devices/ion.xml" />
-
-	<import resource="devices/bco.xml" />
+	<import resource="devices/devices.xml" />
 </beans>

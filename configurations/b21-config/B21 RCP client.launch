@@ -19,7 +19,7 @@
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.install.git.loc=${workspace_loc}_git&#10;-Dgda.install.workspace.loc=${workspace_loc}&#10;-Dgda.config=${project_loc:b21-config}&#10;-Dgda.propertiesFile=${project_loc:b21-config}/properties/java.properties&#10;-Djacorb.config.dir=${project_loc:b21-config}/properties&#10;-Dgda.mode=dummy&#10;-Xms256m&#10;-Xmx768m&#10;-XX:PermSize=128m&#10;-XX:MaxPermSize=512m"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.install.git.loc=${workspace_loc}_git&#10;-Dgda.install.workspace.loc=${workspace_loc}&#10;-Dgda.config=${project_loc:b21-config}&#10;-Dgda.propertiesFile=${project_loc:b21-config}/properties/live/java.properties&#10;-Dgov.aps.jca.JCALibrary.properties=${project_loc:b21-config}/jca/live/JCALibrary.properties&#10;-Djacorb.config.dir=${project_loc:b21-config}/jacorb/live&#10;-Declipse.pluginCustomization=${project_loc:b21-config}/client/pluginCustomization.ini&#10;-Dgda.mode=live&#10;-Xms256m&#10;-Xmx768m&#10;-XX:PermSize=128m&#10;-XX:MaxPermSize=512m"/>
 <stringAttribute key="pde.version" value="3.3"/>
 <stringAttribute key="product" value="uk.ac.gda.beamline.b21.product"/>
 <booleanAttribute key="show_selected_only" value="false"/>

@@ -36,7 +36,6 @@
       </intro>
       <introProductBinding introId="uk.ac.gda.beamline.b21.b21intro" productId="uk.ac.gda.beamline.b21.product"/>
    </extension>
-   <!--
    <extension
           point="org.eclipse.ui.perspectiveExtensions">
     <perspectiveExtension targetID="*">
@@ -48,9 +47,6 @@
              id="gda.rcp.ncd.perspectives.SaxsPerspective">
        </perspectiveShortcut>
        <perspectiveShortcut
-             id="gda.rcp.ncd.perspectives.SaxsProcessingPerspective">
-       </perspectiveShortcut>
-       <perspectiveShortcut
              id="gda.rcp.ncd.perspectives.WaxsPerspective">
        </perspectiveShortcut>
        <perspectiveShortcut
@@ -59,12 +55,16 @@
        <perspectiveShortcut
              id="gda.rcp.ncd.perspectives.GridScanPerspective">
        </perspectiveShortcut>
--   </perspectiveExtension>
--   </extension>
-<extension
-      point="uk.ac.gda.client.dashboard.objects">
+   </perspectiveExtension>
+   </extension>
+ <extension
+        point="uk.ac.gda.client.dashboard.objects">
+           <Scannable
+                 name="bsdiode"
+                 tooltip="beamstop diode reading">
+           </Scannable>
 </extension>
--->
+
 <extension
       point="uk.ac.gda.client.preferences">
    <preference

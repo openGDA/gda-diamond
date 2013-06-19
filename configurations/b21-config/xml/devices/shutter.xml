@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="shutter" class="gda.device.enumpositioner.EpicsValveCallback">
-		<property name="epicsRecordName" value="BL21B-PS-SHTR-01:" />
+	<bean id="shutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL21B-PS-SHTR-01" />
 	</bean>
 </beans>

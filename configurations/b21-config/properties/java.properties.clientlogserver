@@ -1,5 +1,1 @@
-#  The Factory name MUST MATCH the name at top of the Instance XML files 
-gda.factory.factoryName 	= b21
-gda.server.logging.port = 6789
-gda.logserver.xml = ${gda.config}/xml/b21_logServerClient.xml 
-gda.logs.dir = /dls_sw/b21/logs/
+live/java.properties.clientlogserver

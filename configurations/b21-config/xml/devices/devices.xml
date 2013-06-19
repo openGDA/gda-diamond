@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+       <bean class="gda.configuration.epics.EpicsConfiguration">
+                <constructor-arg value="${gda.config}/xml/BL21B-gda-interface.xml" />
+        </bean>
+
+	<import resource="s1.xml" />
+	<import resource="s2.xml" />
+	<import resource="s3.xml" />
+	<import resource="s4.xml" />
+	<import resource="s5.xml" />
+	<import resource="s6.xml" />
+	<import resource="dcm.xml" />
+	<import resource="shutter.xml" />
+	<import resource="d1.xml" />
+	<import resource="d2.xml" />
+	<import resource="d3.xml" />
+	<import resource="d4.xml" />
+	<import resource="d5.xml" />
+	<import resource="d6.xml" />
+	<import resource="d7.xml" />
+
+	<import resource="t5.xml" />
+
+	<import resource="m1.xml" />
+
+	<import resource="fs.xml" />
+	<import resource="base.xml" />
+	<import resource="ion.xml" />
+
+	<import resource="bco.xml" />
+</beans>
