@@ -290,18 +290,6 @@ if polarimeter_installed:
     except:
         localStation_exception(sys.exc_info(), "initialising polarimeter")
 
-poms_installed = False # Install from localStationUser.py
-
-if poms_installed:
-    try:
-        from poms.PomsSocketDevice import PomsSockteDeviceClass, FlipperDeviceClass
-        
-        vmag = PomsSockteDeviceClass('vmag','172.23.110.198', 4042 );
-        
-        vflipper = FlipperDeviceClass('vflipper', 'vmag', 'mac116', 'mac117', 'mac118');
-    except:
-        localStation_exception(sys.exc_info(), "initialising poms")
-
 colby_pdl_installed = True
 
 if colby_pdl_installed:
