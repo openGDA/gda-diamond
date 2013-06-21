@@ -842,6 +842,14 @@ class TomoAlignmentConfigurationManager:
 tomographyConfigurationManager = TomoAlignmentConfigurationManager()
     
 
+def createPreTiltEllipsePoints(ellipseFit, tiltParameters, numPoints=100):
+    tiltParameters.addPreTiltEllipsePoints(0, 0)
+    pass
+
+def createPostTiltEllipsePoints(ellipseFit, tiltParameters, numPoints=100):
+    tiltParameters.addPostTiltEllipsePoints(0, 0)
+    pass
+
 def tiltAlignment(module, exposureTime, cam1RollPresetValue=0.5, ss1RxPresetValue=0.2):
     '''
         Performs the tilt alignment provided the ball is centered on its rotation axis.
@@ -945,10 +953,13 @@ def tiltAlignment(module, exposureTime, cam1RollPresetValue=0.5, ss1RxPresetValu
         dnp.plot.image(data[0, minY:maxY, :])
         dd = data[:, minY:maxY, :]
         print "PathName of files to be analysed:" + `pathname`
-        updateScriptController("Analysing data... ");
+        updateScriptController("Analysing data... ")
+        
         results = analyseData(dd)
+        '''The translation for the motors in degrees'''
         ss1rxVal = results[0]
         cam1Roll = results[1]
+        
         if abs(ss1rxVal) > 90:
             ss1rxVal = 180 - ss1rxVal
             
@@ -961,6 +972,8 @@ def tiltAlignment(module, exposureTime, cam1RollPresetValue=0.5, ss1RxPresetValu
             tiltParameters.addPreTiltPoint(pointList[i][1], pointList[i][0])
             i += 1
         
+        #Calculate the ellipse points for the ellipsefit -. results[3]
+        createPreTiltEllipsePoints(results[3], tiltParameters)
         
         print "ss1rxVal:" + `ss1rxVal`
         print "cam1Roll:" + `cam1Roll`
@@ -985,7 +998,9 @@ def tiltAlignment(module, exposureTime, cam1RollPresetValue=0.5, ss1RxPresetValu
         data = getFullDataSet(ff)
         dnp.plot.image(data[0, minY:maxY, :])
         dd = data[:, minY:maxY, :]
+        
         results = analyseData(dd)
+        
         ss1rxVal = results[0]
         cam1Roll = results[1]
         if abs(ss1rxVal) > 90:
@@ -998,8 +1013,12 @@ def tiltAlignment(module, exposureTime, cam1RollPresetValue=0.5, ss1RxPresetValu
         pointList = results[2]
         
         while i < len(pointList):
-            tiltParameters.addPreTiltPoint(pointList[i][1], pointList[i][0])
+            tiltParameters.addPostTiltPoint(pointList[i][1], pointList[i][0])
             i += 1
+        
+        
+        #Calculate the ellipse points for the ellipsefit -. results[3]
+        createPostTiltEllipsePoints(results[3], tiltParameters)
             
         print "ss1rxVal:" + `ss1rxVal`
         print "cam1Roll:" + `cam1Roll`
