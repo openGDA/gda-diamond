@@ -4,6 +4,7 @@
 # under version control).
 
 from time import sleep
+from gda.device.detector.etldetector import ETLDetector
 from gda.device.scannable import PseudoDevice
 
 import __main__ as gdamain
@@ -22,7 +23,7 @@ configurable calculations.
 
 where A1, B1, C1, D1 & E1 are the counts at the demanded field, theta1 and phi1.
   and A2, B2, C2, D2 & E2 are the counts at the demanded field, theta2 and phi2.
-and X1, X2, X3 & X4 are the calculated values.
+and X1, X2, X3, X4, X5 & X6 are the calculated values.
 
 To change the magnet scannable, call .setMagnet('magnet_name')
 To change the counter timer scannables, call 
@@ -30,23 +31,25 @@ To change the counter timer scannables, call
                  'nameCounterTimerD', 'nameCounterTimerE')
 To change the calculations, call 
     .setCalcs('nameCalc1', 'calc1', 'nameCalc2', 'calc2', 'nameCalc3', 'calc3',
-              'nameCalc4', 'calc4'):
+              'nameCalc4', 'calc4', 'nameCalc5', 'calc5', 'nameCalc6', 'calc6'):
     e.g.
+    >>> vFlipper.getMagnet()
+    >>> vFlipper.getCounters()
+    >>> vFlipper.getCalcs()
     >>> vflipper.setMagnet('vmag')
     >>> vflipper.setCounters('macr119', 'macr120', 'macr121', 'macr122', 'macr123')
-    >>> vflipper.setCalcs('EDIF', 'B2/A2-B1/A1',
-                          'Q2',   'B2/A2+B1/A1',
-                          'EXAS', 'Q2/2.',
-                          'Q4',   'C1/A1+C2/A2'))
-
+    >>> vflipper.setCalcs('EDIF', 'B2/A2-B1/A1', 'X2',   'B2/A2+B1/A1',
+                          'EXAS', 'X2/2.0',
+                          'TDIF', 'C1/A1-C2/A2', 'X5',   'C1/A1+C2/A2',
+                          'TXAS', 'X5/2.0')
 Note: For some reason the expression evaluation doesn't work with parentheses
       at the moment, so you will have to rely on operator precedence and use
       of output values as intermediate values as in the example above
 """
     def __init__(self, name, nameMagnet, nameCounterTimerA, nameCounterTimerB,
                        nameCounterTimerC, nameCounterTimerD, nameCounterTimerE,
-                       nameCalc1, calc1, nameCalc2, calc2,
-                       nameCalc3, calc3, nameCalc4, calc4):
+                       nameCalc1, calc1, nameCalc2, calc2, nameCalc3, calc3,
+                       nameCalc4, calc4, nameCalc5, calc5, nameCalc6, calc6):
         self.setName(name);
         self.setInputNames(['field', 'theta1', 'theta2', 'phi1', 'phi2',
                             'countTime', 'zeroRestTime']);
@@ -54,11 +57,11 @@ Note: For some reason the expression evaluation doesn't work with parentheses
         self.setOutputFormat(["%6.4f", "%6.3f", "%6.3f", "%6.3f", "%6.3f",
                               "%6.3f", "%6.3f"] + self.getExtraNameFormats());
         self.setLevel(7);
-        self.magnet = vars(gdamain)[nameMagnet];
+        self.setMagnet(nameMagnet)
         self.setCounters(nameCounterTimerA, nameCounterTimerB, nameCounterTimerC,
                          nameCounterTimerD, nameCounterTimerE, False)
-        self.setCalcs(nameCalc1, calc1, nameCalc2, calc2,
-                      nameCalc3, calc3, nameCalc4, calc4)
+        self.setCalcs(nameCalc1, calc1, nameCalc2, calc2, nameCalc3, calc3,
+                      nameCalc4, calc4, nameCalc5, calc5, nameCalc6, calc6)
         self.field=0;
         self.theta1=0;
         self.phi1=0;
@@ -75,16 +78,32 @@ Note: For some reason the expression evaluation doesn't work with parentheses
             "nameCounterTimerA=%r, nameCounterTimerB=%r, nameCounterTimerC=%r" + \
             "nameCounterTimerD=%r, nameCounterTimerE=%r" + \
             "nameCalc1=%r, calc1=%r" + "nameCalc2=%r, calc2=%r" + \
-            "nameCalc3=%r, calc3=%r" + "nameCalc4=%r, calc4=%r)"
+            "nameCalc3=%r, calc3=%r" + "nameCalc4=%r, calc4=%r" + \
+            "nameCalc5=%r, calc5=%r" + "nameCalc6=%r, calc6=%r)"
         return format % (
             self.name, self.magnet.name, self.counterA.name, self.counterB.name,
             self.counterC.name, self.counterD.name, self.counterE.name,
             self.nameCalc1, self.calc1, self.nameCalc2, self.calc2,
-            self.nameCalc3, self.calc3, self.nameCalc4, self.calc4)
+            self.nameCalc3, self.calc3, self.nameCalc4, self.calc4,
+            self.nameCalc5, self.calc5, self.nameCalc6, self.calc6)
+
+    def getMagnet(self):
+        print  'nameMagnet = %r' % self.nameMagnet
+        return self.nameMagnet
 
     def setMagnet(self, nameMagnet):
+        self.nameMagnet = nameMagnet
         self.magnet = vars(gdamain)[nameMagnet];
         return;
+
+    def getCounters(self):
+        print  'nameCounterTimerA = %r' % self.counterA.name, \
+             ', nameCounterTimerB = %r' % self.counterB.name, \
+             ', nameCounterTimerC = %r' % self.counterC.name, \
+             ', nameCounterTimerD = %r' % self.counterD.name, \
+             ', nameCounterTimerE = %r' % self.counterE.name
+        return self.counterA.name, self.counterB.name, self.counterC.name, \
+               self.counterD.name, self.counterE.name
 
     def setCounters(self, nameCounterTimerA, nameCounterTimerB,
                           nameCounterTimerC, nameCounterTimerD,
@@ -94,15 +113,34 @@ Note: For some reason the expression evaluation doesn't work with parentheses
         self.counterC = vars(gdamain)[nameCounterTimerC];
         self.counterD = vars(gdamain)[nameCounterTimerD];
         self.counterE = vars(gdamain)[nameCounterTimerE];
+        assert isinstance(self.counterA, ETLDetector)
+        assert isinstance(self.counterB, ETLDetector)
+        assert isinstance(self.counterC, ETLDetector)
+        assert isinstance(self.counterD, ETLDetector)
+        assert isinstance(self.counterE, ETLDetector)
         if updateExtraNames:
             self.updateExtraNames()
 
+    def getCalcs(self):
+        print   'nameCalc1 = %r,' % self.nameCalc1, 'calc1 = %r,' % self.calc1, \
+                'nameCalc2 = %r,' % self.nameCalc2, 'calc2 = %r,' % self.calc2, \
+                'nameCalc3 = %r,' % self.nameCalc3, 'calc3 = %r,' % self.calc3, \
+                'nameCalc4 = %r,' % self.nameCalc4, 'calc4 = %r,' % self.calc4, \
+                'nameCalc5 = %r,' % self.nameCalc5, 'calc5 = %r,' % self.calc5, \
+                'nameCalc6 = %r,' % self.nameCalc6, 'calc6 = %r'  % self.calc6
+        return  self.nameCalc1, self.calc1, self.nameCalc2, self.calc2, \
+                self.nameCalc3, self.calc3, self.nameCalc4, self.calc4, \
+                self.nameCalc5, self.calc5, self.nameCalc6, self.calc6
+
     def setCalcs(self, nameCalc1, calc1, nameCalc2, calc2, nameCalc3, calc3,
-                       nameCalc4, calc4, updateExtraNames=True):
+                       nameCalc4, calc4, nameCalc5, calc5, nameCalc6, calc6,
+                       updateExtraNames=True):
         self.nameCalc1, self.calc1 = nameCalc1, calc1
         self.nameCalc2, self.calc2 = nameCalc2, calc2
         self.nameCalc3, self.calc3 = nameCalc3, calc3
         self.nameCalc4, self.calc4 = nameCalc4, calc4
+        self.nameCalc5, self.calc5 = nameCalc5, calc5
+        self.nameCalc6, self.calc6 = nameCalc6, calc6
         if updateExtraNames:
             self.updateExtraNames()
 
@@ -113,12 +151,14 @@ Note: For some reason the expression evaluation doesn't work with parentheses
                             'D1'+self.counterD.name, 'D2'+self.counterD.name,
                             'E1'+self.counterE.name, 'E2'+self.counterE.name,
                             'X1'+self.nameCalc1, 'X2'+self.nameCalc2,
-                            'X3'+self.nameCalc3, 'X4'+self.nameCalc4]);
+                            'X3'+self.nameCalc3, 'X4'+self.nameCalc4,
+                            'X5'+self.nameCalc5, 'X6'+self.nameCalc6]);
 
     def getExtraNameFormats(self):
         return ["%20.12f", "%20.12f", "%20.12f", "%20.12f", "%20.12f",
                 "%20.12f", "%20.12f", "%20.12f", "%20.12f", "%20.12f",
-                "%20.12f", "%20.12f", "%20.12f", "%20.12f"]
+                "%20.12f", "%20.12f", "%20.12f", "%20.12f", "%20.12f",
+                "%20.12f"]
 
     def getCounter(self):
         return self.counterA.name, self.counterB.name, self.counterC.name, self.counterD.name, self.counterE.name
@@ -131,7 +171,7 @@ Note: For some reason the expression evaluation doesn't work with parentheses
         return;
     
     def toString(self):
-        ss=self.getName() + ": [field, theta1, theta2, phi1, phi2, countTime, zeroRestTime, countA1, countA2, countB1, countB2, countC1, countC2, countD1, countD2, countE1, countE2, X1, X2. X3,. X4]: " + str(self.getPosition());
+        ss=self.getName() + ": [field, theta1, theta2, phi1, phi2, countTime, zeroRestTime, countA1, countA2, countB1, countB2, countC1, countC2, countD1, countD2, countE1, countE2, X1, X2, X3, X4, X5, X6]: " + str(self.getPosition());
         return ss;
 
     def getPosition(self):
@@ -153,12 +193,20 @@ Note: For some reason the expression evaluation doesn't work with parentheses
             X4 = eval(self.calc4)
         except ZeroDivisionError:
             X4 = float('NaN')
+        try:
+            X5 = eval(self.calc5)
+        except ZeroDivisionError:
+            X5 = float('NaN')
+        try:
+            X6 = eval(self.calc6)
+        except ZeroDivisionError:
+            X6 = float('NaN')
         
         return [self.field, self.theta1, self.theta2, self.phi1, self.phi2,
                 self.countTime, self.zeroRestTime,
                 self.count1[0], self.count2[0], self.count1[1], self.count2[1],
                 self.count1[2], self.count2[2], self.count1[3], self.count2[3],
-                self.count1[4], self.count2[4], X1, X2, X3, X4];
+                self.count1[4], self.count2[4], X1, X2, X3, X4, X5, X6];
     
     def asynchronousMoveTo(self,newPos):
         self.field=newPos[0];
@@ -182,11 +230,28 @@ Note: For some reason the expression evaluation doesn't work with parentheses
         
         self.magnet.moveTo([0,0,0]);
         return;
-    
+
+    def startCounterIfNecessary(self, counter, scalerNames):
+        counter.setCollectionTime(self.countTime)
+        counter.collectData()
+        #if not counter.getScalerName() in scalerNames:
+        #    print "Starting", counter.getScalerName(), "as it doesn't have the same scaler as another in", scalerNames
+        #    scalerNames += counter.getScalerName()
+        #else:
+        #    print "Not starting", counter.getScalerName(), 'as it has the same scaler as another in', scalerNames
+
     def countOnce(self):
         self.counterA.setCollectionTime(self.countTime);
         self.counterA.collectData();
-        while self.counterA.isBusy():
+        scalerNames=[self.counterA.getScalerName()]
+        
+        self.startCounterIfNecessary(self.counterB, scalerNames)
+        self.startCounterIfNecessary(self.counterC, scalerNames)
+        self.startCounterIfNecessary(self.counterD, scalerNames)
+        self.startCounterIfNecessary(self.counterE, scalerNames)
+        while self.counterA.isBusy() or self.counterB.isBusy() or \
+              self.counterC.isBusy() or self.counterD.isBusy() or \
+              self.counterE.isBusy():
             sleep(0.1);
 
         return [self.counterA.getPosition(), self.counterB.getPosition(),
