@@ -38,7 +38,7 @@ To change the counter timer scannables, call
     >>> vflipper.setCounters('macr119', 'macr120', 'macr121')
     """
     def __init__(self, name, nameMagnet, nameCounterTimerA, nameCounterTimerB,
-                 nameCounterTimerC, nameCounterTimerD, nameCounterTimerE):
+                 nameCounterTimerC):
         self.setName(name);
         self.setInputNames(['field', 'theta1', 'theta2', 'phi1', 'phi2',
                             'countTime', 'zeroRestTime']);

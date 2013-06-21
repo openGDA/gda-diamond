@@ -10,7 +10,7 @@ import __main__ as gdamain
 
 #The Class for creating a flipper based on the POMS magnet control 
 class FlipperCalcDeviceClass(PseudoDevice):
-    """ This flips between two different field configurations in POMS, using the array
+    """This flips between two different field configurations in POMS, using the array
 argument [field_Tesla, theta1_Deg, theta2_Deg, phi1_Deg, phi2_Deg, countTime_S,
           zeroRestTime_S]
     e.g.
@@ -34,11 +34,15 @@ To change the calculations, call
     e.g.
     >>> vflipper.setMagnet('vmag')
     >>> vflipper.setCounters('macr119', 'macr120', 'macr121', 'macr122', 'macr123')
-    >>> vflipper.setCalcs('EDIF',   '(B2/A2) - (B1/A1)',
-                          'EXAS', '( (B2/A2) + (B1/A1) ) / 2.',
-                          'TDIF',   '(C1/A1) - (C2/A2)',
-                          'TXAS', '( (C1/A1) + (C2/A2) ) / 2.)'))
-    """
+    >>> vflipper.setCalcs('EDIF', 'B2/A2-B1/A1',
+                          'Q2',   'B2/A2+B1/A1',
+                          'EXAS', 'Q2/2.',
+                          'Q4',   'C1/A1+C2/A2'))
+
+Note: For some reason the expression evaluation doesn't work with parentheses
+      at the moment, so you will have to rely on operator precedence and use
+      of output values as intermediate values as in the example above
+"""
     def __init__(self, name, nameMagnet, nameCounterTimerA, nameCounterTimerB,
                        nameCounterTimerC, nameCounterTimerD, nameCounterTimerE,
                        nameCalc1, calc1, nameCalc2, calc2,
@@ -53,8 +57,8 @@ To change the calculations, call
         self.magnet = vars(gdamain)[nameMagnet];
         self.setCounters(nameCounterTimerA, nameCounterTimerB, nameCounterTimerC,
                          nameCounterTimerD, nameCounterTimerE, False)
-        self.setCalcss(nameCalc1, calc1, nameCalc2, calc2,
-                       nameCalc3, calc3, nameCalc4, calc4)
+        self.setCalcs(nameCalc1, calc1, nameCalc2, calc2,
+                      nameCalc3, calc3, nameCalc4, calc4)
         self.field=0;
         self.theta1=0;
         self.phi1=0;

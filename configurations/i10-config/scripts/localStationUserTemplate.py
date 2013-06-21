@@ -86,30 +86,30 @@ vflipperCalc = FlipperCalcDeviceClass('vflipperCalc', nameMagnet='vmag',
         nameCounterTimerA='macr19',
         nameCounterTimerB='macr16', nameCounterTimerC='macr18',
         nameCounterTimerD='macr20', nameCounterTimerE='macr1',
-        nameCalc1='EDIF', calc1=  '(B2/A2) - (B1/A1)',
-        nameCalc2='EXAS', calc1='( (B2/A2) + (B1/A1) ) / 2.',
-        nameCalc3='TDIF', calc1=  '(C1/A1) - (C2/A2)',
-        nameCalc4='TXAS', calc1='( (C1/A1) + (C2/A2) ) / 2.)')
+        nameCalc1='EDIF', calc1='B2/A2-B1/A1',
+        nameCalc2='Q2',   calc2='B2/A2+B1/A1',
+        nameCalc3='EXAS', calc3='Q2/2.',
+        nameCalc4='TDIF', calc4='C1/A1-C2/A2')
 
 ###############################################################################
 ### Configure vflipperRaw using defaults
 
-print     repr(poms_default_vflipper_raw('vflipperRaw'))
+#print     repr(poms_default_vflipper_raw('vflipperRaw'))
 #vflipperRaw = poms_default_vflipper_raw('vflipperRaw')
 #print repr(vflipperRaw)
 
 ### Configure vflipperRaw manually
-from poms.PomsVflipperRaw import FlipperRawDeviceClass
+#from poms.PomsVflipperRaw import FlipperRawDeviceClass
 
 #vflipperRaw = FlipperRawDeviceClass('vflipperRaw', nameMagnet='vmag',
 #    nameCounterTimerA='mac116', nameCounterTimerB='mac120',
 #    nameCounterTimerC='mac121', nameCounterTimerD='mac122',
 #    nameCounterTimerE='mac123');
 
-vflipperRaw = FlipperRawDeviceClass('vflipperRaw', nameMagnet='vmag',
-    nameCounterTimerA='macr1',  nameCounterTimerB='macr10',
-    nameCounterTimerC='macr11', nameCounterTimerD='macr31',
-    nameCounterTimerE='macr23'); # 20130618
+#vflipperRaw = FlipperRawDeviceClass('vflipperRaw', nameMagnet='vmag',
+#    nameCounterTimerA='macr1',  nameCounterTimerB='macr10',
+#    nameCounterTimerC='macr11', nameCounterTimerD='macr31',
+#    nameCounterTimerE='macr23'); # 20130618
 
 #######################################+#######################################
 ###                    Polarisation Analyser scannables                     ###
