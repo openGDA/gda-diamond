@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <XasScanParameters>
     <shouldValidate>true</shouldValidate>
-    <scannableName>energy</scannableName>
+    <scannableName>bragg1</scannableName>
     <element>Fe</element>
     <edge>K</edge>
     <initialEnergy>6912.0</initialEnergy>
