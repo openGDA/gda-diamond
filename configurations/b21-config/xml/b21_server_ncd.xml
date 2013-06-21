@@ -83,5 +83,10 @@
 		<property name="hostname" value="b21-biosaxs.diamond.ac.uk"/> 
 		<property name="port" value="9555"/> 
 	</bean> 
+	<bean class="uk.ac.gda.devices.bssc.ispyb.BioSAXSDBFactory">
+	       <property name="jdbcURL" value="jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb" />
+	       <!-- // protected String testURL = "jdbc:oracle:thin:@sci-serv2.diamond.ac.uk:1521:xe"; -->
+               <!-- // protected String liveURL = "jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb"; -->
+        </bean>
 	<import resource="b21_biosaxscam.xml"/>
 </beans>
