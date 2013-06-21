@@ -97,6 +97,7 @@ public class ShutterChecker extends ScannableBase {
 				shutter.moveTo(ValveBase.RESET);
 				shutter.moveTo(ValveBase.OPEN);
 				Thread.sleep(100);
+				position = (String) shutter.getPosition();
 				if (!position.equals(ValveBase.OPEN)) {
 					throw new DeviceException(
 							getName()
