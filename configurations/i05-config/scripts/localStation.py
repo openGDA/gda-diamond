@@ -28,6 +28,26 @@ print "Creating beamline specific devices...";
 # d10d1=DisplayEpicsPVClass('d10d1', 'BL22I-DI-PHDGN-10:DIODE1:I', '', '%5.5g')
 # d10d2=DisplayEpicsPVClass('d10d2', 'BL22I-DI-PHDGN-10:DIODE2:I', '', '%5.5g')
 
+s2xplus=DisplayEpicsPVClass('s2xplus', 'BL05I-AL-SLITS-02:X:PLUS:I', '', '%5.5g')
+s2xminus=DisplayEpicsPVClass('s2xminus', 'BL05I-AL-SLITS-02:X:MINUS:I', '', '%5.5g')
+s2yplus=DisplayEpicsPVClass('s2yplus', 'BL05I-AL-SLITS-02:Y:PLUS:I', '', '%5.5g')
+s2yminus=DisplayEpicsPVClass('s2yminus', 'BL05I-AL-SLITS-02:Y:MINUS:I', '', '%5.5g')
+
+s3xplus=DisplayEpicsPVClass('s3xplus', 'BL05I-AL-SLITS-03:X:PLUS:I', '', '%5.5g')
+s3xminus=DisplayEpicsPVClass('s3xminus', 'BL05I-AL-SLITS-03:X:MINUS:I', '', '%5.5g')
+s3yplus=DisplayEpicsPVClass('s3yplus', 'BL05I-AL-SLITS-03:Y:PLUS:I', '', '%5.5g')
+s3yminus=DisplayEpicsPVClass('s3yminus', 'BL05I-AL-SLITS-03:Y:MINUS:I', '', '%5.5g')
+
+s5xplus=DisplayEpicsPVClass('s5xplus', 'BL05I-AL-SLITS-05:X:PLUS:I', '', '%5.5g')
+s5xminus=DisplayEpicsPVClass('s5xminus', 'BL05I-AL-SLITS-05:X:MINUS:I', '', '%5.5g')
+s5yplus=DisplayEpicsPVClass('s5yplus', 'BL05I-AL-SLITS-05:Y:PLUS:I', '', '%5.5g')
+s5yminus=DisplayEpicsPVClass('s5yminus', 'BL05I-AL-SLITS-05:Y:MINUS:I', '', '%5.5g')
+
+d3current=DisplayEpicsPVClass('d3current', 'BL05I-DI-PHDGN-03:DET:I', '', '%5.5g')
+d7current=DisplayEpicsPVClass('d7current', 'BL05I-DI-PHDGN-07:DET:I', '', '%5.5g')
+d9current=DisplayEpicsPVClass('d9current', 'BL05I-DI-PHDGN-08:DET:I', '', '%5.5g')
+dj7current=DisplayEpicsPVClass('dj7current', 'BL05J-DI-PHDGN-02:DET:I', '', '%5.5g')
+
 # i0xplus=DisplayEpicsPVClass("i0xplus","BL22I-DI-IAMP-06:PHD1:I_C","ua","%.3e")
 # i0xminus=DisplayEpicsPVClass("i0xplus","BL22I-DI-IAMP-06:PHD2:I_C","ua","%.3e")
 # i0yplus=DisplayEpicsPVClass("i0xplus","BL22I-DI-IAMP-06:PHD3:I_C","ua","%.3e")
