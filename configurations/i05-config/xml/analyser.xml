@@ -136,7 +136,7 @@
 	</bean>
 	
 	<bean id="AnalyserCapabilities" class="uk.ac.gda.beamline.i05.analyser.I05AnalyserCapabilties"	/>
-	
+	<!-- 
 	<bean id="AnalyserSumLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Detector Sum Plot" />
@@ -152,4 +152,5 @@
 		<property name="plotName" value="Swept Plot" />
 		<property name="arrayPV" value="BL05I-EA-DET-01:CAM:IMAGE" />
 	</bean>
+	-->
 </beans>
