@@ -25,7 +25,8 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.diamond.jython;bundle-version="[2.5.3,3.0.0)",
  org.dawnsci.plotting.jreality;bundle-version="1.0.0",
  uk.ac.gda.edxd.common;bundle-version="1.0.0",
- uk.ac.gda.edxd.calibration;bundle-version="1.0.0"
+ uk.ac.gda.edxd.calibration;bundle-version="1.0.0",
+ uk.ac.diamond.scisoft.analysis.plotserver;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Eclipse-RegisterBuddy: uk.ac.gda.core
