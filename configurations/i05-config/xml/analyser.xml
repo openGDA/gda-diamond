@@ -137,17 +137,19 @@
 	
 	<bean id="AnalyserCapabilities" class="uk.ac.gda.beamline.i05.analyser.I05AnalyserCapabilties"	/>
 	
-	<bean id="AnalyserSumLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
-		<property name="analyser" ref="analyser" />
-		<property name="plotName" value="Detector Sum Plot" />
-		<property name="arrayPV" value="BL05I-EA-DET-01:ARR2:ArrayData" />
-		<property name="frameNumberPV" value="BL05I-EA-DET-01:ARR2:UniqueId_RBV" />
-	</bean>
+<!-- 
+-->
 	<bean id="AnalyserLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Detector Plot" />
 		<property name="arrayPV" value="BL05I-EA-DET-01:ARR1:ArrayData" />
 		<property name="frameNumberPV" value="BL05I-EA-DET-01:ARR1:UniqueId_RBV" />
+	</bean>
+	<bean id="AnalyserSumLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
+		<property name="analyser" ref="analyser" />
+		<property name="plotName" value="Detector Sum Plot" />
+		<property name="arrayPV" value="BL05I-EA-DET-01:ARR2:ArrayData" />
+		<property name="frameNumberPV" value="BL05I-EA-DET-01:ARR2:UniqueId_RBV" />
 	</bean>
 	<bean id="AnalyserSweptLive" class="uk.ac.gda.devices.vgscienta.AnalyserSweptLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
