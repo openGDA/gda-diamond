@@ -84,7 +84,7 @@ except:
 
 gridxy=ScannableGroup()
 gridxy.setName("gridxy")
-gridxy.setGroupMembers([mfstage_x, mfstage_y])
+gridxy.setGroupMembers([pimf_x, pimf_y])
 gridxy.configure()
 ncdgridscan=gridscan.Grid("Camera View", "Mapping Grid", mfgige, gridxy, ncddetectors)
 ncdgridscan.snap()

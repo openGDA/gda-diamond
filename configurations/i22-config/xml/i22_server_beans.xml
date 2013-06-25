@@ -44,6 +44,10 @@
                 </property>
         </bean>
 
+	<bean id="twodscan" class="uk.ac.gda.server.ncd.scan.TwoDPlotListener">
+		<property name="plotPanel" value="Plot 2D" />
+	</bean>
+	
 	<bean id="sockpuppet" class="gda.data.fileregistrar.ClientFileAnnouncer" />
 	
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
@@ -59,6 +63,7 @@
 				<ref bean="FileRegistrar" />
 				<ref bean="scan2elog" />
 				<ref bean="scan2terminal" />
+				<ref bean="twodscan" />
 			</list>
 		</property>
 	</bean>

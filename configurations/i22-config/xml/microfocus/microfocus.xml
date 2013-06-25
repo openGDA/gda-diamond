@@ -11,6 +11,7 @@
         <import resource="mfbs.xml" />
         <import resource="detstage.xml" />
         <import resource="alio.xml" />
+        <import resource="pimf.xml" />
 <!--
         <bean id="diagnostics" class="gda.device.scannable.scannablegroup.ScannableGroup">
                 <property name="groupMembers">
