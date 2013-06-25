@@ -24,7 +24,8 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.client.exafs;bundle-version="1.0.0",
  org.dawb.common.ui;bundle-version="1.2.0",
  uk.ac.gda.server.exafs.epics;bundle-version="1.0.0",
- org.dawnsci.plotting.jreality;bundle-version="1.0.0"
+ org.dawnsci.plotting.jreality;bundle-version="1.0.0",
+ uk.ac.diamond.scisoft.analysis.plotserver;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: gda.device.detector.mythen,
