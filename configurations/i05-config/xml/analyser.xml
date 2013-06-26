@@ -151,7 +151,7 @@
 		<property name="arrayPV" value="BL05I-EA-DET-01:ARR2:ArrayData" />
 		<property name="frameNumberPV" value="BL05I-EA-DET-01:ARR2:UniqueId_RBV" />
 	</bean>
-	<bean id="AnalyserSweptLive" class="uk.ac.gda.devices.vgscienta.AnalyserSweptLiveDataDispatcher">
+	<bean id="AnalyserSweptLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Swept Plot" />
 		<property name="arrayPV" value="BL05I-EA-DET-01:CAM:IMAGE" />
