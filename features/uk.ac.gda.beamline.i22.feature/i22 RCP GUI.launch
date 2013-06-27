@@ -27,7 +27,7 @@
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -nosplash -consolelog"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.config=${project_loc:i22-config}&#10;-Dgda.propertiesFile=${project_loc:i22-config}/properties/java.properties&#10;-Djacorb.config.dir=${project_loc:i22-config}/properties&#10;-Dgov.aps.jca.JCALibrary.properties=${project_loc:i22-config}/properties/JCALibrary.properties&#10;-Xms256m &#10;-Xmx1800m&#10;-XX:MaxPermSize=786m"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.config=${project_loc:i22-config}&#10;-Dgda.propertiesFile=${project_loc:i22-config}/properties/java.properties&#10;-Djacorb.config.dir=${project_loc:i22-config}/properties&#10;-Dgov.aps.jca.JCALibrary.properties=${project_loc:i22-config}/properties/JCALibrary.properties&#10;-Declipse.pluginCustomization=${project_loc:i22-config}/client/pluginCustomization.ini&#10;-Xms256m &#10;-Xmx1800m&#10;-XX:MaxPermSize=786m"/>
 <stringAttribute key="pde.version" value="3.3"/>
 <stringAttribute key="product" value="uk.ac.gda.beamline.i22.product"/>
 <stringAttribute key="productFile" value="\uk.ac.gda.beamline.i22-feature\uk.ac.gda.beamline.i22.product"/>
