@@ -1,4 +1,4 @@
-export JREBEL_OPTS="-javaagent:/home/tjs15132/.eclipse/org.eclipse.platform_3.7.0_1758677711/plugins/org.zeroturnaround.eclipse.embedder_5.2.2.RELEASE-B-201304121109/jrebel/jrebel.jar -Drebel.log=false"
+export JREBEL_OPTS="-javaagent:/dls_sw/dasc/jrebel/5.2/jrebel.jar -Drebel.properties=/dls_sw/dasc/jrebel/5.2/jrebel.properties"
 export JAVA_OPTS="$JREBEL_OPTS -Xms128m -Xmx2024m -XX:MaxPermSize=128m"
 echo $@
 echo python2.6  $1/bin/gda  --config=$2 --smart --trace servers -v --mode=$3 $4 $5
