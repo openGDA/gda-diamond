@@ -56,7 +56,6 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.SDAPlotter;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
@@ -504,20 +503,6 @@ public class XHControlComposite extends Composite implements IObserver {
 							for (int i = 3; i < results.length; i++) {
 								regionValues[i - 3] = ArrayUtils.add(regionValues[i - 3], results[i]);
 							}
-
-							DoubleDataset allValuesDataSet = new DoubleDataset(allValues);
-							DoubleDataset[] regionsValuesDataSet = new DoubleDataset[numberSectors];
-							for (int i = 0; i < numberSectors; i++) {
-								regionsValuesDataSet[i] = new DoubleDataset(regionValues[i]);
-							}
-
-							IDataset[] datasets = new IDataset[numberSectors + 1];
-							datasets[0] = allValuesDataSet;
-							for (int i = 0; i < numberSectors; i++) {
-								datasets[i + 1] = regionsValuesDataSet[i];
-							}
-
-							SDAPlotter.plot(AlignmentPerspective.LINEPLOTNAME, (IDataset) null, datasets);
 
 							waitForRefreshPeriod(snapshotTime);
 						}
