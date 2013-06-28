@@ -18,19 +18,21 @@
 
 package gda.device.detector;
 
+import gda.configuration.properties.LocalProperties;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.factory.FactoryException;
 import gda.scan.ScanDataPoint;
-import gda.util.persistence.LocalParameters;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
-import org.apache.commons.configuration.FileConfiguration;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.ArrayUtils;
 import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
@@ -867,14 +869,26 @@ public class XHDetector extends DetectorBase implements StripDetector {
 			}
 		}
 	}
+	
+	private String getStoreFileName() {
+		String propertiesFileName = LocalProperties.getVarDir() + getName() + STORENAME;
+		return propertiesFileName;
+	}
+
 
 	private void saveROIsToXML() {
 		try {
-			FileConfiguration store = LocalParameters.getXMLConfiguration(STORENAME);
-			store.clear();
-			store.save();
-			store = LocalParameters.getXMLConfiguration(STORENAME);
-	
+			String propertiesFileName = getStoreFileName();
+			File test = new File(propertiesFileName);
+			if (!test.exists()){
+				try {
+					test.createNewFile();
+				} catch (IOException e) {
+					throw e;
+				}
+			}
+			
+			PropertiesConfiguration store = new PropertiesConfiguration(propertiesFileName);	
 			for (XHROI roi : getRois()) {
 				store.setProperty(roi.getName() + "_lowerlevel", roi.getLowerLevel());
 				store.setProperty(roi.getName() + "_upperlevel", roi.getUpperLevel());
@@ -889,7 +903,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 
 		HashMap<String, XHROI> tempROIs = new LinkedHashMap<String, XHROI>();
 		try {
-			FileConfiguration store = LocalParameters.getXMLConfiguration(STORENAME, false);
+			PropertiesConfiguration store = new PropertiesConfiguration(getStoreFileName());
 			@SuppressWarnings("unchecked")
 			Iterator<String> i = store.getKeys();
 			while (i.hasNext()) {
