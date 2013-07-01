@@ -290,18 +290,6 @@ if polarimeter_installed:
     except:
         localStation_exception(sys.exc_info(), "initialising polarimeter")
 
-colby_pdl_installed = True
-
-if colby_pdl_installed:
-    try:
-        from other_devices.colby_delay_line import DelayLineClass
-        
-        delay=DelayLineClass('delay', 'BL10I-EA-USER-01:SER2.AOUT',
-            'BL10I-EA-USER-01:SER2.TINP', "BL10I-EA-USER-01:SER2.IEOS",
-            '%', '%.15f', 'Colby PDL-100A Programmable Delay Line')
-    except:
-        localStation_exception(sys.exc_info(), "initialising colby programmable delay line")
-
 try:
     from future.singleEpicsPositionerNoStatusClassDeadbandOrStop import SingleEpicsPositionerNoStatusClassDeadbandOrStop
 
