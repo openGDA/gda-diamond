@@ -8,11 +8,11 @@
 
 # Add options to this script as additional options for Eclipse
 
-export ECLIPSEOPTIONS=$*
+export ECLIPSE_OPTIONS=$*
 
 # Add beamline specific options for Eclipse
 
-#ECLIPSEOPTIONS=$ECLIPSEOPTIONS' -consoleLog'
+#ECLIPSE_OPTIONS=$ECLIPSE_OPTIONS' -consoleLog'
 
 # Do not set a non-standard eclipse keyring location (see the Developer's
 # Reference Card) in the beamline bleclipse, instead add an export to your
