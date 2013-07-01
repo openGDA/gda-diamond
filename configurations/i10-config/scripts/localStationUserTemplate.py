@@ -82,6 +82,20 @@ print      repr(poms_default_vflipper_calc('vflipperCalc'))
 ### Configure vflipperCalc manually
 from poms.PomsVflipperCalc import FlipperCalcDeviceClass
 
+#vflipperCalc = FlipperCalcDeviceClass('vflipperCalc', nameMagnet='vmag',
+#        nameCounterTimerA='macr19',
+#        nameCounterTimerB='macr16', nameCounterTimerC='mac117',
+#        nameCounterTimerD='macj118', nameCounterTimerE='mac11',
+#        nameCalc1='EDIF', calc1='B2/A2-B1/A1',
+#        nameCalc2='X2',   calc2='B2/A2+B1/A1',
+#        nameCalc3='EXAS', calc3='X2/2.0',
+#        nameCalc4='TDIF', calc4='C1/A1-C2/A2',
+#        nameCalc5='X5',   calc5='C1/A1+C2/A2',
+#        nameCalc6='TXAS', calc6='X5/2.0')
+#Note: For some reason the expression evaluation doesn't work with parentheses
+#      at the moment, so you will have to rely on operator precedence and use
+#      of output values as intermediate values as in the example above
+
 vflipperCalc = FlipperCalcDeviceClass('vflipperCalc', nameMagnet='vmag',
         nameCounterTimerA='macr19',
         nameCounterTimerB='macr16', nameCounterTimerC='mac117',
@@ -92,9 +106,6 @@ vflipperCalc = FlipperCalcDeviceClass('vflipperCalc', nameMagnet='vmag',
         nameCalc4='TDIF', calc4='C1/A1-C2/A2',
         nameCalc5='X5',   calc5='C1/A1+C2/A2',
         nameCalc6='TXAS', calc6='X5/2.0')
-#Note: For some reason the expression evaluation doesn't work with parentheses
-#      at the moment, so you will have to rely on operator precedence and use
-#      of output values as intermediate values as in the example above
 
 ###############################################################################
 ### Configure vflipperRaw using defaults
@@ -115,6 +126,29 @@ vflipperCalc = FlipperCalcDeviceClass('vflipperCalc', nameMagnet='vmag',
 #    nameCounterTimerA='macr1',  nameCounterTimerB='macr10',
 #    nameCounterTimerC='macr11', nameCounterTimerD='macr31',
 #    nameCounterTimerE='macr23'); # 20130618
+
+#######################################+#######################################
+###                      Colby Delay Line scannables                        ###
+###############################################################################
+#                                                                             #
+### Comment out this scannable if you don't wish to it.                       #
+#                                                                             #
+###############################################################################
+
+from other_devices.colby_delay_line import DelayLineClass
+
+# Delay line on SER2
+#delay=DelayLineClass('delay', 'BL10I-EA-USER-01:SER2.AOUT',
+#    'BL10I-EA-USER-01:SER2.TINP', "BL10I-EA-USER-01:SER2.IEOS",
+#    '%', '%.15f', 'Colby PDL-100A Programmable Delay Line')
+
+# Delay line on SER3
+delay=DelayLineClass('delay', 'BL10I-EA-USER-01:SER3.AOUT',
+    'BL10I-EA-USER-01:SER3.TINP', 'BL10I-EA-USER-01:SER3.IEOS',
+    '%', '%.15f', 'Colby PDL-100A Programmable Delay Line')
+
+print 'On BLADE Synoptic, select UI1, then Serial Ch 3, then make'
+print "sure that both input and output terminators are \\r\\n"
 
 #######################################+#######################################
 ###                    Polarisation Analyser scannables                     ###
