@@ -3,6 +3,39 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
+<!-- 	T3 Third stage -->
+	<bean id="stage3_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="stage3_z_motor" />
+	</bean>
+	
+	
+<!-- 	T2 Sample stage -->
+	<bean id="sample_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sample_z_motor" />
+	</bean>
+<!-- 	T4 sample environment table -->
+	<bean id="sample_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="samenv_x_motor" />
+	</bean>
+	<bean id="sample_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="samenv_y_motor" />
+	</bean>
+	<bean id="sample_finex" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="samenv_topx_motor" />
+	</bean>
+	<bean id="sample_finey" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="samenv_topy_motor" />
+	</bean>
+	<bean id="sample_finez" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="samenv_topz_motor" />
+	</bean>
+	<bean id="sample_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="samenv_pitch_motor" />
+	</bean>
+	<bean id="sample_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="samenv_roll_motor" />
+	</bean>
+	
 <!-- 	Detector stage -->
 	<bean id="detector_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="detector_x_motor" />
@@ -10,47 +43,11 @@
 	<bean id="detector_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="detector_y_motor" />
 	</bean>
-
 <!-- 	T1 Detector stage -->
 	<bean id="detector_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="detector_z_motor" />
 	</bean>
-	
-<!-- 	T2 Sample stage -->
-	<bean id="sample_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_x_motor" />
-	</bean>
-	<bean id="sample_z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_z_motor" />
-	</bean>
-	
-<!-- 	T3 Third stage -->
-	<bean id="stage3_z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="stage3_z_motor" />
-	</bean>
 
-<!-- 	T4 sample environment table -->
-	<bean id="samenv_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="samenv_x_motor" />
-	</bean>
-	<bean id="samenv_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="samenv_y_motor" />
-	</bean>
-	<bean id="samenv_topx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="samenv_topx_motor" />
-	</bean>
-	<bean id="samenv_topy" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="samenv_topy_motor" />
-	</bean>
-	<bean id="samenv_topz" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="samenv_topz_motor" />
-	</bean>
-	<bean id="samenv_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="samenv_pitch_motor" />
-	</bean>
-	<bean id="samenv_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="samenv_roll_motor" />
-	</bean>
 
 <!-- 	two theta arm -->
 	<bean id="twotheta" class="gda.device.scannable.ScannableMotor">
