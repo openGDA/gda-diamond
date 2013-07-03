@@ -960,7 +960,6 @@ public class XHDetector extends DetectorBase implements StripDetector {
 		}
 		
 		// TODO test with hardware
-		// TODO add to dummydaserver the correct response from da.server
 		Double currentValue = getBias();
 		if (currentValue == 0.0) {
 			daServer.sendCommand("xstrip hv init");
@@ -972,13 +971,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 
 	@Override
 	public Double getBias() throws DeviceException {
-		// TODO test against hardware
-		String result = (String) daServer.sendCommand("xstrip hv summary " + detectorName);
-		// TODO parse the result string at this point
-		if (!result.isEmpty()) {
-			return (Double) daServer.sendCommand("xstrip hv get-adc hv " + detectorName);
-		}
-		return 0.0;
+		return (Double) daServer.sendCommand("xstrip hv get-adc hv " + detectorName);
 	}
 
 	@Override
