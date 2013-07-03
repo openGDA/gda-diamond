@@ -10,8 +10,16 @@
 	</bean>
 
 	<bean id="pe_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<!-- Should we use a <property name="pvProvider" ref="..._" /> instead of a basePVName? -->
 		<property name="basePVName" value="BL15I-EA-DET-01:TIF:" />
 		<property name="resetToInitialValues" value="false" />
+		<!-- Is a <property name="pluginBase" ref="..." /> required here too? -->
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
+				<property name="unixSubString" value="/dls/i15/data" />
+				<property name="windowsSubString" value="z:\data" />
+			</bean>
+		</property>
 	</bean>
 
 
