@@ -39,10 +39,10 @@ public class I05EntranceSlit implements EntranceSlitInformationProvider, Configu
 	// BL05I-EA-SLITS-01:POS
 	private String labelPV = "BL05I-EA-SLITS-01";
 	private EpicsController epicsController;
-	private Number rawValue;
-	private Double size;
-	private String shape;
-	private String label;
+	private Number rawValue = new Integer(0);
+	private Double size = 0.0;
+	private String shape = "unknown";
+	private String label= "unknown";
 	private Vector<String> positions = new Vector<String>(12);
 	
 	@Override
