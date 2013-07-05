@@ -29,8 +29,15 @@ import java.text.ParseException;
 import java.util.Iterator;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
@@ -43,14 +50,22 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.AlignmentParametersBean;
+import uk.ac.gda.exafs.data.ScannableSetup.CrystalCut;
+import uk.ac.gda.exafs.data.ScannableSetup.DetectorSetup;
+import uk.ac.gda.exafs.data.ScannableSetup.Units;
 import uk.ac.gda.richbeans.components.FieldComposite.NOTIFY_TYPE;
 import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
 import uk.ac.gda.richbeans.components.wrappers.LabelWrapper;
@@ -64,15 +79,14 @@ import uk.ac.gda.ui.viewer.RotationViewer;
 /**
  * Has controls for operating the lookuptable matching optics positions to energy
  */
-public class BeamlineAlignmentView extends ViewPart {
+public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySheetPageContributor {
 
 	private static Logger logger = LoggerFactory.getLogger(BeamlineAlignmentView.class);
 
 	public static final String OUTPUT_BEAN_NAME = "beamlinealignmentresults";
 	public static final String INPUT_BEAN_NAME = "beamlinealignmentparameters";
 	public static String ID = "uk.ac.gda.exafs.ui.views.beamlinealignmentview";
-	private Combo cmbCrystalCut;
-	private Combo cmbDetectorType;
+	private ComboViewer cmbCrystalCut;
 	private LabelWrapper txtWigglerTarget;
 	private Button btnWigglerMove;
 	private LabelWrapper txtSlitTarget;
@@ -91,9 +105,9 @@ public class BeamlineAlignmentView extends ViewPart {
 	private GridData comboGD;
 	private GridData textGD;
 	private GridData readbackGD;
-	private Combo element;
-	private Combo edge;
-	private ScaleBox edgeEnergy_Label;
+	private Combo cmbElement;
+	private Combo cmdElementEdge;
+	private ScaleBox scaleBoxEnergyRange;
 	private Combo cmbCrystalType;
 	private Combo cmbCrystalQ;
 	private LabelWrapper txtPolyThetaTarget;
@@ -117,7 +131,12 @@ public class BeamlineAlignmentView extends ViewPart {
 	private LabelWrapper txtDetHeightTarget;
 	private Button btnDetHeightMove;
 	private Scannable twoThetaScannable;
+	private Button btnRefresh;
 
+	private Shell parentShell;
+
+	private static final String moveCmdTxt = "Move";
+	private static final int COMMAND_WAIT_TIME = 500;
 
 	@Override
 	public void createPartControl(final Composite parent) {
@@ -152,14 +171,15 @@ public class BeamlineAlignmentView extends ViewPart {
 	}
 
 	private void createGridDataObjects() {
+		final int width = 120;
 		comboGD = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		comboGD.widthHint = 120;
+		comboGD.widthHint = width;
 
 		textGD = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		textGD.widthHint = 120;
+		textGD.widthHint = width;
 
 		readbackGD = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		readbackGD.widthHint = 120;
+		readbackGD.widthHint = width;
 	}
 
 	private GridData createLabelGridData() {
@@ -186,33 +206,30 @@ public class BeamlineAlignmentView extends ViewPart {
 		lbl.setLayoutData(createLabelGridData());
 		txtDetDistTarget = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtDetDistTarget.setLayoutData(textGD);
-		txtDetDistTarget.setUnit("mm");
+		txtDetDistTarget.setUnit(Units.MILLI_METER.getText());
 		btnDetDistMove = new Button(motorGroup, SWT.NONE);
-		btnDetDistMove.setText("Move");
+		btnDetDistMove.setText(moveCmdTxt);
 		linkButtonToScannable(btnDetDistMove,"detector_z",txtDetDistTarget);
 		createMotorPositionViewer(motorGroup,"detector_z");
-
-
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Sample Height");
 		lbl.setLayoutData(createLabelGridData());
 		txtSampleHeight = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtSampleHeight.setLayoutData(textGD);
-		txtSampleHeight.setUnit("mm");
+		txtSampleHeight.setUnit(Units.MILLI_METER.getText());
 		btnSampleHeightMove = new Button(motorGroup, SWT.NONE);
-		btnSampleHeightMove.setText("Move");
+		btnSampleHeightMove.setText(moveCmdTxt);
 		createMotorPositionViewer(motorGroup,"sample_x");
-		
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Detector Height");
 		lbl.setLayoutData(createLabelGridData());
 		txtDetHeightTarget = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtDetHeightTarget.setLayoutData(textGD);
-		txtDetHeightTarget.setUnit("mm");
+		txtDetHeightTarget.setUnit(Units.MILLI_METER.getText());
 		btnDetHeightMove = new Button(motorGroup, SWT.NONE);
-		btnDetHeightMove.setText("Move");
+		btnDetHeightMove.setText(moveCmdTxt);
 		linkButtonToScannable(btnDetHeightMove,"detector_y",txtDetHeightTarget);
 		createMotorPositionViewer(motorGroup,"detector_y");
 	}
@@ -237,24 +254,25 @@ public class BeamlineAlignmentView extends ViewPart {
 		lbl.setLayoutData(createLabelGridData());
 		txtWigglerTarget = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtWigglerTarget.setLayoutData(textGD);
-		txtWigglerTarget.setUnit("mm");
+		txtWigglerTarget.setUnit(Units.MILLI_METER.getText());
 		btnWigglerMove = new Button(motorGroup, SWT.NONE);
-		btnWigglerMove.setText("Move");
+
+		btnWigglerMove.setText(moveCmdTxt);
 		linkButtonToScannable(btnWigglerMove, "wigglerGap", txtWigglerTarget);
 		createMotorPositionViewer(motorGroup,"wigglerGap");
-		
+
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Primary Slit HGap");
 		lbl.setLayoutData(createLabelGridData());
 		txtSlitTarget = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtSlitTarget.setLayoutData(textGD);
-		txtSlitTarget.setUnit("mrad");
+		txtSlitTarget.setUnit(Units.MILLI_RADIAN.getText());
 		btnSlitMove = new Button(motorGroup, SWT.NONE);
-		btnSlitMove.setText("Move");
+		btnSlitMove.setText(moveCmdTxt);
 		linkButtonToScannable(btnSlitMove, "s1_hgap", txtSlitTarget);
 		createMotorPositionViewer(motorGroup,"s1_hgap");
-		
+
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Attenuator 1");
 		lbl.setLayoutData(createLabelGridData());
@@ -262,7 +280,7 @@ public class BeamlineAlignmentView extends ViewPart {
 		cmbAtn1Target.setLayoutData(comboGD);
 		cmbAtn1Target.setTextType(TEXT_TYPE.PLAIN_TEXT);
 		btnAtn1Move = new Button(motorGroup, SWT.NONE);
-		btnAtn1Move.setText("Move");
+		btnAtn1Move.setText(moveCmdTxt);
 		linkButtonToScannable(btnAtn1Move, "atn1", cmbAtn1Target);
 		createEnumPositionerViewer(motorGroup,"atn1");
 
@@ -273,7 +291,7 @@ public class BeamlineAlignmentView extends ViewPart {
 		cmbAtn2Target.setLayoutData(comboGD);
 		cmbAtn2Target.setTextType(TEXT_TYPE.PLAIN_TEXT);
 		btnAtn2Move = new Button(motorGroup, SWT.NONE);
-		btnAtn2Move.setText("Move");
+		btnAtn2Move.setText(moveCmdTxt);
 		linkButtonToScannable(btnAtn2Move, "atn2", cmbAtn2Target);
 		createEnumPositionerViewer(motorGroup,"atn2");
 
@@ -284,7 +302,7 @@ public class BeamlineAlignmentView extends ViewPart {
 		cmbAtn3Target.setLayoutData(comboGD);
 		cmbAtn3Target.setTextType(TEXT_TYPE.PLAIN_TEXT);
 		btnAtn3Move = new Button(motorGroup, SWT.NONE);
-		btnAtn3Move.setText("Move");
+		btnAtn3Move.setText(moveCmdTxt);
 		linkButtonToScannable(btnAtn3Move, "atn3", cmbAtn3Target);
 		createEnumPositionerViewer(motorGroup,"atn3");
 
@@ -295,7 +313,7 @@ public class BeamlineAlignmentView extends ViewPart {
 		cmbME1StripeTarget.setLayoutData(comboGD);
 		cmbME1StripeTarget.setTextType(TEXT_TYPE.PLAIN_TEXT);
 		btnME1StripeMove = new Button(motorGroup, SWT.NONE);
-		btnME1StripeMove.setText("Move");
+		btnME1StripeMove.setText(moveCmdTxt);
 		linkButtonToScannable(btnAtn1Move, "me1_stripe", cmbME1StripeTarget);
 		createEnumPositionerViewer(motorGroup,"me1_stripe");
 
@@ -306,7 +324,7 @@ public class BeamlineAlignmentView extends ViewPart {
 		cmbME2StripeTarget.setLayoutData(comboGD);
 		cmbME2StripeTarget.setTextType(TEXT_TYPE.PLAIN_TEXT);
 		btnME2StripeMove = new Button(motorGroup, SWT.NONE);
-		btnME2StripeMove.setText("Move");
+		btnME2StripeMove.setText(moveCmdTxt);
 		linkButtonToScannable(btnME2StripeMove, "me2_stripe", cmbME2StripeTarget);
 		createEnumPositionerViewer(motorGroup,"me2_stripe");
 
@@ -315,9 +333,9 @@ public class BeamlineAlignmentView extends ViewPart {
 		lbl.setLayoutData(createLabelGridData());
 		txtME2PitchTarget = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtME2PitchTarget.setLayoutData(textGD);
-		txtME2PitchTarget.setUnit("mrad");
+		txtME2PitchTarget.setUnit(Units.MILLI_RADIAN.getText());
 		btnME2PitchMove = new Button(motorGroup, SWT.NONE);
-		btnME2PitchMove.setText("Move");
+		btnME2PitchMove.setText(moveCmdTxt);
 		linkButtonToScannable(btnME2PitchMove, "me2pitch", txtME2PitchTarget);
 		createMotorPositionViewer(motorGroup,"me2pitch");
 
@@ -326,9 +344,9 @@ public class BeamlineAlignmentView extends ViewPart {
 		lbl.setLayoutData(createLabelGridData());
 		txtPolyBendTarget = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtPolyBendTarget.setLayoutData(textGD);
-		txtPolyBendTarget.setUnit("mm");
+		txtPolyBendTarget.setUnit(Units.MILLI_METER.getText());
 		btnPolyBendMove = new Button(motorGroup, SWT.NONE);
-		btnPolyBendMove.setText("Move");
+		btnPolyBendMove.setText(moveCmdTxt);
 		linkButtonToScannable(btnPolyBendMove, "polybend1", txtPolyBendTarget);
 		createRotationViewer(motorGroup,"polybend1");
 
@@ -337,9 +355,9 @@ public class BeamlineAlignmentView extends ViewPart {
 		lbl.setLayoutData(createLabelGridData());
 		txtPolyBendTarget2 = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtPolyBendTarget2.setLayoutData(textGD);
-		txtPolyBendTarget2.setUnit("mm");
+		txtPolyBendTarget2.setUnit(Units.MILLI_METER.getText());
 		btnPolyBendMove2 = new Button(motorGroup, SWT.NONE);
-		btnPolyBendMove2.setText("Move");
+		btnPolyBendMove2.setText(moveCmdTxt);
 		linkButtonToScannable(btnPolyBendMove2, "polybend2", txtPolyBendTarget2);
 		createRotationViewer(motorGroup,"polybend2");
 
@@ -348,9 +366,9 @@ public class BeamlineAlignmentView extends ViewPart {
 		lbl.setLayoutData(createLabelGridData());
 		txtPolyThetaTarget = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtPolyThetaTarget.setLayoutData(textGD);
-		txtPolyThetaTarget.setUnit("deg");
+		txtPolyThetaTarget.setUnit(Units.DEGREE.getText());
 		btnPolyThetaMove = new Button(motorGroup, SWT.NONE);
-		btnPolyThetaMove.setText("Move");
+		btnPolyThetaMove.setText(moveCmdTxt);
 		linkButtonToScannable(btnPolyThetaMove, "polytheta", txtPolyThetaTarget);
 		btnPolyThetaMove.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -360,26 +378,24 @@ public class BeamlineAlignmentView extends ViewPart {
 		});
 		lblPolyThetaReadback = createRotationViewer(motorGroup,"polytheta");
 		lblPolyThetaReadback.addValueListener(new ValueAdapter("polytheta") {
-			
+
 			@Override
 			public void valueChangePerformed(ValueEvent e) {
 				moveTwoThetaWithPolyBragg(e);
 			}
 		});
-		
 
 		lbl = new Label(motorGroup, SWT.NONE);
 		lbl.setText("Two Theta");
 		lbl.setLayoutData(createLabelGridData());
 		txtThetaTarget = new LabelWrapper(motorGroup, SWT.CENTER);
 		txtThetaTarget.setLayoutData(textGD);
-		txtThetaTarget.setUnit("deg");
+		txtThetaTarget.setUnit(Units.DEGREE.getText());
 		btnThetaMove = new Button(motorGroup, SWT.NONE);
-		btnThetaMove.setText("Move");
+		btnThetaMove.setText(moveCmdTxt);
 		linkButtonToScannable(btnThetaMove, "twotheta", txtThetaTarget);
 		lblThetaReadback = createRotationViewer(motorGroup,"twotheta");
-		
-		
+
 		btnSynchroniseThetas = new Button(motorGroup, SWT.CHECK);
 		btnSynchroniseThetas.setText("Match TwoTheta arm to Poly Bragg value");
 		GridDataFactory.swtDefaults().span(4, 1).applyTo(btnSynchroniseThetas);
@@ -393,7 +409,6 @@ public class BeamlineAlignmentView extends ViewPart {
 				lblThetaReadback.setEnabled(!selected);
 			}
 		});
-		
 
 		Group grpPowerEst = new Group(motorGroup, SWT.NONE);
 		GridDataFactory.swtDefaults().span(2, 2).applyTo(grpPowerEst);
@@ -406,7 +421,9 @@ public class BeamlineAlignmentView extends ViewPart {
 		lbl.setLayoutData(createLabelGridData());
 
 		lblPolyPower = new Label(grpPowerEst, SWT.NONE);
-		lblPolyPower.setText("180W");
+
+		// TODO Why Hard coded 180 here, should this live in data model?
+		lblPolyPower.setText(Units.WATT.addUnitSuffix("180"));
 		lblPolyPower.setForeground(PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_RED));
 
 		grpPowerEst.pack(); // pack first
@@ -414,6 +431,7 @@ public class BeamlineAlignmentView extends ViewPart {
 	}
 
 	private void createMainControls(Composite parent) {
+		parentShell = parent.getShell();
 		mainControls = new Composite(parent, SWT.NONE);
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.FILL).applyTo(mainControls);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(mainControls);
@@ -421,51 +439,38 @@ public class BeamlineAlignmentView extends ViewPart {
 		Label lbl = new Label(mainControls, SWT.NONE);
 		lbl.setText("Element");
 		lbl.setLayoutData(createLabelGridData());
-		element = new Combo(mainControls, SWT.READ_ONLY);
-		element.setLayoutData(comboGD);
-		element.setItems(Element.getSortedEdgeSymbols("P", "U"));
-		element.select(0);
+		cmbElement = new Combo(mainControls, SWT.READ_ONLY);
+		cmbElement.setLayoutData(comboGD);
+		cmbElement.setItems(Element.getSortedEdgeSymbols("P", "U"));
+		cmbElement.select(0);
 
-		element.addSelectionListener(new SelectionAdapter() {
+		cmbElement.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				updateEdgesCombo();
+				updateElementEdgeSelection();
 			}
-
 		});
 
 		lbl = new Label(mainControls, SWT.NONE);
 		lbl.setText("Edge");
 		lbl.setLayoutData(createLabelGridData());
-		edge = new Combo(mainControls, SWT.READ_ONLY);
-		edge.setLayoutData(comboGD);
-		edge.addSelectionListener(new SelectionAdapter() {
+		cmdElementEdge = new Combo(mainControls, SWT.READ_ONLY);
+		cmdElementEdge.setLayoutData(comboGD);
+		cmdElementEdge.addSelectionListener(new SelectionAdapter() {
 			@Override
-			public void widgetSelected(SelectionEvent e) {
-				try {
-					String selectedElementString = element.getItem(element.getSelectionIndex());
-					Element selectedElement = Element.getElement(selectedElementString);
-					String selectedEdgeString = edge.getItem(edge.getSelectionIndex());
-					final double edgeEn = selectedElement.getEdgeEnergy(selectedEdgeString);
-					edgeEnergy_Label.setValue(edgeEn);
-				} catch (Exception e1) {
-					// logger.error("Cannot update element.", e1);
-				}
+			public void widgetSelected(SelectionEvent event) {
+				updateEngeryValue();
 			}
 		});
 
 		lbl = new Label(mainControls, SWT.NONE);
 		lbl.setText("Edge energy");
 		lbl.setLayoutData(createLabelGridData());
-		edgeEnergy_Label = new ScaleBox(mainControls, SWT.NONE);
-		edgeEnergy_Label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		edgeEnergy_Label.setUnit("eV");
-		edgeEnergy_Label.setNotifyType(NOTIFY_TYPE.VALUE_CHANGED);
-		edgeEnergy_Label.setValue(9442.3);
-		edgeEnergy_Label.setToolTipText("Will be the centre of the spectrum");
-		edgeEnergy_Label.setMinimum(6000);
-		edgeEnergy_Label.setMaximum(26000);
-		edgeEnergy_Label.on();
+		scaleBoxEnergyRange = new ScaleBox(mainControls, SWT.NONE);
+		scaleBoxEnergyRange.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		scaleBoxEnergyRange.setUnit(Units.EV.getText());
+		scaleBoxEnergyRange.setNotifyType(NOTIFY_TYPE.VALUE_CHANGED);
+		scaleBoxEnergyRange.on();
 
 		lbl = new Label(mainControls, SWT.NONE);
 		lbl.setText("Crystal Type");
@@ -476,36 +481,37 @@ public class BeamlineAlignmentView extends ViewPart {
 		cmbCrystalType.select(0);
 		cmbCrystalType.setEnabled(false);
 		cmbCrystalType.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				updateEdgesCombo();
+				updateElementEdgeSelection();
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
 			}
 		});
 
 		lbl = new Label(mainControls, SWT.NONE);
 		lbl.setText("Crystal Cut");
 		lbl.setLayoutData(createLabelGridData());
-		cmbCrystalCut = new Combo(mainControls, SWT.NONE);
-		cmbCrystalCut.setItems(new String[] { AlignmentParametersBean.CrystalCut[0],
-				AlignmentParametersBean.CrystalCut[1] });
-		cmbCrystalCut.select(0);
-		cmbCrystalCut.addSelectionListener(new SelectionListener() {
-			
+		cmbCrystalCut = new ComboViewer(mainControls, SWT.READ_ONLY);
+		cmbCrystalCut.setContentProvider(ArrayContentProvider.getInstance());
+		cmbCrystalCut.setLabelProvider(new LabelProvider() {
 			@Override
-			public void widgetSelected(SelectionEvent e) {
-				updateEdgesCombo();
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
+			public String getText(Object element) {
+				return ((CrystalCut) element).name();
 			}
 		});
-
+		cmbCrystalCut.setInput(CrystalCut.values());
+		cmbCrystalCut.setSelection(new StructuredSelection(CrystalCut.Si111));
+		cmbCrystalCut.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				updateElementEdgeSelection();
+			}
+		});
 
 		lbl = new Label(mainControls, SWT.NONE);
 		lbl.setText("q");
@@ -515,99 +521,114 @@ public class BeamlineAlignmentView extends ViewPart {
 				AlignmentParametersBean.Q[1].toString(), AlignmentParametersBean.Q[2].toString() });
 		cmbCrystalQ.select(1);
 
-		lbl = new Label(mainControls, SWT.NONE);
-		lbl.setText("Detector Type");
-		lbl.setLayoutData(createLabelGridData());
-		cmbDetectorType = new Combo(mainControls, SWT.NONE);
-		cmbDetectorType.setItems(new String[] { "XSTRIP", "XH", "CCD" });
-		cmbDetectorType.select(0);
-
-		Button btnRefresh = new Button(mainControls, SWT.NONE);
+		btnRefresh = new Button(mainControls, SWT.NONE);
 		GridDataFactory.fillDefaults().span(2, 1).applyTo(btnRefresh);
 		btnRefresh.setText("Refresh Calculations");
+		btnRefresh.addSelectionListener(refreshSelectionListener);
 
-		btnRefresh.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				String selectedElementString = element.getItem(element.getSelectionIndex());
-				Element selectedElement = Element.getElement(selectedElementString);
-				String selectedEdgeString = edge.getItem(edge.getSelectionIndex());
-				AbsorptionEdge absEdge = selectedElement.getEdge(selectedEdgeString);
-
-				String qString = cmbCrystalQ.getItem(cmbCrystalQ.getSelectionIndex());
-				Double q = Double.parseDouble(qString);
-
-				String xtalCutString = cmbCrystalCut.getItem(cmbCrystalCut.getSelectionIndex());
-				String xtalTypeString = cmbCrystalType.getItem(cmbCrystalType.getSelectionIndex());
-				String detectorString = cmbDetectorType.getItem(cmbDetectorType.getSelectionIndex());
-
-				try {
-					AlignmentParametersBean bean = new AlignmentParametersBean(xtalTypeString, xtalCutString, q,
-							detectorString, absEdge);
-
-					InterfaceProvider.getJythonNamespace().placeInJythonNamespace(INPUT_BEAN_NAME, bean);
-
-					InterfaceProvider.getCommandRunner().runCommand(
-							OUTPUT_BEAN_NAME + "=None;from alignment import alignment_parameters; " + OUTPUT_BEAN_NAME
-									+ " = alignment_parameters.calc_parameters(" + INPUT_BEAN_NAME + ")");
-					// give the command a chance to run.
-					Thread.sleep(500);
-					AlignmentParametersBean results = (AlignmentParametersBean) InterfaceProvider.getJythonNamespace()
-							.getFromJythonNamespace(OUTPUT_BEAN_NAME);
-
-					updateUIFromBean(results);
-				} catch (Exception e1) {
-					logger.error("Exception when trying to run the script which performs the alignment calculations.",e1);
-				}
-
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-		});
+		updateElementEdgeSelection();
 	}
-	
-	private void updateEdgesCombo() {
-		String selectedElementString = element.getItem(element.getSelectionIndex());
-		Element selectedElement = Element.getElement(selectedElementString);
-		final Iterator<String> edges;
-		if (cmbCrystalCut.getSelectionIndex() == 0) {
-			edges = selectedElement.getEdgesInEnergyRange(6000.0, 14000.0);
+
+	private void updateEngeryValue() {
+		// TODO Do proper JFace data validation
+		final int invalid = -1;
+		if (cmdElementEdge.getSelectionIndex() == invalid) {
+			scaleBoxEnergyRange.setEnabled(false);
+			scaleBoxEnergyRange.setValue(invalid);
+			btnRefresh.setEnabled(false);
 		} else {
-			edges = selectedElement.getEdgesInEnergyRange(7000.0, 26000.0);
+			scaleBoxEnergyRange.setEnabled(true);
+			String selectedElementString = cmbElement.getItem(cmbElement.getSelectionIndex());
+			Element selectedElement = Element.getElement(selectedElementString);
+			String selectedEdgeString = cmdElementEdge.getItem(cmdElementEdge.getSelectionIndex());
+			final double edgeEn = selectedElement.getEdgeEnergy(selectedEdgeString);
+			StructuredSelection cryCutSelection = ((StructuredSelection) cmbCrystalCut.getSelection());
+			CrystalCut selectedCrystalCut = (CrystalCut) cryCutSelection.getFirstElement();
+			scaleBoxEnergyRange.setMaximum(selectedCrystalCut.getMax());
+			scaleBoxEnergyRange.setMinimum(selectedCrystalCut.getMin());
+			scaleBoxEnergyRange.setValue(edgeEn);
+			btnRefresh.setEnabled(true);
 		}
+	}
+
+	private final SelectionListener refreshSelectionListener = new SelectionListener() {
+		@Override
+		public void widgetSelected(SelectionEvent selectionEvent) {
+			String selectedElementString = cmbElement.getItem(cmbElement.getSelectionIndex());
+			Element selectedElement = Element.getElement(selectedElementString);
+			String selectedEdgeString = cmdElementEdge.getItem(cmdElementEdge.getSelectionIndex());
+			AbsorptionEdge absEdge = selectedElement.getEdge(selectedEdgeString);
+
+			String qString = cmbCrystalQ.getItem(cmbCrystalQ.getSelectionIndex());
+			Double q = Double.parseDouble(qString);
+
+			String xtalCutString = ((CrystalCut) ((StructuredSelection) cmbCrystalCut.getSelection()).getFirstElement()).name();
+			String xtalTypeString = cmbCrystalType.getItem(cmbCrystalType.getSelectionIndex());
+			String detectorString = DetectorSetup.getActiveDetectorSetup().getDetectorName();
+
+			try {
+				AlignmentParametersBean bean = new AlignmentParametersBean(xtalTypeString, xtalCutString, q,
+						detectorString, absEdge);
+
+				InterfaceProvider.getJythonNamespace().placeInJythonNamespace(INPUT_BEAN_NAME, bean);
+
+				InterfaceProvider.getCommandRunner().runCommand(
+						OUTPUT_BEAN_NAME + "=None;from alignment import alignment_parameters; " + OUTPUT_BEAN_NAME
+						+ " = alignment_parameters.calc_parameters(" + INPUT_BEAN_NAME + ")");
+				// give the command a chance to run.
+				Thread.sleep(COMMAND_WAIT_TIME);
+				Object result = InterfaceProvider.getJythonNamespace()
+						.getFromJythonNamespace(OUTPUT_BEAN_NAME);
+				if (result != null && (result instanceof AlignmentParametersBean)) {
+					updateUIFromBean((AlignmentParametersBean) result);
+				} else {
+					MessageDialog.openError(parentShell, "Error", "Unable to calculate suggested values");
+				}
+			} catch (Exception e1) {
+				logger.error("Exception when trying to run the script which performs the alignment calculations.",e1);
+			}
+		}
+
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+		}
+	};
+
+	private void updateElementEdgeSelection() {
+		String selectedElementString = cmbElement.getItem(cmbElement.getSelectionIndex());
+		Element selectedElement = Element.getElement(selectedElementString);
+		StructuredSelection cryCutSelection = ((StructuredSelection) cmbCrystalCut.getSelection());
+		CrystalCut selectedCrystalCut = (CrystalCut) cryCutSelection.getFirstElement();
+		final Iterator<String> edges;
+		edges = selectedElement.getEdgesInEnergyRange(selectedCrystalCut.getMin(), selectedCrystalCut.getMax());
+
 		if (edges == null) {
-			edge.setItems(new String[] {});
-			edgeEnergy_Label.setValue(0.0);
+			cmdElementEdge.setItems(new String[] {});
+			cmdElementEdge.deselectAll();
 		} else {
 			String[] edgesArray = new String[] {};
 			for (; edges.hasNext();) {
 				String edge = edges.next();
 				edgesArray = (String[]) ArrayUtils.add(edgesArray, edge);
 			}
-			edge.setItems(edgesArray);
-			edge.select(0);
-			edgeEnergy_Label.setValue(selectedElement.getEdgeEnergy(edgesArray[0]));
+			cmdElementEdge.setItems(edgesArray);
+			cmdElementEdge.select(0);
 		}
+		cmdElementEdge.notifyListeners(SWT.Selection, new Event());
 		mainControls.redraw();
 		mainControls.pack(true);
 	}
 
 	protected void updateUIFromBean(final AlignmentParametersBean results) {
 
-		if (results == null) {
-			logger.info("Nothing returned from the script which runs the alignment calculations.");
-			return;
-		}
-
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			// TODO Should not define here
+			private static final int MAX_POWER_IN_WATT = 350;
 
 			@Override
 			public void run() {
+				// TODO Should use data binding this is not needed
 				txtWigglerTarget.setValue(results.getWigglerGap());
 				txtPolyBendTarget.setValue(results.getPolyBend1());
 				txtPolyBendTarget2.setValue(results.getPolyBend2());
@@ -630,9 +651,10 @@ public class BeamlineAlignmentView extends ViewPart {
 				String atn3String = results.getAtn3().toString();
 				cmbAtn3Target.setValue(atn3String);
 
-				String powerString = String.format("%.1d W", results.getPower());
+				String powerString = String.format("%.1d %s", results.getPower(), Units.WATT.getText());
 				lblPolyPower.setText(powerString);
-				if (results.getPower() > 350) {
+				// TODO Use JFace data binding to show validation
+				if (results.getPower() > MAX_POWER_IN_WATT) {
 					lblPolyPower.setForeground(PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_RED));
 				} else {
 					lblPolyPower.setForeground(PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_BLACK));
@@ -642,30 +664,33 @@ public class BeamlineAlignmentView extends ViewPart {
 		});
 	}
 
-	private void linkButtonToScannable(Button theButton, final String scannableName, final LabelWrapper txtDetDistTarget2) {
-		
+	private void linkButtonToScannable(Button theButton, final String scannableName, final LabelWrapper txtScannableValue) {
+
 		theButton.setToolTipText("Move to the calculated position");
-		
+
 		theButton.addSelectionListener(new SelectionListener() {
 
 			Scannable theScannable = null;
 
 			@Override
-			public void widgetSelected(SelectionEvent e) {
+			public void widgetSelected(SelectionEvent event) {
 				// get value from the scalebox
-				Object target = txtDetDistTarget2.getValue();
+				Object target = txtScannableValue.getValue();
 
 				// get the scannable from finder
-				if (theScannable == null)
+				if (theScannable == null) {
 					theScannable = Finder.getInstance().find(scannableName);
+				}
 
 				// move the scannable to the value
 				try {
-					if (theScannable != null)
+					if (theScannable != null) {
 						theScannable.asynchronousMoveTo(target);
-				} catch (Exception e1) {
-					logger.error("Exception while moving " + scannableName + " to " + target + ": " + e1.getMessage(),
-							e1);
+					}
+				} catch (Exception e) {
+					String errorMessage = "Exception while moving " + scannableName + " to " + target + ": " + e.getMessage();
+					logger.error(errorMessage, e);
+					MessageDialog.openError(parentShell, "Error", errorMessage);
 				}
 			}
 
@@ -675,7 +700,7 @@ public class BeamlineAlignmentView extends ViewPart {
 			}
 		});
 	}
-	
+
 	private RotationViewer createRotationViewer(Composite parent, String scannableName) {
 
 		final Scannable theScannable = Finder.getInstance().find(scannableName);
@@ -696,7 +721,7 @@ public class BeamlineAlignmentView extends ViewPart {
 
 		return label;
 	}
-	
+
 	private MotorPositionViewer createMotorPositionViewer(Composite parent, String scannableName) {
 
 		final Scannable theScannable = Finder.getInstance().find(scannableName);
@@ -720,11 +745,11 @@ public class BeamlineAlignmentView extends ViewPart {
 		EnumPositionViewer label = new EnumPositionViewer(parent,theScannable,"",true);
 		return label;
 	}
-	
+
 	@Override
 	public void setFocus() {
 	}
-	
+
 	private void moveTwoThetaWithPolyBragg(ValueEvent e) {
 		if (btnSynchroniseThetas.getSelection()) {
 			// get value from the scalebox
@@ -743,17 +768,32 @@ public class BeamlineAlignmentView extends ViewPart {
 			}
 
 			// get the scannable from finder
-			if (twoThetaScannable == null)
+			if (twoThetaScannable == null) {
 				twoThetaScannable = Finder.getInstance().find("twotheta");
+			}
 
 			// move the scannable to the value
 			try {
-				if (twoThetaScannable != null)
+				if (twoThetaScannable != null) {
 					twoThetaScannable.asynchronousMoveTo(target);
+				}
 			} catch (Exception e1) {
 				logger.error("Exception while moving twotheta to " + target + ": " + e1.getMessage(), e1);
 			}
 		}
 	}
 
+	@Override
+	public String getContributorId() {
+		return this.getSite().getId();
+	}
+
+	@Override
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
+		if (adapter == IPropertySheetPage.class) {
+			System.out.println("PRoperty sheet");
+			return new TabbedPropertySheetPage(this);
+		}
+		return super.getAdapter(adapter);
+	}
 }
