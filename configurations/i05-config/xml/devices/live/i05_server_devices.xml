@@ -23,4 +23,6 @@
 	<import resource="temperature.xml" />
 
 	<import resource="ring.xml" />
+
+	<import resource="sj6.xml" />
 </beans>
