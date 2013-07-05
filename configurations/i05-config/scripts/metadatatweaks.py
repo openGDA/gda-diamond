@@ -1,5 +1,7 @@
 from gda.util import ElogEntry
 from gda.data.metadata import GDAMetadataProvider
+import gda.device.scannable.ScannableBase
+from gda.factory import Finder
 
 def setTitle(title):
     GDAMetadataProvider.getInstance().setMetadataValue("title", title)
@@ -19,3 +21,26 @@ def setVisit(visit):
 
 def getVisit():
     return GDAMetadataProvider.getInstance().getMetadataValue("visit")
+
+
+class SampleNameScannable(gda.device.scannable.ScannableBase):
+  
+   """ This is the constructor for the class. """
+   def __init__(self, name, metadataname):
+       self.setName(name)
+       self.setInputNames([name])
+       self.setOutputFormat(["%s"])
+       self.metadata=Finder.getInstance().find(metadataname)
+
+   """ Mandatory method.  It should return 1 if the device is moving and 0 otherwise."""
+   def isBusy(self):
+       return False
+
+   """ Mandatory method.  Return the current position as a scalar or as a vector."""
+   def getPosition(self):
+       return self.metadata.readActualValue()
+ 
+   """ Mandatory method.  Must return immediately; the move should be controlled by a separate thread."""
+   def asynchronousMoveTo(self,newPosition):
+       self.metadata.setValue(newPosition) 
+
