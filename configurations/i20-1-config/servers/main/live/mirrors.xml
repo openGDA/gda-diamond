@@ -7,7 +7,6 @@
 
 	<bean id="me1_stripe" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="deviceName" value="M1EP" />
-		<property name="local" value="true" />
 		<property name="inputNames">
 			<list>
 				<value>me1_stripe</value>
@@ -60,7 +59,6 @@
 
 	<bean id="me2_stripe" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="deviceName" value="M2EP" />
-		<property name="local" value="true" />
 		<property name="inputNames">
 			<list>
 				<value>me2_stripe</value>

@@ -3,27 +3,24 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="detector_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20J-EA-DET-01:X" />
-	</bean>
-	<bean id="detector_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20J-EA-DET-01:Y" />
-	</bean>
-
-	<bean id="detector_z_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20J-MO-TABLE-01:Z" />
-	</bean>
-
-	<bean id="sample_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20J-MO-TABLE-02:X" />
-	</bean>
-	<bean id="sample_z_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20J-MO-TABLE-02:Z" />
-	</bean>
-
 	<bean id="stage3_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-MO-TABLE-03:Z" />
 	</bean>
+	
+	<bean id="alignment_x_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="alignment_y_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="fast_shutter_x_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="fast_shutter_y_motor" class="gda.device.motor.DummyMotor"/>
+	
+
+	<bean id="sample_x_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="sample_z_motor" class="gda.device.motor.DummyMotor"/>
+<!-- 	<bean id="sample_x_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="pvName" value="BL20J-MO-TABLE-02:X" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="sample_z_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="pvName" value="BL20J-MO-TABLE-02:Z" /> -->
+<!-- 	</bean> -->
 
 	<bean id="samenv_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-MO-TABLE-04:X" />
@@ -46,6 +43,19 @@
 	<bean id="samenv_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-MO-TABLE-04:ROLL" />
 	</bean>
+
+
+	<bean id="detector_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-DET-01:X" />
+	</bean>
+	<bean id="detector_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-DET-01:Y" />
+	</bean>
+
+	<bean id="detector_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-TABLE-01:Z" />
+	</bean>
+
 
 	<bean id="twotheta_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-MO-ARM-01:ARC" />

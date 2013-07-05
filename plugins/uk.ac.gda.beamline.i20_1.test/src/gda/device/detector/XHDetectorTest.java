@@ -236,4 +236,13 @@ public class XHDetectorTest {
 		assertEquals("xstrip timing ext-output \"xh0\" 6 frame-pre-delay",commands[1]);
 		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 300 frame-time 500 lemo-out 4096 ext-trig-group trig-mux 5 last",commands[2]);
 	}
+	
+	@Test
+	public void testBiasControl() throws DeviceException {
+		daserver.clearRecievedCommands();
+		
+		assertEquals(new Double(0.0),xh.getBias());
+		xh.setBias(4.5);
+		assertEquals(new Double(4.5),xh.getBias());
+	}
 }

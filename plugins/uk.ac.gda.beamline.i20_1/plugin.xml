@@ -6,14 +6,22 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="GDA I20 EDE Branchline">
+            name="GDA I20 EDE">
          <property
                name="appName"
-               value="uk.ac.gda.beamline.i20_1.product">
+               value="GDA I20 EDE">
          </property>
          <property
                name="preferenceCustomization"
                value="plugin_customization.ini">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
          </property>
       </product>
    </extension>
@@ -76,18 +84,6 @@
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.singlespectrumview"
             name="Single Collection"
-            restorable="true">
-      </view>
-      <view
-            class="gda.rcp.views.ViewFactory:focussingmotorsview"
-            id="uk.ac.gda.exafs.ui.views.focussingmotorsview"
-            name="Focus motors"
-            restorable="true">
-      </view>
-      <view
-            class="gda.rcp.views.ViewFactory:alignmentmotorsview"
-            id="uk.ac.gda.exafs.ui.views.alignmentmotorsview"
-            name="Align motors"
             restorable="true">
       </view>
    </extension>

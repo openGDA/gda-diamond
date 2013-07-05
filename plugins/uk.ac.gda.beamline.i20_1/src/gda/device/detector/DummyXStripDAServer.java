@@ -31,8 +31,10 @@ import org.slf4j.LoggerFactory;
  * Extension for DummyDAServer which exclusively handles XH/xstrip commands
  */
 public class DummyXStripDAServer extends DummyDAServer {
-	
-	public enum MODE {STEP, FLAT}
+
+	public enum MODE {
+		STEP, FLAT
+	}
 
 	private static Logger logger = LoggerFactory.getLogger(DummyXStripDAServer.class);
 
@@ -41,8 +43,10 @@ public class DummyXStripDAServer extends DummyDAServer {
 	private TimeFrameGenerator timeFrameGenerator = new TimeFrameGenerator();
 
 	private String[] recievedCommands = new String[0];
-	
+
 	private MODE readoutMode = MODE.STEP;
+
+	private Double biasVoltage = 0.0;
 
 	@SuppressWarnings("unused")
 	@Override
@@ -66,10 +70,10 @@ public class DummyXStripDAServer extends DummyDAServer {
 		int[] data = new int[numberOfFrames * XHDetector.NUMBER_ELEMENTS];
 
 		for (int frame = 0; frame < numberOfFrames; frame++) {
-			
-			if (readoutMode == MODE.FLAT){
-				for (int i = 0; i < XHDetector.NUMBER_ELEMENTS; i++){
-					data[(frame*XHDetector.NUMBER_ELEMENTS) + i] = 1;
+
+			if (readoutMode == MODE.FLAT) {
+				for (int i = 0; i < XHDetector.NUMBER_ELEMENTS; i++) {
+					data[(frame * XHDetector.NUMBER_ELEMENTS) + i] = 1;
 				}
 				continue;
 			}
@@ -79,32 +83,32 @@ public class DummyXStripDAServer extends DummyDAServer {
 
 			// create random step height for the edge between 100 and 1000
 			double step = (Math.random() * 900) + 100;
-			
+
 			// create noise level between 20 and 75
 			double noise = (Math.random() * 55) + 20;
 
 			// generate random values with a step at the edge of the baseline
-			for (int i = 0; i < edge; i++){
-				data[(frame*XHDetector.NUMBER_ELEMENTS) + i] = (int) Math.round((Math.random() * noise));
+			for (int i = 0; i < edge; i++) {
+				data[(frame * XHDetector.NUMBER_ELEMENTS) + i] = (int) Math.round((Math.random() * noise));
 			}
-			for (int i = edge; i < XHDetector.NUMBER_ELEMENTS; i++){
-				data[(frame*XHDetector.NUMBER_ELEMENTS) + i] = (int) Math.round((Math.random() * noise) + step);
+			for (int i = edge; i < XHDetector.NUMBER_ELEMENTS; i++) {
+				data[(frame * XHDetector.NUMBER_ELEMENTS) + i] = (int) Math.round((Math.random() * noise) + step);
 			}
 		}
 
 		return data;
 	}
-	
+
 	@Override
 	public Object sendCommand(String msg, Boolean multiline) {
 		if (!multiline) {
 			return sendCommand(msg);
 		}
-		
+
 		if (msg.startsWith("xstrip timing read-status")) {
 			return sendCommand(msg);
 		}
-		
+
 		return -1; // don;t recognise the command
 	}
 
@@ -133,8 +137,10 @@ public class DummyXStripDAServer extends DummyDAServer {
 			int handle = Integer.valueOf(tokenizer.nextToken());
 			handles.remove(handle);
 			rc = (fail) ? -1 : 0;
+		} else if (command.startsWith("xstrip hv")) {
+			rc = parseXstripHVCommand(command);
 		} else if (command.startsWith("xstrip")) {
-			rc = parseXstripCommand(command);
+			rc = parseXstripTimingCommand(command);
 		} else {
 			return super.sendCommand(command);
 		}
@@ -143,7 +149,28 @@ public class DummyXStripDAServer extends DummyDAServer {
 		return rc;
 	}
 
-	private Object parseXstripCommand(String command) {
+	private Object parseXstripHVCommand(String command) {
+		StringTokenizer tokenizer = new StringTokenizer(command);
+		tokenizer.nextToken(); // xstrip - ignore
+		tokenizer.nextToken(); // hv - ignore
+		String hvCommand = tokenizer.nextToken();
+		switch (hvCommand) {
+		case "init":
+		case "enable":
+			break;
+		case "set-dac":
+			tokenizer.nextToken(); // system name - ignore
+			biasVoltage = Double.parseDouble(tokenizer.nextToken());
+			return 0.0;
+		case "get-adc":
+			return biasVoltage;
+		default:
+			return -1;
+		}
+		return 0;
+	}
+
+	private Object parseXstripTimingCommand(String command) {
 		Object rc = -1;
 		StringTokenizer tokenizer = new StringTokenizer(command);
 		tokenizer.nextToken(); // xstrip - ignore

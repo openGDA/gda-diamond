@@ -1,0 +1,104 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="datawriterconfig" class="gda.data.scan.datawriter.AsciiDataWriterConfiguration">
+		<property name="commentMarker" value="#"></property>
+		<property name="controllerName" value="ExafsScriptObserver"></property>
+		<property name="header">
+			<list>
+				<bean id="machine1" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="DIAMOND LIGHT SOURCE" />
+				</bean>
+				<bean id="inst1" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Instrument: I20-1-EDE Date: %s" />
+					<property name="labelValues">
+						<list>
+							<bean id="date1" class="gda.device.scannable.TimeScannable" />
+						</list>
+					</property>
+				</bean>
+				<bean id="ringenergy" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Ring energy: %5.5f GeV" />
+					<property name="labelValues">
+						<list>
+							<ref bean="ringEnergy" />
+						</list>
+					</property>
+				</bean>
+				<bean id="ringcurrent" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Initial ring current: %5.5f mA" />
+					<property name="labelValues">
+						<list>
+							<ref bean="ringCurrent" />
+						</list>
+					</property>
+				</bean>
+				<bean id="fillingmode" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Filling mode: %s" />
+					<property name="labelValues">
+						<list>
+							<ref bean="fillMode" />
+						</list>
+					</property>
+				</bean>
+				<bean id="wigglergap" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Wiggler gap selected: %5.5f mm" />
+					<property name="labelValues">
+						<list>
+							<ref bean="wigglerGap" />
+						</list>
+					</property>
+				</bean>
+				<bean id="newLine1" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value=" " />
+				</bean>
+				<bean id="primaryslits" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label"
+						value="Primary slits:  vertical gap= %4.5f mm; horizontal gap= %4.5f mm; vertical offset= %4.5f mm; horizontal offset= %4.5f mm" />
+					<property name="labelValues">
+						<list>
+							<ref bean="s1_vgap" />
+							<ref bean="s1_hgap" />
+							<ref bean="s1_voffset" />
+							<ref bean="s1_hoffset" />
+						</list>
+					</property>
+				</bean>
+				<bean id="secondaryslits" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label"
+						value="Secondary slits:  vertical gap= %4.5f mm; horizontal gap= %4.5f mm; vertical offset= %4.5f mm; horizontal offset= %4.5f mm" />
+					<property name="labelValues">
+						<list>
+							<ref bean="s2_vgap" />
+							<ref bean="s2_hgap" />
+							<ref bean="s2_voffset" />
+							<ref bean="s2_hoffset" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="footer">
+			<list>
+				<bean id="inst2" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Instrument: I20-1-EDE Date: %s" />
+					<property name="labelValues">
+						<list>
+							<bean id="date2" class="gda.device.scannable.TimeScannable" />
+						</list>
+					</property>
+				</bean>
+				<bean id="ringcurrentend" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Final ring current: %5.5f" />
+					<property name="labelValues">
+						<list>
+							<ref bean="ringCurrent" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>
