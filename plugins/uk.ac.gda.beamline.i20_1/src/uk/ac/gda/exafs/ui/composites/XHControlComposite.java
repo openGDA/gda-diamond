@@ -342,7 +342,7 @@ public class XHControlComposite extends Composite implements IObserver {
 							.getDouble(I20_1PreferenceInitializer.SNAPSHOTTIME);
 					final Integer scansPerFrame = Activator.getDefault().getPreferenceStore()
 							.getInt(I20_1PreferenceInitializer.SCANSPERFRAME);
-					collectAndPlotSnapshot(false, snapshotIntTime, scansPerFrame, snapshotIntTime + "s Snapshot");
+					collectAndPlotSnapshot(false, snapshotIntTime, scansPerFrame, snapshotIntTime + "ms Snapshot");
 				} catch (Exception e) {
 					logger.error("Error trying to collect detector snapshot", e);
 				}
