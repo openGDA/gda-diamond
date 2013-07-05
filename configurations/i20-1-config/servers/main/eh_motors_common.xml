@@ -2,7 +2,19 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-
+<!-- 	alignment stage motors -->
+	<bean id="alignment_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="alignment_x_motor" />
+	</bean>
+	<bean id="alignment_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="alignment_y_motor" />
+	</bean>
+	<bean id="fast_shutter_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="fast_shutter_x_motor" />
+	</bean>
+	<bean id="fast_shutter_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="fast_shutter_y_motor" />
+	</bean>
 <!-- 	T3 Third stage -->
 	<bean id="stage3_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="stage3_z_motor" />
@@ -36,6 +48,7 @@
 		<property name="motor" ref="samenv_roll_motor" />
 	</bean>
 	
+
 <!-- 	Detector stage -->
 	<bean id="detector_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="detector_x_motor" />
@@ -43,11 +56,11 @@
 	<bean id="detector_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="detector_y_motor" />
 	</bean>
-<!-- 	T1 Detector stage -->
+
+<!-- 	T1 Detector support stage -->
 	<bean id="detector_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="detector_z_motor" />
 	</bean>
-
 
 <!-- 	two theta arm -->
 	<bean id="twotheta" class="gda.device.scannable.ScannableMotor">

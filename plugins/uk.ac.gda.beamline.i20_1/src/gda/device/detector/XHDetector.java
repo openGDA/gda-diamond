@@ -18,19 +18,22 @@
 
 package gda.device.detector;
 
+import gda.configuration.properties.LocalProperties;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.factory.FactoryException;
 import gda.scan.ScanDataPoint;
-import gda.util.persistence.LocalParameters;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
-import org.apache.commons.configuration.FileConfiguration;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.lang.ArrayUtils;
 import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +56,7 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
  * 
  * @author rjw82
  */
-public class XHDetector extends DetectorBase implements NexusDetector {
+public class XHDetector extends DetectorBase implements StripDetector {
 
 	private static final String STORENAME = "XH_rois";
 	// strings to use in the get/set attributes methods
@@ -84,6 +87,9 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	private EdeScanParameters nextScan;
 
 	private XHROI[] rois = new XHROI[0];
+	private int lowerChannel = 0;
+	private int upperChannel = NUMBER_ELEMENTS;
+	private int[] excludedStrips;
 
 	public XHDetector() {
 		super();
@@ -162,7 +168,13 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 		for (int frame = 0; frame < frameCount; frame++) {
 			for (int element = 0; element < NUMBER_ELEMENTS; element++) {
-				out[frame][element] = rawData[(frame * NUMBER_ELEMENTS) + element];
+				
+				// simply set excluded strips to be zero
+				if (ArrayUtils.contains(excludedStrips, element)){
+					out[frame][element] = 0.0;
+				} else {
+					out[frame][element] = rawData[(frame * NUMBER_ELEMENTS) + element];
+				}
 			}
 		}
 		return out;
@@ -172,13 +184,6 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	public int getStatus() throws DeviceException {
 		ExperimentStatus current = fetchStatus();
 		return current.detectorStatus;
-	}
-
-	public int getTotalNumberOfFrames() {
-		if (nextScan == null) {
-			return 0;
-		}
-		return nextScan.getTotalNumberOfFrames();
 	}
 
 	/**
@@ -240,8 +245,8 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		return unpacked;
 	}
 
-	/**
-	 * Assumes it is given a 1024 array of raw values
+	/*
+	 * Assumes it is given a NUMBER_ELEMENTS array of raw values
 	 * 
 	 * @param frameNum
 	 *            - the absolute frame number
@@ -306,7 +311,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		return elementNum >= roi.getLowerLevel() && elementNum <= roi.getUpperLevel();
 	}
 
-	/**
+	/*
 	 * @param startFrame
 	 *            - absolute frame index ignoring the group num
 	 * @param finalFrame
@@ -381,6 +386,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		return this.dataHandle >= 0 && daServer != null && daServer.isConnected();
 	}
 
+	@Override
 	public void start() throws DeviceException {
 		if (!hasValidDataHandle()) {
 			createNewDataHandle();
@@ -404,9 +410,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		}
 	}
 
-	/**
-	 * @param command
-	 * @param otherArgs
+	/*
 	 * @return  the given command with 'xstrip timing' prefixed and detectorName suffixed
 	 */
 	private String createTimingCommand(String command, Object... otherArgs) {
@@ -424,6 +428,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	 * configuration of this object
 	 * @throws DeviceException 
 	 */
+	@Override
 	public void loadTemplateParameters() throws DeviceException {
 		defineDataCollectionFromScanParameters();
 	}
@@ -435,6 +440,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	 * @param newParameters
 	 * @throws DeviceException 
 	 */
+	@Override
 	public void loadParameters(EdeScanParameters newParameters) throws DeviceException {
 		nextScan = newParameters;
 		defineDataCollectionFromScanParameters();
@@ -445,6 +451,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	 * 
 	 * @return EdeScanParameters
 	 */
+	@Override
 	public EdeScanParameters getLoadedParameters() {
 		return nextScan;
 	}
@@ -461,6 +468,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		defineDataCollectionFromScanParameters();
 	}
 
+	@Override
 	public ExperimentStatus fetchStatus() throws DeviceException {
 		String statusMessage = (String) daServer.sendCommand(createTimingCommand("read-status", "verbose"), true);
 		if (statusMessage.startsWith("#")) {
@@ -622,7 +630,6 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	}
 
 	protected String secondsToClockCyclesString(double timeInS) {
-
 		if (timeInS == 0) {
 			return "";
 		}
@@ -667,11 +674,11 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 	/**
 	 * To send the continue command when a group has been setup to wait for an input from a software trigger (LEMO #9)
 	 * 
-	 * @return Object - what is returned from da.server
 	 * @throws DeviceException 
 	 */
-	public Object fireSoftTrig() throws DeviceException {
-		return daServer.sendCommand(createTimingCommand("continue"));
+	@Override
+	public void fireSoftTrig() throws DeviceException {
+		daServer.sendCommand(createTimingCommand("continue"));
 	}
 
 	/**
@@ -785,17 +792,16 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		return templateFileName;
 	}
 
+	@Override
 	public XHROI[] getRois() {
 		return rois;
 	}
 
+	@Override
 	public void setRois(XHROI[] rois) {
-
 		setRoisWithoutStoringAndNotifying(rois);
-
 		saveROIsToXML();
 		notifyIObservers(this, XHDetector.ROIS_CHANGED);
-
 	}
 
 	public int getScanDelayInMilliseconds() {
@@ -806,69 +812,23 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		this.scanDelayInMilliseconds = scanDelayInMilliseconds;
 	}
 
-	/**
-	 * Sets equally sized ROIs.
-	 * 
-	 * @param numberOfRois
-	 */
+	@Override
 	public void setNumberRois(int numberOfRois) {
-		XHROI[] defaults = new XHROI[numberOfRois];
+		
+		XHROI[] newRois = new XHROI[numberOfRois];
 
-		int roiSize = NUMBER_ELEMENTS / numberOfRois;
+		int numberChannelsInUse = upperChannel - lowerChannel + 1;
+		int roiSize = numberChannelsInUse / numberOfRois;
 
 		for (int i = 0; i < numberOfRois; i++) {
 			XHROI thisRoi = new XHROI();
-			thisRoi.setLabel("ROI" + i);
-			thisRoi.setLowerLevel(roiSize * i);
-			thisRoi.setUpperLevel((roiSize * (i + 1)) - 1);
-			defaults[i] = thisRoi;
+			thisRoi.setLabel("ROI_" + i);
+			int lowerChannelForThisROI = roiSize * i + lowerChannel;
+			thisRoi.setLowerLevel(lowerChannelForThisROI);
+			thisRoi.setUpperLevel(lowerChannelForThisROI + roiSize - 1);
+			newRois[i] = thisRoi;
 		}
-		setRoisWithoutStoringAndNotifying(defaults);
-		saveROIsToXML();
-	}
-	
-	/**
-	 * Creates ROIs for the lowest and highest channels, then in the central zone sets a number of evenly spaced ROIs.
-	 * <p>
-	 * Use {@link #getRois()} to see what this method has created.
-	 * 
-	 * @param numberRoisInCentralZone
-	 * @param lowerChannelOfCentralZone
-	 * @param upperChannelOfCentralZone
-	 */
-	public void setEvenRoisWithBookends(int numberRoisInCentralZone, int lowerChannelOfCentralZone,
-			int upperChannelOfCentralZone) {
-
-		XHROI[] newROIS = new XHROI[numberRoisInCentralZone + 2];
-		
-		XHROI lowRoi = new XHROI();
-		lowRoi.setLabel("Low Channels");
-		lowRoi.setLowerLevel(0);
-		lowRoi.setUpperLevel(lowerChannelOfCentralZone);
-		
-		newROIS[0] = lowRoi;
-		
-		
-		int roiSize = Math.round((upperChannelOfCentralZone -  lowerChannelOfCentralZone)/ numberRoisInCentralZone);
-		
-		int lowChannel = lowerChannelOfCentralZone + 1;
-		for (int roiNum = 1; roiNum < numberRoisInCentralZone + 1; roiNum++) {
-			XHROI thisRoi = new XHROI();
-			thisRoi.setLabel("ROI" + (roiNum - 1));
-			thisRoi.setLowerLevel(lowChannel);
-			thisRoi.setUpperLevel(lowChannel + roiSize - 1);
-			newROIS[roiNum] = thisRoi;
-			lowChannel += roiSize;
-		}
-
-		XHROI highRoi = new XHROI();
-		highRoi.setLabel("High Channels");
-		highRoi.setLowerLevel(lowChannel);
-		highRoi.setUpperLevel(NUMBER_ELEMENTS -1);
-		newROIS[numberRoisInCentralZone + 1] = highRoi;
-		
-		setRoisWithoutStoringAndNotifying(newROIS);
-		saveROIsToXML();
+		setRois(newRois);
 	}
 
 	/**
@@ -909,14 +869,26 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 			}
 		}
 	}
+	
+	private String getStoreFileName() {
+		String propertiesFileName = LocalProperties.getVarDir() + getName() + STORENAME;
+		return propertiesFileName;
+	}
+
 
 	private void saveROIsToXML() {
 		try {
-			FileConfiguration store = LocalParameters.getXMLConfiguration(STORENAME);
-			store.clear();
-			store.save();
-			store = LocalParameters.getXMLConfiguration(STORENAME);
-	
+			String propertiesFileName = getStoreFileName();
+			File test = new File(propertiesFileName);
+			if (!test.exists()){
+				try {
+					test.createNewFile();
+				} catch (IOException e) {
+					throw e;
+				}
+			}
+			
+			PropertiesConfiguration store = new PropertiesConfiguration(propertiesFileName);	
 			for (XHROI roi : getRois()) {
 				store.setProperty(roi.getName() + "_lowerlevel", roi.getLowerLevel());
 				store.setProperty(roi.getName() + "_upperlevel", roi.getUpperLevel());
@@ -931,7 +903,7 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 
 		HashMap<String, XHROI> tempROIs = new LinkedHashMap<String, XHROI>();
 		try {
-			FileConfiguration store = LocalParameters.getXMLConfiguration(STORENAME, false);
+			PropertiesConfiguration store = new PropertiesConfiguration(getStoreFileName());
 			@SuppressWarnings("unchecked")
 			Iterator<String> i = store.getKeys();
 			while (i.hasNext()) {
@@ -957,5 +929,58 @@ public class XHDetector extends DetectorBase implements NexusDetector {
 		} catch (Exception e) {
 			setDefaultROIs();
 		}
+	}
+
+	@Override
+	public void setLowerChannel(int channel) {
+		this.lowerChannel = channel;
+		
+	}
+
+	@Override
+	public int getLowerChannel() {
+		return lowerChannel;
+	}
+
+	@Override
+	public void setUpperChannel(int channel) {
+		this.upperChannel = channel;
+	}
+
+	@Override
+	public int getUpperChannel() {
+		return upperChannel;
+	}
+
+	@Override
+	public void setBias(Double biasVoltage) throws DeviceException {
+		// TODO what should be the volatge upper limit?
+		if (biasVoltage < 0.0 || biasVoltage > 10000) {
+			throw new DeviceException ("Bias volatge of " + biasVoltage + " is unacceptable.");
+		}
+		
+		// TODO test with hardware
+		Double currentValue = getBias();
+		if (currentValue == 0.0) {
+			daServer.sendCommand("xstrip hv init");
+			daServer.sendCommand("xstrip hv enable " + detectorName);
+		}
+		daServer.sendCommand("xstrip hv set-dac " + detectorName + " " + biasVoltage);
+		
+	}
+
+	@Override
+	public Double getBias() throws DeviceException {
+		return (Double) daServer.sendCommand("xstrip hv get-adc hv " + detectorName);
+	}
+
+	@Override
+	public void setExcludedStrips(int[] excludedStrips) throws DeviceException {
+		this.excludedStrips = excludedStrips;
+	}
+
+	@Override
+	public int[] getExcludedStrips() {
+		return excludedStrips;
 	}
 }

@@ -53,7 +53,7 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 
 	@Override
 	public int getDimension() {
-		return xhDet.getTotalNumberOfFrames();
+		return xhDet.getLoadedParameters().getTotalNumberOfFrames();
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 	@Override
 	public int getTotalNumberOfPoints() {
 		if (!isChild()) {
-			return xhDet.getTotalNumberOfFrames();
+			return xhDet.getLoadedParameters().getTotalNumberOfFrames();
 		}
 		return getParent().getTotalNumberOfPoints();
 	}

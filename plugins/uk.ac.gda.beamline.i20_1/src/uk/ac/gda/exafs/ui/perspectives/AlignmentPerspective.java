@@ -40,10 +40,6 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 	// plot where snapshot spectra placed
 	public static String SPECTRAPLOTID =  PlotView.ID + "1";
 	public static String SPECTRAPLOTNAME =  "Plot 1";
-	
-	// plot where accumulative rates are plotted
-	public static String LINEPLOTID =  PlotView.ID + "2";
-	public static String LINEPLOTNAME =  "Plot 2";
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
@@ -52,17 +48,13 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		
 		IFolderLayout alignmentControlsFolder = layout.createFolder("alignmentControls", IPageLayout.LEFT, 0.30f, editorArea);
 		alignmentControlsFolder.addView(BeamlineAlignmentView.ID);
-//		alignmentControlsFolder.addView(DetectorSetupView.ID);
-//		alignmentControlsFolder.addView(AlignmentStageView.ID);
 		alignmentControlsFolder.addView(SingleSpectrumView.ID);
 
-		layout.addView(LINEPLOTID, IPageLayout.RIGHT, 0.25f, editorArea);
+		layout.addView(JythonTerminalView.ID, IPageLayout.RIGHT, 0.25f, editorArea);
 
-		IFolderLayout topPlotFolder = layout.createFolder("topplot", IPageLayout.TOP, 0.50f, LINEPLOTID);
+		IFolderLayout topPlotFolder = layout.createFolder("topplot", IPageLayout.TOP, 0.50f, JythonTerminalView.ID);
 		topPlotFolder.addView(SPECTRAPLOTID);
 		topPlotFolder.addView(LivePlotView.ID);
 		layout.addView(DetectorSetupView.ID, IPageLayout.LEFT, 0.24f, "topplot");
-		
-		layout.addView(JythonTerminalView.ID, IPageLayout.RIGHT, 0.50f, LINEPLOTID);
 	}
 }

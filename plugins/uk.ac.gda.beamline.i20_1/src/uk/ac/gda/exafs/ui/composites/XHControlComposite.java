@@ -56,7 +56,6 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.SDAPlotter;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
@@ -145,18 +144,18 @@ public class XHControlComposite extends Composite implements IObserver {
 		lbl.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 		txtSnapTime = new Text(snapshotgroup, SWT.NONE);
 		txtSnapTime.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		int storedSnapShotTime = Activator.getDefault().getPreferenceStore()
-				.getInt(I20_1PreferenceInitializer.SNAPSHOTTIME);
-		if (storedSnapShotTime == 0) {
-			storedSnapShotTime = 1;
+		Double storedSnapShotTime = Activator.getDefault().getPreferenceStore()
+				.getDouble(I20_1PreferenceInitializer.SNAPSHOTTIME);
+		if (storedSnapShotTime == 0.0) {
+			storedSnapShotTime = 1.0;
 		}
-		txtSnapTime.setText(Integer.toString(storedSnapShotTime));
+		txtSnapTime.setText(Double.toString(storedSnapShotTime));
 		// button listener
 		txtSnapTime.addModifyListener(new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {
 				try {
-					int newValue = Integer.parseInt(txtSnapTime.getText());
+					Double newValue = Double.parseDouble(txtSnapTime.getText());
 					Activator.getDefault().getPreferenceStore()
 							.setValue(I20_1PreferenceInitializer.SNAPSHOTTIME, newValue);
 				} catch (NumberFormatException e1) {
@@ -230,18 +229,18 @@ public class XHControlComposite extends Composite implements IObserver {
 		lbl.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 		txtLiveTime = new Text(timesgroup, SWT.NONE);
 		txtLiveTime.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		int storedLiveTime = Activator.getDefault().getPreferenceStore()
-				.getInt(I20_1PreferenceInitializer.LIVEMODETIME);
+		Double storedLiveTime = Activator.getDefault().getPreferenceStore()
+				.getDouble(I20_1PreferenceInitializer.LIVEMODETIME);
 		if (storedLiveTime == 0) {
-			storedLiveTime = 1;
+			storedLiveTime = 1.0;
 		}
-		txtLiveTime.setText(Integer.toString(storedLiveTime));
+		txtLiveTime.setText(Double.toString(storedLiveTime));
 		// button listener
 		txtLiveTime.addModifyListener(new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {
 				try {
-					int newValue = Integer.parseInt(txtLiveTime.getText());
+					Double newValue = Double.parseDouble(txtLiveTime.getText());
 					Activator.getDefault().getPreferenceStore()
 							.setValue(I20_1PreferenceInitializer.LIVEMODETIME, newValue);
 				} catch (NumberFormatException e1) {
@@ -339,11 +338,11 @@ public class XHControlComposite extends Composite implements IObserver {
 			@Override
 			public void run() {
 				try {
-					final Integer snapshotIntTime = Activator.getDefault().getPreferenceStore()
-							.getInt(I20_1PreferenceInitializer.SNAPSHOTTIME);
+					final Double snapshotIntTime = Activator.getDefault().getPreferenceStore()
+							.getDouble(I20_1PreferenceInitializer.SNAPSHOTTIME);
 					final Integer scansPerFrame = Activator.getDefault().getPreferenceStore()
 							.getInt(I20_1PreferenceInitializer.SCANSPERFRAME);
-					collectAndPlotSnapshot(false, snapshotIntTime, scansPerFrame, snapshotIntTime + "s Snapshot");
+					collectAndPlotSnapshot(false, snapshotIntTime, scansPerFrame, snapshotIntTime + "ms Snapshot");
 				} catch (Exception e) {
 					logger.error("Error trying to collect detector snapshot", e);
 				}
@@ -356,8 +355,8 @@ public class XHControlComposite extends Composite implements IObserver {
 			@Override
 			public void run() {
 				try {
-					final Integer snapshotIntTime_ms = Activator.getDefault().getPreferenceStore()
-							.getInt(I20_1PreferenceInitializer.SNAPSHOTTIME);
+					final Double snapshotIntTime_ms = Activator.getDefault().getPreferenceStore()
+							.getDouble(I20_1PreferenceInitializer.SNAPSHOTTIME);
 					final Integer scansPerFrame = Activator.getDefault().getPreferenceStore()
 							.getInt(I20_1PreferenceInitializer.SCANSPERFRAME);
 					collectAndPlotSnapshot(true, snapshotIntTime_ms, scansPerFrame, snapshotIntTime_ms + "ms Snapshot");
@@ -371,7 +370,7 @@ public class XHControlComposite extends Composite implements IObserver {
 				"/icons/camera_edit.png"));
 	}
 
-	private static void collectData(int collectionPeriod, int numberScans, Integer scansPerFrame) throws DeviceException, InterruptedException {
+	private static void collectData(Double collectionPeriod, int numberScans, Integer scansPerFrame) throws DeviceException, InterruptedException {
 
 		// collect data from XHDetector and send the spectrum to local Plot 1 window
 		EdeScanParameters simpleParams = new EdeScanParameters();
@@ -400,7 +399,7 @@ public class XHControlComposite extends Composite implements IObserver {
 	 * @param title
 	 * @return double values from the detector - the FF and sector totals
 	 */
-	public static Double[] collectAndPlotSnapshot(boolean writeData, Integer collectionPeriod, Integer scansPerFrame,
+	public static Double[] collectAndPlotSnapshot(boolean writeData, Double collectionPeriod, Integer scansPerFrame,
 			String title) {
 
 		try {
@@ -494,8 +493,8 @@ public class XHControlComposite extends Composite implements IObserver {
 							final Integer refreshPeriod_s = Activator.getDefault().getPreferenceStore()
 									.getInt(I20_1PreferenceInitializer.REFRESHRATE);
 
-							final Integer collectionPeriod_ms = Activator.getDefault().getPreferenceStore()
-									.getInt(I20_1PreferenceInitializer.LIVEMODETIME);
+							final Double collectionPeriod_ms = Activator.getDefault().getPreferenceStore()
+									.getDouble(I20_1PreferenceInitializer.LIVEMODETIME);
 							final Double[] results = collectAndPlotSnapshot(false, collectionPeriod_ms, 1,
 									"Live reading (" + collectionPeriod_ms + "ms integration, every " + refreshPeriod_s
 											+ " s)");
@@ -504,20 +503,6 @@ public class XHControlComposite extends Composite implements IObserver {
 							for (int i = 3; i < results.length; i++) {
 								regionValues[i - 3] = ArrayUtils.add(regionValues[i - 3], results[i]);
 							}
-
-							DoubleDataset allValuesDataSet = new DoubleDataset(allValues);
-							DoubleDataset[] regionsValuesDataSet = new DoubleDataset[numberSectors];
-							for (int i = 0; i < numberSectors; i++) {
-								regionsValuesDataSet[i] = new DoubleDataset(regionValues[i]);
-							}
-
-							IDataset[] datasets = new IDataset[numberSectors + 1];
-							datasets[0] = allValuesDataSet;
-							for (int i = 0; i < numberSectors; i++) {
-								datasets[i + 1] = regionsValuesDataSet[i];
-							}
-
-							SDAPlotter.plot(AlignmentPerspective.LINEPLOTNAME, (IDataset) null, datasets);
 
 							waitForRefreshPeriod(snapshotTime);
 						}
