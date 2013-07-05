@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
         <bean id="s5_xcentre_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BLI05-AL-SLITS-05:XCENTRE" />
+                <property name="pvName" value="BL05I-AL-SLITS-05:XCENTRE" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s5_xcentre" class="gda.device.scannable.ScannableMotor">
@@ -13,7 +13,7 @@
         </bean>
 
         <bean id="s5_xgap_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BLI05-AL-SLITS-05:XSIZE" />
+                <property name="pvName" value="BL05I-AL-SLITS-05:XSIZE" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s5_xgap" class="gda.device.scannable.ScannableMotor">
