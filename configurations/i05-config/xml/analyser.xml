@@ -116,6 +116,11 @@
 				<value>1000</value>
 			</list>
 		</property>
+		<property name="entranceSlitInformationProvider">
+			<bean class="uk.ac.gda.beamline.i05.analyser.I05EntranceSlit">
+				<property name="labelPV" value="BL05I-EA-SLITS-01" />
+			</bean>
+		</property>
 	</bean>
 	
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
