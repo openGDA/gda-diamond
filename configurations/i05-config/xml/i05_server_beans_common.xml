@@ -233,7 +233,7 @@
 			<set>
 				<value>pgm_energy</value>
 				<value>sample_name</value>
-				<value>sample_temperature</value>
+				<value>sample_temp</value>
 				<value>saz</value>
 				<value>say</value>
 				<value>sax</value>
