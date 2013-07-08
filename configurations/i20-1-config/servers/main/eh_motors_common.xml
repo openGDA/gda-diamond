@@ -102,6 +102,16 @@
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>  
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/sample_y" />
+		<property name="service" ref="sample_y" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>  
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/sample_z" />
+		<property name="service" ref="sample_z" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>  
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/twotheta" />
 		<property name="service" ref="twotheta" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
