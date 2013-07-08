@@ -170,6 +170,41 @@
 		</property>
 	</bean>
 	
+	<bean id="s3_hgap" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mrad" />
+		<property name="motor" ref="s3_hgap_motor" />
+		<property name="hardwareUnitString" value="mrad" />
+		<property name="local" value="false"/>
+	</bean>
+	<bean id="s3_hoffset" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mrad" />
+		<property name="motor" ref="s3_hoffset_motor" />
+		<property name="hardwareUnitString" value="mrad" />
+		<property name="local" value="false"/>
+	</bean>
+	<bean id="s3_xa" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mrad" />
+		<property name="motor" ref="s3_xa_motor" />
+		<property name="hardwareUnitString" value="mrad" />
+		<property name="local" value="false"/>
+	</bean>
+	<bean id="s3_xb" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mrad" />
+		<property name="motor" ref="s3_xb_motor" />
+		<property name="hardwareUnitString" value="mrad" />
+		<property name="local" value="false"/>
+	</bean>
+	<bean id="s3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s3_hgap" />
+				<ref bean="s3_hoffset" />
+				<ref bean="s3_xa" />
+				<ref bean="s3_xb" />
+			</list>
+		</property>
+	</bean>
+
 	<!-- rmi exports -->
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
