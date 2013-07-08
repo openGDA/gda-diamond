@@ -70,7 +70,7 @@
 		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriterMetadataTree.setLocationmap"/>
 		<property name="arguments">
 			<map>
-				<entry key="energy">
+				<entry key="pgm_energy">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
 						<property name="path" value="instrument:NXinstrument/monochromator:NXmonochromator/energy"/>
 						<property name="units" value="eV" />
@@ -149,7 +149,7 @@
 					</bean>
 				</entry>
 				<entry key="sample_name">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleStringScannableWriter">
 						<property name="path" value="sample:NXsample/name"/>
 						<property name="prerequisiteScannableNames">
 							<list>
@@ -231,7 +231,9 @@
 		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriterMetadataTree.setMetadatascannables"/>
 		<property name="arguments">
 			<set>
-				<value>energy</value>
+				<value>pgm_energy</value>
+				<value>sample_name</value>
+				<value>sample_temperature</value>
 				<value>saz</value>
 				<value>say</value>
 				<value>sax</value>
