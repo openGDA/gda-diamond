@@ -13,14 +13,11 @@
 	<bean id="fast_shutter_y_motor" class="gda.device.motor.DummyMotor"/>
 	
 
+
 	<bean id="sample_x_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="sample_z_motor" class="gda.device.motor.DummyMotor"/>
-<!-- 	<bean id="sample_x_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="pvName" value="BL20J-MO-TABLE-02:X" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="sample_z_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="pvName" value="BL20J-MO-TABLE-02:Z" /> -->
-<!-- 	</bean> -->
+	<bean id="sample_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-TABLE-02:Z" />
+	</bean>
 
 	<bean id="samenv_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-MO-TABLE-04:X" />

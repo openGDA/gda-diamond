@@ -380,10 +380,10 @@ public class XHControlComposite extends Composite implements IObserver {
 		group1.setNumberOfFrames(numberScans);
 		if (scansPerFrame > 0) {
 			group1.setNumberOfScansPerFrame(scansPerFrame);
-		} else {
 			group1.setTimePerScan(new Double(collectionPeriod) / 1000);
+		} else {
+			group1.setTimePerFrame(new Double(collectionPeriod) / 1000);
 		}
-		group1.setTimePerFrame(new Double(collectionPeriod) / 1000);
 		simpleParams.addGroup(group1);
 
 		getDetector().setAttribute(XHDetector.ATTR_LOADPARAMETERS, simpleParams);
