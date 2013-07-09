@@ -234,13 +234,13 @@ except:
 ######## Setting up the Andor Rasor camera ###############
 andor_installed = True
 
-from gdascripts.scannable.detector.ProcessingDetectorWrapper import \
-      SwitchableHardwareTriggerableProcessingDetectorWrapper
-global andor1det, andor1det_for_snaps, andor1GV12det, andor1GV12det_for_snaps
-
 if andor_installed:
     try: # Based in I16 configuration GDA-mt/configurations/i16-config/scripts/localStation.py at 3922edf
+        from gdascripts.scannable.detector.ProcessingDetectorWrapper import \
+              SwitchableHardwareTriggerableProcessingDetectorWrapper
         from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
+        global andor1det, andor1det_for_snaps, andor1GV12det, andor1GV12det_for_snaps
+
         # the andor has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
         andor = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'andor', andor1det, None, andor1det_for_snaps, [],
@@ -256,7 +256,7 @@ if andor_installed:
         #andor_trigger_output_enable()
     
         andorGV12 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-            'andor', andor1GV12det, None, andor1GV12det_for_snaps, [],
+            'andorGV12', andor1GV12det, None, andor1GV12det_for_snaps, [],
             panel_name='Andor CCD', panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
@@ -278,6 +278,56 @@ if andor_installed:
         
     except:
         localStation_exception(sys.exc_info(), "creating andor & andorGV12 objects")
+
+######## Setting up the I06 Pixis camera ###############
+pixis_installed = True
+
+if pixis_installed:
+    try: # Based in I16 configuration GDA-mt/configurations/i16-config/scripts/localStation.py at 3922edf
+        from gdascripts.scannable.detector.ProcessingDetectorWrapper import \
+              SwitchableHardwareTriggerableProcessingDetectorWrapper
+        from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
+        global pixis1det, pixis1det_for_snaps, pixis1GV12det, pixis1GV12det_for_snaps
+
+        # the pixis has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
+        pixis = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+            'pixis', pixis1det, None, pixis1det_for_snaps, [],
+            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
+            fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+    
+        pixisGV12 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+            'pixisGV12', pixis1GV12det, None, pixis1GV12det_for_snaps, [],
+            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
+            fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+    
+        from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue \
+            import SumMaxPositionAndValue
+
+        pixisSMPV = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+            'pixisSMPV', pixis1det, None, pixis1det_for_snaps, [SumMaxPositionAndValue],
+            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
+            fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+
+        def pixisGV12openDelay(t_seconds = None):
+            """Get or set the shutter close delay (in seconds) for the pixis"""
+            if t_seconds == None:
+                return pixis1GV12det.getCollectionStrategy().getShutterOpenDelay()
+            pixis1GV12det.getCollectionStrategy().setShutterOpenDelay(t_seconds)
+        
+        def pixisGV12closeDelay(t_seconds = None):
+            """Get or set the shutter close delay (in seconds) for the pixis"""
+            if t_seconds == None:
+                return pixis1GV12det.getCollectionStrategy().getShutterCloseDelay()
+            pixis1GV12det.getCollectionStrategy().setShutterCloseDelay(t_seconds)
+        
+        alias('pixisGV12openDelay')
+        alias('pixisGV12closeDelay')
+        
+    except:
+        localStation_exception(sys.exc_info(), "creating pixis & pixisGV12 objects")
 
 polarimeter_installed = False
 
