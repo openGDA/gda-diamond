@@ -48,7 +48,7 @@
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/i13/data" />
-				<property name="windowsSubString" value="z:\data" />
+				<property name="windowsSubString" value="t:\\i13\data" />
 			</bean>
 		</property>
 	</bean>
@@ -59,7 +59,7 @@
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/i13/data" />
-				<property name="windowsSubString" value="z:\data" />
+				<property name="windowsSubString" value="t:\\i13\data" />
 			</bean>
 		</property>
 	</bean>

@@ -21,7 +21,7 @@ from gda.device.scannable import ScannableBase, ScannableUtils
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.factory import Finder
 from uk.ac.gda.analysis.hdf5 import Hdf5Helper, Hdf5HelperData, HDF5HelperLocations
-
+from gda.util import OSCommandRunner
 from gda.data.scan.datawriter.DefaultDataWriterFactory import createDataWriterFromFactory
 from gda.data.scan.datawriter import *
 
@@ -113,6 +113,9 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
     sample_rotation_angle_target = "entry1:NXentry/instrument:NXinstrument/tomoScanDevice:NXpositioner/"
     sample_rotation_angle_target += tomography_theta_name + ":NXdata"
     nxLinkCreator.setSample_rotation_angle_target(sample_rotation_angle_target);
+    nxLinkCreator.setSample_x_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_samplex:NXdata")
+    nxLinkCreator.setSample_y_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_sampley:NXdata")
+    nxLinkCreator.setSample_z_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_samplez:NXdata")
    
     nxLinkCreator.setTitle_target("entry1:NXentry/title:NXdata")
    
@@ -157,8 +160,6 @@ def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_th
     nxLinkCreator.setSample_x_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_samplex:NXdata")
     nxLinkCreator.setSample_y_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_sampley:NXdata")
     nxLinkCreator.setSample_z_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_samplez:NXdata")
-    
-    
    
     nxLinkCreator.setTitle_target("entry1:NXentry/title:NXdata")
    
@@ -229,11 +230,11 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
     if tomography_translation is None:
         raise "tomography_translation is not defined in Jython namespace"        
 
-    tomography_detector=jns.tomography_detector
+    tomography_detector=jns.tomography_normalisedImage_detector
     if tomography_detector is None:
         raise "tomography_detector is not defined in Jython namespace"    
     currentTheta=tomography_theta()
-    tomoScan(tomography_translation(), outOfBeamPosition, exposureTime, start=currentTheta, stop=currentTheta, step=1., imagesPerDark=imagesPerDark, imagesPerFlat=imagesPerFlat, addNXEntry=False)
+    tomoScan(tomography_translation(), outOfBeamPosition, exposureTime, start=currentTheta, stop=currentTheta, step=1., imagesPerDark=imagesPerDark, imagesPerFlat=imagesPerFlat, addNXEntry=False,autoAnalyse=False,tomography_detector=tomography_detector)
 
     if getDataOnly:
         return True
@@ -393,22 +394,26 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         
         zebra_detb.name = tomography_flyscan_det.name
         
-        darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ionc_i, ss, ss1, jns.zebra_detb, exposureTime])
-        flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ionc_i, ss, ss1, jns.zebra_detb, exposureTime])
-        scanForward=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step, index_cont, image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
-        scanBackward=ConstantVelocityScanLine([tomography_flyscan_theta, stop, start, step, index_cont, image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
+#        scanBackward=ConstantVelocityScanLine([tomography_flyscan_theta, stop, start, step, index_cont, image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
 #        scanObject3=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,ix, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
         tomodet.stop()
         
 #        multiScanObj = MultiScan([darkFlatScan, scanObject, scanObject2,scanObject3])
         multiScanItems = []
-        multiScanItems.append(MultiScanItem(darkScan, PreScanRunnable("Preparing for darks", 0, tomography_shutter, "Close", tomography_translation, inBeamPosition, image_key, image_key_dark)))
-        multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat)))
+
+        if imagesPerDark > 0:
+            darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ionc_i, ss, ss1, jns.zebra_detb, exposureTime])
+            multiScanItems.append(MultiScanItem(darkScan, PreScanRunnable("Preparing for darks", 0, tomography_shutter, "Close", tomography_translation, inBeamPosition, image_key, image_key_dark)))
+        if imagesPerFlat > 0:
+            flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ionc_i, ss, ss1, jns.zebra_detb, exposureTime])
+            multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat)))
+        
+        scanForward=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step, index_cont, image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
         multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Preparing for projections",20, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
 #        multiScanItems.append(MultiScanItem(scanBackward, PreScanRunnable("Preparing for projections",60, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
         multiScanObj = MultiScanRunner(multiScanItems)
         #must pass fist scan to be run
-        addFlyScanNXTomoSubentry(darkScan, tomography_flyscan_det.name, tomography_flyscan_theta.name)
+        addFlyScanNXTomoSubentry(multiScanItems[0].scan, tomography_flyscan_det.name, tomography_flyscan_theta.name)
         multiScanObj.run()
         time.sleep(2)
         #turn camera back on
@@ -428,7 +433,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 perform a simple tomogrpahy scan
 """
 def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True):
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=True, tomography_detector=None):
     """
     Function to collect a tomogram
  	Arguments:
@@ -464,7 +469,9 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         if tomography_translation is None:
             raise "tomography_translation is not defined in Jython namespace"
         
-        tomography_detector=jns.tomography_detector
+
+        if tomography_detector is None:
+	        tomography_detector=jns.tomography_detector
         if tomography_detector is None:
             raise "tomography_detector is not defined in Jython namespace"
 
@@ -480,6 +487,11 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         if tomography_beammonitor is None:
             raise "tomography_beammonitor is not defined in Jython namespace"
 
+        meta_add = jns.meta_add
+        if meta_add is None:
+            raise "meta_add is not defined in Jython namespace"
+
+
         camera_stage = jns.cs1
         if camera_stage is None:
             raise "camera_stage is not defined in Jython namespace"
@@ -487,6 +499,10 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         sample_stage = jns.sample_stage
         if sample_stage is None:
             raise "sample_stage is not defined in Jython namespace"
+
+        meta_add( camera_stage)
+        meta_add( sample_stage)
+
 
         index=SimpleScannable()
         index.setCurrentPosition(0.0)
@@ -563,7 +579,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
                 
         positionProvider = tomoScan_positions( start, stop, step, darkFieldInterval, imagesPerDark, flatFieldInterval, imagesPerFlat, \
                                                inBeamPosition, outOfBeamPosition, scan_points ) 
-        scan_args = [tomoScanDevice, positionProvider, tomography_time, tomography_beammonitor, tomography_detector, exposureTime, camera_stage, sample_stage ]
+        scan_args = [tomoScanDevice, positionProvider, tomography_time, tomography_beammonitor, tomography_detector, exposureTime ]
         print `scan_args`
         if min_i > 0.:
             import gdascripts.scannable.beamokay
@@ -578,10 +594,17 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
             addNXTomoSubentry(scanObject, tomography_detector.name, tomography_theta.name)
         tomodet.stop()
         scanObject.runScan()
+
+        if autoAnalyse:
+            lsdp=jns.lastScanDataPoint()
+            OSCommandRunner.runNoWait(["/dls_sw/apps/tomopy/tomopy/bin/gda/tomo_at_scan_end", lsdp.currentFilename], OSCommandRunner.LOGOPTION.ALWAYS, None)
+        
         #ensure the soft control of the shutter is open at the end of the scan
         tomography_shutter.moveTo( "Open")	
         #turn camera back on
         tomodet.setupForAlignment()
+        
+            
         return scanObject;
     except :
         exceptionType, exception, traceback = sys.exc_info()
