@@ -85,6 +85,7 @@ getVisit = metadatatweaks.getVisit
 alias("getVisit")
 setVisit = metadatatweaks.setVisit
 alias("setVisit")
+sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename")
 
 from arpesmonitor import ARPESMonitor
 am=ARPESMonitor()
