@@ -57,11 +57,18 @@
                 <property name="local" value="true" />
         </bean>
 
+        <bean id="pgm_linedensity" class="uk.ac.gda.beamline.i05.scannable.NonLocalEpicsScannable">
+                <property name="pvName" value="BL05I-OP-PGM-01:LINES:RBV" />
+                <property name="useNameAsExtraName" value="true" />
+                <property name="local" value="true" />
+        </bean>
+
         <bean id="pgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
                 <property name="groupMembers">
                         <list>
                                 <ref bean="pgm_energy" />
                                 <ref bean="pgm_cff" />
+                                <ref bean="pgm_linedensity" />
                                 <ref bean="pgm_mpitch" />
                                 <ref bean="pgm_mtrans" />
                                 <ref bean="pgm_gpitch" />
