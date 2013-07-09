@@ -24,6 +24,11 @@
 	<bean id="s2_ya_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="s2_yb_motor" class="gda.device.motor.DummyMotor" />
 
+	<bean id="s3_hgap_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s3_hoffset_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s3_xa_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s3_xb_motor" class="gda.device.motor.DummyMotor" />
+
 	<import resource="file:${gda.config}/servers/main/slits-common.xml" />
 
 </beans>
