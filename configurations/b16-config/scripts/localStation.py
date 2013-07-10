@@ -64,8 +64,9 @@ print "Running B16 specific initialisation code"
 print "======================================================================"
 ENABLE_PILATUS = True
 ENABLE_PCOEDGE = False
-USE_YOU_DIFFCALC_ENGINE = True
-#USE_YOU_DIFFCALC_ENGINE = False  # Use old diffcalc
+
+#USE_YOU_DIFFCALC_ENGINE = True
+USE_YOU_DIFFCALC_ENGINE = False  # Use old diffcalc
 
 
 print "<<< Running init/microfocus_startup.py"
