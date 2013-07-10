@@ -249,6 +249,16 @@
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>  
 	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/s3_hgap" />
+		<property name="service" ref="s3_hgap" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>  
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/s3_hoffset" />
+		<property name="service" ref="s3_hoffset" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>  
 	
 	
 </beans>
