@@ -20,7 +20,7 @@ package uk.ac.gda.exafs.ui.views;
 
 import java.util.ArrayList;
 
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -46,16 +46,16 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.exafs.data.ScannableSetup;
-import uk.ac.gda.exafs.data.ScannableSetup.DetectorSetup;
-import uk.ac.gda.exafs.data.ScannableSetup.Units;
+import uk.ac.gda.exafs.data.ClientConfig.DetectorSetup;
 import uk.ac.gda.exafs.ui.composites.FocusingFormComposite;
 import uk.ac.gda.exafs.ui.composites.XHControlComposite;
+import uk.ac.gda.exafs.ui.data.UIHelper;
 
 /**
  * Shows detector controls for use when aligning the beamline.
@@ -112,9 +112,10 @@ public class DetectorSetupView extends ViewPart {
 		CTabItem focusingTabItem = new CTabItem(tabFolder, SWT.NULL);
 		focusingTabItem.setText("Focusing");
 
+		// TODO Refactor how the form is created
 		FocusingFormComposite focusingForm = new FocusingFormComposite();
-		form = focusingForm.getFocusingForm(toolkit, tabFolder);
-		focusingTabItem.setControl(form);
+		ScrolledForm scrolledForm = focusingForm.getFocusingForm(toolkit, tabFolder);
+		focusingTabItem.setControl(scrolledForm);
 		tabFolder.setSelection(setupTabItem);
 	}
 
@@ -142,7 +143,7 @@ public class DetectorSetupView extends ViewPart {
 		});
 		cmbDetectorType.getCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		Label lblBiasVoltage = toolkit.createLabel(defaultSelectionComposite, "Bias voltage:", SWT.NONE);
+		Label lblBiasVoltage = toolkit.createLabel(defaultSelectionComposite, "Voltage (V):", SWT.NONE);
 		lblBiasVoltage.setLayoutData(new GridData(GridData.BEGINNING, GridData.BEGINNING, false, false));
 
 		txtBiasVoltage = toolkit.createText(defaultSelectionComposite, "", SWT.NONE);
@@ -177,16 +178,16 @@ public class DetectorSetupView extends ViewPart {
 		saveDefaultTBarItem.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				updateDetectorValues();
-				defaultSection.setExpanded(false);
+				updateDetectorDefaultValues();
+				populateDetectorDefaultValues();
 			}
 		});
 		defaultSection.setTextClient(defaultSectionTbar);
-		populateDetectorSetupValues();
+		populateDetectorDefaultValues();
 
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings({ "unused", "static-access" })
 	private void createTempratureSection(Form form) {
 		final Section temperatureSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR);
 		temperatureSection.setText("Temperature");
@@ -204,7 +205,7 @@ public class DetectorSetupView extends ViewPart {
 		refreshTemperatureTBarItem.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				// TODO update temperature
+				// FIXME update temperature
 			}
 		});
 		temperatureSection.setTextClient(temperatureSectionTbar);
@@ -214,7 +215,7 @@ public class DetectorSetupView extends ViewPart {
 
 	private void showExcludedStripsDialog() {
 		ListSelectionDialog dialog =
-				new ListSelectionDialog(Display.getDefault().getActiveShell(), ScannableSetup.STRIPS, new ArrayContentProvider(), new LabelProvider(), "Select excluded strips");
+				new ListSelectionDialog(Display.getDefault().getActiveShell(), DetectorSetup.STRIPS, new ArrayContentProvider(), new LabelProvider(), "Select excluded strips");
 		dialog.setInitialElementSelections(excludedStrips);
 		if (dialog.open() == Window.OK) {
 			Object[] selection = dialog.getResult();
@@ -241,22 +242,27 @@ public class DetectorSetupView extends ViewPart {
 		txtExcludedStrips.setText(excludedListCsvString.toString());
 	}
 
-	private void updateDetectorValues() {
+	private void updateDetectorDefaultValues() {
 		try {
-			// TODO Use data binding validation
+			// REVIEW Use data binding validation
 			if (txtBiasVoltage.getText().isEmpty()) {
-				throw new Exception("Unvalid values");
+				throw new Exception("Enpty voltage value");
 			}
-			activeDetectorSetup.getDetectorScannable().setBias(Double.valueOf(Units.VOLTAGE.removeUnitSuffix(txtBiasVoltage.getText())));
+			double voltage = Double.valueOf(txtBiasVoltage.getText());
+			if (!activeDetectorSetup.isVoltageInRange(voltage)) {
+				throw new Exception("Voltage out of range");
+			}
+			activeDetectorSetup.getDetectorScannable().setBias(voltage);
+			activeDetectorSetup.getDetectorScannable().setExcludedStrips(ArrayUtils.toPrimitive(excludedStrips.toArray(new Integer[excludedStrips.size()])));
 		} catch (Exception e) {
 			String errorMessage = "Unable to save Detector parameter ";
 			logger.error(errorMessage, e);
-			MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", errorMessage + e.getMessage());
+			UIHelper.showError(errorMessage, e.getMessage());
 		}
 	}
 
-	private void populateDetectorSetupValues() {
-		// TODO Use data binding
+	private void populateDetectorDefaultValues() {
+		// REVIEW Use data binding
 		try {
 			for (DetectorSetup detector : DetectorSetup.values()) {
 				if (detector == DetectorSetup.getActiveDetectorSetup()) {
@@ -265,12 +271,15 @@ public class DetectorSetupView extends ViewPart {
 					cmbDetectorType.getCombo().notifyListeners(SWT.Selection, new Event());
 				}
 			}
-			txtBiasVoltage.setText(Units.VOLTAGE.addUnitSuffix(activeDetectorSetup.getDetectorScannable().getBias().toString()));
+			txtBiasVoltage.setText(activeDetectorSetup.getDetectorScannable().getBias().toString());
 			int[] excludedStripsArray = activeDetectorSetup.getDetectorScannable().getExcludedStrips();
+			if (excludedStripsArray == null) {
+				throw new Exception("Unable to get excluded strips information from Detector");
+			}
 			excludedStrips.clear();
 			if (excludedStripsArray.length > 0) {
-				for (int selected : excludedStrips) {
-					Integer stringNo = ScannableSetup.STRIPS[selected - 1];
+				for (int selected : excludedStripsArray) {
+					Integer stringNo = DetectorSetup.STRIPS[selected - 1];
 					excludedStrips.add(stringNo);
 				}
 			}
@@ -278,7 +287,7 @@ public class DetectorSetupView extends ViewPart {
 		} catch (Exception e) {
 			String errorMessage = "Unable to get Detector parameter. ";
 			logger.error(errorMessage, e);
-			MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", errorMessage + "\n\nReason:\n" + e.getMessage());
+			UIHelper.showError(errorMessage, e.getMessage());
 		}
 	}
 

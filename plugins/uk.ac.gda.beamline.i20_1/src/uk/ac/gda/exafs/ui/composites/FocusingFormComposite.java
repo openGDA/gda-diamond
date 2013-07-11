@@ -18,14 +18,11 @@
 
 package uk.ac.gda.exafs.ui.composites;
 
-import gda.device.Scannable;
 import gda.device.detector.XHROI;
-import gda.factory.Finder;
 
 import java.util.ArrayList;
 
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
@@ -51,37 +48,37 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.forms.widgets.TableWrapData;
+import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-import uk.ac.gda.exafs.data.ScannableSetup;
-import uk.ac.gda.exafs.data.ScannableSetup.DetectorSetup;
-import uk.ac.gda.exafs.data.ScannableSetup.Scannables;
-import uk.ac.gda.ui.viewer.RotationViewer;
+import uk.ac.gda.exafs.data.ClientConfig;
+import uk.ac.gda.exafs.data.ClientConfig.DetectorSetup;
+import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
+import uk.ac.gda.exafs.ui.data.UIHelper;
+import uk.ac.gda.exafs.ui.data.UIHelper.UIMotorControl;
 
 public class FocusingFormComposite {
-	private Form forcusingForm;
-	private FormToolkit toolkit;
 
-	// TODO Use static block to generate this
-	// TODO Review
-	private static final String[] STEPS_IN_MILLI_METER = new String[]{"0.1","0.2","0.3","0.4","0.5","0.6","0.7","0.8","0.9","1.0","2.0","3.0","4.0","5.0","6.0","7.0","8.0","9.0","10.0"};
-	private static final int DEFAUALT_STEP_INDEX = 9;
-	private static final int DECIMALS = 2;
-	private static final int MAX = 100 * (int) Math.pow(10, DECIMALS);
+	private static final int ROIS_TABLE_HEIGHT = 150;
+	private static final int ROIs_TABLE_WIDTH = 70;
+
+	private ScrolledForm forcusingForm;
+	private FormToolkit toolkit;
 
 	private final ArrayList<XHROI> noOfRegionsList = new ArrayList<XHROI>();
 	private ComboViewer cmbFirstStripViewer;
 	private ComboViewer cmbLastStripViewer;
+	private TableViewer roisTableViewer;
 
-	public Form getFocusingForm(FormToolkit toolkit, Composite parent) {
+	public ScrolledForm getFocusingForm(FormToolkit toolkit, Composite parent) {
 		if (forcusingForm == null) {
 			this.toolkit = toolkit;
 			forcusingForm = createFocusingForm(parent);
@@ -89,18 +86,18 @@ public class FocusingFormComposite {
 		return forcusingForm;
 	}
 
-	private Form createFocusingForm(Composite parent) {
-		Form form = toolkit.createForm(parent);
-		form.getBody().setLayout(new GridLayout());
+	private ScrolledForm createFocusingForm(Composite parent) {
+		ScrolledForm scrolledform = toolkit.createScrolledForm(parent);
+		Form form = scrolledform.getForm();
+		form.getBody().setLayout(new TableWrapLayout());
 		toolkit.decorateFormHeading(form);
 		form.setText("Slits scan / Focusing");
-		createFormBendSection(form);
-		createFormCurvatureSection(form);
+		createFormSlitsParametersSection(form);
 		createFormRoisSection(form);
 		createFormSampleZSection(form);
-		createFormSlitsParametersSection(form);
-		createFormSlitsScanComposite(form);
-		return form;
+		createFormBendSection(form);
+		createFormCurvatureSection(form);
+		return scrolledform;
 	}
 
 	@SuppressWarnings("static-access")
@@ -109,56 +106,19 @@ public class FocusingFormComposite {
 		toolkit.paintBordersFor(bendSection);
 		bendSection.setText("Polychromator Benders");
 		toolkit.paintBordersFor(bendSection);
-		bendSection.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		bendSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		Composite bendSelectionComposite = toolkit.createComposite(bendSection, SWT.NONE);
 		toolkit.paintBordersFor(bendSelectionComposite);
 		bendSelectionComposite.setLayout(new GridLayout(2, false));
 		bendSection.setClient(bendSelectionComposite);
-		Label lblBend1Name = toolkit.createLabel(bendSelectionComposite, Scannables.POLY_BENDER_1.getLabelForUI(), SWT.NONE);
+
+		Label lblBend1Name = toolkit.createLabel(bendSelectionComposite, ScannableSetup.POLY_BENDER_1.getLabelForUI(), SWT.NONE);
 		lblBend1Name.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		GridLayoutFactory rotationGroupLayoutFactory = GridLayoutFactory.swtDefaults().numColumns(3).spacing(0, 0).margins(0, 0);
-		GridLayoutFactory layoutFactory = GridLayoutFactory.swtDefaults().numColumns(3).spacing(0, 0);
-		final Scannable theScannableBender1 = Finder.getInstance().find(Scannables.POLY_BENDER_1.getScannableName());
-		RotationViewer rotationViewerBander1 = new RotationViewer(theScannableBender1, "", false);
-		rotationViewerBander1.configureStandardStep(1.0);
-		rotationViewerBander1.setNudgeSizeBoxDecimalPlaces(DECIMALS);
-		rotationViewerBander1.createControls(bendSelectionComposite, SWT.SINGLE, true, rotationGroupLayoutFactory.create(),
-				layoutFactory.create(), null);
+		UIHelper.createMotorViewer(toolkit, bendSelectionComposite, ScannableSetup.POLY_BENDER_1, UIMotorControl.ROTATION);
 
-		//		Spinner spnBend1 = new Spinner(bendSelectionComposite, SWT.BORDER | SWT.FLAT);
-		//		spnBend1.setDigits(DECIMALS);
-		//		spnBend1.setMaximum(MAX);
-		//		spnBend1.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
-		//		Label lblBend1Step = toolkit.createLabel(bendSelectionComposite, "Step:", SWT.NONE);
-		//		lblBend1Step.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		//		CCombo cmbBend1Steps = new CCombo(bendSelectionComposite, SWT.FLAT);
-		//		cmbBend1Steps.setEditable(false);
-		//		cmbBend1Steps.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		//		cmbBend1Steps.setItems(STEPS_IN_MILLI_METER);
-		//		cmbBend1Steps.setText(STEPS_IN_MILLI_METER[DEFAUALT_STEP_INDEX]);
-		//		cmbBend1Steps.addListener(SWT.Selection, new StepChangeListener(spnBend1));
-
-		Label lblBend2Name = toolkit.createLabel(bendSelectionComposite, Scannables.POLY_BENDER_2.getLabelForUI(), SWT.NONE);
+		Label lblBend2Name = toolkit.createLabel(bendSelectionComposite, ScannableSetup.POLY_BENDER_2.getLabelForUI(), SWT.NONE);
 		lblBend2Name.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		final Scannable theScannableBender2 = Finder.getInstance().find(Scannables.POLY_BENDER_2.getScannableName());
-		RotationViewer rotationViewerBander2 = new RotationViewer(theScannableBender2, "", false);
-		rotationViewerBander2.configureStandardStep(1.0);
-		rotationViewerBander2.setNudgeSizeBoxDecimalPlaces(DECIMALS);
-		rotationViewerBander2.createControls(bendSelectionComposite, SWT.SINGLE, true, rotationGroupLayoutFactory.create(),
-				layoutFactory.create(), null);
-
-		//		Spinner spnBend2 = new Spinner(bendSelectionComposite, SWT.BORDER | SWT.FLAT);
-		//		spnBend2.setDigits(DECIMALS);
-		//		spnBend2.setMaximum(MAX);
-		//		spnBend2.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
-		//		Label lblBend2Step = toolkit.createLabel(bendSelectionComposite, "Step:", SWT.NONE);
-		//		lblBend2Step.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		//		CCombo cmbBend2Steps = new CCombo(bendSelectionComposite, SWT.FLAT);
-		//		cmbBend2Steps.setEditable(false);
-		//		cmbBend2Steps.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		//		cmbBend2Steps.setItems(STEPS_IN_MILLI_METER);
-		//		cmbBend2Steps.setText(STEPS_IN_MILLI_METER[DEFAUALT_STEP_INDEX]);
-		//		cmbBend2Steps.addListener(SWT.Selection, new StepChangeListener(spnBend2));
+		UIHelper.createMotorViewer(toolkit, bendSelectionComposite, ScannableSetup.POLY_BENDER_2, UIMotorControl.ROTATION);
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(bendSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
@@ -171,42 +131,19 @@ public class FocusingFormComposite {
 		toolkit.paintBordersFor(curvatureSection);
 		curvatureSection.setText("Curvature/Ellipticity");
 		toolkit.paintBordersFor(curvatureSection);
-		curvatureSection.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		curvatureSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		Composite curvatureSelectionComposite = toolkit.createComposite(curvatureSection, SWT.NONE);
 		toolkit.paintBordersFor(curvatureSelectionComposite);
-		curvatureSelectionComposite.setLayout(new GridLayout(4, false));
+		curvatureSelectionComposite.setLayout(new GridLayout(2, false));
 		curvatureSection.setClient(curvatureSelectionComposite);
 
-		Label lblCurvature = toolkit.createLabel(curvatureSelectionComposite, "Curvature:", SWT.NONE);
+		Label lblCurvature = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_CURVATURE.getLabelForUI(), SWT.NONE);
 		lblCurvature.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		Spinner spnCurvature = new Spinner(curvatureSelectionComposite, SWT.BORDER | SWT.FLAT);
-		spnCurvature.setDigits(DECIMALS);
-		spnCurvature.setMaximum(MAX);
-		spnCurvature.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
-		Label lblCurvatureStep = toolkit.createLabel(curvatureSelectionComposite, "Step:", SWT.NONE);
-		lblCurvatureStep.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		CCombo cmbCurvatureSteps = new CCombo(curvatureSelectionComposite, SWT.BORDER | SWT.FLAT);
-		cmbCurvatureSteps.setEditable(false);
+		UIHelper.createMotorViewer(toolkit, curvatureSelectionComposite, ScannableSetup.POLY_CURVATURE, UIMotorControl.ROTATION);
 
-		cmbCurvatureSteps.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		cmbCurvatureSteps.setItems(STEPS_IN_MILLI_METER);
-		cmbCurvatureSteps.setText(STEPS_IN_MILLI_METER[DEFAUALT_STEP_INDEX]);
-		cmbCurvatureSteps.addListener(SWT.Selection, new StepChangeListener(spnCurvature));
-
-		Label lblEllipticity = toolkit.createLabel(curvatureSelectionComposite, "Ellipticity:", SWT.NONE);
+		Label lblEllipticity = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_Y_ELLIPTICITY.getLabelForUI(), SWT.NONE);
 		lblEllipticity.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		Spinner spnEllipticity = new Spinner(curvatureSelectionComposite, SWT.BORDER | SWT.FLAT);
-		spnEllipticity.setDigits(DECIMALS);
-		spnEllipticity.setMaximum(MAX);
-		spnEllipticity.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
-		Label lblEllipticityStep = toolkit.createLabel(curvatureSelectionComposite, "Step:", SWT.NONE);
-		lblEllipticityStep.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		CCombo cmbEllipticitySteps = new CCombo(curvatureSelectionComposite, SWT.BORDER | SWT.FLAT);
-		cmbEllipticitySteps.setEditable(false);
-		cmbEllipticitySteps.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		cmbEllipticitySteps.setItems(STEPS_IN_MILLI_METER);
-		cmbEllipticitySteps.setText(STEPS_IN_MILLI_METER[DEFAUALT_STEP_INDEX]);
-		cmbEllipticitySteps.addListener(SWT.Selection, new StepChangeListener(spnEllipticity));
+		UIHelper.createMotorViewer(toolkit, curvatureSelectionComposite, ScannableSetup.POLY_Y_ELLIPTICITY, UIMotorControl.ROTATION);
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(curvatureSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
@@ -219,38 +156,27 @@ public class FocusingFormComposite {
 		toolkit.paintBordersFor(sampleZSection);
 		sampleZSection.setText("Sample position");
 		toolkit.paintBordersFor(sampleZSection);
-		sampleZSection.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		sampleZSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		Composite sampleZSelectionComposite = toolkit.createComposite(sampleZSection, SWT.NONE);
 		toolkit.paintBordersFor(sampleZSelectionComposite);
-		sampleZSelectionComposite.setLayout(new GridLayout(4, false));
+		sampleZSelectionComposite.setLayout(new GridLayout(2, false));
 		sampleZSection.setClient(sampleZSelectionComposite);
-		Label lblSampleZ = toolkit.createLabel(sampleZSelectionComposite, "Sample_z:", SWT.NONE);
+
+		Label lblSampleZ = toolkit.createLabel(sampleZSelectionComposite, ScannableSetup.SAMPLE_Z_POSITION.getLabelForUI(), SWT.NONE);
 		lblSampleZ.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		Spinner spnSampleZ = new Spinner(sampleZSelectionComposite, SWT.BORDER | SWT.FLAT);
-		spnSampleZ.setDigits(DECIMALS);
-		spnSampleZ.setMaximum(MAX);
-		spnSampleZ.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
-		Label lblSampleZStep = toolkit.createLabel(sampleZSelectionComposite, "Step:", SWT.NONE);
-		lblSampleZStep.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		CCombo cmbSampleZSteps = new CCombo(sampleZSelectionComposite, SWT.BORDER | SWT.FLAT);
-		cmbSampleZSteps.setEditable(false);
-		cmbSampleZSteps.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		cmbSampleZSteps.setItems(STEPS_IN_MILLI_METER);
-		cmbSampleZSteps.setText(STEPS_IN_MILLI_METER[DEFAUALT_STEP_INDEX]);
-		cmbSampleZSteps.addListener(SWT.Selection, new StepChangeListener(spnSampleZ));
+		UIHelper.createMotorViewer(toolkit, sampleZSelectionComposite, ScannableSetup.SAMPLE_Z_POSITION, UIMotorControl.POSITION);
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(sampleZSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
 		sampleZSection.setSeparatorControl(defaultSectionSeparator);
 	}
 
-
 	@SuppressWarnings({ "unused", "static-access" })
 	private void createFormRoisSection(Form form) {
 		final Section roisSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
 		roisSection.setText("Region of Interests (ROIs)");
 		toolkit.paintBordersFor(roisSection);
-		roisSection.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		roisSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		Composite roisSectionComposite = toolkit.createComposite(roisSection, SWT.NONE);
 		toolkit.paintBordersFor(roisSectionComposite);
 		roisSection.setClient(roisSectionComposite);
@@ -261,7 +187,7 @@ public class FocusingFormComposite {
 		stripsComposit.setLayoutData(gridData);
 		stripsComposit.setLayout(new GridLayout(4, false));
 
-		Label lblFirstStrip = toolkit.createLabel(stripsComposit, "First strip:", SWT.NONE);
+		final Label lblFirstStrip = toolkit.createLabel(stripsComposit, "First strip:", SWT.NONE);
 		lblFirstStrip.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		CCombo cmbFirstStrip = new CCombo(stripsComposit, SWT.BORDER | SWT.FLAT);
 		cmbFirstStrip.setEditable(false);
@@ -269,8 +195,7 @@ public class FocusingFormComposite {
 		cmbFirstStripViewer = new ComboViewer(cmbFirstStrip);
 		cmbFirstStripViewer.setContentProvider(new ArrayContentProvider());
 		cmbFirstStripViewer.setLabelProvider(new LabelProvider());
-		cmbFirstStripViewer.setInput(ScannableSetup.STRIPS);
-		toolkit.paintBordersFor(cmbFirstStrip);
+		cmbFirstStripViewer.setInput(DetectorSetup.STRIPS);
 
 		Label lblLastStrip = toolkit.createLabel(stripsComposit, "Last strip:", SWT.NONE);
 		lblLastStrip.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
@@ -280,22 +205,22 @@ public class FocusingFormComposite {
 		cmbLastStripViewer = new ComboViewer(cmbLastStrip);
 		cmbLastStripViewer.setContentProvider(new ArrayContentProvider());
 		cmbLastStripViewer.setLabelProvider(new LabelProvider());
-		cmbLastStripViewer.setInput(ScannableSetup.STRIPS);
-		toolkit.paintBordersFor(cmbLastStrip);
-
+		cmbLastStripViewer.setInput(DetectorSetup.STRIPS);
 
 		Composite regionsComposit = new Composite(roisSectionComposite, SWT.NONE);
 		gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
-		gridData.heightHint = 150;
+		gridData.heightHint = ROIS_TABLE_HEIGHT;
 		regionsComposit.setLayoutData(gridData);
 		regionsComposit.setLayout(new GridLayout(2,false));
 
 		Composite regionsTableComposit = new Composite(regionsComposit, SWT.NONE);
-		regionsTableComposit.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
+		gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
+		gridData.widthHint = ROIs_TABLE_WIDTH;
+		regionsTableComposit.setLayoutData(gridData);
 		TableColumnLayout layout = new TableColumnLayout();
 		regionsTableComposit.setLayout(layout);
-		final TableViewer roisTableViewer = new TableViewer(regionsTableComposit,  SWT.BORDER | SWT.FLAT);
-		roisTableViewer.getTable().setLayoutData(new GridData(GridData.FILL_BOTH));
+		roisTableViewer = new TableViewer(regionsTableComposit,  SWT.BORDER | SWT.FLAT);
+		roisTableViewer.getTable().setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		roisTableViewer.setContentProvider(new ArrayContentProvider());
 		roisTableViewer.getTable().setHeaderVisible(true);
 
@@ -307,7 +232,7 @@ public class FocusingFormComposite {
 				return ((XHROI) element).getName();
 			}
 		});
-		layout.setColumnData(viewerNumberColumn.getColumn(),new ColumnWeightData(10));
+		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
 
 		// Lower level column
 		TableViewerColumn viewerlowerLevelColumn = new TableViewerColumn(roisTableViewer, SWT.NONE);
@@ -319,7 +244,7 @@ public class FocusingFormComposite {
 			}
 		});
 		viewerlowerLevelColumn.setEditingSupport(new RoisStripLevelEditorSupport(roisTableViewer, false));
-		layout.setColumnData(viewerlowerLevelColumn.getColumn(),new ColumnWeightData(50));
+		layout.setColumnData(viewerlowerLevelColumn.getColumn(),new ColumnWeightData(4));
 		viewerlowerLevelColumn.getColumn().setText("Lower level");
 
 		// Upper level column
@@ -332,7 +257,7 @@ public class FocusingFormComposite {
 		});
 		viewerUpperLevelColumn.setEditingSupport(new RoisStripLevelEditorSupport(roisTableViewer, true));
 		viewerUpperLevelColumn.getColumn().setText("Upper level");
-		layout.setColumnData(viewerUpperLevelColumn.getColumn(),new ColumnWeightData(50));
+		layout.setColumnData(viewerUpperLevelColumn.getColumn(),new ColumnWeightData(4));
 		toolkit.paintBordersFor(regionsTableComposit);
 		populateRegions();
 		roisTableViewer.setInput(noOfRegionsList);
@@ -352,14 +277,12 @@ public class FocusingFormComposite {
 		butReset.setText("Reset");
 		butReset.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
 
-
 		butAdd.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				noOfRegionsList.add(new XHROI(Integer.toString(noOfRegionsList.size() + 1)));
 				butRemove.setEnabled(noOfRegionsList.size() > 1);
 				distributeNoOfRegionsValues();
-				roisTableViewer.refresh();
 			}
 		});
 
@@ -369,7 +292,6 @@ public class FocusingFormComposite {
 				noOfRegionsList.remove(noOfRegionsList.size() - 1);
 				butRemove.setEnabled(!noOfRegionsList.isEmpty());
 				distributeNoOfRegionsValues();
-				roisTableViewer.refresh();
 			}
 		});
 
@@ -400,32 +322,36 @@ public class FocusingFormComposite {
 		cmbFirstStripViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				distributeNoOfRegionsValues();
-				roisTableViewer.refresh();
+				checkAndUpdateFirstAndLastStrips();
 			}
 		});
 
 		cmbLastStripViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				int first = (Integer) ((IStructuredSelection) cmbFirstStripViewer.getSelection()).getFirstElement();
-				int last = (Integer) ((IStructuredSelection) cmbLastStripViewer.getSelection()).getFirstElement();
-				if (last > first) {
-					// TODO Update model
-					distributeNoOfRegionsValues();
-					roisTableViewer.refresh();
-				} else {
-					MessageDialog.openWarning(Display.getDefault().getActiveShell(), "Warning", "Unable to set Last script" + "\n\nReason:\n" + "Value lower than First strip");
-					// TODO Reset selection
-				}
+				checkAndUpdateFirstAndLastStrips();
 			}
 		});
 	}
 
+	protected void checkAndUpdateFirstAndLastStrips() {
+		int first = (Integer) ((IStructuredSelection) cmbFirstStripViewer.getSelection()).getFirstElement();
+		int last = (Integer) ((IStructuredSelection) cmbLastStripViewer.getSelection()).getFirstElement();
+		if (last > first && (last - (first -1)) >= noOfRegionsList.size()) {
+			// TODO Update to model
+			distributeNoOfRegionsValues();
+		} else {
+			UIHelper.showWarning( "Unable to set strip value", "First strip is higher than last strip OR to many regions for usable number of strips");
+			// TODO Update from model
+			cmbFirstStripViewer.setSelection(new StructuredSelection(DetectorSetup.STRIPS[0]));
+			cmbLastStripViewer.setSelection(new StructuredSelection(DetectorSetup.STRIPS[DetectorSetup.MAX_STRIPS - 1]));
+		}
+	}
+
 	private void populateRegions() {
 		// TODO Update from model
-		cmbFirstStripViewer.setSelection(new StructuredSelection(ScannableSetup.STRIPS[0]));
-		cmbLastStripViewer.setSelection(new StructuredSelection(ScannableSetup.STRIPS[DetectorSetup.MAX_STRIPS - 1]));
+		cmbFirstStripViewer.setSelection(new StructuredSelection(DetectorSetup.STRIPS[0]));
+		cmbLastStripViewer.setSelection(new StructuredSelection(DetectorSetup.STRIPS[DetectorSetup.MAX_STRIPS - 1]));
 		noOfRegionsList.add(new XHROI("1"));
 		noOfRegionsList.add(new XHROI("2"));
 		noOfRegionsList.add(new XHROI("3"));
@@ -437,7 +363,7 @@ public class FocusingFormComposite {
 	private void distributeNoOfRegionsValues() {
 		int first = (Integer) ((IStructuredSelection) cmbFirstStripViewer.getSelection()).getFirstElement();
 		int last = (Integer) ((IStructuredSelection) cmbLastStripViewer.getSelection()).getFirstElement();
-		int useableRegion = last - (first - 1);
+		int useableRegion = last - (first - 1); // Inclusive of the first
 		int increment = useableRegion / noOfRegionsList.size();
 		int start = first;
 		for (int i = 0; i < noOfRegionsList.size(); i++) {
@@ -449,6 +375,7 @@ public class FocusingFormComposite {
 		if (noOfRegionsList.get(noOfRegionsList.size() - 1).getUpperLevel() < last) {
 			noOfRegionsList.get(noOfRegionsList.size() - 1).setUpperLevel(last);
 		}
+		roisTableViewer.refresh();
 	}
 
 	private static class RoisStripLevelEditorSupport extends EditingSupport {
@@ -500,62 +427,26 @@ public class FocusingFormComposite {
 	private void createFormSlitsParametersSection(Form form) {
 		final Section slitsParametersSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
 		toolkit.paintBordersFor(slitsParametersSection);
-		slitsParametersSection.setText("Slits scan parameters");
+		slitsParametersSection.setText("Slits scan");
 		toolkit.paintBordersFor(slitsParametersSection);
-		slitsParametersSection.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		slitsParametersSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		Composite slitsParametersSelectionComposite = toolkit.createComposite(slitsParametersSection, SWT.NONE);
 		toolkit.paintBordersFor(slitsParametersSelectionComposite);
-		slitsParametersSelectionComposite.setLayout(new GridLayout(4, false));
+		slitsParametersSelectionComposite.setLayout(new GridLayout(2, false));
 		slitsParametersSection.setClient(slitsParametersSelectionComposite);
 
-		Label lblGap = toolkit.createLabel(slitsParametersSelectionComposite, "Gap:", SWT.NONE);
-		lblGap.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		Text txtGap = toolkit.createText(slitsParametersSelectionComposite, "", SWT.NONE);
-		txtGap.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
+		Label lbl = toolkit.createLabel(slitsParametersSelectionComposite, ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getLabelForUI(), SWT.NONE);
+		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
+		UIHelper.createMotorViewer(toolkit, slitsParametersSelectionComposite, ScannableSetup.SLIT_3_HORIZONAL_GAP, UIMotorControl.ROTATION);
 
-		Label lblIntegrationTime = toolkit.createLabel(slitsParametersSelectionComposite, "Integration:", SWT.NONE);
-		lblIntegrationTime.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		Text txtIntegrationTime = toolkit.createText(slitsParametersSelectionComposite, "", SWT.NONE);
-		txtIntegrationTime.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
+		lbl = toolkit.createLabel(slitsParametersSelectionComposite, ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_OFFSET.getLabelForUI(), SWT.NONE);
+		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
+		UIHelper.createMotorViewer(toolkit, slitsParametersSelectionComposite, ScannableSetup.SLIT_3_HORIZONAL_OFFSET, UIMotorControl.ROTATION);
 
-		Label lblOffsetStart = toolkit.createLabel(slitsParametersSelectionComposite, "Offset Start:", SWT.NONE);
-		lblOffsetStart.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		Spinner spnOffsetStart = new Spinner(slitsParametersSelectionComposite, SWT.BORDER | SWT.FLAT);
-		spnOffsetStart.setDigits(DECIMALS);
-		spnOffsetStart.setMaximum(MAX);
-		spnOffsetStart.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
-		Label lblOffsetStartStep = toolkit.createLabel(slitsParametersSelectionComposite, "Step:", SWT.NONE);
-		lblOffsetStartStep.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		CCombo cmbOffsetStartSteps = new CCombo(slitsParametersSelectionComposite, SWT.BORDER | SWT.FLAT);
-		cmbOffsetStartSteps.setEditable(false);
-		cmbOffsetStartSteps.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		cmbOffsetStartSteps.setItems(STEPS_IN_MILLI_METER);
-		cmbOffsetStartSteps.setText(STEPS_IN_MILLI_METER[DEFAUALT_STEP_INDEX]);
-		cmbOffsetStartSteps.addListener(SWT.Selection, new StepChangeListener(spnOffsetStart));
-
-		Label lblOffsetEnd = toolkit.createLabel(slitsParametersSelectionComposite, "Offset End:", SWT.NONE);
-		lblOffsetEnd.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		Spinner spnOffsetEnd = new Spinner(slitsParametersSelectionComposite, SWT.BORDER | SWT.FLAT);
-		spnOffsetEnd.setDigits(DECIMALS);
-		spnOffsetEnd.setMaximum(MAX);
-		spnOffsetEnd.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
-		Label lblOffsetEndStep = toolkit.createLabel(slitsParametersSelectionComposite, "Step:", SWT.NONE);
-		lblOffsetEndStep.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		CCombo cmbOffsetEndSteps = new CCombo(slitsParametersSelectionComposite, SWT.BORDER | SWT.FLAT);
-		cmbOffsetEndSteps.setEditable(false);
-		cmbOffsetEndSteps.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-		cmbOffsetEndSteps.setItems(STEPS_IN_MILLI_METER);
-		cmbOffsetEndSteps.setText(STEPS_IN_MILLI_METER[DEFAUALT_STEP_INDEX]);
-		cmbOffsetEndSteps.addListener(SWT.Selection, new StepChangeListener(spnOffsetEnd));
-
-		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(slitsParametersSection);
-		toolkit.paintBordersFor(defaultSectionSeparator);
-		slitsParametersSection.setSeparatorControl(defaultSectionSeparator);
-	}
-
-	private void createFormSlitsScanComposite(Form form) {
-		Composite scanButtons = toolkit.createComposite(form.getBody());
-		scanButtons.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+		Composite scanButtons = toolkit.createComposite(slitsParametersSelectionComposite);
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+		gridData.horizontalSpan = 2;
+		scanButtons.setLayoutData(gridData);
 		scanButtons.setLayout(new GridLayout(2, true));
 		Button startPauseButton = new Button(scanButtons, SWT.FLAT);
 		startPauseButton.setText("Start Scan");
@@ -565,18 +456,9 @@ public class FocusingFormComposite {
 		stopButton.setText("Stop");
 		stopButton.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
 		stopButton.setEnabled(false);
-		toolkit.paintBordersFor(scanButtons);
-	}
 
-	private static class StepChangeListener implements Listener {
-		private final Spinner spinner;
-		public StepChangeListener(Spinner spinner) {
-			this.spinner = spinner;
-		}
-		@Override
-		public void handleEvent(Event event) {
-			float step = Float.parseFloat(((CCombo) event.widget).getText());
-			spinner.setIncrement((int) (step * 100));
-		}
+		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(slitsParametersSection);
+		toolkit.paintBordersFor(defaultSectionSeparator);
+		slitsParametersSection.setSeparatorControl(defaultSectionSeparator);
 	}
 }

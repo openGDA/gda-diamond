@@ -22,12 +22,7 @@ import gda.util.exafs.AbsorptionEdge;
 
 import java.io.Serializable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class AlignmentParametersBean implements Serializable {
-
-	private static Logger logger = LoggerFactory.getLogger(AlignmentParametersBean.class);
 
 	public static String[] CrystalType = new String[] { "BRAGG", "LAUE" };
 

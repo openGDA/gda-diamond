@@ -1,0 +1,23 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="xh" class="gda.device.detector.XHDetector">
+		<property name="detectorName" value="xh0"/>
+		<property name="daServer" ref="DAServer"/>
+		<property name="templateFileName" value="${gda.config}/templates/EdeScan_Parameters.xml"></property>
+	</bean>
+	
+	<bean id="ssxh" class="gda.device.detector.StepScanXHDetector">
+		<property name="xh" ref="xh"/>
+	</bean>
+	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/xh" />
+		<property name="service" ref="xh" />
+		<property name="serviceInterface" value="gda.device.detector.StripDetector" />
+	</bean>
+
+</beans>

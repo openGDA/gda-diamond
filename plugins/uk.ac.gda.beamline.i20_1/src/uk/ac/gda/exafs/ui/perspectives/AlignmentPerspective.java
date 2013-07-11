@@ -18,12 +18,8 @@
 
 package uk.ac.gda.exafs.ui.perspectives;
 
-import gda.device.detector.StripDetector;
-import gda.factory.Finder;
 import gda.rcp.views.JythonTerminalView;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
@@ -31,7 +27,6 @@ import org.eclipse.ui.IViewLayout;
 
 import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
-import uk.ac.gda.exafs.data.ScannableSetup.DetectorSetup;
 import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
 import uk.ac.gda.exafs.ui.views.DetectorSetupView;
 import uk.ac.gda.exafs.ui.views.SingleSpectrumView;
@@ -54,23 +49,6 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 
 	private static final String TOPPLOT_FOLDER_ID = "topplot";
 	private static final String ALIGNMENT_CONTROLS_FOLDER_ID = "alignmentControls";
-
-	public AlignmentPerspective() {
-		setActiveDetector();
-	}
-
-	private void setActiveDetector() {
-		// Use the first available detector
-		for (DetectorSetup detector : DetectorSetup.values()) {
-			Object detectorBean = Finder.getInstance().find(detector.getDetectorName());
-			if (detectorBean != null && detectorBean instanceof StripDetector) {
-				detector.setDetectorScannable((StripDetector) detectorBean);
-				DetectorSetup.setActiveDetectorSetup(detector);
-				return;
-			}
-		}
-		MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", "Unable to find installed detector, please ensure the server configuration is setup correctly.");
-	}
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
