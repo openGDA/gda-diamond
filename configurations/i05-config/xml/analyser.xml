@@ -119,6 +119,7 @@
 		<property name="entranceSlitInformationProvider">
 			<bean class="uk.ac.gda.beamline.i05.analyser.I05EntranceSlit">
 				<property name="labelPV" value="BL05I-EA-SLITS-01" />
+				<property name="direction" value="vertical" />
 			</bean>
 		</property>
 	</bean>
@@ -142,8 +143,6 @@
 	
 	<bean id="AnalyserCapabilities" class="uk.ac.gda.beamline.i05.analyser.I05AnalyserCapabilties"	/>
 	
-<!-- 
--->
 	<bean id="AnalyserLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Detector Plot" />
