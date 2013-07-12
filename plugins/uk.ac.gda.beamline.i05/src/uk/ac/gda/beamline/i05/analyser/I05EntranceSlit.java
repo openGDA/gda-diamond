@@ -43,6 +43,7 @@ public class I05EntranceSlit implements EntranceSlitInformationProvider, Configu
 	private Double size = 0.0;
 	private String shape = "unknown";
 	private String label= "unknown";
+	private String direction= "unknown";
 	private Vector<String> positions = new Vector<String>(12);
 	
 	@Override
@@ -123,5 +124,14 @@ public class I05EntranceSlit implements EntranceSlitInformationProvider, Configu
 
 	public void setLabelPV(String labelPV) {
 		this.labelPV = labelPV;
+	}
+
+	@Override
+	public String getDirection() {
+		return direction;
+	}
+
+	public void setDirection(String direction) {
+		this.direction = direction;
 	}
 }
