@@ -26,10 +26,6 @@ public class AlignmentParametersBean implements Serializable {
 
 	public static String[] CrystalType = new String[] { "BRAGG", "LAUE" };
 
-	public static String[] CrystalCut = new String[] { "Si111", "Si311" };
-
-	public static String[] Detector = new String[] { "XSTRIP", "XH", "CCD" };
-
 	public static String[] ME1Stripe = new String[] { "Rh", "Pt" };
 
 	public static String[] ME2Stripe = new String[] { "Si", "Rh", "none" };
@@ -37,12 +33,12 @@ public class AlignmentParametersBean implements Serializable {
 	public static String[] ATN1 = new String[] { "none", "PyroC1", "PyroC2", "PyroC4", "PyroC6", "PyroC8" };
 
 	public static String[] ATN1Values = new String[] { "none", "Pyro-C 0.1mm", "Pyro-C 0.2mm", "Pyro-C 0.4mm",
-			"Pyro-C 0.6mm", "Pyro-C 0.8mm" };
+		"Pyro-C 0.6mm", "Pyro-C 0.8mm" };
 
 	public static String[] ATN2 = new String[] { "none", "PyroC1", "PyroC10", "PyroC20", "SiC2", "SiC4" };
 
 	public static String[] ATN2Values = new String[] { "none", "Pyro-C 0.1mm", "Pyro-C 1.0mm", "Pyro-C 2.0mm",
-			"SiC 0.2mm", "SiC 0.4mm" };
+		"SiC 0.2mm", "SiC 0.4mm" };
 
 	public static String[] ATN3 = new String[] { "none", "PyroC10", "PyroC20", "SiC6", "SiC15" };
 
@@ -86,7 +82,7 @@ public class AlignmentParametersBean implements Serializable {
 		this.detector = detector;
 		this.edge = edge;
 	}
-	
+
 	@Override
 	public String toString() {
 		return crystalType + ", " + crystalCut+", " + q +"m, "+ detector +", "+ edge;
@@ -290,118 +286,163 @@ public class AlignmentParametersBean implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		AlignmentParametersBean other = (AlignmentParametersBean) obj;
 		if (arm2Theta == null) {
-			if (other.arm2Theta != null)
+			if (other.arm2Theta != null) {
 				return false;
-		} else if (!arm2Theta.equals(other.arm2Theta))
+			}
+		} else if (!arm2Theta.equals(other.arm2Theta)) {
 			return false;
+		}
 		if (atn1 == null) {
-			if (other.atn1 != null)
+			if (other.atn1 != null) {
 				return false;
-		} else if (!atn1.equals(other.atn1))
+			}
+		} else if (!atn1.equals(other.atn1)) {
 			return false;
+		}
 		if (atn2 == null) {
-			if (other.atn2 != null)
+			if (other.atn2 != null) {
 				return false;
-		} else if (!atn2.equals(other.atn2))
+			}
+		} else if (!atn2.equals(other.atn2)) {
 			return false;
+		}
 		if (atn3 == null) {
-			if (other.atn3 != null)
+			if (other.atn3 != null) {
 				return false;
-		} else if (!atn3.equals(other.atn3))
+			}
+		} else if (!atn3.equals(other.atn3)) {
 			return false;
+		}
 		if (braggAngle == null) {
-			if (other.braggAngle != null)
+			if (other.braggAngle != null) {
 				return false;
-		} else if (!braggAngle.equals(other.braggAngle))
+			}
+		} else if (!braggAngle.equals(other.braggAngle)) {
 			return false;
+		}
 		if (crystalCut == null) {
-			if (other.crystalCut != null)
+			if (other.crystalCut != null) {
 				return false;
-		} else if (!crystalCut.equals(other.crystalCut))
+			}
+		} else if (!crystalCut.equals(other.crystalCut)) {
 			return false;
+		}
 		if (crystalType == null) {
-			if (other.crystalType != null)
+			if (other.crystalType != null) {
 				return false;
-		} else if (!crystalType.equals(other.crystalType))
+			}
+		} else if (!crystalType.equals(other.crystalType)) {
 			return false;
+		}
 		if (detector == null) {
-			if (other.detector != null)
+			if (other.detector != null) {
 				return false;
-		} else if (!detector.equals(other.detector))
+			}
+		} else if (!detector.equals(other.detector)) {
 			return false;
+		}
 		if (detectorDistance == null) {
-			if (other.detectorDistance != null)
+			if (other.detectorDistance != null) {
 				return false;
-		} else if (!detectorDistance.equals(other.detectorDistance))
+			}
+		} else if (!detectorDistance.equals(other.detectorDistance)) {
 			return false;
+		}
 		if (detectorHeight == null) {
-			if (other.detectorHeight != null)
+			if (other.detectorHeight != null) {
 				return false;
-		} else if (!detectorHeight.equals(other.detectorHeight))
+			}
+		} else if (!detectorHeight.equals(other.detectorHeight)) {
 			return false;
+		}
 		if (edge == null) {
-			if (other.edge != null)
+			if (other.edge != null) {
 				return false;
-		} else if (!edge.equals(other.edge))
+			}
+		} else if (!edge.equals(other.edge)) {
 			return false;
+		}
 		if (me1stripe == null) {
-			if (other.me1stripe != null)
+			if (other.me1stripe != null) {
 				return false;
-		} else if (!me1stripe.equals(other.me1stripe))
+			}
+		} else if (!me1stripe.equals(other.me1stripe)) {
 			return false;
+		}
 		if (me2Pitch == null) {
-			if (other.me2Pitch != null)
+			if (other.me2Pitch != null) {
 				return false;
-		} else if (!me2Pitch.equals(other.me2Pitch))
+			}
+		} else if (!me2Pitch.equals(other.me2Pitch)) {
 			return false;
+		}
 		if (me2stripe == null) {
-			if (other.me2stripe != null)
+			if (other.me2stripe != null) {
 				return false;
-		} else if (!me2stripe.equals(other.me2stripe))
+			}
+		} else if (!me2stripe.equals(other.me2stripe)) {
 			return false;
+		}
 		if (polyBend1 == null) {
-			if (other.polyBend1 != null)
+			if (other.polyBend1 != null) {
 				return false;
-		} else if (!polyBend1.equals(other.polyBend1))
+			}
+		} else if (!polyBend1.equals(other.polyBend1)) {
 			return false;
+		}
 		if (polyBend2 == null) {
-			if (other.polyBend2 != null)
+			if (other.polyBend2 != null) {
 				return false;
-		} else if (!polyBend2.equals(other.polyBend2))
+			}
+		} else if (!polyBend2.equals(other.polyBend2)) {
 			return false;
+		}
 		if (power == null) {
-			if (other.power != null)
+			if (other.power != null) {
 				return false;
-		} else if (!power.equals(other.power))
+			}
+		} else if (!power.equals(other.power)) {
 			return false;
+		}
 		if (primarySlitGap == null) {
-			if (other.primarySlitGap != null)
+			if (other.primarySlitGap != null) {
 				return false;
-		} else if (!primarySlitGap.equals(other.primarySlitGap))
+			}
+		} else if (!primarySlitGap.equals(other.primarySlitGap)) {
 			return false;
+		}
 		if (q == null) {
-			if (other.q != null)
+			if (other.q != null) {
 				return false;
-		} else if (!q.equals(other.q))
+			}
+		} else if (!q.equals(other.q)) {
 			return false;
+		}
 		if (sampleHeight == null) {
-			if (other.sampleHeight != null)
+			if (other.sampleHeight != null) {
 				return false;
-		} else if (!sampleHeight.equals(other.sampleHeight))
+			}
+		} else if (!sampleHeight.equals(other.sampleHeight)) {
 			return false;
+		}
 		if (wigglerGap == null) {
-			if (other.wigglerGap != null)
+			if (other.wigglerGap != null) {
 				return false;
-		} else if (!wigglerGap.equals(other.wigglerGap))
+			}
+		} else if (!wigglerGap.equals(other.wigglerGap)) {
 			return false;
+		}
 		return true;
 	}
 }

@@ -18,19 +18,44 @@
 
 package uk.ac.gda.exafs.ui.views;
 
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
+import java.util.ArrayList;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.ListSelectionDialog;
+import org.eclipse.ui.forms.widgets.Form;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.exafs.data.ClientConfig.DetectorSetup;
+import uk.ac.gda.exafs.ui.composites.FocusingFormComposite;
 import uk.ac.gda.exafs.ui.composites.XHControlComposite;
+import uk.ac.gda.exafs.ui.data.UIHelper;
 
 /**
  * Shows detector controls for use when aligning the beamline.
@@ -39,94 +64,243 @@ import uk.ac.gda.exafs.ui.composites.XHControlComposite;
  */
 public class DetectorSetupView extends ViewPart {
 
+	private static Logger logger = LoggerFactory.getLogger(DetectorSetupView.class);
+
 	public static String ID = "uk.ac.gda.exafs.ui.views.detectorsetupview";
-	
+
 	public static IViewReference findMe() {
 		IWorkbenchPage page = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage();
 		final IViewReference viewReference = page.findViewReference(ID);
 		return viewReference;
 	}
 
-	
-	
-//	private StackLayout stackLayout;
-//	private XHControlComposite xhComposite;
-	private Composite detectorControls;
-private XHControlComposite xhComposite;
+	private XHControlComposite xhComposite;
+	private Text txtBiasVoltage;
+	private Text txtExcludedStrips;
+	private FormToolkit toolkit;
+	private DetectorSetup activeDetectorSetup;
+	private ComboViewer cmbDetectorType;
 
 	@Override
 	public void createPartControl(Composite parent) {
-		parent.setLayout(new GridLayout(1, false));
-//		parent.setBackground(PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_MAGENTA));
-//		Composite contents = new Composite(parent, SWT.NONE);
-//		GridDataFactory.swtDefaults().applyTo(contents);
-//		GridLayoutFactory.swtDefaults().applyTo(contents);
+		activeDetectorSetup = DetectorSetup.getActiveDetectorSetup();
+		this.setPartName(activeDetectorSetup.name() + " Detector");
+		final CTabFolder tabFolder = new CTabFolder (parent, SWT.BOTTOM);
+		tabFolder.setLayout(new GridLayout());
+		CTabItem setupTabItem = new CTabItem(tabFolder, SWT.NULL);
+		setupTabItem.setText("Detector");
 
-		Composite comboCompo = new Composite(parent, SWT.NONE);
-		GridDataFactory.swtDefaults().applyTo(comboCompo);
-		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(comboCompo);
-		Label lbl = new Label(comboCompo, SWT.NONE);
-		lbl.setText("Detector");
-		GridDataFactory.swtDefaults().applyTo(lbl);
+		toolkit = new FormToolkit(parent.getDisplay());
+		Form form = toolkit.createForm(tabFolder);
+		form.getBody().setLayout(new GridLayout());
+		toolkit.decorateFormHeading(form);
+		form.setText("Setup");
+		createFormDefaultSection(form);
+		createTempratureSection(form);
+		setupTabItem.setControl(form);
 
-		final Combo cmbDetectorChoice = new Combo(comboCompo, SWT.NONE);
-		cmbDetectorChoice.setItems(new String[] { "XH / XStrip", "CCD" });
-//		cmbDetectorChoice.addSelectionListener(new SelectionListener() {
-//
-//			@Override
-//			public void widgetSelected(SelectionEvent e) {
-//				changeDetectorType(cmbDetectorChoice.getSelectionIndex());
-//
-//			}
-//
-//			@Override
-//			public void widgetDefaultSelected(SelectionEvent e) {
-//				changeDetectorType(0);
-//
-//			}
-//		});
+		// Capture Tab
+		CTabItem scanTabItem = new CTabItem(tabFolder, SWT.NULL);
+		scanTabItem.setText("Capture configuration");
 
-		detectorControls = new Composite(parent, SWT.BORDER);
-//		detectorControls.setBackground(PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_DARK_YELLOW));
-		GridDataFactory.swtDefaults().applyTo(detectorControls);
-		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(detectorControls);
-//		GridDataFactory.swtDefaults().grab(true, true).applyTo(detectorControls);
-//		GridLayoutFactory.swtDefaults().applyTo(detectorControls);
-//		this.stackLayout = new StackLayout();
-//		detectorControls.setLayout(stackLayout);
+		xhComposite = new XHControlComposite(tabFolder, this);
+		scanTabItem.setControl(xhComposite);
+		xhComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
+		tabFolder.setSelection(scanTabItem);
 
-		xhComposite = new XHControlComposite(detectorControls, this);
-		// ccdComposite = new CompoisteToWrite(detectorControls, SWT.NONE);
-		
-		cmbDetectorChoice.select(0);
-//		stackLayout.topControl = xhComposite;
-//		detectorControls.layout();
+		// Focusing
+		CTabItem focusingTabItem = new CTabItem(tabFolder, SWT.NULL);
+		focusingTabItem.setText("Focusing");
+
+		// TODO Refactor how the form is created
+		FocusingFormComposite focusingForm = new FocusingFormComposite();
+		ScrolledForm scrolledForm = focusingForm.getFocusingForm(toolkit, tabFolder);
+		focusingTabItem.setControl(scrolledForm);
+		tabFolder.setSelection(setupTabItem);
+	}
+
+	@SuppressWarnings({ "unused", "static-access" })
+	private void createFormDefaultSection(Form form) {
+		final Section defaultSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
+		defaultSection.setText("Default");
+		toolkit.paintBordersFor(defaultSection);
+		defaultSection.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		Composite defaultSelectionComposite = toolkit.createComposite(defaultSection, SWT.NONE);
+		toolkit.paintBordersFor(defaultSelectionComposite);
+		defaultSelectionComposite.setLayout(new GridLayout(2, false));
+		defaultSection.setClient(defaultSelectionComposite);
+
+		Label lblDetector = toolkit.createLabel(defaultSelectionComposite, "Detector:", SWT.NONE);
+		lblDetector.setLayoutData(new GridData(GridData.BEGINNING, GridData.BEGINNING, false, false));
+		cmbDetectorType = new ComboViewer(defaultSelectionComposite, SWT.READ_ONLY);
+		cmbDetectorType.setContentProvider(ArrayContentProvider.getInstance());
+		cmbDetectorType.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((DetectorSetup) element).name();
+			}
+		});
+		cmbDetectorType.getCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		Label lblBiasVoltage = toolkit.createLabel(defaultSelectionComposite, "Voltage (V):", SWT.NONE);
+		lblBiasVoltage.setLayoutData(new GridData(GridData.BEGINNING, GridData.BEGINNING, false, false));
+
+		txtBiasVoltage = toolkit.createText(defaultSelectionComposite, "", SWT.NONE);
+		txtBiasVoltage.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
+
+		Label lblexcludedStrips = toolkit.createLabel(defaultSelectionComposite, "Excluded strips:", SWT.NONE);
+		lblexcludedStrips.setLayoutData(new GridData(GridData.BEGINNING, GridData.BEGINNING, false, false));
+
+		txtExcludedStrips = toolkit.createText(defaultSelectionComposite, "", SWT.NONE);
+		txtExcludedStrips.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
+		txtExcludedStrips.setEditable(false);
+
+		Listener excludedStripsTxtListener = new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				if (event.type == SWT.MouseUp | event.type == SWT.KeyUp) {
+					showExcludedStripsDialog();
+				}
+			}
+		};
+		txtExcludedStrips.addListener(SWT.MouseUp, excludedStripsTxtListener);
+		txtExcludedStrips.addListener(SWT.KeyUp, excludedStripsTxtListener);
+
+		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(defaultSection);
+		toolkit.paintBordersFor(defaultSectionSeparator);
+		defaultSection.setSeparatorControl(defaultSectionSeparator);
+
+		ToolBar defaultSectionTbar = new ToolBar(defaultSection, SWT.FLAT | SWT.HORIZONTAL);
+		new ToolItem(defaultSectionTbar, SWT.SEPARATOR);
+		ToolItem saveDefaultTBarItem = new ToolItem(defaultSectionTbar, SWT.NULL);
+		saveDefaultTBarItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ETOOL_SAVE_EDIT));
+		saveDefaultTBarItem.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				updateDetectorDefaultValues();
+				populateDetectorDefaultValues();
+			}
+		});
+		defaultSection.setTextClient(defaultSectionTbar);
+		populateDetectorDefaultValues();
 
 	}
 
-//	private void changeDetectorType(int selectionIndex) {
-//		switch (selectionIndex) {
-//		// case 1:
-//		// stackLayout.topControl = ccdComposite;
-//		// break;
-//		default:
-//		case 0:
-//			stackLayout.topControl = xhComposite;
-//			break;
-//		}
-//		detectorControls.layout();
-//	}
+	@SuppressWarnings({ "unused", "static-access" })
+	private void createTempratureSection(Form form) {
+		final Section temperatureSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR);
+		temperatureSection.setText("Temperature");
+		toolkit.paintBordersFor(temperatureSection);
+		temperatureSection.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		Composite temperatureSelectionComposite = toolkit.createComposite(temperatureSection, SWT.NONE);
+		toolkit.paintBordersFor(temperatureSelectionComposite);
+		temperatureSelectionComposite.setLayout(new GridLayout(2, false));
+		temperatureSection.setClient(temperatureSelectionComposite);
+		ToolBar temperatureSectionTbar = new ToolBar(temperatureSection, SWT.FLAT | SWT.HORIZONTAL);
+		new ToolItem(temperatureSectionTbar, SWT.SEPARATOR);
+		ToolItem refreshTemperatureTBarItem = new ToolItem(temperatureSectionTbar, SWT.NULL);
+		refreshTemperatureTBarItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ELCL_SYNCED));
+		refreshTemperatureTBarItem.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				// FIXME update temperature
+			}
+		});
+		temperatureSection.setTextClient(temperatureSectionTbar);
+	}
+
+	private final ArrayList<Integer> excludedStrips = new ArrayList<Integer>();
+
+	private void showExcludedStripsDialog() {
+		ListSelectionDialog dialog =
+				new ListSelectionDialog(Display.getDefault().getActiveShell(), DetectorSetup.STRIPS, new ArrayContentProvider(), new LabelProvider(), "Select excluded strips");
+		dialog.setInitialElementSelections(excludedStrips);
+		if (dialog.open() == Window.OK) {
+			Object[] selection = dialog.getResult();
+			excludedStrips.clear();
+			if (selection.length > 0) {
+				for (Object selected : selection) {
+					Integer stringNo = (Integer) selected;
+					excludedStrips.add(stringNo);
+				}
+			}
+			updateExcludedStripsText();
+		}
+	}
+
+	private void updateExcludedStripsText() {
+		StringBuilder excludedListCsvString = new StringBuilder();
+		if (!excludedStrips.isEmpty()) {
+			for (Integer selected : excludedStrips) {
+				excludedListCsvString.append(selected);
+				excludedListCsvString.append(", ");
+			}
+			excludedListCsvString.delete(excludedListCsvString.length() - 2, excludedListCsvString.length());
+		}
+		txtExcludedStrips.setText(excludedListCsvString.toString());
+	}
+
+	private void updateDetectorDefaultValues() {
+		try {
+			// REVIEW Use data binding validation
+			if (txtBiasVoltage.getText().isEmpty()) {
+				throw new Exception("Enpty voltage value");
+			}
+			double voltage = Double.valueOf(txtBiasVoltage.getText());
+			if (!activeDetectorSetup.isVoltageInRange(voltage)) {
+				throw new Exception("Voltage out of range");
+			}
+			activeDetectorSetup.getDetectorScannable().setBias(voltage);
+			activeDetectorSetup.getDetectorScannable().setExcludedStrips(ArrayUtils.toPrimitive(excludedStrips.toArray(new Integer[excludedStrips.size()])));
+		} catch (Exception e) {
+			String errorMessage = "Unable to save Detector parameter ";
+			logger.error(errorMessage, e);
+			UIHelper.showError(errorMessage, e.getMessage());
+		}
+	}
+
+	private void populateDetectorDefaultValues() {
+		// REVIEW Use data binding
+		try {
+			for (DetectorSetup detector : DetectorSetup.values()) {
+				if (detector == DetectorSetup.getActiveDetectorSetup()) {
+					cmbDetectorType.setInput(new Object[]{detector});
+					cmbDetectorType.setSelection(new StructuredSelection(detector));
+					cmbDetectorType.getCombo().notifyListeners(SWT.Selection, new Event());
+				}
+			}
+			txtBiasVoltage.setText(activeDetectorSetup.getDetectorScannable().getBias().toString());
+			int[] excludedStripsArray = activeDetectorSetup.getDetectorScannable().getExcludedStrips();
+			if (excludedStripsArray == null) {
+				throw new Exception("Unable to get excluded strips information from Detector");
+			}
+			excludedStrips.clear();
+			if (excludedStripsArray.length > 0) {
+				for (int selected : excludedStripsArray) {
+					Integer stringNo = DetectorSetup.STRIPS[selected - 1];
+					excludedStrips.add(stringNo);
+				}
+			}
+			updateExcludedStripsText();
+		} catch (Exception e) {
+			String errorMessage = "Unable to get Detector parameter. ";
+			logger.error(errorMessage, e);
+			UIHelper.showError(errorMessage, e.getMessage());
+		}
+	}
+
 
 	@Override
 	public void setFocus() {
 	}
 
 	public void startCollectingRates() {
-		xhComposite.startCollectingRates();		
+		xhComposite.startCollectingRates();
 	}
 
 	public void stopCollectingRates() {
-		xhComposite.stopCollectingRates();		
+		xhComposite.stopCollectingRates();
 	}
-
 }
