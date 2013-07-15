@@ -18,6 +18,7 @@
 
 package gda.device.detector;
 
+import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
@@ -65,7 +66,18 @@ public interface StripDetector extends NexusDetector {
 	 */
 	public void start() throws DeviceException;
 
+	
 	/**
+	 * @param startFrame
+	 * @param finalFrame
+	 * @return read a range of frames
+	 * @throws DeviceException
+	 */
+	public NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException;
+	
+	public int getNumberChannels();
+
+		/**
 	 * Returns the regions in use, as defined by calls to setRois or setNumberRois
 	 * 
 	 * @return the array of regions

@@ -403,6 +403,9 @@ public class DummyXStripDAServer extends DummyDAServer {
 			} finally {
 				stopRun = false;
 				currentState = Detector.IDLE;
+				currentGroup = 0;
+				currentFrame = 0;
+				currentScan = 0;
 				logger.info("Timing groups complete");
 			}
 		}

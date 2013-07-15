@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2012 Diamond Light Source Ltd.
+ * Copyright © 2013 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -16,24 +16,8 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.device.detector;
+package gda.scan;
 
-public class ExperimentLocation {
-
-	public Integer groupNum;
-	public Integer frameNum;
-	public Integer scanNum;
-
-	public ExperimentLocation(Integer groupNum, Integer frameNum, Integer scanNum) {
-		super();
-		this.groupNum = groupNum;
-		this.frameNum = frameNum;
-		this.scanNum = scanNum;
-	}
-
-	@Override
-	public String toString() {
-		return "Experiment progress: group: " + groupNum + " frame: " + frameNum + " scan: " + scanNum;
-	}
+public class EdeDataWriter {
 
 }

@@ -161,6 +161,10 @@ public class XHDetector extends DetectorBase implements StripDetector {
 		}
 	}
 
+	public int getNumberChannels(){
+		return NUMBER_ELEMENTS;
+	}
+	
 	private double[][] performCorrections(int[] rawData) {
 		// TODO need to implement corrections and calibrations when details available from William
 		int frameCount = rawData.length / NUMBER_ELEMENTS;
@@ -215,6 +219,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	 * @return NexusTreeProvider[]
 	 * @throws DeviceException 
 	 */
+	@Override
 	public NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException {
 		int[] elements = readoutFrames(startFrame, finalFrame);
 		int numberOfFrames = finalFrame - startFrame + 1;
