@@ -184,7 +184,7 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("centre_energy")), true, "centreEnergy", 4, null, true, false);
 		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1));
 		
-		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("energy")), true, "photonEnergy", 4, null, true, false);
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("pgm_energy")), true, "photonEnergy", 4, null, true, false);
 		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 	
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("acquire_time")), true, "timePerStep", 2, null, true, false);
