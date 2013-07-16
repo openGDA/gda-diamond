@@ -498,4 +498,14 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 		if (plotConsumer != null)
 			plotConsumer.dataUpdateFinished();
 	}
+
+	@Override
+	public void mute() {
+		// do nothing
+	}
+
+	@Override
+	public void unmute() {
+		// do nothing
+	}
 }
