@@ -10,6 +10,7 @@
 			<list>
 				<value>Rhodium</value>
 				<value>Platinum</value>
+				<value>Zero</value>
 			</list>
 		</property>
 	</bean>
@@ -34,8 +35,8 @@
 		<property name="positions">
 			<list>
 				<value>Rhodium</value>
-				<value>Platinum</value>
 				<value>Silicon</value>
+				<value>Out of beam</value>
 			</list>
 		</property>
 	</bean>
