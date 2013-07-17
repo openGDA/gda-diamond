@@ -38,15 +38,17 @@ public class DummyXStripDAServer extends DummyDAServer {
 
 	private static Logger logger = LoggerFactory.getLogger(DummyXStripDAServer.class);
 
-	private Vector<TimingGroup> groups = new Vector<TimingGroup>();
+	private final Vector<TimingGroup> groups = new Vector<TimingGroup>();
 	private boolean lastFlagSeen = true;
-	private TimeFrameGenerator timeFrameGenerator = new TimeFrameGenerator();
+	private final TimeFrameGenerator timeFrameGenerator = new TimeFrameGenerator();
 
 	private String[] recievedCommands = new String[0];
 
 	private MODE readoutMode = MODE.STEP;
 
 	private Double biasVoltage = 0.0;
+
+	private boolean tcSerialPortOpened = false;
 
 	@SuppressWarnings("unused")
 	@Override
@@ -139,6 +141,8 @@ public class DummyXStripDAServer extends DummyDAServer {
 			rc = (fail) ? -1 : 0;
 		} else if (command.startsWith("xstrip hv")) {
 			rc = parseXstripHVCommand(command);
+		} else if (command.startsWith("xstrip tc")) {
+			rc = parseXstripTCCommand(command);
 		} else if (command.startsWith("xstrip")) {
 			rc = parseXstripTimingCommand(command);
 		} else {
@@ -147,6 +151,32 @@ public class DummyXStripDAServer extends DummyDAServer {
 
 		fail = false;
 		return rc;
+	}
+
+	private Object parseXstripTCCommand(String command) {
+		StringTokenizer tokenizer = new StringTokenizer(command);
+		tokenizer.nextToken(); // xstrip - ignore
+		tokenizer.nextToken(); // tc - ignore
+		String hvCommand = tokenizer.nextToken();
+		switch (hvCommand) {
+		case "open":
+			tcSerialPortOpened = true;
+			break;
+		case "close":
+			tcSerialPortOpened = false;
+			break;
+		case "get":
+			if (!tcSerialPortOpened) {
+				return -1;
+			}
+			tokenizer.nextToken(); // system name - ignore
+			tokenizer.nextToken(); // 'ch' - ignore
+			int sensorNumber = Integer.parseInt(tokenizer.nextToken());
+			return 1.0D * sensorNumber;
+		default:
+			return -1;
+		}
+		return 0;
 	}
 
 	private Object parseXstripHVCommand(String command) {
@@ -317,7 +347,7 @@ public class DummyXStripDAServer extends DummyDAServer {
 			}
 
 			return statusString + ": group_num=" + currentGroup + ", frame_num=" + currentFrame + ", scan_num="
-					+ currentScan + "\n";
+			+ currentScan + "\n";
 		}
 
 		public void stop() {
@@ -339,8 +369,9 @@ public class DummyXStripDAServer extends DummyDAServer {
 				currentGroup = currentFrame = currentScan = -1;
 
 				for (TimingGroup thisGroup : groups) {
-					if (thisGroup == null)
+					if (thisGroup == null) {
 						continue;
+					}
 
 					currentGroup = thisGroup.groupNum;
 

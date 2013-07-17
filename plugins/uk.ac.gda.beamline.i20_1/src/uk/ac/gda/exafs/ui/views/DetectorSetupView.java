@@ -84,6 +84,9 @@ public class DetectorSetupView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		activeDetectorSetup = DetectorSetup.getActiveDetectorSetup();
+		if (activeDetectorSetup == null) {
+			activeDetectorSetup = DetectorSetup.getAvailableDetectorSetups()[0];
+		}
 		this.setPartName(activeDetectorSetup.name() + " Detector");
 		final CTabFolder tabFolder = new CTabFolder (parent, SWT.BOTTOM);
 		tabFolder.setLayout(new GridLayout());
@@ -215,7 +218,7 @@ public class DetectorSetupView extends ViewPart {
 
 	private void showExcludedStripsDialog() {
 		ListSelectionDialog dialog =
-				new ListSelectionDialog(Display.getDefault().getActiveShell(), DetectorSetup.STRIPS, new ArrayContentProvider(), new LabelProvider(), "Select excluded strips");
+				new ListSelectionDialog(Display.getDefault().getActiveShell(), DetectorSetup.getActiveDetectorSetup().createArrayOfStrips(), new ArrayContentProvider(), new LabelProvider(), "Select excluded strips");
 		dialog.setInitialElementSelections(excludedStrips);
 		if (dialog.open() == Window.OK) {
 			Object[] selection = dialog.getResult();
@@ -264,13 +267,13 @@ public class DetectorSetupView extends ViewPart {
 	private void populateDetectorDefaultValues() {
 		// REVIEW Use data binding
 		try {
-			for (DetectorSetup detector : DetectorSetup.values()) {
-				if (detector == DetectorSetup.getActiveDetectorSetup()) {
-					cmbDetectorType.setInput(new Object[]{detector});
-					cmbDetectorType.setSelection(new StructuredSelection(detector));
-					cmbDetectorType.getCombo().notifyListeners(SWT.Selection, new Event());
-				}
+
+			DetectorSetup detector = DetectorSetup.getActiveDetectorSetup();
+			if (detector == null) {
+				detector = DetectorSetup.getAvailableDetectorSetups()[0];
 			}
+			populateCmbDetectorType(detector);
+
 			txtBiasVoltage.setText(activeDetectorSetup.getDetectorScannable().getBias().toString());
 			int[] excludedStripsArray = activeDetectorSetup.getDetectorScannable().getExcludedStrips();
 			if (excludedStripsArray == null) {
@@ -279,7 +282,7 @@ public class DetectorSetupView extends ViewPart {
 			excludedStrips.clear();
 			if (excludedStripsArray.length > 0) {
 				for (int selected : excludedStripsArray) {
-					Integer stringNo = DetectorSetup.STRIPS[selected - 1];
+					Integer stringNo = DetectorSetup.getActiveDetectorSetup().createArrayOfStrips()[selected];
 					excludedStrips.add(stringNo);
 				}
 			}
@@ -291,6 +294,12 @@ public class DetectorSetupView extends ViewPart {
 		}
 	}
 
+
+	private void populateCmbDetectorType(DetectorSetup detector) {
+		cmbDetectorType.setInput(new Object[]{detector});
+		cmbDetectorType.setSelection(new StructuredSelection(detector));
+		cmbDetectorType.getCombo().notifyListeners(SWT.Selection, new Event());
+	}
 
 	@Override
 	public void setFocus() {

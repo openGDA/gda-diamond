@@ -18,6 +18,7 @@
 
 package uk.ac.gda.exafs.data;
 
+import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.StripDetector;
 import gda.factory.Finder;
@@ -26,15 +27,22 @@ import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ClientConfig {
+
+	private static Logger logger = LoggerFactory.getLogger(ClientConfig.class);
 
 	public static final int KILO_UNIT = 1000;
 	public static final int DEFAULT_DECIMAL_PLACE = 2;
 
-	private ClientConfig() {}
+	private ClientConfig() {
+	}
+
 	private static final DecimalFormat df = new DecimalFormat("#0.00");
 
 	public static String roundDoubletoString(double value) {
@@ -42,15 +50,9 @@ public class ClientConfig {
 	}
 
 	public enum UnitSetup {
-		MILLI_METER ("mm"),
-		MILLI_RADIAN ("mrad"),
-		DEGREE ("deg"),
-		WATT ("W"),
-		EV ("eV"),
-		VOLTAGE ("V"),
-		MILLI_SEC ("ms"),
+		MILLI_METER("mm"), MILLI_RADIAN("mrad"), DEGREE("deg"), WATT("W"), EV("eV"), VOLTAGE("V"), MILLI_SEC("ms"),
 
-		SELECTION ("");
+		SELECTION("");
 
 		private final String text;
 
@@ -85,12 +87,12 @@ public class ClientConfig {
 
 	public enum CrystalCut {
 		// See requirement spec for assigned values
-		Si111 (6 * KILO_UNIT, 14 * KILO_UNIT),
-		Si311 (7 * KILO_UNIT, 26 * KILO_UNIT);
+		Si111(6 * KILO_UNIT, 14 * KILO_UNIT), Si311(7 * KILO_UNIT, 26 * KILO_UNIT);
 
 		private final double min;
 		private final double max;
 		public static final String UI_LABEL = "Crystal cut:";
+
 		private CrystalCut(double min, double max) {
 			this.min = min;
 			this.max = max;
@@ -105,37 +107,34 @@ public class ClientConfig {
 		}
 	}
 
-
 	public enum ScannableSetup {
-		WIGGLER_GAP ("Wiggler Gap", "wigglerGap", UnitSetup.MILLI_METER),
+		WIGGLER_GAP("Wiggler Gap", "wigglerGap", UnitSetup.MILLI_METER),
 
-		POLY_BENDER_1 ("Bender 1", "polybend1", UnitSetup.MILLI_METER),
-		POLY_BENDER_2 ("Bender 2", "polybend2", UnitSetup.MILLI_METER),
+		POLY_BENDER_1("Bender 1", "polybend1", UnitSetup.MILLI_METER), POLY_BENDER_2("Bender 2", "polybend2",
+				UnitSetup.MILLI_METER),
 
-		SAMPLE_Z_POSITION ("Sample z", "sample_z", UnitSetup.MILLI_METER),
+				SAMPLE_Z_POSITION("Sample z", "sample_z", UnitSetup.MILLI_METER),
 
-		// FIXME Check if this is the right scannable
-		SLIT_1_HORIZONAL_GAP ("Slit 1 HGap", "s1_hgap", UnitSetup.MILLI_RADIAN),
+				// FIXME Check if this is the right scannable
+				SLIT_1_HORIZONAL_GAP("Slit 1 HGap", "s1_hgap", UnitSetup.MILLI_RADIAN),
 
-		ATN1 ("Attenuator 1", "atn1", UnitSetup.MILLI_METER),
-		ATN2 ("Attenuator 2", "atn2", UnitSetup.MILLI_METER),
-		ATN3 ("Attenuator 3", "atn3", UnitSetup.MILLI_METER),
+				ATN1("Attenuator 1", "atn1", UnitSetup.MILLI_METER), ATN2("Attenuator 2", "atn2", UnitSetup.MILLI_METER), ATN3(
+						"Attenuator 3", "atn3", UnitSetup.MILLI_METER),
 
-		ME1_STRIPE ("ME1 strip", "me1_stripe", UnitSetup.SELECTION),
-		ME2_STRIPE ("ME2 strip", "me2_stripe", UnitSetup.SELECTION),
-		ME2_PITCH_ANGLE ("ME2 pitch", "me2pitch", UnitSetup.MILLI_RADIAN),
+						ME1_STRIPE("ME1 strip", "me1_stripe", UnitSetup.SELECTION), ME2_STRIPE("ME2 strip", "me2_stripe",
+								UnitSetup.SELECTION), ME2_PITCH_ANGLE("ME2 pitch", "me2pitch", UnitSetup.MILLI_RADIAN),
 
-		POLY_BRAGG ("Bragg angle", "polytheta", UnitSetup.DEGREE),
-		ARM_2_THETA_ANGLE ("Arm 2theta", "twotheta", UnitSetup.DEGREE),
+								POLY_BRAGG("Bragg angle", "polytheta", UnitSetup.DEGREE), ARM_2_THETA_ANGLE("Arm 2theta", "twotheta",
+										UnitSetup.DEGREE),
 
-		DETECTOR_HEIGHT ("Detector height", "detector_y", UnitSetup.MILLI_METER),
-		DETECTOR_DISTANCE ("Detector distance", "detector_z", UnitSetup.MILLI_METER),
+										DETECTOR_HEIGHT("Detector height", "detector_y", UnitSetup.MILLI_METER), DETECTOR_DISTANCE("Detector distance",
+												"detector_z", UnitSetup.MILLI_METER),
 
-		POLY_CURVATURE ("Curvature", "polycurve", UnitSetup.MILLI_METER),
-		POLY_Y_ELLIPTICITY ("Ellipticity", "polyyellip", UnitSetup.MILLI_METER),
+												POLY_CURVATURE("Curvature", "polycurve", UnitSetup.MILLI_METER), POLY_Y_ELLIPTICITY("Ellipticity",
+														"polyyellip", UnitSetup.MILLI_METER),
 
-		SLIT_3_HORIZONAL_GAP ("Slit HGap", "s3_hgap", UnitSetup.MILLI_METER),
-		SLIT_3_HORIZONAL_OFFSET ("Slit offset", "s3_hoffset", UnitSetup.MILLI_METER);
+														SLIT_3_HORIZONAL_GAP("Slit HGap", "s3_hgap", UnitSetup.MILLI_METER), SLIT_3_HORIZONAL_OFFSET("Slit offset",
+																"s3_hoffset", UnitSetup.MILLI_METER);
 
 		public static final double MAX_POWER_IN_WATT = 150.0;
 
@@ -188,29 +187,69 @@ public class ClientConfig {
 	}
 
 	public enum DetectorSetup {
-		// See spec for these voltage values
-		XH ("xh", 1.0, 137.0),
-		XSTRIP ("xstrip", 1.0, 100),
-		CCD ("ccd", -10000.0, 10000.0); // Max/Min are not applicable for this detector
+		XH("xh"), XSTRIP("xstrip"), CCD("ccd");
 
-		public static final int MAX_STRIPS = 1024;
-		public static final Integer[] STRIPS;
-		static {
-			STRIPS = new Integer[MAX_STRIPS];
-			for (int i = 0; i < MAX_STRIPS; i++) {
-				// REVIEW assumed min strips is 1
-				STRIPS[i] = new Integer(i + 1);
+		private static DetectorSetup[] availableDetectors;
+		private static DetectorSetup connectedDetector;
+
+		public static void setActiveDetectorSetup(DetectorSetup detectorSetup) {
+			connectedDetector = detectorSetup;
+			for (DetectorSetup detector : availableDetectors) {
+				try {
+					if (connectedDetector == detector) {
+						detector.detectorScannable.connect();
+					} else {
+						detector.detectorScannable.disconnect();
+					}
+				} catch (DeviceException e) {
+					logger.error("DeviceException when connecting / disconnecting detector "
+							+ detector.detectorScannable.getName(), e);
+				}
+			}
+		}
+
+		public static DetectorSetup getActiveDetectorSetup() {
+			if (connectedDetector == null) {
+				return getAvailableDetectorSetups()[0];
+			}
+			return connectedDetector;
+		}
+
+		public static DetectorSetup[] getAvailableDetectorSetups() {
+			if (availableDetectors == null) {
+				getAvailableDetectors();
+				if (availableDetectors.length == 0) {
+					MessageDialog
+					.openError(Display.getDefault().getActiveShell(), "Error",
+							"Unable to find installed detector, please ensure the server configuration is setup correctly.");
+				}
+			}
+			return availableDetectors;
+		}
+
+		/**
+		 * Populate the availableDetectors and connectedDetector attributes
+		 */
+		private static void getAvailableDetectors() {
+			availableDetectors = new DetectorSetup[0];
+			for (DetectorSetup detector : DetectorSetup.values()) {
+				Object detectorBean = Finder.getInstance().find(detector.getDetectorName());
+				if (detectorBean != null && detectorBean instanceof StripDetector) {
+					StripDetector stripdetector = (StripDetector) detectorBean;
+					detector.setDetectorScannable(stripdetector);
+					if (stripdetector.isConnected()) {
+						connectedDetector = detector;
+					}
+					availableDetectors = (DetectorSetup[]) ArrayUtils.add(availableDetectors, detector);
+				}
 			}
 		}
 
 		private final String detectorName;
 		private StripDetector detectorScannable;
-		private final double minVoltage, maxVoltage;
 
-		private DetectorSetup(String detectorName, double minVoltage, double maxVoltage) {
+		private DetectorSetup(String detectorName) {
 			this.detectorName = detectorName;
-			this.minVoltage = minVoltage;
-			this.maxVoltage = maxVoltage;
 		}
 
 		public String getDetectorName() {
@@ -225,34 +264,22 @@ public class ClientConfig {
 			return detectorScannable;
 		}
 
-		private static DetectorSetup activeDetectorSetup;
-		public static void setActiveDetectorSetup(DetectorSetup detectorSetup) {
-			activeDetectorSetup = detectorSetup;
-		}
-
-		public static DetectorSetup getActiveDetectorSetup() {
-			if (activeDetectorSetup == null) {
-				setActiveDetector();
-			}
-			return activeDetectorSetup;
-		}
-
-		// FIXME Remove UI and review structure
-		private static void setActiveDetector() {
-			// Use the first available detector
-			for (DetectorSetup detector : DetectorSetup.values()) {
-				Object detectorBean = Finder.getInstance().find(detector.getDetectorName());
-				if (detectorBean != null && detectorBean instanceof StripDetector) {
-					detector.setDetectorScannable((StripDetector) detectorBean);
-					DetectorSetup.setActiveDetectorSetup(detector);
-					return;
-				}
-			}
-			MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", "Unable to find installed detector, please ensure the server configuration is setup correctly.");
-		}
-
 		public boolean isVoltageInRange(double value) {
-			return (minVoltage <= value & value <= maxVoltage);
+			return (detectorScannable.getMinBias() <= value & value <= detectorScannable.getMaxBias());
+		}
+
+		/**
+		 * Utility for other parts of the UI
+		 * 
+		 * @return Integer[]
+		 */
+		public Integer[] createArrayOfStrips() {
+			int numberOfStrips = DetectorSetup.getActiveDetectorSetup().getDetectorScannable().getNumberChannels();
+			Integer[] strips = new Integer[numberOfStrips];
+			for (int i = 0; i < numberOfStrips; i++) {
+				strips[i] = new Integer(i);
+			}
+			return strips;
 		}
 
 	}

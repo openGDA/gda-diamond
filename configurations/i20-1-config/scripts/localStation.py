@@ -1,3 +1,5 @@
+from uk.ac.gda.exafs.ui.data import EdeScanParameters
+
 energyTable = finder.find("energyTable")
 
 if energyTable != None:

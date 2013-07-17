@@ -195,7 +195,7 @@ public class FocusingFormComposite {
 		cmbFirstStripViewer = new ComboViewer(cmbFirstStrip);
 		cmbFirstStripViewer.setContentProvider(new ArrayContentProvider());
 		cmbFirstStripViewer.setLabelProvider(new LabelProvider());
-		cmbFirstStripViewer.setInput(DetectorSetup.STRIPS);
+		cmbFirstStripViewer.setInput(DetectorSetup.getActiveDetectorSetup().createArrayOfStrips());
 
 		Label lblLastStrip = toolkit.createLabel(stripsComposit, "Last strip:", SWT.NONE);
 		lblLastStrip.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
@@ -205,7 +205,7 @@ public class FocusingFormComposite {
 		cmbLastStripViewer = new ComboViewer(cmbLastStrip);
 		cmbLastStripViewer.setContentProvider(new ArrayContentProvider());
 		cmbLastStripViewer.setLabelProvider(new LabelProvider());
-		cmbLastStripViewer.setInput(DetectorSetup.STRIPS);
+		cmbLastStripViewer.setInput(DetectorSetup.getActiveDetectorSetup().createArrayOfStrips());
 
 		Composite regionsComposit = new Composite(roisSectionComposite, SWT.NONE);
 		gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
@@ -335,23 +335,27 @@ public class FocusingFormComposite {
 	}
 
 	protected void checkAndUpdateFirstAndLastStrips() {
-		int first = (Integer) ((IStructuredSelection) cmbFirstStripViewer.getSelection()).getFirstElement();
-		int last = (Integer) ((IStructuredSelection) cmbLastStripViewer.getSelection()).getFirstElement();
+		//		int first = (Integer) ((IStructuredSelection) cmbFirstStripViewer.getSelection()).getFirstElement();
+		//		int last = (Integer) ((IStructuredSelection) cmbLastStripViewer.getSelection()).getFirstElement();
+		int first = getFirstStrip();
+		int last = getLastStrip();
 		if (last > first && (last - (first -1)) >= noOfRegionsList.size()) {
 			// TODO Update to model
 			distributeNoOfRegionsValues();
 		} else {
-			UIHelper.showWarning( "Unable to set strip value", "First strip is higher than last strip OR to many regions for usable number of strips");
+			//			UIHelper.showWarning( "Unable to set strip value", "First strip is higher than last strip OR to many regions for usable number of strips");
 			// TODO Update from model
-			cmbFirstStripViewer.setSelection(new StructuredSelection(DetectorSetup.STRIPS[0]));
-			cmbLastStripViewer.setSelection(new StructuredSelection(DetectorSetup.STRIPS[DetectorSetup.MAX_STRIPS - 1]));
+			int numberOfStrips = DetectorSetup.getActiveDetectorSetup().getDetectorScannable().getNumberChannels();
+			cmbFirstStripViewer.setSelection(new StructuredSelection(0));
+			cmbLastStripViewer.setSelection(new StructuredSelection(numberOfStrips));
 		}
 	}
 
 	private void populateRegions() {
 		// TODO Update from model
-		cmbFirstStripViewer.setSelection(new StructuredSelection(DetectorSetup.STRIPS[0]));
-		cmbLastStripViewer.setSelection(new StructuredSelection(DetectorSetup.STRIPS[DetectorSetup.MAX_STRIPS - 1]));
+		int numberOfStrips = DetectorSetup.getActiveDetectorSetup().getDetectorScannable().getNumberChannels();
+		cmbFirstStripViewer.setSelection(new StructuredSelection(0));
+		cmbLastStripViewer.setSelection(new StructuredSelection(numberOfStrips));
 		noOfRegionsList.add(new XHROI("1"));
 		noOfRegionsList.add(new XHROI("2"));
 		noOfRegionsList.add(new XHROI("3"));
@@ -361,8 +365,9 @@ public class FocusingFormComposite {
 	}
 
 	private void distributeNoOfRegionsValues() {
-		int first = (Integer) ((IStructuredSelection) cmbFirstStripViewer.getSelection()).getFirstElement();
-		int last = (Integer) ((IStructuredSelection) cmbLastStripViewer.getSelection()).getFirstElement();
+		int first = getFirstStrip();
+		int last = getLastStrip();
+
 		int useableRegion = last - (first - 1); // Inclusive of the first
 		int increment = useableRegion / noOfRegionsList.size();
 		int start = first;
@@ -376,6 +381,28 @@ public class FocusingFormComposite {
 			noOfRegionsList.get(noOfRegionsList.size() - 1).setUpperLevel(last);
 		}
 		roisTableViewer.refresh();
+	}
+
+	private int getLastStrip() {
+		int last;
+		IStructuredSelection lastselection = (IStructuredSelection) cmbLastStripViewer.getSelection();
+		if (lastselection.isEmpty()) {
+			last = DetectorSetup.getActiveDetectorSetup().getDetectorScannable().getNumberChannels() - 1;
+		} else {
+			last = (Integer) (lastselection).getFirstElement();
+		}
+		return last;
+	}
+
+	private int getFirstStrip() {
+		int first;
+		IStructuredSelection firstselection = (IStructuredSelection) cmbFirstStripViewer.getSelection();
+		if (firstselection.isEmpty()){
+			first = 0;
+		} else {
+			first = (Integer) (firstselection).getFirstElement();
+		}
+		return first;
 	}
 
 	private static class RoisStripLevelEditorSupport extends EditingSupport {

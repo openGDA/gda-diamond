@@ -89,7 +89,8 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	private XHROI[] rois = new XHROI[0];
 	private int lowerChannel = 0;
 	private int upperChannel = NUMBER_ELEMENTS;
-	private int[] excludedStrips = new int[]{2,5};
+	private int[] excludedStrips = new int[] { 2, 5 };
+	private boolean connected;
 
 	public XHDetector() {
 		super();
@@ -116,15 +117,38 @@ public class XHDetector extends DetectorBase implements StripDetector {
 
 		loadROIsFromXML();
 
-		try {
-			close();
-			// to read back data
-			createNewDataHandle();
-			// to read back timing data
-			createNewTimingHandle();
-		} catch (DeviceException e) {
-			throw new FactoryException("Exception trying to create data readout handle to da.server", e);
+	}
+
+	@Override
+	public void connect() throws DeviceException {
+		synchronized (getName()) {
+			if (connected) {
+				return;
+			}
+			try {
+				disconnect();
+				// to read back data
+				createNewDataHandle();
+				// to read back timing data
+				createNewTimingHandle();
+				connected = true;
+			} catch (DeviceException e) {
+				throw new DeviceException("Exception trying to create data readout handle to da.server", e);
+			}
 		}
+	}
+
+	@Override
+	public void disconnect() throws DeviceException {
+		if (isConnected()) {
+			close();
+		}
+		connected = false;
+	}
+
+	@Override
+	public boolean isConnected() {
+		return connected;
 	}
 
 	private void createNewTimingHandle() throws DeviceException {
@@ -161,10 +185,11 @@ public class XHDetector extends DetectorBase implements StripDetector {
 		}
 	}
 
-	public int getNumberChannels(){
+	@Override
+	public int getNumberChannels() {
 		return NUMBER_ELEMENTS;
 	}
-	
+
 	private double[][] performCorrections(int[] rawData) {
 		// TODO need to implement corrections and calibrations when details available from William
 		int frameCount = rawData.length / NUMBER_ELEMENTS;
@@ -174,7 +199,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 			for (int element = 0; element < NUMBER_ELEMENTS; element++) {
 
 				// simply set excluded strips to be zero
-				if (ArrayUtils.contains(excludedStrips, element)){
+				if (ArrayUtils.contains(excludedStrips, element)) {
 					out[frame][element] = 0.0;
 				} else {
 					out[frame][element] = rawData[(frame * NUMBER_ELEMENTS) + element];
@@ -252,9 +277,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 
 	/*
 	 * Assumes it is given a NUMBER_ELEMENTS array of raw values
-	 * 
-	 * @param frameNum
-	 *            - the absolute frame number
+	 * @param frameNum - the absolute frame number
 	 * @param elements
 	 * @return NexusTreeProvider
 	 */
@@ -317,10 +340,8 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	}
 
 	/*
-	 * @param startFrame
-	 *            - absolute frame index ignoring the group num
-	 * @param finalFrame
-	 *            - absolute frame index ignoring the group num
+	 * @param startFrame - absolute frame index ignoring the group num
+	 * @param finalFrame - absolute frame index ignoring the group num
 	 * @return int[] - raw data from da.server memory
 	 * @throws DeviceException
 	 */
@@ -332,7 +353,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 				value = daServer.getIntBinaryData("read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames
 						+ " from " + dataHandle + " raw motorola", 1024 * numFrames);
 			} catch (Exception e) {
-				throw new DeviceException("Exception while reading data from da.server",e);
+				throw new DeviceException("Exception while reading data from da.server", e);
 			}
 		}
 		return value;
@@ -358,18 +379,18 @@ public class XHDetector extends DetectorBase implements StripDetector {
 		daServer.sendCommand(createTimingCommand("stop"));
 
 		if (hasValidDataHandle()) {
-			sendCommand("disable "+ dataHandle);
+			sendCommand("disable " + dataHandle);
 		}
 	}
 
 	@Override
 	public void close() throws DeviceException {
 		if (hasValidTimingHandle()) {
-			sendCommand("close "+ timingHandle);
+			sendCommand("close " + timingHandle);
 			timingHandle = -1;
 		}
 		if (hasValidDataHandle()) {
-			sendCommand("close "+ dataHandle);
+			sendCommand("close " + dataHandle);
 			dataHandle = -1;
 		}
 	}
@@ -379,7 +400,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 			createNewDataHandle();
 		}
 		if (hasValidDataHandle()) {
-			sendCommand("clear "+ dataHandle);
+			sendCommand("clear " + dataHandle);
 		}
 	}
 
@@ -416,7 +437,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	}
 
 	/*
-	 * @return  the given command with 'xstrip timing' prefixed and detectorName suffixed
+	 * @return the given command with 'xstrip timing' prefixed and detectorName suffixed
 	 */
 	private String createTimingCommand(String command, Object... otherArgs) {
 		String theCommand = "xstrip timing " + command + " \"" + detectorName + "\"";
@@ -431,6 +452,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	/**
 	 * Setup the TFG from parameters held by the template xml file. The template file would be been created during
 	 * configuration of this object
+	 * 
 	 * @throws DeviceException
 	 */
 	@Override
@@ -527,6 +549,14 @@ public class XHDetector extends DetectorBase implements StripDetector {
 			double scanTimeInS = timingGroup.getTimePerScan();
 			String scanTimeInClockCycles = secondsToClockCyclesString(scanTimeInS);
 
+
+			if (scanTimeInClockCycles.isEmpty() && numberOfScansPerFrame != 0){
+				// something's wrong, so switch frame time to scan time.
+				scanTimeInS = frameTimeInS / numberOfScansPerFrame;
+				scanTimeInClockCycles = secondsToClockCyclesString(scanTimeInS);
+				frameTimeInCycles = "";
+			}
+
 			String extTrig = buildExtTriggerCommand(timingGroup);
 
 			String lemoOut = buildLemoOutCommand(timingGroup);
@@ -540,8 +570,8 @@ public class XHDetector extends DetectorBase implements StripDetector {
 						frameTimeInCycles, delays, lemoOut, extTrig);
 			} else {
 
-				command = createTimingCommand("setup-group", i, numFrames, numberOfScansPerFrame, scanTimeInClockCycles,
-						delays, lemoOut, extTrig);
+				command = createTimingCommand("setup-group", i, numFrames, numberOfScansPerFrame,
+						scanTimeInClockCycles, delays, lemoOut, extTrig);
 
 				if (scanDelayInMilliseconds > 0) {
 					float scanDelayInSeconds = (float) (scanDelayInMilliseconds / 1000.0);
@@ -549,7 +579,6 @@ public class XHDetector extends DetectorBase implements StripDetector {
 					command += " scan-period " + scanPeriodInClockCycles;
 				}
 			}
-
 
 			if (i == nextScan.getGroups().size() - 1) {
 				command = command.trim() + " last";
@@ -703,7 +732,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 				value = daServer.getIntBinaryData("read 0 0 0 30 1024 1 from " + timingHandle + " raw motorola",
 						30 * 1024);
 			} catch (Exception e) {
-				throw new DeviceException("Exception while setting timing data from da.server",e);
+				throw new DeviceException("Exception while setting timing data from da.server", e);
 			}
 		}
 		return value;
@@ -880,12 +909,11 @@ public class XHDetector extends DetectorBase implements StripDetector {
 		return propertiesFileName;
 	}
 
-
 	private void saveROIsToXML() {
 		try {
 			String propertiesFileName = getStoreFileName();
 			File test = new File(propertiesFileName);
-			if (!test.exists()){
+			if (!test.exists()) {
 				try {
 					test.createNewFile();
 				} catch (IOException e) {
@@ -961,7 +989,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	public void setBias(Double biasVoltage) throws DeviceException {
 		// TODO what should be the volatge upper limit?
 		if (biasVoltage < 0.0 || biasVoltage > 10000) {
-			throw new DeviceException ("Bias volatge of " + biasVoltage + " is unacceptable.");
+			throw new DeviceException("Bias volatge of " + biasVoltage + " is unacceptable.");
 		}
 
 		// TODO test with hardware
@@ -988,4 +1016,15 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	public int[] getExcludedStrips() {
 		return excludedStrips;
 	}
+
+	@Override
+	public Double getMaxBias() {
+		return 137.0;
+	}
+
+	@Override
+	public Double getMinBias() {
+		return 1.0;
+	}
+
 }

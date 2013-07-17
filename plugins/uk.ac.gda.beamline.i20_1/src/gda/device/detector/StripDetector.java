@@ -66,7 +66,6 @@ public interface StripDetector extends NexusDetector {
 	 */
 	public void start() throws DeviceException;
 
-	
 	/**
 	 * @param startFrame
 	 * @param finalFrame
@@ -74,10 +73,13 @@ public interface StripDetector extends NexusDetector {
 	 * @throws DeviceException
 	 */
 	public NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException;
-	
+
+	/**
+	 * @return the size of the mca produced by the detector i.e. the number of strips
+	 */
 	public int getNumberChannels();
 
-		/**
+	/**
 	 * Returns the regions in use, as defined by calls to setRois or setNumberRois
 	 * 
 	 * @return the array of regions
@@ -116,9 +118,20 @@ public interface StripDetector extends NexusDetector {
 
 	/**
 	 * @return the current bias voltage or 0.0 if biad switched off
-	 * @throws DeviceException - thrown if there is a problem reading the current status
+	 * @throws DeviceException
+	 *             - thrown if there is a problem reading the current status
 	 */
 	public Double getBias() throws DeviceException;
+
+	/**
+	 * @return Double - the highest acceptable bias voltage
+	 */
+	public Double getMaxBias();
+
+	/**
+	 * @return Double - the lowest acceptable bias voltage
+	 */
+	public Double getMinBias();
 
 	/**
 	 * The numbers of the strips which should be excluded when returning the data and creating region totals.
@@ -144,5 +157,24 @@ public interface StripDetector extends NexusDetector {
 	 * @throws DeviceException
 	 */
 	public void fireSoftTrig() throws DeviceException;
+
+	/**
+	 * Connect to the underlying hardware. These detectors do not connect to the hardware during their configure().
+	 * 
+	 * @throws DeviceException
+	 */
+	public void connect() throws DeviceException;
+
+	/**
+	 * Disconnect to the underlying hardware
+	 * 
+	 * @throws DeviceException
+	 */
+	public void disconnect() throws DeviceException;
+
+	/**
+	 * @return true if a successful call to connect() has been made, and not subsequently disconnected.
+	 */
+	public boolean isConnected();
 
 }

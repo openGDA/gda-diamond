@@ -28,6 +28,10 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
 /**
  * Defines the collection parameters for linear or cycling experiments on the I20-1 Energy Dispersive EXAFS (EDE)
  * beamline.
+ * <p>
+ * Options MUST be either: state frame and scan times (with 0 number of scans per frame) or scan time and number of scans per frame.
+ * <p>
+ * Do NOT state: frame time and number of scans per frame.
  */
 public class EdeScanParameters implements Serializable {
 
@@ -41,7 +45,7 @@ public class EdeScanParameters implements Serializable {
 	// public static final String TRIG_MID_SCAN = "Mid-scan";
 
 	public static final String[] OUTPUT_TRIG_CHOICES = new String[] { TRIG_NONE, TRIG_GROUP_BEFORE, TRIG_GROUP_AFTER,
-			TRIG_FRAME_BEFORE, TRIG_FRAME_AFTER, TRIG_SCAN_BEFORE };
+		TRIG_FRAME_BEFORE, TRIG_FRAME_AFTER, TRIG_SCAN_BEFORE };
 
 	static public final URL mappingURL = EdeScanParameters.class.getResource("EdeParametersMapping.xml");
 	static public final URL schemaURL = EdeScanParameters.class.getResource("EdeParametersMapping.xsd");
@@ -54,10 +58,40 @@ public class EdeScanParameters implements Serializable {
 		XMLHelpers.writeToXML(mappingURL, scanParameters, filename);
 	}
 
+	/**
+	 * Utility method to easily create a single group, single frame, single scan EdeScanParameters of the given
+	 * integration time.
+	 * 
+	 * @param integrationTimeInS
+	 * @return EdeScanParameters
+	 */
+	public static EdeScanParameters createSingleFrameScan(Double integrationTimeInS) {
+		return createSingleFrameScan(integrationTimeInS,1);
+	}
+
+	/**
+	 * Utility method to easily create a single group, single frame EdeScanParameters of the given
+	 * integration time for the frame and the number of scans in that frame.
+	 * 
+	 * @param integrationTimeInS
+	 * @return EdeScanParameters
+	 */
+	public static EdeScanParameters createSingleFrameScan(Double integrationTimeInS, int numberOfScans) {
+		EdeScanParameters params = new EdeScanParameters();
+		TimingGroup group1 = new TimingGroup();
+		group1.setLabel("group1");
+		group1.setNumberOfFrames(1);
+		group1.setTimePerScan(integrationTimeInS);
+		group1.setDelayBetweenFrames(0);
+		group1.setNumberOfScansPerFrame(numberOfScans);
+		params.addGroup(group1);
+		return params;
+	}
+
 	// for repeatableExperiments
 	private Integer numberOfRepetitions = 1; // number of times to repeat the sequence of timingGroups, between bookend
-												// I0 data
-												// collections
+	// I0 data
+	// collections
 
 	// the timing groups
 	private List<TimingGroup> timingGroups = new Vector<TimingGroup>();
@@ -80,31 +114,27 @@ public class EdeScanParameters implements Serializable {
 	private double outputsWidth5 = 0;
 	private double outputsWidth6 = 0;
 	private double outputsWidth7 = 0;
-	
-	
 
 	public int getTotalNumberOfFrames() {
 		int sum = 0;
-		
-		for (TimingGroup group : getGroups()){
+
+		for (TimingGroup group : getGroups()) {
 			sum += group.getNumberOfFrames();
 		}
-		
+
 		return sum;
 	}
-
-
 
 	public List<TimingGroup> getGroups() {
 		return timingGroups;
 	}
 
 	public void addGroup(TimingGroup newGroup) {
-		this.timingGroups.add(newGroup);
+		timingGroups.add(newGroup);
 	}
 
 	public void setGroups(List<TimingGroup> group) {
-		this.timingGroups = group;
+		timingGroups = group;
 	}
 
 	public void setNumberOfRepetitions(Integer numberOfRepetitions) {
@@ -306,79 +336,110 @@ public class EdeScanParameters implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		EdeScanParameters other = (EdeScanParameters) obj;
 		if (numberOfRepetitions == null) {
-			if (other.numberOfRepetitions != null)
+			if (other.numberOfRepetitions != null) {
 				return false;
-		} else if (!numberOfRepetitions.equals(other.numberOfRepetitions))
+			}
+		} else if (!numberOfRepetitions.equals(other.numberOfRepetitions)) {
 			return false;
+		}
 		if (outputsChoice0 == null) {
-			if (other.outputsChoice0 != null)
+			if (other.outputsChoice0 != null) {
 				return false;
-		} else if (!outputsChoice0.equals(other.outputsChoice0))
+			}
+		} else if (!outputsChoice0.equals(other.outputsChoice0)) {
 			return false;
+		}
 		if (outputsChoice1 == null) {
-			if (other.outputsChoice1 != null)
+			if (other.outputsChoice1 != null) {
 				return false;
-		} else if (!outputsChoice1.equals(other.outputsChoice1))
+			}
+		} else if (!outputsChoice1.equals(other.outputsChoice1)) {
 			return false;
+		}
 		if (outputsChoice2 == null) {
-			if (other.outputsChoice2 != null)
+			if (other.outputsChoice2 != null) {
 				return false;
-		} else if (!outputsChoice2.equals(other.outputsChoice2))
+			}
+		} else if (!outputsChoice2.equals(other.outputsChoice2)) {
 			return false;
+		}
 		if (outputsChoice3 == null) {
-			if (other.outputsChoice3 != null)
+			if (other.outputsChoice3 != null) {
 				return false;
-		} else if (!outputsChoice3.equals(other.outputsChoice3))
+			}
+		} else if (!outputsChoice3.equals(other.outputsChoice3)) {
 			return false;
+		}
 		if (outputsChoice4 == null) {
-			if (other.outputsChoice4 != null)
+			if (other.outputsChoice4 != null) {
 				return false;
-		} else if (!outputsChoice4.equals(other.outputsChoice4))
+			}
+		} else if (!outputsChoice4.equals(other.outputsChoice4)) {
 			return false;
+		}
 		if (outputsChoice5 == null) {
-			if (other.outputsChoice5 != null)
+			if (other.outputsChoice5 != null) {
 				return false;
-		} else if (!outputsChoice5.equals(other.outputsChoice5))
+			}
+		} else if (!outputsChoice5.equals(other.outputsChoice5)) {
 			return false;
+		}
 		if (outputsChoice6 == null) {
-			if (other.outputsChoice6 != null)
+			if (other.outputsChoice6 != null) {
 				return false;
-		} else if (!outputsChoice6.equals(other.outputsChoice6))
+			}
+		} else if (!outputsChoice6.equals(other.outputsChoice6)) {
 			return false;
+		}
 		if (outputsChoice7 == null) {
-			if (other.outputsChoice7 != null)
+			if (other.outputsChoice7 != null) {
 				return false;
-		} else if (!outputsChoice7.equals(other.outputsChoice7))
+			}
+		} else if (!outputsChoice7.equals(other.outputsChoice7)) {
 			return false;
-		if (Double.doubleToLongBits(outputsWidth0) != Double.doubleToLongBits(other.outputsWidth0))
+		}
+		if (Double.doubleToLongBits(outputsWidth0) != Double.doubleToLongBits(other.outputsWidth0)) {
 			return false;
-		if (Double.doubleToLongBits(outputsWidth1) != Double.doubleToLongBits(other.outputsWidth1))
+		}
+		if (Double.doubleToLongBits(outputsWidth1) != Double.doubleToLongBits(other.outputsWidth1)) {
 			return false;
-		if (Double.doubleToLongBits(outputsWidth2) != Double.doubleToLongBits(other.outputsWidth2))
+		}
+		if (Double.doubleToLongBits(outputsWidth2) != Double.doubleToLongBits(other.outputsWidth2)) {
 			return false;
-		if (Double.doubleToLongBits(outputsWidth3) != Double.doubleToLongBits(other.outputsWidth3))
+		}
+		if (Double.doubleToLongBits(outputsWidth3) != Double.doubleToLongBits(other.outputsWidth3)) {
 			return false;
-		if (Double.doubleToLongBits(outputsWidth4) != Double.doubleToLongBits(other.outputsWidth4))
+		}
+		if (Double.doubleToLongBits(outputsWidth4) != Double.doubleToLongBits(other.outputsWidth4)) {
 			return false;
-		if (Double.doubleToLongBits(outputsWidth5) != Double.doubleToLongBits(other.outputsWidth5))
+		}
+		if (Double.doubleToLongBits(outputsWidth5) != Double.doubleToLongBits(other.outputsWidth5)) {
 			return false;
-		if (Double.doubleToLongBits(outputsWidth6) != Double.doubleToLongBits(other.outputsWidth6))
+		}
+		if (Double.doubleToLongBits(outputsWidth6) != Double.doubleToLongBits(other.outputsWidth6)) {
 			return false;
-		if (Double.doubleToLongBits(outputsWidth7) != Double.doubleToLongBits(other.outputsWidth7))
+		}
+		if (Double.doubleToLongBits(outputsWidth7) != Double.doubleToLongBits(other.outputsWidth7)) {
 			return false;
+		}
 		if (timingGroups == null) {
-			if (other.timingGroups != null)
+			if (other.timingGroups != null) {
 				return false;
-		} else if (!timingGroups.equals(other.timingGroups))
+			}
+		} else if (!timingGroups.equals(other.timingGroups)) {
 			return false;
+		}
 		return true;
 	}
 }
