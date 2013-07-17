@@ -12,16 +12,16 @@
 
    <launcherArgs>
       <vmArgs>-Djava.library.path=/dls_sw/i15/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/lib/linux-x86_64/
--Declipse.pluginCustomization=/dls_sw/i15/software/gda/i15-config/client/pluginCustomization.ini
+-Declipse.pluginCustomization=/dls_sw/i15/software/gda/config/client/pluginCustomization.ini
 -Dgda.client.jython.automatic.interpreter=1
--Dgda.config=/dls_sw/i15/software/gda/i15-config
--Dgda.gui.beans.xml=/dls_sw/i15/software/gda/i15-config/client/client.xml
+-Dgda.config=/dls_sw/i15/software/gda/config
+-Dgda.gui.beans.xml=/dls_sw/i15/software/gda/config/client/client.xml
 -Dgda.var=/dls_sw/i15/software/gda_versions/var
 -Dgda.data=/dls/i15
 -Dgda.logs.dir=/dls/i15/logs
--Dgda.propertiesFile=/dls_sw/i15/software/gda/i15-config/properties/java.properties
--Djacorb.config.dir=/dls_sw/i15/software/gda/i15-config/properties
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i15/software/gda/i15-config/properties/JCALibrary.properties
+-Dgda.propertiesFile=/dls_sw/i15/software/gda/config/properties/java.properties
+-Djacorb.config.dir=/dls_sw/i15/software/gda/config/properties
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i15/software/gda/config/properties/JCALibrary.properties
 -Xms512m
 -Xmx1024m
 -XX:PermSize=128m
