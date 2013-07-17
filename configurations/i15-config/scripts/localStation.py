@@ -306,6 +306,7 @@ try:
 			'peAD', pedet, None, pedet_for_snaps, panel_name_rcp='Plot 1',
 			toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
 			fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+		peAD.display_image = True
 	except:
 		localStation_exception(sys.exc_info(), "connecting creating pe...")
 
