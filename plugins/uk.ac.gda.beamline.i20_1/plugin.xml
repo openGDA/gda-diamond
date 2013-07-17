@@ -101,4 +101,18 @@
             class="uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer">
       </initializer>
    </extension>
+   
+    <extension
+         point="org.eclipse.ui.views">
+              <view
+            allowMultiple="false"
+            category="uk.ac.diamond.scisoft.analysis.rcp"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            icon="icons/chart_curve.png"
+            id="uk.ac.diamond.scisoft.analysis.rcp.liveModePlot"
+            name="Live Mode"
+            restorable="true">
+      </view>
+      </extension>
+   
 </plugin>
