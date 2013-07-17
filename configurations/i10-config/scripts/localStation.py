@@ -301,15 +301,33 @@ if pixis_installed:
             panel_name='Andor CCD', panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-    
+
+        from gdascripts.scannable.detector.DetectorDataProcessor \
+            import DetectorDataProcessor #, DetectorDataProcessorWithRoi
+
         from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue \
             import SumMaxPositionAndValue
 
         pixisSMPV = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-            'pixisSMPV', pixis1det, None, pixis1det_for_snaps, [SumMaxPositionAndValue],
+            'pixisSMPV', pixis1det, None, pixis1det_for_snaps,
             panel_name='Andor CCD', panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+        pixisSMPV.display_image = True
+        #pixisSMPV.processors=[DetectorDataProcessorWithRoi('max', pixis1det, [SumMaxPositionAndValue()], False)]
+        pixisSMPV.processors=[DetectorDataProcessor        ('max', pixis1det, [SumMaxPositionAndValue()], False)]
+
+        from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak \
+            import TwodGaussianPeak
+        
+        pixis2d = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+            'pixis2d', pixis1det, None, pixis1det_for_snaps,
+            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
+            fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+        pixis2d.display_image = True
+        #pixisSMPV.processors=[DetectorDataProcessorWithRoi('max', pixis1det, [TwodGaussianPeak()], False)]
+        pixis2d.processors=[DetectorDataProcessor        ('max', pixis1det, [TwodGaussianPeak()], False)]
 
         def pixisGV12openDelay(t_seconds = None):
             """Get or set the shutter close delay (in seconds) for the pixis"""
