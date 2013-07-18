@@ -117,7 +117,7 @@ public interface StripDetector extends NexusDetector {
 	public void setBias(Double biasVoltage) throws DeviceException;
 
 	/**
-	 * @return the current bias voltage or 0.0 if biad switched off
+	 * @return the current bias voltage or 0.0 if bias switched off
 	 * @throws DeviceException
 	 *             - thrown if there is a problem reading the current status
 	 */

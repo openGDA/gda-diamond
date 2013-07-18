@@ -165,6 +165,8 @@ public class DummyXStripDAServer extends DummyDAServer {
 		case "close":
 			tcSerialPortOpened = false;
 			break;
+		case "print":
+			return tcSerialPortOpened ? 1 : 0;
 		case "get":
 			if (!tcSerialPortOpened) {
 				return -1;
