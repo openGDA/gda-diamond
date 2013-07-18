@@ -108,13 +108,17 @@ public class I05EntranceSlit implements EntranceSlitInformationProvider, Configu
 	@Override
 	public void monitorChanged(MonitorEvent ev) {
 		if (ev.getDBR() instanceof DBR_Int) {
-			int pos = ((DBR_Int) ev.getDBR()).getIntValue()[0];
-			label = positions.get(pos);
-			String[] strings = label.split(" ");
-			rawValue = Integer.valueOf(strings[0]);
-			size = Double.valueOf(strings[1]);
-			shape = strings[2];
-			logger.debug(String.format("processed updates for entrance slit %s: %s",labelPV, label));
+			try {
+				int pos = ((DBR_Int) ev.getDBR()).getIntValue()[0];
+				label = positions.get(pos);
+				String[] strings = label.split(" ");
+				rawValue = Integer.valueOf(strings[0]);
+				size = Double.valueOf(strings[1]);
+				shape = strings[2];
+				logger.debug(String.format("processed updates for entrance slit %s: %s",labelPV, label));
+			} catch (Exception e) {
+				logger.error("problem processing slit update", e);
+			}
 		}
 	}
 

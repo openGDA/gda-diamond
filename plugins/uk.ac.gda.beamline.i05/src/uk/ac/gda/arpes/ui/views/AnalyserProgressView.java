@@ -18,6 +18,7 @@
 
 package uk.ac.gda.arpes.ui.views;
 
+import gda.device.MotorStatus;
 import gda.factory.Finder;
 import gda.jython.JythonServerFacade;
 import gda.observable.IObserver;
@@ -25,8 +26,12 @@ import gda.observable.IObserver;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.FontMetrics;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -46,6 +51,9 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 	private FlexibleFrameDetector analyser;
 	private Spinner sweepSpinner;
 	private int oldMax = -1, compSweep = -1;
+	private ProgressBar progressBar;
+	private String progressBarText = "IDLE";
+
 	public AnalyserProgressView() {
 	}
 
@@ -59,9 +67,21 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 		gl_parent.marginBottom = 5;
 		parent.setLayout(gl_parent);
 		
-		ProgressBar progressBar = new ProgressBar(parent, SWT.FILL);
-		progressBar.setSelection(100);
+		progressBar = new ProgressBar(parent, SWT.FILL);
+		progressBar.setSelection(1000);
 		progressBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 4, 1));
+		progressBar.addPaintListener(new PaintListener() {
+
+			@Override
+			public void paintControl(PaintEvent e) {
+				Point point = progressBar.getSize();
+				FontMetrics fontMetrics = e.gc.getFontMetrics();
+				int width = fontMetrics.getAverageCharWidth() * progressBarText.length();
+				int height = fontMetrics.getHeight();
+				e.gc.setForeground(getViewSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_FOREGROUND));
+				e.gc.drawString(progressBarText, (point.x - width) / 2, (point.y - height) / 2, true);
+			}
+		});
 		
 		Label lblCurrentSweep = new Label(parent, SWT.NONE);
 		lblCurrentSweep.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -146,6 +166,24 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 					}
 				}
 			});
+			return;
+		}
+		if (arg instanceof MotorStatus) {
+			final boolean running = MotorStatus.BUSY.equals(arg);
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					if (running) {
+						progressBarText = "RUNNING";
+						progressBar.setSelection(progressBar.getMinimum());
+					} else { 
+						progressBarText = "IDLE";
+						progressBar.setSelection(progressBar.getMaximum());
+					}
+//						progressBar.setEnabled(running);
+				}
+			});
+			return;
 		}
 	}
 }
