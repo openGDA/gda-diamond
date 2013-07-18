@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.ArrayUtils;
 import org.nexusformat.NexusFile;
@@ -58,6 +59,9 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
  */
 public class XHDetector extends DetectorBase implements StripDetector {
 
+	private static final String UPPERLEVEL_PROPERTY = "upperlevel";
+	private static final String LOWERLEVEL_PROPERTY = "lowerlevel";
+	private static final String EXCLUDED_STRIPS_PROPERTY = "excludedStrips";
 	private static final String STORENAME = "XH_rois";
 	// strings to use in the get/set attributes methods
 	public static final String ATTR_LOADPARAMETERS = "loadParameters";
@@ -117,6 +121,42 @@ public class XHDetector extends DetectorBase implements StripDetector {
 
 		loadROIsFromXML();
 
+		loadExcludedStrips();
+
+		try {
+			connectIfWasBefore();
+		} catch (DeviceException e) {
+			logger.error(getName() + " was connected when GDA last run but failed to reconnect.",e);
+		}
+
+	}
+
+	private void connectIfWasBefore() throws DeviceException {
+		if (wasConnected()){
+			connect();
+		}
+
+	}
+
+	private boolean wasConnected() {
+		PropertiesConfiguration store;
+		try {
+			store = new PropertiesConfiguration(getStoreFileName());
+			return store.getBoolean("connected");
+		} catch (ConfigurationException e) {
+		}
+		return false;
+	}
+
+	private void saveConnectedState() {
+		PropertiesConfiguration store;
+		try {
+			store = new PropertiesConfiguration(getStoreFileName());
+			store.setProperty("connected",isConnected());
+			store.save();
+		} catch (ConfigurationException e) {
+		}
+
 	}
 
 	@Override
@@ -133,7 +173,10 @@ public class XHDetector extends DetectorBase implements StripDetector {
 				createNewTimingHandle();
 				connected = true;
 			} catch (DeviceException e) {
+				connected = false;
 				throw new DeviceException("Exception trying to create data readout handle to da.server", e);
+			} finally {
+				saveConnectedState();
 			}
 		}
 	}
@@ -144,6 +187,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 			close();
 		}
 		connected = false;
+		saveConnectedState();
 	}
 
 	@Override
@@ -856,7 +900,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 
 		for (int i = 0; i < numberOfRois; i++) {
 			XHROI thisRoi = new XHROI();
-			thisRoi.setLabel("ROI_" + i);
+			thisRoi.setLabel("ROI" + i);
 			int lowerChannelForThisROI = roiSize * i + lowerChannel;
 			thisRoi.setLowerLevel(lowerChannelForThisROI);
 			thisRoi.setUpperLevel(lowerChannelForThisROI + roiSize - 1);
@@ -923,8 +967,8 @@ public class XHDetector extends DetectorBase implements StripDetector {
 
 			PropertiesConfiguration store = new PropertiesConfiguration(propertiesFileName);
 			for (XHROI roi : getRois()) {
-				store.setProperty(roi.getName() + "_lowerlevel", roi.getLowerLevel());
-				store.setProperty(roi.getName() + "_upperlevel", roi.getUpperLevel());
+				store.setProperty(roi.getName() + "_" + LOWERLEVEL_PROPERTY, roi.getLowerLevel());
+				store.setProperty(roi.getName() + "_" +UPPERLEVEL_PROPERTY, roi.getUpperLevel());
 			}
 			store.save();
 		} catch (Exception e) {
@@ -947,14 +991,16 @@ public class XHDetector extends DetectorBase implements StripDetector {
 				}
 
 				String[] partsString = key.split("_");
-				if (!tempROIs.keySet().contains(partsString[0])) {
+				if (partsString[0].startsWith("ROI") && !tempROIs.keySet().contains(partsString[0])) {
 					tempROIs.put(partsString[0], new XHROI(partsString[0]));
+				} else {
+					continue;
 				}
 
 				XHROI thisROI = tempROIs.get(partsString[0]);
-				if (partsString[1].equals("lowerlevel")) {
+				if (partsString[1].equals(LOWERLEVEL_PROPERTY)) {
 					thisROI.setLowerLevel(store.getInteger(key, 0));
-				} else if (partsString[1].equals("upperlevel")) {
+				} else if (partsString[1].equals(UPPERLEVEL_PROPERTY)) {
 					thisROI.setUpperLevel(store.getInteger(key, 1023));
 				}
 			}
@@ -964,10 +1010,46 @@ public class XHDetector extends DetectorBase implements StripDetector {
 		}
 	}
 
+	private void loadExcludedStrips(){
+		PropertiesConfiguration store;
+		try {
+			store = new PropertiesConfiguration(getStoreFileName());
+			String[] excludedStripsArray = store.getStringArray(EXCLUDED_STRIPS_PROPERTY);
+			if (excludedStripsArray.length == 0){
+				excludedStrips = new int[]{};
+				return;
+			}
+			//			String[] excludedStripsArray = excludedStripsProp.split(",");
+			excludedStrips = new int[excludedStripsArray.length];
+			for (int i = 0; i < excludedStripsArray.length; i++){
+				if (!excludedStripsArray[i].isEmpty()) {
+					excludedStrips[i] = Integer.parseInt(excludedStripsArray[i]);
+				}
+			}
+		} catch (ConfigurationException e) {
+			excludedStrips = new int[]{};
+		}
+	}
+
+	private void saveExcludedStrips(){
+		PropertiesConfiguration store;
+		try {
+			store = new PropertiesConfiguration(getStoreFileName());
+			String excludedStripsString = "";
+			for (int i = 0; i < excludedStrips.length; i++){
+				excludedStripsString += excludedStrips[i] + ",";
+			}
+			excludedStripsString = excludedStripsString.substring(0, excludedStripsString.length() -1);
+			store.setProperty(EXCLUDED_STRIPS_PROPERTY, excludedStripsString);
+			store.save();
+		} catch (ConfigurationException e) {
+		}
+	}
+
 	@Override
 	public void setLowerChannel(int channel) {
 		lowerChannel = channel;
-
+		setNumberRois(getNumberRois());
 	}
 
 	@Override
@@ -978,6 +1060,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	@Override
 	public void setUpperChannel(int channel) {
 		upperChannel = channel;
+		setNumberRois(getNumberRois());
 	}
 
 	@Override
@@ -1010,6 +1093,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	@Override
 	public void setExcludedStrips(int[] excludedStrips) throws DeviceException {
 		this.excludedStrips = excludedStrips;
+		saveExcludedStrips();
 	}
 
 	@Override

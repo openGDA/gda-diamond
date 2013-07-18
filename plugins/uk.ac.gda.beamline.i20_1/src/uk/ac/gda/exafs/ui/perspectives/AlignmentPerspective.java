@@ -25,7 +25,6 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IViewLayout;
 
-import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
 import uk.ac.gda.exafs.ui.views.DetectorSetupView;
@@ -39,13 +38,8 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 	public static final String ID = "uk.ac.gda.beamline.i20_1.AlignmentPerspective";
 
 	// plot where snapshot spectra placed
-	public static String SPECTRAPLOTID =  PlotView.ID + "1";
-	public static String SPECTRAPLOTNAME =  "Plot 1";
-
-	// TODO This view is not needed
-	// plot where accumulative rates are plotted
-	public static String LINEPLOTID =  PlotView.ID + "2";
-	public static String LINEPLOTNAME =  "Plot 2";
+	public static String SPECTRAPLOTID =  "uk.ac.diamond.scisoft.analysis.rcp.liveModePlot";
+	public static String SPECTRAPLOTNAME =  "Live Mode";
 
 	private static final String TOPPLOT_FOLDER_ID = "topplot";
 	private static final String ALIGNMENT_CONTROLS_FOLDER_ID = "alignmentControls";
@@ -59,8 +53,6 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		alignmentControlsFolder.addView(BeamlineAlignmentView.ID);
 		alignmentControlsFolder.addView(SingleSpectrumView.ID);
 
-		// TODO This view is not needed
-		// layout.addView(LINEPLOTID, IPageLayout.RIGHT, 0.25f, editorArea);
 		layout.addView(DetectorSetupView.ID, IPageLayout.RIGHT, 0.25f, editorArea);
 		IViewLayout propertyLayout = layout.getViewLayout(DetectorSetupView.ID);
 		propertyLayout.setCloseable(false);
