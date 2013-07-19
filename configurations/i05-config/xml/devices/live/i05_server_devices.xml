@@ -12,6 +12,7 @@
 
 	<import resource="d6.xml" />
 	<import resource="d7.xml" />
+	<import resource="dj7.xml" />
 
 	<import resource="m1.xml" />
 	<import resource="m3mj6.xml" />
