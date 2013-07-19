@@ -57,7 +57,7 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
  * 
  * @author rjw82
  */
-public class XHDetector extends DetectorBase implements StripDetector {
+public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 	private static final String UPPERLEVEL_PROPERTY = "upperlevel";
 	private static final String LOWERLEVEL_PROPERTY = "lowerlevel";
@@ -73,6 +73,11 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	public static final double XSTRIP_CLOCKRATE = 20E-9; // s
 
 	private static final Logger logger = LoggerFactory.getLogger(XHDetector.class);
+	// TODO need to ask scientists what these names should be.
+	private static final String SENSOR0NAME = "Sensor 0";
+	private static final String SENSOR1NAME = "Sensor 1";
+	private static final String SENSOR2NAME = "Sensor 2";
+	private static final String SENSOR3NAME = "Sensor 3";
 	public static int NUMBER_ELEMENTS = 1024;
 
 	// These are the objects this must know about.
@@ -1109,6 +1114,34 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	@Override
 	public Double getMinBias() {
 		return 1.0;
+	}
+
+	@Override
+	public HashMap<String, Double> getTemperatures() throws DeviceException {
+		openTCSocket();
+
+		HashMap<String, Double> temps = new HashMap<String, Double>();
+		Double sensor0Temp = (Double) daServer.sendCommand("xstrip tc get " + detectorName + " ch 0");
+		temps.put(SENSOR0NAME,sensor0Temp);
+		Double sensor1Temp = (Double) daServer.sendCommand("xstrip tc get " + detectorName + " ch 1");
+		temps.put(SENSOR1NAME,sensor1Temp);
+		Double sensor2Temp = (Double) daServer.sendCommand("xstrip tc get " + detectorName + " ch 2");
+		temps.put(SENSOR2NAME,sensor2Temp);
+		Double sensor3Temp = (Double) daServer.sendCommand("xstrip tc get " + detectorName + " ch 3");
+		temps.put(SENSOR3NAME,sensor3Temp);
+		return temps;
+	}
+
+	private void openTCSocket() throws DeviceException {
+		int tcIsOpen = (int) daServer.sendCommand("xstrip tc print " + detectorName);
+		if (tcIsOpen != 1 ){
+			daServer.sendCommand("xstrip tc open " + detectorName);
+			tcIsOpen = (int) daServer.sendCommand("xstrip tc print " + detectorName);
+			if (tcIsOpen != 1 ) {
+				throw new DeviceException("Could not open temperature controller to find out current temperature values");
+			}
+		}
+
 	}
 
 }
