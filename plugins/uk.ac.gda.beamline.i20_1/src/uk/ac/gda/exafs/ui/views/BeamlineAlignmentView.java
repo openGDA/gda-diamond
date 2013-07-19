@@ -56,6 +56,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -151,9 +152,14 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		updateElementEdgeSelection();
 	}
 
+	@Override
+	public void dispose() {
+		toolkit.dispose();
+		super.dispose();
+	}
+
 	private void createMainControls(Form form) {
-		@SuppressWarnings("static-access")
-		final Section mainSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		final Section mainSection = toolkit.createSection(form.getBody(), ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 		mainSection.setText("Main Parameters");
 
 		mainSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
@@ -328,8 +334,8 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	private final Map<Button, Label> suggestionControls = new HashMap<Button, Label>();
 
 	private void createMotorControls(Form form) {
-		@SuppressWarnings("static-access")
-		final Section motorSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		final Section motorSection = toolkit.createSection(form.getBody(), ExpandableComposite.TITLE_BAR
+				| ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 		motorSection.setText("Motor Positions");
 		motorSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		Composite motorSelectionComposite = toolkit.createComposite(motorSection, SWT.NONE);
