@@ -18,7 +18,6 @@
 
 package uk.ac.gda.exafs.data;
 
-import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.StripDetector;
 import gda.factory.Finder;
@@ -27,15 +26,7 @@ import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Display;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class ClientConfig {
-
-	private static Logger logger = LoggerFactory.getLogger(ClientConfig.class);
 
 	public static final int KILO_UNIT = 1000;
 	public static final int DEFAULT_DECIMAL_PLACE = 2;
@@ -50,7 +41,13 @@ public class ClientConfig {
 	}
 
 	public enum UnitSetup {
-		MILLI_METER("mm"), MILLI_RADIAN("mrad"), DEGREE("deg"), WATT("W"), EV("eV"), VOLTAGE("V"), MILLI_SEC("ms"),
+		MILLI_METER("mm"),
+		MILLI_RADIAN("mrad"),
+		DEGREE("deg"),
+		WATT("W"),
+		EV("eV"),
+		VOLTAGE("V"),
+		MILLI_SEC("ms"),
 
 		SELECTION("");
 
@@ -65,11 +62,21 @@ public class ClientConfig {
 		}
 
 		public String addUnitSuffix(String value) {
-			return String.format("%s %s", value, text);
+			if (!value.isEmpty()) {
+				return String.format("%s %s", value, text);
+			}
+			return value;
+		}
+
+		public String addUnitSuffixForLabel(String value) {
+			if (!value.isEmpty()) {
+				return String.format("%s (%s): ", value, text);
+			}
+			return value;
 		}
 
 		public String removeUnitSuffix(String value) throws Exception {
-			if (text.isEmpty()) {
+			if (text.isEmpty() | value.isEmpty()) {
 				return value.trim();
 			}
 			Matcher matcher = Pattern.compile("(.*)\\s" + text + "$").matcher(value);
@@ -108,33 +115,36 @@ public class ClientConfig {
 	}
 
 	public enum ScannableSetup {
-		WIGGLER_GAP("Wiggler Gap", "wigglerGap", UnitSetup.MILLI_METER),
 
-		POLY_BENDER_1("Bender 1", "polybend1", UnitSetup.MILLI_METER), POLY_BENDER_2("Bender 2", "polybend2",
-				UnitSetup.MILLI_METER),
+		WIGGLER_GAP ("Wiggler", "wigglerGap", UnitSetup.MILLI_METER),
+		POLY_BENDER_1("Bender 1", "polybend1", UnitSetup.MILLI_METER),
+		POLY_BENDER_2("Bender 2", "polybend2",UnitSetup.MILLI_METER),
 
-				SAMPLE_Z_POSITION("Sample z", "sample_z", UnitSetup.MILLI_METER),
+		SAMPLE_Z_POSITION("Sample z", "sample_z", UnitSetup.MILLI_METER),
 
-				// FIXME Check if this is the right scannable
-				SLIT_1_HORIZONAL_GAP("Slit 1 HGap", "s1_hgap", UnitSetup.MILLI_RADIAN),
+		SLIT_1_HORIZONAL_GAP("Slit 1 HGap", "s1_hgap", UnitSetup.MILLI_RADIAN),
 
-				ATN1("Attenuator 1", "atn1", UnitSetup.MILLI_METER), ATN2("Attenuator 2", "atn2", UnitSetup.MILLI_METER), ATN3(
-						"Attenuator 3", "atn3", UnitSetup.MILLI_METER),
+		ATN1 ("ATN 1", "atn1", UnitSetup.MILLI_METER),
+		ATN2 ("ATN 2", "atn2", UnitSetup.MILLI_METER),
+		ATN3 ("ATN 3", "atn3", UnitSetup.MILLI_METER),
 
-						ME1_STRIPE("ME1 strip", "me1_stripe", UnitSetup.SELECTION), ME2_STRIPE("ME2 strip", "me2_stripe",
-								UnitSetup.SELECTION), ME2_PITCH_ANGLE("ME2 pitch", "me2pitch", UnitSetup.MILLI_RADIAN),
+		ME1_STRIPE("ME1 strip", "me1_stripe", UnitSetup.SELECTION),
+		ME2_STRIPE("ME2 strip", "me2_stripe", UnitSetup.SELECTION),
+		ME2_PITCH_ANGLE("ME2 pitch", "me2pitch", UnitSetup.MILLI_RADIAN),
 
-								POLY_BRAGG("Bragg angle", "polytheta", UnitSetup.DEGREE), ARM_2_THETA_ANGLE("Arm 2theta", "twotheta",
-										UnitSetup.DEGREE),
 
-										DETECTOR_HEIGHT("Detector height", "detector_y", UnitSetup.MILLI_METER), DETECTOR_DISTANCE("Detector distance",
-												"detector_z", UnitSetup.MILLI_METER),
+		POLY_BRAGG ("Bragg", "polytheta", UnitSetup.DEGREE),
+		ARM_2_THETA_ANGLE ("Arm 2theta", "twotheta", UnitSetup.DEGREE),
 
-												POLY_CURVATURE("Curvature", "polycurve", UnitSetup.MILLI_METER), POLY_Y_ELLIPTICITY("Ellipticity",
-														"polyyellip", UnitSetup.MILLI_METER),
+		DETECTOR_HEIGHT ("height", "detector_y", UnitSetup.MILLI_METER),
+		DETECTOR_DISTANCE ("distance", "detector_z", UnitSetup.MILLI_METER),
 
-														SLIT_3_HORIZONAL_GAP("Slit HGap", "s3_hgap", UnitSetup.MILLI_METER), SLIT_3_HORIZONAL_OFFSET("Slit offset",
-																"s3_hoffset", UnitSetup.MILLI_METER);
+
+		POLY_CURVATURE("Curvature", "polycurve", UnitSetup.MILLI_METER),
+		POLY_Y_ELLIPTICITY("Ellipticity","polyyellip", UnitSetup.MILLI_METER),
+
+		SLIT_3_HORIZONAL_GAP("Slit HGap", "s3_hgap", UnitSetup.MILLI_METER),
+		SLIT_3_HORIZONAL_OFFSET("Slit offset", "s3_hoffset", UnitSetup.MILLI_METER);
 
 		public static final double MAX_POWER_IN_WATT = 150.0;
 
@@ -189,58 +199,18 @@ public class ClientConfig {
 	public enum DetectorSetup {
 		XH("xh"), XSTRIP("xstrip"), CCD("ccd");
 
-		private static DetectorSetup[] availableDetectors;
-		private static DetectorSetup connectedDetector;
+		public static final int DEFAULT_NO_OF_REGIONS = 4;
+		public static final int MIN_ROIs = 1;
 
-		public static void setActiveDetectorSetup(DetectorSetup detectorSetup) {
-			connectedDetector = detectorSetup;
-			for (DetectorSetup detector : availableDetectors) {
-				try {
-					if (connectedDetector == detector) {
-						detector.detectorScannable.connect();
-					} else {
-						detector.detectorScannable.disconnect();
-					}
-				} catch (DeviceException e) {
-					logger.error("DeviceException when connecting / disconnecting detector "
-							+ detector.detectorScannable.getName(), e);
-				}
-			}
-		}
-
-		public static DetectorSetup getActiveDetectorSetup() {
-			if (connectedDetector == null) {
-				return getAvailableDetectorSetups()[0];
-			}
-			return connectedDetector;
-		}
-
-		public static DetectorSetup[] getAvailableDetectorSetups() {
-			if (availableDetectors == null) {
-				getAvailableDetectors();
-				if (availableDetectors.length == 0) {
-					MessageDialog
-					.openError(Display.getDefault().getActiveShell(), "Error",
-							"Unable to find installed detector, please ensure the server configuration is setup correctly.");
-				}
-			}
-			return availableDetectors;
-		}
-
-		/**
-		 * Populate the availableDetectors and connectedDetector attributes
-		 */
-		private static void getAvailableDetectors() {
-			availableDetectors = new DetectorSetup[0];
-			for (DetectorSetup detector : DetectorSetup.values()) {
-				Object detectorBean = Finder.getInstance().find(detector.getDetectorName());
+		public static void setupDetectors() throws Exception {
+			for (DetectorSetup detectorSetup : DetectorSetup.values()) {
+				Object detectorBean = Finder.getInstance().find(detectorSetup.getDetectorName());
 				if (detectorBean != null && detectorBean instanceof StripDetector) {
 					StripDetector stripdetector = (StripDetector) detectorBean;
-					detector.setDetectorScannable(stripdetector);
+					detectorSetup.setDetectorScannable(stripdetector);
 					if (stripdetector.isConnected()) {
-						connectedDetector = detector;
+						DetectorConfig.INSTANCE.setCurrentDetectorSetup(detectorSetup);
 					}
-					availableDetectors = (DetectorSetup[]) ArrayUtils.add(availableDetectors, detector);
 				}
 			}
 		}
@@ -258,6 +228,7 @@ public class ClientConfig {
 
 		public void setDetectorScannable(StripDetector detectorScannable) {
 			this.detectorScannable = detectorScannable;
+			createArrayOfStrips();
 		}
 
 		public StripDetector getDetectorScannable() {
@@ -268,19 +239,20 @@ public class ClientConfig {
 			return (detectorScannable.getMinBias() <= value & value <= detectorScannable.getMaxBias());
 		}
 
-		/**
-		 * Utility for other parts of the UI
-		 * 
-		 * @return Integer[]
-		 */
-		public Integer[] createArrayOfStrips() {
-			int numberOfStrips = DetectorSetup.getActiveDetectorSetup().getDetectorScannable().getNumberChannels();
-			Integer[] strips = new Integer[numberOfStrips];
+		private Integer[] strips;
+
+		private Integer[] createArrayOfStrips() {
+			int numberOfStrips = detectorScannable.getUpperChannel();
+			int startStrip = 1;
+			strips = new Integer[numberOfStrips];
 			for (int i = 0; i < numberOfStrips; i++) {
-				strips[i] = new Integer(i);
+				strips[i] = new Integer(i + startStrip);
 			}
 			return strips;
 		}
 
+		public Integer[] getStrips() {
+			return strips;
+		}
 	}
 }
