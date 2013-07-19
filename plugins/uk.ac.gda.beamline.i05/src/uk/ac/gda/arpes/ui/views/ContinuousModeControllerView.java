@@ -201,17 +201,24 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("say")), true, "say", 4, null, true, false);
 		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
 		gd.verticalIndent = 8;
-		mpvc.setLayoutData(gd);		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saz")), true, "saz", 4, null, true, false);
+		mpvc.setLayoutData(gd);
+		
+		Label empty = new Label(comp, SWT.NONE);
 		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
 		gd.verticalIndent = 8;
-		mpvc.setLayoutData(gd);		
+		empty.setLayoutData(gd);
 		
-		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("satilt")), true, "satilt", 4, null, true, false);
-		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1));
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saz")), true, "saz", 4, null, true, false);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1);
+//		gd.verticalIndent = 8;
+		mpvc.setLayoutData(gd);
+		
+//		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("satilt")), true, "satilt", 4, null, true, false);
+//		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1));
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sapolar")), true, "sapolar", 4, null, true, false);
 		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saazimuth")), true, "saazimuth", 4, null, true, false);
-		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+//		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saazimuth")), true, "saazimuth", 4, null, true, false);
+//		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sample_temp")), true, "sample_temp", 4, null, true, false);
 		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1);
