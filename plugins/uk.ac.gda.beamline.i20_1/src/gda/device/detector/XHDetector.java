@@ -59,6 +59,7 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
  */
 public class XHDetector extends DetectorBase implements XCHIPDetector {
 
+	private static final String CONNECTED_KEY = "connected";
 	private static final String UPPERLEVEL_PROPERTY = "upperlevel";
 	private static final String LOWERLEVEL_PROPERTY = "lowerlevel";
 	private static final String EXCLUDED_STRIPS_PROPERTY = "excludedStrips";
@@ -131,13 +132,13 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		try {
 			connectIfWasBefore();
 		} catch (DeviceException e) {
-			logger.error(getName() + " was connected when GDA last run but failed to reconnect.",e);
+			logger.error(getName() + " was connected when GDA last run but failed to reconnect.", e);
 		}
 
 	}
 
 	private void connectIfWasBefore() throws DeviceException {
-		if (wasConnected()){
+		if (wasConnected()) {
 			connect();
 		}
 
@@ -147,7 +148,10 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		PropertiesConfiguration store;
 		try {
 			store = new PropertiesConfiguration(getStoreFileName());
-			return store.getBoolean("connected");
+			if (store.containsKey(CONNECTED_KEY)) {
+				return store.getBoolean(CONNECTED_KEY);
+			}
+			return false;
 		} catch (ConfigurationException e) {
 		}
 		return false;
@@ -157,7 +161,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		PropertiesConfiguration store;
 		try {
 			store = new PropertiesConfiguration(getStoreFileName());
-			store.setProperty("connected",isConnected());
+			store.setProperty(CONNECTED_KEY, isConnected());
 			store.save();
 		} catch (ConfigurationException e) {
 		}
@@ -598,8 +602,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			double scanTimeInS = timingGroup.getTimePerScan();
 			String scanTimeInClockCycles = secondsToClockCyclesString(scanTimeInS);
 
-
-			if (scanTimeInClockCycles.isEmpty() && numberOfScansPerFrame != 0){
+			if (scanTimeInClockCycles.isEmpty() && numberOfScansPerFrame != 0) {
 				// something's wrong, so switch frame time to scan time.
 				scanTimeInS = frameTimeInS / numberOfScansPerFrame;
 				scanTimeInClockCycles = secondsToClockCyclesString(scanTimeInS);
@@ -973,7 +976,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			PropertiesConfiguration store = new PropertiesConfiguration(propertiesFileName);
 			for (XHROI roi : getRois()) {
 				store.setProperty(roi.getName() + "_" + LOWERLEVEL_PROPERTY, roi.getLowerLevel());
-				store.setProperty(roi.getName() + "_" +UPPERLEVEL_PROPERTY, roi.getUpperLevel());
+				store.setProperty(roi.getName() + "_" + UPPERLEVEL_PROPERTY, roi.getUpperLevel());
 			}
 			store.save();
 		} catch (Exception e) {
@@ -1015,36 +1018,36 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		}
 	}
 
-	private void loadExcludedStrips(){
+	private void loadExcludedStrips() {
 		PropertiesConfiguration store;
 		try {
 			store = new PropertiesConfiguration(getStoreFileName());
 			String[] excludedStripsArray = store.getStringArray(EXCLUDED_STRIPS_PROPERTY);
-			if (excludedStripsArray.length == 0){
-				excludedStrips = new int[]{};
+			if (excludedStripsArray.length == 0) {
+				excludedStrips = new int[] {};
 				return;
 			}
-			//			String[] excludedStripsArray = excludedStripsProp.split(",");
+			// String[] excludedStripsArray = excludedStripsProp.split(",");
 			excludedStrips = new int[excludedStripsArray.length];
-			for (int i = 0; i < excludedStripsArray.length; i++){
+			for (int i = 0; i < excludedStripsArray.length; i++) {
 				if (!excludedStripsArray[i].isEmpty()) {
 					excludedStrips[i] = Integer.parseInt(excludedStripsArray[i]);
 				}
 			}
 		} catch (ConfigurationException e) {
-			excludedStrips = new int[]{};
+			excludedStrips = new int[] {};
 		}
 	}
 
-	private void saveExcludedStrips(){
+	private void saveExcludedStrips() {
 		PropertiesConfiguration store;
 		try {
 			store = new PropertiesConfiguration(getStoreFileName());
 			String excludedStripsString = "";
-			for (int i = 0; i < excludedStrips.length; i++){
+			for (int i = 0; i < excludedStrips.length; i++) {
 				excludedStripsString += excludedStrips[i] + ",";
 			}
-			excludedStripsString = excludedStripsString.substring(0, excludedStripsString.length() -1);
+			excludedStripsString = excludedStripsString.substring(0, excludedStripsString.length() - 1);
 			store.setProperty(EXCLUDED_STRIPS_PROPERTY, excludedStripsString);
 			store.save();
 		} catch (ConfigurationException e) {
@@ -1122,23 +1125,24 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 		HashMap<String, Double> temps = new HashMap<String, Double>();
 		Double sensor0Temp = (Double) daServer.sendCommand("xstrip tc get " + detectorName + " ch 0");
-		temps.put(SENSOR0NAME,sensor0Temp);
+		temps.put(SENSOR0NAME, sensor0Temp);
 		Double sensor1Temp = (Double) daServer.sendCommand("xstrip tc get " + detectorName + " ch 1");
-		temps.put(SENSOR1NAME,sensor1Temp);
+		temps.put(SENSOR1NAME, sensor1Temp);
 		Double sensor2Temp = (Double) daServer.sendCommand("xstrip tc get " + detectorName + " ch 2");
-		temps.put(SENSOR2NAME,sensor2Temp);
+		temps.put(SENSOR2NAME, sensor2Temp);
 		Double sensor3Temp = (Double) daServer.sendCommand("xstrip tc get " + detectorName + " ch 3");
-		temps.put(SENSOR3NAME,sensor3Temp);
+		temps.put(SENSOR3NAME, sensor3Temp);
 		return temps;
 	}
 
 	private void openTCSocket() throws DeviceException {
 		int tcIsOpen = (int) daServer.sendCommand("xstrip tc print " + detectorName);
-		if (tcIsOpen != 1 ){
+		if (tcIsOpen != 1) {
 			daServer.sendCommand("xstrip tc open " + detectorName);
 			tcIsOpen = (int) daServer.sendCommand("xstrip tc print " + detectorName);
-			if (tcIsOpen != 1 ) {
-				throw new DeviceException("Could not open temperature controller to find out current temperature values");
+			if (tcIsOpen != 1) {
+				throw new DeviceException(
+						"Could not open temperature controller to find out current temperature values");
 			}
 		}
 
