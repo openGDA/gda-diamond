@@ -35,12 +35,12 @@
 	</bean>
 
 	<bean id="s1_hgap" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}s2_hgap" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}s1_hgap" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 	<bean id="s1_vgap" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}s2_vgap" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}s1_vgap" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
