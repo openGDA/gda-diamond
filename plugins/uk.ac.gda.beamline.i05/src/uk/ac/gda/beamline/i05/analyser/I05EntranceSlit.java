@@ -23,7 +23,6 @@ import gda.factory.Configurable;
 import gda.factory.FactoryException;
 import gov.aps.jca.Channel;
 import gov.aps.jca.dbr.DBR_Enum;
-import gov.aps.jca.dbr.DBR_Int;
 import gov.aps.jca.event.MonitorEvent;
 import gov.aps.jca.event.MonitorListener;
 
