@@ -202,7 +202,8 @@ public class DetectorSetupView extends ViewPart {
 			excludedStrips.clear();
 			if (excludedStripsArray.length > 0) {
 				for (int selected : excludedStripsArray) {
-					Integer stringNo = currentDetectorSetup.getStrips()[selected];
+					//FIXME
+					Integer stringNo = currentDetectorSetup.getStrips()[selected - 1];
 					excludedStrips.add(stringNo);
 				}
 			}

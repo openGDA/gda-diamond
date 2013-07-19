@@ -243,7 +243,6 @@ public class ClientConfig {
 
 		private Integer[] createArrayOfStrips() {
 			int numberOfStrips = detectorScannable.getUpperChannel();
-			//int startStrip = detectorScannable.getLowerChannel();
 			int startStrip = 1;
 			strips = new Integer[numberOfStrips];
 			for (int i = 0; i < numberOfStrips; i++) {

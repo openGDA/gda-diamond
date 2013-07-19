@@ -123,7 +123,7 @@ public class FocusingFormComposite {
 
 	@SuppressWarnings("static-access")
 	private void createFormBendSection(Form form) {
-		final Section bendSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		final Section bendSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
 		toolkit.paintBordersFor(bendSection);
 		bendSection.setText("Polychromator Benders");
 		toolkit.paintBordersFor(bendSection);
@@ -148,7 +148,7 @@ public class FocusingFormComposite {
 
 	@SuppressWarnings("static-access")
 	private void createFormCurvatureSection(Form form) {
-		final Section curvatureSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		final Section curvatureSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
 		toolkit.paintBordersFor(curvatureSection);
 		curvatureSection.setText("Curvature/Ellipticity");
 		toolkit.paintBordersFor(curvatureSection);
@@ -173,7 +173,7 @@ public class FocusingFormComposite {
 
 	@SuppressWarnings("static-access")
 	private void createFormSampleZSection(Form form) {
-		final Section sampleZSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		final Section sampleZSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
 		toolkit.paintBordersFor(sampleZSection);
 		sampleZSection.setText("Sample position");
 		toolkit.paintBordersFor(sampleZSection);
@@ -194,7 +194,7 @@ public class FocusingFormComposite {
 
 	@SuppressWarnings({ "unused", "static-access" })
 	private void createFormRoisSection(Form form) {
-		final Section roisSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		final Section roisSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
 		roisSection.setText("Region of Interests (ROIs)");
 		toolkit.paintBordersFor(roisSection);
 		roisSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
@@ -333,7 +333,6 @@ public class FocusingFormComposite {
 			@Override
 			public void handleEvent(Event event) {
 				saveROIsChanges();
-				roisSection.setExpanded(false);
 			}
 		});
 		saveRoisTBarItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ETOOL_SAVE_EDIT));
@@ -417,7 +416,6 @@ public class FocusingFormComposite {
 		}
 
 		distributeNoOfRegionsValues();
-		// TODO Update butRemove enable state
 	}
 
 	protected void saveROIsChanges() {
@@ -435,7 +433,7 @@ public class FocusingFormComposite {
 	private void distributeNoOfRegionsValues() {
 		IStructuredSelection firstSelection = (IStructuredSelection) cmbFirstStripViewer.getSelection();
 		IStructuredSelection  lastSelection = (IStructuredSelection) cmbLastStripViewer.getSelection();
-		if (firstSelection.isEmpty() | lastSelection.isEmpty()){
+		if (firstSelection.isEmpty() | lastSelection.isEmpty() | noOfRegionsList.isEmpty()){
 			return;
 		}
 		int first = (int) firstSelection.getFirstElement();
@@ -502,7 +500,7 @@ public class FocusingFormComposite {
 
 	@SuppressWarnings("static-access")
 	private void createFormSlitsParametersSection(Form form) {
-		final Section slitsParametersSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		final Section slitsParametersSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
 		toolkit.paintBordersFor(slitsParametersSection);
 		slitsParametersSection.setText("Slits scan");
 		toolkit.paintBordersFor(slitsParametersSection);

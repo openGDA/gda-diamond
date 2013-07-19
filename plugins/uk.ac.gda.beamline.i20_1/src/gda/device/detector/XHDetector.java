@@ -91,9 +91,9 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	private EdeScanParameters nextScan;
 
 	private XHROI[] rois = new XHROI[0];
-	private int lowerChannel = 0;
+	private int lowerChannel = 1;
 	private int upperChannel = NUMBER_ELEMENTS;
-	private int[] excludedStrips = new int[] { 2, 5 };
+	private int[] excludedStrips = new int[] {};
 	private boolean connected;
 
 	public XHDetector() {
@@ -892,21 +892,21 @@ public class XHDetector extends DetectorBase implements StripDetector {
 
 	@Override
 	public void setNumberRois(int numberOfRois) {
-
-		XHROI[] newRois = new XHROI[numberOfRois];
-
-		int numberChannelsInUse = upperChannel - lowerChannel + 1;
-		int roiSize = numberChannelsInUse / numberOfRois;
-
+		XHROI[] xhrois = new XHROI[numberOfRois];
+		int useableRegion = upperChannel - (lowerChannel - 1); // Inclusive of the first
+		int increment = useableRegion / numberOfRois;
+		int start = lowerChannel;
 		for (int i = 0; i < numberOfRois; i++) {
-			XHROI thisRoi = new XHROI();
-			thisRoi.setLabel("ROI" + i);
-			int lowerChannelForThisROI = roiSize * i + lowerChannel;
-			thisRoi.setLowerLevel(lowerChannelForThisROI);
-			thisRoi.setUpperLevel(lowerChannelForThisROI + roiSize - 1);
-			newRois[i] = thisRoi;
+			XHROI xhroi = new XHROI(Integer.toString(i));
+			xhroi.setLowerLevel(start);
+			xhroi.setUpperLevel(start + increment - 1);
+			xhrois[i] = xhroi;
+			start = start + increment;
 		}
-		setRois(newRois);
+		if (xhrois[xhrois.length - 1].getUpperLevel() < upperChannel) {
+			xhrois[xhrois.length - 1].setUpperLevel(upperChannel);
+		}
+		setRois(xhrois);
 	}
 
 	/**
@@ -999,9 +999,9 @@ public class XHDetector extends DetectorBase implements StripDetector {
 
 				XHROI thisROI = tempROIs.get(partsString[0]);
 				if (partsString[1].equals(LOWERLEVEL_PROPERTY)) {
-					thisROI.setLowerLevel(store.getInteger(key, 0));
+					thisROI.setLowerLevel(store.getInteger(key, 1));
 				} else if (partsString[1].equals(UPPERLEVEL_PROPERTY)) {
-					thisROI.setUpperLevel(store.getInteger(key, 1023));
+					thisROI.setUpperLevel(store.getInteger(key, NUMBER_ELEMENTS));
 				}
 			}
 			setRoisWithoutStoringAndNotifying(tempROIs.values().toArray(new XHROI[0]));
