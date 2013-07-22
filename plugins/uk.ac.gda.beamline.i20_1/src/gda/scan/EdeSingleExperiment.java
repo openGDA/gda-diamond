@@ -19,6 +19,11 @@
 package gda.scan;
 
 import gda.device.detector.StripDetector;
+import gda.jython.InterfaceProvider;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 /**
@@ -31,6 +36,8 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
  * TODO: need to include detector calibration control somewhere in this.
  */
 public class EdeSingleExperiment {
+
+	private static final Logger logger = LoggerFactory.getLogger(EdeSingleExperiment.class);
 
 	private EdeScan i0DarkScan;
 	private EdeScan itDarkScan;
@@ -88,6 +95,11 @@ public class EdeSingleExperiment {
 		validateTimingParameters();
 	}
 
+	private void log (String message){
+		InterfaceProvider.getTerminalPrinter().print(message);
+		logger.info(message);
+	}
+
 	private void validateTimingParameters() {
 		if (itScanParameters.getGroups().size() != 1) {
 			throw new IllegalArgumentException("Only one timing group must be used in this type of scan!");
@@ -108,19 +120,28 @@ public class EdeSingleExperiment {
 		runScans();
 		EdeAsciiFileWriter writer = new EdeAsciiFileWriter(i0InitialScan,itScan,i0DarkScan,itDarkScan,theDetector);
 		writer.writeAsciiFile();
+		log("EDE single spectrum experiment complete.");
 	}
 
 	private void runScans() throws Exception {
+		if (runItDark) {
+			log("Running I0 Dark scan...");
+		} else {
+			log("Running Dark scan...");
+		}
 		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector);
 		i0DarkScan.runScan();
 		if (runItDark) {
+			log("Running It Dark scan...");
 			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector);
 			itDarkScan.runScan();
 		} else {
 			itDarkScan = i0DarkScan;
 		}
+		log("Running I0 scan...");
 		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector);
 		i0InitialScan.runScan();
+		log("Running It scan...");
 		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector);
 		itScan.runScan();
 		// i0FinalScan = new EdeScan(itScanParameters, i0Position, EdeScanType.LIGHT, theDetector);

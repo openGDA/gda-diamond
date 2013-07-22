@@ -18,20 +18,26 @@
 
 package gda.scan;
 
-import gda.configuration.properties.LocalProperties;
 import gda.data.nexus.extractor.NexusExtractor;
 import gda.data.nexus.extractor.NexusGroupData;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.StripDetector;
+import gda.jython.InterfaceProvider;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
 public class EdeAsciiFileWriter {
+
+	private static final Logger logger = LoggerFactory.getLogger(EdeAsciiFileWriter.class);
 
 	private final EdeScan i0DarkScan;
 	private final EdeScan itDarkScan;
@@ -54,11 +60,12 @@ public class EdeAsciiFileWriter {
 		DoubleDataset itDarkDataSet = extractDetectorDataSets(itDarkScan);
 		DoubleDataset i0InitialDataSet = extractDetectorDataSets(i0InitialScan);
 		DoubleDataset itDataSet = extractDetectorDataSets(itScan);
-		// DoubleDataset i0FinalDataSet = extractDetectorDataSets(i0FinalScan);
 
-		String nexusFilename = LocalProperties.get(LocalProperties.GDA_DATAWRITER_DIR);
-		Long nexusFileNumber = itScan.getTheScan().getScanNumber();
-		String asciiFilename = nexusFilename + File.separator + nexusFileNumber + ".txt";
+		String itFilename = itScan.getTheScan().getDataWriter().getCurrentFileName();
+		String folder = FilenameUtils.getFullPath(itFilename);
+		String filename = FilenameUtils.getBaseName(itFilename);
+
+		String asciiFilename = folder + filename + ".txt";
 
 		File asciiFile = new File(asciiFilename);
 		if (asciiFile.exists()) {
@@ -67,11 +74,11 @@ public class EdeAsciiFileWriter {
 
 		asciiFile.createNewFile();
 		FileWriter writer = new FileWriter(asciiFile);
+		log("Writing EDE format ascii file: "+asciiFilename);
 		writer.write("Strip\tEnergy\tI0_corr\tIt_corr\tLnI0It\tI0_raw\tIt_raw\tI0_dark\tIt_dark\n");
 		for (int channel = 0; channel < theDetector.getNumberChannels(); channel++) {
 			Double i0Initial = i0InitialDataSet.get(channel);
 			Double it = itDataSet.get(channel);
-			// Double i0Final = i0FinalDataSet.get(channel);
 
 			Double i0DK = i0DarkDataSet.get(channel);
 			Double itDK = itDarkDataSet.get(channel);
@@ -113,5 +120,11 @@ public class EdeAsciiFileWriter {
 		Vector<String> names = scanDataPoint.getDetectorNames();
 		return names.indexOf(theDetector.getName());
 	}
+
+	private void log (String message){
+		InterfaceProvider.getTerminalPrinter().print(message);
+		logger.info(message);
+	}
+
 
 }
