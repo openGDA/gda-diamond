@@ -1,0 +1,117 @@
+/*-
+ * Copyright © 2013 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package gda.scan;
+
+import gda.configuration.properties.LocalProperties;
+import gda.data.nexus.extractor.NexusExtractor;
+import gda.data.nexus.extractor.NexusGroupData;
+import gda.device.detector.NXDetectorData;
+import gda.device.detector.StripDetector;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.util.List;
+import java.util.Vector;
+
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+
+public class EdeAsciiFileWriter {
+
+	private final EdeScan i0DarkScan;
+	private final EdeScan itDarkScan;
+	private final EdeScan i0InitialScan;
+	private final EdeScan itScan;
+	private final StripDetector theDetector;
+
+	public EdeAsciiFileWriter(EdeScan i0InitialScan, EdeScan itScan, EdeScan i0DarkScan, EdeScan itDarkScan,
+			StripDetector theDetector) {
+		super();
+		this.i0InitialScan = i0InitialScan;
+		this.itScan = itScan;
+		this.i0DarkScan = i0DarkScan;
+		this.itDarkScan = itDarkScan;
+		this.theDetector = theDetector;
+	}
+
+	public void writeAsciiFile() throws Exception {
+		DoubleDataset i0DarkDataSet = extractDetectorDataSets(i0DarkScan);
+		DoubleDataset itDarkDataSet = extractDetectorDataSets(itDarkScan);
+		DoubleDataset i0InitialDataSet = extractDetectorDataSets(i0InitialScan);
+		DoubleDataset itDataSet = extractDetectorDataSets(itScan);
+		// DoubleDataset i0FinalDataSet = extractDetectorDataSets(i0FinalScan);
+
+		String nexusFilename = LocalProperties.get(LocalProperties.GDA_DATAWRITER_DIR);
+		Long nexusFileNumber = itScan.getTheScan().getScanNumber();
+		String asciiFilename = nexusFilename + File.separator + nexusFileNumber + ".txt";
+
+		File asciiFile = new File(asciiFilename);
+		if (asciiFile.exists()) {
+			throw new Exception("File " + asciiFilename + " already exists!");
+		}
+
+		asciiFile.createNewFile();
+		FileWriter writer = new FileWriter(asciiFile);
+		writer.write("Strip\tEnergy\tI0_corr\tIt_corr\tLnI0It\tI0_raw\tIt_raw\tI0_dark\tIt_dark\n");
+		for (int channel = 0; channel < theDetector.getNumberChannels(); channel++) {
+			Double i0Initial = i0InitialDataSet.get(channel);
+			Double it = itDataSet.get(channel);
+			// Double i0Final = i0FinalDataSet.get(channel);
+
+			Double i0DK = i0DarkDataSet.get(channel);
+			Double itDK = itDarkDataSet.get(channel);
+
+			Double i0_corrected = i0Initial - i0DK;
+			Double it_corrected = it - itDK;
+
+			Double lni0it = Math.log(i0_corrected / it_corrected);
+			if (lni0it.isNaN() || lni0it.isInfinite() || lni0it < 0.0) {
+				lni0it = .0;
+			}
+
+			StringBuffer stringToWrite = new StringBuffer(channel + "\t");
+			stringToWrite.append(channel + "\t");
+			stringToWrite.append(String.format("%.2f", i0_corrected) + "\t");
+			stringToWrite.append(String.format("%.2f", it_corrected) + "\t");
+			stringToWrite.append(String.format("%.5f", lni0it) + "\t");
+			stringToWrite.append(String.format("%.2f", i0Initial) + "\t");
+			stringToWrite.append(String.format("%.2f", it) + "\t");
+			stringToWrite.append(String.format("%.2f", i0DK) + "\t");
+			stringToWrite.append(String.format("%.2f", itDK) + "\t");
+			stringToWrite.append("\n");
+			writer.write(stringToWrite.toString());
+		}
+		writer.close();
+	}
+
+	private DoubleDataset extractDetectorDataSets(EdeScan scan) {
+		List<ScanDataPoint> sdps = scan.getData();
+		Vector<Object> data = sdps.get(0).getDetectorData();
+		int detIndex = getIndexOfMyDetector(sdps.get(0));
+		NXDetectorData detData = (NXDetectorData) data.get(detIndex);
+		NexusGroupData groupData = detData.getData(theDetector.getName(), "data", NexusExtractor.SDSClassName);
+		double[] originalData = (double[]) groupData.getBuffer();
+		return new DoubleDataset(originalData, originalData.length);
+	}
+
+	private int getIndexOfMyDetector(ScanDataPoint scanDataPoint) {
+		Vector<String> names = scanDataPoint.getDetectorNames();
+		return names.indexOf(theDetector.getName());
+	}
+
+}
