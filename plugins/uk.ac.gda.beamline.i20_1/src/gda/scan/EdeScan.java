@@ -18,7 +18,6 @@
 
 package gda.scan;
 
-import gda.data.scan.datawriter.DataWriter;
 import gda.device.detector.StripDetector;
 
 import java.util.List;
@@ -30,35 +29,35 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
  * <p>
  * So this: moves sample to correct position, opens/closes shutter, runs a SimpleContinuousScan and writes data to given Nexus file.
  * <p>
- * Also holds data in memory for quick retrieval for online data. 
+ * Also holds data in memory for quick retrieval for online data.
  */
 public class EdeScan {
 
 	EdeScanParameters scanParameters;
 	EdeScanPosition motorPositions;
 	EdeScanType scanType;
-	DataWriter fileWriter;
-	private StripDetector theDetector;
+	//	DataWriter fileWriter;
+	private final StripDetector theDetector;
 	private SimpleContinuousScan theScan;
-	
-	public EdeScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType, DataWriter fileWriter, StripDetector theDetector) {
+
+	public EdeScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType, StripDetector theDetector) {
 		super();
 		this.scanParameters = scanParameters;
 		this.motorPositions = motorPositions;
 		this.scanType = scanType;
-		this.fileWriter = fileWriter;
+		//		this.fileWriter = fileWriter;
 		this.theDetector = theDetector;
 	}
-	
+
 	public void runScan() throws Exception {
 		validate();
 		theDetector.loadParameters(scanParameters);
 		motorPositions.moveIntoPosition();
 		theScan = new SimpleContinuousScan(theDetector);
-		theScan.setDataWriter(fileWriter);
+		//		theScan.setDataWriter(fileWriter);
 		theScan.runScan();
 	}
-	
+
 	private void validate() throws IllegalArgumentException {
 		if (motorPositions == null){
 			throw new IllegalArgumentException("Cannot run EdeScan as sample motor positions have not been supplied");
@@ -67,7 +66,7 @@ public class EdeScan {
 			throw new IllegalArgumentException("Cannot run EdeScan as scan parameters have not been supplied");
 		}
 	}
-	
+
 	public List<ScanDataPoint> getData() {
 		return theScan.getDataPoints(0, theScan.getNumberOfAvailablePoints() - 1);
 	}
@@ -92,10 +91,16 @@ public class EdeScan {
 	public void setScanType(EdeScanType scanType) {
 		this.scanType = scanType;
 	}
-	public DataWriter getFileWriter() {
-		return fileWriter;
+
+	public SimpleContinuousScan getTheScan() {
+		return theScan;
 	}
-	public void setFileWriter(DataWriter fileWriter) {
-		this.fileWriter = fileWriter;
-	}
+
+
+	//	public DataWriter getFileWriter() {
+	//		return fileWriter;
+	//	}
+	//	public void setFileWriter(DataWriter fileWriter) {
+	//		this.fileWriter = fileWriter;
+	//	}
 }

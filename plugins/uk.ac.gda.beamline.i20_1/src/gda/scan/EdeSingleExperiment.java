@@ -18,10 +18,9 @@
 
 package gda.scan;
 
+import gda.configuration.properties.LocalProperties;
 import gda.data.nexus.extractor.NexusExtractor;
 import gda.data.nexus.extractor.NexusGroupData;
-import gda.data.scan.datawriter.DataWriter;
-import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.StripDetector;
 
@@ -34,119 +33,159 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 /**
- * The simplest EDE experiment type: collect Dark I0, Dark It, I0,It,I0, do corrections and calculate derived data.
- * Record data to Nexus while collection in progress, write to a custom Ascii format on completion.
+ * The simplest EDE experiment type: collect Dark I0, Dark It (optional), I0,It,I0, do corrections and calculate derived
+ * data. Record data to Nexus while collection in progress, write to a custom Ascii format on completion.
  * <p>
- * The I0 timing is the same as the It timing parameters, not explicitly supplied instead. So only a single time frame
- * and timing group must be supplied.  Sample environments are not taken into account here.
+ * The I0 timing can be the same as the It timing parameters, if not explicitly supplied instead. So only a single time
+ * frame and timing group must be supplied. Sample environments are not taken into account here.
  * <p>
  * TODO: need to include detector calibration control somewhere in this.
  */
 public class EdeSingleExperiment {
 
-	EdeScan i0DarkScan;
-	EdeScan itDarkScan;
-	EdeScan i0InitialScan;
-	EdeScan itScan;
-	EdeScan i0FinalScan;
+	private EdeScan i0DarkScan;
+	private EdeScan itDarkScan;
+	private EdeScan i0InitialScan;
+	private EdeScan itScan;
+	// EdeScan i0FinalScan;
 
-	EdeScanPosition i0Position;
-	EdeScanPosition itPosition;
-	EdeScanParameters itScanParameters;
+	private final EdeScanPosition i0Position;
+	private final EdeScanPosition itPosition;
+	private final EdeScanParameters i0ScanParameters;
+	private final EdeScanParameters itScanParameters;
+	private final Boolean runItDark;
 
-	DataWriter inProgressDataWriter;
-	EdeDataWriter asciiDataWriter;
-	private StripDetector theDetector;
+	// private EdeDataWriter asciiDataWriter;
+	private final StripDetector theDetector;
 
+	/**
+	 * Use when the I0 and It timing parameters are different.
+	 * 
+	 * @param i0ScanParameters
+	 * @param itScanParameters
+	 * @param i0Position
+	 * @param itPosition
+	 * @param theDetector
+	 */
+	public EdeSingleExperiment(EdeScanParameters i0ScanParameters, EdeScanParameters itScanParameters,
+			EdeScanPosition i0Position, EdeScanPosition itPosition, StripDetector theDetector) {
+		super();
+		this.i0ScanParameters = i0ScanParameters;
+		this.i0Position = i0Position;
+		this.itPosition = itPosition;
+		this.itScanParameters = itScanParameters;
+		this.theDetector = theDetector;
+		runItDark = true;
+		validateTimingParameters();
+	}
+
+	/**
+	 * Use when the I0 and It timing parameters are the same.
+	 * 
+	 * @param itScanParameters
+	 * @param i0Position
+	 * @param itPosition
+	 * @param theDetector
+	 */
 	public EdeSingleExperiment(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
 			EdeScanPosition itPosition, StripDetector theDetector) {
 		super();
 		this.i0Position = i0Position;
 		this.itPosition = itPosition;
+		i0ScanParameters = itScanParameters;
 		this.itScanParameters = itScanParameters;
 		this.theDetector = theDetector;
+		runItDark = false;
 		validateTimingParameters();
 	}
 
 	private void validateTimingParameters() {
-		if (itScanParameters.getGroups().size() != 1){
+		if (itScanParameters.getGroups().size() != 1) {
 			throw new IllegalArgumentException("Only one timing group must be used in this type of scan!");
 		}
-		if (itScanParameters.getGroups().get(0).getNumberOfFrames() != 1){ 
+		if (itScanParameters.getGroups().get(0).getNumberOfFrames() != 1) {
 			throw new IllegalArgumentException("Only one frame must be used in this type of scan!");
 		}
 	}
 
+	/**
+	 * Run the scans and write the data files.
+	 * <p>
+	 * Should not return until data collection completed.
+	 * 
+	 * @throws Exception
+	 */
 	public void runExperiment() throws Exception {
-		createDataWriters();
-		generateSubScans();
 		runScans();
 		writeAsciiFile();
 	}
 
-	private void createDataWriters() {
-		// has to be Nexus here to store the data properly
-		inProgressDataWriter = new NexusDataWriter();
-		asciiDataWriter = new EdeDataWriter();
-	}
-
-	private void generateSubScans() {
-		i0DarkScan = new EdeScan(itScanParameters, i0Position, EdeScanType.DARK, inProgressDataWriter, theDetector);
-		itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, inProgressDataWriter, theDetector);
-		i0InitialScan = new EdeScan(itScanParameters, i0Position, EdeScanType.LIGHT, inProgressDataWriter, theDetector);
-		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, inProgressDataWriter, theDetector);
-		i0FinalScan = new EdeScan(itScanParameters, i0Position, EdeScanType.LIGHT, inProgressDataWriter, theDetector);
-	}
-
 	private void runScans() throws Exception {
+		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector);
 		i0DarkScan.runScan();
-		itDarkScan.runScan();
+		if (runItDark) {
+			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector);
+			itDarkScan.runScan();
+		}
+		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector);
 		i0InitialScan.runScan();
+		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector);
 		itScan.runScan();
-		i0FinalScan.runScan();
+		// i0FinalScan = new EdeScan(itScanParameters, i0Position, EdeScanType.LIGHT, theDetector);
+		// i0FinalScan.runScan();
 	}
 
 	private void writeAsciiFile() throws Exception {
 		DoubleDataset i0DarkDataSet = extractDetectorDataSets(i0DarkScan);
-		DoubleDataset itDarkDataSet = extractDetectorDataSets(itDarkScan);
+		DoubleDataset itDarkDataSet;
+		if (runItDark) {
+			itDarkDataSet = extractDetectorDataSets(itDarkScan);
+		} else {
+			itDarkDataSet = extractDetectorDataSets(i0DarkScan);
+		}
 		DoubleDataset i0InitialDataSet = extractDetectorDataSets(i0InitialScan);
 		DoubleDataset itDataSet = extractDetectorDataSets(itScan);
-		DoubleDataset i0FinalDataSet = extractDetectorDataSets(i0FinalScan);
-		
-		String nexusFilename = inProgressDataWriter.getCurrentFileName();
-		String nexusFileNumber = inProgressDataWriter.getCurrentScanIdentifier();
-		
-		String folderName = org.apache.commons.io.FilenameUtils.getFullPath(nexusFilename);
-		String asciiFilename = folderName + nexusFileNumber + ".txt";
-		
+		// DoubleDataset i0FinalDataSet = extractDetectorDataSets(i0FinalScan);
+
+		String nexusFilename = LocalProperties.get(LocalProperties.GDA_DATAWRITER_DIR);
+		Long nexusFileNumber = itScan.getTheScan().getScanNumber();
+		String asciiFilename = nexusFilename + File.separator + nexusFileNumber + ".txt";
+
 		File asciiFile = new File(asciiFilename);
-		if (asciiFile.exists()){
+		if (asciiFile.exists()) {
 			throw new Exception("File " + asciiFilename + " already exists!");
 		}
-		
+
 		asciiFile.createNewFile();
 		FileWriter writer = new FileWriter(asciiFile);
-		writer.write("Strip #\tI0_corr\tIt_corr\tLn(I0/It)\tI0_dark\tIt_dark\tI0_raw\tIt_raw\n");
-		for (int channel = 0; channel < theDetector.getNumberChannels(); channel++){
-			Double i0DK = i0DarkDataSet.get(channel);
-			Double itDK = itDarkDataSet.get(channel);
+		writer.write("Strip\tEnergy\tI0_corr\tIt_corr\tLnI0It\tI0_raw\tIt_raw\tI0_dark\tIt_dark\n");
+		for (int channel = 0; channel < theDetector.getNumberChannels(); channel++) {
 			Double i0Initial = i0InitialDataSet.get(channel);
 			Double it = itDataSet.get(channel);
-			Double i0Final = i0FinalDataSet.get(channel);
-			
+			// Double i0Final = i0FinalDataSet.get(channel);
+
+			Double i0DK = i0DarkDataSet.get(channel);
+			Double itDK = itDarkDataSet.get(channel);
+
 			Double i0_corrected = i0Initial - i0DK;
 			Double it_corrected = it - itDK;
-			Double lni0it = Math.log(i0_corrected/it_corrected);
-			
-		    StringBuffer stringToWrite = new StringBuffer(channel+"\t");
-		    stringToWrite.append(String.format( "%.2f",i0_corrected) +"\t");
-		    stringToWrite.append(String.format( "%.2f",it_corrected) +"\t");
-		    stringToWrite.append(String.format( "%.5f",lni0it) +"\t");
-		    stringToWrite.append(String.format( "%.2f",i0DK) +"\t");
-		    stringToWrite.append(String.format( "%.2f",itDK) +"\t");
-		    stringToWrite.append(String.format( "%.2f",i0Initial) +"\t");
-		    stringToWrite.append(String.format( "%.2f",it) +"\t");
-		    writer.write(stringToWrite.toString());
+
+			Double lni0it = Math.log(i0_corrected / it_corrected);
+			if (lni0it.isNaN() || lni0it.isInfinite() || lni0it < 0.0) {
+				lni0it = .0;
+			}
+
+			StringBuffer stringToWrite = new StringBuffer(channel + "\t");
+			stringToWrite.append(channel + "\t");
+			stringToWrite.append(String.format("%.2f", i0_corrected) + "\t");
+			stringToWrite.append(String.format("%.2f", it_corrected) + "\t");
+			stringToWrite.append(String.format("%.5f", lni0it) + "\t");
+			stringToWrite.append(String.format("%.2f", i0Initial) + "\t");
+			stringToWrite.append(String.format("%.2f", it) + "\t");
+			stringToWrite.append(String.format("%.2f", i0DK) + "\t");
+			stringToWrite.append(String.format("%.2f", itDK) + "\t");
+			stringToWrite.append("\n");
+			writer.write(stringToWrite.toString());
 		}
 		writer.close();
 	}
@@ -156,9 +195,9 @@ public class EdeSingleExperiment {
 		Vector<Object> data = sdps.get(0).getDetectorData();
 		int detIndex = getIndexOfMyDetector(sdps.get(0));
 		NXDetectorData detData = (NXDetectorData) data.get(detIndex);
-		NexusGroupData groupData = detData.getData(theDetector.getName(), null, NexusExtractor.SDSClassName);
+		NexusGroupData groupData = detData.getData(theDetector.getName(), "data", NexusExtractor.SDSClassName);
 		double[] originalData = (double[]) groupData.getBuffer();
-		return new DoubleDataset(originalData,originalData.length);
+		return new DoubleDataset(originalData, originalData.length);
 	}
 
 	private int getIndexOfMyDetector(ScanDataPoint scanDataPoint) {
