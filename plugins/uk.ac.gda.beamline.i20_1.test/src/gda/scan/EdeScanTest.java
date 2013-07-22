@@ -21,14 +21,19 @@ package gda.scan;
 import static org.junit.Assert.assertEquals;
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
+import gda.device.MotorException;
 import gda.device.detector.DummyXStripDAServer;
+import gda.device.detector.StepScanXHDetector;
 import gda.device.detector.XHDetector;
 import gda.device.motor.DummyMotor;
 import gda.device.scannable.ScannableMotor;
+import gda.factory.FactoryException;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 
 import org.junit.Test;
@@ -73,20 +78,8 @@ public class EdeScanTest {
 		group1.setTimePerFrame(0.02);
 		scanParams.addGroup(group1);
 
-		DummyMotor xMotor = new DummyMotor();
-		xMotor.setSpeed(5000);
-		xMotor.configure();
-		ScannableMotor xScannable = new ScannableMotor();
-		xScannable.setMotor(xMotor);
-		xScannable.setName("xScannable");
-		xScannable.configure();
-		DummyMotor yMotor = new DummyMotor();
-		yMotor.setSpeed(5000);
-		yMotor.configure();
-		ScannableMotor yScannable = new ScannableMotor();
-		yScannable.setMotor(yMotor);
-		yScannable.setName("yScannable");
-		yScannable.configure();
+		ScannableMotor xScannable = createMotor("xScannable");
+		ScannableMotor yScannable = createMotor("yScannable");
 
 		LocalProperties.set("gda.nexus.createSRS", "true");
 		EdeScanPosition inBeam = new EdeScanPosition(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
@@ -99,6 +92,7 @@ public class EdeScanTest {
 
 		assertEquals(2, data.size());
 
+		// test the SRS file to see if the number of columns is correct
 		FileReader asciiFile = new FileReader(testDir + File.separator + "1.dat");
 		BufferedReader reader = null;
 		try {
@@ -119,7 +113,7 @@ public class EdeScanTest {
 	
 	@Test
 	public void testRunExperimentSameParameters() throws Exception {
-		setup("testRunExperiment");
+		setup("testRunExperimentSameParameters");
 		EdeScanParameters scanParams = new EdeScanParameters();
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
@@ -128,20 +122,8 @@ public class EdeScanTest {
 		group1.setTimePerFrame(0.02);
 		scanParams.addGroup(group1);
 
-		DummyMotor xMotor = new DummyMotor();
-		xMotor.setSpeed(5000);
-		xMotor.configure();
-		ScannableMotor xScannable = new ScannableMotor();
-		xScannable.setMotor(xMotor);
-		xScannable.setName("xScannable");
-		xScannable.configure();
-		DummyMotor yMotor = new DummyMotor();
-		yMotor.setSpeed(5000);
-		yMotor.configure();
-		ScannableMotor yScannable = new ScannableMotor();
-		yScannable.setMotor(yMotor);
-		yScannable.setName("yScannable");
-		yScannable.configure();
+		ScannableMotor xScannable = createMotor("xScannable");
+		ScannableMotor yScannable = createMotor("yScannable");
 
 		EdeScanPosition inBeam = new EdeScanPosition(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
 		EdeScanPosition outBeam = new EdeScanPosition(EdePositionType.OUTBEAM,0d,0d,xScannable,yScannable);
@@ -150,25 +132,12 @@ public class EdeScanTest {
 		theExperiment.runExperiment();
 
 
-		FileReader asciiFile = new FileReader(testDir + File.separator + "3.txt");
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(asciiFile);
-			reader.readLine(); // header line
-			String dataString = reader.readLine(); // first data point
-			String[] dataParts = dataString.split("\t");
-			assertEquals(9, dataParts.length);
-		} finally {
-			if (reader != null) {
-				reader.close();
-			}
-		}
-
+		testEDEFormatAsciiFile(3);
 	}
 
 	@Test
 	public void testRunExperimentDifferentParameters() throws Exception {
-		setup("testRunExperiment");
+		setup("testRunExperimentDifferentParameters");
 		EdeScanParameters i0Params = new EdeScanParameters();
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
@@ -185,20 +154,8 @@ public class EdeScanTest {
 		group2.setTimePerFrame(0.02);
 		itParams.addGroup(group2);
 
-		DummyMotor xMotor = new DummyMotor();
-		xMotor.setSpeed(5000);
-		xMotor.configure();
-		ScannableMotor xScannable = new ScannableMotor();
-		xScannable.setMotor(xMotor);
-		xScannable.setName("xScannable");
-		xScannable.configure();
-		DummyMotor yMotor = new DummyMotor();
-		yMotor.setSpeed(5000);
-		yMotor.configure();
-		ScannableMotor yScannable = new ScannableMotor();
-		yScannable.setMotor(yMotor);
-		yScannable.setName("yScannable");
-		yScannable.configure();
+		ScannableMotor xScannable = createMotor("xScannable");
+		ScannableMotor yScannable = createMotor("yScannable");
 
 		EdeScanPosition inBeam = new EdeScanPosition(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
 		EdeScanPosition outBeam = new EdeScanPosition(EdePositionType.OUTBEAM,0d,0d,xScannable,yScannable);
@@ -207,7 +164,11 @@ public class EdeScanTest {
 		theExperiment.runExperiment();
 
 
-		FileReader asciiFile = new FileReader(testDir + File.separator + "4.txt");
+		testEDEFormatAsciiFile(4);
+	}
+
+	private void testEDEFormatAsciiFile(int fileNumber) throws FileNotFoundException, IOException {
+		FileReader asciiFile = new FileReader(testDir + File.separator + fileNumber + ".txt");
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(asciiFile);
@@ -220,7 +181,65 @@ public class EdeScanTest {
 				reader.close();
 			}
 		}
+	}
+	
+	@Test
+	public void testExperimentUsingStepScan() throws Exception{
+		setup("testExperimentUsingStepScan");
+		LocalProperties.set("gda.nexus.createSRS", "true");
+		ScannableMotor xScannable = createMotor("xScannable");
+		StepScanXHDetector ssxh = new StepScanXHDetector();
+		ssxh.setXh(xh);
+		new ConcurrentScan(
+				new Object[] { xScannable, 0., 1., 1., ssxh, 0.2 })
+				.runScan();
+		
+		// test the SRS file to see if the number of columns is correct
+		FileReader asciiFile = new FileReader(testDir + File.separator + "1.dat");
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(asciiFile);
+			reader.readLine(); // &SRS
+			reader.readLine(); // &END
+			reader.readLine(); // header line
+			String dataString = reader.readLine(); // first data point
+			String[] dataParts = dataString.split("\t");
+			assertEquals(8, dataParts.length);
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
+		}
 
 	}
 
+	@Test
+	public void testExperimentUsingEdeScanParametersStaticMethods() throws Exception{
+		setup("testExperimentUsingEdeScanParametersStaticMethods");
+		
+		EdeScanParameters itparams = EdeScanParameters.createSingleFrameScan(0.2);
+		
+		ScannableMotor xScannable = createMotor("xScannable");
+		ScannableMotor yScannable = createMotor("yScannable");
+
+		EdeScanPosition inBeam = new EdeScanPosition(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
+		EdeScanPosition outBeam = new EdeScanPosition(EdePositionType.OUTBEAM,0d,0d,xScannable,yScannable);
+
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, inBeam, outBeam, xh);
+		theExperiment.runExperiment();
+		
+		testEDEFormatAsciiFile(3);
+	}
+
+	private ScannableMotor createMotor(String name) throws MotorException, FactoryException {
+		DummyMotor xMotor = new DummyMotor();
+		xMotor.setSpeed(5000);
+		xMotor.configure();
+		ScannableMotor xScannable = new ScannableMotor();
+		xScannable.setMotor(xMotor);
+		xScannable.setName(name);
+		xScannable.configure();
+		return xScannable;
+	}
+	
 }
