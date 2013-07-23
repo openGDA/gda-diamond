@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <XesScanParameters>
     <shouldValidate>true</shouldValidate>
-    <scanType>1</scanType>
-    <radiusOfCurvature>900.0</radiusOfCurvature>
-    <element>Fe</element>
+    <scanType>1</scanType>   <element>Fe</element>
     <edge>K</edge>
     <xesEnergy>2000.0</xesEnergy>
     <xesInitialEnergy>5700</xesInitialEnergy>

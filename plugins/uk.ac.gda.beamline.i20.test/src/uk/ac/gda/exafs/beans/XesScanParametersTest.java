@@ -81,7 +81,6 @@ public class XesScanParametersTest {
 	public void testCreateFromXML()  throws Exception{
 		XesScanParameters sp = new XesScanParameters();
 		sp.setScanType(1);
-		sp.setRadiusOfCurvature(900d);
 		sp.setMonoEnergy(15000d);
 		sp.setXesInitialEnergy(15000d);
 		sp.setXesFinalEnergy(16000d);
@@ -111,7 +110,6 @@ public class XesScanParametersTest {
 	public void testWriteToXML()  throws Exception{
 		XesScanParameters sp = new XesScanParameters();
 		sp.setScanType(1);
-		sp.setRadiusOfCurvature(900d);
 		sp.setMonoEnergy(15000d);
 		sp.setXesInitialEnergy(15000d);
 		sp.setXesFinalEnergy(16000d);
