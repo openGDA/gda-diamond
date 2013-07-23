@@ -18,6 +18,8 @@
 
 package uk.ac.gda.arpes.ui.views;
 
+import gda.device.Device;
+import gda.device.MotorStatus;
 import gda.factory.Finder;
 import gda.jython.JythonServerFacade;
 import gda.observable.IObserver;
@@ -25,8 +27,13 @@ import gda.observable.IObserver;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.FontMetrics;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -40,12 +47,21 @@ import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.gda.devices.vgscienta.FlexibleFrameDetector;
 import uk.ac.gda.devices.vgscienta.FrameUpdate;
+import uk.ac.gda.devices.vgscienta.SweptProgress;
 
 public class AnalyserProgressView extends ViewPart implements IObserver {
 	private Text csweep;
 	private FlexibleFrameDetector analyser;
 	private Spinner sweepSpinner;
 	private int oldMax = -1, compSweep = -1;
+	private ProgressBar progressBar;
+	private String progressBarText = "IDLE";
+
+	private Color idleColor = new Color(Display.getCurrent(), 150, 150, 150);
+	private Color preColor = new Color(Display.getCurrent(), 250, 0, 0);
+	private Color postColor = new Color(Display.getCurrent(), 0, 250, 0);
+	private boolean running;
+
 	public AnalyserProgressView() {
 	}
 
@@ -59,9 +75,21 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 		gl_parent.marginBottom = 5;
 		parent.setLayout(gl_parent);
 		
-		ProgressBar progressBar = new ProgressBar(parent, SWT.FILL);
-		progressBar.setSelection(100);
+		progressBar = new ProgressBar(parent, SWT.FILL);
+		progressBar.setSelection(1000);
 		progressBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 4, 1));
+		progressBar.addPaintListener(new PaintListener() {
+
+			@Override
+			public void paintControl(PaintEvent e) {
+				Point point = progressBar.getSize();
+				FontMetrics fontMetrics = e.gc.getFontMetrics();
+				int width = fontMetrics.getAverageCharWidth() * progressBarText.length();
+				int height = fontMetrics.getHeight();
+				e.gc.setForeground(getViewSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_FOREGROUND));
+				e.gc.drawString(progressBarText, (point.x - width) / 2, (point.y - height) / 2, true);
+			}
+		});
 		
 		Label lblCurrentSweep = new Label(parent, SWT.NONE);
 		lblCurrentSweep.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -125,6 +153,11 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 		if (analyser != null) {
 			analyser.addIObserver(this);
 		}
+		
+		Device su = (Device) Finder.getInstance().find("sweepupdater");
+		if (su != null) {
+			su.addIObserver(this);
+		}
 	}
 
 	@Override
@@ -134,6 +167,13 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 
 	@Override
 	public void update(Object source, Object arg) {
+		if (progressBar.isDisposed()) {
+			try {
+				((Device) source).deleteIObserver(this);
+			} catch (Exception e) {}
+			return;
+		}
+			
 		if (arg instanceof FrameUpdate) {
 			final FrameUpdate fu = (FrameUpdate) arg;
 			Display.getDefault().asyncExec(new Runnable() {
@@ -146,6 +186,58 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 					}
 				}
 			});
+			return;
 		}
+		if (arg instanceof MotorStatus) {
+			running = MotorStatus.BUSY.equals(arg);
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					if (running) {
+						progressBarText = "RUNNING";
+						progressBar.setSelection(progressBar.getMinimum());
+						progressBar.setForeground(preColor);
+					} else { 
+						progressBarText = "IDLE";
+						progressBar.setSelection(progressBar.getMaximum());
+						progressBar.setMinimum(0);
+						progressBar.setBackground(idleColor);
+					}
+				}
+			});
+			return;
+		}
+		if (arg instanceof SweptProgress) {
+			final SweptProgress sp = (SweptProgress) arg;
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					progressBarText = getProgressBarText(sp.current, sp.max);
+					if (sp.current < progressBar.getMinimum())
+						progressBar.setMinimum(sp.current);
+					progressBar.setMaximum(sp.max);
+					progressBar.setSelection(sp.current);
+					if (sp.current > 0)
+						progressBar.setBackground(postColor);
+					else
+						progressBar.setBackground(idleColor);
+				}		
+			});
+			return;
+		}
+	}
+	
+	private String getProgressBarText(int cur, int max) {
+		if (running) {
+			String form = "%d";
+			if (max > 999)
+				form = "%04d";
+			else if (max > 99)
+				form = "%03d";
+			else if (max > 9)
+				form = "%02d";
+			return String.format("Running  ("+form+" / %d)", cur, max);
+		}
+		return "IDLE";
 	}
 }

@@ -22,7 +22,7 @@ import gda.epics.connection.EpicsController;
 import gda.factory.Configurable;
 import gda.factory.FactoryException;
 import gov.aps.jca.Channel;
-import gov.aps.jca.dbr.DBR_Int;
+import gov.aps.jca.dbr.DBR_Enum;
 import gov.aps.jca.event.MonitorEvent;
 import gov.aps.jca.event.MonitorListener;
 
@@ -37,7 +37,7 @@ public class I05EntranceSlit implements EntranceSlitInformationProvider, Configu
 	private static final Logger logger = LoggerFactory.getLogger(I05EntranceSlit.class);
 
 	// BL05I-EA-SLITS-01:POS
-	private String labelPV = "BL05I-EA-SLITS-01";
+	private String labelPV = "BL05I-EA-SLITS-01:POS";
 	private EpicsController epicsController;
 	private Number rawValue = new Integer(0);
 	private Double size = 0.0;
@@ -67,7 +67,7 @@ public class I05EntranceSlit implements EntranceSlitInformationProvider, Configu
 			// loop over the pv's in the record
 			for (int i = 0; i < 12; i++) {
 				try {
-					Channel thisStringChannel = epicsController.createChannel(labelPV + ":SELECT." + channelNames[i]);
+					Channel thisStringChannel = epicsController.createChannel(labelPV + "." + channelNames[i]);
 					String positionName = epicsController.cagetString(thisStringChannel);
 					epicsController.destroy(thisStringChannel);
 
@@ -80,7 +80,7 @@ public class I05EntranceSlit implements EntranceSlitInformationProvider, Configu
 				}
 			}
 			
-			epicsController.addMonitor(epicsController.createChannel(labelPV+":POS"));
+			epicsController.setMonitor(epicsController.createChannel(labelPV), this);
 		} catch (Exception e) {
 			throw new FactoryException("error setting up entract slit monitoring", e);
 		}
@@ -107,14 +107,19 @@ public class I05EntranceSlit implements EntranceSlitInformationProvider, Configu
 	}
 	@Override
 	public void monitorChanged(MonitorEvent ev) {
-		if (ev.getDBR() instanceof DBR_Int) {
-			int pos = ((DBR_Int) ev.getDBR()).getIntValue()[0];
-			label = positions.get(pos);
-			String[] strings = label.split(" ");
-			rawValue = Integer.valueOf(strings[0]);
-			size = Double.valueOf(strings[1]);
-			shape = strings[2];
-			logger.debug(String.format("processed updates for entrance slit %s: %s",labelPV, label));
+		logger.debug(ev.toString());
+		if (ev.getDBR() instanceof DBR_Enum) {
+			try {
+				int pos = ((DBR_Enum) ev.getDBR()).getEnumValue()[0];
+				label = positions.get(pos);
+				String[] strings = label.split(" ");
+				rawValue = Integer.valueOf(strings[0]);
+				size = Double.valueOf(strings[1]);
+				shape = strings[2];
+				logger.debug(String.format("processed updates for entrance slit %s: %s",labelPV, label));
+			} catch (Exception e) {
+				logger.error("problem processing slit update", e);
+			}
 		}
 	}
 

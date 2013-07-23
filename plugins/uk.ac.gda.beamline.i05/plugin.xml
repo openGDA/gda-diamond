@@ -73,8 +73,12 @@
          tooltip="monochromator exit slit setting">
    </Scannable>
       <Scannable
-         name="energy"
+         name="pgm_energy"
          tooltip="photon energy">
+   </Scannable>
+         <Scannable
+         name="pgm_cff"
+         tooltip="monochromator cff">
    </Scannable>
       <Scannable
          name="sa"

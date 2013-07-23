@@ -28,7 +28,7 @@
 	</bean>
 	<bean
 		class="gda.device.scannable.DummyUnitsScannable" id="pgm_energy">
-		<property name="inputNames"><list><value>pgm_cff</value></list></property>
+		<property name="inputNames"><list><value>pgm_energy</value></list></property>
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
 		<property name="protectionLevel" value="3"></property>
 	</bean>
