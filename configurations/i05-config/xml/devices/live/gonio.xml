@@ -39,6 +39,7 @@
                 <property name="local" value="false" />
         </bean>
 
+<!--
         <bean id="satilt_motor" class="gda.device.motor.DummyMotor">
                         <property name="local" value="false" />
                                 </bean>
@@ -54,7 +55,7 @@
                                                         <property name="motor" ref="saazimuth_motor" />
                                                                         <property name="local" value="false" />
                                                                                 </bean>
-
+-->
 
         <bean id="sa" class="gda.device.scannable.scannablegroup.ScannableGroup">
                 <property name="groupMembers">
@@ -63,8 +64,8 @@
                                 <ref bean="say" />
                                 <ref bean="saz" />
                                 <ref bean="sapolar" />
-                                <ref bean="satilt" />
-                                <ref bean="saazimuth" />
+<!--                                <ref bean="satilt" /> -->
+<!--                                <ref bean="saazimuth" /> -->
                         </list>
                 </property>
                 <property name="local" value="false" />
