@@ -25,6 +25,7 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IViewLayout;
 
+import uk.ac.diamond.scisoft.spectroscopy.rcp.views.EdeCalibrationView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
 import uk.ac.gda.exafs.ui.views.DetectorSetupView;
@@ -52,6 +53,7 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		IFolderLayout alignmentControlsFolder = layout.createFolder(ALIGNMENT_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.30f, editorArea);
 		alignmentControlsFolder.addView(BeamlineAlignmentView.ID);
 		alignmentControlsFolder.addView(SingleSpectrumView.ID);
+		alignmentControlsFolder.addView(EdeCalibrationView.ID);
 
 		layout.addView(DetectorSetupView.ID, IPageLayout.RIGHT, 0.25f, editorArea);
 		IViewLayout propertyLayout = layout.getViewLayout(DetectorSetupView.ID);
