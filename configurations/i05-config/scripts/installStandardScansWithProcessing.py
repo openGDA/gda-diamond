@@ -23,7 +23,8 @@ ge.plotPanel = "Edge Fit Plot"
 
 gpab = GaussianPeakAndBackground()
 gpab.plotPanel = "Peak Fit Plot"
-scan_processor = ScanDataProcessor( [MaxPositionAndValue(),MinPositionAndValue(),CentreOfMass(), gpab, ge ], globals() )
+#scan_processor = ScanDataProcessor( [MaxPositionAndValue(), MinPositionAndValue(), CentreOfMass(), gpab ], globals() )
+scan_processor = ScanDataProcessor( [ CentreOfMass(), gpab ], globals() )
 go = scan_processor.go
 alias("go")
 

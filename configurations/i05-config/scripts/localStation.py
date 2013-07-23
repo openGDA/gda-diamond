@@ -12,13 +12,15 @@ from gda.device.scannable.scannablegroup import ScannableGroup
 from time import sleep
 from gda.jython.commands.GeneralCommands import alias
 
-from gdascripts.scan import gdascans
-rscan=gdascans.Rscan([])
-alias('rscan');print rscan.__doc__.split('\n')[2]
+#from gdascripts.scan import gdascans
+#rscan=gdascans.Rscan([])
+#alias('rscan');print rscan.__doc__.split('\n')[2]
 
 # Get the location of the GDA beamline script directory
 gdaScriptDir = LocalProperties.get("gda.config")+"/scripts/"
 gdascripts = LocalProperties.get("gda.install.git.loc")+"/gda-core.git/uk.ac.gda.core/scripts/gdascripts/"
+
+execfile(gdaScriptDir + "/installStandardScansWithProcessing.py");
 
 execfile(gdascripts + "/pd/epics_pds.py");
 execfile(gdascripts + "/pd/time_pds.py");
