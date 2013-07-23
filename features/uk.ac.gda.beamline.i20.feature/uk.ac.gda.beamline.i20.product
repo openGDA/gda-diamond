@@ -25,7 +25,10 @@
 -Xmx1024m
 -XX:PermSize=128m
 -XX:MaxPermSize=1024m
--XX:+DisableExplicitGC</vmArgs>
+-XX:+DisableExplicitGC
+-XX:ErrorFile=/tmp/hs_err_pid%p.log
+-XX:+HeapDumpOnOutOfMemoryError 
+-XX:HeapDumpPath=/tmp/gdaclient.hprof</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
