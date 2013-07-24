@@ -45,6 +45,7 @@ from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGauss
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeakWithCalibration import TwodGaussianPeakWithCalibration
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
 from gdascripts.analysis.datasetprocessor.oned.scan_stitching import Lcen, Rcen
+from gdascripts.analysis.datasetprocessor.oned.GaussianEdge import GaussianEdge
 import gdascripts.scan.concurrentScanWrapper
 from gdascripts.utils import jobs
 from gdascripts.scan import gdascans
@@ -272,6 +273,7 @@ scan_processor.rootNamespaceDict=globals()
 scan_processor.duplicate_names = {'maxval':'maxpos', 'minval':'minpos'}
 scan_processor.processors.append(Lcen())
 scan_processor.processors.append(Rcen())
+scan_processor.processors.append(GaussianEdge(name='spedge')) # edge already maps to a function edgeDetectRobust
 
 
 
