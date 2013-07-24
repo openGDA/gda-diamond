@@ -29,6 +29,7 @@ import gda.scan.ScanBase;
 
 import java.io.IOException;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +39,9 @@ import org.slf4j.LoggerFactory;
 public class ShutterChecker extends ScannableBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(ShutterChecker.class);
+
+	private static final String[] ehDetectorNames = new String[] { "ionchambers", "xspress2system", "xmapMca", "I1",
+			"FFI0", "FFI1", "FFI0_vortex", "d9_current", "d9_gain" };
 
 	private String pssPVName;
 	private EnumPositioner shutter;
@@ -66,6 +70,10 @@ public class ShutterChecker extends ScannableBase {
 
 	@Override
 	public void atScanStart() throws DeviceException {
+
+		if (!isEHDetector()) {
+			return;
+		}
 
 		// check if shutter open
 
@@ -114,6 +122,17 @@ public class ShutterChecker extends ScannableBase {
 				throw new DeviceException("Interrupted exception while checking shutter is open.", e);
 			}
 		}
+	}
+
+	private boolean isEHDetector() {
+		String[] detectorNames = InterfaceProvider.getCurrentScanInformationHolder().getCurrentScanInformation()
+				.getDetectorNames();
+		for (String name : detectorNames) {
+			if (ArrayUtils.contains(ehDetectorNames, name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void updateUser(String message) {
