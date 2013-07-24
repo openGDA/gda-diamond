@@ -44,12 +44,16 @@ import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.devices.vgscienta.FlexibleFrameDetector;
 import uk.ac.gda.devices.vgscienta.FrameUpdate;
 import uk.ac.gda.devices.vgscienta.SweptProgress;
 
 public class AnalyserProgressView extends ViewPart implements IObserver {
+	private static final Logger logger = LoggerFactory.getLogger(AnalyserProgressView.class);
+
 	private Text csweep;
 	private FlexibleFrameDetector analyser;
 	private Spinner sweepSpinner;
@@ -208,6 +212,7 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 			return;
 		}
 		if (arg instanceof SweptProgress) {
+			logger.debug("updated with "+arg.toString());
 			final SweptProgress sp = (SweptProgress) arg;
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
