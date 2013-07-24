@@ -688,6 +688,33 @@ cor.display_image = True
 corpeak2d = DetectorDataProcessorWithRoi('corpeak2d', cor, [TwodGaussianPeak()])
 cormax2d = DetectorDataProcessorWithRoi('cormax2d', cor, [SumMaxPositionAndValue()])
 
+#create a version of cor, corpeak2d, cormax2d that performs auto exposure
+#To record actual exposure time also add corExpTime
+from autoRangeDetector import AutoRangeDetector
+corAuto = AutoRangeDetector('corAuto',
+							cam2,
+							None,
+							cam2_for_snaps,
+							[],
+							panel_name='Firecam',
+							panel_name_rcp='Plot 1', 
+							fileLoadTimout=60,
+							printNfsTimes=False,
+							returnPathAsImageNumberOnly=True)
+
+corAuto.display_image = True
+corAutopeak2d = DetectorDataProcessorWithRoi('corAutopeak2d', corAuto, [TwodGaussianPeak()])
+corAutomax2d = DetectorDataProcessorWithRoi('corAutomax2d', corAuto, [SumMaxPositionAndValue()])
+
+#create pseudo-device 
+#there is a copy of this in epics git epics_script folder.
+from pv_scannable_utils import createPVScannable
+createPVScannable( "corExpTime", "BL16I-DI-COR-01:CAM:AcquireTime_RBV", hasUnits=False)
+corExpTime.level=10
+
+#scan kphi -90 270 1. corAuto corAutopeak2d corExpTime
+
+
 ### cam1 ###
 bpm = SwitchableHardwareTriggerableProcessingDetectorWrapper('bpm',
 							_cam1,
