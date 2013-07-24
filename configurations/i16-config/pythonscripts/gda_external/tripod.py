@@ -2,8 +2,6 @@ import numpy as np
 from scipy.optimize import fsolve
 from numpy.linalg.linalg import norm
 
-
-
 class tripod_class():  
     '''
     Python class to carry out calculations for tripod  with six base translations
@@ -152,7 +150,13 @@ pi = np.pi
 # dummy ones:
 #tp = tripod_class([100, 100, 100], [50.0, 50.0, 50.0], [-pi / 4, pi / 4, 0], [25.0, 25.0, 100.0], [pi / 4, pi / 4, -pi / 4], [0.0, 0.0, 50.0 * (1.0 + np.sqrt(3.) / 2 + np.sqrt(2))], [150.0, 0.0, 75.0])
 
-tp=tripod_class([134.2,134.2,134.2], [194.1, 194.1, 59.9], [-pi/3, pi/3, 0],[98.0, 40.0, 60.0], [pi/4, pi/4, -pi/4], [0.0, 0.0, 357], [254.0, 0.0, 127.0]) #mainly from drawings except base centres
+# Used during first attempt on beamline in Jan/Feb 2013:
+#tp=tripod_class([134.2,134.2,134.2], [194.1, 194.1, 59.9], [-pi/3, pi/3, 0],[98.0, 29.95, 60.0], [pi/4, pi/4, -pi/4], [0.0, 0.0, 357], [254.0, 0.0, 127.0]) #mainly from drawings except base centres
+
+
+#use values from CAD model 6/6/13:
+tp=tripod_class([134.2,134.2,134.2], [219.129, 219.129, 84.963], [-pi/3, pi/3, 0],[150.102, 84.9634/2, 35.7574], [pi/4, pi/4, -pi/4], [0.0, 0.0, 357.313], [249.324, 0.0, 249.324/2])
+
 
 def tool_to_base(x, y, z, alpha1, alpha2, alpha3):
     """ Calculate base settings: x1, x2, x3, y1, y2, y3 (all in mm)

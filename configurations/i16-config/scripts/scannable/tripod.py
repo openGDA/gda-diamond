@@ -1,5 +1,6 @@
 from gda.device.scannable import ScannableMotionBase
-from gda.device.scannable.scannablegroup import ScannableGroup
+from gda.device.scannable.scannablegroup import ScannableGroup,\
+    ScannableMotionWithScannableFieldsBase
 from gdascripts.scannable.dummy import SingleInputDummy
 from scisoftpy.external import create_function
 import scisoftpy.external
@@ -30,7 +31,7 @@ base_to_tool = create_function("base_to_tool",
 """
 
 
-class TripodToolBase(ScannableMotionBase):
+class TripodToolBase(ScannableMotionWithScannableFieldsBase):
     
     def __init__(self, name, tripod_base_scannable_group, print_base_target=False):
         self.name = name
