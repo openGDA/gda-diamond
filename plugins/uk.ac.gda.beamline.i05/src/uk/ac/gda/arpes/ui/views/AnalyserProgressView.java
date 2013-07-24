@@ -236,7 +236,7 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 				form = "%03d";
 			else if (max > 9)
 				form = "%02d";
-			return String.format("Running  ("+form+" / %d)", cur, max);
+			return String.format("Running  "+form+" / %d", cur, max);
 		}
 		return "IDLE";
 	}
