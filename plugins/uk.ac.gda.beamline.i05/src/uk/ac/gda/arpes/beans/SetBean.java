@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2012 Diamond Light Source Ltd.
+ * Copyright © 2013 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -16,20 +16,25 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.arpes.ui;
+package uk.ac.gda.arpes.beans;
 
-import uk.ac.gda.arpes.beans.ARPESScanBean;
-import uk.ac.gda.richbeans.xml.XMLBeanContentDescriber;
+import java.io.Serializable;
 
-public final class ARPESScanBeanDescriber extends XMLBeanContentDescriber {
+public class SetBean implements Serializable{
 
-	@Override
-	public String getBeanName() {
-		return ARPESScanBean.class.getName();
+	String scannableName;
+	Double value;
+	
+	public String getScannableName() {
+		return scannableName;
 	}
-
-	@Override
-	public String getEditorId() {
-		return "uk.ac.gda.arpes.beans.ARPESScanBeanEditor";
+	public void setScannableName(String scannableName) {
+		this.scannableName = scannableName;
+	}
+	public Double getPosition() {
+		return value;
+	}
+	public void setPosition(Double value) {
+		this.value = value;
 	}
 }

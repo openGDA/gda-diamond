@@ -59,9 +59,9 @@ public final class ARPESScanBeanEditor extends RichBeanMultiPageEditorPart {
 	@Override
 	public void setInput(final IEditorInput input) {
 		try{
-	        assignInput(input);
-	        createBean();
-	        linkUI();
+			assignInput(input);
+			createBean();
+			linkUI();
 		} catch (Throwable th){
 			logger.error("Error setting input for editor from input " + input.getName(), th);
 		}
