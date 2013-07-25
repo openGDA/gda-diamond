@@ -21,15 +21,12 @@ package uk.ac.gda.exafs.ui.views;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.StripDetector;
-import gda.device.detector.XCHIPDetector;
 import gda.device.scannable.ScannableStatus;
 import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
 import gda.util.exafs.AbsorptionEdge;
 import gda.util.exafs.Element;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -51,9 +48,7 @@ import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -72,11 +67,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -232,7 +222,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		createMainControls(scrolledPolyForm.getForm());
 		createMotorControls(scrolledPolyForm.getForm());
 		createSpectrumControls(scrolledPolyForm.getForm());
-		createTempratureSection(scrolledPolyForm.getForm());
+		//createTempratureSection(scrolledPolyForm.getForm());
 		updateElementEdgeSelection();
 	}
 
@@ -819,84 +809,49 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			}
 		});
 	}
+	//
+	//	@SuppressWarnings({ "unused", "static-access" })
+	//	private void createTempratureSection(final Form form) {
+	//		final Section temperatureSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+	//		temperatureSection.setText("Temperature");
+	//		temperatureSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+	//		final Composite temperatureSelectionComposite = toolkit.createComposite(temperatureSection, SWT.NONE);
+	//		final TableColumnLayout layout = new TableColumnLayout();
+	//		temperatureSelectionComposite.setLayout(layout);
+	//		temperatureSection.setClient(temperatureSelectionComposite);
+	//
+	//		final Table temperatureTable = toolkit.createTable(temperatureSelectionComposite, SWT.NONE);
+	//		temperatureTable.setLinesVisible (true);
+	//		temperatureTable.setHeaderVisible (true);
+	//		final TableWrapData tableWrapData = new TableWrapData();
+	//		temperatureTable.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+	//
+	//		ToolBar temperatureSectionTbar = new ToolBar(temperatureSection, SWT.FLAT | SWT.HORIZONTAL);
+	//		new ToolItem(temperatureSectionTbar, SWT.SEPARATOR);
+	//		ToolItem refreshTemperatureTBarItem = new ToolItem(temperatureSectionTbar, SWT.NULL);
+	//		refreshTemperatureTBarItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ELCL_SYNCED));
+	//		refreshTemperatureTBarItem.addListener(SWT.Selection, new Listener() {
+	//			@Override
+	//			public void handleEvent(Event event) {
+	//				// TODO Do a background job
+	//				createTempTable(temperatureTable, layout);
+	//				temperatureSection.setExpanded(true);
+	//				temperatureSelectionComposite.layout(true);
+	//				temperatureTable.layout(true);
+	//			}
+	//		});
+	//
+	//		temperatureSection.setTextClient(temperatureSectionTbar);
+	//		dataBindingCtx.bindValue(
+	//				WidgetProperties.enabled().observe(temperatureSection),
+	//				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
+	//
+	//		dataBindingCtx.bindValue(
+	//				WidgetProperties.enabled().observe(refreshTemperatureTBarItem),
+	//				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
+	//	}
 
-	@SuppressWarnings({ "unused", "static-access" })
-	private void createTempratureSection(Form form) {
-		final Section temperatureSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		temperatureSection.setText("Temperature");
-		temperatureSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		final Composite temperatureSelectionComposite = toolkit.createComposite(temperatureSection, SWT.NONE);
-		toolkit.paintBordersFor(temperatureSelectionComposite);
-		final TableColumnLayout layout = new TableColumnLayout();
-		temperatureSelectionComposite.setLayout(layout);
-		temperatureSection.setClient(temperatureSelectionComposite);
 
-
-		ToolBar temperatureSectionTbar = new ToolBar(temperatureSection, SWT.FLAT | SWT.HORIZONTAL);
-		new ToolItem(temperatureSectionTbar, SWT.SEPARATOR);
-		ToolItem refreshTemperatureTBarItem = new ToolItem(temperatureSectionTbar, SWT.NULL);
-		refreshTemperatureTBarItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ELCL_SYNCED));
-		refreshTemperatureTBarItem.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				createTempTable(temperatureSelectionComposite, layout);
-				temperatureSection.layout();
-			}
-		});
-		temperatureSection.setTextClient(temperatureSectionTbar);
-		temperatureSection.setEnabled(true);
-		createTempTable(temperatureSelectionComposite, layout);
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(temperatureSection),
-				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(refreshTemperatureTBarItem),
-				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
-
-		DetectorConfig.INSTANCE.addPropertyChangeListener(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if ((boolean) evt.getNewValue()) {
-					createTempTable(temperatureSelectionComposite, layout);
-					temperatureSection.layout(true);
-				}
-			}
-		});
-	}
-
-	private Table temperatureTable;
-
-	private void createTempTable(Composite parent, TableColumnLayout layout) {
-		if (temperatureTable != null && !temperatureTable.isDisposed()) {
-			temperatureTable.dispose();
-			temperatureTable = null;
-		}
-		temperatureTable = toolkit.createTable(parent, SWT.NONE);
-		temperatureTable.setLinesVisible (true);
-		temperatureTable.setHeaderVisible (true);
-		temperatureTable.setLayoutData(new TableWrapData());
-		// TODO Refactor to allow ccd
-		Map<String, Double> temperatureValues;
-		try {
-			temperatureValues = ((XCHIPDetector) DetectorConfig.INSTANCE.getCurrentDetector()).getTemperatures();
-			if (!temperatureValues.isEmpty()) {
-				int weight = 100 / temperatureValues.size();
-				String[] values = new String[temperatureValues.size()];
-				int i = 0;
-				for (Map.Entry<String,Double> entry : temperatureValues.entrySet()) {
-					TableColumn column = new TableColumn (temperatureTable, SWT.NONE);
-					layout.setColumnData(column, new ColumnWeightData(weight));
-					column.setText(entry.getKey());
-					values[i++] = Double.toString(entry.getValue());
-				}
-				TableItem item = new TableItem (temperatureTable, SWT.NONE);
-				item.setText(values);
-			}
-		} catch (DeviceException e) {
-			UIHelper.showError("Unable to show temperature readings", e.getMessage());
-		}
-	}
 
 	@Override
 	public void setFocus() {

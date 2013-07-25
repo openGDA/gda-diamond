@@ -128,11 +128,11 @@ public class FocusingView extends ViewPart {
 		bendSelectionComposite.setLayout(new GridLayout(2, false));
 		bendSection.setClient(bendSelectionComposite);
 
-		Label lblBend1Name = toolkit.createLabel(bendSelectionComposite, ScannableSetup.POLY_BENDER_1.getLabelForUI(), SWT.NONE);
+		Label lblBend1Name = toolkit.createLabel(bendSelectionComposite, ScannableSetup.POLY_BENDER_1.getLabel(), SWT.NONE);
 		lblBend1Name.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		UIHelper.createMotorViewer(toolkit, bendSelectionComposite, ScannableSetup.POLY_BENDER_1, UIMotorControl.ROTATION, moveObserver);
 
-		Label lblBend2Name = toolkit.createLabel(bendSelectionComposite, ScannableSetup.POLY_BENDER_2.getLabelForUI(), SWT.NONE);
+		Label lblBend2Name = toolkit.createLabel(bendSelectionComposite, ScannableSetup.POLY_BENDER_2.getLabel(), SWT.NONE);
 		lblBend2Name.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		UIHelper.createMotorViewer(toolkit, bendSelectionComposite, ScannableSetup.POLY_BENDER_2, UIMotorControl.ROTATION, moveObserver);
 
@@ -153,11 +153,11 @@ public class FocusingView extends ViewPart {
 		curvatureSelectionComposite.setLayout(new GridLayout(2, false));
 		curvatureSection.setClient(curvatureSelectionComposite);
 
-		Label lblCurvature = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_CURVATURE.getLabelForUI(), SWT.NONE);
+		Label lblCurvature = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_CURVATURE.getLabel(), SWT.NONE);
 		lblCurvature.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		UIHelper.createMotorViewer(toolkit, curvatureSelectionComposite, ScannableSetup.POLY_CURVATURE, UIMotorControl.ROTATION, moveObserver);
 
-		Label lblEllipticity = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_Y_ELLIPTICITY.getLabelForUI(), SWT.NONE);
+		Label lblEllipticity = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_Y_ELLIPTICITY.getLabel(), SWT.NONE);
 		lblEllipticity.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		UIHelper.createMotorViewer(toolkit, curvatureSelectionComposite, ScannableSetup.POLY_Y_ELLIPTICITY, UIMotorControl.ROTATION, moveObserver);
 
@@ -178,7 +178,7 @@ public class FocusingView extends ViewPart {
 		sampleZSelectionComposite.setLayout(new GridLayout(2, false));
 		sampleZSection.setClient(sampleZSelectionComposite);
 
-		Label lblSampleZ = toolkit.createLabel(sampleZSelectionComposite, ScannableSetup.SAMPLE_Z_POSITION.getLabelForUI(), SWT.NONE);
+		Label lblSampleZ = toolkit.createLabel(sampleZSelectionComposite, ScannableSetup.SAMPLE_Z_POSITION.getLabel(), SWT.NONE);
 		lblSampleZ.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		UIHelper.createMotorViewer(toolkit, sampleZSelectionComposite, ScannableSetup.SAMPLE_Z_POSITION, UIMotorControl.POSITION, moveObserver);
 
