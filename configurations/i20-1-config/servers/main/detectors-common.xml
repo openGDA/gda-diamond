@@ -11,7 +11,7 @@
 	</bean>
 	
 	<bean id="xstrip" class="gda.device.detector.XHDetector">
-		<property name="detectorName" value="xstrip0"/>
+		<property name="detectorName" value="xh0"/>
 		<property name="daServer" ref="DAServer"/>
 		<property name="templateFileName" value="${gda.config}/templates/EdeScan_Parameters.xml"></property>
 	</bean>
