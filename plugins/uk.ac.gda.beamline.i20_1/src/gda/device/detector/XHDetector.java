@@ -80,10 +80,10 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 	private static final Logger logger = LoggerFactory.getLogger(XHDetector.class);
 	// TODO need to ask scientists what these names should be.
-	private static final String SENSOR0NAME = "Sensor 0";
-	private static final String SENSOR1NAME = "Sensor 1";
-	private static final String SENSOR2NAME = "Sensor 2";
-	private static final String SENSOR3NAME = "Sensor 3";
+	private static final String SENSOR0NAME = "Peltier Hotplate";
+	private static final String SENSOR1NAME = "Peltier Coldplate";
+	private static final String SENSOR2NAME = "PCB power supply";
+	private static final String SENSOR3NAME = "PCB control";
 	public static int NUMBER_ELEMENTS = 1024;
 	public static int START_STRIP = 1;
 
@@ -259,7 +259,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	}
 
 	private double[][] performCorrections(int[] rawData) {
-		// TODO need to implement corrections and calibrations when details available from William
 		int frameCount = rawData.length / NUMBER_ELEMENTS;
 		double[][] out = new double[frameCount][NUMBER_ELEMENTS];
 
@@ -269,7 +268,10 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				// simply set excluded strips to be zero
 				if (ArrayUtils.contains(excludedStrips, element)) {
 					out[frame][element] = 0.0;
+				} else if (element < lowerChannel || element > upperChannel) {
+					out[frame][element] = 0.0;
 				} else {
+
 					out[frame][element] = rawData[(frame * NUMBER_ELEMENTS) + element];
 				}
 			}
@@ -350,11 +352,20 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	 * @return NexusTreeProvider
 	 */
 	protected NXDetectorData readoutFrame(int frameNum, int[] elements) {
-		double[] correctedData = performCorrections(elements)[0];
 
+		double[] correctedData = performCorrections(elements)[0];
 		NXDetectorData thisFrame = new NXDetectorData(this);
-		thisFrame
-		.addData(getName(), new int[] { 1, NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, correctedData, "counts", 1);
+
+		// TODO need to add the energy calibration here.
+
+		double[] energies = new double[NUMBER_ELEMENTS];
+		for (int i = 0; i < NUMBER_ELEMENTS; i++) {
+			energies[i] = i;
+		}
+
+		thisFrame.addAxis(getName(), "Energy", new int[] { 1, NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, energies, 1, 1,
+				"eV", false);
+		thisFrame.addData(getName(), new int[] { 1, NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, correctedData, "eV", 1);
 
 		double[] extraValues = getExtraValues(elements);
 		String[] names = getExtraNames();
@@ -1036,7 +1047,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		}
 	}
 
-
 	@Override
 	public void setLowerChannel(int channel) {
 		lowerChannel = channel;
@@ -1062,21 +1072,21 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	@Override
 	public void setBias(Double biasVoltage) throws DeviceException {
 		if (biasVoltage < getMinBias() | biasVoltage > getMaxBias()) {
-			throw new DeviceException("Bias volatge of " + biasVoltage + " is unacceptable.");
+			throw new DeviceException("Bias voltage of " + biasVoltage + " is unacceptable.");
 		}
 
 		// TODO test with hardware
 		Double currentValue = getBias();
 		if (currentValue == 0.0) {
 			daServer.sendCommand("xstrip hv init");
-			daServer.sendCommand("xstrip hv enable " + detectorName);
+			daServer.sendCommand("xstrip hv enable \"" + detectorName +"\"");
 		}
-		daServer.sendCommand("xstrip hv set-dac " + detectorName + " " + biasVoltage);
+		daServer.sendCommand("xstrip hv set-dac \"" + detectorName + "\" " + biasVoltage);
 	}
 
 	@Override
 	public Double getBias() throws DeviceException {
-		return (Double) daServer.sendCommand("xstrip hv get-adc hv " + detectorName);
+		return (Double) daServer.sendCommand("xstrip hv get-adc \"" + detectorName + "\"");
 	}
 
 	@Override
@@ -1100,13 +1110,13 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		return excludedStrips;
 	}
 
-	private void loadExcludedStrips(){
+	private void loadExcludedStrips() {
 		PropertiesConfiguration store;
 		try {
 			store = new PropertiesConfiguration(getStoreFileName());
 			String[] excludedStripsArray = store.getStringArray(EXCLUDED_STRIPS_PROPERTY);
-			if (excludedStripsArray.length == 0){
-				excludedStrips = new Integer[]{};
+			if (excludedStripsArray.length == 0) {
+				excludedStrips = new Integer[] {};
 				return;
 			}
 
@@ -1116,10 +1126,9 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				excludedStrips[i] = STRIPS[Integer.parseInt(excludedStripsArray[i]) - START_STRIP];
 			}
 		} catch (ConfigurationException e) {
-			excludedStrips = new Integer[]{};
+			excludedStrips = new Integer[] {};
 		}
 	}
-
 
 	public static Integer[] getStrips() {
 		return STRIPS;
@@ -1140,23 +1149,25 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		openTCSocket();
 
 		HashMap<String, Double> temps = new HashMap<String, Double>();
-		Double sensor0Temp = (Double) daServer.sendCommand("xstrip tc get " + detectorName + " ch 0");
+		Double sensor0Temp = Double.parseDouble(daServer.sendCommand("xstrip tc get \"" + detectorName + "\" ch 0 t").toString());
 		temps.put(SENSOR0NAME, sensor0Temp);
-		Double sensor1Temp = (Double) daServer.sendCommand("xstrip tc get " + detectorName + " ch 1");
+		Double sensor1Temp = Double.parseDouble(daServer.sendCommand("xstrip tc get \"" + detectorName + "\" ch 1 t").toString());
 		temps.put(SENSOR1NAME, sensor1Temp);
-		Double sensor2Temp = (Double) daServer.sendCommand("xstrip tc get " + detectorName + " ch 2");
+		Double sensor2Temp = Double.parseDouble(daServer.sendCommand("xstrip tc get \"" + detectorName + "\" ch 2 t")
+				.toString());
 		temps.put(SENSOR2NAME, sensor2Temp);
-		Double sensor3Temp = (Double) daServer.sendCommand("xstrip tc get " + detectorName + " ch 3");
+		Double sensor3Temp = Double.parseDouble(daServer.sendCommand("xstrip tc get \"" + detectorName + "\" ch 3 t")
+				.toString());
 		temps.put(SENSOR3NAME, sensor3Temp);
 		return temps;
 	}
 
 	private void openTCSocket() throws DeviceException {
-		int tcIsOpen = (int) daServer.sendCommand("xstrip tc print " + detectorName);
-		if (tcIsOpen != 1) {
-			daServer.sendCommand("xstrip tc open " + detectorName);
-			tcIsOpen = (int) daServer.sendCommand("xstrip tc print " + detectorName);
-			if (tcIsOpen != 1) {
+		int tcIsOpen = (int) daServer.sendCommand("xstrip tc print \"" + detectorName + "\"");
+		if (tcIsOpen == -1) {
+			daServer.sendCommand("xstrip tc open \"" + detectorName+ "\"");
+			tcIsOpen = (int) daServer.sendCommand("xstrip tc print \"" + detectorName+ "\"");
+			if (tcIsOpen == -1) {
 				throw new DeviceException(
 						"Could not open temperature controller to find out current temperature values");
 			}

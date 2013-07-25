@@ -24,7 +24,6 @@ import gda.device.detector.NXDetectorData;
 import gda.device.detector.XHDetector;
 import gda.device.detector.XHROI;
 import gda.device.detector.corba.impl.DetectorAdapter;
-import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.Jython;
 import gda.jython.JythonServerStatus;
@@ -58,6 +57,7 @@ import uk.ac.diamond.scisoft.analysis.SDAPlotter;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer;
+import uk.ac.gda.exafs.data.DetectorConfig;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
@@ -97,10 +97,7 @@ public class XHControlComposite extends Composite implements IObserver {
 	private static Detector xh;
 
 	private static Detector getDetector(){
-		if (xh == null){
-			xh = (Detector) Finder.getInstance().find("xh");
-		}
-		return xh;
+		return DetectorConfig.INSTANCE.getCurrentDetector();
 	}
 
 	public XHControlComposite(Composite parent, ViewPart site) {
