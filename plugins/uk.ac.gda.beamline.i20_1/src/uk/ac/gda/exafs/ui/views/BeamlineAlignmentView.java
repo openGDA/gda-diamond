@@ -844,6 +844,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			}
 		});
 		temperatureSection.setTextClient(temperatureSectionTbar);
+		temperatureSection.setEnabled(true);
 		createTempTable(temperatureSelectionComposite, layout);
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(temperatureSection),
@@ -858,7 +859,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			public void propertyChange(PropertyChangeEvent evt) {
 				if ((boolean) evt.getNewValue()) {
 					createTempTable(temperatureSelectionComposite, layout);
-					temperatureSection.layout();
+					temperatureSection.layout(true);
 				}
 			}
 		});
