@@ -65,6 +65,7 @@
 <!-- 	two theta arm -->
 	<bean id="twotheta" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="twotheta_motor" />
+		<property name="initialUserUnits" value="deg" />
 	</bean>
 	<bean id="twotheta_mm" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="twotheta_mm_motor" />

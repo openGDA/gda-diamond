@@ -19,7 +19,6 @@
 package uk.ac.gda.exafs.data;
 
 import gda.device.Scannable;
-import gda.device.detector.StripDetector;
 import gda.factory.Finder;
 
 import java.text.DecimalFormat;
@@ -34,7 +33,7 @@ public class ClientConfig {
 	private ClientConfig() {
 	}
 
-	private static final DecimalFormat df = new DecimalFormat("#0.00");
+	private static final DecimalFormat df = new DecimalFormat("#0.000");
 
 	public static String roundDoubletoString(double value) {
 		return df.format(value);
@@ -72,7 +71,7 @@ public class ClientConfig {
 			if (!value.isEmpty()) {
 				return String.format("%s (%s): ", value, text);
 			}
-			return value;
+			return String.format("(%s): ", text);
 		}
 
 		public String removeUnitSuffix(String value) throws Exception {
@@ -81,7 +80,7 @@ public class ClientConfig {
 			}
 			Matcher matcher = Pattern.compile("(.*)\\s" + text + "$").matcher(value);
 			if (matcher.find()) {
-				return matcher.group(1);
+				return matcher.group(1).trim();
 			}
 			throw new Exception("Unable to find Unit suffix to remove");
 		}
@@ -116,29 +115,27 @@ public class ClientConfig {
 
 	public enum ScannableSetup {
 
-		WIGGLER_GAP ("Wiggler", "wigglerGap", UnitSetup.MILLI_METER),
+		WIGGLER_GAP ("Wiggler gap", "wigglerGap", UnitSetup.MILLI_METER),
 		POLY_BENDER_1("Bender 1", "polybend1", UnitSetup.MILLI_METER),
 		POLY_BENDER_2("Bender 2", "polybend2",UnitSetup.MILLI_METER),
 
 		SAMPLE_Z_POSITION("Sample z", "sample_z", UnitSetup.MILLI_METER),
 
-		SLIT_1_HORIZONAL_GAP("Slit 1 HGap", "s1_hgap", UnitSetup.MILLI_RADIAN),
+		SLIT_1_HORIZONAL_GAP("Primary Slit Hgap", "s1_hgap", UnitSetup.MILLI_RADIAN),
 
-		ATN1 ("ATN 1", "atn1", UnitSetup.MILLI_METER),
-		ATN2 ("ATN 2", "atn2", UnitSetup.MILLI_METER),
-		ATN3 ("ATN 3", "atn3", UnitSetup.MILLI_METER),
+		ATN1 ("ATN 1", "atn1", UnitSetup.SELECTION),
+		ATN2 ("ATN 2", "atn2", UnitSetup.SELECTION),
+		ATN3 ("ATN 3", "atn3", UnitSetup.SELECTION),
 
-		ME1_STRIPE("ME1 strip", "me1_stripe", UnitSetup.SELECTION),
-		ME2_STRIPE("ME2 strip", "me2_stripe", UnitSetup.SELECTION),
+		ME1_STRIPE("ME1 stripe", "me1_stripe", UnitSetup.SELECTION),
+		ME2_STRIPE("ME2 stripe", "me2_stripe", UnitSetup.SELECTION),
 		ME2_PITCH_ANGLE("ME2 pitch", "me2pitch", UnitSetup.MILLI_RADIAN),
-
 
 		POLY_BRAGG ("Bragg", "polytheta", UnitSetup.DEGREE),
 		ARM_2_THETA_ANGLE ("Arm 2theta", "twotheta", UnitSetup.DEGREE),
 
 		DETECTOR_HEIGHT ("height", "detector_y", UnitSetup.MILLI_METER),
 		DETECTOR_DISTANCE ("distance", "detector_z", UnitSetup.MILLI_METER),
-
 
 		POLY_CURVATURE("Curvature", "polycurve", UnitSetup.MILLI_METER),
 		POLY_Y_ELLIPTICITY("Ellipticity","polyyellip", UnitSetup.MILLI_METER),
@@ -193,66 +190,6 @@ public class ClientConfig {
 
 		public void setUiViewer(Object uiViewer) {
 			this.uiViewer = uiViewer;
-		}
-	}
-
-	public enum DetectorSetup {
-		XH("xh"), XSTRIP("xstrip"), CCD("ccd");
-
-		public static final int DEFAULT_NO_OF_REGIONS = 4;
-		public static final int MIN_ROIs = 1;
-
-		public static void setupDetectors() throws Exception {
-			for (DetectorSetup detectorSetup : DetectorSetup.values()) {
-				Object detectorBean = Finder.getInstance().find(detectorSetup.getDetectorName());
-				if (detectorBean != null && detectorBean instanceof StripDetector) {
-					StripDetector stripdetector = (StripDetector) detectorBean;
-					detectorSetup.setDetectorScannable(stripdetector);
-					if (stripdetector.isConnected()) {
-						DetectorConfig.INSTANCE.setCurrentDetectorSetup(detectorSetup);
-					}
-				}
-			}
-		}
-
-		private final String detectorName;
-		private StripDetector detectorScannable;
-
-		private DetectorSetup(String detectorName) {
-			this.detectorName = detectorName;
-		}
-
-		public String getDetectorName() {
-			return detectorName;
-		}
-
-		public void setDetectorScannable(StripDetector detectorScannable) {
-			this.detectorScannable = detectorScannable;
-			createArrayOfStrips();
-		}
-
-		public StripDetector getDetectorScannable() {
-			return detectorScannable;
-		}
-
-		public boolean isVoltageInRange(double value) {
-			return (detectorScannable.getMinBias() <= value & value <= detectorScannable.getMaxBias());
-		}
-
-		private Integer[] strips;
-
-		private Integer[] createArrayOfStrips() {
-			int numberOfStrips = detectorScannable.getUpperChannel();
-			int startStrip = 1;
-			strips = new Integer[numberOfStrips];
-			for (int i = 0; i < numberOfStrips; i++) {
-				strips[i] = new Integer(i + startStrip);
-			}
-			return strips;
-		}
-
-		public Integer[] getStrips() {
-			return strips;
 		}
 	}
 }

@@ -72,7 +72,7 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	public volatile boolean continueLiveLoop = false;
 
-	private ViewPart site;
+	private final ViewPart site;
 	private Composite contents;
 	private Group timesgroup;
 
@@ -95,7 +95,7 @@ public class XHControlComposite extends Composite implements IObserver {
 	private Text txtLiveTime;
 
 	private static Detector xh;
-	
+
 	private static Detector getDetector(){
 		if (xh == null){
 			xh = (Detector) Finder.getInstance().find("xh");
@@ -104,7 +104,7 @@ public class XHControlComposite extends Composite implements IObserver {
 	}
 
 	public XHControlComposite(Composite parent, ViewPart site) {
-		super(parent, SWT.NONE);
+		super(parent, SWT.BORDER_DOT);
 		this.site = site;
 
 		InterfaceProvider.getJSFObserver().addIObserver(this);
@@ -114,6 +114,7 @@ public class XHControlComposite extends Composite implements IObserver {
 	}
 
 	private void createUI() {
+		this.setLayout(new GridLayout());
 		rebuildUI();
 		createActions();
 		initializeToolBar();
@@ -122,8 +123,8 @@ public class XHControlComposite extends Composite implements IObserver {
 	private synchronized void rebuildUI() {
 
 		contents = new Composite(this, SWT.NONE);
-		contents.setLayout(new GridLayout(1, true));
-		contents.setLayoutData(new GridData(SWT.BEGINNING, SWT.BEGINNING, true, false));
+		contents.setLayout(new GridLayout(2, true));
+		contents.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		// expandable with data collection parameters
 		createTimesGroup();
@@ -135,7 +136,7 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	private void createSnapShotGroup() {
 		snapshotgroup = new Group(contents, SWT.BORDER);
-		snapshotgroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		snapshotgroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		snapshotgroup.setLayout(new GridLayout(3, false));
 		snapshotgroup.setText("Single Spectrum (snapshot) time settings");
 
@@ -157,7 +158,7 @@ public class XHControlComposite extends Composite implements IObserver {
 				try {
 					Double newValue = Double.parseDouble(txtSnapTime.getText());
 					Activator.getDefault().getPreferenceStore()
-							.setValue(I20_1PreferenceInitializer.SNAPSHOTTIME, newValue);
+					.setValue(I20_1PreferenceInitializer.SNAPSHOTTIME, newValue);
 				} catch (NumberFormatException e1) {
 					// ignore bad formats
 				}
@@ -180,7 +181,7 @@ public class XHControlComposite extends Composite implements IObserver {
 		lbl.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 
 		lbl = new Label(snapshotgroup, SWT.NONE);
-		lbl.setText("Scans per frame");
+		lbl.setText("Number of accumulations");
 		lbl.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 		txtNumScansPerFrame = new Spinner(snapshotgroup, SWT.NONE);
 		txtNumScansPerFrame.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -195,7 +196,7 @@ public class XHControlComposite extends Composite implements IObserver {
 				try {
 					int newValue = Integer.parseInt(txtNumScansPerFrame.getText());
 					Activator.getDefault().getPreferenceStore()
-							.setValue(I20_1PreferenceInitializer.SCANSPERFRAME, newValue);
+					.setValue(I20_1PreferenceInitializer.SCANSPERFRAME, newValue);
 				} catch (NumberFormatException e1) {
 					// ignore bad formats
 				}
@@ -214,13 +215,12 @@ public class XHControlComposite extends Composite implements IObserver {
 			}
 		});
 		lbl = new Label(snapshotgroup, SWT.NONE);
-		lbl.setText("s");
 		lbl.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 	}
 
 	private void createTimesGroup() {
 		timesgroup = new Group(contents, SWT.BORDER);
-		timesgroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		timesgroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		timesgroup.setLayout(new GridLayout(3, false));
 		timesgroup.setText("Live Mode time settings");
 
@@ -242,7 +242,7 @@ public class XHControlComposite extends Composite implements IObserver {
 				try {
 					Double newValue = Double.parseDouble(txtLiveTime.getText());
 					Activator.getDefault().getPreferenceStore()
-							.setValue(I20_1PreferenceInitializer.LIVEMODETIME, newValue);
+					.setValue(I20_1PreferenceInitializer.LIVEMODETIME, newValue);
 				} catch (NumberFormatException e1) {
 					// ignore bad formats
 				}
@@ -281,7 +281,7 @@ public class XHControlComposite extends Composite implements IObserver {
 				try {
 					int newValue = Integer.parseInt(txtRefreshPeriod.getText());
 					Activator.getDefault().getPreferenceStore()
-							.setValue(I20_1PreferenceInitializer.REFRESHRATE, newValue);
+					.setValue(I20_1PreferenceInitializer.REFRESHRATE, newValue);
 				} catch (NumberFormatException e1) {
 					// ignore bad formats
 				}
@@ -426,10 +426,10 @@ public class XHControlComposite extends Composite implements IObserver {
 			logger.error("exception while collecting snapshot from XHDetector", e);
 			// popup
 			MessageDialog
-					.openError(
-							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-							"Error collecting snapshot",
-							"Error while collecting snapshot from XHDetector.\nAre your parameters correct? Do you hold the baton?\nSee log for details.");
+			.openError(
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+					"Error collecting snapshot",
+					"Error while collecting snapshot from XHDetector.\nAre your parameters correct? Do you hold the baton?\nSee log for details.");
 			return new Double[0];
 		}
 	}
@@ -497,7 +497,7 @@ public class XHControlComposite extends Composite implements IObserver {
 									.getDouble(I20_1PreferenceInitializer.LIVEMODETIME);
 							final Double[] results = collectAndPlotSnapshot(false, collectionPeriod_ms, 1,
 									"Live reading (" + collectionPeriod_ms + "ms integration, every " + refreshPeriod_s
-											+ " s)");
+									+ " s)");
 
 							allValues = ArrayUtils.add(allValues, results[2]);
 							for (int i = 3; i < results.length; i++) {

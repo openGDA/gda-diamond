@@ -28,7 +28,6 @@ import java.util.HashMap;
  * XCHIP relates to the common electronics of those two read heads.
  */
 public interface XCHIPDetector extends StripDetector {
-
 	HashMap<String,Double> getTemperatures() throws DeviceException;
 
 }

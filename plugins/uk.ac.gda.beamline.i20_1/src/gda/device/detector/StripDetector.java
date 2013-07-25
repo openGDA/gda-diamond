@@ -141,9 +141,9 @@ public interface StripDetector extends NexusDetector {
 	 * @param excludedStrips
 	 * @throws DeviceException
 	 */
-	public void setExcludedStrips(int[] excludedStrips) throws DeviceException;
+	public void setExcludedStrips(Integer[] excludedStrips) throws DeviceException;
 
-	public int[] getExcludedStrips();
+	public Integer[] getExcludedStrips();
 
 	/**
 	 * @return details of the experiment progress using an enhanced progress bean object

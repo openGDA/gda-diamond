@@ -69,7 +69,7 @@
             class="uk.ac.gda.exafs.ui.views.DetectorSetupView"
             icon="icons/cog.png"
             id="uk.ac.gda.exafs.ui.views.detectorsetupview"
-            name="Detector"
+            name="Detector data collection"
             restorable="true">
       </view>
       <view
@@ -84,6 +84,12 @@
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.singlespectrumview"
             name="Single Collection"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.exafs.ui.views.FocusingView"
+            id="uk.ac.gda.exafs.ui.views.focusingview"
+            name="Focusing View"
             restorable="true">
       </view>
    </extension>

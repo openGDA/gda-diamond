@@ -29,6 +29,7 @@ import uk.ac.diamond.scisoft.spectroscopy.rcp.views.EdeCalibrationView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
 import uk.ac.gda.exafs.ui.views.DetectorSetupView;
+import uk.ac.gda.exafs.ui.views.FocusingView;
 import uk.ac.gda.exafs.ui.views.SingleSpectrumView;
 
 /**
@@ -52,16 +53,23 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 
 		IFolderLayout alignmentControlsFolder = layout.createFolder(ALIGNMENT_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.30f, editorArea);
 		alignmentControlsFolder.addView(BeamlineAlignmentView.ID);
+		IViewLayout propertyLayout = layout.getViewLayout(BeamlineAlignmentView.ID);
+		propertyLayout.setCloseable(false);
 		alignmentControlsFolder.addView(SingleSpectrumView.ID);
 		alignmentControlsFolder.addView(EdeCalibrationView.ID);
 
-		layout.addView(DetectorSetupView.ID, IPageLayout.RIGHT, 0.25f, editorArea);
-		IViewLayout propertyLayout = layout.getViewLayout(DetectorSetupView.ID);
+		layout.addView(FocusingView.ID, IPageLayout.RIGHT, 0.25f, editorArea);
+		propertyLayout = layout.getViewLayout(FocusingView.ID);
 		propertyLayout.setCloseable(false);
 
-		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.45f, DetectorSetupView.ID);
+		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.45f, FocusingView.ID);
 		topPlotFolder.addView(SPECTRAPLOTID);
 		topPlotFolder.addView(LivePlotView.ID);
-		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.50f,TOPPLOT_FOLDER_ID);
+		propertyLayout = layout.getViewLayout(LivePlotView.ID);
+		propertyLayout.setCloseable(false);
+		layout.addView(DetectorSetupView.ID, IPageLayout.BOTTOM, 0.50f,TOPPLOT_FOLDER_ID);
+		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.40f,DetectorSetupView.ID);
+		propertyLayout = layout.getViewLayout(DetectorSetupView.ID);
+		propertyLayout.setCloseable(false);
 	}
 }

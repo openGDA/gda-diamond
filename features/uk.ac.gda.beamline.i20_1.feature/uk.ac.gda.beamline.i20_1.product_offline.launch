@@ -20,7 +20,8 @@
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="LD_LIBRARY_PATH" value="${workspace_loc:uk.ac.gda.nexus}/lib/${target.os}-${target.arch}:${workspace_loc:uk.ac.gda.core}/lib/${target.os}-${target.arch}"/>
 </mapAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl}"/>
+<stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-1.7.0-oracle-1.7.0.21.x86_64"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.install.workspace.loc=${workspace_loc}&#13;&#10;-Dgda.install.git.loc=${project_loc:uk.ac.gda.core/}/../..&#10;-Dgda.config=${project_loc:i20-1-config}&#13;&#10;-Djacorb.config.dir=${project_loc:i20-1-config}/jacorb/dummy&#13;&#10;-Djava.library.path=${workspace_loc}/plugins/uk.ac.gda.nexus/lib/${target.os}-${target.arch}&#13;&#10;-Dgov.aps.jca.JCALibrary.properties=${project_loc:i20-1-config}/jca/dummy/JCALibrary.properties&#10;-Dgda.propertiesFiles=${project_loc:i20-1-config}/properties/dummy/java.properties&#10;-Dgda.mode=dummy&#10;-Dgda.client.jython.automatic.interpreter=1&#10;-XX:+DisableExplicitGC&#13;&#10;-Xms64m&#13;&#10;-Xmx1024m&#13;&#10;-XX:PermSize=128m -XX:MaxPermSize=256m"/>
 <stringAttribute key="pde.version" value="3.3"/>

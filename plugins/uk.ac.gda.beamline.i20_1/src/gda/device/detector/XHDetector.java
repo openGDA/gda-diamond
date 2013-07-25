@@ -39,6 +39,7 @@ import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
@@ -60,6 +61,10 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
 public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 	private static final String CONNECTED_KEY = "connected";
+
+	private static final double MIN_BIAS_VOLTAGE = 1.0;
+	private static final double MAX_BIAS_VOLTAGE = 137.0;
+
 	private static final String UPPERLEVEL_PROPERTY = "upperlevel";
 	private static final String LOWERLEVEL_PROPERTY = "lowerlevel";
 	private static final String EXCLUDED_STRIPS_PROPERTY = "excludedStrips";
@@ -80,6 +85,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	private static final String SENSOR2NAME = "Sensor 2";
 	private static final String SENSOR3NAME = "Sensor 3";
 	public static int NUMBER_ELEMENTS = 1024;
+	public static int START_STRIP = 1;
 
 	// These are the objects this must know about.
 	private String detectorName;
@@ -97,10 +103,19 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	private EdeScanParameters nextScan;
 
 	private XHROI[] rois = new XHROI[0];
-	private int lowerChannel = 1;
+	private int lowerChannel = START_STRIP;
 	private int upperChannel = NUMBER_ELEMENTS;
-	private int[] excludedStrips = new int[] {};
+	private Integer[] excludedStrips;
 	private boolean connected;
+	private static Integer[] STRIPS;
+
+	static {
+		int startStrip = START_STRIP;
+		STRIPS = new Integer[NUMBER_ELEMENTS];
+		for (int i = 0; i < NUMBER_ELEMENTS; i++) {
+			STRIPS[i] = new Integer(i + startStrip);
+		}
+	}
 
 	public XHDetector() {
 		super();
@@ -900,12 +915,15 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 	@Override
 	public void setNumberRois(int numberOfRois) {
+		if (numberOfRois < 1) {
+			return;
+		}
 		XHROI[] xhrois = new XHROI[numberOfRois];
 		int useableRegion = upperChannel - (lowerChannel - 1); // Inclusive of the first
 		int increment = useableRegion / numberOfRois;
 		int start = lowerChannel;
 		for (int i = 0; i < numberOfRois; i++) {
-			XHROI xhroi = new XHROI(Integer.toString(i));
+			XHROI xhroi = new XHROI("ROI_" + i);
 			xhroi.setLowerLevel(start);
 			xhroi.setUpperLevel(start + increment - 1);
 			xhrois[i] = xhroi;
@@ -1018,41 +1036,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		}
 	}
 
-	private void loadExcludedStrips() {
-		PropertiesConfiguration store;
-		try {
-			store = new PropertiesConfiguration(getStoreFileName());
-			String[] excludedStripsArray = store.getStringArray(EXCLUDED_STRIPS_PROPERTY);
-			if (excludedStripsArray.length == 0) {
-				excludedStrips = new int[] {};
-				return;
-			}
-			// String[] excludedStripsArray = excludedStripsProp.split(",");
-			excludedStrips = new int[excludedStripsArray.length];
-			for (int i = 0; i < excludedStripsArray.length; i++) {
-				if (!excludedStripsArray[i].isEmpty()) {
-					excludedStrips[i] = Integer.parseInt(excludedStripsArray[i]);
-				}
-			}
-		} catch (ConfigurationException e) {
-			excludedStrips = new int[] {};
-		}
-	}
-
-	private void saveExcludedStrips() {
-		PropertiesConfiguration store;
-		try {
-			store = new PropertiesConfiguration(getStoreFileName());
-			String excludedStripsString = "";
-			for (int i = 0; i < excludedStrips.length; i++) {
-				excludedStripsString += excludedStrips[i] + ",";
-			}
-			excludedStripsString = excludedStripsString.substring(0, excludedStripsString.length() - 1);
-			store.setProperty(EXCLUDED_STRIPS_PROPERTY, excludedStripsString);
-			store.save();
-		} catch (ConfigurationException e) {
-		}
-	}
 
 	@Override
 	public void setLowerChannel(int channel) {
@@ -1078,8 +1061,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 	@Override
 	public void setBias(Double biasVoltage) throws DeviceException {
-		// TODO what should be the volatge upper limit?
-		if (biasVoltage < 0.0 || biasVoltage > 10000) {
+		if (biasVoltage < getMinBias() | biasVoltage > getMaxBias()) {
 			throw new DeviceException("Bias volatge of " + biasVoltage + " is unacceptable.");
 		}
 
@@ -1090,7 +1072,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			daServer.sendCommand("xstrip hv enable " + detectorName);
 		}
 		daServer.sendCommand("xstrip hv set-dac " + detectorName + " " + biasVoltage);
-
 	}
 
 	@Override
@@ -1099,24 +1080,59 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	}
 
 	@Override
-	public void setExcludedStrips(int[] excludedStrips) throws DeviceException {
+	public void setExcludedStrips(Integer[] excludedStrips) throws DeviceException {
 		this.excludedStrips = excludedStrips;
 		saveExcludedStrips();
 	}
 
+	private void saveExcludedStrips() {
+		PropertiesConfiguration store;
+		try {
+			store = new PropertiesConfiguration(getStoreFileName());
+			store.setProperty(EXCLUDED_STRIPS_PROPERTY, DataHelper.toString(excludedStrips));
+			store.save();
+		} catch (ConfigurationException e) {
+		}
+	}
+
 	@Override
-	public int[] getExcludedStrips() {
+	public Integer[] getExcludedStrips() {
 		return excludedStrips;
+	}
+
+	private void loadExcludedStrips(){
+		PropertiesConfiguration store;
+		try {
+			store = new PropertiesConfiguration(getStoreFileName());
+			String[] excludedStripsArray = store.getStringArray(EXCLUDED_STRIPS_PROPERTY);
+			if (excludedStripsArray.length == 0){
+				excludedStrips = new Integer[]{};
+				return;
+			}
+
+			excludedStrips = new Integer[excludedStripsArray.length];
+			for (int i = 0; i < excludedStripsArray.length; i++) {
+				// TODO Review and find a generic way to convert index to value
+				excludedStrips[i] = STRIPS[Integer.parseInt(excludedStripsArray[i]) - START_STRIP];
+			}
+		} catch (ConfigurationException e) {
+			excludedStrips = new Integer[]{};
+		}
+	}
+
+
+	public static Integer[] getStrips() {
+		return STRIPS;
 	}
 
 	@Override
 	public Double getMaxBias() {
-		return 137.0;
+		return MAX_BIAS_VOLTAGE;
 	}
 
 	@Override
 	public Double getMinBias() {
-		return 1.0;
+		return MIN_BIAS_VOLTAGE;
 	}
 
 	@Override

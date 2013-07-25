@@ -20,6 +20,7 @@ package uk.ac.gda.exafs.ui.data;
 
 import gda.device.EnumPositioner;
 import gda.device.Scannable;
+import gda.observable.IObserver;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -50,9 +51,10 @@ public class UIHelper {
 	public static enum UIMotorControl {ROTATION, POSITION, ENUM}
 
 	// TODO Add flag for horizontal fill
-	public static void createMotorViewer(FormToolkit toolkit, Composite parent, ScannableSetup scannable, UIMotorControl control) {
+	public static void createMotorViewer(FormToolkit toolkit, Composite parent, ScannableSetup scannable, UIMotorControl control, IObserver moveObserver) {
 		try {
 			final Scannable theScannable = scannable.getScannable();
+			theScannable.addIObserver(moveObserver);
 			// TODO Should not set values when out of focus and also setting the decimal places
 			if (control == UIMotorControl.ROTATION) {
 				RotationViewer rotationViewer = new RotationViewer(theScannable, "", false);
@@ -64,6 +66,7 @@ public class UIHelper {
 				scannable.setUiViewer(rotationViewer);
 			} else if (control == UIMotorControl.POSITION) {
 				MotorPositionViewer motorPositionViewer = new MotorPositionViewer(parent, theScannable, null, true);
+				motorPositionViewer.setRestoreValueWhenFocusLost(true);
 				scannable.setUiViewer(motorPositionViewer);
 			} else {
 				if (theScannable instanceof EnumPositioner) {

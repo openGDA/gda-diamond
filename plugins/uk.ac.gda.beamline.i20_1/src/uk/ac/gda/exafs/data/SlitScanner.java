@@ -119,11 +119,11 @@ public class SlitScanner extends ObservableModel implements IObserver {
 
 	private String buildScanCommand() {
 		double integrationTimeInS = ((double) integrationTime) / ClientConfig.KILO_UNIT;
-		return String.format("xh.loadParameters(EdeScanParameters.createSingleFrameScan(%f));scan %s %f %f %f %s %f %s", integrationTimeInS, ScannableSetup.SLIT_3_HORIZONAL_OFFSET.getScannableName(), fromOffset, toOffset, step, ScannableSetup.SLIT_3_HORIZONAL_GAP.getScannableName(), gap, DetectorConfig.INSTANCE.getCurrentDetectorSetup().getDetectorName());
+		return String.format("xh.loadParameters(EdeScanParameters.createSingleFrameScan(%f));scan %s %f %f %f %s %f %s", integrationTimeInS, ScannableSetup.SLIT_3_HORIZONAL_OFFSET.getScannableName(), fromOffset, toOffset, step, ScannableSetup.SLIT_3_HORIZONAL_GAP.getScannableName(), gap, DetectorConfig.INSTANCE.getCurrentDetector().getName());
 	}
 
 	public void doScan() throws DetectorUnavailableException {
-		if (DetectorConfig.INSTANCE.getCurrentDetectorSetup() == null) {
+		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
 		InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
