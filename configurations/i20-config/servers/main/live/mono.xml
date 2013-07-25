@@ -91,7 +91,7 @@
 	</bean>
 
 	<bean id="crystal1_pitch" class="gda.device.scannable.Crystal1PitchScannable">
-		<property name="protectionLevel" value="3" />
+		<property name="protectionLevel" value="1" />
 		<property name="motor" ref="crystal1_pitch_motor" />
 	</bean>
 	<bean id="crystal2_roll" class="gda.device.scannable.ScannableMotor">
