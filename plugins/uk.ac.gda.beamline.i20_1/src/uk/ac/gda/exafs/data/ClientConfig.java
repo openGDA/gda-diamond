@@ -21,7 +21,6 @@ package uk.ac.gda.exafs.data;
 import gda.device.Scannable;
 import gda.factory.Finder;
 
-import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,13 +29,10 @@ public class ClientConfig {
 	public static final int KILO_UNIT = 1000;
 	public static final int DEFAULT_DECIMAL_PLACE = 2;
 
-	private ClientConfig() {
-	}
-
-	private static final DecimalFormat df = new DecimalFormat("#0.000");
+	private ClientConfig() {}
 
 	public static String roundDoubletoString(double value) {
-		return df.format(value);
+		return String.format("%." + DEFAULT_DECIMAL_PLACE + "f", value);
 	}
 
 	public enum UnitSetup {
