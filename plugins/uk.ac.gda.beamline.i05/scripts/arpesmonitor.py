@@ -21,5 +21,6 @@ class ARPESMonitor:
     def stop(self):
         self.scienta.getAdBase().stopAcquiring()
         self.scienta.getAdBase().setImageMode(0)
+        self.scienta.zeroSupplies()
         
 #am=ARPESMonitor()

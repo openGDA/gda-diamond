@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-
+<!-- 
 	<bean
 		class="gda.device.scannable.DummyUnitsScannable" id="analyser_slit">
 		<property name="name" value="analyser_slit" />
@@ -9,4 +9,5 @@
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
 		<property name="protectionLevel" value="3" />
 	</bean>
+-->
 </beans>
