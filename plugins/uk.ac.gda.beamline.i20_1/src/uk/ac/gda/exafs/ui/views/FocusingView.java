@@ -228,7 +228,7 @@ public class FocusingView extends ViewPart {
 				});
 		ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.RIGHT);
 
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.addUnitSuffixForLabel("From Offset"), SWT.NONE);
+		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.addUnitSuffixForLabel("From"), SWT.NONE);
 		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
 		// TODO Load from saved value
@@ -251,7 +251,7 @@ public class FocusingView extends ViewPart {
 				}, null);
 		ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.RIGHT);
 
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.addUnitSuffixForLabel("To Offset"), SWT.NONE);
+		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.addUnitSuffixForLabel("To"), SWT.NONE);
 		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
 		final Spinner spnToOffset = new Spinner(slitsParametersSelectionComposite, SWT.BORDER);

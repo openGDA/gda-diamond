@@ -807,8 +807,8 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 				// TODO Check if this value is correct
 				// FIXME Conversion shouldn't not be done in this UI section
-				lblDetectorDistanceSuggestion.setText(ClientConfig.roundDoubletoString(results.getDetectorDistance() * 1000)); // Convert to mm
-				lblDetectorHeightSuggestion.setText(ClientConfig.roundDoubletoString(results.getDetectorHeight())); // FIXME Why not convert for this one?
+				lblDetectorDistanceSuggestion.setText(ScannableSetup.DETECTOR_DISTANCE.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getDetectorDistance() * 1000))); // Convert to mm
+				lblDetectorHeightSuggestion.setText(ScannableSetup.DETECTOR_HEIGHT.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getDetectorHeight()))); // FIXME Why not convert for this one?
 
 				lblAtn1Suggestion.setText(results.getAtn1().toString());
 				lblAtn2Suggestion.setText(results.getAtn2().toString());

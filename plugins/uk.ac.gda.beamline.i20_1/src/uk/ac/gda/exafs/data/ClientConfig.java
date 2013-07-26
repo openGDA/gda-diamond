@@ -117,7 +117,7 @@ public class ClientConfig {
 
 		SAMPLE_Z_POSITION("Sample z", "sample_z", UnitSetup.MILLI_METER),
 
-		SLIT_1_HORIZONAL_GAP("Primary Slit Hgap", "s1_hgap", UnitSetup.MILLI_RADIAN),
+		SLIT_1_HORIZONAL_GAP("Primary slit hgap", "s1_hgap", UnitSetup.MILLI_RADIAN),
 
 		ATN1 ("ATN 1", "atn1", UnitSetup.SELECTION),
 		ATN2 ("ATN 2", "atn2", UnitSetup.SELECTION),
@@ -130,13 +130,13 @@ public class ClientConfig {
 		POLY_BRAGG ("Bragg", "polytheta", UnitSetup.DEGREE),
 		ARM_2_THETA_ANGLE ("Arm 2theta", "twotheta", UnitSetup.DEGREE),
 
-		DETECTOR_HEIGHT ("height", "detector_y", UnitSetup.MILLI_METER),
-		DETECTOR_DISTANCE ("distance", "detector_z", UnitSetup.MILLI_METER),
+		DETECTOR_HEIGHT ("Detector height", "detector_y", UnitSetup.MILLI_METER),
+		DETECTOR_DISTANCE ("Detector distance", "detector_z", UnitSetup.MILLI_METER),
 
 		POLY_CURVATURE("Curvature", "polycurve", UnitSetup.MILLI_METER),
 		POLY_Y_ELLIPTICITY("Ellipticity","polyyellip", UnitSetup.MILLI_METER),
 
-		SLIT_3_HORIZONAL_GAP("Slit HGap", "s3_hgap", UnitSetup.MILLI_METER),
+		SLIT_3_HORIZONAL_GAP("Slit hgap", "s3_hgap", UnitSetup.MILLI_METER),
 		SLIT_3_HORIZONAL_OFFSET("Slit offset", "s3_hoffset", UnitSetup.MILLI_METER);
 
 		public static final double MAX_POWER_IN_WATT = 150.0;
