@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="file:${gda.propertiesFile}" />
+	</bean>
+
+	<bean id="objectCreators" class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+
+				<!--GDA level simulation of the Epics config file-->
+				<bean id="epicsServerXmlObjectCreatorId" class="gda.factory.SpringObjectCreator">
+					<property name="xmlFile" value="${gda.config}/xml/spring/server/I08-sim-main.xml"/>
+					<property name="name" value="${gda.factory.factoryName}"></property>
+					<property name="corbariseObjects" value="true"></property>
+				</bean>
+
+				<bean id="oeXmlObjectCreatorId" class="gda.factory.ServerXmlObjectCreator">
+					<property name="xmlFile" value="${gda.config}/xml/spring/server/I08-oe.xml"/>
+					<property name="doPropertySubstitution" value="True"/>
+					<property name="useDefaultMapping" value="False"/>
+					<property name="useDefaultSchema" value="True"/>
+					<property name="buildProxies" value="${gda.accesscontrol.useAccessControl}"/>
+					<property name="mappingFile" value="classpath:gda/factory/mapping_oe.xml"/>
+				</bean>
+
+				<bean id="jythonXmlObjectCreatorId" class="gda.factory.SpringObjectCreator">
+					<property name="xmlFile" value="${gda.config}/xml/spring/server/I08-command-server.xml"/>
+					<property name="name" value="${gda.factory.factoryName}"></property>
+					<property name="corbariseObjects" value="true"></property>
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+</beans>

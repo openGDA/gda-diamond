@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VortexParameters>
+    <detectorName>xmapMca</detectorName>
+    <tfgName>tfg</tfgName>
+    <countType>Static</countType>
+    <collectionTime>1000.0</collectionTime>
+    <DetectorElement>
+        <name>Element0</name>
+        <number>1</number>
+        <ROI>
+            <name>Zn_Ka</name>
+            <windowStart>844</windowStart>
+            <windowEnd>885</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Si_Ka</name>
+            <windowStart>156</windowStart>
+            <windowEnd>193</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Ni_Ka</name>
+            <windowStart>730</windowStart>
+            <windowEnd>760</windowEnd>
+        </ROI>
+        <ROI>
+            <name>S Ka</name>
+            <windowStart>215</windowStart>
+            <windowEnd>245</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>246</windowStart>
+            <windowEnd>273</windowEnd>
+        </ROI>
+        <ROI>
+            <name>P Ka</name>
+            <windowStart>185</windowStart>
+            <windowEnd>215</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Fe Ka</name>
+            <windowStart>615</windowStart>
+            <windowEnd>669</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cu Ka</name>
+            <windowStart>784</windowStart>
+            <windowEnd>827</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Ca Ka</name>
+            <windowStart>351</windowStart>
+            <windowEnd>386</windowEnd>
+        </ROI>
+        <ROI>
+            <name>K Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>350</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Mn Ka</name>
+            <windowStart>568</windowStart>
+            <windowEnd>608</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element1</name>
+        <number>1</number>
+        <ROI>
+            <name>Zn_Ka</name>
+            <windowStart>844</windowStart>
+            <windowEnd>885</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Si_Ka</name>
+            <windowStart>156</windowStart>
+            <windowEnd>193</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Ni_Ka</name>
+            <windowStart>730</windowStart>
+            <windowEnd>760</windowEnd>
+        </ROI>
+        <ROI>
+            <name>S Ka</name>
+            <windowStart>215</windowStart>
+            <windowEnd>245</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>246</windowStart>
+            <windowEnd>273</windowEnd>
+        </ROI>
+        <ROI>
+            <name>P Ka</name>
+            <windowStart>185</windowStart>
+            <windowEnd>215</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Fe Ka</name>
+            <windowStart>615</windowStart>
+            <windowEnd>669</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cu Ka</name>
+            <windowStart>784</windowStart>
+            <windowEnd>827</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Ca Ka</name>
+            <windowStart>351</windowStart>
+            <windowEnd>386</windowEnd>
+        </ROI>
+        <ROI>
+            <name>K Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>350</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Mn Ka</name>
+            <windowStart>568</windowStart>
+            <windowEnd>608</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element2</name>
+        <number>1</number>
+        <ROI>
+            <name>Zn_Ka</name>
+            <windowStart>844</windowStart>
+            <windowEnd>885</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Si_Ka</name>
+            <windowStart>156</windowStart>
+            <windowEnd>193</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Ni_Ka</name>
+            <windowStart>730</windowStart>
+            <windowEnd>760</windowEnd>
+        </ROI>
+        <ROI>
+            <name>S Ka</name>
+            <windowStart>215</windowStart>
+            <windowEnd>245</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>246</windowStart>
+            <windowEnd>273</windowEnd>
+        </ROI>
+        <ROI>
+            <name>P Ka</name>
+            <windowStart>185</windowStart>
+            <windowEnd>215</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Fe Ka</name>
+            <windowStart>615</windowStart>
+            <windowEnd>669</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cu Ka</name>
+            <windowStart>784</windowStart>
+            <windowEnd>827</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Ca Ka</name>
+            <windowStart>351</windowStart>
+            <windowEnd>386</windowEnd>
+        </ROI>
+        <ROI>
+            <name>K Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>350</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Mn Ka</name>
+            <windowStart>568</windowStart>
+            <windowEnd>608</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element3</name>
+        <number>1</number>
+        <ROI>
+            <name>Zn_Ka</name>
+            <windowStart>844</windowStart>
+            <windowEnd>885</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Si_Ka</name>
+            <windowStart>156</windowStart>
+            <windowEnd>193</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Ni_Ka</name>
+            <windowStart>730</windowStart>
+            <windowEnd>760</windowEnd>
+        </ROI>
+        <ROI>
+            <name>S Ka</name>
+            <windowStart>215</windowStart>
+            <windowEnd>245</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>246</windowStart>
+            <windowEnd>273</windowEnd>
+        </ROI>
+        <ROI>
+            <name>P Ka</name>
+            <windowStart>185</windowStart>
+            <windowEnd>215</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Fe Ka</name>
+            <windowStart>615</windowStart>
+            <windowEnd>669</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cu Ka</name>
+            <windowStart>784</windowStart>
+            <windowEnd>827</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Ca Ka</name>
+            <windowStart>351</windowStart>
+            <windowEnd>386</windowEnd>
+        </ROI>
+        <ROI>
+            <name>K Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>350</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Mn Ka</name>
+            <windowStart>568</windowStart>
+            <windowEnd>608</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <saveRawSpectrum>false</saveRawSpectrum>
+</VortexParameters>
