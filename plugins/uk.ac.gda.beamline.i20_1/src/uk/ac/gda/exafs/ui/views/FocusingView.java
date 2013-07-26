@@ -68,8 +68,8 @@ public class FocusingView extends ViewPart {
 
 	public static String ID = "uk.ac.gda.exafs.ui.views.focusingview";
 
-	private static final int MAX_DECIMAL_PLACE = 2;
-	private static final int SPINNER_INCREMENT = (int) Math.pow(10, MAX_DECIMAL_PLACE);
+
+	private static final int SPINNER_INCREMENT = (int) Math.pow(10, ClientConfig.DEFAULT_DECIMAL_PLACE);
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 	private FormToolkit toolkit;
@@ -128,11 +128,11 @@ public class FocusingView extends ViewPart {
 		bendSelectionComposite.setLayout(new GridLayout(2, false));
 		bendSection.setClient(bendSelectionComposite);
 
-		Label lblBend1Name = toolkit.createLabel(bendSelectionComposite, ScannableSetup.POLY_BENDER_1.getLabelForUI(), SWT.NONE);
+		Label lblBend1Name = toolkit.createLabel(bendSelectionComposite, ScannableSetup.POLY_BENDER_1.getLabel(), SWT.NONE);
 		lblBend1Name.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		UIHelper.createMotorViewer(toolkit, bendSelectionComposite, ScannableSetup.POLY_BENDER_1, UIMotorControl.ROTATION, moveObserver);
 
-		Label lblBend2Name = toolkit.createLabel(bendSelectionComposite, ScannableSetup.POLY_BENDER_2.getLabelForUI(), SWT.NONE);
+		Label lblBend2Name = toolkit.createLabel(bendSelectionComposite, ScannableSetup.POLY_BENDER_2.getLabel(), SWT.NONE);
 		lblBend2Name.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		UIHelper.createMotorViewer(toolkit, bendSelectionComposite, ScannableSetup.POLY_BENDER_2, UIMotorControl.ROTATION, moveObserver);
 
@@ -153,11 +153,11 @@ public class FocusingView extends ViewPart {
 		curvatureSelectionComposite.setLayout(new GridLayout(2, false));
 		curvatureSection.setClient(curvatureSelectionComposite);
 
-		Label lblCurvature = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_CURVATURE.getLabelForUI(), SWT.NONE);
+		Label lblCurvature = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_CURVATURE.getLabel(), SWT.NONE);
 		lblCurvature.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		UIHelper.createMotorViewer(toolkit, curvatureSelectionComposite, ScannableSetup.POLY_CURVATURE, UIMotorControl.ROTATION, moveObserver);
 
-		Label lblEllipticity = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_Y_ELLIPTICITY.getLabelForUI(), SWT.NONE);
+		Label lblEllipticity = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_Y_ELLIPTICITY.getLabel(), SWT.NONE);
 		lblEllipticity.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		UIHelper.createMotorViewer(toolkit, curvatureSelectionComposite, ScannableSetup.POLY_Y_ELLIPTICITY, UIMotorControl.ROTATION, moveObserver);
 
@@ -178,7 +178,7 @@ public class FocusingView extends ViewPart {
 		sampleZSelectionComposite.setLayout(new GridLayout(2, false));
 		sampleZSection.setClient(sampleZSelectionComposite);
 
-		Label lblSampleZ = toolkit.createLabel(sampleZSelectionComposite, ScannableSetup.SAMPLE_Z_POSITION.getLabelForUI(), SWT.NONE);
+		Label lblSampleZ = toolkit.createLabel(sampleZSelectionComposite, ScannableSetup.SAMPLE_Z_POSITION.getLabel(), SWT.NONE);
 		lblSampleZ.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		UIHelper.createMotorViewer(toolkit, sampleZSelectionComposite, ScannableSetup.SAMPLE_Z_POSITION, UIMotorControl.POSITION, moveObserver);
 
@@ -233,7 +233,7 @@ public class FocusingView extends ViewPart {
 
 		// TODO Load from saved value
 		final Spinner spnFromOffset = new Spinner(slitsParametersSelectionComposite, SWT.BORDER);
-		spnFromOffset.setDigits(MAX_DECIMAL_PLACE);
+		spnFromOffset.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		spnFromOffset.setIncrement(SPINNER_INCREMENT);
 		spnFromOffset.setMaximum((int) SlitScanner.MAX_OFFSET * SPINNER_INCREMENT);
 		spnFromOffset.setMinimum((int) SlitScanner.MIN_OFFSET * SPINNER_INCREMENT);
@@ -255,7 +255,7 @@ public class FocusingView extends ViewPart {
 		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
 		final Spinner spnToOffset = new Spinner(slitsParametersSelectionComposite, SWT.BORDER);
-		spnToOffset.setDigits(MAX_DECIMAL_PLACE);
+		spnToOffset.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		spnToOffset.setIncrement(SPINNER_INCREMENT);
 		spnToOffset.setMaximum((int) SlitScanner.MAX_OFFSET * SPINNER_INCREMENT);
 		spnToOffset.setMinimum((int) SlitScanner.MIN_OFFSET * SPINNER_INCREMENT);
@@ -369,14 +369,10 @@ public class FocusingView extends ViewPart {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(slitsParametersSection),
-				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME),
-				null,
-				null);
+				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
 	}
 
 	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-	}
+	public void setFocus() {}
 
 }

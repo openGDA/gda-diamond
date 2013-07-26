@@ -18,7 +18,11 @@
 
 package uk.ac.gda.exafs.ui.sections;
 
+import gda.device.DeviceException;
+import gda.device.detector.XCHIPDetector;
+
 import java.util.Arrays;
+import java.util.Map;
 
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -35,12 +39,15 @@ import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -50,12 +57,17 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
+import org.eclipse.ui.forms.widgets.TableWrapData;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorConfig;
+import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class DetectorSetupDialog extends TitleAreaDialog {
 
@@ -70,7 +82,6 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 	private final String biasErrorMessage = "Voltage not in range. Enter input between " + DetectorConfig.INSTANCE.getCurrentDetector().getMinBias() + " and " + DetectorConfig.INSTANCE.getCurrentDetector().getMaxBias() + ".";
 	private final String detectorInputMessage = "Edit details for " + DetectorConfig.INSTANCE.getCurrentDetector().getName() + " detector.";
 
-	private Text txtTempserature;
 	public DetectorSetupDialog(Shell parentShell) {
 		super(parentShell);
 	}
@@ -109,17 +120,52 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 		txtExcludedStrips.addListener(SWT.MouseUp, excludedStripsTxtListener);
 		txtExcludedStrips.addListener(SWT.KeyUp, excludedStripsTxtListener);
 
+		createTemperatureTable(selectionComposite);
+		bindingValues();
+		return selectionComposite;
+	}
+
+	private void createTemperatureTable(Composite selectionComposite) {
 		Label lblTemperature = new Label(selectionComposite, SWT.NONE);
 		lblTemperature.setText("Temperature:");
 		lblTemperature.setLayoutData(new GridData(GridData.BEGINNING, GridData.BEGINNING, false, false));
 
-		txtTempserature = new Text(selectionComposite, SWT.NONE);
-		txtTempserature.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
-		txtTempserature.setEditable(false);
-		txtTempserature.setEnabled(false);
+		final Composite temperatureSelectionComposite = new Composite(selectionComposite, SWT.NONE);
+		temperatureSelectionComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
+		final TableColumnLayout layout = new TableColumnLayout();
+		temperatureSelectionComposite.setLayout(layout);
 
-		bindingValues();
-		return selectionComposite;
+		final Table temperatureTable = new Table(temperatureSelectionComposite, SWT.NONE);
+		temperatureTable.setLinesVisible (true);
+		temperatureTable.setHeaderVisible (true);
+		temperatureTable.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		Map<String, Double> temperatureValues;
+		Cursor cursor = null;
+		try {
+			// TODO Create generic wait
+			cursor = Display.getDefault().getActiveShell().getCursor();
+			Cursor waitCursor = Display.getDefault().getSystemCursor(SWT.CURSOR_WAIT);
+			Display.getDefault().getActiveShell().setCursor(waitCursor);
+			temperatureValues = ((XCHIPDetector) DetectorConfig.INSTANCE.getCurrentDetector()).getTemperatures();
+			if (!temperatureValues.isEmpty()) {
+				int weight = 100 / temperatureValues.size();
+				String[] values = new String[temperatureValues.size()];
+				int i = 0;
+				for (Map.Entry<String,Double> entry : temperatureValues.entrySet()) {
+					TableColumn column = new TableColumn (temperatureTable, SWT.NONE);
+					layout.setColumnData(column, new ColumnWeightData(weight));
+					column.setText(entry.getKey());
+					values[i++] = Double.toString(entry.getValue());
+				}
+				TableItem item = new TableItem (temperatureTable, SWT.NONE);
+				item.setText(values);
+			}
+		} catch (DeviceException e) {
+			UIHelper.showError("Unable to show temperature readings", e.getMessage());
+		} finally {
+			Display.getDefault().getActiveShell().setCursor(cursor);
+		}
 	}
 
 	private void bindingValues() {
@@ -230,7 +276,6 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 
 	@Override
 	protected void okPressed() {
-		//dataBindingCtx.updateModels();
 		bindExcludedStrips.updateTargetToModel();
 		bindTxtBiasVoltage.updateTargetToModel();
 		disposeBinding();

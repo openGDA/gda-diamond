@@ -66,11 +66,12 @@ public class AlignmentParametersBean implements Serializable {
 	private Double arm2Theta = null; // deg, 2*bragg [fixed]
 	private Double detectorDistance = null; // m
 	private Double detectorHeight = null; // mm
-	private Double sampleHeight = null; // mm
 
 	private String atn1 = null;
 	private String atn2 = null;
 	private String atn3 = null;
+
+	private Double energyBandwidth = null; // eV  This is Delta-E.
 
 	private Double power = null; // W
 
@@ -248,12 +249,12 @@ public class AlignmentParametersBean implements Serializable {
 		this.detectorHeight = detectorHeight;
 	}
 
-	public Double getSampleHeight() {
-		return sampleHeight;
+	public Double getEnergyBandwidth() {
+		return energyBandwidth;
 	}
 
-	public void setSampleHeight(Double sampleHeight) {
-		this.sampleHeight = sampleHeight;
+	public void setEnergyBandwidth(Double energyBandwidth) {
+		this.energyBandwidth = energyBandwidth;
 	}
 
 	@Override
@@ -279,7 +280,7 @@ public class AlignmentParametersBean implements Serializable {
 		result = prime * result + ((power == null) ? 0 : power.hashCode());
 		result = prime * result + ((primarySlitGap == null) ? 0 : primarySlitGap.hashCode());
 		result = prime * result + ((q == null) ? 0 : q.hashCode());
-		result = prime * result + ((sampleHeight == null) ? 0 : sampleHeight.hashCode());
+		result = prime * result + ((energyBandwidth == null) ? 0 : energyBandwidth.hashCode());
 		result = prime * result + ((wigglerGap == null) ? 0 : wigglerGap.hashCode());
 		return result;
 	}
@@ -429,11 +430,11 @@ public class AlignmentParametersBean implements Serializable {
 		} else if (!q.equals(other.q)) {
 			return false;
 		}
-		if (sampleHeight == null) {
-			if (other.sampleHeight != null) {
+		if (energyBandwidth == null) {
+			if (other.energyBandwidth != null) {
 				return false;
 			}
-		} else if (!sampleHeight.equals(other.sampleHeight)) {
+		} else if (!energyBandwidth.equals(other.energyBandwidth)) {
 			return false;
 		}
 		if (wigglerGap == null) {

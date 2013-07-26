@@ -21,15 +21,12 @@ package uk.ac.gda.exafs.ui.views;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.StripDetector;
-import gda.device.detector.XCHIPDetector;
 import gda.device.scannable.ScannableStatus;
 import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
 import gda.util.exafs.AbsorptionEdge;
 import gda.util.exafs.Element;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -51,9 +48,7 @@ import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -72,11 +67,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -113,7 +103,7 @@ import uk.ac.gda.ui.viewer.RotationViewer;
  */
 public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySheetPageContributor {
 
-	private static final int POWER_LABEL_WIDTH = 50;
+	private static final int READ_ONLY_LABEL_WIDTH = 50;
 	private static final int LABEL_WIDTH = 120;
 	private static final int SUGGESTION_LABEL_WIDTH = 90;
 	private static final int COMMAND_WAIT_TIME_IN_MILLI_SEC = 250;
@@ -154,7 +144,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	private Label lblArm2ThetaAngleSuggestion;
 	private Label lblDetectorHeightSuggestion;
 	private Label lblDetectorDistanceSuggestion;
-	private FormText labelTemperatureValue;
+	private FormText labelPowerEstimateValue;
 
 
 	private final Map<Button, Label> suggestionControls = new HashMap<Button, Label>();
@@ -232,7 +222,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		createMainControls(scrolledPolyForm.getForm());
 		createMotorControls(scrolledPolyForm.getForm());
 		createSpectrumControls(scrolledPolyForm.getForm());
-		createTempratureSection(scrolledPolyForm.getForm());
 		updateElementEdgeSelection();
 	}
 
@@ -583,21 +572,21 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		suggestionControls.put(applyButton, lblArm2ThetaAngleSuggestion);
 		UIHelper.createMotorViewer(toolkit, motorSelectionComposite, ScannableSetup.ARM_2_THETA_ANGLE, UIMotorControl.ROTATION, moveObserver);
 
-		Label labelTemperature = toolkit.createLabel(motorSelectionComposite, "Estimated power is: ");
-		labelTemperature.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
-		labelTemperatureValue = toolkit.createFormText(motorSelectionComposite, false);
-		labelTemperatureValue.setText(getPowerFormatedString(""), true, false);
+		Label lblPowerEstimate = toolkit.createLabel(motorSelectionComposite, "Estimated power is: ");
+		lblPowerEstimate.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
+		labelPowerEstimateValue = toolkit.createFormText(motorSelectionComposite, false);
+		labelPowerEstimateValue.setText(getHighlightedFormatedString(""), true, false);
 		gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		gridData.horizontalSpan = 3;
-		gridData.widthHint = POWER_LABEL_WIDTH;
-		labelTemperatureValue.setLayoutData(gridData);
+		gridData.widthHint = READ_ONLY_LABEL_WIDTH;
+		labelPowerEstimateValue.setLayoutData(gridData);
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(motorSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
 		motorSection.setSeparatorControl(defaultSectionSeparator);
 	}
 
-	private String getPowerFormatedString(String value) {
+	private String getHighlightedFormatedString(String value) {
 		return String.format("<form><p><b>%s</b></p></form>", value);
 	}
 
@@ -687,6 +676,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	}
 
 	private boolean powerWarningDialogShown = false;
+	private FormText labelDeltaEValue;
 
 	private void reportPowerEst(Double powerValue) {
 		if (powerValue > ScannableSetup.MAX_POWER_IN_WATT) {
@@ -695,11 +685,11 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				UIHelper.showWarning("Power is above the maximum expected for operation", "Estimated power is " + value);
 			}
 			scrolledPolyForm.getForm().setMessage(value, IMessageProvider.ERROR);
-			labelTemperatureValue.setText(getPowerFormatedString("WARNING: Estimated power is " + value), true, false);
+			labelPowerEstimateValue.setText(getHighlightedFormatedString("WARNING: Estimated power is " + value), true, false);
 			powerWarningDialogShown = true;
 		} else {
 			scrolledPolyForm.getForm().setMessage("");
-			labelTemperatureValue.setText(getPowerFormatedString(""), true, false);
+			labelPowerEstimateValue.setText(getHighlightedFormatedString(""), true, false);
 			powerWarningDialogShown = false;
 		}
 	}
@@ -776,6 +766,15 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		suggestionControls.put(applyButton, lblDetectorDistanceSuggestion);
 		UIHelper.createMotorViewer(toolkit, spectrumSelectionComposite, ScannableSetup.DETECTOR_DISTANCE, UIMotorControl.POSITION, moveObserver);
 
+		Label lblDeltaE = toolkit.createLabel(spectrumSelectionComposite, "Energy Bandwidth is: ");
+		lblDeltaE.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
+		labelDeltaEValue = toolkit.createFormText(spectrumSelectionComposite, false);
+		labelDeltaEValue.setText(getHighlightedFormatedString(""), true, false);
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gridData.horizontalSpan = 3;
+		gridData.widthHint = READ_ONLY_LABEL_WIDTH;
+		labelDeltaEValue.setLayoutData(gridData);
+
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(spectrumSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
 		spectrumSection.setSeparatorControl(defaultSectionSeparator);
@@ -816,86 +815,14 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				lblAtn3Suggestion.setText(results.getAtn3().toString());
 
 				reportPowerEst(results.getPower());
-			}
-		});
-	}
 
-	@SuppressWarnings({ "unused", "static-access" })
-	private void createTempratureSection(Form form) {
-		final Section temperatureSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		temperatureSection.setText("Temperature");
-		temperatureSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		final Composite temperatureSelectionComposite = toolkit.createComposite(temperatureSection, SWT.NONE);
-		toolkit.paintBordersFor(temperatureSelectionComposite);
-		final TableColumnLayout layout = new TableColumnLayout();
-		temperatureSelectionComposite.setLayout(layout);
-		temperatureSection.setClient(temperatureSelectionComposite);
-
-
-		ToolBar temperatureSectionTbar = new ToolBar(temperatureSection, SWT.FLAT | SWT.HORIZONTAL);
-		new ToolItem(temperatureSectionTbar, SWT.SEPARATOR);
-		ToolItem refreshTemperatureTBarItem = new ToolItem(temperatureSectionTbar, SWT.NULL);
-		refreshTemperatureTBarItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ELCL_SYNCED));
-		refreshTemperatureTBarItem.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				createTempTable(temperatureSelectionComposite, layout);
-				temperatureSection.layout();
-			}
-		});
-		temperatureSection.setTextClient(temperatureSectionTbar);
-		temperatureSection.setEnabled(true);
-		createTempTable(temperatureSelectionComposite, layout);
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(temperatureSection),
-				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(refreshTemperatureTBarItem),
-				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
-
-		DetectorConfig.INSTANCE.addPropertyChangeListener(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if ((boolean) evt.getNewValue()) {
-					createTempTable(temperatureSelectionComposite, layout);
-					temperatureSection.layout(true);
+				if (results.getEnergyBandwidth() > 0) {
+					labelDeltaEValue.setText(getHighlightedFormatedString(UnitSetup.EV.addUnitSuffix(results.getEnergyBandwidth().toString())), true, false);
+				} else {
+					labelDeltaEValue.setText("", false, false);
 				}
 			}
 		});
-	}
-
-	private Table temperatureTable;
-
-	private void createTempTable(Composite parent, TableColumnLayout layout) {
-		if (temperatureTable != null && !temperatureTable.isDisposed()) {
-			temperatureTable.dispose();
-			temperatureTable = null;
-		}
-		temperatureTable = toolkit.createTable(parent, SWT.NONE);
-		temperatureTable.setLinesVisible (true);
-		temperatureTable.setHeaderVisible (true);
-		temperatureTable.setLayoutData(new TableWrapData());
-		// TODO Refactor to allow ccd
-		Map<String, Double> temperatureValues;
-		try {
-			temperatureValues = ((XCHIPDetector) DetectorConfig.INSTANCE.getCurrentDetector()).getTemperatures();
-			if (!temperatureValues.isEmpty()) {
-				int weight = 100 / temperatureValues.size();
-				String[] values = new String[temperatureValues.size()];
-				int i = 0;
-				for (Map.Entry<String,Double> entry : temperatureValues.entrySet()) {
-					TableColumn column = new TableColumn (temperatureTable, SWT.NONE);
-					layout.setColumnData(column, new ColumnWeightData(weight));
-					column.setText(entry.getKey());
-					values[i++] = Double.toString(entry.getValue());
-				}
-				TableItem item = new TableItem (temperatureTable, SWT.NONE);
-				item.setText(values);
-			}
-		} catch (DeviceException e) {
-			UIHelper.showError("Unable to show temperature readings", e.getMessage());
-		}
 	}
 
 	@Override

@@ -55,7 +55,6 @@ public class UIHelper {
 		try {
 			final Scannable theScannable = scannable.getScannable();
 			theScannable.addIObserver(moveObserver);
-			// TODO Should not set values when out of focus and also setting the decimal places
 			if (control == UIMotorControl.ROTATION) {
 				RotationViewer rotationViewer = new RotationViewer(theScannable, "", false);
 				rotationViewer.configureStandardStep(DEFAULT_STEP);
@@ -63,6 +62,7 @@ public class UIHelper {
 				GridLayoutFactory rotationGroupLayoutFactory = GridLayoutFactory.swtDefaults().numColumns(3).spacing(0, 0).margins(0, 0);
 				GridLayoutFactory layoutFactory = GridLayoutFactory.swtDefaults().numColumns(3).spacing(0, 0);
 				rotationViewer.createControls(parent, SWT.SINGLE, true, rotationGroupLayoutFactory.create(), layoutFactory.create(), null);
+				rotationViewer.setRestoreValueWhenFocusLost(true);
 				scannable.setUiViewer(rotationViewer);
 			} else if (control == UIMotorControl.POSITION) {
 				MotorPositionViewer motorPositionViewer = new MotorPositionViewer(parent, theScannable, null, true);

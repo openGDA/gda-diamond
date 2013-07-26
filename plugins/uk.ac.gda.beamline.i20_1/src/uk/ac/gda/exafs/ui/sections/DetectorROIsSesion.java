@@ -27,6 +27,8 @@ import java.beans.PropertyChangeListener;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeansObservables;
+import org.eclipse.core.databinding.observable.list.IListChangeListener;
+import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.layout.TableColumnLayout;
@@ -278,9 +280,20 @@ public class DetectorROIsSesion {
 				WidgetProperties.enabled().observe(butRemove),
 				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
 
+		butRemove.setEnabled(DetectorConfig.INSTANCE.getRois().size() > 1);
+
+		DetectorConfig.INSTANCE.getRois().addListChangeListener(new IListChangeListener() {
+			@Override
+			public void handleListChange(ListChangeEvent event) {
+				butRemove.setEnabled(DetectorConfig.INSTANCE.getRois().size() > 1);
+			}
+		});
+
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(roisSection),
 				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
+
+
 	}
 
 	private static class RoisStripLevelEditorSupport extends EditingSupport {
