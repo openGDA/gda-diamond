@@ -689,7 +689,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			powerWarningDialogShown = true;
 		} else {
 			scrolledPolyForm.getForm().setMessage("");
-			labelPowerEstimateValue.setText(getHighlightedFormatedString(""), true, false);
+			labelPowerEstimateValue.setText(getHighlightedFormatedString(UnitSetup.WATT.addUnitSuffix(powerValue.toString())), true, false);
 			powerWarningDialogShown = false;
 		}
 	}
@@ -767,7 +767,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		UIHelper.createMotorViewer(toolkit, spectrumSelectionComposite, ScannableSetup.DETECTOR_DISTANCE, UIMotorControl.POSITION, moveObserver);
 
 		Label lblDeltaE = toolkit.createLabel(spectrumSelectionComposite, "Energy Bandwidth is: ");
-		lblDeltaE.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
+		lblDeltaE.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		labelDeltaEValue = toolkit.createFormText(spectrumSelectionComposite, false);
 		labelDeltaEValue.setText(getHighlightedFormatedString(""), true, false);
 		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
@@ -817,7 +817,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				reportPowerEst(results.getPower());
 
 				if (results.getEnergyBandwidth() > 0) {
-					labelDeltaEValue.setText(getHighlightedFormatedString(UnitSetup.EV.addUnitSuffix(results.getEnergyBandwidth().toString())), true, false);
+					labelDeltaEValue.setText(getHighlightedFormatedString(UnitSetup.EV.addUnitSuffix(ClientConfig.roundDoubletoString(results.getEnergyBandwidth()))), true, false);
 				} else {
 					labelDeltaEValue.setText("", false, false);
 				}
