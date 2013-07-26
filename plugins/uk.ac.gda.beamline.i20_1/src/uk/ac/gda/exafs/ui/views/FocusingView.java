@@ -68,8 +68,8 @@ public class FocusingView extends ViewPart {
 
 	public static String ID = "uk.ac.gda.exafs.ui.views.focusingview";
 
-	private static final int MAX_DECIMAL_PLACE = 2;
-	private static final int SPINNER_INCREMENT = (int) Math.pow(10, MAX_DECIMAL_PLACE);
+
+	private static final int SPINNER_INCREMENT = (int) Math.pow(10, ClientConfig.DEFAULT_DECIMAL_PLACE);
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 	private FormToolkit toolkit;
@@ -228,12 +228,12 @@ public class FocusingView extends ViewPart {
 				});
 		ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.RIGHT);
 
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.addUnitSuffixForLabel("From Offset"), SWT.NONE);
+		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.addUnitSuffixForLabel("From"), SWT.NONE);
 		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
 		// TODO Load from saved value
 		final Spinner spnFromOffset = new Spinner(slitsParametersSelectionComposite, SWT.BORDER);
-		spnFromOffset.setDigits(MAX_DECIMAL_PLACE);
+		spnFromOffset.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		spnFromOffset.setIncrement(SPINNER_INCREMENT);
 		spnFromOffset.setMaximum((int) SlitScanner.MAX_OFFSET * SPINNER_INCREMENT);
 		spnFromOffset.setMinimum((int) SlitScanner.MIN_OFFSET * SPINNER_INCREMENT);
@@ -251,11 +251,11 @@ public class FocusingView extends ViewPart {
 				}, null);
 		ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.RIGHT);
 
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.addUnitSuffixForLabel("To Offset"), SWT.NONE);
+		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.addUnitSuffixForLabel("To"), SWT.NONE);
 		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
 		final Spinner spnToOffset = new Spinner(slitsParametersSelectionComposite, SWT.BORDER);
-		spnToOffset.setDigits(MAX_DECIMAL_PLACE);
+		spnToOffset.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		spnToOffset.setIncrement(SPINNER_INCREMENT);
 		spnToOffset.setMaximum((int) SlitScanner.MAX_OFFSET * SPINNER_INCREMENT);
 		spnToOffset.setMinimum((int) SlitScanner.MIN_OFFSET * SPINNER_INCREMENT);
@@ -369,14 +369,10 @@ public class FocusingView extends ViewPart {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(slitsParametersSection),
-				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME),
-				null,
-				null);
+				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
 	}
 
 	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-	}
+	public void setFocus() {}
 
 }

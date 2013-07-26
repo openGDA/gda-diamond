@@ -62,13 +62,13 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		propertyLayout = layout.getViewLayout(FocusingView.ID);
 		propertyLayout.setCloseable(false);
 
-		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.45f, FocusingView.ID);
+		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.50f, FocusingView.ID);
 		topPlotFolder.addView(SPECTRAPLOTID);
 		topPlotFolder.addView(LivePlotView.ID);
 		propertyLayout = layout.getViewLayout(LivePlotView.ID);
 		propertyLayout.setCloseable(false);
-		layout.addView(DetectorSetupView.ID, IPageLayout.BOTTOM, 0.50f,TOPPLOT_FOLDER_ID);
-		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.40f,DetectorSetupView.ID);
+		layout.addView(DetectorSetupView.ID, IPageLayout.BOTTOM, 0.40f,TOPPLOT_FOLDER_ID);
+		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.22f,DetectorSetupView.ID);
 		propertyLayout = layout.getViewLayout(DetectorSetupView.ID);
 		propertyLayout.setCloseable(false);
 	}

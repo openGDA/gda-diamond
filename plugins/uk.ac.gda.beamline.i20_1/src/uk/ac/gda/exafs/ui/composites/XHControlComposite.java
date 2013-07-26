@@ -18,13 +18,10 @@
 
 package uk.ac.gda.exafs.ui.composites;
 
-import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.detector.NXDetectorData;
+import gda.device.detector.StripDetector;
 import gda.device.detector.XHDetector;
-import gda.device.detector.XHROI;
-import gda.device.detector.corba.impl.DetectorAdapter;
-import gda.jython.InterfaceProvider;
 import gda.jython.Jython;
 import gda.jython.JythonServerStatus;
 import gda.observable.IObserver;
@@ -94,19 +91,13 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	private Text txtLiveTime;
 
-	private static Detector xh;
-
-	private static Detector getDetector(){
+	private static StripDetector getDetector(){
 		return DetectorConfig.INSTANCE.getCurrentDetector();
 	}
 
 	public XHControlComposite(Composite parent, ViewPart site) {
 		super(parent, SWT.BORDER_DOT);
 		this.site = site;
-
-		InterfaceProvider.getJSFObserver().addIObserver(this);
-		getDetector().addIObserver(this);
-
 		createUI();
 	}
 
@@ -302,10 +293,6 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	}
 
-	private XHROI[] getROI() throws DeviceException {
-		return (XHROI[]) getDetector().getAttribute(XHDetector.ATTR_ROIS);
-	}
-
 	private void createActions() {
 
 		// actions are created here programmatically as then it is simpler to enable/disable them by holding that logic
@@ -480,7 +467,7 @@ public class XHControlComposite extends Composite implements IObserver {
 				@Override
 				public void run() {
 					try {
-						int numberSectors = getROI().length;
+						int numberSectors = getDetector().getRois().length;
 						allValues = new double[0];
 						regionValues = new double[numberSectors][0];
 
@@ -556,15 +543,6 @@ public class XHControlComposite extends Composite implements IObserver {
 			stop.setEnabled(canContinue);
 			snapshot.setEnabled(canContinue);
 			snapshotAndSave.setEnabled(canContinue);
-		} else if (source instanceof DetectorAdapter && arg instanceof String) {
-			if (((String) arg).equals(XHDetector.ROIS_CHANGED)) {
-				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						rebuildUI();
-					}
-				});
-			}
 		}
 	}
 }

@@ -8,6 +8,7 @@ import math
 
 from gda.util.exafs import AbsorptionEdge
 from uk.ac.gda.exafs.data import AlignmentParametersBean
+from gda.factory import Finder
 
 def calc_parameters(parametersBean):
     
@@ -192,11 +193,11 @@ def _calDetDistance(parametersBean):
 
     return parametersBean
     
-def _calcEnergyBandwith(parametersBean):
+def _calcEnergyBandwidth(parametersBean):
     
     real_det_z = _getRealDetDistanceInM()
     calc_det_z = parametersBean.getDetectorDistance()
-    energy = parametersBean.getEnergy()
+    energy = _calcEnergy(parametersBean)
     s_mm = _getDetectorSizeInMM(parametersBean)
     omega = parametersBean.getBraggAngle()
     cot_omega = 1.0 / math.tan(math.radians(omega))
@@ -209,14 +210,14 @@ def _calcEnergyBandwith(parametersBean):
         deltaE = energy * cot_omega * (s_mm/real_det_z) * (((p_m-q_m)/(2*p_m)) / 1000.)
     else :
         deltaE = energy * cot_omega * alpha_mrad * (((p_m-q_m)/(2*q_m)) / 1000.)
-    parametersBean.setEnergyBandwith(deltaE)    
+    parametersBean.setEnergyBandwidth(deltaE)
     
     return parametersBean
 
 def _calcPower(parametersBean):
     
     # TODO!
-    
+    parametersBean.setPower(0.0)
     return parametersBean
     
 def _getRealDetDistanceInM():
