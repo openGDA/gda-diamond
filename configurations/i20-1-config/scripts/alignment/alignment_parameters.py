@@ -190,7 +190,7 @@ def _calDetDistance(parametersBean):
     # TODO beam is going upwards at an angle of 6mrad, so based on
     # detector z values, their height needs to be calculated 
     offset = 0.0
-    det_height_mm = offset - (6*(q_m+_getRealDetDistanceInM())/1000.)
+    det_height_mm = offset - (6 * (q_m + _getRealDetDistanceInM())*1000.)
     parametersBean.setDetectorHeight(det_height_mm)
 
     return parametersBean
