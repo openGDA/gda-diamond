@@ -71,7 +71,7 @@ public class AlignmentParametersBean implements Serializable {
 	private String atn2 = null;
 	private String atn3 = null;
 
-	private Double energyBandwith = null; // eV  This is Delta-E.
+	private Double energyBandwidth = null; // eV  This is Delta-E.
 
 	private Double power = null; // W
 
@@ -249,12 +249,12 @@ public class AlignmentParametersBean implements Serializable {
 		this.detectorHeight = detectorHeight;
 	}
 
-	public Double getEnergyBandwith() {
-		return energyBandwith;
+	public Double getEnergyBandwidth() {
+		return energyBandwidth;
 	}
 
-	public void setEnergyBandwith(Double energyBandwith) {
-		this.energyBandwith = energyBandwith;
+	public void setEnergyBandwidth(Double energyBandwidth) {
+		this.energyBandwidth = energyBandwidth;
 	}
 
 	@Override
@@ -280,7 +280,7 @@ public class AlignmentParametersBean implements Serializable {
 		result = prime * result + ((power == null) ? 0 : power.hashCode());
 		result = prime * result + ((primarySlitGap == null) ? 0 : primarySlitGap.hashCode());
 		result = prime * result + ((q == null) ? 0 : q.hashCode());
-		result = prime * result + ((energyBandwith == null) ? 0 : energyBandwith.hashCode());
+		result = prime * result + ((energyBandwidth == null) ? 0 : energyBandwidth.hashCode());
 		result = prime * result + ((wigglerGap == null) ? 0 : wigglerGap.hashCode());
 		return result;
 	}
@@ -430,11 +430,11 @@ public class AlignmentParametersBean implements Serializable {
 		} else if (!q.equals(other.q)) {
 			return false;
 		}
-		if (energyBandwith == null) {
-			if (other.energyBandwith != null) {
+		if (energyBandwidth == null) {
+			if (other.energyBandwidth != null) {
 				return false;
 			}
-		} else if (!energyBandwith.equals(other.energyBandwith)) {
+		} else if (!energyBandwidth.equals(other.energyBandwidth)) {
 			return false;
 		}
 		if (wigglerGap == null) {
