@@ -128,7 +128,7 @@ while true; do
 done
 
 . /usr/share/Modules/init/bash
-module load java/gda832
+module load java/gda834
 module load global/http_proxy
 
 if [ ! -z $GDA_RESET ] ; then

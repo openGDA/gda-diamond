@@ -8,7 +8,7 @@ module unload buckminster
 
 # Load the standard modules for this version of GDA
 
-module load java/gda832
+module load java/gda834
 module load eclipse/422_20130523
 
 # Add diamond specific options for Eclipse
