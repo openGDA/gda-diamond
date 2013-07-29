@@ -66,6 +66,9 @@ import uk.ac.gda.exafs.ui.sections.DetectorROIsSesion;
 
 public class FocusingView extends ViewPart {
 
+	private static final int SLIT_PARAM_LABELS_WIDTH = 130;
+
+
 	public static String ID = "uk.ac.gda.exafs.ui.views.focusingview";
 
 
@@ -196,23 +199,25 @@ public class FocusingView extends ViewPart {
 		slitsParametersSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		Composite slitsParametersSelectionComposite = toolkit.createComposite(slitsParametersSection, SWT.NONE);
 		toolkit.paintBordersFor(slitsParametersSelectionComposite);
-		slitsParametersSelectionComposite.setLayout(new GridLayout(2, false));
+		slitsParametersSelectionComposite.setLayout(new GridLayout(3, false));
 		slitsParametersSection.setClient(slitsParametersSelectionComposite);
 
-		Label lbl = toolkit.createLabel(slitsParametersSelectionComposite, ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getLabelForUI(), SWT.NONE);
+		Label lbl = toolkit.createLabel(slitsParametersSelectionComposite, ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getLabel(), SWT.NONE);
 		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
 		final Text txtGap = toolkit.createText(slitsParametersSelectionComposite, "", SWT.None);
-		txtGap.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
+		GridData gridDataForTxt = new GridData(GridData.BEGINNING, GridData.CENTER, false, false);
+		gridDataForTxt.widthHint = SLIT_PARAM_LABELS_WIDTH;
+		txtGap.setLayoutData(gridDataForTxt);
 
 		Binding bindValue = dataBindingCtx.bindValue(
 				WidgetProperties.text(SWT.Modify).observe(txtGap),
 				BeanProperties.value(SlitScanner.GAP_PROP_NAME).observe(SlitScanner.getInstance()),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_UPDATE).setBeforeSetValidator(new IValidator() {
+				new UpdateValueStrategy().setBeforeSetValidator(new IValidator() {
 					@Override
 					public IStatus validate(Object value) {
 						if (value instanceof Double) {
-							if (SlitScanner.isGapInRange((double)value)) {
+							if (SlitScanner.isGapInRange((double) value)) {
 								return ValidationStatus.ok();
 							}
 							return ValidationStatus.error("Gap too large");
@@ -228,7 +233,11 @@ public class FocusingView extends ViewPart {
 				});
 		ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.RIGHT);
 
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.addUnitSuffixForLabel("From"), SWT.NONE);
+		lbl = toolkit.createLabel(slitsParametersSelectionComposite, ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getUnit().getText(), SWT.NONE);
+		lbl.setAlignment(SWT.LEFT);
+		lbl.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
+
+		lbl = toolkit.createLabel(slitsParametersSelectionComposite, "From", SWT.NONE);
 		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
 		// TODO Load from saved value
@@ -237,7 +246,7 @@ public class FocusingView extends ViewPart {
 		spnFromOffset.setIncrement(SPINNER_INCREMENT);
 		spnFromOffset.setMaximum((int) SlitScanner.MAX_OFFSET * SPINNER_INCREMENT);
 		spnFromOffset.setMinimum((int) SlitScanner.MIN_OFFSET * SPINNER_INCREMENT);
-		spnFromOffset.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
+		spnFromOffset.setLayoutData(gridDataForTxt);
 		toolkit.paintBordersFor(spnFromOffset);
 
 		bindValue = dataBindingCtx.bindValue(
@@ -251,7 +260,11 @@ public class FocusingView extends ViewPart {
 				}, null);
 		ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.RIGHT);
 
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.addUnitSuffixForLabel("To"), SWT.NONE);
+		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.getText(), SWT.NONE);
+		lbl.setAlignment(SWT.LEFT);
+		lbl.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
+
+		lbl = toolkit.createLabel(slitsParametersSelectionComposite, "To", SWT.NONE);
 		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
 		final Spinner spnToOffset = new Spinner(slitsParametersSelectionComposite, SWT.BORDER);
@@ -259,7 +272,7 @@ public class FocusingView extends ViewPart {
 		spnToOffset.setIncrement(SPINNER_INCREMENT);
 		spnToOffset.setMaximum((int) SlitScanner.MAX_OFFSET * SPINNER_INCREMENT);
 		spnToOffset.setMinimum((int) SlitScanner.MIN_OFFSET * SPINNER_INCREMENT);
-		spnToOffset.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
+		spnToOffset.setLayoutData(gridDataForTxt);
 		toolkit.paintBordersFor(spnToOffset);
 
 		bindValue = dataBindingCtx.bindValue(
@@ -273,12 +286,15 @@ public class FocusingView extends ViewPart {
 				},
 				null);
 		ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.RIGHT);
+		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.getText(), SWT.NONE);
+		lbl.setAlignment(SWT.LEFT);
+		lbl.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
 
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.addUnitSuffixForLabel("Step size"), SWT.NONE);
+		lbl = toolkit.createLabel(slitsParametersSelectionComposite, "Step size", SWT.NONE);
 		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
 		final Text txtStep = toolkit.createText(slitsParametersSelectionComposite, "", SWT.None);
-		txtStep.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
+		txtStep.setLayoutData(gridDataForTxt);
 
 		bindValue = dataBindingCtx.bindValue(
 				WidgetProperties.text(SWT.Modify).observe(txtStep),
@@ -300,13 +316,15 @@ public class FocusingView extends ViewPart {
 				});
 		ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.RIGHT);
 
+		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.getText(), SWT.NONE);
+		lbl.setAlignment(SWT.LEFT);
+		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, true, false));
 
-
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_SEC.addUnitSuffixForLabel("Integration Time"), SWT.NONE);
+		lbl = toolkit.createLabel(slitsParametersSelectionComposite, "Integration time ", SWT.NONE);
 		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
 		final Spinner integrationTime = new Spinner(slitsParametersSelectionComposite, SWT.BORDER);
-		integrationTime.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
+		integrationTime.setLayoutData(gridDataForTxt);
 		integrationTime.setMaximum(SlitScanner.MAX_INTEGRATION_TIME);
 		integrationTime.setMinimum(SlitScanner.MIN_INTEGRATION_TIME);
 		toolkit.paintBordersFor(integrationTime);
@@ -317,10 +335,13 @@ public class FocusingView extends ViewPart {
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_UPDATE),
 				null);
 		ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.RIGHT);
+		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_SEC.getText(), SWT.NONE);
+		lbl.setAlignment(SWT.LEFT);
+		lbl.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
 
 		Composite scanButtons = toolkit.createComposite(slitsParametersSelectionComposite);
 		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
-		gridData.horizontalSpan = 2;
+		gridData.horizontalSpan = 3;
 		scanButtons.setLayoutData(gridData);
 		scanButtons.setLayout(new GridLayout(2, true));
 

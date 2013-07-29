@@ -27,19 +27,20 @@ import gda.observable.IObserver;
 import gda.util.exafs.AbsorptionEdge;
 import gda.util.exafs.Element;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
 import org.eclipse.core.databinding.observable.list.ListChangeEvent;
+import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.validation.ValidationStatus;
@@ -51,6 +52,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -67,6 +69,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -92,8 +96,6 @@ import uk.ac.gda.exafs.data.DetectorConfig;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.UIHelper.UIMotorControl;
 import uk.ac.gda.exafs.ui.sections.DetectorSetupDialog;
-import uk.ac.gda.richbeans.components.FieldComposite.NOTIFY_TYPE;
-import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
 import uk.ac.gda.richbeans.event.ValueEvent;
 import uk.ac.gda.richbeans.event.ValueListener;
 import uk.ac.gda.ui.viewer.RotationViewer;
@@ -103,7 +105,6 @@ import uk.ac.gda.ui.viewer.RotationViewer;
  */
 public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySheetPageContributor {
 
-	private static final int READ_ONLY_LABEL_WIDTH = 50;
 	private static final int LABEL_WIDTH = 120;
 	private static final int SUGGESTION_LABEL_WIDTH = 90;
 	private static final int COMMAND_WAIT_TIME_IN_MILLI_SEC = 250;
@@ -121,10 +122,8 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 	private ComboViewer cmbCrystalCut;
 	private ComboViewer cmbCrystalType;
-	private GridData comboGD;
-	private Combo cmbElement;
-	private Combo cmdElementEdge;
-	private ScaleBox scaleBoxEnergyRange;
+	private ComboViewer cmbElement;
+	private ComboViewer cmdElementEdge;
 	private Combo cmbCrystalQ;
 	private ComboViewer cmbDetectorType;
 
@@ -146,6 +145,8 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	private Label lblDetectorDistanceSuggestion;
 	private FormText labelPowerEstimateValue;
 
+	private boolean powerWarningDialogShown = false;
+	private FormText labelDeltaEValue;
 
 	private final Map<Button, Label> suggestionControls = new HashMap<Button, Label>();
 	private final WritableList movingScannables = new WritableList(new ArrayList<Scannable>(), Scannable.class);
@@ -185,44 +186,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		scrolledPolyForm.getBody().setLayout(layout);
 		toolkit.decorateFormHeading(scrolledPolyForm.getForm());
 		scrolledPolyForm.setText("Configuration");
-
-		final Button butStopMotor = toolkit.createButton(scrolledPolyForm.getForm().getHead(), "", SWT.FLAT);
-		butStopMotor.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ELCL_STOP));
-
-		movingScannables.addListChangeListener(new IListChangeListener() {
-			@Override
-			public void handleListChange(ListChangeEvent event) {
-				if (event.getObservableList().isEmpty()) {
-					butStopMotor.setEnabled(false);
-					butStopMotor.setText("");
-				} else {
-					butStopMotor.setEnabled(true);
-					if (event.getObservableList().size() == 1) {
-						butStopMotor.setText("Stop " + ((Scannable) event.getObservableList().get(0)).getName() + " motor");
-					} else {
-						butStopMotor.setText("Stop " + event.getObservableList().size() + " motors");
-					}
-				}
-			}
-		});
-		butStopMotor.setEnabled(!movingScannables.isEmpty());
-		butStopMotor.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				for (Object scannable : movingScannables) {
-					try {
-						((Scannable) scannable).stop();
-					} catch (DeviceException e) {
-						UIHelper.showError("Unable to stop motor " + ((Scannable) scannable).getName(), e.getMessage());
-					}
-				}
-			}
-		});
-		scrolledPolyForm.getForm().setHeadClient(butStopMotor);
 		createMainControls(scrolledPolyForm.getForm());
 		createMotorControls(scrolledPolyForm.getForm());
 		createSpectrumControls(scrolledPolyForm.getForm());
-		updateElementEdgeSelection();
 	}
 
 	@Override
@@ -258,6 +224,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			}
 		});
 		cmbDetectorType.getCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
 		Button butDetectorSetup = toolkit.createButton(detectorConfigComposite, "Setup", SWT.FLAT);
 		butDetectorSetup.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 
@@ -286,11 +253,12 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			}
 		});
 		cmbCrystalCut.setInput(CrystalCut.values());
-		cmbCrystalCut.setSelection(new StructuredSelection(CrystalCut.Si111));
 		cmbCrystalCut.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				updateElementEdgeSelection();
+				CrystalCut cut = ((CrystalCut) ((IStructuredSelection) event.getSelection()).getFirstElement());
+				cmbElement.setInput(cut.getElementsInEnergyRange().keySet());
+				cmbElement.setSelection(new StructuredSelection(cmbElement.getElementAt(0)));
 			}
 		});
 		cmbCrystalCut.getCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -302,58 +270,78 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				AlignmentParametersBean.Q[1].toString(), AlignmentParametersBean.Q[2].toString() });
 		cmbCrystalQ.select(1);
 		cmbCrystalQ.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		cmbCrystalQ.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				getScannableValuesSuggestion();
+			}
+		});
 
 		Label lbl = toolkit.createLabel(mainSelectionComposite, "Element:", SWT.NONE);
 		lbl.setLayoutData(createLabelGridData());
-		cmbElement = new Combo(mainSelectionComposite, SWT.READ_ONLY);
-		cmbElement.setLayoutData(comboGD);
-		cmbElement.setItems(Element.getSortedEdgeSymbols("P", "U"));
-		cmbElement.select(0);
 
-		cmbElement.addSelectionListener(new SelectionAdapter() {
+		cmbElement = new ComboViewer(mainSelectionComposite, SWT.READ_ONLY);
+		cmbElement.getCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		cmbElement.setContentProvider(new ArrayContentProvider());
+		cmbElement.setLabelProvider(new LabelProvider() {
 			@Override
-			public void widgetSelected(SelectionEvent e) {
-				updateElementEdgeSelection();
-			}
-		});
-		cmbElement.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		lbl = toolkit.createLabel(mainSelectionComposite, "Edge:", SWT.NONE);
-		lbl.setLayoutData(createLabelGridData());
-		cmdElementEdge = new Combo(mainSelectionComposite, SWT.READ_ONLY);
-		cmdElementEdge.setLayoutData(comboGD);
-		cmdElementEdge.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		cmdElementEdge.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-				updateEngeryValue();
+			public String getText(Object value) {
+				Element element = (Element) value;
+				return element.getName() + " (" + element.getSymbol() + ")";
 			}
 		});
 
 		lbl = toolkit.createLabel(mainSelectionComposite, "Edge energy:", SWT.NONE);
 		lbl.setLayoutData(createLabelGridData());
-		scaleBoxEnergyRange = new ScaleBox(mainSelectionComposite, SWT.NONE);
-		scaleBoxEnergyRange.setUnit(UnitSetup.EV.getText());
-		scaleBoxEnergyRange.setEditable(false);
-		scaleBoxEnergyRange.setNotifyType(NOTIFY_TYPE.VALUE_CHANGED);
-		scaleBoxEnergyRange.on();
-		scaleBoxEnergyRange.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		cmdElementEdge = new ComboViewer(mainSelectionComposite, SWT.READ_ONLY);
+		cmdElementEdge.getCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		cmdElementEdge.setContentProvider(ArrayContentProvider.getInstance());
+		cmdElementEdge.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				Element selectedElement = (Element) ((IStructuredSelection) cmbElement.getSelection()).getFirstElement();
+				String edgeName = (String) element;
+				return edgeName + " (" + UnitSetup.EV.addUnitSuffix(Double.toString(selectedElement.getEdgeEnergy(edgeName))) + ")";
+			}
+		});
+
+		cmbElement.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				Element element = ((Element) ((IStructuredSelection) event.getSelection()).getFirstElement());
+				CrystalCut cut = ((CrystalCut) ((IStructuredSelection) cmbCrystalCut.getSelection()).getFirstElement());
+				cmdElementEdge.setInput(cut.getElementsInEnergyRange().get(element));
+				cmdElementEdge.setSelection(new StructuredSelection(cmdElementEdge.getElementAt(0)));
+			}
+		});
+
+		cmdElementEdge.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				getScannableValuesSuggestion();
+			}
+		});
+
+		DetectorConfig.INSTANCE.addPropertyChangeListener(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if ((boolean) evt.getNewValue()) {
+					final StructuredSelection initialSelection = new StructuredSelection(CrystalCut.Si111);
+					cmbCrystalCut.setSelection(initialSelection);
+				}
+			}
+		});
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(mainSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
 		mainSection.setSeparatorControl(defaultSectionSeparator);
 
-		setupDetector();
-
 		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(cmdElementEdge),
+				WidgetProperties.enabled().observe(cmdElementEdge.getControl()),
 				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
 
 		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(scaleBoxEnergyRange),
-				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(cmbElement),
+				WidgetProperties.enabled().observe(cmbElement.getControl()),
 				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
 
 		dataBindingCtx.bindValue(
@@ -364,8 +352,11 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				WidgetProperties.enabled().observe(butDetectorSetup),
 				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
 
-		butDetectorSetup.addListener(SWT.Selection, new Listener() {
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(cmbCrystalQ),
+				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
 
+		butDetectorSetup.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				DetectorSetupDialog setup = new DetectorSetupDialog(form.getBody().getShell());
@@ -373,6 +364,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				setup.open();
 			}
 		});
+
+		setupDetector();
+
 	}
 
 	private Binding detectorValueBinding = null;
@@ -419,9 +413,8 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	}
 
 	private void getScannableValuesSuggestion() {
-		String selectedElementString = cmbElement.getItem(cmbElement.getSelectionIndex());
-		Element selectedElement = Element.getElement(selectedElementString);
-		String selectedEdgeString = cmdElementEdge.getItem(cmdElementEdge.getSelectionIndex());
+		Element selectedElement = (Element) ((IStructuredSelection) cmbElement.getSelection()).getFirstElement();
+		String selectedEdgeString = (String) ((IStructuredSelection) cmdElementEdge.getSelection()).getFirstElement();
 		AbsorptionEdge absEdge = selectedElement.getEdge(selectedEdgeString);
 
 		String qString = cmbCrystalQ.getItem(cmbCrystalQ.getSelectionIndex());
@@ -454,94 +447,95 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	}
 
 
+	@SuppressWarnings("unused")
 	private void createMotorControls(Form form) {
 
 		final Section motorSection = toolkit.createSection(form.getBody(), ExpandableComposite.TITLE_BAR
 				| ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 		motorSection.setText("Motor Positions");
 		motorSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		Composite motorSelectionComposite = toolkit.createComposite(motorSection, SWT.NONE);
-		toolkit.paintBordersFor(motorSelectionComposite);
-		motorSelectionComposite.setLayout(new GridLayout(4, false));
-		motorSection.setClient(motorSelectionComposite);
+		Composite motorSectionComposite = toolkit.createComposite(motorSection, SWT.NONE);
+		toolkit.paintBordersFor(motorSectionComposite);
+		motorSectionComposite.setLayout(new GridLayout(4, false));
+		motorSection.setClient(motorSectionComposite);
 
-		toolkit.createLabel(motorSelectionComposite, ""); // Place holder
-		toolkit.createLabel(motorSelectionComposite, "Calculated");
-		toolkit.createLabel(motorSelectionComposite, ""); // Place holder
-		toolkit.createLabel(motorSelectionComposite, "Motor Readback");
-		lblWigglerSuggestion = createSuggestionLabel(motorSelectionComposite, ScannableSetup.WIGGLER_GAP);
+		toolkit.createLabel(motorSectionComposite, ""); // Place holder
+		toolkit.createLabel(motorSectionComposite, "Calculated");
+		toolkit.createLabel(motorSectionComposite, ""); // Place holder
+		toolkit.createLabel(motorSectionComposite, "Motor Readback");
+		lblWigglerSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.WIGGLER_GAP);
 		SuggestionApplyButtonListener listener = new SuggestionApplyButtonListener(ScannableSetup.WIGGLER_GAP, lblWigglerSuggestion);
-		Button applyButton = createMotorControl(motorSelectionComposite, listener);
+		Button applyButton = createMotorControl(motorSectionComposite, listener);
 		suggestionControls.put(applyButton, lblWigglerSuggestion);
 
-		UIHelper.createMotorViewer(toolkit, motorSelectionComposite, ScannableSetup.WIGGLER_GAP, UIMotorControl.POSITION, moveObserver);
+		UIHelper.createMotorViewer(toolkit, motorSectionComposite, ScannableSetup.WIGGLER_GAP, UIMotorControl.POSITION, moveObserver);
 
-		lblSlitGapSuggestion = createSuggestionLabel(motorSelectionComposite, ScannableSetup.SLIT_1_HORIZONAL_GAP);
+		lblSlitGapSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.SLIT_1_HORIZONAL_GAP);
 		listener = new SuggestionApplyButtonListener(ScannableSetup.SLIT_1_HORIZONAL_GAP, lblSlitGapSuggestion);
-		applyButton = createMotorControl(motorSelectionComposite, listener);
+		applyButton = createMotorControl(motorSectionComposite, listener);
 		suggestionControls.put(applyButton, lblSlitGapSuggestion);
-		UIHelper.createMotorViewer(toolkit, motorSelectionComposite, ScannableSetup.SLIT_1_HORIZONAL_GAP, UIMotorControl.POSITION, moveObserver);
+		UIHelper.createMotorViewer(toolkit, motorSectionComposite, ScannableSetup.SLIT_1_HORIZONAL_GAP, UIMotorControl.POSITION, moveObserver);
 
-		lblAtn1Suggestion = createSuggestionLabel(motorSelectionComposite, ScannableSetup.ATN1);
+		lblAtn1Suggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.ATN1);
 		listener = new SuggestionApplyButtonListener(ScannableSetup.ATN1, lblAtn1Suggestion);
-		applyButton = createMotorControl(motorSelectionComposite, listener);
+		applyButton = createMotorControl(motorSectionComposite, listener);
 		suggestionControls.put(applyButton, lblAtn1Suggestion);
-		UIHelper.createMotorViewer(toolkit, motorSelectionComposite, ScannableSetup.ATN1, UIMotorControl.ENUM, moveObserver);
+		UIHelper.createMotorViewer(toolkit, motorSectionComposite, ScannableSetup.ATN1, UIMotorControl.ENUM, moveObserver);
 
-		lblAtn2Suggestion = createSuggestionLabel(motorSelectionComposite, ScannableSetup.ATN2);
+		lblAtn2Suggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.ATN2);
 		listener = new SuggestionApplyButtonListener(ScannableSetup.ATN2, lblAtn2Suggestion);
-		applyButton = createMotorControl(motorSelectionComposite, listener);
+		applyButton = createMotorControl(motorSectionComposite, listener);
 		suggestionControls.put(applyButton, lblAtn2Suggestion);
-		UIHelper.createMotorViewer(toolkit, motorSelectionComposite, ScannableSetup.ATN2, UIMotorControl.ENUM, moveObserver);
+		UIHelper.createMotorViewer(toolkit, motorSectionComposite, ScannableSetup.ATN2, UIMotorControl.ENUM, moveObserver);
 
-		lblAtn3Suggestion = createSuggestionLabel(motorSelectionComposite, ScannableSetup.ATN3);
+		lblAtn3Suggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.ATN3);
 		listener = new SuggestionApplyButtonListener(ScannableSetup.ATN3, lblAtn3Suggestion);
-		applyButton = createMotorControl(motorSelectionComposite, listener);
+		applyButton = createMotorControl(motorSectionComposite, listener);
 		suggestionControls.put(applyButton, lblAtn3Suggestion);
-		UIHelper.createMotorViewer(toolkit, motorSelectionComposite, ScannableSetup.ATN3, UIMotorControl.ENUM, moveObserver);
+		UIHelper.createMotorViewer(toolkit, motorSectionComposite, ScannableSetup.ATN3, UIMotorControl.ENUM, moveObserver);
 
-		lblMe1StripSuggestion = createSuggestionLabel(motorSelectionComposite, ScannableSetup.ME1_STRIPE);
+		lblMe1StripSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.ME1_STRIPE);
 		listener = new SuggestionApplyButtonListener(ScannableSetup.ME1_STRIPE, lblMe1StripSuggestion);
-		applyButton = createMotorControl(motorSelectionComposite, listener);
+		applyButton = createMotorControl(motorSectionComposite, listener);
 		suggestionControls.put(applyButton, lblMe1StripSuggestion);
-		UIHelper.createMotorViewer(toolkit, motorSelectionComposite, ScannableSetup.ME1_STRIPE, UIMotorControl.ENUM, moveObserver);
+		UIHelper.createMotorViewer(toolkit, motorSectionComposite, ScannableSetup.ME1_STRIPE, UIMotorControl.ENUM, moveObserver);
 
 
-		lblMe2StripSuggestion = createSuggestionLabel(motorSelectionComposite, ScannableSetup.ME2_STRIPE);
+		lblMe2StripSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.ME2_STRIPE);
 		listener = new SuggestionApplyButtonListener(ScannableSetup.ME2_STRIPE, lblMe2StripSuggestion);
-		applyButton = createMotorControl(motorSelectionComposite, listener);
+		applyButton = createMotorControl(motorSectionComposite, listener);
 		suggestionControls.put(applyButton, lblMe2StripSuggestion);
-		UIHelper.createMotorViewer(toolkit, motorSelectionComposite, ScannableSetup.ME2_STRIPE, UIMotorControl.ENUM, moveObserver);
+		UIHelper.createMotorViewer(toolkit, motorSectionComposite, ScannableSetup.ME2_STRIPE, UIMotorControl.ENUM, moveObserver);
 
-		lblMe2PitchAngleSuggestion = createSuggestionLabel(motorSelectionComposite, ScannableSetup.ME2_PITCH_ANGLE);
+		lblMe2PitchAngleSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.ME2_PITCH_ANGLE);
 		listener = new SuggestionApplyButtonListener(ScannableSetup.ME2_PITCH_ANGLE, lblMe2PitchAngleSuggestion);
-		applyButton = createMotorControl(motorSelectionComposite, listener);
+		applyButton = createMotorControl(motorSectionComposite, listener);
 		suggestionControls.put(applyButton, lblMe2PitchAngleSuggestion);
-		UIHelper.createMotorViewer(toolkit, motorSelectionComposite, ScannableSetup.ME2_PITCH_ANGLE, UIMotorControl.POSITION, moveObserver);
+		UIHelper.createMotorViewer(toolkit, motorSectionComposite, ScannableSetup.ME2_PITCH_ANGLE, UIMotorControl.POSITION, moveObserver);
 
-		lblPolyBender1Suggestion = createSuggestionLabel(motorSelectionComposite, ScannableSetup.POLY_BENDER_1);
+		lblPolyBender1Suggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.POLY_BENDER_1);
 		listener = new SuggestionApplyButtonListener(ScannableSetup.POLY_BENDER_1, lblPolyBender1Suggestion);
-		applyButton = createMotorControl(motorSelectionComposite, listener);
+		applyButton = createMotorControl(motorSectionComposite, listener);
 		suggestionControls.put(applyButton, lblPolyBender1Suggestion);
-		UIHelper.createMotorViewer(toolkit, motorSelectionComposite, ScannableSetup.POLY_BENDER_1, UIMotorControl.POSITION, moveObserver);
+		UIHelper.createMotorViewer(toolkit, motorSectionComposite, ScannableSetup.POLY_BENDER_1, UIMotorControl.POSITION, moveObserver);
 
-		lblPolyBender2Suggestion = createSuggestionLabel(motorSelectionComposite, ScannableSetup.POLY_BENDER_2);
+		lblPolyBender2Suggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.POLY_BENDER_2);
 		listener = new SuggestionApplyButtonListener(ScannableSetup.POLY_BENDER_2, lblPolyBender2Suggestion);
-		applyButton = createMotorControl(motorSelectionComposite, listener);
+		applyButton = createMotorControl(motorSectionComposite, listener);
 		suggestionControls.put(applyButton, lblPolyBender2Suggestion);
-		UIHelper.createMotorViewer(toolkit, motorSelectionComposite, ScannableSetup.POLY_BENDER_2, UIMotorControl.POSITION, moveObserver);
+		UIHelper.createMotorViewer(toolkit, motorSectionComposite, ScannableSetup.POLY_BENDER_2, UIMotorControl.POSITION, moveObserver);
 
-		final Button btnSynchroniseThetas = toolkit.createButton(motorSelectionComposite, "Match TwoTheta arm to Poly Bragg value", SWT.CHECK | SWT.WRAP);
+		final Button btnSynchroniseThetas = toolkit.createButton(motorSectionComposite, "Match TwoTheta arm to Poly Bragg value", SWT.CHECK | SWT.WRAP);
 		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		gridData.horizontalSpan = 4;
 		btnSynchroniseThetas.setLayoutData(gridData);
 		btnSynchroniseThetas.setSelection(true);
 
-		lblPolyBraggSuggestion = createSuggestionLabel(motorSelectionComposite, ScannableSetup.POLY_BRAGG);
+		lblPolyBraggSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.POLY_BRAGG);
 		listener = new LinkedSuggestionApplyButtonListener(ScannableSetup.POLY_BRAGG, lblPolyBraggSuggestion, btnSynchroniseThetas);
-		applyButton = createMotorControl(motorSelectionComposite, listener);
+		applyButton = createMotorControl(motorSectionComposite, listener);
 		suggestionControls.put(applyButton, lblPolyBraggSuggestion);
-		UIHelper.createMotorViewer(toolkit, motorSelectionComposite, ScannableSetup.POLY_BRAGG, UIMotorControl.ROTATION, moveObserver);
+		UIHelper.createMotorViewer(toolkit, motorSectionComposite, ScannableSetup.POLY_BRAGG, UIMotorControl.ROTATION, moveObserver);
 
 		((RotationViewer) ScannableSetup.POLY_BRAGG.getUiViewer()).addValueListener(new ValueListener() {
 			@Override
@@ -566,20 +560,56 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			}
 		});
 
-		lblArm2ThetaAngleSuggestion = createSuggestionLabel(motorSelectionComposite, ScannableSetup.ARM_2_THETA_ANGLE);
+		lblArm2ThetaAngleSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.ARM_2_THETA_ANGLE);
 		listener = new SuggestionApplyButtonListener(ScannableSetup.ARM_2_THETA_ANGLE, lblArm2ThetaAngleSuggestion);
-		applyButton = createMotorControl(motorSelectionComposite, listener);
+		applyButton = createMotorControl(motorSectionComposite, listener);
 		suggestionControls.put(applyButton, lblArm2ThetaAngleSuggestion);
-		UIHelper.createMotorViewer(toolkit, motorSelectionComposite, ScannableSetup.ARM_2_THETA_ANGLE, UIMotorControl.ROTATION, moveObserver);
+		UIHelper.createMotorViewer(toolkit, motorSectionComposite, ScannableSetup.ARM_2_THETA_ANGLE, UIMotorControl.ROTATION, moveObserver);
 
-		Label lblPowerEstimate = toolkit.createLabel(motorSelectionComposite, "Estimated power is: ");
+		Label lblPowerEstimate = toolkit.createLabel(motorSectionComposite, "Estimated power is: ");
 		lblPowerEstimate.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
-		labelPowerEstimateValue = toolkit.createFormText(motorSelectionComposite, false);
+		labelPowerEstimateValue = toolkit.createFormText(motorSectionComposite, false);
 		labelPowerEstimateValue.setText(getHighlightedFormatedString(""), true, false);
-		gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		gridData.horizontalSpan = 3;
-		gridData.widthHint = READ_ONLY_LABEL_WIDTH;
 		labelPowerEstimateValue.setLayoutData(gridData);
+
+		final ToolBar defaultSectionTbar = new ToolBar(motorSection, SWT.FLAT | SWT.HORIZONTAL);
+		new ToolItem(defaultSectionTbar, SWT.SEPARATOR);
+		final ToolItem stopMotorsBarItem = new ToolItem(defaultSectionTbar, SWT.NULL);
+		stopMotorsBarItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ELCL_STOP));
+		stopMotorsBarItem.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				for (Object scannable : movingScannables) {
+					try {
+						((Scannable) scannable).stop();
+					} catch (DeviceException e) {
+						UIHelper.showError("Unable to stop motor " + ((Scannable) scannable).getName(), e.getMessage());
+					}
+				}
+			}
+		});
+		motorSection.setTextClient(defaultSectionTbar);
+
+		movingScannables.addListChangeListener(new IListChangeListener() {
+			@Override
+			public void handleListChange(ListChangeEvent event) {
+				if (event.getObservableList().isEmpty()) {
+					stopMotorsBarItem.setEnabled(false);
+					stopMotorsBarItem.setText("");
+				} else {
+					stopMotorsBarItem.setEnabled(true);
+					if (event.getObservableList().size() == 1) {
+						stopMotorsBarItem.setText("Stop " + ((Scannable) event.getObservableList().get(0)).getName());
+					} else {
+						stopMotorsBarItem.setText("Stop all");
+					}
+				}
+				motorSection.layout(true);
+			}
+		});
+		stopMotorsBarItem.setEnabled(!movingScannables.isEmpty());
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(motorSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
@@ -675,9 +705,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		}
 	}
 
-	private boolean powerWarningDialogShown = false;
-	private FormText labelDeltaEValue;
-
 	private void reportPowerEst(Double powerValue) {
 		if (powerValue > ScannableSetup.MAX_POWER_IN_WATT) {
 			String value = UnitSetup.WATT.addUnitSuffix("WARNING: Estimated power is " + powerValue);
@@ -692,51 +719,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			labelPowerEstimateValue.setText(getHighlightedFormatedString(UnitSetup.WATT.addUnitSuffix(powerValue.toString())), true, false);
 			powerWarningDialogShown = false;
 		}
-	}
-
-	private void updateEngeryValue() {
-		// TODO Do proper JFace data validation
-		final int invalid = -1;
-		if (cmdElementEdge.getSelectionIndex() == invalid) {
-			scaleBoxEnergyRange.setValue("");
-			clearSuggestionValues();
-		} else {
-			scaleBoxEnergyRange.setEnabled(true);
-			String selectedElementString = cmbElement.getItem(cmbElement.getSelectionIndex());
-			Element selectedElement = Element.getElement(selectedElementString);
-			String selectedEdgeString = cmdElementEdge.getItem(cmdElementEdge.getSelectionIndex());
-			final double edgeEn = selectedElement.getEdgeEnergy(selectedEdgeString);
-			StructuredSelection cryCutSelection = ((StructuredSelection) cmbCrystalCut.getSelection());
-			CrystalCut selectedCrystalCut = (CrystalCut) cryCutSelection.getFirstElement();
-			scaleBoxEnergyRange.setMaximum(selectedCrystalCut.getMax());
-			scaleBoxEnergyRange.setMinimum(selectedCrystalCut.getMin());
-			scaleBoxEnergyRange.setValue(edgeEn);
-			getScannableValuesSuggestion();
-		}
-		scaleBoxEnergyRange.setEditable(false);
-	}
-
-	private void updateElementEdgeSelection() {
-		String selectedElementString = cmbElement.getItem(cmbElement.getSelectionIndex());
-		Element selectedElement = Element.getElement(selectedElementString);
-		StructuredSelection cryCutSelection = ((StructuredSelection) cmbCrystalCut.getSelection());
-		CrystalCut selectedCrystalCut = (CrystalCut) cryCutSelection.getFirstElement();
-		final Iterator<String> edges;
-		edges = selectedElement.getEdgesInEnergyRange(selectedCrystalCut.getMin(), selectedCrystalCut.getMax());
-
-		if (edges == null) {
-			cmdElementEdge.setItems(new String[] {});
-			cmdElementEdge.deselectAll();
-		} else {
-			String[] edgesArray = new String[] {};
-			for (; edges.hasNext();) {
-				String edge = edges.next();
-				edgesArray = (String[]) ArrayUtils.add(edgesArray, edge);
-			}
-			cmdElementEdge.setItems(edgesArray);
-			cmdElementEdge.select(0);
-		}
-		cmdElementEdge.notifyListeners(SWT.Selection, new Event());
 	}
 
 	private void createSpectrumControls(Form form) {
@@ -759,7 +741,28 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		Button applyButton = createMotorControl(spectrumSelectionComposite, listener);
 		suggestionControls.put(applyButton, lblDetectorHeightSuggestion);
 		UIHelper.createMotorViewer(toolkit, spectrumSelectionComposite, ScannableSetup.DETECTOR_HEIGHT, UIMotorControl.POSITION, moveObserver);
+		try {
+			final Scannable detectorHeight = ScannableSetup.DETECTOR_HEIGHT.getScannable();
+			final Scannable detectorDistance = ScannableSetup.DETECTOR_DISTANCE.getScannable();
+			movingScannables.addListChangeListener(new IListChangeListener() {
+				@Override
+				public void handleListChange(ListChangeEvent event) {
+					event.diff.accept(new ListDiffVisitor() {
+						@Override
+						public void handleRemove(int index, Object element) {
+							if (element == detectorHeight | element == detectorDistance) {
+								//updateEngeryValue();
+							}
+						}
+						@Override
+						public void handleAdd(int index, Object element) {}
+					});
+				}
+			});
 
+		} catch (Exception e1) {
+			UIHelper.showError("Unable to find detector details", e1.getMessage());
+		}
 		lblDetectorDistanceSuggestion = createSuggestionLabel(spectrumSelectionComposite, ScannableSetup.DETECTOR_DISTANCE);
 		listener = new SuggestionApplyButtonListener(ScannableSetup.DETECTOR_DISTANCE, lblDetectorDistanceSuggestion);
 		applyButton = createMotorControl(spectrumSelectionComposite, listener);
@@ -767,25 +770,17 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		UIHelper.createMotorViewer(toolkit, spectrumSelectionComposite, ScannableSetup.DETECTOR_DISTANCE, UIMotorControl.POSITION, moveObserver);
 
 		Label lblDeltaE = toolkit.createLabel(spectrumSelectionComposite, "Energy Bandwidth is: ");
-		lblDeltaE.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
+		lblDeltaE.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
+
 		labelDeltaEValue = toolkit.createFormText(spectrumSelectionComposite, false);
 		labelDeltaEValue.setText(getHighlightedFormatedString(""), true, false);
-		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		gridData.horizontalSpan = 3;
-		gridData.widthHint = READ_ONLY_LABEL_WIDTH;
 		labelDeltaEValue.setLayoutData(gridData);
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(spectrumSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
 		spectrumSection.setSeparatorControl(defaultSectionSeparator);
-	}
-
-	// TODO Use data binding
-	private void clearSuggestionValues() {
-		for (Entry<Button, Label> suggestionButton : suggestionControls.entrySet()) {
-			suggestionButton.getKey().setVisible(false);
-			suggestionButton.getValue().setText(SUGGESTION_UNAVAILABLE_TEXT);
-		}
 	}
 
 	private void showSuggestionValues(final AlignmentParametersBean results) {
@@ -807,20 +802,16 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 				// TODO Check if this value is correct
 				// FIXME Conversion shouldn't not be done in this UI section
-				lblDetectorDistanceSuggestion.setText(ScannableSetup.DETECTOR_DISTANCE.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getDetectorDistance() * 1000))); // Convert to mm
-				lblDetectorHeightSuggestion.setText(ScannableSetup.DETECTOR_HEIGHT.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getDetectorHeight()))); // FIXME Why not convert for this one?
+				lblDetectorDistanceSuggestion.setText(ClientConfig.roundDoubletoString(results.getDetectorDistance() * 1000)); // Convert to mm
+				lblDetectorHeightSuggestion.setText(ClientConfig.roundDoubletoString(results.getDetectorHeight())); // FIXME Why not convert for this one?
 
 				lblAtn1Suggestion.setText(results.getAtn1().toString());
 				lblAtn2Suggestion.setText(results.getAtn2().toString());
 				lblAtn3Suggestion.setText(results.getAtn3().toString());
 
 				reportPowerEst(results.getPower());
-
-				if (results.getEnergyBandwidth() > 0) {
-					labelDeltaEValue.setText(getHighlightedFormatedString(UnitSetup.EV.addUnitSuffix(ClientConfig.roundDoubletoString(results.getEnergyBandwidth()))), true, false);
-				} else {
-					labelDeltaEValue.setText("", false, false);
-				}
+				String value = getHighlightedFormatedString(UnitSetup.EV.addUnitSuffix(ClientConfig.roundDoubletoString(results.getEnergyBandwidth())));
+				labelDeltaEValue.setText(value, true, false);
 			}
 		});
 	}

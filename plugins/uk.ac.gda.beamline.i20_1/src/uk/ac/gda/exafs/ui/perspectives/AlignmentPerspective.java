@@ -51,18 +51,18 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(false);
 
-		IFolderLayout alignmentControlsFolder = layout.createFolder(ALIGNMENT_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.30f, editorArea);
+		IFolderLayout alignmentControlsFolder = layout.createFolder(ALIGNMENT_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.35f, editorArea);
 		alignmentControlsFolder.addView(BeamlineAlignmentView.ID);
 		IViewLayout propertyLayout = layout.getViewLayout(BeamlineAlignmentView.ID);
 		propertyLayout.setCloseable(false);
 		alignmentControlsFolder.addView(SingleSpectrumView.ID);
 		alignmentControlsFolder.addView(EdeCalibrationView.ID);
 
-		layout.addView(FocusingView.ID, IPageLayout.RIGHT, 0.25f, editorArea);
+		layout.addView(FocusingView.ID, IPageLayout.RIGHT, 0.30f, editorArea);
 		propertyLayout = layout.getViewLayout(FocusingView.ID);
 		propertyLayout.setCloseable(false);
 
-		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.50f, FocusingView.ID);
+		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, FocusingView.ID);
 		topPlotFolder.addView(SPECTRAPLOTID);
 		topPlotFolder.addView(LivePlotView.ID);
 		propertyLayout = layout.getViewLayout(LivePlotView.ID);

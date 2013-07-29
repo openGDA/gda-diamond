@@ -48,6 +48,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -70,6 +71,15 @@ import uk.ac.gda.exafs.data.DetectorConfig;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class DetectorSetupDialog extends TitleAreaDialog {
+
+	private static final int ADDED_DIALOG_WIDTH = 100;
+
+	@Override
+	protected Point getInitialSize() {
+		Point point = super.getInitialSize();
+		point.x += ADDED_DIALOG_WIDTH;
+		return point;
+	}
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
