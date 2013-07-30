@@ -46,6 +46,8 @@ import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPartSite;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import uk.ac.gda.ui.utils.SWTUtils;
@@ -58,6 +60,7 @@ import uk.ac.gda.ui.utils.SWTUtils;
  * Outputformat should be a String acceptable either to String.format or DecimalFormat  i.e. similar to "%s" or "###.##"
  */
 public class MetadataObjectCompositeFactory implements CompositeFactory, InitializingBean {
+	private static final Logger logger = LoggerFactory.getLogger(MetadataObjectCompositeFactory.class);
 
 	public static final String LABEL_STYLE = "label";
 	public static final String TEXTAREA_STYLE = "area";
@@ -323,18 +326,21 @@ class MetadataObjectComposite extends Composite {
 	}
 
 	void setVal(String newVal) {
-		String formattedString;
+		String formattedString = "";
 		if (outputFormat.contains("s")) {
 			formattedString = String.format(outputFormat, newVal);
 		} else if (!unitString.isEmpty() && newVal.endsWith(unitString)){
 			formattedString = newVal;
 		}else {
-			formattedString = new DecimalFormat(outputFormat).format(Double.parseDouble(newVal));
+			try{
+				formattedString = new DecimalFormat(outputFormat).format(Double.parseDouble(newVal));
+			} catch(NumberFormatException e) {
+				formattedString="not set";
+			}
 			if (!unitString.isEmpty()) {
 				formattedString += unitString;
 			}
 		}
-		
 		
 		final String newValueToDisplay = formattedString;
 
