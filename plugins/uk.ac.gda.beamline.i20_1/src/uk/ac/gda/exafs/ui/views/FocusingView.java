@@ -91,7 +91,7 @@ public class FocusingView extends ViewPart {
 		form.setText("Slits scan / Focusing");
 		createFormSlitsParametersSection(form);
 		DetectorROIsSesion.INSTANCE.createFormRoisSection(form, toolkit);
-		createFormSampleZSection(form);
+		createFormSampleSection(form);
 		createFormBendSection(form);
 		createFormCurvatureSection(form);
 		return scrolledform;
@@ -170,24 +170,24 @@ public class FocusingView extends ViewPart {
 	}
 
 	@SuppressWarnings("static-access")
-	private void createFormSampleZSection(Form form) {
-		final Section sampleZSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
-		toolkit.paintBordersFor(sampleZSection);
-		sampleZSection.setText("Sample position");
-		toolkit.paintBordersFor(sampleZSection);
-		sampleZSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		Composite sampleZSelectionComposite = toolkit.createComposite(sampleZSection, SWT.NONE);
-		toolkit.paintBordersFor(sampleZSelectionComposite);
-		sampleZSelectionComposite.setLayout(new GridLayout(2, false));
-		sampleZSection.setClient(sampleZSelectionComposite);
+	private void createFormSampleSection(Form form) {
+		final Section samplePositionSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
+		toolkit.paintBordersFor(samplePositionSection);
+		samplePositionSection.setText("Sample position");
+		toolkit.paintBordersFor(samplePositionSection);
+		samplePositionSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		Composite samplePositionComposite = toolkit.createComposite(samplePositionSection, SWT.NONE);
+		toolkit.paintBordersFor(samplePositionComposite);
+		samplePositionComposite.setLayout(new GridLayout(2, false));
+		samplePositionSection.setClient(samplePositionComposite);
 
-		Label lblSampleZ = toolkit.createLabel(sampleZSelectionComposite, ScannableSetup.SAMPLE_Z_POSITION.getLabel(), SWT.NONE);
+		Label lblSampleZ = toolkit.createLabel(samplePositionComposite, ScannableSetup.SAMPLE_Z_POSITION.getLabel(), SWT.NONE);
 		lblSampleZ.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		UIHelper.createMotorViewer(toolkit, sampleZSelectionComposite, ScannableSetup.SAMPLE_Z_POSITION, UIMotorControl.POSITION, moveObserver);
+		UIHelper.createMotorViewer(toolkit, samplePositionComposite, ScannableSetup.SAMPLE_Z_POSITION, UIMotorControl.ROTATION, moveObserver);
 
-		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(sampleZSection);
+		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(samplePositionSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
-		sampleZSection.setSeparatorControl(defaultSectionSeparator);
+		samplePositionSection.setSeparatorControl(defaultSectionSeparator);
 	}
 
 	@SuppressWarnings("static-access")

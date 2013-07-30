@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
 public class ClientConfig {
 
 	public static final int KILO_UNIT = 1000;
-	public static final int DEFAULT_DECIMAL_PLACE = 2;
+	public static final int DEFAULT_DECIMAL_PLACE = 3;
 
 	private ClientConfig() {}
 
@@ -178,7 +178,7 @@ public class ClientConfig {
 		POLY_Y_ELLIPTICITY("Ellipticity","polyyellip", UnitSetup.MILLI_METER),
 
 		SLIT_3_HORIZONAL_GAP("Slit hgap", "s3_hgap", UnitSetup.MILLI_METER),
-		SLIT_3_HORIZONAL_OFFSET("Slit offset", "s3_hoffset", UnitSetup.MILLI_METER);
+		SLIT_3_HORIZONAL_OFFSET("Slit offset", "sample_x", UnitSetup.MILLI_METER);
 
 		public static final double MAX_POWER_IN_WATT = 150.0;
 

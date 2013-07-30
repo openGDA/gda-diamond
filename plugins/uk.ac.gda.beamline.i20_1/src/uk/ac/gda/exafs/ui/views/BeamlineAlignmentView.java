@@ -228,7 +228,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		Button butDetectorSetup = toolkit.createButton(detectorConfigComposite, "Setup", SWT.FLAT);
 		butDetectorSetup.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 
-		Label lblCrystalType = toolkit.createLabel(mainSelectionComposite, "Crytal Type:", SWT.NONE);
+		Label lblCrystalType = toolkit.createLabel(mainSelectionComposite, "Crytal type:", SWT.NONE);
 		lblCrystalType.setLayoutData(createLabelGridData());
 		cmbCrystalType = new ComboViewer(mainSelectionComposite, SWT.READ_ONLY);
 		cmbCrystalType.setContentProvider(ArrayContentProvider.getInstance());
@@ -724,7 +724,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	private void createSpectrumControls(Form form) {
 		@SuppressWarnings("static-access")
 		final Section spectrumSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		spectrumSection.setText("Spectrum Bandwidth");
+		spectrumSection.setText("Spectrum bandwidth");
 		spectrumSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		Composite spectrumSelectionComposite = toolkit.createComposite(spectrumSection, SWT.NONE);
 		toolkit.paintBordersFor(spectrumSelectionComposite);
@@ -751,7 +751,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 						@Override
 						public void handleRemove(int index, Object element) {
 							if (element == detectorHeight | element == detectorDistance) {
-								//updateEngeryValue();
+								getScannableValuesSuggestion();
 							}
 						}
 						@Override
@@ -769,7 +769,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		suggestionControls.put(applyButton, lblDetectorDistanceSuggestion);
 		UIHelper.createMotorViewer(toolkit, spectrumSelectionComposite, ScannableSetup.DETECTOR_DISTANCE, UIMotorControl.POSITION, moveObserver);
 
-		Label lblDeltaE = toolkit.createLabel(spectrumSelectionComposite, "Energy Bandwidth is: ");
+		Label lblDeltaE = toolkit.createLabel(spectrumSelectionComposite, "Energy bandwidth is: ");
 		lblDeltaE.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 
 		labelDeltaEValue = toolkit.createFormText(spectrumSelectionComposite, false);
@@ -802,8 +802,8 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 				// TODO Check if this value is correct
 				// FIXME Conversion shouldn't not be done in this UI section
-				lblDetectorDistanceSuggestion.setText(ClientConfig.roundDoubletoString(results.getDetectorDistance() * 1000)); // Convert to mm
-				lblDetectorHeightSuggestion.setText(ClientConfig.roundDoubletoString(results.getDetectorHeight())); // FIXME Why not convert for this one?
+				lblDetectorDistanceSuggestion.setText(ScannableSetup.DETECTOR_DISTANCE.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getDetectorDistance() * 1000))); // Convert to mm
+				lblDetectorHeightSuggestion.setText(ScannableSetup.DETECTOR_HEIGHT.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getDetectorHeight()))); // FIXME Why not convert for this one?
 
 				lblAtn1Suggestion.setText(results.getAtn1().toString());
 				lblAtn2Suggestion.setText(results.getAtn2().toString());
