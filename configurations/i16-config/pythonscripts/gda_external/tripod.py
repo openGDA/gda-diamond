@@ -155,22 +155,24 @@ pi = np.pi
 
 
 #use values from CAD model 6/6/13:
-tp=tripod_class([134.2,134.2,134.2], [219.129, 219.129, 84.963], [-pi/3, pi/3, 0],[150.102, 84.9634/2, 35.7574], [pi/4, pi/4, -pi/4], [0.0, 0.0, 357.313], [249.324, 0.0, 249.324/2])
+#tp=tripod_class([134.2,134.2,134.2], [219.129, 219.129, 84.963], [-pi/3, pi/3, 0],[150.102, 84.9634/2, 35.7574], [pi/4, pi/4, -pi/4], [0.0, 0.0, 357.313], [249.324, 0.0, 249.324/2])
 
 
-def tool_to_base(x, y, z, alpha1, alpha2, alpha3):
+def tool_to_base(x, y, z, alpha1, alpha2, alpha3, l=None, t=None, psi=None, c=None, theta=None, BX=None, BY=None):
     """ Calculate base settings: x1, x2, x3, y1, y2, y3 (all in mm)
     Input tool position: x, y, z in mm and alpha1, alpha2, alpha3 in degrees.
     """
+    tp = tripod_class(l, t, psi, c, theta, BX, BY)
     X, Y = tp.cbase(np.array([x, y, z]), (alpha1, alpha2, alpha3))
     return float(X[0]), float(X[1]), float(X[2]), float(Y[0]), float(Y[1]), float(Y[2])
 
 
 
-def base_to_tool(x1, x2, x3, y1, y2, y3):
+def base_to_tool(x1, x2, x3, y1, y2, y3, l=None, t=None, psi=None, c=None, theta=None, BX=None, BY=None):
     """ Calculate tool position: x, y, z, alpha1, alpha2, alpha3 (in mm and degrees)
     Input base settings : x1, x2, x3, y1, y2, y3 (all in mm)
     """
+    tp = tripod_class(l, t, psi, c, theta, BX, BY)
     xyz, angles = tp.ctool(np.array([x1, x2, x3]), (y1, y2, y3))
     return float(xyz[0]), float(xyz[1]), float(xyz[2]), float(angles[0]), float(angles[1]), float(angles[2])
 

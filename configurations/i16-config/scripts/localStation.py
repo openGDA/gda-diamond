@@ -317,6 +317,26 @@ else:
 
 hkl.setLevel(6)
 
+###############################################################################
+###							       kbm tripod                               ###
+###############################################################################
+
+from scannable.tripod import TripodToolBase
+
+_kbm_common_geom = {'l':[134.2, 134.2, 134.2],
+		't':[219.129, 219.129, 84.963],
+		'psi':[-pi / 3, pi / 3, 0],
+		'theta':[pi / 4, pi / 4, -pi / 4],
+		'BX':[0.0, 0.0, 357.313],
+		'BY':[249.324, 0.0, 249.324 / 2] }
+
+import copy
+
+
+kbm1 = TripodToolBase("kbm1", kbmbase, c=[152, 42.5, 63], **copy.deepcopy(_kbm_common_geom))				
+
+kbm2 = TripodToolBase("kbm2", kbmbase, c=[42, 42.5, 63], **copy.deepcopy(_kbm_common_geom))
+
 
 ###############################################################################
 ###############################################################################
@@ -1050,8 +1070,6 @@ roi6.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
 # This depends on lcroi
 run('FlipperClass')
 
-from scannable.tripod import TripodToolBase
-kbmtool = TripodToolBase("kbmtool", kbmbase)
 
 
 ###############################################################################
