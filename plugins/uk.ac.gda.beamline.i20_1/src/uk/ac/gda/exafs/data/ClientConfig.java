@@ -125,7 +125,7 @@ public class ClientConfig {
 				List<String> edges = element.getAllowedEdges();
 				for (Edge edge : Edge.values()) {
 					if (edges.contains(edge.name())) {
-						if (min <= element.getEdgeEnergy(edge.name()) | max >= element.getEdgeEnergy(edge.name())) {
+						if (min <= element.getEdgeEnergy(edge.name()) & max >= element.getEdgeEnergy(edge.name())) {
 							if (!includedElements.containsKey(element)) {
 								includedElements.put(element, new ArrayList<String>());
 							}

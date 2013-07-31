@@ -105,8 +105,8 @@ import uk.ac.gda.ui.viewer.RotationViewer;
  */
 public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySheetPageContributor {
 
-	private static final int LABEL_WIDTH = 120;
-	private static final int SUGGESTION_LABEL_WIDTH = 90;
+	private static final int LABEL_WIDTH = 125;
+	private static final int SUGGESTION_LABEL_WIDTH = 100;
 	private static final int COMMAND_WAIT_TIME_IN_MILLI_SEC = 250;
 
 	private static final String SUGGESTION_UNAVAILABLE_TEXT = "-";
@@ -257,8 +257,19 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				CrystalCut cut = ((CrystalCut) ((IStructuredSelection) event.getSelection()).getFirstElement());
+				Element selectedElement = null;
+				if (cmbElement.getSelection() != null && ((IStructuredSelection) cmbElement.getSelection()).getFirstElement() != null) {
+					Element element = (Element) ((IStructuredSelection) cmbElement.getSelection()).getFirstElement();
+					if (cut.getElementsInEnergyRange().keySet().contains(element)) {
+						selectedElement = element;
+					}
+				}
 				cmbElement.setInput(cut.getElementsInEnergyRange().keySet());
-				cmbElement.setSelection(new StructuredSelection(cmbElement.getElementAt(0)));
+				if (selectedElement == null) {
+					cmbElement.setSelection(new StructuredSelection(cmbElement.getElementAt(0)));
+				} else {
+					cmbElement.setSelection(new StructuredSelection(selectedElement));
+				}
 			}
 		});
 		cmbCrystalCut.getCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -388,6 +399,8 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 							revertToModel();
 							logger.error("Unable to set new detector", status.getMessage());
 							UIHelper.showError("Unable to set new detector", status.getMessage());
+						} else {
+							getScannableValuesSuggestion();
 						}
 						return status;
 					}
@@ -803,7 +816,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				// TODO Check if this value is correct
 				// FIXME Conversion shouldn't not be done in this UI section
 				lblDetectorDistanceSuggestion.setText(ScannableSetup.DETECTOR_DISTANCE.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getDetectorDistance() * 1000))); // Convert to mm
-				lblDetectorHeightSuggestion.setText(ScannableSetup.DETECTOR_HEIGHT.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getDetectorHeight()))); // FIXME Why not convert for this one?
+				lblDetectorHeightSuggestion.setText(ScannableSetup.DETECTOR_HEIGHT.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getDetectorHeight())));
 
 				lblAtn1Suggestion.setText(results.getAtn1().toString());
 				lblAtn2Suggestion.setText(results.getAtn2().toString());
