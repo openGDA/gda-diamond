@@ -513,7 +513,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		suggestionControls.put(applyButton, lblMe1StripSuggestion);
 		UIHelper.createMotorViewer(toolkit, motorSectionComposite, ScannableSetup.ME1_STRIPE, UIMotorControl.ENUM, moveObserver);
 
-
 		lblMe2StripSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.ME2_STRIPE);
 		listener = new SuggestionApplyButtonListener(ScannableSetup.ME2_STRIPE, lblMe2StripSuggestion);
 		applyButton = createMotorControl(motorSectionComposite, listener);

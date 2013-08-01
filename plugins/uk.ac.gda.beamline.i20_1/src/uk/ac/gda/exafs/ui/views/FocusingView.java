@@ -193,9 +193,7 @@ public class FocusingView extends ViewPart {
 	@SuppressWarnings("static-access")
 	private void createFormSlitsParametersSection(Form form) {
 		final Section slitsParametersSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
-		toolkit.paintBordersFor(slitsParametersSection);
 		slitsParametersSection.setText("Slits scan");
-		toolkit.paintBordersFor(slitsParametersSection);
 		slitsParametersSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		Composite slitsParametersSelectionComposite = toolkit.createComposite(slitsParametersSection, SWT.NONE);
 		toolkit.paintBordersFor(slitsParametersSelectionComposite);

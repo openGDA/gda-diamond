@@ -88,26 +88,24 @@ public class DetectorROIsSesion {
 		roisSection.setClient(roisSectionComposite);
 		roisSectionComposite.setLayout(new GridLayout());
 
-		Composite stripsComposit = new Composite(roisSectionComposite, SWT.NONE);
+		Composite stripsComposite = new Composite(roisSectionComposite, SWT.NONE);
 		GridData gridData = new GridData(GridData.FILL, GridData.BEGINNING, true, true);
 
-		stripsComposit.setLayoutData(gridData);
-		stripsComposit.setLayout(new GridLayout(4, false));
+		stripsComposite.setLayoutData(gridData);
+		stripsComposite.setLayout(new GridLayout(4, false));
 
-		final Label lblFirstStrip = toolkit.createLabel(stripsComposit, "First strip:", SWT.NONE);
+		final Label lblFirstStrip = toolkit.createLabel(stripsComposite, "First strip:", SWT.NONE);
 		lblFirstStrip.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		CCombo cmbFirstStrip = new CCombo(stripsComposit, SWT.BORDER | SWT.FLAT);
-		//cmbFirstStrip.setEditable(false);
+		CCombo cmbFirstStrip = new CCombo(stripsComposite, SWT.BORDER | SWT.FLAT);
 		cmbFirstStrip.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
 		cmbFirstStripViewer = new ComboViewer(cmbFirstStrip);
 		cmbFirstStripViewer.setContentProvider(new ArrayContentProvider());
 		cmbFirstStripViewer.setLabelProvider(new LabelProvider());
 		cmbFirstStripViewer.setInput(XHDetector.getStrips());
 
-		Label lblLastStrip = toolkit.createLabel(stripsComposit, "Last strip:", SWT.NONE);
+		Label lblLastStrip = toolkit.createLabel(stripsComposite, "Last strip:", SWT.NONE);
 		lblLastStrip.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		CCombo cmbLastStrip = new CCombo(stripsComposit, SWT.BORDER | SWT.FLAT);
-		//cmbLastStrip.setEditable(false);
+		CCombo cmbLastStrip = new CCombo(stripsComposite, SWT.BORDER | SWT.FLAT);
 		cmbLastStrip.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
 		cmbLastStripViewer = new ComboViewer(cmbLastStrip);
 		cmbLastStripViewer.setContentProvider(new ArrayContentProvider());
