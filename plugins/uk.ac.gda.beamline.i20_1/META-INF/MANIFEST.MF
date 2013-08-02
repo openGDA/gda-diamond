@@ -19,7 +19,7 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.spectroscopy.rcp;bundle-version="1.2.0",
  uk.ac.gda.libs
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: gda.device.detector,
  uk.ac.gda.beamline.i20_1,
  uk.ac.gda.exafs.data,
