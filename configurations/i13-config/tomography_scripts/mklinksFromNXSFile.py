@@ -7,6 +7,8 @@ import shutil
 import subprocess
 import sys
 import unittest
+import numpy as np
+import re
 
 import h5py
 import string
@@ -24,6 +26,87 @@ from contextlib import contextmanager
 from numpy import *
 import numpy as np
 import PIL.Image
+
+def copySingleFile(src, dst):
+	success = False
+	if not os.path.exists(src):
+		msg = "INFO: File cannot be copied because it does not exist: "+`src`
+		raise Exception(msg)
+	if os.path.exists(dst):
+		msg = "INFO: File already exist (you may wish to delete the existing file and then re-run the command): "+`dst`
+		print msg
+	else:
+		try:
+			success = True
+			shutil.copy(src, dst)
+			msg = "INFO: Copied "+`src`+" to " + `dst`
+			print msg
+		except:
+			msg = "INFO: Failed to copy "+`src`+" to " + `dst`
+			print msg
+			success = False
+	return success
+
+def launchImageAveragingProcess(inDir, inFilenameFmt, outDir, outFilename="flat-avg.tif", imgWidth=4008, imLength=2672):
+	print launchImageAveragingProcess.__name__
+	print "inDir =", inDir
+	print "inFilenameFmt =", inFilenameFmt
+	print "outDir =", outDir 
+	print "outFilename =", outFilename
+	print "imgWith =", str(imgWidth)
+	print "imgLength =", str(imLength)
+	
+	#launchX("/dls_sw/i12/software/tomography_scripts/flat_capav")
+	#success = launchX
+	exePath = "/dls_sw/i12/software/tomography_scripts/flat_capav"
+	
+	sanity_count = inFilenameFmt.count("%")
+	if sanity_count != 1:
+		msg = "Unsupported filename format: " + inFilenameFmt + " (only a single template parameter (%) is currently allowed)"
+		raise Exception(msg)
+	
+	args = [exePath]
+	args += ["-i", str(inDir)]
+	args += ["-f", str(outFilename)]
+	args += ["-o", str(outDir)]
+	args += ["-I", str(inFilenameFmt)]
+	args += ["-w", str(imgWidth)]
+	args += ["-l", str(imLength)]
+	
+	pattern_dct = {}
+	pattern_dct['f_000_%05d.tif'] = r'^f_000_(\d{5})\.tif$'
+	pattern_dct['d_000_%05d.tif'] = r'^d_000_(\d{5})\.tif$'
+	
+	#pattern = '^f_000_(\d{5})\.tif$'
+	pattern = pattern_dct[inFilenameFmt]
+	print "Filename pattern used in regex =", pattern
+	
+	#files = [f for f in os.listdir(inDir) if re.match(r'^f_000_(\d{5})\.tif$',f)]
+	files = [f for f in os.listdir(inDir) if re.match(pattern,f)]
+	
+	msg = "Files for averaging ("+`len(files)`+"):" 
+	print msg
+	for f in files:
+		print f
+	
+	len_files = len(files)
+	if len_files < 1:
+		msg = "No files matching template " + inFilenameFmt + " were found in " + inDir
+		raise Exception(msg)
+	
+	args += ["-a", str(len_files)]
+	
+	for a in args:
+		print a
+	
+	pid = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	pid.wait()
+	(out, err) = pid.communicate()
+	print out
+	print err
+	print "Return value was %s\n" % pid.returncode
+	return True if (pid.returncode==0) else False
+
 
 @contextmanager
 def opened_w_error(filename, mode="r"):
@@ -207,8 +290,11 @@ def createDirs(refFilename, outdir, scanID, mandatorydir="processing", verbose=F
 	dark_dir="sino"+os.sep+scanNumber_str+os.sep+"dark"
 	flat_dir="sino"+os.sep+scanNumber_str+os.sep+"flat"
 	recon_dir="reconstruction"+os.sep+scanNumber_str
+	
+	darks_dir="rawdata"+os.sep+scanNumber_str+os.sep+"darks"
+	flats_dir="rawdata"+os.sep+scanNumber_str+os.sep+"flats"
 
-	dirs=[proj_dir, dark_dir, flat_dir, recon_dir]
+	dirs=[proj_dir, dark_dir, flat_dir, recon_dir, darks_dir, flats_dir]
 
 	for dirname in dirs:
 		dirname=head+os.sep+dirname
@@ -224,7 +310,7 @@ def createDirs(refFilename, outdir, scanID, mandatorydir="processing", verbose=F
 
 
 	print "\nFinished creating directories." 
-	return scanNumber_str, head, sino_dir, dark_dir, flat_dir, proj_dir, recon_dir
+	return scanNumber_str, head, sino_dir, dark_dir, flat_dir, proj_dir, darks_dir, flats_dir, recon_dir
 
 
 def decimate(inList, decimationRate=1):
@@ -249,7 +335,7 @@ def decimate(inList, decimationRate=1):
 	return outList
 
 
-def populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, tif_lst, dark_idx, flat_idx, proj_idx, filenameOffset=0, decimationRate=1, verbose=False):
+def populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, darks_dir, flats_dir, tif_lst, dark_idx, flat_idx, proj_idx, unpicked_idx_dct, filenameOffset=0, decimationRate=1, verbose=False):
 
 	"""
 	Create:
@@ -322,7 +408,45 @@ def populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, tif_lst, da
 							, outdir=(head+os.sep+proj_dir)\
 							, outFilenameFmt=outFnameFmt\
 							, inFilenameOffset=filenameOffset)
-
+	
+	# create links to all flats
+	filenameFmt="%05d.tif"
+	#outFnameFmt="f_%03d_%05d.tif"
+	outPrefixFnameFmt="f_%03d_"
+	outPostixFnameFmt="%05d.tif"
+	outFnameFmt=""
+	subseq=0
+	for listOfImgIdx in unpicked_idx_dct['flat']:
+		outFnameFmt=outPrefixFnameFmt %(subseq)
+		outFnameFmt += outPostixFnameFmt
+		makeLinksToOriginalFiles(\
+								listOfProjIdx=listOfImgIdx\
+								, indir=genAncestorPath(refFilename, 1)\
+								, inFilenameFmt=filenameFmt\
+								, outdir=(head+os.sep+flats_dir)\
+								, outFilenameFmt=outFnameFmt\
+								, inFilenameOffset=filenameOffset)
+		subseq += 1
+	
+	# create links to all darks
+	filenameFmt="%05d.tif"
+	#outFnameFmt="d_%03d_%05d.tif"
+	outPrefixFnameFmt="d_%03d_"
+	outPostixFnameFmt="%05d.tif"
+	outFnameFmt=""
+	subseq=0
+	for listOfImgIdx in unpicked_idx_dct['dark']:
+		outFnameFmt=outPrefixFnameFmt %(subseq)
+		outFnameFmt += outPostixFnameFmt
+		makeLinksToOriginalFiles(\
+								listOfProjIdx=listOfImgIdx\
+								, indir=genAncestorPath(refFilename, 1)\
+								, inFilenameFmt=filenameFmt\
+								, outdir=(head+os.sep+darks_dir)\
+								, outFilenameFmt=outFnameFmt\
+								, inFilenameOffset=filenameOffset)
+		subseq += 1
+	
 	print "\nFinished populating directories." 
 	return len(proj_idx_decimated), detectorName
 
@@ -888,11 +1012,14 @@ def makeLinksForNXSFile(\
 					, stagePosNXSPath='/entry1/instrument/tomoScanDevice/ss1_X'\
 					, stageRotNXSPath='/entry1/instrument/tomoScanDevice/ss1_rot'\
 					, tifNXSPath='/entry1/instrument/pco1_hw_tif/image_data'\
+					, imgkeyNXSPath='/entry1/instrument/tomoScanDevice/image_key'\
 					, outdir=None\
 					, minProjs=129\
 					, maxUnclassed=0\
 					, decimationRate=1\
 					, sino=False\
+					, avgf=False\
+					, avgd=False\
 					, recon=False\
 					, verbose=False\
 					, dbg=False):
@@ -923,11 +1050,14 @@ def makeLinksForNXSFile(\
 		print "stagePosNXSPath=%s"%stagePosNXSPath
 		print "stageRotNXSPath=%s"%stageRotNXSPath
 		print "tifNXSPath=%s"%tifNXSPath
+		print "imgkeyNXSPath=%s"%imgkeyNXSPath
 		print "outdir=%s"%outdir
 		print "minProjs=%s"%minProjs
 		print "maxUnclassed=%s"%maxUnclassed
 		print "decimationRate=%s"%decimationRate
 		print "sino=%s"%str(sino)
+		print "avgf=%s"%str(avgf)
+		print "avgd=%s"%str(avgd)
 		print "recon=%s"%str(recon)
 		print "verbose=%s"%str(verbose)
 		print "dbg=%s"%str(dbg)
@@ -1014,17 +1144,11 @@ def makeLinksForNXSFile(\
 	except Exception, ex:
 		raise Exception ("Error on trying to access paths to TIF images inside the input NeXus file: \n"+str(ex))
 
-
-	try:
-		imgNumber=nxsFileHandle['/entry1/instrument/tomoScanDevice/imageNumber']
-	except Exception, ex:
-		raise Exception ("Error on trying to access image number data inside the input NeXus file: \n"+str(ex))
-
 	len_all=[]
 	imgkeyNXS=True
 	len_imgkey=-1
 	try:
-		imgkeyNXSPath='/entry1/instrument/tomoScanDevice/image_key'
+		#imgkeyNXSPath='/entry1/instrument/tomoScanDevice/image_key'
 		imgkey=nxsFileHandle[imgkeyNXSPath]
 		#print 'type(imgkey)=', type(imgkey)
 		len_imgkey=len(imgkey)
@@ -1042,13 +1166,11 @@ def makeLinksForNXSFile(\
 	len_ss1_rot=len(ss1_rot)
 	len_tomography_shutter=len(tomography_shutter)
 	len_tif=len(tif)
-	len_imgNumber=len(imgNumber)
 
 	len_all.append(len_ss1_x)
 	len_all.append(len_ss1_rot)
 	len_all.append(len_tomography_shutter)
 	len_all.append(len_tif)
-	len_all.append(len_imgNumber)
 	print 'len_all=', len_all
 	
 	if verbose:
@@ -1073,6 +1195,50 @@ def makeLinksForNXSFile(\
 	proj_idx=[]
 	unclassified_idx=[]
 	
+	# for storing indices of sub-sequences of flats and darks
+	unpicked_idx_dct = {}
+	unpicked_idx_dct['dark']=[]
+	unpicked_idx_dct['flat']=[] 
+	unpicked_idx_dct['proj']=[]
+	unpicked_idx_dct['uncl']=[]
+	
+	dfp_encoding={}
+	dfp_encoding['dark']=2
+	dfp_encoding['flat']=1
+	dfp_encoding['proj']=0
+	dfp_encoding['uncl']=-1
+	dfp_encoding_reverse = {}
+	dfp_encoding_reverse[dfp_encoding['dark']]='dark'
+	dfp_encoding_reverse[dfp_encoding['flat']]='flat'
+	dfp_encoding_reverse[dfp_encoding['proj']]='proj'
+	dfp_encoding_reverse[dfp_encoding['uncl']]='uncl'
+	
+	# init for subsequent identification of sub-sequences
+	image_key_idx_0=None
+	if not imgkeyNXS:
+		if (inBeamPos is None) or (outOfBeamPos is None):
+			msg = "INFO: Image-key data are not available in input NeXus file - please re-run this script using \n"
+			msg += "the stageInBeamPhys and stageOutOfBeamPhys options, followed by appropriate values \n"
+			msg += "(the latter can be found in scan_command recorded in scan's NeXus file)."
+			raise Exception(msg)
+			
+		image_key_idx_0_dct = genImageKey(inShutterPos=tomography_shutter[0], map01Def_shutter=map01Def_shutter, inStagePos=ss1_x[0], map01Def_stage=map01Def_stage, dfpDef=dfpDef)
+		image_key_idx_0=dfp_encoding['uncl']
+		if image_key_idx_0_dct['dark']==1 and image_key_idx_0_dct['flat']==0 and image_key_idx_0_dct['proj']==0:
+			image_key_idx_0=dfp_encoding['dark']
+		elif image_key_idx_0_dct['dark']==0 and image_key_idx_0_dct['flat']==1 and image_key_idx_0_dct['proj']==0:
+			image_key_idx_0=dfp_encoding['flat']
+		elif image_key_idx_0_dct['dark']==0 and image_key_idx_0_dct['flat']==0 and image_key_idx_0_dct['proj']==1:
+			image_key_idx_0=dfp_encoding['proj']
+	else:
+		image_key_idx_0 = int(imgkey[0])
+	
+	if image_key_idx_0 is None:
+		raise Exception("Invalid image key at index 0.")
+	# init
+	image_key_of_curr_subseq = image_key_idx_0
+	image_key_curr_subseq_lst = []
+	
 	# use min just in case
 	N=min(len_ss1_x, len_tomography_shutter, len_tif)
 	
@@ -1088,45 +1254,68 @@ def makeLinksForNXSFile(\
 			msg += "the stageInBeamPhys and stageOutOfBeamPhys options, followed by appropriate values \n"
 			msg += "(the latter can be found in scan_command recorded in scan's NeXus file)."
 			raise Exception(msg)
-		image_key_curr={}
+		image_key_curr_dct={}
+		image_key_curr=dfp_encoding['uncl']
 	# identify each entry as DARK, FLAT, PROJ or UNCLASSIFIED image
 		for i in range(0, N):
-			image_key_curr=genImageKey(inShutterPos=tomography_shutter[i], map01Def_shutter=map01Def_shutter, inStagePos=ss1_x[i], map01Def_stage=map01Def_stage, dfpDef=dfpDef) 
+			image_key_curr_dct=genImageKey(inShutterPos=tomography_shutter[i], map01Def_shutter=map01Def_shutter, inStagePos=ss1_x[i], map01Def_stage=map01Def_stage, dfpDef=dfpDef) 
 			
-			if image_key_curr['dark']==1 and image_key_curr['flat']==0 and image_key_curr['proj']==0:
-				#dark_idx.append(imgNumber[i])
+			if image_key_curr_dct['dark']==1 and image_key_curr_dct['flat']==0 and image_key_curr_dct['proj']==0:
 				dark_idx.append(i)
-			elif image_key_curr['dark']==0 and image_key_curr['flat']==1 and image_key_curr['proj']==0:
-				#flat_idx.append(imgNumber[i])
+				image_key_curr=dfp_encoding['dark']
+			elif image_key_curr_dct['dark']==0 and image_key_curr_dct['flat']==1 and image_key_curr_dct['proj']==0:
 				flat_idx.append(i)
-			elif image_key_curr['dark']==0 and image_key_curr['flat']==0 and image_key_curr['proj']==1:
-				#proj_idx.append(imgNumber[i])
+				image_key_curr=dfp_encoding['flat']
+			elif image_key_curr_dct['dark']==0 and image_key_curr_dct['flat']==0 and image_key_curr_dct['proj']==1:
 				proj_idx.append(i)
+				image_key_curr=dfp_encoding['proj']
 			else:
-				#unclassified_idx.append(imgNumber[i])
 				unclassified_idx.append(i)
+			
+			# handle sub-sequences 
+			if image_key_of_curr_subseq != image_key_curr:
+				# offload old subseq
+				unpicked_idx_dct[ dfp_encoding_reverse[image_key_of_curr_subseq] ].append(image_key_curr_subseq_lst)
+				# reset all for new subseq
+				image_key_of_curr_subseq = image_key_curr
+				image_key_curr_subseq_lst = []
+				# and add curr idx to new subseq!
+				image_key_curr_subseq_lst.append(i)
+			else:
+				# add curr idx to curr subseq
+				image_key_curr_subseq_lst.append(i)
+		# must offload the last subseq by brute force		
+		unpicked_idx_dct[ dfp_encoding_reverse[image_key_of_curr_subseq] ].append(image_key_curr_subseq_lst)
 	else:
 		msg="INFO: Using image keys found in input NeXus file.\n"
 		print msg
-		dfp={}
-		dfp['dark']=2
-		dfp['flat']=1
-		dfp['proj']=0
-		image_key_curr=-1
+		image_key_curr=dfp_encoding['uncl']
 		for i in range(0, N):
 			image_key_curr=int(imgkey[i])
-			if image_key_curr==dfp['dark']:
-				#dark_idx.append(imgNumber[i])
+			if image_key_curr==dfp_encoding['dark']:
 				dark_idx.append(i)
-			elif image_key_curr==dfp['flat']:
-				#flat_idx.append(imgNumber[i])
+			elif image_key_curr==dfp_encoding['flat']:
 				flat_idx.append(i)
-			elif image_key_curr==dfp['proj']:
-				#proj_idx.append(imgNumber[i])
+			elif image_key_curr==dfp_encoding['proj']:
 				proj_idx.append(i)
 			else:
-				#unclassified_idx.append(imgNumber[i])
 				unclassified_idx.append(i)
+			
+			# handle sub-sequences 
+			if image_key_of_curr_subseq != image_key_curr:
+				# offload old subseq
+				unpicked_idx_dct[ dfp_encoding_reverse[image_key_of_curr_subseq] ].append(image_key_curr_subseq_lst)
+				# reset all for new subseq
+				image_key_of_curr_subseq = image_key_curr
+				image_key_curr_subseq_lst = []
+				# and add curr idx to new subseq!
+				image_key_curr_subseq_lst.append(i)
+			else:
+				# add curr idx to curr subseq
+				image_key_curr_subseq_lst.append(i)
+		
+		# must offload the last subseq by brute force		
+		unpicked_idx_dct[ dfp_encoding_reverse[image_key_of_curr_subseq] ].append(image_key_curr_subseq_lst)
 	
 	if verbose:
 		print "List of DARK indices:"
@@ -1137,21 +1326,37 @@ def makeLinksForNXSFile(\
 		print proj_idx
 		print "List of UNCLASSIFIED indices:"
 		print unclassified_idx
+		
+		print "Sub-sequences of DARK indices:"
+		cnt=0
+		for lst in unpicked_idx_dct['dark']:
+			print cnt, lst
+			cnt += 1
+		print "Sub-sequences of FLAT indices:"
+		cnt = 0
+		for lst in unpicked_idx_dct['flat']:
+			print cnt, lst
+			cnt += 1
 	
 	# check if we've identified a sufficient number of images as DARK, FLAT and PROJ images to perform a reconstruction 
 	len_proj_idx=len(proj_idx)
-	#if len_proj_idx<loProjs_exc:
-	#	raise Exception("Number of the identified PROJECTION images is TOO SMALL to proceed: "+`len_proj_idx`+" < "+`loProjs_exc`+" (the latter is the exclusive min)")
+	if len_proj_idx<loProjs_exc:
+		msg = "Number of the identified PROJECTION images is TOO SMALL to proceed: "+`len_proj_idx`+" < "+`loProjs_exc`+" (the latter is the exclusive min)"
+		print msg
+	#	raise Exception(msg)
 	
 	#unclassified_idx.append(1300)
 	if len(dark_idx)==0:
-		raise Exception("Failed to identify ANY DARK field images!")
+		msg = "Failed to identify ANY DARK-field images!"
+		raise Exception(msg)
 	
 	if len(flat_idx)==0:
-		raise Exception("Failed to identify ANY FLAT field images!")
+		msg = "Failed to identify ANY FLAT-field images!"
+		raise Exception(msg)
 	
 	if len(proj_idx)==0:
-		raise Exception("Failed to identify ANY PROJECTION images!")
+		msg = "Failed to identify ANY PROJECTION images!"
+		raise Exception(msg)
 	
 	hiUnclassifieds_exc=maxUnclassed
 	len_unclassified_idx=len(unclassified_idx)
@@ -1223,9 +1428,50 @@ def makeLinksForNXSFile(\
 
 	mandatory_parent_foldername="processing"
 	
-	scanNumber_str, head, sino_dir, dark_dir, flat_dir, proj_dir, recon_dir=createDirs(refFilename=srcfile_proj, outdir=outdir, scanID=scanID_str, mandatorydir=mandatory_parent_foldername, verbose=verbose)
+	scanNumber_str, head, sino_dir, dark_dir, flat_dir, proj_dir, darks_dir, flats_dir, recon_dir=createDirs(refFilename=srcfile_proj, outdir=outdir, scanID=scanID_str, mandatorydir=mandatory_parent_foldername, verbose=verbose)
 	
-	len_proj_idx_decimated, detectorName=populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, tif, dark_idx, flat_idx, proj_idx, filenameOffset=idx_offset_int, decimationRate=decimationRate, verbose=verbose)
+	len_proj_idx_decimated, detectorName=populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, darks_dir, flats_dir, tif, dark_idx, flat_idx, proj_idx, unpicked_idx_dct, filenameOffset=idx_offset_int, decimationRate=decimationRate, verbose=verbose)
+	
+	# average flats
+	avgf_success = False
+	if avgf:
+		with cd(head+os.sep+sino_dir):
+			try:
+				avgf_success = launchImageAveragingProcess(\
+										inDir=(head+os.sep+flats_dir)\
+										, inFilenameFmt="f_000_%05d.tif"\
+										, outDir=(head+os.sep+flat_dir)\
+										, outFilename="flat-avg.tif"\
+										, imgWidth=inWidth\
+										, imLength=inHeight)
+				print "INFO: Finished averaging flat-field images"
+			except Exception, ex:
+				avgf_success = False
+				raise Exception ("ERROR Spawning flat_capav for flat-field images: "+str(ex))
+	else:
+		msg = "\nINFO: Launching of flat_capav for averaging flat-field images was not requested."
+		print msg
+	
+	
+	# average darks
+	avgd_success = False
+	if avgd:
+		with cd(head+os.sep+sino_dir):
+			try:
+				avgd_success = launchImageAveragingProcess(\
+										inDir=(head+os.sep+darks_dir)\
+										, inFilenameFmt="d_000_%05d.tif"\
+										, outDir=(head+os.sep+dark_dir)\
+										, outFilename="dark-avg.tif"\
+										, imgWidth=inWidth\
+										, imLength=inHeight)
+				print "INFO: Finished averaging dark-field images"
+			except Exception, ex:
+				avgd_success = False
+				raise Exception ("ERROR Spawning flat_capav for dark-field images: "+str(ex))
+	else:
+		msg = "\nINFO: Launching of flat_capav for averaging dark-field images was not requested."
+		print msg
 	
 	if sino:
 		#print "\n\tAbout to launch the sino_listener script from CWD = %s"%os.getcwd()
@@ -1253,7 +1499,7 @@ def makeLinksForNXSFile(\
 				sino_success=False
 				raise Exception ("ERROR Spawning the sino_listener script  "+str(ex))
 		
-		print "\nAfter launching the sino_listener script CWD = %s"%os.getcwd()
+		#print "\nAfter launching the sino_listener script CWD = %s"%os.getcwd()
 		
 		if sino_success:
 			print 'sino_success=TRUE'
@@ -1306,7 +1552,7 @@ def makeLinksForNXSFile(\
 					raise Exception ("ERROR Spawning the recon_arrayxml script  "+str(ex))
 		
 	else:
-		print "\nLaunch of the sino_listener script was not requested at the end of makeLinksForNXSFile." 
+		print "\nINFO: Launching of sino_listener was not requested." 
 	
 	#print "\nJust before closing NeXus file CWD = %s"%os.getcwd()
 	#don't forget to close the input NeXus file
@@ -1337,9 +1583,12 @@ creates directories and links to projection, dark and flat images required for s
 	parser.add_option("--stagePosNXSPath", action="store", type="string", dest="stagePosNXSPath", default="/entry1/instrument/tomoScanDevice/ss1_X", help="The path to the location of SAMPLE STAGE's physical positions inside the input NeXus file.")
 	parser.add_option("--stageRotNXSPath", action="store", type="string", dest="stageRotNXSPath", default="/entry1/instrument/tomoScanDevice/ss1_rot", help="The path to the location of SAMPLE STAGE's physical rotations inside the input NeXus file.")
 	parser.add_option("--tifNXSPath", action="store", type="string", dest="tifNXSPath", default="/entry1/instrument/pco1_hw_tif/image_data", help="The path to the location of TIFF filenames inside the input NeXus file.")
+	parser.add_option("--imgkeyNXSPath", action="store", type="string", dest="imgkeyNXSPath", default="/entry1/instrument/tomoScanDevice/image_key", help="The path to the location of image-key data inside the input NeXus file.")
 	parser.add_option("-o", "--outdir", action="store", type="string", dest="outdir", help="Path to folder in which directories and files are to be made. Default is current working folder")
 	parser.add_option("--verbose", action="store_true", dest="verbose", default=False, help="Verbose - useful for diagnosing the script")
 	parser.add_option("-s", "--sino", action="store_true", dest="sino", default=False, help="If present, then the sino_listener.py script will be launched to create sinograms.")
+	parser.add_option("--avgf", action="store_true", dest="avgf", default=False, help="If set to True, flat_capav will be launched to average flat-field images.")
+	parser.add_option("--avgd", action="store_true", dest="avgd", default=False, help="If set to True, flat_capav will be launched to average dark-field images.")
 	parser.add_option("-r", "--recon", action="store_true", dest="recon", default=False, help="If present, then the recon_arrayxml.py script will be launched to perform reconstruction.")
 	parser.add_option("--dbg", action="store_true", dest="dbg", default=False, help="Debug option set to TRUE limits the number of processed images to the first 10 (useful for testing, etc.")
 
@@ -1383,9 +1632,12 @@ creates directories and links to projection, dark and flat images required for s
 					, stagePosNXSPath=opts.stagePosNXSPath\
 					, stageRotNXSPath=opts.stageRotNXSPath\
 					, tifNXSPath=opts.tifNXSPath\
+					, imgkeyNXSPath=opts.imgkeyNXSPath\
 					, decimationRate=opts.decimationRate\
 					, verbose=opts.verbose\
 					, sino=opts.sino\
+					, avgf=opts.avgf\
+					, avgd=opts.avgd\
 					, recon=opts.recon\
 					, dbg=opts.dbg)
 
