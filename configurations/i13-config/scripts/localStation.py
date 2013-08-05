@@ -197,9 +197,10 @@ try:
 	zebra_det.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_PULSE	
 #	run("i13diffcalc")
 
-	#pcoEdge needs timestamp 0
-	pco1_hw_tif.collectionStrategy.timeStamp=0
-	pco1_hw_hdf.collectionStrategy.timeStamp=0
+#   It seemed on using Jon's first driver that pcoEdge needs timestamp 0, must I am not sure now as 
+#   tomography was done successfully with timestamp set to default values.
+#	pco1_hw_tif.collectionStrategy.timeStamp=0
+#	pco1_hw_hdf.collectionStrategy.timeStamp=0
 
 	import raster_scan
 	LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/raw")
