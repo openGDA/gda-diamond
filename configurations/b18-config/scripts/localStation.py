@@ -1,7 +1,5 @@
 print "Initialization Started";
 
-from exafsscripts.vortex.vortexConfig import vortex
-from exafsscripts.xspress.xspressConfig import xspress
 from exafsscripts.exafs.b18DetectorPreparer import B18DetectorPreparer
 from exafsscripts.exafs.b18SamplePreparer import B18SamplePreparer
 from exafsscripts.exafs.b18OutputPreparer import B18OutputPreparer
@@ -14,11 +12,16 @@ from gda.factory import Finder
 from gda.configuration.properties import LocalProperties
 from gda.jython.scriptcontroller.logging import LoggingScriptController
 from gda.jython.scriptcontroller.logging import XasLoggingMessage
-
 from gda.device.monitor import EpicsMonitor
+from gda.data.scan.datawriter import NexusExtraMetadataDataWriter
+
+XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
+commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
+ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
+datawriterconfig = Finder.getInstance().find("datawriterconfig")
 
 original_header = Finder.getInstance().find("datawriterconfig").clone().getHeader()[:]
-from gda.data.scan.datawriter import NexusExtraMetadataDataWriter
+
 NexusExtraMetadataDataWriter.removeAllMetadataEntries()
 
 if (LocalProperties.get("gda.mode") == 'live'):
@@ -26,17 +29,14 @@ if (LocalProperties.get("gda.mode") == 'live'):
 else:
     detectorPreparer = B18DetectorPreparer(qexafs_energy, None, ionc_stanfords, ionc_gas_injectors.getGroupMembers())
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
-outputPreparer = B18OutputPreparer()
+outputPreparer = B18OutputPreparer(datawriterconfig)
 
-loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
-xas = XasScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
-qexafs = QexafsScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer, qexafs_energy, qexafs_counterTimer01)
+xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, energy, counterTimer01)
+qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, qexafs_energy, qexafs_counterTimer01)
 xanes = xas
 
 alias("xas")
 alias("xanes")
-alias("vortex")
-alias("xspress")
 alias("qexafs")
 
 from gda.jython.commands.ScannableCommands import cv as cvscan

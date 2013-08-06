@@ -1,5 +1,3 @@
-reset_namespace
-energyScannable = finder.find("qexafs_energy")
 qexafs_energy()
 qexafs_energy(9999)
 qexafs_energy()
@@ -97,4 +95,10 @@ s4xcentre(6)
 qexafs
 qexafs_counterTimer01
 scan test 0 10 1 qexafs_counterTimer01 1
+reset_namespace
+ionc1_stanford
+reset_namespace
+pos
+reset_namespace
+scan test 0 10 1 counterTimer01 1
 reset_namespace

@@ -1,7 +1,5 @@
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable import DummyScannable
-from exafsscripts.vortex.vortexConfig import vortex
-from exafsscripts.xspress.xspressConfig import xspress
 from gda.device.scannable import TopupScannable
 from gda.device.scannable import BeamMonitorWithFeedbackSwitchScannable
 from gda.device.scannable import DetectorFillingMonitorScannable
@@ -84,7 +82,7 @@ outputPreparer = I18OutputPreparer()
 
 loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
 
-xas = I18XasScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer, None)
+xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
 
 non_raster_map = Map(D7A, D7B, counterTimer01, rcpController)
 raster_map = RasterMap(D7A, D7B, counterTimer01, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, rcpController)
@@ -101,8 +99,6 @@ xanes = xas
 
 alias("xas")
 alias("xanes")
-alias("vortex")
-alias("xspress")
 #alias("qexafs")
 alias("map")
 alias("raster_map")

@@ -1,19 +1,18 @@
 from gda.scan import StaticScan
 from gda.analysis import ScanFileHolder, RCPPlotter
-from gda.factory import Finder
 from time import sleep
 from gda.scan import ConcurrentScan
 
 class MythenAcquisition:
-    def __init__(self):
+    def __init__(self, mythen, test):
         self.outputFile = ""
         self.rawFile = ""
         self.calibFile = '/dls_sw/b18/software/mythen/MythenSoft/module/calibration.dat'
         self.data = None
         self.acquiring = False
         self.header = "no header"
-        self.mythen = Finder.getInstance().find("mythen")
-        self.test = Finder.getInstance().find("test")
+        self.mythen = mythen
+        self.test = test
     
     def setHeader(self, header):
         self.header = header
