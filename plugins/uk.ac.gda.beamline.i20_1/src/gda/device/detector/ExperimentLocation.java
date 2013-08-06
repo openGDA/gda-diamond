@@ -31,4 +31,9 @@ public class ExperimentLocation {
 		this.scanNum = scanNum;
 	}
 
+	@Override
+	public String toString() {
+		return "Experiment progress: group: " + groupNum + " frame: " + frameNum + " scan: " + scanNum;
+	}
+
 }

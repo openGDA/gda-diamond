@@ -18,6 +18,8 @@
 
 package gda.device.detector;
 
+import gda.device.Detector;
+
 /**
  * Messaging bean showing the current XStrip detector status (same values as in GDA DetectorStatus class ) and the
  * current group/frame/scan being collected.
@@ -25,4 +27,33 @@ package gda.device.detector;
 public class ExperimentStatus {
 	public int detectorStatus;
 	public ExperimentLocation loc = new ExperimentLocation(null,null,null);
+	
+	@Override
+	public String toString() {
+		
+		String detStatus = "";
+		
+		switch (detectorStatus) {
+		case Detector.BUSY:
+			detStatus = "Busy";
+			break;
+		case Detector.FAULT:
+			detStatus = "Fault";
+			break;
+		case Detector.IDLE:
+			detStatus = "Idle";
+			break;
+		case Detector.MONITORING:
+			detStatus = "Monitoring";
+			break;
+		case Detector.PAUSED:
+			detStatus = "Paused";
+			break;
+		case Detector.STANDBY:
+			detStatus = "Standby";
+			break;
+		}
+		
+		return detStatus + " " + loc.toString();
+	}
 }

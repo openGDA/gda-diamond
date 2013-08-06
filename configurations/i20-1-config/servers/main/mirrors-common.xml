@@ -78,6 +78,7 @@
 	</bean>
 	<bean id="me2pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="me2pitch_motor" />
+		<property name="initialUserUnits" value="mrad" />
 	</bean>
 	<bean id="me2roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="me2roll_motor" />
@@ -114,6 +115,7 @@
 	</bean>
 	<bean id="polytheta" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_theta_motor" />
+		<property name="initialUserUnits" value="deg" />
 	</bean>
 	<bean id="polyyfine" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_yfine_motor" />
@@ -126,15 +128,19 @@
 	</bean>
 	<bean id="polycurve" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_curvature_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="polybend1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_bend1_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="polybend2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_bend2_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="polyyellip" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_ellip_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="polytwist" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_twist_motor" />

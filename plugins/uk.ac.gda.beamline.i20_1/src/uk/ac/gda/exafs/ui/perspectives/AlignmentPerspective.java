@@ -23,38 +23,49 @@ import gda.rcp.views.JythonTerminalView;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
+import org.eclipse.ui.IViewLayout;
 
-import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
-import uk.ac.gda.client.liveplot.LivePlotView;
+import uk.ac.diamond.scisoft.spectroscopy.rcp.views.EdeCalibrationView;
 import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
 import uk.ac.gda.exafs.ui.views.DetectorSetupView;
+import uk.ac.gda.exafs.ui.views.FocusingView;
 import uk.ac.gda.exafs.ui.views.SingleSpectrumView;
 
 /**
  * Shows recent data from the XH detector for I20-1 EDE branchline.
  */
 public class AlignmentPerspective implements IPerspectiveFactory {
-	
+
 	public static final String ID = "uk.ac.gda.beamline.i20_1.AlignmentPerspective";
-	
+
 	// plot where snapshot spectra placed
-	public static String SPECTRAPLOTID =  PlotView.ID + "1";
-	public static String SPECTRAPLOTNAME =  "Plot 1";
+	public static String SPECTRAPLOTID =  "uk.ac.diamond.scisoft.analysis.rcp.liveModePlot";
+	public static String SPECTRAPLOTNAME =  "Live Mode";
+
+	private static final String TOPPLOT_FOLDER_ID = "topplot";
+	private static final String ALIGNMENT_CONTROLS_FOLDER_ID = "alignmentControls";
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
 		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(false);
-		
-		IFolderLayout alignmentControlsFolder = layout.createFolder("alignmentControls", IPageLayout.LEFT, 0.30f, editorArea);
+
+		IFolderLayout alignmentControlsFolder = layout.createFolder(ALIGNMENT_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.35f, editorArea);
 		alignmentControlsFolder.addView(BeamlineAlignmentView.ID);
+		IViewLayout propertyLayout = layout.getViewLayout(BeamlineAlignmentView.ID);
+		propertyLayout.setCloseable(false);
 		alignmentControlsFolder.addView(SingleSpectrumView.ID);
+		alignmentControlsFolder.addView(EdeCalibrationView.ID);
 
-		layout.addView(JythonTerminalView.ID, IPageLayout.RIGHT, 0.25f, editorArea);
+		layout.addView(FocusingView.ID, IPageLayout.RIGHT, 0.30f, editorArea);
+		propertyLayout = layout.getViewLayout(FocusingView.ID);
+		propertyLayout.setCloseable(false);
 
-		IFolderLayout topPlotFolder = layout.createFolder("topplot", IPageLayout.TOP, 0.50f, JythonTerminalView.ID);
+		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, FocusingView.ID);
 		topPlotFolder.addView(SPECTRAPLOTID);
-		topPlotFolder.addView(LivePlotView.ID);
-		layout.addView(DetectorSetupView.ID, IPageLayout.LEFT, 0.24f, "topplot");
+		layout.addView(DetectorSetupView.ID, IPageLayout.BOTTOM, 0.40f,TOPPLOT_FOLDER_ID);
+		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.25f,DetectorSetupView.ID);
+		propertyLayout = layout.getViewLayout(DetectorSetupView.ID);
+		propertyLayout.setCloseable(false);
 	}
 }

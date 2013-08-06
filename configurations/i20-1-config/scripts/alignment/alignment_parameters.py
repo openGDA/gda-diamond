@@ -8,6 +8,7 @@ import math
 
 from gda.util.exafs import AbsorptionEdge
 from uk.ac.gda.exafs.data import AlignmentParametersBean
+from gda.factory import Finder
 
 def calc_parameters(parametersBean):
     
@@ -22,6 +23,8 @@ def calc_parameters(parametersBean):
     parametersBean = _calcPrimarySlits(parametersBean)
     
     parametersBean = _calDetDistance(parametersBean)
+    
+    parametersBean = _calcEnergyBandwidth(parametersBean)
     
     parametersBean = _calcPower(parametersBean)
 
@@ -178,28 +181,56 @@ def _calDetDistance(parametersBean):
     
     q_m = parametersBean.getQ()
     
-    s_mm = 51.20 # XH
-    
-    if parametersBean.getDetector() == "XSTRIP":
-        s_mm = 25.60
-    # elif parametersBean.getDetector() = AlignmentParametersBean.Detector.CCD
+    s_mm = _getDetectorSizeInMM(parametersBean)
     
     det_dist_m = (s_mm * q_m) / (alpha_mrad * dist_poly_to_source)
     
     parametersBean.setDetectorDistance(det_dist_m)
     
     # TODO beam is going upwards at an angle of 6mrad, so based on
-    # detector and sample z values, their height needs to be calculated 
-    parametersBean.setDetectorHeight(0.0)
-    parametersBean.setSampleHeight(0.0)
+    # detector z values, their height needs to be calculated 
+    offset = 0.0
+    det_height_mm = offset - (6 * (q_m + _getRealDetDistanceInM()))
+    parametersBean.setDetectorHeight(det_height_mm)
 
     return parametersBean
     
+def _calcEnergyBandwidth(parametersBean):
+    
+    real_det_z = _getRealDetDistanceInM()
+    calc_det_z = parametersBean.getDetectorDistance()
+    energy = _calcEnergy(parametersBean)
+    s_mm = _getDetectorSizeInMM(parametersBean)
+    omega = parametersBean.getBraggAngle()
+    cot_omega = 1.0 / math.tan(math.radians(omega))
+    p_m = 45.1
+    q_m = parametersBean.getQ()
+    alpha_mrad = parametersBean.getPrimarySlitGap()
+    
+    deltaE = 0.0
+    if real_det_z > calc_det_z:
+        deltaE = energy * cot_omega * (s_mm/real_det_z) * (((p_m-q_m)/(2*p_m)) / 1000.)
+    else :
+        deltaE = energy * cot_omega * alpha_mrad * (((p_m-q_m)/(2*q_m)) / 1000.)
+    parametersBean.setEnergyBandwidth(deltaE)
+    
+    return parametersBean
+
 def _calcPower(parametersBean):
     
     # TODO!
-    
+    parametersBean.setPower(0.0)
     return parametersBean
     
+def _getRealDetDistanceInM():
+    
+    det_z = Finder.getInstance().find("detector_z")
+    return det_z.getPosition() / 1000.
 
+def _getDetectorSizeInMM(parametersBean):
+    s_mm = 51.20 # XH
+    
+    if parametersBean.getDetector() == "xstrip":
+        s_mm = 25.60
+    return s_mm
 

@@ -170,8 +170,6 @@ public class I20Validator extends ExafsValidator {
 					+ detParams.getExperimentType() + " which should be XES"));
 		}
 
-		checkBounds("Radius of Curvature", x.getRadiusOfCurvature(), 800d, 1010d, errors);
-
 		if (x.getScanType() == XesScanParameters.SCAN_XES_FIXED_MONO) {
 
 			checkBounds("Integration Time", x.getXesIntegrationTime(), 0d, 25d, errors);

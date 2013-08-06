@@ -24,6 +24,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
@@ -84,8 +86,11 @@ public class CryostatSampleDetailsComposite extends I20SampleParamsComposite imp
 
 		Group motorPositionsGroup = new Group(main, SWT.NONE);
 		motorPositionsGroup.setText("Motor positions");
-		GridDataFactory.fillDefaults().grab(true, false).span(5, 1).applyTo(motorPositionsGroup);
-		GridLayoutFactory.fillDefaults().numColumns(5).applyTo(motorPositionsGroup);
+		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(motorPositionsGroup);
+		RowLayout mpgLayout = new RowLayout();
+		mpgLayout.justify = true;
+		mpgLayout.pack = true;
+		motorPositionsGroup.setLayout(mpgLayout);
 		
 		btnGetLiveValues = new Button(motorPositionsGroup, SWT.None);
 		btnGetLiveValues.setText("Fetch");
@@ -106,16 +111,16 @@ public class CryostatSampleDetailsComposite extends I20SampleParamsComposite imp
 		final Label lblSamx = new Label(motorPositionsGroup, SWT.NONE);
 		lblSamx.setText("Position");
 		position = new ScaleBox(motorPositionsGroup, SWT.NONE);
-		position.setUnit("deg");
+		position.setUnit("°");
 		position.setDecimalPlaces(2);
-		GridDataFactory.fillDefaults().applyTo(position);
+		position.setLayoutData(new RowData(100, 25));
 
 		final Label lblSamy = new Label(motorPositionsGroup, SWT.NONE);
 		lblSamy.setText("Fine position");
 		fineposition = new ScaleBox(motorPositionsGroup, SWT.NONE);
-		fineposition.setUnit("deg");
+		fineposition.setUnit("°");
 		fineposition.setDecimalPlaces(2);
-		GridDataFactory.fillDefaults().applyTo(fineposition);
+		fineposition.setLayoutData(new RowData(100, 25));
 
 		this.layout();
 	}

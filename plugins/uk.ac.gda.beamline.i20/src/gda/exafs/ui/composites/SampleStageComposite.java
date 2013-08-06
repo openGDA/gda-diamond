@@ -91,18 +91,18 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 		
 		if (ScanObjectManager.isXESOnlyMode()) {
 			sample_roll = new ScaleBox(main, SWT.NONE);
-			sample_roll.setUnit("deg");
+			sample_roll.setUnit("°");
 			sample_roll.setDecimalPlaces(2);
 			sample_roll.setVisible(false);
 			GridDataFactory.fillDefaults().exclude(true).applyTo(sample_roll);
 			sample_pitch = new ScaleBox(main, SWT.NONE);
-			sample_pitch.setUnit("deg");
+			sample_pitch.setUnit("°");
 			sample_pitch.setDecimalPlaces(2);
 			sample_pitch.setVisible(false);
 			GridDataFactory.fillDefaults().exclude(true).applyTo(sample_pitch);
 		} else {
 			sample_finerotation = new ScaleBox(main, SWT.NONE);
-			sample_finerotation.setUnit("deg");
+			sample_finerotation.setUnit("°");
 			sample_finerotation.setDecimalPlaces(2);
 			sample_finerotation.setVisible(false);
 			GridDataFactory.fillDefaults().exclude(true).applyTo(sample_finerotation);
@@ -151,7 +151,7 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 		final Label lblSamrot = new Label(motorPositionsGroup, SWT.NONE);
 		lblSamrot.setText("Sample rotation");
 		sample_rotation = new ScaleBox(motorPositionsGroup, SWT.NONE);
-		sample_rotation.setUnit("mm");
+		sample_rotation.setUnit("°");
 		sample_rotation.setDecimalPlaces(2);
 		GridDataFactory.fillDefaults().applyTo(sample_rotation);
 
@@ -166,14 +166,14 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 			final Label lblSamfinerot = new Label(motorPositionsGroup, SWT.NONE);
 			lblSamfinerot.setText("Sample fine rotation");
 			sample_finerotation = new ScaleBox(motorPositionsGroup, SWT.NONE);
-			sample_finerotation.setUnit("deg");
+			sample_finerotation.setUnit("°");
 			sample_finerotation.setDecimalPlaces(2);
 			GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_finerotation);
 		} else {
 			final Label lblSamroll = new Label(motorPositionsGroup, SWT.NONE);
 			lblSamroll.setText("Sample roll");
 			sample_roll = new ScaleBox(motorPositionsGroup, SWT.NONE);
-			sample_roll.setUnit("deg");
+			sample_roll.setUnit("°");
 			sample_roll.setDecimalPlaces(2);
 			GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_roll);
 		}
@@ -193,7 +193,7 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 			final Label lblSampitch = new Label(motorPositionsGroup, SWT.NONE);
 			lblSampitch.setText("Sample pitch");
 			sample_pitch = new ScaleBox(motorPositionsGroup, SWT.NONE);
-			sample_pitch.setUnit("deg");
+			sample_pitch.setUnit("°");
 			sample_pitch.setDecimalPlaces(2);
 			GridDataFactory.fillDefaults().applyTo(sample_pitch);
 		}
