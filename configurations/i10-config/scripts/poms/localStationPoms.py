@@ -15,9 +15,11 @@ def poms_default_vflipper_calc(name):
         nameCounterTimerB='macr16', nameCounterTimerC='macr18',
         nameCounterTimerD='macr20', nameCounterTimerE='macr1',
         nameCalc1='EDIF', calc1='B2/A2-B1/A1',
-        nameCalc2='Q2',   calc2='B2/A2+B1/A1',
-        nameCalc3='EXAS', calc3='Q2/2.',
-        nameCalc4='TDIF', calc4='C1/A1-C2/A2')
+        nameCalc2='X2',   calc2='B2/A2+B1/A1',
+        nameCalc3='EXAS', calc3='Q2/2.0',
+        nameCalc4='TDIF', calc4='C1/A1-C2/A2',
+        nameCalc5='X5',   calc5='C1/A1+C2/A2',
+        nameCalc6='TXAS', calc6='Q5/2.0')
 
 def poms_default_vflipper_raw(name):
     from poms.PomsVflipperRaw import FlipperRawDeviceClass
