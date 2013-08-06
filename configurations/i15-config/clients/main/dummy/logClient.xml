@@ -39,6 +39,9 @@
     <logger name="gda">
         <level value="INFO"/>
     </logger>
+    <logger name="uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotWindowManager">
+        <level value="OFF"/>
+    </logger>
     <root>
         <level value="INFO"/>
         <appender-ref ref="Console"/>
