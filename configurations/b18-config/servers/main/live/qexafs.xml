@@ -23,6 +23,7 @@
 		<property name="braggMaxSpeedPV" value="BL18B-OP-DCM-01:BRAGG:MPSPEED.DRVH" />
 		<property name="energySwitchPV" value="BL18B-OP-DCM-01:ENERGY_SWITCH" />
 		<property name="stepIncDegPV" value="BL18B-OP-DCM-01:PC:STEP" />
+		<property name="stepIncDemandPV" value="BL18B-OP-DCM-01:PC:CONVSTEP" />
 		<property name="pulseWidthDegPV" value="BL18B-OP-DCM-01:PC:PULSE" />
 		<property name="numPulsesPV" value="BL18B-OP-DCM-01:PC:NPULSES" />
 	</bean>
@@ -77,6 +78,7 @@
 		<property name="darkCurrentRequired" value="false" />
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="4" />
 		<property name="outputFormat">
 			<list>
 				<value>%.6g</value>

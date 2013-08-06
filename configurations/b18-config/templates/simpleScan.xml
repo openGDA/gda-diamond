@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SimpleScan>
-    <scannableName>energy</scannableName>
-    <fromPos>7100.0</fromPos>
-    <toPos>7105.0</toPos>
-    <stepSize>1.0</stepSize>
+    <scannableName>sam2x</scannableName>
+    <fromPos>58.0</fromPos>
+    <toPos>25.0</toPos>
+    <stepSize>1.5</stepSize>
     <acqTime>1.0</acqTime>
     <scannables>
         <scannableName>energy</scannableName>
@@ -13,6 +13,9 @@
     </scannables>
     <scannables>
         <scannableName>sam2x</scannableName>
+    </scannables>
+    <scannables>
+        <scannableName>sam2y</scannableName>
     </scannables>
     <detectors>
         <enabled>false</enabled>

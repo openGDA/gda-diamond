@@ -9,8 +9,8 @@
         <number>0</number>
         <ROI>
             <name>ROI 1</name>
-            <windowStart>622</windowStart>
-            <windowEnd>655</windowEnd>
+            <windowStart>219</windowStart>
+            <windowEnd>245</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -22,8 +22,8 @@
         <number>1</number>
         <ROI>
             <name>ROI 1</name>
-            <windowStart>622</windowStart>
-            <windowEnd>655</windowEnd>
+            <windowStart>219</windowStart>
+            <windowEnd>245</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -35,8 +35,8 @@
         <number>2</number>
         <ROI>
             <name>ROI 1</name>
-            <windowStart>622</windowStart>
-            <windowEnd>655</windowEnd>
+            <windowStart>219</windowStart>
+            <windowEnd>245</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -48,8 +48,8 @@
         <number>3</number>
         <ROI>
             <name>ROI 1</name>
-            <windowStart>622</windowStart>
-            <windowEnd>655</windowEnd>
+            <windowStart>219</windowStart>
+            <windowEnd>245</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -57,4 +57,5 @@
         <excluded>false</excluded>
     </DetectorElement>
     <saveRawSpectrum>false</saveRawSpectrum>
+    <selectedRegionNumber>0</selectedRegionNumber>
 </VortexParameters>

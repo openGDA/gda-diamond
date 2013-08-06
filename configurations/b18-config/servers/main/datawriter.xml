@@ -27,14 +27,14 @@
 						</list>
 					</property>
 				</bean>
-				<bean id="ringcurrent" class="gda.data.scan.datawriter.AsciiMetadataConfig">
-					<property name="label" value="Ring current - start: %5.1f"/>
-					<property name="labelValues">
-						<list>
-							<ref bean="ringCurrent"/>
-						</list>
-					</property>
-				</bean>
+<!-- 				<bean id="ringcurrent" class="gda.data.scan.datawriter.AsciiMetadataConfig"> -->
+<!-- 					<property name="label" value="Ring current - start: %5.1f"/> -->
+<!-- 					<property name="labelValues"> -->
+<!-- 						<list> -->
+<!-- 							<ref bean="ringCurrent"/> -->
+<!-- 						</list> -->
+<!-- 					</property> -->
+<!-- 				</bean> -->
 				<bean id="primaryslits" class="gda.data.scan.datawriter.AsciiMetadataConfig">
 					<property name="label" value="Primary slits:  vertical gap= %4.1f; horizontal gap= %4.1f; vertical offset= %4.1f; horizontal offset= %4.1f"/>
 					<property name="labelValues">
@@ -132,18 +132,18 @@
 				</bean>
 			</list>
 		</property>
-		<property name="footer">
-			<list>
-				<bean id="ringcurrentend" class="gda.data.scan.datawriter.AsciiMetadataConfig">
-					<property name="label" value="Ring current - end: %5.1f"/>
-					<property name="labelValues">
-						<list>
-							<ref bean="ringCurrent"/>
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
+<!-- 		<property name="footer"> -->
+<!-- 			<list> -->
+<!-- 				<bean id="ringcurrentend" class="gda.data.scan.datawriter.AsciiMetadataConfig"> -->
+<!-- 					<property name="label" value="Ring current - end: %5.1f"/> -->
+<!-- 					<property name="labelValues"> -->
+<!-- 						<list> -->
+<!-- 							<ref bean="ringCurrent"/> -->
+<!-- 						</list> -->
+<!-- 					</property> -->
+<!-- 				</bean> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
 		
 	</bean>
 	
