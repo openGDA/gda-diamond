@@ -85,9 +85,11 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	d7x, d7y,\
 	xreye2x, xreye2y,\
 	bs2x, bs2y,\
-	det2z,\
+	\
 	d1, d2, d3, d4, d5, d6, d7, d8, d9,\
 	cryox, cryoy, cryoz, cryorot\
+
+#	det2z,
 
 def peakFinder():
 	"""
@@ -293,6 +295,18 @@ try:
 			'pe1peak2d', pe1, [TwodGaussianPeak()])
 		pe1max2d = DetectorDataProcessorWithRoi(
 			'pe1max2d', pe1, [SumMaxPositionAndValue()])
+		
+		from gdascripts.scannable.detector.ProcessingDetectorWrapper import \
+			  SwitchableHardwareTriggerableProcessingDetectorWrapper
+		from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
+		global pedet, pedet_for_snaps
+		
+		# the pixis has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
+		peAD = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+			'peAD', pedet, None, pedet_for_snaps, panel_name_rcp='Plot 1',
+			toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
+			fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+		peAD.display_image = True
 	except:
 		localStation_exception(sys.exc_info(), "connecting creating pe...")
 
@@ -650,7 +664,7 @@ try:
 				d7x, d7y,
 				xreye2x, xreye2y,
 				bs2x, bs2y,
-				det2z,
+				#det2z,
 				d1, d2, d3, d4, d5, d6, d7, d8, d9,
 				d1sum, d2sum, d3sum, d4sum, d5sum,
 				cryox, cryoy, cryoz, cryorot)

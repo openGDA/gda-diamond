@@ -1,23 +1,5 @@
 <?xml version="1.0" ?>
 <devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2013-1/gdaApp/src/genericBeamlineSchema.xsd">
-	<simplePv desc="EH1 Diode 2" name="PHDGN2">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Current Value" pv="BL15I-DI-PHDGN-02:I" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="EH1 Diode 3" name="PHDGN3">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Current Value" pv="BL15I-DI-PHDGN-03:I" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="EH1 Diode 4" name="PHDGN4">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Current Value" pv="BL15I-DI-PHDGN-04:I" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="EH1 Diode 1" name="PHDGN1">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Current Value" pv="BL15I-DI-PHDGN-01:I" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="EH1 Diode 5" name="PHDGN5">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Current Value" pv="BL15I-DI-PHDGN-05:I" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="EH1 Ion Chamber 1" name="IONC1">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Current Value" pv="BL15I-DI-IONC-01:I" ro="true" type="pv"/>
-	</simplePv>
 	<currAmpSingle desc="D2 femto amp" name="FEMTO2">
 		<OVERLOAD IOC="BL15I-MO-IOC-01" desc="Get overload status" pv="BL15I-DI-FEMTO-02:OL" ro="true" type="binary"/>
 		<SETGAIN IOC="BL15I-MO-IOC-01" desc="Set gain" pv="BL15I-DI-FEMTO-02:GAIN" ro="false" type="mbbinary"/>
@@ -158,12 +140,6 @@
 		<SIG31 IOC="BL15I-MO-IOC-01" desc="SIS3820 input signal number 31" pv="BL15I-EA-DET-01:MCA-01:mca31" ro="false" type="mca"/>
 		<SIG32 IOC="BL15I-MO-IOC-01" desc="SIS3820 input signal number 32" pv="BL15I-EA-DET-01:MCA-01:mca32" ro="false" type="mca"/>
 	</mcaGroup>
-	<simplePv desc="Proportional Counter Current" name="PRCNT1.I">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Current Value" pv="BL15I-DI-PROP-01:I" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="Proportional Counter Power" name="PRCNT2.POWER">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Current Value" pv="BL15I-DI-PROP-01:POWER" ro="true" type="pv"/>
-	</simplePv>
 	<simplePv desc="Power Meter Power" name="PWRM.P">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Power" pv="BL15I-DI-PWRM-01:P" ro="false" type="pv"/>
 	</simplePv>
@@ -202,6 +178,30 @@
 	</simplePv>
 	<simplePv desc="" name="QBPM0.D">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-QBPM-00:D" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="EH1 Diode 1" name="PHDGN1">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-PHDGN-01:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="EH1 Diode 2" name="PHDGN2">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-PHDGN-02:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="EH1 Diode 3" name="PHDGN3">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-PHDGN-03:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="EH1 Diode 4" name="PHDGN4">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-PHDGN-04:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="EH1 Diode 5" name="PHDGN5">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-PHDGN-05:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="EH1 Ion Chamber 1" name="IONC1">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-IONC-01:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Prop Counter" name="PRCNT1.I">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-PROP-01:I" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Prop Counter Power" name="PRCNT1.POWER">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-PROP-01:POWER" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="" name="PHDGN6">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-PHDGN-06:I" ro="true" type="pv"/>
@@ -292,9 +292,6 @@
 	</simpleMotor>
 	<simpleMotor desc="Diffractometer Detector Z" name="DIFF.DETECTZ">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-MO-DIFF-01:ARM:DETECTOR:Z" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Table 2 Detector Z" name="EHT2.DETECTZ">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-MO-TABLE-03:DETECTOR2:Z" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="Movable Beamstop X" name="BS.X">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-RS-ABSB-04:X" ro="false" type="motor"/>
@@ -438,33 +435,6 @@
 		<INPOS IOC="BL15I-MO-IOC-03" desc="In Position Indicator" pv="BL15I-RS-ABSB-10:X:MP:INPOS" ro="true" type="pv"/>
 		<STOP IOC="BL15I-MO-IOC-03" desc="Stop Button" pv="BL15I-RS-ABSB-10:X:MP:STOP.PROC" ro="false" type="pv"/>
 	</positioner>
-	<simpleMotor desc="" name="T2.Y1">
-		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-MO-TABLE-02:Y1" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="T2.Y2">
-		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-MO-TABLE-02:Y2" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="T2.Y3">
-		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-MO-TABLE-02:Y3" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="T2.X1">
-		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-MO-TABLE-02:X1" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="T2.X2">
-		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-MO-TABLE-02:X2" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="W5.X">
-		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-OP-WIND-05:DCAM:X" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="W5.Y">
-		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-OP-WIND-05:DCAM:Y" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="W6.X">
-		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-OP-WIND-06:DCAM:X" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="W6.Y">
-		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-OP-WIND-06:DCAM:Y" ro="false" type="motor"/>
-	</simpleMotor>
 	<simpleMotor desc="S2 Y Gap" name="S2.YGAP">
 		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-AL-SLITS-02:Y:GAP" ro="false" type="motor"/>
 	</simpleMotor>
@@ -693,11 +663,8 @@
 	<simpleMotor desc="Base Rotation" name="EHT2.RY">
 		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor" pv="BL15I-MO-TABLE-03:BASE:Ry" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="Main Table Rotation" name="EHT2.DELTAZ">
-		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor" pv="BL15I-MO-TABLE-03:TABLE:DELTAZ" ro="false" type="motor"/>
-	</simpleMotor>
 	<simpleMotor desc="Translation Stage" name="EHT2.DTX">
-		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor" pv="BL15I-MO-TABLE-03:TABLE:DTX" ro="false" type="motor"/>
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor" pv="BL15I-MO-TABLE-03:DETECTOR2:Z" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="" name="SKB.VBEND1">
 		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor" pv="BL15I-OP-MIRR-03:VFM:BEND1" ro="false" type="motor"/>
@@ -1107,12 +1074,6 @@
 	<simplePv desc="W4 TEMPERATURE 2" name="W4.T2">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-04:TEMP2" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="HO6 Incoming Water Temp" name="HO6.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-06:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO6 Outgoing Water Temp" name="HO6.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-06:TEMP2" ro="true" type="pv"/>
-	</simplePv>
 	<simplePv desc="T2 Upstream Trans Motor Temp" name="T2.T1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-MO-TABLE-02:X2:TEMP" ro="true" type="pv"/>
 	</simplePv>
@@ -1163,12 +1124,6 @@
 	</simplePv>
 	<simplePv desc="M2 SPARE TEMPERATURE 1" name="M2.T1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-HFM-01:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="W6 TEMPERATURE 1" name="W6.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-06:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="W6 TEMPERATURE 2" name="W6.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-06:TEMP2" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="S3 TEMPERATURE 1" name="S3.AT1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-AL-SLITS-03:A:TEMP1" ro="true" type="pv"/>
