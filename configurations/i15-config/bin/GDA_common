@@ -1,12 +1,19 @@
 # No Shebang since this will always be sourced.
 
+########################################################################
+# The section below should only need to change if the location of this
+# script changes.
+########################################################################
+export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
+########################################################################
+
 module load java/gda830-64
 
-# TODO: Make this location independent
-export GDACORE=/dls_sw/i15/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
-export GDACLIENT=/dls_sw/i15/software/gda/workspace_git/gda-diamond.git/dls-config/bin/gdaclient
+export GDA_CORE_SCRIPT=$GDA_ROOT/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
+export GDA_CLIENT_SCRIPT=$GDA_ROOT/workspace_git/gda-diamond.git/dls-config/bin/gdaclient
+export GDA_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/i15-config/
 
-# GDACLIENT required $BEAMLINE to be set, so make sure it is set for
+# GDA_CLIENT_SCRIPT requires $BEAMLINE to be set, so make sure it is set for
 # dummy operation off the beamline.
 export BEAMLINE=i15
 

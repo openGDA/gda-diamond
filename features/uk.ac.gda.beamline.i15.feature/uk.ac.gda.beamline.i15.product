@@ -11,24 +11,6 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Djava.library.path=/dls_sw/i15/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/lib/linux-x86_64/
--Declipse.pluginCustomization=/dls_sw/i15/software/gda/config/clients/main/common/pluginCustomization.ini
--Dgda.client.jython.automatic.interpreter=1
--Dgda.config=/dls_sw/i15/software/gda/config
--Dgda.gui.beans.xml=/dls_sw/i15/software/gda/config/clients/main/live/client.xml
--Dgda.var=/dls_sw/i15/software/gda_versions/var
--Dgda.data=/dls/i15
--Dgda.logs.dir=/dls/i15/logs
--Dgda.propertiesFile=/dls_sw/i15/software/gda/config/properties/live/java.properties
--Djacorb.config.dir=/dls_sw/i15/software/gda/config/jacorb/live
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i15/software/gda/config/jca/live/JCALibrary.properties
--Xms512m
--Xmx1024m
--XX:PermSize=128m
--XX:MaxPermSize=1024m
--Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True
--Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True
--Dgda.mode=live</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
