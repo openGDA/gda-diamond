@@ -96,7 +96,14 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.nebula.widgets.formattedtext"
+         id="uk.ac.gda.video.mjpeg"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.video"
          download-size="0"
          install-size="0"
          version="0.0.0"

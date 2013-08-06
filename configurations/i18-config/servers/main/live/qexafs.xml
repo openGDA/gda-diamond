@@ -3,10 +3,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
      
-     <bean id="qexafs_energy" class="gda.device.scannable.QexafsScannable">
+     <bean id="qexafs_energy" class="gda.device.scannable.I18QexafsScannable">
 		<property name="motor" ref="dcm_energy_motor" />
-		<property name="lowerGdaLimits" value="2000" />
-		<property name="upperGdaLimits" value="40000" />
+		<property name="inKev" value="true" />
+		<property name="lowerGdaLimits" value="2" />
+		<property name="upperGdaLimits" value="21" />
 		<property name="outputFormat">
 			<list>
 				<value>%.2f</value>
@@ -17,6 +18,7 @@
 		<property name="stopPV" value="BL18I-OP-DCM-01:COMP:STOP" />
 		<property name="stepPV" value="BL18I-OP-DCM-01:COMP:STEP" />
 		<property name="accelPV" value="BL18I-OP-DCM-01:BRAGG.ACCL" />
+		<property name="xtalSwitchPV" value="BL18I-OP-DCM-01:MP:SELECT" />
 		<property name="braggCurrentSpeedPV" value="BL18I-OP-DCM-01:ENERGY.VELO" />
 		<property name="braggMaxSpeedPV" value="BL18I-OP-DCM-01:ENERGY.VMAX" />
 		<property name="stepIncDegPV" value="BL18I-OP-DCM-01:COMP:STEP" />
@@ -48,8 +50,10 @@
 		<property name="daserver" ref="daserver" />
 		<property name="timeChannelRequired" value="true" />
 		<property name="darkCurrentRequired" value="false" />
-		<property name="outputLogValues" value="false" />
+		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="4" />
+		<property name="ttlSocket" value="0" />
 		<property name="outputFormat">
 			<list>
 				<value>%6.4g</value>
@@ -65,6 +69,24 @@
 
 	<bean id="QexafsFFI0" class="gda.device.detector.QexafsFFoverIO">
 		<property name="qexafsXspress" ref="qexafs_xspress" />
+		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
+	</bean>
+	
+	<bean id="qexafs_xmap" class="gda.device.detector.xmap.XmapBufferedDetector">
+		<property name="xmap" ref="xmapMca" />
+		<property name="controller" ref="edxdcontroller" />
+		<property name="daServer" ref="daserver" />
+		<property name="local" value="true" />
+		<property name="inputNames">
+			<list>
+			</list>
+		</property>
+		<property name="capturepv" value="BL18I-EA-DET-04:HDF:Capture" />
+		<property name="deadTimeEnabled" value = "false" />
+	</bean>
+	
+	<bean id="VortexQexafsFFI0" class="gda.device.detector.xmap.VortexQexafsFFIO">
+		<property name="qexafsXmap" ref="qexafs_xmap" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
 	</bean>
 	

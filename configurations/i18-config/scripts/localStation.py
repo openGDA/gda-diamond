@@ -17,7 +17,7 @@ from exafsscripts.exafs.i18DetectorPreparer import I18DetectorPreparer
 from exafsscripts.exafs.i18SamplePreparer import I18SamplePreparer
 from exafsscripts.exafs.i18OutputPreparer import I18OutputPreparer
 from exafsscripts.exafs.i18ScanScripts import I18XasScan
-#from exafsscripts.exafs.qexafs_scan import QexafsScan
+from exafsscripts.exafs.qexafs_scan import QexafsScan
 from gda.data import PathConstructor
 
 from microfocus.microfocus_elements import getXY,plotSpectrum,displayMap
@@ -27,6 +27,8 @@ from uk.ac.gda.client.microfocus.scan.datawriter import MicroFocusWriterExtender
 from edxd_calibrator import refinement #script refinement that is used to calibrate the vortex about once a year
 
 from sampleStageTilt import *
+
+from pd_setPvAndWaitForCallbackWithSeparateReadback import SetPvAndWaitForCallbackWithSeparateReadback2
 
 print "Initialization Started";
 
@@ -76,6 +78,13 @@ if (LocalProperties.get("gda.mode") == 'live'):
     archiver = IcatXMLCreator()
     archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
 
+    micosx=SetPvAndWaitForCallbackWithSeparateReadback2(
+        "micosx", "ME07M-EA-PIEZO-03:MMC:01:DEMAND",
+                       "ME07M-EA-PIEZO-03:MMC:01:POS:ENC", 20, 0.000001)
+    micosy=SetPvAndWaitForCallbackWithSeparateReadback2(
+        "micosy", "ME07M-EA-PIEZO-03:MMC:02:DEMAND",
+                       "ME07M-EA-PIEZO-03:MMC:02:POS:ENC", 20, 0.000001)
+
 detectorPreparer = I18DetectorPreparer()
 samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
 outputPreparer = I18OutputPreparer()
@@ -84,7 +93,7 @@ loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
 
 xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
 
-non_raster_map = Map(D7A, D7B, counterTimer01, rcpController)
+non_raster_map = Map(D7A, D7B, counterTimer01, rcpController, micosx, micosy)
 raster_map = RasterMap(D7A, D7B, counterTimer01, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, rcpController)
 raster_map_return_write = RasterMapReturnWrite(D7A, D7B, counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, rcpController)
 map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
@@ -94,12 +103,12 @@ if (LocalProperties.get("gda.mode") == 'live'):
 else:
     xas.addMonitors(None, None, None, None)
 
-#qexafs = QexafsScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer, qexafs_energy, qexafs_counterTimer01)
+qexafs = QexafsScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer, qexafs_energy, qexafs_counterTimer01)
 xanes = xas
 
 alias("xas")
 alias("xanes")
-#alias("qexafs")
+alias("qexafs")
 alias("map")
 alias("raster_map")
 alias("raster_map_return_write")
@@ -113,9 +122,9 @@ gdaConfigDir = gdaConfigDir + "/"
 global mapRunning
 mapRunning = 0
 
-cid = CidPhotoDiode('cid', 'BL18I-DI-PHDGN-08')
-cid.setExtraNames(['CID_Rminusdiode', 'CID_Rplusdiode', 'CID_Lminusdiode', 'CID_Lplusdiode']) 
-cid.setOutputFormat(['%4.10f', '%4.10f', '%4.10f', '%4.10f'])
+#cid = CidPhotoDiode('cid', 'BL18I-DI-PHDGN-08')
+#cid.setExtraNames(['CID_Rminusdiode', 'CID_Rplusdiode', 'CID_Lminusdiode', 'CID_Lplusdiode']) 
+#cid.setOutputFormat(['%4.10f', '%4.10f', '%4.10f', '%4.10f'])
 
 raster_xspress.setInputNames([])
 raster_xmap.setInputNames([])

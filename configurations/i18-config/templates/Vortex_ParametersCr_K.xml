@@ -9,8 +9,8 @@
         <number>1</number>
         <ROI>
             <name>Cr_Ka</name>
-            <windowStart>525</windowStart>
-            <windowEnd>555</windowEnd>
+            <windowStart>520</windowStart>
+            <windowEnd>560</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -22,8 +22,8 @@
         <number>1</number>
         <ROI>
             <name>Cr_Ka</name>
-            <windowStart>525</windowStart>
-            <windowEnd>555</windowEnd>
+            <windowStart>520</windowStart>
+            <windowEnd>560</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -35,8 +35,8 @@
         <number>1</number>
         <ROI>
             <name>Cr_Ka</name>
-            <windowStart>525</windowStart>
-            <windowEnd>555</windowEnd>
+            <windowStart>520</windowStart>
+            <windowEnd>560</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -48,8 +48,8 @@
         <number>1</number>
         <ROI>
             <name>Cr_Ka</name>
-            <windowStart>525</windowStart>
-            <windowEnd>555</windowEnd>
+            <windowStart>520</windowStart>
+            <windowEnd>560</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
