@@ -150,7 +150,7 @@
 
 	<!-- <import resource="hexapod.xml" /> -->
 
-   <import resource="microfocus/microfocus.xml" /> 
+        <!-- <import resource="microfocus/microfocus.xml" /> -->
 
 	<bean id="command_server" class="gda.jython.JythonServer">
                 <property name="jythonScriptPaths">
