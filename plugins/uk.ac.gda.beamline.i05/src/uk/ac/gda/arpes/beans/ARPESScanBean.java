@@ -18,6 +18,7 @@
 
 package uk.ac.gda.arpes.beans;
 
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class ARPESScanBean implements IRichBean {
 	StartStopStepBean startStopStepBean;
 	
 	public static ARPESScanBean createFromXML(String filename) throws Exception {
-		return (ARPESScanBean) XMLHelpers.createFromXML(mappingURL, ARPESScanBean.class, schemaURL, filename);
+		return (ARPESScanBean) XMLHelpers.createFromXML(mappingURL, ARPESScanBean.class, schemaURL, new File(filename));
 	}
 	
 	public static void writeToXML(ARPESScanBean bean, String filename) throws Exception {
