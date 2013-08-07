@@ -42,6 +42,15 @@ public class ClientConfig {
 		return String.format("%." + DEFAULT_DECIMAL_PLACE + "f", value);
 	}
 
+	public static String roundDoubletoString(double value, int decimalPlaces) {
+		return String.format("%." + decimalPlaces + "f", value);
+	}
+
+	public static double roundDouble(double value) {
+		double defaultDecimal = Math.pow(10, DEFAULT_DECIMAL_PLACE);
+		return Math.round(value * defaultDecimal) / defaultDecimal;
+	}
+
 	public enum UnitSetup {
 		MILLI_METER("mm"),
 		MILLI_RADIAN("mrad"),
@@ -50,6 +59,7 @@ public class ClientConfig {
 		EV("eV"),
 		VOLTAGE("V"),
 		MILLI_SEC("ms"),
+		SEC("s"),
 
 		SELECTION("");
 

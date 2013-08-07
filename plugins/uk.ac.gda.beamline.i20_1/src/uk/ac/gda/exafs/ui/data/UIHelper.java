@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 import uk.ac.gda.ui.viewer.EnumPositionViewer;
 import uk.ac.gda.ui.viewer.MotorPositionViewer;
@@ -63,11 +64,13 @@ public class UIHelper {
 				GridLayoutFactory layoutFactory = GridLayoutFactory.swtDefaults().numColumns(3).spacing(0, 0);
 				rotationViewer.createControls(parent, SWT.SINGLE, true, rotationGroupLayoutFactory.create(), layoutFactory.create(), null);
 				rotationViewer.setRestoreValueWhenFocusLost(true);
+				rotationViewer.setMotorPositionViewerDecimalPlaces(ClientConfig.DEFAULT_DECIMAL_PLACE);
 				scannable.setUiViewer(rotationViewer);
 			} else if (control == UIMotorControl.POSITION) {
 				MotorPositionViewer motorPositionViewer = new MotorPositionViewer(parent, theScannable, null, true);
 				motorPositionViewer.setRestoreValueWhenFocusLost(true);
 				scannable.setUiViewer(motorPositionViewer);
+				motorPositionViewer.setDecimalPlaces(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			} else {
 				if (theScannable instanceof EnumPositioner) {
 					EnumPositionViewer enumPositionViewer = new EnumPositionViewer(parent, (EnumPositioner) theScannable, "", true);

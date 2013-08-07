@@ -25,16 +25,11 @@ import gda.observable.IObserver;
 
 import java.util.ArrayList;
 
-import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.core.databinding.observable.list.WritableList;
-import org.eclipse.core.databinding.validation.IValidator;
-import org.eclipse.core.databinding.validation.ValidationStatus;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jface.databinding.fieldassist.ControlDecorationSupport;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -44,8 +39,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
@@ -60,19 +53,14 @@ import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorConfig;
 import uk.ac.gda.exafs.data.DetectorUnavailableException;
 import uk.ac.gda.exafs.data.SlitScanner;
+import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.UIHelper.UIMotorControl;
 import uk.ac.gda.exafs.ui.sections.DetectorROIsSesion;
 
 public class FocusingView extends ViewPart {
 
-	private static final int SLIT_PARAM_LABELS_WIDTH = 130;
-
-
 	public static String ID = "uk.ac.gda.exafs.ui.views.focusingview";
-
-
-	private static final int SPINNER_INCREMENT = (int) Math.pow(10, ClientConfig.DEFAULT_DECIMAL_PLACE);
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 	private FormToolkit toolkit;
@@ -197,198 +185,110 @@ public class FocusingView extends ViewPart {
 		slitsParametersSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		Composite slitsParametersSelectionComposite = toolkit.createComposite(slitsParametersSection, SWT.NONE);
 		toolkit.paintBordersFor(slitsParametersSelectionComposite);
-		slitsParametersSelectionComposite.setLayout(new GridLayout(3, false));
+		slitsParametersSelectionComposite.setLayout(new GridLayout(2, false));
 		slitsParametersSection.setClient(slitsParametersSelectionComposite);
+		try{
+			Label lbl = toolkit.createLabel(slitsParametersSelectionComposite, ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getLabel(), SWT.NONE);
+			lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
-		Label lbl = toolkit.createLabel(slitsParametersSelectionComposite, ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getLabel(), SWT.NONE);
-		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
+			GridData gridDataForTxt = new GridData(SWT.FILL, GridData.CENTER, true, false);
 
-		final Text txtGap = toolkit.createText(slitsParametersSelectionComposite, "", SWT.None);
-		GridData gridDataForTxt = new GridData(GridData.BEGINNING, GridData.CENTER, false, false);
-		gridDataForTxt.widthHint = SLIT_PARAM_LABELS_WIDTH;
-		txtGap.setLayoutData(gridDataForTxt);
+			NumberEditorControl  txtGap = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScanner.getInstance(), SlitScanner.GAP_PROP_NAME, false);
+			txtGap.setUnit(ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getUnit().getText());
+			txtGap.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+			txtGap.setLayoutData(gridDataForTxt);
 
-		Binding bindValue = dataBindingCtx.bindValue(
-				WidgetProperties.text(SWT.Modify).observe(txtGap),
-				BeanProperties.value(SlitScanner.GAP_PROP_NAME).observe(SlitScanner.getInstance()),
-				new UpdateValueStrategy().setBeforeSetValidator(new IValidator() {
-					@Override
-					public IStatus validate(Object value) {
-						if (value instanceof Double) {
-							if (SlitScanner.isGapInRange((double) value)) {
-								return ValidationStatus.ok();
-							}
-							return ValidationStatus.error("Gap too large");
+			lbl = toolkit.createLabel(slitsParametersSelectionComposite, "From", SWT.NONE);
+			lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
+
+			NumberEditorControl spnFromOffset = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScanner.getInstance(), SlitScanner.FROM_OFFSET_PROP_NAME, true);
+			spnFromOffset.setUnit(UnitSetup.MILLI_METER.getText());
+			spnFromOffset.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+			spnFromOffset.setIncrement(1 * (int) Math.pow(10, ClientConfig.DEFAULT_DECIMAL_PLACE));
+			spnFromOffset.setLayoutData(gridDataForTxt);
+
+			lbl = toolkit.createLabel(slitsParametersSelectionComposite, "To", SWT.NONE);
+			lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
+
+			NumberEditorControl spnToOffset = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScanner.getInstance(), SlitScanner.TO_OFFSET_PROP_NAME, true);
+			spnToOffset.setUnit(UnitSetup.MILLI_METER.getText());
+			spnToOffset.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+			spnToOffset.setIncrement(1 * (int) Math.pow(10, ClientConfig.DEFAULT_DECIMAL_PLACE));
+			spnToOffset.setLayoutData(gridDataForTxt);
+
+			lbl = toolkit.createLabel(slitsParametersSelectionComposite, "Step size", SWT.NONE);
+			lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
+
+			NumberEditorControl txtStep = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScanner.getInstance(), SlitScanner.STEP_PROP_NAME, true);
+			txtStep.setUnit(UnitSetup.MILLI_METER.getText());
+			txtStep.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+			txtStep.setIncrement(1 * (int) Math.pow(10, ClientConfig.DEFAULT_DECIMAL_PLACE));
+			txtStep.setLayoutData(gridDataForTxt);
+
+			lbl = toolkit.createLabel(slitsParametersSelectionComposite, "Integration time", SWT.NONE);
+			lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
+
+			NumberEditorControl integrationTime = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScanner.getInstance(), SlitScanner.INTEGRATION_TIME_PROP_NAME, false);
+			integrationTime.setUnit(UnitSetup.SEC.getText());
+			integrationTime.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+			integrationTime.setIncrement(1 * (int) Math.pow(10, ClientConfig.DEFAULT_DECIMAL_PLACE));
+			integrationTime.setLayoutData(gridDataForTxt);
+
+			Composite scanButtons = toolkit.createComposite(slitsParametersSelectionComposite);
+			GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+			gridData.horizontalSpan = 2;
+			scanButtons.setLayoutData(gridData);
+			scanButtons.setLayout(new GridLayout(2, true));
+
+			Button startPauseButton = toolkit.createButton(scanButtons, "Start Scan", SWT.FLAT);
+			startPauseButton.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
+
+			dataBindingCtx.bindValue(
+					WidgetProperties.enabled().observe(startPauseButton),
+					BeanProperties.value(SlitScanner.STATE_PROP_NAME).observe(SlitScanner.getInstance()),
+					null,
+					new UpdateValueStrategy() {
+						@Override
+						public Object convert(Object value) {
+							return ((int) value == Jython.IDLE);
 						}
-						return ValidationStatus.error("Not a valid decimal value");
+					});
+
+			startPauseButton.addListener(SWT.Selection, new Listener() {
+				@Override
+				public void handleEvent(Event event) {
+					try {
+						SlitScanner.getInstance().doScan();
+					} catch (DetectorUnavailableException e) {
+						UIHelper.showError("Unable to scan", e.getMessage());
 					}
-				}),
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object value) {
-						return ClientConfig.roundDoubletoString((double) value);
-					}
-				});
-		ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.RIGHT);
-
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getUnit().getText(), SWT.NONE);
-		lbl.setAlignment(SWT.LEFT);
-		lbl.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
-
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, "From", SWT.NONE);
-		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-
-		// TODO Load from saved value
-		final Spinner spnFromOffset = new Spinner(slitsParametersSelectionComposite, SWT.BORDER);
-		spnFromOffset.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		spnFromOffset.setIncrement(SPINNER_INCREMENT);
-		spnFromOffset.setMaximum((int) SlitScanner.MAX_OFFSET * SPINNER_INCREMENT);
-		spnFromOffset.setMinimum((int) SlitScanner.MIN_OFFSET * SPINNER_INCREMENT);
-		spnFromOffset.setLayoutData(gridDataForTxt);
-		toolkit.paintBordersFor(spnFromOffset);
-
-		bindValue = dataBindingCtx.bindValue(
-				WidgetProperties.selection().observe(spnFromOffset),
-				BeanProperties.value(SlitScanner.FROM_OFFSET_PROP_NAME).observe(SlitScanner.getInstance()),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_UPDATE) {
-					@Override
-					public Object convert(Object value) {
-						return ((int) value) / SPINNER_INCREMENT;
-					}
-				}, null);
-		ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.RIGHT);
-
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.getText(), SWT.NONE);
-		lbl.setAlignment(SWT.LEFT);
-		lbl.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
-
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, "To", SWT.NONE);
-		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-
-		final Spinner spnToOffset = new Spinner(slitsParametersSelectionComposite, SWT.BORDER);
-		spnToOffset.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		spnToOffset.setIncrement(SPINNER_INCREMENT);
-		spnToOffset.setMaximum((int) SlitScanner.MAX_OFFSET * SPINNER_INCREMENT);
-		spnToOffset.setMinimum((int) SlitScanner.MIN_OFFSET * SPINNER_INCREMENT);
-		spnToOffset.setLayoutData(gridDataForTxt);
-		toolkit.paintBordersFor(spnToOffset);
-
-		bindValue = dataBindingCtx.bindValue(
-				WidgetProperties.selection().observe(spnToOffset),
-				BeanProperties.value(SlitScanner.TO_OFFSET_PROP_NAME).observe(SlitScanner.getInstance()),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_UPDATE){
-					@Override
-					public Object convert(Object value) {
-						return ((Integer) value) / SPINNER_INCREMENT;
-					}
-				},
-				null);
-		ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.RIGHT);
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.getText(), SWT.NONE);
-		lbl.setAlignment(SWT.LEFT);
-		lbl.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
-
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, "Step size", SWT.NONE);
-		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-
-		final Text txtStep = toolkit.createText(slitsParametersSelectionComposite, "", SWT.None);
-		txtStep.setLayoutData(gridDataForTxt);
-
-		bindValue = dataBindingCtx.bindValue(
-				WidgetProperties.text(SWT.Modify).observe(txtStep),
-				BeanProperties.value(SlitScanner.STEP_PROP_NAME).observe(SlitScanner.getInstance()),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_UPDATE).setBeforeSetValidator(new IValidator() {
-					@Override
-					public IStatus validate(Object value) {
-						if (value instanceof Double) {
-							return ValidationStatus.ok();
-						}
-						return ValidationStatus.error("Not a value decimal value");
-					}
-				}),
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object value) {
-						return ClientConfig.roundDoubletoString((double) value);
-					}
-				});
-		ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.RIGHT);
-
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_METER.getText(), SWT.NONE);
-		lbl.setAlignment(SWT.LEFT);
-		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, true, false));
-
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, "Integration time ", SWT.NONE);
-		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-
-		final Spinner integrationTime = new Spinner(slitsParametersSelectionComposite, SWT.BORDER);
-		integrationTime.setLayoutData(gridDataForTxt);
-		integrationTime.setMaximum(SlitScanner.MAX_INTEGRATION_TIME);
-		integrationTime.setMinimum(SlitScanner.MIN_INTEGRATION_TIME);
-		toolkit.paintBordersFor(integrationTime);
-
-		bindValue = dataBindingCtx.bindValue(
-				WidgetProperties.selection().observe(integrationTime),
-				BeanProperties.value(SlitScanner.INTEGRATION_TIME_PROP_NAME).observe(SlitScanner.getInstance()),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_UPDATE),
-				null);
-		ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.RIGHT);
-		lbl = toolkit.createLabel(slitsParametersSelectionComposite, UnitSetup.MILLI_SEC.getText(), SWT.NONE);
-		lbl.setAlignment(SWT.LEFT);
-		lbl.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
-
-		Composite scanButtons = toolkit.createComposite(slitsParametersSelectionComposite);
-		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
-		gridData.horizontalSpan = 3;
-		scanButtons.setLayoutData(gridData);
-		scanButtons.setLayout(new GridLayout(2, true));
-
-		Button startPauseButton = toolkit.createButton(scanButtons, "Start Scan", SWT.FLAT);
-		startPauseButton.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(startPauseButton),
-				BeanProperties.value(SlitScanner.STATE_PROP_NAME).observe(SlitScanner.getInstance()),
-				null,
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object value) {
-						return ((int) value == Jython.IDLE);
-					}
-				});
-
-		startPauseButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				try {
-					SlitScanner.getInstance().doScan();
-				} catch (DetectorUnavailableException e) {
-					UIHelper.showError("Unable to scan", e.getMessage());
 				}
-			}
-		});
+			});
 
-		Button stopButton = new Button(scanButtons, SWT.FLAT);
-		stopButton.setText("Stop");
-		stopButton.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(stopButton),
-				BeanProperties.value(SlitScanner.STATE_PROP_NAME).observe(SlitScanner.getInstance()),
-				null,
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object value) {
-						return ((int) value != Jython.IDLE);
-					}
-				});
+			Button stopButton = new Button(scanButtons, SWT.FLAT);
+			stopButton.setText("Stop");
+			stopButton.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
+			dataBindingCtx.bindValue(
+					WidgetProperties.enabled().observe(stopButton),
+					BeanProperties.value(SlitScanner.STATE_PROP_NAME).observe(SlitScanner.getInstance()),
+					null,
+					new UpdateValueStrategy() {
+						@Override
+						public Object convert(Object value) {
+							return ((int) value != Jython.IDLE);
+						}
+					});
 
-		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(slitsParametersSection);
-		toolkit.paintBordersFor(defaultSectionSeparator);
-		slitsParametersSection.setSeparatorControl(defaultSectionSeparator);
+			Composite defaultSectionSeparator = toolkit.createCompositeSeparator(slitsParametersSection);
+			toolkit.paintBordersFor(defaultSectionSeparator);
+			slitsParametersSection.setSeparatorControl(defaultSectionSeparator);
 
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(slitsParametersSection),
-				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
+			dataBindingCtx.bindValue(
+					WidgetProperties.enabled().observe(slitsParametersSection),
+					BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
+		} catch (Exception e) {
+			UIHelper.showError("Unable to setup slit scan parameters", e.getMessage());
+		}
 	}
 
 	@Override

@@ -18,6 +18,7 @@
 
 package uk.ac.gda.beamline.i20_1.utils;
 
+
 public class DataHelper {
 
 	private DataHelper() {}
@@ -60,5 +61,9 @@ public class DataHelper {
 
 	private static void remoteLastComma(StringBuilder stringBuilder) {
 		stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
+	}
+
+	public static int getDecimalPlacePowValue(int decimalPlace) {
+		return (int) Math.pow(10, decimalPlace);
 	}
 }
