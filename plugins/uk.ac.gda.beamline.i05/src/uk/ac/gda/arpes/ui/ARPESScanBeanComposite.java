@@ -29,17 +29,12 @@ import java.util.TreeMap;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ExpandAdapter;
-import org.eclipse.swt.events.ExpandEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.ExpandBar;
-import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +47,7 @@ import uk.ac.gda.richbeans.components.FieldComposite;
 import uk.ac.gda.richbeans.components.scalebox.IntegerBox;
 import uk.ac.gda.richbeans.components.scalebox.NumberBox;
 import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
+import uk.ac.gda.richbeans.components.wrappers.BooleanWrapper;
 import uk.ac.gda.richbeans.components.wrappers.ComboWrapper;
 import uk.ac.gda.richbeans.components.wrappers.RadioWrapper;
 import uk.ac.gda.richbeans.editors.RichBeanEditorPart;
@@ -63,16 +59,15 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 	
 	private final ComboWrapper lensMode;
 	private final ComboWrapper passEnergy;
-	private final NumberBox photonEnergy;
 	private final NumberBox startEnergy;
 	private final NumberBox endEnergy;
 	private final NumberBox stepEnergy;
 	private final NumberBox timePerStep;
 	private final NumberBox iterations;
-	private final NumberBox sampleTemperature;
 	private final RadioWrapper sweptMode;
 	private final ScaleBox centreEnergy;
 	private final ScaleBox energyWidth;
+	private final BooleanWrapper configureOnly;
 
 	private AnalyserCapabilties capabilities;
 
@@ -221,66 +216,14 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		iterations.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		iterations.addValueListener(this);
 		
-		ExpandBar bar = new ExpandBar(this, SWT.V_SCROLL);
-		bar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2, 10));
-
-		Composite composite = new Composite (bar, SWT.NONE);
-		GridLayout layout = new GridLayout (2, false);
-		composite.setLayout(layout);
-
-		label = new Label(composite, SWT.NONE);
+		label = new Label(this, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		label.setText("photonEnergy");
-		this.photonEnergy = new ScaleBox(composite, SWT.NONE);
-		photonEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		photonEnergy.setUnit("eV");
-		photonEnergy.setDecimalPlaces(3);
-		photonEnergy.addValueListener(this);
+		label.setText("configureOnly");
+		this.configureOnly = new BooleanWrapper(this, SWT.NONE);
+		configureOnly.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+//		configureOnly.addValueListener(this);
+		configureOnly.setToolTipText("Do not run experiment, just set up analyser accordingly.");
 		
-		ExpandItem item0 = new ExpandItem(bar, SWT.NONE, 0);
-		item0.setText("Source");
-		item0.setHeight(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
-		item0.setControl(composite);
-		
-		composite = new Composite (bar, SWT.NONE);
-		layout = new GridLayout (2, false);
-		composite.setLayout(layout);
-		
-		label = new Label(composite, SWT.NONE);
-		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		label.setText("sampleTemperature");
-		this.sampleTemperature = new ScaleBox(composite, SWT.NONE);
-		sampleTemperature.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		sampleTemperature.setUnit("K");
-		sampleTemperature.addValueListener(this);
-		
-		ExpandItem item1 = new ExpandItem(bar, SWT.NONE, 0);
-		item1.setText("Sample");
-		item1.setHeight(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
-		item1.setControl(composite);
-		
-        bar.addExpandListener(new ExpandAdapter() {
-        	 
-            @Override
-            public void itemCollapsed(ExpandEvent e) {
-                Display.getCurrent().asyncExec(new Runnable() {
-                    @Override
-					public void run() {
-                        layout();
-                    }
-                });
-            }
- 
-            @Override
-            public void itemExpanded(ExpandEvent e) {
-                Display.getCurrent().asyncExec(new Runnable() {
-                    @Override
-					public void run() {
-                        layout();
-                    }
-                });
-            }
-        });
 	}
 
 	public FieldComposite getLensMode() {
@@ -289,10 +232,6 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 
 	public FieldComposite getPassEnergy() {
 		return passEnergy;
-	}
-
-	public FieldComposite getPhotonEnergy() {
-		return photonEnergy;
 	}
 
 	public FieldComposite getStartEnergy() {
@@ -315,8 +254,8 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		return iterations;
 	}
 
-	public FieldComposite getSampleTemperature() {
-		return sampleTemperature;
+	public FieldComposite getConfigureOnly() {
+		return configureOnly;
 	}
 
 	public IFieldWidget getSweptMode() {

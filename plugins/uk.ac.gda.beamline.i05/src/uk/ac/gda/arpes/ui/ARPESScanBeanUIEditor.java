@@ -72,8 +72,8 @@ public final class ARPESScanBeanUIEditor extends RichBeanEditorPart {
 		return beanComposite.getPassEnergy();
 	}
 
-	public FieldComposite getPhotonEnergy() {
-		return beanComposite.getPhotonEnergy();
+	public FieldComposite getConfigureOnly() {
+		return beanComposite.getConfigureOnly();
 	}
 
 	public FieldComposite getStartEnergy() {
@@ -94,10 +94,6 @@ public final class ARPESScanBeanUIEditor extends RichBeanEditorPart {
 
 	public FieldComposite getIterations() {
 		return beanComposite.getIterations();
-	}
-
-	public FieldComposite getSampleTemperature() {
-		return beanComposite.getSampleTemperature();
 	}
 
 	public IFieldWidget getSweptMode() {

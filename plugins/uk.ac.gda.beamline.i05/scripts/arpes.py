@@ -52,7 +52,12 @@ class APRESRun:
         self.scienta.getCollectionStrategy().setMaxNumberOfFrames(self.bean.getIterations())
         #set temperature
         #set photonenergy
-        self.reportProgress("Running Acquisition")
-        gda.jython.commands.ScannableCommands.staticscan([self.scienta])
-        self.reportProgress("Finalising")
+        if self.bean.isConfigureOnly():
+            self.reportProgress("Setting Up Analyser")
+            self.reportProgress("Setting Up Analyser")
+            print "analyser set up"
+        else:
+            self.reportProgress("Running Acquisition")
+            gda.jython.commands.ScannableCommands.staticscan([self.scienta])
+            self.reportProgress("Finalising")
         time.sleep(2)

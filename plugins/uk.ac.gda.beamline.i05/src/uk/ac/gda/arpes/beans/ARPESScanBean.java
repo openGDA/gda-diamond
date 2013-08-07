@@ -18,7 +18,9 @@
 
 package uk.ac.gda.arpes.beans;
 
+import java.io.File;
 import java.net.URL;
+import java.util.List;
 
 import uk.ac.gda.beans.IRichBean;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
@@ -30,15 +32,16 @@ public class ARPESScanBean implements IRichBean {
 
 	String lensMode = "Transmission";
 	short passEnergy = 5;
-	double photonEnergy;
 	double startEnergy = 15, endEnergy = 20, stepEnergy = 0.5;
 	double timePerStep = 1;
 	short iterations = 1;
-	double sampleTemperature;
 	boolean sweptMode;
+	boolean configureOnly = false;
+	List<SetBean> setBeanList;
+	StartStopStepBean startStopStepBean;
 	
 	public static ARPESScanBean createFromXML(String filename) throws Exception {
-		return (ARPESScanBean) XMLHelpers.createFromXML(mappingURL, ARPESScanBean.class, schemaURL, filename);
+		return (ARPESScanBean) XMLHelpers.createFromXML(mappingURL, ARPESScanBean.class, schemaURL, new File(filename));
 	}
 	
 	public static void writeToXML(ARPESScanBean bean, String filename) throws Exception {
@@ -64,14 +67,6 @@ public class ARPESScanBean implements IRichBean {
 
 	public void setPassEnergy(short passEnergy) {
 		this.passEnergy = passEnergy;
-	}
-
-	public double getPhotonEnergy() {
-		return photonEnergy;
-	}
-
-	public void setPhotonEnergy(double photonEnergy) {
-		this.photonEnergy = photonEnergy;
 	}
 
 	public double getStartEnergy() {
@@ -114,19 +109,35 @@ public class ARPESScanBean implements IRichBean {
 		this.iterations = iterations;
 	}
 
-	public double getSampleTemperature() {
-		return sampleTemperature;
-	}
-
-	public void setSampleTemperature(double sampleTemperature) {
-		this.sampleTemperature = sampleTemperature;
-	}
-
 	public boolean isSweptMode() {
 		return sweptMode;
 	}
 
 	public void setSweptMode(boolean sweptMode) {
 		this.sweptMode = sweptMode;
+	}
+
+	public boolean isConfigureOnly() {
+		return configureOnly;
+	}
+
+	public void setConfigureOnly(boolean configureOnly) {
+		this.configureOnly = configureOnly;
+	}
+
+	public List<SetBean> getSetBeanList() {
+		return setBeanList;
+	}
+
+	public void setSetBeanList(List<SetBean> setBeanList) {
+		this.setBeanList = setBeanList;
+	}
+
+	public StartStopStepBean getScanBean() {
+		return startStopStepBean;
+	}
+
+	public void setScanBean(StartStopStepBean startStopStepBean) {
+		this.startStopStepBean = startStopStepBean;
 	}
 }

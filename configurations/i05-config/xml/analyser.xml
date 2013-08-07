@@ -169,13 +169,4 @@
 		<property name="maxSweepPV" value="BL05I-EA-DET-01:CAM:TOTAL_POINTS_ITERATION_RBV"/>
 		<property name="local" value="false" />
 	</bean>
-
-	<bean id="analyser_slit" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="BL05I-EA-SLITS-01:POS" />
-		<property name="getAsString" value="true" />
-		<property name="extraNames">
-			<list><value>analyser_slit</value></list>
-		</property>
-		<property name="hasUnits" value="false" />
-	</bean>
 </beans>
