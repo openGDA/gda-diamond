@@ -8,9 +8,14 @@
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
 
-	<bean id="moveable_cam" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector" ref="moveable_cam_ad" />
+	<bean id="float1_cam" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+		<property name="detector" ref="float1_cam_ad" />
 		<property name="processor" ref="cam_ad_processors" />
 	</bean>
+	
+	<bean id="float2_cam" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+		<property name="detector" ref="float2_cam_ad" />
+		<property name="processor" ref="cam_ad_processors" />
+	</bean>	
 </beans>
 

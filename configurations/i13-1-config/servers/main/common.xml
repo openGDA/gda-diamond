@@ -237,8 +237,8 @@
 
 	<import resource="../../devices/m2.xml"/>
 	<import resource="../../devices/pin.xml"/>
-<!-- 	<import resource="../../devices/diff.xml"/>
- -->	<import resource="../../devices/s6.xml" />
+ 	<import resource="../../devices/diff.xml"/>
+	<import resource="../../devices/s6.xml" />
 
 	<import resource="../../devices/sample_stage_t1.xml" />
 	<import resource="../../devices/g1.xml" />

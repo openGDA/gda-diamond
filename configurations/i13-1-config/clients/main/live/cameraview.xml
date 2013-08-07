@@ -71,15 +71,6 @@
 		<property name="acquirePV" value="BL13J-EA-DET-01:CAM:Acquire" />
 	</bean>
 
-	<bean id="moveable_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
-		<property name="name" value="Moveable Camera"/>
-		<property name="urlPV" value="BL13J-OP-FLOAT-01:FFMPEG:MJPG_URL_RBV" />
-		<property name="exposurePV" value="BL13J-OP-FLOAT-01:CAM:AcquireTime" />
-		<property name="acqPeriodPV" value="BL13J-OP-FLOAT-01:CAM:AcquirePeriod" />
-		<property name="gainPV" value="BL13J-OP-FLOAT-01:CAM:Gain" />
-		<property name="acquirePV" value="BL13J-OP-FLOAT-01:CAM:Acquire" />
-	</bean>
-
 	<bean id="axis_186_config" class="uk.ac.gda.video.views.CameraParameters">
 		<property name="name" value="AXIS_186"/>
 		<property name="mjpegURL" value="http://172.23.82.186/mjpg/video.mjpg" />
@@ -96,7 +87,6 @@
 				<ref bean= "d4_cam_config"/>
 				<ref bean= "d5_cam_config"/>
 				<ref bean= "pco_cam_config"/>
-				<ref bean= "moveable_cam_config"/>
 				<ref bean= "axis_186_config"/>
 			</list>
 		</property>

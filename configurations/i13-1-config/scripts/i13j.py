@@ -35,6 +35,21 @@ To take an image from the maxipix detector:
     To change external trigger mode
     mpx_limaCCD.setAcqTriggerMode(LimaCCD.AcqTriggerMode.EXTERNAL_TRIGGER)
     
+    To use the internal clock of the MaxiPix to take many images per step of a GDA scan
+    >>>mpx_limaCCD.setAcqMode(LimaCCD.AcqMode.SINGLE)
+    >>>mpx.setNumberOfFrames(100)
+    >>>repscan 10 mpx .005
+
+    This will results in 10 acquisitions, each consisting of 100 frames each 0.005 s apart. 
+    There will be 10 lines of output on the GDA terminal    
+
+    To write all images per acquisition into a single edf file set the parameter savingframePerFile to match the number of frames:
+    Note that the data is not yet viewable in GDA or DAWN from a multi-image edf file.
+
+    >>>mpx_limCCD.savingFramePerFile=100
+
+    To reset the mpx to normal settings use the command mpx_reset_configure()
+
     
 5. To scan a variable and at each point take an image form the maxipix    
     scan ix 0. 10. 1 mpx 0.1
@@ -48,10 +63,13 @@ To take an image from the maxipix detector:
     two_motor_positions.load(filepath, offset, scale)
     e.g.
     two_motor_positions.load("/dls_sw/i13-1/scripts/ptychography/ProbePos_10x10.txt", (1.,2.), 1.0)
+
+    You can use command ( run "spiral.py") to generate a set of positions to describe a spiral in /dls_sw/i13-1/scripts/spiral.txt
+	The file is at /dls_sw/i13-1/scripts/spiral.py    
+
+    b)To scan the sample stage t1_sxy use the command:
     
-    b)scan the stage stage t1_xy
-    
-    scan t1_xy two_motor_positions <det> <exposure>
+    scan t1_sxy two_motor_positions <det> <exposure>
     
     
  To create tiff files from the edf files produce in a scan use the command:

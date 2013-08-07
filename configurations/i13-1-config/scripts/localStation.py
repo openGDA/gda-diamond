@@ -73,8 +73,13 @@ alias("setTitle")
 alias("getTitle")
 
 if not LocalProperties.check("gda.dummy.mode"):
-	import filter_array
-	xia_filter=filter_array.filter_array("xia_filter", prefix="BL13J-OP-ATTN-02:", elements=["Cr", "Fe", "Cu", "Nb"])
+	try:
+		import filter_array
+		xia_filter=filter_array.filter_array("xia_filter", prefix="BL13J-OP-ATTN-02:", elements=["Cr", "Fe", "Cu", "Nb"])
+	except gda.factory.FactoryException, e:
+		print "!!!!!!!!!!!!!!!!!!!!!!! problem configuring xia_filter"
+		print e
+		print "Continuing anyway..."
 
 from flyscan_script import flyscan, flyscannable, WaitForScannableAtLineEnd
 vararg_alias("flyscan")
@@ -86,18 +91,38 @@ except NameError:
 #createPVScannable( "d1_total", "BL13J-DI-PHDGN-01:STAT:Total_RBV")
 
 if not LocalProperties.check("gda.dummy.mode"):
-	createPVScannable( "expt_fastshutter_raw", "BL13J-EA-FSHTR-01:RAWCONTROL", hasUnits=False)
-	expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", expt_fastshutter_raw)
-	createPVScannable( "ic", "BL13J-DI-IONC-01:I", hasUnits=True)
+	try:
+#		createPVScannable( "fs1", "BL13J-EA-FSHTR-01:CONTROL", hasUnits=False)
+		createPVScannable( "expt_fastshutter_raw", "BL13J-EA-FSHTR-01:RAWCONTROL", hasUnits=False)
+		expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", expt_fastshutter_raw)
+	except gda.factory.FactoryException, e:
+		print "!!!!!!!!!!!!!!!!!!!!!!! problem configuring fast shutter "
+		print e
+		print "Continuing anyway..."
+	try:
+		createPVScannable( "ic", "BL13J-DI-IONC-01:I", hasUnits=True)
+		createPVScannable( "ic_rate", "BL13J-DI-IONC-01:HRPHOTONRATE", hasUnits=True)
+	except gda.factory.FactoryException, e:
+		print "!!!!!!!!!!!!!!!!!!!!!!! problem configuring ion chamber"
+		print e
+		print "Continuing anyway..."
 
 #make scannablegroup for driving sample stage
 from gda.device.scannable.scannablegroup import ScannableGroup
-t1_xy = ScannableGroup()
-t1_xy.addGroupMember(t1_sx)
-t1_xy.addGroupMember(t1_sy)
-t1_xy.addGroupMember(ix)
-t1_xy.setName("t1_xy")
-t1_xy.configure()
+t1_sxy = ScannableGroup()
+t1_sxy.addGroupMember(t1_sx)
+t1_sxy.addGroupMember(t1_sy)
+t1_sxy.addGroupMember(ix)
+t1_sxy.setName("t1_sxy")
+t1_sxy.configure()
+
+diff_xy = ScannableGroup()
+diff_xy.addGroupMember(diff_x)
+diff_xy.addGroupMember(diff_y)
+diff_xy.addGroupMember(ix)
+diff_xy.setName("diff_xy")
+diff_xy.configure()
+
 
 dummy_xy = ScannableGroup()
 dummy_xy.addGroupMember(ix)
@@ -125,6 +150,10 @@ imageFitter3 = finder.find("imageFitter3")
 imageStats3 = finder.find("imageStats3")
 imagePlotter3 = finder.find("imagePlotter3")
 imageROI3 = finder.find("imageROI3")
+
+#disable profile as it does not support Integer - see DataSetStats line 70?
+imageStats.profileY=False
+imageStats.profileX=False
 
 import roi_operations
 mpx_roi_total_diff = roi_operations.roi_diff("mpx_roi_total_diff","mpx_roi_total_diff",mpx_wrap)
@@ -226,8 +255,8 @@ from gdascripts.bimorph import bimorph
 #intensity2d = DetectorDataProcessorWithRoi('intensity2d', cam1, [PixelIntensity()])
 #cam1.returnPathAsImageNumberOnly=True
 
-from gdascripts.bimorph.bimorph_mirror_optimising import SlitScanner, ScanAborter, TopupCountdown
-scanAborter=ScanAborter("scanAborter",ic, -10)
-slitscanner = SlitScanner()
-slitscanner.setScanAborter(scanAborter)
-bm_topup = TopupCountdown("bm_topup")
+#from gdascripts.bimorph.bimorph_mirror_optimising import SlitScanner, ScanAborter, TopupCountdown
+#scanAborter=ScanAborter("scanAborter",ic, -10)
+#slitscanner = SlitScanner()
+#slitscanner.setScanAborter(scanAborter)
+#bm_topup = TopupCountdown("bm_topup")

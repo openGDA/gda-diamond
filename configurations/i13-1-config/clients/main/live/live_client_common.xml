@@ -37,9 +37,9 @@
 		<property name="imageNDStats" ref="float2_stat" />
 		<property name="liveViewNDProc" ref="float2_proc" />
 		<property name="imageNDArray" ref="float2_arr" />
-		<property name="imageHistSize" value="500" />
+		<property name="imageHistSize" value="256" />
 		<property name="imageMin" value="0" />
-		<property name="imageMax" value="65535" />
+		<property name="imageMax" value="256" />
 		<property name="detectorName" value="Float 2" />
 		<property name="adBase" ref="float2_cam_base" />
 		<property name="ffmpegStream" ref="float2_ffmpeg" />
@@ -72,6 +72,45 @@
 		<property name="properties" ref="float2dictionary" />
 	</bean>
 
+	<bean id="float1ADController"
+		class="uk.ac.gda.epics.adviewer.ADControllerImpl">
+		<property name="imageNDStats" ref="float1_stat" />
+		<property name="liveViewNDProc" ref="float1_proc" />
+		<property name="imageNDArray" ref="float1_arr" />
+		<property name="imageHistSize" value="256" />
+		<property name="imageMin" value="0" />
+		<property name="imageMax" value="256" />
+		<property name="detectorName" value="Float 1" />
+		<property name="adBase" ref="float1_cam_base" />
+		<property name="ffmpegStream" ref="float1_ffmpeg" />
+		<property name="ffmpegImageOutHeightMax" value="1200" />
+		<property name="ffmpegImageOutWidthMax" value="1600" />
+		<property name="cameraImageWidthMax" value="1388" />
+		<property name="cameraImageHeightMax" value="1032" />
+		<property name="imageNDROI" ref="float1_roi"/>
+	</bean>
+
+	<bean id="float1ADViewcreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
+		<property name="adController" ref="float1ADController" />
+	</bean>
+
+	<bean id="float1dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
+		<property name="map">
+			<map>
+				<entry key="SERVICE_NAME" value="float1" />
+			</map>
+		</property>
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
+		<property name="service" ref="float1ADController" />
+		<property name="properties" ref="float1dictionary" />
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.epics.adviewer.views.ViewCreator" />
+		<property name="service" ref="float1ADViewcreator" />
+		<property name="properties" ref="float1dictionary" />
+	</bean>
 
 	<bean id="excaliburADController"
 		class="uk.ac.gda.epics.adviewer.ADControllerImpl">
