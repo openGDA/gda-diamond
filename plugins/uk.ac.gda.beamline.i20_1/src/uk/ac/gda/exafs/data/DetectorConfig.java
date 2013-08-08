@@ -145,9 +145,8 @@ public class DetectorConfig extends ObservableModel {
 
 	public static final String BIAS_PROP_NAME = "bias";
 	public void setBias(double bias) throws DeviceException {
-		double currentBias = currentDetector.getBias();
 		currentDetector.setBias(bias);
-		firePropertyChange(BIAS_PROP_NAME, currentBias, bias);
+		firePropertyChange(BIAS_PROP_NAME, null, bias);
 		biasCache = null;
 	}
 

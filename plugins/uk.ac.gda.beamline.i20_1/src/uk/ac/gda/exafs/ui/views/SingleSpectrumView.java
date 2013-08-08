@@ -48,6 +48,8 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.gda.exafs.data.DetectorConfig;
+import uk.ac.gda.exafs.data.SingleSpectrumCalibrationModel;
+import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 
 public class SingleSpectrumView extends ViewPart {
 
@@ -196,9 +198,21 @@ public class SingleSpectrumView extends ViewPart {
 
 		Label i0IntegrationTimeLabel = toolkit.createLabel(acquisitionSettingsComposite, "I0 Integration time:");
 		i0IntegrationTimeLabel.setLayoutData(new GridData(GridData.BEGINNING, GridData.BEGINNING, false, false));
-		Text i0IntegrationTimeText = toolkit.createText(acquisitionSettingsComposite, "", SWT.None);
+		//		Text i0IntegrationTimeText = toolkit.createText(acquisitionSettingsComposite, "", SWT.None);
+		//		GridData gridData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
+		//		i0IntegrationTimeText.setLayoutData(gridData);
 		GridData gridData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
-		i0IntegrationTimeText.setLayoutData(gridData);
+		NumberEditorControl i0IntegrationTimeText;
+		try {
+			i0IntegrationTimeText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, new SingleSpectrumCalibrationModel(), SingleSpectrumCalibrationModel.I0_POSITION_PROP_NAME, true);
+			i0IntegrationTimeText.setLayoutData(gridData);
+			toolkit.paintBordersFor(i0IntegrationTimeText);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+
+		}
+		//i0IntegrationTimeText.setDigits(2);
+
 
 		Label i0NoOfAccumulationLabel = toolkit.createLabel(acquisitionSettingsComposite, "I0 Nnumber of accumulations:");
 		i0NoOfAccumulationLabel.setLayoutData(new GridData(GridData.BEGINNING, GridData.BEGINNING, false, false));

@@ -137,8 +137,8 @@ public class DetectorROIsSesion {
 				return ((XHROI) element).getName();
 			}
 		});
-		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
-
+		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(2));
+		viewerNumberColumn.getColumn().setText("Name");
 		// Lower level column
 		TableViewerColumn viewerlowerLevelColumn = new TableViewerColumn(roisTableViewer, SWT.NONE);
 
@@ -148,7 +148,8 @@ public class DetectorROIsSesion {
 				return Integer.toString(((XHROI) element).getLowerLevel());
 			}
 		});
-		viewerlowerLevelColumn.setEditingSupport(new RoisStripLevelEditorSupport(roisTableViewer, false));
+		// TODO add editing support
+		// viewerlowerLevelColumn.setEditingSupport(new RoisStripLevelEditorSupport(roisTableViewer, false));
 		layout.setColumnData(viewerlowerLevelColumn.getColumn(),new ColumnWeightData(4));
 		viewerlowerLevelColumn.getColumn().setText("Lower level");
 
@@ -160,7 +161,8 @@ public class DetectorROIsSesion {
 				return Integer.toString(((XHROI) element).getUpperLevel());
 			}
 		});
-		viewerUpperLevelColumn.setEditingSupport(new RoisStripLevelEditorSupport(roisTableViewer, true));
+		// TODO add editing support
+		// viewerUpperLevelColumn.setEditingSupport(new RoisStripLevelEditorSupport(roisTableViewer, true));
 		viewerUpperLevelColumn.getColumn().setText("Upper level");
 		layout.setColumnData(viewerUpperLevelColumn.getColumn(),new ColumnWeightData(4));
 		toolkit.paintBordersFor(regionsTableComposit);

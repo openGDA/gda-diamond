@@ -18,10 +18,8 @@
 
 package uk.ac.gda.exafs.ui.views;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
@@ -45,7 +43,6 @@ public class DetectorSetupView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		xhComposite = new XHControlComposite(parent, this);
 		xhComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
-		parent.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
 	}
 
 	@Override
