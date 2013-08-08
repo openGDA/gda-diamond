@@ -11,4 +11,4 @@ mv -f lala i22ssh.key
 ^D
 chmod o-w .
 chmod a+x /dls_sw/i22/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
-setfacl -m g:i22_staff:rwx -m u:i22user:rwx xml/user_permissions.xml xml/beamlinestaff.xml scripts/energy.py scripts/feedback.py scripts/i22.py /dls_sw/i22/software/gda/workspace_git/gda-scm.git/plugins/uk.ac.gda.devices.bssc/scripts/BSSC.py
+setfacl -m g:i22_staff:rwx -m u:i22user:rwx xml/user_permissions.xml xml/beamlinestaff.xml /dls_sw/i22/software/gda/workspace_git/gda-scm.git/plugins/uk.ac.gda.devices.bssc/scripts/BSSC.py

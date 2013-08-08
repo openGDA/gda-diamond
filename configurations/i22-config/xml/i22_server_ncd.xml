@@ -279,6 +279,7 @@
 	</bean>
 	
 	<import resource="i22_pilatus.xml"/>
+	<import resource="i22_pilatus_waxs.xml"/>
 
 <!-- 
     <bean id="Mar" class="uk.ac.gda.server.ncd.subdetector.NcdMarDetector">
@@ -287,7 +288,6 @@
                 <property name="detectorType" value="SAXS" />
     </bean> 
 
-	<import resource="i22_pilatus_waxs.xml"/>
         <bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDController">
 			<property name="local" value="true" />
             <property name="epicsDeviceName" value="edxd" />
@@ -307,6 +307,7 @@
 		<property name="detectors">
                         <list>
                                 <ref bean="Pilatus2M" /> 
+                                <ref bean="PilatusWAXS" /> 
                                 <!--  <ref bean="Hotwaxs" /> -->
                                 <ref bean="Scalers" />
                                 <ref bean="It" />

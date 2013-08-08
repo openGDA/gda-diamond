@@ -5,19 +5,6 @@
 <!-- level 2 will allow them to drive some extra motors (e.g. energy at the moment) -->
 <!-- with the current configuration all motors are accessible with level 3 -->
 
-<!-- beamline staff -->
-<i22user>3</i22user>
-<njt78>3</njt78>
-<mm54>3</mm54>
-<lsd43>3</lsd43>
-<zbs27213>3</zbs27213>
-<vdf31527>3</vdf31527>
-<ckn54496>3</ckn54496>
-
-<!-- data acq -->
-<zjt21856>4</zjt21856>
-<tjs15132>3</tjs15132>
-
 <!--users on visit sm7886-1, added by NJT on Aug 8th 2012 so users could change mfsax position-->
 <sma86963>3</sma86963>
 <!--users on visit sm8174-1, added by NJT on Feb 6th 2013 so users could change mfsax position-->
@@ -32,4 +19,11 @@
 <tsu63245>3</tsu63245>
 <!--users on visit sm8555-1, added by AS on 4 July 2013 so users could change mfsax position-->
 <pyx10148>3</pyx10148>
+<!--Ported across from /dls_sw/i22/software/gda/config/xml/beamlinestaff.xml by AS on 29 July 2013 as part of tidy-up-->
+<!-- asax user -->
+<gwp67624>2</gwp67624>
+<!-- sm7690-1 -->
+<cyo55530>2</cyo55530>
+<oee14846>2</oee14846>
+<rjw40996>2</rjw40996>
 </user_permissions>

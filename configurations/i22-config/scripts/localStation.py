@@ -74,30 +74,35 @@ finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
 #scan slit start end step cam1 620 peak2d
 #run "setupBimorphOptimisation"
 
-import gridscan
-
-print "Create ncdgridscan"
-try:
-       del(gridxy)
-except:
-       pass
-
-gridxy=ScannableGroup()
-gridxy.setName("gridxy")
-gridxy.setGroupMembers([pimf_x, pimf_y])
-gridxy.configure()
-ncdgridscan=gridscan.Grid("Microscope View", "Mapping Grid", mfgige, gridxy, ncddetectors)
-ncdgridscan.snap()
+##import gridscan
+##
+##print "Create ncdgridscan"
+##try:
+       ##del(gridxy)
+##except:
+       ##pass
+##
+##gridxy=ScannableGroup()
+##gridxy.setName("gridxy")
+##gridxy.setGroupMembers([pimf_x, pimf_y])
+##gridxy.configure()
+##ncdgridscan=gridscan.Grid("Microscope View", "Mapping Grid", mfgige, gridxy, ncddetectors)
+##ncdgridscan.snap()
 
 import metadatatweaks
 getTitle = metadatatweaks.getTitle
 alias("getTitle")
 setTitle = metadatatweaks.setTitle
 alias("setTitle")
+getSubdirectory = metadatatweaks.getSubdirectory
+alias("getSubdirectory")
+setSubdirectory = metadatatweaks.setSubdirectory
+alias("setSubdirectory")
 getVisit = metadatatweaks.getVisit
 alias("getVisit")
 setVisit = metadatatweaks.setVisit
 alias("setVisit")
+sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename")
 
 run("/BeamlineScripts/master.py")
 execfile(gdaScriptDir + "atten.py")
