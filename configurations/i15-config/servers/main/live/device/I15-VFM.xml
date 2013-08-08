@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="VFMpitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VFM.PITCH" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="VFMyMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VFM.Y" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="VFMyawMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VFM.YAW" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="VFMxMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VFM.X" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="VFMcurveMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VFM.CURVE" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="VFMellipticityMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VFM.ELLIP" />
+		<property name="local" value="true"/>
+	</bean>
+</beans>

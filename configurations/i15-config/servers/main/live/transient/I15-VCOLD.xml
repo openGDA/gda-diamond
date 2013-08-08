@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="cryox_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VCOLD.X" />
+	</bean>
+
+	<bean id="cryoy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VCOLD.Y" />
+	</bean>
+
+	<bean id="cryoz_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VCOLD.Z" />
+	</bean>
+
+	<bean id="cryorot_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VCOLD.THETA" />
+	</bean>
+
+	<bean id="cryobsx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VCOLD.BSX" />
+	</bean>
+
+	<bean id="cryobsy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VCOLD.BSY" />
+	</bean>
+</beans>

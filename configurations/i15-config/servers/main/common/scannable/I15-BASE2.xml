@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="tab2jack1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tab2jack1_motor" />
+	</bean>
+
+	<bean id="tab2jack2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tab2jack2_motor" />
+	</bean>
+
+	<bean id="tab2jack3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tab2jack3_motor" />
+	</bean>
+
+	<bean id="tab2transx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tab2x2_motor" />
+	</bean>
+
+	<bean id="tab2rotation" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tab2rot_motor" />
+	</bean>
+
+	<bean id="base2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="tab2jack1" />
+				<ref bean="tab2jack2" />
+				<ref bean="tab2jack3" />
+				<ref bean="tab2transx" />
+				<ref bean="tab2rotation" />
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -24,18 +24,16 @@ export ECLIPSE_OPTIONS=$*
 # script changes.
 ########################################################################
 
-SELF=$(readlink -f $0)
-
 # How many directories we have to go up depends on the location of our
 # config/bin directory.
 
 # For example, on i15 ROOT is 5 directories up from config/bin:
-#   workspace_git/gda-mt.git/configurations/i15-config/bin/bleclipse
-GDA_ROOT=$(dirname $SELF)/../../../../..
+#   workspace_git/gda-mt.git/configurations/config/bin/bleclipse
+GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
 
 # But on i13, ROOT is only 4 directories up from config/bin:
 #   workspace_git/gda-dls-beamlines-i13x.git/i13i/bin/bleclipse
-#GDA_ROOT=$(dirname $SELF)/../../../..
+#GDA_ROOT=$(readlink -f $(dirname $0)/../../../..)
 
 $GDA_ROOT/workspace_git/gda-diamond.git/dls-config/bin/bleclipse
 ########################################################################

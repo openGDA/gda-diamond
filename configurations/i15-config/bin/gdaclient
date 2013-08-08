@@ -1,5 +1,19 @@
 #!/bin/bash
 
-. GDA_common gda_client_output
+. $(dirname "$0")/GDA_common gda_client_output
 
-$GDACLIENT --keep --nohup $LOGFILE $*
+JAVA_OPTS="-Xms512m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=1024m $JAVA_OPTS"
+JAVA_OPTS="-Dgda.client.jython.automatic.interpreter=1 $JAVA_OPTS"
+JAVA_OPTS="-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True $JAVA_OPTS"
+JAVA_OPTS="-Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True $JAVA_OPTS"
+JAVA_OPTS="-Declipse.pluginCustomization=/dls_sw/i15/software/gda_versions/gda_8.30c/config/clients/main/common/pluginCustomization.ini $JAVA_OPTS"
+
+#Relative paths don't work#JAVA_OPTS="-Declipse.pluginCustomization=../config/clients/main/common/pluginCustomization.ini $JAVA_OPTS"
+#JVM terminates#JAVA_OPTS="-pluginCustomization=/dls_sw/i15/software/gda_versions/gda_8.30c/config/clients/main/common/pluginCustomization.ini $JAVA_OPTS"
+#JVM terminates#JAVA_OPTS="-pluginCustomization /dls_sw/i15/software/gda_versions/gda_8.30c/config/clients/main/common/pluginCustomization.ini $JAVA_OPTS"
+
+echo JAVA_OPTS = $JAVA_OPTS
+
+export JAVA_OPTS
+
+$GDA_CLIENT_SCRIPT --core --log --keep --nohup $LOGFILE $*

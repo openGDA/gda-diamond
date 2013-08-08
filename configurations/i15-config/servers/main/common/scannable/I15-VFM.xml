@@ -1,0 +1,48 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="vfm_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mrad"/>
+		<property name="motor" ref="VFMpitchMotor" />
+	</bean>
+
+	<bean id="vfm_y" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="VFMyMotor" />
+	</bean>
+
+	<bean id="vfm_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mrad"/>
+		<property name="motor" ref="VFMyawMotor" />
+	</bean>
+
+	<bean id="vfm_x" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="VFMxMotor" />
+	</bean>
+
+	<bean id="vfm_curve" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="VFMcurveMotor" />
+	</bean>
+
+	<bean id="vfm_ellipticity" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="VFMellipticityMotor" />
+	</bean>
+
+	<bean id="vfm_" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="vfm_pitch" />
+				<ref bean="vfm_y" />
+				<ref bean="vfm_yaw" />
+				<ref bean="vfm_x" />
+				<ref bean="vfm_curve" />
+				<ref bean="vfm_ellipticity" />
+			</list>
+		</property>
+	</bean>
+</beans>
