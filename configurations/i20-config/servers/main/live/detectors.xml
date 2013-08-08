@@ -13,9 +13,9 @@
 		<property name="startupCommands">
 			<list>
 <!-- 		for 36Ge: -->
- 					<value>~config</value> 
+ 				<value>~config</value>  
 <!-- 		for 64Ge: -->
-<!-- 				<value>~config 9</value> -->
+<!--				<value>~config 9</value>  -->
 			</list>
 		</property>
 		<property name="dataPort" value="20030" />
@@ -323,6 +323,16 @@
 			</map>
 		</property>
 	</bean>
+	<bean id="i0_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL20I-EA-IAMP-01:IOON" />
+		<property name="values">
+			<map>
+				<entry key="Off" value="Off" />
+				<entry key="On" value="On" />
+			</map>
+		</property>
+	</bean>
+	
 	
 	<bean id="it_stanford_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-02:SENS:SEL1" />
@@ -374,6 +384,15 @@
 				<entry key="pA" value="pA" />
 				<entry key="nA" value="nA" />
 				<entry key="uA" value="uA" />
+			</map>
+		</property>
+	</bean>
+	<bean id="ii_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL20I-EA-IAMP-02:IOON" />
+		<property name="values">
+			<map>
+				<entry key="Off" value="Off" />
+				<entry key="On" value="On" />
 			</map>
 		</property>
 	</bean>
@@ -432,6 +451,15 @@
 			</map>
 		</property>
 	</bean>
+	<bean id="iref_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL20I-EA-IAMP-03:IOON" />
+		<property name="values">
+			<map>
+				<entry key="Off" value="Off" />
+				<entry key="On" value="On" />
+			</map>
+		</property>
+	</bean>
 
 
 	<bean id="i1_stanford_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
@@ -484,6 +512,15 @@
 				<entry key="pA" value="pA" />
 				<entry key="nA" value="nA" />
 				<entry key="uA" value="uA" />
+			</map>
+		</property>
+	</bean>
+	<bean id="i1_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL20I-EA-IAMP-04:IOON" />
+		<property name="values">
+			<map>
+				<entry key="Off" value="Off" />
+				<entry key="On" value="On" />
 			</map>
 		</property>
 	</bean>
