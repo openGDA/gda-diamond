@@ -395,9 +395,9 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		double[] extras = new double[getRois().length + 1];
 
 		for (int elementNum = 0; elementNum < NUMBER_ELEMENTS; elementNum++) {
-			extras[0] += elements[elementNum];
 			int roi = whichROI(elementNum);
 			if (roi >= 0) {
+				extras[0] += elements[elementNum];
 				extras[roi + 1] += elements[elementNum];
 			}
 		}
@@ -1082,12 +1082,12 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			daServer.sendCommand("xstrip hv init");
 			daServer.sendCommand("xstrip hv enable \"" + detectorName +"\"");
 		}
-		daServer.sendCommand("xstrip hv set-dac \"" + detectorName + "\" " + biasVoltage);
+		daServer.sendCommand("xstrip hv set-dac \"" + detectorName + "\" " + biasVoltage + " hv");
 	}
 
 	@Override
 	public Double getBias() throws DeviceException {
-		return (Double) daServer.sendCommand("xstrip hv get-adc \"" + detectorName + "\"");
+		return (Double) daServer.sendCommand("xstrip hv get-adc \"" + detectorName + "\" hv");
 	}
 
 	@Override
