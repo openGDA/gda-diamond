@@ -48,6 +48,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -70,6 +71,15 @@ import uk.ac.gda.exafs.data.DetectorConfig;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class DetectorSetupDialog extends TitleAreaDialog {
+
+	private static final int ADDED_DIALOG_WIDTH = 100;
+
+	@Override
+	protected Point getInitialSize() {
+		Point point = super.getInitialSize();
+		point.x += ADDED_DIALOG_WIDTH;
+		return point;
+	}
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
@@ -226,12 +236,16 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST) {
 					@Override
 					public Object convert(Object value) {
-						String[] values = ((String) value).split(",");
-						Integer[] excludedStrips = new Integer[values.length];
-						for (int i = 0; i < values.length; i++) {
-							excludedStrips[i] = new Integer(values[i]);
+						String excludedStrips = (String) value;
+						if (excludedStrips.isEmpty()) {
+							return new Integer[]{};
 						}
-						return excludedStrips;
+						String[] valuesStringArray = excludedStrips.split(",");
+						Integer[] excludedStripsArray = new Integer[valuesStringArray.length];
+						for (int i = 0; i < valuesStringArray.length; i++) {
+							excludedStripsArray[i] = new Integer(valuesStringArray[i]);
+						}
+						return excludedStripsArray;
 					}
 				},
 				new UpdateValueStrategy() {
@@ -260,7 +274,14 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 						new ArrayContentProvider(),
 						new LabelProvider(),
 						"Select excluded strips");
-		dialog.setInitialElementSelections(Arrays.asList(DetectorConfig.INSTANCE.getExcludedStrips()));
+		if (!txtExcludedStrips.getText().isEmpty()) {
+			String[] array = txtExcludedStrips.getText().split("\\s*,\\s*");
+			Integer[] intArray = new Integer[array.length];
+			for (int i = 0; i < array.length; i++) {
+				intArray[i] = new Integer(array[i]);
+			}
+			dialog.setInitialElementSelections(Arrays.asList(intArray));
+		}
 		if (dialog.open() == Window.OK) {
 			Object[] selection = dialog.getResult();
 			txtExcludedStrips.setText(DataHelper.toString(selection));

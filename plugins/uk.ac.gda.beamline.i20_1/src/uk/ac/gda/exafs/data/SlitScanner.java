@@ -53,7 +53,7 @@ public class SlitScanner extends ObservableModel implements IObserver {
 	private double step;
 
 	public static final String INTEGRATION_TIME_PROP_NAME = "integrationTime";
-	private int integrationTime = 1;
+	private double integrationTime = 1;
 
 	private SlitScanner() {
 		InterfaceProvider.getJSFObserver().addIObserver(this);
@@ -74,51 +74,51 @@ public class SlitScanner extends ObservableModel implements IObserver {
 		return state;
 	}
 
-	protected void setState(int state) {
-		this.firePropertyChange(STATE_PROP_NAME, this.state, this.state = state);
+	protected void setState(int value) {
+		this.firePropertyChange(STATE_PROP_NAME, state, state = value);
 	}
 	public double getGap() {
 		return gap;
 	}
 
-	public void setGap(double gap) {
-		this.firePropertyChange(GAP_PROP_NAME, gap, this.gap = gap);
+	public void setGap(double value) {
+		this.firePropertyChange(GAP_PROP_NAME, gap, gap = value);
 	}
 
 	public double getFromOffset() {
 		return fromOffset;
 	}
 
-	public void setFromOffset(double fromOffset) {
-		this.firePropertyChange(FROM_OFFSET_PROP_NAME, fromOffset, this.fromOffset = fromOffset);
+	public void setFromOffset(double value) {
+		this.firePropertyChange(FROM_OFFSET_PROP_NAME, fromOffset, fromOffset = value);
 	}
 
 	public double getToOffset() {
 		return toOffset;
 	}
 
-	public void setToOffset(double toOffset) {
-		this.firePropertyChange(TO_OFFSET_PROP_NAME, toOffset, this.toOffset = toOffset);
+	public void setToOffset(double value) {
+		this.firePropertyChange(TO_OFFSET_PROP_NAME, toOffset, toOffset = value);
 	}
 
-	public int getIntegrationTime() {
+	public double getIntegrationTime() {
 		return integrationTime;
 	}
 
-	public void setIntegrationTime(int integrationTime) {
-		this.firePropertyChange(INTEGRATION_TIME_PROP_NAME, integrationTime, this.integrationTime = integrationTime);
+	public void setIntegrationTime(double value) {
+		this.firePropertyChange(INTEGRATION_TIME_PROP_NAME, integrationTime, integrationTime = value);
 	}
 
 	public double getStep() {
 		return step;
 	}
 
-	public void setStep(double step) {
-		this.step = step;
+	public void setStep(double value) {
+		this.firePropertyChange(STEP_PROP_NAME, step, step = value);
 	}
 
 	private String buildScanCommand() {
-		double integrationTimeInS = ((double) integrationTime) / ClientConfig.KILO_UNIT;
+		double integrationTimeInS = (integrationTime) / ClientConfig.KILO_UNIT;
 		return String.format("xh.loadParameters(EdeScanParameters.createSingleFrameScan(%f));scan %s %f %f %f %s %f %s", integrationTimeInS, ScannableSetup.SLIT_3_HORIZONAL_OFFSET.getScannableName(), fromOffset, toOffset, step, ScannableSetup.SLIT_3_HORIZONAL_GAP.getScannableName(), gap, DetectorConfig.INSTANCE.getCurrentDetector().getName());
 	}
 

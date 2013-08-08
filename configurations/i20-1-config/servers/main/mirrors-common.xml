@@ -128,6 +128,7 @@
 	</bean>
 	<bean id="polycurve" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_curvature_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="polybend1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_bend1_motor" />
@@ -139,6 +140,7 @@
 	</bean>
 	<bean id="polyyellip" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_ellip_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="polytwist" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_twist_motor" />

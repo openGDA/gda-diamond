@@ -24,10 +24,12 @@
 <!-- 	T2 Sample stage -->
 	<bean id="sample_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sample_z_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 <!-- 	T4 sample environment table -->
 	<bean id="sample_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="samenv_x_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="sample_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="samenv_y_motor" />

@@ -95,7 +95,12 @@
 		<property name="serviceUrl" value="${gda.rmi.prefix}sample_x" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>  
+	</bean>
+	<bean id="sample_z" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}sample_z" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
 	<bean id="twotheta" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}twotheta" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />

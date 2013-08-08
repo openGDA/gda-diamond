@@ -268,9 +268,9 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				// simply set excluded strips to be zero
 				if (ArrayUtils.contains(excludedStrips, element)) {
 					out[frame][element] = 0.0;
-				} else if (element < lowerChannel || element > upperChannel) {
+				} /*else if (element < lowerChannel || element > upperChannel) {
 					out[frame][element] = 0.0;
-				} else {
+				} */else {
 
 					out[frame][element] = rawData[(frame * NUMBER_ELEMENTS) + element];
 				}
@@ -934,7 +934,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		int increment = useableRegion / numberOfRois;
 		int start = lowerChannel;
 		for (int i = 0; i < numberOfRois; i++) {
-			XHROI xhroi = new XHROI("ROI_" + i);
+			XHROI xhroi = new XHROI("ROI_" + (i + 1));
 			xhroi.setLowerLevel(start);
 			xhroi.setUpperLevel(start + increment - 1);
 			xhrois[i] = xhroi;
@@ -957,6 +957,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		setNumberRois(4);
 	}
 
+	// FIXME What is this use for?
 	private void setRoisWithoutStoringAndNotifying(XHROI[] rois) {
 		int numROI;
 		if (rois != null) {
@@ -1003,9 +1004,10 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			}
 
 			PropertiesConfiguration store = new PropertiesConfiguration(propertiesFileName);
+			store.clear();
 			for (XHROI roi : getRois()) {
-				store.setProperty(roi.getName() + "_" + LOWERLEVEL_PROPERTY, roi.getLowerLevel());
-				store.setProperty(roi.getName() + "_" + UPPERLEVEL_PROPERTY, roi.getUpperLevel());
+				store.setProperty(roi.getName() + "-" + LOWERLEVEL_PROPERTY, roi.getLowerLevel());
+				store.setProperty(roi.getName() + "-" + UPPERLEVEL_PROPERTY, roi.getUpperLevel());
 			}
 			store.save();
 		} catch (Exception e) {
@@ -1014,7 +1016,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	}
 
 	private void loadROIsFromXML() {
-
 		HashMap<String, XHROI> tempROIs = new LinkedHashMap<String, XHROI>();
 		try {
 			PropertiesConfiguration store = new PropertiesConfiguration(getStoreFileName());
@@ -1027,7 +1028,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 					continue;
 				}
 
-				String[] partsString = key.split("_");
+				String[] partsString = key.split("-");
 				if (partsString[0].startsWith("ROI") && !tempROIs.keySet().contains(partsString[0])) {
 					tempROIs.put(partsString[0], new XHROI(partsString[0]));
 				} else {
@@ -1115,7 +1116,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		try {
 			store = new PropertiesConfiguration(getStoreFileName());
 			String[] excludedStripsArray = store.getStringArray(EXCLUDED_STRIPS_PROPERTY);
-			if (excludedStripsArray.length == 0) {
+			if ((excludedStripsArray.length == 0) || (excludedStripsArray.length == 1 && excludedStripsArray[0].isEmpty())) {
 				excludedStrips = new Integer[] {};
 				return;
 			}
