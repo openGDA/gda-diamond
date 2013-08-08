@@ -15,7 +15,7 @@ from uk.ac.gda.exafs.ui.data import EdeScanParameters;
 def runsinglescan():
     ########################
     # EDIT THESE VALUES:
-    frameTimeInSeconds     = 0.001
+    scanTimeInSeconds     = 0.001
     numberOfScansPerFrame  = 1
     
     xmotorobject   = sample_x
@@ -30,7 +30,7 @@ def runsinglescan():
     ########################
     
     
-    scanparams = EdeScanParameters.createSingleFrameScan(frameTimeInSeconds,numberOfScansPerFrame);
+    scanparams = EdeScanParameters.createSingleFrameScan(scanTimeInSeconds,numberOfScansPerFrame);
     
     inBeamPosition = EdeScanPosition(EdePositionType.INBEAM, inbeam_xmotorposition, inbeam_ymotorposition, xmotorobject, ymotorobject);
     outBeamPosition = EdeScanPosition(EdePositionType.OUTBEAM,outbeam_xmotorposition,outbeam_ymotorposition,xmotorobject,ymotorobject);
