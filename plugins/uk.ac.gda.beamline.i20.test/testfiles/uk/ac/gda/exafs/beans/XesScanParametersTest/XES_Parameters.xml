@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <XesScanParameters>
 	<scanType>1</scanType>
-	<radiusOfCurvature>900</radiusOfCurvature>
 	<xesInitialEnergy>15000</xesInitialEnergy>
 	<xesFinalEnergy>16000</xesFinalEnergy>
 	<xesStepSize>1</xesStepSize>
