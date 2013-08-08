@@ -47,8 +47,8 @@ xanes = xas
 alias("xas")
 alias("xanes")
 alias("xes")
-alias("vortex")
-alias("xspress")
+#alias("vortex")
+#alias("xspress")
 
 # To make scans return to the start after being run
 # Should be for commissioning only.
