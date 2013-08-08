@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.1.0.201210040510-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.2.0.201303060654-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -54,7 +54,6 @@
 		<config>devices/epics/absorbers3.xml</config>
 		<config>devices/dummy/absorbers4.xml</config>
 		<config>devices/epics/absorbers4.xml</config>
-		<config>clients/main/live/cameraview.xml</config>
 		<config>clients/main/dummy/client.xml</config>
 		<config>clients/main/live/client.xml</config>
 		<config>clients/main/live_localhost/client.xml</config>
@@ -105,7 +104,6 @@
 		<config>devices/epics/mll.xml</config>
 		<config>devices/mll.xml</config>
 		<config>devices/dummy/moveable_camera.xml</config>
-		<config>devices/epics/moveable_camera.xml</config>
 		<config>devices/moveable_camera.xml</config>
 		<config>devices/dummy/optics_hutch4_shutter.xml</config>
 		<config>devices/epics/optics_hutch4_shutter.xml</config>
@@ -137,6 +135,16 @@
 		<config>devices/dummy/undulator.xml</config>
 		<config>devices/epics/undulator.xml</config>
 		<config>devices/undulator.xml</config>
+		<config>devices/epics/excalibur.xml</config>
+		<config>devices/epics/excalibur_readout1.xml</config>
+		<config>devices/epics/excalibur_readout2.xml</config>
+		<config>devices/epics/excalibur_readout3.xml</config>
+		<config>devices/epics/excalibur_readout4.xml</config>
+		<config>devices/epics/excalibur_readout5.xml</config>
+		<config>devices/epics/excalibur_readout6.xml</config>
+		<config>devices/epics/excalibur_summary.xml</config>
+		<config>devices/excalibur_common.xml</config>
+		<config>devices/epics/float2_cam_ad.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

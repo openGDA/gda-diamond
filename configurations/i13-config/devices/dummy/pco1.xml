@@ -5,5 +5,14 @@
 
 	<import resource="pco1_ndplugins.xml" />
 	
-
+	<bean id="zebra_singleExposurePco" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg value="-.1" />
+	</bean>
+	
+	<bean id="pco4000_Zebra" class="gda.device.detector.addetector.triggering.HardwareTriggeredStandard">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg value=".001" />
+	</bean>
+		
 </beans>	

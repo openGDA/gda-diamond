@@ -78,7 +78,7 @@
 	<import resource="../../../devices/epics/s5_motors.xml"/>
 	<import resource="../../../devices/epics/m2_motors.xml"/>
 	<import resource="../../../devices/epics/pin_motors.xml"/>
-<!-- 	<import resource="../../../devices/epics/diff_motors.xml"/> -->
+ 	<import resource="../../../devices/epics/diff_motors.xml"/>
 
 	<import resource="../../../devices/dummy/diffractometer_motors.xml"/>
 	
@@ -90,7 +90,8 @@
 	<import resource="../../../devices/epics/g1_motors.xml"/>
 
 	<import resource="../../../devices/epics/sample_stage_camera.xml"/>
-	<import resource="../../../devices/epics/moveable_camera.xml"/>
+	<import resource="../../../devices/epics/float1_cam_ad.xml"/>
+	<import resource="../../../devices/epics/float2_cam_ad.xml"/>
 	
 	<import resource="../../../devices/epics/s7_motors.xml"/>
 

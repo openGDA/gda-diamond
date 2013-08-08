@@ -14,6 +14,7 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider"/>
 	
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
 		<property name="metadataEntries">

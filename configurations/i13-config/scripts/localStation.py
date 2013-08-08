@@ -80,9 +80,14 @@ try:
 	from gda.scan.RepeatScan import create_repscan, repscan
 	vararg_alias("repscan")
 
-	from gdascripts.metadata.metadata_commands import setTitle
+	from gdascripts.metadata.metadata_commands import setTitle, meta_add, meta_ll, meta_ls, meta_rm
 	alias("setTitle")
-
+	alias("meta_add")
+	alias("meta_ll")
+	alias("meta_ls")
+	alias("meta_rm")
+	from gda.data.scan.datawriter import NexusDataWriter
+	LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 	
 	from gdascripts.pd.time_pds import waittimeClass2, showtimeClass, showincrementaltimeClass, actualTimeClass
 	waittime=waittimeClass2('waittime')
@@ -108,23 +113,23 @@ try:
 			lensX4Pink="X4 CWD 200"
 			lensX10="X10 2mm x 1mm"
 			
-			caput("BL13I-EA-TURR-01:DEMAND.ZRST",lensX10 )
-			caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", lensX10)
+			caput("BL13I-EA-TURR-01:DEMAND.ZRST",lensX4 )
+			caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", lensX4)
 		
-			caput("BL13I-EA-TURR-01:DEMAND.ONST", "2")
-			caput("BL13I-EA-TURR-01:CURRENTPOS.ONST", "2")
-			caput("BL13I-EA-TURR-01:DEMAND.TWST", "3")
-			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", "3")
-			caput("BL13I-EA-TURR-01:DEMAND.THST", "6")
-			caput("BL13I-EA-TURR-01:CURRENTPOS.THST", "6")
+			caput("BL13I-EA-TURR-01:DEMAND.ONST", lensX2)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.ONST", lensX2)
+			caput("BL13I-EA-TURR-01:DEMAND.TWST", lensX10)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", lensX10)
+			caput("BL13I-EA-TURR-01:DEMAND.THST", "4")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.THST", "4")
 			caput("BL13I-EA-TURR-01:DEMAND.FRST", "5")
 			caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", "5")
 		
 		
-			caput("BL13I-EA-TURR-01:DEMAND.FVST", lensX4)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", lensX4)
-			caput("BL13I-EA-TURR-01:DEMAND.SXST", lensX2)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", lensX2)
+			caput("BL13I-EA-TURR-01:DEMAND.FVST", "6")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", "6")
+			caput("BL13I-EA-TURR-01:DEMAND.SXST", "7")
+			caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", "7")
 			#make the lens re-read its list of positions following setting them in EPICS above
 			lens.initializationCompleted()
 
@@ -186,16 +191,22 @@ try:
 	
 	import tomographyScan
 	#for fast flyscans
-	zebra_det.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="C:\data"	
-	
-	from gda.device.detector.areadetector.v17 import ADDriverPco
-	zebra_det.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_AND_SOFTWARE	
-#	run("i13diffcalc")
-	import raster_scan
-	
+	zebra_det.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="t:\\i13\\data"	
 
-	import beamLineEnergy
-	bl = beamLineEnergy.beamLineEnergy()
+	from gda.device.detector.areadetector.v17 import ADDriverPco
+	zebra_det.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_PULSE	
+#	run("i13diffcalc")
+
+	#pcoEdge needs timestamp 0
+	pco1_hw_tif.collectionStrategy.timeStamp=0
+	pco1_hw_hdf.collectionStrategy.timeStamp=0
+
+	import raster_scan
+	LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/raw")
+	LocalProperties.set("gda.data", "/dls/$instrument$/data/$year$/$visit$/raw")
+
+	import beamlineEnergy
+	bl = beamlineEnergy.beamLineEnergy()
 	bl.setName("bl")
 
 except :

@@ -61,6 +61,7 @@
 				<entry key="fix" value-ref="excalibur_config_fix" />
 				<entry key="mst" value-ref="excalibur_config_mst" />
 				<entry key="hdf" value-ref="excalibur_config_hdf" />
+				<entry key="phdf" value-ref="excalibur_config_phdf" />
 				<entry key="nodes" value-ref="readoutNodesWrapperList" />
 				<entry key="readoutFems" value-ref="readoutFems" />
 			</util:map>

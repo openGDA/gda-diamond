@@ -101,9 +101,9 @@
     </appender>
 
     <appender name="LogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${gda.logs.dir}/gda_server.log</File>
+        <File>${gda.logs.dir}/gda.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${gda.logs.dir}/gda_server.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
+            <FileNamePattern>${gda.logs.dir}/gda.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d %-5level %logger - %m %ex %n</pattern>

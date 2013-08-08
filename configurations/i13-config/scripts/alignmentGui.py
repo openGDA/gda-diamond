@@ -20,6 +20,9 @@ class TomoDet():
         self.pco1_cam_base = self.__getController("pco1_cam_base")        
         self.pco1_stat = self.__getController("pco1_stat")        
         self.pco1_arr = self.__getController("pco1_arr")        
+        self.model = self.pco1_cam_base.model_RBV
+
+        
         return
     def getCurrentExposureTime(self):
 		return self.pco1_cam_base.getAcquireTime_RBV()
@@ -50,10 +53,13 @@ class TomoDet():
         
         self.pco1_cam_base.stopAcquiring() 
         
-        if self.pco1_cam_base.model_RBV == "PCO.Camera Dimax":
+        if self.model == "PCO.Camera Dimax":
             self.pco1_autoContinuousTrigger.triggerMode=2 #EXTERNAL_AND_SOFTWARE otherwise it runs too fast
         else:
-            self.pco1_autoContinuousTrigger.triggerMode=0 #AUTO - ok for PCO4000
+            if self.model == "GC1020C":
+                pass # gige camera from test lab
+            else:
+                self.pco1_autoContinuousTrigger.triggerMode=0 #AUTO - ok for PCO4000
             
         self.pco1_autoContinuousTrigger.prepareForCollection(exposureTime,1,None)
 
@@ -89,12 +95,12 @@ class TomoDet():
         self.pco1_ffmpeg1.getPluginBase().setNDArrayPort(self.pco1_proc1.getPluginBase().getPortName_RBV())
         self.pco1_ffmpeg1.getPluginBase().enableCallbacks()
         
-        self.pco1_ffmpeg2.getPluginBase().disableCallbacks()
+        if self.model != "GC1020C":
+            self.pco1_ffmpeg2.getPluginBase().disableCallbacks()
 
+        self.pco1_autoContinuousTrigger.collectData()
         if self.pco1_cam_base.model_RBV == "PCO.Camera Dimax":
-            self.pco1_cam_base.startAcquiring() #this will arm it as well
-        else:
-            self.pco1_autoContinuousTrigger.collectData()
+            self.pco1_cam_base.startAcquiring() 
         return True
     
     def stop(self):

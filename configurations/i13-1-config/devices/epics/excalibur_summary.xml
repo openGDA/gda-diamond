@@ -6,7 +6,7 @@
 	<bean id="excalibur_summary_adbase_pvProvider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
 		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:MASTER:SLAVES:" />
-	</bean>
+	</bean>  
 
 	<bean id="excalibur_summary_adbase"
 		class="uk.ac.gda.devices.excalibur.impl.ExcaliburSummaryAdbaseImpl">
