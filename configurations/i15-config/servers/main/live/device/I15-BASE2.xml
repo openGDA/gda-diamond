@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Space fab motors -->
+
+	<bean id="tab2jack1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="EHT2.Y1" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="tab2jack2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="EHT2.Y2" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="tab2jack3_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="EHT2.Y3" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="tab2x2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="EHT2.X2" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="tab2rot_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="EHT2.RY" />
+		<property name="local" value="true"/>
+	</bean>
+</beans>

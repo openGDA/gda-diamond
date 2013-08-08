@@ -7,7 +7,7 @@ echo
 echo Making sure we want to restart GDA servers now...
 echo
 
-zenity --title "Are you sure?" --question --text "Are you sure you want to restart the GDA servers?" --window-icon=question
+zenity --title "Are you sure?" --question --text "Are you sure you want to restart the $BEAMLINE GDA servers?" --window-icon=question
 SURE=$?
 if [ $SURE == 1 ]; then
   exit
@@ -20,17 +20,17 @@ nohup rdesktop -T "OD PC" -5 -a 16 -u i15detector -p \!i15d3t3ct0r# -d DIAMOND -
 WINDOWTITLE="Please restart IS"
 (sleep 5; wmctrl -a "$WINDOWTITLE")& # bring zenity to front after 5 secs.
 zenity --title "$WINDOWTITLE" --info --text "\
-Due to a problem with the Oxford Diffraction software, the GDA server cannot\
- reconnect to the IS application automatically when it restarts.\n
-When this happens the fast shutter will not open for *any* detector.\n
-To correct this, please use the remote desktop just opened \
-('OD PC' in your Window List) to:\n
-1. Close the IS application ('CMD: root' in the task bar).\n
-2. Restart the IS application (by clicking on the yellow diffractometer\
- icon in the quick launch bar, near the start menu, which has the tooltip\
- 'Shortcut to is_win32_2.1.1936_18A_Release.exe'.\n
-3. Disconnect from the OD PC by closing the 'OD PC' window.\n
-When you have done this, click Ok and the GDA server restart will continue."
+	Due to a problem with the Oxford Diffraction software, the GDA server cannot\
+	 reconnect to the IS application automatically when it restarts.\n
+	When this happens the fast shutter will not open for *any* detector.\n
+	To correct this, please use the remote desktop just opened \
+	('OD PC' in your Window List) to:\n
+	1. Close the IS application ('CMD: root' in the task bar).\n
+	2. Restart the IS application (by clicking on the yellow diffractometer\
+	 icon in the quick launch bar, near the start menu, which has the tooltip\
+	 'Shortcut to is_win32_2.1.1936_18A_Release.exe'.\n
+	3. Disconnect from the OD PC by closing the 'OD PC' window.\n
+	When you have done this, click Ok and the GDA server restart will continue."
 
 ##This is an example script file to restart GDA server from a remote client
 ##This requires generation of ssh keys and copying the public key to the authorized_keys file in the server

@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="HFMxMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HFM.X" />
+	</bean>
+
+	<bean id="HFMyMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HFM.Y" />
+	</bean>
+
+	<bean id="HFMpitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HFM.PITCH" />
+	</bean>
+
+	<bean id="HFMyawMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HFM.YAW" />
+	</bean>
+
+	<bean id="HFMrollMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HFM.ROLL" />
+	</bean>
+
+	<bean id="HFMcurveMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HFM.CURVE" />
+	</bean>
+
+	<bean id="HFMellipticityMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HFM.ELLIP" />
+	</bean>
+</beans>

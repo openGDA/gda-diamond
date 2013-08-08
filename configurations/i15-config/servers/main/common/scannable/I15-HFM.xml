@@ -1,0 +1,54 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="hfm_x" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="HFMxMotor" />
+	</bean>
+
+	<bean id="hfm_y" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="HFMyMotor" />
+	</bean>
+
+	<bean id="hfm_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mrad"/>
+		<property name="motor" ref="HFMpitchMotor" />
+	</bean>
+
+	<bean id="hfm_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mrad"/>
+		<property name="motor" ref="HFMyawMotor" />
+	</bean>
+
+	<bean id="hfm_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mrad"/>
+		<property name="motor" ref="HFMrollMotor" />
+	</bean>
+
+	<bean id="hfm_curve" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="HFMcurveMotor" />
+	</bean>
+
+	<bean id="hfm_ellipticity" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="HFMellipticityMotor" />
+	</bean>
+
+	<bean id="hfm_" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="hfm_x" />
+				<ref bean="hfm_y" />
+				<ref bean="hfm_pitch" />
+				<ref bean="hfm_yaw" />
+				<ref bean="hfm_roll" />
+				<ref bean="hfm_curve" />
+				<ref bean="hfm_ellipticity" />
+			</list>
+		</property>
+	</bean>
+</beans>
