@@ -83,6 +83,10 @@ getTitle = metadatatweaks.getTitle
 alias("getTitle")
 setTitle = metadatatweaks.setTitle
 alias("setTitle")
+getSubdirectory = metadatatweaks.getSubdirectory
+alias("getSubdirectory")
+setSubdirectory = metadatatweaks.setSubdirectory
+alias("setSubdirectory")
 getVisit = metadatatweaks.getVisit
 alias("getVisit")
 setVisit = metadatatweaks.setVisit
