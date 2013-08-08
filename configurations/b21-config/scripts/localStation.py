@@ -52,8 +52,8 @@ scan_processor.rootNamespaceDict=globals()
 # ncdredux = NcdRedux(ncddetectors)
 
 # preseed listener dispatcher
-## finder.find("ncdlistener").monitorLive("Saxs Plot", "SAXS")
-## finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
+finder.find("ncdlistener").monitorLive("Saxs Plot", "SAXS")
+finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
 ## import gridscan
 ## 
 ## print "Create ncdgridscan"
@@ -67,6 +67,13 @@ scan_processor.rootNamespaceDict=globals()
 ## gridxy.configure()
 ## ncdgridscan=gridscan.Grid("Camera View", "Mapping Grid", mfgige, gridxy, ncddetectors)
 ## ncdgridscan.snap()
+from ncdutils import DetectorMeta
+waxs_distance = DetectorMeta("waxs_distance", ncddetectors, "WAXS", "distance", "m")
+saxs_distance = DetectorMeta("saxs_distance", ncddetectors, "SAXS", "distance", "m")
+saxs_centre_x = DetectorMeta("saxs_centre_x", ncddetectors, "SAXS", "beam_center_x")
+saxs_centre_y = DetectorMeta("saxs_centre_y", ncddetectors, "SAXS", "beam_center_y")
+
+run("energy.py")
 
 import metadatatweaks
 getTitle = metadatatweaks.getTitle

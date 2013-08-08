@@ -74,20 +74,20 @@ finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
 #scan slit start end step cam1 620 peak2d
 #run "setupBimorphOptimisation"
 
-import gridscan
-
-print "Create ncdgridscan"
-try:
-       del(gridxy)
-except:
-       pass
-
-gridxy=ScannableGroup()
-gridxy.setName("gridxy")
-gridxy.setGroupMembers([pimf_x, pimf_y])
-gridxy.configure()
-ncdgridscan=gridscan.Grid("Microscope View", "Mapping Grid", mfgige, gridxy, ncddetectors)
-ncdgridscan.snap()
+##import gridscan
+##
+##print "Create ncdgridscan"
+##try:
+       ##del(gridxy)
+##except:
+       ##pass
+##
+##gridxy=ScannableGroup()
+##gridxy.setName("gridxy")
+##gridxy.setGroupMembers([pimf_x, pimf_y])
+##gridxy.configure()
+##ncdgridscan=gridscan.Grid("Microscope View", "Mapping Grid", mfgige, gridxy, ncddetectors)
+##ncdgridscan.snap()
 
 import metadatatweaks
 getTitle = metadatatweaks.getTitle
