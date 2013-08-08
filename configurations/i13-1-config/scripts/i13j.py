@@ -55,6 +55,7 @@ To take an image from the maxipix detector:
     scan ix 0. 10. 1 mpx 0.1
     
     This scans the dummy variable ix from 0 to 10 in steps of 1 and at each takes an image using exposure time = 0.1s
+
     
     
 6. To scan the sample stage using a list of numbers given in a 2 column file
@@ -69,8 +70,16 @@ To take an image from the maxipix detector:
 
     b)To scan the sample stage t1_sxy use the command:
     
-    scan t1_sxy two_motor_positions <det> <exposure>
+    scan t1_sxy two_motor_positions <det> <exposure> 
     
+    
+6.1 To perform a STXM and plot the results as an image:
+    scan t1_sx t1_sx()-5 t1_sx()+5 1 t1_sy t1_sy()-5 t1_sy()+5 1 mpx_wrap .1 t1_sxy_plotter
+    [By default t1_sxy_plotter plots the field 'total' which is available by enabling imageStats
+    You can change the field to be plotted using the call t1_sxy_plotter.setZ_colName("total")]
+     
+
+ 
     
  To create tiff files from the edf files produce in a scan use the command:
  >>>file_converter.create_tiffs("/dls/i13-1/data/2011/mt5659-1/490.nxs")

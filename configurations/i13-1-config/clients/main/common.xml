@@ -102,13 +102,7 @@
 					<property name="showButtonSeparator" value="true" />
 					<property name="separatePlayPauseButtons" value="true" />
 				</bean>
-				<bean class="uk.ac.gda.dls.client.views.OpenViewCompositeFactory">
-					<property name="tooltipText"
-						value="Display MJPEG streams from cameras and detectors" />
-					<property name="viewID" value="uk.ac.gda.video.views.cameraview" />
-					<property name="buttonText" value="Cameras" />
-					<property name="buttonImagePath" value="icons/eye.png" />
-				</bean>
+				<bean class="uk.ac.gda.dls.client.feedback.FeedbackCompositeFactory"/>
 			</list>
 		</property>
 	</bean>

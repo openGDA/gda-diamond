@@ -107,6 +107,17 @@ if not LocalProperties.check("gda.dummy.mode"):
 		print e
 		print "Continuing anyway..."
 
+
+from gda.device.scannable import TwoDScanPlotter
+t1_sxy_plotter = TwoDScanPlotter()
+t1_sxy_plotter.setName("t1_sxy_plotter")
+t1_sxy_plotter.setY_colName("t1_sy")
+t1_sxy_plotter.setX_colName("t1_sx")
+t1_sxy_plotter.setZ_colName("total")
+#we should the ability to not count hot pixels however they are specified.
+
+
+
 #make scannablegroup for driving sample stage
 from gda.device.scannable.scannablegroup import ScannableGroup
 t1_sxy = ScannableGroup()
