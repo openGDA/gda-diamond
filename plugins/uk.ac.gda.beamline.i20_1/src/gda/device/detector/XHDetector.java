@@ -32,12 +32,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.ArrayUtils;
 import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
@@ -56,8 +58,16 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
  * 
  * @author rjw82
  */
-public class XHDetector extends DetectorBase implements StripDetector {
+public class XHDetector extends DetectorBase implements XCHIPDetector {
 
+	private static final String CONNECTED_KEY = "connected";
+
+	private static final double MIN_BIAS_VOLTAGE = 1.0;
+	private static final double MAX_BIAS_VOLTAGE = 137.0;
+
+	private static final String UPPERLEVEL_PROPERTY = "upperlevel";
+	private static final String LOWERLEVEL_PROPERTY = "lowerlevel";
+	private static final String EXCLUDED_STRIPS_PROPERTY = "excludedStrips";
 	private static final String STORENAME = "XH_rois";
 	// strings to use in the get/set attributes methods
 	public static final String ATTR_LOADPARAMETERS = "loadParameters";
@@ -69,7 +79,13 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	public static final double XSTRIP_CLOCKRATE = 20E-9; // s
 
 	private static final Logger logger = LoggerFactory.getLogger(XHDetector.class);
+	// TODO need to ask scientists what these names should be.
+	private static final String SENSOR0NAME = "Peltier Hotplate";
+	private static final String SENSOR1NAME = "Peltier Coldplate";
+	private static final String SENSOR2NAME = "PCB power supply";
+	private static final String SENSOR3NAME = "PCB control";
 	public static int NUMBER_ELEMENTS = 1024;
+	public static int START_STRIP = 1;
 
 	// These are the objects this must know about.
 	private String detectorName;
@@ -81,23 +97,33 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	// da.server memory handles for reading back timing information and data
 	private int timingHandle = -1;
 	private int dataHandle = -1;
-	
+
 	private int scanDelayInMilliseconds = 0;
 
 	private EdeScanParameters nextScan;
 
 	private XHROI[] rois = new XHROI[0];
-	private int lowerChannel = 0;
+	private int lowerChannel = START_STRIP;
 	private int upperChannel = NUMBER_ELEMENTS;
-	private int[] excludedStrips;
+	private Integer[] excludedStrips;
+	private boolean connected;
+	private static Integer[] STRIPS;
+
+	static {
+		int startStrip = START_STRIP;
+		STRIPS = new Integer[NUMBER_ELEMENTS];
+		for (int i = 0; i < NUMBER_ELEMENTS; i++) {
+			STRIPS[i] = new Integer(i + startStrip);
+		}
+	}
 
 	public XHDetector() {
 		super();
 
 		// defaults which will be updated when number of sectors changed
-		this.inputNames = new String[] { "time" };
-		this.extraNames = new String[] { "Group", "Frame", "Total", "sector1", "sector2", "sector3", "sector4" };
-		this.outputFormat = new String[] { "%8.2f", "%8.2f", "%d", "%8.3f", "%8.3f", "%8.3f", "%8.3f", "%8.3f" };
+		inputNames = new String[] { "time" };
+		extraNames = new String[] { "Group", "Frame", "Total", "sector1", "sector2", "sector3", "sector4" };
+		outputFormat = new String[] { "%8.2f", "%8.2f", "%d", "%8.3f", "%8.3f", "%8.3f", "%8.3f", "%8.3f" };
 	}
 
 	@Override
@@ -107,7 +133,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 				logger.error("template filename needs to be set.");
 			} else {
 				nextScan = (EdeScanParameters) XMLHelpers.createFromXML(EdeScanParameters.mappingURL,
-					EdeScanParameters.class, EdeScanParameters.schemaURL, getTemplateFileName());
+						EdeScanParameters.class, EdeScanParameters.schemaURL, getTemplateFileName());
 			}
 		} catch (Exception e) {
 			logger.error("Exception trying to read scan parameters into " + getName()
@@ -116,15 +142,81 @@ public class XHDetector extends DetectorBase implements StripDetector {
 
 		loadROIsFromXML();
 
+		loadExcludedStrips();
+
 		try {
-			close();
-			// to read back data
-			createNewDataHandle();
-			// to read back timing data
-			createNewTimingHandle();
+			connectIfWasBefore();
 		} catch (DeviceException e) {
-			throw new FactoryException("Exception trying to create data readout handle to da.server", e);
+			logger.error(getName() + " was connected when GDA last run but failed to reconnect.", e);
 		}
+
+	}
+
+	private void connectIfWasBefore() throws DeviceException {
+		if (wasConnected()) {
+			connect();
+		}
+
+	}
+
+	private boolean wasConnected() {
+		PropertiesConfiguration store;
+		try {
+			store = new PropertiesConfiguration(getStoreFileName());
+			if (store.containsKey(CONNECTED_KEY)) {
+				return store.getBoolean(CONNECTED_KEY);
+			}
+			return false;
+		} catch (ConfigurationException e) {
+		}
+		return false;
+	}
+
+	private void saveConnectedState() {
+		PropertiesConfiguration store;
+		try {
+			store = new PropertiesConfiguration(getStoreFileName());
+			store.setProperty(CONNECTED_KEY, isConnected());
+			store.save();
+		} catch (ConfigurationException e) {
+		}
+
+	}
+
+	@Override
+	public void connect() throws DeviceException {
+		synchronized (getName()) {
+			if (connected) {
+				return;
+			}
+			try {
+				disconnect();
+				// to read back data
+				createNewDataHandle();
+				// to read back timing data
+				createNewTimingHandle();
+				connected = true;
+			} catch (DeviceException e) {
+				connected = false;
+				throw new DeviceException("Exception trying to create data readout handle to da.server", e);
+			} finally {
+				saveConnectedState();
+			}
+		}
+	}
+
+	@Override
+	public void disconnect() throws DeviceException {
+		if (isConnected()) {
+			close();
+		}
+		connected = false;
+		saveConnectedState();
+	}
+
+	@Override
+	public boolean isConnected() {
+		return connected;
 	}
 
 	private void createNewTimingHandle() throws DeviceException {
@@ -161,18 +253,25 @@ public class XHDetector extends DetectorBase implements StripDetector {
 		}
 	}
 
+	@Override
+	public int getNumberChannels() {
+		return NUMBER_ELEMENTS;
+	}
+
 	private double[][] performCorrections(int[] rawData) {
-		// TODO need to implement corrections and calibrations when details available from William
 		int frameCount = rawData.length / NUMBER_ELEMENTS;
 		double[][] out = new double[frameCount][NUMBER_ELEMENTS];
 
 		for (int frame = 0; frame < frameCount; frame++) {
 			for (int element = 0; element < NUMBER_ELEMENTS; element++) {
-				
+
 				// simply set excluded strips to be zero
-				if (ArrayUtils.contains(excludedStrips, element)){
+				if (ArrayUtils.contains(excludedStrips, element)) {
 					out[frame][element] = 0.0;
-				} else {
+				} /*else if (element < lowerChannel || element > upperChannel) {
+					out[frame][element] = 0.0;
+				} */else {
+
 					out[frame][element] = rawData[(frame * NUMBER_ELEMENTS) + element];
 				}
 			}
@@ -199,7 +298,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	 * 
 	 * @param frame
 	 * @return int[] - the raw data
-	 * @throws DeviceException 
+	 * @throws DeviceException
 	 */
 	public int[] readFrameToArray(int frame) throws DeviceException {
 		return readoutFrames(frame, frame);
@@ -213,8 +312,9 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	 * @param finalFrame
 	 *            - absolute frame index ignoring the group num
 	 * @return NexusTreeProvider[]
-	 * @throws DeviceException 
+	 * @throws DeviceException
 	 */
+	@Override
 	public NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException {
 		int[] elements = readoutFrames(startFrame, finalFrame);
 		int numberOfFrames = finalFrame - startFrame + 1;
@@ -247,18 +347,25 @@ public class XHDetector extends DetectorBase implements StripDetector {
 
 	/*
 	 * Assumes it is given a NUMBER_ELEMENTS array of raw values
-	 * 
-	 * @param frameNum
-	 *            - the absolute frame number
+	 * @param frameNum - the absolute frame number
 	 * @param elements
 	 * @return NexusTreeProvider
 	 */
 	protected NXDetectorData readoutFrame(int frameNum, int[] elements) {
-		double[] correctedData = performCorrections(elements)[0];
 
+		double[] correctedData = performCorrections(elements)[0];
 		NXDetectorData thisFrame = new NXDetectorData(this);
-		thisFrame
-				.addData(getName(), new int[] { 1, NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, correctedData, "counts", 1);
+
+		// TODO need to add the energy calibration here.
+
+		double[] energies = new double[NUMBER_ELEMENTS];
+		for (int i = 0; i < NUMBER_ELEMENTS; i++) {
+			energies[i] = i;
+		}
+
+		thisFrame.addAxis(getName(), "Energy", new int[] { 1, NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, energies, 1, 1,
+				"eV", false);
+		thisFrame.addData(getName(), new int[] { 1, NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, correctedData, "eV", 1);
 
 		double[] extraValues = getExtraValues(elements);
 		String[] names = getExtraNames();
@@ -288,9 +395,9 @@ public class XHDetector extends DetectorBase implements StripDetector {
 		double[] extras = new double[getRois().length + 1];
 
 		for (int elementNum = 0; elementNum < NUMBER_ELEMENTS; elementNum++) {
-			extras[0] += elements[elementNum];
 			int roi = whichROI(elementNum);
 			if (roi >= 0) {
+				extras[0] += elements[elementNum];
 				extras[roi + 1] += elements[elementNum];
 			}
 		}
@@ -312,12 +419,10 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	}
 
 	/*
-	 * @param startFrame
-	 *            - absolute frame index ignoring the group num
-	 * @param finalFrame
-	 *            - absolute frame index ignoring the group num
+	 * @param startFrame - absolute frame index ignoring the group num
+	 * @param finalFrame - absolute frame index ignoring the group num
 	 * @return int[] - raw data from da.server memory
-	 * @throws DeviceException 
+	 * @throws DeviceException
 	 */
 	private synchronized int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException {
 		int[] value = null;
@@ -327,7 +432,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 				value = daServer.getIntBinaryData("read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames
 						+ " from " + dataHandle + " raw motorola", 1024 * numFrames);
 			} catch (Exception e) {
-				throw new DeviceException("Exception while reading data from da.server",e);
+				throw new DeviceException("Exception while reading data from da.server", e);
 			}
 		}
 		return value;
@@ -353,18 +458,18 @@ public class XHDetector extends DetectorBase implements StripDetector {
 		daServer.sendCommand(createTimingCommand("stop"));
 
 		if (hasValidDataHandle()) {
-			sendCommand("disable "+ dataHandle);
+			sendCommand("disable " + dataHandle);
 		}
 	}
 
 	@Override
 	public void close() throws DeviceException {
 		if (hasValidTimingHandle()) {
-			sendCommand("close "+ timingHandle);
+			sendCommand("close " + timingHandle);
 			timingHandle = -1;
 		}
 		if (hasValidDataHandle()) {
-			sendCommand("close "+ dataHandle);
+			sendCommand("close " + dataHandle);
 			dataHandle = -1;
 		}
 	}
@@ -374,16 +479,16 @@ public class XHDetector extends DetectorBase implements StripDetector {
 			createNewDataHandle();
 		}
 		if (hasValidDataHandle()) {
-			sendCommand("clear "+ dataHandle);
+			sendCommand("clear " + dataHandle);
 		}
 	}
 
 	private boolean hasValidTimingHandle() {
-		return this.timingHandle >= 0 && daServer != null && daServer.isConnected();
+		return timingHandle >= 0 && daServer != null && daServer.isConnected();
 	}
 
 	private boolean hasValidDataHandle() {
-		return this.dataHandle >= 0 && daServer != null && daServer.isConnected();
+		return dataHandle >= 0 && daServer != null && daServer.isConnected();
 	}
 
 	@Override
@@ -411,7 +516,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	}
 
 	/*
-	 * @return  the given command with 'xstrip timing' prefixed and detectorName suffixed
+	 * @return the given command with 'xstrip timing' prefixed and detectorName suffixed
 	 */
 	private String createTimingCommand(String command, Object... otherArgs) {
 		String theCommand = "xstrip timing " + command + " \"" + detectorName + "\"";
@@ -426,7 +531,8 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	/**
 	 * Setup the TFG from parameters held by the template xml file. The template file would be been created during
 	 * configuration of this object
-	 * @throws DeviceException 
+	 * 
+	 * @throws DeviceException
 	 */
 	@Override
 	public void loadTemplateParameters() throws DeviceException {
@@ -438,7 +544,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	 * initiated by collectData().
 	 * 
 	 * @param newParameters
-	 * @throws DeviceException 
+	 * @throws DeviceException
 	 */
 	@Override
 	public void loadParameters(EdeScanParameters newParameters) throws DeviceException {
@@ -522,6 +628,13 @@ public class XHDetector extends DetectorBase implements StripDetector {
 			double scanTimeInS = timingGroup.getTimePerScan();
 			String scanTimeInClockCycles = secondsToClockCyclesString(scanTimeInS);
 
+			if (scanTimeInClockCycles.isEmpty() && numberOfScansPerFrame != 0) {
+				// something's wrong, so switch frame time to scan time.
+				scanTimeInS = frameTimeInS / numberOfScansPerFrame;
+				scanTimeInClockCycles = secondsToClockCyclesString(scanTimeInS);
+				frameTimeInCycles = "";
+			}
+
 			String extTrig = buildExtTriggerCommand(timingGroup);
 
 			String lemoOut = buildLemoOutCommand(timingGroup);
@@ -535,16 +648,15 @@ public class XHDetector extends DetectorBase implements StripDetector {
 						frameTimeInCycles, delays, lemoOut, extTrig);
 			} else {
 
-				command = createTimingCommand("setup-group", i, numFrames, numberOfScansPerFrame, frameTimeInCycles,
-						 delays, lemoOut, extTrig);
-				
+				command = createTimingCommand("setup-group", i, numFrames, numberOfScansPerFrame,
+						scanTimeInClockCycles, delays, lemoOut, extTrig);
+
 				if (scanDelayInMilliseconds > 0) {
 					float scanDelayInSeconds = (float) (scanDelayInMilliseconds / 1000.0);
 					String scanPeriodInClockCycles = secondsToClockCyclesString(scanTimeInS + scanDelayInSeconds);
 					command += " scan-period " + scanPeriodInClockCycles;
 				}
 			}
-			
 
 			if (i == nextScan.getGroups().size() - 1) {
 				command = command.trim() + " last";
@@ -674,7 +786,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	/**
 	 * To send the continue command when a group has been setup to wait for an input from a software trigger (LEMO #9)
 	 * 
-	 * @throws DeviceException 
+	 * @throws DeviceException
 	 */
 	@Override
 	public void fireSoftTrig() throws DeviceException {
@@ -698,7 +810,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 				value = daServer.getIntBinaryData("read 0 0 0 30 1024 1 from " + timingHandle + " raw motorola",
 						30 * 1024);
 			} catch (Exception e) {
-				throw new DeviceException("Exception while setting timing data from da.server",e);
+				throw new DeviceException("Exception while setting timing data from da.server", e);
 			}
 		}
 		return value;
@@ -814,21 +926,24 @@ public class XHDetector extends DetectorBase implements StripDetector {
 
 	@Override
 	public void setNumberRois(int numberOfRois) {
-		
-		XHROI[] newRois = new XHROI[numberOfRois];
-
-		int numberChannelsInUse = upperChannel - lowerChannel + 1;
-		int roiSize = numberChannelsInUse / numberOfRois;
-
-		for (int i = 0; i < numberOfRois; i++) {
-			XHROI thisRoi = new XHROI();
-			thisRoi.setLabel("ROI_" + i);
-			int lowerChannelForThisROI = roiSize * i + lowerChannel;
-			thisRoi.setLowerLevel(lowerChannelForThisROI);
-			thisRoi.setUpperLevel(lowerChannelForThisROI + roiSize - 1);
-			newRois[i] = thisRoi;
+		if (numberOfRois < 1) {
+			return;
 		}
-		setRois(newRois);
+		XHROI[] xhrois = new XHROI[numberOfRois];
+		int useableRegion = upperChannel - (lowerChannel - 1); // Inclusive of the first
+		int increment = useableRegion / numberOfRois;
+		int start = lowerChannel;
+		for (int i = 0; i < numberOfRois; i++) {
+			XHROI xhroi = new XHROI("ROI_" + (i + 1));
+			xhroi.setLowerLevel(start);
+			xhroi.setUpperLevel(start + increment - 1);
+			xhrois[i] = xhroi;
+			start = start + increment;
+		}
+		if (xhrois[xhrois.length - 1].getUpperLevel() < upperChannel) {
+			xhrois[xhrois.length - 1].setUpperLevel(upperChannel);
+		}
+		setRois(xhrois);
 	}
 
 	/**
@@ -842,6 +957,7 @@ public class XHDetector extends DetectorBase implements StripDetector {
 		setNumberRois(4);
 	}
 
+	// FIXME What is this use for?
 	private void setRoisWithoutStoringAndNotifying(XHROI[] rois) {
 		int numROI;
 		if (rois != null) {
@@ -869,29 +985,29 @@ public class XHDetector extends DetectorBase implements StripDetector {
 			}
 		}
 	}
-	
+
 	private String getStoreFileName() {
 		String propertiesFileName = LocalProperties.getVarDir() + getName() + STORENAME;
 		return propertiesFileName;
 	}
 
-
 	private void saveROIsToXML() {
 		try {
 			String propertiesFileName = getStoreFileName();
 			File test = new File(propertiesFileName);
-			if (!test.exists()){
+			if (!test.exists()) {
 				try {
 					test.createNewFile();
 				} catch (IOException e) {
 					throw e;
 				}
 			}
-			
-			PropertiesConfiguration store = new PropertiesConfiguration(propertiesFileName);	
+
+			PropertiesConfiguration store = new PropertiesConfiguration(propertiesFileName);
+			store.clear();
 			for (XHROI roi : getRois()) {
-				store.setProperty(roi.getName() + "_lowerlevel", roi.getLowerLevel());
-				store.setProperty(roi.getName() + "_upperlevel", roi.getUpperLevel());
+				store.setProperty(roi.getName() + "-" + LOWERLEVEL_PROPERTY, roi.getLowerLevel());
+				store.setProperty(roi.getName() + "-" + UPPERLEVEL_PROPERTY, roi.getUpperLevel());
 			}
 			store.save();
 		} catch (Exception e) {
@@ -900,7 +1016,6 @@ public class XHDetector extends DetectorBase implements StripDetector {
 	}
 
 	private void loadROIsFromXML() {
-
 		HashMap<String, XHROI> tempROIs = new LinkedHashMap<String, XHROI>();
 		try {
 			PropertiesConfiguration store = new PropertiesConfiguration(getStoreFileName());
@@ -913,16 +1028,18 @@ public class XHDetector extends DetectorBase implements StripDetector {
 					continue;
 				}
 
-				String[] partsString = key.split("_");
-				if (!tempROIs.keySet().contains(partsString[0])) {
+				String[] partsString = key.split("-");
+				if (partsString[0].startsWith("ROI") && !tempROIs.keySet().contains(partsString[0])) {
 					tempROIs.put(partsString[0], new XHROI(partsString[0]));
+				} else {
+					continue;
 				}
 
 				XHROI thisROI = tempROIs.get(partsString[0]);
-				if (partsString[1].equals("lowerlevel")) {
-					thisROI.setLowerLevel(store.getInteger(key, 0));
-				} else if (partsString[1].equals("upperlevel")) {
-					thisROI.setUpperLevel(store.getInteger(key, 1023));
+				if (partsString[1].equals(LOWERLEVEL_PROPERTY)) {
+					thisROI.setLowerLevel(store.getInteger(key, 1));
+				} else if (partsString[1].equals(UPPERLEVEL_PROPERTY)) {
+					thisROI.setUpperLevel(store.getInteger(key, NUMBER_ELEMENTS));
 				}
 			}
 			setRoisWithoutStoringAndNotifying(tempROIs.values().toArray(new XHROI[0]));
@@ -933,8 +1050,8 @@ public class XHDetector extends DetectorBase implements StripDetector {
 
 	@Override
 	public void setLowerChannel(int channel) {
-		this.lowerChannel = channel;
-		
+		lowerChannel = channel;
+		setNumberRois(getNumberRois());
 	}
 
 	@Override
@@ -944,7 +1061,8 @@ public class XHDetector extends DetectorBase implements StripDetector {
 
 	@Override
 	public void setUpperChannel(int channel) {
-		this.upperChannel = channel;
+		upperChannel = channel;
+		setNumberRois(getNumberRois());
 	}
 
 	@Override
@@ -954,33 +1072,108 @@ public class XHDetector extends DetectorBase implements StripDetector {
 
 	@Override
 	public void setBias(Double biasVoltage) throws DeviceException {
-		// TODO what should be the volatge upper limit?
-		if (biasVoltage < 0.0 || biasVoltage > 10000) {
-			throw new DeviceException ("Bias volatge of " + biasVoltage + " is unacceptable.");
+		if (biasVoltage < getMinBias() | biasVoltage > getMaxBias()) {
+			throw new DeviceException("Bias voltage of " + biasVoltage + " is unacceptable.");
 		}
-		
+
 		// TODO test with hardware
 		Double currentValue = getBias();
 		if (currentValue == 0.0) {
 			daServer.sendCommand("xstrip hv init");
-			daServer.sendCommand("xstrip hv enable " + detectorName);
+			daServer.sendCommand("xstrip hv enable \"" + detectorName +"\"");
 		}
-		daServer.sendCommand("xstrip hv set-dac " + detectorName + " " + biasVoltage);
-		
+		daServer.sendCommand("xstrip hv set-dac \"" + detectorName + "\" " + biasVoltage + " hv");
 	}
 
 	@Override
 	public Double getBias() throws DeviceException {
-		return (Double) daServer.sendCommand("xstrip hv get-adc hv " + detectorName);
+		return (Double) daServer.sendCommand("xstrip hv get-adc \"" + detectorName + "\" hv");
 	}
 
 	@Override
-	public void setExcludedStrips(int[] excludedStrips) throws DeviceException {
+	public void setExcludedStrips(Integer[] excludedStrips) throws DeviceException {
 		this.excludedStrips = excludedStrips;
+		saveExcludedStrips();
+	}
+
+	private void saveExcludedStrips() {
+		PropertiesConfiguration store;
+		try {
+			store = new PropertiesConfiguration(getStoreFileName());
+			store.setProperty(EXCLUDED_STRIPS_PROPERTY, DataHelper.toString(excludedStrips));
+			store.save();
+		} catch (ConfigurationException e) {
+		}
 	}
 
 	@Override
-	public int[] getExcludedStrips() {
+	public Integer[] getExcludedStrips() {
 		return excludedStrips;
 	}
+
+	private void loadExcludedStrips() {
+		PropertiesConfiguration store;
+		try {
+			store = new PropertiesConfiguration(getStoreFileName());
+			String[] excludedStripsArray = store.getStringArray(EXCLUDED_STRIPS_PROPERTY);
+			if ((excludedStripsArray.length == 0) || (excludedStripsArray.length == 1 && excludedStripsArray[0].isEmpty())) {
+				excludedStrips = new Integer[] {};
+				return;
+			}
+
+			excludedStrips = new Integer[excludedStripsArray.length];
+			for (int i = 0; i < excludedStripsArray.length; i++) {
+				// TODO Review and find a generic way to convert index to value
+				excludedStrips[i] = STRIPS[Integer.parseInt(excludedStripsArray[i]) - START_STRIP];
+			}
+		} catch (ConfigurationException e) {
+			excludedStrips = new Integer[] {};
+		}
+	}
+
+	public static Integer[] getStrips() {
+		return STRIPS;
+	}
+
+	@Override
+	public Double getMaxBias() {
+		return MAX_BIAS_VOLTAGE;
+	}
+
+	@Override
+	public Double getMinBias() {
+		return MIN_BIAS_VOLTAGE;
+	}
+
+	@Override
+	public HashMap<String, Double> getTemperatures() throws DeviceException {
+		openTCSocket();
+
+		HashMap<String, Double> temps = new HashMap<String, Double>();
+		Double sensor0Temp = Double.parseDouble(daServer.sendCommand("xstrip tc get \"" + detectorName + "\" ch 0 t").toString());
+		temps.put(SENSOR0NAME, sensor0Temp);
+		Double sensor1Temp = Double.parseDouble(daServer.sendCommand("xstrip tc get \"" + detectorName + "\" ch 1 t").toString());
+		temps.put(SENSOR1NAME, sensor1Temp);
+		Double sensor2Temp = Double.parseDouble(daServer.sendCommand("xstrip tc get \"" + detectorName + "\" ch 2 t")
+				.toString());
+		temps.put(SENSOR2NAME, sensor2Temp);
+		Double sensor3Temp = Double.parseDouble(daServer.sendCommand("xstrip tc get \"" + detectorName + "\" ch 3 t")
+				.toString());
+		temps.put(SENSOR3NAME, sensor3Temp);
+		return temps;
+	}
+
+	private void openTCSocket() throws DeviceException {
+		int tcIsOpen = (int) daServer.sendCommand("xstrip tc print \"" + detectorName + "\"");
+		if (tcIsOpen == -1) {
+			daServer.sendCommand("xstrip tc open \"" + detectorName+ "\"");
+			tcIsOpen = (int) daServer.sendCommand("xstrip tc print \"" + detectorName+ "\"");
+			if (tcIsOpen == -1) {
+				throw new DeviceException(
+						"Could not open temperature controller to find out current temperature values");
+			}
+		}
+
+	}
+
 }

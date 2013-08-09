@@ -18,6 +18,7 @@
 
 package gda.device.detector;
 
+import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
@@ -66,6 +67,19 @@ public interface StripDetector extends NexusDetector {
 	public void start() throws DeviceException;
 
 	/**
+	 * @param startFrame
+	 * @param finalFrame
+	 * @return read a range of frames
+	 * @throws DeviceException
+	 */
+	public NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException;
+
+	/**
+	 * @return the size of the mca produced by the detector i.e. the number of strips
+	 */
+	public int getNumberChannels();
+
+	/**
 	 * Returns the regions in use, as defined by calls to setRois or setNumberRois
 	 * 
 	 * @return the array of regions
@@ -103,10 +117,21 @@ public interface StripDetector extends NexusDetector {
 	public void setBias(Double biasVoltage) throws DeviceException;
 
 	/**
-	 * @return the current bias voltage or 0.0 if biad switched off
-	 * @throws DeviceException - thrown if there is a problem reading the current status
+	 * @return the current bias voltage or 0.0 if bias switched off
+	 * @throws DeviceException
+	 *             - thrown if there is a problem reading the current status
 	 */
 	public Double getBias() throws DeviceException;
+
+	/**
+	 * @return Double - the highest acceptable bias voltage
+	 */
+	public Double getMaxBias();
+
+	/**
+	 * @return Double - the lowest acceptable bias voltage
+	 */
+	public Double getMinBias();
 
 	/**
 	 * The numbers of the strips which should be excluded when returning the data and creating region totals.
@@ -116,9 +141,9 @@ public interface StripDetector extends NexusDetector {
 	 * @param excludedStrips
 	 * @throws DeviceException
 	 */
-	public void setExcludedStrips(int[] excludedStrips) throws DeviceException;
+	public void setExcludedStrips(Integer[] excludedStrips) throws DeviceException;
 
-	public int[] getExcludedStrips();
+	public Integer[] getExcludedStrips();
 
 	/**
 	 * @return details of the experiment progress using an enhanced progress bean object
@@ -132,5 +157,24 @@ public interface StripDetector extends NexusDetector {
 	 * @throws DeviceException
 	 */
 	public void fireSoftTrig() throws DeviceException;
+
+	/**
+	 * Connect to the underlying hardware. These detectors do not connect to the hardware during their configure().
+	 * 
+	 * @throws DeviceException
+	 */
+	public void connect() throws DeviceException;
+
+	/**
+	 * Disconnect to the underlying hardware
+	 * 
+	 * @throws DeviceException
+	 */
+	public void disconnect() throws DeviceException;
+
+	/**
+	 * @return true if a successful call to connect() has been made, and not subsequently disconnected.
+	 */
+	public boolean isConnected();
 
 }
