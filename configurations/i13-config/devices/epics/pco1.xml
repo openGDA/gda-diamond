@@ -93,6 +93,7 @@
 		<property name="framesChunks" value="64"/>
 		<property name="framesFlush" value="64"/>
 		<property name="lazyOpen" value="true"/>
+		<property name="boundaryAlign" value="1048576"/>
 	</bean>
 
 	<bean id="pco4000_Zebra" class="gda.device.detector.addetector.triggering.HardwareTriggeredPCO">
@@ -122,6 +123,7 @@
 		<property name="framesFlush" value="64"/>
 		<property name="blocking" value="true"/>
 		<property name="lazyOpen" value="true"/>
+		<property name="boundaryAlign" value="1048576"/>
 	</bean>
 
 	<bean id="pco1_hdf" class="gda.device.detector.addetector.ADPco">
