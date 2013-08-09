@@ -47,7 +47,7 @@ def copySingleFile(src, dst):
 			success = False
 	return success
 
-def launchImageAveragingProcess(inDir, inFilenameFmt, outDir, outFilename="flat-avg.tif", imgWidth=4008, imLength=2672):
+def launchImageAveragingProcess(inDir, inFilenameFmt, outDir, outFilename="flat-avg.tif", imgWidth=4008, imLength=2672, outlierCheckParam=0.01):
 	print launchImageAveragingProcess.__name__
 	print "inDir =", inDir
 	print "inFilenameFmt =", inFilenameFmt
@@ -55,6 +55,7 @@ def launchImageAveragingProcess(inDir, inFilenameFmt, outDir, outFilename="flat-
 	print "outFilename =", outFilename
 	print "imgWith =", str(imgWidth)
 	print "imgLength =", str(imLength)
+	print "outlierCheckParam =", str(outlierCheckParam)
 	
 	#launchX("/dls_sw/i12/software/tomography_scripts/flat_capav")
 	#success = launchX
@@ -72,6 +73,7 @@ def launchImageAveragingProcess(inDir, inFilenameFmt, outDir, outFilename="flat-
 	args += ["-I", str(inFilenameFmt)]
 	args += ["-w", str(imgWidth)]
 	args += ["-l", str(imLength)]
+	args += ["-u", str(outlierCheckParam)]
 	
 	pattern_dct = {}
 	pattern_dct['f_000_%05d.tif'] = r'^f_000_(\d{5})\.tif$'
@@ -79,7 +81,7 @@ def launchImageAveragingProcess(inDir, inFilenameFmt, outDir, outFilename="flat-
 	
 	#pattern = '^f_000_(\d{5})\.tif$'
 	pattern = pattern_dct[inFilenameFmt]
-	print "Filename pattern used in regex =", pattern
+	#print "Filename pattern used in regex =", pattern
 	
 	#files = [f for f in os.listdir(inDir) if re.match(r'^f_000_(\d{5})\.tif$',f)]
 	files = [f for f in os.listdir(inDir) if re.match(pattern,f)]
@@ -347,12 +349,12 @@ def populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, darks_dir, 
 	src_dark=tif_lst[dark_idx[0]][0]
 	#print "src_dark=%s"%src_dark
 
-	dst_dark="dark.tif"
+	dst_dark="dark-sgl.tif"
 	dst_dark=head+os.sep+dark_dir+os.sep+dst_dark
 	createSoftLink(src_dark, dst_dark)
 
 	src_flat=tif_lst[flat_idx[0]][0]
-	dst_flat="flat.tif"
+	dst_flat="flat-sgl.tif"
 	dst_flat=head+os.sep+flat_dir+os.sep+dst_flat
 	createSoftLink(src_flat, dst_flat)
 
@@ -1019,7 +1021,9 @@ def makeLinksForNXSFile(\
 					, decimationRate=1\
 					, sino=False\
 					, avgf=False\
+					, avgfu=0.01\
 					, avgd=False\
+					, avgdu=0.01\
 					, recon=False\
 					, verbose=False\
 					, dbg=False):
@@ -1057,7 +1061,9 @@ def makeLinksForNXSFile(\
 		print "decimationRate=%s"%decimationRate
 		print "sino=%s"%str(sino)
 		print "avgf=%s"%str(avgf)
+		print "avgfu=%s"%avgfu
 		print "avgd=%s"%str(avgd)
+		print "avgdu=%s"%avgdu
 		print "recon=%s"%str(recon)
 		print "verbose=%s"%str(verbose)
 		print "dbg=%s"%str(dbg)
@@ -1443,7 +1449,8 @@ def makeLinksForNXSFile(\
 										, outDir=(head+os.sep+flat_dir)\
 										, outFilename="flat-avg.tif"\
 										, imgWidth=inWidth\
-										, imLength=inHeight)
+										, imLength=inHeight\
+										, outlierCheckParam=avgfu)
 				print "INFO: Finished averaging flat-field images"
 			except Exception, ex:
 				avgf_success = False
@@ -1452,6 +1459,14 @@ def makeLinksForNXSFile(\
 		msg = "\nINFO: Launching of flat_capav for averaging flat-field images was not requested."
 		print msg
 	
+	#create required link named flat.tif
+	dst_flat="flat.tif"
+	dst_flat=head+os.sep+flat_dir+os.sep+dst_flat
+	if avgf_success:
+		src_flat = head+os.sep+flat_dir+os.sep+"flat-avg.tif"
+	else:
+		src_flat = head+os.sep+flat_dir+os.sep+"flat-sgl.tif"
+	createSoftLink(src_flat, dst_flat)
 	
 	# average darks
 	avgd_success = False
@@ -1464,7 +1479,8 @@ def makeLinksForNXSFile(\
 										, outDir=(head+os.sep+dark_dir)\
 										, outFilename="dark-avg.tif"\
 										, imgWidth=inWidth\
-										, imLength=inHeight)
+										, imLength=inHeight\
+										, outlierCheckParam=avgdu)
 				print "INFO: Finished averaging dark-field images"
 			except Exception, ex:
 				avgd_success = False
@@ -1473,13 +1489,16 @@ def makeLinksForNXSFile(\
 		msg = "\nINFO: Launching of flat_capav for averaging dark-field images was not requested."
 		print msg
 	
+	#create required link named dark.tif
+	dst_dark="dark.tif"
+	dst_dark=head+os.sep+dark_dir+os.sep+dst_dark
+	if avgd_success:
+		src_dark = head+os.sep+dark_dir+os.sep+"dark-avg.tif"
+	else:
+		src_dark = head+os.sep+dark_dir+os.sep+"dark-sgl.tif"
+	createSoftLink(src_dark, dst_dark)
+	
 	if sino:
-		#print "\n\tAbout to launch the sino_listener script from CWD = %s"%os.getcwd()
-		#sino=SinoListener(argv, out=sys.stdout, err=sys.stderr)
-		#sino_listener.py -i projections -I pco1564-%05d.tif -P 1201
-		#sino=SinoListener(["prog", "-h"], out=sys.stdout, err=sys.stderr, testing=True)
-		#sino=SinoListener(["prog", "-h"], out=sys.stdout, err=sys.stderr, testing=True)
-		#/dls/i13/data/2012/mt5811-1/processing/rawdata/564/projections
 		sino_success=False
 		with cd(head+os.sep+sino_dir):
 			#print "\n\tInside sino context manager CWD = %s"%os.getcwd()
@@ -1588,7 +1607,9 @@ creates directories and links to projection, dark and flat images required for s
 	parser.add_option("--verbose", action="store_true", dest="verbose", default=False, help="Verbose - useful for diagnosing the script")
 	parser.add_option("-s", "--sino", action="store_true", dest="sino", default=False, help="If present, then the sino_listener.py script will be launched to create sinograms.")
 	parser.add_option("--avgf", action="store_true", dest="avgf", default=False, help="If set to True, flat_capav will be launched to average flat-field images.")
+	parser.add_option("--avgfu", action="store", type="float", dest="avgfu", default=0.01, help="Outlier check parameter for use with flat_capav on flat-field images.")
 	parser.add_option("--avgd", action="store_true", dest="avgd", default=False, help="If set to True, flat_capav will be launched to average dark-field images.")
+	parser.add_option("--avgdu", action="store", type="float", dest="avgdu", default=0.01, help="Outlier check parameter for use with flat_capav on dark-field images.")
 	parser.add_option("-r", "--recon", action="store_true", dest="recon", default=False, help="If present, then the recon_arrayxml.py script will be launched to perform reconstruction.")
 	parser.add_option("--dbg", action="store_true", dest="dbg", default=False, help="Debug option set to TRUE limits the number of processed images to the first 10 (useful for testing, etc.")
 
@@ -1637,7 +1658,9 @@ creates directories and links to projection, dark and flat images required for s
 					, verbose=opts.verbose\
 					, sino=opts.sino\
 					, avgf=opts.avgf\
+					, avgfu=opts.avgfu\
 					, avgd=opts.avgd\
+					, avgdu=opts.avgdu\
 					, recon=opts.recon\
 					, dbg=opts.dbg)
 
