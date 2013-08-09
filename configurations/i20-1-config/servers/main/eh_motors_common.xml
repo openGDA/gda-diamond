@@ -54,14 +54,17 @@
 <!-- 	Detector stage -->
 	<bean id="detector_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="detector_x_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="detector_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="detector_y_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 
 <!-- 	T1 Detector support stage -->
 	<bean id="detector_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="detector_z_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 
 <!-- 	two theta arm -->
