@@ -389,7 +389,6 @@
        </parameter>
     </command>
  </menuContribution>
-</extension>
  
  <menuContribution
        allPopups="false"
@@ -443,6 +442,7 @@
        </parameter>
     </command>
  </menuContribution>                    
+</extension>
 
 
 <!-- menus for float1 -->
