@@ -27,19 +27,22 @@ import gda.jython.JythonServerStatus;
 import gda.observable.IObserver;
 
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IContributionItem;
-import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.dawnsci.plotting.api.IPlottingSystem;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -47,12 +50,11 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
-import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.SDAPlotter;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
@@ -63,7 +65,6 @@ import uk.ac.gda.exafs.data.ObservableModel;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
-import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
 
 import com.swtdesigner.ResourceManager;
 
@@ -73,23 +74,19 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	private static final Logger logger = LoggerFactory.getLogger(XHControlComposite.class);
 
+	private final IPlottingSystem plottingSystem;
+
 	public volatile boolean continueLiveLoop = false;
-
-	private final ViewPart site;
-
-	//	private Spinner txtRefreshPeriod;
 
 	double[] allValues;
 	double[][] regionValues;
 
-	private Action start;
-	private Action stop;
-	private Action snapshot;
-	private Action snapshotAndSave;
+	private ToolItem start;
+	private ToolItem stop;
+	private ToolItem snapshot;
+	private ToolItem snapshotAndSave;
 
 	private Thread liveLoop;
-
-	//	private Text txtLiveTime;
 
 	private final FormToolkit toolkit;
 
@@ -102,6 +99,8 @@ public class XHControlComposite extends Composite implements IObserver {
 	private NumberEditorControl txtLiveTime;
 
 	private NumberEditorControl txtRefreshPeriod;
+
+	private DoubleDataset strips;
 
 	private static StripDetector getDetector(){
 		return DetectorConfig.INSTANCE.getCurrentDetector();
@@ -146,26 +145,31 @@ public class XHControlComposite extends Composite implements IObserver {
 		}
 	}
 
-	public XHControlComposite(Composite parent, ViewPart site) {
-		super(parent, SWT.BORDER_DOT);
-		this.site = site;
+	public XHControlComposite(Composite parent, IPlottingSystem plottingSystem) {
+		super(parent, SWT.None);
+		this.plottingSystem = plottingSystem;
 		toolkit = new FormToolkit(parent.getDisplay());
 		detectorControlModel = new DetectorControlModel();
+		setPlotData();
 		createUI();
 	}
 
+	private void setPlotData() {
+		double[] values = new double[XHDetector.getStrips().length];
+		for (int i = 0; i < XHDetector.getStrips().length; i++) {
+			values[i] = XHDetector.getStrips()[i];
+		}
+		strips = new DoubleDataset(values);
+	}
+
 	private void createUI() {
-		this.setLayout(new GridLayout());
+		this.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		buildSections();
-		createActions();
-		initializeToolBar();
-		// FIXME this is a hack to hide the margin!
-		this.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 	}
 
 	private synchronized void buildSections() {
 		ScrolledForm scrolledform = toolkit.createScrolledForm(this);
-		scrolledform.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true, true));
+		scrolledform.setLayoutData(new GridData(SWT.FILL,SWT.FILL, true, true));
 		Form form = scrolledform.getForm();
 		TableWrapLayout layout1 = new TableWrapLayout();
 		layout1.numColumns = 2;
@@ -181,15 +185,15 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	@SuppressWarnings("static-access")
 	private void createSnapShotGroup(Composite parentForm) throws Exception {
-		final Section snapshotSection = toolkit.createSection(parentForm, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		toolkit.paintBordersFor(snapshotSection);
-		snapshotSection.setText("Snapshot mode time settings");
-		toolkit.paintBordersFor(snapshotSection);
-		snapshotSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		Composite snapshotSectionComposite = toolkit.createComposite(snapshotSection, SWT.NONE);
+		final Section section = toolkit.createSection(parentForm, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		toolkit.paintBordersFor(section);
+		section.setText("Snapshot mode time settings");
+		toolkit.paintBordersFor(section);
+		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		Composite snapshotSectionComposite = toolkit.createComposite(section, SWT.NONE);
 		toolkit.paintBordersFor(snapshotSectionComposite);
 		snapshotSectionComposite.setLayout(new GridLayout(2, false));
-		snapshotSection.setClient(snapshotSectionComposite);
+		section.setClient(snapshotSectionComposite);
 
 		// Integration time
 		Label lbl  = toolkit.createLabel(snapshotSectionComposite, "Integration time", SWT.NONE);
@@ -231,19 +235,52 @@ public class XHControlComposite extends Composite implements IObserver {
 		detectorControlModel.setNumberOfAccumulations(numberOfAccumulations);
 		txtNumScansPerFrame = new NumberEditorControl(snapshotSectionComposite, SWT.None, detectorControlModel, DetectorControlModel.NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
 		txtNumScansPerFrame.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		final ToolBar motorSectionTbar = new ToolBar(section, SWT.FLAT | SWT.HORIZONTAL);
+		snapshot = new ToolItem(motorSectionTbar, SWT.NULL);
+		snapshot.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
+				"/icons/camera.png").createImage());
+		snapshot.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				try {
+					collectAndPlotSnapshot(false, detectorControlModel.getSnapshotIntegrationTime(), detectorControlModel.getNumberOfAccumulations(), detectorControlModel.getSnapshotIntegrationTime() + "ms Snapshot");
+				} catch (DeviceException | InterruptedException e) {
+					UIHelper.showError("Unable to collect data", e.getMessage());
+				}
+			}
+		});
+		snapshotAndSave = new ToolItem(motorSectionTbar, SWT.NULL);
+		snapshotAndSave.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
+				"/icons/camera_edit.png").createImage());
+		snapshotAndSave.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				try {
+					collectAndPlotSnapshot(true, detectorControlModel.getSnapshotIntegrationTime(), detectorControlModel.getNumberOfAccumulations(), detectorControlModel.getSnapshotIntegrationTime() + "ms Snapshot");
+				} catch (DeviceException | InterruptedException e) {
+					UIHelper.showError("Unable to collect data", e.getMessage());
+				}
+			}
+		});
+		section.setTextClient(motorSectionTbar);
+
+		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
+		toolkit.paintBordersFor(sectionSeparator);
+		section.setSeparatorControl(sectionSeparator);
 	}
 
 	@SuppressWarnings("static-access")
 	private void createTimesGroup(Composite parentForm) throws Exception {
-		final Section bendSection = toolkit.createSection(parentForm, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		toolkit.paintBordersFor(bendSection);
-		bendSection.setText("Live mode time settings");
-		toolkit.paintBordersFor(bendSection);
-		bendSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		Composite bendSelectionComposite = toolkit.createComposite(bendSection, SWT.NONE);
+		final Section section = toolkit.createSection(parentForm, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		toolkit.paintBordersFor(section);
+		section.setText("Live mode time settings");
+		toolkit.paintBordersFor(section);
+		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		Composite bendSelectionComposite = toolkit.createComposite(section, SWT.NONE);
 		toolkit.paintBordersFor(bendSelectionComposite);
 		bendSelectionComposite.setLayout(new GridLayout(2, false));
-		bendSection.setClient(bendSelectionComposite);
+		section.setClient(bendSelectionComposite);
 
 		Label lbl = toolkit.createLabel(bendSelectionComposite, "Integration time", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -287,52 +324,35 @@ public class XHControlComposite extends Composite implements IObserver {
 		txtRefreshPeriod.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		txtRefreshPeriod.setIncrement(DataHelper.getDecimalPlacePowValue(ClientConfig.DEFAULT_DECIMAL_PLACE));
 		txtRefreshPeriod.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-	}
 
-	private void createActions() {
-
-		// actions are created here programmatically as then it is simpler to enable/disable them by holding that logic
-		// in this class.
-
-		start = new Action(null, SWT.NONE) {
+		final ToolBar motorSectionTbar = new ToolBar(section, SWT.FLAT | SWT.HORIZONTAL);
+		start = new ToolItem(motorSectionTbar, SWT.NULL);
+		start.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
+				"/icons/control_play_blue.png").createImage());
+		start.addListener(SWT.Selection, new Listener() {
 			@Override
-			public void run() {
+			public void handleEvent(Event event) {
 				startCollectingRates();
 			}
-		};
-		start.setId(ID + ".start");
-		start.setImageDescriptor(ResourceManager.getImageDescriptor(XHControlComposite.class,
-				"/icons/control_play_blue.png"));
+		});
 
-		stop = new Action(null, SWT.NONE) {
+		stop = new ToolItem(motorSectionTbar, SWT.NULL);
+		stop.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
+				"/icons/control_stop_blue.png").createImage());
+		stop.addListener(SWT.Selection, new Listener() {
 			@Override
-			public void run() {
+			public void handleEvent(Event event) {
 				stopCollectingRates();
 			}
-		};
-		stop.setId(ID + ".stop");
-		stop.setImageDescriptor(ResourceManager.getImageDescriptor(XHControlComposite.class,
-				"/icons/control_stop_blue.png"));
+		});
+		stop.setEnabled(false);
+		section.setTextClient(motorSectionTbar);
 
-		snapshot = new Action(null, SWT.NONE) {
-			@Override
-			public void run() {
-				collectAndPlotSnapshot(false, detectorControlModel.getSnapshotIntegrationTime(), detectorControlModel.getNumberOfAccumulations(), detectorControlModel.getSnapshotIntegrationTime() + "ms Snapshot");
-			}
-		};
-		snapshot.setId(ID + ".snap");
-		snapshot.setImageDescriptor(ResourceManager.getImageDescriptor(XHControlComposite.class, "/icons/camera.png"));
-
-		snapshotAndSave = new Action(null, SWT.NONE) {
-			@Override
-			public void run() {
-				collectAndPlotSnapshot(true, detectorControlModel.getSnapshotIntegrationTime(), detectorControlModel.getNumberOfAccumulations(), detectorControlModel.getSnapshotIntegrationTime() + "ms Snapshot");
-			}
-		};
-		snapshotAndSave.setId(ID + ".snapsave");
-		snapshotAndSave.setImageDescriptor(ResourceManager.getImageDescriptor(XHControlComposite.class,
-				"/icons/camera_edit.png"));
+		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
+		toolkit.paintBordersFor(sectionSeparator);
+		section.setSeparatorControl(sectionSeparator);
 	}
+
 
 	private static void collectData(Double collectionPeriod, int numberScans, Integer scansPerFrame) throws DeviceException, InterruptedException {
 
@@ -362,68 +382,33 @@ public class XHControlComposite extends Composite implements IObserver {
 	 * @param collectionPeriod - ms
 	 * @param title
 	 * @return double values from the detector - the FF and sector totals
+	 * @throws InterruptedException
+	 * @throws DeviceException
 	 */
-	public static Double[] collectAndPlotSnapshot(boolean writeData, Double collectionPeriod, Integer scansPerFrame,
-			String title) {
+	public Double[] collectAndPlotSnapshot(boolean writeData, Double collectionPeriod, Integer scansPerFrame,
+			String title) throws DeviceException, InterruptedException {
 
-		try {
-			collectData(collectionPeriod, 1,scansPerFrame);
+		collectData(collectionPeriod, 1,scansPerFrame);
 
-			// will return a double[] of corrected data
-			Object results = getDetector().getAttribute(XHDetector.ATTR_READFIRSTFRAME);
+		// will return a double[] of corrected data
+		Object results = getDetector().getAttribute(XHDetector.ATTR_READFIRSTFRAME);
 
-			if (results != null) {
-				DoubleDataset resultsDataSet = new DoubleDataset((double[]) results);
-				SDAPlotter.plot(AlignmentPerspective.SPECTRAPLOTNAME, title, resultsDataSet);
-			} else {
-				logger.info("Nothing returned!");
-			}
-
-			if (writeData) {
-				getDetector().getAttribute(XHDetector.ATTR_WRITEFIRSTFRAME);
-			}
-
-			NXDetectorData readout = (NXDetectorData) getDetector().readout();
-			return readout.getDoubleVals();
-
-		} catch (Exception e) {
-			logger.error("exception while collecting snapshot from XHDetector", e);
-			// popup
-			MessageDialog
-			.openError(
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-					"Error collecting snapshot",
-					"Error while collecting snapshot from XHDetector.\nAre your parameters correct? Do you hold the baton?\nSee log for details.");
-			return new Double[0];
-		}
-	}
-
-	private void initializeToolBar() {
-		IToolBarManager toolbarManager = site.getViewSite().getActionBars().getToolBarManager();
-		if (checkMenuItemsMissing()) {
-			toolbarManager.add(start);
-			toolbarManager.add(stop);
-			toolbarManager.add(snapshot);
-			toolbarManager.add(snapshotAndSave);
-		}
-	}
-
-	private boolean checkMenuItemsMissing() {
-		if (start == null) {
-			return true;
+		if (results != null) {
+			List<IDataset> data = new ArrayList<IDataset>(1);
+			data.add(new DoubleDataset((double[]) results));
+			plottingSystem.clear();
+			plottingSystem.createPlot1D(strips, data, new NullProgressMonitor());
+			plottingSystem.setTitle(title);
+		} else {
+			logger.info("Nothing returned!");
 		}
 
-		IToolBarManager toolbarManager = site.getViewSite().getActionBars().getToolBarManager();
-		IContributionItem[] items = toolbarManager.getItems();
-
-		boolean found = false;
-		for (IContributionItem item : items) {
-			if (item.getId() == start.getId()) {
-				found = true;
-			}
+		if (writeData) {
+			getDetector().getAttribute(XHDetector.ATTR_WRITEFIRSTFRAME);
 		}
 
-		return !found;
+		NXDetectorData readout = (NXDetectorData) getDetector().readout();
+		return readout.getDoubleVals();
 	}
 
 	public void startCollectingRates() {

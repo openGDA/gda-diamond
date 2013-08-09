@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA I20 Beamline" id="uk.ac.gda.beamline.i20.product" application="uk.ac.gda.client.application" version="8.34.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA I20 Beamline" id="uk.ac.gda.beamline.i20.product" version="8.34.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -26,9 +26,9 @@
 -XX:PermSize=128m
 -XX:MaxPermSize=1024m
 -XX:+DisableExplicitGC
--XX:ErrorFile=/tmp/hs_err_pid%p.log
+-XX:ErrorFile=/dls_sw/i20/logs/hs_err_pid%p.log
 -XX:+HeapDumpOnOutOfMemoryError 
--XX:HeapDumpPath=/tmp/gdaclient.hprof</vmArgs>
+-XX:HeapDumpPath=/dls_sw/i20/logs/gdaclient.hprof</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 

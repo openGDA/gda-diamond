@@ -25,8 +25,8 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IViewLayout;
 
+import uk.ac.gda.exafs.ui.views.AlignmentStageClaibrationView;
 import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
-import uk.ac.gda.exafs.ui.views.DetectorSetupView;
 import uk.ac.gda.exafs.ui.views.EdeDataCalibrationView;
 import uk.ac.gda.exafs.ui.views.FocusingView;
 import uk.ac.gda.exafs.ui.views.SingleSpectrumView;
@@ -59,6 +59,7 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		IViewLayout propertyLayout = layout.getViewLayout(BeamlineAlignmentView.ID);
 		propertyLayout.setCloseable(false);
 		alignmentControlsFolder.addView(SingleSpectrumView.ID);
+		alignmentControlsFolder.addView(AlignmentStageClaibrationView.ID);
 
 		layout.addView(FocusingView.ID, IPageLayout.RIGHT, 0.30f, editorArea);
 		propertyLayout = layout.getViewLayout(FocusingView.ID);
@@ -68,9 +69,6 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		topPlotFolder.addView(SPECTRAPLOTID);
 		topPlotFolder.addPlaceholder(EdeDataCalibrationView.REFERENCE_ID);
 		topPlotFolder.addPlaceholder(EdeDataCalibrationView.EDE_ID);
-		layout.addView(DetectorSetupView.ID, IPageLayout.BOTTOM, 0.40f,TOPPLOT_FOLDER_ID);
-		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.25f,DetectorSetupView.ID);
-		propertyLayout = layout.getViewLayout(DetectorSetupView.ID);
-		propertyLayout.setCloseable(false);
+		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.6f,TOPPLOT_FOLDER_ID);
 	}
 }

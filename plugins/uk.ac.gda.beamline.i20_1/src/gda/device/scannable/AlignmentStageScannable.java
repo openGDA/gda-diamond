@@ -72,14 +72,14 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 	}
 
 	// motors
-	private ScannableMotor xMotor;
-	private ScannableMotor yMotor;
-	private ScannableMotor fastShutter_xMotor;
-	private ScannableMotor fastShutter_yMotor;
+	private final ScannableMotor xMotor;
+	private final ScannableMotor yMotor;
+	private final ScannableMotor fastShutter_xMotor;
+	private final ScannableMotor fastShutter_yMotor;
 
 	// configuration objects
 	private PropertiesConfiguration configuration;
-	private HashMap<Devices, AlignmentLocation> deviceLocations = new HashMap<Devices, AlignmentLocation>();
+	private final HashMap<Devices, AlignmentLocation> deviceLocations = new HashMap<Devices, AlignmentLocation>();
 	private AlignmentLocation fastShutterInBeamLocation = new AlignmentLocation();
 	private AlignmentLocation fastShutterOutBeamLocation = new AlignmentLocation();
 	private AlignmentLocation lastDemandPosition = null;
@@ -234,7 +234,7 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 		}
 	}
 
-	public void saveDeviceFromCurrentMotorPositions(String positionName, Boolean storeAsRelative)
+	private void saveDeviceFromCurrentMotorPositions(String positionName, Boolean storeAsRelative)
 			throws ConfigurationException, DeviceException, IOException {
 		if (checkPositionValid(positionName) == null) {
 			AlignmentLocation loc = deviceLocations.get(Devices.valueOf(positionName));
@@ -256,7 +256,7 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 	}
 
 	public void saveDeviceFromCurrentMotorPositions(String positionName) throws ConfigurationException,
-			DeviceException, IOException {
+	DeviceException, IOException {
 		saveDeviceFromCurrentMotorPositions(positionName, positionName.compareTo(PRIMARY_DEVICE.name()) != 0);
 	}
 

@@ -47,8 +47,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.Form;
@@ -72,7 +75,7 @@ public class EDECalibrationSection {
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 	private Section section;
 	private Button manualCalibrationCheckButton;
-	private Label polyLabel;
+	private Label polynomialValueLbl;
 	private Button runCalibrationButton;
 	private EDECalibrationSection() {}
 
@@ -90,15 +93,18 @@ public class EDECalibrationSection {
 		section.setClient(sectionComposite);
 		sectionComposite.setLayout(new GridLayout());
 
-		Composite refComposite = toolkit.createComposite(sectionComposite, SWT.None);
-		refComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		refComposite.setLayout(new GridLayout(2, false));
+		Composite dataComposite = toolkit.createComposite(sectionComposite, SWT.None);
+		dataComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		dataComposite.setLayout(new GridLayout(3, false));
 
-		final Label lblRefFile = toolkit.createLabel(refComposite, "Reference file", SWT.NONE);
+		final Label lblRefFile = toolkit.createLabel(dataComposite, "Reference file", SWT.NONE);
 		lblRefFile.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		final Label lblRefFileValue = toolkit.createLabel(refComposite, "", SWT.BORDER);
-		lblRefFileValue.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		final Text lblRefFileValue = toolkit.createText(dataComposite, "", SWT.None);
+		lblRefFileValue.setEditable(false);
+		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gridData.widthHint = 140;
+		lblRefFileValue.setLayoutData(gridData);
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(lblRefFileValue),
@@ -118,11 +124,23 @@ public class EDECalibrationSection {
 					}
 				});
 
-		final Label lblEdeDataFile = toolkit.createLabel(refComposite, "EDE data file", SWT.NONE);
+		Button loadRefDataButton = toolkit.createButton(dataComposite, "Browse", SWT.None);
+		loadRefDataButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
+		loadRefDataButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				// TODO
+			}
+		});
+		// TODO
+		loadRefDataButton.setEnabled(false);
+
+		final Label lblEdeDataFile = toolkit.createLabel(dataComposite, "EDE data file", SWT.NONE);
 		lblEdeDataFile.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		final Label lblEdeDataFileValue = toolkit.createLabel(refComposite, "", SWT.BORDER);
-		lblEdeDataFileValue.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		final Text lblEdeDataFileValue = toolkit.createText(dataComposite, "", SWT.None);
+		lblEdeDataFileValue.setEditable(false);
+		lblEdeDataFileValue.setLayoutData(gridData);
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(lblEdeDataFileValue),
@@ -136,21 +154,33 @@ public class EDECalibrationSection {
 							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeDataCalibrationView.EDE_ID);
 							refView.setCalibrationDataReference(CalibrationData.INSTANCE.getEdeData());
 						} catch (PartInitException e) {
+							// TODO Handle this
 							e.printStackTrace();
 						}
 						return retult;
 					}
 				});
+		Button loadEdeDataButton = toolkit.createButton(dataComposite, "Browse", SWT.None);
+		loadEdeDataButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
+		loadEdeDataButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				// TODO
+			}
+		});
+		// TODO
+		loadEdeDataButton.setEnabled(false);
 
-		final Label lblPolyOrder = toolkit.createLabel(refComposite, "Polynomial order", SWT.NONE);
+
+		final Label lblPolyOrder = toolkit.createLabel(dataComposite, "Polynomial order", SWT.NONE);
 		lblPolyOrder.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		final Spinner kw = new Spinner(refComposite, SWT.BORDER);
-		kw.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		final Spinner kw = new Spinner(dataComposite, SWT.BORDER);
 		kw.setMinimum(1);
 		kw.setMaximum(5);
-		kw.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
-		toolkit.paintBordersFor(refComposite);
+		kw.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		toolkit.paintBordersFor(dataComposite);
+
 		Composite plotComposite = toolkit.createComposite(sectionComposite, SWT.None);
 		plotComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		plotComposite.setLayout(new GridLayout(2, true));
@@ -162,7 +192,7 @@ public class EDECalibrationSection {
 				BeanProperties.value(CalibrationData.MANUAL_PROP_NAME).observe(CalibrationData.INSTANCE));
 
 		runCalibrationButton = toolkit.createButton(plotComposite, "Run EDE Calibration", SWT.None);
-		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		runCalibrationButton.setLayoutData(gridData);
 		runCalibrationButton.addSelectionListener(new SelectionListener() {
 
@@ -177,8 +207,15 @@ public class EDECalibrationSection {
 			}
 		});
 
-		polyLabel = toolkit.createLabel(sectionComposite, "", SWT.BORDER);
-		polyLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		Composite polyLabelComposite = toolkit.createComposite(sectionComposite, SWT.None);
+		polyLabelComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		polyLabelComposite.setLayout(new GridLayout(2, false));
+
+		final Label polynomialLbl = toolkit.createLabel(polyLabelComposite, "Calibration polynomial", SWT.NONE);
+		polynomialLbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		polynomialValueLbl = toolkit.createLabel(polyLabelComposite, "", SWT.BORDER);
+		polynomialValueLbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		toolkit.paintBordersFor(plotComposite);
 
 		Composite roisSectionSeparator = toolkit.createCompositeSeparator(section);
@@ -187,7 +224,7 @@ public class EDECalibrationSection {
 	}
 
 	private void runEdeCalibration(final int selectedFitOrder) {
-		polyLabel.setText("");
+		polynomialValueLbl.setText("");
 		final EdeCalibration edeCalibration = new EdeCalibration();
 		AbstractDataset[] refDatasets = selectDataRange(AlignmentPerspective.REF_PLOT_NAME);
 		final AbstractDataset refEnergySlice = refDatasets[0];
@@ -221,7 +258,7 @@ public class EDECalibrationSection {
 			refPositions.add(refPoint3);
 			edeCalibration.setReferencePositions(refPositions);
 		}
-		polyLabel.setText("EDE calibration in progress...");
+		polynomialValueLbl.setText("EDE calibration in progress...");
 		Job job = new Job("EDE calibration") {
 			@Override
 			protected void canceling() {
@@ -230,20 +267,25 @@ public class EDECalibrationSection {
 					@Override
 					public void run() {
 						runCalibrationButton.setEnabled(true);
-						polyLabel.setText("");
+						polynomialValueLbl.setText("");
 					}
 				});
 			}
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
+				Display.getDefault().syncExec(new Runnable() {
+					@Override
+					public void run() {
+						runCalibrationButton.setEnabled(false);
+					}
+				});
 
 				edeCalibration.calibrate(true);
 				final AbstractDataset resEnergyDataset = edeCalibration.calibrateEdeChannels(edeIdxSlice);
 				Display.getDefault().syncExec(new Runnable() {
 					@Override
 					public void run() {
-						runCalibrationButton.setEnabled(false);
 						IPlottingSystem plottingSystemRef = PlottingFactory.getPlottingSystem(AlignmentPerspective.REF_PLOT_NAME);
 						plottingSystemRef.clear();
 
@@ -263,7 +305,7 @@ public class EDECalibrationSection {
 						for (int i = 0; i < polynom.length; i++) {
 							polynom[i] = Precision.round(polynom[i], 2);
 						}
-						polyLabel.setText(new PolynomialFunction(polynom).toString());
+						polynomialValueLbl.setText(new PolynomialFunction(polynom).toString());
 						runCalibrationButton.setEnabled(true);
 					}
 				});

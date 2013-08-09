@@ -113,7 +113,6 @@ public class DetectorConfigSection {
 		saveDefaultTBarItem.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				//updateDetectorDefaultValues();
 				bindingValues();
 			}
 		});
@@ -200,22 +199,4 @@ public class DetectorConfigSection {
 			updateExcludedStripsText();
 		}
 	}
-
-	//	private void updateDetectorDefaultValues() {
-	//		try {
-	//			if (txtBiasVoltage.getText().isEmpty()) {
-	//				throw new Exception("Empty voltage value");
-	//			}
-	//			double voltage = Double.valueOf(txtBiasVoltage.getText());
-	//			if (!DetectorConfig.INSTANCE.getCurrentDetectorSetup().isVoltageInRange(voltage)) {
-	//				throw new Exception("Voltage out of range");
-	//			}
-	//			DetectorConfig.INSTANCE.getCurrentDetectorSetup().getDetectorScannable().setBias(voltage);
-	//			DetectorConfig.INSTANCE.getCurrentDetectorSetup().getDetectorScannable().setExcludedStrips(ArrayUtils.toPrimitive(excludedStrips.toArray(new Integer[excludedStrips.size()])));
-	//		} catch (Exception e) {
-	//			String errorMessage = "Unable to save Detector parameter ";
-	//			logger.error(errorMessage, e);
-	//			UIHelper.showError(errorMessage, e.getMessage());
-	//		}
-	//	}
 }

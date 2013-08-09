@@ -19,16 +19,37 @@
 package uk.ac.gda.exafs.ui.data;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Display;
 
 public class UIHelper {
 	private UIHelper() {}
 
-	public static void showError(String message, String reason) {
-		MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", message  + "\n\nReason:\n" + reason);
+	public static void showError(final String message, final String reason) {
+		Display.getDefault().syncExec(new Runnable() {
+			@Override
+			public void run() {
+				MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", message  + "\n\nReason:\n" + reason);
+			}
+		});
 	}
 
-	public static void showWarning(String message, String reason) {
-		MessageDialog.openWarning(Display.getDefault().getActiveShell(), "Warning", message  + "\n\nReason:\n" + reason);
+	public static void showWarning(final String message, final String reason) {
+		Display.getDefault().syncExec(new Runnable() {
+			@Override
+			public void run() {
+				MessageDialog.openWarning(Display.getDefault().getActiveShell(), "Warning", message  + "\n\nReason:\n" + reason);
+			}
+		});
+	}
+
+	public static GridLayout createGridLayoutWithNoMargin(int columns, boolean equal) {
+		GridLayout layout = new GridLayout(columns, equal);
+		layout.marginBottom = 0;
+		layout.marginHeight = 0;
+		layout.marginWidth = 0;
+		layout.marginLeft = 0;
+		layout.marginTop = 0;
+		return layout;
 	}
 }

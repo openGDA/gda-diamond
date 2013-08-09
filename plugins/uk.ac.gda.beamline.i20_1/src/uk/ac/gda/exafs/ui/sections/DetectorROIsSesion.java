@@ -77,7 +77,7 @@ public class DetectorROIsSesion {
 	private DetectorROIsSesion() {}
 
 	@SuppressWarnings({ "static-access" })
-	public void createFormRoisSection(Form form, FormToolkit toolkit) {
+	public void createSection(Form form, FormToolkit toolkit) {
 		dataBindingCtx = new DataBindingContext();
 		final Section roisSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
 		roisSection.setText("Region of Interests (ROIs)");
