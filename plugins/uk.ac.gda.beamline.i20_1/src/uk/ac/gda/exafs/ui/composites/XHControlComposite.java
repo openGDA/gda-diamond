@@ -209,6 +209,8 @@ public class XHControlComposite extends Composite implements IObserver {
 		detectorControlModel.setSnapshotIntegrationTime(storedSnapShotTime);
 		txtSnapTime = new NumberEditorControl(snapshotSectionComposite, SWT.None, detectorControlModel, DetectorControlModel.SNAPSHOT_INTEGRATION_TIME_PROP_NAME, true);
 		txtSnapTime.setUnit(UnitSetup.MILLI_SEC.getText());
+		txtSnapTime.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		txtSnapTime.setIncrement(DataHelper.getDecimalPlacePowValue(ClientConfig.DEFAULT_DECIMAL_PLACE));
 		txtSnapTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		// Number of accumulations
@@ -260,6 +262,8 @@ public class XHControlComposite extends Composite implements IObserver {
 		detectorControlModel.setLiveIntegrationTime(storedLiveTime);
 		txtLiveTime = new NumberEditorControl(bendSelectionComposite, SWT.None, detectorControlModel, DetectorControlModel.LIVE_INTEGRATION_TIME_PROP_NAME, true);
 		txtLiveTime.setUnit(UnitSetup.MILLI_SEC.getText());
+		txtLiveTime.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		txtLiveTime.setIncrement(DataHelper.getDecimalPlacePowValue(ClientConfig.DEFAULT_DECIMAL_PLACE));
 		txtLiveTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		// Live mode refresh period

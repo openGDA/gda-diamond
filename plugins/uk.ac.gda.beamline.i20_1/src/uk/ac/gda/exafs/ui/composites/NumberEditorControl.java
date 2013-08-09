@@ -24,6 +24,7 @@ import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
@@ -45,13 +46,9 @@ import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
-import org.eclipse.swt.events.VerifyEvent;
-import org.eclipse.swt.events.VerifyListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -70,22 +67,20 @@ import uk.ac.gda.exafs.data.ObservableModel;
 
 public class NumberEditorControl extends Composite {
 
+	//private static final int SPACE_AFTER_INCREMENT_STRING = 5;
 	private static final int DEFAULT_DECIMAL_PLACES = 2;
 	protected final Object object;
 	private final String propertyName;
 
-	private Label viewerText;
-	private Label incrementLabel;
-	private Label decrementLabel;
+	private Label numberLabel;
+	private Button incrementButton;
+	private Button decrementButton;
 	private final StackLayout layout;
-	private Image upArrowIcon;
-	private Image downArrowIcon;
 	private Composite editorComposite;
 	private Text stepText;
 	private MotorPositionEditorText motorPositionEditorText;
 
 	private Binding numberValueBinding;
-	private Binding incrementValueBinding;
 
 	private boolean commitOnOutOfFocus = true;
 
@@ -93,6 +88,12 @@ public class NumberEditorControl extends Composite {
 
 	protected final DataBindingContext ctx = new DataBindingContext();
 	private final boolean useSpinner;
+	private StackLayout stepLayout;
+	private Label stepLabel;
+
+	private Composite incrementComposite;
+	private Binding incrementTextBinding;
+	private Binding incrementLabelBinding;
 
 	public NumberEditorControl(final Composite parent, int style, Object object, String propertyName, boolean userSpinner) throws Exception {
 		super(parent, style);
@@ -121,7 +122,7 @@ public class NumberEditorControl extends Composite {
 		bind();
 	}
 
-	private String roundDoubletoString(double value, int digits) {
+	protected static String roundDoubletoString(double value, int digits) {
 		return String.format("%." + digits + "f", value);
 	}
 
@@ -140,7 +141,7 @@ public class NumberEditorControl extends Composite {
 
 	private void bind() {
 		IObservableValue objectValue = BeanProperties.value(propertyName).observe(object);
-		ISWTObservableValue textValue = WidgetProperties.text().observe(viewerText);
+		ISWTObservableValue textValue = WidgetProperties.text().observe(numberLabel);
 		numberValueBinding = ctx.bindValue(textValue, objectValue, null, new UpdateValueStrategy() {
 			@Override
 			public Object convert(Object value) {
@@ -148,8 +149,8 @@ public class NumberEditorControl extends Composite {
 			}
 		});
 		if (useSpinner) {
-			incrementValueBinding = ctx.bindValue(
-					WidgetProperties.text(SWT.Modify).observe(stepText),
+			incrementLabelBinding = ctx.bindValue(
+					WidgetProperties.text().observe(stepLabel),
 					BeanProperties.value(MotorPositionWidgetModel.INCREMENT_PROP_NAME).observe(controlModel),
 					new UpdateValueStrategy() {
 						@Override
@@ -166,23 +167,14 @@ public class NumberEditorControl extends Composite {
 								double incrementValue = controlModel.getIncrement() / Math.pow(10, controlModel.getDigits());
 								return roundDoubletoString(incrementValue, controlModel.getDigits());
 							}
-							return super.convert(value);
+							return value.toString();
 						}
 					});
-			ctx.bindValue(
-					WidgetProperties.enabled().observe(stepText),
-					BeanProperties.value(MotorPositionWidgetModel.EDITABLE_PROP_NAME).observe(controlModel));
 		}
 	}
 
 	@Override
 	public void dispose() {
-		if (downArrowIcon != null && !downArrowIcon.isDisposed()) {
-			downArrowIcon.dispose();
-		}
-		if (upArrowIcon != null && !upArrowIcon.isDisposed()) {
-			upArrowIcon.dispose();
-		}
 		super.dispose();
 	}
 
@@ -191,15 +183,21 @@ public class NumberEditorControl extends Composite {
 		controlModel.setMinValue(minValue);
 	}
 
-	public void setDigits(int value) {
+	public void setDigits(int value) throws NumberFormatException {
+		if (!controlModel.getBindingPropertyType().equals(double.class)) {
+			throw new NumberFormatException("Invalid data type set to digits");
+		}
 		controlModel.setDigits(value);
 		numberValueBinding.updateModelToTarget();
 		if (useSpinner) {
-			incrementValueBinding.updateModelToTarget();
+			incrementLabelBinding.updateModelToTarget();
 		}
 	}
 
-	public void setIncrement(int value) {
+	public void setIncrement(int value) throws Exception {
+		if (!useSpinner) {
+			throw new Exception("Increment spinner is not used");
+		}
 		controlModel.setIncrement(value);
 	}
 
@@ -207,11 +205,14 @@ public class NumberEditorControl extends Composite {
 	public void setUnit(String value) {
 		controlModel.setUnit(value);
 		numberValueBinding.updateModelToTarget();
+		if (useSpinner) {
+			incrementLabelBinding.updateModelToTarget();
+		}
 	}
 
 	@Override
 	public void setToolTipText(String toolTopText) {
-		viewerText.setToolTipText(toolTopText);
+		numberLabel.setToolTipText(toolTopText);
 	}
 
 	public boolean isEditable() {
@@ -232,16 +233,16 @@ public class NumberEditorControl extends Composite {
 
 	private void setupControls() {
 		editorComposite = new Composite(this, SWT.None);
-		editorComposite.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
+		editorComposite.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
 		int columns = (useSpinner) ? 3 : 1;
 		GridLayout grid = new GridLayout(columns, false);
 		removeMargins(grid);
 		editorComposite.setLayout(grid);
-		viewerText = createTextControl(editorComposite);
-		GridData gridData = new GridData(GridData.FILL,GridData.BEGINNING, true, false);
+		numberLabel = createTextControl(editorComposite);
+		GridData gridData = new GridData(GridData.FILL,GridData.CENTER, true, false);
 		gridData.heightHint = 23;
-		viewerText.setLayoutData(gridData);
-		viewerText.addMouseTrackListener(new MouseTrackListener() {
+		numberLabel.setLayoutData(gridData);
+		numberLabel.addMouseTrackListener(new MouseTrackListener() {
 			private Cursor cursor;
 			@Override
 			public void mouseHover(MouseEvent e) {}
@@ -259,84 +260,68 @@ public class NumberEditorControl extends Composite {
 		});
 		if (useSpinner) {
 			Composite spinners = new Composite(editorComposite, SWT.None);
-			grid = new GridLayout(1, false);
+			grid = new GridLayout(2, true);
 			removeMargins(grid);
 			spinners.setLayout(grid);
-			gridData = new GridData(GridData.END, GridData.BEGINNING, false, false);
-			gridData.heightHint = 27;
-			gridData.widthHint = 25;
+			gridData = new GridData(GridData.END, GridData.CENTER, false, false);
+			gridData.heightHint = 26;
 			spinners.setLayoutData(gridData);
-			incrementLabel = new Label(spinners, SWT.BORDER);
-			upArrowIcon = getImageDescriptor("up_arrow.png").createImage();
-			incrementLabel.setImage(upArrowIcon);
-			incrementLabel.setLayoutData(new GridData(GridData.FILL_BOTH));
-			incrementLabel.addMouseListener(new StepMouseListener(true));
-			decrementLabel = new Label(spinners, SWT.BORDER);
-			decrementLabel.setLayoutData(new GridData(GridData.FILL_BOTH));
-			downArrowIcon = getImageDescriptor("down_arrow.png").createImage();
-			decrementLabel.setImage(downArrowIcon);
-			decrementLabel.addMouseListener(new StepMouseListener(false));
-			stepText = new Text(editorComposite, SWT.BORDER);
-			gridData = new GridData(SWT.END, SWT.BEGINNING, false, false);
-			gridData.widthHint = 25;
-			stepText.setLayoutData(gridData);
-			stepText.addVerifyListener(new VerifyListener() {
+			decrementButton =  new Button(spinners, SWT.FLAT);
+			decrementButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
+			decrementButton.setText("-");
+			decrementButton.addListener(SWT.Selection, new StepListener(false));
+			incrementButton = new Button(spinners, SWT.FLAT);
+			incrementButton.setText("+");
+			incrementButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
+			incrementButton.addListener(SWT.Selection, new StepListener(true));
+			incrementComposite = new Composite(editorComposite, SWT.None);
+			gridData = new GridData(SWT.END, SWT.CENTER, false, false);
+			gridData.heightHint = 26;
+			gridData.widthHint = 43;
+			incrementComposite.setLayoutData(gridData);
+			stepLayout = new StackLayout();
+			incrementComposite.setLayout(stepLayout);
+			stepLabel = createIncrementLabelControl(incrementComposite);
+			stepLabel.setAlignment(SWT.CENTER);
+			stepLabel.addMouseTrackListener(new MouseTrackListener() {
+				private Cursor cursor;
 				@Override
-				public void verifyText(final VerifyEvent event) {
-					switch (event.keyCode) {
-					case SWT.BS:           // Backspace
-					case SWT.DEL:          // Delete
-					case SWT.HOME:         // Home
-					case SWT.END:          // End
-					case SWT.ARROW_LEFT:   // Left arrow
-					case SWT.ARROW_RIGHT:  // Right arrow
-						return;
-					}
-					if (Character.UNASSIGNED == event.character) {
-						event.doit = true;
-						return;
-					}
-					if (controlModel.getBindingPropertyType().equals(double.class)) {
-						if (Character.isDigit(event.character)) {
-							event.doit = true;
-						} else if (event.character == '.') {
-							event.doit = (stepText.getText().indexOf('.') == -1);
-						} else {
-							event.doit = false;
-						}
-					}
+				public void mouseHover(MouseEvent e) {}
+
+				@Override
+				public void mouseExit(MouseEvent e) {
+					((Control) e.getSource()).setCursor(cursor);
+				}
+
+				@Override
+				public void mouseEnter(MouseEvent e) {
+					cursor = ((Control) e.getSource()).getCursor();
+					((Control) e.getSource()).setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_HAND));
 				}
 			});
+			stepLayout.topControl = stepLabel;
 		}
 		layout.topControl = editorComposite;
 	}
 
-	private ImageDescriptor getImageDescriptor(String imageFileName) {
-		return ImageDescriptor.createFromURL(
-				FileLocator.find(Activator.getDefault().getBundle(),
-						new Path("icons/" + imageFileName),null));
-	}
-
 	@Override
 	public boolean setFocus() {
-		return viewerText.setFocus();
+		return numberLabel.setFocus();
 	}
 
-	private class StepMouseListener implements MouseListener {
-		private Color color;
+	private class StepListener implements Listener {
 		private final boolean isIncrement;
-		public StepMouseListener(boolean isIncrement) {
+		public StepListener(boolean isIncrement) {
 			this.isIncrement = isIncrement;
 		}
 		@Override
-		public void mouseUp(MouseEvent e) {
+		public void handleEvent(Event event) {
 			if (controlModel.isEditable()) {
-				((Control) e.getSource()).setBackground(color);
 				try {
 
 					if (controlModel.getBindingPropertyType().equals(double.class)) {
 						double value = (double) PropertyUtils.getProperty(object, propertyName);
-						double increment =  Double.parseDouble(stepText.getText());
+						double increment =  controlModel.getIncrement() / Math.pow(10, controlModel.getDigits());
 						if (isIncrement) {
 							if (!controlModel.isRangeSet()) {
 								PropertyUtils.setProperty(object, propertyName, value + increment);
@@ -358,7 +343,7 @@ public class NumberEditorControl extends Composite {
 						}
 					} else if (controlModel.getBindingPropertyType().equals(int.class)) {
 						int value = (int) PropertyUtils.getProperty(object, propertyName);
-						int increment =  Integer.parseInt(stepText.getText());
+						int increment =  controlModel.getIncrement() / (int) Math.pow(10, controlModel.getDigits());
 						if (isIncrement) {
 							if (!controlModel.isRangeSet()) {
 								PropertyUtils.setProperty(object, propertyName, value + increment);
@@ -386,15 +371,6 @@ public class NumberEditorControl extends Composite {
 				}
 			}
 		}
-		@Override
-		public void mouseDown(MouseEvent e) {
-			if (controlModel.isEditable()) {
-				color = ((Control) e.getSource()).getBackground();
-				((Control) e.getSource()).setBackground(Display.getDefault().getSystemColor(SWT.COLOR_DARK_GRAY));
-			}
-		}
-		@Override
-		public void mouseDoubleClick(MouseEvent e) {}
 	}
 
 	private Label createTextControl(Composite parent) {
@@ -409,7 +385,6 @@ public class NumberEditorControl extends Composite {
 					motorPositionEditorText.setLayoutData(gridData);
 					layout.topControl = motorPositionEditorText;
 					NumberEditorControl.this.layout();
-					NumberEditorControl.this.getParent().layout();
 					motorPositionEditorText.addDisposeListener(new DisposeListener() {
 						@Override
 						public void widgetDisposed(DisposeEvent e) {
@@ -423,6 +398,103 @@ public class NumberEditorControl extends Composite {
 		};
 		numberTextLabel.addListener(SWT.MouseUp, openEditorListener);
 		return numberTextLabel;
+	}
+
+	private Label createIncrementLabelControl(Composite parent) {
+		Label incrementLabel = new Label(parent, SWT.BORDER);
+		incrementLabel.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		Listener openStepEditorListener = new Listener() {
+
+			@Override
+			public void handleEvent(Event event) {
+				if (controlModel.isEditable()) {
+					stepText = new Text(incrementComposite, SWT.BORDER);
+					incrementTextBinding = ctx.bindValue(
+							WidgetProperties.text(SWT.Modify).observe(stepText),
+							BeanProperties.value(MotorPositionWidgetModel.INCREMENT_PROP_NAME).observe(controlModel),
+							new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST).setConverter(new IConverter() {
+
+								@Override
+								public Object getToType() {
+									return int.class;
+								}
+
+								@Override
+								public Object getFromType() {
+									return String.class;
+								}
+
+								@Override
+								public Object convert(Object fromObject) {
+									if (controlModel.getBindingPropertyType().equals(double.class)) {
+										return (int) (Double.parseDouble((String) fromObject) * (int) Math.pow(10, controlModel.getDigits()));
+									}
+									return Integer.parseInt((String) fromObject);
+								}
+							}), new UpdateValueStrategy() {
+								@Override
+								public Object convert(Object value) {
+									if (controlModel.getBindingPropertyType().equals(double.class)) {
+										double incrementValue = controlModel.getIncrement() / Math.pow(10, controlModel.getDigits());
+										return roundDoubletoString(incrementValue, controlModel.getDigits());
+									}
+									return super.convert(value);
+								}
+							});
+					ControlDecorationSupport.create(incrementTextBinding, SWT.TOP | SWT.RIGHT);
+					stepText.addModifyListener(new ModifyListener() {
+						@Override
+						public void modifyText(ModifyEvent e) {
+							incrementTextBinding.validateTargetToModel();
+						}
+					});
+					stepText.addTraverseListener(new TraverseListener() {
+						@Override
+						public void keyTraversed(TraverseEvent event) {
+							if (event.detail == SWT.TRAVERSE_RETURN) {
+								updateIncrementChangesAndDispose(true);
+							}
+							if (event.detail == SWT.TRAVERSE_ESCAPE) {
+								updateIncrementChangesAndDispose(false);
+							}
+						}
+					});
+					stepText.addFocusListener(new FocusListener() {
+						@Override
+						public void focusLost(FocusEvent e) {
+							updateIncrementChangesAndDispose(true);
+						}
+
+						@Override
+						public void focusGained(FocusEvent e) {
+							// Do nothing
+						}
+					});
+					stepLayout.topControl = stepText;
+					incrementComposite.layout();
+					stepText.setFocus();
+					stepText.selectAll();
+				}
+			}
+		};
+		incrementLabel.addListener(SWT.MouseUp, openStepEditorListener);
+		return incrementLabel;
+	}
+
+	private void updateIncrementChangesAndDispose(boolean saveChanges) {
+		if (saveChanges) {
+			incrementTextBinding.updateTargetToModel();
+		} else {
+			incrementTextBinding.updateModelToTarget();
+		}
+		IStatus status = (IStatus) incrementTextBinding.getValidationStatus().getValue();
+		if (status.isOK()) {
+			ctx.removeBinding(incrementTextBinding);
+			incrementTextBinding = null;
+			stepText.dispose();
+			stepLayout.topControl = stepLabel;
+			incrementComposite.layout();
+		}
 	}
 
 	private static void removeMargins(GridLayout grid) {
@@ -514,8 +586,14 @@ public class NumberEditorControl extends Composite {
 		private final Button editorCancelButton;
 		private final DataBindingContext editorCtx = new DataBindingContext();
 		private Binding binding;
-		private final Image cancelImage;
-		private final Image acceptImage;
+		private final ImageDescriptor cancelImageDescriptor = ImageDescriptor.createFromURL(
+				FileLocator.find(Activator.getDefault().getBundle(),
+						new Path("icons/cancel.png"),null));
+		private final Image cancelImage = cancelImageDescriptor.createImage();
+		private final ImageDescriptor acceptImageDescriptor = ImageDescriptor.createFromURL(
+				FileLocator.find(Activator.getDefault().getBundle(),
+						new Path("icons/accept.png"),null));
+		private final Image acceptImage = acceptImageDescriptor.createImage();
 		protected boolean lostFocus;
 		protected boolean cancelOrCommit;
 		private final Listener inFocus;
@@ -529,19 +607,13 @@ public class NumberEditorControl extends Composite {
 			GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
 			editorText.setLayoutData(gridData);
 			editorCancelButton = new Button(this, SWT.NONE);
-			ImageDescriptor myImage = ImageDescriptor.createFromURL(
-					FileLocator.find(Activator.getDefault().getBundle(),
-							new Path("icons/cancel.png"),null));
-			cancelImage = myImage.createImage();
-			editorCancelButton.setImage(myImage.createImage());
+
+			editorCancelButton.setImage(cancelImage);
 			gridData = new GridData(SWT.END, SWT.BEGINNING, false, false);
 			editorCancelButton.setLayoutData(gridData);
 			editorAcceptButton = new Button(this, SWT.NONE);
 			editorAcceptButton.setLayoutData(gridData);
-			myImage = ImageDescriptor.createFromURL(
-					FileLocator.find(Activator.getDefault().getBundle(),
-							new Path("icons/accept.png"),null));
-			acceptImage = myImage.createImage();
+
 			editorAcceptButton.setImage(acceptImage);
 			editorCancelButton.addListener(SWT.Selection, new Listener() {
 				@Override
@@ -655,13 +727,17 @@ public class NumberEditorControl extends Composite {
 			super.dispose();
 		}
 
-		private void updateChangesAndDispose(boolean commit) {
-			if (commit) {
+		private void updateChangesAndDispose(boolean saveChanges) {
+			if (saveChanges) {
 				binding.updateTargetToModel();
 			} else {
 				binding.updateModelToTarget();
 			}
-			MotorPositionEditorText.this.dispose();
+			IStatus status = (IStatus) binding.getValidationStatus().getValue();
+			if (status.isOK()) {
+				MotorPositionEditorText.this.dispose();
+			}
+
 		}
 	}
 }
