@@ -1,0 +1,42 @@
+#!/bin/bash 
+
+# Command to start the GDA servers on current PC
+
+function usage {
+	cat 1>&2 <<EOF
+
+Command to start the GDA servers on current PC
+
+Usage: gda_servers_local <uk.ac.gda.core folder location> <config folder> <mode used by gda command> [other options for gda command]
+
+
+Can be used from command line or from Eclipse within an External Run Configuration.
+
+Examples.
+To start i13i-config from an installation in /scratch/gda_master in dummy mode:
+
+~>/scratch/gda_master/workspace_git/gda-diamond.git/dls-config/bin/gda_servers_local /scratch/gda_master/workspace_git/gda-core.git/uk.ac.gda.core/ /scratch/gda_master/workspace_git/gda-dls-beamlines-i13x.git/i13i dummy --restart --debug
+
+To use within an Eclipse External Run Configuration:
+
+Location - ${workspace_loc:/dls-config/bin/gda_servers_local}
+Arguments (example for i13i-config to restart servers in dummy mode)
+ - ${workspace_loc:/uk.ac.gda.core} ${workspace_loc:/i13i-config} dummy --restart --debug
+
+
+
+EOF
+}
+if [[ $# < 2 ]]; then
+	usage
+	exit 1
+fi
+
+
+
+module load java/gda834-64
+export JREBEL_OPTS="-javaagent:/dls_sw/dasc/jrebel/5.2/jrebel.jar -Drebel.properties=/dls_sw/dasc/jrebel/5.2/jrebel.properties"
+export JAVA_OPTS="$JREBEL_OPTS -Xms128m -Xmx2024m -XX:MaxPermSize=128m"
+echo $@
+echo python2.6  $1/bin/gda  --config=$2 --smart --trace servers -v --mode=$3 $4 $5 $6 $7
+python2.6  $1/bin/gda  --config=$2 --smart --trace servers -v --mode=$3 $4 $5 $6 $7
