@@ -20,8 +20,6 @@ package uk.ac.gda.exafs.ui.views;
 
 import gda.device.Scannable;
 import gda.jython.Jython;
-import gda.jython.JythonServerStatus;
-import gda.observable.IObserver;
 
 import java.util.ArrayList;
 
@@ -39,6 +37,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
@@ -53,9 +53,10 @@ import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorConfig;
 import uk.ac.gda.exafs.data.DetectorUnavailableException;
 import uk.ac.gda.exafs.data.SlitScanner;
+import uk.ac.gda.exafs.ui.composites.MotorPositionEditorControl;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
+import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
 import uk.ac.gda.exafs.ui.data.UIHelper;
-import uk.ac.gda.exafs.ui.data.UIHelper.UIMotorControl;
 import uk.ac.gda.exafs.ui.sections.DetectorROIsSesion;
 
 public class FocusingView extends ViewPart {
@@ -79,37 +80,21 @@ public class FocusingView extends ViewPart {
 		form.setText("Slits scan / Focusing");
 		createFormSlitsParametersSection(form);
 		DetectorROIsSesion.INSTANCE.createFormRoisSection(form, toolkit);
-		createFormSampleSection(form);
-		createFormBendSection(form);
-		createFormCurvatureSection(form);
+		try {
+			createFormSampleSection(form);
+			createFormBendSection(form);
+			createFormCurvatureSection(form);
+		} catch (Exception e) {
+			UIHelper.showError("Unable to create scannable controls", e.getMessage());
+		}
 		return scrolledform;
 	}
 
-	private final WritableList movingScannables = new WritableList(new ArrayList<Scannable>(), Scannable.class);
-	private final MoveObserver moveObserver = new MoveObserver(movingScannables);
-	private static class MoveObserver implements IObserver {
-		private final WritableList movingScannables;
-		public MoveObserver(WritableList movingScannables) {
-			this.movingScannables = movingScannables;
-		}
-
-		@Override
-		public void update(Object source, Object arg) {
-			if (arg instanceof JythonServerStatus) {
-				JythonServerStatus status = (JythonServerStatus) arg;
-				if (status.scanStatus == Jython.RUNNING | status.scanStatus == Jython.PAUSED) {
-					movingScannables.add(source);
-				}
-				else if (status.scanStatus == Jython.IDLE) {
-					movingScannables.remove(source);
-				}
-			}
-		}
-	}
-
-	@SuppressWarnings("static-access")
-	private void createFormBendSection(Form form) {
-		final Section bendSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
+	@SuppressWarnings({ "static-access", "unused" })
+	private void createFormBendSection(Form form) throws Exception {
+		final WritableList movingScannables = new WritableList(new ArrayList<Scannable>(), Scannable.class);
+		final ScannableMotorMoveObserver moveObserver = new ScannableMotorMoveObserver(movingScannables);
+		final Section bendSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		toolkit.paintBordersFor(bendSection);
 		bendSection.setText("Polychromator Benders");
 		toolkit.paintBordersFor(bendSection);
@@ -121,20 +106,35 @@ public class FocusingView extends ViewPart {
 
 		Label lblBend1Name = toolkit.createLabel(bendSelectionComposite, ScannableSetup.POLY_BENDER_1.getLabel(), SWT.NONE);
 		lblBend1Name.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		UIHelper.createMotorViewer(toolkit, bendSelectionComposite, ScannableSetup.POLY_BENDER_1, UIMotorControl.ROTATION, moveObserver);
+		Scannable scannable = ScannableSetup.POLY_BENDER_1.getScannable();
+		scannable.addIObserver(moveObserver);
+		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(bendSelectionComposite, SWT.None, scannable, true);
+		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Label lblBend2Name = toolkit.createLabel(bendSelectionComposite, ScannableSetup.POLY_BENDER_2.getLabel(), SWT.NONE);
 		lblBend2Name.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		UIHelper.createMotorViewer(toolkit, bendSelectionComposite, ScannableSetup.POLY_BENDER_2, UIMotorControl.ROTATION, moveObserver);
+		scannable = ScannableSetup.POLY_BENDER_2.getScannable();
+		scannable.addIObserver(moveObserver);
+		motorPositionEditorControl = new MotorPositionEditorControl(bendSelectionComposite, SWT.None, scannable, true);
+		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		final ToolBar motorSectionTbar = new ToolBar(bendSection, SWT.FLAT | SWT.HORIZONTAL);
+		new ToolItem(motorSectionTbar, SWT.SEPARATOR);
+		final ToolItem stopMotorsBarItem = ScannableMotorMoveObserver.setupStopToolItem(motorSectionTbar, movingScannables);
+		bendSection.setTextClient(motorSectionTbar);
+		movingScannables.addListChangeListener(ScannableMotorMoveObserver.getStopButtonListener(bendSection, stopMotorsBarItem));
+		stopMotorsBarItem.setEnabled(!movingScannables.isEmpty());
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(bendSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
 		bendSection.setSeparatorControl(defaultSectionSeparator);
 	}
 
-	@SuppressWarnings("static-access")
-	private void createFormCurvatureSection(Form form) {
-		final Section curvatureSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
+	@SuppressWarnings({ "static-access", "unused" })
+	private void createFormCurvatureSection(Form form) throws Exception {
+		final WritableList movingScannables = new WritableList(new ArrayList<Scannable>(), Scannable.class);
+		final ScannableMotorMoveObserver moveObserver = new ScannableMotorMoveObserver(movingScannables);
+		final Section curvatureSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		toolkit.paintBordersFor(curvatureSection);
 		curvatureSection.setText("Curvature/Ellipticity");
 		toolkit.paintBordersFor(curvatureSection);
@@ -146,20 +146,36 @@ public class FocusingView extends ViewPart {
 
 		Label lblCurvature = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_CURVATURE.getLabel(), SWT.NONE);
 		lblCurvature.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		UIHelper.createMotorViewer(toolkit, curvatureSelectionComposite, ScannableSetup.POLY_CURVATURE, UIMotorControl.ROTATION, moveObserver);
+		Scannable scannable = ScannableSetup.POLY_CURVATURE.getScannable();
+		scannable.addIObserver(moveObserver);
+		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(curvatureSelectionComposite, SWT.None, scannable, true);
+		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Label lblEllipticity = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_Y_ELLIPTICITY.getLabel(), SWT.NONE);
 		lblEllipticity.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		UIHelper.createMotorViewer(toolkit, curvatureSelectionComposite, ScannableSetup.POLY_Y_ELLIPTICITY, UIMotorControl.ROTATION, moveObserver);
+		scannable = ScannableSetup.POLY_Y_ELLIPTICITY.getScannable();
+		scannable.addIObserver(moveObserver);
+		motorPositionEditorControl = new MotorPositionEditorControl(curvatureSelectionComposite, SWT.None, scannable, true);
+		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		final ToolBar motorSectionTbar = new ToolBar(curvatureSection, SWT.FLAT | SWT.HORIZONTAL);
+		new ToolItem(motorSectionTbar, SWT.SEPARATOR);
+		final ToolItem stopMotorsBarItem = ScannableMotorMoveObserver.setupStopToolItem(motorSectionTbar, movingScannables);
+		curvatureSection.setTextClient(motorSectionTbar);
+		movingScannables.addListChangeListener(ScannableMotorMoveObserver.getStopButtonListener(curvatureSection, stopMotorsBarItem));
+		stopMotorsBarItem.setEnabled(!movingScannables.isEmpty());
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(curvatureSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
 		curvatureSection.setSeparatorControl(defaultSectionSeparator);
 	}
 
-	@SuppressWarnings("static-access")
-	private void createFormSampleSection(Form form) {
-		final Section samplePositionSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
+	@SuppressWarnings({ "static-access", "unused" })
+	private void createFormSampleSection(Form form) throws Exception {
+		final WritableList movingScannables = new WritableList(new ArrayList<Scannable>(), Scannable.class);
+		final ScannableMotorMoveObserver moveObserver = new ScannableMotorMoveObserver(movingScannables);
+
+		final Section samplePositionSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		toolkit.paintBordersFor(samplePositionSection);
 		samplePositionSection.setText("Sample position");
 		toolkit.paintBordersFor(samplePositionSection);
@@ -171,7 +187,17 @@ public class FocusingView extends ViewPart {
 
 		Label lblSampleZ = toolkit.createLabel(samplePositionComposite, ScannableSetup.SAMPLE_Z_POSITION.getLabel(), SWT.NONE);
 		lblSampleZ.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		UIHelper.createMotorViewer(toolkit, samplePositionComposite, ScannableSetup.SAMPLE_Z_POSITION, UIMotorControl.ROTATION, moveObserver);
+		Scannable scannable = ScannableSetup.SAMPLE_Z_POSITION.getScannable();
+		scannable.addIObserver(moveObserver);
+		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(samplePositionComposite, SWT.None, scannable, true);
+		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		final ToolBar motorSectionTbar = new ToolBar(samplePositionSection, SWT.FLAT | SWT.HORIZONTAL);
+		new ToolItem(motorSectionTbar, SWT.SEPARATOR);
+		final ToolItem stopMotorsBarItem = ScannableMotorMoveObserver.setupStopToolItem(motorSectionTbar, movingScannables);
+		samplePositionSection.setTextClient(motorSectionTbar);
+		movingScannables.addListChangeListener(ScannableMotorMoveObserver.getStopButtonListener(samplePositionSection, stopMotorsBarItem));
+		stopMotorsBarItem.setEnabled(!movingScannables.isEmpty());
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(samplePositionSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
@@ -180,7 +206,7 @@ public class FocusingView extends ViewPart {
 
 	@SuppressWarnings("static-access")
 	private void createFormSlitsParametersSection(Form form) {
-		final Section slitsParametersSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
+		final Section slitsParametersSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		slitsParametersSection.setText("Slits scan");
 		slitsParametersSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		Composite slitsParametersSelectionComposite = toolkit.createComposite(slitsParametersSection, SWT.NONE);
@@ -228,7 +254,7 @@ public class FocusingView extends ViewPart {
 			lbl = toolkit.createLabel(slitsParametersSelectionComposite, "Integration time", SWT.NONE);
 			lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
-			NumberEditorControl integrationTime = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScanner.getInstance(), SlitScanner.INTEGRATION_TIME_PROP_NAME, false);
+			NumberEditorControl integrationTime = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScanner.getInstance(), SlitScanner.INTEGRATION_TIME_PROP_NAME, true);
 			integrationTime.setUnit(UnitSetup.SEC.getText());
 			integrationTime.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			integrationTime.setIncrement(1 * (int) Math.pow(10, ClientConfig.DEFAULT_DECIMAL_PLACE));

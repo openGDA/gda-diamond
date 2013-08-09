@@ -75,6 +75,8 @@ public class AlignmentParametersBean implements Serializable {
 
 	private Double power = null; // W
 
+	private Double readBackEnergyBadwidth = null;
+
 	public AlignmentParametersBean(String crystalType, String crystalCut, Double q, String detector, AbsorptionEdge edge) {
 		super();
 		this.crystalType = crystalType;
@@ -255,6 +257,14 @@ public class AlignmentParametersBean implements Serializable {
 
 	public void setEnergyBandwidth(Double energyBandwidth) {
 		this.energyBandwidth = energyBandwidth;
+	}
+
+	public Double getReadBackEnergyBandwidth() {
+		return readBackEnergyBadwidth;
+	}
+
+	public void setReadBackEnergyBandwidth(Double value) {
+		readBackEnergyBadwidth = value;
 	}
 
 	@Override

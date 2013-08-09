@@ -50,7 +50,7 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(false);
 
-		IFolderLayout alignmentControlsFolder = layout.createFolder(ALIGNMENT_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.35f, editorArea);
+		IFolderLayout alignmentControlsFolder = layout.createFolder(ALIGNMENT_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.32f, editorArea);
 		alignmentControlsFolder.addView(BeamlineAlignmentView.ID);
 		IViewLayout propertyLayout = layout.getViewLayout(BeamlineAlignmentView.ID);
 		propertyLayout.setCloseable(false);

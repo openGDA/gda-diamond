@@ -34,8 +34,8 @@ public class SlitScanner extends ObservableModel implements IObserver {
 	public static final double MAX_GAP = 1000.0;
 	public static final double MIN_GAP = 0.00;
 
-	public static final int MAX_INTEGRATION_TIME = 1000;
-	public static final int MIN_INTEGRATION_TIME = 0;
+	public static final double MAX_INTEGRATION_TIME = 60 * 1000.0;
+	public static final double MIN_INTEGRATION_TIME = 0.0001;
 
 	public static final String STATE_PROP_NAME = "state";
 	private int state;
