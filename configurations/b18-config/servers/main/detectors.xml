@@ -96,8 +96,6 @@
 		</property>
 	</bean>
 
-	
-
 	<bean id="counterTimer02_nocorr"
 		class="gda.device.detector.countertimer.TfgXspress2NoCorrection">
 		<property name="extraNames">
