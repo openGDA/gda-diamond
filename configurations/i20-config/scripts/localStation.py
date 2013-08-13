@@ -25,6 +25,8 @@ from exafsscripts.exafs.i20OutputPreparer import I20OutputPreparer
 from exafsscripts.exafs.i20ScanScripts import I20XasScan
 from exafsscripts.exafs.i20ScanScripts import I20XesScan
 
+from time import sleep
+
 ScanBase.interrupted = False
 ScriptBase.interrupted = False
 

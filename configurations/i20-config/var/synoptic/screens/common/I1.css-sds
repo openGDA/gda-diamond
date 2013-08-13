@@ -200,8 +200,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="70" />
-  <property type="sds.integer" id="position.y" value="134" />
+  <property type="sds.integer" id="position.x" value="62" />
+  <property type="sds.integer" id="position.y" value="110" />
   <property type="sds.integer" id="width" value="76" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -256,8 +256,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="92" />
-  <property type="sds.integer" id="position.y" value="164" />
+  <property type="sds.integer" id="position.x" value="84" />
+  <property type="sds.integer" id="position.y" value="140" />
   <property type="sds.integer" id="width" value="55" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -329,8 +329,8 @@
       <outputChannel name="gda://i1_stanford_sensitivity_units.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="188" />
-  <property type="sds.integer" id="position.y" value="134" />
+  <property type="sds.integer" id="position.x" value="180" />
+  <property type="sds.integer" id="position.y" value="110" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -421,8 +421,8 @@
       <outputChannel name="gda://i1_stanford_offset.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="148" />
-  <property type="sds.integer" id="position.y" value="164" />
+  <property type="sds.integer" id="position.x" value="140" />
+  <property type="sds.integer" id="position.y" value="140" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -513,8 +513,8 @@
       <outputChannel name="gda://i1_stanford_sensitivity.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="148" />
-  <property type="sds.integer" id="position.y" value="134" />
+  <property type="sds.integer" id="position.x" value="140" />
+  <property type="sds.integer" id="position.y" value="110" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -581,8 +581,8 @@
       <outputChannel name="gda://i1_stanford_offset_units.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="188" />
-  <property type="sds.integer" id="position.y" value="164" />
+  <property type="sds.integer" id="position.x" value="180" />
+  <property type="sds.integer" id="position.y" value="140" />
   <property type="sds.integer" id="width" value="40" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -677,6 +677,70 @@
   <property type="sds.string" id="layer" value="DEFAULT" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+</widget>
+<widget type="uk.ac.gda.dal.combo">
+  <property type="sds.behavior" id="behavior" value="" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="ComboModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="ON" />
+        <property_attribut type="sds.string" id="value" value="1" />
+      </action_attribut>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="OFF" />
+        <property_attribut type="sds.string" id="value" value="0" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="epics://BL20I-EA-IAMP-04:IOON" value="" />
+      <outputChannel name="epics://BL20I-EA-IAMP-04:IOON" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.integer" id="position.x" value="140" />
+  <property type="sds.integer" id="position.y" value="167" />
+  <property type="sds.integer" id="width" value="40" />
+  <property type="sds.integer" id="height" value="23" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000c0" />
+  </property>
+  <property type="sds.color" id="color.background">
+    <color hex="#e6e6e6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="3" />
+  </property>
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="Sensitivity value&#xA;${actionData}" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.string" id="label" value="">
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <inputChannel name="epics://BL20I-EA-IAMP-03:IOON, string" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.font" id="font">
+    <font font="Arial, 10" />
+  </property>
+  <property type="sds.option" id="textAlignment">
+    <option id="0" />
+  </property>
 </widget>
 
 </display>
