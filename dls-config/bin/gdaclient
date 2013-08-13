@@ -54,13 +54,17 @@ if [ -z $BEAMLINE ] ; then
 	exit 1
 fi
 
-if [ -z $WORKSPACE ] ; then
-	WORKSPACE="/scratch/${BEAMLINE}_workspace-$(whoami)"
-fi
+# ensure directory containing workspaces exists, and is writable by everyone
+WORKSPACE_PARENT=/scratch/gda_workspaces
+[ -d $WORKSPACE_PARENT ] || mkdir -m 777 $WORKSPACE_PARENT
 
-if [ -z $CONFIG ] ; then
-	CONFIG="/scratch/${BEAMLINE}_config-$(whoami)"
-fi
+# ensure directory containing configs exists, and is writable by everyone
+CONFIG_PARENT=/scratch/gda_configs
+[ -d $CONFIG_PARENT ] || mkdir -m 777 $CONFIG_PARENT
+
+WORKSPACE=$WORKSPACE_PARENT/$(whoami)
+CONFIG=$CONFIG_PARENT/$(whoami)
+
 
 ARGS=$(getopt -a -o \? -l help,data:,reset,log,keep,nohup:,client: -n "gdaclient" -- "$@")
 
