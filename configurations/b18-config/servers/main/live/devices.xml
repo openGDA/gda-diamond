@@ -426,6 +426,7 @@
 
 	<bean id="energy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-OP-DCM-01:ENERGY_MOTOR" />
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="energy" class="gda.device.scannable.B18EnergyScannable">
@@ -672,24 +673,19 @@
 	</bean>
 
 	<bean id="sxsam_stanford" class="gda.device.scannable.StanfordScannable">
-		<property name="value_pv" value="BL18B-DI-STANF-03:SENS:SEL1" />
-		<property name="unit_pv" value="BL18B-DI-STANF-03:SENS:SEL2" />
+		<property name="base_pv" value="BL18B-DI-STANF-03:" />
 	</bean>
 	<bean id="sxi0_stanford" class="gda.device.scannable.StanfordScannable">
-		<property name="value_pv" value="BL18B-DI-STANF-01:SENS:SEL1" />
-		<property name="unit_pv" value="BL18B-DI-STANF-01:SENS:SEL2" />
+		<property name="base_pv" value="BL18B-DI-STANF-01:" />
 	</bean>
 	<bean id="ionc1_stanford" class="gda.device.scannable.StanfordScannable">
-		<property name="value_pv" value="BL18B-DI-STANF-04:SENS:SEL1" />
-		<property name="unit_pv" value="BL18B-DI-STANF-04:SENS:SEL2" />
+		<property name="base_pv" value="BL18B-DI-STANF-04:" />
 	</bean>
 	<bean id="ionc2_stanford" class="gda.device.scannable.StanfordScannable">
-		<property name="value_pv" value="BL18B-DI-STANF-05:SENS:SEL1" />
-		<property name="unit_pv" value="BL18B-DI-STANF-05:SENS:SEL2" />
+		<property name="base_pv" value="BL18B-DI-STANF-05:" />
 	</bean>
 	<bean id="ionc3_stanford" class="gda.device.scannable.StanfordScannable">
-		<property name="value_pv" value="BL18B-DI-STANF-06:SENS:SEL1" />
-		<property name="unit_pv" value="BL18B-DI-STANF-06:SENS:SEL2" />
+		<property name="base_pv" value="BL18B-DI-STANF-06:" />
 	</bean>
 
 <!-- 	<bean id="izero_monitor" class="gda.device.monitor.EpicsMonitor"> -->

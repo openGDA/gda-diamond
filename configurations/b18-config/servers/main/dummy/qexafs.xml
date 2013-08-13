@@ -35,7 +35,7 @@
 		</property>
 		<property name="scaler" ref="CalMemory" />
 		<property name="timer" ref="tfg" />
-		<property name="daserver" ref="daserver" />
+		<property name="daserver" ref="DAServer" />
 		<property name="timeChannelRequired" value="true" />
 		<property name="darkCurrentRequired" value="false" />
 		<property name="outputLogValues" value="true" />
