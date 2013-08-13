@@ -92,6 +92,32 @@
             name="Focusing View"
             restorable="true">
       </view>
+      <view
+            allowMultiple="false"
+            category="uk.ac.diamond.scisoft.analysis.rcp"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            icon="icons/chart_curve.png"
+            id="uk.ac.diamond.scisoft.analysis.rcp.liveModePlot"
+            name="Live Mode"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            class="uk.ac.gda.exafs.ui.views.EdeDataCalibrationView"
+            icon="icons/chart_curve.png"
+            id="uk.ac.gda.exafs.ui.views.calibrationreference"
+            name="Reference Spectrum"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            category="uk.ac.diamond.scisoft.analysis.rcp"
+            class="uk.ac.gda.exafs.ui.views.EdeDataCalibrationView"
+            icon="icons/chart_curve.png"
+            id="uk.ac.gda.exafs.ui.views.calibrationEdeData"
+            name="EDE Data Spectrum"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
@@ -108,17 +134,5 @@
       </initializer>
    </extension>
    
-    <extension
-         point="org.eclipse.ui.views">
-              <view
-            allowMultiple="false"
-            category="uk.ac.diamond.scisoft.analysis.rcp"
-            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
-            icon="icons/chart_curve.png"
-            id="uk.ac.diamond.scisoft.analysis.rcp.liveModePlot"
-            name="Live Mode"
-            restorable="true">
-      </view>
-      </extension>
    
 </plugin>

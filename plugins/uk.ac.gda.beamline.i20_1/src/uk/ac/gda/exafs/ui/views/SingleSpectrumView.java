@@ -50,6 +50,7 @@ import org.eclipse.ui.part.ViewPart;
 import uk.ac.gda.exafs.data.DetectorConfig;
 import uk.ac.gda.exafs.data.SingleSpectrumCalibrationModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
+import uk.ac.gda.exafs.ui.sections.EDECalibrationSection;
 
 public class SingleSpectrumView extends ViewPart {
 
@@ -77,7 +78,7 @@ public class SingleSpectrumView extends ViewPart {
 		createSampleI0Position(formParent);
 		createSampleItPosition(formParent);
 		createAcquisitionPosition(formParent);
-
+		EDECalibrationSection.INSTANCE.createEdeCalibrationSection(form, toolkit);
 	}
 
 	private void createSampleI0Position(Composite body) {

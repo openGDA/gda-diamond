@@ -31,6 +31,10 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
+import uk.ac.diamond.scisoft.analysis.io.DataHolder;
+import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
+
 public class ClientConfig {
 
 	public static final int KILO_UNIT = 1000;
@@ -157,6 +161,137 @@ public class ClientConfig {
 
 		public double getMin() {
 			return min;
+		}
+	}
+
+	public static class CalibrationData extends ObservableModel {
+		public static final CalibrationData INSTANCE = new CalibrationData();
+		public static final String MANUAL_PROP_NAME = "manual";
+		private boolean manual;
+		private final ElementEdeData edeData = new ElementEdeData();
+		private final ElementReference refData = new ElementReference();
+
+		private CalibrationData() {}
+		public ElementReference getRefData() {
+			return refData;
+		}
+		public ElementEdeData getEdeData() {
+			return edeData;
+		}
+		public boolean isManual() {
+			return manual;
+		}
+		public void setManual(boolean manual) {
+			firePropertyChange(MANUAL_PROP_NAME, this.manual, this.manual = manual);
+		}
+	}
+
+	public static class ElementEdeData extends ElementReference {
+		@Override
+		protected void loadDataNode() {
+			dataNode = (AbstractDataset) dataHolder.getLazyDataset("/entry1/QexafsFFI0/QexafsFFI0").getSlice();
+		}
+
+		@Override
+		protected void loadEnergyNode() {
+			energyNode = AbstractDataset.arange(this.getRefDataNode().getSize(), AbstractDataset.INT32);
+		}
+
+		@Override
+		protected void loadCalibrationReferenceData() throws Exception {
+			fileName = "/dls/b18/data/2012/cm5713-3/Experiment_1/nexus/59040_Cufoil_quick_1min_1.nxs";
+			dataHolder = LoaderFactory.getData(fileName);
+		}
+	}
+
+	public static class ElementReference extends ObservableModel {
+		public static final String SELECTED_ELEMENT_PROP_NAME = "selectedElement";
+		public static final String FILE_NAME_PROP_NAME = "fileName";
+
+		private Element selectedElement;
+
+		protected String fileName;
+		protected DataHolder dataHolder;
+		protected AbstractDataset dataNode;
+		protected AbstractDataset energyNode;
+
+		public static final String MANUAL_CALIBRATION_PROP_NAME = "manualCalibration";
+		private boolean manualCalibration;
+		protected List<Double> refReferencePoints = new ArrayList<Double>();
+
+		public boolean isManualCalibration() {
+			return manualCalibration;
+		}
+
+		public void setManualCalibration(boolean manualCalibration) {
+			firePropertyChange(MANUAL_CALIBRATION_PROP_NAME, this.manualCalibration, this.manualCalibration = manualCalibration);
+		}
+
+		public String getFileName() {
+			return fileName;
+		}
+
+		public List<Double> getReferencePoints() {
+			return refReferencePoints;
+		}
+
+		public void setReferencePoints(List<Double> refReferencePoints) {
+			this.refReferencePoints = refReferencePoints;
+		}
+
+		public AbstractDataset getRefDataNode() {
+			return dataNode;
+		}
+
+		public AbstractDataset getRefEnergyNode() {
+			return energyNode;
+		}
+
+		public DataHolder getRefFile() {
+			return dataHolder;
+		}
+
+		public Element getSelectedElement() {
+			return selectedElement;
+		}
+
+		public void setSelectedElement(Element selectedElement) {
+			firePropertyChange(SELECTED_ELEMENT_PROP_NAME, this.selectedElement, this.selectedElement = selectedElement);
+			loadData();
+		}
+
+		private void loadData() {
+			try {
+				String previousRefFile = fileName;
+				loadCalibrationReferenceData();
+				loadDataNode();
+				loadEnergyNode();
+				loadReferencePoints();
+				firePropertyChange(FILE_NAME_PROP_NAME, previousRefFile, fileName);
+			} catch (Exception e) {
+				// TODO Handle this
+				e.printStackTrace();
+			}
+		}
+
+		protected void loadDataNode() {
+			dataNode = (AbstractDataset) dataHolder.getLazyDataset("/entry1/qexafs_counterTimer01/lnI0It").getSlice();
+		}
+
+		protected void loadEnergyNode() {
+			energyNode = (AbstractDataset) dataHolder.getLazyDataset("/entry1/qexafs_counterTimer01/qexafs_energy").getSlice();
+		}
+
+		protected void loadCalibrationReferenceData() throws Exception {
+			fileName = "/dls/b18/data/2012/cm5713-3/Experiment_1/nexus/59306_Cufoil_quick_1min_60.nxs";
+			dataHolder = LoaderFactory.getData(fileName);
+		}
+
+		protected void loadReferencePoints() {
+			refReferencePoints = new ArrayList<Double>(3);
+			refReferencePoints.add(energyNode.min().doubleValue());
+			refReferencePoints.add((Double) energyNode.mean());
+			refReferencePoints.add(energyNode.max().doubleValue());
 		}
 	}
 

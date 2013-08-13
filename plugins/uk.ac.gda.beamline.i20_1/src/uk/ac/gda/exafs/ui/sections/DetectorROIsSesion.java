@@ -296,6 +296,7 @@ public class DetectorROIsSesion {
 
 	}
 
+	// TODO Add editor change support
 	private static class RoisStripLevelEditorSupport extends EditingSupport {
 
 		private final TableViewer viewer;

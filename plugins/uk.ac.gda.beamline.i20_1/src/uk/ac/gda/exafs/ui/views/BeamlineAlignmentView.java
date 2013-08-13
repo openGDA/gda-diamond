@@ -82,6 +82,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.AlignmentParametersBean;
 import uk.ac.gda.exafs.data.ClientConfig;
+import uk.ac.gda.exafs.data.ClientConfig.CalibrationData;
 import uk.ac.gda.exafs.data.ClientConfig.CrystalCut;
 import uk.ac.gda.exafs.data.ClientConfig.CrystalType;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
@@ -305,8 +306,10 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			public void selectionChanged(SelectionChangedEvent event) {
 				Element element = ((Element) ((IStructuredSelection) event.getSelection()).getFirstElement());
 				CrystalCut cut = ((CrystalCut) ((IStructuredSelection) cmbCrystalCut.getSelection()).getFirstElement());
-				cmdElementEdge.setInput(cut.getElementsInEnergyRange().get(element));
-				cmdElementEdge.setSelection(new StructuredSelection(cmdElementEdge.getElementAt(0)));
+				if (element != null && cut != null) {
+					cmdElementEdge.setInput(cut.getElementsInEnergyRange().get(element));
+					cmdElementEdge.setSelection(new StructuredSelection(cmdElementEdge.getElementAt(0)));
+				}
 			}
 		});
 
@@ -350,6 +353,14 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(cmbCrystalQ.getControl()),
 				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
+
+		dataBindingCtx.bindValue(
+				ViewersObservables.observeSingleSelection(cmbElement),
+				BeanProperties.value(ClientConfig.ElementReference.SELECTED_ELEMENT_PROP_NAME).observe(CalibrationData.INSTANCE.getEdeData()));
+
+		dataBindingCtx.bindValue(
+				ViewersObservables.observeSingleSelection(cmbElement),
+				BeanProperties.value(ClientConfig.ElementReference.SELECTED_ELEMENT_PROP_NAME).observe(CalibrationData.INSTANCE.getRefData()));
 
 		butDetectorSetup.addListener(SWT.Selection, new Listener() {
 			@Override
@@ -412,6 +423,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 	// FIXME this is not a elegant way to providing suggestion values
 	private void getScannableValuesSuggestion() {
+		if (!DetectorConfig.INSTANCE.isDetectorConnected()) {
+			return;
+		}
 		Element selectedElement = (Element) ((IStructuredSelection) cmbElement.getSelection()).getFirstElement();
 		String selectedEdgeString = (String) ((IStructuredSelection) cmdElementEdge.getSelection()).getFirstElement();
 		AbsorptionEdge absEdge = selectedElement.getEdge(selectedEdgeString);

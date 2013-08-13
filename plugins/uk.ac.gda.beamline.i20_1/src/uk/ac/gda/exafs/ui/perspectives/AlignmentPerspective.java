@@ -25,9 +25,9 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IViewLayout;
 
-import uk.ac.diamond.scisoft.spectroscopy.rcp.views.EdeCalibrationView;
 import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
 import uk.ac.gda.exafs.ui.views.DetectorSetupView;
+import uk.ac.gda.exafs.ui.views.EdeDataCalibrationView;
 import uk.ac.gda.exafs.ui.views.FocusingView;
 import uk.ac.gda.exafs.ui.views.SingleSpectrumView;
 
@@ -42,6 +42,10 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 	public static String SPECTRAPLOTID =  "uk.ac.diamond.scisoft.analysis.rcp.liveModePlot";
 	public static String SPECTRAPLOTNAME =  "Live Mode";
 
+	public static final String REF_PLOT_NAME = "Reference Spectrum";
+
+	public static final String EDE_PLOT_NAME = "EDE Data Spectrum";
+
 	private static final String TOPPLOT_FOLDER_ID = "topplot";
 	private static final String ALIGNMENT_CONTROLS_FOLDER_ID = "alignmentControls";
 
@@ -55,7 +59,6 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		IViewLayout propertyLayout = layout.getViewLayout(BeamlineAlignmentView.ID);
 		propertyLayout.setCloseable(false);
 		alignmentControlsFolder.addView(SingleSpectrumView.ID);
-		alignmentControlsFolder.addView(EdeCalibrationView.ID);
 
 		layout.addView(FocusingView.ID, IPageLayout.RIGHT, 0.30f, editorArea);
 		propertyLayout = layout.getViewLayout(FocusingView.ID);
@@ -63,6 +66,8 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 
 		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, FocusingView.ID);
 		topPlotFolder.addView(SPECTRAPLOTID);
+		topPlotFolder.addPlaceholder(EdeDataCalibrationView.REFERENCE_ID);
+		topPlotFolder.addPlaceholder(EdeDataCalibrationView.EDE_ID);
 		layout.addView(DetectorSetupView.ID, IPageLayout.BOTTOM, 0.40f,TOPPLOT_FOLDER_ID);
 		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.25f,DetectorSetupView.ID);
 		propertyLayout = layout.getViewLayout(DetectorSetupView.ID);
