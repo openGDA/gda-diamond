@@ -159,4 +159,8 @@ if LocalProperties.get("gda.mode") == "live":
     testVortexWiredCorrectly()
     
     
+else :
+    # simulation (dummy mode) specific settings
+    if material() == None:
+        material('Si')
 print "****GDA startup script complete.****\n\n"
