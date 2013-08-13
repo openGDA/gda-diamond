@@ -18,4 +18,5 @@
         <excluded>false</excluded>
     </DetectorElement>
     <saveRawSpectrum>false</saveRawSpectrum>
+    <selectedRegionNumber>0</selectedRegionNumber>
 </VortexParameters>

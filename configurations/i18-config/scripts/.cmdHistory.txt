@@ -1,10 +1,3 @@
-"RCPController"
-reset_namespace
-RCPController
-"RCPController"
-RCPController
-reset_namespace
-counterTimer01
 counterTimer01.collectData()
 counterTimer01.readout()
 scan test 0 10 1 counterTimer01 1
@@ -98,3 +91,10 @@ qexafs_energy
 qexafs_energy(7000)
 qexafs_energy.performContinuousMove()
 qexafs_energy(7000)
+scan test 0 10 1
+pos
+scan thor_x 0 1 0.01 
+help
+help scan
+s3xgap
+scan s3xgap 0 1 0.1 counterTimer01 1
