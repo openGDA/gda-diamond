@@ -2923,7 +2923,7 @@
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.string" id="label" value="">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="epics://BL20I-EA-IAMP-01:IOON, string" value="" />
+      <inputChannel name="epics://BL20I-EA-IAMP-02:IOON, string" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.font" id="font">

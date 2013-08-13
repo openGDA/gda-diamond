@@ -387,7 +387,7 @@
 			</map>
 		</property>
 	</bean>
-	<bean id="ii_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
+	<bean id="it_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-02:IOON" />
 		<property name="values">
 			<map>
