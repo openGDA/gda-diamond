@@ -75,7 +75,7 @@ public class EdeAsciiFileWriter {
 		asciiFile.createNewFile();
 		FileWriter writer = new FileWriter(asciiFile);
 		log("Writing EDE format ascii file: "+asciiFilename);
-		writer.write("Strip\tEnergy\tI0_corr\tIt_corr\tLnI0It\tI0_raw\tIt_raw\tI0_dark\tIt_dark\n");
+		writer.write("#Strip\tEnergy\tI0_corr\tIt_corr\tLnI0It\tI0_raw\tIt_raw\tI0_dark\tIt_dark\n");
 		for (int channel = 0; channel < theDetector.getNumberChannels(); channel++) {
 			Double i0Initial = i0InitialDataSet.get(channel);
 			Double it = itDataSet.get(channel);
