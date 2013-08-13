@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2System">
-		<property name="daServer" ref="daserver" />
+		<property name="daServer" ref="DAServer" />
 		<property name="tfg" ref="tfg" />
 		<property name="xspressSystemName" value="xsp1" />
 
@@ -28,15 +28,40 @@
 
 	<!-- Time Frame Generator -->
 	<bean id="tfg" class="gda.device.timer.Etfg">
-		<property name="daServer" ref="daserver" />
+		<property name="daServer" ref="DAServer" />
 	</bean>
 
 	<!-- Scaler channels -->
 	<bean id="CalMemory" class="gda.device.memory.Scaler">
-		<property name="daServer" ref="daserver" />
-		<property name="width" value="4" />
+		<property name="daServer" ref="DAServer" />
+		<property name="width" value="8" />
 		<property name="height" value="1" />
 		<property name="openCommand" value="tfg open-cc" />
+	</bean>
+
+	<bean id="scalers" class="gda.device.detector.countertimer.TfgScalerWithFrames">
+		<property name="extraNames">
+			<list>
+				<value>channel3</value>
+				<value>channel4</value>
+				<value>channel5</value>
+				<value>channel6</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="4" />
+		<property name="firstDataChannel" value="3" />
+		<property name="outputFormat">
+			<list>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="counterTimer01" class="gda.device.detector.countertimer.TfgScalerWithFrames">
@@ -57,6 +82,7 @@
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
 		<property name="minimumReadoutDelay" value="0" />
+		<property name="numChannelsToRead" value="3" />
 		<property name="outputFormat">
 			<list>
 				<!-- <value>%6.2g</value> -->
@@ -164,12 +190,12 @@
 	
 	<!-- Time Frame Generator -->
 <!-- 	<bean id="tfg36" class="gda.device.timer.Etfg"> -->
-<!-- 		<property name="daServer" ref=""daserver"" /> -->
+<!-- 		<property name="daServer" ref=""DAServer"" /> -->
 <!-- 	</bean> -->
 
 	<!-- Scaler channels -->
 <!-- 	<bean id="CalMemory36" class="gda.device.memory.Scaler"> -->
-<!-- 		<property name="daServer" ref=""daserver"" /> -->
+<!-- 		<property name="daServer" ref=""DAServer"" /> -->
 <!-- 		<property name="width" value="4" /> -->
 <!-- 		<property name="height" value="1" /> -->
 <!-- 		<property name="openCommand" value="tfg open-cc" /> -->
@@ -208,7 +234,7 @@
 	
 	
 <!-- 	<bean id="xspress2system36" class="gda.device.detector.xspress.Xspress2System"> -->
-<!-- 		<property name="daServer" ref=""daserver"" /> -->
+<!-- 		<property name="daServer" ref=""DAServer"" /> -->
 <!-- 		<property name="tfg" ref="tfg36" /> -->
 <!-- 		<property name="xspressSystemName" value="xsp1" /> -->
 

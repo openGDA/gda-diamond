@@ -8,109 +8,109 @@
     <DetectorElement>
         <name>Element0</name>
         <number>0</number>
-        <windowStart>520</windowStart>
-        <windowEnd>555</windowEnd>
+        <windowStart>1035</windowStart>
+        <windowEnd>1093</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Cr_Ka</roiName>
-            <roiStart>520</roiStart>
-            <roiEnd>555</roiEnd>
+            <roiName>Pb_L3</roiName>
+            <roiStart>1035</roiStart>
+            <roiEnd>1093</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element1</name>
         <number>1</number>
-        <windowStart>520</windowStart>
-        <windowEnd>555</windowEnd>
+        <windowStart>1035</windowStart>
+        <windowEnd>1093</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Cr_Ka</roiName>
-            <roiStart>520</roiStart>
-            <roiEnd>555</roiEnd>
+            <roiName>Pb_L3</roiName>
+            <roiStart>1035</roiStart>
+            <roiEnd>1093</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element2</name>
         <number>2</number>
-        <windowStart>520</windowStart>
-        <windowEnd>555</windowEnd>
+        <windowStart>1035</windowStart>
+        <windowEnd>1093</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Cr_Ka</roiName>
-            <roiStart>520</roiStart>
-            <roiEnd>555</roiEnd>
+            <roiName>Pb_L3</roiName>
+            <roiStart>1035</roiStart>
+            <roiEnd>1093</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element3</name>
         <number>3</number>
-        <windowStart>520</windowStart>
-        <windowEnd>555</windowEnd>
+        <windowStart>1035</windowStart>
+        <windowEnd>1093</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Cr_Ka</roiName>
-            <roiStart>520</roiStart>
-            <roiEnd>555</roiEnd>
+            <roiName>Pb_L3</roiName>
+            <roiStart>1035</roiStart>
+            <roiEnd>1093</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element4</name>
         <number>4</number>
-        <windowStart>520</windowStart>
-        <windowEnd>555</windowEnd>
+        <windowStart>1035</windowStart>
+        <windowEnd>1093</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Cr_Ka</roiName>
-            <roiStart>520</roiStart>
-            <roiEnd>555</roiEnd>
+            <roiName>Pb_L3</roiName>
+            <roiStart>1035</roiStart>
+            <roiEnd>1093</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element5</name>
         <number>5</number>
-        <windowStart>520</windowStart>
-        <windowEnd>555</windowEnd>
+        <windowStart>1035</windowStart>
+        <windowEnd>1093</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Cr_Ka</roiName>
-            <roiStart>520</roiStart>
-            <roiEnd>555</roiEnd>
+            <roiName>Pb_L3</roiName>
+            <roiStart>1035</roiStart>
+            <roiEnd>1093</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element6</name>
         <number>6</number>
-        <windowStart>520</windowStart>
-        <windowEnd>555</windowEnd>
+        <windowStart>1035</windowStart>
+        <windowEnd>1093</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Cr_Ka</roiName>
-            <roiStart>520</roiStart>
-            <roiEnd>555</roiEnd>
+            <roiName>Pb_L3</roiName>
+            <roiStart>1035</roiStart>
+            <roiEnd>1093</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element7</name>
         <number>7</number>
-        <windowStart>520</windowStart>
-        <windowEnd>555</windowEnd>
-        <excluded>false</excluded>
+        <windowStart>1035</windowStart>
+        <windowEnd>1093</windowEnd>
+        <excluded>true</excluded>
         <Region>
-            <roiName>Cr_Ka</roiName>
-            <roiStart>520</roiStart>
-            <roiEnd>555</roiEnd>
+            <roiName>Pb_L3</roiName>
+            <roiStart>1035</roiStart>
+            <roiEnd>1093</roiEnd>
         </Region>
     </DetectorElement>
     <DetectorElement>
         <name>Element8</name>
         <number>8</number>
-        <windowStart>520</windowStart>
-        <windowEnd>555</windowEnd>
+        <windowStart>1035</windowStart>
+        <windowEnd>1093</windowEnd>
         <excluded>false</excluded>
         <Region>
-            <roiName>Cr_Ka</roiName>
-            <roiStart>520</roiStart>
-            <roiEnd>555</roiEnd>
+            <roiName>Pb_L3</roiName>
+            <roiStart>1035</roiStart>
+            <roiEnd>1093</roiEnd>
         </Region>
     </DetectorElement>
     <xspressOnlyShowFF>false</xspressOnlyShowFF>

@@ -8,28 +8,28 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean id="polybend1" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}polybend1" />
+	<bean id="poly_bend1" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}poly_bend1" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-	<bean id="polybend2" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}polybend2" />
+	<bean id="poly_bend2" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}poly_bend2" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-	<bean id="polycurve" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}polycurve" />
+	<bean id="poly_curve" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}poly_curve" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-	<bean id="polyyellip" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}polyyellip" />
+	<bean id="poly_yellip" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}poly_yellip" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-	<bean id="polytheta" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}polytheta" />
+	<bean id="poly_theta" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}poly_theta" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
@@ -65,8 +65,8 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 	
-	<bean id="me2pitch" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}me2pitch" />
+	<bean id="me2_pitch" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}me2_pitch" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
@@ -121,7 +121,7 @@
 								<property name="StageCompositeDefinitions">
 									<list>
 										<bean class="gda.rcp.views.StageCompositeDefinition">
-											<property name="scannable" ref="polybend1" />
+											<property name="scannable" ref="poly_bend1" />
 											<property name="label" value="Bend1" />
 											<property name="decimalPlaces" value="2" />
 											<property name="stepSize" value="1." />
@@ -133,7 +133,7 @@
 											<property name="resetToZero" value="false" />
 										</bean>
 										<bean class="gda.rcp.views.StageCompositeDefinition">
-											<property name="scannable" ref="polybend2" />
+											<property name="scannable" ref="poly_bend2" />
 											<property name="label" value="Bend2" />
 											<property name="decimalPlaces" value="2" />
 											<property name="stepSize" value="1." />
@@ -152,7 +152,7 @@
 								<property name="StageCompositeDefinitions">
 									<list>
 										<bean class="gda.rcp.views.StageCompositeDefinition">
-											<property name="scannable" ref="polycurve" />
+											<property name="scannable" ref="poly_curve" />
 											<property name="label" value="Curvature" />
 											<property name="decimalPlaces" value="2" />
 											<property name="stepSize" value="1." />
@@ -164,7 +164,7 @@
 											<property name="resetToZero" value="false" />
 										</bean>
 										<bean class="gda.rcp.views.StageCompositeDefinition">
-											<property name="scannable" ref="polyyellip" />
+											<property name="scannable" ref="poly_yellip" />
 											<property name="label" value="Ellipticity" />
 											<property name="decimalPlaces" value="2" />
 											<property name="stepSize" value="1." />

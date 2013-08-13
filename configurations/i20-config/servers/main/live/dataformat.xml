@@ -161,7 +161,7 @@
 					</property>
 				</bean>
 				<bean id="atn5_xas" class="gda.data.scan.datawriter.AsciiMetadataConfig">
-					<property name="label" value="Atn5 (Xia) filters: %s %s %s %s %s %s %s %s" />
+					<property name="label" value="Atn5 (Xia) filters: %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s" />
 					<property name="labelValues">
 						<list> 
 							<ref bean="atn5_filter1_name" />
@@ -172,6 +172,14 @@
 							<ref bean="atn5_filter3" />
 							<ref bean="atn5_filter4_name" />
 							<ref bean="atn5_filter4" />
+							<ref bean="atn5_filter5_name" />
+							<ref bean="atn5_filter5" />
+							<ref bean="atn5_filter6_name" />
+							<ref bean="atn5_filter6" />
+							<ref bean="atn5_filter7_name" />
+							<ref bean="atn5_filter7" />
+							<ref bean="atn5_filter8_name" />
+							<ref bean="atn5_filter8" />
 						</list>
 					</property>
 				</bean>

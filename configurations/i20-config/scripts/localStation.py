@@ -13,23 +13,18 @@ from devices.RealBlades import BladeAngle
 from devices.RealBlades import SubtractAngle
 from devices.RealBlades import AverageAngle
 
-from exafsscripts.vortex import vortexConfig
-from exafsscripts.vortex.vortexConfig import vortex
-
-from exafsscripts.xspress import xspressConfig
-from exafsscripts.xspress.xspressConfig import xspress
-
 from exafsscripts.exafs.i20DetectorPreparer import I20DetectorPreparer
 from exafsscripts.exafs.i20SamplePreparer import I20SamplePreparer
 from exafsscripts.exafs.i20OutputPreparer import I20OutputPreparer
 from exafsscripts.exafs.i20ScanScripts import I20XasScan
 from exafsscripts.exafs.i20ScanScripts import I20XesScan
 
+from time import sleep
+
 ScanBase.interrupted = False
 ScriptBase.interrupted = False
 
 loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
-
 
 sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity,i1_stanford_sensitivity]
 sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units,iref_stanford_sensitivity_units,i1_stanford_sensitivity_units]
@@ -40,15 +35,14 @@ detectorPreparer = I20DetectorPreparer(xspress2system, loggingcontroller,sensiti
 samplePreparer = I20SamplePreparer()
 outputPreparer = I20OutputPreparer()
 
-xas = I20XasScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
+xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, energy, counterTimer01, True, True, True)
+
 xes = I20XesScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
 xanes = xas
 
 alias("xas")
 alias("xanes")
 alias("xes")
-#alias("vortex")
-#alias("xspress")
 
 # To make scans return to the start after being run
 # Should be for commissioning only.
@@ -157,4 +151,8 @@ if LocalProperties.get("gda.mode") == "live":
     testVortexWiredCorrectly()
     
     
+else :
+    # simulation (dummy mode) specific settings
+    if material() == None:
+        material('Si')
 print "****GDA startup script complete.****\n\n"

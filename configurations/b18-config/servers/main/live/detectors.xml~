@@ -26,36 +26,22 @@
 		</property>
 	</bean>
 
-	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
-		<property name="epicsDeviceName" value="xmap_dxp" />
-		<property name="elementOffset" value="1" />
-		<property name="local" value="true" />
-		<property name="NUMBER_OF_ELEMENTS" value="4" />
-		<property name="hdf5" ref="hdf5" />
-	</bean>
+<!-- 	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController"> -->
+<!-- 		<property name="epicsDeviceName" value="xmap_dxp" /> -->
+<!-- 		<property name="elementOffset" value="1" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 		<property name="NUMBER_OF_ELEMENTS" value="4" /> -->
+<!-- 		<property name="hdf5" ref="hdf5" /> -->
+<!-- 	</bean> -->
 
-	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController3">
-		<property name="edxdControllerName" value="edxdcontroller" />
-		<property name="local" value="true" />
-	</bean>
-
-	<bean id="qexafs_xmap" class="gda.device.detector.xmap.XmapBufferedDetector">
-		<property name="xmap" ref="xmapMca" />
-		<property name="controller" ref="edxdcontroller" />
-		<property name="daServer" ref="DAServer" />
-		<property name="local" value="true" />
-		<property name="inputNames">
-			<list>
-			</list>
-		</property>
-		<property name="capturepv" value="BL18B-EA-DET-03:HDF:Capture" />
-		<property name="deadTimeEnabled" value = "false" />
-	</bean>
-
+<!-- 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController3"> -->
+<!-- 		<property name="edxdControllerName" value="edxdcontroller" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
 
 	<bean id="DAServer" class="gda.device.detector.DAServer">
 		<property name="local" value="True" />
-		<property name="host" value="b18-xspress1" />
+		<property name="host" value="b18-xspress0" />
 		<property name="port" value="1972" />
 		<property name="startupCommands">
 			<list>
@@ -66,6 +52,20 @@
 		<property name="dataPort" value="20030" />
 		<property name="replyTimeOut" value="5000" />
 	</bean>
+	
+<!-- 	<bean id="DAServer36" class="gda.device.detector.DAServer"> -->
+<!-- 		<property name="local" value="True" /> -->
+<!-- 		<property name="host" value="b18-xspress1" /> -->
+<!-- 		<property name="port" value="1972" /> -->
+<!-- 		<property name="startupCommands"> -->
+<!-- 			<list> -->
+<!-- 				<value>~config</value> -->
+<!-- 				<value>tfg setup-veto veto1-inv 1</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 		<property name="dataPort" value="20030" /> -->
+<!-- 		<property name="replyTimeOut" value="5000" /> -->
+<!-- 	</bean> -->
 
 	<bean id="struckScaler" class="gda.device.detector.EpicsScaler">
 		<property name="pvName" value="BL18B-EA-DET-01:SCALER" />
@@ -84,16 +84,6 @@
 		<property name="fifoEmpty_pv" value="BL18B-EA-GEADC-01:STATUSFIFOEMPTY_RBV" />
 		<property name="data_pv" value="BL18B-EA-GEADC-01:RAWDATA_1_RBV.VAL" />
 		
-	</bean>
-	
-	<bean id="QexafsFFI0" class="gda.device.detector.QexafsFFoverIO">
-		<property name="qexafsXspress" ref="qexafs_xspress" />
-		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-	</bean>
-	
-	<bean id="VortexQexafsFFI0" class="gda.device.detector.xmap.VortexQexafsFFIO">
-		<property name="qexafsXmap" ref="qexafs_xmap" />
-		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
 	</bean>
 
 	<bean id="mythen" class="gda.device.detector.mythen.MythenDetectorImpl">

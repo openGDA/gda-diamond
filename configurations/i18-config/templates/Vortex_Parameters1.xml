@@ -8,9 +8,14 @@
         <name>Element0</name>
         <number>1</number>
         <ROI>
-            <name>Cs_L3</name>
-            <windowStart>400</windowStart>
-            <windowEnd>440</windowEnd>
+            <name>Sb_L3</name>
+            <windowStart>344</windowStart>
+            <windowEnd>370</windowEnd>
+        </ROI>
+        <ROI>
+            <name>S_K</name>
+            <windowStart>220</windowStart>
+            <windowEnd>240</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -21,9 +26,14 @@
         <name>Element1</name>
         <number>1</number>
         <ROI>
-            <name>Cs_L3</name>
-            <windowStart>400</windowStart>
-            <windowEnd>440</windowEnd>
+            <name>Sb_L3</name>
+            <windowStart>344</windowStart>
+            <windowEnd>370</windowEnd>
+        </ROI>
+        <ROI>
+            <name>S_K</name>
+            <windowStart>220</windowStart>
+            <windowEnd>240</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -34,9 +44,14 @@
         <name>Element2</name>
         <number>1</number>
         <ROI>
-            <name>Cs_L3</name>
-            <windowStart>400</windowStart>
-            <windowEnd>440</windowEnd>
+            <name>Sb_L3</name>
+            <windowStart>344</windowStart>
+            <windowEnd>370</windowEnd>
+        </ROI>
+        <ROI>
+            <name>S_K</name>
+            <windowStart>220</windowStart>
+            <windowEnd>240</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -47,9 +62,14 @@
         <name>Element3</name>
         <number>1</number>
         <ROI>
-            <name>Cs_L3</name>
-            <windowStart>400</windowStart>
-            <windowEnd>440</windowEnd>
+            <name>Sb_L3</name>
+            <windowStart>344</windowStart>
+            <windowEnd>370</windowEnd>
+        </ROI>
+        <ROI>
+            <name>S_K</name>
+            <windowStart>220</windowStart>
+            <windowEnd>240</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

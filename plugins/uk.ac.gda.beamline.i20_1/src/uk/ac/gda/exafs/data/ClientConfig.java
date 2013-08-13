@@ -298,8 +298,8 @@ public class ClientConfig {
 	public enum ScannableSetup {
 
 		WIGGLER_GAP ("Wiggler gap", "wigglerGap", UnitSetup.MILLI_METER),
-		POLY_BENDER_1("Bender 1", "polybend1", UnitSetup.MILLI_METER),
-		POLY_BENDER_2("Bender 2", "polybend2",UnitSetup.MILLI_METER),
+		POLY_BENDER_1("Bender 1", "poly_bend1", UnitSetup.MILLI_METER),
+		POLY_BENDER_2("Bender 2", "poly_bend2",UnitSetup.MILLI_METER),
 
 		SAMPLE_Z_POSITION("Sample z", "sample_z", UnitSetup.MILLI_METER),
 
@@ -311,16 +311,16 @@ public class ClientConfig {
 
 		ME1_STRIPE("ME1 stripe", "me1_stripe", UnitSetup.SELECTION),
 		ME2_STRIPE("ME2 stripe", "me2_stripe", UnitSetup.SELECTION),
-		ME2_PITCH_ANGLE("ME2 pitch", "me2pitch", UnitSetup.MILLI_RADIAN),
+		ME2_PITCH_ANGLE("ME2 pitch", "me2_pitch", UnitSetup.MILLI_RADIAN),
 
-		POLY_BRAGG ("Bragg", "polytheta", UnitSetup.DEGREE),
+		POLY_BRAGG ("Bragg", "poly_theta", UnitSetup.DEGREE),
 		ARM_2_THETA_ANGLE ("Arm 2theta", "twotheta", UnitSetup.DEGREE),
 
 		DETECTOR_HEIGHT ("Detector height", "detector_y", UnitSetup.MILLI_METER),
 		DETECTOR_DISTANCE ("Detector distance", "detector_z", UnitSetup.MILLI_METER),
 
-		POLY_CURVATURE("Curvature", "polycurve", UnitSetup.MILLI_METER),
-		POLY_Y_ELLIPTICITY("Ellipticity","polyyellip", UnitSetup.MILLI_METER),
+		POLY_CURVATURE("Curvature", "poly_curve", UnitSetup.MILLI_METER),
+		POLY_Y_ELLIPTICITY("Ellipticity","poly_yellip", UnitSetup.MILLI_METER),
 
 		SLIT_3_HORIZONAL_GAP("Slit hgap", "s3_hgap", UnitSetup.MILLI_METER),
 		SLIT_3_HORIZONAL_OFFSET("Slit offset", "sample_x", UnitSetup.MILLI_METER);
