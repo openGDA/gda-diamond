@@ -146,6 +146,8 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 		sample_x = new ScaleBox(motorPositionsGroup, SWT.NONE);
 		sample_x.setUnit("mm");
 		sample_x.setDecimalPlaces(2);
+		sample_x.setMinimum(-15.3);
+		sample_x.setMaximum(14.1);
 		GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_x);
 
 		final Label lblSamrot = new Label(motorPositionsGroup, SWT.NONE);
@@ -153,6 +155,8 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 		sample_rotation = new ScaleBox(motorPositionsGroup, SWT.NONE);
 		sample_rotation.setUnit("°");
 		sample_rotation.setDecimalPlaces(2);
+		sample_rotation.setMinimum(-225);
+		sample_rotation.setMaximum(53);
 		GridDataFactory.fillDefaults().applyTo(sample_rotation);
 
 		final Label lblSamy = new Label(motorPositionsGroup, SWT.NONE);
@@ -160,6 +164,8 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 		sample_y = new ScaleBox(motorPositionsGroup, SWT.NONE);
 		sample_y.setUnit("mm");
 		sample_y.setDecimalPlaces(2);
+		sample_y.setMinimum(-0.1);
+		sample_y.setMaximum(90.1);
 		GridDataFactory.fillDefaults().applyTo(sample_y);
 
 		if (ScanObjectManager.isXESOnlyMode()) {
@@ -168,6 +174,8 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 			sample_finerotation = new ScaleBox(motorPositionsGroup, SWT.NONE);
 			sample_finerotation.setUnit("°");
 			sample_finerotation.setDecimalPlaces(2);
+			sample_finerotation.setMinimum(-127.4);
+			sample_finerotation.setMaximum(180);
 			GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_finerotation);
 		} else {
 			final Label lblSamroll = new Label(motorPositionsGroup, SWT.NONE);
@@ -175,6 +183,8 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 			sample_roll = new ScaleBox(motorPositionsGroup, SWT.NONE);
 			sample_roll.setUnit("°");
 			sample_roll.setDecimalPlaces(2);
+			sample_roll.setMinimum(-12.2);
+			sample_roll.setMaximum(12.2);
 			GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_roll);
 		}
 		
@@ -183,6 +193,8 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 		sample_z = new ScaleBox(motorPositionsGroup, SWT.NONE);
 		sample_z.setUnit("mm");
 		sample_z.setDecimalPlaces(2);
+		sample_z.setMinimum(-15.3);
+		sample_z.setMaximum(14.1);
 		GridDataFactory.fillDefaults().applyTo(sample_z);
 
 		if (ScanObjectManager.isXESOnlyMode()) {
@@ -195,6 +207,8 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 			sample_pitch = new ScaleBox(motorPositionsGroup, SWT.NONE);
 			sample_pitch.setUnit("°");
 			sample_pitch.setDecimalPlaces(2);
+			sample_pitch.setMinimum(-10.64);
+			sample_pitch.setMaximum(10.66);
 			GridDataFactory.fillDefaults().applyTo(sample_pitch);
 		}
 

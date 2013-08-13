@@ -19,6 +19,8 @@ from exafsscripts.exafs.i20OutputPreparer import I20OutputPreparer
 from exafsscripts.exafs.i20ScanScripts import I20XasScan
 from exafsscripts.exafs.i20ScanScripts import I20XesScan
 
+from time import sleep
+
 ScanBase.interrupted = False
 ScriptBase.interrupted = False
 
@@ -149,4 +151,8 @@ if LocalProperties.get("gda.mode") == "live":
     testVortexWiredCorrectly()
     
     
+else :
+    # simulation (dummy mode) specific settings
+    if material() == None:
+        material('Si')
 print "****GDA startup script complete.****\n\n"

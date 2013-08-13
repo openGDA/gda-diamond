@@ -1,3 +1,0 @@
-#!/bin/bash
-module load eclipse
-eclipse -data /dls_sw/i20/software/gda_versions/gda_release_8_30_1/workspace
