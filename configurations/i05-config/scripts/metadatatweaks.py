@@ -9,9 +9,15 @@ def setTitle(title):
 def getTitle():
     return GDAMetadataProvider.getInstance().getMetadataValue("title")
 
+def setSubdirectory(title):
+    GDAMetadataProvider.getInstance().setMetadataValue("subdirectory", title)
+
+def getSubdirectory():
+    return GDAMetadataProvider.getInstance().getMetadataValue("subdirectory")
+
 def setVisit(visit):
     user=GDAMetadataProvider.getInstance().getMetadataValue("federalid")
-    if user != "i22user":
+    if user != "i05user":
         oldvisit = GDAMetadataProvider.getInstance().getMetadataValue("visit")
         try:
             ElogEntry.post("visit manually changed from %s to %s by %s" % (oldvisit, visit, user), "", "gda", None, "BLI22", "BLI22-USR", None)
