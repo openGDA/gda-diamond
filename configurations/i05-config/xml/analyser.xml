@@ -118,12 +118,12 @@
 				<value>1000</value>
 			</list>
 		</property>
-		<property name="entranceSlitInformationProvider">
-			<bean class="uk.ac.gda.beamline.i05.analyser.I05EntranceSlit">
-				<property name="labelPV" value="BL05I-EA-SLITS-01:POS" />
-				<property name="direction" value="vertical" />
-			</bean>
-		</property>
+		<property name="entranceSlitInformationProvider" ref="scientaslit" />
+	</bean>
+	
+	<bean id="scientaslit" class="uk.ac.gda.beamline.i05.analyser.I05EntranceSlit">
+		<property name="labelPV" value="BL05I-EA-SLITS-01:POS" />
+		<property name="direction" value="vertical" />
 	</bean>
 	
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
