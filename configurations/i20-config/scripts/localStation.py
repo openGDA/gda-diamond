@@ -16,28 +16,31 @@ from devices.RealBlades import AverageAngle
 from exafsscripts.exafs.i20DetectorPreparer import I20DetectorPreparer
 from exafsscripts.exafs.i20SamplePreparer import I20SamplePreparer
 from exafsscripts.exafs.i20OutputPreparer import I20OutputPreparer
-from exafsscripts.exafs.i20ScanScripts import I20XasScan
-from exafsscripts.exafs.i20ScanScripts import I20XesScan
+from exafsscripts.exafs.xas_scan import XasScan
+from exafsscripts.exafs.xes_scan import I20XesScan
 
 from time import sleep
 
 ScanBase.interrupted = False
 ScriptBase.interrupted = False
 
-loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
+XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
+commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
+ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
+datawriterconfig = Finder.getInstance().find("datawriterconfig")
+datawriterconfig_xes = Finder.getInstance().find("datawriterconfig_xes")
 
 sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity,i1_stanford_sensitivity]
 sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units,iref_stanford_sensitivity_units,i1_stanford_sensitivity_units]
 offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset,i1_stanford_offset]
 offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_offset_units,i1_stanford_offset_units]
 
-detectorPreparer = I20DetectorPreparer(xspress2system, loggingcontroller,sensitivities, sensitivity_units ,offsets, offset_units)
+detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker)
 samplePreparer = I20SamplePreparer()
-outputPreparer = I20OutputPreparer()
+outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
 
-xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, energy, counterTimer01, True, True, True)
-
-xes = I20XesScan(loggingcontroller,detectorPreparer, samplePreparer, outputPreparer,None)
+xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, bragg1, ionchambers, True, True, True)
+xes = I20XesScan(XASLoggingScriptController,detectorPreparer, samplePreparer, outputPreparer,commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot)
 xanes = xas
 
 alias("xas")
