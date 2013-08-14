@@ -20,6 +20,7 @@ from exafsscripts.exafs.xas_scan import XasScan
 from exafsscripts.exafs.xes_scan import I20XesScan
 
 from time import sleep
+from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
 
 ScanBase.interrupted = False
 ScriptBase.interrupted = False
@@ -35,7 +36,10 @@ sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units
 offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset,i1_stanford_offset]
 offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_offset_units,i1_stanford_offset_units]
 
-detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker)
+xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
+vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
+
+detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
 samplePreparer = I20SamplePreparer()
 outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
 
