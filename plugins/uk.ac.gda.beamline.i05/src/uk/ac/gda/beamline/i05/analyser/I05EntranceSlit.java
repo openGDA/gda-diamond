@@ -66,18 +66,10 @@ public class I05EntranceSlit implements EntranceSlitInformationProvider, Configu
 
 			// loop over the pv's in the record
 			for (int i = 0; i < 12; i++) {
-				try {
-					Channel thisStringChannel = epicsController.createChannel(labelPV + "." + channelNames[i]);
-					String positionName = epicsController.cagetString(thisStringChannel);
-					epicsController.destroy(thisStringChannel);
-
-//					// if the string is not "" then save it to the array
-//					if (positionName.compareTo("") != 0) {
-					positions.add(positionName);
-//					}
-				} catch (Throwable th) {
-					logger.error("failed to get position name for " + labelPV);
-				}
+				Channel thisStringChannel = epicsController.createChannel(labelPV + "." + channelNames[i]);
+				String positionName = epicsController.cagetString(thisStringChannel);
+				epicsController.destroy(thisStringChannel);
+				positions.add(positionName);
 			}
 			
 			epicsController.setMonitor(epicsController.createChannel(labelPV), this);
