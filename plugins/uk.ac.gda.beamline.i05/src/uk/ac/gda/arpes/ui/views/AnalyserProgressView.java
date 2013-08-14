@@ -27,26 +27,22 @@ import gda.observable.IObserver;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.FontMetrics;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.arpes.widgets.ProgressBarWithText;
 import uk.ac.gda.devices.vgscienta.FlexibleFrameDetector;
 import uk.ac.gda.devices.vgscienta.FrameUpdate;
 import uk.ac.gda.devices.vgscienta.SweptProgress;
@@ -58,8 +54,7 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 	private FlexibleFrameDetector analyser;
 	private Spinner sweepSpinner;
 	private int oldMax = -1, compSweep = -1;
-	private ProgressBar progressBar;
-	private String progressBarText = "IDLE";
+	private ProgressBarWithText progressBar;
 
 	private Color idleColor = new Color(Display.getCurrent(), 150, 150, 150);
 	private Color preColor = new Color(Display.getCurrent(), 250, 0, 0);
@@ -79,22 +74,11 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 		gl_parent.marginBottom = 5;
 		parent.setLayout(gl_parent);
 		
-		progressBar = new ProgressBar(parent, SWT.FILL);
+		progressBar = new ProgressBarWithText(parent, SWT.FILL);
 		progressBar.setSelection(1000);
 		progressBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 4, 1));
-		progressBar.addPaintListener(new PaintListener() {
+		progressBar.setText("IDLE");
 
-			@Override
-			public void paintControl(PaintEvent e) {
-				Point point = progressBar.getSize();
-				FontMetrics fontMetrics = e.gc.getFontMetrics();
-				int width = fontMetrics.getAverageCharWidth() * progressBarText.length();
-				int height = fontMetrics.getHeight();
-				e.gc.setForeground(getViewSite().getShell().getDisplay().getSystemColor(SWT.COLOR_WIDGET_FOREGROUND));
-				e.gc.drawString(progressBarText, (point.x - width) / 2, (point.y - height) / 2, true);
-			}
-		});
-		
 		Label lblCurrentSweep = new Label(parent, SWT.NONE);
 		lblCurrentSweep.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblCurrentSweep.setText("Sweeps");
@@ -171,7 +155,7 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 
 	@Override
 	public void update(Object source, Object arg) {
-		if (progressBar.isDisposed()) {
+		if (csweep.isDisposed()) {
 			try {
 				((Device) source).deleteIObserver(this);
 			} catch (Exception e) {}
@@ -198,11 +182,11 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 				@Override
 				public void run() {
 					if (running) {
-						progressBarText = "RUNNING";
+						progressBar.setText("RUNNING");
 						progressBar.setSelection(progressBar.getMinimum());
 						progressBar.setForeground(preColor);
 					} else { 
-						progressBarText = "IDLE";
+						progressBar.setText("IDLE");
 						progressBar.setSelection(progressBar.getMaximum());
 						progressBar.setMinimum(0);
 						progressBar.setBackground(idleColor);
@@ -217,7 +201,7 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					progressBarText = getProgressBarText(sp.current, sp.max);
+					progressBar.setText(getProgressBarText(sp.current, sp.max));
 					if (sp.current < progressBar.getMinimum())
 						progressBar.setMinimum(sp.current);
 					progressBar.setMaximum(sp.max);
@@ -226,7 +210,7 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 						progressBar.setBackground(postColor);
 					else
 						progressBar.setBackground(idleColor);
-				}		
+				}
 			});
 			return;
 		}
