@@ -136,4 +136,11 @@ public class SlitScanner extends ObservableModel implements IObserver {
 			setState(status.scanStatus);
 		}
 	}
+
+	public void save() throws DetectorUnavailableException {
+		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
+			throw new DetectorUnavailableException();
+		}
+		InterfaceProvider.getCommandRunner().runCommand("alignment_stage.saveDeviceFromCurrentMotorPositions(\"slits\")");
+	}
 }
