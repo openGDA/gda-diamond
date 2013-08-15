@@ -3,6 +3,8 @@ import sys
 from gdascripts.messages import handle_messages
 from gdascripts.parameters import beamline_parameters
 from gda.jython import InterfaceProvider
+from pv_scannable_utils import createPVScannable, caput, caget
+
 class TomoDet():
     def __getController(self, name):
         finder = Finder.getInstance()
@@ -98,10 +100,14 @@ class TomoDet():
         if self.model != "GC1020C":
             self.pco1_ffmpeg2.getPluginBase().disableCallbacks()
 
-        self.pco1_autoContinuousTrigger.collectData()
         if self.pco1_cam_base.model_RBV == "PCO.Camera Dimax":
-            self.pco1_cam_base.startAcquiring() 
-        return True
+#            self.pco1_cam_base.startAcquiring() 
+#epg 7/8/13 hack to get live stream working - the above line arms the detector which seems to stop it working 
+#in continuous mode
+            caput("BL13I-EA-DET-01:CAM:Acquire",1 )
+        else:
+            self.pco1_autoContinuousTrigger.collectData()
+	    return True
     
     def stop(self):
         self.pco1_cam_base.stopAcquiring() 

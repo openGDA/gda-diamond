@@ -161,6 +161,7 @@
 	<import resource="../../devices/camera_stage.xml" />
 	<import resource="../../devices/pco1.xml" />
 	<import resource="../../devices/zebra.xml" />
+	<import resource="../../devices/sample_stage_hexapod.xml"/>	
 
 
 

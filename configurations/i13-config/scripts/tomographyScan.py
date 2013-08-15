@@ -433,7 +433,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 perform a simple tomogrpahy scan
 """
 def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=True, tomography_detector=None):
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=True, tomography_detector=None, additionalScannables=[]):
     """
     Function to collect a tomogram
  	Arguments:
@@ -589,6 +589,9 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
             beamok=gdascripts.scannable.beamokay.WaitWhileScannableBelowThresholdMonitorOnly("beamok", ionc_i, min_i)
             scan_args.append(beamok)
             
+        for scannable in additionalScannables:
+            scan_args.append(scannable)
+            
         scanObject=createConcurrentScan(scan_args)
         if addNXEntry:
             addNXTomoSubentry(scanObject, tomography_detector.name, tomography_theta.name)
@@ -624,6 +627,8 @@ def ProcessScanParameters(scanParameterModelXML):
     scanXMLProcessor = ScanXMLProcessor();
     resource = scanXMLProcessor.load(FileInputStream(scanParameterModelXML), None);
     parameters = resource.getContents().get(0);
+    jns=beamline_parameters.JythonNameSpaceMapping()
+    additionalScannables=jns.tomography_additional_scannables
     setTitle(parameters.getTitle())
     updateProgress(0, "Starting tomoscan" + parameters.getTitle());
     print "Flyscan:" + `parameters.flyScan`
@@ -634,11 +639,11 @@ def ProcessScanParameters(scanParameterModelXML):
 #        updateProgress(10, "Starting collection of tomograms")
         tomoFlyScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
                  darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
-                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI)    
+                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI, additionalScannables=additionalScannables)
     else:
         tomoScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
                  darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
-                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI)    
+                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI, additionalScannables=additionalScannables)
     updateProgress(100,"Done");
     
 
