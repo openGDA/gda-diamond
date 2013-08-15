@@ -191,15 +191,18 @@ try:
 	
 	import tomographyScan
 	#for fast flyscans
-	zebra_det.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="t:\\i13\\data"	
+	if isLive():
+		zebra_det.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="t:\\i13\\data"	
 
 	from gda.device.detector.areadetector.v17 import ADDriverPco
-	zebra_det.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_PULSE	
+	if isLive():
+		zebra_det.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_PULSE	
 #	run("i13diffcalc")
 
 	#pcoEdge needs timestamp 0
-	pco1_hw_tif.collectionStrategy.timeStamp=0
-	pco1_hw_hdf.collectionStrategy.timeStamp=0
+	if isLive():
+		pco1_hw_tif.collectionStrategy.timeStamp=0
+		pco1_hw_hdf.collectionStrategy.timeStamp=0
 
 	import raster_scan
 	LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/raw")

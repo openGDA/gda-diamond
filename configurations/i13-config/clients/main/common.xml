@@ -18,6 +18,13 @@
 
 	<import resource="commandQueueProcessor.xml" />
 
+	<bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}ScanDataPointServer" />
+		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+
 	<bean id="RCPController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}rcpController" />
 		<property name="serviceInterface" value="gda.gui.RCPController" />
@@ -43,6 +50,7 @@
 
 	<bean id="i13ADController"
 		class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13ADControllerImpl">
+		<property name="serviceName" value="i13ADController"/>
 		<property name="imageNDStats" ref="pco1_stat" />
 		<property name="liveViewNDProc" ref="pco1_proc1" />
 		<property name="imageNDArray" ref="pco1_arr" />

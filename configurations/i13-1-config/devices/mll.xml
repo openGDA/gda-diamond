@@ -120,7 +120,7 @@
 		<property name="local" value="false"/>
 	</bean>
 	
-	<bean id="mll_xmap" class="gda.device.detector.xmap.XmapDetectorFromEpicsMca">
+<!-- 	<bean id="mll_xmap" class="gda.device.detector.xmap.XmapDetectorFromEpicsMca">
 		<property name="configFileName"
 			value="${gda.var}/templates/Vortex_Parameters.xml" />
 		<property name="analysers">
@@ -128,14 +128,14 @@
 				<ref bean="mll_mca" />
 			</list>
 		</property>
-		<!--  for gui to acquire data set local = false -->
+		 for gui to acquire data set local = false
 		<property name="local" value="false"/>
 		<property name="useLiveTime" value="true"/>
 		<property name="readConfigFromDeviceAtScanStart" value="true"/>
 		<property name="prefixExtraNameWithDetElement" value="false"/>
 		<property name="useConfigFileAtConfigure" value="false"/>
 	</bean>	
-
+ -->
 	<bean id="mll_dxp_presetMode" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsInputName" value="true" />
 		<property name="hasUnits" value="false" />

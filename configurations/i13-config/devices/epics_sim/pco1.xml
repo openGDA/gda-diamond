@@ -23,14 +23,14 @@
 				<entry key="pco1_proc2" value-ref="pco1_proc2" />
 				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file"/>
 				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif"/>
+				<entry key="pco1_stat" value-ref="pco1_stat"/>
 				<entry key="pco1_singleExposure" value-ref="pco1_singleExposure"/>
 				<entry key="pco1_autoContinuousTrigger" value-ref="pco1_autoContinuousTrigger"/>
 			</util:map>
 		</property>
 	</bean>
-
-
-
+	
+	
 
 	<bean id="pco1_autoContinuousTrigger" class="gda.device.detector.addetector.triggering.SoftwareContinuous">
 		<constructor-arg ref="pco1_cam_base" />
@@ -109,6 +109,11 @@
 		<property name="setChunking" value="false"/>
 		<property name="blocking" value="false"/>
 	</bean>
-
+	
+	<bean id="zebra_singleExposurePco" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg value="-.1" />
+	</bean>
+	
 
 </beans>	

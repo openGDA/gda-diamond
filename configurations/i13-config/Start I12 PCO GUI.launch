@@ -7,5 +7,5 @@
 </mapAttribute>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="/scratch/work/ioc/BL12I/BL12I-EA-IOC-07/bin/linux-x86/stBL12I-EA-IOC-07-gui"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="6064"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="/dls_sw/work/R3.14.11/ioc/BL12I/BL12I-EA-IOC-07_sim"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="/scratch/work/ioc/BL12I/BL12I-EA-IOC-07"/>
 </launchConfiguration>

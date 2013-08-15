@@ -51,6 +51,7 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 		return setExposureTimeCmd;
 	}
 
+	@Override
 	public void setSetExposureTimeCmd(String setExposureTimeCmd) {
 		this.setExposureTimeCmd = setExposureTimeCmd;
 	}
@@ -69,6 +70,7 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		super.afterPropertiesSet();
 		if (setExposureTimeCmd == null)
 			throw new IllegalArgumentException("setExposureTimeCmd == null");		
 		

@@ -56,7 +56,7 @@ class TomoDet():
         if self.model == "PCO.Camera Dimax":
             self.pco1_autoContinuousTrigger.triggerMode=2 #EXTERNAL_AND_SOFTWARE otherwise it runs too fast
         else:
-            if self.model == "GC1020C":
+            if self.model == "GC1020C" or self.model =="Basic simulator":
                 pass # gige camera from test lab
             else:
                 self.pco1_autoContinuousTrigger.triggerMode=0 #AUTO - ok for PCO4000
