@@ -63,4 +63,12 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
 
 6. To perform a raster_scan
 	>help raster_scan.scan
+	
+7.  To save data to a unarchived folder 
+    > LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/tmp")
+    NB Set it back to the default afterwards:
+    > LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/raw")
+    
+8.  How to close down the telnet for P2R
+    > p2r_rot.motor.smc.simc.bidiAsciiCommunicator.closeConnection()
 """

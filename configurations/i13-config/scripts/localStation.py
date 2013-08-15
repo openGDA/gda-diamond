@@ -190,6 +190,7 @@ try:
 		pco1_hw_hdf.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
 	
 	import tomographyScan
+	tomography_additional_scannables=[] # [p2r_force, p2r_y]
 	#for fast flyscans
 	zebra_det.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="t:\\i13\\data"	
 
@@ -210,7 +211,7 @@ try:
 	bl = beamlineEnergy.beamLineEnergy()
 	bl.setName("bl")
 
-except :
+except:
 	exceptionType, exception, traceback = sys.exc_info()
 	handle_messages.log(None, "Error in localStation", exceptionType, exception, traceback, False)
 
