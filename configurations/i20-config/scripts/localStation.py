@@ -86,10 +86,9 @@ else:
 # XES offsets section
 #
 from xes import calcExpectedPositions, offsetsStore, setOffsets
-try:
-    offsetsStore.reapply()
-except:
-    pass
+# do nothing more so that offsets start at zero everytime
+
+
 from gda.device.scannable import TwoDScanPlotter
 twodplotter = TwoDScanPlotter()
 twodplotter.setName("twodplotter")

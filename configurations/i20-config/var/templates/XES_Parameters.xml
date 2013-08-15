@@ -15,5 +15,6 @@
     <additionalCrystal0>false</additionalCrystal0>
     <additionalCrystal1>true</additionalCrystal1>
     <additionalCrystal2>true</additionalCrystal2>
-    <additionalCrystal3>false</additionalCrystal3>    
+    <additionalCrystal3>false</additionalCrystal3> 
+    <offsetsStoreName></offsetsStoreName>   
 </XesScanParameters>
