@@ -323,7 +323,10 @@ public class ClientConfig {
 		POLY_Y_ELLIPTICITY("Ellipticity","poly_yellip", UnitSetup.MILLI_METER),
 
 		SLIT_3_HORIZONAL_GAP("Slit hgap", "s3_hgap", UnitSetup.MILLI_METER),
-		SLIT_3_HORIZONAL_OFFSET("Slit offset", "sample_x", UnitSetup.MILLI_METER);
+		SLIT_3_HORIZONAL_OFFSET("Slit offset", "sample_x", UnitSetup.MILLI_METER),
+
+		ALIGNMENT_STAGE_X_POSITION("Alignment stage X", "alignment_x", UnitSetup.MILLI_METER),
+		ALIGNMENT_STAGE_Y_POSITION("Alignment stage Y", "alignment_y", UnitSetup.MILLI_METER);
 
 		public static final double MAX_POWER_IN_WATT = 150.0;
 

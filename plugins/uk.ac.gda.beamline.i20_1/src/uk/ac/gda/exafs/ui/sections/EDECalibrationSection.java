@@ -129,9 +129,11 @@ public class EDECalibrationSection {
 		loadRefDataButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-
+				// TODO
 			}
 		});
+		// TODO
+		loadRefDataButton.setEnabled(false);
 
 		final Label lblEdeDataFile = toolkit.createLabel(dataComposite, "EDE data file", SWT.NONE);
 		lblEdeDataFile.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -163,9 +165,11 @@ public class EDECalibrationSection {
 		loadEdeDataButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-
+				// TODO
 			}
 		});
+		// TODO
+		loadEdeDataButton.setEnabled(false);
 
 
 		final Label lblPolyOrder = toolkit.createLabel(dataComposite, "Polynomial order", SWT.NONE);

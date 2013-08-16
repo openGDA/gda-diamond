@@ -157,34 +157,6 @@ public class SlitScanSection {
 						}
 					});
 
-			Button saveButton = new Button(scanButtons, SWT.FLAT);
-			saveButton.setText("Save position");
-			saveButton.setToolTipText("Save current slits position as center");
-			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-			gridData.horizontalSpan = 2;
-			saveButton.setLayoutData(gridData);
-			dataBindingCtx.bindValue(
-					WidgetProperties.enabled().observe(stopButton),
-					BeanProperties.value(SlitScanner.STATE_PROP_NAME).observe(SlitScanner.getInstance()),
-					null,
-					new UpdateValueStrategy() {
-						@Override
-						public Object convert(Object value) {
-							return ((int) value == Jython.IDLE);
-						}
-					});
-
-			saveButton.addListener(SWT.Selection, new Listener() {
-				@Override
-				public void handleEvent(Event event) {
-					try {
-						SlitScanner.getInstance().save();
-					} catch (DetectorUnavailableException e) {
-						UIHelper.showError("Unable to save", e.getMessage());
-					}
-				}
-			});
-
 			Composite defaultSectionSeparator = toolkit.createCompositeSeparator(slitsParametersSection);
 			toolkit.paintBordersFor(defaultSectionSeparator);
 			slitsParametersSection.setSeparatorControl(defaultSectionSeparator);

@@ -66,13 +66,6 @@
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.exafs.ui.views.DetectorSetupView"
-            icon="icons/cog.png"
-            id="uk.ac.gda.exafs.ui.views.detectorsetupview"
-            name="Detector data collection"
-            restorable="true">
-      </view>
-      <view
             class="uk.ac.gda.exafs.ui.views.AlignmentStageView"
             icon="icons/brick.png"
             id="uk.ac.gda.exafs.ui.views.alignmentstageview"
@@ -94,8 +87,7 @@
       </view>
       <view
             allowMultiple="false"
-            category="uk.ac.diamond.scisoft.analysis.rcp"
-            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            class="uk.ac.gda.exafs.ui.views.DetectorLiveMode"
             icon="icons/chart_curve.png"
             id="uk.ac.diamond.scisoft.analysis.rcp.liveModePlot"
             name="Live Mode"
@@ -116,6 +108,12 @@
             icon="icons/chart_curve.png"
             id="uk.ac.gda.exafs.ui.views.calibrationEdeData"
             name="EDE Data Spectrum"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.exafs.ui.views.AlignmentStageClaibrationView"
+            id="uk.ac.gda.exafs.ui.views.alignmentstagecalibration"
+            name="Alignment Stage"
             restorable="true">
       </view>
    </extension>

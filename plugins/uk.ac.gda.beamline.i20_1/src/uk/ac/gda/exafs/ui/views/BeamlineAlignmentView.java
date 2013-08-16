@@ -101,7 +101,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 	private static final int LABEL_WIDTH = 125;
 	private static final int SUGGESTION_LABEL_WIDTH = 100;
-	private static final int COMMAND_WAIT_TIME_IN_MILLI_SEC = 250;
+	private static final int COMMAND_WAIT_TIME_IN_MILLI_SEC = 100;
 
 	private static final String SUGGESTION_UNAVAILABLE_TEXT = "-";
 
@@ -445,14 +445,17 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 					OUTPUT_BEAN_NAME + "=None;from alignment import alignment_parameters; " + OUTPUT_BEAN_NAME
 					+ " = alignment_parameters.calc_parameters(" + INPUT_BEAN_NAME + ")");
 			// give the command a chance to run.
-			Thread.sleep(COMMAND_WAIT_TIME_IN_MILLI_SEC);
-			Object result = InterfaceProvider.getJythonNamespace()
-					.getFromJythonNamespace(OUTPUT_BEAN_NAME);
-			if (result != null && (result instanceof AlignmentParametersBean)) {
-				showSuggestionValues((AlignmentParametersBean) result);
-			} else {
-				UIHelper.showError("Error", "Unable to calculate suggested values");
+			boolean waitForResult = true;
+			Object result = null;
+			while (waitForResult) {
+				Thread.sleep(COMMAND_WAIT_TIME_IN_MILLI_SEC);
+				result = InterfaceProvider.getJythonNamespace()
+						.getFromJythonNamespace(OUTPUT_BEAN_NAME);
+				if (result != null && (result instanceof AlignmentParametersBean)) {
+					waitForResult = false;
+				}
 			}
+			showSuggestionValues((AlignmentParametersBean) result);
 		} catch (Exception e1) {
 			logger.error("Exception when trying to run the script which performs the alignment calculations.",e1);
 		}
