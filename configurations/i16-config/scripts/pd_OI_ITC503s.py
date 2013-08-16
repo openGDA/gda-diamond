@@ -24,7 +24,7 @@ class OI503s(PseudoDevice):
 
 	def asynchronousMoveTo(self,new_position):
 		self.targetT.caput(new_position)
-		#sleep(1)
+		sleep(1)
 
 	def isBusy(self):
 		sleep(.5) 
@@ -33,6 +33,7 @@ class OI503s(PseudoDevice):
 
 
 lab84=False
+
 #del gasflow,tset,tsam,tvti,pnv,tsetdisplay,tseterror
 if lab84==True:
 	gasflow=sep('gasflow',pvinstring='LA84R-EA-TEMPC-01:GFLOW:SET', pvoutstring='LA84R-EA-TEMPC-01:GFLOW', unitstring='mbar', formatstring='%6f',help=None,sleeptime=0)
@@ -45,7 +46,7 @@ if lab84==True:
 #beamline
 else:
 	gasflow=sep('gasflow',pvinstring='BL16I-EA-TEMPC-01:GFLOW:SET', pvoutstring='BL16I-EA-TEMPC-01:GFLOW', unitstring='mbar', formatstring='%6f',help=None,sleeptime=0)
-	#tsam=DisplayEpicsPVClass('tsam','BL16I-EA-TEMPC-01:STEMP','K','%6f')
+	tsam=DisplayEpicsPVClass('tsam','BL16I-EA-TEMPC-01:STEMP','K','%6f')
 	tvti=DisplayEpicsPVClass('tvti','BL16I-EA-TEMPC-01:STEMP2','K','%6f')
 	pnv=DisplayEpicsPVClass('needlevalvepressure','BL16I-EA-TEMPC-01:STEMP3','mBar','%6f')
 	tsetdisplay=DisplayEpicsPVClass('tsetdisplay','BL16I-EA-TEMPC-01:TTEMP','K','%6f')

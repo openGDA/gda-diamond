@@ -45,6 +45,7 @@ from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGauss
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeakWithCalibration import TwodGaussianPeakWithCalibration
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
 from gdascripts.analysis.datasetprocessor.oned.scan_stitching import Lcen, Rcen
+from gdascripts.analysis.datasetprocessor.oned.GaussianEdge import GaussianEdge
 import gdascripts.scan.concurrentScanWrapper
 from gdascripts.utils import jobs
 from gdascripts.scan import gdascans
@@ -122,7 +123,7 @@ print "Replacing ScannableMotors kphi, kap. kth, kmu, kdelta and kgam with wrapp
 if USE_CRYO_GEOMETRY:
 	sixc = sixckappa_cryo #@UndefinedVariable
 else:
-	sixc = sixckappa #@UndefinedVariable
+	sixc = sixckappa #@UndefinedVariable  NOTE: sixc is overwritten by diffcalc later
 if USE_CRYO_GEOMETRY:	
 	exec("cryophi=sixc.cryophi")
 else:
@@ -272,6 +273,7 @@ scan_processor.rootNamespaceDict=globals()
 scan_processor.duplicate_names = {'maxval':'maxpos', 'minval':'minpos'}
 scan_processor.processors.append(Lcen())
 scan_processor.processors.append(Rcen())
+scan_processor.processors.append(GaussianEdge(name='spedge')) # edge already maps to a function edgeDetectRobust
 
 
 
@@ -314,6 +316,26 @@ else:
 	exec("gam=euler.gam")
 
 hkl.setLevel(6)
+
+###############################################################################
+###							       kbm tripod                               ###
+###############################################################################
+
+from scannable.tripod import TripodToolBase
+
+_kbm_common_geom = {'l':[134.2, 134.2, 134.2],
+		't':[219.129, 219.129, 84.963],
+		'psi':[-pi / 3, pi / 3, 0],
+		'theta':[pi / 4, pi / 4, -pi / 4],
+		'BX':[0.0, 0.0, 357.313],
+		'BY':[249.324, 0.0, 249.324 / 2] }
+
+import copy
+
+
+kbm1 = TripodToolBase("kbm1", kbmbase, c=[152, 42.5, 63], **copy.deepcopy(_kbm_common_geom))				
+
+kbm2 = TripodToolBase("kbm2", kbmbase, c=[42, 42.5, 63], **copy.deepcopy(_kbm_common_geom))
 
 
 ###############################################################################
@@ -688,6 +710,33 @@ cor.display_image = True
 corpeak2d = DetectorDataProcessorWithRoi('corpeak2d', cor, [TwodGaussianPeak()])
 cormax2d = DetectorDataProcessorWithRoi('cormax2d', cor, [SumMaxPositionAndValue()])
 
+#create a version of cor, corpeak2d, cormax2d that performs auto exposure
+#To record actual exposure time also add corExpTime
+from autoRangeDetector import AutoRangeDetector
+corAuto = AutoRangeDetector('corAuto',
+							cam2,
+							None,
+							cam2_for_snaps,
+							[],
+							panel_name='Firecam',
+							panel_name_rcp='Plot 1', 
+							fileLoadTimout=60,
+							printNfsTimes=False,
+							returnPathAsImageNumberOnly=True)
+
+corAuto.display_image = True
+corAutopeak2d = DetectorDataProcessorWithRoi('corAutopeak2d', corAuto, [TwodGaussianPeak()])
+corAutomax2d = DetectorDataProcessorWithRoi('corAutomax2d', corAuto, [SumMaxPositionAndValue()])
+
+#create pseudo-device 
+#there is a copy of this in epics git epics_script folder.
+from pv_scannable_utils import createPVScannable
+createPVScannable( "corExpTime", "BL16I-DI-COR-01:CAM:AcquireTime_RBV", hasUnits=False)
+corExpTime.level=10
+
+#scan kphi -90 270 1. corAuto corAutopeak2d corExpTime
+
+
 ### cam1 ###
 bpm = SwitchableHardwareTriggerableProcessingDetectorWrapper('bpm',
 							_cam1,
@@ -925,7 +974,10 @@ def open_valves():
 #ci=242.0; cj=104.0	#/03/13
 #ci=237.0; cj=121.0	#17/03/13
 #ci=236.0; cj=106.0	#16/04/13
-ci=240.0; cj=106.0	#26/04/13
+#ci=240.0; cj=106.0	#26/04/13
+#ci=240.0; cj=105.0	#18/06/13
+#ci=237.0; cj=105.0	#24/06/13 gb (crash mt8772)
+ci=234.0; cj=106.0	#24/06/13 gb (pilatus returned after repair)
 
 maxi=486; maxj=194
 
@@ -991,8 +1043,7 @@ roi5.setRoi(0,0,486,14)
 
 #very small centred
 roi6 = HardwareTriggerableDetectorDataProcessor('roi6', pil, [SumMaxPositionAndValue()])
-iw=7; jw=7;
-roi6.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
+iw=7; jw=7; roi6.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
 
 #roi6.setRoi(258-3,99+3,258+3,99-3)
 
@@ -1021,8 +1072,7 @@ roi6.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
 # This depends on lcroi
 run('FlipperClass')
 
-from scannable.tripod import TripodToolBase
-kbmtool = TripodToolBase("kbmtool", kbmbase)
+
 
 
 ###############################################################################
