@@ -11,6 +11,7 @@
    </configIni>
 
    <launcherArgs>
+
       <vmArgs>-Declipse.pluginCustomization=/dls_sw/i16/software/gda/config/pluginCustomization.ini
 -Djacorb.config.dir=/dls_sw/i16/software/gda/config/jacorb/live
 -Dgda.install.workspace.loc=/dls_sw/i16/software/gda/workspace
@@ -24,6 +25,7 @@
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.gda.client/gda.open_xyplot_on_scan_start_id=uk.ac.gda.client.liveplotview
 -Duk.ac.diamond.scisoft.analysis.rcp/plotView.plottingsystem=1
+
 -Xms256m
 -Xmx2024m
 -XX:MaxPermSize=256m
