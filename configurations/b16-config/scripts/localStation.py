@@ -57,7 +57,6 @@ import pd_waitWhileScannableBelowThreshold
 import sys
 from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
 
-
 ScriptBase.interrupted = False #@UndefinedVariable
 
 print "======================================================================"
@@ -356,7 +355,7 @@ else:
 #NOTE: The following is now in b16/scripts/localStationUser
 import pd_setPvAndWait
 if installation.isLive():
-	dcmpiezo=pd_setPvAndWait.SetPvAndWait("dcmpiezo","BL16B-OP-DCM-01:FB:DAC:02", 0.5)
+	dcmpiezo=pd_setPvAndWait.SetPvAndWait("dcmpiezo","BL16B-OP-DCM-01:FB:DAC:02", 0.2)
 	dcmpiezo.setOutputFormat(['%.4f'])
 
 
@@ -632,7 +631,7 @@ def configureScanPipeline(length = None, simultaneousPoints = None):
 		LocalProperties.set(simultaneousProp, `simultaneousPoints`) #@UndefinedVariable
 		show()
 
-from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
+
 peak2d = DetectorDataProcessorWithRoi('peak2d', ipp, [TwodGaussianPeak()])
 max2d = DetectorDataProcessorWithRoi('max2d', ipp, [SumMaxPositionAndValue()])
 intensity2d = DetectorDataProcessorWithRoi('intensity2d', ipp, [PixelIntensity()])
