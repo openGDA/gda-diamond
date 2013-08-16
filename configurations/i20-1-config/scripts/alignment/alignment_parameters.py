@@ -26,6 +26,8 @@ def calc_parameters(parametersBean):
     
     parametersBean = _calcEnergyBandwidth(parametersBean)
     
+    parametersBean = _calcReadbackEnergyBandwidth(parametersBean)
+
     parametersBean = _calcPower(parametersBean)
 
     return parametersBean
@@ -196,25 +198,37 @@ def _calDetDistance(parametersBean):
     return parametersBean
     
 def _calcEnergyBandwidth(parametersBean):
-    
-    real_det_z = _getRealDetDistanceInM()
+
     calc_det_z = parametersBean.getDetectorDistance()
-    energy = _calcEnergy(parametersBean)
-    s_mm = _getDetectorSizeInMM(parametersBean)
-    omega = parametersBean.getBraggAngle()
-    cot_omega = 1.0 / math.tan(math.radians(omega))
-    p_m = 45.1
-    q_m = parametersBean.getQ()
-    alpha_mrad = parametersBean.getPrimarySlitGap()
-    
-    deltaE = 0.0
-    if real_det_z > calc_det_z:
-        deltaE = energy * cot_omega * (s_mm/real_det_z) * (((p_m-q_m)/(2*p_m)) / 1000.)
-    else :
-        deltaE = energy * cot_omega * alpha_mrad * (((p_m-q_m)/(2*q_m)) / 1000.)
+    deltaE = _calcBandwidth(parametersBean,calc_det_z)
     parametersBean.setEnergyBandwidth(deltaE)
     
     return parametersBean
+
+def _calcReadbackEnergyBandwidth(parametersBean):
+    
+    real_det_z = _getRealDetDistanceInM()
+    deltaE = _calcBandwidth(parametersBean,real_det_z)
+    parametersBean.setReadBackEnergyBandwidth(deltaE)
+    
+    return parametersBean
+
+def _calcBandwidth(parametersBean,det_z_m):
+
+    energy = _calcEnergy(parametersBean)
+    s_mm = _getDetectorSizeInMM(parametersBean)
+    omega = float(parametersBean.getBraggAngle())
+    cot_omega = float(1.0 / math.tan(math.radians(omega)))
+    p_m = 45.1
+    q_m = parametersBean.getQ()
+    
+    deltaE = 0.0
+    try:
+        deltaE = energy * cot_omega * (s_mm/det_z_m) * (((p_m-q_m)/(2*p_m)) / 1000.)
+    except:
+        deltaE = 0.0
+    
+    return deltaE
 
 def _calcPower(parametersBean):
     
