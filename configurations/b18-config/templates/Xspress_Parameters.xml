@@ -10,7 +10,7 @@
         <number>0</number>
         <windowStart>735</windowStart>
         <windowEnd>763</windowEnd>
-        <excluded>true</excluded>
+        <excluded>false</excluded>
         <Region>
             <roiName>peak</roiName>
             <roiStart>0</roiStart>
@@ -34,7 +34,7 @@
         <number>2</number>
         <windowStart>735</windowStart>
         <windowEnd>763</windowEnd>
-        <excluded>false</excluded>
+        <excluded>true</excluded>
         <Region>
             <roiName>peak</roiName>
             <roiStart>0</roiStart>
@@ -58,7 +58,7 @@
         <number>4</number>
         <windowStart>735</windowStart>
         <windowEnd>763</windowEnd>
-        <excluded>false</excluded>
+        <excluded>true</excluded>
         <Region>
             <roiName>peak</roiName>
             <roiStart>0</roiStart>
@@ -82,7 +82,7 @@
         <number>6</number>
         <windowStart>735</windowStart>
         <windowEnd>763</windowEnd>
-        <excluded>false</excluded>
+        <excluded>true</excluded>
         <Region>
             <roiName>peak</roiName>
             <roiStart>0</roiStart>
