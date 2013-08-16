@@ -10,8 +10,6 @@
 
 	<import resource="file:${gda.config}/servers/i20-1-common.xml" />
 	<import resource="file:${gda.config}/servers/main/machine.xml" />
-	<import resource="file:${gda.config}/servers/main/dataformat-common.xml" />
-<!-- 	<import resource="file:${gda.config}/servers/main/lookupTables.xml" /> -->
 	<import resource="file:${gda.config}/servers/main/scannables-common.xml" />
 
 	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
