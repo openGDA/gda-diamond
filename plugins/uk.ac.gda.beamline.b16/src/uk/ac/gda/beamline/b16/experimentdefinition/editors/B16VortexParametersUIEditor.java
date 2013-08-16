@@ -206,7 +206,7 @@ public class B16VortexParametersUIEditor extends VortexParametersUIEditor {
 			@Override
 			public void run() {
 				getDetectorElementComposite().setEndMaximum(detectorData[0][0].length-1);
-				plot(getDetectorList().getSelectedIndex());
+				plot(getDetectorList().getSelectedIndex(), true);
 				setEnabled(true);
 			}
 		});

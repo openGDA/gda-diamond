@@ -9,7 +9,7 @@
 				<value>uk.ac.gda.beans.exafs.DetectorParameters</value>
 				<value>uk.ac.gda.beans.vortex.VortexParameters</value>
 				<value>uk.ac.gda.beans.microfocus.MicroFocusScanParameters</value>
-				<value>uk.ac.gda.beans.bimorph.BimorphParameters</value>
+				<value>uk.ac.gda.bimorph.BimorphParameters</value>
 			</list>
 		</property>
 	</bean>

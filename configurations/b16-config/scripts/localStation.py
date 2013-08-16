@@ -781,11 +781,10 @@ if installation.isLive():
 
 run('setup_bimorph')
 
-from gdascripts.bimorph.bimorph import runOptimisation
-from uk.ac.gda.beans.bimorph import BimorphParameters
-from gdascripts.bimorph import bimorph
+from bimorph import runOptimisation
+import bimorph
 from uk.ac.gda.beans import BeansFactory
-from gdascripts.bimorph.bimorph_mirror_optimising import SlitScanner
+from bimorph_mirror_optimising import SlitScanner
 from gdascripts.scannable.detector.dummy.focused_beam_dataset import CreateImageReadingDummyDetector
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessor
@@ -795,13 +794,13 @@ from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProc
 #b16beansfactory.setClassList(["uk.ac.gda.beans.exafs.DetectorParameters", "uk.ac.gda.beans.vortex.VortexParameters", "uk.ac.gda.beans.microfocus.MicroFocusScanParameters"])
 
 slitscanner = SlitScanner()
-from gdascripts.bimorph.bimorph_mirror_optimising import ScanAborter
+from bimorph_mirror_optimising import ScanAborter
 scanAborter = ScanAborter("scanAborter",rc, 100) #@UndefinedVariable
 slitscanner.setScanAborter(scanAborter)
 
 bm=eembimorph # temporary workaround of bug in gui @UndefinedVariable
 
-from gdascripts.bimorph.dummy_pd_bimorph import Bimorph
+from dummy_pd_bimorph import Bimorph
 
 dummy_bimorph = Bimorph("dummy_bimorph", 0, 8)
 
