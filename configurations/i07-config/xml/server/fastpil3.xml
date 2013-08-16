@@ -6,65 +6,65 @@
 
 	<!-- AD hardware -->
 
-	<bean id="pilatus1_driver"
+	<bean id="pilatus3_driver"
 		class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
-		<property name="basePVName" value="BL07I-EA-PILAT-01:cam1:" />
+		<property name="deviceName" value="pilatus3_pilatus" />
 	</bean>
 
-	<bean id="pilatus1_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL07I-EA-PILAT-01:cam1:" />
+	<bean id="pilatus3_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="deviceName" value="pilatus3_ADBase" />
 	</bean>
 
 
-	<bean id="pilatus1_camserver_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="BL07I-EA-PILAT-01:cam1:" />
+	<bean id="pilatus3_camserver_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="deviceName" value="pilatus3_NDFile" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 
 
 	<!-- NXDetector collection strategies -->
 
-	<bean id="pilatus1_nxcollectionstrategy"
+	<bean id="pilatus3_nxcollectionstrategy"
 		class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
-		<constructor-arg ref="pilatus1_adbase" />
+		<constructor-arg ref="pilatus3_adbase" />
 		<constructor-arg value=".02" />
 	</bean>
 
 	<!-- NXDetector file writers -->
 
-	<bean id="pilatus1_nxfilewriter_for_scans"
+	<bean id="pilatus3_nxfilewriter_for_scans"
 		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
-		<constructor-arg value="fastpil1" />
-		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
+		<constructor-arg value="fastpil3" />
+		<property name="ndFile" ref="pilatus3_camserver_ndfile" />
 	</bean>
 
 	<!-- NXDetectors -->
-	 <bean id="fastpil1_plot_server_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
-	 	<constructor-arg value="fastpil1" />
+	 <bean id="fastpil3_plot_server_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+	 	<constructor-arg value="fastpil3" />
 		<constructor-arg value="6" />
 	 </bean>
 
-	 <bean id="fastpil1_freerun_controller" class="gda.device.detector.nxdetector.plugin.areadetector.ADPilatusFreerunControllerPlugin">
-	 	<constructor-arg ref="pilatus1_adbase" />
+	 <bean id="fastpil3_freerun_controller" class="gda.device.detector.nxdetector.plugin.areadetector.ADPilatusFreerunControllerPlugin">
+	 	<constructor-arg ref="pilatus3_adbase" />
 	 </bean>
 
-	<bean id="fastpil1" class="gda.device.detector.NXDetector">
-		<property name="name" value="fastpil1" />
-		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy" />
+	<bean id="fastpil3" class="gda.device.detector.NXDetector">
+		<property name="name" value="fastpil3" />
+		<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="pilatus1_nxfilewriter_for_scans" />
+				<ref bean="pilatus3_nxfilewriter_for_scans" />
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 					<property name="pluginName" value="roistats1" />
-					<property name="baseRoiPVName" value="BL07I-EA-PILAT-01:ROI1:" />
-					<property name="baseStatsPVName" value="BL07I-EA-PILAT-01:STAT1:" />
-					<property name="roiInputNdArrayPort" value="pilatus1.CAM" />
+					<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI1:" />
+					<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT1:" />
+					<property name="roiInputNdArrayPort" value="pilatus3.CAM" />
 					<property name="enabledBasicStats" value="MaxValue,Total" />
 					<property name="roiProvider">
 						<bean
 							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-							<constructor-arg ref="fastpil1_plot_server_roi_provider" />
+							<constructor-arg ref="fastpil3_plot_server_roi_provider" />
 							<constructor-arg value="0" />
 						</bean>
 					</property>
@@ -72,14 +72,14 @@
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 					<property name="pluginName" value="roistats2" />
-					<property name="baseRoiPVName" value="BL07I-EA-PILAT-01:ROI2:" />
-					<property name="baseStatsPVName" value="BL07I-EA-PILAT-01:STAT2:" />
-					<property name="roiInputNdArrayPort" value="pilatus1.CAM" />
+					<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI2:" />
+					<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT2:" />
+					<property name="roiInputNdArrayPort" value="pilatus3.CAM" />
 					<property name="enabledBasicStats" value="MaxValue,Total" />
 					<property name="roiProvider">
 						<bean
 							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-							<constructor-arg ref="fastpil1_plot_server_roi_provider" />
+							<constructor-arg ref="fastpil3_plot_server_roi_provider" />
 							<constructor-arg value="1" />
 						</bean>
 					</property>
@@ -87,14 +87,14 @@
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 					<property name="pluginName" value="roistats3" />
-					<property name="baseRoiPVName" value="BL07I-EA-PILAT-01:ROI3:" />
-					<property name="baseStatsPVName" value="BL07I-EA-PILAT-01:STAT3:" />
-					<property name="roiInputNdArrayPort" value="pilatus1.CAM" />
+					<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI3:" />
+					<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT3:" />
+					<property name="roiInputNdArrayPort" value="pilatus3.CAM" />
 					<property name="enabledBasicStats" value="MaxValue,Total" />
 					<property name="roiProvider">
 						<bean
 							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-							<constructor-arg ref="fastpil1_plot_server_roi_provider" />
+							<constructor-arg ref="fastpil3_plot_server_roi_provider" />
 							<constructor-arg value="2" />
 						</bean>
 					</property>
@@ -102,14 +102,14 @@
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 					<property name="pluginName" value="roistats4" />
-					<property name="baseRoiPVName" value="BL07I-EA-PILAT-01:ROI4:" />
-					<property name="baseStatsPVName" value="BL07I-EA-PILAT-01:STAT4:" />
-					<property name="roiInputNdArrayPort" value="pilatus1.CAM" />
+					<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI4:" />
+					<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT4:" />
+					<property name="roiInputNdArrayPort" value="pilatus3.CAM" />
 					<property name="enabledBasicStats" value="MaxValue,Total" />
 					<property name="roiProvider">
 						<bean
 							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-							<constructor-arg ref="fastpil1_plot_server_roi_provider" />
+							<constructor-arg ref="fastpil3_plot_server_roi_provider" />
 							<constructor-arg value="3" />
 						</bean>
 					</property>
@@ -117,14 +117,14 @@
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 					<property name="pluginName" value="roistats5" />
-					<property name="baseRoiPVName" value="BL07I-EA-PILAT-01:ROI5:" />
-					<property name="baseStatsPVName" value="BL07I-EA-PILAT-01:STAT5:" />
-					<property name="roiInputNdArrayPort" value="pilatus1.CAM" />
+					<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI5:" />
+					<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT5:" />
+					<property name="roiInputNdArrayPort" value="pilatus3.CAM" />
 					<property name="enabledBasicStats" value="MaxValue,Total" />
 					<property name="roiProvider">
 						<bean
 							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-							<constructor-arg ref="fastpil1_plot_server_roi_provider" />
+							<constructor-arg ref="fastpil3_plot_server_roi_provider" />
 							<constructor-arg value="4" />
 						</bean>
 					</property>
@@ -132,19 +132,19 @@
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 					<property name="pluginName" value="roistats6" />
-					<property name="baseRoiPVName" value="BL07I-EA-PILAT-01:ROI6:" />
-					<property name="baseStatsPVName" value="BL07I-EA-PILAT-01:STAT6:" />
-					<property name="roiInputNdArrayPort" value="pilatus1.CAM" />
+					<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI6:" />
+					<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT6:" />
+					<property name="roiInputNdArrayPort" value="pilatus3.CAM" />
 					<property name="enabledBasicStats" value="MaxValue,Total" />
 					<property name="roiProvider">
 						<bean
 							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-							<constructor-arg ref="fastpil1_plot_server_roi_provider" />
+							<constructor-arg ref="fastpil3_plot_server_roi_provider" />
 							<constructor-arg value="5" />
 						</bean>
 					</property>
 				</bean>
-				<ref bean="fastpil1_freerun_controller" />
+				<ref bean="fastpil3_freerun_controller" />
 			</list>
 		</property>
 	</bean>
