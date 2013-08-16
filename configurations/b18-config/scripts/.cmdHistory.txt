@@ -1,46 +1,3 @@
-qexafs_energy()
-qexafs_energy(9999)
-qexafs_energy()
-qexafs_energy(15000)
-qexafs_energy(15001)
-qexafs_energy(9999)
-qexafs_energy(15001)
-qexafs_energy(9999)
-reset_namespace
-t
-reset_namespace
-qexafs_energy()
-reset_namespace
-qexafs_energy(11001)
-qexafs_energy()
-qexafs_energy(11001)
-qexafs_energy()
-qexafs_energy(11001)
-qexafs_energy(11008)
-qexafs_energy()
-qexafs_energy(11999)
-qexafs_energy(0)
-qexafs_energy(2000)
-qexafs_energy()
-qexafs_energy(3000)
-qexafs_energy()
-qexafs_energy(3000)
-qexafs
-qexafs_energy(11001)
-qexafs_energy.__class__
-qexafs
-qexafs_energy.__class__
-qexafs
-qexafs_energy
-qexafs_energy(12000)
-qexafs_energy
-qexafs_energy.getSpeed()
-xspress2system.__class__
-reset_namespace
-datetime.datetime.now()
-import datetime
-datetime.datetime.now()
-timeString = '{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
 str
 str.format()
 timeString = '{:%Y-%m-%d %H:%M:%S}' % (datetime.datetime.now())
@@ -101,4 +58,43 @@ reset_namespace
 pos
 reset_namespace
 scan test 0 10 1 counterTimer01 1
+reset_namespace
+qexafs_counterTimer01
+qexafs_counterTimer01.getExtraNames()
+qexafs_counterTimer01.readout()
+qexafs_counterTimer01.collectData()
+qexafs_counterTimer01.readout()
+qexafs_counterTimer01.getExtraNames()
+qexafs_counterTimer01.collectData()
+qexafs_counterTimer01.readout()
+qexafs_counterTimer01.getNumChannelsToRead()
+qexafs_counterTimer01.setNumChannelsToRead(4)
+qexafs_counterTimer01.getNumChannelsToRead()
+reset_namespace
+from exafsscripts.exafs.config_fluoresence_detectors import ConfigFluoresenceDetectors
+cfd = ConfigFluoresenceDetectors(xspress2system, xmapMca, ExafsScriptObserver)
+reset_namespace
+from exafsscripts.exafs.config_fluoresence_detectors import ConfigFluoresenceDetectors
+cfd = ConfigFluoresenceDetectors(xspress2system, xmapMca, ExafsScriptObserver)
+reset_namespace
+xspress2system.setCollectionTime(1)
+xspress2system.collectData()
+xspress2system.readout()
+xspress2system.getOutputFormat()
+xspress2system.getExtraNames()
+xspress2system.getInputNames()
+reset_namespace
+xspress2system.getInputNames()
+xspress2system.getExtraNames()
+xspress2system.getOutputFormat()
+reset_namespace
+scan test 0 10 1 xspress2system 1
+scan test 0 10 1 counterTimer01 1
+scan test 0 10 1 counterTimer02_nocorr 1
+counterTimer02_nocorr.getInputNames()
+counterTimer02_nocorr.getExtraNames()
+counterTimer02_nocorr.getOutputFormat()
+counterTimer02_nocorr.getExtraNames()
+counterTimer02_nocorr.getOutputFormat()
+counterTimer02_nocorr.getExtraNames()
 reset_namespace
