@@ -258,6 +258,15 @@ try:
 except:
     print "cannot create thermocouple scannables"
 try:
+    eh2therm1 = DisplayEpicsPVClass('eh2therm1', 'BL12I-OP-THERM-02:TEMP:T1', 'degree', '%.3f')
+    eh2therm2 = DisplayEpicsPVClass('eh2therm2', 'BL12I-OP-THERM-02:TEMP:T2', 'degree', '%.3f')
+    eh2therm3 = DisplayEpicsPVClass('eh2therm3', 'BL12I-OP-THERM-02:TEMP:T3', 'degree', '%.3f')
+    eh2therm4 = DisplayEpicsPVClass('eh2therm4', 'BL12I-OP-THERM-02:TEMP:T4', 'degree', '%.3f')
+    eh2therm5 = DisplayEpicsPVClass('eh2therm5', 'BL12I-OP-THERM-02:TEMP:T5', 'degree', '%.3f')
+    eh2therm6 = DisplayEpicsPVClass('eh2therm6', 'BL12I-OP-THERM-02:TEMP:T6', 'degree', '%.3f')
+except:
+    print "cannot create thermocouple scannables"
+try:
     dac01_0 = EpicsReadWritePVClass('dac01_0', 'BL12I-EA-DAC-01:00', 'volt', '%.3f')
     dac01_1 = EpicsReadWritePVClass('dac01_1', 'BL12I-EA-DAC-01:01', 'volt', '%.3f')
     dac01_2 = EpicsReadWritePVClass('dac01_2', 'BL12I-EA-DAC-01:02', 'volt', '%.3f')
@@ -266,6 +275,17 @@ try:
     dac01_5 = EpicsReadWritePVClass('dac01_5', 'BL12I-EA-DAC-01:05', 'volt', '%.3f')
     dac01_6 = EpicsReadWritePVClass('dac01_6', 'BL12I-EA-DAC-01:06', 'volt', '%.3f')
     dac01_7 = EpicsReadWritePVClass('dac01_7', 'BL12I-EA-DAC-01:07', 'volt', '%.3f')
+except:
+    print "cannot create DAC scannables"
+try:
+    dac03_0 = EpicsReadWritePVClass('dac03_0', 'BL12I-EA-DAC-03:00', 'volt', '%.3f')
+    dac03_1 = EpicsReadWritePVClass('dac03_1', 'BL12I-EA-DAC-03:01', 'volt', '%.3f')
+    dac03_2 = EpicsReadWritePVClass('dac03_2', 'BL12I-EA-DAC-03:02', 'volt', '%.3f')
+    dac03_3 = EpicsReadWritePVClass('dac03_3', 'BL12I-EA-DAC-03:03', 'volt', '%.3f')
+    dac03_4 = EpicsReadWritePVClass('dac03_4', 'BL12I-EA-DAC-03:04', 'volt', '%.3f')
+    dac03_5 = EpicsReadWritePVClass('dac03_5', 'BL12I-EA-DAC-03:05', 'volt', '%.3f')
+    dac03_6 = EpicsReadWritePVClass('dac03_6', 'BL12I-EA-DAC-03:06', 'volt', '%.3f')
+    dac03_7 = EpicsReadWritePVClass('dac03_7', 'BL12I-EA-DAC-03:07', 'volt', '%.3f')
 except:
     print "cannot create DAC scannables"
 print "--------------------------------------------------"
@@ -304,8 +324,17 @@ pco.setHdfFormat(False) #@UndefinedVariable
 pco.setExternalTriggered(True) #@UndefinedVariable
 
 print "create 'eurotherm1' and 'eurotherm2'" 
-eurotherm1 = DisplayEpicsPVClass('eurotherm1', 'BL12I-EA-FURN-01:PV:RBV', 'c', '%.3f')
-eurotherm2 = DisplayEpicsPVClass('eurotherm2', 'BL12I-EA-FURN-02:PV:RBV', 'c', '%.3f')
+eurotherm1temp = DisplayEpicsPVClass('eurotherm1', 'BL12I-EA-FURN-01:PV:RBV', 'c', '%.3f')
+eurotherm2temp = DisplayEpicsPVClass('eurotherm2', 'BL12I-EA-FURN-02:PV:RBV', 'c', '%.3f')
+
+
+print "create linkam"
+linkamRampStatus = DisplayEpicsPVClass('linkamRampStatus','BL12I-CS-TEMPC-01:STATUS','bool','%i')
+linkamRampControl = EpicsReadWritePVClass('linkamRampControl', 'BL12I-CS-TEMPC-01:RAMP:CTRL:SET', '', '%.3g')
+linkamRampRate = EpicsReadWritePVClass('linkamRampRate', 'BL12I-CS-TEMPC-01:RAMP:RATE:SET', 'deg/min', '%.3g')
+linkamRampLimit = EpicsReadWritePVClass('linkamRampLimit', 'BL12I-CS-TEMPC-01:RAMP:LIMIT:SET', 'deg', '%.3g')
+linkamTemp = DisplayEpicsPVClass('linkamTemp','BL12I-CS-TEMPC-01:TEMP','degrees','%.3g')
+
 
 from tomographyScan import tomoScan, reportJythonNamespaceMapping #@UnusedImport
 alias("reportJythonNamespaceMapping")
