@@ -55,6 +55,7 @@ import pd_toggleBinaryPvAndWait
 import pd_toggleBinaryPvAndWaitFancy
 import pd_waitWhileScannableBelowThreshold
 import sys
+from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
 
 
 ScriptBase.interrupted = False #@UndefinedVariable
@@ -483,7 +484,7 @@ if installation.isLive() and ENABLE_PILATUS:
 		pil.display_image = True
 		pilpeak2d = DetectorDataProcessorWithRoi('pilpeak2d', pil, [TwodGaussianPeak()])
 		pilmax2d = DetectorDataProcessorWithRoi('pilmax2d', pil, [SumMaxPositionAndValue()])
-		
+		pilintensity2d = DetectorDataProcessorWithRoi('pilintensity2d', pil, [PixelIntensity()])
 		pilroi1 = DetectorDataProcessorWithRoi('pilroi1', pil, [SumMaxPositionAndValue()])
 		pilroi2 = DetectorDataProcessorWithRoi('pilroi2', pil, [SumMaxPositionAndValue()])
 		pilroi3 = DetectorDataProcessorWithRoi('pilroi3', pil, [SumMaxPositionAndValue()])
@@ -538,6 +539,7 @@ if installation.isLive():
 		medipix.display_image = True
 		medipixpeak2d = DetectorDataProcessorWithRoi('medipixpeak2d', medipix, [TwodGaussianPeak()])
 		medipixmax2d = DetectorDataProcessorWithRoi('medipixmax2d', medipix, [SumMaxPositionAndValue()])
+		medipixintensity2d = DetectorDataProcessorWithRoi('medipixintensity2d', medipix, [PixelIntensity()])
 		# TODO: MBB End
 
 	except gda.factory.FactoryException:
@@ -677,9 +679,9 @@ if installation.isLive() and ENABLE_PCOEDGE:
 	visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(pcoedgedet, subfolder='pcoedge', create_folder=True, toreplace='/dls/b16/', replacement='N:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(pcoedge, report_path = False))
 	pcoedge.disable_operation_outside_scans = True
-	pcoedge_peak2d = DetectorDataProcessorWithRoi('pcoedge_peak2d', pcoedge, [TwodGaussianPeak()],prefix_name_to_extranames=False)
-	pcoedge_max2d = DetectorDataProcessorWithRoi('pcoedge_max2d', pcoedge, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
-	pcoedge_intensity2d = DetectorDataProcessorWithRoi('pcoedge_intensity2d', pcoedge, [PixelIntensity()],prefix_name_to_extranames=False)
+	pcoedgepeak2d = DetectorDataProcessorWithRoi('pcoedgepeak2d', pcoedge, [TwodGaussianPeak()],prefix_name_to_extranames=False)
+	pcoedgemax2d = DetectorDataProcessorWithRoi('pcoedgemax2d', pcoedge, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	pcoedgeintensity2d = DetectorDataProcessorWithRoi('pcoedgeintensity2d', pcoedge, [PixelIntensity()],prefix_name_to_extranames=False)
 ###############################################################################
 ###                                   TEMPORARY                              ###
 ###############################################################################
