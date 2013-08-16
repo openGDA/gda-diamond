@@ -123,7 +123,7 @@ print "Replacing ScannableMotors kphi, kap. kth, kmu, kdelta and kgam with wrapp
 if USE_CRYO_GEOMETRY:
 	sixc = sixckappa_cryo #@UndefinedVariable
 else:
-	sixc = sixckappa #@UndefinedVariable
+	sixc = sixckappa #@UndefinedVariable  NOTE: sixc is overwritten by diffcalc later
 if USE_CRYO_GEOMETRY:	
 	exec("cryophi=sixc.cryophi")
 else:
@@ -974,7 +974,10 @@ def open_valves():
 #ci=242.0; cj=104.0	#/03/13
 #ci=237.0; cj=121.0	#17/03/13
 #ci=236.0; cj=106.0	#16/04/13
-ci=240.0; cj=106.0	#26/04/13
+#ci=240.0; cj=106.0	#26/04/13
+#ci=240.0; cj=105.0	#18/06/13
+#ci=237.0; cj=105.0	#24/06/13 gb (crash mt8772)
+ci=234.0; cj=106.0	#24/06/13 gb (pilatus returned after repair)
 
 maxi=486; maxj=194
 
@@ -1040,8 +1043,7 @@ roi5.setRoi(0,0,486,14)
 
 #very small centred
 roi6 = HardwareTriggerableDetectorDataProcessor('roi6', pil, [SumMaxPositionAndValue()])
-iw=7; jw=7;
-roi6.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
+iw=7; jw=7; roi6.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
 
 #roi6.setRoi(258-3,99+3,258+3,99-3)
 
@@ -1069,6 +1071,7 @@ roi6.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
 
 # This depends on lcroi
 run('FlipperClass')
+
 
 
 
