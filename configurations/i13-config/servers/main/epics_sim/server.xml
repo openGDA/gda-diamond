@@ -67,6 +67,7 @@
 <!-- 	<import resource="../../../devices/dummy/s5_motors.xml"/>
  -->
 	<import resource="../../../devices/dummy/sample_stage_motors.xml" />
+	<import resource="../../../devices/dummy/sample_stage_hexapod_motors.xml" />
 	<import resource="../../../devices/dummy/table_motors.xml" />
 	<import resource="../../../devices/dummy/camera_stage_motors.xml" />
 
@@ -78,6 +79,7 @@
 	
 	
 	<import resource="../../../devices/dummy/tfg2.xml"/>
+	<import resource="../../../devices/live/p2r.xml" />
 	
 	<import resource="../common.xml"/>	
 	
