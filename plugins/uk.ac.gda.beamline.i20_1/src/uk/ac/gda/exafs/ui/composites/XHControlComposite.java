@@ -160,6 +160,7 @@ public class XHControlComposite extends Composite implements IObserver {
 			values[i] = XHDetector.getStrips()[i];
 		}
 		strips = new DoubleDataset(values);
+		plottingSystem.getSelectedXAxis().setRange(values[0], values[values.length - 1]);
 	}
 
 	private void createUI() {

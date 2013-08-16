@@ -57,6 +57,13 @@ public class MotorPositionEditorControl extends NumberEditorControl {
 		this.setCommitOnOutOfFocus(false);
 	}
 
+
+	@Override
+	protected void setupControls() {
+		horizonalSpinner = true;
+		super.setupControls();
+	}
+
 	public void setPosition(double value) throws DeviceException {
 		((ScannableWrapper) object).setPosition(value);
 	}

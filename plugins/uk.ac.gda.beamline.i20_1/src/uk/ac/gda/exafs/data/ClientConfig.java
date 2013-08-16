@@ -205,18 +205,21 @@ public class ClientConfig {
 	}
 
 	public static class ElementReference extends ObservableModel {
-		public static final String SELECTED_ELEMENT_PROP_NAME = "selectedElement";
-		public static final String FILE_NAME_PROP_NAME = "fileName";
+		public static final String DEFAULT_DATA_PATH = "/dls/i20-1/data";
 
+		public static final String SELECTED_ELEMENT_PROP_NAME = "selectedElement";
 		private Element selectedElement;
 
+		public static final String FILE_NAME_PROP_NAME = "fileName";
 		protected String fileName;
+
+		public static final String MANUAL_CALIBRATION_PROP_NAME = "manualCalibration";
+		private boolean manualCalibration;
+
 		protected DataHolder dataHolder;
 		protected AbstractDataset dataNode;
 		protected AbstractDataset energyNode;
 
-		public static final String MANUAL_CALIBRATION_PROP_NAME = "manualCalibration";
-		private boolean manualCalibration;
 		protected List<Double> refReferencePoints = new ArrayList<Double>();
 
 		public boolean isManualCalibration() {
@@ -272,6 +275,15 @@ public class ClientConfig {
 				// TODO Handle this
 				e.printStackTrace();
 			}
+		}
+
+		public void setData(String fileName, DataHolder dataHolder, String energyNodePath, String dataNodePath) {
+			String previousRefFile = this.fileName;
+			this.fileName = fileName;
+			this.dataHolder = dataHolder;
+			energyNode = (AbstractDataset) this.dataHolder.getLazyDataset(energyNodePath).getSlice();
+			dataNode = (AbstractDataset) this.dataHolder.getLazyDataset(dataNodePath).getSlice();
+			firePropertyChange(FILE_NAME_PROP_NAME, previousRefFile, this.fileName);
 		}
 
 		protected void loadDataNode() {

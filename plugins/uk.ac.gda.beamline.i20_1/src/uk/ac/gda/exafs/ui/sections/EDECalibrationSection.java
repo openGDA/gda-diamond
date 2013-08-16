@@ -18,6 +18,7 @@
 
 package uk.ac.gda.exafs.ui.sections;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -39,6 +40,9 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -48,12 +52,15 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.ListDialog;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -62,9 +69,12 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
 import uk.ac.diamond.scisoft.analysis.dataset.Slice;
+import uk.ac.diamond.scisoft.analysis.io.DataHolder;
+import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.diamond.scisoft.spectroscopy.fitting.EdeCalibration;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.CalibrationData;
+import uk.ac.gda.exafs.data.ClientConfig.ElementReference;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
 import uk.ac.gda.exafs.ui.views.CalibrationPlotViewer;
@@ -93,7 +103,7 @@ public class EDECalibrationSection {
 		section.setClient(sectionComposite);
 		sectionComposite.setLayout(new GridLayout());
 
-		Composite dataComposite = toolkit.createComposite(sectionComposite, SWT.None);
+		final Composite dataComposite = toolkit.createComposite(sectionComposite, SWT.None);
 		dataComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		dataComposite.setLayout(new GridLayout(3, false));
 
@@ -124,16 +134,14 @@ public class EDECalibrationSection {
 					}
 				});
 
-		Button loadRefDataButton = toolkit.createButton(dataComposite, "Browse", SWT.None);
+		final Button loadRefDataButton = toolkit.createButton(dataComposite, "Browse", SWT.None);
 		loadRefDataButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
 		loadRefDataButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				// TODO
+				showDataFileDialog(loadRefDataButton.getShell(), CalibrationData.INSTANCE.getRefData());
 			}
 		});
-		// TODO
-		loadRefDataButton.setEnabled(false);
 
 		final Label lblEdeDataFile = toolkit.createLabel(dataComposite, "EDE data file", SWT.NONE);
 		lblEdeDataFile.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -165,12 +173,9 @@ public class EDECalibrationSection {
 		loadEdeDataButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				// TODO
+				showDataFileDialog(loadRefDataButton.getShell(), CalibrationData.INSTANCE.getEdeData());
 			}
 		});
-		// TODO
-		loadEdeDataButton.setEnabled(false);
-
 
 		final Label lblPolyOrder = toolkit.createLabel(dataComposite, "Polynomial order", SWT.NONE);
 		lblPolyOrder.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -221,6 +226,43 @@ public class EDECalibrationSection {
 		Composite roisSectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(roisSectionSeparator);
 		section.setSeparatorControl(roisSectionSeparator);
+	}
+
+	private void showDataFileDialog(final Shell shell, ElementReference dataModel) {
+		FileDialog fileDialog = new FileDialog(shell, SWT.OPEN);
+		fileDialog.setText("Load data");
+		fileDialog.setFilterPath(ElementReference.DEFAULT_DATA_PATH);
+		String selected = fileDialog.open();
+		if (selected != null) {
+			try {
+				File refFile = new File(selected);
+				if (refFile.exists() && refFile.canRead()) {
+					DataHolder dataHolder = LoaderFactory.getData(selected);
+					ListDialog dialog = new ListDialog(shell);
+					dialog.setContentProvider(new ArrayContentProvider());
+					dialog.setTitle("Data set");
+					dialog.setMessage("Choose energy node");
+					dialog.setInput(dataHolder.getNames());
+					dialog.setLabelProvider(new LabelProvider());
+					if (dialog.open() == Window.OK) {
+						Object[] energy = dialog.getResult();
+						if (energy != null && energy.length == 1) {
+							dialog.setMessage("Choose data node");
+							if (dialog.open() == Window.OK) {
+								Object[] data = dialog.getResult();
+								if (data != null && data.length == 1) {
+									dataModel.setData(selected, dataHolder, (String) energy[0], (String) data[0]);
+								}
+							}
+						}
+					}
+				} else {
+					throw new Exception("Unable to read " + selected + ".");
+				}
+			} catch (Exception e) {
+				UIHelper.showError("Error", e.getMessage());
+			}
+		}
 	}
 
 	private void runEdeCalibration(final int selectedFitOrder) {

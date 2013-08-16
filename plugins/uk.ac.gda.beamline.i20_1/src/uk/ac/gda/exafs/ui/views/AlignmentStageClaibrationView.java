@@ -164,7 +164,7 @@ public class AlignmentStageClaibrationView extends ViewPart {
 		Label xPosLabel = toolkit.createLabel(xPositionComposite, "X", SWT.None);
 		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		MotorPositionEditorControl xPosition = new MotorPositionEditorControl(xPositionComposite, SWT.None, xScannable.getScannable(), true);
+		MotorPositionEditorControl xPosition = new MotorPositionEditorControl(xPositionComposite, SWT.None, xScannable.getScannable(), false);
 		xPosition.setUnit(xScannable.getUnit().getText());
 		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
@@ -176,7 +176,7 @@ public class AlignmentStageClaibrationView extends ViewPart {
 		Label yPosLabel = toolkit.createLabel(yPositionComposite, "Y", SWT.None);
 		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		MotorPositionEditorControl yPosition = new MotorPositionEditorControl(yPositionComposite, SWT.None, yScannable.getScannable(), true);
+		MotorPositionEditorControl yPosition = new MotorPositionEditorControl(yPositionComposite, SWT.None, yScannable.getScannable(), false);
 		yPosition.setUnit(yScannable.getUnit().getText());
 		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
@@ -199,7 +199,7 @@ public class AlignmentStageClaibrationView extends ViewPart {
 		Label xPosLabel = toolkit.createLabel(xPositionComposite, "X", SWT.None);
 		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, model, xPropertyName, true);
+		NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, model, xPropertyName, false);
 		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Composite yPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
@@ -210,7 +210,7 @@ public class AlignmentStageClaibrationView extends ViewPart {
 		Label yPosLabel = toolkit.createLabel(yPositionComposite, "Y", SWT.None);
 		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, model, yPropertyName, true);
+		NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, model, yPropertyName, false);
 		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		return xyPositionComposite;
