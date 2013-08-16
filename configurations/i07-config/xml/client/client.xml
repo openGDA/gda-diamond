@@ -38,6 +38,7 @@
     </bean>
 
    
+    <import resource="fastpil1_clientside.xml"/>
     <import resource="fastpil3_clientside.xml"/>
 
 <!--    <import resource="mjpegViewer.xml"/> -->
