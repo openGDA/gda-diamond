@@ -20,6 +20,10 @@
 		<property name="xh" ref="xh"/>
 	</bean>
 	
+	<bean id="ssxstrip" class="gda.device.detector.StepScanXHDetector">
+		<property name="xh" ref="xstrip"/>
+	</bean>
+
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/xh" />
 		<property name="service" ref="xh" />

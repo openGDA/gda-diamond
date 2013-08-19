@@ -269,12 +269,12 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				// simply set excluded strips to be zero
 				if (ArrayUtils.contains(excludedStrips, element)) {
 					out[frame][element] = 0.0;
-				} /*else if (element < lowerChannel || element > upperChannel) {
-					out[frame][element] = 0.0;
-				} */else {
+				} /*
+				 * else if (element < lowerChannel || element > upperChannel) { out[frame][element] = 0.0; }
+				 */else {
 
-					out[frame][element] = rawData[(frame * NUMBER_ELEMENTS) + element];
-				}
+					 out[frame][element] = rawData[(frame * NUMBER_ELEMENTS) + element];
+				 }
 			}
 		}
 		return out;
@@ -371,19 +371,24 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		double[] extraValues = getExtraValues(elements);
 		String[] names = getExtraNames();
 
-		// get values which match to da.server memory
-		int absGroupNum = ExperimentLocationUtils.getGroupNum(nextScan, frameNum);
-		int absFrameNum = ExperimentLocationUtils.getFrameNum(nextScan, frameNum);
+		int offset = 0;
+		if (displayGroupFrameValues) {
+			offset = 2;
 
-		// add 1 to make the values understandable by users
-		absGroupNum++;
-		absFrameNum++;
+			// get values which match to da.server memory
+			int absGroupNum = ExperimentLocationUtils.getGroupNum(nextScan, frameNum);
+			int absFrameNum = ExperimentLocationUtils.getFrameNum(nextScan, frameNum);
 
-		thisFrame.setPlottableValue(names[0], (double) absGroupNum);
-		thisFrame.setPlottableValue(names[1], (double) absFrameNum);
+			// add 1 to make the values understandable by users
+			absGroupNum++;
+			absFrameNum++;
 
-		for (int i = 2; i < names.length; i++) {
-			thisFrame.setPlottableValue(names[i], extraValues[i - 2]);
+			thisFrame.setPlottableValue(names[0], (double) absGroupNum);
+			thisFrame.setPlottableValue(names[1], (double) absFrameNum);
+		}
+
+		for (int i = offset; i < names.length; i++) {
+			thisFrame.setPlottableValue(names[i], extraValues[i - offset]);
 		}
 		return thisFrame;
 	}
@@ -987,20 +992,23 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 		extraNames = new String[numROI + 1 + offset];
 		outputFormat = new String[numROI + 2 + offset];
-		extraNames[0] = "Group";
 		outputFormat[0] = "%8.3f";
-		outputFormat[1] = "%8.3f";
 		if (displayGroupFrameValues) {
+			extraNames[0] = "Group";
 			extraNames[1] = "Frame";
 			extraNames[2] = "Total";
+			outputFormat[1] = "%d";
 			outputFormat[2] = "%d";
 			outputFormat[3] = "%8.3f";
+		} else {
+			extraNames[0] = "Total";
+			outputFormat[1] = "%8.3f";
 		}
 
 		if (rois != null && numROI > 0) {
 			for (int i = 0; i < numROI; i++) {
 				extraNames[i + 1 + offset] = rois[i].getName();
-				outputFormat[i + 1 + offset] = "%8.3f";
+				outputFormat[i + 2 + offset] = "%8.3f";
 			}
 		}
 	}
@@ -1098,7 +1106,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		Double currentValue = getBias();
 		if (currentValue == 0.0) {
 			daServer.sendCommand("xstrip hv init");
-			daServer.sendCommand("xstrip hv enable \"" + detectorName +"\"");
+			daServer.sendCommand("xstrip hv enable \"" + detectorName + "\"");
 		}
 		daServer.sendCommand("xstrip hv set-dac \"" + detectorName + "\" " + biasVoltage + " hv");
 	}
@@ -1134,7 +1142,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		try {
 			store = new PropertiesConfiguration(getStoreFileName());
 			String[] excludedStripsArray = store.getStringArray(EXCLUDED_STRIPS_PROPERTY);
-			if ((excludedStripsArray.length == 0) || (excludedStripsArray.length == 1 && excludedStripsArray[0].isEmpty())) {
+			if ((excludedStripsArray.length == 0)
+					|| (excludedStripsArray.length == 1 && excludedStripsArray[0].isEmpty())) {
 				excludedStrips = new Integer[] {};
 				return;
 			}
@@ -1168,9 +1177,11 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		openTCSocket();
 
 		HashMap<String, Double> temps = new HashMap<String, Double>();
-		Double sensor0Temp = Double.parseDouble(daServer.sendCommand("xstrip tc get \"" + detectorName + "\" ch 0 t").toString());
+		Double sensor0Temp = Double.parseDouble(daServer.sendCommand("xstrip tc get \"" + detectorName + "\" ch 0 t")
+				.toString());
 		temps.put(SENSOR0NAME, sensor0Temp);
-		Double sensor1Temp = Double.parseDouble(daServer.sendCommand("xstrip tc get \"" + detectorName + "\" ch 1 t").toString());
+		Double sensor1Temp = Double.parseDouble(daServer.sendCommand("xstrip tc get \"" + detectorName + "\" ch 1 t")
+				.toString());
 		temps.put(SENSOR1NAME, sensor1Temp);
 		Double sensor2Temp = Double.parseDouble(daServer.sendCommand("xstrip tc get \"" + detectorName + "\" ch 2 t")
 				.toString());
@@ -1184,8 +1195,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	private void openTCSocket() throws DeviceException {
 		int tcIsOpen = (int) daServer.sendCommand("xstrip tc print \"" + detectorName + "\"");
 		if (tcIsOpen == -1) {
-			daServer.sendCommand("xstrip tc open \"" + detectorName+ "\"");
-			tcIsOpen = (int) daServer.sendCommand("xstrip tc print \"" + detectorName+ "\"");
+			daServer.sendCommand("xstrip tc open \"" + detectorName + "\"");
+			tcIsOpen = (int) daServer.sendCommand("xstrip tc print \"" + detectorName + "\"");
 			if (tcIsOpen == -1) {
 				throw new DeviceException(
 						"Could not open temperature controller to find out current temperature values");
