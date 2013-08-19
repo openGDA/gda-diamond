@@ -22,6 +22,7 @@ import gda.device.DeviceException;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.StripDetector;
 import gda.device.detector.XHDetector;
+import gda.jython.InterfaceProvider;
 import gda.jython.Jython;
 import gda.jython.JythonServerStatus;
 import gda.observable.IObserver;
@@ -437,7 +438,8 @@ public class XHControlComposite extends Composite implements IObserver {
 						allValues = new double[0];
 						regionValues = new double[numberSectors][0];
 
-						while (continueLiveLoop) {
+						while (continueLiveLoop
+								&& InterfaceProvider.getScanStatusHolder().getScanStatus() == Jython.IDLE) {
 							Date snapshotTime = new Date();
 
 							double collectionPeriod_ms = detectorControlModel.getLiveIntegrationTime();
@@ -454,7 +456,14 @@ public class XHControlComposite extends Composite implements IObserver {
 						}
 					} catch (Exception e) {
 						logger.error("Exception in loop refreshing the live XH detector rate", e);
-						stopCollectingRates();
+					} finally {
+						PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+							@Override
+							public void run() {
+								// update the UI
+								stopCollectingRates();
+							}
+						});
 					}
 				}
 
