@@ -399,9 +399,9 @@ public class XHControlComposite extends Composite implements IObserver {
 		if (results != null) {
 			List<IDataset> data = new ArrayList<IDataset>(1);
 			data.add(new DoubleDataset((double[]) results));
+			plottingSystem.setTitle(title);
 			plottingSystem.clear();
 			plottingSystem.createPlot1D(strips, data, new NullProgressMonitor());
-			plottingSystem.setTitle(title);
 		} else {
 			logger.info("Nothing returned!");
 		}
@@ -425,7 +425,6 @@ public class XHControlComposite extends Composite implements IObserver {
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					txtLiveTime.setEnabled(false);
 					txtNumScansPerFrame.setEnabled(false);
 					txtRefreshPeriod.setEnabled(false);
 					txtSnapTime.setEnabled(false);
@@ -491,7 +490,6 @@ public class XHControlComposite extends Composite implements IObserver {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				txtLiveTime.setEnabled(true);
 				txtNumScansPerFrame.setEnabled(true);
 				txtRefreshPeriod.setEnabled(true);
 				txtSnapTime.setEnabled(true);

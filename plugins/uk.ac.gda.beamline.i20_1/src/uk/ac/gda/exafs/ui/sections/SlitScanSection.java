@@ -156,6 +156,12 @@ public class SlitScanSection {
 							return ((int) value != Jython.IDLE);
 						}
 					});
+			stopButton.addListener(SWT.Selection, new Listener() {
+				@Override
+				public void handleEvent(Event event) {
+					SlitScanner.getInstance().doStop();
+				}
+			});
 
 			Composite defaultSectionSeparator = toolkit.createCompositeSeparator(slitsParametersSection);
 			toolkit.paintBordersFor(defaultSectionSeparator);

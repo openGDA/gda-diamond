@@ -305,10 +305,16 @@ public class NumberEditorControl extends Composite {
 				decrementButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
 				decrementButton.setText("-");
 				decrementButton.addListener(SWT.Selection, new StepListener(false));
+				ctx.bindValue(
+						WidgetProperties.enabled().observe(decrementButton),
+						BeanProperties.value(MotorPositionWidgetModel.EDITABLE_PROP_NAME).observe(controlModel));
 				incrementButton = new Button(spinners, SWT.FLAT);
 				incrementButton.setText("+");
 				incrementButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
 				incrementButton.addListener(SWT.Selection, new StepListener(true));
+				ctx.bindValue(
+						WidgetProperties.enabled().observe(incrementButton),
+						BeanProperties.value(MotorPositionWidgetModel.EDITABLE_PROP_NAME).observe(controlModel));
 			} else {
 				grid = new GridLayout(1, false);
 				removeMargins(grid);
@@ -323,12 +329,52 @@ public class NumberEditorControl extends Composite {
 				incrementLabel.setLayoutData(new GridData(GridData.FILL_BOTH));
 				incrementLabel.addListener(SWT.MouseUp, new StepListener(true));
 				incrementLabel.addMouseListener(incrementListener);
+				incrementLabel.addMouseTrackListener(new MouseTrackListener() {
+					private Cursor cursor;
+					@Override
+					public void mouseHover(MouseEvent e) {}
+
+					@Override
+					public void mouseExit(MouseEvent e) {
+						if (cursor != null) {
+							((Control) e.getSource()).setCursor(cursor);
+						}
+					}
+
+					@Override
+					public void mouseEnter(MouseEvent e) {
+						if (!controlModel.isEditable()) {
+							cursor = ((Control) e.getSource()).getCursor();
+							((Control) e.getSource()).setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_NO));
+						}
+					}
+				});
 				decrementLabel = new Label(spinners, SWT.BORDER);
 				decrementLabel.setLayoutData(new GridData(GridData.FILL_BOTH));
 				downArrowIcon = getImageDescriptor("down_arrow.png").createImage();
 				decrementLabel.setImage(downArrowIcon);
 				decrementLabel.addMouseListener(incrementListener);
 				decrementLabel.addListener(SWT.MouseUp, new StepListener(false));
+				decrementLabel.addMouseTrackListener(new MouseTrackListener() {
+					private Cursor cursor;
+					@Override
+					public void mouseHover(MouseEvent e) {}
+
+					@Override
+					public void mouseExit(MouseEvent e) {
+						if (cursor != null) {
+							((Control) e.getSource()).setCursor(cursor);
+						}
+					}
+
+					@Override
+					public void mouseEnter(MouseEvent e) {
+						if (!controlModel.isEditable()) {
+							cursor = ((Control) e.getSource()).getCursor();
+							((Control) e.getSource()).setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_NO));
+						}
+					}
+				});
 			}
 			incrementComposite = new Composite(editorComposite, SWT.None);
 			gridData = new GridData(SWT.END, SWT.CENTER, false, false);
@@ -380,7 +426,6 @@ public class NumberEditorControl extends Composite {
 		public void handleEvent(Event event) {
 			if (controlModel.isEditable()) {
 				try {
-
 					if (controlModel.getBindingPropertyType().equals(double.class)) {
 						double value = (double) PropertyUtils.getProperty(object, propertyName);
 						double increment =  controlModel.getIncrement() / Math.pow(10, controlModel.getDigits());
