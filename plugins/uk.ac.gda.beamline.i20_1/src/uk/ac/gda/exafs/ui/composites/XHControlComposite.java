@@ -360,6 +360,7 @@ public class XHControlComposite extends Composite implements IObserver {
 
 		// collect data from XHDetector and send the spectrum to local Plot 1 window
 		EdeScanParameters simpleParams = new EdeScanParameters();
+		simpleParams.setIncludeCountsOutsideROIs(true);
 		TimingGroup group1 = new TimingGroup();
 		group1.setDelayBetweenFrames(0);
 		group1.setLabel("group1");
