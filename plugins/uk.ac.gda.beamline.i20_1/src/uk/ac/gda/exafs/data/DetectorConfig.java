@@ -18,6 +18,7 @@
 
 package uk.ac.gda.exafs.data;
 
+import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.detector.StripDetector;
 import gda.device.detector.XHDetector;
@@ -82,6 +83,11 @@ public class DetectorConfig extends ObservableModel {
 	public StripDetector getCurrentDetector() {
 		return currentDetector;
 	}
+
+	public Detector getCurrentStepScanDetector() {
+		return Finder.getInstance().find("ss"+currentDetector.getName());
+	}
+
 
 	public void setCurrentDetector(StripDetector detector) throws Exception {
 		try {
