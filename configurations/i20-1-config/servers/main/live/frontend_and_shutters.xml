@@ -3,24 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="apertureX_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="FE20I-AL-APTR-02:X" />
-	</bean>
-
-	<bean id="apertureX" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="apertureX" />
-		<property name="motor" ref="apertureX_motor" />
-	</bean>
-
-	<bean id="apertureY_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="FE20I-AL-APTR-02:Y" />
-	</bean>
-
-	<bean id="apertureY" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="apertureY" />
-		<property name="motor" ref="apertureY_motor" />
-	</bean>
-
 	<bean id="optics_shutter" class="gda.device.enumpositioner.EpicsValveCallback">
 		<property name="epicsRecordName" value="FE20I-PS-SHTR-02" />
 		<property name="outputFormat">
