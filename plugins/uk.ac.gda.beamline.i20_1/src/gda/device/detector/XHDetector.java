@@ -79,7 +79,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	public static final double XSTRIP_CLOCKRATE = 20E-9; // s
 
 	private static final Logger logger = LoggerFactory.getLogger(XHDetector.class);
-	// TODO need to ask scientists what these names should be.
 	private static final String SENSOR0NAME = "Peltier Hotplate";
 	private static final String SENSOR1NAME = "Peltier Coldplate";
 	private static final String SENSOR2NAME = "PCB power supply";
@@ -108,6 +107,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	private Integer[] excludedStrips;
 	private boolean connected;
 	private static Integer[] STRIPS;
+	// if true then add group and frame columns to the output
+	private boolean displayGroupFrameValues = true;
 
 	static {
 		int startStrip = START_STRIP;
@@ -122,8 +123,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 		// defaults which will be updated when number of sectors changed
 		inputNames = new String[] { "time" };
-		extraNames = new String[] { "Group", "Frame", "Total", "sector1", "sector2", "sector3", "sector4" };
-		outputFormat = new String[] { "%8.2f", "%8.2f", "%d", "%8.3f", "%8.3f", "%8.3f", "%8.3f", "%8.3f" };
+		// set up other values - these are all based on the number of rois
+		setDefaultROIs();
 	}
 
 	@Override
@@ -888,6 +889,17 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		this.detectorName = detectorName;
 	}
 
+	public boolean isDisplayGroupFrameValues() {
+		return displayGroupFrameValues;
+	}
+
+	public void setDisplayGroupFrameValues(boolean displayGroupFrameValues) {
+		if (displayGroupFrameValues != this.displayGroupFrameValues) {
+			this.displayGroupFrameValues = displayGroupFrameValues;
+			setRoisWithoutStoringAndNotifying(getRois());
+		}
+	}
+
 	public DAServer getDaServer() {
 		return daServer;
 	}
@@ -957,7 +969,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		setNumberRois(4);
 	}
 
-	// FIXME What is this use for?
 	private void setRoisWithoutStoringAndNotifying(XHROI[] rois) {
 		int numROI;
 		if (rois != null) {
@@ -968,20 +979,28 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			this.rois = new XHROI[0];
 		}
 
-		extraNames = new String[numROI + 3];
-		outputFormat = new String[numROI + 4];
+		// display the group and frame values in output?
+		int offset = 0;
+		if (displayGroupFrameValues) {
+			offset = 2;
+		}
+
+		extraNames = new String[numROI + 1 + offset];
+		outputFormat = new String[numROI + 2 + offset];
 		extraNames[0] = "Group";
-		extraNames[1] = "Frame";
-		extraNames[2] = "Total";
 		outputFormat[0] = "%8.3f";
 		outputFormat[1] = "%8.3f";
-		outputFormat[2] = "%d";
-		outputFormat[3] = "%8.3f";
+		if (displayGroupFrameValues) {
+			extraNames[1] = "Frame";
+			extraNames[2] = "Total";
+			outputFormat[2] = "%d";
+			outputFormat[3] = "%8.3f";
+		}
 
 		if (rois != null && numROI > 0) {
 			for (int i = 0; i < numROI; i++) {
-				extraNames[i + 3] = rois[i].getName();
-				outputFormat[i + 3] = "%8.3f";
+				extraNames[i + 1 + offset] = rois[i].getName();
+				outputFormat[i + 1 + offset] = "%8.3f";
 			}
 		}
 	}
@@ -1076,7 +1095,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			throw new DeviceException("Bias voltage of " + biasVoltage + " is unacceptable.");
 		}
 
-		// TODO test with hardware
 		Double currentValue = getBias();
 		if (currentValue == 0.0) {
 			daServer.sendCommand("xstrip hv init");
