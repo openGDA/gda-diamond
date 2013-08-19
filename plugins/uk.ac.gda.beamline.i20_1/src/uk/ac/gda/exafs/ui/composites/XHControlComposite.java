@@ -161,7 +161,6 @@ public class XHControlComposite extends Composite implements IObserver {
 			values[i] = XHDetector.getStrips()[i];
 		}
 		strips = new DoubleDataset(values);
-		plottingSystem.getSelectedXAxis().setRange(values[0], values[values.length - 1]);
 	}
 
 	private void createUI() {
@@ -353,6 +352,8 @@ public class XHControlComposite extends Composite implements IObserver {
 		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(sectionSeparator);
 		section.setSeparatorControl(sectionSeparator);
+
+
 	}
 
 
@@ -399,9 +400,9 @@ public class XHControlComposite extends Composite implements IObserver {
 		if (results != null) {
 			List<IDataset> data = new ArrayList<IDataset>(1);
 			data.add(new DoubleDataset((double[]) results));
-			plottingSystem.setTitle(title);
 			plottingSystem.clear();
 			plottingSystem.createPlot1D(strips, data, new NullProgressMonitor());
+			plottingSystem.setTitle(title);
 		} else {
 			logger.info("Nothing returned!");
 		}

@@ -38,6 +38,7 @@ import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 import uk.ac.gda.exafs.data.ObservableModel;
 import uk.ac.gda.exafs.ui.composites.MotorPositionEditorControl;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
+import uk.ac.gda.exafs.ui.composites.ScannableWrapper;
 import uk.ac.gda.exafs.ui.data.AlignmentStageModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
@@ -164,7 +165,7 @@ public class AlignmentStageClaibrationView extends ViewPart {
 		Label xPosLabel = toolkit.createLabel(xPositionComposite, "X", SWT.None);
 		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		MotorPositionEditorControl xPosition = new MotorPositionEditorControl(xPositionComposite, SWT.None, xScannable.getScannable(), false);
+		MotorPositionEditorControl xPosition = new MotorPositionEditorControl(xPositionComposite, SWT.None, new ScannableWrapper(xScannable.getScannable()), false);
 		xPosition.setUnit(xScannable.getUnit().getText());
 		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
@@ -176,7 +177,7 @@ public class AlignmentStageClaibrationView extends ViewPart {
 		Label yPosLabel = toolkit.createLabel(yPositionComposite, "Y", SWT.None);
 		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		MotorPositionEditorControl yPosition = new MotorPositionEditorControl(yPositionComposite, SWT.None, yScannable.getScannable(), false);
+		MotorPositionEditorControl yPosition = new MotorPositionEditorControl(yPositionComposite, SWT.None, new ScannableWrapper(yScannable.getScannable()), false);
 		yPosition.setUnit(yScannable.getUnit().getText());
 		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
