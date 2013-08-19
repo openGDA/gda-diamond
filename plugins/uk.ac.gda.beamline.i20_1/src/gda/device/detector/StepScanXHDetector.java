@@ -31,6 +31,7 @@ public class StepScanXHDetector extends DetectorBase implements NexusDetector {
 
 	private XHDetector xh;
 	private int numberScansPerFrame = 1;
+	private boolean wasDisplayingGroupFrame = true;
 
 	@Override
 	public void collectData() throws DeviceException {
@@ -43,6 +44,23 @@ public class StepScanXHDetector extends DetectorBase implements NexusDetector {
 		myscan.addGroup(group1);
 		xh.loadParameters(myscan);
 		xh.collectData();
+	}
+
+	@Override
+	public void atScanStart() throws DeviceException {
+		wasDisplayingGroupFrame = xh.isDisplayGroupFrameValues();
+		if (wasDisplayingGroupFrame){
+			xh.setDisplayGroupFrameValues(false);
+		}
+		super.atScanStart();
+	}
+
+	@Override
+	public void atScanEnd() throws DeviceException {
+		if (wasDisplayingGroupFrame){
+			xh.setDisplayGroupFrameValues(true);
+		}
+		super.atScanEnd();
 	}
 
 	@Override
@@ -67,17 +85,17 @@ public class StepScanXHDetector extends DetectorBase implements NexusDetector {
 	public void setXh(XHDetector xh) {
 		this.xh = xh;
 	}
-	
+
 	@Override
 	public String[] getExtraNames() {
 		return xh.getExtraNames();
 	}
-	
+
 	@Override
 	public String[] getInputNames() {
 		return xh.getInputNames();
 	}
-	
+
 	@Override
 	public String[] getOutputFormat() {
 		return xh.getOutputFormat();
