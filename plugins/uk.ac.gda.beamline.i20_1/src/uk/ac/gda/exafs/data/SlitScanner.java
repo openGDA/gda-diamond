@@ -19,6 +19,8 @@
 package uk.ac.gda.exafs.data;
 
 import gda.jython.InterfaceProvider;
+import gda.jython.Jython;
+import gda.jython.JythonServerFacade;
 import gda.jython.JythonServerStatus;
 import gda.observable.IObserver;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
@@ -142,5 +144,11 @@ public class SlitScanner extends ObservableModel implements IObserver {
 			throw new DetectorUnavailableException();
 		}
 		InterfaceProvider.getCommandRunner().runCommand("alignment_stage.saveDeviceFromCurrentMotorPositions(\"slits\")");
+	}
+
+	public void doStop() {
+		if (this.getState() != Jython.IDLE) {
+			JythonServerFacade.getInstance().haltCurrentScan();
+		}
 	}
 }

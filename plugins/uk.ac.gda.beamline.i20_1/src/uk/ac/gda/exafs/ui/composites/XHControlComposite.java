@@ -161,7 +161,6 @@ public class XHControlComposite extends Composite implements IObserver {
 			values[i] = XHDetector.getStrips()[i];
 		}
 		strips = new DoubleDataset(values);
-		plottingSystem.getSelectedXAxis().setRange(values[0], values[values.length - 1]);
 	}
 
 	private void createUI() {
@@ -353,6 +352,8 @@ public class XHControlComposite extends Composite implements IObserver {
 		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(sectionSeparator);
 		section.setSeparatorControl(sectionSeparator);
+
+
 	}
 
 
@@ -425,7 +426,6 @@ public class XHControlComposite extends Composite implements IObserver {
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					txtLiveTime.setEnabled(false);
 					txtNumScansPerFrame.setEnabled(false);
 					txtRefreshPeriod.setEnabled(false);
 					txtSnapTime.setEnabled(false);
@@ -491,7 +491,6 @@ public class XHControlComposite extends Composite implements IObserver {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				txtLiveTime.setEnabled(true);
 				txtNumScansPerFrame.setEnabled(true);
 				txtRefreshPeriod.setEnabled(true);
 				txtSnapTime.setEnabled(true);
