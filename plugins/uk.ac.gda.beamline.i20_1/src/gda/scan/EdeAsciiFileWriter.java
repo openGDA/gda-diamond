@@ -20,6 +20,7 @@ package gda.scan;
 
 import gda.data.nexus.extractor.NexusExtractor;
 import gda.data.nexus.extractor.NexusGroupData;
+import gda.device.DeviceException;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.StripDetector;
 import gda.jython.InterfaceProvider;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Vector;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,7 +94,7 @@ public class EdeAsciiFileWriter {
 			}
 
 			StringBuffer stringToWrite = new StringBuffer(channel + "\t");
-			stringToWrite.append(channel + "\t");
+			stringToWrite.append(String.format("%.2f",getEnergyForChannel(channel)) + "\t");
 			stringToWrite.append(String.format("%.2f", i0_corrected) + "\t");
 			stringToWrite.append(String.format("%.2f", it_corrected) + "\t");
 			stringToWrite.append(String.format("%.5f", lni0it) + "\t");
@@ -104,6 +106,17 @@ public class EdeAsciiFileWriter {
 			writer.write(stringToWrite.toString());
 		}
 		writer.close();
+	}
+
+	private Double getEnergyForChannel(int channel){
+		PolynomialFunction function;
+		try {
+			function = theDetector.getEnergyCalibration();
+		} catch (DeviceException e) {
+			logger.error("Detector did not supply a calibration.", e);
+			return (double) channel;
+		}
+		return function.value(channel);
 	}
 
 	private DoubleDataset extractDetectorDataSets(EdeScan scan) {

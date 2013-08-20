@@ -204,7 +204,7 @@ public class EdeScanTest {
 			reader.readLine(); // header line
 			String dataString = reader.readLine(); // first data point
 			String[] dataParts = dataString.split("\t");
-			assertEquals(8, dataParts.length);
+			assertEquals(6, dataParts.length);
 		} finally {
 			if (reader != null) {
 				reader.close();
