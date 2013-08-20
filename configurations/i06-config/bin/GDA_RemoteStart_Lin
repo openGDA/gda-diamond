@@ -1,0 +1,56 @@
+#!/bin/bash
+##This is the script file to restart GDA server from a remote workstation
+##This requires generation of ssh keys and copying the public key to the authorized_keys file in the server
+##Please refer to the document howtoSSH.txt for key generation.
+##To use this script change the key file path, user name and the server machine name
+
+
+if [ ! -n "$BEAMLINE" ];
+then
+  echo "Please set BEAMLINE environment variable."
+  exit 1
+fi
+
+export gdaLauncher=/dls_sw/$BEAMLINE/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda
+
+
+configDir=/dls_sw/$BEAMLINE/software/gda/i06-config
+varDir=/dls/$BEAMLINE/var
+dataDir=/dls/$BEAMLINE
+logDir=/dls_sw/$BEAMLINE/logs
+
+Properties=$configDir/properties/java.properties_$BEAMLINE 
+JacorbDir=$configDir/properties/jacorb_$BEAMLINE
+
+echo Kill all GDA Clients running locally
+$gdaLauncher --stop client
+sleep 2;
+
+echo Staring GDA Log Panel locally
+#GDA_StartLogPanel &
+$gdaLauncher --config=$configDir --properties=$Properties --jacorb=$JacorbDir --vardir=$varDir --datadir=$dataDir --logsdir=$logDir logpanel
+sleep 2
+ 
+echo Starting GDA Servers remotely...
+echo ssh -o StrictHostKeyChecking=no -i /dls_sw/$BEAMLINE/software/gda/i06-config/i06ssh.key gda2@i06-control.diamond.ac.uk ${BEAMLINE}
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /dls_sw/$BEAMLINE/software/gda/i06-config/i06ssh.key gda2@i06-control.diamond.ac.uk ${BEAMLINE}
+
+echo Waiting server starting...
+## show log until 'Server initialisation complete' is seen
+PIP=/tmp/`basename $0`-$$
+mknod $PIP p
+tail -n 1 -f ${logDir}/gda_server.log >  $PIP &
+awk '{
+        if (!/DEBUG/) print ;
+        if (/Server initialisation complete. xmlFile/) {
+                print "\n\033[4;32m  All GDA servers are running, you can start the client now. \033[0m\n"
+                exit ;
+        }
+}' < $PIP
+
+#echo -e "\033[1;32mAll GDA servers are running, you can start the client now\033[1;0m\n"
+
+tailPID=`ps ux | awk '/tail/ && !/awk/ {print $2}'`
+killall $tailPID > /dev/null 2>&1
+sleep 3
+rm -f $PIP

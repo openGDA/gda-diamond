@@ -1,0 +1,120 @@
+!2 Beamline I06 User Acceptance Test Wiki
+
+!contents
+
+##############################
+# Testing Environment variables 
+!**> Testing Environment Setup
+
+!3 Testing Server
+!define GDA_SERVER {i06-control.diamond.ac.uk}
+!define TEST_SERVER {i06-control.diamond.ac.uk}
+!define TEST_PORT {1200}
+
+----
+##############################
+!3 GDA Property
+!define BEAMLINE {i06}
+!define TARGET_GDA_ROOT {/dls/i06/software/gda-test}
+!define TARGET_GDA_CONFIG {/dls/i06/software/gda-test/config}
+!define TARGET_GDA_USERS {/dls/i06}
+!define TARGET_GDA_JARS {/dls/i06/software/gda-test/jars}
+
+!define JYTHON_HOME {/dls/i06/software/jython}
+
+##############################
+# GDA class path
+!3 Testing Targets
+!path ${TARGET_GDA_JARS}/gda_alpha.jar
+!path ${TARGET_GDA_JARS}/gda-corba.jar
+
+!3 Supporting JARs
+!path ${JYTHON_HOME}/jython.jar
+
+!path ${TARGET_GDA_JARS}/avalon-framework-4.1.5.jar
+!path ${TARGET_GDA_JARS}/axis.jar
+!path ${TARGET_GDA_JARS}/bcel-5.2.jar
+!path ${TARGET_GDA_JARS}/BrowserLauncher2-10.jar
+!path ${TARGET_GDA_JARS}/caj-1.1.4.jar
+!path ${TARGET_GDA_JARS}/castor-1.1.2.1.jar
+!path ${TARGET_GDA_JARS}/commons-beanutils.jar
+!path ${TARGET_GDA_JARS}/commons-collections-3.1.jar
+!path ${TARGET_GDA_JARS}/commons-configuration-1.1.jar
+!path ${TARGET_GDA_JARS}/commons-digester-1.7.jar
+!path ${TARGET_GDA_JARS}/commons-discovery-0.2.jar
+!path ${TARGET_GDA_JARS}/commons-io-1.2.jar
+!path ${TARGET_GDA_JARS}/commons-lang-2.1.jar
+!path ${TARGET_GDA_JARS}/commons-logging.jar
+!path ${TARGET_GDA_JARS}/derby.jar
+!path ${TARGET_GDA_JARS}/dlsplot.jar
+!path ${TARGET_GDA_JARS}/dna.jar
+!path ${TARGET_GDA_JARS}/epics-3.1.jar
+!path ${TARGET_GDA_JARS}/epics.jar
+!path ${TARGET_GDA_JARS}/gnu-regexp.jar
+!path ${TARGET_GDA_JARS}/icat3-core.jar
+!path ${TARGET_GDA_JARS}/icat-ws-alpha.jar
+!path ${TARGET_GDA_JARS}/idl.jar
+!path ${TARGET_GDA_JARS}/j2ee.jar
+!path ${TARGET_GDA_JARS}/jacorb.jar
+!path ${TARGET_GDA_JARS}/jaf.jar
+!path ${TARGET_GDA_JARS}/Jama-1.0.1.jar
+!path ${TARGET_GDA_JARS}/jargon_1.4.16_diamond.jar
+!path ${TARGET_GDA_JARS}/javaee.jar
+!path ${TARGET_GDA_JARS}/javolution.jar
+!path ${TARGET_GDA_JARS}/jaxrpc.jar
+!path ${TARGET_GDA_JARS}/jca-2.3.1.jar
+!path ${TARGET_GDA_JARS}/jcameraman.jar
+!path ${TARGET_GDA_JARS}/jcommon-1.0.0.jar
+!path ${TARGET_GDA_JARS}/jdbErrorLogs.DataAcquisitionTestingc-se2.0.jar
+!path ${TARGET_GDA_JARS}/Jdl.jar
+!path ${TARGET_GDA_JARS}/jep-2.4.0.jar
+!path ${TARGET_GDA_JARS}/jfreechart-1.0.0.jar
+!path ${TARGET_GDA_JARS}/jide-common.jar
+!path ${TARGET_GDA_JARS}/jide-dock.jar
+!path ${TARGET_GDA_JARS}/Jlibdc1394-media.jar
+!path ${TARGET_GDA_JARS}/jmf.jar
+!path ${TARGET_GDA_JARS}/JMinuit.jar
+!path ${TARGET_GDA_JARS}/jnexus.jar
+!path ${TARGET_GDA_JARS}/jscience.jar
+!path ${TARGET_GDA_JARS}/jta1.0.1.jar
+!path ${TARGET_GDA_JARS}/ledatastream.jar
+!path ${TARGET_GDA_JARS}/log4j-1.2.13.jar
+!path ${TARGET_GDA_JARS}/logback-classic-0.9.5.jar
+!path ${TARGET_GDA_JARS}/logback-core-0.9.5.jar
+!path ${TARGET_GDA_JARS}/logkit-1.2.jar
+!path ${TARGET_GDA_JARS}/mail.jar
+!path ${TARGET_GDA_JARS}/mysql-connector-java-3.0.9-stable-bin.jar
+!path ${TARGET_GDA_JARS}/ojdbc14.jar
+!path ${TARGET_GDA_JARS}/overrideQueue.jar
+!path ${TARGET_GDA_JARS}/peem-0.3.jar
+!path ${TARGET_GDA_JARS}/rcommands.jar
+!path ${TARGET_GDA_JARS}/RXTXcomm.jar
+!path ${TARGET_GDA_JARS}/saaj.jar
+!path ${TARGET_GDA_JARS}/slf4j-api-1.4.3.jar
+!path ${TARGET_GDA_JARS}/STAC.jar
+!path ${TARGET_GDA_JARS}/testng-5.5-jdk15.jar
+!path ${TARGET_GDA_JARS}/toplink-essentials-agent.jar
+!path ${TARGET_GDA_JARS}/toplink-essentials.jar
+!path ${TARGET_GDA_JARS}/velocity-dep-1.4.jar
+!path ${TARGET_GDA_JARS}/wrapper.jar
+!path ${TARGET_GDA_JARS}/wsdl4j-1.5.1.jar
+!path ${TARGET_GDA_JARS}/xercesImpl-2.9.1.jar
+
+----
+##############################
+!3 GDA Command Pattern
+#Redefine TestRunner JVM properity so that FitNesse can execute tests in a separte JVM using the COMMAND_PATTERN(Or default to: java -cp %p %m). Note JVM args used to start the FitNesse server won't be picked up by the tests
+#!define COMMAND_PATTERN {java -Dgda.root=${TARGET_GDA_ROOT} -Dgda.config=${TARGET_GDA_CONFIG} -Dgda.propertiesFile=${TARGET_GDA_CONFIG}/properties/java.properties -Djacorb.config.dir=${TARGET_GDA_CONFIG}/properties -Dgov.aps.jca.JCALibrary.properties=${TARGET_GDA_CONFIG}/properties/JCALibrary.properties -Dgda.users=${TARGET_GDA_USERS} -cp %p %m }
+
+!define COMMAND_PATTERN {java -Dgda.root=/dls/i06/software/gda-test -Dgda.config=/dls/i06/software/gda-test/config -Dgda.propertiesFile=/dls/i06/software/gda-test/config/properties/java.properties -Djacorb.config.dir=/dls/i06/software/gda-test/config/properties -Dgov.aps.jca.JCALibrary.properties=/dls/i06/software/gda-test/config/properties/JCALibrary.properties -Dgda.users=/dls/i06 -cp %p %m}
+
+----
+##############################
+!3 Collapse Set Up and Tear Down
+!define COLLAPSE_SETUP {true}
+!define COLLAPSE_TEARDOWN {false}
+
+**!
+
+!lastmodified
+

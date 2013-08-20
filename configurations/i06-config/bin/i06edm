@@ -1,0 +1,20 @@
+#!/bin/sh
+
+#Old Password
+#/dls_sw/prod/R3.14.8.2/ioc/BL06I/BL/1-31/data/launch_synoptic.py 5064 BL06I-BL-IOC bl.i06*
+
+#New Password
+# /dls_sw/prod/R3.14.8.2/ioc/BL06I/BL/1-9/data/launch_synoptic.py 5064 BL06I-BL-IOC BL.I06#
+
+
+# (cd /home/diamond/R3.13.9/prod/support/Launcher/Rx-y && ./from_configure_ioc.sh 5064 BL06I-BL-IOC-01 &)
+
+
+#export EPICS_CA_SERVER_PORT=5064;
+#. /dls_sw/epics/etc/beamline_ca_addr_list
+#configure-ioc s BL06I-BL-IOC-01 | awk '{print $2}' | sh
+
+
+#Latest: Launcher from: /dls_sw/prod/etc/Launcher, using applications.xml
+#(cd /dls_sw/prod/etc/Launcher && ./password_synoptic.sh 5064 BL06I-BL-IOC-01 bl.i06* HASBRANCHLINE &)
+launcher&
