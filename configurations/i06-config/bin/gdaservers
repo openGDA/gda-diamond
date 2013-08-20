@@ -1,0 +1,67 @@
+#! /usr/bin/env python
+
+import subprocess
+import getopt
+import os, sys, getpass
+import tempfile
+
+import time
+
+def main(argv):
+	if not os.environ.has_key('BEAMLINE'):
+		os.environ['BEAMLINE'] = 'i06'
+
+	beamline=os.environ['BEAMLINE'];
+
+	def helpfun():
+		print 'Usage: gdaservers [-l|--location [remote|local|mobielrack]] [-h|--help]'
+		sys.exit(2);
+  
+	letters = 'hl:' # the : means an argument needs to be passed after the letter
+	keywords = ['help=', 'location='] # the = means that a value is expected after the keyword
+
+	# opts is a list containing the pair "option"/"value"
+	# extraparms are extra arguments passed after all option/keywords are assigned
+	try:
+		opts, extraparams = getopt.getopt(sys.argv[1:], letters, keywords);
+	except getopt.GetoptError:
+		helpfun()
+		
+#	print 'Opts:', opts
+#	print 'Extra parameters:', extraparams
+#	print '---------------------------------'
+
+	location='remote'
+	helpme=False
+	reset=False
+
+	for o,p in opts:
+		if o in ['-l','--location']:
+			location = p
+		elif o in ['-h','--help']:
+			helpme = True
+		else:
+			print "???"
+			pass;
+
+	if helpme:
+		helpfun()
+
+	if location == 'remote':
+		print 'Servers are running on beamline server remotely'
+		c='/dls_sw/%s/software/gda/bin/GDA_RemoteStart_Lin' %beamline
+		a=subprocess.Popen( [c] )
+	elif location == 'local':
+		print 'Servers are running on local station'
+		c='/dls_sw/%s/software/gda/bin/GDA_LocalStart_Lin' %beamline
+		a=subprocess.Popen( [c] )
+	elif location == 'mobilerack':
+		print 'Servers are running on local mobilerack'
+		c='/dls_sw/%s/software/gda/bin/GDA_LocalMobileStart_Lin' %beamline
+		a=subprocess.Popen( [c] )
+	else:
+		print 'No valid server location information'
+		helpfun();
+
+if __name__ == "__main__":
+	main(sys.argv[1:]);#starts at the second element of argv since the first one is the script name

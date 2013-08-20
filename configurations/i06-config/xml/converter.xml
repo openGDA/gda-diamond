@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- I06 Unit converter and lookup table Configuration -->
+<ObjectFactory xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/dls/i06/software/gda/plugins/uk.ac.gda.core/src/gda/configuration/object/schema/GDASchema.xsd">
+    <name>${gda.factory.factoryName}</name>
+    
+    
+<!-- Combined DOF Converters -->
+<!-- Lookup Part I -->
+<LookupTableConverter name="eV_mm_converter"  columnDataFileName="eV_mm_converter.txt"   sColumn="0" tColumn="1" />
+<LookupTableConverter name="keV_mm_converter"  columnDataFileName="keV_mm_converter.txt"   sColumn="0" tColumn="1" />
+<LookupTableConverter name="Newton_mm_converter"  columnDataFileName="Newton_mm_converter.txt"   sColumn="0" tColumn="1" />
+<LookupTableConverter name="NoUnit_mm_converter"  columnDataFileName="NoUnit_mm_converter.txt"   sColumn="0" tColumn="1" />
+
+
+<!-- basic conversions -->
+<JEPConverter name="BeamlineEnergy_Angstrom_To_keV_converter"   expressionFileName="BeamlineEnergy_Angstrom_To_keV_converter.xml" />
+<!-- <JEPConverter name="BeamlineEnergy_Deg_To_keV_converter"        expressionFileName="BeamlineEnergy_Deg_To_keV_converter.xml" /> -->
+
+<!-- Target to Source converter for devices that are not backwards convertabile -->
+<JEPConverter name="BeamlineEnergy_Dummy_from_Deg_converter"    expressionFileName="BeamlineEnergy_Dummy_from_Deg_converter.xml" />
+<JEPConverter name="BeamlineEnergy_Dummy_from_mm_converter"     expressionFileName="BeamlineEnergy_Dummy_from_mm_converter.xml" />
+
+<!-- if not switching orders the bragg angle is guaranteed to the backward convertible -->
+<LookupTableConverter name="BeamlineEnergy_Bragg_converter"      columnDataFileName="BeamlineEnergy_DCM_converter.txt" sColumn="0" tColumn="1" />
+
+<!-- these for various reasons are not, so they need the dummy converter for reporting -->
+<LookupTableConverter name="BeamlineEnergy_Perp_converter_real"  columnDataFileName="BeamlineEnergy_DCM_converter.txt" sColumn="0" tColumn="2" mode="StoT" />
+<SplitConverter       name="BeamlineEnergy_Perp_converter"       toSourceConverterName="BeamlineEnergy_Dummy_from_mm_converter" calculateMoveablesConverterName="BeamlineEnergy_Perp_converter_real" />
+
+<LookupTableConverter name="BeamlineEnergy_Pitch_converter_real"  columnDataFileName="BeamlineEnergy_DCM_converter.txt" sColumn="0" tColumn="3" mode="StoT" /> 
+<SplitConverter       name="BeamlineEnergy_Pitch_converter"       toSourceConverterName="BeamlineEnergy_Dummy_from_Deg_converter" calculateMoveablesConverterName="BeamlineEnergy_Pitch_converter_real" />
+
+<LookupTableConverter name="BeamlineEnergy_Roll_converter_real"  columnDataFileName="BeamlineEnergy_DCM_converter.txt" sColumn="0" tColumn="4" mode="StoT" />
+<SplitConverter       name="BeamlineEnergy_Roll_converter"       toSourceConverterName="BeamlineEnergy_Dummy_from_Deg_converter" calculateMoveablesConverterName="BeamlineEnergy_Roll_converter_real" />
+
+<LookupTableConverter name="BeamlineEnergy_Undulator_converter_real"  columnDataFileName="BeamlineEnergy_Undulator_converter.txt"   sColumn="0" tColumn="1" mode="StoT" />
+<SplitConverter       name="BeamlineEnergy_Undulator_converter"       toSourceConverterName="BeamlineEnergy_Dummy_from_mm_converter" calculateMoveablesConverterName="BeamlineEnergy_Undulator_converter_real" />
+
+<ColumnDataFile>
+    <name>DFColumnData</name>
+    <filename>DF.lut</filename>
+</ColumnDataFile>
+
+</ObjectFactory>
+

@@ -1,0 +1,37 @@
+!2 PGM Testing
+!contents
+
+!3 Check Key PGM Controls
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?      |
+|go        | -1<_<1         |
+|mo        | -1<_<1         |
+|cff       | 0<_<5          |
+|pgmenergy | >0             |
+
+!3 Scan PGM Energy 
+|!-uk.ac.diamond.dlsfitnesse.GDACommandActionFixture-!|
+|whichFile   |                            |
+|noFileExists|                            |
+|evaluate    |scan pgmenergy 400 450 1    | None |
+|pause       |5                           |
+|fileExists  |                            |
+
+!3 Scan PGM Energy with scaler counting 
+|!-uk.ac.diamond.dlsfitnesse.GDACommandActionFixture-!|
+|whichFile   |                                    |
+|noFileExists|                                    |
+|evaluate    |scan pgmenergy 400 450 1 ca31 0.2   |None|
+|pause       |5                                   |
+|fileExists  |                                    |
+
+!3 Scan PGM Energy with PEEM image taking 
+|!-uk.ac.diamond.dlsfitnesse.GDACommandActionFixture-!|
+|whichFile   |                                |
+|noFileExists|                                |
+|evaluate    |scan pgmenergy 400 450 1 uv 1 |None|
+|pause       |5                               |
+|fileExists  |                                |
+
+----
+!lastmodified

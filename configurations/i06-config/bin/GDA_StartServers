@@ -1,0 +1,50 @@
+#!/bin/bash
+
+case $BEAMLINE in
+	i06) JacorbPort=6700 ;;
+	i06-1) JacorbPort=6701 ;;
+	*) exit
+esac
+
+case $BEAMLINE in
+	i06) DebugPort=8000 ;;
+	i06-1) DebugPort=8002 ;;
+	*) exit
+esac
+
+echo $BEAMLINE
+
+#export gdaLauncher=/dls_sw/$BEAMLINE/software/gda/plugins/uk.ac.gda.core/bin/gda
+export gdaLauncher=/dls_sw/$BEAMLINE/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda
+
+configDir=/dls_sw/$BEAMLINE/software/gda/i06-config
+Properties=/dls_sw/$BEAMLINE/software/gda/i06-config/properties/java.properties_$BEAMLINE 
+JacorbDir=/dls_sw/$BEAMLINE/software/gda/i06-config/properties/jacorb_$BEAMLINE
+varDir=/dls/$BEAMLINE/var
+dataDir=/dls/$BEAMLINE
+#logDir=/dls/$BEAMLINE/logs
+logDir=/dls_sw/$BEAMLINE/logs
+
+############### Stop all servers
+echo Stop all server
+$gdaLauncher --stop nameserver
+$gdaLauncher --stop logserver
+$gdaLauncher --stop eventserver
+$gdaLauncher --stop objectserver
+
+############### Start all servers
+echo Start the Name Server
+$gdaLauncher --config=$configDir --properties=$Properties --jacorb=$JacorbDir --vardir=$varDir --datadir=$dataDir --logsdir=$logDir --nsport=$JacorbPort nameserver
+
+echo Start the Log Server
+$gdaLauncher --config=$configDir --properties=$Properties --jacorb=$JacorbDir --vardir=$varDir --datadir=$dataDir --logsdir=$logDir logserver
+
+echo Start the Event Server
+$gdaLauncher --config=$configDir --properties=$Properties --jacorb=$JacorbDir --vardir=$varDir --datadir=$dataDir --logsdir=$logDir eventserver
+
+
+#To set up the remote debug options:
+#set DEBUG_OPTS = -Xdebug -Xrunjdwp:transport= dt_socket,address=8000,server=y,suspend=n
+
+echo Start the Object Server
+JAVA_OPTS="-Xms128m -Xmx4096m -XX:MaxPermSize=128m -XX:+DisableExplicitGC" $gdaLauncher -v --debug --debugport=$DebugPort --config=$configDir --properties=$Properties --jacorb=$JacorbDir --vardir=$varDir --datadir=$dataDir --logsdir=$logDir objectserver

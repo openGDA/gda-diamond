@@ -1,0 +1,68 @@
+in command;
+local data[2];
+local$ tcpSeam="\srs\pincer\bin\rseamc.lib" cmd reply;
+
+if (size(VmagSave)==-1); 	%% store last set values
+   local j;
+   global VmagSave[3];
+   for j=1 3; VmagSave[j]=-1; end;
+end;
+
+
+if strcmp(command,"getstat")==0;
+   out1=0;
+
+elseif strcmp(command,"getpos")==0;
+   copy VmagSave = out1;
+
+%% if theta and phi change, call setFieldDirection <theta> <phi>
+elseif strcmp(command,"moveto")==0;
+   if (in2[2]!=VmagSave[2]||in2[3]!=VmagSave[3]);
+      sprint cmd "setFieldDirection %lf %lf" in2[2] in2[3];
+      runext tcpSeam cmd 1 data = reply;
+      if (strstr(reply,"ERROR")!=0);
+         print "!!! moke3d command FAILED %s" reply; error;
+      end;
+   end;
+%% always call setField <field> <timeout> as may have been zerod
+   sprint cmd "setField %lf 600000" in2[1];
+   runext tcpSeam cmd 1 data = reply;
+   if (strstr(reply,"ERROR")!=0);
+      print "!!! moke3d command FAILED %s" reply; error;
+   end;
+   copy in2 = VmagSave;
+
+elseif strcmp(command,"gettype")==0;
+   out1=2.5;
+
+elseif strcmp(command,"getiname")==0;
+   out1="field     theta     phi       ";
+
+elseif strcmp(command,"getoname")==0;
+   out1="     field     theta       phi";
+
+elseif strcmp(command,"getofmt")==0;
+   out1="%10.4lf %10.2lf %10.2lf";
+
+elseif strcmp(command,"getounit")==0;
+   out1="Tes deg deg";
+
+end;
+
+if strcmp(command,"getcmds")==0;
+   out1="getstat getpos gettype getiname getofmt getoname getounit moveto setpos";
+end;
+
+return;
+
+% vmag <field> <theta> <phi>
+% sets required vector field strength and direction as follows :
+%   field : Tesla field strength
+%   theta : angle of rotation of field vector in horiz. plane (deg)
+%   phi   : angle of elevation (deg)
+% invokes moke3d Java magnet power software controller software via TCP/IP
+% version emailed 25/08/2005
+% NB order differs i.e. setFieldDirection <theta> <phi>
+%                       setField <field> <timeout>
+% this does not yet support request of current field settings so this macro
+% stores them specifically.

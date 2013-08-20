@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Diamond Light Source Beamline I06-1 Plug-in
+Bundle-SymbolicName: uk.ac.gda.beamline.i06_1;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: uk.ac.gda.beamline.i06.Activator
+Require-Bundle: uk.ac.gda.beamline.i06;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Diamond Light Source
+Import-Package: org.python.pydev.ui.wizards.project

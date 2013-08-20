@@ -1,0 +1,10 @@
+#!/bin/bash
+##This is a script file to restart all gda servers on I06 Mobile Rack (bl06i-mo-serv-01.diamond.ac.uk) from a remote workstation
+##This requires generation of ssh keys and copying the public key to the authorized_keys file in the server
+##Please refer to the document howtoSSH.txt for key generation.
+##To use this script change the key file path, user name and the server machine name
+ 
+ 
+echo Starting Mobile Rack GDA Servers remotely...
+echo ssh -n -i ~/.ssh/gdamobile.key i06user@bl06i-mo-serv-01.diamond.ac.uk "/dls_sw/i06/software/gda-mobile/bin/GDA_LocalMobileServer"
+ssh -n -i ~/.ssh/gdamobile.key i06user@bl06i-mo-serv-01.diamond.ac.uk "/dls_sw/i06/software/gda-mobile/bin/GDA_LocalMobileServer"
