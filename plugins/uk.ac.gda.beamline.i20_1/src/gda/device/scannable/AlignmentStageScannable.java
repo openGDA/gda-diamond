@@ -364,6 +364,22 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 		String propertiesFileName = LocalProperties.getVarDir() + getName() + CONFIGURATION_FILE_SUFFIX;
 		return propertiesFileName;
 	}
+
+	public ScannableMotor getxMotor() {
+		return xMotor;
+	}
+
+	public ScannableMotor getyMotor() {
+		return yMotor;
+	}
+
+	public ScannableMotor getFastShutter_xMotor() {
+		return fastShutter_xMotor;
+	}
+
+	public ScannableMotor getFastShutter_yMotor() {
+		return fastShutter_yMotor;
+	}
 }
 
 class AlignmentLocation {

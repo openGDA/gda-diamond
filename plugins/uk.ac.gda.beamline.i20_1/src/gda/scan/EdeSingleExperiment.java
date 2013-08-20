@@ -116,11 +116,12 @@ public class EdeSingleExperiment {
 	 * 
 	 * @throws Exception
 	 */
-	public void runExperiment() throws Exception {
+	public String runExperiment() throws Exception {
 		runScans();
 		EdeAsciiFileWriter writer = new EdeAsciiFileWriter(i0InitialScan,itScan,i0DarkScan,itDarkScan,theDetector);
 		writer.writeAsciiFile();
 		log("EDE single spectrum experiment complete.");
+		return writer.getAsciiFilename();
 	}
 
 	private void runScans() throws Exception {

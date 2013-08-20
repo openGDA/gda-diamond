@@ -16,14 +16,20 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.scan;
+package uk.ac.gda.exafs.ui.data;
 
-import gda.device.DeviceException;
+import org.eclipse.swt.widgets.Display;
 
-public interface EdeScanPosition {
+import uk.ac.gda.exafs.data.ObservableModel;
 
-	public abstract void moveIntoPosition() throws DeviceException, InterruptedException;
-
-	public abstract EdePositionType getType();
-
+public class UIObservableModel extends ObservableModel {
+	@Override
+	protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {
+		Display.getDefault().syncExec(new Runnable() {
+			@Override
+			public void run() {
+				UIObservableModel.super.firePropertyChange(propertyName, oldValue, newValue);
+			}
+		});
+	}
 }

@@ -35,6 +35,7 @@ import java.util.LinkedHashMap;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,6 +111,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	// if true then add group and frame columns to the output
 	private boolean displayGroupFrameValues = true;
 
+	private PolynomialFunction calibration = new PolynomialFunction(new double[] { 0., 1. });
+
 	static {
 		int startStrip = START_STRIP;
 		STRIPS = new Integer[NUMBER_ELEMENTS];
@@ -141,7 +144,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 					+ " detector. Detector will not collect data correctly." + e.getMessage(), e);
 		}
 
-		loadROIsFromXML();
+		loadFromXML();
 
 		loadExcludedStrips();
 
@@ -356,11 +359,9 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		double[] correctedData = performCorrections(elements)[0];
 		NXDetectorData thisFrame = new NXDetectorData(this);
 
-		// TODO need to add the energy calibration here.
-
 		double[] energies = new double[NUMBER_ELEMENTS];
 		for (int i = 0; i < NUMBER_ELEMENTS; i++) {
-			energies[i] = i;
+			energies[i] = calibration.value(i);
 		}
 
 		thisFrame.addAxis(getName(), "Energy", new int[] { 1, NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, energies, 1, 1,
@@ -928,7 +929,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	@Override
 	public void setRois(XHROI[] rois) {
 		setRoisWithoutStoringAndNotifying(rois);
-		saveROIsToXML();
+		saveToXML();
 		notifyIObservers(this, XHDetector.ROIS_CHANGED);
 	}
 
@@ -1017,7 +1018,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		return propertiesFileName;
 	}
 
-	private void saveROIsToXML() {
+	private void saveToXML() {
 		try {
 			String propertiesFileName = getStoreFileName();
 			File test = new File(propertiesFileName);
@@ -1035,13 +1036,22 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				store.setProperty(roi.getName() + "-" + LOWERLEVEL_PROPERTY, roi.getLowerLevel());
 				store.setProperty(roi.getName() + "-" + UPPERLEVEL_PROPERTY, roi.getUpperLevel());
 			}
+			if (calibration != null) {
+				double[] coeffs = calibration.getCoefficients();
+				String coeffsString = "";
+				for (double coeff : coeffs) {
+					coeffsString += coeff + " ";
+				}
+				coeffsString.trim();
+				store.setProperty("calibration", coeffsString);
+			}
 			store.save();
 		} catch (Exception e) {
 			logger.error("Exception writing XH ROIs to xml file", e);
 		}
 	}
 
-	private void loadROIsFromXML() {
+	private void loadFromXML() {
 		HashMap<String, XHROI> tempROIs = new LinkedHashMap<String, XHROI>();
 		try {
 			PropertiesConfiguration store = new PropertiesConfiguration(getStoreFileName());
@@ -1068,6 +1078,19 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 					thisROI.setUpperLevel(store.getInteger(key, NUMBER_ELEMENTS));
 				}
 			}
+
+			String storeCalibration = store.getString("calibration");
+			if (storeCalibration != null && !storeCalibration.isEmpty()) {
+				String[] coeffsString = storeCalibration.split(" ");
+				double[] coeffs = new double[coeffsString.length];
+				for (int index = 0; index < coeffsString.length; index++) {
+					coeffs[index] = Double.parseDouble(coeffsString[index]);
+				}
+				calibration = new PolynomialFunction(coeffs);
+			} else {
+				calibration = new PolynomialFunction(new double[] { 0., 1. });
+			}
+
 			setRoisWithoutStoringAndNotifying(tempROIs.values().toArray(new XHROI[0]));
 		} catch (Exception e) {
 			setDefaultROIs();
@@ -1202,6 +1225,17 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			}
 		}
 
+	}
+
+	@Override
+	public PolynomialFunction getEnergyCalibration() throws DeviceException {
+		return calibration;
+	}
+
+	@Override
+	public void setEnergyCalibration(PolynomialFunction calibration) throws DeviceException {
+		this.calibration = calibration;
+		saveToXML();
 	}
 
 }

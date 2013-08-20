@@ -15,17 +15,18 @@
 	<bean id="fast_shutter_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="fast_shutter_y_motor" />
 	</bean>
+	
 <!-- 	T3 Third stage -->
 	<bean id="stage3_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="stage3_z_motor" />
 	</bean>
-	
 	
 <!-- 	T2 Sample stage -->
 	<bean id="sample_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sample_z_motor" />
 		<property name="initialUserUnits" value="mm" />
 	</bean>
+	
 <!-- 	T4 sample environment table -->
 	<bean id="sample_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="samenv_x_motor" />

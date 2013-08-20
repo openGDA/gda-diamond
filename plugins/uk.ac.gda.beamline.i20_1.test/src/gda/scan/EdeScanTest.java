@@ -82,7 +82,7 @@ public class EdeScanTest {
 		ScannableMotor yScannable = createMotor("yScannable");
 
 		LocalProperties.set("gda.nexus.createSRS", "true");
-		EdeScanPosition inBeam = new EdeScanPosition(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
+		ExplicitScanPositions inBeam = new ExplicitScanPositions(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
 		// EdeScanPosition outBeam = new EdeScanPosition(EdePositionType.OUTBEAM,0d,0d,"xScannable","yScannable");
 
 		EdeScan theScan = new EdeScan(scanParams, inBeam, EdeScanType.LIGHT, xh);
@@ -125,8 +125,8 @@ public class EdeScanTest {
 		ScannableMotor xScannable = createMotor("xScannable");
 		ScannableMotor yScannable = createMotor("yScannable");
 
-		EdeScanPosition inBeam = new EdeScanPosition(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
-		EdeScanPosition outBeam = new EdeScanPosition(EdePositionType.OUTBEAM,0d,0d,xScannable,yScannable);
+		ExplicitScanPositions inBeam = new ExplicitScanPositions(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
+		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM,0d,0d,xScannable,yScannable);
 
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(scanParams, inBeam, outBeam, xh);
 		theExperiment.runExperiment();
@@ -157,8 +157,8 @@ public class EdeScanTest {
 		ScannableMotor xScannable = createMotor("xScannable");
 		ScannableMotor yScannable = createMotor("yScannable");
 
-		EdeScanPosition inBeam = new EdeScanPosition(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
-		EdeScanPosition outBeam = new EdeScanPosition(EdePositionType.OUTBEAM,0d,0d,xScannable,yScannable);
+		ExplicitScanPositions inBeam = new ExplicitScanPositions(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
+		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM,0d,0d,xScannable,yScannable);
 
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0Params, itParams, inBeam, outBeam, xh);
 		theExperiment.runExperiment();
@@ -204,7 +204,7 @@ public class EdeScanTest {
 			reader.readLine(); // header line
 			String dataString = reader.readLine(); // first data point
 			String[] dataParts = dataString.split("\t");
-			assertEquals(8, dataParts.length);
+			assertEquals(6, dataParts.length);
 		} finally {
 			if (reader != null) {
 				reader.close();
@@ -222,8 +222,8 @@ public class EdeScanTest {
 		ScannableMotor xScannable = createMotor("xScannable");
 		ScannableMotor yScannable = createMotor("yScannable");
 
-		EdeScanPosition inBeam = new EdeScanPosition(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
-		EdeScanPosition outBeam = new EdeScanPosition(EdePositionType.OUTBEAM,0d,0d,xScannable,yScannable);
+		ExplicitScanPositions inBeam = new ExplicitScanPositions(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
+		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM,0d,0d,xScannable,yScannable);
 
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, inBeam, outBeam, xh);
 		theExperiment.runExperiment();

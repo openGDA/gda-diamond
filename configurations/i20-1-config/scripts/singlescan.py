@@ -7,7 +7,7 @@
 #
 
 from gda.scan import EdeSingleExperiment
-from gda.scan import EdeScanPosition;
+from gda.scan import ExplicitScanPositions;
 from gda.scan import EdePositionType;
 from uk.ac.gda.exafs.ui.data import EdeScanParameters;
 
@@ -32,8 +32,8 @@ def runsinglescan():
     
     scanparams = EdeScanParameters.createSingleFrameScan(scanTimeInSeconds,numberOfScansPerFrame);
     
-    inBeamPosition = EdeScanPosition(EdePositionType.INBEAM, inbeam_xmotorposition, inbeam_ymotorposition, xmotorobject, ymotorobject);
-    outBeamPosition = EdeScanPosition(EdePositionType.OUTBEAM,outbeam_xmotorposition,outbeam_ymotorposition,xmotorobject,ymotorobject);
+    inBeamPosition = ExplicitScanPositions(EdePositionType.INBEAM, inbeam_xmotorposition, inbeam_ymotorposition, xmotorobject, ymotorobject);
+    outBeamPosition = ExplicitScanPositions(EdePositionType.OUTBEAM,outbeam_xmotorposition,outbeam_ymotorposition,xmotorobject,ymotorobject);
     
     theExperiment = EdeSingleExperiment(scanparams, inBeamPosition, outBeamPosition, xstrip);
     theExperiment.runExperiment()

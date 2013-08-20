@@ -20,6 +20,7 @@ package gda.scan;
 
 import gda.data.nexus.extractor.NexusExtractor;
 import gda.data.nexus.extractor.NexusGroupData;
+import gda.device.DeviceException;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.StripDetector;
 import gda.jython.InterfaceProvider;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Vector;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +46,7 @@ public class EdeAsciiFileWriter {
 	private final EdeScan i0InitialScan;
 	private final EdeScan itScan;
 	private final StripDetector theDetector;
+	private String asciiFilename;
 
 	public EdeAsciiFileWriter(EdeScan i0InitialScan, EdeScan itScan, EdeScan i0DarkScan, EdeScan itDarkScan,
 			StripDetector theDetector) {
@@ -55,7 +58,7 @@ public class EdeAsciiFileWriter {
 		this.theDetector = theDetector;
 	}
 
-	public void writeAsciiFile() throws Exception {
+	public String writeAsciiFile() throws Exception {
 		DoubleDataset i0DarkDataSet = extractDetectorDataSets(i0DarkScan);
 		DoubleDataset itDarkDataSet = extractDetectorDataSets(itDarkScan);
 		DoubleDataset i0InitialDataSet = extractDetectorDataSets(i0InitialScan);
@@ -65,7 +68,7 @@ public class EdeAsciiFileWriter {
 		String folder = FilenameUtils.getFullPath(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
 
-		String asciiFilename = folder + filename + ".txt";
+		asciiFilename = folder + filename + ".txt";
 
 		File asciiFile = new File(asciiFilename);
 		if (asciiFile.exists()) {
@@ -92,7 +95,7 @@ public class EdeAsciiFileWriter {
 			}
 
 			StringBuffer stringToWrite = new StringBuffer(channel + "\t");
-			stringToWrite.append(channel + "\t");
+			stringToWrite.append(String.format("%.2f",getEnergyForChannel(channel)) + "\t");
 			stringToWrite.append(String.format("%.2f", i0_corrected) + "\t");
 			stringToWrite.append(String.format("%.2f", it_corrected) + "\t");
 			stringToWrite.append(String.format("%.5f", lni0it) + "\t");
@@ -104,6 +107,22 @@ public class EdeAsciiFileWriter {
 			writer.write(stringToWrite.toString());
 		}
 		writer.close();
+		return asciiFilename;
+	}
+
+	public String getAsciiFilename() {
+		return asciiFilename;
+	}
+
+	private Double getEnergyForChannel(int channel){
+		PolynomialFunction function;
+		try {
+			function = theDetector.getEnergyCalibration();
+		} catch (DeviceException e) {
+			logger.error("Detector did not supply a calibration.", e);
+			return (double) channel;
+		}
+		return function.value(channel);
 	}
 
 	private DoubleDataset extractDetectorDataSets(EdeScan scan) {
