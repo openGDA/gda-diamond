@@ -1247,7 +1247,7 @@ class FlipperPD(PseudoDevice):
 		self.energy=newpos[0]
 		self.anout_PD(newpos[1])
 
-magvolts=FlipperPD('magvols',x17_anout)	#flipper device for magnet current via analogie output voltage
+#magvolts=FlipperPD('magvols',x17_anout)	#flipper device for magnet current via analogie output voltage
 #fl=flipper13_pil_t_mag=FlipperClass13('flipper13_pil_t_mag', magvolts, pil, pil, t, t, signal_read_field=-1,  mon_read_field=-1); #mag field and t for signal and mon (fields 2, 1) (make sure mon is last field of t)
 #fl1=flipper13_pil_t_mag=FlipperClass13('flipper13_pil_t_ppa220', ppa220, pil, pil, t, t, signal_read_field=-1,  mon_read_field=-1); #ppa220 and t for signal and mon (fields 2, 1) (make sure mon is last field of t)
 
@@ -1294,3 +1294,4 @@ flipper12xm=FlipperClass12('flipper12xm',x19_anout,xm,xm)
 #flipper9diode=FlipperClass9diode('flipper9diode')
 # ==== USE QPBM6, not QBPM8 =============
 '''
+flipper4=FlipperClass4a('flipper4',ppa220)

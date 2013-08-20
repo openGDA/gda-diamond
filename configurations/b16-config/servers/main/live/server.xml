@@ -107,7 +107,17 @@
 
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml" />
 
-	<bean id="script_paths" parent="abstract_script_paths"/>
+	<bean id="script_paths" parent="common_script_paths">
+		<property name="projects">
+			<list merge="true">
+				<bean class="gda.jython.ScriptProject">
+					<property name="path" value="${gda.install.git.loc}/gda-bimorph/uk.ac.gda.bimorph/scripts" />
+					<property name="name" value="Scripts: Bimorph" />
+					<property name="type" value="CORE" />
+				</bean>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="command_server" parent="abstract_command_server">
 		<property name="jythonScriptPaths" ref="script_paths"/>
