@@ -1,3 +1,10 @@
+#
+# Deprecated. Now use singlescan.py.
+#
+#
+
+
+
 from gda.data import PathConstructor, NumTracker
 
 from uk.ac.diamond.scisoft.analysis.dataset import DoubleDataset, IntegerDataset

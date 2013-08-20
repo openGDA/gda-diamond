@@ -46,6 +46,7 @@ public class EdeAsciiFileWriter {
 	private final EdeScan i0InitialScan;
 	private final EdeScan itScan;
 	private final StripDetector theDetector;
+	private String asciiFilename;
 
 	public EdeAsciiFileWriter(EdeScan i0InitialScan, EdeScan itScan, EdeScan i0DarkScan, EdeScan itDarkScan,
 			StripDetector theDetector) {
@@ -57,7 +58,7 @@ public class EdeAsciiFileWriter {
 		this.theDetector = theDetector;
 	}
 
-	public void writeAsciiFile() throws Exception {
+	public String writeAsciiFile() throws Exception {
 		DoubleDataset i0DarkDataSet = extractDetectorDataSets(i0DarkScan);
 		DoubleDataset itDarkDataSet = extractDetectorDataSets(itDarkScan);
 		DoubleDataset i0InitialDataSet = extractDetectorDataSets(i0InitialScan);
@@ -67,7 +68,7 @@ public class EdeAsciiFileWriter {
 		String folder = FilenameUtils.getFullPath(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
 
-		String asciiFilename = folder + filename + ".txt";
+		asciiFilename = folder + filename + ".txt";
 
 		File asciiFile = new File(asciiFilename);
 		if (asciiFile.exists()) {
@@ -106,6 +107,11 @@ public class EdeAsciiFileWriter {
 			writer.write(stringToWrite.toString());
 		}
 		writer.close();
+		return asciiFilename;
+	}
+
+	public String getAsciiFilename() {
+		return asciiFilename;
 	}
 
 	private Double getEnergyForChannel(int channel){
