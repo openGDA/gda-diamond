@@ -9,7 +9,7 @@
 #
 
 from gda.scan import EdeSingleExperiment
-from gda.scan import EdeScanPosition;
+from gda.scan import ExplicitScanPositions;
 from gda.scan import EdePositionType;
 from uk.ac.gda.exafs.ui.data import EdeScanParameters;
 
@@ -43,8 +43,8 @@ class SingleScanExperiment():
         i0scanparams = EdeScanParameters.createSingleFrameScan(self.i0_scantime,self.i0_numberscans);
         itscanparams = EdeScanParameters.createSingleFrameScan(self.it_scantime,self.it_numberscans);
         
-        inBeamPosition = EdeScanPosition(EdePositionType.INBEAM, self.it_x_position, self.it_y_position, self.xmotorobject, self.ymotorobject);
-        outBeamPosition = EdeScanPosition(EdePositionType.OUTBEAM,self.i0_x_position,self.i0_y_position,self.xmotorobject,self.ymotorobject);
+        inBeamPosition = ExplicitScanPositions(EdePositionType.INBEAM, self.it_x_position, self.it_y_position, self.xmotorobject, self.ymotorobject);
+        outBeamPosition = ExplicitScanPositions(EdePositionType.OUTBEAM,self.i0_x_position,self.i0_y_position,self.xmotorobject,self.ymotorobject);
         
         theExperiment = EdeSingleExperiment(i0scanparams, itscanparams, inBeamPosition, outBeamPosition, self.stripdetector);
         theExperiment.runExperiment()
