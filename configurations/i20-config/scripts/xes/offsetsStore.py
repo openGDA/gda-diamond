@@ -20,7 +20,7 @@ import os
 # There is an unamed default store for convenience. the underlying file for this is xes_store.
 
 global DEFAULT_STORE_NAME,STORE_DIR,STORE_IN_USE_NAME
-DEFAULT_STORE_NAME="xes_store"
+TEMP_STORE_NAME="xes_temp"
 STORE_IN_USE_NAME="current_store"
 STORE_DIR = LocalProperties.getVarDir() +"/xes_offsets/"
 
@@ -29,7 +29,7 @@ def list():
     Lists the available stores (xml files) which each hold a collection of offsets
     """
     
-    print "Current stores available ( default is",DEFAULT_STORE_NAME,"):"
+    print "Current stores available :"
     
     files = os.listdir(STORE_DIR)
     for name in files:
@@ -39,9 +39,11 @@ def list():
 
 def write():
     """
-    Stores the current Spectrometer offsets in the default store. This is the store which is be re-loaded on GDA restart.
+    Stores the current Spectrometer offsets in the default store. This is available, but not applied, on GDA 
+    restart. But will be overwritten the next time the offsets are saved so should be saved to a named store 
+    as soon as they are considered correct. 
     """
-    writeas(DEFAULT_STORE_NAME)
+    writeas(TEMP_STORE_NAME)
 
 def writeas(storeName):
     """
@@ -63,12 +65,6 @@ def writeas(storeName):
 def reapply():
     print "Reapplying previous spectrometer offsets..."
     applyfrom(STORE_IN_USE_NAME)
-    
-def apply():
-    """
-    Loads and sets the Spectrometer offsets from the default store.
-    """
-    applyfrom(DEFAULT_STORE_NAME)
     
 def applyfrom(storeName):
     """
@@ -93,12 +89,6 @@ def applyfrom(storeName):
     writeas(STORE_IN_USE_NAME)
     print "Offsets applied."
 
-    
-def view():
-    """
-    Views the Spectrometer offsets held in the default store.
-    """
-    viewstore(DEFAULT_STORE_NAME)
     
 def viewstore(storeName):
     """
