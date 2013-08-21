@@ -15,7 +15,7 @@ from gda.jython.scriptcontroller.logging import XasLoggingMessage
 from gda.scan import ScanBase#this is required for skip current repetition to work BLXVIIIB-99
 from gda.device.monitor import EpicsMonitor
 from gda.data.scan.datawriter import NexusExtraMetadataDataWriter
-from exafsscripts.exafs.config_fluoresence_detectors import FluoresenceDetectorsConfig
+from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
 
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
@@ -26,12 +26,13 @@ original_header = Finder.getInstance().find("datawriterconfig").clone().getHeade
 
 NexusExtraMetadataDataWriter.removeAllMetadataEntries()
 
-fluoresence_detectors_config = FluoresenceDetectorsConfig(xspress2system, xmapMca, ExafsScriptObserver)
+xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
+vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
 
 if (LocalProperties.get("gda.mode") == 'live'):
-    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, ionc_stanfords, ionc_gas_injectors.getGroupMembers(), fluoresence_detectors_config)
+    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, ionc_stanfords, ionc_gas_injectors.getGroupMembers(), xspressConfig, vortexConfig)
 else:
-    detectorPreparer = B18DetectorPreparer(qexafs_energy, None, ionc_stanfords, ionc_gas_injectors.getGroupMembers(), fluoresence_detectors_config)
+    detectorPreparer = B18DetectorPreparer(qexafs_energy, None, ionc_stanfords, ionc_gas_injectors.getGroupMembers(), xspressConfig, vortexConfig)
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig)
 
