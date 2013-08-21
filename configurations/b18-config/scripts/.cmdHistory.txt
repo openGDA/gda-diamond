@@ -1,50 +1,3 @@
-str
-str.format()
-timeString = '{:%Y-%m-%d %H:%M:%S}' % (datetime.datetime.now())
-timeString = '{:%Y-%m-%d %H:%M:%S}' % datetime.datetime.now()
-datetime.datetime.now()
-timeString = '{:%Y-%m-%d %H:%M:%S}' % datetime.datetime.now()
-timeString = '{:-%m-%d %H:%M:%S}' % datetime.datetime.now()
-timeString = '{:%Y-%m-%d %H:%M:%S}' % datetime.datetime.now()
-datetime.datetime.strptime("2008-09-03T20:56:35.450686Z", "%Y-%m-%dT%H:%M:%S.%f%Z")
-import re,datetime
-s="2008-09-03T20:56:35.450686Z"
-d=datetime.datetime(*map(int, re.split('[^\d]', s)[:-1]))
-t
-g
-y-33
-::;''##3r3arweropi90i56,l;kop
-import re,datetime
-s="2008-09-03T20:56:35.450686Z"
-d=datetime.datetime(*map(int, re.split('[^\d]', s)[:-1]))-yy
-import re,datetime
-s="2008-09-03T20:56:35.450686Z"
-d=datetime.datetime(*
-(+77
-if
- while True print 'Hello world'
-    print 2
-end
-exit
-break
-10 * (1/0)
-timeString = '{:%Y-%m-%d %H:%M:%S}' % datetime.datetime.now()
-import datetime
-timeString = '{:%Y-%m-%d %H:%M:%S}' % datetime.datetime.now()
-timeString = '{:%%Y-%%m-%%d %%H:%%M:%%S}' % datetime.datetime.now()
-d=datetime.datetime.now()
-d
-d[0]
-dir(d)
-d.strftime("%Y-%m-%d %H:%M:%S")
-reset_namespace
-cirrus
-cirrus.setMasses("1,2,3,4")
-cirrus.setMasses([1,2,3,4])
-cirrus.getMasses()
-cirrus
-cirrus.getMasses()
-reset_namespace
 pos
 reset_namespace
 s4xcentre
@@ -97,4 +50,51 @@ counterTimer02_nocorr.getOutputFormat()
 counterTimer02_nocorr.getExtraNames()
 counterTimer02_nocorr.getOutputFormat()
 counterTimer02_nocorr.getExtraNames()
+reset_namespace
+fluoresence_detectors_config
+reset_namespace
+fluoresence_detectors_config.createBeanFromXML("/scratch/users/data/2013/cm5943-2/xml/Experiment_1/Xspress_Parameters.xml")
+xb=fluoresence_detectors_config.createBeanFromXML("/scratch/users/data/2013/cm5943-2/xml/Experiment_1/Xspress_Parameters.xml")
+xb
+xb=fluoresence_detectors_config.createBeanFromXML("/scratch/users/data/2013/cm5943-2/xml/Experiment_1/Xspress_Parameters.xml")
+xb
+xb=fluoresence_detectors_config.createBeanFromXML("/scratch/users/data/2013/cm5943-2/xml/Experiment_1/Xspress_Parameters.xml")
+reset_namespace
+xb=fluoresence_detectors_config.createBeanFromXML("/scratch/users/data/2013/cm5943-2/xml/Experiment_1/Xspress_Parameters.xml")
+xb
+xb.isXspressOnlyShowFF()
+xb=fluoresence_detectors_config.createBeanFromXML("/scratch/users/data/2013/cm5943-2/xml/Experiment_1/Xspress_Parameters.xml")
+xb
+reset_namespace
+xb=fluoresence_detectors_config.createBeanFromXML("/scratch/users/data/2013/cm5943-2/xml/Experiment_1/Xspress_Parameters.xml")
+reset_namespace
+JythonServerFacade.getInstance()
+from gda.jython import JythonServerFacade
+JythonServerFacade.getInstance()
+JythonServerFacade.getInstance().runCommand("print 'hi'")
+reset_namespace
+scan test 0 5 1 counterTimer01 1
+scan test 0 5 1 counterTimer01 0.11
+scan test 0 5 1 xspress2system 0.11
+xspress2system.getExtraNames()
+xspress2system.getOutputFormat()
+xspress2system.getInputNames()
+scan test 0 5 1 counterTimer02_nocorr 0.1
+counterTimer02_nocorr.getOutputFormat()
+counterTimer02_nocorr.getInputNames()
+counterTimer02_nocorr.getExtraNames()
+scan test 0 1 1 counterTimer02_nocorr 0.1
+counterTimer02_nocorr.collectData()
+counterTimer02_nocorr.readout()
+counterTimer02_nocorr.__class__
+counterTimer02_nocorr.collectData()
+counterTimer02_nocorr.readout()
+182248+45528+131376+163755
+counterTimer02_nocorr.readout()
+xspress2system.readout()
+scan test 0 10 1 xspress2system 0.1
+scan test 0 10 1 counterTimer02_nocorr 0.1
+counterTimer02_nocorr.readout()
+scan test 0 10 1 xspress2system 0.1
+scan test 0 10 1 counterTimer02_nocorr 0.1
 reset_namespace

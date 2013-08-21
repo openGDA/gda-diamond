@@ -34,7 +34,7 @@
 		<property name="hdf5" ref="hdf5" />
 	</bean>
 
-	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController3">
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
 		<property name="edxdControllerName" value="edxdcontroller" />
 		<property name="local" value="true" />
 	</bean>
