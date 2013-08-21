@@ -39,8 +39,7 @@ Export-Package: gda.analysis.io,
  gda.images.camera.corba.impl,
  gda.images.camera.example,
  gda.scan,
- gda.util,
- uk.ac.gda.beans.bimorph
+ gda.util
 Import-Package: gda.device.detectorfilemonitor,
  org.apache.commons.lang.exception,
  org.apache.commons.math.linear;version="[2.2.0,3.0.0)",
