@@ -12,7 +12,7 @@ from gda.scan import EdePositionType;
 from uk.ac.gda.exafs.ui.data import EdeScanParameters;
 
 
-def runsinglescan():
+def runsinglespectrumscan():
     ########################
     # EDIT THESE VALUES:
     scanTimeInSeconds     = 0.001
@@ -38,6 +38,6 @@ def runsinglescan():
     theExperiment = EdeSingleExperiment(scanparams, inBeamPosition, outBeamPosition, xstrip);
     theExperiment.runExperiment()
     
-runsinglescan()
+runsinglespectrumscan()
 
 

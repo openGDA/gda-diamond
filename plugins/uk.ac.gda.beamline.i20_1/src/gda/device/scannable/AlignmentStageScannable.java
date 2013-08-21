@@ -48,7 +48,7 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 	private static final String CONFIGURATION_FILE_SUFFIX = "_alignmentConfiguration.xml";
 	private static final Devices PRIMARY_DEVICE = Devices.slits;
 
-	private static enum Devices {
+	public static enum Devices {
 		/**
 		 * Horizontal slits
 		 */
@@ -68,7 +68,16 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 		/**
 		 * Fast shutter. In fact this is downstream to the rest and used in conjunction with the hole.
 		 */
-		shutter
+		shutter;
+
+		public static Devices getDevice(String name){
+			for(Devices device : Devices.values()){
+				if (name.equals(device.toString())){
+					return device;
+				}
+			}
+			return null;
+		}
 	}
 
 	// motors

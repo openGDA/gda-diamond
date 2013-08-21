@@ -37,8 +37,6 @@ class SingleScanExperiment():
         self.xmotorobject   = sample_x
         self.ymotorobject   = sample_y
         
-        
-        
     def doCollection(self):
         i0scanparams = EdeScanParameters.createSingleFrameScan(self.i0_scantime,self.i0_numberscans);
         itscanparams = EdeScanParameters.createSingleFrameScan(self.it_scantime,self.it_numberscans);
