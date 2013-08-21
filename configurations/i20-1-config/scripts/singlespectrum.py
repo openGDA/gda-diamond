@@ -6,9 +6,9 @@
 # Richard Woolliscroft 22 July 2013
 #
 
-from gda.scan import EdeSingleExperiment
-from gda.scan import ExplicitScanPositions;
-from gda.scan import EdePositionType;
+from gda.scan.ede import EdeSingleExperiment
+from gda.scan.ede.position import ExplicitScanPositions;
+from gda.scan.ede.position import EdePositionType;
 from uk.ac.gda.exafs.ui.data import EdeScanParameters;
 
 

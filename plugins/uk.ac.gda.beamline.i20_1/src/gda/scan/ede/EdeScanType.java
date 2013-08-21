@@ -16,9 +16,9 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.scan;
+package gda.scan.ede;
 
-public enum EdePositionType {
-	INBEAM,
-	OUTBEAM
+public enum EdeScanType {
+	LIGHT,
+	DARK
 }
