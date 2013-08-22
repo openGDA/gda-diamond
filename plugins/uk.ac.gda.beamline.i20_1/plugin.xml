@@ -66,13 +66,6 @@
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.exafs.ui.views.AlignmentStageView"
-            icon="icons/brick.png"
-            id="uk.ac.gda.exafs.ui.views.alignmentstageview"
-            name="Stage"
-            restorable="true">
-      </view>
-      <view
             class="uk.ac.gda.exafs.ui.views.SingleSpectrumView"
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.singlespectrumview"
@@ -95,7 +88,7 @@
       </view>
       <view
             allowMultiple="false"
-            class="uk.ac.gda.exafs.ui.views.EdeDataCalibrationView"
+            class="uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView"
             icon="icons/chart_curve.png"
             id="uk.ac.gda.exafs.ui.views.calibrationreference"
             name="Reference Spectrum"
@@ -104,7 +97,7 @@
       <view
             allowMultiple="false"
             category="uk.ac.diamond.scisoft.analysis.rcp"
-            class="uk.ac.gda.exafs.ui.views.EdeDataCalibrationView"
+            class="uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView"
             icon="icons/chart_curve.png"
             id="uk.ac.gda.exafs.ui.views.calibrationEdeData"
             name="EDE Data Spectrum"
@@ -112,6 +105,7 @@
       </view>
       <view
             class="uk.ac.gda.exafs.ui.views.AlignmentStageClaibrationView"
+            icon="icons/brick.png"
             id="uk.ac.gda.exafs.ui.views.alignmentstagecalibration"
             name="Alignment Stage"
             restorable="true">

@@ -9,5 +9,11 @@
 		<constructor-arg ref="fast_shutter_x" />
 		<constructor-arg ref="fast_shutter_y" />
 	</bean>
+	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/alignment_stage" />
+		<property name="service" ref="alignment_stage" />
+		<property name="serviceInterface" value="gda.device.scannable.AlignmentStage" />
+	</bean>  
 
 </beans>

@@ -16,25 +16,13 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.views;
+package gda.device.scannable;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.ViewPart;
+import gda.device.Scannable;
+import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
+import gda.device.scannable.AlignmentStageScannable.FastShutter;
 
-public class AlignmentStageView extends ViewPart {
-	
-	public static final String ID = "uk.ac.gda.exafs.ui.views.alignmentstageview";
-
-	@Override
-	public void createPartControl(Composite parent) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-
-	}
-
+public interface AlignmentStage extends Scannable {
+	public AlignmentStageDevice getAlignmentStageDevice(String name);
+	public FastShutter getFastShutter();
 }

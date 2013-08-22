@@ -26,7 +26,7 @@ import gda.device.detector.DummyXStripDAServer;
 import gda.device.detector.XHDetector;
 import gda.device.motor.DummyMotor;
 import gda.device.scannable.AlignmentStageScannable;
-import gda.device.scannable.AlignmentStageScannable.Devices;
+import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
@@ -94,7 +94,7 @@ public class EdeScanDriversTest {
 			test.mkdir();
 		}
 
-		for (Devices device : AlignmentStageScannable.Devices.values()) {
+		for (AlignmentStageDevice device : AlignmentStageScannable.AlignmentStageDevice.values()) {
 			alignment_stage.saveDeviceFromCurrentMotorPositions(device.toString());
 		}
 

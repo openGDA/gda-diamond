@@ -83,7 +83,7 @@ import uk.ac.gda.exafs.data.DetectorConfig;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
 import uk.ac.gda.exafs.ui.views.CalibrationPlotViewer;
-import uk.ac.gda.exafs.ui.views.EdeDataCalibrationView;
+import uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView;
 
 public class EDECalibrationSection {
 
@@ -134,7 +134,7 @@ public class EDECalibrationSection {
 					protected IStatus doSet(IObservableValue observableValue, Object value) {
 						IStatus retult = super.doSet(observableValue, value);
 						try {
-							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeDataCalibrationView.REFERENCE_ID);
+							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeManualCalibrationPlotView.REFERENCE_ID);
 							refView.setCalibrationDataReference(CalibrationData.INSTANCE.getRefData());
 						} catch (PartInitException e) {
 							e.printStackTrace();
@@ -168,7 +168,7 @@ public class EDECalibrationSection {
 					protected IStatus doSet(IObservableValue observableValue, Object value) {
 						IStatus retult = super.doSet(observableValue, value);
 						try {
-							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeDataCalibrationView.EDE_ID);
+							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeManualCalibrationPlotView.EDE_ID);
 							refView.setCalibrationDataReference(CalibrationData.INSTANCE.getEdeData());
 						} catch (PartInitException e) {
 							// TODO Handle this

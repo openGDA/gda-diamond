@@ -258,23 +258,18 @@ public class ClientConfig {
 			return selectedElement;
 		}
 
-		public void setSelectedElement(Element selectedElement) {
+		public void setSelectedElement(Element selectedElement) throws Exception {
 			firePropertyChange(SELECTED_ELEMENT_PROP_NAME, this.selectedElement, this.selectedElement = selectedElement);
 			loadData();
 		}
 
-		private void loadData() {
-			try {
-				String previousRefFile = fileName;
-				loadCalibrationReferenceData();
-				loadDataNode();
-				loadEnergyNode();
-				loadReferencePoints();
-				firePropertyChange(FILE_NAME_PROP_NAME, previousRefFile, fileName);
-			} catch (Exception e) {
-				// TODO Handle this
-				e.printStackTrace();
-			}
+		private void loadData() throws Exception {
+			String previousRefFile = fileName;
+			loadCalibrationReferenceData();
+			loadDataNode();
+			loadEnergyNode();
+			loadReferencePoints();
+			firePropertyChange(FILE_NAME_PROP_NAME, previousRefFile, fileName);
 		}
 
 		public void setData(String fileName, DataHolder dataHolder, String energyNodePath, String dataNodePath) {
@@ -295,8 +290,9 @@ public class ClientConfig {
 		}
 
 		protected void loadCalibrationReferenceData() throws Exception {
-			fileName = "/dls/b18/data/2012/cm5713-3/Experiment_1/nexus/59306_Cufoil_quick_1min_60.nxs";
-			dataHolder = LoaderFactory.getData(fileName);
+			String testFileName = "/dls/b18/data/2012/cm5713-3/Experiment_1/nexus/59306_Cufoil_quick_1m_60.nxs";
+			dataHolder = LoaderFactory.getData(testFileName);
+			fileName = testFileName;
 		}
 
 		protected void loadReferencePoints() {

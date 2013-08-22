@@ -20,7 +20,7 @@ package gda.scan.ede.position;
 
 import gda.device.DeviceException;
 import gda.device.scannable.AlignmentStageScannable;
-import gda.device.scannable.AlignmentStageScannable.Devices;
+import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
 
 /**
  * Define the position for a scan using the alignment stage instead of motor positions.
@@ -28,10 +28,10 @@ import gda.device.scannable.AlignmentStageScannable.Devices;
 public class AlignmentStageScanPosition implements EdeScanPosition {
 
 	private final EdePositionType type;
-	private final AlignmentStageScannable.Devices device;
+	private final AlignmentStageScannable.AlignmentStageDevice device;
 	private final AlignmentStageScannable theScannable;
 
-	public AlignmentStageScanPosition(EdePositionType type, Devices device, AlignmentStageScannable theScannable) {
+	public AlignmentStageScanPosition(EdePositionType type, AlignmentStageDevice device, AlignmentStageScannable theScannable) {
 		this.type = type;
 		this.device = device;
 		this.theScannable = theScannable;

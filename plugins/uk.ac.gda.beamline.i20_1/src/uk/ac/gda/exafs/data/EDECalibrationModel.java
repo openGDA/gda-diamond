@@ -18,6 +18,13 @@
 
 package uk.ac.gda.exafs.data;
 
+import gda.device.Scannable;
+import gda.device.scannable.AlignmentStage;
+import gda.device.scannable.AlignmentStageScannable;
+import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
+import gda.factory.Finder;
+import gda.scan.ede.drivers.SingleSpectrumDriver;
+
 public class EDECalibrationModel extends ObservableModel {
 	public static final EDECalibrationModel INSTANCE = new EDECalibrationModel();
 
@@ -26,6 +33,12 @@ public class EDECalibrationModel extends ObservableModel {
 
 	public static final String I0_Y_POSITION_PROP_NAME = "i0yPosition";
 	private double i0yPosition;
+
+	public static final String IT_X_POSITION_PROP_NAME = "iTxPosition";
+	private double iTxPosition;
+
+	public static final String IT_Y_POSITION_PROP_NAME = "iTyPosition";
+	private double iTyPosition;
 
 	public static final String I0_INTEGRATION_TIME_PROP_NAME = "i0IntegrationTime";
 	private double i0IntegrationTime;
@@ -38,6 +51,43 @@ public class EDECalibrationModel extends ObservableModel {
 
 	public static final String IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME = "itNumberOfAccumulations";
 	private int itNumberOfAccumulations;
+
+	public static final String FILE_NAME_PROP_NAME = "fileName";
+	private String fileName;
+
+	protected EDECalibrationModel() {
+		Scannable scannable = Finder.getInstance().find("alignment_stage");
+		if (scannable != null && scannable instanceof AlignmentStage) {
+			AlignmentStage alignmentStageScannable = (AlignmentStage) scannable;
+			AlignmentStageDevice hole = alignmentStageScannable.getAlignmentStageDevice(AlignmentStageScannable.AlignmentStageDevice.hole.name());
+			this.setI0xPosition(hole.getLocation().getxPosition());
+			this.setI0yPosition(hole.getLocation().getyPosition());
+
+			AlignmentStageDevice foil = alignmentStageScannable.getAlignmentStageDevice(AlignmentStageScannable.AlignmentStageDevice.hole.name());
+			this.setiTxPosition(foil.getLocation().getxPosition());
+			this.setiTyPosition(foil.getLocation().getyPosition());
+		}
+	}
+
+	public void doScan() throws Exception {
+		SingleSpectrumDriver singleSpectrumDriver = new SingleSpectrumDriver(
+				DetectorConfig.INSTANCE.getCurrentDetector().getName(),
+				i0IntegrationTime,
+				i0NumberOfAccumulations,
+				itIntegrationTime,
+				itNumberOfAccumulations);
+		singleSpectrumDriver.setInBeamPosition(i0xPosition, i0yPosition);
+		singleSpectrumDriver.setInBeamPosition(iTxPosition, iTyPosition);
+		this.setFileName(singleSpectrumDriver.doCollection());
+	}
+
+	public void setFileName(String value) {
+		firePropertyChange(I0_X_POSITION_PROP_NAME, fileName, fileName = value);
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
 
 	public double getI0xPosition() {
 		return i0xPosition;
@@ -58,25 +108,48 @@ public class EDECalibrationModel extends ObservableModel {
 	public double getI0IntegrationTime() {
 		return i0IntegrationTime;
 	}
+
 	public void setI0IntegrationTime(double value) {
 		firePropertyChange(I0_INTEGRATION_TIME_PROP_NAME, i0IntegrationTime, i0IntegrationTime = value);
 	}
-	public double getI0NumberOfAccumulations() {
+
+	public int getI0NumberOfAccumulations() {
 		return i0NumberOfAccumulations;
 	}
+
 	public void setI0NumberOfAccumulations(int value) {
 		firePropertyChange(I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, i0NumberOfAccumulations, i0NumberOfAccumulations = value);
 	}
+
 	public double getItIntegrationTime() {
 		return itIntegrationTime;
 	}
+
 	public void setItIntegrationTime(double value) {
 		firePropertyChange(IT_INTEGRATION_TIME_PROP_NAME, itIntegrationTime, itIntegrationTime = value);
 	}
+
 	public int getItNumberOfAccumulations() {
 		return itNumberOfAccumulations;
 	}
-	public void setITNumberOfAccumulations(int value) {
+
+	public void setItNumberOfAccumulations(int value) {
 		firePropertyChange(IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME, itNumberOfAccumulations, itNumberOfAccumulations = value);
+	}
+
+	public double getiTxPosition() {
+		return iTxPosition;
+	}
+
+	public void setiTxPosition(double value) {
+		firePropertyChange(IT_X_POSITION_PROP_NAME, iTxPosition, iTxPosition = value);
+	}
+
+	public double getiTyPosition() {
+		return iTyPosition;
+	}
+
+	public void setiTyPosition(double value) {
+		firePropertyChange(IT_Y_POSITION_PROP_NAME, iTyPosition, iTyPosition = value);
 	}
 }
