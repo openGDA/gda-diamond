@@ -68,6 +68,13 @@ public class SingleSpectrumDriver {
 
 	}
 
+	/**
+	 * Takes either the motor positions as doubles or a String and null, where the String is one of the alignment stage
+	 * positions.
+	 * 
+	 * @param xPos
+	 * @param yPos
+	 */
 	public void setInBeamPosition(Object xPos, Object yPos) {
 		if (yPos == null) {
 			// assume xPos is a string of an AlignmentStageScannable.Devices
@@ -80,6 +87,13 @@ public class SingleSpectrumDriver {
 		}
 	}
 
+	/**
+	 * Takes either the motor positions as doubles or a String and null, where the String is one of the alignment stage
+	 * positions.
+	 * 
+	 * @param xPos
+	 * @param yPos
+	 */
 	public void setOutBeamPosition(Object xPos, Object yPos) {
 		if (yPos == null) {
 			// assume xPos is a string of an AlignmentStageScannable.Devices
