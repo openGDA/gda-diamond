@@ -20,11 +20,13 @@ package uk.ac.gda.exafs.ui.views;
 
 import gda.device.detector.StripDetector;
 import gda.device.detector.XHDetector;
+import gda.jython.Jython;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
@@ -246,6 +248,7 @@ public class SingleSpectrumView extends ViewPart {
 
 		Label fileNameLabel = toolkit.createLabel(acquisitionSettingsFileNameComposite, "Filename");
 		fileNameLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
 		Text fileNameText = toolkit.createText(acquisitionSettingsFileNameComposite, "", SWT.None);
 		fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		dataBindingCtx.bindValue(WidgetProperties.text().observe(fileNameText), BeanProperties.value(EDECalibrationModel.FILE_NAME_PROP_NAME).observe(EDECalibrationModel.INSTANCE));
@@ -259,8 +262,6 @@ public class SingleSpectrumView extends ViewPart {
 		Button startAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Start", SWT.PUSH);
 		startAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		Button stopAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Stop", SWT.PUSH);
-		stopAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		startAcquicitionButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -269,6 +270,26 @@ public class SingleSpectrumView extends ViewPart {
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 				}
+			}
+		});
+
+		Button stopAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Stop", SWT.PUSH);
+		stopAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(stopAcquicitionButton),
+				BeanProperties.value(EDECalibrationModel.STATE_PROP_NAME).observe(EDECalibrationModel.INSTANCE),
+				null,
+				new UpdateValueStrategy() {
+					@Override
+					public Object convert(Object value) {
+						return ((int) value != Jython.IDLE);
+					}
+				});
+		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				EDECalibrationModel.INSTANCE.doStop();
 			}
 		});
 

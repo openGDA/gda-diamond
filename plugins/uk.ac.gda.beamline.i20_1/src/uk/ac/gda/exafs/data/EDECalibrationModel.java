@@ -23,9 +23,13 @@ import gda.device.scannable.AlignmentStage;
 import gda.device.scannable.AlignmentStageScannable;
 import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
 import gda.factory.Finder;
-import gda.scan.ede.drivers.SingleSpectrumDriver;
+import gda.jython.InterfaceProvider;
+import gda.jython.Jython;
+import gda.jython.JythonServerFacade;
+import gda.jython.JythonServerStatus;
+import gda.observable.IObserver;
 
-public class EDECalibrationModel extends ObservableModel {
+public class EDECalibrationModel extends ObservableModel implements IObserver {
 	public static final EDECalibrationModel INSTANCE = new EDECalibrationModel();
 
 	public static final String I0_X_POSITION_PROP_NAME = "i0xPosition";
@@ -55,6 +59,9 @@ public class EDECalibrationModel extends ObservableModel {
 	public static final String FILE_NAME_PROP_NAME = "fileName";
 	private String fileName;
 
+	public static final String STATE_PROP_NAME = "state";
+	private int state;
+
 	protected EDECalibrationModel() {
 		Scannable scannable = Finder.getInstance().find("alignment_stage");
 		if (scannable != null && scannable instanceof AlignmentStage) {
@@ -69,24 +76,43 @@ public class EDECalibrationModel extends ObservableModel {
 		}
 	}
 
-	public void doScan() throws Exception {
-		SingleSpectrumDriver singleSpectrumDriver = new SingleSpectrumDriver(
+	private String buildScanCommand() {
+		return String.format("from gda.scan.ede.drivers import SingleSpectrumDriver;" +
+				"scan_driver = SingleSpectrumDriver(%s,%d,%d,%d,%d);" +
+				"scan_driver.setInBeamPosition(%d,%d);" +
+				"scan_driver.setOutBeamPosition(%d,%d);" +
+				"scan_driver.doCollection()",
 				DetectorConfig.INSTANCE.getCurrentDetector().getName(),
 				i0IntegrationTime,
 				i0NumberOfAccumulations,
 				itIntegrationTime,
-				itNumberOfAccumulations);
-		singleSpectrumDriver.setInBeamPosition(i0xPosition, i0yPosition);
-		singleSpectrumDriver.setInBeamPosition(iTxPosition, iTyPosition);
-		this.setFileName(singleSpectrumDriver.doCollection());
+				itNumberOfAccumulations,
+				i0xPosition, i0yPosition,
+				iTxPosition, iTyPosition);
 	}
 
-	public void setFileName(String value) {
+	public void doScan() throws DetectorUnavailableException {
+		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
+			throw new DetectorUnavailableException();
+		}
+		InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
+	}
+
+	public void setFileName(String value) throws Exception {
 		firePropertyChange(I0_X_POSITION_PROP_NAME, fileName, fileName = value);
+		ClientConfig.CalibrationData.INSTANCE.getEdeData().setData(value);
 	}
 
 	public String getFileName() {
 		return fileName;
+	}
+
+	public int getState() {
+		return state;
+	}
+
+	protected void setState(int value) {
+		this.firePropertyChange(STATE_PROP_NAME, state, state = value);
 	}
 
 	public double getI0xPosition() {
@@ -151,5 +177,26 @@ public class EDECalibrationModel extends ObservableModel {
 
 	public void setiTyPosition(double value) {
 		firePropertyChange(IT_Y_POSITION_PROP_NAME, iTyPosition, iTyPosition = value);
+	}
+
+	@Override
+	public void update(Object source, Object arg) {
+		if (arg instanceof JythonServerStatus) {
+			JythonServerStatus status = (JythonServerStatus) arg;
+			setState(status.scanStatus);
+		}
+	}
+
+	public void save() throws DetectorUnavailableException {
+		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
+			throw new DetectorUnavailableException();
+		}
+		InterfaceProvider.getCommandRunner().runCommand("alignment_stage.saveDeviceFromCurrentMotorPositions(\"slits\")");
+	}
+
+	public void doStop() {
+		if (this.getState() != Jython.IDLE) {
+			JythonServerFacade.getInstance().haltCurrentScan();
+		}
 	}
 }

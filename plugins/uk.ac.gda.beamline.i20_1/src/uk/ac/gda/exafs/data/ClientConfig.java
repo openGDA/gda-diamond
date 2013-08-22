@@ -20,6 +20,7 @@ package uk.ac.gda.exafs.data;
 
 import gda.device.Scannable;
 import gda.factory.Finder;
+import gda.scan.ede.EdeAsciiFileWriter;
 import gda.util.exafs.Element;
 
 import java.util.ArrayList;
@@ -281,6 +282,10 @@ public class ClientConfig {
 			firePropertyChange(FILE_NAME_PROP_NAME, previousRefFile, this.fileName);
 		}
 
+		public void setData(String fileName) throws Exception {
+			setData(fileName, LoaderFactory.getData(fileName), EdeAsciiFileWriter.STRIP_COLUMN_NAME, EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME);
+		}
+
 		protected void loadDataNode() {
 			dataNode = (AbstractDataset) dataHolder.getLazyDataset("/entry1/qexafs_counterTimer01/lnI0It").getSlice();
 		}
@@ -290,7 +295,7 @@ public class ClientConfig {
 		}
 
 		protected void loadCalibrationReferenceData() throws Exception {
-			String testFileName = "/dls/b18/data/2012/cm5713-3/Experiment_1/nexus/59306_Cufoil_quick_1m_60.nxs";
+			String testFileName = "/dls/b18/data/2012/cm5713-3/Experiment_1/nexus/59306_Cufoil_quick_1min_60.nxs";
 			dataHolder = LoaderFactory.getData(testFileName);
 			fileName = testFileName;
 		}

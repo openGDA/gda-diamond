@@ -26,7 +26,6 @@ import java.util.Collection;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.util.Pair;
-import org.apache.commons.math3.util.Precision;
 import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlottingFactory;
 import org.dawnsci.plotting.api.axis.IAxis;
@@ -171,8 +170,7 @@ public class EDECalibrationSection {
 							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeManualCalibrationPlotView.EDE_ID);
 							refView.setCalibrationDataReference(CalibrationData.INSTANCE.getEdeData());
 						} catch (PartInitException e) {
-							// TODO Handle this
-							e.printStackTrace();
+							UIHelper.showError("Unable to set data file", e.getMessage());
 						}
 						return retult;
 					}
@@ -373,7 +371,7 @@ public class EDECalibrationSection {
 
 						calibrationResult = edeCalibration.getEdeCalibrationPolynomial();
 						polynomialValueLbl.setText(calibrationResult.toString());
-						
+
 						runCalibrationButton.setEnabled(true);
 						applyCalibrationButton.setEnabled(true);
 					}

@@ -66,6 +66,7 @@
             restorable="true">
       </view>
       <view
+            allowMultiple="true"
             class="uk.ac.gda.exafs.ui.views.SingleSpectrumView"
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.singlespectrumview"
@@ -118,6 +119,11 @@
             icon="icons/chart_curve.png"
             id="uk.ac.gda.beamline.i20_1.AlignmentPerspective"
             name="Alignment">
+      </perspective>
+      <perspective
+            class="uk.ac.gda.exafs.ui.perspectives.ExperimentPerspective"
+            id="uk.ac.gda.beamline.i20_1.ExperimentPerspective"
+            name="EDE Experiment">
       </perspective>
    </extension>
    <extension point="org.eclipse.core.runtime.preferences">
