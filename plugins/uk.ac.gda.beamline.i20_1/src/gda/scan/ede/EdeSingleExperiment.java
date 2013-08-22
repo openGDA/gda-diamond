@@ -16,10 +16,11 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.scan;
+package gda.scan.ede;
 
 import gda.device.detector.StripDetector;
 import gda.jython.InterfaceProvider;
+import gda.scan.ede.position.EdeScanPosition;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

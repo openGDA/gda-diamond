@@ -48,7 +48,7 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 	private static final String CONFIGURATION_FILE_SUFFIX = "_alignmentConfiguration.xml";
 	private static final Devices PRIMARY_DEVICE = Devices.slits;
 
-	private static enum Devices {
+	public static enum Devices {
 		/**
 		 * Horizontal slits
 		 */
@@ -68,7 +68,16 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 		/**
 		 * Fast shutter. In fact this is downstream to the rest and used in conjunction with the hole.
 		 */
-		shutter
+		shutter;
+
+		public static Devices getDevice(String name){
+			for(Devices device : Devices.values()){
+				if (name.equals(device.toString())){
+					return device;
+				}
+			}
+			return null;
+		}
 	}
 
 	// motors
@@ -205,6 +214,8 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 				return null;
 			}
 			return "position not in the list of acceptable positions";
+		} else if (position instanceof Devices){
+			return null;
 		}
 		return "position not a string";
 	}
@@ -238,6 +249,10 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 			throws ConfigurationException, DeviceException, IOException {
 		if (checkPositionValid(positionName) == null) {
 			AlignmentLocation loc = deviceLocations.get(Devices.valueOf(positionName));
+			if (loc == null){
+				loc = new AlignmentLocation();
+				loc.label = positionName;
+			}
 			Double xMotorPos = (Double) xMotor.getPosition();
 			Double yMotorPos = (Double) yMotor.getPosition();
 			if (storeAsRelative && loc.label.compareTo(PRIMARY_DEVICE.name()) == 0) {
@@ -251,6 +266,7 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 				loc.xPosition = xMotorPos - getPrimaryXPosition();
 				loc.yPosition = yMotorPos - getPrimaryYPosition();
 			}
+			deviceLocations.put(Devices.valueOf(positionName), loc);
 			saveConfiguration();
 		}
 	}
