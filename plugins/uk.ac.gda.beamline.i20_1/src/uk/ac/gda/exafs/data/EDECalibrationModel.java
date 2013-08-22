@@ -64,6 +64,7 @@ public class EDECalibrationModel extends ObservableModel implements IObserver {
 
 	protected EDECalibrationModel() {
 		Scannable scannable = Finder.getInstance().find("alignment_stage");
+		InterfaceProvider.getJSFObserver().addIObserver(this);
 		if (scannable != null && scannable instanceof AlignmentStage) {
 			AlignmentStage alignmentStageScannable = (AlignmentStage) scannable;
 			AlignmentStageDevice hole = alignmentStageScannable.getAlignmentStageDevice(AlignmentStageScannable.AlignmentStageDevice.hole.name());
@@ -78,9 +79,9 @@ public class EDECalibrationModel extends ObservableModel implements IObserver {
 
 	private String buildScanCommand() {
 		return String.format("from gda.scan.ede.drivers import SingleSpectrumDriver;" +
-				"scan_driver = SingleSpectrumDriver(%s,%d,%d,%d,%d);" +
-				"scan_driver.setInBeamPosition(%d,%d);" +
-				"scan_driver.setOutBeamPosition(%d,%d);" +
+				"scan_driver = SingleSpectrumDriver(\"%s\",%f,%d,%f,%d);" +
+				"scan_driver.setInBeamPosition(%f,%f);" +
+				"scan_driver.setOutBeamPosition(%f,%f);" +
 				"scan_driver.doCollection()",
 				DetectorConfig.INSTANCE.getCurrentDetector().getName(),
 				i0IntegrationTime,
