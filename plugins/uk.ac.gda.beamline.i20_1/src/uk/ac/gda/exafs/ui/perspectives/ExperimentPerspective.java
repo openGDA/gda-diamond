@@ -16,9 +16,16 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.scan;
+package uk.ac.gda.exafs.ui.perspectives;
 
-public enum EdeScanType {
-	LIGHT,
-	DARK
+import org.eclipse.ui.IPageLayout;
+import org.eclipse.ui.IPerspectiveFactory;
+
+public class ExperimentPerspective implements IPerspectiveFactory {
+
+	@Override
+	public void createInitialLayout(IPageLayout layout) {
+		layout.setEditorAreaVisible(false);
+	}
+
 }

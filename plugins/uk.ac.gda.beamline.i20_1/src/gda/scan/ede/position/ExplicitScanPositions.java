@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.scan;
+package gda.scan.ede.position;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;

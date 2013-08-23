@@ -44,7 +44,7 @@ import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.CalibrationData;
 import uk.ac.gda.exafs.data.ClientConfig.ElementReference;
 
-public class EdeDataCalibrationView  extends ViewPart implements CalibrationPlotViewer {
+public class EdeManualCalibrationPlotView  extends ViewPart implements CalibrationPlotViewer {
 
 	public static final String REFERENCE_ID = "uk.ac.gda.exafs.ui.views.calibrationreference";
 	public static final String EDE_ID = "uk.ac.gda.exafs.ui.views.calibrationEdeData";
@@ -56,7 +56,7 @@ public class EdeDataCalibrationView  extends ViewPart implements CalibrationPlot
 	private IRegion ref2;
 	private IRegion ref3;
 
-	public EdeDataCalibrationView() throws Exception {
+	public EdeManualCalibrationPlotView() throws Exception {
 		plottingSystemRef = PlottingFactory.createPlottingSystem();
 	}
 

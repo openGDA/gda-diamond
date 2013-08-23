@@ -16,14 +16,13 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.scan;
+package gda.device.scannable;
 
-import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
+import gda.device.scannable.AlignmentStageScannable.FastShutter;
 
-public interface EdeScanPosition {
-
-	public abstract void moveIntoPosition() throws DeviceException, InterruptedException;
-
-	public abstract EdePositionType getType();
-
+public interface AlignmentStage extends Scannable {
+	public AlignmentStageDevice getAlignmentStageDevice(String name);
+	public FastShutter getFastShutter();
 }

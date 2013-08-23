@@ -20,6 +20,7 @@ package uk.ac.gda.exafs.data;
 
 import gda.device.Scannable;
 import gda.factory.Finder;
+import gda.scan.ede.EdeAsciiFileWriter;
 import gda.util.exafs.Element;
 
 import java.util.ArrayList;
@@ -258,23 +259,18 @@ public class ClientConfig {
 			return selectedElement;
 		}
 
-		public void setSelectedElement(Element selectedElement) {
+		public void setSelectedElement(Element selectedElement) throws Exception {
 			firePropertyChange(SELECTED_ELEMENT_PROP_NAME, this.selectedElement, this.selectedElement = selectedElement);
 			loadData();
 		}
 
-		private void loadData() {
-			try {
-				String previousRefFile = fileName;
-				loadCalibrationReferenceData();
-				loadDataNode();
-				loadEnergyNode();
-				loadReferencePoints();
-				firePropertyChange(FILE_NAME_PROP_NAME, previousRefFile, fileName);
-			} catch (Exception e) {
-				// TODO Handle this
-				e.printStackTrace();
-			}
+		private void loadData() throws Exception {
+			String previousRefFile = fileName;
+			loadCalibrationReferenceData();
+			loadDataNode();
+			loadEnergyNode();
+			loadReferencePoints();
+			firePropertyChange(FILE_NAME_PROP_NAME, previousRefFile, fileName);
 		}
 
 		public void setData(String fileName, DataHolder dataHolder, String energyNodePath, String dataNodePath) {
@@ -286,6 +282,10 @@ public class ClientConfig {
 			firePropertyChange(FILE_NAME_PROP_NAME, previousRefFile, this.fileName);
 		}
 
+		public void setData(String fileName) throws Exception {
+			setData(fileName, LoaderFactory.getData(fileName), EdeAsciiFileWriter.STRIP_COLUMN_NAME, EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME);
+		}
+
 		protected void loadDataNode() {
 			dataNode = (AbstractDataset) dataHolder.getLazyDataset("/entry1/qexafs_counterTimer01/lnI0It").getSlice();
 		}
@@ -295,8 +295,9 @@ public class ClientConfig {
 		}
 
 		protected void loadCalibrationReferenceData() throws Exception {
-			fileName = "/dls/b18/data/2012/cm5713-3/Experiment_1/nexus/59306_Cufoil_quick_1min_60.nxs";
-			dataHolder = LoaderFactory.getData(fileName);
+			String testFileName = "/dls/b18/data/2012/cm5713-3/Experiment_1/nexus/59306_Cufoil_quick_1min_60.nxs";
+			dataHolder = LoaderFactory.getData(testFileName);
+			fileName = testFileName;
 		}
 
 		protected void loadReferencePoints() {

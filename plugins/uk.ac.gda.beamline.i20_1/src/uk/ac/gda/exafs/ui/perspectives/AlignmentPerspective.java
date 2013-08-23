@@ -27,7 +27,7 @@ import org.eclipse.ui.IViewLayout;
 
 import uk.ac.gda.exafs.ui.views.AlignmentStageClaibrationView;
 import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
-import uk.ac.gda.exafs.ui.views.EdeDataCalibrationView;
+import uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView;
 import uk.ac.gda.exafs.ui.views.FocusingView;
 import uk.ac.gda.exafs.ui.views.SingleSpectrumView;
 
@@ -67,8 +67,8 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 
 		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, FocusingView.ID);
 		topPlotFolder.addView(SPECTRAPLOTID);
-		topPlotFolder.addPlaceholder(EdeDataCalibrationView.REFERENCE_ID);
-		topPlotFolder.addPlaceholder(EdeDataCalibrationView.EDE_ID);
+		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.REFERENCE_ID);
+		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.EDE_ID);
 		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.6f,TOPPLOT_FOLDER_ID);
 	}
 }

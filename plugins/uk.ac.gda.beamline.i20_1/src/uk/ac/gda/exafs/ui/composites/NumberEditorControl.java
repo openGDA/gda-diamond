@@ -17,6 +17,8 @@
  */
 
 package uk.ac.gda.exafs.ui.composites;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -189,6 +191,10 @@ public class NumberEditorControl extends Composite {
 		if (downArrowIcon != null && !downArrowIcon.isDisposed()) {
 			downArrowIcon.dispose();
 		}
+
+		if (disabledColor != null && !disabledColor.isDisposed()) {
+			disabledColor.dispose();
+		}
 		super.dispose();
 	}
 
@@ -264,8 +270,10 @@ public class NumberEditorControl extends Composite {
 		@Override
 		public void mouseDoubleClick(MouseEvent e) {}
 	};
+	private Color disabledColor;
 
 	protected void setupControls() {
+		disabledColor = new Color (this.getDisplay(), 245, 245, 245);
 		editorComposite = new Composite(this, SWT.None);
 		editorComposite.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
 		int columns = (useSpinner) ? 3 : 1;
@@ -290,6 +298,20 @@ public class NumberEditorControl extends Composite {
 			public void mouseEnter(MouseEvent e) {
 				cursor = ((Control) e.getSource()).getCursor();
 				((Control) e.getSource()).setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_HAND));
+			}
+		});
+		// TODO Use binding
+		controlModel.addPropertyChangeListener(MotorPositionWidgetModel.EDITABLE_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (!numberLabel.isDisposed()) {
+					boolean isEditable = (boolean) evt.getNewValue();
+					if (isEditable) {
+						numberLabel.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+					} else {
+						numberLabel.setBackground(disabledColor);
+					}
+				}
 			}
 		});
 		if (useSpinner) {

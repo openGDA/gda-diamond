@@ -16,25 +16,14 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.views;
+package gda.scan.ede.position;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.ViewPart;
+import gda.device.DeviceException;
 
-public class AlignmentStageView extends ViewPart {
-	
-	public static final String ID = "uk.ac.gda.exafs.ui.views.alignmentstageview";
+public interface EdeScanPosition {
 
-	@Override
-	public void createPartControl(Composite parent) {
-		// TODO Auto-generated method stub
+	public abstract void moveIntoPosition() throws DeviceException, InterruptedException;
 
-	}
-
-	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-
-	}
+	public abstract EdePositionType getType();
 
 }

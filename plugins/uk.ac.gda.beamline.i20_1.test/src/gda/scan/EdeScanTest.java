@@ -28,6 +28,11 @@ import gda.device.detector.XHDetector;
 import gda.device.motor.DummyMotor;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.FactoryException;
+import gda.scan.ede.EdeScan;
+import gda.scan.ede.EdeScanType;
+import gda.scan.ede.EdeSingleExperiment;
+import gda.scan.ede.position.EdePositionType;
+import gda.scan.ede.position.ExplicitScanPositions;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -36,6 +41,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.junit.Test;
 
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
@@ -230,6 +236,44 @@ public class EdeScanTest {
 		
 		testEDEFormatAsciiFile(3);
 	}
+	
+	@Test
+	public void testEnergyCalibrationUsingEdeScanParametersStaticMethods() throws Exception{
+		setup("testEnergyCalibrationUsingEdeScanParametersStaticMethods");
+		
+		EdeScanParameters itparams = EdeScanParameters.createSingleFrameScan(0.2);
+		
+		ScannableMotor xScannable = createMotor("xScannable");
+		ScannableMotor yScannable = createMotor("yScannable");
+
+		ExplicitScanPositions inBeam = new ExplicitScanPositions(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
+		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM,0d,0d,xScannable,yScannable);
+
+		xh.setEnergyCalibration(new PolynomialFunction(new double[]{0.,2.}));
+		
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, inBeam, outBeam, xh);
+		theExperiment.runExperiment();
+		
+		FileReader asciiFile = new FileReader(testDir + File.separator + 3 + ".txt");
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(asciiFile);
+			reader.readLine(); // header line
+			String dataString = reader.readLine(); // first data point
+			String[] dataParts = dataString.split("\t");
+			assertEquals(9, dataParts.length);
+			String dataString2 = reader.readLine(); // second data point
+			String[] dataParts2 = dataString2.split("\t");
+			assertEquals(1., Double.parseDouble(dataParts2[0]),0.1);
+			assertEquals(2., Double.parseDouble(dataParts2[1]),0.1);
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
+		}
+
+	}
+
 
 	private ScannableMotor createMotor(String name) throws MotorException, FactoryException {
 		DummyMotor xMotor = new DummyMotor();

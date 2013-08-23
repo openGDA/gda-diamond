@@ -23,6 +23,9 @@ import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
 import org.dawnsci.plotting.api.tool.IToolPageSystem;
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -30,6 +33,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.part.ViewPart;
 
+import uk.ac.gda.exafs.data.DetectorConfig;
 import uk.ac.gda.exafs.ui.composites.XHControlComposite;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
@@ -37,6 +41,8 @@ public class DetectorLiveMode extends ViewPart {
 
 	private XHControlComposite controlComposite;
 	private IPlottingSystem plottingSystem;
+
+	protected final DataBindingContext ctx = new DataBindingContext();
 
 	public DetectorLiveMode() {
 		//
@@ -70,6 +76,9 @@ public class DetectorLiveMode extends ViewPart {
 		// FIXME this is a hack to hide the margin!
 		controlComposite.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		controlComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+		ctx.bindValue(WidgetProperties.enabled().observe(controlComposite),
+				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
 	}
 
 	@Override
