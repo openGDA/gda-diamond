@@ -29,8 +29,16 @@ import gda.jython.JythonServerFacade;
 import gda.jython.JythonServerStatus;
 import gda.observable.IObserver;
 
-public class EDECalibrationModel extends ObservableModel implements IObserver {
-	public static final EDECalibrationModel INSTANCE = new EDECalibrationModel();
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.swt.widgets.Display;
+
+import uk.ac.gda.exafs.ui.data.UIHelper;
+
+public class SingleSpectrumModel extends ObservableModel {
+	public static final SingleSpectrumModel INSTANCE = new SingleSpectrumModel();
 
 	public static final String I0_X_POSITION_PROP_NAME = "i0xPosition";
 	private double i0xPosition;
@@ -59,12 +67,13 @@ public class EDECalibrationModel extends ObservableModel implements IObserver {
 	public static final String FILE_NAME_PROP_NAME = "fileName";
 	private String fileName;
 
-	public static final String STATE_PROP_NAME = "state";
-	private int state;
+	public static final String SCANNING_PROP_NAME = "scanning";
+	private boolean scanning;
 
-	protected EDECalibrationModel() {
+	private final ScanJob job;
+
+	protected SingleSpectrumModel() {
 		Scannable scannable = Finder.getInstance().find("alignment_stage");
-		InterfaceProvider.getJSFObserver().addIObserver(this);
 		if (scannable != null && scannable instanceof AlignmentStage) {
 			AlignmentStage alignmentStageScannable = (AlignmentStage) scannable;
 			AlignmentStageDevice hole = alignmentStageScannable.getAlignmentStageDevice(AlignmentStageScannable.AlignmentStageDevice.hole.name());
@@ -75,14 +84,16 @@ public class EDECalibrationModel extends ObservableModel implements IObserver {
 			this.setiTxPosition(foil.getLocation().getxPosition());
 			this.setiTyPosition(foil.getLocation().getyPosition());
 		}
+		job = new ScanJob("Performing Single spectrum scan");
+		InterfaceProvider.getJSFObserver().addIObserver(job);
+		job.setUser(true);
 	}
 
 	private String buildScanCommand() {
 		return String.format("from gda.scan.ede.drivers import SingleSpectrumDriver;" +
 				"scan_driver = SingleSpectrumDriver(\"%s\",%f,%d,%f,%d);" +
 				"scan_driver.setInBeamPosition(%f,%f);" +
-				"scan_driver.setOutBeamPosition(%f,%f);" +
-				"scan_driver.doCollection()",
+				"scan_driver.setOutBeamPosition(%f,%f)",
 				DetectorConfig.INSTANCE.getCurrentDetector().getName(),
 				i0IntegrationTime,
 				i0NumberOfAccumulations,
@@ -92,15 +103,101 @@ public class EDECalibrationModel extends ObservableModel implements IObserver {
 				iTxPosition, iTyPosition);
 	}
 
-	public void doScan() throws DetectorUnavailableException {
+	private static enum ScanJobName {
+		DARK_I0("Running I0 Dark scan"),
+		DAR_It("Running It Dark scan"),
+		I0("Running I0 scan"),
+		It("Running It scan");
+		String text;
+		private ScanJobName(String value) {
+			text = value;
+		}
+
+		public String getText() {
+			return text;
+		}
+	}
+
+	private class ScanJob extends Job implements IObserver {
+		private IProgressMonitor monitor;
+		private ScanJobName scanJobName;
+		public ScanJob(String name) {
+			super(name);
+			scanJobName = ScanJobName.DARK_I0;
+		}
+
+		@Override
+		public void update(Object source, Object arg) {
+			if (arg instanceof JythonServerStatus) {
+				JythonServerStatus status = (JythonServerStatus) arg;
+				if (SingleSpectrumModel.this.isScanning() && Jython.RUNNING == status.scanStatus) {
+					monitor.subTask(scanJobName.getText());
+					if (scanJobName.ordinal() <  ScanJobName.values().length - 1) {
+						scanJobName = ScanJobName.values()[scanJobName.ordinal() + 1];
+					}
+				}
+				if (SingleSpectrumModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
+					System.out.println("test");
+					monitor.worked(1);
+				}
+			}
+		}
+
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+			this.monitor = monitor;
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					SingleSpectrumModel.this.setScanning(true);
+				}
+			});
+			monitor.beginTask("Starting " + ScanJobName.values().length + " tasks.", ScanJobName.values().length);
+			try {
+				InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
+				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
+				Display.getDefault().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							SingleSpectrumModel.this.setFileName(resultFileName);
+						} catch (Exception e) {
+							UIHelper.showWarning("Error while loading data from saved file", e.getMessage());
+						}
+					}
+				});
+			} catch (Exception e) {
+				if (e.getMessage() !=null) {
+					UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
+				} else {
+					UIHelper.showWarning("Error while scanning or canceled", "");
+				}
+			}
+			monitor.done();
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					SingleSpectrumModel.this.setScanning(false);
+				}
+			});
+			return Status.OK_STATUS;
+		}
+
+		@Override
+		protected void canceling() {
+			doStop();
+		}
+	}
+
+	public void doScan() throws Exception {
 		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
-		InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
+		job.schedule();
 	}
 
 	public void setFileName(String value) throws Exception {
-		firePropertyChange(I0_X_POSITION_PROP_NAME, fileName, fileName = value);
+		firePropertyChange(FILE_NAME_PROP_NAME, fileName, fileName = value);
 		ClientConfig.CalibrationData.INSTANCE.getEdeData().setData(value);
 	}
 
@@ -108,12 +205,12 @@ public class EDECalibrationModel extends ObservableModel implements IObserver {
 		return fileName;
 	}
 
-	public int getState() {
-		return state;
+	public boolean isScanning() {
+		return scanning;
 	}
 
-	protected void setState(int value) {
-		this.firePropertyChange(STATE_PROP_NAME, state, state = value);
+	protected void setScanning(boolean value) {
+		this.firePropertyChange(SCANNING_PROP_NAME, scanning, scanning = value);
 	}
 
 	public double getI0xPosition() {
@@ -180,14 +277,6 @@ public class EDECalibrationModel extends ObservableModel implements IObserver {
 		firePropertyChange(IT_Y_POSITION_PROP_NAME, iTyPosition, iTyPosition = value);
 	}
 
-	@Override
-	public void update(Object source, Object arg) {
-		if (arg instanceof JythonServerStatus) {
-			JythonServerStatus status = (JythonServerStatus) arg;
-			setState(status.scanStatus);
-		}
-	}
-
 	public void save() throws DetectorUnavailableException {
 		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
@@ -196,7 +285,7 @@ public class EDECalibrationModel extends ObservableModel implements IObserver {
 	}
 
 	public void doStop() {
-		if (this.getState() != Jython.IDLE) {
+		if (this.isScanning()) {
 			JythonServerFacade.getInstance().haltCurrentScan();
 		}
 	}

@@ -37,7 +37,6 @@ public class AlignmentStageScannableTest {
 		configuration.save(tempFile.toFile());
 		
 		tempFile = Files.createTempFile(null, null);
-		System.out.println(tempFile.toString());
 		AlignmentStageScannable.FastShutter.FIRST_SHUTTER_INSTANCE.inLocation.setxPosition(6.0);
 		AlignmentStageScannable.FastShutter.FIRST_SHUTTER_INSTANCE.inLocation.setyPosition(6.0);
 		AlignmentStageScannable.FastShutter.FIRST_SHUTTER_INSTANCE.outLocation.setxPosition(9.0);

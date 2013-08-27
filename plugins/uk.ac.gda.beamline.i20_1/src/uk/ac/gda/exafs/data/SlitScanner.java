@@ -55,7 +55,7 @@ public class SlitScanner extends ObservableModel implements IObserver {
 	private double step;
 
 	public static final String INTEGRATION_TIME_PROP_NAME = "integrationTime";
-	private double integrationTime = 1;
+	private double integrationTime = 1.0;
 
 	private SlitScanner() {
 		InterfaceProvider.getJSFObserver().addIObserver(this);

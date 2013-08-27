@@ -89,7 +89,7 @@ public class EdeAsciiFileWriter {
 		asciiFile.createNewFile();
 		FileWriter writer = new FileWriter(asciiFile);
 		log("Writing EDE format ascii file: "+asciiFilename);
-		writer.write("#" + STRIP_COLUMN_NAME + "\t" + ENERGY_COLUMN_NAME + "\t" + I0_CORR_COLUMN_NAME + "\t" + IT_CORR_COLUMN_NAME + "\t" + LN_I0_IT_COLUMN_NAME + "\t " + I0_RAW_COLUMN_NAME + "\t" + IT_RAW_COLUMN_NAME + "\t" + I0_DARK_COLUMN_NAME + "\tIt_dark\n");
+		writer.write("#" + STRIP_COLUMN_NAME + "\t" + ENERGY_COLUMN_NAME + "\t" + I0_CORR_COLUMN_NAME + "\t" + IT_CORR_COLUMN_NAME + "\t" + LN_I0_IT_COLUMN_NAME + "\t " + I0_RAW_COLUMN_NAME + "\t" + IT_RAW_COLUMN_NAME + "\t" + I0_DARK_COLUMN_NAME + "\t" + IT_DARK_COLUMN_NAME + "\n");
 		for (int channel = 0; channel < theDetector.getNumberChannels(); channel++) {
 			Double i0Initial = i0InitialDataSet.get(channel);
 			Double it = itDataSet.get(channel);
