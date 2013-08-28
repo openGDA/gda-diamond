@@ -22,7 +22,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class ObservableModel {
-	private final PropertyChangeSupport changeSupport =
+
+	private transient final PropertyChangeSupport changeSupport =
 			new PropertyChangeSupport(this);
 
 	public void addPropertyChangeListener(PropertyChangeListener
