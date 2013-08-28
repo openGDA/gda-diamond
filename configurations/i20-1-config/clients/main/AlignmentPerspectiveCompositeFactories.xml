@@ -105,5 +105,11 @@
 		<property name="serviceUrl" value="${gda.rmi.prefix}twotheta" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>  
+	</bean>
+	
+	<bean id="alignment_stage" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}alignment_stage" />
+		<property name="serviceInterface" value="gda.device.scannable.AlignmentStage" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
 </beans>

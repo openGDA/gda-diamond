@@ -27,56 +27,121 @@ import gda.factory.FactoryException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.lang.ArrayUtils;
 import org.python.core.PyException;
 import org.python.core.PyString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AlignmentStageScannable extends ScannableBase implements EnumPositioner {
+import uk.ac.gda.exafs.data.ObservableModel;
+
+import com.google.gson.Gson;
+
+public class AlignmentStageScannable extends ScannableBase implements EnumPositioner, AlignmentStage {
 
 	private static final Logger logger = LoggerFactory.getLogger(AlignmentStageScannable.class);
-	private static final String Y_POSITION_PROPERTY_SUFFIX = "_yPosition";
-	private static final String X_POSITION_PROPERTY_SUFFIX = "_xPosition";
-	private static final String IS_RELATIVE_PROPERTY_SUFFIX = "_relative";
-	private static final String FAST_SHUTTER_INBEAM_PROPERTY_PREFIX = "FastShutter_InBeam";
-	private static final String FAST_SHUTTER_OUTBEAM_PROPERTY_PREFIX = "FastShutter_OutBeam";
 	private static final String CONFIGURATION_FILE_SUFFIX = "_alignmentConfiguration.xml";
-	private static final Devices PRIMARY_DEVICE = Devices.slits;
+	private static final AlignmentStageDevice PRIMARY_DEVICE = AlignmentStageDevice.slits;
+	private static final Gson GSON = new Gson();
 
-	public static enum Devices {
-		/**
-		 * Horizontal slits
-		 */
-		slits,
-		/**
-		 * x-ray eye
-		 */
-		eye,
-		/**
-		 * Reference foil
-		 */
-		foil,
-		/**
-		 * Hole, to be used on conjunction with a fast shutter in a separate location
-		 */
-		hole,
-		/**
-		 * Fast shutter. In fact this is downstream to the rest and used in conjunction with the hole.
-		 */
-		shutter;
+	public static class Location extends ObservableModel {
+		public static final String X_POS_PROP_NAME = "xPosition";
+		private double xPosition = 0.0;
+		public static final String Y_POS_PROP_NAME = "yPosition";
+		private double yPosition = 0.0;
+		public static final String RELATIVE_PROP_NAME = "relative";
+		private boolean relative;
 
-		public static Devices getDevice(String name){
-			for(Devices device : Devices.values()){
-				if (name.equals(device.toString())){
-					return device;
-				}
+		public double getxPosition() {
+			return xPosition;
+		}
+		public void setxPosition(double value) {
+			this.firePropertyChange(X_POS_PROP_NAME, xPosition, xPosition = value);
+		}
+		public double getyPosition() {
+			return yPosition;
+		}
+		public void setyPosition(double value) {
+			this.firePropertyChange(Y_POS_PROP_NAME, yPosition, yPosition = value);
+		}
+		public boolean isRelative() {
+			return relative;
+		}
+		public void setRelative(boolean value) {
+			this.firePropertyChange(Y_POS_PROP_NAME, relative, relative = value);
+		}
+	}
+
+	public static enum FastShutter {
+		FIRST_SHUTTER_INSTANCE;
+
+		Location inLocation = new Location();
+		Location outLocation = new Location();
+
+		public void save(PropertiesConfiguration configuration) {
+			configuration.setProperty(this.name(), GSON.toJson(new Location[]{inLocation, outLocation}));
+		}
+
+		public void load(PropertiesConfiguration configuration) {
+			if (configuration.containsKey(this.name())) {
+				Location[] location = GSON.fromJson(configuration.getString(this.name()), Location[].class);
+				inLocation = location[0];
+				outLocation = location[1];
 			}
-			return null;
+		}
+	}
+
+	public static enum AlignmentStageDevice {
+		slits, // Horizontal slits
+		eye, // x-ray eye
+		foil, // Reference foil
+		hole, // Hole, to be used on conjunction with a fast shutter in a separate location
+		shutter; // Fast shutter. In fact this is downstream to the rest and used in conjunction with the hole.
+
+		private Location location;
+
+		public Location getLocation() {
+			return location;
+		}
+
+		private AlignmentStageDevice() {
+			location = new Location();
+			location.setRelative((this != PRIMARY_DEVICE));
+		}
+
+		public void save(PropertiesConfiguration configuration) {
+			StringBuilder json = new StringBuilder();
+			GSON.toJson(location, json);
+			configuration.setProperty(this.name(), json.toString());
+		}
+
+		public void load(PropertiesConfiguration configuration) {
+			if (configuration.containsKey(this.name())) {
+				location = GSON.fromJson((String) configuration.getProperty(this.name()), Location.class);
+			}
+		}
+
+		public void moveLocation(
+				ScannableMotor xMotor,
+				ScannableMotor yMotor,
+				ScannableMotor fastShutter_xMotor,
+				ScannableMotor fastShutter_yMotor) throws DeviceException {
+			if (this == PRIMARY_DEVICE) {
+				xMotor.asynchronousMoveTo(location.xPosition);
+				yMotor.asynchronousMoveTo(location.yPosition);
+			} else {
+				xMotor.asynchronousMoveTo(location.xPosition + PRIMARY_DEVICE.location.xPosition);
+				yMotor.asynchronousMoveTo(location.yPosition + PRIMARY_DEVICE.location.yPosition);
+			}
+			if (this == AlignmentStageDevice.hole) {
+				fastShutter_xMotor.asynchronousMoveTo(FastShutter.FIRST_SHUTTER_INSTANCE.outLocation.xPosition);
+				fastShutter_yMotor.asynchronousMoveTo(FastShutter.FIRST_SHUTTER_INSTANCE.outLocation.yPosition);
+			} else if (this == AlignmentStageDevice.shutter) {
+				fastShutter_xMotor.asynchronousMoveTo(FastShutter.FIRST_SHUTTER_INSTANCE.inLocation.xPosition);
+				fastShutter_yMotor.asynchronousMoveTo(FastShutter.FIRST_SHUTTER_INSTANCE.inLocation.yPosition);
+			}
 		}
 	}
 
@@ -88,10 +153,7 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 
 	// configuration objects
 	private PropertiesConfiguration configuration;
-	private final HashMap<Devices, AlignmentLocation> deviceLocations = new HashMap<Devices, AlignmentLocation>();
-	private AlignmentLocation fastShutterInBeamLocation = new AlignmentLocation();
-	private AlignmentLocation fastShutterOutBeamLocation = new AlignmentLocation();
-	private AlignmentLocation lastDemandPosition = null;
+	private AlignmentStageDevice lastDemandPosition = null;
 
 	public AlignmentStageScannable(ScannableMotor xMotor, ScannableMotor yMotor, ScannableMotor fastShutter_xMotor,
 			ScannableMotor fastShutter_yMotor) {
@@ -119,9 +181,9 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 
 	@Override
 	public String[] getPositions() throws DeviceException {
-		String[] labels = new String[Devices.values().length];
-		for (int index = 0; index < Devices.values().length; index++) {
-			labels[index] = Devices.values()[index].toString();
+		String[] labels = new String[AlignmentStageDevice.values().length];
+		for (int index = 0; index < AlignmentStageDevice.values().length; index++) {
+			labels[index] = AlignmentStageDevice.values()[index].toString();
 		}
 		return labels;
 	}
@@ -142,59 +204,12 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 		if (checkPositionValid(position) == null) {
-			// ignore case when string matching
-			try {
-				Devices enumval = Devices.valueOf(position.toString());
-				switch (enumval) {
-				case slits:
-				case hole:
-				case foil:
-				case eye:
-					moveToLocation(enumval, true);
-					break;
-				case shutter:
-					moveToLocation(enumval, false);
-					break;
-				default:
-					throw new DeviceException("Demand position " + position + " is not a valid position.");
-				}
-			} catch (DeviceException e) {
-				lastDemandPosition = null;
-				logger.error("Exception when moving " + getName() + ": " + e.getMessage(), e);
-			}
+			AlignmentStageDevice device = AlignmentStageDevice.valueOf(position.toString());
+			device.moveLocation(xMotor, yMotor, fastShutter_xMotor, fastShutter_yMotor);
+			lastDemandPosition = device;
 		} else {
 			throw new DeviceException(position + " is not an acceptable position value");
 		}
-	}
-
-	private void moveToLocation(Devices enumval, Boolean moveShutterOutOfBeam) throws DeviceException {
-		AlignmentLocation slitsLoc = deviceLocations.get(enumval);
-		Double newX = slitsLoc.xPosition;
-		Double newY = slitsLoc.xPosition;
-		if (slitsLoc.isRelative) {
-			newX += getPrimaryXPosition();
-			newY += getPrimaryYPosition();
-		}
-		xMotor.asynchronousMoveTo(newX);
-		yMotor.asynchronousMoveTo(newY);
-		if (moveShutterOutOfBeam) {
-			fastShutter_xMotor.asynchronousMoveTo(fastShutterOutBeamLocation.xPosition);
-			fastShutter_yMotor.asynchronousMoveTo(fastShutterOutBeamLocation.yPosition);
-		} else {
-			fastShutter_xMotor.asynchronousMoveTo(fastShutterInBeamLocation.xPosition);
-			fastShutter_yMotor.asynchronousMoveTo(fastShutterInBeamLocation.yPosition);
-		}
-		lastDemandPosition = slitsLoc;
-	}
-
-	private Double getPrimaryXPosition() {
-		AlignmentLocation primaryLoc = deviceLocations.get(PRIMARY_DEVICE);
-		return primaryLoc.xPosition;
-	}
-
-	private Double getPrimaryYPosition() {
-		AlignmentLocation primaryLoc = deviceLocations.get(PRIMARY_DEVICE);
-		return primaryLoc.yPosition;
 	}
 
 	@Override
@@ -203,19 +218,18 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 		if (lastDemandPosition == null) {
 			return "unknown";
 		}
-		return lastDemandPosition.label;
+		return lastDemandPosition.name();
 	}
 
 	@Override
 	public String checkPositionValid(Object position) throws DeviceException {
 		if (position instanceof String || position instanceof PyString) {
-			String pos = position.toString();
-			if (ArrayUtils.contains(getPositions(), pos)) {
-				return null;
+			String deviceName = position.toString();
+			try {
+				AlignmentStageDevice.valueOf(deviceName);
+			} catch (Exception e) {
+				return "position not in the list of acceptable positions";
 			}
-			return "position not in the list of acceptable positions";
-		} else if (position instanceof Devices){
-			return null;
 		}
 		return "position not a string";
 	}
@@ -245,35 +259,23 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 		}
 	}
 
-	private void saveDeviceFromCurrentMotorPositions(String positionName, Boolean storeAsRelative)
-			throws ConfigurationException, DeviceException, IOException {
+	public void saveDeviceFromCurrentMotorPositions(Object positionName) throws ConfigurationException,
+	DeviceException, IOException {
 		if (checkPositionValid(positionName) == null) {
-			AlignmentLocation loc = deviceLocations.get(Devices.valueOf(positionName));
-			if (loc == null){
-				loc = new AlignmentLocation();
-				loc.label = positionName;
-			}
-			Double xMotorPos = (Double) xMotor.getPosition();
-			Double yMotorPos = (Double) yMotor.getPosition();
-			if (storeAsRelative && loc.label.compareTo(PRIMARY_DEVICE.name()) == 0) {
-				throw new DeviceException("Trying to svae primary location as relative!!");
-			} else if (!storeAsRelative) {
-				loc.isRelative = false;
-				loc.xPosition = xMotorPos;
-				loc.yPosition = yMotorPos;
+			double xMotorPos = (double) xMotor.getPosition();
+			double yMotorPos = (double) yMotor.getPosition();
+			AlignmentStageDevice device = AlignmentStageDevice.valueOf((String) positionName);
+			if (device == PRIMARY_DEVICE) {
+				device.getLocation().xPosition = xMotorPos;
+				device.getLocation().yPosition = yMotorPos;
+				device.getLocation().setRelative(false);
 			} else {
-				loc.isRelative = true;
-				loc.xPosition = xMotorPos - getPrimaryXPosition();
-				loc.yPosition = yMotorPos - getPrimaryYPosition();
+				device.getLocation().setRelative(true);
+				device.getLocation().xPosition = xMotorPos - PRIMARY_DEVICE.getLocation().xPosition;
+				device.getLocation().yPosition = yMotorPos - PRIMARY_DEVICE.getLocation().yPosition;
 			}
-			deviceLocations.put(Devices.valueOf(positionName), loc);
 			saveConfiguration();
 		}
-	}
-
-	public void saveDeviceFromCurrentMotorPositions(String positionName) throws ConfigurationException,
-	DeviceException, IOException {
-		saveDeviceFromCurrentMotorPositions(positionName, positionName.compareTo(PRIMARY_DEVICE.name()) != 0);
 	}
 
 	private String createFormattedListAcceptablePositions() throws DeviceException {
@@ -293,46 +295,17 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 	 */
 	public void loadConfiguration() throws IOException {
 		openConfigurationFile();
-
-		AlignmentLocation newLocation1 = new AlignmentLocation();
-		newLocation1.label = FAST_SHUTTER_INBEAM_PROPERTY_PREFIX;
-		newLocation1.xPosition = configuration.getDouble(FAST_SHUTTER_INBEAM_PROPERTY_PREFIX
-				+ X_POSITION_PROPERTY_SUFFIX, 0.0);
-		newLocation1.yPosition = configuration.getDouble(FAST_SHUTTER_INBEAM_PROPERTY_PREFIX
-				+ Y_POSITION_PROPERTY_SUFFIX, 0.0);
-		newLocation1.isRelative = false;
-		fastShutterInBeamLocation = newLocation1;
-
-		AlignmentLocation newLocation2 = new AlignmentLocation();
-		newLocation2.label = FAST_SHUTTER_OUTBEAM_PROPERTY_PREFIX;
-		newLocation2.xPosition = configuration.getDouble(FAST_SHUTTER_OUTBEAM_PROPERTY_PREFIX
-				+ X_POSITION_PROPERTY_SUFFIX, 0.0);
-		newLocation2.yPosition = configuration.getDouble(FAST_SHUTTER_OUTBEAM_PROPERTY_PREFIX
-				+ Y_POSITION_PROPERTY_SUFFIX, 0.0);
-		newLocation2.isRelative = false;
-		fastShutterOutBeamLocation = newLocation2;
-
-		for (Devices dev : Devices.values()) {
-			AlignmentLocation loc = new AlignmentLocation();
-			if (deviceLocations.containsKey(dev.toString())
-					&& configuration.containsKey(dev.toString() + X_POSITION_PROPERTY_SUFFIX)) {
-				loc.label = dev.toString();
-				loc.xPosition = configuration.getDouble(loc.label + X_POSITION_PROPERTY_SUFFIX);
-				loc.yPosition = configuration.getDouble(loc.label + Y_POSITION_PROPERTY_SUFFIX);
-				loc.isRelative = configuration.getBoolean(loc.label + IS_RELATIVE_PROPERTY_SUFFIX);
-			} else {
-				loc.label = dev.toString();
-				loc.xPosition = 0.0;
-				loc.yPosition = 0.0;
-				loc.isRelative = loc.label.compareTo(PRIMARY_DEVICE.toString()) == 0 ? false : true;
-			}
-			deviceLocations.put(dev, loc);
+		FastShutter.FIRST_SHUTTER_INSTANCE.load(configuration);
+		for (AlignmentStageDevice dev : AlignmentStageDevice.values()) {
+			dev.load(configuration);
 		}
-
 		logger.info("Configuration file loaded.");
 	}
 
 	private void openConfigurationFile() throws IOException {
+		if (configuration != null) {
+			return;
+		}
 		String propertiesFileName = getFileName();
 		File test = new File(propertiesFileName);
 		if (!test.exists()) {
@@ -343,7 +316,9 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 			}
 		}
 		try {
-			configuration = new PropertiesConfiguration(propertiesFileName);
+			configuration = new PropertiesConfiguration();
+			configuration.setDelimiterParsingDisabled(true);
+			configuration.load(propertiesFileName);
 			logger.info("Configuration file " + propertiesFileName + " opened.");
 		} catch (ConfigurationException e) {
 			throw new IOException("ConfigurationException trying to open file: " + e.toString(), e);
@@ -351,28 +326,12 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 	}
 
 	private void saveConfiguration() throws ConfigurationException, IOException {
-
-		if (configuration == null) {
-			openConfigurationFile();
+		openConfigurationFile();
+		for (AlignmentStageDevice device : AlignmentStageDevice.values()) {
+			device.save(configuration);
 		}
-
-		for (AlignmentLocation loc : deviceLocations.values()) {
-			configuration.setProperty(loc.label + X_POSITION_PROPERTY_SUFFIX, loc.xPosition);
-			configuration.setProperty(loc.label + Y_POSITION_PROPERTY_SUFFIX, loc.yPosition);
-			configuration.setProperty(loc.label + IS_RELATIVE_PROPERTY_SUFFIX, loc.isRelative);
-		}
-
-		configuration.setProperty(fastShutterInBeamLocation.label + X_POSITION_PROPERTY_SUFFIX,
-				fastShutterInBeamLocation.xPosition);
-		configuration.setProperty(fastShutterInBeamLocation.label + Y_POSITION_PROPERTY_SUFFIX,
-				fastShutterInBeamLocation.yPosition);
-		configuration.setProperty(fastShutterOutBeamLocation.label + X_POSITION_PROPERTY_SUFFIX,
-				fastShutterOutBeamLocation.xPosition);
-		configuration.setProperty(fastShutterOutBeamLocation.label + Y_POSITION_PROPERTY_SUFFIX,
-				fastShutterOutBeamLocation.yPosition);
-
+		FastShutter.FIRST_SHUTTER_INSTANCE.save(configuration);
 		configuration.save();
-
 		logger.info("Configuration file saved.");
 	}
 
@@ -396,11 +355,14 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 	public ScannableMotor getFastShutter_yMotor() {
 		return fastShutter_yMotor;
 	}
-}
 
-class AlignmentLocation {
-	Double xPosition;
-	Double yPosition;
-	String label;
-	Boolean isRelative;
+	@Override
+	public AlignmentStageDevice getAlignmentStageDevice(String name) {
+		return AlignmentStageDevice.valueOf(name);
+	}
+
+	@Override
+	public FastShutter getFastShutter() {
+		return FastShutter.FIRST_SHUTTER_INSTANCE;
+	}
 }

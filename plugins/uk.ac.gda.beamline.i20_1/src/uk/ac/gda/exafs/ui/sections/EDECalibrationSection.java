@@ -26,7 +26,6 @@ import java.util.Collection;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.util.Pair;
-import org.apache.commons.math3.util.Precision;
 import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlottingFactory;
 import org.dawnsci.plotting.api.axis.IAxis;
@@ -42,9 +41,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -62,7 +58,6 @@ import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.dialogs.ListDialog;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -73,8 +68,6 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
 import uk.ac.diamond.scisoft.analysis.dataset.Slice;
-import uk.ac.diamond.scisoft.analysis.io.DataHolder;
-import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.diamond.scisoft.spectroscopy.fitting.EdeCalibration;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.CalibrationData;
@@ -83,7 +76,7 @@ import uk.ac.gda.exafs.data.DetectorConfig;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
 import uk.ac.gda.exafs.ui.views.CalibrationPlotViewer;
-import uk.ac.gda.exafs.ui.views.EdeDataCalibrationView;
+import uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView;
 
 public class EDECalibrationSection {
 
@@ -134,7 +127,7 @@ public class EDECalibrationSection {
 					protected IStatus doSet(IObservableValue observableValue, Object value) {
 						IStatus retult = super.doSet(observableValue, value);
 						try {
-							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeDataCalibrationView.REFERENCE_ID);
+							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeManualCalibrationPlotView.REFERENCE_ID);
 							refView.setCalibrationDataReference(CalibrationData.INSTANCE.getRefData());
 						} catch (PartInitException e) {
 							e.printStackTrace();
@@ -168,11 +161,10 @@ public class EDECalibrationSection {
 					protected IStatus doSet(IObservableValue observableValue, Object value) {
 						IStatus retult = super.doSet(observableValue, value);
 						try {
-							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeDataCalibrationView.EDE_ID);
+							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeManualCalibrationPlotView.EDE_ID);
 							refView.setCalibrationDataReference(CalibrationData.INSTANCE.getEdeData());
 						} catch (PartInitException e) {
-							// TODO Handle this
-							e.printStackTrace();
+							UIHelper.showError("Unable to set data file", e.getMessage());
 						}
 						return retult;
 					}
@@ -246,6 +238,7 @@ public class EDECalibrationSection {
 				this.widgetSelected(e);
 			}
 		});
+		// TODO Enable this when energy calibration is linked
 		applyCalibrationButton.setEnabled(false);
 		toolkit.paintBordersFor(plotComposite);
 
@@ -257,31 +250,13 @@ public class EDECalibrationSection {
 	private void showDataFileDialog(final Shell shell, ElementReference dataModel) {
 		FileDialog fileDialog = new FileDialog(shell, SWT.OPEN);
 		fileDialog.setText("Load data");
-		fileDialog.setFilterPath(ElementReference.DEFAULT_DATA_PATH);
+		fileDialog.setFilterPath(ClientConfig.DEFAULT_DATA_PATH);
 		String selected = fileDialog.open();
 		if (selected != null) {
 			try {
 				File refFile = new File(selected);
 				if (refFile.exists() && refFile.canRead()) {
-					DataHolder dataHolder = LoaderFactory.getData(selected);
-					ListDialog dialog = new ListDialog(shell);
-					dialog.setContentProvider(new ArrayContentProvider());
-					dialog.setTitle("Data set");
-					dialog.setMessage("Choose energy node");
-					dialog.setInput(dataHolder.getNames());
-					dialog.setLabelProvider(new LabelProvider());
-					if (dialog.open() == Window.OK) {
-						Object[] energy = dialog.getResult();
-						if (energy != null && energy.length == 1) {
-							dialog.setMessage("Choose data node");
-							if (dialog.open() == Window.OK) {
-								Object[] data = dialog.getResult();
-								if (data != null && data.length == 1) {
-									dataModel.setData(selected, dataHolder, (String) energy[0], (String) data[0]);
-								}
-							}
-						}
-					}
+					dataModel.setData(selected);
 				} else {
 					throw new Exception("Unable to read " + selected + ".");
 				}
@@ -373,7 +348,7 @@ public class EDECalibrationSection {
 
 						calibrationResult = edeCalibration.getEdeCalibrationPolynomial();
 						polynomialValueLbl.setText(calibrationResult.toString());
-						
+
 						runCalibrationButton.setEnabled(true);
 						applyCalibrationButton.setEnabled(true);
 					}

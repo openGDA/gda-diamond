@@ -443,8 +443,8 @@ public class XHControlComposite extends Composite implements IObserver {
 								&& InterfaceProvider.getScanStatusHolder().getScanStatus() == Jython.IDLE) {
 							Date snapshotTime = new Date();
 
-							double collectionPeriod_ms = detectorControlModel.getLiveIntegrationTime();
-							final Double[] results = collectAndPlotSnapshot(false, collectionPeriod_ms, 1,
+							String collectionPeriod_ms = String.format("%." + ClientConfig.DEFAULT_DECIMAL_PLACE + "f", detectorControlModel.getLiveIntegrationTime());
+							final Double[] results = collectAndPlotSnapshot(false, detectorControlModel.getLiveIntegrationTime(), 1,
 									"Live reading (" + collectionPeriod_ms + "ms integration, every " + detectorControlModel.getRefreshPeriod()
 									+ " s)");
 

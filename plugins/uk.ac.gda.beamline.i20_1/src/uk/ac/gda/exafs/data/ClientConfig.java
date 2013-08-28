@@ -20,6 +20,7 @@ package uk.ac.gda.exafs.data;
 
 import gda.device.Scannable;
 import gda.factory.Finder;
+import gda.scan.ede.EdeAsciiFileWriter;
 import gda.util.exafs.Element;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class ClientConfig {
 
 	public static final int KILO_UNIT = 1000;
 	public static final int DEFAULT_DECIMAL_PLACE = 3;
+	public static final String DEFAULT_DATA_PATH = "/dls/i20-1/data";
 
 	private ClientConfig() {}
 
@@ -165,6 +167,9 @@ public class ClientConfig {
 	}
 
 	public static class CalibrationData extends ObservableModel {
+		public static final String REF_DATA_COLUMN_NAME = "/entry1/qexafs_counterTimer01/lnI0It";
+		public static final String REF_ENERGY_COLUMN_NAME = "/entry1/qexafs_counterTimer01/qexafs_energy";
+
 		public static final CalibrationData INSTANCE = new CalibrationData();
 		public static final String MANUAL_PROP_NAME = "manual";
 		private boolean manual;
@@ -188,24 +193,12 @@ public class ClientConfig {
 
 	public static class ElementEdeData extends ElementReference {
 		@Override
-		protected void loadDataNode() {
-			dataNode = (AbstractDataset) dataHolder.getLazyDataset("/entry1/QexafsFFI0/QexafsFFI0").getSlice();
-		}
-
-		@Override
-		protected void loadEnergyNode() {
-			energyNode = AbstractDataset.arange(this.getRefDataNode().getSize(), AbstractDataset.INT32);
-		}
-
-		@Override
-		protected void loadCalibrationReferenceData() throws Exception {
-			fileName = "/dls/b18/data/2012/cm5713-3/Experiment_1/nexus/59040_Cufoil_quick_1min_1.nxs";
-			dataHolder = LoaderFactory.getData(fileName);
+		public void setData(String fileName) throws Exception {
+			setData(fileName, LoaderFactory.getData(fileName), EdeAsciiFileWriter.STRIP_COLUMN_NAME, EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME);
 		}
 	}
 
 	public static class ElementReference extends ObservableModel {
-		public static final String DEFAULT_DATA_PATH = "/dls/i20-1/data";
 
 		public static final String SELECTED_ELEMENT_PROP_NAME = "selectedElement";
 		private Element selectedElement;
@@ -260,43 +253,21 @@ public class ClientConfig {
 
 		public void setSelectedElement(Element selectedElement) {
 			firePropertyChange(SELECTED_ELEMENT_PROP_NAME, this.selectedElement, this.selectedElement = selectedElement);
-			loadData();
+			// TODO Call setData when DB is ready
 		}
 
-		private void loadData() {
-			try {
-				String previousRefFile = fileName;
-				loadCalibrationReferenceData();
-				loadDataNode();
-				loadEnergyNode();
-				loadReferencePoints();
-				firePropertyChange(FILE_NAME_PROP_NAME, previousRefFile, fileName);
-			} catch (Exception e) {
-				// TODO Handle this
-				e.printStackTrace();
-			}
+		public void setData(String fileName) throws Exception {
+			setData(fileName, LoaderFactory.getData(fileName), CalibrationData.REF_ENERGY_COLUMN_NAME, CalibrationData.REF_DATA_COLUMN_NAME);
 		}
 
-		public void setData(String fileName, DataHolder dataHolder, String energyNodePath, String dataNodePath) {
+		protected void setData(String fileName, DataHolder dataHolder, String energyNodePath, String dataNodePath) {
 			String previousRefFile = this.fileName;
 			this.fileName = fileName;
 			this.dataHolder = dataHolder;
 			energyNode = (AbstractDataset) this.dataHolder.getLazyDataset(energyNodePath).getSlice();
 			dataNode = (AbstractDataset) this.dataHolder.getLazyDataset(dataNodePath).getSlice();
+			loadReferencePoints();
 			firePropertyChange(FILE_NAME_PROP_NAME, previousRefFile, this.fileName);
-		}
-
-		protected void loadDataNode() {
-			dataNode = (AbstractDataset) dataHolder.getLazyDataset("/entry1/qexafs_counterTimer01/lnI0It").getSlice();
-		}
-
-		protected void loadEnergyNode() {
-			energyNode = (AbstractDataset) dataHolder.getLazyDataset("/entry1/qexafs_counterTimer01/qexafs_energy").getSlice();
-		}
-
-		protected void loadCalibrationReferenceData() throws Exception {
-			fileName = "/dls/b18/data/2012/cm5713-3/Experiment_1/nexus/59306_Cufoil_quick_1min_60.nxs";
-			dataHolder = LoaderFactory.getData(fileName);
 		}
 
 		protected void loadReferencePoints() {
@@ -337,8 +308,9 @@ public class ClientConfig {
 		SLIT_3_HORIZONAL_GAP("Slit hgap", "s3_hgap", UnitSetup.MILLI_METER),
 		SLIT_3_HORIZONAL_OFFSET("Slit offset", "sample_x", UnitSetup.MILLI_METER),
 
-		ALIGNMENT_STAGE_X_POSITION("Alignment stage X", "alignment_x", UnitSetup.MILLI_METER),
-		ALIGNMENT_STAGE_Y_POSITION("Alignment stage Y", "alignment_y", UnitSetup.MILLI_METER);
+		ALIGNMENT_STAGE_X_POSITION("Alignment stage x", "alignment_x", UnitSetup.MILLI_METER),
+		ALIGNMENT_STAGE_Y_POSITION("Alignment stage y", "alignment_y", UnitSetup.MILLI_METER),
+		ALIGNMENT_STAGE("Alignment stage", "alignment_stage", UnitSetup.SELECTION);
 
 		public static final double MAX_POWER_IN_WATT = 150.0;
 

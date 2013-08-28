@@ -18,6 +18,10 @@
 
 package uk.ac.gda.exafs.ui.views;
 
+import gda.device.Scannable;
+import gda.device.scannable.AlignmentStage;
+import gda.device.scannable.AlignmentStageScannable;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -34,21 +38,21 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.ViewPart;
 
+import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 import uk.ac.gda.exafs.data.ObservableModel;
 import uk.ac.gda.exafs.ui.composites.MotorPositionEditorControl;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.composites.ScannableWrapper;
-import uk.ac.gda.exafs.ui.data.AlignmentStageModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
-public class AlignmentStageClaibrationView extends ViewPart {
+public class AlignmentStageCalibrationView extends ViewPart {
 
 	public static final String ID = "uk.ac.gda.exafs.ui.views.alignmentstagecalibration";
 	private FormToolkit toolkit;
 	private Form form;
 
-	public AlignmentStageClaibrationView() {}
+	public AlignmentStageCalibrationView() {}
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -74,22 +78,14 @@ public class AlignmentStageClaibrationView extends ViewPart {
 		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		Composite sectionComposite = toolkit.createComposite(section, SWT.NONE);
 		toolkit.paintBordersFor(sectionComposite);
-		sectionComposite.setLayout(new GridLayout(3, false));
+		sectionComposite.setLayout(new GridLayout());
 		section.setClient(sectionComposite);
 
-		Label label = toolkit.createLabel(sectionComposite, "Alignment stage", SWT.None);
-		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		Composite composite = createXY(sectionComposite, ScannableSetup.ALIGNMENT_STAGE_X_POSITION, ScannableSetup.ALIGNMENT_STAGE_Y_POSITION);
-		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		gridData.horizontalSpan = 2;
-		composite.setLayoutData(gridData);
-
+		Composite composite = createAlignmentStageXY(sectionComposite, ScannableSetup.ALIGNMENT_STAGE_X_POSITION, ScannableSetup.ALIGNMENT_STAGE_Y_POSITION);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Button alignmentStageCalibrationButton = toolkit.createButton(sectionComposite, "Calibrate aligment stage", SWT.None);
-		gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
-		gridData.horizontalSpan = 3;
-		alignmentStageCalibrationButton.setLayoutData(gridData);
+		alignmentStageCalibrationButton.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		alignmentStageCalibrationButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -97,62 +93,88 @@ public class AlignmentStageClaibrationView extends ViewPart {
 			}
 		});
 
-		label = toolkit.createLabel(sectionComposite, "X-ray eye", SWT.None);
-		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		Composite alignmentStageComposite = toolkit.createComposite(sectionComposite, SWT.None);
+		alignmentStageComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		alignmentStageComposite.setLayout(new GridLayout(3, false));
 
-		composite = createXY(sectionComposite, AlignmentStageModel.INSTANCE, AlignmentStageModel.X_X_EYE_PROP_NAME, AlignmentStageModel.Y_X_EYE_PROP_NAME);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		Scannable scannable = ClientConfig.ScannableSetup.ALIGNMENT_STAGE.getScannable();
+		if (scannable instanceof AlignmentStage) {
+			AlignmentStage alignmentStage = (AlignmentStage) scannable;
 
-		Button moveToXrayEyeButton = toolkit.createButton(sectionComposite, "Move", SWT.None);
-		moveToXrayEyeButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
+			Label label = toolkit.createLabel(alignmentStageComposite, "X-ray eye", SWT.None);
+			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		label = toolkit.createLabel(sectionComposite, "Slits", SWT.None);
-		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			composite = createXY(alignmentStageComposite, alignmentStage.getAlignmentStageDevice(
+					AlignmentStageScannable.AlignmentStageDevice.eye.name()).getLocation(),
+					AlignmentStageScannable.Location.X_POS_PROP_NAME,
+					AlignmentStageScannable.Location.Y_POS_PROP_NAME);
+			composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		composite = createXY(sectionComposite, AlignmentStageModel.INSTANCE, AlignmentStageModel.X_SLITS_PROP_NAME, AlignmentStageModel.Y_SLITS_PROP_NAME);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			Button moveToXrayEyeButton = toolkit.createButton(alignmentStageComposite, "Move", SWT.None);
+			moveToXrayEyeButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
 
-		Button moveToSlitsButton = toolkit.createButton(sectionComposite, "Move", SWT.None);
-		moveToSlitsButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
+			label = toolkit.createLabel(alignmentStageComposite, "Slits", SWT.None);
+			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		label = toolkit.createLabel(sectionComposite, "Foils", SWT.None);
-		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			composite = createXY(alignmentStageComposite, alignmentStage.getAlignmentStageDevice(
+					AlignmentStageScannable.AlignmentStageDevice.slits.name()).getLocation(),
+					AlignmentStageScannable.Location.X_POS_PROP_NAME,
+					AlignmentStageScannable.Location.Y_POS_PROP_NAME);
+			composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		composite = createXY(sectionComposite, AlignmentStageModel.INSTANCE, AlignmentStageModel.X_FOILS_PROP_NAME, AlignmentStageModel.Y_FOILS_PROP_NAME);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			Button moveToSlitsButton = toolkit.createButton(alignmentStageComposite, "Move", SWT.None);
+			moveToSlitsButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
 
-		Button moveToFoilsButton = toolkit.createButton(sectionComposite, "Move", SWT.None);
-		moveToFoilsButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
+			label = toolkit.createLabel(alignmentStageComposite, "Foils", SWT.None);
+			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		label = toolkit.createLabel(sectionComposite, "Hole", SWT.None);
-		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			composite = createXY(alignmentStageComposite, alignmentStage.getAlignmentStageDevice(
+					AlignmentStageScannable.AlignmentStageDevice.foil.name()).getLocation(),
+					AlignmentStageScannable.Location.X_POS_PROP_NAME,
+					AlignmentStageScannable.Location.Y_POS_PROP_NAME);
+			composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		composite = createXY(sectionComposite, AlignmentStageModel.INSTANCE, AlignmentStageModel.X_HOLE_PROP_NAME, AlignmentStageModel.Y_HOLE_PROP_NAME);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			Button moveToFoilsButton = toolkit.createButton(alignmentStageComposite, "Move", SWT.None);
+			moveToFoilsButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
 
-		Button moveToHoleButton = toolkit.createButton(sectionComposite, "Move", SWT.None);
-		moveToHoleButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
+			label = toolkit.createLabel(alignmentStageComposite, "Hole", SWT.None);
+			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		label = toolkit.createLabel(sectionComposite, "Fast shutter", SWT.None);
-		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			composite = createXY(alignmentStageComposite, alignmentStage.getAlignmentStageDevice(
+					AlignmentStageScannable.AlignmentStageDevice.hole.name()).getLocation(),
+					AlignmentStageScannable.Location.X_POS_PROP_NAME,
+					AlignmentStageScannable.Location.Y_POS_PROP_NAME);
+			composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		composite = createXY(sectionComposite, AlignmentStageModel.INSTANCE, AlignmentStageModel.X_SHUTTER_PROP_NAME, AlignmentStageModel.Y_SHUTTER_PROP_NAME);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			Button moveToHoleButton = toolkit.createButton(alignmentStageComposite, "Move", SWT.None);
+			moveToHoleButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
 
-		Button moveToFastShutterButton = toolkit.createButton(sectionComposite, "Move", SWT.None);
-		moveToFastShutterButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
+			Composite fastShutterComposite = toolkit.createComposite(sectionComposite, SWT.None);
+			fastShutterComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			fastShutterComposite.setLayout(new GridLayout(3, false));
+
+			label = toolkit.createLabel(alignmentStageComposite, "Fast shutter", SWT.None);
+			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+			composite = createXY(alignmentStageComposite, alignmentStage.getAlignmentStageDevice(
+					AlignmentStageScannable.AlignmentStageDevice.shutter.name()).getLocation(),
+					AlignmentStageScannable.Location.X_POS_PROP_NAME,
+					AlignmentStageScannable.Location.Y_POS_PROP_NAME);
+			composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+			Button moveToFastShutterButton = toolkit.createButton(alignmentStageComposite, "Move", SWT.None);
+			moveToFastShutterButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
+		}
 
 		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(sectionSeparator);
 		section.setSeparatorControl(sectionSeparator);
-
-
 	}
 
-	private Composite createXY(Composite parent, ScannableSetup xScannable, ScannableSetup yScannable) throws Exception {
+	private Composite createAlignmentStageXY(Composite parent, ScannableSetup xScannable, ScannableSetup yScannable) throws Exception {
 		Composite xyPositionComposite = toolkit.createComposite(parent, SWT.NONE);
 		toolkit.paintBordersFor(xyPositionComposite);
-		GridLayout layout = new GridLayout(2, true);
+		GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginHeight = 0;
 		xyPositionComposite.setLayout(layout);
@@ -162,10 +184,11 @@ public class AlignmentStageClaibrationView extends ViewPart {
 		xPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		xPositionComposite.setLayout(new GridLayout(2, false));
 
-		Label xPosLabel = toolkit.createLabel(xPositionComposite, "X", SWT.None);
+		Label xPosLabel = toolkit.createLabel(xPositionComposite, "Alignment stage x", SWT.None);
 		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		MotorPositionEditorControl xPosition = new MotorPositionEditorControl(xPositionComposite, SWT.None, new ScannableWrapper(xScannable.getScannable()), false);
+		MotorPositionEditorControl xPosition = new MotorPositionEditorControl(xPositionComposite, SWT.None, new ScannableWrapper(xScannable.getScannable()), true);
+		xPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		xPosition.setUnit(xScannable.getUnit().getText());
 		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
@@ -174,10 +197,11 @@ public class AlignmentStageClaibrationView extends ViewPart {
 		yPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		yPositionComposite.setLayout(new GridLayout(2, false));
 
-		Label yPosLabel = toolkit.createLabel(yPositionComposite, "Y", SWT.None);
+		Label yPosLabel = toolkit.createLabel(yPositionComposite, "Alignment stage y", SWT.None);
 		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		MotorPositionEditorControl yPosition = new MotorPositionEditorControl(yPositionComposite, SWT.None, new ScannableWrapper(yScannable.getScannable()), false);
+		MotorPositionEditorControl yPosition = new MotorPositionEditorControl(yPositionComposite, SWT.None, new ScannableWrapper(yScannable.getScannable()), true);
+		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		yPosition.setUnit(yScannable.getUnit().getText());
 		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
@@ -197,10 +221,12 @@ public class AlignmentStageClaibrationView extends ViewPart {
 		xPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		xPositionComposite.setLayout(new GridLayout(2, false));
 
-		Label xPosLabel = toolkit.createLabel(xPositionComposite, "X", SWT.None);
+		Label xPosLabel = toolkit.createLabel(xPositionComposite, "x", SWT.None);
 		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
 		NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, model, xPropertyName, false);
+		xPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		xPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
 		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Composite yPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
@@ -208,10 +234,12 @@ public class AlignmentStageClaibrationView extends ViewPart {
 		yPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		yPositionComposite.setLayout(new GridLayout(2, false));
 
-		Label yPosLabel = toolkit.createLabel(yPositionComposite, "Y", SWT.None);
+		Label yPosLabel = toolkit.createLabel(yPositionComposite, "y", SWT.None);
 		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
 		NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, model, yPropertyName, false);
+		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		yPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
 		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		return xyPositionComposite;

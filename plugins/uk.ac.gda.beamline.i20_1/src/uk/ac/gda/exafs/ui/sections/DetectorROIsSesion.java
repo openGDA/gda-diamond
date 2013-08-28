@@ -297,6 +297,7 @@ public class DetectorROIsSesion {
 	}
 
 	// TODO Add editor change support
+	@SuppressWarnings("unused")
 	private static class RoisStripLevelEditorSupport extends EditingSupport {
 
 		private final TableViewer viewer;

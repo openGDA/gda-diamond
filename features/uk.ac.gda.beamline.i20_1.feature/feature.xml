@@ -21,84 +21,6 @@
          id="uk.ac.gda.diamond.feature"
          version="0.0.0"/>
 
-   <requires>
-      <import plugin="uk.ac.gda.core" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.nexus"/>
-      <import plugin="uk.ac.gda.common" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.common.rcp" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.diamond.org.jscience" version="2.0.2" match="compatible"/>
-      <import plugin="uk.ac.diamond.scisoft.analysis" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.diamond.scisoft.analysis.rcp" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.client" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.common.client" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.dawnsci.plotting.jreality" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.dawb.common.ui" version="1.3.0" match="greaterOrEqual"/>
-      <import plugin="org.dawnsci.plotting.api" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.diamond.scisoft.analysis.plotserver" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.diamond.scisoft.spectroscopy.rcp" version="1.2.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.libs"/>
-      <import plugin="uk.ac.diamond.scisoft.spectroscopy" version="1.2.0" match="greaterOrEqual"/>
-      <import plugin="org.apache.commons.math3" version="3.2.0" match="greaterOrEqual"/>
-      <import plugin="com.springsource.org.apache.commons.beanutils"/>
-      <import plugin="com.springsource.org.apache.commons.collections"/>
-      <import plugin="org.apache.commons.lang"/>
-      <import plugin="org.eclipse.core.commands"/>
-      <import plugin="org.eclipse.core.databinding"/>
-      <import plugin="org.eclipse.core.databinding.beans"/>
-      <import plugin="org.eclipse.core.databinding.observable"/>
-      <import plugin="org.eclipse.core.databinding.property"/>
-      <import plugin="org.eclipse.core.filesystem"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.core.contenttype"/>
-      <import plugin="org.eclipse.core.jobs"/>
-      <import plugin="org.eclipse.equinox.preferences"/>
-      <import plugin="org.eclipse.draw2d"/>
-      <import plugin="org.eclipse.jface"/>
-      <import plugin="org.eclipse.jface.databinding"/>
-      <import plugin="org.eclipse.swt"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.ui.forms"/>
-      <import plugin="org.eclipse.ui.workbench"/>
-      <import plugin="org.eclipse.ui.editors"/>
-      <import plugin="org.eclipse.ui.views.properties.tabbed"/>
-      <import plugin="org.junit"/>
-      <import plugin="org.eclipse.osgi"/>
-      <import plugin="uk.ac.diamond.jython"/>
-      <import plugin="com.springsource.slf4j.api"/>
-      <import plugin="org.mockito.mockito-core"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="uk.ac.gda.libs" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.api" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.dls" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.gda.analysis" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.diamond.scisoft.analysis" version="1.2.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.diamond.org.springframework" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.hamcrest.core" version="1.1.0" match="greaterOrEqual"/>
-      <import plugin="org.junit" version="4.8.1" match="greaterOrEqual"/>
-      <import plugin="javax.vecmath"/>
-      <import plugin="org.junit4" version="4.5.0" match="greaterOrEqual"/>
-      <import plugin="javax.vecmath" version="1.5.2" match="greaterOrEqual"/>
-      <import plugin="org.apache.commons.math" version="2.2.0" match="compatible"/>
-      <import plugin="org.apache.commons.math3" version="3.2.0" match="equivalent"/>
-      <import plugin="org.apache.commons.lang" version="2.4.0" match="greaterOrEqual"/>
-      <import plugin="org.uncommons.maths" version="1.2.3" match="greaterOrEqual"/>
-      <import plugin="com.springsource.javax.media.jai.core" version="1.1.3" match="greaterOrEqual"/>
-      <import plugin="com.springsource.javax.media.jai.codec" version="1.1.3" match="greaterOrEqual"/>
-      <import plugin="uk.ac.diamond.scisoft.analysis.api" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.diamond.CBFlib" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.diamond.org.jscience4" version="4.3.1" match="compatible"/>
-      <import plugin="ncsa.hdf" version="2.8.0" match="greaterOrEqual"/>
-      <import plugin="org.dawb.hdf5" version="1.2.0" match="greaterOrEqual"/>
-      <import plugin="uk.ac.diamond.jama"/>
-      <import plugin="org.dawb.common.ui" version="1.3.0" match="equivalent"/>
-      <import plugin="uk.ac.diamond.scisoft.analysis" version="1.3.0" match="equivalent"/>
-      <import plugin="uk.ac.diamond.scisoft.analysis.rcp" version="1.3.0" match="equivalent"/>
-      <import plugin="uk.ac.diamond.scisoft.spectroscopy" version="1.2.0" match="equivalent"/>
-      <import plugin="com.springsource.org.apache.commons.lang" version="2.5.0" match="compatible"/>
-      <import plugin="com.springsource.org.apache.commons.io"/>
-   </requires>
-
    <plugin
          id="uk.ac.gda.beamline.i20_1"
          download-size="0"
@@ -154,6 +76,20 @@
 
    <plugin
          id="uk.ac.gda.video.views"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.server.exafs"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.client.experimentdefinition"
          download-size="0"
          install-size="0"
          version="0.0.0"

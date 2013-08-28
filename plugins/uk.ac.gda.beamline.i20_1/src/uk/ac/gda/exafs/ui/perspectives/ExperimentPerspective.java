@@ -16,25 +16,16 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.views;
+package uk.ac.gda.exafs.ui.perspectives;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.IPageLayout;
+import org.eclipse.ui.IPerspectiveFactory;
 
-public class AlignmentStageView extends ViewPart {
-	
-	public static final String ID = "uk.ac.gda.exafs.ui.views.alignmentstageview";
+public class ExperimentPerspective implements IPerspectiveFactory {
 
 	@Override
-	public void createPartControl(Composite parent) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-
+	public void createInitialLayout(IPageLayout layout) {
+		layout.setEditorAreaVisible(false);
 	}
 
 }
