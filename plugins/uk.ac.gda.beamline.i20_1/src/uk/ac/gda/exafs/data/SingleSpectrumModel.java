@@ -198,7 +198,7 @@ public class SingleSpectrumModel extends ObservableModel {
 
 	public void setFileName(String value) throws Exception {
 		firePropertyChange(FILE_NAME_PROP_NAME, fileName, fileName = value);
-		ClientConfig.CalibrationData.INSTANCE.getEdeData().setData(value);
+		EdeCalibrationModel.INSTANCE.getEdeData().setData(value);
 	}
 
 	public String getFileName() {

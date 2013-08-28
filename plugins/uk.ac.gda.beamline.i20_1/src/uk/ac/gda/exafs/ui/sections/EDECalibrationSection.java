@@ -70,9 +70,9 @@ import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
 import uk.ac.diamond.scisoft.analysis.dataset.Slice;
 import uk.ac.diamond.scisoft.spectroscopy.fitting.EdeCalibration;
 import uk.ac.gda.exafs.data.ClientConfig;
-import uk.ac.gda.exafs.data.ClientConfig.CalibrationData;
-import uk.ac.gda.exafs.data.ClientConfig.ElementReference;
 import uk.ac.gda.exafs.data.DetectorConfig;
+import uk.ac.gda.exafs.data.EdeCalibrationModel;
+import uk.ac.gda.exafs.data.EdeCalibrationModel.ElementReference;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
 import uk.ac.gda.exafs.ui.views.CalibrationPlotViewer;
@@ -120,7 +120,7 @@ public class EDECalibrationSection {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(lblRefFileValue),
-				BeanProperties.value(ClientConfig.ElementReference.FILE_NAME_PROP_NAME).observe(CalibrationData.INSTANCE.getRefData())
+				BeanProperties.value(ElementReference.FILE_NAME_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getRefData())
 				, null,
 				new UpdateValueStrategy() {
 					@Override
@@ -128,7 +128,7 @@ public class EDECalibrationSection {
 						IStatus retult = super.doSet(observableValue, value);
 						try {
 							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeManualCalibrationPlotView.REFERENCE_ID);
-							refView.setCalibrationDataReference(CalibrationData.INSTANCE.getRefData());
+							refView.setCalibrationDataReference(EdeCalibrationModel.INSTANCE.getRefData());
 						} catch (PartInitException e) {
 							e.printStackTrace();
 						}
@@ -141,7 +141,7 @@ public class EDECalibrationSection {
 		loadRefDataButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				showDataFileDialog(loadRefDataButton.getShell(), CalibrationData.INSTANCE.getRefData());
+				showDataFileDialog(loadRefDataButton.getShell(), EdeCalibrationModel.INSTANCE.getRefData());
 			}
 		});
 
@@ -154,7 +154,7 @@ public class EDECalibrationSection {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(lblEdeDataFileValue),
-				BeanProperties.value(ClientConfig.ElementReference.FILE_NAME_PROP_NAME).observe(CalibrationData.INSTANCE.getEdeData()),
+				BeanProperties.value(ElementReference.FILE_NAME_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getEdeData()),
 				null,
 				new UpdateValueStrategy() {
 					@Override
@@ -162,7 +162,7 @@ public class EDECalibrationSection {
 						IStatus retult = super.doSet(observableValue, value);
 						try {
 							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeManualCalibrationPlotView.EDE_ID);
-							refView.setCalibrationDataReference(CalibrationData.INSTANCE.getEdeData());
+							refView.setCalibrationDataReference(EdeCalibrationModel.INSTANCE.getEdeData());
 						} catch (PartInitException e) {
 							UIHelper.showError("Unable to set data file", e.getMessage());
 						}
@@ -174,7 +174,7 @@ public class EDECalibrationSection {
 		loadEdeDataButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				showDataFileDialog(loadRefDataButton.getShell(), CalibrationData.INSTANCE.getEdeData());
+				showDataFileDialog(loadRefDataButton.getShell(), EdeCalibrationModel.INSTANCE.getEdeData());
 			}
 		});
 
@@ -195,7 +195,7 @@ public class EDECalibrationSection {
 		manualCalibrationCheckButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(manualCalibrationCheckButton),
-				BeanProperties.value(CalibrationData.MANUAL_PROP_NAME).observe(CalibrationData.INSTANCE));
+				BeanProperties.value(EdeCalibrationModel.MANUAL_PROP_NAME).observe(EdeCalibrationModel.INSTANCE));
 
 		runCalibrationButton = toolkit.createButton(plotComposite, "Run EDE Calibration", SWT.None);
 		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
@@ -275,7 +275,7 @@ public class EDECalibrationSection {
 		AbstractDataset[] edeDatasets = selectDataRange(AlignmentPerspective.EDE_PLOT_NAME);
 		final AbstractDataset edeIdxSlice = edeDatasets[0];
 		final AbstractDataset edeSpectrumSlice = edeDatasets[1];
-		edeCalibration.setMaxEdeChannel(CalibrationData.INSTANCE.getEdeData().getRefDataNode().getSize() - 1);
+		edeCalibration.setMaxEdeChannel(EdeCalibrationModel.INSTANCE.getEdeData().getRefDataNode().getSize() - 1);
 		edeCalibration.setFitOrder(selectedFitOrder);
 		edeCalibration.setReferenceData(refEnergySlice, refSpectrumSlice);
 		edeCalibration.setEdeSpectrum(edeIdxSlice, edeSpectrumSlice);
@@ -283,13 +283,13 @@ public class EDECalibrationSection {
 		double ref1e, ref2e, ref3e;
 		double ede1e, ede2e, ede3e;
 		if (manualCalibrationCheckButton.getSelection()) {
-			ref1e = CalibrationData.INSTANCE.getRefData().getReferencePoints().get(0);
-			ref2e = CalibrationData.INSTANCE.getRefData().getReferencePoints().get(1);
-			ref3e = CalibrationData.INSTANCE.getRefData().getReferencePoints().get(2);
+			ref1e = EdeCalibrationModel.INSTANCE.getRefData().getReferencePoints().get(0);
+			ref2e = EdeCalibrationModel.INSTANCE.getRefData().getReferencePoints().get(1);
+			ref3e = EdeCalibrationModel.INSTANCE.getRefData().getReferencePoints().get(2);
 
-			ede1e = CalibrationData.INSTANCE.getEdeData().getReferencePoints().get(0);
-			ede2e = CalibrationData.INSTANCE.getEdeData().getReferencePoints().get(1);
-			ede3e = CalibrationData.INSTANCE.getEdeData().getReferencePoints().get(2);
+			ede1e = EdeCalibrationModel.INSTANCE.getEdeData().getReferencePoints().get(0);
+			ede2e = EdeCalibrationModel.INSTANCE.getEdeData().getReferencePoints().get(1);
+			ede3e = EdeCalibrationModel.INSTANCE.getEdeData().getReferencePoints().get(2);
 
 			final Pair<Double, Double> refPoint1 = new Pair<Double, Double>(ref1e, ede1e);
 			final Pair<Double, Double> refPoint2 = new Pair<Double, Double>(ref2e, ede2e);
