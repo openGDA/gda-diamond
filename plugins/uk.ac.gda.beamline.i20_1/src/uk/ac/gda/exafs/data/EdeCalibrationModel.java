@@ -31,7 +31,7 @@ import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 public class EdeCalibrationModel extends ObservableModel {
 	public static final String REF_DATA_COLUMN_NAME = "/entry1/qexafs_counterTimer01/lnI0It";
 	public static final String REF_ENERGY_COLUMN_NAME = "/entry1/qexafs_counterTimer01/qexafs_energy";
-	public static final String REF_DATA_PATH = "/home/opw44070/Desktop/ref-foils/Foils_reference";
+	public static final String REF_DATA_PATH = "/Foils_reference";
 	public static final String REF_DATA_EXT = ".xmu";
 
 	public static final EdeCalibrationModel INSTANCE = new EdeCalibrationModel();
