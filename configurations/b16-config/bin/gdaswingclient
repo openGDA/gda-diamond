@@ -1,0 +1,6 @@
+#!/bin/bash
+
+SELF=$(readlink -f $0)
+MT_CONFIGURATIONS=$(readlink -f $(dirname $SELF)/../..)
+
+JAVA_OPTS="-Xms512m -Xmx1024m" $MT_CONFIGURATIONS/mt-config/bin/gda client --start $@
