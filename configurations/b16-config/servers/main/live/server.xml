@@ -111,7 +111,7 @@
 		<property name="projects">
 			<list merge="true">
 				<bean class="gda.jython.ScriptProject">
-					<property name="path" value="${gda.install.git.loc}/gda-bimorph/uk.ac.gda.bimorph/scripts" />
+					<property name="path" value="${gda.install.git.loc}/gda-bimorph.git/uk.ac.gda.bimorph/scripts" />
 					<property name="name" value="Scripts: Bimorph" />
 					<property name="type" value="CORE" />
 				</bean>
