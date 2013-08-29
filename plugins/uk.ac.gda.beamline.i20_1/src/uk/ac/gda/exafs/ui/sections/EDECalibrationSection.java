@@ -125,14 +125,17 @@ public class EDECalibrationSection {
 				new UpdateValueStrategy() {
 					@Override
 					protected IStatus doSet(IObservableValue observableValue, Object value) {
-						IStatus retult = super.doSet(observableValue, value);
+						IStatus result = super.doSet(observableValue, value);
+						if (value == null) {
+							return result;
+						}
 						try {
 							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeManualCalibrationPlotView.REFERENCE_ID);
 							refView.setCalibrationDataReference(EdeCalibrationModel.INSTANCE.getRefData());
 						} catch (PartInitException e) {
 							e.printStackTrace();
 						}
-						return retult;
+						return result;
 					}
 				});
 
@@ -159,14 +162,17 @@ public class EDECalibrationSection {
 				new UpdateValueStrategy() {
 					@Override
 					protected IStatus doSet(IObservableValue observableValue, Object value) {
-						IStatus retult = super.doSet(observableValue, value);
+						IStatus result = super.doSet(observableValue, value);
+						if (value == null) {
+							return result;
+						}
 						try {
 							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeManualCalibrationPlotView.EDE_ID);
 							refView.setCalibrationDataReference(EdeCalibrationModel.INSTANCE.getEdeData());
 						} catch (PartInitException e) {
 							UIHelper.showError("Unable to set data file", e.getMessage());
 						}
-						return retult;
+						return result;
 					}
 				});
 		Button loadEdeDataButton = toolkit.createButton(dataComposite, "Browse", SWT.None);

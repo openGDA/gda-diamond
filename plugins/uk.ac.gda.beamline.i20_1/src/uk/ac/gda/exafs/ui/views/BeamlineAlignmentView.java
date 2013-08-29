@@ -488,6 +488,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		Scannable scannable = ScannableSetup.WIGGLER_GAP.getScannable();
 		scannable.addIObserver(moveObserver);
 		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, new ScannableWrapper(scannable), true);
+
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.WIGGLER_GAP, lblWigglerSuggestion, motorPositionEditorControl));
 
@@ -692,7 +693,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.DETECTOR_DISTANCE, lblDetectorDistanceSuggestion, motorPositionEditorControl));
 
-		Label lblDeltaE = toolkit.createLabel(motorSectionComposite, "Energy bandwidth for calculated detector distance:", SWT.WRAP);
+		Label lblDeltaE = toolkit.createLabel(motorSectionComposite, "Energy bandwidth for\n calculated detector distance:", SWT.WRAP);
 		gridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
 		gridData.horizontalSpan = 3;
 		lblDeltaE.setLayoutData(gridData);
@@ -702,7 +703,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		labelDeltaEValueSuggestion.setLayoutData(gridData);
 
-		lblDeltaE = toolkit.createLabel(motorSectionComposite, "Energy bandwidth for current detector distance:", SWT.WRAP);
+		lblDeltaE = toolkit.createLabel(motorSectionComposite, "Energy bandwidth for\n current detector distance:", SWT.WRAP);
 		gridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
 		gridData.horizontalSpan = 3;
 		lblDeltaE.setLayoutData(gridData);

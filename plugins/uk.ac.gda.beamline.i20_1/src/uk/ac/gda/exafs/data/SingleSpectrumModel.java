@@ -137,7 +137,6 @@ public class SingleSpectrumModel extends ObservableModel {
 					}
 				}
 				if (SingleSpectrumModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
-					System.out.println("test");
 					monitor.worked(1);
 				}
 			}
@@ -156,6 +155,9 @@ public class SingleSpectrumModel extends ObservableModel {
 			try {
 				InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
 				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
+				if (resultFileName == null) {
+					throw new Exception("Unable to do collection.");
+				}
 				Display.getDefault().asyncExec(new Runnable() {
 					@Override
 					public void run() {
@@ -167,11 +169,7 @@ public class SingleSpectrumModel extends ObservableModel {
 					}
 				});
 			} catch (Exception e) {
-				if (e.getMessage() !=null) {
-					UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
-				} else {
-					UIHelper.showWarning("Error while scanning or canceled", "");
-				}
+				UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
 			}
 			monitor.done();
 			Display.getDefault().asyncExec(new Runnable() {
@@ -196,9 +194,9 @@ public class SingleSpectrumModel extends ObservableModel {
 		job.schedule();
 	}
 
-	public void setFileName(String value) throws Exception {
+	public void setFileName(String value) {
 		firePropertyChange(FILE_NAME_PROP_NAME, fileName, fileName = value);
-		EdeCalibrationModel.INSTANCE.getEdeData().setData(value);
+		// EdeCalibrationModel.INSTANCE.getEdeData().setData(value);
 	}
 
 	public String getFileName() {

@@ -111,6 +111,12 @@
             name="Alignment Stage"
             restorable="true">
       </view>
+      <view
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            id="uk.ac.gda.beamline.i20_1.SingleSpectrumPlot"
+            name="Single spectrum plot"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">

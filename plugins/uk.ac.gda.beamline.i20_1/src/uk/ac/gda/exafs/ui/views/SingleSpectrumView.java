@@ -24,9 +24,11 @@ import gda.device.detector.XHDetector;
 import gda.device.scannable.AlignmentStage;
 import gda.device.scannable.AlignmentStageScannable;
 import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
+import gda.scan.ede.EdeAsciiFileWriter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -48,6 +50,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
@@ -56,11 +59,16 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.ViewPart;
 
+import uk.ac.diamond.scisoft.analysis.SDAPlotter;
+import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
+import uk.ac.diamond.scisoft.analysis.io.DataHolder;
+import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorConfig;
 import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.data.UIHelper;
+import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
 import uk.ac.gda.exafs.ui.sections.EDECalibrationSection;
 
 public class SingleSpectrumView extends ViewPart {
@@ -363,6 +371,29 @@ public class SingleSpectrumView extends ViewPart {
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(section),
 				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
+
+		SingleSpectrumModel.INSTANCE.addPropertyChangeListener(SingleSpectrumModel.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				Object value = evt.getNewValue();
+				if (value == null) {
+					return;
+				}
+				String fileName = (String) value;
+				File file = new File(fileName);
+				if (file.exists() && file.canRead()) {
+					try {
+						DataHolder dataHolder = LoaderFactory.getData(fileName);
+						AbstractDataset strips = (AbstractDataset) dataHolder.getLazyDataset(EdeAsciiFileWriter.STRIP_COLUMN_NAME).getSlice();
+						AbstractDataset logI0It = (AbstractDataset) dataHolder.getLazyDataset(EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME).getSlice();
+						SDAPlotter.plot(AlignmentPerspective.SINGLE_SPECTRUM_PLOT_VIEW_NAME, fileName, strips, new AbstractDataset[]{logI0It});
+						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(AlignmentPerspective.SINGLE_SPECTRUM_PLOT_VIEW_ID);
+					} catch (Exception e) {
+						UIHelper.showError("Unable to plot the data", e.getMessage());
+					}
+				}
+			}
+		});
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(defaultSectionSeparator);
