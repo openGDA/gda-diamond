@@ -130,8 +130,6 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<import resource="exafs_stuff.xml" />
-
 
 	<corba:export namespace="b16server" />
 
