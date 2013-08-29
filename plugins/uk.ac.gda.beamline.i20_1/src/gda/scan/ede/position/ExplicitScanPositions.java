@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.scan;
+package gda.scan.ede.position;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
@@ -27,7 +27,7 @@ import java.io.Serializable;
 /**
  * Bean to hold the motor positions which would move the sample in or out of beam.
  */
-public class EdeScanPosition implements Serializable{
+public class ExplicitScanPositions implements Serializable, EdeScanPosition{
 	EdePositionType type;
 	Double xPosition;
 	Double yPosition;
@@ -36,7 +36,7 @@ public class EdeScanPosition implements Serializable{
 	Scannable xScannable;
 	Scannable yScannable;
 	
-	public EdeScanPosition(EdePositionType type, Double xPosition, Double yPosition, String xMotor,
+	public ExplicitScanPositions(EdePositionType type, Double xPosition, Double yPosition, String xMotor,
 			String yMotor) {
 		super();
 		this.type = type;
@@ -46,7 +46,7 @@ public class EdeScanPosition implements Serializable{
 		this.yMotor = yMotor;
 	}
 	
-	public EdeScanPosition(EdePositionType type, Double xPosition, Double yPosition, Scannable xScannable,
+	public ExplicitScanPositions(EdePositionType type, Double xPosition, Double yPosition, Scannable xScannable,
 			Scannable yScannable) {
 		super();
 		this.type = type;
@@ -56,6 +56,7 @@ public class EdeScanPosition implements Serializable{
 		this.yScannable = yScannable;
 	}
 	
+	@Override
 	public void moveIntoPosition() throws DeviceException, InterruptedException {
 		if (xScannable == null)
 			xScannable = Finder.getInstance().find(xMotor);
@@ -67,6 +68,7 @@ public class EdeScanPosition implements Serializable{
 		yScannable.waitWhileBusy();
 	}
 	
+	@Override
 	public EdePositionType getType() {
 		return type;
 	}
@@ -118,7 +120,7 @@ public class EdeScanPosition implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EdeScanPosition other = (EdeScanPosition) obj;
+		ExplicitScanPositions other = (ExplicitScanPositions) obj;
 		if (type != other.type)
 			return false;
 		if (xMotor == null) {

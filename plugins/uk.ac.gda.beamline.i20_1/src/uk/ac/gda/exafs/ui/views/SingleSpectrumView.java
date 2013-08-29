@@ -18,13 +18,20 @@
 
 package uk.ac.gda.exafs.ui.views;
 
+import gda.device.Scannable;
 import gda.device.detector.StripDetector;
 import gda.device.detector.XHDetector;
+import gda.device.scannable.AlignmentStage;
+import gda.device.scannable.AlignmentStageScannable;
+import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.UpdateValueStrategy;
+import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -37,7 +44,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -47,8 +56,9 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.ViewPart;
 
+import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorConfig;
-import uk.ac.gda.exafs.data.EDECalibrationModel;
+import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.sections.EDECalibrationSection;
@@ -67,6 +77,10 @@ public class SingleSpectrumView extends ViewPart {
 
 	private ComboViewer cmbLastStripViewer;
 
+	// Using index 0 for x and 1 for y
+	private final Binding[] i0Binding = new Binding[2];
+	private final Binding[] iYBinding = new Binding[2];
+
 	@Override
 	public void createPartControl(Composite parent) {
 		toolkit = new FormToolkit(parent.getDisplay());
@@ -76,21 +90,25 @@ public class SingleSpectrumView extends ViewPart {
 		toolkit.decorateFormHeading(form);
 		form.setText("Single spectrum / E calibration");
 		Composite formParent = form.getBody();
-		createSampleI0Position(formParent);
-		createSampleItPosition(formParent);
-		createAcquisitionPosition(formParent);
+		try {
+			createSamplePosition("I0 sample position", formParent, i0Binding, AlignmentStageDevice.hole.name(), SingleSpectrumModel.I0_X_POSITION_PROP_NAME, SingleSpectrumModel.I0_Y_POSITION_PROP_NAME);
+			createSamplePosition("It sample position", formParent, iYBinding, AlignmentStageDevice.foil.name(), SingleSpectrumModel.IT_X_POSITION_PROP_NAME, SingleSpectrumModel.IT_Y_POSITION_PROP_NAME);
+			createAcquisitionPosition(formParent);
+		} catch (Exception e) {
+			UIHelper.showError("Unable to create controls", e.getMessage());
+		}
 		EDECalibrationSection.INSTANCE.createEdeCalibrationSection(form, toolkit);
 	}
 
-	private void createSampleI0Position(Composite body) {
+	private void createSamplePosition(String title, Composite body, final Binding[] binding, final String alignmentStageDeviceName, final String xPostionPropName, final String yPostionPropName) throws Exception {
 		@SuppressWarnings("static-access")
-		final Section samplePositionSection = toolkit.createSection(body, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		samplePositionSection.setText("I0 sample position");
-		samplePositionSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		Composite samplePositionSectionComposite = toolkit.createComposite(samplePositionSection, SWT.NONE);
+		final Section section = toolkit.createSection(body, Section.DESCRIPTION | Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		section.setText(title);
+		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		Composite samplePositionSectionComposite = toolkit.createComposite(section, SWT.NONE);
 		samplePositionSectionComposite.setLayout(new GridLayout());
 		toolkit.paintBordersFor(samplePositionSectionComposite);
-		samplePositionSection.setClient(samplePositionSectionComposite);
+		section.setClient(samplePositionSectionComposite);
 
 		Composite xyPositionComposite = toolkit.createComposite(samplePositionSectionComposite, SWT.NONE);
 		toolkit.paintBordersFor(xyPositionComposite);
@@ -105,9 +123,10 @@ public class SingleSpectrumView extends ViewPart {
 		Label xPosLabel = toolkit.createLabel(xPositionComposite, "X position", SWT.None);
 		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		String holePosition = "";
-		Text i0XPosition = toolkit.createText(xPositionComposite, holePosition, SWT.None);
-		i0XPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		final NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, SingleSpectrumModel.INSTANCE, xPostionPropName, false);
+		xPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		xPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
+		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Composite yPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
 		toolkit.paintBordersFor(yPositionComposite);
@@ -117,64 +136,95 @@ public class SingleSpectrumView extends ViewPart {
 		Label yPosLabel = toolkit.createLabel(yPositionComposite, "Y position", SWT.None);
 		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		String foil = "";
-		Text i0YPosition = toolkit.createText(yPositionComposite, foil, SWT.None);
-		i0YPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		final NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, SingleSpectrumModel.INSTANCE, yPostionPropName, false);
+		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		yPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
+		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Composite sampleCustomPositionComposite = toolkit.createComposite(samplePositionSectionComposite, SWT.NONE);
 		toolkit.paintBordersFor(sampleCustomPositionComposite);
 		sampleCustomPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		sampleCustomPositionComposite.setLayout(new GridLayout(2, false));
-		Button customI0PositionButton = toolkit.createButton(sampleCustomPositionComposite, "Custom position", SWT.CHECK);
-		customI0PositionButton.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		Button customI0ReadPositionButton = toolkit.createButton(sampleCustomPositionComposite, "Read current position", SWT.PUSH);
-		customI0ReadPositionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		dataBindingCtx.bindValue(WidgetProperties.enabled().observe(customI0ReadPositionButton), WidgetProperties.selection().observe(customI0PositionButton));
 
-		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(samplePositionSection);
-		toolkit.paintBordersFor(defaultSectionSeparator);
-		samplePositionSection.setSeparatorControl(defaultSectionSeparator);
+		final Button customPositionButton = toolkit.createButton(sampleCustomPositionComposite, "Custom position", SWT.CHECK);
+		customPositionButton.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		Button customReadPositionButton = toolkit.createButton(sampleCustomPositionComposite, "Read current", SWT.PUSH);
+		customReadPositionButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, true, false));
+
+		dataBindingCtx.bindValue(WidgetProperties.enabled().observe(customReadPositionButton), WidgetProperties.selection().observe(customPositionButton));
+
+		customPositionButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				updateBinding(section, binding, customPositionButton, xPosition, yPosition, alignmentStageDeviceName, xPostionPropName, yPostionPropName);
+			}
+		});
+		updateBinding(section, binding, customPositionButton, xPosition, yPosition, alignmentStageDeviceName, xPostionPropName, yPostionPropName);
+
+		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
+		toolkit.paintBordersFor(sectionSeparator);
+		section.setSeparatorControl(sectionSeparator);
 	}
 
-	private void createSampleItPosition(Composite body) {
-		@SuppressWarnings("static-access")
-		final Section samplePositionSection = toolkit.createSection(body, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		samplePositionSection.setText("It sample position");
-		samplePositionSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		Composite samplePositionSectionComposite = toolkit.createComposite(samplePositionSection, SWT.NONE);
-		samplePositionSectionComposite.setLayout(new GridLayout());
-		toolkit.paintBordersFor(samplePositionSectionComposite);
-		samplePositionSection.setClient(samplePositionSectionComposite);
-		String referenceFoil = "";
-
-		Text i0Position = toolkit.createText(samplePositionSectionComposite, referenceFoil, SWT.None);
-		i0Position.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		Composite sampleCustomPositionComposite = toolkit.createComposite(samplePositionSectionComposite, SWT.NONE);
-		toolkit.paintBordersFor(sampleCustomPositionComposite);
-		sampleCustomPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		sampleCustomPositionComposite.setLayout(new GridLayout(2, false));
-		Button customI0PositionButton = toolkit.createButton(sampleCustomPositionComposite, "Custom position", SWT.CHECK);
-		customI0PositionButton.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		Button customI0ReadPositionButton = toolkit.createButton(sampleCustomPositionComposite, "Read current position", SWT.PUSH);
-		customI0ReadPositionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		dataBindingCtx.bindValue(WidgetProperties.enabled().observe(customI0ReadPositionButton), WidgetProperties.selection().observe(customI0PositionButton));
-
-		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(samplePositionSection);
-		toolkit.paintBordersFor(defaultSectionSeparator);
-		samplePositionSection.setSeparatorControl(defaultSectionSeparator);
+	private void updateBinding(Section section, Binding[] binding, Button customPositionButton, NumberEditorControl xPosition, NumberEditorControl yPosition, String alignmentStageDeviceName, String propXName, String propYName) {
+		Scannable scannable;
+		try {
+			scannable = ClientConfig.ScannableSetup.ALIGNMENT_STAGE.getScannable();
+		} catch (Exception e) {
+			UIHelper.showError("Unable to update data", e.getMessage());
+			return;
+		}
+		if (scannable instanceof AlignmentStage) {
+			final AlignmentStage alignmentStage = (AlignmentStage) scannable;
+			xPosition.setEditable(customPositionButton.getSelection());
+			yPosition.setEditable(customPositionButton.getSelection());
+			if (!customPositionButton.getSelection()) {
+				AlignmentStageScannable.Location location = alignmentStage.getAlignmentStageDevice(alignmentStageDeviceName).getLocation();
+				if (binding[0] == null) {
+					binding[0] = dataBindingCtx.bindValue(
+							BeanProperties.value(AlignmentStageScannable.Location.X_POS_PROP_NAME).observe(location),
+							BeanProperties.value(propXName).observe(SingleSpectrumModel.INSTANCE),
+							new UpdateValueStrategy(),
+							new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
+					binding[0].updateTargetToModel();
+				}
+				if (binding[1] == null) {
+					binding[1] = dataBindingCtx.bindValue(
+							BeanProperties.value(AlignmentStageScannable.Location.Y_POS_PROP_NAME).observe(location),
+							BeanProperties.value(propYName).observe(SingleSpectrumModel.INSTANCE),
+							new UpdateValueStrategy(),
+							new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
+					binding[1].updateTargetToModel();
+				}
+				section.setDescription("Using alignment stage " + alignmentStageDeviceName + " as sample x and y position");
+			} else {
+				if (binding[0] != null) {
+					dataBindingCtx.removeBinding(binding[0]);
+					binding[0].dispose();
+					binding[0] = null;
+				}
+				if (binding[1] != null) {
+					dataBindingCtx.removeBinding(binding[1]);
+					binding[1].dispose();
+					binding[1] = null;
+				}
+				section.setDescription("Using custom position");
+			}
+		}
 	}
 
-	private void createAcquisitionPosition(Composite body) {
+	private void createAcquisitionPosition(Composite body) throws Exception {
 		@SuppressWarnings("static-access")
-		final Section acquisitionSection = toolkit.createSection(body, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		acquisitionSection.setText("Acquisition settings");
-		acquisitionSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		Composite acquisitionSectionComposite = toolkit.createComposite(acquisitionSection, SWT.NONE);
-		acquisitionSectionComposite.setLayout(new GridLayout());
-		toolkit.paintBordersFor(acquisitionSectionComposite);
-		acquisitionSection.setClient(acquisitionSectionComposite);
+		final Section section = toolkit.createSection(body, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		section.setText("Acquisition settings");
+		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		Composite sectionComposite = toolkit.createComposite(section, SWT.NONE);
+		sectionComposite.setLayout(new GridLayout());
+		toolkit.paintBordersFor(sectionComposite);
+		section.setClient(sectionComposite);
 
-		Composite stripsComposite = new Composite(acquisitionSectionComposite, SWT.NONE);
+		Composite stripsComposite = new Composite(sectionComposite, SWT.NONE);
 		stripsComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
 		stripsComposite.setLayout(new GridLayout(4, false));
 
@@ -221,62 +271,102 @@ public class SingleSpectrumView extends ViewPart {
 				WidgetProperties.enabled().observe(cmbLastStripViewer.getControl()),
 				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
 
-		Composite acquisitionSettingsComposite = new Composite(acquisitionSectionComposite, SWT.NONE);
+		Composite acquisitionSettingsComposite = new Composite(sectionComposite, SWT.NONE);
 		acquisitionSettingsComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
 		acquisitionSettingsComposite.setLayout(new GridLayout(2, false));
 		toolkit.paintBordersFor(acquisitionSettingsComposite);
-		try {
-			Label i0IntegrationTimeLabel = toolkit.createLabel(acquisitionSettingsComposite, "I0 Integration time");
-			i0IntegrationTimeLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		Label i0IntegrationTimeLabel = toolkit.createLabel(acquisitionSettingsComposite, "I0 Integration time");
+		i0IntegrationTimeLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-			NumberEditorControl i0IntegrationTimeText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, EDECalibrationModel.INSTANCE, EDECalibrationModel.I0_INTEGRATION_TIME_PROP_NAME, true);
-			i0IntegrationTimeText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		NumberEditorControl i0IntegrationTimeText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, SingleSpectrumModel.INSTANCE, SingleSpectrumModel.I0_INTEGRATION_TIME_PROP_NAME, true);
+		i0IntegrationTimeText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		i0IntegrationTimeText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
+		i0IntegrationTimeText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-			Label i0NoOfAccumulationLabel = toolkit.createLabel(acquisitionSettingsComposite, "I0 Number of accumulations");
-			i0NoOfAccumulationLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		Label i0NoOfAccumulationLabel = toolkit.createLabel(acquisitionSettingsComposite, "I0 Number of accumulations");
+		i0NoOfAccumulationLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-			NumberEditorControl i0NoOfAccumulationText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, EDECalibrationModel.INSTANCE, EDECalibrationModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
-			i0NoOfAccumulationText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		NumberEditorControl i0NoOfAccumulationText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, SingleSpectrumModel.INSTANCE, SingleSpectrumModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
+		i0NoOfAccumulationText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-			Label itIntegrationTimeLabel = toolkit.createLabel(acquisitionSettingsComposite, "It Integration time");
-			itIntegrationTimeLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		Label itIntegrationTimeLabel = toolkit.createLabel(acquisitionSettingsComposite, "It Integration time");
+		itIntegrationTimeLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-			NumberEditorControl itIntegrationTimeText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, EDECalibrationModel.INSTANCE, EDECalibrationModel.IT_INTEGRATION_TIME_PROP_NAME, true);
-			itIntegrationTimeText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		NumberEditorControl itIntegrationTimeText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, SingleSpectrumModel.INSTANCE, SingleSpectrumModel.IT_INTEGRATION_TIME_PROP_NAME, true);
+		itIntegrationTimeText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		itIntegrationTimeText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
+		itIntegrationTimeText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-			Label itNoOfAccumulationLabel = toolkit.createLabel(acquisitionSettingsComposite, "It Number of accumulations");
-			itNoOfAccumulationLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		Label itNoOfAccumulationLabel = toolkit.createLabel(acquisitionSettingsComposite, "It Number of accumulations");
+		itNoOfAccumulationLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-			NumberEditorControl itNoOfAccumulationText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, EDECalibrationModel.INSTANCE, EDECalibrationModel.IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
-			itNoOfAccumulationText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		NumberEditorControl itNoOfAccumulationText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, SingleSpectrumModel.INSTANCE, SingleSpectrumModel.IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
+		itNoOfAccumulationText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-			Composite acquisitionSettingsFileNameComposite = new Composite(acquisitionSectionComposite, SWT.NONE);
-			acquisitionSettingsFileNameComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
-			acquisitionSettingsFileNameComposite.setLayout(new GridLayout(2, false));
-			toolkit.paintBordersFor(acquisitionSettingsFileNameComposite);
+		Composite acquisitionSettingsFileNameComposite = new Composite(sectionComposite, SWT.NONE);
+		acquisitionSettingsFileNameComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
+		acquisitionSettingsFileNameComposite.setLayout(new GridLayout(2, false));
+		toolkit.paintBordersFor(acquisitionSettingsFileNameComposite);
 
-			Label fileNameLabel = toolkit.createLabel(acquisitionSettingsFileNameComposite, "Filename");
-			fileNameLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-			Text fileNameText = toolkit.createText(acquisitionSettingsFileNameComposite, "", SWT.None);
-			fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		Label fileNameLabel = toolkit.createLabel(acquisitionSettingsFileNameComposite, "Filename");
+		fileNameLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-			Composite acquisitionButtonsComposite = new Composite(acquisitionSectionComposite, SWT.NONE);
-			acquisitionButtonsComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
-			acquisitionButtonsComposite.setLayout(new GridLayout(2, true));
-			toolkit.paintBordersFor(acquisitionButtonsComposite);
+		Text fileNameText = toolkit.createText(acquisitionSettingsFileNameComposite, "", SWT.None);
+		fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		dataBindingCtx.bindValue(WidgetProperties.text().observe(fileNameText), BeanProperties.value(SingleSpectrumModel.FILE_NAME_PROP_NAME).observe(SingleSpectrumModel.INSTANCE));
+		fileNameText.setEditable(false);
 
-			Button startAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Start", SWT.PUSH);
-			startAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		Composite acquisitionButtonsComposite = new Composite(sectionComposite, SWT.NONE);
+		acquisitionButtonsComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
+		acquisitionButtonsComposite.setLayout(new GridLayout(2, true));
+		toolkit.paintBordersFor(acquisitionButtonsComposite);
 
-			Button stopAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Stop", SWT.PUSH);
-			stopAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-			startAcquicitionButton.setEnabled(false);
-		} catch (Exception e) {
-			UIHelper.showError("Unable to create controls", e.getMessage());
-		}
-		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(acquisitionSection);
+		Button startAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Start", SWT.PUSH);
+		startAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		startAcquicitionButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				try {
+					SingleSpectrumModel.INSTANCE.doScan();
+				} catch (Exception e) {
+					UIHelper.showError("Unable to scan", e.getMessage());
+				}
+			}
+		});
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(startAcquicitionButton),
+				BeanProperties.value(SingleSpectrumModel.SCANNING_PROP_NAME).observe(SingleSpectrumModel.INSTANCE),
+				null,
+				new UpdateValueStrategy() {
+					@Override
+					public Object convert(Object value) {
+						return (!(boolean) value);
+					}
+				});
+
+
+		Button stopAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Stop", SWT.PUSH);
+		stopAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(stopAcquicitionButton),
+				BeanProperties.value(SingleSpectrumModel.SCANNING_PROP_NAME).observe(SingleSpectrumModel.INSTANCE));
+		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				SingleSpectrumModel.INSTANCE.doStop();
+			}
+		});
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(section),
+				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
+
+		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(defaultSectionSeparator);
-		acquisitionSection.setSeparatorControl(defaultSectionSeparator);
+		section.setSeparatorControl(defaultSectionSeparator);
 	}
 
 	@Override

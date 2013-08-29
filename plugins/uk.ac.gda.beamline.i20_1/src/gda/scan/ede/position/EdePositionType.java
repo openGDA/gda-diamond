@@ -16,8 +16,9 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.scan;
+package gda.scan.ede.position;
 
-public class EdeDataWriter {
-
+public enum EdePositionType {
+	INBEAM,
+	OUTBEAM
 }

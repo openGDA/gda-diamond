@@ -161,7 +161,6 @@ public class XHControlComposite extends Composite implements IObserver {
 			values[i] = XHDetector.getStrips()[i];
 		}
 		strips = new DoubleDataset(values);
-		plottingSystem.getSelectedXAxis().setRange(values[0], values[values.length - 1]);
 	}
 
 	private void createUI() {
@@ -353,6 +352,8 @@ public class XHControlComposite extends Composite implements IObserver {
 		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(sectionSeparator);
 		section.setSeparatorControl(sectionSeparator);
+
+
 	}
 
 
@@ -360,6 +361,7 @@ public class XHControlComposite extends Composite implements IObserver {
 
 		// collect data from XHDetector and send the spectrum to local Plot 1 window
 		EdeScanParameters simpleParams = new EdeScanParameters();
+		simpleParams.setIncludeCountsOutsideROIs(true);
 		TimingGroup group1 = new TimingGroup();
 		group1.setDelayBetweenFrames(0);
 		group1.setLabel("group1");
@@ -424,7 +426,6 @@ public class XHControlComposite extends Composite implements IObserver {
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					txtLiveTime.setEnabled(false);
 					txtNumScansPerFrame.setEnabled(false);
 					txtRefreshPeriod.setEnabled(false);
 					txtSnapTime.setEnabled(false);
@@ -442,8 +443,8 @@ public class XHControlComposite extends Composite implements IObserver {
 								&& InterfaceProvider.getScanStatusHolder().getScanStatus() == Jython.IDLE) {
 							Date snapshotTime = new Date();
 
-							double collectionPeriod_ms = detectorControlModel.getLiveIntegrationTime();
-							final Double[] results = collectAndPlotSnapshot(false, collectionPeriod_ms, 1,
+							String collectionPeriod_ms = String.format("%." + ClientConfig.DEFAULT_DECIMAL_PLACE + "f", detectorControlModel.getLiveIntegrationTime());
+							final Double[] results = collectAndPlotSnapshot(false, detectorControlModel.getLiveIntegrationTime(), 1,
 									"Live reading (" + collectionPeriod_ms + "ms integration, every " + detectorControlModel.getRefreshPeriod()
 									+ " s)");
 
@@ -490,7 +491,6 @@ public class XHControlComposite extends Composite implements IObserver {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				txtLiveTime.setEnabled(true);
 				txtNumScansPerFrame.setEnabled(true);
 				txtRefreshPeriod.setEnabled(true);
 				txtSnapTime.setEnabled(true);

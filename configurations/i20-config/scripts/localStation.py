@@ -40,10 +40,10 @@ xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
 vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
 
 detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
-samplePreparer = I20SamplePreparer()
+samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_roll,sample_pitch,filterwheel)
 outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
 
-xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, bragg1, ionchambers, True, True, True)
+xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, bragg1, ionchambers, True, True, True, False)
 xes = I20XesScan(XASLoggingScriptController,detectorPreparer, samplePreparer, outputPreparer,commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot)
 xanes = xas
 
@@ -85,7 +85,6 @@ else:
     remove_default([absorberChecker])
     remove_default([shutterChecker])
     
-
 #
 # XES offsets section
 #
@@ -155,7 +154,6 @@ if LocalProperties.get("gda.mode") == "live":
     
     run "vortexLiveTime"
     testVortexWiredCorrectly()
-    
     
 else :
     # simulation (dummy mode) specific settings

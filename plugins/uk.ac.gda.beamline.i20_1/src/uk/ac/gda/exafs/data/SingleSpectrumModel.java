@@ -1,0 +1,292 @@
+/*-
+ * Copyright © 2013 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package uk.ac.gda.exafs.data;
+
+import gda.device.Scannable;
+import gda.device.scannable.AlignmentStage;
+import gda.device.scannable.AlignmentStageScannable;
+import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
+import gda.factory.Finder;
+import gda.jython.InterfaceProvider;
+import gda.jython.Jython;
+import gda.jython.JythonServerFacade;
+import gda.jython.JythonServerStatus;
+import gda.observable.IObserver;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.swt.widgets.Display;
+
+import uk.ac.gda.exafs.ui.data.UIHelper;
+
+public class SingleSpectrumModel extends ObservableModel {
+	public static final SingleSpectrumModel INSTANCE = new SingleSpectrumModel();
+
+	public static final String I0_X_POSITION_PROP_NAME = "i0xPosition";
+	private double i0xPosition;
+
+	public static final String I0_Y_POSITION_PROP_NAME = "i0yPosition";
+	private double i0yPosition;
+
+	public static final String IT_X_POSITION_PROP_NAME = "iTxPosition";
+	private double iTxPosition;
+
+	public static final String IT_Y_POSITION_PROP_NAME = "iTyPosition";
+	private double iTyPosition;
+
+	public static final String I0_INTEGRATION_TIME_PROP_NAME = "i0IntegrationTime";
+	private double i0IntegrationTime;
+
+	public static final String I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME = "i0NumberOfAccumulations";
+	private int i0NumberOfAccumulations;
+
+	public static final String IT_INTEGRATION_TIME_PROP_NAME = "itIntegrationTime";
+	private double itIntegrationTime;
+
+	public static final String IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME = "itNumberOfAccumulations";
+	private int itNumberOfAccumulations;
+
+	public static final String FILE_NAME_PROP_NAME = "fileName";
+	private String fileName;
+
+	public static final String SCANNING_PROP_NAME = "scanning";
+	private boolean scanning;
+
+	private final ScanJob job;
+
+	protected SingleSpectrumModel() {
+		Scannable scannable = Finder.getInstance().find("alignment_stage");
+		if (scannable != null && scannable instanceof AlignmentStage) {
+			AlignmentStage alignmentStageScannable = (AlignmentStage) scannable;
+			AlignmentStageDevice hole = alignmentStageScannable.getAlignmentStageDevice(AlignmentStageScannable.AlignmentStageDevice.hole.name());
+			this.setI0xPosition(hole.getLocation().getxPosition());
+			this.setI0yPosition(hole.getLocation().getyPosition());
+
+			AlignmentStageDevice foil = alignmentStageScannable.getAlignmentStageDevice(AlignmentStageScannable.AlignmentStageDevice.hole.name());
+			this.setiTxPosition(foil.getLocation().getxPosition());
+			this.setiTyPosition(foil.getLocation().getyPosition());
+		}
+		job = new ScanJob("Performing Single spectrum scan");
+		InterfaceProvider.getJSFObserver().addIObserver(job);
+		job.setUser(true);
+	}
+
+	private String buildScanCommand() {
+		return String.format("from gda.scan.ede.drivers import SingleSpectrumDriver;" +
+				"scan_driver = SingleSpectrumDriver(\"%s\",%f,%d,%f,%d);" +
+				"scan_driver.setInBeamPosition(%f,%f);" +
+				"scan_driver.setOutBeamPosition(%f,%f)",
+				DetectorConfig.INSTANCE.getCurrentDetector().getName(),
+				i0IntegrationTime,
+				i0NumberOfAccumulations,
+				itIntegrationTime,
+				itNumberOfAccumulations,
+				i0xPosition, i0yPosition,
+				iTxPosition, iTyPosition);
+	}
+
+	private static enum ScanJobName {
+		DARK_I0("Running I0 Dark scan"),
+		DAR_It("Running It Dark scan"),
+		I0("Running I0 scan"),
+		It("Running It scan");
+		String text;
+		private ScanJobName(String value) {
+			text = value;
+		}
+
+		public String getText() {
+			return text;
+		}
+	}
+
+	private class ScanJob extends Job implements IObserver {
+		private IProgressMonitor monitor;
+		private ScanJobName scanJobName;
+		public ScanJob(String name) {
+			super(name);
+			scanJobName = ScanJobName.DARK_I0;
+		}
+
+		@Override
+		public void update(Object source, Object arg) {
+			if (arg instanceof JythonServerStatus) {
+				JythonServerStatus status = (JythonServerStatus) arg;
+				if (SingleSpectrumModel.this.isScanning() && Jython.RUNNING == status.scanStatus) {
+					monitor.subTask(scanJobName.getText());
+					if (scanJobName.ordinal() <  ScanJobName.values().length - 1) {
+						scanJobName = ScanJobName.values()[scanJobName.ordinal() + 1];
+					}
+				}
+				if (SingleSpectrumModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
+					System.out.println("test");
+					monitor.worked(1);
+				}
+			}
+		}
+
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+			this.monitor = monitor;
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					SingleSpectrumModel.this.setScanning(true);
+				}
+			});
+			monitor.beginTask("Starting " + ScanJobName.values().length + " tasks.", ScanJobName.values().length);
+			try {
+				InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
+				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
+				Display.getDefault().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							SingleSpectrumModel.this.setFileName(resultFileName);
+						} catch (Exception e) {
+							UIHelper.showWarning("Error while loading data from saved file", e.getMessage());
+						}
+					}
+				});
+			} catch (Exception e) {
+				if (e.getMessage() !=null) {
+					UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
+				} else {
+					UIHelper.showWarning("Error while scanning or canceled", "");
+				}
+			}
+			monitor.done();
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					SingleSpectrumModel.this.setScanning(false);
+				}
+			});
+			return Status.OK_STATUS;
+		}
+
+		@Override
+		protected void canceling() {
+			doStop();
+		}
+	}
+
+	public void doScan() throws Exception {
+		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
+			throw new DetectorUnavailableException();
+		}
+		job.schedule();
+	}
+
+	public void setFileName(String value) throws Exception {
+		firePropertyChange(FILE_NAME_PROP_NAME, fileName, fileName = value);
+		EdeCalibrationModel.INSTANCE.getEdeData().setData(value);
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public boolean isScanning() {
+		return scanning;
+	}
+
+	protected void setScanning(boolean value) {
+		this.firePropertyChange(SCANNING_PROP_NAME, scanning, scanning = value);
+	}
+
+	public double getI0xPosition() {
+		return i0xPosition;
+	}
+
+	public void setI0xPosition(double value) {
+		firePropertyChange(I0_X_POSITION_PROP_NAME, i0xPosition, i0xPosition = value);
+	}
+
+	public double getI0yPosition() {
+		return i0yPosition;
+	}
+
+	public void setI0yPosition(double value) {
+		firePropertyChange(I0_Y_POSITION_PROP_NAME, i0yPosition, i0yPosition = value);
+	}
+
+	public double getI0IntegrationTime() {
+		return i0IntegrationTime;
+	}
+
+	public void setI0IntegrationTime(double value) {
+		firePropertyChange(I0_INTEGRATION_TIME_PROP_NAME, i0IntegrationTime, i0IntegrationTime = value);
+	}
+
+	public int getI0NumberOfAccumulations() {
+		return i0NumberOfAccumulations;
+	}
+
+	public void setI0NumberOfAccumulations(int value) {
+		firePropertyChange(I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, i0NumberOfAccumulations, i0NumberOfAccumulations = value);
+	}
+
+	public double getItIntegrationTime() {
+		return itIntegrationTime;
+	}
+
+	public void setItIntegrationTime(double value) {
+		firePropertyChange(IT_INTEGRATION_TIME_PROP_NAME, itIntegrationTime, itIntegrationTime = value);
+	}
+
+	public int getItNumberOfAccumulations() {
+		return itNumberOfAccumulations;
+	}
+
+	public void setItNumberOfAccumulations(int value) {
+		firePropertyChange(IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME, itNumberOfAccumulations, itNumberOfAccumulations = value);
+	}
+
+	public double getiTxPosition() {
+		return iTxPosition;
+	}
+
+	public void setiTxPosition(double value) {
+		firePropertyChange(IT_X_POSITION_PROP_NAME, iTxPosition, iTxPosition = value);
+	}
+
+	public double getiTyPosition() {
+		return iTyPosition;
+	}
+
+	public void setiTyPosition(double value) {
+		firePropertyChange(IT_Y_POSITION_PROP_NAME, iTyPosition, iTyPosition = value);
+	}
+
+	public void save() throws DetectorUnavailableException {
+		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
+			throw new DetectorUnavailableException();
+		}
+		InterfaceProvider.getCommandRunner().runCommand("alignment_stage.saveDeviceFromCurrentMotorPositions(\"slits\")");
+	}
+
+	public void doStop() {
+		if (this.isScanning()) {
+			JythonServerFacade.getInstance().haltCurrentScan();
+		}
+	}
+}

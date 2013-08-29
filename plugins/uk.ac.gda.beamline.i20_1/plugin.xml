@@ -66,13 +66,7 @@
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.exafs.ui.views.AlignmentStageView"
-            icon="icons/brick.png"
-            id="uk.ac.gda.exafs.ui.views.alignmentstageview"
-            name="Stage"
-            restorable="true">
-      </view>
-      <view
+            allowMultiple="true"
             class="uk.ac.gda.exafs.ui.views.SingleSpectrumView"
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.singlespectrumview"
@@ -87,7 +81,7 @@
       </view>
       <view
             allowMultiple="false"
-            class="uk.ac.gda.exafs.ui.views.DetectorLiveMode"
+            class="uk.ac.gda.exafs.ui.views.DetectorLiveModeView"
             icon="icons/chart_curve.png"
             id="uk.ac.diamond.scisoft.analysis.rcp.liveModePlot"
             name="Live Mode"
@@ -95,7 +89,7 @@
       </view>
       <view
             allowMultiple="false"
-            class="uk.ac.gda.exafs.ui.views.EdeDataCalibrationView"
+            class="uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView"
             icon="icons/chart_curve.png"
             id="uk.ac.gda.exafs.ui.views.calibrationreference"
             name="Reference Spectrum"
@@ -104,14 +98,15 @@
       <view
             allowMultiple="false"
             category="uk.ac.diamond.scisoft.analysis.rcp"
-            class="uk.ac.gda.exafs.ui.views.EdeDataCalibrationView"
+            class="uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView"
             icon="icons/chart_curve.png"
             id="uk.ac.gda.exafs.ui.views.calibrationEdeData"
             name="EDE Data Spectrum"
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.exafs.ui.views.AlignmentStageClaibrationView"
+            class="uk.ac.gda.exafs.ui.views.AlignmentStageCalibrationView"
+            icon="icons/brick.png"
             id="uk.ac.gda.exafs.ui.views.alignmentstagecalibration"
             name="Alignment Stage"
             restorable="true">
@@ -124,6 +119,11 @@
             icon="icons/chart_curve.png"
             id="uk.ac.gda.beamline.i20_1.AlignmentPerspective"
             name="Alignment">
+      </perspective>
+      <perspective
+            class="uk.ac.gda.exafs.ui.perspectives.ExperimentPerspective"
+            id="uk.ac.gda.beamline.i20_1.ExperimentPerspective"
+            name="EDE Experiment">
       </perspective>
    </extension>
    <extension point="org.eclipse.core.runtime.preferences">

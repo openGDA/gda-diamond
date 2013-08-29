@@ -29,7 +29,8 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
  * Defines the collection parameters for linear or cycling experiments on the I20-1 Energy Dispersive EXAFS (EDE)
  * beamline.
  * <p>
- * Options MUST be either: state frame and scan times (with 0 number of scans per frame) or scan time and number of scans per frame.
+ * Options MUST be either: state frame and scan times (with 0 number of scans per frame) or scan time and number of
+ * scans per frame.
  * <p>
  * Do NOT state: frame time and number of scans per frame.
  */
@@ -66,12 +67,12 @@ public class EdeScanParameters implements Serializable {
 	 * @return EdeScanParameters
 	 */
 	public static EdeScanParameters createSingleFrameScan(Double integrationTimeInS) {
-		return createSingleFrameScan(integrationTimeInS,1);
+		return createSingleFrameScan(integrationTimeInS, 1);
 	}
 
 	/**
-	 * Utility method to easily create a single group, single frame EdeScanParameters of the given
-	 * integration time for the frame and the number of scans in that frame.
+	 * Utility method to easily create a single group, single frame EdeScanParameters of the given integration time for
+	 * the frame and the number of scans in that frame.
 	 * 
 	 * @param integrationTimeInS
 	 * @return EdeScanParameters
@@ -95,6 +96,8 @@ public class EdeScanParameters implements Serializable {
 
 	// the timing groups
 	private List<TimingGroup> timingGroups = new Vector<TimingGroup>();
+
+	private Boolean includeCountsOutsideROIs = false;
 
 	// the TTL outputs. This is fixed per experiment and cannot be configured for each group
 	private String outputsChoice0 = OUTPUT_TRIG_CHOICES[0];
@@ -151,6 +154,14 @@ public class EdeScanParameters implements Serializable {
 
 	public void setTimingGroups(List<TimingGroup> timingGroups) {
 		this.timingGroups = timingGroups;
+	}
+
+	public Boolean getIncludeCountsOutsideROIs() {
+		return includeCountsOutsideROIs;
+	}
+
+	public void setIncludeCountsOutsideROIs(Boolean includeCountsOutsideROIs) {
+		this.includeCountsOutsideROIs = includeCountsOutsideROIs;
 	}
 
 	public String getOutputsChoice0() {
@@ -304,6 +315,7 @@ public class EdeScanParameters implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((includeCountsOutsideROIs == null) ? 0 : includeCountsOutsideROIs.hashCode());
 		result = prime * result + ((numberOfRepetitions == null) ? 0 : numberOfRepetitions.hashCode());
 		result = prime * result + ((outputsChoice0 == null) ? 0 : outputsChoice0.hashCode());
 		result = prime * result + ((outputsChoice1 == null) ? 0 : outputsChoice1.hashCode());
@@ -346,6 +358,13 @@ public class EdeScanParameters implements Serializable {
 			return false;
 		}
 		EdeScanParameters other = (EdeScanParameters) obj;
+		if (includeCountsOutsideROIs == null) {
+			if (other.includeCountsOutsideROIs != null) {
+				return false;
+			}
+		} else if (!includeCountsOutsideROIs.equals(other.includeCountsOutsideROIs)) {
+			return false;
+		}
 		if (numberOfRepetitions == null) {
 			if (other.numberOfRepetitions != null) {
 				return false;

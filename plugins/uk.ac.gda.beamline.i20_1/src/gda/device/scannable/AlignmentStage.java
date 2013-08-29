@@ -16,10 +16,13 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.views;
+package gda.device.scannable;
 
-import uk.ac.gda.exafs.data.EdeCalibrationModel.ElementReference;
+import gda.device.Scannable;
+import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
+import gda.device.scannable.AlignmentStageScannable.FastShutter;
 
-public interface CalibrationPlotViewer {
-	public void setCalibrationDataReference(ElementReference referenceData);
+public interface AlignmentStage extends Scannable {
+	public AlignmentStageDevice getAlignmentStageDevice(String name);
+	public FastShutter getFastShutter();
 }

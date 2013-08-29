@@ -20,6 +20,9 @@ package gda.device.detector;
 
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
+
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 /**
@@ -176,5 +179,22 @@ public interface StripDetector extends NexusDetector {
 	 * @return true if a successful call to connect() has been made, and not subsequently disconnected.
 	 */
 	public boolean isConnected();
+
+	/**
+	 * Returns the function used to convert channel number to energy. If not calibrated it should retrun a simple y = x
+	 * function.
+	 * 
+	 * @return PolynomialFunction
+	 * @throws DeviceException
+	 */
+	public PolynomialFunction getEnergyCalibration() throws DeviceException;
+
+	/**
+	 * Set the energy calibration. The detector object should persist this between GDA server restarts.
+	 * 
+	 * @param calibration
+	 * @throws DeviceException
+	 */
+	public void setEnergyCalibration(PolynomialFunction calibration) throws DeviceException;
 
 }

@@ -16,10 +16,11 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.scan;
+package gda.scan.ede;
 
 import gda.device.detector.StripDetector;
 import gda.jython.InterfaceProvider;
+import gda.scan.ede.position.EdeScanPosition;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,11 +117,12 @@ public class EdeSingleExperiment {
 	 * 
 	 * @throws Exception
 	 */
-	public void runExperiment() throws Exception {
+	public String runExperiment() throws Exception {
 		runScans();
 		EdeAsciiFileWriter writer = new EdeAsciiFileWriter(i0InitialScan,itScan,i0DarkScan,itDarkScan,theDetector);
 		writer.writeAsciiFile();
 		log("EDE single spectrum experiment complete.");
+		return writer.getAsciiFilename();
 	}
 
 	private void runScans() throws Exception {

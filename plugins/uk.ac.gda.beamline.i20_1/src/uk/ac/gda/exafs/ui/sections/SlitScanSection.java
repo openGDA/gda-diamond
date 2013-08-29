@@ -107,7 +107,7 @@ public class SlitScanSection {
 			lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
 			NumberEditorControl integrationTime = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScanner.getInstance(), SlitScanner.INTEGRATION_TIME_PROP_NAME, true);
-			integrationTime.setUnit(UnitSetup.SEC.getText());
+			integrationTime.setUnit(UnitSetup.MILLI_SEC.getText());
 			integrationTime.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			integrationTime.setIncrement(1 * (int) Math.pow(10, ClientConfig.DEFAULT_DECIMAL_PLACE));
 			integrationTime.setLayoutData(gridDataForTxt);
@@ -156,6 +156,12 @@ public class SlitScanSection {
 							return ((int) value != Jython.IDLE);
 						}
 					});
+			stopButton.addListener(SWT.Selection, new Listener() {
+				@Override
+				public void handleEvent(Event event) {
+					SlitScanner.getInstance().doStop();
+				}
+			});
 
 			Composite defaultSectionSeparator = toolkit.createCompositeSeparator(slitsParametersSection);
 			toolkit.paintBordersFor(defaultSectionSeparator);

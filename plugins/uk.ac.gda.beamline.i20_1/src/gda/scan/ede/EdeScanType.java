@@ -16,10 +16,9 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.views;
+package gda.scan.ede;
 
-import uk.ac.gda.exafs.data.EdeCalibrationModel.ElementReference;
-
-public interface CalibrationPlotViewer {
-	public void setCalibrationDataReference(ElementReference referenceData);
+public enum EdeScanType {
+	LIGHT,
+	DARK
 }

@@ -6,13 +6,13 @@
 # Richard Woolliscroft 22 July 2013
 #
 
-from gda.scan import EdeSingleExperiment
-from gda.scan import EdeScanPosition;
-from gda.scan import EdePositionType;
+from gda.scan.ede import EdeSingleExperiment
+from gda.scan.ede.position import ExplicitScanPositions;
+from gda.scan.ede.position import EdePositionType;
 from uk.ac.gda.exafs.ui.data import EdeScanParameters;
 
 
-def runsinglescan():
+def runsinglespectrumscan():
     ########################
     # EDIT THESE VALUES:
     scanTimeInSeconds     = 0.001
@@ -32,12 +32,12 @@ def runsinglescan():
     
     scanparams = EdeScanParameters.createSingleFrameScan(scanTimeInSeconds,numberOfScansPerFrame);
     
-    inBeamPosition = EdeScanPosition(EdePositionType.INBEAM, inbeam_xmotorposition, inbeam_ymotorposition, xmotorobject, ymotorobject);
-    outBeamPosition = EdeScanPosition(EdePositionType.OUTBEAM,outbeam_xmotorposition,outbeam_ymotorposition,xmotorobject,ymotorobject);
+    inBeamPosition = ExplicitScanPositions(EdePositionType.INBEAM, inbeam_xmotorposition, inbeam_ymotorposition, xmotorobject, ymotorobject);
+    outBeamPosition = ExplicitScanPositions(EdePositionType.OUTBEAM,outbeam_xmotorposition,outbeam_ymotorposition,xmotorobject,ymotorobject);
     
     theExperiment = EdeSingleExperiment(scanparams, inBeamPosition, outBeamPosition, xstrip);
     theExperiment.runExperiment()
     
-runsinglescan()
+runsinglespectrumscan()
 
 

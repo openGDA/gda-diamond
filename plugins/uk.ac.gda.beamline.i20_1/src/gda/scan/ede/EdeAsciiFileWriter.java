@@ -16,13 +16,15 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.scan;
+package gda.scan.ede;
 
 import gda.data.nexus.extractor.NexusExtractor;
 import gda.data.nexus.extractor.NexusGroupData;
+import gda.device.DeviceException;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.StripDetector;
 import gda.jython.InterfaceProvider;
+import gda.scan.ScanDataPoint;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -30,12 +32,23 @@ import java.util.List;
 import java.util.Vector;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
 public class EdeAsciiFileWriter {
+
+	public static final String STRIP_COLUMN_NAME = "Strip";
+	public static final String ENERGY_COLUMN_NAME = "Energy";
+	public static final String LN_I0_IT_COLUMN_NAME = "LnI0It";
+	public static final String I0_CORR_COLUMN_NAME = "I0_corr";
+	public static final String IT_CORR_COLUMN_NAME = "It_corr";
+	public static final String I0_RAW_COLUMN_NAME = "I0_raw";
+	public static final String IT_RAW_COLUMN_NAME = "It_raw";
+	public static final String I0_DARK_COLUMN_NAME = "I0_dark";
+	public static final String IT_DARK_COLUMN_NAME = "It_dark";
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeAsciiFileWriter.class);
 
@@ -44,6 +57,7 @@ public class EdeAsciiFileWriter {
 	private final EdeScan i0InitialScan;
 	private final EdeScan itScan;
 	private final StripDetector theDetector;
+	private String asciiFilename;
 
 	public EdeAsciiFileWriter(EdeScan i0InitialScan, EdeScan itScan, EdeScan i0DarkScan, EdeScan itDarkScan,
 			StripDetector theDetector) {
@@ -55,7 +69,7 @@ public class EdeAsciiFileWriter {
 		this.theDetector = theDetector;
 	}
 
-	public void writeAsciiFile() throws Exception {
+	public String writeAsciiFile() throws Exception {
 		DoubleDataset i0DarkDataSet = extractDetectorDataSets(i0DarkScan);
 		DoubleDataset itDarkDataSet = extractDetectorDataSets(itDarkScan);
 		DoubleDataset i0InitialDataSet = extractDetectorDataSets(i0InitialScan);
@@ -65,7 +79,7 @@ public class EdeAsciiFileWriter {
 		String folder = FilenameUtils.getFullPath(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
 
-		String asciiFilename = folder + filename + ".txt";
+		asciiFilename = folder + filename + ".txt";
 
 		File asciiFile = new File(asciiFilename);
 		if (asciiFile.exists()) {
@@ -75,7 +89,7 @@ public class EdeAsciiFileWriter {
 		asciiFile.createNewFile();
 		FileWriter writer = new FileWriter(asciiFile);
 		log("Writing EDE format ascii file: "+asciiFilename);
-		writer.write("#Strip\tEnergy\tI0_corr\tIt_corr\tLnI0It\tI0_raw\tIt_raw\tI0_dark\tIt_dark\n");
+		writer.write("#" + STRIP_COLUMN_NAME + "\t" + ENERGY_COLUMN_NAME + "\t" + I0_CORR_COLUMN_NAME + "\t" + IT_CORR_COLUMN_NAME + "\t" + LN_I0_IT_COLUMN_NAME + "\t " + I0_RAW_COLUMN_NAME + "\t" + IT_RAW_COLUMN_NAME + "\t" + I0_DARK_COLUMN_NAME + "\t" + IT_DARK_COLUMN_NAME + "\n");
 		for (int channel = 0; channel < theDetector.getNumberChannels(); channel++) {
 			Double i0Initial = i0InitialDataSet.get(channel);
 			Double it = itDataSet.get(channel);
@@ -92,7 +106,7 @@ public class EdeAsciiFileWriter {
 			}
 
 			StringBuffer stringToWrite = new StringBuffer(channel + "\t");
-			stringToWrite.append(channel + "\t");
+			stringToWrite.append(String.format("%.2f",getEnergyForChannel(channel)) + "\t");
 			stringToWrite.append(String.format("%.2f", i0_corrected) + "\t");
 			stringToWrite.append(String.format("%.2f", it_corrected) + "\t");
 			stringToWrite.append(String.format("%.5f", lni0it) + "\t");
@@ -104,6 +118,22 @@ public class EdeAsciiFileWriter {
 			writer.write(stringToWrite.toString());
 		}
 		writer.close();
+		return asciiFilename;
+	}
+
+	public String getAsciiFilename() {
+		return asciiFilename;
+	}
+
+	private Double getEnergyForChannel(int channel){
+		PolynomialFunction function;
+		try {
+			function = theDetector.getEnergyCalibration();
+		} catch (DeviceException e) {
+			logger.error("Detector did not supply a calibration.", e);
+			return (double) channel;
+		}
+		return function.value(channel);
 	}
 
 	private DoubleDataset extractDetectorDataSets(EdeScan scan) {

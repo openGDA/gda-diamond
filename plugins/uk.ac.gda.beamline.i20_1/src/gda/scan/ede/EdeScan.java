@@ -16,9 +16,12 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.scan;
+package gda.scan.ede;
 
 import gda.device.detector.StripDetector;
+import gda.scan.ScanDataPoint;
+import gda.scan.SimpleContinuousScan;
+import gda.scan.ede.position.EdeScanPosition;
 
 import java.util.List;
 

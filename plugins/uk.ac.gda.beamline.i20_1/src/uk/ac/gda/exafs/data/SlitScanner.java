@@ -19,6 +19,8 @@
 package uk.ac.gda.exafs.data;
 
 import gda.jython.InterfaceProvider;
+import gda.jython.Jython;
+import gda.jython.JythonServerFacade;
 import gda.jython.JythonServerStatus;
 import gda.observable.IObserver;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
@@ -53,7 +55,7 @@ public class SlitScanner extends ObservableModel implements IObserver {
 	private double step;
 
 	public static final String INTEGRATION_TIME_PROP_NAME = "integrationTime";
-	private double integrationTime = 1;
+	private double integrationTime = 1.0;
 
 	private SlitScanner() {
 		InterfaceProvider.getJSFObserver().addIObserver(this);
@@ -118,8 +120,16 @@ public class SlitScanner extends ObservableModel implements IObserver {
 	}
 
 	private String buildScanCommand() {
-		double integrationTimeInS = (integrationTime) / ClientConfig.KILO_UNIT;
-		return String.format("scan %s %f %f %f %s %f %s %f", ScannableSetup.SLIT_3_HORIZONAL_OFFSET.getScannableName(), fromOffset, toOffset, step, ScannableSetup.SLIT_3_HORIZONAL_GAP.getScannableName(), gap, DetectorConfig.INSTANCE.getCurrentStepScanDetector().getName(),integrationTimeInS);
+		double integrationTimeInS = integrationTime / ClientConfig.KILO_UNIT;
+		return String.format("scan %s %f %f %f %s %f %s %f",
+				ScannableSetup.SLIT_3_HORIZONAL_OFFSET.getScannableName(),
+				fromOffset,
+				toOffset,
+				step,
+				ScannableSetup.SLIT_3_HORIZONAL_GAP.getScannableName(),
+				gap,
+				DetectorConfig.INSTANCE.getCurrentStepScanDetector().getName(),
+				integrationTimeInS);
 	}
 
 	public void doScan() throws DetectorUnavailableException {
@@ -142,5 +152,11 @@ public class SlitScanner extends ObservableModel implements IObserver {
 			throw new DetectorUnavailableException();
 		}
 		InterfaceProvider.getCommandRunner().runCommand("alignment_stage.saveDeviceFromCurrentMotorPositions(\"slits\")");
+	}
+
+	public void doStop() {
+		if (this.getState() != Jython.IDLE) {
+			JythonServerFacade.getInstance().haltCurrentScan();
+		}
 	}
 }

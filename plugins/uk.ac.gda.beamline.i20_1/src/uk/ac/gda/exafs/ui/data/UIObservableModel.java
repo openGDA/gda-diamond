@@ -16,25 +16,20 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.views;
+package uk.ac.gda.exafs.ui.data;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.ViewPart;
+import org.eclipse.swt.widgets.Display;
 
-public class AlignmentStageView extends ViewPart {
-	
-	public static final String ID = "uk.ac.gda.exafs.ui.views.alignmentstageview";
+import uk.ac.gda.exafs.data.ObservableModel;
 
+public class UIObservableModel extends ObservableModel {
 	@Override
-	public void createPartControl(Composite parent) {
-		// TODO Auto-generated method stub
-
+	protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {
+		Display.getDefault().syncExec(new Runnable() {
+			@Override
+			public void run() {
+				UIObservableModel.super.firePropertyChange(propertyName, oldValue, newValue);
+			}
+		});
 	}
-
-	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

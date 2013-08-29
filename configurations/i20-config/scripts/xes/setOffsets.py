@@ -8,8 +8,6 @@ def setFromExpectedValues(expectedValuesDict):
     """ 
     Using the supplied dictionary of expected motor positions, this calculates the required offsets and sets them on the GDA Scannables.
     
-    The optional second argument is a boolean, if true this will store the new offsets to the default xml store of offsets as well.
-    
     """
     _checkDictNames(expectedValuesDict)
     
@@ -26,6 +24,8 @@ def setFromExpectedValues(expectedValuesDict):
     print offsetsDict
     _setFromDict(offsetsDict)
 
+    from xes import offsetsStore
+    offsetsStore.write()
 
 def _setFromDict(offsetsDict):
     """ 

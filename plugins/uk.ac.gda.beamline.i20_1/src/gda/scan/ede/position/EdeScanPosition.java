@@ -16,9 +16,14 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.scan;
+package gda.scan.ede.position;
 
-public enum EdePositionType {
-	INBEAM,
-	OUTBEAM
+import gda.device.DeviceException;
+
+public interface EdeScanPosition {
+
+	public abstract void moveIntoPosition() throws DeviceException, InterruptedException;
+
+	public abstract EdePositionType getType();
+
 }
