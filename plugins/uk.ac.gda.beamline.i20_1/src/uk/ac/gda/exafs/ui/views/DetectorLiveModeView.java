@@ -37,14 +37,14 @@ import uk.ac.gda.exafs.data.DetectorConfig;
 import uk.ac.gda.exafs.ui.composites.XHControlComposite;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
-public class DetectorLiveMode extends ViewPart {
+public class DetectorLiveModeView extends ViewPart {
 
 	private XHControlComposite controlComposite;
 	private IPlottingSystem plottingSystem;
 
 	protected final DataBindingContext ctx = new DataBindingContext();
 
-	public DetectorLiveMode() {
+	public DetectorLiveModeView() {
 		//
 	}
 

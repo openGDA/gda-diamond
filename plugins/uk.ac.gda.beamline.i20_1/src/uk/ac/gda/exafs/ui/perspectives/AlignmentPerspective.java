@@ -25,7 +25,7 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IViewLayout;
 
-import uk.ac.gda.exafs.ui.views.AlignmentStageClaibrationView;
+import uk.ac.gda.exafs.ui.views.AlignmentStageCalibrationView;
 import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
 import uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView;
 import uk.ac.gda.exafs.ui.views.FocusingView;
@@ -59,7 +59,7 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		IViewLayout propertyLayout = layout.getViewLayout(BeamlineAlignmentView.ID);
 		propertyLayout.setCloseable(false);
 		alignmentControlsFolder.addView(SingleSpectrumView.ID);
-		alignmentControlsFolder.addView(AlignmentStageClaibrationView.ID);
+		alignmentControlsFolder.addView(AlignmentStageCalibrationView.ID);
 
 		layout.addView(FocusingView.ID, IPageLayout.RIGHT, 0.30f, editorArea);
 		propertyLayout = layout.getViewLayout(FocusingView.ID);

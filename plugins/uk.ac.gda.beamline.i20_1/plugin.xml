@@ -81,7 +81,7 @@
       </view>
       <view
             allowMultiple="false"
-            class="uk.ac.gda.exafs.ui.views.DetectorLiveMode"
+            class="uk.ac.gda.exafs.ui.views.DetectorLiveModeView"
             icon="icons/chart_curve.png"
             id="uk.ac.diamond.scisoft.analysis.rcp.liveModePlot"
             name="Live Mode"
@@ -105,7 +105,7 @@
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.exafs.ui.views.AlignmentStageClaibrationView"
+            class="uk.ac.gda.exafs.ui.views.AlignmentStageCalibrationView"
             icon="icons/brick.png"
             id="uk.ac.gda.exafs.ui.views.alignmentstagecalibration"
             name="Alignment Stage"

@@ -54,7 +54,9 @@ import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -71,6 +73,8 @@ import uk.ac.gda.exafs.data.ObservableModel;
 
 public class NumberEditorControl extends Composite {
 
+	private static final int LARGE_INCREMENT_WIDTH_PADDING = 6;
+	private static final int MIN_STEP_LABEL_WIDTH = 43;
 	private static final int DEFAULT_DECIMAL_PLACES = 2;
 	protected final Object object;
 	private final String propertyName;
@@ -401,7 +405,7 @@ public class NumberEditorControl extends Composite {
 			incrementComposite = new Composite(editorComposite, SWT.None);
 			gridData = new GridData(SWT.END, SWT.CENTER, false, false);
 			gridData.heightHint = 26;
-			gridData.widthHint = 43;
+			gridData.widthHint = MIN_STEP_LABEL_WIDTH;
 			incrementComposite.setLayoutData(gridData);
 			stepLayout = new StackLayout();
 			incrementComposite.setLayout(stepLayout);
@@ -436,7 +440,7 @@ public class NumberEditorControl extends Composite {
 	private ImageDescriptor getImageDescriptor(String imageFileName) {
 		return ImageDescriptor.createFromURL(
 				FileLocator.find(Activator.getDefault().getBundle(),
-						new Path("icons/" + imageFileName),null));
+						new Path("icons/" + imageFileName), null));
 	}
 
 	private class StepListener implements Listener {
@@ -619,10 +623,22 @@ public class NumberEditorControl extends Composite {
 		IStatus status = (IStatus) incrementTextBinding.getValidationStatus().getValue();
 		if (status.isOK()) {
 			ctx.removeBinding(incrementTextBinding);
+			incrementTextBinding.dispose();
 			incrementTextBinding = null;
+			GC gc = new GC(incrementComposite);
+			double incrementValue = controlModel.getIncrement() / Math.pow(10, controlModel.getDigits());
+			Point point = gc.stringExtent(roundDoubletoString(incrementValue, controlModel.getDigits()));
+			GridData gridData = (GridData) incrementComposite.getLayoutData();
+			if (point.x > MIN_STEP_LABEL_WIDTH) {
+				gridData.widthHint = point.x + LARGE_INCREMENT_WIDTH_PADDING;
+			} else {
+				gridData.widthHint = MIN_STEP_LABEL_WIDTH;
+			}
 			stepText.dispose();
+			gc.dispose();
 			stepLayout.topControl = stepLabel;
 			incrementComposite.layout();
+			incrementComposite.getParent().layout();
 		}
 	}
 

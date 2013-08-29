@@ -83,12 +83,13 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.AlignmentParametersBean;
 import uk.ac.gda.exafs.data.ClientConfig;
-import uk.ac.gda.exafs.data.ClientConfig.CalibrationData;
 import uk.ac.gda.exafs.data.ClientConfig.CrystalCut;
 import uk.ac.gda.exafs.data.ClientConfig.CrystalType;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorConfig;
+import uk.ac.gda.exafs.data.EdeCalibrationModel;
+import uk.ac.gda.exafs.data.EdeCalibrationModel.ElementReference;
 import uk.ac.gda.exafs.ui.composites.MotorPositionEditorControl;
 import uk.ac.gda.exafs.ui.composites.ScannableWrapper;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
@@ -358,11 +359,11 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		dataBindingCtx.bindValue(
 				ViewersObservables.observeSingleSelection(cmbElement),
-				BeanProperties.value(ClientConfig.ElementReference.SELECTED_ELEMENT_PROP_NAME).observe(CalibrationData.INSTANCE.getEdeData()));
+				BeanProperties.value(ElementReference.SELECTED_ELEMENT_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getEdeData()));
 
 		dataBindingCtx.bindValue(
 				ViewersObservables.observeSingleSelection(cmbElement),
-				BeanProperties.value(ClientConfig.ElementReference.SELECTED_ELEMENT_PROP_NAME).observe(CalibrationData.INSTANCE.getRefData()));
+				BeanProperties.value(ElementReference.SELECTED_ELEMENT_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getRefData()));
 
 		butDetectorSetup.addListener(SWT.Selection, new Listener() {
 			@Override
