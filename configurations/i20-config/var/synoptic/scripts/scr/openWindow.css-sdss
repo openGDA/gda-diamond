@@ -34,7 +34,7 @@ var qcm_user = new Packages.org.eclipse.core.runtime.Path("screens/xas_user/qcm_
 var calibration = new Packages.org.eclipse.core.runtime.Path("screens/common/calibration.css-sds");
 var I1 = new Packages.org.eclipse.core.runtime.Path("screens/common/I1.css-sds");
 var machine = new Packages.org.eclipse.core.runtime.Path("screens/common/machine.css-sds");
-
+var atn5 = new Packages.org.eclipse.core.runtime.Path("screens/common/atn5.css-sds");
 
 
 function execute(args) {
@@ -113,6 +113,8 @@ function execute(args) {
 	    result = I1;
 	}else if ( argument1 == 'machine') {
 	    result = machine;
+	}else if ( argument1 == 'atn5') {
+	    result = atn5;
 	}else{
 	    result = new Packages.org.eclipse.core.runtime.Path("screens/dummy.css-sds");
 	}

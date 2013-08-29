@@ -37,14 +37,26 @@ offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset,i1_stanfor
 offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_offset_units,i1_stanford_offset_units]
 
 xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
+xspressConfig.initialize()
+alias("xspressConfig")
 vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
+vortexConfig.initialize()
+alias("vortexConfig")
 
 detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
-samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_roll,sample_pitch,filterwheel)
+samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel)
 outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
 
-xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, bragg1, ionchambers, True, True, True, False)
-xes = I20XesScan(XASLoggingScriptController,detectorPreparer, samplePreparer, outputPreparer,commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot)
+from gda.device.scannable import TwoDScanPlotter
+twodplotter = TwoDScanPlotter()
+twodplotter.setName("twodplotter")
+
+
+# bragg1
+#xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, bragg1, ionchambers, True, True, True, False)
+# testing version:
+xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, test, ionchambers, True, True, True, False)
+xes = I20XesScan(xas,XASLoggingScriptController,detectorPreparer, samplePreparer, outputPreparer,commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,test,XESEnergy,XESBragg)
 xanes = xas
 
 alias("xas")
@@ -89,12 +101,10 @@ else:
 # XES offsets section
 #
 from xes import calcExpectedPositions, offsetsStore, setOffsets
+offsetsStore.removeAllOffsets()
 # do nothing more so that offsets start at zero everytime
 
 
-from gda.device.scannable import TwoDScanPlotter
-twodplotter = TwoDScanPlotter()
-twodplotter.setName("twodplotter")
 #offsetsStore.apply() # reads the default store from its xml file and applys the GDA-level offsets
 #
 # to calibrate the XES spectrometer:
