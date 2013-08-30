@@ -1,6 +1,9 @@
 #!/bin/bash
 
-SELF=$(readlink -f $0)
-MT_CONFIGURATIONS=$(readlink -f $(dirname $SELF)/../..)
+. gda_setup_env gda_client_output
 
-JAVA_OPTS="-Xms512m -Xmx1024m" $MT_CONFIGURATIONS/mt-config/bin/gda client --start $@
+echo Starting GDA Swing Panel...
+echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
+echo  $GDA_CORE_SCRIPT --foreground client --start
+echo  $GDA_CORE_SCRIPT --foreground client --start >> $GDA_CONSOLE_LOG
+      $GDA_CORE_SCRIPT --foreground client --start >> $GDA_CONSOLE_LOG 2>&1
