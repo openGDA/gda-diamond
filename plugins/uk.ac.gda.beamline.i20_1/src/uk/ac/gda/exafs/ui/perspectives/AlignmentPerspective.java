@@ -29,7 +29,7 @@ import uk.ac.gda.exafs.ui.views.AlignmentStageCalibrationView;
 import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
 import uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView;
 import uk.ac.gda.exafs.ui.views.FocusingView;
-import uk.ac.gda.exafs.ui.views.SingleSpectrumView;
+import uk.ac.gda.exafs.ui.views.AlignmentSingleSpectrumView;
 
 /**
  * Shows recent data from the XH detector for I20-1 EDE branchline.
@@ -62,7 +62,7 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		alignmentControlsFolder.addView(BeamlineAlignmentView.ID);
 		IViewLayout propertyLayout = layout.getViewLayout(BeamlineAlignmentView.ID);
 		propertyLayout.setCloseable(false);
-		alignmentControlsFolder.addView(SingleSpectrumView.ID);
+		alignmentControlsFolder.addView(AlignmentSingleSpectrumView.ID);
 
 		IFolderLayout focusingControlsFolder = layout.createFolder(FOCUSING_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.32f, editorArea);
 		focusingControlsFolder.addView(FocusingView.ID);

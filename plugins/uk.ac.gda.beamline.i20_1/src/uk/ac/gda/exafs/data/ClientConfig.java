@@ -31,6 +31,8 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import uk.ac.gda.beamline.i20_1.utils.DataHelper;
+
 public class ClientConfig {
 
 	public static final int KILO_UNIT = 1000;
@@ -48,8 +50,8 @@ public class ClientConfig {
 	}
 
 	public static double roundDouble(double value) {
-		double defaultDecimal = Math.pow(10, DEFAULT_DECIMAL_PLACE);
-		return Math.round(value * defaultDecimal) / defaultDecimal;
+		int defaultDecimal = DataHelper.getDecimalPlacePowValue(DEFAULT_DECIMAL_PLACE);
+		return Math.round(value * defaultDecimal) / (double) defaultDecimal;
 	}
 
 	public enum UnitSetup {

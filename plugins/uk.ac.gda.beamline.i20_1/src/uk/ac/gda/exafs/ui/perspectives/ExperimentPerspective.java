@@ -18,14 +18,30 @@
 
 package uk.ac.gda.exafs.ui.perspectives;
 
+import gda.rcp.views.JythonTerminalView;
+
+import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
+import uk.ac.gda.exafs.ui.views.ExperimentSingleSpectrumView;
+
 public class ExperimentPerspective implements IPerspectiveFactory {
+
+	private static final String EXPERIMENT_CONTROLS_FOLDER_ID = "experimentControls";
+	private static final String TOPPLOT_FOLDER_ID = "topplot";
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
+		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(false);
+
+		IFolderLayout alignmentControlsFolder = layout.createFolder(EXPERIMENT_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.32f, editorArea);
+		alignmentControlsFolder.addView(ExperimentSingleSpectrumView.ID);
+
+		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, EXPERIMENT_CONTROLS_FOLDER_ID);
+		topPlotFolder.addView(AlignmentPerspective.SPECTRAPLOTID);
+		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.6f,TOPPLOT_FOLDER_ID);
 	}
 
 }
