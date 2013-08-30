@@ -61,7 +61,7 @@ import uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
-import uk.ac.gda.exafs.data.DetectorConfig;
+import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.ObservableModel;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
@@ -104,7 +104,7 @@ public class XHControlComposite extends Composite implements IObserver {
 	private DoubleDataset strips;
 
 	private static StripDetector getDetector(){
-		return DetectorConfig.INSTANCE.getCurrentDetector();
+		return DetectorModel.INSTANCE.getCurrentDetector();
 	}
 
 	public static class DetectorControlModel extends ObservableModel {
@@ -443,7 +443,7 @@ public class XHControlComposite extends Composite implements IObserver {
 								&& InterfaceProvider.getScanStatusHolder().getScanStatus() == Jython.IDLE) {
 							Date snapshotTime = new Date();
 
-							String collectionPeriod_ms = String.format("%." + ClientConfig.DEFAULT_DECIMAL_PLACE + "f", detectorControlModel.getLiveIntegrationTime());
+							String collectionPeriod_ms = ClientConfig.roundDoubletoString(detectorControlModel.getLiveIntegrationTime());
 							final Double[] results = collectAndPlotSnapshot(false, detectorControlModel.getLiveIntegrationTime(), 1,
 									"Live reading (" + collectionPeriod_ms + "ms integration, every " + detectorControlModel.getRefreshPeriod()
 									+ " s)");

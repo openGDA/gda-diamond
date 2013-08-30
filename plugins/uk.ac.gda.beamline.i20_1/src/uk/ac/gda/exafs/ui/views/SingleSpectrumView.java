@@ -19,7 +19,6 @@
 package uk.ac.gda.exafs.ui.views;
 
 import gda.device.Scannable;
-import gda.device.detector.StripDetector;
 import gda.device.detector.XHDetector;
 import gda.device.scannable.AlignmentStage;
 import gda.device.scannable.AlignmentStageScannable;
@@ -36,6 +35,7 @@ import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -64,7 +64,8 @@ import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.gda.exafs.data.ClientConfig;
-import uk.ac.gda.exafs.data.DetectorConfig;
+import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
+import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.data.UIHelper;
@@ -88,6 +89,10 @@ public class SingleSpectrumView extends ViewPart {
 	// Using index 0 for x and 1 for y
 	private final Binding[] i0Binding = new Binding[2];
 	private final Binding[] iYBinding = new Binding[2];
+
+	private Binding cmbFirstStripViewerBinding;
+
+	private Binding cmbLastStripViewerBinding;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -178,9 +183,9 @@ public class SingleSpectrumView extends ViewPart {
 	private void updateBinding(Section section, Binding[] binding, Button customPositionButton, NumberEditorControl xPosition, NumberEditorControl yPosition, String alignmentStageDeviceName, String propXName, String propYName) {
 		Scannable scannable;
 		try {
-			scannable = ClientConfig.ScannableSetup.ALIGNMENT_STAGE.getScannable();
+			scannable = ScannableSetup.ALIGNMENT_STAGE.getScannable();
 		} catch (Exception e) {
-			UIHelper.showError("Unable to update data", e.getMessage());
+			UIHelper.showError("Unable to get scannable " + ScannableSetup.ALIGNMENT_STAGE.getLabel(), e.getMessage());
 			return;
 		}
 		if (scannable instanceof AlignmentStage) {
@@ -254,30 +259,44 @@ public class SingleSpectrumView extends ViewPart {
 		cmbLastStripViewer.setLabelProvider(new LabelProvider());
 		cmbLastStripViewer.setInput(XHDetector.getStrips());
 
-		DetectorConfig.INSTANCE.addPropertyChangeListener(DetectorConfig.CURRENT_DETECTOR_SETUP_PROP_NAME, new PropertyChangeListener() {
+		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				Object value = evt.getNewValue();
-				if (value != null) {
-					StripDetector detector = (StripDetector) value;
-					cmbFirstStripViewer.setSelection(new StructuredSelection(detector.getLowerChannel()));
-					cmbLastStripViewer.setSelection(new StructuredSelection(detector.getUpperChannel()));
+				boolean detectorConnected = (boolean) evt.getNewValue();
+				if (detectorConnected) {
+					bindUpperAndLowerComboViewers();
+				} else {
+					if (cmbFirstStripViewerBinding != null) {
+						dataBindingCtx.removeBinding(cmbFirstStripViewerBinding);
+						cmbFirstStripViewerBinding.dispose();
+						cmbFirstStripViewerBinding = null;
+					}
+					if (cmbLastStripViewerBinding != null) {
+						dataBindingCtx.removeBinding(cmbLastStripViewerBinding);
+						cmbLastStripViewerBinding.dispose();
+						cmbLastStripViewerBinding = null;
+					}
 				}
 			}
 		});
 
-		if (DetectorConfig.INSTANCE.getCurrentDetector() != null) {
-			cmbFirstStripViewer.setSelection(new StructuredSelection(DetectorConfig.INSTANCE.getCurrentDetector().getLowerChannel()));
-			cmbLastStripViewer.setSelection(new StructuredSelection(DetectorConfig.INSTANCE.getCurrentDetector().getUpperChannel()));
+		if (DetectorModel.INSTANCE.getCurrentDetector() != null) {
+			bindUpperAndLowerComboViewers();
+		}
+
+
+		if (DetectorModel.INSTANCE.getCurrentDetector() != null) {
+			cmbFirstStripViewer.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector().getLowerChannel()));
+			cmbLastStripViewer.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector().getUpperChannel()));
 		}
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(cmbFirstStripViewer.getControl()),
-				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
+				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(cmbLastStripViewer.getControl()),
-				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
+				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
 
 		Composite acquisitionSettingsComposite = new Composite(sectionComposite, SWT.NONE);
 		acquisitionSettingsComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
@@ -370,7 +389,7 @@ public class SingleSpectrumView extends ViewPart {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(section),
-				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
+				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
 
 		SingleSpectrumModel.INSTANCE.addPropertyChangeListener(SingleSpectrumModel.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
 			@Override
@@ -398,6 +417,15 @@ public class SingleSpectrumView extends ViewPart {
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(defaultSectionSeparator);
 		section.setSeparatorControl(defaultSectionSeparator);
+	}
+
+	private void bindUpperAndLowerComboViewers() {
+		cmbFirstStripViewerBinding = dataBindingCtx.bindValue(
+				ViewersObservables.observeSingleSelection(cmbFirstStripViewer),
+				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.LOWER_CHANNEL_PROP_NAME));
+		cmbLastStripViewerBinding = dataBindingCtx.bindValue(
+				ViewersObservables.observeSingleSelection(cmbLastStripViewer),
+				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.UPPER_CHANNEL_PROP_NAME));
 	}
 
 	@Override

@@ -94,7 +94,7 @@ public class SingleSpectrumModel extends ObservableModel {
 				"scan_driver = SingleSpectrumDriver(\"%s\",%f,%d,%f,%d);" +
 				"scan_driver.setInBeamPosition(%f,%f);" +
 				"scan_driver.setOutBeamPosition(%f,%f)",
-				DetectorConfig.INSTANCE.getCurrentDetector().getName(),
+				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				i0IntegrationTime,
 				i0NumberOfAccumulations,
 				itIntegrationTime,
@@ -188,7 +188,7 @@ public class SingleSpectrumModel extends ObservableModel {
 	}
 
 	public void doScan() throws Exception {
-		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
+		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
 		job.schedule();
@@ -276,7 +276,7 @@ public class SingleSpectrumModel extends ObservableModel {
 	}
 
 	public void save() throws DetectorUnavailableException {
-		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
+		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
 		InterfaceProvider.getCommandRunner().runCommand("alignment_stage.saveDeviceFromCurrentMotorPositions(\"slits\")");

@@ -128,12 +128,12 @@ public class SlitScannerModel extends ObservableModel implements IObserver {
 				step,
 				ScannableSetup.SLIT_3_HORIZONAL_GAP.getScannableName(),
 				gap,
-				DetectorConfig.INSTANCE.getCurrentStepScanDetector().getName(),
+				DetectorModel.INSTANCE.getCurrentStepScanDetector().getName(),
 				integrationTimeInS);
 	}
 
 	public void doScan() throws DetectorUnavailableException {
-		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
+		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
 		InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
@@ -148,7 +148,7 @@ public class SlitScannerModel extends ObservableModel implements IObserver {
 	}
 
 	public void saveSlitsPosToAlignmentStage() throws DetectorUnavailableException {
-		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
+		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
 		InterfaceProvider.getCommandRunner().runCommand("alignment_stage.saveDeviceFromCurrentMotorPositions(\"slits\")");

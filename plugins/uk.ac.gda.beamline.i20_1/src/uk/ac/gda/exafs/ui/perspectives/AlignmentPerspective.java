@@ -51,6 +51,7 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 
 	private static final String TOPPLOT_FOLDER_ID = "topplot";
 	private static final String ALIGNMENT_CONTROLS_FOLDER_ID = "alignmentControls";
+	private static final String FOCUSING_CONTROLS_FOLDER_ID = "focusingControls";
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
@@ -62,13 +63,14 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		IViewLayout propertyLayout = layout.getViewLayout(BeamlineAlignmentView.ID);
 		propertyLayout.setCloseable(false);
 		alignmentControlsFolder.addView(SingleSpectrumView.ID);
-		alignmentControlsFolder.addView(AlignmentStageCalibrationView.ID);
 
-		layout.addView(FocusingView.ID, IPageLayout.RIGHT, 0.30f, editorArea);
+		IFolderLayout focusingControlsFolder = layout.createFolder(FOCUSING_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.32f, editorArea);
+		focusingControlsFolder.addView(FocusingView.ID);
 		propertyLayout = layout.getViewLayout(FocusingView.ID);
 		propertyLayout.setCloseable(false);
+		focusingControlsFolder.addView(AlignmentStageCalibrationView.ID);
 
-		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, FocusingView.ID);
+		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, FOCUSING_CONTROLS_FOLDER_ID);
 		topPlotFolder.addView(SPECTRAPLOTID);
 		topPlotFolder.addPlaceholder(SINGLE_SPECTRUM_PLOT_VIEW_ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.REFERENCE_ID);

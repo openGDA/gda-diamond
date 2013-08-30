@@ -40,7 +40,7 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
-import uk.ac.gda.exafs.data.DetectorConfig;
+import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.DetectorUnavailableException;
 import uk.ac.gda.exafs.data.SlitScannerModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
@@ -169,7 +169,7 @@ public class SlitScanSection {
 
 			dataBindingCtx.bindValue(
 					WidgetProperties.enabled().observe(slitsParametersSection),
-					BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
+					BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
 		} catch (Exception e) {
 			UIHelper.showError("Unable to setup slit scan parameters", e.getMessage());
 		}

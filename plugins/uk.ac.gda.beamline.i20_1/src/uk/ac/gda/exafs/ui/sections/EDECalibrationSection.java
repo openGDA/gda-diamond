@@ -70,7 +70,7 @@ import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
 import uk.ac.diamond.scisoft.analysis.dataset.Slice;
 import uk.ac.diamond.scisoft.spectroscopy.fitting.EdeCalibration;
 import uk.ac.gda.exafs.data.ClientConfig;
-import uk.ac.gda.exafs.data.DetectorConfig;
+import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.EdeCalibrationModel;
 import uk.ac.gda.exafs.data.EdeCalibrationModel.ElementReference;
 import uk.ac.gda.exafs.ui.data.UIHelper;
@@ -368,7 +368,7 @@ public class EDECalibrationSection {
 	protected void applyEdeCalibration() {
 		if (calibrationResult != null) {
 			try {
-				DetectorConfig.INSTANCE.getCurrentDetector().setEnergyCalibration(calibrationResult);
+				DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(calibrationResult);
 			} catch (DeviceException e) {
 				logger.error("DeviceException trying to apply the calibration to the current detector", e);
 			}
