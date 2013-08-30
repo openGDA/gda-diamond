@@ -81,36 +81,73 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 	public void createPartControl(Composite parent) {	
 		capabilities = (AnalyserCapabilties) Finder.getInstance().listAllLocalObjects(AnalyserCapabilties.class.getCanonicalName()).get(0);
 		MotorPositionViewerComposite mpvc;
+		GridData gd;
 		
 		Composite comp = new Composite(parent, SWT.NONE);
-		comp.setLayout(new GridLayout(4, false));
+		comp.setLayout(new GridLayout(3, true));
 		
-		Label label = new Label(comp, SWT.NONE);
-		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		label.setText("lensMode");
-		lensMode = new Combo(comp, SWT.NONE);
-		lensMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-		lensModes = capabilities.getLensModes();
-		lensMode.setItems(lensModes);
-		String activeLensMode = JythonServerFacade.getInstance().evaluateCommand("analyser.getLensMode()");
-		lensMode.select(comboForMode(activeLensMode));
-		SelectionListener lensModeListener = new SelectionListener() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				JythonServerFacade.getInstance().runCommand(String.format("analyser.setLensMode(\"%s\")", lensMode.getItems()[lensMode.getSelectionIndex()] ));
-			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		};
-		lensMode.addSelectionListener(lensModeListener);
-			
 		{
 			composite = new Composite(comp, SWT.NONE);
-			composite.setLayout(new GridLayout(1, false));
-			composite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 4));
-			startButton = new Button(composite, SWT.NONE);
+			composite.setLayout(new GridLayout(3, false));
+			composite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 2));
 			
+			Label label = new Label(composite, SWT.NONE);
+			label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+			label.setText("lensMode");
+			lensMode = new Combo(composite, SWT.NONE);
+			lensMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+			lensModes = capabilities.getLensModes();
+			lensMode.setItems(lensModes);
+			String activeLensMode = JythonServerFacade.getInstance().evaluateCommand("analyser.getLensMode()");
+			lensMode.select(comboForMode(activeLensMode));
+			SelectionListener lensModeListener = new SelectionListener() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					JythonServerFacade.getInstance().runCommand(String.format("analyser.setLensMode(\"%s\")", lensMode.getItems()[lensMode.getSelectionIndex()] ));
+				}
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+			};
+			lensMode.addSelectionListener(lensModeListener);
+			
+			Comparator<String> passEComparator = new Comparator<String>() {
+				@Override
+				public int compare(String o1, String o2) {
+					return Integer.valueOf(o1.substring(0, o1.lastIndexOf(" "))).compareTo(Integer.valueOf(o2.substring(0, o2.lastIndexOf(" "))));
+				}
+			};
+			final Map<String, Short> passMap = 	new TreeMap<String, Short>(passEComparator);
+			for (short s: capabilities.getPassEnergies()) {
+				passMap.put(String.format("%d eV", s), s);
+			}
+			label = new Label(composite, SWT.NONE);
+			label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+			label.setText("passEnergy");
+			passEnergy = new Combo(composite, SWT.NONE);
+			passEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+			passArray = passMap.keySet().toArray(new String[] {});
+			passEnergy.setItems(passArray);
+			String activePE = JythonServerFacade.getInstance().evaluateCommand("analyser.getPassEnergy()");
+			passEnergy.select(comboForPE(activePE));
+			SelectionListener passEnergyListener = new SelectionListener() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					JythonServerFacade.getInstance().runCommand(String.format("analyser.setPassEnergy(%d)", passMap.get(passEnergy.getItem(passEnergy.getSelectionIndex()))));
+				}
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+			};
+			passEnergy.addSelectionListener(passEnergyListener);
+		}
+		{
+			composite = new Composite(comp, SWT.NONE);
+			composite.setLayout(new GridLayout(2, false));
+			composite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 2));
+			
+			startButton = new Button(composite, SWT.NONE);
+			startButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 			startButton.setText("Start");
 			SelectionListener startListener = new SelectionListener() {
 				@Override
@@ -124,6 +161,7 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 			startButton.addSelectionListener(startListener);
 			
 			stopButton = new Button(composite, SWT.NONE);
+			stopButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
 			stopButton.setText("Stop");
 			SelectionListener stopListener = new SelectionListener() {
 				@Override
@@ -137,6 +175,7 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 			stopButton.addSelectionListener(stopListener);
 			
 			zeroButton = new Button(composite, SWT.NONE);
+			zeroButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 1));
 			zeroButton.setText("Zero Supplies");
 			zeroButton.setEnabled(true);
 			SelectionListener zeroListener = new SelectionListener() {
@@ -151,77 +190,54 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 			zeroButton.addSelectionListener(zeroListener);
 		}
 		
-		Comparator<String> passEComparator = new Comparator<String>() {
-			@Override
-			public int compare(String o1, String o2) {
-				return Integer.valueOf(o1.substring(0, o1.lastIndexOf(" "))).compareTo(Integer.valueOf(o2.substring(0, o2.lastIndexOf(" "))));
-			}
-		};
-		final Map<String, Short> passMap = 	new TreeMap<String, Short>(passEComparator);
-		for (short s: capabilities.getPassEnergies()) {
-			passMap.put(String.format("%d eV", s), s);
-		}
-		label = new Label(comp, SWT.NONE);
-		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		label.setText("passEnergy");
-		passEnergy = new Combo(comp, SWT.NONE);
-		passArray = passMap.keySet().toArray(new String[] {});
-		passEnergy.setItems(passArray);
-		String activePE = JythonServerFacade.getInstance().evaluateCommand("analyser.getPassEnergy()");
-		passEnergy.select(comboForPE(activePE));
-		SelectionListener passEnergyListener = new SelectionListener() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				JythonServerFacade.getInstance().runCommand(String.format("analyser.setPassEnergy(%d)", passMap.get(passEnergy.getItem(passEnergy.getSelectionIndex()))));
-			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		};
-		passEnergy.addSelectionListener(passEnergyListener);
-		passEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("centre_energy")), true, "centreEnergy", 4, null, true, false);
-		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1));
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		gd.verticalIndent = 4;
+		mpvc.setLayoutData(gd);
+		
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("acquire_time")), true, "timePerStep", 2, null, true, false);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		gd.verticalIndent = 4;
+		mpvc.setLayoutData(gd);
 		
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("pgm_energy")), true, "photonEnergy", 4, null, true, false);
-		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-	
-		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("acquire_time")), true, "timePerStep", 2, null, true, false);
-		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1));
-
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		gd.verticalIndent = 4;
+		mpvc.setLayoutData(gd);
+		
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find(I05BeamlineActivator.EXIT_SLIT_SIZE_SCANNABLE)), true, "exitSlit", 4, null, true, false);
 		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_ysize")), true, "s2_ysize", 4, null, true, false);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		mpvc.setLayoutData(gd);
+		
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_xsize")), true, "s2_xsize", 4, null, true, false);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		mpvc.setLayoutData(gd);
+		
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sax")), true, "sax", 4, null, true, false);
-		GridData gd;
-		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
 		gd.verticalIndent = 8;
 		mpvc.setLayoutData(gd);
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("say")), true, "say", 4, null, true, false);
 		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
 		gd.verticalIndent = 8;
 		mpvc.setLayoutData(gd);
-		
-		Label empty = new Label(comp, SWT.NONE);
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saz")), true, "saz", 4, null, true, false);
 		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
 		gd.verticalIndent = 8;
-		empty.setLayoutData(gd);
-		
-		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saz")), true, "saz", 4, null, true, false);
-		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1);
-//		gd.verticalIndent = 8;
 		mpvc.setLayoutData(gd);
-		
-//		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("satilt")), true, "satilt", 4, null, true, false);
-//		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1));
+
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("satilt")), true, "satilt", 4, null, true, false);
+		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sapolar")), true, "sapolar", 4, null, true, false);
 		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-//		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saazimuth")), true, "saazimuth", 4, null, true, false);
-//		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saazimuth")), true, "saazimuth", 4, null, true, false);
+		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sample_temp")), true, "sample_temp", 4, null, true, false);
-		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
 		gd.verticalIndent = 8;
 		mpvc.setLayoutData(gd);
 		

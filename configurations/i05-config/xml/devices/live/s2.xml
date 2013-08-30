@@ -16,9 +16,9 @@
 		<property name="deviceName" value="SLITS2.XGAPSIZE" />
                 <property name="local" value="true" />
         </bean>
-        <bean id="s2_xgap" class="gda.device.scannable.ScannableMotor">
+        <bean id="s2_xsize" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="s2_xgap_motor" />
-                <property name="local" value="true" />
+                <property name="local" value="false" />
         </bean>
 
         <bean id="s2_ycentre_motor" class="gda.device.motor.EpicsMotor">
@@ -34,9 +34,9 @@
 		<property name="deviceName" value="SLITS2.YGAPSIZE" />
                 <property name="local" value="true" />
         </bean>
-        <bean id="s2_ygap" class="gda.device.scannable.ScannableMotor">
+        <bean id="s2_ysize" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="s2_ygap_motor" />
-                <property name="local" value="true" />
+                <property name="local" value="false" />
         </bean>
 
         <bean id="s2_xring_motor" class="gda.device.motor.EpicsMotor">
@@ -79,9 +79,9 @@
                 <property name="groupMembers">
                         <list>
                                 <ref bean="s2_xcentre" />
-                                <ref bean="s2_xgap" />
+                                <ref bean="s2_xsize" />
                                 <ref bean="s2_ycentre" />
-                                <ref bean="s2_ygap" />
+                                <ref bean="s2_ysize" />
                                 <ref bean="s2_xring" />
                                 <ref bean="s2_xhall" />
                                 <ref bean="s2_ytop" />

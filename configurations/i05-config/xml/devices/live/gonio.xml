@@ -39,8 +39,7 @@
                 <property name="local" value="false" />
         </bean>
 
-<!--
-        <bean id="satilt_motor" class="gda.device.motor.DummyMotor">
+        <bean id="satilt_motor" class="uk.ac.gda.beamline.i05.motor.StaticMotor">
                         <property name="local" value="false" />
                                 </bean>
                                         <bean id="satilt" class="gda.device.scannable.ScannableMotor">
@@ -48,14 +47,14 @@
                                                                         <property name="local" value="false" />
                                                                                 </bean>
 
-        <bean id="saazimuth_motor" class="gda.device.motor.DummyMotor">
+        <bean id="saazimuth_motor" class="uk.ac.gda.beamline.i05.motor.StaticMotor">
                         <property name="local" value="false" />
                                 </bean>
                                         <bean id="saazimuth" class="gda.device.scannable.ScannableMotor">
                                                         <property name="motor" ref="saazimuth_motor" />
                                                                         <property name="local" value="false" />
                                                                                 </bean>
--->
+
 
         <bean id="sa" class="gda.device.scannable.scannablegroup.ScannableGroup">
                 <property name="groupMembers">
@@ -64,8 +63,8 @@
                                 <ref bean="say" />
                                 <ref bean="saz" />
                                 <ref bean="sapolar" />
-<!--                                <ref bean="satilt" /> -->
-<!--                                <ref bean="saazimuth" /> -->
+                                <ref bean="satilt" /> 
+                                <ref bean="saazimuth" /> 
                         </list>
                 </property>
                 <property name="local" value="false" />
