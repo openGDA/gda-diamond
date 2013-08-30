@@ -53,7 +53,7 @@ public class B16VortexParametersUIEditor extends VortexParametersUIEditor {
 		super(path, mappingURL, dirtyContainer, editingBean);
 	}
 
-	@Override
+	//s@Override
 	protected void upload(Object... upLoadbean) throws Exception {
 		final Serializable bean;
 		if (upLoadbean.length == 0) {
