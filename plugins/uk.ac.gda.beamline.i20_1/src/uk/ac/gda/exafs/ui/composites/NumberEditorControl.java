@@ -276,6 +276,49 @@ public class NumberEditorControl extends Composite {
 	};
 	private Color disabledColor;
 
+	private final MouseTrackListener editableMouseListener = new MouseTrackListener() {
+		private Cursor cursor;
+		@Override
+		public void mouseHover(MouseEvent e) {}
+
+		@Override
+		public void mouseExit(MouseEvent e) {
+			if (cursor != null) {
+				((Control) e.getSource()).setCursor(cursor);
+			}
+		}
+
+		@Override
+		public void mouseEnter(MouseEvent e) {
+			if (!controlModel.isEditable()) {
+				return;
+			}
+			cursor = ((Control) e.getSource()).getCursor();
+			((Control) e.getSource()).setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_HAND));
+		}
+	};
+
+	private final MouseTrackListener editableIncrementMouseListener = new MouseTrackListener() {
+		private Cursor cursor;
+		@Override
+		public void mouseHover(MouseEvent e) {}
+
+		@Override
+		public void mouseExit(MouseEvent e) {
+			if (cursor != null) {
+				((Control) e.getSource()).setCursor(cursor);
+			}
+		}
+
+		@Override
+		public void mouseEnter(MouseEvent e) {
+			if (!controlModel.isEditable()) {
+				cursor = ((Control) e.getSource()).getCursor();
+				((Control) e.getSource()).setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_NO));
+			}
+		}
+	};
+
 	protected void setupControls() {
 		disabledColor = new Color (this.getDisplay(), 245, 245, 245);
 		editorComposite = new Composite(this, SWT.None);
@@ -288,22 +331,7 @@ public class NumberEditorControl extends Composite {
 		GridData gridData = new GridData(GridData.FILL,GridData.CENTER, true, false);
 		gridData.heightHint = 23;
 		numberLabel.setLayoutData(gridData);
-		numberLabel.addMouseTrackListener(new MouseTrackListener() {
-			private Cursor cursor;
-			@Override
-			public void mouseHover(MouseEvent e) {}
-
-			@Override
-			public void mouseExit(MouseEvent e) {
-				((Control) e.getSource()).setCursor(cursor);
-			}
-
-			@Override
-			public void mouseEnter(MouseEvent e) {
-				cursor = ((Control) e.getSource()).getCursor();
-				((Control) e.getSource()).setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_HAND));
-			}
-		});
+		numberLabel.addMouseTrackListener(editableMouseListener);
 		// TODO Use binding
 		controlModel.addPropertyChangeListener(MotorPositionWidgetModel.EDITABLE_PROP_NAME, new PropertyChangeListener() {
 			@Override
@@ -355,52 +383,14 @@ public class NumberEditorControl extends Composite {
 				incrementLabel.setLayoutData(new GridData(GridData.FILL_BOTH));
 				incrementLabel.addListener(SWT.MouseUp, new StepListener(true));
 				incrementLabel.addMouseListener(incrementListener);
-				incrementLabel.addMouseTrackListener(new MouseTrackListener() {
-					private Cursor cursor;
-					@Override
-					public void mouseHover(MouseEvent e) {}
-
-					@Override
-					public void mouseExit(MouseEvent e) {
-						if (cursor != null) {
-							((Control) e.getSource()).setCursor(cursor);
-						}
-					}
-
-					@Override
-					public void mouseEnter(MouseEvent e) {
-						if (!controlModel.isEditable()) {
-							cursor = ((Control) e.getSource()).getCursor();
-							((Control) e.getSource()).setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_NO));
-						}
-					}
-				});
+				incrementLabel.addMouseTrackListener(editableIncrementMouseListener);
 				decrementLabel = new Label(spinners, SWT.BORDER);
 				decrementLabel.setLayoutData(new GridData(GridData.FILL_BOTH));
 				downArrowIcon = getImageDescriptor("down_arrow.png").createImage();
 				decrementLabel.setImage(downArrowIcon);
 				decrementLabel.addMouseListener(incrementListener);
 				decrementLabel.addListener(SWT.MouseUp, new StepListener(false));
-				decrementLabel.addMouseTrackListener(new MouseTrackListener() {
-					private Cursor cursor;
-					@Override
-					public void mouseHover(MouseEvent e) {}
-
-					@Override
-					public void mouseExit(MouseEvent e) {
-						if (cursor != null) {
-							((Control) e.getSource()).setCursor(cursor);
-						}
-					}
-
-					@Override
-					public void mouseEnter(MouseEvent e) {
-						if (!controlModel.isEditable()) {
-							cursor = ((Control) e.getSource()).getCursor();
-							((Control) e.getSource()).setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_NO));
-						}
-					}
-				});
+				decrementLabel.addMouseTrackListener(editableIncrementMouseListener);
 			}
 			incrementComposite = new Composite(editorComposite, SWT.None);
 			gridData = new GridData(SWT.END, SWT.CENTER, false, false);
@@ -411,23 +401,23 @@ public class NumberEditorControl extends Composite {
 			incrementComposite.setLayout(stepLayout);
 			stepLabel = createIncrementLabelControl(incrementComposite);
 			stepLabel.setAlignment(SWT.CENTER);
-			stepLabel.addMouseTrackListener(new MouseTrackListener() {
-				private Cursor cursor;
-				@Override
-				public void mouseHover(MouseEvent e) {}
+			stepLabel.addMouseTrackListener(editableMouseListener);
+			stepLayout.topControl = stepLabel;
 
+			// TODO Use binding
+			controlModel.addPropertyChangeListener(MotorPositionWidgetModel.EDITABLE_PROP_NAME, new PropertyChangeListener() {
 				@Override
-				public void mouseExit(MouseEvent e) {
-					((Control) e.getSource()).setCursor(cursor);
-				}
-
-				@Override
-				public void mouseEnter(MouseEvent e) {
-					cursor = ((Control) e.getSource()).getCursor();
-					((Control) e.getSource()).setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_HAND));
+				public void propertyChange(PropertyChangeEvent evt) {
+					if (!stepLabel.isDisposed()) {
+						boolean isEditable = (boolean) evt.getNewValue();
+						if (isEditable) {
+							stepLabel.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+						} else {
+							stepLabel.setBackground(disabledColor);
+						}
+					}
 				}
 			});
-			stepLayout.topControl = stepLabel;
 		}
 		layout.topControl = editorComposite;
 	}
