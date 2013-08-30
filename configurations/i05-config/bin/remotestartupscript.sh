@@ -33,7 +33,7 @@ mknod $PIP p
 tail -n 1 -f $LOGFILE >  $PIP &
 awk '{
         if (!/DEBUG/) print ;
-        if (/gda.util.ObjectServer - Server initialisation complete.*i05_server_beans/) {
+        if (/gda.util.ObjectServer - Server initialisation complete.*server.xml/) {
                 print "\nAll done, you can start the client now\n" ;
                 exit ;
         }
