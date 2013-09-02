@@ -165,6 +165,10 @@ if LocalProperties.get("gda.mode") == "live":
     run "vortexLiveTime"
     testVortexWiredCorrectly()
     
+    # the script to run the mono calibration
+    import mono_calibration 
+    calibrate_mono = mono_calibration.calibrate_mono()
+    
 else :
     # simulation (dummy mode) specific settings
     if material() == None:
