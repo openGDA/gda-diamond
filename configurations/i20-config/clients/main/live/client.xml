@@ -10,6 +10,7 @@
 
 
 	<import resource="../client-common.xml" />
+	<import resource="d10.xml" />
 	
 	<bean id="d3cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="d3cam"/>

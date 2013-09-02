@@ -1,0 +1,73 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+
+	<bean id="d10_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL20I-DI-PHDGN-10:CAM:" />
+	</bean>
+
+	<bean id="d10_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL20I-DI-PHDGN-10:ARR:" />
+	</bean>
+
+	<bean id="d10_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL20I-DI-PHDGN-10:PROC:" />
+	</bean>
+
+	<bean id="d10_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL20I-DI-PHDGN-10:STAT:" />
+	</bean>
+
+	<bean id="d10_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL20I-DI-PHDGN-10:ROI:" />
+	</bean>
+
+	<bean id="d10_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL20I-DI-PHDGN-10:MJPG:" />
+	</bean>
+
+	<bean id="d10ADController" class="uk.ac.gda.epics.adviewer.ADControllerImpl">
+		<property name="serviceName" value="d10ADController" />
+		<property name="imageNDStats" ref="d10_stat" />
+		<property name="liveViewNDProc" ref="d10_proc" />
+		<property name="imageNDArray" ref="d10_arr" />
+		<property name="imageHistSize" value="255" />
+		<property name="imageMin" value="0" />
+		<property name="imageMax" value="255" />
+		<property name="detectorName" value="D10" />
+		<property name="adBase" ref="d10_base" />
+		<property name="ffmpegStream" ref="d10_ffmpeg" />
+		<property name="ffmpegImageOutHeightMax" value="1336" />
+		<property name="ffmpegImageOutWidthMax" value="2004" />
+		<property name="imageNDROI" ref="d10_roi" />
+	</bean>
+
+	<bean id="d10ADViewcreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
+		<property name="adController" ref="d10ADController" />
+	</bean>
+
+	<bean id="dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
+		<property name="map">
+			<map>
+				<entry key="SERVICE_NAME" value="d10ADController" />
+			</map>
+		</property>
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
+		<property name="service" ref="d10ADController" />
+		<property name="properties" ref="dictionary" />
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.epics.adviewer.views.ViewCreator" />
+		<property name="service" ref="d10ADViewcreator" />
+		<property name="properties" ref="dictionary" />
+	</bean>
+</beans>
