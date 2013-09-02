@@ -53,7 +53,7 @@
 		<property name="adController" ref="d10ADController" />
 	</bean>
 
-	<bean id="dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
+	<bean id="d10_dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
 		<property name="map">
 			<map>
 				<entry key="SERVICE_NAME" value="d10ADController" />
@@ -63,11 +63,11 @@
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
 		<property name="service" ref="d10ADController" />
-		<property name="properties" ref="dictionary" />
+		<property name="properties" ref="d10_dictionary" />
 	</bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.views.ViewCreator" />
 		<property name="service" ref="d10ADViewcreator" />
-		<property name="properties" ref="dictionary" />
+		<property name="properties" ref="d10_dictionary" />
 	</bean>
 </beans>
