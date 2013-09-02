@@ -208,7 +208,11 @@ def _calcEnergyBandwidth(parametersBean):
 def _calcReadbackEnergyBandwidth(parametersBean):
     
     real_det_z = _getRealDetDistanceInM()
-    deltaE = _calcBandwidth(parametersBean,real_det_z)
+    calc_det_z = parametersBean.getDetectorDistance()
+    if real_det_z > calc_det_z:
+        deltaE = _calcBandwidth(parametersBean,real_det_z)
+    else:
+        deltaE = _calcBandwidth(parametersBean,calc_det_z)
     parametersBean.setReadBackEnergyBandwidth(deltaE)
     
     return parametersBean

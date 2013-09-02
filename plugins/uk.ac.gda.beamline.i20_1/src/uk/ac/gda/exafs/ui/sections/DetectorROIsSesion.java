@@ -18,19 +18,20 @@
 
 package uk.ac.gda.exafs.ui.sections;
 
-import gda.device.detector.StripDetector;
 import gda.device.detector.XHDetector;
 import gda.device.detector.XHROI;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
 import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
@@ -38,11 +39,7 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
@@ -60,7 +57,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
-import uk.ac.gda.exafs.data.DetectorConfig;
+import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class DetectorROIsSesion {
@@ -73,13 +70,15 @@ public class DetectorROIsSesion {
 	private ComboViewer cmbFirstStripViewer;
 	private ComboViewer cmbLastStripViewer;
 	private TableViewer roisTableViewer;
+	protected Binding cmbFirstStripViewerBinding;
+	protected Binding cmbLastStripViewerBinding;
 
 	private DetectorROIsSesion() {}
 
 	@SuppressWarnings({ "static-access" })
 	public void createSection(Form form, FormToolkit toolkit) {
 		dataBindingCtx = new DataBindingContext();
-		final Section roisSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE);
+		final Section roisSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		roisSection.setText("Region of Interests (ROIs)");
 		toolkit.paintBordersFor(roisSection);
 		roisSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
@@ -167,7 +166,7 @@ public class DetectorROIsSesion {
 		layout.setColumnData(viewerUpperLevelColumn.getColumn(),new ColumnWeightData(4));
 		toolkit.paintBordersFor(regionsTableComposit);
 
-		roisTableViewer.setInput(DetectorConfig.INSTANCE.getRois());
+		roisTableViewer.setInput(DetectorModel.INSTANCE.getRois());
 
 		Composite buttonComposit = new Composite(regionsComposit, SWT.NONE);
 		buttonComposit.setLayout(new GridLayout());
@@ -178,7 +177,7 @@ public class DetectorROIsSesion {
 		butAdd.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				DetectorConfig.INSTANCE.addRIO();
+				DetectorModel.INSTANCE.addRIO();
 			}
 		});
 
@@ -189,7 +188,7 @@ public class DetectorROIsSesion {
 		butRemove.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				DetectorConfig.INSTANCE.removeRIO();
+				DetectorModel.INSTANCE.removeRIO();
 			}
 		});
 
@@ -197,103 +196,70 @@ public class DetectorROIsSesion {
 		toolkit.paintBordersFor(roisSectionSeparator);
 		roisSection.setSeparatorControl(roisSectionSeparator);
 
-		DetectorConfig.INSTANCE.addPropertyChangeListener(DetectorConfig.CURRENT_DETECTOR_SETUP_PROP_NAME, new PropertyChangeListener() {
+		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				Object value = evt.getNewValue();
-				if (value != null) {
-					StripDetector detector = (StripDetector) value;
-					cmbFirstStripViewer.setSelection(new StructuredSelection(detector.getLowerChannel()));
-					cmbLastStripViewer.setSelection(new StructuredSelection(detector.getUpperChannel()));
-				}
-			}
-		});
-
-		cmbFirstStripViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				// TODO User data binding validation
-				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-				if (!selection.isEmpty()) {
-					DetectorConfig.INSTANCE.getCurrentDetector().setLowerChannel((int) selection.getFirstElement());
-					DetectorConfig.INSTANCE.reloadROIs();
+				boolean detectorConnected = (boolean) evt.getNewValue();
+				if (detectorConnected) {
+					bindUpperAndLowerComboViewers();
 				} else {
-					String value = ((ComboViewer) event.getSource()).getCCombo().getText();
-					try {
-						int strip = Integer.parseInt(value);
-						if (strip > 0 & strip < DetectorConfig.INSTANCE.getCurrentDetector().getUpperChannel()) {
-							DetectorConfig.INSTANCE.getCurrentDetector().setLowerChannel(strip);
-							DetectorConfig.INSTANCE.reloadROIs();
-						} else {
-							throw new NumberFormatException("Out of range");
-						}
-					} catch(NumberFormatException e) {
-						UIHelper.showError("Unable to update", "Unvalid number");
+					if (cmbFirstStripViewerBinding != null) {
+						dataBindingCtx.removeBinding(cmbFirstStripViewerBinding);
+						cmbFirstStripViewerBinding.dispose();
+						cmbFirstStripViewerBinding = null;
+					}
+					if (cmbLastStripViewerBinding != null) {
+						dataBindingCtx.removeBinding(cmbLastStripViewerBinding);
+						cmbLastStripViewerBinding.dispose();
+						cmbLastStripViewerBinding = null;
 					}
 				}
 			}
 		});
 
-		cmbLastStripViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				// TODO User data binding validation
-				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-				if (!selection.isEmpty()) {
-					DetectorConfig.INSTANCE.getCurrentDetector().setUpperChannel((int) selection.getFirstElement());
-					DetectorConfig.INSTANCE.reloadROIs();
-				} else {
-					String value = ((ComboViewer) event.getSource()).getCCombo().getText();
-					try {
-						int strip = Integer.parseInt(value);
-						if (strip < DetectorConfig.INSTANCE.getCurrentDetector().getNumberChannels() & strip > DetectorConfig.INSTANCE.getCurrentDetector().getLowerChannel()) {
-							DetectorConfig.INSTANCE.getCurrentDetector().setUpperChannel(strip);
-							DetectorConfig.INSTANCE.reloadROIs();
-						} else {
-							throw new NumberFormatException("Out of range");
-						}
-					} catch(NumberFormatException e) {
-						UIHelper.showError("Unable to update", "Unvalid number");
-					}
-				}
-			}
-		});
-
-		if (DetectorConfig.INSTANCE.getCurrentDetector() != null) {
-			cmbFirstStripViewer.setSelection(new StructuredSelection(DetectorConfig.INSTANCE.getCurrentDetector().getLowerChannel()));
-			cmbLastStripViewer.setSelection(new StructuredSelection(DetectorConfig.INSTANCE.getCurrentDetector().getUpperChannel()));
+		if (DetectorModel.INSTANCE.getCurrentDetector() != null) {
+			bindUpperAndLowerComboViewers();
 		}
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(cmbFirstStripViewer.getControl()),
-				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
+				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(cmbLastStripViewer.getControl()),
-				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
+				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(butAdd),
-				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
+				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(butRemove),
-				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
+				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
 
-		butRemove.setEnabled(DetectorConfig.INSTANCE.getRois().size() > 1);
+		butRemove.setEnabled(DetectorModel.INSTANCE.getRois().size() > 1);
 
-		DetectorConfig.INSTANCE.getRois().addListChangeListener(new IListChangeListener() {
+		DetectorModel.INSTANCE.getRois().addListChangeListener(new IListChangeListener() {
 			@Override
 			public void handleListChange(ListChangeEvent event) {
-				butRemove.setEnabled(DetectorConfig.INSTANCE.getRois().size() > 1);
+				butRemove.setEnabled(DetectorModel.INSTANCE.getRois().size() > 1);
 			}
 		});
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(roisSection),
-				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
+				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
 
 
+	}
+
+	private void bindUpperAndLowerComboViewers() {
+		cmbFirstStripViewerBinding = dataBindingCtx.bindValue(
+				ViewersObservables.observeSingleSelection(cmbFirstStripViewer),
+				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.LOWER_CHANNEL_PROP_NAME));
+		cmbLastStripViewerBinding = dataBindingCtx.bindValue(
+				ViewersObservables.observeSingleSelection(cmbLastStripViewer),
+				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.UPPER_CHANNEL_PROP_NAME));
 	}
 
 	// TODO Add editor change support

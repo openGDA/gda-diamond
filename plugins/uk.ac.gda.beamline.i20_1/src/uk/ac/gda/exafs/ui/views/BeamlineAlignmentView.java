@@ -87,7 +87,7 @@ import uk.ac.gda.exafs.data.ClientConfig.CrystalCut;
 import uk.ac.gda.exafs.data.ClientConfig.CrystalType;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
-import uk.ac.gda.exafs.data.DetectorConfig;
+import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.EdeCalibrationModel;
 import uk.ac.gda.exafs.data.EdeCalibrationModel.ElementReference;
 import uk.ac.gda.exafs.ui.composites.MotorPositionEditorControl;
@@ -323,7 +323,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			}
 		});
 
-		DetectorConfig.INSTANCE.addPropertyChangeListener(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
+		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if ((boolean) evt.getNewValue()) {
@@ -339,23 +339,23 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(cmdElementEdge.getControl()),
-				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
+				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(cmbElement.getControl()),
-				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
+				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(cmbCrystalCut.getControl()),
-				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
+				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(butDetectorSetup),
-				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
+				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(cmbCrystalQ.getControl()),
-				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
+				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
 
 		dataBindingCtx.bindValue(
 				ViewersObservables.observeSingleSelection(cmbElement),
@@ -382,12 +382,12 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	private FormText labelDeltaEValue;
 	private void setupDetector() {
 		try {
-			DetectorConfig.INSTANCE.setupDetectors();
-			cmbDetectorType.setInput(DetectorConfig.INSTANCE.getAvailableDetectors());
+			DetectorModel.INSTANCE.setupDetectors();
+			cmbDetectorType.setInput(DetectorModel.INSTANCE.getAvailableDetectors());
 			UpdateValueStrategy detectorSelectionUpdateStrategy = new UpdateValueStrategy() {
 				@Override
 				protected IStatus doSet(IObservableValue observableValue, Object value) {
-					StripDetector detector = DetectorConfig.INSTANCE.getCurrentDetector();
+					StripDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
 					boolean changeConfirm = true;
 					if (detector != null && detector.isConnected()) {
 						changeConfirm = MessageDialog.openConfirm(Display.getDefault().getActiveShell(), "Changing Detectors", detector.getName() + " is currently connected. Disconnect " + detector.getName() + " and connect " + ((StripDetector)value).getName() + "?");
@@ -409,7 +409,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			};
 			detectorValueBinding = dataBindingCtx.bindValue(
 					ViewersObservables.observeSingleSelection(cmbDetectorType),
-					BeanProperties.value(DetectorConfig.CURRENT_DETECTOR_SETUP_PROP_NAME).observe(DetectorConfig.INSTANCE),
+					BeanProperties.value(DetectorModel.CURRENT_DETECTOR_SETUP_PROP_NAME).observe(DetectorModel.INSTANCE),
 					detectorSelectionUpdateStrategy, null);
 
 		} catch (Exception e) {
@@ -426,7 +426,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 	// FIXME this is not a elegant way to providing suggestion values
 	private void getScannableValuesSuggestion() {
-		if (!DetectorConfig.INSTANCE.isDetectorConnected()) {
+		if (!DetectorModel.INSTANCE.isDetectorConnected()) {
 			return;
 		}
 		Element selectedElement = (Element) ((IStructuredSelection) cmbElement.getSelection()).getFirstElement();
@@ -437,7 +437,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		String xtalCutString = ((CrystalCut) ((StructuredSelection) cmbCrystalCut.getSelection()).getFirstElement()).name();
 		String xtalTypeString = ((CrystalType) ((StructuredSelection) cmbCrystalType.getSelection()).getFirstElement()).name();
-		String detectorString = DetectorConfig.INSTANCE.getCurrentDetector().getName();
+		String detectorString = DetectorModel.INSTANCE.getCurrentDetector().getName();
 		try {
 			AlignmentParametersBean bean = new AlignmentParametersBean(xtalTypeString, xtalCutString, q,
 					detectorString, absEdge);
@@ -488,6 +488,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		Scannable scannable = ScannableSetup.WIGGLER_GAP.getScannable();
 		scannable.addIObserver(moveObserver);
 		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, new ScannableWrapper(scannable), true);
+
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.WIGGLER_GAP, lblWigglerSuggestion, motorPositionEditorControl));
 
@@ -692,7 +693,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.DETECTOR_DISTANCE, lblDetectorDistanceSuggestion, motorPositionEditorControl));
 
-		Label lblDeltaE = toolkit.createLabel(motorSectionComposite, "Energy bandwidth for calculated detector distance:", SWT.WRAP);
+		Label lblDeltaE = toolkit.createLabel(motorSectionComposite, "Energy bandwidth for\n calculated detector distance:", SWT.WRAP);
 		gridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
 		gridData.horizontalSpan = 3;
 		lblDeltaE.setLayoutData(gridData);
@@ -702,7 +703,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		labelDeltaEValueSuggestion.setLayoutData(gridData);
 
-		lblDeltaE = toolkit.createLabel(motorSectionComposite, "Energy bandwidth for current detector distance:", SWT.WRAP);
+		lblDeltaE = toolkit.createLabel(motorSectionComposite, "Energy bandwidth for\n current detector distance:", SWT.WRAP);
 		gridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
 		gridData.horizontalSpan = 3;
 		lblDeltaE.setLayoutData(gridData);

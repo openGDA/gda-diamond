@@ -67,7 +67,7 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
-import uk.ac.gda.exafs.data.DetectorConfig;
+import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class DetectorSetupDialog extends TitleAreaDialog {
@@ -89,8 +89,8 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 	private Binding bindTxtBiasVoltage;
 	private Binding bindExcludedStrips;
 
-	private final String biasErrorMessage = "Voltage not in range. Enter input between " + DetectorConfig.INSTANCE.getCurrentDetector().getMinBias() + " and " + DetectorConfig.INSTANCE.getCurrentDetector().getMaxBias() + ".";
-	private final String detectorInputMessage = "Edit details for " + DetectorConfig.INSTANCE.getCurrentDetector().getName() + " detector.";
+	private final String biasErrorMessage = "Voltage not in range. Enter input between " + DetectorModel.INSTANCE.getCurrentDetector().getMinBias() + " and " + DetectorModel.INSTANCE.getCurrentDetector().getMaxBias() + ".";
+	private final String detectorInputMessage = "Edit details for " + DetectorModel.INSTANCE.getCurrentDetector().getName() + " detector.";
 
 	public DetectorSetupDialog(Shell parentShell) {
 		super(parentShell);
@@ -157,7 +157,7 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 			cursor = Display.getDefault().getActiveShell().getCursor();
 			Cursor waitCursor = Display.getDefault().getSystemCursor(SWT.CURSOR_WAIT);
 			Display.getDefault().getActiveShell().setCursor(waitCursor);
-			temperatureValues = ((XCHIPDetector) DetectorConfig.INSTANCE.getCurrentDetector()).getTemperatures();
+			temperatureValues = ((XCHIPDetector) DetectorModel.INSTANCE.getCurrentDetector()).getTemperatures();
 			if (!temperatureValues.isEmpty()) {
 				int weight = 100 / temperatureValues.size();
 				String[] values = new String[temperatureValues.size()];
@@ -200,12 +200,12 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 		});
 		bindTxtBiasVoltage = dataBindingCtx.bindValue(
 				WidgetProperties.text(SWT.Modify).observe(txtBiasVoltage),
-				BeanProperties.value(DetectorConfig.BIAS_PROP_NAME).observe(DetectorConfig.INSTANCE),
+				BeanProperties.value(DetectorModel.BIAS_PROP_NAME).observe(DetectorModel.INSTANCE),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST).setBeforeSetValidator(new IValidator() {
 					@Override
 					public IStatus validate(Object value) {
 						if (value instanceof Double) {
-							if (DetectorConfig.INSTANCE.isVoltageInRange((double) value)) {
+							if (DetectorModel.INSTANCE.isVoltageInRange((double) value)) {
 								return ValidationStatus.ok();
 							}
 							return ValidationStatus.error(biasErrorMessage);
@@ -216,7 +216,7 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 				new UpdateValueStrategy().setAfterGetValidator(new IValidator() {
 					@Override
 					public IStatus validate(Object value) {
-						if (DetectorConfig.INSTANCE.isVoltageInRange((double) value)) {
+						if (DetectorModel.INSTANCE.isVoltageInRange((double) value)) {
 							return ValidationStatus.ok();
 						}
 						return ValidationStatus.error("Voltage not in range");
@@ -232,7 +232,7 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 
 		bindExcludedStrips = dataBindingCtx.bindValue(
 				WidgetProperties.text(SWT.Modify).observe(txtExcludedStrips),
-				BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.CURRENT_DETECTOR_EXCLUDED_STRIPS_PROP_NAME),
+				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.CURRENT_DETECTOR_EXCLUDED_STRIPS_PROP_NAME),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST) {
 					@Override
 					public Object convert(Object value) {
@@ -270,7 +270,7 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 		ListSelectionDialog dialog =
 				new ListSelectionDialog(
 						Display.getDefault().getActiveShell(),
-						DetectorConfig.INSTANCE.getStrips(),
+						DetectorModel.INSTANCE.getStrips(),
 						new ArrayContentProvider(),
 						new LabelProvider(),
 						"Select excluded strips");
