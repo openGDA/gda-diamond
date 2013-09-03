@@ -40,6 +40,7 @@
 
 	<bean id="fastpil3Controller" class="uk.ac.gda.epics.adviewer.ADControllerImpl">
 		<property name="detectorName" value="fastpil3" />
+		<property name="serviceName" value="fastpil3" />
 		<property name="adBase" ref="pil3_cam_base" />
 		<property name="imageNDROI" ref="pil3_roi" />
 		<property name="imageNDArray" ref="pil3_array" />
