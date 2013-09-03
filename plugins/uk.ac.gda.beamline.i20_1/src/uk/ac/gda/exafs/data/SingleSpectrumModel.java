@@ -94,7 +94,7 @@ public class SingleSpectrumModel extends ObservableModel {
 				"scan_driver = SingleSpectrumDriver(\"%s\",%f,%d,%f,%d);" +
 				"scan_driver.setInBeamPosition(%f,%f);" +
 				"scan_driver.setOutBeamPosition(%f,%f)",
-				DetectorConfig.INSTANCE.getCurrentDetector().getName(),
+				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				i0IntegrationTime,
 				i0NumberOfAccumulations,
 				itIntegrationTime,
@@ -137,7 +137,6 @@ public class SingleSpectrumModel extends ObservableModel {
 					}
 				}
 				if (SingleSpectrumModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
-					System.out.println("test");
 					monitor.worked(1);
 				}
 			}
@@ -156,6 +155,9 @@ public class SingleSpectrumModel extends ObservableModel {
 			try {
 				InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
 				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
+				if (resultFileName == null) {
+					throw new Exception("Unable to do collection.");
+				}
 				Display.getDefault().asyncExec(new Runnable() {
 					@Override
 					public void run() {
@@ -167,11 +169,7 @@ public class SingleSpectrumModel extends ObservableModel {
 					}
 				});
 			} catch (Exception e) {
-				if (e.getMessage() !=null) {
-					UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
-				} else {
-					UIHelper.showWarning("Error while scanning or canceled", "");
-				}
+				UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
 			}
 			monitor.done();
 			Display.getDefault().asyncExec(new Runnable() {
@@ -190,15 +188,15 @@ public class SingleSpectrumModel extends ObservableModel {
 	}
 
 	public void doScan() throws Exception {
-		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
+		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
 		job.schedule();
 	}
 
-	public void setFileName(String value) throws Exception {
+	public void setFileName(String value) {
 		firePropertyChange(FILE_NAME_PROP_NAME, fileName, fileName = value);
-		ClientConfig.CalibrationData.INSTANCE.getEdeData().setData(value);
+		// EdeCalibrationModel.INSTANCE.getEdeData().setData(value);
 	}
 
 	public String getFileName() {
@@ -278,7 +276,7 @@ public class SingleSpectrumModel extends ObservableModel {
 	}
 
 	public void save() throws DetectorUnavailableException {
-		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
+		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
 		InterfaceProvider.getCommandRunner().runCommand("alignment_stage.saveDeviceFromCurrentMotorPositions(\"slits\")");

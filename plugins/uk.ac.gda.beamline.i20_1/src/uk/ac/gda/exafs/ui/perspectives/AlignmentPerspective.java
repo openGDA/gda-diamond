@@ -42,12 +42,16 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 	public static String SPECTRAPLOTID =  "uk.ac.diamond.scisoft.analysis.rcp.liveModePlot";
 	public static String SPECTRAPLOTNAME =  "Live Mode";
 
+	public static String SINGLE_SPECTRUM_PLOT_VIEW_NAME = "Single spectrum plot";
+	public static String SINGLE_SPECTRUM_PLOT_VIEW_ID = "uk.ac.gda.beamline.i20_1.SingleSpectrumPlot";
+
 	public static final String REF_PLOT_NAME = "Reference Spectrum";
 
 	public static final String EDE_PLOT_NAME = "EDE Data Spectrum";
 
 	private static final String TOPPLOT_FOLDER_ID = "topplot";
 	private static final String ALIGNMENT_CONTROLS_FOLDER_ID = "alignmentControls";
+	private static final String FOCUSING_CONTROLS_FOLDER_ID = "focusingControls";
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
@@ -59,16 +63,19 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		IViewLayout propertyLayout = layout.getViewLayout(BeamlineAlignmentView.ID);
 		propertyLayout.setCloseable(false);
 		alignmentControlsFolder.addView(SingleSpectrumView.ID);
-		alignmentControlsFolder.addView(AlignmentStageCalibrationView.ID);
 
-		layout.addView(FocusingView.ID, IPageLayout.RIGHT, 0.30f, editorArea);
+		IFolderLayout focusingControlsFolder = layout.createFolder(FOCUSING_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.32f, editorArea);
+		focusingControlsFolder.addView(FocusingView.ID);
 		propertyLayout = layout.getViewLayout(FocusingView.ID);
 		propertyLayout.setCloseable(false);
+		focusingControlsFolder.addView(AlignmentStageCalibrationView.ID);
 
-		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, FocusingView.ID);
+		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, FOCUSING_CONTROLS_FOLDER_ID);
 		topPlotFolder.addView(SPECTRAPLOTID);
+		topPlotFolder.addPlaceholder(SINGLE_SPECTRUM_PLOT_VIEW_ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.REFERENCE_ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.EDE_ID);
+		topPlotFolder.addPlaceholder("uk.ac.gda.client.liveplotview");
 		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.6f,TOPPLOT_FOLDER_ID);
 	}
 }

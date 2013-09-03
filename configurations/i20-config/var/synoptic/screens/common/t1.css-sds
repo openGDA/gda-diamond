@@ -130,7 +130,7 @@
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.path" id="filename">
-    <path value="/dls_sw/i20/software/gda_versions/gda_release_8_26/workspace_git/gda-dls-beamlines-xas.git/i20/clients/main/live/synoptic/screens/common/table_right_scaled.jpg" />
+    <path value="/oe images/table_right_scaled.jpg" />
   </property>
   <property type="sds.integer" id="crop.top" value="0" />
   <property type="sds.integer" id="crop.bottom" value="0" />
@@ -2923,7 +2923,7 @@
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.string" id="label" value="">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="epics://BL20I-EA-IAMP-02:IOON, string" value="" />
+      <inputChannel name="epics://BL20I-EA-IAMP-01:IOON, string" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.font" id="font">

@@ -60,8 +60,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="0" />
-  <property type="sds.integer" id="position.y" value="100" />
+  <property type="sds.integer" id="position.x" value="-3" />
+  <property type="sds.integer" id="position.y" value="101" />
   <property type="sds.integer" id="width" value="1920" />
   <property type="sds.integer" id="height" value="1200" />
   <property type="sds.color" id="color.foreground">
@@ -748,8 +748,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="628" />
-  <property type="sds.integer" id="position.y" value="43" />
+  <property type="sds.integer" id="position.x" value="692" />
+  <property type="sds.integer" id="position.y" value="41" />
   <property type="sds.integer" id="width" value="56" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -812,8 +812,8 @@
       <outputChannel name="local://oeview, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="751" />
-  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="815" />
+  <property type="sds.integer" id="position.y" value="-2" />
   <property type="sds.integer" id="width" value="80" />
   <property type="sds.integer" id="height" value="100" />
   <property type="sds.color" id="color.foreground">
@@ -878,8 +878,8 @@
       <outputChannel name="local://oeview, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="835" />
-  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="899" />
+  <property type="sds.integer" id="position.y" value="-2" />
   <property type="sds.integer" id="width" value="60" />
   <property type="sds.integer" id="height" value="100" />
   <property type="sds.color" id="color.foreground">
@@ -948,8 +948,8 @@
       <outputChannel name="gda://photonshutter.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="628" />
-  <property type="sds.integer" id="position.y" value="14" />
+  <property type="sds.integer" id="position.x" value="692" />
+  <property type="sds.integer" id="position.y" value="12" />
   <property type="sds.integer" id="width" value="56" />
   <property type="sds.integer" id="height" value="30" />
   <property type="sds.color" id="color.foreground">
@@ -1003,8 +1003,8 @@
       <outputChannel name="local://oeview, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="688" />
-  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="752" />
+  <property type="sds.integer" id="position.y" value="-2" />
   <property type="sds.integer" id="width" value="60" />
   <property type="sds.integer" id="height" value="100" />
   <property type="sds.color" id="color.foreground">
@@ -1069,8 +1069,8 @@
       <outputChannel name="local://oeview, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="901" />
-  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="position.x" value="965" />
+  <property type="sds.integer" id="position.y" value="-2" />
   <property type="sds.integer" id="width" value="49" />
   <property type="sds.integer" id="height" value="21" />
   <property type="sds.color" id="color.foreground">
@@ -1103,6 +1103,71 @@
   </property>
   <property type="sds.integer" id="style" value="0" />
   <property type="sds.string" id="label" value="    Help" />
+  <property type="sds.color" id="colour.over">
+    <color hex="#ADD8E6" />
+  </property>
+  <property type="sds.color" id="colour.button">
+    <color hex="#8FBAD2" />
+  </property>
+  <property type="sds.color" id="colour.foreground">
+    <color hex="#000000" />
+  </property>
+  <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
+</widget>
+<widget type="org.csstudio.sds.components.ImageButton">
+  <property type="sds.behavior" id="behavior" value="" />
+  <property type="sds.string" id="primary_pv" value="" />
+  <property type="sds.string" id="name" value="ImageButtonModel" />
+  <property type="sds.map" id="aliases">
+    <map />
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="Atn5" />
+        <property_attribut type="sds.string" id="value" value="atn5" />
+      </action_attribut>
+    </actionData>
+    <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
+      <outputChannel name="local://oeview, string" value="" />
+    </dynamicsDescriptor>
+  </property>
+  <property type="sds.integer" id="position.x" value="629" />
+  <property type="sds.integer" id="position.y" value="0" />
+  <property type="sds.integer" id="width" value="60" />
+  <property type="sds.integer" id="height" value="100" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#0000c0" />
+  </property>
+  <property type="sds.color" id="color.background">
+    <color hex="#e6e6e6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="0" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.paramstring" id="tooltip" value="Atn5" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  <property type="sds.path" id="filename">
+    <path value="/oe thumb images/diagnostic.png" />
+  </property>
+  <property type="sds.integer" id="style" value="0" />
+  <property type="sds.string" id="label" value="     ATN5" />
   <property type="sds.color" id="colour.over">
     <color hex="#ADD8E6" />
   </property>

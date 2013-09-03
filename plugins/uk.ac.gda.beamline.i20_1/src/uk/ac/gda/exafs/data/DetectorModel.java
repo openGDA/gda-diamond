@@ -32,12 +32,18 @@ import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.WritableList;
 
-public class DetectorConfig extends ObservableModel {
+public class DetectorModel extends ObservableModel {
 
-	public static final DetectorConfig INSTANCE = new DetectorConfig();
+	public static final DetectorModel INSTANCE = new DetectorModel();
 
 	public static final String CURRENT_DETECTOR_SETUP_PROP_NAME = "currentDetector";
 	public static final String DETECTOR_CONNECTED_PROP_NAME = "detectorConnected";
+
+	public static final String BIAS_PROP_NAME = "bias";
+
+	public static final String UPPER_CHANNEL_PROP_NAME = "upperChannel";
+	public static final String LOWER_CHANNEL_PROP_NAME = "lowerChannel";
+
 	private StripDetector currentDetector;
 
 	private final List<StripDetector> availableDetectors = new ArrayList<StripDetector>();
@@ -48,7 +54,7 @@ public class DetectorConfig extends ObservableModel {
 
 	private Integer[] excludedStripsCache;
 
-	private DetectorConfig() {
+	private DetectorModel() {
 		this.addPropertyChangeListener(DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -80,6 +86,40 @@ public class DetectorConfig extends ObservableModel {
 		}
 	}
 
+	public void setUpperChannel(int value) throws DetectorUnavailableException {
+		if (currentDetector == null) {
+			throw new DetectorUnavailableException();
+		}
+		int currentValue = currentDetector.getUpperChannel();
+		currentDetector.setUpperChannel(value);
+		this.firePropertyChange(UPPER_CHANNEL_PROP_NAME, currentValue, value);
+		this.reloadROIs();
+	}
+
+	public void setLowerChannel(int value) throws DetectorUnavailableException {
+		if (currentDetector == null) {
+			throw new DetectorUnavailableException();
+		}
+		int currentValue = currentDetector.getLowerChannel();
+		currentDetector.setLowerChannel(value);
+		this.firePropertyChange(LOWER_CHANNEL_PROP_NAME, currentValue, value);
+		this.reloadROIs();
+	}
+
+	public int getUpperChannel() throws DetectorUnavailableException {
+		if (currentDetector == null) {
+			throw new DetectorUnavailableException();
+		}
+		return currentDetector.getUpperChannel();
+	}
+
+	public int getLowerChannel() throws DetectorUnavailableException {
+		if (currentDetector == null) {
+			throw new DetectorUnavailableException();
+		}
+		return currentDetector.getLowerChannel();
+	}
+
 	public StripDetector getCurrentDetector() {
 		return currentDetector;
 	}
@@ -87,7 +127,6 @@ public class DetectorConfig extends ObservableModel {
 	public Detector getCurrentStepScanDetector() {
 		return Finder.getInstance().find("ss"+currentDetector.getName());
 	}
-
 
 	public void setCurrentDetector(StripDetector detector) throws Exception {
 		try {
@@ -99,6 +138,8 @@ public class DetectorConfig extends ObservableModel {
 				}
 				firePropertyChange(DETECTOR_CONNECTED_PROP_NAME, (currentDetector == null), false);
 				firePropertyChange(CURRENT_DETECTOR_SETUP_PROP_NAME, currentDetector, currentDetector = null);
+				firePropertyChange(LOWER_CHANNEL_PROP_NAME, null, null);
+				firePropertyChange(UPPER_CHANNEL_PROP_NAME, null, null);
 			} catch (DeviceException e) {
 				throw new Exception("DeviceException when disconnecting detector " + currentDetector.getName(), e);
 			}
@@ -109,9 +150,13 @@ public class DetectorConfig extends ObservableModel {
 			excludedStripsCache = null;
 			firePropertyChange(CURRENT_DETECTOR_SETUP_PROP_NAME, currentDetector, currentDetector = detector);
 			firePropertyChange(DETECTOR_CONNECTED_PROP_NAME, false, true);
+			firePropertyChange(LOWER_CHANNEL_PROP_NAME, null, currentDetector.getLowerChannel());
+			firePropertyChange(UPPER_CHANNEL_PROP_NAME, null, currentDetector.getUpperChannel());
 		} catch (DeviceException e) {
 			firePropertyChange(DETECTOR_CONNECTED_PROP_NAME, false, false);
 			firePropertyChange(CURRENT_DETECTOR_SETUP_PROP_NAME, null, null);
+			firePropertyChange(LOWER_CHANNEL_PROP_NAME, null, null);
+			firePropertyChange(UPPER_CHANNEL_PROP_NAME, null, null);
 			throw new Exception("DeviceException when connecting detector " + detector.getName(), e);
 		}
 	}
@@ -149,7 +194,6 @@ public class DetectorConfig extends ObservableModel {
 		return biasCache.doubleValue();
 	}
 
-	public static final String BIAS_PROP_NAME = "bias";
 	public void setBias(double bias) throws DeviceException {
 		currentDetector.setBias(bias);
 		firePropertyChange(BIAS_PROP_NAME, null, bias);

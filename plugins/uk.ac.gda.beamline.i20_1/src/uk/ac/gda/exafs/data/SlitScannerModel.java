@@ -25,9 +25,9 @@ import gda.jython.JythonServerStatus;
 import gda.observable.IObserver;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 
-public class SlitScanner extends ObservableModel implements IObserver {
+public class SlitScannerModel extends ObservableModel implements IObserver {
 
-	private static SlitScanner INSTANCE;
+	private static SlitScannerModel INSTANCE;
 
 	//TODO Find out values or refactor
 
@@ -57,13 +57,13 @@ public class SlitScanner extends ObservableModel implements IObserver {
 	public static final String INTEGRATION_TIME_PROP_NAME = "integrationTime";
 	private double integrationTime = 1.0;
 
-	private SlitScanner() {
+	private SlitScannerModel() {
 		InterfaceProvider.getJSFObserver().addIObserver(this);
 	}
 
-	public static SlitScanner getInstance() {
+	public static SlitScannerModel getInstance() {
 		if (INSTANCE == null) {
-			INSTANCE = new SlitScanner();
+			INSTANCE = new SlitScannerModel();
 		}
 		return INSTANCE;
 	}
@@ -128,12 +128,12 @@ public class SlitScanner extends ObservableModel implements IObserver {
 				step,
 				ScannableSetup.SLIT_3_HORIZONAL_GAP.getScannableName(),
 				gap,
-				DetectorConfig.INSTANCE.getCurrentStepScanDetector().getName(),
+				DetectorModel.INSTANCE.getCurrentStepScanDetector().getName(),
 				integrationTimeInS);
 	}
 
 	public void doScan() throws DetectorUnavailableException {
-		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
+		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
 		InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
@@ -147,8 +147,8 @@ public class SlitScanner extends ObservableModel implements IObserver {
 		}
 	}
 
-	public void save() throws DetectorUnavailableException {
-		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
+	public void saveSlitsPosToAlignmentStage() throws DetectorUnavailableException {
+		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
 		InterfaceProvider.getCommandRunner().runCommand("alignment_stage.saveDeviceFromCurrentMotorPositions(\"slits\")");

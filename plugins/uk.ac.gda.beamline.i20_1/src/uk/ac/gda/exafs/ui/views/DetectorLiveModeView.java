@@ -33,18 +33,18 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.part.ViewPart;
 
-import uk.ac.gda.exafs.data.DetectorConfig;
+import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.ui.composites.XHControlComposite;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
-public class DetectorLiveMode extends ViewPart {
+public class DetectorLiveModeView extends ViewPart {
 
 	private XHControlComposite controlComposite;
 	private IPlottingSystem plottingSystem;
 
 	protected final DataBindingContext ctx = new DataBindingContext();
 
-	public DetectorLiveMode() {
+	public DetectorLiveModeView() {
 		//
 	}
 
@@ -78,7 +78,7 @@ public class DetectorLiveMode extends ViewPart {
 		controlComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		ctx.bindValue(WidgetProperties.enabled().observe(controlComposite),
-				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
+				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
 	}
 
 	@Override

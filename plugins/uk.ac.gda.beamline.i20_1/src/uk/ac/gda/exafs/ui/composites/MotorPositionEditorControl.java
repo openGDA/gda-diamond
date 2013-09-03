@@ -25,6 +25,7 @@ import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.swt.widgets.Composite;
 
+import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class MotorPositionEditorControl extends NumberEditorControl {
@@ -45,6 +46,7 @@ public class MotorPositionEditorControl extends NumberEditorControl {
 			this.setUnit(((ScannableMotionUnits) scannableWrapper.getScannable()).getUserUnits());
 		}
 		this.setCommitOnOutOfFocus(false);
+		this.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 	}
 
 

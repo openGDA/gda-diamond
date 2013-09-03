@@ -40,9 +40,8 @@ import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.roi.LinearROI;
-import uk.ac.gda.exafs.data.ClientConfig;
-import uk.ac.gda.exafs.data.ClientConfig.CalibrationData;
-import uk.ac.gda.exafs.data.ClientConfig.ElementReference;
+import uk.ac.gda.exafs.data.EdeCalibrationModel;
+import uk.ac.gda.exafs.data.EdeCalibrationModel.ElementReference;
 
 public class EdeManualCalibrationPlotView  extends ViewPart implements CalibrationPlotViewer {
 
@@ -66,7 +65,7 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 			return;
 		}
 		this.referenceData = referenceData;
-		this.referenceData.addPropertyChangeListener(ClientConfig.ElementReference.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
+		this.referenceData.addPropertyChangeListener(ElementReference.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				try {
@@ -132,7 +131,7 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 			ref3.addROIListener(referencePointListener);
 		}
 
-		CalibrationData.INSTANCE.addPropertyChangeListener(CalibrationData.MANUAL_PROP_NAME, new PropertyChangeListener() {
+		EdeCalibrationModel.INSTANCE.addPropertyChangeListener(EdeCalibrationModel.MANUAL_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				updateVisiability();
@@ -142,9 +141,9 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 	}
 
 	private void updateVisiability() {
-		ref1.setVisible(CalibrationData.INSTANCE.isManual());
-		ref2.setVisible(CalibrationData.INSTANCE.isManual());
-		ref3.setVisible(CalibrationData.INSTANCE.isManual());
+		ref1.setVisible(EdeCalibrationModel.INSTANCE.isManual());
+		ref2.setVisible(EdeCalibrationModel.INSTANCE.isManual());
+		ref3.setVisible(EdeCalibrationModel.INSTANCE.isManual());
 		plottingSystemRef.repaint();
 	}
 

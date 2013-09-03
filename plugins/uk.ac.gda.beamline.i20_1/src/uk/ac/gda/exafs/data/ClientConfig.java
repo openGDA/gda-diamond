@@ -20,7 +20,6 @@ package uk.ac.gda.exafs.data;
 
 import gda.device.Scannable;
 import gda.factory.Finder;
-import gda.scan.ede.EdeAsciiFileWriter;
 import gda.util.exafs.Element;
 
 import java.util.ArrayList;
@@ -31,10 +30,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
-import uk.ac.diamond.scisoft.analysis.io.DataHolder;
-import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 
 public class ClientConfig {
 
@@ -166,118 +161,6 @@ public class ClientConfig {
 		}
 	}
 
-	public static class CalibrationData extends ObservableModel {
-		public static final String REF_DATA_COLUMN_NAME = "/entry1/qexafs_counterTimer01/lnI0It";
-		public static final String REF_ENERGY_COLUMN_NAME = "/entry1/qexafs_counterTimer01/qexafs_energy";
-
-		public static final CalibrationData INSTANCE = new CalibrationData();
-		public static final String MANUAL_PROP_NAME = "manual";
-		private boolean manual;
-		private final ElementEdeData edeData = new ElementEdeData();
-		private final ElementReference refData = new ElementReference();
-
-		private CalibrationData() {}
-		public ElementReference getRefData() {
-			return refData;
-		}
-		public ElementEdeData getEdeData() {
-			return edeData;
-		}
-		public boolean isManual() {
-			return manual;
-		}
-		public void setManual(boolean manual) {
-			firePropertyChange(MANUAL_PROP_NAME, this.manual, this.manual = manual);
-		}
-	}
-
-	public static class ElementEdeData extends ElementReference {
-		@Override
-		public void setData(String fileName) throws Exception {
-			setData(fileName, LoaderFactory.getData(fileName), EdeAsciiFileWriter.STRIP_COLUMN_NAME, EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME);
-		}
-	}
-
-	public static class ElementReference extends ObservableModel {
-
-		public static final String SELECTED_ELEMENT_PROP_NAME = "selectedElement";
-		private Element selectedElement;
-
-		public static final String FILE_NAME_PROP_NAME = "fileName";
-		protected String fileName;
-
-		public static final String MANUAL_CALIBRATION_PROP_NAME = "manualCalibration";
-		private boolean manualCalibration;
-
-		protected DataHolder dataHolder;
-		protected AbstractDataset dataNode;
-		protected AbstractDataset energyNode;
-
-		protected List<Double> refReferencePoints = new ArrayList<Double>();
-
-		public boolean isManualCalibration() {
-			return manualCalibration;
-		}
-
-		public void setManualCalibration(boolean manualCalibration) {
-			firePropertyChange(MANUAL_CALIBRATION_PROP_NAME, this.manualCalibration, this.manualCalibration = manualCalibration);
-		}
-
-		public String getFileName() {
-			return fileName;
-		}
-
-		public List<Double> getReferencePoints() {
-			return refReferencePoints;
-		}
-
-		public void setReferencePoints(List<Double> refReferencePoints) {
-			this.refReferencePoints = refReferencePoints;
-		}
-
-		public AbstractDataset getRefDataNode() {
-			return dataNode;
-		}
-
-		public AbstractDataset getRefEnergyNode() {
-			return energyNode;
-		}
-
-		public DataHolder getRefFile() {
-			return dataHolder;
-		}
-
-		public Element getSelectedElement() {
-			return selectedElement;
-		}
-
-		public void setSelectedElement(Element selectedElement) {
-			firePropertyChange(SELECTED_ELEMENT_PROP_NAME, this.selectedElement, this.selectedElement = selectedElement);
-			// TODO Call setData when DB is ready
-		}
-
-		public void setData(String fileName) throws Exception {
-			setData(fileName, LoaderFactory.getData(fileName), CalibrationData.REF_ENERGY_COLUMN_NAME, CalibrationData.REF_DATA_COLUMN_NAME);
-		}
-
-		protected void setData(String fileName, DataHolder dataHolder, String energyNodePath, String dataNodePath) {
-			String previousRefFile = this.fileName;
-			this.fileName = fileName;
-			this.dataHolder = dataHolder;
-			energyNode = (AbstractDataset) this.dataHolder.getLazyDataset(energyNodePath).getSlice();
-			dataNode = (AbstractDataset) this.dataHolder.getLazyDataset(dataNodePath).getSlice();
-			loadReferencePoints();
-			firePropertyChange(FILE_NAME_PROP_NAME, previousRefFile, this.fileName);
-		}
-
-		protected void loadReferencePoints() {
-			refReferencePoints = new ArrayList<Double>(3);
-			refReferencePoints.add(energyNode.min().doubleValue());
-			refReferencePoints.add((Double) energyNode.mean());
-			refReferencePoints.add(energyNode.max().doubleValue());
-		}
-	}
-
 	public enum ScannableSetup {
 
 		WIGGLER_GAP ("Wiggler gap", "wigglerGap", UnitSetup.MILLI_METER),
@@ -285,6 +168,8 @@ public class ClientConfig {
 		POLY_BENDER_2("Bender 2", "poly_bend2",UnitSetup.MILLI_METER),
 
 		SAMPLE_Z_POSITION("Sample z", "sample_z", UnitSetup.MILLI_METER),
+		SAMPLE_X_POSITION("Sample x", "sample_x", UnitSetup.MILLI_METER),
+		SAMPLE_Y_POSITION("Sample y", "sample_y", UnitSetup.MILLI_METER),
 
 		SLIT_1_HORIZONAL_GAP("Primary slit hgap", "s1_hgap", UnitSetup.MILLI_RADIAN),
 
