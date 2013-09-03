@@ -4,11 +4,6 @@
 <ObjectFactory>
    <name>i22</name>
 
-	<AccessControl>
-		<name>idblena</name>
-		<accessControlPvName>SR22I-MO-SERVC-01:IDBLENA</accessControlPvName>
-	</AccessControl>
-
     <!-- **************************** -->
     <!-- *** EPICS RECORD SECTION *** -->
     <!-- **************************** -->
@@ -18,23 +13,6 @@
         <deviceName>RingCurrent</deviceName>
         <subsystemName>value</subsystemName>	
     </EpicsRecord>   
-    <!-- Insertion Device -->
-    <EpicsRecord>
-        <name>idgap_epicsrecord</name>
-        <deviceName>undulator</deviceName>
-        <subsystemName>Gap</subsystemName>	
-    </EpicsRecord>
-   <!-- RFE Aperture -->
-    <EpicsRecord>
-        <name>feaptr_x_epicsrecord</name>
-        <deviceName>FEAPTR</deviceName>
-        <subsystemName>Xaptr</subsystemName>	
-    </EpicsRecord>
-    <EpicsRecord>
-        <name>feaptr_y_epicsrecord</name>
-        <deviceName>FEAPTR</deviceName>
-        <subsystemName>Yaptr</subsystemName>	
-    </EpicsRecord>
 
     <!-- Fast Shutter Epics Records -->
     <EpicsRecord>
@@ -166,11 +144,6 @@
         <deviceName>D6</deviceName>
         <subsystemName>MP</subsystemName>
     </EpicsRecord> 
-    <EpicsRecord>
-        <name>d6camera_epicsrecord</name>
-        <deviceName>D6</deviceName>
-        <subsystemName>Image</subsystemName>
-    </EpicsRecord>
     
     <!-- Diagnostic 7  the QDPM Epics Records -->
     <EpicsRecord>
@@ -378,24 +351,6 @@
         <epicsRecordName>vfmtemp2_epicsrecord</epicsRecordName>
     </EpicsMonitor>
     
-    <!-- Insertion Device -->
-    <EpicsMotor>
-        <name>idgap_motor</name>
-        <epicsRecordName>idgap_epicsrecord</epicsRecordName>
-	<accessControlName>idblena</accessControlName>
-	<local>true</local>
-    </EpicsMotor>
-   <!-- FE Aperture Motor-->
-    <EpicsMotor>
-        <name>feaptr_x_motor</name>
-        <epicsRecordName>feaptr_x_epicsrecord</epicsRecordName>
-	<local>true</local>
-    </EpicsMotor>
-    <EpicsMotor>
-        <name>feaptr_y_motor</name>
-        <epicsRecordName>feaptr_y_epicsrecord</epicsRecordName>
-	<local>true</local>
-    </EpicsMotor>
     <EpicsMotor>
         <name>fastshuttermotor_motor</name>
         <epicsRecordName>fastshuttermotor_epicsrecord</epicsRecordName>

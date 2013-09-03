@@ -6,7 +6,6 @@
 <import resource="slits/slits.xml" />
 <import resource="bs.xml" />
 <import resource="dcm.xml" />
-<import resource="keyence.xml" />
 <import resource="user.xml" />
 <import resource="sd.xml" />
 <import resource="wd.xml" />
@@ -19,6 +18,7 @@
 <import resource="feaptr.xml" />
 <import resource="idgap.xml" />
 <!--
+<import resource="keyence.xml" />
 <import resource="bsaxs-axes.xml" />
 <import resource="hexapod.xml" />
 <import resource="microfocus/microfocus.xml" />
