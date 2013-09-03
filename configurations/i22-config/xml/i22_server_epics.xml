@@ -12,11 +12,6 @@
     <!-- **************************** -->
     <!-- *** EPICS RECORD SECTION *** -->
     <!-- **************************** -->
-    <EpicsRecord>
-	<name>linkam_temp_epicsrecord</name>
-	<deviceName>LTC</deviceName>
-	<subsystemName>TEMP</subsystemName>
-    </EpicsRecord>
     <!--Ring Current Reading -->
     <EpicsRecord>
         <name>ringcurrent_epicsrecord</name>
@@ -82,11 +77,6 @@
         <subsystemName>MP</subsystemName>
     </EpicsRecord>
     <EpicsRecord>
-        <name>d2scalar_epicsrecord</name>
-        <deviceName>D2</deviceName>
-        <subsystemName>IF-scaled</subsystemName>
-    </EpicsRecord>
-    <EpicsRecord>
         <name>d2camera_epicsrecord</name>
         <deviceName>D2</deviceName>
         <subsystemName>Image</subsystemName>
@@ -114,16 +104,6 @@
         <subsystemName>MP</subsystemName>
     </EpicsRecord>
     <EpicsRecord>
-        <name>d3scalar1_epicsrecord</name>
-        <deviceName>D3</deviceName>
-        <subsystemName>diode1IF</subsystemName>
-    </EpicsRecord>
-    <EpicsRecord>
-        <name>d3scalar2_epicsrecord</name>
-        <deviceName>D3</deviceName>
-        <subsystemName>diode2IF</subsystemName>
-    </EpicsRecord>
-    <EpicsRecord>
         <name>d3camera_epicsrecord</name>
         <deviceName>D3</deviceName>
         <subsystemName>Image</subsystemName>
@@ -148,16 +128,6 @@
         <name>d4filter_epicsrecord</name>
         <deviceName>D4</deviceName>
         <subsystemName>MP</subsystemName>
-    </EpicsRecord>
-    <EpicsRecord>
-        <name>d4scalar1_epicsrecord</name>
-        <deviceName>D4</deviceName>
-        <subsystemName>diode1IF</subsystemName>
-    </EpicsRecord>
-    <EpicsRecord>
-        <name>d4scalar2_epicsrecord</name>
-        <deviceName>D4</deviceName>
-        <subsystemName>diode2IF</subsystemName>
     </EpicsRecord>
     <EpicsRecord>
         <name>d4camera_epicsrecord</name>
@@ -196,16 +166,6 @@
         <deviceName>D6</deviceName>
         <subsystemName>MP</subsystemName>
     </EpicsRecord> 
-    <EpicsRecord>
-        <name>d6scalar1_epicsrecord</name>
-        <deviceName>D6</deviceName>
-        <subsystemName>diode1IF</subsystemName>
-    </EpicsRecord> 
-    <EpicsRecord>
-        <name>d6scalar2_epicsrecord</name>
-        <deviceName>D6</deviceName>
-        <subsystemName>diode2IF</subsystemName>
-    </EpicsRecord>
     <EpicsRecord>
         <name>d6camera_epicsrecord</name>
         <deviceName>D6</deviceName>
@@ -810,23 +770,6 @@
         <subsystemName>RPITCH</subsystemName>
     </EpicsRecord>
     
-    <!-- SAXS  Beam Stop -->
-    <EpicsRecord>
-	<name>sbsdiode_epicsrecord</name>
-	<deviceName>SBS</deviceName>
-	<subsystemName>DIODEI</subsystemName>
-    </EpicsRecord>
-    <EpicsRecord>
-        <name>sbsx_epicsrecord</name>
-        <deviceName>SBS</deviceName>
-        <subsystemName>X</subsystemName>
-    </EpicsRecord>
-    <EpicsRecord>
-        <name>sbsy_epicsrecord</name>
-        <deviceName>SBS</deviceName>
-        <subsystemName>Y</subsystemName>
-    </EpicsRecord>
-
 	<!-- User Motors -->
     <EpicsRecord>
         <name>usermotor1_epicsrecord</name>
@@ -931,10 +874,6 @@
         <name>beammodemonitor</name>
         <pvName>CS-CS-MSTAT-01:MODE</pvName>
     </EpicsMonitor>    
-    <EpicsMonitor>
-        <name>linkamtemp</name>
-        <epicsRecordName>linkam_temp_epicsrecord</epicsRecordName>
-    </EpicsMonitor>    
     <!--Ring Current Reading -->
     <EpicsMonitor>
         <name>ringcurrent</name>
@@ -985,44 +924,6 @@
     <EpicsMonitor>
         <name>qdpmyminus</name>
         <epicsRecordName>qdpmyminus_epicsrecord</epicsRecordName>
-    </EpicsMonitor>
-    
-    <!-- diagnostic diode reading through scaler -->
-    <EpicsMonitor>
-        <name>d2scaler</name>
-        <epicsRecordName>d2scalar_epicsrecord</epicsRecordName>
-    </EpicsMonitor>
-    <EpicsMonitor>
-        <name>d3scalar1</name>
-        <epicsRecordName>d3scalar1_epicsrecord</epicsRecordName>
-    </EpicsMonitor>
-    <EpicsMonitor>
-        <name>d3scalar2</name>
-        <epicsRecordName>d3scalar2_epicsrecord</epicsRecordName>
-    </EpicsMonitor>
-    <EpicsMonitor>
-        <name>d4scalar1</name>
-        <epicsRecordName>d4scalar1_epicsrecord</epicsRecordName>
-    </EpicsMonitor>
-    <EpicsMonitor>
-        <name>d4scalar2</name>
-        <epicsRecordName>d4scalar2_epicsrecord</epicsRecordName>
-    </EpicsMonitor>
-    <EpicsMonitor>
-        <name>d6scalar1</name>
-        <epicsRecordName>d6scalar1_epicsrecord</epicsRecordName>
-    </EpicsMonitor>
-    <EpicsMonitor>
-        <name>d6scalar2</name>
-        <epicsRecordName>d6scalar2_epicsrecord</epicsRecordName>
-    </EpicsMonitor>
-    <EpicsMonitor>
-	<name>d10x</name>
-	<epicsRecordName>d10x_epicsrecord</epicsRecordName>
-    </EpicsMonitor>
-    <EpicsMonitor>
-	<name>d10y</name>
-	<epicsRecordName>d10y_epicsrecord</epicsRecordName>
     </EpicsMonitor>
     
     <!-- Primary (Aperture) Slits / S1 Temperature Epics Monitors -->
@@ -1131,11 +1032,6 @@
     <EpicsMonitor>
         <name>s4bpmypos</name>
         <epicsRecordName>s4bpmypos_epicsrecord</epicsRecordName>
-    </EpicsMonitor>
-    <!-- Beam Stop -->
-    <EpicsMonitor>
-	<name>sbsdiode</name>
-	<epicsRecordName>sbsdiode_epicsrecord</epicsRecordName>
     </EpicsMonitor>
 
     <!-- Insertion Device -->
@@ -1616,36 +1512,5 @@
         <epicsRecordName>sdrpitch_epicsrecord</epicsRecordName>
 	<local>true</local>
     </EpicsMotor>
-    <!-- SBS beam stop motors-->
-    <EpicsMotor>
-        <name>sbsx_motor</name>
-        <epicsRecordName>sbsx_epicsrecord</epicsRecordName>
-	<local>true</local>
-    </EpicsMotor>
-    <EpicsMotor>
-        <name>sbsy_motor</name>
-        <epicsRecordName>sbsy_epicsrecord</epicsRecordName>
-	<local>true</local>
-    </EpicsMotor>
 	<!-- user motors -->
-    <EpicsMotor>
-        <name>usermotor1_motor</name>
-        <epicsRecordName>usermotor1_epicsrecord</epicsRecordName>
-	<local>true</local>
-    </EpicsMotor>
-    <EpicsMotor>
-        <name>usermotor2_motor</name>
-        <epicsRecordName>usermotor2_epicsrecord</epicsRecordName>
-	<local>true</local>
-    </EpicsMotor>
-    <EpicsMotor>
-        <name>usermotor3_motor</name>
-        <epicsRecordName>usermotor3_epicsrecord</epicsRecordName>
-	<local>true</local>
-    </EpicsMotor>
-    <EpicsMotor>
-        <name>usermotor4_motor</name>
-        <epicsRecordName>usermotor4_epicsrecord</epicsRecordName>
-	<local>true</local>
-    </EpicsMotor>
 </ObjectFactory>

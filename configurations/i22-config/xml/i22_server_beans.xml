@@ -145,6 +145,8 @@
 	<import resource="i22_mfgige.xml" />
 	
 	<import resource="dcm.xml" />
+	<import resource="bs.xml" />
+	<import resource="user.xml" />
 
 	<!-- <import resource="bsaxs-axes.xml" /> -->
 
