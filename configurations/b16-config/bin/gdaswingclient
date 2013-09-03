@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. gda_setup_env gda_client_output
+. gda_setup_env gda_swingclient_output
 
 echo Starting GDA Swing Panel...
 echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
