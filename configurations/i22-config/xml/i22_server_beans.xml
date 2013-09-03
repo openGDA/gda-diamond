@@ -142,17 +142,7 @@
 	<import resource="i22_server_ncd.xml" />
 	<import resource="i22_server_dummy.xml" />
 
-	<import resource="i22_mfgige.xml" />
-	
-	<import resource="dcm.xml" />
-	<import resource="bs.xml" />
-	<import resource="user.xml" />
-
-	<!-- <import resource="bsaxs-axes.xml" /> -->
-
-	<!-- <import resource="hexapod.xml" /> -->
-
-        <!-- <import resource="microfocus/microfocus.xml" /> -->
+	<import resource="devices/devices.xml" />
 
 	<bean id="command_server" class="gda.jython.JythonServer">
                 <property name="jythonScriptPaths">
