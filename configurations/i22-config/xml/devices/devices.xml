@@ -8,6 +8,16 @@
 <import resource="dcm.xml" />
 <import resource="keyence.xml" />
 <import resource="user.xml" />
+<import resource="sd.xml" />
+<import resource="wd.xml" />
+<import resource="hfm.xml" />
+<import resource="vfm.xml" />
+<import resource="rot.xml" />
+<import resource="pxy.xml" />
+<import resource="base.xml" />
+<import resource="bco.xml" />
+<import resource="feaptr.xml" />
+<import resource="idgap.xml" />
 <!--
 <import resource="bsaxs-axes.xml" />
 <import resource="hexapod.xml" />

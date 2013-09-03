@@ -133,16 +133,10 @@
 		<property name="buildProxies" value="${gda.accesscontrol.useAccessControl}" />
 		<property name="mappingFile" value="classpath:gda/factory/mapping_epics.xml" />
 	</bean>
-	<bean class="gda.factory.ServerXmlObjectCreator">
-		<property name="xmlFile" value="${gda.config}/xml/i22_server_oe.xml" />
-		<property name="buildProxies" value="${gda.accesscontrol.useAccessControl}" />
-		<property name="mappingFile" value="classpath:gda/factory/mapping_oe.xml" />
-	</bean>
 
-	<import resource="i22_server_ncd.xml" />
 	<import resource="i22_server_dummy.xml" />
-
 	<import resource="devices/devices.xml" />
+	<import resource="i22_server_ncd.xml" />
 
 	<bean id="command_server" class="gda.jython.JythonServer">
                 <property name="jythonScriptPaths">
