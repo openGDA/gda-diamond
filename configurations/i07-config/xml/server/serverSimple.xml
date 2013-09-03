@@ -30,20 +30,20 @@
     </bean>
     
 
-    <import resource="file:${gda.config}/xml/server/server_dummies.xml" />
+    <import resource="server_dummies.xml" />
 
 
 	<!-- Pilatus using the AreaDetector Interface -->
-<!--     <import resource="file:${gda.config}/xml/server/pilatus2_824.xml" /> -->
-    <import resource="file:${gda.config}/xml/server/fleacamera3_08.xml" />
-    <import resource="file:${gda.config}/xml/server/fleacamera5_09.xml" />
-    <import resource="file:${gda.config}/xml/server/fleacamera4_06.xml" />
+<!--     <import resource="pilatus2_824.xml" /> -->
+    <import resource="fleacamera3_08.xml" />
+    <import resource="fleacamera5_09.xml" />
+    <import resource="fleacamera4_06.xml" />
 
     
-    <import resource="file:${gda.config}/xml/server/server_core.xml" />
-    <import resource="file:${gda.config}/xml/server/commandServer_simple.xml" />
-    <import resource="file:${gda.config}/xml/server/commandQueueProcessor.xml" />
-    <import resource="file:${gda.config}/xml/server/terminal_logger.xml" />
+    <import resource="server_core.xml" />
+    <import resource="commandServer_simple.xml" />
+    <import resource="commandQueueProcessor.xml" />
+    <import resource="terminal_logger.xml" />
     
     
     <corba:export namespace="I07" />
