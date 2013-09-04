@@ -1,3 +1,4 @@
+import gda
 from gda.util import ElogEntry
 from gda.data.metadata import GDAMetadataProvider
 
@@ -34,7 +35,7 @@ class SampleNameScannable(gda.device.scannable.ScannableBase):
        self.setName(name)
        self.setInputNames([name])
        self.setOutputFormat(["%s"])
-       self.metadata=Finder.getInstance().find(metadataname)
+       self.metadata=gda.factory.Finder.getInstance().find(metadataname)
 
    """ Mandatory method.  It should return 1 if the device is moving and 0 otherwise."""
    def isBusy(self):
