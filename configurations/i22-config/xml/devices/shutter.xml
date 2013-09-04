@@ -1,0 +1,11 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="shutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL22I-PS-SHTR-01" />
+		<property name="controlPv" value="BL22I-CS-BEAM-01:CON" />
+	</bean>
+</beans>
+

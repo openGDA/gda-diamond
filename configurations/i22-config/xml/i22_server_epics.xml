@@ -14,18 +14,6 @@
         <subsystemName>value</subsystemName>	
     </EpicsRecord>   
 
-    <!-- Fast Shutter Epics Records -->
-    <EpicsRecord>
-        <name>fastshuttermotor_epicsrecord</name>
-        <deviceName>SHTR2</deviceName>
-        <subsystemName>Y</subsystemName>
-    </EpicsRecord>
-    <EpicsRecord>
-        <name>fastshutterfilter_epicsrecord</name>
-        <deviceName>SHTR2</deviceName>
-        <subsystemName>MP</subsystemName>
-    </EpicsRecord>
-
     <!-- Diagnostic 1 Epics Records -->
     <EpicsRecord>
         <name>d1motor_epicsrecord</name>
@@ -227,26 +215,6 @@
     <!-- *** EPICS POSITIONER SECTION *** -->
     <!-- ******************************** -->
     
-    <EpicsPneumaticCallback>
-            <name>shutter</name>
-            <deviceName>EHSHTR01</deviceName>
-    </EpicsPneumaticCallback> 
-
-    <EpicsPneumaticCallback>
-            <name>psshutter</name>
-            <deviceName>PSSHTR01</deviceName>
-    </EpicsPneumaticCallback>
-
-    <EpicsPneumaticCallback>
-            <name>GV6</name>
-            <deviceName>GV6</deviceName>
-    </EpicsPneumaticCallback>
-
-    <EpicsEnumPositioner>
-        <name>fsfilter</name>
-        <epicsRecordName>fastshutterfilter_epicsrecord</epicsRecordName>
-    </EpicsEnumPositioner>
-    
     <EpicsEnumPositioner>
         <name>d1filter</name>
         <epicsRecordName>d1filter_epicsrecord</epicsRecordName>
@@ -350,12 +318,6 @@
         <name>vfmtemp2</name>
         <epicsRecordName>vfmtemp2_epicsrecord</epicsRecordName>
     </EpicsMonitor>
-    
-    <EpicsMotor>
-        <name>fastshuttermotor_motor</name>
-        <epicsRecordName>fastshuttermotor_epicsrecord</epicsRecordName>
-	<local>true</local>
-    </EpicsMotor>
     
     <!-- Diagnostics -->
     <EpicsMotor>
