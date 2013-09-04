@@ -93,10 +93,15 @@ getTitle = metadatatweaks.getTitle
 alias("getTitle")
 setTitle = metadatatweaks.setTitle
 alias("setTitle")
+getSubdirectory = metadatatweaks.getSubdirectory
+alias("getSubdirectory")
+setSubdirectory = metadatatweaks.setSubdirectory
+alias("setSubdirectory")
 getVisit = metadatatweaks.getVisit
 alias("getVisit")
 setVisit = metadatatweaks.setVisit
 alias("setVisit")
+sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename")
 
 run("/BeamlineScripts/master.py")
 execfile(gdaScriptDir + "atten.py")
