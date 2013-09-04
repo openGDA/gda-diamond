@@ -14,7 +14,7 @@
     http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
     
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="file:${gda.config}/properties/java.properties" />
+        <property name="location" value="file:${gda.config}/properties/live/java.properties" />
     </bean>
     
     <bean class="gda.spring.FindableNameSetterPostProcessor" />

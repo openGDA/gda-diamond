@@ -11,7 +11,7 @@
 
 
 	<context:property-placeholder
-		location="file:${gda.config}/properties/java.properties" />
+		location="file:${gda.config}/properties/live/java.properties" />
 
 
 	<bean id="pil3_cam_base" class="gda.spring.V17ADBaseFactoryBean">
