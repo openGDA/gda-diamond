@@ -2,18 +2,25 @@
 
 . $(dirname "$0")/GDA_common gda_client_output
 
-JAVA_OPTS="-Xms512m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=1024m $JAVA_OPTS"
-JAVA_OPTS="-Dgda.client.jython.automatic.interpreter=1 $JAVA_OPTS"
-JAVA_OPTS="-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True $JAVA_OPTS"
-JAVA_OPTS="-Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True $JAVA_OPTS"
-JAVA_OPTS="-Declipse.pluginCustomization=/dls_sw/i15/software/gda_versions/gda_8.30c/config/clients/main/common/pluginCustomization.ini $JAVA_OPTS"
+VMARGS="-Xms512m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=1024m $VMARGS"
+VMARGS="-Dgda.client.jython.automatic.interpreter=1 $VMARGS"
+VMARGS="-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True $VMARGS"
+VMARGS="-Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True $VMARGS"
 
-#Relative paths don't work#JAVA_OPTS="-Declipse.pluginCustomization=../config/clients/main/common/pluginCustomization.ini $JAVA_OPTS"
-#JVM terminates#JAVA_OPTS="-pluginCustomization=/dls_sw/i15/software/gda_versions/gda_8.30c/config/clients/main/common/pluginCustomization.ini $JAVA_OPTS"
-#JVM terminates#JAVA_OPTS="-pluginCustomization /dls_sw/i15/software/gda_versions/gda_8.30c/config/clients/main/common/pluginCustomization.ini $JAVA_OPTS"
+VMARGS="-Dgda.config=$GDA_CONFIG $VMARGS"
 
-echo JAVA_OPTS = $JAVA_OPTS
+# These should really be defined according to which mode we are in:
+VMARGS="-Declipse.pluginCustomization=$GDA_CONFIG/clients/main/common/pluginCustomization.ini $VMARGS"
+VMARGS="-Dgda.propertiesFile=$GDA_CONFIG/properties/live/java.properties $VMARGS"
+VMARGS="-Djacorb.config.dir=$GDA_CONFIG/jacorb/live $VMARGS"
+VMARGS="-Dgov.aps.jca.JCALibrary.properties=$GDA_CONFIG/jca/live/JCALibrary.properties $VMARGS"
+VMARGS="-Dgda.mode=live $VMARGS"
 
-export JAVA_OPTS
+# Even though gda.logs.dir is defined in java.properties this appears to be too late for the client logger so
+# a gda.logs.dir_IS_UNDEFINED directory is created without the following line:
+VMARGS="-Dgda.logs.dir=/dls/i15/logs $VMARGS"
 
-$GDA_CLIENT_SCRIPT --core --log --keep --nohup $GDA_CONSOLE_LOG $*
+export GDA_CLIENT_VMARGS=$VMARGS
+#echo  GDA_CLIENT_VMARGS=$VMARGS
+
+$GDA_CLIENT_SCRIPT --log --keep --nohup $GDA_CONSOLE_LOG $*
