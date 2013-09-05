@@ -91,7 +91,7 @@ echo
 
 zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
 STARTCLIENT=$?
-if [ ! -z $STARTCLIENT ] ; then
+if [ $STARTCLIENT == 0 ] ; then # 0=Ok, 1=Cancel
   echo Starting GDA RCP Client...
   echo
   gdaclient
