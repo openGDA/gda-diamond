@@ -17,7 +17,7 @@ export GDA_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/i15-config/
 # dummy operation off the beamline.
 export BEAMLINE=i15
 
-LOGDIR=/dls_sw/i15/var
+LOGDIR=/dls_sw/$BEAMLINE/logs
 LOGNAME=$1
 export LOGFILE=$LOGDIR/$LOGNAME/$LOGNAME_`date +%F-%T`.txt
 touch $LOGFILE
