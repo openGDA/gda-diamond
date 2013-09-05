@@ -16,4 +16,4 @@ echo JAVA_OPTS = $JAVA_OPTS
 
 export JAVA_OPTS
 
-$GDA_CLIENT_SCRIPT --core --log --keep --nohup $LOGFILE $*
+$GDA_CLIENT_SCRIPT --core --log --keep --nohup $GDA_CONSOLE_LOG $*
