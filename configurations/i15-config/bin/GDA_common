@@ -7,7 +7,7 @@
 export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
 ########################################################################
 
-module load java/gda830-64
+module load java/gda834-64
 
 export GDA_CORE_SCRIPT=$GDA_ROOT/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
 export GDA_CLIENT_SCRIPT=$GDA_ROOT/workspace_git/gda-diamond.git/dls-config/bin/gdaclient
