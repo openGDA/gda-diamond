@@ -71,7 +71,7 @@ echo
 echo "Keep this window open, and you will see a pop-up when the restart has completed"
 echo
 
-ssh  -i /dls_sw/i15/software/gda/config/i15ssh.key gda2@i15-control.diamond.ac.uk
+ssh  -i /dls_sw/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/i15ssh.key gda2@i15-control.diamond.ac.uk
 OK=$?
 
 # 127 if ssh cannot run command, 0 if ran ok, maybe other values if remote command returns them
