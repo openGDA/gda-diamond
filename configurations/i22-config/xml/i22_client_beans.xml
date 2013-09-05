@@ -18,15 +18,17 @@
 
         <bean class="gda.spring.FindableNameSetterPostProcessor" />
 
+<!--
 	<corba:import namespace="i22" names="command_server, GDAMetadata,
 						SimpleServlet, ScanDataStore, 
 						observableSubdirectory, sockpuppet,
 						ncddetectors, Tfg, Rapid2D, Scalers, Pilatus2M,
 						PilatusWAXS,
 						shutter" /> 
+-->
 			<!-- ncddetectors, Tfg, Rapid2D, Hotwaxs, Hotsaxs, Scalers, Mar, Pilatus2M, -->
 
-        <corba:import namespace="i22" names="plot_server" />    
+        <corba:import namespace="i22" />    
 
         <bean class="gda.rcp.util.OSGIServiceRegister">
                 <property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />

@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	
+	<bean id="d4motor_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-DI-PHDGN-04:POSN" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="d4motor" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d4motor_motor" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="d4d1" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE1:I" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="d4d2" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE2:I" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- 
+	<bean id="d4gain" class="gda.spring.EpicsEnumPositionerFactoryBean">
+		<property name="pvBase" value="D4.AMP" />
+	</bean>
+	-->
+	<bean id="d4filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
+		<property name="pvBase" value="BL22I-DI-PHDGN-04:MP" />
+		<property name="local" value="true" />
+	</bean>
+</beans>

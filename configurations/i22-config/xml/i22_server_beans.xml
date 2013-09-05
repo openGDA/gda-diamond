@@ -82,6 +82,7 @@
 					<property name="value" value="" />
 				</bean>
 				<ref bean="subdirectory" />
+				<ref bean="samplename" />
 				<bean class="gda.data.metadata.StoredScanMetadataEntry">
 					<property name="name" value="title" />
 					<property name="value" value="undefined" />
@@ -120,18 +121,17 @@
 		<property name="storedMetadataEntry" ref="subdirectory" />
 		<property name="pathTemplate" value="/dls/i22/data/$year$/$visit$/gda-console-$visit$.log" />
 	</bean>
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location"
-			value="file:${gda.config}/properties/java.properties" />
+	<bean class="gda.data.metadata.StoredMetadataEntry" id="samplename">
+		<property name="name" value="samplename" />
+		<property name="value" value="none" />
+	</bean>
+	<bean class="gda.data.metadata.MetadataBlaster" id="observableSamplename">
+		<property name="storedMetadataEntry" ref="samplename" />
 	</bean>
 
-	<bean id="epicsServerXmlObjectCreatorId" class="gda.factory.ServerXmlObjectCreator">
-		<property name="xmlFile" value="${gda.config}/xml/i22_server_epics.xml" />
-		<property name="doPropertySubstitution" value="True" />
-		<property name="useDefaultSchema" value="False" />
-		<property name="buildProxies" value="${gda.accesscontrol.useAccessControl}" />
-		<property name="mappingFile" value="classpath:gda/factory/mapping_epics.xml" />
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="file:${gda.config}/properties/java.properties" />
 	</bean>
 
 	<import resource="i22_server_dummy.xml" />
@@ -230,5 +230,7 @@
 
 
 	<gda:rbac />
+
+        <corba:export namespace="i22" />
 
 </beans>
