@@ -332,11 +332,13 @@ _kbm_common_geom = {'l':[134.2, 134.2, 134.2],
 
 import copy
 
+try:
+	kbm1 = TripodToolBase("kbm1", kbmbase, c=[152, 42.5, 63], **copy.deepcopy(_kbm_common_geom))				
 
-kbm1 = TripodToolBase("kbm1", kbmbase, c=[152, 42.5, 63], **copy.deepcopy(_kbm_common_geom))				
+	kbm2 = TripodToolBase("kbm2", kbmbase, c=[42, 42.5, 63], **copy.deepcopy(_kbm_common_geom))
 
-kbm2 = TripodToolBase("kbm2", kbmbase, c=[42, 42.5, 63], **copy.deepcopy(_kbm_common_geom))
-
+except NameError:
+	print "Not creating kbm1 and kbm2 as the transient kbmbase device is not available"
 
 ###############################################################################
 ###############################################################################
