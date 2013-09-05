@@ -171,5 +171,5 @@ class SYS900SBimorph(PseudoDevice):
 				return False
 		return True
 
-vfm=SYS900SBimorph("vfm","BL22I-OP-KBM-01:VFM", 16)
-hfm=SYS900SBimorph("hfm","BL22I-OP-KBM-01:HFM", 6)
+vfm_v=SYS900SBimorph("vfm_v","BL22I-OP-KBM-01:VFM", 16)
+hfm_v=SYS900SBimorph("hfm_v","BL22I-OP-KBM-01:HFM", 6)

@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+        <bean id="idgap_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="SR22I-MO-SERVC-01:BLGAPMTR" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="idgap_mm" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="idgap_motor" />
+                <property name="local" value="true" />
+        </bean>
+</beans>

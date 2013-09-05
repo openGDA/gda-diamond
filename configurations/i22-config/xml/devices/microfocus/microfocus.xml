@@ -11,17 +11,5 @@
         <import resource="mfbs.xml" />
         <import resource="detstage.xml" />
         <import resource="alio.xml" />
-        <import resource="pimf.xml" />
-<!--
-        <bean id="diagnostics" class="gda.device.scannable.scannablegroup.ScannableGroup">
-                <property name="groupMembers">
-                        <list>
-                                <ref bean="ringCurrent" />
-                                <ref bean="qbpm1" />
-                                <ref bean="qbpm2" />
-                        </list>
-                </property>
-        </bean>
--->
         
 </beans>

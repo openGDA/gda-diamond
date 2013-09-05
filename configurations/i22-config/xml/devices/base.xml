@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+        <bean id="base_x_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-MO-TABLE-01:X" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="base_x" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="base_x_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="base_y_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-MO-TABLE-01:Y" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="base_y" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="base_y_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="base_pitch_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-MO-TABLE-01:PITCH" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="base_pitch" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="base_pitch_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="base_yaw_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-MO-TABLE-01:YAW" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="base_yaw" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="base_yaw_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="base" class="gda.device.scannable.scannablegroup.ScannableGroup">
+                <property name="groupMembers">
+                        <list>
+                                <ref bean="base_x" />
+                                <ref bean="base_y" />
+                                <ref bean="base_pitch" />
+                                <ref bean="base_yaw" />
+                        </list>
+                </property>
+                <property name="local" value="true" />
+        </bean>
+</beans>
