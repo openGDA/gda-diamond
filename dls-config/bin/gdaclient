@@ -8,6 +8,13 @@ Usage: gdaclient [OPTION]... [-- CLIENT_OPTION [CLIENT_OPTION]... ]
 
 Start the GDA client with the default workspace: ${WORKSPACE}
 
+Environment:
+  Required:
+    BEAMLINE            Used to determine default directory locations
+  Optional:
+    GDA_CLIENT          Override the default client executable
+    GDA_CLIENT_VMARGS   Specify additional -vmargs to append.
+
 OPTIONS:
     --help      Print this help and exit.
     --data X    Set the workspace to X.
@@ -173,16 +180,17 @@ if [ -z $GDA_CLIENT ] ; then
 fi
 
 notify-send -t 10000 "GDA client is starting... If it fails to open try 'gdaclient --reset'"
-COMMAND="${GDA_CLIENT} -showLocation -data ${WORKSPACE} -configuration ${CONFIG} $@"
 
-# see http://wiki.eclipse.org/Eclipse.ini
-COMMAND="$COMMAND --launcher.appendVmargs -vmargs"
+PREVMARGS="-showLocation -data ${WORKSPACE} -configuration ${CONFIG} $@"
 
 # General information about VM options:
 #   http://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html
 
 # Fatal Error Log (see http://www.oracle.com/technetwork/java/javase/felog-138657.html#felog)
-COMMAND="$COMMAND -XX:ErrorFile=$LOG_DIR/hs_err_pid%p.log"
+VMARGS="$COMMAND -XX:ErrorFile=$LOG_DIR/hs_err_pid%p.log $GDA_CLIENT_VMARGS"
+
+# see http://wiki.eclipse.org/Eclipse.ini
+COMMAND="${GDA_CLIENT} --launcher.appendVmargs -vmargs $VMARGS"
 
 echo Starting GDA Client...
 if [ -z $NOHUP_LOGFILE ] ; then
@@ -193,14 +201,3 @@ else
   echo  $COMMAND >> $NOHUP_LOGFILE
   exec  $COMMAND >> $NOHUP_LOGFILE 2>&1
 fi
-
-#elif [ ! -z $KEEP_IN_FOREGROUND ] ; then
-#  echo $COMMAND
-#  echo $COMMAND >> $NOHUP_LOGFILE
-#  exec $COMMAND >> $NOHUP_LOGFILE 2>&1
-#else
-#  echo  $COMMAND
-#  echo  $COMMAND >> $NOHUP_LOGFILE
-#  nohup $COMMAND >> $NOHUP_LOGFILE 2>&1 &
-#fi
-
