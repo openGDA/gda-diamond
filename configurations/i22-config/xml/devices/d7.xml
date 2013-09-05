@@ -8,12 +8,14 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
         http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 	
+<!--
 	<bean id="d7d1" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
 		<property name="pvName" value="BL22I-DI-PHDGN-07:DIODE1:I" />
 		<property name="local" value="true" />
 	</bean>
+-->
 	
 	<bean id="d7motor_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-DI-PHDGN-07:POSN" />
