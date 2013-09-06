@@ -6,8 +6,8 @@ if [ "X$LOGPANEL" == "X" ] ; then
 
   echo Starting GDA Log Panel...
   echo  $GDA_CORE_SCRIPT logpanel
-  echo  $GDA_CORE_SCRIPT logpanel >> $LOGFILE
-  nohup $GDA_CORE_SCRIPT logpanel >> $LOGFILE 2>&1 &
+  echo  $GDA_CORE_SCRIPT logpanel >> $GDA_CONSOLE_LOG
+  nohup $GDA_CORE_SCRIPT logpanel >> $GDA_CONSOLE_LOG 2>&1 &
 
 else
   echo Raising GDA Log Panel...
