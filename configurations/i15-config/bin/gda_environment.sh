@@ -9,7 +9,7 @@ if [ ! -n "$BEAMLINE" ]; then
 fi
 
 GDA_ROOT=/dls_sw/$BEAMLINE/software/gda
-GDA_CONFIG=$GDA_ROOT/config
+GDA_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/i15-config
 
 export GDA_MODE=live
 export PATH=$GDA_CONFIG/bin:${PATH}
