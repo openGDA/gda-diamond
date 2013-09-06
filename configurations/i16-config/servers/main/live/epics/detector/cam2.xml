@@ -6,16 +6,15 @@
 	<!-- AD hardware -->
 
 	<bean id="cam2_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="deviceName" value="CAM2.CAM_ADBase" />
+		<property name="basePVName" value="BL16I-DI-COR-01:CAM:" />
 	</bean>
 
 	
 	<bean id="cam2_ndfile_base" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-		<property name="deviceName" value="CAM2.TIFF_NDPluginBase" />
+		<property name="basePVName" value="BL16I-DI-COR-01:TIFF:" />
 	</bean>
 
 	<bean id="cam2_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-<!-- 	<property name="deviceName" value="CAM2.TIFF_NDFileTIFF" /> -->
 		<property name="basePVName" value="BL16I-DI-COR-01:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
 		<property name="pluginBase" ref="cam2_ndfile_base" />
@@ -40,6 +39,7 @@
 		<constructor-arg value="cam2" />
 		<property name="ndFile" ref="cam2_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="cam2_path_template" />
+		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 
 	<bean id="cam2_nxfilewriter_for_snaps"
@@ -48,6 +48,7 @@
 		<property name="ndFile" ref="cam2_ndfile" />
 		<property name="numTrackerExtension" value="cam2snaps" />
 		<property name="keyNameForMetadataPathTemplate" value="cam2_path_template" />
+		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 
 

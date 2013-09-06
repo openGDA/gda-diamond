@@ -6,11 +6,11 @@
 	<!-- AD hardware -->
 
 	<bean id="andor1_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="deviceName" value="ANDOR1_ADBase" />
+		<property name="basePVName" value="BL16I-EA-ANDOR-01:" />
 	</bean>
 
 	<bean id="andor_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="deviceName" value="ANDOR1_NDFile" />
+		<property name="basePVName" value="BL16I-EA-ANDOR-01:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 
@@ -31,6 +31,7 @@
 		<constructor-arg value="andor" />
 		<property name="ndFile" ref="andor_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="andor_path_template" />
+		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 
 	<bean id="andor1_nxfilewriter_for_snaps"
@@ -39,6 +40,7 @@
 		<property name="ndFile" ref="andor_ndfile" />
 		<property name="numTrackerExtension" value="andor1snaps" />
 		<property name="keyNameForMetadataPathTemplate" value="andor_path_template" />
+		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 
 
