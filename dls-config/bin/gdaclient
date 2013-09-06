@@ -187,10 +187,10 @@ PREVMARGS="-showLocation -data ${WORKSPACE} -configuration ${CONFIG} $@"
 #   http://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html
 
 # Fatal Error Log (see http://www.oracle.com/technetwork/java/javase/felog-138657.html#felog)
-VMARGS="$COMMAND -XX:ErrorFile=$LOG_DIR/hs_err_pid%p.log $GDA_CLIENT_VMARGS"
+VMARGS="-XX:ErrorFile=$LOG_DIR/hs_err_pid%p.log $GDA_CLIENT_VMARGS"
 
 # see http://wiki.eclipse.org/Eclipse.ini
-COMMAND="${GDA_CLIENT} --launcher.appendVmargs -vmargs $VMARGS"
+COMMAND="${GDA_CLIENT} $PREVMARGS --launcher.appendVmargs -vmargs $VMARGS"
 
 echo Starting GDA Client...
 if [ -z $NOHUP_LOGFILE ] ; then
