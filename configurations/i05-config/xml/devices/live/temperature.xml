@@ -18,4 +18,9 @@
         	<property name="useNameAsExtraName" value="true" />
         	<property name="local" value="false" />
         </bean>
+        
+        <bean id="lakeshore" class="uk.ac.gda.beamline.i05.scannable.EpicsLakeshore336">
+        	<property name="tolerance" value="0.1" />
+        	<property name="basePVName" value="BL05I-EA-TCTRL-02:" />
+        </bean>
 </beans>

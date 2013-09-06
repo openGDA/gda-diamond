@@ -51,8 +51,16 @@ public class EpicsLakeshore336 extends ScannableBase {
 	public static final String LOOP_INPUT = "OMINPUT_S%d";
 	public static final String LOOP_INPUT_RBV = "OMINPUT%d";
 
-	double tolerance = 0.01;
+	double tolerance = 0.05;
 	
+	public double getTolerance() {
+		return tolerance;
+	}
+
+	public void setTolerance(double tolerance) {
+		this.tolerance = tolerance;
+	}
+
 	/**
 	 * Map that stores the channel against the PV name
 	 */
@@ -99,9 +107,10 @@ public class EpicsLakeshore336 extends ScannableBase {
 		
 		setInputNames(new String[] {"demand"});
 		setExtraNames(new String[] {"ch0", "ch1", "ch2", "ch3", "heater"});
+		setOutputFormat(new String[] {"%5.5g", "%5.5g", "%5.5g", "%5.5g", "%5.5g", "%5.5g"});
 	}
 	/**
-	 * We assume the PID control tuned reasonably well so we don't have to deal with overshooting or ringing 
+	 * We assume the PID control is tuned reasonably well so we don't have to deal with overshooting or ringing 
 	 */
 	@Override
 	public boolean isBusy() throws DeviceException {
@@ -184,7 +193,7 @@ public class EpicsLakeshore336 extends ScannableBase {
 	public int getActiveLoop() throws DeviceException {
 		try {
 			for(int i: new int[] {1, 2}) {
-			if (EPICS_CONTROLLER.cagetInt(getChannel(LOOP_HEATERRANGE,i)) != 0)
+			if (EPICS_CONTROLLER.cagetInt(getChannel(LOOP_HEATERRANGE_RBV,i)) != 0)
 				return i;
 			}
 		} catch (Exception e) {
