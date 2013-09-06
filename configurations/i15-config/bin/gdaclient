@@ -9,7 +9,7 @@ VMARGS="-Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True $VMARGS"
 
 VMARGS="-Dgda.config=$GDA_CONFIG $VMARGS"
 # This is used to produce per user client log files:
-VMARGS="-DUSERNAME=$USERNAME $VMARGS"
+VMARGS="-DUSERNAME=$(whoami) $VMARGS"
 
 # These should really be defined according to which mode we are in:
 VMARGS="-Declipse.pluginCustomization=$GDA_CONFIG/clients/main/common/pluginCustomization.ini $VMARGS"
