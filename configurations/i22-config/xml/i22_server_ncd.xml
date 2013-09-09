@@ -288,6 +288,7 @@
                 <property name="detectorType" value="SAXS" />
     </bean> 
 
+-->
         <bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDController">
 			<property name="local" value="true" />
             <property name="epicsDeviceName" value="edxd" />
@@ -300,7 +301,6 @@
         <bean id="xmap" class="uk.ac.gda.server.ncd.subdetector.NcdXmapDetector">
                 <property name="xmapControllerName" value="xmapcontroller" />
         </bean> 
--->
 
 	<bean id="ncddetectors" class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem">
 		<property name="timer" ref="Tfg" />
@@ -314,7 +314,7 @@
                                 <ref bean="I0" />
                                 <ref bean="IonChamber" />
                                 <ref bean="TfgTimes" />
-                                <!-- <ref bean="xmap" /> --> 
+                                <ref bean="xmap" /> 
                         </list>
                 </property>
 	</bean>
