@@ -44,7 +44,7 @@ public class EdeSingleExperiment {
 	private EdeScan itDarkScan;
 	private EdeScan i0InitialScan;
 	private EdeScan itScan;
-	// EdeScan i0FinalScan;
+
 
 	private final EdeScanPosition i0Position;
 	private final EdeScanPosition itPosition;
@@ -52,8 +52,9 @@ public class EdeSingleExperiment {
 	private final EdeScanParameters itScanParameters;
 	private final Boolean runItDark;
 
-	// private EdeDataWriter asciiDataWriter;
 	private final StripDetector theDetector;
+
+	private String filenameTemplate = "";
 
 	/**
 	 * Use when the I0 and It timing parameters are different.
@@ -120,9 +121,31 @@ public class EdeSingleExperiment {
 	public String runExperiment() throws Exception {
 		runScans();
 		EdeAsciiFileWriter writer = new EdeAsciiFileWriter(i0InitialScan,itScan,i0DarkScan,itDarkScan,theDetector);
+		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
+			writer.setFilenameTemplate(filenameTemplate);
+		}
 		writer.writeAsciiFile();
 		log("EDE single spectrum experiment complete.");
 		return writer.getAsciiFilename();
+	}
+
+	public String getFilenameTemplate() {
+		return filenameTemplate;
+	}
+
+	/**
+	 * A String format for the name of the ascii file to be written.
+	 * <p>
+	 * It <b>must</b> contain a '%s' to substitute the nexus file name into the given template.
+	 * <p>
+	 * E.g. if the nexus file created was: '/dls/i01/data/1234.nxs'
+	 * then the filenameTemplate given in this method should be something like: 'Fe-Kedge_%s'
+	 * for the final ascii file to be: '/dls/i01/data/Fe-Kedge_1234.txt'
+	 * 
+	 * @param filenameTemplate
+	 */
+	public void setFilenameTemplate(String filenameTemplate) {
+		this.filenameTemplate = filenameTemplate;
 	}
 
 	private void runScans() throws Exception {

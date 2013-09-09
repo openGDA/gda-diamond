@@ -238,6 +238,39 @@ public class EdeScanTest {
 	}
 	
 	@Test
+	public void testExperimentUsingEdeScanParametersStaticMethodsControlFilename() throws Exception{
+		setup("testExperimentUsingEdeScanParametersStaticMethods");
+		
+		EdeScanParameters itparams = EdeScanParameters.createSingleFrameScan(0.2);
+		
+		ScannableMotor xScannable = createMotor("xScannable");
+		ScannableMotor yScannable = createMotor("yScannable");
+
+		ExplicitScanPositions inBeam = new ExplicitScanPositions(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
+		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM,0d,0d,xScannable,yScannable);
+
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, inBeam, outBeam, xh);
+		theExperiment.setFilenameTemplate("mysample_%s_sample1");
+		theExperiment.runExperiment();
+		
+		FileReader asciiFile = new FileReader(testDir + File.separator + "mysample_3_sample1.txt");
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(asciiFile);
+			reader.readLine(); // header line
+			String dataString = reader.readLine(); // first data point
+			String[] dataParts = dataString.split("\t");
+			assertEquals(9, dataParts.length);
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
+		}
+
+	}
+
+	
+	@Test
 	public void testEnergyCalibrationUsingEdeScanParametersStaticMethods() throws Exception{
 		setup("testEnergyCalibrationUsingEdeScanParametersStaticMethods");
 		
@@ -273,7 +306,6 @@ public class EdeScanTest {
 		}
 
 	}
-
 
 	private ScannableMotor createMotor(String name) throws MotorException, FactoryException {
 		DummyMotor xMotor = new DummyMotor();
