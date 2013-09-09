@@ -9,5 +9,5 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${workspace_loc:/uk.ac.gda.core/bin/gda}"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="servers --datadir /scratch/users/data  --config ${project_loc:i20-1-config} --mode=dummy --debug -p 8001"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${workspace_loc:/i20-10config}"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${workspace_loc:/i20-1-config}"/>
 </launchConfiguration>
