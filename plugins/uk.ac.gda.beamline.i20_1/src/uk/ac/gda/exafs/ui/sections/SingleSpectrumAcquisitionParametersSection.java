@@ -82,9 +82,9 @@ public class SingleSpectrumAcquisitionParametersSection {
 
 	@SuppressWarnings({ "static-access" })
 	public void createEdeCalibrationSection(Form form, FormToolkit toolkit) throws Exception {
-		if (section != null) {
-			return;
-		}
+		//		if (section != null) {
+		//			return;
+		//		}
 		section = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		section.setText("Acquisition settings");
 		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));

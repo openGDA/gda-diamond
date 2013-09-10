@@ -89,6 +89,7 @@ import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.EdeCalibrationModel;
+import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.composites.MotorPositionEditorControl;
 import uk.ac.gda.exafs.ui.composites.ScannableWrapper;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
@@ -322,9 +323,11 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				IStructuredSelection structuredSelectionElement = (IStructuredSelection) comboxElement.getSelection();
 				IStructuredSelection structuredSelectionElementEdge = (IStructuredSelection) comboElementEdge.getSelection();
 				if (!structuredSelectionElement.isEmpty() & !structuredSelectionElementEdge.isEmpty()) {
-					EdeCalibrationModel.INSTANCE.getRefData().loadReferenceData(
-							(Element) structuredSelectionElement.getFirstElement(),
-							(String) structuredSelectionElementEdge.getFirstElement());
+					// Review to refactor
+					Element selectedElement = (Element) structuredSelectionElement.getFirstElement();
+					String selectedEdge = (String) structuredSelectionElementEdge.getFirstElement();
+					EdeCalibrationModel.INSTANCE.getRefData().loadReferenceData(selectedElement, selectedEdge);
+					SingleSpectrumModel.INSTANCE.setCurrentElement(selectedElement.getSymbol());
 				}
 			}
 		});

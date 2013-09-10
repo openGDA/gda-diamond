@@ -72,6 +72,8 @@ public class SingleSpectrumModel extends ObservableModel {
 
 	private final ScanJob job;
 
+	private String fileTemplate = "Unknown_cal";
+
 	protected SingleSpectrumModel() {
 		Scannable scannable = Finder.getInstance().find("alignment_stage");
 		if (scannable != null && scannable instanceof AlignmentStage) {
@@ -91,7 +93,7 @@ public class SingleSpectrumModel extends ObservableModel {
 
 	private String buildScanCommand() {
 		return String.format("from gda.scan.ede.drivers import SingleSpectrumDriver;" +
-				"scan_driver = SingleSpectrumDriver(\"%s\",%f,%d,%f,%d);" +
+				"scan_driver = SingleSpectrumDriver(\"%s\",%f,%d,%f,%d,\"%s\");" +
 				"scan_driver.setInBeamPosition(%f,%f);" +
 				"scan_driver.setOutBeamPosition(%f,%f)",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
@@ -99,6 +101,7 @@ public class SingleSpectrumModel extends ObservableModel {
 				i0NumberOfAccumulations,
 				itIntegrationTime,
 				itNumberOfAccumulations,
+				fileTemplate,
 				i0xPosition, i0yPosition,
 				iTxPosition, iTyPosition);
 	}
@@ -116,6 +119,10 @@ public class SingleSpectrumModel extends ObservableModel {
 		public String getText() {
 			return text;
 		}
+	}
+
+	public void setCurrentElement(String elementSymbol) {
+		fileTemplate = elementSymbol + "_cal%s";
 	}
 
 	private class ScanJob extends Job implements IObserver {
@@ -154,6 +161,7 @@ public class SingleSpectrumModel extends ObservableModel {
 			monitor.beginTask("Starting " + ScanJobName.values().length + " tasks.", ScanJobName.values().length);
 			try {
 				InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
+				Thread.sleep(100);
 				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
 				if (resultFileName == null) {
 					throw new Exception("Unable to do collection.");
