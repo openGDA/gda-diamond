@@ -57,6 +57,7 @@ public class EdeAsciiFileWriter {
 	private final EdeScan i0InitialScan;
 	private final EdeScan itScan;
 	private final StripDetector theDetector;
+	private String filenameTemplate = "";
 	private String asciiFilename;
 
 	public EdeAsciiFileWriter(EdeScan i0InitialScan, EdeScan itScan, EdeScan i0DarkScan, EdeScan itDarkScan,
@@ -75,11 +76,7 @@ public class EdeAsciiFileWriter {
 		DoubleDataset i0InitialDataSet = extractDetectorDataSets(i0InitialScan);
 		DoubleDataset itDataSet = extractDetectorDataSets(itScan);
 
-		String itFilename = itScan.getTheScan().getDataWriter().getCurrentFileName();
-		String folder = FilenameUtils.getFullPath(itFilename);
-		String filename = FilenameUtils.getBaseName(itFilename);
-
-		asciiFilename = folder + filename + ".txt";
+		determineAsciiFilename();
 
 		File asciiFile = new File(asciiFilename);
 		if (asciiFile.exists()) {
@@ -88,8 +85,10 @@ public class EdeAsciiFileWriter {
 
 		asciiFile.createNewFile();
 		FileWriter writer = new FileWriter(asciiFile);
-		log("Writing EDE format ascii file: "+asciiFilename);
-		writer.write("#" + STRIP_COLUMN_NAME + "\t" + ENERGY_COLUMN_NAME + "\t" + I0_CORR_COLUMN_NAME + "\t" + IT_CORR_COLUMN_NAME + "\t" + LN_I0_IT_COLUMN_NAME + "\t " + I0_RAW_COLUMN_NAME + "\t" + IT_RAW_COLUMN_NAME + "\t" + I0_DARK_COLUMN_NAME + "\t" + IT_DARK_COLUMN_NAME + "\n");
+		log("Writing EDE format ascii file: " + asciiFilename);
+		writer.write("#" + STRIP_COLUMN_NAME + "\t" + ENERGY_COLUMN_NAME + "\t" + I0_CORR_COLUMN_NAME + "\t"
+				+ IT_CORR_COLUMN_NAME + "\t" + LN_I0_IT_COLUMN_NAME + "\t " + I0_RAW_COLUMN_NAME + "\t"
+				+ IT_RAW_COLUMN_NAME + "\t" + I0_DARK_COLUMN_NAME + "\t" + IT_DARK_COLUMN_NAME + "\n");
 		for (int channel = 0; channel < theDetector.getNumberChannels(); channel++) {
 			Double i0Initial = i0InitialDataSet.get(channel);
 			Double it = itDataSet.get(channel);
@@ -106,7 +105,7 @@ public class EdeAsciiFileWriter {
 			}
 
 			StringBuffer stringToWrite = new StringBuffer(channel + "\t");
-			stringToWrite.append(String.format("%.2f",getEnergyForChannel(channel)) + "\t");
+			stringToWrite.append(String.format("%.2f", getEnergyForChannel(channel)) + "\t");
 			stringToWrite.append(String.format("%.2f", i0_corrected) + "\t");
 			stringToWrite.append(String.format("%.2f", it_corrected) + "\t");
 			stringToWrite.append(String.format("%.5f", lni0it) + "\t");
@@ -121,11 +120,45 @@ public class EdeAsciiFileWriter {
 		return asciiFilename;
 	}
 
+	private void determineAsciiFilename() {
+		// the scans would have created Nexus files, so base an ascii file on this plus any template, if supplied
+		String itFilename = itScan.getTheScan().getDataWriter().getCurrentFileName();
+		String folder = FilenameUtils.getFullPath(itFilename);
+		String filename = FilenameUtils.getBaseName(itFilename);
+
+		asciiFilename = folder + filename + ".txt";
+
+		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
+			asciiFilename = folder + String.format(filenameTemplate, filename) + ".txt";
+		} else {
+			asciiFilename = folder + filename + ".txt";
+		}
+	}
+
 	public String getAsciiFilename() {
 		return asciiFilename;
 	}
 
-	private Double getEnergyForChannel(int channel){
+	public String getFilenameTemplate() {
+		return filenameTemplate;
+	}
+
+	/**
+	 * A String format for the name of the ascii file to be written.
+	 * <p>
+	 * It <b>must</b> contain a '%s' to substitute the nexus file name into the given template.
+	 * <p>
+	 * E.g. if the nexus file created was: '/dls/i01/data/1234.nxs'
+	 * then the filenameTemplate given in this method should be something like: 'Fe-Kedge_%s'
+	 * for the final ascii file to be: '/dls/i01/data/Fe-Kedge_1234.txt'
+	 * 
+	 * @param filenameTemplate
+	 */
+	public void setFilenameTemplate(String filenameTemplate) {
+		this.filenameTemplate = filenameTemplate;
+	}
+
+	private Double getEnergyForChannel(int channel) {
 		PolynomialFunction function;
 		try {
 			function = theDetector.getEnergyCalibration();
@@ -151,10 +184,9 @@ public class EdeAsciiFileWriter {
 		return names.indexOf(theDetector.getName());
 	}
 
-	private void log (String message){
+	private void log(String message) {
 		InterfaceProvider.getTerminalPrinter().print(message);
 		logger.info(message);
 	}
-
 
 }
