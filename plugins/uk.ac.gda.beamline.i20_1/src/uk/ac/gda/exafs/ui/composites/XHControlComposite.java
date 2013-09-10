@@ -150,6 +150,8 @@ public class XHControlComposite extends Composite implements IObserver {
 	public XHControlComposite(Composite parent, IPlottingSystem plottingSystem) {
 		super(parent, SWT.None);
 		this.plottingSystem = plottingSystem;
+		//this.plottingSystem.setRescale(false);
+
 		toolkit = new FormToolkit(parent.getDisplay());
 		detectorControlModel = new DetectorControlModel();
 		setPlotData();
@@ -402,6 +404,8 @@ public class XHControlComposite extends Composite implements IObserver {
 			List<IDataset> data = new ArrayList<IDataset>(1);
 			data.add(new DoubleDataset((double[]) results));
 			plottingSystem.clear();
+			plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
+			plottingSystem.setRescale(false);
 			plottingSystem.createPlot1D(strips, data, new NullProgressMonitor());
 			plottingSystem.setTitle(title);
 		} else {
@@ -444,7 +448,7 @@ public class XHControlComposite extends Composite implements IObserver {
 								&& InterfaceProvider.getScanStatusHolder().getScanStatus() == Jython.IDLE) {
 							Date snapshotTime = new Date();
 
-							String collectionPeriod_ms = ClientConfig.roundDoubletoString(detectorControlModel.getLiveIntegrationTime());
+							String collectionPeriod_ms = DataHelper.roundDoubletoString(detectorControlModel.getLiveIntegrationTime());
 							final Double[] results = collectAndPlotSnapshot(false, detectorControlModel.getLiveIntegrationTime(), 1,
 									"Live reading (" + collectionPeriod_ms + " ms integration, every " + detectorControlModel.getRefreshPeriod()
 									+ " s)");

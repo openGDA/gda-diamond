@@ -33,8 +33,8 @@ public class MotorPositionEditorControl extends NumberEditorControl {
 	public MotorPositionEditorControl(Composite parent, int style, ScannableWrapper scannableWrapper, boolean userSpinner) throws Exception {
 		super(parent, style, scannableWrapper, ScannableWrapper.POSITION_PROP_NAME, userSpinner);
 		ctx.bindValue(
-				BeanProperties.value(MotorPositionWidgetModel.EDITABLE_PROP_NAME).observe(controlModel),
-				BeanProperties.value(ScannableWrapper.BUSY_PROP_NAME).observe(object),
+				BeanProperties.value(NumberEditorWidgetModel.EDITABLE_PROP_NAME).observe(controlModel),
+				BeanProperties.value(ScannableWrapper.BUSY_PROP_NAME).observe(targetObject),
 				null,
 				new UpdateValueStrategy() {
 					@Override
@@ -49,7 +49,6 @@ public class MotorPositionEditorControl extends NumberEditorControl {
 		this.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 	}
 
-
 	@Override
 	protected void setupControls() {
 		horizonalSpinner = true;
@@ -57,18 +56,18 @@ public class MotorPositionEditorControl extends NumberEditorControl {
 	}
 
 	public void setPosition(double value) throws DeviceException {
-		((ScannableWrapper) object).setPosition(value);
+		((ScannableWrapper) targetObject).setPosition(value);
 	}
 
 	public double getPosition() throws DeviceException {
-		return ((ScannableWrapper) object).getPosition();
+		return ((ScannableWrapper) targetObject).getPosition();
 	}
 
 	@Override
 	protected String getFormattedText(Object value) {
 		try {
-			if (((ScannableWrapper) object).isBusy()) {
-				Double targetPosition = ((ScannableWrapper) object).getTargetPosition();
+			if (((ScannableWrapper) targetObject).isBusy()) {
+				Double targetPosition = ((ScannableWrapper) targetObject).getTargetPosition();
 				if (targetPosition == null) {
 					return super.getFormattedText(value);
 				}

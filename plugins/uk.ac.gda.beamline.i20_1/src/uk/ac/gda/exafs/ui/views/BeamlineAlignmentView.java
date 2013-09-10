@@ -81,15 +81,14 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributo
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.data.AlignmentParametersBean;
-import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.CrystalCut;
 import uk.ac.gda.exafs.data.ClientConfig.CrystalType;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.EdeCalibrationModel;
-import uk.ac.gda.exafs.data.EdeCalibrationModel.ElementReference;
 import uk.ac.gda.exafs.ui.composites.MotorPositionEditorControl;
 import uk.ac.gda.exafs.ui.composites.ScannableWrapper;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
@@ -117,11 +116,11 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
-	private ComboViewer cmbCrystalCut;
+	private ComboViewer comboCrystalCut;
 	private ComboViewer cmbCrystalType;
-	private ComboViewer cmbElement;
-	private ComboViewer cmdElementEdge;
-	private ComboViewer cmbCrystalQ;
+	private ComboViewer comboxElement;
+	private ComboViewer comboElementEdge;
+	private ComboViewer comboCrystalQ;
 	private ComboViewer cmbDetectorType;
 
 	private FormToolkit toolkit;
@@ -219,63 +218,63 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		Label lblCrystalCut = toolkit.createLabel(mainSelectionComposite, CrystalCut.UI_LABEL, SWT.NONE);
 		lblCrystalCut.setLayoutData(createLabelGridData());
-		cmbCrystalCut = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
-		cmbCrystalCut.setContentProvider(ArrayContentProvider.getInstance());
-		cmbCrystalCut.setLabelProvider(new LabelProvider() {
+		comboCrystalCut = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
+		comboCrystalCut.setContentProvider(ArrayContentProvider.getInstance());
+		comboCrystalCut.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
 				return ((CrystalCut) element).name();
 			}
 		});
-		cmbCrystalCut.setInput(CrystalCut.values());
-		cmbCrystalCut.addSelectionChangedListener(new ISelectionChangedListener() {
+		comboCrystalCut.setInput(CrystalCut.values());
+		comboCrystalCut.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				CrystalCut cut = ((CrystalCut) ((IStructuredSelection) event.getSelection()).getFirstElement());
 				Element selectedElement = null;
-				if (cmbElement.getSelection() != null && ((IStructuredSelection) cmbElement.getSelection()).getFirstElement() != null) {
-					Element element = (Element) ((IStructuredSelection) cmbElement.getSelection()).getFirstElement();
+				if (comboxElement.getSelection() != null && ((IStructuredSelection) comboxElement.getSelection()).getFirstElement() != null) {
+					Element element = (Element) ((IStructuredSelection) comboxElement.getSelection()).getFirstElement();
 					if (cut.getElementsInEnergyRange().keySet().contains(element)) {
 						selectedElement = element;
 					}
 				}
-				cmbElement.setInput(cut.getElementsInEnergyRange().keySet());
+				comboxElement.setInput(cut.getElementsInEnergyRange().keySet());
 				if (selectedElement == null) {
-					cmbElement.setSelection(new StructuredSelection(cmbElement.getElementAt(0)));
+					comboxElement.setSelection(new StructuredSelection(comboxElement.getElementAt(0)));
 				} else {
-					cmbElement.setSelection(new StructuredSelection(selectedElement));
+					comboxElement.setSelection(new StructuredSelection(selectedElement));
 				}
 			}
 		});
-		cmbCrystalCut.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		comboCrystalCut.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		Label lblCrystalQ = toolkit.createLabel(mainSelectionComposite, "Crystal q:", SWT.NONE);
 		lblCrystalQ.setLayoutData(createLabelGridData());
-		cmbCrystalQ = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
-		cmbCrystalQ.setContentProvider(new ArrayContentProvider());
-		cmbCrystalQ.setLabelProvider(new LabelProvider() {
+		comboCrystalQ = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
+		comboCrystalQ.setContentProvider(new ArrayContentProvider());
+		comboCrystalQ.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object value) {
 				return value.toString();
 			}
 		});
-		cmbCrystalQ.setInput(new String[] { AlignmentParametersBean.Q[0].toString(),
+		comboCrystalQ.setInput(new String[] { AlignmentParametersBean.Q[0].toString(),
 				AlignmentParametersBean.Q[1].toString(), AlignmentParametersBean.Q[2].toString() });
-		cmbCrystalQ.setSelection(new StructuredSelection(AlignmentParametersBean.Q[0].toString()));
-		cmbCrystalQ.addSelectionChangedListener(new ISelectionChangedListener() {
+		comboCrystalQ.setSelection(new StructuredSelection(AlignmentParametersBean.Q[0].toString()));
+		comboCrystalQ.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				getScannableValuesSuggestion();
 			}
 		});
-		cmbCrystalQ.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		comboCrystalQ.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		Label lbl = toolkit.createLabel(mainSelectionComposite, "Element:", SWT.NONE);
 		lbl.setLayoutData(createLabelGridData());
-		cmbElement = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
-		cmbElement.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		cmbElement.setContentProvider(new ArrayContentProvider());
-		cmbElement.setLabelProvider(new LabelProvider() {
+		comboxElement = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
+		comboxElement.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		comboxElement.setContentProvider(new ArrayContentProvider());
+		comboxElement.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object value) {
 				Element element = (Element) value;
@@ -285,41 +284,48 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		lbl = toolkit.createLabel(mainSelectionComposite, "Edge:", SWT.NONE);
 		lbl.setLayoutData(createLabelGridData());
-		cmdElementEdge = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
-		cmdElementEdge.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		cmdElementEdge.setContentProvider(ArrayContentProvider.getInstance());
+		comboElementEdge = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
+		comboElementEdge.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		comboElementEdge.setContentProvider(ArrayContentProvider.getInstance());
 
 		lbl = toolkit.createLabel(mainSelectionComposite, "Energy:", SWT.NONE);
 		lbl.setLayoutData(createLabelGridData());
 		final Label energyLabel = toolkit.createLabel(mainSelectionComposite, "", SWT.BORDER);
 		energyLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		cmdElementEdge.setLabelProvider(new LabelProvider() {
+		comboElementEdge.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
-				Element selectedElement = (Element) ((IStructuredSelection) cmbElement.getSelection()).getFirstElement();
+				Element selectedElement = (Element) ((IStructuredSelection) comboxElement.getSelection()).getFirstElement();
 				String edgeName = (String) element;
 				energyLabel.setText(UnitSetup.EV.addUnitSuffix(Double.toString(selectedElement.getEdgeEnergy(edgeName))));
 				return edgeName;
 			}
 		});
 
-		cmbElement.addSelectionChangedListener(new ISelectionChangedListener() {
+		comboxElement.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				Element element = ((Element) ((IStructuredSelection) event.getSelection()).getFirstElement());
-				CrystalCut cut = ((CrystalCut) ((IStructuredSelection) cmbCrystalCut.getSelection()).getFirstElement());
+				CrystalCut cut = ((CrystalCut) ((IStructuredSelection) comboCrystalCut.getSelection()).getFirstElement());
 				if (element != null && cut != null) {
-					cmdElementEdge.setInput(cut.getElementsInEnergyRange().get(element));
-					cmdElementEdge.setSelection(new StructuredSelection(cmdElementEdge.getElementAt(0)));
+					comboElementEdge.setInput(cut.getElementsInEnergyRange().get(element));
+					comboElementEdge.setSelection(new StructuredSelection(comboElementEdge.getElementAt(0)));
 				}
 			}
 		});
 
-		cmdElementEdge.addSelectionChangedListener(new ISelectionChangedListener() {
+		comboElementEdge.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				getScannableValuesSuggestion();
+				IStructuredSelection structuredSelectionElement = (IStructuredSelection) comboxElement.getSelection();
+				IStructuredSelection structuredSelectionElementEdge = (IStructuredSelection) comboElementEdge.getSelection();
+				if (!structuredSelectionElement.isEmpty() & !structuredSelectionElementEdge.isEmpty()) {
+					EdeCalibrationModel.INSTANCE.getRefData().loadReferenceData(
+							(Element) structuredSelectionElement.getFirstElement(),
+							(String) structuredSelectionElementEdge.getFirstElement());
+				}
 			}
 		});
 
@@ -328,7 +334,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			public void propertyChange(PropertyChangeEvent evt) {
 				if ((boolean) evt.getNewValue()) {
 					final StructuredSelection initialSelection = new StructuredSelection(CrystalCut.Si111);
-					cmbCrystalCut.setSelection(initialSelection);
+					comboCrystalCut.setSelection(initialSelection);
 				}
 			}
 		});
@@ -338,15 +344,15 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		mainSection.setSeparatorControl(defaultSectionSeparator);
 
 		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(cmdElementEdge.getControl()),
+				WidgetProperties.enabled().observe(comboElementEdge.getControl()),
 				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
 
 		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(cmbElement.getControl()),
+				WidgetProperties.enabled().observe(comboxElement.getControl()),
 				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
 
 		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(cmbCrystalCut.getControl()),
+				WidgetProperties.enabled().observe(comboCrystalCut.getControl()),
 				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
 
 		dataBindingCtx.bindValue(
@@ -354,16 +360,8 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
 
 		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(cmbCrystalQ.getControl()),
+				WidgetProperties.enabled().observe(comboCrystalQ.getControl()),
 				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
-
-		dataBindingCtx.bindValue(
-				ViewersObservables.observeSingleSelection(cmbElement),
-				BeanProperties.value(ElementReference.SELECTED_ELEMENT_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getEdeData()));
-
-		dataBindingCtx.bindValue(
-				ViewersObservables.observeSingleSelection(cmbElement),
-				BeanProperties.value(ElementReference.SELECTED_ELEMENT_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getRefData()));
 
 		butDetectorSetup.addListener(SWT.Selection, new Listener() {
 			@Override
@@ -373,9 +371,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				setup.open();
 			}
 		});
-
 		setupDetector();
-
 	}
 
 	private Binding detectorValueBinding = null;
@@ -429,13 +425,13 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		if (!DetectorModel.INSTANCE.isDetectorConnected()) {
 			return;
 		}
-		Element selectedElement = (Element) ((IStructuredSelection) cmbElement.getSelection()).getFirstElement();
-		String selectedEdgeString = (String) ((IStructuredSelection) cmdElementEdge.getSelection()).getFirstElement();
+		Element selectedElement = (Element) ((IStructuredSelection) comboxElement.getSelection()).getFirstElement();
+		String selectedEdgeString = (String) ((IStructuredSelection) comboElementEdge.getSelection()).getFirstElement();
 		AbsorptionEdge absEdge = selectedElement.getEdge(selectedEdgeString);
-		String qString = (String) ((IStructuredSelection) cmbCrystalQ.getSelection()).getFirstElement();
+		String qString = (String) ((IStructuredSelection) comboCrystalQ.getSelection()).getFirstElement();
 		Double q = Double.parseDouble(qString);
 
-		String xtalCutString = ((CrystalCut) ((StructuredSelection) cmbCrystalCut.getSelection()).getFirstElement()).name();
+		String xtalCutString = ((CrystalCut) ((StructuredSelection) comboCrystalCut.getSelection()).getFirstElement()).name();
 		String xtalTypeString = ((CrystalType) ((StructuredSelection) cmbCrystalType.getSelection()).getFirstElement()).name();
 		String detectorString = DetectorModel.INSTANCE.getCurrentDetector().getName();
 		try {
@@ -833,20 +829,20 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				lblWigglerSuggestion.setText(ScannableSetup.WIGGLER_GAP.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getWigglerGap())));
-				lblPolyBender1Suggestion.setText(ScannableSetup.POLY_BENDER_1.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getPolyBend1())));
-				lblPolyBender2Suggestion.setText(ScannableSetup.POLY_BENDER_2.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getPolyBend2())));
+				lblWigglerSuggestion.setText(ScannableSetup.WIGGLER_GAP.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getWigglerGap())));
+				lblPolyBender1Suggestion.setText(ScannableSetup.POLY_BENDER_1.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getPolyBend1())));
+				lblPolyBender2Suggestion.setText(ScannableSetup.POLY_BENDER_2.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getPolyBend2())));
 				lblMe1StripSuggestion.setText(results.getMe1stripe());
 				lblMe2StripSuggestion.setText(results.getMe2stripe());
-				lblSlitGapSuggestion.setText(ScannableSetup.SLIT_1_HORIZONAL_GAP.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getPrimarySlitGap())));
-				lblArm2ThetaAngleSuggestion.setText(ScannableSetup.ARM_2_THETA_ANGLE.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getArm2Theta())));
-				lblPolyBraggSuggestion.setText(ScannableSetup.POLY_BRAGG.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getBraggAngle())));
-				lblMe2PitchAngleSuggestion.setText(ScannableSetup.ME2_PITCH_ANGLE.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getMe2Pitch())));
+				lblSlitGapSuggestion.setText(ScannableSetup.SLIT_1_HORIZONAL_GAP.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getPrimarySlitGap())));
+				lblArm2ThetaAngleSuggestion.setText(ScannableSetup.ARM_2_THETA_ANGLE.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getArm2Theta())));
+				lblPolyBraggSuggestion.setText(ScannableSetup.POLY_BRAGG.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getBraggAngle())));
+				lblMe2PitchAngleSuggestion.setText(ScannableSetup.ME2_PITCH_ANGLE.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getMe2Pitch())));
 
 				// TODO Check if this value is correct
 				// FIXME Conversion shouldn't not be done in this UI section
-				lblDetectorDistanceSuggestion.setText(ScannableSetup.DETECTOR_DISTANCE.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getDetectorDistance() * 1000))); // Convert to mm
-				lblDetectorHeightSuggestion.setText(ScannableSetup.DETECTOR_HEIGHT.getUnit().addUnitSuffix(ClientConfig.roundDoubletoString(results.getDetectorHeight())));
+				lblDetectorDistanceSuggestion.setText(ScannableSetup.DETECTOR_DISTANCE.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getDetectorDistance() * 1000))); // Convert to mm
+				lblDetectorHeightSuggestion.setText(ScannableSetup.DETECTOR_HEIGHT.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getDetectorHeight())));
 
 				lblAtn1Suggestion.setText(results.getAtn1().toString());
 				lblAtn2Suggestion.setText(results.getAtn2().toString());

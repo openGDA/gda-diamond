@@ -18,7 +18,6 @@
 
 package uk.ac.gda.exafs.ui.views;
 
-
 import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
@@ -51,7 +50,9 @@ public class DetectorLiveModeView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		try {
-			plottingSystem = PlottingFactory.createPlottingSystem();
+			if (plottingSystem == null) {
+				plottingSystem = PlottingFactory.createPlottingSystem();
+			}
 		} catch (Exception e) {
 			// TODO Handle
 			return;

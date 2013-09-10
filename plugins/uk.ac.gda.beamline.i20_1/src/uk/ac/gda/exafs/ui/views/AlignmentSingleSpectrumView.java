@@ -48,6 +48,7 @@ import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
+import uk.ac.gda.exafs.ui.composites.ScannableWrapper;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.sections.EDECalibrationSection;
 import uk.ac.gda.exafs.ui.sections.SingleSpectrumAcquisitionParametersSection;
@@ -66,6 +67,12 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 	private final Binding[] i0Binding = new Binding[2];
 	private final Binding[] itBinding = new Binding[2];
 
+	private Button switchWithSamplePositionButton;
+
+	private Scannable alignmentStageScannable;
+	private ScannableWrapper sampleXScannable;
+	private ScannableWrapper sampleYScannable;
+
 	@Override
 	public void createPartControl(Composite parent) {
 		toolkit = new FormToolkit(parent.getDisplay());
@@ -75,7 +82,10 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 		toolkit.decorateFormHeading(form);
 		form.setText("Single spectrum / E calibration");
 		Composite formParent = form.getBody();
+		switchWithSamplePositionButton = toolkit.createButton(form.getHead(), "Use alignment stage for sample positions", SWT.CHECK);
+		form.setHeadClient(switchWithSamplePositionButton);
 		try {
+			setupScannables();
 			createSamplePosition("I0 sample position", formParent, i0Binding, AlignmentStageDevice.hole.name(), SingleSpectrumModel.I0_X_POSITION_PROP_NAME, SingleSpectrumModel.I0_Y_POSITION_PROP_NAME);
 			createSamplePosition("It sample position", formParent, itBinding, AlignmentStageDevice.foil.name(), SingleSpectrumModel.IT_X_POSITION_PROP_NAME, SingleSpectrumModel.IT_Y_POSITION_PROP_NAME);
 			SingleSpectrumAcquisitionParametersSection.INSTANCE.createEdeCalibrationSection(form, toolkit);
@@ -83,6 +93,12 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 		}
 		EDECalibrationSection.INSTANCE.createEdeCalibrationSection(form, toolkit);
+	}
+
+	private void setupScannables() throws Exception {
+		alignmentStageScannable = ScannableSetup.ALIGNMENT_STAGE.getScannable();
+		sampleXScannable = new ScannableWrapper(ScannableSetup.SAMPLE_X_POSITION.getScannable());
+		sampleYScannable = new ScannableWrapper(ScannableSetup.SAMPLE_Y_POSITION.getScannable());
 	}
 
 	private void createSamplePosition(String title, Composite body, final Binding[] binding, final String alignmentStageDeviceName, final String xPostionPropName, final String yPostionPropName) throws Exception {
@@ -145,6 +161,13 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 				updateBinding(section, binding, customPositionButton, xPosition, yPosition, alignmentStageDeviceName, xPostionPropName, yPostionPropName);
 			}
 		});
+		switchWithSamplePositionButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				updateBinding(section, binding, customPositionButton, xPosition, yPosition, alignmentStageDeviceName, xPostionPropName, yPostionPropName);
+			}
+		});
+
 		updateBinding(section, binding, customPositionButton, xPosition, yPosition, alignmentStageDeviceName, xPostionPropName, yPostionPropName);
 
 		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
@@ -153,22 +176,45 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 	}
 
 	private void updateBinding(Section section, Binding[] binding, Button customPositionButton, NumberEditorControl xPosition, NumberEditorControl yPosition, String alignmentStageDeviceName, String propXName, String propYName) {
-		Scannable scannable;
-		try {
-			scannable = ScannableSetup.ALIGNMENT_STAGE.getScannable();
-		} catch (Exception e) {
-			UIHelper.showError("Unable to get scannable " + ScannableSetup.ALIGNMENT_STAGE.getLabel(), e.getMessage());
-			return;
+		xPosition.setEditable(customPositionButton.getSelection());
+		yPosition.setEditable(customPositionButton.getSelection());
+		if (binding[0] != null) {
+			dataBindingCtx.removeBinding(binding[0]);
+			binding[0].dispose();
+			binding[0] = null;
 		}
-		if (scannable instanceof AlignmentStage) {
-			final AlignmentStage alignmentStage = (AlignmentStage) scannable;
-			xPosition.setEditable(customPositionButton.getSelection());
-			yPosition.setEditable(customPositionButton.getSelection());
-			if (!customPositionButton.getSelection()) {
-				AlignmentStageScannable.Location location = alignmentStage.getAlignmentStageDevice(alignmentStageDeviceName).getLocation();
+		if (binding[1] != null) {
+			dataBindingCtx.removeBinding(binding[1]);
+			binding[1].dispose();
+			binding[1] = null;
+		}
+		if (!customPositionButton.getSelection()) {
+			if (switchWithSamplePositionButton.getSelection()) {
+				if (alignmentStageScannable instanceof AlignmentStage) {
+					final AlignmentStage alignmentStage = (AlignmentStage) alignmentStageScannable;
+					AlignmentStageScannable.Location location = alignmentStage.getAlignmentStageDevice(alignmentStageDeviceName).getLocation();
+					if (binding[0] == null) {
+						binding[0] = dataBindingCtx.bindValue(
+								BeanProperties.value(AlignmentStageScannable.Location.X_POS_PROP_NAME).observe(location),
+								BeanProperties.value(propXName).observe(SingleSpectrumModel.INSTANCE),
+								new UpdateValueStrategy(),
+								new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
+						binding[0].updateTargetToModel();
+					}
+					if (binding[1] == null) {
+						binding[1] = dataBindingCtx.bindValue(
+								BeanProperties.value(AlignmentStageScannable.Location.Y_POS_PROP_NAME).observe(location),
+								BeanProperties.value(propYName).observe(SingleSpectrumModel.INSTANCE),
+								new UpdateValueStrategy(),
+								new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
+						binding[1].updateTargetToModel();
+					}
+					section.setDescription("Using alignment stage " + alignmentStageDeviceName + " as sample x and y position");
+				}
+			} else {
 				if (binding[0] == null) {
 					binding[0] = dataBindingCtx.bindValue(
-							BeanProperties.value(AlignmentStageScannable.Location.X_POS_PROP_NAME).observe(location),
+							BeanProperties.value(ScannableWrapper.POSITION_PROP_NAME).observe(sampleXScannable),
 							BeanProperties.value(propXName).observe(SingleSpectrumModel.INSTANCE),
 							new UpdateValueStrategy(),
 							new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
@@ -176,28 +222,19 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 				}
 				if (binding[1] == null) {
 					binding[1] = dataBindingCtx.bindValue(
-							BeanProperties.value(AlignmentStageScannable.Location.Y_POS_PROP_NAME).observe(location),
+							BeanProperties.value(ScannableWrapper.POSITION_PROP_NAME).observe(sampleYScannable),
 							BeanProperties.value(propYName).observe(SingleSpectrumModel.INSTANCE),
 							new UpdateValueStrategy(),
 							new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
 					binding[1].updateTargetToModel();
 				}
-				section.setDescription("Using alignment stage " + alignmentStageDeviceName + " as sample x and y position");
-			} else {
-				if (binding[0] != null) {
-					dataBindingCtx.removeBinding(binding[0]);
-					binding[0].dispose();
-					binding[0] = null;
-				}
-				if (binding[1] != null) {
-					dataBindingCtx.removeBinding(binding[1]);
-					binding[1].dispose();
-					binding[1] = null;
-				}
-				section.setDescription("Using custom position");
+				section.setDescription("Using sample stage position");
 			}
+		} else {
+			section.setDescription("Using custom position");
 		}
 	}
+
 
 	@Override
 	public void setFocus() {

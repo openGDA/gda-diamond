@@ -76,7 +76,7 @@ public class NumberEditorControl extends Composite {
 	private static final int LARGE_INCREMENT_WIDTH_PADDING = 6;
 	private static final int MIN_STEP_LABEL_WIDTH = 43;
 	private static final int DEFAULT_DECIMAL_PLACES = 2;
-	protected final Object object;
+	protected final Object targetObject;
 	private final String propertyName;
 
 	private Label numberLabel;
@@ -91,13 +91,13 @@ public class NumberEditorControl extends Composite {
 	private final StackLayout layout;
 	private Composite editorComposite;
 	private Text stepText;
-	private MotorPositionEditorText motorPositionEditorText;
+	private NumberEditorText motorPositionEditorText;
 
 	private Binding numberValueBinding;
 
 	private boolean commitOnOutOfFocus = true;
 
-	protected final MotorPositionWidgetModel controlModel;
+	protected final NumberEditorWidgetModel controlModel;
 
 	protected final DataBindingContext ctx = new DataBindingContext();
 	private final boolean useSpinner;
@@ -105,22 +105,27 @@ public class NumberEditorControl extends Composite {
 	private StackLayout stepLayout;
 	private Label stepLabel;
 
+
+	private UpdateValueStrategy customUpdateValueStrategy;
+
 	private Composite incrementComposite;
 	private Binding incrementTextBinding;
 	private Binding incrementLabelBinding;
 
+	private static final int INITIAL_STEP = (int) (0.1 * Math.pow(10, DEFAULT_DECIMAL_PLACES));
+
 	public NumberEditorControl(final Composite parent, int style, Object object, String propertyName, boolean useSpinner) throws Exception {
 		super(parent, style);
-		this.object = object;
+		targetObject = object;
 		this.propertyName = propertyName;
 		this.useSpinner = useSpinner;
-		controlModel = new MotorPositionWidgetModel();
+		controlModel = new NumberEditorWidgetModel();
 		try {
 			Class<?> objectType = PropertyUtils.getPropertyType(object, propertyName);
 			if (objectType.equals(double.class)) {
 				controlModel.setBindingPropertyType(objectType);
 				controlModel.setDigits(DEFAULT_DECIMAL_PLACES);
-				controlModel.setIncrement(1 * (int) Math.pow(10, controlModel.getDigits()));
+				controlModel.setIncrement(INITIAL_STEP);
 			} else if  (objectType.equals(int.class)) {
 				controlModel.setBindingPropertyType(objectType);
 				controlModel.setIncrement(1);
@@ -154,7 +159,7 @@ public class NumberEditorControl extends Composite {
 	}
 
 	private void bind() {
-		IObservableValue objectValue = BeanProperties.value(propertyName).observe(object);
+		IObservableValue objectValue = BeanProperties.value(propertyName).observe(targetObject);
 		ISWTObservableValue textValue = WidgetProperties.text().observe(numberLabel);
 		numberValueBinding = ctx.bindValue(textValue, objectValue, null, new UpdateValueStrategy() {
 			@Override
@@ -165,7 +170,7 @@ public class NumberEditorControl extends Composite {
 		if (useSpinner) {
 			incrementLabelBinding = ctx.bindValue(
 					WidgetProperties.text().observe(stepLabel),
-					BeanProperties.value(MotorPositionWidgetModel.INCREMENT_PROP_NAME).observe(controlModel),
+					BeanProperties.value(NumberEditorWidgetModel.INCREMENT_PROP_NAME).observe(controlModel),
 					new UpdateValueStrategy() {
 						@Override
 						public Object convert(Object value) {
@@ -199,6 +204,7 @@ public class NumberEditorControl extends Composite {
 		if (disabledColor != null && !disabledColor.isDisposed()) {
 			disabledColor.dispose();
 		}
+		ctx.dispose();
 		super.dispose();
 	}
 
@@ -237,6 +243,14 @@ public class NumberEditorControl extends Composite {
 	@Override
 	public void setToolTipText(String toolTopText) {
 		numberLabel.setToolTipText(toolTopText);
+	}
+
+	public UpdateValueStrategy getCustomUpdateValueStrategy() {
+		return customUpdateValueStrategy;
+	}
+
+	public void setCustomUpdateValueStrategy(UpdateValueStrategy customUpdateValueStrategy) {
+		this.customUpdateValueStrategy = customUpdateValueStrategy;
 	}
 
 	public boolean isEditable() {
@@ -333,7 +347,7 @@ public class NumberEditorControl extends Composite {
 		numberLabel.setLayoutData(gridData);
 		numberLabel.addMouseTrackListener(editableMouseListener);
 		// TODO Use binding
-		controlModel.addPropertyChangeListener(MotorPositionWidgetModel.EDITABLE_PROP_NAME, new PropertyChangeListener() {
+		controlModel.addPropertyChangeListener(NumberEditorWidgetModel.EDITABLE_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (!numberLabel.isDisposed()) {
@@ -361,14 +375,14 @@ public class NumberEditorControl extends Composite {
 				decrementButton.addListener(SWT.Selection, new StepListener(false));
 				ctx.bindValue(
 						WidgetProperties.enabled().observe(decrementButton),
-						BeanProperties.value(MotorPositionWidgetModel.EDITABLE_PROP_NAME).observe(controlModel));
+						BeanProperties.value(NumberEditorWidgetModel.EDITABLE_PROP_NAME).observe(controlModel));
 				incrementButton = new Button(spinners, SWT.FLAT);
 				incrementButton.setText("+");
 				incrementButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
 				incrementButton.addListener(SWT.Selection, new StepListener(true));
 				ctx.bindValue(
 						WidgetProperties.enabled().observe(incrementButton),
-						BeanProperties.value(MotorPositionWidgetModel.EDITABLE_PROP_NAME).observe(controlModel));
+						BeanProperties.value(NumberEditorWidgetModel.EDITABLE_PROP_NAME).observe(controlModel));
 			} else {
 				grid = new GridLayout(1, false);
 				removeMargins(grid);
@@ -405,7 +419,7 @@ public class NumberEditorControl extends Composite {
 			stepLayout.topControl = stepLabel;
 
 			// TODO Use binding
-			controlModel.addPropertyChangeListener(MotorPositionWidgetModel.EDITABLE_PROP_NAME, new PropertyChangeListener() {
+			controlModel.addPropertyChangeListener(NumberEditorWidgetModel.EDITABLE_PROP_NAME, new PropertyChangeListener() {
 				@Override
 				public void propertyChange(PropertyChangeEvent evt) {
 					if (!stepLabel.isDisposed()) {
@@ -424,7 +438,10 @@ public class NumberEditorControl extends Composite {
 
 	@Override
 	public boolean setFocus() {
-		return numberLabel.setFocus();
+		if (!numberLabel.isDisposed()) {
+			return numberLabel.setFocus();
+		}
+		return false;
 	}
 
 	private ImageDescriptor getImageDescriptor(String imageFileName) {
@@ -443,46 +460,46 @@ public class NumberEditorControl extends Composite {
 			if (controlModel.isEditable()) {
 				try {
 					if (controlModel.getBindingPropertyType().equals(double.class)) {
-						double value = (double) PropertyUtils.getProperty(object, propertyName);
+						double value = (double) PropertyUtils.getProperty(targetObject, propertyName);
 						double increment =  controlModel.getIncrement() / Math.pow(10, controlModel.getDigits());
 						if (isIncrement) {
 							if (!controlModel.isRangeSet()) {
-								PropertyUtils.setProperty(object, propertyName, value + increment);
+								PropertyUtils.setProperty(targetObject, propertyName, value + increment);
 							} else  {
 								double incremented = value + increment;
 								if (incremented <= controlModel.getMaxValue()) {
-									PropertyUtils.setProperty(object, propertyName, incremented);
+									PropertyUtils.setProperty(targetObject, propertyName, incremented);
 								}
 							}
 						} else {
 							if (!controlModel.isRangeSet()) {
-								PropertyUtils.setProperty(object, propertyName, value - increment);
+								PropertyUtils.setProperty(targetObject, propertyName, value - increment);
 							} else  {
 								double decremented = value - increment;
 								if (decremented >= controlModel.getMinValue()) {
-									PropertyUtils.setProperty(object, propertyName, decremented);
+									PropertyUtils.setProperty(targetObject, propertyName, decremented);
 								}
 							}
 						}
 					} else if (controlModel.getBindingPropertyType().equals(int.class)) {
-						int value = (int) PropertyUtils.getProperty(object, propertyName);
+						int value = (int) PropertyUtils.getProperty(targetObject, propertyName);
 						int increment =  controlModel.getIncrement() / (int) Math.pow(10, controlModel.getDigits());
 						if (isIncrement) {
 							if (!controlModel.isRangeSet()) {
-								PropertyUtils.setProperty(object, propertyName, value + increment);
+								PropertyUtils.setProperty(targetObject, propertyName, value + increment);
 							} else  {
 								double incremented = value + increment;
 								if (incremented <= controlModel.getMaxValue()) {
-									PropertyUtils.setProperty(object, propertyName, (int) incremented);
+									PropertyUtils.setProperty(targetObject, propertyName, (int) incremented);
 								}
 							}
 						} else {
 							if (!controlModel.isRangeSet()) {
-								PropertyUtils.setProperty(object, propertyName, value - increment);
+								PropertyUtils.setProperty(targetObject, propertyName, value - increment);
 							} else  {
 								double decremented = value - increment;
 								if (decremented >= controlModel.getMinValue()) {
-									PropertyUtils.setProperty(object, propertyName, (int) decremented);
+									PropertyUtils.setProperty(targetObject, propertyName, (int) decremented);
 								}
 							}
 						}
@@ -503,7 +520,7 @@ public class NumberEditorControl extends Composite {
 			@Override
 			public void handleEvent(Event event) {
 				if (controlModel.isEditable()) {
-					motorPositionEditorText = new MotorPositionEditorText(NumberEditorControl.this, SWT.None);
+					motorPositionEditorText = new NumberEditorText(NumberEditorControl.this, SWT.None);
 					GridData gridData = new GridData(SWT.FILL,SWT.BEGINNING, true, false);
 					motorPositionEditorText.setLayoutData(gridData);
 					layout.topControl = motorPositionEditorText;
@@ -534,7 +551,7 @@ public class NumberEditorControl extends Composite {
 					stepText = new Text(incrementComposite, SWT.BORDER);
 					incrementTextBinding = ctx.bindValue(
 							WidgetProperties.text(SWT.Modify).observe(stepText),
-							BeanProperties.value(MotorPositionWidgetModel.INCREMENT_PROP_NAME).observe(controlModel),
+							BeanProperties.value(NumberEditorWidgetModel.INCREMENT_PROP_NAME).observe(controlModel),
 							new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST).setConverter(new IConverter() {
 
 								@Override
@@ -642,7 +659,7 @@ public class NumberEditorControl extends Composite {
 		grid.horizontalSpacing = 0;
 	}
 
-	protected class MotorPositionWidgetModel extends ObservableModel {
+	protected class NumberEditorWidgetModel extends ObservableModel {
 		public static final String EDITABLE_PROP_NAME = "editable";
 		private boolean editable = true;
 
@@ -715,7 +732,7 @@ public class NumberEditorControl extends Composite {
 		}
 	}
 
-	private class MotorPositionEditorText extends Composite {
+	private class NumberEditorText extends Composite {
 		private final Text editorText;
 		private final Button editorAcceptButton;
 		private final Button editorCancelButton;
@@ -733,7 +750,7 @@ public class NumberEditorControl extends Composite {
 		protected boolean cancelOrCommit;
 		private final Listener inFocus;
 		private final FocusListener textOutFocus;
-		public MotorPositionEditorText(Composite parent, int style) {
+		public NumberEditorText(Composite parent, int style) {
 			super(parent, style);
 			GridLayout grid = new GridLayout(3, false);
 			removeMargins(grid);
@@ -773,7 +790,7 @@ public class NumberEditorControl extends Composite {
 				@Override
 				public void handleEvent(Event event) {
 					if (lostFocus & event.widget != editorText & event.widget != editorCancelButton & event.widget != editorAcceptButton & !cancelOrCommit) {
-						MotorPositionEditorText.this.updateChangesAndDispose(commitOnOutOfFocus);
+						NumberEditorText.this.updateChangesAndDispose(commitOnOutOfFocus);
 					}
 				}
 			};
@@ -793,9 +810,34 @@ public class NumberEditorControl extends Composite {
 		}
 
 		private void bind() {
-			IObservableValue objectValue = BeanProperties.value(propertyName).observe(object);
+			IObservableValue objectValue = BeanProperties.value(propertyName).observe(targetObject);
 			ISWTObservableValue textValue = WidgetProperties.text().observe(editorText);
-			UpdateValueStrategy updateStrategy = new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST);
+			UpdateValueStrategy updateStrategy = null;
+			if (customUpdateValueStrategy == null) {
+				updateStrategy = new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST);
+				if (controlModel.isRangeSet()) {
+					updateStrategy.setBeforeSetValidator(new IValidator() {
+						@Override
+						public IStatus validate(Object value) {
+							// TODO Max and min are int, review
+							if (controlModel.getBindingPropertyType().equals(double.class)) {
+								if (((double) value) >= controlModel.getMinValue() & ((double) value) <= controlModel.getMaxValue()) {
+									return ValidationStatus.ok();
+								}
+								return ValidationStatus.error("Out of range");
+							} else if (controlModel.getBindingPropertyType().equals(int.class)) {
+								if (((int) value) >= controlModel.getMinValue() & ((int) value) <= controlModel.getMaxValue()) {
+									return ValidationStatus.ok();
+								}
+								return ValidationStatus.error("Out of range");
+							}
+							return ValidationStatus.error("Unknown type");
+						}
+					});
+				}
+			} else {
+				updateStrategy = customUpdateValueStrategy;
+			}
 			binding = editorCtx.bindValue(textValue, objectValue, updateStrategy, new UpdateValueStrategy() {
 				@Override
 				public Object convert(Object value) {
@@ -805,26 +847,8 @@ public class NumberEditorControl extends Composite {
 					return super.convert(value);
 				}
 			});
-			if (controlModel.isRangeSet()) {
-				updateStrategy.setBeforeSetValidator(new IValidator() {
-					@Override
-					public IStatus validate(Object value) {
-						// TODO Max and min are int, review
-						if (controlModel.getBindingPropertyType().equals(double.class)) {
-							if (((double) value) >= controlModel.getMinValue() & ((double) value) <= controlModel.getMaxValue()) {
-								return ValidationStatus.ok();
-							}
-							return ValidationStatus.error("Out of range");
-						} else if (controlModel.getBindingPropertyType().equals(int.class)) {
-							if (((int) value) >= controlModel.getMinValue() & ((int) value) <= controlModel.getMaxValue()) {
-								return ValidationStatus.ok();
-							}
-							return ValidationStatus.error("Out of range");
-						}
-						return ValidationStatus.error("Unknown type");
-					}
-				});
-			}
+
+
 			editorText.addModifyListener(new ModifyListener() {
 				@Override
 				public void modifyText(ModifyEvent e) {
@@ -870,7 +894,7 @@ public class NumberEditorControl extends Composite {
 			}
 			IStatus status = (IStatus) binding.getValidationStatus().getValue();
 			if (status.isOK()) {
-				MotorPositionEditorText.this.dispose();
+				NumberEditorText.this.dispose();
 			}
 
 		}

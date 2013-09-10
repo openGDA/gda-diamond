@@ -31,8 +31,6 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import uk.ac.gda.beamline.i20_1.utils.DataHelper;
-
 public class ClientConfig {
 
 	public static final int KILO_UNIT = 1000;
@@ -40,19 +38,6 @@ public class ClientConfig {
 	public static final String DEFAULT_DATA_PATH = "/dls/i20-1/data";
 
 	private ClientConfig() {}
-
-	public static String roundDoubletoString(double value) {
-		return String.format("%." + DEFAULT_DECIMAL_PLACE + "f", value);
-	}
-
-	public static String roundDoubletoString(double value, int decimalPlaces) {
-		return String.format("%." + decimalPlaces + "f", value);
-	}
-
-	public static double roundDouble(double value) {
-		int defaultDecimal = DataHelper.getDecimalPlacePowValue(DEFAULT_DECIMAL_PLACE);
-		return Math.round(value * defaultDecimal) / (double) defaultDecimal;
-	}
 
 	public enum UnitSetup {
 		MILLI_METER("mm"),
