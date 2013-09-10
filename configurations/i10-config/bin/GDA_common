@@ -1,6 +1,6 @@
 # No Shebang since this will always be sourced.
 
-module load java/gda830-64
+module load java/gda834-64
 export GDACORE=/dls_sw/i10/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
 export GDACLIENT=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/dls-config/bin/gdaclient
 
