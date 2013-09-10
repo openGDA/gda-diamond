@@ -8,14 +8,14 @@ export GDA_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-co
 
 LOGDIR=/dls_sw/$BEAMLINE/var
 LOGNAME=$1
-export LOGFILE=$LOGDIR/$LOGNAME/$LOGNAME_`date +%F-%T`.txt
-touch $LOGFILE
+export GDA_CONSOLE_LOG=$LOGDIR/$LOGNAME/$LOGNAME_`date +%F-%T`.txt
+touch $GDA_CONSOLE_LOG
 rm $LOGDIR/$LOGNAME.txt
-ln -s $LOGFILE $LOGDIR/$LOGNAME.txt
+ln -s $GDA_CONSOLE_LOG $LOGDIR/$LOGNAME.txt
 
 echo --------------------------------------------------------
-echo -------------------------------------------------------- >> $LOGFILE
-echo "Log $LOGNAME ($USER@$HOSTNAME)"                         to $LOGFILE
-echo "Log $LOGNAME ($USER@$HOSTNAME)"                         >> $LOGFILE
-echo -------------------------------------------------------- >> $LOGFILE
+echo -------------------------------------------------------- >> $GDA_CONSOLE_LOG
+echo "Log $LOGNAME ($USER@$HOSTNAME)"                         to $GDA_CONSOLE_LOG
+echo "Log $LOGNAME ($USER@$HOSTNAME)"                         >> $GDA_CONSOLE_LOG
+echo -------------------------------------------------------- >> $GDA_CONSOLE_LOG
 echo --------------------------------------------------------
