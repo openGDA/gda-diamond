@@ -1,10 +1,12 @@
 # No Shebang since this will always be sourced.
 
 module load java/gda834-64
-export GDACORE=/dls_sw/i10/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
-export GDACLIENT=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/dls-config/bin/gdaclient
 
-LOGDIR=/dls_sw/i10/var
+export GDA_CORE_SCRIPT=$GDA_ROOT/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
+export GDA_CLIENT_SCRIPT=$GDA_ROOT/workspace_git/gda-diamond.git/dls-config/bin/gdaclient
+export GDA_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/
+
+LOGDIR=/dls_sw/$BEAMLINE/var
 LOGNAME=$1
 export LOGFILE=$LOGDIR/$LOGNAME/$LOGNAME_`date +%F-%T`.txt
 touch $LOGFILE

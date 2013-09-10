@@ -2,4 +2,4 @@
 
 . GDA_common gda_client_output
 
-$GDACLIENT --keep --nohup $LOGFILE $*
+$GDA_CLIENT_SCRIPT --keep --nohup $LOGFILE $*

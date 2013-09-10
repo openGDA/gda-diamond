@@ -6,9 +6,9 @@ if [ "X$LOGPANEL" == "X" ] ; then
 
   echo Starting GDA Log Panel...
   echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
-  echo  $GDACORE logpanel
-  echo  $GDACORE logpanel >> $LOGFILE
-  nohup $GDACORE logpanel >> $LOGFILE 2>&1 &
+  echo  $GDA_CORE_SCRIPT logpanel
+  echo  $GDA_CORE_SCRIPT logpanel >> $LOGFILE
+  nohup $GDA_CORE_SCRIPT logpanel >> $LOGFILE 2>&1
 
 else
   echo Raising GDA Log Panel...
