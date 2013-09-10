@@ -158,24 +158,24 @@ public class EdeSingleExperiment {
 	}
 
 	protected void runScans() throws Exception {
-		if (runItDark) {
-			log("Running I0 Dark scan...");
-		} else {
-			log("Running Dark scan...");
-		}
+		//		if (runItDark) {
+		//			log("Running I0 Dark scan...");
+		//		} else {
+		//			log("Running Dark scan...");
+		//		}
 		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector);
 		// i0DarkScan.runScan();
 		if (runItDark) {
-			log("Running It Dark scan...");
+			//			log("Running It Dark scan...");
 			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector);
 			// itDarkScan.runScan();
 		} else {
 			itDarkScan = i0DarkScan;
 		}
-		log("Running I0 scan...");
+		//		log("Running I0 scan...");
 		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector);
 		// i0InitialScan.runScan();
-		log("Running It scan...");
+		//		log("Running It scan...");
 		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector);
 		// itScan.runScan();
 
@@ -188,6 +188,6 @@ public class EdeSingleExperiment {
 		theScans.add(itScan);
 
 		MultiScan theScan = new MultiScan(theScans);
-		theScan.run();
+		theScan.runScan();
 	}
 }
