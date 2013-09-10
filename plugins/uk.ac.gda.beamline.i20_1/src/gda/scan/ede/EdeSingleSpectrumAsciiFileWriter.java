@@ -24,6 +24,7 @@ import gda.device.DeviceException;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.StripDetector;
 import gda.jython.InterfaceProvider;
+import gda.scan.EdeScan;
 import gda.scan.ScanDataPoint;
 
 import java.io.File;
@@ -38,7 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
-public class EdeAsciiFileWriter {
+public class EdeSingleSpectrumAsciiFileWriter {
 
 	public static final String STRIP_COLUMN_NAME = "Strip";
 	public static final String ENERGY_COLUMN_NAME = "Energy";
@@ -50,7 +51,7 @@ public class EdeAsciiFileWriter {
 	public static final String I0_DARK_COLUMN_NAME = "I0_dark";
 	public static final String IT_DARK_COLUMN_NAME = "It_dark";
 
-	private static final Logger logger = LoggerFactory.getLogger(EdeAsciiFileWriter.class);
+	private static final Logger logger = LoggerFactory.getLogger(EdeSingleSpectrumAsciiFileWriter.class);
 
 	private final EdeScan i0DarkScan;
 	private final EdeScan itDarkScan;
@@ -60,7 +61,7 @@ public class EdeAsciiFileWriter {
 	private String filenameTemplate = "";
 	private String asciiFilename;
 
-	public EdeAsciiFileWriter(EdeScan i0InitialScan, EdeScan itScan, EdeScan i0DarkScan, EdeScan itDarkScan,
+	public EdeSingleSpectrumAsciiFileWriter(EdeScan i0InitialScan, EdeScan itScan, EdeScan i0DarkScan, EdeScan itDarkScan,
 			StripDetector theDetector) {
 		super();
 		this.i0InitialScan = i0InitialScan;
@@ -122,7 +123,7 @@ public class EdeAsciiFileWriter {
 
 	private void determineAsciiFilename() {
 		// the scans would have created Nexus files, so base an ascii file on this plus any template, if supplied
-		String itFilename = itScan.getTheScan().getDataWriter().getCurrentFileName();
+		String itFilename = itScan.getDataWriter().getCurrentFileName();
 		String folder = FilenameUtils.getFullPath(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
 

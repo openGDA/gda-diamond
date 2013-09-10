@@ -20,7 +20,13 @@ package gda.scan.ede;
 
 import gda.device.detector.StripDetector;
 import gda.jython.InterfaceProvider;
+import gda.scan.EdeScan;
+import gda.scan.MultiScan;
+import gda.scan.ScanBase;
 import gda.scan.ede.position.EdeScanPosition;
+
+import java.util.List;
+import java.util.Vector;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,27 +40,25 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
  * The I0 timing can be the same as the It timing parameters, if not explicitly supplied instead. So only a single time
  * frame and timing group must be supplied. Sample environments are not taken into account here.
  * <p>
- * TODO: need to include detector calibration control somewhere in this.
+ * It will be assumed that the EdeScanParameters objects given to this class respresent a single TmingGroup producing a
+ * single spectrum.
  */
 public class EdeSingleExperiment {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeSingleExperiment.class);
 
-	private EdeScan i0DarkScan;
-	private EdeScan itDarkScan;
-	private EdeScan i0InitialScan;
-	private EdeScan itScan;
+	protected final EdeScanPosition i0Position;
+	protected final EdeScanPosition itPosition;
+	protected final EdeScanParameters i0ScanParameters;
+	protected final EdeScanParameters itScanParameters;
+	protected final Boolean runItDark;
+	protected final StripDetector theDetector;
 
-
-	private final EdeScanPosition i0Position;
-	private final EdeScanPosition itPosition;
-	private final EdeScanParameters i0ScanParameters;
-	private final EdeScanParameters itScanParameters;
-	private final Boolean runItDark;
-
-	private final StripDetector theDetector;
-
-	private String filenameTemplate = "";
+	protected EdeScan i0DarkScan;
+	protected EdeScan itDarkScan;
+	protected EdeScan i0InitialScan;
+	protected EdeScan itScan;
+	protected String filenameTemplate = "";
 
 	/**
 	 * Use when the I0 and It timing parameters are different.
@@ -97,12 +101,18 @@ public class EdeSingleExperiment {
 		validateTimingParameters();
 	}
 
-	private void log (String message){
+	protected void log(String message) {
 		InterfaceProvider.getTerminalPrinter().print(message);
 		logger.info(message);
 	}
 
 	private void validateTimingParameters() {
+		if (i0ScanParameters.getGroups().size() != 1) {
+			throw new IllegalArgumentException("Only one timing group must be used in this type of scan!");
+		}
+		if (i0ScanParameters.getGroups().get(0).getNumberOfFrames() != 1) {
+			throw new IllegalArgumentException("Only one frame must be used in this type of scan!");
+		}
 		if (itScanParameters.getGroups().size() != 1) {
 			throw new IllegalArgumentException("Only one timing group must be used in this type of scan!");
 		}
@@ -120,7 +130,7 @@ public class EdeSingleExperiment {
 	 */
 	public String runExperiment() throws Exception {
 		runScans();
-		EdeAsciiFileWriter writer = new EdeAsciiFileWriter(i0InitialScan,itScan,i0DarkScan,itDarkScan,theDetector);
+		EdeSingleSpectrumAsciiFileWriter writer = new EdeSingleSpectrumAsciiFileWriter(i0InitialScan, itScan, i0DarkScan, itDarkScan, theDetector);
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
 			writer.setFilenameTemplate(filenameTemplate);
 		}
@@ -138,9 +148,8 @@ public class EdeSingleExperiment {
 	 * <p>
 	 * It <b>must</b> contain a '%s' to substitute the nexus file name into the given template.
 	 * <p>
-	 * E.g. if the nexus file created was: '/dls/i01/data/1234.nxs'
-	 * then the filenameTemplate given in this method should be something like: 'Fe-Kedge_%s'
-	 * for the final ascii file to be: '/dls/i01/data/Fe-Kedge_1234.txt'
+	 * E.g. if the nexus file created was: '/dls/i01/data/1234.nxs' then the filenameTemplate given in this method
+	 * should be something like: 'Fe-Kedge_%s' for the final ascii file to be: '/dls/i01/data/Fe-Kedge_1234.txt'
 	 * 
 	 * @param filenameTemplate
 	 */
@@ -148,28 +157,37 @@ public class EdeSingleExperiment {
 		this.filenameTemplate = filenameTemplate;
 	}
 
-	private void runScans() throws Exception {
+	protected void runScans() throws Exception {
 		if (runItDark) {
 			log("Running I0 Dark scan...");
 		} else {
 			log("Running Dark scan...");
 		}
 		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector);
-		i0DarkScan.runScan();
+		// i0DarkScan.runScan();
 		if (runItDark) {
 			log("Running It Dark scan...");
 			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector);
-			itDarkScan.runScan();
+			// itDarkScan.runScan();
 		} else {
 			itDarkScan = i0DarkScan;
 		}
 		log("Running I0 scan...");
 		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector);
-		i0InitialScan.runScan();
+		// i0InitialScan.runScan();
 		log("Running It scan...");
 		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector);
-		itScan.runScan();
-		// i0FinalScan = new EdeScan(itScanParameters, i0Position, EdeScanType.LIGHT, theDetector);
-		// i0FinalScan.runScan();
+		// itScan.runScan();
+
+		List<ScanBase> theScans = new Vector<ScanBase>();
+		theScans.add(i0DarkScan);
+		if (runItDark) {
+			theScans.add(itDarkScan);
+		}
+		theScans.add(i0InitialScan);
+		theScans.add(itScan);
+
+		MultiScan theScan = new MultiScan(theScans);
+		theScan.run();
 	}
 }
