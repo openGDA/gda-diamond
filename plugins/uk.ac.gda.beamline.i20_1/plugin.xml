@@ -66,10 +66,10 @@
             restorable="true">
       </view>
       <view
-            allowMultiple="true"
-            class="uk.ac.gda.exafs.ui.views.SingleSpectrumView"
+            allowMultiple="false"
+            class="uk.ac.gda.exafs.ui.views.AlignmentSingleSpectrumView"
             icon="icons/1-star.gif"
-            id="uk.ac.gda.exafs.ui.views.singlespectrumview"
+            id="uk.ac.gda.exafs.ui.views.alignmentSingleSpectrumView"
             name="Single Collection"
             restorable="true">
       </view>
@@ -115,6 +115,19 @@
             class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
             id="uk.ac.gda.beamline.i20_1.SingleSpectrumPlot"
             name="Single spectrum plot"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.exafs.ui.views.ExperimentSingleSpectrumView"
+            icon="icons/1-star.gif"
+            id="uk.ac.gda.exafs.ui.views.experimentSingleSpectrumView"
+            name="Single Collection"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.exafs.ui.views.LinearExperimentView"
+            id="uk.ac.gda.exafs.ui.views.linearExperimentView"
+            name="Linear experiment"
             restorable="true">
       </view>
    </extension>

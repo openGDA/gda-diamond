@@ -39,6 +39,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -149,6 +150,8 @@ public class XHControlComposite extends Composite implements IObserver {
 	public XHControlComposite(Composite parent, IPlottingSystem plottingSystem) {
 		super(parent, SWT.None);
 		this.plottingSystem = plottingSystem;
+		//this.plottingSystem.setRescale(false);
+
 		toolkit = new FormToolkit(parent.getDisplay());
 		detectorControlModel = new DetectorControlModel();
 		setPlotData();
@@ -401,6 +404,8 @@ public class XHControlComposite extends Composite implements IObserver {
 			List<IDataset> data = new ArrayList<IDataset>(1);
 			data.add(new DoubleDataset((double[]) results));
 			plottingSystem.clear();
+			plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
+			plottingSystem.setRescale(false);
 			plottingSystem.createPlot1D(strips, data, new NullProgressMonitor());
 			plottingSystem.setTitle(title);
 		} else {
@@ -426,9 +431,9 @@ public class XHControlComposite extends Composite implements IObserver {
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					txtNumScansPerFrame.setEnabled(false);
-					txtRefreshPeriod.setEnabled(false);
-					txtSnapTime.setEnabled(false);
+					txtNumScansPerFrame.setEditable(false);
+					txtRefreshPeriod.setEditable(false);
+					txtSnapTime.setEditable(false);
 				}
 			});
 			liveLoop = uk.ac.gda.util.ThreadManager.getThread(new Runnable() {
@@ -443,9 +448,9 @@ public class XHControlComposite extends Composite implements IObserver {
 								&& InterfaceProvider.getScanStatusHolder().getScanStatus() == Jython.IDLE) {
 							Date snapshotTime = new Date();
 
-							String collectionPeriod_ms = ClientConfig.roundDoubletoString(detectorControlModel.getLiveIntegrationTime());
+							String collectionPeriod_ms = DataHelper.roundDoubletoString(detectorControlModel.getLiveIntegrationTime());
 							final Double[] results = collectAndPlotSnapshot(false, detectorControlModel.getLiveIntegrationTime(), 1,
-									"Live reading (" + collectionPeriod_ms + "ms integration, every " + detectorControlModel.getRefreshPeriod()
+									"Live reading (" + collectionPeriod_ms + " ms integration, every " + detectorControlModel.getRefreshPeriod()
 									+ " s)");
 
 							allValues = ArrayUtils.add(allValues, results[2]);
@@ -458,7 +463,7 @@ public class XHControlComposite extends Composite implements IObserver {
 					} catch (Exception e) {
 						logger.error("Exception in loop refreshing the live XH detector rate", e);
 					} finally {
-						PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+						Display.getDefault().asyncExec(new Runnable() {
 							@Override
 							public void run() {
 								// update the UI
@@ -491,9 +496,9 @@ public class XHControlComposite extends Composite implements IObserver {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				txtNumScansPerFrame.setEnabled(true);
-				txtRefreshPeriod.setEnabled(true);
-				txtSnapTime.setEnabled(true);
+				txtNumScansPerFrame.setEditable(true);
+				txtRefreshPeriod.setEditable(true);
+				txtSnapTime.setEditable(true);
 			}
 		});
 	}

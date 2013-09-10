@@ -18,9 +18,12 @@
 
 package uk.ac.gda.exafs.data;
 
+
+import gda.configuration.properties.LocalProperties;
 import gda.scan.ede.EdeSingleSpectrumAsciiFileWriter;
 import gda.util.exafs.Element;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,10 +32,10 @@ import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 
 public class EdeCalibrationModel extends ObservableModel {
-	public static final String REF_DATA_COLUMN_NAME = "/entry1/qexafs_counterTimer01/lnI0It";
-	public static final String REF_ENERGY_COLUMN_NAME = "/entry1/qexafs_counterTimer01/qexafs_energy";
-	public static final String REF_DATA_PATH = "/Foils_reference";
-	public static final String REF_DATA_EXT = ".xmu";
+	public static final String REF_DATA_COLUMN_NAME = "lnI0It";
+	public static final String REF_ENERGY_COLUMN_NAME = "Energy";
+	public static final String REF_DATA_PATH = LocalProperties.getVarDir() + "edeRefData";
+	public static final String REF_DATA_EXT = ".dat";
 
 	public static final EdeCalibrationModel INSTANCE = new EdeCalibrationModel();
 	public static final String MANUAL_PROP_NAME = "manual";
@@ -57,19 +60,11 @@ public class EdeCalibrationModel extends ObservableModel {
 	public static class ElementEdeData extends ElementReference {
 		@Override
 		public void setData(String fileName) throws Exception {
-			setData(fileName, LoaderFactory.getData(fileName), EdeSingleSpectrumAsciiFileWriter.STRIP_COLUMN_NAME, EdeSingleSpectrumAsciiFileWriter.LN_I0_IT_COLUMN_NAME);
-		}
-
-		@Override
-		public void setSelectedElement(Element selectedElement) {
-			firePropertyChange(SELECTED_ELEMENT_PROP_NAME, this.selectedElement, this.selectedElement = selectedElement);
+			setData(fileName, EdeSingleSpectrumAsciiFileWriter.STRIP_COLUMN_NAME, EdeSingleSpectrumAsciiFileWriter.LN_I0_IT_COLUMN_NAME);
 		}
 	}
 
 	public static class ElementReference extends ObservableModel {
-
-		public static final String SELECTED_ELEMENT_PROP_NAME = "selectedElement";
-		protected Element selectedElement;
 
 		public static final String FILE_NAME_PROP_NAME = "fileName";
 		protected String fileName;
@@ -115,41 +110,43 @@ public class EdeCalibrationModel extends ObservableModel {
 			return dataHolder;
 		}
 
-		public Element getSelectedElement() {
-			return selectedElement;
-		}
+		public void loadReferenceData(Element element, String edgeName) {
+			File folder = new File(REF_DATA_PATH);
+			if (!folder.exists() || !folder.canRead()) {
+				return;
+			}
 
-		public void setSelectedElement(Element selectedElement) {
-			firePropertyChange(SELECTED_ELEMENT_PROP_NAME, this.selectedElement, this.selectedElement = selectedElement);
-			// TODO Implement this when data is available
-			//			String fileName = REF_DATA_PATH + "/" + this.selectedElement.getSymbol() + REF_DATA_EXT;
-			//			File file = new File(fileName);
-			//			if (file.exists() && file.canRead()) {
-			//				try {
-			//					setData(fileName);
-			//				} catch (Exception e) {
-			//					// TODO Handle this
-			//				}
-			//			}
-		}
-
-		public void setData(String fileName) throws Exception {
-			DataHolder dataHolder = LoaderFactory.getData(fileName);
-			if (dataHolder != null) {
-				setData(fileName, dataHolder, EdeCalibrationModel.REF_ENERGY_COLUMN_NAME, EdeCalibrationModel.REF_DATA_COLUMN_NAME);
-			} else {
-				throw new Exception("Unable to load reference data from " + fileName);
+			String fileName = element.getSymbol() + "_" + edgeName + REF_DATA_EXT;
+			File file = new File(folder, fileName);
+			if (file.exists() && file.canRead()) {
+				try {
+					setData(file.getAbsolutePath());
+				} catch (Exception e) {
+					// TODO Handle this
+				}
 			}
 		}
 
-		protected void setData(String fileName, DataHolder dataHolder, String energyNodePath, String dataNodePath) {
-			String previousRefFile = this.fileName;
-			this.fileName = fileName;
-			this.dataHolder = dataHolder;
-			energyNode = (AbstractDataset) this.dataHolder.getLazyDataset(energyNodePath).getSlice();
-			dataNode = (AbstractDataset) this.dataHolder.getLazyDataset(dataNodePath).getSlice();
-			loadReferencePoints();
-			firePropertyChange(FILE_NAME_PROP_NAME, previousRefFile, this.fileName);
+		public void setData(String fileName) throws Exception {
+			setData(fileName, EdeCalibrationModel.REF_ENERGY_COLUMN_NAME, EdeCalibrationModel.REF_DATA_COLUMN_NAME);
+		}
+
+		protected void setData(String fileName, String energyNodePath, String dataNodePath) throws Exception {
+			try {
+				DataHolder dataHolder = LoaderFactory.getData(fileName);
+				if (dataHolder == null) {
+					firePropertyChange(FILE_NAME_PROP_NAME, this.fileName, this.fileName = null);
+					return;
+				}
+				this.dataHolder = dataHolder;
+				energyNode = (AbstractDataset) this.dataHolder.getLazyDataset(energyNodePath).getSlice();
+				dataNode = (AbstractDataset) this.dataHolder.getLazyDataset(dataNodePath).getSlice();
+				loadReferencePoints();
+				firePropertyChange(FILE_NAME_PROP_NAME, this.fileName, this.fileName = fileName);
+			} catch (Exception e) {
+				firePropertyChange(FILE_NAME_PROP_NAME, this.fileName, this.fileName = null);
+				throw new Exception("Unable to load data for " + fileName, e);
+			}
 		}
 
 		protected void loadReferencePoints() {

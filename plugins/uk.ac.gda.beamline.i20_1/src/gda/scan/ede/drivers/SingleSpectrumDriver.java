@@ -45,6 +45,7 @@ public class SingleSpectrumDriver {
 	private Integer it_numberscans;
 	private EdeScanPosition inbeamPosition;
 	private EdeScanPosition outbeamPosition;
+	private String fileTemplate;
 
 	public SingleSpectrumDriver(String detectorName, Double i0_scantime, Integer i0_numberscans, Double it_scantime,
 			Integer it_numberscans) {
@@ -66,6 +67,12 @@ public class SingleSpectrumDriver {
 			this.it_numberscans = i0_numberscans;
 		}
 
+	}
+
+	public SingleSpectrumDriver(String detectorName, Double i0_scantime, Integer i0_numberscans, Double it_scantime,
+			Integer it_numberscans, String fileTemplate) {
+		this(detectorName, i0_scantime, i0_numberscans, it_scantime, it_numberscans);
+		this.fileTemplate = fileTemplate;
 	}
 
 	/**
@@ -112,6 +119,9 @@ public class SingleSpectrumDriver {
 
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0scanparams, itscanparams, inbeamPosition,
 				outbeamPosition, detector);
+		if (fileTemplate != null) {
+			theExperiment.setFilenameTemplate(fileTemplate);
+		}
 		return theExperiment.runExperiment();
 	}
 }

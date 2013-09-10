@@ -62,16 +62,6 @@ public class AlignmentStageCalibrationView extends ViewPart {
 		form.getBody().setLayout(new TableWrapLayout());
 		toolkit.decorateFormHeading(form);
 		form.setText("Alignment Stage");
-		final Button switchWithSamplePositionButton = toolkit.createButton(form.getHead(), "Use sample positions for alignment stage", SWT.CHECK);
-		form.setHeadClient(switchWithSamplePositionButton);
-		switchWithSamplePositionButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				if (switchWithSamplePositionButton.getSelection()) {
-
-				}
-			}
-		});
 		try {
 			createControlsSection();
 		} catch (Exception e) {
