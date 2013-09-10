@@ -17,7 +17,7 @@
 -Dgda.config=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config
 -Dgda.gui.beans.xml=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/client/client.xml
 -Dgda.var=/dls_sw/i10/software/gda_versions/var
--Dgda.data=/dls/i10
+-Dgda.data=/dls/i10/data
 -Dgda.logs.dir=/dls/i10/logs
 -Dgda.propertiesFile=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/properties/java.properties
 -Djacorb.config.dir=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/properties
@@ -43,7 +43,6 @@
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>
