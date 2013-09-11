@@ -28,6 +28,7 @@ import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
@@ -77,10 +78,21 @@ import uk.ac.gda.exafs.ui.data.detector.Group;
 import uk.ac.gda.exafs.ui.data.detector.GroupGapRenderer;
 import uk.ac.gda.exafs.ui.data.detector.MilliScale;
 import uk.ac.gda.exafs.ui.data.detector.Spectrum;
+
+import com.swtdesigner.ResourceManager;
+
 import de.jaret.util.date.Interval;
+import de.jaret.util.date.JaretDate;
+import de.jaret.util.ui.timebars.TimeBarMarker;
+import de.jaret.util.ui.timebars.TimeBarMarkerImpl;
+import de.jaret.util.ui.timebars.TimeBarMarkerListener;
+import de.jaret.util.ui.timebars.model.ITimeBarChangeListener;
+import de.jaret.util.ui.timebars.model.TimeBarRow;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 
 public class LinearExperimentView extends ViewPart {
+
+	private static final long INITIAL_TIMEBAR_MARKER_IN_MILLI = 10L;
 
 	public static final String ID = "uk.ac.gda.exafs.ui.views.linearExperimentView";
 
@@ -106,6 +118,12 @@ public class LinearExperimentView extends ViewPart {
 	protected NumberEditorControl noOfAccumulationValueText;
 
 	protected int maxAccumulationforDetector;
+
+	private TimeBarMarkerImpl marker;
+
+	private Button runExperimentButton;
+
+	private Action runExperimentAction;
 
 	@Override
 	public void createPartControl(final Composite parent) {
@@ -169,6 +187,17 @@ public class LinearExperimentView extends ViewPart {
 		form.getBody().setLayout(new GridLayout(2, true));
 		toolkit.decorateFormHeading(form);
 		scrolledform.setText("Linear experiment");
+		runExperimentAction = new Action() {
+			@Override
+			public void run() {
+				// TODO
+			}
+
+		};
+		runExperimentAction.setImageDescriptor(ResourceManager.getImageDescriptor(LinearExperimentView.class,
+				"/icons/control_play_blue.png"));
+		form.getToolBarManager().add(runExperimentAction);	// NEW LINE
+		form.getToolBarManager().update(true);	// NEW LINE
 		createExperimentDetailsSection(form.getBody());
 		createGroupSection(form.getBody());
 	}
@@ -509,6 +538,18 @@ public class LinearExperimentView extends ViewPart {
 		numberEditorControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		numberEditorControl.setLayoutData(gridDataForTxt);
 
+		final Button useExernalTriggerCheckButton = toolkit.createButton(sectionComposite, "Use exernal trigger", SWT.CHECK);
+		gridData = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
+		gridData.horizontalSpan = 2;
+		useExernalTriggerCheckButton.setLayoutData(gridData);
+		useExernalTriggerCheckButton.addListener(SWT.Selection, new Listener() {
+
+			@Override
+			public void handleEvent(Event event) {
+				runExperimentAction.setEnabled(!useExernalTriggerCheckButton.getSelection());
+			}
+		});
+
 		Composite roisSectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(roisSectionSeparator);
 		section.setSeparatorControl(roisSectionSeparator);
@@ -589,6 +630,46 @@ public class LinearExperimentView extends ViewPart {
 		timeBarViewer.registerTimeBarRenderer(Spectrum.class, new CollectionModelRenderer());
 		timeBarViewer.setTimeScaleRenderer(new MilliScale());
 		timeBarViewer.setModel(Experiment.INSTANCE.getTimeBarModel());
+		timeBarViewer.setLineDraggingAllowed(false);
+		marker = new TimeBarMarkerImpl(true, TimebarHelper.getTime().advanceMillis(INITIAL_TIMEBAR_MARKER_IN_MILLI));
+		marker.addTimeBarMarkerListener(new TimeBarMarkerListener() {
+
+			@Override
+			public void markerMoved(TimeBarMarker arg0, JaretDate arg1, JaretDate arg2) {
+				if (arg0.getDate().compareDateTo(TimebarHelper.getTime()) < 0) {
+					marker.setDate(TimebarHelper.getTime());
+				}
+			}
+
+			@Override
+			public void markerDescriptionChanged(TimeBarMarker arg0, String arg1, String arg2) {}
+		});
+		timeBarViewer.addMarker(marker);
+		timeBarViewer.addTimeBarChangeListener(new ITimeBarChangeListener() {
+
+			@Override
+			public void markerDragStopped(TimeBarMarker arg0) {
+				if (arg0.getDate().getMillis() == 0) {
+					timeBarViewer.setStartDate(TimebarHelper.getTime());
+					marker.setDate(TimebarHelper.getTime().advanceMillis(INITIAL_TIMEBAR_MARKER_IN_MILLI));
+				}
+			}
+
+			@Override
+			public void markerDragStarted(TimeBarMarker arg0) {}
+
+			@Override
+			public void intervalIntermediateChange(TimeBarRow arg0, Interval arg1, JaretDate arg2, JaretDate arg3) {}
+
+			@Override
+			public void intervalChanged(TimeBarRow arg0, Interval arg1, JaretDate arg2, JaretDate arg3) {}
+
+			@Override
+			public void intervalChangeStarted(TimeBarRow arg0, Interval arg1) {}
+
+			@Override
+			public void intervalChangeCancelled(TimeBarRow arg0, Interval arg1) {}
+		});
 
 		// Controls
 		Composite controls = new Composite(composite, SWT.None);

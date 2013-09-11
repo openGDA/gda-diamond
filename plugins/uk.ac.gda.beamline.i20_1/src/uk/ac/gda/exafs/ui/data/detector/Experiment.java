@@ -34,7 +34,7 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
 public class Experiment extends CollectionModel {
 	public static final Experiment INSTANCE = new Experiment();
-	private static final long DEFAULT_EXPERIMENT_TIME = 20;
+	private static final long DEFAULT_INITIAL_EXPERIMENT_TIME_IN_SEC = 20; // Should be > 0
 
 	WritableList groupList = new WritableList(new ArrayList<Group>(), Group.class);
 	private DefaultTimeBarModel model;
@@ -43,7 +43,7 @@ public class Experiment extends CollectionModel {
 
 	public Experiment() {
 		this.setStartTime(0.0);
-		this.setDurationInSec(DEFAULT_EXPERIMENT_TIME);
+		this.setDurationInSec(DEFAULT_INITIAL_EXPERIMENT_TIME_IN_SEC);
 		setupTimebarModel();
 		groupList.addListChangeListener(new IListChangeListener() {
 			@Override

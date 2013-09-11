@@ -210,7 +210,6 @@ public class SingleSpectrumModel extends ObservableModel {
 
 	public void setFileName(String value) {
 		firePropertyChange(FILE_NAME_PROP_NAME, fileName, fileName = value);
-		// EdeCalibrationModel.INSTANCE.getEdeData().setData(value);
 	}
 
 	public String getFileName() {
