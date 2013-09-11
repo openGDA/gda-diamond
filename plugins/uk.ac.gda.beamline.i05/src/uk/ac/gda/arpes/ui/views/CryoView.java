@@ -71,7 +71,7 @@ public class CryoView extends ViewPart {
 			lblSaazimuth.setBounds(333, 584, 120, 24);
 		}
 		{
-			MotorPositionViewerComposite lblEnergy = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("energy")), true, "photonEnergy", 4, null, true, true);
+			MotorPositionViewerComposite lblEnergy = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("pgm_energy")), true, "photonEnergy", 4, null, true, true);
 			lblEnergy.setBounds(590, 418, 120, 24);
 		}
 //		{
