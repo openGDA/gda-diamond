@@ -90,7 +90,7 @@ public class SimpleHighestExistingFileMonitor implements HighestExistingFileMoni
 					latestNumberFound = null;
 					highestExitingFileMonitorSettings_InUse = highestExitingFileMonitorSettings;
 					numberToLookFor = highestExitingFileMonitorSettings_InUse.startNumber;
-					templateInUse = highestExitingFileMonitorSettings_InUse.fileTemplatePrefix + highestExitingFileMonitorSettings_InUse.fileTemplate;
+					final String templateInUse = highestExitingFileMonitorSettings_InUse.getFullTemplate();
 					numberFound = null;
 					if (highestExitingFileMonitorSettings_InUse == null) {
 						running = false;
