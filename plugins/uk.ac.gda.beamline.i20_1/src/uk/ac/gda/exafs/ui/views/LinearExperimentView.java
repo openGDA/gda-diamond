@@ -126,7 +126,7 @@ public class LinearExperimentView extends ViewPart {
 			all.setWeights(new int[] {3, 2});
 			top.setWeights(new int[] {3, 1});
 		} catch (Exception e) {
-			UIHelper.showError("Unable to controls", e.getMessage());
+			UIHelper.showError("Unable to create controls", e.getMessage());
 		}
 	}
 
@@ -185,14 +185,14 @@ public class LinearExperimentView extends ViewPart {
 		section.setClient(sectionComposite);
 
 		Composite regionsComposit = new Composite(sectionComposite, SWT.NONE);
-		GridData gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
+		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridData.heightHint = GROUP_TABLE_HEIGHT;
 		gridData.widthHint = GROUP_TABLE_WIDTH;
 		regionsComposit.setLayoutData(gridData);
 		regionsComposit.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 
 		Composite groupsTableComposit = new Composite(regionsComposit, SWT.NONE);
-		gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
+		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 
 		groupsTableComposit.setLayoutData(gridData);
 		TableColumnLayout layout = new TableColumnLayout();
@@ -245,9 +245,9 @@ public class LinearExperimentView extends ViewPart {
 			protected void setValue(Object element, Object value) {
 				if (!((String) value).isEmpty()) {
 					try {
-						((Group) element).setStartTime(Double.parseDouble((String) value));
+						Experiment.INSTANCE.setGroupStartTime((Group) element, Double.parseDouble((String) value));
 					} catch(Exception e) {
-						UIHelper.showWarning("Unable to set starttime", e.getMessage());
+						UIHelper.showWarning("Unable to set start time", e.getMessage());
 					}
 				}
 			}
@@ -255,7 +255,7 @@ public class LinearExperimentView extends ViewPart {
 
 		viewerNumberColumn = new TableViewerColumn(groupsTableViewer, SWT.NONE);
 		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
-		viewerNumberColumn.getColumn().setText("Duration");
+		viewerNumberColumn.getColumn().setText("End Time");
 		viewerNumberColumn.setEditingSupport(new GroupEditorSupport(groupsTableViewer) {
 			@Override
 			protected Object getValue(Object element) {
@@ -266,9 +266,9 @@ public class LinearExperimentView extends ViewPart {
 			protected void setValue(Object element, Object value) {
 				if (!((String) value).isEmpty()) {
 					try {
-						((Group) element).setDuration(Double.parseDouble((String) value));
+						Experiment.INSTANCE.setGroupEndTime((Group) element, Double.parseDouble((String) value));
 					} catch(Exception e) {
-						UIHelper.showWarning("Unable to set duration", e.getMessage());
+						UIHelper.showWarning("Unable to set end time", e.getMessage());
 					}
 				}
 			}
@@ -284,9 +284,9 @@ public class LinearExperimentView extends ViewPart {
 				CollectionModel.NAME_PROP_NAME).observeDetail(knownElements);
 		final IObservableMap startTime = BeanProperties.value(Group.class,
 				CollectionModel.START_TIME_PROP_NAME).observeDetail(knownElements);
-		final IObservableMap duration = BeanProperties.value(Group.class,
-				CollectionModel.DURATION_PROP_NAME).observeDetail(knownElements);
-		IObservableMap[] labelMaps = {names, startTime, duration};
+		final IObservableMap endTime = BeanProperties.value(Group.class,
+				CollectionModel.END_TIME_PROP_NAME).observeDetail(knownElements);
+		IObservableMap[] labelMaps = {names, startTime, endTime};
 
 		groupsTableViewer.setContentProvider(contentProvider);
 		groupsTableViewer.setLabelProvider(new ObservableMapLabelProvider(labelMaps) {
@@ -295,7 +295,7 @@ public class LinearExperimentView extends ViewPart {
 				switch (columnIndex) {
 				case 0: return (String) names.get(element);
 				case 1: return DataHelper.roundDoubletoString((double) startTime.get(element)) + " " + UnitSetup.MILLI_SEC.getText();
-				case 2: return DataHelper.roundDoubletoString((double) duration.get(element)) + " " + UnitSetup.MILLI_SEC.getText();
+				case 2: return DataHelper.roundDoubletoString((double) endTime.get(element)) + " " + UnitSetup.MILLI_SEC.getText();
 				default : return "Unkown column";
 				}
 			}
@@ -306,7 +306,7 @@ public class LinearExperimentView extends ViewPart {
 		buttonComposit.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL));
 		final Button butAdd = new Button(buttonComposit, SWT.FLAT);
 		butAdd.setText("Add");
-		butAdd.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
+		butAdd.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		butAdd.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -316,7 +316,7 @@ public class LinearExperimentView extends ViewPart {
 
 		final Button butRemove = new Button(buttonComposit, SWT.FLAT);
 		butRemove.setText("Remove");
-		butRemove.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
+		butRemove.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
 		butRemove.addListener(SWT.Selection, new Listener() {
 			@Override
@@ -364,12 +364,7 @@ public class LinearExperimentView extends ViewPart {
 					Group group = (Group) structuredSelection.getFirstElement();
 					groupSection.setText(group.getName());
 					try {
-						integrationTimeLabel = toolkit.createLabel(groupSectionComposite, "Integration time", SWT.None);
-						integrationTimeLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-						integrationTimeValueText = new NumberEditorControl(groupSectionComposite, SWT.None, group, Group.INTEGRATION_TIME_PROP_NAME, false);
-						integrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-						integrationTimeValueText.setUnit(UnitSetup.MILLI_SEC.getText());
-						integrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
 
 						timePerSpectrumValueLabel = toolkit.createLabel(groupSectionComposite, "Time per spectrum", SWT.None);
 						timePerSpectrumValueLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -384,6 +379,13 @@ public class LinearExperimentView extends ViewPart {
 						spectrumDelayValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 						spectrumDelayValueText.setUnit(UnitSetup.MILLI_SEC.getText());
 						spectrumDelayValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+						integrationTimeLabel = toolkit.createLabel(groupSectionComposite, "Integration time", SWT.None);
+						integrationTimeLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+						integrationTimeValueText = new NumberEditorControl(groupSectionComposite, SWT.None, group, Group.INTEGRATION_TIME_PROP_NAME, false);
+						integrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+						integrationTimeValueText.setUnit(UnitSetup.MILLI_SEC.getText());
+						integrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 						noOfAccumulationValueLabel = toolkit.createLabel(groupSectionComposite, "No. of accumulations", SWT.None);
 						noOfAccumulationValueLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -441,19 +443,67 @@ public class LinearExperimentView extends ViewPart {
 		section.setClient(sectionComposite);
 
 		Label lbl = toolkit.createLabel(sectionComposite, "I0 position", SWT.NONE);
-		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
+		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
 		createSamplePositionComposite(sectionComposite, SingleSpectrumModel.I0_X_POSITION_PROP_NAME, SingleSpectrumModel.I0_Y_POSITION_PROP_NAME);
 
 		lbl = toolkit.createLabel(sectionComposite, "It position", SWT.NONE);
-		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
+		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
 		createSamplePositionComposite(sectionComposite, SingleSpectrumModel.IT_X_POSITION_PROP_NAME, SingleSpectrumModel.IT_Y_POSITION_PROP_NAME);
 
-		lbl = toolkit.createLabel(sectionComposite, "Total experiment time", SWT.NONE);
-		lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
+		// Iref
 
-		GridData gridDataForTxt = new GridData(SWT.FILL, GridData.CENTER, true, false);
+		final Button useIRefCheckButton = toolkit.createButton(sectionComposite, "Use Iref", SWT.CHECK);
+		GridData gridData = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
+		useIRefCheckButton.setLayoutData(gridData);
+
+		Composite xyPositionComposite = toolkit.createComposite(sectionComposite, SWT.NONE);
+		toolkit.paintBordersFor(xyPositionComposite);
+		xyPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		xyPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
+
+		Composite xPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
+		toolkit.paintBordersFor(xPositionComposite);
+		xPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		xPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+
+		Label xPosLabel = toolkit.createLabel(xPositionComposite, "x", SWT.None);
+		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		final NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, SingleSpectrumModel.INSTANCE, SingleSpectrumModel.IREF_X_POSITION_PROP_NAME, false);
+		xPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		xPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
+		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		Composite yPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
+		toolkit.paintBordersFor(yPositionComposite);
+		yPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		yPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+
+		Label yPosLabel = toolkit.createLabel(yPositionComposite, "y", SWT.None);
+		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		final NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, SingleSpectrumModel.INSTANCE, SingleSpectrumModel.IREF_Y_POSITION_PROP_NAME, false);
+		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		yPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
+		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		useIRefCheckButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				xPosition.setEditable(useIRefCheckButton.getSelection());
+				yPosition.setEditable(useIRefCheckButton.getSelection());
+			}
+		});
+
+		xPosition.setEditable(useIRefCheckButton.getSelection());
+		yPosition.setEditable(useIRefCheckButton.getSelection());
+
+		lbl = toolkit.createLabel(sectionComposite, "Total experiment time", SWT.NONE);
+		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		GridData gridDataForTxt = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		NumberEditorControl numberEditorControl = new NumberEditorControl(sectionComposite, SWT.None, Experiment.INSTANCE, Experiment.DURATION_IN_SEC_PROP_NAME, false);
 		numberEditorControl.setUnit(ClientConfig.UnitSetup.SEC.getText());
 		numberEditorControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
@@ -495,7 +545,6 @@ public class LinearExperimentView extends ViewPart {
 		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		yPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
 		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
 	}
 
 	private void createPlotComposite(Composite parent) {

@@ -19,11 +19,12 @@
 package uk.ac.gda.exafs.ui.data.detector;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
+import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import de.jaret.util.date.IntervalImpl;
 
 public abstract class CollectionModel extends IntervalImpl {
-
+	private static final long MIN_DURATION_TIME = 20;
 	public static final String NAME_PROP_NAME = "name";
 	private String name;
 
@@ -34,40 +35,59 @@ public abstract class CollectionModel extends IntervalImpl {
 	private double delay;
 
 	public static final String DURATION_PROP_NAME = "duration";
-	private double duration;
 
 	public static final String END_TIME_PROP_NAME = "endTime";
+	private double endTime;
 
 	public double getStartTime() {
 		return startTime;
 	}
+
 	public void setStartTime(double startTime) {
-		double previous = startTime + delay;
+		long startTimeInMilli = (long) startTime + (long) this.getDelay();
+		this.setBegin(TimebarHelper.getTime().advanceMillis(startTimeInMilli));
 		this.firePropertyChange(START_TIME_PROP_NAME, this.startTime, this.startTime = startTime);
-		this.firePropertyChange(END_TIME_PROP_NAME, previous, getEndTime());
+		double previous = this.getDuration();
+		if (previous == 0) {
+			setEndTime(this.getStartTime() + MIN_DURATION_TIME);
+		} else {
+			this.firePropertyChange(DURATION_PROP_NAME, previous,  this.getDuration());
+		}
 	}
+
+	public void setEndTime(double value) {
+		long endTimeInMilli = (long) value;
+		this.setEnd(TimebarHelper.getTime().advanceMillis(endTimeInMilli));
+		double previous = this.getDuration();
+		this.firePropertyChange(END_TIME_PROP_NAME,  endTime, endTime =  value);
+		this.firePropertyChange(DURATION_PROP_NAME, previous,  this.getDuration());
+	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.firePropertyChange(NAME_PROP_NAME, this.name, this.name = name);
 	}
+
 	public double getDelay() {
 		return delay;
 	}
+
 	public void setDelay(double delay) {
-		double previous = startTime + delay;
+		long delayInMilli = (long) delay;
+		long startTimeInMilli = (long) this.getStartTime() + delayInMilli;
+		this.setBegin(TimebarHelper.getTime().advanceMillis(startTimeInMilli));
 		this.firePropertyChange(DELAY_PROP_NAME, this.delay, this.delay = delay);
-		this.firePropertyChange(END_TIME_PROP_NAME, previous, getEndTime());
 	}
+
 	public double getDuration() {
-		return duration;
+		return endTime - startTime;
 	}
-	public void setDuration(double duration) {
-		this.firePropertyChange(DURATION_PROP_NAME, this.duration, this.duration = duration);
-	}
+
 	public double getEndTime() {
-		return startTime + duration;
+		return endTime;
 	}
 
 	@Override

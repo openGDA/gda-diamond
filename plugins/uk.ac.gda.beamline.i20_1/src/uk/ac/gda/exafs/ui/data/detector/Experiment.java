@@ -87,12 +87,12 @@ public class Experiment extends CollectionModel {
 		Group group = new Group(spectrumRow);
 		if (groupList.isEmpty()) { // First entry
 			group.setStartTime(this.getStartTime());
-			group.setDuration(this.getDuration());
+			group.setEndTime(this.getEndTime());
 		} else {
 			double duration = getDuration() / (groupList.size() + 1);
 			setGroupTimes(duration);
 			group.setStartTime(((Group) groupList.get(groupList.size() - 1)).getEndTime());
-			group.setDuration(duration);
+			group.setEndTime(group.getStartTime() + duration);
 		}
 		group.setName("Group " + (groupList.size() + 1));
 		groupList.add(group);
@@ -110,14 +110,50 @@ public class Experiment extends CollectionModel {
 				Group previous = (Group) groupList.get(i-1);
 				group.setStartTime(previous.getEndTime());
 			}
-			group.setDuration(groupDuration);
+			group.setEndTime(group.getStartTime() + groupDuration);
 		}
 	}
 
+	public void setGroupStartTime(Group group, double value) {
+		int index = groupList.indexOf(group);
+		if (index != 0) {
+			Group prevGroup = (Group) groupList.get(index - 1);
+			if (value > prevGroup.getStartTime()) {
+				group.setStartTime(value);
+				if (value < prevGroup.getEndTime()) {
+					prevGroup.setEndTime(value);
+				}
+			}
+		} else {
+			if (value  > this.getStartTime()) {
+				group.setStartTime(value);
+			}
+		}
+	}
+
+	public void setGroupEndTime(Group group, double value) {
+		int index = groupList.indexOf(group);
+		if (index != groupList.size() - 1) {
+			Group nextGroup = (Group) groupList.get(index + 1);
+			if (value < nextGroup.getEndTime()) {
+				group.setEndTime(value);
+				if (value > nextGroup.getStartTime()) {
+					nextGroup.setStartTime(value);
+				}
+			}
+		} else {
+			if (value  < this.getEndTime()) {
+				group.setEndTime(value);
+			}
+		}
+	}
+
+
 	public void setDurationInSec(double value) {
 		double duration = getDurationInSec();
-		setDuration(value * 1000);
+		this.setEndTime(this.getStartTime() + value * 1000);
 		this.firePropertyChange(DURATION_IN_SEC_PROP_NAME, duration, getDurationInSec());
+
 	}
 
 	public static final String DURATION_IN_SEC_PROP_NAME = "durationInSec";
@@ -127,8 +163,8 @@ public class Experiment extends CollectionModel {
 	}
 
 	@Override
-	public void setDuration(double value) {
-		super.setDuration(value);
+	public void setEndTime(double value) {
+		super.setEndTime(value);
 		double groupDuration = value / groupList.size();
 		setGroupTimes(groupDuration);
 	}

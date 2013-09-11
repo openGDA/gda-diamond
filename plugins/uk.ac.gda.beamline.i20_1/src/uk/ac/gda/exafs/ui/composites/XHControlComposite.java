@@ -405,7 +405,6 @@ public class XHControlComposite extends Composite implements IObserver {
 			data.add(new DoubleDataset((double[]) results));
 			plottingSystem.clear();
 			plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
-			plottingSystem.setRescale(false);
 			plottingSystem.createPlot1D(strips, data, new NullProgressMonitor());
 			plottingSystem.setTitle(title);
 		} else {

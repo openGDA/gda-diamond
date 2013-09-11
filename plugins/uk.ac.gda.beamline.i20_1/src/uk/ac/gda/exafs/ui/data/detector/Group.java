@@ -26,7 +26,6 @@ import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
-import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
 import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
@@ -71,7 +70,6 @@ public class Group extends CollectionModel {
 				});
 			}
 		});
-		//addSpectrum();
 	}
 
 	public void removeSpectrum(Spectrum spectrum) {
@@ -81,28 +79,18 @@ public class Group extends CollectionModel {
 	@Override
 	public void setStartTime(double startTime) {
 		super.setStartTime(startTime);
-		long startTimeInMilli = (long) startTime + (long) this.getDelay();
-		this.setBegin(TimebarHelper.getTime().advanceMillis(startTimeInMilli));
-		long endTimeInMilli = (long) (this.getStartTime() + this.getDelay() + this.getDuration());
-		this.setEnd(TimebarHelper.getTime().advanceMillis(endTimeInMilli));
 		updateSpectrumsAndNoOfAccumulations();
 	}
 
 	@Override
 	public void setDelay(double delay) {
 		super.setDelay(delay);
-		long delayInMilli = (long) delay;
-		long startTimeInMilli = (long) this.getStartTime() + delayInMilli;
-		this.setBegin(TimebarHelper.getTime().advanceMillis(startTimeInMilli));
 		updateSpectrumsAndNoOfAccumulations();
 	}
 
 	@Override
-	public void setDuration(double duration) {
-		super.setDuration(duration);
-		long gurationInMilli = (long) duration;
-		long endTimeInMilli = (long) this.getStartTime() + (long) this.getDelay() + gurationInMilli;
-		this.setEnd(TimebarHelper.getTime().advanceMillis(endTimeInMilli));
+	public void setEndTime(double duration) {
+		super.setEndTime(duration);
 		updateSpectrumsAndNoOfAccumulations();
 	}
 
@@ -119,7 +107,7 @@ public class Group extends CollectionModel {
 			} else {
 				spectrum.setStartTime(((Spectrum) spectrumList.get(spectrumList.size() - 1)).getEndTime() + delayBetweenSpectrum);
 			}
-			spectrum.setDuration(timePerSpectrum);
+			spectrum.setEndTime(spectrum.getStartTime() + timePerSpectrum);
 			spectrum.setName("Spectrum " + (spectrumList.size() + 1));
 			spectrumList.add(spectrum);
 		}

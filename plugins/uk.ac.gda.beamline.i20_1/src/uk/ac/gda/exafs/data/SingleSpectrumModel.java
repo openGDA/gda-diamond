@@ -68,6 +68,13 @@ public class SingleSpectrumModel extends ObservableModel {
 	private String fileName;
 
 	public static final String SCANNING_PROP_NAME = "scanning";
+
+	public static final String IREF_X_POSITION_PROP_NAME = "iRefxPosition";
+	private double iRefxPosition;
+
+	public static final String IREF_Y_POSITION_PROP_NAME = "iRefyPosition";
+	private double iRefyPosition;
+
 	private boolean scanning;
 
 	private final ScanJob job;
@@ -161,7 +168,6 @@ public class SingleSpectrumModel extends ObservableModel {
 			monitor.beginTask("Starting " + ScanJobName.values().length + " tasks.", ScanJobName.values().length);
 			try {
 				InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
-				Thread.sleep(100);
 				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
 				if (resultFileName == null) {
 					throw new Exception("Unable to do collection.");
@@ -281,6 +287,22 @@ public class SingleSpectrumModel extends ObservableModel {
 
 	public void setiTyPosition(double value) {
 		firePropertyChange(IT_Y_POSITION_PROP_NAME, iTyPosition, iTyPosition = value);
+	}
+
+	public double getiRefxPosition() {
+		return iRefxPosition;
+	}
+
+	public void setiRefxPosition(double value) {
+		firePropertyChange(IREF_X_POSITION_PROP_NAME, iRefxPosition, iRefxPosition = value);
+	}
+
+	public double getiRefyPosition() {
+		return iRefyPosition;
+	}
+
+	public void setiRefyPosition(double value) {
+		firePropertyChange(IREF_Y_POSITION_PROP_NAME, iRefyPosition, iRefyPosition = value);
 	}
 
 	public void save() throws DetectorUnavailableException {
