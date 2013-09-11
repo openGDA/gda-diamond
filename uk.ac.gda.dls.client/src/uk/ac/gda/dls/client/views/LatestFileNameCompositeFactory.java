@@ -56,7 +56,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.util.StringUtils;
 
 import swing2swt.layout.BorderLayout;
 import uk.ac.gda.common.rcp.util.EclipseWidgetUtils;
@@ -568,11 +567,18 @@ class LatestFileNameComposite extends Composite {
 			return;
 		int index = getSelectedIndex();
 		if (latestSettings != null) {
-			String prefix = latestSettings.fileTemplatePrefix;
-			String filename = String.format(prefix + latestSettings.fileTemplate, index);
-			String text = StringUtils.hasLength(filename) ? (String) filename : WAITING;
-			if (prefix.length() > 0 && text.startsWith(prefix)) {
-				text = text.substring(prefix.length());
+			
+			String filename;
+			String text;
+			
+			if (latestSettings.isEmpty()) {
+				filename = "";
+				text = WAITING;
+			}
+			
+			else {
+				filename = String.format(latestSettings.getFullTemplate(), index);
+				text = String.format(latestSettings.fileTemplate, index);
 			}
 
 			int currentLength = fileNameText.getText().length();
