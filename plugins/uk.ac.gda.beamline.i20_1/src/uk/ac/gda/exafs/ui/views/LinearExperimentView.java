@@ -121,8 +121,6 @@ public class LinearExperimentView extends ViewPart {
 
 	private TimeBarMarkerImpl marker;
 
-	private Button runExperimentButton;
-
 	private Action runExperimentAction;
 
 	@Override
@@ -288,7 +286,7 @@ public class LinearExperimentView extends ViewPart {
 		viewerNumberColumn.setEditingSupport(new GroupEditorSupport(groupsTableViewer) {
 			@Override
 			protected Object getValue(Object element) {
-				return Double.toString(((Group) element).getDuration());
+				return Double.toString(((Group) element).getEndTime());
 			}
 
 			@Override
@@ -311,11 +309,11 @@ public class LinearExperimentView extends ViewPart {
 
 		final IObservableMap names = BeanProperties.value(Group.class,
 				CollectionModel.NAME_PROP_NAME).observeDetail(knownElements);
-		final IObservableMap startTime = BeanProperties.value(Group.class,
+		final IObservableMap startTimes = BeanProperties.value(Group.class,
 				CollectionModel.START_TIME_PROP_NAME).observeDetail(knownElements);
-		final IObservableMap endTime = BeanProperties.value(Group.class,
+		final IObservableMap endTimes = BeanProperties.value(Group.class,
 				CollectionModel.END_TIME_PROP_NAME).observeDetail(knownElements);
-		IObservableMap[] labelMaps = {names, startTime, endTime};
+		IObservableMap[] labelMaps = {names, startTimes, endTimes};
 
 		groupsTableViewer.setContentProvider(contentProvider);
 		groupsTableViewer.setLabelProvider(new ObservableMapLabelProvider(labelMaps) {
@@ -323,8 +321,8 @@ public class LinearExperimentView extends ViewPart {
 			public String getColumnText(Object element, int columnIndex) {
 				switch (columnIndex) {
 				case 0: return (String) names.get(element);
-				case 1: return DataHelper.roundDoubletoString((double) startTime.get(element)) + " " + UnitSetup.MILLI_SEC.getText();
-				case 2: return DataHelper.roundDoubletoString((double) endTime.get(element)) + " " + UnitSetup.MILLI_SEC.getText();
+				case 1: return DataHelper.roundDoubletoString((double) startTimes.get(element)) + " " + UnitSetup.MILLI_SEC.getText();
+				case 2: return DataHelper.roundDoubletoString((double) endTimes.get(element)) + " " + UnitSetup.MILLI_SEC.getText();
 				default : return "Unkown column";
 				}
 			}
