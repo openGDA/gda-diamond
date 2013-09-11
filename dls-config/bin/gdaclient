@@ -191,5 +191,16 @@ if [ -z $NOHUP_LOGFILE ] ; then
 else
   echo  $COMMAND
   echo  $COMMAND >> $NOHUP_LOGFILE
-  nohup $COMMAND >> $NOHUP_LOGFILE 2>&1 &
+  exec  $COMMAND >> $NOHUP_LOGFILE 2>&1
 fi
+
+#elif [ ! -z $KEEP_IN_FOREGROUND ] ; then
+#  echo $COMMAND
+#  echo $COMMAND >> $NOHUP_LOGFILE
+#  exec $COMMAND >> $NOHUP_LOGFILE 2>&1
+#else
+#  echo  $COMMAND
+#  echo  $COMMAND >> $NOHUP_LOGFILE
+#  nohup $COMMAND >> $NOHUP_LOGFILE 2>&1 &
+#fi
+
