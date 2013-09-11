@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2010 Diamond Light Source Ltd.
+ * Copyright © 2013 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -21,13 +21,14 @@ package gda.scan;
 import static gda.jython.InterfaceProvider.getJythonServerNotifer;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.Detector;
-import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.ExperimentLocation;
 import gda.device.detector.ExperimentLocationUtils;
 import gda.device.detector.ExperimentStatus;
 import gda.device.detector.StripDetector;
 import gda.device.scannable.ScannableUtils;
+import gda.scan.ede.EdeScanType;
+import gda.scan.ede.position.EdeScanPosition;
 
 import java.util.List;
 import java.util.Vector;
@@ -35,31 +36,41 @@ import java.util.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.exafs.ui.data.EdeScanParameters;
+
 /**
- * Bespoke scan for I20 based on the ContinuousScan. Operates the XH detector and nothing else but utilises the GDA
- * infrastructure for writing files & making data available for display by the UI.
+ * Runs a single shot scan for EDE.
  * <p>
- * In principal this could work within multi-dimensional scans...
+ * So this: moves sample to correct position, opens/closes shutter, runs a SimpleContinuousScan and writes data to given
+ * Nexus file.
+ * <p>
+ * Also holds data in memory for quick retrieval for online data.
  */
-public class SimpleContinuousScan extends ConcurrentScanChild {
+public class EdeScan extends ConcurrentScanChild {
 
-	private static final Logger logger = LoggerFactory.getLogger(SimpleContinuousScan.class);
-	private StripDetector xhDet;
+	private static final Logger logger = LoggerFactory.getLogger(EdeScan.class);
+
+	EdeScanParameters scanParameters;
+	EdeScanPosition motorPositions;
+	EdeScanType scanType;
+	private final StripDetector theDetector;
 	// also keep SDPs in memory for quick retrieval for online data reduction and storage to ASCII files.
-	private Vector<ScanDataPoint> rawData = new Vector<ScanDataPoint>();
+	private final Vector<ScanDataPoint> rawData = new Vector<ScanDataPoint>();
 
-	public SimpleContinuousScan(StripDetector xhDet) {
+	public EdeScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
+			StripDetector theDetector) {
 		setMustBeFinal(true);
-
-		this.xhDet = xhDet;
-		allDetectors.add(xhDet);
-
+		this.scanParameters = scanParameters;
+		this.motorPositions = motorPositions;
+		this.scanType = scanType;
+		this.theDetector = theDetector;
+		allDetectors.add(theDetector);
 		super.setUp();
 	}
 
 	@Override
 	public int getDimension() {
-		return xhDet.getLoadedParameters().getTotalNumberOfFrames();
+		return scanParameters.getTotalNumberOfFrames();
 	}
 
 	public int getNumberOfAvailablePoints() {
@@ -75,9 +86,6 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 		return rawData.subList(firstFrame, lastFrame + 1);
 	}
 
-	/**
-	 * returns null as nothing is moved
-	 */
 	@Override
 	protected ScanObject isScannableToBeMoved(Scannable scannable) {
 		return null;
@@ -85,34 +93,36 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 
 	@Override
 	public void doCollection() throws Exception {
-
+		validate();
+		theDetector.loadParameters(scanParameters);
+		motorPositions.moveIntoPosition();
 		checkForInterrupts();
 		if (!isChild()) {
 			currentPointCount = -1;
 		}
 
-		xhDet.collectData();
+		theDetector.collectData();
 		// sleep for a moment to allow collection to start
 		Thread.sleep(250);
 
 		ExperimentLocation lastReadLoc = new ExperimentLocation(0, 0, 0);
 		try {
 			// ExperimentLocation finalFrame = getFinalFrameLoc();
-			ExperimentStatus progressData = xhDet.fetchStatus();
+			ExperimentStatus progressData = theDetector.fetchStatus();
 			while (!collectionFinished(progressData)) {
 				if (canReadoutMoreFrames(progressData, lastReadLoc)) {
 					createDataPoints(progressData, lastReadLoc);
 					lastReadLoc = progressData.loc;
 				}
-				progressData = xhDet.fetchStatus();
+				progressData = theDetector.fetchStatus();
 				Thread.sleep(100);
 				checkForInterrupts();
-				progressData = xhDet.fetchStatus();
+				progressData = theDetector.fetchStatus();
 			}
 		} catch (Exception e) {
 			// scan has been aborted, so stop the collection and let the scan write out the rest of the data point which
 			// have been collected so far
-			xhDet.stop();
+			theDetector.stop();
 			if (!(e instanceof InterruptedException)) {
 				throw e;
 			}
@@ -120,6 +130,7 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 
 		// have we read all the frames?
 		readoutRestOfFrames(lastReadLoc);
+
 	}
 
 	private Boolean collectionFinished(ExperimentStatus progressData) {
@@ -140,39 +151,45 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 	}
 
 	@Override
-	protected void endScan() throws DeviceException {
-		super.endScan();
-	}
-
-	@Override
 	public String getCommand() {
-		return xhDet.getName();
+		return theDetector.getName();
 	}
 
 	@Override
 	public int getTotalNumberOfPoints() {
 		if (!isChild()) {
-			return xhDet.getLoadedParameters().getTotalNumberOfFrames();
+			return scanParameters.getTotalNumberOfFrames();
 		}
 		return getParent().getTotalNumberOfPoints();
 	}
 
+	private void validate() throws IllegalArgumentException {
+		if (motorPositions == null) {
+			throw new IllegalArgumentException("Cannot run EdeScan as sample motor positions have not been supplied");
+		}
+		if (scanParameters == null) {
+			throw new IllegalArgumentException("Cannot run EdeScan as scan parameters have not been supplied");
+		}
+	}
+
 	private void readoutRestOfFrames(ExperimentLocation lastReadLoc) throws Exception {
-		int absLowFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(xhDet.getLoadedParameters(), lastReadLoc);
-		if (absLowFrame == getTotalNumberOfPoints()) {
+		int absLowFrame = ExperimentLocationUtils
+				.getAbsoluteFrameNumber(theDetector.getLoadedParameters(), lastReadLoc);
+		if (absLowFrame == getDimension()) {
 			return;
 		}
 		// absLowFrame++;
-		int absHighFrame = getTotalNumberOfPoints() - 1;
+		int absHighFrame = getDimension() - 1;
 		createDataPoints(absLowFrame, absHighFrame);
 	}
 
 	private void createDataPoints(ExperimentStatus progressData, ExperimentLocation lastReadLoc) throws Exception {
 
-		int absLowFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(xhDet.getLoadedParameters(), lastReadLoc);
+		int absLowFrame = ExperimentLocationUtils
+				.getAbsoluteFrameNumber(theDetector.getLoadedParameters(), lastReadLoc);
 		// absLowFrame++;
-		int absHighFrame = ExperimentLocationUtils
-				.getAbsoluteFrameNumber(xhDet.getLoadedParameters(), progressData.loc);
+		int absHighFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(theDetector.getLoadedParameters(),
+				progressData.loc);
 		// something wrong with the logic here!
 		// if (progressData.detectorStatus != Detector.IDLE)
 		absHighFrame--;
@@ -191,22 +208,22 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 		// readout the correct frame from the detectors
 		NexusTreeProvider[] detData;
 		logger.info("reading data from detectors from frames " + lowFrame + " to " + highFrame);
-		detData = xhDet.readFrames(lowFrame, highFrame);
+		detData = theDetector.readFrames(lowFrame, highFrame);
 		logger.info("data read successfully");
 
 		for (int thisFrame = lowFrame; thisFrame <= highFrame; thisFrame++) {
 			checkForInterrupts();
 			currentPointCount++;
-			this.stepId = new ScanStepId(xhDet.getName(), currentPointCount);
+			stepId = new ScanStepId(theDetector.getName(), currentPointCount);
 			ScanDataPoint thisPoint = new ScanDataPoint();
 			thisPoint.setUniqueName(name);
 			thisPoint.setCurrentFilename(getDataWriter().getCurrentFileName());
 			thisPoint.setStepIds(getStepIds());
 			thisPoint.setScanPlotSettings(getScanPlotSettings());
 			thisPoint.setScanDimensions(getDimensions());
-			thisPoint.addDetector(xhDet);
-			thisPoint.addDetectorData(detData[thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(xhDet));
-			thisPoint.setCurrentPointNumber(this.currentPointCount);
+			thisPoint.addDetector(theDetector);
+			thisPoint.addDetectorData(detData[thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(theDetector));
+			thisPoint.setCurrentPointNumber(currentPointCount);
 			thisPoint.setNumberOfPoints(getTotalNumberOfPoints());
 			thisPoint.setInstrument(instrument);
 			thisPoint.setCommand(getCommand());
@@ -239,4 +256,31 @@ public class SimpleContinuousScan extends ConcurrentScanChild {
 		rawData.add(thisPoint);
 	}
 
+	public List<ScanDataPoint> getData() {
+		return getDataPoints(0, getNumberOfAvailablePoints() - 1);
+	}
+
+	public EdeScanParameters getScanParameters() {
+		return scanParameters;
+	}
+
+	public void setScanParameters(EdeScanParameters scanParameters) {
+		this.scanParameters = scanParameters;
+	}
+
+	public EdeScanPosition getMotorPositions() {
+		return motorPositions;
+	}
+
+	public void setMotorPositions(EdeScanPosition motorPositions) {
+		this.motorPositions = motorPositions;
+	}
+
+	public EdeScanType getScanType() {
+		return scanType;
+	}
+
+	public void setScanType(EdeScanType scanType) {
+		this.scanType = scanType;
+	}
 }

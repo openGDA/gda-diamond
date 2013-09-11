@@ -28,7 +28,6 @@ import gda.device.detector.XHDetector;
 import gda.device.motor.DummyMotor;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.FactoryException;
-import gda.scan.ede.EdeScan;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.EdeSingleExperiment;
 import gda.scan.ede.position.EdePositionType;
@@ -135,10 +134,9 @@ public class EdeScanTest {
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM,0d,0d,xScannable,yScannable);
 
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(scanParams, inBeam, outBeam, xh);
-		theExperiment.runExperiment();
+		String filename = theExperiment.runExperiment();
 
-
-		testEDEFormatAsciiFile(3);
+		testEDEFormatAsciiFile(filename);
 	}
 
 	@Test
@@ -167,14 +165,13 @@ public class EdeScanTest {
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM,0d,0d,xScannable,yScannable);
 
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0Params, itParams, inBeam, outBeam, xh);
-		theExperiment.runExperiment();
+		String filename = theExperiment.runExperiment();
 
-
-		testEDEFormatAsciiFile(4);
+		testEDEFormatAsciiFile(filename);
 	}
 
-	private void testEDEFormatAsciiFile(int fileNumber) throws FileNotFoundException, IOException {
-		FileReader asciiFile = new FileReader(testDir + File.separator + fileNumber + ".txt");
+	private void testEDEFormatAsciiFile(String filename) throws FileNotFoundException, IOException {
+		FileReader asciiFile = new FileReader(filename);
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(asciiFile);
@@ -232,9 +229,9 @@ public class EdeScanTest {
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM,0d,0d,xScannable,yScannable);
 
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, inBeam, outBeam, xh);
-		theExperiment.runExperiment();
+		String filename = theExperiment.runExperiment();
 		
-		testEDEFormatAsciiFile(3);
+		testEDEFormatAsciiFile(filename);
 	}
 	
 	@Test
@@ -251,9 +248,9 @@ public class EdeScanTest {
 
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, inBeam, outBeam, xh);
 		theExperiment.setFilenameTemplate("mysample_%s_sample1");
-		theExperiment.runExperiment();
+		String filename = theExperiment.runExperiment();
 		
-		FileReader asciiFile = new FileReader(testDir + File.separator + "mysample_3_sample1.txt");
+		FileReader asciiFile = new FileReader(filename);
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(asciiFile);
@@ -285,9 +282,9 @@ public class EdeScanTest {
 		xh.setEnergyCalibration(new PolynomialFunction(new double[]{0.,2.}));
 		
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, inBeam, outBeam, xh);
-		theExperiment.runExperiment();
+		String filename = theExperiment.runExperiment();
 		
-		FileReader asciiFile = new FileReader(testDir + File.separator + 3 + ".txt");
+		FileReader asciiFile = new FileReader(filename);
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(asciiFile);
