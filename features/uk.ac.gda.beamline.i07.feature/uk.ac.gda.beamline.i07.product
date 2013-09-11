@@ -25,7 +25,7 @@ http://www.opengda.org
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true
 -Dgda.install.git.loc=/dls_sw/i07/software/gda.git
 -Dgda.install.workspace.loc=/dls_sw/i07/software/gda
--Dgda.data=/dls/i07
+-Dgda.data=/dls/i07/data
 -Dgda.var=/dls_sw/i07/var
 -Dgda.logs.dir=/dls_sw/i07/logs
 -Djacorb.config.dir=/dls_sw/i07/software/gda/i07-config/jacorb/live
