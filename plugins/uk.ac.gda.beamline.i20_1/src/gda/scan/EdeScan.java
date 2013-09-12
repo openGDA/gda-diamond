@@ -26,6 +26,7 @@ import gda.device.detector.ExperimentLocation;
 import gda.device.detector.ExperimentLocationUtils;
 import gda.device.detector.ExperimentStatus;
 import gda.device.detector.StripDetector;
+import gda.device.scannable.FrameIndexer;
 import gda.device.scannable.ScannableUtils;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.position.EdeScanPosition;
@@ -39,10 +40,10 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 /**
- * Runs a single shot scan for EDE.
+ * Runs a single set of timing groups for EDE through the XSTRIP DAServer interface.
  * <p>
- * So this: moves sample to correct position, opens/closes shutter, runs a SimpleContinuousScan and writes data to given
- * Nexus file.
+ * So this: moves sample to correct position, opens/closes shutter, runs the timing groups through the TFG unit and
+ * writes data to given Nexus file.
  * <p>
  * Also holds data in memory for quick retrieval for online data.
  */
@@ -50,22 +51,46 @@ public class EdeScan extends ConcurrentScanChild {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeScan.class);
 
-	EdeScanParameters scanParameters;
-	EdeScanPosition motorPositions;
-	EdeScanType scanType;
 	private final StripDetector theDetector;
 	// also keep SDPs in memory for quick retrieval for online data reduction and storage to ASCII files.
 	private final Vector<ScanDataPoint> rawData = new Vector<ScanDataPoint>();
 
+	private EdeScanParameters scanParameters;
+	private EdeScanPosition motorPositions;
+	private EdeScanType scanType;
+	private FrameIndexer indexer = null;
+
+	/**
+	 * @param scanParameters
+	 *            - timing parameters of the data collection
+	 * @param motorPositions
+	 *            -
+	 * @param scanType
+	 * @param theDetector
+	 * @param repetitionNumber
+	 *            - if this is a negative number then frame index columns will not be added to the output. Useful for
+	 *            single spectrum scans where such indexing is meaningless.
+	 */
 	public EdeScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
-			StripDetector theDetector) {
+			StripDetector theDetector, Integer repetitionNumber) {
 		setMustBeFinal(true);
 		this.scanParameters = scanParameters;
 		this.motorPositions = motorPositions;
 		this.scanType = scanType;
 		this.theDetector = theDetector;
 		allDetectors.add(theDetector);
+		if (repetitionNumber >= 0) {
+			// then use indexer to report progress of scan in data
+			indexer = new FrameIndexer(scanType, motorPositions.getType(), repetitionNumber);
+			indexer.setName(theDetector.getName()+"_progress");
+			allScannables.add(indexer);
+		}
 		super.setUp();
+	}
+
+	@Override
+	public String toString() {
+		return "EDE scan - type:"+scanType.toString()+" "+motorPositions.getType().toString();
 	}
 
 	@Override
@@ -173,26 +198,23 @@ public class EdeScan extends ConcurrentScanChild {
 	}
 
 	private void readoutRestOfFrames(ExperimentLocation lastReadLoc) throws Exception {
-		int absLowFrame = ExperimentLocationUtils
-				.getAbsoluteFrameNumber(theDetector.getLoadedParameters(), lastReadLoc);
+		int lastReadFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(theDetector.getLoadedParameters(),
+				lastReadLoc);
+		int absLowFrame = lastReadFrame + 1;
 		if (absLowFrame == getDimension()) {
 			return;
 		}
-		// absLowFrame++;
 		int absHighFrame = getDimension() - 1;
 		createDataPoints(absLowFrame, absHighFrame);
 	}
 
 	private void createDataPoints(ExperimentStatus progressData, ExperimentLocation lastReadLoc) throws Exception {
 
-		int absLowFrame = ExperimentLocationUtils
+		int lastReadFrame = ExperimentLocationUtils
 				.getAbsoluteFrameNumber(theDetector.getLoadedParameters(), lastReadLoc);
-		// absLowFrame++;
+		int absLowFrame = lastReadFrame + 1;
 		int absHighFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(theDetector.getLoadedParameters(),
 				progressData.loc);
-		// something wrong with the logic here!
-		// if (progressData.detectorStatus != Detector.IDLE)
-		absHighFrame--;
 		createDataPoints(absLowFrame, absHighFrame);
 	}
 
@@ -215,12 +237,19 @@ public class EdeScan extends ConcurrentScanChild {
 			checkForInterrupts();
 			currentPointCount++;
 			stepId = new ScanStepId(theDetector.getName(), currentPointCount);
+
 			ScanDataPoint thisPoint = new ScanDataPoint();
 			thisPoint.setUniqueName(name);
 			thisPoint.setCurrentFilename(getDataWriter().getCurrentFileName());
 			thisPoint.setStepIds(getStepIds());
 			thisPoint.setScanPlotSettings(getScanPlotSettings());
 			thisPoint.setScanDimensions(getDimensions());
+			if (indexer != null) {
+				indexer.setGroup(ExperimentLocationUtils.getGroupNum(scanParameters, thisFrame));
+				indexer.setFrame(ExperimentLocationUtils.getFrameNum(scanParameters, thisFrame));
+				thisPoint.addScannable(indexer);
+				thisPoint.addScannablePosition(indexer.getPosition(), indexer.getOutputFormat());
+			}
 			thisPoint.addDetector(theDetector);
 			thisPoint.addDetectorData(detData[thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(theDetector));
 			thisPoint.setCurrentPointNumber(currentPointCount);
