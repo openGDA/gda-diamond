@@ -85,7 +85,8 @@ public class SingleSpectrumDriver {
 	public void setInBeamPosition(Object xPos, Object yPos) {
 		if (yPos == null) {
 			// assume xPos is a string of an AlignmentStageScannable.Devices
-			AlignmentStageScannable.AlignmentStageDevice device = AlignmentStageScannable.AlignmentStageDevice.valueOf(xPos.toString());
+			AlignmentStageScannable.AlignmentStageDevice device = AlignmentStageScannable.AlignmentStageDevice
+					.valueOf(xPos.toString());
 			inbeamPosition = new AlignmentStageScanPosition(EdePositionType.INBEAM, device, alignmentstage);
 		} else {
 			Double xPosition = Double.valueOf(xPos.toString());
@@ -104,7 +105,8 @@ public class SingleSpectrumDriver {
 	public void setOutBeamPosition(Object xPos, Object yPos) {
 		if (yPos == null) {
 			// assume xPos is a string of an AlignmentStageScannable.Devices
-			AlignmentStageScannable.AlignmentStageDevice device = AlignmentStageScannable.AlignmentStageDevice.valueOf(xPos.toString());
+			AlignmentStageScannable.AlignmentStageDevice device = AlignmentStageScannable.AlignmentStageDevice
+					.valueOf(xPos.toString());
 			outbeamPosition = new AlignmentStageScanPosition(EdePositionType.OUTBEAM, device, alignmentstage);
 		} else {
 			Double xPosition = Double.valueOf(xPos.toString());
@@ -117,8 +119,8 @@ public class SingleSpectrumDriver {
 		EdeScanParameters i0scanparams = EdeScanParameters.createSingleFrameScan(i0_scantime, i0_numberscans);
 		EdeScanParameters itscanparams = EdeScanParameters.createSingleFrameScan(it_scantime, it_numberscans);
 
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0scanparams, itscanparams, inbeamPosition,
-				outbeamPosition, detector);
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0scanparams, itscanparams, outbeamPosition,
+				inbeamPosition, detector);
 		if (fileTemplate != null) {
 			theExperiment.setFilenameTemplate(fileTemplate);
 		}
