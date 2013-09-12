@@ -24,6 +24,13 @@ public class ExperimentLocation {
 	public Integer frameNum;
 	public Integer scanNum;
 
+	/**
+	 * These values are to be human readable so must be 1-based not zero-based.
+	 * 
+	 * @param groupNum
+	 * @param frameNum
+	 * @param scanNum
+	 */
 	public ExperimentLocation(Integer groupNum, Integer frameNum, Integer scanNum) {
 		super();
 		this.groupNum = groupNum;

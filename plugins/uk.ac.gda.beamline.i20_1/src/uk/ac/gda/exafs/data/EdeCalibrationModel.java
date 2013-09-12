@@ -20,7 +20,7 @@ package uk.ac.gda.exafs.data;
 
 
 import gda.configuration.properties.LocalProperties;
-import gda.scan.ede.EdeSingleSpectrumAsciiFileWriter;
+import gda.scan.ede.datawriters.EdeSingleSpectrumAsciiFileWriter;
 import gda.util.exafs.Element;
 
 import java.io.File;

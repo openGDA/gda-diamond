@@ -19,7 +19,7 @@
 package uk.ac.gda.exafs.ui.sections;
 
 import gda.device.detector.XHDetector;
-import gda.scan.ede.EdeSingleSpectrumAsciiFileWriter;
+import gda.scan.ede.datawriters.EdeSingleSpectrumAsciiFileWriter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

@@ -23,7 +23,7 @@ import gda.device.detector.XHDetector;
 import gda.device.scannable.AlignmentStage;
 import gda.device.scannable.AlignmentStageScannable;
 import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
-import gda.scan.ede.EdeSingleSpectrumAsciiFileWriter;
+import gda.scan.ede.datawriters.EdeSingleSpectrumAsciiFileWriter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
