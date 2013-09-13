@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test
-Bundle-SymbolicName: uk.ac.gda.dls.client.test
+Bundle-SymbolicName: uk.ac.gda.dls.client.test;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Fragment-Host: uk.ac.gda.dls.client
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
