@@ -3,24 +3,17 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-        <bean id="cryostat_temp" class="uk.ac.gda.beamline.i05.scannable.NonLocalEpicsScannable">
-        	<property name="pvName" value="BL05I-EA-TCTRL-02:KRDG0" />
-        	<property name="useNameAsExtraName" value="true" />
-        	<property name="local" value="false" />
-        </bean>
-        <bean id="sample_temp" class="uk.ac.gda.beamline.i05.scannable.NonLocalEpicsScannable">
-        	<property name="pvName" value="BL05I-EA-TCTRL-02:KRDG1" />
-        	<property name="useNameAsExtraName" value="true" />
-        	<property name="local" value="false" />
-        </bean>
-        <bean id="shield_temp" class="uk.ac.gda.beamline.i05.scannable.NonLocalEpicsScannable">
-        	<property name="pvName" value="BL05I-EA-TCTRL-02:KRDG2" />
-        	<property name="useNameAsExtraName" value="true" />
-        	<property name="local" value="false" />
-        </bean>
-        
-        <bean id="lakeshore" class="uk.ac.gda.beamline.i05.scannable.EpicsLakeshore336">
+        <bean id="cryostat" class="uk.ac.gda.beamline.i05.scannable.EpicsLakeshore336">
         	<property name="tolerance" value="0.1" />
         	<property name="basePVName" value="BL05I-EA-TCTRL-02:" />
+        	<property name="extraNames">
+        		<list>
+        			<value>cryostat</value>
+        			<value>sample</value>
+        			<value>shield</value>
+        			<value>heater</value>
+        			<value>heatersetting</value>
+        		</list>
+        	</property>
         </bean>
 </beans>
