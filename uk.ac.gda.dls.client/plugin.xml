@@ -29,4 +29,26 @@
          </property>         
       </product>
    </extension>
+     <extension
+           point="org.eclipse.ui.commands">
+        <command
+              defaultHandler="uk.ac.gda.dls.client.feedbackHandler"
+              id="uk.ac.gda.dls.client.feedbackCommand"
+              name="Send Feedback">
+        </command>
+     </extension>
+     <extension
+           point="org.eclipse.ui.menus">
+        <menuContribution
+              allPopups="false"
+              locationURI="toolbar:uk.ac.gda.client.toolbar?after=additions">
+           <command
+                 commandId="uk.ac.gda.dls.client.feedbackCommand"
+                 label="Send Feedback"
+                 mode="FORCE_TEXT"
+                 style="push"
+                 tooltip="Send feedback on user the beamline ">
+           </command>
+        </menuContribution>
+     </extension>
    </plugin>
