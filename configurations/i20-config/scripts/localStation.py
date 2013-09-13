@@ -53,10 +53,10 @@ twodplotter.setName("twodplotter")
 
 
 # bragg1
-#xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, bragg1, ionchambers, True, True, True, False)
+xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, bragg1, ionchambers, True, True, True, False)
 # testing version:
-xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, test, ionchambers, True, True, True, False)
-xes = I20XesScan(xas,XASLoggingScriptController,detectorPreparer, samplePreparer, outputPreparer,commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,test,XESEnergy,XESBragg)
+#xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, test, ionchambers, True, True, True, False)
+xes = I20XesScan(xas,XASLoggingScriptController,detectorPreparer, samplePreparer, outputPreparer,commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,bragg1,XESEnergy,XESBragg)
 xanes = xas
 
 alias("xas")
