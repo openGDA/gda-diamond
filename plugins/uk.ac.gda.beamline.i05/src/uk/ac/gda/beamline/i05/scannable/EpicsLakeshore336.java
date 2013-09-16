@@ -36,9 +36,6 @@ public class EpicsLakeshore336 extends ScannableBase {
 	private IPVProvider pvProvider;
 
 	public static final String CH_TEMP = "KRDG%d";
-	public static final String CH0TEMP = "KRDG0";
-	public static final String CH1TEMP = "KRDG1";
-	public static final String CH2TEMP = "KRDG2";
 
 	public static final String LOOP_DEMAND = "SETP_S%d";
 	public static final String LOOP_DEMAND_RBV = "SETP%d";
