@@ -215,6 +215,10 @@ public class EdeScan extends ConcurrentScanChild {
 		int absLowFrame = lastReadFrame + 1;
 		int absHighFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(theDetector.getLoadedParameters(),
 				progressData.loc);
+		if (absHighFrame < absLowFrame){
+			// no progress made, so no data points to create and boradcast
+			return;
+		}
 		createDataPoints(absLowFrame, absHighFrame);
 	}
 
@@ -275,13 +279,13 @@ public class EdeScan extends ConcurrentScanChild {
 
 	private void storeSDP(int thisFrame, ScanDataPoint thisPoint) throws Exception {
 		// sense check rawData vector
-		int vectorSize = rawData.size();
+		//		int vectorSize = rawData.size();
 		// e.g. if second point then vectorSize = 1, frame number = 1
-		if (vectorSize != thisFrame) {
-			throw new Exception(
-					"The data in memory is out of sync with the data being read from the detector. Frames in memory: "
-							+ vectorSize + ". Frame number being stored: " + thisFrame);
-		}
+		//		if (vectorSize != thisFrame) {
+		//			throw new Exception(
+		//					"The data in memory is out of sync with the data being read from the detector. Frames in memory: "
+		//							+ vectorSize + ". Frame number being stored: " + thisFrame);
+		//		}
 		rawData.add(thisPoint);
 	}
 

@@ -100,7 +100,7 @@ public class EdeScanDriversTest {
 
 	}
 
-	@Test
+//	@Test
 	public void testDriveSingleSpectrumScan_motorpositions() throws Exception {
 		setup("testDriveSingleSpectrumScan_motorpositions");
 
