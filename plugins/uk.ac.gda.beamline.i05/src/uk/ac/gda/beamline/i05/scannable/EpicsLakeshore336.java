@@ -34,13 +34,13 @@ public class EpicsLakeshore336 extends ScannableBase {
 	private final EpicsController EPICS_CONTROLLER = EpicsController.getInstance();
 	private String basePVName = null;
 	private IPVProvider pvProvider;
-	
+
 	public static final String CH_TEMP = "KRDG%d";
 	public static final String CH0TEMP = "KRDG0";
 	public static final String CH1TEMP = "KRDG1";
 	public static final String CH2TEMP = "KRDG2";
 	public static final String CH3TEMP = "KRDG3";
-	
+
 	public static final String LOOP_DEMAND = "SETP_S%d";
 	public static final String LOOP_DEMAND_RBV = "SETP%d";
 	public static final String LOOP_OUTPUT = "HTR%d";
@@ -50,6 +50,14 @@ public class EpicsLakeshore336 extends ScannableBase {
 	public static final String LOOP_RATE_RBV = "RAMP%d";
 	public static final String LOOP_INPUT = "OMINPUT_S%d";
 	public static final String LOOP_INPUT_RBV = "OMINPUT%d";
+	public static final String LOOP_MANUAL_OUT = "MOUT_S%d";	
+	public static final String LOOP_MANUAL_OUT_RBV = "MOUT%d";	
+	public static final String LOOP_P = "P_S%d";
+	public static final String LOOP_P_RBV = "P%d";
+	public static final String LOOP_I = "I_S%d";
+	public static final String LOOP_I_RBV = "I%d";
+	public static final String LOOP_D = "D_S%d";
+	public static final String LOOP_D_RBV = "D%d";
 
 	double tolerance = 0.05;
 	
@@ -59,6 +67,12 @@ public class EpicsLakeshore336 extends ScannableBase {
 
 	public void setTolerance(double tolerance) {
 		this.tolerance = tolerance;
+	}
+
+	public EpicsLakeshore336() {
+		setInputNames(new String[] {"demand"});
+		setExtraNames(new String[] {"ch0", "ch1", "ch2", "ch3", "heater"});
+		setOutputFormat(new String[] {"%5.5g", "%5.5g", "%5.5g", "%5.5g", "%5.5g", "%5.5g", "%1.0f"});
 	}
 
 	/**
@@ -104,11 +118,8 @@ public class EpicsLakeshore336 extends ScannableBase {
 	@Override
 	public void configure() throws FactoryException {
 		super.configure();
-		
-		setInputNames(new String[] {"demand"});
-		setExtraNames(new String[] {"ch0", "ch1", "ch2", "ch3", "heater"});
-		setOutputFormat(new String[] {"%5.5g", "%5.5g", "%5.5g", "%5.5g", "%5.5g", "%5.5g"});
 	}
+	
 	/**
 	 * We assume the PID control is tuned reasonably well so we don't have to deal with overshooting or ringing 
 	 */
@@ -127,7 +138,8 @@ public class EpicsLakeshore336 extends ScannableBase {
 				getTemperature(1),
 				getTemperature(2),
 				getTemperature(3),
-				getHeaterPercent()
+				getHeaterPercent(),
+				getHeaterRange().doubleValue()
 		};
 		return pos;
 	}
@@ -174,7 +186,7 @@ public class EpicsLakeshore336 extends ScannableBase {
 		try {
 			if (getActiveLoop() == 0)
 				return;
-			EPICS_CONTROLLER.caput(getChannel(LOOP_DEMAND, getActiveLoop()), demand);
+			EPICS_CONTROLLER.caputWait(getChannel(LOOP_DEMAND, getActiveLoop()), demand);
 		} catch (Exception e) {
 			throw new DeviceException("error setting value in lakeshore device", e);
 		}	
@@ -190,15 +202,116 @@ public class EpicsLakeshore336 extends ScannableBase {
 		}	
 	}
 
-	public int getActiveLoop() throws DeviceException {
+	public int getActiveLoop() {
+		return 1;
+//		try {
+//			for(int i: new int[] {1, 2}) {
+//			if (EPICS_CONTROLLER.cagetInt(getChannel(LOOP_HEATERRANGE_RBV,i)) != 0)
+//				return i;
+//			}
+//		} catch (Exception e) {
+//			throw new DeviceException("error reading from lakeshore device", e);
+//		}
+//		return 0;
+	}
+	
+	public void setManualOutput(double demand) throws DeviceException {
 		try {
-			for(int i: new int[] {1, 2}) {
-			if (EPICS_CONTROLLER.cagetInt(getChannel(LOOP_HEATERRANGE_RBV,i)) != 0)
-				return i;
-			}
+			if (getActiveLoop() == 0)
+				return;
+			EPICS_CONTROLLER.caputWait(getChannel(LOOP_MANUAL_OUT, getActiveLoop()), demand);
+		} catch (Exception e) {
+			throw new DeviceException("error setting value in lakeshore device", e);
+		}	
+	}
+	
+	public Double getManualOutput() throws DeviceException {
+		try {
+			if (getActiveLoop() == 0)
+				return null;
+			return EPICS_CONTROLLER.cagetDouble(getChannel(LOOP_MANUAL_OUT_RBV, getActiveLoop()));
 		} catch (Exception e) {
 			throw new DeviceException("error reading from lakeshore device", e);
-		}
-		return 0;
+		}	
+	}
+	
+	public void setP(double demand) throws DeviceException {
+		try {
+			if (getActiveLoop() == 0)
+				return;
+			EPICS_CONTROLLER.caputWait(getChannel(LOOP_P, getActiveLoop()), demand);
+		} catch (Exception e) {
+			throw new DeviceException("error setting value in lakeshore device", e);
+		}	
+	}
+	
+	public Double getP() throws DeviceException {
+		try {
+			if (getActiveLoop() == 0)
+				return null;
+			return EPICS_CONTROLLER.cagetDouble(getChannel(LOOP_P_RBV, getActiveLoop()));
+		} catch (Exception e) {
+			throw new DeviceException("error reading from lakeshore device", e);
+		}	
+	}
+	
+	public void setI(double demand) throws DeviceException {
+		try {
+			if (getActiveLoop() == 0)
+				return;
+			EPICS_CONTROLLER.caputWait(getChannel(LOOP_I, getActiveLoop()), demand);
+		} catch (Exception e) {
+			throw new DeviceException("error setting value in lakeshore device", e);
+		}	
+	}
+	
+	public Double getI() throws DeviceException {
+		try {
+			if (getActiveLoop() == 0)
+				return null;
+			return EPICS_CONTROLLER.cagetDouble(getChannel(LOOP_I_RBV, getActiveLoop()));
+		} catch (Exception e) {
+			throw new DeviceException("error reading from lakeshore device", e);
+		}	
+	}	
+	
+	public void setD(double demand) throws DeviceException {
+		try {
+			if (getActiveLoop() == 0)
+				return;
+			EPICS_CONTROLLER.caputWait(getChannel(LOOP_D, getActiveLoop()), demand);
+		} catch (Exception e) {
+			throw new DeviceException("error setting value in lakeshore device", e);
+		}	
+	}
+	
+	public Double getD() throws DeviceException {
+		try {
+			if (getActiveLoop() == 0)
+				return null;
+			return EPICS_CONTROLLER.cagetDouble(getChannel(LOOP_D_RBV, getActiveLoop()));
+		} catch (Exception e) {
+			throw new DeviceException("error reading from lakeshore device", e);
+		}	
+	}
+	
+	public void setHeaterRange(int demand) throws DeviceException {
+		try {
+			if (getActiveLoop() == 0)
+				return;
+			EPICS_CONTROLLER.caputWait(getChannel(LOOP_HEATERRANGE, getActiveLoop()), demand);
+		} catch (Exception e) {
+			throw new DeviceException("error setting value in lakeshore device", e);
+		}	
+	}
+	
+	public Integer getHeaterRange() throws DeviceException {
+		try {
+			if (getActiveLoop() == 0)
+				return null;
+			return EPICS_CONTROLLER.cagetInt(getChannel(LOOP_HEATERRANGE_RBV, getActiveLoop()));
+		} catch (Exception e) {
+			throw new DeviceException("error reading from lakeshore device", e);
+		}	
 	}
 }
