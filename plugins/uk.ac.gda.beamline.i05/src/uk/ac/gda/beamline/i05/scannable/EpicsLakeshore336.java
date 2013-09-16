@@ -39,7 +39,6 @@ public class EpicsLakeshore336 extends ScannableBase {
 	public static final String CH0TEMP = "KRDG0";
 	public static final String CH1TEMP = "KRDG1";
 	public static final String CH2TEMP = "KRDG2";
-	public static final String CH3TEMP = "KRDG3";
 
 	public static final String LOOP_DEMAND = "SETP_S%d";
 	public static final String LOOP_DEMAND_RBV = "SETP%d";
@@ -71,8 +70,8 @@ public class EpicsLakeshore336 extends ScannableBase {
 
 	public EpicsLakeshore336() {
 		setInputNames(new String[] {"demand"});
-		setExtraNames(new String[] {"ch0", "ch1", "ch2", "ch3", "heater"});
-		setOutputFormat(new String[] {"%5.5g", "%5.5g", "%5.5g", "%5.5g", "%5.5g", "%5.5g", "%1.0f"});
+		setExtraNames(new String[] {"cryostat", "sample", "shield", "heater", "heatersetting"});
+		setOutputFormat(new String[] {"%5.5g", "%5.5g", "%5.5g", "%5.5g", "%5.5g", "%1.0f"});
 	}
 
 	/**
@@ -125,8 +124,17 @@ public class EpicsLakeshore336 extends ScannableBase {
 	 */
 	@Override
 	public boolean isBusy() throws DeviceException {
-		if (getActiveLoop() == 0)
+		int activeLoop = getActiveLoop();
+		if (activeLoop == 0)
 			return false;
+		try {
+			if (EPICS_CONTROLLER.cagetInt(getChannel(LOOP_HEATERRANGE_RBV,activeLoop)) == 0)
+				return false;
+			if (EPICS_CONTROLLER.cagetInt(getChannel(LOOP_DEMAND_RBV,activeLoop)) == 0)
+				return false;
+		} catch (Exception e) {
+			throw new DeviceException("error reading from lakeshore device", e);
+		}
 		return Math.abs(getDemandTemperature()-getControlledTemperature()) > tolerance;
 	}
 
@@ -137,7 +145,6 @@ public class EpicsLakeshore336 extends ScannableBase {
 				getTemperature(0),
 				getTemperature(1),
 				getTemperature(2),
-				getTemperature(3),
 				getHeaterPercent(),
 				getHeaterRange().doubleValue()
 		};
