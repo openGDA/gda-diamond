@@ -73,7 +73,7 @@
 				<entry key="pgm_energy">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
 						<property name="path" value="instrument:NXinstrument/monochromator:NXmonochromator/energy"/>
-						<property name="units" value="eV" />
+						<property name="unit" value="eV" />
 						<property name="prerequisiteScannableNames">
 							<list>
 								<value>pgm_cff</value>
@@ -96,7 +96,7 @@
 				<entry key="rawid_gap">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
 						<property name="path" value="instrument:NXinstrument/insertion_device:NXinsertion_device/gap"/>
-						<property name="units" value="mm" />
+						<property name="unit" value="mm" />
 						<property name="prerequisiteScannableNames">
 							<list>
 								<value>rawid_upperphase</value>
@@ -108,7 +108,7 @@
 				<entry key="rawid_upperphase">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
 						<property name="path" value="instrument:NXinstrument/insertion_device:NXinsertion_device/phase_upper"/>
-						<property name="units" value="mm" />
+						<property name="unit" value="mm" />
 						<property name="prerequisiteScannableNames">
 							<list>
 								<value>rawid_gap</value>
@@ -120,7 +120,7 @@
 				<entry key="rawid_lowerphase">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
 						<property name="path" value="instrument:NXinstrument/insertion_device:NXinsertion_device/phase_lower"/>
-						<property name="units" value="mm" />
+						<property name="unit" value="mm" />
 						<property name="prerequisiteScannableNames">
 							<list>
 								<value>rawid_upperphase</value>
@@ -132,7 +132,20 @@
 				<entry key="s6_ysize">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
 						<property name="path" value="instrument:NXinstrument/monochromator:NXmonochromator/exit_slit_size"/>
-						<property name="units" value="mm" />
+						<property name="unit" value="mm" />
+						<property name="prerequisiteScannableNames">
+							<list>
+								<value>pgm_energy</value>
+								<value>pgm_cff</value>
+								<value>pgm_linedensity</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="s6_xsize">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
+						<property name="path" value="instrument:NXinstrument/monochromator:NXmonochromator/exit_slit_size_horizontal"/>
+						<property name="unit" value="mm" />
 						<property name="prerequisiteScannableNames">
 							<list>
 								<value>pgm_energy</value>
@@ -145,19 +158,19 @@
 				<entry key="s2_ysize">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
 						<property name="path" value="instrument:NXinstrument/monochromator:NXmonochromator/s2_vertical_slit_size"/>
-						<property name="units" value="mm" />
+						<property name="unit" value="mm" />
 					</bean>
 				</entry>
 				<entry key="s2_xsize">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
 						<property name="path" value="instrument:NXinstrument/monochromator:NXmonochromator/s2_horizontal_slit_size"/>
-						<property name="units" value="mm" />
+						<property name="unit" value="mm" />
 					</bean>
 				</entry>
 				<entry key="pgm_linedensity">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
 						<property name="path" value="instrument:NXinstrument/monochromator:NXmonochromator/grating:NXgrating/line_density" />
-						<property name="units" value="1/mm" />
+						<property name="unit" value="1/mm" />
 						<property name="prerequisiteScannableNames">
 							<list>
 							</list>
@@ -206,7 +219,7 @@
 				<entry key="sax">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
 						<property name="path" value="instrument:NXinstrument/manipulator:NXgoniometer/sax"/>
-						<property name="units" value="mm" />
+						<property name="unit" value="mm" />
 						<property name="prerequisiteScannableNames">
 							<list>
 								<!-- <value>cff</value> -->
@@ -217,7 +230,7 @@
 				<entry key="say">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
 						<property name="path" value="instrument:NXinstrument/manipulator:NXgoniometer/say"/>
-						<property name="units" value="mm" />
+						<property name="unit" value="mm" />
 						<property name="prerequisiteScannableNames">
 							<list>
 								<!-- <value>cff</value> -->
@@ -228,7 +241,7 @@
 				<entry key="saz">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
 						<property name="path" value="instrument:NXinstrument/manipulator:NXgoniometer/saz"/>
-						<property name="units" value="mm" />
+						<property name="unit" value="mm" />
 						<property name="prerequisiteScannableNames">
 							<list>
 								<!-- <value>cff</value> -->
@@ -239,7 +252,7 @@
 				<entry key="satilt">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
 						<property name="path" value="instrument:NXinstrument/manipulator:NXgoniometer/satilt"/>
-						<property name="units" value="deg" />
+						<property name="unit" value="deg" />
 						<property name="prerequisiteScannableNames">
 							<list>
 								<!-- <value>cff</value> -->
@@ -250,7 +263,7 @@
 				<entry key="sapolar">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
 						<property name="path" value="instrument:NXinstrument/manipulator:NXgoniometer/sapolar"/>
-						<property name="units" value="deg" />
+						<property name="unit" value="deg" />
 						<property name="prerequisiteScannableNames">
 							<list>
 								<!-- <value>cff</value> -->
@@ -261,7 +274,7 @@
 				<entry key="saazimuth">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
 						<property name="path" value="instrument:NXinstrument/manipulator:NXgoniometer/saazimuth"/>
-						<property name="units" value="deg" />
+						<property name="unit" value="deg" />
 						<property name="prerequisiteScannableNames">
 							<list>
 								<!-- <value>cff</value> -->
@@ -286,6 +299,7 @@
 				<value>satilt</value>
 				<value>saazimuth</value>
 				<value>s6_ysize</value>
+				<value>s6_xsize</value>
 				<value>s2_ysize</value>
 				<value>s2_xsize</value>
 				<value>pgm_cff</value>
