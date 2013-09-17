@@ -39,6 +39,8 @@ import org.eclipse.swt.widgets.Text;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import uk.ac.gda.dls.client.Activator;
+
 public class FeedbackDialog extends TitleAreaDialog {
 
 	public FeedbackDialog(Shell shell) {
@@ -115,31 +117,35 @@ public class FeedbackDialog extends TitleAreaDialog {
 					@Override
 					protected IStatus run(IProgressMonitor monitor) {
 						
-						final String recipientsProperty = LocalProperties.get("gda.feedback.recipients");
-						final String[] recipients = recipientsProperty.split(" ");
-						for (int i=0; i<recipients.length; i++) {
-							recipients[i] = recipients[i].trim();
+						try{
+							final String recipientsProperty = LocalProperties.get("gda.feedback.recipients","dag-group@diamond.ac.uk");
+							final String[] recipients = recipientsProperty.split(" ");
+							for (int i=0; i<recipients.length; i++) {
+								recipients[i] = recipients[i].trim();
+							}
+							
+							final String from = String.format("%s <%s>", name, email);
+							
+							final String beamlineName = LocalProperties.get("gda.beamline.name.upper","Beamline Unknown");
+							final String mailSubject = String.format("[GDA feedback - %s] %s", beamlineName, subject);
+							
+							final String smtpHost = LocalProperties.get("gda.feedback.smtp.host","localhost");
+							
+							JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+							mailSender.setHost(smtpHost);
+							
+							SimpleMailMessage message = new SimpleMailMessage();
+							message.setFrom(from);
+							message.setTo(recipients);
+							message.setSubject(mailSubject);
+							message.setText(description);
+							
+							mailSender.send(message);
+							return Status.OK_STATUS;
+						} catch(Exception ex){
+							return new Status(IStatus.ERROR, Activator.PLUGIN_ID, 1, "Error sending email", ex);
 						}
 						
-						final String from = String.format("%s <%s>", name, email);
-						
-						final String beamlineName = LocalProperties.get("gda.beamline.name.upper");
-						final String mailSubject = String.format("[GDA feedback - %s] %s", beamlineName, subject);
-						
-						final String smtpHost = LocalProperties.get("gda.feedback.smtp.host");
-						
-						JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-						mailSender.setHost(smtpHost);
-						
-						SimpleMailMessage message = new SimpleMailMessage();
-						message.setFrom(from);
-						message.setTo(recipients);
-						message.setSubject(mailSubject);
-						message.setText(description);
-						
-						mailSender.send(message);
-						
-						return Status.OK_STATUS;
 					}
 				};
 				

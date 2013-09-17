@@ -27,9 +27,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FeedbackComposite {
-
+	static final Logger logger = LoggerFactory.getLogger(FeedbackComposite.class);
 	private Composite parent;
 
 	public FeedbackComposite(Composite parent) {
@@ -51,9 +53,14 @@ public class FeedbackComposite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				final Shell shell = parent.getShell();
-				final FeedbackDialog dialog = new FeedbackDialog(shell);
-				dialog.create();
-				dialog.open();
+				FeedbackDialog dialog;
+				try {
+					dialog = new FeedbackDialog(shell);
+					dialog.create();
+					dialog.open();
+				} catch (Exception e1) {
+					logger.error("Error opening FeedbackDialog", e1);
+				}
 			}
 		});
 		
