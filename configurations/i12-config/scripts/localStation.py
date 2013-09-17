@@ -8,7 +8,7 @@ from gda.jython.commands import GeneralCommands
 print "Performing I12 specific initialisation code"
 print "=============================================="
 
-from gda.jython.commands.GeneralCommands import alias
+from gda.jython.commands.GeneralCommands import alias, vararg_alias
 
 print "add EPICS scripts to system path"
 print "------------------------------------------------"
@@ -27,7 +27,7 @@ print "create commands for folder operations: wd, pwd, nwd, nfn, cfn, setSubdire
 print "-------------------------------------------------"
 # function to find the last file path
 
-from i12utilities import wd, pwd, nwd, nfn, cfn, setDataWriterToNexus, setDataWriterToSrs, getDataWriter, ls_scannables
+from i12utilities import wd, pwd, nwd, nfn, cfn, setSubdirectory, setDataWriterToNexus, setDataWriterToSrs, getDataWriter, ls_scannables
 alias("wd")
 alias("pwd")
 alias("nwd")
@@ -64,6 +64,8 @@ i12 = DocumentationScannable("i12Help", msg, "http://confluence.diamond.ac.uk/di
 i12pco = DocumentationScannable("i12HelpPco", "Documentation for i12pco", "http://confluence.diamond.ac.uk/display/I12Tech/PCO+detector")
 i12pixium = DocumentationScannable("i12HelpPixium", "Documentation for i12pixium", "http://confluence.diamond.ac.uk/display/I12Tech/Pixium+in+GDA")
 i12edxd = DocumentationScannable("i12HelpEdxd", "Documentation for i12edxd", "http://confluence.diamond.ac.uk/display/I12Tech/EDXD%3A+Use+in+GDA")
+
+import i12info
 
 # Do this last
 #setSubdirectory("default")
@@ -106,8 +108,20 @@ from init_scan_commands_and_processing import * #@UnusedWildImport
 from gda.scan.RepeatScan import create_repscan, repscan
 vararg_alias("repscan")
 
-from gdascripts.metadata.metadata_commands import setTitle
+from gdascripts.metadata.metadata_commands import setTitle, getTitle
 alias("setTitle")
+alias("getTitle")
+
+finder = Finder.getInstance() 
+
+print "setup meta-data provider"
+from gdascripts.metadata.metadata_commands import meta_add, meta_ll, meta_ls, meta_rm
+alias("meta_add")
+alias("meta_ll")
+alias("meta_ls")
+alias("meta_rm")
+from gda.data.scan.datawriter import NexusDataWriter
+LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 
 if LocalProperties.check("gda.dummy.mode"):
     print "Running in dummy mode"
@@ -362,11 +376,11 @@ alias("pixiumAfterIOCStart")
 try:
     print "\n Add default scannables:"
     default_scannables = []
-    default_scannables.append(ring_topup_countdown)
+    default_scannables.append(ring)
     default_scannables.append(actualTime)
     
     for s in default_scannables:
-        add_default s
+        add_default(s)
 except:
     print "Unable to add default scannables"
 

@@ -1,0 +1,54 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="zebra" class="gda.device.zebra.controller.impl.ZebraImpl">
+	<property name="zebraPrefix" value="TESTZEBRA:ZEBRA:"/>
+	</bean>
+	<bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
+	<property name="zebra" ref="zebra"/>
+	</bean>
+	<bean id="zebraSM1a" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="ss1_rot_motor" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<property name="scurveTimeToVelocity" value="1.0"/>
+	</bean>	
+	
+	<bean id="zebra_hardwareTriggeredCollectionStrategy" class="gda.device.detector.addetector.triggering.HardwareTriggeredStandard">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg value=".1" />	
+	</bean>
+	
+	
+
+	<!-- The Manta_G-125B camera -->
+	<bean id="zebra_deta" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="zebra_det"/>
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="zebra_hardwareTriggeredCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter" />
+			</list>
+		</property>
+		<property name="readOutTime" value=".03"></property>
+	</bean>
+
+	<bean id="zebra_simpleAcquire" class="gda.device.detector.addetector.triggering.SimpleAcquire">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg value=".1" />	
+	</bean>
+
+
+	<bean id="zebra_detb" class="gda.device.detector.NXDetector">
+		<property name="name" value="zebra_detb"/>
+		<property name="collectionStrategy" ref="zebra_simpleAcquire" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter" />
+			</list>
+		</property>
+	</bean>
+
+</beans>	
