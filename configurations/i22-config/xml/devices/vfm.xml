@@ -1,0 +1,133 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+        <bean id="vfm_pitch_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-OP-KBM-01:VFM:PITCH" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="vfm_pitch" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="vfm_pitch_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="vfm_roll_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-OP-KBM-01:VFM:ROLL" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="vfm_roll" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="vfm_roll_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="vfm_yaw_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-OP-KBM-01:VFM:YAW" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="vfm_yaw" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="vfm_yaw_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="vfm_x_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-OP-KBM-01:VFM:X" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="vfm_x" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="vfm_x_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="vfm_y_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-OP-KBM-01:VFM:Y" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="vfm_y" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="vfm_y_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="vfm_y2y3_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-OP-KBM-01:VFM:Y2Y3" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="vfm_y2y3" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="vfm_y2y3_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="vfm_y1_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-OP-KBM-01:VFM:Y1" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="vfm_y1" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="vfm_y1_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="vfm_y2_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-OP-KBM-01:VFM:Y2" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="vfm_y2" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="vfm_y2_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="vfm_y3_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-OP-KBM-01:VFM:Y3" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="vfm_y3" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="vfm_y3_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="vfm_x1_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-OP-KBM-01:VFM:X1" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="vfm_x1" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="vfm_x1_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="vfm_x2_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-OP-KBM-01:VFM:X2" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="vfm_x2" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="vfm_x2_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="vfm_yfine_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-OP-KBM-01:VFM:FY3" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="vfm_yfine" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="vfm_yfine_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="vfm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+                <property name="groupMembers">
+                        <list>
+                                <ref bean="vfm_pitch" />
+                                <ref bean="vfm_roll" />
+                                <ref bean="vfm_yaw" />
+                                <ref bean="vfm_x" />
+                                <ref bean="vfm_y" />
+                                <ref bean="vfm_y2y3" />
+                                <ref bean="vfm_y1" />
+                                <ref bean="vfm_y2" />
+                                <ref bean="vfm_y3" />
+                                <ref bean="vfm_x1" />
+                                <ref bean="vfm_x2" />
+                                <ref bean="vfm_yfine" />
+                        </list>
+                </property>
+                <property name="local" value="true" />
+        </bean>
+</beans>

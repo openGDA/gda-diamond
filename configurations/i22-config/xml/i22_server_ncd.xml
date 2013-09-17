@@ -333,8 +333,9 @@
                 <property name="port" value="9555"/>
         </bean>
 
-	<import resource="i22_biosaxscam.xml"/>
-	<import resource="i22_floatingcam.xml"/>
+        <import resource="cameras/i22_mfgige.xml" />
+	<import resource="cameras/i22_biosaxscam.xml"/>
+	<import resource="cameras/i22_floatingcam.xml"/>
         <bean class="uk.ac.gda.devices.bssc.ispyb.BioSAXSDBFactory">
                 <property name="jdbcURL" value="jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb" />
                 <!-- // protected String testURL = "jdbc:oracle:thin:@sci-serv2.diamond.ac.uk:1521:xe"; -->

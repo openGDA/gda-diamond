@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+        <bean id="bco_x_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-MO-TABLE-04:X" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="bco_x" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="bco_x_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_y_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-MO-TABLE-04:Y" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="bco_y" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="bco_y_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_pitch_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-MO-TABLE-04:PITCH" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="bco_pitch" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="bco_pitch_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco" class="gda.device.scannable.scannablegroup.ScannableGroup">
+                <property name="groupMembers">
+                        <list>
+                                <ref bean="bco_x" />
+                                <ref bean="bco_y" />
+                                <ref bean="bco_pitch" />
+                        </list>
+                </property>
+                <property name="local" value="true" />
+        </bean>
+</beans>
