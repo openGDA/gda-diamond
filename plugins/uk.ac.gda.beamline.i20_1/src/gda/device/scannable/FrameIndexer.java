@@ -34,8 +34,8 @@ public class FrameIndexer extends ScannableBase {
 	public static Integer[] generateIndex(EdeScanType scantype, EdePositionType positionsType, int repetitionNumber,
 			int timingGroup, int frameNumber) {
 		Integer[] position = new Integer[5];
-		position[0] = scantype == EdeScanType.DARK ? 1 : 0;
-		position[1] = positionsType == EdePositionType.INBEAM ? 1 : 0;
+		position[0] = scantype == EdeScanType.DARK ? 0 : 1;
+		position[1] = positionsType == EdePositionType.INBEAM ? 0 : 1;
 		position[2] = repetitionNumber;
 		position[3] = timingGroup;
 		position[4] = frameNumber;
@@ -50,7 +50,7 @@ public class FrameIndexer extends ScannableBase {
 
 	public FrameIndexer(EdeScanType scanType, EdePositionType type, Integer repetitionNumber) {
 		inputNames = new String[] {};
-		extraNames = new String[] { "Dark", "It", "Repetition", "Group", "Frame" };
+		extraNames = new String[] { "Light", "It", "Repetition", "Group", "Frame" };
 		outputFormat = new String[] { "%1d", "%1d", "%d", "%d", "%d" };
 		scantype = scanType;
 		positionsType = type;

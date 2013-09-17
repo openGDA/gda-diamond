@@ -6,10 +6,9 @@
 # Richard Woolliscroft 22 July 2013
 #
 
-from gda.scan.ede import EdeSingleExperiment
-from gda.scan.ede.position import ExplicitScanPositions;
+from gda.scan.ede import EdeLinearExperiment
 from gda.scan.ede.position import EdePositionType;
-from uk.ac.gda.exafs.ui.data import EdeScanParameters;
+from uk.ac.gda.exafs.ui.data import EdeScanParameters, TimingGroup
 
 
 def runlinearexperment():

@@ -159,7 +159,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		FileWriter writer = null;
 		try {
 			writer = new FileWriter(asciiFile);
-			log("Writing EDE format ascii file for It data: " + i0Filename);
+			log("Writing EDE format ascii file for It data: " + itFilename);
 			writer.write("#" + TIMINGGROUP_COLUMN_NAME + "\t" + STRIP_COLUMN_NAME + "\t" + ENERGY_COLUMN_NAME + "\t"
 					+ IT_CORR_COLUMN_NAME + "\t" + LN_I0_IT_COLUMN_NAME + "\t" + IT_RAW_COLUMN_NAME + "\t"
 					+ IT_DARK_COLUMN_NAME + "\n");
