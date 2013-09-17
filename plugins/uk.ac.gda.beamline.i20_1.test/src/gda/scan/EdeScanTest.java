@@ -149,7 +149,7 @@ public class EdeScanTest {
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(scanParams, inBeam, outBeam, xh);
 		String filename = theExperiment.runExperiment();
 
-		testEDEFormatAsciiFile(filename);
+		testNumberColumnsInEDEFile(filename,9);
 	}
 
 	@Test
@@ -181,10 +181,10 @@ public class EdeScanTest {
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0Params, itParams, inBeam, outBeam, xh);
 		String filename = theExperiment.runExperiment();
 
-		testEDEFormatAsciiFile(filename);
+		testNumberColumnsInEDEFile(filename,9);
 	}
 
-	private void testEDEFormatAsciiFile(String filename) throws FileNotFoundException, IOException {
+	private void testNumberColumnsInEDEFile(String filename, int numExpectedColumns) throws FileNotFoundException, IOException {
 		FileReader asciiFile = new FileReader(filename);
 		BufferedReader reader = null;
 		try {
@@ -192,7 +192,7 @@ public class EdeScanTest {
 			reader.readLine(); // header line
 			String dataString = reader.readLine(); // first data point
 			String[] dataParts = dataString.split("\t");
-			assertEquals(9, dataParts.length);
+			assertEquals(numExpectedColumns, dataParts.length);
 		} finally {
 			if (reader != null) {
 				reader.close();
@@ -225,7 +225,6 @@ public class EdeScanTest {
 				reader.close();
 			}
 		}
-
 	}
 
 	@Test
@@ -244,7 +243,7 @@ public class EdeScanTest {
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, inBeam, outBeam, xh);
 		String filename = theExperiment.runExperiment();
 
-		testEDEFormatAsciiFile(filename);
+		testNumberColumnsInEDEFile(filename,9);
 	}
 
 	@Test
@@ -264,20 +263,7 @@ public class EdeScanTest {
 		theExperiment.setFilenameTemplate("mysample_%s_sample1");
 		String filename = theExperiment.runExperiment();
 
-		FileReader asciiFile = new FileReader(filename);
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(asciiFile);
-			reader.readLine(); // header line
-			String dataString = reader.readLine(); // first data point
-			String[] dataParts = dataString.split("\t");
-			assertEquals(9, dataParts.length);
-		} finally {
-			if (reader != null) {
-				reader.close();
-			}
-		}
-
+		testNumberColumnsInEDEFile(filename,9);
 	}
 
 	@Test
@@ -315,7 +301,6 @@ public class EdeScanTest {
 				reader.close();
 			}
 		}
-
 	}
 	
 	@Test
@@ -359,41 +344,11 @@ public class EdeScanTest {
 		EdeLinearExperiment theExperiment = new EdeLinearExperiment(params,outBeam,inBeam,xh);
 		String filename = theExperiment.runExperiment();
 		
-		FileReader asciiFile = new FileReader(filename);
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(asciiFile);
-			reader.readLine(); // header line
-			String dataString = reader.readLine(); // first data point
-			String[] dataParts = dataString.split("\t");
-			assertEquals(7, dataParts.length);
-		} finally {
-			if (reader != null) {
-				reader.close();
-			}
-		}
-		
-		filename = theExperiment.getI0Filename();
-		asciiFile = new FileReader(filename);
-		reader = null;
-		try {
-			reader = new BufferedReader(asciiFile);
-			reader.readLine(); // header line
-			String dataString = reader.readLine(); // first data point
-			String[] dataParts = dataString.split("\t");
-			assertEquals(7, dataParts.length);
-		} finally {
-			if (reader != null) {
-				reader.close();
-			}
-		}
-		
-		
-		
-		
+		testNumberColumnsInEDEFile(filename,7);
+		testNumberColumnsInEDEFile(theExperiment.getI0Filename(),7);
+		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(),7);
+		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(),7);
 	}
-	
-	
 	
 	private ScannableMotor createMotor(String name) throws MotorException, FactoryException {
 		DummyMotor xMotor = new DummyMotor();

@@ -39,6 +39,8 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 	private final EdeScan i0FinalScan;
 	private String i0Filename;
 	private String itFilename;
+	private String itAveragedFilename;
+	private String itFinalFilename;
 
 	public EdeLinearExperimentAsciiFileWriter(EdeScan i0DarkScan, EdeScan i0InitialScan, EdeScan itScan,
 			EdeScan i0FinalScan, StripDetector theDetector) {
@@ -61,7 +63,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 
 		createI0File();
 
-		createItFile();
+		createItFiles();
 
 		return itFilename;
 	}
@@ -147,10 +149,16 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		}
 	}
 
-	private void createItFile() throws Exception {
+	private void createItFiles() throws Exception {
+		itFilename = createItFile(i0InitialScan, null, "_It_raw.txt");
+		itFinalFilename = createItFile(i0FinalScan, null, "_It_raw_finali0.txt");
+		itAveragedFilename = createItFile(i0InitialScan, i0FinalScan, "_It_raw_averagedi0.txt");
+	}
 
-		itFilename = determineAsciiFilename("_It_raw.txt");
-		File asciiFile = new File(itFilename);
+	private String createItFile(EdeScan firstI0Scan, EdeScan secondI0Scan, String fileSuffix) throws Exception {
+
+		String filename = determineAsciiFilename(fileSuffix);
+		File asciiFile = new File(filename);
 		if (asciiFile.exists()) {
 			throw new Exception("File " + itFilename + " already exists!");
 		}
@@ -166,16 +174,32 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			int numberOfTimingGroups = getNumberOfTimingGroups();
 
 			for (int timingGroup = 0; timingGroup < numberOfTimingGroups; timingGroup++) {
-				DoubleDataset darkDataSet = extractDetectorDataSets(i0DarkScan, timingGroup);
-				DoubleDataset i0InitialDataSet = extractDetectorDataSets(i0InitialScan, timingGroup);
-				DoubleDataset itDataSet = extractDetectorDataSets(itScan, timingGroup);
-				writeItSpectrum(writer, timingGroup, darkDataSet, i0InitialDataSet, itDataSet);
+				deriveAndWriteSpectrum(writer, timingGroup, i0DarkScan, itScan, firstI0Scan, secondI0Scan);
+				// DoubleDataset darkDataSet = extractDetectorDataSets(i0DarkScan, timingGroup);
+				// DoubleDataset i0DataSet = extractDetectorDataSets(i0ScanToUse, timingGroup);
+				// DoubleDataset itDataSet = extractDetectorDataSets(itScan, timingGroup);
+				// writeItSpectrum(writer, timingGroup, darkDataSet, i0DataSet, itDataSet);
 			}
 		} finally {
 			if (writer != null) {
 				writer.close();
 			}
 		}
+
+		return filename;
+	}
+
+	private void deriveAndWriteSpectrum(FileWriter writer, int timingGroupIndex, EdeScan darkScan,
+			EdeScan transmissionScan, EdeScan firstI0Scan, EdeScan secondI0Scan) throws IOException {
+		DoubleDataset darkDataSet = extractDetectorDataSets(darkScan, timingGroupIndex);
+		DoubleDataset i0FirstDataSet = extractDetectorDataSets(firstI0Scan, timingGroupIndex);
+		DoubleDataset itDataSet = extractDetectorDataSets(transmissionScan, timingGroupIndex);
+		if (secondI0Scan != null) {
+			DoubleDataset i0SecondDataSet = extractDetectorDataSets(secondI0Scan, timingGroupIndex);
+			DoubleDataset i0DataSet_averaged = i0FirstDataSet.iadd(i0SecondDataSet).idivide(2);
+			i0FirstDataSet = i0DataSet_averaged;
+		}
+		writeItSpectrum(writer, timingGroupIndex, darkDataSet, i0FirstDataSet, itDataSet);
 	}
 
 	private void writeItSpectrum(FileWriter writer, int timingGroup, DoubleDataset darkDataSet,
@@ -219,8 +243,25 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		return i0Filename;
 	}
 
+	/**
+	 * @return full path of the ascii data file of It data derived using the initial I0 data
+	 */
 	public String getAsciiItFilename() {
 		return itFilename;
+	}
+
+	/**
+	 * @return full path of the ascii data file of It data derived using the final I0 data
+	 */
+	public String getAsciiItFinalFilename() {
+		return itFinalFilename;
+	}
+
+	/**
+	 * @return full path of the ascii data file of It data derived using an average of the initial and final I0 data
+	 */
+	public String getAsciiItAveragedFilename() {
+		return itAveragedFilename;
 	}
 
 }

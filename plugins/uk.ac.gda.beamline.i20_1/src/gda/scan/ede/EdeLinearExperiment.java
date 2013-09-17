@@ -95,6 +95,24 @@ public class EdeLinearExperiment extends EdeExperiment {
 		return writer.getAsciiItFilename();
 	}
 
+	/**
+	 * NPE if this is called before the scan has been run and the datawriter has been created
+	 * 
+	 * @return the name of the It output file
+	 */
+	public String getItFinalFilename() {
+		return writer.getAsciiItFinalFilename();
+	}
+
+	/**
+	 * NPE if this is called before the scan has been run and the datawriter has been created
+	 * 
+	 * @return the name of the It output file
+	 */
+	public String getItAveragedFilename() {
+		return writer.getAsciiItAveragedFilename();
+	}
+
 	private void deriveI0ScansFromIts() {
 		// need an I0 spectrum for each timing group in itScanParameters
 		List<TimingGroup> itgroups = itScanParameters.getGroups();
