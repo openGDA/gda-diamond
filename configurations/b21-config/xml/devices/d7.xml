@@ -30,6 +30,18 @@
 		</property>
 		<property name="local" value="true" />
 	</bean>
+	<bean id="scaledbsdiode" class="uk.ac.gda.server.ncd.epics.ScaledAmplifiedMonitor">
+		<property name="scalingAndOffset" ref="bsdiodegain" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvProvider">
+			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
+				<property name="deviceName" value="D7.AMP" />
+				<property name="fieldName" value="I" />
+			</bean>
+		</property>
+		<property name="local" value="true" />
+	</bean>
 <bean id="bsdiodegain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
         <property name="pvName" value="BL21B-DI-PHDGN-07:PHD1:GAIN" />
         <property name="gaintosando">
@@ -107,5 +119,4 @@
                 </map>
         </property>
 </bean>
-
 </beans>
