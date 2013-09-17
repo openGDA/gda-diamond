@@ -20,6 +20,7 @@ package uk.ac.gda.exafs.ui.data;
 
 import java.io.Serializable;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
@@ -117,6 +118,15 @@ public class EdeScanParameters implements Serializable {
 	private double outputsWidth5 = 0;
 	private double outputsWidth6 = 0;
 	private double outputsWidth7 = 0;
+
+
+	public EdeScanParameters() {
+	}
+
+	public EdeScanParameters(TimingGroup[] groups){
+		super();
+		setGroups(new Vector<TimingGroup>(Arrays.asList(groups)));
+	}
 
 	public int getTotalNumberOfFrames() {
 		int sum = 0;

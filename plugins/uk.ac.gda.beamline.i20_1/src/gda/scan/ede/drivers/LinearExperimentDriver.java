@@ -22,6 +22,7 @@ import gda.device.detector.StripDetector;
 import gda.factory.Finder;
 import gda.scan.ede.EdeLinearExperiment;
 
+import java.util.Arrays;
 import java.util.Vector;
 
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
@@ -44,6 +45,14 @@ public class LinearExperimentDriver extends ScanDriver {
 		fileTemplate = filenameTemplate;
 	}
 
+	public LinearExperimentDriver(String detectorName, TimingGroup[] timingGroups) {
+		this(detectorName, new Vector<TimingGroup>(Arrays.asList(timingGroups)));
+	}
+
+	public LinearExperimentDriver(String detectorName, TimingGroup[] timingGroups, String filenameTemplate) {
+		this(detectorName, new Vector<TimingGroup>(Arrays.asList(timingGroups)));
+		fileTemplate = filenameTemplate;
+	}
 
 	@Override
 	public String doCollection() throws Exception {
@@ -52,6 +61,5 @@ public class LinearExperimentDriver extends ScanDriver {
 			theExperiment.setFilenameTemplate(fileTemplate);
 		}
 		return theExperiment.runExperiment();
-
 	}
 }
