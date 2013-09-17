@@ -69,7 +69,6 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 	private void validateData() throws Exception {
 		List<ScanDataPoint> i0DarkData = i0DarkScan.getData();
 		List<ScanDataPoint> i0InitialData = i0InitialScan.getData();
-		List<ScanDataPoint> itData = itScan.getData();
 		List<ScanDataPoint> i0FinalData = i0FinalScan.getData();
 
 		int numberOfTimingGroups = getNumberOfTimingGroups();
@@ -81,10 +80,6 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		if (numberOfTimingGroups != i0InitialData.size()) {
 			throw new Exception(
 					"Cannot reduce the data as the number of I0 spectra is not the same as the number of timing groups!");
-		}
-		if (numberOfTimingGroups != itData.size()) {
-			throw new Exception(
-					"Cannot reduce the data as the number of It timing groups is not the same as the number requested!");
 		}
 		if (numberOfTimingGroups != i0FinalData.size()) {
 			throw new Exception(
@@ -198,7 +193,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			stringToWrite.append(String.format("%.2f", getEnergyForChannel(channel)) + "\t");
 			stringToWrite.append(String.format("%.2f", it_corrected) + "\t");
 			stringToWrite.append(String.format("%.2f", lni0it) + "\t");
-			stringToWrite.append(String.format("%.2f", itRaw) + "\n");
+			stringToWrite.append(String.format("%.2f", itRaw) + "\t");
 			stringToWrite.append(String.format("%.2f", dark) + "\n");
 			writer.write(stringToWrite.toString());
 		}

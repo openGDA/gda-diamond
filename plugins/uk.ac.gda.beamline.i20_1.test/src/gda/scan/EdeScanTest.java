@@ -366,16 +366,29 @@ public class EdeScanTest {
 			reader.readLine(); // header line
 			String dataString = reader.readLine(); // first data point
 			String[] dataParts = dataString.split("\t");
-			assertEquals(9, dataParts.length);
-			String dataString2 = reader.readLine(); // second data point
-			String[] dataParts2 = dataString2.split("\t");
-			assertEquals(1., Double.parseDouble(dataParts2[0]), 0.1);
-			assertEquals(2., Double.parseDouble(dataParts2[1]), 0.1);
+			assertEquals(7, dataParts.length);
 		} finally {
 			if (reader != null) {
 				reader.close();
 			}
 		}
+		
+		filename = theExperiment.getI0Filename();
+		asciiFile = new FileReader(filename);
+		reader = null;
+		try {
+			reader = new BufferedReader(asciiFile);
+			reader.readLine(); // header line
+			String dataString = reader.readLine(); // first data point
+			String[] dataParts = dataString.split("\t");
+			assertEquals(7, dataParts.length);
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
+		}
+		
+		
 		
 		
 	}

@@ -41,7 +41,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  */
 public class EdeLinearExperiment extends EdeExperiment {
 
-	//	private static final Logger logger = LoggerFactory.getLogger(EdeSingleExperiment.class);
+	// private static final Logger logger = LoggerFactory.getLogger(EdeSingleExperiment.class);
 
 	private final EdeScanParameters itScanParameters;
 	private final EdeScanPosition i0Position;
@@ -53,6 +53,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	private EdeScan i0InitialScan;
 	private EdeScan itScan;
 	private EdeScan i0FinalScan;
+	private EdeLinearExperimentAsciiFileWriter writer;
 
 	public EdeLinearExperiment(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
 			EdeScanPosition itPosition, StripDetector theDetector) {
@@ -74,6 +75,24 @@ public class EdeLinearExperiment extends EdeExperiment {
 		deriveI0ScansFromIts();
 		runScans();
 		return writeAsciiFile();
+	}
+
+	/**
+	 * NPE if this is called before the scan has been run and the datawriter has been created
+	 * 
+	 * @return the name of the I0 output file
+	 */
+	public String getI0Filename() {
+		return writer.getAsciiI0Filename();
+	}
+
+	/**
+	 * NPE if this is called before the scan has been run and the datawriter has been created
+	 * 
+	 * @return the name of the It output file
+	 */
+	public String getItFilename() {
+		return writer.getAsciiItFilename();
 	}
 
 	private void deriveI0ScansFromIts() {
@@ -111,8 +130,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	}
 
 	private String writeAsciiFile() throws Exception {
-		EdeLinearExperimentAsciiFileWriter writer = new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0InitialScan, itScan,
-				i0FinalScan, theDetector);
+		writer = new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0InitialScan, itScan, i0FinalScan, theDetector);
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
 			writer.setFilenameTemplate(filenameTemplate);
 		}
