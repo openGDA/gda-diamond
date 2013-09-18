@@ -18,6 +18,7 @@
 
 package uk.ac.gda.exafs.ui.data.detector;
 
+import gda.jython.InterfaceProvider;
 import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.EdeScanPosition;
 import gda.scan.ede.position.ExplicitScanPositions;
@@ -31,6 +32,7 @@ import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
 import uk.ac.gda.exafs.data.ClientConfig;
+import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
@@ -41,10 +43,14 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
 
 public class Experiment extends CollectionModel {
+
 	public static final Experiment INSTANCE = new Experiment();
+
+	private static final double EXPERIMENT_START_TIME = 0.0;
 	private static final long DEFAULT_INITIAL_EXPERIMENT_TIME_IN_SEC = 20; // Should be > 0
 
-	WritableList groupList = new WritableList(new ArrayList<Group>(), Group.class);
+	public static final String DURATION_IN_SEC_PROP_NAME = "durationInSec";
+
 	private DefaultTimeBarModel model;
 	private DefaultTimeBarRowModel timingGroupRow;
 	private DefaultTimeBarRowModel spectrumRow;
@@ -52,8 +58,10 @@ public class Experiment extends CollectionModel {
 	public static final String DELAY_BETWEEN_GROUPS_PROP_NAME = "delayBetweenGroups";
 	private double delayBetweenGroups;
 
+	WritableList groupList = new WritableList(new ArrayList<Group>(), Group.class);
+
 	public Experiment() {
-		this.setStartTime(0.0);
+		this.setStartTime(EXPERIMENT_START_TIME);
 		this.setDurationInSec(DEFAULT_INITIAL_EXPERIMENT_TIME_IN_SEC);
 		setupTimebarModel();
 		groupList.addListChangeListener(new IListChangeListener() {
@@ -74,7 +82,6 @@ public class Experiment extends CollectionModel {
 		});
 		addGroup();
 	}
-
 
 	private void setupTimebarModel() {
 		model = new DefaultTimeBarModel();
@@ -127,6 +134,24 @@ public class Experiment extends CollectionModel {
 				SingleSpectrumModel.INSTANCE.getI0yPosition(),
 				ClientConfig.ScannableSetup.SAMPLE_X_POSITION.getScannable(),
 				ClientConfig.ScannableSetup.SAMPLE_Y_POSITION.getScannable());
+
+		InterfaceProvider.getJythonNamespace().placeInJythonNamespace("i0Position", i0Position);
+
+		EdeScanPosition itPosition = new ExplicitScanPositions(
+				EdePositionType.INBEAM,
+				SingleSpectrumModel.INSTANCE.getiTxPosition(),
+				SingleSpectrumModel.INSTANCE.getiTyPosition(),
+				ClientConfig.ScannableSetup.SAMPLE_X_POSITION.getScannable(),
+				ClientConfig.ScannableSetup.SAMPLE_Y_POSITION.getScannable());
+
+		InterfaceProvider.getJythonNamespace().placeInJythonNamespace("itPosition", itPosition);
+
+		String scanCommand = String.format("from gda.scan.ede.drivers import SingleSpectrumDriver;" +
+				"scan_driver = SingleSpectrumDriver(\"%s\",%f,%d,%f,%d,\"%s\");" +
+				"scan_driver.setInBeamPosition(%f,%f);" +
+				"scan_driver.setOutBeamPosition(%f,%f)",
+				DetectorModel.INSTANCE.getCurrentDetector().getName());
+
 	}
 
 	private void setAllGroupTimes() {
@@ -198,10 +223,8 @@ public class Experiment extends CollectionModel {
 
 	}
 
-	public static final String DURATION_IN_SEC_PROP_NAME = "durationInSec";
 	public double getDurationInSec() {
 		return (this.getDuration() / 1000);
-
 	}
 
 	@Override

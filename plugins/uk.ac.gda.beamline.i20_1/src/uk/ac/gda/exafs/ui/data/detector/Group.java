@@ -53,6 +53,8 @@ public class Group extends CollectionModel {
 		return spectrumList;
 	}
 
+	public static final String NO_OF_SPECTRUMS_PROP_NAME = "numberOfSpectrums";
+
 	public Group(DefaultTimeBarRowModel value) {
 		timeBarRowModel = value;
 		spectrumList.addListChangeListener(new IListChangeListener() {
@@ -68,6 +70,7 @@ public class Group extends CollectionModel {
 						timeBarRowModel.addInterval((IntervalImpl) element);
 					}
 				});
+				Group.this.firePropertyChange(NO_OF_SPECTRUMS_PROP_NAME, null, spectrumList.size());
 			}
 		});
 	}
@@ -115,7 +118,6 @@ public class Group extends CollectionModel {
 		updateMaxAccumulationForDetector();
 	}
 
-	public static final String NO_OF_SPECTRUMS_PROP_NAME = "numberOfSpectrums";
 	public int getNumberOfSpectrums() {
 		return spectrumList.size();
 	}

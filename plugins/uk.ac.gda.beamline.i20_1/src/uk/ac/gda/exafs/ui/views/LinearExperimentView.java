@@ -299,6 +299,10 @@ public class LinearExperimentView extends ViewPart {
 			}
 		});
 
+		viewerNumberColumn = new TableViewerColumn(groupsTableViewer, SWT.NONE);
+		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
+		viewerNumberColumn.getColumn().setText("Spectrums");
+
 		ObservableListContentProvider contentProvider =
 				new ObservableListContentProvider();
 		// Create the label provider including monitoring
@@ -311,7 +315,9 @@ public class LinearExperimentView extends ViewPart {
 				CollectionModel.START_TIME_PROP_NAME).observeDetail(knownElements);
 		final IObservableMap endTimes = BeanProperties.value(Group.class,
 				CollectionModel.END_TIME_PROP_NAME).observeDetail(knownElements);
-		IObservableMap[] labelMaps = {names, startTimes, endTimes};
+		final IObservableMap noOfSpectrum = BeanProperties.value(Group.class,
+				Group.NO_OF_SPECTRUMS_PROP_NAME).observeDetail(knownElements);
+		IObservableMap[] labelMaps = {names, startTimes, endTimes, noOfSpectrum};
 
 		groupsTableViewer.setContentProvider(contentProvider);
 		groupsTableViewer.setLabelProvider(new ObservableMapLabelProvider(labelMaps) {
@@ -321,6 +327,7 @@ public class LinearExperimentView extends ViewPart {
 				case 0: return (String) names.get(element);
 				case 1: return DataHelper.roundDoubletoString((double) startTimes.get(element)) + " " + UnitSetup.MILLI_SEC.getText();
 				case 2: return DataHelper.roundDoubletoString((double) endTimes.get(element)) + " " + UnitSetup.MILLI_SEC.getText();
+				case 3: return Integer.toString((int) noOfSpectrum.get(element));
 				default : return "Unkown column";
 				}
 			}
