@@ -22,6 +22,7 @@ import gda.device.detector.StripDetector;
 import gda.scan.EdeScan;
 import gda.scan.MultiScan;
 import gda.scan.ScanBase;
+import gda.scan.ede.datawriters.EdeLinearExperimentAsciiFileWriter;
 import gda.scan.ede.position.EdeScanPosition;
 
 import java.util.List;
@@ -40,7 +41,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  */
 public class EdeLinearExperiment extends EdeExperiment {
 
-	//	private static final Logger logger = LoggerFactory.getLogger(EdeSingleExperiment.class);
+	// private static final Logger logger = LoggerFactory.getLogger(EdeSingleExperiment.class);
 
 	private final EdeScanParameters itScanParameters;
 	private final EdeScanPosition i0Position;
@@ -48,6 +49,11 @@ public class EdeLinearExperiment extends EdeExperiment {
 	private final StripDetector theDetector;
 
 	private EdeScanParameters i0ScanParameters;
+	private EdeScan i0DarkScan;
+	private EdeScan i0InitialScan;
+	private EdeScan itScan;
+	private EdeScan i0FinalScan;
+	private EdeLinearExperimentAsciiFileWriter writer;
 
 	public EdeLinearExperiment(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
 			EdeScanPosition itPosition, StripDetector theDetector) {
@@ -68,8 +74,43 @@ public class EdeLinearExperiment extends EdeExperiment {
 	public String runExperiment() throws Exception {
 		deriveI0ScansFromIts();
 		runScans();
-		writeAsciiFile();
-		return ""; // ascii filename
+		return writeAsciiFile();
+	}
+
+	/**
+	 * NPE if this is called before the scan has been run and the datawriter has been created
+	 * 
+	 * @return the name of the I0 output file
+	 */
+	public String getI0Filename() {
+		return writer.getAsciiI0Filename();
+	}
+
+	/**
+	 * NPE if this is called before the scan has been run and the datawriter has been created
+	 * 
+	 * @return the name of the It output file
+	 */
+	public String getItFilename() {
+		return writer.getAsciiItFilename();
+	}
+
+	/**
+	 * NPE if this is called before the scan has been run and the datawriter has been created
+	 * 
+	 * @return the name of the It output file
+	 */
+	public String getItFinalFilename() {
+		return writer.getAsciiItFinalFilename();
+	}
+
+	/**
+	 * NPE if this is called before the scan has been run and the datawriter has been created
+	 * 
+	 * @return the name of the It output file
+	 */
+	public String getItAveragedFilename() {
+		return writer.getAsciiItAveragedFilename();
 	}
 
 	private void deriveI0ScansFromIts() {
@@ -91,10 +132,10 @@ public class EdeLinearExperiment extends EdeExperiment {
 	}
 
 	private void runScans() throws InterruptedException, Exception {
-		EdeScan i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, -1);
-		EdeScan i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, -1);
-		EdeScan itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, -1);
-		EdeScan i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, -1);
+		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 1);
+		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1);
+		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1);
+		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1);
 
 		List<ScanBase> theScans = new Vector<ScanBase>();
 		theScans.add(i0DarkScan);
@@ -106,9 +147,14 @@ public class EdeLinearExperiment extends EdeExperiment {
 		theScan.runScan();
 	}
 
-	private void writeAsciiFile() {
-		// TODO Auto-generated method stub
-
+	private String writeAsciiFile() throws Exception {
+		writer = new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0InitialScan, itScan, i0FinalScan, theDetector);
+		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
+			writer.setFilenameTemplate(filenameTemplate);
+		}
+		writer.writeAsciiFile();
+		log("EDE single spectrum experiment complete.");
+		return writer.getAsciiItFilename();
 	}
 
 }

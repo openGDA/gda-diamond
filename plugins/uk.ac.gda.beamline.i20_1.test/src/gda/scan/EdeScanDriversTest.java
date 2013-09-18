@@ -31,12 +31,16 @@ import gda.device.scannable.ScannableMotor;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.factory.ObjectFactory;
+import gda.scan.ede.drivers.LinearExperimentDriver;
 import gda.scan.ede.drivers.SingleSpectrumDriver;
 
 import java.io.File;
+import java.util.Vector;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 public class EdeScanDriversTest {
 	private static DummyXStripDAServer daserver;
@@ -112,7 +116,7 @@ public class EdeScanDriversTest {
 		System.out.println(filename);
 	}
 
-//	@Test  TODO wait until Phyo has completed alignment stage refactoring
+//	@Test  //TODO wait until Phyo has completed alignment stage refactoring
 	public void testDriveSingleSpectrumScan_alignmentstagepositions() throws Exception {
 		setup("testDriveSingleSpectrumScan_alignmentstagepositions");
 
@@ -125,7 +129,7 @@ public class EdeScanDriversTest {
 
 	}
 
-//	@Test  TODO wait until Phyo has completed alignment stage refactoring
+//	@Test  //TODO wait until Phyo has completed alignment stage refactoring
 	public void testDriveSingleSpectrumScan_mixedpositions() throws Exception {
 		setup("testDriveSingleSpectrumScan_mixedpositions");
 
@@ -137,6 +141,43 @@ public class EdeScanDriversTest {
 		System.out.println(filename);
 
 	}
+	
+	@Test
+	public void testDriveLinearSpectrumScan_motorpositions() throws Exception {
+		setup("testDriveLinearSpectrumScan_motorpositions");
+		
+		Vector<TimingGroup> groups = new Vector<TimingGroup>();
+		
+		TimingGroup group1 = new TimingGroup();
+		group1.setLabel("group1");
+		group1.setNumberOfFrames(10);
+		group1.setTimePerScan(0.005);
+		group1.setNumberOfScansPerFrame(5);
+		groups.add(group1);
+
+		TimingGroup group2 = new TimingGroup();
+		group2.setLabel("group2");
+		group2.setNumberOfFrames(10);
+		group2.setTimePerScan(0.05);
+		group2.setNumberOfScansPerFrame(5);
+		groups.add(group2);
+
+		TimingGroup group3 = new TimingGroup();
+		group3.setLabel("group3");
+		group3.setNumberOfFrames(5);
+		group3.setTimePerScan(0.01);
+		group3.setNumberOfScansPerFrame(5);
+		groups.add(group3);
+
+
+		LinearExperimentDriver driver = new LinearExperimentDriver("xh", groups);
+		driver.setInBeamPosition(0.0, 0.0);
+		driver.setOutBeamPosition(0.1, 0.1);
+
+		String filename = driver.doCollection();
+		System.out.println(filename);
+	}
+
 
 	private static ScannableMotor createMotor(String name) throws MotorException, FactoryException {
 		DummyMotor xMotor = new DummyMotor();

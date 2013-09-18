@@ -37,14 +37,14 @@ public class FrameIndexerTest {
 	public void testStaticMethod() {
 
 		Integer[] test1 = FrameIndexer.generateIndex(EdeScanType.LIGHT, EdePositionType.INBEAM, 1, 2, 3);
-		assertEquals(Integer.valueOf(0), test1[0]);
+		assertEquals(Integer.valueOf(1), test1[0]);
 		assertEquals(Integer.valueOf(1), test1[1]);
 		assertEquals(Integer.valueOf(1), test1[2]);
 		assertEquals(Integer.valueOf(2), test1[3]);
 		assertEquals(Integer.valueOf(3), test1[4]);
 
 		Integer[] test2 = FrameIndexer.generateIndex(EdeScanType.DARK, EdePositionType.OUTBEAM, 4, 5, 6);
-		assertEquals(Integer.valueOf(1), test2[0]);
+		assertEquals(Integer.valueOf(0), test2[0]);
 		assertEquals(Integer.valueOf(0), test2[1]);
 		assertEquals(Integer.valueOf(4), test2[2]);
 		assertEquals(Integer.valueOf(5), test2[3]);
@@ -114,7 +114,7 @@ public class FrameIndexerTest {
 		indexer.setFrame(frame);
 		assertEquals(Integer.valueOf(1), group);
 		assertEquals(Integer.valueOf(1), frame);
-		assertArrayEquals(new Integer[] { 1, 0, 1, 1, 1 }, (Integer[]) indexer.getPosition());
+		assertArrayEquals(new Integer[] { 0, 0, 1, 1, 1 }, (Integer[]) indexer.getPosition());
 
 		// 20th frame
 		group = ExperimentLocationUtils.getGroupNum(params, 20);
@@ -123,7 +123,7 @@ public class FrameIndexerTest {
 		indexer.setFrame(frame);
 		assertEquals(Integer.valueOf(6), group);
 		assertEquals(Integer.valueOf(6), frame);
-		assertArrayEquals(new Integer[] { 1, 0, 1, 6, 6 }, (Integer[]) indexer.getPosition());
+		assertArrayEquals(new Integer[] { 0, 0, 1, 6, 6 }, (Integer[]) indexer.getPosition());
 
 		// 27th frame
 		group = ExperimentLocationUtils.getGroupNum(params, 27);
@@ -132,7 +132,7 @@ public class FrameIndexerTest {
 		indexer.setFrame(frame);
 		assertEquals(Integer.valueOf(7), group);
 		assertEquals(Integer.valueOf(7), frame);
-		assertArrayEquals(new Integer[] { 1, 0, 1, 7, 7 }, (Integer[]) indexer.getPosition());
+		assertArrayEquals(new Integer[] { 0, 0, 1, 7, 7 }, (Integer[]) indexer.getPosition());
 
 		// 51st frame
 		group = ExperimentLocationUtils.getGroupNum(params, 51);
@@ -141,7 +141,7 @@ public class FrameIndexerTest {
 		indexer.setFrame(frame);
 		assertEquals(Integer.valueOf(10), group);
 		assertEquals(Integer.valueOf(7), frame);
-		assertArrayEquals(new Integer[] { 1, 0, 1, 10, 7 }, (Integer[]) indexer.getPosition());
+		assertArrayEquals(new Integer[] { 0, 0, 1, 10, 7 }, (Integer[]) indexer.getPosition());
 
 	}
 }

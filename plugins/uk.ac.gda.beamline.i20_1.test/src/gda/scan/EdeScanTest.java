@@ -28,9 +28,11 @@ import gda.device.detector.XHDetector;
 import gda.device.motor.DummyMotor;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.FactoryException;
+import gda.scan.ede.EdeLinearExperiment;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.EdeSingleExperiment;
 import gda.scan.ede.position.EdePositionType;
+import gda.scan.ede.position.EdeScanPosition;
 import gda.scan.ede.position.ExplicitScanPositions;
 
 import java.io.BufferedReader;
@@ -39,6 +41,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.Vector;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.junit.Test;
@@ -80,6 +83,7 @@ public class EdeScanTest {
 	@Test
 	public void testRunScanOutputProgressData() throws Exception {
 		setup("testRunScanOutputProgressData");
+		// create the extra columns by having number of repetitions >= 0
 		runTestScan(1,10);
 	}
 
@@ -145,7 +149,7 @@ public class EdeScanTest {
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(scanParams, inBeam, outBeam, xh);
 		String filename = theExperiment.runExperiment();
 
-		testEDEFormatAsciiFile(filename);
+		testNumberColumnsInEDEFile(filename,9);
 	}
 
 	@Test
@@ -177,10 +181,10 @@ public class EdeScanTest {
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0Params, itParams, inBeam, outBeam, xh);
 		String filename = theExperiment.runExperiment();
 
-		testEDEFormatAsciiFile(filename);
+		testNumberColumnsInEDEFile(filename,9);
 	}
 
-	private void testEDEFormatAsciiFile(String filename) throws FileNotFoundException, IOException {
+	private void testNumberColumnsInEDEFile(String filename, int numExpectedColumns) throws FileNotFoundException, IOException {
 		FileReader asciiFile = new FileReader(filename);
 		BufferedReader reader = null;
 		try {
@@ -188,7 +192,7 @@ public class EdeScanTest {
 			reader.readLine(); // header line
 			String dataString = reader.readLine(); // first data point
 			String[] dataParts = dataString.split("\t");
-			assertEquals(9, dataParts.length);
+			assertEquals(numExpectedColumns, dataParts.length);
 		} finally {
 			if (reader != null) {
 				reader.close();
@@ -221,7 +225,6 @@ public class EdeScanTest {
 				reader.close();
 			}
 		}
-
 	}
 
 	@Test
@@ -240,7 +243,7 @@ public class EdeScanTest {
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, inBeam, outBeam, xh);
 		String filename = theExperiment.runExperiment();
 
-		testEDEFormatAsciiFile(filename);
+		testNumberColumnsInEDEFile(filename,9);
 	}
 
 	@Test
@@ -260,20 +263,7 @@ public class EdeScanTest {
 		theExperiment.setFilenameTemplate("mysample_%s_sample1");
 		String filename = theExperiment.runExperiment();
 
-		FileReader asciiFile = new FileReader(filename);
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(asciiFile);
-			reader.readLine(); // header line
-			String dataString = reader.readLine(); // first data point
-			String[] dataParts = dataString.split("\t");
-			assertEquals(9, dataParts.length);
-		} finally {
-			if (reader != null) {
-				reader.close();
-			}
-		}
-
+		testNumberColumnsInEDEFile(filename,9);
 	}
 
 	@Test
@@ -311,9 +301,55 @@ public class EdeScanTest {
 				reader.close();
 			}
 		}
-
 	}
+	
+	@Test
+	public void testSimpleLinearExperiment() throws Exception {
+		setup("testSimpleLinearExperiment");
+		
+		Vector<TimingGroup> groups = new Vector<TimingGroup>();
+		
+		TimingGroup group1 = new TimingGroup();
+		group1.setLabel("group1");
+		group1.setNumberOfFrames(10);
+		group1.setTimePerScan(0.005);
+		group1.setNumberOfScansPerFrame(5);
+		groups.add(group1);
 
+		TimingGroup group2 = new TimingGroup();
+		group2.setLabel("group2");
+		group2.setNumberOfFrames(10);
+		group2.setTimePerScan(0.05);
+		group2.setNumberOfScansPerFrame(5);
+		groups.add(group2);
+
+		TimingGroup group3 = new TimingGroup();
+		group3.setLabel("group3");
+		group3.setNumberOfFrames(5);
+		group3.setTimePerScan(0.01);
+		group3.setNumberOfScansPerFrame(5);
+		groups.add(group3);
+		
+		EdeScanParameters params = new EdeScanParameters();
+		params.setGroups(groups);
+
+		ScannableMotor xScannable = createMotor("xScannable");
+		ScannableMotor yScannable = createMotor("yScannable");
+
+		EdeScanPosition inBeam = new ExplicitScanPositions(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
+		EdeScanPosition outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
+				yScannable);
+
+		
+		EdeLinearExperiment theExperiment = new EdeLinearExperiment(params,outBeam,inBeam,xh);
+		String filename = theExperiment.runExperiment();
+		
+		testNumberColumnsInEDEFile(filename,7);
+		testNumberColumnsInEDEFile(theExperiment.getI0Filename(),7);
+		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(),7);
+		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(),7);
+	}
+	
 	private ScannableMotor createMotor(String name) throws MotorException, FactoryException {
 		DummyMotor xMotor = new DummyMotor();
 		xMotor.setSpeed(5000);

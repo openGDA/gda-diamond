@@ -18,51 +18,26 @@
 
 package gda.scan.ede.datawriters;
 
-import gda.data.nexus.extractor.NexusExtractor;
-import gda.data.nexus.extractor.NexusGroupData;
-import gda.device.DeviceException;
-import gda.device.detector.NXDetectorData;
 import gda.device.detector.StripDetector;
-import gda.jython.InterfaceProvider;
 import gda.scan.EdeScan;
-import gda.scan.ScanDataPoint;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.List;
-import java.util.Vector;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
-public class EdeSingleSpectrumAsciiFileWriter {
-
-	public static final String STRIP_COLUMN_NAME = "Strip";
-	public static final String ENERGY_COLUMN_NAME = "Energy";
-	public static final String I0_CORR_COLUMN_NAME = "I0_corr";
-	public static final String IT_CORR_COLUMN_NAME = "It_corr";
-	public static final String LN_I0_IT_COLUMN_NAME = "LnI0It";
-	public static final String I0_RAW_COLUMN_NAME = "I0_raw";
-	public static final String IT_RAW_COLUMN_NAME = "It_raw";
-	public static final String I0_DARK_COLUMN_NAME = "I0_dark";
-	public static final String IT_DARK_COLUMN_NAME = "It_dark";
-
-	private static final Logger logger = LoggerFactory.getLogger(EdeSingleSpectrumAsciiFileWriter.class);
+public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 
 	private final EdeScan i0DarkScan;
 	private final EdeScan itDarkScan;
 	private final EdeScan i0InitialScan;
 	private final EdeScan itScan;
-	private final StripDetector theDetector;
-	private String filenameTemplate = "";
 	private String asciiFilename;
 
-	public EdeSingleSpectrumAsciiFileWriter(EdeScan i0InitialScan, EdeScan itScan, EdeScan i0DarkScan, EdeScan itDarkScan,
-			StripDetector theDetector) {
+	public EdeSingleSpectrumAsciiFileWriter(EdeScan i0InitialScan, EdeScan itScan, EdeScan i0DarkScan,
+			EdeScan itDarkScan, StripDetector theDetector) {
 		super();
 		this.i0InitialScan = i0InitialScan;
 		this.itScan = itScan;
@@ -71,11 +46,12 @@ public class EdeSingleSpectrumAsciiFileWriter {
 		this.theDetector = theDetector;
 	}
 
+	@Override
 	public String writeAsciiFile() throws Exception {
-		DoubleDataset i0DarkDataSet = extractDetectorDataSets(i0DarkScan);
-		DoubleDataset itDarkDataSet = extractDetectorDataSets(itDarkScan);
-		DoubleDataset i0InitialDataSet = extractDetectorDataSets(i0InitialScan);
-		DoubleDataset itDataSet = extractDetectorDataSets(itScan);
+		DoubleDataset i0DarkDataSet = extractDetectorDataSets(i0DarkScan, 0);
+		DoubleDataset itDarkDataSet = extractDetectorDataSets(itDarkScan, 0);
+		DoubleDataset i0InitialDataSet = extractDetectorDataSets(i0InitialScan, 0);
+		DoubleDataset itDataSet = extractDetectorDataSets(itScan, 0);
 
 		determineAsciiFilename();
 
@@ -100,10 +76,7 @@ public class EdeSingleSpectrumAsciiFileWriter {
 			Double i0_corrected = i0Initial - i0DK;
 			Double it_corrected = it - itDK;
 
-			Double lni0it = Math.log(i0_corrected / it_corrected);
-			if (lni0it.isNaN() || lni0it.isInfinite() || lni0it < 0.0) {
-				lni0it = .0;
-			}
+			Double lni0it = calcLnI0It(i0_corrected, it_corrected);
 
 			StringBuffer stringToWrite = new StringBuffer(channel + "\t");
 			stringToWrite.append(String.format("%.2f", getEnergyForChannel(channel)) + "\t");
@@ -121,73 +94,21 @@ public class EdeSingleSpectrumAsciiFileWriter {
 		return asciiFilename;
 	}
 
+	public String getAsciiFilename() {
+		return asciiFilename;
+	}
+
 	private void determineAsciiFilename() {
 		// the scans would have created Nexus files, so base an ascii file on this plus any template, if supplied
 		String itFilename = itScan.getDataWriter().getCurrentFileName();
 		String folder = FilenameUtils.getFullPath(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
-
-		asciiFilename = folder + filename + ".txt";
+		String suffix = ".txt";
 
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
-			asciiFilename = folder + String.format(filenameTemplate, filename) + ".txt";
+			asciiFilename = folder + String.format(filenameTemplate, filename) + suffix;
 		} else {
-			asciiFilename = folder + filename + ".txt";
+			asciiFilename = folder + filename + suffix;
 		}
 	}
-
-	public String getAsciiFilename() {
-		return asciiFilename;
-	}
-
-	public String getFilenameTemplate() {
-		return filenameTemplate;
-	}
-
-	/**
-	 * A String format for the name of the ascii file to be written.
-	 * <p>
-	 * It <b>must</b> contain a '%s' to substitute the nexus file name into the given template.
-	 * <p>
-	 * E.g. if the nexus file created was: '/dls/i01/data/1234.nxs'
-	 * then the filenameTemplate given in this method should be something like: 'Fe-Kedge_%s'
-	 * for the final ascii file to be: '/dls/i01/data/Fe-Kedge_1234.txt'
-	 * 
-	 * @param filenameTemplate
-	 */
-	public void setFilenameTemplate(String filenameTemplate) {
-		this.filenameTemplate = filenameTemplate;
-	}
-
-	private Double getEnergyForChannel(int channel) {
-		PolynomialFunction function;
-		try {
-			function = theDetector.getEnergyCalibration();
-		} catch (DeviceException e) {
-			logger.error("Detector did not supply a calibration.", e);
-			return (double) channel;
-		}
-		return function.value(channel);
-	}
-
-	private DoubleDataset extractDetectorDataSets(EdeScan scan) {
-		List<ScanDataPoint> sdps = scan.getData();
-		Vector<Object> data = sdps.get(0).getDetectorData();
-		int detIndex = getIndexOfMyDetector(sdps.get(0));
-		NXDetectorData detData = (NXDetectorData) data.get(detIndex);
-		NexusGroupData groupData = detData.getData(theDetector.getName(), "data", NexusExtractor.SDSClassName);
-		double[] originalData = (double[]) groupData.getBuffer();
-		return new DoubleDataset(originalData, originalData.length);
-	}
-
-	private int getIndexOfMyDetector(ScanDataPoint scanDataPoint) {
-		Vector<String> names = scanDataPoint.getDetectorNames();
-		return names.indexOf(theDetector.getName());
-	}
-
-	private void log(String message) {
-		InterfaceProvider.getTerminalPrinter().print(message);
-		logger.info(message);
-	}
-
 }
