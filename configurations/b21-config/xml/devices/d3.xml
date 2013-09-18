@@ -7,17 +7,17 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
         http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
-	
+
 	<bean id="d3motor_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="D3.POSN" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="d3motor" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="d3motor_motor" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="d3d1" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
@@ -29,6 +29,96 @@
 		</property>
 		<property name="local" value="true" />
 	</bean>
+	<bean id="scaledd3d1" class="uk.ac.gda.server.ncd.epics.ScaledAmplifiedMonitor">
+		<property name="scalingAndOffset" ref="d3d1gain" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvProvider">
+			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
+				<property name="deviceName" value="D3.AMP1" />
+				<property name="fieldName" value="I" />
+			</bean>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="d3d1gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
+		<property name="pvName" value="BL21B-DI-PHDGN-03:PHD1:GAIN" />
+		<property name="gaintosando">
+			<map>
+				<entry key="0">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e8" />
+					</bean>
+				</entry>
+				<entry key="1">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e7" />
+					</bean>
+				</entry>
+				<entry key="2">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e6" />
+					</bean>
+				</entry>
+				<entry key="3">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e5" />
+					</bean>
+				</entry>
+				<entry key="4">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e4" />
+					</bean>
+				</entry>
+				<entry key="5">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e3" />
+					</bean>
+				</entry>
+				<entry key="6">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e2" />
+					</bean>
+				</entry>
+				<entry key="7">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e6" />
+					</bean>
+				</entry>
+				<entry key="8">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e5" />
+					</bean>
+				</entry>
+				<entry key="9">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e4" />
+					</bean>
+				</entry>
+				<entry key="10">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e3"></property>
+					</bean>
+				</entry>
+				<entry key="11">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e2"></property>
+					</bean>
+				</entry>
+				<entry key="12">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e1"></property>
+					</bean>
+				</entry>
+				<entry key="13">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e0"></property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
 	<bean id="d3d2" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
@@ -40,11 +130,96 @@
 		</property>
 		<property name="local" value="true" />
 	</bean>
-	<!-- 
-	<bean id="d2gain" class="gda.spring.EpicsEnumPositionerFactoryBean">
-		<property name="pvBase" value="D2.AMP" />
+	<bean id="scaledd3d2" class="uk.ac.gda.server.ncd.epics.ScaledAmplifiedMonitor">
+		<property name="scalingAndOffset" ref="d3d2gain" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvProvider">
+			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
+				<property name="deviceName" value="D3.AMP2" />
+				<property name="fieldName" value="I" />
+			</bean>
+		</property>
+		<property name="local" value="true" />
 	</bean>
-	-->
+	<bean id="d3d2gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
+		<property name="pvName" value="BL21B-DI-PHDGN-03:PHD2:GAIN" />
+		<property name="gaintosando">
+			<map>
+				<entry key="0">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e8" />
+					</bean>
+				</entry>
+				<entry key="1">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e7" />
+					</bean>
+				</entry>
+				<entry key="2">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e6" />
+					</bean>
+				</entry>
+				<entry key="3">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e5" />
+					</bean>
+				</entry>
+				<entry key="4">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e4" />
+					</bean>
+				</entry>
+				<entry key="5">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e3" />
+					</bean>
+				</entry>
+				<entry key="6">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e2" />
+					</bean>
+				</entry>
+				<entry key="7">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e6" />
+					</bean>
+				</entry>
+				<entry key="8">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e5" />
+					</bean>
+				</entry>
+				<entry key="9">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e4" />
+					</bean>
+				</entry>
+				<entry key="10">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e3"></property>
+					</bean>
+				</entry>
+				<entry key="11">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e2"></property>
+					</bean>
+				</entry>
+				<entry key="12">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e1"></property>
+					</bean>
+				</entry>
+				<entry key="13">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e0"></property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
 	<bean id="d3filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL21B-DI-PHDGN-03:MP" />
 		<property name="local" value="true" />
