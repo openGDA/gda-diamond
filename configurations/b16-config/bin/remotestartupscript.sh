@@ -1,29 +1,6 @@
-#!/bin/bash -l
-umask 0002
+#!/bin/bash
 
-rm -f nohup.out || true
-touch nohup.out
+SELF=$(readlink -f $0)
+MT_CONFIGURATIONS=$(readlink -f $(dirname $SELF)/../..)
 
-touch /dls_sw/b16/logs/gda_client.logs_are_in_workstation_scratch_var_log_folders
-(
-nohup `dirname $0`/gda logserver $@
-nohup `dirname $0`/gda nameserver $@
-nohup `dirname $0`/gda eventserver $@
-JAVA_OPTS="-XX:MaxPermSize=512m -Xms512m -Xmx4096m" nohup `dirname $0`/gda objectserver --debug --verbose $@
-) &
-
-## show log until 'Server initialisation complete' is seen
-PIP=/tmp/`basename $0`-$$
-mknod $PIP p
-tail -n 1 -f nohup.out > $PIP &
-awk '{
-        if (!/DEBUG/) print ;
-        if (/\[gda.util.ObjectServer\] - Server initialisation complete/) {
-                print "\n\033[1;32mAll done, you can start the client now\033[0m\n" ;
-                exit ;
-        }
-}' < $PIP
-rm $PIP
-
-sleep 6
-
+$MT_CONFIGURATIONS/mt-config/bin/remotestartupscript.sh

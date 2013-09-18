@@ -1,5 +1,0 @@
-#!/bin/bash
-#/dls_sw/b16/software/gda/client/gda-b16
-
-echo /dls_sw/i16/software/gda_versions/gda_8.30/workspace_git/gda-diamond.git/dls-config/bin/gdaclient
-/dls_sw/b16/software/gda_versions/gda_8.30/workspace_git/gda-diamond.git/dls-config/bin/gdaclient

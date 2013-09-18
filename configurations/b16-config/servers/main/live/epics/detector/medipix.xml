@@ -44,6 +44,7 @@
 		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="medipix" />
 		<property name="ndFile" ref="medipix_ndfiletif" />
+		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 
 	<bean id="medipix_nxfilewriter_for_snaps"
@@ -51,6 +52,7 @@
 		<constructor-arg value="pilatus100k" />
 		<property name="ndFile" ref="medipix_ndfiletif" />
 		<property name="numTrackerExtension" value="medipix_snaps_numracker" />
+		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 
 

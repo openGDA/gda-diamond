@@ -28,8 +28,8 @@ http://www.opengda.org
 -Dgda.data=/dls/i07
 -Dgda.var=/dls_sw/i07/var
 -Dgda.logs.dir=/dls_sw/i07/logs
--Djacorb.config.dir=/dls_sw/i07/software/gda/i07-config/properties
--Dgda.propertiesFile=/dls_sw/i07/software/gda/i07-config/properties/java.properties
+-Djacorb.config.dir=/dls_sw/i07/software/gda/i07-config/jacorb/live
+-Dgda.propertiesFile=/dls_sw/i07/software/gda/i07-config/properties/live/java.properties
 -Dgda.config=/dls_sw/i07/software/gda/i07-config
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i07/software/gda/i07-config/properties/JCALibrary.properties
 -Dpython.cachedir=~/python.cachedir
