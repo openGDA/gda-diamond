@@ -26,7 +26,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide;bundle-version="3.6.2",
  org.eclipse.core.filesystem;bundle-version="1.3.1",
  org.eclipse.ui.intro,
- uk.ac.gda.server.exafs.epics;bundle-version="1.0.0"
+ uk.ac.gda.server.exafs.epics;bundle-version="1.0.0",
+ uk.ac.gda.epics.adviewer;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: gda.device.detector,

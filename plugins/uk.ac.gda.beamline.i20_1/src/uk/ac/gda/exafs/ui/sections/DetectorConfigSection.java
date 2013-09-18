@@ -52,7 +52,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
-import uk.ac.gda.exafs.data.DetectorConfig;
+import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class DetectorConfigSection {
@@ -127,7 +127,7 @@ public class DetectorConfigSection {
 
 	private void bindingValues() {
 		try {
-			DetectorConfig.INSTANCE.addPropertyChangeListener(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
+			DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
 				@Override
 				public void propertyChange(PropertyChangeEvent evt) {
 					boolean isDetectorConnected = (boolean) evt.getNewValue();
@@ -135,10 +135,10 @@ public class DetectorConfigSection {
 					if (isDetectorConnected) {
 						bindTxtBiasVoltage = dataBindingCtx.bindValue(
 								WidgetProperties.enabled().observe(txtBiasVoltage),
-								BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.BIAS_PROP_NAME), new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
+								BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.BIAS_PROP_NAME), new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
 						bindExcludedStrips = dataBindingCtx.bindValue(
 								WidgetProperties.enabled().observe(txtExcludedStrips),
-								BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.CURRENT_DETECTOR_EXCLUDED_STRIPS_PROP_NAME),
+								BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.CURRENT_DETECTOR_EXCLUDED_STRIPS_PROP_NAME),
 								new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST),
 								new UpdateValueStrategy() {
 									@Override
@@ -165,7 +165,7 @@ public class DetectorConfigSection {
 
 			dataBindingCtx.bindValue(
 					WidgetProperties.enabled().observe(detectorSetupSection),
-					BeansObservables.observeValue(DetectorConfig.INSTANCE, DetectorConfig.DETECTOR_CONNECTED_PROP_NAME));
+					BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
 
 		} catch (Exception e) {
 			String errorMessage = "Unable to update Detector configuration. ";
@@ -175,18 +175,18 @@ public class DetectorConfigSection {
 	}
 
 	private void updateExcludedStripsText() {
-		txtExcludedStrips.setText(DataHelper.toString(DetectorConfig.INSTANCE.getExcludedStrips()));
+		txtExcludedStrips.setText(DataHelper.toString(DetectorModel.INSTANCE.getExcludedStrips()));
 	}
 
 	private void showExcludedStripsDialog() {
 		ListSelectionDialog dialog =
 				new ListSelectionDialog(
 						Display.getDefault().getActiveShell(),
-						DetectorConfig.INSTANCE.getStrips(),
+						DetectorModel.INSTANCE.getStrips(),
 						new ArrayContentProvider(),
 						new LabelProvider(),
 						"Select excluded strips");
-		dialog.setInitialElementSelections(Arrays.asList(DetectorConfig.INSTANCE.getExcludedStrips()));
+		dialog.setInitialElementSelections(Arrays.asList(DetectorModel.INSTANCE.getExcludedStrips()));
 		if (dialog.open() == Window.OK) {
 			Object[] selection = dialog.getResult();
 			excludedStrips.clear();

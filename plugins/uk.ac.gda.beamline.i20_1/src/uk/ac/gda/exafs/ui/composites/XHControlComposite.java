@@ -34,11 +34,13 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.dawnsci.plotting.api.IPlottingSystem;
-import org.eclipse.core.runtime.NullProgressMonitor;
+import org.dawnsci.plotting.api.trace.ILineTrace;
+import org.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -61,7 +63,7 @@ import uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
-import uk.ac.gda.exafs.data.DetectorConfig;
+import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.ObservableModel;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
@@ -103,8 +105,10 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	private DoubleDataset strips;
 
+	private final ILineTrace lineTrace;
+
 	private static StripDetector getDetector(){
-		return DetectorConfig.INSTANCE.getCurrentDetector();
+		return DetectorModel.INSTANCE.getCurrentDetector();
 	}
 
 	public static class DetectorControlModel extends ObservableModel {
@@ -149,6 +153,13 @@ public class XHControlComposite extends Composite implements IObserver {
 	public XHControlComposite(Composite parent, IPlottingSystem plottingSystem) {
 		super(parent, SWT.None);
 		this.plottingSystem = plottingSystem;
+		plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
+		plottingSystem.setShowLegend(false);
+		lineTrace = plottingSystem.createLineTrace("Detector");
+		lineTrace.setLineWidth(1);
+		lineTrace.setTraceColor(Display.getDefault().getSystemColor(SWT.COLOR_BLUE));
+		lineTrace.setTraceType(TraceType.SOLID_LINE);
+		plottingSystem.addTrace(lineTrace);
 		toolkit = new FormToolkit(parent.getDisplay());
 		detectorControlModel = new DetectorControlModel();
 		setPlotData();
@@ -390,19 +401,27 @@ public class XHControlComposite extends Composite implements IObserver {
 	 * @throws DeviceException
 	 */
 	public Double[] collectAndPlotSnapshot(boolean writeData, Double collectionPeriod, Integer scansPerFrame,
-			String title) throws DeviceException, InterruptedException {
+			final String title) throws DeviceException, InterruptedException {
 
 		collectData(collectionPeriod, 1,scansPerFrame);
 
 		// will return a double[] of corrected data
-		Object results = getDetector().getAttribute(XHDetector.ATTR_READFIRSTFRAME);
+		final Object results = getDetector().getAttribute(XHDetector.ATTR_READFIRSTFRAME);
 
 		if (results != null) {
 			List<IDataset> data = new ArrayList<IDataset>(1);
 			data.add(new DoubleDataset((double[]) results));
-			plottingSystem.clear();
-			plottingSystem.createPlot1D(strips, data, new NullProgressMonitor());
-			plottingSystem.setTitle(title);
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
+					lineTrace.setData(strips, new DoubleDataset((double[]) results));
+					if (!plottingSystem.getTitle().equals(title)) {
+						plottingSystem.setTitle(title);
+					}
+					plottingSystem.repaint(true);
+				}
+			});
 		} else {
 			logger.info("Nothing returned!");
 		}
@@ -426,9 +445,9 @@ public class XHControlComposite extends Composite implements IObserver {
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					txtNumScansPerFrame.setEnabled(false);
-					txtRefreshPeriod.setEnabled(false);
-					txtSnapTime.setEnabled(false);
+					txtNumScansPerFrame.setEditable(false);
+					txtRefreshPeriod.setEditable(false);
+					txtSnapTime.setEditable(false);
 				}
 			});
 			liveLoop = uk.ac.gda.util.ThreadManager.getThread(new Runnable() {
@@ -443,9 +462,9 @@ public class XHControlComposite extends Composite implements IObserver {
 								&& InterfaceProvider.getScanStatusHolder().getScanStatus() == Jython.IDLE) {
 							Date snapshotTime = new Date();
 
-							String collectionPeriod_ms = String.format("%." + ClientConfig.DEFAULT_DECIMAL_PLACE + "f", detectorControlModel.getLiveIntegrationTime());
+							String collectionPeriod_ms = DataHelper.roundDoubletoString(detectorControlModel.getLiveIntegrationTime());
 							final Double[] results = collectAndPlotSnapshot(false, detectorControlModel.getLiveIntegrationTime(), 1,
-									"Live reading (" + collectionPeriod_ms + "ms integration, every " + detectorControlModel.getRefreshPeriod()
+									"Live reading (" + collectionPeriod_ms + " ms integration, every " + detectorControlModel.getRefreshPeriod()
 									+ " s)");
 
 							allValues = ArrayUtils.add(allValues, results[2]);
@@ -458,7 +477,7 @@ public class XHControlComposite extends Composite implements IObserver {
 					} catch (Exception e) {
 						logger.error("Exception in loop refreshing the live XH detector rate", e);
 					} finally {
-						PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+						Display.getDefault().asyncExec(new Runnable() {
 							@Override
 							public void run() {
 								// update the UI
@@ -491,9 +510,9 @@ public class XHControlComposite extends Composite implements IObserver {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				txtNumScansPerFrame.setEnabled(true);
-				txtRefreshPeriod.setEnabled(true);
-				txtSnapTime.setEnabled(true);
+				txtNumScansPerFrame.setEditable(true);
+				txtRefreshPeriod.setEditable(true);
+				txtSnapTime.setEditable(true);
 			}
 		});
 	}

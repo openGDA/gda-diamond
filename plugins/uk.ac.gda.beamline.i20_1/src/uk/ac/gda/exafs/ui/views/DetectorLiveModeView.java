@@ -18,7 +18,6 @@
 
 package uk.ac.gda.exafs.ui.views;
 
-
 import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
@@ -33,7 +32,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.part.ViewPart;
 
-import uk.ac.gda.exafs.data.DetectorConfig;
+import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.ui.composites.XHControlComposite;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
@@ -51,7 +50,9 @@ public class DetectorLiveModeView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		try {
-			plottingSystem = PlottingFactory.createPlottingSystem();
+			if (plottingSystem == null) {
+				plottingSystem = PlottingFactory.createPlottingSystem();
+			}
 		} catch (Exception e) {
 			// TODO Handle
 			return;
@@ -78,7 +79,7 @@ public class DetectorLiveModeView extends ViewPart {
 		controlComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		ctx.bindValue(WidgetProperties.enabled().observe(controlComposite),
-				BeanProperties.value(DetectorConfig.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorConfig.INSTANCE));
+				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
 	}
 
 	@Override
@@ -88,7 +89,7 @@ public class DetectorLiveModeView extends ViewPart {
 
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class clazz) {
-		if (clazz == IToolPageSystem.class) {
+		if (clazz == IToolPageSystem.class || clazz == IPlottingSystem.class) {
 			return plottingSystem;
 		}
 		return super.getAdapter(clazz);

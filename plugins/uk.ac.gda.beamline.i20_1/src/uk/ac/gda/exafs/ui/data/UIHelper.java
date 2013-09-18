@@ -26,19 +26,27 @@ public class UIHelper {
 	private UIHelper() {}
 
 	public static void showError(final String message, final String reason) {
-		Display.getDefault().syncExec(new Runnable() {
-			@Override
-			public void run() {
-				MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", message  + "\n\nReason:\n" + reason);
-			}
-		});
+		showMessage(MessageDialog.ERROR, message, reason);
 	}
 
 	public static void showWarning(final String message, final String reason) {
-		Display.getDefault().syncExec(new Runnable() {
+		showMessage(MessageDialog.WARNING, message, reason);
+	}
+
+	private static void showMessage(final int messageDialogType, final String message, final String reason) {
+		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				MessageDialog.openWarning(Display.getDefault().getActiveShell(), "Warning", message  + "\n\nReason:\n" + reason);
+				StringBuilder messageString = new StringBuilder();
+				messageString.append(message);
+				if (reason != null) {
+					messageString.append("\n\nReason:\n" + reason);
+				}
+				if (messageDialogType == MessageDialog.ERROR) {
+					MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", messageString.toString());
+				} else if (messageDialogType == MessageDialog.WARNING) {
+					MessageDialog.openWarning(Display.getDefault().getActiveShell(), "Warning", messageString.toString());
+				}
 			}
 		});
 	}

@@ -68,9 +68,18 @@ public class SingleSpectrumModel extends ObservableModel {
 	private String fileName;
 
 	public static final String SCANNING_PROP_NAME = "scanning";
+
+	public static final String IREF_X_POSITION_PROP_NAME = "iRefxPosition";
+	private double iRefxPosition;
+
+	public static final String IREF_Y_POSITION_PROP_NAME = "iRefyPosition";
+	private double iRefyPosition;
+
 	private boolean scanning;
 
 	private final ScanJob job;
+
+	private String fileTemplate = "Unknown_cal";
 
 	protected SingleSpectrumModel() {
 		Scannable scannable = Finder.getInstance().find("alignment_stage");
@@ -91,14 +100,15 @@ public class SingleSpectrumModel extends ObservableModel {
 
 	private String buildScanCommand() {
 		return String.format("from gda.scan.ede.drivers import SingleSpectrumDriver;" +
-				"scan_driver = SingleSpectrumDriver(\"%s\",%f,%d,%f,%d);" +
+				"scan_driver = SingleSpectrumDriver(\"%s\",%f,%d,%f,%d,\"%s\");" +
 				"scan_driver.setInBeamPosition(%f,%f);" +
 				"scan_driver.setOutBeamPosition(%f,%f)",
-				DetectorConfig.INSTANCE.getCurrentDetector().getName(),
+				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				i0IntegrationTime,
 				i0NumberOfAccumulations,
 				itIntegrationTime,
 				itNumberOfAccumulations,
+				fileTemplate,
 				i0xPosition, i0yPosition,
 				iTxPosition, iTyPosition);
 	}
@@ -116,6 +126,10 @@ public class SingleSpectrumModel extends ObservableModel {
 		public String getText() {
 			return text;
 		}
+	}
+
+	public void setCurrentElement(String elementSymbol) {
+		fileTemplate = elementSymbol + "_cal%s";
 	}
 
 	private class ScanJob extends Job implements IObserver {
@@ -137,7 +151,6 @@ public class SingleSpectrumModel extends ObservableModel {
 					}
 				}
 				if (SingleSpectrumModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
-					System.out.println("test");
 					monitor.worked(1);
 				}
 			}
@@ -156,6 +169,9 @@ public class SingleSpectrumModel extends ObservableModel {
 			try {
 				InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
 				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
+				if (resultFileName == null) {
+					throw new Exception("Unable to do collection.");
+				}
 				Display.getDefault().asyncExec(new Runnable() {
 					@Override
 					public void run() {
@@ -167,11 +183,7 @@ public class SingleSpectrumModel extends ObservableModel {
 					}
 				});
 			} catch (Exception e) {
-				if (e.getMessage() !=null) {
-					UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
-				} else {
-					UIHelper.showWarning("Error while scanning or canceled", "");
-				}
+				UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
 			}
 			monitor.done();
 			Display.getDefault().asyncExec(new Runnable() {
@@ -190,15 +202,14 @@ public class SingleSpectrumModel extends ObservableModel {
 	}
 
 	public void doScan() throws Exception {
-		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
+		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
 		job.schedule();
 	}
 
-	public void setFileName(String value) throws Exception {
+	public void setFileName(String value) {
 		firePropertyChange(FILE_NAME_PROP_NAME, fileName, fileName = value);
-		EdeCalibrationModel.INSTANCE.getEdeData().setData(value);
 	}
 
 	public String getFileName() {
@@ -277,8 +288,24 @@ public class SingleSpectrumModel extends ObservableModel {
 		firePropertyChange(IT_Y_POSITION_PROP_NAME, iTyPosition, iTyPosition = value);
 	}
 
+	public double getiRefxPosition() {
+		return iRefxPosition;
+	}
+
+	public void setiRefxPosition(double value) {
+		firePropertyChange(IREF_X_POSITION_PROP_NAME, iRefxPosition, iRefxPosition = value);
+	}
+
+	public double getiRefyPosition() {
+		return iRefyPosition;
+	}
+
+	public void setiRefyPosition(double value) {
+		firePropertyChange(IREF_Y_POSITION_PROP_NAME, iRefyPosition, iRefyPosition = value);
+	}
+
 	public void save() throws DetectorUnavailableException {
-		if (DetectorConfig.INSTANCE.getCurrentDetector() == null) {
+		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
 		InterfaceProvider.getCommandRunner().runCommand("alignment_stage.saveDeviceFromCurrentMotorPositions(\"slits\")");

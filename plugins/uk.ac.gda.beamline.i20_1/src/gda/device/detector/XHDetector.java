@@ -108,8 +108,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	private Integer[] excludedStrips;
 	private boolean connected;
 	private static Integer[] STRIPS;
-	// if true then add group and frame columns to the output
-	private boolean displayGroupFrameValues = true;
 
 	private PolynomialFunction calibration = new PolynomialFunction(new double[] { 0., 1. });
 
@@ -325,10 +323,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 		NexusTreeProvider[] results = new NexusTreeProvider[rawDataInFrames.length];
 
-		int frameNum = startFrame;
 		for (int i = 0; i < rawDataInFrames.length; i++) {
-			results[i] = readoutFrame(frameNum, rawDataInFrames[i]);
-			frameNum++;
+			results[i] = readoutFrame(rawDataInFrames[i]);
 		}
 
 		return results;
@@ -354,7 +350,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	 * @param elements
 	 * @return NexusTreeProvider
 	 */
-	protected NXDetectorData readoutFrame(int frameNum, int[] elements) {
+	protected NXDetectorData readoutFrame(int[] elements) {
 
 		double[] correctedData = performCorrections(elements)[0];
 		NXDetectorData thisFrame = new NXDetectorData(this);
@@ -364,28 +360,14 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			energies[i] = calibration.value(i);
 		}
 
-		thisFrame.addAxis(getName(), "Energy", new int[] { 1, NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, energies, 1, 1,
+		thisFrame.addAxis(getName(), "Energy", new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, energies, 1, 1,
 				"eV", false);
-		thisFrame.addData(getName(), new int[] { 1, NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, correctedData, "eV", 1);
+		thisFrame.addData(getName(), new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, correctedData, "eV", 1);
 
 		double[] extraValues = getExtraValues(elements);
 		String[] names = getExtraNames();
 
 		int offset = 0;
-		if (displayGroupFrameValues) {
-			offset = 2;
-
-			// get values which match to da.server memory
-			int absGroupNum = ExperimentLocationUtils.getGroupNum(nextScan, frameNum);
-			int absFrameNum = ExperimentLocationUtils.getFrameNum(nextScan, frameNum);
-
-			// add 1 to make the values understandable by users
-			absGroupNum++;
-			absFrameNum++;
-
-			thisFrame.setPlottableValue(names[0], (double) absGroupNum);
-			thisFrame.setPlottableValue(names[1], (double) absFrameNum);
-		}
 
 		for (int i = offset; i < names.length; i++) {
 			thisFrame.setPlottableValue(names[i], extraValues[i - offset]);
@@ -894,17 +876,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		this.detectorName = detectorName;
 	}
 
-	public boolean isDisplayGroupFrameValues() {
-		return displayGroupFrameValues;
-	}
-
-	public void setDisplayGroupFrameValues(boolean displayGroupFrameValues) {
-		if (displayGroupFrameValues != this.displayGroupFrameValues) {
-			this.displayGroupFrameValues = displayGroupFrameValues;
-			setRoisWithoutStoringAndNotifying(getRois());
-		}
-	}
-
 	public DAServer getDaServer() {
 		return daServer;
 	}
@@ -984,31 +955,17 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			this.rois = new XHROI[0];
 		}
 
-		// display the group and frame values in output?
-		int offset = 0;
-		if (displayGroupFrameValues) {
-			offset = 2;
-		}
-
-		extraNames = new String[numROI + 1 + offset];
-		outputFormat = new String[numROI + 2 + offset];
+		extraNames = new String[numROI + 1];
+		outputFormat = new String[numROI + 2];
 		outputFormat[0] = "%8.3f";
-		if (displayGroupFrameValues) {
-			extraNames[0] = "Group";
-			extraNames[1] = "Frame";
-			extraNames[2] = "Total";
-			outputFormat[1] = "%d";
-			outputFormat[2] = "%d";
-			outputFormat[3] = "%8.3f";
-		} else {
-			extraNames[0] = "Total";
-			outputFormat[1] = "%8.3f";
-		}
+		extraNames[0] = "Total";
+		outputFormat[1] = "%8.3f";
+
 
 		if (rois != null && numROI > 0) {
 			for (int i = 0; i < numROI; i++) {
-				extraNames[i + 1 + offset] = rois[i].getName();
-				outputFormat[i + 2 + offset] = "%8.3f";
+				extraNames[i + 1] = rois[i].getName();
+				outputFormat[i + 2] = "%8.3f";
 			}
 		}
 	}
