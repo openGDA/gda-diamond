@@ -870,30 +870,6 @@
 	<simplePv desc="HO2 Outgoing Water Temp" name="HO2.T3">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-02:TEMP3" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="F1 TEMPERATURE 1" name="F1.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-ATTN-01:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="F1 TEMPERATURE 2" name="F1.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-ATTN-01:TEMP2" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="F2 TEMPERATURE 1" name="F2.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-ATTN-02:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="F2 TEMPERATURE 2" name="F2.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-ATTN-02:TEMP2" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="F3 TEMPERATURE 1" name="F3.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-ATTN-03:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="F3 TEMPERATURE 2" name="F3.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-ATTN-03:TEMP2" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="F4 TEMPERATURE 1" name="F4.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-ATTN-04:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="F4 TEMPERATURE 2" name="F4.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-ATTN-04:TEMP2" ro="true" type="pv"/>
-	</simplePv>
 	<simplePv desc="AB2 TEMPERATURE 1" name="AB2.T1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-02:TEMP1" ro="true" type="pv"/>
 	</simplePv>
@@ -992,6 +968,24 @@
 	</simplePv>
 	<simplePv desc="AB3 TEMPERATURE 3" name="AB3.T3">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-03:TEMP3" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="AB3 Temperature 4" name="AB3.T4">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-03:TEMP4" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="AB3 Temperature 5" name="AB3.T5">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-03:TEMP5" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="AB3 Temperature 6" name="AB3.T6">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-03:TEMP6" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="AB3 Temperature 7" name="AB3.T7">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-03:TEMP7" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="AB3 Temperature 8" name="AB3.T8">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-03:TEMP8" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="AB3 Temperature 9" name="AB3.T9">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-03:TEMP9" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="W2 TEMPERATURE 1" name="W2.T1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-02:TEMP1" ro="true" type="pv"/>

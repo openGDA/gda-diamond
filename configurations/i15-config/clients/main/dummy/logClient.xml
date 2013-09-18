@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration debug="true"> # Add debug="true" in here to log logback configuration
 
+    <!-- enable this if you want log message appear on local console -->
     <appender name="LogPanel" class="gda.util.LogPanelAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
@@ -20,9 +21,9 @@
     </appender>
 
     <appender name="DebugFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${gda.logs.dir}/gda_client.log</File>
+        <File>${gda.logs.dir}/gda_client.${USERNAME}.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${gda.logs.dir}/gda_client.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
+            <FileNamePattern>${gda.logs.dir}/gda_client.%d{yyyy-MM-dd}.${USERNAME}.log.zip</FileNamePattern>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d %-5level [%logger] %ex - %m%n</pattern>
@@ -35,13 +36,15 @@
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
-    
+
     <logger name="gda">
         <level value="INFO"/>
     </logger>
+
     <logger name="uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotWindowManager">
         <level value="OFF"/>
     </logger>
+
     <root>
         <level value="INFO"/>
         <appender-ref ref="Console"/>
