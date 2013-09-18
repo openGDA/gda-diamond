@@ -278,5 +278,20 @@
       </command>
    </menuContribution>
 </extension>
+   <extension
+         point="org.dawnsci.plotting.api.plottingAction">
+      <plotting_action
+            command_id="uk.ac.gda.beamline.i20_1.plottingRescale"
+            id="uk.ac.gda.beamline.i20_1.plottingRescale">
+      </plotting_action>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="uk.ac.gda.exafs.ui.views.commandhandlers.RescaleHandler"
+            id="uk.ac.gda.beamline.i20_1.plottingRescale"
+            name="Re scale">
+      </command>
+   </extension>
    
 </plugin>

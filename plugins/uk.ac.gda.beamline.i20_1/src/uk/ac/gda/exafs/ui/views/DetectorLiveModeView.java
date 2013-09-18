@@ -89,7 +89,7 @@ public class DetectorLiveModeView extends ViewPart {
 
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class clazz) {
-		if (clazz == IToolPageSystem.class) {
+		if (clazz == IToolPageSystem.class || clazz == IPlottingSystem.class) {
 			return plottingSystem;
 		}
 		return super.getAdapter(clazz);

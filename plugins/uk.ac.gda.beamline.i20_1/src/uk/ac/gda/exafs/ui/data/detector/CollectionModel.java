@@ -92,7 +92,8 @@ public abstract class CollectionModel extends IntervalImpl {
 
 	@Override
 	public String toString() {
-		return this.getName() + " " + DataHelper.roundDoubletoString(getDuration()) + " " + UnitSetup.MILLI_SEC.getText();
+		return this.getName() + "\nEnd: " + DataHelper.roundDoubletoString(getEndTime()) + " " + UnitSetup.MILLI_SEC.getText() +
+				"\nDuration: " + DataHelper.roundDoubletoString(getDuration()) + " " + UnitSetup.MILLI_SEC.getText();
 	}
 
 	public abstract void dispose();

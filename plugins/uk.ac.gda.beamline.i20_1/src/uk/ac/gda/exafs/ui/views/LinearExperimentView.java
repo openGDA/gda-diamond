@@ -48,6 +48,8 @@ import org.eclipse.jface.viewers.TableViewerEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -75,7 +77,6 @@ import uk.ac.gda.exafs.ui.data.detector.CollectionModel;
 import uk.ac.gda.exafs.ui.data.detector.CollectionModelRenderer;
 import uk.ac.gda.exafs.ui.data.detector.Experiment;
 import uk.ac.gda.exafs.ui.data.detector.Group;
-import uk.ac.gda.exafs.ui.data.detector.GroupGapRenderer;
 import uk.ac.gda.exafs.ui.data.detector.MilliScale;
 import uk.ac.gda.exafs.ui.data.detector.Spectrum;
 
@@ -91,10 +92,11 @@ import de.jaret.util.ui.timebars.model.TimeBarRow;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 
 public class LinearExperimentView extends ViewPart {
+	public static final String ID = "uk.ac.gda.exafs.ui.views.linearExperimentView";
+
+	private static final int TIMEBAR_ZOOM_FACTOR = 300;
 
 	private static final long INITIAL_TIMEBAR_MARKER_IN_MILLI = 10L;
-
-	public static final String ID = "uk.ac.gda.exafs.ui.views.linearExperimentView";
 
 	private static final int GROUP_TABLE_HEIGHT = 100;
 	private static final int GROUP_TABLE_WIDTH = 100;
@@ -179,9 +181,6 @@ public class LinearExperimentView extends ViewPart {
 		ScrolledForm scrolledform = toolkit.createScrolledForm(composite);
 		scrolledform.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		Form form = scrolledform.getForm();
-		//TableWrapLayout tableWrapLayout = new TableWrapLayout();
-		//tableWrapLayout.numColumns = 2;
-		//tableWrapLayout.makeColumnsEqualWidth = true;
 		form.getBody().setLayout(new GridLayout(2, true));
 		toolkit.decorateFormHeading(form);
 		scrolledform.setText("Linear experiment");
@@ -204,7 +203,6 @@ public class LinearExperimentView extends ViewPart {
 		@SuppressWarnings("static-access")
 		Section section = toolkit.createSection(parent, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		section.setText("Timing groups");
-		//section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		Composite sectionComposite = toolkit.createComposite(section, SWT.NONE);
 		toolkit.paintBordersFor(sectionComposite);
@@ -360,7 +358,6 @@ public class LinearExperimentView extends ViewPart {
 		section.setSeparatorControl(sectionSeparator);
 
 		final Section groupSection = toolkit.createSection(parent, SWT.None);
-		//groupSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		groupSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		final Composite groupSectionComposite = toolkit.createComposite(groupSection, SWT.NONE);
 		groupSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
@@ -392,7 +389,6 @@ public class LinearExperimentView extends ViewPart {
 					groupSection.setText(group.getName());
 					try {
 
-
 						timePerSpectrumValueLabel = toolkit.createLabel(groupSectionComposite, "Time per spectrum", SWT.None);
 						timePerSpectrumValueLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 						timePerSpectrumValueText = new NumberEditorControl(groupSectionComposite, SWT.None, group, Group.TIME_PER_SPECTRUM_PROP_NAME, false);
@@ -414,9 +410,10 @@ public class LinearExperimentView extends ViewPart {
 						integrationTimeValueText.setUnit(UnitSetup.MILLI_SEC.getText());
 						integrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-						noOfAccumulationValueLabel = toolkit.createLabel(groupSectionComposite, "No. of accumulations", SWT.None);
+						noOfAccumulationValueLabel = toolkit.createLabel(groupSectionComposite, "Detector read back accumulations", SWT.None);
 						noOfAccumulationValueLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 						noOfAccumulationValueText = new NumberEditorControl(groupSectionComposite, SWT.None, group, Group.NO_OF_ACCUMULATION_PROP_NAME, false);
+						noOfAccumulationValueText.setEditable(false);
 						noOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 					} catch (Exception e) {
 						// TODO Handle this!
@@ -458,9 +455,6 @@ public class LinearExperimentView extends ViewPart {
 		@SuppressWarnings("static-access")
 		Section section = toolkit.createSection(parent, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		section.setText("Sample position and experiment");
-		//		TableWrapData tableWrapData = new TableWrapData(TableWrapData.FILL_GRAB);
-		//		tableWrapData.rowspan = 2;
-		//		section.setLayoutData(tableWrapData);
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.verticalSpan = 2;
 		section.setLayoutData(data);
@@ -533,6 +527,15 @@ public class LinearExperimentView extends ViewPart {
 		GridData gridDataForTxt = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		NumberEditorControl numberEditorControl = new NumberEditorControl(sectionComposite, SWT.None, Experiment.INSTANCE, Experiment.DURATION_IN_SEC_PROP_NAME, false);
 		numberEditorControl.setUnit(ClientConfig.UnitSetup.SEC.getText());
+		numberEditorControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		numberEditorControl.setLayoutData(gridDataForTxt);
+
+		lbl = toolkit.createLabel(sectionComposite, "Delay between groups", SWT.NONE);
+		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		gridDataForTxt = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		numberEditorControl = new NumberEditorControl(sectionComposite, SWT.None, Experiment.INSTANCE, Experiment.DELAY_BETWEEN_GROUPS_PROP_NAME, false);
+		numberEditorControl.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
 		numberEditorControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		numberEditorControl.setLayoutData(gridDataForTxt);
 
@@ -620,8 +623,8 @@ public class LinearExperimentView extends ViewPart {
 		timeBarViewer.setAutoScaleRows(2);
 		timeBarViewer.setAutoscrollEnabled(true);
 		timeBarViewer.setMilliAccuracy(true);
-		timeBarViewer.setGapRenderer(new GroupGapRenderer());
 		timeBarViewer.setDrawOverlapping(true);
+
 		// TODO Adjust accordingly
 		timeBarViewer.setInitialDisplayRange(TimebarHelper.getTime(), (int) Experiment.INSTANCE.getDurationInSec());
 		timeBarViewer.registerTimeBarRenderer(Group.class, new CollectionModelRenderer());
@@ -674,12 +677,32 @@ public class LinearExperimentView extends ViewPart {
 		controls.setLayoutData(new GridData(SWT.END, SWT.FILL, false, true));
 		controls.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		final Scale scale = new Scale(controls, SWT.VERTICAL);
-		// TODO Adjust accordingly
-		scale.setMaximum(1000);
+
+		timeBarViewer.addControlListener(new ControlListener() {
+
+			@Override
+			public void controlResized(ControlEvent e) {
+				double width = timeBarViewer.getClientArea().width - timeBarViewer.getYAxisWidth();
+				if (width > 0) {
+					scale.setMinimum((int) (width / Experiment.INSTANCE.getDurationInSec()));
+					scale.setSelection((int) (width / Experiment.INSTANCE.getDurationInSec()));
+					scale.setMaximum(TIMEBAR_ZOOM_FACTOR * (int) (width / Experiment.INSTANCE.getDurationInSec()));
+					timeBarViewer.setPixelPerSecond(scale.getSelection());
+				}
+			}
+			@Override
+			public void controlMoved(ControlEvent e) {
+				// TODO Auto-generated method stub
+			}
+		});
+
 		scale.setMinimum(10);
-		scale.setSelection(100);
+		scale.setSelection(10);
+		scale.setMaximum(1000);
+
 		scale.setIncrement(100);
 		scale.setPageIncrement(500);
+
 		scale.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		scale.addListener(SWT.Selection, new Listener() {
 			@Override
@@ -696,8 +719,7 @@ public class LinearExperimentView extends ViewPart {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
-
+		timeBarViewer.setFocus();
 	}
 
 }

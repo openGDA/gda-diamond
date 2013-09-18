@@ -48,6 +48,7 @@ public class ClientConfig {
 		VOLTAGE("V"),
 		MILLI_SEC("ms"),
 		SEC("s"),
+		TESLA("T"),
 
 		SELECTION("");
 
@@ -184,7 +185,7 @@ public class ClientConfig {
 		ALIGNMENT_STAGE_Y_POSITION("Alignment stage y", "alignment_y", UnitSetup.MILLI_METER),
 		ALIGNMENT_STAGE("Alignment stage", "alignment_stage", UnitSetup.SELECTION);
 
-		public static final double MAX_POWER_IN_WATT = 150.0;
+		public static final int MAX_POWER_IN_WATT = 100;
 
 		private final String scannableName;
 		private final String label;
@@ -205,7 +206,7 @@ public class ClientConfig {
 		public Scannable getScannable() throws Exception {
 			Scannable scannable = Finder.getInstance().find(scannableName);
 			if (scannable == null) {
-				throw new Exception(label + " is not connected");
+				throw new Exception(label + " object is not found on GDA server");
 			}
 			return scannable;
 		}

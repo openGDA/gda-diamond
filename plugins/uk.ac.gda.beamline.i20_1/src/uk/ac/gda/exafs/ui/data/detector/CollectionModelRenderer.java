@@ -59,21 +59,29 @@ public class CollectionModelRenderer extends DefaultRenderer {
 		gc.setForeground((Display.getCurrent().getSystemColor(SWT.COLOR_WHITE)));
 		if (interval instanceof CollectionModel) {
 			CollectionModel collectionModel = (CollectionModel) interval;
-			String str = collectionModel.getName();
-			Point point = gc.stringExtent(str);
+			String name = collectionModel.getName();
+			Point point = gc.stringExtent(name);
 			if (point.y < iRect.height - 5 && point.x < iRect.width) {
-				gc.drawText(str, iRect.x + 5, iRect.y + 3);
+				gc.drawText(name, iRect.x + 5, iRect.y + 3);
 			}
-			str = DataHelper.roundDoubletoString(collectionModel.getDuration()) + " " + UnitSetup.MILLI_SEC.getText();
-			point = gc.stringExtent(str);
+
+			String endTime = "End: " + DataHelper.roundDoubletoString(collectionModel.getEndTime()) + " " + UnitSetup.MILLI_SEC.getText();
+			point = gc.stringExtent(endTime);
 			if (point.y < iRect.height - 15  && point.x + 5 < iRect.width) {
-				gc.drawText(str, iRect.x + 5, iRect.y + 20);
+				gc.drawText(endTime, iRect.x + 5, iRect.y + 20);
 			}
+
+			String duration = "Duration: " + DataHelper.roundDoubletoString(collectionModel.getDuration()) + " " + UnitSetup.MILLI_SEC.getText();
+			point = gc.stringExtent(duration);
+			if (point.y < iRect.height - 30  && point.x + 5 < iRect.width) {
+				gc.drawText(duration, iRect.x + 5, iRect.y + 35);
+			}
+
 			if (interval instanceof Group) {
-				str = Integer.toString(((Group) interval).getNumberOfSpectrums()) + " spectrum";
-				point = gc.stringExtent(str);
-				if (point.y < iRect.height - 30 && point.x + 5 < iRect.width) {
-					gc.drawText(str, iRect.x + 5, iRect.y + 35);
+				String noOfSpectrum = Integer.toString(((Group) interval).getNumberOfSpectrums()) + " spectrum";
+				point = gc.stringExtent(noOfSpectrum);
+				if (point.y < iRect.height - 45 && point.x + 5 < iRect.width) {
+					gc.drawText(noOfSpectrum, iRect.x + 5, iRect.y + 50);
 				}
 			}
 		}

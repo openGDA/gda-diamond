@@ -150,8 +150,6 @@ public class XHControlComposite extends Composite implements IObserver {
 	public XHControlComposite(Composite parent, IPlottingSystem plottingSystem) {
 		super(parent, SWT.None);
 		this.plottingSystem = plottingSystem;
-		//this.plottingSystem.setRescale(false);
-
 		toolkit = new FormToolkit(parent.getDisplay());
 		detectorControlModel = new DetectorControlModel();
 		setPlotData();
@@ -403,10 +401,13 @@ public class XHControlComposite extends Composite implements IObserver {
 		if (results != null) {
 			List<IDataset> data = new ArrayList<IDataset>(1);
 			data.add(new DoubleDataset((double[]) results));
-			plottingSystem.clear();
+			//
 			plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
+			plottingSystem.repaint(true);
+			plottingSystem.clear();
 			plottingSystem.createPlot1D(strips, data, new NullProgressMonitor());
 			plottingSystem.setTitle(title);
+
 		} else {
 			logger.info("Nothing returned!");
 		}
