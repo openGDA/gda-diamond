@@ -23,6 +23,7 @@ import gda.device.EnumPositioner;
 import gda.device.Scannable;
 import gda.device.detector.StripDetector;
 import gda.jython.InterfaceProvider;
+import gda.observable.IObserver;
 import gda.util.exafs.AbsorptionEdge;
 import gda.util.exafs.Element;
 
@@ -89,6 +90,7 @@ import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.EdeCalibrationModel;
+import uk.ac.gda.exafs.data.PowerCalulator;
 import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.composites.MotorPositionEditorControl;
 import uk.ac.gda.exafs.ui.composites.ScannableWrapper;
@@ -160,9 +162,59 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		createMainControls(scrolledPolyForm.getForm());
 		try {
 			createMotorControls(scrolledPolyForm.getForm());
+			bindFiltersForPowerCalculation();
+			updatePower();
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create motor controls", e.getMessage());
 		}
+	}
+
+	private void updatePower() {
+		Display.getDefault().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					double wigglerGap = (double) ScannableSetup.WIGGLER_GAP.getScannable().getPosition();
+					double slitHGap = (double) ScannableSetup.SLIT_1_HORIZONAL_GAP.getScannable().getPosition();
+					final int powerValue = (int) PowerCalulator.getPower(PowerCalulator.REF_DATA_PATH, wigglerGap, slitHGap, 300);
+					String powerWatt = UnitSetup.WATT.addUnitSuffix(Integer.toString(powerValue));
+					if (powerValue > ScannableSetup.MAX_POWER_IN_WATT) {
+						String value ="Estimated power is " + powerWatt;
+						if (!powerWarningDialogShown) {
+							UIHelper.showWarning("Power estimation is above maximum", value);
+						}
+						scrolledPolyForm.getForm().setMessage(value, IMessageProvider.ERROR);
+						powerWarningDialogShown = true;
+					} else {
+						scrolledPolyForm.getForm().setMessage("");
+						powerWarningDialogShown = false;
+					}
+					labelPowerEstimateValue.setText(getHighlightedFormatedString(powerWatt), true, false);
+				} catch (Exception e) {
+					labelPowerEstimateValue.setText(
+							getHighlightedFormatedString("Unable to calculate with current parameters"), true, false);
+				}
+			}
+		});
+	}
+
+	private class FilterUpdate implements IObserver{
+		private String value = "";
+		@Override
+		public void update(Object source, Object arg) {
+			if (arg instanceof String && !value.equals(arg)) {
+				updatePower();
+				value = (String) arg;
+			}
+		}
+	}
+
+	private void bindFiltersForPowerCalculation() throws Exception {
+		ScannableSetup.ATN1.getScannable().addIObserver(new FilterUpdate());
+		ScannableSetup.ATN2.getScannable().addIObserver(new FilterUpdate());
+		ScannableSetup.ATN3.getScannable().addIObserver(new FilterUpdate());
+		ScannableSetup.ME1_STRIPE.getScannable().addIObserver(new FilterUpdate());
+		ScannableSetup.ME2_STRIPE.getScannable().addIObserver(new FilterUpdate());
 	}
 
 	@Override
@@ -186,8 +238,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		Composite detectorConfigComposite = toolkit.createComposite(mainSelectionComposite, SWT.None);
 		detectorConfigComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		GridLayout gridLayout = new GridLayout(2, false);
-		gridLayout.verticalSpacing = 0;
+		GridLayout gridLayout = UIHelper.createGridLayoutWithNoMargin(2, false);
 		detectorConfigComposite.setLayout(gridLayout);
 		cmbDetectorType =  new ComboViewer(detectorConfigComposite, SWT.READ_ONLY);
 		cmbDetectorType.setContentProvider(ArrayContentProvider.getInstance());
@@ -486,7 +537,14 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		Scannable scannable = ScannableSetup.WIGGLER_GAP.getScannable();
 		scannable.addIObserver(moveObserver);
-		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, new ScannableWrapper(scannable), true);
+		ScannableWrapper scannableWrapper = new ScannableWrapper(scannable);
+		scannableWrapper.addPropertyChangeListener(ScannableWrapper.POSITION_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				updatePower();
+			}
+		});
+		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, scannableWrapper, true);
 
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.WIGGLER_GAP, lblWigglerSuggestion, motorPositionEditorControl));
@@ -497,7 +555,14 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		scannable = ScannableSetup.SLIT_1_HORIZONAL_GAP.getScannable();
 		scannable.addIObserver(moveObserver);
-		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, new ScannableWrapper(scannable), true);
+		scannableWrapper = new ScannableWrapper(scannable);
+		scannableWrapper.addPropertyChangeListener(ScannableWrapper.POSITION_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				updatePower();
+			}
+		});
+		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, scannableWrapper, true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.SLIT_1_HORIZONAL_GAP, lblSlitGapSuggestion, motorPositionEditorControl));
 
@@ -587,7 +652,15 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		scannable = ScannableSetup.ME2_PITCH_ANGLE.getScannable();
 		scannable.addIObserver(moveObserver);
-		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, new ScannableWrapper(scannable), true);
+		scannableWrapper = new ScannableWrapper(scannable);
+		scannableWrapper.addPropertyChangeListener(ScannableWrapper.POSITION_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				updatePower();
+			}
+		});
+
+		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, scannableWrapper, true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.ME2_PITCH_ANGLE, lblMe2PitchAngleSuggestion, motorPositionEditorControl));
 
@@ -812,22 +885,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		}
 	}
 
-	private void reportPowerEst(Double powerValue) {
-		if (powerValue > ScannableSetup.MAX_POWER_IN_WATT) {
-			if (!powerWarningDialogShown) {
-				UIHelper.showWarning("Power is above the maximum expected for operation", "Estimated power is " + powerValue);
-			}
-			String value = UnitSetup.WATT.addUnitSuffix("WARNING: Estimated power is " + powerValue);
-			scrolledPolyForm.getForm().setMessage(value, IMessageProvider.ERROR);
-			labelPowerEstimateValue.setText(getHighlightedFormatedString(value), true, false);
-			powerWarningDialogShown = true;
-		} else {
-			scrolledPolyForm.getForm().setMessage("");
-			labelPowerEstimateValue.setText(getHighlightedFormatedString(UnitSetup.WATT.addUnitSuffix(powerValue.toString())), true, false);
-			powerWarningDialogShown = false;
-		}
-	}
-
 	private void showSuggestionValues(final AlignmentParametersBean results) {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			@Override
@@ -851,7 +908,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				lblAtn2Suggestion.setText(results.getAtn2().toString());
 				lblAtn3Suggestion.setText(results.getAtn3().toString());
 
-				reportPowerEst(results.getPower());
 				if (results.getEnergyBandwidth() != null) {
 					String value = getHighlightedFormatedString(UnitSetup.EV.addUnitSuffix(Integer.toString(results.getEnergyBandwidth().intValue())));
 					labelDeltaEValueSuggestion.setText(value, true, false);

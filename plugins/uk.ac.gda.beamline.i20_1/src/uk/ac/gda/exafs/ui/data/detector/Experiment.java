@@ -18,6 +18,11 @@
 
 package uk.ac.gda.exafs.ui.data.detector;
 
+import gda.jython.InterfaceProvider;
+import gda.scan.ede.position.EdePositionType;
+import gda.scan.ede.position.EdeScanPosition;
+import gda.scan.ede.position.ExplicitScanPositions;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +31,11 @@ import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
+import uk.ac.gda.exafs.data.ClientConfig;
+import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.data.SingleSpectrumModel;
+import uk.ac.gda.exafs.ui.data.EdeScanParameters;
+import uk.ac.gda.exafs.ui.data.TimingGroup;
 import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
@@ -33,16 +43,25 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
 
 public class Experiment extends CollectionModel {
+
 	public static final Experiment INSTANCE = new Experiment();
+
+	private static final double EXPERIMENT_START_TIME = 0.0;
 	private static final long DEFAULT_INITIAL_EXPERIMENT_TIME_IN_SEC = 20; // Should be > 0
 
-	WritableList groupList = new WritableList(new ArrayList<Group>(), Group.class);
+	public static final String DURATION_IN_SEC_PROP_NAME = "durationInSec";
+
 	private DefaultTimeBarModel model;
 	private DefaultTimeBarRowModel timingGroupRow;
 	private DefaultTimeBarRowModel spectrumRow;
 
+	public static final String DELAY_BETWEEN_GROUPS_PROP_NAME = "delayBetweenGroups";
+	private double delayBetweenGroups;
+
+	WritableList groupList = new WritableList(new ArrayList<Group>(), Group.class);
+
 	public Experiment() {
-		this.setStartTime(0.0);
+		this.setStartTime(EXPERIMENT_START_TIME);
 		this.setDurationInSec(DEFAULT_INITIAL_EXPERIMENT_TIME_IN_SEC);
 		setupTimebarModel();
 		groupList.addListChangeListener(new IListChangeListener() {
@@ -64,7 +83,6 @@ public class Experiment extends CollectionModel {
 		addGroup();
 	}
 
-
 	private void setupTimebarModel() {
 		model = new DefaultTimeBarModel();
 		DefaultRowHeader header = new DefaultRowHeader("Timing Groups");
@@ -85,22 +103,73 @@ public class Experiment extends CollectionModel {
 
 	public void addGroup() {
 		Group group = new Group(spectrumRow);
-		if (groupList.isEmpty()) { // First entry
-			group.setStartTime(this.getStartTime());
-			group.setEndTime(this.getEndTime());
-		} else {
-			double duration = getDuration() / (groupList.size() + 1);
-			setGroupTimes(duration);
-			group.setStartTime(((Group) groupList.get(groupList.size() - 1)).getEndTime());
-			group.setEndTime(group.getStartTime() + duration);
-		}
+		group.setStartTime(this.getStartTime());
+		group.setEndTime(this.getEndTime());
 		group.setName("Group " + (groupList.size() + 1));
 		groupList.add(group);
+		setAllGroupTimes();
 	}
 
 	public void removeGroup(Group group) {
 		group.getSpectrumList().clear();
 		groupList.remove(group);
+		setAllGroupTimes();
+	}
+
+	public void doCollection() throws Exception {
+		EdeScanParameters edeScanParameters = new EdeScanParameters();
+		for (Object object : groupList) {
+			Group uiTimingGroup = (Group) object;
+			TimingGroup timingGroup = new TimingGroup();
+			timingGroup.setLabel(uiTimingGroup.getName());
+			timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrums());
+			timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime());
+			timingGroup.setTimePerFrame(uiTimingGroup.getDuration());
+			edeScanParameters.addGroup(timingGroup);
+		}
+		// TODO Complete implementation
+		EdeScanPosition i0Position = new ExplicitScanPositions(
+				EdePositionType.OUTBEAM,
+				SingleSpectrumModel.INSTANCE.getI0xPosition(),
+				SingleSpectrumModel.INSTANCE.getI0yPosition(),
+				ClientConfig.ScannableSetup.SAMPLE_X_POSITION.getScannable(),
+				ClientConfig.ScannableSetup.SAMPLE_Y_POSITION.getScannable());
+
+		InterfaceProvider.getJythonNamespace().placeInJythonNamespace("i0Position", i0Position);
+
+		EdeScanPosition itPosition = new ExplicitScanPositions(
+				EdePositionType.INBEAM,
+				SingleSpectrumModel.INSTANCE.getiTxPosition(),
+				SingleSpectrumModel.INSTANCE.getiTyPosition(),
+				ClientConfig.ScannableSetup.SAMPLE_X_POSITION.getScannable(),
+				ClientConfig.ScannableSetup.SAMPLE_Y_POSITION.getScannable());
+
+		InterfaceProvider.getJythonNamespace().placeInJythonNamespace("itPosition", itPosition);
+
+		String scanCommand = String.format("from gda.scan.ede.drivers import SingleSpectrumDriver;" +
+				"scan_driver = SingleSpectrumDriver(\"%s\",%f,%d,%f,%d,\"%s\");" +
+				"scan_driver.setInBeamPosition(%f,%f);" +
+				"scan_driver.setOutBeamPosition(%f,%f)",
+				DetectorModel.INSTANCE.getCurrentDetector().getName());
+
+	}
+
+	private void setAllGroupTimes() {
+		if (!groupList.isEmpty()) {
+			double duration;
+			if (groupList.size() ==  1 | delayBetweenGroups == 0) {
+				duration = this.getDuration() / groupList.size();
+			} else {
+				duration = this.getDuration() - ((groupList.size() - 1) * delayBetweenGroups) / groupList.size();
+			}
+			double startTime = this.getStartTime();
+			for (int i = 0; i < groupList.size(); i++) {
+				Group entry = (Group) groupList.get(i);
+				entry.setStartTime(startTime);
+				entry.setEndTime(startTime + duration);
+				startTime = entry.getEndTime() + delayBetweenGroups;
+			}
+		}
 	}
 
 	private void setGroupTimes(double groupDuration) {
@@ -137,12 +206,10 @@ public class Experiment extends CollectionModel {
 			Group nextGroup = (Group) groupList.get(index + 1);
 			if (value < nextGroup.getEndTime()) {
 				group.setEndTime(value);
-				if (value > nextGroup.getStartTime()) {
-					nextGroup.setStartTime(value);
-				}
+				nextGroup.setStartTime(value);
 			}
 		} else {
-			if (value  < this.getEndTime()) {
+			if (value < this.getEndTime()) {
 				group.setEndTime(value);
 			}
 		}
@@ -156,10 +223,8 @@ public class Experiment extends CollectionModel {
 
 	}
 
-	public static final String DURATION_IN_SEC_PROP_NAME = "durationInSec";
 	public double getDurationInSec() {
 		return (this.getDuration() / 1000);
-
 	}
 
 	@Override
@@ -169,9 +234,17 @@ public class Experiment extends CollectionModel {
 		setGroupTimes(groupDuration);
 	}
 
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-
+	public double getDelayBetweenGroups() {
+		return delayBetweenGroups;
 	}
+
+
+	public void setDelayBetweenGroups(double value) {
+		this.firePropertyChange(DELAY_BETWEEN_GROUPS_PROP_NAME, delayBetweenGroups, delayBetweenGroups = value);
+		setAllGroupTimes();
+	}
+
+
+	@Override
+	public void dispose() {}
 }

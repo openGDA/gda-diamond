@@ -34,7 +34,8 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.dawnsci.plotting.api.IPlottingSystem;
-import org.eclipse.core.runtime.NullProgressMonitor;
+import org.dawnsci.plotting.api.trace.ILineTrace;
+import org.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -104,6 +105,8 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	private DoubleDataset strips;
 
+	private final ILineTrace lineTrace;
+
 	private static StripDetector getDetector(){
 		return DetectorModel.INSTANCE.getCurrentDetector();
 	}
@@ -150,8 +153,13 @@ public class XHControlComposite extends Composite implements IObserver {
 	public XHControlComposite(Composite parent, IPlottingSystem plottingSystem) {
 		super(parent, SWT.None);
 		this.plottingSystem = plottingSystem;
-		//this.plottingSystem.setRescale(false);
-
+		plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
+		plottingSystem.setShowLegend(false);
+		lineTrace = plottingSystem.createLineTrace("Detector");
+		lineTrace.setLineWidth(1);
+		lineTrace.setTraceColor(Display.getDefault().getSystemColor(SWT.COLOR_BLUE));
+		lineTrace.setTraceType(TraceType.SOLID_LINE);
+		plottingSystem.addTrace(lineTrace);
 		toolkit = new FormToolkit(parent.getDisplay());
 		detectorControlModel = new DetectorControlModel();
 		setPlotData();
@@ -393,20 +401,27 @@ public class XHControlComposite extends Composite implements IObserver {
 	 * @throws DeviceException
 	 */
 	public Double[] collectAndPlotSnapshot(boolean writeData, Double collectionPeriod, Integer scansPerFrame,
-			String title) throws DeviceException, InterruptedException {
+			final String title) throws DeviceException, InterruptedException {
 
 		collectData(collectionPeriod, 1,scansPerFrame);
 
 		// will return a double[] of corrected data
-		Object results = getDetector().getAttribute(XHDetector.ATTR_READFIRSTFRAME);
+		final Object results = getDetector().getAttribute(XHDetector.ATTR_READFIRSTFRAME);
 
 		if (results != null) {
 			List<IDataset> data = new ArrayList<IDataset>(1);
 			data.add(new DoubleDataset((double[]) results));
-			plottingSystem.clear();
-			plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
-			plottingSystem.createPlot1D(strips, data, new NullProgressMonitor());
-			plottingSystem.setTitle(title);
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
+					lineTrace.setData(strips, new DoubleDataset((double[]) results));
+					if (!plottingSystem.getTitle().equals(title)) {
+						plottingSystem.setTitle(title);
+					}
+					plottingSystem.repaint(true);
+				}
+			});
 		} else {
 			logger.info("Nothing returned!");
 		}
