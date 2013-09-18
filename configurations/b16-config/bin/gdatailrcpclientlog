@@ -1,3 +1,0 @@
-#!/bin/bash
-ls -al /scratch/var/logs/gda_rcp_client.log
-tail --lines=200 -f -s0.1  /scratch/var/logs/gda_rcp_client.log

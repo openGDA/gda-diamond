@@ -6,16 +6,16 @@
 	<!-- AD hardware -->
 
 	<bean id="pilatus2_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="deviceName" value="pilatus2_ADBase" />
+		<property name="basePVName" value="BL16I-EA-PILAT-02:cam1:" />
 	</bean>
 
 	<bean id="pilatus2_driver"
 		class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
-		<property name="deviceName" value="pilatus2_pilatus" />
+		<property name="basePVName" value="BL16I-EA-PILAT-02:cam1:" />
 	</bean>
 
 	<bean id="pilatus2_camserver_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="deviceName" value="pilatus2_NDFile" />
+		<property name="basePVName" value="BL16I-EA-PILAT-02:cam1:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 
@@ -43,6 +43,7 @@
 		<constructor-arg value="pilatus2M" />
 		<property name="ndFile" ref="pilatus2_camserver_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus2M_path_template" />
+		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 
 	<bean id="pilatus2_nxfilewriter_for_snaps"
@@ -51,6 +52,7 @@
 		<property name="ndFile" ref="pilatus2_camserver_ndfile" />
 		<property name="numTrackerExtension" value="pilatus2Msnaps" />
 		<property name="keyNameForMetadataPathTemplate" value="pil2M_path_template" />
+		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 
 

@@ -6,16 +6,16 @@
 	<!-- AD hardware -->
 
 	<bean id="pilatus1_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="deviceName" value="pilatus1_ADBase" />
+		<property name="basePVName" value="BL16I-EA-PILAT-01:cam1:" />
 	</bean>
 
 	<bean id="pilatus1_driver"
 		class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
-		<property name="deviceName" value="pilatus1_pilatus" />
+		<property name="basePVName" value="BL16I-EA-PILAT-01:cam1:" />
 	</bean>
 
 	<bean id="pilatus1_camserver_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="deviceName" value="pilatus1_NDFile" />
+		<property name="basePVName" value="BL16I-EA-PILAT-01:cam1:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 
@@ -43,6 +43,7 @@
 		<constructor-arg value="pilatus100k" />
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
+		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 
 	<bean id="pilatus1_nxfilewriter_for_hardware_triggering"
@@ -53,7 +54,7 @@
 		<property name="waitForFileArrival" value="false" />
 		<property name="fileNumberAtScanStart" value="0" />
 		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
-		<property name="returnExpectedFullFileName" value="true" />		
+		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 
 	<bean id="pilatus1_nxfilewriter_for_snaps"
@@ -61,6 +62,7 @@
 		<constructor-arg value="pilatus100k" />
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
 		<property name="numTrackerExtension" value="pilatus100ksnaps" />
+		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 	
 	<bean id="pilatus1_counter_monitor" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayCounterMonitor">

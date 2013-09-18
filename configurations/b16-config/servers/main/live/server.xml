@@ -107,11 +107,12 @@
 
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml" />
 
-	<bean id="script_paths" parent="common_script_paths">
+
+	<bean id="script_paths" parent="common_script_paths_with_diffcalc">
 		<property name="projects">
 			<list merge="true">
 				<bean class="gda.jython.ScriptProject">
-					<property name="path" value="${gda.install.git.loc}/gda-bimorph/uk.ac.gda.bimorph/scripts" />
+					<property name="path" value="${gda.install.git.loc}/gda-bimorph.git/uk.ac.gda.bimorph/scripts" />
 					<property name="name" value="Scripts: Bimorph" />
 					<property name="type" value="CORE" />
 				</bean>
@@ -129,8 +130,6 @@
 		<property name="deviceName" value="Beamline" />
 		<property name="local" value="true" />
 	</bean>
-
-	<import resource="exafs_stuff.xml" />
 
 
 	<corba:export namespace="b16server" />
