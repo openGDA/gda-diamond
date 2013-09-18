@@ -18,18 +18,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="d3d1" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="D3.AMP1" />
-				<property name="fieldName" value="I" />
-			</bean>
-		</property>
-		<property name="local" value="true" />
-	</bean>
-	<bean id="scaledd3d1" class="uk.ac.gda.server.ncd.epics.ScaledAmplifiedMonitor">
+	<bean id="d3d1" class="uk.ac.gda.server.ncd.epics.ScaledAmplifiedMonitor">
 		<property name="scalingAndOffset" ref="d3d1gain" />
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
@@ -119,18 +108,7 @@
 		</property>
 	</bean>
 
-	<bean id="d3d2" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="D3.AMP2" />
-				<property name="fieldName" value="I" />
-			</bean>
-		</property>
-		<property name="local" value="true" />
-	</bean>
-	<bean id="scaledd3d2" class="uk.ac.gda.server.ncd.epics.ScaledAmplifiedMonitor">
+	<bean id="d3d2" class="uk.ac.gda.server.ncd.epics.ScaledAmplifiedMonitor">
 		<property name="scalingAndOffset" ref="d3d2gain" />
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
