@@ -89,9 +89,16 @@
 			</list>
 		</property>
 	</bean>
-
+	
+	<bean class="gda.data.metadata.StoredMetadataEntry" id="samplename">
+		<property name="name" value="samplename" />
+		<property name="value" value="none" />
+	</bean>
+	<bean class="gda.data.metadata.MetadataBlaster" id="observableSamplename">
+		<property name="storedMetadataEntry" ref="samplename" />
+	</bean>
+	
 	<bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry" />
-
 	<bean class="gda.data.metadata.MetadataBlaster" id="observableSubdirectory">
 		<property name="storedMetadataEntry" ref="subdirectory" />
 	</bean>
