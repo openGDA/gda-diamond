@@ -12,16 +12,16 @@
 
    <launcherArgs>
       <vmArgs>-Djava.library.path=/dls_sw/i10/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/lib/linux-x86_64/
--Declipse.pluginCustomization=/dls_sw/i10/software/gda/i10-config/client/pluginCustomization.ini
+-Declipse.pluginCustomization=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/client/pluginCustomization.ini
 -Dgda.client.jython.automatic.interpreter=1
--Dgda.config=/dls_sw/i10/software/gda/i10-config
--Dgda.gui.beans.xml=/dls_sw/i10/software/gda/i10-config/client/client.xml
+-Dgda.config=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config
+-Dgda.gui.beans.xml=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/client/client.xml
 -Dgda.var=/dls_sw/i10/software/gda_versions/var
--Dgda.data=/dls/i10
+-Dgda.data=/dls/i10/data
 -Dgda.logs.dir=/dls/i10/logs
--Dgda.propertiesFile=/dls_sw/i10/software/gda/i10-config/properties/java.properties
--Djacorb.config.dir=/dls_sw/i10/software/gda/i10-config/properties
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i10/software/gda/i10-config/properties/JCALibrary.properties
+-Dgda.propertiesFile=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/properties/java.properties
+-Djacorb.config.dir=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/properties
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/properties/JCALibrary.properties
 -Xms512m
 -Xmx1024m
 -XX:PermSize=128m
@@ -43,7 +43,6 @@
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>

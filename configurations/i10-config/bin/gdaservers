@@ -9,7 +9,7 @@ echo
 
 zenity --title "Are you sure?" --question --text "Are you sure you want to restart the GDA servers?" --window-icon=question
 SURE=$?
-if [ $SURE == 1 ]; then
+if [ $SURE == 1 ]; then # 0=Ok, 1=Cancel
   exit
 fi
 
@@ -19,7 +19,7 @@ echo
 echo "Keep this window open, and you will see a pop-up when the restart has completed"
 echo
 
-ssh  -i /dls_sw/i10/software/gda/i10-config/i10ssh.key gda2@i10-control.diamond.ac.uk
+ssh  -i /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/${BEAMLINE}ssh.key gda2@$BEAMLINE-control.diamond.ac.uk
 OK=$?
 
 # 127 if ssh cannot run command, 0 if ran ok, maybe other values if remote command returns them
@@ -39,14 +39,13 @@ echo
 
 zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
 STARTCLIENT=$?
-if [ ! -z $STARTCLIENT ] ; then
+if [ $STARTCLIENT == 0 ] ; then # 0=Ok, 1=Cancel
   echo Starting GDA RCP Client...
   echo
-  gdaclient
+  gdaclient &
   echo
   echo Moving GDA Log Panel...
   wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
+  echo
+  for i in {10..1}; do echo -n . ; sleep 1 ; done ; echo .
 fi
-
-echo
-for i in {10..1}; do echo -n . ; sleep 1 ; done ; echo .
