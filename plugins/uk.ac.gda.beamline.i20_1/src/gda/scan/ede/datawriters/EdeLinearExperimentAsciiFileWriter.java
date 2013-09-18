@@ -112,14 +112,14 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			int numberOfTimingGroups = getNumberOfTimingGroups();
 
 			for (int timingGroup = 0; timingGroup < numberOfTimingGroups; timingGroup++) {
-				DoubleDataset i0DarkDataSet = extractDetectorDataSets(i0DarkScan, timingGroup);
-				DoubleDataset i0InitialDataSet = extractDetectorDataSets(i0InitialScan, timingGroup);
+				DoubleDataset i0DarkDataSet = extractDetectorDataSets(theDetector.getName(), i0DarkScan, timingGroup);
+				DoubleDataset i0InitialDataSet = extractDetectorDataSets(theDetector.getName(), i0InitialScan, timingGroup);
 				writeI0Spectrum(writer, timingGroup, i0DarkDataSet, i0InitialDataSet, true);
 			}
 
 			for (int timingGroup = 0; timingGroup < numberOfTimingGroups; timingGroup++) {
-				DoubleDataset i0DarkDataSet = extractDetectorDataSets(i0DarkScan, timingGroup);
-				DoubleDataset i0FinalDataSet = extractDetectorDataSets(i0FinalScan, timingGroup);
+				DoubleDataset i0DarkDataSet = extractDetectorDataSets(theDetector.getName(), i0DarkScan, timingGroup);
+				DoubleDataset i0FinalDataSet = extractDetectorDataSets(theDetector.getName(), i0FinalScan, timingGroup);
 				writeI0Spectrum(writer, timingGroup, i0DarkDataSet, i0FinalDataSet, false);
 			}
 
@@ -191,11 +191,11 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 
 	private void deriveAndWriteSpectrum(FileWriter writer, int timingGroupIndex, EdeScan darkScan,
 			EdeScan transmissionScan, EdeScan firstI0Scan, EdeScan secondI0Scan) throws IOException {
-		DoubleDataset darkDataSet = extractDetectorDataSets(darkScan, timingGroupIndex);
-		DoubleDataset i0FirstDataSet = extractDetectorDataSets(firstI0Scan, timingGroupIndex);
-		DoubleDataset itDataSet = extractDetectorDataSets(transmissionScan, timingGroupIndex);
+		DoubleDataset darkDataSet = extractDetectorDataSets(theDetector.getName(), darkScan, timingGroupIndex);
+		DoubleDataset i0FirstDataSet = extractDetectorDataSets(theDetector.getName(), firstI0Scan, timingGroupIndex);
+		DoubleDataset itDataSet = extractDetectorDataSets(theDetector.getName(), transmissionScan, timingGroupIndex);
 		if (secondI0Scan != null) {
-			DoubleDataset i0SecondDataSet = extractDetectorDataSets(secondI0Scan, timingGroupIndex);
+			DoubleDataset i0SecondDataSet = extractDetectorDataSets(theDetector.getName(), secondI0Scan, timingGroupIndex);
 			DoubleDataset i0DataSet_averaged = i0FirstDataSet.iadd(i0SecondDataSet).idivide(2);
 			i0FirstDataSet = i0DataSet_averaged;
 		}

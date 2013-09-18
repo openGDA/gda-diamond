@@ -38,6 +38,48 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
 public abstract class EdeAsciiFileWriter {
 
+	public static DoubleDataset extractDetectorDataSets(String detectorName, EdeScan scan, int spectrumIndex) {
+		List<ScanDataPoint> sdps = scan.getData();
+		return extractDetectorDataFromSDP(detectorName, sdps.get(spectrumIndex));
+	}
+
+	public static DoubleDataset extractDetectorDataFromSDP(String detectorName, ScanDataPoint sdp) {
+		Vector<Object> data = sdp.getDetectorData();
+		int detIndex = getIndexOfMyDetector(detectorName, sdp);
+		NXDetectorData detData = (NXDetectorData) data.get(detIndex);
+		NexusGroupData groupData = detData.getData(detectorName, "data", NexusExtractor.SDSClassName);
+		double[] originalData = (double[]) groupData.getBuffer();
+		return new DoubleDataset(originalData, originalData.length);
+	}
+
+	public static int getIndexOfMyDetector(String detectorName, ScanDataPoint scanDataPoint) {
+		Vector<String> names = scanDataPoint.getDetectorNames();
+		return names.indexOf(detectorName);
+	}
+
+	public static Double calcLnI0It(Double i0_corrected, Double it_corrected) {
+		Double lni0it = Math.log(i0_corrected / it_corrected);
+		if (lni0it.isNaN() || lni0it.isInfinite() || lni0it < 0.0) {
+			lni0it = .0;
+		}
+		return lni0it;
+	}
+
+	public static DoubleDataset normaliseDatasset(DoubleDataset itRaw, DoubleDataset i0Raw, DoubleDataset dark) {
+
+		double[] itRawArray = itRaw.getData();
+		double[] i0RawArray = i0Raw.getData();
+		double[] darkArray = dark.getData();
+
+		double[] itNormaliseArray = new double[itRawArray.length];
+
+		for (int channel = 0; channel < itNormaliseArray.length; channel++) {
+			itNormaliseArray[channel] = calcLnI0It(i0RawArray[channel]-darkArray[channel],itRawArray[channel]-darkArray[channel]);
+		}
+
+		return new DoubleDataset(itNormaliseArray,itNormaliseArray.length);
+	}
+
 	public static final String TIMINGGROUP_COLUMN_NAME = "Timing_Group";
 	public static final String STRIP_COLUMN_NAME = "Strip";
 	public static final String ENERGY_COLUMN_NAME = "Energy";
@@ -85,21 +127,6 @@ public abstract class EdeAsciiFileWriter {
 		logger.info(message);
 	}
 
-	protected DoubleDataset extractDetectorDataSets(EdeScan scan, int spectrumIndex) {
-		List<ScanDataPoint> sdps = scan.getData();
-		Vector<Object> data = sdps.get(spectrumIndex).getDetectorData();
-		int detIndex = getIndexOfMyDetector(sdps.get(spectrumIndex));
-		NXDetectorData detData = (NXDetectorData) data.get(detIndex);
-		NexusGroupData groupData = detData.getData(theDetector.getName(), "data", NexusExtractor.SDSClassName);
-		double[] originalData = (double[]) groupData.getBuffer();
-		return new DoubleDataset(originalData, originalData.length);
-	}
-
-	protected int getIndexOfMyDetector(ScanDataPoint scanDataPoint) {
-		Vector<String> names = scanDataPoint.getDetectorNames();
-		return names.indexOf(theDetector.getName());
-	}
-
 	protected Double getEnergyForChannel(int channel) {
 		PolynomialFunction function;
 		try {
@@ -110,14 +137,5 @@ public abstract class EdeAsciiFileWriter {
 		}
 		return function.value(channel);
 	}
-
-	protected Double calcLnI0It(Double i0_corrected, Double it_corrected) {
-		Double lni0it = Math.log(i0_corrected / it_corrected);
-		if (lni0it.isNaN() || lni0it.isInfinite() || lni0it < 0.0) {
-			lni0it = .0;
-		}
-		return lni0it;
-	}
-
 
 }

@@ -28,6 +28,8 @@ import gda.device.detector.ExperimentStatus;
 import gda.device.detector.StripDetector;
 import gda.device.scannable.FrameIndexer;
 import gda.device.scannable.ScannableUtils;
+import gda.observable.IObserver;
+import gda.scan.ede.EdeScanProgressBean;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.position.EdeScanPosition;
 
@@ -59,6 +61,7 @@ public class EdeScan extends ConcurrentScanChild {
 	private EdeScanPosition motorPositions;
 	private EdeScanType scanType;
 	private FrameIndexer indexer = null;
+	private IObserver progressUpdater;
 
 	/**
 	 * @param scanParameters
@@ -100,6 +103,10 @@ public class EdeScan extends ConcurrentScanChild {
 
 	public int getNumberOfAvailablePoints() {
 		return rawData.size();
+	}
+
+	public void setProgressUpdater(IObserver progressUpdater) {
+		this.progressUpdater = progressUpdater;
 	}
 
 	public List<ScanDataPoint> getDataPoints(int firstFrame, int lastFrame) {
@@ -263,7 +270,7 @@ public class EdeScan extends ConcurrentScanChild {
 			thisPoint.setScanIdentifier(getDataWriter().getCurrentScanIdentifier());
 
 			// then write data to data handler
-			storeSDP(thisFrame, thisPoint);
+			storeAndBroadcastSDP(thisFrame, thisPoint);
 			getDataWriter().addData(thisPoint);
 
 			checkForInterrupts();
@@ -277,15 +284,14 @@ public class EdeScan extends ConcurrentScanChild {
 		}
 	}
 
-	private void storeSDP(int thisFrame, ScanDataPoint thisPoint) throws Exception {
-		// sense check rawData vector
-		//		int vectorSize = rawData.size();
-		// e.g. if second point then vectorSize = 1, frame number = 1
-		//		if (vectorSize != thisFrame) {
-		//			throw new Exception(
-		//					"The data in memory is out of sync with the data being read from the detector. Frames in memory: "
-		//							+ vectorSize + ". Frame number being stored: " + thisFrame);
-		//		}
+	private void storeAndBroadcastSDP(int absoulteFrameNumber,ScanDataPoint thisPoint) {
+
+		if (progressUpdater != null) {
+			int groupNumOfThisSDP = ExperimentLocationUtils.getGroupNum(scanParameters, absoulteFrameNumber);
+			int frameNumOfThisSDP = ExperimentLocationUtils.getFrameNum(scanParameters, absoulteFrameNumber);
+			EdeScanProgressBean progress = new EdeScanProgressBean(groupNumOfThisSDP,frameNumOfThisSDP,scanType,motorPositions.getType(),thisPoint);
+			progressUpdater.update(this, progress);
+		}
 		rawData.add(thisPoint);
 	}
 

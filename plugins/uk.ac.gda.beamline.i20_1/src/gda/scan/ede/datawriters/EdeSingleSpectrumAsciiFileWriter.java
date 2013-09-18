@@ -48,10 +48,10 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 
 	@Override
 	public String writeAsciiFile() throws Exception {
-		DoubleDataset i0DarkDataSet = extractDetectorDataSets(i0DarkScan, 0);
-		DoubleDataset itDarkDataSet = extractDetectorDataSets(itDarkScan, 0);
-		DoubleDataset i0InitialDataSet = extractDetectorDataSets(i0InitialScan, 0);
-		DoubleDataset itDataSet = extractDetectorDataSets(itScan, 0);
+		DoubleDataset i0DarkDataSet = extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
+		DoubleDataset itDarkDataSet = extractDetectorDataSets(theDetector.getName(), itDarkScan, 0);
+		DoubleDataset i0InitialDataSet = extractDetectorDataSets(theDetector.getName(), i0InitialScan, 0);
+		DoubleDataset itDataSet = extractDetectorDataSets(theDetector.getName(), itScan, 0);
 
 		determineAsciiFilename();
 
