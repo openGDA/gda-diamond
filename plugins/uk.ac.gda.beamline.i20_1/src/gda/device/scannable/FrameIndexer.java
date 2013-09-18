@@ -35,7 +35,7 @@ public class FrameIndexer extends ScannableBase {
 			int timingGroup, int frameNumber) {
 		Integer[] position = new Integer[5];
 		position[0] = scantype == EdeScanType.DARK ? 0 : 1;
-		position[1] = positionsType == EdePositionType.INBEAM ? 0 : 1;
+		position[1] = positionsType == EdePositionType.INBEAM ? 1 : 0;
 		position[2] = repetitionNumber;
 		position[3] = timingGroup;
 		position[4] = frameNumber;
