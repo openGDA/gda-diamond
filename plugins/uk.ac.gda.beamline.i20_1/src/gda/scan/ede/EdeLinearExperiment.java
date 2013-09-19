@@ -91,7 +91,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 			// assume that the I0 and dark scans have run correctly if we are getting messages back from It scan
 			EdeScanProgressBean progress = (EdeScanProgressBean) arg;
 			DoubleDataset darkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
-			DoubleDataset i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, progress.getGroupNumOfThisSDP());
+			DoubleDataset i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, progress.getGroupNumOfThisSDP()-1);
 			DoubleDataset thisItData = EdeAsciiFileWriter.extractDetectorDataFromSDP(theDetector.getName(), progress.getThisPoint());
 			DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(thisItData, i0Data, darkData);
 			controller.update(itScan, new EdeExperimentProgressBean(progress,normalisedIt));

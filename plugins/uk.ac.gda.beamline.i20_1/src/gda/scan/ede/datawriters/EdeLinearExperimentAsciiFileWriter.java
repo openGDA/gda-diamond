@@ -160,14 +160,14 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		String filename = determineAsciiFilename(fileSuffix);
 		File asciiFile = new File(filename);
 		if (asciiFile.exists()) {
-			throw new Exception("File " + itFilename + " already exists!");
+			throw new Exception("File " + filename + " already exists!");
 		}
 		asciiFile.createNewFile();
 
 		FileWriter writer = null;
 		try {
 			writer = new FileWriter(asciiFile);
-			log("Writing EDE format ascii file for It data: " + itFilename);
+			log("Writing EDE format ascii file for It data: " + filename);
 			writer.write("#" + TIMINGGROUP_COLUMN_NAME + "\t" + STRIP_COLUMN_NAME + "\t" + ENERGY_COLUMN_NAME + "\t"
 					+ IT_CORR_COLUMN_NAME + "\t" + LN_I0_IT_COLUMN_NAME + "\t" + IT_RAW_COLUMN_NAME + "\t"
 					+ IT_DARK_COLUMN_NAME + "\n");
