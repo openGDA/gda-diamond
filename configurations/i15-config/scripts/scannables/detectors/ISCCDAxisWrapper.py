@@ -1,36 +1,21 @@
-import ruby_scripts
-import pd_pilatus
 import os
 import sys
 from time import sleep
 from time import time
-from threading import Thread, Timer
+from threading import Thread
 from gdascripts.messages.handle_messages import simpleLog
-from gda.jython.commands.GeneralCommands import pause
 from operationalControl import moveMotor
 from ccdScanMechanics import setMaxVelocity
 from ccdScanMechanics import deactivatePositionCompare
-from ccdScanMechanics import scanGeometry, scanGeometryCheck
+from ccdScanMechanics import scanGeometry
 from ccdScanMechanics import setVelocity
 from ccdAuxiliary import incrementCCDScanNumber
 from ccdAuxiliary import openCCDShield, closeCCDShield
-from marAuxiliary import checkMarIsReady
-from marAuxiliary import openMarShield, closeMarShield
-from marAuxiliary import incrementMarScanNumber
-from marAuxiliary import getNextMarScanNumber
-from marAuxiliary import marErase
-from shutterCommands import openEHShutter#, closeEHShutter, getShutterStatus, sh
-from gda.device.scannable import PseudoDevice
 from gdascripts.parameters import beamline_parameters
-from util_scripts import doesFileExist
 from dataDir import getDir, setFullUserDir#, setDir 
-from gda.util import VisitPath
 from gda.device.detector.odccd import ModifyCrysalisHeader
-from gda.device.detector.mar345 import Mar345Detector
-from scannables.detectors.perkinElmer import PerkinElmer
 from gda.data.fileregistrar import FileRegistrarHelper
 from gda.epics import CAClient
-from glob import glob
 from java.io import File
 
 from detectorAxisWrapper import DetectorAxisWrapper
