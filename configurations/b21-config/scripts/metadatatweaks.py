@@ -1,3 +1,4 @@
+import gda
 from gda.util import ElogEntry
 from gda.data.metadata import GDAMetadataProvider
 
@@ -9,10 +10,10 @@ def getTitle():
 
 def setVisit(visit):
     user=GDAMetadataProvider.getInstance().getMetadataValue("federalid")
-    if user != "b21user":
+    if user != "i22user":
         oldvisit = GDAMetadataProvider.getInstance().getMetadataValue("visit")
         try:
-            ElogEntry.post("visit manually changed from %s to %s by %s" % (oldvisit, visit, user), "", "gda", None, "BLB21", "BLB21-USR", None)
+            ElogEntry.post("visit manually changed from %s to %s by %s" % (oldvisit, visit, user), "", "gda", None, "BLI22", "BLI22-USR", None)
         except:
             pass
     GDAMetadataProvider.getInstance().setMetadataValue("visit", visit)
@@ -34,7 +35,7 @@ class SampleNameScannable(gda.device.scannable.ScannableBase):
        self.setName(name)
        self.setInputNames([name])
        self.setOutputFormat(["%s"])
-       self.metadata=Finder.getInstance().find(metadataname)
+       self.metadata=gda.factory.Finder.getInstance().find(metadataname)
 
    """ Mandatory method.  It should return 1 if the device is moving and 0 otherwise."""
    def isBusy(self):
