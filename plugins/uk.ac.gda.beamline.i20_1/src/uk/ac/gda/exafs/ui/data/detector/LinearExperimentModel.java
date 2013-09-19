@@ -134,7 +134,19 @@ public class LinearExperimentModel extends CollectionModel {
 	public void doCollection() {
 		job.schedule();
 	}
-
+	private String buildScanCommand() {
+		return String.format("from gda.scan.ede.drivers import LinearExperimentDriver;" +
+				"scan_driver = LinearExperimentDriver(\"%s\",%s);" +
+				"scan_driver.setInBeamPosition(%f,%f);" +
+				"scan_driver.setOutBeamPosition(%f,%f)",
+				DetectorModel.INSTANCE.getCurrentDetector().getName(),
+				TIMING_GROUPS_OBJ_NAME,
+				SingleSpectrumModel.INSTANCE.getiTxPosition(),
+				SingleSpectrumModel.INSTANCE.getiTxPosition(),
+				SingleSpectrumModel.INSTANCE.getI0xPosition(),
+				SingleSpectrumModel.INSTANCE.getI0xPosition()
+				);
+	}
 	private class ScanJob extends Job implements IObserver {
 		public ScanJob(String name) {
 			super(name);
@@ -154,27 +166,11 @@ public class LinearExperimentModel extends CollectionModel {
 				}
 			});
 			monitor.beginTask("Scannable", 1);
-
+			final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
 			Display.getDefault().syncExec(new Runnable() {
-				private String buildScanCommand() {
-					return String.format("from gda.scan.ede.drivers import LinearExperimentDriver;" +
-							"scan_driver = LinearExperimentDriver(\"%s\",%s);" +
-							"scan_driver.setInBeamPosition(%f,%f);" +
-							"scan_driver.setOutBeamPosition(%f,%f)",
-							DetectorModel.INSTANCE.getCurrentDetector().getName(),
-							TIMING_GROUPS_OBJ_NAME,
-							SingleSpectrumModel.INSTANCE.getiTxPosition(),
-							SingleSpectrumModel.INSTANCE.getiTxPosition(),
-							SingleSpectrumModel.INSTANCE.getI0xPosition(),
-							SingleSpectrumModel.INSTANCE.getI0xPosition()
-							);
-				}
-
 				@Override
 				public void run() {
 					LinearExperimentModel.this.setScanning(true);
-
-					final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>(groupList.size());
 					for (Object object : groupList) {
 						Group uiTimingGroup = (Group) object;
 						TimingGroup timingGroup = new TimingGroup();
@@ -182,19 +178,25 @@ public class LinearExperimentModel extends CollectionModel {
 						timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrums());
 						timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime());
 						timingGroup.setTimePerFrame(uiTimingGroup.getDuration());
+						timingGroup.setNumberOfScansPerFrame(uiTimingGroup.getNoOfAccumulations());
 						timingGroups.add(timingGroup);
 					}
-					InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
-					InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
-					try {
-						final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
-						if (resultFileName == null) {
-							throw new Exception("Unable to do collection.");
-						}
-					} catch (Exception e) {
-						UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
-					}
+				}
+			});
 
+			InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
+			InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
+			try {
+				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
+				if (resultFileName == null) {
+					throw new Exception("Unable to do collection.");
+				}
+			} catch (Exception e) {
+				UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
+			}
+			Display.getDefault().syncExec(new Runnable() {
+				@Override
+				public void run() {
 					LinearExperimentModel.this.setScanning(false);
 				}
 			});

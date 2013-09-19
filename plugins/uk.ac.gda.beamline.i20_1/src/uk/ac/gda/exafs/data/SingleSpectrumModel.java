@@ -159,25 +159,39 @@ public class SingleSpectrumModel extends ObservableModel {
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
 			this.monitor = monitor;
-			monitor.beginTask("Starting " + ScanJobName.values().length + " tasks.", ScanJobName.values().length);
 			Display.getDefault().syncExec(new Runnable() {
 				@Override
 				public void run() {
 					SingleSpectrumModel.this.setScanning(true);
-					try {
-						InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
-						final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
-						if (resultFileName == null) {
-							throw new Exception("Unable to do collection.");
+				}
+			});
+			monitor.beginTask("Starting " + ScanJobName.values().length + " tasks.", ScanJobName.values().length);
+			try {
+				InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
+				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
+				if (resultFileName == null) {
+					throw new Exception("Unable to do collection.");
+				}
+				Display.getDefault().syncExec(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							SingleSpectrumModel.this.setFileName(resultFileName);
+						} catch (Exception e) {
+							UIHelper.showWarning("Error while loading data from saved file", e.getMessage());
 						}
-						SingleSpectrumModel.this.setFileName(resultFileName);
-					} catch (Exception e) {
-						UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
 					}
+				});
+			} catch (Exception e) {
+				UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
+			}
+			monitor.done();
+			Display.getDefault().syncExec(new Runnable() {
+				@Override
+				public void run() {
 					SingleSpectrumModel.this.setScanning(false);
 				}
 			});
-			monitor.done();
 			return Status.OK_STATUS;
 		}
 

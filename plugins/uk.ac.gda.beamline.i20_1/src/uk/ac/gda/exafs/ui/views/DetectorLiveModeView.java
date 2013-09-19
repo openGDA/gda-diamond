@@ -38,6 +38,8 @@ import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class DetectorLiveModeView extends ViewPart {
 
+	public static final String ID = "uk.ac.gda.exafs.ui.views.DetectorLiveModeView";
+
 	private XHControlComposite controlComposite;
 	private IPlottingSystem plottingSystem;
 

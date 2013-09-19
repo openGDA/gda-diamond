@@ -20,7 +20,7 @@ package uk.ac.gda.exafs.data;
 
 
 import gda.configuration.properties.LocalProperties;
-import gda.scan.ede.datawriters.EdeSingleSpectrumAsciiFileWriter;
+import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 import gda.util.exafs.Element;
 
 import java.io.File;
@@ -60,7 +60,7 @@ public class EdeCalibrationModel extends ObservableModel {
 	public static class ElementEdeData extends ElementReference {
 		@Override
 		public void setData(String fileName) throws Exception {
-			setData(fileName, EdeSingleSpectrumAsciiFileWriter.STRIP_COLUMN_NAME, EdeSingleSpectrumAsciiFileWriter.LN_I0_IT_COLUMN_NAME);
+			setData(fileName, EdeAsciiFileWriter.STRIP_COLUMN_NAME, EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME);
 		}
 	}
 

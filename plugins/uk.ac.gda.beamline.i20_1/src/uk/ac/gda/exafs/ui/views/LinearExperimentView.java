@@ -419,7 +419,7 @@ public class LinearExperimentView extends ViewPart {
 						noOfAccumulationValueLabel = toolkit.createLabel(groupSectionComposite, "Detector read back accumulations", SWT.None);
 						noOfAccumulationValueLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 						noOfAccumulationValueText = new NumberEditorControl(groupSectionComposite, SWT.None, group, Group.NO_OF_ACCUMULATION_PROP_NAME, false);
-						noOfAccumulationValueText.setEditable(false);
+						// noOfAccumulationValueText.setEditable(false);
 						noOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 					} catch (Exception e) {
 						// TODO Handle this!

@@ -83,7 +83,7 @@
             allowMultiple="false"
             class="uk.ac.gda.exafs.ui.views.DetectorLiveModeView"
             icon="icons/chart_curve.png"
-            id="uk.ac.diamond.scisoft.analysis.rcp.liveModePlot"
+            id="uk.ac.gda.exafs.ui.views.DetectorLiveModeView"
             name="Live Mode"
             restorable="true">
       </view>
