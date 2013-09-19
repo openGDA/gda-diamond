@@ -363,8 +363,6 @@ public class XHControlComposite extends Composite implements IObserver {
 		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(sectionSeparator);
 		section.setSeparatorControl(sectionSeparator);
-
-
 	}
 
 

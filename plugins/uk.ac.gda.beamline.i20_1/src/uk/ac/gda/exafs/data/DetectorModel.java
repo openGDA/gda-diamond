@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.WritableList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DetectorModel extends ObservableModel {
 
@@ -43,6 +45,8 @@ public class DetectorModel extends ObservableModel {
 
 	public static final String UPPER_CHANNEL_PROP_NAME = "upperChannel";
 	public static final String LOWER_CHANNEL_PROP_NAME = "lowerChannel";
+
+	private static final Logger logger = LoggerFactory.getLogger(DetectorModel.class);
 
 	private StripDetector currentDetector;
 
@@ -65,6 +69,11 @@ public class DetectorModel extends ObservableModel {
 				}
 			}
 		});
+		try {
+			setupDetectors();
+		} catch (Exception e) {
+			logger.error("Unable to setup available detectors", e);
+		}
 	}
 
 	public void reloadROIs() {

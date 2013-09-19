@@ -393,6 +393,11 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			}
 		});
 
+		if (DetectorModel.INSTANCE.isDetectorConnected()) {
+			final StructuredSelection initialSelection = new StructuredSelection(CrystalCut.Si111);
+			comboCrystalCut.setSelection(initialSelection);
+		}
+
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(mainSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
 		mainSection.setSeparatorControl(defaultSectionSeparator);
@@ -432,7 +437,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	private FormText labelDeltaEValue;
 	private void setupDetector() {
 		try {
-			DetectorModel.INSTANCE.setupDetectors();
 			cmbDetectorType.setInput(DetectorModel.INSTANCE.getAvailableDetectors());
 			UpdateValueStrategy detectorSelectionUpdateStrategy = new UpdateValueStrategy() {
 				@Override

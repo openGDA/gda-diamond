@@ -104,10 +104,10 @@ public class SingleSpectrumModel extends ObservableModel {
 				"scan_driver.setInBeamPosition(%f,%f);" +
 				"scan_driver.setOutBeamPosition(%f,%f)",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
-				i0IntegrationTime,
-				i0NumberOfAccumulations,
 				itIntegrationTime,
 				itNumberOfAccumulations,
+				i0IntegrationTime,
+				i0NumberOfAccumulations,
 				fileTemplate,
 				i0xPosition, i0yPosition,
 				iTxPosition, iTyPosition);
@@ -159,39 +159,25 @@ public class SingleSpectrumModel extends ObservableModel {
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
 			this.monitor = monitor;
-			Display.getDefault().asyncExec(new Runnable() {
+			monitor.beginTask("Starting " + ScanJobName.values().length + " tasks.", ScanJobName.values().length);
+			Display.getDefault().syncExec(new Runnable() {
 				@Override
 				public void run() {
 					SingleSpectrumModel.this.setScanning(true);
-				}
-			});
-			monitor.beginTask("Starting " + ScanJobName.values().length + " tasks.", ScanJobName.values().length);
-			try {
-				InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
-				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
-				if (resultFileName == null) {
-					throw new Exception("Unable to do collection.");
-				}
-				Display.getDefault().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							SingleSpectrumModel.this.setFileName(resultFileName);
-						} catch (Exception e) {
-							UIHelper.showWarning("Error while loading data from saved file", e.getMessage());
+					try {
+						InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
+						final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
+						if (resultFileName == null) {
+							throw new Exception("Unable to do collection.");
 						}
+						SingleSpectrumModel.this.setFileName(resultFileName);
+					} catch (Exception e) {
+						UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
 					}
-				});
-			} catch (Exception e) {
-				UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
-			}
-			monitor.done();
-			Display.getDefault().asyncExec(new Runnable() {
-				@Override
-				public void run() {
 					SingleSpectrumModel.this.setScanning(false);
 				}
 			});
+			monitor.done();
 			return Status.OK_STATUS;
 		}
 

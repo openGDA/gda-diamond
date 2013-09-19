@@ -19,32 +19,38 @@
 package uk.ac.gda.exafs.ui.data.detector;
 
 import gda.jython.InterfaceProvider;
-import gda.scan.ede.position.EdePositionType;
-import gda.scan.ede.position.EdeScanPosition;
-import gda.scan.ede.position.ExplicitScanPositions;
+import gda.jython.JythonServerFacade;
+import gda.observable.IObserver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
 import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
 import org.eclipse.core.databinding.observable.list.WritableList;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.swt.widgets.Display;
 
-import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumModel;
-import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
+import uk.ac.gda.exafs.ui.data.UIHelper;
 import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
 
-public class Experiment extends CollectionModel {
+public class LinearExperimentModel extends CollectionModel {
 
-	public static final Experiment INSTANCE = new Experiment();
+	private static final String TIMING_GROUPS_OBJ_NAME = "timingGroups";
+
+	public static final LinearExperimentModel INSTANCE = new LinearExperimentModel();
 
 	private static final double EXPERIMENT_START_TIME = 0.0;
 	private static final long DEFAULT_INITIAL_EXPERIMENT_TIME_IN_SEC = 20; // Should be > 0
@@ -55,12 +61,17 @@ public class Experiment extends CollectionModel {
 	private DefaultTimeBarRowModel timingGroupRow;
 	private DefaultTimeBarRowModel spectrumRow;
 
+	public static final String SCANNING_PROP_NAME = "scanning";
+	private boolean scanning;
+
 	public static final String DELAY_BETWEEN_GROUPS_PROP_NAME = "delayBetweenGroups";
 	private double delayBetweenGroups;
 
 	WritableList groupList = new WritableList(new ArrayList<Group>(), Group.class);
 
-	public Experiment() {
+	private final ScanJob job;
+
+	public LinearExperimentModel() {
 		this.setStartTime(EXPERIMENT_START_TIME);
 		this.setDurationInSec(DEFAULT_INITIAL_EXPERIMENT_TIME_IN_SEC);
 		setupTimebarModel();
@@ -81,6 +92,10 @@ public class Experiment extends CollectionModel {
 			}
 		});
 		addGroup();
+
+		job = new ScanJob("Performing Single spectrum scan");
+		InterfaceProvider.getJSFObserver().addIObserver(job);
+		job.setUser(true);
 	}
 
 	private void setupTimebarModel() {
@@ -116,42 +131,95 @@ public class Experiment extends CollectionModel {
 		setAllGroupTimes();
 	}
 
-	public void doCollection() throws Exception {
-		EdeScanParameters edeScanParameters = new EdeScanParameters();
-		for (Object object : groupList) {
-			Group uiTimingGroup = (Group) object;
-			TimingGroup timingGroup = new TimingGroup();
-			timingGroup.setLabel(uiTimingGroup.getName());
-			timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrums());
-			timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime());
-			timingGroup.setTimePerFrame(uiTimingGroup.getDuration());
-			edeScanParameters.addGroup(timingGroup);
+	public void doCollection() {
+		job.schedule();
+	}
+
+	private class ScanJob extends Job implements IObserver {
+		public ScanJob(String name) {
+			super(name);
 		}
-		// TODO Complete implementation
-		EdeScanPosition i0Position = new ExplicitScanPositions(
-				EdePositionType.OUTBEAM,
-				SingleSpectrumModel.INSTANCE.getI0xPosition(),
-				SingleSpectrumModel.INSTANCE.getI0yPosition(),
-				ClientConfig.ScannableSetup.SAMPLE_X_POSITION.getScannable(),
-				ClientConfig.ScannableSetup.SAMPLE_Y_POSITION.getScannable());
 
-		InterfaceProvider.getJythonNamespace().placeInJythonNamespace("i0Position", i0Position);
+		@Override
+		public void update(Object source, Object arg) {
+			//
+		}
 
-		EdeScanPosition itPosition = new ExplicitScanPositions(
-				EdePositionType.INBEAM,
-				SingleSpectrumModel.INSTANCE.getiTxPosition(),
-				SingleSpectrumModel.INSTANCE.getiTyPosition(),
-				ClientConfig.ScannableSetup.SAMPLE_X_POSITION.getScannable(),
-				ClientConfig.ScannableSetup.SAMPLE_Y_POSITION.getScannable());
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					LinearExperimentModel.this.setScanning(true);
+				}
+			});
+			monitor.beginTask("Scannable", 1);
 
-		InterfaceProvider.getJythonNamespace().placeInJythonNamespace("itPosition", itPosition);
+			Display.getDefault().syncExec(new Runnable() {
+				private String buildScanCommand() {
+					return String.format("from gda.scan.ede.drivers import LinearExperimentDriver;" +
+							"scan_driver = LinearExperimentDriver(\"%s\",%s);" +
+							"scan_driver.setInBeamPosition(%f,%f);" +
+							"scan_driver.setOutBeamPosition(%f,%f)",
+							DetectorModel.INSTANCE.getCurrentDetector().getName(),
+							TIMING_GROUPS_OBJ_NAME,
+							SingleSpectrumModel.INSTANCE.getiTxPosition(),
+							SingleSpectrumModel.INSTANCE.getiTxPosition(),
+							SingleSpectrumModel.INSTANCE.getI0xPosition(),
+							SingleSpectrumModel.INSTANCE.getI0xPosition()
+							);
+				}
 
-		String scanCommand = String.format("from gda.scan.ede.drivers import SingleSpectrumDriver;" +
-				"scan_driver = SingleSpectrumDriver(\"%s\",%f,%d,%f,%d,\"%s\");" +
-				"scan_driver.setInBeamPosition(%f,%f);" +
-				"scan_driver.setOutBeamPosition(%f,%f)",
-				DetectorModel.INSTANCE.getCurrentDetector().getName());
+				@Override
+				public void run() {
+					LinearExperimentModel.this.setScanning(true);
 
+					final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>(groupList.size());
+					for (Object object : groupList) {
+						Group uiTimingGroup = (Group) object;
+						TimingGroup timingGroup = new TimingGroup();
+						timingGroup.setLabel(uiTimingGroup.getName());
+						timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrums());
+						timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime());
+						timingGroup.setTimePerFrame(uiTimingGroup.getDuration());
+						timingGroups.add(timingGroup);
+					}
+					InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
+					InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
+					try {
+						final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
+						if (resultFileName == null) {
+							throw new Exception("Unable to do collection.");
+						}
+					} catch (Exception e) {
+						UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
+					}
+
+					LinearExperimentModel.this.setScanning(false);
+				}
+			});
+			monitor.done();
+			return Status.OK_STATUS;
+		}
+
+		@Override
+		protected void canceling() {
+			doStop();
+		}
+	}
+
+	public void doStop() {
+		if (this.isScanning()) {
+			JythonServerFacade.getInstance().haltCurrentScan();
+		}
+	}
+
+	protected void setScanning(boolean value) {
+		this.firePropertyChange(SCANNING_PROP_NAME, scanning, scanning = value);
+	}
+
+	public boolean isScanning() {
+		return scanning;
 	}
 
 	private void setAllGroupTimes() {

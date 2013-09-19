@@ -75,8 +75,8 @@ import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.detector.CollectionModel;
 import uk.ac.gda.exafs.ui.data.detector.CollectionModelRenderer;
-import uk.ac.gda.exafs.ui.data.detector.Experiment;
 import uk.ac.gda.exafs.ui.data.detector.Group;
+import uk.ac.gda.exafs.ui.data.detector.LinearExperimentModel;
 import uk.ac.gda.exafs.ui.data.detector.MilliScale;
 import uk.ac.gda.exafs.ui.data.detector.Spectrum;
 
@@ -187,9 +187,8 @@ public class LinearExperimentView extends ViewPart {
 		runExperimentAction = new Action() {
 			@Override
 			public void run() {
-				// TODO
+				LinearExperimentModel.INSTANCE.doCollection();
 			}
-
 		};
 		runExperimentAction.setImageDescriptor(ResourceManager.getImageDescriptor(LinearExperimentView.class,
 				"/icons/control_play_blue.png"));
@@ -270,7 +269,7 @@ public class LinearExperimentView extends ViewPart {
 			protected void setValue(Object element, Object value) {
 				if (!((String) value).isEmpty()) {
 					try {
-						Experiment.INSTANCE.setGroupStartTime((Group) element, Double.parseDouble((String) value));
+						LinearExperimentModel.INSTANCE.setGroupStartTime((Group) element, Double.parseDouble((String) value));
 					} catch(Exception e) {
 						UIHelper.showWarning("Unable to set start time", e.getMessage());
 					}
@@ -291,7 +290,7 @@ public class LinearExperimentView extends ViewPart {
 			protected void setValue(Object element, Object value) {
 				if (!((String) value).isEmpty()) {
 					try {
-						Experiment.INSTANCE.setGroupEndTime((Group) element, Double.parseDouble((String) value));
+						LinearExperimentModel.INSTANCE.setGroupEndTime((Group) element, Double.parseDouble((String) value));
 					} catch(Exception e) {
 						UIHelper.showWarning("Unable to set end time", e.getMessage());
 					}
@@ -332,7 +331,7 @@ public class LinearExperimentView extends ViewPart {
 				}
 			}
 		});
-		groupsTableViewer.setInput(Experiment.INSTANCE.getGroupList());
+		groupsTableViewer.setInput(LinearExperimentModel.INSTANCE.getGroupList());
 		Composite buttonComposit = new Composite(regionsComposit, SWT.NONE);
 		buttonComposit.setLayout(new GridLayout());
 		buttonComposit.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL));
@@ -342,7 +341,7 @@ public class LinearExperimentView extends ViewPart {
 		butAdd.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				Experiment.INSTANCE.addGroup();
+				LinearExperimentModel.INSTANCE.addGroup();
 			}
 		});
 
@@ -355,7 +354,7 @@ public class LinearExperimentView extends ViewPart {
 			public void handleEvent(Event event) {
 				IStructuredSelection structuredSelection = (IStructuredSelection) groupsTableViewer.getSelection();
 				if (structuredSelection.getFirstElement() != null) {
-					Experiment.INSTANCE.removeGroup((Group) structuredSelection.getFirstElement());
+					LinearExperimentModel.INSTANCE.removeGroup((Group) structuredSelection.getFirstElement());
 				}
 			}
 		});
@@ -532,7 +531,7 @@ public class LinearExperimentView extends ViewPart {
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
 		GridData gridDataForTxt = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		NumberEditorControl numberEditorControl = new NumberEditorControl(sectionComposite, SWT.None, Experiment.INSTANCE, Experiment.DURATION_IN_SEC_PROP_NAME, false);
+		NumberEditorControl numberEditorControl = new NumberEditorControl(sectionComposite, SWT.None, LinearExperimentModel.INSTANCE, LinearExperimentModel.DURATION_IN_SEC_PROP_NAME, false);
 		numberEditorControl.setUnit(ClientConfig.UnitSetup.SEC.getText());
 		numberEditorControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		numberEditorControl.setLayoutData(gridDataForTxt);
@@ -541,7 +540,7 @@ public class LinearExperimentView extends ViewPart {
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
 		gridDataForTxt = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		numberEditorControl = new NumberEditorControl(sectionComposite, SWT.None, Experiment.INSTANCE, Experiment.DELAY_BETWEEN_GROUPS_PROP_NAME, false);
+		numberEditorControl = new NumberEditorControl(sectionComposite, SWT.None, LinearExperimentModel.INSTANCE, LinearExperimentModel.DELAY_BETWEEN_GROUPS_PROP_NAME, false);
 		numberEditorControl.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
 		numberEditorControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		numberEditorControl.setLayoutData(gridDataForTxt);
@@ -633,11 +632,11 @@ public class LinearExperimentView extends ViewPart {
 		timeBarViewer.setDrawOverlapping(true);
 
 		// TODO Adjust accordingly
-		timeBarViewer.setInitialDisplayRange(TimebarHelper.getTime(), (int) Experiment.INSTANCE.getDurationInSec());
+		timeBarViewer.setInitialDisplayRange(TimebarHelper.getTime(), (int) LinearExperimentModel.INSTANCE.getDurationInSec());
 		timeBarViewer.registerTimeBarRenderer(Group.class, new CollectionModelRenderer());
 		timeBarViewer.registerTimeBarRenderer(Spectrum.class, new CollectionModelRenderer());
 		timeBarViewer.setTimeScaleRenderer(new MilliScale());
-		timeBarViewer.setModel(Experiment.INSTANCE.getTimeBarModel());
+		timeBarViewer.setModel(LinearExperimentModel.INSTANCE.getTimeBarModel());
 		timeBarViewer.setLineDraggingAllowed(false);
 		marker = new TimeBarMarkerImpl(true, TimebarHelper.getTime().advanceMillis(INITIAL_TIMEBAR_MARKER_IN_MILLI));
 		marker.addTimeBarMarkerListener(new TimeBarMarkerListener() {
@@ -691,9 +690,9 @@ public class LinearExperimentView extends ViewPart {
 			public void controlResized(ControlEvent e) {
 				double width = timeBarViewer.getClientArea().width - timeBarViewer.getYAxisWidth();
 				if (width > 0) {
-					scale.setMinimum((int) (width / Experiment.INSTANCE.getDurationInSec()));
-					scale.setSelection((int) (width / Experiment.INSTANCE.getDurationInSec()));
-					scale.setMaximum(TIMEBAR_ZOOM_FACTOR * (int) (width / Experiment.INSTANCE.getDurationInSec()));
+					scale.setMinimum((int) (width / LinearExperimentModel.INSTANCE.getDurationInSec()));
+					scale.setSelection((int) (width / LinearExperimentModel.INSTANCE.getDurationInSec()));
+					scale.setMaximum(TIMEBAR_ZOOM_FACTOR * (int) (width / LinearExperimentModel.INSTANCE.getDurationInSec()));
 					timeBarViewer.setPixelPerSecond(scale.getSelection());
 				}
 			}
