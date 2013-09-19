@@ -33,6 +33,7 @@ class PilatusAxisWrapper(DetectorAxisWrapper):
 	def atScanStart(self):
 		DetectorAxisWrapper.atScanStart(self)
 		
+		self.detector.setFilePath(self.visitPath)
 		self.isccd.flush()
 		
 		if self.detector.getFilePath()[-1:] != "/":

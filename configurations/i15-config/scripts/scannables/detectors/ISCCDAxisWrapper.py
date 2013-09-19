@@ -12,7 +12,6 @@ from ccdScanMechanics import setVelocity
 from ccdAuxiliary import incrementCCDScanNumber
 from ccdAuxiliary import openCCDShield, closeCCDShield
 from gdascripts.parameters import beamline_parameters
-from dataDir import getDir, setFullUserDir#, setDir 
 from gda.device.detector.odccd import ModifyCrysalisHeader
 from gda.data.fileregistrar import FileRegistrarHelper
 from gda.epics import CAClient
@@ -71,10 +70,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 		
 		DetectorAxisWrapper.atScanStart(self)
 		
-		supportedDir = "X:/currentdir"
-		if self.detector.getDir() <> supportedDir:
-			simpleLog(self.detectorName  + " doesn't support numeric directory names, using currentdir.")
-			self.detector.setDir(supportedDir)
+		self.detector.setDir(self.visitPath)
 		
 		if self.overflow and self.sync:
 			experiment_name = self.fileName
@@ -89,7 +85,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			self.run_file = "%s%s/%s.run" % (self.detector.path, run_path, experiment_name)
 			self.frames_path = self.detector.path + frames_path
 			
-			targetDir = File(getDir() + frames_path)
+			targetDir = File(self.visitPath + frames_path)
 			try:
 				if not targetDir.exists():
 					targetDir.mkdirs()
@@ -102,9 +98,9 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 					+ `targetDir` + " " + `typ` + ":" + `exception`
 			
 			# Then copy over all of the template files
-			template_path = getDir() + "/xml/atlas"
+			template_path = self.visitPath + "/xml/atlas"
 			if os.path.exists(template_path):
-				target_path = getDir() + run_path
+				target_path = self.visitPath + run_path
 				par_present = False
 				
 				for fil in os.listdir(template_path):
@@ -288,7 +284,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 					"Re-exposing %s because of beam loss during expose")
 			
 			self.files.append(filename)
-			linuxFilename = getDir() + "/" + filename + ".img"
+			linuxFilename = self.visitPath + "/" + filename + ".img"
 			diodeSumScaled = diodeSum * 1000
 			imonScaledAvg = imonAverage * 100000
 			crysalisFile = ModifyCrysalisHeader(linuxFilename)

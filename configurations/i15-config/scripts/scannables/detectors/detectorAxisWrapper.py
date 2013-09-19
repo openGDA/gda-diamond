@@ -6,7 +6,6 @@ from ccdScanMechanics import setMaxVelocity
 from ccdScanMechanics import scanGeometryCheck
 from gda.device.scannable import PseudoDevice
 from gdascripts.parameters import beamline_parameters
-from dataDir import getDir, setFullUserDir#, setDir 
 from gda.util import VisitPath
 from gda.device.detector.mar345 import Mar345Detector
 from scannables.detectors.perkinElmer import PerkinElmer
@@ -37,10 +36,6 @@ class DetectorAxisWrapper(PseudoDevice):
 		#	simpleLog("Scan will pause if proportional counter %f is below " +
 		#		"threshold value %f" % (self.prop(), self.prop_threshold))
 		self.visitPath = VisitPath.getVisitPath()
-		if self.visitPath != getDir():
-			simpleLog("Visit path is now: " + self.visitPath)
-			setFullUserDir(self.visitPath)
-			simpleLog("To use a different visit dir a user on that visit must take the baton.")
 		if self.axis:
 			self.originalPosition = self.axis()
 

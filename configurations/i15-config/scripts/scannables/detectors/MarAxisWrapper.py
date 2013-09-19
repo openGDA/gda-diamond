@@ -17,7 +17,6 @@ from marAuxiliary import marErase
 from shutterCommands import openEHShutter#, closeEHShutter, getShutterStatus, sh
 from gdascripts.parameters import beamline_parameters
 from util_scripts import doesFileExist
-from dataDir import getDir, setFullUserDir#, setDir 
 from gda.util import VisitPath
 from gda.data.fileregistrar import FileRegistrarHelper
 from glob import glob
@@ -62,7 +61,7 @@ class MarAxisWrapper(DetectorAxisWrapper):
 		incrementMarScanNumber()
 		
 		simpleLog("MAR: Force setting of full user dir to " + self.visitPath)
-		setFullUserDir(self.visitPath)
+		self.detector.setDirectory(self.visitPath)
 			
 		self.isccd.flush()
 		

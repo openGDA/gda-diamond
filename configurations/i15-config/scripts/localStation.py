@@ -49,7 +49,7 @@ from marAuxiliary import marErase, resetMarScanNumber
 from ccdAuxiliary import resetCCDScanNumber
 from pilatus_scripts import resetPilatusScanNumber
 
-from dataDir import getDir, setDir, setFullUserDir
+from dataDir import setDir, setFullUserDir
 from time import sleep
 from ccdFloodCorrections import exportMultiDark
 from gda.epics import CAClient
@@ -136,7 +136,6 @@ try:
 	scansReturnToOriginalPositions = 1;
 	
 	beamlineName = "i15"
-	symbolicDataLink = "/dls/i15/data/currentdir"
 	commissioningProposal = "ee0"
 	beamline = finder.find("Beamline")
 
