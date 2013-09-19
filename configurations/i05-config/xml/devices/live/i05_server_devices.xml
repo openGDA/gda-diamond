@@ -29,12 +29,5 @@
 
 	<import resource="sj6.xml" />
 	
-	<bean id="analyser_slit" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="BL05I-EA-SLITS-01:POS" />
-		<property name="getAsString" value="true" />
-		<property name="extraNames">
-			<list><value>analyser_slit</value></list>
-		</property>
-		<property name="hasUnits" value="false" />
-	</bean>
+        <import resource="scientaslit.xml" />
 </beans>

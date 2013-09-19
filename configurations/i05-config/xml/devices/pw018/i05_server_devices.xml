@@ -14,12 +14,32 @@
 	<import resource="devices/d2.xml" />
 	<import resource="analyser.xml" />
 -->
+	<import resource="scientaslit.xml" />
 	<bean
-		class="gda.device.scannable.DummyUnitsScannable" id="sample_temp">
-		<property name="inputNames"><list><value>sample_temp</value></list></property>
-		<property name="outputFormat"><list><value>%5.5g</value></list></property>
+		class="gda.device.scannable.DummyMultiElementScannable" id="cryostat">
+		<property name="inputNames"><list><value>demand</value></list></property>
+		<property name="extraNames">
+			<list>
+        			<value>cryostat</value>
+        			<value>sample</value>
+        			<value>shield</value>
+        			<value>heater</value>
+        			<value>heatersetting</value>
+        	</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%1.0f</value>
+			</list>
+		</property>
 		<property name="protectionLevel" value="3"></property>
 	</bean>
+	
 	<bean
 		class="gda.device.scannable.DummyUnitsScannable" id="pgm_cff">
 		<property name="inputNames"><list><value>pgm_cff</value></list></property>
@@ -44,23 +64,41 @@
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
 		<property name="protectionLevel" value="3"></property>
 	</bean>
-
- 	<bean
- 		class="gda.device.scannable.DummyUnitsScannable" id="s6_ysize">
- 		<property name="inputNames"><list><value>s6_ysize</value></list></property>
- 		<property name="outputFormat"><list><value>%5.0f</value></list></property>
- 		<property name="protectionLevel" value="3"></property>
- 		<property name="lowerGdaLimits" value="0" />
- 		<property name="upperGdaLimits" value="5" />
- 	</bean>
- 
- 	<bean
-		class="gda.device.scannable.DummyUnitsScannable" id="analyser_slit">
-		<property name="name" value="analyser_slit" />
-		<property name="inputNames"><list><value>analyser_slit</value></list></property>
+	<bean
+		class="gda.device.scannable.DummyUnitsScannable" id="rawid_loweerphase">
+		<property name="inputNames"><list><value>rawid_lowerphase</value></list></property>
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
-		<property name="protectionLevel" value="3" />
+		<property name="protectionLevel" value="3"></property>
 	</bean>
-	
+	<bean
+		class="gda.device.scannable.DummyUnitsScannable" id="rawid_upperphase">
+		<property name="inputNames"><list><value>rawid_upperphase</value></list></property>
+		<property name="outputFormat"><list><value>%5.5g</value></list></property>
+		<property name="protectionLevel" value="3"></property>
+	</bean>
+	<bean
+		class="gda.device.scannable.DummyUnitsScannable" id="s6_ysize">
+		<property name="inputNames"><list><value>s6_ysize</value></list></property>
+		<property name="outputFormat"><list><value>%5.0f</value></list></property>
+		<property name="protectionLevel" value="3"></property>
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="5" />
+	</bean>
+	<bean
+		class="gda.device.scannable.DummyUnitsScannable" id="s2_ysize">
+		<property name="inputNames"><list><value>s2_ysize</value></list></property>
+		<property name="outputFormat"><list><value>%5.0f</value></list></property>
+		<property name="protectionLevel" value="3"></property>
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="5" />
+	</bean>
+	<bean
+		class="gda.device.scannable.DummyUnitsScannable" id="s2_xsize">
+		<property name="inputNames"><list><value>s2_xsize</value></list></property>
+		<property name="outputFormat"><list><value>%5.0f</value></list></property>
+		<property name="protectionLevel" value="3"></property>
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="5" />
+	</bean>
 	<import resource="gonio.xml" />
 </beans>

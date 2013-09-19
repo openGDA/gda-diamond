@@ -67,13 +67,13 @@
    </perspectiveExtension>
    </extension>
 <extension point="uk.ac.gda.client.dashboard.objects">
-      <Scannable name="analyser_slit" tooltip="analyser entrance slit setting"/>
-      <Scannable name="sample_temp" tooltip="sample temperature" />
-      <Scannable name="s6_ysize" tooltip="monochromator exit slit setting" />
-      <Scannable name="s2_ysize" tooltip="s2 vertical slit size" />
       <Scannable name="s2_xsize" tooltip="s2 horizontal slit size" />
+      <Scannable name="s2_ysize" tooltip="s2 vertical slit size" />
+      <Scannable name="s6_ysize" tooltip="monochromator exit slit setting" />
+      <Scannable name="analyser_slit" tooltip="analyser entrance slit setting"/>
       <Scannable name="pgm_energy" tooltip="photon energy" />
       <Scannable name="pgm_cff" tooltip="monochromator cff" />
+      <Scannable name="cryostat" tooltip="sample temperature" />
       <Scannable name="sa" tooltip="cryo manipulator" />
 </extension>
 <extension
@@ -118,6 +118,14 @@
             icon="icons/sample.gif"
             id="uk.ac.gda.client.arpes.sweptview"
             name="Swept Plot"
+            restorable="true">
+      </view>
+      <view
+            category="gda.rcp.arpes"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            icon="icons/sample.gif"
+            id="uk.ac.gda.client.arpes.sumview"
+            name="Detector Sum Plot"
             restorable="true">
       </view>
       <view

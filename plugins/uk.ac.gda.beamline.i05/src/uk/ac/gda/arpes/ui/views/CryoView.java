@@ -71,21 +71,21 @@ public class CryoView extends ViewPart {
 			lblSaazimuth.setBounds(333, 584, 120, 24);
 		}
 		{
-			MotorPositionViewerComposite lblEnergy = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("energy")), true, "photonEnergy", 4, null, true, true);
+			MotorPositionViewerComposite lblEnergy = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("pgm_energy")), true, "photonEnergy", 4, null, true, true);
 			lblEnergy.setBounds(590, 418, 120, 24);
 		}
 //		{
 //			MotorPositionViewerComposite lblPolarisation = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("energy")), true, "photonEnergy", 4, null, true, true);
 //			lblPolarisation.setBounds(590, 393, 120, 24);
 //		}
-		{
-			MotorPositionViewerComposite lblEntranceslit = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("analyser_slit")), true, "photonEnergy", 4, null, true, true);
-			lblEntranceslit.setBounds(565, 498, 120, 24);
-		}
-		{
-			MotorPositionViewerComposite lblSampletemp = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sample_temp")), true, "photonEnergy", 4, null, true, true);
-			lblSampletemp.setBounds(590, 61, 120, 24);
-		}
+//		{
+//			MotorPositionViewerComposite lblEntranceslit = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("analyser_slit")), true, "photonEnergy", 4, null, true, true);
+//			lblEntranceslit.setBounds(565, 498, 120, 24);
+//		}
+//		{
+//			MotorPositionViewerComposite lblSampletemp = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sample_temp")), true, "photonEnergy", 4, null, true, true);
+//			lblSampletemp.setBounds(590, 61, 120, 24);
+//		}
 		
 		Label lblNewLabel = new Label(comp, SWT.BACKGROUND);
 		lblNewLabel.setImage(ResourceManager.getPluginImage("uk.ac.gda.beamline.i05", "icons/cryo.png"));

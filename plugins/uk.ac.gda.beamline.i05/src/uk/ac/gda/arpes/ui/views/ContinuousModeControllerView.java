@@ -235,11 +235,6 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saazimuth")), true, "saazimuth", 4, null, true, false);
 		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-
-		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sample_temp")), true, "sample_temp", 4, null, true, false);
-		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
-		gd.verticalIndent = 8;
-		mpvc.setLayoutData(gd);
 		
 		analyser = (Device) Finder.getInstance().find("analyser");
 		if (analyser != null) {
