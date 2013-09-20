@@ -20,9 +20,7 @@ package gda.scan;
 
 import static gda.jython.InterfaceProvider.getJythonServerNotifer;
 import gda.data.nexus.tree.NexusTreeProvider;
-import gda.device.Detector;
 import gda.device.Scannable;
-import gda.device.detector.ExperimentLocation;
 import gda.device.detector.ExperimentLocationUtils;
 import gda.device.detector.ExperimentStatus;
 import gda.device.detector.StripDetector;
@@ -85,7 +83,7 @@ public class EdeScan extends ConcurrentScanChild {
 		if (repetitionNumber >= 0) {
 			// then use indexer to report progress of scan in data
 			indexer = new FrameIndexer(scanType, motorPositions.getType(), repetitionNumber);
-			indexer.setName(theDetector.getName()+"_progress");
+			indexer.setName(theDetector.getName() + "_progress");
 			allScannables.add(indexer);
 		}
 		super.setUp();
@@ -93,7 +91,7 @@ public class EdeScan extends ConcurrentScanChild {
 
 	@Override
 	public String toString() {
-		return "EDE scan - type:"+scanType.toString()+" "+motorPositions.getType().toString();
+		return "EDE scan - type:" + scanType.toString() + " " + motorPositions.getType().toString();
 	}
 
 	@Override
@@ -137,14 +135,15 @@ public class EdeScan extends ConcurrentScanChild {
 		// sleep for a moment to allow collection to start
 		Thread.sleep(250);
 
-		ExperimentLocation lastReadLoc = new ExperimentLocation(0, 0, 0);
+		Integer lastFrameNumRead = -1;
 		try {
-			// ExperimentLocation finalFrame = getFinalFrameLoc();
 			ExperimentStatus progressData = theDetector.fetchStatus();
+			Integer latestFrameAvailalable = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters,
+					progressData.loc);
 			while (!collectionFinished(progressData)) {
-				if (canReadoutMoreFrames(progressData, lastReadLoc)) {
-					createDataPoints(progressData, lastReadLoc);
-					lastReadLoc = progressData.loc;
+				if (latestFrameAvailalable > lastFrameNumRead) {
+					createDataPoints(lastFrameNumRead + 1, latestFrameAvailalable);
+					lastFrameNumRead = latestFrameAvailalable;
 				}
 				progressData = theDetector.fetchStatus();
 				Thread.sleep(100);
@@ -155,31 +154,17 @@ public class EdeScan extends ConcurrentScanChild {
 			// scan has been aborted, so stop the collection and let the scan write out the rest of the data point which
 			// have been collected so far
 			theDetector.stop();
-			if (!(e instanceof InterruptedException)) {
-				throw e;
-			}
+			throw e;
+		} finally {
+			// have we read all the frames?
+			readoutRestOfFrames(lastFrameNumRead);
 		}
-
-		// have we read all the frames?
-		readoutRestOfFrames(lastReadLoc);
 
 	}
 
 	private Boolean collectionFinished(ExperimentStatus progressData) {
-		// FIXME this will fail when collection having a delay as this returns idle,0,0,0!!
-		return progressData.detectorStatus == Detector.IDLE && progressData.loc.groupNum <= 0
-				&& progressData.loc.frameNum <= 0 && progressData.loc.scanNum <= 0;
-	}
-
-	private Boolean canReadoutMoreFrames(ExperimentStatus progressData, ExperimentLocation lastReadLoc) {
-
-		if (progressData.loc.groupNum > lastReadLoc.groupNum) {
-			return true;
-		} else if (progressData.loc.groupNum == lastReadLoc.groupNum
-				&& progressData.loc.frameNum > lastReadLoc.frameNum) {
-			return true;
-		}
-		return false;
+		// TODO test this actually works with hardware!!!
+		return progressData.toString().contains("Idle");
 	}
 
 	@Override
@@ -204,28 +189,12 @@ public class EdeScan extends ConcurrentScanChild {
 		}
 	}
 
-	private void readoutRestOfFrames(ExperimentLocation lastReadLoc) throws Exception {
-		int lastReadFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(theDetector.getLoadedParameters(),
-				lastReadLoc);
-		int absLowFrame = lastReadFrame + 1;
+	private void readoutRestOfFrames(Integer lastReadLoc) throws Exception {
+		int absLowFrame = lastReadLoc + 1;
 		if (absLowFrame == getDimension()) {
 			return;
 		}
 		int absHighFrame = getDimension() - 1;
-		createDataPoints(absLowFrame, absHighFrame);
-	}
-
-	private void createDataPoints(ExperimentStatus progressData, ExperimentLocation lastReadLoc) throws Exception {
-
-		int lastReadFrame = ExperimentLocationUtils
-				.getAbsoluteFrameNumber(theDetector.getLoadedParameters(), lastReadLoc);
-		int absLowFrame = lastReadFrame + 1;
-		int absHighFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(theDetector.getLoadedParameters(),
-				progressData.loc);
-		if (absHighFrame < absLowFrame){
-			// no progress made, so no data points to create and boradcast
-			return;
-		}
 		createDataPoints(absLowFrame, absHighFrame);
 	}
 
@@ -237,7 +206,6 @@ public class EdeScan extends ConcurrentScanChild {
 	 * @throws Exception
 	 */
 	private void createDataPoints(int lowFrame, int highFrame) throws Exception {
-
 		// readout the correct frame from the detectors
 		NexusTreeProvider[] detData;
 		logger.info("reading data from detectors from frames " + lowFrame + " to " + highFrame);
@@ -284,12 +252,13 @@ public class EdeScan extends ConcurrentScanChild {
 		}
 	}
 
-	private void storeAndBroadcastSDP(int absoulteFrameNumber,ScanDataPoint thisPoint) {
+	private void storeAndBroadcastSDP(int absoulteFrameNumber, ScanDataPoint thisPoint) {
 
 		if (progressUpdater != null) {
 			int groupNumOfThisSDP = ExperimentLocationUtils.getGroupNum(scanParameters, absoulteFrameNumber);
 			int frameNumOfThisSDP = ExperimentLocationUtils.getFrameNum(scanParameters, absoulteFrameNumber);
-			EdeScanProgressBean progress = new EdeScanProgressBean(groupNumOfThisSDP,frameNumOfThisSDP,scanType,motorPositions.getType(),thisPoint);
+			EdeScanProgressBean progress = new EdeScanProgressBean(groupNumOfThisSDP, frameNumOfThisSDP, scanType,
+					motorPositions.getType(), thisPoint);
 			progressUpdater.update(this, progress);
 		}
 		rawData.add(thisPoint);

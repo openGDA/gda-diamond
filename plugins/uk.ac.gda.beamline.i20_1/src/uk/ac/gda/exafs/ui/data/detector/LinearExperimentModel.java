@@ -93,7 +93,7 @@ public class LinearExperimentModel extends CollectionModel {
 		});
 		addGroup();
 
-		job = new ScanJob("Performing Single spectrum scan");
+		job = new ScanJob("Performing Linear Experiment");
 		InterfaceProvider.getJSFObserver().addIObserver(job);
 		job.setUser(true);
 	}
@@ -154,7 +154,6 @@ public class LinearExperimentModel extends CollectionModel {
 
 		@Override
 		public void update(Object source, Object arg) {
-			//
 		}
 
 		@Override
@@ -176,16 +175,22 @@ public class LinearExperimentModel extends CollectionModel {
 						TimingGroup timingGroup = new TimingGroup();
 						timingGroup.setLabel(uiTimingGroup.getName());
 						timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrums());
-						timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime());
-						timingGroup.setTimePerFrame(uiTimingGroup.getDuration());
-						timingGroup.setNumberOfScansPerFrame(uiTimingGroup.getNoOfAccumulations());
+						timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime() / 1000.0); // convert from ms to s
+						timingGroup.setTimePerFrame(uiTimingGroup.getTimePerSpectrum() / 1000.0); // convert from ms to s
 						timingGroups.add(timingGroup);
 					}
 				}
 			});
 
 			InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
-			InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
+			String scanCommand = buildScanCommand();
+			InterfaceProvider.getCommandRunner().runCommand(scanCommand);
+			// give the previous command a chance to run before calling doCollection()
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e1) {
+				return Status.CANCEL_STATUS;
+			}
 			try {
 				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
 				if (resultFileName == null) {
