@@ -24,6 +24,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.Composite;
 
+import uk.ac.gda.arpes.beans.ARPESScanBean;
 import uk.ac.gda.richbeans.beans.IFieldWidget;
 import uk.ac.gda.richbeans.components.FieldComposite;
 import uk.ac.gda.richbeans.editors.DirtyContainer;
@@ -32,9 +33,11 @@ import uk.ac.gda.richbeans.editors.RichBeanEditorPart;
 public final class ARPESScanBeanUIEditor extends RichBeanEditorPart {
 
 	private ARPESScanBeanComposite beanComposite;
+	private ARPESScanBeanEditor asbe;
 
-	public ARPESScanBeanUIEditor(String path, URL mappingURL, DirtyContainer dirtyContainer, Object editingBean) {
+	public ARPESScanBeanUIEditor(String path, URL mappingURL, ARPESScanBeanEditor dirtyContainer, Object editingBean) {
 		super(path, mappingURL, dirtyContainer, editingBean);
+		asbe = dirtyContainer;
 	}
 
 	@Override
@@ -98,5 +101,9 @@ public final class ARPESScanBeanUIEditor extends RichBeanEditorPart {
 
 	public IFieldWidget getSweptMode() {
 		return beanComposite.getSweptMode();
+	}
+
+	public void replaceBean(ARPESScanBean read) {
+		asbe.replaceBean(read);
 	}
 }

@@ -66,4 +66,9 @@ public final class ARPESScanBeanEditor extends RichBeanMultiPageEditorPart {
 			logger.error("Error setting input for editor from input " + input.getName(), th);
 		}
 	}
+	
+	public void replaceBean(Object object) {
+		this.editingBean = object;
+		linkUI();
+	}
 }

@@ -28,7 +28,14 @@ import java.util.TreeMap;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DropTarget;
+import org.eclipse.swt.dnd.DropTargetAdapter;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.FileTransfer;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -36,9 +43,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.arpes.beans.ScanBeanFromNeXusFile;
 import uk.ac.gda.client.CommandQueueViewFactory;
 import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 import uk.ac.gda.richbeans.ACTIVE_MODE;
@@ -78,7 +87,10 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		capabilities = (AnalyserCapabilties) Finder.getInstance().listAllLocalObjects(AnalyserCapabilties.class.getCanonicalName()).get(0);
 		
 		Label label = new Label(this, SWT.NONE);
+		label.setText("Drop file here!");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		
+		setDropTarget(label, parent.getShell(), editor);
 		
 		Button btnQueueExperiment = new Button(this, SWT.NONE);
 		GridData layoutData = new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1);
@@ -374,5 +386,36 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		} finally {
 			wedidit = false;
 		}
+	}
+	
+	public static void setDropTarget (final Label label, final Shell shell, final RichBeanEditorPart editor) {
+		int operations = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK;
+		DropTarget target = new DropTarget(label, operations);
+		target.setTransfer(new Transfer[] {FileTransfer.getInstance()});
+		target.addDropListener (new DropTargetAdapter() {
+			@Override
+			public void dragEnter(DropTargetEvent e) {
+				if (e.detail == DND.DROP_NONE)
+					e.detail = DND.DROP_LINK;
+			}
+			@Override
+			public void dragOperationChanged(DropTargetEvent e) {
+				if (e.detail == DND.DROP_NONE)
+					e.detail = DND.DROP_LINK;
+			}
+			@Override
+			public void drop(DropTargetEvent event) {
+				if (event.data == null) {
+					event.detail = DND.DROP_NONE;
+					return;
+				}
+				String[] filenames = (String[]) event.data;
+				if (filenames.length > 1) {
+					MessageDialog.openError(shell, "too many files", "Please drop one file only in here. I cannot copy settings from multiple sources.");
+					return;
+				}
+				((ARPESScanBeanUIEditor) editor).replaceBean(ScanBeanFromNeXusFile.read(filenames[0]));
+			}
+		});
 	}
 }
