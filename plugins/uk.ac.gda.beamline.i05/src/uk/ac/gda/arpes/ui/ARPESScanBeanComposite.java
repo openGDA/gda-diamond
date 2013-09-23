@@ -44,9 +44,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.arpes.beans.ARPESScanBean;
 import uk.ac.gda.arpes.beans.ScanBeanFromNeXusFile;
 import uk.ac.gda.client.CommandQueueViewFactory;
 import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
@@ -411,10 +413,27 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 				}
 				String[] filenames = (String[]) event.data;
 				if (filenames.length > 1) {
-					MessageDialog.openError(shell, "too many files", "Please drop one file only in here. I cannot copy settings from multiple sources.");
+					MessageDialog.openError(shell, "too many files", "Please drop one file only in here.\nI cannot copy settings from multiple sources.");
 					return;
 				}
-				((ARPESScanBeanUIEditor) editor).replaceBean(ScanBeanFromNeXusFile.read(filenames[0]));
+				ARPESScanBean bean;
+				try {
+					bean = ScanBeanFromNeXusFile.read(filenames[0]);
+					((ARPESScanBeanUIEditor) editor).replaceBean(bean);
+				} catch (Exception e) {
+					logger.error("error converting nexus file to bean", e);
+					// TODO better messages for frequent cases (no analyser in file)
+					MessageDialog.openError(shell, "error reading nexus file for settings", "Analyser settings from that file could not be read.");
+					return;
+				}
+				// TODO message for non-analyser parameters (exit slit, entrance slit, photon energy)
+				// TODO deal with multi-dim files
+				
+				MessageDialog dialog = new MessageDialog(shell, "Save imported settings", null, "We would suggest saving this experiment under a new name now.", 
+						MessageDialog.QUESTION, new String[] { "Save as...", "Keep existing name and don't save yet" }, 0);
+				int result = dialog.open();
+				if (result == 0)	
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().doSaveAs();
 			}
 		});
 	}

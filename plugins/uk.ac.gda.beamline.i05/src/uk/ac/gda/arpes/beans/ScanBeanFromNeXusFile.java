@@ -20,7 +20,7 @@ package uk.ac.gda.arpes.beans;
 
 public class ScanBeanFromNeXusFile {
 
-	public static ARPESScanBean read(String filename) {
+	public static ARPESScanBean read(String filename) throws Exception {
 		// FIXME - we do a shockingly bad job at the moment
 		return new ARPESScanBean();
 	}
