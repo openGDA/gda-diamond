@@ -107,7 +107,7 @@ public class LinearExperimentModel extends CollectionModel {
 			}
 		});
 
-		job = new ScanJob("Performing Single spectrum scan");
+		job = new ScanJob("Performing Linear Experiment");
 		InterfaceProvider.getJSFObserver().addIObserver(job);
 		Findable controller = Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME);
 		if (controller != null) {
@@ -260,10 +260,23 @@ public class LinearExperimentModel extends CollectionModel {
 				@Override
 				public void run() {
 					LinearExperimentModel.this.setScanning(true);
+					for (Object object : groupList) {
+						Group uiTimingGroup = (Group) object;
+						TimingGroup timingGroup = new TimingGroup();
+						timingGroup.setLabel(uiTimingGroup.getName());
+						timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrums());
+						timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime() / 1000.0); // convert from ms to s
+						timingGroup.setTimePerFrame(uiTimingGroup.getTimePerSpectrum() / 1000.0); // convert from ms to s
+						timingGroups.add(timingGroup);
+					}
 				}
 			});
+			InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
+			String scanCommand = buildScanCommand();
+			InterfaceProvider.getCommandRunner().runCommand(scanCommand);
 			try {
-				InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
+				// give the previous command a chance to run before calling doCollection()
+				Thread.sleep(50);
 				InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
 				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
 				if (resultFileName == null) {

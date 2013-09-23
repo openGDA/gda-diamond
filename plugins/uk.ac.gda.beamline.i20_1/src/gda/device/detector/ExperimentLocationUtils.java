@@ -26,12 +26,12 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
  */
 public abstract class ExperimentLocationUtils {
 	/**
-	 * Given the absolute frame number (zero-based), works out the group number (1 based)
+	 * Given the absolute frame number (zero-based), works out the group number (also zero based)
 	 */
 	public static Integer getGroupNum(EdeScanParameters edeScan, Integer absoluteFrameNum) {
 
 		if (absoluteFrameNum == 0) {
-			return 1;
+			return 0;
 		}
 
 		int[] groupTotals = getGroupTotals(edeScan);
@@ -39,11 +39,14 @@ public abstract class ExperimentLocationUtils {
 		int togo = absoluteFrameNum;
 		int groupNum = 0;
 
-		while (togo >= 0) {
+		while (togo > 0) {
 			togo -= groupTotals[groupNum];
 			groupNum++;
 		}
-		return groupNum;
+		if (togo == 0){
+			return groupNum;
+		}
+		return groupNum -1;
 	}
 
 	private static int[] getGroupTotals(EdeScanParameters edeScan) {
@@ -56,45 +59,45 @@ public abstract class ExperimentLocationUtils {
 	}
 
 	/**
-	 * Given the absolute frame number (zero-based), works out the frame number within the relevant group (1 based)
+	 * Given the absolute frame number (zero-based), works out the frame number within the relevant group (also zero based)
 	 */
 	public static Integer getFrameNum(EdeScanParameters edeScan, Integer absoluteFrameNum) {
 
 		if (absoluteFrameNum == 0) {
-			return 1;
+			return 0;
 		}
 
 		int[] groupTotals = getGroupTotals(edeScan);
 		int togo = absoluteFrameNum;
-		int groupNum = 1;
+		int groupNum = 0;
 
 		do {
 			// subtract the number in each group in turn
-			togo -= groupTotals[groupNum - 1];
+			togo -= groupTotals[groupNum];
 			groupNum++;
 		} while (togo > 0);
 
 		// if we have dropped to zero or below then we know the group the frame is in, so correct by the number of frames in that group
 
 		if (togo < 0){
-			return togo + groupTotals[groupNum - 2] + 1;
+			return togo + groupTotals[groupNum-1];
 		}
-		return 1;
+		return 0;
 
 	}
 
 	public static Integer getAbsoluteFrameNumber(EdeScanParameters edeScan, ExperimentLocation loc) {
 
 		int[] groupTotals = getGroupTotals(edeScan);
-		int groupNum = 1;
+		int groupNum = 0;
 		int absFrameNum = 0;
 
 		while (groupNum < loc.groupNum) {
-			absFrameNum += groupTotals[groupNum - 1];
+			absFrameNum += groupTotals[groupNum];
 			groupNum++;
 		}
 
-		absFrameNum += (loc.frameNum - 1);
+		absFrameNum += (loc.frameNum);
 
 		return absFrameNum;
 	}
