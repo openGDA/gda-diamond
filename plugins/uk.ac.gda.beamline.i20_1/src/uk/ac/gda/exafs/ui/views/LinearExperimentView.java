@@ -94,7 +94,7 @@ import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 public class LinearExperimentView extends ViewPart {
 	public static final String ID = "uk.ac.gda.exafs.ui.views.linearExperimentView";
 
-	private static final int TIMEBAR_ZOOM_FACTOR = 300;
+	private static final int TIMEBAR_ZOOM_FACTOR = 100;
 
 	private static final long INITIAL_TIMEBAR_MARKER_IN_MILLI = 10L;
 

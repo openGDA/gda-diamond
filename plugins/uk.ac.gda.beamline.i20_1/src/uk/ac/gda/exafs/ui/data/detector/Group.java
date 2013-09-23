@@ -26,6 +26,8 @@ import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
+import com.google.gson.annotations.Expose;
+
 import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
@@ -35,25 +37,29 @@ public class Group extends CollectionModel {
 	private final DefaultTimeBarRowModel timeBarRowModel;
 
 	public static final String INTEGRATION_TIME_PROP_NAME = "integrationTime";
+	@Expose
 	private double integrationTime;
 
 	public static final String TIME_PER_SPECTRUM_PROP_NAME = "timePerSpectrum";
+	@Expose
 	private double timePerSpectrum;
 
 	public static final String DELAY_BETWEEN_SPECTRUM_PROP_NAME = "delayBetweenSpectrum";
+	@Expose
 	private double delayBetweenSpectrum;
 
 	public static final String NO_OF_ACCUMULATION_PROP_NAME = "noOfAccumulations";
+	@Expose
 	private int noOfAccumulations;
 
 	public static final String MAX_ACCUMULATION_FOR_DETECTOR_PROP_NAME = "maxAccumulationforDetector";
 	private int maxAccumulationforDetector;
 
+	public static final String NO_OF_SPECTRUMS_PROP_NAME = "numberOfSpectrums";
+
 	public List<?> getSpectrumList() {
 		return spectrumList;
 	}
-
-	public static final String NO_OF_SPECTRUMS_PROP_NAME = "numberOfSpectrums";
 
 	public Group(DefaultTimeBarRowModel value) {
 		timeBarRowModel = value;

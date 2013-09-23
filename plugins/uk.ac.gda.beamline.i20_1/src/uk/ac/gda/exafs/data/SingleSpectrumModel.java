@@ -79,7 +79,7 @@ public class SingleSpectrumModel extends ObservableModel {
 
 	private final ScanJob job;
 
-	private String fileTemplate = "Unknown_cal";
+	private String fileTemplate = "Unknown_cal_";
 
 	protected SingleSpectrumModel() {
 		Scannable scannable = Finder.getInstance().find("alignment_stage");
@@ -104,10 +104,10 @@ public class SingleSpectrumModel extends ObservableModel {
 				"scan_driver.setInBeamPosition(%f,%f);" +
 				"scan_driver.setOutBeamPosition(%f,%f)",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
-				itIntegrationTime,
-				itNumberOfAccumulations,
 				i0IntegrationTime,
 				i0NumberOfAccumulations,
+				itIntegrationTime,
+				itNumberOfAccumulations,
 				fileTemplate,
 				i0xPosition, i0yPosition,
 				iTxPosition, iTyPosition);
@@ -129,7 +129,7 @@ public class SingleSpectrumModel extends ObservableModel {
 	}
 
 	public void setCurrentElement(String elementSymbol) {
-		fileTemplate = elementSymbol + "_cal%s";
+		fileTemplate = elementSymbol + "_cal_%s";
 	}
 
 	private class ScanJob extends Job implements IObserver {

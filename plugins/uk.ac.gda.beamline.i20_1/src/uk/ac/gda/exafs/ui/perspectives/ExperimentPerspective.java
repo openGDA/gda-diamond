@@ -38,13 +38,12 @@ public class ExperimentPerspective implements IPerspectiveFactory {
 		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(false);
 
-		IFolderLayout alignmentControlsFolder = layout.createFolder(EXPERIMENT_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.50f, editorArea);
-		alignmentControlsFolder.addView(ExperimentSingleSpectrumView.ID);
+		IFolderLayout alignmentControlsFolder = layout.createFolder(EXPERIMENT_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.65f, editorArea);
 		alignmentControlsFolder.addView(LinearExperimentView.ID);
+		alignmentControlsFolder.addView(ExperimentSingleSpectrumView.ID);
 
-		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, EXPERIMENT_CONTROLS_FOLDER_ID);
+		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.60f, EXPERIMENT_CONTROLS_FOLDER_ID);
 		topPlotFolder.addView(DetectorLiveModeView.ID);
 		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.6f,TOPPLOT_FOLDER_ID);
 	}
-
 }

@@ -18,10 +18,13 @@
 
 package uk.ac.gda.exafs.data;
 
+import gda.configuration.properties.LocalProperties;
 import gda.device.Scannable;
 import gda.factory.Finder;
 import gda.util.exafs.Element;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -31,11 +34,22 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class ClientConfig {
 
 	public static final int KILO_UNIT = 1000;
 	public static final int DEFAULT_DECIMAL_PLACE = 3;
 	public static final String DEFAULT_DATA_PATH = "/dls/i20-1/data";
+	public static final String EDE_GUI_DATA = "ede_gui.properties";
+
+	private static final Logger logger = LoggerFactory.getLogger(ClientConfig.class);
 
 	private ClientConfig() {}
 
@@ -232,6 +246,44 @@ public class ClientConfig {
 
 		public void setUiViewer(Object uiViewer) {
 			this.uiViewer = uiViewer;
+		}
+	}
+
+	public enum EdeDataStore {
+		INSTANCE;
+
+		private PropertiesConfiguration store;
+		final GsonBuilder gsonBuilder;
+		private final Gson gson;
+
+		private EdeDataStore() {
+			gsonBuilder = new GsonBuilder();
+			gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
+			File propertiesFile = new File(LocalProperties.getVarDir(), EDE_GUI_DATA);
+			store = new PropertiesConfiguration();
+			store.setDelimiterParsingDisabled(true);
+			store.setAutoSave(true);
+			store.setFile(propertiesFile);
+			try {
+				if (!propertiesFile.exists()) {
+					propertiesFile.createNewFile();
+				}
+				store.load();
+			} catch (IOException | ConfigurationException e) {
+				logger.error("Unable to setup data store for Ede client", e);
+			}
+		}
+
+		public <T> T loadConfiguration(String key, Class<T> classType) {
+			String data = store.getString(key);
+			if (data != null) {
+				return gson.fromJson(data, classType);
+			}
+			return null;
+		}
+
+		public <T> void saveConfiguration(String key, T data) {
+			store.setProperty(key, gson.toJson(data));
 		}
 	}
 }

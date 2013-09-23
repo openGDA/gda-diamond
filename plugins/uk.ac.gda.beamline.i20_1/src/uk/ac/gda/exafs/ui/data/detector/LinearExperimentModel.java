@@ -18,10 +18,19 @@
 
 package uk.ac.gda.exafs.ui.data.detector;
 
+import gda.factory.Findable;
+import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
+import gda.jython.Jython;
 import gda.jython.JythonServerFacade;
+import gda.jython.JythonServerStatus;
+import gda.jython.scriptcontroller.Scriptcontroller;
 import gda.observable.IObserver;
+import gda.scan.ede.EdeExperiment;
+import gda.scan.ede.EdeExperimentProgressBean;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -36,6 +45,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
 
+import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
@@ -48,18 +58,23 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
 public class LinearExperimentModel extends CollectionModel {
 
-	private static final String TIMING_GROUPS_OBJ_NAME = "timingGroups";
-
 	public static final LinearExperimentModel INSTANCE = new LinearExperimentModel();
+
+	private static final String TIMING_GROUPS_OBJ_NAME = "timingGroups";
 
 	private static final double EXPERIMENT_START_TIME = 0.0;
 	private static final long DEFAULT_INITIAL_EXPERIMENT_TIME_IN_SEC = 20; // Should be > 0
 
 	public static final String DURATION_IN_SEC_PROP_NAME = "durationInSec";
 
+	private static final String DATA_PROPERTIES_KEY_NAME = "LinearExperimentModel";
+
 	private DefaultTimeBarModel model;
 	private DefaultTimeBarRowModel timingGroupRow;
 	private DefaultTimeBarRowModel spectrumRow;
+
+	public static final String CURRENT_SCANNING_SPECTRUM_PROP_NAME = "currentScanningSpectrum";
+	private Spectrum currentScanningSpectrum;
 
 	public static final String SCANNING_PROP_NAME = "scanning";
 	private boolean scanning;
@@ -91,11 +106,35 @@ public class LinearExperimentModel extends CollectionModel {
 				});
 			}
 		});
-		addGroup();
 
 		job = new ScanJob("Performing Single spectrum scan");
 		InterfaceProvider.getJSFObserver().addIObserver(job);
+		Findable controller = Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME);
+		if (controller != null) {
+			((Scriptcontroller) controller).addIObserver(job);
+		}
 		job.setUser(true);
+
+		loadSavedGroups();
+	}
+
+	private void loadSavedGroups() {
+		Group[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(DATA_PROPERTIES_KEY_NAME, Group[].class);
+		if (savedGroups == null) {
+			addGroup();
+			return;
+		}
+		for (Group loadedGroup : savedGroups) {
+			Group newGroup = new Group(spectrumRow);
+			newGroup.setStartTime(loadedGroup.getStartTime());
+			newGroup.setEndTime(loadedGroup.getEndTime());
+			newGroup.setDelay(loadedGroup.getDelay());
+			newGroup.setName(loadedGroup.getName());
+			newGroup.setIntegrationTime(loadedGroup.getIntegrationTime());
+			newGroup.setTimePerSpectrum(loadedGroup.getTimePerSpectrum());
+			newGroup.setDelayBetweenSpectrum(loadedGroup.getDelayBetweenSpectrum());
+			addToInternalGroupList(newGroup);
+		}
 	}
 
 	private void setupTimebarModel() {
@@ -116,24 +155,59 @@ public class LinearExperimentModel extends CollectionModel {
 		return groupList;
 	}
 
-	public void addGroup() {
-		Group group = new Group(spectrumRow);
-		group.setStartTime(this.getStartTime());
-		group.setEndTime(this.getEndTime());
-		group.setName("Group " + (groupList.size() + 1));
-		groupList.add(group);
+	public Group addGroup() {
+		Group newGroup = new Group(spectrumRow);
+		newGroup.setStartTime(this.getStartTime());
+		newGroup.setEndTime(this.getEndTime());
+		newGroup.setName("Group " + (groupList.size() + 1));
+		addToInternalGroupList(newGroup);
 		setAllGroupTimes();
+		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(DATA_PROPERTIES_KEY_NAME, groupList);
+		return newGroup;
+	}
+
+	private final PropertyChangeListener groupPropertyChangeListener = new PropertyChangeListener() {
+
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(DATA_PROPERTIES_KEY_NAME, groupList);
+		}
+	};
+
+	private void addToInternalGroupList(Group newGroup) {
+		newGroup.addPropertyChangeListener(groupPropertyChangeListener);
+		groupList.add(newGroup);
+	}
+
+	private void removeFromInternalGroupList(Group group) {
+		group.removePropertyChangeListener(groupPropertyChangeListener);
+		groupList.remove(group);
 	}
 
 	public void removeGroup(Group group) {
 		group.getSpectrumList().clear();
-		groupList.remove(group);
+		removeFromInternalGroupList(group);
 		setAllGroupTimes();
+		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(DATA_PROPERTIES_KEY_NAME, groupList);
 	}
 
+	final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
+
 	public void doCollection() {
+		timingGroups.clear();
+		for (Object object : groupList) {
+			Group uiTimingGroup = (Group) object;
+			TimingGroup timingGroup = new TimingGroup();
+			timingGroup.setLabel(uiTimingGroup.getName());
+			timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrums());
+			timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime());
+			timingGroup.setTimePerFrame(uiTimingGroup.getDuration());
+			timingGroup.setNumberOfScansPerFrame(uiTimingGroup.getNoOfAccumulations());
+			timingGroups.add(timingGroup);
+		}
 		job.schedule();
 	}
+
 	private String buildScanCommand() {
 		return String.format("from gda.scan.ede.drivers import LinearExperimentDriver;" +
 				"scan_driver = LinearExperimentDriver(\"%s\",%s);" +
@@ -147,46 +221,50 @@ public class LinearExperimentModel extends CollectionModel {
 				SingleSpectrumModel.INSTANCE.getI0xPosition()
 				);
 	}
+
 	private class ScanJob extends Job implements IObserver {
+		private IProgressMonitor monitor;
+		private int frame;
+		private int group;
 		public ScanJob(String name) {
 			super(name);
 		}
 
 		@Override
 		public void update(Object source, Object arg) {
-			//
+			if (arg instanceof JythonServerStatus) {
+				JythonServerStatus status = (JythonServerStatus) arg;
+				if (LinearExperimentModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
+					monitor.worked(1);
+				}
+				else if (arg instanceof EdeExperimentProgressBean) {
+					final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
+					Display.getDefault().syncExec(new Runnable() {
+						@Override
+						public void run() {
+							int currentFrame =  edeExperimentProgress.getProgress().getFrameNumOfThisSDP();
+							int currentGroup =  edeExperimentProgress.getProgress().getFrameNumOfThisSDP();
+						}
+					});
+				}
+			}
 		}
 
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
-			Display.getDefault().asyncExec(new Runnable() {
-				@Override
-				public void run() {
-					LinearExperimentModel.this.setScanning(true);
-				}
-			});
+			this.monitor = monitor;
+			frame = 0;
+			group = 0;
 			monitor.beginTask("Scannable", 1);
-			final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
 			Display.getDefault().syncExec(new Runnable() {
 				@Override
 				public void run() {
 					LinearExperimentModel.this.setScanning(true);
-					for (Object object : groupList) {
-						Group uiTimingGroup = (Group) object;
-						TimingGroup timingGroup = new TimingGroup();
-						timingGroup.setLabel(uiTimingGroup.getName());
-						timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrums());
-						timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime());
-						timingGroup.setTimePerFrame(uiTimingGroup.getDuration());
-						timingGroup.setNumberOfScansPerFrame(uiTimingGroup.getNoOfAccumulations());
-						timingGroups.add(timingGroup);
-					}
 				}
 			});
-
-			InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
-			InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
 			try {
+				InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
+				InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
 				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
 				if (resultFileName == null) {
 					throw new Exception("Unable to do collection.");
@@ -222,6 +300,14 @@ public class LinearExperimentModel extends CollectionModel {
 
 	public boolean isScanning() {
 		return scanning;
+	}
+
+	public Spectrum getCurrentScanningSpectrum() {
+		return currentScanningSpectrum;
+	}
+
+	public void setCurrentScanningSpectrum(Spectrum value) {
+		this.firePropertyChange(CURRENT_SCANNING_SPECTRUM_PROP_NAME, currentScanningSpectrum, currentScanningSpectrum = value);
 	}
 
 	private void setAllGroupTimes() {
@@ -313,7 +399,6 @@ public class LinearExperimentModel extends CollectionModel {
 		this.firePropertyChange(DELAY_BETWEEN_GROUPS_PROP_NAME, delayBetweenGroups, delayBetweenGroups = value);
 		setAllGroupTimes();
 	}
-
 
 	@Override
 	public void dispose() {}
