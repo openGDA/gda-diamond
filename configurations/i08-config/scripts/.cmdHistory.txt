@@ -1,27 +1,3 @@
-scan test 0 10 1 counterTimer01 1
-counterTimer01.getInputNames()
-counterTimer01.getExtraNames()
-counterTimer01.getOutputFormat()
-energy
-scan test 0 10 1 counterTimer01 1
-counterTimer01.collectData()
-counterTimer01.readout()
-counterTimer01.collectData()
-counterTimer01.readout()
-counterTimer01.collectData()
-counterTimer01.readout()
-counterTimer01.collectData()
-counterTimer01.readout()
-counterTimer01.collectData()
-counterTimer01.readout()
-reset_namespace
-command_server
-reset_namespace
-if ggdesgdg==None:
-    print "bla"
-reset_namespace
-pos
-reset_namespace
 sc_MicroFocusSampleStage
 scan test 0 10 1
 qexafs 'Sample_Parameters' 'QEXAFS_Parameters' 'Detector_Parameters' 'Output_Parameters' 'Experiment_1' 1 False
@@ -99,3 +75,26 @@ pos s1xgap 10
 pos s1xgap
 scan s1xgap 10 11 0.1
 ls
+pos test
+ls
+ls IScannableMotor
+pos d1motor
+scan d1motor 0 10 1
+list_defaults
+ls
+ls -la
+ls
+ls ScannableMotion
+scan d1motor 0 10 1 energy
+import scisoftpy as dnp
+from scisoftpy as dnp
+from scisoftpy import dnp
+import scisoftpy as dnp
+reset
+reset_namespace
+import scisoftpy as dnp
+ls
+import scisoftpy as dnp
+scan d1motor 0 10 1 energy
+scan d1motor 0 10 1 energy d2motor 
+scan d1motor 0 10 1 energy d2motor 0 1

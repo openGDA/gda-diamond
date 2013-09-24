@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.beamline.i08.feature"
       label="I08-feature"
-      version="8.34.0.qualifier"
+      version="8.32.0"
       provider-name="Diamond Light Source">
 
    <description url="http://www.example.com/description">
@@ -33,42 +33,7 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.client.exafs"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.client.microfocus"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.client.experimentdefinition"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.server.exafs"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.diamond.scisoft.spectroscopy"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.server.exafs.epics"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -90,13 +55,6 @@
 
    <plugin
          id="org.dawb.workbench.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.nebula.widgets.formattedtext"
          download-size="0"
          install-size="0"
          version="0.0.0"

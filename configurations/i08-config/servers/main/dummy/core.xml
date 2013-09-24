@@ -75,25 +75,6 @@
 	<bean id="MicroFocusController" class="gda.jython.scriptcontroller.ScriptControllerBase">
 	</bean>
 
-	<!-- We need to define which classes are responsible for beans in the BeanFactory -->
-	<bean class="uk.ac.gda.beans.BeansFactory">
-		<property name="classList">
-			<list>
-				<value>uk.ac.gda.beans.exafs.XasScanParameters</value>
-				<value>uk.ac.gda.beans.exafs.XanesScanParameters</value>
-				<value>uk.ac.gda.beans.exafs.XesScanParameters</value>
-				<value>uk.ac.gda.beans.exafs.QEXAFSParameters</value>
-				<value>uk.ac.gda.beans.exafs.i08.I08SampleParameters</value>
-				<value>uk.ac.gda.beans.exafs.SampleElements</value>
-				<value>uk.ac.gda.beans.exafs.DetectorParameters</value>
-				<value>uk.ac.gda.beans.exafs.OutputParameters</value>
-				<value>uk.ac.gda.beans.vortex.VortexParameters</value>
-				<value>uk.ac.gda.beans.xspress.XspressParameters</value>
-				<value>uk.ac.gda.beans.microfocus.MicroFocusScanParameters</value>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
