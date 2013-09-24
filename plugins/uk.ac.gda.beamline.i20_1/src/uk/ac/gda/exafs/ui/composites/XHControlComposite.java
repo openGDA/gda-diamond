@@ -226,7 +226,6 @@ public class XHControlComposite extends Composite implements IObserver {
 		txtSnapTime = new NumberEditorControl(snapshotSectionComposite, SWT.None, detectorControlModel, DetectorControlModel.SNAPSHOT_INTEGRATION_TIME_PROP_NAME, true);
 		txtSnapTime.setUnit(UnitSetup.MILLI_SEC.getText());
 		txtSnapTime.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		txtSnapTime.setIncrement(DataHelper.getDecimalPlacePowValue(ClientConfig.DEFAULT_DECIMAL_PLACE));
 		txtSnapTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		// Number of accumulations
@@ -312,7 +311,6 @@ public class XHControlComposite extends Composite implements IObserver {
 		txtLiveTime = new NumberEditorControl(bendSelectionComposite, SWT.None, detectorControlModel, DetectorControlModel.LIVE_INTEGRATION_TIME_PROP_NAME, true);
 		txtLiveTime.setUnit(UnitSetup.MILLI_SEC.getText());
 		txtLiveTime.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		txtLiveTime.setIncrement(DataHelper.getDecimalPlacePowValue(ClientConfig.DEFAULT_DECIMAL_PLACE));
 		txtLiveTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		// Live mode refresh period
@@ -334,7 +332,6 @@ public class XHControlComposite extends Composite implements IObserver {
 		txtRefreshPeriod = new NumberEditorControl(bendSelectionComposite, SWT.None, detectorControlModel, DetectorControlModel.LIVE_MODE_REFRESH_PERIOD_PROP_NAME, true);
 		txtRefreshPeriod.setUnit(UnitSetup.SEC.getText());
 		txtRefreshPeriod.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		txtRefreshPeriod.setIncrement(DataHelper.getDecimalPlacePowValue(ClientConfig.DEFAULT_DECIMAL_PLACE));
 		txtRefreshPeriod.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
 		final ToolBar motorSectionTbar = new ToolBar(section, SWT.FLAT | SWT.HORIZONTAL);

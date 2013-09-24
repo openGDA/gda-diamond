@@ -430,12 +430,12 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				setup.open();
 			}
 		});
-		setupDetector();
+		loadDetectorDetails();
 	}
 
 	private Binding detectorValueBinding = null;
 	private FormText labelDeltaEValue;
-	private void setupDetector() {
+	private void loadDetectorDetails() {
 		try {
 			cmbDetectorType.setInput(DetectorModel.INSTANCE.getAvailableDetectors());
 			UpdateValueStrategy detectorSelectionUpdateStrategy = new UpdateValueStrategy() {

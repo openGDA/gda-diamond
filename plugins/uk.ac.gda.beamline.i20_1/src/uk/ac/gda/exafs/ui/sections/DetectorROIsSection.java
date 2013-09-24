@@ -164,6 +164,7 @@ public class DetectorROIsSection {
 		// viewerUpperLevelColumn.setEditingSupport(new RoisStripLevelEditorSupport(roisTableViewer, true));
 		viewerUpperLevelColumn.getColumn().setText("Upper level");
 		layout.setColumnData(viewerUpperLevelColumn.getColumn(),new ColumnWeightData(4));
+
 		toolkit.paintBordersFor(regionsTableComposit);
 
 		roisTableViewer.setInput(DetectorModel.INSTANCE.getRois());

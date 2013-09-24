@@ -67,7 +67,7 @@ public class LinearExperimentModel extends CollectionModel {
 
 	public static final String DURATION_IN_SEC_PROP_NAME = "durationInSec";
 
-	private static final String DATA_PROPERTIES_KEY_NAME = "LinearExperimentModel";
+	private static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "LinearExperimentModel";
 
 	private DefaultTimeBarModel model;
 	private DefaultTimeBarRowModel timingGroupRow;
@@ -119,7 +119,7 @@ public class LinearExperimentModel extends CollectionModel {
 	}
 
 	private void loadSavedGroups() {
-		Group[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(DATA_PROPERTIES_KEY_NAME, Group[].class);
+		Group[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, Group[].class);
 		if (savedGroups == null) {
 			addGroup();
 			return;
@@ -162,7 +162,7 @@ public class LinearExperimentModel extends CollectionModel {
 		newGroup.setName("Group " + (groupList.size() + 1));
 		addToInternalGroupList(newGroup);
 		setAllGroupTimes();
-		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(DATA_PROPERTIES_KEY_NAME, groupList);
+		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
 		return newGroup;
 	}
 
@@ -170,7 +170,7 @@ public class LinearExperimentModel extends CollectionModel {
 
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
-			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(DATA_PROPERTIES_KEY_NAME, groupList);
+			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
 		}
 	};
 
@@ -188,7 +188,7 @@ public class LinearExperimentModel extends CollectionModel {
 		group.getSpectrumList().clear();
 		removeFromInternalGroupList(group);
 		setAllGroupTimes();
-		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(DATA_PROPERTIES_KEY_NAME, groupList);
+		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
 	}
 
 	final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
