@@ -25,12 +25,17 @@
          id="uk.ac.gda.client.ncd.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.dawnsci.plotting.feature"
+         version="0.0.0"/>
+
    <plugin
          id="uk.ac.gda.beamline.b21"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
    <plugin
          id="org.junit4"
          download-size="0"
@@ -71,6 +76,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
    <plugin
          id="uk.ac.gda.dls"
          download-size="0"
