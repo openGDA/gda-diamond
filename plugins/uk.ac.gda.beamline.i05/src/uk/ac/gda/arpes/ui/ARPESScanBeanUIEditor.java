@@ -27,7 +27,6 @@ import org.eclipse.swt.widgets.Composite;
 import uk.ac.gda.arpes.beans.ARPESScanBean;
 import uk.ac.gda.richbeans.beans.IFieldWidget;
 import uk.ac.gda.richbeans.components.FieldComposite;
-import uk.ac.gda.richbeans.editors.DirtyContainer;
 import uk.ac.gda.richbeans.editors.RichBeanEditorPart;
 
 public final class ARPESScanBeanUIEditor extends RichBeanEditorPart {

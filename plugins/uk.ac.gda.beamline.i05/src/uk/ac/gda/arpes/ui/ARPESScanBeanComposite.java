@@ -61,6 +61,7 @@ import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
 import uk.ac.gda.richbeans.components.wrappers.BooleanWrapper;
 import uk.ac.gda.richbeans.components.wrappers.ComboWrapper;
 import uk.ac.gda.richbeans.components.wrappers.RadioWrapper;
+import uk.ac.gda.richbeans.editors.DirtyContainer;
 import uk.ac.gda.richbeans.editors.RichBeanEditorPart;
 import uk.ac.gda.richbeans.event.ValueEvent;
 import uk.ac.gda.richbeans.event.ValueListener;
@@ -92,7 +93,7 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		label.setText("Drop file here!");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
-		setDropTarget(label, parent.getShell(), editor);
+		setDropTarget(parent, parent.getShell(), editor);
 		
 		Button btnQueueExperiment = new Button(this, SWT.NONE);
 		GridData layoutData = new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1);
@@ -390,9 +391,9 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 		}
 	}
 	
-	public static void setDropTarget (final Label label, final Shell shell, final RichBeanEditorPart editor) {
+	public static void setDropTarget (final Composite parent, final Shell shell, final RichBeanEditorPart editor) {
 		int operations = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK;
-		DropTarget target = new DropTarget(label, operations);
+		DropTarget target = new DropTarget(parent, operations);
 		target.setTransfer(new Transfer[] {FileTransfer.getInstance()});
 		target.addDropListener (new DropTargetAdapter() {
 			@Override
@@ -420,6 +421,7 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 				try {
 					bean = ScanBeanFromNeXusFile.read(filenames[0]);
 					((ARPESScanBeanUIEditor) editor).replaceBean(bean);
+					((DirtyContainer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()).setDirty(true);
 				} catch (Exception e) {
 					logger.error("error converting nexus file to bean", e);
 					// TODO better messages for frequent cases (no analyser in file)
@@ -428,6 +430,7 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 				}
 				// TODO message for non-analyser parameters (exit slit, entrance slit, photon energy)
 				// TODO deal with multi-dim files
+
 				
 				MessageDialog dialog = new MessageDialog(shell, "Save imported settings", null, "We would suggest saving this experiment under a new name now.", 
 						MessageDialog.QUESTION, new String[] { "Save as...", "Keep existing name and don't save yet" }, 0);
