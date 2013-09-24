@@ -191,20 +191,9 @@ public class LinearExperimentModel extends CollectionModel {
 		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
 	}
 
-	final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
+
 
 	public void doCollection() {
-		timingGroups.clear();
-		for (Object object : groupList) {
-			Group uiTimingGroup = (Group) object;
-			TimingGroup timingGroup = new TimingGroup();
-			timingGroup.setLabel(uiTimingGroup.getName());
-			timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrums());
-			timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime());
-			timingGroup.setTimePerFrame(uiTimingGroup.getDuration());
-			timingGroup.setNumberOfScansPerFrame(uiTimingGroup.getNoOfAccumulations());
-			timingGroups.add(timingGroup);
-		}
 		job.schedule();
 	}
 
@@ -224,8 +213,6 @@ public class LinearExperimentModel extends CollectionModel {
 
 	private class ScanJob extends Job implements IObserver {
 		private IProgressMonitor monitor;
-		private int frame;
-		private int group;
 		public ScanJob(String name) {
 			super(name);
 		}
@@ -237,29 +224,31 @@ public class LinearExperimentModel extends CollectionModel {
 				if (LinearExperimentModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
 					monitor.worked(1);
 				}
-				else if (arg instanceof EdeExperimentProgressBean) {
-					final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
-					Display.getDefault().syncExec(new Runnable() {
-						@Override
-						public void run() {
-							int currentFrame =  edeExperimentProgress.getProgress().getFrameNumOfThisSDP();
-							int currentGroup =  edeExperimentProgress.getProgress().getFrameNumOfThisSDP();
-						}
-					});
-				}
+			}
+			else if (arg instanceof EdeExperimentProgressBean) {
+				final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
+				Display.getDefault().syncExec(new Runnable() {
+					@Override
+					public void run() {
+						int currentFrameNumber = edeExperimentProgress.getProgress().getFrameNumOfThisSDP();
+						int currentGroupNumber = edeExperimentProgress.getProgress().getGroupNumOfThisSDP();
+						Group currentGroup = (Group) groupList.get(currentGroupNumber);
+						LinearExperimentModel.this.setCurrentScanningSpectrum((Spectrum) currentGroup.getSpectrumList().get(currentFrameNumber));
+					}
+				});
 			}
 		}
 
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
 			this.monitor = monitor;
-			frame = 0;
-			group = 0;
 			monitor.beginTask("Scannable", 1);
+			final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
 			Display.getDefault().syncExec(new Runnable() {
 				@Override
 				public void run() {
 					LinearExperimentModel.this.setScanning(true);
+					timingGroups.clear();
 					for (Object object : groupList) {
 						Group uiTimingGroup = (Group) object;
 						TimingGroup timingGroup = new TimingGroup();
@@ -277,7 +266,6 @@ public class LinearExperimentModel extends CollectionModel {
 			try {
 				// give the previous command a chance to run before calling doCollection()
 				Thread.sleep(50);
-				InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
 				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
 				if (resultFileName == null) {
 					throw new Exception("Unable to do collection.");

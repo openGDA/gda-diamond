@@ -18,6 +18,9 @@
 
 package uk.ac.gda.exafs.ui.views;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
@@ -86,7 +89,6 @@ import de.jaret.util.date.Interval;
 import de.jaret.util.date.JaretDate;
 import de.jaret.util.ui.timebars.TimeBarMarker;
 import de.jaret.util.ui.timebars.TimeBarMarkerImpl;
-import de.jaret.util.ui.timebars.TimeBarMarkerListener;
 import de.jaret.util.ui.timebars.model.ITimeBarChangeListener;
 import de.jaret.util.ui.timebars.model.TimeBarRow;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
@@ -639,19 +641,24 @@ public class LinearExperimentView extends ViewPart {
 		timeBarViewer.setModel(LinearExperimentModel.INSTANCE.getTimeBarModel());
 		timeBarViewer.setLineDraggingAllowed(false);
 		marker = new TimeBarMarkerImpl(true, TimebarHelper.getTime().advanceMillis(INITIAL_TIMEBAR_MARKER_IN_MILLI));
-		marker.addTimeBarMarkerListener(new TimeBarMarkerListener() {
 
+		LinearExperimentModel.INSTANCE.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
-			public void markerMoved(TimeBarMarker arg0, JaretDate arg1, JaretDate arg2) {
-				if (arg0.getDate().compareDateTo(TimebarHelper.getTime()) < 0) {
-					marker.setDate(TimebarHelper.getTime());
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(LinearExperimentModel.SCANNING_PROP_NAME)) {
+					if ((boolean) evt.getNewValue()) {
+						marker.setDate(TimebarHelper.getTime());
+						timeBarViewer.addMarker(marker);
+					} else {
+						timeBarViewer.remMarker(marker);
+					}
+				} else if (evt.getPropertyName().equals(LinearExperimentModel.CURRENT_SCANNING_SPECTRUM_PROP_NAME)) {
+					Spectrum spectrum = (Spectrum) evt.getNewValue();
+					marker.setDate(spectrum.getEnd().copy());
 				}
 			}
-
-			@Override
-			public void markerDescriptionChanged(TimeBarMarker arg0, String arg1, String arg2) {}
 		});
-		timeBarViewer.addMarker(marker);
+
 		timeBarViewer.addTimeBarChangeListener(new ITimeBarChangeListener() {
 
 			@Override

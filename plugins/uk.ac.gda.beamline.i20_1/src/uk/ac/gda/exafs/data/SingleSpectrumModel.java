@@ -67,7 +67,7 @@ public class SingleSpectrumModel extends ObservableModel {
 	public static final String FILE_NAME_PROP_NAME = "fileName";
 	private String fileName;
 
-	public static final String SCANNING_PROP_NAME = "scanning";
+
 
 	public static final String IREF_X_POSITION_PROP_NAME = "iRefxPosition";
 	private double iRefxPosition;
@@ -75,6 +75,7 @@ public class SingleSpectrumModel extends ObservableModel {
 	public static final String IREF_Y_POSITION_PROP_NAME = "iRefyPosition";
 	private double iRefyPosition;
 
+	public static final String SCANNING_PROP_NAME = "scanning";
 	private boolean scanning;
 
 	private final ScanJob job;
