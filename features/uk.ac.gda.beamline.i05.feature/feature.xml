@@ -25,6 +25,10 @@
          id="uk.ac.diamond.scisoft.feedback.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.dawnsci.plotting.feature"
+         version="0.0.0"/>
+
    <plugin
          id="uk.ac.gda.beamline.i05"
          download-size="0"
@@ -66,5 +70,18 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
+   <plugin
+         id="org.dawb.hdf5"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ncsa.hdf"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
 
 </feature>
