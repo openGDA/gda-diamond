@@ -20,7 +20,6 @@ package gda.scan.ede.datawriters;
 
 import gda.data.nexus.extractor.NexusExtractor;
 import gda.data.nexus.extractor.NexusGroupData;
-import gda.device.DeviceException;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.StripDetector;
 import gda.jython.InterfaceProvider;
@@ -30,7 +29,6 @@ import gda.scan.ScanDataPoint;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -126,16 +124,4 @@ public abstract class EdeAsciiFileWriter {
 		InterfaceProvider.getTerminalPrinter().print(message);
 		logger.info(message);
 	}
-
-	protected Double getEnergyForChannel(int channel) {
-		PolynomialFunction function;
-		try {
-			function = theDetector.getEnergyCalibration();
-		} catch (DeviceException e) {
-			logger.error("Detector did not supply a calibration.", e);
-			return (double) channel;
-		}
-		return function.value(channel);
-	}
-
 }

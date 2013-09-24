@@ -26,10 +26,12 @@ public class EdeExperimentProgressBean implements Serializable {
 
 	private final EdeScanProgressBean progress;
 	private final DoubleDataset normalisedIt;
+	private final DoubleDataset energyData;
 
-	public EdeExperimentProgressBean(EdeScanProgressBean progress, DoubleDataset normalisedIt) {
+	public EdeExperimentProgressBean(EdeScanProgressBean progress, DoubleDataset normalisedIt, DoubleDataset energyData) {
 		this.progress = progress;
 		this.normalisedIt = normalisedIt;
+		this.energyData = energyData;
 	}
 
 	public EdeScanProgressBean getProgress() {
@@ -38,6 +40,10 @@ public class EdeExperimentProgressBean implements Serializable {
 
 	public DoubleDataset getNormalisedIt() {
 		return normalisedIt;
+	}
+
+	public DoubleDataset getEnergyData() {
+		return energyData;
 	}
 
 }

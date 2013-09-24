@@ -56,7 +56,7 @@ public class DetectorLiveModeView extends ViewPart {
 				plottingSystem = PlottingFactory.createPlottingSystem();
 			}
 		} catch (Exception e) {
-			// TODO Handle
+			UIHelper.showError("Unable to create plotting system", e.getMessage());
 			return;
 		}
 		Composite composite = new Composite(parent, SWT.None);

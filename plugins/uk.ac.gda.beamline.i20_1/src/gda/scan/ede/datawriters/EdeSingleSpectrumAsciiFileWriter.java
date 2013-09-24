@@ -79,7 +79,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 			Double lni0it = calcLnI0It(i0_corrected, it_corrected);
 
 			StringBuffer stringToWrite = new StringBuffer(channel + "\t");
-			stringToWrite.append(String.format("%.2f", getEnergyForChannel(channel)) + "\t");
+			stringToWrite.append(String.format("%.2f", theDetector.getEnergyForChannel(channel)) + "\t");
 			stringToWrite.append(String.format("%.2f", i0_corrected) + "\t");
 			stringToWrite.append(String.format("%.2f", it_corrected) + "\t");
 			stringToWrite.append(String.format("%.5f", lni0it) + "\t");

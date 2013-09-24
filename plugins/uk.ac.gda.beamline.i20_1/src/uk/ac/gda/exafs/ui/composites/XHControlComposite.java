@@ -28,9 +28,7 @@ import gda.jython.JythonServerStatus;
 import gda.observable.IObserver;
 
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.dawnsci.plotting.api.IPlottingSystem;
@@ -57,7 +55,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
@@ -103,7 +100,7 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	private NumberEditorControl txtRefreshPeriod;
 
-	private DoubleDataset strips;
+	private final DoubleDataset strips;
 
 	private final ILineTrace lineTrace;
 
@@ -155,23 +152,23 @@ public class XHControlComposite extends Composite implements IObserver {
 		this.plottingSystem = plottingSystem;
 		plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
 		plottingSystem.setShowLegend(false);
-		lineTrace = plottingSystem.createLineTrace("Detector");
+		lineTrace = plottingSystem.createLineTrace("Detector Live Data");
 		lineTrace.setLineWidth(1);
 		lineTrace.setTraceColor(Display.getDefault().getSystemColor(SWT.COLOR_BLUE));
 		lineTrace.setTraceType(TraceType.SOLID_LINE);
 		plottingSystem.addTrace(lineTrace);
 		toolkit = new FormToolkit(parent.getDisplay());
 		detectorControlModel = new DetectorControlModel();
-		setPlotData();
+		strips = getStripsDataSet();
 		createUI();
 	}
 
-	private void setPlotData() {
+	private DoubleDataset getStripsDataSet() {
 		double[] values = new double[XHDetector.getStrips().length];
 		for (int i = 0; i < XHDetector.getStrips().length; i++) {
 			values[i] = XHDetector.getStrips()[i];
 		}
-		strips = new DoubleDataset(values);
+		return new DoubleDataset(values);
 	}
 
 	private void createUI() {
@@ -404,8 +401,6 @@ public class XHControlComposite extends Composite implements IObserver {
 		final Object results = getDetector().getAttribute(XHDetector.ATTR_READFIRSTFRAME);
 
 		if (results != null) {
-			List<IDataset> data = new ArrayList<IDataset>(1);
-			data.add(new DoubleDataset((double[]) results));
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {

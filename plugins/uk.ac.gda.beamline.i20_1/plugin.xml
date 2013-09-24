@@ -130,6 +130,12 @@
             name="Linear experiment"
             restorable="true">
       </view>
+      <view
+            class="uk.ac.gda.exafs.ui.views.LinearExperimentPlotView"
+            id="uk.ac.gda.exafs.ui.views.LinearExperimentPlotView"
+            name="Linear Experiment Plot"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">

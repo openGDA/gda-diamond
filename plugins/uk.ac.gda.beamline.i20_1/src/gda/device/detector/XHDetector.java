@@ -1188,4 +1188,25 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		saveToXML();
 	}
 
+	@Override
+	public double[] getEnergyForChannels() {
+		double[] energy = new double[STRIPS.length];
+		for (int i = 0; i < STRIPS.length; i++) {
+			energy[i] = getEnergyForChannel(STRIPS[i]);
+		}
+		return energy;
+	}
+
+	@Override
+	public double getEnergyForChannel(int channel) {
+		PolynomialFunction function;
+		try {
+			function = this.getEnergyCalibration();
+		} catch (DeviceException e) {
+			logger.error("Detector did not supply a calibration.", e);
+			return channel;
+		}
+		return function.value(channel);
+	}
+
 }

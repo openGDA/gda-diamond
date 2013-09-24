@@ -60,6 +60,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	private EdeScan i0FinalScan;
 	private EdeLinearExperimentAsciiFileWriter writer;
 	private final ScriptControllerBase controller;
+	private final DoubleDataset energyData;
 
 	public EdeLinearExperiment(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
 			EdeScanPosition itPosition, StripDetector theDetector) {
@@ -68,6 +69,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		this.itPosition = itPosition;
 		this.theDetector = theDetector;
 		controller = (ScriptControllerBase) Finder.getInstance().findNoWarn(PROGRESS_UPDATER_NAME);
+		energyData = new DoubleDataset(theDetector.getEnergyForChannels());
 	}
 
 	/**
@@ -94,7 +96,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 			DoubleDataset i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, progress.getGroupNumOfThisSDP());
 			DoubleDataset thisItData = EdeAsciiFileWriter.extractDetectorDataFromSDP(theDetector.getName(), progress.getThisPoint());
 			DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(thisItData, i0Data, darkData);
-			controller.update(itScan, new EdeExperimentProgressBean(progress,normalisedIt));
+			controller.update(itScan, new EdeExperimentProgressBean(progress, normalisedIt, energyData));
 		}
 	}
 

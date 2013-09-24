@@ -45,6 +45,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
 
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumModel;
@@ -79,6 +80,9 @@ public class LinearExperimentModel extends CollectionModel {
 	public static final String SCANNING_PROP_NAME = "scanning";
 	private boolean scanning;
 
+	public static final String SCAN_DATA_SET_PROP_NAME = "scanDataSet";
+	private DoubleDataset[] scanDataSet;
+
 	public static final String DELAY_BETWEEN_GROUPS_PROP_NAME = "delayBetweenGroups";
 	private double delayBetweenGroups;
 
@@ -107,14 +111,13 @@ public class LinearExperimentModel extends CollectionModel {
 			}
 		});
 
-		job = new ScanJob("Performing Linear Experiment");
+		job = new ScanJob("Linear Experiment Scan");
 		InterfaceProvider.getJSFObserver().addIObserver(job);
 		Findable controller = Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME);
 		if (controller != null) {
 			((Scriptcontroller) controller).addIObserver(job);
 		}
 		job.setUser(true);
-
 		loadSavedGroups();
 	}
 
@@ -212,7 +215,11 @@ public class LinearExperimentModel extends CollectionModel {
 	}
 
 	private class ScanJob extends Job implements IObserver {
+		private static final int SCAN_DATA_SET_REPORT_TIME_IN_MILLI = 1000;
 		private IProgressMonitor monitor;
+		private DoubleDataset currentNormalisedItData = null;
+		private DoubleDataset currentEnergyData = null;
+
 		public ScanJob(String name) {
 			super(name);
 		}
@@ -230,6 +237,8 @@ public class LinearExperimentModel extends CollectionModel {
 				Display.getDefault().syncExec(new Runnable() {
 					@Override
 					public void run() {
+						currentNormalisedItData = edeExperimentProgress.getNormalisedIt();
+						currentEnergyData = edeExperimentProgress.getEnergyData();
 						int currentFrameNumber = edeExperimentProgress.getProgress().getFrameNumOfThisSDP();
 						int currentGroupNumber = edeExperimentProgress.getProgress().getGroupNumOfThisSDP();
 						Group currentGroup = (Group) groupList.get(currentGroupNumber);
@@ -239,31 +248,61 @@ public class LinearExperimentModel extends CollectionModel {
 			}
 		}
 
+		private Job createDataSetCollectionJob() {
+			return new Job("Progress Report") {
+				@Override
+				protected IStatus run(IProgressMonitor monitor) {
+					while(LinearExperimentModel.this.isScanning()) {
+						if (currentNormalisedItData != null & currentEnergyData != null) {
+							Display.getDefault().syncExec(new Runnable() {
+								@Override
+								public void run() {
+									LinearExperimentModel.this.setScanDataSet(new DoubleDataset[] {currentEnergyData, currentNormalisedItData});
+								}
+							});
+						}
+						try {
+							Thread.sleep(SCAN_DATA_SET_REPORT_TIME_IN_MILLI);
+						} catch (InterruptedException e) {
+							return Status.CANCEL_STATUS;
+						}
+					}
+					return Status.OK_STATUS;
+				}
+			};
+		}
+
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
 			this.monitor = monitor;
 			monitor.beginTask("Scannable", 1);
-			final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
-			Display.getDefault().syncExec(new Runnable() {
-				@Override
-				public void run() {
-					LinearExperimentModel.this.setScanning(true);
-					timingGroups.clear();
-					for (Object object : groupList) {
-						Group uiTimingGroup = (Group) object;
-						TimingGroup timingGroup = new TimingGroup();
-						timingGroup.setLabel(uiTimingGroup.getName());
-						timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrums());
-						timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime() / 1000.0); // convert from ms to s
-						timingGroup.setTimePerFrame(uiTimingGroup.getTimePerSpectrum() / 1000.0); // convert from ms to s
-						timingGroups.add(timingGroup);
-					}
-				}
-			});
-			InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
-			String scanCommand = buildScanCommand();
-			InterfaceProvider.getCommandRunner().runCommand(scanCommand);
+			Job job = createDataSetCollectionJob();
+			job.setUser(false);
+			currentNormalisedItData = null;
+			currentEnergyData = null;
 			try {
+				Display.getDefault().syncExec(new Runnable() {
+					@Override
+					public void run() {
+						final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
+						LinearExperimentModel.this.setScanning(true);
+						for (Object object : groupList) {
+							Group uiTimingGroup = (Group) object;
+							TimingGroup timingGroup = new TimingGroup();
+							timingGroup.setLabel(uiTimingGroup.getName());
+							timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrums());
+							timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime() / 1000.0); // convert from ms to s
+							timingGroup.setTimePerFrame(uiTimingGroup.getTimePerSpectrum() / 1000.0); // convert from ms to s
+							timingGroups.add(timingGroup);
+						}
+
+						InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
+						String scanCommand = buildScanCommand();
+						InterfaceProvider.getCommandRunner().runCommand(scanCommand);
+					}
+				});
+				job.schedule();
+
 				// give the previous command a chance to run before calling doCollection()
 				Thread.sleep(50);
 				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
@@ -293,6 +332,14 @@ public class LinearExperimentModel extends CollectionModel {
 		if (this.isScanning()) {
 			JythonServerFacade.getInstance().haltCurrentScan();
 		}
+	}
+
+	public DoubleDataset[] getScanDataSet() {
+		return scanDataSet;
+	}
+
+	public void setScanDataSet(DoubleDataset[] value) {
+		this.firePropertyChange(SCAN_DATA_SET_PROP_NAME, scanDataSet, scanDataSet = value);
 	}
 
 	protected void setScanning(boolean value) {

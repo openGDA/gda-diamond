@@ -141,7 +141,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			Double i0_corrected = i0Raw - i0DK;
 
 			StringBuffer stringToWrite = new StringBuffer(i0_type_label + "\t" + timingGroup + "\t" + channel + "\t");
-			stringToWrite.append(String.format("%.2f", getEnergyForChannel(channel)) + "\t");
+			stringToWrite.append(String.format("%.2f", theDetector.getEnergyForChannel(channel)) + "\t");
 			stringToWrite.append(String.format("%.2f", i0_corrected) + "\t");
 			stringToWrite.append(String.format("%.2f", i0Raw) + "\t");
 			stringToWrite.append(String.format("%.2f", i0DK) + "\n");
@@ -214,7 +214,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			Double lni0it = calcLnI0It(i0_corrected, it_corrected);
 
 			StringBuffer stringToWrite = new StringBuffer(timingGroup + "\t" + channel + "\t");
-			stringToWrite.append(String.format("%.2f", getEnergyForChannel(channel)) + "\t");
+			stringToWrite.append(String.format("%.2f", theDetector.getEnergyForChannel(channel)) + "\t");
 			stringToWrite.append(String.format("%.2f", it_corrected) + "\t");
 			stringToWrite.append(String.format("%.2f", lni0it) + "\t");
 			stringToWrite.append(String.format("%.2f", itRaw) + "\t");

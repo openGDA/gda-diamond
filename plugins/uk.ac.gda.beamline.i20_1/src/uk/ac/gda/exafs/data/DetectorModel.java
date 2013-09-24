@@ -76,6 +76,20 @@ public class DetectorModel extends ObservableModel {
 		}
 	}
 
+	public void setupDetectors() throws Exception {
+		for (DetectorSetup detectorSetup : DetectorSetup.values()) {
+
+			Object detectorBean = Finder.getInstance().find(detectorSetup.getDetectorName());
+			if (detectorBean != null && detectorBean instanceof StripDetector) {
+				StripDetector stripdetector = (StripDetector) detectorBean;
+				availableDetectors.add(stripdetector);
+				if (stripdetector.isConnected()) {
+					setCurrentDetector(stripdetector);
+				}
+			}
+		}
+	}
+
 	public void reloadROIs() {
 		rois.clear();
 		for (XHROI roi : currentDetector.getRois()) {
@@ -172,20 +186,6 @@ public class DetectorModel extends ObservableModel {
 
 	public boolean isDetectorConnected() {
 		return (currentDetector != null);
-	}
-
-	public void setupDetectors() throws Exception {
-		for (DetectorSetup detectorSetup : DetectorSetup.values()) {
-
-			Object detectorBean = Finder.getInstance().find(detectorSetup.getDetectorName());
-			if (detectorBean != null && detectorBean instanceof StripDetector) {
-				StripDetector stripdetector = (StripDetector) detectorBean;
-				availableDetectors.add(stripdetector);
-				if (stripdetector.isConnected()) {
-					setCurrentDetector(stripdetector);
-				}
-			}
-		}
 	}
 
 	public List<StripDetector> getAvailableDetectors() {
