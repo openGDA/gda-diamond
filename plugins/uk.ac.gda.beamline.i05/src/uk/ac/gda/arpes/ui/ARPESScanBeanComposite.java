@@ -431,7 +431,6 @@ public final class ARPESScanBeanComposite extends Composite implements ValueList
 				// TODO message for non-analyser parameters (exit slit, entrance slit, photon energy)
 				// TODO deal with multi-dim files
 
-				
 				MessageDialog dialog = new MessageDialog(shell, "Save imported settings", null, "We would suggest saving this experiment under a new name now.", 
 						MessageDialog.QUESTION, new String[] { "Save as...", "Keep existing name and don't save yet" }, 0);
 				int result = dialog.open();
