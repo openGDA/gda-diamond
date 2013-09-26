@@ -1,5 +1,5 @@
 #! /bin/sh
 
 . /usr/share/Modules/init/sh
-module load dawn/beta
+module load dawn
 exec dawn
