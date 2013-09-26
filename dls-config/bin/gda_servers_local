@@ -34,9 +34,16 @@ fi
 
 
 
-module load java/gda834-64
+module load java/gda
+if [[ $? -ne 0 ]]; then
+   echo module failed - assuming java is already on the path
+fi
+module load python
+if [[ $? -ne 0 ]]; then
+   echo module failed - assuming python is already on the path
+fi
 export JREBEL_OPTS="-javaagent:/dls_sw/dasc/jrebel/5.2/jrebel.jar -Drebel.properties=/dls_sw/dasc/jrebel/5.2/jrebel.properties"
 export JAVA_OPTS="$JREBEL_OPTS -Xms128m -Xmx2024m -XX:MaxPermSize=128m"
 echo $@
-echo python2.6  $1/bin/gda  --config=$2 --smart --trace servers -v --mode=$3 $4 $5 $6 $7
-python2.6  $1/bin/gda  --config=$2 --smart --trace servers -v --mode=$3 $4 $5 $6 $7
+echo python  $1/bin/gda  --config=$2 --smart --trace servers -v --mode=$3 $4 $5 $6 $7
+python  $1/bin/gda  --config=$2 --smart --trace servers -v --mode=$3 $4 $5 $6 $7
