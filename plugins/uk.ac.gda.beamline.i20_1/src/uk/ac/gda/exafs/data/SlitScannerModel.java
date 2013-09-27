@@ -182,7 +182,7 @@ public class SlitScannerModel extends ObservableModel implements IObserver {
 		InterfaceProvider.getCommandRunner().runCommand("alignment_stage.saveDeviceFromCurrentMotorPositions(\"slits\")");
 	}
 
-	public void doStop() {
+	public void stopScan() {
 		if (this.getState() != Jython.IDLE) {
 			JythonServerFacade.getInstance().haltCurrentScan();
 		}

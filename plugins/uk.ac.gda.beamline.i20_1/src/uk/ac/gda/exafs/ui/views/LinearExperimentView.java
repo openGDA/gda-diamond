@@ -32,6 +32,7 @@ import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
@@ -198,6 +199,17 @@ public class LinearExperimentView extends ViewPart {
 		form.getToolBarManager().update(true);	// NEW LINE
 		createExperimentDetailsSection(form.getBody());
 		createGroupSection(form.getBody());
+
+		dataBindingCtx.bindValue(
+				BeanProperties.value(IAction.ENABLED).observe(runExperimentAction),
+				BeanProperties.value(LinearExperimentModel.SCANNING_PROP_NAME).observe(LinearExperimentModel.INSTANCE),
+				null,
+				new UpdateValueStrategy() {
+					@Override
+					public Object convert(Object value) {
+						return !((boolean) value);
+					}
+				});
 	}
 
 	private void createGroupSection(Composite parent) {
@@ -260,7 +272,7 @@ public class LinearExperimentView extends ViewPart {
 		});
 
 		viewerNumberColumn = new TableViewerColumn(groupsTableViewer, SWT.NONE);
-		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
+		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(2));
 		viewerNumberColumn.getColumn().setText("Start time");
 		viewerNumberColumn.setEditingSupport(new GroupEditorSupport(groupsTableViewer) {
 			@Override
@@ -280,7 +292,7 @@ public class LinearExperimentView extends ViewPart {
 		});
 
 		viewerNumberColumn = new TableViewerColumn(groupsTableViewer, SWT.NONE);
-		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
+		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(2));
 		viewerNumberColumn.getColumn().setText("End Time");
 		viewerNumberColumn.setEditingSupport(new GroupEditorSupport(groupsTableViewer) {
 			@Override
@@ -424,7 +436,7 @@ public class LinearExperimentView extends ViewPart {
 						// noOfAccumulationValueText.setEditable(false);
 						noOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 					} catch (Exception e) {
-						// TODO Handle this!
+						UIHelper.showError("Unable to create controls", e.getMessage());
 					}
 					groupSection.setVisible(true);
 				} else {

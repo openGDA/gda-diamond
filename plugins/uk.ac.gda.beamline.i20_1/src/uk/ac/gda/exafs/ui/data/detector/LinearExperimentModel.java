@@ -142,9 +142,9 @@ public class LinearExperimentModel extends CollectionModel {
 
 	private void setupTimebarModel() {
 		model = new DefaultTimeBarModel();
-		DefaultRowHeader header = new DefaultRowHeader("Timing Groups");
+		DefaultRowHeader header = new DefaultRowHeader("Timing groups");
 		timingGroupRow = new DefaultTimeBarRowModel(header);
-		header = new DefaultRowHeader("Spectrum");
+		header = new DefaultRowHeader("Spectrums");
 		spectrumRow = new DefaultTimeBarRowModel(header);
 		model.addRow(timingGroupRow);
 		model.addRow(spectrumRow);
@@ -188,13 +188,12 @@ public class LinearExperimentModel extends CollectionModel {
 	}
 
 	public void removeGroup(Group group) {
+		// TODO refactor to group to manage its own state
 		group.getSpectrumList().clear();
 		removeFromInternalGroupList(group);
 		setAllGroupTimes();
 		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
 	}
-
-
 
 	public void doCollection() {
 		job.schedule();
@@ -215,7 +214,7 @@ public class LinearExperimentModel extends CollectionModel {
 	}
 
 	private class ScanJob extends Job implements IObserver {
-		private static final int SCAN_DATA_SET_REPORT_TIME_IN_MILLI = 1000;
+		private static final int SCAN_DATA_SET_REPORT_INTERVAL_IN_MILLI = 1000;
 		private IProgressMonitor monitor;
 		private DoubleDataset currentNormalisedItData = null;
 		private DoubleDataset currentEnergyData = null;
@@ -234,40 +233,38 @@ public class LinearExperimentModel extends CollectionModel {
 			}
 			else if (arg instanceof EdeExperimentProgressBean) {
 				final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
-				Display.getDefault().syncExec(new Runnable() {
-					@Override
-					public void run() {
-						currentNormalisedItData = edeExperimentProgress.getNormalisedIt();
-						currentEnergyData = edeExperimentProgress.getEnergyData();
-						int currentFrameNumber = edeExperimentProgress.getProgress().getFrameNumOfThisSDP();
-						int currentGroupNumber = edeExperimentProgress.getProgress().getGroupNumOfThisSDP();
-						Group currentGroup = (Group) groupList.get(currentGroupNumber);
-						LinearExperimentModel.this.setCurrentScanningSpectrum((Spectrum) currentGroup.getSpectrumList().get(currentFrameNumber));
-					}
-				});
+				currentNormalisedItData = edeExperimentProgress.getNormalisedIt();
+				currentNormalisedItData.setName("Normalised It");
+				currentEnergyData = edeExperimentProgress.getEnergyData();
+				currentEnergyData.setName("Energy");
+				final int currentFrameNumber = edeExperimentProgress.getProgress().getFrameNumOfThisSDP();
+				final int currentGroupNumber = edeExperimentProgress.getProgress().getGroupNumOfThisSDP();
+				final Group currentGroup = (Group) groupList.get(currentGroupNumber);
+				// TODO refactor to group to manage its own state
+				LinearExperimentModel.this.setCurrentScanningSpectrum((Spectrum) currentGroup.getSpectrumList().get(currentFrameNumber));
 			}
 		}
 
-		private Job createDataSetCollectionJob() {
+		private Job createProgressReportingJob() {
 			return new Job("Progress Report") {
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
 					while(LinearExperimentModel.this.isScanning()) {
 						if (currentNormalisedItData != null & currentEnergyData != null) {
-							Display.getDefault().syncExec(new Runnable() {
-								@Override
-								public void run() {
-									LinearExperimentModel.this.setScanDataSet(new DoubleDataset[] {currentEnergyData, currentNormalisedItData});
-								}
-							});
+							setReceivedDataSet();
 						}
 						try {
-							Thread.sleep(SCAN_DATA_SET_REPORT_TIME_IN_MILLI);
+							Thread.sleep(SCAN_DATA_SET_REPORT_INTERVAL_IN_MILLI);
 						} catch (InterruptedException e) {
 							return Status.CANCEL_STATUS;
 						}
 					}
+					setReceivedDataSet();
 					return Status.OK_STATUS;
+				}
+
+				private void setReceivedDataSet() {
+					LinearExperimentModel.this.setScanDataSet(new DoubleDataset[] {currentEnergyData, currentNormalisedItData});
 				}
 			};
 		}
@@ -276,8 +273,8 @@ public class LinearExperimentModel extends CollectionModel {
 		protected IStatus run(IProgressMonitor monitor) {
 			this.monitor = monitor;
 			monitor.beginTask("Scannable", 1);
-			Job job = createDataSetCollectionJob();
-			job.setUser(false);
+			Job progressReportingJob = createProgressReportingJob();
+			progressReportingJob.setUser(false);
 			currentNormalisedItData = null;
 			currentEnergyData = null;
 			try {
@@ -291,8 +288,8 @@ public class LinearExperimentModel extends CollectionModel {
 							TimingGroup timingGroup = new TimingGroup();
 							timingGroup.setLabel(uiTimingGroup.getName());
 							timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrums());
-							timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime() / 1000.0); // convert from ms to s
-							timingGroup.setTimePerFrame(uiTimingGroup.getTimePerSpectrum() / 1000.0); // convert from ms to s
+							timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime() / 1000.0); // convert from ms to S
+							timingGroup.setTimePerFrame(uiTimingGroup.getTimePerSpectrum() / 1000.0); // convert from ms to S
 							timingGroups.add(timingGroup);
 						}
 
@@ -301,34 +298,26 @@ public class LinearExperimentModel extends CollectionModel {
 						InterfaceProvider.getCommandRunner().runCommand(scanCommand);
 					}
 				});
-				job.schedule();
+				progressReportingJob.schedule();
 
 				// give the previous command a chance to run before calling doCollection()
 				Thread.sleep(50);
-				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
-				if (resultFileName == null) {
-					throw new Exception("Unable to do collection.");
-				}
-			} catch (Exception e) {
-				UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
+				InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
+			} catch (InterruptedException e) {
+				UIHelper.showWarning("Scanning has stopped", e.getMessage());
 			}
-			Display.getDefault().syncExec(new Runnable() {
-				@Override
-				public void run() {
-					LinearExperimentModel.this.setScanning(false);
-				}
-			});
+			LinearExperimentModel.this.setScanning(false);
 			monitor.done();
 			return Status.OK_STATUS;
 		}
 
 		@Override
 		protected void canceling() {
-			doStop();
+			stopScan();
 		}
 	}
 
-	public void doStop() {
+	public void stopScan() {
 		if (this.isScanning()) {
 			JythonServerFacade.getInstance().haltCurrentScan();
 		}
@@ -338,12 +327,22 @@ public class LinearExperimentModel extends CollectionModel {
 		return scanDataSet;
 	}
 
-	public void setScanDataSet(DoubleDataset[] value) {
-		this.firePropertyChange(SCAN_DATA_SET_PROP_NAME, scanDataSet, scanDataSet = value);
+	public void setScanDataSet(final DoubleDataset[] value) {
+		Display.getDefault().syncExec(new Runnable() {
+			@Override
+			public void run() {
+				firePropertyChange(SCAN_DATA_SET_PROP_NAME, scanDataSet, scanDataSet = value);
+			}
+		});
 	}
 
-	protected void setScanning(boolean value) {
-		this.firePropertyChange(SCANNING_PROP_NAME, scanning, scanning = value);
+	protected void setScanning(final boolean value) {
+		Display.getDefault().syncExec(new Runnable() {
+			@Override
+			public void run() {
+				firePropertyChange(SCANNING_PROP_NAME, scanning, scanning = value);
+			}
+		});
 	}
 
 	public boolean isScanning() {
@@ -422,13 +421,12 @@ public class LinearExperimentModel extends CollectionModel {
 
 	public void setDurationInSec(double value) {
 		double duration = getDurationInSec();
-		this.setEndTime(this.getStartTime() + value * 1000);
+		this.setEndTime(this.getStartTime() + value * 1000); // Converts to milli
 		this.firePropertyChange(DURATION_IN_SEC_PROP_NAME, duration, getDurationInSec());
-
 	}
 
 	public double getDurationInSec() {
-		return (this.getDuration() / 1000);
+		return (this.getDuration() / 1000); // Converts to sec
 	}
 
 	@Override

@@ -155,7 +155,7 @@ public class SlitScanSection {
 			stopButton.addListener(SWT.Selection, new Listener() {
 				@Override
 				public void handleEvent(Event event) {
-					SlitScannerModel.getInstance().doStop();
+					SlitScannerModel.getInstance().stopScan();
 				}
 			});
 

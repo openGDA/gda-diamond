@@ -26,6 +26,7 @@ import java.util.List;
 import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
+import org.dawnsci.plotting.api.tool.IToolPageSystem;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -85,5 +86,13 @@ public class LinearExperimentPlotView extends ViewPart {
 
 	@Override
 	public void setFocus() {}
+
+	@Override
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class clazz) {
+		if (clazz == IToolPageSystem.class || clazz == IPlottingSystem.class) {
+			return plottingSystem;
+		}
+		return super.getAdapter(clazz);
+	}
 
 }
