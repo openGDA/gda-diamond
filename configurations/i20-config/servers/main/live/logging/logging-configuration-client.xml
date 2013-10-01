@@ -5,14 +5,7 @@
         <Marker>FINEST</Marker>
         <OnMatch>DENY</OnMatch>
     </turboFilter>
-
-    <!-- enable this if you want log message appear on local console -->
-<!--    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender"> -->
-<!--         <layout class="ch.qos.logback.classic.PatternLayout"> -->
-<!--             <pattern>%r  %-5level [%logger{36}] - %m%n</pattern> -->
-<!--         </layout> -->
-<!--     </appender> -->
-        
+   
     <appender name="LogServer" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>i20-control.diamond.ac.uk</RemoteHost>
         <Port>6788</Port>
@@ -22,7 +15,6 @@
 
    <logger name="gda">
        <level value="DEBUG"/>
-<!--        <appender-ref ref="FILE"/> -->
    </logger>
     <logger name="gda.factory.corba">
         <level value="WARN"/>
@@ -33,24 +25,12 @@
     <logger name="gda.device.corba.impl">
         <level value="WARN"/>
     </logger>
-<!--     <logger name="gda.device.temperature"> -->
-<!--         <level value="WARN"/> -->
-<!--     </logger> -->
     <logger name="gda.jython.corba.impl">
         <level value="WARN"/>
     </logger>
     <logger name="gda.oe.corba.impl">
         <level value="WARN"/>
     </logger>
-<!--     <logger name="gda.data.nexus.NexusFileWrapper"> -->
-<!--         <level value="DEBUG"/> -->
-<!--     </logger> -->
-<!--     <logger name="uk.ac.gda.exafs.ui"> -->
-<!--         <level value="WARN"/> -->
-<!--     </logger> -->
-<!--     <logger name="org.apache.commons.beanutils.converters.StringConverter"> -->
-<!--         <level value="ERROR"/> -->
-<!--     </logger> -->
     <logger name="gda.jython.GDAJythonInterpreter">
         <level value="WARN"/>
     </logger>
@@ -61,8 +41,7 @@
         <level value="WARN"/>
     </logger>
     <root>
-        <level value="ALL"/>
-<!--         <appender-ref ref="Console"/> -->
+        <level value="DEBUG"/>
         <appender-ref ref="LogServer"/>
      </root>
 </configuration>

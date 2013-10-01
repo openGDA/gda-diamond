@@ -45,7 +45,7 @@ public class CollectionModelRenderer extends DefaultRenderer {
 		Color bg = gc.getBackground();
 
 		if (!selected) {
-			if (interval instanceof Spectrum) {
+			if (interval instanceof SpectrumModel) {
 				gc.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
 			} else {
 				gc.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY));
@@ -77,8 +77,8 @@ public class CollectionModelRenderer extends DefaultRenderer {
 				gc.drawText(duration, iRect.x + 5, iRect.y + 35);
 			}
 
-			if (interval instanceof Group) {
-				String noOfSpectrum = Integer.toString(((Group) interval).getNumberOfSpectrums()) + " spectrum";
+			if (interval instanceof TimingGroupModel) {
+				String noOfSpectrum = Integer.toString(((TimingGroupModel) interval).getNumberOfSpectrums()) + " spectrum";
 				point = gc.stringExtent(noOfSpectrum);
 				if (point.y < iRect.height - 45 && point.x + 5 < iRect.width) {
 					gc.drawText(noOfSpectrum, iRect.x + 5, iRect.y + 50);

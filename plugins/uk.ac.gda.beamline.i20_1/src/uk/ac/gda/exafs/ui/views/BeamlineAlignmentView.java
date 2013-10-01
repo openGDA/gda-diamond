@@ -143,8 +143,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	private Label lblDetectorHeightSuggestion;
 	private Label lblDetectorDistanceSuggestion;
 	private FormText labelPowerEstimateValue;
-
-	private boolean powerWarningDialogShown = false;
 	private FormText labelDeltaEValueSuggestion;
 
 	private final Map<Button, Label> suggestionControls = new HashMap<Button, Label>();
@@ -180,14 +178,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 					String powerWatt = UnitSetup.WATT.addUnitSuffix(Integer.toString(powerValue));
 					if (powerValue > ScannableSetup.MAX_POWER_IN_WATT) {
 						String value ="Estimated power is " + powerWatt;
-						if (!powerWarningDialogShown) {
-							UIHelper.showWarning("Power estimation is above maximum", value);
-						}
 						scrolledPolyForm.getForm().setMessage(value, IMessageProvider.ERROR);
-						powerWarningDialogShown = true;
 					} else {
 						scrolledPolyForm.getForm().setMessage("");
-						powerWarningDialogShown = false;
 					}
 					labelPowerEstimateValue.setText(getHighlightedFormatedString(powerWatt), true, false);
 				} catch (Exception e) {
@@ -393,6 +386,11 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			}
 		});
 
+		if (DetectorModel.INSTANCE.isDetectorConnected()) {
+			final StructuredSelection initialSelection = new StructuredSelection(CrystalCut.Si111);
+			comboCrystalCut.setSelection(initialSelection);
+		}
+
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(mainSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
 		mainSection.setSeparatorControl(defaultSectionSeparator);
@@ -425,14 +423,13 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				setup.open();
 			}
 		});
-		setupDetector();
+		loadDetectorDetails();
 	}
 
 	private Binding detectorValueBinding = null;
 	private FormText labelDeltaEValue;
-	private void setupDetector() {
+	private void loadDetectorDetails() {
 		try {
-			DetectorModel.INSTANCE.setupDetectors();
 			cmbDetectorType.setInput(DetectorModel.INSTANCE.getAvailableDetectors());
 			UpdateValueStrategy detectorSelectionUpdateStrategy = new UpdateValueStrategy() {
 				@Override

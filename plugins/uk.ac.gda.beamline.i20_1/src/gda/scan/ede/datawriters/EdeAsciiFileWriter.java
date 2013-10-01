@@ -20,7 +20,6 @@ package gda.scan.ede.datawriters;
 
 import gda.data.nexus.extractor.NexusExtractor;
 import gda.data.nexus.extractor.NexusGroupData;
-import gda.device.DeviceException;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.StripDetector;
 import gda.jython.InterfaceProvider;
@@ -30,7 +29,6 @@ import gda.scan.ScanDataPoint;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,10 +47,54 @@ public abstract class EdeAsciiFileWriter {
 	public static final String I0_DARK_COLUMN_NAME = "I0_dark";
 	public static final String IT_DARK_COLUMN_NAME = "It_dark";
 
+	public static final String ASCII_FILE_EXTENSION = ".dat";
+
 	private static final Logger logger = LoggerFactory.getLogger(EdeAsciiFileWriter.class);
 
 	protected String filenameTemplate = "";
 	protected StripDetector theDetector;
+
+	public static DoubleDataset extractDetectorDataSets(String detectorName, EdeScan scan, int spectrumIndex) {
+		List<ScanDataPoint> sdps = scan.getData();
+		return extractDetectorDataFromSDP(detectorName, sdps.get(spectrumIndex));
+	}
+
+	public static DoubleDataset extractDetectorDataFromSDP(String detectorName, ScanDataPoint sdp) {
+		Vector<Object> data = sdp.getDetectorData();
+		int detIndex = getIndexOfMyDetector(detectorName, sdp);
+		NXDetectorData detData = (NXDetectorData) data.get(detIndex);
+		NexusGroupData groupData = detData.getData(detectorName, "data", NexusExtractor.SDSClassName);
+		double[] originalData = (double[]) groupData.getBuffer();
+		return new DoubleDataset(originalData, originalData.length);
+	}
+
+	public static int getIndexOfMyDetector(String detectorName, ScanDataPoint scanDataPoint) {
+		Vector<String> names = scanDataPoint.getDetectorNames();
+		return names.indexOf(detectorName);
+	}
+
+	public static Double calcLnI0It(Double i0_corrected, Double it_corrected) {
+		Double lni0it = Math.log(i0_corrected / it_corrected);
+		if (lni0it.isNaN() || lni0it.isInfinite() || lni0it < 0.0) {
+			lni0it = .0;
+		}
+		return lni0it;
+	}
+
+	public static DoubleDataset normaliseDatasset(DoubleDataset itRaw, DoubleDataset i0Raw, DoubleDataset dark) {
+
+		double[] itRawArray = itRaw.getData();
+		double[] i0RawArray = i0Raw.getData();
+		double[] darkArray = dark.getData();
+
+		double[] itNormaliseArray = new double[itRawArray.length];
+
+		for (int channel = 0; channel < itNormaliseArray.length; channel++) {
+			itNormaliseArray[channel] = calcLnI0It(i0RawArray[channel]-darkArray[channel],itRawArray[channel]-darkArray[channel]);
+		}
+
+		return new DoubleDataset(itNormaliseArray,itNormaliseArray.length);
+	}
 
 	/**
 	 * Write out the ascii file of derived data based on the data collected.
@@ -84,40 +126,4 @@ public abstract class EdeAsciiFileWriter {
 		InterfaceProvider.getTerminalPrinter().print(message);
 		logger.info(message);
 	}
-
-	protected DoubleDataset extractDetectorDataSets(EdeScan scan, int spectrumIndex) {
-		List<ScanDataPoint> sdps = scan.getData();
-		Vector<Object> data = sdps.get(spectrumIndex).getDetectorData();
-		int detIndex = getIndexOfMyDetector(sdps.get(spectrumIndex));
-		NXDetectorData detData = (NXDetectorData) data.get(detIndex);
-		NexusGroupData groupData = detData.getData(theDetector.getName(), "data", NexusExtractor.SDSClassName);
-		double[] originalData = (double[]) groupData.getBuffer();
-		return new DoubleDataset(originalData, originalData.length);
-	}
-
-	protected int getIndexOfMyDetector(ScanDataPoint scanDataPoint) {
-		Vector<String> names = scanDataPoint.getDetectorNames();
-		return names.indexOf(theDetector.getName());
-	}
-
-	protected Double getEnergyForChannel(int channel) {
-		PolynomialFunction function;
-		try {
-			function = theDetector.getEnergyCalibration();
-		} catch (DeviceException e) {
-			logger.error("Detector did not supply a calibration.", e);
-			return (double) channel;
-		}
-		return function.value(channel);
-	}
-
-	protected Double calcLnI0It(Double i0_corrected, Double it_corrected) {
-		Double lni0it = Math.log(i0_corrected / it_corrected);
-		if (lni0it.isNaN() || lni0it.isInfinite() || lni0it < 0.0) {
-			lni0it = .0;
-		}
-		return lni0it;
-	}
-
-
 }

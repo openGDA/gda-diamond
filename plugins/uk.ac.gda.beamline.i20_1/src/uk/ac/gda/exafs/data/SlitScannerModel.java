@@ -23,7 +23,14 @@ import gda.jython.Jython;
 import gda.jython.JythonServerFacade;
 import gda.jython.JythonServerStatus;
 import gda.observable.IObserver;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import uk.ac.gda.exafs.data.ClientConfig.EdeDataStore;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
+
+import com.google.gson.annotations.Expose;
 
 public class SlitScannerModel extends ObservableModel implements IObserver {
 
@@ -43,18 +50,25 @@ public class SlitScannerModel extends ObservableModel implements IObserver {
 	private int state;
 
 	public static final String GAP_PROP_NAME = "gap";
+	@Expose
 	private double gap;
 
 	public static final String FROM_OFFSET_PROP_NAME = "fromOffset";
+	@Expose
 	private double fromOffset;
 
 	public static final String TO_OFFSET_PROP_NAME = "toOffset";
+	@Expose
 	private double toOffset;
 
 	public static final String STEP_PROP_NAME = "step";
+	@Expose
 	private double step;
 
 	public static final String INTEGRATION_TIME_PROP_NAME = "integrationTime";
+
+	private static final String SLIT_SCAN_MODEL_DATA_STORE_KEY = "SLIT_SCAN";
+	@Expose
 	private double integrationTime = 1.0;
 
 	private SlitScannerModel() {
@@ -64,6 +78,20 @@ public class SlitScannerModel extends ObservableModel implements IObserver {
 	public static SlitScannerModel getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new SlitScannerModel();
+			SlitScannerModel slitScannerModel = EdeDataStore.INSTANCE.loadConfiguration(SLIT_SCAN_MODEL_DATA_STORE_KEY, SlitScannerModel.class);
+			if (slitScannerModel != null) {
+				INSTANCE.setGap(slitScannerModel.getGap());
+				INSTANCE.setFromOffset(slitScannerModel.getFromOffset());
+				INSTANCE.setToOffset(slitScannerModel.getToOffset());
+				INSTANCE.setStep(slitScannerModel.getStep());
+				INSTANCE.setIntegrationTime(slitScannerModel.getIntegrationTime());
+			}
+			INSTANCE.addPropertyChangeListener(new PropertyChangeListener() {
+				@Override
+				public void propertyChange(PropertyChangeEvent evt) {
+					EdeDataStore.INSTANCE.saveConfiguration(SLIT_SCAN_MODEL_DATA_STORE_KEY, SlitScannerModel.INSTANCE);
+				}
+			});
 		}
 		return INSTANCE;
 	}
@@ -154,7 +182,7 @@ public class SlitScannerModel extends ObservableModel implements IObserver {
 		InterfaceProvider.getCommandRunner().runCommand("alignment_stage.saveDeviceFromCurrentMotorPositions(\"slits\")");
 	}
 
-	public void doStop() {
+	public void stopScan() {
 		if (this.getState() != Jython.IDLE) {
 			JythonServerFacade.getInstance().haltCurrentScan();
 		}

@@ -197,4 +197,7 @@ public interface StripDetector extends NexusDetector {
 	 */
 	public void setEnergyCalibration(PolynomialFunction calibration) throws DeviceException;
 
+	public double[] getEnergyForChannels();
+
+	public double getEnergyForChannel(int channel);
 }

@@ -2,13 +2,7 @@
 <configuration>
 	<property file="${gda.config}/properties/${gda.mode}/java.properties" />
 
-    <!-- display message in Logger Server's console -->
-<!--     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender"> -->
-<!--         <layout class="ch.qos.logback.classic.PatternLayout"> -->
-<!--             <Pattern>%date %-5level [%logger] - %message%n%ex</Pattern> -->
-<!--         </layout> -->
-<!--     </appender> -->
-    <!-- Socket for forwarding log message to LogPanel in GDA Client or other viewers -->
+    <!-- Sockets for forwarding log message to LogPanel in GDA Client or other viewers -->
     <appender name="WS001" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>i20-ws001.diamond.ac.uk</RemoteHost>
         <Port>6789</Port>
@@ -71,9 +65,6 @@
      <logger name="gda.factory.corba.util.PushEventQueue">
         <level value="ERROR"/>
     </logger>
-<!--     <logger name="uk.ac.gda.exafs.iu.XasScanParametersUIEditor"> -->
-<!--         <level value="ERROR"/> -->
-<!--     </logger> -->
     <logger name="gda.jython.GDAJythonInterpreter">
         <level value="WARN"/>
     </logger>
@@ -83,11 +74,30 @@
     <logger name="gda.jython.logger.RedirectableFileLogger">
         <level value="WARN"/>
     </logger>
-    
+   <logger name="gda.epics.LazyPVFactory">
+        <level value="INFO"/>
+    </logger>
+   <logger name="gda.epics.LazyPVFactory$LazyPV">
+        <level value="INFO"/>
+    </logger>
+   <logger name="gda.device.detector.analyser.EpicsMCASimple">
+        <level value="INFO"/>
+    </logger>
+    <logger name="gda.epics.connection.EpicsChannelManager">
+        <level value="WARN"/>
+    </logger>
+    <logger name="gda.epics.connection.EpicsController">
+        <level value="INFO"/>
+    </logger>
+    <logger name="gda.device.detector.DAServer">
+        <level value="DEBUG"/>
+    </logger>
+    <logger name="gda.jython.authoriser.LdapAuthoriser">
+        <level value="WARN"/>
+    </logger>
     <root>
         <level value="ALL"/>
         <appender-ref ref="DebugFILE"/>
-<!--         <appender-ref ref="CONSOLE"/> -->
         <appender-ref ref="WS001"/>
         <appender-ref ref="WS001_LogPanel"/>
         <appender-ref ref="WS002"/>

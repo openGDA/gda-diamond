@@ -29,8 +29,6 @@ import gda.scan.ScanDataPoint;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -44,6 +42,8 @@ import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
+
+import com.google.gson.Gson;
 
 /**
  * Operates the XStrip For High Energies Ge strip detector.
@@ -61,13 +61,13 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
  */
 public class XHDetector extends DetectorBase implements XCHIPDetector {
 
+	private static final String ROIS_PROP_KEY = "ROIs";
+
 	private static final String CONNECTED_KEY = "connected";
 
 	private static final double MIN_BIAS_VOLTAGE = 1.0;
 	private static final double MAX_BIAS_VOLTAGE = 137.0;
 
-	private static final String UPPERLEVEL_PROPERTY = "upperlevel";
-	private static final String LOWERLEVEL_PROPERTY = "lowerlevel";
 	private static final String EXCLUDED_STRIPS_PROPERTY = "excludedStrips";
 	private static final String STORENAME = "XH_rois";
 	// strings to use in the get/set attributes methods
@@ -78,6 +78,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	public static final String ROIS_CHANGED = "rois_changed";
 
 	public static final double XSTRIP_CLOCKRATE = 20E-9; // s
+
+	private static final Gson GSON = new Gson();
 
 	private static final Logger logger = LoggerFactory.getLogger(XHDetector.class);
 	private static final String SENSOR0NAME = "Peltier Hotplate";
@@ -121,11 +123,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 	public XHDetector() {
 		super();
-
 		// defaults which will be updated when number of sectors changed
 		inputNames = new String[] { "time" };
-		// set up other values - these are all based on the number of rois
-		setDefaultROIs();
 	}
 
 	@Override
@@ -181,6 +180,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			store.setProperty(CONNECTED_KEY, isConnected());
 			store.save();
 		} catch (ConfigurationException e) {
+			logger.error("Unable to store connected state", e);
 		}
 
 	}
@@ -191,6 +191,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			if (connected) {
 				return;
 			}
+			logger.debug("connecting");
 			try {
 				disconnect();
 				// to read back data
@@ -417,8 +418,9 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		if (hasValidDataHandle()) {
 			int numFrames = finalFrame - startFrame + 1;
 			try {
-				value = daServer.getIntBinaryData("read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames
-						+ " from " + dataHandle + " raw motorola", 1024 * numFrames);
+				String readCommand = "read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames
+						+ " from " + dataHandle + " raw motorola";
+				value = daServer.getIntBinaryData(readCommand, 1024 * numFrames);
 			} catch (Exception e) {
 				throw new DeviceException("Exception while reading data from da.server", e);
 			}
@@ -595,7 +597,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				newStatus.loc.scanNum = group;
 			}
 		}
-
 		return newStatus;
 	}
 
@@ -615,6 +616,13 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			int numberOfScansPerFrame = timingGroup.getNumberOfScansPerFrame();
 			double scanTimeInS = timingGroup.getTimePerScan();
 			String scanTimeInClockCycles = secondsToClockCyclesString(scanTimeInS);
+
+			// TODO Review this, may be warn the user
+			if (scanTimeInS == frameTimeInS) {
+				frameTimeInCycles = "0";
+				frameTimeInS = 0;
+				numberOfScansPerFrame = 1;
+			}
 
 			if (scanTimeInClockCycles.isEmpty() && numberOfScansPerFrame != 0) {
 				// something's wrong, so switch frame time to scan time.
@@ -651,7 +659,10 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			}
 
 			logger.info("Sending group to XH: " + command);
-			daServer.sendCommand(command);
+			Object result = daServer.sendCommand(command);
+			if (result.toString().compareTo("-1") == 0){
+				throw new DeviceException("The given parameters were not accepted by da.server! Check frame and scan times.");
+			}
 		}
 	}
 
@@ -914,9 +925,11 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 	@Override
 	public void setNumberRois(int numberOfRois) {
-		if (numberOfRois < 1) {
-			return;
-		}
+		XHROI[] xhrois = createRois(numberOfRois);
+		setRois(xhrois);
+	}
+
+	private XHROI[] createRois(int numberOfRois) {
 		XHROI[] xhrois = new XHROI[numberOfRois];
 		int useableRegion = upperChannel - (lowerChannel - 1); // Inclusive of the first
 		int increment = useableRegion / numberOfRois;
@@ -931,7 +944,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		if (xhrois[xhrois.length - 1].getUpperLevel() < upperChannel) {
 			xhrois[xhrois.length - 1].setUpperLevel(upperChannel);
 		}
-		setRois(xhrois);
+		return xhrois;
 	}
 
 	/**
@@ -950,6 +963,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		if (rois != null) {
 			numROI = rois.length;
 			this.rois = rois;
+			logger.debug("set " + rois.length);
 		} else {
 			numROI = 0;
 			this.rois = new XHROI[0];
@@ -978,21 +992,21 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	private void saveToXML() {
 		try {
 			String propertiesFileName = getStoreFileName();
-			File test = new File(propertiesFileName);
-			if (!test.exists()) {
+			File propertiesFile = new File(propertiesFileName);
+			if (!propertiesFile.exists()) {
 				try {
-					test.createNewFile();
+					propertiesFile.createNewFile();
 				} catch (IOException e) {
 					throw e;
 				}
 			}
 
-			PropertiesConfiguration store = new PropertiesConfiguration(propertiesFileName);
+			PropertiesConfiguration store = new PropertiesConfiguration();
+			store.setDelimiterParsingDisabled(true);
+			store.setFile(propertiesFile);
+			store.load();
 			store.clear();
-			for (XHROI roi : getRois()) {
-				store.setProperty(roi.getName() + "-" + LOWERLEVEL_PROPERTY, roi.getLowerLevel());
-				store.setProperty(roi.getName() + "-" + UPPERLEVEL_PROPERTY, roi.getUpperLevel());
-			}
+			store.setProperty(ROIS_PROP_KEY, GSON.toJson(getRois()));
 			if (calibration != null) {
 				double[] coeffs = calibration.getCoefficients();
 				String coeffsString = "";
@@ -1009,33 +1023,23 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	}
 
 	private void loadFromXML() {
-		HashMap<String, XHROI> tempROIs = new LinkedHashMap<String, XHROI>();
 		try {
-			PropertiesConfiguration store = new PropertiesConfiguration(getStoreFileName());
-			@SuppressWarnings("unchecked")
-			Iterator<String> i = store.getKeys();
-			while (i.hasNext()) {
-				String key = i.next();
-
-				if (key.isEmpty()) {
-					continue;
-				}
-
-				String[] partsString = key.split("-");
-				if (partsString[0].startsWith("ROI") && !tempROIs.keySet().contains(partsString[0])) {
-					tempROIs.put(partsString[0], new XHROI(partsString[0]));
-				} else {
-					continue;
-				}
-
-				XHROI thisROI = tempROIs.get(partsString[0]);
-				if (partsString[1].equals(LOWERLEVEL_PROPERTY)) {
-					thisROI.setLowerLevel(store.getInteger(key, 1));
-				} else if (partsString[1].equals(UPPERLEVEL_PROPERTY)) {
-					thisROI.setUpperLevel(store.getInteger(key, NUMBER_ELEMENTS));
-				}
+			String propertiesFileName = getStoreFileName();
+			File propertiesFile = new File(propertiesFileName);
+			if (!propertiesFile.exists()) {
+				setDefaultROIs();
+				return;
 			}
-
+			PropertiesConfiguration store = new PropertiesConfiguration();
+			store.setDelimiterParsingDisabled(true);
+			store.setFile(propertiesFile);
+			store.load();
+			String roisJsonArray = store.getString(ROIS_PROP_KEY);
+			if (roisJsonArray == null) {
+				this.setDefaultROIs();
+			} else {
+				setRoisWithoutStoringAndNotifying(GSON.fromJson(roisJsonArray, XHROI[].class));
+			}
 			String storeCalibration = store.getString("calibration");
 			if (storeCalibration != null && !storeCalibration.isEmpty()) {
 				String[] coeffsString = storeCalibration.split(" ");
@@ -1047,9 +1051,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			} else {
 				calibration = new PolynomialFunction(new double[] { 0., 1. });
 			}
-
-			setRoisWithoutStoringAndNotifying(tempROIs.values().toArray(new XHROI[0]));
 		} catch (Exception e) {
+			logger.error("Error loading ROIs, now loading defaults", e);
 			setDefaultROIs();
 		}
 	}
@@ -1193,6 +1196,27 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	public void setEnergyCalibration(PolynomialFunction calibration) throws DeviceException {
 		this.calibration = calibration;
 		saveToXML();
+	}
+
+	@Override
+	public double[] getEnergyForChannels() {
+		double[] energy = new double[STRIPS.length];
+		for (int i = 0; i < STRIPS.length; i++) {
+			energy[i] = getEnergyForChannel(STRIPS[i]);
+		}
+		return energy;
+	}
+
+	@Override
+	public double getEnergyForChannel(int channel) {
+		PolynomialFunction function;
+		try {
+			function = this.getEnergyCalibration();
+		} catch (DeviceException e) {
+			logger.error("Detector did not supply a calibration.", e);
+			return channel;
+		}
+		return function.value(channel);
 	}
 
 }

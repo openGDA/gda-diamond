@@ -48,10 +48,10 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 
 	@Override
 	public String writeAsciiFile() throws Exception {
-		DoubleDataset i0DarkDataSet = extractDetectorDataSets(i0DarkScan, 0);
-		DoubleDataset itDarkDataSet = extractDetectorDataSets(itDarkScan, 0);
-		DoubleDataset i0InitialDataSet = extractDetectorDataSets(i0InitialScan, 0);
-		DoubleDataset itDataSet = extractDetectorDataSets(itScan, 0);
+		DoubleDataset i0DarkDataSet = extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
+		DoubleDataset itDarkDataSet = extractDetectorDataSets(theDetector.getName(), itDarkScan, 0);
+		DoubleDataset i0InitialDataSet = extractDetectorDataSets(theDetector.getName(), i0InitialScan, 0);
+		DoubleDataset itDataSet = extractDetectorDataSets(theDetector.getName(), itScan, 0);
 
 		determineAsciiFilename();
 
@@ -79,7 +79,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 			Double lni0it = calcLnI0It(i0_corrected, it_corrected);
 
 			StringBuffer stringToWrite = new StringBuffer(channel + "\t");
-			stringToWrite.append(String.format("%.2f", getEnergyForChannel(channel)) + "\t");
+			stringToWrite.append(String.format("%.2f", theDetector.getEnergyForChannel(channel)) + "\t");
 			stringToWrite.append(String.format("%.2f", i0_corrected) + "\t");
 			stringToWrite.append(String.format("%.2f", it_corrected) + "\t");
 			stringToWrite.append(String.format("%.5f", lni0it) + "\t");
@@ -103,12 +103,11 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 		String itFilename = itScan.getDataWriter().getCurrentFileName();
 		String folder = FilenameUtils.getFullPath(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
-		String suffix = ".txt";
 
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
-			asciiFilename = folder + String.format(filenameTemplate, filename) + suffix;
+			asciiFilename = folder + String.format(filenameTemplate, filename) + ASCII_FILE_EXTENSION;
 		} else {
-			asciiFilename = folder + filename + suffix;
+			asciiFilename = folder + filename + ASCII_FILE_EXTENSION;
 		}
 	}
 }

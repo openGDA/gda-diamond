@@ -7,7 +7,7 @@
 #
 
 from gda.scan.ede import EdeLinearExperiment
-from gda.scan.ede.position import EdePositionType;
+from gda.scan.ede.position import EdePositionType,ExplicitScanPositions
 from uk.ac.gda.exafs.ui.data import EdeScanParameters, TimingGroup
 
 
