@@ -298,7 +298,10 @@ public class I05Apple extends ScannableMotionBase {
 			position = ((List) position).toArray();
 		try {
 			Object[] arr = (Object []) position;
-			energy = ((Number) arr[0]).doubleValue();
+			if (arr[0] instanceof Number)
+				energy = ((Number) arr[0]).doubleValue();
+			else 
+				energy = Double.parseDouble(arr[0].toString());
 			if (arr[1] != null)
 				pol = arr[1].toString();
 		} catch (Exception e) {
