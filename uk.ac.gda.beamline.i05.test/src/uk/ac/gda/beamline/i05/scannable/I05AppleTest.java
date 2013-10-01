@@ -57,12 +57,6 @@ public class I05AppleTest {
 		String pol = apple.getCurrentPolarisation();
 		assertEquals("H100 energy does not match", I05Apple.HORIZONTAL, pol);
 	}
-	
-	@Test
-	public void testH100() throws DeviceException {
-		double energy = apple.getEnergy();
-		assertEquals("H100 energy does not match", 292.0, energy, 2.0);
-	}
 
 	@Test
 	public void testV100_1Pol() throws DeviceException {
@@ -81,32 +75,9 @@ public class I05AppleTest {
 	}
 	
 	@Test
-	public void testV100_1() throws DeviceException {
-		lower.moveTo(70.0);
-		upper.moveTo(70.0);
-		double energy = apple.getEnergy();
-		assertEquals("V100 energy does not match", 576.0, energy, 2.0);
-	}
-	
-	@Test
-	public void testV100_2() throws DeviceException {
-		lower.moveTo(-70.0);
-		upper.moveTo(-70.0);
-		double energy = apple.getEnergy();
-		assertEquals("V100 energy does not match", 576.0, energy, 2.0);
-	}
-
-	@Test
 	public void testFailForMismatch() throws DeviceException {
 		lower.moveTo(-7.0);
 		upper.moveTo(17.0);
-		
-		try {
-			apple.getEnergy();
-			fail("getEnergy does not thow exception with differing phases");
-		} catch (DeviceException de) {
-			// expected
-		}
 		try {
 			apple.getCurrentPolarisation();
 			fail("getPolarisation does not thow exception with differing phases");
