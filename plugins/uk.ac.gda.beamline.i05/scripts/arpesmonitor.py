@@ -13,6 +13,8 @@ class ARPESMonitor:
     def start(self):
         self.configure()
         self.scienta.getAdBase().setImageMode(2)
+        self.scienta.getNdProc().getPluginBase().setArrayCounter(0);
+        self.scienta.getNdProc().setResetFilter(1);
         self.scienta.getAdBase().startAcquiring()
 
     def stop(self):

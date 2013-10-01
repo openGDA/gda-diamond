@@ -30,18 +30,18 @@ public class ArpesExperimentPerspective implements IPerspectiveFactory {
 		{
 			IFolderLayout folderLayout = layout.createFolder("folder", IPageLayout.RIGHT, 0.55f, IPageLayout.ID_EDITOR_AREA);
 			folderLayout.addView("uk.ac.gda.client.arpes.cameraview");
-			folderLayout.addView("uk.ac.gda.client.arpes.sweptview");
 			folderLayout.addView("uk.ac.gda.client.arpes.sumview");
+			folderLayout.addView("uk.ac.gda.client.arpes.sweptview");
 		}
-		layout.addView("uk.ac.gda.client.CommandQueueViewFactory", IPageLayout.TOP, 0.6f, "uk.ac.gda.client.arpes.cameraview");
+		layout.addView("uk.ac.gda.client.CommandQueueViewFactory", IPageLayout.TOP, 0.55f, "uk.ac.gda.client.arpes.cameraview");
 		layout.addView("uk.ac.gda.rcp.views.dashboardView", IPageLayout.TOP, 0.45f, "uk.ac.gda.client.CommandQueueViewFactory");
 		{
-			IFolderLayout folderLayout = layout.createFolder("folder_2", IPageLayout.BOTTOM, 0.53f, IPageLayout.ID_EDITOR_AREA);
+			IFolderLayout folderLayout = layout.createFolder("folder_2", IPageLayout.BOTTOM, 0.48f, IPageLayout.ID_EDITOR_AREA);
 			folderLayout.addView("gda.rcp.jythonterminalview");
 			folderLayout.addView("gda.rcp.views.baton.BatonView");
 		}
 		layout.addView("uk.ac.gda.arpes.ui.view.samplemetadata", IPageLayout.LEFT, 0.5f, "folder_2");
 		layout.addView("uk.ac.gda.arpes.ui.analyserprogress", IPageLayout.BOTTOM, 0.62f, "uk.ac.gda.arpes.ui.view.samplemetadata");
-		layout.addView("org.eclipse.ui.navigator.ProjectExplorer", IPageLayout.LEFT, 0.32f, IPageLayout.ID_EDITOR_AREA);
+		layout.addView("org.eclipse.ui.navigator.ProjectExplorer", IPageLayout.LEFT, 0.35f, IPageLayout.ID_EDITOR_AREA);
 	}
 }

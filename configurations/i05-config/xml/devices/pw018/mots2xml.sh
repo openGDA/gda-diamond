@@ -25,6 +25,15 @@ scannable=${1}_${axis}
 pv=`echo $pv | sed 's/.VAL$//'`
 
 case $pv in
+ dummy)
+# is a PV
+cat >> $xmlfile <<EOF
+
+        <bean id="$motor" class="gda.device.motor.DummyMotor">
+                <property name="local" value="true" />
+        </bean>
+EOF
+	;;
  *-*)
 # is a PV
 cat >> $xmlfile <<EOF

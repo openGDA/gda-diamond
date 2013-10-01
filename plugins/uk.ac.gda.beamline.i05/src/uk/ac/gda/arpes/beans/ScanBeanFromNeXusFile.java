@@ -50,7 +50,7 @@ public class ScanBeanFromNeXusFile {
 			nodeLink = (HDF5Dataset) tree.findNodeLink("/entry1/instrument/analyser/energies").getDestination();
 			setEnergies(shinynewbean, nodeLink.getDataset());
 			
-			nodeLink = (HDF5Dataset) tree.findNodeLink("/entry1/instrument/analyser/time_for_frames").getDestination(); //FIXME!
+			nodeLink = (HDF5Dataset) tree.findNodeLink("/entry1/instrument/analyser/time_for_frames").getDestination();
 			setTimePerStep(shinynewbean, nodeLink.getDataset());
 			
 			nodeLink = (HDF5Dataset) tree.findNodeLink("/entry1/instrument/analyser/number_of_cycles").getDestination();
