@@ -44,9 +44,5 @@
                 <property name="local" value="true" />
         </bean>
 
-        <bean id="id" class="uk.ac.gda.beamline.i05.scannable.I05Apple">
-        	<property name="gapScannable" ref="rawid_gap" />
-        	<property name="upperPhaseScannable" ref="rawid_upperphase" />
-        	<property name="lowerPhaseScannable" ref="rawid_lowerphase" />
-        </bean>
+        <import resource="../id.xml"/>
 </beans>

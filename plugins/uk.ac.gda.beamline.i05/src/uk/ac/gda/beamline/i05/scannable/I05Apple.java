@@ -172,39 +172,23 @@ public class I05Apple extends ScannableMotionBase {
 		throw new DeviceException("found undefined id setting");
 	}
 	
-	private double getEnergy(String polarisation) throws DeviceException {
-		Double gap = (Double) gapScannable.getPosition();
-
-		if (HORIZONTAL.equalsIgnoreCase(polarisation)) {
-//			K0 =-1.9376 //± 0.571 //base
-//					K1 =617.85 //± 0.765 //max
-//					K2 =102.02 //± 0.0669 //Xhalf
-//					K3 =19.047 //± 0.0606 //rate
-			return sigmoid(-1.9376, 617.85, 102.02, 19.047, gap);
-		}
+	private double g(double x, double h, double j, double k, double l, double m) {
+		return h * Math.log((x-j)*l) + k + m *x;
+	}
+	
+	private double getGapFor(double energy, String polarisation) throws DeviceException {
+		if (HORIZONTAL.equalsIgnoreCase(polarisation))
+			return g(energy,18.8494,-1.05604,-53.5488,6.34718,0.0373835);
 		if (VERTICAL.equalsIgnoreCase(polarisation)) {
-//			K0 =-12.465 //± 2.12 //base
-//					K1 =627.54 //± 2.39 //max
-//					K2 =64.039 //± 0.143 //Xhalf
-//					K3 =13.121 //± 0.116 //rate
-			return sigmoid(-12.465, 627.54, 64.039, 13.121, gap);
-
+			return g(energy,7.39726,12.8912,-18.9967,27.2954,0.0553008);
 		}
-//		K0 =-8.2934 //± 1.13 //base
-//				K1 =622.41 //± 1.51 //max
-//				K2 =71.656 //± 0.0806 //Xhalf
-//				K3 =13.788 //± 0.0785 //rate
-		return sigmoid(-8.2934, 622.41, 71.656, 13.788, gap);
+//		if (CIRCULAR_RIGHT.equalsIgnoreCase(polarisation))
+//			return phase;
+//		if (CIRCULAR_LEFT.equalsIgnoreCase(polarisation))
+//			return phase * -1;
+		throw new DeviceException("unknown polarisation demanded");
 	}
 	
-	private double getGapFor(double energy, String polarisation) {
-		return 0;
-	}
-	
-	public double getEnergy() throws DeviceException {
-		return getEnergy(getCurrentPolarisation());
-	}
-
 	public void combinedMove(double newenergy, String newpol) throws DeviceException {
 		checkPhases();
 		
@@ -233,6 +217,11 @@ public class I05Apple extends ScannableMotionBase {
 				
 			}
 		}).start();
+		try {
+			Thread.sleep(250);
+		} catch (InterruptedException e) {
+			// sleeping to allow this device to become busy
+		}
 	}
 
 	private void runPast(Point2D[] pointArray) throws DeviceException, InterruptedException {
@@ -278,7 +267,7 @@ public class I05Apple extends ScannableMotionBase {
 	@Override
 	public Object getPosition() throws DeviceException {
 		checkPhases();
-		return new Object[] { getEnergy(), getCurrentPolarisation() };
+		return new Object[] { gapScannable.getPosition(), getCurrentPolarisation() };
 	}
 	
 	private synchronized void checkThreadException() throws DeviceException {
@@ -303,7 +292,7 @@ public class I05Apple extends ScannableMotionBase {
 			combinedMove(((Number) position).doubleValue(), getCurrentPolarisation());
 			return;
 		}
-		double energy = getEnergy(); 
+		double energy; 
 		String pol = null;
 		if (position instanceof List)
 			position = ((List) position).toArray();
