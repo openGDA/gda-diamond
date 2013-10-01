@@ -239,9 +239,14 @@ public class LinearExperimentModel extends CollectionModel {
 				currentEnergyData.setName("Energy");
 				final int currentFrameNumber = edeExperimentProgress.getProgress().getFrameNumOfThisSDP();
 				final int currentGroupNumber = edeExperimentProgress.getProgress().getGroupNumOfThisSDP();
-				final Group currentGroup = (Group) groupList.get(currentGroupNumber);
-				// TODO refactor to group to manage its own state
-				LinearExperimentModel.this.setCurrentScanningSpectrum((Spectrum) currentGroup.getSpectrumList().get(currentFrameNumber));
+				Display.getDefault().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						final Group currentGroup = (Group) groupList.get(currentGroupNumber);
+						// TODO refactor to group to manage its own state
+						LinearExperimentModel.this.setCurrentScanningSpectrum((Spectrum) currentGroup.getSpectrumList().get(currentFrameNumber));
+					}
+				});
 			}
 		}
 

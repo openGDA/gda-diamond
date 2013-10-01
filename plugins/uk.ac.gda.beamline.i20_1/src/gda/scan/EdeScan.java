@@ -145,6 +145,7 @@ public class EdeScan extends ConcurrentScanChild {
 					createDataPoints(lastFrameNumRead + 1, latestFrameAvailalable);
 					lastFrameNumRead = latestFrameAvailalable;
 				}
+				// Why do we need to fetch status twice ?
 				progressData = theDetector.fetchStatus();
 				Thread.sleep(100);
 				checkForInterrupts();
