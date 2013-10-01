@@ -143,8 +143,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	private Label lblDetectorHeightSuggestion;
 	private Label lblDetectorDistanceSuggestion;
 	private FormText labelPowerEstimateValue;
-
-	private boolean powerWarningDialogShown = false;
 	private FormText labelDeltaEValueSuggestion;
 
 	private final Map<Button, Label> suggestionControls = new HashMap<Button, Label>();
@@ -180,14 +178,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 					String powerWatt = UnitSetup.WATT.addUnitSuffix(Integer.toString(powerValue));
 					if (powerValue > ScannableSetup.MAX_POWER_IN_WATT) {
 						String value ="Estimated power is " + powerWatt;
-						if (!powerWarningDialogShown) {
-							UIHelper.showWarning("Power estimation is above maximum", value);
-						}
 						scrolledPolyForm.getForm().setMessage(value, IMessageProvider.ERROR);
-						powerWarningDialogShown = true;
 					} else {
 						scrolledPolyForm.getForm().setMessage("");
-						powerWarningDialogShown = false;
 					}
 					labelPowerEstimateValue.setText(getHighlightedFormatedString(powerWatt), true, false);
 				} catch (Exception e) {
