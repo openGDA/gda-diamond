@@ -418,8 +418,9 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		if (hasValidDataHandle()) {
 			int numFrames = finalFrame - startFrame + 1;
 			try {
-				value = daServer.getIntBinaryData("read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames
-						+ " from " + dataHandle + " raw motorola", 1024 * numFrames);
+				String readCommand = "read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames
+						+ " from " + dataHandle + " raw motorola";
+				value = daServer.getIntBinaryData(readCommand, 1024 * numFrames);
 			} catch (Exception e) {
 				throw new DeviceException("Exception while reading data from da.server", e);
 			}
@@ -596,7 +597,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				newStatus.loc.scanNum = group;
 			}
 		}
-
 		return newStatus;
 	}
 
@@ -616,6 +616,13 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			int numberOfScansPerFrame = timingGroup.getNumberOfScansPerFrame();
 			double scanTimeInS = timingGroup.getTimePerScan();
 			String scanTimeInClockCycles = secondsToClockCyclesString(scanTimeInS);
+
+			// TODO Review this, may be warn the user
+			if (scanTimeInS == frameTimeInS) {
+				frameTimeInCycles = "0";
+				frameTimeInS = 0;
+				numberOfScansPerFrame = 1;
+			}
 
 			if (scanTimeInClockCycles.isEmpty() && numberOfScansPerFrame != 0) {
 				// something's wrong, so switch frame time to scan time.
@@ -652,7 +659,10 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			}
 
 			logger.info("Sending group to XH: " + command);
-			daServer.sendCommand(command);
+			Object result = daServer.sendCommand(command);
+			if (result.toString().compareTo("-1") == 0){
+				throw new DeviceException("The given parameters were not accepted by da.server! Check frame and scan times.");
+			}
 		}
 	}
 

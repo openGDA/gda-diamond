@@ -135,21 +135,23 @@ public class EdeScan extends ConcurrentScanChild {
 		// sleep for a moment to allow collection to start
 		Thread.sleep(250);
 
-		Integer lastFrameNumRead = -1;
+		Integer nextFrameToRead = 0;
 		try {
 			ExperimentStatus progressData = theDetector.fetchStatus();
-			Integer latestFrameAvailalable = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters,
+			Integer currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters,
 					progressData.loc);
 			while (!collectionFinished(progressData)) {
-				if (latestFrameAvailalable > lastFrameNumRead) {
-					createDataPoints(lastFrameNumRead + 1, latestFrameAvailalable);
-					lastFrameNumRead = latestFrameAvailalable;
+				if (currentFrame > nextFrameToRead) {
+					createDataPoints(nextFrameToRead, currentFrame - 1);
+					nextFrameToRead = currentFrame;
 				}
 				// Why do we need to fetch status twice ?
 				progressData = theDetector.fetchStatus();
 				Thread.sleep(100);
 				checkForInterrupts();
 				progressData = theDetector.fetchStatus();
+				currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters,
+						progressData.loc);
 			}
 		} catch (Exception e) {
 			// scan has been aborted, so stop the collection and let the scan write out the rest of the data point which
@@ -158,7 +160,7 @@ public class EdeScan extends ConcurrentScanChild {
 			throw e;
 		} finally {
 			// have we read all the frames?
-			readoutRestOfFrames(lastFrameNumRead);
+			readoutRestOfFrames(nextFrameToRead);
 		}
 
 	}
@@ -190,8 +192,8 @@ public class EdeScan extends ConcurrentScanChild {
 		}
 	}
 
-	private void readoutRestOfFrames(Integer lastReadLoc) throws Exception {
-		int absLowFrame = lastReadLoc + 1;
+	private void readoutRestOfFrames(Integer nextFrameToRead) throws Exception {
+		int absLowFrame = nextFrameToRead;
 		if (absLowFrame == getDimension()) {
 			return;
 		}
