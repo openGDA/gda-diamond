@@ -40,14 +40,14 @@ public class EdeCalibrationModel extends ObservableModel {
 	public static final EdeCalibrationModel INSTANCE = new EdeCalibrationModel();
 	public static final String MANUAL_PROP_NAME = "manual";
 	private boolean manual;
-	private final ElementEdeData edeData = new ElementEdeData();
-	private final ElementReference refData = new ElementReference();
+	private final EdeDataModel edeData = new EdeDataModel();
+	private final CalibrationDataModel refData = new CalibrationDataModel();
 
 	private EdeCalibrationModel() {}
-	public ElementReference getRefData() {
+	public CalibrationDataModel getRefData() {
 		return refData;
 	}
-	public ElementEdeData getEdeData() {
+	public EdeDataModel getEdeData() {
 		return edeData;
 	}
 	public boolean isManual() {
@@ -57,15 +57,15 @@ public class EdeCalibrationModel extends ObservableModel {
 		firePropertyChange(MANUAL_PROP_NAME, this.manual, this.manual = manual);
 	}
 
-	public static class ElementEdeData extends ElementReference {
+	public static class EdeDataModel extends CalibrationDataModel {
 		@Override
 		public void setData(String fileName) throws Exception {
 			setData(fileName, EdeAsciiFileWriter.STRIP_COLUMN_NAME, EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME);
 		}
 	}
 
-	public static class ElementReference extends ObservableModel {
-
+	public static class CalibrationDataModel extends ObservableModel {
+		// TODO Refactor to create ref data model
 		public static final String FILE_NAME_PROP_NAME = "fileName";
 		protected String fileName;
 

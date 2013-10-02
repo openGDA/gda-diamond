@@ -23,7 +23,6 @@ import gda.device.DeviceException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.util.Pair;
@@ -38,7 +37,6 @@ import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.ColorConstants;
@@ -69,13 +67,12 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
-import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.Slice;
 import uk.ac.diamond.scisoft.spectroscopy.fitting.EdeCalibration;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.EdeCalibrationModel;
-import uk.ac.gda.exafs.data.EdeCalibrationModel.ElementReference;
+import uk.ac.gda.exafs.data.EdeCalibrationModel.CalibrationDataModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
 import uk.ac.gda.exafs.ui.views.CalibrationPlotViewer;
@@ -93,7 +90,6 @@ public class EDECalibrationSection {
 	private Button applyCalibrationButton;
 	private EDECalibrationSection() {}
 	private PolynomialFunction calibrationResult;
-	private Button clearCalibrationButton;
 
 	@SuppressWarnings({ "static-access" })
 	public void createEdeCalibrationSection(Form form, FormToolkit toolkit) {
@@ -124,7 +120,7 @@ public class EDECalibrationSection {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(lblRefFileValue),
-				BeanProperties.value(ElementReference.FILE_NAME_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getRefData())
+				BeanProperties.value(CalibrationDataModel.FILE_NAME_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getRefData())
 				, null,
 				new UpdateValueStrategy() {
 					@Override
@@ -135,7 +131,7 @@ public class EDECalibrationSection {
 						}
 						try {
 							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeManualCalibrationPlotView.REFERENCE_ID);
-							refView.setCalibrationDataReference(EdeCalibrationModel.INSTANCE.getRefData());
+							refView.setCalibrationData(EdeCalibrationModel.INSTANCE.getRefData());
 						} catch (PartInitException e) {
 							e.printStackTrace();
 						}
@@ -161,7 +157,7 @@ public class EDECalibrationSection {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(lblEdeDataFileValue),
-				BeanProperties.value(ElementReference.FILE_NAME_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getEdeData()),
+				BeanProperties.value(CalibrationDataModel.FILE_NAME_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getEdeData()),
 				null,
 				new UpdateValueStrategy() {
 					@Override
@@ -172,7 +168,7 @@ public class EDECalibrationSection {
 						}
 						try {
 							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeManualCalibrationPlotView.EDE_ID);
-							refView.setCalibrationDataReference(EdeCalibrationModel.INSTANCE.getEdeData());
+							refView.setCalibrationData(EdeCalibrationModel.INSTANCE.getEdeData());
 						} catch (PartInitException e) {
 							UIHelper.showError("Unable to set data file", e.getMessage());
 						}
@@ -191,10 +187,10 @@ public class EDECalibrationSection {
 		final Label lblPolyOrder = toolkit.createLabel(dataComposite, "Polynomial order", SWT.NONE);
 		lblPolyOrder.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		final Spinner kw = new Spinner(dataComposite, SWT.BORDER);
-		kw.setMinimum(1);
-		kw.setMaximum(5);
-		kw.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		final Spinner polynomialFittingOrderSpinner = new Spinner(dataComposite, SWT.BORDER);
+		polynomialFittingOrderSpinner.setMinimum(1);
+		polynomialFittingOrderSpinner.setMaximum(5);
+		polynomialFittingOrderSpinner.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		toolkit.paintBordersFor(dataComposite);
 
 		Composite plotComposite = toolkit.createComposite(sectionComposite, SWT.None);
@@ -214,32 +210,9 @@ public class EDECalibrationSection {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				runEdeCalibration(kw.getSelection());
+				runEdeCalibration(polynomialFittingOrderSpinner.getSelection());
 			}
 
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				this.widgetSelected(e);
-			}
-		});
-
-		clearCalibrationButton = toolkit.createButton(plotComposite, "Clear", SWT.None);
-		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		clearCalibrationButton.setLayoutData(gridData);
-		clearCalibrationButton.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-				IPlottingSystem plottingSystemRef = PlottingFactory.getPlottingSystem(AlignmentPerspective.REF_PLOT_NAME);
-				if (plottingSystemRef == null) {
-					return;
-				}
-				List<IDataset> spectra = new ArrayList<IDataset>(1);
-				spectra.add(EdeCalibrationModel.INSTANCE.getRefData().getRefDataNode());
-
-				plottingSystemRef.clear();
-				plottingSystemRef.createPlot1D(EdeCalibrationModel.INSTANCE.getRefData().getRefEnergyNode(), spectra, new NullProgressMonitor());
-				plottingSystemRef.repaint();
-			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				this.widgetSelected(e);
@@ -280,7 +253,7 @@ public class EDECalibrationSection {
 		section.setSeparatorControl(roisSectionSeparator);
 	}
 
-	private void showDataFileDialog(final Shell shell, ElementReference dataModel) {
+	private void showDataFileDialog(final Shell shell, CalibrationDataModel dataModel) {
 		FileDialog fileDialog = new FileDialog(shell, SWT.OPEN);
 		fileDialog.setText("Load data");
 		fileDialog.setFilterPath(ClientConfig.DEFAULT_DATA_PATH);
@@ -301,95 +274,99 @@ public class EDECalibrationSection {
 
 	private void runEdeCalibration(final int selectedFitOrder) {
 		polynomialValueLbl.setText("");
-		final EdeCalibration edeCalibration = new EdeCalibration();
-		AbstractDataset[] refDatasets = selectDataRange(AlignmentPerspective.REF_PLOT_NAME);
-		final AbstractDataset refEnergySlice = refDatasets[0];
-		final AbstractDataset refSpectrumSlice = refDatasets[1];
-		AbstractDataset[] edeDatasets = selectDataRange(AlignmentPerspective.EDE_PLOT_NAME);
-		final AbstractDataset edeIdxSlice = edeDatasets[0];
-		final AbstractDataset edeSpectrumSlice = edeDatasets[1];
-		edeCalibration.setMaxEdeChannel(EdeCalibrationModel.INSTANCE.getEdeData().getRefDataNode().getSize() - 1);
-		edeCalibration.setFitOrder(selectedFitOrder);
-		edeCalibration.setReferenceData(refEnergySlice, refSpectrumSlice);
-		edeCalibration.setEdeSpectrum(edeIdxSlice, edeSpectrumSlice);
+		try {
+			final EdeCalibration edeCalibration = new EdeCalibration();
+			AbstractDataset[] refDatasets = selectDataRange(AlignmentPerspective.REF_PLOT_NAME);
+			final AbstractDataset refEnergySlice = refDatasets[0];
+			final AbstractDataset refSpectrumSlice = refDatasets[1];
+			AbstractDataset[] edeDatasets = selectDataRange(AlignmentPerspective.EDE_PLOT_NAME);
+			final AbstractDataset edeIdxSlice = edeDatasets[0];
+			final AbstractDataset edeSpectrumSlice = edeDatasets[1];
+			edeCalibration.setMaxEdeChannel(EdeCalibrationModel.INSTANCE.getEdeData().getRefDataNode().getSize() - 1);
+			edeCalibration.setFitOrder(selectedFitOrder);
+			edeCalibration.setReferenceData(refEnergySlice, refSpectrumSlice);
+			edeCalibration.setEdeSpectrum(edeIdxSlice, edeSpectrumSlice);
 
-		double ref1e, ref2e, ref3e;
-		double ede1e, ede2e, ede3e;
-		if (manualCalibrationCheckButton.getSelection()) {
-			ref1e = EdeCalibrationModel.INSTANCE.getRefData().getReferencePoints().get(0);
-			ref2e = EdeCalibrationModel.INSTANCE.getRefData().getReferencePoints().get(1);
-			ref3e = EdeCalibrationModel.INSTANCE.getRefData().getReferencePoints().get(2);
+			double ref1e, ref2e, ref3e;
+			double ede1e, ede2e, ede3e;
+			if (manualCalibrationCheckButton.getSelection()) {
+				ref1e = EdeCalibrationModel.INSTANCE.getRefData().getReferencePoints().get(0);
+				ref2e = EdeCalibrationModel.INSTANCE.getRefData().getReferencePoints().get(1);
+				ref3e = EdeCalibrationModel.INSTANCE.getRefData().getReferencePoints().get(2);
 
-			ede1e = EdeCalibrationModel.INSTANCE.getEdeData().getReferencePoints().get(0);
-			ede2e = EdeCalibrationModel.INSTANCE.getEdeData().getReferencePoints().get(1);
-			ede3e = EdeCalibrationModel.INSTANCE.getEdeData().getReferencePoints().get(2);
+				ede1e = EdeCalibrationModel.INSTANCE.getEdeData().getReferencePoints().get(0);
+				ede2e = EdeCalibrationModel.INSTANCE.getEdeData().getReferencePoints().get(1);
+				ede3e = EdeCalibrationModel.INSTANCE.getEdeData().getReferencePoints().get(2);
 
-			final Pair<Double, Double> refPoint1 = new Pair<Double, Double>(ref1e, ede1e);
-			final Pair<Double, Double> refPoint2 = new Pair<Double, Double>(ref2e, ede2e);
-			final Pair<Double, Double> refPoint3 = new Pair<Double, Double>(ref3e, ede3e);
+				final Pair<Double, Double> refPoint1 = new Pair<Double, Double>(ref1e, ede1e);
+				final Pair<Double, Double> refPoint2 = new Pair<Double, Double>(ref2e, ede2e);
+				final Pair<Double, Double> refPoint3 = new Pair<Double, Double>(ref3e, ede3e);
 
-			ArrayList<Pair<Double, Double>> refPositions = new ArrayList<Pair<Double, Double>>();
-			refPositions.add(refPoint1);
-			refPositions.add(refPoint2);
-			refPositions.add(refPoint3);
-			edeCalibration.setReferencePositions(refPositions);
+				ArrayList<Pair<Double, Double>> refPositions = new ArrayList<Pair<Double, Double>>();
+				refPositions.add(refPoint1);
+				refPositions.add(refPoint2);
+				refPositions.add(refPoint3);
+				edeCalibration.setReferencePositions(refPositions);
+			}
+			polynomialValueLbl.setText("EDE calibration in progress...");
+			Job job = new Job("EDE calibration") {
+				@Override
+				protected void canceling() {
+					super.canceling();
+					Display.getDefault().syncExec(new Runnable() {
+						@Override
+						public void run() {
+							runCalibrationButton.setEnabled(true);
+							polynomialValueLbl.setText("");
+							applyCalibrationButton.setEnabled(false);
+						}
+					});
+				}
+
+				@Override
+				protected IStatus run(IProgressMonitor monitor) {
+					Display.getDefault().syncExec(new Runnable() {
+						@Override
+						public void run() {
+							runCalibrationButton.setEnabled(false);
+						}
+					});
+
+					edeCalibration.calibrate(true);
+					final AbstractDataset resEnergyDataset = edeCalibration.calibrateEdeChannels(edeIdxSlice);
+					Display.getDefault().syncExec(new Runnable() {
+
+						@Override
+						public void run() {
+							IPlottingSystem plottingSystemRef = PlottingFactory.getPlottingSystem(AlignmentPerspective.REF_PLOT_NAME);
+							plottingSystemRef.clear();
+
+							ILineTrace refTrace = plottingSystemRef.createLineTrace("Ref");
+							refTrace.setData(refEnergySlice, refSpectrumSlice);
+							refTrace.setTraceColor(ColorConstants.red);
+							plottingSystemRef.addTrace(refTrace);
+
+							ILineTrace edeTrace = plottingSystemRef.createLineTrace("Ede");
+							edeTrace.setData(resEnergyDataset, edeSpectrumSlice);
+							edeTrace.setTraceColor(ColorConstants.blue);
+							plottingSystemRef.addTrace(edeTrace);
+
+							plottingSystemRef.repaint();
+
+							calibrationResult = edeCalibration.getEdeCalibrationPolynomial();
+							polynomialValueLbl.setText(calibrationResult.toString());
+
+							runCalibrationButton.setEnabled(true);
+							applyCalibrationButton.setEnabled(true);
+						}
+					});
+					return Status.OK_STATUS;
+				}
+			};
+			job.schedule();
+		} catch(Exception e) {
+			UIHelper.showError("Unable to run calibration", e.getMessage());
 		}
-		polynomialValueLbl.setText("EDE calibration in progress...");
-		Job job = new Job("EDE calibration") {
-			@Override
-			protected void canceling() {
-				super.canceling();
-				Display.getDefault().syncExec(new Runnable() {
-					@Override
-					public void run() {
-						runCalibrationButton.setEnabled(true);
-						polynomialValueLbl.setText("");
-						applyCalibrationButton.setEnabled(false);
-					}
-				});
-			}
-
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				Display.getDefault().syncExec(new Runnable() {
-					@Override
-					public void run() {
-						runCalibrationButton.setEnabled(false);
-					}
-				});
-
-				edeCalibration.calibrate(true);
-				final AbstractDataset resEnergyDataset = edeCalibration.calibrateEdeChannels(edeIdxSlice);
-				Display.getDefault().syncExec(new Runnable() {
-
-					@Override
-					public void run() {
-						IPlottingSystem plottingSystemRef = PlottingFactory.getPlottingSystem(AlignmentPerspective.REF_PLOT_NAME);
-						plottingSystemRef.clear();
-
-						ILineTrace refTrace = plottingSystemRef.createLineTrace("Ref");
-						refTrace.setData(refEnergySlice, refSpectrumSlice);
-						refTrace.setTraceColor(ColorConstants.red);
-						plottingSystemRef.addTrace(refTrace);
-
-						ILineTrace edeTrace = plottingSystemRef.createLineTrace("Ede");
-						edeTrace.setData(resEnergyDataset, edeSpectrumSlice);
-						edeTrace.setTraceColor(ColorConstants.blue);
-						plottingSystemRef.addTrace(edeTrace);
-
-						plottingSystemRef.repaint();
-
-						calibrationResult = edeCalibration.getEdeCalibrationPolynomial();
-						polynomialValueLbl.setText(calibrationResult.toString());
-
-						runCalibrationButton.setEnabled(true);
-						applyCalibrationButton.setEnabled(true);
-					}
-				});
-				return Status.OK_STATUS;
-			}
-		};
-		job.schedule();
 	}
 
 	protected void applyEdeCalibration() {
