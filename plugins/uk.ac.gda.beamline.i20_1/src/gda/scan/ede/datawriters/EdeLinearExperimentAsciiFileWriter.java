@@ -95,7 +95,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 
 	private void createI0File() throws Exception {
 
-		i0Filename = determineAsciiFilename("_I0_raw.txt");
+		i0Filename = determineAsciiFilename("_I0_raw" + ASCII_FILE_EXTENSION);
 		File asciiFile = new File(i0Filename);
 		if (asciiFile.exists()) {
 			throw new Exception("File " + i0Filename + " already exists!");
@@ -150,9 +150,9 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 	}
 
 	private void createItFiles() throws Exception {
-		itFilename = createItFile(i0InitialScan, null, "_It_raw.txt");
-		itFinalFilename = createItFile(i0FinalScan, null, "_It_raw_finali0.txt");
-		itAveragedFilename = createItFile(i0InitialScan, i0FinalScan, "_It_raw_averagedi0.txt");
+		itFilename = createItFile(i0InitialScan, null, "_It_raw" + ASCII_FILE_EXTENSION);
+		itFinalFilename = createItFile(i0FinalScan, null, "_It_raw_finali0" + ASCII_FILE_EXTENSION);
+		itAveragedFilename = createItFile(i0InitialScan, i0FinalScan, "_It_raw_averagedi0" + ASCII_FILE_EXTENSION);
 	}
 
 	private String createItFile(EdeScan firstI0Scan, EdeScan secondI0Scan, String fileSuffix) throws Exception {

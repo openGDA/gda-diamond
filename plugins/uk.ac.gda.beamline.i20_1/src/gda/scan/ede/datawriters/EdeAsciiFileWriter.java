@@ -36,6 +36,24 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
 public abstract class EdeAsciiFileWriter {
 
+	public static final String TIMINGGROUP_COLUMN_NAME = "Timing_Group";
+	public static final String STRIP_COLUMN_NAME = "Strip";
+	public static final String ENERGY_COLUMN_NAME = "Energy";
+	public static final String I0_CORR_COLUMN_NAME = "I0_corr";
+	public static final String IT_CORR_COLUMN_NAME = "It_corr";
+	public static final String LN_I0_IT_COLUMN_NAME = "LnI0It";
+	public static final String I0_RAW_COLUMN_NAME = "I0_raw";
+	public static final String IT_RAW_COLUMN_NAME = "It_raw";
+	public static final String I0_DARK_COLUMN_NAME = "I0_dark";
+	public static final String IT_DARK_COLUMN_NAME = "It_dark";
+
+	public static final String ASCII_FILE_EXTENSION = ".dat";
+
+	private static final Logger logger = LoggerFactory.getLogger(EdeAsciiFileWriter.class);
+
+	protected String filenameTemplate = "";
+	protected StripDetector theDetector;
+
 	public static DoubleDataset extractDetectorDataSets(String detectorName, EdeScan scan, int spectrumIndex) {
 		List<ScanDataPoint> sdps = scan.getData();
 		return extractDetectorDataFromSDP(detectorName, sdps.get(spectrumIndex));
@@ -77,22 +95,6 @@ public abstract class EdeAsciiFileWriter {
 
 		return new DoubleDataset(itNormaliseArray,itNormaliseArray.length);
 	}
-
-	public static final String TIMINGGROUP_COLUMN_NAME = "Timing_Group";
-	public static final String STRIP_COLUMN_NAME = "Strip";
-	public static final String ENERGY_COLUMN_NAME = "Energy";
-	public static final String I0_CORR_COLUMN_NAME = "I0_corr";
-	public static final String IT_CORR_COLUMN_NAME = "It_corr";
-	public static final String LN_I0_IT_COLUMN_NAME = "LnI0It";
-	public static final String I0_RAW_COLUMN_NAME = "I0_raw";
-	public static final String IT_RAW_COLUMN_NAME = "It_raw";
-	public static final String I0_DARK_COLUMN_NAME = "I0_dark";
-	public static final String IT_DARK_COLUMN_NAME = "It_dark";
-
-	private static final Logger logger = LoggerFactory.getLogger(EdeAsciiFileWriter.class);
-
-	protected String filenameTemplate = "";
-	protected StripDetector theDetector;
 
 	/**
 	 * Write out the ascii file of derived data based on the data collected.

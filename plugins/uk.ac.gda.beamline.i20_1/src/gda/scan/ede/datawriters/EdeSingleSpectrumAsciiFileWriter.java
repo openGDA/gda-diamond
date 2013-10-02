@@ -103,12 +103,11 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 		String itFilename = itScan.getDataWriter().getCurrentFileName();
 		String folder = FilenameUtils.getFullPath(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
-		String suffix = ".txt";
 
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
-			asciiFilename = folder + String.format(filenameTemplate, filename) + suffix;
+			asciiFilename = folder + String.format(filenameTemplate, filename) + ASCII_FILE_EXTENSION;
 		} else {
-			asciiFilename = folder + filename + suffix;
+			asciiFilename = folder + filename + ASCII_FILE_EXTENSION;
 		}
 	}
 }
