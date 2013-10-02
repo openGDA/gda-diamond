@@ -64,6 +64,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
@@ -190,7 +192,12 @@ public class LinearExperimentView extends ViewPart {
 		runExperimentAction = new Action() {
 			@Override
 			public void run() {
-				LinearExperimentModel.INSTANCE.doCollection();
+				try {
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(LinearExperimentPlotView.ID);
+					LinearExperimentModel.INSTANCE.doCollection();
+				} catch (PartInitException e) {
+					UIHelper.showError("Unable to show Linear experiment view to do the scan", e.getMessage());
+				}
 			}
 		};
 		runExperimentAction.setImageDescriptor(ResourceManager.getImageDescriptor(LinearExperimentView.class,

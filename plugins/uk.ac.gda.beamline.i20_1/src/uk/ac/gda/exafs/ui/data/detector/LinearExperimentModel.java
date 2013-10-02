@@ -88,7 +88,7 @@ public class LinearExperimentModel extends CollectionModel {
 
 	WritableList groupList = new WritableList(new ArrayList<TimingGroupModel>(), TimingGroupModel.class);
 
-	private final ScanJob job;
+	private final ScanJob experimentJob;
 
 	public LinearExperimentModel() {
 		this.setStartTime(EXPERIMENT_START_TIME);
@@ -111,13 +111,13 @@ public class LinearExperimentModel extends CollectionModel {
 			}
 		});
 
-		job = new ScanJob("Linear Experiment Scan");
-		InterfaceProvider.getJSFObserver().addIObserver(job);
+		experimentJob = new ScanJob("Linear Experiment Scan");
+		InterfaceProvider.getJSFObserver().addIObserver(experimentJob);
 		Findable controller = Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME);
 		if (controller != null) {
-			((Scriptcontroller) controller).addIObserver(job);
+			((Scriptcontroller) controller).addIObserver(experimentJob);
 		}
-		job.setUser(true);
+		experimentJob.setUser(true);
 		loadSavedGroups();
 	}
 
@@ -196,7 +196,7 @@ public class LinearExperimentModel extends CollectionModel {
 	}
 
 	public void doCollection() {
-		job.schedule();
+		experimentJob.schedule();
 	}
 
 	private String buildScanCommand() {
@@ -293,8 +293,8 @@ public class LinearExperimentModel extends CollectionModel {
 							TimingGroup timingGroup = new TimingGroup();
 							timingGroup.setLabel(uiTimingGroup.getName());
 							timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrums());
-							timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime() / 1000.0); // convert from ms to S
 							timingGroup.setTimePerFrame(uiTimingGroup.getTimePerSpectrum() / 1000.0); // convert from ms to S
+							timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime() / 1000.0); // convert from ms to S
 							timingGroups.add(timingGroup);
 						}
 

@@ -28,8 +28,6 @@ import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
 import org.dawnsci.plotting.api.tool.IToolPageSystem;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
@@ -53,14 +51,6 @@ public class LinearExperimentPlotView extends ViewPart {
 					plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
 					plottingSystem.clear();
 					plottingSystem.createPlot1D(scanDataSet[0], lnI0It, null);
-				} else if (evt.getPropertyName().equals(LinearExperimentModel.SCANNING_PROP_NAME)) {
-					if ((boolean) evt.getNewValue()) {
-						try {
-							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ID);
-						} catch (PartInitException e) {
-							UIHelper.showError("Unable to display linear experiment plot view", e.getMessage());
-						}
-					}
 				}
 			}
 		});
