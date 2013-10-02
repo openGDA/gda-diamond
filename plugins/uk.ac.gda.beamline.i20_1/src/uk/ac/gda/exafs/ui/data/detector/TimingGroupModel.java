@@ -31,9 +31,9 @@ import com.google.gson.annotations.Expose;
 import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
-public class Group extends CollectionModel {
+public class TimingGroupModel extends CollectionModel {
 
-	private final WritableList spectrumList = new WritableList(new ArrayList<Spectrum>(), Spectrum.class);
+	private final WritableList spectrumList = new WritableList(new ArrayList<SpectrumModel>(), SpectrumModel.class);
 	private final DefaultTimeBarRowModel timeBarRowModel;
 
 	public static final String INTEGRATION_TIME_PROP_NAME = "integrationTime";
@@ -61,7 +61,7 @@ public class Group extends CollectionModel {
 		return spectrumList;
 	}
 
-	public Group(DefaultTimeBarRowModel value) {
+	public TimingGroupModel(DefaultTimeBarRowModel value) {
 		timeBarRowModel = value;
 		spectrumList.addListChangeListener(new IListChangeListener() {
 			@Override
@@ -76,12 +76,12 @@ public class Group extends CollectionModel {
 						timeBarRowModel.addInterval((IntervalImpl) element);
 					}
 				});
-				Group.this.firePropertyChange(NO_OF_SPECTRUMS_PROP_NAME, null, spectrumList.size());
+				TimingGroupModel.this.firePropertyChange(NO_OF_SPECTRUMS_PROP_NAME, null, spectrumList.size());
 			}
 		});
 	}
 
-	public void removeSpectrum(Spectrum spectrum) {
+	public void removeSpectrum(SpectrumModel spectrum) {
 		spectrumList.remove(spectrum);
 	}
 
@@ -110,11 +110,11 @@ public class Group extends CollectionModel {
 		spectrumList.clear();
 		int numberOfSpectrums = (int) (this.getDuration() / (timePerSpectrum + delayBetweenSpectrum));
 		for (int i = 0; i < numberOfSpectrums; i++) {
-			Spectrum spectrum = new Spectrum(this);
+			SpectrumModel spectrum = new SpectrumModel(this);
 			if (spectrumList.isEmpty()) { // First entry
 				spectrum.setStartTime(this.getStartTime());
 			} else {
-				spectrum.setStartTime(((Spectrum) spectrumList.get(spectrumList.size() - 1)).getEndTime() + delayBetweenSpectrum);
+				spectrum.setStartTime(((SpectrumModel) spectrumList.get(spectrumList.size() - 1)).getEndTime() + delayBetweenSpectrum);
 			}
 			spectrum.setEndTime(spectrum.getStartTime() + timePerSpectrum);
 			spectrum.setName("Spectrum " + (spectrumList.size() + 1));

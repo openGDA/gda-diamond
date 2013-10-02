@@ -32,7 +32,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.junit.Test;
 
-import uk.ac.gda.exafs.ui.data.detector.Group;
+import uk.ac.gda.exafs.ui.data.detector.TimingGroupModel;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,8 +53,8 @@ public class EdeDataStoreTest {
 		RealmTester.exerciseCurrent(new Runnable() {
 			@Override
 			public void run() {
-				WritableList groupList = new WritableList(new ArrayList<Group>(), Group.class);
-				Group group = new Group(new DefaultTimeBarRowModel());
+				WritableList groupList = new WritableList(new ArrayList<TimingGroupModel>(), TimingGroupModel.class);
+				TimingGroupModel group = new TimingGroupModel(new DefaultTimeBarRowModel());
 				group.setStartTime(0.0);
 				group.setEndTime(1000.0);
 				group.setTimePerSpectrum(10);
@@ -76,7 +76,7 @@ public class EdeDataStoreTest {
 		try {
 			readConfiguration.load();
 			Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
-			Group[] test = gson.fromJson(readConfiguration.getString("test"), Group[].class);
+			TimingGroupModel[] test = gson.fromJson(readConfiguration.getString("test"), TimingGroupModel[].class);
 			assertTrue(test.length == 1);
 			assertTrue(test[0].getEndTime() == 1000.0);
 		} catch (ConfigurationException e) {

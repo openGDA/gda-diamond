@@ -23,6 +23,7 @@ import gda.device.DeviceException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.util.Pair;
@@ -37,6 +38,7 @@ import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.ColorConstants;
@@ -67,6 +69,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
+import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.Slice;
 import uk.ac.diamond.scisoft.spectroscopy.fitting.EdeCalibration;
 import uk.ac.gda.exafs.data.ClientConfig;
@@ -90,6 +93,7 @@ public class EDECalibrationSection {
 	private Button applyCalibrationButton;
 	private EDECalibrationSection() {}
 	private PolynomialFunction calibrationResult;
+	private Button clearCalibrationButton;
 
 	@SuppressWarnings({ "static-access" })
 	public void createEdeCalibrationSection(Form form, FormToolkit toolkit) {
@@ -195,7 +199,7 @@ public class EDECalibrationSection {
 
 		Composite plotComposite = toolkit.createComposite(sectionComposite, SWT.None);
 		plotComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		plotComposite.setLayout(new GridLayout(2, true));
+		plotComposite.setLayout(new GridLayout(3, true));
 
 		manualCalibrationCheckButton = toolkit.createButton(plotComposite, "Manual calibration", SWT.CHECK);
 		manualCalibrationCheckButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -213,6 +217,29 @@ public class EDECalibrationSection {
 				runEdeCalibration(kw.getSelection());
 			}
 
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				this.widgetSelected(e);
+			}
+		});
+
+		clearCalibrationButton = toolkit.createButton(plotComposite, "Clear", SWT.None);
+		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		clearCalibrationButton.setLayoutData(gridData);
+		clearCalibrationButton.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				IPlottingSystem plottingSystemRef = PlottingFactory.getPlottingSystem(AlignmentPerspective.REF_PLOT_NAME);
+				if (plottingSystemRef == null) {
+					return;
+				}
+				List<IDataset> spectra = new ArrayList<IDataset>(1);
+				spectra.add(EdeCalibrationModel.INSTANCE.getRefData().getRefDataNode());
+
+				plottingSystemRef.clear();
+				plottingSystemRef.createPlot1D(EdeCalibrationModel.INSTANCE.getRefData().getRefEnergyNode(), spectra, new NullProgressMonitor());
+				plottingSystemRef.repaint();
+			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				this.widgetSelected(e);

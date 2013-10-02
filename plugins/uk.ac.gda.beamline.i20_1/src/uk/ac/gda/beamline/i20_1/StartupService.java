@@ -23,8 +23,6 @@ import org.eclipse.ui.IStartup;
 public class StartupService implements IStartup {
 
 	@Override
-	public void earlyStartup() {
-		// TODO Auto-generated method stub
-	}
+	public void earlyStartup() {}
 
 }

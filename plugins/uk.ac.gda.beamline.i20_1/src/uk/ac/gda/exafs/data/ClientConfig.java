@@ -275,15 +275,19 @@ public class ClientConfig {
 		}
 
 		public <T> T loadConfiguration(String key, Class<T> classType) {
-			String data = store.getString(key);
-			if (data != null) {
-				return gson.fromJson(data, classType);
+			if (store != null) {
+				String data = store.getString(key);
+				if (data != null) {
+					return gson.fromJson(data, classType);
+				}
 			}
 			return null;
 		}
 
 		public <T> void saveConfiguration(String key, T data) {
-			store.setProperty(key, gson.toJson(data));
+			if (store != null) {
+				store.setProperty(key, gson.toJson(data));
+			}
 		}
 	}
 }
