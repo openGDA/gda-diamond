@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.ArrayUtils;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
@@ -113,7 +114,8 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 
 			for (int timingGroup = 0; timingGroup < numberOfTimingGroups; timingGroup++) {
 				DoubleDataset i0DarkDataSet = extractDetectorDataSets(theDetector.getName(), i0DarkScan, timingGroup);
-				DoubleDataset i0InitialDataSet = extractDetectorDataSets(theDetector.getName(), i0InitialScan, timingGroup);
+				DoubleDataset i0InitialDataSet = extractDetectorDataSets(theDetector.getName(), i0InitialScan,
+						timingGroup);
 				writeI0Spectrum(writer, timingGroup, i0DarkDataSet, i0InitialDataSet, true);
 			}
 
@@ -168,17 +170,13 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		try {
 			writer = new FileWriter(asciiFile);
 			log("Writing EDE format ascii file for It data: " + filename);
-			writer.write("#" + TIMINGGROUP_COLUMN_NAME + "\t" + STRIP_COLUMN_NAME + "\t" + ENERGY_COLUMN_NAME + "\t"
+			writer.write("#" + TIMINGGROUP_COLUMN_NAME + "\t" + FRAME_COLUMN_NAME+"\t" + STRIP_COLUMN_NAME + "\t" + ENERGY_COLUMN_NAME + "\t"
 					+ IT_CORR_COLUMN_NAME + "\t" + LN_I0_IT_COLUMN_NAME + "\t" + IT_RAW_COLUMN_NAME + "\t"
 					+ IT_DARK_COLUMN_NAME + "\n");
-			int numberOfTimingGroups = getNumberOfTimingGroups();
+			int numberOfSpectra = itScan.getNumberOfAvailablePoints();
 
-			for (int timingGroup = 0; timingGroup < numberOfTimingGroups; timingGroup++) {
-				deriveAndWriteSpectrum(writer, timingGroup, i0DarkScan, itScan, firstI0Scan, secondI0Scan);
-				// DoubleDataset darkDataSet = extractDetectorDataSets(i0DarkScan, timingGroup);
-				// DoubleDataset i0DataSet = extractDetectorDataSets(i0ScanToUse, timingGroup);
-				// DoubleDataset itDataSet = extractDetectorDataSets(itScan, timingGroup);
-				// writeItSpectrum(writer, timingGroup, darkDataSet, i0DataSet, itDataSet);
+			for (int spectrumNum = 0; spectrumNum < numberOfSpectra; spectrumNum++) {
+				deriveAndWriteItSpectrum(writer, spectrumNum, i0DarkScan, itScan, firstI0Scan, secondI0Scan);
 			}
 		} finally {
 			if (writer != null) {
@@ -189,20 +187,39 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		return filename;
 	}
 
-	private void deriveAndWriteSpectrum(FileWriter writer, int timingGroupIndex, EdeScan darkScan,
+	private void deriveAndWriteItSpectrum(FileWriter writer, int spectrumIndex, EdeScan darkScan,
 			EdeScan transmissionScan, EdeScan firstI0Scan, EdeScan secondI0Scan) throws IOException {
-		DoubleDataset darkDataSet = extractDetectorDataSets(theDetector.getName(), darkScan, timingGroupIndex);
-		DoubleDataset i0FirstDataSet = extractDetectorDataSets(theDetector.getName(), firstI0Scan, timingGroupIndex);
-		DoubleDataset itDataSet = extractDetectorDataSets(theDetector.getName(), transmissionScan, timingGroupIndex);
+		int timingGroupNumber = deriveTimingGroupFromSpectrumIndex(spectrumIndex);
+		int frameNumber = deriveFrameFromSpectrumIndex(spectrumIndex);
+		DoubleDataset darkDataSet = extractDetectorDataSets(theDetector.getName(), darkScan, timingGroupNumber);
+		DoubleDataset i0FirstDataSet = extractDetectorDataSets(theDetector.getName(), firstI0Scan, timingGroupNumber);
+		DoubleDataset itDataSet = extractDetectorDataSets(theDetector.getName(), transmissionScan, spectrumIndex);
 		if (secondI0Scan != null) {
-			DoubleDataset i0SecondDataSet = extractDetectorDataSets(theDetector.getName(), secondI0Scan, timingGroupIndex);
+			DoubleDataset i0SecondDataSet = extractDetectorDataSets(theDetector.getName(), secondI0Scan,
+					timingGroupNumber);
 			DoubleDataset i0DataSet_averaged = i0FirstDataSet.iadd(i0SecondDataSet).idivide(2);
 			i0FirstDataSet = i0DataSet_averaged;
 		}
-		writeItSpectrum(writer, timingGroupIndex, darkDataSet, i0FirstDataSet, itDataSet);
+		writeItSpectrum(writer, timingGroupNumber, frameNumber, darkDataSet, i0FirstDataSet, itDataSet);
 	}
 
-	private void writeItSpectrum(FileWriter writer, int timingGroup, DoubleDataset darkDataSet,
+	private int deriveTimingGroupFromSpectrumIndex(int spectrumIndex) {
+		ScanDataPoint sdp = itScan.getData().get(spectrumIndex);
+		String sdpString = sdp.toDelimitedString();
+		int indexOfGroup = ArrayUtils.indexOf(sdp.getScannableHeader(), "Group");
+		String timingGroup = sdpString.split(ScanDataPoint.delimiter)[indexOfGroup];
+		return Integer.parseInt(timingGroup);
+	}
+
+	private int deriveFrameFromSpectrumIndex(int spectrumIndex) {
+		ScanDataPoint sdp = itScan.getData().get(spectrumIndex);
+		String sdpString = sdp.toDelimitedString();
+		int indexOfGroup = ArrayUtils.indexOf(sdp.getScannableHeader(), "Frame");
+		String timingGroup = sdpString.split(ScanDataPoint.delimiter)[indexOfGroup];
+		return Integer.parseInt(timingGroup);
+	}
+
+	private void writeItSpectrum(FileWriter writer, int timingGroup, int frame, DoubleDataset darkDataSet,
 			DoubleDataset i0DataSet, DoubleDataset itDataSet) throws IOException {
 
 		for (int channel = 0; channel < theDetector.getNumberChannels(); channel++) {
@@ -213,7 +230,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			Double it_corrected = itRaw - dark;
 			Double lni0it = calcLnI0It(i0_corrected, it_corrected);
 
-			StringBuffer stringToWrite = new StringBuffer(timingGroup + "\t" + channel + "\t");
+			StringBuffer stringToWrite = new StringBuffer(timingGroup + "\t" + frame + "\t" + channel + "\t");
 			stringToWrite.append(String.format("%.2f", theDetector.getEnergyForChannel(channel)) + "\t");
 			stringToWrite.append(String.format("%.2f", it_corrected) + "\t");
 			stringToWrite.append(String.format("%.2f", lni0it) + "\t");

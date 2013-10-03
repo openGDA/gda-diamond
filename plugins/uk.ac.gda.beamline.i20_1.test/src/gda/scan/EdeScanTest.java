@@ -40,6 +40,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Vector;
 
@@ -77,14 +80,14 @@ public class EdeScanTest {
 	@Test
 	public void testRunScan() throws Exception {
 		setup("testRunScan");
-		runTestScan(-1,5);
+		runTestScan(-1, 5);
 	}
-	
+
 	@Test
 	public void testRunScanOutputProgressData() throws Exception {
 		setup("testRunScanOutputProgressData");
 		// create the extra columns by having number of repetitions >= 0
-		runTestScan(1,10);
+		runTestScan(1, 10);
 	}
 
 	private void runTestScan(int repetitionNumber, int numberExpectedAsciiColumns) throws Exception {
@@ -149,7 +152,7 @@ public class EdeScanTest {
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(scanParams, inBeam, outBeam, xh);
 		String filename = theExperiment.runExperiment();
 
-		testNumberColumnsInEDEFile(filename,9);
+		testNumberColumnsInEDEFile(filename, 9);
 	}
 
 	@Test
@@ -181,10 +184,11 @@ public class EdeScanTest {
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0Params, itParams, inBeam, outBeam, xh);
 		String filename = theExperiment.runExperiment();
 
-		testNumberColumnsInEDEFile(filename,9);
+		testNumberColumnsInEDEFile(filename, 9);
 	}
 
-	private void testNumberColumnsInEDEFile(String filename, int numExpectedColumns) throws FileNotFoundException, IOException {
+	private void testNumberColumnsInEDEFile(String filename, int numExpectedColumns) throws FileNotFoundException,
+			IOException {
 		FileReader asciiFile = new FileReader(filename);
 		BufferedReader reader = null;
 		try {
@@ -243,7 +247,7 @@ public class EdeScanTest {
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, inBeam, outBeam, xh);
 		String filename = theExperiment.runExperiment();
 
-		testNumberColumnsInEDEFile(filename,9);
+		testNumberColumnsInEDEFile(filename, 9);
 	}
 
 	@Test
@@ -263,7 +267,7 @@ public class EdeScanTest {
 		theExperiment.setFilenameTemplate("mysample_%s_sample1");
 		String filename = theExperiment.runExperiment();
 
-		testNumberColumnsInEDEFile(filename,9);
+		testNumberColumnsInEDEFile(filename, 9);
 	}
 
 	@Test
@@ -302,13 +306,13 @@ public class EdeScanTest {
 			}
 		}
 	}
-	
+
 	@Test
 	public void testSimpleLinearExperiment() throws Exception {
 		setup("testSimpleLinearExperiment");
-		
+
 		Vector<TimingGroup> groups = new Vector<TimingGroup>();
-		
+
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(10);
@@ -329,7 +333,7 @@ public class EdeScanTest {
 		group3.setTimePerScan(0.01);
 		group3.setNumberOfScansPerFrame(5);
 		groups.add(group3);
-		
+
 		EdeScanParameters params = new EdeScanParameters();
 		params.setGroups(groups);
 
@@ -337,19 +341,32 @@ public class EdeScanTest {
 		ScannableMotor yScannable = createMotor("yScannable");
 
 		EdeScanPosition inBeam = new ExplicitScanPositions(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
-		EdeScanPosition outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
-				yScannable);
+		EdeScanPosition outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable, yScannable);
 
-		
-		EdeLinearExperiment theExperiment = new EdeLinearExperiment(params,outBeam,inBeam,xh);
+		EdeLinearExperiment theExperiment = new EdeLinearExperiment(params, outBeam, inBeam, xh);
 		String filename = theExperiment.runExperiment();
-		
-		testNumberColumnsInEDEFile(filename,7);
-		testNumberColumnsInEDEFile(theExperiment.getI0Filename(),7);
-		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(),7);
-		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(),7);
+
+		testNumberColumnsInEDEFile(filename, 8);
+		testNumberLinesInEDEFile(filename, 1024 * 25);
+		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
+		testNumberLinesInEDEFile(theExperiment.getI0Filename(), 1024 * 3 * 2);
+		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(), 8);
+		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), 1024 * 25);
+		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(), 8);
+		testNumberLinesInEDEFile(theExperiment.getItAveragedFilename(), 1024 * 25);
 	}
-	
+
+	private void testNumberLinesInEDEFile(String filename, int numExpectedLines) throws IOException {
+		List<String> lines = Files.readAllLines(Paths.get(filename), Charset.defaultCharset());
+
+		int numDataLines = 0;
+		for (String line : lines) {
+			if (!line.startsWith("#"))
+				numDataLines++;
+		}
+		assertEquals(numExpectedLines, numDataLines);
+	}
+
 	private ScannableMotor createMotor(String name) throws MotorException, FactoryException {
 		DummyMotor xMotor = new DummyMotor();
 		xMotor.setSpeed(5000);
