@@ -67,10 +67,20 @@ public class SingleSpectrumModel extends ObservableModel {
 	public static final String FILE_NAME_PROP_NAME = "fileName";
 	private String fileName;
 
+
+
+	public static final String IREF_X_POSITION_PROP_NAME = "iRefxPosition";
+	private double iRefxPosition;
+
+	public static final String IREF_Y_POSITION_PROP_NAME = "iRefyPosition";
+	private double iRefyPosition;
+
 	public static final String SCANNING_PROP_NAME = "scanning";
 	private boolean scanning;
 
 	private final ScanJob job;
+
+	private String fileTemplate = "Unknown_cal_";
 
 	protected SingleSpectrumModel() {
 		Scannable scannable = Finder.getInstance().find("alignment_stage");
@@ -91,7 +101,7 @@ public class SingleSpectrumModel extends ObservableModel {
 
 	private String buildScanCommand() {
 		return String.format("from gda.scan.ede.drivers import SingleSpectrumDriver;" +
-				"scan_driver = SingleSpectrumDriver(\"%s\",%f,%d,%f,%d);" +
+				"scan_driver = SingleSpectrumDriver(\"%s\",%f,%d,%f,%d,\"%s\");" +
 				"scan_driver.setInBeamPosition(%f,%f);" +
 				"scan_driver.setOutBeamPosition(%f,%f)",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
@@ -99,6 +109,7 @@ public class SingleSpectrumModel extends ObservableModel {
 				i0NumberOfAccumulations,
 				itIntegrationTime,
 				itNumberOfAccumulations,
+				fileTemplate,
 				i0xPosition, i0yPosition,
 				iTxPosition, iTyPosition);
 	}
@@ -116,6 +127,10 @@ public class SingleSpectrumModel extends ObservableModel {
 		public String getText() {
 			return text;
 		}
+	}
+
+	public void setCurrentElement(String elementSymbol) {
+		fileTemplate = elementSymbol + "_cal_%s";
 	}
 
 	private class ScanJob extends Job implements IObserver {
@@ -145,7 +160,7 @@ public class SingleSpectrumModel extends ObservableModel {
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
 			this.monitor = monitor;
-			Display.getDefault().asyncExec(new Runnable() {
+			Display.getDefault().syncExec(new Runnable() {
 				@Override
 				public void run() {
 					SingleSpectrumModel.this.setScanning(true);
@@ -158,7 +173,7 @@ public class SingleSpectrumModel extends ObservableModel {
 				if (resultFileName == null) {
 					throw new Exception("Unable to do collection.");
 				}
-				Display.getDefault().asyncExec(new Runnable() {
+				Display.getDefault().syncExec(new Runnable() {
 					@Override
 					public void run() {
 						try {
@@ -172,7 +187,7 @@ public class SingleSpectrumModel extends ObservableModel {
 				UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
 			}
 			monitor.done();
-			Display.getDefault().asyncExec(new Runnable() {
+			Display.getDefault().syncExec(new Runnable() {
 				@Override
 				public void run() {
 					SingleSpectrumModel.this.setScanning(false);
@@ -196,7 +211,6 @@ public class SingleSpectrumModel extends ObservableModel {
 
 	public void setFileName(String value) {
 		firePropertyChange(FILE_NAME_PROP_NAME, fileName, fileName = value);
-		// EdeCalibrationModel.INSTANCE.getEdeData().setData(value);
 	}
 
 	public String getFileName() {
@@ -273,6 +287,22 @@ public class SingleSpectrumModel extends ObservableModel {
 
 	public void setiTyPosition(double value) {
 		firePropertyChange(IT_Y_POSITION_PROP_NAME, iTyPosition, iTyPosition = value);
+	}
+
+	public double getiRefxPosition() {
+		return iRefxPosition;
+	}
+
+	public void setiRefxPosition(double value) {
+		firePropertyChange(IREF_X_POSITION_PROP_NAME, iRefxPosition, iRefxPosition = value);
+	}
+
+	public double getiRefyPosition() {
+		return iRefyPosition;
+	}
+
+	public void setiRefyPosition(double value) {
+		firePropertyChange(IREF_Y_POSITION_PROP_NAME, iRefyPosition, iRefyPosition = value);
 	}
 
 	public void save() throws DetectorUnavailableException {

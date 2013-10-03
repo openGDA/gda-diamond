@@ -18,10 +18,13 @@
 
 package uk.ac.gda.exafs.data;
 
+import gda.configuration.properties.LocalProperties;
 import gda.device.Scannable;
 import gda.factory.Finder;
 import gda.util.exafs.Element;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -31,26 +34,24 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class ClientConfig {
 
 	public static final int KILO_UNIT = 1000;
 	public static final int DEFAULT_DECIMAL_PLACE = 3;
 	public static final String DEFAULT_DATA_PATH = "/dls/i20-1/data";
+	public static final String EDE_GUI_DATA = "ede_gui.properties";
+
+	private static final Logger logger = LoggerFactory.getLogger(ClientConfig.class);
 
 	private ClientConfig() {}
-
-	public static String roundDoubletoString(double value) {
-		return String.format("%." + DEFAULT_DECIMAL_PLACE + "f", value);
-	}
-
-	public static String roundDoubletoString(double value, int decimalPlaces) {
-		return String.format("%." + decimalPlaces + "f", value);
-	}
-
-	public static double roundDouble(double value) {
-		double defaultDecimal = Math.pow(10, DEFAULT_DECIMAL_PLACE);
-		return Math.round(value * defaultDecimal) / defaultDecimal;
-	}
 
 	public enum UnitSetup {
 		MILLI_METER("mm"),
@@ -61,6 +62,7 @@ public class ClientConfig {
 		VOLTAGE("V"),
 		MILLI_SEC("ms"),
 		SEC("s"),
+		TESLA("T"),
 
 		SELECTION("");
 
@@ -197,7 +199,7 @@ public class ClientConfig {
 		ALIGNMENT_STAGE_Y_POSITION("Alignment stage y", "alignment_y", UnitSetup.MILLI_METER),
 		ALIGNMENT_STAGE("Alignment stage", "alignment_stage", UnitSetup.SELECTION);
 
-		public static final double MAX_POWER_IN_WATT = 150.0;
+		public static final int MAX_POWER_IN_WATT = 100;
 
 		private final String scannableName;
 		private final String label;
@@ -218,7 +220,7 @@ public class ClientConfig {
 		public Scannable getScannable() throws Exception {
 			Scannable scannable = Finder.getInstance().find(scannableName);
 			if (scannable == null) {
-				throw new Exception(label + " is not connected");
+				throw new Exception(label + " object is not found on GDA server");
 			}
 			return scannable;
 		}
@@ -244,6 +246,48 @@ public class ClientConfig {
 
 		public void setUiViewer(Object uiViewer) {
 			this.uiViewer = uiViewer;
+		}
+	}
+
+	public enum EdeDataStore {
+		INSTANCE;
+
+		private PropertiesConfiguration store;
+		final GsonBuilder gsonBuilder;
+		private final Gson gson;
+
+		private EdeDataStore() {
+			gsonBuilder = new GsonBuilder();
+			gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
+			File propertiesFile = new File(LocalProperties.getVarDir(), EDE_GUI_DATA);
+			store = new PropertiesConfiguration();
+			store.setDelimiterParsingDisabled(true);
+			store.setAutoSave(true);
+			store.setFile(propertiesFile);
+			try {
+				if (!propertiesFile.exists()) {
+					propertiesFile.createNewFile();
+				}
+				store.load();
+			} catch (IOException | ConfigurationException e) {
+				logger.error("Unable to setup data store for Ede client", e);
+			}
+		}
+
+		public <T> T loadConfiguration(String key, Class<T> classType) {
+			if (store != null) {
+				String data = store.getString(key);
+				if (data != null) {
+					return gson.fromJson(data, classType);
+				}
+			}
+			return null;
+		}
+
+		public <T> void saveConfiguration(String key, T data) {
+			if (store != null) {
+				store.setProperty(key, gson.toJson(data));
+			}
 		}
 	}
 }

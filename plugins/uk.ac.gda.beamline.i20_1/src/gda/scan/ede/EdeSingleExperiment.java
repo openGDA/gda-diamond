@@ -19,11 +19,14 @@
 package gda.scan.ede;
 
 import gda.device.detector.StripDetector;
-import gda.jython.InterfaceProvider;
+import gda.scan.EdeScan;
+import gda.scan.MultiScan;
+import gda.scan.ScanBase;
+import gda.scan.ede.datawriters.EdeSingleSpectrumAsciiFileWriter;
 import gda.scan.ede.position.EdeScanPosition;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.List;
+import java.util.Vector;
 
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
@@ -34,26 +37,22 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
  * The I0 timing can be the same as the It timing parameters, if not explicitly supplied instead. So only a single time
  * frame and timing group must be supplied. Sample environments are not taken into account here.
  * <p>
- * TODO: need to include detector calibration control somewhere in this.
+ * It will be assumed that the EdeScanParameters objects given to this class respresent a single TmingGroup producing a
+ * single spectrum.
  */
-public class EdeSingleExperiment {
+public class EdeSingleExperiment extends EdeExperiment {
 
-	private static final Logger logger = LoggerFactory.getLogger(EdeSingleExperiment.class);
+	protected final EdeScanPosition i0Position;
+	protected final EdeScanPosition itPosition;
+	protected final EdeScanParameters i0ScanParameters;
+	protected final EdeScanParameters itScanParameters;
+	protected final Boolean runItDark;
+	protected final StripDetector theDetector;
 
 	private EdeScan i0DarkScan;
 	private EdeScan itDarkScan;
 	private EdeScan i0InitialScan;
 	private EdeScan itScan;
-	// EdeScan i0FinalScan;
-
-	private final EdeScanPosition i0Position;
-	private final EdeScanPosition itPosition;
-	private final EdeScanParameters i0ScanParameters;
-	private final EdeScanParameters itScanParameters;
-	private final Boolean runItDark;
-
-	// private EdeDataWriter asciiDataWriter;
-	private final StripDetector theDetector;
 
 	/**
 	 * Use when the I0 and It timing parameters are different.
@@ -96,12 +95,13 @@ public class EdeSingleExperiment {
 		validateTimingParameters();
 	}
 
-	private void log (String message){
-		InterfaceProvider.getTerminalPrinter().print(message);
-		logger.info(message);
-	}
-
-	private void validateTimingParameters() {
+	protected void validateTimingParameters() {
+		if (i0ScanParameters.getGroups().size() != 1) {
+			throw new IllegalArgumentException("Only one timing group must be used in this type of scan!");
+		}
+		if (i0ScanParameters.getGroups().get(0).getNumberOfFrames() != 1) {
+			throw new IllegalArgumentException("Only one frame must be used in this type of scan!");
+		}
 		if (itScanParameters.getGroups().size() != 1) {
 			throw new IllegalArgumentException("Only one timing group must be used in this type of scan!");
 		}
@@ -110,43 +110,38 @@ public class EdeSingleExperiment {
 		}
 	}
 
-	/**
-	 * Run the scans and write the data files.
-	 * <p>
-	 * Should not return until data collection completed.
-	 * 
-	 * @throws Exception
-	 */
+	@Override
 	public String runExperiment() throws Exception {
 		runScans();
-		EdeAsciiFileWriter writer = new EdeAsciiFileWriter(i0InitialScan,itScan,i0DarkScan,itDarkScan,theDetector);
+		EdeSingleSpectrumAsciiFileWriter writer = new EdeSingleSpectrumAsciiFileWriter(i0InitialScan, itScan,
+				i0DarkScan, itDarkScan, theDetector);
+		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
+			writer.setFilenameTemplate(filenameTemplate);
+		}
 		writer.writeAsciiFile();
 		log("EDE single spectrum experiment complete.");
 		return writer.getAsciiFilename();
 	}
 
 	private void runScans() throws Exception {
+		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 1);
 		if (runItDark) {
-			log("Running I0 Dark scan...");
-		} else {
-			log("Running Dark scan...");
-		}
-		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector);
-		i0DarkScan.runScan();
-		if (runItDark) {
-			log("Running It Dark scan...");
-			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector);
-			itDarkScan.runScan();
+			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector, 1);
 		} else {
 			itDarkScan = i0DarkScan;
 		}
-		log("Running I0 scan...");
-		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector);
-		i0InitialScan.runScan();
-		log("Running It scan...");
-		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector);
-		itScan.runScan();
-		// i0FinalScan = new EdeScan(itScanParameters, i0Position, EdeScanType.LIGHT, theDetector);
-		// i0FinalScan.runScan();
+		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1);
+		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1);
+
+		List<ScanBase> theScans = new Vector<ScanBase>();
+		theScans.add(i0DarkScan);
+		if (runItDark) {
+			theScans.add(itDarkScan);
+		}
+		theScans.add(i0InitialScan);
+		theScans.add(itScan);
+
+		MultiScan theScan = new MultiScan(theScans);
+		theScan.runScan();
 	}
 }

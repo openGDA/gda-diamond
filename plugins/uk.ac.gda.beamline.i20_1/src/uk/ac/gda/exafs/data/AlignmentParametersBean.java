@@ -30,17 +30,17 @@ public class AlignmentParametersBean implements Serializable {
 
 	public static String[] ME2Stripe = new String[] { "Out of beam", "Silicon", "Rhodium" };
 
-	public static String[] ATN1 = new String[] { "none", "PyroC1", "PyroC2", "PyroC4", "PyroC6", "PyroC8" };
+	public static String[] ATN1 = new String[] { "Empty", "pC 0.1mm", "pC 0.2mm", "pC 0.4mm", "pC 0.6mm", "pC 0.8mm" };
 
 	public static String[] ATN1Values = new String[] { "none", "Pyro-C 0.1mm", "Pyro-C 0.2mm", "Pyro-C 0.4mm",
 		"Pyro-C 0.6mm", "Pyro-C 0.8mm" };
 
-	public static String[] ATN2 = new String[] { "none", "PyroC1", "PyroC10", "PyroC20", "SiC2", "SiC4" };
+	public static String[] ATN2 = new String[] { "Empty", "pC 0.1mm", "pC 1.0mm", "pC 2.0mm", "SiC 0.2mm", "SiC 0.4mm" };
 
 	public static String[] ATN2Values = new String[] { "none", "Pyro-C 0.1mm", "Pyro-C 1.0mm", "Pyro-C 2.0mm",
 		"SiC 0.2mm", "SiC 0.4mm" };
 
-	public static String[] ATN3 = new String[] { "none", "PyroC10", "PyroC20", "SiC6", "SiC15" };
+	public static String[] ATN3 = new String[] { "Empty", "pC 1.0mm", "pC 2.0mm", "pC 0.6mm", "SiC1.5mm" };
 
 	public static String[] ATN3Values = new String[] { "none", "Pyro-C 1.0mm", "Pyro-C 2.0mm", "SiC 0.6mm", "SiC 1.5mm" };
 

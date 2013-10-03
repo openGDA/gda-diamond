@@ -66,10 +66,10 @@
             restorable="true">
       </view>
       <view
-            allowMultiple="true"
-            class="uk.ac.gda.exafs.ui.views.SingleSpectrumView"
+            allowMultiple="false"
+            class="uk.ac.gda.exafs.ui.views.AlignmentSingleSpectrumView"
             icon="icons/1-star.gif"
-            id="uk.ac.gda.exafs.ui.views.singlespectrumview"
+            id="uk.ac.gda.exafs.ui.views.alignmentSingleSpectrumView"
             name="Single Collection"
             restorable="true">
       </view>
@@ -83,7 +83,7 @@
             allowMultiple="false"
             class="uk.ac.gda.exafs.ui.views.DetectorLiveModeView"
             icon="icons/chart_curve.png"
-            id="uk.ac.diamond.scisoft.analysis.rcp.liveModePlot"
+            id="uk.ac.gda.exafs.ui.views.DetectorLiveModeView"
             name="Live Mode"
             restorable="true">
       </view>
@@ -117,6 +117,25 @@
             name="Single spectrum plot"
             restorable="true">
       </view>
+      <view
+            class="uk.ac.gda.exafs.ui.views.ExperimentSingleSpectrumView"
+            icon="icons/1-star.gif"
+            id="uk.ac.gda.exafs.ui.views.experimentSingleSpectrumView"
+            name="Single Collection"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.exafs.ui.views.LinearExperimentView"
+            id="uk.ac.gda.exafs.ui.views.linearExperimentView"
+            name="Linear experiment"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.exafs.ui.views.LinearExperimentPlotView"
+            id="uk.ac.gda.exafs.ui.views.LinearExperimentPlotView"
+            name="Linear Experiment Plot"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
@@ -138,5 +157,172 @@
       </initializer>
    </extension>
    
+      
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Camera D10 Views"
+            id="uk.ac.gda.beamline.i20"/>                     
+      <view
+            allowMultiple="false"
+            class="uk.ac.gda.epics.adviewer.views.HistogramViewCreator:d10ADController"
+            category="uk.ac.gda.beamline.i20"
+            id="uk.ac.gda.beamline.i20-1.D10AreaDetectorProfileView"
+            name="D10 Image Profile View">
+      </view>                       
+      <view
+            allowMultiple="false"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayViewCreator:d10ADController"
+            category="uk.ac.gda.beamline.i20"
+            id="uk.ac.gda.beamline.i20-1.D10AreaDetectorArrayView"
+            name="D10 Image View">
+      </view>
+      <view
+            allowMultiple="false"
+            class="uk.ac.gda.epics.adviewer.views.MJPegViewCreator:d10ADController"
+            category="uk.ac.gda.beamline.i20"
+            id="uk.ac.gda.beamline.i20-1.D10AreaDetectorLiveView"
+            name="D10 Live View">
+      </view>                       
+   </extension>
+
+   <extension
+      name="d10"
+      point="org.eclipse.ui.menus">
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i20-1.D10AreaDetectorArrayView">
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+            label="Set Exposure"
+            style="push">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="d10ADController">
+         </parameter>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i20-1.D10AreaDetectorProfileView">
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+            label="Set Exposure"
+            style="push">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="d10ADController">
+         </parameter>
+      </command>
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
+            label="Set LiveView Scale"
+            style="push">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="d10ADController">
+         </parameter>
+      </command>
+      <command
+            commandId="org.eclipse.ui.views.showView"
+            label="Show Live View"
+            style="push">
+         <parameter
+               name="org.eclipse.ui.views.showView.viewId"
+               value="uk.ac.gda.beamline.i20-1.D10AreaDetectorLiveView">
+         </parameter>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i20-1.D10AreaDetectorLiveView">
+      <command
+            commandId="uk.ac.gda.epics.adviewer.command.zoomToFit"
+            label="Zoom To Fit"
+            style="push"
+            tooltip="Zoom To Fit">
+      </command>
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+            label="Set Exposure"
+            style="push"
+            tooltip="Set Exposure">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="d10ADController">
+         </parameter>
+      </command>
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
+            label="Set LiveView Scale"
+            style="push"
+            tooltip="Set LiveView Scale">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="d10ADController">
+         </parameter>
+      </command>
+      <command
+            commandId="org.eclipse.ui.views.showView"
+            label="Show Profile View"
+            style="push"
+            tooltip="Show Profile ">
+         <parameter
+               name="org.eclipse.ui.views.showView.viewId"
+               value="uk.ac.gda.beamline.i20-1.D10AreaDetectorProfileView">
+         </parameter>
+      </command>
+      <command
+            commandId="org.eclipse.ui.views.showView"
+            label="Show Image View"
+            style="push"
+            tooltip="Show Full Image">
+         <parameter
+               name="org.eclipse.ui.views.showView.viewId"
+               value="uk.ac.gda.beamline.i20-1.D10AreaDetectorArrayView">
+         </parameter>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.exafs.ui.views.calibrationEdeData">
+      <command
+            commandId="uk.ac.gda.beamline.i20_1.calibration.reset"
+            label="Reset"
+            style="push">
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.exafs.ui.views.DetectorLiveModeView">
+      <command
+            commandId="uk.ac.gda.beamline.i20_1.plottingRescale.command"
+            label="Re scale"
+            style="push">
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.exafs.ui.views.calibrationreference">
+      <command
+            commandId="uk.ac.gda.beamline.i20_1.calibration.reset"
+            label="Reset"
+            style="push">
+      </command>
+   </menuContribution>
+</extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="uk.ac.gda.exafs.ui.views.commandhandlers.RescaleHandler"
+            id="uk.ac.gda.beamline.i20_1.plottingRescale.command"
+            name="Re scale">
+      </command>
+      <command
+            defaultHandler="uk.ac.gda.exafs.ui.views.commandhandlers.ResetCalibrationDataPlot"
+            id="uk.ac.gda.beamline.i20_1.calibration.reset"
+            name="Reset">
+      </command>
+   </extension>
    
 </plugin>

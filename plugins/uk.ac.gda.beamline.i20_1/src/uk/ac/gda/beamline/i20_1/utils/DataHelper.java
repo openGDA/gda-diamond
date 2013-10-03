@@ -18,6 +18,8 @@
 
 package uk.ac.gda.beamline.i20_1.utils;
 
+import uk.ac.gda.exafs.data.ClientConfig;
+
 
 public class DataHelper {
 
@@ -65,5 +67,18 @@ public class DataHelper {
 
 	public static int getDecimalPlacePowValue(int decimalPlace) {
 		return (int) Math.pow(10, decimalPlace);
+	}
+
+	public static String roundDoubletoString(double value) {
+		return String.format("%." + ClientConfig.DEFAULT_DECIMAL_PLACE + "f", value);
+	}
+
+	public static String roundDoubletoString(double value, int decimalPlaces) {
+		return String.format("%." + decimalPlaces + "f", value);
+	}
+
+	public static double roundDouble(double value) {
+		int defaultDecimal = DataHelper.getDecimalPlacePowValue(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		return Math.round(value * defaultDecimal) / (double) defaultDecimal;
 	}
 }

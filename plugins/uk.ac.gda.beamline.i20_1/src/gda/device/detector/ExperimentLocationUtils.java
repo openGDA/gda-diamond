@@ -25,25 +25,28 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
  * group/frame number (which is how experiments are defined).
  */
 public abstract class ExperimentLocationUtils {
-	/*
-	 * Given the absolute frame number, works out the group number
+	/**
+	 * Given the absolute frame number (zero-based), works out the group number (also zero based)
 	 */
 	public static Integer getGroupNum(EdeScanParameters edeScan, Integer absoluteFrameNum) {
-		
-		if (absoluteFrameNum == 0){
+
+		if (absoluteFrameNum == 0) {
 			return 0;
 		}
-		
+
 		int[] groupTotals = getGroupTotals(edeScan);
 
 		int togo = absoluteFrameNum;
 		int groupNum = 0;
 
-		while (togo >= 0) {
+		while (togo > 0) {
 			togo -= groupTotals[groupNum];
 			groupNum++;
 		}
-		return groupNum - 1;
+		if (togo == 0){
+			return groupNum;
+		}
+		return groupNum -1;
 	}
 
 	private static int[] getGroupTotals(EdeScanParameters edeScan) {
@@ -55,33 +58,36 @@ public abstract class ExperimentLocationUtils {
 		return totals;
 	}
 
-	/*
-	 * Given the absolute frame number, works out the frame number within the relevant group
+	/**
+	 * Given the absolute frame number (zero-based), works out the frame number within the relevant group (also zero based)
 	 */
 	public static Integer getFrameNum(EdeScanParameters edeScan, Integer absoluteFrameNum) {
-		
-		if (absoluteFrameNum == 0){
+
+		if (absoluteFrameNum == 0) {
 			return 0;
 		}
-		
+
 		int[] groupTotals = getGroupTotals(edeScan);
 		int togo = absoluteFrameNum;
 		int groupNum = 0;
 
-		while (togo >= 0) {
+		do {
+			// subtract the number in each group in turn
 			togo -= groupTotals[groupNum];
 			groupNum++;
+		} while (togo > 0);
+
+		// if we have dropped to zero or below then we know the group the frame is in, so correct by the number of frames in that group
+
+		if (togo < 0){
+			return togo + groupTotals[groupNum-1];
 		}
-		
-		return togo + groupTotals[groupNum -1];
+		return 0;
+
 	}
 
 	public static Integer getAbsoluteFrameNumber(EdeScanParameters edeScan, ExperimentLocation loc) {
-		
-		if (loc.groupNum == -1){
-			return -1;
-		}
-		
+
 		int[] groupTotals = getGroupTotals(edeScan);
 		int groupNum = 0;
 		int absFrameNum = 0;
@@ -90,7 +96,8 @@ public abstract class ExperimentLocationUtils {
 			absFrameNum += groupTotals[groupNum];
 			groupNum++;
 		}
-		absFrameNum += loc.frameNum;
+
+		absFrameNum += (loc.frameNum);
 
 		return absFrameNum;
 	}

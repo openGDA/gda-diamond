@@ -171,7 +171,10 @@ def _calcPrimarySlits(parametersBean):
     
     alpha_mrad = alpha_rad * 1000
     
-    parametersBean.setPrimarySlitGap(alpha_mrad)
+    if alpha_mrad > 1.6: # If calculated size is > 1.6mrand then fixed to 1.6mrand
+        parametersBean.setPrimarySlitGap(1.6)
+    else:
+        parametersBean.setPrimarySlitGap(alpha_mrad)
     
     return parametersBean
 

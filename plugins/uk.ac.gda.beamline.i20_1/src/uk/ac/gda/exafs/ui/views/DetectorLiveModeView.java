@@ -18,7 +18,6 @@
 
 package uk.ac.gda.exafs.ui.views;
 
-
 import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
@@ -39,6 +38,8 @@ import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class DetectorLiveModeView extends ViewPart {
 
+	public static final String ID = "uk.ac.gda.exafs.ui.views.DetectorLiveModeView";
+
 	private XHControlComposite controlComposite;
 	private IPlottingSystem plottingSystem;
 
@@ -51,9 +52,11 @@ public class DetectorLiveModeView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		try {
-			plottingSystem = PlottingFactory.createPlottingSystem();
+			if (plottingSystem == null) {
+				plottingSystem = PlottingFactory.createPlottingSystem();
+			}
 		} catch (Exception e) {
-			// TODO Handle
+			UIHelper.showError("Unable to create plotting system", e.getMessage());
 			return;
 		}
 		Composite composite = new Composite(parent, SWT.None);
@@ -88,7 +91,7 @@ public class DetectorLiveModeView extends ViewPart {
 
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class clazz) {
-		if (clazz == IToolPageSystem.class) {
+		if (clazz == IToolPageSystem.class || clazz == IPlottingSystem.class) {
 			return plottingSystem;
 		}
 		return super.getAdapter(clazz);
