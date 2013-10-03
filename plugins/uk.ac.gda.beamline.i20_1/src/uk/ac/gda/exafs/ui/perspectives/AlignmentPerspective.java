@@ -25,11 +25,12 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IViewLayout;
 
+import uk.ac.gda.exafs.ui.views.AlignmentSingleSpectrumView;
 import uk.ac.gda.exafs.ui.views.AlignmentStageCalibrationView;
 import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
+import uk.ac.gda.exafs.ui.views.DetectorLiveModeView;
 import uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView;
 import uk.ac.gda.exafs.ui.views.FocusingView;
-import uk.ac.gda.exafs.ui.views.AlignmentSingleSpectrumView;
 
 /**
  * Shows recent data from the XH detector for I20-1 EDE branchline.
@@ -37,10 +38,6 @@ import uk.ac.gda.exafs.ui.views.AlignmentSingleSpectrumView;
 public class AlignmentPerspective implements IPerspectiveFactory {
 
 	public static final String ID = "uk.ac.gda.beamline.i20_1.AlignmentPerspective";
-
-	// plot where snapshot spectra placed
-	public static String SPECTRAPLOTID =  "uk.ac.diamond.scisoft.analysis.rcp.liveModePlot";
-	public static String SPECTRAPLOTNAME =  "Live Mode";
 
 	public static String SINGLE_SPECTRUM_PLOT_VIEW_NAME = "Single spectrum plot";
 	public static String SINGLE_SPECTRUM_PLOT_VIEW_ID = "uk.ac.gda.beamline.i20_1.SingleSpectrumPlot";
@@ -71,7 +68,7 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		focusingControlsFolder.addView(AlignmentStageCalibrationView.ID);
 
 		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, FOCUSING_CONTROLS_FOLDER_ID);
-		topPlotFolder.addView(SPECTRAPLOTID);
+		topPlotFolder.addView(DetectorLiveModeView.ID);
 		topPlotFolder.addPlaceholder(SINGLE_SPECTRUM_PLOT_VIEW_ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.REFERENCE_ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.EDE_ID);

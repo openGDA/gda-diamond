@@ -19,7 +19,9 @@
 package uk.ac.gda.exafs.ui.composites;
 
 import gda.device.DeviceException;
+import gda.device.ScannableMotion;
 import gda.device.ScannableMotionUnits;
+import gda.device.scannable.ScannableMotionBase;
 
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
@@ -47,6 +49,13 @@ public class MotorPositionEditorControl extends NumberEditorControl {
 		}
 		this.setCommitOnOutOfFocus(false);
 		this.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		if (scannableWrapper.getScannable() instanceof ScannableMotion) {
+			ScannableMotion scannable = (ScannableMotion) scannableWrapper.getScannable();
+			Double[] limits = ScannableMotionBase.getInputLimits(scannable, 0);
+			if (limits != null) {
+				this.setToolTipText("Min: " + limits[0] + ", Max:" + limits[1]);
+			}
+		}
 	}
 
 	@Override

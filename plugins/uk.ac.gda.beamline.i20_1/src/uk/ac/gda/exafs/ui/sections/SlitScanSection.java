@@ -82,7 +82,6 @@ public class SlitScanSection {
 			NumberEditorControl spnFromOffset = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScannerModel.getInstance(), SlitScannerModel.FROM_OFFSET_PROP_NAME, true);
 			spnFromOffset.setUnit(UnitSetup.MILLI_METER.getText());
 			spnFromOffset.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-			spnFromOffset.setIncrement(1 * (int) Math.pow(10, ClientConfig.DEFAULT_DECIMAL_PLACE));
 			spnFromOffset.setLayoutData(gridDataForTxt);
 
 			lbl = toolkit.createLabel(slitsParametersSelectionComposite, "To", SWT.NONE);
@@ -91,7 +90,6 @@ public class SlitScanSection {
 			NumberEditorControl spnToOffset = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScannerModel.getInstance(), SlitScannerModel.TO_OFFSET_PROP_NAME, true);
 			spnToOffset.setUnit(UnitSetup.MILLI_METER.getText());
 			spnToOffset.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-			spnToOffset.setIncrement(1 * (int) Math.pow(10, ClientConfig.DEFAULT_DECIMAL_PLACE));
 			spnToOffset.setLayoutData(gridDataForTxt);
 
 			lbl = toolkit.createLabel(slitsParametersSelectionComposite, "Step size", SWT.NONE);
@@ -100,7 +98,6 @@ public class SlitScanSection {
 			NumberEditorControl txtStep = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScannerModel.getInstance(), SlitScannerModel.STEP_PROP_NAME, true);
 			txtStep.setUnit(UnitSetup.MILLI_METER.getText());
 			txtStep.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-			txtStep.setIncrement(1 * (int) Math.pow(10, ClientConfig.DEFAULT_DECIMAL_PLACE));
 			txtStep.setLayoutData(gridDataForTxt);
 
 			lbl = toolkit.createLabel(slitsParametersSelectionComposite, "Integration time", SWT.NONE);
@@ -109,7 +106,6 @@ public class SlitScanSection {
 			NumberEditorControl integrationTime = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScannerModel.getInstance(), SlitScannerModel.INTEGRATION_TIME_PROP_NAME, true);
 			integrationTime.setUnit(UnitSetup.MILLI_SEC.getText());
 			integrationTime.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-			integrationTime.setIncrement(1 * (int) Math.pow(10, ClientConfig.DEFAULT_DECIMAL_PLACE));
 			integrationTime.setLayoutData(gridDataForTxt);
 
 			Composite scanButtons = toolkit.createComposite(slitsParametersSelectionComposite);
@@ -159,7 +155,7 @@ public class SlitScanSection {
 			stopButton.addListener(SWT.Selection, new Listener() {
 				@Override
 				public void handleEvent(Event event) {
-					SlitScannerModel.getInstance().doStop();
+					SlitScannerModel.getInstance().stopScan();
 				}
 			});
 

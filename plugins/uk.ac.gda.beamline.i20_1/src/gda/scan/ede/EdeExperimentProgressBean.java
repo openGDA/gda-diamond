@@ -1,0 +1,49 @@
+/*-
+ * Copyright © 2013 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package gda.scan.ede;
+
+import java.io.Serializable;
+
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+
+public class EdeExperimentProgressBean implements Serializable {
+
+	private final EdeScanProgressBean progress;
+	private final DoubleDataset normalisedIt;
+	private final DoubleDataset energyData;
+
+	public EdeExperimentProgressBean(EdeScanProgressBean progress, DoubleDataset normalisedIt, DoubleDataset energyData) {
+		this.progress = progress;
+		this.normalisedIt = normalisedIt;
+		this.energyData = energyData;
+	}
+
+	public EdeScanProgressBean getProgress() {
+		return progress;
+	}
+
+	public DoubleDataset getNormalisedIt() {
+		return normalisedIt;
+	}
+
+	public DoubleDataset getEnergyData() {
+		return energyData;
+	}
+
+}

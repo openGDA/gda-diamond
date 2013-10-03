@@ -95,7 +95,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 
 	private void createI0File() throws Exception {
 
-		i0Filename = determineAsciiFilename("_I0_raw.txt");
+		i0Filename = determineAsciiFilename("_I0_raw" + ASCII_FILE_EXTENSION);
 		File asciiFile = new File(i0Filename);
 		if (asciiFile.exists()) {
 			throw new Exception("File " + i0Filename + " already exists!");
@@ -112,14 +112,14 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			int numberOfTimingGroups = getNumberOfTimingGroups();
 
 			for (int timingGroup = 0; timingGroup < numberOfTimingGroups; timingGroup++) {
-				DoubleDataset i0DarkDataSet = extractDetectorDataSets(i0DarkScan, timingGroup);
-				DoubleDataset i0InitialDataSet = extractDetectorDataSets(i0InitialScan, timingGroup);
+				DoubleDataset i0DarkDataSet = extractDetectorDataSets(theDetector.getName(), i0DarkScan, timingGroup);
+				DoubleDataset i0InitialDataSet = extractDetectorDataSets(theDetector.getName(), i0InitialScan, timingGroup);
 				writeI0Spectrum(writer, timingGroup, i0DarkDataSet, i0InitialDataSet, true);
 			}
 
 			for (int timingGroup = 0; timingGroup < numberOfTimingGroups; timingGroup++) {
-				DoubleDataset i0DarkDataSet = extractDetectorDataSets(i0DarkScan, timingGroup);
-				DoubleDataset i0FinalDataSet = extractDetectorDataSets(i0FinalScan, timingGroup);
+				DoubleDataset i0DarkDataSet = extractDetectorDataSets(theDetector.getName(), i0DarkScan, timingGroup);
+				DoubleDataset i0FinalDataSet = extractDetectorDataSets(theDetector.getName(), i0FinalScan, timingGroup);
 				writeI0Spectrum(writer, timingGroup, i0DarkDataSet, i0FinalDataSet, false);
 			}
 
@@ -141,7 +141,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			Double i0_corrected = i0Raw - i0DK;
 
 			StringBuffer stringToWrite = new StringBuffer(i0_type_label + "\t" + timingGroup + "\t" + channel + "\t");
-			stringToWrite.append(String.format("%.2f", getEnergyForChannel(channel)) + "\t");
+			stringToWrite.append(String.format("%.2f", theDetector.getEnergyForChannel(channel)) + "\t");
 			stringToWrite.append(String.format("%.2f", i0_corrected) + "\t");
 			stringToWrite.append(String.format("%.2f", i0Raw) + "\t");
 			stringToWrite.append(String.format("%.2f", i0DK) + "\n");
@@ -150,9 +150,9 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 	}
 
 	private void createItFiles() throws Exception {
-		itFilename = createItFile(i0InitialScan, null, "_It_raw.txt");
-		itFinalFilename = createItFile(i0FinalScan, null, "_It_raw_finali0.txt");
-		itAveragedFilename = createItFile(i0InitialScan, i0FinalScan, "_It_raw_averagedi0.txt");
+		itFilename = createItFile(i0InitialScan, null, "_It_raw" + ASCII_FILE_EXTENSION);
+		itFinalFilename = createItFile(i0FinalScan, null, "_It_raw_finali0" + ASCII_FILE_EXTENSION);
+		itAveragedFilename = createItFile(i0InitialScan, i0FinalScan, "_It_raw_averagedi0" + ASCII_FILE_EXTENSION);
 	}
 
 	private String createItFile(EdeScan firstI0Scan, EdeScan secondI0Scan, String fileSuffix) throws Exception {
@@ -160,14 +160,14 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		String filename = determineAsciiFilename(fileSuffix);
 		File asciiFile = new File(filename);
 		if (asciiFile.exists()) {
-			throw new Exception("File " + itFilename + " already exists!");
+			throw new Exception("File " + filename + " already exists!");
 		}
 		asciiFile.createNewFile();
 
 		FileWriter writer = null;
 		try {
 			writer = new FileWriter(asciiFile);
-			log("Writing EDE format ascii file for It data: " + itFilename);
+			log("Writing EDE format ascii file for It data: " + filename);
 			writer.write("#" + TIMINGGROUP_COLUMN_NAME + "\t" + STRIP_COLUMN_NAME + "\t" + ENERGY_COLUMN_NAME + "\t"
 					+ IT_CORR_COLUMN_NAME + "\t" + LN_I0_IT_COLUMN_NAME + "\t" + IT_RAW_COLUMN_NAME + "\t"
 					+ IT_DARK_COLUMN_NAME + "\n");
@@ -191,11 +191,11 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 
 	private void deriveAndWriteSpectrum(FileWriter writer, int timingGroupIndex, EdeScan darkScan,
 			EdeScan transmissionScan, EdeScan firstI0Scan, EdeScan secondI0Scan) throws IOException {
-		DoubleDataset darkDataSet = extractDetectorDataSets(darkScan, timingGroupIndex);
-		DoubleDataset i0FirstDataSet = extractDetectorDataSets(firstI0Scan, timingGroupIndex);
-		DoubleDataset itDataSet = extractDetectorDataSets(transmissionScan, timingGroupIndex);
+		DoubleDataset darkDataSet = extractDetectorDataSets(theDetector.getName(), darkScan, timingGroupIndex);
+		DoubleDataset i0FirstDataSet = extractDetectorDataSets(theDetector.getName(), firstI0Scan, timingGroupIndex);
+		DoubleDataset itDataSet = extractDetectorDataSets(theDetector.getName(), transmissionScan, timingGroupIndex);
 		if (secondI0Scan != null) {
-			DoubleDataset i0SecondDataSet = extractDetectorDataSets(secondI0Scan, timingGroupIndex);
+			DoubleDataset i0SecondDataSet = extractDetectorDataSets(theDetector.getName(), secondI0Scan, timingGroupIndex);
 			DoubleDataset i0DataSet_averaged = i0FirstDataSet.iadd(i0SecondDataSet).idivide(2);
 			i0FirstDataSet = i0DataSet_averaged;
 		}
@@ -214,7 +214,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			Double lni0it = calcLnI0It(i0_corrected, it_corrected);
 
 			StringBuffer stringToWrite = new StringBuffer(timingGroup + "\t" + channel + "\t");
-			stringToWrite.append(String.format("%.2f", getEnergyForChannel(channel)) + "\t");
+			stringToWrite.append(String.format("%.2f", theDetector.getEnergyForChannel(channel)) + "\t");
 			stringToWrite.append(String.format("%.2f", it_corrected) + "\t");
 			stringToWrite.append(String.format("%.2f", lni0it) + "\t");
 			stringToWrite.append(String.format("%.2f", itRaw) + "\t");

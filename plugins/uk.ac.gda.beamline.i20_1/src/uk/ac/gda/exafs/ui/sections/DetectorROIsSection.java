@@ -60,10 +60,10 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
-public class DetectorROIsSesion {
+public class DetectorROIsSection {
 	private static final int ROIS_TABLE_HEIGHT = 150;
 	private static final int ROIs_TABLE_WIDTH = 70;
-	public static final DetectorROIsSesion INSTANCE = new DetectorROIsSesion();
+	public static final DetectorROIsSection INSTANCE = new DetectorROIsSection();
 
 	private DataBindingContext dataBindingCtx = null;
 
@@ -73,7 +73,7 @@ public class DetectorROIsSesion {
 	protected Binding cmbFirstStripViewerBinding;
 	protected Binding cmbLastStripViewerBinding;
 
-	private DetectorROIsSesion() {}
+	private DetectorROIsSection() {}
 
 	@SuppressWarnings({ "static-access" })
 	public void createSection(Form form, FormToolkit toolkit) {
@@ -164,6 +164,7 @@ public class DetectorROIsSesion {
 		// viewerUpperLevelColumn.setEditingSupport(new RoisStripLevelEditorSupport(roisTableViewer, true));
 		viewerUpperLevelColumn.getColumn().setText("Upper level");
 		layout.setColumnData(viewerUpperLevelColumn.getColumn(),new ColumnWeightData(4));
+
 		toolkit.paintBordersFor(regionsTableComposit);
 
 		roisTableViewer.setInput(DetectorModel.INSTANCE.getRois());

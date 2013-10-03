@@ -34,21 +34,8 @@
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata" />
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
-<!-- 	<bean id="commandQueue" class="gda.commandqueue.CommandQueue"> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="commandQueueProcessor" class="gda.commandqueue.FindableProcessorQueue"> -->
-<!-- 		<property name="queue" ref="commandQueue" /> -->
-<!-- 		<property name="startImmediately" value="false" /> -->
-<!-- 		<property name="pauseWhenQueueEmpty" value="true" /> -->
-<!-- 		<property name="logFilePath" value="${gda.logs.dir}/commandQueueProcessor.log" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter"> -->
-<!-- 		<property name="serviceName" value="gda/commandQueueProcessor" /> -->
-<!-- 		<property name="service" ref="commandQueueProcessor" /> -->
-<!-- 		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" /> -->
-<!-- 	</bean> -->
-
+<!-- This is used to broadcast progress information and normalised spectra for display to the UI during linear and cyclic experiments -->
+	<bean id="EDEProgressUpdater" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
 	<corba:export namespace="i20-1" />
 </beans>

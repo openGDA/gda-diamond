@@ -33,6 +33,11 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class EdeExperiment {
 
+	/**
+	 * The name of the ScriptController object which is sent progress information and normalised spectra by experiments
+	 */
+	public static final String PROGRESS_UPDATER_NAME = "EDEProgressUpdater";
+
 	private static final Logger edelogger = LoggerFactory.getLogger(EdeSingleExperiment.class);
 
 	protected String filenameTemplate = "";

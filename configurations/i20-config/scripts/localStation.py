@@ -51,12 +51,11 @@ from gda.device.scannable import TwoDScanPlotter
 twodplotter = TwoDScanPlotter()
 twodplotter.setName("twodplotter")
 
+# change this between test and bragg1
+energy_scanning_motor = bragg1
 
-# bragg1
-#xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, bragg1, ionchambers, True, True, True, False)
-# testing version:
-xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, test, ionchambers, True, True, True, False)
-xes = I20XesScan(xas,XASLoggingScriptController,detectorPreparer, samplePreparer, outputPreparer,commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,test,XESEnergy,XESBragg)
+xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, energy_scanning_motor, ionchambers, True, True, True, False)
+xes = I20XesScan(xas,XASLoggingScriptController,detectorPreparer, samplePreparer, outputPreparer,commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,energy_scanning_motor,XESEnergy,XESBragg)
 xanes = xas
 
 alias("xas")
@@ -163,7 +162,7 @@ if LocalProperties.get("gda.mode") == "live":
     FFI0.setInputNames([])
     
     run "vortexLiveTime"
-    testVortexWiredCorrectly()
+   # testVortexWiredCorrectly()
     
     # the script to run the mono calibration
     import mono_calibration 

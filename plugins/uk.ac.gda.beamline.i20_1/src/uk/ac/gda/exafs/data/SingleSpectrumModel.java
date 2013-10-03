@@ -67,7 +67,7 @@ public class SingleSpectrumModel extends ObservableModel {
 	public static final String FILE_NAME_PROP_NAME = "fileName";
 	private String fileName;
 
-	public static final String SCANNING_PROP_NAME = "scanning";
+
 
 	public static final String IREF_X_POSITION_PROP_NAME = "iRefxPosition";
 	private double iRefxPosition;
@@ -75,11 +75,12 @@ public class SingleSpectrumModel extends ObservableModel {
 	public static final String IREF_Y_POSITION_PROP_NAME = "iRefyPosition";
 	private double iRefyPosition;
 
+	public static final String SCANNING_PROP_NAME = "scanning";
 	private boolean scanning;
 
 	private final ScanJob job;
 
-	private String fileTemplate = "Unknown_cal";
+	private String fileTemplate = "Unknown_cal_";
 
 	protected SingleSpectrumModel() {
 		Scannable scannable = Finder.getInstance().find("alignment_stage");
@@ -129,7 +130,7 @@ public class SingleSpectrumModel extends ObservableModel {
 	}
 
 	public void setCurrentElement(String elementSymbol) {
-		fileTemplate = elementSymbol + "_cal%s";
+		fileTemplate = elementSymbol + "_cal_%s";
 	}
 
 	private class ScanJob extends Job implements IObserver {
@@ -159,7 +160,7 @@ public class SingleSpectrumModel extends ObservableModel {
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
 			this.monitor = monitor;
-			Display.getDefault().asyncExec(new Runnable() {
+			Display.getDefault().syncExec(new Runnable() {
 				@Override
 				public void run() {
 					SingleSpectrumModel.this.setScanning(true);
@@ -172,7 +173,7 @@ public class SingleSpectrumModel extends ObservableModel {
 				if (resultFileName == null) {
 					throw new Exception("Unable to do collection.");
 				}
-				Display.getDefault().asyncExec(new Runnable() {
+				Display.getDefault().syncExec(new Runnable() {
 					@Override
 					public void run() {
 						try {
@@ -186,7 +187,7 @@ public class SingleSpectrumModel extends ObservableModel {
 				UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
 			}
 			monitor.done();
-			Display.getDefault().asyncExec(new Runnable() {
+			Display.getDefault().syncExec(new Runnable() {
 				@Override
 				public void run() {
 					SingleSpectrumModel.this.setScanning(false);

@@ -21,22 +21,30 @@ package uk.ac.gda.exafs.ui.data.detector;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
+
+import com.google.gson.annotations.Expose;
+
 import de.jaret.util.date.IntervalImpl;
 
 public abstract class CollectionModel extends IntervalImpl {
+
 	private static final long MIN_DURATION_TIME = 20;
 	public static final String NAME_PROP_NAME = "name";
+	@Expose
 	private String name;
 
 	public static final String START_TIME_PROP_NAME = "startTime";
+	@Expose
 	private double startTime;
 
 	public static final String DELAY_PROP_NAME = "delay";
+	@Expose
 	private double delay;
 
 	public static final String DURATION_PROP_NAME = "duration";
 
 	public static final String END_TIME_PROP_NAME = "endTime";
+	@Expose
 	private double endTime;
 
 	public double getStartTime() {
