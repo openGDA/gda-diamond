@@ -9,5 +9,41 @@
 		<property name="motor" ref="test_motor" />
 	</bean>
 
+	<bean id="topup_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="200" />
+		<property name="position" value="60"/>
+	</bean>
+
+	<bean id="absorber_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="200" />
+		<property name="position" value="1"/>
+	</bean>
+
+	<bean id="topup" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="s" />
+		<property name="motor" ref="topup_motor" />
+		<property name="hardwareUnitString" value="s" />
+	</bean>
+	<bean id="topupChecker" class="gda.device.scannable.TopupScannable">
+		<property name="scannableToBeMonitored" ref="topup" />
+		<property name="tolerance" value="10" />
+		<property name="timeout" value="60" />
+		<property name="waittime" value="10" />
+		<property name="level" value="0" />
+		<property name="pauseBeforePoint" value="true" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="absorber" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="absorber_motor" />
+	</bean>
+	<bean id="absorberChecker" class="gda.device.scannable.CheckingScannable">
+		<property name="scannable" ref="absorber" />
+		<property name="value" value="1" />
+		<property name="level" value="0" />
+		<property name="pauseBeforePoint" value="false" />
+		<property name="local" value="true"/>
+	</bean>
 
 </beans>
