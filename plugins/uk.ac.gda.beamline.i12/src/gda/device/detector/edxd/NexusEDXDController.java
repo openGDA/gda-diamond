@@ -132,7 +132,7 @@ public class NexusEDXDController extends DetectorBase implements Configurable, N
 		int dead_time_mean_elements = 0; 
 		double live_time_mean = 0.0;
 
-		int noOfSubDetectors = edxdController.getNUMBER_OF_ELEMENTS();
+		int noOfSubDetectors = edxdController.getNumberOfElements();
 		// one final thing for the use of plotting
 		DataSet[] plotds = new DataSet[noOfSubDetectors];
 
@@ -515,7 +515,7 @@ public class NexusEDXDController extends DetectorBase implements Configurable, N
 		edxdController.verifyData();
 
 		// now the data is acquired, plot it out to plot2 for the time being.
-		int  noElem = edxdController.getNUMBER_OF_ELEMENTS();
+		int  noElem = edxdController.getNumberOfElements();
 		DataSet[] data = new DataSet[noElem];
 
 		for( int i = 0; i < noElem; i++) {
