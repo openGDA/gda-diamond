@@ -49,7 +49,7 @@ from marAuxiliary import marErase, resetMarScanNumber
 from ccdAuxiliary import resetCCDScanNumber
 from pilatus_scripts import resetPilatusScanNumber
 
-from dataDir import getDir, setDir, setFullUserDir
+from dataDir import setDir, setFullUserDir
 from time import sleep
 from ccdFloodCorrections import exportMultiDark
 from gda.epics import CAClient
@@ -136,7 +136,6 @@ try:
 	scansReturnToOriginalPositions = 1;
 	
 	beamlineName = "i15"
-	symbolicDataLink = "/dls/i15/data/currentdir"
 	commissioningProposal = "ee0"
 	beamline = finder.find("Beamline")
 
@@ -187,6 +186,8 @@ try:
 		spivoty = pd_epicsdevice.Simple_PD_EpicsDevice("spivoty", beamline, "-MO-SFAB-01:PIVOT:Y")
 		spivotz = pd_epicsdevice.Simple_PD_EpicsDevice("spivotz", beamline, "-MO-SFAB-01:PIVOT:Z")
 		sphi    = pd_epicsdevice.Simple_PD_EpicsDevice("sphi",    beamline, "-MO-SFAB-01:ROTARY")
+		ssx     = pd_epicsdevice.Simple_PD_EpicsDevice("ssx",     beamline, "-MO-SFAB-01:SAMPLE:X")
+		ssy     = pd_epicsdevice.Simple_PD_EpicsDevice("ssy",     beamline, "-MO-SFAB-01:SAMPLE:Y")
 
 		patch12x7 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x7", beamline, "-EA-PATCH-12:X7")
 		patch12x8 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x8", beamline, "-EA-PATCH-12:X8")

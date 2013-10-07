@@ -10,7 +10,7 @@ from ccdScanMechanics import deactivatePositionCompare
 from ccdScanMechanics import scanGeometry
 from ccdScanMechanics import setVelocity
 from gda.data.fileregistrar import FileRegistrarHelper
-from scannables.detectors.detector_axis_wrapper import DetectorAxisWrapperNew
+from scannables.detectors.detectorAxisWrapperNew import DetectorAxisWrapperNew
 from marAuxiliary import openMarShield as openPeShield, closeMarShield as closePeShield
 
 class AreaDetectorAxisWrapper(DetectorAxisWrapperNew):

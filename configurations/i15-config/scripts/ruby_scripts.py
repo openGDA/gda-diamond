@@ -38,7 +38,7 @@ class ISCCD:
 		Examples include: "C:/Data/ee1/" and "X:/data/2008/ee0/".
 		"""
 		simpleLog ("Path currently:  " + self.path )
-		self.path = directory
+		self.path = directory.replace("/dls/i15/data/","X:/y")
 		simpleLog ("Path changed to: " + self.path )
 		return
 
