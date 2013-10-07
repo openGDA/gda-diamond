@@ -66,7 +66,7 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		GridLayout gl_parent = new GridLayout(4, true);
+		GridLayout gl_parent = new GridLayout(4, false);
 		gl_parent.verticalSpacing = 15;
 		gl_parent.marginTop = 5;
 		gl_parent.marginRight = 5;
@@ -80,18 +80,19 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 		progressBar.setText("IDLE");
 
 		Label lblCurrentSweep = new Label(parent, SWT.NONE);
-		lblCurrentSweep.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblCurrentSweep.setText("Sweeps");
+		lblCurrentSweep.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
+		lblCurrentSweep.setText("Completed Iterations");
 		
 		csweep = new Text(parent, SWT.BORDER | SWT.RIGHT);
 		csweep.setEditable(false);
-		csweep.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		csweep.setEnabled(false);
+		csweep.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
 		
 		Label lblNewMaximum = new Label(parent, SWT.NONE);
-		GridData gd_lblNewMaximum = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_lblNewMaximum = new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1);
 		gd_lblNewMaximum.horizontalIndent = 15;
 		lblNewMaximum.setLayoutData(gd_lblNewMaximum);
-		lblNewMaximum.setText("Maximum");
+		lblNewMaximum.setText("Scheduled Iterations");
 		
 		sweepSpinner = new Spinner(parent, SWT.BORDER);
 		sweepSpinner.setIncrement(1);
@@ -110,10 +111,10 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 			}
 		});
 		
-		Button btnCompleteAndStop = new Button(parent, SWT.NONE);
-		btnCompleteAndStop.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
-		btnCompleteAndStop.setText("Complete and Stop");
-		btnCompleteAndStop.addSelectionListener(new SelectionListener() {
+		Button btnStop = new Button(parent, SWT.NONE);
+		btnStop.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
+		btnStop.setText("Abort Scan");
+		btnStop.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				JythonServerFacade.getInstance().haltCurrentScan();
@@ -124,13 +125,13 @@ public class AnalyserProgressView extends ViewPart implements IObserver {
 			}
 		});
 		
-		Button btnStop = new Button(parent, SWT.NONE);
-		btnStop.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
-		btnStop.setText("Stop");
-		btnStop.addSelectionListener(new SelectionListener() {
+		Button btnCompleteAndStop = new Button(parent, SWT.NONE);
+		btnCompleteAndStop.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
+		btnCompleteAndStop.setText("Finish after current Iteration");
+		btnCompleteAndStop.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				JythonServerFacade.getInstance().panicStop();
+				analyser.setMaximumFrame(analyser.getCurrentFrame());
 			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
