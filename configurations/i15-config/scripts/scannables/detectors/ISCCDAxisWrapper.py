@@ -75,8 +75,16 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 		if self.overflow and self.sync:
 			experiment_name = self.fileName
 			
+			maxVelocity = 8. # TODO: Should be based on the self.axis.?()
+			if self.multiFactor > 1 and maxVelocity < self.velocityFast():
+				err = "Error checking fast move: max velocity %r" % maxVelocity \
+					+ "is less than %r" % self.velocityFast() + " (velocity %r" \
+					% self.velocity + " * multiFactor %r" % self.multiFactor \
+					+ ") \nTry increasing exposure time or decreasing multiFactor."
+				raise Exception, err
+			
 			if '/' in experiment_name:
-				raise Exception ,"simplaScanOverflow does support / in " + \
+				raise Exception ,"simplaScanOverflow does not support / in " + \
 					"names: " + experiment_name
 			
 			# First make sue that the experiment directory exists
@@ -157,7 +165,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 		DetectorAxisWrapper.atScanEnd(self)
 		closeCCDShield()
 
-	def syncExpose(self, position, runUp, filename, log_message, fast):
+	def syncExpose(self, position, runUp, filename, log_message, fast, velocity):
 		samples = []
 		# Zero the diode sum we can tell if it was triggered
 		self.caclient.caput(self.diodeSum, 0) 
@@ -168,9 +176,9 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			moveMotor(self.axis, position - runUp - self.diff)
 			
 			if self.step>0:
-				geometry = scanGeometry(self.axis, self.velocity, position, position + self.step)
+				geometry = scanGeometry(self.axis, velocity, position, position + self.step)
 			else:
-				geometry = scanGeometry(self.axis, self.velocity, position + self.step, position)
+				geometry = scanGeometry(self.axis, velocity, position + self.step, position)
 			
 			self.preExposeCheck()
 			
@@ -188,7 +196,7 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			if self.axis:
 				setMaxVelocity(self.axis)
 				moveMotor(self.axis, position - runUp - self.diff)
-				setVelocity(self.axis, self.velocity)
+				setVelocity(self.axis, velocity)
 				self.axis.asynchronousMoveTo(position + self.step + runUp)
 				simpleLog("(fast shutter not synchronised with motor)")
 			else:
@@ -251,18 +259,28 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 		
 		return imonAverage, diodeSum
 
+	def velocityFast(self):
+		return self.velocity * float(self.multiFactor)
+
 	def performMove(self, position, fast=False):
-		if self.step > 0:
-			runUp = self.velocity / 10
-		else:
-			runUp = -1*(self.velocity / 10)
+		velocity = self.velocityFast() if fast else self.velocity
+
+		#runUp = velocity / 10 # Only pilatus uses this formula now,
+		# Mar and PE now use the one below, which should work better for
+		# low velocity moves:
+		runUp = ((velocity*.25)/2) + 0.1 # acceleration time .25 may
+		#change. This seems to solve the problem of the fast shutter not
+		#staying open.
+		
+		if self.step < 0:
+			runUp = runUp * -1
 		
 		if self.axis and self.axis.getName() == "dktheta":
 			runUp = runUp * 2
 		
 		for exp in range(self.noOfExpPerPos):
-			simpleLog("performMove %r sync %r runUp %r exp %r" %
-					(self.axis, self.sync, runUp, exp))
+			simpleLog("performMove %r sync %r runUp %r exp %r velo %r" %
+					(self.axis, self.sync, runUp, exp, velocity))
 			
 			self.isccd.flush()
 			filename = self.fileName
@@ -277,11 +295,11 @@ class ISCCDAxisWrapper(DetectorAxisWrapper):
 			self.fullFileName = self.detector.path + "/" + filename + ".img"
 			
 			imonAverage, diodeSum = self.syncExpose(position, runUp, filename,
-					"Exposing %s", fast)
+					"Exposing %s", fast, velocity)
 			
 			if self.postExposeCheckFailed():
 				imonAverage, diodeSum = self.syncExpose(position, runUp, filename,
-					"Re-exposing %s because of beam loss during expose")
+					"Re-exposing %s because of beam loss during expose", fast, velocity)
 			
 			self.files.append(filename)
 			linuxFilename = self.visitPath + "/" + filename + ".img"
