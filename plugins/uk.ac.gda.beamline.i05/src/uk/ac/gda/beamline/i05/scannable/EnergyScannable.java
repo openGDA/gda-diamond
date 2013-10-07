@@ -40,7 +40,8 @@ import java.util.Vector;
 @CorbaImplClass(ScannableImpl.class)
 public class EnergyScannable extends ScannableBase {
 
-	private Scannable pgm, id;
+	private Scannable pgm;
+	private I05Apple id;
 	private Collection<Scannable> scannables = new Vector<Scannable>();
 	
 	@Override
@@ -52,8 +53,8 @@ public class EnergyScannable extends ScannableBase {
 	private void setupExtraNames() {
 		Vector<String> en = new Vector<String>();
 		Vector<String> of = new Vector<String>();
-		of.add("%5.3f"); //us
-		of.add("%5.3f"); //id (gap)
+		of.add("%5.3f"); //us - pgm
+//		of.add("%5.3f"); //id (gap)
 //		of.add("%s"); //id(polarisation) //FIXME
 		for (Scannable s : scannables) {
 			en.add(s.getName());
@@ -105,11 +106,11 @@ public class EnergyScannable extends ScannableBase {
 		this.pgm = pgm;
 	}
 
-	public Scannable getId() {
+	public I05Apple getId() {
 		return id;
 	}
 
-	public void setId(Scannable id) {
+	public void setId(I05Apple id) {
 		this.id = id;
 	}
 

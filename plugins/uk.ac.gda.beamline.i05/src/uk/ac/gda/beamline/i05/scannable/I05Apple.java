@@ -30,10 +30,10 @@ import java.util.List;
 
 public class I05Apple extends ScannableMotionBase {
 	
-	public final static String VERTICAL = "vertical";
-	public final static String HORIZONTAL = "horizontal";
-	public final static String CIRCULAR_LEFT = "left";
-	public final static String CIRCULAR_RIGHT = "right";
+	public final static String VERTICAL = "LV";
+	public final static String HORIZONTAL = "LH";
+	public final static String CIRCULAR_LEFT = "CL";
+	public final static String CIRCULAR_RIGHT = "CR";
 
 	ScannableMotion gapScannable;
 	ScannableMotion upperPhaseScannable;
@@ -286,6 +286,7 @@ public class I05Apple extends ScannableMotionBase {
 		return gapScannable.isBusy() || upperPhaseScannable.isBusy() || lowerPhaseScannable.isBusy();
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 		if (position instanceof Number) {
