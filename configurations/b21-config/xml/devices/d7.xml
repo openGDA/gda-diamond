@@ -8,6 +8,7 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
         http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
+<!-- removal agreed in favor of bsdiode as long as this is bsdiode (will eventually be replaced by a d8 device)
 	<bean id="d7d1" class="uk.ac.gda.server.ncd.epics.ScaledAmplifiedMonitor">
 		<property name="scalingAndOffset" ref="bsdiodegain" />
 		<property name="useNameAsExtraName" value="true" />
@@ -20,6 +21,7 @@
 		</property>
 		<property name="local" value="true" />
 	</bean>
+-->
 	<bean id="bsdiode" class="uk.ac.gda.server.ncd.epics.ScaledAmplifiedMonitor">
 		<property name="scalingAndOffset" ref="bsdiodegain" />
 		<property name="useNameAsExtraName" value="true" />
