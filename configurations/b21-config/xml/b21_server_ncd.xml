@@ -90,6 +90,7 @@
 	</bean> 
 	<bean id="bsscscannable" class="uk.ac.gda.devices.bssc.scannable.BSSCScannable">
 		<property name="bssc" ref="bssc" /> 
+		<property name="local" value="false" />
 	</bean>
 	<bean class="uk.ac.gda.devices.bssc.ispyb.BioSAXSDBFactory">
 	       <property name="jdbcURL" value="jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb" />
