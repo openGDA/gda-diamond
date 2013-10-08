@@ -9,7 +9,7 @@ fi
 
 
 export gdaLauncher=/dls_sw/$BEAMLINE/software/gda/plugins/uk.ac.gda.core/bin/gda
-configDir=/dls_sw/$BEAMLINE/software/gda/i06-config
+configDir=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i06-config
 Properties=$configDir/properties/java.properties_$BEAMLINE 
 JacorbDir=$configDir/properties/jacorb_$BEAMLINE
 varDir=/dls/$BEAMLINE/var

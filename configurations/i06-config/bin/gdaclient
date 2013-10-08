@@ -16,8 +16,8 @@ def main(argv):
 	if not os.environ.has_key('BEAMLINE'):
 		os.environ['BEAMLINE'] = 'i06-1'
 	beamline=os.environ['BEAMLINE'];
-	gdaLauncher='/dls_sw/%s/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda' %beamline
-	configDir  ='/dls_sw/%s/software/gda/i06-config'%beamline
+	gdaLauncher='/dls_sw/%s/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda' %beamline
+	configDir  ='/dls_sw/%s/software/gda/workspace_git/gda-mt.git/configurations/i06-config'%beamline
 
 	def setRemote():
 		global Properties,	JacorbDir, JCAFile, varDir, dataDir, logDir, wpDir
@@ -64,13 +64,13 @@ def main(argv):
 			print 'To reset the RCP worksapce'
 			clearWorksapce(wpDir);
 			
-		#/dls_sw/${BEAMLINE}/software/gda/client/gda-${BEAMLINE} -vmargs -Declipse.pluginCustomization=/dls_sw/i06-1/software/gda/i06-config/client/i06-1/pluginCustomization.ini -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true -Dgda.install.git.loc=/dls_sw/i06-1/software/gda.git -Dgda.install.workspace.loc=/dls_sw/i06-1/software/gda -Dgda.data=$dataDir -Dgda.var=$varDir -Dgda.logs.dir=$logDir -Djacorb.config.dir=$JacorbDir -Dgda.propertiesFile=$Properties -Dgda.config=$configDir -Dgov.aps.jca.JCALibrary.properties=$JCAFile
+		#/dls_sw/${BEAMLINE}/software/gda/client/gda-${BEAMLINE} -vmargs -Declipse.pluginCustomization=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config/client/i06-1/pluginCustomization.ini -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true -Dgda.install.git.loc=/dls_sw/i06-1/software/gda.git -Dgda.install.workspace.loc=/dls_sw/i06-1/software/gda -Dgda.data=$dataDir -Dgda.var=$varDir -Dgda.logs.dir=$logDir -Djacorb.config.dir=$JacorbDir -Dgda.propertiesFile=$Properties -Dgda.config=$configDir -Dgov.aps.jca.JCALibrary.properties=$JCAFile
 		c=['/dls_sw/%s/software/gda/client/gda-%s' %(beamline, beamline)]
 		c.append( '-vmargs' )
-		c.append( '-Declipse.pluginCustomization=/dls_sw/%s/software/gda/i06-config/client/%s/pluginCustomization.ini' %(beamline,beamline) )
+		c.append( '-Declipse.pluginCustomization=/dls_sw/%s/software/gda/workspace_git/gda-mt.git/configurations/i06-config/client/%s/pluginCustomization.ini' %(beamline,beamline) )
 		c.append( '-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true' )
 		c.append( '-Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true' )
-		c.append( '-Dgda.install.git.loc=/dls_sw/%s/software/gda_git' %beamline )
+		c.append( '-Dgda.install.git.loc=/dls_sw/%s/software/gda/workspace_git' %beamline )
 		c.append( '-Dgda.install.workspace.loc=/dls_sw/%s/software/gda' %beamline )
 		c.append( '-Dgda.data=%s' %dataDir )
 		c.append( '-Dgda.var=%s' %varDir )
