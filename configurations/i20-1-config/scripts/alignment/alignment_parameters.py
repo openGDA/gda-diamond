@@ -48,9 +48,9 @@ def _chooseStripes(parametersBean):
     energy = _calcEnergy(parametersBean)
     
     if energy > 20300:
-        parametersBean.setMe1stripe(AlignmentParametersBean.ME1Stripe[0])
-    else :
         parametersBean.setMe1stripe(AlignmentParametersBean.ME1Stripe[1])
+    else :
+        parametersBean.setMe1stripe(AlignmentParametersBean.ME1Stripe[0])
         
     if energy < 9600:
         parametersBean.setMe2stripe(AlignmentParametersBean.ME2Stripe[0])
