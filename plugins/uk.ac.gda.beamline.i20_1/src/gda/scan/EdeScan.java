@@ -38,6 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
+import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 /**
  * Runs a single set of timing groups for EDE through the XSTRIP DAServer interface.
@@ -94,6 +95,15 @@ public class EdeScan extends ConcurrentScanChild {
 		return "EDE scan - type:" + scanType.toString() + " " + motorPositions.getType().toString();
 	}
 
+	public String getHeaderDescription() {
+		String desc = scanType.toString() + " " + motorPositions.getType().toString() + " scan with " + scanParameters.getGroups().size() + " timing groups";
+		for (int index = 0; index < scanParameters.getGroups().size(); index++){
+			TimingGroup group = scanParameters.getGroups().get(index);
+			desc += "\n#Group "+ index + " "+group.getHeaderDescription();
+		}
+		return desc;
+	}
+
 	@Override
 	public int getDimension() {
 		return scanParameters.getTotalNumberOfFrames();
@@ -138,8 +148,7 @@ public class EdeScan extends ConcurrentScanChild {
 		Integer nextFrameToRead = 0;
 		try {
 			ExperimentStatus progressData = theDetector.fetchStatus();
-			Integer currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters,
-					progressData.loc);
+			Integer currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters, progressData.loc);
 			while (!collectionFinished(progressData)) {
 				if (currentFrame > nextFrameToRead) {
 					createDataPoints(nextFrameToRead, currentFrame - 1);
@@ -150,8 +159,7 @@ public class EdeScan extends ConcurrentScanChild {
 				Thread.sleep(100);
 				checkForInterrupts();
 				progressData = theDetector.fetchStatus();
-				currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters,
-						progressData.loc);
+				currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters, progressData.loc);
 			}
 		} catch (Exception e) {
 			// scan has been aborted, so stop the collection and let the scan write out the rest of the data point which

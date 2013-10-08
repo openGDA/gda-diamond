@@ -36,7 +36,7 @@ public class TimingGroup implements Serializable {
 	private int numberOfScansPerFrame = 0; // if zero then use the timePerFrame when setting up the TimingGroup in TFG
 	private double timePerFrame; // in s  // use only if numberOfScansPerFrame == 0
 	private int numberOfFrames = 1; // number of times to repeat the same set of scans before the EDE scan should move
-									// on to the next TimingGroup
+	// on to the next TimingGroup
 
 	// delays
 	private double preceedingTimeDelay; // in s
@@ -47,12 +47,12 @@ public class TimingGroup implements Serializable {
 	private boolean allFramesTrig;
 	private boolean framesExclFirstTrig;
 	private boolean scansTrig;
-	
+
 	private int groupTrigLemo = 0;
 	private int allFramesTrigLemo = 0;
 	private int framesExclFirstTrigLemo = 0;
 	private int scansTrigLemo = 0;
-	
+
 	private boolean groupTrigRisingEdge = true;
 	private boolean allFramesTrigRisingEdge = true;
 	private boolean framesExclFirstTrigRisingEdge = true;
@@ -67,9 +67,19 @@ public class TimingGroup implements Serializable {
 	private boolean outLemo5;
 	private boolean outLemo6;
 	private boolean outLemo7;
-	
+
+	public String getHeaderDescription() {
+		String desc = "has " + numberOfFrames + " frames. Accumulations are " + timePerScan + "s long";
+		if (numberOfScansPerFrame == 0){
+			desc += ", to a total of " + timePerFrame +"s per frame";
+		} else {
+			desc += "," + numberOfScansPerFrame + " accumulations per frame";
+		}
+		return desc;
+	}
+
 	public int getTotalNumberScans() {
-		
+
 		Double scansPerFrame;
 		if (numberOfScansPerFrame == 0) {
 
@@ -81,12 +91,12 @@ public class TimingGroup implements Serializable {
 		} else {
 			scansPerFrame = (double) numberOfScansPerFrame;
 		}
-		
+
 		int numFrame = numberOfFrames;
 		if (numFrame == 0){
 			numFrame = 1;
 		}
-		
+
 		return (int) Math.round(numberOfFrames * scansPerFrame);
 	}
 
@@ -95,7 +105,7 @@ public class TimingGroup implements Serializable {
 	}
 
 	public void setNumberOfFrames(int numberOfRepetitions) {
-		this.numberOfFrames = numberOfRepetitions;
+		numberOfFrames = numberOfRepetitions;
 	}
 
 	public double getTimePerScan() {
@@ -357,70 +367,101 @@ public class TimingGroup implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		TimingGroup other = (TimingGroup) obj;
-		if (allFramesTrig != other.allFramesTrig)
+		if (allFramesTrig != other.allFramesTrig) {
 			return false;
-		if (allFramesTrigLemo != other.allFramesTrigLemo)
+		}
+		if (allFramesTrigLemo != other.allFramesTrigLemo) {
 			return false;
-		if (allFramesTrigRisingEdge != other.allFramesTrigRisingEdge)
+		}
+		if (allFramesTrigRisingEdge != other.allFramesTrigRisingEdge) {
 			return false;
-		if (Double.doubleToLongBits(delayBetweenFrames) != Double.doubleToLongBits(other.delayBetweenFrames))
+		}
+		if (Double.doubleToLongBits(delayBetweenFrames) != Double.doubleToLongBits(other.delayBetweenFrames)) {
 			return false;
-		if (framesExclFirstTrig != other.framesExclFirstTrig)
+		}
+		if (framesExclFirstTrig != other.framesExclFirstTrig) {
 			return false;
-		if (framesExclFirstTrigLemo != other.framesExclFirstTrigLemo)
+		}
+		if (framesExclFirstTrigLemo != other.framesExclFirstTrigLemo) {
 			return false;
-		if (framesExclFirstTrigRisingEdge != other.framesExclFirstTrigRisingEdge)
+		}
+		if (framesExclFirstTrigRisingEdge != other.framesExclFirstTrigRisingEdge) {
 			return false;
-		if (groupTrig != other.groupTrig)
+		}
+		if (groupTrig != other.groupTrig) {
 			return false;
-		if (groupTrigLemo != other.groupTrigLemo)
+		}
+		if (groupTrigLemo != other.groupTrigLemo) {
 			return false;
-		if (groupTrigRisingEdge != other.groupTrigRisingEdge)
+		}
+		if (groupTrigRisingEdge != other.groupTrigRisingEdge) {
 			return false;
+		}
 		if (label == null) {
-			if (other.label != null)
+			if (other.label != null) {
 				return false;
-		} else if (!label.equals(other.label))
+			}
+		} else if (!label.equals(other.label)) {
 			return false;
-		if (numberOfFrames != other.numberOfFrames)
+		}
+		if (numberOfFrames != other.numberOfFrames) {
 			return false;
-		if (numberOfScansPerFrame != other.numberOfScansPerFrame)
+		}
+		if (numberOfScansPerFrame != other.numberOfScansPerFrame) {
 			return false;
-		if (outLemo0 != other.outLemo0)
+		}
+		if (outLemo0 != other.outLemo0) {
 			return false;
-		if (outLemo1 != other.outLemo1)
+		}
+		if (outLemo1 != other.outLemo1) {
 			return false;
-		if (outLemo2 != other.outLemo2)
+		}
+		if (outLemo2 != other.outLemo2) {
 			return false;
-		if (outLemo3 != other.outLemo3)
+		}
+		if (outLemo3 != other.outLemo3) {
 			return false;
-		if (outLemo4 != other.outLemo4)
+		}
+		if (outLemo4 != other.outLemo4) {
 			return false;
-		if (outLemo5 != other.outLemo5)
+		}
+		if (outLemo5 != other.outLemo5) {
 			return false;
-		if (outLemo6 != other.outLemo6)
+		}
+		if (outLemo6 != other.outLemo6) {
 			return false;
-		if (outLemo7 != other.outLemo7)
+		}
+		if (outLemo7 != other.outLemo7) {
 			return false;
-		if (Double.doubleToLongBits(preceedingTimeDelay) != Double.doubleToLongBits(other.preceedingTimeDelay))
+		}
+		if (Double.doubleToLongBits(preceedingTimeDelay) != Double.doubleToLongBits(other.preceedingTimeDelay)) {
 			return false;
-		if (scansTrig != other.scansTrig)
+		}
+		if (scansTrig != other.scansTrig) {
 			return false;
-		if (scansTrigLemo != other.scansTrigLemo)
+		}
+		if (scansTrigLemo != other.scansTrigLemo) {
 			return false;
-		if (scansTrigRisingEdge != other.scansTrigRisingEdge)
+		}
+		if (scansTrigRisingEdge != other.scansTrigRisingEdge) {
 			return false;
-		if (Double.doubleToLongBits(timePerFrame) != Double.doubleToLongBits(other.timePerFrame))
+		}
+		if (Double.doubleToLongBits(timePerFrame) != Double.doubleToLongBits(other.timePerFrame)) {
 			return false;
-		if (Double.doubleToLongBits(timePerScan) != Double.doubleToLongBits(other.timePerScan))
+		}
+		if (Double.doubleToLongBits(timePerScan) != Double.doubleToLongBits(other.timePerScan)) {
 			return false;
+		}
 		return true;
-	}	
+	}
 }

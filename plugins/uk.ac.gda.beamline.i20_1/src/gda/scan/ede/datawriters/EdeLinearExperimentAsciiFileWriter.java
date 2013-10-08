@@ -107,6 +107,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		try {
 			writer = new FileWriter(asciiFile);
 			log("Writing EDE format ascii file for I0 data: " + i0Filename);
+			writerHeader(writer);
 			writer.write("# Before_It\t" + TIMINGGROUP_COLUMN_NAME + "\t" + STRIP_COLUMN_NAME + "\t"
 					+ ENERGY_COLUMN_NAME + "\t" + I0_CORR_COLUMN_NAME + "\t" + I0_RAW_COLUMN_NAME + "\t"
 					+ I0_DARK_COLUMN_NAME + "\n");
@@ -130,6 +131,18 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 				writer.close();
 			}
 		}
+	}
+
+	private void writerHeader(FileWriter writer) throws IOException {
+		writeScan(writer,i0DarkScan,"Dark");
+		writeScan(writer,i0InitialScan,"I0");
+		writeScan(writer,itScan,"It");
+	}
+
+	private void writeScan(FileWriter writer, EdeScan scan, String scanTitle) throws IOException {
+		writer.write("#"+scanTitle+":");
+		writer.write(scan.getHeaderDescription());
+		writer.write("\n");
 	}
 
 	private void writeI0Spectrum(FileWriter writer, int timingGroup, DoubleDataset i0DarkDataSet,
@@ -170,6 +183,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		try {
 			writer = new FileWriter(asciiFile);
 			log("Writing EDE format ascii file for It data: " + filename);
+			writerHeader(writer);
 			writer.write("#" + TIMINGGROUP_COLUMN_NAME + "\t" + FRAME_COLUMN_NAME+"\t" + STRIP_COLUMN_NAME + "\t" + ENERGY_COLUMN_NAME + "\t"
 					+ IT_CORR_COLUMN_NAME + "\t" + LN_I0_IT_COLUMN_NAME + "\t" + IT_RAW_COLUMN_NAME + "\t"
 					+ IT_DARK_COLUMN_NAME + "\n");

@@ -149,7 +149,7 @@ public class EdeScanTest {
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
 				yScannable);
 
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(scanParams, inBeam, outBeam, xh);
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(scanParams, outBeam, inBeam, xh);
 		String filename = theExperiment.runExperiment();
 
 		testNumberColumnsInEDEFile(filename, 9);
@@ -181,7 +181,7 @@ public class EdeScanTest {
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
 				yScannable);
 
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0Params, itParams, inBeam, outBeam, xh);
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0Params, itParams, outBeam, inBeam, xh);
 		String filename = theExperiment.runExperiment();
 
 		testNumberColumnsInEDEFile(filename, 9);
@@ -189,17 +189,12 @@ public class EdeScanTest {
 
 	private void testNumberColumnsInEDEFile(String filename, int numExpectedColumns) throws FileNotFoundException,
 			IOException {
-		FileReader asciiFile = new FileReader(filename);
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(asciiFile);
-			reader.readLine(); // header line
-			String dataString = reader.readLine(); // first data point
-			String[] dataParts = dataString.split("\t");
-			assertEquals(numExpectedColumns, dataParts.length);
-		} finally {
-			if (reader != null) {
-				reader.close();
+		List<String> lines = Files.readAllLines(Paths.get(filename), Charset.defaultCharset());
+		for (String line : lines) {
+			if (!line.startsWith("#")) {
+				String[] dataParts = line.split("\t");
+				assertEquals(numExpectedColumns, dataParts.length);
+				return;
 			}
 		}
 	}
@@ -244,7 +239,7 @@ public class EdeScanTest {
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
 				yScannable);
 
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, inBeam, outBeam, xh);
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, outBeam, inBeam, xh);
 		String filename = theExperiment.runExperiment();
 
 		testNumberColumnsInEDEFile(filename, 9);
@@ -263,7 +258,7 @@ public class EdeScanTest {
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
 				yScannable);
 
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, inBeam, outBeam, xh);
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, outBeam, inBeam, xh);
 		theExperiment.setFilenameTemplate("mysample_%s_sample1");
 		String filename = theExperiment.runExperiment();
 
@@ -285,24 +280,22 @@ public class EdeScanTest {
 
 		xh.setEnergyCalibration(new PolynomialFunction(new double[] { 0., 2. }));
 
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, inBeam, outBeam, xh);
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, outBeam, inBeam, xh);
 		String filename = theExperiment.runExperiment();
 
-		FileReader asciiFile = new FileReader(filename);
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(asciiFile);
-			reader.readLine(); // header line
-			String dataString = reader.readLine(); // first data point
-			String[] dataParts = dataString.split("\t");
-			assertEquals(9, dataParts.length);
-			String dataString2 = reader.readLine(); // second data point
-			String[] dataParts2 = dataString2.split("\t");
-			assertEquals(1., Double.parseDouble(dataParts2[0]), 0.1);
-			assertEquals(2., Double.parseDouble(dataParts2[1]), 0.1);
-		} finally {
-			if (reader != null) {
-				reader.close();
+		boolean firstLine = true;
+		List<String> lines = Files.readAllLines(Paths.get(filename), Charset.defaultCharset());
+		for (String line : lines) {
+			if (!line.startsWith("#") && firstLine) {
+				String[] dataParts = line.split("\t");
+				assertEquals(9, dataParts.length);
+				firstLine = false;
+			} else if (!line.startsWith("#") && !firstLine) {
+				String[] dataParts = line.split("\t");
+				assertEquals(9, dataParts.length);
+				assertEquals(1., Double.parseDouble(dataParts[0]), 0.1);
+				assertEquals(2., Double.parseDouble(dataParts[1]), 0.1);
+				return;
 			}
 		}
 	}
