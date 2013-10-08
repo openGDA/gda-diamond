@@ -23,7 +23,7 @@ import gda.device.detector.XHDetector;
 import gda.device.scannable.AlignmentStage;
 import gda.device.scannable.AlignmentStageScannable;
 import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
-import gda.scan.ede.datawriters.EdeSingleSpectrumAsciiFileWriter;
+import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -355,7 +355,7 @@ public class SingleSpectrumView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					SingleSpectrumModel.INSTANCE.doScan();
+					SingleSpectrumModel.INSTANCE.doCollection();
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 				}
@@ -372,7 +372,6 @@ public class SingleSpectrumView extends ViewPart {
 						return (!(boolean) value);
 					}
 				});
-
 
 		Button stopAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Stop", SWT.PUSH);
 		stopAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -403,8 +402,8 @@ public class SingleSpectrumView extends ViewPart {
 				if (file.exists() && file.canRead()) {
 					try {
 						DataHolder dataHolder = LoaderFactory.getData(fileName);
-						AbstractDataset strips = (AbstractDataset) dataHolder.getLazyDataset(EdeSingleSpectrumAsciiFileWriter.STRIP_COLUMN_NAME).getSlice();
-						AbstractDataset logI0It = (AbstractDataset) dataHolder.getLazyDataset(EdeSingleSpectrumAsciiFileWriter.LN_I0_IT_COLUMN_NAME).getSlice();
+						AbstractDataset strips = (AbstractDataset) dataHolder.getLazyDataset(EdeAsciiFileWriter.STRIP_COLUMN_NAME).getSlice();
+						AbstractDataset logI0It = (AbstractDataset) dataHolder.getLazyDataset(EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME).getSlice();
 						SDAPlotter.plot(AlignmentPerspective.SINGLE_SPECTRUM_PLOT_VIEW_NAME, fileName, strips, new AbstractDataset[]{logI0It});
 						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(AlignmentPerspective.SINGLE_SPECTRUM_PLOT_VIEW_ID);
 					} catch (Exception e) {

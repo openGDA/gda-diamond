@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.data.detector;
+package uk.ac.gda.exafs.ui.data.experiment;
 
 import uk.ac.gda.exafs.data.ObservableModel;
 

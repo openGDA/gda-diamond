@@ -141,6 +141,7 @@ public class EdeScan extends ConcurrentScanChild {
 			Integer currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters,
 					progressData.loc);
 			while (!collectionFinished(progressData)) {
+				// Review here we assume currentFrame - 1 is ready to read
 				if (currentFrame > nextFrameToRead) {
 					createDataPoints(nextFrameToRead, currentFrame - 1);
 					nextFrameToRead = currentFrame;

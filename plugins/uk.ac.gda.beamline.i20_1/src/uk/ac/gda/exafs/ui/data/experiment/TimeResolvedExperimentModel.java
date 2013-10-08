@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.data.detector;
+package uk.ac.gda.exafs.ui.data.experiment;
 
 import gda.factory.Findable;
 import gda.factory.Finder;
@@ -57,9 +57,9 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
 
-public class LinearExperimentModel extends CollectionModel {
+public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
-	public static final LinearExperimentModel INSTANCE = new LinearExperimentModel();
+	public static final TimeResolvedExperimentModel INSTANCE = new TimeResolvedExperimentModel();
 
 	private static final String TIMING_GROUPS_OBJ_NAME = "timingGroups";
 
@@ -71,8 +71,7 @@ public class LinearExperimentModel extends CollectionModel {
 	private static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "LinearExperimentModel";
 
 	private DefaultTimeBarModel model;
-	private DefaultTimeBarRowModel timingGroupRow;
-	private DefaultTimeBarRowModel spectrumRow;
+	private DefaultTimeBarRowModel timingGroupRowModel;
 
 	public static final String CURRENT_SCANNING_SPECTRUM_PROP_NAME = "currentScanningSpectrum";
 	private SpectrumModel currentScanningSpectrum;
@@ -83,14 +82,11 @@ public class LinearExperimentModel extends CollectionModel {
 	public static final String SCAN_DATA_SET_PROP_NAME = "scanDataSet";
 	private DoubleDataset[] scanDataSet;
 
-	public static final String DELAY_BETWEEN_GROUPS_PROP_NAME = "delayBetweenGroups";
-	private double delayBetweenGroups;
-
 	WritableList groupList = new WritableList(new ArrayList<TimingGroupModel>(), TimingGroupModel.class);
 
 	private final ScanJob experimentJob;
 
-	public LinearExperimentModel() {
+	public TimeResolvedExperimentModel() {
 		this.setStartTime(EXPERIMENT_START_TIME);
 		this.setDurationInSec(DEFAULT_INITIAL_EXPERIMENT_TIME_IN_SEC);
 		setupTimebarModel();
@@ -100,12 +96,14 @@ public class LinearExperimentModel extends CollectionModel {
 				event.diff.accept(new ListDiffVisitor() {
 					@Override
 					public void handleRemove(int index, Object element) {
-						timingGroupRow.remInterval((IntervalImpl) element);
+						TimingGroupModel timingGroupModel = ((TimingGroupModel) element);
+						timingGroupModel.dispose();
+						timingGroupRowModel.remInterval(timingGroupModel);
 					}
 
 					@Override
 					public void handleAdd(int index, Object element) {
-						timingGroupRow.addInterval((IntervalImpl) element);
+						timingGroupRowModel.addInterval((IntervalImpl) element);
 					}
 				});
 			}
@@ -128,26 +126,22 @@ public class LinearExperimentModel extends CollectionModel {
 			return;
 		}
 		for (TimingGroupModel loadedGroup : savedGroups) {
-			TimingGroupModel timingGroup = new TimingGroupModel(spectrumRow);
-			timingGroup.setStartTime(loadedGroup.getStartTime());
-			timingGroup.setEndTime(loadedGroup.getEndTime());
-			timingGroup.setDelay(loadedGroup.getDelay());
+			TimingGroupModel timingGroup = new TimingGroupModel(timingGroupRowModel);
 			timingGroup.setName(loadedGroup.getName());
+			timingGroup.setTimes(loadedGroup.getStartTime(), loadedGroup.getEndTime());
+			timingGroup.setDelay(loadedGroup.getDelay());
 			timingGroup.setIntegrationTime(loadedGroup.getIntegrationTime());
-			timingGroup.setTimePerSpectrum(loadedGroup.getTimePerSpectrum());
 			timingGroup.setDelayBetweenSpectrum(loadedGroup.getDelayBetweenSpectrum());
 			addToInternalGroupList(timingGroup);
+			timingGroup.setTimePerSpectrum(loadedGroup.getTimePerSpectrum());
 		}
 	}
 
 	private void setupTimebarModel() {
 		model = new DefaultTimeBarModel();
 		DefaultRowHeader header = new DefaultRowHeader("Timing groups");
-		timingGroupRow = new DefaultTimeBarRowModel(header);
-		header = new DefaultRowHeader("Spectrums");
-		spectrumRow = new DefaultTimeBarRowModel(header);
-		model.addRow(timingGroupRow);
-		model.addRow(spectrumRow);
+		timingGroupRowModel = new DefaultTimeBarRowModel(header);
+		model.addRow(timingGroupRowModel);
 	}
 
 	public DefaultTimeBarModel getTimeBarModel() {
@@ -159,18 +153,18 @@ public class LinearExperimentModel extends CollectionModel {
 	}
 
 	public TimingGroupModel addGroup() {
-		TimingGroupModel newGroup = new TimingGroupModel(spectrumRow);
-		newGroup.setStartTime(this.getStartTime());
-		newGroup.setEndTime(this.getEndTime());
+		TimingGroupModel newGroup = new TimingGroupModel(timingGroupRowModel);
 		newGroup.setName("Group " + (groupList.size() + 1));
+		newGroup.setTimes(this.getStartTime(), this.getEndTime());
+		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup);
 		setAllGroupTimes();
+		newGroup.setTimePerSpectrum(newGroup.getDuration());
 		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
 		return newGroup;
 	}
 
 	private final PropertyChangeListener groupPropertyChangeListener = new PropertyChangeListener() {
-
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
@@ -188,8 +182,6 @@ public class LinearExperimentModel extends CollectionModel {
 	}
 
 	public void removeGroup(TimingGroupModel group) {
-		// TODO refactor to group to manage its own state
-		group.getSpectrumList().clear();
 		removeFromInternalGroupList(group);
 		setAllGroupTimes();
 		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
@@ -227,7 +219,7 @@ public class LinearExperimentModel extends CollectionModel {
 		public void update(Object source, Object arg) {
 			if (arg instanceof JythonServerStatus) {
 				JythonServerStatus status = (JythonServerStatus) arg;
-				if (LinearExperimentModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
+				if (TimeResolvedExperimentModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
 					monitor.worked(1);
 				}
 			}
@@ -243,8 +235,8 @@ public class LinearExperimentModel extends CollectionModel {
 					@Override
 					public void run() {
 						final TimingGroupModel currentGroup = (TimingGroupModel) groupList.get(currentGroupNumber);
-						// TODO refactor to group to manage its own state
-						LinearExperimentModel.this.setCurrentScanningSpectrum((SpectrumModel) currentGroup.getSpectrumList().get(currentFrameNumber));
+						// TODO refactor the group to manage its own state
+						TimeResolvedExperimentModel.this.setCurrentScanningSpectrum((SpectrumModel) currentGroup.getSpectrumList().get(currentFrameNumber));
 					}
 				});
 			}
@@ -254,7 +246,7 @@ public class LinearExperimentModel extends CollectionModel {
 			return new Job("Progress Report") {
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
-					while(LinearExperimentModel.this.isScanning()) {
+					while(TimeResolvedExperimentModel.this.isScanning()) {
 						if (currentNormalisedItData != null & currentEnergyData != null) {
 							setReceivedDataSet();
 						}
@@ -269,7 +261,7 @@ public class LinearExperimentModel extends CollectionModel {
 				}
 
 				private void setReceivedDataSet() {
-					LinearExperimentModel.this.setScanDataSet(new DoubleDataset[] {currentEnergyData, currentNormalisedItData});
+					TimeResolvedExperimentModel.this.setScanDataSet(new DoubleDataset[] {currentEnergyData, currentNormalisedItData});
 				}
 			};
 		}
@@ -287,7 +279,7 @@ public class LinearExperimentModel extends CollectionModel {
 					@Override
 					public void run() {
 						final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
-						LinearExperimentModel.this.setScanning(true);
+						TimeResolvedExperimentModel.this.setScanning(true);
 						for (Object object : groupList) {
 							TimingGroupModel uiTimingGroup = (TimingGroupModel) object;
 							TimingGroup timingGroup = new TimingGroup();
@@ -311,7 +303,7 @@ public class LinearExperimentModel extends CollectionModel {
 			} catch (InterruptedException e) {
 				UIHelper.showWarning("Scanning has stopped", e.getMessage());
 			}
-			LinearExperimentModel.this.setScanning(false);
+			TimeResolvedExperimentModel.this.setScanning(false);
 			monitor.done();
 			return Status.OK_STATUS;
 		}
@@ -365,29 +357,29 @@ public class LinearExperimentModel extends CollectionModel {
 	private void setAllGroupTimes() {
 		if (!groupList.isEmpty()) {
 			double duration;
-			if (groupList.size() ==  1 | delayBetweenGroups == 0) {
-				duration = this.getDuration() / groupList.size();
+			if (groupList.size() ==  1) {
+				duration = this.getDuration();
 			} else {
-				duration = this.getDuration() - ((groupList.size() - 1) * delayBetweenGroups) / groupList.size();
+				duration = this.getDuration() / groupList.size();
 			}
 			double startTime = this.getStartTime();
 			for (int i = 0; i < groupList.size(); i++) {
 				TimingGroupModel entry = (TimingGroupModel) groupList.get(i);
-				entry.setStartTime(startTime);
-				entry.setEndTime(startTime + duration);
-				startTime = entry.getEndTime() + delayBetweenGroups;
+				entry.setTimes(startTime, startTime + duration);
+				startTime = entry.getEndTime();
 			}
 		}
 	}
 
 	private void setGroupTimes(double groupDuration) {
+		double startTime = this.getStartTime();
 		for (int i = 0; i < groupList.size(); i++) {
 			TimingGroupModel group = (TimingGroupModel) groupList.get(i);
 			if (i > 0) {
 				TimingGroupModel previous = (TimingGroupModel) groupList.get(i-1);
-				group.setStartTime(previous.getEndTime());
+				startTime = previous.getEndTime();
 			}
-			group.setEndTime(group.getStartTime() + groupDuration);
+			group.setTimes(startTime, group.getStartTime() + groupDuration);
 		}
 	}
 
@@ -423,7 +415,6 @@ public class LinearExperimentModel extends CollectionModel {
 		}
 	}
 
-
 	public void setDurationInSec(double value) {
 		double duration = getDurationInSec();
 		this.setEndTime(this.getStartTime() + value * 1000); // Converts to milli
@@ -439,16 +430,6 @@ public class LinearExperimentModel extends CollectionModel {
 		super.setEndTime(value);
 		double groupDuration = value / groupList.size();
 		setGroupTimes(groupDuration);
-	}
-
-	public double getDelayBetweenGroups() {
-		return delayBetweenGroups;
-	}
-
-
-	public void setDelayBetweenGroups(double value) {
-		this.firePropertyChange(DELAY_BETWEEN_GROUPS_PROP_NAME, delayBetweenGroups, delayBetweenGroups = value);
-		setAllGroupTimes();
 	}
 
 	@Override

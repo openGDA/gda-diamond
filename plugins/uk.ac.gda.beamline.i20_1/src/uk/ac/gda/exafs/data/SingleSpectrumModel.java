@@ -202,7 +202,7 @@ public class SingleSpectrumModel extends ObservableModel {
 		}
 	}
 
-	public void doScan() throws Exception {
+	public void doCollection() throws Exception {
 		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}

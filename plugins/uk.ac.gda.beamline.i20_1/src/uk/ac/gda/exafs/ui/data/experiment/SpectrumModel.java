@@ -16,14 +16,14 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.data.detector;
+package uk.ac.gda.exafs.ui.data.experiment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.WritableList;
 
-public class SpectrumModel extends CollectionModel {
+public class SpectrumModel extends ExperimentTimingDataModel {
 
 	private final TimingGroupModel parent;
 

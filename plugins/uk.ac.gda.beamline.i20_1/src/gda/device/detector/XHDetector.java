@@ -61,6 +61,8 @@ import com.google.gson.Gson;
  */
 public class XHDetector extends DetectorBase implements XCHIPDetector {
 
+	private static final String CALIBRATION_PROP_KEY = "calibration";
+
 	private static final String ROIS_PROP_KEY = "ROIs";
 
 	private static final String CONNECTED_KEY = "connected";
@@ -89,6 +91,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	public static int NUMBER_ELEMENTS = 1024;
 	public static int START_STRIP = 1;
 
+	private static Integer[] STRIPS;
+
 	// These are the objects this must know about.
 	private String detectorName;
 	private DAServer daServer = null;
@@ -106,18 +110,17 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 	private XHROI[] rois = new XHROI[0];
 	private int lowerChannel = START_STRIP;
-	private int upperChannel = NUMBER_ELEMENTS;
+	private int upperChannel = STRIPS[STRIPS.length - 1];
 	private Integer[] excludedStrips;
 	private boolean connected;
-	private static Integer[] STRIPS;
+
 
 	private PolynomialFunction calibration = new PolynomialFunction(new double[] { 0., 1. });
 
 	static {
-		int startStrip = START_STRIP;
 		STRIPS = new Integer[NUMBER_ELEMENTS];
 		for (int i = 0; i < NUMBER_ELEMENTS; i++) {
-			STRIPS[i] = new Integer(i + startStrip);
+			STRIPS[i] = new Integer(i + START_STRIP);
 		}
 	}
 
@@ -266,15 +269,15 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		double[][] out = new double[frameCount][NUMBER_ELEMENTS];
 
 		for (int frame = 0; frame < frameCount; frame++) {
-			for (int element = 0; element < NUMBER_ELEMENTS; element++) {
+			for (int stripIndex = 0; stripIndex < STRIPS.length; stripIndex++) {
 
 				// simply set excluded strips to be zero
-				if (ArrayUtils.contains(excludedStrips, element)) {
-					out[frame][element] = 0.0;
-				} else if (!nextScan.getIncludeCountsOutsideROIs() && element < lowerChannel || element > upperChannel) {
-					out[frame][element] = 0.0;
+				if (ArrayUtils.contains(excludedStrips, STRIPS[stripIndex])) {
+					out[frame][stripIndex] = 0.0;
+				} else if (!nextScan.getIncludeCountsOutsideROIs() && STRIPS[stripIndex] < lowerChannel || STRIPS[stripIndex] > upperChannel) {
+					out[frame][stripIndex] = 0.0;
 				} else {
-					out[frame][element] = rawData[(frame * NUMBER_ELEMENTS) + element];
+					out[frame][stripIndex] = rawData[(frame * NUMBER_ELEMENTS) + stripIndex];
 				}
 			}
 		}
@@ -356,10 +359,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		double[] correctedData = performCorrections(elements)[0];
 		NXDetectorData thisFrame = new NXDetectorData(this);
 
-		double[] energies = new double[NUMBER_ELEMENTS];
-		for (int i = 0; i < NUMBER_ELEMENTS; i++) {
-			energies[i] = calibration.value(i);
-		}
+		double[] energies = this.getEnergyForChannels();
 
 		thisFrame.addAxis(getName(), "Energy", new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, energies, 1, 1,
 				"eV", false);
@@ -393,18 +393,18 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		return extras;
 	}
 
-	private int whichROI(int elementNum) {
+	private int whichROI(int elementIndex) {
 		for (int i = 0; i < getRois().length; i++) {
 			XHROI roi = getRois()[i];
-			if (insideROI(elementNum, roi)) {
+			if (insideROI(STRIPS[elementIndex], roi)) {
 				return i;
 			}
 		}
 		return -1;
 	}
 
-	private boolean insideROI(int elementNum, XHROI roi) {
-		return elementNum >= roi.getLowerLevel() && elementNum <= roi.getUpperLevel();
+	private boolean insideROI(int elementNumber, XHROI roi) {
+		return elementNumber >= roi.getLowerLevel() && elementNumber <= roi.getUpperLevel();
 	}
 
 	/*
@@ -1014,7 +1014,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 					coeffsString += coeff + " ";
 				}
 				coeffsString.trim();
-				store.setProperty("calibration", coeffsString);
+				store.setProperty(CALIBRATION_PROP_KEY, coeffsString);
 			}
 			store.save();
 		} catch (Exception e) {
@@ -1040,7 +1040,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			} else {
 				setRoisWithoutStoringAndNotifying(GSON.fromJson(roisJsonArray, XHROI[].class));
 			}
-			String storeCalibration = store.getString("calibration");
+			String storeCalibration = store.getString(CALIBRATION_PROP_KEY);
 			if (storeCalibration != null && !storeCalibration.isEmpty()) {
 				String[] coeffsString = storeCalibration.split(" ");
 				double[] coeffs = new double[coeffsString.length];
@@ -1202,7 +1202,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	public double[] getEnergyForChannels() {
 		double[] energy = new double[STRIPS.length];
 		for (int i = 0; i < STRIPS.length; i++) {
-			energy[i] = getEnergyForChannel(STRIPS[i]);
+			double result = getEnergyForChannel(STRIPS[i]);
+			energy[i] = result;
 		}
 		return energy;
 	}
@@ -1216,7 +1217,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			logger.error("Detector did not supply a calibration.", e);
 			return channel;
 		}
-		return function.value(channel);
+		return function.value((double) channel / (double) NUMBER_ELEMENTS);
 	}
 
 }

@@ -105,6 +105,7 @@ public class NumberEditorControl extends Composite {
 	private StackLayout stepLayout;
 	private Label stepLabel;
 
+	private boolean isEditing;
 
 	private UpdateValueStrategy customUpdateValueStrategy;
 
@@ -259,6 +260,10 @@ public class NumberEditorControl extends Composite {
 
 	public void setEditable(boolean value) {
 		controlModel.setEditable(value);
+	}
+
+	public boolean isEditing() {
+		return isEditing;
 	}
 
 	public boolean isCommitOnOutOfFocus() {
@@ -528,11 +533,13 @@ public class NumberEditorControl extends Composite {
 					motorPositionEditorText.addDisposeListener(new DisposeListener() {
 						@Override
 						public void widgetDisposed(DisposeEvent e) {
+							isEditing = false;
 							motorPositionEditorText = null;
 							layout.topControl = editorComposite;
 							NumberEditorControl.this.layout(true, true);
 						}
 					});
+					isEditing = true;
 				}
 			}
 		};
