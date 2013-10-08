@@ -125,7 +125,7 @@
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.exafs.ui.views.LinearExperimentView"
+            class="uk.ac.gda.exafs.ui.views.TimeResolvedExperimentView"
             id="uk.ac.gda.exafs.ui.views.linearExperimentView"
             name="Linear experiment"
             restorable="true">

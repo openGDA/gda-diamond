@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.data.detector;
+package uk.ac.gda.exafs.ui.data.experiment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import com.google.gson.annotations.Expose;
 import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
-public class TimingGroupModel extends CollectionModel {
+public class TimingGroupModel extends ExperimentTimingDataModel {
 
 	private final WritableList spectrumList = new WritableList(new ArrayList<SpectrumModel>(), SpectrumModel.class);
 	private final DefaultTimeBarRowModel timeBarRowModel;
@@ -52,6 +52,9 @@ public class TimingGroupModel extends CollectionModel {
 	@Expose
 	private int noOfAccumulations;
 
+	public static final String USE_EXTERNAL_TRIGGER_PROP_NAME = "useExernalTrigger";
+	private boolean useExernalTrigger;
+
 	public static final String MAX_ACCUMULATION_FOR_DETECTOR_PROP_NAME = "maxAccumulationforDetector";
 	private int maxAccumulationforDetector;
 
@@ -61,8 +64,8 @@ public class TimingGroupModel extends CollectionModel {
 		return spectrumList;
 	}
 
-	public TimingGroupModel(DefaultTimeBarRowModel value) {
-		timeBarRowModel = value;
+	public TimingGroupModel(DefaultTimeBarRowModel spectraTimeBarRowModel) {
+		timeBarRowModel = spectraTimeBarRowModel;
 		spectrumList.addListChangeListener(new IListChangeListener() {
 			@Override
 			public void handleListChange(ListChangeEvent event) {
@@ -103,16 +106,24 @@ public class TimingGroupModel extends CollectionModel {
 		updateSpectrumsAndNoOfAccumulations();
 	}
 
+	public void setTimes(double startTime, double endTime) {
+		super.setStartTime(startTime);
+		super.setEndTime(endTime);
+		updateSpectrumsAndNoOfAccumulations();
+	}
+
 	private void updateSpectrumsAndNoOfAccumulations() {
 		if (timePerSpectrum <= 0) {
 			return;
+		} else if (timePerSpectrum + delayBetweenSpectrum > this.getAvailableTimeForSpectrum()) {
+			this.setTimePerSpectrum(this.getAvailableTimeForSpectrum());
 		}
 		spectrumList.clear();
-		int numberOfSpectrums = (int) (this.getDuration() / (timePerSpectrum + delayBetweenSpectrum));
+		int numberOfSpectrums = (int) (this.getAvailableTimeForSpectrum() / (timePerSpectrum + delayBetweenSpectrum));
 		for (int i = 0; i < numberOfSpectrums; i++) {
 			SpectrumModel spectrum = new SpectrumModel(this);
 			if (spectrumList.isEmpty()) { // First entry
-				spectrum.setStartTime(this.getStartTime());
+				spectrum.setStartTime(this.getStartTime() + this.getDelay());
 			} else {
 				spectrum.setStartTime(((SpectrumModel) spectrumList.get(spectrumList.size() - 1)).getEndTime() + delayBetweenSpectrum);
 			}
@@ -134,6 +145,10 @@ public class TimingGroupModel extends CollectionModel {
 
 	public void setIntegrationTime(double integrationTime) {
 		this.firePropertyChange(INTEGRATION_TIME_PROP_NAME, this.integrationTime, this.integrationTime = integrationTime);
+	}
+
+	private double getAvailableTimeForSpectrum() {
+		return getDuration() - getDelay();
 	}
 
 	public double getTimePerSpectrum() {
@@ -162,6 +177,14 @@ public class TimingGroupModel extends CollectionModel {
 		this.firePropertyChange(NO_OF_ACCUMULATION_PROP_NAME, noOfAccumulations, noOfAccumulations = value);
 	}
 
+	public boolean isUseExernalTrigger() {
+		return useExernalTrigger;
+	}
+
+	public void setUseExernalTrigger(boolean value) {
+		this.firePropertyChange(USE_EXTERNAL_TRIGGER_PROP_NAME, useExernalTrigger, useExernalTrigger = value);
+	}
+
 	@Override
 	public void dispose() {
 		spectrumList.clear();
@@ -173,5 +196,9 @@ public class TimingGroupModel extends CollectionModel {
 
 	public int getMaxAccumulationforDetector() {
 		return maxAccumulationforDetector;
+	}
+
+	public double getTimeResolution() {
+		return delayBetweenSpectrum + timePerSpectrum;
 	}
 }

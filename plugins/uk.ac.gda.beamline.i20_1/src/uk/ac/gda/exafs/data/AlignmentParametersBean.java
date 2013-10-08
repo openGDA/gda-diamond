@@ -26,9 +26,9 @@ public class AlignmentParametersBean implements Serializable {
 
 	public static String[] CrystalType = new String[] { "BRAGG", "LAUE" };
 
-	public static String[] ME1Stripe = new String[] { "Zero", "Rhodium", "Platinum" };
+	public static String[] ME1Stripe = new String[] { "Rhodium", "Platinum", "Zero" };
 
-	public static String[] ME2Stripe = new String[] { "Out of beam", "Silicon", "Rhodium" };
+	public static String[] ME2Stripe = new String[] { "Silicon", "Rhodium", "Out of beam" };
 
 	public static String[] ATN1 = new String[] { "Empty", "pC 0.1mm", "pC 0.2mm", "pC 0.4mm", "pC 0.6mm", "pC 0.8mm" };
 

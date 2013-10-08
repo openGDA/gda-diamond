@@ -32,7 +32,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.junit.Test;
 
-import uk.ac.gda.exafs.ui.data.detector.TimingGroupModel;
+import uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

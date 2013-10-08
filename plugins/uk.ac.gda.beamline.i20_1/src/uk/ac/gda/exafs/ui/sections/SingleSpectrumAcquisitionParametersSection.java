@@ -211,7 +211,7 @@ public class SingleSpectrumAcquisitionParametersSection {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					SingleSpectrumModel.INSTANCE.doScan();
+					SingleSpectrumModel.INSTANCE.doCollection();
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 				}

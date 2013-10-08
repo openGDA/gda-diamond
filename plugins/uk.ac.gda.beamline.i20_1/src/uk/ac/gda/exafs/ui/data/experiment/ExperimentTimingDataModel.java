@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.data.detector;
+package uk.ac.gda.exafs.ui.data.experiment;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
@@ -26,7 +26,7 @@ import com.google.gson.annotations.Expose;
 
 import de.jaret.util.date.IntervalImpl;
 
-public abstract class CollectionModel extends IntervalImpl {
+public abstract class ExperimentTimingDataModel extends IntervalImpl {
 
 	private static final long MIN_DURATION_TIME = 20;
 	public static final String NAME_PROP_NAME = "name";
@@ -93,6 +93,7 @@ public abstract class CollectionModel extends IntervalImpl {
 	public double getDuration() {
 		return endTime - startTime;
 	}
+
 
 	public double getEndTime() {
 		return endTime;

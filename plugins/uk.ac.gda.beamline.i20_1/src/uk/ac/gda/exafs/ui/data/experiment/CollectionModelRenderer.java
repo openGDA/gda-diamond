@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.data.detector;
+package uk.ac.gda.exafs.ui.data.experiment;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -33,6 +33,21 @@ import de.jaret.util.ui.timebars.TimeBarViewerInterface;
 import de.jaret.util.ui.timebars.swt.renderer.DefaultRenderer;
 
 public class CollectionModelRenderer extends DefaultRenderer {
+
+	@Override
+	protected Rectangle getIRect(boolean horizontal, Rectangle drawingArea, boolean overlap) {
+		if (horizontal) {
+			int borderHeight = (int) (drawingArea.height * BORDERFACTOR / 2);
+			int height = drawingArea.height - (overlap ? 0 : 2 * borderHeight);
+			int y = drawingArea.y + (overlap ? 0 : borderHeight);
+			return new Rectangle(drawingArea.x, y, drawingArea.width - 1, height - 1);
+		}
+		int borderWidth = (int) (drawingArea.width * BORDERFACTOR / 2);
+		int width = drawingArea.width - (overlap ? 0 : 2 * borderWidth);
+		int x = drawingArea.x + (overlap ? 0 : borderWidth);
+		return new Rectangle(x, drawingArea.y, width - 1, drawingArea.height - 1);
+	}
+
 	@Override
 	public void draw(GC gc, Rectangle drawingArea, TimeBarViewerDelegate delegate, Interval interval, boolean selected,
 			boolean printing, boolean overlap) {
@@ -57,12 +72,18 @@ public class CollectionModelRenderer extends DefaultRenderer {
 		gc.drawRectangle(iRect);
 		Color fg = gc.getForeground();
 		gc.setForeground((Display.getCurrent().getSystemColor(SWT.COLOR_WHITE)));
-		if (interval instanceof CollectionModel) {
-			CollectionModel collectionModel = (CollectionModel) interval;
-			String name = collectionModel.getName();
-			Point point = gc.stringExtent(name);
+		if (interval instanceof ExperimentTimingDataModel) {
+			ExperimentTimingDataModel collectionModel = (ExperimentTimingDataModel) interval;
+			StringBuilder name = new StringBuilder(collectionModel.getName());
+			if (interval instanceof TimingGroupModel) {
+				int numberOfSpectrums = ((TimingGroupModel) interval).getNumberOfSpectrums();
+				if (numberOfSpectrums > 1) {
+					name.append(" (" + numberOfSpectrums + " spectra)");
+				}
+			}
+			Point point = gc.stringExtent(name.toString());
 			if (point.y < iRect.height - 5 && point.x < iRect.width) {
-				gc.drawText(name, iRect.x + 5, iRect.y + 3);
+				gc.drawText(name.toString(), iRect.x + 5, iRect.y + 3);
 			}
 
 			String endTime = "End: " + DataHelper.roundDoubletoString(collectionModel.getEndTime()) + " " + UnitSetup.MILLI_SEC.getText();
@@ -78,7 +99,9 @@ public class CollectionModelRenderer extends DefaultRenderer {
 			}
 
 			if (interval instanceof TimingGroupModel) {
-				String noOfSpectrum = Integer.toString(((TimingGroupModel) interval).getNumberOfSpectrums()) + " spectrum";
+				TimingGroupModel groupModel = (TimingGroupModel) interval;
+				String timeResolution = DataHelper.roundDoubletoString(groupModel.getTimeResolution()) + " " + UnitSetup.MILLI_SEC.getText();
+				String noOfSpectrum = "Time resolution: " +  timeResolution;
 				point = gc.stringExtent(noOfSpectrum);
 				if (point.y < iRect.height - 45 && point.x + 5 < iRect.width) {
 					gc.drawText(noOfSpectrum, iRect.x + 5, iRect.y + 50);
