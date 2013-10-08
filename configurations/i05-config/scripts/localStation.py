@@ -48,10 +48,10 @@ s5xminus=DisplayEpicsPVClass('s5xminus', 'BL05I-AL-SLITS-05:X:MINUS:I', '', '%5.
 s5yplus=DisplayEpicsPVClass('s5yplus', 'BL05I-AL-SLITS-05:Y:PLUS:I', '', '%5.5g')
 s5yminus=DisplayEpicsPVClass('s5yminus', 'BL05I-AL-SLITS-05:Y:MINUS:I', '', '%5.5g')
 
-d3current=DisplayEpicsPVClass('d3current', 'BL05I-DI-PHDGN-03:DET:I', '', '%5.5g')
-d7current=DisplayEpicsPVClass('d7current', 'BL05I-DI-PHDGN-07:DET:I', '', '%5.5g')
-d9current=DisplayEpicsPVClass('d9current', 'BL05I-DI-PHDGN-08:DET:I', '', '%5.5g')
-dj7current=DisplayEpicsPVClass('dj7current', 'BL05J-DI-PHDGN-02:DET:I', '', '%5.5g')
+#d3current=DisplayEpicsPVClass('d3current', 'BL05I-DI-PHDGN-03:DET:I', '', '%5.5g')
+#d7current=DisplayEpicsPVClass('d7current', 'BL05I-DI-PHDGN-07:DET:I', '', '%5.5g')
+#d9current=DisplayEpicsPVClass('d9current', 'BL05I-DI-PHDGN-08:DET:I', '', '%5.5g')
+#dj7current=DisplayEpicsPVClass('dj7current', 'BL05J-DI-PHDGN-02:DET:I', '', '%5.5g')
 
 # i0xplus=DisplayEpicsPVClass("i0xplus","BL22I-DI-IAMP-06:PHD1:I_C","ua","%.3e")
 # i0xminus=DisplayEpicsPVClass("i0xplus","BL22I-DI-IAMP-06:PHD2:I_C","ua","%.3e")

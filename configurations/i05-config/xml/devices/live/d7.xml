@@ -1,23 +1,87 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-        <bean id="d7femto" class="uk.ac.gda.beamline.i05.scannable.NonLocalEpicsScannable">
-                <property name="pvName" value="BL05I-VA-ERIO-01:MOD2:INPUT1:VALUE" />
-                <property name="useNameAsExtraName" value="true" />
-                <property name="local" value="false" />
-        </bean>
-        <bean id="d7_y_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL05I-DI-PHDGN-07:IONC:Y" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="d7y" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="d7_y_motor" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="d7filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
-			<property name="pvBase" value="BL05I-DI-PHDGN-07:IONC:Y:MP" />
-			<property name="local" value="true" />
-		</bean>
+	<bean id="d7femto" class="uk.ac.gda.beamline.i05.scannable.NonLocalEpicsScannable">
+		<property name="pvName" value="BL05I-VA-ERIO-01:MOD2:INPUT1:VALUE" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="local" value="false" />
+	</bean>
+	<bean id="d7_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05I-DI-PHDGN-07:IONC:Y" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="d7y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d7_y_motor" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="d7filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
+		<property name="pvBase" value="BL05I-DI-PHDGN-07:IONC:Y:MP" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="d7current" class="gda.device.currentamplifier.CalibratedAmplifier">
+		<property name="scalingAndOffset" ref="d7gain" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL05I-DI-PHDGN-07:DET:I" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="d7gain" class="gda.device.currentamplifier.GainWithScalingAndOffset">
+		<property name="pvName" value="BL05I-DI-PHDGN-07:DET:GAIN" />
+		<property name="gaintosando">
+			<map>
+				<entry key="0">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e9" />
+					</bean>
+				</entry>
+				<entry key="1">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e8" />
+					</bean>
+				</entry>
+				<entry key="2">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e7" />
+					</bean>
+				</entry>
+				<entry key="3">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e6" />
+					</bean>
+				</entry>
+				<entry key="4">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e5" />
+					</bean>
+				</entry>
+				<entry key="5">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e4" />
+					</bean>
+				</entry>
+				<entry key="6">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e3" />
+					</bean>
+				</entry>
+				<entry key="7">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e2" />
+					</bean>
+				</entry>
+				<entry key="8">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e1" />
+					</bean>
+				</entry>
+				<entry key="9">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e0" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
 </beans>
