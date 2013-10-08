@@ -16,6 +16,12 @@ unset JAVA_HOME
 unset JYTHON_HOME
 unset SVN_HOME
 
+GDA_ROOT=/dls_sw/$BEAMLINE/software/gda
+GDA_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config
+
+export GDA_MODE=live
+export PATH=$GDA_CONFIG/bin:${PATH}
+
 export GDA_SW=/$SOFTWAREFOLDER/$BEAMLINE/software
 export GDA_ROOT=$GDA_SW/gda
 export GDA_CONFIG=$GDA_ROOT/${BEAMLINE}-config

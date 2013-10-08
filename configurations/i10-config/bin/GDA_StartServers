@@ -7,8 +7,8 @@ umask 0002 # Some voodoo copied from GDA-mt/configurations/i16-config/bin/remote
 # with a different mask to the default.
 
 export JAVA_OPTS="-Dgda.deploytype=1 -XX:MaxPermSize=1024m" # Seems to fix the reset_namespace problem
-GDACORE_OPTIONS="--headless servers --debug --debugport=8001"
+GDA_CORE_SCRIPT_OPTIONS="--headless servers --debug --debugport=8001"
 
-echo  $GDACORE $GDACORE_OPTIONS
-echo  $GDACORE $GDACORE_OPTIONS >> $LOGFILE
-nohup $GDACORE $GDACORE_OPTIONS >> $LOGFILE  2>&1 &
+echo  $GDA_CORE_SCRIPT $GDA_CORE_SCRIPT_OPTIONS
+echo  $GDA_CORE_SCRIPT $GDA_CORE_SCRIPT_OPTIONS >> $GDA_CONSOLE_LOG
+nohup $GDA_CORE_SCRIPT $GDA_CORE_SCRIPT_OPTIONS >> $GDA_CONSOLE_LOG  2>&1 &
