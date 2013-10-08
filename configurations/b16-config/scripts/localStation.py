@@ -583,13 +583,11 @@ if installation.isLive():
 ###############################################################################
 ###                                Diffcalc                                 ###
 ###############################################################################
-diffcalc_path = LocalProperties.get("gda.install.git.loc") + '/diffcalc.git'
-sys.path = [diffcalc_path] + sys.path
 
 if USE_YOU_DIFFCALC_ENGINE:
-	execfile(diffcalc_path + '/example/startup/b16fourcircle_you_engine.py')
+	run('example/startup/b16fourcircle_you_engine.py')
 else:
-	execfile(diffcalc_path + '/example/startup/b16fivecircle.py')
+	run('/example/startup/b16fivecircle.py')
 energy.setLevel(4)
 hkl.setLevel(5) #@UndefinedVariable
 

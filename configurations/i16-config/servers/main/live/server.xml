@@ -69,7 +69,7 @@
 
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
 
-	<bean id="script_paths" parent="abstract_script_paths_with_diffcalc"/>
+	<bean id="script_paths" parent="common_script_paths_with_diffcalc"/>
 
 	<bean id="command_server" parent="abstract_command_server">
 		<property name="jythonScriptPaths" ref="script_paths"/>
