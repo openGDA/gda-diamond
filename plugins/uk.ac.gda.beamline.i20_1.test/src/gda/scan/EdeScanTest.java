@@ -335,14 +335,17 @@ public class EdeScanTest {
 
 		EdeScanPosition inBeam = new ExplicitScanPositions(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
 		EdeScanPosition outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable, yScannable);
+		EdeScanPosition refSample = new ExplicitScanPositions(EdePositionType.REFERENCE, 0d, 0d, xScannable, yScannable);
 
-		EdeLinearExperiment theExperiment = new EdeLinearExperiment(params, outBeam, inBeam, xh);
+		EdeLinearExperiment theExperiment = new EdeLinearExperiment(params, outBeam, inBeam, refSample, xh);
 		String filename = theExperiment.runExperiment();
 
 		testNumberColumnsInEDEFile(filename, 8);
 		testNumberLinesInEDEFile(filename, 1024 * 25);
 		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
 		testNumberLinesInEDEFile(theExperiment.getI0Filename(), 1024 * 3 * 2);
+		testNumberColumnsInEDEFile(theExperiment.getIRefFilename(), 4);
+		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), 1024 * 3);
 		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(), 8);
 		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), 1024 * 25);
 		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(), 8);

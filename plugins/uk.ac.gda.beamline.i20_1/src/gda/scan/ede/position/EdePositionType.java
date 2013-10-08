@@ -20,5 +20,6 @@ package gda.scan.ede.position;
 
 public enum EdePositionType {
 	INBEAM,
-	OUTBEAM
+	OUTBEAM,
+	REFERENCE
 }

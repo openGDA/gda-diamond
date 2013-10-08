@@ -43,6 +43,7 @@ public abstract class EdeAsciiFileWriter {
 	public static final String I0_CORR_COLUMN_NAME = "I0_corr";
 	public static final String IT_CORR_COLUMN_NAME = "It_corr";
 	public static final String LN_I0_IT_COLUMN_NAME = "LnI0It";
+	public static final String LN_I0_IREF_COLUMN_NAME = "LnI0IRef";
 	public static final String I0_RAW_COLUMN_NAME = "I0_raw";
 	public static final String IT_RAW_COLUMN_NAME = "It_raw";
 	public static final String I0_DARK_COLUMN_NAME = "I0_dark";

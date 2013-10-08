@@ -1,4 +1,5 @@
 from uk.ac.gda.exafs.ui.data import EdeScanParameters
+from gda.configuration.properties import LocalProperties
 
 run "roi_control"
 
