@@ -67,7 +67,9 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 
 		createI0File();
 
-		createIRefFile();
+		if (iRefScan != null) {
+			createIRefFile();
+		}
 
 		createItFiles();
 
@@ -152,18 +154,15 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			log("Writing EDE format ascii file for IRef data: " + i0Filename);
 			writerHeader(writer);
 
-			writer.write("#" + TIMINGGROUP_COLUMN_NAME + "\t" + STRIP_COLUMN_NAME + "\t"
-					+ ENERGY_COLUMN_NAME + "\t" +LN_I0_IREF_COLUMN_NAME + "\n");
+			writer.write("#" + TIMINGGROUP_COLUMN_NAME + "\t" + STRIP_COLUMN_NAME + "\t" + ENERGY_COLUMN_NAME + "\t"
+					+ LN_I0_IREF_COLUMN_NAME + "\n");
 			int numberOfTimingGroups = getNumberOfTimingGroups();
 
 			for (int timingGroup = 0; timingGroup < numberOfTimingGroups; timingGroup++) {
-				DoubleDataset i0DataSet = extractDetectorDataSets(theDetector.getName(), i0InitialScan,
-						timingGroup);
-				DoubleDataset i0DarkDataSet = extractDetectorDataSets(theDetector.getName(), i0DarkScan,
-						timingGroup);
-				DoubleDataset i0RefDataSet = extractDetectorDataSets(theDetector.getName(), iRefScan,
-						timingGroup);
-				writeIRefSpectrum(writer, timingGroup, i0DataSet, i0RefDataSet,i0DarkDataSet);
+				DoubleDataset i0DataSet = extractDetectorDataSets(theDetector.getName(), i0InitialScan, timingGroup);
+				DoubleDataset i0DarkDataSet = extractDetectorDataSets(theDetector.getName(), i0DarkScan, timingGroup);
+				DoubleDataset i0RefDataSet = extractDetectorDataSets(theDetector.getName(), iRefScan, timingGroup);
+				writeIRefSpectrum(writer, timingGroup, i0DataSet, i0RefDataSet, i0DarkDataSet);
 			}
 		} finally {
 			if (writer != null) {
