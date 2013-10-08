@@ -11,7 +11,7 @@
   </property>
   <property type="sds.integer" id="position.x" value="0" />
   <property type="sds.integer" id="position.y" value="0" />
-  <property type="sds.integer" id="width" value="660" />
+  <property type="sds.integer" id="width" value="623" />
   <property type="sds.integer" id="height" value="568" />
   <property type="sds.color" id="color.foreground">
     <color hex="#C86464" />
@@ -56,7 +56,7 @@
   </property>
   <property type="sds.integer" id="position.x" value="0" />
   <property type="sds.integer" id="position.y" value="0" />
-  <property type="sds.integer" id="width" value="660" />
+  <property type="sds.integer" id="width" value="623" />
   <property type="sds.integer" id="height" value="568" />
   <property type="sds.color" id="color.foreground">
     <color hex="#FFFFFF" />
@@ -97,7 +97,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="479" />
+  <property type="sds.integer" id="position.x" value="433" />
   <property type="sds.integer" id="position.y" value="157" />
   <property type="sds.integer" id="width" value="170" />
   <property type="sds.integer" id="height" value="316" />
@@ -141,7 +141,7 @@
     <actionData />
   </property>
   <property type="sds.integer" id="position.x" value="123" />
-  <property type="sds.integer" id="position.y" value="513" />
+  <property type="sds.integer" id="position.y" value="508" />
   <property type="sds.integer" id="width" value="102" />
   <property type="sds.integer" id="height" value="43" />
   <property type="sds.color" id="color.foreground">
@@ -203,7 +203,7 @@
     <actionData />
   </property>
   <property type="sds.integer" id="position.x" value="123" />
-  <property type="sds.integer" id="position.y" value="475" />
+  <property type="sds.integer" id="position.y" value="470" />
   <property type="sds.integer" id="width" value="102" />
   <property type="sds.integer" id="height" value="43" />
   <property type="sds.color" id="color.foreground">
@@ -265,7 +265,7 @@
     <actionData />
   </property>
   <property type="sds.integer" id="position.x" value="35" />
-  <property type="sds.integer" id="position.y" value="473" />
+  <property type="sds.integer" id="position.y" value="468" />
   <property type="sds.integer" id="width" value="107" />
   <property type="sds.integer" id="height" value="20" />
   <property type="sds.color" id="color.foreground">
@@ -321,7 +321,7 @@
     <actionData />
   </property>
   <property type="sds.integer" id="position.x" value="55" />
-  <property type="sds.integer" id="position.y" value="512" />
+  <property type="sds.integer" id="position.y" value="507" />
   <property type="sds.integer" id="width" value="86" />
   <property type="sds.integer" id="height" value="20" />
   <property type="sds.color" id="color.foreground">
@@ -377,7 +377,7 @@
     <actionData />
   </property>
   <property type="sds.integer" id="position.x" value="7" />
-  <property type="sds.integer" id="position.y" value="91" />
+  <property type="sds.integer" id="position.y" value="86" />
   <property type="sds.integer" id="width" value="117" />
   <property type="sds.integer" id="height" value="20" />
   <property type="sds.color" id="color.foreground">
@@ -433,7 +433,7 @@
     <actionData />
   </property>
   <property type="sds.integer" id="position.x" value="105" />
-  <property type="sds.integer" id="position.y" value="93" />
+  <property type="sds.integer" id="position.y" value="88" />
   <property type="sds.integer" id="width" value="102" />
   <property type="sds.integer" id="height" value="43" />
   <property type="sds.color" id="color.foreground">
@@ -495,7 +495,7 @@
     <actionData />
   </property>
   <property type="sds.integer" id="position.x" value="105" />
-  <property type="sds.integer" id="position.y" value="131" />
+  <property type="sds.integer" id="position.y" value="126" />
   <property type="sds.integer" id="width" value="102" />
   <property type="sds.integer" id="height" value="43" />
   <property type="sds.color" id="color.foreground">
@@ -557,7 +557,7 @@
     <actionData />
   </property>
   <property type="sds.integer" id="position.x" value="26" />
-  <property type="sds.integer" id="position.y" value="131" />
+  <property type="sds.integer" id="position.y" value="126" />
   <property type="sds.integer" id="width" value="98" />
   <property type="sds.integer" id="height" value="20" />
   <property type="sds.color" id="color.foreground">
@@ -613,7 +613,7 @@
     <actionData />
   </property>
   <property type="sds.integer" id="position.x" value="22" />
-  <property type="sds.integer" id="position.y" value="63" />
+  <property type="sds.integer" id="position.y" value="58" />
   <property type="sds.integer" id="width" value="177" />
   <property type="sds.integer" id="height" value="18" />
   <property type="sds.color" id="color.foreground">
@@ -668,8 +668,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="113" />
-  <property type="sds.integer" id="position.y" value="9" />
+  <property type="sds.integer" id="position.x" value="180" />
+  <property type="sds.integer" id="position.y" value="18" />
   <property type="sds.integer" id="width" value="233" />
   <property type="sds.integer" id="height" value="23" />
   <property type="sds.color" id="color.foreground">
@@ -724,7 +724,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="525" />
+  <property type="sds.integer" id="position.x" value="479" />
   <property type="sds.integer" id="position.y" value="235" />
   <property type="sds.integer" id="width" value="82" />
   <property type="sds.integer" id="height" value="126" />
@@ -774,7 +774,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="513" />
+  <property type="sds.integer" id="position.x" value="467" />
   <property type="sds.integer" id="position.y" value="359" />
   <property type="sds.integer" id="width" value="101" />
   <property type="sds.integer" id="height" value="23" />
@@ -830,7 +830,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="521" />
+  <property type="sds.integer" id="position.x" value="475" />
   <property type="sds.integer" id="position.y" value="379" />
   <property type="sds.integer" id="width" value="83" />
   <property type="sds.integer" id="height" value="23" />
@@ -899,7 +899,7 @@
       <outputChannel name="local://oeview, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="542" />
+  <property type="sds.integer" id="position.x" value="496" />
   <property type="sds.integer" id="position.y" value="404" />
   <property type="sds.integer" id="width" value="42" />
   <property type="sds.integer" id="height" value="21" />
@@ -956,7 +956,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="527" />
+  <property type="sds.integer" id="position.x" value="481" />
   <property type="sds.integer" id="position.y" value="425" />
   <property type="sds.integer" id="width" value="68" />
   <property type="sds.integer" id="height" value="21" />
@@ -1012,7 +1012,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="518" />
+  <property type="sds.integer" id="position.x" value="472" />
   <property type="sds.integer" id="position.y" value="445" />
   <property type="sds.integer" id="width" value="91" />
   <property type="sds.integer" id="height" value="21" />
@@ -1069,7 +1069,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="488" />
+  <property type="sds.integer" id="position.x" value="442" />
   <property type="sds.integer" id="position.y" value="163" />
   <property type="sds.integer" id="width" value="154" />
   <property type="sds.integer" id="height" value="23" />
@@ -1138,7 +1138,7 @@
       <outputChannel name="gda://d9_diode.strPos, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="539" />
+  <property type="sds.integer" id="position.x" value="493" />
   <property type="sds.integer" id="position.y" value="187" />
   <property type="sds.integer" id="width" value="56" />
   <property type="sds.integer" id="height" value="23" />
@@ -1185,7 +1185,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="539" />
+  <property type="sds.integer" id="position.x" value="493" />
   <property type="sds.integer" id="position.y" value="210" />
   <property type="sds.integer" id="width" value="56" />
   <property type="sds.integer" id="height" value="23" />
@@ -1241,7 +1241,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="475" />
+  <property type="sds.integer" id="position.x" value="429" />
   <property type="sds.integer" id="position.y" value="124" />
   <property type="sds.integer" id="width" value="177" />
   <property type="sds.integer" id="height" value="18" />
@@ -1297,7 +1297,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="336" />
+  <property type="sds.integer" id="position.x" value="290" />
   <property type="sds.integer" id="position.y" value="430" />
   <property type="sds.integer" id="width" value="141" />
   <property type="sds.integer" id="height" value="23" />
@@ -1353,7 +1353,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="367" />
+  <property type="sds.integer" id="position.x" value="321" />
   <property type="sds.integer" id="position.y" value="484" />
   <property type="sds.integer" id="width" value="75" />
   <property type="sds.integer" id="height" value="23" />
@@ -1422,7 +1422,7 @@
       <outputChannel name="gda://d3_screen, string" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="367" />
+  <property type="sds.integer" id="position.x" value="321" />
   <property type="sds.integer" id="position.y" value="462" />
   <property type="sds.integer" id="width" value="75" />
   <property type="sds.integer" id="height" value="23" />
@@ -1481,7 +1481,7 @@
       <outputChannel name="gda://d3_screen.stop" value="" />
     </dynamicsDescriptor>
   </property>
-  <property type="sds.integer" id="position.x" value="384" />
+  <property type="sds.integer" id="position.x" value="338" />
   <property type="sds.integer" id="position.y" value="507" />
   <property type="sds.integer" id="width" value="43" />
   <property type="sds.integer" id="height" value="19" />
@@ -1538,7 +1538,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="372" />
+  <property type="sds.integer" id="position.x" value="326" />
   <property type="sds.integer" id="position.y" value="141" />
   <property type="sds.integer" id="width" value="59" />
   <property type="sds.integer" id="height" value="177" />
@@ -1584,7 +1584,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="344" />
+  <property type="sds.integer" id="position.x" value="298" />
   <property type="sds.integer" id="position.y" value="111" />
   <property type="sds.integer" id="width" value="105" />
   <property type="sds.integer" id="height" value="21" />
@@ -1642,53 +1642,7 @@
     <actionData />
   </property>
   <property type="sds.integer" id="position.x" value="145" />
-  <property type="sds.integer" id="position.y" value="300" />
-  <property type="sds.integer" id="width" value="52" />
-  <property type="sds.integer" id="height" value="47" />
-  <property type="sds.color" id="color.foreground">
-    <color hex="#0000c0" />
-  </property>
-  <property type="sds.color" id="color.background">
-    <color hex="#e6e6e6" />
-  </property>
-  <property type="sds.boolean" id="visibility" value="true" />
-  <property type="sds.option" id="border.style">
-    <option id="1" />
-  </property>
-  <property type="sds.integer" id="border.width" value="0" />
-  <property type="sds.color" id="border.color">
-    <color hex="#640000" />
-  </property>
-  <property type="sds.boolean" id="enabled" value="true" />
-  <property type="sds.string" id="permission_id" value="" />
-  <property type="sds.choiceoption" id="cursor">
-    <option id="cursor.default" />
-  </property>
-  <property type="sds.paramstring" id="tooltip" value="" />
-  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
-  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
-  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
-  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
-  <property type="sds.path" id="filename">
-    <path value="/oe images/beam_tail.png" />
-  </property>
-  <property type="sds.integer" id="translate.y" value="0" />
-  <property type="sds.integer" id="translate.x" value="0" />
-  <property type="sds.string" id="Ready" value="Ready" />
-</widget>
-<widget type="org.csstudio.sds.components.SVG">
-  <property type="sds.behavior" id="behavior" value="" />
-  <property type="sds.string" id="primary_pv" value="" />
-  <property type="sds.string" id="name" value="SVGModel" />
-  <property type="sds.map" id="aliases">
-    <map />
-  </property>
-  <property type="sds.action" id="actionData">
-    <actionData />
-  </property>
-  <property type="sds.integer" id="position.x" value="245" />
-  <property type="sds.integer" id="position.y" value="288" />
+  <property type="sds.integer" id="position.y" value="295" />
   <property type="sds.integer" id="width" value="52" />
   <property type="sds.integer" id="height" value="47" />
   <property type="sds.color" id="color.foreground">
@@ -1734,7 +1688,7 @@
     <actionData />
   </property>
   <property type="sds.integer" id="position.x" value="194" />
-  <property type="sds.integer" id="position.y" value="294" />
+  <property type="sds.integer" id="position.y" value="289" />
   <property type="sds.integer" id="width" value="52" />
   <property type="sds.integer" id="height" value="47" />
   <property type="sds.color" id="color.foreground">
@@ -1780,7 +1734,7 @@
     <actionData />
   </property>
   <property type="sds.integer" id="position.x" value="36" />
-  <property type="sds.integer" id="position.y" value="138" />
+  <property type="sds.integer" id="position.y" value="133" />
   <property type="sds.integer" id="width" value="231" />
   <property type="sds.integer" id="height" value="326" />
   <property type="sds.color" id="color.foreground">
@@ -1861,7 +1815,7 @@
     <actionData />
   </property>
   <property type="sds.integer" id="position.x" value="94" />
-  <property type="sds.integer" id="position.y" value="307" />
+  <property type="sds.integer" id="position.y" value="302" />
   <property type="sds.integer" id="width" value="52" />
   <property type="sds.integer" id="height" value="47" />
   <property type="sds.color" id="color.foreground">
@@ -1906,7 +1860,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="384" />
+  <property type="sds.integer" id="position.x" value="338" />
   <property type="sds.integer" id="position.y" value="270" />
   <property type="sds.integer" id="width" value="52" />
   <property type="sds.integer" id="height" value="47" />
@@ -1957,7 +1911,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="317" />
+  <property type="sds.integer" id="position.x" value="271" />
   <property type="sds.integer" id="position.y" value="225" />
   <property type="sds.integer" id="width" value="148" />
   <property type="sds.integer" id="height" value="182" />
@@ -2007,7 +1961,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="291" />
+  <property type="sds.integer" id="position.x" value="245" />
   <property type="sds.integer" id="position.y" value="279" />
   <property type="sds.integer" id="width" value="95" />
   <property type="sds.integer" id="height" value="20" />
@@ -2053,7 +2007,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="434" />
+  <property type="sds.integer" id="position.x" value="388" />
   <property type="sds.integer" id="position.y" value="260" />
   <property type="sds.integer" id="width" value="95" />
   <property type="sds.integer" id="height" value="20" />

@@ -11,9 +11,6 @@
     <logger name="gda">
         <level value="INFO"/>
     </logger>
-<!--    <logger name="gda.jython.GDAJythonInterpreter">-->
-<!--        <level value="WARN"/>-->
-<!--    </logger>-->
     <logger name="gda.device.motor.EpicsMotor">
         <level value="WARN"/>
     </logger>

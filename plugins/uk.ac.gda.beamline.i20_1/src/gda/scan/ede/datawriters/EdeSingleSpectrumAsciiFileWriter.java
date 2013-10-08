@@ -23,6 +23,7 @@ import gda.scan.EdeScan;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -63,6 +64,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 		asciiFile.createNewFile();
 		FileWriter writer = new FileWriter(asciiFile);
 		log("Writing EDE format ascii file: " + asciiFilename);
+		writerHeader(writer);
 		writer.write("#" + STRIP_COLUMN_NAME + "\t" + ENERGY_COLUMN_NAME + "\t" + I0_CORR_COLUMN_NAME + "\t"
 				+ IT_CORR_COLUMN_NAME + "\t" + LN_I0_IT_COLUMN_NAME + "\t " + I0_RAW_COLUMN_NAME + "\t"
 				+ IT_RAW_COLUMN_NAME + "\t" + I0_DARK_COLUMN_NAME + "\t" + IT_DARK_COLUMN_NAME + "\n");
@@ -92,6 +94,18 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 		}
 		writer.close();
 		return asciiFilename;
+	}
+
+	private void writerHeader(FileWriter writer) throws IOException {
+		if (!itDarkScan.equals(i0DarkScan)) {
+			writer.write("#I0 Dark:" + i0DarkScan.getHeaderDescription());
+			writer.write("\n#It Dark:" + itDarkScan.getHeaderDescription());
+		} else {
+			writer.write("#Dark:" + i0DarkScan.getHeaderDescription());
+		}
+		writer.write("\n#I0:" + i0InitialScan.getHeaderDescription());
+		writer.write("\n#It:" + itScan.getHeaderDescription());
+		writer.write("\n");
 	}
 
 	public String getAsciiFilename() {

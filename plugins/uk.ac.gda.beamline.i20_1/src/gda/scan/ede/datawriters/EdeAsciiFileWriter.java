@@ -37,6 +37,7 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 public abstract class EdeAsciiFileWriter {
 
 	public static final String TIMINGGROUP_COLUMN_NAME = "Timing_Group";
+	public static final String FRAME_COLUMN_NAME = "Frame";
 	public static final String STRIP_COLUMN_NAME = "Strip";
 	public static final String ENERGY_COLUMN_NAME = "Energy";
 	public static final String I0_CORR_COLUMN_NAME = "I0_corr";

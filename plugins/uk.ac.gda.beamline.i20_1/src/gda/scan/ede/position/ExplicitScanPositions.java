@@ -27,7 +27,7 @@ import java.io.Serializable;
 /**
  * Bean to hold the motor positions which would move the sample in or out of beam.
  */
-public class ExplicitScanPositions implements Serializable, EdeScanPosition{
+public class ExplicitScanPositions implements Serializable, EdeScanPosition {
 	EdePositionType type;
 	Double xPosition;
 	Double yPosition;
@@ -35,9 +35,8 @@ public class ExplicitScanPositions implements Serializable, EdeScanPosition{
 	String yMotor;
 	Scannable xScannable;
 	Scannable yScannable;
-	
-	public ExplicitScanPositions(EdePositionType type, Double xPosition, Double yPosition, String xMotor,
-			String yMotor) {
+
+	public ExplicitScanPositions(EdePositionType type, Double xPosition, Double yPosition, String xMotor, String yMotor) {
 		super();
 		this.type = type;
 		this.xPosition = xPosition;
@@ -45,7 +44,7 @@ public class ExplicitScanPositions implements Serializable, EdeScanPosition{
 		this.xMotor = xMotor;
 		this.yMotor = yMotor;
 	}
-	
+
 	public ExplicitScanPositions(EdePositionType type, Double xPosition, Double yPosition, Scannable xScannable,
 			Scannable yScannable) {
 		super();
@@ -55,47 +54,63 @@ public class ExplicitScanPositions implements Serializable, EdeScanPosition{
 		this.xScannable = xScannable;
 		this.yScannable = yScannable;
 	}
-	
+
+	@Override
+	public String toString() {
+		return type.toString() + " " + xMotor + ":" + xPosition + " " + yMotor + ":" + yPosition;
+	}
+
 	@Override
 	public void moveIntoPosition() throws DeviceException, InterruptedException {
-		if (xScannable == null)
+		if (xScannable == null) {
 			xScannable = Finder.getInstance().find(xMotor);
-		if (yScannable == null)
+		}
+		if (yScannable == null) {
 			yScannable = Finder.getInstance().find(yMotor);
+		}
 		xScannable.asynchronousMoveTo(xPosition);
 		yScannable.asynchronousMoveTo(yPosition);
 		xScannable.waitWhileBusy();
 		yScannable.waitWhileBusy();
 	}
-	
+
 	@Override
 	public EdePositionType getType() {
 		return type;
 	}
+
 	public void setType(EdePositionType type) {
 		this.type = type;
 	}
+
 	public Double getxPosition() {
 		return xPosition;
 	}
+
 	public void setxPosition(Double xPosition) {
 		this.xPosition = xPosition;
 	}
+
 	public Double getyPosition() {
 		return yPosition;
 	}
+
 	public void setyPosition(Double yPosition) {
 		this.yPosition = yPosition;
 	}
+
 	public String getxMotor() {
 		return xMotor;
 	}
+
 	public void setxMotor(String xMotor) {
 		this.xMotor = xMotor;
 	}
+
 	public String getyMotor() {
 		return yMotor;
 	}
+
 	public void setyMotor(String yMotor) {
 		this.yMotor = yMotor;
 	}
@@ -114,36 +129,48 @@ public class ExplicitScanPositions implements Serializable, EdeScanPosition{
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		ExplicitScanPositions other = (ExplicitScanPositions) obj;
-		if (type != other.type)
+		if (type != other.type) {
 			return false;
+		}
 		if (xMotor == null) {
-			if (other.xMotor != null)
+			if (other.xMotor != null) {
 				return false;
-		} else if (!xMotor.equals(other.xMotor))
+			}
+		} else if (!xMotor.equals(other.xMotor)) {
 			return false;
+		}
 		if (xPosition == null) {
-			if (other.xPosition != null)
+			if (other.xPosition != null) {
 				return false;
-		} else if (!xPosition.equals(other.xPosition))
+			}
+		} else if (!xPosition.equals(other.xPosition)) {
 			return false;
+		}
 		if (yMotor == null) {
-			if (other.yMotor != null)
+			if (other.yMotor != null) {
 				return false;
-		} else if (!yMotor.equals(other.yMotor))
+			}
+		} else if (!yMotor.equals(other.yMotor)) {
 			return false;
+		}
 		if (yPosition == null) {
-			if (other.yPosition != null)
+			if (other.yPosition != null) {
 				return false;
-		} else if (!yPosition.equals(other.yPosition))
+			}
+		} else if (!yPosition.equals(other.yPosition)) {
 			return false;
+		}
 		return true;
 	}
-	
+
 }

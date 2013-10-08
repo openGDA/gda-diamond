@@ -135,6 +135,39 @@
 		<property name="pvName" value="BL20I-EA-TEMPC-01:" />
 	</bean>
 	
+	<bean id="cryo_setpoint" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-EA-TEMPC-01:SETP" />
+		<property name="pvNameSetPoint" value="BL20I-EA-TEMPC-01:SETP_S" />
+	</bean>
+	
+	<bean id="cryo_range" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-EA-TEMPC-01:RANGE" />
+		<property name="pvNameSetPoint" value="BL20I-EA-TEMPC-01:RANGE_S" />
+	</bean>
 
+	<bean id="cryo_mode" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-EA-TEMPC-01:CMODE" />
+		<property name="pvNameSetPoint" value="BL20I-EA-TEMPC-01:CMODE_S" />
+	</bean>
+
+	<bean id="cryo_ch0" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG0" />
+		<property name="local" value="false"/>
+	</bean>
+
+	<bean id="cryo_ch1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG1" />
+		<property name="local" value="false"/>
+	</bean>
+
+	<bean id="cryo_ch2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG2" />
+		<property name="local" value="false"/>
+	</bean>
+
+	<bean id="cryo_ch3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG3" />
+		<property name="local" value="false"/>
+	</bean>
 
 </beans>
