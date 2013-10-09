@@ -294,7 +294,7 @@ public class EdeScanTest {
 				String[] dataParts = line.split("\t");
 				assertEquals(9, dataParts.length);
 				assertEquals(1., Double.parseDouble(dataParts[0]), 0.1);
-				assertEquals(2., Double.parseDouble(dataParts[1]), 0.1);
+				assertEquals(0.0, Double.parseDouble(dataParts[1]), 0.1);
 				return;
 			}
 		}
