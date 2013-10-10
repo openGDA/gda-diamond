@@ -56,7 +56,8 @@ public class LinearExperimentDriver extends ScanDriver {
 
 	@Override
 	public String doCollection() throws Exception {
-		EdeLinearExperiment theExperiment = new EdeLinearExperiment(params, outbeamPosition, inbeamPosition, detector);
+		EdeLinearExperiment theExperiment = new EdeLinearExperiment(params, outbeamPosition, inbeamPosition,
+				referencePosition, detector);
 		if (fileTemplate != null) {
 			theExperiment.setFilenameTemplate(fileTemplate);
 		}

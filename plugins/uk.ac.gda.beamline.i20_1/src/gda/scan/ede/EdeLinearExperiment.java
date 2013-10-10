@@ -51,11 +51,13 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	private final EdeScanParameters itScanParameters;
 	private final EdeScanPosition i0Position;
 	private final EdeScanPosition itPosition;
+	private final EdeScanPosition iRefPosition;
 	private final StripDetector theDetector;
 
 	private EdeScanParameters i0ScanParameters;
 	private EdeScan i0DarkScan;
 	private EdeScan i0InitialScan;
+	private EdeScan iRefScan;
 	private EdeScan itScan;
 	private EdeScan i0FinalScan;
 	private EdeLinearExperimentAsciiFileWriter writer;
@@ -63,10 +65,11 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	private final DoubleDataset energyData;
 
 	public EdeLinearExperiment(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
-			EdeScanPosition itPosition, StripDetector theDetector) {
+			EdeScanPosition itPosition, EdeScanPosition iRefPosition, StripDetector theDetector) {
 		this.itScanParameters = itScanParameters;
 		this.i0Position = i0Position;
 		this.itPosition = itPosition;
+		this.iRefPosition = iRefPosition;
 		this.theDetector = theDetector;
 		controller = (ScriptControllerBase) Finder.getInstance().findNoWarn(PROGRESS_UPDATER_NAME);
 		energyData = new DoubleDataset(theDetector.getEnergyForChannels());
@@ -107,6 +110,15 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	 */
 	public String getI0Filename() {
 		return writer.getAsciiI0Filename();
+	}
+
+	/**
+	 * NPE if this is called before the scan has been run and the datawriter has been created
+	 * 
+	 * @return the name of the I0 output file
+	 */
+	public String getIRefFilename() {
+		return writer.getAsciiIRefFilename();
 	}
 
 	/**
@@ -158,6 +170,9 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	private void runScans() throws InterruptedException, Exception {
 		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 1);
 		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1);
+		if (iRefPosition != null){
+			iRefScan = new EdeScan(i0ScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1);
+		}
 		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1);
 		itScan.setProgressUpdater(this);
 		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1);
@@ -165,6 +180,9 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		List<ScanBase> theScans = new Vector<ScanBase>();
 		theScans.add(i0DarkScan);
 		theScans.add(i0InitialScan);
+		if (iRefPosition != null){
+			theScans.add(iRefScan);
+		}
 		theScans.add(itScan);
 		theScans.add(i0FinalScan);
 
@@ -173,7 +191,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	}
 
 	private String writeAsciiFile() throws Exception {
-		writer = new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0InitialScan, itScan, i0FinalScan, theDetector);
+		writer = new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0InitialScan, iRefScan, itScan, i0FinalScan, theDetector);
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
 			writer.setFilenameTemplate(filenameTemplate);
 		}

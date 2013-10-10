@@ -10,11 +10,11 @@
 		<property name="local" value="True" />
 		<property name="host" value="i20-1-xh0.diamond.ac.uk" />
 		<property name="port" value="1972" />
-		<property name="startupCommands">
-			<list>
-				<value>~config_xs</value>
-			</list>
-		</property>
+<!-- 		<property name="startupCommands"> -->
+<!-- 			<list> -->
+<!-- 				<value>~config_xs</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
 		<property name="dataPort" value="20030" />
 		<property name="replyTimeOut" value="5000" />
 	</bean>

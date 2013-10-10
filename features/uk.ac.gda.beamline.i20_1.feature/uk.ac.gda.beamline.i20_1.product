@@ -33,7 +33,7 @@
 
    <splash
       location="uk.ac.gda.client" />
-   <launcher name="gda-i201">
+   <launcher name="gda-i20-1">
       <solaris/>
       <win useIco="false">
          <bmp/>

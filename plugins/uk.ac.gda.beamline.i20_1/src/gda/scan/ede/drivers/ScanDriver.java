@@ -34,6 +34,7 @@ public abstract class ScanDriver {
 
 	protected EdeScanPosition inbeamPosition;
 	protected EdeScanPosition outbeamPosition;
+	protected EdeScanPosition referencePosition;
 	protected String fileTemplate;
 
 	public ScanDriver() {
@@ -49,15 +50,14 @@ public abstract class ScanDriver {
 	public abstract String doCollection() throws Exception;
 
 	protected void validate() throws Exception {
-		if (inbeamPosition == null){
+		if (inbeamPosition == null) {
 			throw new Exception("In beam (It) position has not been set!");
 		}
-		if (outbeamPosition == null){
+		if (outbeamPosition == null) {
 			throw new Exception("Out of beam (I0) position has not been set!");
 		}
 
 	}
-
 
 	/**
 	 * Takes either the motor positions as doubles or a String and null, where the String is one of the alignment stage
@@ -67,16 +67,7 @@ public abstract class ScanDriver {
 	 * @param yPos
 	 */
 	public void setInBeamPosition(Object xPos, Object yPos) {
-		if (yPos == null) {
-			// assume xPos is a string of an AlignmentStageScannable.Devices
-			AlignmentStageScannable.AlignmentStageDevice device = AlignmentStageScannable.AlignmentStageDevice
-					.valueOf(xPos.toString());
-			inbeamPosition = new AlignmentStageScanPosition(EdePositionType.INBEAM, device, alignmentstage);
-		} else {
-			Double xPosition = Double.valueOf(xPos.toString());
-			Double yPosition = Double.valueOf(yPos.toString());
-			inbeamPosition = new ExplicitScanPositions(EdePositionType.INBEAM, xPosition, yPosition, xMotor, yMotor);
-		}
+		inbeamPosition = setPosition(EdePositionType.INBEAM, xPos, yPos);
 	}
 
 	/**
@@ -87,15 +78,32 @@ public abstract class ScanDriver {
 	 * @param yPos
 	 */
 	public void setOutBeamPosition(Object xPos, Object yPos) {
+		outbeamPosition = setPosition(EdePositionType.OUTBEAM, xPos, yPos);
+	}
+
+	/**
+	 * Takes either the motor positions as doubles or a String and null, where the String is one of the alignment stage
+	 * positions.
+	 * 
+	 * @param xPos
+	 * @param yPos
+	 */
+	public void setReferencePosition(Object xPos, Object yPos) {
+		referencePosition = setPosition(EdePositionType.REFERENCE, xPos, yPos);
+	}
+
+	private EdeScanPosition setPosition(EdePositionType type, Object xPos, Object yPos) {
+		EdeScanPosition position;
 		if (yPos == null) {
 			// assume xPos is a string of an AlignmentStageScannable.Devices
 			AlignmentStageScannable.AlignmentStageDevice device = AlignmentStageScannable.AlignmentStageDevice
 					.valueOf(xPos.toString());
-			outbeamPosition = new AlignmentStageScanPosition(EdePositionType.OUTBEAM, device, alignmentstage);
+			position = new AlignmentStageScanPosition(type, device, alignmentstage);
 		} else {
 			Double xPosition = Double.valueOf(xPos.toString());
 			Double yPosition = Double.valueOf(yPos.toString());
-			outbeamPosition = new ExplicitScanPositions(EdePositionType.OUTBEAM, xPosition, yPosition, xMotor, yMotor);
+			position = new ExplicitScanPositions(type, xPosition, yPosition, xMotor, yMotor);
 		}
+		return position;
 	}
 }
