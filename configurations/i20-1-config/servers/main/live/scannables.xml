@@ -39,9 +39,8 @@
 	</bean>
 
 	<bean id="shutterChecker" class="gda.device.scannable.ShutterChecker">
-		<property name="shutter" ref="shutter1" />
+		<property name="shutter" ref="shutter2" />
 		<property name="pssPVName" value="BL20J-PS-SHTR-02:CON"/>
 	</bean>
-	
 	
 </beans>
