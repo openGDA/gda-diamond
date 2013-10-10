@@ -21,16 +21,9 @@ package uk.ac.gda.exafs.data;
 import gda.configuration.properties.LocalProperties;
 import gda.device.Scannable;
 import gda.factory.Finder;
-import gda.util.exafs.Element;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -102,66 +95,7 @@ public class ClientConfig {
 		}
 	}
 
-	public enum CrystalType {
-		Bragg, Laue;
-		public static final String UI_LABEL = "Crystal type:";
-	}
 
-	private enum Edge{K, L1, L2, L3}
-
-	public enum CrystalCut {
-		// See requirement spec for assigned values
-		Si111(6 * KILO_UNIT, 14 * KILO_UNIT),
-		Si311(7 * KILO_UNIT, 26 * KILO_UNIT);
-
-		private final double min;
-		private final double max;
-
-		public static final String UI_LABEL = "Crystal cut:";
-		private final Map<Element, List<String>> elementsInEnergyRange;
-
-		private CrystalCut(double min, double max) {
-			this.min = min;
-			this.max = max;
-			elementsInEnergyRange = createElementList();
-		}
-
-		private Map<Element, List<String>> createElementList() {
-			Map<Element, List<String>> includedElements = new TreeMap<Element, List<String>>(new Comparator<Element>() {
-				@Override
-				public int compare(Element o1, Element o2) {
-					return (o1.getName().compareTo(o2.getName()));
-				}
-			});
-			Collection<Element> elements = Element.getAllElements();
-			for (Element element: elements) {
-				List<String> edges = element.getAllowedEdges();
-				for (Edge edge : Edge.values()) {
-					if (edges.contains(edge.name())) {
-						if (min <= element.getEdgeEnergy(edge.name()) & max >= element.getEdgeEnergy(edge.name())) {
-							if (!includedElements.containsKey(element)) {
-								includedElements.put(element, new ArrayList<String>());
-							}
-							includedElements.get(element).add(edge.name());
-						}
-					}
-				}
-			}
-			return includedElements;
-		}
-
-		public  Map<Element, List<String>> getElementsInEnergyRange() {
-			return elementsInEnergyRange;
-		}
-
-		public double getMax() {
-			return max;
-		}
-
-		public double getMin() {
-			return min;
-		}
-	}
 
 	public enum ScannableSetup {
 

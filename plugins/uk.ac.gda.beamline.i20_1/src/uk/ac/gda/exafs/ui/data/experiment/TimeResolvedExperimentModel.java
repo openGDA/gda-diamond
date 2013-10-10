@@ -59,7 +59,7 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
 public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
-	public static final TimeResolvedExperimentModel INSTANCE = new TimeResolvedExperimentModel();
+	public static final TimeResolvedExperimentModel INSTANCE = new TimeResolvedExperimentModel(0);
 
 	private static final String TIMING_GROUPS_OBJ_NAME = "timingGroups";
 
@@ -86,7 +86,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	private final ScanJob experimentJob;
 
-	public TimeResolvedExperimentModel() {
+	private TimeResolvedExperimentModel(@SuppressWarnings("unused") int dummy) {
 		this.setStartTime(EXPERIMENT_START_TIME);
 		this.setDurationInSec(DEFAULT_INITIAL_EXPERIMENT_TIME_IN_SEC);
 		setupTimebarModel();
