@@ -150,6 +150,7 @@
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.ui.views.SingleSpectrumPlotView"
+            icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.singlespectrumplotview"
             name="Single Spectrum"
             restorable="true">
