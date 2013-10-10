@@ -1,5 +1,4 @@
-import ruby_scripts
-import detector_axis_wrappers
+from scannables.detectors.detectorAxisWrapper import _getWrappedDetector
 from gdascripts.messages.handle_messages import simpleLog
 from gda.scan import ConcurrentScan
 from gdascripts.pd.dummy_pds import DummyPD
@@ -59,7 +58,7 @@ def simpleScan(axis, start, stop, step, detector, exposureTime,
 		noOfExpPerPos=1, fileName="scan_test",
 		pause=False, d1out=True, d2out=True):
 	
-	wrappedDetector = detector_axis_wrappers._getWrappedDetector(axis,
+	wrappedDetector = _getWrappedDetector(axis,
 		start, stop, step, detector, exposureTime,
 		noOfExpPerPos=noOfExpPerPos, fileName=fileName, sync=True, pause=pause)
 	scan = ConcurrentScan([DiodeController(d1out, d2out), 1, 1, 1,
@@ -70,7 +69,7 @@ def simpleScanOverflow(axis, start, stop, step, detector, exposureTime,
 		noOfExpPerPos=1, fileName="scan_test", multiFactor=2, pause=False,
 		overflow=True, d1out=True, d2out=True):
 	
-	wrappedDetector = detector_axis_wrappers._getWrappedDetector(axis,
+	wrappedDetector = _getWrappedDetector(axis,
 		start, stop, step, detector, exposureTime,
 		noOfExpPerPos=noOfExpPerPos, fileName=fileName, sync=True, pause=pause,
 		overflow=overflow, multiFactor=multiFactor)
@@ -94,7 +93,7 @@ def simpleScanDel(axis, start, stop, step, detector, exposureTime,
 		simpleLog( "diffexposureTimeD=" + `exposureTimeD`)
 		simpleLog( "diff=" + `diff`)
 	
-	wrappedDetector = detector_axis_wrappers._getWrappedDetector(axis,
+	wrappedDetector = _getWrappedDetector(axis,
 		start, stop, step, detector, exposureTimeD,
 		noOfExpPerPos=noOfExpPerPos, fileName=fileName, sync=True, diff=diff)
 	scan = ConcurrentScan([DiodeController(d1out, d2out), 1, 1, 1,
@@ -103,7 +102,7 @@ def simpleScanDel(axis, start, stop, step, detector, exposureTime,
 
 def simpleScanUnsync(axis, start, stop, step, detector, exposureTime,
 		noOfExpPerPos=1, fileName="scan_unsync_test", d1out=True, d2out=True):
-	wrappedDetector = detector_axis_wrappers._getWrappedDetector(axis,
+	wrappedDetector = _getWrappedDetector(axis,
 		start, stop, step, detector,  exposureTime,
 		noOfExpPerPos=noOfExpPerPos, fileName=fileName, sync=False)
 	scan = ConcurrentScan([DiodeController(d1out, d2out), 1, 1, 1,
@@ -112,7 +111,7 @@ def simpleScanUnsync(axis, start, stop, step, detector, exposureTime,
 
 def rockScan(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 		fileName="rock_scan_test", d1out=True, d2out=True):
-	wrappedDetector = detector_axis_wrappers._getWrappedDetector(
+	wrappedDetector = _getWrappedDetector(
 		axis, centre - abs(rockSize), centre + abs(rockSize), abs(2*rockSize),
 		detector,  exposureTime, noOfExpPerPos=noOfRocks, fileName=fileName,
 		sync=True, rock=True)
@@ -123,7 +122,7 @@ def rockScan(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 	
 def rockScanUnsync(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 		fileName="rock_scan_test", d1out=True, d2out=True, fixedVelocity=False):
-	wrappedDetector = detector_axis_wrappers._getWrappedDetector(
+	wrappedDetector = _getWrappedDetector(
 		axis, centre - abs(rockSize), centre + abs(rockSize), abs(2*rockSize),
 		detector,  exposureTime, noOfExpPerPos=noOfRocks, fileName=fileName,
 		sync=False, fixedVelocity=fixedVelocity)
@@ -132,22 +131,9 @@ def rockScanUnsync(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 			abs(2*rockSize)])
 	scan.runScan()
 
-def doubleScan(axis, start, stop, step, detector, exposureTime,
-		fileName="double_scan_test", d1out=True, d2out=True):
-	if isinstance(detector, ruby_scripts.Ruby):
-		wrappedDetector = detector_axis_wrappers.RubyAxisWrapper(
-			detector, exposureTime, axis, start, stop, step, sync=True,
-			fileName=fileName, scanDoubleFlag=True)
-	else:
-		raise "Detector must be Ruby"
-	
-	scan = ConcurrentScan([DiodeController(d1out, d2out), 1, 1, 1,
-						   wrappedDetector, start, stop-step, step])
-	scan.runScan()
-
 def expose(detector, exposureTime=1, noOfExposures=1,
 		fileName="expose_test", d1out=True, d2out=True):
-	wrappedDetector = detector_axis_wrappers._getWrappedDetector(None, 1, 1, 1,
+	wrappedDetector = _getWrappedDetector(None, 1, 1, 1,
 		detector, exposureTime, noOfExpPerPos=1, fileName=fileName,
 		sync=False, rock=True)
 	# We say noOfExpPerPos=1 in _getWrappedDetector as we are going to use
@@ -160,7 +146,7 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 
 def darkExpose(detector, exposureTime=1, noOfExposures=1,
 		fileName="dark_expose_test", d1out=True, d2out=True):
-	wrappedDetector = detector_axis_wrappers._getWrappedDetector(axis=None,
+	wrappedDetector = _getWrappedDetector(axis=None,
 		start=1, stop=1, step=1, detector=detector, exposureTime=exposureTime,
 		noOfExpPerPos=1, fileName=fileName, sync=False, exposeDark=True)
 	# We say noOfExpPerPos=1 in _getWrappedDetector as we are going to use

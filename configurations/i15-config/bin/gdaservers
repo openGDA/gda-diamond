@@ -9,7 +9,7 @@ echo
 
 zenity --title "Are you sure?" --question --text "Are you sure you want to restart the $BEAMLINE GDA servers?" --window-icon=question
 SURE=$?
-if [ $SURE == 1 ]; then
+if [ $SURE == 1 ]; then # 0=Ok, 1=Cancel
   exit
 fi
 
@@ -103,7 +103,6 @@ if [ $STARTCLIENT == 0 ] ; then # 0=Ok, 1=Cancel
   echo
   echo Moving GDA Log Panel...
   wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
+  echo
+  for i in {10..1}; do echo -n . ; sleep 1 ; done ; echo .
 fi
-
-echo
-for i in {10..1}; do echo -n . ; sleep 1 ; done ; echo .

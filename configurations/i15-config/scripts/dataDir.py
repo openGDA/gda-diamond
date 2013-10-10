@@ -13,10 +13,10 @@ import sys
 from gda.configuration.properties import LocalProperties
 from gdascripts.messages import handle_messages
 from gdascripts.messages.handle_messages import simpleLog
-global configured, mar, pilatus, ruby, atlas, beamlineName, commissioningProposal, symbolicDataLink
+global configured, mar, pilatus, ruby, atlas, beamlineName, commissioningProposal
 configured = False
 def configure(jythonNameMap, beamlineParameters):
-	global configured, mar, pilatus, ruby, atlas, beamlineName, commissioningProposal, symbolicDataLink
+	global configured, mar, pilatus, ruby, atlas, beamlineName, commissioningProposal
 	"""
 	sets module variables from jython namespace, finder and beamline parameters
 	"""
@@ -25,7 +25,6 @@ def configure(jythonNameMap, beamlineParameters):
 	ruby = jythonNameMap.ruby
 	atlas = jythonNameMap.atlas
 	beamlineName = jythonNameMap.beamlineName
-	symbolicDataLink = jythonNameMap.symbolicDataLink
 	commissioningProposal = jythonNameMap.commissioningProposal
 	configured = True
 
@@ -34,7 +33,7 @@ def checkConfigured():
 		raise "dataDir not configured"
 	
 def setDir(proposal=None, visit=None, subdirectory=""):
-	help = """
+	"""
 	To change user data directory, call setDir('proposal', visit)
 	for example, you might use:		to set the data directory for:
 		setDir('cm2062', 3)			beamline commissioning
@@ -42,7 +41,7 @@ def setDir(proposal=None, visit=None, subdirectory=""):
 	"""
 	
 	if proposal == None:
-		print help
+		print _.__doc__
 		return
 	
 	if visit == None:
@@ -75,10 +74,8 @@ def setFullUserDir(fullUserDir):
 		if not targetDir.exists():
 			raise Exception ,"Unable to create data directory " + `targetDir` + " check permissions"
 	except:
-		type, exception, traceback = sys.exc_info()
-		raise Exception, "Error while trying to create data directory:"  + `targetDir` + " " + `type` + ":" + `exception`
-
-	setSymbolicDataLink(fullUserDir)
+		typ, exception, _ = sys.exc_info()
+		raise Exception, "Error while trying to create data directory:"  + `targetDir` + " " + `typ` + ":" + `exception`
 	
 	# Set up directories for mar and ruby as well
 	if (os.path.exists(fullUserDir)):
@@ -86,34 +83,9 @@ def setFullUserDir(fullUserDir):
 		simpleLog( "Mar directory set to: " + str(fullUserDir))
 		pilatus.setFilePath(fullUserDir)
 		simpleLog( "Pilatus directory set to: " + str(fullUserDir))
-		rubyDir = fullUserDir.replace("/dls/i15/data/","X:/")
-		ruby.setDir(rubyDir)
-		atlas.setDir(rubyDir)
-		simpleLog( "Ruby/Atlas directory set to: " + str(rubyDir))
-
-	
-def setSymbolicDataLink(userDir):
-	if (not os.path.exists(userDir)):
-		simpleLog( "Cannot change symbolic link to non-existent dir: " + userDir)
-		return 0
-	
-	#remove the old symbolic link
-	ret = os.system("rm -f " + symbolicDataLink)
-	if (ret == 1):                                     # os.system returns 1 if unsuccessful...
-		return 0
-	
-	#create the new symbolic link to point to the user data directory
-	os.system("ln -s " + userDir + " " + symbolicDataLink)
-	if (ret == 1):                                     # os.system returns 1 if unsuccessful...
-		simpleLog( "Warning: symbolic link " + str(userDir) + " was removed, but problem creating new one to " + str(symbolicDataLink))
-		return 0
-		
-	simpleLog( "Link " + str(symbolicDataLink) + " set to: " + str(userDir))
-
-def getDir():
-	""" 
-	Returns the actual folder pointed to by currentdir soft link
-	"""
-	checkConfigured()
-	return os.path.realpath(symbolicDataLink)
+		ruby.setDir(fullUserDir)
+		atlas.setDir(fullUserDir)
+		simpleLog( "Ruby/Atlas directory set to: " + str(fullUserDir))
+	else:
+		simpleLog( "Directory does not exist: " + str(fullUserDir))
 

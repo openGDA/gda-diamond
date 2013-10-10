@@ -2,7 +2,6 @@ from time import sleep
 from gdascripts.messages.handle_messages import simpleLog
 from ccdScanMechanics import setMaxVelocity, scanGeometryCheck
 from gda.device.scannable import PseudoDevice
-from dataDir import getDir, setFullUserDir #, setDir 
 from gda.util import VisitPath
 from gda.epics import CAClient
 
@@ -95,11 +94,6 @@ class DetectorAxisWrapperNew(PseudoDevice):
 				"threshold value %f" % (self.prop(), self.prop_threshold))
 		
 		self.visitPath = VisitPath.getVisitPath()
-		if self.visitPath != getDir():
-			simpleLog("Visit path is now: " + self.visitPath)
-			setFullUserDir(self.visitPath)
-			simpleLog("To use a different visit dir a user on that visit must take the baton.")
-		
 		self.isccd.flush()
 		
 		if self.axis:
