@@ -19,7 +19,7 @@
 package uk.ac.gda.exafs.ui.sections;
 
 import gda.device.detector.XHDetector;
-import gda.scan.ede.datawriters.EdeSingleSpectrumAsciiFileWriter;
+import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -47,7 +47,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -247,28 +246,30 @@ public class SingleSpectrumAcquisitionParametersSection {
 				WidgetProperties.enabled().observe(section),
 				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
 
-		SingleSpectrumModel.INSTANCE.addPropertyChangeListener(SingleSpectrumModel.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				Object value = evt.getNewValue();
-				if (value == null) {
-					return;
-				}
-				String fileName = (String) value;
-				File file = new File(fileName);
-				if (file.exists() && file.canRead()) {
-					try {
-						DataHolder dataHolder = LoaderFactory.getData(fileName);
-						AbstractDataset strips = (AbstractDataset) dataHolder.getLazyDataset(EdeSingleSpectrumAsciiFileWriter.STRIP_COLUMN_NAME).getSlice();
-						AbstractDataset logI0It = (AbstractDataset) dataHolder.getLazyDataset(EdeSingleSpectrumAsciiFileWriter.LN_I0_IT_COLUMN_NAME).getSlice();
-						SDAPlotter.plot(AlignmentPerspective.SINGLE_SPECTRUM_PLOT_VIEW_NAME, fileName, strips, new AbstractDataset[]{logI0It});
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(AlignmentPerspective.SINGLE_SPECTRUM_PLOT_VIEW_ID);
-					} catch (Exception e) {
-						UIHelper.showError("Unable to plot the data", e.getMessage());
-					}
-				}
-			}
-		});
+//		SingleSpectrumModel.INSTANCE.addPropertyChangeListener(SingleSpectrumModel.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
+//			@Override
+//			public void propertyChange(PropertyChangeEvent evt) {
+//				Object value = evt.getNewValue();
+//				if (value == null) {
+//					return;
+//				}
+//				String fileName = (String) value;
+//				File file = new File(fileName);
+//				if (file.exists() && file.canRead()) {
+//					try {
+//						DataHolder dataHolder = LoaderFactory.getData(fileName);
+//						AbstractDataset strips = (AbstractDataset) dataHolder.getLazyDataset(EdeAsciiFileWriter.STRIP_COLUMN_NAME).getSlice();
+//						AbstractDataset dk = (AbstractDataset) dataHolder.getLazyDataset(EdeAsciiFileWriter.I0_DARK_COLUMN_NAME).getSlice();
+//						AbstractDataset i0 = (AbstractDataset) dataHolder.getLazyDataset(EdeAsciiFileWriter.I0_RAW_COLUMN_NAME).getSlice();
+//						AbstractDataset it = (AbstractDataset) dataHolder.getLazyDataset(EdeAsciiFileWriter.IT_RAW_COLUMN_NAME).getSlice();
+//						AbstractDataset logI0It = (AbstractDataset) dataHolder.getLazyDataset(EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME).getSlice();
+//						SDAPlotter.plot(AlignmentPerspective.SINGLE_SPECTRUM_PLOT_VIEW_NAME, fileName, strips, new AbstractDataset[]{dk,i0,it,logI0It});
+//					} catch (Exception e) {
+//						UIHelper.showError("Unable to plot the data", e.getMessage());
+//					}
+//				}
+//			}
+//		});
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(defaultSectionSeparator);

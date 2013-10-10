@@ -39,8 +39,8 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 
 	public static final String ID = "uk.ac.gda.beamline.i20_1.AlignmentPerspective";
 
-	public static String SINGLE_SPECTRUM_PLOT_VIEW_NAME = "Single spectrum plot";
-	public static String SINGLE_SPECTRUM_PLOT_VIEW_ID = "uk.ac.gda.beamline.i20_1.SingleSpectrumPlot";
+	public static String SINGLE_SPECTRUM_PLOT_VIEW_NAME = "Single Spectrum";
+	public static String SINGLE_SPECTRUM_PLOT_VIEW_ID = "uk.ac.gda.exafs.ui.views.singlespectrumplotview";
 
 	public static final String REF_PLOT_NAME = "Reference Spectrum";
 
@@ -73,6 +73,7 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.REFERENCE_ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.EDE_ID);
 		topPlotFolder.addPlaceholder("uk.ac.gda.client.liveplotview");
+		topPlotFolder.addPlaceholder(SINGLE_SPECTRUM_PLOT_VIEW_ID);
 		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.6f,TOPPLOT_FOLDER_ID);
 	}
 }
