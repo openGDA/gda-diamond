@@ -3,6 +3,8 @@ from gda.configuration.properties import LocalProperties
 
 run "roi_control"
 
+das = finder.find("DAServer")
+
 # These scannables are checked before any scan data point
 # You may comment them out to remove the checking.
 if LocalProperties.get("gda.mode") == "live":
