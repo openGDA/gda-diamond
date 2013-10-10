@@ -34,7 +34,6 @@ import gda.scan.ScanDataPoint;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -50,8 +49,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A system status display panel updater, this contains all the logic, so the 
- * GUI class be edited by graphical SWT layout editors without breaking functionality.
+ * A system status display panel updater, this contains all the logic, so the GUI class be edited by graphical SWT
+ * layout editors without breaking functionality.
  */
 public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, IJythonServerStatusObserver {
 
@@ -64,29 +63,30 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 	private String scanstring;
 	private Integer totalScanPoints;
 	private Date started;
-
+	private String lastFileName;
 
 	private class MetadataListener extends KeyAdapter implements FocusListener, IObserver {
 		private Text widget;
 		private String metadataName;
 		private Device blaster;
+
 		public MetadataListener(Text widget, String metadataName, Device blaster) {
 			this.widget = widget;
 			this.metadataName = metadataName;
 			this.blaster = blaster;
-			
+
 			widget.addFocusListener(this);
 			widget.addKeyListener(this);
-			
+
 			blaster.addIObserver(this);
-			
+
 			try {
 				widget.setText(metadata.getMetadataValue(metadataName));
 			} catch (DeviceException e1) {
 				widget.setText("");
 			}
 		}
-		
+
 		@Override
 		public void keyReleased(KeyEvent e) {
 			super.keyReleased(e);
@@ -99,11 +99,13 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 				}
 			}
 		}
+
 		@Override
 		public void focusGained(FocusEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
+
 		@Override
 		public void focusLost(FocusEvent e) {
 			try {
@@ -112,6 +114,7 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 				widget.setText("");
 			}
 		}
+
 		private void unobserve() {
 			blaster.deleteIObserver(this);
 		}
@@ -131,7 +134,7 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 			});
 		}
 	}
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -144,8 +147,10 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 		try {
 			metadata = GDAMetadataProvider.getInstance();
 
-			new MetadataListener(client.subDirectory, "subdirectory", (Device) Finder.getInstance().find("observableSubdirectory"));
-			new MetadataListener(client.sampleName, "samplename", (Device) Finder.getInstance().find("observableSamplename"));
+			new MetadataListener(client.subDirectory, "subdirectory", (Device) Finder.getInstance().find(
+					"observableSubdirectory"));
+			new MetadataListener(client.sampleName, "samplename", (Device) Finder.getInstance().find(
+					"observableSamplename"));
 
 		} catch (Exception e) {
 			logger.warn("could not find required metadata", e);
@@ -153,7 +158,7 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 
 		jsf = JythonServerFacade.getInstance();
 		jsf.addIObserver(this);
-		
+
 		client.currentDirectory.setText(PathConstructor.createFromDefaultProperty());
 	}
 
@@ -187,49 +192,58 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 			}
 			return sd;
 		}
-		
+
 		private String pointNoAsStr(Integer point) {
 			Vector<Integer> currentLoc = new Vector<Integer>(scandimensions);
 			int totalsofar = 1;
-			for (int j = currentLoc.size()-1; j >= 0 ; j--) {
+			for (int j = currentLoc.size() - 1; j >= 0; j--) {
 				int inhere = currentLoc.get(j);
 				currentLoc.set(j, point / totalsofar % inhere + 1);
 				totalsofar *= inhere;
 			}
 			return currentLoc.toString();
 		}
-		
+
 		private Integer multiply(Collection<Integer> c) {
-			int a = 1; 
-			for (Iterator<Integer> iterator = c.iterator(); iterator.hasNext();) {
-				a = a * iterator.next();
+			int a = 1;
+			for (Integer integer : c) {
+				a = a * integer;
 			}
 			return a;
 		}
-		
+
 		private String hms4millis(long millis) {
-			if (millis == 0) return "--:--:--";
+			if (millis == 0) {
+				return "--:--:--";
+			}
 			int h = (int) (millis / (3600 * 1000));
 			int m = (int) (millis / (60 * 1000) % 60);
 			int s = (int) (millis / 1000 % 60);
-			return String.format("%02d:%02d:%02d", h,m,s);
+			return String.format("%02d:%02d:%02d", h, m, s);
 		}
-		
+
 		private long noddyETAprediction(int currentpoint, int total, long elapsed) {
-			if (currentpoint == 0) return 0;
+			if (currentpoint == 0) {
+				return 0;
+			}
 			return (elapsed * total / currentpoint) - elapsed;
 		}
-		
+
 		@Override
 		public void run() {
 			if (arg != null) {
+				try {
+					// if we don't sleep here we might catch the scan before a number as been assigned
+					Thread.sleep(25);
+				} catch (InterruptedException e) {
+					logger.error("TODO put description of error here", e);
+				}
 				if (arg instanceof ScanDataPoint) {
-					String filename = ((ScanDataPoint) arg).getCurrentFilename();
-					client.scanFile.setText(filename);
+					lastFileName = ((ScanDataPoint) arg).getCurrentFilename();
 					int currentPointNumber = ((ScanDataPoint) arg).getCurrentPointNumber();
-					client.frameNumber.setText(String.format("%s / %s",pointNoAsStr(currentPointNumber), scanstring));
-					client.progressBar.setSelection(10000*currentPointNumber/totalScanPoints);
-					long elapsed = (new Date ()).getTime() - started.getTime();
+					client.frameNumber.setText(String.format("%s / %s", pointNoAsStr(currentPointNumber), scanstring));
+					client.progressBar.setSelection(10000 * currentPointNumber / totalScanPoints);
+					long elapsed = (new Date()).getTime() - started.getTime();
 					client.elapsedTime.setText(hms4millis(elapsed));
 					client.eta.setText(hms4millis(noddyETAprediction(currentPointNumber, totalScanPoints, elapsed)));
 				} else if (arg instanceof JythonServerStatus) {
@@ -241,25 +255,41 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 						client.progressBar.setSelection(10000);
 						client.elapsedTime.setText("--:--:--");
 						client.eta.setText("--:--:--");
+						client.scanFile.setText(lastFileName);
 						break;
 					case Jython.PAUSED:
 						client.frameStatus.setText("PAUSED");
 						break;
 					case Jython.RUNNING:
 						started = new Date();
-						client.frameStatus.setText("RUNNING");
 						client.elapsedTime.setText("00:00:00");
-						scanstring = jsf.evaluateCommand("finder.find(\"command_server\").getCurrentScanInformation().getDimensions().tolist()");
+						scanstring = jsf
+								.evaluateCommand("finder.find(\"command_server\").getCurrentScanInformation().getDimensions().tolist()");
 						scandimensions = parseScanDimensions(scanstring);
 						totalScanPoints = multiply(scandimensions);
-						client.frameNumber.setText(String.format("%s / %s",pointNoAsStr(0), scanstring));
+						client.frameNumber.setText(String.format("%s / %s", pointNoAsStr(0), scanstring));
+						client.frameStatus.setText(getScanNumber());
 						break;
 					default:
 						client.frameStatus.setText("UNKNOWN");
 						break;
 					}
 				}
-			} 
+			}
+		}
+	}
+
+	private String getScanNumber() {
+		try {
+			String string = jsf
+					.evaluateCommand("finder.find(\"command_server\").getCurrentScanInformation().getScanNumber()");
+			string = string.trim();
+			if (string.endsWith("L")) {
+				return string.substring(0, string.length() - 1);
+			}
+			return string;
+		} catch (Exception e) {
+			return "UNKNOWN";
 		}
 	}
 }
