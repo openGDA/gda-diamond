@@ -21,19 +21,15 @@ package uk.ac.gda.exafs.ui.data.experiment;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.databinding.observable.list.IListChangeListener;
-import org.eclipse.core.databinding.observable.list.ListChangeEvent;
-import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
-import org.eclipse.core.databinding.observable.list.WritableList;
-
 import com.google.gson.annotations.Expose;
 
-import de.jaret.util.date.IntervalImpl;
+import de.jaret.util.date.Interval;
+import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
 public class TimingGroupModel extends ExperimentTimingDataModel {
 
-	private final WritableList spectrumList = new WritableList(new ArrayList<SpectrumModel>(), SpectrumModel.class);
+	private final List<SpectrumModel> spectrumList = new ArrayList<SpectrumModel>();
 	private final DefaultTimeBarRowModel timeBarRowModel;
 
 	public static final String INTEGRATION_TIME_PROP_NAME = "integrationTime";
@@ -64,24 +60,44 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 		return spectrumList;
 	}
 
+	public static class Test extends DefaultTimeBarRowModel {
+		public Test(DefaultRowHeader header) {
+			super(header);
+		}
+
+		@Override
+		public void addInterval(Interval interval) {
+			_intervals.add(interval);
+			// Check min/max modifications by the added interval
+			if (_minDate == null || _intervals.size() == 1) {
+				_minDate = interval.getBegin().copy();
+				_maxDate = interval.getEnd().copy();
+			} else {
+				if (_minDate.compareTo(interval.getBegin()) > 0) {
+					_minDate = interval.getBegin().copy();
+				}
+				if (_maxDate.compareTo(interval.getEnd()) < 0) {
+					_maxDate = interval.getEnd().copy();
+				}
+			}
+			interval.addPropertyChangeListener(this);
+			fireElementAdded(interval);
+		}
+
+		@Override
+		public void remInterval(Interval interval) {
+			if (_intervals.contains(interval)) {
+				_intervals.remove(interval);
+				// check min/max the hard way (optimize in custom implementations!)
+				updateMinMax();
+				interval.removePropertyChangeListener(this);
+				fireElementRemoved(interval);
+			}
+		}
+	}
+
 	public TimingGroupModel(DefaultTimeBarRowModel spectraTimeBarRowModel) {
 		timeBarRowModel = spectraTimeBarRowModel;
-		spectrumList.addListChangeListener(new IListChangeListener() {
-			@Override
-			public void handleListChange(ListChangeEvent event) {
-				event.diff.accept(new ListDiffVisitor() {
-					@Override
-					public void handleRemove(int index, Object element) {
-						timeBarRowModel.remInterval((IntervalImpl) element);
-					}
-					@Override
-					public void handleAdd(int index, Object element) {
-						timeBarRowModel.addInterval((IntervalImpl) element);
-					}
-				});
-				TimingGroupModel.this.firePropertyChange(NO_OF_SPECTRUMS_PROP_NAME, null, spectrumList.size());
-			}
-		});
 	}
 
 	public void removeSpectrum(SpectrumModel spectrum) {
@@ -118,20 +134,31 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 		} else if (timePerSpectrum + delayBetweenSpectrum > this.getAvailableTimeForSpectrum()) {
 			this.setTimePerSpectrum(this.getAvailableTimeForSpectrum());
 		}
-		spectrumList.clear();
 		int numberOfSpectrums = (int) (this.getAvailableTimeForSpectrum() / (timePerSpectrum + delayBetweenSpectrum));
-		for (int i = 0; i < numberOfSpectrums; i++) {
-			SpectrumModel spectrum = new SpectrumModel(this);
-			if (spectrumList.isEmpty()) { // First entry
-				spectrum.setStartTime(this.getStartTime() + this.getDelay());
-			} else {
-				spectrum.setStartTime(((SpectrumModel) spectrumList.get(spectrumList.size() - 1)).getEndTime() + delayBetweenSpectrum);
-			}
-			spectrum.setEndTime(spectrum.getStartTime() + timePerSpectrum);
-			spectrum.setName("Spectrum " + (spectrumList.size() + 1));
-			spectrumList.add(spectrum);
+		int current = spectrumList.size();
+		for (int i = current; i > numberOfSpectrums; i--){
+			SpectrumModel itemToRemove = spectrumList.get(i - 1);
+			timeBarRowModel.remInterval(itemToRemove);
+			spectrumList.remove(itemToRemove);
 		}
-
+		double startTime = this.getStartTime() + this.getDelay();
+		for (int i = 0; i < numberOfSpectrums; i++) {
+			SpectrumModel spectrum = null;
+			if (i < current) {
+				spectrum = spectrumList.get(i);
+			} else {
+				spectrum = new SpectrumModel(this);
+			}
+			spectrum.setStartTime(startTime);
+			startTime += timePerSpectrum;
+			spectrum.setEndTime(startTime);
+			spectrum.setName("Spectrum " + i + 1);
+			if (i >= current) {
+				spectrumList.add(spectrum);
+				timeBarRowModel.addInterval(spectrum);
+			}
+		}
+		TimingGroupModel.this.firePropertyChange(NO_OF_SPECTRUMS_PROP_NAME, null, spectrumList.size());
 		updateMaxAccumulationForDetector();
 	}
 
@@ -187,6 +214,9 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 
 	@Override
 	public void dispose() {
+		for(SpectrumModel spectrum : spectrumList) {
+			timeBarRowModel.remInterval(spectrum);
+		}
 		spectrumList.clear();
 	}
 

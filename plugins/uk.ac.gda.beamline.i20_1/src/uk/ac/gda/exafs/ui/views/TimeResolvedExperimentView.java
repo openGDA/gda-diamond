@@ -726,13 +726,12 @@ public class TimeResolvedExperimentView extends ViewPart {
 		timeBarViewer = new TimeBarViewer(composite, SWT.H_SCROLL | SWT.V_SCROLL);
 		timeBarViewer.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		timeBarViewer.setTimeScalePosition(TimeBarViewer.TIMESCALE_POSITION_TOP);
-
 		timeBarViewer.setAdjustMinMaxDatesByModel(true);
 		timeBarViewer.setDrawRowGrid(true);
-		timeBarViewer.setAutoScaleRows(1);
+		timeBarViewer.setAutoScaleRows(2);
 		timeBarViewer.setAutoscrollEnabled(true);
 		timeBarViewer.setMilliAccuracy(true);
-		timeBarViewer.setDrawOverlapping(false);
+		timeBarViewer.setDrawOverlapping(true);
 
 		// TODO Adjust accordingly
 		timeBarViewer.setInitialDisplayRange(TimebarHelper.getTime(), (int) TimeResolvedExperimentModel.INSTANCE.getDurationInSec());

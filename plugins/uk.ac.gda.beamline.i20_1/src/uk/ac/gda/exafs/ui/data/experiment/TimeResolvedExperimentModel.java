@@ -51,10 +51,10 @@ import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
+import uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel.Test;
 import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
-import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
 
 public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
@@ -71,7 +71,8 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	private static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "LinearExperimentModel";
 
 	private DefaultTimeBarModel model;
-	private DefaultTimeBarRowModel timingGroupRowModel;
+	private Test timingGroupRowModel;
+	private Test spectraRowModel;
 
 	public static final String CURRENT_SCANNING_SPECTRUM_PROP_NAME = "currentScanningSpectrum";
 	private SpectrumModel currentScanningSpectrum;
@@ -126,7 +127,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 			return;
 		}
 		for (TimingGroupModel loadedGroup : savedGroups) {
-			TimingGroupModel timingGroup = new TimingGroupModel(timingGroupRowModel);
+			TimingGroupModel timingGroup = new TimingGroupModel(spectraRowModel);
 			timingGroup.setName(loadedGroup.getName());
 			timingGroup.setTimes(loadedGroup.getStartTime(), loadedGroup.getEndTime());
 			timingGroup.setDelay(loadedGroup.getDelay());
@@ -135,13 +136,17 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 			addToInternalGroupList(timingGroup);
 			timingGroup.setTimePerSpectrum(loadedGroup.getTimePerSpectrum());
 		}
+		updateExperimentDuration();
 	}
 
 	private void setupTimebarModel() {
 		model = new DefaultTimeBarModel();
 		DefaultRowHeader header = new DefaultRowHeader("Timing groups");
-		timingGroupRowModel = new DefaultTimeBarRowModel(header);
+		timingGroupRowModel = new Test(header);
+		header = new DefaultRowHeader("Spectra");
+		spectraRowModel = new Test(header);
 		model.addRow(timingGroupRowModel);
+		model.addRow(spectraRowModel);
 	}
 
 	public DefaultTimeBarModel getTimeBarModel() {
@@ -153,9 +158,9 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	}
 
 	public TimingGroupModel addGroup() {
-		TimingGroupModel newGroup = new TimingGroupModel(timingGroupRowModel);
+		TimingGroupModel newGroup = new TimingGroupModel(spectraRowModel);
 		newGroup.setName("Group " + (groupList.size() + 1));
-		newGroup.setTimes(this.getStartTime(), this.getEndTime());
+		newGroup.setTimes(this.getStartTime(), this.getStartTime() + (this.getDuration() / (groupList.size() + 1)));
 		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup);
 		setAllGroupTimes();
@@ -369,6 +374,16 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				startTime = entry.getEndTime();
 			}
 		}
+		updateExperimentDuration();
+	}
+
+	private void updateExperimentDuration() {
+		double experimentDuration = 0.0;
+		for (Object loadedGroup : groupList) {
+			experimentDuration += ((TimingGroupModel)loadedGroup).getDuration();
+		}
+		this.setEndTime(experimentDuration);
+		this.firePropertyChange(DURATION_IN_SEC_PROP_NAME, experimentDuration, getDurationInSec());
 	}
 
 	private void setGroupTimes(double groupDuration) {
@@ -379,8 +394,9 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				TimingGroupModel previous = (TimingGroupModel) groupList.get(i-1);
 				startTime = previous.getEndTime();
 			}
-			group.setTimes(startTime, group.getStartTime() + groupDuration);
+			group.setTimes(startTime, startTime + groupDuration);
 		}
+		updateExperimentDuration();
 	}
 
 	public void setGroupStartTime(TimingGroupModel group, double value) {
@@ -416,20 +432,12 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	}
 
 	public void setDurationInSec(double value) {
-		double duration = getDurationInSec();
-		this.setEndTime(this.getStartTime() + value * 1000); // Converts to milli
-		this.firePropertyChange(DURATION_IN_SEC_PROP_NAME, duration, getDurationInSec());
+		double groupDuration = value * 1000 / groupList.size();
+		setGroupTimes(groupDuration);
 	}
 
 	public double getDurationInSec() {
 		return (this.getDuration() / 1000); // Converts to sec
-	}
-
-	@Override
-	public void setEndTime(double value) {
-		super.setEndTime(value);
-		double groupDuration = value / groupList.size();
-		setGroupTimes(groupDuration);
 	}
 
 	@Override

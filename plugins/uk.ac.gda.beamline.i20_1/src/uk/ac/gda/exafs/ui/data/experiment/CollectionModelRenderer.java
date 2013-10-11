@@ -36,16 +36,9 @@ public class CollectionModelRenderer extends DefaultRenderer {
 
 	@Override
 	protected Rectangle getIRect(boolean horizontal, Rectangle drawingArea, boolean overlap) {
-		if (horizontal) {
-			int borderHeight = (int) (drawingArea.height * BORDERFACTOR / 2);
-			int height = drawingArea.height - (overlap ? 0 : 2 * borderHeight);
-			int y = drawingArea.y + (overlap ? 0 : borderHeight);
-			return new Rectangle(drawingArea.x, y, drawingArea.width - 1, height - 1);
-		}
-		int borderWidth = (int) (drawingArea.width * BORDERFACTOR / 2);
-		int width = drawingArea.width - (overlap ? 0 : 2 * borderWidth);
-		int x = drawingArea.x + (overlap ? 0 : borderWidth);
-		return new Rectangle(x, drawingArea.y, width - 1, drawingArea.height - 1);
+		int height = drawingArea.height;
+		int y = drawingArea.y;
+		return new Rectangle(drawingArea.x, y, drawingArea.width - 1, height - 1);
 	}
 
 	@Override
