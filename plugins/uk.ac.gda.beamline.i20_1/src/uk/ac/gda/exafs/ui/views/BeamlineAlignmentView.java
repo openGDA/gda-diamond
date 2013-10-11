@@ -22,7 +22,6 @@ import gda.device.DeviceException;
 import gda.device.EnumPositioner;
 import gda.device.Scannable;
 import gda.device.detector.StripDetector;
-import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
 import gda.util.exafs.AbsorptionEdge;
 import gda.util.exafs.Element;
@@ -50,10 +49,7 @@ import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -84,14 +80,14 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.data.AlignmentParametersBean;
-import uk.ac.gda.exafs.data.ClientConfig.CrystalCut;
-import uk.ac.gda.exafs.data.ClientConfig.CrystalType;
+import uk.ac.gda.exafs.data.AlignmentParametersModel;
+import uk.ac.gda.exafs.data.AlignmentParametersModel.CrystalCut;
+import uk.ac.gda.exafs.data.AlignmentParametersModel.CrystalType;
+import uk.ac.gda.exafs.data.AlignmentParametersModel.QValue;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
-import uk.ac.gda.exafs.data.EdeCalibrationModel;
 import uk.ac.gda.exafs.data.PowerCalulator;
-import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.composites.MotorPositionEditorControl;
 import uk.ac.gda.exafs.ui.composites.ScannableWrapper;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
@@ -106,7 +102,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 	private static final int LABEL_WIDTH = 125;
 	private static final int SUGGESTION_LABEL_WIDTH = 100;
-	private static final int COMMAND_WAIT_TIME_IN_MILLI_SEC = 100;
 
 	private static final String SUGGESTION_UNAVAILABLE_TEXT = "-";
 
@@ -114,13 +109,12 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 	private static Logger logger = LoggerFactory.getLogger(BeamlineAlignmentView.class);
 
-	public static final String OUTPUT_BEAN_NAME = "beamlinealignmentresults";
-	public static final String INPUT_BEAN_NAME = "beamlinealignmentparameters";
+
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
 	private ComboViewer comboCrystalCut;
-	private ComboViewer cmbCrystalType;
+	private ComboViewer comboCrystalType;
 	private ComboViewer comboxElement;
 	private ComboViewer comboElementEdge;
 	private ComboViewer comboCrystalQ;
@@ -148,6 +142,11 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	private final Map<Button, Label> suggestionControls = new HashMap<Button, Label>();
 	private final WritableList movingScannables = new WritableList(new ArrayList<Scannable>(), Scannable.class);
 	private final ScannableMotorMoveObserver moveObserver = new ScannableMotorMoveObserver(movingScannables);
+	private Label energyLabel;
+	private Button butDetectorSetup;
+
+	private Binding detectorValueBinding = null;
+	private FormText labelDeltaEValue;
 
 	@Override
 	public void createPartControl(final Composite parent) {
@@ -157,14 +156,134 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		scrolledPolyForm.getBody().setLayout(layout);
 		toolkit.decorateFormHeading(scrolledPolyForm.getForm());
 		scrolledPolyForm.setText("Configuration");
-		createMainControls(scrolledPolyForm.getForm());
 		try {
+			createMainControls(scrolledPolyForm.getForm());
 			createMotorControls(scrolledPolyForm.getForm());
 			bindFiltersForPowerCalculation();
+			bindModelWithUI();
 			updatePower();
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create motor controls", e.getMessage());
 		}
+
+	}
+
+
+	@Override
+	public void dispose() {
+		toolkit.dispose();
+		super.dispose();
+	}
+
+	private void createMainControls(final Form form) {
+		final Section mainSection = toolkit.createSection(form.getBody(), ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
+		mainSection.setText("Main Parameters");
+
+		mainSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		Composite mainSelectionComposite = toolkit.createComposite(mainSection, SWT.NONE);
+		toolkit.paintBordersFor(mainSelectionComposite);
+		mainSelectionComposite.setLayout(new GridLayout(2, false));
+		mainSection.setClient(mainSelectionComposite);
+
+		Label lblDetector = toolkit.createLabel(mainSelectionComposite, "Detector:", SWT.NONE);
+		lblDetector.setLayoutData(createLabelGridData());
+
+		Composite detectorConfigComposite = toolkit.createComposite(mainSelectionComposite, SWT.None);
+		detectorConfigComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		GridLayout gridLayout = UIHelper.createGridLayoutWithNoMargin(2, false);
+		detectorConfigComposite.setLayout(gridLayout);
+		cmbDetectorType =  new ComboViewer(detectorConfigComposite, SWT.READ_ONLY);
+		cmbDetectorType.setContentProvider(ArrayContentProvider.getInstance());
+		cmbDetectorType.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((StripDetector) element).getName();
+			}
+		});
+		cmbDetectorType.getCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		toolkit.paintBordersFor(detectorConfigComposite);
+
+		butDetectorSetup = toolkit.createButton(detectorConfigComposite, "Setup", SWT.FLAT);
+		butDetectorSetup.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+
+		Label lblCrystalType = toolkit.createLabel(mainSelectionComposite, "Crytal type:", SWT.NONE);
+		lblCrystalType.setLayoutData(createLabelGridData());
+		comboCrystalType = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
+		comboCrystalType.setContentProvider(ArrayContentProvider.getInstance());
+		comboCrystalType.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((CrystalType) element).name();
+			}
+		});
+		comboCrystalType.setInput(new CrystalType[]{ CrystalType.Bragg });
+		comboCrystalType.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		Label lblCrystalCut = toolkit.createLabel(mainSelectionComposite, CrystalCut.UI_LABEL, SWT.NONE);
+		lblCrystalCut.setLayoutData(createLabelGridData());
+		comboCrystalCut = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
+		comboCrystalCut.setContentProvider(ArrayContentProvider.getInstance());
+		comboCrystalCut.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((CrystalCut) element).name();
+			}
+		});
+		comboCrystalCut.setInput(CrystalCut.values());
+		comboCrystalCut.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		Label lblCrystalQ = toolkit.createLabel(mainSelectionComposite, "Crystal q:", SWT.NONE);
+		lblCrystalQ.setLayoutData(createLabelGridData());
+		comboCrystalQ = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
+		comboCrystalQ.setContentProvider(new ArrayContentProvider());
+		comboCrystalQ.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object value) {
+				return Double.toString(((QValue) value).getQValue());
+			}
+		});
+		comboCrystalQ.setInput(QValue.values());
+		comboCrystalQ.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		Label lbl = toolkit.createLabel(mainSelectionComposite, "Element:", SWT.NONE);
+		lbl.setLayoutData(createLabelGridData());
+		comboxElement = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
+		comboxElement.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		comboxElement.setContentProvider(new ArrayContentProvider());
+		comboxElement.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object value) {
+				Element element = (Element) value;
+				return element.getName() + " (" + element.getSymbol() + ")";
+			}
+		});
+
+		lbl = toolkit.createLabel(mainSelectionComposite, "Edge:", SWT.NONE);
+		lbl.setLayoutData(createLabelGridData());
+		comboElementEdge = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
+		comboElementEdge.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		comboElementEdge.setContentProvider(ArrayContentProvider.getInstance());
+
+		lbl = toolkit.createLabel(mainSelectionComposite, "Energy:", SWT.NONE);
+		lbl.setLayoutData(createLabelGridData());
+		energyLabel = toolkit.createLabel(mainSelectionComposite, "", SWT.BORDER);
+		energyLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		comboElementEdge.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return (String) element;
+			}
+		});
+
+		if (DetectorModel.INSTANCE.isDetectorConnected()) {
+			final StructuredSelection initialSelection = new StructuredSelection(CrystalCut.Si111);
+			comboCrystalCut.setSelection(initialSelection);
+		}
+
+		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(mainSection);
+		toolkit.paintBordersFor(defaultSectionSeparator);
+		mainSection.setSeparatorControl(defaultSectionSeparator);
 	}
 
 	private void updatePower() {
@@ -210,226 +329,96 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		ScannableSetup.ME2_STRIPE.getScannable().addIObserver(new FilterUpdate());
 	}
 
-	@Override
-	public void dispose() {
-		toolkit.dispose();
-		super.dispose();
-	}
-
-	private void createMainControls(final Form form) {
-		final Section mainSection = toolkit.createSection(form.getBody(), ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
-		mainSection.setText("Main Parameters");
-
-		mainSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		Composite mainSelectionComposite = toolkit.createComposite(mainSection, SWT.NONE);
-		toolkit.paintBordersFor(mainSelectionComposite);
-		mainSelectionComposite.setLayout(new GridLayout(2, false));
-		mainSection.setClient(mainSelectionComposite);
-
-		Label lblDetector = toolkit.createLabel(mainSelectionComposite, "Detector:", SWT.NONE);
-		lblDetector.setLayoutData(createLabelGridData());
-
-		Composite detectorConfigComposite = toolkit.createComposite(mainSelectionComposite, SWT.None);
-		detectorConfigComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		GridLayout gridLayout = UIHelper.createGridLayoutWithNoMargin(2, false);
-		detectorConfigComposite.setLayout(gridLayout);
-		cmbDetectorType =  new ComboViewer(detectorConfigComposite, SWT.READ_ONLY);
-		cmbDetectorType.setContentProvider(ArrayContentProvider.getInstance());
-		cmbDetectorType.setLabelProvider(new LabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return ((StripDetector) element).getName();
-			}
-		});
-		cmbDetectorType.getCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		toolkit.paintBordersFor(detectorConfigComposite);
-
-		Button butDetectorSetup = toolkit.createButton(detectorConfigComposite, "Setup", SWT.FLAT);
-		butDetectorSetup.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-
-		Label lblCrystalType = toolkit.createLabel(mainSelectionComposite, "Crytal type:", SWT.NONE);
-		lblCrystalType.setLayoutData(createLabelGridData());
-		cmbCrystalType = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
-		cmbCrystalType.setContentProvider(ArrayContentProvider.getInstance());
-		cmbCrystalType.setLabelProvider(new LabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return ((CrystalType) element).name();
-			}
-		});
-		cmbCrystalType.setInput(new CrystalType[]{CrystalType.Bragg});
-		cmbCrystalType.setSelection(new StructuredSelection(CrystalType.Bragg));
-		cmbCrystalType.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		Label lblCrystalCut = toolkit.createLabel(mainSelectionComposite, CrystalCut.UI_LABEL, SWT.NONE);
-		lblCrystalCut.setLayoutData(createLabelGridData());
-		comboCrystalCut = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
-		comboCrystalCut.setContentProvider(ArrayContentProvider.getInstance());
-		comboCrystalCut.setLabelProvider(new LabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return ((CrystalCut) element).name();
-			}
-		});
-		comboCrystalCut.setInput(CrystalCut.values());
-		comboCrystalCut.addSelectionChangedListener(new ISelectionChangedListener() {
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				CrystalCut cut = ((CrystalCut) ((IStructuredSelection) event.getSelection()).getFirstElement());
-				Element selectedElement = null;
-				if (comboxElement.getSelection() != null && ((IStructuredSelection) comboxElement.getSelection()).getFirstElement() != null) {
-					Element element = (Element) ((IStructuredSelection) comboxElement.getSelection()).getFirstElement();
-					if (cut.getElementsInEnergyRange().keySet().contains(element)) {
-						selectedElement = element;
-					}
-				}
-				comboxElement.setInput(cut.getElementsInEnergyRange().keySet());
-				if (selectedElement == null) {
-					comboxElement.setSelection(new StructuredSelection(comboxElement.getElementAt(0)));
-				} else {
-					comboxElement.setSelection(new StructuredSelection(selectedElement));
-				}
-			}
-		});
-		comboCrystalCut.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		Label lblCrystalQ = toolkit.createLabel(mainSelectionComposite, "Crystal q:", SWT.NONE);
-		lblCrystalQ.setLayoutData(createLabelGridData());
-		comboCrystalQ = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
-		comboCrystalQ.setContentProvider(new ArrayContentProvider());
-		comboCrystalQ.setLabelProvider(new LabelProvider() {
-			@Override
-			public String getText(Object value) {
-				return value.toString();
-			}
-		});
-		comboCrystalQ.setInput(new String[] { AlignmentParametersBean.Q[0].toString(),
-				AlignmentParametersBean.Q[1].toString(), AlignmentParametersBean.Q[2].toString() });
-		comboCrystalQ.setSelection(new StructuredSelection(AlignmentParametersBean.Q[0].toString()));
-		comboCrystalQ.addSelectionChangedListener(new ISelectionChangedListener() {
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				getScannableValuesSuggestion();
-			}
-		});
-		comboCrystalQ.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		Label lbl = toolkit.createLabel(mainSelectionComposite, "Element:", SWT.NONE);
-		lbl.setLayoutData(createLabelGridData());
-		comboxElement = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
-		comboxElement.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		comboxElement.setContentProvider(new ArrayContentProvider());
-		comboxElement.setLabelProvider(new LabelProvider() {
-			@Override
-			public String getText(Object value) {
-				Element element = (Element) value;
-				return element.getName() + " (" + element.getSymbol() + ")";
-			}
-		});
-
-		lbl = toolkit.createLabel(mainSelectionComposite, "Edge:", SWT.NONE);
-		lbl.setLayoutData(createLabelGridData());
-		comboElementEdge = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
-		comboElementEdge.getCCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		comboElementEdge.setContentProvider(ArrayContentProvider.getInstance());
-
-		lbl = toolkit.createLabel(mainSelectionComposite, "Energy:", SWT.NONE);
-		lbl.setLayoutData(createLabelGridData());
-		final Label energyLabel = toolkit.createLabel(mainSelectionComposite, "", SWT.BORDER);
-		energyLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		comboElementEdge.setLabelProvider(new LabelProvider() {
-			@Override
-			public String getText(Object element) {
-				Element selectedElement = (Element) ((IStructuredSelection) comboxElement.getSelection()).getFirstElement();
-				String edgeName = (String) element;
-				energyLabel.setText(UnitSetup.EV.addUnitSuffix(Double.toString(selectedElement.getEdgeEnergy(edgeName))));
-				return edgeName;
-			}
-		});
-
-		comboxElement.addSelectionChangedListener(new ISelectionChangedListener() {
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				Element element = ((Element) ((IStructuredSelection) event.getSelection()).getFirstElement());
-				CrystalCut cut = ((CrystalCut) ((IStructuredSelection) comboCrystalCut.getSelection()).getFirstElement());
-				if (element != null && cut != null) {
-					comboElementEdge.setInput(cut.getElementsInEnergyRange().get(element));
-					comboElementEdge.setSelection(new StructuredSelection(comboElementEdge.getElementAt(0)));
-				}
-			}
-		});
-
-		comboElementEdge.addSelectionChangedListener(new ISelectionChangedListener() {
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				getScannableValuesSuggestion();
-				IStructuredSelection structuredSelectionElement = (IStructuredSelection) comboxElement.getSelection();
-				IStructuredSelection structuredSelectionElementEdge = (IStructuredSelection) comboElementEdge.getSelection();
-				if (!structuredSelectionElement.isEmpty() & !structuredSelectionElementEdge.isEmpty()) {
-					// Review to refactor
-					Element selectedElement = (Element) structuredSelectionElement.getFirstElement();
-					String selectedEdge = (String) structuredSelectionElementEdge.getFirstElement();
-					EdeCalibrationModel.INSTANCE.getRefData().loadReferenceData(selectedElement, selectedEdge);
-					SingleSpectrumModel.INSTANCE.setCurrentElement(selectedElement.getSymbol());
-				}
-			}
-		});
-
-		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if ((boolean) evt.getNewValue()) {
-					final StructuredSelection initialSelection = new StructuredSelection(CrystalCut.Si111);
-					comboCrystalCut.setSelection(initialSelection);
-				}
-			}
-		});
-
-		if (DetectorModel.INSTANCE.isDetectorConnected()) {
-			final StructuredSelection initialSelection = new StructuredSelection(CrystalCut.Si111);
-			comboCrystalCut.setSelection(initialSelection);
-		}
-
-		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(mainSection);
-		toolkit.paintBordersFor(defaultSectionSeparator);
-		mainSection.setSeparatorControl(defaultSectionSeparator);
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(comboElementEdge.getControl()),
-				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(comboxElement.getControl()),
-				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(comboCrystalCut.getControl()),
-				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(butDetectorSetup),
-				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(comboCrystalQ.getControl()),
-				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
-
-		butDetectorSetup.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				DetectorSetupDialog setup = new DetectorSetupDialog(form.getBody().getShell());
-				setup.setBlockOnOpen(true);
-				setup.open();
-			}
-		});
-		loadDetectorDetails();
-	}
-
-	private Binding detectorValueBinding = null;
-	private FormText labelDeltaEValue;
-	private void loadDetectorDetails() {
+	private void bindModelWithUI() {
 		try {
+			dataBindingCtx.bindValue(
+					WidgetProperties.enabled().observe(butDetectorSetup),
+					BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
+
+			dataBindingCtx.bindValue(
+					WidgetProperties.enabled().observe(comboxElement.getControl()),
+					BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
+
+			dataBindingCtx.bindValue(
+					ViewersObservables.observeInput(comboxElement),
+					BeanProperties.value(AlignmentParametersModel.ELEMENTS_IN_ENERGY_RANGE_PROP_NAME).observe(AlignmentParametersModel.INSTANCE));
+
+			dataBindingCtx.bindValue(
+					ViewersObservables.observeSingleSelection(comboxElement),
+					BeanProperties.value(AlignmentParametersModel.ELEMENT_PROP_NAME).observe(AlignmentParametersModel.INSTANCE));
+
+			dataBindingCtx.bindValue(
+					WidgetProperties.enabled().observe(comboElementEdge.getControl()),
+					BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
+
+			dataBindingCtx.bindValue(
+					ViewersObservables.observeInput(comboElementEdge),
+					BeanProperties.value(AlignmentParametersModel.ELEMENT_EDGES_NAMES_PROP_NAME).observe(AlignmentParametersModel.INSTANCE));
+
+			dataBindingCtx.bindValue(
+					ViewersObservables.observeSingleSelection(comboElementEdge),
+					BeanProperties.value(AlignmentParametersModel.ELEMENT_EDGE_PROP_NAME).observe(AlignmentParametersModel.INSTANCE),
+					new UpdateValueStrategy() {
+						@Override
+						public Object convert(Object value) {
+							if (AlignmentParametersModel.INSTANCE.getElement() != null) {
+								// TODO refactor this
+								return AlignmentParametersModel.INSTANCE.getElement().getEdge((String) value);
+							}
+							return null;
+						}
+					},
+					new UpdateValueStrategy() {
+						@Override
+						public Object convert(Object value) {
+							return ((AbsorptionEdge) value).getEdgeType();
+						}
+					});
+
+			dataBindingCtx.bindValue(
+					ViewersObservables.observeSingleSelection(comboCrystalQ),
+					BeanProperties.value(AlignmentParametersModel.Q_PROP_NAME).observe(AlignmentParametersModel.INSTANCE));
+
+			dataBindingCtx.bindValue(
+					WidgetProperties.enabled().observe(comboCrystalCut.getControl()),
+					BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
+
+			dataBindingCtx.bindValue(
+					ViewersObservables.observeSingleSelection(comboCrystalCut),
+					BeanProperties.value(AlignmentParametersModel.CRYSTAL_CUT_PROP_NAME).observe(AlignmentParametersModel.INSTANCE));
+
+			dataBindingCtx.bindValue(
+					ViewersObservables.observeSingleSelection(comboCrystalType),
+					BeanProperties.value(AlignmentParametersModel.CRYSTAL_TYPE_PROP_NAME).observe(AlignmentParametersModel.INSTANCE));
+
+			dataBindingCtx.bindValue(
+					WidgetProperties.enabled().observe(comboCrystalQ.getControl()),
+					BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
+
+			dataBindingCtx.bindValue(
+					ViewersObservables.observeSingleSelection(comboCrystalQ),
+					BeanProperties.value(AlignmentParametersModel.Q_PROP_NAME).observe(AlignmentParametersModel.INSTANCE));
+
+			dataBindingCtx.bindValue(
+					WidgetProperties.text().observe(energyLabel),
+					BeanProperties.value(AlignmentParametersModel.ELEMENT_ENERGY_PROP_NAME).observe(AlignmentParametersModel.INSTANCE),
+					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+					new UpdateValueStrategy() {
+						@Override
+						public Object convert(Object value) {
+							return UnitSetup.EV.addUnitSuffix(Double.toString((double) value));
+						}
+					});
+
+			butDetectorSetup.addListener(SWT.Selection, new Listener() {
+				@Override
+				public void handleEvent(Event event) {
+					DetectorSetupDialog setup = new DetectorSetupDialog(Display.getDefault().getActiveShell());
+					setup.setBlockOnOpen(true);
+					setup.open();
+				}
+			});
+
 			cmbDetectorType.setInput(DetectorModel.INSTANCE.getAvailableDetectors());
 			UpdateValueStrategy detectorSelectionUpdateStrategy = new UpdateValueStrategy() {
 				@Override
@@ -445,8 +434,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 							revertToModel();
 							logger.error("Unable to set new detector", status.getMessage());
 							UIHelper.showError("Unable to set new detector", status.getMessage());
-						} else {
-							getScannableValuesSuggestion();
 						}
 						return status;
 					}
@@ -459,55 +446,29 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 					BeanProperties.value(DetectorModel.CURRENT_DETECTOR_SETUP_PROP_NAME).observe(DetectorModel.INSTANCE),
 					detectorSelectionUpdateStrategy, null);
 
+			AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.AUGGESTED_PARAMETERS_PROP_KEY, new PropertyChangeListener() {
+				@Override
+				public void propertyChange(PropertyChangeEvent evt) {
+					updateAlignmentParametersSuggestion((AlignmentParametersBean) evt.getNewValue());
+				}
+			});
+
+			updateAlignmentParametersSuggestion(AlignmentParametersModel.INSTANCE.getAlignmentSuggestedParameters());
 		} catch (Exception e) {
 			logger.error("Error while retrieving available detectors", e);
 			UIHelper.showError("Unable to setup detectors", "Error while retrieving available detectors");
 		}
 	}
 
-	private void revertToModel() {
-		if (detectorValueBinding != null) {
-			detectorValueBinding.updateModelToTarget();
+	private void updateAlignmentParametersSuggestion(AlignmentParametersBean result) {
+		if (result != null) {
+			showSuggestionValues(result);
 		}
 	}
 
-	// FIXME this is not a elegant way to providing suggestion values
-	private void getScannableValuesSuggestion() {
-		if (!DetectorModel.INSTANCE.isDetectorConnected()) {
-			return;
-		}
-		Element selectedElement = (Element) ((IStructuredSelection) comboxElement.getSelection()).getFirstElement();
-		String selectedEdgeString = (String) ((IStructuredSelection) comboElementEdge.getSelection()).getFirstElement();
-		AbsorptionEdge absEdge = selectedElement.getEdge(selectedEdgeString);
-		String qString = (String) ((IStructuredSelection) comboCrystalQ.getSelection()).getFirstElement();
-		Double q = Double.parseDouble(qString);
-
-		String xtalCutString = ((CrystalCut) ((StructuredSelection) comboCrystalCut.getSelection()).getFirstElement()).name();
-		String xtalTypeString = ((CrystalType) ((StructuredSelection) cmbCrystalType.getSelection()).getFirstElement()).name();
-		String detectorString = DetectorModel.INSTANCE.getCurrentDetector().getName();
-		try {
-			AlignmentParametersBean bean = new AlignmentParametersBean(xtalTypeString, xtalCutString, q,
-					detectorString, absEdge);
-
-			InterfaceProvider.getJythonNamespace().placeInJythonNamespace(INPUT_BEAN_NAME, bean);
-
-			InterfaceProvider.getCommandRunner().runCommand(
-					OUTPUT_BEAN_NAME + "=None;from alignment import alignment_parameters; " + OUTPUT_BEAN_NAME
-					+ " = alignment_parameters.calc_parameters(" + INPUT_BEAN_NAME + ")");
-			// give the command a chance to run.
-			boolean waitForResult = true;
-			Object result = null;
-			while (waitForResult) {
-				Thread.sleep(COMMAND_WAIT_TIME_IN_MILLI_SEC);
-				result = InterfaceProvider.getJythonNamespace()
-						.getFromJythonNamespace(OUTPUT_BEAN_NAME);
-				if (result != null && (result instanceof AlignmentParametersBean)) {
-					waitForResult = false;
-				}
-			}
-			showSuggestionValues((AlignmentParametersBean) result);
-		} catch (Exception e1) {
-			logger.error("Exception when trying to run the script which performs the alignment calculations.",e1);
+	private void revertToModel() {
+		if (detectorValueBinding != null) {
+			detectorValueBinding.updateModelToTarget();
 		}
 	}
 
@@ -740,7 +701,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 						@Override
 						public void handleRemove(int index, Object element) {
 							if (element == detectorHeight | element == detectorDistance) {
-								getScannableValuesSuggestion();
+								//								getScannableValuesSuggestion();
 							}
 						}
 						@Override

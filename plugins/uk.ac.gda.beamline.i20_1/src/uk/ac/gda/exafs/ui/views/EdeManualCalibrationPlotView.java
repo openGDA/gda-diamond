@@ -41,7 +41,7 @@ import org.eclipse.ui.part.ViewPart;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.roi.LinearROI;
 import uk.ac.gda.exafs.data.EdeCalibrationModel;
-import uk.ac.gda.exafs.data.EdeCalibrationModel.CalibrationDataModel;
+import uk.ac.gda.exafs.data.EdeCalibrationModel.ReferenceCalibrationDataModel;
 
 public class EdeManualCalibrationPlotView  extends ViewPart implements CalibrationPlotViewer {
 
@@ -50,7 +50,7 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 
 	private final IPlottingSystem plottingSystemRef;
 
-	private CalibrationDataModel referenceData;
+	private ReferenceCalibrationDataModel referenceData;
 	private IRegion ref1;
 	private IRegion ref2;
 	private IRegion ref3;
@@ -60,12 +60,12 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 	}
 
 	@Override
-	public void setCalibrationData(CalibrationDataModel referenceData) {
+	public void setCalibrationData(ReferenceCalibrationDataModel referenceData) {
 		if (this.referenceData != null) {
 			return;
 		}
 		this.referenceData = referenceData;
-		this.referenceData.addPropertyChangeListener(CalibrationDataModel.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
+		this.referenceData.addPropertyChangeListener(ReferenceCalibrationDataModel.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				try {

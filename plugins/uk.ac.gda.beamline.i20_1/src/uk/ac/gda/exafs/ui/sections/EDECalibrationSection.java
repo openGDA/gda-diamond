@@ -72,7 +72,7 @@ import uk.ac.diamond.scisoft.spectroscopy.fitting.EdeCalibration;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.EdeCalibrationModel;
-import uk.ac.gda.exafs.data.EdeCalibrationModel.CalibrationDataModel;
+import uk.ac.gda.exafs.data.EdeCalibrationModel.ReferenceCalibrationDataModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
 import uk.ac.gda.exafs.ui.views.CalibrationPlotViewer;
@@ -120,7 +120,7 @@ public class EDECalibrationSection {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(lblRefFileValue),
-				BeanProperties.value(CalibrationDataModel.FILE_NAME_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getRefData())
+				BeanProperties.value(ReferenceCalibrationDataModel.FILE_NAME_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getRefData())
 				, null,
 				new UpdateValueStrategy() {
 					@Override
@@ -157,7 +157,7 @@ public class EDECalibrationSection {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(lblEdeDataFileValue),
-				BeanProperties.value(CalibrationDataModel.FILE_NAME_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getEdeData()),
+				BeanProperties.value(ReferenceCalibrationDataModel.FILE_NAME_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getEdeData()),
 				null,
 				new UpdateValueStrategy() {
 					@Override
@@ -253,7 +253,7 @@ public class EDECalibrationSection {
 		section.setSeparatorControl(roisSectionSeparator);
 	}
 
-	private void showDataFileDialog(final Shell shell, CalibrationDataModel dataModel) {
+	private void showDataFileDialog(final Shell shell, ReferenceCalibrationDataModel dataModel) {
 		FileDialog fileDialog = new FileDialog(shell, SWT.OPEN);
 		fileDialog.setText("Load data");
 		fileDialog.setFilterPath(ClientConfig.DEFAULT_DATA_PATH);

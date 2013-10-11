@@ -88,8 +88,9 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	private static final String SENSOR1NAME = "Peltier Coldplate";
 	private static final String SENSOR2NAME = "PCB power supply";
 	private static final String SENSOR3NAME = "PCB control";
+
 	public static int NUMBER_ELEMENTS = 1024;
-	public static int START_STRIP = 1;
+	public static int START_STRIP = 0;
 
 	private static Integer[] STRIPS;
 
@@ -1219,5 +1220,4 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		}
 		return function.value((double) channel / (double) NUMBER_ELEMENTS);
 	}
-
 }
