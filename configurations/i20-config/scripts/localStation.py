@@ -107,7 +107,6 @@ if LocalProperties.get("gda.mode") == "live":
     testVortexWiredCorrectly()
     import mono_calibration 
     calibrate_mono = mono_calibration.calibrate_mono()
-    
 else :
     if material() == None:
         material('Si')

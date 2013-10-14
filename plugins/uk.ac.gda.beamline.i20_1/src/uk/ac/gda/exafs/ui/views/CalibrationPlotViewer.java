@@ -18,8 +18,9 @@
 
 package uk.ac.gda.exafs.ui.views;
 
-import uk.ac.gda.exafs.data.EdeCalibrationModel.ElementReference;
+import uk.ac.gda.exafs.data.EdeCalibrationModel.CalibrationDataModel;
 
 public interface CalibrationPlotViewer {
-	public void setCalibrationDataReference(ElementReference referenceData);
+	void setCalibrationData(CalibrationDataModel dataSet);
+	void plotData() throws Exception;
 }

@@ -34,7 +34,7 @@ public class UIHelper {
 	}
 
 	private static void showMessage(final int messageDialogType, final String message, final String reason) {
-		Display.getDefault().asyncExec(new Runnable() {
+		Display.getDefault().syncExec(new Runnable() {
 			@Override
 			public void run() {
 				StringBuilder messageString = new StringBuilder();

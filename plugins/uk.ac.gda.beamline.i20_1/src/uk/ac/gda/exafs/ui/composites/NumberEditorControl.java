@@ -209,8 +209,8 @@ public class NumberEditorControl extends Composite {
 	}
 
 	public void setRange(int minValue, int maxValue) {
-		controlModel.setMaxValue(maxValue);
 		controlModel.setMinValue(minValue);
+		controlModel.setMaxValue(maxValue);
 	}
 
 	public void setDigits(int value) throws NumberFormatException {

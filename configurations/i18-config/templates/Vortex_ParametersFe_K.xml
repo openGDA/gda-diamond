@@ -12,16 +12,6 @@
             <windowStart>620</windowStart>
             <windowEnd>660</windowEnd>
         </ROI>
-        <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>840</windowStart>
-            <windowEnd>876</windowEnd>
-        </ROI>
-        <ROI>
-            <name>Ca_Ka</name>
-            <windowStart>350</windowStart>
-            <windowEnd>378</windowEnd>
-        </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
@@ -34,16 +24,6 @@
             <name>Fe_Ka</name>
             <windowStart>620</windowStart>
             <windowEnd>660</windowEnd>
-        </ROI>
-        <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>840</windowStart>
-            <windowEnd>876</windowEnd>
-        </ROI>
-        <ROI>
-            <name>Ca_Ka</name>
-            <windowStart>350</windowStart>
-            <windowEnd>378</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -58,16 +38,6 @@
             <windowStart>620</windowStart>
             <windowEnd>660</windowEnd>
         </ROI>
-        <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>840</windowStart>
-            <windowEnd>876</windowEnd>
-        </ROI>
-        <ROI>
-            <name>Ca_Ka</name>
-            <windowStart>350</windowStart>
-            <windowEnd>378</windowEnd>
-        </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
         <offset>-21.0</offset>
@@ -80,16 +50,6 @@
             <name>Fe_Ka</name>
             <windowStart>620</windowStart>
             <windowEnd>660</windowEnd>
-        </ROI>
-        <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>840</windowStart>
-            <windowEnd>876</windowEnd>
-        </ROI>
-        <ROI>
-            <name>Ca_Ka</name>
-            <windowStart>350</windowStart>
-            <windowEnd>378</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

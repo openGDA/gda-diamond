@@ -19,10 +19,12 @@
 package uk.ac.gda.beamline.i18.views;
 
 import gda.data.PathConstructor;
+import gda.epics.CAClient;
 import gda.factory.FactoryException;
 import gda.images.camera.ImageListener;
 import gda.images.camera.MotionJpegOverHttpReceiverSwt;
 import gda.images.camera.VideoReceiver;
+import gov.aps.jca.CAException;
 
 import org.dawnsci.plotting.jreality.tool.IImagePositionEvent;
 import org.dawnsci.plotting.jreality.tool.ImagePositionListener;
@@ -142,7 +144,8 @@ public class CameraView extends ViewPart {
 		start = new Action() {
 			@Override
 			public void run() {
-				videoReceiver.start();
+				start();
+				//videoReceiver.start();
 			}
 		};
 		start.setText("Start");
@@ -151,7 +154,8 @@ public class CameraView extends ViewPart {
 		stop = new Action() {
 			@Override
 			public void run() {
-				videoReceiver.stop();
+				stop();
+				//videoReceiver.stop();
 			}
 		};
 		stop.setText("stop");
@@ -299,4 +303,22 @@ public class CameraView extends ViewPart {
 			}
 		}
 	}
+	
+    public void start() {
+        CAClient ca = new CAClient();
+        try {
+            ca.caput("BL18I-DI-DCAM-01:CAM:CAM:Acquire", 1);
+        } catch (CAException e) {
+        } catch (InterruptedException e) {
+        }
+    }
+
+    public void stop() {
+        CAClient ca = new CAClient();
+        try {
+            ca.caput("BL18I-DI-DCAM-01:CAM:CAM:Acquire", 0);
+        } catch (CAException e) {
+        } catch (InterruptedException e) {
+        }
+    }
 }

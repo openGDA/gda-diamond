@@ -26,13 +26,13 @@ import java.io.Serializable;
 public class XHROI implements Serializable{
 
 	private String name = "";
-	private int lowerLevel = 0;
-	private int upperLevel = 1023;
+	private int lowerLevel;
+	private int upperLevel;
 
 	public XHROI(){
 	}
 
-	
+
 	public XHROI(String string) {
 		name = string;
 	}

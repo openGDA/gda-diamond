@@ -151,7 +151,7 @@ public class ScannableWrapper extends UIObservableModel implements IObserver {
 					firePropertyChange(POSITION_PROP_NAME, null, (double) object);
 					Thread.sleep(CHECK_BUSY_STATUS_IN_MS);
 				} catch (InterruptedException | DeviceException e) {
-					// TODO Handle this
+					break;
 				}
 			}
 		}

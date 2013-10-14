@@ -43,7 +43,7 @@ import uk.ac.gda.exafs.ui.composites.MotorPositionEditorControl;
 import uk.ac.gda.exafs.ui.composites.ScannableWrapper;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
 import uk.ac.gda.exafs.ui.data.UIHelper;
-import uk.ac.gda.exafs.ui.sections.DetectorROIsSesion;
+import uk.ac.gda.exafs.ui.sections.DetectorROIsSection;
 import uk.ac.gda.exafs.ui.sections.SlitScanSection;
 
 public class FocusingView extends ViewPart {
@@ -64,7 +64,7 @@ public class FocusingView extends ViewPart {
 		toolkit.decorateFormHeading(form);
 		form.setText("Slits scan / Focusing");
 		SlitScanSection.INSTANCE.createSection(form, toolkit);
-		DetectorROIsSesion.INSTANCE.createSection(form, toolkit);
+		DetectorROIsSection.INSTANCE.createSection(form, toolkit);
 		try {
 			createFormSampleSection(form);
 			createFormBendSection(form);

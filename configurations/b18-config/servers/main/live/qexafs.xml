@@ -51,7 +51,6 @@
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
 	</bean>
 	
-	
 	<bean id="qexafs_xspress" class="gda.device.detector.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
 		<property name="inputNames">
@@ -92,6 +91,46 @@
 		</property>
 	</bean>
 	
-	
+	<bean id="qexafs_counterTimer01_gmsd" class="gda.device.detector.countertimer.BufferedScaler">
+		<property name="extraNames">
+			<list>
+				<value>time</value>
+				<value>I0</value>
+				<value>tey</value>
+				<value>gmsd1</value>
+				<value>gmsd2</value>
+				<value>gmsd3</value>
+				<value>gmsd4</value>
+				<value>gmsd5</value>
+				<value>gmsd6</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="DAServer" />
+		<property name="timeChannelRequired" value="true" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputLogValues" value="false" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="9" />
+		<property name="outputFormat">
+			<list>
+				<value>%.6g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+			</list>
+		</property>
+	</bean>
+
+<!-- 	<bean id="QexafsGMSDI0" class="gda.device.detector.QexafsGMSDOverIO"> -->
+<!-- 		<property name="qexafsScaler" ref="qexafs_counterTimer01_gmsd" /> -->
+<!-- 	</bean> -->
 
 </beans>

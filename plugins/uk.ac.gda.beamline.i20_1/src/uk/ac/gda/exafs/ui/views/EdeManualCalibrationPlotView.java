@@ -41,7 +41,7 @@ import org.eclipse.ui.part.ViewPart;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.roi.LinearROI;
 import uk.ac.gda.exafs.data.EdeCalibrationModel;
-import uk.ac.gda.exafs.data.EdeCalibrationModel.ElementReference;
+import uk.ac.gda.exafs.data.EdeCalibrationModel.CalibrationDataModel;
 
 public class EdeManualCalibrationPlotView  extends ViewPart implements CalibrationPlotViewer {
 
@@ -50,7 +50,7 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 
 	private final IPlottingSystem plottingSystemRef;
 
-	private ElementReference referenceData;
+	private CalibrationDataModel referenceData;
 	private IRegion ref1;
 	private IRegion ref2;
 	private IRegion ref3;
@@ -60,16 +60,16 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 	}
 
 	@Override
-	public void setCalibrationDataReference(ElementReference referenceData) {
+	public void setCalibrationData(CalibrationDataModel referenceData) {
 		if (this.referenceData != null) {
 			return;
 		}
 		this.referenceData = referenceData;
-		this.referenceData.addPropertyChangeListener(ElementReference.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
+		this.referenceData.addPropertyChangeListener(CalibrationDataModel.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				try {
-					updateDdata();
+					plotData();
 				} catch (Exception e) {
 					// TODO Handle this
 					e.printStackTrace();
@@ -77,12 +77,14 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 			}
 		});
 		try {
-			updateDdata();
+			plotData();
 		} catch (Exception e) {
 			// TODO Handle this
 			e.printStackTrace();
 		}
 	}
+
+
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -94,7 +96,8 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 				this);
 	}
 
-	private void updateDdata() throws Exception {
+	@Override
+	public void plotData() throws Exception {
 		if (referenceData.getRefFile() == null) {
 			plottingSystemRef.clear();
 			return;

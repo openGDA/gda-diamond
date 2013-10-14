@@ -23,20 +23,20 @@ import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.WritableList;
 
-public class Spectrum extends CollectionModel {
+public class SpectrumModel extends CollectionModel {
 
-	private final Group parent;
+	private final TimingGroupModel parent;
 
 	WritableList accumulationList = new WritableList(new ArrayList<Accumulation>(), Accumulation.class);
 	public List<?> getAccumulationList() {
 		return accumulationList;
 	}
 
-	public Spectrum(Group parent) {
+	public SpectrumModel(TimingGroupModel parent) {
 		this.parent = parent;
 	}
 
-	public Group getParent() {
+	public TimingGroupModel getParent() {
 		return parent;
 	}
 

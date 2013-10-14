@@ -19,15 +19,20 @@
 package gda.scan.ede;
 
 import gda.device.detector.StripDetector;
+import gda.factory.Finder;
+import gda.jython.scriptcontroller.ScriptControllerBase;
+import gda.observable.IObserver;
 import gda.scan.EdeScan;
 import gda.scan.MultiScan;
 import gda.scan.ScanBase;
+import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 import gda.scan.ede.datawriters.EdeLinearExperimentAsciiFileWriter;
 import gda.scan.ede.position.EdeScanPosition;
 
 import java.util.List;
 import java.util.Vector;
 
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -39,7 +44,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  * The experiment is not repeated, so all the spectra will occur at a different point in time wrt the progress of a
  * chemical reaction or other state of the sample.
  */
-public class EdeLinearExperiment extends EdeExperiment {
+public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 
 	// private static final Logger logger = LoggerFactory.getLogger(EdeSingleExperiment.class);
 
@@ -54,6 +59,8 @@ public class EdeLinearExperiment extends EdeExperiment {
 	private EdeScan itScan;
 	private EdeScan i0FinalScan;
 	private EdeLinearExperimentAsciiFileWriter writer;
+	private final ScriptControllerBase controller;
+	private final DoubleDataset energyData;
 
 	public EdeLinearExperiment(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
 			EdeScanPosition itPosition, StripDetector theDetector) {
@@ -61,6 +68,8 @@ public class EdeLinearExperiment extends EdeExperiment {
 		this.i0Position = i0Position;
 		this.itPosition = itPosition;
 		this.theDetector = theDetector;
+		controller = (ScriptControllerBase) Finder.getInstance().findNoWarn(PROGRESS_UPDATER_NAME);
+		energyData = new DoubleDataset(theDetector.getEnergyForChannels());
 	}
 
 	/**
@@ -75,6 +84,20 @@ public class EdeLinearExperiment extends EdeExperiment {
 		deriveI0ScansFromIts();
 		runScans();
 		return writeAsciiFile();
+	}
+
+	@Override
+	public void update(Object source, Object arg) {
+		// only expect EdeScanProgressBean objects from the itScan here. Normalise the data and broadcast out to the
+		if (controller != null && source.equals(itScan) && arg instanceof EdeScanProgressBean) {
+			// assume that the I0 and dark scans have run correctly if we are getting messages back from It scan
+			EdeScanProgressBean progress = (EdeScanProgressBean) arg;
+			DoubleDataset darkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
+			DoubleDataset i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, progress.getGroupNumOfThisSDP());
+			DoubleDataset thisItData = EdeAsciiFileWriter.extractDetectorDataFromSDP(theDetector.getName(), progress.getThisPoint());
+			DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(thisItData, i0Data, darkData);
+			controller.update(itScan, new EdeExperimentProgressBean(progress, normalisedIt, energyData));
+		}
 	}
 
 	/**
@@ -123,6 +146,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 			newI0Group.setLabel(itGroup.getLabel());
 			newI0Group.setNumberOfFrames(1);
 			newI0Group.setTimePerScan(itGroup.getTimePerScan());
+			newI0Group.setTimePerFrame(itGroup.getTimePerFrame());
 			newI0Group.setDelayBetweenFrames(0);
 			newI0Group.setNumberOfScansPerFrame(itGroup.getNumberOfScansPerFrame());
 			i0Parameters.addGroup(newI0Group);
@@ -135,6 +159,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 1);
 		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1);
 		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1);
+		itScan.setProgressUpdater(this);
 		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1);
 
 		List<ScanBase> theScans = new Vector<ScanBase>();
@@ -156,5 +181,4 @@ public class EdeLinearExperiment extends EdeExperiment {
 		log("EDE single spectrum experiment complete.");
 		return writer.getAsciiItFilename();
 	}
-
 }

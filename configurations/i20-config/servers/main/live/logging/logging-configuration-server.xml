@@ -38,8 +38,26 @@
     <logger name="gda.jython.logger.RedirectableFileLogger">
         <level value="WARN"/>
     </logger>
+   <logger name="gda.epics.LazyPVFactory">
+        <level value="INFO"/>
+    </logger>
+   <logger name="gda.device.detector.analyser.EpicsMCASimple">
+        <level value="INFO"/>
+    </logger>
+    <logger name="gda.epics.connection.EpicsChannelManager">
+        <level value="WARN"/>
+    </logger>
+    <logger name="gda.epics.connection.EpicsController">
+        <level value="INFO"/>
+    </logger>
+    <logger name="gda.device.detector.DAServer">
+        <level value="DEBUG"/>
+    </logger>
+    <logger name="gda.jython.authoriser.LdapAuthoriser">
+        <level value="WARN"/>
+    </logger>
     <root>
-        <level value="ALL"/>
+        <level value="DEBUG"/>
         <appender-ref ref="Console"/>
         <appender-ref ref="LogServer"/>
     </root>

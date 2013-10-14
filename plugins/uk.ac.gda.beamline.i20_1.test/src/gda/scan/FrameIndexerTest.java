@@ -55,10 +55,10 @@ public class FrameIndexerTest {
 	@Test
 	public void testExperimentLocationUtils() {
 		EdeScanParameters params = new EdeScanParameters();
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 0; i <= 9; i++) {
 			TimingGroup group1 = new TimingGroup();
 			group1.setLabel("group" + i);
-			group1.setNumberOfFrames(i);
+			group1.setNumberOfFrames(i + 1);
 			group1.setTimePerScan(0.0001);
 			group1.setDelayBetweenFrames(0);
 			group1.setNumberOfScansPerFrame(1);
@@ -66,8 +66,10 @@ public class FrameIndexerTest {
 		}
 
 		Integer index = 0;
-		for (Integer group = 1; group <= 10; group++) {
-			for (Integer frame = 1; frame <= group; frame++) {
+		System.out.println("index\tgroup\tgroupOutput\tframe\trameOutput");
+		System.out.println("index\tzerobasedAbsoluteFrame");
+		for (Integer group = 0; group <= 9; group++) {
+			for (Integer frame = 0; frame <= group; frame++) {
 
 				// test from absolute number to user meaningful timing group / frame number
 
@@ -78,7 +80,7 @@ public class FrameIndexerTest {
 				assertEquals(frame, frameOutput);
 
 				// test from timing group / frame number to absolute number
-				ExperimentLocation loc = new ExperimentLocation(group, frame, 1);
+				ExperimentLocation loc = new ExperimentLocation(group, frame, 0);
 				Integer zerobasedAbsoluteFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(params, loc);
 				System.out.println(index + "\t" + zerobasedAbsoluteFrame);
 				assertEquals(index, zerobasedAbsoluteFrame);
@@ -89,59 +91,90 @@ public class FrameIndexerTest {
 	}
 
 	@Test
-	public void testOutputDuringScans() throws DeviceException {
-
-		// a linear scan (so 1 repetition), with 10 timing groups of 1..10 frames in each.
-		// So this will be 55 frames
-
+	public void testExperimentLocationUtilsReversed() {
 		EdeScanParameters params = new EdeScanParameters();
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 0; i <= 9; i++) {
 			TimingGroup group1 = new TimingGroup();
 			group1.setLabel("group" + i);
-			group1.setNumberOfFrames(i);
+			group1.setNumberOfFrames(i + 1);
 			group1.setTimePerScan(0.0001);
 			group1.setDelayBetweenFrames(0);
 			group1.setNumberOfScansPerFrame(1);
 			params.addGroup(group1);
 		}
 
-		FrameIndexer indexer = new FrameIndexer(EdeScanType.DARK, EdePositionType.OUTBEAM, 1);
+		System.out.println("absFrameNum\tzerobasedAbsoluteFrame\tgroupOutput\trameOutput");
+
+		for (Integer absFrameNum = 0; absFrameNum <= 54; absFrameNum++) {
+
+			// test from absolute number to user meaningful timing group / frame number
+			Integer groupOutput = ExperimentLocationUtils.getGroupNum(params, absFrameNum);
+			Integer frameOutput = ExperimentLocationUtils.getFrameNum(params, absFrameNum);
+
+			// test from timing group / frame number to absolute number
+			ExperimentLocation loc = new ExperimentLocation(groupOutput, frameOutput, 1);
+			Integer zerobasedAbsoluteFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(params, loc);
+			System.out.println(absFrameNum + "\t" + zerobasedAbsoluteFrame + "\t" + groupOutput + "\t" + frameOutput);
+
+			assertEquals(absFrameNum, zerobasedAbsoluteFrame);
+		}
+	}
+
+	@Test
+	public void testOutputDuringScans() throws DeviceException {
+
+		// a linear scan (so 1 repetition), with 10 timing groups of 1..10 frames in each.
+		// So this will be 55 frames
+
+		EdeScanParameters params = new EdeScanParameters();
+		for (int i = 0; i <= 9; i++) {
+			TimingGroup group1 = new TimingGroup();
+			group1.setLabel("group" + i);
+			group1.setNumberOfFrames(i + 1);
+			group1.setTimePerScan(0.0001);
+			group1.setDelayBetweenFrames(0);
+			group1.setNumberOfScansPerFrame(1);
+			params.addGroup(group1);
+		}
+		
+//		"Light", "It", "Repetition", "Group", "Frame"
+		FrameIndexer indexer = new FrameIndexer(EdeScanType.DARK, EdePositionType.OUTBEAM, 0);
 
 		// first frame (frame is zero based but value reported to users will be 1 based)
 		Integer group = ExperimentLocationUtils.getGroupNum(params, 0);
 		Integer frame = ExperimentLocationUtils.getFrameNum(params, 0);
 		indexer.setGroup(group);
 		indexer.setFrame(frame);
-		assertEquals(Integer.valueOf(1), group);
-		assertEquals(Integer.valueOf(1), frame);
-		assertArrayEquals(new Integer[] { 0, 0, 1, 1, 1 }, (Integer[]) indexer.getPosition());
+		assertEquals(Integer.valueOf(0), group);
+		assertEquals(Integer.valueOf(0), frame);
+		assertArrayEquals(new Integer[] { 0, 0, 0, 0, 0 }, (Integer[]) indexer.getPosition());
 
 		// 20th frame
 		group = ExperimentLocationUtils.getGroupNum(params, 20);
 		frame = ExperimentLocationUtils.getFrameNum(params, 20);
 		indexer.setGroup(group);
 		indexer.setFrame(frame);
-		assertEquals(Integer.valueOf(6), group);
-		assertEquals(Integer.valueOf(6), frame);
-		assertArrayEquals(new Integer[] { 0, 0, 1, 6, 6 }, (Integer[]) indexer.getPosition());
+		assertEquals(Integer.valueOf(5), group);
+		assertEquals(Integer.valueOf(5), frame);
+		assertArrayEquals(new Integer[] { 0, 0, 0, 5, 5 }, (Integer[]) indexer.getPosition());
 
 		// 27th frame
 		group = ExperimentLocationUtils.getGroupNum(params, 27);
 		frame = ExperimentLocationUtils.getFrameNum(params, 27);
 		indexer.setGroup(group);
 		indexer.setFrame(frame);
-		assertEquals(Integer.valueOf(7), group);
-		assertEquals(Integer.valueOf(7), frame);
-		assertArrayEquals(new Integer[] { 0, 0, 1, 7, 7 }, (Integer[]) indexer.getPosition());
+		assertEquals(Integer.valueOf(6), group);
+		assertEquals(Integer.valueOf(6), frame);
+		assertArrayEquals(new Integer[] { 0, 0, 0, 6, 6 }, (Integer[]) indexer.getPosition());
 
 		// 51st frame
 		group = ExperimentLocationUtils.getGroupNum(params, 51);
 		frame = ExperimentLocationUtils.getFrameNum(params, 51);
 		indexer.setGroup(group);
 		indexer.setFrame(frame);
-		assertEquals(Integer.valueOf(10), group);
-		assertEquals(Integer.valueOf(7), frame);
-		assertArrayEquals(new Integer[] { 0, 0, 1, 10, 7 }, (Integer[]) indexer.getPosition());
+		assertEquals(Integer.valueOf(9), group);
+		assertEquals(Integer.valueOf(6), frame);
+		assertArrayEquals(new Integer[] { 0, 0, 0, 9, 6 }, (Integer[]) indexer.getPosition());
 
 	}
 }

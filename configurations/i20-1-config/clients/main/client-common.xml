@@ -21,6 +21,13 @@
 	</bean>
 
 	<corba:import namespace="i20-1" names="plot_server" />
+	
+	<bean id="roisColorProviderService" class="uk.ac.gda.exafs.data.DetectorRoisPlotColorProvider" />
+	
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.client.liveplot.IPlotLineColorService" />
+		<property name="service" ref="roisColorProviderService" />
+	</bean>	
 
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
