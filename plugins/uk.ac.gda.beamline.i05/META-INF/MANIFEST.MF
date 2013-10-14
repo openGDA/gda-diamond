@@ -23,17 +23,7 @@ Require-Bundle: org.eclipse.ui,
  ncsa.hdf
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: uk.ac.gda.arpes.beans;uses:="uk.ac.gda.beans",
- uk.ac.gda.arpes.ui;
-  uses:="uk.ac.gda.richbeans.xml,
-   uk.ac.gda.richbeans.editors,
-   uk.ac.gda.richbeans.beans,
-   uk.ac.gda.richbeans.components,
-   org.eclipse.ui,
-   uk.ac.gda.richbeans.event,
-   org.eclipse.swt.widgets",
- uk.ac.gda.arpes.ui.views;uses:="org.eclipse.ui.part,org.eclipse.swt.widgets,gda.observable",
- uk.ac.gda.beamline.i05;uses:="org.eclipse.ui,org.eclipse.ui.plugin,org.osgi.framework",
+Export-Package: uk.ac.gda.beamline.i05;uses:="org.eclipse.ui,org.eclipse.ui.plugin,org.osgi.framework",
  uk.ac.gda.beamline.i05.perspectives;uses:="org.eclipse.ui"
 Bundle-Vendor: Diamond Light Source
 Import-Package: org.eclipse.ui.intro.config,
