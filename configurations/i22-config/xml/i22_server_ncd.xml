@@ -175,6 +175,7 @@
 		<property name="marName" value="mar165" /> <property name="pixelSize" value="0.000080" 
 		/> <property name="detectorType" value="SAXS" /> </bean> 
 		
+
 	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDController">
 		<property name="local" value="true" />
 		<property name="epicsDeviceName" value="edxd" />
@@ -200,7 +201,7 @@
 				<ref bean="I0" />
 				<ref bean="IonChamber" />
 				<ref bean="TfgTimes" />
-<!--				<ref bean="xmap" /> -->
+				<!-- <bean="xmap" /> -->
 			</list>
 		</property>
 	</bean>
