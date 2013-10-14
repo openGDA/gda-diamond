@@ -85,7 +85,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	WritableList groupList = new WritableList(new ArrayList<TimingGroupModel>(), TimingGroupModel.class);
 
-	private final ScanJob experimentJob;
+	private final ScanJob experimentDataCollectionJob;
 
 	private TimeResolvedExperimentModel(@SuppressWarnings("unused") int dummy) {
 		this.setStartTime(EXPERIMENT_START_TIME);
@@ -110,13 +110,13 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 			}
 		});
 
-		experimentJob = new ScanJob("Linear Experiment Scan");
-		InterfaceProvider.getJSFObserver().addIObserver(experimentJob);
+		experimentDataCollectionJob = new ScanJob("Linear Experiment Scan");
+		InterfaceProvider.getJSFObserver().addIObserver(experimentDataCollectionJob);
 		Findable controller = Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME);
 		if (controller != null) {
-			((Scriptcontroller) controller).addIObserver(experimentJob);
+			((Scriptcontroller) controller).addIObserver(experimentDataCollectionJob);
 		}
-		experimentJob.setUser(true);
+		experimentDataCollectionJob.setUser(true);
 		loadSavedGroups();
 	}
 
@@ -193,7 +193,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	}
 
 	public void doCollection() {
-		experimentJob.schedule();
+		experimentDataCollectionJob.schedule();
 	}
 
 	private String buildScanCommand() {
