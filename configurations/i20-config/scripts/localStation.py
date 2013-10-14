@@ -17,6 +17,11 @@ from exafsscripts.exafs.xas_scan import XasScan
 from exafsscripts.exafs.xes_scan import I20XesScan
 from time import sleep
 from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
+from gda.device.scannable import TwoDScanPlotter
+from xes.xes_offsets import XESOffsets
+from xes.xes_calculate import XESCalculate
+from gdascripts.pd.time_pds import showtimeClass, waittime
+import mono_calibration 
 
 ScanBase.interrupted = False
 ScriptBase.interrupted = False
@@ -43,15 +48,12 @@ detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptControlle
 samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel)
 outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
 
-from gda.device.scannable import TwoDScanPlotter
 twodplotter = TwoDScanPlotter()
 twodplotter.setName("twodplotter")
 
-from xes.xes_offsets import XESOffsets
 store_dir = LocalProperties.getVarDir() +"xes_offsets/"
 xes_offsets = XESOffsets(store_dir, spectrometer)
 
-from xes.xes_calculate import XESCalculate
 xes_calculate = XESCalculate(xes_offsets, material, cut1, cut2, cut3, radius)
 
 xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, bragg1, ionchambers, True, True, True, False)
@@ -65,7 +67,6 @@ alias("xes")
 scansReturnToOriginalPositions = 1
 
 print "Creating some scannables useful for recording time during scans..."
-from gdascripts.pd.time_pds import showtimeClass, waittime
 print "Creating scannable 'w' which will delay scan points until a time has been reached during a scan."\
 + "\nusage of 'w':    scan <motor> <start> <stop> <step> w 0 <delay between points in s>\n\n"
 
@@ -105,7 +106,6 @@ if LocalProperties.get("gda.mode") == "live":
     FFI0.setInputNames([])
     run "vortexLiveTime"
     testVortexWiredCorrectly()
-    import mono_calibration 
     calibrate_mono = mono_calibration.calibrate_mono()
 else :
     if material() == None:
