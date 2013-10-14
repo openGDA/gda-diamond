@@ -102,4 +102,8 @@ run("/BeamlineScripts/master.py")
 execfile(gdaScriptDir + "atten.py")
 execfile(gdaScriptDir + "rate.py")
 
+import uk.ac.gda.server.ncd.config.DeviceLister
+import gda.util.ElogEntry
+string = uk.ac.gda.server.ncd.config.DeviceLister.generateDeviceListHTML()
+gda.util.ElogEntry.postAsyn("device list from gda", string, "gda", None, "BLI22", "BLI22-RUNL", None)
 print "==================================================================="

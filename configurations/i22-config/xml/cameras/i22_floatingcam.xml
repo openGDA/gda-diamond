@@ -17,12 +17,12 @@
 		e.g. <!-- property name="basePVName" value="BL12I-EA-DET-05:PIX:" / -->
 	</description>
 
-	<bean id="floatingcam_ad" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+	<bean id="xrayeye_ad" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL22I-DI-DCAM-01:CAM:" />
 		<property name="initialDataType" value="UInt8" />
 	</bean>
 
-	<bean id="floatingcam_array" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+	<bean id="xrayeye_array" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
 		<property name="basePVName" value="BL22I-DI-DCAM-01:ARR:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
@@ -31,9 +31,9 @@
 		</property>
 	</bean>	
 	
-	<bean id="floatingcam" class="uk.ac.gda.server.ncd.camera.ADCameraDetector">
+	<bean id="xrayeye" class="uk.ac.gda.server.ncd.camera.ADCameraDetector">
 		<property name="basePVName" value="BL22I-DI-DCAM-01:CAM:" />
-		<property name="areaDetector" ref="floatingcam_ad" />
-		<property name="array" ref="floatingcam_array" />
+		<property name="areaDetector" ref="xrayeye_ad" />
+		<property name="array" ref="xrayeye_array" />
 	</bean>
 </beans>
