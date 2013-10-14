@@ -32,4 +32,5 @@
 	<import resource="sj6.xml" />
 	
 	<import resource="scientaslit.xml" />
+	<import resource="cameras.xml" />
 </beans>
