@@ -23,10 +23,10 @@
 			</list>
 		</property>
 	</bean>
-						<bean id="localscriptproject" class="gda.jython.ScriptProject">
-							<property name="path" value="/dls_sw/i05/scripts/" />
-							<property name="name" value="Scripts: User" />
-							<property name="type" value="USER" />
-						</bean>
+	<bean id="localscriptproject" class="gda.jython.ScriptProject">
+		<property name="path" value="/dls_sw/i05/scripts/" />
+		<property name="name" value="Scripts: User" />
+		<property name="type" value="USER" />
+	</bean>
 	<import resource="../i05_server_beans_common.xml" />
 </beans>
