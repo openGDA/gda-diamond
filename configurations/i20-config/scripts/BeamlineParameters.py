@@ -112,4 +112,3 @@ class Parameters:
             return object.__getattr__(self.parametersMap[attrName])
         else:
           return None
-    

@@ -38,6 +38,3 @@ class SwitchToLowEnergy(_xspressconfigurer):
         
 switchXspressToHighEnergyMode = SwitchToHighEnergy()
 switchXspressToLowEnergyMode = SwitchToLowEnergy()
-
-        
-        
