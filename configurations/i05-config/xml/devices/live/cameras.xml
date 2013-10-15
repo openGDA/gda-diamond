@@ -31,7 +31,7 @@
 		</property>
 	</bean>	
 	
-	<bean id="esi1" class="">
+	<bean id="esi1" class="gda.device.detector.addetector.ADCameraDetector">
 		<property name="basePVName" value="BL05I-DI-PHDGN-10:DCAM:" />
 		<property name="areaDetector" ref="esi1_ad" />
 		<property name="array" ref="esi1_array" />
@@ -51,7 +51,7 @@
 		</property>
 	</bean>	
 	
-	<bean id="esi2" class="">
+	<bean id="esi2" class="gda.device.detector.addetector.ADCameraDetector">
 		<property name="basePVName" value="BL05I-DI-PHDGN-11:DCAM:" />
 		<property name="areaDetector" ref="esi2_ad" />
 		<property name="array" ref="esi2_array" />
