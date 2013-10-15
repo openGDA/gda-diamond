@@ -228,8 +228,8 @@ public class I05Apple extends ScannableMotionBase {
 		try {
 			moveSequenceRunning = true;
 		for (int i = 1; i < pointArray.length; i++) {
-			lowerPhaseScannable.asynchronousMoveTo(pointArray[i].getX());
-			upperPhaseScannable.asynchronousMoveTo(pointArray[i].getX());
+//			lowerPhaseScannable.asynchronousMoveTo(pointArray[i].getX());
+//			upperPhaseScannable.asynchronousMoveTo(pointArray[i].getX());
 			gapScannable.asynchronousMoveTo(pointArray[i].getY());
 			lowerPhaseScannable.waitWhileBusy();
 			upperPhaseScannable.waitWhileBusy();
