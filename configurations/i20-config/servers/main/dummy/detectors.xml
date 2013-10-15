@@ -390,5 +390,40 @@
 		</property>
 	</bean>
 
+	<bean id="i0_stanford_offset_current" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>off</value>
+				<value>on</value>
+			</util:list>
+		</property>
+	</bean>
+	
+	<bean id="it_stanford_offset_current" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>off</value>
+				<value>on</value>
+			</util:list>
+		</property>
+	</bean>
+	
+	<bean id="iref_stanford_offset_current" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>off</value>
+				<value>on</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="i1_stanford_offset_current" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>off</value>
+				<value>on</value>
+			</util:list>
+		</property>
+	</bean>
 
 </beans>
