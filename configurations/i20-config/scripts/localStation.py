@@ -42,6 +42,10 @@ offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_
 xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
 xspressConfig.initialize()
 alias("xspressConfig")
+
+from vortex_elements import VortexElements
+vortexElements = VortexElements(xmapController, xmapMca)
+
 vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
 vortexConfig.initialize()
 alias("vortexConfig")
