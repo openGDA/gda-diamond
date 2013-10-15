@@ -29,7 +29,9 @@ XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptControll
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
 ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
 datawriterconfig = Finder.getInstance().find("datawriterconfig")
+original_header = Finder.getInstance().find("datawriterconfig").clone().getHeader()[:]
 datawriterconfig_xes = Finder.getInstance().find("datawriterconfig_xes")
+original_header_xes = Finder.getInstance().find("datawriterconfig").clone().getHeader()[:]
 
 sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity,i1_stanford_sensitivity]
 sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units,iref_stanford_sensitivity_units,i1_stanford_sensitivity_units]
@@ -45,7 +47,7 @@ alias("vortexConfig")
 
 detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
 samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel)
-outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
+outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes, original_header_xes)
 
 from gda.device.scannable import TwoDScanPlotter
 twodplotter = TwoDScanPlotter()
@@ -54,7 +56,7 @@ twodplotter.setName("twodplotter")
 # change this between test and bragg1
 energy_scanning_motor = bragg1
 
-xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, energy_scanning_motor, ionchambers, True, True, True, False)
+xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy_scanning_motor, ionchambers, True, True, True, False)
 xes = I20XesScan(xas,XASLoggingScriptController,detectorPreparer, samplePreparer, outputPreparer,commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,energy_scanning_motor,XESEnergy,XESBragg)
 xanes = xas
 
