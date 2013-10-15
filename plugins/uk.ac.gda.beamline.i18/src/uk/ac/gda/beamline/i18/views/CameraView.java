@@ -26,8 +26,6 @@ import gda.images.camera.MotionJpegOverHttpReceiverSwt;
 import gda.images.camera.VideoReceiver;
 import gov.aps.jca.CAException;
 
-import org.dawnsci.plotting.jreality.tool.IImagePositionEvent;
-import org.dawnsci.plotting.jreality.tool.ImagePositionListener;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.action.Action;
@@ -35,8 +33,6 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Composite;
@@ -202,54 +198,54 @@ public class CameraView extends ViewPart {
 		}
 	}
 
-	private void initializeListeners() {
-		viewer.getCanvas().addMouseListener(new MouseAdapter() {
+//	private void initializeListeners() {
+//		viewer.getCanvas().addMouseListener(new MouseAdapter() {
+//
+//			@Override
+//			public void mouseDown(MouseEvent event) {
+//				logger.debug("Mouse Down");
+//			}
+//
+//			@Override
+//			public void mouseUp(MouseEvent event) {
+//				logger.debug("Mouse Up");
+//			}
+//
+//			@Override
+//			public void mouseDoubleClick(MouseEvent event) {
+//				logger.debug("Mouse Double Clicked");
+//			}
+//		});
+//
+//		ImagePositionListener newListener = new ImagePositionListener() {
+//			@Override
+//			public void imageStart(IImagePositionEvent event) {
+//				double[] position = event.getPosition();
+//				int[] imagePosition = event.getImagePosition();
+//				updateStatus((int) position[0], (int) position[1], imagePosition[0], imagePosition[1]);
+//			}
+//
+//			@Override
+//			public void imageFinished(IImagePositionEvent event) {
+//				double[] position = event.getPosition();
+//				int[] imagePosition = event.getImagePosition();
+//				updateStatus((int) position[0], (int) position[1], imagePosition[0], imagePosition[1]);
+//			}
+//
+//			@Override
+//			public void imageDragged(IImagePositionEvent event) {
+//				double[] position = event.getPosition();
+//				int[] imagePosition = event.getImagePosition();
+//				updateStatus((int) position[0], (int) position[1], imagePosition[0], imagePosition[1]);
+//			}
+//		};
+//		viewer.getPositionTool().addImagePositionListener(newListener, null);
+//	}
 
-			@Override
-			public void mouseDown(MouseEvent event) {
-				logger.debug("Mouse Down");
-			}
-
-			@Override
-			public void mouseUp(MouseEvent event) {
-				logger.debug("Mouse Up");
-			}
-
-			@Override
-			public void mouseDoubleClick(MouseEvent event) {
-				logger.debug("Mouse Double Clicked");
-			}
-		});
-
-		ImagePositionListener newListener = new ImagePositionListener() {
-			@Override
-			public void imageStart(IImagePositionEvent event) {
-				double[] position = event.getPosition();
-				int[] imagePosition = event.getImagePosition();
-				updateStatus((int) position[0], (int) position[1], imagePosition[0], imagePosition[1]);
-			}
-
-			@Override
-			public void imageFinished(IImagePositionEvent event) {
-				double[] position = event.getPosition();
-				int[] imagePosition = event.getImagePosition();
-				updateStatus((int) position[0], (int) position[1], imagePosition[0], imagePosition[1]);
-			}
-
-			@Override
-			public void imageDragged(IImagePositionEvent event) {
-				double[] position = event.getPosition();
-				int[] imagePosition = event.getImagePosition();
-				updateStatus((int) position[0], (int) position[1], imagePosition[0], imagePosition[1]);
-			}
-		};
-		viewer.getPositionTool().addImagePositionListener(newListener, null);
-	}
-
-	private void updateStatus(int x, int y, int ix, int iy) {
-		logger.debug("Mouse position at: (" + x + ", " + y + ")");
-		logger.debug("Image position at: (" + ix + ", " + iy + ")");
-	}
+//	private void updateStatus(int x, int y, int ix, int iy) {
+//		logger.debug("Mouse position at: (" + x + ", " + y + ")");
+//		logger.debug("Image position at: (" + ix + ", " + iy + ")");
+//	}
 
 	private void initViewer() {
 		if (!layoutReset) {

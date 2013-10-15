@@ -43,6 +43,24 @@ public class XesScanParametersTest {
 	final static String testScratchDirectoryName =
 		TestUtils.generateDirectorynameFromClassname(XesScanParametersTest.class.getCanonicalName());
 
+	public static XesScanParameters createFromXML(String filename) throws Exception {
+		return (XesScanParameters) XMLHelpers.createFromXML(XesScanParameters.mappingURL, XesScanParameters.class,
+				XesScanParameters.schemaURL, filename);
+	}
+
+	public static void writeToXML(XesScanParameters params, String filename) throws Exception {
+		XMLHelpers.writeToXML(XesScanParameters.mappingURL, params, filename);
+	}
+	
+	public static DetectorParameters createDetectorsFromXML(String filename) throws Exception {
+		return (DetectorParameters) XMLHelpers.createFromXML(DetectorParameters.mappingURL, DetectorParameters.class,
+				DetectorParameters.schemaUrl, filename);
+	}
+
+	public static void writeDetectorsToXML(DetectorParameters sampleParameters, String filename) throws Exception {
+		XMLHelpers.writeToXML(DetectorParameters.mappingURL, sampleParameters, filename);
+	}
+	
 	@BeforeClass
 	public static void beforeClass() throws Exception{
 		TestUtils.makeScratchDirectory(testScratchDirectoryName);
@@ -91,8 +109,8 @@ public class XesScanParametersTest {
 		sp.setAdditionalCrystal2(false);
 		sp.setAdditionalCrystal3(false);
 		
-		XesScanParameters s = XesScanParameters.createFromXML("testfiles/uk/ac/gda/exafs/beans/XesScanParametersTest/XES_Parameters.xml");
-		DetectorParameters d = DetectorParameters.createFromXML("testfiles/uk/ac/gda/exafs/beans/XesScanParametersTest/DetectorParameters_withXES.xml");
+		XesScanParameters s = createFromXML("testfiles/uk/ac/gda/exafs/beans/XesScanParametersTest/XES_Parameters.xml");
+		DetectorParameters d = createDetectorsFromXML("testfiles/uk/ac/gda/exafs/beans/XesScanParametersTest/DetectorParameters_withXES.xml");
 		List<InvalidBeanMessage> errors = new I20Validator().validateXesScanParameters(s,d);
 		if (errors.size() > 0){
 			fail(errors.get(0).getPrimaryMessage());
@@ -121,13 +139,13 @@ public class XesScanParametersTest {
 		sp.setAdditionalCrystal3(false);
 		
 		try {
-			XesScanParameters.writeToXML(sp, testScratchDirectoryName + "XesScanParameters_written.xml");
+			writeToXML(sp, testScratchDirectoryName + "XesScanParameters_written.xml");
 		} catch (Exception e) {
 			fail("Failed to write xml file - " + e.getCause().getMessage());
 		}
 
-		XesScanParameters s = XesScanParameters.createFromXML(testScratchDirectoryName + "XesScanParameters_written.xml");
-		DetectorParameters d = DetectorParameters.createFromXML("testfiles/uk/ac/gda/exafs/beans/XesScanParametersTest/DetectorParameters_withXES.xml");
+		XesScanParameters s = createFromXML(testScratchDirectoryName + "XesScanParameters_written.xml");
+		DetectorParameters d = createDetectorsFromXML("testfiles/uk/ac/gda/exafs/beans/XesScanParametersTest/DetectorParameters_withXES.xml");
 		List<InvalidBeanMessage> errors = new I20Validator().validateXesScanParameters(s,d);
 		if (errors.size() > 0){
 			fail(errors.get(0).getPrimaryMessage());

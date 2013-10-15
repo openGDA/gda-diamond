@@ -90,8 +90,10 @@ samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_Micro
 outputPreparer = I18OutputPreparer()
 
 loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
+datawriterconfig = Finder.getInstance().find("datawriterconfig")
+original_header = Finder.getInstance().find("datawriterconfig").clone().getHeader()[:]
 
-xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
+xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
 
 non_raster_map = Map(D7A, D7B, counterTimer01, rcpController, micosx, micosy)
 raster_map = RasterMap(D7A, D7B, counterTimer01, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, rcpController)
