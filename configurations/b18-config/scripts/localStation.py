@@ -1,7 +1,5 @@
 print "Initialization Started";
 
-import copy
-
 from exafsscripts.exafs.b18DetectorPreparer import B18DetectorPreparer
 from exafsscripts.exafs.b18SamplePreparer import B18SamplePreparer
 from exafsscripts.exafs.b18OutputPreparer import B18OutputPreparer
@@ -24,7 +22,7 @@ commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
 ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
 
 datawriterconfig = Finder.getInstance().find("datawriterconfig")
-original_header = copy.copy(Finder.getInstance().find("datawriterconfig").getHeader()[:])
+original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
 
 NexusExtraMetadataDataWriter.removeAllMetadataEntries()
 

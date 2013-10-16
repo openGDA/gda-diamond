@@ -30,9 +30,9 @@ XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptControll
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
 ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
 datawriterconfig = Finder.getInstance().find("datawriterconfig")
-original_header = Finder.getInstance().find("datawriterconfig").clone().getHeader()[:]
+original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
 datawriterconfig_xes = Finder.getInstance().find("datawriterconfig_xes")
-original_header_xes = Finder.getInstance().find("datawriterconfig").clone().getHeader()[:]
+original_header_xes = Finder.getInstance().find("datawriterconfig").getHeader()[:]
 
 sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity,i1_stanford_sensitivity]
 sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units,iref_stanford_sensitivity_units,i1_stanford_sensitivity_units]
