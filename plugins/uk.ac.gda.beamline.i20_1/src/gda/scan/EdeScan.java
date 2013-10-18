@@ -134,13 +134,16 @@ public class EdeScan extends ConcurrentScanChild {
 	@Override
 	public void doCollection() throws Exception {
 		validate();
+		logger.debug(toString() + " loading detector parameters...");
 		theDetector.loadParameters(scanParameters);
+		logger.debug(toString() + " moving motors into position...");
 		motorPositions.moveIntoPosition();
 		checkForInterrupts();
 		if (!isChild()) {
 			currentPointCount = -1;
 		}
 
+		logger.debug(toString() + " starting detector running...");
 		theDetector.collectData();
 		// sleep for a moment to allow collection to start
 		Thread.sleep(250);
@@ -171,11 +174,10 @@ public class EdeScan extends ConcurrentScanChild {
 			// have we read all the frames?
 			readoutRestOfFrames(nextFrameToRead);
 		}
-
+		logger.debug(toString() + " doCollection finished.");
 	}
 
 	private Boolean collectionFinished(ExperimentStatus progressData) {
-		// TODO test this actually works with hardware!!!
 		return progressData.toString().contains("Idle");
 	}
 
@@ -202,6 +204,7 @@ public class EdeScan extends ConcurrentScanChild {
 	}
 
 	private void readoutRestOfFrames(Integer nextFrameToRead) throws Exception {
+		logger.debug(toString() + " detector finished, now reading the rest of the data...");
 		int absLowFrame = nextFrameToRead;
 		if (absLowFrame == getDimension()) {
 			return;

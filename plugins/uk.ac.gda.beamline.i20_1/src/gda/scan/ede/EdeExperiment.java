@@ -38,7 +38,7 @@ public abstract class EdeExperiment {
 	 */
 	public static final String PROGRESS_UPDATER_NAME = "EDEProgressUpdater";
 
-	private static final Logger edelogger = LoggerFactory.getLogger(EdeSingleExperiment.class);
+	private static final Logger edelogger = LoggerFactory.getLogger(EdeExperiment.class);
 
 	protected String filenameTemplate = "";
 
