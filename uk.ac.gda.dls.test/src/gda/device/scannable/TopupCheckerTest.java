@@ -39,7 +39,7 @@ public class TopupCheckerTest {
 		topup.setScannableToBeMonitored(monitor);
 		topup.setTolerance(0);   		// the margin for safety on top of the data collection time
 		topup.setCollectionTime(2.0);	// the data collection time 
-		topup.setTimeout(1.0);			// the timeout after the topup has completed before continuing
+		topup.setWaittime(1.0);			// the timeout after the topup has completed before continuing
 		topup.setPauseBeforeScan(false);
 		topup.setPauseBeforeLine(false);
 		topup.setPauseBeforePoint(true);
