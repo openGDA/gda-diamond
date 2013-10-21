@@ -198,10 +198,11 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	private String buildScanCommand() {
 		return String.format("from gda.scan.ede.drivers import LinearExperimentDriver;" +
-				"scan_driver = LinearExperimentDriver(\"%s\",%s);" +
+				"scan_driver = LinearExperimentDriver(\"%s\",\"%s\",%s);" +
 				"scan_driver.setInBeamPosition(%f,%f);" +
 				"scan_driver.setOutBeamPosition(%f,%f)",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
+				DetectorModel.TOPUP_CHECKER,
 				TIMING_GROUPS_OBJ_NAME,
 				SingleSpectrumModel.INSTANCE.getiTxPosition(),
 				SingleSpectrumModel.INSTANCE.getiTxPosition(),

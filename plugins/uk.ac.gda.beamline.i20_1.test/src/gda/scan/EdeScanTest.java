@@ -25,6 +25,7 @@ import gda.device.MotorException;
 import gda.device.detector.DummyXStripDAServer;
 import gda.device.detector.StepScanXHDetector;
 import gda.device.detector.XHDetector;
+import gda.device.monitor.DummyMonitor;
 import gda.device.motor.DummyMotor;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.FactoryException;
@@ -57,6 +58,7 @@ public class EdeScanTest {
 	private DummyXStripDAServer daserver;
 	private XHDetector xh;
 	private String testDir;
+	private DummyMonitor topupMonitor;
 
 	public void setup(String testName) throws Exception {
 		/* String testFolder = */TestHelpers.setUpTest(EdeScanTest.class, testName, true);
@@ -75,6 +77,10 @@ public class EdeScanTest {
 		xh.setName("xh");
 		xh.setDetectorName("xh0");
 		xh.configure();
+		// topup monitor
+		topupMonitor = new DummyMonitor();
+		topupMonitor.setName("topup");
+		topupMonitor.setValue(120.0);
 	}
 
 	@Test
@@ -149,7 +155,7 @@ public class EdeScanTest {
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
 				yScannable);
 
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(scanParams, outBeam, inBeam, xh);
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(scanParams, outBeam, inBeam, xh, topupMonitor);
 		String filename = theExperiment.runExperiment();
 
 		testNumberColumnsInEDEFile(filename, 9);
@@ -181,7 +187,7 @@ public class EdeScanTest {
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
 				yScannable);
 
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0Params, itParams, outBeam, inBeam, xh);
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0Params, itParams, outBeam, inBeam, xh, topupMonitor);
 		String filename = theExperiment.runExperiment();
 
 		testNumberColumnsInEDEFile(filename, 9);
@@ -239,7 +245,7 @@ public class EdeScanTest {
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
 				yScannable);
 
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, outBeam, inBeam, xh);
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, outBeam, inBeam, xh, topupMonitor);
 		String filename = theExperiment.runExperiment();
 
 		testNumberColumnsInEDEFile(filename, 9);
@@ -258,7 +264,7 @@ public class EdeScanTest {
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
 				yScannable);
 
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, outBeam, inBeam, xh);
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, outBeam, inBeam, xh, topupMonitor);
 		theExperiment.setFilenameTemplate("mysample_%s_sample1");
 		String filename = theExperiment.runExperiment();
 
@@ -280,7 +286,7 @@ public class EdeScanTest {
 
 		xh.setEnergyCalibration(new PolynomialFunction(new double[] { 0., 2. }));
 
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, outBeam, inBeam, xh);
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, outBeam, inBeam, xh, topupMonitor);
 		String filename = theExperiment.runExperiment();
 
 		boolean firstLine = true;
@@ -337,7 +343,7 @@ public class EdeScanTest {
 		EdeScanPosition outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable, yScannable);
 		EdeScanPosition refSample = new ExplicitScanPositions(EdePositionType.REFERENCE, 0d, 0d, xScannable, yScannable);
 
-		EdeLinearExperiment theExperiment = new EdeLinearExperiment(params, outBeam, inBeam, refSample, xh);
+		EdeLinearExperiment theExperiment = new EdeLinearExperiment(params, outBeam, inBeam, refSample, xh, topupMonitor);
 		String filename = theExperiment.runExperiment();
 
 		testNumberColumnsInEDEFile(filename, 8);
