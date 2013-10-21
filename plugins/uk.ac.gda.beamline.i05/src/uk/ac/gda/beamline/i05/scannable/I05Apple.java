@@ -114,9 +114,9 @@ public class I05Apple extends ScannableMotionBase {
 	}
 	
 	public I05Apple() {
-		setInputNames(new String[] { "energy", "polarisation"});
-		setExtraNames(new String[] {});
-		setOutputFormat(new String[] {"%8.5f", "%s"});
+		setInputNames(new String[] { "gap", "phase" });
+		setExtraNames(new String[] { "polarisation" });
+		setOutputFormat(new String[] {"%8.5f", "%8.5f", "%s"});
 	}
 
 	protected static Point2D[] trajectoryToPointArray(List<Line2D> traj) {
@@ -267,7 +267,7 @@ public class I05Apple extends ScannableMotionBase {
 	@Override
 	public Object getPosition() throws DeviceException {
 		checkPhases();
-		return new Object[] { gapScannable.getPosition(), getCurrentPolarisation() };
+		return new Object[] { gapScannable.getPosition(), upperPhaseScannable.getPosition(), getCurrentPolarisation() };
 	}
 	
 	private synchronized void checkThreadException() throws DeviceException {

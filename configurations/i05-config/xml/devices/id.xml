@@ -1,31 +1,47 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-        <bean id="id" class="uk.ac.gda.beamline.i05.scannable.I05Apple">
-        	<property name="gapScannable" ref="rawid_gap" />
-        	<property name="upperPhaseScannable" ref="rawid_upperphase" />
-        	<property name="lowerPhaseScannable" ref="rawid_lowerphase" />
-        	<property name="exclusionZone">
-        		<list>
-        			<bean class="java.awt.geom.Rectangle2D.Double">
-        				<constructor-arg><value>-65</value></constructor-arg>
-        				<constructor-arg><value>0</value></constructor-arg>
-        				<constructor-arg><value>130</value></constructor-arg>
-        				<constructor-arg><value>25</value></constructor-arg>
-        			</bean>
-        			<bean class="java.awt.geom.Rectangle2D.Double">
-        				<constructor-arg><value>-10</value></constructor-arg>
-        				<constructor-arg><value>0</value></constructor-arg>
-        				<constructor-arg><value>20</value></constructor-arg>
-        				<constructor-arg><value>37</value></constructor-arg>
-        			</bean>
-        		</list>
-        	</property>
-        </bean>
-        <bean id="energy" class="uk.ac.gda.beamline.i05.scannable.EnergyScannable">
-        	<property name="pgm" ref="pgm_energy" />
-        	<property name="id" ref="id" />
-        </bean>
+	<bean id="id" class="uk.ac.gda.beamline.i05.scannable.I05Apple">
+		<property name="gapScannable" ref="rawid_gap" />
+		<property name="upperPhaseScannable" ref="rawid_upperphase" />
+		<property name="lowerPhaseScannable" ref="rawid_lowerphase" />
+		<property name="exclusionZone">
+			<list>
+				<bean class="java.awt.geom.Rectangle2D.Double">
+					<constructor-arg>
+						<value>-65</value>
+					</constructor-arg>
+					<constructor-arg>
+						<value>0</value>
+					</constructor-arg>
+					<constructor-arg>
+						<value>130</value>
+					</constructor-arg>
+					<constructor-arg>
+						<value>25</value>
+					</constructor-arg>
+				</bean>
+				<bean class="java.awt.geom.Rectangle2D.Double">
+					<constructor-arg>
+						<value>-10</value>
+					</constructor-arg>
+					<constructor-arg>
+						<value>0</value>
+					</constructor-arg>
+					<constructor-arg>
+						<value>20</value>
+					</constructor-arg>
+					<constructor-arg>
+						<value>37</value>
+					</constructor-arg>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="energy" class="uk.ac.gda.beamline.i05.scannable.EnergyScannable">
+		<property name="pgm" ref="pgm_energy" />
+		<property name="id" ref="id" />
+	</bean>
 </beans>

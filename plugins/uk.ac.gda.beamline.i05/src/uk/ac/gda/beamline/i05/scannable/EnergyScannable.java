@@ -54,8 +54,12 @@ public class EnergyScannable extends ScannableBase {
 		Vector<String> en = new Vector<String>();
 		Vector<String> of = new Vector<String>();
 		of.add("%5.3f"); //us - pgm
-//		of.add("%5.3f"); //id (gap)
-//		of.add("%s"); //id(polarisation) //FIXME
+		of.add("%5.3f"); //id (gap)
+		en.add("gap");
+		of.add("%5.3f"); //id (phase)
+		en.add("phase");
+		of.add("%s"); //id (polarisation)
+		en.add("polarisation");
 		for (Scannable s : scannables) {
 			en.add(s.getName());
 			of.add("%5.3f");
@@ -88,9 +92,13 @@ public class EnergyScannable extends ScannableBase {
 	
 	@Override
 	public Object getPosition() throws DeviceException {
-		Object[] pos = new Object[scannables.size()+1];
-		int i = 0;
-		pos[i] = pgm.getPosition();
+		Object[] pos = new Object[scannables.size()+4];
+		pos[0] = pgm.getPosition();
+		Object[] idposition = (Object[]) id.getPosition();
+		pos[1] = idposition[0];
+		pos[2] = idposition[1];
+		pos[3] = idposition[2];
+		int i = 3;
 		for (Scannable s : scannables) {
 			i++;
 			pos[i] = s.getPosition();
