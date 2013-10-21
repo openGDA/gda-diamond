@@ -12,13 +12,10 @@ if LocalProperties.get("gda.mode") == "live":
     LocalProperties.set("gda.scan.concurrentScan.readoutConcurrently","true")
     LocalProperties.set("gda.scan.multithreadedScanDataPointPipeline.length","10")
     if (machineMode() == "No Beam"):
-        remove_default([topupChecker])
         remove_default([absorberChecker])
         remove_default([shutterChecker])
     else:
-        add_default([topupChecker])
         add_default([absorberChecker])
         add_default([shutterChecker])
 else:
-    remove_default([topupChecker])
     remove_default([absorberChecker])
