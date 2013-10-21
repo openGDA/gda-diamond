@@ -18,44 +18,47 @@
 
 package gda.device.scannable;
 
+import gda.device.DeviceException;
+import gda.device.Scannable;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.factory.FactoryException;
-import gda.observable.IObserver;
-
+/**
+* <p>
+* Deprecated, see TopupChecker.
+* <p>
+* This should be deleted for the GDA release after 8.36
+*/
+@Deprecated
 public class DummyTopupScannable extends ScannableBase implements Scannable {
 	private static final Logger logger = LoggerFactory.getLogger(DummyTopupScannable.class);
 	private double topupInterval = 600.0;
 	private double topupCount = topupInterval;
 	private Timer topupTimer;
-	
-	public DummyTopupScannable()
-	{
+
+	public DummyTopupScannable() {
 		topupTimer = new Timer();
 		topupTimer.schedule(new CountDownTask(), 100, 100);
 	}
+
 	@Override
-	public Object getPosition() throws DeviceException
-	{
+	public Object getPosition() throws DeviceException {
 		return topupCount;
 	}
+
 	@Override
 	public boolean isBusy() throws DeviceException {
 		return false;
 	}
 
-	class CountDownTask extends TimerTask{
-		public void run()
-		{
+	class CountDownTask extends TimerTask {
+		@Override
+		public void run() {
 			topupCount = topupCount - 0.1;
-			if(topupCount <= 0.0)
-			{
+			if (topupCount <= 0.0) {
 				topupCount = 0.0;
 				try {
 					Thread.sleep(2000);
@@ -64,13 +67,7 @@ public class DummyTopupScannable extends ScannableBase implements Scannable {
 				}
 				topupCount = topupInterval;
 			}
-			//logger.info("the topup time is " + topupCount);
+			// logger.info("the topup time is " + topupCount);
 		}
 	}
-	
-	 public static void main(String args[]) {
-		    System.out.println("About to schedule task.");
-		    new DummyTopupScannable();
-		    System.out.println("Task scheduled.");
-		  }
 }

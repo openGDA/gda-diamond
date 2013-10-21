@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2009 Diamond Light Source Ltd.
+ * Copyright © 2013 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -19,8 +19,7 @@
 package gda.device.scannable;
 
 import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.epics.CAClient;
+import gda.device.Monitor;
 import gda.jython.JythonServerFacade;
 import gda.scan.ScanBase;
 
@@ -30,30 +29,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A scannable which will pause during a scan if top-up is imminent.
+ * Scannable which will pause the scan if a machine top-up is imminent.
  * <p>
- * To use, simply include in a scan.
+ * This must be given a Monitor object which returns the time in seconds until the next top-up, 0 if top-up in progress.
  * <p>
- * Deprecated, see TopupChecker.
- * <p>
- * This should be deleted for the GDA release after 8.36
+ * This replaces earlier classes which were not unit-testable.
  */
-@Deprecated
-public class TopupScannable extends ScannableBase implements Scannable {
+public class TopupChecker extends ScannableBase {
 
-	private static final Logger logger = LoggerFactory.getLogger(TopupScannable.class);
+	private static final Logger logger = LoggerFactory.getLogger(TopupChecker.class);
 
 	private double timeout = 30;
 	private double tolerance = 0;
 	private double waittime = 0;
 	private double collectionTime = 0.0;// in seconds
-	private String topupPV = null;
+
 	private boolean pauseBeforeScan = false;
 	private boolean pauseBeforeLine = false;
 	private boolean pauseBeforePoint = true;
-	private Scannable scannableToBeMonitored;
 
-	public TopupScannable() {
+	private Monitor scannableToBeMonitored;
+
+	public TopupChecker() {
 		this.inputNames = new String[0];
 		this.extraNames = new String[0];
 		this.outputFormat = new String[0];
@@ -81,17 +78,19 @@ public class TopupScannable extends ScannableBase implements Scannable {
 		}
 	}
 
+	public Boolean topupImminent() throws DeviceException{
+		double topupTime = getTopupTime();
+		return topupTime >= 0 && topupTime < (collectionTime + tolerance);
+	}
+	
 	/**
 	 * protected so this method may be overridden
 	 * 
 	 * @throws DeviceException
 	 */
 	protected void testShouldPause() throws DeviceException {
-
-		double topupTime = getTopupTime();
-
-		// -1 or longer than tolerance - we allow the scan to happen without a pause.
-		if (topupTime < 0 || topupTime > (collectionTime + tolerance))
+		
+		if (!topupImminent())
 			return;
 
 		try {
@@ -99,14 +98,12 @@ public class TopupScannable extends ScannableBase implements Scannable {
 			Long start = new Date().getTime();
 
 			// If the monitor is topup:
-			// topup is -1 for beam finished topup and is back up.
 			// topup is 0 for topup happening
-			// topup is >0 for time to next topup in seconds.
+			// topup is >0 for time to next top up in seconds.
 
 			String message = "Pausing scan and waiting for " + getName() + "...";
 			sendAndPrintMessage(message);
-			while (topupTime > -1 && topupTime < (collectionTime + tolerance)) { // We are inside the tolerance and
-																					// should pause
+			while (topupImminent()) {
 
 				ScanBase.checkForInterrupts();
 
@@ -116,8 +113,6 @@ public class TopupScannable extends ScannableBase implements Scannable {
 				}
 				sendAndPrintMessage("Pausing scan and waiting for " + getName() + " to finish");
 				Thread.sleep(1000);
-				topupTime = getTopupTime();
-
 			}
 
 			if (waittime > 0) {
@@ -181,14 +176,6 @@ public class TopupScannable extends ScannableBase implements Scannable {
 		this.waittime = waittime;
 	}
 
-	public String getTopupPV() {
-		return topupPV;
-	}
-
-	public void setTopupPV(String topupPV) {
-		this.topupPV = topupPV;
-	}
-
 	public boolean isPauseBeforeLine() {
 		return pauseBeforeLine;
 	}
@@ -219,21 +206,12 @@ public class TopupScannable extends ScannableBase implements Scannable {
 	 */
 	private double getTopupTime() throws DeviceException {
 
-		if (topupPV == null && scannableToBeMonitored == null) {
-			throw new DeviceException("You must define one of topupPv and topupScannable");
+		if (scannableToBeMonitored == null) {
+			throw new DeviceException("You must the topup scannable to be monitored");
 		}
 
 		Double topupTime = null;
-		if (topupPV != null) {
-			try {
-				CAClient ca = new CAClient();
-				String value = ca.caget(topupPV);
-				topupTime = new Double(value);
-			} catch (Exception e) {
-				logger.error("Cannot read pv " + topupPV, e);
-				return tolerance; // so this scannable will always allow the scan in the event of Epics problem
-			}
-		} else if (scannableToBeMonitored != null) {
+		if (scannableToBeMonitored != null) {
 			Object pos = scannableToBeMonitored.getPosition();
 			if (pos instanceof Number) {
 				topupTime = ((Number) pos).doubleValue();
@@ -270,11 +248,11 @@ public class TopupScannable extends ScannableBase implements Scannable {
 		this.tolerance = scannableTolerance;
 	}
 
-	public Scannable getScannableToBeMonitored() {
+	public Monitor getScannableToBeMonitored() {
 		return scannableToBeMonitored;
 	}
 
-	public void setScannableToBeMonitored(Scannable scannableToBeMonitored) {
+	public void setScannableToBeMonitored(Monitor scannableToBeMonitored) {
 		this.scannableToBeMonitored = scannableToBeMonitored;
 	}
 
