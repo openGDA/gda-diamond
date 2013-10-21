@@ -143,6 +143,13 @@ public class FocusingView extends ViewPart {
 		motorPositionEditorControl = new MotorPositionEditorControl(curvatureSelectionComposite, SWT.None, new ScannableWrapper(scannable), true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
+		Label lblTwist = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_TWIST.getLabel(), SWT.NONE);
+		lblTwist.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
+		scannable = ScannableSetup.POLY_TWIST.getScannable();
+		scannable.addIObserver(moveObserver);
+		motorPositionEditorControl = new MotorPositionEditorControl(curvatureSelectionComposite, SWT.None, new ScannableWrapper(scannable), true);
+		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
 		final ToolBar motorSectionTbar = new ToolBar(curvatureSection, SWT.FLAT | SWT.HORIZONTAL);
 		new ToolItem(motorSectionTbar, SWT.SEPARATOR);
 		final ToolItem stopMotorsBarItem = ScannableMotorMoveObserver.setupStopToolItem(motorSectionTbar, movingScannables);

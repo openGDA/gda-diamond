@@ -55,8 +55,7 @@ public class EdeDataStoreTest {
 			public void run() {
 				WritableList groupList = new WritableList(new ArrayList<TimingGroupModel>(), TimingGroupModel.class);
 				TimingGroupModel group = new TimingGroupModel(new DefaultTimeBarRowModel());
-				group.setStartTime(0.0);
-				group.setEndTime(1000.0);
+				group.setTimes(0.0, 1000.0);
 				group.setTimePerSpectrum(10);
 				group.setBegin(new JaretDate());
 				group.setEnd(new JaretDate());
