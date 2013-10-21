@@ -1,0 +1,45 @@
+run "scannable/continuous/try_continuous_energy.py"                             # Command start ; First data point returned ; Last data point 
+scan idu_circ_pos_energy 770 780 0.5 macj11 1 macj116 macj117 macr1 1 macr18    # 2013-10-09 16:45:35 ; 16:46:14 ; 16:48:24 => 2:10
+cvscan egy 770 780 0.5 mcsj1 1 mcsj16 mcsj17 mcsr1 1 mcsr18                     # Failed as mcsj doesn't seem to support MCS mode (PVs fail)
+cvscan egy 770 780 0.5 mcsr1 1 mcsr18                                           # 2013-10-09 17:11:50 ; 17:12:21 ; 17:12:41 => 0:20
+cvscan egy 770 780 0.05 mcsr1 .1 mcsr18                                         # 2013-10-09 17:16:03 ; 17:16:35 ; 17:16:55 => 0:20
+
+cvscan egy 770 780 0.5 mcsr1 1 mcsr18                                           # 2013-10-09 17:11:50 ; 17:12:21 ; 17:12:41 => 0:20
+cvscan egy 770 780 0.05 mcsr1 .1 mcsr18                                         # 2013-10-09 17:16:03 ; 17:16:35 ; 17:16:55 => 0:20
+
+scan idu_circ_pos_energy 770 780 0.5 macj11 1 macj116 macj117 macr1 1 macr18    #
+pos idu_circ_pos_energy 775
+scan pgm_energy 770 780 0.5 macj11 1 macj116 macj117 macr1 1 macr18             #
+cvscan      egy 770 780 0.5 mcsj1  1 mcsj16  mcsj17  mcsr1 1 mcsr18             # Failed as mcsj doesn't seem to support MCS mode (PVs fail)
+
+
+pos idu_circ_pos_energy 775
+scan pgm_energy 770 780 0.5 macr1 1 macr18                                      # 2013-10-10 15:39:25 ; 15:39:48 ; 15:41:28 => 
+
+pos idu_circ_pos_energy 775
+cvscan      egy 770 780 0.5 mcs1  1 mcs18                                       # 
+
+pos idu_circ_pos_energy 775
+scan pgm_energy 770 780 0.5 macr1 1 macr18                                      # 
+
+switched pgm_energy to 20eV/s (from 0.5eV/s)
+
+run "scannable/continuous/try_continuous_energy.py"
+pgm_energy.speed=20
+scan pgm_energy 770 780 0.5 macr18 1 mac117 1                                   # 2013-10-10 17:25:35 ; 
+pgm_energy.speed
+cvscan      egy 770 780 0.5 mcsr18 1 mcsi17 1                                   # maximum recursion depth exceeded
+pgm_energy.speed 
+
+scan pgm_energy 770 780 0.5 macr18 1 mac117 1									# 2013-10-10 17:33:27
+cvscan      egy 770 780 0.5 mcsi17 1											# maximum recursion depth exceeded
+
+scan pgm_energy 770 780 0.5 macr18 1 mac117 1									# 2013-10-10 17:44:00
+cvscan      egy 770 780 0.5 mcsi17 1											# maximum recursion depth exceeded
+cvscan      egy 770 780 0.5 mcsr18 1											# 2013-10-10 18:03:54
+scan pgm_energy 770 780 0.5 macr18 1 mac117 1									# 
+
+scan pgm_energy 770 780 0.5 macr18 1 mac117 1									# 2013-10-10 17:44:00
+cvscan      egy 770 780 0.5 mcsi17 1											# maximum recursion depth exceeded
+cvscan      egy 770 780 0.5 mcsr18 1											# 2013-10-10 18:03:54
+scan pgm_energy 770 780 0.5 macr18 1 mac117 1									# 
