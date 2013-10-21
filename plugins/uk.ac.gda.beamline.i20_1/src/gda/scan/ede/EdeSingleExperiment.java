@@ -28,6 +28,9 @@ import gda.scan.ede.position.EdeScanPosition;
 import java.util.List;
 import java.util.Vector;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 /**
@@ -41,6 +44,8 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
  * single spectrum.
  */
 public class EdeSingleExperiment extends EdeExperiment {
+
+	private static final Logger logger = LoggerFactory.getLogger(EdeSingleExperiment.class);
 
 	protected final EdeScanPosition i0Position;
 	protected final EdeScanPosition itPosition;
@@ -118,6 +123,7 @@ public class EdeSingleExperiment extends EdeExperiment {
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
 			writer.setFilenameTemplate(filenameTemplate);
 		}
+		logger.debug("EDE single experiment writing its ascii derived data files...");
 		writer.writeAsciiFile();
 		log("EDE single spectrum experiment complete.");
 		return writer.getAsciiFilename();
@@ -142,6 +148,7 @@ public class EdeSingleExperiment extends EdeExperiment {
 		theScans.add(itScan);
 
 		MultiScan theScan = new MultiScan(theScans);
+		logger.debug("EDE single experiment starting its multiscan...");
 		theScan.runScan();
 	}
 }

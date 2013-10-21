@@ -32,7 +32,8 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.diamond.jama;bundle-version="1.0.3",
  uk.ac.gda.analysis,
  uk.ac.gda.epics;bundle-version="1.0.0",
- uk.ac.gda.server.exafs.epics;bundle-version="1.0.0"
+ uk.ac.gda.server.exafs.epics;bundle-version="1.0.0",
+ uk.ac.gda.dls;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: gda.device.detector,
