@@ -97,7 +97,7 @@
 			<map>
 				<entry key="energy">
 					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						class="uk.ac.gda.beamline.i05.scannable.EnergyScannableWriter">
 						<property name="paths">
 							<list>
 								<value>instrument:NXinstrument/monochromator:NXmonochromator/energy</value>
@@ -239,7 +239,7 @@
 				</entry>
 				<entry key="sample_name">
 					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleStringScannableWriter">
+						class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
 						<property name="path" value="sample:NXsample/name" />
 						<property name="prerequisiteScannableNames">
 							<list>
