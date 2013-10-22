@@ -48,7 +48,7 @@
       <Scannable name="s2_ysize" tooltip="s2 vertical slit size" />
       <Scannable name="s6_ysize" tooltip="monochromator exit slit setting" />
       <Scannable name="analyser_slit" tooltip="analyser entrance slit setting"/>
-      <Scannable name="pgm_energy" tooltip="photon energy" />
+      <Scannable name="energy" tooltip="photon energy" />
       <Scannable name="pgm_cff" tooltip="monochromator cff" />
       <Scannable name="cryostat" tooltip="sample temperature" />
       <Scannable name="sa" tooltip="cryo manipulator" />
