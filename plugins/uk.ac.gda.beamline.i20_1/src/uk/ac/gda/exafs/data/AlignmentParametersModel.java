@@ -155,7 +155,7 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 		this.setQ(QValue.Q_0_8);
 		this.addPropertyChangeListener(listener);
 		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, listener);
-		//		getCalculations();
+		getCalculations();
 	}
 
 	public CrystalType getCrystalType() {
