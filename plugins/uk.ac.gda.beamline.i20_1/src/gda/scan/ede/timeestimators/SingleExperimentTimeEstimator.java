@@ -23,9 +23,7 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 public class SingleExperimentTimeEstimator extends TimeEstimatorBase implements EdeTimeEstimate {
 
-	@SuppressWarnings("unused")
 	private final EdeScanPosition i0Position;
-	@SuppressWarnings("unused")
 	private final EdeScanPosition itPosition;
 	private final EdeScanParameters itScanParameters;
 
@@ -40,7 +38,9 @@ public class SingleExperimentTimeEstimator extends TimeEstimatorBase implements 
 	@Override
 	public Double getTotalDuration() {
 		// there will also be two motor movements, so add 6s as a guess for now.
-		return 6 + getItDuration() + 3 * estimateOneFrameFromEachGroupDuration(itScanParameters);
+		return estimateMovementDuration(null, i0Position) + estimateMovementDuration(i0Position, itPosition)
+				+ getItDuration() + estimateMovementDuration(itPosition, i0Position) + (3
+						* estimateOneFrameFromEachGroupDuration(itScanParameters));
 	}
 
 	@Override
@@ -50,7 +50,8 @@ public class SingleExperimentTimeEstimator extends TimeEstimatorBase implements 
 
 	@Override
 	public Double getBookendsDuration() {
-		return 2 + 2 * estimateOneFrameFromEachGroupDuration(itScanParameters);
+		// time by two as dark and I0 mesurements
+		return estimateMovementDuration(null, i0Position) + 2 * estimateOneFrameFromEachGroupDuration(itScanParameters);
 	}
 
 }

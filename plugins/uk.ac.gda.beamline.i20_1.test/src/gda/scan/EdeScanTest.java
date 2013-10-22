@@ -369,7 +369,7 @@ public class EdeScanTest {
 		assertEquals(numExpectedLines, numDataLines);
 	}
 
-	private ScannableMotor createMotor(String name) throws MotorException, FactoryException {
+	public static ScannableMotor createMotor(String name) throws MotorException, FactoryException {
 		DummyMotor xMotor = new DummyMotor();
 		xMotor.setSpeed(5000);
 		xMotor.configure();
