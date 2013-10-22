@@ -19,6 +19,11 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
     e.g. perform a scan of ty over range ystart, ystop, ystep and at each value of ty perform the above flyscan of tx
     >flyscan   ty ystart ystop ystep flyscannable(tx) start stop end d
     
+    To perform a flyscan of the id gap use the command:
+    >flyscan flyscannable(id_gap, id_gap_rbv) 20. 23. .01 ionc_i
+    If id_gap_nominal does not keep up with id_gap_rbv then reduce the speed of the id gap motor
+
+
     
 2.  EPICS
     >caput pv value  e.g. caput "BL13J-OP-ACOLL-01:AVERAGESIZE" 10.0
@@ -71,4 +76,23 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
     
 8.  How to close down the telnet for P2R
     > p2r_rot.motor.smc.simc.bidiAsciiCommunicator.closeConnection()
+    
+9.  How to set the ROI of the pco
+    >tomodet.pco1_cam_base.minY=100
+    >tomodet.pco1_cam_base.sizeY=500
+    
+10. Scannables for stroboscopic experiment: phase(in radians), frequency and amplitude
+
+    To take mulitple images use detector pco1_multi_hdf
+    Set exposure of each image by property pco1_multi_hdf.collectionStrategy.exposureTime
+    To take a series of exposures at different phase with frame exposure time of 1microSec and total exposure of 1ms 
+    >pco1_multi_hdf.collectionStrategy.exposureTime=1e-6
+    >scan phase 0. .8 .1 pco1_multi_hdf 1e-3
+
+    To take images without saving to file > pco1_multi_hdf.pluginList[1].enabled=False
+    
+11. To control whether the fast shutter is to be opened only during camera exposure see the comment on the setting for tomography_shutter in 
+    /dls_sw/i13/software/gda/config/scripts/live_jythonNamespaceMapping
+    
+    
 """

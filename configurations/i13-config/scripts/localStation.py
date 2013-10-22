@@ -101,6 +101,7 @@ try:
 	
 	try:
 		if isLive():
+
 			createPVScannable( "mono_fine_pitch_demand", "BL13I-OP-DCM-01:BRAGG:FINE:DEMANDPOS")
 			createPVScannable( "mono_fine_pitch", "BL13I-OP-DCM-01:BRAGG:FINE:CURPOS")
 			createPVScannable( "d1_total", "BL13I-DI-PHDGN-01:STAT:Total_RBV")
@@ -193,11 +194,11 @@ try:
 	tomography_additional_scannables=[] # [p2r_force, p2r_y]
 	#for fast flyscans
 	if isLive():
-		zebra_det.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="t:\\i13\\data"	
+		flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="t:\\i13\\data"	
 
 	from gda.device.detector.areadetector.v17 import ADDriverPco
 	if isLive():
-		zebra_det.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_PULSE	
+		flyScanDetector.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_PULSE	
 #	run("i13diffcalc")
 
 #   It seemed on using Jon's first driver that pcoEdge needs timestamp 0, must I am not sure now as 
@@ -212,6 +213,10 @@ try:
 	import beamlineEnergy
 	bl = beamlineEnergy.beamLineEnergy()
 	bl.setName("bl")
+
+
+
+	run("localStationUser.py")
 
 except:
 	exceptionType, exception, traceback = sys.exc_info()

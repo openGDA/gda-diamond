@@ -1,27 +1,47 @@
 #This file is used by beamline_parameters.jythonNamespaceMapping
-#tomography_theta=ss1_rot_dummy
-#tomography_shutter=eh_shtr_dummy
-#tomography_translation=ss1_X_dummy
-tomography_optimizer=beam_optimizer
-#tomography_detector=dummy_cam_ad
-tomography_detector=pco1_hw_tif
-#tomography_detector=pco1_tif
-tomography_normalisedImage_detector=pco1_hw_tif
-#tomography_detector=pco1_hw_hdf
-#tomography_detector=dimax_tif
-#epg 6/8/13 Use p2r tomography_theta=ss1_rot
-#nlk 9/8/13 Back to normal tomography_theta=p2r_rot
-tomography_theta=ss1_rot
-#make sure pco1_tif.collectionStrategy.shutterDarkScannable is set to this 
-#epg 21/2/2013 for pco1_tif. use dummy
-#with pco1_hw_tif.collectionStrategy.useShutterPV=False we need to drive the fast shutter in the script
-tomography_shutter=expt_fastshutter
-#epg 6/8/13 Use hexapod tomography_translation=ss1_X
-#nlk 9/8/13 Back to normal tomography_translation=hex_x
+
+#tomography_translation is the motor used to move the sample out of the beam (x)
+#Possible values:
+#ss1_X  - normal sample table
+#hex_x  - hexapod sample table
+#ss1_X_dummy - a dummy motor used for testing
 tomography_translation=ss1_X
+
+#tomography_theta is the motor used to rotate the sample
+#Possible values:
+# ss1_rot - normal goniometer
+# p2r_rot - p2r
+#ss1_rot_dummy - a dummy motor used for testing
+tomography_theta=ss1_rot
+
+
+#tomography_optimizer is the device that checks if the beam current is of high enough value
+tomography_optimizer=beam_optimizer
+
+#tomography_detector is the detector used in stepped tomography scans
+#Possible values:
+#pco1_hw_tif - uses tfg trigger, saves each image to a separate tif file
+#pco1_hw_hdf - uses tfg trigger, saves all images to 1 hdf file 
+#tomography_detector=pco1_hw_hdf
+tomography_detector=pco1_hw_tif
+
+#tomography_normalisedImage_detector is the detector used to take normalised images
+#Possible values:
+#pco1_hw_tif - to save to tif files
+#pco1_hw_hdf_nochunking - to save to hdf with no chunking ( chunking only suitable for full projection sets)
+tomography_normalisedImage_detector=pco1_hw_tif
+
+#tomography_shutter is the shutter that is closed to take a dark and opened for a flat and projection
+#Possible values:
+#eh_shtr_dummy - a dummy shutter used for testing, or when the shutter is being controlled by the detector and pco1_hw_tif.collectionStrategy.useShutterPV=True
+#expt_fastshutter - the fast shutter , or when the shutter is being controlled by the detector and pco1_hw_tif.collectionStrategy.useShutterPV=False
+tomography_shutter=expt_fastshutter
+
+#make sure pco1_tif.collectionStrategy.shutterDarkScannable is set to this 
+
 tomography_time=actualTime
 tomography_beammonitor=ionc_i
 
-
 tomography_flyscan_theta=zebraSM1
-tomography_flyscan_det=zebra_det
+tomography_flyscan_det=flyScanDetector
+tomography_flyscan_flat_dark_det=flyScanFlatDarkDetector

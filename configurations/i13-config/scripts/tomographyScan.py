@@ -126,7 +126,7 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
         instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
         instrument_detector_data_target += "data:SDS"
         nxLinkCreator.setInstrument_detector_data_target(instrument_detector_data_target)
-    elif tomography_detector_name == "pco1_hw_tif":
+    elif tomography_detector_name == "pco1_hw_tif" or tomography_detector_name == "pco1_tif":
         # image filenames
         instrument_detector_data_target = "entry1:NXentry/instrument:NXinstrument/"
         instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
@@ -251,17 +251,18 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
         if key == "data":
             dataKey=key
             break
-    if dataKey == None:
+    if dataKey is None:
         raise "Unable to find data in file"
     dataset=nxdata[dataKey]
-    dark=dnp.array((dataset[0,:,:]).cast(6))
-    flat=dnp.array((dataset[imagesPerDark,:,:]).cast(6))
-    image=dnp.array((dataset[imagesPerDark+imagesPerFlat,:,:]).cast(6))
+    dark=dnp.array((dataset[0,:,:])._jdataset().cast(6))
+    flat=dnp.array((dataset[imagesPerDark,:,:])._jdataset().cast(6))
+    image=dnp.array((dataset[imagesPerDark+imagesPerFlat,:,:])._jdataset().cast(6))
     imageD=image-dark
     flatD=flat-dark
-    t=imageD/dnp.select( dnp.not_equal(flatD,0), flatD, 1.)
+    t=imageD/flatD
+#    t=imageD/dnp.select( dnp.not_equal(flatD,0), flatD, 1.)
     t.name=lsdp.getScanIdentifier() + " image-dark/flat-dark"
-    hdfData = Hdf5HelperData(t.shape, t.getBuffer())
+    hdfData = Hdf5HelperData(t.shape, t._jdataset().buffer)
     locs = HDF5HelperLocations("entry1")
     locs.add(tomography_detector.getName())
     Hdf5Helper.getInstance().writeToFileSimple(hdfData, lsdp.currentFilename,locs , "normalisedImage")
@@ -314,8 +315,8 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 
     """
     jns=beamline_parameters.JythonNameSpaceMapping()
-    zebra_detb=jns.zebra_detb
-    savename=zebra_detb.name
+    tomography_flyscan_flat_dark_det=jns.tomography_flyscan_flat_dark_det
+    savename=tomography_flyscan_flat_dark_det.name
     try:
         tomodet=jns.tomodet
         if tomodet is None:
@@ -361,10 +362,12 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 
         index=SimpleScannable()
         index.setCurrentPosition(0.0)
-        index.setInputNames(["imageNumber"])
-        index.setName("imageNumber")
+        index.setName(tomography_flyscan_theta.name)
+        index.inputNames = tomography_flyscan_theta.inputNames
+        index.extraNames = tomography_flyscan_theta.extraNames
         index.configure()
-        index_cont=tomography_flyscan_theta.getContinuousMoveController().createScannable(index)
+
+#        index_cont=tomography_flyscan_theta.getContinuousMoveController().createScannable(index)
 
 
         image_key=SimpleScannable()
@@ -375,12 +378,12 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         image_key_cont=tomography_flyscan_theta.getContinuousMoveController().createScannable(image_key)
 
 
-        ss=SimpleScannable()
-        ss.name = tomography_flyscan_theta.name
-        ss.currentPosition=0.
-        ss.inputNames = tomography_flyscan_theta.inputNames
-        ss.extraNames = tomography_flyscan_theta.extraNames
-        ss.configure()
+#        ss=SimpleScannable()
+#        ss.name = tomography_flyscan_theta.name
+#        ss.currentPosition=0.
+#        ss.inputNames = tomography_flyscan_theta.inputNames
+#        ss.extraNames = tomography_flyscan_theta.extraNames
+#        ss.configure()
 
         ss1=SimpleScannable()
         ss1.name = tomography_flyscan_theta.getContinuousMoveController().name
@@ -392,7 +395,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         
 
         
-        zebra_detb.name = tomography_flyscan_det.name
+        tomography_flyscan_flat_dark_det.name = tomography_flyscan_det.name
         
 #        scanBackward=ConstantVelocityScanLine([tomography_flyscan_theta, stop, start, step, index_cont, image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
 #        scanObject3=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,ix, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
@@ -402,13 +405,13 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         multiScanItems = []
 
         if imagesPerDark > 0:
-            darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ionc_i, ss, ss1, jns.zebra_detb, exposureTime])
+            darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ionc_i, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
             multiScanItems.append(MultiScanItem(darkScan, PreScanRunnable("Preparing for darks", 0, tomography_shutter, "Close", tomography_translation, inBeamPosition, image_key, image_key_dark)))
         if imagesPerFlat > 0:
-            flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ionc_i, ss, ss1, jns.zebra_detb, exposureTime])
+            flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ionc_i, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
             multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat)))
         
-        scanForward=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step, index_cont, image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
+        scanForward=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
         multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Preparing for projections",20, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
 #        multiScanItems.append(MultiScanItem(scanBackward, PreScanRunnable("Preparing for projections",60, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
         multiScanObj = MultiScanRunner(multiScanItems)
@@ -417,20 +420,20 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         multiScanObj.run()
         time.sleep(2)
         #turn camera back on
-        zebra_detb.name = savename
+        tomography_flyscan_flat_dark_det.name = savename
         if setupForAlignment:
             tomodet.setupForAlignment()
         return multiScanObj;
     except :
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Error in tomoFlyScanScan", exceptionType, exception, traceback, False)
-        zebra_detb.name = savename
+        tomography_flyscan_flat_dark_det.name = savename
 
 
 
 
 """
-perform a simple tomogrpahy scan
+perform a simple tomography scan
 """
 def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
               imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=True, tomography_detector=None, additionalScannables=[]):
@@ -580,7 +583,6 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         positionProvider = tomoScan_positions( start, stop, step, darkFieldInterval, imagesPerDark, flatFieldInterval, imagesPerFlat, \
                                                inBeamPosition, outOfBeamPosition, scan_points ) 
         scan_args = [tomoScanDevice, positionProvider, tomography_time, tomography_beammonitor, tomography_detector, exposureTime ]
-        print `scan_args`
         if min_i > 0.:
             import gdascripts.scannable.beamokay
             ionc_i = jns.ionc_i
@@ -639,7 +641,7 @@ def ProcessScanParameters(scanParameterModelXML):
 #        updateProgress(10, "Starting collection of tomograms")
         tomoFlyScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
                  darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
-                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI, additionalScannables=additionalScannables)
+                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI)
     else:
         tomoScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
                  darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,

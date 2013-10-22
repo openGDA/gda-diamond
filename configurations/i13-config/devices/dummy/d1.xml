@@ -25,4 +25,5 @@
 		<property name="ndStats" ref="d1_ad_stat" />
 		<property name="ndArray" ref="d1_ad_arr" />
 	</bean>
+	
 </beans>	

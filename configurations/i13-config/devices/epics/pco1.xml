@@ -9,6 +9,11 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 	<import resource="pco1_ndplugins.xml" />
+	<bean id="pco1_cameraroi" class="gda.device.detector.nxdetector.plugin.areadetector.CameraROINXPlugin">
+	<constructor-arg value="pco_roi"/>
+	<constructor-arg ref="pco1_cam_base"/>
+	</bean>
+
 
 	<bean id="pco1_plugins" class="gda.device.FindableObjectHolder">
 		<property name="map">
@@ -27,6 +32,7 @@
 				<entry key="pco1_singleExposurePcoSoftwareTrigger" value-ref="pco1_singleExposurePcoSoftwareTrigger"/>
 				<entry key="pco1_singleExposurePco" value-ref="pco1_singleExposurePco"/>
 				<entry key="pco1_autoContinuousTrigger" value-ref="pco1_autoContinuousTrigger"/>
+				<entry key="adDriverPco1" value-ref="adDriverPco1"/>
 			</util:map>
 		</property>
 	</bean>
@@ -55,21 +61,28 @@
 		<constructor-arg ref="adDriverPco1" />
 		<constructor-arg value=".03" />
 	</bean>
-	<bean id="pco1_multipleExposurePco" class="gda.device.detector.addetector.triggering.PCOMultipleExposureSoftwareTriggerAutoMode">
+<!-- 	<bean id="pco1_multipleExposurePco" class="gda.device.detector.addetector.triggering.PCOMultipleExposureSoftwareTriggerAutoMode">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg value=".04" />
 		<constructor-arg ref="adDriverPco1" />
 		<property name="ndProcess" ref ="pco1_proc2"/>
 		<property name="exposureTime" value=".04"/>
 	</bean>
-	<bean id="pco1_multipleExposureHardwarePco" class="gda.device.detector.addetector.triggering.PCOMultipleExposureHardwareTrigger">
+ -->
+	<!-- Connect 
+	a.phase shifted TTL from function generator to Trigger Out (from camera).
+	b.Trigger In ( from TFg to Camera Trigger In
+	c.Busy Out ( from camera to tfg)
+	-->
+ 	<bean id="pco1_multipleExposureHardwarePco" class="gda.device.detector.addetector.triggering.PCOMultipleExposureHardwareTrigger">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg value=".04" />
 		<constructor-arg ref="adDriverPco1" />
-		<property name="ndProcess" ref="pco1_proc1" />
+		<property name="ndProcess" ref="pco1_proc2" />
 		<property name="etfg" ref="tfg"/>
-		<property name="exposureTime" value=".04"/>
-	</bean>
+		<property name="exposureTime" value=".001"/>
+<!-- 		<property name="ndFile" ref="pco1_ndfiletif" />		
+ -->	</bean>
 
 	<bean id="pco1_tfg" class="gda.device.detector.addetector.triggering.PCOTFGTrigger">
 		<constructor-arg ref="pco1_cam_base" />
@@ -79,8 +92,11 @@
 		<property name="noLongerBusyTriggerInVal" value="39"/>
 		<property name="noLongerBusyTriggerSetupCommand" value="tfg setup-trig start adc5 alternate 1"/>
 		<property name="adcMode" value="0"/>
-		<property name="useShutterPV" value="false"/><!-- Change to false as the shutter is slow -->
+		<property name="useShutterPV" value="false"/>
+		<property name="shutterSleep" value="100"/>
+		<property name="shutterPVName" value="BL13I-EA-FSHTR-01:CONTROL"/>
 	</bean>
+	
 	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
 		<property name="fileNameTemplate" value="pco1"/>
@@ -94,23 +110,41 @@
 		<property name="framesFlush" value="64"/>
 		<property name="lazyOpen" value="true"/>
 		<property name="boundaryAlign" value="1048576"/>
+		<property name="blocking" value="false"/> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64-->
 	</bean>
 
-	<bean id="pco4000_Zebra" class="gda.device.detector.addetector.triggering.HardwareTriggeredPCO">
+	<bean id="pco1_hdf5_filewriter_nochunking" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
+		<property name="fileNameTemplate" value="pco1"/>
+		<property name="filePathTemplate" value="$datadir$"/>
+		<property name="fileTemplate" value="%s%s-%d.hdf"/>
+		<property name="fileNumberAtScanStart" value="-1"/>
+		<property name="setFileNameAndNumber" value="true"/>
+		<property name="rowChunks" value="0"/>
+		<property name="colChunks" value="0"/>
+		<property name="framesChunks" value="0"/>
+		<property name="framesFlush" value="0"/>
+		<property name="lazyOpen" value="true"/>
+		<!-- property name="boundaryAlign" value="1048576"/ -->
+		<property name="blocking" value="false"/> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64-->
+	</bean>
+
+
+	<bean id="flyScanCollectionStrategy" class="gda.device.detector.addetector.triggering.HardwareTriggeredPCO">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg value=".001" />
 		<constructor-arg ref="adDriverPco1" />
 		<property name="etfg" ref="tfg"/>
 	</bean>
 
-	<bean id="zebra_singleExposurePco" class="gda.device.detector.addetector.triggering.SingleExposurePco">
+<!-- 	<bean id="zebra_singleExposurePco" class="gda.device.detector.addetector.triggering.SingleExposurePco">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg ref="adDriverPco1" />
 		<constructor-arg value=".1" />	
-	</bean>
+	</bean> -->
 
 
-	<bean id="pco1_hdf5_Zebra" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+<!-- 	<bean id="pco1_hdf5_Zebra" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
 		<property name="fileNameTemplate" value="pco1"/>
 		<property name="filePathTemplate" value="$datadir$"/>
@@ -125,12 +159,16 @@
 		<property name="lazyOpen" value="true"/>
 		<property name="boundaryAlign" value="1048576"/>
 	</bean>
+ -->
+<!-- does not work as 
+Caused by: java.lang.IllegalArgumentException: filename is null or zero length
+        at gda.device.detector.addetector.ADDetector.appendNXDetectorDataFromFileWriter(ADDetector.java:822)
+
+
 
 	<bean id="pco1_hdf" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
-<!-- 		<property name="ndStats" ref="pco1_stat" />
-		<property name="ndArray" ref="pco1_arr" />
- -->		<property name="ndFile" ref="pco1_ndfilehdf5_base" />
+		<property name="ndFile" ref="pco1_ndfilehdf5_base" />
 		<property name="collectionStrategy" ref="pco1_singleExposurePco"/>
 		<property name="fileWriter" ref="pco1_hdf5_filewriter"/>
 		<property name="readAcquisitionTime" value="true" />
@@ -140,12 +178,12 @@
 		<property name="computeCentroid" value="false" />
 		<property name="readArray" value="false" />
 	</bean>
+-->
 
+<!-- does not work - IOC crashes
 	<bean id="pco1_hdf_longExposure" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
-<!-- 		<property name="ndStats" ref="pco1_stat" />
-		<property name="ndArray" ref="pco1_arr" />
- -->		<property name="ndFile" ref="pco1_ndfilehdf5_base" />
+		<property name="ndFile" ref="pco1_ndfilehdf5_base" />
 		<property name="collectionStrategy" ref="pco1_multipleExposurePco"/>
 		<property name="fileWriter" ref="pco1_hdf5_filewriter"/>
 		<property name="readAcquisitionTime" value="true" />
@@ -156,19 +194,17 @@
 		<property name="readArray" value="false" />
 	</bean>
 
-
-	<bean id="pco1_tif" class="gda.device.detector.addetector.ADPco">
+-->
+<!-- 	<bean id="pco1_tif" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
-<!-- 		<property name="ndStats" ref="pco1_stat" />
-		<property name="ndArray" ref="pco1_arr" />
- -->		<property name="ndFile" ref="pco1_ndfiletif" />
+		<property name="ndFile" ref="pco1_ndfiletif" />
 		<property name="collectionStrategy" ref="pco1_singleExposurePco"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 				<constructor-arg value="pco1"/>
 				<property name="ndFile" ref="pco1_ndfiletif" />
 				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
-				<property name="returnExpectedFullFileName" value="true"/>
+				<property name="waitForFileArrival" value="true"/>
 			</bean>
 		</property>
 
@@ -181,19 +217,18 @@
 		<property name="checkFileExists" value="true"/>
 		<property name="usePipeline" value="true"/>
 	</bean>
-
-	<bean id="pco1_hw_tif" class="gda.device.detector.addetector.ADPco">
+ -->
+<!-- 	<bean id="pco1_hw_tif" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
-<!-- 		<property name="ndStats" ref="pco1_stat" />
-		<property name="ndArray" ref="pco1_arr" />
- -->		<property name="ndFile" ref="pco1_ndfiletif" />
+		<property name="ndFile" ref="pco1_ndfiletif" />
 		<property name="collectionStrategy" ref="pco1_tfg"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 				<constructor-arg value="pco1"/>
 				<property name="ndFile" ref="pco1_ndfiletif" />
 				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
-				<property name="returnExpectedFullFileName" value="true"/>
+				<property name="waitForFileArrival" value="true"/>
+				
 			</bean>
 		</property>
 
@@ -206,6 +241,88 @@
 		<property name="checkFileExists" value="true"/>
 		<property name="usePipeline" value="true"/>
 	</bean>
+ -->
+	<bean id="pco1_hw_tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_hw_tif"/>
+		<property name="addCollectTimeMs" value="true"/>
+		<property name="collectionStrategy" ref="pco1_tfg" />
+		<property name="additionalPluginList">
+			<list>
+			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+				<constructor-arg value="pco1"/>
+				<property name="ndFile" ref="pco1_ndfiletif" />
+				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+				<property name="waitForFileArrival" value="true"/>
+				
+			</bean>
+			<ref bean="pco1_cameraroi"/>
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="pco1_tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_tif"/>
+		<property name="addCollectTimeMs" value="true"/>
+		<property name="collectionStrategy" ref="pco1_singleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+ 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+				<constructor-arg value="pco1"/>
+				<property name="ndFile" ref="pco1_ndfiletif" />
+				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+				<property name="waitForFileArrival" value="true"/>
+				
+			</bean>
+
+			<bean class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+				<constructor-arg ref="pco1_arr"/>
+			</bean>
+			<bean class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+				<constructor-arg ref="pco1_stat"/>
+			</bean>
+			
+			</list>
+		</property>
+	</bean>	
+
+<!-- 	<bean id="pco1_hw_tifNXNonAsync" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_hw_tif"/>
+		<property name="collectionStrategy" ref="pco1_tfg" />
+		<property name="additionalPluginList">
+			<list>
+			<bean class="gda.device.detector.addetector.filewriter.NonAsyncSingleImagePerFileWriter">
+				<constructor-arg value="pco1"/>
+				<property name="ndFile" ref="pco1_ndfiletif" />
+				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+				<property name="waitForFileArrival" value="true"/>
+			</bean>
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="pco1_tifNXNonAsync" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_tifNX"/>
+		<property name="collectionStrategy" ref="pco1_singleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+ 			<bean class="gda.device.detector.addetector.filewriter.NonAsyncSingleImagePerFileWriter">
+				<constructor-arg value="pco1"/>
+				<property name="ndFile" ref="pco1_ndfiletif" />
+				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+				<property name="waitForFileArrival" value="true"/>
+			</bean>
+
+			<bean class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+				<constructor-arg ref="pco1_arr"/>
+			</bean>
+			<bean class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+				<constructor-arg ref="pco1_stat"/>
+			</bean>
+			
+			</list>
+		</property>
+	</bean>	
+ -->
 
 	<!--bean id="pco1_hw_hdf" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
@@ -225,28 +342,89 @@
 
 	<bean id="pco1_hw_hdf" class="gda.device.detector.NXDetector">
 		<property name="name" value="pco1_hw_hdf"/>
+		<property name="addCollectTimeMs" value="true"/>
 		<property name="collectionStrategy" ref="pco1_tfg" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="pco1_hdf5_filewriter" />
+				<ref bean="pco1_cameraroi"/>
 			</list>
 		</property>
 	</bean>	
 
 
-	<bean id="dimax_tif" class="gda.device.detector.addetector.ADPco">
+	<bean id="pco1_hw_hdf_nochunking" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_hw_hdf_nochunking"/>
+		<property name="addCollectTimeMs" value="true"/>
+		<property name="collectionStrategy" ref="pco1_tfg" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter_nochunking" />
+				<ref bean="pco1_cameraroi"/>
+			</list>
+		</property>
+	</bean>	
+
+
+<!-- 	<bean id="pco1_multi_tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_multi_tif"/>
+		<property name="addCollectTimeMs" value="true"/>
+		<property name="collectionStrategy" ref="pco1_multipleExposureHardwarePco"/>
+		<property name="additionalPluginList">
+			<list>
+			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+				<constructor-arg value="pco1_multi_tif"/>
+				<property name="ndFile" ref="pco1_ndfiletif" />
+				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+				<property name="ndArrayPortVal" value="pco1.prc2"/> 
+				<property name="waitForFileArrival" value="true"/>
+				
+			</bean>
+			<ref bean="pco1_cameraroi"/>
+			</list>
+		</property>
+	</bean>	
+-->
+	<bean id="pco1_multi_hdf" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_multi_hdf"/>
+		<property name="addCollectTimeMs" value="true"/>
+		<property name="collectionStrategy" ref="pco1_multipleExposureHardwarePco"/>
+		<property name="additionalPluginList">
+			<list>
+	<bean class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
+		<property name="fileNameTemplate" value="pco1"/>
+		<property name="filePathTemplate" value="$datadir$"/>
+		<property name="fileTemplate" value="%s%s-%d.hdf"/>
+		<property name="fileNumberAtScanStart" value="-1"/>
+		<property name="setFileNameAndNumber" value="true"/>
+		<property name="rowChunks" value="64"/>
+		<property name="colChunks" value="0"/>
+		<property name="framesChunks" value="64"/>
+		<property name="framesFlush" value="64"/>
+		<property name="lazyOpen" value="true"/>
+		<property name="boundaryAlign" value="1048576"/>
+		<property name="blocking" value="false"/> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64-->
+				<property name="ndArrayPortVal" value="pco1.prc2"/> <!-- use same proc as in collectionStrategy  -->
+	</bean>
+				<ref bean="pco1_cameraroi"/>
+			</list>
+		</property>
+	</bean>	
+
+
+<!-- 	<bean id="dimax_tif" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
-<!-- 		<property name="ndStats" ref="pco1_stat" />
-		<property name="ndArray" ref="pco1_arr" />
- -->		<property name="ndFile" ref="pco1_ndfiletif" />
+		<property name="ndFile" ref="pco1_ndfiletif" />
 		<property name="collectionStrategy" ref="pco1_multipleExposurePco"/>
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 				<constructor-arg value="dimax"/>
 				<property name="ndFile" ref="pco1_ndfiletif" />
-				<property name="returnExpectedFullFileName" value="true"/>
 				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
-				<property name="ndArrayPortVal" value="pco1.prc2"/> <!-- use same proc as in collectionStrategy  -->
+				<property name="ndArrayPortVal" value="pco1.prc2"/> 
+				<property name="waitForFileArrival" value="true"/>
+				
 			</bean>
 		</property>
 
@@ -259,9 +437,8 @@
 		<property name="checkFileExists" value="true"/>
 		<property name="usePipeline" value="true"/>
 	</bean>
-
-<!-- Does not work - the triggering is wrong
-	<bean id="dimax_hw_tif" class="gda.device.detector.addetector.ADPco">
+ -->
+	<!-- <bean id="dimax_hw_tif" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco1_cam_base" />
 		<property name="ndStats" ref="pco1_stat" />
 		<property name="ndArray" ref="pco1_arr" />
@@ -271,9 +448,8 @@
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 				<constructor-arg value="dimax"/>
 				<property name="ndFile" ref="pco1_ndfiletif" />
-				<property name="returnExpectedFullFileName" value="true"/>
 				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
-				<property name="ndArrayPortVal" value="pco1.prc1"/>
+				<property name="ndArrayPortVal" value="pco1.prc2"/>
 			</bean>
 		</property>
 

@@ -10,7 +10,7 @@
 	
 
 
-	<bean id="pco1_tif_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
+	<!-- Not required <bean id="pco1_tif_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
 		<property name="processors">
 			<list>
 				<ref bean="cam_ad_filename_processor" />
@@ -23,7 +23,7 @@
 		<property name="detector" ref="pco1_tif" />
 		<property name="processor" ref="pco1_tif_processors" />
 		<property name="mergeWithDetectorData" value="true"/>
-	</bean>	
+	</bean> -->	
 
 </beans>
 

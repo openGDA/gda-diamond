@@ -129,4 +129,4 @@ class TomoDet():
             print "Done"
         except :
             exceptionType, exception, traceback = sys.exc_info()
-            handle_messages.log(None, "Error setting lens to "+ `position` , exceptionType, exception, traceback, False)        
+            handle_messages.log(None, "Error setting lens to "+ `position` , exceptionType, exception, traceback, False)      

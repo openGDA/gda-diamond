@@ -19,26 +19,26 @@
 	</bean>	
 	
 	
-	<bean id="zebra_det" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
-		<property name="name" value="zebra_det"/>
+	<bean id="flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="flyScanDetector"/>
 		<property name="readOutTime" value=".001"/>
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
-		<property name="collectionStrategy" ref="pco4000_Zebra" />
+		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="pco1_hdf5_Zebra" />
+				<ref bean="pco1_hdf5_filewriter" />
 			</list>
 		</property>
 	</bean>	
 	
 
 
-	<bean id="zebra_detb" class="gda.device.detector.NXDetector">
-		<property name="name" value="zebra_detb"/>
-		<property name="collectionStrategy" ref="zebra_singleExposurePco" />
+	<bean id="flyScanFlatDarkDetector" class="gda.device.detector.NXDetector">
+		<property name="name" value="flyScanFlatDarkDetector"/>
+		<property name="collectionStrategy" ref="pco1_singleExposurePco" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="pco1_hdf5_Zebra" />
+				<ref bean="pco1_hdf5_filewriter" />
 			</list>
 		</property>
 	</bean>	

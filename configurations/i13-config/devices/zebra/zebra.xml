@@ -23,8 +23,8 @@
 	
 
 	<!-- The Manta_G-125B camera -->
-	<bean id="zebra_deta" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
-		<property name="name" value="zebra_det"/>
+	<bean id="flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="flyScanDetector"/>
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
 		<property name="collectionStrategy" ref="zebra_hardwareTriggeredCollectionStrategy" />
 		<property name="additionalPluginList">
@@ -41,8 +41,8 @@
 	</bean>
 
 
-	<bean id="zebra_detb" class="gda.device.detector.NXDetector">
-		<property name="name" value="zebra_detb"/>
+	<bean id="flyScanFlatDarkDetector" class="gda.device.detector.NXDetector">
+		<property name="name" value="flyScanFlatDarkDetector"/>
 		<property name="collectionStrategy" ref="zebra_simpleAcquire" />
 		<property name="additionalPluginList">
 			<list>

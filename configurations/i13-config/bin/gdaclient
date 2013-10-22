@@ -2,4 +2,7 @@
 
 . gda_console_log gda_client_output
 
-${GDAFOLDER}/workspace_git/gda-diamond.git/dls-config/bin/gdaclient --client ${GDAFOLDER}/client_20130619-0946_linux64/gda-i13i --keep --nohup $LOGFILE $*
+#${GDAFOLDER}/workspace_git/gda-diamond.git/dls-config/bin/gdaclient --client ${GDAFOLDER}/client_20130911-1647_linux64/gda-i13i --keep --nohup $LOGFILE $*
+${GDAFOLDER}/workspace_git/gda-diamond.git/dls-config/bin/gdaclient --client ${GDAFOLDER}/client_20130919-1757_linux64/gda-i13i --keep --nohup $LOGFILE $*
+
+

@@ -91,7 +91,7 @@
 		<property name="enable" value="false" />
 	</bean>
 	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
-		<property name="plotName" value="Detector Image" />
+		<property name="plotName" value="Image Plot 1" />
 		<property name="enable" value="false" />
 	</bean>
 	<bean id="imageROI" class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI" >
