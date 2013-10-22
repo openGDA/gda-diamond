@@ -26,7 +26,6 @@ public class LinearExperimentTimeEstimator extends TimeEstimatorBase {
 
 	private final EdeScanParameters itScanParameters;
 	private final EdeScanPosition i0Position;
-	@SuppressWarnings("unused")
 	private final EdeScanPosition itPosition;
 	private final EdeScanPosition iRefPosition;
 
@@ -41,9 +40,15 @@ public class LinearExperimentTimeEstimator extends TimeEstimatorBase {
 	@Override
 	public Double getTotalDuration() {
 		if (iRefPosition == null || iRefPosition.equals(i0Position)){
-			return 6 + getItDuration() + 3 * estimateOneFrameFromEachGroupDuration(itScanParameters);
+			return estimateMovementDuration(null, i0Position) + estimateMovementDuration(i0Position, itPosition)
+					+ getItDuration() + estimateMovementDuration(itPosition, i0Position) + (3
+							* estimateOneFrameFromEachGroupDuration(itScanParameters));
+
 		}
-		return 10 + getItDuration() + 5 * estimateOneFrameFromEachGroupDuration(itScanParameters);
+		return estimateMovementDuration(null, i0Position) + estimateMovementDuration(i0Position,iRefPosition) +
+				estimateMovementDuration(i0Position, itPosition)
+				+ getItDuration() + estimateMovementDuration(itPosition, i0Position) + estimateMovementDuration(i0Position,iRefPosition)
+				+ (5 * estimateOneFrameFromEachGroupDuration(itScanParameters));
 	}
 
 	@Override
@@ -54,9 +59,9 @@ public class LinearExperimentTimeEstimator extends TimeEstimatorBase {
 	@Override
 	public Double getBookendsDuration() {
 		if (iRefPosition == null || iRefPosition.equals(i0Position)){
-			return 2 + 2 * estimateOneFrameFromEachGroupDuration(itScanParameters);
+			return estimateMovementDuration(null, i0Position) + 2 * estimateOneFrameFromEachGroupDuration(itScanParameters);
 		}
-		return 2 + 3 * estimateOneFrameFromEachGroupDuration(itScanParameters);
+		return estimateMovementDuration(null, i0Position) + estimateMovementDuration(i0Position,iRefPosition) + 3 * estimateOneFrameFromEachGroupDuration(itScanParameters);
 	}
 
 }

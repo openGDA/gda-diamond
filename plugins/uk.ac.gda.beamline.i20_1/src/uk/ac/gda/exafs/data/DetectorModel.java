@@ -46,6 +46,8 @@ public class DetectorModel extends ObservableModel {
 	public static final String UPPER_CHANNEL_PROP_NAME = "upperChannel";
 	public static final String LOWER_CHANNEL_PROP_NAME = "lowerChannel";
 
+	public static final String TOPUP_CHECKER = "topup";
+
 	private static final Logger logger = LoggerFactory.getLogger(DetectorModel.class);
 
 	private StripDetector currentDetector;

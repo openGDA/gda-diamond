@@ -35,6 +35,7 @@ public abstract class TimeEstimatorBase implements EdeTimeEstimate {
 	 * @return time in seconds
 	 */
 	protected Double estimateScanDuration(EdeScanParameters scanParameters) {
+		// TODO add the time it takes to program the TFG here
 		Double timeEstimate = 0.0;
 		List<TimingGroup> groups = scanParameters.getGroups();
 		for (TimingGroup group : groups) {
@@ -60,6 +61,7 @@ public abstract class TimeEstimatorBase implements EdeTimeEstimate {
 	 * @return time in seconds
 	 */
 	protected Double estimateOneFrameFromEachGroupDuration(EdeScanParameters scanParameters) {
+		// TODO add the time it takes to program the TFG here
 		Double timeEstimate = 0.0;
 		List<TimingGroup> groups = scanParameters.getGroups();
 		for (TimingGroup group : groups) {

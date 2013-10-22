@@ -24,6 +24,7 @@ import gda.device.DeviceException;
 import gda.device.MotorException;
 import gda.device.detector.DummyXStripDAServer;
 import gda.device.detector.XHDetector;
+import gda.device.monitor.DummyMonitor;
 import gda.device.motor.DummyMotor;
 import gda.device.scannable.AlignmentStageScannable;
 import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
@@ -51,6 +52,7 @@ public class EdeScanDriversTest {
 	private static ScannableMotor fastShutter_xMotor;
 	private static ScannableMotor fastShutter_yMotor;
 	private static AlignmentStageScannable alignment_stage;
+	private static DummyMonitor topupMonitor;
 
 	@BeforeClass
 	public static void startup() throws FactoryException, DeviceException {
@@ -71,6 +73,11 @@ public class EdeScanDriversTest {
 		alignment_stage = new AlignmentStageScannable(sample_x, sample_y, fastShutter_xMotor, fastShutter_yMotor);
 		alignment_stage.setName("alignment_stage");
 
+		// topup monitor
+		topupMonitor = new DummyMonitor();
+		topupMonitor.setName("topup");
+		topupMonitor.setValue(120.0);
+
 		ObjectFactory factory = new ObjectFactory();
 		factory.addFindable(xh);
 		factory.addFindable(alignment_stage);
@@ -78,6 +85,7 @@ public class EdeScanDriversTest {
 		factory.addFindable(sample_y);
 		factory.addFindable(fastShutter_xMotor);
 		factory.addFindable(fastShutter_yMotor);
+		factory.addFindable(topupMonitor);
 		Finder.getInstance().addFactory(factory);
 	}
 
@@ -108,7 +116,7 @@ public class EdeScanDriversTest {
 	public void testDriveSingleSpectrumScan_motorpositions() throws Exception {
 		setup("testDriveSingleSpectrumScan_motorpositions");
 
-		SingleSpectrumDriver driver = new SingleSpectrumDriver("xh", 0.1, 2, 0.2, 1);
+		SingleSpectrumDriver driver = new SingleSpectrumDriver("xh", "topup", 0.1, 2, 0.2, 1);
 		driver.setInBeamPosition(0.0, 0.0);
 		driver.setOutBeamPosition(0.1, 0.1);
 
@@ -120,7 +128,7 @@ public class EdeScanDriversTest {
 	public void testDriveSingleSpectrumScan_alignmentstagepositions() throws Exception {
 		setup("testDriveSingleSpectrumScan_alignmentstagepositions");
 
-		SingleSpectrumDriver driver = new SingleSpectrumDriver("xh", 0.1, 2, 0.2, 1);
+		SingleSpectrumDriver driver = new SingleSpectrumDriver("xh", "topup", 0.1, 2, 0.2, 1);
 		driver.setInBeamPosition("hole", null);
 		driver.setOutBeamPosition("foil", null);
 
@@ -133,7 +141,7 @@ public class EdeScanDriversTest {
 	public void testDriveSingleSpectrumScan_mixedpositions() throws Exception {
 		setup("testDriveSingleSpectrumScan_mixedpositions");
 
-		SingleSpectrumDriver driver = new SingleSpectrumDriver("xh", 0.1, 2, 0.2, 1);
+		SingleSpectrumDriver driver = new SingleSpectrumDriver("xh", "topup", 0.1, 2, 0.2, 1);
 		driver.setInBeamPosition(0.0, 0.0);
 		driver.setOutBeamPosition("foil", null);
 
@@ -170,7 +178,7 @@ public class EdeScanDriversTest {
 		groups.add(group3);
 
 
-		LinearExperimentDriver driver = new LinearExperimentDriver("xh", groups);
+		LinearExperimentDriver driver = new LinearExperimentDriver("xh", "topup", groups);
 		driver.setInBeamPosition(0.0, 0.0);
 		driver.setOutBeamPosition(0.1, 0.1);
 

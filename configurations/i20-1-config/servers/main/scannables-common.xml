@@ -9,6 +9,25 @@
 		<constructor-arg ref="fast_shutter_x" />
 		<constructor-arg ref="fast_shutter_y" />
 	</bean>
+
+	<bean id="topupChecker" class="gda.device.scannable.TopupChecker">
+		<property name="scannableToBeMonitored" ref="topup" />
+		<property name="tolerance" value="10" />
+		<property name="timeout" value="30" />
+		<property name="waittime" value="10" />
+		<property name="level" value="0" />
+		<property name="pauseBeforePoint" value="true" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="absorberChecker" class="gda.device.scannable.CheckingScannable">
+		<property name="scannable" ref="absorber" />
+		<property name="value" value="Open" />
+		<property name="level" value="0" />
+		<property name="pauseBeforePoint" value="true" />
+		<property name="local" value="true" />
+	</bean>
+	
 	
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/alignment_stage" />
