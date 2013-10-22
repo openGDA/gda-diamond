@@ -18,6 +18,7 @@
 
 package uk.ac.gda.exafs.data;
 
+import gda.configuration.properties.LocalProperties;
 import gda.device.Scannable;
 import gda.factory.Finder;
 
@@ -127,7 +128,7 @@ public class ClientConfig {
 		POLY_CURVATURE("Curvature", "poly_curve", UnitSetup.MILLI_METER),
 		POLY_Y_ELLIPTICITY("Ellipticity","poly_yellip", UnitSetup.MILLI_METER),
 		POLY_TWIST("Twist","poly_twist", UnitSetup.MILLI_METER),
-
+		
 		SLIT_3_HORIZONAL_GAP("Slit hgap", "s3_hgap", UnitSetup.MILLI_METER),
 		SLIT_3_HORIZONAL_OFFSET("Slit offset", "sample_x", UnitSetup.MILLI_METER),
 
@@ -195,7 +196,7 @@ public class ClientConfig {
 		private EdeDataStore() {
 			gsonBuilder = new GsonBuilder();
 			gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
-			File propertiesFile = new File("/etc", EDE_GUI_DATA);
+			File propertiesFile = new File(LocalProperties.getVarDir(), EDE_GUI_DATA);
 			store = new PropertiesConfiguration();
 			store.setDelimiterParsingDisabled(true);
 			store.setAutoSave(true);
