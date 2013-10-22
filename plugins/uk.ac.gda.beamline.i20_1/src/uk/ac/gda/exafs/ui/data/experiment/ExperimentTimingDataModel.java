@@ -51,23 +51,33 @@ public abstract class ExperimentTimingDataModel extends IntervalImpl {
 		return startTime;
 	}
 
-	public void setStartTime(double startTime) {
+	protected void setStartTime(double startTime) {
 		long startTimeInMilli = (long) startTime + (long) this.getDelay();
 		this.setBegin(TimebarHelper.getTime().advanceMillis(startTimeInMilli));
 		this.firePropertyChange(START_TIME_PROP_NAME, this.startTime, this.startTime = startTime);
-		double previous = this.getDuration();
-		if (previous == 0) {
+		double duration = this.getDuration();
+		if (duration == 0) {
 			setEndTime(this.getStartTime() + MIN_DURATION_TIME);
 		} else {
-			this.firePropertyChange(DURATION_PROP_NAME, previous,  this.getDuration());
+			this.firePropertyChange(DURATION_PROP_NAME, duration,  this.getDuration());
 		}
 	}
 
-	public void setEndTime(double value) {
+	protected void setEndTime(double value) {
 		long endTimeInMilli = (long) value;
 		this.setEnd(TimebarHelper.getTime().advanceMillis(endTimeInMilli));
 		double previous = this.getDuration();
 		this.firePropertyChange(END_TIME_PROP_NAME,  endTime, endTime =  value);
+		this.firePropertyChange(DURATION_PROP_NAME, previous,  this.getDuration());
+	}
+
+	public void setTimes(double startTime, double endTime) {
+		long startTimeInMilli = (long) startTime + (long) this.getDelay();
+		this.setBegin(TimebarHelper.getTime().advanceMillis(startTimeInMilli));
+		this.firePropertyChange(START_TIME_PROP_NAME, this.startTime, this.startTime = startTime);
+		this.setEnd(TimebarHelper.getTime().advanceMillis((long) endTime));
+		double previous = this.getDuration();
+		this.firePropertyChange(END_TIME_PROP_NAME,  this.endTime, this.endTime =  endTime);
 		this.firePropertyChange(DURATION_PROP_NAME, previous,  this.getDuration());
 	}
 

@@ -67,10 +67,18 @@
 	</bean>
 	<bean id="me2_stripe_motor" class="gda.device.motor.DummyMotor" />
 
-	<bean id="me2y_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="me2pitch_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="me2roll_motor" class="gda.device.motor.DummyMotor" />
-
+	<bean id="me2y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-PM-02:MP2" />
+	</bean>
+	
+	<bean id="me2pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-PM-02:PITCH" />
+	</bean>
+	
+	<bean id="me2roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-PM-02:ROLL" />
+	</bean>
+	
 	<!-- polychromator -->
 	<bean id="poly_xbase_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PCHRO-01:X" />

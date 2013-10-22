@@ -30,7 +30,7 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 public class TimingGroupModel extends ExperimentTimingDataModel {
 
 	private final List<SpectrumModel> spectrumList = new ArrayList<SpectrumModel>();
-	private final DefaultTimeBarRowModel timeBarRowModel;
+	private final DefaultTimeBarRowModel spectraTimeBarRowModel;
 
 	public static final String INTEGRATION_TIME_PROP_NAME = "integrationTime";
 	@Expose
@@ -54,7 +54,7 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 	public static final String MAX_ACCUMULATION_FOR_DETECTOR_PROP_NAME = "maxAccumulationforDetector";
 	private int maxAccumulationforDetector;
 
-	public static final String NO_OF_SPECTRUMS_PROP_NAME = "numberOfSpectrums";
+	public static final String NO_OF_SPECTRUM_PROP_NAME = "numberOfSpectrum";
 
 	public List<?> getSpectrumList() {
 		return spectrumList;
@@ -97,7 +97,7 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 	}
 
 	public TimingGroupModel(DefaultTimeBarRowModel spectraTimeBarRowModel) {
-		timeBarRowModel = spectraTimeBarRowModel;
+		this.spectraTimeBarRowModel = spectraTimeBarRowModel;
 	}
 
 	public void removeSpectrum(SpectrumModel spectrum) {
@@ -105,65 +105,64 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 	}
 
 	@Override
-	public void setStartTime(double startTime) {
-		super.setStartTime(startTime);
-		updateSpectrumsAndNoOfAccumulations();
-	}
-
-	@Override
 	public void setDelay(double delay) {
 		super.setDelay(delay);
-		updateSpectrumsAndNoOfAccumulations();
+		test(this.getStartTime(), this.getEndTime());
 	}
 
-	@Override
-	public void setEndTime(double duration) {
-		super.setEndTime(duration);
-		updateSpectrumsAndNoOfAccumulations();
-	}
-
-	public void setTimes(double startTime, double endTime) {
-		super.setStartTime(startTime);
-		super.setEndTime(endTime);
-		updateSpectrumsAndNoOfAccumulations();
-	}
-
-	private void updateSpectrumsAndNoOfAccumulations() {
-		if (timePerSpectrum <= 0) {
-			return;
-		} else if (timePerSpectrum + delayBetweenSpectrum > this.getAvailableTimeForSpectrum()) {
-			this.setTimePerSpectrum(this.getAvailableTimeForSpectrum());
+	private double test(double startTime, double endTime) {
+		double availableTimeForSpectra = endTime - startTime - this.getDelay();
+		if (timePerSpectrum == 0 || timePerSpectrum + delayBetweenSpectrum > availableTimeForSpectra) {
+			this.firePropertyChange(TIME_PER_SPECTRUM_PROP_NAME, timePerSpectrum, timePerSpectrum = availableTimeForSpectra);
+			return endTime;
 		}
-		int numberOfSpectrums = (int) (this.getAvailableTimeForSpectrum() / (timePerSpectrum + delayBetweenSpectrum));
+		int numberOfSpectrum = (int) (availableTimeForSpectra / (timePerSpectrum + delayBetweenSpectrum));
+		long newEndTime = (long)(startTime + this.getDelay() + ((timePerSpectrum + delayBetweenSpectrum) * numberOfSpectrum));
 		int current = spectrumList.size();
-		for (int i = current; i > numberOfSpectrums; i--){
+		for (int i = current; i > numberOfSpectrum; i--) {
 			SpectrumModel itemToRemove = spectrumList.get(i - 1);
-			timeBarRowModel.remInterval(itemToRemove);
+			spectraTimeBarRowModel.remInterval(itemToRemove);
 			spectrumList.remove(itemToRemove);
 		}
-		double startTime = this.getStartTime() + this.getDelay();
-		for (int i = 0; i < numberOfSpectrums; i++) {
+		double startTimeForSpectrum = startTime + this.getDelay();
+		for (int i = 0; i < numberOfSpectrum; i++) {
 			SpectrumModel spectrum = null;
 			if (i < current) {
 				spectrum = spectrumList.get(i);
 			} else {
 				spectrum = new SpectrumModel(this);
 			}
-			spectrum.setStartTime(startTime);
-			startTime += timePerSpectrum;
-			spectrum.setEndTime(startTime);
-			spectrum.setName("Spectrum " + i + 1);
+
+			spectrum.setTimes(startTimeForSpectrum, startTimeForSpectrum + timePerSpectrum);
+			startTimeForSpectrum += timePerSpectrum;
+			spectrum.setName("Spectrum " + (i + 1));
 			if (i >= current) {
 				spectrumList.add(spectrum);
-				timeBarRowModel.addInterval(spectrum);
+				spectraTimeBarRowModel.addInterval(spectrum);
 			}
 		}
-		TimingGroupModel.this.firePropertyChange(NO_OF_SPECTRUMS_PROP_NAME, null, spectrumList.size());
+		TimingGroupModel.this.firePropertyChange(NO_OF_SPECTRUM_PROP_NAME, null, spectrumList.size());
 		updateMaxAccumulationForDetector();
+		return newEndTime;
 	}
 
-	public int getNumberOfSpectrums() {
+	@Override
+	public void setTimes(double startTime, double endTime) {
+		endTime = test(startTime, endTime);
+		super.setTimes(startTime, endTime);
+	}
+
+	public void moveTo(double startTime) {
+		double duration = this.getDuration();
+		setTimes(startTime, startTime + duration);
+	}
+
+	public int getNumberOfSpectrum() {
 		return spectrumList.size();
+	}
+
+	public void setNumberOfSpectrum(int numberOfSpectrum) {
+		this.setTimes(this.getStartTime(), this.getStartTime() + this.getDelay() + (numberOfSpectrum * (timePerSpectrum + delayBetweenSpectrum)));
 	}
 
 	public double getIntegrationTime() {
@@ -174,17 +173,15 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 		this.firePropertyChange(INTEGRATION_TIME_PROP_NAME, this.integrationTime, this.integrationTime = integrationTime);
 	}
 
-	private double getAvailableTimeForSpectrum() {
-		return getDuration() - getDelay();
-	}
-
 	public double getTimePerSpectrum() {
 		return timePerSpectrum;
 	}
 
 	public void setTimePerSpectrum(double timePerSpectrum) {
 		this.firePropertyChange(TIME_PER_SPECTRUM_PROP_NAME, this.timePerSpectrum, this.timePerSpectrum = timePerSpectrum);
-		updateSpectrumsAndNoOfAccumulations();
+		if (this.getDuration() != this.getDelay() + (spectrumList.size() * (timePerSpectrum + delayBetweenSpectrum))) {
+			this.setTimes(this.getStartTime(), this.getStartTime() + this.getDelay() + (spectrumList.size() * (this.timePerSpectrum + delayBetweenSpectrum)));
+		}
 	}
 
 	public double getDelayBetweenSpectrum() {
@@ -193,7 +190,7 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 
 	public void setDelayBetweenSpectrum(double value) {
 		this.firePropertyChange(DELAY_BETWEEN_SPECTRUM_PROP_NAME, delayBetweenSpectrum, delayBetweenSpectrum = value);
-		updateSpectrumsAndNoOfAccumulations();
+		//updateSpectrumsAndNoOfAccumulations();
 	}
 
 	public int getNoOfAccumulations() {
@@ -215,7 +212,7 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 	@Override
 	public void dispose() {
 		for(SpectrumModel spectrum : spectrumList) {
-			timeBarRowModel.remInterval(spectrum);
+			spectraTimeBarRowModel.remInterval(spectrum);
 		}
 		spectrumList.clear();
 	}
@@ -230,5 +227,9 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 
 	public double getTimeResolution() {
 		return delayBetweenSpectrum + timePerSpectrum;
+	}
+
+	public void setTimePerSpectrumForGroup(double timePerSpectrum) {
+		this.firePropertyChange(TIME_PER_SPECTRUM_PROP_NAME, this.timePerSpectrum, this.timePerSpectrum = timePerSpectrum);
 	}
 }
