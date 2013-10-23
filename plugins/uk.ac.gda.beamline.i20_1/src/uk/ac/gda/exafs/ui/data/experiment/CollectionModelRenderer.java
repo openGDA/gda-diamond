@@ -20,13 +20,13 @@ package uk.ac.gda.exafs.ui.data.experiment;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
-import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.TimeBarViewerDelegate;
 import de.jaret.util.ui.timebars.TimeBarViewerInterface;
@@ -34,18 +34,17 @@ import de.jaret.util.ui.timebars.swt.renderer.DefaultRenderer;
 
 public class CollectionModelRenderer extends DefaultRenderer {
 
+	private final Font titleFont;
+
 	@Override
 	protected Rectangle getIRect(boolean horizontal, Rectangle drawingArea, boolean overlap) {
-		if (horizontal) {
-			int borderHeight = (int) (drawingArea.height * BORDERFACTOR / 2);
-			int height = drawingArea.height - (overlap ? 0 : 2 * borderHeight);
-			int y = drawingArea.y + (overlap ? 0 : borderHeight);
-			return new Rectangle(drawingArea.x, y, drawingArea.width - 1, height - 1);
-		}
-		int borderWidth = (int) (drawingArea.width * BORDERFACTOR / 2);
-		int width = drawingArea.width - (overlap ? 0 : 2 * borderWidth);
-		int x = drawingArea.x + (overlap ? 0 : borderWidth);
-		return new Rectangle(x, drawingArea.y, width - 1, drawingArea.height - 1);
+		int height = drawingArea.height;
+		int y = drawingArea.y;
+		return new Rectangle(drawingArea.x, y, drawingArea.width - 1, height - 1);
+	}
+
+	public CollectionModelRenderer() {
+		titleFont = new Font(Display.getCurrent(), "Arial", 12, SWT.BOLD);
 	}
 
 	@Override
@@ -75,36 +74,29 @@ public class CollectionModelRenderer extends DefaultRenderer {
 		if (interval instanceof ExperimentTimingDataModel) {
 			ExperimentTimingDataModel collectionModel = (ExperimentTimingDataModel) interval;
 			StringBuilder name = new StringBuilder(collectionModel.getName());
+
+			Font currentFont = gc.getFont();
 			if (interval instanceof TimingGroupModel) {
-				int numberOfSpectrums = ((TimingGroupModel) interval).getNumberOfSpectrums();
-				if (numberOfSpectrums > 1) {
-					name.append(" (" + numberOfSpectrums + " spectra)");
-				}
+				gc.setFont(titleFont);
 			}
 			Point point = gc.stringExtent(name.toString());
 			if (point.y < iRect.height - 5 && point.x < iRect.width) {
 				gc.drawText(name.toString(), iRect.x + 5, iRect.y + 3);
 			}
-
-			String endTime = "End: " + DataHelper.roundDoubletoString(collectionModel.getEndTime()) + " " + UnitSetup.MILLI_SEC.getText();
-			point = gc.stringExtent(endTime);
-			if (point.y < iRect.height - 15  && point.x + 5 < iRect.width) {
-				gc.drawText(endTime, iRect.x + 5, iRect.y + 20);
-			}
-
-			String duration = "Duration: " + DataHelper.roundDoubletoString(collectionModel.getDuration()) + " " + UnitSetup.MILLI_SEC.getText();
-			point = gc.stringExtent(duration);
-			if (point.y < iRect.height - 30  && point.x + 5 < iRect.width) {
-				gc.drawText(duration, iRect.x + 5, iRect.y + 35);
-			}
-
+			gc.setFont(currentFont);
 			if (interval instanceof TimingGroupModel) {
 				TimingGroupModel groupModel = (TimingGroupModel) interval;
-				String timeResolution = DataHelper.roundDoubletoString(groupModel.getTimeResolution()) + " " + UnitSetup.MILLI_SEC.getText();
-				String noOfSpectrum = "Time resolution: " +  timeResolution;
+				int numberOfSpectrums = groupModel.getNumberOfSpectrum();
+				String spectra = "Spectra: " + numberOfSpectrums;
+				point = gc.stringExtent(spectra);
+				if (point.y < iRect.height - 30  && point.x + 5 < iRect.width) {
+					gc.drawText(spectra, iRect.x + 5, iRect.y + 20);
+				}
+				String timeResolution = DataHelper.roundDoubletoString(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli(groupModel.getTimeResolution())) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
+				String noOfSpectrum = "Spectrum time: " +  timeResolution;
 				point = gc.stringExtent(noOfSpectrum);
 				if (point.y < iRect.height - 45 && point.x + 5 < iRect.width) {
-					gc.drawText(noOfSpectrum, iRect.x + 5, iRect.y + 50);
+					gc.drawText(noOfSpectrum, iRect.x + 5, iRect.y + 35);
 				}
 			}
 		}

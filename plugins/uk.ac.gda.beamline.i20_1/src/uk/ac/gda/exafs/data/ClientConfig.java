@@ -55,6 +55,8 @@ public class ClientConfig {
 		VOLTAGE("V"),
 		MILLI_SEC("ms"),
 		SEC("s"),
+		HOUR("h"),
+		MINUTE("m"),
 		TESLA("T"),
 
 		SELECTION("");
@@ -125,7 +127,8 @@ public class ClientConfig {
 
 		POLY_CURVATURE("Curvature", "poly_curve", UnitSetup.MILLI_METER),
 		POLY_Y_ELLIPTICITY("Ellipticity","poly_yellip", UnitSetup.MILLI_METER),
-
+		POLY_TWIST("Twist","poly_twist", UnitSetup.MILLI_METER),
+		
 		SLIT_3_HORIZONAL_GAP("Slit hgap", "s3_hgap", UnitSetup.MILLI_METER),
 		SLIT_3_HORIZONAL_OFFSET("Slit offset", "sample_x", UnitSetup.MILLI_METER),
 
@@ -205,6 +208,7 @@ public class ClientConfig {
 				store.load();
 			} catch (IOException | ConfigurationException e) {
 				logger.error("Unable to setup data store for Ede client", e);
+				store = null;
 			}
 		}
 

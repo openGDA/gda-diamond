@@ -20,27 +20,12 @@
 		<property name="local" value="false" />
 	</bean>
 
-	<bean id="topupChecker" class="gda.device.scannable.TopupScannable">
-		<property name="scannableToBeMonitored" ref="topup" />
-		<property name="tolerance" value="10" />
-		<property name="timeout" value="300" />
-		<property name="waittime" value="10" />
-		<property name="level" value="0" />
-		<property name="pauseBeforePoint" value="true" />
-		<property name="local" value="true" />
-	</bean>
-
-	<bean id="absorberChecker" class="gda.device.scannable.CheckingScannable">
-		<property name="scannable" ref="absorber" />
-		<property name="value" value="Open" />
-		<property name="level" value="0" />
-		<property name="pauseBeforePoint" value="true" />
-		<property name="local" value="true" />
-	</bean>
-
 	<bean id="shutterChecker" class="gda.device.scannable.ShutterChecker">
 		<property name="shutter" ref="shutter2" />
 		<property name="pssPVName" value="BL20J-PS-SHTR-02:CON"/>
 	</bean>
 	
+	
+	<import resource="file:${gda.config}/servers/main/scannables-common.xml" />
+
 </beans>

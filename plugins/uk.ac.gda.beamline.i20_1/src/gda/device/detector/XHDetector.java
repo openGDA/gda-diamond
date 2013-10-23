@@ -19,6 +19,7 @@
 package gda.device.detector;
 
 import gda.configuration.properties.LocalProperties;
+import gda.data.NumTracker;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.Detector;
@@ -840,8 +841,11 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			sdp.setNumberOfPoints(1);
 			sdp.setScanDimensions(new int[1]);
 
+			NumTracker runNumber = new NumTracker("tmp");
+			Long scanNumber = runNumber.incrementNumber();
+
 			NexusDataWriter writer = new NexusDataWriter();
-			writer.configureScanNumber(null);
+			writer.configureScanNumber(scanNumber);
 			writer.addData(sdp);
 
 		} catch (Exception e) {

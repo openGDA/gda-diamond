@@ -18,6 +18,7 @@
 
 package gda.scan.ede.drivers;
 
+import gda.device.Monitor;
 import gda.device.detector.StripDetector;
 import gda.factory.Finder;
 import gda.scan.ede.EdeSingleExperiment;
@@ -33,10 +34,11 @@ public class SingleSpectrumDriver extends ScanDriver{
 
 	private final Double i0_scantime;
 	private final Integer i0_numberscans;
+	private final Monitor topupMonitor;
 	private Double it_scantime;
 	private Integer it_numberscans;
 
-	public SingleSpectrumDriver(String detectorName, Double i0_scantime, Integer i0_numberscans, Double it_scantime,
+	public SingleSpectrumDriver(String detectorName, String topupMonitorName, Double i0_scantime, Integer i0_numberscans, Double it_scantime,
 			Integer it_numberscans) {
 		super();
 
@@ -46,6 +48,8 @@ public class SingleSpectrumDriver extends ScanDriver{
 		this.it_numberscans = it_numberscans;
 
 		detector = Finder.getInstance().find(detectorName);
+		topupMonitor = Finder.getInstance().find(topupMonitorName);
+
 		if (this.it_scantime == null) {
 			this.it_scantime = i0_scantime;
 		}
@@ -55,9 +59,9 @@ public class SingleSpectrumDriver extends ScanDriver{
 
 	}
 
-	public SingleSpectrumDriver(String detectorName, Double i0_scantime, Integer i0_numberscans, Double it_scantime,
+	public SingleSpectrumDriver(String detectorName, String topupMonitorName, Double i0_scantime, Integer i0_numberscans, Double it_scantime,
 			Integer it_numberscans, String fileTemplate) {
-		this(detectorName, i0_scantime, i0_numberscans, it_scantime, it_numberscans);
+		this(detectorName, topupMonitorName, i0_scantime, i0_numberscans, it_scantime, it_numberscans);
 		this.fileTemplate = fileTemplate;
 	}
 
@@ -69,7 +73,7 @@ public class SingleSpectrumDriver extends ScanDriver{
 		EdeScanParameters itscanparams = EdeScanParameters.createSingleFrameScan(it_scantime, it_numberscans);
 
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0scanparams, itscanparams, outbeamPosition,
-				inbeamPosition, detector);
+				inbeamPosition, detector, topupMonitor);
 		if (fileTemplate != null) {
 			theExperiment.setFilenameTemplate(fileTemplate);
 		}

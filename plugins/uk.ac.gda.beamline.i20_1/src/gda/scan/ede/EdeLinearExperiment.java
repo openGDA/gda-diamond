@@ -18,7 +18,9 @@
 
 package gda.scan.ede;
 
+import gda.device.Monitor;
 import gda.device.detector.StripDetector;
+import gda.device.scannable.TopupChecker;
 import gda.factory.Finder;
 import gda.jython.scriptcontroller.ScriptControllerBase;
 import gda.observable.IObserver;
@@ -28,9 +30,13 @@ import gda.scan.ScanBase;
 import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 import gda.scan.ede.datawriters.EdeLinearExperimentAsciiFileWriter;
 import gda.scan.ede.position.EdeScanPosition;
+import gda.scan.ede.timeestimators.LinearExperimentTimeEstimator;
 
 import java.util.List;
 import java.util.Vector;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
@@ -46,7 +52,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  */
 public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 
-	// private static final Logger logger = LoggerFactory.getLogger(EdeSingleExperiment.class);
+	private static final Logger logger = LoggerFactory.getLogger(EdeLinearExperiment.class);
 
 	private final EdeScanParameters itScanParameters;
 	private final EdeScanPosition i0Position;
@@ -65,12 +71,13 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	private final DoubleDataset energyData;
 
 	public EdeLinearExperiment(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
-			EdeScanPosition itPosition, EdeScanPosition iRefPosition, StripDetector theDetector) {
+			EdeScanPosition itPosition, EdeScanPosition iRefPosition, StripDetector theDetector, Monitor topupMonitor) {
 		this.itScanParameters = itScanParameters;
 		this.i0Position = i0Position;
 		this.itPosition = itPosition;
 		this.iRefPosition = iRefPosition;
 		this.theDetector = theDetector;
+		topup = topupMonitor;
 		controller = (ScriptControllerBase) Finder.getInstance().findNoWarn(PROGRESS_UPDATER_NAME);
 		energyData = new DoubleDataset(theDetector.getEnergyForChannels());
 	}
@@ -187,6 +194,8 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		theScans.add(i0FinalScan);
 
 		MultiScan theScan = new MultiScan(theScans);
+		pauseForToup();
+		logger.debug("EDE linear experiment starting its multiscan...");
 		theScan.runScan();
 	}
 
@@ -195,8 +204,16 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
 			writer.setFilenameTemplate(filenameTemplate);
 		}
+		logger.debug("EDE linear experiment writing its ascii derived data files...");
 		writer.writeAsciiFile();
 		log("EDE single spectrum experiment complete.");
 		return writer.getAsciiItFilename();
+	}
+
+	private void pauseForToup() throws Exception {
+		Double predictedExperimentTime = new LinearExperimentTimeEstimator(itScanParameters,  i0Position,
+				itPosition,iRefPosition).getTotalDuration();
+		TopupChecker topup = createTopupChecker(predictedExperimentTime);
+		topup.atScanStart();
 	}
 }

@@ -18,6 +18,8 @@
 
 package gda.scan.ede;
 
+import gda.device.Monitor;
+import gda.device.scannable.TopupChecker;
 import gda.jython.InterfaceProvider;
 
 import org.slf4j.Logger;
@@ -38,9 +40,11 @@ public abstract class EdeExperiment {
 	 */
 	public static final String PROGRESS_UPDATER_NAME = "EDEProgressUpdater";
 
-	private static final Logger edelogger = LoggerFactory.getLogger(EdeSingleExperiment.class);
+	private static final Logger edelogger = LoggerFactory.getLogger(EdeExperiment.class);
 
 	protected String filenameTemplate = "";
+
+	protected Monitor topup;
 
 	/**
 	 * Run the scans and write the data files.
@@ -72,5 +76,17 @@ public abstract class EdeExperiment {
 	protected void log(String message) {
 		InterfaceProvider.getTerminalPrinter().print(message);
 		edelogger.info(message);
+	}
+
+	protected TopupChecker createTopupChecker(Double timeRequired) {
+
+		TopupChecker topupchecker = new TopupChecker();
+		topupchecker.setScannableToBeMonitored(topup);
+		topupchecker.setTimeout(timeRequired);
+		topupchecker.setWaittime(10); // fixed for EDE beamline
+		topupchecker.setTolerance(0);
+		topupchecker.setPauseBeforeScan(true);
+		topupchecker.setPauseBeforePoint(false);
+		return topupchecker;
 	}
 }

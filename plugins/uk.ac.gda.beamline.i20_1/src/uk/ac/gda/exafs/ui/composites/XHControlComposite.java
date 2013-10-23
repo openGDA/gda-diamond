@@ -102,7 +102,7 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	private final DoubleDataset strips;
 
-	private final ILineTrace lineTrace;
+	private ILineTrace lineTrace;
 
 	private static StripDetector getDetector(){
 		return DetectorModel.INSTANCE.getCurrentDetector();
@@ -150,6 +150,14 @@ public class XHControlComposite extends Composite implements IObserver {
 	public XHControlComposite(Composite parent, IPlottingSystem plottingSystem) {
 		super(parent, SWT.None);
 		this.plottingSystem = plottingSystem;
+		setupEnergySpectrumTraceLine();
+		toolkit = new FormToolkit(parent.getDisplay());
+		detectorControlModel = new DetectorControlModel();
+		strips = getStripsDataSet();
+		createUI();
+	}
+
+	private void setupEnergySpectrumTraceLine() {
 		plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
 		plottingSystem.setShowLegend(false);
 		lineTrace = plottingSystem.createLineTrace("Detector Live Data");
@@ -157,10 +165,6 @@ public class XHControlComposite extends Composite implements IObserver {
 		lineTrace.setTraceColor(Display.getDefault().getSystemColor(SWT.COLOR_BLUE));
 		lineTrace.setTraceType(TraceType.SOLID_LINE);
 		plottingSystem.addTrace(lineTrace);
-		toolkit = new FormToolkit(parent.getDisplay());
-		detectorControlModel = new DetectorControlModel();
-		strips = getStripsDataSet();
-		createUI();
 	}
 
 	private DoubleDataset getStripsDataSet() {
@@ -404,12 +408,7 @@ public class XHControlComposite extends Composite implements IObserver {
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
-					lineTrace.setData(strips, new DoubleDataset((double[]) results));
-					if (!plottingSystem.getTitle().equals(title)) {
-						plottingSystem.setTitle(title);
-					}
-					plottingSystem.repaint(true);
+					updatePlotWithData(title, results);
 				}
 			});
 		} else {
@@ -422,6 +421,15 @@ public class XHControlComposite extends Composite implements IObserver {
 
 		NXDetectorData readout = (NXDetectorData) getDetector().readout();
 		return readout.getDoubleVals();
+	}
+
+	private void updatePlotWithData(final String title, final Object results) {
+		plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
+		lineTrace.setData(strips, new DoubleDataset((double[]) results));
+		if (!plottingSystem.getTitle().equals(title)) {
+			plottingSystem.setTitle(title);
+		}
+		plottingSystem.repaint();
 	}
 
 	public void startCollectingRates() {
@@ -447,7 +455,12 @@ public class XHControlComposite extends Composite implements IObserver {
 						int numberSectors = getDetector().getRois().length;
 						allValues = new double[0];
 						regionValues = new double[numberSectors][0];
-
+						PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+							@Override
+							public void run() {
+								updatePlotWithData("", new double[]{});
+							}
+						});
 						while (continueLiveLoop
 								&& InterfaceProvider.getScanStatusHolder().getScanStatus() == Jython.IDLE) {
 							Date snapshotTime = new Date();
