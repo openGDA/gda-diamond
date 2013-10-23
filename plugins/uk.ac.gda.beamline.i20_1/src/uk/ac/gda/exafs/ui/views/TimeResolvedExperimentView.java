@@ -864,6 +864,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		try {
 			startTimeValueText.setModel(group, ExperimentTimingDataModel.START_TIME_PROP_NAME);
 			startTimeValueText.setConverters(modelToTargetConverter, targetToModelConverter);
+			startTimeValueText.setEditable(false);
 			startTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			startTimeValueText.setUnit(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText());
 

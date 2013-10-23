@@ -51,7 +51,7 @@ import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
-import uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel.Test;
+import uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel.TimingGroupTimeBarRowModel;
 import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
@@ -66,13 +66,13 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	private static final double EXPERIMENT_START_TIME = 0.0;
 	private static final double DEFAULT_INITIAL_EXPERIMENT_TIME = 20; // Should be > 0
 
-	private static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "LinearExperimentModel";
+	private static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "TIME_RESOLVED_EXPERIMENT_DATA";
 
 	public static final String EXPERIMENT_DURATION_PROP_NAME = "experimentDuration";
 
 	private DefaultTimeBarModel model;
-	private Test timingGroupRowModel;
-	private Test spectraRowModel;
+	private TimingGroupTimeBarRowModel timingGroupRowModel;
+	private TimingGroupTimeBarRowModel spectraRowModel;
 
 	public static final String CURRENT_SCANNING_SPECTRUM_PROP_NAME = "currentScanningSpectrum";
 	private SpectrumModel currentScanningSpectrum;
@@ -179,17 +179,17 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		for (TimingGroupModel loadedGroup : savedGroups) {
 			TimingGroupModel timingGroup = new TimingGroupModel(spectraRowModel);
 			timingGroup.setName(loadedGroup.getName());
-			timingGroup.setTimePerSpectrumForGroup(loadedGroup.getTimePerSpectrum());
-			timingGroup.setTimes(loadedGroup.getStartTime(), loadedGroup.getEndTime());
+			double delay = 0.0;
 			if (loadedGroup.getDelay() > 0) {
-				timingGroup.setDelay(loadedGroup.getDelay());
+				delay = loadedGroup.getDelay();
 			}
+			// TODO Refactor this!
+			timingGroup.resetInitialTime(loadedGroup.getStartTime(), loadedGroup.getEndTime() - (delay + loadedGroup.getStartTime()), delay, loadedGroup.getTimePerSpectrum());
 			timingGroup.setIntegrationTime(loadedGroup.getIntegrationTime());
 			if (loadedGroup.getDelayBetweenSpectrum() > 0) {
 				timingGroup.setDelayBetweenSpectrum(loadedGroup.getDelayBetweenSpectrum());
 			}
 			addToInternalGroupList(timingGroup);
-
 		}
 		updateExperimentDuration();
 	}
@@ -197,9 +197,9 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	private void setupTimebarModel() {
 		model = new DefaultTimeBarModel();
 		DefaultRowHeader header = new DefaultRowHeader("Timing groups");
-		timingGroupRowModel = new Test(header);
+		timingGroupRowModel = new TimingGroupTimeBarRowModel(header);
 		header = new DefaultRowHeader("Spectra");
-		spectraRowModel = new Test(header);
+		spectraRowModel = new TimingGroupTimeBarRowModel(header);
 		model.addRow(timingGroupRowModel);
 		model.addRow(spectraRowModel);
 	}
@@ -215,10 +215,9 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	public TimingGroupModel addGroup() {
 		TimingGroupModel newGroup = new TimingGroupModel(spectraRowModel);
 		newGroup.setName("Group " + (groupList.size() + 1));
-		newGroup.setTimes(this.getStartTime(), this.getStartTime() + (this.getDuration() / (groupList.size() + 1)));
 		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup);
-		setGroupTimes(this.getDuration() / groupList.size());
+		resetInitialGroupTimes(this.getDuration() / groupList.size());
 		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
 		return newGroup;
 	}
@@ -251,7 +250,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	public void removeGroup(TimingGroupModel group) {
 		if (groupList.size() > 1) {
 			removeFromInternalGroupList(group);
-			setGroupTimes(this.getDuration() / groupList.size());
+			resetInitialGroupTimes(this.getDuration() / groupList.size());
 			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
 		}
 	}
@@ -429,25 +428,24 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		for (Object loadedGroup : groupList) {
 			experimentDuration += ((TimingGroupModel)loadedGroup).getDuration();
 		}
-		this.setEndTime(experimentDuration);
+		this.setTimes(EXPERIMENT_START_TIME, experimentDuration);
 		this.firePropertyChange(EXPERIMENT_DURATION_PROP_NAME, null, getExperimentDuration());
 	}
 
-	private void setGroupTimes(double groupDuration) {
+	private void resetInitialGroupTimes(double groupDuration) {
 		double startTime = this.getStartTime();
 		for (int i = 0; i < groupList.size(); i++) {
 			TimingGroupModel group = (TimingGroupModel) groupList.get(i);
-			group.setTimePerSpectrumForGroup(groupDuration);
 			if (i > 0) {
 				TimingGroupModel previous = (TimingGroupModel) groupList.get(i-1);
 				startTime = previous.getEndTime();
 			}
-			group.setTimes(startTime, startTime + groupDuration);
+			group.resetInitialTime(startTime, groupDuration, 0.0, groupDuration);
 		}
 	}
 
 	public void setExperimentDuration(double value) {
-		setGroupTimes(unit.convertToMilli(value) / groupList.size());
+		resetInitialGroupTimes(unit.convertToMilli(value) / groupList.size());
 	}
 
 	public double getExperimentDuration() {

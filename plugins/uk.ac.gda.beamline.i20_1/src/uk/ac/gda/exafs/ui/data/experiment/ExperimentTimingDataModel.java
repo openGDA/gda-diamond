@@ -28,7 +28,8 @@ import de.jaret.util.date.IntervalImpl;
 
 public abstract class ExperimentTimingDataModel extends IntervalImpl {
 
-	private static final long MIN_DURATION_TIME = 20;
+	protected static final double MIN_DURATION_TIME = 20;
+
 	public static final String NAME_PROP_NAME = "name";
 	@Expose
 	private String name;
@@ -37,9 +38,11 @@ public abstract class ExperimentTimingDataModel extends IntervalImpl {
 	@Expose
 	private double startTime;
 
+	public static final String AVAILABLE_TIME_PROP_NAME = "availableTime";
+
 	public static final String DELAY_PROP_NAME = "delay";
 	@Expose
-	private double delay;
+	protected double delay;
 
 	public static final String DURATION_PROP_NAME = "duration";
 
@@ -51,38 +54,24 @@ public abstract class ExperimentTimingDataModel extends IntervalImpl {
 		return startTime;
 	}
 
-	protected void setStartTime(double startTime) {
-		long startTimeInMilli = (long) startTime + (long) this.getDelay();
-		this.setBegin(TimebarHelper.getTime().advanceMillis(startTimeInMilli));
+	public void setTimes(double startTime, double eventDuration) {
 		this.firePropertyChange(START_TIME_PROP_NAME, this.startTime, this.startTime = startTime);
-		double duration = this.getDuration();
-		if (duration == 0) {
-			setEndTime(this.getStartTime() + MIN_DURATION_TIME);
-		} else {
-			this.firePropertyChange(DURATION_PROP_NAME, duration,  this.getDuration());
-		}
+		updateEndTimeAndInterval(eventDuration);
 	}
 
-	protected void setEndTime(double value) {
-		long endTimeInMilli = (long) value;
-		this.setEnd(TimebarHelper.getTime().advanceMillis(endTimeInMilli));
-		double previous = this.getDuration();
-		this.firePropertyChange(END_TIME_PROP_NAME,  endTime, endTime =  value);
-		this.firePropertyChange(DURATION_PROP_NAME, previous,  this.getDuration());
-	}
-
-	public void setTimes(double startTime, double endTime) {
-		long startTimeInMilli = (long) startTime + (long) this.getDelay();
-		this.setBegin(TimebarHelper.getTime().advanceMillis(startTimeInMilli));
-		this.firePropertyChange(START_TIME_PROP_NAME, this.startTime, this.startTime = startTime);
+	private void updateEndTimeAndInterval(double eventDuration) {
+		this.firePropertyChange(END_TIME_PROP_NAME,  endTime, endTime = getIntervalStartTime() + eventDuration);
+		this.setBegin(TimebarHelper.getTime().advanceMillis((long) getIntervalStartTime()));
 		this.setEnd(TimebarHelper.getTime().advanceMillis((long) endTime));
-		double previous = this.getDuration();
-		this.firePropertyChange(END_TIME_PROP_NAME,  this.endTime, this.endTime =  endTime);
-		this.firePropertyChange(DURATION_PROP_NAME, previous,  this.getDuration());
+		this.firePropertyChange(DURATION_PROP_NAME, null, this.getDuration());
 	}
 
 	public String getName() {
 		return name;
+	}
+
+	protected double getIntervalStartTime() {
+		return startTime + delay;
 	}
 
 	public void setName(String name) {
@@ -94,16 +83,17 @@ public abstract class ExperimentTimingDataModel extends IntervalImpl {
 	}
 
 	public void setDelay(double delay) {
-		long delayInMilli = (long) delay;
-		long startTimeInMilli = (long) this.getStartTime() + delayInMilli;
-		this.setBegin(TimebarHelper.getTime().advanceMillis(startTimeInMilli));
 		this.firePropertyChange(DELAY_PROP_NAME, this.delay, this.delay = delay);
+		updateEndTimeAndInterval(this.getAvailableDurationAfterDelay());
 	}
 
 	public double getDuration() {
 		return endTime - startTime;
 	}
 
+	protected double getAvailableDurationAfterDelay() {
+		return endTime - startTime + delay;
+	}
 
 	public double getEndTime() {
 		return endTime;
