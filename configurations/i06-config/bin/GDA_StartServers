@@ -15,11 +15,11 @@ esac
 echo $BEAMLINE
 
 #export gdaLauncher=/dls_sw/$BEAMLINE/software/gda/plugins/uk.ac.gda.core/bin/gda
-export gdaLauncher=/dls_sw/$BEAMLINE/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda
+export gdaLauncher=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
 
-configDir=/dls_sw/$BEAMLINE/software/gda/i06-config
-Properties=/dls_sw/$BEAMLINE/software/gda/i06-config/properties/java.properties_$BEAMLINE 
-JacorbDir=/dls_sw/$BEAMLINE/software/gda/i06-config/properties/jacorb_$BEAMLINE
+configDir=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i06-config
+Properties=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/java.properties_$BEAMLINE 
+JacorbDir=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/jacorb_$BEAMLINE
 varDir=/dls/$BEAMLINE/var
 dataDir=/dls/$BEAMLINE
 #logDir=/dls/$BEAMLINE/logs

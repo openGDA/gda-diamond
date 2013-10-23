@@ -12,10 +12,10 @@ DebugPort=8000
 mkdir -p  /tmp/gda/var/
 mkdir -p  /tmp/gda/logs/
 
-export gdaLauncher=/dls_sw/$BEAMLINE/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda
+export gdaLauncher=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
 
 
-configDir=/dls_sw/$BEAMLINE/software/gda/i06-config
+configDir=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i06-config
 varDir=/tmp/gda/var
 #dataDir=/tmp/gda
 dataDir=/dls/i06

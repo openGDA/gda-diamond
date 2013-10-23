@@ -11,10 +11,10 @@ then
   exit 1
 fi
 
-export gdaLauncher=/dls_sw/$BEAMLINE/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda
+export gdaLauncher=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
 
 
-configDir=/dls_sw/$BEAMLINE/software/gda/i06-config
+configDir=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i06-config
 varDir=/dls/$BEAMLINE/var
 dataDir=/dls/$BEAMLINE
 logDir=/dls_sw/$BEAMLINE/logs
@@ -32,8 +32,8 @@ $gdaLauncher --config=$configDir --properties=$Properties --jacorb=$JacorbDir --
 sleep 2
  
 echo Starting GDA Servers remotely...
-echo ssh -o StrictHostKeyChecking=no -i /dls_sw/$BEAMLINE/software/gda/i06-config/i06ssh.key gda2@i06-control.diamond.ac.uk ${BEAMLINE}
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /dls_sw/$BEAMLINE/software/gda/i06-config/i06ssh.key gda2@i06-control.diamond.ac.uk ${BEAMLINE}
+echo ssh -o StrictHostKeyChecking=no -i /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i06-config/i06ssh.key gda2@i06-control.diamond.ac.uk ${BEAMLINE}
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i06-config/i06ssh.key gda2@i06-control.diamond.ac.uk ${BEAMLINE}
 
 echo Waiting server starting...
 ## show log until 'Server initialisation complete' is seen

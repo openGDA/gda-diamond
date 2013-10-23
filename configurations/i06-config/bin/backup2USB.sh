@@ -86,7 +86,7 @@ YEAR=$(date +%Y)
 VISNO=mx300-22/Glyn
 FULLVISNO=/dls/$BEAMLINE/data/$YEAR/$VISNO/
 if [ $VISNO == "0-0" -o ! -r $FULLVISNO ]; then
-  DEFVISNO=$(grep ^gda.defVisit /dls/$BEAMLINE/software/gda/config/properties/java.properties | awk ' NR==1 ' | cut -c 14-)
+  DEFVISNO=$(grep ^gda.defVisit /dls/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/java.properties | awk ' NR==1 ' | cut -c 14-)
   if [ $DEFVISNO ]; then
     VISNO=$DEFVISNO
     FULLVISNO=/dls/$BEAMLINE/data/$YEAR/$VISNO/

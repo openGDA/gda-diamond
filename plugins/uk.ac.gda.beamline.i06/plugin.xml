@@ -196,6 +196,15 @@
          </view>
          <view
                closeable="true"
+               id="uk.ac.gda.nano.views.DiffractionAndDichroismView"
+               moveable="true"
+               relationship="stack"
+               relative="uk.ac.gda.nano.views.terminalView"
+               showTitle="true"
+               visible="true">
+         </view>
+         <view
+               closeable="true"
                id="gda.dal.sdsview"
                moveable="true"
                relationship="stack"
