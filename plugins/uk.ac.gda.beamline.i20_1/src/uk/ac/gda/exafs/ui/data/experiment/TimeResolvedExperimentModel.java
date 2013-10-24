@@ -99,9 +99,9 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		HOUR(ClientConfig.UnitSetup.HOUR, 60 * 60 * 1000);
 
 		private ClientConfig.UnitSetup unit;
-		private int conversionUnit;
+		private double conversionUnit;
 
-		private ExperimentUnit(ClientConfig.UnitSetup unit, int conversionUnit) {
+		private ExperimentUnit(ClientConfig.UnitSetup unit, double conversionUnit) {
 			this.unit = unit;
 			this.conversionUnit = conversionUnit;
 		}
@@ -316,9 +316,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
 					while(TimeResolvedExperimentModel.this.isScanning()) {
-						if (currentNormalisedItData != null & currentEnergyData != null) {
-							setReceivedDataSet();
-						}
+						setReceivedDataSet();
 						try {
 							Thread.sleep(SCAN_DATA_SET_REPORT_INTERVAL_IN_MILLI);
 						} catch (InterruptedException e) {
@@ -330,7 +328,9 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				}
 
 				private void setReceivedDataSet() {
-					TimeResolvedExperimentModel.this.setScanDataSet(new DoubleDataset[] {currentEnergyData, currentNormalisedItData});
+					if (currentNormalisedItData != null & currentEnergyData != null) {
+						TimeResolvedExperimentModel.this.setScanDataSet(new DoubleDataset[] {currentEnergyData, currentNormalisedItData});
+					}
 				}
 			};
 		}
@@ -354,8 +354,8 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 							TimingGroup timingGroup = new TimingGroup();
 							timingGroup.setLabel(uiTimingGroup.getName());
 							timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrum());
-							timingGroup.setTimePerFrame(unit.convertToSecond(uiTimingGroup.getTimePerSpectrum())); // convert from ms to S
-							timingGroup.setTimePerScan(unit.convertToSecond(uiTimingGroup.getIntegrationTime())); // convert from ms to S
+							timingGroup.setTimePerFrame(unit.getWorkingUnit().convertToSecond(uiTimingGroup.getTimePerSpectrum())); // convert to S
+							timingGroup.setTimePerScan(unit.getWorkingUnit().convertToSecond(uiTimingGroup.getIntegrationTime())); // convert to S
 							timingGroups.add(timingGroup);
 						}
 
@@ -369,7 +369,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				// give the previous command a chance to run before calling doCollection()
 				Thread.sleep(50);
 				InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				UIHelper.showWarning("Scanning has stopped", e.getMessage());
 			}
 			TimeResolvedExperimentModel.this.setScanning(false);
