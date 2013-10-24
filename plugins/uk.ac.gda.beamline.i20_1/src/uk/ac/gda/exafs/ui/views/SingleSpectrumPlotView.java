@@ -18,11 +18,6 @@
 
 package uk.ac.gda.exafs.ui.views;
 
-import gda.scan.ede.datawriters.EdeAsciiFileWriter;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
 import java.util.List;
 import java.util.Vector;
 
@@ -37,14 +32,8 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
-import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
-import uk.ac.diamond.scisoft.analysis.io.DataHolder;
-import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
-import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
 
@@ -91,56 +80,78 @@ public class SingleSpectrumPlotView extends ViewPart {
 	}
 
 	private void addListener() {
-		SingleSpectrumModel.INSTANCE.addPropertyChangeListener(SingleSpectrumModel.FILE_NAME_PROP_NAME,
-				new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				Object value = evt.getNewValue();
-				if (value == null) {
-					return;
-				}
-				String fileName = (String) value;
-				File file = new File(fileName);
-				if (file.exists() && file.canRead()) {
-					try {
-						DataHolder dataHolder = LoaderFactory.getData(fileName);
-						AbstractDataset strips = (AbstractDataset) dataHolder.getLazyDataset(
-								EdeAsciiFileWriter.STRIP_COLUMN_NAME).getSlice();
-						AbstractDataset dk = (AbstractDataset) dataHolder.getLazyDataset(
-								EdeAsciiFileWriter.I0_DARK_COLUMN_NAME).getSlice();
-						dk.setName(DARK_NAME);
-						AbstractDataset i0 = (AbstractDataset) dataHolder.getLazyDataset(
-								EdeAsciiFileWriter.I0_RAW_COLUMN_NAME).getSlice();
-						i0.setName(I0_NAME);
-						AbstractDataset it = (AbstractDataset) dataHolder.getLazyDataset(
-								EdeAsciiFileWriter.IT_RAW_COLUMN_NAME).getSlice();
-						it.setName(It_NAME);
-						AbstractDataset logI0It = (AbstractDataset) dataHolder.getLazyDataset(
-								EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME).getSlice();
-						logI0It.setName(Lni0it_NAME);
-						List<IDataset> ds = new Vector<IDataset>();
-						ds.add(dk);
-						ds.add(i0);
-						ds.add(it);
-						ds.add(logI0It);
-						plottingSystem.clear();
-						plottingSystem.setTitle(fileName);
-						plottingSystem.createPlot1D(strips, ds, null);
-						updateVisibility();
-						plottingSystem.autoscaleAxes();
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ID);
-					} catch (Exception e) {
-						UIHelper.showError("Unable to plot the data", e.getMessage());
-					}
-				}
-			}
+		// TODO This should be removed once reviewed!
 
-			private void updateVisibility() {
-				for (SelectionListener listener : selectionListeners) {
-					listener.widgetSelected(null);
-				}
-			}
-		});
+
+		//		SingleSpectrumModel.INSTANCE.addPropertyChangeListener(SingleSpectrumModel.FILE_NAME_PROP_NAME,
+		//				new PropertyChangeListener() {
+		//			@Override
+		//			public void propertyChange(PropertyChangeEvent evt) {
+		//				Object value = evt.getNewValue();
+		//				if (value == null) {
+		//					return;
+		//				}
+		//				String fileName = (String) value;
+		//				File file = new File(fileName);
+		//				if (file.exists() && file.canRead()) {
+		//					try {
+		//						//						DataHolder dataHolder = LoaderFactory.getData(fileName);
+		//						//						AbstractDataset strips = (AbstractDataset) dataHolder.getLazyDataset(
+		//						//								EdeAsciiFileWriter.STRIP_COLUMN_NAME).getSlice();
+		//						//						AbstractDataset dk = (AbstractDataset) dataHolder.getLazyDataset(
+		//						//								EdeAsciiFileWriter.I0_DARK_COLUMN_NAME).getSlice();
+		//						//						dk.setName(DARK_NAME);
+		//						//						AbstractDataset i0 = (AbstractDataset) dataHolder.getLazyDataset(
+		//						//								EdeAsciiFileWriter.I0_RAW_COLUMN_NAME).getSlice();
+		//						//						i0.setName(I0_NAME);
+		//						//						AbstractDataset it = (AbstractDataset) dataHolder.getLazyDataset(
+		//						//								EdeAsciiFileWriter.IT_RAW_COLUMN_NAME).getSlice();
+		//						//						it.setName(It_NAME);
+		//						//						AbstractDataset logI0It = (AbstractDataset) dataHolder.getLazyDataset(
+		//						//								EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME).getSlice();
+		//						//						logI0It.setName(Lni0it_NAME);
+		//						//						List<IDataset> ds = new Vector<IDataset>();
+		//						//						ds.add(dk);
+		//						//						ds.add(i0);
+		//						//						ds.add(it);
+		//						//						ds.add(logI0It);
+		//						//						plottingSystem.clear();
+		//						//						plottingSystem.setTitle(fileName);
+		//						//						plottingSystem.createPlot1D(strips, ds, null);
+		//						//						updateVisibility();
+		//						//						plottingSystem.autoscaleAxes();
+		//						//						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ID);
+		//
+		//						final IWorkbenchPage page = PlatformUI.getWorkbench()
+		//								.getActiveWorkbenchWindow().getActivePage();
+		//						LivePlotView part = (LivePlotView) page.findView(LivePlotView.ID);
+		//						if (part == null) {
+		//							part = (LivePlotView) page.showView(LivePlotView.ID);
+		//						}
+		//						List<String> dataSet = new ArrayList<String>();
+		//						dataSet.add("#" + EdeAsciiFileWriter.STRIP_COLUMN_NAME);
+		//						dataSet.add(EdeAsciiFileWriter.I0_DARK_COLUMN_NAME);
+		//						Map<String, String> dataSetNames = new HashMap<String, String>();
+		//						dataSetNames.put("#" + EdeAsciiFileWriter.STRIP_COLUMN_NAME, "#" + EdeAsciiFileWriter.STRIP_COLUMN_NAME);
+		//						dataSetNames.put(EdeAsciiFileWriter.I0_DARK_COLUMN_NAME, EdeAsciiFileWriter.I0_DARK_COLUMN_NAME);
+		//						dataSetNames.put(EdeAsciiFileWriter.IT_DARK_COLUMN_NAME, EdeAsciiFileWriter.IT_DARK_COLUMN_NAME);
+		//						dataSetNames.put(EdeAsciiFileWriter.I0_CORR_COLUMN_NAME, EdeAsciiFileWriter.I0_CORR_COLUMN_NAME);
+		//						dataSetNames.put(EdeAsciiFileWriter.IT_CORR_COLUMN_NAME, EdeAsciiFileWriter.IT_CORR_COLUMN_NAME);
+		//						dataSetNames.put(EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME, EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME);
+		//						part.openFile(file.getPath(), dataSet, dataSetNames);
+		//
+		//					} catch (Exception e) {
+		//						UIHelper.showError("Unable to plot the data", e.getMessage());
+		//					}
+		//				}
+		//			}
+		//
+		//			private void updateVisibility() {
+		//				for (SelectionListener listener : selectionListeners) {
+		//					listener.widgetSelected(null);
+		//				}
+		//			}
+		//		});
 	}
 
 	private void addCheckBoxes(Composite controls) {

@@ -152,7 +152,7 @@
             class="uk.ac.gda.exafs.ui.views.SingleSpectrumPlotView"
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.singlespectrumplotview"
-            name="Single Spectrum"
+            name="Single Spectrum Plot"
             restorable="true">
       </view>
    </extension>
