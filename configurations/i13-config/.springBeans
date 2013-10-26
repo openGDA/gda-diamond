@@ -9,7 +9,6 @@
 	<configs>
 		<config>servers/main/dummy/server.xml</config>
 		<config>servers/main/common.xml</config>
-		<config>servers/main/epics_sim/server.xml</config>
 		<config>devices/d1.xml</config>
 		<config>devices/d2.xml</config>
 		<config>devices/d3.xml</config>
@@ -104,7 +103,6 @@
 		<config>devices/optics_hutch4_shutter.xml</config>
 		<config>devices/dummy/pco1_ndplugins.xml</config>
 		<config>devices/epics/pco1_ndplugins.xml</config>
-		<config>devices/epics_sim/pco1_ndplugins.xml</config>
 		<config>devices/zebra/pco1_ndplugins.xml</config>
 		<config>devices/dummy/pco1.xml</config>
 		<config>devices/epics/pco1.xml</config>
@@ -119,7 +117,6 @@
 		<config>devices/sample_stage.xml</config>
 		<config>servers/main/live/server.xml</config>
 		<config>servers/main/live_localhost/server.xml</config>
-		<config>servers/main/zebra/server.xml</config>
 		<config>devices/simpleScannables.xml</config>
 		<config>devices/epics/ss1_motors.xml</config>
 		<config>devices/epics/t3_motors.xml</config>
@@ -132,11 +129,15 @@
 		<config>devices/undulator.xml</config>
 		<config>devices/dummy/zebra.xml</config>
 		<config>devices/epics/zebra.xml</config>
-		<config>devices/epics_sim/zebra.xml</config>
 		<config>devices/zebra.xml</config>
 		<config>devices/zebra/zebra.xml</config>
 		<config>devices/zebra/sample_stage_motors.xml</config>
 		<config>devices/live/p2r.xml</config>
+		<config>clients/main/d1.xml</config>
+		<config>clients/main/d2.xml</config>
+		<config>clients/main/d3.xml</config>
+		<config>clients/main/d4.xml</config>
+		<config>clients/main/d5.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

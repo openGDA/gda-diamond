@@ -91,30 +91,5 @@
 	</bean>
 
 
-	<bean id="d5_cam_collection_strategy" class="gda.device.detector.addetector.triggering.SimpleAcquire">
-		<constructor-arg ref="d5_cam_base" />
-		<constructor-arg value="0." />
-	</bean>
-	<bean id="d5_cam_basicStats"
-		class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
-		<constructor-arg ref="d5_stat" />
-		<property name="computeStats" value="true" />
-	</bean>
-	<bean id="d5_cam_array"
-		class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
-		<constructor-arg ref="d5_arr" />
-	</bean>
-	<bean id="_d5_cam_nx" class="gda.device.detector.NXDetector">
-		<property name="name" value="pco1_hw_hdf" />
-		<property name="collectionStrategy" ref="d5_cam_collection_strategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="d5_cam_basicStats" />
-				<ref bean="d5_cam_array" />
-			</list>
-		</property>
-	</bean>
-
-
 </beans>
 	

@@ -14,7 +14,6 @@ class TomoDet():
             raise Exception(name + " not found")
         return controller
     def __init__(self):
-        self.pco1_autoContinuousTrigger = self.__getController("pco1_autoContinuousTrigger")
         self.pco1_ffmpeg1 = self.__getController("pco1_ffmpeg1")
         self.pco1_ffmpeg2 = self.__getController("pco1_ffmpeg2")
         self.pco1_proc1 = self.__getController("pco1_proc1")
@@ -23,9 +22,9 @@ class TomoDet():
         self.pco1_stat = self.__getController("pco1_stat")        
         self.pco1_arr = self.__getController("pco1_arr")        
         self.model = self.pco1_cam_base.model_RBV
-
-        
+        self.pco1_autoContinuousTrigger = self.__getController("pco1_autoContinuousTrigger")
         return
+
     def getCurrentExposureTime(self):
 		return self.pco1_cam_base.getAcquireTime_RBV()
 

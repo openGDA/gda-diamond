@@ -183,10 +183,10 @@ try:
 		exceptionType, exception, traceback = sys.exc_info()
 		handle_messages.log(None, "Error connecting to autocollimator", exceptionType, exception, traceback, False)
 
-	import alignmentGui
-	tomodet = alignmentGui.TomoDet()
 	#setup trigger for pink beam
 	if isLive():
+		import alignmentGui
+		tomodet = alignmentGui.TomoDet()
 		pco1_hw_tif.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
 		pco1_hw_hdf.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
 	

@@ -68,6 +68,7 @@
 	<import resource="../../../devices/dummy/sample_stage_motors.xml" />
 	<import resource="../../../devices/dummy/table_motors.xml" />
 	<import resource="../../../devices/dummy/camera_stage_motors.xml" />
+	<import resource="../../../devices/dummy/sample_stage_hexapod_motors.xml"/>	
 
 	<import resource="../../../devices/dummy/pco1.xml" />
 	<import resource="../../../devices/dummy/lens.xml" />

@@ -72,6 +72,7 @@
 	<import resource="../../../devices/epics/pco1.xml" />
 	<import resource="../../../devices/epics/lens.xml" />
 	<import resource="../../../devices/epics/zebra.xml" />
+	
 
 	<bean id="fastshutter" class="gda.device.scannable.EpicsScannable"> 
 		<property name="pvName" value="BL13I-EA-FSHTR-01:CONTROL" /> 
@@ -82,6 +83,7 @@
 	<import resource="../../../devices/live/p2r.xml"/>	
 	<import resource="../../../devices/epics/sample_stage_hexapod_motors.xml"/>	
 
+	<import resource="../../../devices/zebra.xml" />
 
 	<import resource="../common.xml" />
 
