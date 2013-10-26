@@ -33,6 +33,10 @@ import org.slf4j.LoggerFactory;
  * A scannable which will pause during a scan if top-up is imminent.
  * <p>
  * To use, simply include in a scan.
+ * <p>
+ * Deprecated, see TopupChecker.
+ * <p>
+ * This should be deleted for the GDA release after 8.36
  */
 public class CheckingScannable extends ScannableBase implements Scannable {
 

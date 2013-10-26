@@ -181,7 +181,7 @@ fi
 
 notify-send -t 10000 "GDA client is starting... If it fails to open try 'gdaclient --reset'"
 
-PREVMARGS="-showLocation -data ${WORKSPACE} -configuration ${CONFIG} $@"
+PREVMARGS=" -consoleLog -showLocation -data ${WORKSPACE} -configuration ${CONFIG} $@"
 
 # General information about VM options:
 #   http://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html
