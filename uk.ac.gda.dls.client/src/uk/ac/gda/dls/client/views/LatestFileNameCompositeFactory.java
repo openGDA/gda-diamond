@@ -579,6 +579,8 @@ class LatestFileNameComposite extends Composite {
 			else {
 				filename = String.format(latestSettings.getFullTemplate(), index);
 				text = String.format(latestSettings.fileTemplate, index);
+				if( text.length() == 0)
+					text = filename;
 			}
 
 			int currentLength = fileNameText.getText().length();
