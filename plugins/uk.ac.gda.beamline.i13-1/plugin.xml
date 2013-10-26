@@ -264,6 +264,35 @@
       </view>                       
    </extension>
 
+   <extension id="Float3 views"
+         point="org.eclipse.ui.views">
+                       
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.beamline.i13j"
+            class="uk.ac.gda.epics.adviewer.views.HistogramViewCreator:float3"
+            icon="icons/AreaDetectorProfileView.gif"
+            id="uk.ac.gda.beamline.i13j.float3AreaDetectorProfileView"
+            name="Float3 Histogram">
+      </view>                       
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.beamline.i13j"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayViewCreator:float3"
+            icon="icons/AreaDetectorImageView.gif"
+            id="uk.ac.gda.beamline.i13j.float3AreaDetectorArrayView"
+            name="Float3 Raw">
+      </view>
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.beamline.i13j"
+            class="uk.ac.gda.epics.adviewer.views.MJPegViewCreator:float3"
+            icon="icons/AreaDetectorLiveView.gif"
+            id="uk.ac.gda.beamline.i13j.float3AreaDetectorLiveView"
+            name="Float3 Live">
+      </view>                       
+   </extension>
+
    <extension id="excalibur views"
          point="org.eclipse.ui.views">
                             
@@ -561,6 +590,123 @@
  </menuContribution>                    
 
 
+
+</extension>
+
+<!-- menus for float3 -->
+<extension
+      id="float3 menus"
+      point="org.eclipse.ui.menus">   
+
+ <menuContribution
+       allPopups="false"
+       locationURI="toolbar:uk.ac.gda.beamline.i13j.float3AreaDetectorProfileView">
+    <command
+          commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+          label="Set Exposure"
+          style="push">
+       <parameter
+             name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+             value="float3">
+       </parameter>
+    </command>
+    <command
+          commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
+          label="Rescale Live Image"
+          style="push">
+       <parameter
+             name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+             value="float3">
+       </parameter>
+    </command>
+    <command
+          commandId="org.eclipse.ui.views.showView"
+          icon="icons/AreaDetectorLiveView.gif"
+          label="Show Live"
+          style="push">
+       <parameter
+             name="org.eclipse.ui.views.showView.viewId"
+             value="uk.ac.gda.beamline.i13j.float3AreaDetectorLiveView">
+       </parameter>
+    </command>
+ </menuContribution>
+ 
+ <menuContribution
+       allPopups="false"
+       locationURI="toolbar:uk.ac.gda.beamline.i13j.float3AreaDetectorArrayView">
+    <command
+          commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+          label="Set Exposure"
+          style="push">
+       <parameter
+             name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+             value="float3">
+       </parameter>
+    </command>
+    <command
+          commandId="org.eclipse.ui.views.showView"
+          icon="icons/AreaDetectorLiveView.gif"
+          label="Show Live"
+          style="push">
+       <parameter
+             name="org.eclipse.ui.views.showView.viewId"
+             value="uk.ac.gda.beamline.i13j.float3AreaDetectorLiveView">
+       </parameter>
+    </command>
+ </menuContribution>
+ 
+ <menuContribution
+       allPopups="false"
+       locationURI="toolbar:uk.ac.gda.beamline.i13j.float3AreaDetectorLiveView">
+    <command
+          commandId="uk.ac.gda.epics.adviewer.command.zoomToFit"
+          label="Fit Image to Window"
+          style="push"
+          tooltip="Fit Image to Window">
+    </command>
+    <command
+          commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+          label="Set Exposure"
+          style="push"
+          tooltip="Set Exposure">
+       <parameter
+             name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+             value="float3">
+       </parameter>
+    </command>
+    <command
+          commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
+          label="Rescale Live Image"
+          style="push"
+          tooltip="Rescale Live Image">
+       <parameter
+             name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+             value="float3">
+       </parameter>
+    </command>
+    <command
+          commandId="org.eclipse.ui.views.showView"
+          icon="icons/AreaDetectorProfileView.gif"
+          label="Show Histogram"
+          style="push"
+          tooltip="Show Histogram ">
+       <parameter
+             name="org.eclipse.ui.views.showView.viewId"
+             value="uk.ac.gda.beamline.i13j.float3AreaDetectorProfileView">
+       </parameter>
+    </command>
+    <command
+          commandId="org.eclipse.ui.views.showView"
+          icon="icons/AreaDetectorImageView.gif"
+          label="Show Raw Image"
+          style="push"
+          tooltip="Show Raw Image">
+       <parameter
+             name="org.eclipse.ui.views.showView.viewId"
+             value="uk.ac.gda.beamline.i13j.float3AreaDetectorArrayView">
+       </parameter>
+    </command>
+ </menuContribution>                    
 
 </extension>
 

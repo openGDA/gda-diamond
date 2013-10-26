@@ -101,7 +101,7 @@
 		<property name="profileY" value="true"/>
 	</bean>
 	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
-		<property name="plotName" value="Detector Image" />
+		<property name="plotName" value="Image Plot 1" />
 		<property name="enable" value="false" />
 	</bean>
 	<bean id="imageROI" class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI" >
@@ -119,7 +119,7 @@
 	</bean>
 	<bean id="imagePlotter2" class="gda.device.detector.nexusprocessor.DataSetPlotter">
 		<property name="enable" value="false" />
-		<property name="plotName" value="Plot 2"/>
+		<property name="plotName" value="Image Plot 2"/>
 	</bean>
 
 	<bean id="imageROI2" class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI" >
@@ -138,7 +138,7 @@
 	</bean>
 	<bean id="imagePlotter3" class="gda.device.detector.nexusprocessor.DataSetPlotter">
 		<property name="enable" value="false" />
-		<property name="plotName" value="Plot 3"/>
+		<property name="plotName" value="Image Plot 3"/>
 	</bean>
 
 	<bean id="imageROI3" class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI" >
@@ -247,7 +247,9 @@
 	<import resource="../../devices/sample_stage_t1.xml" />
 	<import resource="../../devices/g1.xml" />
 	<import resource="../../devices/sample_stage_camera.xml" />
-	<import resource="../../devices/moveable_camera.xml" />
+	<import resource="../../devices/float1_cam.xml" />
+	<import resource="../../devices/float2_cam.xml" />
+	<import resource="../../devices/float3_cam.xml" />
 	<import resource="../../devices/s7.xml" />
 
 	<import resource="../../devices/scope1.xml" />

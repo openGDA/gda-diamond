@@ -37,6 +37,12 @@
 					<property name="pixelsPerMMInY" value="2740" />
 				</bean>
 				</entry>
+				<entry key="7"> <!-- unknown -->
+				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
+					<property name="pixelsPerMMInX" value="2740" />
+					<property name="pixelsPerMMInY" value="2740" />
+				</bean>
+				</entry>				
 			</map>
 		</property>
 	</bean>

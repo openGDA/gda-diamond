@@ -25,6 +25,7 @@ import gda.device.EnumPositioner;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -102,8 +103,20 @@ public class I13MJPegViewCompositeFactory implements ADViewerCompositeFactory{
 			}
 		});
 
-		Button xaxis = new Button(btnLens, SWT.NONE);
-		xaxis.setImage(I13IBeamlineActivator.getImageDescriptor("icons/axes.png").createImage());
+		try{
+			String model_RBV = adController.getAdBase().getModel_RBV();
+			if( model_RBV.length()>1){
+				model_RBV = model_RBV.replace(" ", "_");
+				model_RBV = model_RBV.replace(".", "_");
+				ImageDescriptor imageDescriptor = I13IBeamlineActivator.getImageDescriptor("icons/" + model_RBV+"_axes.png");
+				if( imageDescriptor != null){
+					Button xaxis = new Button(btnLens, SWT.NONE);
+					xaxis.setImage(imageDescriptor.createImage());
+				}
+			}
+		}catch( Exception e){
+			logger.error("Error setting up axes image for camera",e);
+		}
 
 		adControllerImpl.getStagesCompositeFactory().createComposite(c, SWT.NONE, null);
 		Composite btnComp = new Composite(c, SWT.NONE);

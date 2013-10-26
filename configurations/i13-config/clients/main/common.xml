@@ -46,11 +46,17 @@
 	<corba:import namespace="i13"
 		names="rotationAxisXScannable, cameraXYScannable, lens" />
 
+	<import resource="d1.xml" />
+	<import resource="d2.xml" />
+	<import resource="d3.xml" />
+	<import resource="d4.xml" />
+	<import resource="d5.xml" />
+
 	<import resource="../../devices/cameraScaleProviders.xml" />
 
 	<bean id="i13ADController"
 		class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13ADControllerImpl">
-		<property name="serviceName" value="i13ADController"/>
+		<property name="serviceName" value="i13ADController" />
 		<property name="imageNDStats" ref="pco1_stat" />
 		<property name="liveViewNDProc" ref="pco1_proc1" />
 		<property name="imageNDArray" ref="pco1_arr" />
@@ -179,9 +185,9 @@
 							<bean class="gda.rcp.views.MotorPositionViewerCompositeFactory">
 								<property name="scannable" ref="dcm_energy" />
 								<property name="label" value="Energy" />
-								<property name="restoreValueWhenFocusLost" value="true"/>
-								<property name="commandFormat" value="bl.setFromScript(%5.5g)"/>
-								<property name="hideLabel" value="false"/>
+								<property name="restoreValueWhenFocusLost" value="true" />
+								<property name="commandFormat" value="bl.setFromScript(%5.5g)" />
+								<property name="hideLabel" value="false" />
 							</bean>
 
 
@@ -254,17 +260,50 @@
 					<property name="showButtonSeparator" value="true" />
 					<property name="separatePlayPauseButtons" value="true" />
 				</bean>
-				<bean class="gda.rcp.views.GroupCompositeFactory">
-					<property name="label" value="Cameras and Detectors" />
-					<property name="columns" value="2" />
-					<property name="compositeFactories">
+				<bean class="gda.rcp.views.OpenViewListBoxCompositeFactory">
+					<property name="label" value="Cameras"></property>
+					<property name="tooltipText"
+						value="Open the live view for the selected camera"></property>
+					<property name="options">
 						<list>
-							<bean class="uk.ac.gda.dls.client.views.OpenViewCompositeFactory">
-								<property name="tooltipText"
-									value="Display MJPEG streams from diagnostic cameras and webcams" />
-								<property name="viewID" value="uk.ac.gda.video.views.cameraview" />
-								<property name="buttonText" value="Diagnostics and WebCams" />
-								<property name="buttonImagePath" value="icons/eye.png" />
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="Select a camera" />
+								<constructor-arg
+									value="" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="PCO" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="d1" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13i.d1AreaDetectorLiveView" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="d2" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13i.d2AreaDetectorLiveView" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="d3" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13i.d3AreaDetectorLiveView" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="d4" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13i.d4AreaDetectorLiveView" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="d5" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13i.d5AreaDetectorLiveView" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="WebCams" />
+								<constructor-arg value="uk.ac.gda.video.views.cameraview" />
 							</bean>
 						</list>
 					</property>
@@ -503,34 +542,19 @@
 					<property name="imageFilePath" value="icons/samplebasestage.gif" />
 					<property name="label" value="Base" />
 				</bean>
-<!--				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
-					<property name="compositeFactory">
-						<bean class="gda.rcp.views.StageCompositeFactory">
-							<property name="stageCompositeDefinitions">
-								<util:list value-type="gda.rcp.views.StageCompositeDefinition">
-									<bean class="gda.rcp.views.StageCompositeDefinition">
-										<property name="scannable" ref="p2r_y" />
-										<property name="stepSize" value=".1" />
-									</bean>
-									<bean class="gda.rcp.views.StageCompositeDefinition">
-										<property name="scannable" ref="p2r_force" />
-										<property name="stepSize" value=".1" />
-									</bean>
-									<bean class="gda.rcp.views.StageCompositeDefinition">
-										<property name="scannable" ref="p2r_rot" />
-										<property name="smallStep" value="30" />
-										<property name="bigStep" value="90" />
-										<property name="useSteps" value="true" />
-									</bean>
-								</util:list>
-							</property>
-							<property name="labelWidth" value="80" />
-						</bean>
-					</property>
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
-					<property name="imageFilePath" value="icons/samplebasestage.gif" />
-					<property name="label" value="P2R" />
-				</bean> -->
+				<!-- <bean class="gda.rcp.views.TabCompositeFactoryImpl"> <property name="compositeFactory"> 
+					<bean class="gda.rcp.views.StageCompositeFactory"> <property name="stageCompositeDefinitions"> 
+					<util:list value-type="gda.rcp.views.StageCompositeDefinition"> <bean class="gda.rcp.views.StageCompositeDefinition"> 
+					<property name="scannable" ref="p2r_y" /> <property name="stepSize" value=".1" 
+					/> </bean> <bean class="gda.rcp.views.StageCompositeDefinition"> <property 
+					name="scannable" ref="p2r_force" /> <property name="stepSize" value=".1" 
+					/> </bean> <bean class="gda.rcp.views.StageCompositeDefinition"> <property 
+					name="scannable" ref="p2r_rot" /> <property name="smallStep" value="30" /> 
+					<property name="bigStep" value="90" /> <property name="useSteps" value="true" 
+					/> </bean> </util:list> </property> <property name="labelWidth" value="80" 
+					/> </bean> </property> <property name="imagePluginId" value="uk.ac.gda.beamline.i13i" 
+					/> <property name="imageFilePath" value="icons/samplebasestage.gif" /> <property 
+					name="label" value="P2R" /> </bean> -->
 
 				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
 					<property name="compositeFactory">

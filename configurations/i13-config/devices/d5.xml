@@ -15,7 +15,7 @@
 
 
 	<bean id="d5_cam" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector" ref="d5_cam_ad" />
+		<property name="detector" ref="_d5_cam_nx" />
 		<property name="processor" ref="cam_ad_processors" />
 	</bean>
 </beans>

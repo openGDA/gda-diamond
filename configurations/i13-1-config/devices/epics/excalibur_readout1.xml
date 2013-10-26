@@ -345,22 +345,6 @@
 		<property name="blocking" value="false"/>
 	</bean>
 
-<!-- 	<bean id="excalibur_readoutNode1_ad" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="excalibur_readoutNode1_fem" />
-		<property name="ndArray" ref="excalibur_readoutNode1_arr" />
-		<property name="detectorID" value="excalibur_readoutNode1_ad" />
-		<property name="fileWriter" ref="excalibur_readoutNode1_hdf5_filewriter" />
-		<property name="readAcquisitionTime" value="false" />
-		<property name="readFilepath" value="true" />
-		<property name="readAcquisitionPeriod" value="true" />
-		<property name="computeStats" value="false" />
-		<property name="computeCentroid" value="false" />
-		<property name="readArray" value="false" />
-		<property name="checkFileExists" value="false" />
-		<property name="usePipeline" value="true" />
-	</bean>
-
- -->
 	<bean id="excalibur_readoutNode1_ad" class="gda.device.detector.NXDetector">
 		<property name="name" value="excalibur_readoutNode1_ad" />
 		<property name="collectionStrategy" ref="excalibur_softwaretrigger" />

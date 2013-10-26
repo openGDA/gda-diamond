@@ -9,87 +9,40 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 
-
-
-	<bean id="pco1_cam_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+	<bean id="pco1_cam_base" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL13J-EA-DET-01:CAM:" />
 	</bean>
-	<bean id="pco1_cam_base" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="pvProvider" ref="pco1_cam_pvProvider" />
-	</bean>
-
-	<bean id="pco1_arr_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+	<bean id="pco1_arr" class="gda.spring.V17NDArrayFactoryBean">
 		<property name="prefix" value="BL13J-EA-DET-01:ARR:" />
 	</bean>
 
-	<bean id="pco1_arr" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="pvProvider" ref="pco1_arr_pvProvider" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="pco1_arr_pvProvider" />
-			</bean>
-		</property>
-	</bean>
-
-
-	<bean id="pco1_stat_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+	<bean id="pco1_stat" class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL13J-EA-DET-01:STAT:" />
 	</bean>
-
-	<bean id="pco1_stat" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
-		<property name="pvProvider" ref="pco1_stat_pvProvider" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="pco1_stat_pvProvider" />
-			</bean>
-		</property>
+	<bean id="pco1_roi1" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-01:ROI1:" />
+	</bean>
+	<bean id="pco1_roi2" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-01:ROI2:" />
 	</bean>
 
-	<bean id="pco1_roi_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL13J-EA-DET-01:ROI:" />
+	<bean id="pco1_ffmpeg1" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-01:MPG1:" />
 	</bean>
 
-	<bean id="pco1_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
-		<property name="pvProvider" ref="pco1_roi_pvProvider" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="pco1_roi_pvProvider" />
-			</bean>
-		</property>
+	<bean id="pco1_ffmpeg2" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-01:MPG2:" />
 	</bean>
 
-	<bean id="pco1_ffmpeg_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL13J-EA-DET-01:MPEG:" />
+
+	<bean id="pco1_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="pco1_ndfilehdf5_base" />
 	</bean>
 
-	<bean id="pco1_ffmpeg"
-		class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
-		<property name="pvProvider" ref="pco1_ffmpeg_pvProvider" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="pco1_ffmpeg_pvProvider" />
-			</bean>
-		</property>
-	</bean>
 
-	<bean id="pco1_ndfilehdf5_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+	<bean id="pco1_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
 		<property name="prefix" value="BL13J-EA-DET-01:HDF:" />
-	</bean>
-
-	<bean id="pco1_ndfilehdf5_base" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="pvProvider" ref="pco1_ndfilehdf5_pvProvider" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="pco1_ndfilehdf5_pvProvider" />
-			</bean>
-		</property>
-		<property name="resetToInitialValues" value="false"/>
+		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/i13-1/data" />
@@ -97,24 +50,10 @@
 			</bean>
 		</property>
 	</bean>
-	<bean id="pco1_ndhdf5file" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<property name="pvProvider" ref="pco1_ndfilehdf5_pvProvider" />
-		<property name="file" ref="pco1_ndfilehdf5_base"/>
-	</bean>
 
-	<bean id="pco1_ndfiletif_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+	<bean id="pco1_ndfiletif" class="gda.spring.V17NDFileFactoryBean">
 		<property name="prefix" value="BL13J-EA-DET-01:TIF:" />
-	</bean>
-
-	<bean id="pco1_ndfiletif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="pvProvider" ref="pco1_ndfiletif_pvProvider" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="pco1_ndfiletif_pvProvider" />
-			</bean>
-		</property>
-		<property name="resetToInitialValues" value="false"/>
+		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/i13-1/data" />
@@ -123,32 +62,28 @@
 		</property>
 	</bean>
 
-	<bean id="pco1_proc1_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+	<bean id="pco1_proc1" class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL13J-EA-DET-01:PRO1:" />
 	</bean>
 
-	<bean id="pco1_proc1" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
-		<property name="pvProvider" ref="pco1_proc1_pvProvider" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="pco1_proc1_pvProvider" />
-			</bean>
-		</property>
+	<bean id="pco1_proc2" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-01:PRO2:" />
 	</bean>
-	
+
 	<bean id="pco1_plugins" class="gda.device.FindableObjectHolder">
 		<property name="map">
 			<util:map>
 				<entry key="pco1_cam_base" value-ref="pco1_cam_base" />
 				<entry key="pco1_arr" value-ref="pco1_arr" />
-				<entry key="pco1_ffmpeg" value-ref="pco1_ffmpeg" />
-				<entry key="pco1_roi" value-ref="pco1_roi" />
-				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file"/>
-				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif"/>
-				<entry key="pco1_singleExposurePco" value-ref="pco1_singleExposurePco"/>
-				<entry key="pco1_multipleExposurePco" value-ref="pco1_multipleExposurePco"/>
-				<entry key="pco1_singleExposurePcoSoftwareTrigger" value-ref="pco1_singleExposurePcoSoftwareTrigger"/>
+				<entry key="pco1_ffmpeg1" value-ref="pco1_ffmpeg1" />
+				<entry key="pco1_ffmpeg2" value-ref="pco1_ffmpeg2" />
+				<entry key="pco1_roi1" value-ref="pco1_roi1" />
+				<entry key="pco1_roi2" value-ref="pco1_roi2" />
+				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file" />
+				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif" />
+				<entry key="pco1_singleExposurePco" value-ref="pco1_singleExposurePco" />
+				<entry key="pco1_multipleExposurePco" value-ref="pco1_multipleExposurePco" />
+				<entry key="pco1_singleExposurePcoSoftwareTrigger" value-ref="pco1_singleExposurePcoSoftwareTrigger" />
 			</util:map>
 		</property>
 	</bean>
@@ -159,116 +94,111 @@
 	</bean>
 
 
-	<bean id="pco1_singleExposurePcoSoftwareTrigger" class="gda.device.detector.addetector.triggering.SingleExposurePcoSoftwareTrigger">
+	<bean id="pco1_singleExposurePcoSoftwareTrigger"
+		class="gda.device.detector.addetector.triggering.SingleExposurePcoSoftwareTrigger">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg ref="adDriverPco1" />
 		<constructor-arg value="-.03" />
 	</bean>
-	<bean id="pco1_singleExposurePco" class="gda.device.detector.addetector.triggering.SingleExposurePco">
+	<bean id="pco1_singleExposurePco"
+		class="gda.device.detector.addetector.triggering.SingleExposurePco">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg ref="adDriverPco1" />
 		<constructor-arg value="-.03" />
 	</bean>
-<!-- 	<bean id="pco1_multipleExposurePco" class="gda.device.detector.addetector.triggering.MultipleExposureSoftwareTriggerAutoMode">
-		<constructor-arg ref="pco1_cam_base" />
-		<constructor-arg value=".04" />
-	</bean> -->
-	
-	<bean id="pco1_multipleExposurePco" class="gda.device.detector.addetector.triggering.PCOMultipleExposureSoftwareTriggerAutoMode">
+	<!-- <bean id="pco1_multipleExposurePco" class="gda.device.detector.addetector.triggering.MultipleExposureSoftwareTriggerAutoMode"> 
+		<constructor-arg ref="pco1_cam_base" /> <constructor-arg value=".04" /> </bean> -->
+
+	<bean id="pco1_multipleExposurePco"
+		class="gda.device.detector.addetector.triggering.PCOMultipleExposureSoftwareTriggerAutoMode">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg value="2." />
 		<constructor-arg ref="adDriverPco1" />
-		<property name="ndProcess" ref ="pco1_proc1"/>
-		<property name="exposureTime" value="1."/>
-	</bean>
-	
-<!-- 	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
-		<constructor-arg ref="pco1_ndhdf5file" />
-		<constructor-arg ref="pco1_cam_base" />
-		<constructor-arg value="pco1"/>
-		<constructor-arg value="%s%s-%d-d5.hdf"/>
-		<constructor-arg value="true"/>
-		<property name="enable" value="true"/>
+		<property name="ndProcess" ref="pco1_proc1" />
+		<property name="exposureTime" value="1." />
 	</bean>
 
-	<bean id="pco1_hdf" class="gda.device.detector.addetector.ADPco">
-		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndStats" ref="pco1_stat" />
-		<property name="ndArray" ref="pco1_arr" />
-		<property name="ndFile" ref="pco1_ndfilehdf5_base" />
-		<property name="collectionStrategy" ref="pco1_singleExposurePco"/>
-		<property name="fileWriter" ref="pco1_hdf5_filewriter"/>
-		<property name="readAcquisitionTime" value="true" />
-		<property name="readFilepath" value="true" />
-		<property name="readAcquisitionPeriod" value="false" />
-		<property name="computeStats" value="false" />
-		<property name="computeCentroid" value="false" />
-		<property name="readArray" value="false" />
-	</bean>
- -->
-<!-- 	<bean id="pco1_hdf_longExposure" class="gda.device.detector.addetector.ADPco">
-		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndStats" ref="pco1_stat" />
-		<property name="ndArray" ref="pco1_arr" />
-		<property name="ndFile" ref="pco1_ndfilehdf5_base" />
-		<property name="collectionStrategy" ref="pco1_multipleExposurePco"/>
-		<property name="fileWriter" ref="pco1_hdf5_filewriter"/>
-		<property name="readAcquisitionTime" value="true" />
-		<property name="readFilepath" value="true" />
-		<property name="readAcquisitionPeriod" value="false" />
-		<property name="computeStats" value="false" />
-		<property name="computeCentroid" value="false" />
-		<property name="readArray" value="false" />
-	</bean>
- -->
 
-	<bean id="pco1_tif" class="gda.device.detector.addetector.ADPco">
-		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndStats" ref="pco1_stat" />
-		<property name="ndArray" ref="pco1_arr" />
-		<property name="ndFile" ref="pco1_ndfiletif" />
-		<property name="collectionStrategy" ref="pco1_singleExposurePco"/>
-		<property name="fileWriter">
-			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg value="pco1"/>
-				<property name="ndFile" ref="pco1_ndfiletif" />
-				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
-				<property name="returnExpectedFullFileName" value="true"/>
-			</bean>
+	<bean id="_pco1_tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="_pco1_tif" />
+		<property name="collectionStrategy" ref="pco1_singleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+				<bean
+					class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+					<constructor-arg value="pco1_tif" />
+					<property name="ndFile" ref="pco1_ndfiletif" />
+					<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor" />
+					<property name="waitForFileArrival" value="true" />
+
+				</bean>
+
+				<bean
+					class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+					<constructor-arg ref="pco1_arr" />
+				</bean>
+				<bean
+					class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+					<constructor-arg ref="pco1_stat" />
+				</bean>
+
+			</list>
 		</property>
-
-		<property name="readAcquisitionTime" value="true" />
-		<property name="readFilepath" value="true" />
-		<property name="readAcquisitionPeriod" value="false" />
-		<property name="computeStats" value="false" />
-		<property name="computeCentroid" value="false" />
-		<property name="readArray" value="false" />
-		<property name="checkFileExists" value="true"/>
 	</bean>
 
-	<bean id="pcoEdge_tif" class="gda.device.detector.addetector.ADPco">
-		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndStats" ref="pco1_stat" />
-		<property name="ndArray" ref="pco1_arr" />
-		<property name="ndFile" ref="pco1_ndfiletif" />
-		<property name="collectionStrategy" ref="pco1_multipleExposurePco"/>
-		<property name="fileWriter">
-			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg value="pcoEdge"/>
-				<property name="ndFile" ref="pco1_ndfiletif" />
-				<property name="returnExpectedFullFileName" value="true"/>
-				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
-				<property name="ndArrayPortVal" value="pco1.prc1"/>
-			</bean>
+
+	<!-- <bean id="pco1_tif" class="gda.device.detector.addetector.ADPco"> <property 
+		name="adBase" ref="pco1_cam_base" /> <property name="ndStats" ref="pco1_stat" 
+		/> <property name="ndArray" ref="pco1_arr" /> <property name="ndFile" ref="pco1_ndfiletif" 
+		/> <property name="collectionStrategy" ref="pco1_singleExposurePco"/> <property 
+		name="fileWriter"> <bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter"> 
+		<constructor-arg value="pco1"/> <property name="ndFile" ref="pco1_ndfiletif" 
+		/> <property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/> 
+		</bean> </property> <property name="readAcquisitionTime" value="true" /> 
+		<property name="readFilepath" value="true" /> <property name="readAcquisitionPeriod" 
+		value="false" /> <property name="computeStats" value="false" /> <property 
+		name="computeCentroid" value="false" /> <property name="readArray" value="false" 
+		/> <property name="checkFileExists" value="true"/> </bean> -->
+
+
+	<bean id="_pcoEdge_tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="_pcoEdge_tif" />
+		<property name="collectionStrategy" ref="pco1_multipleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+				<bean
+					class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+					<constructor-arg value="pcoEdge" />
+					<property name="ndFile" ref="pco1_ndfiletif" />
+					<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor" />
+					<property name="waitForFileArrival" value="true" />
+					<property name="ndArrayPortVal" value="pco1.prc1" />
+
+				</bean>
+
+				<bean
+					class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+					<constructor-arg ref="pco1_arr" />
+				</bean>
+				<bean
+					class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+					<constructor-arg ref="pco1_stat" />
+				</bean>
+
+			</list>
 		</property>
-
-		<property name="readAcquisitionTime" value="true" />
-		<property name="readFilepath" value="true" />
-		<property name="readAcquisitionPeriod" value="false" />
-		<property name="computeStats" value="false" />
-		<property name="computeCentroid" value="false" />
-		<property name="readArray" value="false" />
-		<property name="checkFileExists" value="true"/>
-		<property name="usePipeline" value="true"/>
 	</bean>
+	<!-- <bean id="pcoEdge_tif" class="gda.device.detector.addetector.ADPco"> 
+		<property name="adBase" ref="pco1_cam_base" /> <property name="ndStats" ref="pco1_stat" 
+		/> <property name="ndArray" ref="pco1_arr" /> <property name="ndFile" ref="pco1_ndfiletif" 
+		/> <property name="collectionStrategy" ref="pco1_multipleExposurePco"/> <property 
+		name="fileWriter"> <bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter"> 
+		<constructor-arg value="pcoEdge"/> <property name="ndFile" ref="pco1_ndfiletif" 
+		/> <property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/> 
+		<property name="ndArrayPortVal" value="pco1.prc1"/> </bean> </property> <property 
+		name="readAcquisitionTime" value="true" /> <property name="readFilepath" 
+		value="true" /> <property name="readAcquisitionPeriod" value="false" /> <property 
+		name="computeStats" value="false" /> <property name="computeCentroid" value="false" 
+		/> <property name="readArray" value="false" /> <property name="checkFileExists" 
+		value="true"/> <property name="usePipeline" value="true"/> </bean> -->
 </beans>	

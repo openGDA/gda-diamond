@@ -75,6 +75,11 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 		rightTop.addPlaceholder("uk.ac.gda.video.views.cameraview");
 		rightTop.addPlaceholder(ViewFactoryIds.PCOImageProfileViewId);
 		rightTop.addPlaceholder(ViewFactoryIds.PCOImageViewId);
+		rightTop.addPlaceholder(ViewFactoryIds.d1LiveView);
+		rightTop.addPlaceholder(ViewFactoryIds.d2LiveView);
+		rightTop.addPlaceholder(ViewFactoryIds.d3LiveView);
+		rightTop.addPlaceholder(ViewFactoryIds.d4LiveView);
+		rightTop.addPlaceholder(ViewFactoryIds.d5LiveView);
 		
 		IFolderLayout rightBottom = factory.createFolder("rightBottom", IPageLayout.BOTTOM, (float) 0.5, "rightTop");
 		rightBottom.addView(JythonTerminalView.ID);

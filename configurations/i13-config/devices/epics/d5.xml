@@ -8,7 +8,8 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<description> Diode 5 In Experiment Hutch after experiment hutch shutter</description>
+	<description> Diode 5 In Experiment Hutch after experiment hutch
+		shutter</description>
 	<bean id="d5_pos" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="deviceName" value="d5.mp" />
 	</bean>
@@ -64,146 +65,56 @@
 		<property name="hasUnits" value="false" />
 	</bean>
 
-	<bean id="d5_cam_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+	<bean id="d5_cam_base" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL13I-DI-PHDGN-06:CAM:" />
 	</bean>
-	<bean id="d5_cam_base" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="pvProvider" ref="d5_cam_pvProvider" />
-	</bean>
 
-	<bean id="d5_arr_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+	<bean id="d5_arr" class="gda.spring.V17NDArrayFactoryBean">
 		<property name="prefix" value="BL13I-DI-PHDGN-06:ARR:" />
 	</bean>
 
-	<bean id="d5_arr_ndpluginbase"
-		class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-		<property name="pvProvider" ref="d5_arr_pvProvider" />
-	</bean>
-
-	<bean id="d5_arr" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="pvProvider" ref="d5_arr_pvProvider" />
-		<property name="pluginBase" ref="d5_arr_ndpluginbase" />
-	</bean>
-
-
-	<bean id="d5_stat_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+	<bean id="d5_stat" class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL13I-DI-PHDGN-06:STAT:" />
 	</bean>
-
-	<bean id="d5_stat_ndpluginbase"
-		class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-		<property name="pvProvider" ref="d5_stat_pvProvider" />
+	
+	<bean id="d5_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL13I-DI-PHDGN-06:PROC:" />
 	</bean>
 
-	<bean id="d5_stat" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
-		<property name="pvProvider" ref="d5_stat_pvProvider" />
-		<property name="pluginBase" ref="d5_stat_ndpluginbase" />
-	</bean>
 
-	<bean id="d5_roi_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+	<bean id="d5_roi" class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL13I-DI-PHDGN-06:ROI:" />
 	</bean>
 
-	<bean id="d5_roi_ndpluginbase"
-		class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-		<property name="pvProvider" ref="d5_roi_pvProvider" />
-</bean>
-
-	<bean id="d5_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
-		<property name="pvProvider" ref="d5_roi_pvProvider" />
-		<property name="pluginBase" ref="d5_roi_ndpluginbase" />
-	</bean>
-
-	<bean id="d5_ffmpeg_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+	<bean id="d5_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
 		<property name="prefix" value="BL13I-DI-PHDGN-06:FFMPEG:" />
 	</bean>
 
-	<bean id="d5_ffmpeg_ndpluginbase"
-		class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-		<property name="pvProvider" ref="d5_ffmpeg_pvProvider" />
+
+	<bean id="d5_cam_collection_strategy" class="gda.device.detector.addetector.triggering.SimpleAcquire">
+		<constructor-arg ref="d5_cam_base" />
+		<constructor-arg value="0." />
 	</bean>
-
-	<bean id="d5_ffmpeg"
-		class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
-		<property name="pvProvider" ref="d5_ffmpeg_pvProvider" />
-		<property name="pluginBase" ref="d5_ffmpeg_ndpluginbase" />
+	<bean id="d5_cam_basicStats"
+		class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+		<constructor-arg ref="d5_stat" />
+		<property name="computeStats" value="true" />
 	</bean>
-
-
-	<bean id="d5_cam_ad_plugins" class="gda.device.FindableObjectHolder">
-		<property name="map">
-			<util:map>
-				<entry key="d5_cam_base" value-ref="d5_cam_base" />
-				<entry key="d5_arr" value-ref="d5_arr" />
-				<entry key="d5_ffmpeg" value-ref="d5_ffmpeg" />
-				<entry key="d5_roi" value-ref="d5_roi" />
-				<entry key="d5_ndhdf5file" value-ref="d5_ndhdf5file"/>
-				<entry key="d5_ndfiletif" value-ref="d5_ndfiletif"/>
-			</util:map>
+	<bean id="d5_cam_array"
+		class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+		<constructor-arg ref="d5_arr" />
+	</bean>
+	<bean id="_d5_cam_nx" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_hw_hdf" />
+		<property name="collectionStrategy" ref="d5_cam_collection_strategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d5_cam_basicStats" />
+				<ref bean="d5_cam_array" />
+			</list>
 		</property>
 	</bean>
 
-	<bean id="d5_cam_ad" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="d5_cam_base" />
-		<property name="ndStats" ref="d5_stat" />
-		<property name="ndArray" ref="d5_arr" />
-		<property name="collectionStrategy">
-			<bean class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-				<constructor-arg ref="d5_cam_base" />
-				<constructor-arg value=".0" />
-			</bean>
-		</property>
-		<property name="ndFile" ref="d5_ndfiletif" />
-		<property name="fileWriter">
-			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg value="d5"/>
-				<property name="ndFile" ref="d5_ndfiletif" />
-			</bean>
-		</property>
-		<property name="computeStats" value="false"/>
-		<property name="computeCentroid" value="false"/>
-		<property name="readArray" value="true"/>
-		<property name="readFilepath" value="false" />
-	</bean>
-
-	<bean id="d5_ndfilehdf5_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL13I-DI-PHDGN-06:HDF:" />
-	</bean>
-
-	<bean id="d5_ndfilehdf5_base" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="pvProvider" ref="d5_ndfilehdf5_pvProvider" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="d5_ndfilehdf5_pvProvider" />
-			</bean>
-		</property>
-		<property name="resetToInitialValues" value="false"/>
-	</bean>
-	<bean id="d5_ndhdf5file" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<property name="pvProvider" ref="d5_ndfilehdf5_pvProvider" />
-		<property name="file" ref="d5_ndfilehdf5_base"/>
-	</bean>
-
-	<bean id="d5_ndfiletif_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL13I-DI-PHDGN-06:TIFF:" />
-	</bean>
-
-	<bean id="d5_ndfiletif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="pvProvider" ref="d5_ndfiletif_pvProvider" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="d5_ndfiletif_pvProvider" />
-			</bean>
-		</property>
-		<property name="resetToInitialValues" value="false"/>
-	</bean>
 
 </beans>
 	

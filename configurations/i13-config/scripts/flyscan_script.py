@@ -87,12 +87,11 @@ class   flyscan_positions(ScanPositionProvider):
     def toString(self):
         return self.__str__()
 
-
 class fly_scannable(ScannableBase):
     """
     Class that takes a scannable 
     Each position it receives contains is a tuple with the first element being the stop value to be sent to the scannable on first point in scan
-    The scond value is the value that the scannable should reach for thiis scannable to report isBusy = false
+    The scond value is the value that the scannable should reach for this scannable to report isBusy = false
     It has 1 input
     getposition returns the value at which the isBusy is to return false
     
@@ -100,10 +99,16 @@ class fly_scannable(ScannableBase):
     scan command 
     from flyscan_position_provider import flyscan_positions
     from  flyscan_scannable import flyscannable
-    scan flyscannable(scannableA) flyscan_positions(scannableA, 0, 10, 1) det
+    scan flyscannable(scannableA, monitor=scannableB(optional)) flyscan_positions(scannableA, 0, 10, 1) det
+    
+    use monitor if scannableA getPosition returns current setpoint rather than actual position.
     """
-    def __init__(self, scannable, timeout_secs=0.01):
+    def __init__(self, scannable, timeout_secs=1.0, monitor=None):
         self.scannable = scannable
+        if monitor is None:
+            self.monitor = scannable
+        else:
+            self.monitor = monitor
         if len( self.scannable.getInputNames()) != 1:
             raise Exception("No support for scannables with inputNames != 1")
         self.name = scannable.getName()+"_scanner"
@@ -119,14 +124,16 @@ class fly_scannable(ScannableBase):
         self.lastreadPosition=0.
         
     def getCurrentPositionOfScannable(self):
-        return  ScannableUtils.positionToArray(self.scannable.getPosition(), self.scannable)[0]
+        position = ScannableUtils.positionToArray(self.monitor.getPosition(), self.monitor)[0]
+#        print "current position: " + `position`
+        return position
     def isBusy(self):
         if not self.scannable.isBusy():
-#            print "Scannable is not busy"
+#           print "Scannable is not busy"
             res = False;
         else:
             self.lastreadPosition = self.getCurrentPositionOfScannable()
-#            print "currentVal:"+`currentVal`
+#            print "lastreadPosition:"+`self.lastreadPosition`
             if self.positive:
                 res = self.requiredPosVal > self.lastreadPosition
             else:
@@ -136,8 +143,10 @@ class fly_scannable(ScannableBase):
         return res
     def waitWhileBusy(self):
         clockAtStart=time.clock()
-        while self.isBusy() and (time.clock()-clockAtStart < self.timeout_secs or math.abs((self.lastreadPosition-self.requiredPosVal)/self.step)> 4):
-            time.sleep(self.timeout_secs/2)
+#        print "wait while busy"
+        while self.isBusy() and (time.clock()-clockAtStart < self.timeout_secs or math.fabs((self.lastreadPosition-self.requiredPosVal)/self.stepVal)> 4):
+            time.sleep(.01)
+#            print "after sleep"
         
     def rawAsynchronousMoveTo(self,new_position):
         if  not  isinstance( new_position,  flyscan_position):
@@ -152,16 +161,17 @@ class fly_scannable(ScannableBase):
         """
         first move to start"
         """
+        print "move to start"
         self.scannable.waitWhileBusy()
 #        print "calling moveTo " + `self.scannable_position`
         self.scannable.moveTo(self.scannable_position)
         stopPosition = new_position.stop
 #        print "calling asynchronousMoveTo " + `stopPosition`
         self.scannable.asynchronousMoveTo(stopPosition)
-#        if self.scannable.isBusy():
-#            print "scannable is busy"
-#        else:
-#            print "scannable is not busy!"
+        if self.scannable.isBusy():
+            print "scannable is busy"
+        else:
+            print "scannable is not busy!"
             
         self.stopVal = ScannableUtils.positionToArray(stopPosition, self.scannable)[0]
         self.positive = self.stopVal > self.requiredPosVal
@@ -185,13 +195,13 @@ def flyscan(args):
         i=i+1
         if isinstance( arg,  fly_scannable):
             newargs.append( flyscan_positions(arg.scannable, args[i], args[i+1], args[i+2] ))
-            newargs.append( arg.scannable) # to read the actual position
+            newargs.append( arg.monitor) # to read the actual position
             i=i+3
         
     gda.jython.commands.ScannableCommands.scan(newargs)
 
-def flyscannable(scannable, timeout_secs=0.01):
-    return fly_scannable(scannable, timeout_secs);
+def flyscannable(scannable, monitor=None, timeout_secs=1.):
+    return fly_scannable(scannable, timeout_secs, monitor=monitor);
 
 class WaitForScannableAtLineEnd(ScannableBase):
     '''NOTE: Should be called ...atLineStart'''

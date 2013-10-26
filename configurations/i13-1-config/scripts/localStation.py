@@ -100,8 +100,10 @@ if not LocalProperties.check("gda.dummy.mode"):
 		print e
 		print "Continuing anyway..."
 	try:
-		createPVScannable( "ic", "BL13J-DI-IONC-01:I", hasUnits=True)
-		createPVScannable( "ic_rate", "BL13J-DI-IONC-01:HRPHOTONRATE", hasUnits=True)
+		createPVScannable( "ic1", "BL13J-DI-IONC-01:I", hasUnits=True)
+		createPVScannable( "ic1_rate", "BL13J-DI-IONC-01:HRPHOTONRATE", hasUnits=True)
+		createPVScannable( "ic2", "BL13J-DI-IONC-02:I", hasUnits=True)
+		createPVScannable( "ic2_rate", "BL13J-DI-IONC-02:HRPHOTONRATE", hasUnits=True)
 	except gda.factory.FactoryException, e:
 		print "!!!!!!!!!!!!!!!!!!!!!!! problem configuring ion chamber"
 		print e
@@ -242,12 +244,16 @@ from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGauss
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
 from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
 
-detDSProvider = dataset_provider.NXDetectorDataWithFilepathForSrsDatasetProvider(pcoEdge_tif,fileLoadTimout=5.)
+detDSProvider = dataset_provider.NXDetectorDataWithFilepathForSrsDatasetProvider(pcoEdge,fileLoadTimout=5.)
 
 peak2d = DetectorDataProcessorWithRoi('peak2d', detDSProvider, [TwodGaussianPeak()])
 max2d = DetectorDataProcessorWithRoi('max2d', detDSProvider, [SumMaxPositionAndValue()])
 intensity2d = DetectorDataProcessorWithRoi('intensity2d', detDSProvider, [PixelIntensity()])
-from gdascripts.bimorph import bimorph
+
+#dacscan is used by excalibur
+from dac_scan import dacscan
+vararg_alias("dacscan")
+#from gdascripts.bimorph import bimorph
 
 #from gdascripts.pd.dummy_pds import DummyPD
 #from gdascripts.scannable.detector.dummy.focused_beam_dataset import CreateImageReadingDummyDetector

@@ -114,8 +114,6 @@
 		<config>devices/dummy/robot_motors.xml</config>
 		<config>devices/robots.xml</config>
 		<config>devices/dummy/sample_stage_camera.xml</config>
-		<config>devices/epics/sample_stage_camera.xml</config>
-		<config>devices/sample_stage_camera.xml</config>
 		<config>devices/dummy/sample_stage_motors.xml</config>
 		<config>devices/epics/sample_stage_motors.xml</config>
 		<config>devices/sample_stage.xml</config>

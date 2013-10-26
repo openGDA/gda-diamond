@@ -7,11 +7,6 @@
 		<property name="local" value="true" />
 		<property name="host" value="bl13i-ea-tfg2-01" />
 		<property name="port" value="1972" />
-		<property name="startupCommands">
-			<list>
-				<value>~configdummy.cmd</value>
-			</list>
-		</property>
 		<property name="dataPort" value="20030" />
 		<property name="replyTimeOut" value="5000" />
 	</bean>

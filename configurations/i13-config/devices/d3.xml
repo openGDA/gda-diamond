@@ -13,7 +13,7 @@
 	</bean>
 
 	<bean id="d3_cam" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector" ref="d3_cam_ad" />
+		<property name="detector" ref="_d3_cam_nx" />
 		<property name="processor" ref="cam_ad_processors" />
 	</bean>
 	

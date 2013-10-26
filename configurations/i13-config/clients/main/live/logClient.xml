@@ -18,10 +18,10 @@
 	    </filter>           
     </appender>    
     <logger name="gda">
-        <level value="WARN"/>
+        <level value="DEBUG"/>
     </logger>    
     <root>
-        <level value="WARN"/>
+        <level value="DEBUG"/>
         <appender-ref ref="SOCKET"/>
         <appender-ref ref="CONSOLE"/>
     </root>

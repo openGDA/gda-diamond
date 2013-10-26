@@ -33,7 +33,7 @@
 		<property name="motor" ref="t1_roll_motor" />
 	</bean>
 	<bean id="t1_theta" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="t1_roll_motor" />
+		<property name="motor" ref="t1_theta_motor" />
 	</bean>
 	<bean id="t1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
