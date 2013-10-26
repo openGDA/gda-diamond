@@ -55,7 +55,7 @@
 		<property name="prefix" value="BL13J-DI-PHDGN-02:PROC:" />
 	</bean>
 
-	<bean id="d2_cam_ad_plugins" class="gda.device.FindableObjectHolder">
+	<bean id="_d2_cam_ad_plugins" class="gda.device.FindableObjectHolder">
 		<property name="map">
 			<util:map>
 				<entry key="d2_cam_base" value-ref="d2_cam_base" />
@@ -66,7 +66,7 @@
 		</property>
 	</bean>
 
-	<bean id="d2_cam_ad" class="gda.device.detector.addetector.ADDetector">
+	<bean id="_d2_cam_ad" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="d2_cam_base" />
 		<property name="ndStats" ref="d2_stat" />
 		<property name="ndArray" ref="d2_arr" />
@@ -80,4 +80,26 @@
 		<property name="computeCentroid" value="false"/>
 		<property name="readArray" value="true"/>
 	</bean>
+	
+	
+	<bean id="d2_cam_nx_array"
+		class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+		<constructor-arg ref="d2_arr" />
+	</bean>
+
+	<bean id="_d2_cam_nx" class="gda.device.detector.NXDetector">
+		<property name="name" value="d2_cam_nx"/>
+		<property name="collectionStrategy">
+			<bean
+				class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+				<constructor-arg ref="d2_cam_base" />
+				<constructor-arg value=".0" />
+			</bean>
+		</property>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d2_cam_nx_array" />
+			</list>
+		</property>
+	</bean>	
 </beans>	

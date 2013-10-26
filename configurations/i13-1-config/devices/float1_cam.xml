@@ -7,15 +7,8 @@
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
-	<bean id="d1_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="d1_x_motor" />
-		<property name="userUnits" value="mm"/>
-	</bean>
-	
-
-
-	<bean id="d1_cam" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector" ref="_d1_cam_nx" />
+	<bean id="float1_cam" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+		<property name="detector" ref="_float1_cam_nx" />
 		<property name="processor" ref="cam_ad_processors" />
 		<property name="mergeWithDetectorData" value="true"/>
 	</bean>	

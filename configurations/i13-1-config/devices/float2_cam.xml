@@ -7,15 +7,10 @@
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
-
-	<bean id="float1_cam" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector" ref="float1_cam_ad" />
-		<property name="processor" ref="cam_ad_processors" />
-	</bean>
-	
 	<bean id="float2_cam" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector" ref="float2_cam_ad" />
+		<property name="detector" ref="_float2_cam_nx" />
 		<property name="processor" ref="cam_ad_processors" />
+		<property name="mergeWithDetectorData" value="true"/>
 	</bean>	
 </beans>
 

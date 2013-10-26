@@ -15,7 +15,8 @@
 	<import resource="d4.xml"/>
 	<import resource="float1.xml"/>
 	<import resource="float2.xml"/>
-	<import resource="../../../devices/epics/excalibur.xml"/>
+	<import resource="float3.xml"/>
+	<import resource="../../../devices/epics/excalibur_shared.xml"/>
 
 	<import resource="../common.xml" />
 	<bean id="idGap" class="gda.device.scannable.EpicsScannable">

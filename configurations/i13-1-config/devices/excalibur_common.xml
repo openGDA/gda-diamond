@@ -55,6 +55,7 @@
 		<property name="map">
 			<util:map>
 				<entry key="sync" value-ref="excalibur_sync" />
+				<entry key="fem" value-ref="excalibur_config_base"/>
 				<entry key="proc" value-ref="excalibur_config_proc" />
 				<entry key="roi" value-ref="excalibur_config_roi" />
 				<entry key="gap" value-ref="excalibur_config_gap" />
@@ -64,6 +65,8 @@
 				<entry key="phdf" value-ref="excalibur_config_phdf" />
 				<entry key="nodes" value-ref="readoutNodesWrapperList" />
 				<entry key="readoutFems" value-ref="readoutFems" />
+				<entry key="arr" value-ref="excalibur_config_arr"/>
+				<entry key="excaliburDev" value-ref="excaliburDev"/>
 			</util:map>
 		</property>
 	</bean>	

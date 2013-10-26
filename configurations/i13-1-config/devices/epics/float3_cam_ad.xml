@@ -8,39 +8,39 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean id="float2_cam_base" class="gda.spring.V17ADBaseFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:CAM:" />
+	<bean id="float3_cam_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL13J-OP-FLOAT-03:CAM:" />
 	</bean>
 
-	<bean id="float2_arr" class="gda.spring.V17NDArrayFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:ARR:" />
+	<bean id="float3_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL13J-OP-FLOAT-03:ARR:" />
 	</bean>
 
-	<bean id="float2_stat" class="gda.spring.V17NDStatsFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:STAT:" />
+	<bean id="float3_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL13J-OP-FLOAT-03:STAT:" />
 	</bean>
 
-	<bean id="float2_roi" class="gda.spring.V17NDROIFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:ROI:" />
+	<bean id="float3_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL13J-OP-FLOAT-03:ROI:" />
 	</bean>
 
-	<bean id="float2_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:FFMPEG:" />
-	</bean>
-
-
-	<bean id="float2_proc" class="gda.spring.V17NDProcessFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:PROC:" />
+	<bean id="float3_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL13J-OP-FLOAT-03:FFMPEG:" />
 	</bean>
 
 
-	<bean id="_float2_cam_ad" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="float2_cam_base" />
-		<property name="ndStats" ref="float2_stat" />
-		<property name="ndArray" ref="float2_arr" />
+	<bean id="float3_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL13J-OP-FLOAT-03:PROC:" />
+	</bean>
+
+
+	<bean id="_float3_cam_ad" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="float3_cam_base" />
+		<property name="ndStats" ref="float3_stat" />
+		<property name="ndArray" ref="float3_arr" />
 		<property name="collectionStrategy">
 			<bean class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-				<constructor-arg ref="float2_cam_base" />
+				<constructor-arg ref="float3_cam_base" />
 				<constructor-arg value=".0" />
 			</bean>
 		</property>
@@ -50,23 +50,23 @@
 		
 	</bean>
 
-	<bean id="float2_cam_nx_array"
+	<bean id="float3_cam_nx_array"
 		class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
-		<constructor-arg ref="float2_arr" />
+		<constructor-arg ref="float3_arr" />
 	</bean>
 
-	<bean id="_float2_cam_nx" class="gda.device.detector.NXDetector">
-		<property name="name" value="float2_cam_nx"/>
+	<bean id="_float3_cam_nx" class="gda.device.detector.NXDetector">
+		<property name="name" value="float3_cam_nx"/>
 		<property name="collectionStrategy">
 			<bean
 				class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-				<constructor-arg ref="float2_cam_base" />
+				<constructor-arg ref="float3_cam_base" />
 				<constructor-arg value=".0" />
 			</bean>
 		</property>
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="float2_cam_nx_array" />
+				<ref bean="float3_cam_nx_array" />
 			</list>
 		</property>
 	</bean>

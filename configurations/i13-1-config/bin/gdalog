@@ -5,7 +5,7 @@ source /dls_sw/i13-1/etc/i13-1_profile.sh
 
 
 # Start log panel if not already started
-CLASSPATH=$GDAFOLDER/workspace/plugins/uk.ac.gda.swingclient/bin; export CLASSPATH
+CLASSPATH=$GDAFOLDER/workspace_git/gda-legacy.git/uk.ac.gda.swingclient/bin; export CLASSPATH
 LOGPANEL=$(ps -ef | grep LogPanel | grep -v grep)
 if [ "X$LOGPANEL" == "X" ] ; then
 python $GDAFOLDER/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda --config=$GDAFOLDER/config --restart --mode=$GDAMODE logpanel

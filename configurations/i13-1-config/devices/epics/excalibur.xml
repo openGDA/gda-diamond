@@ -10,35 +10,6 @@
  
 
 
-	<bean id="excalibur_config_arr_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:ARR:" />
-	</bean>
-
-	<bean id="excalibur_config_arr_ndpluginbase"
-		class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-		<property name="pvProvider" ref="excalibur_config_arr_pvProvider" />
-	</bean>
-
-	<bean id="excalibur_config_arr" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="pvProvider" ref="excalibur_config_arr_pvProvider" />
-		<property name="pluginBase" ref="excalibur_config_arr_ndpluginbase" />
-	</bean>
-
-	<bean id="excalibur_roi_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:ROI:" />
-	</bean>
-
-	<bean id="excalibur_roi_ndpluginbase"
-		class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-		<property name="pvProvider" ref="excalibur_roi_pvProvider" />
-	</bean>
-
-	<bean id="excalibur_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
-		<property name="pvProvider" ref="excalibur_roi_pvProvider" />
-		<property name="pluginBase" ref="excalibur_roi_ndpluginbase" />
-	</bean>
 
 	<bean id="excalibur_sync_pvProvider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
@@ -49,26 +20,7 @@
 		<property name="pvProvider" ref="excalibur_sync_pvProvider" />
 	</bean>
 
-	<bean id="excalibur_config_base_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix"
-			value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:" />
-	</bean>
 
-	<bean id="excalibur_config_base"
-		class="uk.ac.gda.devices.excalibur.impl.ExcaliburConfigAdbaseImpl">
-		<property name="pvProvider" ref="excalibur_config_base_pvProvider" />
-		<property name="arrayCounts">
-			<bean
-				class="uk.ac.gda.devices.excalibur.impl.ExcaliburConfigAdbaseImpl.ArrayCountsImpl">
-				<property name="pvProvider">
-					<bean class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-						<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:" />
-					</bean>
-				</property>
-			</bean>
-		</property>
-	</bean>
 
 	<bean id="excalibur_config_nxs_tree_provider"
 		class="uk.ac.gda.excalibur.config.model.util.ExcaliburConfigNxsTreeProvider">
@@ -77,54 +29,16 @@
 		<property name="readoutNodeWrappers" ref="readoutNodesWrapperList" />
 	</bean>
 
-	<bean id="excalibur_config_proc_pvprovider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:PROC:"></property>
+
+	<bean id="excalibur_config_hdfbase" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:HDF:" />
+		<property name="resetToInitialValues" value="false" />
 	</bean>
 
-	<bean id="excalibur_config_proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
-		<property name="pvProvider" ref="excalibur_config_proc_pvprovider" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="excalibur_config_proc_pvprovider" />
-			</bean>
-		</property>
+	<bean id="excalibur_config_hdf" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="excalibur_config_hdfbase" />
 	</bean>
 
-	<bean id="excalibur_config_roi_pvprovider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:ROI:"></property>
-	</bean>
-
-	<bean id="excalibur_config_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
-		<property name="pvProvider" ref="excalibur_config_roi_pvprovider" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="excalibur_config_roi_pvprovider" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="excalibur_config_hdf_pvprovider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:HDF:"></property>
-	</bean>
-
-	<bean id="excalibur_config_hdf"
-		class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<property name="pvProvider" ref="excalibur_config_hdf_pvprovider" />
-		<property name="file">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-				<property name="pvProvider" ref="excalibur_config_hdf_pvprovider" />
-				<property name="pluginBase">
-					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-						<property name="pvProvider" ref="excalibur_config_hdf_pvprovider" />
-					</bean>
-				</property>
-				<property name="resetToInitialValues" value="false" />
-			</bean>
-		</property>
-	</bean>
 
 	<bean id="excalibur_config_phdf_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
@@ -188,29 +102,7 @@
 	</bean>
 
 
-<!-- 	<bean id="excalibur_config_hdf5_filewriter" class="uk.ac.gda.excalibur.MultipleImagesPerHDF5FileWriter">
-		<property name="ndFileHDF5" ref="excalibur_config_hdf" />
-		<property name="fileNameTemplate" value="excalibur" />
-		<property name="filePathTemplate" value="$datadir$" />
-		<property name="fileTemplate" value="%s%s-%d.hdf" />
-		<property name="fileNumberAtScanStart" value="-1" />
-		<property name="setFileNameAndNumber" value="true" />
-		<property name="nodes">
-			<util:list>
-				<ref bean="excalibur_readoutNode1_hdf" />
-				<ref bean="excalibur_readoutNode2_hdf" />
-				<ref bean="excalibur_readoutNode3_hdf" />
-				<ref bean="excalibur_readoutNode4_hdf" />
-				<ref bean="excalibur_readoutNode5_hdf" />
-				<ref bean="excalibur_readoutNode6_hdf" />
-			</util:list>
-		</property>
-		<property name="blocking" value="false" />
-		<property name="rowChunks" value="256" />
-		<property name="colChunks" value="2069" />
-	</bean>
- -->
-	<bean id="excalibur_config_phdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerParallelHDF5FileWriter">
+	<bean id="excalibur_config_phdf5_filewriter" class="uk.ac.gda.devices.excalibur.ExcaliburMultipleImagesPerParallelHDF5FileWriter">
 		<property name="ndFilePHDF5" ref="excalibur_config_phdf" />
 		<property name="fileNameTemplate" value="excalibur" />
 		<property name="filePathTemplate" value="$datadir$" />
@@ -219,17 +111,18 @@
 		<property name="setFileNameAndNumber" value="true" />
 		<property name="blocking" value="false" />
 		<property name="chunkSizeMode" value="MANUAL" />
-		<property name="chunkSize0" value="1" />
+<!-- 		<property name="chunkSize0" value="1" />
 		<property name="chunkSize1" value="128" />
 		<property name="chunkSize2" value="2069" />
-		<property name="dsetSizeMode" value="MANUAL" />
+ -->		<property name="dsetSizeMode" value="MANUAL" />
 		<property name="dsetSize0" value="0" />
-		<property name="dsetSize1" value="1793" />
+<!-- 		<property name="dsetSize1" value="1793" />
 		<property name="dsetSize2" value="2069" />
-		<property name="roisPosMode" value="MANUAL" />
+ -->		<property name="roisPosMode" value="MANUAL" />
 		<property name="roiPos0" value="0" />
 		<property name="roiPos1" value="0" />
 		<property name="roiPos2" value="0" />
+		<property name="gapEnabledPVName" value="BL13J-EA-EXCBR-01:CONFIG:PHDF:EnableCallbacks"/>
 	</bean>
 
 
@@ -289,7 +182,9 @@
 		</property>
 	</bean>
 
-
+	<bean id="excaliburDev" class="gda.epics.CachedLazyPVFactory">
+	<constructor-arg value="BL13J-EA-EXCBR-01:"/>
+	</bean>
 
 	<import resource="excalibur_summary.xml" />
 	<import resource="excalibur_readout1.xml" />
