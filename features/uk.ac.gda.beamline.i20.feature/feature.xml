@@ -105,21 +105,7 @@
          version="0.0.0"/>
 
    <plugin
-         id="org.dawb.workbench.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.diamond.scisoft.spectroscopy.rcp"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.nebula.widgets.formattedtext"
          download-size="0"
          install-size="0"
          version="0.0.0"
