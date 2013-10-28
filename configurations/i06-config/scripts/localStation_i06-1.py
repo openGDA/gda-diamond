@@ -2,13 +2,15 @@
 #localStation.py
 #For beamline specific initialisation code.
 print "===================================================================";
-print "Performing Beanline I06 branch line specific initialisation code (localStation_i06-1.py).";
+print "Performing Beamline I06 branch line specific initialisation code (localStation_i06-1.py).";
 print
 
 #Setup the environment variables
 import java
 import sys
 from gda.configuration.properties import LocalProperties
+
+localStationErrorCount=0
 
 # Get the locatation of the GDA beamline script directory
 gdaScriptDir = LocalProperties.get("gda.jython.gdaScriptDir") + "/";
@@ -29,6 +31,7 @@ except:
     exceptionType, exception, traceback=sys.exc_info();
     print "XXXXXXXXXX:  Magnet Setting Up Error "
     logger.dump("---> ", exceptionType, exception, traceback)
+    localStationErrorCount+=1
 
 
 #Setup the PIXIS Camera
@@ -41,6 +44,7 @@ except:
     exceptionType, exception, traceback=sys.exc_info();
     print "XXXXXXXXXX:  Pixis Error "
     logger.dump("---> ", exceptionType, exception, traceback)
+    localStationErrorCount+=1
 
 
 try:
@@ -52,6 +56,7 @@ except:
     exceptionType, exception, traceback=sys.exc_info();
     print "XXXXXXXXXX:  Errors when running the s6ygap.py"
     logger.dump("---> ", exceptionType, exception, traceback)
+    localStationErrorCount+=1
 
 try:
     print "-------------------------------------------------------------------"
@@ -62,6 +67,7 @@ except:
     exceptionType, exception, traceback=sys.exc_info();
     print "XXXXXXXXXX:  m6qgmax Error "
     logger.dump("---> ", exceptionType, exception, traceback)
+    localStationErrorCount+=1
 
 
     
@@ -78,6 +84,7 @@ except:
     exceptionType, exception, traceback=sys.exc_info();
     print "XXXXXXXXXX:  Errors when running the localstation_i06.py"
     logger.dump("---> ", exceptionType, exception, traceback)
+    localStationErrorCount+=1
 
     
 ##to setup the scan processing wrappers
@@ -86,3 +93,7 @@ except:
 #import gdascripts.utils #@UnusedImport
 #gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals() 
 
+print "-------------------------------------------------------------------"
+print "==================================================================="
+print "Total number of localStation errors was", localStationErrorCount
+print "==================================================================="

@@ -4,89 +4,60 @@
 from datetime import datetime
 from future.scannable.scaler import McsController, McsChannelScannable
 from gda.device.detector.hardwaretriggerable import \
-    DummyHardwareTriggerableDetector
+                    DummyHardwareTriggerableDetector
 #from gda.scan import ConstantVelocityScanLine
 from gdascripts.scan import trajscans
 from gdascripts.scan.scanListener import ScanListener
-from scannable.continuous.energy import ContinuousEnergyMoveController, \
-    ContinuousEnergyScannable
+from scannable.continuous.ContinuousPgmEnergyMoveController import \
+                          ContinuousPgmEnergyMoveController
+from scannable.continuous.ContinuousPgmEnergyScannable import \
+                          ContinuousPgmEnergyScannable
 
 global pgm_energy
 
-try:
-    try:
-        del cemc
-    except:
-        pass
-    try:
-        del egy
-    except:
-        pass
-    try:
-        del st
-    except:
-        pass
-    try:
-        del mcsc
-    except:
-        pass
-    try:
-        del mcs1
-    except:
-        pass
-    try:
-        del mcs2
-    except:
-        pass
-    try:
-        del mcs3
-    except:
-        pass
-    try:
-        del mcs4
-    except:
-        pass
-    try:
-        del cvscan
-    except:
-        pass
-    print ('Deleted')
-    import future.scannable.scaler
-    reload(future.scannable.scaler)
-    import scannable.continuous.energy
-    reload(scannable.continuous.energy)
-    print ('Reloaded')
-except NameError:
-    pass
-
-cemc = ContinuousEnergyMoveController('cemc', pgm_energy)
-egy = ContinuousEnergyScannable('egy', cemc)
+cemc = ContinuousPgmEnergyMoveController('cemc', pgm_energy)
+egy = ContinuousPgmEnergyScannable('egy', cemc)
 
 st = DummyHardwareTriggerableDetector('st')
 st.setHardwareTriggerProvider(cemc)
 
-# RASOR counter:    ME01D-EA-SCLR-01:MCA01:
-counterBasePv =    'ME01D-EA-SCLR-01:MCA01:'
-# I branch counter: BL10I-DI-SCLR-01:MCA01:
+# I branch counter:  BL10I-DI-SCLR-01:MCA01:
+counterIBasePv =    'BL10I-DI-SCLR-01:MCA01:'
+# RASOR counter:     ME01D-EA-SCLR-01:MCA01:         ME01D-EA-SCLR-01:MCA01:StartAll
+counterRBasePv =    'ME01D-EA-SCLR-01:MCA01:'
+# J branch counter:  BL10J-DI-SCLR-01:MCAJ01:        BL10J-DI-SCLR-01:MCAJ01:StartAll
+counterJBasePv =    'BL10J-DI-SCLR-01:MCAJ01:'
 
-mcsc = McsController('mcsc', counterBasePv)
-mcs1 = McsChannelScannable('mcs1', mcsc, counterBasePv, 1)
-mcs1.setHardwareTriggerProvider(cemc)
-mcs2 = McsChannelScannable('mcs2', mcsc, counterBasePv, 2)
-mcs2.setHardwareTriggerProvider(cemc)
-mcs3 = McsChannelScannable('mcs3', mcsc, counterBasePv, 3)
-mcs3.setHardwareTriggerProvider(cemc)
-mcs4 = McsChannelScannable('mcs4', mcsc, counterBasePv, 4)
-mcs4.setHardwareTriggerProvider(cemc)
+mcsic = McsController('mcsic', counterJBasePv)
+mcsi16 = McsChannelScannable('mcsi16', mcsic, counterIBasePv, 17)
+mcsi16.setHardwareTriggerProvider(cemc)
+mcsi17 = McsChannelScannable('mcsi17', mcsic, counterIBasePv, 18)
+mcsi17.setHardwareTriggerProvider(cemc)
+mcsi18 = McsChannelScannable('mcsi18', mcsic, counterIBasePv, 19)
+mcsi18.setHardwareTriggerProvider(cemc)
+mcsi19 = McsChannelScannable('mcsi19', mcsic, counterIBasePv, 20)
+mcsi19.setHardwareTriggerProvider(cemc)
 
-mcs16 = McsChannelScannable('mcs16', mcsc, counterBasePv, 16)
-mcs16.setHardwareTriggerProvider(cemc)
-mcs17 = McsChannelScannable('mcs17', mcsc, counterBasePv, 17)
-mcs17.setHardwareTriggerProvider(cemc)
-mcs18 = McsChannelScannable('mcs18', mcsc, counterBasePv, 18)
-mcs18.setHardwareTriggerProvider(cemc)
-mcs19 = McsChannelScannable('mcs19', mcsc, counterBasePv, 19)
-mcs19.setHardwareTriggerProvider(cemc)
+mcsrc = McsController('mcsrc', counterRBasePv)
+mcsr16 = McsChannelScannable('mcsr16', mcsrc, counterRBasePv, 17)
+mcsr16.setHardwareTriggerProvider(cemc)
+mcsr17 = McsChannelScannable('mcsr17', mcsrc, counterRBasePv, 18)
+mcsr17.setHardwareTriggerProvider(cemc)
+mcsr18 = McsChannelScannable('mcsr18', mcsrc, counterRBasePv, 19)
+mcsr18.setHardwareTriggerProvider(cemc)
+mcsr19 = McsChannelScannable('mcsr19', mcsrc, counterRBasePv, 20)
+mcsr19.setHardwareTriggerProvider(cemc)
+
+# This doesn't appear to support MCA mode yet...
+mcsjc = McsController('mcsjc', counterJBasePv)
+mcsj16 = McsChannelScannable('mcsj16', mcsjc, counterJBasePv, 17)
+mcsj16.setHardwareTriggerProvider(cemc)
+mcsj17 = McsChannelScannable('mcsj17', mcsjc, counterJBasePv, 18)
+mcsj17.setHardwareTriggerProvider(cemc)
+mcsj18 = McsChannelScannable('mcsj18', mcsjc, counterJBasePv, 19)
+mcsj18.setHardwareTriggerProvider(cemc)
+mcsj19 = McsChannelScannable('mcsj19', mcsjc, counterJBasePv, 20)
+mcsj19.setHardwareTriggerProvider(cemc)
 
 class TrajectoryControllerHelper(ScanListener):
     
@@ -119,6 +90,7 @@ alias('cvscan') #@UndefinedVariable
     cvscan egy 695 705 1 mcs1 mcs16 mcs17 2                11 points, 34 seconds (18:41:48 to 18:42:22)
     cvscan egy 695 705 .1 mcs1 mcs16 mcs17 .2            101? points, 36 seconds (18:45:09 to 18:45:45)
 
+>>>run "scannable/continuous/try_continuous_energy.py"
 >>>pgm_energy.speed
 0.5
 >>>scan pgm_energy 695 705 1 macr1 macr16 macr17 2
