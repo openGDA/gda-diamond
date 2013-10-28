@@ -28,6 +28,22 @@ import java.util.HashMap;
  * XCHIP relates to the common electronics of those two read heads.
  */
 public interface XCHIPDetector extends StripDetector {
-	HashMap<String,Double> getTemperatures() throws DeviceException;
+
+
+	HashMap<String, Double> getTemperatures() throws DeviceException;
+
+	/**
+	 * Given, in seconds, the frame time and the scan time, returns back the number of scans which would be fitted into
+	 * the frame.
+	 * <p>
+	 * As the rules for this are complicated and potentially variable depending on settings inside da.server, the logic
+	 * is held within da.server and so this value must be fetched from da.server every time.
+	 * 
+	 * @param frameTime
+	 * @param scanTime
+	 * @return int the number of scans which would fit into the given frame
+	 * @throws DeviceException
+	 */
+	int getNumberScansInFrame(double frameTime, double scanTime) throws DeviceException;
 
 }
