@@ -18,8 +18,19 @@
 
 package uk.ac.gda.exafs.ui.data.experiment;
 
+import gda.device.DeviceException;
+import gda.device.detector.StripDetector;
+import gda.device.detector.XCHIPDetector;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import uk.ac.gda.exafs.data.DetectorModel;
 
 import com.google.gson.annotations.Expose;
 
@@ -29,8 +40,13 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
 public class TimingGroupModel extends ExperimentTimingDataModel {
 
+	private static final Logger logger = LoggerFactory.getLogger(TimingGroupModel.class);
+
 	private final List<SpectrumModel> spectrumList = new ArrayList<SpectrumModel>();
 	private final DefaultTimeBarRowModel spectraTimeBarRowModel;
+
+	public static final String UNIT_PROP_NAME = "unit";
+	private ExperimentUnit unit = ExperimentUnit.SEC;
 
 	public static final String INTEGRATION_TIME_PROP_NAME = "integrationTime";
 	@Expose
@@ -99,7 +115,7 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 		super.setDelay(delay);
 		this.setTimes(startTime, endTime);
 		updateTimePerSpectrum(timePerSpectrum);
-		setSpectrumAndAdjustEndTime();
+		setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
 	}
 
 	private void updateTimePerSpectrum(double timePerSpectrum) {
@@ -109,11 +125,24 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 	public TimingGroupModel(DefaultTimeBarRowModel spectraTimeBarRowModel) {
 		this.spectraTimeBarRowModel = spectraTimeBarRowModel;
 		this.resetInitialTime(0.0, ExperimentTimingDataModel.MIN_DURATION_TIME, 0.0, ExperimentTimingDataModel.MIN_DURATION_TIME);
-		setSpectrumAndAdjustEndTime();
+		setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
+		this.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				String sourcePropName = evt.getPropertyName();
+				if (sourcePropName.equals(TIME_PER_SPECTRUM_PROP_NAME) | sourcePropName.equals(INTEGRATION_TIME_PROP_NAME)) {
+					try {
+						TimingGroupModel.this.updateMaxAccumulationForDetector();
+					} catch (DeviceException e) {
+						logger.error("Unable to update max accumulations", e);
+					}
+				}
+			}
+		});
 	}
 
-	private void setSpectrumAndAdjustEndTime() {
-		int requiredNumberOfSpectrum =  (int) getAvailableDurationAfterDelay() / (int) this.getTimePerSpectrum();
+	private void setSpectrumAndAdjustEndTime(double timePerSpectrum) {
+		int requiredNumberOfSpectrum = (int) Math.round(this.getAvailableDurationAfterDelay() / timePerSpectrum);
 		adjustEndTimeForNumberOfSpectrum(requiredNumberOfSpectrum);
 		adjustSpectra(requiredNumberOfSpectrum);
 	}
@@ -160,7 +189,7 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 			updateTimePerSpectrum(availableSpectraTime);
 		}
 		this.setTimes(this.getStartTime(), endTime - this.getStartTimeForSpectra());
-		this.setSpectrumAndAdjustEndTime();
+		this.setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
 	}
 
 	public void moveTo(double startTime) {
@@ -174,9 +203,10 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 	}
 
 	public void setNumberOfSpectrum(int numberOfSpectrum) {
+		long newTimePerSpectrum = Math.round(this.getAvailableDurationAfterDelay() / numberOfSpectrum);
+		updateTimePerSpectrum(newTimePerSpectrum);
 		adjustEndTimeForNumberOfSpectrum(numberOfSpectrum);
 		this.adjustSpectra(numberOfSpectrum);
-		//this.setTimes(this.getStartTime(), getStartTimeForSpectra() + (numberOfSpectrum * (timePerSpectrum + delayBetweenSpectrum)));
 	}
 
 	private double getStartTimeForSpectra() {
@@ -197,8 +227,15 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 
 	public void setTimePerSpectrum(double timePerSpectrum) {
 		updateTimePerSpectrum(timePerSpectrum);
-		adjustEndTimeForNumberOfSpectrum(this.getNumberOfSpectrum());
-		this.adjustSpectra(this.getNumberOfSpectrum());
+		setSpectrumAndAdjustEndTime(timePerSpectrum);
+	}
+
+	public ExperimentUnit getUnit() {
+		return unit;
+	}
+
+	public void setUnit(ExperimentUnit unit) {
+		this.firePropertyChange(UNIT_PROP_NAME, this.unit, this.unit = unit);
 	}
 
 	public double getDelayBetweenSpectrum() {
@@ -240,8 +277,18 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 		spectrumList.clear();
 	}
 
-	private void updateMaxAccumulationForDetector() {
-		maxAccumulationforDetector = 10;
+	private void updateMaxAccumulationForDetector() throws DeviceException {
+		double timePerSpectrum = TimingGroupModel.this.getTimePerSpectrum();
+		double integrationTime = TimingGroupModel.this.getIntegrationTime();
+		if (integrationTime > 0 & timePerSpectrum > 0) {
+			StripDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
+			if (detector instanceof XCHIPDetector) {
+				int numberScansInFrame = ((XCHIPDetector) detector).getNumberScansInFrame(timePerSpectrum, integrationTime);
+				this.firePropertyChange(MAX_ACCUMULATION_FOR_DETECTOR_PROP_NAME, noOfAccumulations, noOfAccumulations = numberScansInFrame);
+			} else {
+				throw new DeviceException("Detector not found to get number of scans in frame");
+			}
+		}
 	}
 
 	public int getMaxAccumulationforDetector() {

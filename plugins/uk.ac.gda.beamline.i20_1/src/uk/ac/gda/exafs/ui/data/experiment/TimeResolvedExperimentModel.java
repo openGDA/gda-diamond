@@ -92,44 +92,6 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	public static final String UNIT_PROP_NAME = "unit";
 	private ExperimentUnit unit = ExperimentUnit.SEC;
 
-	public enum ExperimentUnit {
-		MILLI_SEC(ClientConfig.UnitSetup.MILLI_SEC, 1),
-		SEC(ClientConfig.UnitSetup.SEC, 1000),
-		MINUTE(ClientConfig.UnitSetup.MINUTE, 60 * 1000),
-		HOUR(ClientConfig.UnitSetup.HOUR, 60 * 60 * 1000);
-
-		private ClientConfig.UnitSetup unit;
-		private double conversionUnit;
-
-		private ExperimentUnit(ClientConfig.UnitSetup unit, double conversionUnit) {
-			this.unit = unit;
-			this.conversionUnit = conversionUnit;
-		}
-
-		public ExperimentUnit getWorkingUnit() {
-			if (this.ordinal() > 0) {
-				return ExperimentUnit.values()[this.ordinal() - 1];
-			}
-			return this;
-		}
-
-		public double convertToMilli(double value) {
-			return value * conversionUnit;
-		}
-
-		public double convertToSecond(double value) {
-			return value * (conversionUnit / 1000);
-		}
-
-		public double convertFromMilli(double value) {
-			return value / conversionUnit;
-		}
-
-		public String getUnitText() {
-			return unit.getText();
-		}
-	}
-
 	private TimeResolvedExperimentModel(@SuppressWarnings("unused") int dummy) {
 		setupTimebarModel();
 		groupList.addListChangeListener(new IListChangeListener() {
@@ -440,6 +402,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				TimingGroupModel previous = (TimingGroupModel) groupList.get(i-1);
 				startTime = previous.getEndTime();
 			}
+			group.setName("Group " + (i + 1));
 			group.resetInitialTime(startTime, groupDuration, 0.0, groupDuration);
 		}
 	}
@@ -462,6 +425,9 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	public void setUnit(ExperimentUnit unit) {
 		this.firePropertyChange(UNIT_PROP_NAME, this.unit, this.unit = unit);
+		for (Object object : getGroupList()) {
+			((TimingGroupModel) object).setUnit(this.unit);
+		}
 	}
 
 	@Override
