@@ -3,6 +3,7 @@
 	<name>i06-config</name>
 	<comment></comment>
 	<projects>
+		<project>mt-config</project>
 		<project>uk.ac.gda.common</project>
 		<project>uk.ac.gda.common.rcp</project>
 		<project>uk.ac.gda.core</project>
