@@ -18,36 +18,6 @@
 
 package uk.ac.gda.exafs.data;
 
-import java.awt.Color;
-
 import uk.ac.gda.client.liveplot.IPlotLineColorService;
 
-public class DetectorRoisPlotColorProvider implements IPlotLineColorService {
-	private final Color[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.BLACK, Color.ORANGE, Color.CYAN};
-
-	private DetectorRoisPlotColorProvider() {}
-
-	@Override
-	public Color getColorForPlotLine(String yLabel) {
-		// TODO This is a quick fix!
-		if (yLabel.equals("Total")) {
-			return Color.MAGENTA;
-		}
-		else if (yLabel.equals(ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getScannableName())) {
-			return Color.PINK;
-		}
-		else {
-			if (yLabel.matches("ROI_\\d")) {
-				try {
-					int index = Integer.parseInt(yLabel.split("_")[1]);
-					if (index < colors.length) {
-						return colors[index -1];
-					}
-				} catch (Exception e) {
-					return null;
-				}
-			}
-		}
-		return null;
-	}
-}
+public class DetectorRoisPlotColorProvider implements IPlotLineColorService {}

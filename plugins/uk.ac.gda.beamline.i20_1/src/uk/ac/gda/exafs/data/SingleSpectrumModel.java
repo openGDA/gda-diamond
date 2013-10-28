@@ -90,7 +90,7 @@ public class SingleSpectrumModel extends ObservableModel {
 
 	private String fileTemplate = "Unknown_cal_";
 
-	private static final String SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY = "SingleSpectrumModel";
+	private static final String SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY = "SINGLE_SPECTRUM_DATA";
 
 	private SingleSpectrumModel(@SuppressWarnings("unused") int dummy) {
 		Scannable scannable = Finder.getInstance().find("alignment_stage");

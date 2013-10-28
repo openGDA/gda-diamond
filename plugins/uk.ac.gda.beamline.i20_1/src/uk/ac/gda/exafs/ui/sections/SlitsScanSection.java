@@ -46,12 +46,12 @@ import uk.ac.gda.exafs.data.SlitsScanModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
-public class SlitScanSection {
-	public static final SlitScanSection INSTANCE = new SlitScanSection();
+public class SlitsScanSection {
+	public static final SlitsScanSection INSTANCE = new SlitsScanSection();
 	private Section slitsParametersSection;
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
-	private SlitScanSection() {}
+	private SlitsScanSection() {}
 
 	@SuppressWarnings({ "static-access" })
 	public void createSection(Form form, FormToolkit toolkit) {
