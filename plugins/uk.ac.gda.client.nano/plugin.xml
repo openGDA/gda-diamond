@@ -115,6 +115,13 @@
             id="uk.ac.gda.nano.views.TestView"
             name="Test View">
       </view>
+      <view
+            category="uk.ac.gda.client.nano"
+            class="uk.ac.gda.nano.views.DiffractionAndDichroismView"
+            icon="icons/Diffraction-24x24.png"
+            id="uk.ac.gda.nano.views.DiffractionAndDichroismView"
+            name="Diffraction and Dichroism">
+      </view>
    </extension>
    <extension
          point="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView">
