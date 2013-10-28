@@ -18,11 +18,13 @@
 
 package uk.ac.gda.exafs.data;
 
-
 import gda.configuration.properties.LocalProperties;
 import gda.scan.ede.datawriters.EdeAsciiFileWriter;
+import gda.util.exafs.AbsorptionEdge;
 import gda.util.exafs.Element;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,14 +42,27 @@ public class EdeCalibrationModel extends ObservableModel {
 	public static final EdeCalibrationModel INSTANCE = new EdeCalibrationModel();
 	public static final String MANUAL_PROP_NAME = "manual";
 	private boolean manual;
-	private final EdeDataModel edeData = new EdeDataModel();
-	private final CalibrationDataModel refData = new CalibrationDataModel();
+	private final EdeCalibrationDataModel edeData = new EdeCalibrationDataModel();
+	private final ReferenceCalibrationDataModel refData = new ReferenceCalibrationDataModel();
 
-	private EdeCalibrationModel() {}
-	public CalibrationDataModel getRefData() {
+	private EdeCalibrationModel() {
+		AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.ELEMENT_EDGE_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getNewValue() != null) {
+					refData.loadReferenceData(AlignmentParametersModel.INSTANCE.getElement(), ((AbsorptionEdge) evt.getNewValue()).getEdgeType());
+				}
+			}
+		});
+		if (AlignmentParametersModel.INSTANCE.getEdge() != null) {
+			refData.loadReferenceData(AlignmentParametersModel.INSTANCE.getElement(), AlignmentParametersModel.INSTANCE.getEdge().getEdgeType());
+		}
+	}
+
+	public ReferenceCalibrationDataModel getRefData() {
 		return refData;
 	}
-	public EdeDataModel getEdeData() {
+	public EdeCalibrationDataModel getEdeData() {
 		return edeData;
 	}
 	public boolean isManual() {
@@ -57,14 +72,14 @@ public class EdeCalibrationModel extends ObservableModel {
 		firePropertyChange(MANUAL_PROP_NAME, this.manual, this.manual = manual);
 	}
 
-	public static class EdeDataModel extends CalibrationDataModel {
+	public static class EdeCalibrationDataModel extends ReferenceCalibrationDataModel {
 		@Override
 		public void setData(String fileName) throws Exception {
 			setData(fileName, EdeAsciiFileWriter.STRIP_COLUMN_NAME, EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME);
 		}
 	}
 
-	public static class CalibrationDataModel extends ObservableModel {
+	public static class ReferenceCalibrationDataModel extends ObservableModel {
 		// TODO Refactor to create ref data model
 		public static final String FILE_NAME_PROP_NAME = "fileName";
 		protected String fileName;

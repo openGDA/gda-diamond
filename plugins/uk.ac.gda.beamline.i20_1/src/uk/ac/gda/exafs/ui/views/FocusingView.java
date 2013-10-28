@@ -44,7 +44,7 @@ import uk.ac.gda.exafs.ui.composites.ScannableWrapper;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.sections.DetectorROIsSection;
-import uk.ac.gda.exafs.ui.sections.SlitScanSection;
+import uk.ac.gda.exafs.ui.sections.SlitsScanSection;
 
 public class FocusingView extends ViewPart {
 
@@ -63,7 +63,7 @@ public class FocusingView extends ViewPart {
 		form.getBody().setLayout(new TableWrapLayout());
 		toolkit.decorateFormHeading(form);
 		form.setText("Slits scan / Focusing");
-		SlitScanSection.INSTANCE.createSection(form, toolkit);
+		SlitsScanSection.INSTANCE.createSection(form, toolkit);
 		DetectorROIsSection.INSTANCE.createSection(form, toolkit);
 		try {
 			createFormSampleSection(form);
@@ -139,6 +139,13 @@ public class FocusingView extends ViewPart {
 		Label lblEllipticity = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_Y_ELLIPTICITY.getLabel(), SWT.NONE);
 		lblEllipticity.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		scannable = ScannableSetup.POLY_Y_ELLIPTICITY.getScannable();
+		scannable.addIObserver(moveObserver);
+		motorPositionEditorControl = new MotorPositionEditorControl(curvatureSelectionComposite, SWT.None, new ScannableWrapper(scannable), true);
+		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		Label lblTwist = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_TWIST.getLabel(), SWT.NONE);
+		lblTwist.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
+		scannable = ScannableSetup.POLY_TWIST.getScannable();
 		scannable.addIObserver(moveObserver);
 		motorPositionEditorControl = new MotorPositionEditorControl(curvatureSelectionComposite, SWT.None, new ScannableWrapper(scannable), true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));

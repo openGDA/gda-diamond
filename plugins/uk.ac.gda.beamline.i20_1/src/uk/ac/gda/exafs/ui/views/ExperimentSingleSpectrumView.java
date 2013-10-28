@@ -35,7 +35,7 @@ import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.data.UIHelper;
-import uk.ac.gda.exafs.ui.sections.SingleSpectrumAcquisitionParametersSection;
+import uk.ac.gda.exafs.ui.sections.SingleSpectrumParametersSection;
 
 public class ExperimentSingleSpectrumView extends ViewPart {
 
@@ -55,7 +55,7 @@ public class ExperimentSingleSpectrumView extends ViewPart {
 		try {
 			createSamplePosition("I0 sample position", formParent, SingleSpectrumModel.I0_X_POSITION_PROP_NAME, SingleSpectrumModel.I0_Y_POSITION_PROP_NAME);
 			createSamplePosition("It sample position", formParent, SingleSpectrumModel.IT_X_POSITION_PROP_NAME, SingleSpectrumModel.IT_Y_POSITION_PROP_NAME);
-			SingleSpectrumAcquisitionParametersSection.INSTANCE.createEdeCalibrationSection(form, toolkit);
+			SingleSpectrumParametersSection.INSTANCE.createEdeCalibrationSection(form, toolkit);
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 		}

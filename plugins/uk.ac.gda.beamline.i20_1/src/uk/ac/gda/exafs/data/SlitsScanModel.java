@@ -32,9 +32,9 @@ import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 
 import com.google.gson.annotations.Expose;
 
-public class SlitScannerModel extends ObservableModel implements IObserver {
+public class SlitsScanModel extends ObservableModel implements IObserver {
 
-	private static SlitScannerModel INSTANCE;
+	private static SlitsScanModel INSTANCE;
 
 	//TODO Find out values or refactor
 
@@ -67,18 +67,18 @@ public class SlitScannerModel extends ObservableModel implements IObserver {
 
 	public static final String INTEGRATION_TIME_PROP_NAME = "integrationTime";
 
-	private static final String SLIT_SCAN_MODEL_DATA_STORE_KEY = "SLIT_SCAN";
+	private static final String SLITS_SCAN_MODEL_DATA_STORE_KEY = "SLITS_SCAN_DATA";
 	@Expose
 	private double integrationTime = 1.0;
 
-	private SlitScannerModel() {
+	private SlitsScanModel() {
 		InterfaceProvider.getJSFObserver().addIObserver(this);
 	}
 
-	public static SlitScannerModel getInstance() {
+	public static SlitsScanModel getInstance() {
 		if (INSTANCE == null) {
-			INSTANCE = new SlitScannerModel();
-			SlitScannerModel slitScannerModel = EdeDataStore.INSTANCE.loadConfiguration(SLIT_SCAN_MODEL_DATA_STORE_KEY, SlitScannerModel.class);
+			INSTANCE = new SlitsScanModel();
+			SlitsScanModel slitScannerModel = EdeDataStore.INSTANCE.loadConfiguration(SLITS_SCAN_MODEL_DATA_STORE_KEY, SlitsScanModel.class);
 			if (slitScannerModel != null) {
 				INSTANCE.setGap(slitScannerModel.getGap());
 				INSTANCE.setFromOffset(slitScannerModel.getFromOffset());
@@ -89,7 +89,7 @@ public class SlitScannerModel extends ObservableModel implements IObserver {
 			INSTANCE.addPropertyChangeListener(new PropertyChangeListener() {
 				@Override
 				public void propertyChange(PropertyChangeEvent evt) {
-					EdeDataStore.INSTANCE.saveConfiguration(SLIT_SCAN_MODEL_DATA_STORE_KEY, SlitScannerModel.INSTANCE);
+					EdeDataStore.INSTANCE.saveConfiguration(SLITS_SCAN_MODEL_DATA_STORE_KEY, SlitsScanModel.INSTANCE);
 				}
 			});
 		}
@@ -148,7 +148,7 @@ public class SlitScannerModel extends ObservableModel implements IObserver {
 	}
 
 	private String buildScanCommand() {
-		double integrationTimeInS = integrationTime / ClientConfig.KILO_UNIT;
+		double integrationTimeInS = integrationTime;
 		return String.format("scan %s %f %f %f %s %f %s %f",
 				ScannableSetup.SLIT_3_HORIZONAL_OFFSET.getScannableName(),
 				fromOffset,

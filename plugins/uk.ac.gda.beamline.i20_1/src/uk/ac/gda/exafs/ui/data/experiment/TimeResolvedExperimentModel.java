@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.data.detector;
+package uk.ac.gda.exafs.ui.data.experiment;
 
 import gda.factory.Findable;
 import gda.factory.Finder;
@@ -51,28 +51,28 @@ import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
+import uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel.TimingGroupTimeBarRowModel;
 import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
-import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
 
-public class LinearExperimentModel extends CollectionModel {
+public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
-	public static final LinearExperimentModel INSTANCE = new LinearExperimentModel();
+	public static final TimeResolvedExperimentModel INSTANCE = new TimeResolvedExperimentModel(0);
 
 	private static final String TIMING_GROUPS_OBJ_NAME = "timingGroups";
 
 	private static final double EXPERIMENT_START_TIME = 0.0;
-	private static final long DEFAULT_INITIAL_EXPERIMENT_TIME_IN_SEC = 20; // Should be > 0
+	private static final double DEFAULT_INITIAL_EXPERIMENT_TIME = 20; // Should be > 0
 
-	public static final String DURATION_IN_SEC_PROP_NAME = "durationInSec";
+	private static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "TIME_RESOLVED_EXPERIMENT_DATA";
 
-	private static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "LinearExperimentModel";
+	public static final String EXPERIMENT_DURATION_PROP_NAME = "experimentDuration";
 
 	private DefaultTimeBarModel model;
-	private DefaultTimeBarRowModel timingGroupRow;
-	private DefaultTimeBarRowModel spectrumRow;
+	private TimingGroupTimeBarRowModel timingGroupRowModel;
+	private TimingGroupTimeBarRowModel spectraRowModel;
 
 	public static final String CURRENT_SCANNING_SPECTRUM_PROP_NAME = "currentScanningSpectrum";
 	private SpectrumModel currentScanningSpectrum;
@@ -81,18 +81,56 @@ public class LinearExperimentModel extends CollectionModel {
 	private boolean scanning;
 
 	public static final String SCAN_DATA_SET_PROP_NAME = "scanDataSet";
-	private DoubleDataset[] scanDataSet;
 
-	public static final String DELAY_BETWEEN_GROUPS_PROP_NAME = "delayBetweenGroups";
-	private double delayBetweenGroups;
+
+	private DoubleDataset[] scanDataSet;
 
 	WritableList groupList = new WritableList(new ArrayList<TimingGroupModel>(), TimingGroupModel.class);
 
-	private final ScanJob experimentJob;
+	private final ScanJob experimentDataCollectionJob;
 
-	public LinearExperimentModel() {
-		this.setStartTime(EXPERIMENT_START_TIME);
-		this.setDurationInSec(DEFAULT_INITIAL_EXPERIMENT_TIME_IN_SEC);
+	public static final String UNIT_PROP_NAME = "unit";
+	private ExperimentUnit unit = ExperimentUnit.SEC;
+
+	public enum ExperimentUnit {
+		MILLI_SEC(ClientConfig.UnitSetup.MILLI_SEC, 1),
+		SEC(ClientConfig.UnitSetup.SEC, 1000),
+		MINUTE(ClientConfig.UnitSetup.MINUTE, 60 * 1000),
+		HOUR(ClientConfig.UnitSetup.HOUR, 60 * 60 * 1000);
+
+		private ClientConfig.UnitSetup unit;
+		private double conversionUnit;
+
+		private ExperimentUnit(ClientConfig.UnitSetup unit, double conversionUnit) {
+			this.unit = unit;
+			this.conversionUnit = conversionUnit;
+		}
+
+		public ExperimentUnit getWorkingUnit() {
+			if (this.ordinal() > 0) {
+				return ExperimentUnit.values()[this.ordinal() - 1];
+			}
+			return this;
+		}
+
+		public double convertToMilli(double value) {
+			return value * conversionUnit;
+		}
+
+		public double convertToSecond(double value) {
+			return value * (conversionUnit / 1000);
+		}
+
+		public double convertFromMilli(double value) {
+			return value / conversionUnit;
+		}
+
+		public String getUnitText() {
+			return unit.getText();
+		}
+	}
+
+	private TimeResolvedExperimentModel(@SuppressWarnings("unused") int dummy) {
 		setupTimebarModel();
 		groupList.addListChangeListener(new IListChangeListener() {
 			@Override
@@ -100,54 +138,70 @@ public class LinearExperimentModel extends CollectionModel {
 				event.diff.accept(new ListDiffVisitor() {
 					@Override
 					public void handleRemove(int index, Object element) {
-						timingGroupRow.remInterval((IntervalImpl) element);
+						TimingGroupModel timingGroupModel = ((TimingGroupModel) element);
+						timingGroupModel.dispose();
+						timingGroupRowModel.remInterval(timingGroupModel);
 					}
 
 					@Override
 					public void handleAdd(int index, Object element) {
-						timingGroupRow.addInterval((IntervalImpl) element);
+						timingGroupRowModel.addInterval((IntervalImpl) element);
 					}
 				});
 			}
 		});
 
-		experimentJob = new ScanJob("Linear Experiment Scan");
-		InterfaceProvider.getJSFObserver().addIObserver(experimentJob);
+		experimentDataCollectionJob = new ScanJob("Linear Experiment Scan");
+		InterfaceProvider.getJSFObserver().addIObserver(experimentDataCollectionJob);
 		Findable controller = Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME);
 		if (controller != null) {
-			((Scriptcontroller) controller).addIObserver(experimentJob);
+			((Scriptcontroller) controller).addIObserver(experimentDataCollectionJob);
 		}
-		experimentJob.setUser(true);
+		experimentDataCollectionJob.setUser(true);
 		loadSavedGroups();
+	}
+
+	public void addGroupListChangeListener(IListChangeListener listener) {
+		groupList.addListChangeListener(listener);
+	}
+
+	public void removeGroupListChangeListener(IListChangeListener listener) {
+		groupList.removeListChangeListener(listener);
 	}
 
 	private void loadSavedGroups() {
 		TimingGroupModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, TimingGroupModel[].class);
 		if (savedGroups == null) {
+			this.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(DEFAULT_INITIAL_EXPERIMENT_TIME));
 			addGroup();
 			return;
 		}
 		for (TimingGroupModel loadedGroup : savedGroups) {
-			TimingGroupModel timingGroup = new TimingGroupModel(spectrumRow);
-			timingGroup.setStartTime(loadedGroup.getStartTime());
-			timingGroup.setEndTime(loadedGroup.getEndTime());
-			timingGroup.setDelay(loadedGroup.getDelay());
+			TimingGroupModel timingGroup = new TimingGroupModel(spectraRowModel);
 			timingGroup.setName(loadedGroup.getName());
+			double delay = 0.0;
+			if (loadedGroup.getDelay() > 0) {
+				delay = loadedGroup.getDelay();
+			}
+			// TODO Refactor this!
+			timingGroup.resetInitialTime(loadedGroup.getStartTime(), loadedGroup.getEndTime() - (delay + loadedGroup.getStartTime()), delay, loadedGroup.getTimePerSpectrum());
 			timingGroup.setIntegrationTime(loadedGroup.getIntegrationTime());
-			timingGroup.setTimePerSpectrum(loadedGroup.getTimePerSpectrum());
-			timingGroup.setDelayBetweenSpectrum(loadedGroup.getDelayBetweenSpectrum());
+			if (loadedGroup.getDelayBetweenSpectrum() > 0) {
+				timingGroup.setDelayBetweenSpectrum(loadedGroup.getDelayBetweenSpectrum());
+			}
 			addToInternalGroupList(timingGroup);
 		}
+		updateExperimentDuration();
 	}
 
 	private void setupTimebarModel() {
 		model = new DefaultTimeBarModel();
 		DefaultRowHeader header = new DefaultRowHeader("Timing groups");
-		timingGroupRow = new DefaultTimeBarRowModel(header);
-		header = new DefaultRowHeader("Spectrums");
-		spectrumRow = new DefaultTimeBarRowModel(header);
-		model.addRow(timingGroupRow);
-		model.addRow(spectrumRow);
+		timingGroupRowModel = new TimingGroupTimeBarRowModel(header);
+		header = new DefaultRowHeader("Spectra");
+		spectraRowModel = new TimingGroupTimeBarRowModel(header);
+		model.addRow(timingGroupRowModel);
+		model.addRow(spectraRowModel);
 	}
 
 	public DefaultTimeBarModel getTimeBarModel() {
@@ -159,20 +213,26 @@ public class LinearExperimentModel extends CollectionModel {
 	}
 
 	public TimingGroupModel addGroup() {
-		TimingGroupModel newGroup = new TimingGroupModel(spectrumRow);
-		newGroup.setStartTime(this.getStartTime());
-		newGroup.setEndTime(this.getEndTime());
+		TimingGroupModel newGroup = new TimingGroupModel(spectraRowModel);
 		newGroup.setName("Group " + (groupList.size() + 1));
+		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup);
-		setAllGroupTimes();
+		resetInitialGroupTimes(this.getDuration() / groupList.size());
 		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
 		return newGroup;
 	}
 
 	private final PropertyChangeListener groupPropertyChangeListener = new PropertyChangeListener() {
-
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
+			if (evt.getPropertyName().equals(ExperimentTimingDataModel.END_TIME_PROP_NAME)) {
+				TimingGroupModel group = (TimingGroupModel) evt.getSource();
+				if (groupList.indexOf(evt.getSource()) < groupList.size() - 1) {
+					TimingGroupModel nextGroup = (TimingGroupModel) groupList.get(groupList.indexOf(evt.getSource()) + 1);
+					nextGroup.moveTo(group.getEndTime());
+				}
+				updateExperimentDuration();
+			}
 			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
 		}
 	};
@@ -188,23 +248,24 @@ public class LinearExperimentModel extends CollectionModel {
 	}
 
 	public void removeGroup(TimingGroupModel group) {
-		// TODO refactor to group to manage its own state
-		group.getSpectrumList().clear();
-		removeFromInternalGroupList(group);
-		setAllGroupTimes();
-		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
+		if (groupList.size() > 1) {
+			removeFromInternalGroupList(group);
+			resetInitialGroupTimes(this.getDuration() / groupList.size());
+			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
+		}
 	}
 
 	public void doCollection() {
-		experimentJob.schedule();
+		experimentDataCollectionJob.schedule();
 	}
 
 	private String buildScanCommand() {
 		return String.format("from gda.scan.ede.drivers import LinearExperimentDriver;" +
-				"scan_driver = LinearExperimentDriver(\"%s\",%s);" +
+				"scan_driver = LinearExperimentDriver(\"%s\",\"%s\",%s);" +
 				"scan_driver.setInBeamPosition(%f,%f);" +
 				"scan_driver.setOutBeamPosition(%f,%f)",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
+				DetectorModel.TOPUP_CHECKER,
 				TIMING_GROUPS_OBJ_NAME,
 				SingleSpectrumModel.INSTANCE.getiTxPosition(),
 				SingleSpectrumModel.INSTANCE.getiTxPosition(),
@@ -227,7 +288,7 @@ public class LinearExperimentModel extends CollectionModel {
 		public void update(Object source, Object arg) {
 			if (arg instanceof JythonServerStatus) {
 				JythonServerStatus status = (JythonServerStatus) arg;
-				if (LinearExperimentModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
+				if (TimeResolvedExperimentModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
 					monitor.worked(1);
 				}
 			}
@@ -243,8 +304,8 @@ public class LinearExperimentModel extends CollectionModel {
 					@Override
 					public void run() {
 						final TimingGroupModel currentGroup = (TimingGroupModel) groupList.get(currentGroupNumber);
-						// TODO refactor to group to manage its own state
-						LinearExperimentModel.this.setCurrentScanningSpectrum((SpectrumModel) currentGroup.getSpectrumList().get(currentFrameNumber));
+						// TODO refactor the group to manage its own state
+						TimeResolvedExperimentModel.this.setCurrentScanningSpectrum((SpectrumModel) currentGroup.getSpectrumList().get(currentFrameNumber));
 					}
 				});
 			}
@@ -254,10 +315,8 @@ public class LinearExperimentModel extends CollectionModel {
 			return new Job("Progress Report") {
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
-					while(LinearExperimentModel.this.isScanning()) {
-						if (currentNormalisedItData != null & currentEnergyData != null) {
-							setReceivedDataSet();
-						}
+					while(TimeResolvedExperimentModel.this.isScanning()) {
+						setReceivedDataSet();
 						try {
 							Thread.sleep(SCAN_DATA_SET_REPORT_INTERVAL_IN_MILLI);
 						} catch (InterruptedException e) {
@@ -269,7 +328,9 @@ public class LinearExperimentModel extends CollectionModel {
 				}
 
 				private void setReceivedDataSet() {
-					LinearExperimentModel.this.setScanDataSet(new DoubleDataset[] {currentEnergyData, currentNormalisedItData});
+					if (currentNormalisedItData != null & currentEnergyData != null) {
+						TimeResolvedExperimentModel.this.setScanDataSet(new DoubleDataset[] {currentEnergyData, currentNormalisedItData});
+					}
 				}
 			};
 		}
@@ -287,14 +348,14 @@ public class LinearExperimentModel extends CollectionModel {
 					@Override
 					public void run() {
 						final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
-						LinearExperimentModel.this.setScanning(true);
+						TimeResolvedExperimentModel.this.setScanning(true);
 						for (Object object : groupList) {
 							TimingGroupModel uiTimingGroup = (TimingGroupModel) object;
 							TimingGroup timingGroup = new TimingGroup();
 							timingGroup.setLabel(uiTimingGroup.getName());
-							timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrums());
-							timingGroup.setTimePerFrame(uiTimingGroup.getTimePerSpectrum() / 1000.0); // convert from ms to S
-							timingGroup.setTimePerScan(uiTimingGroup.getIntegrationTime() / 1000.0); // convert from ms to S
+							timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrum());
+							timingGroup.setTimePerFrame(unit.getWorkingUnit().convertToSecond(uiTimingGroup.getTimePerSpectrum())); // convert to S
+							timingGroup.setTimePerScan(unit.getWorkingUnit().convertToSecond(uiTimingGroup.getIntegrationTime())); // convert to S
 							timingGroups.add(timingGroup);
 						}
 
@@ -308,10 +369,10 @@ public class LinearExperimentModel extends CollectionModel {
 				// give the previous command a chance to run before calling doCollection()
 				Thread.sleep(50);
 				InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				UIHelper.showWarning("Scanning has stopped", e.getMessage());
 			}
-			LinearExperimentModel.this.setScanning(false);
+			TimeResolvedExperimentModel.this.setScanning(false);
 			monitor.done();
 			return Status.OK_STATUS;
 		}
@@ -362,93 +423,45 @@ public class LinearExperimentModel extends CollectionModel {
 		this.firePropertyChange(CURRENT_SCANNING_SPECTRUM_PROP_NAME, currentScanningSpectrum, currentScanningSpectrum = value);
 	}
 
-	private void setAllGroupTimes() {
-		if (!groupList.isEmpty()) {
-			double duration;
-			if (groupList.size() ==  1 | delayBetweenGroups == 0) {
-				duration = this.getDuration() / groupList.size();
-			} else {
-				duration = this.getDuration() - ((groupList.size() - 1) * delayBetweenGroups) / groupList.size();
-			}
-			double startTime = this.getStartTime();
-			for (int i = 0; i < groupList.size(); i++) {
-				TimingGroupModel entry = (TimingGroupModel) groupList.get(i);
-				entry.setStartTime(startTime);
-				entry.setEndTime(startTime + duration);
-				startTime = entry.getEndTime() + delayBetweenGroups;
-			}
+	private void updateExperimentDuration() {
+		double experimentDuration = 0.0;
+		for (Object loadedGroup : groupList) {
+			experimentDuration += ((TimingGroupModel)loadedGroup).getDuration();
 		}
+		this.setTimes(EXPERIMENT_START_TIME, experimentDuration);
+		this.firePropertyChange(EXPERIMENT_DURATION_PROP_NAME, null, getExperimentDuration());
 	}
 
-	private void setGroupTimes(double groupDuration) {
+	private void resetInitialGroupTimes(double groupDuration) {
+		double startTime = this.getStartTime();
 		for (int i = 0; i < groupList.size(); i++) {
 			TimingGroupModel group = (TimingGroupModel) groupList.get(i);
 			if (i > 0) {
 				TimingGroupModel previous = (TimingGroupModel) groupList.get(i-1);
-				group.setStartTime(previous.getEndTime());
+				startTime = previous.getEndTime();
 			}
-			group.setEndTime(group.getStartTime() + groupDuration);
+			group.resetInitialTime(startTime, groupDuration, 0.0, groupDuration);
 		}
 	}
 
-	public void setGroupStartTime(TimingGroupModel group, double value) {
-		int index = groupList.indexOf(group);
-		if (index != 0) {
-			TimingGroupModel prevGroup = (TimingGroupModel) groupList.get(index - 1);
-			if (value > prevGroup.getStartTime()) {
-				group.setStartTime(value);
-				if (value < prevGroup.getEndTime()) {
-					prevGroup.setEndTime(value);
-				}
-			}
-		} else {
-			if (value  > this.getStartTime()) {
-				group.setStartTime(value);
-			}
-		}
+	public void setExperimentDuration(double value) {
+		resetInitialGroupTimes(unit.convertToMilli(value) / groupList.size());
 	}
 
-	public void setGroupEndTime(TimingGroupModel group, double value) {
-		int index = groupList.indexOf(group);
-		if (index != groupList.size() - 1) {
-			TimingGroupModel nextGroup = (TimingGroupModel) groupList.get(index + 1);
-			if (value < nextGroup.getEndTime()) {
-				group.setEndTime(value);
-				nextGroup.setStartTime(value);
-			}
-		} else {
-			if (value < this.getEndTime()) {
-				group.setEndTime(value);
-			}
-		}
-	}
-
-
-	public void setDurationInSec(double value) {
-		double duration = getDurationInSec();
-		this.setEndTime(this.getStartTime() + value * 1000); // Converts to milli
-		this.firePropertyChange(DURATION_IN_SEC_PROP_NAME, duration, getDurationInSec());
+	public double getExperimentDuration() {
+		return unit.convertFromMilli(getDuration());
 	}
 
 	public double getDurationInSec() {
-		return (this.getDuration() / 1000); // Converts to sec
+		return unit.convertToSecond(unit.convertFromMilli(getDuration()));
 	}
 
-	@Override
-	public void setEndTime(double value) {
-		super.setEndTime(value);
-		double groupDuration = value / groupList.size();
-		setGroupTimes(groupDuration);
+	public ExperimentUnit getUnit() {
+		return unit;
 	}
 
-	public double getDelayBetweenGroups() {
-		return delayBetweenGroups;
-	}
-
-
-	public void setDelayBetweenGroups(double value) {
-		this.firePropertyChange(DELAY_BETWEEN_GROUPS_PROP_NAME, delayBetweenGroups, delayBetweenGroups = value);
-		setAllGroupTimes();
+	public void setUnit(ExperimentUnit unit) {
+		this.firePropertyChange(UNIT_PROP_NAME, this.unit, this.unit = unit);
 	}
 
 	@Override

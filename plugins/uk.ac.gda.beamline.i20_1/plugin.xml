@@ -58,7 +58,16 @@
    </extension>
    <extension
          point="org.eclipse.ui.views">
+      <category
+            id="uk.ac.gda.beamline.i20_1.alignmentviews"
+            name="Data Acquisition - EDE Alignment">
+      </category>
+      <category
+            id="uk.ac.gda.beamline.i20_1.edeexperimentviews"
+            name="Data Acquisition - EDE Experiment">
+      </category>
       <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.ui.views.BeamlineAlignmentView"
             icon="icons/crosshairs.gif"
             id="uk.ac.gda.exafs.ui.views.beamlinealignmentview"
@@ -67,6 +76,7 @@
       </view>
       <view
             allowMultiple="false"
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.ui.views.AlignmentSingleSpectrumView"
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.alignmentSingleSpectrumView"
@@ -74,6 +84,7 @@
             restorable="true">
       </view>
       <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.ui.views.FocusingView"
             id="uk.ac.gda.exafs.ui.views.focusingview"
             name="Focusing View"
@@ -81,6 +92,7 @@
       </view>
       <view
             allowMultiple="false"
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.ui.views.DetectorLiveModeView"
             icon="icons/chart_curve.png"
             id="uk.ac.gda.exafs.ui.views.DetectorLiveModeView"
@@ -89,6 +101,7 @@
       </view>
       <view
             allowMultiple="false"
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView"
             icon="icons/chart_curve.png"
             id="uk.ac.gda.exafs.ui.views.calibrationreference"
@@ -105,6 +118,7 @@
             restorable="true">
       </view>
       <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.ui.views.AlignmentStageCalibrationView"
             icon="icons/brick.png"
             id="uk.ac.gda.exafs.ui.views.alignmentstagecalibration"
@@ -112,12 +126,7 @@
             restorable="true">
       </view>
       <view
-            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
-            id="uk.ac.gda.beamline.i20_1.SingleSpectrumPlot"
-            name="Single spectrum plot"
-            restorable="true">
-      </view>
-      <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.ui.views.ExperimentSingleSpectrumView"
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.experimentSingleSpectrumView"
@@ -125,15 +134,25 @@
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.exafs.ui.views.LinearExperimentView"
+            category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
+            class="uk.ac.gda.exafs.ui.views.TimeResolvedExperimentView"
             id="uk.ac.gda.exafs.ui.views.linearExperimentView"
             name="Linear experiment"
             restorable="true">
       </view>
       <view
+            category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
             class="uk.ac.gda.exafs.ui.views.LinearExperimentPlotView"
             id="uk.ac.gda.exafs.ui.views.LinearExperimentPlotView"
             name="Linear Experiment Plot"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
+            class="uk.ac.gda.exafs.ui.views.SingleSpectrumPlotView"
+            icon="icons/1-star.gif"
+            id="uk.ac.gda.exafs.ui.views.singlespectrumplotview"
+            name="Single Spectrum Plot"
             restorable="true">
       </view>
    </extension>

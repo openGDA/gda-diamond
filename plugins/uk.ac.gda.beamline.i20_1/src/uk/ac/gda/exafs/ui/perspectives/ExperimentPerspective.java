@@ -27,7 +27,7 @@ import org.eclipse.ui.IPerspectiveFactory;
 import uk.ac.gda.exafs.ui.views.DetectorLiveModeView;
 import uk.ac.gda.exafs.ui.views.ExperimentSingleSpectrumView;
 import uk.ac.gda.exafs.ui.views.LinearExperimentPlotView;
-import uk.ac.gda.exafs.ui.views.LinearExperimentView;
+import uk.ac.gda.exafs.ui.views.TimeResolvedExperimentView;
 
 public class ExperimentPerspective implements IPerspectiveFactory {
 
@@ -40,7 +40,7 @@ public class ExperimentPerspective implements IPerspectiveFactory {
 		layout.setEditorAreaVisible(false);
 
 		IFolderLayout alignmentControlsFolder = layout.createFolder(EXPERIMENT_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.65f, editorArea);
-		alignmentControlsFolder.addView(LinearExperimentView.ID);
+		alignmentControlsFolder.addView(TimeResolvedExperimentView.ID);
 		alignmentControlsFolder.addView(ExperimentSingleSpectrumView.ID);
 
 		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.60f, EXPERIMENT_CONTROLS_FOLDER_ID);

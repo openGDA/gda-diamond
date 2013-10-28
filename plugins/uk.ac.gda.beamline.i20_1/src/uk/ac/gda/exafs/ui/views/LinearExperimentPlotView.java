@@ -32,7 +32,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.exafs.ui.data.UIHelper;
-import uk.ac.gda.exafs.ui.data.detector.LinearExperimentModel;
+import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 
 public class LinearExperimentPlotView extends ViewPart {
 
@@ -41,10 +41,10 @@ public class LinearExperimentPlotView extends ViewPart {
 	private IPlottingSystem plottingSystem;
 
 	public LinearExperimentPlotView() {
-		LinearExperimentModel.INSTANCE.addPropertyChangeListener(new PropertyChangeListener() {
+		TimeResolvedExperimentModel.INSTANCE.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(LinearExperimentModel.SCAN_DATA_SET_PROP_NAME)) {
+				if (evt.getPropertyName().equals(TimeResolvedExperimentModel.SCAN_DATA_SET_PROP_NAME)) {
 					DoubleDataset[] scanDataSet = (DoubleDataset[]) evt.getNewValue();
 					List<DoubleDataset> lnI0It = new ArrayList<DoubleDataset>();
 					lnI0It.add(scanDataSet[1]);

@@ -19,11 +19,13 @@
 package uk.ac.gda.exafs.ui.sections;
 
 import gda.device.detector.XHDetector;
-import gda.scan.ede.datawriters.EdeSingleSpectrumAsciiFileWriter;
+import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -47,25 +49,22 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
-import uk.ac.diamond.scisoft.analysis.SDAPlotter;
-import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
-import uk.ac.diamond.scisoft.analysis.io.DataHolder;
-import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
+import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.data.UIHelper;
-import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
 
-public class SingleSpectrumAcquisitionParametersSection {
-	public static final SingleSpectrumAcquisitionParametersSection INSTANCE = new SingleSpectrumAcquisitionParametersSection();
+public class SingleSpectrumParametersSection {
+	public static final SingleSpectrumParametersSection INSTANCE = new SingleSpectrumParametersSection();
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 	private Section section;
@@ -78,7 +77,7 @@ public class SingleSpectrumAcquisitionParametersSection {
 
 	protected Binding cmbLastStripViewerBinding;
 
-	private SingleSpectrumAcquisitionParametersSection() {}
+	private SingleSpectrumParametersSection() {}
 
 	@SuppressWarnings({ "static-access" })
 	public void createEdeCalibrationSection(Form form, FormToolkit toolkit) throws Exception {
@@ -211,7 +210,7 @@ public class SingleSpectrumAcquisitionParametersSection {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					SingleSpectrumModel.INSTANCE.doScan();
+					SingleSpectrumModel.INSTANCE.doCollection();
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 				}
@@ -258,11 +257,20 @@ public class SingleSpectrumAcquisitionParametersSection {
 				File file = new File(fileName);
 				if (file.exists() && file.canRead()) {
 					try {
-						DataHolder dataHolder = LoaderFactory.getData(fileName);
-						AbstractDataset strips = (AbstractDataset) dataHolder.getLazyDataset(EdeSingleSpectrumAsciiFileWriter.STRIP_COLUMN_NAME).getSlice();
-						AbstractDataset logI0It = (AbstractDataset) dataHolder.getLazyDataset(EdeSingleSpectrumAsciiFileWriter.LN_I0_IT_COLUMN_NAME).getSlice();
-						SDAPlotter.plot(AlignmentPerspective.SINGLE_SPECTRUM_PLOT_VIEW_NAME, fileName, strips, new AbstractDataset[]{logI0It});
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(AlignmentPerspective.SINGLE_SPECTRUM_PLOT_VIEW_ID);
+						final IWorkbenchPage page = PlatformUI.getWorkbench()
+								.getActiveWorkbenchWindow().getActivePage();
+						LivePlotView part = (LivePlotView) page.findView(LivePlotView.ID);
+						if (part == null) {
+							part = (LivePlotView) page.showView(LivePlotView.ID);
+						}
+						List<String> dataSet = new ArrayList<String>();
+						dataSet.add(EdeAsciiFileWriter.STRIP_COLUMN_NAME);
+						dataSet.add(EdeAsciiFileWriter.I0_DARK_COLUMN_NAME);
+						dataSet.add(EdeAsciiFileWriter.IT_DARK_COLUMN_NAME);
+						dataSet.add(EdeAsciiFileWriter.I0_CORR_COLUMN_NAME);
+						dataSet.add(EdeAsciiFileWriter.IT_CORR_COLUMN_NAME);
+						dataSet.add(EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME);
+						part.openFile(file.getPath(), dataSet, null);
 					} catch (Exception e) {
 						UIHelper.showError("Unable to plot the data", e.getMessage());
 					}

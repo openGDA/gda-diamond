@@ -18,6 +18,7 @@
 
 package gda.scan.ede.drivers;
 
+import gda.device.Monitor;
 import gda.device.detector.StripDetector;
 import gda.factory.Finder;
 import gda.scan.ede.EdeLinearExperiment;
@@ -32,31 +33,34 @@ public class LinearExperimentDriver extends ScanDriver {
 
 	private final StripDetector detector;
 	private final EdeScanParameters params;
+	private final Monitor topupMonitor;
 
-	public LinearExperimentDriver(String detectorName, Vector<TimingGroup> timingGroups) {
+	public LinearExperimentDriver(String detectorName, String topupMonitorName, Vector<TimingGroup> timingGroups) {
 		super();
 		detector = Finder.getInstance().find(detectorName);
+		topupMonitor = Finder.getInstance().find(topupMonitorName);
 		params = new EdeScanParameters();
 		params.setGroups(timingGroups);
 	}
 
-	public LinearExperimentDriver(String detectorName, Vector<TimingGroup> timingGroups, String filenameTemplate) {
-		this(detectorName, timingGroups);
+	public LinearExperimentDriver(String detectorName, String topupMonitorName, Vector<TimingGroup> timingGroups, String filenameTemplate) {
+		this(detectorName, topupMonitorName, timingGroups);
 		fileTemplate = filenameTemplate;
 	}
 
-	public LinearExperimentDriver(String detectorName, TimingGroup[] timingGroups) {
-		this(detectorName, new Vector<TimingGroup>(Arrays.asList(timingGroups)));
+	public LinearExperimentDriver(String detectorName, String topupMonitorName, TimingGroup[] timingGroups) {
+		this(detectorName, topupMonitorName, new Vector<TimingGroup>(Arrays.asList(timingGroups)));
 	}
 
-	public LinearExperimentDriver(String detectorName, TimingGroup[] timingGroups, String filenameTemplate) {
-		this(detectorName, new Vector<TimingGroup>(Arrays.asList(timingGroups)));
+	public LinearExperimentDriver(String detectorName, String topupMonitorName, TimingGroup[] timingGroups, String filenameTemplate) {
+		this(detectorName, topupMonitorName, new Vector<TimingGroup>(Arrays.asList(timingGroups)));
 		fileTemplate = filenameTemplate;
 	}
 
 	@Override
 	public String doCollection() throws Exception {
-		EdeLinearExperiment theExperiment = new EdeLinearExperiment(params, outbeamPosition, inbeamPosition, detector);
+		EdeLinearExperiment theExperiment = new EdeLinearExperiment(params, outbeamPosition, inbeamPosition,
+				referencePosition, detector,topupMonitor);
 		if (fileTemplate != null) {
 			theExperiment.setFilenameTemplate(fileTemplate);
 		}

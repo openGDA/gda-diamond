@@ -27,25 +27,30 @@ import org.dawnsci.plotting.api.PlottingFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TableViewerEditor;
@@ -63,9 +68,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
@@ -75,19 +77,16 @@ import org.eclipse.ui.part.ViewPart;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
-import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
+import uk.ac.gda.exafs.ui.composites.NumberEditorControl2;
 import uk.ac.gda.exafs.ui.data.UIHelper;
-import uk.ac.gda.exafs.ui.data.detector.CollectionModel;
-import uk.ac.gda.exafs.ui.data.detector.CollectionModelRenderer;
-import uk.ac.gda.exafs.ui.data.detector.LinearExperimentModel;
-import uk.ac.gda.exafs.ui.data.detector.MilliScale;
-import uk.ac.gda.exafs.ui.data.detector.SpectrumModel;
-import uk.ac.gda.exafs.ui.data.detector.TimingGroupModel;
-
-import com.swtdesigner.ResourceManager;
-
+import uk.ac.gda.exafs.ui.data.experiment.CollectionModelRenderer;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentTimingDataModel;
+import uk.ac.gda.exafs.ui.data.experiment.SpectrumModel;
+import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
+import uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel;
+import uk.ac.gda.exafs.ui.data.experiment.TimingGroupsScaleRenderer;
 import de.jaret.util.date.Interval;
 import de.jaret.util.date.JaretDate;
 import de.jaret.util.ui.timebars.TimeBarMarker;
@@ -96,10 +95,10 @@ import de.jaret.util.ui.timebars.model.ITimeBarChangeListener;
 import de.jaret.util.ui.timebars.model.TimeBarRow;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 
-public class LinearExperimentView extends ViewPart {
+public class TimeResolvedExperimentView extends ViewPart {
 	public static final String ID = "uk.ac.gda.exafs.ui.views.linearExperimentView";
 
-	private static final int TIMEBAR_ZOOM_FACTOR = 100;
+	private static final int TIMEBAR_ZOOM_FACTOR = 30;
 
 	private static final long INITIAL_TIMEBAR_MARKER_IN_MILLI = 10L;
 
@@ -111,43 +110,58 @@ public class LinearExperimentView extends ViewPart {
 	private FormToolkit toolkit;
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 	private TableViewer groupsTableViewer;
-	protected Label integrationTimeLabel;
-	protected NumberEditorControl integrationTimeValueText;
-	protected NumberEditorControl timePerSpectrumValueText;
-	protected Label timePerSpectrumValueLabel;
 
-	protected Label spectrumDelayValueLabel;
+	private Label integrationTimeLabel;
+	private Label timePerSpectrumValueLabel;
+	private Label spectrumDelayValueLabel;
+	private Label delayBeforeFristSpectrumValueLabel;
+	private Label noOfAccumulationValueLabel;
 
-	protected NumberEditorControl spectrumDelayValueText;
-
-	protected Label noOfAccumulationValueLabel;
-
-	protected NumberEditorControl noOfAccumulationValueText;
-
-	protected int maxAccumulationforDetector;
+	private NumberEditorControl2 spectrumDelayValueText;
+	private NumberEditorControl2 integrationTimeValueText;
+	private NumberEditorControl2 timePerSpectrumValueText;
+	private NumberEditorControl2 noOfAccumulationValueText;
+	private NumberEditorControl2 delayBeforeFristSpectrumValueText;
+	private NumberEditorControl2 noOfSpectrumValueText;
+	private NumberEditorControl2 startTimeValueText;
+	private NumberEditorControl2 endTimeValueText;
 
 	private TimeBarMarkerImpl marker;
 
-	private Action runExperimentAction;
+	protected Button useExternalTriggerCheckbox;
+
+	protected Label noOfSpectrumValueLabel;
+
+
+
+	protected Label endTimeValueLabel;
+
+
+
+	protected Label startTimeValueLabel;
+
+	private NumberEditorControl experimentTimeControl;
+
+	private ComboViewer expUnitSelectionCombo;
 
 	@Override
 	public void createPartControl(final Composite parent) {
 		if (toolkit == null) {
 			toolkit = new FormToolkit(parent.getDisplay());
 		}
-		final SashForm all = new SashForm(parent, SWT.VERTICAL);
-		all.SASH_WIDTH = 7;
+		final SashForm parentComposite = new SashForm(parent, SWT.VERTICAL);
+		parentComposite.SASH_WIDTH = 7;
 
-		SashForm top = new SashForm(all, SWT.HORIZONTAL);
-		top.SASH_WIDTH = 7;
+		SashForm topPartComposite = new SashForm(parentComposite, SWT.HORIZONTAL);
+		topPartComposite.SASH_WIDTH = 7;
 
 		try {
-			createPropertyComposite(top);
-			createPlotComposite(top);
-			createTimeBarComposite(all);
+			createExperimentPropertiesComposite(topPartComposite);
+			createPlotComposite(topPartComposite);
+			createTimeBarComposite(parentComposite);
 			bind();
-			all.setWeights(new int[] {3, 2});
-			top.setWeights(new int[] {3, 1});
+			parentComposite.setWeights(new int[] {3, 1});
+			topPartComposite.setWeights(new int[] {3, 1});
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 		}
@@ -168,18 +182,54 @@ public class LinearExperimentView extends ViewPart {
 				},
 				new UpdateValueStrategy() {
 					@Override
+					public IStatus validateBeforeSet(Object value) {
+						TimingGroupModel object = null;
+						if (value instanceof TimingGroupModel) {
+							object =  (TimingGroupModel) value;
+						} else if (value instanceof SpectrumModel) {
+							object = ((SpectrumModel) value).getParent();
+						}
+						IStructuredSelection structuredSelection = (IStructuredSelection) groupsTableViewer.getSelection();
+						if(!structuredSelection.isEmpty()) {
+							if (value == null) {
+								return Status.CANCEL_STATUS;
+							}
+							TimingGroupModel viewerObject = (TimingGroupModel) structuredSelection.getFirstElement();
+							if (viewerObject.equals(object)) {
+								return Status.CANCEL_STATUS;
+							}
+						}
+						return Status.OK_STATUS;
+					}
+
+					@Override
 					public Object convert(Object value) {
 						if (value instanceof TimingGroupModel) {
 							return super.convert(value);
-						} else if (value instanceof SpectrumModel) {
+						}
+						else if (value instanceof SpectrumModel) {
 							return super.convert(((SpectrumModel) value).getParent());
 						}
 						return null;
 					}
 				});
+
+		dataBindingCtx.bindValue(
+				ViewersObservables.observeSingleSelection(expUnitSelectionCombo),
+				BeanProperties.value(TimeResolvedExperimentModel.UNIT_PROP_NAME).observe(TimeResolvedExperimentModel.INSTANCE));
+		dataBindingCtx.bindValue(
+				BeanProperties.value(NumberEditorControl.UNIT_PROP_NAME).observe(experimentTimeControl),
+				BeanProperties.value(TimeResolvedExperimentModel.UNIT_PROP_NAME).observe(TimeResolvedExperimentModel.INSTANCE),
+				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+				new UpdateValueStrategy() {
+					@Override
+					public Object convert(Object value) {
+						return ((TimeResolvedExperimentModel.ExperimentUnit) value).getUnitText();
+					}
+				});
 	}
 
-	private void createPropertyComposite(Composite parent) throws Exception {
+	private void createExperimentPropertiesComposite(Composite parent) throws Exception {
 		Composite composite = new Composite(parent, SWT.None);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		composite.setLayout(UIHelper.createGridLayoutWithNoMargin(1,false));
@@ -188,37 +238,44 @@ public class LinearExperimentView extends ViewPart {
 		Form form = scrolledform.getForm();
 		form.getBody().setLayout(new GridLayout(2, true));
 		toolkit.decorateFormHeading(form);
-		scrolledform.setText("Linear experiment");
-		runExperimentAction = new Action() {
-			@Override
-			public void run() {
-				try {
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(LinearExperimentPlotView.ID);
-					LinearExperimentModel.INSTANCE.doCollection();
-				} catch (PartInitException e) {
-					UIHelper.showError("Unable to show Linear experiment view to do the scan", e.getMessage());
-				}
-			}
-		};
-		runExperimentAction.setImageDescriptor(ResourceManager.getImageDescriptor(LinearExperimentView.class,
-				"/icons/control_play_blue.png"));
-		form.getToolBarManager().add(runExperimentAction);	// NEW LINE
-		form.getToolBarManager().update(true);	// NEW LINE
+		scrolledform.setText("Time-resolved studies");
 		createExperimentDetailsSection(form.getBody());
 		createGroupSection(form.getBody());
-		dataBindingCtx.bindValue(
-				BeanProperties.value(IAction.ENABLED).observe(runExperimentAction),
-				BeanProperties.value(LinearExperimentModel.SCANNING_PROP_NAME).observe(LinearExperimentModel.INSTANCE),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object value) {
-						return !((boolean) value);
-					}
-				});
 	}
 
-	private void createGroupSection(Composite parent) {
+	private final IConverter modelToTargetConverter = new IConverter() {
+		@Override
+		public Object convert(Object fromObject) {
+			return TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli((double) fromObject);
+		}
+		@Override
+		public Object getFromType() {
+			return double.class;
+		}
+		@Override
+		public Object getToType() {
+			return String.class;
+		}
+	};
+
+	private final IConverter targetToModelConverter = new IConverter() {
+		@Override
+		public Object convert(Object fromObject) {
+			return TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertToMilli(Double.parseDouble((String) fromObject));
+		}
+		@Override
+		public Object getFromType() {
+			return String.class;
+		}
+		@Override
+		public Object getToType() {
+			return double.class;
+		}
+	};
+
+	private Scale scale;
+
+	private void createGroupSection(Composite parent) throws Exception {
 		@SuppressWarnings("static-access")
 		Section section = toolkit.createSection(parent, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		section.setText("Timing groups");
@@ -228,8 +285,32 @@ public class LinearExperimentView extends ViewPart {
 		sectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		section.setClient(sectionComposite);
 
+		Composite expTimeComposite = new Composite(sectionComposite, SWT.NONE);
+		expTimeComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		expTimeComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(3, false));
+
+		Label lbl = toolkit.createLabel(expTimeComposite, "Total experiment", SWT.NONE);
+		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		experimentTimeControl = new NumberEditorControl(expTimeComposite, SWT.None, TimeResolvedExperimentModel.INSTANCE, TimeResolvedExperimentModel.EXPERIMENT_DURATION_PROP_NAME, false);
+		experimentTimeControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		experimentTimeControl.setLayoutData(gridData);
+
+		gridData = new GridData(SWT.END, SWT.CENTER, false, false);
+		expUnitSelectionCombo = new ComboViewer(expTimeComposite);
+		expUnitSelectionCombo.getControl().setLayoutData(gridData);
+		expUnitSelectionCombo.setContentProvider(new ArrayContentProvider());
+		expUnitSelectionCombo.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((TimeResolvedExperimentModel.ExperimentUnit) element).name();
+			}
+		});
+		expUnitSelectionCombo.setInput(TimeResolvedExperimentModel.ExperimentUnit.values());
+
 		Composite regionsComposit = new Composite(sectionComposite, SWT.NONE);
-		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridData.heightHint = GROUP_TABLE_HEIGHT;
 		gridData.widthHint = GROUP_TABLE_WIDTH;
 		regionsComposit.setLayoutData(gridData);
@@ -259,7 +340,6 @@ public class LinearExperimentView extends ViewPart {
 				| ColumnViewerEditor.TABBING_MOVE_TO_ROW_NEIGHBOR
 				| ColumnViewerEditor.TABBING_VERTICAL | ColumnViewerEditor.KEYBOARD_ACTIVATION);
 
-
 		TableViewerColumn viewerNumberColumn = new TableViewerColumn(groupsTableViewer, SWT.NONE);
 		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
 		viewerNumberColumn.getColumn().setText("Name");
@@ -280,43 +360,10 @@ public class LinearExperimentView extends ViewPart {
 		viewerNumberColumn = new TableViewerColumn(groupsTableViewer, SWT.NONE);
 		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(2));
 		viewerNumberColumn.getColumn().setText("Start time");
-		viewerNumberColumn.setEditingSupport(new GroupEditorSupport(groupsTableViewer) {
-			@Override
-			protected Object getValue(Object element) {
-				return Double.toString(((TimingGroupModel) element).getStartTime());
-			}
-			@Override
-			protected void setValue(Object element, Object value) {
-				if (!((String) value).isEmpty()) {
-					try {
-						LinearExperimentModel.INSTANCE.setGroupStartTime((TimingGroupModel) element, Double.parseDouble((String) value));
-					} catch(Exception e) {
-						UIHelper.showWarning("Unable to set start time", e.getMessage());
-					}
-				}
-			}
-		});
 
 		viewerNumberColumn = new TableViewerColumn(groupsTableViewer, SWT.NONE);
 		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(2));
 		viewerNumberColumn.getColumn().setText("End Time");
-		viewerNumberColumn.setEditingSupport(new GroupEditorSupport(groupsTableViewer) {
-			@Override
-			protected Object getValue(Object element) {
-				return Double.toString(((TimingGroupModel) element).getEndTime());
-			}
-
-			@Override
-			protected void setValue(Object element, Object value) {
-				if (!((String) value).isEmpty()) {
-					try {
-						LinearExperimentModel.INSTANCE.setGroupEndTime((TimingGroupModel) element, Double.parseDouble((String) value));
-					} catch(Exception e) {
-						UIHelper.showWarning("Unable to set end time", e.getMessage());
-					}
-				}
-			}
-		});
 
 		viewerNumberColumn = new TableViewerColumn(groupsTableViewer, SWT.NONE);
 		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
@@ -329,13 +376,13 @@ public class LinearExperimentView extends ViewPart {
 		IObservableSet knownElements = contentProvider.getKnownElements();
 
 		final IObservableMap names = BeanProperties.value(TimingGroupModel.class,
-				CollectionModel.NAME_PROP_NAME).observeDetail(knownElements);
+				ExperimentTimingDataModel.NAME_PROP_NAME).observeDetail(knownElements);
 		final IObservableMap startTimes = BeanProperties.value(TimingGroupModel.class,
-				CollectionModel.START_TIME_PROP_NAME).observeDetail(knownElements);
+				ExperimentTimingDataModel.START_TIME_PROP_NAME).observeDetail(knownElements);
 		final IObservableMap endTimes = BeanProperties.value(TimingGroupModel.class,
-				CollectionModel.END_TIME_PROP_NAME).observeDetail(knownElements);
+				ExperimentTimingDataModel.END_TIME_PROP_NAME).observeDetail(knownElements);
 		final IObservableMap noOfSpectrum = BeanProperties.value(TimingGroupModel.class,
-				TimingGroupModel.NO_OF_SPECTRUMS_PROP_NAME).observeDetail(knownElements);
+				TimingGroupModel.NO_OF_SPECTRUM_PROP_NAME).observeDetail(knownElements);
 		IObservableMap[] labelMaps = {names, startTimes, endTimes, noOfSpectrum};
 
 		groupsTableViewer.setContentProvider(contentProvider);
@@ -344,14 +391,23 @@ public class LinearExperimentView extends ViewPart {
 			public String getColumnText(Object element, int columnIndex) {
 				switch (columnIndex) {
 				case 0: return (String) names.get(element);
-				case 1: return DataHelper.roundDoubletoString((double) startTimes.get(element)) + " " + UnitSetup.MILLI_SEC.getText();
-				case 2: return DataHelper.roundDoubletoString((double) endTimes.get(element)) + " " + UnitSetup.MILLI_SEC.getText();
+				case 1: return DataHelper.roundDoubletoString(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli((double) startTimes.get(element))) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
+				case 2: return DataHelper.roundDoubletoString(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli((double) endTimes.get(element))) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
 				case 3: return Integer.toString((int) noOfSpectrum.get(element));
 				default : return "Unkown column";
 				}
 			}
 		});
-		groupsTableViewer.setInput(LinearExperimentModel.INSTANCE.getGroupList());
+		groupsTableViewer.setInput(TimeResolvedExperimentModel.INSTANCE.getGroupList());
+		TimeResolvedExperimentModel.INSTANCE.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(TimeResolvedExperimentModel.UNIT_PROP_NAME)) {
+					groupsTableViewer.refresh();
+					timeBarViewer.redraw();
+				}
+			}
+		});
 		Composite buttonComposit = new Composite(regionsComposit, SWT.NONE);
 		buttonComposit.setLayout(new GridLayout());
 		buttonComposit.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL));
@@ -361,7 +417,7 @@ public class LinearExperimentView extends ViewPart {
 		butAdd.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				LinearExperimentModel.INSTANCE.addGroup();
+				TimeResolvedExperimentModel.INSTANCE.addGroup();
 			}
 		});
 
@@ -374,7 +430,7 @@ public class LinearExperimentView extends ViewPart {
 			public void handleEvent(Event event) {
 				IStructuredSelection structuredSelection = (IStructuredSelection) groupsTableViewer.getSelection();
 				if (structuredSelection.getFirstElement() != null) {
-					LinearExperimentModel.INSTANCE.removeGroup((TimingGroupModel) structuredSelection.getFirstElement());
+					TimeResolvedExperimentModel.INSTANCE.removeGroup((TimingGroupModel) structuredSelection.getFirstElement());
 				}
 			}
 		});
@@ -389,61 +445,62 @@ public class LinearExperimentView extends ViewPart {
 		groupSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 		groupSection.setClient(groupSectionComposite);
 
+		startTimeValueLabel = toolkit.createLabel(groupSectionComposite, "Start time", SWT.None);
+		startTimeValueLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		startTimeValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
+		startTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		endTimeValueLabel = toolkit.createLabel(groupSectionComposite, "End time", SWT.None);
+		endTimeValueLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		endTimeValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
+		endTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		timePerSpectrumValueLabel = toolkit.createLabel(groupSectionComposite, "Time per spectrum", SWT.None);
+		timePerSpectrumValueLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		timePerSpectrumValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
+		timePerSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		noOfSpectrumValueLabel = toolkit.createLabel(groupSectionComposite, "No. of spectrum", SWT.None);
+		noOfSpectrumValueLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		noOfSpectrumValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
+		noOfSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		integrationTimeLabel = toolkit.createLabel(groupSectionComposite, "Integration time", SWT.None);
+		integrationTimeLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		integrationTimeValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
+		integrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		noOfAccumulationValueLabel = toolkit.createLabel(groupSectionComposite, "Detector read back accumulations", SWT.None);
+		noOfAccumulationValueLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		noOfAccumulationValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
+		noOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		delayBeforeFristSpectrumValueLabel = toolkit.createLabel(groupSectionComposite, "Delay before start of group", SWT.None);
+		delayBeforeFristSpectrumValueLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		delayBeforeFristSpectrumValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
+		delayBeforeFristSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		spectrumDelayValueLabel = toolkit.createLabel(groupSectionComposite, "Delay between spectrum", SWT.None);
+		spectrumDelayValueLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		spectrumDelayValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
+		spectrumDelayValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		useExternalTriggerCheckbox = toolkit.createButton(groupSectionComposite, "Use exernal trigger", SWT.CHECK);
+		GridData useExternalTriggerGridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		useExternalTriggerGridData.horizontalSpan = 2;
+		useExternalTriggerCheckbox.setLayoutData(useExternalTriggerGridData);
+
 		sectionSeparator = toolkit.createCompositeSeparator(groupSection);
 		toolkit.paintBordersFor(sectionSeparator);
 		groupSection.setSeparatorControl(sectionSeparator);
+
 		groupsTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				IStructuredSelection structuredSelection = (IStructuredSelection) event.getSelection();
-				disposeIfNeeded(integrationTimeLabel);
-				disposeIfNeeded(integrationTimeValueText);
-
-				disposeIfNeeded(timePerSpectrumValueLabel);
-				disposeIfNeeded(timePerSpectrumValueText);
-
-				disposeIfNeeded(spectrumDelayValueLabel);
-				disposeIfNeeded(spectrumDelayValueText);
-
-				disposeIfNeeded(noOfAccumulationValueLabel);
-				disposeIfNeeded(noOfAccumulationValueText);
-
-
 				if (!structuredSelection.isEmpty()) {
-					TimingGroupModel group = (TimingGroupModel) structuredSelection.getFirstElement();
-					groupSection.setText(group.getName());
-					try {
-
-						timePerSpectrumValueLabel = toolkit.createLabel(groupSectionComposite, "Time per spectrum", SWT.None);
-						timePerSpectrumValueLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-						timePerSpectrumValueText = new NumberEditorControl(groupSectionComposite, SWT.None, group, TimingGroupModel.TIME_PER_SPECTRUM_PROP_NAME, false);
-						timePerSpectrumValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-						timePerSpectrumValueText.setUnit(UnitSetup.MILLI_SEC.getText());
-						timePerSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-						spectrumDelayValueLabel = toolkit.createLabel(groupSectionComposite, "Delay between spectrum", SWT.None);
-						spectrumDelayValueLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-						spectrumDelayValueText = new NumberEditorControl(groupSectionComposite, SWT.None, group, TimingGroupModel.DELAY_BETWEEN_SPECTRUM_PROP_NAME, false);
-						spectrumDelayValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-						spectrumDelayValueText.setUnit(UnitSetup.MILLI_SEC.getText());
-						spectrumDelayValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-						integrationTimeLabel = toolkit.createLabel(groupSectionComposite, "Integration time", SWT.None);
-						integrationTimeLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-						integrationTimeValueText = new NumberEditorControl(groupSectionComposite, SWT.None, group, TimingGroupModel.INTEGRATION_TIME_PROP_NAME, false);
-						integrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-						integrationTimeValueText.setUnit(UnitSetup.MILLI_SEC.getText());
-						integrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-						noOfAccumulationValueLabel = toolkit.createLabel(groupSectionComposite, "Detector read back accumulations", SWT.None);
-						noOfAccumulationValueLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-						noOfAccumulationValueText = new NumberEditorControl(groupSectionComposite, SWT.None, group, TimingGroupModel.NO_OF_ACCUMULATION_PROP_NAME, false);
-						noOfAccumulationValueText.setEditable(false);
-						noOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-					} catch (Exception e) {
-						UIHelper.showError("Unable to create controls", e.getMessage());
-					}
+					showGroupDetails(groupSection, structuredSelection);
 					groupSection.setVisible(true);
 				} else {
 					groupSection.setVisible(false);
@@ -452,10 +509,15 @@ public class LinearExperimentView extends ViewPart {
 				groupSection.layout(true, true);
 				groupSection.getParent().layout(true, true);
 			}
-
-			private void disposeIfNeeded(Widget integrationTimeLabel) {
-				if (integrationTimeLabel != null && !integrationTimeLabel.isDisposed()) {
-					integrationTimeLabel.dispose();
+		});
+		TimeResolvedExperimentModel.INSTANCE.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(TimeResolvedExperimentModel.UNIT_PROP_NAME)) {
+					IStructuredSelection structuredSelection = (IStructuredSelection) groupsTableViewer.getSelection();
+					if (!structuredSelection.isEmpty()) {
+						showGroupDetails(groupSection, structuredSelection);
+					}
 				}
 			}
 		});
@@ -480,7 +542,7 @@ public class LinearExperimentView extends ViewPart {
 	private void createExperimentDetailsSection(Composite parent) throws Exception {
 		@SuppressWarnings("static-access")
 		Section section = toolkit.createSection(parent, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		section.setText("Sample position and experiment");
+		section.setText("Sample position and experiment setup");
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.verticalSpan = 2;
 		section.setLayoutData(data);
@@ -547,39 +609,76 @@ public class LinearExperimentView extends ViewPart {
 		xPosition.setEditable(useIRefCheckButton.getSelection());
 		yPosition.setEditable(useIRefCheckButton.getSelection());
 
-		lbl = toolkit.createLabel(sectionComposite, "Total experiment time", SWT.NONE);
+		final Button useCyclingExperimentButton = toolkit.createButton(sectionComposite, "Cyclic experiment", SWT.CHECK);
+		gridData = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
+		gridData.horizontalSpan = 2;
+		useCyclingExperimentButton.setLayoutData(gridData);
+
+		lbl = toolkit.createLabel(sectionComposite, "Number of cycles", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
 		GridData gridDataForTxt = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		NumberEditorControl numberEditorControl = new NumberEditorControl(sectionComposite, SWT.None, LinearExperimentModel.INSTANCE, LinearExperimentModel.DURATION_IN_SEC_PROP_NAME, false);
-		numberEditorControl.setUnit(ClientConfig.UnitSetup.SEC.getText());
-		numberEditorControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		numberEditorControl.setLayoutData(gridDataForTxt);
+		// TODO Show hide
+		ComboViewer repeatingGroupCombo = new ComboViewer(sectionComposite, SWT.READ_ONLY);
+		repeatingGroupCombo.getCombo().setLayoutData(gridDataForTxt);
+		repeatingGroupCombo.setContentProvider(new ArrayContentProvider());
+		repeatingGroupCombo.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((Integer) element).toString();
+			}
+		});
+		repeatingGroupCombo.setInput(new Integer[]{1,2,3,4,5,6,7,8,9,10});
+		repeatingGroupCombo.setSelection(new StructuredSelection(1));
 
-		lbl = toolkit.createLabel(sectionComposite, "Delay between groups", SWT.NONE);
-		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		gridDataForTxt = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		numberEditorControl = new NumberEditorControl(sectionComposite, SWT.None, LinearExperimentModel.INSTANCE, LinearExperimentModel.DELAY_BETWEEN_GROUPS_PROP_NAME, false);
-		numberEditorControl.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
-		numberEditorControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		numberEditorControl.setLayoutData(gridDataForTxt);
-
-		final Button useExernalTriggerCheckButton = toolkit.createButton(sectionComposite, "Use exernal trigger", SWT.CHECK);
-		gridData = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
+		Composite acquisitionButtonsComposite = new Composite(sectionComposite, SWT.NONE);
+		gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, true);
 		gridData.horizontalSpan = 2;
-		useExernalTriggerCheckButton.setLayoutData(gridData);
-		useExernalTriggerCheckButton.addListener(SWT.Selection, new Listener() {
+		acquisitionButtonsComposite.setLayoutData(gridData);
+		acquisitionButtonsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
+		toolkit.paintBordersFor(acquisitionButtonsComposite);
 
+		Button startAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Start", SWT.PUSH);
+		startAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		startAcquicitionButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				runExperimentAction.setEnabled(!useExernalTriggerCheckButton.getSelection());
+				try {
+					TimeResolvedExperimentModel.INSTANCE.doCollection();
+				} catch (Exception e) {
+					UIHelper.showError("Unable to scan", e.getMessage());
+				}
 			}
 		});
 
-		Composite roisSectionSeparator = toolkit.createCompositeSeparator(section);
-		toolkit.paintBordersFor(roisSectionSeparator);
-		section.setSeparatorControl(roisSectionSeparator);
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(startAcquicitionButton),
+				BeanProperties.value(TimeResolvedExperimentModel.SCANNING_PROP_NAME).observe(TimeResolvedExperimentModel.INSTANCE),
+				null,
+				new UpdateValueStrategy() {
+					@Override
+					public Object convert(Object value) {
+						return (!(boolean) value);
+					}
+				});
+
+		Button stopAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Stop", SWT.PUSH);
+		stopAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(stopAcquicitionButton),
+				BeanProperties.value(TimeResolvedExperimentModel.SCANNING_PROP_NAME).observe(TimeResolvedExperimentModel.INSTANCE));
+		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				SingleSpectrumModel.INSTANCE.doStop();
+			}
+		});
+
+		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
+		toolkit.paintBordersFor(sectionSeparator);
+		section.setSeparatorControl(sectionSeparator);
 	}
 
 	public void createSamplePositionComposite(Composite parent, String xPropName, String yPropName) throws Exception {
@@ -643,7 +742,6 @@ public class LinearExperimentView extends ViewPart {
 		timeBarViewer = new TimeBarViewer(composite, SWT.H_SCROLL | SWT.V_SCROLL);
 		timeBarViewer.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		timeBarViewer.setTimeScalePosition(TimeBarViewer.TIMESCALE_POSITION_TOP);
-
 		timeBarViewer.setAdjustMinMaxDatesByModel(true);
 		timeBarViewer.setDrawRowGrid(true);
 		timeBarViewer.setAutoScaleRows(2);
@@ -652,25 +750,25 @@ public class LinearExperimentView extends ViewPart {
 		timeBarViewer.setDrawOverlapping(true);
 
 		// TODO Adjust accordingly
-		timeBarViewer.setInitialDisplayRange(TimebarHelper.getTime(), (int) LinearExperimentModel.INSTANCE.getDurationInSec());
+		timeBarViewer.setInitialDisplayRange(TimebarHelper.getTime(), (int) TimeResolvedExperimentModel.INSTANCE.getDurationInSec());
 		timeBarViewer.registerTimeBarRenderer(TimingGroupModel.class, new CollectionModelRenderer());
 		timeBarViewer.registerTimeBarRenderer(SpectrumModel.class, new CollectionModelRenderer());
-		timeBarViewer.setTimeScaleRenderer(new MilliScale());
-		timeBarViewer.setModel(LinearExperimentModel.INSTANCE.getTimeBarModel());
+		timeBarViewer.setTimeScaleRenderer(new TimingGroupsScaleRenderer());
+		timeBarViewer.setModel(TimeResolvedExperimentModel.INSTANCE.getTimeBarModel());
 		timeBarViewer.setLineDraggingAllowed(false);
 		marker = new TimeBarMarkerImpl(true, TimebarHelper.getTime().advanceMillis(INITIAL_TIMEBAR_MARKER_IN_MILLI));
 
-		LinearExperimentModel.INSTANCE.addPropertyChangeListener(new PropertyChangeListener() {
+		TimeResolvedExperimentModel.INSTANCE.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(LinearExperimentModel.SCANNING_PROP_NAME)) {
+				if (evt.getPropertyName().equals(TimeResolvedExperimentModel.SCANNING_PROP_NAME)) {
 					if ((boolean) evt.getNewValue()) {
 						marker.setDate(TimebarHelper.getTime());
 						timeBarViewer.addMarker(marker);
 					} else {
 						timeBarViewer.remMarker(marker);
 					}
-				} else if (evt.getPropertyName().equals(LinearExperimentModel.CURRENT_SCANNING_SPECTRUM_PROP_NAME)) {
+				} else if (evt.getPropertyName().equals(TimeResolvedExperimentModel.CURRENT_SCANNING_SPECTRUM_PROP_NAME)) {
 					SpectrumModel spectrum = (SpectrumModel) evt.getNewValue();
 					marker.setDate(spectrum.getEnd().copy());
 				}
@@ -707,26 +805,18 @@ public class LinearExperimentView extends ViewPart {
 		Composite controls = new Composite(composite, SWT.None);
 		controls.setLayoutData(new GridData(SWT.END, SWT.FILL, false, true));
 		controls.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
-		final Scale scale = new Scale(controls, SWT.VERTICAL);
+		scale = new Scale(controls, SWT.VERTICAL);
 
 		timeBarViewer.addControlListener(new ControlListener() {
-
 			@Override
 			public void controlResized(ControlEvent e) {
-				double width = timeBarViewer.getClientArea().width - timeBarViewer.getYAxisWidth();
-				if (width > 0) {
-					scale.setMinimum((int) (width / LinearExperimentModel.INSTANCE.getDurationInSec()));
-					scale.setSelection((int) (width / LinearExperimentModel.INSTANCE.getDurationInSec()));
-					scale.setMaximum(TIMEBAR_ZOOM_FACTOR * (int) (width / LinearExperimentModel.INSTANCE.getDurationInSec()));
-					timeBarViewer.setPixelPerSecond(scale.getSelection());
-				}
+				updateScaleSelection();
 			}
 			@Override
-			public void controlMoved(ControlEvent e) {
-				// TODO Auto-generated method stub
-			}
+			public void controlMoved(ControlEvent e) {}
 		});
 
+		// TODO Adjust accordingly
 		scale.setMinimum(10);
 		scale.setSelection(10);
 		scale.setMaximum(1000);
@@ -738,12 +828,26 @@ public class LinearExperimentView extends ViewPart {
 		scale.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				timeBarViewer.setPixelPerSecond(scale.getSelection());
-				IStructuredSelection structuredSelection = (IStructuredSelection) timeBarViewer.getSelection();
-				if (structuredSelection.getFirstElement() != null) {
-					timeBarViewer.scrollIntervalToVisible((Interval) structuredSelection.getFirstElement());
+				int selection = scale.getSelection();
+				timeBarViewer.setPixelPerSecond(selection);
+				if (selection == scale.getMinimum()) {
+					timeBarViewer.setInitialDisplayRange(TimebarHelper.getTime(), (int) TimeResolvedExperimentModel.INSTANCE.getDurationInSec());
+				}	else {
+					IStructuredSelection structuredSelection = (IStructuredSelection) timeBarViewer.getSelection();
+					if (structuredSelection.getFirstElement() != null) {
+						timeBarViewer.scrollIntervalToVisible((Interval) structuredSelection.getFirstElement());
+					}
 				}
+			}
+		});
 
+		TimeResolvedExperimentModel.INSTANCE.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(TimeResolvedExperimentModel.EXPERIMENT_DURATION_PROP_NAME)) {
+					timeBarViewer.setInitialDisplayRange(TimebarHelper.getTime(), (int) TimeResolvedExperimentModel.INSTANCE.getDurationInSec());
+					updateScaleSelection();
+				}
 			}
 		});
 	}
@@ -751,6 +855,62 @@ public class LinearExperimentView extends ViewPart {
 	@Override
 	public void setFocus() {
 		timeBarViewer.setFocus();
+	}
+
+	private void showGroupDetails(final Section groupSection, IStructuredSelection structuredSelection) {
+		TimingGroupModel group = (TimingGroupModel) structuredSelection.getFirstElement();
+		groupSection.setText(group.getName());
+
+		try {
+			startTimeValueText.setModel(group, ExperimentTimingDataModel.START_TIME_PROP_NAME);
+			startTimeValueText.setConverters(modelToTargetConverter, targetToModelConverter);
+			startTimeValueText.setEditable(false);
+			startTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+			startTimeValueText.setUnit(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText());
+
+			endTimeValueText.setModel(group, ExperimentTimingDataModel.END_TIME_PROP_NAME);
+			endTimeValueText.setConverters(modelToTargetConverter, targetToModelConverter);
+			endTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+			endTimeValueText.setUnit(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText());
+
+			timePerSpectrumValueText.setModel(group, TimingGroupModel.TIME_PER_SPECTRUM_PROP_NAME);
+			timePerSpectrumValueText.setConverters(modelToTargetConverter, targetToModelConverter);
+			timePerSpectrumValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+			timePerSpectrumValueText.setUnit(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText());
+
+			noOfSpectrumValueText.setModel(group, TimingGroupModel.NO_OF_SPECTRUM_PROP_NAME);
+
+			integrationTimeValueText.setModel(group, TimingGroupModel.INTEGRATION_TIME_PROP_NAME);
+			integrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+			integrationTimeValueText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
+
+			noOfAccumulationValueText.setModel(group, TimingGroupModel.NO_OF_ACCUMULATION_PROP_NAME);
+			noOfAccumulationValueText.setEditable(false);
+
+			delayBeforeFristSpectrumValueText.setModel(group, ExperimentTimingDataModel.DELAY_PROP_NAME);
+			delayBeforeFristSpectrumValueText.setConverters(modelToTargetConverter, targetToModelConverter);
+			delayBeforeFristSpectrumValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+			delayBeforeFristSpectrumValueText.setUnit(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText());
+
+			spectrumDelayValueText.setModel(group, TimingGroupModel.DELAY_BETWEEN_SPECTRUM_PROP_NAME);
+			spectrumDelayValueText.setConverters(modelToTargetConverter, targetToModelConverter);
+			spectrumDelayValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+			spectrumDelayValueText.setUnit(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText());
+		} catch (Exception e) {
+			// TODO Handle this!
+			e.printStackTrace();
+		}
+	}
+
+	private void updateScaleSelection() {
+		double width = timeBarViewer.getClientArea().width - timeBarViewer.getYAxisWidth();
+		if (width > 0) {
+			int pixelPerSecond = (int) (width / TimeResolvedExperimentModel.INSTANCE.getDurationInSec());
+			scale.setMinimum(pixelPerSecond);
+			scale.setSelection(pixelPerSecond);
+			scale.setMaximum(TIMEBAR_ZOOM_FACTOR * pixelPerSecond);
+			timeBarViewer.setPixelPerSecond(scale.getSelection());
+		}
 	}
 
 }

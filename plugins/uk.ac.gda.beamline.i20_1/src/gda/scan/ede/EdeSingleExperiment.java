@@ -18,15 +18,21 @@
 
 package gda.scan.ede;
 
+import gda.device.Monitor;
 import gda.device.detector.StripDetector;
+import gda.device.scannable.TopupChecker;
 import gda.scan.EdeScan;
 import gda.scan.MultiScan;
 import gda.scan.ScanBase;
 import gda.scan.ede.datawriters.EdeSingleSpectrumAsciiFileWriter;
 import gda.scan.ede.position.EdeScanPosition;
+import gda.scan.ede.timeestimators.SingleExperimentTimeEstimator;
 
 import java.util.List;
 import java.util.Vector;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
@@ -41,6 +47,8 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
  * single spectrum.
  */
 public class EdeSingleExperiment extends EdeExperiment {
+
+	private static final Logger logger = LoggerFactory.getLogger(EdeSingleExperiment.class);
 
 	protected final EdeScanPosition i0Position;
 	protected final EdeScanPosition itPosition;
@@ -64,13 +72,14 @@ public class EdeSingleExperiment extends EdeExperiment {
 	 * @param theDetector
 	 */
 	public EdeSingleExperiment(EdeScanParameters i0ScanParameters, EdeScanParameters itScanParameters,
-			EdeScanPosition i0Position, EdeScanPosition itPosition, StripDetector theDetector) {
+			EdeScanPosition i0Position, EdeScanPosition itPosition, StripDetector theDetector, Monitor topupMonitor) {
 		super();
 		this.i0ScanParameters = i0ScanParameters;
 		this.i0Position = i0Position;
 		this.itPosition = itPosition;
 		this.itScanParameters = itScanParameters;
 		this.theDetector = theDetector;
+		topup = topupMonitor;
 		runItDark = true;
 		validateTimingParameters();
 	}
@@ -84,13 +93,14 @@ public class EdeSingleExperiment extends EdeExperiment {
 	 * @param theDetector
 	 */
 	public EdeSingleExperiment(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
-			EdeScanPosition itPosition, StripDetector theDetector) {
+			EdeScanPosition itPosition, StripDetector theDetector, Monitor topupMonitor) {
 		super();
 		this.i0Position = i0Position;
 		this.itPosition = itPosition;
 		i0ScanParameters = itScanParameters;
 		this.itScanParameters = itScanParameters;
 		this.theDetector = theDetector;
+		topup = topupMonitor;
 		runItDark = false;
 		validateTimingParameters();
 	}
@@ -118,6 +128,7 @@ public class EdeSingleExperiment extends EdeExperiment {
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
 			writer.setFilenameTemplate(filenameTemplate);
 		}
+		logger.debug("EDE single experiment writing its ascii derived data files...");
 		writer.writeAsciiFile();
 		log("EDE single spectrum experiment complete.");
 		return writer.getAsciiFilename();
@@ -142,6 +153,15 @@ public class EdeSingleExperiment extends EdeExperiment {
 		theScans.add(itScan);
 
 		MultiScan theScan = new MultiScan(theScans);
+		pauseForToup();
+		logger.debug("EDE single experiment starting its multiscan...");
 		theScan.runScan();
+	}
+
+	private void pauseForToup() throws Exception {
+		Double predictedExperimentTime = new SingleExperimentTimeEstimator(itScanParameters,  i0Position,
+				itPosition).getTotalDuration();
+		TopupChecker topup = createTopupChecker(predictedExperimentTime);
+		topup.atScanStart();
 	}
 }

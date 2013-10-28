@@ -18,7 +18,9 @@
 
 package gda.scan.ede;
 
+import gda.device.Monitor;
 import gda.device.detector.StripDetector;
+import gda.device.scannable.TopupChecker;
 import gda.factory.Finder;
 import gda.jython.scriptcontroller.ScriptControllerBase;
 import gda.observable.IObserver;
@@ -28,9 +30,13 @@ import gda.scan.ScanBase;
 import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 import gda.scan.ede.datawriters.EdeLinearExperimentAsciiFileWriter;
 import gda.scan.ede.position.EdeScanPosition;
+import gda.scan.ede.timeestimators.LinearExperimentTimeEstimator;
 
 import java.util.List;
 import java.util.Vector;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
@@ -46,16 +52,18 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  */
 public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 
-	// private static final Logger logger = LoggerFactory.getLogger(EdeSingleExperiment.class);
+	private static final Logger logger = LoggerFactory.getLogger(EdeLinearExperiment.class);
 
 	private final EdeScanParameters itScanParameters;
 	private final EdeScanPosition i0Position;
 	private final EdeScanPosition itPosition;
+	private final EdeScanPosition iRefPosition;
 	private final StripDetector theDetector;
 
 	private EdeScanParameters i0ScanParameters;
 	private EdeScan i0DarkScan;
 	private EdeScan i0InitialScan;
+	private EdeScan iRefScan;
 	private EdeScan itScan;
 	private EdeScan i0FinalScan;
 	private EdeLinearExperimentAsciiFileWriter writer;
@@ -63,11 +71,13 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	private final DoubleDataset energyData;
 
 	public EdeLinearExperiment(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
-			EdeScanPosition itPosition, StripDetector theDetector) {
+			EdeScanPosition itPosition, EdeScanPosition iRefPosition, StripDetector theDetector, Monitor topupMonitor) {
 		this.itScanParameters = itScanParameters;
 		this.i0Position = i0Position;
 		this.itPosition = itPosition;
+		this.iRefPosition = iRefPosition;
 		this.theDetector = theDetector;
+		topup = topupMonitor;
 		controller = (ScriptControllerBase) Finder.getInstance().findNoWarn(PROGRESS_UPDATER_NAME);
 		energyData = new DoubleDataset(theDetector.getEnergyForChannels());
 	}
@@ -107,6 +117,15 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	 */
 	public String getI0Filename() {
 		return writer.getAsciiI0Filename();
+	}
+
+	/**
+	 * NPE if this is called before the scan has been run and the datawriter has been created
+	 * 
+	 * @return the name of the I0 output file
+	 */
+	public String getIRefFilename() {
+		return writer.getAsciiIRefFilename();
 	}
 
 	/**
@@ -158,6 +177,9 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	private void runScans() throws InterruptedException, Exception {
 		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 1);
 		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1);
+		if (iRefPosition != null){
+			iRefScan = new EdeScan(i0ScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1);
+		}
 		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1);
 		itScan.setProgressUpdater(this);
 		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1);
@@ -165,20 +187,33 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		List<ScanBase> theScans = new Vector<ScanBase>();
 		theScans.add(i0DarkScan);
 		theScans.add(i0InitialScan);
+		if (iRefPosition != null){
+			theScans.add(iRefScan);
+		}
 		theScans.add(itScan);
 		theScans.add(i0FinalScan);
 
 		MultiScan theScan = new MultiScan(theScans);
+		pauseForToup();
+		logger.debug("EDE linear experiment starting its multiscan...");
 		theScan.runScan();
 	}
 
 	private String writeAsciiFile() throws Exception {
-		writer = new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0InitialScan, itScan, i0FinalScan, theDetector);
+		writer = new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0InitialScan, iRefScan, itScan, i0FinalScan, theDetector);
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
 			writer.setFilenameTemplate(filenameTemplate);
 		}
+		logger.debug("EDE linear experiment writing its ascii derived data files...");
 		writer.writeAsciiFile();
 		log("EDE single spectrum experiment complete.");
 		return writer.getAsciiItFilename();
+	}
+
+	private void pauseForToup() throws Exception {
+		Double predictedExperimentTime = new LinearExperimentTimeEstimator(itScanParameters,  i0Position,
+				itPosition,iRefPosition).getTotalDuration();
+		TopupChecker topup = createTopupChecker(predictedExperimentTime);
+		topup.atScanStart();
 	}
 }

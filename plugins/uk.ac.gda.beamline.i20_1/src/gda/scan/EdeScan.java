@@ -38,6 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
+import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 /**
  * Runs a single set of timing groups for EDE through the XSTRIP DAServer interface.
@@ -94,6 +95,15 @@ public class EdeScan extends ConcurrentScanChild {
 		return "EDE scan - type:" + scanType.toString() + " " + motorPositions.getType().toString();
 	}
 
+	public String getHeaderDescription() {
+		String desc = scanType.toString() + " " + motorPositions.getType().toString() + " scan with " + scanParameters.getGroups().size() + " timing groups";
+		for (int index = 0; index < scanParameters.getGroups().size(); index++){
+			TimingGroup group = scanParameters.getGroups().get(index);
+			desc += "\n#Group "+ index + " "+group.getHeaderDescription();
+		}
+		return desc;
+	}
+
 	@Override
 	public int getDimension() {
 		return scanParameters.getTotalNumberOfFrames();
@@ -124,13 +134,16 @@ public class EdeScan extends ConcurrentScanChild {
 	@Override
 	public void doCollection() throws Exception {
 		validate();
+		logger.debug(toString() + " loading detector parameters...");
 		theDetector.loadParameters(scanParameters);
+		logger.debug(toString() + " moving motors into position...");
 		motorPositions.moveIntoPosition();
 		checkForInterrupts();
 		if (!isChild()) {
 			currentPointCount = -1;
 		}
 
+		logger.debug(toString() + " starting detector running...");
 		theDetector.collectData();
 		// sleep for a moment to allow collection to start
 		Thread.sleep(250);
@@ -138,9 +151,9 @@ public class EdeScan extends ConcurrentScanChild {
 		Integer nextFrameToRead = 0;
 		try {
 			ExperimentStatus progressData = theDetector.fetchStatus();
-			Integer currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters,
-					progressData.loc);
+			Integer currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters, progressData.loc);
 			while (!collectionFinished(progressData)) {
+				// Review here we assume currentFrame - 1 is ready to read
 				if (currentFrame > nextFrameToRead) {
 					createDataPoints(nextFrameToRead, currentFrame - 1);
 					nextFrameToRead = currentFrame;
@@ -150,8 +163,7 @@ public class EdeScan extends ConcurrentScanChild {
 				Thread.sleep(100);
 				checkForInterrupts();
 				progressData = theDetector.fetchStatus();
-				currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters,
-						progressData.loc);
+				currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters, progressData.loc);
 			}
 		} catch (Exception e) {
 			// scan has been aborted, so stop the collection and let the scan write out the rest of the data point which
@@ -162,11 +174,10 @@ public class EdeScan extends ConcurrentScanChild {
 			// have we read all the frames?
 			readoutRestOfFrames(nextFrameToRead);
 		}
-
+		logger.debug(toString() + " doCollection finished.");
 	}
 
 	private Boolean collectionFinished(ExperimentStatus progressData) {
-		// TODO test this actually works with hardware!!!
 		return progressData.toString().contains("Idle");
 	}
 
@@ -193,6 +204,7 @@ public class EdeScan extends ConcurrentScanChild {
 	}
 
 	private void readoutRestOfFrames(Integer nextFrameToRead) throws Exception {
+		logger.debug(toString() + " detector finished, now reading the rest of the data...");
 		int absLowFrame = nextFrameToRead;
 		if (absLowFrame == getDimension()) {
 			return;
@@ -238,7 +250,7 @@ public class EdeScan extends ConcurrentScanChild {
 			thisPoint.setNumberOfPoints(getTotalNumberOfPoints());
 			thisPoint.setInstrument(instrument);
 			thisPoint.setCommand(getCommand());
-			thisPoint.setScanIdentifier(getDataWriter().getCurrentScanIdentifier());
+			thisPoint.setScanIdentifier(String.valueOf(getScanNumber()));
 
 			// then write data to data handler
 			storeAndBroadcastSDP(thisFrame, thisPoint);

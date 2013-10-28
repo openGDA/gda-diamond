@@ -42,16 +42,16 @@ import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.DetectorUnavailableException;
-import uk.ac.gda.exafs.data.SlitScannerModel;
+import uk.ac.gda.exafs.data.SlitsScanModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
-public class SlitScanSection {
-	public static final SlitScanSection INSTANCE = new SlitScanSection();
+public class SlitsScanSection {
+	public static final SlitsScanSection INSTANCE = new SlitsScanSection();
 	private Section slitsParametersSection;
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
-	private SlitScanSection() {}
+	private SlitsScanSection() {}
 
 	@SuppressWarnings({ "static-access" })
 	public void createSection(Form form, FormToolkit toolkit) {
@@ -71,7 +71,7 @@ public class SlitScanSection {
 
 			GridData gridDataForTxt = new GridData(SWT.FILL, GridData.CENTER, true, false);
 
-			NumberEditorControl  txtGap = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScannerModel.getInstance(), SlitScannerModel.GAP_PROP_NAME, false);
+			NumberEditorControl  txtGap = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitsScanModel.getInstance(), SlitsScanModel.GAP_PROP_NAME, false);
 			txtGap.setUnit(ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getUnit().getText());
 			txtGap.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			txtGap.setLayoutData(gridDataForTxt);
@@ -79,7 +79,7 @@ public class SlitScanSection {
 			lbl = toolkit.createLabel(slitsParametersSelectionComposite, "From", SWT.NONE);
 			lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
-			NumberEditorControl spnFromOffset = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScannerModel.getInstance(), SlitScannerModel.FROM_OFFSET_PROP_NAME, true);
+			NumberEditorControl spnFromOffset = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitsScanModel.getInstance(), SlitsScanModel.FROM_OFFSET_PROP_NAME, true);
 			spnFromOffset.setUnit(UnitSetup.MILLI_METER.getText());
 			spnFromOffset.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			spnFromOffset.setLayoutData(gridDataForTxt);
@@ -87,7 +87,7 @@ public class SlitScanSection {
 			lbl = toolkit.createLabel(slitsParametersSelectionComposite, "To", SWT.NONE);
 			lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
-			NumberEditorControl spnToOffset = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScannerModel.getInstance(), SlitScannerModel.TO_OFFSET_PROP_NAME, true);
+			NumberEditorControl spnToOffset = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitsScanModel.getInstance(), SlitsScanModel.TO_OFFSET_PROP_NAME, true);
 			spnToOffset.setUnit(UnitSetup.MILLI_METER.getText());
 			spnToOffset.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			spnToOffset.setLayoutData(gridDataForTxt);
@@ -95,7 +95,7 @@ public class SlitScanSection {
 			lbl = toolkit.createLabel(slitsParametersSelectionComposite, "Step size", SWT.NONE);
 			lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
-			NumberEditorControl txtStep = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScannerModel.getInstance(), SlitScannerModel.STEP_PROP_NAME, true);
+			NumberEditorControl txtStep = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitsScanModel.getInstance(), SlitsScanModel.STEP_PROP_NAME, true);
 			txtStep.setUnit(UnitSetup.MILLI_METER.getText());
 			txtStep.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			txtStep.setLayoutData(gridDataForTxt);
@@ -103,7 +103,7 @@ public class SlitScanSection {
 			lbl = toolkit.createLabel(slitsParametersSelectionComposite, "Integration time", SWT.NONE);
 			lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
-			NumberEditorControl integrationTime = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitScannerModel.getInstance(), SlitScannerModel.INTEGRATION_TIME_PROP_NAME, true);
+			NumberEditorControl integrationTime = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitsScanModel.getInstance(), SlitsScanModel.INTEGRATION_TIME_PROP_NAME, true);
 			integrationTime.setUnit(UnitSetup.MILLI_SEC.getText());
 			integrationTime.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			integrationTime.setLayoutData(gridDataForTxt);
@@ -119,7 +119,7 @@ public class SlitScanSection {
 
 			dataBindingCtx.bindValue(
 					WidgetProperties.enabled().observe(startPauseButton),
-					BeanProperties.value(SlitScannerModel.STATE_PROP_NAME).observe(SlitScannerModel.getInstance()),
+					BeanProperties.value(SlitsScanModel.STATE_PROP_NAME).observe(SlitsScanModel.getInstance()),
 					null,
 					new UpdateValueStrategy() {
 						@Override
@@ -132,7 +132,7 @@ public class SlitScanSection {
 				@Override
 				public void handleEvent(Event event) {
 					try {
-						SlitScannerModel.getInstance().doScan();
+						SlitsScanModel.getInstance().doScan();
 					} catch (DetectorUnavailableException e) {
 						UIHelper.showError("Unable to scan", e.getMessage());
 					}
@@ -144,7 +144,7 @@ public class SlitScanSection {
 			stopButton.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
 			dataBindingCtx.bindValue(
 					WidgetProperties.enabled().observe(stopButton),
-					BeanProperties.value(SlitScannerModel.STATE_PROP_NAME).observe(SlitScannerModel.getInstance()),
+					BeanProperties.value(SlitsScanModel.STATE_PROP_NAME).observe(SlitsScanModel.getInstance()),
 					null,
 					new UpdateValueStrategy() {
 						@Override
@@ -155,7 +155,7 @@ public class SlitScanSection {
 			stopButton.addListener(SWT.Selection, new Listener() {
 				@Override
 				public void handleEvent(Event event) {
-					SlitScannerModel.getInstance().stopScan();
+					SlitsScanModel.getInstance().stopScan();
 				}
 			});
 

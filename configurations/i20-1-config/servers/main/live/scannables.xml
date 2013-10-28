@@ -10,4 +10,22 @@
 	</bean>
 
 
+	<bean id="topup" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
+		<property name="local" value="false" />
+	</bean>
+	
+	<bean id="absorber" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="FE20I-RS-ABSB-01:STA" />
+		<property name="local" value="false" />
+	</bean>
+
+	<bean id="shutterChecker" class="gda.device.scannable.ShutterChecker">
+		<property name="shutter" ref="shutter2" />
+		<property name="pssPVName" value="BL20J-PS-SHTR-02:CON"/>
+	</bean>
+	
+	
+	<import resource="file:${gda.config}/servers/main/scannables-common.xml" />
+
 </beans>

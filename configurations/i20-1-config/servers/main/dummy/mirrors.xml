@@ -10,7 +10,6 @@
 			<list>
 				<value>Rhodium</value>
 				<value>Platinum</value>
-				<value>Zero</value>
 			</list>
 		</property>
 	</bean>

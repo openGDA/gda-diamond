@@ -27,11 +27,14 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.UIObservableModel;
 
 public class ScannableWrapper extends UIObservableModel implements IObserver {
+	private static final Logger logger = LoggerFactory.getLogger(ScannableWrapper.class);
 
 	private static final int CHECK_BUSY_STATUS_IN_MS = 50;
 	private static final int WAIT_FOR_MSG_UPDATE_IN_MS = 500;
@@ -44,6 +47,8 @@ public class ScannableWrapper extends UIObservableModel implements IObserver {
 	private Double targetPosition;
 
 	private PositionChecker scannablePositionChecker;
+
+	private boolean positionChecking;
 
 	public ScannableWrapper(Scannable scannable) {
 		this.scannable = scannable;
@@ -123,17 +128,31 @@ public class ScannableWrapper extends UIObservableModel implements IObserver {
 	public void update(Object source, Object arg) {
 		if (arg instanceof ScannableStatus) {
 			ScannableStatus status = (ScannableStatus) arg;
-			if (status.getStatus() == ScannableStatus.BUSY) {
-				scannablePositionChecker = new PositionChecker();
-				Thread t = new Thread(scannablePositionChecker);
-				t.start();
-			} else {
-				if (scannablePositionChecker != null) {
-					scannablePositionChecker.stop();
-					scannablePositionChecker = null;
+			try {
+				if (status.getStatus() == ScannableStatus.BUSY) {
+					positionChecking = true;
+					scannablePositionChecker = new PositionChecker();
+					Thread t = new Thread(scannablePositionChecker);
+					t.start();
+				} else {
+					if (scannablePositionChecker != null) {
+						scannablePositionChecker.stop();
+						scannablePositionChecker = null;
+					}
 				}
+				if (positionChecking) {
+					updatePosition();
+					positionChecking= false;
+				}
+			} catch (DeviceException e) {
+				logger.error("Error updating scannable motor position", e);
 			}
 		}
+	}
+
+	private void updatePosition() throws DeviceException {
+		final Object object = scannable.getPosition();
+		firePropertyChange(POSITION_PROP_NAME, null, (double) object);
 	}
 
 	private class PositionChecker implements Runnable {
@@ -147,9 +166,8 @@ public class ScannableWrapper extends UIObservableModel implements IObserver {
 		public void run() {
 			while (!stopped) {
 				try {
-					final Object object = scannable.getPosition();
-					firePropertyChange(POSITION_PROP_NAME, null, (double) object);
 					Thread.sleep(CHECK_BUSY_STATUS_IN_MS);
+					updatePosition();
 				} catch (InterruptedException | DeviceException e) {
 					break;
 				}

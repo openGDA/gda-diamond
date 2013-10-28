@@ -28,6 +28,10 @@ import gda.jython.Jython;
 import gda.jython.JythonServerFacade;
 import gda.jython.JythonServerStatus;
 import gda.observable.IObserver;
+import gda.util.exafs.Element;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -37,8 +41,10 @@ import org.eclipse.swt.widgets.Display;
 
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
+import com.google.gson.annotations.Expose;
+
 public class SingleSpectrumModel extends ObservableModel {
-	public static final SingleSpectrumModel INSTANCE = new SingleSpectrumModel();
+	public static final SingleSpectrumModel INSTANCE = new SingleSpectrumModel(0);
 
 	public static final String I0_X_POSITION_PROP_NAME = "i0xPosition";
 	private double i0xPosition;
@@ -53,21 +59,23 @@ public class SingleSpectrumModel extends ObservableModel {
 	private double iTyPosition;
 
 	public static final String I0_INTEGRATION_TIME_PROP_NAME = "i0IntegrationTime";
+	@Expose
 	private double i0IntegrationTime;
 
 	public static final String I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME = "i0NumberOfAccumulations";
+	@Expose
 	private int i0NumberOfAccumulations;
 
 	public static final String IT_INTEGRATION_TIME_PROP_NAME = "itIntegrationTime";
+	@Expose
 	private double itIntegrationTime;
 
 	public static final String IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME = "itNumberOfAccumulations";
+	@Expose
 	private int itNumberOfAccumulations;
 
 	public static final String FILE_NAME_PROP_NAME = "fileName";
 	private String fileName;
-
-
 
 	public static final String IREF_X_POSITION_PROP_NAME = "iRefxPosition";
 	private double iRefxPosition;
@@ -82,7 +90,9 @@ public class SingleSpectrumModel extends ObservableModel {
 
 	private String fileTemplate = "Unknown_cal_";
 
-	protected SingleSpectrumModel() {
+	private static final String SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY = "SINGLE_SPECTRUM_DATA";
+
+	private SingleSpectrumModel(@SuppressWarnings("unused") int dummy) {
 		Scannable scannable = Finder.getInstance().find("alignment_stage");
 		if (scannable != null && scannable instanceof AlignmentStage) {
 			AlignmentStage alignmentStageScannable = (AlignmentStage) scannable;
@@ -97,14 +107,54 @@ public class SingleSpectrumModel extends ObservableModel {
 		job = new ScanJob("Performing Single spectrum scan");
 		InterfaceProvider.getJSFObserver().addIObserver(job);
 		job.setUser(true);
+		AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.ELEMENT_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getNewValue() != null) {
+					SingleSpectrumModel.this.setCurrentElement(((Element) evt.getNewValue()).getSymbol());
+				}
+			}
+		});
+		if (AlignmentParametersModel.INSTANCE.getElement() != null) {
+			SingleSpectrumModel.this.setCurrentElement(AlignmentParametersModel.INSTANCE.getElement().getSymbol());
+		}
+		loadSingleSpectrumData();
+		this.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				String changedProperty = evt.getPropertyName();
+				if (changedProperty.equals(I0_INTEGRATION_TIME_PROP_NAME) |
+						changedProperty.equals(IT_INTEGRATION_TIME_PROP_NAME) |
+						changedProperty.equals(I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME) |
+						changedProperty.equals(IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME)) {
+					saveSingleSpectrumData();
+				}
+			}
+		});
+	}
+
+	private void loadSingleSpectrumData() {
+		SingleSpectrumModel test = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, SingleSpectrumModel.class);
+		if (test == null) {
+			return;
+		}
+		this.setI0IntegrationTime(test.getI0IntegrationTime());
+		this.setI0NumberOfAccumulations(test.getI0NumberOfAccumulations());
+		this.setItIntegrationTime(test.getItIntegrationTime());
+		this.setItNumberOfAccumulations(test.getItNumberOfAccumulations());
+	}
+
+	private void saveSingleSpectrumData() {
+		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, this);
 	}
 
 	private String buildScanCommand() {
 		return String.format("from gda.scan.ede.drivers import SingleSpectrumDriver;" +
-				"scan_driver = SingleSpectrumDriver(\"%s\",%f,%d,%f,%d,\"%s\");" +
+				"scan_driver = SingleSpectrumDriver(\"%s\",\"%s\",%f,%d,%f,%d,\"%s\");" +
 				"scan_driver.setInBeamPosition(%f,%f);" +
 				"scan_driver.setOutBeamPosition(%f,%f)",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
+				DetectorModel.TOPUP_CHECKER,
 				i0IntegrationTime,
 				i0NumberOfAccumulations,
 				itIntegrationTime,
@@ -169,6 +219,8 @@ public class SingleSpectrumModel extends ObservableModel {
 			monitor.beginTask("Starting " + ScanJobName.values().length + " tasks.", ScanJobName.values().length);
 			try {
 				InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
+				// give the previous command a chance to run before calling doCollection()
+				Thread.sleep(50);
 				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
 				if (resultFileName == null) {
 					throw new Exception("Unable to do collection.");
@@ -202,7 +254,7 @@ public class SingleSpectrumModel extends ObservableModel {
 		}
 	}
 
-	public void doScan() throws Exception {
+	public void doCollection() throws Exception {
 		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
