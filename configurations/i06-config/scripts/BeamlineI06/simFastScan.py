@@ -7,20 +7,20 @@ require("dls.ca2==2.16")
 
 from dls.ca2.catools import *
 
-# PV definitions
-################
-counterPv='BL06I-MO-FSCAN-01:ELEMENTCOUNTER'
-elementsPv='BL06I-MO-FSCAN-01:NOELEMENTS'
-indexPv='BL06I-MO-FSCAN-01:STARTINDEX'
-updatePv='BL06I-MO-FSCAN-01:UPDATE'
-ch1Pv='BL06I-MO-FSCAN-01:CH1SUBARRAY'
-# (repeat for ch2..ch6)
-
-# Pvs used in simulation only:
-simStartPv='BL06I-MO-FSCAN-01:STARTSIM.PROC'
-simStopPv='BL06I-MO-FSCAN-01:STOPSIM.PROC'
-
-###############
+# # PV definitions
+# ################
+# counterPv='BL06I-MO-FSCAN-01:ELEMENTCOUNTER'
+# elementsPv='BL06I-MO-FSCAN-01:NOELEMENTS'
+# indexPv='BL06I-MO-FSCAN-01:STARTINDEX'
+# updatePv='BL06I-MO-FSCAN-01:UPDATE'
+# ch1Pv='BL06I-MO-FSCAN-01:CH1SUBARRAY'
+# # (repeat for ch2..ch6)
+# 
+# # Pvs used in simulation only:
+# simStartPv='BL06I-MO-FSCAN-01:STARTSIM.PROC'
+# simStopPv='BL06I-MO-FSCAN-01:STOPSIM.PROC'
+# 
+# ###############
 
 scanPoints=float(sys.argv[1])
 pointsPerBlock=float(sys.argv[2])
