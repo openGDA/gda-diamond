@@ -122,7 +122,7 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 		this.firePropertyChange(TIME_PER_SPECTRUM_PROP_NAME, this.timePerSpectrum, this.timePerSpectrum = timePerSpectrum);
 	}
 
-	public TimingGroupModel(DefaultTimeBarRowModel spectraTimeBarRowModel) {
+	public TimingGroupModel(DefaultTimeBarRowModel spectraTimeBarRowModel, ExperimentUnit unit) {
 		this.spectraTimeBarRowModel = spectraTimeBarRowModel;
 		this.resetInitialTime(0.0, ExperimentTimingDataModel.MIN_DURATION_TIME, 0.0, ExperimentTimingDataModel.MIN_DURATION_TIME);
 		setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
@@ -139,6 +139,7 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 				}
 			}
 		});
+		this.unit = unit;
 	}
 
 	private void setSpectrumAndAdjustEndTime(double timePerSpectrum) {

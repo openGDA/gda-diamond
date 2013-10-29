@@ -139,7 +139,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 			return;
 		}
 		for (TimingGroupModel loadedGroup : savedGroups) {
-			TimingGroupModel timingGroup = new TimingGroupModel(spectraRowModel);
+			TimingGroupModel timingGroup = new TimingGroupModel(spectraRowModel, unit.getWorkingUnit());
 			timingGroup.setName(loadedGroup.getName());
 			double delay = 0.0;
 			if (loadedGroup.getDelay() > 0) {
@@ -175,7 +175,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	}
 
 	public TimingGroupModel addGroup() {
-		TimingGroupModel newGroup = new TimingGroupModel(spectraRowModel);
+		TimingGroupModel newGroup = new TimingGroupModel(spectraRowModel, unit.getWorkingUnit());
 		newGroup.setName("Group " + (groupList.size() + 1));
 		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup);
@@ -426,7 +426,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	public void setUnit(ExperimentUnit unit) {
 		this.firePropertyChange(UNIT_PROP_NAME, this.unit, this.unit = unit);
 		for (Object object : getGroupList()) {
-			((TimingGroupModel) object).setUnit(this.unit);
+			((TimingGroupModel) object).setUnit(this.unit.getWorkingUnit());
 		}
 	}
 

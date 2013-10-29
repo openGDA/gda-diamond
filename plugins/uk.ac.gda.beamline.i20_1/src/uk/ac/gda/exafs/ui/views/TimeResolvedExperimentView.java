@@ -42,10 +42,8 @@ import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -53,7 +51,6 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.ControlEvent;
@@ -234,7 +231,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		}
 		@Override
 		public Object convert(Object fromObject) {
-			return group.getUnit().getWorkingUnit().convertFromMilli((double) fromObject);
+			return group.getUnit().convertFromMilli((double) fromObject);
 		}
 		@Override
 		public Object getFromType() {
@@ -253,7 +250,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		}
 		@Override
 		public Object convert(Object fromObject) {
-			return group.getUnit().getWorkingUnit().convertToMilli(Double.parseDouble((String) fromObject));
+			return group.getUnit().convertToMilli(Double.parseDouble((String) fromObject));
 		}
 		@Override
 		public Object getFromType() {
@@ -502,22 +499,6 @@ public class TimeResolvedExperimentView extends ViewPart {
 				}
 			}
 		});
-	}
-
-	private static abstract class GroupEditorSupport extends EditingSupport {
-		protected final TableViewer viewer;
-		public GroupEditorSupport(TableViewer viewer) {
-			super(viewer);
-			this.viewer = viewer;
-		}
-		@Override
-		protected CellEditor getCellEditor(Object element) {
-			return new TextCellEditor(viewer.getTable());
-		}
-		@Override
-		protected boolean canEdit(Object element) {
-			return true;
-		}
 	}
 
 	private void createExperimentDetailsSection(Composite parent) throws Exception {
@@ -860,7 +841,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 			@Override
 			public Object convert(Object value) {
-				return ((ExperimentTimingDataModel.ExperimentUnit) value).getWorkingUnit().getUnitText();
+				return ((ExperimentTimingDataModel.ExperimentUnit) value).getUnitText();
 			}
 
 		};

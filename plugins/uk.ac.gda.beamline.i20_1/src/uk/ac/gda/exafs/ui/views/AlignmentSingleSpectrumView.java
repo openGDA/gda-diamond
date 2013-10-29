@@ -97,8 +97,8 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 
 	private void setupScannables() throws Exception {
 		alignmentStageScannable = ScannableSetup.ALIGNMENT_STAGE.getScannable();
-		sampleXScannable = new ScannableWrapper(ScannableSetup.SAMPLE_X_POSITION.getScannable());
-		sampleYScannable = new ScannableWrapper(ScannableSetup.SAMPLE_Y_POSITION.getScannable());
+		sampleXScannable = ScannableSetup.SAMPLE_X_POSITION.getScannableWrapper();
+		sampleYScannable = ScannableSetup.SAMPLE_Y_POSITION.getScannableWrapper();
 	}
 
 	private void createSamplePosition(String title, Composite body, final Binding[] binding, final String alignmentStageDeviceName, final String xPostionPropName, final String yPostionPropName) throws Exception {

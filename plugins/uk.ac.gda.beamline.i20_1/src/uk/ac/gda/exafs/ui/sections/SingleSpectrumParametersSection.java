@@ -264,7 +264,7 @@ public class SingleSpectrumParametersSection {
 							part = (LivePlotView) page.showView(LivePlotView.ID);
 						}
 						List<String> dataSet = new ArrayList<String>();
-						dataSet.add(EdeAsciiFileWriter.STRIP_COLUMN_NAME);
+						dataSet.add("#" + EdeAsciiFileWriter.STRIP_COLUMN_NAME);
 						dataSet.add(EdeAsciiFileWriter.I0_DARK_COLUMN_NAME);
 						dataSet.add(EdeAsciiFileWriter.IT_DARK_COLUMN_NAME);
 						dataSet.add(EdeAsciiFileWriter.I0_CORR_COLUMN_NAME);
