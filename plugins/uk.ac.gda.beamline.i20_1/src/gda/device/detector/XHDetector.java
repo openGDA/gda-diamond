@@ -116,7 +116,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	private Integer[] excludedStrips;
 	private boolean connected;
 
-
 	private PolynomialFunction calibration = new PolynomialFunction(new double[] { 0., 1. });
 
 	static {
@@ -276,7 +275,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				// simply set excluded strips to be zero
 				if (ArrayUtils.contains(excludedStrips, STRIPS[stripIndex])) {
 					out[frame][stripIndex] = 0.0;
-				} else if (!nextScan.getIncludeCountsOutsideROIs() && STRIPS[stripIndex] < lowerChannel || STRIPS[stripIndex] > upperChannel) {
+				} else if (!nextScan.getIncludeCountsOutsideROIs() && STRIPS[stripIndex] < lowerChannel
+						|| STRIPS[stripIndex] > upperChannel) {
 					out[frame][stripIndex] = 0.0;
 				} else {
 					out[frame][stripIndex] = rawData[(frame * NUMBER_ELEMENTS) + stripIndex];
@@ -420,8 +420,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		if (hasValidDataHandle()) {
 			int numFrames = finalFrame - startFrame + 1;
 			try {
-				String readCommand = "read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames
-						+ " from " + dataHandle + " raw motorola";
+				String readCommand = "read 0 0 " + startFrame + " " + NUMBER_ELEMENTS + " 1 " + numFrames + " from "
+						+ dataHandle + " raw motorola";
 				value = daServer.getIntBinaryData(readCommand, 1024 * numFrames);
 			} catch (Exception e) {
 				throw new DeviceException("Exception while reading data from da.server", e);
@@ -662,8 +662,9 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 			logger.info("Sending group to XH: " + command);
 			Object result = daServer.sendCommand(command);
-			if (result.toString().compareTo("-1") == 0){
-				throw new DeviceException("The given parameters were not accepted by da.server! Check frame and scan times.");
+			if (result.toString().compareTo("-1") == 0) {
+				throw new DeviceException(
+						"The given parameters were not accepted by da.server! Check frame and scan times.");
 			}
 		}
 	}
@@ -980,7 +981,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		extraNames[0] = "Total";
 		outputFormat[1] = "%8.3f";
 
-
 		if (rois != null && numROI > 0) {
 			for (int i = 0; i < numROI; i++) {
 				extraNames[i + 1] = rois[i].getName();
@@ -1223,5 +1223,29 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			return channel;
 		}
 		return function.value((double) channel / (double) NUMBER_ELEMENTS);
+	}
+
+	@Override
+	public int getNumberScansInFrame(double frameTime, double scanTime) throws DeviceException {
+		// TODO is simply isBusy() enough to protect the experiment?
+		if (isBusy()) {
+			return 0;
+		}
+
+		if (!hasValidDataHandle()) {
+			return 0;
+		}
+
+		String frameTime_clockcycles = secondsToClockCyclesString(frameTime);
+		String scanTime_clockcycles = secondsToClockCyclesString(scanTime);
+
+		daServer.sendCommand("xstrip timing setup-group \"xh0\" 0 10 0 " + scanTime_clockcycles + " frame-time "
+				+ frameTime_clockcycles + " last");
+		try {
+			int[] timingReadback = daServer.getIntBinaryData("read 1 0 0 1 1 1 from " + timingHandle + " raw motorola", 1);
+			return timingReadback[0];
+		} catch (Exception e) {
+			throw new DeviceException("Error trying to read back from timing handle");
+		}
 	}
 }

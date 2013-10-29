@@ -33,6 +33,7 @@ import org.eclipse.core.databinding.observable.list.WritableList;
 import org.junit.Test;
 
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentTimingDataModel.ExperimentUnit;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -54,14 +55,14 @@ public class EdeDataStoreTest {
 			@Override
 			public void run() {
 				WritableList groupList = new WritableList(new ArrayList<TimingGroupModel>(), TimingGroupModel.class);
-				TimingGroupModel group = new TimingGroupModel(new DefaultTimeBarRowModel());
+				TimingGroupModel group = new TimingGroupModel(new DefaultTimeBarRowModel(), ExperimentUnit.SEC);
 				group.setTimes(0.0, 1000.0);
 				group.setNumberOfSpectrum(100);
 				group.setTimePerSpectrum(10);
 
 				groupList.add(group);
 				Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
-				configuration.setProperty("test",gson.toJson(groupList));
+				configuration.setProperty("test", gson.toJson(groupList));
 				try {
 					configuration.save();
 				} catch (ConfigurationException e) {
