@@ -48,8 +48,6 @@ public class ScannableWrapper extends UIObservableModel implements IObserver {
 
 	private PositionChecker scannablePositionChecker;
 
-	private boolean positionChecking;
-
 	public ScannableWrapper(Scannable scannable) {
 		this.scannable = scannable;
 		this.scannable.addIObserver(this);
@@ -130,19 +128,25 @@ public class ScannableWrapper extends UIObservableModel implements IObserver {
 			ScannableStatus status = (ScannableStatus) arg;
 			try {
 				if (status.getStatus() == ScannableStatus.BUSY) {
-					positionChecking = true;
-					scannablePositionChecker = new PositionChecker();
-					Thread t = new Thread(scannablePositionChecker);
-					t.start();
+					if (scannablePositionChecker == null) {
+						synchronized(this) { // Make sure there is only one scannablePositionChecker
+							if (scannablePositionChecker == null) {
+								scannablePositionChecker = new PositionChecker();
+								Thread t = new Thread(scannablePositionChecker);
+								t.start();
+							}
+						}
+					}
 				} else {
 					if (scannablePositionChecker != null) {
-						scannablePositionChecker.stop();
-						scannablePositionChecker = null;
+						synchronized(this) {
+							if (scannablePositionChecker != null) {
+								scannablePositionChecker.stop();
+								scannablePositionChecker = null;
+								updatePosition();
+							}
+						}
 					}
-				}
-				if (positionChecking) {
-					updatePosition();
-					positionChecking= false;
 				}
 			} catch (DeviceException e) {
 				logger.error("Error updating scannable motor position", e);
@@ -156,7 +160,7 @@ public class ScannableWrapper extends UIObservableModel implements IObserver {
 	}
 
 	private class PositionChecker implements Runnable {
-		private boolean stopped;
+		private boolean stopped = false;
 
 		public void stop() {
 			stopped = true;

@@ -40,7 +40,6 @@ import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 import uk.ac.gda.exafs.ui.composites.MotorPositionEditorControl;
-import uk.ac.gda.exafs.ui.composites.ScannableWrapper;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.sections.DetectorROIsSection;
@@ -93,14 +92,14 @@ public class FocusingView extends ViewPart {
 		lblBend1Name.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		Scannable scannable = ScannableSetup.POLY_BENDER_1.getScannable();
 		scannable.addIObserver(moveObserver);
-		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(bendSelectionComposite, SWT.None, new ScannableWrapper(scannable), true);
+		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(bendSelectionComposite, SWT.None, ScannableSetup.POLY_BENDER_1.getScannableWrapper(), true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Label lblBend2Name = toolkit.createLabel(bendSelectionComposite, ScannableSetup.POLY_BENDER_2.getLabel(), SWT.NONE);
 		lblBend2Name.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		scannable = ScannableSetup.POLY_BENDER_2.getScannable();
 		scannable.addIObserver(moveObserver);
-		motorPositionEditorControl = new MotorPositionEditorControl(bendSelectionComposite, SWT.None, new ScannableWrapper(scannable), true);
+		motorPositionEditorControl = new MotorPositionEditorControl(bendSelectionComposite, SWT.None, ScannableSetup.POLY_BENDER_2.getScannableWrapper(), true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		final ToolBar motorSectionTbar = new ToolBar(bendSection, SWT.FLAT | SWT.HORIZONTAL);
@@ -133,21 +132,21 @@ public class FocusingView extends ViewPart {
 		lblCurvature.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		Scannable scannable = ScannableSetup.POLY_CURVATURE.getScannable();
 		scannable.addIObserver(moveObserver);
-		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(curvatureSelectionComposite, SWT.None, new ScannableWrapper(scannable), true);
+		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(curvatureSelectionComposite, SWT.None, ScannableSetup.POLY_CURVATURE.getScannableWrapper(), true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Label lblEllipticity = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_Y_ELLIPTICITY.getLabel(), SWT.NONE);
 		lblEllipticity.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		scannable = ScannableSetup.POLY_Y_ELLIPTICITY.getScannable();
 		scannable.addIObserver(moveObserver);
-		motorPositionEditorControl = new MotorPositionEditorControl(curvatureSelectionComposite, SWT.None, new ScannableWrapper(scannable), true);
+		motorPositionEditorControl = new MotorPositionEditorControl(curvatureSelectionComposite, SWT.None, ScannableSetup.POLY_Y_ELLIPTICITY.getScannableWrapper(), true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Label lblTwist = toolkit.createLabel(curvatureSelectionComposite, ScannableSetup.POLY_TWIST.getLabel(), SWT.NONE);
 		lblTwist.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		scannable = ScannableSetup.POLY_TWIST.getScannable();
 		scannable.addIObserver(moveObserver);
-		motorPositionEditorControl = new MotorPositionEditorControl(curvatureSelectionComposite, SWT.None, new ScannableWrapper(scannable), true);
+		motorPositionEditorControl = new MotorPositionEditorControl(curvatureSelectionComposite, SWT.None, ScannableSetup.POLY_TWIST.getScannableWrapper(), true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		final ToolBar motorSectionTbar = new ToolBar(curvatureSection, SWT.FLAT | SWT.HORIZONTAL);
@@ -181,7 +180,7 @@ public class FocusingView extends ViewPart {
 		lblSampleZ.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		Scannable scannable = ScannableSetup.SAMPLE_Z_POSITION.getScannable();
 		scannable.addIObserver(moveObserver);
-		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(samplePositionComposite, SWT.None, new ScannableWrapper(scannable), true);
+		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(samplePositionComposite, SWT.None,  ScannableSetup.SAMPLE_Z_POSITION.getScannableWrapper(), true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		final ToolBar motorSectionTbar = new ToolBar(samplePositionSection, SWT.FLAT | SWT.HORIZONTAL);

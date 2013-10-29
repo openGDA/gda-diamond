@@ -32,6 +32,8 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.exafs.ui.composites.ScannableWrapper;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -128,7 +130,7 @@ public class ClientConfig {
 		POLY_CURVATURE("Curvature", "poly_curve", UnitSetup.MILLI_METER),
 		POLY_Y_ELLIPTICITY("Ellipticity","poly_yellip", UnitSetup.MILLI_METER),
 		POLY_TWIST("Twist","poly_twist", UnitSetup.MILLI_METER),
-		
+
 		SLIT_3_HORIZONAL_GAP("Slit hgap", "s3_hgap", UnitSetup.MILLI_METER),
 		SLIT_3_HORIZONAL_OFFSET("Slit offset", "sample_x", UnitSetup.MILLI_METER),
 
@@ -144,6 +146,10 @@ public class ClientConfig {
 
 		private Object uiViewer;
 
+		private Scannable scannable;
+
+		private ScannableWrapper scannableWrapper;
+
 		private ScannableSetup(String label, String scannableName, UnitSetup unit) {
 			this.label = label;
 			this.scannableName = scannableName;
@@ -155,11 +161,29 @@ public class ClientConfig {
 		}
 
 		public Scannable getScannable() throws Exception {
-			Scannable scannable = Finder.getInstance().find(scannableName);
 			if (scannable == null) {
-				throw new Exception(label + " object is not found on GDA server");
+				synchronized (this) {
+					if (scannable == null) {
+						Scannable scannable = Finder.getInstance().find(scannableName);
+						if (scannable == null) {
+							throw new Exception(label + " object is not found on GDA server");
+						}
+						this.scannable = scannable;
+					}
+				}
 			}
 			return scannable;
+		}
+
+		public ScannableWrapper getScannableWrapper() throws Exception {
+			if (scannableWrapper == null) {
+				synchronized (this) {
+					if (scannableWrapper == null) {
+						scannableWrapper = new ScannableWrapper(getScannable());
+					}
+				}
+			}
+			return scannableWrapper;
 		}
 
 		public UnitSetup getUnit() {

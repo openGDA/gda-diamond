@@ -495,7 +495,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		Scannable scannable = ScannableSetup.WIGGLER_GAP.getScannable();
 		scannable.addIObserver(moveObserver);
-		ScannableWrapper scannableWrapper = new ScannableWrapper(scannable);
+		ScannableWrapper scannableWrapper = ScannableSetup.WIGGLER_GAP.getScannableWrapper();
 		scannableWrapper.addPropertyChangeListener(ScannableWrapper.POSITION_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -513,7 +513,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		scannable = ScannableSetup.SLIT_1_HORIZONAL_GAP.getScannable();
 		scannable.addIObserver(moveObserver);
-		scannableWrapper = new ScannableWrapper(scannable);
+		scannableWrapper = ScannableSetup.SLIT_1_HORIZONAL_GAP.getScannableWrapper();
 		scannableWrapper.addPropertyChangeListener(ScannableWrapper.POSITION_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -609,8 +609,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		suggestionControls.put(applyButton, lblMe2PitchAngleSuggestion);
 
 		scannable = ScannableSetup.ME2_PITCH_ANGLE.getScannable();
+		// TODO Add remove observers on dispose
 		scannable.addIObserver(moveObserver);
-		scannableWrapper = new ScannableWrapper(scannable);
+		scannableWrapper = ScannableSetup.ME2_PITCH_ANGLE.getScannableWrapper();
 		scannableWrapper.addPropertyChangeListener(ScannableWrapper.POSITION_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -628,7 +629,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		scannable = ScannableSetup.POLY_BENDER_1.getScannable();
 		scannable.addIObserver(moveObserver);
-		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, new ScannableWrapper(scannable), true);
+		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, ScannableSetup.POLY_BENDER_1.getScannableWrapper(), true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.POLY_BENDER_1, lblPolyBender1Suggestion, motorPositionEditorControl));
 
@@ -638,7 +639,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		scannable = ScannableSetup.POLY_BENDER_2.getScannable();
 		scannable.addIObserver(moveObserver);
-		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, new ScannableWrapper(scannable), true);
+		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, ScannableSetup.POLY_BENDER_2.getScannableWrapper(), true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.POLY_BENDER_2, lblPolyBender2Suggestion, motorPositionEditorControl));
 
@@ -654,6 +655,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		scannable = ScannableSetup.POLY_BRAGG.getScannable();
 		scannable.addIObserver(moveObserver);
+		//TODO Refactor to create singleton
 		BraggAngleAndTwoThetaScannableWrapper braggAngleScannableWrapper = new BraggAngleAndTwoThetaScannableWrapper(scannable, btnSynchroniseThetas);
 		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, braggAngleScannableWrapper, true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -665,6 +667,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		scannable = ScannableSetup.ARM_2_THETA_ANGLE.getScannable();
 		scannable.addIObserver(moveObserver);
+		//TODO Refactor to create singleton
 		BraggAngleAndTwoThetaScannableWrapper twoThetacannableWrapper = new BraggAngleAndTwoThetaScannableWrapper(scannable, btnSynchroniseThetas);
 		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, twoThetacannableWrapper, true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -687,7 +690,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		scannable = ScannableSetup.DETECTOR_HEIGHT.getScannable();
 		scannable.addIObserver(moveObserver);
-		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, new ScannableWrapper(scannable), true);
+		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, ScannableSetup.DETECTOR_HEIGHT.getScannableWrapper(), true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.DETECTOR_HEIGHT, lblDetectorHeightSuggestion, motorPositionEditorControl));
 
@@ -709,7 +712,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 					});
 				}
 			});
-
 		} catch (Exception e) {
 			UIHelper.showError("Unable to find detector details", e.getMessage());
 		}
@@ -719,7 +721,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		scannable = ScannableSetup.DETECTOR_DISTANCE.getScannable();
 		scannable.addIObserver(moveObserver);
-		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, new ScannableWrapper(scannable), true);
+		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, ScannableSetup.DETECTOR_DISTANCE.getScannableWrapper(), true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.DETECTOR_DISTANCE, lblDetectorDistanceSuggestion, motorPositionEditorControl));
 
@@ -797,12 +799,14 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			if (btnSynchroniseThetas.getSelection()) {
 				if (otherScannableEditorControl.getTargetPosition() == null) {
 					if (isTimesTwo) {
-						if (value * 2 != otherScannableEditorControl.getPosition()) {
-							otherScannableEditorControl.setPosition(value * 2);
+						double valueTimes2 = value * 2;
+						if (valueTimes2 != otherScannableEditorControl.getPosition()) {
+							otherScannableEditorControl.setPosition(valueTimes2);
 						}
 					} else {
-						if (value / 2 != otherScannableEditorControl.getPosition()) {
-							otherScannableEditorControl.setPosition(value / 2);
+						double valueTimesHalf = value / 2;
+						if (valueTimesHalf != otherScannableEditorControl.getPosition()) {
+							otherScannableEditorControl.setPosition(valueTimesHalf);
 						}
 					}
 				}
