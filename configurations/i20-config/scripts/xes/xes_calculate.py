@@ -79,3 +79,28 @@ class XESCalculate:
         'det_rot' : analyserAngle,\
         'xtal_x' : xtal_x_expected}
         return expected_values
+    
+        #Using the supplied dictionary of expected motor positions, this calculates the required offsets and sets them on the GDA Scannables.
+    def setFromExpectedValues(self, expectedValuesDict):
+        self._check_name_exists(expectedValuesDict)
+        offsetsDict = {}
+        for name in expectedValuesDict.keys():
+            expected = expectedValuesDict[name]
+            print "\t %s %f" % (name,expected)
+            newOffset = self._calcOffset(name,expected)
+            offsetsDict[name] = newOffset
+        print offsetsDict
+        self._apply_from_dict(offsetsDict)
+        self.save()
+        
+    def _calcOffset(self, name,expectedReadback):
+        scannable = self.spectrometer.getGroupMember(name)
+        if scannable == None:
+            raise "scannable",name,"could not be found. Will not apply offsets"
+        readback = scannable()
+        currentOffset = scannable.getOffset()
+        if currentOffset == None:
+            currentOffset = [0]
+        currentOffset = currentOffset[0]
+        newOffset = expectedReadback - (readback - currentOffset)
+        return newOffset
