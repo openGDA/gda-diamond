@@ -15,10 +15,10 @@ VMARGS="-DUSERNAME=$(whoami) $VMARGS"
 
 # These should really be defined according to which mode we are in:
 VMARGS="-Declipse.pluginCustomization=$GDA_CONFIG/clients/main/common/pluginCustomization.ini $VMARGS"
-VMARGS="-Dgda.propertiesFile=$GDA_CONFIG/properties/live/java.properties $VMARGS"
-VMARGS="-Djacorb.config.dir=$GDA_CONFIG/jacorb/live $VMARGS"
-VMARGS="-Dgov.aps.jca.JCALibrary.properties=$GDA_CONFIG/jca/live/JCALibrary.properties $VMARGS"
-VMARGS="-Dgda.mode=live $VMARGS"
+VMARGS="-Dgda.propertiesFile=$GDA_CONFIG/properties/dummy/java.properties $VMARGS"
+VMARGS="-Djacorb.config.dir=$GDA_CONFIG/jacorb/dummy $VMARGS"
+VMARGS="-Dgov.aps.jca.JCALibrary.properties=$GDA_CONFIG/jca/dummy/JCALibrary.properties $VMARGS"
+VMARGS="-Dgda.mode=dummy $VMARGS"
 
 # Even though gda.logs.dir is defined in java.properties this appears to be too late for the client logger so
 # a gda.logs.dir_IS_UNDEFINED directory is created without the following line:
