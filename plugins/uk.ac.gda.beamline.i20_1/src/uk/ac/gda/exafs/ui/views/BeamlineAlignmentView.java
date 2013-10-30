@@ -310,7 +310,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		});
 	}
 
-	private class FilterUpdate implements IObserver{
+	private class BeamLightFilterPowerUpdate implements IObserver{
 		private String value = "";
 		@Override
 		public void update(Object source, Object arg) {
@@ -322,11 +322,11 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	}
 
 	private void bindFiltersForPowerCalculation() throws Exception {
-		ScannableSetup.ATN1.getScannable().addIObserver(new FilterUpdate());
-		ScannableSetup.ATN2.getScannable().addIObserver(new FilterUpdate());
-		ScannableSetup.ATN3.getScannable().addIObserver(new FilterUpdate());
-		ScannableSetup.ME1_STRIPE.getScannable().addIObserver(new FilterUpdate());
-		ScannableSetup.ME2_STRIPE.getScannable().addIObserver(new FilterUpdate());
+		ScannableSetup.ATN1.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
+		ScannableSetup.ATN2.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
+		ScannableSetup.ATN3.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
+		ScannableSetup.ME1_STRIPE.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
+		ScannableSetup.ME2_STRIPE.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
 	}
 
 	private void bindModelWithUI() {

@@ -155,13 +155,13 @@ public class SingleSpectrumModel extends ObservableModel {
 				"scan_driver.setOutBeamPosition(%f,%f)",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
-				i0IntegrationTime,
+				i0IntegrationTime / 1000, // Converts to Seconds
 				i0NumberOfAccumulations,
-				itIntegrationTime,
+				itIntegrationTime / 1000, // Converts to Seconds
 				itNumberOfAccumulations,
 				fileTemplate,
-				i0xPosition, i0yPosition,
-				iTxPosition, iTyPosition);
+				iTxPosition, iTyPosition,
+				i0xPosition, i0yPosition);
 	}
 
 	private static enum ScanJobName {
