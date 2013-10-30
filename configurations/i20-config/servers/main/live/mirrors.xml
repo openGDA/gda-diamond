@@ -95,7 +95,14 @@
 	</bean>
 	<bean id="m3_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-HFM-03:X" />
-		
+	</bean>
+	<bean id="m3_sag_pt_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M3.SAG1" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="m3_sag_rh_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M3.SAG2" />
+		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="m4_stripe" class="gda.device.enumpositioner.EpicsPositionerCallback">
@@ -132,6 +139,10 @@
 	</bean>
 	<bean id="m4_bend2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VFM-04:BEND2" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="m4_sag_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M4.SAG" />
 		<property name="local" value="true"/>
 	</bean>
 
@@ -247,8 +258,8 @@
 	<bean id="m2_sag" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="m2_sag_motor" />
-		
 	</bean>
+	
 	<bean id="m2_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="m2_x_motor" />
@@ -277,6 +288,16 @@
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="m3_x_motor" />		
 	</bean>
+	
+	<bean id="m3_sag_pt" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m3_sag_pt_motor" />
+	</bean>
+	<bean id="m3_sag_rh" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m3_sag_rh_motor" />
+	</bean>
+
 
 	<bean id="m4_yaw" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
@@ -312,6 +333,10 @@
 	<bean id="m4_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="m4_x_motor" />
+	</bean>
+	<bean id="m4_sag" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m4_sag_motor" />
 	</bean>
 
 	<bean id="hr_stripe" class="gda.device.enumpositioner.EpicsPositionerCallback">
