@@ -13,15 +13,15 @@ Usage: gda_servers_local <uk.ac.gda.core folder location> <config folder> <mode 
 Can be used from command line or from Eclipse within an External Run Configuration.
 
 Examples.
-To start i13i-config from an installation in /scratch/gda_master in dummy mode:
+To start ixx-config from an installation in /scratch/gda_master in dummy mode:
 
-~>/scratch/gda_master/workspace_git/gda-diamond.git/dls-config/bin/gda_servers_local /scratch/gda_master/workspace_git/gda-core.git/uk.ac.gda.core/ /scratch/gda_master/workspace_git/gda-dls-beamlines-i13x.git/i13i dummy --restart --debug
+~>/scratch/gda_master/workspace_git/gda-diamond.git/dls-config/bin/gda_servers_local /scratch/gda_master/workspace_git/gda-core.git/uk.ac.gda.core/ /scratch/gda_master/workspace_git/gda-dls-beamlines-ixx.git/ixx dummy --restart --debug
 
 To use within an Eclipse External Run Configuration:
 
 Location - ${workspace_loc:/dls-config/bin/gda_servers_local}
-Arguments (example for i13i-config to restart servers in dummy mode)
- - ${workspace_loc:/uk.ac.gda.core} ${workspace_loc:/i13i-config} dummy --restart --debug
+Arguments (example for ixx-config to restart servers in dummy mode)
+ - ${workspace_loc:/uk.ac.gda.core} ${workspace_loc:/ixx-config} dummy --restart --debug
 
 
 
