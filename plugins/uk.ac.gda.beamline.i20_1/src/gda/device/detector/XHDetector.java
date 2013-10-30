@@ -842,7 +842,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			sdp.setNumberOfPoints(1);
 			sdp.setScanDimensions(new int[1]);
 
-			NumTracker runNumber = new NumTracker("tmp");
+			NumTracker runNumber = new NumTracker("scanbase_numtracker");
 			Long scanNumber = runNumber.incrementNumber();
 
 			NexusDataWriter writer = new NexusDataWriter();
