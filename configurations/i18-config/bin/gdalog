@@ -1,3 +1,7 @@
+#module load java/gda/830
+#/dls_sw/i18/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda --config=/dls_sw/i18/software/gda/config --mode=live --restart logpanel
+
 module load java
-/dls_sw/i18/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda --config=/dls_sw/i18/software/gda/config --mode=live --restart logpanel
+/dls_sw/i18/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda  -v --config=/dls_sw/i18/software/gda/config --restart logpanel
+
 

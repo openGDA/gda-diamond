@@ -1,1 +1,1 @@
-ssh -i /dls_sw/b18/software/gda/config/.ssh/id_dsa gda2@b18-control
+ssh -i /dls_sw/b18/software/gda/config/b18ssh.key gda2@b18-control

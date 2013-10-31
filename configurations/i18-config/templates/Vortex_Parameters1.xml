@@ -3,19 +3,19 @@
     <detectorName>xmapMca</detectorName>
     <tfgName>tfg</tfgName>
     <countType>Static</countType>
-    <collectionTime>1000.0</collectionTime>
+    <collectionTime>2000.0</collectionTime>
     <DetectorElement>
         <name>Element0</name>
         <number>1</number>
         <ROI>
-            <name>Sb_L3</name>
-            <windowStart>344</windowStart>
-            <windowEnd>370</windowEnd>
+            <name>P_Ka</name>
+            <windowStart>180</windowStart>
+            <windowEnd>220</windowEnd>
         </ROI>
         <ROI>
-            <name>S_K</name>
-            <windowStart>220</windowStart>
-            <windowEnd>240</windowEnd>
+            <name>Ca_Ka</name>
+            <windowStart>356</windowStart>
+            <windowEnd>385</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -26,14 +26,14 @@
         <name>Element1</name>
         <number>1</number>
         <ROI>
-            <name>Sb_L3</name>
-            <windowStart>344</windowStart>
-            <windowEnd>370</windowEnd>
+            <name>P_Ka</name>
+            <windowStart>180</windowStart>
+            <windowEnd>220</windowEnd>
         </ROI>
         <ROI>
-            <name>S_K</name>
-            <windowStart>220</windowStart>
-            <windowEnd>240</windowEnd>
+            <name>Ca_Ka</name>
+            <windowStart>356</windowStart>
+            <windowEnd>385</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -44,14 +44,14 @@
         <name>Element2</name>
         <number>1</number>
         <ROI>
-            <name>Sb_L3</name>
-            <windowStart>344</windowStart>
-            <windowEnd>370</windowEnd>
+            <name>P_Ka</name>
+            <windowStart>180</windowStart>
+            <windowEnd>220</windowEnd>
         </ROI>
         <ROI>
-            <name>S_K</name>
-            <windowStart>220</windowStart>
-            <windowEnd>240</windowEnd>
+            <name>Ca_Ka</name>
+            <windowStart>356</windowStart>
+            <windowEnd>385</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -62,14 +62,14 @@
         <name>Element3</name>
         <number>1</number>
         <ROI>
-            <name>Sb_L3</name>
-            <windowStart>344</windowStart>
-            <windowEnd>370</windowEnd>
+            <name>P_Ka</name>
+            <windowStart>180</windowStart>
+            <windowEnd>220</windowEnd>
         </ROI>
         <ROI>
-            <name>S_K</name>
-            <windowStart>220</windowStart>
-            <windowEnd>240</windowEnd>
+            <name>Ca_Ka</name>
+            <windowStart>356</windowStart>
+            <windowEnd>385</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

@@ -8,7 +8,7 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">	
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">	
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -37,10 +37,10 @@
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-
-	<bean class="gda.factory.AdapterObjectCreator">
-		<property name="name" value="${gda.factory.factoryName}" />
-	</bean>
+	
+	<corba:adapterfactory namespace="${gda.factory.factoryName}" />
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 	
 	<bean id="XASLoggingScriptController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}/XASLoggingScriptController" />

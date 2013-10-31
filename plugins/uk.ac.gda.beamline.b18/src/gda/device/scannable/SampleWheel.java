@@ -18,14 +18,20 @@
 
 package gda.device.scannable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.epics.CAClient;
+import gda.factory.FactoryException;
 import gov.aps.jca.CAException;
 import gov.aps.jca.TimeoutException;
 
 public class SampleWheel extends ScannableBase implements Scannable {
 
+	private static final Logger logger = LoggerFactory.getLogger(SampleWheel.class);
+	
 	private String demandPV; 		// BL18B-EA-SAMPL-03:ROT.VAL
 	private String readbackPV; 		// BL18B-EA-SAMPL-03:ROT.RBV
 	private String inPosPV; 		// BL18B-EA-SAMPL-03:ROT.DMOV
@@ -44,10 +50,12 @@ public class SampleWheel extends ScannableBase implements Scannable {
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 		try {
-			ca_client.caput(demandPV, Double.parseDouble(position.toString()));
-		} catch (CAException e) {
-		} catch (InterruptedException e) {
-		}
+			CAClient caClient = new CAClient(demandPV);
+			caClient.configure();
+			caClient.caputWait(Double.parseDouble(position.toString()));
+		} catch (Exception e) {
+			logger.error("Could not move SampleWheel", e);
+		} 
 	}
 
 	@Override
@@ -179,10 +187,12 @@ public class SampleWheel extends ScannableBase implements Scannable {
 
 		public void go() {
 			try {
-				ca_client.caput(goPV, 1);
-			} catch (CAException e) {
-			} catch (InterruptedException e) {
-			}
+				CAClient caClient = new CAClient(goPV);
+				caClient.configure();
+				caClient.caputWait(1);
+			} catch (Exception e) {
+				logger.error("Could not move SampleWheel", e);
+			} 
 		}
 
 		public String getName() {

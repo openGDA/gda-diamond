@@ -20,9 +20,9 @@ from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, Vorte
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
 ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
-datawriterconfig = Finder.getInstance().find("datawriterconfig")
 
-original_header = Finder.getInstance().find("datawriterconfig").clone().getHeader()[:]
+datawriterconfig = Finder.getInstance().find("datawriterconfig")
+original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
 
 NexusExtraMetadataDataWriter.removeAllMetadataEntries()
 
@@ -36,8 +36,8 @@ else:
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig)
 
-xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, energy, counterTimer01)
-qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, qexafs_energy, qexafs_counterTimer01)
+xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01)
+qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01)
 xanes = xas
 
 alias("xas")

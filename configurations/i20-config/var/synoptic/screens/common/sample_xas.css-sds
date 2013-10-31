@@ -422,7 +422,7 @@
   <property type="sds.choiceoption" id="cursor">
     <option id="cursor.default" />
   </property>
-  <property type="sds.paramstring" id="tooltip" value="sample_roll" />
+  <property type="sds.paramstring" id="tooltip" value="sample_pitch" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
   <property type="sds.string" id="layer" value="DEFAULT" />
@@ -435,7 +435,7 @@
   <property type="sds.integer" id="translate.x" value="0" />
   <property type="sds.string" id="Ready" value="Ready">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://sample_roll.isBusy, string" value="" />
+      <inputChannel name="gda://sample_pitch.isBusy, string" value="" />
     </dynamicsDescriptor>
   </property>
 </widget>
@@ -879,7 +879,7 @@
   <property type="sds.choiceoption" id="cursor">
     <option id="cursor.default" />
   </property>
-  <property type="sds.paramstring" id="tooltip" value="sample_pitch" />
+  <property type="sds.paramstring" id="tooltip" value="sample_roll" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
   <property type="sds.string" id="layer" value="DEFAULT" />
@@ -892,7 +892,7 @@
   <property type="sds.integer" id="translate.x" value="0" />
   <property type="sds.string" id="Ready" value="Ready">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://sample_pitch.isBusy, string" value="" />
+      <inputChannel name="gda://sample_roll.isBusy, string" value="" />
     </dynamicsDescriptor>
   </property>
 </widget>

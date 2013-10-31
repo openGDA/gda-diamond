@@ -44,6 +44,7 @@ import uk.ac.gda.beans.exafs.i20.MicroreactorParameters;
 import uk.ac.gda.beans.exafs.i20.SampleStagePosition;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
 import uk.ac.gda.exafs.ui.describers.I20SampleDescriber;
+import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 /**
  * class to hold I20 sample parameters
@@ -52,10 +53,17 @@ import uk.ac.gda.exafs.ui.describers.I20SampleDescriber;
 public class I20SampleParametersTest {
 	final static String testScratchDirectoryName =
 		TestUtils.generateDirectorynameFromClassname(I20SampleParametersTest.class.getCanonicalName());
-	/**
-	 * 
-	 * @throws Exception
-	 */
+	
+	
+	public static I20SampleParameters createFromXML(String filename) throws Exception {
+		return (I20SampleParameters) XMLHelpers.createFromXML(I20SampleParameters.mappingURL, I20SampleParameters.class, I20SampleParameters.schemaURL,
+				filename);
+	}
+
+	public static void writeToXML(I20SampleParameters sampleParameters, String filename) throws Exception {
+		XMLHelpers.writeToXML(I20SampleParameters.mappingURL, sampleParameters, filename);
+	}
+
 	@BeforeClass
 	public static void beforeClass() throws Exception{
 		TestUtils.makeScratchDirectory(testScratchDirectoryName);
@@ -79,7 +87,7 @@ public class I20SampleParametersTest {
 	@Test
 	public void testCreateFromXML_FileDoesNotExist() {
 		try {
-			I20SampleParameters.createFromXML("testfiles/uk/ac/gda/exafs/beans/I20SampleParametersTest/DoesNotExist");
+			createFromXML("testfiles/uk/ac/gda/exafs/beans/I20SampleParametersTest/DoesNotExist");
 			fail("File does not exist");
 		} catch (Exception ex) {
 			if (!(ex instanceof FileNotFoundException)) {
@@ -129,7 +137,7 @@ public class I20SampleParametersTest {
 	}
 	
 	private void isValidAndMatchesFile(I20SampleParameters expectedValue, String filename) throws Exception{
-		I20SampleParameters s = I20SampleParameters.createFromXML("testfiles/uk/ac/gda/exafs/beans/I20SampleParametersTest/" + filename);
+		I20SampleParameters s = createFromXML("testfiles/uk/ac/gda/exafs/beans/I20SampleParametersTest/" + filename);
 		List<InvalidBeanMessage> errors = new I20Validator().validateI20SampleParameters(s);
 		if (errors.size() > 0){
 			fail(errors.get(0).getPrimaryMessage());
@@ -225,8 +233,7 @@ public class I20SampleParametersTest {
 
 		isValidAndMatchesFile(expectedValue,"SampleParameters_withMicroreactor.xml");
 		
-		I20SampleParameters s = I20SampleParameters
-				.createFromXML("testfiles/uk/ac/gda/exafs/beans/I20SampleParametersTest/SampleParameters_withMicroreactor.xml");
+		I20SampleParameters s = createFromXML("testfiles/uk/ac/gda/exafs/beans/I20SampleParametersTest/SampleParameters_withMicroreactor.xml");
 		Integer[] massesFromFile = s.getMicroreactorParameters().getIntegerMasses();
 		assertEquals(2, massesFromFile.length);
 		assertEquals(2, massesFromFile[0].intValue());
@@ -259,10 +266,6 @@ public class I20SampleParametersTest {
 		isValidAndMatchesFile(expectedValue,"SampleParameters_withCustom.xml");
 	}
 
-	/**
-	 * Test method for {@link uk.ac.gda.beans.exafs.i20.I20SampleParameters#writeToXML(uk.ac.gda.beans.exafs.i20.I20SampleParameters, java.lang.String)}.
-	 * @throws Exception 
-	 */
 	public void testWriteToXML()  throws Exception{
 		I20SampleParameters sp = new I20SampleParameters();
 		sp.setName("Cytochrome");
@@ -280,12 +283,12 @@ public class I20SampleParametersTest {
 		sp.setFurnaceParameters(fps);
 		
 		try {
-			I20SampleParameters.writeToXML(sp, testScratchDirectoryName + "SampleParameters_written.xml");
+			writeToXML(sp, testScratchDirectoryName + "SampleParameters_written.xml");
 		} catch (Exception e) {
 			fail("Failed to write xml file - " + e.getCause().getMessage());
 		}
 
-		I20SampleParameters s = I20SampleParameters.createFromXML(testScratchDirectoryName + "SampleParameters_written.xml");
+		I20SampleParameters s = createFromXML(testScratchDirectoryName + "SampleParameters_written.xml");
 		List<InvalidBeanMessage> errors = new I20Validator().validateI20SampleParameters(s);
 		if (errors.size() > 0){
 			fail(errors.get(0).getPrimaryMessage());

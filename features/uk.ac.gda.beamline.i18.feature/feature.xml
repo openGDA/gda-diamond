@@ -89,13 +89,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.dawb.workbench.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.gda.video.mjpeg"
          download-size="0"
          install-size="0"
@@ -104,13 +97,6 @@
 
    <plugin
          id="uk.ac.gda.video"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.nebula.widgets.formattedtext"
          download-size="0"
          install-size="0"
          version="0.0.0"

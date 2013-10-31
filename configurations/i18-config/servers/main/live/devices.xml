@@ -19,7 +19,7 @@
 		<property name="NUMBER_OF_ELEMENTS" value="4"/>
 		<property name="hdf5" ref="hdf5"/>
 </bean>
-<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController3ROI">
+<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerROI">
 		<property name="edxdControllerName" value="edxdcontroller"/>
 		<property name="local" value="true"/>
 </bean>

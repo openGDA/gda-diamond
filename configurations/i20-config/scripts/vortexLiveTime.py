@@ -1,4 +1,3 @@
-
 def testVortexWiredCorrectly():
     from gda.device import  DeviceException
     from random import randrange

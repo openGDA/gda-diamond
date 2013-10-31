@@ -22,9 +22,6 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.scannable.scannablegroup.ScannableGroup;
 import gda.jython.JythonServerFacade;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 public class Ln2Scannable extends ScannableBase implements Scannable {
 
 	private ScannableGroup cryo;
@@ -36,7 +33,6 @@ public class Ln2Scannable extends ScannableBase implements Scannable {
 	private int heightIndex;
 	private int angleIndex;
 	
-	private static final Logger logger = LoggerFactory.getLogger(Ln2Scannable.class);
 	@Override
 	public boolean isBusy() throws DeviceException {
 		return cryo.isBusy();

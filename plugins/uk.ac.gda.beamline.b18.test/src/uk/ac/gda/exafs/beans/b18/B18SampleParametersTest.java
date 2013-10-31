@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2009 Diamond Light Source Ltd.
+ * Copyright © 2013 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -30,16 +30,27 @@ import uk.ac.gda.beans.exafs.b18.B18SampleParameters;
 import uk.ac.gda.beans.exafs.b18.FurnaceParameters;
 import uk.ac.gda.beans.exafs.b18.XYThetaStageParameters;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
+import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 /**
  * class to hold sample parameters
  */
 public class B18SampleParametersTest {
+	
+	
+	public static B18SampleParameters createFromXML(String filename) throws Exception {
+		return (B18SampleParameters) XMLHelpers.createFromXML(B18SampleParameters.mappingURL, B18SampleParameters.class, B18SampleParameters.schemaURL,
+				filename);
+	}
+
+	public static void writeToXML(B18SampleParameters sampleParameters, String filename) throws Exception {
+		XMLHelpers.writeToXML(B18SampleParameters.mappingURL, sampleParameters, filename);
+	}
 
 	@Test
 	public void testCreateFromXML_FileDoesNotExist() {
 		try {
-			B18SampleParameters.createFromXML("testfiles/DoesNotExist");
+			createFromXML("testfiles/DoesNotExist");
 			fail("File does not exist");
 		} catch (Exception ex) {
 			if (!(ex instanceof FileNotFoundException)) {
@@ -65,7 +76,7 @@ public class B18SampleParametersTest {
 		fps.setTime(5);
 		expectedValue.setFurnaceParameters(fps);
 
-		B18SampleParameters s = B18SampleParameters.createFromXML("testfiles/uk/ac/gda/exafs/beans/b18/SampleParameters_withFurnace.xml");
+		B18SampleParameters s = createFromXML("testfiles/uk/ac/gda/exafs/beans/b18/SampleParameters_withFurnace.xml");
 		validate(s);
 		testEquals(expectedValue, s);
 	}
@@ -89,7 +100,7 @@ public class B18SampleParametersTest {
 		ssps.setTheta(3);
 		expectedValue.setXYThetaStageParameters(ssps);
 
-		B18SampleParameters s = B18SampleParameters.createFromXML("testfiles/uk/ac/gda/exafs/beans/b18/SampleParameters_withSmallStage.xml");
+		B18SampleParameters s = createFromXML("testfiles/uk/ac/gda/exafs/beans/b18/SampleParameters_withSmallStage.xml");
 		validate(s);
 		testEquals(expectedValue, s);
 	}
