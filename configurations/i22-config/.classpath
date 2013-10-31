@@ -38,7 +38,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.client"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.client.experimentdefinition"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.client.ncd"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.client.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.common.client"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.common.rcp"/>
@@ -46,10 +45,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.devices.bssc"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.dls"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.dls.client"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.dls.client.test"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.dls.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.epics"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.epics.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.libs"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.nexus"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.oe"/>
