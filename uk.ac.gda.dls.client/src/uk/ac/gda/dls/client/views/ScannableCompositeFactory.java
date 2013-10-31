@@ -18,19 +18,19 @@
 
 package uk.ac.gda.dls.client.views;
 
-import java.text.NumberFormat;
-import java.util.Scanner;
-
 import gda.device.DeviceException;
 import gda.device.Scannable;
-import gda.device.monitor.DummyMonitor;
-import gda.device.motor.DummyMotor;
 import gda.device.scannable.DummyScannable;
 import gda.device.scannable.ScannableGetPositionWrapper;
 import gda.device.scannable.ScannablePositionChangeEvent;
 import gda.factory.FactoryException;
 import gda.observable.IObserver;
 import gda.rcp.views.CompositeFactory;
+
+import java.text.NumberFormat;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -55,9 +55,6 @@ import org.springframework.util.StringUtils;
 import swing2swt.layout.BorderLayout;
 import uk.ac.gda.common.rcp.util.EclipseWidgetUtils;
 import uk.ac.gda.ui.utils.SWTUtils;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ScannableCompositeFactory implements CompositeFactory, InitializingBean {
 
@@ -126,12 +123,9 @@ public class ScannableCompositeFactory implements CompositeFactory, Initializing
 	}
 
 	public static void main(String... args) {
-
 		Display display = new Display();
 		Shell shell = new Shell(display);
 		shell.setLayout(new BorderLayout());
-
-		DummyMonitor dummy0 = new DummyMonitor();
 		DummyScannable dummy = new DummyScannable();
 		dummy.setName("dummy");
 		try {
@@ -139,7 +133,7 @@ public class ScannableCompositeFactory implements CompositeFactory, Initializing
 		} catch (FactoryException e) {
 			// TODO Auto-generated catch block
 		}
-		final ScannableComposite comp = new ScannableComposite(shell, SWT.NONE, display, dummy, "", "units", new Integer(2), new Integer(100), new Integer(200));
+		ScannableComposite comp = new ScannableComposite(shell, SWT.NONE, display, dummy, "", "units", new Integer(2), new Integer(100), new Integer(200));
 		comp.setLayoutData(BorderLayout.NORTH);
 		comp.setVisible(true);
 		shell.pack();
@@ -162,11 +156,13 @@ class AmountVerifyKeyListener implements VerifyListener, VerifyKeyListener      
 
     private static final Pattern pattern = Pattern.compile(REGEX);  
 
-    public void verifyText(VerifyEvent verifyevent) {
+    @Override
+	public void verifyText(VerifyEvent verifyevent) {
         verify(verifyevent);
     }
 
-    public void verifyKey(VerifyEvent verifyevent) {
+    @Override
+	public void verifyKey(VerifyEvent verifyevent) {
         verify(verifyevent);
     }
 
@@ -312,17 +308,16 @@ class ScannableComposite extends Composite {
 	void setVal(String newVal) {
 		if (decimalPlaces != null) {
 			Scanner sc = new Scanner(newVal.trim());
-			
 			if (sc.hasNextDouble()) {
 				NumberFormat format = NumberFormat.getInstance();
 				format.setMaximumFractionDigits(decimalPlaces.intValue());
 				newVal = format.format(sc.nextDouble());
 			}
+			sc.close();
 		}
 		val = newVal;
-		if(!isDisposed()){
+		if(!isDisposed())
 			display.asyncExec(setTextRunnable);
-		}
 	}
 
 	/**

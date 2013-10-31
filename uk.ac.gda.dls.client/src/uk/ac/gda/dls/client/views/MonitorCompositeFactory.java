@@ -18,10 +18,6 @@
 
 package uk.ac.gda.dls.client.views;
 
-import java.awt.Color;
-import java.text.NumberFormat;
-import java.util.Scanner;
-
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.monitor.DummyMonitor;
@@ -29,6 +25,9 @@ import gda.device.scannable.ScannableGetPositionWrapper;
 import gda.device.scannable.ScannablePositionChangeEvent;
 import gda.observable.IObserver;
 import gda.rcp.views.CompositeFactory;
+
+import java.text.NumberFormat;
+import java.util.Scanner;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -50,7 +49,6 @@ import uk.ac.gda.common.rcp.util.EclipseWidgetUtils;
 import uk.ac.gda.ui.utils.SWTUtils;
 
 public class MonitorCompositeFactory implements CompositeFactory, InitializingBean {
-
 	private String label;
 	private Scannable scannable;
 	private String units;
@@ -61,7 +59,6 @@ public class MonitorCompositeFactory implements CompositeFactory, InitializingBe
 	public String getLabel() {
 		return label;
 	}
-
 
 	public void setLabel(String label) {
 		this.label = label;
@@ -99,17 +96,13 @@ public class MonitorCompositeFactory implements CompositeFactory, InitializingBe
 		return contentWidth;
 	}
 
-
 	public void setContentWidth(Integer contentWidth) {
 		this.contentWidth = contentWidth;
 	}
 
-
 	public void setLabelWidth(Integer labelWidth) {
 		this.labelWidth = labelWidth;
 	}
-
-	
 	
 	@Override
 	public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
@@ -118,7 +111,6 @@ public class MonitorCompositeFactory implements CompositeFactory, InitializingBe
 	}
 
 	public static void main(String... args) {
-
 		Display display = new Display();
 		Shell shell = new Shell(display);
 		shell.setLayout(new BorderLayout());
@@ -138,7 +130,6 @@ public class MonitorCompositeFactory implements CompositeFactory, InitializingBe
 	public void afterPropertiesSet() throws Exception {
 		if (scannable == null)
 			throw new IllegalArgumentException("scannable is null");
-
 	}
 }
 
@@ -155,7 +146,6 @@ class MonitorComposite extends Composite {
 	Integer decimalPlaces;
 	Integer labelWidth;
 	Integer contentWidth;
-	
 
 	MonitorComposite(Composite parent, int style, final Display display, Scannable scannable, String label, final String units, 
 			Integer decimalPlaces, Integer labelWidth, Integer contentWidth) {
@@ -166,15 +156,13 @@ class MonitorComposite extends Composite {
 		this.labelWidth=labelWidth;
 		this.contentWidth=contentWidth;
 		
-		if( StringUtils.hasLength(units)){
+		if( StringUtils.hasLength(units))
 			suffix = " " + units;
-		}
 		
 		formats = scannable.getOutputFormat();
 		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(this);
 		GridDataFactory.fillDefaults().applyTo(this);		
 
-//		Label lbl = new Label(this, SWT.NONE | SWT.CENTER);
 		Label lbl = new Label(this, SWT.RIGHT |SWT.WRAP);
 		lbl.setText(StringUtils.hasLength(label) ? label : scannable.getName());
 		GridData labelGridData = new GridData(GridData.HORIZONTAL_ALIGN_END);
@@ -235,17 +223,16 @@ class MonitorComposite extends Composite {
 	void setVal(String newVal) {
 		if (decimalPlaces != null) {
 			Scanner sc = new Scanner(newVal.trim());
-			
 			if (sc.hasNextDouble()) {
 				NumberFormat format = NumberFormat.getInstance();
 				format.setMaximumFractionDigits(decimalPlaces.intValue());
 				newVal = format.format(sc.nextDouble());
 			}
+			sc.close();
 		}
 		val = newVal;
-		if(!isDisposed()){
+		if(!isDisposed())
 			display.asyncExec(setTextRunnable);
-		}
 	}
 
 	@Override
@@ -253,6 +240,5 @@ class MonitorComposite extends Composite {
 		scannable.deleteIObserver(observer);
 		super.dispose();
 	}
-	
 
 }

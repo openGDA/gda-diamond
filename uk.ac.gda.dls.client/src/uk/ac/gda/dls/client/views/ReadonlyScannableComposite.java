@@ -137,12 +137,12 @@ public class ReadonlyScannableComposite extends Composite {
 	void setVal(String newVal) {
 		if (decimalPlaces != null) {
 			Scanner sc = new Scanner(newVal.trim());
-			
 			if (sc.hasNextDouble()) {
 				NumberFormat format = NumberFormat.getInstance();
 				format.setMaximumFractionDigits(decimalPlaces.intValue());
 				newVal = format.format(sc.nextDouble());
 			}
+			sc.close();
 		}
 		val = newVal;
 		if(!isDisposed()){
@@ -168,5 +168,4 @@ public class ReadonlyScannableComposite extends Composite {
 		super.dispose();
 	}
 	
-
 }
