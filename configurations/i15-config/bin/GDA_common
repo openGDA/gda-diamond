@@ -5,24 +5,22 @@
 # script changes.
 ########################################################################
 export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
+export GDA_LOGS_DIR=$(readlink -f $GDA_ROOT/../../../logs)
 ########################################################################
 
 module load java/gda834-64
 
 export GDA_CORE_SCRIPT=$GDA_ROOT/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
 export GDA_CLIENT_SCRIPT=$GDA_ROOT/workspace_git/gda-diamond.git/dls-config/bin/gdaclient
-export GDA_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/i15-config/
+export GDA_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/
 
-# GDA_CLIENT_SCRIPT requires $BEAMLINE to be set, so make sure it is set for
-# dummy operation off the beamline.
-export BEAMLINE=i15
-
-LOGDIR=/dls_sw/$BEAMLINE/logs
 LOGNAME=$1
-export GDA_CONSOLE_LOG=$LOGDIR/$LOGNAME/$LOGNAME_`date +%F-%T`.txt
+export GDA_CONSOLE_LOG=$GDA_LOGS_DIR/$LOGNAME/$LOGNAME_`date +%F-%T`.txt
+
+mkdir -p -m 777 $GDA_LOGS_DIR/$LOGNAME
 touch $GDA_CONSOLE_LOG
-rm $LOGDIR/$LOGNAME.txt
-ln -s $GDA_CONSOLE_LOG $LOGDIR/$LOGNAME.txt
+[ -h $GDA_LOGS_DIR/$LOGNAME.txt ] && rm $GDA_LOGS_DIR/$LOGNAME.txt
+ln -s $GDA_CONSOLE_LOG $GDA_LOGS_DIR/$LOGNAME.txt
 
 echo --------------------------------------------------------
 echo -------------------------------------------------------- >> $GDA_CONSOLE_LOG
