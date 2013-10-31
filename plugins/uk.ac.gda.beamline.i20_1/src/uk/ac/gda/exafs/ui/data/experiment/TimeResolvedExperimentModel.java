@@ -46,6 +46,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumModel;
@@ -53,6 +54,8 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel.TimingGroupTimeBarRowModel;
 import de.jaret.util.date.IntervalImpl;
+import de.jaret.util.date.JaretDate;
+import de.jaret.util.ui.timebars.TimeBarMarkerImpl;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 
@@ -82,6 +85,24 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	public static final String SCAN_DATA_SET_PROP_NAME = "scanDataSet";
 
+	private static final int MAX_TOP_UP_TIMES = 10;
+	private static final int DURATION_BETWEEN_TOP_UP_IN_MINUTES = 10;
+	public static final int TOP_UP_DURATION_IN_SECONDS = 10;
+
+	public static class Topup extends TimeBarMarkerImpl {
+		public Topup(boolean draggable, JaretDate date) {
+			super(draggable, date);
+		}
+
+	}
+
+	private static final Topup[] topupTimes = new Topup[MAX_TOP_UP_TIMES];
+
+	static {
+		for(int i=0; i < topupTimes.length; i++) {
+			topupTimes[i] = new Topup(false, TimebarHelper.getTime().advanceMinutes((i + 1) * DURATION_BETWEEN_TOP_UP_IN_MINUTES));
+		}
+	}
 
 	private DoubleDataset[] scanDataSet;
 
@@ -121,6 +142,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		}
 		experimentDataCollectionJob.setUser(true);
 		loadSavedGroups();
+
 	}
 
 	public void addGroupListChangeListener(IListChangeListener listener) {
@@ -129,6 +151,10 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	public void removeGroupListChangeListener(IListChangeListener listener) {
 		groupList.removeListChangeListener(listener);
+	}
+
+	public static Topup[] getTopupTimes() {
+		return topupTimes;
 	}
 
 	private void loadSavedGroups() {
