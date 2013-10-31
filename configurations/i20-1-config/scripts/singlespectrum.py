@@ -32,10 +32,10 @@ def runsinglespectrumscan():
     
     scanparams = EdeScanParameters.createSingleFrameScan(scanTimeInSeconds,numberOfScansPerFrame);
     
-    inBeamPosition = ExplicitScanPositions(EdePositionType.INBEAM, inbeam_xmotorposition, inbeam_ymotorposition, xmotorobject, ymotorobject);
     outBeamPosition = ExplicitScanPositions(EdePositionType.OUTBEAM,outbeam_xmotorposition,outbeam_ymotorposition,xmotorobject,ymotorobject);
+    inBeamPosition = ExplicitScanPositions(EdePositionType.INBEAM, inbeam_xmotorposition, inbeam_ymotorposition, xmotorobject, ymotorobject);
     
-    theExperiment = EdeSingleExperiment(scanparams, inBeamPosition, outBeamPosition, xstrip);
+    theExperiment = EdeSingleExperiment(scanparams, outBeamPosition, inBeamPosition, detectorobject);
     theExperiment.runExperiment()
     
 runsinglespectrumscan()
