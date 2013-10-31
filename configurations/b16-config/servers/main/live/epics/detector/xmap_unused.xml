@@ -9,7 +9,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController2">
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
 		<property name="edxdControllerName" ref="edxdcontroller" />
 		<property name="local" value="true" />
 	</bean>
