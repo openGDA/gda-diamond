@@ -5,7 +5,7 @@
 	<!-- This class is available frlom the core and i12 plugin -->
 	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDController">
 		<property name="epicsDeviceName" value="edxd" />
-		<property name="NUMBER_OF_ELEMENTS" value="4" />
+		<property name="numberOfElements" value="4" />
 		<property name="local" value="true" />
 	</bean>
 
