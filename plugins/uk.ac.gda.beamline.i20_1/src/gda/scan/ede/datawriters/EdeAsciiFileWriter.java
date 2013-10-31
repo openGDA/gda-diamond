@@ -77,7 +77,7 @@ public abstract class EdeAsciiFileWriter {
 
 	public static Double calcLnI0It(Double i0_corrected, Double it_corrected) {
 		Double lni0it = Math.log(i0_corrected / it_corrected);
-		if (lni0it.isNaN() || lni0it.isInfinite() || lni0it < 0.0) {
+		if (lni0it.isNaN() || lni0it.isInfinite() /*|| lni0it < 0.0*/) {
 			lni0it = .0;
 		}
 		return lni0it;

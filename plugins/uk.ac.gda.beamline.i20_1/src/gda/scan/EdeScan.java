@@ -26,6 +26,7 @@ import gda.device.detector.ExperimentStatus;
 import gda.device.detector.StripDetector;
 import gda.device.scannable.FrameIndexer;
 import gda.device.scannable.ScannableUtils;
+import gda.factory.Finder;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeScanProgressBean;
 import gda.scan.ede.EdeScanType;
@@ -136,9 +137,17 @@ public class EdeScan extends ConcurrentScanChild {
 		validate();
 		logger.debug(toString() + " loading detector parameters...");
 		theDetector.loadParameters(scanParameters);
-		logger.debug(toString() + " moving motors into position...");
-		motorPositions.moveIntoPosition();
-		checkForInterrupts();
+		if (scanType == EdeScanType.DARK){
+			// close the shutter
+			((Scannable) Finder.getInstance().find("shutter2")).moveTo("Close");
+			checkForInterrupts();
+		} else {
+			// open the shutter
+			logger.debug(toString() + " moving motors into position...");
+			motorPositions.moveIntoPosition();
+			checkForInterrupts();
+			((Scannable) Finder.getInstance().find("shutter2")).moveTo("Open");
+		}
 		if (!isChild()) {
 			currentPointCount = -1;
 		}

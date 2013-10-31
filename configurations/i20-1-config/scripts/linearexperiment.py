@@ -40,10 +40,10 @@ def runlinearexperment():
 
     scanparams = EdeScanParameters(groups)
     
-    inBeamPosition = ExplicitScanPositions(EdePositionType.INBEAM, inbeam_xmotorposition, inbeam_ymotorposition, xmotorobject, ymotorobject);
     outBeamPosition = ExplicitScanPositions(EdePositionType.OUTBEAM,outbeam_xmotorposition,outbeam_ymotorposition,xmotorobject,ymotorobject);
+    inBeamPosition = ExplicitScanPositions(EdePositionType.INBEAM, inbeam_xmotorposition, inbeam_ymotorposition, xmotorobject, ymotorobject);
     
-    theExperiment = EdeLinearExperiment(scanparams, inBeamPosition, outBeamPosition, xstrip);
+    theExperiment = EdeLinearExperiment(scanparams, outBeamPosition, inBeamPosition, detectorobject);
     theExperiment.runExperiment()
     
 runlinearexperment()
