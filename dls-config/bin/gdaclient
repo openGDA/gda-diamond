@@ -13,7 +13,8 @@ Environment:
     BEAMLINE            Used to determine default directory locations
   Optional:
     GDA_CLIENT          Override the default client executable
-    GDA_CLIENT_VMARGS   Specify additional -vmargs to append.
+    GDA_CLIENT_VMARGS   Specify additional -vmargs to append
+    GDA_CLIENT_LOG_DIR  Override default ErrorFile location
 
 OPTIONS:
     --help      Print this help and exit.
@@ -170,9 +171,11 @@ export MOZILLA_FIVE_HOME=/dls_sw/apps/firefox/8/${ARCH}/
 # this value is in 1024-byte blocks (i.e. 10000000 = 10 GB)
 ulimit -c 10000000
 
+if [ -z $GDA_CLIENT_LOG_DIR ] ; then
+  GDA_CLIENT_LOG_DIR=/dls_sw/$BEAMLINE/logs
+fi
 # The directory into which core dumps are written is best specified by changing the cwd
-LOG_DIR=/dls_sw/$BEAMLINE/logs
-cd $LOG_DIR
+cd $GDA_CLIENT_LOG_DIR
 
 if [ -z $GDA_CLIENT ] ; then
   GDA_CLIENT=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE}
@@ -187,7 +190,7 @@ PREVMARGS=" -consoleLog -showLocation -data ${WORKSPACE} -configuration ${CONFIG
 #   http://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html
 
 # Fatal Error Log (see http://www.oracle.com/technetwork/java/javase/felog-138657.html#felog)
-VMARGS="-XX:ErrorFile=$LOG_DIR/hs_err_pid%p.log $GDA_CLIENT_VMARGS"
+VMARGS="-XX:ErrorFile=$GDA_CLIENT_LOG_DIR/hs_err_pid%p.log $GDA_CLIENT_VMARGS"
 
 # see http://wiki.eclipse.org/Eclipse.ini
 COMMAND="${GDA_CLIENT} $PREVMARGS --launcher.appendVmargs -vmargs $VMARGS"
