@@ -27,7 +27,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.ncd"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.ncd.rcp"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.python"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.spectroscopy"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.system.info"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.sda.meta"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.sda.meta.extended"/>
