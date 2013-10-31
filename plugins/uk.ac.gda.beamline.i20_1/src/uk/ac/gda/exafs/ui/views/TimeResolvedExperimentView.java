@@ -719,24 +719,24 @@ public class TimeResolvedExperimentView extends ViewPart {
 		resetToDisplayWholeExperimentTime();
 		timeBarViewer.setAdjustMinMaxDatesByModel(true);
 		timeBarViewer.setLineDraggingAllowed(false);
-		//		marker = new TimeBarMarkerImpl(true, TimebarHelper.getTime().advanceMillis(INITIAL_TIMEBAR_MARKER_IN_MILLI));
-		//
-		//		TimeResolvedExperimentModel.INSTANCE.addPropertyChangeListener(new PropertyChangeListener() {
-		//			@Override
-		//			public void propertyChange(PropertyChangeEvent evt) {
-		//				if (evt.getPropertyName().equals(TimeResolvedExperimentModel.SCANNING_PROP_NAME)) {
-		//					if ((boolean) evt.getNewValue()) {
-		//						marker.setDate(TimebarHelper.getTime());
-		//						timeBarViewer.addMarker(marker);
-		//					} else {
-		//						timeBarViewer.remMarker(marker);
-		//					}
-		//				} else if (evt.getPropertyName().equals(TimeResolvedExperimentModel.CURRENT_SCANNING_SPECTRUM_PROP_NAME)) {
-		//					SpectrumModel spectrum = (SpectrumModel) evt.getNewValue();
-		//					marker.setDate(spectrum.getEnd().copy());
-		//				}
-		//			}
-		//		});
+		marker = new TimeBarMarkerImpl(true, TimebarHelper.getTime().advanceMillis(INITIAL_TIMEBAR_MARKER_IN_MILLI));
+
+		TimeResolvedExperimentModel.INSTANCE.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(TimeResolvedExperimentModel.SCANNING_PROP_NAME)) {
+					if ((boolean) evt.getNewValue()) {
+						marker.setDate(TimebarHelper.getTime());
+						timeBarViewer.addMarker(marker);
+					} else {
+						timeBarViewer.remMarker(marker);
+					}
+				} else if (evt.getPropertyName().equals(TimeResolvedExperimentModel.CURRENT_SCANNING_SPECTRUM_PROP_NAME)) {
+					SpectrumModel spectrum = (SpectrumModel) evt.getNewValue();
+					marker.setDate(spectrum.getEnd().copy());
+				}
+			}
+		});
 
 		timeBarViewer.addTimeBarChangeListener(new ITimeBarChangeListener() {
 
