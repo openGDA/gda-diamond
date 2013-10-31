@@ -69,6 +69,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
@@ -96,6 +98,8 @@ public class TimeResolvedExperimentView extends ViewPart {
 	public static final String ID = "uk.ac.gda.exafs.ui.views.linearExperimentView";
 
 	private static final int TIMEBAR_ZOOM_FACTOR = 10;
+
+	private static Logger logger = LoggerFactory.getLogger(TimeResolvedExperimentView.class);
 
 	private static final long INITIAL_TIMEBAR_MARKER_IN_MILLI = 10L;
 
@@ -145,7 +149,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 			topPartComposite.setWeights(new int[] {3, 1});
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
-			e.printStackTrace();
+			logger.error("Unable to create controls", e);
 		}
 	}
 
@@ -684,6 +688,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 			}
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create plotting system", e.getMessage());
+			logger.error("Unable to create plotting system", e);
 			return;
 		}
 		Composite composite = new Composite(parent, SWT.None);

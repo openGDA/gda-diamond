@@ -64,19 +64,22 @@ public class ScannableWrapper extends UIObservableModel implements IObserver {
 		final Job job = new Job("Moving " + scannable.getName() + " to " + position + ".") {
 			@Override
 			protected void canceling() {
+				boolean isBusy;
 				try {
 					scannable.stop();
 					// TODO add timeouts!
 					while (scannable.isBusy()) {
 						Thread.sleep(CHECK_BUSY_STATUS_IN_MS);
 					}
-					firePropertyChange(BUSY_PROP_NAME, true, scannable.isBusy());
+					isBusy = scannable.isBusy();
 					firePropertyChange(TARGET_POSITION_PROP_NAME, targetPosition, targetPosition = null);
 					firePropertyChange(POSITION_PROP_NAME, null, scannable.getPosition());
 				} catch (final Exception e) {
 					UIHelper.showError("Error while stopping the motor", e.getMessage());
-					firePropertyChange(BUSY_PROP_NAME, true, false);
+					logger.error("Error while stopping the motor", e);
+					isBusy = false;
 				}
+				firePropertyChange(BUSY_PROP_NAME, true, isBusy);
 				super.canceling();
 			}
 
@@ -101,6 +104,7 @@ public class ScannableWrapper extends UIObservableModel implements IObserver {
 					firePropertyChange(POSITION_PROP_NAME, null, scannable.getPosition());
 				} catch (final Exception e) {
 					UIHelper.showError("Error while moving the motor", e.getMessage());
+					logger.error("Error while moving the motor", e);
 					status = Status.CANCEL_STATUS;
 					firePropertyChange(BUSY_PROP_NAME, true, false);
 				}

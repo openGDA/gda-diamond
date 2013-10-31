@@ -64,6 +64,8 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.eclipse.ui.forms.widgets.TableWrapData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
@@ -73,6 +75,8 @@ import uk.ac.gda.exafs.ui.data.UIHelper;
 public class DetectorSetupDialog extends TitleAreaDialog {
 
 	private static final int ADDED_DIALOG_WIDTH = 100;
+
+	private static Logger logger = LoggerFactory.getLogger(DetectorSetupDialog.class);
 
 	@Override
 	protected Point getInitialSize() {
@@ -173,6 +177,7 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 			}
 		} catch (DeviceException e) {
 			UIHelper.showError("Unable to show temperature readings", e.getMessage());
+			logger.error("Unable to show temperature readings", e);
 		} finally {
 			Display.getDefault().getActiveShell().setCursor(cursor);
 		}

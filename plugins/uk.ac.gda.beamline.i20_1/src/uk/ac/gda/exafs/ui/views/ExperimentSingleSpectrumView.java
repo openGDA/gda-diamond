@@ -30,6 +30,8 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.SingleSpectrumModel;
@@ -40,6 +42,9 @@ import uk.ac.gda.exafs.ui.sections.SingleSpectrumParametersSection;
 public class ExperimentSingleSpectrumView extends ViewPart {
 
 	public static final String ID = "uk.ac.gda.exafs.ui.views.experimentSingleSpectrumView";
+
+	private static Logger logger = LoggerFactory.getLogger(ExperimentSingleSpectrumView.class);
+
 	private FormToolkit toolkit;
 	private ScrolledForm scrolledform;
 
@@ -58,6 +63,7 @@ public class ExperimentSingleSpectrumView extends ViewPart {
 			SingleSpectrumParametersSection.INSTANCE.createEdeCalibrationSection(form, toolkit);
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
+			logger.error("Unable to create controls", e);
 		}
 	}
 

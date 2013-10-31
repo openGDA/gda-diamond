@@ -109,8 +109,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 	private static Logger logger = LoggerFactory.getLogger(BeamlineAlignmentView.class);
 
-
-
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
 	private ComboViewer comboCrystalCut;
@@ -164,6 +162,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			updatePower();
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create motor controls", e.getMessage());
+			logger.error("Unable to create motor controls", e);
 		}
 
 	}
@@ -455,8 +454,8 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 			updateAlignmentParametersSuggestion(AlignmentParametersModel.INSTANCE.getAlignmentSuggestedParameters());
 		} catch (Exception e) {
-			logger.error("Error while retrieving available detectors", e);
 			UIHelper.showError("Unable to setup detectors", "Error while retrieving available detectors");
+			logger.error("Error while retrieving available detectors", e);
 		}
 	}
 
@@ -535,7 +534,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				try {
 					ScannableSetup.ATN1.getScannable().asynchronousMoveTo(lblAtn1Suggestion.getText());
 				} catch (Exception e) {
-					UIHelper.showError("Exception setting motor to " + lblAtn1Suggestion.getText(), e.getMessage());
+					String errorMessage = "Exception setting motor to " + lblAtn1Suggestion.getText();
+					UIHelper.showError(errorMessage, e.getMessage());
+					logger.error(errorMessage, e);
 				}
 			}
 		});
@@ -551,7 +552,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				try {
 					ScannableSetup.ATN2.getScannable().asynchronousMoveTo(lblAtn2Suggestion.getText());
 				} catch (Exception e) {
-					UIHelper.showError("Exception setting motor to " + lblAtn2Suggestion.getText(), e.getMessage());
+					String errorMessage = "Exception setting motor to " + lblAtn2Suggestion.getText();
+					UIHelper.showError(errorMessage, e.getMessage());
+					logger.error(errorMessage, e);
 				}
 			}
 		});
@@ -567,7 +570,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				try {
 					ScannableSetup.ATN3.getScannable().asynchronousMoveTo(lblAtn3Suggestion.getText());
 				} catch (Exception e) {
-					UIHelper.showError("Exception setting motor to " + lblAtn3Suggestion.getText(), e.getMessage());
+					String errorMessage = "Exception setting motor to " + lblAtn3Suggestion.getText();
+					UIHelper.showError(errorMessage, e.getMessage());
+					logger.error(errorMessage);
 				}
 			}
 		});
@@ -583,7 +588,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				try {
 					ScannableSetup.ME1_STRIPE.getScannable().asynchronousMoveTo(lblMe1StripSuggestion.getText());
 				} catch (Exception e) {
-					UIHelper.showError("Exception setting motor to " + lblMe1StripSuggestion.getText(), e.getMessage());
+					String errorMessage = "Exception setting motor to " + lblMe1StripSuggestion.getText();
+					UIHelper.showError(errorMessage, e.getMessage());
+					logger.error(errorMessage, e);
 				}
 			}
 		});
@@ -599,7 +606,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				try {
 					ScannableSetup.ME2_STRIPE.getScannable().asynchronousMoveTo(lblMe2StripSuggestion.getText());
 				} catch (Exception e) {
-					UIHelper.showError("Exception setting motor to " + lblMe2StripSuggestion.getText(), e.getMessage());
+					String errorMessage = "Exception setting motor to " + lblMe2StripSuggestion.getText();
+					UIHelper.showError(errorMessage, e.getMessage());
+					logger.error(errorMessage, e);
 				}
 			}
 		});
@@ -714,7 +723,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			});
 		} catch (Exception e) {
 			UIHelper.showError("Unable to find detector details", e.getMessage());
+			logger.error("Unable to find detector details", e);
 		}
+
 		lblDetectorDistanceSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.DETECTOR_DISTANCE);
 		applyButton = createMotorControl(motorSectionComposite);
 		suggestionControls.put(applyButton, lblDetectorDistanceSuggestion);

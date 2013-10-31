@@ -29,6 +29,8 @@ import org.dawnsci.plotting.api.PlottingFactory;
 import org.dawnsci.plotting.api.tool.IToolPageSystem;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.exafs.ui.data.UIHelper;
@@ -37,6 +39,8 @@ import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 public class LinearExperimentPlotView extends ViewPart {
 
 	public static final String ID = "uk.ac.gda.exafs.ui.views.LinearExperimentPlotView";
+
+	private static Logger logger = LoggerFactory.getLogger(LinearExperimentPlotView.class);
 
 	private IPlottingSystem plottingSystem;
 
@@ -64,6 +68,7 @@ public class LinearExperimentPlotView extends ViewPart {
 			}
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create plotting system", e.getMessage());
+			logger.error("Unable to create plotting system", e);
 			return;
 		}
 		plottingSystem.createPlotPart(parent,

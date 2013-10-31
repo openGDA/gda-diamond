@@ -169,8 +169,8 @@ public class DetectorConfigSection {
 
 		} catch (Exception e) {
 			String errorMessage = "Unable to update Detector configuration. ";
-			logger.error(errorMessage, e);
 			UIHelper.showError(errorMessage, e.getMessage());
+			logger.error(errorMessage, e);
 		}
 	}
 

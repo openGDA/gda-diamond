@@ -34,8 +34,13 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ScannableMotorMoveObserver implements IObserver {
+
+	private static final Logger logger = LoggerFactory.getLogger(ScannableMotorMoveObserver.class);
+
 	private final WritableList movingScannables;
 	public ScannableMotorMoveObserver(WritableList movingScannables) {
 		this.movingScannables = movingScannables;
@@ -92,7 +97,9 @@ public class ScannableMotorMoveObserver implements IObserver {
 					try {
 						((Scannable) scannable).stop();
 					} catch (DeviceException e) {
-						UIHelper.showError("Unable to stop motor " + ((Scannable) scannable).getName(), e.getMessage());
+						String errorMessage = "Unable to stop motor " + ((Scannable) scannable).getName();
+						UIHelper.showError(errorMessage, e.getMessage());
+						logger.error(errorMessage, e);
 					}
 				}
 			}

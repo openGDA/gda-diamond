@@ -55,6 +55,8 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.exafs.data.ClientConfig;
@@ -65,6 +67,8 @@ import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class SingleSpectrumParametersSection {
 	public static final SingleSpectrumParametersSection INSTANCE = new SingleSpectrumParametersSection();
+
+	private static final Logger logger = LoggerFactory.getLogger(SingleSpectrumParametersSection.class);
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 	private Section section;
@@ -213,6 +217,7 @@ public class SingleSpectrumParametersSection {
 					SingleSpectrumModel.INSTANCE.doCollection();
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
+					logger.error("Unable to scan", e);
 				}
 			}
 		});

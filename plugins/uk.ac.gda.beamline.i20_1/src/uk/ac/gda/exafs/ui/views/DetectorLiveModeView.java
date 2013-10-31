@@ -31,6 +31,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.ui.composites.XHControlComposite;
@@ -42,6 +44,8 @@ public class DetectorLiveModeView extends ViewPart {
 
 	private XHControlComposite controlComposite;
 	private IPlottingSystem plottingSystem;
+
+	private static Logger logger = LoggerFactory.getLogger(DetectorLiveModeView.class);
 
 	protected final DataBindingContext ctx = new DataBindingContext();
 
@@ -57,6 +61,7 @@ public class DetectorLiveModeView extends ViewPart {
 			}
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create plotting system", e.getMessage());
+			logger.error("Unable to create plotting system", e);
 			return;
 		}
 		Composite composite = new Composite(parent, SWT.None);

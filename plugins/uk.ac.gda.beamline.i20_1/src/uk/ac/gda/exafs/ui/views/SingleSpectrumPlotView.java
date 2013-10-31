@@ -33,6 +33,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
@@ -42,6 +44,8 @@ import com.swtdesigner.SWTResourceManager;
 public class SingleSpectrumPlotView extends ViewPart {
 
 	public static String ID = AlignmentPerspective.SINGLE_SPECTRUM_PLOT_VIEW_ID;
+
+	private static Logger logger = LoggerFactory.getLogger(SingleSpectrumPlotView.class);
 
 	private static String DARK_NAME = "Dark";
 	private static String I0_NAME = "I0";
@@ -59,6 +63,7 @@ public class SingleSpectrumPlotView extends ViewPart {
 			}
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create plotting system", e.getMessage());
+			logger.error("Unable to create plotting system", e);
 			return;
 		}
 		Composite composite = new Composite(parent, SWT.None);

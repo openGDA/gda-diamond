@@ -37,6 +37,8 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 import uk.ac.gda.exafs.ui.composites.MotorPositionEditorControl;
@@ -48,6 +50,9 @@ import uk.ac.gda.exafs.ui.sections.SlitsScanSection;
 public class FocusingView extends ViewPart {
 
 	public static String ID = "uk.ac.gda.exafs.ui.views.focusingview";
+
+	private static final Logger logger = LoggerFactory.getLogger(FocusingView.class);
+
 	private FormToolkit toolkit;
 
 	@Override
@@ -70,6 +75,7 @@ public class FocusingView extends ViewPart {
 			createFormCurvatureSection(form);
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create scannable controls", e.getMessage());
+			logger.error("Unable to create scannable controls", e);
 		}
 		return scrolledform;
 	}

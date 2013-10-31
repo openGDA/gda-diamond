@@ -37,6 +37,8 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
@@ -48,7 +50,11 @@ import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class SlitsScanSection {
 	public static final SlitsScanSection INSTANCE = new SlitsScanSection();
+
 	private Section slitsParametersSection;
+
+	private static Logger logger = LoggerFactory.getLogger(SlitsScanSection.class);
+
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
 	private SlitsScanSection() {}
@@ -135,6 +141,7 @@ public class SlitsScanSection {
 						SlitsScanModel.getInstance().doScan();
 					} catch (DetectorUnavailableException e) {
 						UIHelper.showError("Unable to scan", e.getMessage());
+						logger.error("Unable to scan", e);
 					}
 				}
 			});
@@ -168,6 +175,7 @@ public class SlitsScanSection {
 					BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
 		} catch (Exception e) {
 			UIHelper.showError("Unable to setup slit scan parameters", e.getMessage());
+			logger.error("Unable to setup slit scan parameters", e);
 		}
 	}
 }

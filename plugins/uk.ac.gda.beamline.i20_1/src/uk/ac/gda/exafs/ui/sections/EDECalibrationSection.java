@@ -171,6 +171,7 @@ public class EDECalibrationSection {
 							refView.setCalibrationData(EdeCalibrationModel.INSTANCE.getEdeData());
 						} catch (PartInitException e) {
 							UIHelper.showError("Unable to set data file", e.getMessage());
+							logger.error("Unable to set data file", e);
 						}
 						return result;
 					}
@@ -267,7 +268,8 @@ public class EDECalibrationSection {
 					throw new Exception("Unable to read " + selected + ".");
 				}
 			} catch (Exception e) {
-				UIHelper.showError("Error", e.getMessage());
+				UIHelper.showError("Error setting data model", e.getMessage());
+				logger.error("Error setting data model", e);
 			}
 		}
 	}
@@ -366,6 +368,7 @@ public class EDECalibrationSection {
 			job.schedule();
 		} catch(Exception e) {
 			UIHelper.showError("Unable to run calibration", e.getMessage());
+			logger.error("Unable to run calibration", e);
 		}
 	}
 

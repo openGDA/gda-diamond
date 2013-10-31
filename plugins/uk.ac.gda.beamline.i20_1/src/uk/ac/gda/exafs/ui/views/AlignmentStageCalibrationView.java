@@ -37,6 +37,8 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
@@ -48,6 +50,9 @@ import uk.ac.gda.exafs.ui.data.UIHelper;
 public class AlignmentStageCalibrationView extends ViewPart {
 
 	public static final String ID = "uk.ac.gda.exafs.ui.views.alignmentstagecalibration";
+
+	private static final Logger logger = LoggerFactory.getLogger(AlignmentStageCalibrationView.class);
+
 	private FormToolkit toolkit;
 	private Form form;
 
@@ -65,6 +70,7 @@ public class AlignmentStageCalibrationView extends ViewPart {
 			createControlsSection();
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
+			logger.error("Unable to create controls", e);
 		}
 	}
 
@@ -88,7 +94,7 @@ public class AlignmentStageCalibrationView extends ViewPart {
 		alignmentStageCalibrationButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				// TODO
+				// FIXME Complete implementation
 			}
 		});
 

@@ -46,6 +46,8 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
@@ -59,6 +61,8 @@ import uk.ac.gda.exafs.ui.sections.SingleSpectrumParametersSection;
 public class AlignmentSingleSpectrumView extends ViewPart {
 
 	public static final String ID = "uk.ac.gda.exafs.ui.views.alignmentSingleSpectrumView";
+
+	private static final Logger logger = LoggerFactory.getLogger(AlignmentSingleSpectrumView.class);
 
 	private FormToolkit toolkit;
 
@@ -94,6 +98,7 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 			SingleSpectrumParametersSection.INSTANCE.createEdeCalibrationSection(form, toolkit);
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
+			logger.error("Unable to create controls", e);
 		}
 		EDECalibrationSection.INSTANCE.createEdeCalibrationSection(form, toolkit);
 	}
@@ -161,6 +166,7 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 					BeanUtils.setProperty(SingleSpectrumModel.INSTANCE, yPostionPropName, sampleYScannable.getPosition());
 				} catch (DeviceException | IllegalAccessException | InvocationTargetException e) {
 					UIHelper.showError("Unable to set single spectrum position", e.getMessage());
+					logger.error("Unable to set single spectrum position", e);
 				}
 			}
 		});

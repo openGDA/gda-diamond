@@ -26,11 +26,15 @@ import gda.device.scannable.ScannableMotionBase;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.swt.widgets.Composite;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class MotorPositionEditorControl extends NumberEditorControl {
+
+	private static final Logger logger = LoggerFactory.getLogger(MotorPositionEditorControl.class);
 
 	public MotorPositionEditorControl(Composite parent, int style, ScannableWrapper scannableWrapper, boolean userSpinner) throws Exception {
 		super(parent, style, scannableWrapper, ScannableWrapper.POSITION_PROP_NAME, userSpinner);
@@ -87,6 +91,7 @@ public class MotorPositionEditorControl extends NumberEditorControl {
 			}
 		} catch (DeviceException e) {
 			UIHelper.showError("Error while reading the motor position", e.getMessage());
+			logger.error("Error while reading the motor position", e);
 		}
 		return super.getFormattedText(value);
 	}

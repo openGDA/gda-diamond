@@ -259,6 +259,7 @@ public class XHControlComposite extends Composite implements IObserver {
 					collectAndPlotSnapshot(false, detectorControlModel.getSnapshotIntegrationTime(), detectorControlModel.getNumberOfAccumulations(), detectorControlModel.getSnapshotIntegrationTime() + "ms Snapshot");
 				} catch (DeviceException | InterruptedException e) {
 					UIHelper.showError("Unable to collect data", e.getMessage());
+					logger.error("Unable to collect data", e);
 				}
 			}
 		});
@@ -272,6 +273,7 @@ public class XHControlComposite extends Composite implements IObserver {
 					collectAndPlotSnapshot(true, detectorControlModel.getSnapshotIntegrationTime(), detectorControlModel.getNumberOfAccumulations(), detectorControlModel.getSnapshotIntegrationTime() + "ms Snapshot");
 				} catch (DeviceException | InterruptedException e) {
 					UIHelper.showError("Unable to collect data", e.getMessage());
+					logger.error("Unable to collect data", e);
 				}
 			}
 		});
