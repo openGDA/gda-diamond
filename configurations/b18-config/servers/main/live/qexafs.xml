@@ -44,11 +44,13 @@
 	<bean id="QexafsFFI0" class="gda.device.detector.QexafsFFoverIO">
 		<property name="qexafsXspress" ref="qexafs_xspress" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
+		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="VortexQexafsFFI0" class="gda.device.detector.xmap.VortexQexafsFFIO">
 		<property name="qexafsXmap" ref="qexafs_xmap" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
+		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="qexafs_xspress" class="gda.device.detector.Xspress2BufferedDetector">
