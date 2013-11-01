@@ -31,6 +31,17 @@
 		</property>
 	</bean>	
 	
+	<bean id="flyScanDetectorTIF" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="flyScanDetector"/>
+		<property name="readOutTime" value=".001"/>
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_tif_writer" />
+			</list>
+		</property>
+	</bean>	
 
 
 	<bean id="flyScanFlatDarkDetector" class="gda.device.detector.NXDetector">
@@ -42,5 +53,17 @@
 			</list>
 		</property>
 	</bean>	
+
+	<bean id="flyScanFlatDarkDetectorTIF" class="gda.device.detector.NXDetector">
+		<property name="name" value="flyScanFlatDarkDetector"/>
+		<property name="collectionStrategy" ref="pco1_singleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_tif_writer" />
+			</list>
+		</property>
+	</bean>	
+
+
 </beans>
 

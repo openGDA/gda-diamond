@@ -191,10 +191,13 @@ try:
 		pco1_hw_hdf.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
 	
 	import tomographyScan
+	from tomographyScan import reportJythonNamespaceMapping
+	alias("reportJythonNamespaceMapping")
 	tomography_additional_scannables=[] # [p2r_force, p2r_y]
 	#for fast flyscans
 	if isLive():
 		flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="t:\\i13\\data"	
+#		flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="c:\\data"	
 
 	from gda.device.detector.areadetector.v17 import ADDriverPco
 	if isLive():
