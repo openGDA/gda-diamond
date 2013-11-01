@@ -32,8 +32,8 @@ else
 fi
 rm -f $OBJECT_SERVER_STARTUP_FILE
 
-#. $GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/bin/GDA_StartServers
-GDA_StartServers
+#. $GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/bin/GDA_StartServers --mode=dummy
+GDA_StartServers --mode=dummy
 
 # look for the output file which will tell us when the servers have started
 
