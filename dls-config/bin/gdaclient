@@ -62,16 +62,7 @@ if [ -z $BEAMLINE ] ; then
 	exit 1
 fi
 
-# ensure directory containing workspaces exists, and is writable by everyone
-WORKSPACE_PARENT=/scratch/gda_workspaces
-[ -d $WORKSPACE_PARENT ] || mkdir -m 777 $WORKSPACE_PARENT
 
-# ensure directory containing configs exists, and is writable by everyone
-CONFIG_PARENT=/scratch/gda_configs
-[ -d $CONFIG_PARENT ] || mkdir -m 777 $CONFIG_PARENT
-
-WORKSPACE=$WORKSPACE_PARENT/$(whoami)
-CONFIG=$CONFIG_PARENT/$(whoami)
 
 ARGS=$(getopt -a -o \? -l help,data:,reset,log,keep,nohup:,client: -n "gdaclient" -- "$@")
 
@@ -85,6 +76,34 @@ fi
 #put the values in ARGS into the standard argument variables $1, $2...
 eval set -- "$ARGS";
 
+while true; do
+  case "$1" in
+    --client)
+        shift;
+        if [ -n "$1" ]; then
+          GDA_CLIENT="$1"
+          shift;
+        fi
+      ;;
+    *) shift; break;;
+  esac
+done
+
+CLIENT_FOLDER=`dirname $GDA_CLIENT`
+CLIENT_TIMESTAMP=`basename $CLIENT_FOLDER` 
+
+# ensure directory containing workspaces exists, and is writable by everyone
+
+WORKSPACE_PARENT=/scratch/$CLIENT_TIMESTAMP/gda_workspaces/
+[ -d $WORKSPACE_PARENT ] || mkdir -m 777 -p $WORKSPACE_PARENT
+
+CONFIG_PARENT=/scratch/$CLIENT_TIMESTAMP/gda_configs/
+[ -d $CONFIG_PARENT ] || mkdir -m 777 -p $CONFIG_PARENT
+
+WORKSPACE=$WORKSPACE_PARENT/$(whoami)
+CONFIG=$CONFIG_PARENT/$(whoami)
+
+eval set -- "$ARGS";
 
 #now handle each argument in turn.
 
@@ -134,6 +153,8 @@ while true; do
       ;;
   esac
 done
+
+
 
 . /usr/share/Modules/init/bash
 module load global/http_proxy
