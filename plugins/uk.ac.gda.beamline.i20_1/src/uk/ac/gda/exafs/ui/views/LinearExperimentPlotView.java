@@ -52,7 +52,7 @@ public class LinearExperimentPlotView extends ViewPart {
 					DoubleDataset[] scanDataSet = (DoubleDataset[]) evt.getNewValue();
 					List<DoubleDataset> lnI0It = new ArrayList<DoubleDataset>();
 					lnI0It.add(scanDataSet[1]);
-					plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
+					plottingSystem.getSelectedXAxis().setAxisAutoscaleTight(true);
 					plottingSystem.clear();
 					plottingSystem.createPlot1D(scanDataSet[0], lnI0It, null);
 				}

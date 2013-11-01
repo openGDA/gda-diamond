@@ -34,7 +34,7 @@ public class RescaleHandler extends AbstractHandler {
 		IPlottingSystem system = (IPlottingSystem) part.getAdapter(IPlottingSystem.class);
 		system.repaint(true);
 		IAxis xAxis  = system.getSelectedXAxis();
-		xAxis.setTicksAtEnds(false);
+		xAxis.setAxisAutoscaleTight(true);
 		system.repaint(true);
 		return null;
 	}

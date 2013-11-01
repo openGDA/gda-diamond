@@ -158,7 +158,7 @@ public class XHControlComposite extends Composite implements IObserver {
 	}
 
 	private void setupEnergySpectrumTraceLine() {
-		plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
+		plottingSystem.getSelectedXAxis().setAxisAutoscaleTight(true);
 		plottingSystem.setShowLegend(false);
 		lineTrace = plottingSystem.createLineTrace("Detector Live Data");
 		lineTrace.setLineWidth(1);
@@ -426,7 +426,7 @@ public class XHControlComposite extends Composite implements IObserver {
 	}
 
 	private void updatePlotWithData(final String title, final Object results) {
-		plottingSystem.getSelectedXAxis().setTicksAtEnds(false);
+		plottingSystem.getSelectedXAxis().setAxisAutoscaleTight(true);
 		lineTrace.setData(strips, new DoubleDataset((double[]) results));
 		if (!plottingSystem.getTitle().equals(title)) {
 			plottingSystem.setTitle(title);
