@@ -1,6 +1,7 @@
 #!/bin/bash
 
-. $(dirname "$0")/GDA_common gda_client_output
+export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
+. $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env
 
 export GDA_CLIENT_LOG_DIR=$GDA_LOGS_DIR
 

@@ -1,6 +1,7 @@
 #!/bin/bash
 
-. $(dirname "$0")/GDA_common gda_servers_output
+export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
+. $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env
 
 umask 0002 # Some voodoo copied from GDA-mt/configurations/i16-config/bin/remotestartupscript.sh at d024aae
 # This should fix a problem where sub-directories created in a visit folder end up
