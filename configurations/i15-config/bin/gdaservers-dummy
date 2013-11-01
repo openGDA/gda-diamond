@@ -20,7 +20,7 @@ echo "Keep this window open, and you will see a pop-up when the restart has comp
 echo
 
 export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
-. $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env
+#. $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env gda_servers_output
 
 GDA_VAR=$(readlink -f $GDA_ROOT/../var)
 if [ -d $GDA_VAR ]; then
