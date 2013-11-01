@@ -6,16 +6,16 @@
 	<bean id="DAServer" class="gda.device.detector.DAServer">
 		<property name="local" value="True" />
 <!-- 		for 36Ge: -->
-		<property name="host" value="i20-xspress1" />
+<!--		<property name="host" value="i20-xspress1" /> -->
 <!-- 		for 64Ge: -->
-<!--		<property name="host" value="i20-xspress0" /> -->
+		<property name="host" value="i20-xspress0" />
 		<property name="port" value="1972" />
 		<property name="startupCommands">
-			<list>
+			<list> 
 <!-- 		for 36Ge: -->
- 				<value>~config</value>  
+ <!--		<value>~config</value>  -->  
 <!-- 		for 64Ge: -->
-<!--				<value>~config 9</value>  -->
+			<value>~config 9</value> 
 			</list>
 		</property>
 		<property name="dataPort" value="20030" />
@@ -25,7 +25,7 @@
 	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="local" value="true" />
 		<property name="epicsDeviceName" value="xmap_dxp" />
-		<property name="NUMBER_OF_ELEMENTS" value="1" />
+		<property name="NUMBER_OF_ELEMENTS" value="4" />
 		<property name="elementOffset" value="1"/>
 	</bean>
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController3ROI">
@@ -213,11 +213,17 @@
 		<property name="eventProcessingTimes">
 			<list>
 				<value>1.1029752060937018e-007</value>
+				<value>1.1029752060937018e-007</value>
+				<value>1.1029752060937018e-007</value>
+				<value>1.1029752060937018e-007</value>
 			</list>
 		</property>
 		
 		<property name="outputFormat">
 			<list>
+				<value>%.2f</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
 				<value>%.2f</value>
 			</list>
 		</property>

@@ -12,39 +12,39 @@ umask 0002
 pkill java
 
 #Select the XSPRESS system required
-#XSPRESS_ELEMENTS=64
-XSPRESS_ELEMENTS=36
-if [  "$XSPRESS_ELEMENTS" == "64" ];
-then
-	echo ""
-	echo "Stopping current  da.server process on 64 element i20-xspress0..."
-	ssh -i /dls_sw/i20/software/gda/config/daserver.key i20detector@i20-xspress0 'pkill -9 da.server'
-else
-	echo ""
-	echo "Stopping current  da.server process on 36 element i20-xspress1..."
-	ssh -i /dls_sw/i20/software/gda/config/daserver.key i20detector@i20-xspress1 'pkill -9 da.server'
-fi
+XSPRESS_ELEMENTS=64
+#XSPRESS_ELEMENTS=36
+#if [  "$XSPRESS_ELEMENTS" == "64" ];
+#then
+#	echo ""
+#	echo "Stopping current  da.server process on 64 element i20-xspress0..."
+#	ssh -i /dls_sw/i20/software/gda/config/daserver.key i20detector@i20-xspress0 'pkill -9 da.server'
+#else
+#	echo ""
+#	echo "Stopping current  da.server process on 36 element i20-xspress1..."
+#	ssh -i /dls_sw/i20/software/gda/config/daserver.key i20detector@i20-xspress1 'pkill -9 da.server'
+#fi
 
 
 # run the XMAP configuration script
-echo ""
-echo "Configure the XMAP/Vortex detector before (re)starting GDA servers..."
-/dls_sw/i20/software/gda/bin/vortex_config.sh
+#echo ""
+#echo "Configure the XMAP/Vortex detector before (re)starting GDA servers..."
+#/dls_sw/i20/software/gda/bin/vortex_config.sh
 
-if [  "$XSPRESS_ELEMENTS" == "64" ];
-then
-	echo ""
-	echo "Will now sleep for 30 seconds for port 1972 to become available on da.server machine..."
-	sleep 30
-	echo "Restarting da.server on 64 element xspress control machine..."
-	ssh -i /dls_sw/i20/software/gda/config/daserver.key i20detector@i20-xspress0 'cd xspress2_64element/; da.server -port=1972 -log' &
-else
-	echo "Will now sleep for 30 seconds for port 1972 to become available on da.server machine..."
-	sleep 30
-	echo "Restarting da.server on 36 element xspress control machine..."
-	ssh -i /dls_sw/i20/software/gda/config/daserver.key i20detector@i20-xspress1 'cd xspress2_36element/; da.server -port=1972 -log' &
-fi
-echo "Xspress system restarted."
+#if [  "$XSPRESS_ELEMENTS" == "64" ];
+#then
+#	echo ""
+#	echo "Will now sleep for 30 seconds for port 1972 to become available on da.server machine..."
+#	sleep 30
+#	echo "Restarting da.server on 64 element xspress control machine..."
+#	ssh -i /dls_sw/i20/software/gda/config/daserver.key i20detector@i20-xspress0 'cd xspress2_64element/; da.server -port=1972 -log' &
+#else
+#	echo "Will now sleep for 30 seconds for port 1972 to become available on da.server machine..."
+#	sleep 30
+#	echo "Restarting da.server on 36 element xspress control machine..."
+#	ssh -i /dls_sw/i20/software/gda/config/daserver.key i20detector@i20-xspress1 'cd xspress2_36element/; da.server -port=1972 -log' &
+#fi
+#echo "Xspress system restarted."
 
 # create log file and link to it
 export LOGFILE=/dls_sw/i20/logs/gda_output_`date +%F-%T`.txt

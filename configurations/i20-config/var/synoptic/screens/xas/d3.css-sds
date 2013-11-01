@@ -1073,7 +1073,7 @@
   </property>
   <property type="sds.string" id="units" value="mm" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
   <property type="sds.double" id="default increment" value="1.0" />
@@ -1135,7 +1135,7 @@
   </property>
   <property type="sds.string" id="units" value="mm" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
   <property type="sds.double" id="default increment" value="1.0" />
@@ -1363,6 +1363,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="uk.ac.gda.video.views.cameraview:1" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.Textinput">
   <property type="sds.behavior" id="behavior" value="" />
@@ -1693,7 +1695,7 @@
   </property>
   <property type="sds.string" id="units" value="mm" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
   <property type="sds.double" id="default increment" value="1.0" />
@@ -1811,7 +1813,7 @@
   </property>
   <property type="sds.string" id="units" value="mm" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
   <property type="sds.double" id="default increment" value="1.0" />
@@ -1920,7 +1922,7 @@
   <property type="sds.option" id="value_type">
     <option id="1" />
   </property>
-  <property type="sds.integer" id="precision" value="3" />
+  <property type="sds.integer" id="precision" value="2" />
   <property type="sds.paramstring" id="tooltip" value="d1_screen_pos" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
@@ -2152,6 +2154,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="none" />
@@ -2216,6 +2220,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="none" />
@@ -2280,6 +2286,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="none" />
@@ -2344,6 +2352,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="none" />
@@ -2408,6 +2418,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.Label">
   <property type="sds.behavior" id="behavior" value="" />
@@ -2528,6 +2540,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="none" />
@@ -2592,6 +2606,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="none" />
@@ -2656,6 +2672,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.Rectangle">
   <property type="sds.behavior" id="behavior" value="" />
@@ -2752,7 +2770,7 @@
   <property type="sds.option" id="value_type">
     <option id="1" />
   </property>
-  <property type="sds.integer" id="precision" value="4" />
+  <property type="sds.integer" id="precision" value="2" />
   <property type="sds.paramstring" id="tooltip" value="d3_updrain" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
@@ -2823,6 +2841,8 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
+  <property type="sds.string" id="server.command" value="" />
+  <property type="sds.string" id="server.command.variable" value="" />
 </widget>
 <widget type="org.csstudio.sds.components.Label">
   <property type="sds.behavior" id="behavior" value="" />
@@ -2988,7 +3008,7 @@
   <property type="sds.option" id="value_type">
     <option id="1" />
   </property>
-  <property type="sds.integer" id="precision" value="4" />
+  <property type="sds.integer" id="precision" value="2" />
   <property type="sds.paramstring" id="tooltip" value="d3_lowdrain" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
