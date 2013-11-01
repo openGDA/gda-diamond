@@ -108,6 +108,70 @@
 					<property name="showButtonSeparator" value="true" />
 					<property name="separatePlayPauseButtons" value="true" />
 				</bean>
+				<bean class="gda.rcp.views.OpenViewListBoxCompositeFactory">
+					<property name="label" value="Cameras"></property>
+					<property name="tooltipText"
+						value="Open the live view for the selected camera"></property>
+					<property name="options">
+						<list>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="Select a camera" />
+								<constructor-arg
+									value="" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="PCO" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="d1" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13j.d1AreaDetectorLiveView" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="d2" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13j.d2AreaDetectorLiveView" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="d3" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13j.d3AreaDetectorLiveView" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="d4" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13j.d4AreaDetectorLiveView" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="float 1" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13j.float1AreaDetectorLiveView" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="float 2" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13j.float2AreaDetectorLiveView" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="float 3" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13j.float3AreaDetectorLiveView" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="excalibur" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13j.excaliburAreaDetectorLiveView" />
+							</bean>
+							
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="WebCams" />
+								<constructor-arg value="uk.ac.gda.video.views.cameraview" />
+							</bean>
+						</list>
+					</property>
+				</bean>				
 				<bean class="uk.ac.gda.dls.client.feedback.FeedbackCompositeFactory"/>
 			</list>
 		</property>
