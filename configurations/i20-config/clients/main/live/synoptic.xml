@@ -7,19 +7,14 @@
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
 
 
 	<context:property-placeholder
 		location="file:${gda.config}/properties/${gda.mode}/synoptic.properties" />
 
 
-	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="i20" />
-		<constructor-arg index="1">
-			<bean class="gda.spring.NetServiceFactoryBean" />
-		</constructor-arg>
-	</bean>
+	<corba:adapterfactory namespace="${gda.factory.factoryname}"/>>
 
 	<bean id="d3cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="d3cam" />

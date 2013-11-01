@@ -21,8 +21,8 @@ package uk.ac.gda.beamline.i18.views;
 import gda.data.PathConstructor;
 import gda.epics.CAClient;
 import gda.factory.FactoryException;
+import gda.images.camera.I18MotionJpegOverHttpReceiverSwt;
 import gda.images.camera.ImageListener;
-import gda.images.camera.MotionJpegOverHttpReceiverSwt;
 import gda.images.camera.VideoReceiver;
 import gov.aps.jca.CAException;
 
@@ -76,7 +76,7 @@ public class CameraView extends ViewPart {
 			
 			//RTPStreamReceiverSWT r = new RTPStreamReceiverSWT();
 			
-			MotionJpegOverHttpReceiverSwt mjpeg = new MotionJpegOverHttpReceiverSwt();
+			I18MotionJpegOverHttpReceiverSwt mjpeg = new I18MotionJpegOverHttpReceiverSwt();
 			mjpeg.setUrl("http://i18-firewire01.diamond.ac.uk:8081/DCAM.CAM1.MJPG.mjpg");
 			try {
 				mjpeg.configure();

@@ -1,52 +1,3 @@
-pos
-reset_namespace
-s4xcentre
-s4xcentre(6)
-qexafs
-qexafs_counterTimer01
-scan test 0 10 1 qexafs_counterTimer01 1
-reset_namespace
-ionc1_stanford
-reset_namespace
-pos
-reset_namespace
-scan test 0 10 1 counterTimer01 1
-reset_namespace
-qexafs_counterTimer01
-qexafs_counterTimer01.getExtraNames()
-qexafs_counterTimer01.readout()
-qexafs_counterTimer01.collectData()
-qexafs_counterTimer01.readout()
-qexafs_counterTimer01.getExtraNames()
-qexafs_counterTimer01.collectData()
-qexafs_counterTimer01.readout()
-qexafs_counterTimer01.getNumChannelsToRead()
-qexafs_counterTimer01.setNumChannelsToRead(4)
-qexafs_counterTimer01.getNumChannelsToRead()
-reset_namespace
-from exafsscripts.exafs.config_fluoresence_detectors import ConfigFluoresenceDetectors
-cfd = ConfigFluoresenceDetectors(xspress2system, xmapMca, ExafsScriptObserver)
-reset_namespace
-from exafsscripts.exafs.config_fluoresence_detectors import ConfigFluoresenceDetectors
-cfd = ConfigFluoresenceDetectors(xspress2system, xmapMca, ExafsScriptObserver)
-reset_namespace
-xspress2system.setCollectionTime(1)
-xspress2system.collectData()
-xspress2system.readout()
-xspress2system.getOutputFormat()
-xspress2system.getExtraNames()
-xspress2system.getInputNames()
-reset_namespace
-xspress2system.getInputNames()
-xspress2system.getExtraNames()
-xspress2system.getOutputFormat()
-reset_namespace
-scan test 0 10 1 xspress2system 1
-scan test 0 10 1 counterTimer01 1
-scan test 0 10 1 counterTimer02_nocorr 1
-counterTimer02_nocorr.getInputNames()
-counterTimer02_nocorr.getExtraNames()
-counterTimer02_nocorr.getOutputFormat()
 counterTimer02_nocorr.getExtraNames()
 counterTimer02_nocorr.getOutputFormat()
 counterTimer02_nocorr.getExtraNames()
@@ -97,4 +48,53 @@ scan test 0 10 1 counterTimer02_nocorr 0.1
 counterTimer02_nocorr.readout()
 scan test 0 10 1 xspress2system 0.1
 scan test 0 10 1 counterTimer02_nocorr 0.1
+reset_namespace
+energy
+qexafs_energy
+mythen
+pulsetube
+test
+reset_namespace
+Finder.getInstance().find("datawriterconfig").getHeader()
+Finder.getInstance().find("datawriterconfig").getHeader().clone()
+len(Finder.getInstance().find("datawriterconfig").getHeader())
+a=Finder.getInstance().find("datawriterconfig").getHeader().clone()
+len(a)
+a = a[1:12]
+a
+len(a)
+len(Finder.getInstance().find("datawriterconfig").getHeader())
+reset_namespace
+scan test 0 2 1
+reset_namespace
+original_header = Finder.getInstance().find("datawriterconfig").getHeader().clone()[:]
+len(original_header)
+original_header = original_header[0:12]
+len(original_header)
+len(Finder.getInstance().find("datawriterconfig").getHeader()[:])
+len(original_header)
+reset_namespace
+len(original_header)
+original_header.class
+original_header2 = Finder.getInstance().find("datawriterconfig").getHeader().clone()[:]
+len(original_header2)
+len(original_header)
+reset_namespace
+len(original_header)
+original_header]
+original_header
+reset_namespace
+a = []
+a += 1
+a += [1]
+a
+a += [2]
+a
+reset_namespace
+from java.util import ArrayList
+a
+a = ArrayList()
+a
+a.add(1)
+a
 reset_namespace

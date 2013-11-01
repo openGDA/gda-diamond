@@ -1,1 +1,1 @@
-qexafs "Sample_Parameters" "QEXAFS_Parameters" "Detector_Parameters" "Output_Parameters" "Experiment_1" 1 False
+qexafs "Sample_Parameters" "QEXAFS_Parameters1" "Detector_Parameters" "Output_Parameters" "/scratch/users/data/2013/cm5942-4/xml/Experiment_1" 1 False
