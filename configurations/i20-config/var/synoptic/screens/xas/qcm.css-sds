@@ -503,18 +503,18 @@
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.double" id="readback" value="0.0">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://pid_xtal1p" value="" />
-      <outputChannel name="gda://pid_xtal1p, double" value="" />
+      <inputChannel name="gda://crystal1_pitch" value="" />
+      <outputChannel name="gda://crystal1_pitch, double" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.double" id="high" value="10.0">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://pid_xtal1p.highlimit" value="" />
+      <inputChannel name="gda://crystal1_pitch.highlimit" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.double" id="low" value="-10.0">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://pid_xtal1p.lowlimit" value="" />
+      <inputChannel name="gda://crystal1_pitch.lowlimit" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.string" id="units" value="deg" />
@@ -565,18 +565,18 @@
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.double" id="readback" value="0.0">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://pair2_roll" value="" />
-      <outputChannel name="gda://pair2_roll, double" value="" />
+      <inputChannel name="gda://crystal2_roll" value="" />
+      <outputChannel name="gda://crystal2_roll, double" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.double" id="high" value="10.0">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://pair2_roll.highlimit" value="" />
+      <inputChannel name="gda://crystal2_roll.highlimit" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.double" id="low" value="-10.0">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://pair2_roll.lowlimit" value="" />
+      <inputChannel name="gda://crystal2_roll.lowlimit" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.string" id="units" value="deg" />
@@ -627,18 +627,18 @@
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.double" id="readback" value="0.0">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://energy" value="" />
-      <outputChannel name="gda://energy, double" value="" />
+      <inputChannel name="gda://crystal34_roll" value="" />
+      <outputChannel name="gda://crystal34_roll, double" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.double" id="high" value="10.0">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://energy.highlimit" value="" />
+      <inputChannel name="gda://crystal34_roll.highlimit" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.double" id="low" value="-10.0">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://energy.lowlimit" value="" />
+      <inputChannel name="gda://crystal34_roll.lowlimit" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.string" id="units" value="deg" />

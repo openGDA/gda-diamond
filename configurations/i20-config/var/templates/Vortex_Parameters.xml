@@ -9,8 +9,8 @@
         <number>1</number>
         <ROI>
             <name>ROI 1</name>
-            <windowStart>840</windowStart>
-            <windowEnd>1050</windowEnd>
+            <windowStart>690</windowStart>
+            <windowEnd>890</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -18,4 +18,5 @@
         <excluded>false</excluded>
     </DetectorElement>
     <saveRawSpectrum>false</saveRawSpectrum>
+    <selectedRegionNumber>0</selectedRegionNumber>
 </VortexParameters>

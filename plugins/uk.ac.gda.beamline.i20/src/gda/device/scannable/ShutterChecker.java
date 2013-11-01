@@ -29,6 +29,7 @@ import gda.scan.ScanBase;
 
 import java.io.IOException;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +39,9 @@ import org.slf4j.LoggerFactory;
 public class ShutterChecker extends ScannableBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(ShutterChecker.class);
+
+	private static final String[] ehDetectorNames = new String[] { "ionchambers", "xspress2system", "xmapMca", "I1",
+			"FFI0", "FFI1", "FFI0_vortex", "d9_current", "d9_gain" };
 
 	private String pssPVName;
 	private EnumPositioner shutter;
@@ -65,13 +69,42 @@ public class ShutterChecker extends ScannableBase {
 	}
 
 	@Override
-	public void atScanStart() throws DeviceException {
+	public void atPointStart() throws DeviceException {
+		String position = (String) shutter.getPosition();
+		boolean first = true;
+		try {
+			while (!position.equals(ValveBase.OPEN)) {
+				ScanBase.checkForInterrupts();
+				if (first) {
+					updateUser("Experimental shutter closed during the scan. Waiting for it to be re-opened...");
+					first = false;
+				}
+				Thread.sleep(1000);
+				position = (String) shutter.getPosition();
+			}
+			if (!first) {
+				updateUser("Experimental shutter re-opened, so continuing scan...");
+			}			
+		} catch (InterruptedException e) {
+			logger.error("Interrupted exception while checking shutter is open. Will rethrow as a DeviceException", e);
+			throw new DeviceException("Interrupted exception while checking shutter is open.", e);
+		}
+	}
 
+	@Override
+	public void atScanStart() throws DeviceException {
+		if (!isEHDetector()) {
+			return;
+		}
+		checkShutterIsOpen();
+	}
+
+	private void checkShutterIsOpen() throws DeviceException {
 		// check if shutter open
 
 		String position = (String) shutter.getPosition();
 		if (!position.equals(ValveBase.OPEN)) {
-
+			logger.debug(getName() + " has position: " + position + " at start of scan, so will open shutter once PSS OK.");
 			try {
 				// if closed, is PSS OK to open it?
 				double state = pssState.get();
@@ -85,18 +118,23 @@ public class ShutterChecker extends ScannableBase {
 								"Time out while waiting for the hutch to be searched!\nSearch the hutch, open shutter "
 										+ shutter.getName() + ", and restart the scan.");
 					}
-					updateUser("Experimental shutter closed and hutch not searched. Waiting for search to complete...");
+					if (attempts == 0) {
+						updateUser("Experimental shutter closed and hutch not searched. Waiting for search to complete...");
+					}
 					Thread.sleep(1000);
 					state = pssState.get();
+					attempts++;
 				}
 				if (attempts > 0) {
-					updateUser("Search complete; opening shutter " + shutter.getName());
+					updateUser("Search complete; opening shutter " + shutter.getName() + "...");
 				} else {
-					updateUser("Opening shutter " + shutter.getName());
+					updateUser("Opening shutter " + shutter.getName() + "...");
 				}
 				shutter.moveTo(ValveBase.RESET);
+				Thread.sleep(100);
 				shutter.moveTo(ValveBase.OPEN);
 				Thread.sleep(100);
+				position = (String) shutter.getPosition();
 				if (!position.equals(ValveBase.OPEN)) {
 					throw new DeviceException(
 							getName()
@@ -106,14 +144,28 @@ public class ShutterChecker extends ScannableBase {
 									+ "\nIf you do not want the shutter to open as you are testing, then run the jython command: remove_default "
 									+ shutter.getName());
 				}
+				updateUser("Shutter " + shutter.getName() + " now open.");
 			} catch (IOException e) {
-				logger.error("IOException while checking shutter is open.", e);
-				throw new DeviceException("IOException while checking shutter is open.", e);
+				logger.error("IOException while checking shutter is open. Will rethrow as a DeviceException.", e);
+				throw new DeviceException("IOException while checking shutter is open", e);
 			} catch (InterruptedException e) {
-				logger.error("Interrupted exception while checking shutter is open", e);
-				throw new DeviceException("Interrupted exception while checking shutter is open.", e);
+				logger.error("Interrupted exception while checking shutter is open. Will rethrow as a DeviceException.", e);
+				throw new DeviceException("Interrupted exception while checking shutter is open", e);
+			}
+		} else {
+			logger.debug(getName() + " has position: " + position + " at start of scan, so will not pause or change shutter position.");
+		}
+	}
+
+	private boolean isEHDetector() {
+		String[] detectorNames = InterfaceProvider.getCurrentScanInformationHolder().getCurrentScanInformation()
+				.getDetectorNames();
+		for (String name : detectorNames) {
+			if (ArrayUtils.contains(ehDetectorNames, name)) {
+				return true;
 			}
 		}
+		return false;
 	}
 
 	private void updateUser(String message) {

@@ -956,10 +956,6 @@
         <property_attribut type="sds.string" id="value" value="Mn 5um" />
       </action_attribut>
       <action_attribut type="COMMIT_VALUE">
-        <property_attribut type="sds.string" id="description" value="Au 5um" />
-        <property_attribut type="sds.string" id="value" value="Au 5um" />
-      </action_attribut>
-      <action_attribut type="COMMIT_VALUE">
         <property_attribut type="sds.string" id="description" value="Co 5um" />
         <property_attribut type="sds.string" id="value" value="Co 5um" />
       </action_attribut>
@@ -988,18 +984,6 @@
         <property_attribut type="sds.string" id="value" value="Rh (empty)" />
       </action_attribut>
       <action_attribut type="COMMIT_VALUE">
-        <property_attribut type="sds.string" id="description" value="Pd 25um" />
-        <property_attribut type="sds.string" id="value" value="Pd 25um" />
-      </action_attribut>
-      <action_attribut type="COMMIT_VALUE">
-        <property_attribut type="sds.string" id="description" value="Ag (empty)" />
-        <property_attribut type="sds.string" id="value" value="Ag (empty)" />
-      </action_attribut>
-      <action_attribut type="COMMIT_VALUE">
-        <property_attribut type="sds.string" id="description" value="Cd 25um" />
-        <property_attribut type="sds.string" id="value" value="Cd 25um" />
-      </action_attribut>
-      <action_attribut type="COMMIT_VALUE">
         <property_attribut type="sds.string" id="description" value="W 4um" />
         <property_attribut type="sds.string" id="value" value="W 4um" />
       </action_attribut>
@@ -1010,6 +994,26 @@
       <action_attribut type="COMMIT_VALUE">
         <property_attribut type="sds.string" id="description" value="User" />
         <property_attribut type="sds.string" id="value" value="User" />
+      </action_attribut>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="Y 25um" />
+        <property_attribut type="sds.string" id="value" value="Y 25um" />
+      </action_attribut>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="Ti 5um" />
+        <property_attribut type="sds.string" id="value" value="Ti 5um" />
+      </action_attribut>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="Mo 25um" />
+        <property_attribut type="sds.string" id="value" value="Mo 25um" />
+      </action_attribut>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="Nb" />
+        <property_attribut type="sds.string" id="value" value="Nb" />
+      </action_attribut>
+      <action_attribut type="COMMIT_VALUE">
+        <property_attribut type="sds.string" id="description" value="Ta 5um" />
+        <property_attribut type="sds.string" id="value" value="Ta 5um" />
       </action_attribut>
     </actionData>
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
@@ -1186,8 +1190,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="507" />
-  <property type="sds.integer" id="position.y" value="543" />
+  <property type="sds.integer" id="position.x" value="503" />
+  <property type="sds.integer" id="position.y" value="545" />
   <property type="sds.integer" id="width" value="99" />
   <property type="sds.integer" id="height" value="22" />
   <property type="sds.color" id="color.foreground">
@@ -2919,7 +2923,7 @@
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.string" id="label" value="">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="epics://BL20I-EA-IAMP-01:IOON, string" value="" />
+      <inputChannel name="epics://BL20I-EA-IAMP-02:IOON, string" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.font" id="font">
