@@ -773,8 +773,8 @@
             <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
-    <xspressOnlyShowFF>false</xspressOnlyShowFF>
-    <xspressShowDTRawValues>true</xspressShowDTRawValues>
+    <onlyShowFF>false</onlyShowFF>
+    <showDTRawValues>true</showDTRawValues>
     <saveRawSpectrum>false</saveRawSpectrum>
     <selectedRegionNumber>0</selectedRegionNumber>
 </XspressParameters>

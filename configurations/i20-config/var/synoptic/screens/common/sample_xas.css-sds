@@ -841,7 +841,7 @@
   </property>
   <property type="sds.string" id="units" value="deg" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
   <property type="sds.double" id="default increment" value="1.0" />
@@ -1018,7 +1018,7 @@
   </property>
   <property type="sds.string" id="units" value="deg" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
   <property type="sds.double" id="default increment" value="1.0" />
@@ -1145,7 +1145,7 @@
   </property>
   <property type="sds.string" id="units" value="deg" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
   <property type="sds.double" id="default increment" value="1.0" />
@@ -1207,7 +1207,7 @@
   </property>
   <property type="sds.string" id="units" value="mm" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
   <property type="sds.double" id="default increment" value="1.0" />
@@ -1399,7 +1399,7 @@
   </property>
   <property type="sds.string" id="units" value="mm" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
   <property type="sds.double" id="default increment" value="1.0" />
@@ -1618,7 +1618,7 @@
   </property>
   <property type="sds.string" id="units" value="mm" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
   <property type="sds.double" id="default increment" value="1.0" />

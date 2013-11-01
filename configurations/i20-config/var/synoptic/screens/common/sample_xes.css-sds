@@ -897,10 +897,10 @@
   </property>
   <property type="sds.string" id="units" value="deg" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="5" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
-  <property type="sds.double" id="default increment" value="1.0" />
+  <property type="sds.double" id="default increment" value="0.1" />
 </widget>
 <widget type="org.csstudio.sds.components.SVG">
   <property type="sds.behavior" id="behavior" value="" />
@@ -1074,10 +1074,10 @@
   </property>
   <property type="sds.string" id="units" value="deg" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="5" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
-  <property type="sds.double" id="default increment" value="1.0" />
+  <property type="sds.double" id="default increment" value="0.1" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="" />
@@ -1201,10 +1201,10 @@
   </property>
   <property type="sds.string" id="units" value="deg" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="5" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
-  <property type="sds.double" id="default increment" value="1.0" />
+  <property type="sds.double" id="default increment" value="0.1" />
 </widget>
 <widget type="org.csstudio.sds.components.ScannableControl">
   <property type="sds.behavior" id="behavior" value="" />
@@ -1263,10 +1263,10 @@
   </property>
   <property type="sds.string" id="units" value="deg" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="5" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
-  <property type="sds.double" id="default increment" value="1.0" />
+  <property type="sds.double" id="default increment" value="0.1" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="" />
@@ -1390,10 +1390,10 @@
   </property>
   <property type="sds.string" id="units" value="deg" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="5" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
-  <property type="sds.double" id="default increment" value="1.0" />
+  <property type="sds.double" id="default increment" value="0.1" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="" />
@@ -1517,10 +1517,10 @@
   </property>
   <property type="sds.string" id="units" value="deg" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="5" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
-  <property type="sds.double" id="default increment" value="1.0" />
+  <property type="sds.double" id="default increment" value="0.1" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="" />
@@ -1644,10 +1644,10 @@
   </property>
   <property type="sds.string" id="units" value="deg" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="5" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
-  <property type="sds.double" id="default increment" value="1.0" />
+  <property type="sds.double" id="default increment" value="0.1" />
 </widget>
 <widget type="org.csstudio.sds.components.ImageButton">
   <property type="sds.behavior" id="behavior" value="" />

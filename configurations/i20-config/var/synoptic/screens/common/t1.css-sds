@@ -380,7 +380,7 @@
   </property>
   <property type="sds.integer" id="position.x" value="353" />
   <property type="sds.integer" id="position.y" value="507" />
-  <property type="sds.integer" id="width" value="102" />
+  <property type="sds.integer" id="width" value="112" />
   <property type="sds.integer" id="height" value="43" />
   <property type="sds.color" id="color.foreground">
     <color hex="#0000c0" />
@@ -425,7 +425,7 @@
   </property>
   <property type="sds.string" id="units" value="mm" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
   <property type="sds.double" id="default increment" value="0.1" />
@@ -821,7 +821,7 @@
   </property>
   <property type="sds.string" id="units" value="mm" />
   <property type="sds.string" id="offset" value="deg" />
-  <property type="sds.integer" id="decimal places" value="4" />
+  <property type="sds.integer" id="decimal places" value="3" />
   <property type="sds.boolean" id="action buttons" value="false" />
   <property type="sds.double" id="simulation readback" value="0.0" />
   <property type="sds.double" id="default increment" value="0.1" />
@@ -948,8 +948,8 @@
   <property type="sds.action" id="actionData">
     <actionData>
       <action_attribut type="COMMIT_VALUE">
-        <property_attribut type="sds.string" id="description" value="Ti 5um" />
-        <property_attribut type="sds.string" id="value" value="Ti 5um" />
+        <property_attribut type="sds.string" id="description" value="Empty" />
+        <property_attribut type="sds.string" id="value" value="Empty" />
       </action_attribut>
       <action_attribut type="COMMIT_VALUE">
         <property_attribut type="sds.string" id="description" value="Mn 5um" />
@@ -984,12 +984,12 @@
         <property_attribut type="sds.string" id="value" value="Mo 25um" />
       </action_attribut>
       <action_attribut type="COMMIT_VALUE">
-        <property_attribut type="sds.string" id="description" value="Rh (empty)" />
-        <property_attribut type="sds.string" id="value" value="Rh (empty)" />
+        <property_attribut type="sds.string" id="description" value="Cr 4um" />
+        <property_attribut type="sds.string" id="value" value="Cr 4um" />
       </action_attribut>
       <action_attribut type="COMMIT_VALUE">
-        <property_attribut type="sds.string" id="description" value="Nb" />
-        <property_attribut type="sds.string" id="value" value="Nb" />
+        <property_attribut type="sds.string" id="description" value="Bi 15um" />
+        <property_attribut type="sds.string" id="value" value="Bi 15um" />
       </action_attribut>
       <action_attribut type="COMMIT_VALUE">
         <property_attribut type="sds.string" id="description" value="Ta 5um" />
