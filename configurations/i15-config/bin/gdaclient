@@ -1,6 +1,7 @@
 #!/bin/bash
 
-. $(dirname "$0")/GDA_common gda_client_output
+export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
+. $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env gda_client_output
 
 export GDA_CLIENT_LOG_DIR=$GDA_LOGS_DIR
 
@@ -10,15 +11,13 @@ VMARGS="-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True 
 VMARGS="-Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True $VMARGS"
 
 VMARGS="-Dgda.config=$GDA_CONFIG $VMARGS"
-# This is used to produce per user client log files:
-VMARGS="-DUSERNAME=$(whoami) $VMARGS"
 
 # These should really be defined according to which mode we are in:
 VMARGS="-Declipse.pluginCustomization=$GDA_CONFIG/clients/main/common/pluginCustomization.ini $VMARGS"
-VMARGS="-Dgda.propertiesFile=$GDA_CONFIG/properties/live/java.properties $VMARGS"
-VMARGS="-Djacorb.config.dir=$GDA_CONFIG/jacorb/live $VMARGS"
-VMARGS="-Dgov.aps.jca.JCALibrary.properties=$GDA_CONFIG/jca/live/JCALibrary.properties $VMARGS"
-VMARGS="-Dgda.mode=live $VMARGS"
+VMARGS="-Dgda.propertiesFile=$GDA_CONFIG/properties/$GDA_MODE/java.properties $VMARGS"
+VMARGS="-Djacorb.config.dir=$GDA_CONFIG/jacorb/$GDA_MODE $VMARGS"
+VMARGS="-Dgov.aps.jca.JCALibrary.properties=$GDA_CONFIG/jca/$GDA_MODE/JCALibrary.properties $VMARGS"
+VMARGS="-Dgda.mode=$GDA_MODE $VMARGS"
 
 # Even though gda.logs.dir is defined in java.properties this appears to be too late for the client logger so
 # a gda.logs.dir_IS_UNDEFINED directory is created without the following line:
