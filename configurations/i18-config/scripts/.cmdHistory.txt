@@ -98,3 +98,4 @@ beamline_parameters
 reset_namespace
 sc_MicroFocusSampleX
 reset_namespace
+pos

@@ -21,7 +21,7 @@
 		</property>
 	</bean>
 
-	<corba:adapterfactory namespace="${gda.factory.factoryname}"/>>
+	<corba:adapterfactory namespace="${gda.factory.factoryName}"/>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />

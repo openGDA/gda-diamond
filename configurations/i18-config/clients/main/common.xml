@@ -27,7 +27,7 @@ http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
 
 	<corba:import namespace="I18" names="plot_server" />
 	
-	<corba:adapterfactory namespace="${gda.factory.factoryname}"/>>
+	<corba:adapterfactory namespace="${gda.factory.factoryName}"/>
 
 	<bean id="sc_MicroFocusSampleX" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}/sc_MicroFocusSampleX" />
