@@ -45,6 +45,24 @@
             name="I12 Plot View"
             restorable="true">
       </view>
+      <view
+            allowMultiple="false"
+            class="uk.ac.gda.epics.adviewer.views.HistogramViewCreator:i12"
+            id="uk.ac.gda.beamline.i12.PCOAreaDetectorProfileView"
+            name="PCO Image Profile View">
+      </view>                       
+      <view
+            allowMultiple="false"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayViewCreator:i12"
+            id="uk.ac.gda.beamline.i12.PCOAreaDetectorArrayView"
+            name="PCO Image View">
+      </view>
+      <view
+            allowMultiple="false"
+            class="uk.ac.gda.epics.adviewer.views.MJPegViewCreator:i12"
+            id="uk.ac.gda.beamline.i12.PCOAreaDetectorLiveView"
+            name="PCO Live View">
+      </view>                       
    </extension>
    <extension
          point="org.eclipse.ui.cheatsheets.cheatSheetContent">
@@ -122,4 +140,123 @@
          </commandParameter>
       </command>
    </extension>
+   
+   
+<extension
+      name="tst"
+      point="org.eclipse.ui.menus">
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i12.PCOAreaDetectorArrayView">
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+            label="Set Exposure"
+            style="push">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="i12">
+         </parameter>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i12.PCOAreaDetectorProfileView">
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+            label="Set Exposure"
+            style="push">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="i12">
+         </parameter>
+      </command>
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
+            label="Set LiveView Scale"
+            style="push">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="i12">
+         </parameter>
+      </command>
+      <command
+            commandId="org.eclipse.ui.views.showView"
+            icon="icons/AreaDetectorLiveView.gif"
+            label="Show Live View"
+            style="push">
+         <parameter
+               name="org.eclipse.ui.views.showView.viewId"
+               value="uk.ac.gda.beamline.i12.PCOAreaDetectorLiveView">
+         </parameter>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i12.PCOAreaDetectorLiveView">
+      <command
+            commandId="uk.ac.gda.epics.adviewer.command.zoomToFit"
+            label="Zoom To Fit"
+            style="push"
+            tooltip="Zoom To Fit">
+      </command>
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+            label="Set Exposure"
+            style="push"
+            tooltip="Set Exposure">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="i12">
+         </parameter>
+      </command>
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
+            label="Set LiveView Scale"
+            style="push"
+            tooltip="Set LiveView Scale">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="i12">
+         </parameter>
+      </command>
+      <command
+            commandId="org.eclipse.ui.views.showView"
+            icon="icons/AreaDetectorProfileView.gif"
+            label="Show Profile View"
+            style="push"
+            tooltip="Show Profile ">
+         <parameter
+               name="org.eclipse.ui.views.showView.viewId"
+               value="uk.ac.gda.beamline.i12.PCOAreaDetectorProfileView">
+         </parameter>
+      </command>
+      <command
+            commandId="org.eclipse.ui.views.showView"
+            icon="icons/AreaDetectorImageView.gif"
+            label="Show Image View"
+            style="push"
+            tooltip="Show Full Image">
+         <parameter
+               name="org.eclipse.ui.views.showView.viewId"
+               value="uk.ac.gda.beamline.i12.PCOAreaDetectorArrayView">
+         </parameter>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="menu:org.eclipse.ui.main.menu?after=window">
+      <menu
+            label="GDA"
+            mnemonic="G">
+         <command
+               commandId="uk.ac.gda.client.datadispenser.controller.command"
+               label="Data Dispenser"
+               mnemonic="D"
+               style="push">
+         </command>
+      </menu>
+   </menuContribution>
+</extension>       
+   
+   
 </plugin>

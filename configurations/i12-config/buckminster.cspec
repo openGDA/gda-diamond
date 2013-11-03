@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="i12-config" componentType="buckminster" version="1.0.0">
+<?xml version="1.0" encoding="UTF-8"?><cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="i12-config" componentType="buckminster" version="1.0.0">
     <cs:dependencies>
         <cs:dependency name="dls-config" componentType="buckminster"/>
         <cs:dependency name="ncsa.hdf" componentType="osgi.bundle"/>
@@ -15,9 +14,10 @@
         <cs:dependency name="uk.ac.gda.devices.pco" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.devices.pixium" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.edxd.calibration" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.edxd.common" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.tomography" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.gda.edxd.common" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.gda.edxd.calibration" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.tomography.scan" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>

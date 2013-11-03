@@ -135,6 +135,11 @@
 		<property name="service" ref="ss1_theta" />
 		<property name="serviceInterface" value="gda.device.IScannableMotor" />
 	</bean>
+	<!-- <bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ss1_thetaSM" />
+		<property name="service" ref="ss1_thetaSM" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean> -->
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/ss1_tx" />
 		<property name="service" ref="ss1_tx" />
