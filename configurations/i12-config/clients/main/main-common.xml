@@ -11,7 +11,16 @@
 
 <!-- import server objects required in GUI -->
     <corba:import namespace="i12" names="Plot_Manager"/>
+
+	<corba:import namespace="i12"
+		names="plot_server" />
+		
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
+		<property name="service" ref="plot_server" />
+	</bean>
 	
+		
 <!--  Experiment Shutter control panel -->
 <!--    <bean id="shutterPanel" class="gda.gui.util.ShutterPanel">-->
 <!--    	<property name="shutter" ref="ehshutter"/>-->

@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="p2r_telnet" class="gda.io.socket.SocketBidiAsciiCommunicator">
+	<property name="address" value="172.23.112.10"/>
+	<property name="port" value="23"/>
+	</bean>
+	<bean id="p2r_motor_controller" class="uk.ac.gda.tomography.devices.p2r.P2RMotorController">
+	<property name="bidiAsciiCommunicator" ref="p2r_telnet"/>
+	</bean>
+	<bean id="p2r_rot_motor_controller" class="gda.device.motor.simplemotor.SimpleMotorViaIndexedController">
+	<property name="index" value="1"/>
+	<property name="simc" ref="p2r_motor_controller"/>
+	</bean>
+	<bean id="p2r_rot_motor" class="gda.device.motor.simplemotor.SimpleMotor">
+	<property name="name" value="p2r_rot_motor"></property>
+	<property name="smc" ref="p2r_rot_motor_controller"></property>
+	</bean>
+	<bean id="p2r_y_motor_controller" class="gda.device.motor.simplemotor.SimpleMotorViaIndexedController">
+	<property name="index" value="0"/>
+	<property name="simc" ref="p2r_motor_controller"/>
+	</bean>
+	<bean id="p2r_y_motor" class="gda.device.motor.simplemotor.SimpleMotor">
+	<property name="name" value="p2r_y_motor"></property>
+	<property name="smc" ref="p2r_y_motor_controller"></property>
+	</bean>
+	<bean id="p2r_force_motor_controller" class="gda.device.motor.simplemotor.SimpleMotorViaIndexedController">
+	<property name="index" value="2"/>
+	<property name="simc" ref="p2r_motor_controller"/>
+	</bean>
+	<bean id="p2r_force_motor" class="gda.device.motor.simplemotor.SimpleMotor">
+	<property name="name" value="p2r_force_motor"></property>
+	<property name="smc" ref="p2r_force_motor_controller"></property>
+	</bean>
+	<bean id="p2r_rot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="p2r_rot_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	<bean id="p2r_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="p2r_y_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="p2r_force" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="p2r_force_motor" />
+		<property name="userUnits" value="N"/>
+	</bean>
+	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/p2r_rot" />
+		<property name="service" ref="p2r_rot" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/p2r_y" />
+		<property name="service" ref="p2r_y" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/p2r_force" />
+		<property name="service" ref="p2r_force" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	
+</beans>	

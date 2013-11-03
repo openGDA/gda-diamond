@@ -12,6 +12,11 @@
 		<property name="serviceInterface" value="gda.device.IScannableMotor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+	<!-- <bean id="ss1_thetaSM" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/gda/ss1_thetaSM" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean> -->
 
 	<bean id="ss1_tx" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}/gda/ss1_tx" />
