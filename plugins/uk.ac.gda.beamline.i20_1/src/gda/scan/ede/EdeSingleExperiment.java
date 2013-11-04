@@ -63,7 +63,7 @@ public class EdeSingleExperiment extends EdeExperiment {
 	private EdeScan i0InitialScan;
 	private EdeScan itScan;
 
-	private Scannable shutter2;
+	private final Scannable shutter2;
 	/**
 	 * Use when the I0 and It timing parameters are different.
 	 * 
@@ -97,13 +97,14 @@ public class EdeSingleExperiment extends EdeExperiment {
 	 * @param theDetector
 	 */
 	public EdeSingleExperiment(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
-			EdeScanPosition itPosition, StripDetector theDetector, Monitor topupMonitor) {
+			EdeScanPosition itPosition, StripDetector theDetector, Monitor topupMonitor, Scannable shutter2) {
 		super();
 		this.i0Position = i0Position;
 		this.itPosition = itPosition;
 		i0ScanParameters = itScanParameters;
 		this.itScanParameters = itScanParameters;
 		this.theDetector = theDetector;
+		this.shutter2=shutter2;
 		topup = topupMonitor;
 		runItDark = false;
 		validateTimingParameters();
