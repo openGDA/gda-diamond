@@ -77,6 +77,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	public static final String ATTR_LOADPARAMETERS = "loadParameters";
 	public static final String ATTR_READFIRSTFRAME = "readFirstFrame";
 	public static final String ATTR_WRITEFIRSTFRAME = "writeFirstFrame";
+	public static final String ATTR_READALLFRAMES = "readAllFrames";
 	public static final String ATTR_ROIS = "regionsOfInterest";
 	public static final String ROIS_CHANGED = "rois_changed";
 
@@ -89,6 +90,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	private static final String SENSOR1NAME = "Peltier Coldplate";
 	private static final String SENSOR2NAME = "PCB power supply";
 	private static final String SENSOR3NAME = "PCB control";
+
 
 	public static int NUMBER_ELEMENTS = 1024;
 	public static int START_STRIP = 0;
@@ -265,19 +267,21 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		return NUMBER_ELEMENTS;
 	}
 
-	private double[][] performCorrections(int[] rawData) {
+	private double[][] performCorrections(int[] rawData, boolean checkForExcludedStrips) {
 		int frameCount = rawData.length / NUMBER_ELEMENTS;
 		double[][] out = new double[frameCount][NUMBER_ELEMENTS];
-
 		for (int frame = 0; frame < frameCount; frame++) {
 			for (int stripIndex = 0; stripIndex < STRIPS.length; stripIndex++) {
-
-				// simply set excluded strips to be zero
-				if (ArrayUtils.contains(excludedStrips, STRIPS[stripIndex])) {
-					out[frame][stripIndex] = 0.0;
-				} else if (!nextScan.getIncludeCountsOutsideROIs() && STRIPS[stripIndex] < lowerChannel
-						|| STRIPS[stripIndex] > upperChannel) {
-					out[frame][stripIndex] = 0.0;
+				if (checkForExcludedStrips) {
+					// simply set excluded strips to be zero
+					if (ArrayUtils.contains(excludedStrips, STRIPS[stripIndex])) {
+						out[frame][stripIndex] = 0.0;
+					} else if (!nextScan.getIncludeCountsOutsideROIs() && STRIPS[stripIndex] < lowerChannel
+							|| STRIPS[stripIndex] > upperChannel) {
+						out[frame][stripIndex] = 0.0;
+					} else {
+						out[frame][stripIndex] = rawData[(frame * NUMBER_ELEMENTS) + stripIndex];
+					}
 				} else {
 					out[frame][stripIndex] = rawData[(frame * NUMBER_ELEMENTS) + stripIndex];
 				}
@@ -358,13 +362,12 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	 */
 	protected NXDetectorData readoutFrame(int[] elements) {
 
-		double[] correctedData = performCorrections(elements)[0];
+		double[] correctedData = performCorrections(elements, true)[0];
 		NXDetectorData thisFrame = new NXDetectorData(this);
 
 		double[] energies = this.getEnergyForChannels();
 
-		thisFrame.addAxis(getName(), "Energy", new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, energies, 1, 1,
-				"eV", false);
+		thisFrame.addAxis(getName(), "Energy", new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, energies, 1, 1, "eV", false);
 		thisFrame.addData(getName(), new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, correctedData, "eV", 1);
 
 		double[] extraValues = getExtraValues(elements);
@@ -822,7 +825,11 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	public Object getAttribute(String attributeName) throws DeviceException {
 		if (attributeName.equals(ATTR_READFIRSTFRAME)) {
 			int[] elements = readoutFrames(0, 0);
-			double[] correctedData = performCorrections(elements)[0];
+			double[] correctedData = performCorrections(elements, true)[0];
+			return correctedData;
+		} else if (attributeName.equals(ATTR_READALLFRAMES)) {
+			int[] elements = readoutFrames(0, 0);
+			double[] correctedData = performCorrections(elements, false)[0];
 			return correctedData;
 		} else if (attributeName.equals(ATTR_WRITEFIRSTFRAME)) {
 			writeNexusFile();

@@ -404,7 +404,7 @@ public class XHControlComposite extends Composite implements IObserver {
 		collectData(collectionPeriod, 1,scansPerFrame);
 
 		// will return a double[] of corrected data
-		final Object results = getDetector().getAttribute(XHDetector.ATTR_READFIRSTFRAME);
+		final Object results = getDetector().getAttribute(XHDetector.ATTR_READALLFRAMES);
 
 		if (results != null) {
 			Display.getDefault().asyncExec(new Runnable() {
