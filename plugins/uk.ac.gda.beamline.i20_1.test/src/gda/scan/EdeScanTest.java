@@ -54,7 +54,7 @@ import org.junit.Test;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
-public class EdeScanTest extends EdeTest{
+public class EdeScanTest extends EdeTestBase{
 
 	private DummyXStripDAServer daserver;
 	private XHDetector xh;
