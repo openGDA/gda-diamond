@@ -26,7 +26,6 @@ import gda.device.detector.ExperimentStatus;
 import gda.device.detector.StripDetector;
 import gda.device.scannable.FrameIndexer;
 import gda.device.scannable.ScannableUtils;
-import gda.factory.Finder;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeScanProgressBean;
 import gda.scan.ede.EdeScanType;
@@ -62,6 +61,7 @@ public class EdeScan extends ConcurrentScanChild {
 	private EdeScanType scanType;
 	private FrameIndexer indexer = null;
 	private IObserver progressUpdater;
+	private final Scannable shutter2;
 
 	/**
 	 * @param scanParameters
@@ -75,12 +75,13 @@ public class EdeScan extends ConcurrentScanChild {
 	 *            single spectrum scans where such indexing is meaningless.
 	 */
 	public EdeScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
-			StripDetector theDetector, Integer repetitionNumber) {
+			StripDetector theDetector, Integer repetitionNumber, Scannable shutter2) {
 		setMustBeFinal(true);
 		this.scanParameters = scanParameters;
 		this.motorPositions = motorPositions;
 		this.scanType = scanType;
 		this.theDetector = theDetector;
+		this.shutter2 = shutter2;
 		allDetectors.add(theDetector);
 		if (repetitionNumber >= 0) {
 			// then use indexer to report progress of scan in data
@@ -139,14 +140,14 @@ public class EdeScan extends ConcurrentScanChild {
 		theDetector.loadParameters(scanParameters);
 		if (scanType == EdeScanType.DARK){
 			// close the shutter
-			((Scannable) Finder.getInstance().find("shutter2")).moveTo("Close");
+			shutter2.moveTo("Close");
 			checkForInterrupts();
 		} else {
 			// open the shutter
 			logger.debug(toString() + " moving motors into position...");
 			motorPositions.moveIntoPosition();
 			checkForInterrupts();
-			((Scannable) Finder.getInstance().find("shutter2")).moveTo("Open");
+			shutter2.moveTo("Open");
 		}
 		if (!isChild()) {
 			currentPointCount = -1;
