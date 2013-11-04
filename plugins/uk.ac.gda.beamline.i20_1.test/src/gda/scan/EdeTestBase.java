@@ -24,7 +24,7 @@ import gda.device.motor.DummyMotor;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.FactoryException;
 
-public class EdeTest {
+public class EdeTestBase {
 	public static ScannableMotor createMotor(String name) throws MotorException, FactoryException {
 		DummyMotor xMotor = new DummyMotor();
 		xMotor.setSpeed(5000);

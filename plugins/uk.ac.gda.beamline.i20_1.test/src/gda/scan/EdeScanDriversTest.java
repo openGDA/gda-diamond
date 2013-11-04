@@ -43,7 +43,7 @@ import org.junit.Test;
 
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
-public class EdeScanDriversTest extends EdeTest {
+public class EdeScanDriversTest extends EdeTestBase {
 	private static DummyXStripDAServer daserver;
 	private static XHDetector xh;
 	private String testDir;
