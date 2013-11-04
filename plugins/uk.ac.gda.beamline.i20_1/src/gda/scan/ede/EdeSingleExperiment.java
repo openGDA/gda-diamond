@@ -19,6 +19,7 @@
 package gda.scan.ede;
 
 import gda.device.Monitor;
+import gda.device.Scannable;
 import gda.device.detector.StripDetector;
 import gda.device.scannable.TopupChecker;
 import gda.scan.EdeScan;
@@ -62,6 +63,7 @@ public class EdeSingleExperiment extends EdeExperiment {
 	private EdeScan i0InitialScan;
 	private EdeScan itScan;
 
+	private Scannable shutter2;
 	/**
 	 * Use when the I0 and It timing parameters are different.
 	 * 
@@ -72,16 +74,18 @@ public class EdeSingleExperiment extends EdeExperiment {
 	 * @param theDetector
 	 */
 	public EdeSingleExperiment(EdeScanParameters i0ScanParameters, EdeScanParameters itScanParameters,
-			EdeScanPosition i0Position, EdeScanPosition itPosition, StripDetector theDetector, Monitor topupMonitor) {
+			EdeScanPosition i0Position, EdeScanPosition itPosition, StripDetector theDetector, Monitor topupMonitor, Scannable shutter2) {
 		super();
 		this.i0ScanParameters = i0ScanParameters;
 		this.i0Position = i0Position;
 		this.itPosition = itPosition;
 		this.itScanParameters = itScanParameters;
 		this.theDetector = theDetector;
+		this.shutter2=shutter2;
 		topup = topupMonitor;
 		runItDark = true;
 		validateTimingParameters();
+
 	}
 
 	/**
@@ -135,14 +139,14 @@ public class EdeSingleExperiment extends EdeExperiment {
 	}
 
 	private void runScans() throws Exception {
-		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 1);
+		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 1, shutter2);
 		if (runItDark) {
-			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector, 1);
+			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector, 1, shutter2);
 		} else {
 			itDarkScan = i0DarkScan;
 		}
-		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1);
-		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1);
+		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, shutter2);
+		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, shutter2);
 
 		List<ScanBase> theScans = new Vector<ScanBase>();
 		theScans.add(i0DarkScan);

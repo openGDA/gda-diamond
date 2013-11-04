@@ -25,6 +25,7 @@ import gda.device.MotorException;
 import gda.device.detector.DummyXStripDAServer;
 import gda.device.detector.StepScanXHDetector;
 import gda.device.detector.XHDetector;
+import gda.device.enumpositioner.DummyPositioner;
 import gda.device.monitor.DummyMonitor;
 import gda.device.motor.DummyMotor;
 import gda.device.scannable.ScannableMotor;
@@ -53,7 +54,7 @@ import org.junit.Test;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
-public class EdeScanTest {
+public class EdeScanTest extends EdeTest{
 
 	private DummyXStripDAServer daserver;
 	private XHDetector xh;
@@ -112,7 +113,7 @@ public class EdeScanTest {
 		ExplicitScanPositions inBeam = new ExplicitScanPositions(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
 		// EdeScanPosition outBeam = new EdeScanPosition(EdePositionType.OUTBEAM,0d,0d,"xScannable","yScannable");
 
-		EdeScan theScan = new EdeScan(scanParams, inBeam, EdeScanType.LIGHT, xh, repetitionNumber);
+		EdeScan theScan = new EdeScan(scanParams, inBeam, EdeScanType.LIGHT, xh, repetitionNumber, createShutter2());
 		theScan.runScan();
 
 		List<ScanDataPoint> data = theScan.getData();
@@ -187,7 +188,7 @@ public class EdeScanTest {
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
 				yScannable);
 
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0Params, itParams, outBeam, inBeam, xh, topupMonitor);
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0Params, itParams, outBeam, inBeam, xh, topupMonitor, createShutter2());
 		String filename = theExperiment.runExperiment();
 
 		testNumberColumnsInEDEFile(filename, 9);
@@ -343,7 +344,7 @@ public class EdeScanTest {
 		EdeScanPosition outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable, yScannable);
 		EdeScanPosition refSample = new ExplicitScanPositions(EdePositionType.REFERENCE, 0d, 0d, xScannable, yScannable);
 
-		EdeLinearExperiment theExperiment = new EdeLinearExperiment(params, outBeam, inBeam, refSample, xh, topupMonitor);
+		EdeLinearExperiment theExperiment = new EdeLinearExperiment(params, outBeam, inBeam, refSample, xh, topupMonitor, createShutter2());
 		String filename = theExperiment.runExperiment();
 
 		testNumberColumnsInEDEFile(filename, 8);
@@ -367,17 +368,6 @@ public class EdeScanTest {
 				numDataLines++;
 		}
 		assertEquals(numExpectedLines, numDataLines);
-	}
-
-	public static ScannableMotor createMotor(String name) throws MotorException, FactoryException {
-		DummyMotor xMotor = new DummyMotor();
-		xMotor.setSpeed(5000);
-		xMotor.configure();
-		ScannableMotor xScannable = new ScannableMotor();
-		xScannable.setMotor(xMotor);
-		xScannable.setName(name);
-		xScannable.configure();
-		return xScannable;
 	}
 
 }
