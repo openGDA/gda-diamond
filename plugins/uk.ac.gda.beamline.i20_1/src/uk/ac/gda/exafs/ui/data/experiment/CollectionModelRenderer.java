@@ -87,13 +87,13 @@ public class CollectionModelRenderer extends DefaultRenderer {
 			if (interval instanceof TimingGroupModel) {
 				TimingGroupModel groupModel = (TimingGroupModel) interval;
 				int numberOfSpectrums = groupModel.getNumberOfSpectrum();
-				String spectra = "Spectra: " + numberOfSpectrums;
+				String spectra = "No. of Spectra: " + numberOfSpectrums;
 				point = gc.stringExtent(spectra);
 				if (point.y < iRect.height - 30  && point.x + 5 < iRect.width) {
 					gc.drawText(spectra, iRect.x + 5, iRect.y + 20);
 				}
 				String timeResolution = DataHelper.roundDoubletoString(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli(groupModel.getTimeResolution())) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
-				String noOfSpectrum = "Spectrum time: " +  timeResolution;
+				String noOfSpectrum = "Time per spectrum: " +  timeResolution;
 				point = gc.stringExtent(noOfSpectrum);
 				if (point.y < iRect.height - 45 && point.x + 5 < iRect.width) {
 					gc.drawText(noOfSpectrum, iRect.x + 5, iRect.y + 35);

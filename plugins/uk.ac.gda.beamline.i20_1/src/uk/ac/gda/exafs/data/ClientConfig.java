@@ -58,7 +58,7 @@ public class ClientConfig {
 		MILLI_SEC("ms"),
 		SEC("s"),
 		HOUR("h"),
-		MINUTE("m"),
+		MINUTE("min"),
 		TESLA("T"),
 
 		SELECTION("");

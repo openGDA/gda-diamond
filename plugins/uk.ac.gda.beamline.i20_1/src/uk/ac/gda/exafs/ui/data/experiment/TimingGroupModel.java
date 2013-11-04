@@ -143,7 +143,7 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 	}
 
 	private void setSpectrumAndAdjustEndTime(double timePerSpectrum) {
-		int requiredNumberOfSpectrum = (int) Math.round(this.getAvailableDurationAfterDelay() / timePerSpectrum);
+		int requiredNumberOfSpectrum = (int) Math.ceil(this.getAvailableDurationAfterDelay() / timePerSpectrum);
 		adjustEndTimeForNumberOfSpectrum(requiredNumberOfSpectrum);
 		adjustSpectra(requiredNumberOfSpectrum);
 	}
