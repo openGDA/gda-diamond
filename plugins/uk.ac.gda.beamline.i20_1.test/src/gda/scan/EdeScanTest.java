@@ -156,7 +156,7 @@ public class EdeScanTest extends EdeTest{
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
 				yScannable);
 
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(scanParams, outBeam, inBeam, xh, topupMonitor);
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(scanParams, outBeam, inBeam, xh, topupMonitor, createShutter2());
 		String filename = theExperiment.runExperiment();
 
 		testNumberColumnsInEDEFile(filename, 9);
@@ -246,7 +246,7 @@ public class EdeScanTest extends EdeTest{
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
 				yScannable);
 
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, outBeam, inBeam, xh, topupMonitor);
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, outBeam, inBeam, xh, topupMonitor, createShutter2());
 		String filename = theExperiment.runExperiment();
 
 		testNumberColumnsInEDEFile(filename, 9);
@@ -265,7 +265,7 @@ public class EdeScanTest extends EdeTest{
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
 				yScannable);
 
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, outBeam, inBeam, xh, topupMonitor);
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, outBeam, inBeam, xh, topupMonitor, createShutter2());
 		theExperiment.setFilenameTemplate("mysample_%s_sample1");
 		String filename = theExperiment.runExperiment();
 
@@ -287,7 +287,7 @@ public class EdeScanTest extends EdeTest{
 
 		xh.setEnergyCalibration(new PolynomialFunction(new double[] { 0., 2. }));
 
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, outBeam, inBeam, xh, topupMonitor);
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(itparams, outBeam, inBeam, xh, topupMonitor, createShutter2());
 		String filename = theExperiment.runExperiment();
 
 		boolean firstLine = true;
