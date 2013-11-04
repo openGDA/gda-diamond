@@ -292,7 +292,6 @@ class PreScanRunnable(Runnable):
 
 
 
-
 """
 perform a continuous tomogrpahy scan
 """
@@ -314,6 +313,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
     min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
 
     """
+    updateProgress(0, "Starting scan")
     jns=beamline_parameters.JythonNameSpaceMapping()
     tomography_flyscan_flat_dark_det=jns.tomography_flyscan_flat_dark_det
     savename=tomography_flyscan_flat_dark_det.name
@@ -412,8 +412,9 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
             multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat)))
         
         scanForward=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
-        multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Preparing for projections",20, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
-#        multiScanItems.append(MultiScanItem(scanBackward, PreScanRunnable("Preparing for projections",60, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
+        scanBackward=ConstantVelocityScanLine([tomography_flyscan_theta, stop, start, step,image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
+        multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Preparing for projections forwards",20, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
+#        multiScanItems.append(MultiScanItem(scanBackward, PreScanRunnable("Preparing for projections backwards",60, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
         multiScanObj = MultiScanRunner(multiScanItems)
         #must pass fist scan to be run
         addFlyScanNXTomoSubentry(multiScanItems[0].scan, tomography_flyscan_det.name, tomography_flyscan_theta.name)
@@ -423,6 +424,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         tomography_flyscan_flat_dark_det.name = savename
         if setupForAlignment:
             tomodet.setupForAlignment()
+        updateProgress(100, "Scan complete")
         return multiScanObj;
     except :
         exceptionType, exception, traceback = sys.exc_info()

@@ -242,19 +242,22 @@ Caused by: java.lang.IllegalArgumentException: filename is null or zero length
 		<property name="usePipeline" value="true"/>
 	</bean>
  -->
+
+	<bean id="pco1_tif_writer" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="pco1"/>
+		<property name="ndFile" ref="pco1_ndfiletif" />
+		<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+		<property name="waitForFileArrival" value="true"/>
+		
+	</bean>
+
 	<bean id="pco1_hw_tif" class="gda.device.detector.NXDetector">
 		<property name="name" value="pco1_hw_tif"/>
 		<property name="addCollectTimeMs" value="true"/>
 		<property name="collectionStrategy" ref="pco1_tfg" />
 		<property name="additionalPluginList">
 			<list>
-			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg value="pco1"/>
-				<property name="ndFile" ref="pco1_ndfiletif" />
-				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
-				<property name="waitForFileArrival" value="true"/>
-				
-			</bean>
+			<ref bean="pco1_tif_writer"/>
 			<ref bean="pco1_cameraroi"/>
 			</list>
 		</property>
