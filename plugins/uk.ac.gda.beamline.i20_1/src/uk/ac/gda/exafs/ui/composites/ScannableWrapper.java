@@ -147,10 +147,10 @@ public class ScannableWrapper extends UIObservableModel implements IObserver {
 							if (scannablePositionChecker != null) {
 								scannablePositionChecker.stop();
 								scannablePositionChecker = null;
-								updatePosition();
 							}
 						}
 					}
+					updatePosition();
 				}
 			} catch (DeviceException e) {
 				logger.error("Error updating scannable motor position", e);
