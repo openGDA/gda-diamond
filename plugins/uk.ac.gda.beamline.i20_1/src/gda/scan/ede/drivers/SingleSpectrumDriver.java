@@ -19,6 +19,7 @@
 package gda.scan.ede.drivers;
 
 import gda.device.Monitor;
+import gda.device.Scannable;
 import gda.device.detector.StripDetector;
 import gda.factory.Finder;
 import gda.scan.ede.EdeSingleExperiment;
@@ -37,15 +38,18 @@ public class SingleSpectrumDriver extends ScanDriver{
 	private final Monitor topupMonitor;
 	private Double it_scantime;
 	private Integer it_numberscans;
+	private final Scannable shutter2;
 
 	public SingleSpectrumDriver(String detectorName, String topupMonitorName, Double i0_scantime, Integer i0_numberscans, Double it_scantime,
-			Integer it_numberscans) {
+			Integer it_numberscans, Scannable shutter2) {
 		super();
 
 		this.i0_scantime = i0_scantime;
 		this.i0_numberscans = i0_numberscans;
 		this.it_scantime = it_scantime;
 		this.it_numberscans = it_numberscans;
+
+		this.shutter2 = shutter2;
 
 		detector = Finder.getInstance().find(detectorName);
 		topupMonitor = Finder.getInstance().find(topupMonitorName);
@@ -60,8 +64,8 @@ public class SingleSpectrumDriver extends ScanDriver{
 	}
 
 	public SingleSpectrumDriver(String detectorName, String topupMonitorName, Double i0_scantime, Integer i0_numberscans, Double it_scantime,
-			Integer it_numberscans, String fileTemplate) {
-		this(detectorName, topupMonitorName, i0_scantime, i0_numberscans, it_scantime, it_numberscans);
+			Integer it_numberscans, String fileTemplate, Scannable shutter2) {
+		this(detectorName, topupMonitorName, i0_scantime, i0_numberscans, it_scantime, it_numberscans, shutter2);
 		this.fileTemplate = fileTemplate;
 	}
 
@@ -73,7 +77,7 @@ public class SingleSpectrumDriver extends ScanDriver{
 		EdeScanParameters itscanparams = EdeScanParameters.createSingleFrameScan(it_scantime, it_numberscans);
 
 		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0scanparams, itscanparams, outbeamPosition,
-				inbeamPosition, detector, topupMonitor);
+				inbeamPosition, detector, topupMonitor, shutter2);
 		if (fileTemplate != null) {
 			theExperiment.setFilenameTemplate(fileTemplate);
 		}

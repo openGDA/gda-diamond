@@ -43,7 +43,7 @@ import org.junit.Test;
 
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
-public class EdeScanDriversTest {
+public class EdeScanDriversTest extends EdeTestBase {
 	private static DummyXStripDAServer daserver;
 	private static XHDetector xh;
 	private String testDir;
@@ -116,7 +116,7 @@ public class EdeScanDriversTest {
 	public void testDriveSingleSpectrumScan_motorpositions() throws Exception {
 		setup("testDriveSingleSpectrumScan_motorpositions");
 
-		SingleSpectrumDriver driver = new SingleSpectrumDriver("xh", "topup", 0.1, 2, 0.2, 1);
+		SingleSpectrumDriver driver = new SingleSpectrumDriver("xh", "topup", 0.1, 2, 0.2, 1, createShutter2());
 		driver.setInBeamPosition(0.0, 0.0);
 		driver.setOutBeamPosition(0.1, 0.1);
 
@@ -128,7 +128,7 @@ public class EdeScanDriversTest {
 	public void testDriveSingleSpectrumScan_alignmentstagepositions() throws Exception {
 		setup("testDriveSingleSpectrumScan_alignmentstagepositions");
 
-		SingleSpectrumDriver driver = new SingleSpectrumDriver("xh", "topup", 0.1, 2, 0.2, 1);
+		SingleSpectrumDriver driver = new SingleSpectrumDriver("xh", "topup", 0.1, 2, 0.2, 1, createShutter2());
 		driver.setInBeamPosition("hole", null);
 		driver.setOutBeamPosition("foil", null);
 
@@ -141,7 +141,7 @@ public class EdeScanDriversTest {
 	public void testDriveSingleSpectrumScan_mixedpositions() throws Exception {
 		setup("testDriveSingleSpectrumScan_mixedpositions");
 
-		SingleSpectrumDriver driver = new SingleSpectrumDriver("xh", "topup", 0.1, 2, 0.2, 1);
+		SingleSpectrumDriver driver = new SingleSpectrumDriver("xh", "topup", 0.1, 2, 0.2, 1, createShutter2());
 		driver.setInBeamPosition(0.0, 0.0);
 		driver.setOutBeamPosition("foil", null);
 
@@ -178,7 +178,7 @@ public class EdeScanDriversTest {
 		groups.add(group3);
 
 
-		LinearExperimentDriver driver = new LinearExperimentDriver("xh", "topup", groups);
+		LinearExperimentDriver driver = new LinearExperimentDriver("xh", "topup", groups, createShutter2());
 		driver.setInBeamPosition(0.0, 0.0);
 		driver.setOutBeamPosition(0.1, 0.1);
 
@@ -186,15 +186,4 @@ public class EdeScanDriversTest {
 		System.out.println(filename);
 	}
 
-
-	private static ScannableMotor createMotor(String name) throws MotorException, FactoryException {
-		DummyMotor xMotor = new DummyMotor();
-		xMotor.setSpeed(5000);
-		xMotor.configure();
-		ScannableMotor xScannable = new ScannableMotor();
-		xScannable.setMotor(xMotor);
-		xScannable.setName(name);
-		xScannable.configure();
-		return xScannable;
-	}
 }
