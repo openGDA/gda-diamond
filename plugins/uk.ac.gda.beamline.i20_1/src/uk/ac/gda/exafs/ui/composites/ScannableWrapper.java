@@ -72,8 +72,7 @@ public class ScannableWrapper extends UIObservableModel implements IObserver {
 						Thread.sleep(CHECK_BUSY_STATUS_IN_MS);
 					}
 					isBusy = scannable.isBusy();
-					firePropertyChange(TARGET_POSITION_PROP_NAME, targetPosition, targetPosition = null);
-					firePropertyChange(POSITION_PROP_NAME, null, scannable.getPosition());
+					updatePosition();
 				} catch (final Exception e) {
 					UIHelper.showError("Error while stopping the motor", e.getMessage());
 					logger.error("Error while stopping the motor", e);
@@ -100,8 +99,7 @@ public class ScannableWrapper extends UIObservableModel implements IObserver {
 					}
 					status = Status.OK_STATUS;
 					firePropertyChange(BUSY_PROP_NAME, true, scannable.isBusy());
-					firePropertyChange(TARGET_POSITION_PROP_NAME, targetPosition, targetPosition = null);
-					firePropertyChange(POSITION_PROP_NAME, null, scannable.getPosition());
+					updatePosition();
 				} catch (final Exception e) {
 					UIHelper.showError("Error while moving the motor", e.getMessage());
 					logger.error("Error while moving the motor", e);
@@ -147,10 +145,10 @@ public class ScannableWrapper extends UIObservableModel implements IObserver {
 							if (scannablePositionChecker != null) {
 								scannablePositionChecker.stop();
 								scannablePositionChecker = null;
-								updatePosition();
 							}
 						}
 					}
+					updatePosition();
 				}
 			} catch (DeviceException e) {
 				logger.error("Error updating scannable motor position", e);
@@ -160,6 +158,9 @@ public class ScannableWrapper extends UIObservableModel implements IObserver {
 
 	private void updatePosition() throws DeviceException {
 		final Object object = scannable.getPosition();
+		if (((Double) object).equals(targetPosition) & targetPosition != null) {
+			firePropertyChange(TARGET_POSITION_PROP_NAME, targetPosition, targetPosition = null);
+		}
 		firePropertyChange(POSITION_PROP_NAME, null, (double) object);
 	}
 

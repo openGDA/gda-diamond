@@ -30,7 +30,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.ClientConfig;
-import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class MotorPositionEditorControl extends NumberEditorControl {
 
@@ -90,7 +89,8 @@ public class MotorPositionEditorControl extends NumberEditorControl {
 				return super.getFormattedText(value) + " (Moving to " + targetPosition + " " + controlModel.getUnit() + ")";
 			}
 		} catch (DeviceException e) {
-			UIHelper.showError("Error while reading the motor position", e.getMessage());
+			// This is a temporarily commented it out to avoid reading motor positions that are not ready
+			// UIHelper.showError("Error while reading the motor position", e.getMessage());
 			logger.error("Error while reading the motor position", e);
 		}
 		return super.getFormattedText(value);

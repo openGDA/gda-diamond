@@ -300,7 +300,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		expUnitSelectionCombo.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return ((ExperimentTimingDataModel.ExperimentUnit) element).name();
+				return ((ExperimentTimingDataModel.ExperimentUnit) element).getUnitText();
 			}
 		});
 		expUnitSelectionCombo.setInput(ExperimentTimingDataModel.ExperimentUnit.values());
@@ -423,7 +423,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		groupUnitSelectionCombo.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return ((ExperimentTimingDataModel.ExperimentUnit) element).name();
+				return ((ExperimentTimingDataModel.ExperimentUnit) element).getUnitText();
 			}
 		});
 		groupUnitSelectionCombo.setInput(ExperimentTimingDataModel.ExperimentUnit.values());
@@ -443,17 +443,17 @@ public class TimeResolvedExperimentView extends ViewPart {
 		timePerSpectrumValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
 		timePerSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		label = toolkit.createLabel(groupSectionComposite, "No. of spectrum", SWT.None);
+		label = toolkit.createLabel(groupSectionComposite, "No. of spectra", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		noOfSpectrumValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
 		noOfSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		label = toolkit.createLabel(groupSectionComposite, "Integration time", SWT.None);
+		label = toolkit.createLabel(groupSectionComposite, "Accumulation time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		integrationTimeValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
 		integrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		label = toolkit.createLabel(groupSectionComposite, "Detector read back accumulations", SWT.None);
+		label = toolkit.createLabel(groupSectionComposite, "No. of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		noOfAccumulationValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
 		noOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
