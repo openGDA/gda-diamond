@@ -150,7 +150,7 @@ public class SingleSpectrumModel extends ObservableModel {
 
 	private String buildScanCommand() {
 		return String.format("from gda.scan.ede.drivers import SingleSpectrumDriver;" +
-				"scan_driver = SingleSpectrumDriver(\"%s\",\"%s\",%f,%d,%f,%d,\"%s\");" +
+				"scan_driver = SingleSpectrumDriver(\"%s\",\"%s\",%f,%d,%f,%d,\"%s\",%s);" +
 				"scan_driver.setInBeamPosition(%f,%f);" +
 				"scan_driver.setOutBeamPosition(%f,%f)",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
@@ -160,6 +160,7 @@ public class SingleSpectrumModel extends ObservableModel {
 				itIntegrationTime / 1000, // Converts to Seconds
 				itNumberOfAccumulations,
 				fileTemplate,
+				DetectorModel.SHUTTER_NAME,
 				iTxPosition, iTyPosition,
 				i0xPosition, i0yPosition);
 	}
