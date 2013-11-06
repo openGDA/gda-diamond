@@ -27,7 +27,12 @@ import gda.jython.InterfaceProvider;
 import gda.jython.Jython;
 import gda.jython.JythonServerFacade;
 import gda.jython.JythonServerStatus;
+import gda.observable.IObservable;
 import gda.observable.IObserver;
+import gda.scan.AxisSpec;
+import gda.scan.ede.EdeExperiment;
+import gda.scan.ede.EdeExperimentProgressBean;
+import gda.scan.ede.EdeScanProgressBean;
 import gda.util.exafs.Element;
 
 import java.beans.PropertyChangeEvent;
@@ -38,7 +43,11 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
 import com.google.gson.annotations.Expose;
@@ -105,6 +114,7 @@ public class SingleSpectrumModel extends ObservableModel {
 			this.setiTyPosition(foil.getLocation().getyPosition());
 		}
 		job = new ScanJob("Performing Single spectrum scan");
+		((IObservable) Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(job);
 		InterfaceProvider.getJSFObserver().addIObserver(job);
 		job.setUser(true);
 		AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.ELEMENT_PROP_NAME, new PropertyChangeListener() {
@@ -205,6 +215,39 @@ public class SingleSpectrumModel extends ObservableModel {
 				if (SingleSpectrumModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
 					monitor.worked(1);
 				}
+			} else if (arg instanceof EdeExperimentProgressBean) {
+				final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
+
+				final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
+				final String scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
+				final String scanfilename =  edeScanProgress.getThisPoint().getCurrentFilename();
+				//				String scanType = edeScanProgress.getScanType().toString();
+				//				String posType = edeScanProgress.getPositionType().toString();
+				final String label = edeExperimentProgress.getDataLabel();
+				final AxisSpec spec = new AxisSpec("counts");
+
+				final DoubleDataset currentNormalisedItData = edeExperimentProgress.getData();
+				final DoubleDataset currentEnergyData = edeExperimentProgress.getEnergyData();
+
+				Display.getDefault().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+
+						try {
+							final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+									.getActivePage();
+							LivePlotView part = (LivePlotView) page.findView(LivePlotView.ID);
+							if (part == null) {
+								part = (LivePlotView) page.showView(LivePlotView.ID);
+							}
+
+							part.addData(scanIdentifier, scanfilename, label, currentEnergyData, currentNormalisedItData, true, true, spec);
+
+						} catch (Exception e) {
+							UIHelper.showError("Unable to plot the data", e.getMessage());
+						}
+					}
+				});
 			}
 		}
 

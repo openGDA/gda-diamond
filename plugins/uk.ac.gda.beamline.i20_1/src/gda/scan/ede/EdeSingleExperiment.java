@@ -22,9 +22,11 @@ import gda.device.Monitor;
 import gda.device.Scannable;
 import gda.device.detector.StripDetector;
 import gda.device.scannable.TopupChecker;
+import gda.observable.IObserver;
 import gda.scan.EdeScan;
 import gda.scan.MultiScan;
 import gda.scan.ScanBase;
+import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 import gda.scan.ede.datawriters.EdeSingleSpectrumAsciiFileWriter;
 import gda.scan.ede.position.EdeScanPosition;
 import gda.scan.ede.timeestimators.SingleExperimentTimeEstimator;
@@ -35,6 +37,7 @@ import java.util.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 /**
@@ -47,7 +50,7 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
  * It will be assumed that the EdeScanParameters objects given to this class respresent a single TmingGroup producing a
  * single spectrum.
  */
-public class EdeSingleExperiment extends EdeExperiment {
+public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeSingleExperiment.class);
 
@@ -64,6 +67,14 @@ public class EdeSingleExperiment extends EdeExperiment {
 	private EdeScan itScan;
 
 	private final Scannable shutter2;
+
+	private DoubleDataset energyData;
+	private DoubleDataset i0DarkData;
+	private DoubleDataset itDarkData;
+	private DoubleDataset i0Data;
+	private DoubleDataset itData;
+
+
 	/**
 	 * Use when the I0 and It timing parameters are different.
 	 * 
@@ -74,14 +85,15 @@ public class EdeSingleExperiment extends EdeExperiment {
 	 * @param theDetector
 	 */
 	public EdeSingleExperiment(EdeScanParameters i0ScanParameters, EdeScanParameters itScanParameters,
-			EdeScanPosition i0Position, EdeScanPosition itPosition, StripDetector theDetector, Monitor topupMonitor, Scannable shutter2) {
+			EdeScanPosition i0Position, EdeScanPosition itPosition, StripDetector theDetector, Monitor topupMonitor,
+			Scannable shutter2) {
 		super();
 		this.i0ScanParameters = i0ScanParameters;
 		this.i0Position = i0Position;
 		this.itPosition = itPosition;
 		this.itScanParameters = itScanParameters;
 		this.theDetector = theDetector;
-		this.shutter2=shutter2;
+		this.shutter2 = shutter2;
 		topup = topupMonitor;
 		runItDark = true;
 		validateTimingParameters();
@@ -104,7 +116,7 @@ public class EdeSingleExperiment extends EdeExperiment {
 		i0ScanParameters = itScanParameters;
 		this.itScanParameters = itScanParameters;
 		this.theDetector = theDetector;
-		this.shutter2=shutter2;
+		this.shutter2 = shutter2;
 		topup = topupMonitor;
 		runItDark = false;
 		validateTimingParameters();
@@ -139,15 +151,51 @@ public class EdeSingleExperiment extends EdeExperiment {
 		return writer.getAsciiFilename();
 	}
 
+	@Override
+	public void update(Object source, Object arg) {
+		if (controller != null && arg instanceof EdeScanProgressBean) {
+			EdeScanProgressBean progress = (EdeScanProgressBean) arg;
+			if (source.equals(i0DarkScan)) {
+				energyData = new DoubleDataset(theDetector.getEnergyForChannels());
+				i0DarkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
+				controller.update(i0DarkScan, new EdeExperimentProgressBean(progress, "I0 Dark", i0DarkData, energyData));
+			}
+			if (source.equals(itDarkScan)) {
+				itDarkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), itDarkScan, 0);
+				controller.update(itDarkScan, new EdeExperimentProgressBean(progress, "It Dark", itDarkData, energyData));
+			}
+			if (source.equals(i0InitialScan)) {
+				i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, 0);
+				i0Data = i0Data.isubtract(i0DarkData);
+				controller.update(i0InitialScan, new EdeExperimentProgressBean(progress, "I0 corrected", i0Data, energyData));
+			}
+			if (source.equals(itScan)) {
+				itData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), itScan, 0);
+				if (runItDark) {
+					itData = itData.isubtract(itDarkData);
+				} else {
+					itData = itData.isubtract(i0DarkData);
+				}
+				controller.update(itScan, new EdeExperimentProgressBean(progress, "It corrected", itData, energyData));
+				DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(itData, i0Data);
+				controller.update(itScan, new EdeExperimentProgressBean(progress, "Ln(I0/It)", normalisedIt, energyData));
+			}
+		}
+	}
+
 	private void runScans() throws Exception {
 		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 1, shutter2);
+		i0DarkScan.setProgressUpdater(this);
 		if (runItDark) {
 			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector, 1, shutter2);
 		} else {
 			itDarkScan = i0DarkScan;
 		}
+		itDarkScan.setProgressUpdater(this);
 		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, shutter2);
+		i0InitialScan.setProgressUpdater(this);
 		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, shutter2);
+		itScan.setProgressUpdater(this);
 
 		List<ScanBase> theScans = new Vector<ScanBase>();
 		theScans.add(i0DarkScan);
@@ -164,8 +212,8 @@ public class EdeSingleExperiment extends EdeExperiment {
 	}
 
 	private void pauseForToup() throws Exception {
-		Double predictedExperimentTime = new SingleExperimentTimeEstimator(itScanParameters,  i0Position,
-				itPosition).getTotalDuration();
+		Double predictedExperimentTime = new SingleExperimentTimeEstimator(itScanParameters, i0Position, itPosition)
+		.getTotalDuration();
 		TopupChecker topup = createTopupChecker(predictedExperimentTime);
 		topup.atScanStart();
 	}

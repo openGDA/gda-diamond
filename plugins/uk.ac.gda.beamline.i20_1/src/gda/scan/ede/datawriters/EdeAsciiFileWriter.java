@@ -98,6 +98,19 @@ public abstract class EdeAsciiFileWriter {
 		return new DoubleDataset(itNormaliseArray,itNormaliseArray.length);
 	}
 
+	public static DoubleDataset normaliseDatasset(DoubleDataset it, DoubleDataset i0) {
+
+		double[] itArray = it.getData();
+		double[] i0Array = i0.getData();
+		double[] itNormaliseArray = new double[itArray.length];
+
+		for (int channel = 0; channel < itNormaliseArray.length; channel++) {
+			itNormaliseArray[channel] = calcLnI0It(i0Array[channel],itArray[channel]);
+		}
+
+		return new DoubleDataset(itNormaliseArray,itNormaliseArray.length);
+
+	}
 	/**
 	 * Write out the ascii file of derived data based on the data collected.
 	 * 
