@@ -26,34 +26,6 @@
 <!-- 	do this here as it may have object references to earlier XML files -->
 	<import resource="file:${gda.config}/servers/main/dataformat.xml" />
 
-
-
-<!-- for when this used live: -->
-
-	<!-- <bean class="gda.configuration.epics.EpicsConfiguration"> -->
-	<!-- <constructor-arg value="${gda.config}/xml/BL20J-gda-interface.xml" 
-		/> -->
-	<!-- </bean> -->
-	<!-- <bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar"> -->
-	<!-- <property name="name" value="FileRegistrar" /> -->
-	<!-- <property name="directory" value="/dls/bl-misc/dropfiles/icat/dropZone/i20-" 
-		/> -->
-	<!-- </bean> -->
-	<!-- <bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory"> -->
-	<!-- <property name="name" value="DataWriterFactory" /> -->
-	<!-- <property name="dataWriterExtenders"> -->
-	<!-- <list> -->
-	<!-- <ref bean="FileRegistrar" /> -->
-	<!-- </list> -->
-	<!-- </property> -->
-	<!-- </bean> -->
-
-
-
-	<bean id="jythonServerFacade" class="gda.jython.JythonServerFacade">
-		<constructor-arg ref="command_server" />
-	</bean>
-
 	<bean id="command_server" class="gda.jython.JythonServer">
 		<property name="jythonScriptPaths">
 			<bean class="gda.jython.ScriptPaths">
@@ -83,35 +55,7 @@
 		<property name="cacheDirectory" value="${gda.var}/jythonCache" />
 		<property name="remotePort" value="9999" />
 	</bean>
-
-<!-- 	for logging the Jython terminal to the data directory -->
 	
-	<bean id="jython_server_facade" class="gda.jython.JythonServerFacade">
-		<constructor-arg ref="command_server" />
-	</bean>
-	
-	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">
-		<constructor-arg ref="terminallog_path_provider" />
-	</bean>
-	<bean class="gda.jython.logger.OutputTerminalAdapter">
-		<constructor-arg ref="jython_server_facade" />
-		<constructor-arg ref="terminal_logger"/>
-	</bean>
-	<bean class="gda.jython.logger.InputTerminalAdapter">
-		<constructor-arg ref="command_server" />
-		<constructor-arg ref="terminal_logger"/>
-	</bean>
-	<bean class="gda.jython.logger.ScanDataPointAdapter">
-		<constructor-arg ref="jython_server_facade" />
-		<constructor-arg ref="terminal_logger"/>
-	</bean>
-	<bean class="gda.jython.logger.BatonChangedAdapter">
-		<constructor-arg ref="jython_server_facade" />
-		<constructor-arg ref="terminal_logger"/>
-	</bean>
-
-	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
-
 	<corba:export namespace="i20-1" />
-
+	
 </beans>
