@@ -457,12 +457,6 @@ public class XHControlComposite extends Composite implements IObserver {
 						int numberSectors = getDetector().getRois().length;
 						allValues = new double[0];
 						regionValues = new double[numberSectors][0];
-						PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-							@Override
-							public void run() {
-								updatePlotWithData("", new double[]{});
-							}
-						});
 						while (continueLiveLoop
 								&& InterfaceProvider.getScanStatusHolder().getScanStatus() == Jython.IDLE) {
 							Date snapshotTime = new Date();

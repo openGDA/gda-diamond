@@ -313,15 +313,6 @@
    </menuContribution>
    <menuContribution
          allPopups="false"
-         locationURI="toolbar:uk.ac.gda.exafs.ui.views.DetectorLiveModeView">
-      <command
-            commandId="uk.ac.gda.beamline.i20_1.plottingRescale.command"
-            label="Re scale"
-            style="push">
-      </command>
-   </menuContribution>
-   <menuContribution
-         allPopups="false"
          locationURI="toolbar:uk.ac.gda.exafs.ui.views.calibrationreference">
       <command
             commandId="uk.ac.gda.beamline.i20_1.calibration.reset"
@@ -332,11 +323,6 @@
 </extension>
    <extension
          point="org.eclipse.ui.commands">
-      <command
-            defaultHandler="uk.ac.gda.exafs.ui.views.commandhandlers.RescaleHandler"
-            id="uk.ac.gda.beamline.i20_1.plottingRescale.command"
-            name="Re scale">
-      </command>
       <command
             defaultHandler="uk.ac.gda.exafs.ui.views.commandhandlers.ResetCalibrationDataPlot"
             id="uk.ac.gda.beamline.i20_1.calibration.reset"
