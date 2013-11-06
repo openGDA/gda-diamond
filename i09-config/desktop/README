@@ -1,0 +1,44 @@
+1. What are the files in this directory for?
+
+Files in this directory are used for desktop menu entries for "Data Acquisition" menu under "Applications" menu. 
+These files must be installed in the local workstation machine for "Data Acquisition" menu 
+to appear under the system "Applications" in the main menu.
+
+Important: Both Applications -> Data Acquisition menu, and desktop "GDA_Launchers" folder depends on these.
+
+1.1 Desktop entry files now available as listed below:
+
+	gda-beamline-manual.desktop		: launch Beamline-specific manual if available
+	gda-client.desktop				: launch GDA Client
+	gda-data-backup-2-usb.desktop 	: back up data to UBS disk
+	gda-logfile.desktop				: display GDA log file "gda_output.txt" on terminal
+	gda-logpanel.desktop			: open GDA log panel
+	gda-servers.desktop				: launch GDA servers - Name Server, Log Server, Event Server, and Object Server
+	gda-startup-guide.desktop		: display GDA startup guide
+	gda-user-guide.desktop			: display GDA user Guide - web link we provide
+
+1.2 The following files define the menu configuration
+
+	gda.directory					: Define the "Data Acquisition" entry under "Applications"
+	gda.menu						: define the submenu contribution to GNOME menu system
+
+
+2. How to add more entry to the menu system?
+
+You may add more entries to the "Data acquisition" sub-menu by define additional .desktop for for your launcher. 
+For example I have added a entry for mythen detector for i11 as 
+
+	gda-start-mythen-detector.desktop	: start Mythen GUI
+
+To make your .desktop entry appear under "Data Acquisition", please make sure you specify 
+
+	Categories=X-ogda;
+
+in your .deaktop file.
+
+
+3. Requirements or dependency
+
+As you poke into the .desktop files, you will notice they use the existing shell script launcher such as "GDA_RemoteStart_Lin" etc. So
+3.1 you must put your beamline GDA startup script on the $PATH, i.e. the <gda.root>/config/bin
+3.2 if you user ixx-config for your beamline configuration, you must create a link to it called "config", otherwise some icons on menu entry will not appear.

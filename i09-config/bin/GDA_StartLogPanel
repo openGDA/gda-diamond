@@ -1,0 +1,37 @@
+#!/bin/bash
+
+. "/$SOFTWAREFOLDER/$BEAMLINE/software/gda/config/bin/gda_environment.sh"
+
+if [ -f "/etc/profile.d/modules.sh" ]; then
+	. /etc/profile.d/modules.sh	
+	module load java/gda
+else
+	echo "cannot scd ..ource /etc/profile.d/modules.sh"	
+	exit 1
+fi
+
+PORT_6790_USED=`ps -ef | grep gda.logPanel.logging.port=6790 | grep -v grep`
+PORT_6791_USED=`ps -ef | grep gda.logPanel.logging.port=6791 | grep -v grep`
+PORT_6792_USED=`ps -ef | grep gda.logPanel.logging.port=6792 | grep -v grep`
+if [ -z "$PORT_6790_USED" ]; then #if not used
+    echo "first"
+    PORT=6790
+else #if used
+    if [ -z "$PORT_6791_USED" ]; then #if not used
+        echo "second"
+        PORT=6791
+    else #second not used
+        if [ -z "$PORT_6792_USED" ]; then #if not used
+            echo "third"
+            PORT=6792
+        else
+            echo "ALL available ports for view logs are busy"
+            exit 1
+        fi
+    fi
+fi
+
+export JAVA_OPTS=-Dgda.logPanel.logging.port=$PORT $JAVA_OPTS
+echo "Staring GDA Log Panel locally"
+echo "`dirname $0`/gda_command logpanel --restart $@"
+`dirname $0`/gda_command logpanel --restart $@
