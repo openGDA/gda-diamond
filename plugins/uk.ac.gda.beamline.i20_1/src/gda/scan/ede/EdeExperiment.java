@@ -20,7 +20,9 @@ package gda.scan.ede;
 
 import gda.device.Monitor;
 import gda.device.scannable.TopupChecker;
+import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
+import gda.jython.scriptcontroller.ScriptControllerBase;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,9 +44,15 @@ public abstract class EdeExperiment {
 
 	private static final Logger edelogger = LoggerFactory.getLogger(EdeExperiment.class);
 
+	protected final ScriptControllerBase controller;
+
 	protected String filenameTemplate = "";
 
 	protected Monitor topup;
+
+	public EdeExperiment() {
+		controller = (ScriptControllerBase) Finder.getInstance().findNoWarn(PROGRESS_UPDATER_NAME);
+	}
 
 	/**
 	 * Run the scans and write the data files.

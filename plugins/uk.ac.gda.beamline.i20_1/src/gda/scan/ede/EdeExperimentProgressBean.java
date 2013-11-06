@@ -25,12 +25,14 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 public class EdeExperimentProgressBean implements Serializable {
 
 	private final EdeScanProgressBean progress;
-	private final DoubleDataset normalisedIt;
+	private final DoubleDataset data;
 	private final DoubleDataset energyData;
+	private final String dataLabel;
 
-	public EdeExperimentProgressBean(EdeScanProgressBean progress, DoubleDataset normalisedIt, DoubleDataset energyData) {
+	public EdeExperimentProgressBean(EdeScanProgressBean progress, String dataLabel, DoubleDataset data, DoubleDataset energyData) {
 		this.progress = progress;
-		this.normalisedIt = normalisedIt;
+		this.dataLabel = dataLabel;
+		this.data = data;
 		this.energyData = energyData;
 	}
 
@@ -38,12 +40,16 @@ public class EdeExperimentProgressBean implements Serializable {
 		return progress;
 	}
 
-	public DoubleDataset getNormalisedIt() {
-		return normalisedIt;
+	public DoubleDataset getData() {
+		return data;
 	}
 
 	public DoubleDataset getEnergyData() {
 		return energyData;
+	}
+
+	public String getDataLabel() {
+		return dataLabel;
 	}
 
 }

@@ -22,8 +22,6 @@ import gda.device.Monitor;
 import gda.device.Scannable;
 import gda.device.detector.StripDetector;
 import gda.device.scannable.TopupChecker;
-import gda.factory.Finder;
-import gda.jython.scriptcontroller.ScriptControllerBase;
 import gda.observable.IObserver;
 import gda.scan.EdeScan;
 import gda.scan.MultiScan;
@@ -68,12 +66,12 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	private EdeScan itScan;
 	private EdeScan i0FinalScan;
 	private EdeLinearExperimentAsciiFileWriter writer;
-	private final ScriptControllerBase controller;
 	private final DoubleDataset energyData;
 	private final Scannable shutter2;
 
 	public EdeLinearExperiment(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
 			EdeScanPosition itPosition, EdeScanPosition iRefPosition, StripDetector theDetector, Monitor topupMonitor, Scannable shutter2) {
+		super();
 		this.itScanParameters = itScanParameters;
 		this.i0Position = i0Position;
 		this.itPosition = itPosition;
@@ -81,7 +79,6 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		this.theDetector = theDetector;
 		this.shutter2 = shutter2;
 		topup = topupMonitor;
-		controller = (ScriptControllerBase) Finder.getInstance().findNoWarn(PROGRESS_UPDATER_NAME);
 		energyData = new DoubleDataset(theDetector.getEnergyForChannels());
 	}
 
@@ -109,7 +106,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 			DoubleDataset i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, progress.getGroupNumOfThisSDP());
 			DoubleDataset thisItData = EdeAsciiFileWriter.extractDetectorDataFromSDP(theDetector.getName(), progress.getThisPoint());
 			DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(thisItData, i0Data, darkData);
-			controller.update(itScan, new EdeExperimentProgressBean(progress, normalisedIt, energyData));
+			controller.update(itScan, new EdeExperimentProgressBean(progress, "Ln(I0/It", normalisedIt, energyData));
 		}
 	}
 

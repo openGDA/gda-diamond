@@ -71,6 +71,8 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	private static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "TIME_RESOLVED_EXPERIMENT_DATA";
 
+	private static final String JYTHON_DRIVER_OBJ = "timeresolveddriver";
+
 	public static final String EXPERIMENT_DURATION_PROP_NAME = "experimentDuration";
 
 	private DefaultTimeBarModel model;
@@ -249,12 +251,13 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	private String buildScanCommand() {
 		return String.format("from gda.scan.ede.drivers import LinearExperimentDriver;" +
-				"scan_driver = LinearExperimentDriver(\"%s\",\"%s\",%s);" +
-				"scan_driver.setInBeamPosition(%f,%f);" +
-				"scan_driver.setOutBeamPosition(%f,%f)",
+				JYTHON_DRIVER_OBJ + " = LinearExperimentDriver(\"%s\",\"%s\",%s,%s);" +
+				JYTHON_DRIVER_OBJ + ".setInBeamPosition(%f,%f);" +
+				JYTHON_DRIVER_OBJ + ".setOutBeamPosition(%f,%f)",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
 				TIMING_GROUPS_OBJ_NAME,
+				DetectorModel.SHUTTER_NAME,
 				SingleSpectrumModel.INSTANCE.getiTxPosition(),
 				SingleSpectrumModel.INSTANCE.getiTxPosition(),
 				SingleSpectrumModel.INSTANCE.getI0xPosition(),
@@ -282,7 +285,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 			}
 			else if (arg instanceof EdeExperimentProgressBean) {
 				final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
-				currentNormalisedItData = edeExperimentProgress.getNormalisedIt();
+				currentNormalisedItData = edeExperimentProgress.getData();
 				currentNormalisedItData.setName("Normalised It");
 				currentEnergyData = edeExperimentProgress.getEnergyData();
 				currentEnergyData.setName("Energy");
@@ -356,7 +359,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 				// give the previous command a chance to run before calling doCollection()
 				Thread.sleep(50);
-				InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
+				InterfaceProvider.getCommandRunner().evaluateCommand(JYTHON_DRIVER_OBJ + ".doCollection()");
 			} catch (Exception e) {
 				UIHelper.showWarning("Scanning has stopped", e.getMessage());
 			}

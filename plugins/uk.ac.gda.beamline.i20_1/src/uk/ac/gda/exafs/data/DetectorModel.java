@@ -48,6 +48,8 @@ public class DetectorModel extends ObservableModel {
 
 	public static final String TOPUP_CHECKER = "topup";
 
+	public static final String SHUTTER_NAME = "shutter2"; // the shutter to use to create darks
+
 	private static final Logger logger = LoggerFactory.getLogger(DetectorModel.class);
 
 	private StripDetector currentDetector;

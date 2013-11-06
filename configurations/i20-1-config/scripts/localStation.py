@@ -12,6 +12,12 @@ if LocalProperties.get("gda.mode") == "live":
     LocalProperties.set("gda.scan.concurrentScan.readoutConcurrently","true")
     LocalProperties.set("gda.scan.multithreadedScanDataPointPipeline.length","10")
     if (machineMode() == "No Beam"):
+        del(shutter2)
+        from gda.device.enumpositioner import DummyPositioner
+        shutter2 = DummyPositioner()
+        shutter2.setName("shutter2")
+        shutter2.setPositions(['In','Out'])
+        shutter2('In')
         remove_default([absorberChecker])
         remove_default([shutterChecker])
     else:
