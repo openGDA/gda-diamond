@@ -106,7 +106,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 			DoubleDataset i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, progress.getGroupNumOfThisSDP());
 			DoubleDataset thisItData = EdeAsciiFileWriter.extractDetectorDataFromSDP(theDetector.getName(), progress.getThisPoint());
 			DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(thisItData, i0Data, darkData);
-			controller.update(itScan, new EdeExperimentProgressBean(progress, "Ln(I0/It", normalisedIt, energyData));
+			controller.update(itScan, new EdeExperimentProgressBean(progress, EdeExperiment.Lni0it_NAME, normalisedIt, energyData));
 		}
 	}
 

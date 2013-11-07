@@ -158,16 +158,16 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 			if (source.equals(i0DarkScan)) {
 				energyData = new DoubleDataset(theDetector.getEnergyForChannels());
 				i0DarkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
-				controller.update(i0DarkScan, new EdeExperimentProgressBean(progress, "I0 Dark", i0DarkData, energyData));
+				controller.update(i0DarkScan, new EdeExperimentProgressBean(progress, EdeExperiment.I0_DARK_NAME, i0DarkData, energyData));
 			}
 			if (source.equals(itDarkScan)) {
 				itDarkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), itDarkScan, 0);
-				controller.update(itDarkScan, new EdeExperimentProgressBean(progress, "It Dark", itDarkData, energyData));
+				controller.update(itDarkScan, new EdeExperimentProgressBean(progress, EdeExperiment.IT_DARK_NAME, itDarkData, energyData));
 			}
 			if (source.equals(i0InitialScan)) {
 				i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, 0);
 				i0Data = i0Data.isubtract(i0DarkData);
-				controller.update(i0InitialScan, new EdeExperimentProgressBean(progress, "I0 corrected", i0Data, energyData));
+				controller.update(i0InitialScan, new EdeExperimentProgressBean(progress, EdeExperiment.I0_CORRECTED_NAME, i0Data, energyData));
 			}
 			if (source.equals(itScan)) {
 				itData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), itScan, 0);
@@ -176,9 +176,9 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 				} else {
 					itData = itData.isubtract(i0DarkData);
 				}
-				controller.update(itScan, new EdeExperimentProgressBean(progress, "It corrected", itData, energyData));
+				controller.update(itScan, new EdeExperimentProgressBean(progress, EdeExperiment.It_CORRECTED_NAME, itData, energyData));
 				DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(itData, i0Data);
-				controller.update(itScan, new EdeExperimentProgressBean(progress, "Ln(I0/It)", normalisedIt, energyData));
+				controller.update(itScan, new EdeExperimentProgressBean(progress, EdeExperiment.Lni0it_NAME, normalisedIt, energyData));
 			}
 		}
 	}

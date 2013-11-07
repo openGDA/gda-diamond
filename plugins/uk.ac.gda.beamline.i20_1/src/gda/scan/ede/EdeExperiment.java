@@ -37,6 +37,12 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class EdeExperiment {
 
+	public static String I0_DARK_NAME = "I0 Dark";
+	public static String IT_DARK_NAME = "It Dark";
+	public static String I0_CORRECTED_NAME = "I0 corrected";
+	public static String It_CORRECTED_NAME = "It corrected";
+	public static String Lni0it_NAME = "Ln(I0-It)";
+
 	/**
 	 * The name of the ScriptController object which is sent progress information and normalised spectra by experiments
 	 */
