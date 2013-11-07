@@ -21,6 +21,7 @@ package gda.scan.ede.datawriters;
 import gda.device.detector.StripDetector;
 import gda.scan.EdeScan;
 import gda.scan.ScanDataPoint;
+import gda.scan.ede.EdeExperiment;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -115,9 +116,9 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			writer = new FileWriter(asciiFile);
 			log("Writing EDE format ascii file for I0 data: " + i0Filename);
 			writerHeader(writer);
-			writer.write("# Before_It\t" + TIMINGGROUP_COLUMN_NAME + "\t" + STRIP_COLUMN_NAME + "\t"
-					+ ENERGY_COLUMN_NAME + "\t" + I0_CORR_COLUMN_NAME + "\t" + I0_RAW_COLUMN_NAME + "\t"
-					+ I0_DARK_COLUMN_NAME + "\n");
+			writer.write("# Before_It\t" + EdeExperiment.TIMINGGROUP_COLUMN_NAME + "\t" + EdeExperiment.STRIP_COLUMN_NAME + "\t"
+					+ EdeExperiment.ENERGY_COLUMN_NAME + "\t" + EdeExperiment.I0_CORR_COLUMN_NAME + "\t" + EdeExperiment.I0_RAW_COLUMN_NAME + "\t"
+					+ EdeExperiment.I0_DARK_COLUMN_NAME + "\n");
 			int numberOfTimingGroups = getNumberOfTimingGroups();
 
 			for (int timingGroup = 0; timingGroup < numberOfTimingGroups; timingGroup++) {
@@ -154,8 +155,8 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			log("Writing EDE format ascii file for IRef data: " + i0Filename);
 			writerHeader(writer);
 
-			writer.write("#" + TIMINGGROUP_COLUMN_NAME + "\t" + STRIP_COLUMN_NAME + "\t" + ENERGY_COLUMN_NAME + "\t"
-					+ LN_I0_IREF_COLUMN_NAME + "\n");
+			writer.write("#" + EdeExperiment.TIMINGGROUP_COLUMN_NAME + "\t" + EdeExperiment.STRIP_COLUMN_NAME + "\t" + EdeExperiment.ENERGY_COLUMN_NAME + "\t"
+					+ EdeExperiment.LN_I0_IREF_COLUMN_NAME + "\n");
 			int numberOfTimingGroups = getNumberOfTimingGroups();
 
 			for (int timingGroup = 0; timingGroup < numberOfTimingGroups; timingGroup++) {
@@ -243,9 +244,9 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			writer = new FileWriter(asciiFile);
 			log("Writing EDE format ascii file for It data: " + filename);
 			writerHeader(writer);
-			writer.write("#" + TIMINGGROUP_COLUMN_NAME + "\t" + FRAME_COLUMN_NAME + "\t" + STRIP_COLUMN_NAME + "\t"
-					+ ENERGY_COLUMN_NAME + "\t" + IT_CORR_COLUMN_NAME + "\t" + LN_I0_IT_COLUMN_NAME + "\t"
-					+ IT_RAW_COLUMN_NAME + "\t" + IT_DARK_COLUMN_NAME + "\n");
+			writer.write("#" + EdeExperiment.TIMINGGROUP_COLUMN_NAME + "\t" + EdeExperiment.FRAME_COLUMN_NAME + "\t" + EdeExperiment.STRIP_COLUMN_NAME + "\t"
+					+ EdeExperiment.ENERGY_COLUMN_NAME + "\t" + EdeExperiment.IT_CORR_COLUMN_NAME + "\t" + EdeExperiment.LN_I0_IT_COLUMN_NAME + "\t"
+					+ EdeExperiment.IT_RAW_COLUMN_NAME + "\t" + EdeExperiment.IT_DARK_COLUMN_NAME + "\n");
 			int numberOfSpectra = itScan.getNumberOfAvailablePoints();
 
 			for (int spectrumNum = 0; spectrumNum < numberOfSpectra; spectrumNum++) {

@@ -19,7 +19,7 @@
 package uk.ac.gda.exafs.data;
 
 import gda.configuration.properties.LocalProperties;
-import gda.scan.ede.datawriters.EdeAsciiFileWriter;
+import gda.scan.ede.EdeExperiment;
 import gda.util.exafs.AbsorptionEdge;
 import gda.util.exafs.Element;
 
@@ -75,7 +75,7 @@ public class EdeCalibrationModel extends ObservableModel {
 	public static class EdeCalibrationDataModel extends ReferenceCalibrationDataModel {
 		@Override
 		public void setData(String fileName) throws Exception {
-			setData(fileName, EdeAsciiFileWriter.STRIP_COLUMN_NAME, EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME);
+			setData(fileName, EdeExperiment.STRIP_COLUMN_NAME, EdeExperiment.LN_I0_IT_COLUMN_NAME);
 		}
 	}
 
