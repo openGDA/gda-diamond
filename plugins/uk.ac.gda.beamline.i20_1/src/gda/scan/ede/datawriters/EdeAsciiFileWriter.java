@@ -131,13 +131,13 @@ public abstract class EdeAsciiFileWriter {
 	}
 
 	// TODO Check folder exist
-	protected String convertFromNextToAsciiFolder(String nexusFilePath) {
+	public static String convertFromNextToAsciiFolder(String nexusFilePath) {
 		String nexusFolder = FilenameUtils.getFullPath(nexusFilePath);
 		int nexusLocation = nexusFolder.lastIndexOf("nexus");
 		if (nexusLocation != -1) {
 			String path = nexusFolder.substring(0, nexusLocation);
 			return path + "ascii/";
 		}
-		return nexusFilePath;
+		return nexusFolder;
 	}
 }
