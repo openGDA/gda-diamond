@@ -7,10 +7,11 @@
         <cs:dependency name="uk.ac.diamond.scisoft.deprecated" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.analysis" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.gda.beamline.i05.site" componentType="eclipse.feature"/>
-        <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.gda.client.experimentdefinition" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.gda.video.views" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i05" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.beamline.i05.site" componentType="eclipse.feature"/>
+        <cs:dependency name="uk.ac.gda.client.experimentdefinition" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.video.views" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.arpes" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
