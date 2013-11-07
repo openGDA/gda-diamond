@@ -14,11 +14,11 @@
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%date %-5level %logger{36} - %m %ex%n</Pattern>
-        </layout>
-    </appender>    
+<!--     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender"> -->
+<!--         <layout class="ch.qos.logback.classic.PatternLayout"> -->
+<!--             <Pattern>%date %-5level %logger{36} - %m %ex%n</Pattern> -->
+<!--         </layout> -->
+<!--     </appender>     -->
     <logger name="gda">
         <level value="DEBUG"/>
     </logger>
@@ -34,7 +34,7 @@
     <root>
         <level value="ALL"/>
         <appender-ref ref="SOCKET"/>
-        <appender-ref ref="CONSOLE"/>
+<!--         <appender-ref ref="CONSOLE"/> -->
     </root>
     <consolePlugin />
 </configuration>

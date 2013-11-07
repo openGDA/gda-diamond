@@ -1,5 +1,227 @@
-source /dls_sw/dasc/tools_versions/set_tools.sh
+#!/bin/bash 
 
-export LD_LIBRARY_PATH=/dls_sw/b18/software/gda/plugins/uk.ac.gda.nexus/lib/linux-x86_64:/dls_sw/b18/software/gda/plugins/uk.ac.gda.core/lib/linux-x86_64
+# Command to start the GDA client
 
-/dls_sw/b18/software/gda/client/gda-b18
+function gdaclienthelp {
+	cat 1>&2 <<EOF
+Usage: gdaclient [OPTION]... [-- CLIENT_OPTION [CLIENT_OPTION]... ]
+
+Start the GDA client with the default workspace: ${WORKSPACE}
+
+Environment:
+  Required:
+    BEAMLINE            Used to determine default directory locations
+  Optional:
+    GDA_CLIENT          Override the default client executable
+    GDA_CLIENT_VMARGS   Specify additional -vmargs to append
+    GDA_CLIENT_LOG_DIR  Override default ErrorFile location
+
+OPTIONS:
+    --help      Print this help and exit.
+    --data X    Set the workspace to X.
+    --reset     Delete the workspace. Either the default location or the
+                location specified by the --data option.
+    --keep      Keep (rename) the old workspace rather than deleting it.
+    --log       Don't start the log client when the GDA client is started.
+    --nohup Y   Start the client using nohup, redirecting output to file Y.
+    --client Z  Use client Z, overriding default and GDA_CLIENT variable.
+    --          End argument parsing, send remaining options to the GDA client.
+
+EXAMPLES:
+
+    gdaclient
+
+        This will start the client using the preference and projects stored in
+        the default workspace.
+
+    gdaclient --reset
+
+        This will reset the client preferences and projects back to the initial
+        state.
+
+    gdaclient -data /scratch/myworkspace
+
+        This will start the client using the preference and projects stored in
+        /scratch/myworkspace
+
+    gdaclient -data /scratch/myworkspace -reset
+
+        This will delete /scratch/myworkspace and and start the client with
+        workspace set to /scratch/myworkspace
+
+    gdaclient --reset -- -debug
+
+        This will reset the client preferences and projects back to the initial
+        state and pass the -debug option to the GDA client.
+
+EOF
+}
+
+if [ -z $BEAMLINE ] ; then
+	echo "ERROR: BEAMLINE not set" 1>&2
+	exit 1
+fi
+
+
+
+ARGS=$(getopt -a -o \? -l help,data:,reset,log,keep,nohup:,client: -n "gdaclient" -- "$@")
+
+#Bad arguments - getopt returns non-zero
+if [ $? -ne 0 ];
+then
+	gdaclienthelp
+	exit 1
+fi
+
+#put the values in ARGS into the standard argument variables $1, $2...
+eval set -- "$ARGS";
+
+while true; do
+  case "$1" in
+    --client)
+        shift;
+        if [ -n "$1" ]; then
+          GDA_CLIENT="$1"
+          shift;
+        fi
+      ;;
+    *) shift; break;;
+  esac
+done
+
+CLIENT_FOLDER=`dirname $GDA_CLIENT`
+CLIENT_TIMESTAMP=`basename $CLIENT_FOLDER` 
+
+# ensure directory containing workspaces exists, and is writable by everyone
+
+WORKSPACE_PARENT=/scratch/$CLIENT_TIMESTAMP/gda_workspaces/
+[ -d $WORKSPACE_PARENT ] || mkdir -m 777 -p $WORKSPACE_PARENT
+
+CONFIG_PARENT=/scratch/$CLIENT_TIMESTAMP/gda_configs/
+[ -d $CONFIG_PARENT ] || mkdir -m 777 -p $CONFIG_PARENT
+
+WORKSPACE=$WORKSPACE_PARENT/$(whoami)
+CONFIG=$CONFIG_PARENT/$(whoami)
+
+eval set -- "$ARGS";
+
+#now handle each argument in turn.
+
+while true; do
+  case "$1" in
+    --help)
+        gdaclienthelp
+        exit 0
+      ;;
+    --reset)
+        shift;
+        GDA_RESET=1
+        break;
+      ;;
+    --data)
+        shift;
+        if [ -n "$1" ]; then
+          WORKSPACE="$1"
+          shift;
+        fi
+      ;;
+    --keep)
+        shift;
+        GDA_KEEP=1
+      ;;
+    --log)
+        shift;
+        GDA_LOG=0
+      ;;
+    --nohup)
+        shift;
+        if [ -n "$1" ]; then
+          NOHUP_LOGFILE="$1"
+          shift;
+        fi
+      ;;
+    --client)
+        shift;
+        if [ -n "$1" ]; then
+          GDA_CLIENT="$1"
+          shift;
+        fi
+      ;;
+    --)
+        shift;
+        break;
+      ;;
+  esac
+done
+
+
+
+. /usr/share/Modules/init/bash
+module load global/http_proxy
+module load java/gda836
+
+if [ ! -z $GDA_RESET ] ; then
+  if [ ! -z $GDA_KEEP ] ; then
+    DATETIME=`date +%F-%T`
+    echo moving workspace ${WORKSPACE} to ${WORKSPACE}.${DATETIME}
+    mv ${WORKSPACE} ${WORKSPACE}.${DATETIME}
+    echo moving config ${CONFIG} to ${CONFIG}.${DATETIME}
+    mv ${CONFIG} ${CONFIG}.${DATETIME}
+  else
+    echo deleting workspace ${WORKSPACE}
+    rm -rf ${WORKSPACE}
+    echo deleting config ${CONFIG}
+    rm -rf ${CONFIG}
+  fi
+fi
+
+if [ -z $GDA_LOG ] ; then
+	LOGPANEL=$(ps -ef | grep LogPanel | grep -v grep)
+	if [ "X$LOGPANEL" == "X" ] ; then
+		nohup gdalog 2>/dev/null &
+	else
+		wmctrl -R "GDA Log Panel"
+	fi
+fi
+
+ARCH=`/bin/arch`
+
+export MOZILLA_FIVE_HOME=/dls_sw/apps/firefox/8/${ARCH}/
+
+#set max size of core file created if process terminates unexpectedly
+# this value is in 1024-byte blocks (i.e. 10000000 = 10 GB)
+ulimit -c 10000000
+
+if [ -z $GDA_CLIENT_LOG_DIR ] ; then
+  GDA_CLIENT_LOG_DIR=/dls_sw/$BEAMLINE/logs
+fi
+# The directory into which core dumps are written is best specified by changing the cwd
+cd $GDA_CLIENT_LOG_DIR
+
+if [ -z $GDA_CLIENT ] ; then
+  GDA_CLIENT=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE}
+  GDA_CLIENT=`readlink -f $GDA_CLIENT`
+fi
+
+notify-send -t 10000 "GDA client is starting... If it fails to open try 'gdaclient --reset'"
+
+PREVMARGS=" -consoleLog -showLocation -data ${WORKSPACE} -configuration ${CONFIG} $@"
+
+# General information about VM options:
+#   http://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html
+
+# Fatal Error Log (see http://www.oracle.com/technetwork/java/javase/felog-138657.html#felog)
+VMARGS="-XX:ErrorFile=$GDA_CLIENT_LOG_DIR/hs_err_pid%p.log $GDA_CLIENT_VMARGS"
+
+# see http://wiki.eclipse.org/Eclipse.ini
+COMMAND="${GDA_CLIENT} $PREVMARGS --launcher.appendVmargs -vmargs $VMARGS"
+
+echo Starting GDA Client...
+if [ -z $NOHUP_LOGFILE ] ; then
+  echo $COMMAND
+  exec $COMMAND
+else
+  echo  $COMMAND
+  echo  $COMMAND >> $NOHUP_LOGFILE
+  exec  $COMMAND >> $NOHUP_LOGFILE 2>&1
+fi
