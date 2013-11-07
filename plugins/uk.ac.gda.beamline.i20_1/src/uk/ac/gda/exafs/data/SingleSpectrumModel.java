@@ -223,10 +223,8 @@ public class SingleSpectrumModel extends ObservableModel {
 				final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
 
 				final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
-				final String scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
+				final String scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier() + "_spectra";
 				final String scanfilename =  edeScanProgress.getThisPoint().getCurrentFilename();
-				//				String scanType = edeScanProgress.getScanType().toString();
-				//				String posType = edeScanProgress.getPositionType().toString();
 				final String label = edeExperimentProgress.getDataLabel();
 				final AxisSpec spec = new AxisSpec("counts");
 
