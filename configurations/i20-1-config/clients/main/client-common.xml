@@ -51,8 +51,8 @@
 				<entry key="s3_hgap" value="#DB7093" /> <!-- palevioletred -->
 				<entry key="I0_dark" value="#FF00FF" />  <!-- magenta (fuchsia*) -->
 				<entry key="It_dark" value="#0000FF" />  <!-- blue -->
-				<entry key="I0-corr" value="#00FF00" /> <!-- green -->
-				<entry key="It-corr" value="#FFA500" /> <!-- orange -->
+				<entry key="I0_corr" value="#00FF00" /> <!-- green -->
+				<entry key="It_corr" value="#FFA500" /> <!-- orange -->
 				<entry key="LnI0It" value="#000000" /> <!-- black -->
 			</map>
 		</property>
