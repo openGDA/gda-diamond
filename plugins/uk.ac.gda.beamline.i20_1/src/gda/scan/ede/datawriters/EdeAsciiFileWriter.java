@@ -29,6 +29,7 @@ import gda.scan.ScanDataPoint;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -127,5 +128,16 @@ public abstract class EdeAsciiFileWriter {
 	protected void log(String message) {
 		InterfaceProvider.getTerminalPrinter().print(message);
 		logger.info(message);
+	}
+
+	// TODO Check folder exist
+	protected String convertFromNextToAsciiFolder(String nexusFilePath) {
+		String nexusFolder = FilenameUtils.getFullPath(nexusFilePath);
+		int nexusLocation = nexusFolder.lastIndexOf("nexus");
+		if (nexusLocation != -1) {
+			String path = nexusFolder.substring(0, nexusLocation);
+			return path + "ascii/";
+		}
+		return nexusFilePath;
 	}
 }

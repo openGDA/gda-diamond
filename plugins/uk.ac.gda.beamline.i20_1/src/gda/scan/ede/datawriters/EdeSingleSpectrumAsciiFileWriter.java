@@ -116,7 +116,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 	private void determineAsciiFilename() {
 		// the scans would have created Nexus files, so base an ascii file on this plus any template, if supplied
 		String itFilename = itScan.getDataWriter().getCurrentFileName();
-		String folder = FilenameUtils.getFullPath(itFilename);
+		String folder = convertFromNextToAsciiFolder(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
 
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {

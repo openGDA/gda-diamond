@@ -317,7 +317,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 	private String determineAsciiFilename(String suffix) {
 		// the scans would have created Nexus files, so base an ascii file on this plus any template, if supplied
 		String itFilename = itScan.getDataWriter().getCurrentFileName();
-		String folder = FilenameUtils.getFullPath(itFilename);
+		String folder = convertFromNextToAsciiFolder(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
 		// String suffix = "_I0_raw.txt";
 
