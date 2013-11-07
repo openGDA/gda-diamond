@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           
+	<!-- D6 (D8) -->
+
+	<bean id="d6d8_bim_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="d6d8_scrn_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="d6d8_det_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="d6_pos" class="gda.device.enumpositioner.DummyPositioner" />
+</beans>

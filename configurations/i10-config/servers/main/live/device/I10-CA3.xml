@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- CA3 Epics Monitor -->
+	
+	<bean id="ca31" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="CA3.I1" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="ca32" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="CA3.I2" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="ca33" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="CA3.I3" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="ca34" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="CA3.I4" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- <bean id="ca3_ctrl" class="gda.device.enumpositioner.EpicsQuadraCurrentAmplifier">
+		<property name="deviceName" value="CA3.CTRL"/>
+	</bean> -->
+</beans>

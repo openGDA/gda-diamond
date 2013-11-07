@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd
+           http://www.diamond.ac.uk/schema/gda/corba
+           http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+           http://www.diamond.ac.uk/schema/gda/gda
+           http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+
+<gda:rbac/>
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="file:${gda.config}/properties/java.properties" />
+	</bean>
+	
+	
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+	
+	<!-- Meta Data File -->
+    <import resource="file:${gda.config}/xml/spring/server/I10-meta-data.xml"/>
+    
+	
+	<!--  GDA configuration split up by part type with the rest being in core -->
+	<import resource="file:${gda.config}/xml/spring/server/I10-epics-objects.xml"/>
+	<import resource="file:${gda.config}/xml/spring/server/I10-missing-sim-objects.xml"/>
+	<import resource="file:${gda.config}/xml/spring/server/I10-detectors.xml"/>
+	<import resource="file:${gda.config}/xml/spring/server/I10-scannables.xml"/>
+	<import resource="file:${gda.config}/xml/spring/server/I10-command-server.xml"/>
+	<import resource="file:${gda.config}/xml/spring/server/I10-core.xml"/>
+	<!-- 
+	<corba:export namespace="i10_local" />
+	 -->
+	<corba:export namespace="i10server" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+
+</beans>

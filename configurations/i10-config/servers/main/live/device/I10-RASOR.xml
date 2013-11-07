@@ -1,0 +1,173 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="aptr2_trans_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="APTR2.TRANS" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="aptr1_trans_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="APTR1.TRANS" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="cryo_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="CRYO.X" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="cryo_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="CRYO.Y" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="cryo_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="CRYO.Z" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="table_leg1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TABLE.LEG1" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="table_leg2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TABLE.LEG2" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="table_leg3_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TABLE.LEG3" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- 
+	<bean id="table_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TABLE.Y" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="table_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TABLE.PITCH" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+  	
+  	<bean id="table_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TABLE.ROLL" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+  	 -->
+    
+  	<bean id="diff_twotheta_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DIFF.TWOTHETA" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+  	
+  	<bean id="diff_twotheta_motor_enc" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ENCDR.ENCTWOTHETA" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+  	
+  	<bean id="diff_theta_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DIFF.THETA" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+  	<bean id="diff_theta_motor_enc" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ENCDR.ENCTHETA" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+  	
+  	<bean id="diff_chi_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DIFF.CHI" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+  	
+  	<bean id="diff_alpha_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DIFF.ALPHA" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="diff_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DIFF.X" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="polan_twotheta_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="POLAN.TWOTHETA" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="polan_theta_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="POLAN.THETA" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="polan_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="POLAN.Y" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="polan_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="POLAN.Z" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+  	<bean id="polan_eta_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="POLAN.ETA" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="diff_phi_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="diff_phi_motor" />
+		<property name = "speed" value="360" />
+	<!-- 
+	<bean id="diff_phi_motor" class="gda.device.motor.EpicsMotor">
+		<property name="name" value="DIFF.PHI" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	 -->
+		<!-- 
+		<property name="speed" value="360" />
+		 -->
+	</bean>
+
+	<!--<property name="deviceName" value="CRYO.TCTRL" />						I11 value is ENV.CSTAT2
+		<property name="epicsConfiguration" ref="rasorConfig" />				Needed for I10
+		<property name="local" value="true"/>									Only in I11, not I06
+		<property name="configureAtStartup" value="true"/>						Only in I11, not I06
+	 -->
+	<!-- Start temporary removals
+	<bean id="lakeshore_controller" class="gda.device.temperature.EpicsLakeshore340Controller">
+		<property name="deviceName" value="CRYO.TCTRL" />
+		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+		<property name="configureAtStartup" value="true"/>
+	</bean>
+		End temporary removals -->
+</beans>

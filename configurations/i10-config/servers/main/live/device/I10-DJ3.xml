@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- DJ3 (D11) -->
+
+	<bean id="dj3d11_scrn_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="dj3d11_bim_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DJ3.XBIMY" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="dj3d11_det_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DJ3.DETX" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="dj3d11_pos" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="deviceName" value="DJ3.POS"/>
+	</bean>
+</beans>

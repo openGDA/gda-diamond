@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Tertiary Slits / S8 Optical Element -->
+
+	<bean id="s8xring_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SLITS8.XRING" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="s8xhall_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SLITS8.XHALL" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="s8yplus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SLITS8.YPLUS" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="s8yminus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SLITS8.YMINUS" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="s8xsize_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SLITS8.XGAPSIZE" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="s8xcentre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SLITS8.XGAPCENTRE" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="s8ysize_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SLITS8.YGAPSIZE" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="s8ycentre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SLITS8.YGAPCENTRE" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+	</bean></beans>

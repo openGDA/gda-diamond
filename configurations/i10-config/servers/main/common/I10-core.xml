@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--
+		The ScanDataStore is required for the communication of ScanDataPoints
+	-->
+	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+
+
+
+	<!--***************************************-->
+	<!-- *** Plot Manager Section *** -->
+	<!--***************************************-->
+	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
+    <!-- 
+    <bean id="Current_Scan_Holder" class="gda.analysis.utils.CurrentScanHolder" />
+     -->
+	<!--***************************************-->
+	<!-- *** End of Plot Manager section *** -->
+	<!--***************************************-->
+
+   
+	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
+		<property name="name" value="FileRegistrar" />
+		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/i10-" />
+	</bean>
+
+<!--
+	<bean id="NexusDataWriter" class="gda.data.scan.datawriter.NexusDataWriter" />
+-->
+
+	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
+		<property name="name" value="DataWriterFactory" />
+		<property name="dataWriterExtenders">
+			<list>
+				<ref bean="FileRegistrar" />
+				<!-- <bean class="gda.data.scan.datawriter.SrsDataFile" /> -->
+				<!-- <bean class="gda.data.scan.datawriter.NexusDataWriter" /> -->
+				<!-- <ref bean="NexusDataWriter" /> -->
+			</list>
+		</property>
+	</bean>
+	
+</beans>

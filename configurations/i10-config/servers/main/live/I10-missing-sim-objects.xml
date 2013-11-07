@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           
+	<!-- <import resource="dummy/all-dummy.xml"/> -->
+
+	<!--   Rasor --> 
+	<!--
+	<bean id="rasor_tth_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_th_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_chi_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_phi_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_sx_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_sy_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_sz_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_eta_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_thp_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_ttp_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_py_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_pz_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_dsu_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_difx_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_dsd_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_alpha_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_lgf_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_lgm_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_lgb_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_table_y_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_table_pitch_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="rasor_table_roll_motor" class="gda.device.motor.DummyMotor" />
+	 -->
+
+	<!--   Diffractometer --> 
+	<!--
+	<bean id="diff_tth_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_th_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_chi_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_phi_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_del_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_sx_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_sy_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_sz_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_eta_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_thp_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_ttp_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_py_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_pz_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_dsu_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_dsd_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_alpha_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_lgf_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_lgm_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="diff_lgb_motor" class="gda.device.motor.DummyMotor" />
+	 -->
+
+	<!-- Magnet-->
+	<!--
+	<bean id="mag_spitch_motor" class="gda.device.motor.DummyMotor" />	
+	<bean id="mag_hoz_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="mag_ver_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="mag_rot_motor" class="gda.device.motor.DummyMotor" />
+	 -->
+	<bean id="DataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
+	</bean>
+</beans>

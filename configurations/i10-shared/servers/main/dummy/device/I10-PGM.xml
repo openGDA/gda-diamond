@@ -1,0 +1,45 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           
+	<!-- PGM -->
+	
+	<bean id="pgmenergy_motor" class="gda.device.motor.DummyMotor" >
+		<property name="speed" value="1000.0"></property>
+	</bean>
+
+	<bean id="pgm_grat_pitch_motor" class="gda.device.motor.DummyMotor" >
+		<property name="speed" value="1000.0"></property>
+	</bean>
+	
+	<bean id="pgm_grat_x_motor" class="gda.device.motor.DummyMotor" />	
+	<bean id="pgm_m2_pitch_motor" class="gda.device.motor.DummyMotor" />	
+	<bean id="pgm_m2_plane_motor" class="gda.device.motor.DummyMotor" />	
+	<bean id="pgm_pos" class="gda.device.enumpositioner.DummyPositioner" />
+
+	<!--  Is a "gda.device.motor.DummyMotor" suitable to dummy out
+		    a "gda.device.controlpoint.EpicsControlPoint" ? -->
+
+	<bean id="cff" class="gda.device.motor.DummyMotor" />
+	<!--             Was "gda.device.controlpoint.EpicsControlPoint" -->
+	
+	<!-- Plane Grating Monochromator grating offset -->
+	<bean id="pgmgo" class="gda.device.motor.DummyMotor" />
+	<!--               Was "gda.device.controlpoint.EpicsControlPoint" -->
+
+	<!-- Plane Grating Monochromator mirror offset -->
+	<bean id="pgmmo" class="gda.device.motor.DummyMotor" />
+	<!--               Was "gda.device.controlpoint.EpicsControlPoint" -->
+	
+	<!-- PGM Mirror and Grating encoders -->
+
+	<bean id="pgmmenc1" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="pgmmenc2" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="pgmmenc3" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="pgmmenc4" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="pgmgenc1" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="pgmgenc2" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="pgmgenc3" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="pgmgenc4" class="gda.device.monitor.DummyEpicsMonitor" />
+</beans>
