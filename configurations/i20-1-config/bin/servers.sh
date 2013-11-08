@@ -1,7 +1,7 @@
 # runs the servers locally
 #source /dls_sw/dasc/tools_versions/set_tools.sh
 . /usr/share/Modules/init/bash
-module load java/gda832
+module load java/gda
 umask 0002
 
 # stop old servers
