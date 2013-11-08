@@ -33,6 +33,7 @@ import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
@@ -58,6 +59,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -754,6 +756,12 @@ public class TimeResolvedExperimentView extends ViewPart {
 			@Override
 			public void intervalChangeCancelled(TimeBarRow arg0, Interval arg1) {}
 		});
+		MenuManager menuManager = new MenuManager();
+		Menu menu = menuManager.createContextMenu(timeBarViewer);
+		// Set the MenuManager
+		timeBarViewer.setMenu(menu);
+		getSite().registerContextMenu(menuManager, timeBarViewer);
+		getSite().setSelectionProvider(timeBarViewer);
 
 		// Controls
 		Composite controls = new Composite(composite, SWT.None);

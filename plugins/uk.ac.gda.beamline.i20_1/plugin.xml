@@ -320,6 +320,28 @@
             style="push">
       </command>
    </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="popup:uk.ac.gda.exafs.ui.views.linearExperimentView">
+      <command
+            commandId="uk.ac.gda.exafs.ui.data.experiment.splitgroup"
+            label="Split Group"
+            style="push">
+         <visibleWhen
+               checkEnabled="false">
+            <with
+                  variable="selection">
+               <iterate
+                     ifEmpty="false"
+                     operator="or">
+                  <instanceof
+                        value="uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel">
+                  </instanceof>
+               </iterate>
+            </with>
+         </visibleWhen>
+      </command>
+   </menuContribution>
 </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -327,6 +349,11 @@
             defaultHandler="uk.ac.gda.exafs.ui.views.commandhandlers.ResetCalibrationDataPlot"
             id="uk.ac.gda.beamline.i20_1.calibration.reset"
             name="Reset">
+      </command>
+      <command
+            defaultHandler="uk.ac.gda.exafs.ui.data.experiment.SplitTimingGroupCommandHandler"
+            id="uk.ac.gda.exafs.ui.data.experiment.splitgroup"
+            name="Split Group">
       </command>
    </extension>
    

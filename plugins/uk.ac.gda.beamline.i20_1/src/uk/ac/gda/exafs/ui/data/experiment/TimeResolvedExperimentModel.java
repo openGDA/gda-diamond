@@ -202,6 +202,21 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		return groupList;
 	}
 
+	public void splitGroup(TimingGroupModel groupToSplit) {
+		double duration = groupToSplit.getDuration();
+		double endTime = groupToSplit.getEndTime();
+		double startTime = groupToSplit.getStartTime();
+		groupToSplit.resetInitialTime(startTime, duration / 2, 0, duration / 2);
+		TimingGroupModel newGroup = new TimingGroupModel(spectraRowModel, unit.getWorkingUnit());
+		newGroup.setName("Group " + (groupList.indexOf(groupToSplit) + 2));
+		newGroup.setIntegrationTime(1.0);
+		addToInternalGroupList(newGroup, groupList.indexOf(groupToSplit) + 1);
+		newGroup.resetInitialTime(groupToSplit.getEndTime(), endTime - groupToSplit.getEndTime(), 0, endTime - groupToSplit.getEndTime());
+		for (int i = groupList.indexOf(groupToSplit) + 1; i < groupList.size(); i++) {
+			((TimingGroupModel) groupList.get(i)).setName("Group " + (i + 1));
+		}
+	}
+
 	public TimingGroupModel addGroup() {
 		TimingGroupModel newGroup = new TimingGroupModel(spectraRowModel, unit.getWorkingUnit());
 		newGroup.setName("Group " + (groupList.size() + 1));
@@ -230,6 +245,11 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	private void addToInternalGroupList(TimingGroupModel newGroup) {
 		newGroup.addPropertyChangeListener(groupPropertyChangeListener);
 		groupList.add(newGroup);
+	}
+
+	private void addToInternalGroupList(TimingGroupModel newGroup, int index) {
+		newGroup.addPropertyChangeListener(groupPropertyChangeListener);
+		groupList.add(index, newGroup);
 	}
 
 	private void removeFromInternalGroupList(TimingGroupModel group) {

@@ -120,7 +120,12 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 	}
 
 	private double getEndZoomForReferenceData() {
-		return referenceData.getRefEnergyNode().getDouble(referenceData.getRefEnergyNode().getSize() - 1);
+		double maxEnergy = referenceData.getRefEnergyNode().getDouble(referenceData.getRefEnergyNode().getSize() - 1);
+		double endZoom = getStartZoomForReferenceData() + AlignmentParametersModel.INSTANCE.getAlignmentSuggestedParameters().getReadBackEnergyBandwidth();
+		if (endZoom > maxEnergy) {
+			endZoom = maxEnergy;
+		}
+		return endZoom;
 	}
 
 	private void showReferencePoints() throws Exception {
