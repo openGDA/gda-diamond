@@ -23,9 +23,6 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dawnsci.plotting.api.IPlottingSystem;
-import org.dawnsci.plotting.api.PlotType;
-import org.dawnsci.plotting.api.PlottingFactory;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -54,7 +51,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -102,10 +98,10 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 	private static final long INITIAL_TIMEBAR_MARKER_IN_MILLI = 10L;
 
-	private static final int GROUP_TABLE_HEIGHT = 100;
+	private static final int GROUP_TABLE_HEIGHT = 120;
 	private static final int GROUP_TABLE_WIDTH = 100;
 
-	private IPlottingSystem plottingSystem;
+	//	private IPlottingSystem plottingSystem;
 	private TimeBarViewer timeBarViewer;
 	private FormToolkit toolkit;
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
@@ -136,16 +132,18 @@ public class TimeResolvedExperimentView extends ViewPart {
 		final SashForm parentComposite = new SashForm(parent, SWT.VERTICAL);
 		parentComposite.SASH_WIDTH = 7;
 
-		SashForm topPartComposite = new SashForm(parentComposite, SWT.HORIZONTAL);
-		topPartComposite.SASH_WIDTH = 7;
+		// TODO Until it is clear how to do, temporary removed the time resolved plot to determine groups
+
+		// SashForm topPartComposite = new SashForm(parentComposite, SWT.HORIZONTAL);
+		// topPartComposite.SASH_WIDTH = 7;
 
 		try {
-			createExperimentPropertiesComposite(topPartComposite);
-			createPlotComposite(topPartComposite);
+			createExperimentPropertiesComposite(parentComposite);
+			// createPlotComposite(topPartComposite);
 			createTimeBarComposite(parentComposite);
 			bind();
 			parentComposite.setWeights(new int[] {3, 1});
-			topPartComposite.setWeights(new int[] {3, 1});
+			// topPartComposite.setWeights(new int[] {3, 1});
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
@@ -221,7 +219,8 @@ public class TimeResolvedExperimentView extends ViewPart {
 		ScrolledForm scrolledform = toolkit.createScrolledForm(composite);
 		scrolledform.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		Form form = scrolledform.getForm();
-		form.getBody().setLayout(new GridLayout(2, true));
+		// Moved to single column
+		form.getBody().setLayout(new GridLayout(1, true));
 		toolkit.decorateFormHeading(form);
 		scrolledform.setText("Time-resolved studies");
 		createExperimentDetailsSection(form.getBody());
@@ -326,16 +325,20 @@ public class TimeResolvedExperimentView extends ViewPart {
 		viewerNumberColumn.getColumn().setText("Name");
 
 		viewerNumberColumn = new TableViewerColumn(groupsTableViewer, SWT.NONE);
-		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(2));
+		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
 		viewerNumberColumn.getColumn().setText("Start time");
 
 		viewerNumberColumn = new TableViewerColumn(groupsTableViewer, SWT.NONE);
-		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(2));
-		viewerNumberColumn.getColumn().setText("End Time");
+		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
+		viewerNumberColumn.getColumn().setText("End time");
 
 		viewerNumberColumn = new TableViewerColumn(groupsTableViewer, SWT.NONE);
 		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
-		viewerNumberColumn.getColumn().setText("Spectrums");
+		viewerNumberColumn.getColumn().setText("Time per Spectrum");
+
+		viewerNumberColumn = new TableViewerColumn(groupsTableViewer, SWT.NONE);
+		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
+		viewerNumberColumn.getColumn().setText("No. of Spectra");
 
 		ObservableListContentProvider contentProvider =
 				new ObservableListContentProvider();
@@ -349,9 +352,11 @@ public class TimeResolvedExperimentView extends ViewPart {
 				ExperimentTimingDataModel.START_TIME_PROP_NAME).observeDetail(knownElements);
 		final IObservableMap endTimes = BeanProperties.value(TimingGroupModel.class,
 				ExperimentTimingDataModel.END_TIME_PROP_NAME).observeDetail(knownElements);
+		final IObservableMap timePerSpectrum = BeanProperties.value(TimingGroupModel.class,
+				TimingGroupModel.TIME_PER_SPECTRUM_PROP_NAME).observeDetail(knownElements);
 		final IObservableMap noOfSpectrum = BeanProperties.value(TimingGroupModel.class,
 				TimingGroupModel.NO_OF_SPECTRUM_PROP_NAME).observeDetail(knownElements);
-		IObservableMap[] labelMaps = {names, startTimes, endTimes, noOfSpectrum};
+		IObservableMap[] labelMaps = {names, startTimes, endTimes, timePerSpectrum, noOfSpectrum};
 
 		groupsTableViewer.setContentProvider(contentProvider);
 		groupsTableViewer.setLabelProvider(new ObservableMapLabelProvider(labelMaps) {
@@ -359,9 +364,10 @@ public class TimeResolvedExperimentView extends ViewPart {
 			public String getColumnText(Object element, int columnIndex) {
 				switch (columnIndex) {
 				case 0: return (String) names.get(element);
-				case 1: return DataHelper.roundDoubletoString(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli((double) startTimes.get(element))) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
-				case 2: return DataHelper.roundDoubletoString(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli((double) endTimes.get(element))) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
-				case 3: return Integer.toString((int) noOfSpectrum.get(element));
+				case 1: return DataHelper.roundDoubletoStringWithOptionalDigits(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli((double) startTimes.get(element))) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
+				case 2: return DataHelper.roundDoubletoStringWithOptionalDigits(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli((double) endTimes.get(element))) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
+				case 3: return DataHelper.roundDoubletoStringWithOptionalDigits(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli((double) timePerSpectrum.get(element))) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
+				case 4: return Integer.toString((int) noOfSpectrum.get(element));
 				default : return "Unkown column";
 				}
 			}
@@ -658,26 +664,29 @@ public class TimeResolvedExperimentView extends ViewPart {
 		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 	}
 
-	private void createPlotComposite(Composite parent) {
-		try {
-			if (plottingSystem == null) {
-				plottingSystem = PlottingFactory.createPlottingSystem();
-			}
-		} catch (Exception e) {
-			UIHelper.showError("Unable to create plotting system", e.getMessage());
-			logger.error("Unable to create plotting system", e);
-			return;
-		}
-		Composite composite = new Composite(parent, SWT.None);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		composite.setLayout(new FillLayout());
-		plottingSystem.createPlotPart(composite,
-				getTitle(),
-				// unique id for plot.
-				getViewSite().getActionBars(),
-				PlotType.XY,
-				this);
-	}
+
+	// TODO Until it is clear how to do, temporary removed the time resolved plot to determine groups
+
+	//	private void createPlotComposite(Composite parent) {
+	//		try {
+	//			if (plottingSystem == null) {
+	//				plottingSystem = PlottingFactory.createPlottingSystem();
+	//			}
+	//		} catch (Exception e) {
+	//			UIHelper.showError("Unable to create plotting system", e.getMessage());
+	//			logger.error("Unable to create plotting system", e);
+	//			return;
+	//		}
+	//		Composite composite = new Composite(parent, SWT.None);
+	//		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+	//		composite.setLayout(new FillLayout());
+	//		plottingSystem.createPlotPart(composite,
+	//				getTitle(),
+	//				// unique id for plot.
+	//				getViewSite().getActionBars(),
+	//				PlotType.XY,
+	//				this);
+	//	}
 
 	@SuppressWarnings({ "static-access" })
 	private void createTimeBarComposite(Composite parent) {

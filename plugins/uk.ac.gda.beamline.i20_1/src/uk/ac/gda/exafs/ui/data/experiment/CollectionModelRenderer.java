@@ -92,7 +92,7 @@ public class CollectionModelRenderer extends DefaultRenderer {
 				if (point.y < iRect.height - 30  && point.x + 5 < iRect.width) {
 					gc.drawText(spectra, iRect.x + 5, iRect.y + 20);
 				}
-				String timeResolution = DataHelper.roundDoubletoString(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli(groupModel.getTimeResolution())) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
+				String timeResolution = DataHelper.roundDoubletoStringWithOptionalDigits(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli(groupModel.getTimeResolution())) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
 				String noOfSpectrum = "Time per spectrum: " +  timeResolution;
 				point = gc.stringExtent(noOfSpectrum);
 				if (point.y < iRect.height - 45 && point.x + 5 < iRect.width) {

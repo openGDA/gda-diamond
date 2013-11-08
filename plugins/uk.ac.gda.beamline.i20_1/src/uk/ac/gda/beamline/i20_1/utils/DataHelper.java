@@ -73,6 +73,10 @@ public class DataHelper {
 		return String.format("%." + ClientConfig.DEFAULT_DECIMAL_PLACE + "f", value);
 	}
 
+	public static String roundDoubletoStringWithOptionalDigits(double value) {
+		return ClientConfig.DECIMAL_FORMAT.format(value);
+	}
+
 	public static String roundDoubletoString(double value, int decimalPlaces) {
 		return String.format("%." + decimalPlaces + "f", value);
 	}

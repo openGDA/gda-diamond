@@ -18,6 +18,7 @@
 
 package uk.ac.gda.exafs.ui.composites;
 import java.lang.reflect.InvocationTargetException;
+import java.text.DecimalFormat;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.eclipse.core.databinding.Binding;
@@ -729,6 +730,7 @@ public class NumberEditorControl2 extends Composite {
 		private String unit;
 
 		private Object bindingPropertyType;
+		private DecimalFormat decimalFormat;
 
 		public boolean isEditable() {
 			return editable;
@@ -758,7 +760,17 @@ public class NumberEditorControl2 extends Composite {
 		}
 		public void setDigits(int value) {
 			firePropertyChange(DIGITS_PROP_NAME, digits, digits = value);
+			StringBuilder string = new StringBuilder("#.");
+			for (int i = 0; i < digits; i++) {
+				string.append("#");
+			}
+			decimalFormat = new DecimalFormat(string.toString());
 		}
+
+		public String getFormattedValue(double value) {
+			return decimalFormat.format(value);
+		}
+
 		public int getIncrement() {
 			return increment;
 		}
@@ -959,7 +971,7 @@ public class NumberEditorControl2 extends Composite {
 	protected String getFormattedText(Object value) {
 		String formattedValue = null;
 		if (controlModel.getBindingPropertyType().equals(double.class)) {
-			formattedValue = roundDoubletoString((double) value, controlModel.getDigits());
+			formattedValue = controlModel.getFormattedValue((double) value);
 		} else if (controlModel.getBindingPropertyType().equals(int.class)) {
 			formattedValue = Integer.toString((int) value);
 		}
