@@ -112,7 +112,7 @@
 		</property>
 	</bean>
 
-	<bean id="_d1_cam_ad" class="gda.device.detector.addetector.ADDetector">
+<!-- 	<bean id="_d1_cam_ad" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="d1_cam_base" />
 		<property name="ndStats" ref="d1_stat" />
 		<property name="ndArray" ref="d1_arr" />
@@ -126,7 +126,7 @@
 		<property name="computeCentroid" value="false"/>
 		<property name="readArray" value="true"/>
 	</bean>
-
+ -->
 	<bean id="d1_cam_nx_array"
 		class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
 		<constructor-arg ref="d1_arr" />

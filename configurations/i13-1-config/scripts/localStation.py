@@ -230,8 +230,9 @@ beam_check=scan_aborter.scan_aborter("beam_check",3, 300000., "Too high")
 #imageROI.setROI(370, 390, 370, 390)#    ( y_start, y_end, x_start, x_end)
 
 
-import average
-d4_i_avg = average.Average(d4_i,numPoints=10, timeBetweenReadings=0.1)
+if not LocalProperties.check("gda.dummy.mode"):
+	import average
+	d4_i_avg = average.Average(d4_i,numPoints=10, timeBetweenReadings=0.1)
 
 #mtscripts have been commented out of JythonServerFacade as this is used temprarily for moveable equipment
 #import mtscripts.moveable.me07m
