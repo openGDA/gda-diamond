@@ -14,6 +14,7 @@
 		<property name="hasUnits" value="false" />
 		<property name="pvName" value="BL22I-RS-ABSB-02:DIODE:I" />
 		<property name="local" value="true" />
+		<property name="settletime" value="500" />
 	</bean>
 	<bean id="bsdiodegain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 		<property name="pvName" value="BL22I-DI-IAMP-10:GAIN" />
@@ -98,6 +99,7 @@
 		<property name="hasUnits" value="false" />
 		<property name="pvName" value="BL22I-DI-PHDGN-10:DIODE1:I" />
 		<property name="local" value="true" />
+		<property name="settletime" value="500" />
 	</bean>
 	<bean id="d10d1gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 		<property name="pvName" value="BL22I-DI-IAMP-17:GAIN" />
@@ -182,6 +184,7 @@
 		<property name="hasUnits" value="false" />
 		<property name="pvName" value="BL22I-DI-PHDGN-10:DIODE2:I" />
 		<property name="local" value="true" />
+		<property name="settletime" value="500" />
 	</bean>
 	<bean id="d10d2gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 		<property name="pvName" value="BL22I-DI-IAMP-18:GAIN" />
