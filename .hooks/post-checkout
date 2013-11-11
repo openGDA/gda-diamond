@@ -1,0 +1,4 @@
+#!/bin/sh
+#
+setfacl -m o:rx dls-config/bin/*
+
