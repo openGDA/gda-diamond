@@ -28,7 +28,7 @@ mknod $PIP p
 tail -n 1 -f /dls_sw/$BEAMLINE/logs/gda_server.log >  $PIP &
 awk '{
         if (!/DEBUG/) print ;
-        if (/gda.util.ObjectServer - Server initialisation complete.*b21_server_beans/) {
+        if (/gda.util.ObjectServer - Server initialisation complete.*live.server.xml/) {
                 print "\nAll done, you can start the client now\n" ;
                 exit ;
         }
