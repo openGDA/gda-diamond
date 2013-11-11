@@ -26,6 +26,7 @@ import gda.observable.IObserver;
 import gda.scan.EdeScan;
 import gda.scan.MultiScan;
 import gda.scan.ScanBase;
+import gda.scan.ScanPlotSettings;
 import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 import gda.scan.ede.datawriters.EdeSingleSpectrumAsciiFileWriter;
 import gda.scan.ede.position.EdeScanPosition;
@@ -184,18 +185,28 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 	}
 
 	private void runScans() throws Exception {
+		ScanPlotSettings plotNothing = new ScanPlotSettings();
+		plotNothing.setUnlistedColumnBehaviour(ScanPlotSettings.IGNORE);
+
 		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 1, shutter2);
 		i0DarkScan.setProgressUpdater(this);
+		i0DarkScan.setScanPlotSettings(plotNothing);
+		
 		if (runItDark) {
 			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector, 1, shutter2);
 		} else {
 			itDarkScan = i0DarkScan;
 		}
 		itDarkScan.setProgressUpdater(this);
+		itDarkScan.setScanPlotSettings(plotNothing);
+
 		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, shutter2);
 		i0InitialScan.setProgressUpdater(this);
+		i0InitialScan.setScanPlotSettings(plotNothing);
+		
 		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, shutter2);
 		itScan.setProgressUpdater(this);
+		itScan.setScanPlotSettings(plotNothing);
 
 		List<ScanBase> theScans = new Vector<ScanBase>();
 		theScans.add(i0DarkScan);
