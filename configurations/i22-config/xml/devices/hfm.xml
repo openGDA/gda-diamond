@@ -10,6 +10,7 @@
         <bean id="hfm_pitch" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="hfm_pitch_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="hfm_roll_motor" class="gda.device.motor.EpicsMotor">
@@ -19,6 +20,7 @@
         <bean id="hfm_roll" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="hfm_roll_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="hfm_yaw_motor" class="gda.device.motor.EpicsMotor">
@@ -28,6 +30,7 @@
         <bean id="hfm_yaw" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="hfm_yaw_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="hfm_x_motor" class="gda.device.motor.EpicsMotor">
@@ -37,6 +40,7 @@
         <bean id="hfm_x" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="hfm_x_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="hfm_y_motor" class="gda.device.motor.EpicsMotor">
@@ -46,6 +50,7 @@
         <bean id="hfm_y" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="hfm_y_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="hfm_y1_motor" class="gda.device.motor.EpicsMotor">
@@ -55,6 +60,7 @@
         <bean id="hfm_y1" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="hfm_y1_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="hfm_y2_motor" class="gda.device.motor.EpicsMotor">
@@ -64,6 +70,7 @@
         <bean id="hfm_y2" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="hfm_y2_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="hfm_y3_motor" class="gda.device.motor.EpicsMotor">
@@ -73,6 +80,7 @@
         <bean id="hfm_y3" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="hfm_y3_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="hfm_x1_motor" class="gda.device.motor.EpicsMotor">
@@ -82,6 +90,7 @@
         <bean id="hfm_x1" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="hfm_x1_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="hfm_x2_motor" class="gda.device.motor.EpicsMotor">
@@ -91,6 +100,7 @@
         <bean id="hfm_x2" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="hfm_x2_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="hfm_xfine_motor" class="gda.device.motor.EpicsMotor">
@@ -100,6 +110,7 @@
         <bean id="hfm_xfine" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="hfm_xfine_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="hfm" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -119,5 +130,6 @@
                         </list>
                 </property>
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 </beans>

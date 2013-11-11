@@ -10,6 +10,7 @@
         <bean id="s2_xcentre" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="s2_xcentre_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="s2_xgap_motor" class="gda.device.motor.EpicsMotor">
@@ -19,6 +20,7 @@
         <bean id="s2_xgap" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="s2_xgap_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="s2_ycentre_motor" class="gda.device.motor.EpicsMotor">
@@ -28,6 +30,7 @@
         <bean id="s2_ycentre" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="s2_ycentre_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="s2_ygap_motor" class="gda.device.motor.EpicsMotor">
@@ -37,6 +40,7 @@
         <bean id="s2_ygap" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="s2_ygap_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="s2_xplus_motor" class="gda.device.motor.EpicsMotor">
@@ -46,6 +50,7 @@
         <bean id="s2_xplus" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="s2_xplus_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="s2_xminus_motor" class="gda.device.motor.EpicsMotor">
@@ -55,6 +60,7 @@
         <bean id="s2_xminus" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="s2_xminus_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="s2_yplus_motor" class="gda.device.motor.EpicsMotor">
@@ -64,6 +70,7 @@
         <bean id="s2_yplus" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="s2_yplus_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="s2_yminus_motor" class="gda.device.motor.EpicsMotor">
@@ -73,6 +80,7 @@
         <bean id="s2_yminus" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="s2_yminus_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
 	<bean id="s2_xplusi" class="gda.device.scannable.EpicsScannable">
@@ -121,5 +129,6 @@
                         </list>
                 </property>
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 </beans>

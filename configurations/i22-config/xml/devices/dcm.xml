@@ -41,23 +41,23 @@
 	<bean id="roll" class="gda.device.scannable.ScannableMotor">
 		<property name="local" value="true" />
 		<property name="motor" ref="roll_motor" />
-		<property name="protectionLevel" value="2" />
+		<property name="protectionLevel" value="3" />
 	</bean>
 	<bean id="fineroll" class="gda.device.scannable.ScannableMotor">
 		<property name="local" value="true" />
 		<property name="motor" ref="fineroll_motor" />
-		<property name="protectionLevel" value="2" />
+		<property name="protectionLevel" value="3" />
 	</bean>
 	<bean id="perp" class="gda.device.scannable.ScannableMotor">
 		<property name="local" value="true" />
 		<property name="motor" ref="perp_motor" />
-		<property name="protectionLevel" value="2" />
+		<property name="protectionLevel" value="3" />
 	</bean>
 	<bean id="bragg" class="gda.device.scannable.ScannableMotor">
 		<property name="local" value="true" />
 		<property name="motor" ref="bragg_motor" />
 		<property name="scalingFactor" value="-1" />
-		<property name="protectionLevel" value="2" />
+		<property name="protectionLevel" value="3" />
 	</bean>
 
 	<bean id="DCM" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -72,6 +72,6 @@
 				<ref bean="bragg" />
 			</list>
 		</property>
-		<property name="protectionLevel" value="2" />
+		<property name="protectionLevel" value="3" />
 	</bean>
 </beans>

@@ -10,6 +10,7 @@
         <bean id="wd_x" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="wd_x_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="wd_y_motor" class="gda.device.motor.EpicsMotor">
@@ -19,6 +20,7 @@
         <bean id="wd_y" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="wd_y_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="wd" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -29,5 +31,6 @@
                         </list>
                 </property>
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 </beans>
