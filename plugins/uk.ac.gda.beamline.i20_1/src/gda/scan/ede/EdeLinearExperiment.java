@@ -27,9 +27,11 @@ import gda.device.Scannable;
 import gda.device.detector.StripDetector;
 import gda.device.scannable.TopupChecker;
 import gda.observable.IObserver;
+import gda.scan.AxisSpecProviderImpl;
 import gda.scan.EdeScan;
 import gda.scan.MultiScan;
 import gda.scan.ScanBase;
+import gda.scan.ScanPlotSettings;
 import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 import gda.scan.ede.datawriters.EdeLinearExperimentAsciiFileWriter;
 import gda.scan.ede.position.EdeScanPosition;
@@ -207,7 +209,14 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		try {
 			addDetectorSettingsToMetadata();
 
+			ScanPlotSettings plotNothing = new ScanPlotSettings();
+			plotNothing.setUnlistedColumnBehaviour(ScanPlotSettings.IGNORE);
+			plotNothing.setYAxesShown(theDetector.getExtraNames());
+			plotNothing.setYAxesNotShown(new String[]{});
+			plotNothing.setAxisSpecProvider(new AxisSpecProviderImpl(false));
+
 			MultiScan theScan = new MultiScan(theScans);
+			theScan.setScanPlotSettings(plotNothing);
 			pauseForToup();
 			logger.debug("EDE linear experiment starting its multiscan...");
 			theScan.runScan();

@@ -193,14 +193,9 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 	}
 
 	private void runScans() throws Exception {
-		ScanPlotSettings plotNothing = new ScanPlotSettings();
-		plotNothing.setUnlistedColumnBehaviour(ScanPlotSettings.IGNORE);
-		plotNothing.setYAxesShown(new String[]{});
-		plotNothing.setYAxesNotShown(new String[]{});
 
 		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 1, shutter2);
 		i0DarkScan.setProgressUpdater(this);
-		i0DarkScan.setScanPlotSettings(plotNothing);
 
 		if (runItDark) {
 			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector, 1, shutter2);
@@ -208,15 +203,12 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 			itDarkScan = i0DarkScan;
 		}
 		itDarkScan.setProgressUpdater(this);
-		itDarkScan.setScanPlotSettings(plotNothing);
 
 		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, shutter2);
 		i0InitialScan.setProgressUpdater(this);
-		i0InitialScan.setScanPlotSettings(plotNothing);
 
 		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, shutter2);
 		itScan.setProgressUpdater(this);
-		itScan.setScanPlotSettings(plotNothing);
 
 		List<ScanBase> theScans = new Vector<ScanBase>();
 		theScans.add(i0DarkScan);
@@ -229,8 +221,13 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 		try {
 			addDetectorSettingsToMetadata();
 
+			ScanPlotSettings plotNothing = new ScanPlotSettings();
+			plotNothing.setUnlistedColumnBehaviour(ScanPlotSettings.IGNORE);
+			plotNothing.setYAxesShown(new String[]{});
+			plotNothing.setYAxesNotShown(new String[]{});
+
 			MultiScan theScan = new MultiScan(theScans);
-			theScan.setScanPlotSettings(plotNothing);
+			theScan.setScanPlotSettings(plotNothing);theScan.setScanPlotSettings(plotNothing);
 			pauseForToup();
 			logger.debug("EDE single experiment starting its multiscan...");
 			theScan.runScan();
