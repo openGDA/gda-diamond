@@ -13,31 +13,23 @@
            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
 <gda:rbac/>
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="file:${gda.config}/properties/java.properties" />
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/live/java.properties</value>
+				<value>file:${gda.config}/properties/common/java.properties</value>
+			</list>
+		</property>
 	</bean>
-	
-	
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
-	
-	<!-- Meta Data File -->
-    <import resource="file:${gda.config}/xml/spring/server/I10-meta-data.xml"/>
-    
-	
-	<!--  GDA configuration split up by part type with the rest being in core -->
-	<import resource="file:${gda.config}/xml/spring/server/I10-epics-objects.xml"/>
-	<import resource="file:${gda.config}/xml/spring/server/I10-missing-sim-objects.xml"/>
-	<import resource="file:${gda.config}/xml/spring/server/I10-detectors.xml"/>
-	<import resource="file:${gda.config}/xml/spring/server/I10-scannables.xml"/>
-	<import resource="file:${gda.config}/xml/spring/server/I10-command-server.xml"/>
-	<import resource="file:${gda.config}/xml/spring/server/I10-core.xml"/>
-	<!-- 
-	<corba:export namespace="i10_local" />
-	 -->
+	<import resource="I10-epics-objects.xml"/>
+	<import resource="device/all-live.xml"/>
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/i10-shared/servers/main/live/device/all-live.xml"/>
+	<import resource="transient/all-live.xml"/>
+	<import resource="../common/server.xml"/>
+
 	<corba:export namespace="i10server" />
-	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 </beans>

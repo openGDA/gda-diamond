@@ -3,9 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="file:${gda.config}/properties/java.properties" />
-	</bean>
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	
 	<!-- commenting for RASOR TO run on I06

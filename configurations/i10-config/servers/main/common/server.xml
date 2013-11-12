@@ -12,29 +12,14 @@
            http://www.diamond.ac.uk/schema/gda/gda
            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
-<gda:rbac/>
-	
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="file:${gda.config}/properties/java.properties" />
-	</bean>
-	<bean class="gda.configuration.epics.EpicsConfiguration">
-		<constructor-arg value="${gda.config}/xml/spring/epics/ME01D-gda-interface2-0.xml" />
-	</bean>
-	
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
-	
+
 	<!-- Meta Data File -->
-    <import resource="file:${gda.config}/xml/spring/server/I10-meta-data.xml"/>
-    
-	
+	<import resource="metadata.xml"/>
+
 	<!--  GDA configuration split up by part type with the rest being in core -->
-	<import resource="file:${gda.config}/xml/spring/server/I10-simulated-objects.xml"/>
-	<import resource="file:${gda.config}/xml/spring/server/I10-core.xml" />
-	<import resource="file:${gda.config}/xml/spring/server/I10-scannables.xml"/>
-	<import resource="file:${gda.config}/xml/spring/server/I10-command-server.xml"/>
-	<corba:export namespace="i10_local" />
-	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+	<import resource="I10-core.xml" />
+	<import resource="scannable/all-scannables.xml"/>
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/i10-shared/servers/main/common/scannable/all-scannables.xml"/>
+	<import resource="I10-command-server.xml"/>
 </beans>
