@@ -18,6 +18,10 @@
 
 package gda.scan.ede;
 
+import gda.data.scan.datawriter.NexusExtraMetadataDataWriter;
+import gda.data.scan.datawriter.NexusFileMetadata;
+import gda.data.scan.datawriter.NexusFileMetadata.EntryTypes;
+import gda.data.scan.datawriter.NexusFileMetadata.NXinstrumentSubTypes;
 import gda.device.Monitor;
 import gda.device.Scannable;
 import gda.device.detector.StripDetector;
@@ -74,7 +78,6 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 	private DoubleDataset itDarkData;
 	private DoubleDataset i0Data;
 	private DoubleDataset itData;
-
 
 	/**
 	 * Use when the I0 and It timing parameters are different.
@@ -159,16 +162,19 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 			if (source.equals(i0DarkScan)) {
 				energyData = new DoubleDataset(theDetector.getEnergyForChannels());
 				i0DarkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
-				controller.update(i0DarkScan, new EdeExperimentProgressBean(progress, EdeExperiment.I0_DARK_COLUMN_NAME, i0DarkData, energyData));
+				controller.update(i0DarkScan, new EdeExperimentProgressBean(progress,
+						EdeExperiment.I0_DARK_COLUMN_NAME, i0DarkData, energyData));
 			}
 			if (source.equals(itDarkScan)) {
 				itDarkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), itDarkScan, 0);
-				controller.update(itDarkScan, new EdeExperimentProgressBean(progress, EdeExperiment.IT_DARK_COLUMN_NAME, itDarkData, energyData));
+				controller.update(itDarkScan, new EdeExperimentProgressBean(progress,
+						EdeExperiment.IT_DARK_COLUMN_NAME, itDarkData, energyData));
 			}
 			if (source.equals(i0InitialScan)) {
 				i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, 0);
 				i0Data = i0Data.isubtract(i0DarkData);
-				controller.update(i0InitialScan, new EdeExperimentProgressBean(progress, EdeExperiment.I0_CORR_COLUMN_NAME, i0Data, energyData));
+				controller.update(i0InitialScan, new EdeExperimentProgressBean(progress,
+						EdeExperiment.I0_CORR_COLUMN_NAME, i0Data, energyData));
 			}
 			if (source.equals(itScan)) {
 				itData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), itScan, 0);
@@ -177,9 +183,11 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 				} else {
 					itData = itData.isubtract(i0DarkData);
 				}
-				controller.update(itScan, new EdeExperimentProgressBean(progress, EdeExperiment.IT_CORR_COLUMN_NAME, itData, energyData));
+				controller.update(itScan, new EdeExperimentProgressBean(progress, EdeExperiment.IT_CORR_COLUMN_NAME,
+						itData, energyData));
 				DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(itData, i0Data);
-				controller.update(itScan, new EdeExperimentProgressBean(progress, EdeExperiment.LN_I0_IT_COLUMN_NAME, normalisedIt, energyData));
+				controller.update(itScan, new EdeExperimentProgressBean(progress, EdeExperiment.LN_I0_IT_COLUMN_NAME,
+						normalisedIt, energyData));
 			}
 		}
 	}
@@ -187,11 +195,13 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 	private void runScans() throws Exception {
 		ScanPlotSettings plotNothing = new ScanPlotSettings();
 		plotNothing.setUnlistedColumnBehaviour(ScanPlotSettings.IGNORE);
+		plotNothing.setYAxesShown(new String[]{});
+		plotNothing.setYAxesNotShown(new String[]{});
 
 		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 1, shutter2);
 		i0DarkScan.setProgressUpdater(this);
 		i0DarkScan.setScanPlotSettings(plotNothing);
-		
+
 		if (runItDark) {
 			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector, 1, shutter2);
 		} else {
@@ -203,7 +213,7 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, shutter2);
 		i0InitialScan.setProgressUpdater(this);
 		i0InitialScan.setScanPlotSettings(plotNothing);
-		
+
 		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, shutter2);
 		itScan.setProgressUpdater(this);
 		itScan.setScanPlotSettings(plotNothing);
@@ -216,10 +226,26 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 		theScans.add(i0InitialScan);
 		theScans.add(itScan);
 
-		MultiScan theScan = new MultiScan(theScans);
-		pauseForToup();
-		logger.debug("EDE single experiment starting its multiscan...");
-		theScan.runScan();
+		try {
+			String header = "i0Dark: " + i0DarkScan.getHeaderDescription() + "\n";
+			if (runItDark) {
+				header += "itDark: " + itDarkScan.getHeaderDescription() + "\n";
+			}
+			header += "i0InitialScan: " + i0InitialScan.getHeaderDescription() + "\n";
+			header += "itScan: " + itScan.getHeaderDescription() + "\n";
+
+			NexusFileMetadata metadata = new NexusFileMetadata(theDetector.getName() + "_settings", header, EntryTypes.NXinstrument,
+					NXinstrumentSubTypes.NXdetector, theDetector.getName()+ "_settings");
+			NexusExtraMetadataDataWriter.addMetadataEntry(metadata);
+
+			MultiScan theScan = new MultiScan(theScans);
+			theScan.setScanPlotSettings(plotNothing);
+			pauseForToup();
+			logger.debug("EDE single experiment starting its multiscan...");
+			theScan.runScan();
+		} finally {
+			NexusExtraMetadataDataWriter.removeAllMetadataEntries();
+		}
 	}
 
 	private void pauseForToup() throws Exception {
