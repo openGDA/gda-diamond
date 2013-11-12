@@ -61,7 +61,7 @@ public class DataHelper {
 		return stringBuilder.toString();
 	}
 
-	private static void remoteLastComma(StringBuilder stringBuilder) {
+	public static void remoteLastComma(StringBuilder stringBuilder) {
 		stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
 	}
 

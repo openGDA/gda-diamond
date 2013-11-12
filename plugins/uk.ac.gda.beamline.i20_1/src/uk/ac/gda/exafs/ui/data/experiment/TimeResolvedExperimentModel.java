@@ -49,7 +49,6 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
-import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel.TimingGroupTimeBarRowModel;
@@ -278,10 +277,10 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				DetectorModel.TOPUP_CHECKER,
 				TIMING_GROUPS_OBJ_NAME,
 				DetectorModel.SHUTTER_NAME,
-				SingleSpectrumModel.INSTANCE.getiTxPosition(),
-				SingleSpectrumModel.INSTANCE.getiTxPosition(),
-				SingleSpectrumModel.INSTANCE.getI0xPosition(),
-				SingleSpectrumModel.INSTANCE.getI0xPosition()
+				0.0,
+				0.0,
+				0.0,
+				0.0
 				);
 	}
 
@@ -424,6 +423,12 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	public boolean isScanning() {
 		return scanning;
+	}
+
+	public void doStop() {
+		if (this.isScanning()) {
+			JythonServerFacade.getInstance().haltCurrentScan();
+		}
 	}
 
 	public SpectrumModel getCurrentScanningSpectrum() {

@@ -18,10 +18,7 @@
 
 package uk.ac.gda.exafs.data;
 
-import gda.device.Scannable;
-import gda.device.scannable.AlignmentStage;
 import gda.device.scannable.AlignmentStageScannable;
-import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.Jython;
@@ -51,13 +48,17 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.exafs.ui.data.UIHelper;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentMotorPostion;
+import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors;
 
 import com.google.gson.annotations.Expose;
 
-public class SingleSpectrumModel extends ObservableModel {
-	public static final SingleSpectrumModel INSTANCE = new SingleSpectrumModel(0);
+public class SingleSpectrumUIModel extends ObservableModel {
 
-	private static final Logger logger = LoggerFactory.getLogger(SingleSpectrumModel.class);
+	public static final SingleSpectrumUIModel INSTANCE = new SingleSpectrumUIModel(0);
+
+	private static final Logger logger = LoggerFactory.getLogger(SingleSpectrumUIModel.class);
+
 
 	public static final String I0_X_POSITION_PROP_NAME = "i0xPosition";
 	private double i0xPosition;
@@ -70,6 +71,41 @@ public class SingleSpectrumModel extends ObservableModel {
 
 	public static final String IT_Y_POSITION_PROP_NAME = "iTyPosition";
 	private double iTyPosition;
+
+	public double getiTxPosition() {
+		return iTxPosition;
+	}
+
+	public void setiTxPosition(double value) {
+		firePropertyChange(IT_X_POSITION_PROP_NAME, iTxPosition, iTxPosition = value);
+	}
+
+	public double getiTyPosition() {
+		return iTyPosition;
+	}
+
+	public void setiTyPosition(double value) {
+		firePropertyChange(IT_Y_POSITION_PROP_NAME, iTyPosition, iTyPosition = value);
+	}
+
+	public double getI0xPosition() {
+		return i0xPosition;
+	}
+
+	public void setI0xPosition(double value) {
+		firePropertyChange(I0_X_POSITION_PROP_NAME, i0xPosition, i0xPosition = value);
+	}
+
+	public double getI0yPosition() {
+		return i0yPosition;
+	}
+
+	public void setI0yPosition(double value) {
+		firePropertyChange(I0_Y_POSITION_PROP_NAME, i0yPosition, i0yPosition = value);
+	}
+
+	private final AlignmentStageScannable.Location holeLocationForAlignment = new AlignmentStageScannable.Location();
+	private final AlignmentStageScannable.Location foilLocationForAlignment = new AlignmentStageScannable.Location();
 
 	public static final String I0_INTEGRATION_TIME_PROP_NAME = "i0IntegrationTime";
 	@Expose
@@ -86,6 +122,10 @@ public class SingleSpectrumModel extends ObservableModel {
 	public static final String IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME = "itNumberOfAccumulations";
 	@Expose
 	private int itNumberOfAccumulations;
+
+	public static final String ALIGNMENT_STAGE_SELECTION = "selectAlignmentStage";
+	@Expose
+	private boolean selectAlignmentStage;
 
 	public static final String FILE_NAME_PROP_NAME = "fileName";
 	private String fileName;
@@ -105,18 +145,9 @@ public class SingleSpectrumModel extends ObservableModel {
 
 	private static final String SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY = "SINGLE_SPECTRUM_DATA";
 
-	private SingleSpectrumModel(@SuppressWarnings("unused") int dummy) {
-		Scannable scannable = Finder.getInstance().find("alignment_stage");
-		if (scannable != null && scannable instanceof AlignmentStage) {
-			AlignmentStage alignmentStageScannable = (AlignmentStage) scannable;
-			AlignmentStageDevice hole = alignmentStageScannable.getAlignmentStageDevice(AlignmentStageScannable.AlignmentStageDevice.hole.name());
-			this.setI0xPosition(hole.getLocation().getxPosition());
-			this.setI0yPosition(hole.getLocation().getyPosition());
+	private final SampleStageMotors sampleStageMotors = new SampleStageMotors();
 
-			AlignmentStageDevice foil = alignmentStageScannable.getAlignmentStageDevice(AlignmentStageScannable.AlignmentStageDevice.hole.name());
-			this.setiTxPosition(foil.getLocation().getxPosition());
-			this.setiTyPosition(foil.getLocation().getyPosition());
-		}
+	private SingleSpectrumUIModel(@SuppressWarnings("unused") int dummy) {
 		job = new ScanJob("Performing Single spectrum scan");
 		((IObservable) Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(job);
 		InterfaceProvider.getJSFObserver().addIObserver(job);
@@ -125,12 +156,12 @@ public class SingleSpectrumModel extends ObservableModel {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getNewValue() != null) {
-					SingleSpectrumModel.this.setCurrentElement(((Element) evt.getNewValue()).getSymbol());
+					SingleSpectrumUIModel.this.setCurrentElement(((Element) evt.getNewValue()).getSymbol());
 				}
 			}
 		});
 		if (AlignmentParametersModel.INSTANCE.getElement() != null) {
-			SingleSpectrumModel.this.setCurrentElement(AlignmentParametersModel.INSTANCE.getElement().getSymbol());
+			SingleSpectrumUIModel.this.setCurrentElement(AlignmentParametersModel.INSTANCE.getElement().getSymbol());
 		}
 		loadSingleSpectrumData();
 		this.addPropertyChangeListener(new PropertyChangeListener() {
@@ -148,14 +179,17 @@ public class SingleSpectrumModel extends ObservableModel {
 	}
 
 	private void loadSingleSpectrumData() {
-		SingleSpectrumModel test = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, SingleSpectrumModel.class);
-		if (test == null) {
+		SingleSpectrumUIModel singleSpectrumData = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, SingleSpectrumUIModel.class);
+		if (singleSpectrumData == null) {
 			return;
 		}
-		this.setI0IntegrationTime(test.getI0IntegrationTime());
-		this.setI0NumberOfAccumulations(test.getI0NumberOfAccumulations());
-		this.setItIntegrationTime(test.getItIntegrationTime());
-		this.setItNumberOfAccumulations(test.getItNumberOfAccumulations());
+		this.setI0IntegrationTime(singleSpectrumData.getI0IntegrationTime());
+		this.setI0NumberOfAccumulations(singleSpectrumData.getI0NumberOfAccumulations());
+		this.setItIntegrationTime(singleSpectrumData.getItIntegrationTime());
+		this.setItNumberOfAccumulations(singleSpectrumData.getItNumberOfAccumulations());
+
+		// TODO For now just load sample_x and sample_y by default
+		this.getSampleStageMotors().setSelectedMotors(new ExperimentMotorPostion[] {SampleStageMotors.scannables[0], SampleStageMotors.scannables[1]});
 	}
 
 	private void saveSingleSpectrumData() {
@@ -175,8 +209,8 @@ public class SingleSpectrumModel extends ObservableModel {
 				itNumberOfAccumulations,
 				fileTemplate,
 				DetectorModel.SHUTTER_NAME,
-				iTxPosition, iTyPosition,
-				i0xPosition, i0yPosition);
+				0.0, 0.0,
+				0.0, 0.0);
 	}
 
 	private static enum ScanJobName {
@@ -194,10 +228,6 @@ public class SingleSpectrumModel extends ObservableModel {
 		}
 	}
 
-	public void setCurrentElement(String elementSymbol) {
-		fileTemplate = elementSymbol + "_cal_%s";
-	}
-
 	private class ScanJob extends Job implements IObserver {
 		private IProgressMonitor monitor;
 		private ScanJobName scanJobName;
@@ -210,13 +240,13 @@ public class SingleSpectrumModel extends ObservableModel {
 		public void update(Object source, Object arg) {
 			if (arg instanceof JythonServerStatus) {
 				JythonServerStatus status = (JythonServerStatus) arg;
-				if (SingleSpectrumModel.this.isScanning() && Jython.RUNNING == status.scanStatus) {
+				if (SingleSpectrumUIModel.this.isScanning() && Jython.RUNNING == status.scanStatus) {
 					monitor.subTask(scanJobName.getText());
 					if (scanJobName.ordinal() <  ScanJobName.values().length - 1) {
 						scanJobName = ScanJobName.values()[scanJobName.ordinal() + 1];
 					}
 				}
-				if (SingleSpectrumModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
+				if (SingleSpectrumUIModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
 					monitor.worked(1);
 				}
 			} else if (arg instanceof EdeExperimentProgressBean) {
@@ -259,7 +289,7 @@ public class SingleSpectrumModel extends ObservableModel {
 			Display.getDefault().syncExec(new Runnable() {
 				@Override
 				public void run() {
-					SingleSpectrumModel.this.setScanning(true);
+					SingleSpectrumUIModel.this.setScanning(true);
 				}
 			});
 			monitor.beginTask("Starting " + ScanJobName.values().length + " tasks.", ScanJobName.values().length);
@@ -277,7 +307,7 @@ public class SingleSpectrumModel extends ObservableModel {
 					@Override
 					public void run() {
 						try {
-							SingleSpectrumModel.this.setFileName(resultFileName);
+							SingleSpectrumUIModel.this.setFileName(resultFileName);
 						} catch (Exception e) {
 							UIHelper.showWarning("Error while loading data from saved file", e.getMessage());
 						}
@@ -290,7 +320,7 @@ public class SingleSpectrumModel extends ObservableModel {
 			Display.getDefault().syncExec(new Runnable() {
 				@Override
 				public void run() {
-					SingleSpectrumModel.this.setScanning(false);
+					SingleSpectrumUIModel.this.setScanning(false);
 				}
 			});
 			return Status.OK_STATUS;
@@ -309,6 +339,19 @@ public class SingleSpectrumModel extends ObservableModel {
 		job.schedule();
 	}
 
+	public void setCurrentElement(String elementSymbol) {
+		fileTemplate = elementSymbol + "_cal_%s";
+	}
+
+
+	public boolean isSelectAlignmentStage() {
+		return selectAlignmentStage;
+	}
+
+	public void setSelectAlignmentStage(boolean selectAlignmentStage) {
+		this.firePropertyChange(ALIGNMENT_STAGE_SELECTION, this.selectAlignmentStage, this.selectAlignmentStage = selectAlignmentStage);
+	}
+
 	public void setFileName(String value) {
 		firePropertyChange(FILE_NAME_PROP_NAME, fileName, fileName = value);
 	}
@@ -317,28 +360,16 @@ public class SingleSpectrumModel extends ObservableModel {
 		return fileName;
 	}
 
+	public SampleStageMotors getSampleStageMotors() {
+		return sampleStageMotors;
+	}
+
 	public boolean isScanning() {
 		return scanning;
 	}
 
 	protected void setScanning(boolean value) {
 		this.firePropertyChange(SCANNING_PROP_NAME, scanning, scanning = value);
-	}
-
-	public double getI0xPosition() {
-		return i0xPosition;
-	}
-
-	public void setI0xPosition(double value) {
-		firePropertyChange(I0_X_POSITION_PROP_NAME, i0xPosition, i0xPosition = value);
-	}
-
-	public double getI0yPosition() {
-		return i0yPosition;
-	}
-
-	public void setI0yPosition(double value) {
-		firePropertyChange(I0_Y_POSITION_PROP_NAME, i0yPosition, i0yPosition = value);
 	}
 
 	public double getI0IntegrationTime() {
@@ -373,22 +404,6 @@ public class SingleSpectrumModel extends ObservableModel {
 		firePropertyChange(IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME, itNumberOfAccumulations, itNumberOfAccumulations = value);
 	}
 
-	public double getiTxPosition() {
-		return iTxPosition;
-	}
-
-	public void setiTxPosition(double value) {
-		firePropertyChange(IT_X_POSITION_PROP_NAME, iTxPosition, iTxPosition = value);
-	}
-
-	public double getiTyPosition() {
-		return iTyPosition;
-	}
-
-	public void setiTyPosition(double value) {
-		firePropertyChange(IT_Y_POSITION_PROP_NAME, iTyPosition, iTyPosition = value);
-	}
-
 	public double getiRefxPosition() {
 		return iRefxPosition;
 	}
@@ -403,6 +418,14 @@ public class SingleSpectrumModel extends ObservableModel {
 
 	public void setiRefyPosition(double value) {
 		firePropertyChange(IREF_Y_POSITION_PROP_NAME, iRefyPosition, iRefyPosition = value);
+	}
+
+	public AlignmentStageScannable.Location getHoleLocationForAlignment() {
+		return holeLocationForAlignment;
+	}
+
+	public AlignmentStageScannable.Location getFoilLocationForAlignment() {
+		return foilLocationForAlignment;
 	}
 
 	public void save() throws DetectorUnavailableException {

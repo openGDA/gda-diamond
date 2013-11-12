@@ -72,7 +72,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
-import uk.ac.gda.exafs.data.SingleSpectrumModel;
+import uk.ac.gda.exafs.data.SingleSpectrumUIModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl2;
 import uk.ac.gda.exafs.ui.data.UIHelper;
@@ -528,12 +528,12 @@ public class TimeResolvedExperimentView extends ViewPart {
 		Label lbl = toolkit.createLabel(sectionComposite, "I0 position", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		createSamplePositionComposite(sectionComposite, SingleSpectrumModel.I0_X_POSITION_PROP_NAME, SingleSpectrumModel.I0_Y_POSITION_PROP_NAME);
+		createSamplePositionComposite(sectionComposite, SingleSpectrumUIModel.I0_X_POSITION_PROP_NAME, SingleSpectrumUIModel.I0_Y_POSITION_PROP_NAME);
 
 		lbl = toolkit.createLabel(sectionComposite, "It position", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		createSamplePositionComposite(sectionComposite, SingleSpectrumModel.IT_X_POSITION_PROP_NAME, SingleSpectrumModel.IT_Y_POSITION_PROP_NAME);
+		createSamplePositionComposite(sectionComposite, SingleSpectrumUIModel.IT_X_POSITION_PROP_NAME, SingleSpectrumUIModel.IT_Y_POSITION_PROP_NAME);
 
 		// Iref
 
@@ -554,7 +554,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		Label xPosLabel = toolkit.createLabel(xPositionComposite, "x", SWT.None);
 		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		final NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, SingleSpectrumModel.INSTANCE, SingleSpectrumModel.IREF_X_POSITION_PROP_NAME, false);
+		final NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, SingleSpectrumUIModel.IREF_X_POSITION_PROP_NAME, false);
 		xPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		xPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
 		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -567,7 +567,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		Label yPosLabel = toolkit.createLabel(yPositionComposite, "y", SWT.None);
 		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		final NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, SingleSpectrumModel.INSTANCE, SingleSpectrumModel.IREF_Y_POSITION_PROP_NAME, false);
+		final NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, SingleSpectrumUIModel.IREF_Y_POSITION_PROP_NAME, false);
 		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		yPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
 		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -624,7 +624,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				SingleSpectrumModel.INSTANCE.doStop();
+				TimeResolvedExperimentModel.INSTANCE.doStop();
 			}
 		});
 
@@ -647,7 +647,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		Label xPosLabel = toolkit.createLabel(xPositionComposite, "x", SWT.None);
 		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		final NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, SingleSpectrumModel.INSTANCE, xPropName, false);
+		final NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, xPropName, false);
 		xPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		xPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
 		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -660,7 +660,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		Label yPosLabel = toolkit.createLabel(yPositionComposite, "y", SWT.None);
 		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		final NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, SingleSpectrumModel.INSTANCE, yPropName, false);
+		final NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, yPropName, false);
 		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		yPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
 		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));

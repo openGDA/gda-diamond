@@ -112,6 +112,11 @@ public class ClientConfig {
 		SAMPLE_Z_POSITION("Sample z", "sample_z", UnitSetup.MILLI_METER),
 		SAMPLE_X_POSITION("Sample x", "sample_x", UnitSetup.MILLI_METER),
 		SAMPLE_Y_POSITION("Sample y", "sample_y", UnitSetup.MILLI_METER),
+		SAMPLE_TOP_X_POSITION("Sample top x", "sample_finex", UnitSetup.MILLI_METER),
+		SAMPLE_TOP_Y_POSITION("Sample top y", "sample_finey", UnitSetup.MILLI_METER),
+		SAMPLE_TOP_Z_POSITION("Sample top z", "sample_finez", UnitSetup.MILLI_METER),
+		SAMPLE_PITCH_POSITION("Sample pitch", "sample_pitch", UnitSetup.MILLI_METER),
+		SAMPLE_ROLL_POSITION("Sample roll", "sample_roll", UnitSetup.MILLI_METER),
 
 		SLIT_1_HORIZONAL_GAP("Primary slit hgap", "s1_hgap", UnitSetup.MILLI_RADIAN),
 

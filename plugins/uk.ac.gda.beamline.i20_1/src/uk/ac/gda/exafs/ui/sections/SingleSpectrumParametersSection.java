@@ -54,7 +54,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
-import uk.ac.gda.exafs.data.SingleSpectrumModel;
+import uk.ac.gda.exafs.data.SingleSpectrumUIModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
@@ -111,6 +111,7 @@ public class SingleSpectrumParametersSection {
 		cmbLastStripViewer.setLabelProvider(new LabelProvider());
 		cmbLastStripViewer.setInput(XHDetector.getStrips());
 
+		// TODO Remove listener when dispose!
 		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -157,7 +158,7 @@ public class SingleSpectrumParametersSection {
 		Label i0IntegrationTimeLabel = toolkit.createLabel(acquisitionSettingsComposite, "I0 Integration time");
 		i0IntegrationTimeLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		NumberEditorControl i0IntegrationTimeText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, SingleSpectrumModel.INSTANCE, SingleSpectrumModel.I0_INTEGRATION_TIME_PROP_NAME, true);
+		NumberEditorControl i0IntegrationTimeText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, SingleSpectrumUIModel.I0_INTEGRATION_TIME_PROP_NAME, true);
 		i0IntegrationTimeText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		i0IntegrationTimeText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
 		i0IntegrationTimeText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -165,13 +166,13 @@ public class SingleSpectrumParametersSection {
 		Label i0NoOfAccumulationLabel = toolkit.createLabel(acquisitionSettingsComposite, "I0 Number of accumulations");
 		i0NoOfAccumulationLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		NumberEditorControl i0NoOfAccumulationText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, SingleSpectrumModel.INSTANCE, SingleSpectrumModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
+		NumberEditorControl i0NoOfAccumulationText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, SingleSpectrumUIModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
 		i0NoOfAccumulationText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Label itIntegrationTimeLabel = toolkit.createLabel(acquisitionSettingsComposite, "It Integration time");
 		itIntegrationTimeLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		NumberEditorControl itIntegrationTimeText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, SingleSpectrumModel.INSTANCE, SingleSpectrumModel.IT_INTEGRATION_TIME_PROP_NAME, true);
+		NumberEditorControl itIntegrationTimeText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, SingleSpectrumUIModel.IT_INTEGRATION_TIME_PROP_NAME, true);
 		itIntegrationTimeText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		itIntegrationTimeText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
 		itIntegrationTimeText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -179,7 +180,7 @@ public class SingleSpectrumParametersSection {
 		Label itNoOfAccumulationLabel = toolkit.createLabel(acquisitionSettingsComposite, "It Number of accumulations");
 		itNoOfAccumulationLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		NumberEditorControl itNoOfAccumulationText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, SingleSpectrumModel.INSTANCE, SingleSpectrumModel.IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
+		NumberEditorControl itNoOfAccumulationText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, SingleSpectrumUIModel.IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
 		itNoOfAccumulationText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Composite acquisitionSettingsFileNameComposite = new Composite(sectionComposite, SWT.NONE);
@@ -192,7 +193,7 @@ public class SingleSpectrumParametersSection {
 
 		Text fileNameText = toolkit.createText(acquisitionSettingsFileNameComposite, "", SWT.None);
 		fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		dataBindingCtx.bindValue(WidgetProperties.text().observe(fileNameText), BeanProperties.value(SingleSpectrumModel.FILE_NAME_PROP_NAME).observe(SingleSpectrumModel.INSTANCE));
+		dataBindingCtx.bindValue(WidgetProperties.text().observe(fileNameText), BeanProperties.value(SingleSpectrumUIModel.FILE_NAME_PROP_NAME).observe(SingleSpectrumUIModel.INSTANCE));
 		fileNameText.setEditable(false);
 
 		Composite acquisitionButtonsComposite = new Composite(sectionComposite, SWT.NONE);
@@ -207,7 +208,7 @@ public class SingleSpectrumParametersSection {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					SingleSpectrumModel.INSTANCE.doCollection();
+					SingleSpectrumUIModel.INSTANCE.doCollection();
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 					logger.error("Unable to scan", e);
@@ -217,7 +218,7 @@ public class SingleSpectrumParametersSection {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(startAcquicitionButton),
-				BeanProperties.value(SingleSpectrumModel.SCANNING_PROP_NAME).observe(SingleSpectrumModel.INSTANCE),
+				BeanProperties.value(SingleSpectrumUIModel.SCANNING_PROP_NAME).observe(SingleSpectrumUIModel.INSTANCE),
 				null,
 				new UpdateValueStrategy() {
 					@Override
@@ -232,49 +233,17 @@ public class SingleSpectrumParametersSection {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(stopAcquicitionButton),
-				BeanProperties.value(SingleSpectrumModel.SCANNING_PROP_NAME).observe(SingleSpectrumModel.INSTANCE));
+				BeanProperties.value(SingleSpectrumUIModel.SCANNING_PROP_NAME).observe(SingleSpectrumUIModel.INSTANCE));
 		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				SingleSpectrumModel.INSTANCE.doStop();
+				SingleSpectrumUIModel.INSTANCE.doStop();
 			}
 		});
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(section),
 				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
-
-		//		SingleSpectrumModel.INSTANCE.addPropertyChangeListener(SingleSpectrumModel.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
-		//			@Override
-		//			public void propertyChange(PropertyChangeEvent evt) {
-		//				Object value = evt.getNewValue();
-		//				if (value == null) {
-		//					return;
-		//				}
-		//				String fileName = (String) value;
-		//				File file = new File(fileName);
-		//				if (file.exists() && file.canRead()) {
-		//					try {
-		//						final IWorkbenchPage page = PlatformUI.getWorkbench()
-		//								.getActiveWorkbenchWindow().getActivePage();
-		//						LivePlotView part = (LivePlotView) page.findView(LivePlotView.ID);
-		//						if (part == null) {
-		//							part = (LivePlotView) page.showView(LivePlotView.ID);
-		//						}
-		//						List<String> dataSet = new ArrayList<String>();
-		//						dataSet.add("#" + EdeAsciiFileWriter.STRIP_COLUMN_NAME);
-		//						dataSet.add(EdeAsciiFileWriter.I0_DARK_COLUMN_NAME);
-		//						dataSet.add(EdeAsciiFileWriter.IT_DARK_COLUMN_NAME);
-		//						dataSet.add(EdeAsciiFileWriter.I0_CORR_COLUMN_NAME);
-		//						dataSet.add(EdeAsciiFileWriter.IT_CORR_COLUMN_NAME);
-		//						dataSet.add(EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME);
-		//						part.openFile(file.getPath(), dataSet, null);
-		//					} catch (Exception e) {
-		//						UIHelper.showError("Unable to plot the data", e.getMessage());
-		//					}
-		//				}
-		//			}
-		//		});
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(defaultSectionSeparator);
