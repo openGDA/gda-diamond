@@ -14,9 +14,6 @@
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
-	<!-- Meta Data File -->
-	<import resource="metadata.xml"/>
-
 	<!--  GDA configuration split up by part type with the rest being in core -->
 	<import resource="I10-core.xml" />
 	<import resource="scannable/all-scannables.xml"/>

@@ -24,12 +24,13 @@
 	</bean>
 
 	<import resource="I10-epics-objects.xml"/>
+	<import resource="metadata.xml"/>
 	<import resource="device/all-live.xml"/>
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/i10-shared/servers/main/live/device/all-live.xml"/>
 	<import resource="transient/all-live.xml"/>
 	<import resource="../common/server.xml"/>
 
-	<corba:export namespace="i10server" />
+	<corba:export namespace="${gda.factory.factoryName}" />
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 </beans>

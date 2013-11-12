@@ -23,14 +23,13 @@
 		</property>
 	</bean>
 
+	<import resource="metadata.xml"/>
 	<import resource="device/all-dummy.xml"/>
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/i10-shared/servers/main/dummy/device/all-dummy.xml"/>
 
 	<import resource="../common/server.xml"/>
 
 	<!-- corba:export not needed in dummy -->
-	<!-- <corba:export namespace="i10_local" /> -->
 
 	<!-- SingletonRegistrationPostProcessor not needed in dummy-->
-	<!-- <bean class="gda.spring.SingletonRegistrationPostProcessor" /> -->
 </beans>
