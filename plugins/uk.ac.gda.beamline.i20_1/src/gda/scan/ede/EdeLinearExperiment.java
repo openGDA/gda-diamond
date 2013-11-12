@@ -69,6 +69,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	private EdeScan iRefScan;
 	private EdeScan itScan;
 	private EdeScan i0FinalScan;
+	private EdeScan iRefFinalScan;
 	private EdeLinearExperimentAsciiFileWriter writer;
 	private final DoubleDataset energyData;
 	private final Scannable shutter2;
@@ -187,6 +188,9 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, shutter2);
 		itScan.setProgressUpdater(this);
 		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, shutter2);
+		if (iRefPosition != null){
+			iRefFinalScan = new EdeScan(i0ScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, shutter2);
+		}
 
 		List<ScanBase> theScans = new Vector<ScanBase>();
 		theScans.add(i0DarkScan);
@@ -196,6 +200,9 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		}
 		theScans.add(itScan);
 		theScans.add(i0FinalScan);
+		if (iRefPosition != null){
+			theScans.add(iRefFinalScan);
+		}
 
 		try {
 			addDetectorSettingsToMetadata();
