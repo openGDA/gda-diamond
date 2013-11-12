@@ -227,16 +227,7 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 		theScans.add(itScan);
 
 		try {
-			String header = "i0Dark: " + i0DarkScan.getHeaderDescription() + "\n";
-			if (runItDark) {
-				header += "itDark: " + itDarkScan.getHeaderDescription() + "\n";
-			}
-			header += "i0InitialScan: " + i0InitialScan.getHeaderDescription() + "\n";
-			header += "itScan: " + itScan.getHeaderDescription() + "\n";
-
-			NexusFileMetadata metadata = new NexusFileMetadata(theDetector.getName() + "_settings", header, EntryTypes.NXinstrument,
-					NXinstrumentSubTypes.NXdetector, theDetector.getName()+ "_settings");
-			NexusExtraMetadataDataWriter.addMetadataEntry(metadata);
+			addDetectorSettingsToMetadata();
 
 			MultiScan theScan = new MultiScan(theScans);
 			theScan.setScanPlotSettings(plotNothing);
@@ -246,6 +237,19 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 		} finally {
 			NexusExtraMetadataDataWriter.removeAllMetadataEntries();
 		}
+	}
+
+	private void addDetectorSettingsToMetadata() {
+		String header = "i0Dark: " + i0DarkScan.getHeaderDescription() + "\n";
+		if (runItDark) {
+			header += "itDark: " + itDarkScan.getHeaderDescription() + "\n";
+		}
+		header += "i0InitialScan: " + i0InitialScan.getHeaderDescription() + "\n";
+		header += "itScan: " + itScan.getHeaderDescription() + "\n";
+
+		NexusFileMetadata metadata = new NexusFileMetadata(theDetector.getName() + "_settings", header, EntryTypes.NXinstrument,
+				NXinstrumentSubTypes.NXdetector, theDetector.getName()+ "_settings");
+		NexusExtraMetadataDataWriter.addMetadataEntry(metadata);
 	}
 
 	private void pauseForToup() throws Exception {

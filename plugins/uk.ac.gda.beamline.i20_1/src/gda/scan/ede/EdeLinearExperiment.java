@@ -18,6 +18,10 @@
 
 package gda.scan.ede;
 
+import gda.data.scan.datawriter.NexusExtraMetadataDataWriter;
+import gda.data.scan.datawriter.NexusFileMetadata;
+import gda.data.scan.datawriter.NexusFileMetadata.EntryTypes;
+import gda.data.scan.datawriter.NexusFileMetadata.NXinstrumentSubTypes;
 import gda.device.Monitor;
 import gda.device.Scannable;
 import gda.device.detector.StripDetector;
@@ -193,10 +197,29 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		theScans.add(itScan);
 		theScans.add(i0FinalScan);
 
-		MultiScan theScan = new MultiScan(theScans);
-		pauseForToup();
-		logger.debug("EDE linear experiment starting its multiscan...");
-		theScan.runScan();
+		try {
+			addDetectorSettingsToMetadata();
+
+			MultiScan theScan = new MultiScan(theScans);
+			pauseForToup();
+			logger.debug("EDE linear experiment starting its multiscan...");
+			theScan.runScan();
+		} finally {
+			NexusExtraMetadataDataWriter.removeAllMetadataEntries();
+		}
+	}
+
+	private void addDetectorSettingsToMetadata() {
+		String header = "i0Dark: " + i0DarkScan.getHeaderDescription() + "\n";
+		header += "i0InitialScan: " + i0InitialScan.getHeaderDescription() + "\n";
+		if (iRefScan != null) {
+			header += "iRefScan: " + iRefScan.getHeaderDescription() + "\n";
+		}
+		header += "itScan: " + itScan.getHeaderDescription() + "\n";
+
+		NexusFileMetadata metadata = new NexusFileMetadata(theDetector.getName() + "_settings", header,
+				EntryTypes.NXinstrument, NXinstrumentSubTypes.NXdetector, theDetector.getName() + "_settings");
+		NexusExtraMetadataDataWriter.addMetadataEntry(metadata);
 	}
 
 	private String writeAsciiFile() throws Exception {
