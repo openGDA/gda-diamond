@@ -34,7 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.ClientConfig;
-import uk.ac.gda.exafs.data.SingleSpectrumModel;
+import uk.ac.gda.exafs.data.SingleSpectrumUIModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.sections.SingleSpectrumParametersSection;
@@ -58,8 +58,8 @@ public class ExperimentSingleSpectrumView extends ViewPart {
 		form.setText("Single spectrum");
 		Composite formParent = form.getBody();
 		try {
-			createSamplePosition("I0 sample position", formParent, SingleSpectrumModel.I0_X_POSITION_PROP_NAME, SingleSpectrumModel.I0_Y_POSITION_PROP_NAME);
-			createSamplePosition("It sample position", formParent, SingleSpectrumModel.IT_X_POSITION_PROP_NAME, SingleSpectrumModel.IT_Y_POSITION_PROP_NAME);
+			createSamplePosition("I0 sample position", formParent, SingleSpectrumUIModel.I0_X_POSITION_PROP_NAME, SingleSpectrumUIModel.I0_Y_POSITION_PROP_NAME);
+			createSamplePosition("It sample position", formParent, SingleSpectrumUIModel.IT_X_POSITION_PROP_NAME, SingleSpectrumUIModel.IT_Y_POSITION_PROP_NAME);
 			SingleSpectrumParametersSection.INSTANCE.createEdeCalibrationSection(form, toolkit);
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
@@ -90,7 +90,7 @@ public class ExperimentSingleSpectrumView extends ViewPart {
 		Label xPosLabel = toolkit.createLabel(xPositionComposite, "X position", SWT.None);
 		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		final NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, SingleSpectrumModel.INSTANCE, xPostionPropName, false);
+		final NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, xPostionPropName, false);
 		xPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		xPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
 		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -103,7 +103,7 @@ public class ExperimentSingleSpectrumView extends ViewPart {
 		Label yPosLabel = toolkit.createLabel(yPositionComposite, "Y position", SWT.None);
 		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		final NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, SingleSpectrumModel.INSTANCE, yPostionPropName, false);
+		final NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, yPostionPropName, false);
 		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		yPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
 		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));

@@ -29,25 +29,13 @@ import gda.scan.ScanDataPoint;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
 public abstract class EdeAsciiFileWriter {
-
-	public static final String TIMINGGROUP_COLUMN_NAME = "Timing_Group";
-	public static final String FRAME_COLUMN_NAME = "Frame";
-	public static final String STRIP_COLUMN_NAME = "Strip";
-	public static final String ENERGY_COLUMN_NAME = "Energy";
-	public static final String I0_CORR_COLUMN_NAME = "I0_corr";
-	public static final String IT_CORR_COLUMN_NAME = "It_corr";
-	public static final String LN_I0_IT_COLUMN_NAME = "LnI0It";
-	public static final String LN_I0_IREF_COLUMN_NAME = "LnI0IRef";
-	public static final String I0_RAW_COLUMN_NAME = "I0_raw";
-	public static final String IT_RAW_COLUMN_NAME = "It_raw";
-	public static final String I0_DARK_COLUMN_NAME = "I0_dark";
-	public static final String IT_DARK_COLUMN_NAME = "It_dark";
 
 	public static final String ASCII_FILE_EXTENSION = ".dat";
 
@@ -98,6 +86,19 @@ public abstract class EdeAsciiFileWriter {
 		return new DoubleDataset(itNormaliseArray,itNormaliseArray.length);
 	}
 
+	public static DoubleDataset normaliseDatasset(DoubleDataset it, DoubleDataset i0) {
+
+		double[] itArray = it.getData();
+		double[] i0Array = i0.getData();
+		double[] itNormaliseArray = new double[itArray.length];
+
+		for (int channel = 0; channel < itNormaliseArray.length; channel++) {
+			itNormaliseArray[channel] = calcLnI0It(i0Array[channel],itArray[channel]);
+		}
+
+		return new DoubleDataset(itNormaliseArray,itNormaliseArray.length);
+
+	}
 	/**
 	 * Write out the ascii file of derived data based on the data collected.
 	 * 
@@ -127,5 +128,16 @@ public abstract class EdeAsciiFileWriter {
 	protected void log(String message) {
 		InterfaceProvider.getTerminalPrinter().print(message);
 		logger.info(message);
+	}
+
+	// TODO Check folder exist
+	public static String convertFromNextToAsciiFolder(String nexusFilePath) {
+		String nexusFolder = FilenameUtils.getFullPath(nexusFilePath);
+		int nexusLocation = nexusFolder.lastIndexOf("nexus");
+		if (nexusLocation != -1) {
+			String path = nexusFolder.substring(0, nexusLocation);
+			return path + "ascii/";
+		}
+		return nexusFolder;
 	}
 }

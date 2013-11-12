@@ -49,7 +49,6 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
-import uk.ac.gda.exafs.data.SingleSpectrumModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel.TimingGroupTimeBarRowModel;
@@ -70,6 +69,8 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	private static final double DEFAULT_INITIAL_EXPERIMENT_TIME = 20; // Should be > 0
 
 	private static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "TIME_RESOLVED_EXPERIMENT_DATA";
+
+	private static final String JYTHON_DRIVER_OBJ = "timeresolveddriver";
 
 	public static final String EXPERIMENT_DURATION_PROP_NAME = "experimentDuration";
 
@@ -200,6 +201,21 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		return groupList;
 	}
 
+	public void splitGroup(TimingGroupModel groupToSplit) {
+		double duration = groupToSplit.getDuration();
+		double endTime = groupToSplit.getEndTime();
+		double startTime = groupToSplit.getStartTime();
+		groupToSplit.resetInitialTime(startTime, duration / 2, 0, duration / 2);
+		TimingGroupModel newGroup = new TimingGroupModel(spectraRowModel, unit.getWorkingUnit());
+		newGroup.setName("Group " + (groupList.indexOf(groupToSplit) + 2));
+		newGroup.setIntegrationTime(1.0);
+		addToInternalGroupList(newGroup, groupList.indexOf(groupToSplit) + 1);
+		newGroup.resetInitialTime(groupToSplit.getEndTime(), endTime - groupToSplit.getEndTime(), 0, endTime - groupToSplit.getEndTime());
+		for (int i = groupList.indexOf(groupToSplit) + 1; i < groupList.size(); i++) {
+			((TimingGroupModel) groupList.get(i)).setName("Group " + (i + 1));
+		}
+	}
+
 	public TimingGroupModel addGroup() {
 		TimingGroupModel newGroup = new TimingGroupModel(spectraRowModel, unit.getWorkingUnit());
 		newGroup.setName("Group " + (groupList.size() + 1));
@@ -230,6 +246,11 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		groupList.add(newGroup);
 	}
 
+	private void addToInternalGroupList(TimingGroupModel newGroup, int index) {
+		newGroup.addPropertyChangeListener(groupPropertyChangeListener);
+		groupList.add(index, newGroup);
+	}
+
 	private void removeFromInternalGroupList(TimingGroupModel group) {
 		group.removePropertyChangeListener(groupPropertyChangeListener);
 		groupList.remove(group);
@@ -249,16 +270,17 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	private String buildScanCommand() {
 		return String.format("from gda.scan.ede.drivers import LinearExperimentDriver;" +
-				"scan_driver = LinearExperimentDriver(\"%s\",\"%s\",%s);" +
-				"scan_driver.setInBeamPosition(%f,%f);" +
-				"scan_driver.setOutBeamPosition(%f,%f)",
+				JYTHON_DRIVER_OBJ + " = LinearExperimentDriver(\"%s\",\"%s\",%s,%s);" +
+				JYTHON_DRIVER_OBJ + ".setInBeamPosition(%f,%f);" +
+				JYTHON_DRIVER_OBJ + ".setOutBeamPosition(%f,%f)",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
 				TIMING_GROUPS_OBJ_NAME,
-				SingleSpectrumModel.INSTANCE.getiTxPosition(),
-				SingleSpectrumModel.INSTANCE.getiTxPosition(),
-				SingleSpectrumModel.INSTANCE.getI0xPosition(),
-				SingleSpectrumModel.INSTANCE.getI0xPosition()
+				DetectorModel.SHUTTER_NAME,
+				0.0,
+				0.0,
+				0.0,
+				0.0
 				);
 	}
 
@@ -282,7 +304,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 			}
 			else if (arg instanceof EdeExperimentProgressBean) {
 				final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
-				currentNormalisedItData = edeExperimentProgress.getNormalisedIt();
+				currentNormalisedItData = edeExperimentProgress.getData();
 				currentNormalisedItData.setName("Normalised It");
 				currentEnergyData = edeExperimentProgress.getEnergyData();
 				currentEnergyData.setName("Energy");
@@ -356,7 +378,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 				// give the previous command a chance to run before calling doCollection()
 				Thread.sleep(50);
-				InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
+				InterfaceProvider.getCommandRunner().evaluateCommand(JYTHON_DRIVER_OBJ + ".doCollection()");
 			} catch (Exception e) {
 				UIHelper.showWarning("Scanning has stopped", e.getMessage());
 			}
@@ -401,6 +423,12 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	public boolean isScanning() {
 		return scanning;
+	}
+
+	public void doStop() {
+		if (this.isScanning()) {
+			JythonServerFacade.getInstance().haltCurrentScan();
+		}
 	}
 
 	public SpectrumModel getCurrentScanningSpectrum() {

@@ -23,9 +23,6 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dawnsci.plotting.api.IPlottingSystem;
-import org.dawnsci.plotting.api.PlotType;
-import org.dawnsci.plotting.api.PlottingFactory;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -36,6 +33,7 @@ import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
@@ -48,14 +46,12 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -63,6 +59,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -75,7 +72,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
-import uk.ac.gda.exafs.data.SingleSpectrumModel;
+import uk.ac.gda.exafs.data.SingleSpectrumUIModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl2;
 import uk.ac.gda.exafs.ui.data.UIHelper;
@@ -103,10 +100,10 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 	private static final long INITIAL_TIMEBAR_MARKER_IN_MILLI = 10L;
 
-	private static final int GROUP_TABLE_HEIGHT = 100;
+	private static final int GROUP_TABLE_HEIGHT = 120;
 	private static final int GROUP_TABLE_WIDTH = 100;
 
-	private IPlottingSystem plottingSystem;
+	//	private IPlottingSystem plottingSystem;
 	private TimeBarViewer timeBarViewer;
 	private FormToolkit toolkit;
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
@@ -137,16 +134,18 @@ public class TimeResolvedExperimentView extends ViewPart {
 		final SashForm parentComposite = new SashForm(parent, SWT.VERTICAL);
 		parentComposite.SASH_WIDTH = 7;
 
-		SashForm topPartComposite = new SashForm(parentComposite, SWT.HORIZONTAL);
-		topPartComposite.SASH_WIDTH = 7;
+		// TODO Until it is clear how to do, temporary removed the time resolved plot to determine groups
+
+		// SashForm topPartComposite = new SashForm(parentComposite, SWT.HORIZONTAL);
+		// topPartComposite.SASH_WIDTH = 7;
 
 		try {
-			createExperimentPropertiesComposite(topPartComposite);
-			createPlotComposite(topPartComposite);
+			createExperimentPropertiesComposite(parentComposite);
+			// createPlotComposite(topPartComposite);
 			createTimeBarComposite(parentComposite);
 			bind();
 			parentComposite.setWeights(new int[] {3, 1});
-			topPartComposite.setWeights(new int[] {3, 1});
+			// topPartComposite.setWeights(new int[] {3, 1});
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
@@ -222,7 +221,8 @@ public class TimeResolvedExperimentView extends ViewPart {
 		ScrolledForm scrolledform = toolkit.createScrolledForm(composite);
 		scrolledform.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		Form form = scrolledform.getForm();
-		form.getBody().setLayout(new GridLayout(2, true));
+		// Moved to single column
+		form.getBody().setLayout(new GridLayout(1, true));
 		toolkit.decorateFormHeading(form);
 		scrolledform.setText("Time-resolved studies");
 		createExperimentDetailsSection(form.getBody());
@@ -327,16 +327,20 @@ public class TimeResolvedExperimentView extends ViewPart {
 		viewerNumberColumn.getColumn().setText("Name");
 
 		viewerNumberColumn = new TableViewerColumn(groupsTableViewer, SWT.NONE);
-		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(2));
+		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
 		viewerNumberColumn.getColumn().setText("Start time");
 
 		viewerNumberColumn = new TableViewerColumn(groupsTableViewer, SWT.NONE);
-		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(2));
-		viewerNumberColumn.getColumn().setText("End Time");
+		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
+		viewerNumberColumn.getColumn().setText("End time");
 
 		viewerNumberColumn = new TableViewerColumn(groupsTableViewer, SWT.NONE);
 		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
-		viewerNumberColumn.getColumn().setText("Spectrums");
+		viewerNumberColumn.getColumn().setText("Time per Spectrum");
+
+		viewerNumberColumn = new TableViewerColumn(groupsTableViewer, SWT.NONE);
+		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
+		viewerNumberColumn.getColumn().setText("No. of Spectra");
 
 		ObservableListContentProvider contentProvider =
 				new ObservableListContentProvider();
@@ -350,9 +354,11 @@ public class TimeResolvedExperimentView extends ViewPart {
 				ExperimentTimingDataModel.START_TIME_PROP_NAME).observeDetail(knownElements);
 		final IObservableMap endTimes = BeanProperties.value(TimingGroupModel.class,
 				ExperimentTimingDataModel.END_TIME_PROP_NAME).observeDetail(knownElements);
+		final IObservableMap timePerSpectrum = BeanProperties.value(TimingGroupModel.class,
+				TimingGroupModel.TIME_PER_SPECTRUM_PROP_NAME).observeDetail(knownElements);
 		final IObservableMap noOfSpectrum = BeanProperties.value(TimingGroupModel.class,
 				TimingGroupModel.NO_OF_SPECTRUM_PROP_NAME).observeDetail(knownElements);
-		IObservableMap[] labelMaps = {names, startTimes, endTimes, noOfSpectrum};
+		IObservableMap[] labelMaps = {names, startTimes, endTimes, timePerSpectrum, noOfSpectrum};
 
 		groupsTableViewer.setContentProvider(contentProvider);
 		groupsTableViewer.setLabelProvider(new ObservableMapLabelProvider(labelMaps) {
@@ -360,9 +366,10 @@ public class TimeResolvedExperimentView extends ViewPart {
 			public String getColumnText(Object element, int columnIndex) {
 				switch (columnIndex) {
 				case 0: return (String) names.get(element);
-				case 1: return DataHelper.roundDoubletoString(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli((double) startTimes.get(element))) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
-				case 2: return DataHelper.roundDoubletoString(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli((double) endTimes.get(element))) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
-				case 3: return Integer.toString((int) noOfSpectrum.get(element));
+				case 1: return DataHelper.roundDoubletoStringWithOptionalDigits(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli((double) startTimes.get(element))) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
+				case 2: return DataHelper.roundDoubletoStringWithOptionalDigits(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli((double) endTimes.get(element))) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
+				case 3: return DataHelper.roundDoubletoStringWithOptionalDigits(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli((double) timePerSpectrum.get(element))) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
+				case 4: return Integer.toString((int) noOfSpectrum.get(element));
 				default : return "Unkown column";
 				}
 			}
@@ -521,12 +528,12 @@ public class TimeResolvedExperimentView extends ViewPart {
 		Label lbl = toolkit.createLabel(sectionComposite, "I0 position", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		createSamplePositionComposite(sectionComposite, SingleSpectrumModel.I0_X_POSITION_PROP_NAME, SingleSpectrumModel.I0_Y_POSITION_PROP_NAME);
+		createSamplePositionComposite(sectionComposite, SingleSpectrumUIModel.I0_X_POSITION_PROP_NAME, SingleSpectrumUIModel.I0_Y_POSITION_PROP_NAME);
 
 		lbl = toolkit.createLabel(sectionComposite, "It position", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		createSamplePositionComposite(sectionComposite, SingleSpectrumModel.IT_X_POSITION_PROP_NAME, SingleSpectrumModel.IT_Y_POSITION_PROP_NAME);
+		createSamplePositionComposite(sectionComposite, SingleSpectrumUIModel.IT_X_POSITION_PROP_NAME, SingleSpectrumUIModel.IT_Y_POSITION_PROP_NAME);
 
 		// Iref
 
@@ -547,7 +554,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		Label xPosLabel = toolkit.createLabel(xPositionComposite, "x", SWT.None);
 		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		final NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, SingleSpectrumModel.INSTANCE, SingleSpectrumModel.IREF_X_POSITION_PROP_NAME, false);
+		final NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, SingleSpectrumUIModel.IREF_X_POSITION_PROP_NAME, false);
 		xPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		xPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
 		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -560,7 +567,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		Label yPosLabel = toolkit.createLabel(yPositionComposite, "y", SWT.None);
 		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		final NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, SingleSpectrumModel.INSTANCE, SingleSpectrumModel.IREF_Y_POSITION_PROP_NAME, false);
+		final NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, SingleSpectrumUIModel.IREF_Y_POSITION_PROP_NAME, false);
 		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		yPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
 		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -575,28 +582,6 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 		xPosition.setEditable(useIRefCheckButton.getSelection());
 		yPosition.setEditable(useIRefCheckButton.getSelection());
-
-		final Button useCyclingExperimentButton = toolkit.createButton(sectionComposite, "Cyclic experiment", SWT.CHECK);
-		gridData = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
-		gridData.horizontalSpan = 2;
-		useCyclingExperimentButton.setLayoutData(gridData);
-
-		lbl = toolkit.createLabel(sectionComposite, "Number of cycles", SWT.NONE);
-		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		GridData gridDataForTxt = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		// TODO Show hide
-		ComboViewer repeatingGroupCombo = new ComboViewer(sectionComposite, SWT.READ_ONLY);
-		repeatingGroupCombo.getCombo().setLayoutData(gridDataForTxt);
-		repeatingGroupCombo.setContentProvider(new ArrayContentProvider());
-		repeatingGroupCombo.setLabelProvider(new LabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return ((Integer) element).toString();
-			}
-		});
-		repeatingGroupCombo.setInput(new Integer[]{1,2,3,4,5,6,7,8,9,10});
-		repeatingGroupCombo.setSelection(new StructuredSelection(1));
 
 		Composite acquisitionButtonsComposite = new Composite(sectionComposite, SWT.NONE);
 		gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, true);
@@ -639,7 +624,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				SingleSpectrumModel.INSTANCE.doStop();
+				TimeResolvedExperimentModel.INSTANCE.doStop();
 			}
 		});
 
@@ -662,7 +647,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		Label xPosLabel = toolkit.createLabel(xPositionComposite, "x", SWT.None);
 		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		final NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, SingleSpectrumModel.INSTANCE, xPropName, false);
+		final NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, xPropName, false);
 		xPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		xPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
 		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -675,32 +660,35 @@ public class TimeResolvedExperimentView extends ViewPart {
 		Label yPosLabel = toolkit.createLabel(yPositionComposite, "y", SWT.None);
 		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		final NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, SingleSpectrumModel.INSTANCE, yPropName, false);
+		final NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, yPropName, false);
 		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		yPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
 		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 	}
 
-	private void createPlotComposite(Composite parent) {
-		try {
-			if (plottingSystem == null) {
-				plottingSystem = PlottingFactory.createPlottingSystem();
-			}
-		} catch (Exception e) {
-			UIHelper.showError("Unable to create plotting system", e.getMessage());
-			logger.error("Unable to create plotting system", e);
-			return;
-		}
-		Composite composite = new Composite(parent, SWT.None);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		composite.setLayout(new FillLayout());
-		plottingSystem.createPlotPart(composite,
-				getTitle(),
-				// unique id for plot.
-				getViewSite().getActionBars(),
-				PlotType.XY,
-				this);
-	}
+
+	// TODO Until it is clear how to do, temporary removed the time resolved plot to determine groups
+
+	//	private void createPlotComposite(Composite parent) {
+	//		try {
+	//			if (plottingSystem == null) {
+	//				plottingSystem = PlottingFactory.createPlottingSystem();
+	//			}
+	//		} catch (Exception e) {
+	//			UIHelper.showError("Unable to create plotting system", e.getMessage());
+	//			logger.error("Unable to create plotting system", e);
+	//			return;
+	//		}
+	//		Composite composite = new Composite(parent, SWT.None);
+	//		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+	//		composite.setLayout(new FillLayout());
+	//		plottingSystem.createPlotPart(composite,
+	//				getTitle(),
+	//				// unique id for plot.
+	//				getViewSite().getActionBars(),
+	//				PlotType.XY,
+	//				this);
+	//	}
 
 	@SuppressWarnings({ "static-access" })
 	private void createTimeBarComposite(Composite parent) {
@@ -768,6 +756,12 @@ public class TimeResolvedExperimentView extends ViewPart {
 			@Override
 			public void intervalChangeCancelled(TimeBarRow arg0, Interval arg1) {}
 		});
+		MenuManager menuManager = new MenuManager();
+		Menu menu = menuManager.createContextMenu(timeBarViewer);
+		// Set the MenuManager
+		timeBarViewer.setMenu(menu);
+		getSite().registerContextMenu(menuManager, timeBarViewer);
+		getSite().setSelectionProvider(timeBarViewer);
 
 		// Controls
 		Composite controls = new Composite(composite, SWT.None);

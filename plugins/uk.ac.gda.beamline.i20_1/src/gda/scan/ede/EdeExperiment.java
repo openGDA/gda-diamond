@@ -20,7 +20,9 @@ package gda.scan.ede;
 
 import gda.device.Monitor;
 import gda.device.scannable.TopupChecker;
+import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
+import gda.jython.scriptcontroller.ScriptControllerBase;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +37,19 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class EdeExperiment {
 
+	public static final String TIMINGGROUP_COLUMN_NAME = "Timing_Group";
+	public static final String FRAME_COLUMN_NAME = "Frame";
+	public static final String STRIP_COLUMN_NAME = "Strip";
+	public static final String ENERGY_COLUMN_NAME = "Energy";
+	public static final String I0_CORR_COLUMN_NAME = "I0_corr";
+	public static final String IT_CORR_COLUMN_NAME = "It_corr";
+	public static final String LN_I0_IT_COLUMN_NAME = "LnI0It";
+	public static final String LN_I0_IREF_COLUMN_NAME = "LnI0IRef";
+	public static final String I0_RAW_COLUMN_NAME = "I0_raw";
+	public static final String IT_RAW_COLUMN_NAME = "It_raw";
+	public static final String I0_DARK_COLUMN_NAME = "I0_dark";
+	public static final String IT_DARK_COLUMN_NAME = "It_dark";
+
 	/**
 	 * The name of the ScriptController object which is sent progress information and normalised spectra by experiments
 	 */
@@ -42,9 +57,15 @@ public abstract class EdeExperiment {
 
 	private static final Logger edelogger = LoggerFactory.getLogger(EdeExperiment.class);
 
+	protected final ScriptControllerBase controller;
+
 	protected String filenameTemplate = "";
 
 	protected Monitor topup;
+
+	public EdeExperiment() {
+		controller = (ScriptControllerBase) Finder.getInstance().findNoWarn(PROGRESS_UPDATER_NAME);
+	}
 
 	/**
 	 * Run the scans and write the data files.

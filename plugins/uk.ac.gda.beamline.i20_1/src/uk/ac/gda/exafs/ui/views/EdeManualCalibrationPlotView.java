@@ -40,11 +40,13 @@ import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.roi.LinearROI;
+import uk.ac.gda.exafs.data.AlignmentParametersModel;
 import uk.ac.gda.exafs.data.EdeCalibrationModel;
 import uk.ac.gda.exafs.data.EdeCalibrationModel.ReferenceCalibrationDataModel;
 
 public class EdeManualCalibrationPlotView  extends ViewPart implements CalibrationPlotViewer {
 
+	private static final int ZOOM_START_LEVEL = 100;
 	public static final String REFERENCE_ID = "uk.ac.gda.exafs.ui.views.calibrationreference";
 	public static final String EDE_ID = "uk.ac.gda.exafs.ui.views.calibrationEdeData";
 
@@ -108,7 +110,22 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 		plottingSystemRef.clear();
 		plottingSystemRef.createPlot1D(referenceData.getRefEnergyNode(), spectra, new NullProgressMonitor());
 		showReferencePoints();
-		plottingSystemRef.repaint();
+		double startValue = getStartZoomForReferenceData();
+		double lastValue = getEndZoomForReferenceData();
+		plottingSystemRef.getSelectedXAxis().setRange(startValue, lastValue);
+	}
+
+	private double getStartZoomForReferenceData() {
+		return AlignmentParametersModel.INSTANCE.getEnergy() - ZOOM_START_LEVEL;
+	}
+
+	private double getEndZoomForReferenceData() {
+		double maxEnergy = referenceData.getRefEnergyNode().getDouble(referenceData.getRefEnergyNode().getSize() - 1);
+		double endZoom = getStartZoomForReferenceData() + AlignmentParametersModel.INSTANCE.getAlignmentSuggestedParameters().getReadBackEnergyBandwidth();
+		if (endZoom > maxEnergy) {
+			endZoom = maxEnergy;
+		}
+		return endZoom;
 	}
 
 	private void showReferencePoints() throws Exception {

@@ -279,6 +279,7 @@ public class EdeScan extends ConcurrentScanChild {
 
 	private void storeAndBroadcastSDP(int absoulteFrameNumber, ScanDataPoint thisPoint) {
 
+		rawData.add(thisPoint);
 		if (progressUpdater != null) {
 			int groupNumOfThisSDP = ExperimentLocationUtils.getGroupNum(scanParameters, absoulteFrameNumber);
 			int frameNumOfThisSDP = ExperimentLocationUtils.getFrameNum(scanParameters, absoulteFrameNumber);
@@ -286,7 +287,6 @@ public class EdeScan extends ConcurrentScanChild {
 					motorPositions.getType(), thisPoint);
 			progressUpdater.update(this, progress);
 		}
-		rawData.add(thisPoint);
 	}
 
 	public List<ScanDataPoint> getData() {

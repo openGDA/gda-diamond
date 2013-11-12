@@ -61,7 +61,7 @@ public class DataHelper {
 		return stringBuilder.toString();
 	}
 
-	private static void remoteLastComma(StringBuilder stringBuilder) {
+	public static void remoteLastComma(StringBuilder stringBuilder) {
 		stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
 	}
 
@@ -71,6 +71,10 @@ public class DataHelper {
 
 	public static String roundDoubletoString(double value) {
 		return String.format("%." + ClientConfig.DEFAULT_DECIMAL_PLACE + "f", value);
+	}
+
+	public static String roundDoubletoStringWithOptionalDigits(double value) {
+		return ClientConfig.DECIMAL_FORMAT.format(value);
 	}
 
 	public static String roundDoubletoString(double value, int decimalPlaces) {

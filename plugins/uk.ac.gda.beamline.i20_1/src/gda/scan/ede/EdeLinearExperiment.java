@@ -18,16 +18,20 @@
 
 package gda.scan.ede;
 
+import gda.data.scan.datawriter.NexusExtraMetadataDataWriter;
+import gda.data.scan.datawriter.NexusFileMetadata;
+import gda.data.scan.datawriter.NexusFileMetadata.EntryTypes;
+import gda.data.scan.datawriter.NexusFileMetadata.NXinstrumentSubTypes;
 import gda.device.Monitor;
 import gda.device.Scannable;
 import gda.device.detector.StripDetector;
 import gda.device.scannable.TopupChecker;
-import gda.factory.Finder;
-import gda.jython.scriptcontroller.ScriptControllerBase;
 import gda.observable.IObserver;
+import gda.scan.AxisSpecProviderImpl;
 import gda.scan.EdeScan;
 import gda.scan.MultiScan;
 import gda.scan.ScanBase;
+import gda.scan.ScanPlotSettings;
 import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 import gda.scan.ede.datawriters.EdeLinearExperimentAsciiFileWriter;
 import gda.scan.ede.position.EdeScanPosition;
@@ -67,13 +71,14 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	private EdeScan iRefScan;
 	private EdeScan itScan;
 	private EdeScan i0FinalScan;
+	private EdeScan iRefFinalScan;
 	private EdeLinearExperimentAsciiFileWriter writer;
-	private final ScriptControllerBase controller;
 	private final DoubleDataset energyData;
 	private final Scannable shutter2;
 
 	public EdeLinearExperiment(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
 			EdeScanPosition itPosition, EdeScanPosition iRefPosition, StripDetector theDetector, Monitor topupMonitor, Scannable shutter2) {
+		super();
 		this.itScanParameters = itScanParameters;
 		this.i0Position = i0Position;
 		this.itPosition = itPosition;
@@ -81,7 +86,6 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		this.theDetector = theDetector;
 		this.shutter2 = shutter2;
 		topup = topupMonitor;
-		controller = (ScriptControllerBase) Finder.getInstance().findNoWarn(PROGRESS_UPDATER_NAME);
 		energyData = new DoubleDataset(theDetector.getEnergyForChannels());
 	}
 
@@ -109,7 +113,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 			DoubleDataset i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, progress.getGroupNumOfThisSDP());
 			DoubleDataset thisItData = EdeAsciiFileWriter.extractDetectorDataFromSDP(theDetector.getName(), progress.getThisPoint());
 			DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(thisItData, i0Data, darkData);
-			controller.update(itScan, new EdeExperimentProgressBean(progress, normalisedIt, energyData));
+			controller.update(itScan, new EdeExperimentProgressBean(progress, EdeExperiment.LN_I0_IT_COLUMN_NAME, normalisedIt, energyData));
 		}
 	}
 
@@ -186,6 +190,9 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, shutter2);
 		itScan.setProgressUpdater(this);
 		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, shutter2);
+		if (iRefPosition != null){
+			iRefFinalScan = new EdeScan(i0ScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, shutter2);
+		}
 
 		List<ScanBase> theScans = new Vector<ScanBase>();
 		theScans.add(i0DarkScan);
@@ -195,11 +202,40 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		}
 		theScans.add(itScan);
 		theScans.add(i0FinalScan);
+		if (iRefPosition != null){
+			theScans.add(iRefFinalScan);
+		}
 
-		MultiScan theScan = new MultiScan(theScans);
-		pauseForToup();
-		logger.debug("EDE linear experiment starting its multiscan...");
-		theScan.runScan();
+		try {
+			addDetectorSettingsToMetadata();
+
+			ScanPlotSettings plotNothing = new ScanPlotSettings();
+			plotNothing.setUnlistedColumnBehaviour(ScanPlotSettings.IGNORE);
+			plotNothing.setYAxesShown(theDetector.getExtraNames());
+			plotNothing.setYAxesNotShown(new String[]{});
+			plotNothing.setAxisSpecProvider(new AxisSpecProviderImpl(false));
+
+			MultiScan theScan = new MultiScan(theScans);
+			theScan.setScanPlotSettings(plotNothing);
+			pauseForToup();
+			logger.debug("EDE linear experiment starting its multiscan...");
+			theScan.runScan();
+		} finally {
+			NexusExtraMetadataDataWriter.removeAllMetadataEntries();
+		}
+	}
+
+	private void addDetectorSettingsToMetadata() {
+		String header = "i0Dark: " + i0DarkScan.getHeaderDescription() + "\n";
+		header += "i0InitialScan: " + i0InitialScan.getHeaderDescription() + "\n";
+		if (iRefScan != null) {
+			header += "iRefScan: " + iRefScan.getHeaderDescription() + "\n";
+		}
+		header += "itScan: " + itScan.getHeaderDescription() + "\n";
+
+		NexusFileMetadata metadata = new NexusFileMetadata(theDetector.getName() + "_settings", header,
+				EntryTypes.NXinstrument, NXinstrumentSubTypes.NXdetector, theDetector.getName() + "_settings");
+		NexusExtraMetadataDataWriter.addMetadataEntry(metadata);
 	}
 
 	private String writeAsciiFile() throws Exception {
