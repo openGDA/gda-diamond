@@ -93,5 +93,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
     blower_temperature.setPvName("ME08G-EA-GIR-01:TCTRL1:PV:RBV")
     add_default topupMonitor
     add_default beamMonitor
+    
+run "userStartupScript"
 
 print "Initialization Complete";
