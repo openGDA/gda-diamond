@@ -16,7 +16,7 @@
 
 	<!--  GDA configuration split up by part type with the rest being in core -->
 	<import resource="I10-core.xml" />
-	<import resource="scannable/all-scannables.xml"/>
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/i10-shared/servers/main/common/scannable/all-scannables.xml"/>
+	<import resource="scannable/all.xml"/>
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/i10-shared/servers/main/common/scannable/all.xml"/>
 	<import resource="I10-command-server.xml"/>
 </beans>
