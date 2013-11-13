@@ -88,7 +88,9 @@
 	<import resource="../../../devices/dummy/g1_motors.xml"/>
 	
 	<import resource="../../../devices/dummy/sample_stage_camera.xml"/>
-	<import resource="../../../devices/dummy/moveable_camera.xml"/>
+	<import resource="../../../devices/dummy/float1_cam_ad.xml"/>
+	<import resource="../../../devices/dummy/float2_cam_ad.xml"/>
+	<import resource="../../../devices/dummy/float3_cam_ad.xml"/>
 	
 	<import resource="../../../devices/dummy/s7_motors.xml"/>
 
