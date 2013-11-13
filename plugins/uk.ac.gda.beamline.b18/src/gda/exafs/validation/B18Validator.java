@@ -142,6 +142,7 @@ public class B18Validator extends ExafsValidator {
 		if (s == null) {
 			return Collections.emptyList();
 		}
+		
 		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
 		if (!s.isShouldValidate()) {
 			return errors;
@@ -154,14 +155,12 @@ public class B18Validator extends ExafsValidator {
 			errors.add(new InvalidBeanMessage("Please set a sample description."));
 		}
 
-		// final String stage = s.getStage();
-		// if ("xythetastage".equalsIgnoreCase(stage)) {
-		// final XYThetaStageParameters p = s.getXYThetaStageParameters();
-		// final String message = "The xythetastage parameters are out of bounds.";
-		// checkBounds("x", p.getX(), -50d, 41.5d, errors, message);
-		// checkBounds("y", p.getY(), 0.3d, 20d, errors, message);
-		// checkBounds("theta", p.getTheta(), -50d, 50d, errors, message);
-		// }
+		if (s.getName().compareTo("default") == 0) {
+			errors.add(new InvalidBeanMessage("Sample Name has not been set in " + bean.getSampleFileName()));
+		} else if (!stringCouldBeConvertedToValidUnixFilename(s.getName())) {
+			errors.add(new InvalidBeanMessage("The given Sample Name in " + bean.getSampleFileName()
+					+ " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
+		}
 
 		final String sampleEnv = s.getTemperatureControl();
 		if ("furnace".equalsIgnoreCase(sampleEnv)) {
@@ -172,9 +171,11 @@ public class B18Validator extends ExafsValidator {
 			checkBounds("Time", f.getTime(), 0d, 400d, errors, message);
 
 		}
+		
 		if (bean != null) {
 			setFileName(errors, bean.getSampleFileName());
 		}
+		
 		return errors;
 	}
 }
