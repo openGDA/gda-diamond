@@ -69,7 +69,7 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 
 		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, FOCUSING_CONTROLS_FOLDER_ID);
 		topPlotFolder.addView(DetectorLiveModeView.ID);
-		topPlotFolder.addPlaceholder(SINGLE_SPECTRUM_PLOT_VIEW_ID);
+		topPlotFolder.addView(SINGLE_SPECTRUM_PLOT_VIEW_ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.REFERENCE_ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.EDE_ID);
 		topPlotFolder.addPlaceholder("uk.ac.gda.client.liveplotview");

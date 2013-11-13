@@ -18,29 +18,49 @@
 
 package uk.ac.gda.exafs.ui.views.plot.model;
 
-import org.dawnsci.plotting.api.trace.ILineTrace;
-import org.dawnsci.plotting.api.trace.ITrace;
-
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.exafs.data.ObservableModel;
 
 public class DataNode extends ObservableModel {
-	private ILineTrace lineTrace;
+	private DoubleDataset xDoubleDataset;
+	private DoubleDataset yDoubleDataset;
+	private final String label;
+	private final DatasetNode parent;
+
+	public static final String DATA_Y_AXIS_PROP_NAME = "yAxisData";
+
+	public DataNode(String label, DatasetNode parent) {
+		this.label = label;
+		this.parent = parent;
+	}
+
+	public DatasetNode getParent() {
+		return parent;
+	}
 
 	@Override
 	public String toString() {
-		return "Hello";
+		return label;
 	}
 
-	public void setLineTrace(ILineTrace lineTrace) {
-		this.lineTrace = lineTrace;
+	public String getLabel() {
+		return label;
 	}
 
-	public ITrace getLineTrace() {
-		return lineTrace;
+	public String getIdentifier() {
+		return parent + "@" + label;
 	}
 
-	public void clearLineTrace() {
-		lineTrace.dispose();
-		lineTrace = null;
+	public DoubleDataset getXAxisData() {
+		return xDoubleDataset;
+	}
+
+	public DoubleDataset getYAxisData() {
+		return yDoubleDataset;
+	}
+
+	public void updateData(DoubleDataset xDoubleDataset, DoubleDataset yDoubleDataset) {
+		this.xDoubleDataset = xDoubleDataset;
+		this.firePropertyChange(DATA_Y_AXIS_PROP_NAME, this.yDoubleDataset, this.yDoubleDataset = yDoubleDataset);
 	}
 }

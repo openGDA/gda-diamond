@@ -18,35 +18,47 @@
 
 package uk.ac.gda.exafs.ui.views.plot.model;
 
-import gda.scan.IScanDataPoint;
+import gda.scan.ede.EdeExperimentProgressBean;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.eclipse.core.databinding.observable.set.IObservableSet;
-import org.eclipse.core.databinding.observable.set.WritableSet;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.list.WritableList;
 
 import uk.ac.gda.exafs.data.ObservableModel;
 
 public class DatasetNode extends ObservableModel {
-	private  IObservableSet dataset;
+	private final Map<String, DataNode> scans = new HashMap<String, DataNode>();
+	private final  IObservableList dataNodeList = new WritableList(new ArrayList<DataNode>(), DataNode.class);
+	private final String scanIdentifier;
 
-	public DatasetNode() {
-		Display.getDefault().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				dataset = new WritableSet(new ArrayList<DataNode>(), DataNode.class);
-				dataset.add(new DataNode());
-			}
-		});
-
+	public DatasetNode(String scanIdentifier) {
+		this.scanIdentifier = scanIdentifier;
 	}
 
-	public IObservableSet getDataset() {
-		return dataset;
+	public IObservableList getNodeList() {
+		return dataNodeList;
 	}
 
-	public void updateData(IScanDataPoint arg) {
-		//
+	public DataNode updateData(final EdeExperimentProgressBean arg) {
+		DataNode dataNode;
+		String label = arg.getDataLabel();
+		if (!scans.containsKey(label)) {
+			final DataNode newNode = new DataNode(label, this);
+			scans.put(scanIdentifier, newNode);
+			dataNodeList.add(newNode);
+			dataNode = newNode;
+		} else {
+			dataNode = scans.get(label);
+		}
+		dataNode.updateData(arg.getEnergyData(), arg.getData());
+		return dataNode;
+	}
+
+	@Override
+	public String toString() {
+		return "Scan:" + scanIdentifier;
 	}
 }

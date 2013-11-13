@@ -18,19 +18,27 @@
 
 package uk.ac.gda.exafs.ui.views.plot;
 
+import gda.rcp.GDAClientActivator;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
 import org.dawnsci.plotting.api.trace.ILineTrace;
+import org.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
+import org.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
 import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
-import org.eclipse.jface.databinding.viewers.ObservableSetTreeContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
@@ -38,13 +46,18 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.part.ViewPart;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.client.liveplot.IPlotLineColorService;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
 import uk.ac.gda.exafs.ui.views.plot.model.DataNode;
@@ -61,6 +74,7 @@ public class SingleSpectrumPlotView extends ViewPart {
 	List<SelectionListener> selectionListeners = new Vector<SelectionListener>();
 
 	private CheckboxTreeViewer dataTreeViewer;
+	private final PlotDataHolder plotDataHolder = new PlotDataHolder();
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -73,8 +87,6 @@ public class SingleSpectrumPlotView extends ViewPart {
 			logger.error("Unable to create plotting system", e);
 			return;
 		}
-
-		PlotDataHolder.INSTANCE.initialise();
 		final SashForm composite = new SashForm(parent, SWT.HORIZONTAL);
 
 		Composite plot = new Composite(composite, SWT.None);
@@ -82,6 +94,7 @@ public class SingleSpectrumPlotView extends ViewPart {
 		plottingSystem.createPlotPart(plot, getTitle(),
 				// unique id for plot.
 				getViewSite().getActionBars(), PlotType.XY, this);
+		plottingSystem.getSelectedXAxis().setAxisAutoscaleTight(true);
 
 		createDataTree(composite);
 		composite.setWeights(new int[] {3, 1});
@@ -89,45 +102,87 @@ public class SingleSpectrumPlotView extends ViewPart {
 	}
 
 	private void setupDataSelection() {
-		PlotDataHolder.INSTANCE.getSelectedNodes().addListChangeListener(new IListChangeListener() {
+		plotDataHolder.getDataset().addListChangeListener(new IListChangeListener() {
 			@Override
 			public void handleListChange(ListChangeEvent event) {
 				event.diff.accept(new ListDiffVisitor() {
 					@Override
 					public void handleRemove(int index, Object element) {
-						removeFromPlot((DataNode) element);
 					}
 					@Override
 					public void handleAdd(int index, Object element) {
-						addToPlot((DataNode) element);
+						plottingSystem.clear();
+						for (Object obj : dataTreeViewer.getCheckedElements()) {
+							dataTreeViewer.setChecked(obj, false);
+						}
+						dataTreeViewer.setChecked(element, true);
 					}
 				});
 			}
 		});
+		plotDataHolder.addPropertyChangeListener(PlotDataHolder.DATA_CHANGED_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				DataNode node = (DataNode) evt.getNewValue();
+				addAndUpdateTrace(node);
+			}
+		});
+
 	}
 
-	private void addToPlot(DataNode element) {
-		ILineTrace lineTrace = plottingSystem.createLineTrace("Data");
-		element.setLineTrace(lineTrace);
-		plottingSystem.addTrace(lineTrace);
-	}
-
-	private void removeFromPlot(DataNode element) {
-		if (element.getLineTrace() != null) {
-			plottingSystem.removeTrace(element.getLineTrace());
-			element.clearLineTrace();
+	// FIXME Refactoring the styling!
+	private void addAndUpdateTrace(DataNode node) {
+		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier());
+		if (trace == null) {
+			trace = plottingSystem.createLineTrace(node.getIdentifier());
+			trace.setTraceColor(getTraceColor(node.getLabel()));
+			if (plotDataHolder.getDataset().indexOf(node.getParent()) % 2 == 0) {
+				trace.setTraceType(TraceType.DASH_LINE);
+				trace.setPointStyle(PointStyle.DIAMOND);
+				trace.setPointSize(5);
+			} else {
+				trace.setTraceType(TraceType.SOLID_LINE);
+			}
+			plottingSystem.addTrace(trace);
+		}
+		trace.setData(node.getXAxisData(), node.getYAxisData());
+		plottingSystem.repaint();
+		if (!dataTreeViewer.getChecked(node)) {
+			dataTreeViewer.setChecked(node, true);
 		}
 	}
 
-	private final Object root = new Object();
+	private final Map<String, Color> nodeColors = new HashMap<String, Color>();
+
+	private Color getTraceColor(String label) {
+		Color color = null;
+		if (!nodeColors.containsKey(label)) {
+			BundleContext context = GDAClientActivator.getBundleContext();
+			ServiceReference<IPlotLineColorService> serviceRef = context.getServiceReference(IPlotLineColorService.class);
+			if (serviceRef != null) {
+				String colorValue = (String) serviceRef.getProperty(label);
+				if (colorValue != null) {
+					color = UIHelper.convertHexadecimalToColor(colorValue, Display.getDefault());
+				} else {
+					color = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+				}
+			} else {
+				color = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+			}
+			nodeColors.put(label, color);
+		} else {
+			color = nodeColors.get(label);
+		}
+		return color;
+	}
 
 	IObservableFactory dataObservableFactory = new IObservableFactory() {
 		@Override
 		public IObservable createObservable(Object target) {
-			if (target == root) {
-				return PlotDataHolder.INSTANCE.getDataset();
+			if (target == plotDataHolder) {
+				return plotDataHolder.getDataset();
 			} else if (target instanceof DatasetNode) {
-				return (((DatasetNode) target).getDataset());
+				return (((DatasetNode) target).getNodeList());
 			}
 			return null;
 		}
@@ -139,15 +194,13 @@ public class SingleSpectrumPlotView extends ViewPart {
 		dataTreeViewer = new CheckboxTreeViewer(dataTreeParent);
 		dataTreeViewer.getTree().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		dataTreeViewer.setLabelProvider(new LabelProvider() {
-
 			@Override
 			public String getText(Object element) {
 				return super.getText(element);
 			}
-
 		});
-		dataTreeViewer.setContentProvider(new ObservableSetTreeContentProvider(dataObservableFactory, null));
-		dataTreeViewer.setInput(root);
+		dataTreeViewer.setContentProvider(new ObservableListTreeContentProvider(dataObservableFactory, null));
+		dataTreeViewer.setInput(plotDataHolder);
 		dataTreeViewer.addCheckStateListener(new ICheckStateListener() {
 			@Override
 			public void checkStateChanged(CheckStateChangedEvent event) {
@@ -155,15 +208,19 @@ public class SingleSpectrumPlotView extends ViewPart {
 				Object element = event.getElement();
 				if (element instanceof DatasetNode) {
 					if (event.getChecked()) {
-						PlotDataHolder.INSTANCE.getSelectedNodes().addAll(((DatasetNode) element).getDataset());
+						for (Object node : ((DatasetNode) element).getNodeList()) {
+							addAndUpdateTrace((DataNode) node);
+						}
 					} else {
-						PlotDataHolder.INSTANCE.getSelectedNodes().removeAll(((DatasetNode) element).getDataset());
+						for (Object node : ((DatasetNode) element).getNodeList()) {
+							removeTrace(node);
+						}
 					}
 				} else if (element instanceof DataNode) {
 					if (event.getChecked()) {
-						PlotDataHolder.INSTANCE.getSelectedNodes().add(element);
+						addAndUpdateTrace((DataNode) element);
 					} else {
-						PlotDataHolder.INSTANCE.getSelectedNodes().remove(element);
+						removeTrace(element);
 					}
 				}
 			}
@@ -179,6 +236,13 @@ public class SingleSpectrumPlotView extends ViewPart {
 	public void dispose() {
 		plottingSystem.dispose();
 		super.dispose();
+	}
+
+	private void removeTrace(Object node) {
+		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(((DataNode) node).getIdentifier());
+		if (trace != null) {
+			plottingSystem.removeTrace(trace);
+		}
 	}
 
 }

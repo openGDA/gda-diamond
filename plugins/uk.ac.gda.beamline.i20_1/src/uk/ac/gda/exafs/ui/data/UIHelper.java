@@ -19,6 +19,8 @@
 package uk.ac.gda.exafs.ui.data;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Display;
 
@@ -59,5 +61,20 @@ public class UIHelper {
 		layout.marginLeft = 0;
 		layout.marginTop = 0;
 		return layout;
+	}
+
+	public static Color convertHexadecimalToColor(String hexadecimal, Display display) throws NumberFormatException {
+		java.awt.Color col=null;
+		try{
+			col=java.awt.Color.decode(hexadecimal);
+		}
+		catch (Exception e) {
+			col=java.awt.Color.WHITE;
+		}
+		int red=col.getRed();
+		int blue=col.getBlue();
+		int green=col.getGreen();
+
+		return new Color(display, new RGB(red, green, blue));
 	}
 }
