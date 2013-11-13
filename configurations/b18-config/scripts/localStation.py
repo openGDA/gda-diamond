@@ -29,10 +29,10 @@ NexusExtraMetadataDataWriter.removeAllMetadataEntries()
 xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
 vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
 
-sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity,i1_stanford_sensitivity]
-sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units,iref_stanford_sensitivity_units,i1_stanford_sensitivity_units]
-offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset,i1_stanford_offset]
-offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_offset_units,i1_stanford_offset_units]
+sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity]
+sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units,iref_stanford_sensitivity_units]
+offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset]
+offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_offset_units]
 
 
 if (LocalProperties.get("gda.mode") == 'live'):
