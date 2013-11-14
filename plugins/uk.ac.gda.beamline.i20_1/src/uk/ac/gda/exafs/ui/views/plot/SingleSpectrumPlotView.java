@@ -41,8 +41,8 @@ import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ICheckStateListener;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionListener;
@@ -108,6 +108,7 @@ public class SingleSpectrumPlotView extends ViewPart {
 				event.diff.accept(new ListDiffVisitor() {
 					@Override
 					public void handleRemove(int index, Object element) {
+						// TODO
 					}
 					@Override
 					public void handleAdd(int index, Object element) {
@@ -136,7 +137,7 @@ public class SingleSpectrumPlotView extends ViewPart {
 		if (trace == null) {
 			trace = plottingSystem.createLineTrace(node.getIdentifier());
 			trace.setTraceColor(getTraceColor(node.getLabel()));
-			if (plotDataHolder.getDataset().indexOf(node.getParent()) % 2 == 0) {
+			if ((plotDataHolder.getDataset().size() - plotDataHolder.getDataset().indexOf(node.getParent())) % 2 == 0) {
 				trace.setTraceType(TraceType.DASH_LINE);
 				trace.setPointStyle(PointStyle.DIAMOND);
 				trace.setPointSize(5);
@@ -147,13 +148,16 @@ public class SingleSpectrumPlotView extends ViewPart {
 		}
 		trace.setData(node.getXAxisData(), node.getYAxisData());
 		plottingSystem.repaint();
+		dataTreeViewer.update(node, null);
 		if (!dataTreeViewer.getChecked(node)) {
 			dataTreeViewer.setChecked(node, true);
 		}
 	}
 
+	// FIX ME dispose colors
 	private final Map<String, Color> nodeColors = new HashMap<String, Color>();
 
+	// FIX ME!
 	private Color getTraceColor(String label) {
 		Color color = null;
 		if (!nodeColors.containsKey(label)) {
@@ -193,7 +197,17 @@ public class SingleSpectrumPlotView extends ViewPart {
 		dataTreeParent.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		dataTreeViewer = new CheckboxTreeViewer(dataTreeParent);
 		dataTreeViewer.getTree().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		dataTreeViewer.setLabelProvider(new LabelProvider() {
+		dataTreeViewer.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public Color getForeground(Object element) {
+				if (element instanceof DataNode) {
+					if (nodeColors.containsKey(((DataNode) element).getLabel())) {
+						return nodeColors.get(((DataNode) element).getLabel());
+					}
+				}
+				return super.getForeground(element);
+			}
+
 			@Override
 			public String getText(Object element) {
 				return super.getText(element);

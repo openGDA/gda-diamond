@@ -69,7 +69,7 @@ public class PlotDataHolder extends ObservableModel implements IScanDataPointObs
 
 	// TODO Changed to linked list!
 	@SuppressWarnings("unchecked")
-	protected void updateDataSetInUI(Object source, Object arg) {
+	protected void updateDataSetInUI(@SuppressWarnings("unused") Object source, Object arg) {
 		if (arg instanceof EdeExperimentProgressBean) {
 			final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
 			final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
