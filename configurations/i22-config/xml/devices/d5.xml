@@ -16,10 +16,12 @@
 	<bean id="d5motor" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="d5motor_motor" />
 		<property name="local" value="true" />
+		<property name="protectionLevel" value="3" />
 	</bean>
 	
 	<bean id="d5filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL21B-DI-PHDGN-05:MP" />
 		<property name="local" value="true" />
+		<property name="protectionLevel" value="2" />
 	</bean>
 </beans>

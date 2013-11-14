@@ -58,7 +58,10 @@ vfm_ch13 = SingleChannelBimorphClass('vfm_ch13',ch13_pv_in,ch13_pv_out,status,'V
 vfm_ch14 = SingleChannelBimorphClass('vfm_ch14',ch14_pv_in,ch14_pv_out,status,'V', format)
 vfm_ch15 = SingleChannelBimorphClass('vfm_ch15',ch15_pv_in,ch15_pv_out,status,'V', format)
 
-
+for device in [vfm_ch0, vfm_ch1, vfm_ch2, vfm_ch3, vfm_ch4, vfm_ch5, vfm_ch6, vfm_ch7, vfm_ch8, vfm_ch9, vfm_ch10, vfm_ch11, vfm_ch12, vfm_ch13, vfm_ch14, vfm_ch15 ]:
+	device.setProtectionLevel(3)
+del device
+	
 # HFM Bimorph voltage channels
 
 h_status = 'BL22I-OP-KBM-01:HFM:GET-STATUS'
@@ -83,6 +86,10 @@ hfm_ch2 = SingleChannelBimorphClass('hfm_ch2',h_ch2_pv_in,h_ch2_pv_out,h_status,
 hfm_ch3 = SingleChannelBimorphClass('hfm_ch3',h_ch3_pv_in,h_ch3_pv_out,h_status,'V', format)
 hfm_ch4 = SingleChannelBimorphClass('hfm_ch4',h_ch4_pv_in,h_ch4_pv_out,h_status,'V', format)
 hfm_ch5 = SingleChannelBimorphClass('hfm_ch5',h_ch5_pv_in,h_ch5_pv_out,h_status,'V', format)
+
+for device in [hfm_ch0, hfm_ch1, hfm_ch2, hfm_ch3, hfm_ch4, hfm_ch5 ]:
+	device.setProtectionLevel(3)
+del device
 
 from gda.epics import CAClient
 from java import lang
@@ -120,6 +127,7 @@ class SYS900SBimorph(PseudoDevice):
 		self.state = "IDLE"
 		self.nextAction = time.time()
 		self.idleCounter=0
+		self.setProtectionLevel(3)
 	
 	def asynchronousMoveTo(self,voltages):
 		if len(voltages) != self.noElements:

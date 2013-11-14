@@ -208,6 +208,7 @@
 
 	<bean id="energy" class="uk.ac.gda.server.ncd.scannable.EnergyScannable">
 		<property name="bragg" ref="bragg" />
+		<property name="protectionLevel" value="2" />
 	</bean>
 
 	<bean id="ncdlistener" class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher">

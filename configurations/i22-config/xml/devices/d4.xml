@@ -16,6 +16,7 @@
 	<bean id="d4motor" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="d4motor_motor" />
 		<property name="local" value="true" />
+		<property name="protectionLevel" value="3" />
 	</bean>
 
 	<bean id="d4d1" class="uk.ac.gda.server.ncd.epics.ScaledAmplifiedMonitor">
@@ -193,5 +194,6 @@
 	<bean id="d4filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL22I-DI-PHDGN-04:MP" />
 		<property name="local" value="true" />
+		<property name="protectionLevel" value="2" />
 	</bean>
 </beans>
