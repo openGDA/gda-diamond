@@ -25,8 +25,8 @@
 					<property name="propertyName" value="gda.facility.probe" />
 				</bean>
 				
-				<bean name="subdirectory" class="gda.data.metadata.PersistantMetadataEntry">
-					<property name="defaultValue" value=""/>
+				<bean name="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry">
+					<property name="defaultSubdirectory" value="" />
 				</bean>
 
 				<bean name="beamCurrent" class="gda.data.metadata.PropertyMetadataEntry">
@@ -52,42 +52,6 @@
 				<bean name="subdirectory" class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="propertyName" value="gda.defVisit" />
 				</bean>
-
-				<!-- <bean class="gda.data.metadata.IcatMetadataEntry"> -->
-				<!-- <property name="name" value="visit" /> -->
-				<!-- <property name="query" value="lower(visit_id)visit_id:investigation:id" 
-					/> -->
-				<!-- <property name="defEntryName" value="defVisit" /> -->
-				<!-- </bean> -->
-
-				<!-- <bean class="gda.data.metadata.MetadataEntry"> -->
-				<!-- <property name="name" value="investigation" /> -->
-				<!-- <property name="type" value="icat" /> -->
-				<!-- <property name="propertyName" value="id:investigation:id" /> -->
-				<!-- </bean> -->
-
-				<!-- <bean class="gda.data.metadata.MetadataEntry"> -->
-				<!-- <property name="name" value="visit" /> -->
-				<!-- <property name="type" value="icat" /> -->
-				<!-- <property name="propertyName" value="lower(visit_id)visit_id:investigation:id" 
-					/> -->
-				<!-- <property name="defEntryName" value="defVisit" /> -->
-				<!-- </bean> -->
-				<!-- -->
-				<!-- <bean class="gda.data.metadata.MetadataEntry"> -->
-				<!-- <property name="name" value="proposal" /> -->
-				<!-- <property name="type" value="icat" /> -->
-				<!-- <property name="propertyName" value="INV_NUMBER:investigation:id" 
-					/> -->
-				<!-- </bean> -->
-				<!-- -->
-				<!-- <bean class="gda.data.metadata.MetadataEntry"> -->
-				<!-- <property name="name" value="title" /> -->
-				<!-- <property name="type" value="icat" /> -->
-				<!-- <property name="propertyName" value="TITLE:investigation:id" /> -->
-				<!-- </bean> -->
-				<!-- -->
-
 			</list>
 		</property>
 	</bean>

@@ -48,7 +48,6 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
@@ -575,28 +574,6 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 		xPosition.setEditable(useIRefCheckButton.getSelection());
 		yPosition.setEditable(useIRefCheckButton.getSelection());
-
-		final Button useCyclingExperimentButton = toolkit.createButton(sectionComposite, "Cyclic experiment", SWT.CHECK);
-		gridData = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
-		gridData.horizontalSpan = 2;
-		useCyclingExperimentButton.setLayoutData(gridData);
-
-		lbl = toolkit.createLabel(sectionComposite, "Number of cycles", SWT.NONE);
-		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		GridData gridDataForTxt = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		// TODO Show hide
-		ComboViewer repeatingGroupCombo = new ComboViewer(sectionComposite, SWT.READ_ONLY);
-		repeatingGroupCombo.getCombo().setLayoutData(gridDataForTxt);
-		repeatingGroupCombo.setContentProvider(new ArrayContentProvider());
-		repeatingGroupCombo.setLabelProvider(new LabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return ((Integer) element).toString();
-			}
-		});
-		repeatingGroupCombo.setInput(new Integer[]{1,2,3,4,5,6,7,8,9,10});
-		repeatingGroupCombo.setSelection(new StructuredSelection(1));
 
 		Composite acquisitionButtonsComposite = new Composite(sectionComposite, SWT.NONE);
 		gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, true);

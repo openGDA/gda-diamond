@@ -24,13 +24,10 @@ import java.util.Vector;
 import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
-import org.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
@@ -46,11 +43,6 @@ public class SingleSpectrumPlotView extends ViewPart {
 	public static String ID = AlignmentPerspective.SINGLE_SPECTRUM_PLOT_VIEW_ID;
 
 	private static Logger logger = LoggerFactory.getLogger(SingleSpectrumPlotView.class);
-
-	private static String DARK_NAME = "Dark";
-	private static String I0_NAME = "I0";
-	private static String It_NAME = "It";
-	private static String Lni0it_NAME = "Ln(I0/It)";
 
 	private IPlottingSystem plottingSystem;
 	List<SelectionListener> selectionListeners = new Vector<SelectionListener>();
@@ -79,102 +71,6 @@ public class SingleSpectrumPlotView extends ViewPart {
 		controls.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		controls.setLayout(UIHelper.createGridLayoutWithNoMargin(4, false));
 		controls.setLayoutData(new GridData(SWT.FILL, SWT.END, true, false));
-		addCheckBoxes(controls);
-
-		addListener();
-	}
-
-	private void addListener() {
-		// TODO This should be removed once reviewed!
-
-
-		//		SingleSpectrumModel.INSTANCE.addPropertyChangeListener(SingleSpectrumModel.FILE_NAME_PROP_NAME,
-		//				new PropertyChangeListener() {
-		//			@Override
-		//			public void propertyChange(PropertyChangeEvent evt) {
-		//				Object value = evt.getNewValue();
-		//				if (value == null) {
-		//					return;
-		//				}
-		//				String fileName = (String) value;
-		//				File file = new File(fileName);
-		//				if (file.exists() && file.canRead()) {
-		//					try {
-		//						//						DataHolder dataHolder = LoaderFactory.getData(fileName);
-		//						//						AbstractDataset strips = (AbstractDataset) dataHolder.getLazyDataset(
-		//						//								EdeAsciiFileWriter.STRIP_COLUMN_NAME).getSlice();
-		//						//						AbstractDataset dk = (AbstractDataset) dataHolder.getLazyDataset(
-		//						//								EdeAsciiFileWriter.I0_DARK_COLUMN_NAME).getSlice();
-		//						//						dk.setName(DARK_NAME);
-		//						//						AbstractDataset i0 = (AbstractDataset) dataHolder.getLazyDataset(
-		//						//								EdeAsciiFileWriter.I0_RAW_COLUMN_NAME).getSlice();
-		//						//						i0.setName(I0_NAME);
-		//						//						AbstractDataset it = (AbstractDataset) dataHolder.getLazyDataset(
-		//						//								EdeAsciiFileWriter.IT_RAW_COLUMN_NAME).getSlice();
-		//						//						it.setName(It_NAME);
-		//						//						AbstractDataset logI0It = (AbstractDataset) dataHolder.getLazyDataset(
-		//						//								EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME).getSlice();
-		//						//						logI0It.setName(Lni0it_NAME);
-		//						//						List<IDataset> ds = new Vector<IDataset>();
-		//						//						ds.add(dk);
-		//						//						ds.add(i0);
-		//						//						ds.add(it);
-		//						//						ds.add(logI0It);
-		//						//						plottingSystem.clear();
-		//						//						plottingSystem.setTitle(fileName);
-		//						//						plottingSystem.createPlot1D(strips, ds, null);
-		//						//						updateVisibility();
-		//						//						plottingSystem.autoscaleAxes();
-		//						//						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ID);
-		//
-		//						final IWorkbenchPage page = PlatformUI.getWorkbench()
-		//								.getActiveWorkbenchWindow().getActivePage();
-		//						LivePlotView part = (LivePlotView) page.findView(LivePlotView.ID);
-		//						if (part == null) {
-		//							part = (LivePlotView) page.showView(LivePlotView.ID);
-		//						}
-		//						List<String> dataSet = new ArrayList<String>();
-		//						dataSet.add("#" + EdeAsciiFileWriter.STRIP_COLUMN_NAME);
-		//						dataSet.add(EdeAsciiFileWriter.I0_DARK_COLUMN_NAME);
-		//						Map<String, String> dataSetNames = new HashMap<String, String>();
-		//						dataSetNames.put("#" + EdeAsciiFileWriter.STRIP_COLUMN_NAME, "#" + EdeAsciiFileWriter.STRIP_COLUMN_NAME);
-		//						dataSetNames.put(EdeAsciiFileWriter.I0_DARK_COLUMN_NAME, EdeAsciiFileWriter.I0_DARK_COLUMN_NAME);
-		//						dataSetNames.put(EdeAsciiFileWriter.IT_DARK_COLUMN_NAME, EdeAsciiFileWriter.IT_DARK_COLUMN_NAME);
-		//						dataSetNames.put(EdeAsciiFileWriter.I0_CORR_COLUMN_NAME, EdeAsciiFileWriter.I0_CORR_COLUMN_NAME);
-		//						dataSetNames.put(EdeAsciiFileWriter.IT_CORR_COLUMN_NAME, EdeAsciiFileWriter.IT_CORR_COLUMN_NAME);
-		//						dataSetNames.put(EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME, EdeAsciiFileWriter.LN_I0_IT_COLUMN_NAME);
-		//						part.openFile(file.getPath(), dataSet, dataSetNames);
-		//
-		//					} catch (Exception e) {
-		//						UIHelper.showError("Unable to plot the data", e.getMessage());
-		//					}
-		//				}
-		//			}
-		//
-		//			private void updateVisibility() {
-		//				for (SelectionListener listener : selectionListeners) {
-		//					listener.widgetSelected(null);
-		//				}
-		//			}
-		//		});
-	}
-
-	private void addCheckBoxes(Composite controls) {
-		createButton(controls, DARK_NAME);
-		createButton(controls, I0_NAME);
-		createButton(controls, It_NAME);
-		createButton(controls, Lni0it_NAME);
-	}
-
-	private Button createButton(Composite parent, String label) {
-		Button newBtn = new Button(parent, SWT.CHECK);
-		newBtn.setText(label);
-		newBtn.setSelection(true);
-		newBtn.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		SelectionListener dkListener = new SpectrumSelectionListener(label, newBtn);
-		selectionListeners.add(dkListener);
-		newBtn.addSelectionListener(dkListener);
-		return newBtn;
 	}
 
 	@Override
@@ -188,24 +84,5 @@ public class SingleSpectrumPlotView extends ViewPart {
 		super.dispose();
 	}
 
-	private class SpectrumSelectionListener implements SelectionListener {
 
-		private final String label;
-		private final Button btn;
-
-		SpectrumSelectionListener(String label, Button btn) {
-			this.label = label;
-			this.btn = btn;
-		}
-
-		@Override
-		public void widgetSelected(SelectionEvent e) {
-			ITrace dkTrace = plottingSystem.getTrace(label);
-			dkTrace.setVisible(btn.getSelection());
-		}
-
-		@Override
-		public void widgetDefaultSelected(SelectionEvent e) {
-		}
-	}
 }

@@ -45,6 +45,8 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.client.liveplot.LivePlotView;
@@ -54,6 +56,8 @@ import com.google.gson.annotations.Expose;
 
 public class SingleSpectrumModel extends ObservableModel {
 	public static final SingleSpectrumModel INSTANCE = new SingleSpectrumModel(0);
+
+	private static final Logger logger = LoggerFactory.getLogger(SingleSpectrumModel.class);
 
 	public static final String I0_X_POSITION_PROP_NAME = "i0xPosition";
 	private double i0xPosition;
@@ -159,8 +163,8 @@ public class SingleSpectrumModel extends ObservableModel {
 	}
 
 	private String buildScanCommand() {
-		return String.format("from gda.scan.ede.drivers import SingleSpectrumDriver;" +
-				"scan_driver = SingleSpectrumDriver(\"%s\",\"%s\",%f,%d,%f,%d,\"%s\",%s);" +
+		return String.format("from gda.scan.ede.drivers import SingleSpectrumDriver; \n" +
+				"scan_driver = SingleSpectrumDriver(\"%s\",\"%s\",%f,%d,%f,%d,\"%s\",%s); \n" +
 				"scan_driver.setInBeamPosition(%f,%f);" +
 				"scan_driver.setOutBeamPosition(%f,%f)",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
@@ -221,8 +225,6 @@ public class SingleSpectrumModel extends ObservableModel {
 				final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
 				final String scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
 				final String scanfilename =  edeScanProgress.getThisPoint().getCurrentFilename();
-				//				String scanType = edeScanProgress.getScanType().toString();
-				//				String posType = edeScanProgress.getPositionType().toString();
 				final String label = edeExperimentProgress.getDataLabel();
 				final AxisSpec spec = new AxisSpec("counts");
 
@@ -262,7 +264,9 @@ public class SingleSpectrumModel extends ObservableModel {
 			});
 			monitor.beginTask("Starting " + ScanJobName.values().length + " tasks.", ScanJobName.values().length);
 			try {
-				InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
+				String command = buildScanCommand();
+				logger.info("Sending command: " + command);
+				InterfaceProvider.getCommandRunner().runCommand(command);
 				// give the previous command a chance to run before calling doCollection()
 				Thread.sleep(50);
 				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");

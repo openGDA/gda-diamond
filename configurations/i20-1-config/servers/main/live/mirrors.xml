@@ -66,7 +66,7 @@
 		</property>
 	</bean>
 	<bean id="me2_stripe_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20J-OP-PM-02:P" />
+		<property name="pvName" value="BL20J-OP-PM-02:X" />
 	</bean>
 	
 	<bean id="me2y_motor" class="gda.device.motor.EpicsMotor">

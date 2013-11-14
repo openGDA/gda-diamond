@@ -25,20 +25,26 @@ import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.factory.FactoryException;
+import gda.jython.InterfaceProvider;
 import gda.scan.ScanDataPoint;
+import gda.scan.ede.EdeExperiment;
+import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
@@ -832,7 +838,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			double[] correctedData = performCorrections(elements, false)[0];
 			return correctedData;
 		} else if (attributeName.equals(ATTR_WRITEFIRSTFRAME)) {
-			writeNexusFile();
+			writeDataFiles();
 			return null;
 		} else if (attributeName.equals(ATTR_ROIS)) {
 			return getRois();
@@ -840,7 +846,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		return super.getAttribute(attributeName);
 	}
 
-	protected void writeNexusFile() throws DeviceException {
+	protected void writeDataFiles() throws DeviceException {
 		try {
 			ScanDataPoint sdp = new ScanDataPoint();
 			sdp.addDetector(this);
@@ -856,8 +862,37 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			writer.configureScanNumber(scanNumber);
 			writer.addData(sdp);
 
+			writeAsciiFile(sdp, writer.getCurrentFileName());
 		} catch (Exception e) {
 			throw new DeviceException(e.getMessage(), e);
+		}
+	}
+
+	private void writeAsciiFile(ScanDataPoint sdp,String nexusFilePath) throws Exception {
+		DoubleDataset dataSet = EdeAsciiFileWriter.extractDetectorDataFromSDP(this.getName(), sdp);
+		String asciiFileFolder = EdeAsciiFileWriter.convertFromNextToAsciiFolder(nexusFilePath);
+		String asciiFilename = FilenameUtils.getBaseName(nexusFilePath);
+		File asciiFile = new File(asciiFileFolder, asciiFilename + EdeAsciiFileWriter.ASCII_FILE_EXTENSION);
+		if (asciiFile.exists()) {
+			throw new Exception("File " + asciiFilename + " already exists!");
+		}
+		FileWriter asciiFileWriter = null;
+		String line = System.getProperty("line.separator");
+		try {
+			asciiFileWriter = new FileWriter(asciiFile);
+			asciiFileWriter.write(String.format("#%s\t%s", EdeExperiment.STRIP_COLUMN_NAME, EdeExperiment.ENERGY_COLUMN_NAME));
+			asciiFileWriter.write(line);
+			for (int i = 0; i < dataSet.getSize(); i++) {
+				asciiFileWriter.write(String.format("%d\t%f", i, dataSet.get(i)));
+				asciiFileWriter.write(line);
+			}
+		} catch(Exception ex) {
+			throw new Exception("Unable to write ascii data");
+		} finally {
+			if (asciiFileWriter != null) {
+				asciiFileWriter.close();
+				InterfaceProvider.getTerminalPrinter().print("Writing data to file (Ascii): " + asciiFile.getAbsolutePath());
+			}
 		}
 	}
 

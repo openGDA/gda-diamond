@@ -33,25 +33,27 @@
 	<bean id="plotYAxisColors" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
 		<property name="map">
 			<map>
+				<!-- The names are defined in EdeExperiment and must match with those names -->
+				<entry key="Total" value="#000000" /> <!-- black -->
+
 				<entry key="ROI_1" value="#B0171F" /> <!-- red -->
-				<entry key="ROI_2" value="#FF00FF" /> <!-- magenta (fuchsia*) -->
-				<entry key="ROI_3" value="#0000FF" /> <!-- blue -->
-				<entry key="ROI_4" value="#00FF00" /> <!-- green -->
-				<entry key="ROI_5" value="#FFA500" /> <!-- orange -->
-				<entry key="ROI_6" value="#000000" /> <!-- black -->
-				
-				<entry key="Total" value="#00FFFF" /> <!-- cyan -->
+				<entry key="ROI_2" value="#FFA500" /> <!-- orange -->
+				<entry key="ROI_3" value="#00FF00" /> <!-- green -->
+				<entry key="ROI_4" value="#0000FF" /> <!-- blue -->
+				<entry key="ROI_5" value="#FF00FF" /> <!-- magenta (fuchsia*) -->
+				<entry key="ROI_6" value="#00FFFF" /> <!-- cyan -->
+
 				<entry key="Frame" value="#800080" /> <!-- purple -->
 				<entry key="Group" value="#8B4513" /> <!-- chocolate -->
 				<entry key="It" value="#698B22" /> <!-- olive -->
 				<entry key="Repetition" value="#7A67EE" /> <!-- slateblue -->
 				
 				<entry key="s3_hgap" value="#DB7093" /> <!-- palevioletred -->
-				<entry key="I0_dark/Strip" value="#FF00FF" />  <!-- magenta (fuchsia*) -->
-				<entry key="It_dark/Strip" value="#0000FF" />  <!-- blue -->
-				<entry key="I0_corr/Strip" value="#00FF00" /> <!-- green -->
-				<entry key="It_corr/Strip" value="#FFA500" /> <!-- orange -->
-				<entry key="LnI0It/Strip" value="#000000" /> <!-- black -->
+				<entry key="I0_dark" value="#FF00FF" />  <!-- magenta (fuchsia*) -->
+				<entry key="It_dark" value="#0000FF" />  <!-- blue -->
+				<entry key="I0_corr" value="#00FF00" /> <!-- green -->
+				<entry key="It_corr" value="#FFA500" /> <!-- orange -->
+				<entry key="LnI0It" value="#000000" /> <!-- black -->
 			</map>
 		</property>
 	</bean>
