@@ -14,4 +14,4 @@ rm -f $OBJECT_SERVER_STARTUP_FILE
 
 # look for the output file which will tell us when the servers have started
 
-/$SOFTWAREFOLDER/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i15-config/bin/lookForFile $OBJECT_SERVER_STARTUP_FILE
+/$SOFTWAREFOLDER/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/mt-config/bin/lookForFile $OBJECT_SERVER_STARTUP_FILE
