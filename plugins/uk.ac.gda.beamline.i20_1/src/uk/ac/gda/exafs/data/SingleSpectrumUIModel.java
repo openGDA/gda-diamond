@@ -26,10 +26,7 @@ import gda.jython.JythonServerFacade;
 import gda.jython.JythonServerStatus;
 import gda.observable.IObservable;
 import gda.observable.IObserver;
-import gda.scan.AxisSpec;
 import gda.scan.ede.EdeExperiment;
-import gda.scan.ede.EdeExperimentProgressBean;
-import gda.scan.ede.EdeScanProgressBean;
 import gda.util.exafs.Element;
 
 import java.beans.PropertyChangeEvent;
@@ -40,13 +37,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentMotorPostion;
 import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors;
@@ -249,38 +242,39 @@ public class SingleSpectrumUIModel extends ObservableModel {
 				if (SingleSpectrumUIModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
 					monitor.worked(1);
 				}
-			} else if (arg instanceof EdeExperimentProgressBean) {
-				final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
-
-				final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
-				final String scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
-				final String scanfilename =  edeScanProgress.getThisPoint().getCurrentFilename();
-				final String label = edeExperimentProgress.getDataLabel();
-				final AxisSpec spec = new AxisSpec("counts");
-
-				final DoubleDataset currentNormalisedItData = edeExperimentProgress.getData();
-				final DoubleDataset currentEnergyData = edeExperimentProgress.getEnergyData();
-
-				Display.getDefault().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-
-						try {
-							final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-									.getActivePage();
-							LivePlotView part = (LivePlotView) page.findView(LivePlotView.ID);
-							if (part == null) {
-								part = (LivePlotView) page.showView(LivePlotView.ID);
-							}
-
-							part.addData(scanIdentifier, scanfilename, label, currentEnergyData, currentNormalisedItData, true, true, spec);
-
-						} catch (Exception e) {
-							UIHelper.showError("Unable to plot the data", e.getMessage());
-						}
-					}
-				});
 			}
+			//			else if (arg instanceof EdeExperimentProgressBean) {
+			//				final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
+			//
+			//				final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
+			//				final String scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
+			//				final String scanfilename =  edeScanProgress.getThisPoint().getCurrentFilename();
+			//				final String label = edeExperimentProgress.getDataLabel();
+			//				final AxisSpec spec = new AxisSpec("counts");
+			//
+			//				final DoubleDataset currentNormalisedItData = edeExperimentProgress.getData();
+			//				final DoubleDataset currentEnergyData = edeExperimentProgress.getEnergyData();
+			//
+			//				Display.getDefault().asyncExec(new Runnable() {
+			//					@Override
+			//					public void run() {
+			//
+			//						try {
+			//							final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+			//									.getActivePage();
+			//							LivePlotView part = (LivePlotView) page.findView(LivePlotView.ID);
+			//							if (part == null) {
+			//								part = (LivePlotView) page.showView(LivePlotView.ID);
+			//							}
+			//
+			//							part.addData(scanIdentifier, scanfilename, label, currentEnergyData, currentNormalisedItData, true, true, spec);
+			//
+			//						} catch (Exception e) {
+			//							UIHelper.showError("Unable to plot the data", e.getMessage());
+			//						}
+			//					}
+			//				});
+			//			}
 		}
 
 		@Override

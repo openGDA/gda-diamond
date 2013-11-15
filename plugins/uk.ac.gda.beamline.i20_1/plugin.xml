@@ -144,7 +144,7 @@
             category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
             class="uk.ac.gda.exafs.ui.views.LinearExperimentPlotView"
             id="uk.ac.gda.exafs.ui.views.LinearExperimentPlotView"
-            name="Linear Experiment Plot"
+            name="Linear experiment live plot"
             restorable="true">
       </view>
       <view
@@ -152,7 +152,7 @@
             class="uk.ac.gda.exafs.ui.views.plot.SingleSpectrumPlotView"
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.singlespectrumplotview"
-            name="Single Spectrum Plot"
+            name="Ede experiment plot"
             restorable="true">
       </view>
    </extension>

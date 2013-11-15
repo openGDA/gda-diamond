@@ -59,14 +59,13 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.client.liveplot.IPlotLineColorService;
 import uk.ac.gda.exafs.ui.data.UIHelper;
-import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
 import uk.ac.gda.exafs.ui.views.plot.model.DataNode;
 import uk.ac.gda.exafs.ui.views.plot.model.DatasetNode;
 import uk.ac.gda.exafs.ui.views.plot.model.PlotDataHolder;
 
 public class SingleSpectrumPlotView extends ViewPart {
 
-	public static String ID = AlignmentPerspective.SINGLE_SPECTRUM_PLOT_VIEW_ID;
+	public static String ID = "uk.ac.gda.exafs.ui.views.singlespectrumplotview";
 
 	private static Logger logger = LoggerFactory.getLogger(SingleSpectrumPlotView.class);
 
@@ -88,7 +87,6 @@ public class SingleSpectrumPlotView extends ViewPart {
 			return;
 		}
 		final SashForm composite = new SashForm(parent, SWT.HORIZONTAL);
-
 		Composite plot = new Composite(composite, SWT.None);
 		plot.setLayout(new FillLayout());
 		plottingSystem.createPlotPart(plot, getTitle(),
@@ -128,10 +126,8 @@ public class SingleSpectrumPlotView extends ViewPart {
 				addAndUpdateTrace(node);
 			}
 		});
-
 	}
 
-	// FIXME Refactoring the styling!
 	private void addAndUpdateTrace(DataNode node) {
 		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier());
 		if (trace == null) {
@@ -146,7 +142,8 @@ public class SingleSpectrumPlotView extends ViewPart {
 			}
 			plottingSystem.addTrace(trace);
 		}
-		trace.setData(node.getXAxisData(), node.getYAxisData());
+		trace.setData(node.getXAxisData(), node.getYAxisData().get(0));
+
 		plottingSystem.repaint();
 		dataTreeViewer.update(node, null);
 		if (!dataTreeViewer.getChecked(node)) {
@@ -236,9 +233,34 @@ public class SingleSpectrumPlotView extends ViewPart {
 					} else {
 						removeTrace(element);
 					}
+					updateStateParent(((DataNode) element).getParent());
 				}
 			}
 		});
+	}
+
+	protected void updateStateParent(DatasetNode parent) {
+		boolean childChecked = false;
+		Object[] children = ((ObservableListTreeContentProvider) dataTreeViewer.getContentProvider()).getChildren(parent);
+		int checkCount = 0;
+		for (Object object : children) {
+			if (dataTreeViewer.getChecked(object)) {
+				childChecked = true;
+				checkCount++;
+			}
+		}
+		if (childChecked) {
+			if (checkCount == children.length) {
+				dataTreeViewer.setGrayChecked(parent, false);
+				dataTreeViewer.setChecked(parent, true);
+			} else {
+				dataTreeViewer.setGrayChecked(parent, true);
+			}
+		} else {
+			if (checkCount == 0) {
+				dataTreeViewer.setChecked(parent, false);
+			}
+		}
 	}
 
 	@Override

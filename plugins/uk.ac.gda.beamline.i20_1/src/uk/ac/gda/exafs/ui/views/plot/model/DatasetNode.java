@@ -45,13 +45,14 @@ public class DatasetNode extends ObservableModel {
 	public DataNode updateData(final EdeExperimentProgressBean arg) {
 		DataNode dataNode;
 		String label = arg.getDataLabel();
-		if (!scans.containsKey(label)) {
-			final DataNode newNode = new DataNode(label, this);
-			scans.put(scanIdentifier, newNode);
+		String identifier = this.toString() + "@" + label;
+		if (!scans.containsKey(identifier)) {
+			final DataNode newNode = new DataNode(identifier, label, this);
+			scans.put(identifier, newNode);
 			dataNodeList.add(newNode);
 			dataNode = newNode;
 		} else {
-			dataNode = scans.get(label);
+			dataNode = scans.get(identifier);
 		}
 		dataNode.updateData(arg.getEnergyData(), arg.getData());
 		return dataNode;
