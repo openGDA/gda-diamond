@@ -1,18 +1,19 @@
 # No Shebang since this will always be sourced.
 
-# This file is sourced from /dls_sw/i15/etc/i15_profile.sh
+# This file is sourced from /dls_sw/$BEAMLINE/etc/$BEAMLINE_profile.sh
 # which is sourced from /etc/profile.d/gda_environment.sh
 
 if [ ! -n "$BEAMLINE" ]; then
-  echo "Please set BEAMLINE environment variable."
+  echo "ERROR: BEAMLINE not set" 1>&2
   exit 1
 fi
 
 GDA_ROOT=/dls_sw/$BEAMLINE/software/gda
-GDA_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/i15-config
+GDA_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config
+MT_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config
 
+export PATH=$GDA_CONFIG/bin:$MT_CONFIG/bin:/dls_sw/$BEAMLINE/bin:${PATH}
 export GDA_MODE=live
-export PATH=$GDA_CONFIG/bin:${PATH}
 
 DESKTOP=$HOME/Desktop
 LAUNCH_LOG_LOCAL=/dev/null
