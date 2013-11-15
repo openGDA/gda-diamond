@@ -16,6 +16,7 @@
 	<bean id="d4motor" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="d4motor_motor" />
 		<property name="local" value="true" />
+		<property name="protectionLevel" value="3" />
 	</bean>
 
 	<bean id="d4d1" class="uk.ac.gda.server.ncd.epics.ScaledAmplifiedMonitor">
@@ -24,6 +25,7 @@
 		<property name="hasUnits" value="false" />
 		<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE1:I" />
 		<property name="local" value="true" />
+		<property name="settletime" value="500" />
 	</bean>
 
 	<bean id="d4d1gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
@@ -109,6 +111,7 @@
 		<property name="hasUnits" value="false" />
 		<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE2:I" />
 		<property name="local" value="true" />
+		<property name="settletime" value="500" />
 	</bean>
 	<bean id="d4d2gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 		<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE2:AMP:GAIN" />
@@ -191,5 +194,6 @@
 	<bean id="d4filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL22I-DI-PHDGN-04:MP" />
 		<property name="local" value="true" />
+		<property name="protectionLevel" value="2" />
 	</bean>
 </beans>

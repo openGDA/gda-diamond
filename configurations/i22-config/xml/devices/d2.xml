@@ -16,6 +16,7 @@
 	<bean id="d2motor" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="d2motor_motor" />
 		<property name="local" value="true" />
+		<property name="protectionLevel" value="3" />
 	</bean>
 	
 	<bean id="d2d1" class="gda.device.scannable.EpicsScannable">
@@ -32,5 +33,6 @@
 	<bean id="d2filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL22I-DI-PHDGN-02:MP" />
 		<property name="local" value="true" />
+		<property name="protectionLevel" value="3" />
 	</bean>
 </beans>

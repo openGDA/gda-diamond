@@ -10,5 +10,6 @@
         <bean id="idgap_mm" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="idgap_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 </beans>

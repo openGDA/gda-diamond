@@ -10,6 +10,7 @@
         <bean id="sd_x" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="sd_x_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="sd_y_motor" class="gda.device.motor.EpicsMotor">
@@ -19,6 +20,7 @@
         <bean id="sd_y" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="sd_y_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="sd_pitch_motor" class="gda.device.motor.EpicsMotor">
@@ -28,6 +30,7 @@
         <bean id="sd_pitch" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="sd_pitch_motor" />
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 
         <bean id="sd" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -39,5 +42,6 @@
                         </list>
                 </property>
                 <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
         </bean>
 </beans>

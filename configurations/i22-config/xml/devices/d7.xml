@@ -25,9 +25,11 @@
 	<bean id="d7motor" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="d7motor_motor" />
 		<property name="local" value="true" />
+		<property name="protectionLevel" value="3" />
 	</bean>
 	<bean id="d7filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL22I-DI-PHDGN-07:MP" />
 		<property name="local" value="true" />
+		<property name="protectionLevel" value="3" />
 	</bean>
 </beans>
