@@ -14,9 +14,9 @@ gda.factory.factoryName = I07
 gda.oe.oefactory        = remote
 #gda.oe.oefactory        = local
 #gda.objectserver.xml    = ${gda.config}/xml/castor/server/server.xml
-gda.objectserver.xml    = ${gda.config}/xml/server/server.xml
-gda.gui.beans.xml		= ${gda.config}/xml/client/client.xml
+gda.objectserver.xml    = ${gda.config}/xml/server/serverSimple.xml
 
 #testing.gda.gui.xml   =${gda.config}/xml/TB_Client_Testing.xml
+
 
 include=./java_common.properties

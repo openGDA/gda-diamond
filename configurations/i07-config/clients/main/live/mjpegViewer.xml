@@ -10,7 +10,7 @@
 
 
 	<context:property-placeholder
-		location="file:${gda.config}/properties/java.properties" />
+		location="file:${gda.config}/properties/live/java.properties" />
 
 
 <!-- setup CameraView -->

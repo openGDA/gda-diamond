@@ -1,9 +1,0 @@
-#!/bin/bash
-
-export gdaLauncher=/dls/$BEAMLINE/software/gda/plugins/uk.ac.gda.core/bin/gda
-
-echo $gdaLauncher $@
-$gdaLauncher  $@
-
-
-

@@ -11,7 +11,7 @@
 
 
 	<context:property-placeholder
-		location="file:${gda.config}/properties/java.properties" />
+		location="file:${gda.config}/properties/live/java.properties" />
 
 
 	<bean id="pil3_cam_base" class="gda.spring.V17ADBaseFactoryBean">
@@ -40,6 +40,7 @@
 
 	<bean id="fastpil3Controller" class="uk.ac.gda.epics.adviewer.ADControllerImpl">
 		<property name="detectorName" value="fastpil3" />
+		<property name="serviceName" value="fastpil3" />
 		<property name="adBase" ref="pil3_cam_base" />
 		<property name="imageNDROI" ref="pil3_roi" />
 		<property name="imageNDArray" ref="pil3_array" />
