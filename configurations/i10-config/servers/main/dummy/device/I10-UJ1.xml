@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">     
+
+	<!-- UJ1 User Input/Output -->
+	
+	<!-- Elsewhere a real EpicsScaler is used in dummy mode. -->
+	<bean id="scalerj1" class="gda.device.detector.EpicsScaler">
+		<property name="deviceName" value="SCALERJ1" />
+		<property name="frequency" value="50000000"/>
+	</bean>
+
+	<bean id="uj1ai1" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="uj1ai2" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="uj1ai3" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="uj1ai4" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="uj1ai5" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="uj1ai6" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="uj1ai7" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="uj1ai8" class="gda.device.monitor.DummyEpicsMonitor" />
+
+	<bean id="uj1ao1" class="gda.device.controlpoint.DummyControlPoint" />
+	<bean id="uj1ao2" class="gda.device.controlpoint.DummyControlPoint" />
+	<bean id="uj1ao3" class="gda.device.controlpoint.DummyControlPoint" />
+	<bean id="uj1ao4" class="gda.device.controlpoint.DummyControlPoint" />
+	<bean id="uj1ao5" class="gda.device.controlpoint.DummyControlPoint" />
+	<bean id="uj1ao6" class="gda.device.controlpoint.DummyControlPoint" />
+	<bean id="uj1ao7" class="gda.device.controlpoint.DummyControlPoint" />
+	<bean id="uj1ao8" class="gda.device.controlpoint.DummyControlPoint" />
+ </beans>

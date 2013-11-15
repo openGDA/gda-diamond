@@ -107,11 +107,6 @@ gda.icat.title = GDA base simulation
 # Default values
 gda.default.visit = 0-0
 
-## For the jacorb CORBA event service ##
-gda.ORBClass 	      = org.jacorb.orb.ORB
-gda.ORBSingletonClass = org.jacorb.orb.ORBSingleton
-gda.eventChannelName  = local.eventChannel
-
 
 ## Miscellaneaous settings for various file locations and options ##
 gda.objectDelimiter       = .

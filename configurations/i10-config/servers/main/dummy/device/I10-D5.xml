@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           
+	<!-- D5 (D7) -->
+
+	<bean id="d5d7_gcell_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="d5_pos" class="gda.device.enumpositioner.DummyPositioner" />
+	<bean id="d5a_pos" class="gda.device.enumpositioner.DummyPositioner" />
+	<bean id="d5d7_det_motor" class="gda.device.motor.DummyMotor" />
+</beans>

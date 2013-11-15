@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           
+	<!--  M1 -->
+	     
+	<bean id="m1x_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m1y_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m1z_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m1yaw_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m1pitch_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m1roll_motor" class="gda.device.motor.DummyMotor" />
+</beans>

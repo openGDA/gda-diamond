@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd
+           http://www.diamond.ac.uk/schema/gda/corba
+           http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+           http://www.diamond.ac.uk/schema/gda/gda
+           http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+
+<gda:rbac/>
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/dummy/java.properties</value>
+				<value>file:${gda.config}/properties/common/java.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
+		<property name="local" value="true" />
+	</bean>
+
+	<import resource="metadata.xml"/>
+	<import resource="device/all.xml"/>
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/i10-shared/servers/main/dummy/device/all.xml"/>
+
+	<import resource="../common/server.xml"/>
+</beans>
