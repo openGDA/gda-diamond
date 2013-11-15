@@ -10,11 +10,12 @@ Start the GDA client with the default workspace: ${WORKSPACE}
 
 Environment:
   Required:
-    BEAMLINE            Used to determine default directory locations
+    BEAMLINE                Used to determine default directory locations
   Optional:
-    GDA_CLIENT          Override the default client executable
-    GDA_CLIENT_VMARGS   Specify additional -vmargs to append
-    GDA_CLIENT_LOG_DIR  Override default ErrorFile location
+    GDA_CLIENT              Override the default client executable
+    GDA_CLIENT_VMARGS       Specify additional -vmargs to append
+    GDA_CLIENT_LOG_DIR      Override default ErrorFile location
+    GDA_CLIENT_WORKING_DIR  If not set cd to GDA_CLIENT_LOG_DIR instead
 
 OPTIONS:
     --help      Print this help and exit.
@@ -175,7 +176,12 @@ if [ -z $GDA_CLIENT_LOG_DIR ] ; then
   GDA_CLIENT_LOG_DIR=/dls_sw/$BEAMLINE/logs
 fi
 # The directory into which core dumps are written is best specified by changing the cwd
-cd $GDA_CLIENT_LOG_DIR
+
+if [ -z $GDA_CLIENT_WORKING_DIR ] ; then
+  cd $GDA_CLIENT_LOG_DIR
+else
+  cd $GDA_CLIENT_WORKING_DIR
+fi
 
 if [ -z $GDA_CLIENT ] ; then
   GDA_CLIENT=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE}
