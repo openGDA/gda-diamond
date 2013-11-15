@@ -25,6 +25,7 @@ import gda.device.scannable.AlignmentStageScannable.Location;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.databinding.Binding;
@@ -34,14 +35,19 @@ import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
@@ -57,7 +63,6 @@ import uk.ac.gda.exafs.data.SingleSpectrumUIModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentMotorPostion;
-import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotorSelectionComposite;
 import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors;
 import uk.ac.gda.exafs.ui.sections.EDECalibrationSection;
 import uk.ac.gda.exafs.ui.sections.SingleSpectrumParametersSection;
@@ -76,11 +81,7 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 
 	private Button switchWithSamplePositionButton;
 
-	private Composite sampleStageMotorsComposite;
-
 	private Binding stageSelectionButtonBinding;
-
-	private Composite sampleStateMotorselectionComposite;
 
 	private Form form;
 
@@ -98,6 +99,8 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 
 	private Binding alignmentStageItCompositeBinding;
 
+	private Button selectSampleStageMotors;
+
 	@Override
 	public void createPartControl(Composite parent) {
 		toolkit = new FormToolkit(parent.getDisplay());
@@ -110,17 +113,9 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 		final Composite stageSelectionComposite = toolkit.createComposite(form.getHead());
 		stageSelectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		switchWithSamplePositionButton = toolkit.createButton(stageSelectionComposite, "Use alignment stage for sample positions", SWT.CHECK);
-		GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
-		gridData.horizontalSpan = 2;
-		switchWithSamplePositionButton.setLayoutData(gridData);
-		sampleStateMotorselectionComposite = toolkit.createComposite(stageSelectionComposite);
-		sampleStateMotorselectionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		sampleStateMotorselectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-		Label sampleStageMotorsLabel = toolkit.createLabel(sampleStateMotorselectionComposite, "Sample stage motors");
-		sampleStageMotorsLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		sampleStageMotorsComposite = new SampleStageMotorSelectionComposite(sampleStateMotorselectionComposite, SWT.BORDER, SingleSpectrumUIModel.INSTANCE.getSampleStageMotors());
-		sampleStageMotorsComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		stageSelectionComposite.layout();
+		switchWithSamplePositionButton.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		selectSampleStageMotors = toolkit.createButton(stageSelectionComposite, "Select sample stage motors", SWT.None);
+		selectSampleStageMotors.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		form.setHeadClient(stageSelectionComposite);
 
 		try {
@@ -135,16 +130,41 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 		}
 	}
 
+	private void showAvailableMotorsDialog() {
+		ListSelectionDialog dialog =
+				new ListSelectionDialog(
+						Display.getDefault().getActiveShell(),
+						SampleStageMotors.scannables,
+						new ArrayContentProvider(),
+						new LabelProvider() {
+							@Override
+							public String getText(Object element) {
+								return ((ExperimentMotorPostion) element).getScannableSetup().getLabel();
+							}
+						},
+						"Select motors to include in the scanning");
+		dialog.setInitialSelections(SingleSpectrumUIModel.INSTANCE.getSampleStageMotors().getSelectedMotors());
+		if (dialog.open() == Window.OK) {
+			SingleSpectrumUIModel.INSTANCE.getSampleStageMotors().setSelectedMotors(Arrays.asList(dialog.getResult()).toArray(new ExperimentMotorPostion[dialog.getResult().length]));
+		}
+	}
 
 	private void setupScannables() {
+		selectSampleStageMotors.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				showAvailableMotorsDialog();
+			}
+		});
+
 		stageSelectionButtonBinding = dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(switchWithSamplePositionButton),
-				WidgetProperties.visible().observe(sampleStateMotorselectionComposite),
+				WidgetProperties.visible().observe(selectSampleStageMotors),
 				new UpdateValueStrategy() {
 					@Override
 					protected IStatus doSet(IObservableValue observableValue, Object value) {
 						IStatus status = super.doSet(observableValue, !((boolean) value));
-						((GridData) sampleStateMotorselectionComposite.getLayoutData()).exclude = ((boolean) value);
+						((GridData) selectSampleStageMotors.getLayoutData()).exclude = ((boolean) value);
 						form.layout();
 						return status;
 					}
