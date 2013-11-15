@@ -271,17 +271,31 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	private String buildScanCommand() {
 		return String.format("from gda.scan.ede.drivers import LinearExperimentDriver;" +
 				JYTHON_DRIVER_OBJ + " = LinearExperimentDriver(\"%s\",\"%s\",%s,%s);" +
-				JYTHON_DRIVER_OBJ + ".setInBeamPosition(%f,%f);" +
-				JYTHON_DRIVER_OBJ + ".setOutBeamPosition(%f,%f)",
+				JYTHON_DRIVER_OBJ + ".setInBeamPosition(mapToJava(%s));" +
+				JYTHON_DRIVER_OBJ + ".setOutBeamPosition(mapToJava(%s))",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
 				TIMING_GROUPS_OBJ_NAME,
 				DetectorModel.SHUTTER_NAME,
-				0.0,
-				0.0,
-				0.0,
-				0.0
-				);
+				buildSampleMotorPositions(true),
+				buildSampleMotorPositions(false));
+	}
+
+	// FIXME This is duplicated code from single spectrum
+	private String buildSampleMotorPositions(boolean isItPosition) {
+		StringBuilder position = new StringBuilder();
+		position.append("{");
+		ExperimentMotorPostion[] motorPositions = SampleStageMotors.INSTANCE.getSelectedMotors();
+		for (int i=0; i < SampleStageMotors.INSTANCE.getSelectedMotors().length; i++) {
+			position.append("'" + motorPositions[i].getScannableSetup().getScannableName() + "'" + ":");
+			double positionValue = (isItPosition) ? motorPositions[i].getTargetItPosition() : motorPositions[i].getTargetI0Position();
+			position.append(positionValue);
+			if (SampleStageMotors.INSTANCE.getSelectedMotors().length > 1 & i < SampleStageMotors.INSTANCE.getSelectedMotors().length - 1) {
+				position.append(",");
+			}
+		}
+		position.append("}");
+		return position.toString();
 	}
 
 	private class ScanJob extends Job implements IObserver {

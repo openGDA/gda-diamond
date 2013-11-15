@@ -52,51 +52,6 @@ public class SingleSpectrumUIModel extends ObservableModel {
 
 	private static final Logger logger = LoggerFactory.getLogger(SingleSpectrumUIModel.class);
 
-
-	public static final String I0_X_POSITION_PROP_NAME = "i0xPosition";
-	private double i0xPosition;
-
-	public static final String I0_Y_POSITION_PROP_NAME = "i0yPosition";
-	private double i0yPosition;
-
-	public static final String IT_X_POSITION_PROP_NAME = "iTxPosition";
-	private double iTxPosition;
-
-	public static final String IT_Y_POSITION_PROP_NAME = "iTyPosition";
-	private double iTyPosition;
-
-	public double getiTxPosition() {
-		return iTxPosition;
-	}
-
-	public void setiTxPosition(double value) {
-		firePropertyChange(IT_X_POSITION_PROP_NAME, iTxPosition, iTxPosition = value);
-	}
-
-	public double getiTyPosition() {
-		return iTyPosition;
-	}
-
-	public void setiTyPosition(double value) {
-		firePropertyChange(IT_Y_POSITION_PROP_NAME, iTyPosition, iTyPosition = value);
-	}
-
-	public double getI0xPosition() {
-		return i0xPosition;
-	}
-
-	public void setI0xPosition(double value) {
-		firePropertyChange(I0_X_POSITION_PROP_NAME, i0xPosition, i0xPosition = value);
-	}
-
-	public double getI0yPosition() {
-		return i0yPosition;
-	}
-
-	public void setI0yPosition(double value) {
-		firePropertyChange(I0_Y_POSITION_PROP_NAME, i0yPosition, i0yPosition = value);
-	}
-
 	private final AlignmentStageScannable.Location holeLocationForAlignment = new AlignmentStageScannable.Location();
 	private final AlignmentStageScannable.Location foilLocationForAlignment = new AlignmentStageScannable.Location();
 
@@ -137,8 +92,6 @@ public class SingleSpectrumUIModel extends ObservableModel {
 	private String fileTemplate = "Unknown_cal_";
 
 	private static final String SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY = "SINGLE_SPECTRUM_DATA";
-
-	private final SampleStageMotors sampleStageMotors = new SampleStageMotors();
 
 	private SingleSpectrumUIModel(@SuppressWarnings("unused") int dummy) {
 		job = new ScanJob("Performing Single spectrum scan");
@@ -182,7 +135,7 @@ public class SingleSpectrumUIModel extends ObservableModel {
 		this.setItNumberOfAccumulations(singleSpectrumData.getItNumberOfAccumulations());
 
 		// TODO For now just load sample_x and sample_y by default
-		this.getSampleStageMotors().setSelectedMotors(new ExperimentMotorPostion[] {SampleStageMotors.scannables[0], SampleStageMotors.scannables[1]});
+		SampleStageMotors.INSTANCE.setSelectedMotors(new ExperimentMotorPostion[] {SampleStageMotors.scannables[0], SampleStageMotors.scannables[1]});
 	}
 
 	private void saveSingleSpectrumData() {
@@ -192,8 +145,8 @@ public class SingleSpectrumUIModel extends ObservableModel {
 	private String buildScanCommand() {
 		return String.format("from gda.scan.ede.drivers import SingleSpectrumDriver; \n" +
 				"scan_driver = SingleSpectrumDriver(\"%s\",\"%s\",%f,%d,%f,%d,\"%s\",%s); \n" +
-				"scan_driver.setInBeamPosition(%f,%f);" +
-				"scan_driver.setOutBeamPosition(%f,%f)",
+				"scan_driver.setInBeamPosition(mapToJava(%s));" +
+				"scan_driver.setOutBeamPosition(mapToJava(%s))",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
 				i0IntegrationTime / 1000, // Converts to Seconds
@@ -202,8 +155,24 @@ public class SingleSpectrumUIModel extends ObservableModel {
 				itNumberOfAccumulations,
 				fileTemplate,
 				DetectorModel.SHUTTER_NAME,
-				0.0, 0.0,
-				0.0, 0.0);
+				buildSampleMotorPositions(true),
+				buildSampleMotorPositions(false));
+	}
+
+	private String buildSampleMotorPositions(boolean isItPosition) {
+		StringBuilder position = new StringBuilder();
+		position.append("{");
+		ExperimentMotorPostion[] motorPositions = SampleStageMotors.INSTANCE.getSelectedMotors();
+		for (int i=0; i < SampleStageMotors.INSTANCE.getSelectedMotors().length; i++) {
+			position.append("'" + motorPositions[i].getScannableSetup().getScannableName() + "'" + ":");
+			double positionValue = (isItPosition) ? motorPositions[i].getTargetItPosition() : motorPositions[i].getTargetI0Position();
+			position.append(positionValue);
+			if (SampleStageMotors.INSTANCE.getSelectedMotors().length > 1 & i < SampleStageMotors.INSTANCE.getSelectedMotors().length - 1) {
+				position.append(",");
+			}
+		}
+		position.append("}");
+		return position.toString();
 	}
 
 	private static enum ScanJobName {
@@ -352,10 +321,6 @@ public class SingleSpectrumUIModel extends ObservableModel {
 
 	public String getFileName() {
 		return fileName;
-	}
-
-	public SampleStageMotors getSampleStageMotors() {
-		return sampleStageMotors;
 	}
 
 	public boolean isScanning() {

@@ -48,7 +48,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,16 +75,14 @@ public class SingleSpectrumParametersSection {
 
 	private SingleSpectrumParametersSection() {}
 
+	// FIXME Do clean up on dispose
 	@SuppressWarnings({ "static-access" })
 	public void createEdeCalibrationSection(Form form, FormToolkit toolkit) throws Exception {
-		//		if (section != null) {
-		//			return;
-		//		}
 		section = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		section.setText("Acquisition settings");
-		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		Composite sectionComposite = toolkit.createComposite(section, SWT.NONE);
-		sectionComposite.setLayout(new GridLayout());
+		sectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		toolkit.paintBordersFor(sectionComposite);
 		section.setClient(sectionComposite);
 

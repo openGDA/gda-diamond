@@ -61,7 +61,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,19 +90,17 @@ public class EDECalibrationSection {
 	private EDECalibrationSection() {}
 	private PolynomialFunction calibrationResult;
 
+	// FIXME Do clean up on dispose
 	@SuppressWarnings({ "static-access" })
 	public void createEdeCalibrationSection(Form form, FormToolkit toolkit) {
-		if (section != null) {
-			return;
-		}
 		section = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		section.setText("EDE Calibration");
 		toolkit.paintBordersFor(section);
-		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		Composite sectionComposite = toolkit.createComposite(section, SWT.NONE);
 		toolkit.paintBordersFor(sectionComposite);
 		section.setClient(sectionComposite);
-		sectionComposite.setLayout(new GridLayout());
+		sectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 
 		final Composite dataComposite = toolkit.createComposite(sectionComposite, SWT.None);
 		dataComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));

@@ -23,6 +23,8 @@ import uk.ac.gda.exafs.data.ObservableModel;
 
 public class SampleStageMotors extends ObservableModel {
 
+	public static final SampleStageMotors INSTANCE = new SampleStageMotors();
+
 	public static final ExperimentMotorPostion[] scannables;
 
 	static {
@@ -37,6 +39,8 @@ public class SampleStageMotors extends ObservableModel {
 		};
 	}
 
+	private SampleStageMotors() {}
+
 	public static final String SELECTED_MOTORS = "selectedMotors";
 	private ExperimentMotorPostion[] selectedMotors = new ExperimentMotorPostion[]{};
 
@@ -47,5 +51,6 @@ public class SampleStageMotors extends ObservableModel {
 	public void setSelectedMotors(ExperimentMotorPostion[] selectedMotors) {
 		this.firePropertyChange(SELECTED_MOTORS, this.selectedMotors, this.selectedMotors = selectedMotors);
 	}
+
 }
 

@@ -36,6 +36,8 @@ import gda.scan.ede.drivers.LinearExperimentDriver;
 import gda.scan.ede.drivers.SingleSpectrumDriver;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import org.junit.BeforeClass;
@@ -53,6 +55,9 @@ public class EdeScanDriversTest extends EdeTestBase {
 	private static ScannableMotor fastShutter_yMotor;
 	private static AlignmentStageScannable alignment_stage;
 	private static DummyMonitor topupMonitor;
+	
+	private static Map<String, Double> sampleStageMotorInPositions = new HashMap<String, Double>();
+	private static Map<String, Double> sampleStageMotorOutPositions = new HashMap<String, Double>();
 
 	@BeforeClass
 	public static void startup() throws FactoryException, DeviceException {
@@ -69,6 +74,11 @@ public class EdeScanDriversTest extends EdeTestBase {
 		sample_y = createMotor("sample_y");
 		fastShutter_xMotor = createMotor("fastShutter_xMotor");
 		fastShutter_yMotor = createMotor("fastShutter_yMotor");
+		
+		sampleStageMotorInPositions.put(sample_x.getName(), 0.0);
+		sampleStageMotorInPositions.put(sample_y.getName(), 0.0);
+		sampleStageMotorOutPositions.put(sample_x.getName(), 1.0);
+		sampleStageMotorOutPositions.put(sample_y.getName(), 1.0);
 
 		alignment_stage = new AlignmentStageScannable(sample_x, sample_y, fastShutter_xMotor, fastShutter_yMotor);
 		alignment_stage.setName("alignment_stage");
@@ -112,25 +122,27 @@ public class EdeScanDriversTest extends EdeTestBase {
 
 	}
 
+	// FIXME This is not testing anything?
 	@Test
 	public void testDriveSingleSpectrumScan_motorpositions() throws Exception {
 		setup("testDriveSingleSpectrumScan_motorpositions");
 
 		SingleSpectrumDriver driver = new SingleSpectrumDriver("xh", "topup", 0.1, 2, 0.2, 1, createShutter2());
-		driver.setInBeamPosition(0.0, 0.0);
-		driver.setOutBeamPosition(0.1, 0.1);
+		driver.setInBeamPosition(sampleStageMotorInPositions);
+		driver.setOutBeamPosition(sampleStageMotorOutPositions);
 
 		String filename = driver.doCollection();
 		System.out.println(filename);
 	}
 
+	// FIXME This is not testing anything?
 //	@Test  //TODO wait until Phyo has completed alignment stage refactoring
 	public void testDriveSingleSpectrumScan_alignmentstagepositions() throws Exception {
 		setup("testDriveSingleSpectrumScan_alignmentstagepositions");
 
 		SingleSpectrumDriver driver = new SingleSpectrumDriver("xh", "topup", 0.1, 2, 0.2, 1, createShutter2());
-		driver.setInBeamPosition("hole", null);
-		driver.setOutBeamPosition("foil", null);
+		driver.setInBeamPosition(sampleStageMotorInPositions);
+		driver.setOutBeamPosition(sampleStageMotorOutPositions);
 
 		String filename = driver.doCollection();
 		System.out.println(filename);
@@ -142,8 +154,8 @@ public class EdeScanDriversTest extends EdeTestBase {
 		setup("testDriveSingleSpectrumScan_mixedpositions");
 
 		SingleSpectrumDriver driver = new SingleSpectrumDriver("xh", "topup", 0.1, 2, 0.2, 1, createShutter2());
-		driver.setInBeamPosition(0.0, 0.0);
-		driver.setOutBeamPosition("foil", null);
+		driver.setInBeamPosition(sampleStageMotorInPositions);
+		driver.setOutBeamPosition(sampleStageMotorOutPositions);
 
 		String filename = driver.doCollection();
 		System.out.println(filename);
@@ -179,8 +191,8 @@ public class EdeScanDriversTest extends EdeTestBase {
 
 
 		LinearExperimentDriver driver = new LinearExperimentDriver("xh", "topup", groups, createShutter2());
-		driver.setInBeamPosition(0.0, 0.0);
-		driver.setOutBeamPosition(0.1, 0.1);
+		driver.setInBeamPosition(sampleStageMotorInPositions);
+		driver.setOutBeamPosition(sampleStageMotorOutPositions);
 
 		String filename = driver.doCollection();
 		System.out.println(filename);

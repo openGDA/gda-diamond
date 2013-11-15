@@ -92,6 +92,7 @@ import de.jaret.util.ui.timebars.model.TimeBarRow;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 
 public class TimeResolvedExperimentView extends ViewPart {
+
 	public static final String ID = "uk.ac.gda.exafs.ui.views.linearExperimentView";
 
 	private static final int TIMEBAR_ZOOM_FACTOR = 10;
@@ -125,6 +126,12 @@ public class TimeResolvedExperimentView extends ViewPart {
 	private NumberEditorControl experimentTimeControl;
 
 	private ComboViewer expUnitSelectionCombo;
+
+	private Scale scale;
+
+	private ComboViewer groupUnitSelectionCombo;
+
+	private SampleStageMotorsComposite sampleMotorsComposite;
 
 	@Override
 	public void createPartControl(final Composite parent) {
@@ -227,6 +234,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		scrolledform.setText("Time-resolved studies");
 		createExperimentDetailsSection(form.getBody());
 		createGroupSection(form.getBody());
+		form.layout();
 	}
 
 	private static class ModelToTargetConverter implements IConverter {
@@ -267,15 +275,128 @@ public class TimeResolvedExperimentView extends ViewPart {
 		}
 	}
 
-	private Scale scale;
 
-	private ComboViewer groupUnitSelectionCombo;
+
+	@SuppressWarnings({ "static-access" })
+	private void createExperimentDetailsSection(Composite parent) throws Exception {
+		// Start stop buttons
+
+		Composite acquisitionButtonsComposite = new Composite(parent, SWT.NONE);
+		GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+		gridData.horizontalSpan = 2;
+		acquisitionButtonsComposite.setLayoutData(gridData);
+		acquisitionButtonsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
+		toolkit.paintBordersFor(acquisitionButtonsComposite);
+
+		Button startAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Start", SWT.PUSH);
+		startAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		startAcquicitionButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				try {
+					TimeResolvedExperimentModel.INSTANCE.doCollection();
+				} catch (Exception e) {
+					UIHelper.showError("Unable to scan", e.getMessage());
+				}
+			}
+		});
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(startAcquicitionButton),
+				BeanProperties.value(TimeResolvedExperimentModel.SCANNING_PROP_NAME).observe(TimeResolvedExperimentModel.INSTANCE),
+				null,
+				new UpdateValueStrategy() {
+					@Override
+					public Object convert(Object value) {
+						return (!(boolean) value);
+					}
+				});
+
+		Button stopAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Stop", SWT.PUSH);
+		stopAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(stopAcquicitionButton),
+				BeanProperties.value(TimeResolvedExperimentModel.SCANNING_PROP_NAME).observe(TimeResolvedExperimentModel.INSTANCE));
+		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				TimeResolvedExperimentModel.INSTANCE.doStop();
+			}
+		});
+
+		//Sample stage motors
+
+		sampleMotorsComposite = new SampleStageMotorsComposite(parent, SWT.None, toolkit, true);
+
+		// IRef
+
+		final Section irefSection = toolkit.createSection(parent, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		irefSection.setText("Use IRef position");
+		irefSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		Composite sectionComposite = toolkit.createComposite(irefSection, SWT.NONE);
+		toolkit.paintBordersFor(sectionComposite);
+		sectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		sectionComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		irefSection.setClient(sectionComposite);
+
+		final Button useIRefCheckButton = toolkit.createButton(sectionComposite, "Use Iref", SWT.CHECK);
+		useIRefCheckButton.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		Composite xyPositionComposite = toolkit.createComposite(sectionComposite, SWT.NONE);
+		toolkit.paintBordersFor(xyPositionComposite);
+		xyPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		xyPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
+
+		Composite xPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
+		toolkit.paintBordersFor(xPositionComposite);
+		xPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		xPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+
+		Label xPosLabel = toolkit.createLabel(xPositionComposite, "x", SWT.None);
+		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		final NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, SingleSpectrumUIModel.IREF_X_POSITION_PROP_NAME, false);
+		xPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		xPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
+		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		Composite yPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
+		toolkit.paintBordersFor(yPositionComposite);
+		yPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		yPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+
+		Label yPosLabel = toolkit.createLabel(yPositionComposite, "y", SWT.None);
+		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		final NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, SingleSpectrumUIModel.IREF_Y_POSITION_PROP_NAME, false);
+		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		yPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
+		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		useIRefCheckButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				xPosition.setEditable(useIRefCheckButton.getSelection());
+				yPosition.setEditable(useIRefCheckButton.getSelection());
+			}
+		});
+
+		xPosition.setEditable(useIRefCheckButton.getSelection());
+		yPosition.setEditable(useIRefCheckButton.getSelection());
+
+		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(irefSection);
+		toolkit.paintBordersFor(defaultSectionSeparator);
+		irefSection.setSeparatorControl(defaultSectionSeparator);
+	}
 
 	private void createGroupSection(Composite parent) throws Exception {
 		@SuppressWarnings("static-access")
 		Section section = toolkit.createSection(parent, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		section.setText("Timing groups");
-		section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		section.setLayoutData(gridData);
 		Composite sectionComposite = toolkit.createComposite(section, SWT.NONE);
 		toolkit.paintBordersFor(sectionComposite);
 		sectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
@@ -288,7 +409,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		Label lbl = toolkit.createLabel(expTimeComposite, "Total experiment", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		experimentTimeControl = new NumberEditorControl(expTimeComposite, SWT.None, TimeResolvedExperimentModel.INSTANCE, TimeResolvedExperimentModel.EXPERIMENT_DURATION_PROP_NAME, false);
 		experimentTimeControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		experimentTimeControl.setLayoutData(gridData);
@@ -416,7 +537,8 @@ public class TimeResolvedExperimentView extends ViewPart {
 		section.setSeparatorControl(sectionSeparator);
 
 		final Section groupSection = toolkit.createSection(parent, SWT.None);
-		groupSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		groupSection.setLayoutData(gridData);
 		final Composite groupSectionComposite = toolkit.createComposite(groupSection, SWT.NONE);
 		groupSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 		groupSection.setClient(groupSectionComposite);
@@ -512,160 +634,6 @@ public class TimeResolvedExperimentView extends ViewPart {
 			}
 		});
 	}
-
-	private void createExperimentDetailsSection(Composite parent) throws Exception {
-		@SuppressWarnings("static-access")
-		Section section = toolkit.createSection(parent, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		section.setText("Sample position and experiment setup");
-		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-		data.verticalSpan = 2;
-		section.setLayoutData(data);
-		Composite sectionComposite = toolkit.createComposite(section, SWT.NONE);
-		toolkit.paintBordersFor(sectionComposite);
-		sectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-		section.setClient(sectionComposite);
-
-		Label lbl = toolkit.createLabel(sectionComposite, "I0 position", SWT.NONE);
-		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		createSamplePositionComposite(sectionComposite, SingleSpectrumUIModel.I0_X_POSITION_PROP_NAME, SingleSpectrumUIModel.I0_Y_POSITION_PROP_NAME);
-
-		lbl = toolkit.createLabel(sectionComposite, "It position", SWT.NONE);
-		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		createSamplePositionComposite(sectionComposite, SingleSpectrumUIModel.IT_X_POSITION_PROP_NAME, SingleSpectrumUIModel.IT_Y_POSITION_PROP_NAME);
-
-		// Iref
-
-		final Button useIRefCheckButton = toolkit.createButton(sectionComposite, "Use Iref", SWT.CHECK);
-		GridData gridData = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
-		useIRefCheckButton.setLayoutData(gridData);
-
-		Composite xyPositionComposite = toolkit.createComposite(sectionComposite, SWT.NONE);
-		toolkit.paintBordersFor(xyPositionComposite);
-		xyPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		xyPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
-
-		Composite xPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
-		toolkit.paintBordersFor(xPositionComposite);
-		xPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		xPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-
-		Label xPosLabel = toolkit.createLabel(xPositionComposite, "x", SWT.None);
-		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		final NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, SingleSpectrumUIModel.IREF_X_POSITION_PROP_NAME, false);
-		xPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		xPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
-		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		Composite yPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
-		toolkit.paintBordersFor(yPositionComposite);
-		yPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		yPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-
-		Label yPosLabel = toolkit.createLabel(yPositionComposite, "y", SWT.None);
-		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		final NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, SingleSpectrumUIModel.IREF_Y_POSITION_PROP_NAME, false);
-		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		yPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
-		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		useIRefCheckButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				xPosition.setEditable(useIRefCheckButton.getSelection());
-				yPosition.setEditable(useIRefCheckButton.getSelection());
-			}
-		});
-
-		xPosition.setEditable(useIRefCheckButton.getSelection());
-		yPosition.setEditable(useIRefCheckButton.getSelection());
-
-		Composite acquisitionButtonsComposite = new Composite(sectionComposite, SWT.NONE);
-		gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, true);
-		gridData.horizontalSpan = 2;
-		acquisitionButtonsComposite.setLayoutData(gridData);
-		acquisitionButtonsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
-		toolkit.paintBordersFor(acquisitionButtonsComposite);
-
-		Button startAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Start", SWT.PUSH);
-		startAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		startAcquicitionButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				try {
-					TimeResolvedExperimentModel.INSTANCE.doCollection();
-				} catch (Exception e) {
-					UIHelper.showError("Unable to scan", e.getMessage());
-				}
-			}
-		});
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(startAcquicitionButton),
-				BeanProperties.value(TimeResolvedExperimentModel.SCANNING_PROP_NAME).observe(TimeResolvedExperimentModel.INSTANCE),
-				null,
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object value) {
-						return (!(boolean) value);
-					}
-				});
-
-		Button stopAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Stop", SWT.PUSH);
-		stopAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(stopAcquicitionButton),
-				BeanProperties.value(TimeResolvedExperimentModel.SCANNING_PROP_NAME).observe(TimeResolvedExperimentModel.INSTANCE));
-		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				TimeResolvedExperimentModel.INSTANCE.doStop();
-			}
-		});
-
-		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
-		toolkit.paintBordersFor(sectionSeparator);
-		section.setSeparatorControl(sectionSeparator);
-	}
-
-	public void createSamplePositionComposite(Composite parent, String xPropName, String yPropName) throws Exception {
-		Composite xyPositionComposite = toolkit.createComposite(parent, SWT.NONE);
-		toolkit.paintBordersFor(xyPositionComposite);
-		xyPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		xyPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
-
-		Composite xPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
-		toolkit.paintBordersFor(xPositionComposite);
-		xPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		xPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-
-		Label xPosLabel = toolkit.createLabel(xPositionComposite, "x", SWT.None);
-		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		final NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, xPropName, false);
-		xPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		xPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
-		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		Composite yPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
-		toolkit.paintBordersFor(yPositionComposite);
-		yPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		yPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-
-		Label yPosLabel = toolkit.createLabel(yPositionComposite, "y", SWT.None);
-		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		final NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, yPropName, false);
-		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		yPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
-		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-	}
-
 
 	// TODO Until it is clear how to do, temporary removed the time resolved plot to determine groups
 
@@ -948,4 +916,9 @@ public class TimeResolvedExperimentView extends ViewPart {
 		}
 	}
 
+	@Override
+	public void dispose() {
+		sampleMotorsComposite.dispose();
+		super.dispose();
+	}
 }
