@@ -15,8 +15,11 @@
 	<import resource="s4.xml" />
 	<import resource="s5.xml" />
 	<import resource="s6.xml" />
+
 	<import resource="dcm.xml" />
+	<import resource="qbpm.xml" />
 	<import resource="shutter.xml" />
+
 	<import resource="d1.xml" />
 	<import resource="d2.xml" />
 	<import resource="d3.xml" />
@@ -24,6 +27,7 @@
 	<import resource="d5.xml" />
 	<import resource="d6.xml" />
 	<import resource="d7.xml" />
+	<import resource="d8.xml" />
 
 	<import resource="t5.xml" />
 
