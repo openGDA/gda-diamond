@@ -34,30 +34,19 @@ public class MirrorCoating extends ScannableBase implements Scannable {
 	}
 
 	@Override
-	public Object rawGetPosition() {
-		try {
-			pos = mirror.getPosition().toString();
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} catch (DeviceException e) {
-			e.printStackTrace();
-		}
+	public Object rawGetPosition() throws DeviceException {
+		pos = mirror.getPosition().toString();
 
-		if (mirrorType.equals("OH")) {
-			if (pos.equals("Chromium"))
-				return "Cr";
-			else if (pos.equals("Platinum"))
-				return "Pt";
-		}
+		if (pos.equals("Chromium"))
+			return "Cr";
+		else if (pos.equals("Platinum"))
+			return "Pt";
+		else if (pos.equals("Nickel"))
+			return "Ni";
+		else if (pos.equals("Platinum"))
+			return "Pt";
 
-		else if (mirrorType.equals("HR")) {
-			if (pos.equals("Nickel"))
-				return "Ni";
-			else if (pos.equals("Platinum"))
-				return "Pt";
-		}
-
-		return "";
+		return "Unknown";
 	}
 
 	public EnumPositioner getMirror() {
@@ -75,6 +64,5 @@ public class MirrorCoating extends ScannableBase implements Scannable {
 	public void setMirrorType(String mirrorType) {
 		this.mirrorType = mirrorType;
 	}
-	
-	
+
 }
