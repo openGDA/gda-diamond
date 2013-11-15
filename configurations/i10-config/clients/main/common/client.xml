@@ -13,23 +13,11 @@
 		http://www.diamond.ac.uk/schema/gda/corba
 		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/java.properties</value>
-				<!-- 
-				<value>file:${gda.config}/properties/live/java.properties</value>
-				<value>file:${gda.config}/properties/common/java.properties</value>
-				 -->
-			</list>
-		</property>
-	</bean>
-
-	<corba:import namespace="i10server" names="plot_server" />
-	<corba:import namespace="i10server" names="GDAMetadata" />
+	<corba:import namespace="${gda.factory.factoryName}" names="plot_server" />
+	<corba:import namespace="${gda.factory.factoryName}" names="GDAMetadata" />
 	
 	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="i10server" />
+		<constructor-arg index="0" value="${gda.factory.factoryName}" />
 		<constructor-arg index="1">
 			<bean class="gda.spring.NetServiceFactoryBean" />
 		</constructor-arg>
@@ -39,4 +27,6 @@
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
 		<property name="service" ref="plot_server" />
 	</bean>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 </beans>
