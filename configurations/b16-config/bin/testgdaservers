@@ -1,6 +1,15 @@
 #!/bin/bash
 #unset BEAMLINE
-`dirname $0`/gda logserver --mode=dummy $@
-`dirname $0`/gda nameserver --mode=dummy $@
-`dirname $0`/gda eventserver --mode=dummy $@
-JAVA_OPTS="-XX:MaxPermSize=128m -Xms512m -Xmx2048m" `dirname $0`/gda objectserver --mode=dummy --debug $@
+
+
+. gda_setup_env gda_swingclient_output
+
+echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
+
+
+#unset BEAMLINE
+
+$GDA_CORE_SCRIPT logserver --mode=dummy $@
+$GDA_CORE_SCRIPT nameserver --mode=dummy $@
+$GDA_CORE_SCRIPT eventserver --mode=dummy $@
+JAVA_OPTS="-XX:MaxPermSize=128m -Xms512m -Xmx2048m" $GDA_CORE_SCRIPT objectserver --mode=dummy --debug $@
