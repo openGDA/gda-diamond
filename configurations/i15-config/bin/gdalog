@@ -2,12 +2,13 @@
 
 LOGPANEL=$(ps -ef | grep LogPanel | grep -v grep)
 if [ "X$LOGPANEL" == "X" ] ; then
-  . $(dirname "$0")/GDA_common gda_log_output
+  export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
+  . $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env gda_log_output
 
   echo Starting GDA Log Panel...
-  echo  $GDA_CORE_SCRIPT logpanel
-  echo  $GDA_CORE_SCRIPT logpanel >> $GDA_CONSOLE_LOG
-  nohup $GDA_CORE_SCRIPT logpanel >> $GDA_CONSOLE_LOG 2>&1 &
+  echo  $GDA_CORE_SCRIPT logpanel --mode=$GDA_MODE
+  echo  $GDA_CORE_SCRIPT logpanel --mode=$GDA_MODE >> $GDA_CONSOLE_LOG
+  nohup $GDA_CORE_SCRIPT logpanel --mode=$GDA_MODE >> $GDA_CONSOLE_LOG 2>&1 &
 
 else
   echo Raising GDA Log Panel...
