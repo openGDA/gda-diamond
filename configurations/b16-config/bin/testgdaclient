@@ -1,3 +1,16 @@
 #!/bin/bash
 #unset BEAMLINE
-JAVA_OPTS="-Xms128m -Xmx1024m" `dirname $0`/gda client --mode=dummy $@
+
+
+. gda_setup_env gda_swingclient_output
+
+echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
+
+
+#unset BEAMLINE
+
+ 
+
+
+
+JAVA_OPTS="-Xms128m -Xmx1024m" $GDA_CORE_SCRIPT client --mode=dummy $@

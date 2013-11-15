@@ -57,6 +57,10 @@ import pd_waitWhileScannableBelowThreshold
 import sys
 from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
 
+from gdascripts.scannable.dummy import SingleInputDummy, SingleInputStringDummy
+from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
+from gda.device.scannable.scannablegroup import ScannableGroup
+
 ScriptBase.interrupted = False #@UndefinedVariable
 
 print "======================================================================"
@@ -273,6 +277,16 @@ else:
 ###############################################################################
 ###                           Creating      Piezo devices                   ###
 ###############################################################################
+
+### Linox piezo stages ###
+if installation.isLive():
+	from scannable.hw.linosCn30Piezo import LinosCn30PiezoStage
+	linosx =  LinosCn30PiezoStage("linosx",'BL16B-EA-CN30-01:X:')
+	linosy =  LinosCn30PiezoStage("linosy",'BL16B-EA-CN30-01:Y:')
+	linosz =  LinosCn30PiezoStage("linosz",'BL16B-EA-CN30-01:Z:')
+	linos = ScannableGroup('linos', [linosx,  linosy, linosz])
+	linos.configure()
+	
 print "Creating Jena Piezo devices. Channel1 -> jpx, Channel2 -> jpy"
 #print "* Seems to work okay with Readback rate set to 0.2 s on epics panel *"
 if installation.isLive():
@@ -294,6 +308,19 @@ else:
 	print "* Not installing piezo3 device (as not live installation) *"
 
 if installation.isLive():
+	print "Installing piezo4 device from epics BL16B-EA-PIEZO-02:E625"
+	piezo4x=SetPvAndWaitForCallbackWithSeparateReadback("piezo4x","BL16B-EA-PIEZO-04:E725:X:MOV:WR","BL16B-EA-PIEZO-04:E725:X:POS:RD" ,2*60)
+	piezo4y=SetPvAndWaitForCallbackWithSeparateReadback("piezo4y","BL16B-EA-PIEZO-04:E725:Y:MOV:WR","BL16B-EA-PIEZO-04:E725:Y:POS:RD" ,2*60)
+	piezo4 = ScannableGroup('piezo4', [piezo4x,  piezo4y])
+	piezo4.configure()
+	piezo4x.setUpperGdaLimits(200)
+	piezo4x.setLowerGdaLimits(0)
+	piezo4y.setUpperGdaLimits(200)
+	piezo4y.setLowerGdaLimits(0)
+else:
+	print "* Not installing piezo4 device (as not live installation) *"
+
+if installation.isLive():
 	print "Installing micospiezo1/2 devices from epics BL16B-EA-PIEZO-03:MMC"
 	micospiezo1=SetPvAndWaitForCallbackWithSeparateReadback2(
 		"micospiezo1", "BL16B-EA-PIEZO-03:MMC:01:DEMAND",
@@ -301,8 +328,11 @@ if installation.isLive():
 	micospiezo2=SetPvAndWaitForCallbackWithSeparateReadback2(
 		"micospiezo2", "BL16B-EA-PIEZO-03:MMC:02:DEMAND",
 					   "BL16B-EA-PIEZO-03:MMC:02:POS:RBV", 20, 0.000001)
+	micos = ScannableGroup('micos', [micospiezo1,  micospiezo2])
+	micos.configure()
 else:
 	print "* Not installing micospiezo1/2 devices (as not live installation) *"
+
 
 if installation.isLive():
 	print "Installing atto devices from epics BL16B-EA-ATTO..."
@@ -359,9 +389,9 @@ if installation.isLive():
 	dcmpiezo.setOutputFormat(['%.4f'])
 
 
-	bi= SelectableCollectionOfScannables('bi', [ct7, ai13, ai5])#@UndefinedVariable
+	bi = SelectableCollectionOfScannables('bi', [ct7, ai13, ai5])#@UndefinedVariable
 	#monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmPitch, .145, .16, 0.0002, bi, .5) #@UndefinedVariable
-	monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmpiezo, 1.0, 8.0, 0.1, bi, .2) #@UndefinedVariable
+	monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmpiezo, 1.0, 8.0, 0.1, ai5, .2) #@UndefinedVariable
 	monotuner.use_backlash_correction = True
 
 ###############################################################################
@@ -415,10 +445,6 @@ if installation.isLive():
 	
 
 if installation.isLive():	
-	from gdascripts.scannable.dummy import SingleInputDummy, SingleInputStringDummy
-	from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
-	from gda.device.scannable.scannablegroup import ScannableGroup
-	
 	checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
 	checkfe = WaitForScannableState('checkfe', frontend, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
 	checkshtr1 = WaitForScannableState('checkshtr1', shtr1, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
@@ -540,6 +566,7 @@ if installation.isLive():
 		medipixmax2d = DetectorDataProcessorWithRoi('medipixmax2d', medipix, [SumMaxPositionAndValue()])
 		medipixintensity2d = DetectorDataProcessorWithRoi('medipixintensity2d', medipix, [PixelIntensity()])
 		# TODO: MBB End
+		
 
 	except gda.factory.FactoryException:
 		print " *** Could not connect to pilatus (FactoryException)"
@@ -651,13 +678,6 @@ else:
 	pass
 	ehshutter = Shutter('ehshutter', shtr1) #@UndefinedVariable
 #	ohshutter = Shutter('ohshutter', shtr0) #@UndefinedVariable
-
-### Linox piezo stages ###
-if installation.isLive():
-	from scannable.hw.linosCn30Piezo import LinosCn30PiezoStage
-	linosx =  LinosCn30PiezoStage("linosx",'BL16B-EA-CN30-01:X:')
-	linosy =  LinosCn30PiezoStage("linosy",'BL16B-EA-CN30-01:Y:')
-	linosz =  LinosCn30PiezoStage("linosz",'BL16B-EA-CN30-01:Z:')
 
 
 if installation.isLive():
@@ -847,5 +867,11 @@ if installation.isLive():
 	micospiezo1.outputFormat = ['%f']
 	micospiezo2.outputFormat = ['%f']
 
+#print "*" * 80
+#print "mt8886-2: Writing NeXus files and medpix to return images only"
+#print "*" * 80
+#
+#medipix.returnPathAsImageNumberOnly = True
+#LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
 print "Done!"
 
