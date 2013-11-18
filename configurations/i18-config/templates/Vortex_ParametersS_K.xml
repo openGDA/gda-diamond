@@ -8,9 +8,9 @@
         <name>Element0</name>
         <number>1</number>
         <ROI>
-            <name>S_Ka</name>
-            <windowStart>215</windowStart>
-            <windowEnd>246</windowEnd>
+            <name>Sr_Ka</name>
+            <windowStart>1380</windowStart>
+            <windowEnd>1439</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -21,9 +21,9 @@
         <name>Element1</name>
         <number>1</number>
         <ROI>
-            <name>S_Ka</name>
-            <windowStart>215</windowStart>
-            <windowEnd>246</windowEnd>
+            <name>Sr_Ka</name>
+            <windowStart>1380</windowStart>
+            <windowEnd>1439</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -34,9 +34,9 @@
         <name>Element2</name>
         <number>1</number>
         <ROI>
-            <name>S_Ka</name>
-            <windowStart>215</windowStart>
-            <windowEnd>246</windowEnd>
+            <name>Sr_Ka</name>
+            <windowStart>1380</windowStart>
+            <windowEnd>1439</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -47,9 +47,9 @@
         <name>Element3</name>
         <number>1</number>
         <ROI>
-            <name>S_Ka</name>
-            <windowStart>215</windowStart>
-            <windowEnd>246</windowEnd>
+            <name>Sr_Ka</name>
+            <windowStart>1380</windowStart>
+            <windowEnd>1439</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -57,5 +57,5 @@
         <excluded>false</excluded>
     </DetectorElement>
     <saveRawSpectrum>false</saveRawSpectrum>
-    <selectedRegionNumber>0</selectedRegionNumber>
+    <selectedRegionNumber>1</selectedRegionNumber>
 </VortexParameters>

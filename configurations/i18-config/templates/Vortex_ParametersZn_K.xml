@@ -9,8 +9,8 @@
         <number>1</number>
         <ROI>
             <name>Zn_Ka</name>
-            <windowStart>840</windowStart>
-            <windowEnd>876</windowEnd>
+            <windowStart>841</windowStart>
+            <windowEnd>880</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -22,8 +22,8 @@
         <number>1</number>
         <ROI>
             <name>Zn_Ka</name>
-            <windowStart>840</windowStart>
-            <windowEnd>876</windowEnd>
+            <windowStart>841</windowStart>
+            <windowEnd>880</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -35,8 +35,8 @@
         <number>1</number>
         <ROI>
             <name>Zn_Ka</name>
-            <windowStart>840</windowStart>
-            <windowEnd>876</windowEnd>
+            <windowStart>841</windowStart>
+            <windowEnd>880</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -48,8 +48,8 @@
         <number>1</number>
         <ROI>
             <name>Zn_Ka</name>
-            <windowStart>840</windowStart>
-            <windowEnd>876</windowEnd>
+            <windowStart>841</windowStart>
+            <windowEnd>880</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
