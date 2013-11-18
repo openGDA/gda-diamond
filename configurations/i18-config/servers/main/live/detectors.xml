@@ -126,7 +126,7 @@
 		<property name="sumAllElementData" value="true" />
 	</bean>
 
-	<bean id="counterTimer03" class="gda.device.detector.countertimer.TfgXmap">
+	<bean id="counterTimer03" class="gda.device.detector.xmap.TfgXmap">
 		<property name="xmap" ref="xmapMca" />
 		<property name="timer" ref="tfg" />
 		<property name="slave" value="true" />
