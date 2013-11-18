@@ -62,19 +62,23 @@
 	<import resource="../../../devices/dummy/d5.xml" />
 	<import resource="../../../devices/dummy/s4_motors.xml" />
 	<import resource="../../../devices/dummy/absorbers4.xml" />
+	<import resource="../../../devices/dummy/ion_chamber.xml" />	
 	<import resource="../../../devices/dummy/kb_motors.xml" />
 
 	<!-- <import resource="../../../devices/dummy/s5_motors.xml"/> -->
 	<import resource="../../../devices/dummy/sample_stage_motors.xml" />
-	<import resource="../../../devices/dummy/table_motors.xml" />
+<!-- 	<import resource="../../../devices/zebra/sample_stage_motors.xml" />
+ -->	<import resource="../../../devices/dummy/table_motors.xml" />
 	<import resource="../../../devices/dummy/camera_stage_motors.xml" />
 	<import resource="../../../devices/dummy/sample_stage_hexapod_motors.xml"/>	
 
 	<import resource="../../../devices/dummy/pco1.xml" />
-	<import resource="../../../devices/dummy/lens.xml" />
+<!-- 	<import resource="../../../devices/zebra/pco1.xml" />
+ -->	<import resource="../../../devices/dummy/lens.xml" />
 
 	<import resource="../../../devices/dummy/zebra.xml" />
-
+<!-- 	<import resource="../../../devices/zebra/zebra.xml" />
+ -->
 	<import resource="../../../devices/dummy/tfg2.xml" />
 	<import resource="../../../devices/live/p2r.xml" />
 

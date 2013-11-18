@@ -18,7 +18,8 @@
 
 	<import resource="../common.xml" />
 	<import resource="../../../devices/dummy/pco1_ndplugins.xml"/>
-	
+<!-- 	<import resource="../../../devices/zebra/pco1_ndplugins.xml"/>
+ -->	
 	<bean id="ringCurrent" class="gda.device.scannable.DummyScannable" />
 	<bean id="idGap" class="gda.device.scannable.DummyScannable"/>
 	<bean id="timeToRefill" class="gda.device.scannable.DummyScannable"/>

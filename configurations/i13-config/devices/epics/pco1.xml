@@ -61,6 +61,8 @@
 		<constructor-arg ref="adDriverPco1" />
 		<constructor-arg value=".03" />
 	</bean>
+	<bean id="flyScanFlatDarkCollectionStrategy" parent="pco1_singleExposurePco"/>
+
 <!-- 	<bean id="pco1_multipleExposurePco" class="gda.device.detector.addetector.triggering.PCOMultipleExposureSoftwareTriggerAutoMode">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg value=".04" />
@@ -248,7 +250,6 @@ Caused by: java.lang.IllegalArgumentException: filename is null or zero length
 		<property name="ndFile" ref="pco1_ndfiletif" />
 		<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
 		<property name="waitForFileArrival" value="true"/>
-		
 	</bean>
 
 	<bean id="pco1_hw_tif" class="gda.device.detector.NXDetector">

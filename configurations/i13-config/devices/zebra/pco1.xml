@@ -51,6 +51,13 @@
 		<property name="blocking" value="true"/>
 	</bean>
 
+	<bean id="pco1_tif_writer" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="pco1"/>
+		<property name="ndFile" ref="pco1_ndfiletif" />
+		<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+		<property name="waitForFileArrival" value="true"/>
+	</bean>
+
 <!-- 	<bean id="pco1_hdf5_Zebra" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
 		<property name="fileNameTemplate" value="pco1"/>
@@ -108,6 +115,10 @@
 	</bean>
 
 
+	<bean id="flyScanFlatDarkCollectionStrategy" class="gda.device.detector.addetector.triggering.SimpleAcquire">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg value=".1" />	
+	</bean>
 
 
 	
