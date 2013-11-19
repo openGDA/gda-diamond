@@ -142,7 +142,8 @@ public class I20Validator extends ExafsValidator {
 		return errors;
 	}
 	
-	private boolean stringCouldBeConvertedToValidUnixFilename(String sampleName){
+	@Override
+	protected boolean stringCouldBeConvertedToValidUnixFilename(String sampleName){
 		// ignore spaces as these will have underscores automatically substituted
 		if (sampleName.startsWith("-")
 		|| sampleName.contains(";") || sampleName.contains("<") || sampleName.contains("\t")
