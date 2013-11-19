@@ -21,7 +21,7 @@
                 <property key="product.os" value="linux" />
                 <property key="product.ws" value="gtk" />
                 <property key="product.arch" value="x86" />
-                <property key="profile" value="GDA-example" />
+                <property key="profile" value="HRPD" />
                 <property key="iu" value="uk.ac.gda.beamline.i11.product" />
             </properties>
             <prerequisites>
@@ -44,7 +44,30 @@
                 <property key="product.os" value="linux" />
                 <property key="product.ws" value="gtk" />
                 <property key="product.arch" value="x86_64" />
-                <property key="profile" value="GDA-example" />
+                <property key="profile" value="HRPD" />
+                <property key="iu" value="uk.ac.gda.beamline.i11.product" />
+            </properties>
+            <prerequisites>
+                <attribute name="create.product.setup" />
+                <attribute name="manifest" alias="manifest"
+                    component="uk.ac.gda.beamline.i11.feature" />
+                <attribute name="site.p2" alias="repository" />
+            </prerequisites>
+            <products alias="destination.parent"
+                base="${product.parent.directory.location}">
+            </products>
+        </public>
+        
+        <public name="create.product-linux.gtk.x86_64-withSymlink" actor="ant">
+            <actorProperties>
+                <property key="buildFile" value="buckminster.ant" />
+                <property key="targets" value="create.client" />
+            </actorProperties>
+            <properties>
+                <property key="product.os" value="linux" />
+                <property key="product.ws" value="gtk" />
+                <property key="product.arch" value="x86_64" />
+                <property key="profile" value="HRPD" />
                 <property key="iu" value="uk.ac.gda.beamline.i11.product" />
             </properties>
             <prerequisites>
@@ -67,7 +90,7 @@
                 <property key="product.os" value="win32" />
                 <property key="product.ws" value="win32" />
                 <property key="product.arch" value="x86" />
-                <property key="profile" value="GDA-example" />
+                <property key="profile" value="HRPD" />
                 <property key="iu" value="uk.ac.gda.beamline.i11.product" />
             </properties>
             <prerequisites>
@@ -90,7 +113,7 @@
                 <property key="product.os" value="win32" />
                 <property key="product.ws" value="win32" />
                 <property key="product.arch" value="x86_64" />
-                <property key="profile" value="GDA-example" />
+                <property key="profile" value="HRPD" />
                 <property key="iu" value="uk.ac.gda.beamline.i11.product" />
             </properties>
             <prerequisites>
@@ -113,7 +136,7 @@
                 <property key="product.os" value="macosx" />
                 <property key="product.ws" value="cocoa" />
                 <property key="product.arch" value="x86" />
-                <property key="profile" value="GDA-example" />
+                <property key="profile" value="HRPD" />
                 <property key="iu" value="uk.ac.gda.beamline.i11.product" />
             </properties>
             <prerequisites>
@@ -136,7 +159,7 @@
                 <property key="product.os" value="macosx" />
                 <property key="product.ws" value="cocoa" />
                 <property key="product.arch" value="x86_64" />
-                <property key="profile" value="GDA-example" />
+                <property key="profile" value="HRPD" />
                 <property key="iu" value="uk.ac.gda.beamline.i11.product" />
             </properties>
             <prerequisites>

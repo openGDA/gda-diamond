@@ -328,6 +328,18 @@ Additional Ant tasks for Buckminster build. Based on http://www.ralfebert.de/blo
 == Product has been built in ${destination} ==
         </echo>
     </target>
+	<!-- create symbolic link -->
+	<target name="check">
+		<condition property="symlinkexist">
+			<available file="${destination.parent}/client" type="dir"/>
+		</condition>
+	</target>
+	<target name="deleteLink" depends="check" if="symlinkexist">
+		<symlink action="delete" link="${destination.parent}/client"/>
+	</target>
+	<target name="create.client" depends="create.product,deleteLink">
+		<symlink link="${destination.parent}/client" resource="./${destination.directory}"/>
+	</target>
 
     <!-- ================================== -->
     <!--  Zip a previously created product  -->
