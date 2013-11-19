@@ -60,6 +60,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.client.liveplot.IPlotLineColorService;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.views.plot.model.DataNode;
+import uk.ac.gda.exafs.ui.views.plot.model.DataNode.DataItemNode;
 import uk.ac.gda.exafs.ui.views.plot.model.DatasetNode;
 import uk.ac.gda.exafs.ui.views.plot.model.PlotDataHolder;
 
@@ -122,32 +123,43 @@ public class DataPlotView extends ViewPart {
 		plotDataHolder.addPropertyChangeListener(PlotDataHolder.DATA_CHANGED_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				DataNode node = (DataNode) evt.getNewValue();
+				DataItemNode node = (DataItemNode) evt.getNewValue();
 				addAndUpdateTrace(node);
 			}
 		});
 	}
 
-	private void addAndUpdateTrace(DataNode node) {
+	private void addAndUpdateTrace(DataItemNode node) {
 		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier());
 		if (trace == null) {
-			trace = plottingSystem.createLineTrace(node.getIdentifier());
-			trace.setTraceColor(getTraceColor(node.getLabel()));
-			if ((plotDataHolder.getDataset().size() - plotDataHolder.getDataset().indexOf(node.getParent())) % 2 == 0) {
-				trace.setTraceType(TraceType.DASH_LINE);
-				trace.setPointStyle(PointStyle.DIAMOND);
-				trace.setPointSize(5);
+			// FIXME Refactor!
+			if (node.getParent().getYDoubleDataset().indexOf(node) == 1) {
+				ILineTrace firstLine = ((ILineTrace) plottingSystem.getTrace(((DataItemNode) node.getParent().getYDoubleDataset().get(0)).getIdentifier()));
+				firstLine.setTraceType(TraceType.SOLID_LINE);
+				firstLine.setPointStyle(PointStyle.NONE);
+				trace = plottingSystem.createLineTrace(node.getIdentifier());
+			}
+			else if (node.getParent().getYDoubleDataset().indexOf(node) < 1) {
+				trace = plottingSystem.createLineTrace(node.getIdentifier());
+				trace.setTraceColor(getTraceColor(node.getParent().getLabel()));
+				if ((plotDataHolder.getDataset().size() - plotDataHolder.getDataset().indexOf(node.getParent().getParent())) % 2 == 0) {
+					trace.setTraceType(TraceType.DASH_LINE);
+					trace.setPointStyle(PointStyle.DIAMOND);
+					trace.setPointSize(5);
+				} else {
+					trace.setTraceType(TraceType.SOLID_LINE);
+				}
 			} else {
-				trace.setTraceType(TraceType.SOLID_LINE);
+				trace = plottingSystem.createLineTrace(node.getIdentifier());
 			}
 			plottingSystem.addTrace(trace);
 		}
-		trace.setData(node.getXAxisData(), node.getYAxisData().get(0));
+		trace.setData(node.getParent().getXAxisData(), node.getData());
 
 		plottingSystem.repaint();
 		dataTreeViewer.update(node, null);
-		if (!dataTreeViewer.getChecked(node)) {
-			dataTreeViewer.setChecked(node, true);
+		if (!dataTreeViewer.getChecked(node.getParent())) {
+			dataTreeViewer.setChecked(node.getParent(), true);
 		}
 	}
 
@@ -220,7 +232,9 @@ public class DataPlotView extends ViewPart {
 				if (element instanceof DatasetNode) {
 					if (event.getChecked()) {
 						for (Object node : ((DatasetNode) element).getNodeList()) {
-							addAndUpdateTrace((DataNode) node);
+							for (Object nodeItem : ((DataNode) node).getYDoubleDataset()) {
+								addAndUpdateTrace((DataItemNode) nodeItem);
+							}
 						}
 					} else {
 						for (Object node : ((DatasetNode) element).getNodeList()) {
@@ -228,12 +242,14 @@ public class DataPlotView extends ViewPart {
 						}
 					}
 				} else if (element instanceof DataNode) {
+					updateStateParent(((DataNode) element).getParent());
 					if (event.getChecked()) {
-						addAndUpdateTrace((DataNode) element);
+						for (Object nodeItem : ((DataNode) element).getYDoubleDataset()) {
+							addAndUpdateTrace((DataItemNode) nodeItem);
+						}
 					} else {
 						removeTrace(element);
 					}
-					updateStateParent(((DataNode) element).getParent());
 				}
 			}
 		});
@@ -275,10 +291,13 @@ public class DataPlotView extends ViewPart {
 	}
 
 	private void removeTrace(Object node) {
-		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(((DataNode) node).getIdentifier());
-		if (trace != null) {
-			plottingSystem.removeTrace(trace);
+		for (Object nodeItem : ((DataNode) node).getYDoubleDataset()) {
+			ILineTrace trace = (ILineTrace) plottingSystem.getTrace(((DataItemNode) nodeItem).getIdentifier());
+			if (trace != null) {
+				plottingSystem.removeTrace(trace);
+			}
 		}
+
 	}
 
 }

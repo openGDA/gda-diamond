@@ -28,6 +28,7 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
 import uk.ac.gda.beans.ObservableModel;
+import uk.ac.gda.exafs.ui.views.plot.model.DataNode.DataItemNode;
 
 public class DatasetNode extends ObservableModel {
 	private final Map<String, DataNode> scans = new HashMap<String, DataNode>();
@@ -42,7 +43,7 @@ public class DatasetNode extends ObservableModel {
 		return dataNodeList;
 	}
 
-	public DataNode updateData(final EdeExperimentProgressBean arg) {
+	public DataItemNode updateData(final EdeExperimentProgressBean arg) {
 		DataNode dataNode;
 		String label = arg.getDataLabel();
 		String identifier = this.toString() + "@" + label;
@@ -54,8 +55,8 @@ public class DatasetNode extends ObservableModel {
 		} else {
 			dataNode = scans.get(identifier);
 		}
-		dataNode.updateData(arg.getEnergyData(), arg.getData());
-		return dataNode;
+		identifier =  identifier + "@" + arg.getProgress().getGroupNumOfThisSDP() + "@" + arg.getProgress().getFrameNumOfThisSDP();
+		return dataNode.updateData(arg.getEnergyData(), arg.getData(), identifier);
 	}
 
 	@Override

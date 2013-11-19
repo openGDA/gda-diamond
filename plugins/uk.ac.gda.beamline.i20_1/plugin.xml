@@ -141,13 +141,6 @@
             restorable="true">
       </view>
       <view
-            category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
-            class="uk.ac.gda.exafs.ui.views.LinearExperimentPlotView"
-            id="uk.ac.gda.exafs.ui.views.LinearExperimentPlotView"
-            name="Linear experiment live plot"
-            restorable="true">
-      </view>
-      <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.ui.views.plot.DataPlotView"
             icon="icons/1-star.gif"
