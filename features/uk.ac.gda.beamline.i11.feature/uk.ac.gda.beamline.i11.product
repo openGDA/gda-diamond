@@ -5,25 +5,66 @@
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
+      <text>
+         GDA for High Resolution Powder Diffraction Beamline
+
+Version: 8.36
+Build id: Monday, 18 November 2013 15:05
+
+Copyright © 2009 Diamond Light Source Ltd. All rights reserved.
+Visit http://www.opengda.org
+
+This product includes software developed by the
+Eclipse http://www.eclipse.org/
+Apache Software Foundation http://apache.org/
+Spring http://projects.spring.io/spring-framework/
+Quality Open Software http://logback.qos.ch/; http://www.slf4j.org/
+PyDev http://pydev.org/
+      </text>
    </aboutInfo>
 
    <configIni use="default">
    </configIni>
 
    <launcherArgs>
+      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i11/software/gda/config/plugin_customization.ini
+-Dgda.install.workspace.loc=/dls_sw/i11/software/gda/workspace
+-Dgda.install.git.loc=/dls_sw/i11/software/gda/workspace_git
+-Dgda.propertiesFile=/dls_sw/i11/software/gda/config/properties/live/java.properties
+-Dgda.config=/dls_sw/i11/software/gda/config
+-Djacorb.config.dir=/dls_sw/i11/software/gda/config/jacorb/live
+-Djava.library.path=${workspace_loc:uk.ac.gda.core}/lib/linux-x86_64
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i11/software/gda/config/jca/live/JCALibrary.properties
+-Dgda.data=/dls/i11/data
+-Dgda.gui.beans.xml=/dls_sw/i11/software/gda/config/clients/rcp/live/client.xml
+-Dgda.mode=live
+-Dgda.var=/dls_sw/i11/software/gda_versions/var
+-Dgda.logs.dir=/dls_sw/i11/logs
+-Dpython.cachedir=~/python.cachedir
+-Djava.net.preferIPv4Stack=true
+-Dorg.eclipse.swt.browser.XULRunnerPath=/dls_sw/apps/xulrunner/${target.arch}/usr/lib64/xulrunner-1.9.2/
+-Xms256m 
+-Xmx2048m
+-XX:PermSize=128m 
+-XX:MaxPermSize=512m</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
 
    <splash
-      location="uk.ac.gda.client" />
-   <launcher>
+      location="uk.ac.gda.beamline.i11"
+      startupProgressRect="2,215,598,15"
+      startupMessageRect="4,195,598,20"
+      startupForegroundColor="000000" />
+   <launcher name="gda-i11">
+      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
       <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>
