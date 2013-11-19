@@ -77,7 +77,7 @@ public class SlitsScanSection {
 
 			GridData gridDataForTxt = new GridData(SWT.FILL, GridData.CENTER, true, false);
 
-			NumberEditorControl  txtGap = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitsScanModel.getInstance(), SlitsScanModel.GAP_PROP_NAME, false);
+			NumberEditorControl txtGap = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitsScanModel.getInstance(), SlitsScanModel.GAP_PROP_NAME, false);
 			txtGap.setUnit(ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getUnit().getText());
 			txtGap.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			txtGap.setLayoutData(gridDataForTxt);

@@ -74,7 +74,6 @@ import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.SingleSpectrumUIModel;
 import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
-import uk.ac.gda.exafs.ui.composites.NumberEditorControl2;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.CollectionModelRenderer;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentMarkerRenderer;
@@ -110,14 +109,14 @@ public class TimeResolvedExperimentView extends ViewPart {
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 	private TableViewer groupsTableViewer;
 
-	private NumberEditorControl2 spectrumDelayValueText;
-	private NumberEditorControl2 integrationTimeValueText;
-	private NumberEditorControl2 timePerSpectrumValueText;
-	private NumberEditorControl2 noOfAccumulationValueText;
-	private NumberEditorControl2 delayBeforeFristSpectrumValueText;
-	private NumberEditorControl2 noOfSpectrumValueText;
-	private NumberEditorControl2 startTimeValueText;
-	private NumberEditorControl2 endTimeValueText;
+	private NumberEditorControl spectrumDelayValueText;
+	private NumberEditorControl integrationTimeValueText;
+	private NumberEditorControl timePerSpectrumValueText;
+	private NumberEditorControl noOfAccumulationValueText;
+	private NumberEditorControl delayBeforeFristSpectrumValueText;
+	private NumberEditorControl noOfSpectrumValueText;
+	private NumberEditorControl startTimeValueText;
+	private NumberEditorControl endTimeValueText;
 
 	private TimeBarMarkerImpl marker;
 
@@ -559,42 +558,42 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 		label = toolkit.createLabel(groupSectionComposite, "Start time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		startTimeValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
+		startTimeValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
 		startTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		label = toolkit.createLabel(groupSectionComposite, "End time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		endTimeValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
+		endTimeValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
 		endTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		label = toolkit.createLabel(groupSectionComposite, "Time per spectrum", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		timePerSpectrumValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
+		timePerSpectrumValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
 		timePerSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		label = toolkit.createLabel(groupSectionComposite, "No. of spectra", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		noOfSpectrumValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
+		noOfSpectrumValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
 		noOfSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		label = toolkit.createLabel(groupSectionComposite, "Accumulation time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		integrationTimeValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
+		integrationTimeValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
 		integrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		label = toolkit.createLabel(groupSectionComposite, "No. of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		noOfAccumulationValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
+		noOfAccumulationValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
 		noOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		label = toolkit.createLabel(groupSectionComposite, "Delay before start of group", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		delayBeforeFristSpectrumValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
+		delayBeforeFristSpectrumValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
 		delayBeforeFristSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		label = toolkit.createLabel(groupSectionComposite, "Delay between spectrum", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		spectrumDelayValueText = new NumberEditorControl2(groupSectionComposite, SWT.None, false);
+		spectrumDelayValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
 		spectrumDelayValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		useExternalTriggerCheckbox = toolkit.createButton(groupSectionComposite, "Use exernal trigger", SWT.CHECK);
