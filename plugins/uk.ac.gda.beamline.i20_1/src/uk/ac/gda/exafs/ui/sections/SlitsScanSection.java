@@ -45,8 +45,8 @@ import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.DetectorUnavailableException;
 import uk.ac.gda.exafs.data.SlitsScanModel;
-import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.data.UIHelper;
+import uk.ac.gda.ui.components.NumberEditorControl;
 
 public class SlitsScanSection {
 	public static final SlitsScanSection INSTANCE = new SlitsScanSection();

@@ -33,6 +33,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import uk.ac.gda.beans.ObservableModel;
+
 public class AlignmentParametersModel extends ObservableModel implements Serializable {
 
 	public static final AlignmentParametersModel INSTANCE = new AlignmentParametersModel();

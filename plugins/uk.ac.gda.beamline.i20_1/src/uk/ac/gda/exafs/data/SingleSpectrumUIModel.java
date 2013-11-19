@@ -40,6 +40,7 @@ import org.eclipse.swt.widgets.Display;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentMotorPostion;
 import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors;

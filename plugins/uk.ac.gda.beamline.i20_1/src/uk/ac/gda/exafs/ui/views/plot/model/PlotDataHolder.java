@@ -33,7 +33,7 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.swt.widgets.Display;
 
-import uk.ac.gda.exafs.data.ObservableModel;
+import uk.ac.gda.beans.ObservableModel;
 
 public class PlotDataHolder extends ObservableModel implements IScanDataPointObserver {
 

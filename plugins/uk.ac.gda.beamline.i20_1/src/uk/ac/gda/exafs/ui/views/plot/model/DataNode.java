@@ -24,7 +24,7 @@ import java.util.List;
 import org.dawnsci.plotting.api.trace.ITrace;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.gda.exafs.data.ObservableModel;
+import uk.ac.gda.beans.ObservableModel;
 
 public class DataNode extends ObservableModel {
 	private DoubleDataset xDoubleDataset;

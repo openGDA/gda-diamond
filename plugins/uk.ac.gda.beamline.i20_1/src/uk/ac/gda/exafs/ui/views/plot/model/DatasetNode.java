@@ -27,7 +27,7 @@ import java.util.Map;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
-import uk.ac.gda.exafs.data.ObservableModel;
+import uk.ac.gda.beans.ObservableModel;
 
 public class DatasetNode extends ObservableModel {
 	private final Map<String, DataNode> scans = new HashMap<String, DataNode>();

@@ -49,6 +49,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
