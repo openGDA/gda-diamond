@@ -261,7 +261,7 @@ public class SingleSpectrumUIModel extends ObservableModel {
 				logger.info("Sending command: " + command);
 				InterfaceProvider.getCommandRunner().runCommand(command);
 				// give the previous command a chance to run before calling doCollection()
-				Thread.sleep(50);
+				Thread.sleep(150);
 				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
 				if (resultFileName == null) {
 					throw new Exception("Unable to do collection.");

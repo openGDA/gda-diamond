@@ -63,11 +63,11 @@ import uk.ac.gda.exafs.ui.views.plot.model.DataNode;
 import uk.ac.gda.exafs.ui.views.plot.model.DatasetNode;
 import uk.ac.gda.exafs.ui.views.plot.model.PlotDataHolder;
 
-public class SingleSpectrumPlotView extends ViewPart {
+public class DataPlotView extends ViewPart {
 
-	public static String ID = "uk.ac.gda.exafs.ui.views.singlespectrumplotview";
+	public static String ID = "uk.ac.gda.exafs.ui.views.dataplotview";
 
-	private static Logger logger = LoggerFactory.getLogger(SingleSpectrumPlotView.class);
+	private static Logger logger = LoggerFactory.getLogger(DataPlotView.class);
 
 	private IPlottingSystem plottingSystem;
 	List<SelectionListener> selectionListeners = new Vector<SelectionListener>();

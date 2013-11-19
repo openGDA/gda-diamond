@@ -66,7 +66,6 @@ public class PlotDataHolder extends ObservableModel implements IScanDataPointObs
 		return changedData;
 	}
 
-
 	// TODO Changed to linked list!
 	@SuppressWarnings("unchecked")
 	protected void updateDataSetInUI(@SuppressWarnings("unused") Object source, Object arg) {
@@ -77,7 +76,6 @@ public class PlotDataHolder extends ObservableModel implements IScanDataPointObs
 			DatasetNode datasetNode;
 			if (!scans.containsKey(scanIdentifier)) {
 				final DatasetNode newNode = new DatasetNode(scanIdentifier);
-
 				scans.put(scanIdentifier, newNode);
 				dataset.add(0, newNode);
 				datasetNode = newNode;

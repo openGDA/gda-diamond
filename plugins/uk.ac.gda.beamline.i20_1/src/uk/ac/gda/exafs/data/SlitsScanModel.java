@@ -164,7 +164,9 @@ public class SlitsScanModel extends ObservableModel implements IObserver {
 		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
-		InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
+		String command = buildScanCommand();
+		InterfaceProvider.getTerminalPrinter().print(String.format("\n%s\n",command));
+		InterfaceProvider.getCommandRunner().runCommand(command);
 	}
 
 	@Override
