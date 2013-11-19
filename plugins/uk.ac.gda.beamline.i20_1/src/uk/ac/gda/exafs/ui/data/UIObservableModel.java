@@ -20,7 +20,7 @@ package uk.ac.gda.exafs.ui.data;
 
 import org.eclipse.swt.widgets.Display;
 
-import uk.ac.gda.exafs.data.ObservableModel;
+import uk.ac.gda.beans.ObservableModel;
 
 public class UIObservableModel extends ObservableModel {
 	@Override

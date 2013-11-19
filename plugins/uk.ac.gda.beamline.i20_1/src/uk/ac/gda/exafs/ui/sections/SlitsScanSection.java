@@ -45,8 +45,8 @@ import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.DetectorUnavailableException;
 import uk.ac.gda.exafs.data.SlitsScanModel;
-import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.data.UIHelper;
+import uk.ac.gda.ui.components.NumberEditorControl;
 
 public class SlitsScanSection {
 	public static final SlitsScanSection INSTANCE = new SlitsScanSection();
@@ -77,7 +77,7 @@ public class SlitsScanSection {
 
 			GridData gridDataForTxt = new GridData(SWT.FILL, GridData.CENTER, true, false);
 
-			NumberEditorControl  txtGap = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitsScanModel.getInstance(), SlitsScanModel.GAP_PROP_NAME, false);
+			NumberEditorControl txtGap = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitsScanModel.getInstance(), SlitsScanModel.GAP_PROP_NAME, false);
 			txtGap.setUnit(ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getUnit().getText());
 			txtGap.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			txtGap.setLayoutData(gridDataForTxt);

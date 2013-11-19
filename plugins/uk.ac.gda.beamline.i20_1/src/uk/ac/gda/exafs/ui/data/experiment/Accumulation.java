@@ -18,7 +18,7 @@
 
 package uk.ac.gda.exafs.ui.data.experiment;
 
-import uk.ac.gda.exafs.data.ObservableModel;
+import uk.ac.gda.beans.ObservableModel;
 
 public class Accumulation extends ObservableModel {
 	//

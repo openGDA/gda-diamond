@@ -27,6 +27,7 @@ import gda.observable.IObserver;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.data.ClientConfig.EdeDataStore;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 

@@ -34,6 +34,8 @@ import org.eclipse.core.databinding.observable.list.WritableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.beans.ObservableModel;
+
 public class DetectorModel extends ObservableModel {
 
 	public static final DetectorModel INSTANCE = new DetectorModel();
