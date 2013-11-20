@@ -42,4 +42,4 @@ class EpicsSetGetClass(PseudoDevice):
 	
 
 gainD4=EpicsSetGetClass("gainD4","BL22I-DI-PHDGN-04:CAM:SET_GAIN","BL22I-DI-PHDGN-04:CAM:GAIN","","%3.0f")
-gainD10=EpicsSetGetClass("gainD10","BL22I-DI-PHDGN-10:CAM:SET_GAIN","BL22I-DI-PHDGN-10:CAM:GAIN","","%3.0f")
+#gainD10=EpicsSetGetClass("gainD10","BL22I-DI-PHDGN-10:CAM:SET_GAIN","BL22I-DI-PHDGN-10:CAM:GAIN","","%3.0f")
