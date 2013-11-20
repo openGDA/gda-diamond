@@ -29,7 +29,7 @@
 	</bean>
 
 	<bean id="d4d1gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
-		<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE1:AMP:GAIN" />
+		<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE1:GAIN" />
 		<property name="gaintosando">
 			<map>
 				<entry key="0">
@@ -114,7 +114,7 @@
 		<property name="settletime" value="500" />
 	</bean>
 	<bean id="d4d2gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
-		<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE2:AMP:GAIN" />
+		<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE2:GAIN" />
 		<property name="gaintosando">
 			<map>
 				<entry key="0">

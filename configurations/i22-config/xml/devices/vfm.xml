@@ -53,16 +53,6 @@
                 <property name="protectionLevel" value="3" />
         </bean>
 
-        <bean id="vfm_y2y3_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-OP-KBM-01:VFM:Y2Y3" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="vfm_y2y3" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="vfm_y2y3_motor" />
-                <property name="local" value="true" />
-                <property name="protectionLevel" value="3" />
-        </bean>
-
         <bean id="vfm_y1_motor" class="gda.device.motor.EpicsMotor">
                 <property name="pvName" value="BL22I-OP-KBM-01:VFM:Y1" />
                 <property name="local" value="true" />
@@ -131,7 +121,6 @@
                                 <ref bean="vfm_yaw" />
                                 <ref bean="vfm_x" />
                                 <ref bean="vfm_y" />
-                                <ref bean="vfm_y2y3" />
                                 <ref bean="vfm_y1" />
                                 <ref bean="vfm_y2" />
                                 <ref bean="vfm_y3" />

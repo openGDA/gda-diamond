@@ -3,24 +3,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-        <bean id="user_one_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-USER-01:MTR1" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="user_one" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="user_one_motor" />
-		<property name="local" value="true" />
-        </bean>
-
-        <bean id="user_two_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-USER-01:MTR2" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="user_two" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="user_two_motor" />
-		<property name="local" value="true" />
-        </bean>
-
         <bean id="user_three_motor" class="gda.device.motor.EpicsMotor">
                 <property name="pvName" value="BL22I-MO-USER-01:MTR3" />
 		<property name="local" value="true" />
@@ -43,8 +25,6 @@
 		<property name="local" value="true" />
                 <property name="groupMembers">
                         <list>
-                                <ref bean="user_one" />
-                                <ref bean="user_two" />
                                 <ref bean="user_three" />
                                 <ref bean="user_four" />
                         </list>
