@@ -1,5 +1,8 @@
 class ShowDiff(PseudoDevice):
-	'''Device to read Diff encoder positions'''
+	'''
+	Device to read Diff encoder positions
+	see also: showdiff_new.m
+	'''
 	def __init__(self, name, comchan='BL16I-MO-DIFF-01:', help=None):
 		self.name = name		
 		self.inputNames = []
