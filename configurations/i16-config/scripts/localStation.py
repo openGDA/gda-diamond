@@ -649,6 +649,8 @@ from scannable.detector.DetectorWithShutter import DetectorWithShutter
 ### 2m ###
 #pil2mdet = EpicsPilatus('pil2mdet', 'BL16I-EA-PILAT-02:','/dls/i16/detectors/im/','test','%s%s%d.tif')
 pil2mdet = pilatus2
+_pilatus2_counter_monitor = Finder.getInstance().find("pilatus2_plugins").get('pilatus2_counter_monitor')
+
 pil2m = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil2m',
 															pilatus2,
 															pilatus2_hardware_triggered,
@@ -659,7 +661,9 @@ pil2m = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil2m',
 															replacement=None,
 															iFileLoader=PilatusTiffLoader,
 															fileLoadTimout=60,
-															returnPathAsImageNumberOnly=True)
+															returnPathAsImageNumberOnly=True,
+															array_monitor_for_hardware_triggering = _pilatus2_counter_monitor
+															)
 pil2m.processors=[DetectorDataProcessorWithRoi('max', pil2m, [SumMaxPositionAndValue()], False)]
 pil2m.printNfsTimes = True
 pil2m.display_image = True
