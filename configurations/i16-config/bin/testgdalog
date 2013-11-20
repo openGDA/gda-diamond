@@ -1,4 +1,4 @@
 #!/bin/bash
-`dirname $0`/gda logpanel --mode=dummy $@
+gda logpanel --mode=dummy $@
 
 
