@@ -1121,6 +1121,15 @@ if installation.isLive():
 	waitforinjection.due=5	#wait for injection if due in this period of time (sec)
 
 ###############################################################################
+###                Optionally switch pilatus to CBF writing                 ###
+###############################################################################
+from scannable.detector import pilatuscbfswitcher
+# NOTE: state will be stored across calls to reset_namespace
+pilatuscbfswitcher.set(pil2m, 'cbf')
+#pilatuscbfswitcher.set(pil2m, 'tif')
+
+
+###############################################################################
 ###                           Run beamline scripts                          ###
 ###############################################################################
 run('bpm')
