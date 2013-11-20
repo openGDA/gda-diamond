@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
         <bean id="s1_xcentre_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-01:X:CENTER" />
+                <property name="pvName" value="BL22I-AL-SLITS-01:X:CENTRE" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s1_xcentre" class="gda.device.scannable.ScannableMotor">
@@ -24,7 +24,7 @@
         </bean>
 
         <bean id="s1_ycentre_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-01:Y:CENTER" />
+                <property name="pvName" value="BL22I-AL-SLITS-01:Y:CENTRE" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s1_ycentre" class="gda.device.scannable.ScannableMotor">
@@ -44,7 +44,7 @@
         </bean>
 
         <bean id="s1_xplus_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-01:X:POS" />
+                <property name="pvName" value="BL22I-AL-SLITS-01:X:PLUS" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s1_xplus" class="gda.device.scannable.ScannableMotor">
@@ -54,7 +54,7 @@
         </bean>
 
         <bean id="s1_xminus_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-01:X:NEG" />
+                <property name="pvName" value="BL22I-AL-SLITS-01:X:MINUS" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s1_xminus" class="gda.device.scannable.ScannableMotor">
@@ -64,7 +64,7 @@
         </bean>
 
         <bean id="s1_yplus_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-01:Y:POS" />
+                <property name="pvName" value="BL22I-AL-SLITS-01:Y:PLUS" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s1_yplus" class="gda.device.scannable.ScannableMotor">
@@ -74,7 +74,7 @@
         </bean>
 
         <bean id="s1_yminus_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-01:Y:NEG" />
+                <property name="pvName" value="BL22I-AL-SLITS-01:Y:MINUS" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s1_yminus" class="gda.device.scannable.ScannableMotor">

@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
         <bean id="s2_xcentre_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-02:X:CENTER" />
+                <property name="pvName" value="BL22I-AL-SLITS-02:X:CENTRE" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s2_xcentre" class="gda.device.scannable.ScannableMotor">
@@ -24,7 +24,7 @@
         </bean>
 
         <bean id="s2_ycentre_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-02:Y:CENTER" />
+                <property name="pvName" value="BL22I-AL-SLITS-02:Y:CENTRE" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s2_ycentre" class="gda.device.scannable.ScannableMotor">
@@ -44,7 +44,7 @@
         </bean>
 
         <bean id="s2_xplus_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-02:X:POS" />
+                <property name="pvName" value="BL22I-AL-SLITS-02:X:PLUS" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s2_xplus" class="gda.device.scannable.ScannableMotor">
@@ -54,7 +54,7 @@
         </bean>
 
         <bean id="s2_xminus_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-02:X:NEG" />
+                <property name="pvName" value="BL22I-AL-SLITS-02:X:MINUS" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s2_xminus" class="gda.device.scannable.ScannableMotor">
@@ -64,7 +64,7 @@
         </bean>
 
         <bean id="s2_yplus_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-02:Y:POS" />
+                <property name="pvName" value="BL22I-AL-SLITS-02:Y:PLUS" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s2_yplus" class="gda.device.scannable.ScannableMotor">
@@ -74,7 +74,7 @@
         </bean>
 
         <bean id="s2_yminus_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-02:Y:NEG" />
+                <property name="pvName" value="BL22I-AL-SLITS-02:Y:MINUS" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s2_yminus" class="gda.device.scannable.ScannableMotor">
@@ -83,31 +83,17 @@
                 <property name="protectionLevel" value="3" />
         </bean>
 
-	<bean id="s2_xplusi" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="pvName" value="BL22I-AL-SLITS-02:X:PLUS:I" />
-		<property name="local" value="true" />
-	</bean>
-
-	<bean id="s2_xminusi" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="pvName" value="BL22I-AL-SLITS-02:X:MINUS:I" />
-		<property name="local" value="true" />
-	</bean>
-
 	<bean id="s2_yplusi" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvName" value="BL22I-AL-SLITS-02:Y:PLUS:I" />
+		<property name="pvName" value="BL22I-AL-SLITS-02:YPDRAIN:I" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_yminusi" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvName" value="BL22I-AL-SLITS-02:Y:MINUS:I" />
+		<property name="pvName" value="BL22I-AL-SLITS-02:YMDRAIN:I" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -122,8 +108,6 @@
                                 <ref bean="s2_xminus" />
                                 <ref bean="s2_yplus" />
                                 <ref bean="s2_yminus" />
-                                <ref bean="s2_xplusi" />
-                                <ref bean="s2_xminusi" />
                                 <ref bean="s2_yplusi" />
                                 <ref bean="s2_yminusi" />
                         </list>

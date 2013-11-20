@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
         <bean id="s3_xcentre_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-03:X:CENTER" />
+                <property name="pvName" value="BL22I-AL-SLITS-03:X:CENTRE" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s3_xcentre" class="gda.device.scannable.ScannableMotor">
@@ -24,7 +24,7 @@
         </bean>
 
         <bean id="s3_ycentre_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-03:Y:CENTER" />
+                <property name="pvName" value="BL22I-AL-SLITS-03:Y:CENTRE" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s3_ycentre" class="gda.device.scannable.ScannableMotor">
@@ -44,7 +44,7 @@
         </bean>
 
         <bean id="s3_xplus_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-03:X:POS" />
+                <property name="pvName" value="BL22I-AL-SLITS-03:X:PLUS" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s3_xplus" class="gda.device.scannable.ScannableMotor">
@@ -54,7 +54,7 @@
         </bean>
 
         <bean id="s3_xminus_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-03:X:NEG" />
+                <property name="pvName" value="BL22I-AL-SLITS-03:X:MINUS" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s3_xminus" class="gda.device.scannable.ScannableMotor">
@@ -64,7 +64,7 @@
         </bean>
 
         <bean id="s3_yplus_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-03:Y:POS" />
+                <property name="pvName" value="BL22I-AL-SLITS-03:Y:PLUS" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s3_yplus" class="gda.device.scannable.ScannableMotor">
@@ -74,7 +74,7 @@
         </bean>
 
         <bean id="s3_yminus_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-AL-SLITS-03:Y:NEG" />
+                <property name="pvName" value="BL22I-AL-SLITS-03:Y:MINUS" />
                 <property name="local" value="true" />
         </bean>
         <bean id="s3_yminus" class="gda.device.scannable.ScannableMotor">
@@ -82,34 +82,6 @@
                 <property name="local" value="true" />
                 <property name="protectionLevel" value="3" />
         </bean>
-
-	<bean id="s3_xplusi" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="pvName" value="BL22I-AL-SLITS-03:X:PLUS:I" />
-		<property name="local" value="true" />
-	</bean>
-
-	<bean id="s3_xminusi" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="pvName" value="BL22I-AL-SLITS-03:X:MINUS:I" />
-		<property name="local" value="true" />
-	</bean>
-
-	<bean id="s3_yplusi" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="pvName" value="BL22I-AL-SLITS-03:Y:PLUS:I" />
-		<property name="local" value="true" />
-	</bean>
-
-	<bean id="s3_yminusi" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="pvName" value="BL22I-AL-SLITS-03:Y:MINUS:I" />
-		<property name="local" value="true" />
-	</bean>
 
         <bean id="s3" class="gda.device.scannable.scannablegroup.ScannableGroup">
                 <property name="groupMembers">
@@ -122,10 +94,6 @@
                                 <ref bean="s3_xminus" />
                                 <ref bean="s3_yplus" />
                                 <ref bean="s3_yminus" />
-                                <ref bean="s3_xplusi" />
-                                <ref bean="s3_xminusi" />
-                                <ref bean="s3_yplusi" />
-                                <ref bean="s3_yminusi" />
                         </list>
                 </property>
                 <property name="local" value="true" />
