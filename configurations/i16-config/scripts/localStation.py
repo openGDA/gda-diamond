@@ -1112,6 +1112,11 @@ print "======================================================================"
 	
 	
 run('diffractometer/pid.py')
+###############################################################################
+###                           Diff - xpsgather                              ###
+###############################################################################
+from scannable.xpsdatagathering import ScannableXPSDataGatherer
+xpsgather = ScannableXPSDataGatherer('xpsgather', pvroot='BL16I-CS-IOC-15:XPSG:')
 
 ###############################################################################
 ###                           Defaults - keep at end                        ###
