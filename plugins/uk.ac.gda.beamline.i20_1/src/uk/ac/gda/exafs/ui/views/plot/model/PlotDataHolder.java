@@ -23,6 +23,7 @@ import gda.jython.IScanDataPointObserver;
 import gda.observable.IObservable;
 import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeExperimentProgressBean;
+import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.EdeScanProgressBean;
 
 import java.util.ArrayList;
@@ -76,7 +77,8 @@ public class PlotDataHolder extends ObservableModel implements IScanDataPointObs
 			final String scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
 			DatasetNode datasetNode;
 			if (!scans.containsKey(scanIdentifier)) {
-				final DatasetNode newNode = new DatasetNode(scanIdentifier);
+				boolean isMulti = (edeExperimentProgress.getExperimentCollectionType() == ExperimentCollectionType.MULTI);
+				final DatasetNode newNode = new DatasetNode(scanIdentifier, isMulti);
 				scans.put(scanIdentifier, newNode);
 				dataset.add(0, newNode);
 				datasetNode = newNode;

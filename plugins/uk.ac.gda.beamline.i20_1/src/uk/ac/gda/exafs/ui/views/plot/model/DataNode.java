@@ -73,9 +73,9 @@ public class DataNode extends ObservableModel {
 		return yDoubleDataset;
 	}
 
-	public DataItemNode updateData(DoubleDataset xDoubleDataset, DoubleDataset yDoubleDataset, String identifier) {
+	public DataItemNode updateData(DoubleDataset xDoubleDataset, DoubleDataset yDoubleDataset, String identifier, String label) {
 		this.xDoubleDataset = xDoubleDataset;
-		yAxisData = new DataItemNode(identifier, yDoubleDataset, this);
+		yAxisData = new DataItemNode(identifier, label, yDoubleDataset, this);
 		this.yDoubleDataset.add(yAxisData);
 		this.firePropertyChange(DATA_Y_AXIS_PROP_NAME, null, yAxisData);
 		return yAxisData;
@@ -85,10 +85,13 @@ public class DataNode extends ObservableModel {
 		private final String identifier;
 		private final DoubleDataset data;
 		private final DataNode parent;
-		public DataItemNode(String identifier, DoubleDataset data, DataNode parent) {
+		private final String label;
+
+		public DataItemNode(String identifier, String label, DoubleDataset data, DataNode parent) {
 			this.identifier = identifier;
 			this.data = data;
 			this.parent = parent;
+			this.label = label;
 		}
 		public DoubleDataset getData() {
 			return data;
@@ -101,7 +104,7 @@ public class DataNode extends ObservableModel {
 		}
 		@Override
 		public String toString() {
-			return getIdentifier();
+			return label;
 		}
 	}
 }

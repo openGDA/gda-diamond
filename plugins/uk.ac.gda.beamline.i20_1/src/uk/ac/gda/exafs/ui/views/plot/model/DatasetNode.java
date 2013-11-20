@@ -34,9 +34,11 @@ public class DatasetNode extends ObservableModel {
 	private final Map<String, DataNode> scans = new HashMap<String, DataNode>();
 	private final  IObservableList dataNodeList = new WritableList(new ArrayList<DataNode>(), DataNode.class);
 	private final String scanIdentifier;
+	private final boolean multiCollection;
 
-	public DatasetNode(String scanIdentifier) {
+	public DatasetNode(String scanIdentifier, boolean multiCollection) {
 		this.scanIdentifier = scanIdentifier;
+		this.multiCollection = multiCollection;
 	}
 
 	public IObservableList getNodeList() {
@@ -56,7 +58,12 @@ public class DatasetNode extends ObservableModel {
 			dataNode = scans.get(identifier);
 		}
 		identifier =  identifier + "@" + arg.getProgress().getGroupNumOfThisSDP() + "@" + arg.getProgress().getFrameNumOfThisSDP();
-		return dataNode.updateData(arg.getEnergyData(), arg.getData(), identifier);
+		label = "Group " + arg.getProgress().getGroupNumOfThisSDP() + " spectrum " + arg.getProgress().getFrameNumOfThisSDP();
+		return dataNode.updateData(arg.getEnergyData(), arg.getData(), identifier, label);
+	}
+
+	public boolean isMultiCollection() {
+		return multiCollection;
 	}
 
 	@Override

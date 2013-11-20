@@ -132,14 +132,7 @@ public class DataPlotView extends ViewPart {
 	private void addAndUpdateTrace(DataItemNode node) {
 		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier());
 		if (trace == null) {
-			// FIXME Refactor!
-			if (node.getParent().getYDoubleDataset().indexOf(node) == 1) {
-				ILineTrace firstLine = ((ILineTrace) plottingSystem.getTrace(((DataItemNode) node.getParent().getYDoubleDataset().get(0)).getIdentifier()));
-				firstLine.setTraceType(TraceType.SOLID_LINE);
-				firstLine.setPointStyle(PointStyle.NONE);
-				trace = plottingSystem.createLineTrace(node.getIdentifier());
-			}
-			else if (node.getParent().getYDoubleDataset().indexOf(node) < 1) {
+			if (!node.getParent().getParent().isMultiCollection()) {
 				trace = plottingSystem.createLineTrace(node.getIdentifier());
 				trace.setTraceColor(getTraceColor(node.getParent().getLabel()));
 				if ((plotDataHolder.getDataset().size() - plotDataHolder.getDataset().indexOf(node.getParent().getParent())) % 2 == 0) {
@@ -157,6 +150,7 @@ public class DataPlotView extends ViewPart {
 		trace.setData(node.getParent().getXAxisData(), node.getData());
 
 		plottingSystem.repaint();
+		// Updates the colour
 		dataTreeViewer.update(node, null);
 		if (!dataTreeViewer.getChecked(node.getParent())) {
 			dataTreeViewer.setChecked(node.getParent(), true);
@@ -196,6 +190,10 @@ public class DataPlotView extends ViewPart {
 				return plotDataHolder.getDataset();
 			} else if (target instanceof DatasetNode) {
 				return (((DatasetNode) target).getNodeList());
+			} else if (target instanceof DataNode) {
+				return (((DataNode) target).getYDoubleDataset());
+			} else if (target instanceof DataItemNode) {
+				dataTreeViewer.setChecked(target, true);
 			}
 			return null;
 		}
@@ -238,7 +236,7 @@ public class DataPlotView extends ViewPart {
 						}
 					} else {
 						for (Object node : ((DatasetNode) element).getNodeList()) {
-							removeTrace(node);
+							removeTrace((DataNode) node);
 						}
 					}
 				} else if (element instanceof DataNode) {
@@ -248,14 +246,21 @@ public class DataPlotView extends ViewPart {
 							addAndUpdateTrace((DataItemNode) nodeItem);
 						}
 					} else {
-						removeTrace(element);
+						removeTrace((DataNode) element);
+					}
+				} else if (element instanceof DataItemNode) {
+					updateStateParent(((DataItemNode) element).getParent());
+					if (event.getChecked()) {
+						addAndUpdateTrace((DataItemNode) element);
+					} else {
+						removeTrace((DataItemNode) element);
 					}
 				}
 			}
 		});
 	}
 
-	protected void updateStateParent(DatasetNode parent) {
+	private void updateStateParent(Object parent) {
 		boolean childChecked = false;
 		Object[] children = ((ObservableListTreeContentProvider) dataTreeViewer.getContentProvider()).getChildren(parent);
 		int checkCount = 0;
@@ -277,6 +282,9 @@ public class DataPlotView extends ViewPart {
 				dataTreeViewer.setChecked(parent, false);
 			}
 		}
+		if (parent != plotDataHolder) {
+			updateStateParent(((ObservableListTreeContentProvider) dataTreeViewer.getContentProvider()).getParent(parent));
+		}
 	}
 
 	@Override
@@ -290,14 +298,16 @@ public class DataPlotView extends ViewPart {
 		super.dispose();
 	}
 
-	private void removeTrace(Object node) {
-		for (Object nodeItem : ((DataNode) node).getYDoubleDataset()) {
-			ILineTrace trace = (ILineTrace) plottingSystem.getTrace(((DataItemNode) nodeItem).getIdentifier());
-			if (trace != null) {
-				plottingSystem.removeTrace(trace);
-			}
+	private void removeTrace(DataNode node) {
+		for (Object nodeItem : node.getYDoubleDataset()) {
+			removeTrace((DataItemNode) nodeItem);
 		}
-
 	}
 
+	private void removeTrace(DataItemNode node) {
+		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier());
+		if (trace != null) {
+			plottingSystem.removeTrace(trace);
+		}
+	}
 }
