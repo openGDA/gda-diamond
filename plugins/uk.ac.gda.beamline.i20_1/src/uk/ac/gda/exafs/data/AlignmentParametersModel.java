@@ -92,7 +92,7 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 
 	public enum CrystalCut {
 		// See requirement spec for assigned values
-		Si111(6 * 1000, 14 * 1000),
+		Si111(5.9 * 1000, 14 * 1000),
 		Si311(7 * 1000, 26 * 1000);
 
 		private final double min;
