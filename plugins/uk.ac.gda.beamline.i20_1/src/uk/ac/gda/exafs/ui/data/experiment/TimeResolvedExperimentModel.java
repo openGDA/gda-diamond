@@ -18,6 +18,8 @@
 
 package uk.ac.gda.exafs.ui.data.experiment;
 
+import gda.commandqueue.JythonCommandCommandProvider;
+import gda.commandqueue.Queue;
 import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
@@ -44,13 +46,17 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
+import uk.ac.gda.client.CommandQueueViewFactory;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
+import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors.ExperimentMotorPostionType;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel.TimingGroupTimeBarRowModel;
 import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.date.JaretDate;
@@ -60,6 +66,8 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 
 
 public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
+
+	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedExperimentModel.class);
 
 	public static final TimeResolvedExperimentModel INSTANCE = new TimeResolvedExperimentModel(0);
 
@@ -212,13 +220,13 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		addToInternalGroupList(newGroup, groupList.indexOf(groupToSplit) + 1);
 		newGroup.resetInitialTime(groupToSplit.getEndTime(), endTime - groupToSplit.getEndTime(), 0, endTime - groupToSplit.getEndTime());
 		for (int i = groupList.indexOf(groupToSplit) + 1; i < groupList.size(); i++) {
-			((TimingGroupModel) groupList.get(i)).setName("Group " + (i + 1));
+			((TimingGroupModel) groupList.get(i)).setName("Group " + i);
 		}
 	}
 
 	public TimingGroupModel addGroup() {
 		TimingGroupModel newGroup = new TimingGroupModel(spectraRowModel, unit.getWorkingUnit());
-		newGroup.setName("Group " + (groupList.size() + 1));
+		newGroup.setName("Group " + groupList.size());
 		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup);
 		resetInitialGroupTimes(this.getDuration() / groupList.size());
@@ -269,33 +277,22 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	}
 
 	private String buildScanCommand() {
-		return String.format("from gda.scan.ede.drivers import LinearExperimentDriver;" +
+		StringBuilder builder = new StringBuilder(String.format("from gda.scan.ede.drivers import LinearExperimentDriver;" +
 				JYTHON_DRIVER_OBJ + " = LinearExperimentDriver(\"%s\",\"%s\",%s,%s);" +
 				JYTHON_DRIVER_OBJ + ".setInBeamPosition(mapToJava(%s));" +
-				JYTHON_DRIVER_OBJ + ".setOutBeamPosition(mapToJava(%s))",
+				JYTHON_DRIVER_OBJ + ".setOutBeamPosition(mapToJava(%s));",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
 				TIMING_GROUPS_OBJ_NAME,
 				DetectorModel.SHUTTER_NAME,
-				buildSampleMotorPositions(true),
-				buildSampleMotorPositions(false));
-	}
-
-	// FIXME This is duplicated code from single spectrum
-	private String buildSampleMotorPositions(boolean isItPosition) {
-		StringBuilder position = new StringBuilder();
-		position.append("{");
-		ExperimentMotorPostion[] motorPositions = SampleStageMotors.INSTANCE.getSelectedMotors();
-		for (int i=0; i < SampleStageMotors.INSTANCE.getSelectedMotors().length; i++) {
-			position.append("'" + motorPositions[i].getScannableSetup().getScannableName() + "'" + ":");
-			double positionValue = (isItPosition) ? motorPositions[i].getTargetItPosition() : motorPositions[i].getTargetI0Position();
-			position.append(positionValue);
-			if (SampleStageMotors.INSTANCE.getSelectedMotors().length > 1 & i < SampleStageMotors.INSTANCE.getSelectedMotors().length - 1) {
-				position.append(",");
-			}
+				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
+				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0)));
+		if (SampleStageMotors.INSTANCE.isUseIref()) {
+			builder.append(String.format(JYTHON_DRIVER_OBJ + ".setReferencePosition(mapToJava(%s));",
+					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef)));
 		}
-		position.append("}");
-		return position.toString();
+		builder.append(JYTHON_DRIVER_OBJ + ".doCollection();");
+		return builder.toString();
 	}
 
 	private class ScanJob extends Job implements IObserver {
@@ -382,17 +379,27 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 							timingGroup.setTimePerScan(unit.getWorkingUnit().convertToSecond(uiTimingGroup.getIntegrationTime())); // convert to S
 							timingGroups.add(timingGroup);
 						}
-
 						InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
 						String scanCommand = buildScanCommand();
-						InterfaceProvider.getCommandRunner().runCommand(scanCommand);
+						logger.info("Sending command: " + scanCommand);
+						//InterfaceProvider.getCommandRunner().runCommand(scanCommand);
+						Queue queue = CommandQueueViewFactory.getQueue();
+						if (queue != null) {
+							try {
+								queue.addToTail(new JythonCommandCommandProvider(scanCommand, "Do a collection", null));
+							} catch (Exception e) {
+								e.printStackTrace();
+								// TODO Auto-generated catch block
+							}
+						}
 					}
 				});
 				progressReportingJob.schedule();
 
 				// give the previous command a chance to run before calling doCollection()
-				Thread.sleep(50);
-				InterfaceProvider.getCommandRunner().evaluateCommand(JYTHON_DRIVER_OBJ + ".doCollection()");
+				//Thread.sleep(50);
+				//				InterfaceProvider.getCommandRunner().evaluateCommand(JYTHON_DRIVER_OBJ + ".doCollection()");
+
 			} catch (Exception e) {
 				UIHelper.showWarning("Scanning has stopped", e.getMessage());
 			}
@@ -470,7 +477,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				TimingGroupModel previous = (TimingGroupModel) groupList.get(i-1);
 				startTime = previous.getEndTime();
 			}
-			group.setName("Group " + (i + 1));
+			group.setName("Group " + i);
 			group.resetInitialTime(startTime, groupDuration, 0.0, groupDuration);
 		}
 	}

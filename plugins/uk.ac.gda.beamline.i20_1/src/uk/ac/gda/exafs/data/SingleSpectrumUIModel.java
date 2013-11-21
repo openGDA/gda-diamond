@@ -44,6 +44,7 @@ import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentMotorPostion;
 import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors;
+import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors.ExperimentMotorPostionType;
 
 import com.google.gson.annotations.Expose;
 
@@ -55,6 +56,8 @@ public class SingleSpectrumUIModel extends ObservableModel {
 
 	private final AlignmentStageScannable.Location holeLocationForAlignment = new AlignmentStageScannable.Location();
 	private final AlignmentStageScannable.Location foilLocationForAlignment = new AlignmentStageScannable.Location();
+
+	private static final String SINGLE_JYTHON_DRIVER_OBJ = "singletimeresolveddriver";
 
 	public static final String I0_INTEGRATION_TIME_PROP_NAME = "i0IntegrationTime";
 	@Expose
@@ -144,10 +147,10 @@ public class SingleSpectrumUIModel extends ObservableModel {
 	}
 
 	private String buildScanCommand() {
-		return String.format("from gda.scan.ede.drivers import SingleSpectrumDriver; \n" +
-				"scan_driver = SingleSpectrumDriver(\"%s\",\"%s\",%f,%d,%f,%d,\"%s\",%s); \n" +
-				"scan_driver.setInBeamPosition(mapToJava(%s));" +
-				"scan_driver.setOutBeamPosition(mapToJava(%s))",
+		StringBuilder builder = new StringBuilder(String.format("from gda.scan.ede.drivers import SingleSpectrumDriver; \n" +
+				SINGLE_JYTHON_DRIVER_OBJ + " = SingleSpectrumDriver(\"%s\",\"%s\",%f,%d,%f,%d,\"%s\",%s); \n" +
+				SINGLE_JYTHON_DRIVER_OBJ + ".setInBeamPosition(mapToJava(%s));" +
+				SINGLE_JYTHON_DRIVER_OBJ + ".setOutBeamPosition(mapToJava(%s));",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
 				i0IntegrationTime / 1000, // Converts to Seconds
@@ -156,24 +159,14 @@ public class SingleSpectrumUIModel extends ObservableModel {
 				itNumberOfAccumulations,
 				fileTemplate,
 				DetectorModel.SHUTTER_NAME,
-				buildSampleMotorPositions(true),
-				buildSampleMotorPositions(false));
-	}
-
-	private String buildSampleMotorPositions(boolean isItPosition) {
-		StringBuilder position = new StringBuilder();
-		position.append("{");
-		ExperimentMotorPostion[] motorPositions = SampleStageMotors.INSTANCE.getSelectedMotors();
-		for (int i=0; i < SampleStageMotors.INSTANCE.getSelectedMotors().length; i++) {
-			position.append("'" + motorPositions[i].getScannableSetup().getScannableName() + "'" + ":");
-			double positionValue = (isItPosition) ? motorPositions[i].getTargetItPosition() : motorPositions[i].getTargetI0Position();
-			position.append(positionValue);
-			if (SampleStageMotors.INSTANCE.getSelectedMotors().length > 1 & i < SampleStageMotors.INSTANCE.getSelectedMotors().length - 1) {
-				position.append(",");
-			}
+				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
+				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0)));
+		if (SampleStageMotors.INSTANCE.isUseIref()) {
+			builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setReferencePosition(mapToJava(%s));",
+					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef)));
 		}
-		position.append("}");
-		return position.toString();
+		builder.append(SINGLE_JYTHON_DRIVER_OBJ + ".doCollection();");
+		return builder.toString();
 	}
 
 	private static enum ScanJobName {
@@ -228,6 +221,7 @@ public class SingleSpectrumUIModel extends ObservableModel {
 			try {
 				String command = buildScanCommand();
 				logger.info("Sending command: " + command);
+
 				InterfaceProvider.getCommandRunner().runCommand(command);
 				// give the previous command a chance to run before calling doCollection()
 				Thread.sleep(150);

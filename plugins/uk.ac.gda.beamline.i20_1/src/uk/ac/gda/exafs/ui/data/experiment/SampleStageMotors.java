@@ -23,6 +23,10 @@ import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 
 public class SampleStageMotors extends ObservableModel {
 
+	public enum ExperimentMotorPostionType {
+		I0, It, IRef
+	}
+
 	public static final SampleStageMotors INSTANCE = new SampleStageMotors();
 
 	public static final ExperimentMotorPostion[] scannables;
@@ -63,5 +67,26 @@ public class SampleStageMotors extends ObservableModel {
 		this.firePropertyChange(USE_IREF_PROP_NAME, this.useIref, this.useIref = useIref);
 	}
 
+	public String getFormattedSelectedPositions(ExperimentMotorPostionType type) {
+		StringBuilder position = new StringBuilder();
+		position.append("{");
+		for (int i=0; i < selectedMotors.length; i++) {
+			position.append("'" +selectedMotors[i].getScannableSetup().getScannableName() + "'" + ":");
+			double positionValue;
+			if (type == ExperimentMotorPostionType.I0) {
+				positionValue = selectedMotors[i].getTargetI0Position();
+			} else if (type == ExperimentMotorPostionType.It) {
+				positionValue = selectedMotors[i].getTargetItPosition();
+			} else {
+				positionValue = selectedMotors[i].getTargetIrefPosition();
+			}
+			position.append(positionValue);
+			if (selectedMotors.length > 1 & i < selectedMotors.length - 1) {
+				position.append(",");
+			}
+		}
+		position.append("}");
+		return position.toString();
+	}
 }
 
