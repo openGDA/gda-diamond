@@ -171,7 +171,7 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 
 			spectrum.setTimes(startTimeForSpectrum, timePerSpectrum);
 			startTimeForSpectrum += timePerSpectrum;
-			spectrum.setName("Spectrum " + (i + 1));
+			spectrum.setName("Spectrum " + i);
 			if (i >= current) {
 				spectrumList.add(spectrum);
 				spectraTimeBarRowModel.addInterval(spectrum);

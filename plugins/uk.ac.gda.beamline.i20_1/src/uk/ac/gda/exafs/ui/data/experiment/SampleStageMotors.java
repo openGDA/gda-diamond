@@ -41,7 +41,10 @@ public class SampleStageMotors extends ObservableModel {
 
 	private SampleStageMotors() {}
 
-	public static final String SELECTED_MOTORS = "selectedMotors";
+	public static final String USE_IREF_PROP_NAME = "useIref";
+	private boolean useIref;
+
+	public static final String SELECTED_MOTORS_PROP_NAME = "selectedMotors";
 	private ExperimentMotorPostion[] selectedMotors = new ExperimentMotorPostion[]{};
 
 	public ExperimentMotorPostion[] getSelectedMotors() {
@@ -49,7 +52,15 @@ public class SampleStageMotors extends ObservableModel {
 	}
 
 	public void setSelectedMotors(ExperimentMotorPostion[] selectedMotors) {
-		this.firePropertyChange(SELECTED_MOTORS, this.selectedMotors, this.selectedMotors = selectedMotors);
+		this.firePropertyChange(SELECTED_MOTORS_PROP_NAME, this.selectedMotors, this.selectedMotors = selectedMotors);
+	}
+
+	public boolean isUseIref() {
+		return useIref;
+	}
+
+	public void setUseIref(boolean useIref) {
+		this.firePropertyChange(USE_IREF_PROP_NAME, this.useIref, this.useIref = useIref);
 	}
 
 }

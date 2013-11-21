@@ -24,6 +24,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.UpdateValueStrategy;
+import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
@@ -51,12 +57,18 @@ public class SampleStageMotorsComposite extends Composite {
 
 	private static final Logger logger = LoggerFactory.getLogger(SampleStageMotorsComposite.class);
 
+	private final DataBindingContext dataBindingCtx = new DataBindingContext();
+
 	private final Button selectSampleStageMotors;
 	private final Composite sampleI0PositionComposite;
 	private final Composite sampleItPositionComposite;
 	private final PropertyChangeListener selectionChangeListener;
 
 	private final FormToolkit toolkit;
+
+	private final Button useIrefCheckButton;
+
+	private final Composite sampleIRefPositionComposite;
 
 	public SampleStageMotorsComposite(Composite parent, int style, FormToolkit toolkit) {
 		this(parent, style, toolkit, false);
@@ -66,13 +78,26 @@ public class SampleStageMotorsComposite extends Composite {
 	public SampleStageMotorsComposite(Composite parent, int style, FormToolkit toolkit, boolean doubleSpan) {
 		super(parent, style);
 		this.toolkit = toolkit;
-		int span = (doubleSpan) ? 2 : 1;
+		final int span = (doubleSpan) ? 3 : 1;
 		this.setLayout(UIHelper.createGridLayoutWithNoMargin(span, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		selectSampleStageMotors = toolkit.createButton(this, "Select sample stage motors", SWT.None);
-		GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
-		gridData.horizontalSpan = 2;
-		selectSampleStageMotors.setLayoutData(gridData);
+
+		Composite topControlComposite = toolkit.createComposite(this);
+		topControlComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		gridData.horizontalSpan = span;
+		topControlComposite.setLayoutData(gridData);
+
+		useIrefCheckButton = toolkit.createButton(topControlComposite, "Use Iref", SWT.CHECK);
+		useIrefCheckButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.selection().observe(useIrefCheckButton),
+				BeanProperties.value(SampleStageMotors.USE_IREF_PROP_NAME).observe(SampleStageMotors.INSTANCE));
+
+		selectSampleStageMotors = toolkit.createButton(topControlComposite, "Select sample stage motors", SWT.None);
+		selectSampleStageMotors.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+
 		final Section i0section = toolkit.createSection(this, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		i0section.setText("I0 sample position");
 		selectSampleStageMotors.addListener(SWT.Selection, new Listener() {
@@ -99,6 +124,32 @@ public class SampleStageMotorsComposite extends Composite {
 		toolkit.paintBordersFor(sampleItPositionComposite);
 		itSection.setClient(sampleItPositionComposite);
 
+		final Section iRefSection = toolkit.createSection(this, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		iRefSection.setText("IRef sample position");
+		iRefSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		sampleIRefPositionComposite = toolkit.createComposite(iRefSection, SWT.NONE);
+		sampleIRefPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
+		toolkit.paintBordersFor(sampleIRefPositionComposite);
+		iRefSection.setClient(sampleIRefPositionComposite);
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.visible().observe(iRefSection),
+				BeanProperties.value(SampleStageMotors.USE_IREF_PROP_NAME).observe(SampleStageMotors.INSTANCE),
+				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+				new UpdateValueStrategy() {
+					@Override
+					protected IStatus doSet(IObservableValue observableValue, Object value) {
+						IStatus status = super.doSet(observableValue, (boolean) value);
+						if (span == 3) {
+							((GridData) SampleStageMotorsComposite.this.getLayoutData()).horizontalSpan = 2;
+						}
+						((GridData) iRefSection.getLayoutData()).exclude = !((boolean) value);
+						SampleStageMotorsComposite.this.layout();
+						SampleStageMotorsComposite.this.getParent().getParent().layout();
+						return status;
+					}
+				});
+
 		defaultSectionSeparator = toolkit.createCompositeSeparator(itSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
 		itSection.setSeparatorControl(defaultSectionSeparator);
@@ -110,8 +161,7 @@ public class SampleStageMotorsComposite extends Composite {
 			}
 		};
 		selectionSampleStageMotorListChange();
-		SampleStageMotors.INSTANCE.addPropertyChangeListener(SampleStageMotors.SELECTED_MOTORS, selectionChangeListener);
-
+		SampleStageMotors.INSTANCE.addPropertyChangeListener(SampleStageMotors.SELECTED_MOTORS_PROP_NAME, selectionChangeListener);
 	}
 
 	private void showAvailableMotorsDialog() {
@@ -170,6 +220,21 @@ public class SampleStageMotorsComposite extends Composite {
 					}
 				});
 				sampleStageMotorComposites.add(composite);
+				sampleStageMotorComposites.add(composite);
+				composite = createXYPositionComposite(sampleIRefPositionComposite, experimentMotorPostion,
+						ExperimentMotorPostion.TARGET_IREF_POSITION,
+						experimentMotorPostion.getScannableSetup().getLabel(), new Listener() {
+					@Override
+					public void handleEvent(Event event) {
+						try {
+							experimentMotorPostion.setTargetItPosition((double) experimentMotorPostion.getScannableSetup().getScannable().getPosition());
+						} catch (Exception e) {
+							UIHelper.showError("Unable to update current motor postion", e.getMessage());
+							logger.error("Unable to update current motor postion", e.getMessage());
+						}
+					}
+				});
+				sampleStageMotorComposites.add(composite);
 			}
 			getParent().getParent().layout(true);
 		} catch (Exception e) {
@@ -188,11 +253,11 @@ public class SampleStageMotorsComposite extends Composite {
 		Composite positionComposite = toolkit.createComposite(positionAllComposite, SWT.NONE);
 		toolkit.paintBordersFor(positionComposite);
 		positionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		positionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
+		positionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 
 		Label xPosLabel = toolkit.createLabel(positionComposite, label, SWT.None);
 		GridData gridData = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
-		gridData.widthHint = 130;
+		gridData.widthHint = 90;
 		xPosLabel.setLayoutData(gridData);
 
 		final NumberEditorControl positionControl = new NumberEditorControl(positionComposite, SWT.None, object, propertyName, false);
@@ -201,9 +266,10 @@ public class SampleStageMotorsComposite extends Composite {
 		positionControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		if (listener != null) {
-			Button readCurrentPositionButton = toolkit.createButton(positionAllComposite, "Read current", SWT.PUSH);
+			Button readCurrentPositionButton = toolkit.createButton(positionAllComposite, "Read", SWT.PUSH);
+			readCurrentPositionButton.setToolTipText("Read current position for " + label);
 			readCurrentPositionButton.addListener(SWT.Selection, listener);
-			readCurrentPositionButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, true, false));
+			readCurrentPositionButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
 		}
 		return positionAllComposite;
 	}
@@ -211,7 +277,7 @@ public class SampleStageMotorsComposite extends Composite {
 
 	@Override
 	public void dispose() {
-		SampleStageMotors.INSTANCE.removePropertyChangeListener(SampleStageMotors.SELECTED_MOTORS, selectionChangeListener);
+		SampleStageMotors.INSTANCE.removePropertyChangeListener(SampleStageMotors.SELECTED_MOTORS_PROP_NAME, selectionChangeListener);
 		super.dispose();
 	}
 

@@ -29,6 +29,9 @@ public class ExperimentMotorPostion extends ObservableModel {
 	public static final String TARGET_IT_POSITION = "targetItPosition";
 	private double targetItPosition;
 
+	public static final String TARGET_IREF_POSITION = "targetIrefPosition";
+	private double targetIrefPosition;
+
 	private final ScannableSetup scannableSetup;
 
 	public ExperimentMotorPostion(ScannableSetup scannableSetup) {
@@ -53,5 +56,13 @@ public class ExperimentMotorPostion extends ObservableModel {
 
 	public void setTargetItPosition(double targetItPosition) {
 		this.firePropertyChange(TARGET_IT_POSITION, this.targetItPosition, this.targetItPosition = targetItPosition);
+	}
+
+	public double getTargetIrefPosition() {
+		return targetIrefPosition;
+	}
+
+	public void setTargetIrefPosition(double targetIrefPosition) {
+		this.firePropertyChange(TARGET_IREF_POSITION, this.targetIrefPosition, this.targetIrefPosition = targetIrefPosition);
 	}
 }

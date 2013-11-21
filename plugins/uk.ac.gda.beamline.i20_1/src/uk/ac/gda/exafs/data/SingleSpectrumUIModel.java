@@ -213,38 +213,6 @@ public class SingleSpectrumUIModel extends ObservableModel {
 					monitor.worked(1);
 				}
 			}
-			//			else if (arg instanceof EdeExperimentProgressBean) {
-			//				final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
-			//
-			//				final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
-			//				final String scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
-			//				final String scanfilename =  edeScanProgress.getThisPoint().getCurrentFilename();
-			//				final String label = edeExperimentProgress.getDataLabel();
-			//				final AxisSpec spec = new AxisSpec("counts");
-			//
-			//				final DoubleDataset currentNormalisedItData = edeExperimentProgress.getData();
-			//				final DoubleDataset currentEnergyData = edeExperimentProgress.getEnergyData();
-			//
-			//				Display.getDefault().asyncExec(new Runnable() {
-			//					@Override
-			//					public void run() {
-			//
-			//						try {
-			//							final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-			//									.getActivePage();
-			//							LivePlotView part = (LivePlotView) page.findView(LivePlotView.ID);
-			//							if (part == null) {
-			//								part = (LivePlotView) page.showView(LivePlotView.ID);
-			//							}
-			//
-			//							part.addData(scanIdentifier, scanfilename, label, currentEnergyData, currentNormalisedItData, true, true, spec);
-			//
-			//						} catch (Exception e) {
-			//							UIHelper.showError("Unable to plot the data", e.getMessage());
-			//						}
-			//					}
-			//				});
-			//			}
 		}
 
 		@Override
