@@ -205,8 +205,12 @@ else
 fi
 
 if [ -z $GDA_CLIENT ] ; then
-  GDA_CLIENT=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE}
-  GDA_CLIENT=`readlink -f $GDA_CLIENT`
+  GDA_CLIENT_ORIG=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE}
+  GDA_CLIENT=`readlink -f $GDA_CLIENT_ORIG`
+  if [ $? -gt 0 ]; then
+    echo "gdaclient: $GDA_CLIENT_ORIG not found"
+    exit 1
+  fi
 fi
 
 notify-send -t 10000 "GDA client is starting... If it fails to open try 'gdaclient --reset'"
