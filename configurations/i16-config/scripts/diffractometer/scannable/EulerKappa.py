@@ -122,7 +122,7 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 #				print "phi, chi, eta", phi, chi, eta
 				position_at_scan_start = self.getPositionAtScanStart()
 #				print "position_at_scan_start1", position_at_scan_start
-				base_position = position_at_scan_start if position_at_scan_start is not None else self.getPosition()
+				base_position = position_at_scan_start if position_at_scan_start is not None else self.rawGetPosition()
 
 				
 				if self.diffcalc_ordering:

@@ -55,7 +55,7 @@ import pd_toggleBinaryPvAndWait
 import pd_toggleBinaryPvAndWaitFancy
 import pd_waitWhileScannableBelowThreshold
 import sys
-
+from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
 
 ScriptBase.interrupted = False #@UndefinedVariable
 
@@ -64,8 +64,9 @@ print "Running B16 specific initialisation code"
 print "======================================================================"
 ENABLE_PILATUS = True
 ENABLE_PCOEDGE = False
-USE_YOU_DIFFCALC_ENGINE = True
-#USE_YOU_DIFFCALC_ENGINE = False  # Use old diffcalc
+
+#USE_YOU_DIFFCALC_ENGINE = True
+USE_YOU_DIFFCALC_ENGINE = False  # Use old diffcalc
 
 
 print "<<< Running init/microfocus_startup.py"
@@ -354,7 +355,7 @@ else:
 #NOTE: The following is now in b16/scripts/localStationUser
 import pd_setPvAndWait
 if installation.isLive():
-	dcmpiezo=pd_setPvAndWait.SetPvAndWait("dcmpiezo","BL16B-OP-DCM-01:FB:DAC:02", 0.5)
+	dcmpiezo=pd_setPvAndWait.SetPvAndWait("dcmpiezo","BL16B-OP-DCM-01:FB:DAC:02", 0.2)
 	dcmpiezo.setOutputFormat(['%.4f'])
 
 
@@ -482,7 +483,7 @@ if installation.isLive() and ENABLE_PILATUS:
 		pil.display_image = True
 		pilpeak2d = DetectorDataProcessorWithRoi('pilpeak2d', pil, [TwodGaussianPeak()])
 		pilmax2d = DetectorDataProcessorWithRoi('pilmax2d', pil, [SumMaxPositionAndValue()])
-		
+		pilintensity2d = DetectorDataProcessorWithRoi('pilintensity2d', pil, [PixelIntensity()])
 		pilroi1 = DetectorDataProcessorWithRoi('pilroi1', pil, [SumMaxPositionAndValue()])
 		pilroi2 = DetectorDataProcessorWithRoi('pilroi2', pil, [SumMaxPositionAndValue()])
 		pilroi3 = DetectorDataProcessorWithRoi('pilroi3', pil, [SumMaxPositionAndValue()])
@@ -537,6 +538,7 @@ if installation.isLive():
 		medipix.display_image = True
 		medipixpeak2d = DetectorDataProcessorWithRoi('medipixpeak2d', medipix, [TwodGaussianPeak()])
 		medipixmax2d = DetectorDataProcessorWithRoi('medipixmax2d', medipix, [SumMaxPositionAndValue()])
+		medipixintensity2d = DetectorDataProcessorWithRoi('medipixintensity2d', medipix, [PixelIntensity()])
 		# TODO: MBB End
 
 	except gda.factory.FactoryException:
@@ -629,7 +631,7 @@ def configureScanPipeline(length = None, simultaneousPoints = None):
 		LocalProperties.set(simultaneousProp, `simultaneousPoints`) #@UndefinedVariable
 		show()
 
-from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
+
 peak2d = DetectorDataProcessorWithRoi('peak2d', ipp, [TwodGaussianPeak()])
 max2d = DetectorDataProcessorWithRoi('max2d', ipp, [SumMaxPositionAndValue()])
 intensity2d = DetectorDataProcessorWithRoi('intensity2d', ipp, [PixelIntensity()])
@@ -676,9 +678,9 @@ if installation.isLive() and ENABLE_PCOEDGE:
 	visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(pcoedgedet, subfolder='pcoedge', create_folder=True, toreplace='/dls/b16/', replacement='N:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(pcoedge, report_path = False))
 	pcoedge.disable_operation_outside_scans = True
-	pcoedge_peak2d = DetectorDataProcessorWithRoi('pcoedge_peak2d', pcoedge, [TwodGaussianPeak()],prefix_name_to_extranames=False)
-	pcoedge_max2d = DetectorDataProcessorWithRoi('pcoedge_max2d', pcoedge, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
-	pcoedge_intensity2d = DetectorDataProcessorWithRoi('pcoedge_intensity2d', pcoedge, [PixelIntensity()],prefix_name_to_extranames=False)
+	pcoedgepeak2d = DetectorDataProcessorWithRoi('pcoedgepeak2d', pcoedge, [TwodGaussianPeak()],prefix_name_to_extranames=False)
+	pcoedgemax2d = DetectorDataProcessorWithRoi('pcoedgemax2d', pcoedge, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	pcoedgeintensity2d = DetectorDataProcessorWithRoi('pcoedgeintensity2d', pcoedge, [PixelIntensity()],prefix_name_to_extranames=False)
 ###############################################################################
 ###                                   TEMPORARY                              ###
 ###############################################################################
@@ -780,11 +782,10 @@ if installation.isLive():
 
 run('setup_bimorph')
 
-from gdascripts.bimorph.bimorph import runOptimisation
-from uk.ac.gda.beans.bimorph import BimorphParameters
-from gdascripts.bimorph import bimorph
+from bimorph import runOptimisation
+import bimorph
 from uk.ac.gda.beans import BeansFactory
-from gdascripts.bimorph.bimorph_mirror_optimising import SlitScanner
+from bimorph_mirror_optimising import SlitScanner
 from gdascripts.scannable.detector.dummy.focused_beam_dataset import CreateImageReadingDummyDetector
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessor
@@ -794,13 +795,13 @@ from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProc
 #b16beansfactory.setClassList(["uk.ac.gda.beans.exafs.DetectorParameters", "uk.ac.gda.beans.vortex.VortexParameters", "uk.ac.gda.beans.microfocus.MicroFocusScanParameters"])
 
 slitscanner = SlitScanner()
-from gdascripts.bimorph.bimorph_mirror_optimising import ScanAborter
+from bimorph_mirror_optimising import ScanAborter
 scanAborter = ScanAborter("scanAborter",rc, 100) #@UndefinedVariable
 slitscanner.setScanAborter(scanAborter)
 
 bm=eembimorph # temporary workaround of bug in gui @UndefinedVariable
 
-from gdascripts.bimorph.dummy_pd_bimorph import Bimorph
+from dummy_pd_bimorph import Bimorph
 
 dummy_bimorph = Bimorph("dummy_bimorph", 0, 8)
 
