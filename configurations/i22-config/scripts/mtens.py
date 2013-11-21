@@ -88,4 +88,4 @@ class TensileTester(PseudoDevice):
         return busy
 
 if __name__ == "__main__":
-    tent = TensileTester("tent", "BL22I-EA-TENS-01:M1", "BL22I-EA-TENS-01:M2", "BL22I-EA-TENS-01:SG:POLLVALUE")
+    mtens = TensileTester("mtens", "BL22I-EA-TENS-01:M1", "BL22I-EA-TENS-01:M2", "BL22I-EA-TENS-01:SG:POLLVALUE")
