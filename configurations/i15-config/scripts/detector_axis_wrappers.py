@@ -915,6 +915,11 @@ def _getWrappedDetector(axis, start, stop, step, detector, exposureTime,
 									   ProcessingDetectorWrapper
 	from scannables.detectors.perkinElmerAxisWrapper import \
 						      PerkinElmerAxisWrapper
+	from scannables.detectors.areaDetectorAxisWrapper import \
+						      AreaDetectorAxisWrapper
+	from gdascripts.scannable.detector.ProcessingDetectorWrapper import \
+		  SwitchableHardwareTriggerableProcessingDetectorWrapper
+	from gda.device.detector import NXDetector
 	
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	#isccd = jythonNameMap.ruby
@@ -967,6 +972,15 @@ def _getWrappedDetector(axis, start, stop, step, detector, exposureTime,
 		 isinstance(detector.det, PerkinElmer):
 		# Not used: start, stop, diff=0., overflow=False, multiFactor=1
 		wrappedDetector = PerkinElmerAxisWrapper(detector.det, isccd,
+			jythonNameMap.prop, jythonNameMap.feabsb, jythonNameMap.fmfabsb,
+			exposureTime, axis, step, sync=sync, fileName=fileName,
+			noOfExpPerPos=noOfExpPerPos, rock=rock, pause=pause,
+			exposeDark=exposeDark)
+	
+	elif isinstance(detector, SwitchableHardwareTriggerableProcessingDetectorWrapper) and \
+		 isinstance(detector.det, NXDetector):
+		# Not used: start, stop, diff=0., overflow=False, multiFactor=1
+		wrappedDetector = AreaDetectorAxisWrapper(detector.det, isccd,
 			jythonNameMap.prop, jythonNameMap.feabsb, jythonNameMap.fmfabsb,
 			exposureTime, axis, step, sync=sync, fileName=fileName,
 			noOfExpPerPos=noOfExpPerPos, rock=rock, pause=pause,

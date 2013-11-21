@@ -295,6 +295,18 @@ try:
 			'pe1peak2d', pe1, [TwodGaussianPeak()])
 		pe1max2d = DetectorDataProcessorWithRoi(
 			'pe1max2d', pe1, [SumMaxPositionAndValue()])
+		
+		from gdascripts.scannable.detector.ProcessingDetectorWrapper import \
+			  SwitchableHardwareTriggerableProcessingDetectorWrapper
+		from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
+		global pedet, pedet_for_snaps
+		
+		# the pixis has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
+		peAD = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+			'peAD', pedet, None, pedet_for_snaps, panel_name_rcp='Plot 1',
+			toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
+			fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+		peAD.display_image = True
 	except:
 		localStation_exception(sys.exc_info(), "connecting creating pe...")
 

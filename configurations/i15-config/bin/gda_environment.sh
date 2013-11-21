@@ -6,7 +6,7 @@ fi
 
 export GDA_SW=/dls_sw/$BEAMLINE/software
 export GDA_ROOT=$GDA_SW/gda
-export GDA_CONFIG=$GDA_ROOT/i15-config
+export GDA_CONFIG=$GDA_ROOT/config
 
 export GDA_USERS=/dls/$BEAMLINE
 export JAVA_HOME=/dls/$BEAMLINE/software/java/jre
