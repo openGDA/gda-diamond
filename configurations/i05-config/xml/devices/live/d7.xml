@@ -20,6 +20,13 @@
 		<property name="pvBase" value="BL05I-DI-PHDGN-07:IONC:Y:MP" />
 		<property name="local" value="true" />
 	</bean>
+	<bean id="d7average" class="gda.device.currentamplifier.CalibratedAmplifier">
+		<property name="scalingAndOffset" ref="d7gain" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL05I-DI-PHDGN-07:DET:IAV" />
+		<property name="local" value="true" />
+	</bean>
 	<bean id="d7current" class="gda.device.currentamplifier.CalibratedAmplifier">
 		<property name="scalingAndOffset" ref="d7gain" />
 		<property name="useNameAsExtraName" value="true" />
