@@ -12,4 +12,4 @@ fi
 
 . /dls_sw/$BEAMLINE/etc/gda_environment.sh
 
-/dls_sw/$BEAMLINE/software/gda/bin/GDA_StartServers >> /dls_sw/$BEAMLINE/logs/gda_output.txt 2>&1 &
+nohup /dls_sw/$BEAMLINE/software/gda/bin/GDA_StartServers >> /dls_sw/$BEAMLINE/logs/gda_output.txt 2>&1
