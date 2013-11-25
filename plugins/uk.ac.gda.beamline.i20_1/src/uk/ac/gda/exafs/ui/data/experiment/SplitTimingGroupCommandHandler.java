@@ -32,8 +32,8 @@ public class SplitTimingGroupCommandHandler extends AbstractHandler {
 		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event)
 				.getActivePage().getSelection();
 		if (selection != null && selection instanceof IStructuredSelection) {
-			if (!selection.isEmpty() && ((IStructuredSelection) selection).getFirstElement() instanceof TimingGroupModel) {
-				TimeResolvedExperimentModel.INSTANCE.splitGroup((TimingGroupModel) ((IStructuredSelection) selection).getFirstElement());
+			if (!selection.isEmpty() && ((IStructuredSelection) selection).getFirstElement() instanceof TimingGroupUIModel) {
+				TimeResolvedExperimentModel.INSTANCE.splitGroup((TimingGroupUIModel) ((IStructuredSelection) selection).getFirstElement());
 			}
 		}
 		return null;

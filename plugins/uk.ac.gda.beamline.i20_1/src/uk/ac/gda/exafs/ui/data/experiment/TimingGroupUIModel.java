@@ -38,9 +38,9 @@ import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
-public class TimingGroupModel extends ExperimentTimingDataModel {
+public class TimingGroupUIModel extends ExperimentTimingDataModel {
 
-	private static final Logger logger = LoggerFactory.getLogger(TimingGroupModel.class);
+	private static final Logger logger = LoggerFactory.getLogger(TimingGroupUIModel.class);
 
 	private final List<SpectrumModel> spectrumList = new ArrayList<SpectrumModel>();
 	private final DefaultTimeBarRowModel spectraTimeBarRowModel;
@@ -122,7 +122,7 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 		this.firePropertyChange(TIME_PER_SPECTRUM_PROP_NAME, this.timePerSpectrum, this.timePerSpectrum = timePerSpectrum);
 	}
 
-	public TimingGroupModel(DefaultTimeBarRowModel spectraTimeBarRowModel, ExperimentUnit unit) {
+	public TimingGroupUIModel(DefaultTimeBarRowModel spectraTimeBarRowModel, ExperimentUnit unit) {
 		this.spectraTimeBarRowModel = spectraTimeBarRowModel;
 		this.resetInitialTime(0.0, ExperimentTimingDataModel.MIN_DURATION_TIME, 0.0, ExperimentTimingDataModel.MIN_DURATION_TIME);
 		setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
@@ -132,7 +132,7 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 				String sourcePropName = evt.getPropertyName();
 				if (sourcePropName.equals(TIME_PER_SPECTRUM_PROP_NAME) | sourcePropName.equals(INTEGRATION_TIME_PROP_NAME)) {
 					try {
-						TimingGroupModel.this.updateMaxAccumulationForDetector();
+						TimingGroupUIModel.this.updateMaxAccumulationForDetector();
 					} catch (DeviceException e) {
 						logger.error("Unable to update max accumulations", e);
 					}

@@ -57,7 +57,7 @@ import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors.ExperimentMotorPostionType;
-import uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel.TimingGroupTimeBarRowModel;
+import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel.TimingGroupTimeBarRowModel;
 import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.date.JaretDate;
 import de.jaret.util.ui.timebars.TimeBarMarkerImpl;
@@ -115,7 +115,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	private DoubleDataset[] scanDataSet;
 
-	WritableList groupList = new WritableList(new ArrayList<TimingGroupModel>(), TimingGroupModel.class);
+	WritableList groupList = new WritableList(new ArrayList<TimingGroupUIModel>(), TimingGroupUIModel.class);
 
 	private final ScanJob experimentDataCollectionJob;
 
@@ -130,7 +130,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				event.diff.accept(new ListDiffVisitor() {
 					@Override
 					public void handleRemove(int index, Object element) {
-						TimingGroupModel timingGroupModel = ((TimingGroupModel) element);
+						TimingGroupUIModel timingGroupModel = ((TimingGroupUIModel) element);
 						timingGroupModel.dispose();
 						timingGroupRowModel.remInterval(timingGroupModel);
 					}
@@ -167,14 +167,14 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	}
 
 	private void loadSavedGroups() {
-		TimingGroupModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, TimingGroupModel[].class);
+		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, TimingGroupUIModel[].class);
 		if (savedGroups == null) {
 			this.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(DEFAULT_INITIAL_EXPERIMENT_TIME));
 			addGroup();
 			return;
 		}
-		for (TimingGroupModel loadedGroup : savedGroups) {
-			TimingGroupModel timingGroup = new TimingGroupModel(spectraRowModel, unit.getWorkingUnit());
+		for (TimingGroupUIModel loadedGroup : savedGroups) {
+			TimingGroupUIModel timingGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit());
 			timingGroup.setName(loadedGroup.getName());
 			double delay = 0.0;
 			if (loadedGroup.getDelay() > 0) {
@@ -209,23 +209,23 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		return groupList;
 	}
 
-	public void splitGroup(TimingGroupModel groupToSplit) {
+	public void splitGroup(TimingGroupUIModel groupToSplit) {
 		double duration = groupToSplit.getDuration();
 		double endTime = groupToSplit.getEndTime();
 		double startTime = groupToSplit.getStartTime();
 		groupToSplit.resetInitialTime(startTime, duration / 2, 0, duration / 2);
-		TimingGroupModel newGroup = new TimingGroupModel(spectraRowModel, unit.getWorkingUnit());
+		TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit());
 		newGroup.setName("Group " + (groupList.indexOf(groupToSplit) + 2));
 		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup, groupList.indexOf(groupToSplit) + 1);
 		newGroup.resetInitialTime(groupToSplit.getEndTime(), endTime - groupToSplit.getEndTime(), 0, endTime - groupToSplit.getEndTime());
 		for (int i = groupList.indexOf(groupToSplit) + 1; i < groupList.size(); i++) {
-			((TimingGroupModel) groupList.get(i)).setName("Group " + i);
+			((TimingGroupUIModel) groupList.get(i)).setName("Group " + i);
 		}
 	}
 
-	public TimingGroupModel addGroup() {
-		TimingGroupModel newGroup = new TimingGroupModel(spectraRowModel, unit.getWorkingUnit());
+	public TimingGroupUIModel addGroup() {
+		TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit());
 		newGroup.setName("Group " + groupList.size());
 		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup);
@@ -238,9 +238,9 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			if (evt.getPropertyName().equals(ExperimentTimingDataModel.END_TIME_PROP_NAME)) {
-				TimingGroupModel group = (TimingGroupModel) evt.getSource();
+				TimingGroupUIModel group = (TimingGroupUIModel) evt.getSource();
 				if (groupList.indexOf(evt.getSource()) < groupList.size() - 1) {
-					TimingGroupModel nextGroup = (TimingGroupModel) groupList.get(groupList.indexOf(evt.getSource()) + 1);
+					TimingGroupUIModel nextGroup = (TimingGroupUIModel) groupList.get(groupList.indexOf(evt.getSource()) + 1);
 					nextGroup.moveTo(group.getEndTime());
 				}
 				updateExperimentDuration();
@@ -249,22 +249,22 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		}
 	};
 
-	private void addToInternalGroupList(TimingGroupModel newGroup) {
+	private void addToInternalGroupList(TimingGroupUIModel newGroup) {
 		newGroup.addPropertyChangeListener(groupPropertyChangeListener);
 		groupList.add(newGroup);
 	}
 
-	private void addToInternalGroupList(TimingGroupModel newGroup, int index) {
+	private void addToInternalGroupList(TimingGroupUIModel newGroup, int index) {
 		newGroup.addPropertyChangeListener(groupPropertyChangeListener);
 		groupList.add(index, newGroup);
 	}
 
-	private void removeFromInternalGroupList(TimingGroupModel group) {
+	private void removeFromInternalGroupList(TimingGroupUIModel group) {
 		group.removePropertyChangeListener(groupPropertyChangeListener);
 		groupList.remove(group);
 	}
 
-	public void removeGroup(TimingGroupModel group) {
+	public void removeGroup(TimingGroupUIModel group) {
 		if (groupList.size() > 1) {
 			removeFromInternalGroupList(group);
 			resetInitialGroupTimes(this.getDuration() / groupList.size());
@@ -324,7 +324,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				Display.getDefault().asyncExec(new Runnable() {
 					@Override
 					public void run() {
-						final TimingGroupModel currentGroup = (TimingGroupModel) groupList.get(currentGroupNumber);
+						final TimingGroupUIModel currentGroup = (TimingGroupUIModel) groupList.get(currentGroupNumber);
 						// TODO refactor the group to manage its own state
 						TimeResolvedExperimentModel.this.setCurrentScanningSpectrum((SpectrumModel) currentGroup.getSpectrumList().get(currentFrameNumber));
 					}
@@ -371,7 +371,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 						final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
 						TimeResolvedExperimentModel.this.setScanning(true);
 						for (Object object : groupList) {
-							TimingGroupModel uiTimingGroup = (TimingGroupModel) object;
+							TimingGroupUIModel uiTimingGroup = (TimingGroupUIModel) object;
 							TimingGroup timingGroup = new TimingGroup();
 							timingGroup.setLabel(uiTimingGroup.getName());
 							timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrum());
@@ -463,7 +463,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	private void updateExperimentDuration() {
 		double experimentDuration = 0.0;
 		for (Object loadedGroup : groupList) {
-			experimentDuration += ((TimingGroupModel)loadedGroup).getDuration();
+			experimentDuration += ((TimingGroupUIModel)loadedGroup).getDuration();
 		}
 		this.setTimes(EXPERIMENT_START_TIME, experimentDuration);
 		this.firePropertyChange(EXPERIMENT_DURATION_PROP_NAME, null, getExperimentDuration());
@@ -472,9 +472,9 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	private void resetInitialGroupTimes(double groupDuration) {
 		double startTime = this.getStartTime();
 		for (int i = 0; i < groupList.size(); i++) {
-			TimingGroupModel group = (TimingGroupModel) groupList.get(i);
+			TimingGroupUIModel group = (TimingGroupUIModel) groupList.get(i);
 			if (i > 0) {
-				TimingGroupModel previous = (TimingGroupModel) groupList.get(i-1);
+				TimingGroupUIModel previous = (TimingGroupUIModel) groupList.get(i-1);
 				startTime = previous.getEndTime();
 			}
 			group.setName("Group " + i);
@@ -501,7 +501,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	public void setUnit(ExperimentUnit unit) {
 		this.firePropertyChange(UNIT_PROP_NAME, this.unit, this.unit = unit);
 		for (Object object : getGroupList()) {
-			((TimingGroupModel) object).setUnit(this.unit.getWorkingUnit());
+			((TimingGroupUIModel) object).setUnit(this.unit.getWorkingUnit());
 		}
 	}
 

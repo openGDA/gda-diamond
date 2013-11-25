@@ -78,7 +78,7 @@ import uk.ac.gda.exafs.ui.data.experiment.ExperimentMarkerRenderer;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentTimingDataModel;
 import uk.ac.gda.exafs.ui.data.experiment.SpectrumModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
-import uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel;
+import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupsScaleRenderer;
 import uk.ac.gda.ui.components.NumberEditorControl;
 import de.jaret.util.date.Interval;
@@ -173,9 +173,9 @@ public class TimeResolvedExperimentView extends ViewPart {
 				new UpdateValueStrategy() {
 					@Override
 					public IStatus validateBeforeSet(Object value) {
-						TimingGroupModel object = null;
-						if (value instanceof TimingGroupModel) {
-							object =  (TimingGroupModel) value;
+						TimingGroupUIModel object = null;
+						if (value instanceof TimingGroupUIModel) {
+							object =  (TimingGroupUIModel) value;
 						} else if (value instanceof SpectrumModel) {
 							object = ((SpectrumModel) value).getParent();
 						}
@@ -184,7 +184,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 							if (value == null) {
 								return Status.CANCEL_STATUS;
 							}
-							TimingGroupModel viewerObject = (TimingGroupModel) structuredSelection.getFirstElement();
+							TimingGroupUIModel viewerObject = (TimingGroupUIModel) structuredSelection.getFirstElement();
 							if (viewerObject.equals(object)) {
 								return Status.CANCEL_STATUS;
 							}
@@ -194,7 +194,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 					@Override
 					public Object convert(Object value) {
-						if (value instanceof TimingGroupModel) {
+						if (value instanceof TimingGroupUIModel) {
 							return super.convert(value);
 						}
 						else if (value instanceof SpectrumModel) {
@@ -236,8 +236,8 @@ public class TimeResolvedExperimentView extends ViewPart {
 	}
 
 	private static class ModelToTargetConverter implements IConverter {
-		private final TimingGroupModel group;
-		public ModelToTargetConverter(TimingGroupModel group) {
+		private final TimingGroupUIModel group;
+		public ModelToTargetConverter(TimingGroupUIModel group) {
 			this.group = group;
 		}
 		@Override
@@ -255,8 +255,8 @@ public class TimeResolvedExperimentView extends ViewPart {
 	}
 
 	private static class TargetToModelConverter implements IConverter {
-		private final TimingGroupModel group;
-		public TargetToModelConverter(TimingGroupModel group) {
+		private final TimingGroupUIModel group;
+		public TargetToModelConverter(TimingGroupUIModel group) {
 			this.group = group;
 		}
 		@Override
@@ -407,16 +407,16 @@ public class TimeResolvedExperimentView extends ViewPart {
 		// of the changes of the labels
 		IObservableSet knownElements = contentProvider.getKnownElements();
 
-		final IObservableMap names = BeanProperties.value(TimingGroupModel.class,
+		final IObservableMap names = BeanProperties.value(TimingGroupUIModel.class,
 				ExperimentTimingDataModel.NAME_PROP_NAME).observeDetail(knownElements);
-		final IObservableMap startTimes = BeanProperties.value(TimingGroupModel.class,
+		final IObservableMap startTimes = BeanProperties.value(TimingGroupUIModel.class,
 				ExperimentTimingDataModel.START_TIME_PROP_NAME).observeDetail(knownElements);
-		final IObservableMap endTimes = BeanProperties.value(TimingGroupModel.class,
+		final IObservableMap endTimes = BeanProperties.value(TimingGroupUIModel.class,
 				ExperimentTimingDataModel.END_TIME_PROP_NAME).observeDetail(knownElements);
-		final IObservableMap timePerSpectrum = BeanProperties.value(TimingGroupModel.class,
-				TimingGroupModel.TIME_PER_SPECTRUM_PROP_NAME).observeDetail(knownElements);
-		final IObservableMap noOfSpectrum = BeanProperties.value(TimingGroupModel.class,
-				TimingGroupModel.NO_OF_SPECTRUM_PROP_NAME).observeDetail(knownElements);
+		final IObservableMap timePerSpectrum = BeanProperties.value(TimingGroupUIModel.class,
+				TimingGroupUIModel.TIME_PER_SPECTRUM_PROP_NAME).observeDetail(knownElements);
+		final IObservableMap noOfSpectrum = BeanProperties.value(TimingGroupUIModel.class,
+				TimingGroupUIModel.NO_OF_SPECTRUM_PROP_NAME).observeDetail(knownElements);
 		IObservableMap[] labelMaps = {names, startTimes, endTimes, timePerSpectrum, noOfSpectrum};
 
 		groupsTableViewer.setContentProvider(contentProvider);
@@ -465,7 +465,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 			public void handleEvent(Event event) {
 				IStructuredSelection structuredSelection = (IStructuredSelection) groupsTableViewer.getSelection();
 				if (structuredSelection.getFirstElement() != null) {
-					TimeResolvedExperimentModel.INSTANCE.removeGroup((TimingGroupModel) structuredSelection.getFirstElement());
+					TimeResolvedExperimentModel.INSTANCE.removeGroup((TimingGroupUIModel) structuredSelection.getFirstElement());
 				}
 			}
 		});
@@ -611,7 +611,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		timeBarViewer.setMilliAccuracy(true);
 		timeBarViewer.setDrawOverlapping(true);
 
-		timeBarViewer.registerTimeBarRenderer(TimingGroupModel.class, new CollectionModelRenderer());
+		timeBarViewer.registerTimeBarRenderer(TimingGroupUIModel.class, new CollectionModelRenderer());
 		timeBarViewer.registerTimeBarRenderer(SpectrumModel.class, new CollectionModelRenderer());
 		timeBarViewer.setTimeScaleRenderer(new TimingGroupsScaleRenderer());
 		timeBarViewer.setModel(TimeResolvedExperimentModel.INSTANCE.getTimeBarModel());
@@ -755,7 +755,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 	private final List<Binding> groupBindings = new ArrayList<Binding>();
 
 	private void showGroupDetails(final Section groupSection, IStructuredSelection structuredSelection) {
-		TimingGroupModel group = (TimingGroupModel) structuredSelection.getFirstElement();
+		TimingGroupUIModel group = (TimingGroupUIModel) structuredSelection.getFirstElement();
 		groupSection.setText(group.getName());
 		ModelToTargetConverter modelToTargetConverter = new ModelToTargetConverter(group);
 		TargetToModelConverter targetToModelConverter = new TargetToModelConverter(group);
@@ -777,15 +777,15 @@ public class TimeResolvedExperimentView extends ViewPart {
 			groupBindings.clear();
 			groupBindings.add(dataBindingCtx.bindValue(
 					ViewersObservables.observeSingleSelection(groupUnitSelectionCombo),
-					BeanProperties.value(TimingGroupModel.UNIT_PROP_NAME).observe(group)));
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group)));
 
 			startTimeValueText.setModel(group, ExperimentTimingDataModel.START_TIME_PROP_NAME);
 			startTimeValueText.setConverters(modelToTargetConverter, targetToModelConverter);
 			startTimeValueText.setEditable(false);
 			startTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			groupBindings.add(dataBindingCtx.bindValue(
-					BeanProperties.value(TimingGroupModel.UNIT_PROP_NAME).observe(startTimeValueText),
-					BeanProperties.value(TimingGroupModel.UNIT_PROP_NAME).observe(group),
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(startTimeValueText),
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
 
@@ -793,28 +793,28 @@ public class TimeResolvedExperimentView extends ViewPart {
 			endTimeValueText.setConverters(modelToTargetConverter, targetToModelConverter);
 			endTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			groupBindings.add(dataBindingCtx.bindValue(
-					BeanProperties.value(TimingGroupModel.UNIT_PROP_NAME).observe(endTimeValueText),
-					BeanProperties.value(TimingGroupModel.UNIT_PROP_NAME).observe(group),
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(endTimeValueText),
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
 
-			timePerSpectrumValueText.setModel(group, TimingGroupModel.TIME_PER_SPECTRUM_PROP_NAME);
+			timePerSpectrumValueText.setModel(group, TimingGroupUIModel.TIME_PER_SPECTRUM_PROP_NAME);
 			timePerSpectrumValueText.setConverters(modelToTargetConverter, targetToModelConverter);
 			timePerSpectrumValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			groupBindings.add(dataBindingCtx.bindValue(
-					BeanProperties.value(TimingGroupModel.UNIT_PROP_NAME).observe(timePerSpectrumValueText),
-					BeanProperties.value(TimingGroupModel.UNIT_PROP_NAME).observe(group),
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(timePerSpectrumValueText),
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
 
 
-			noOfSpectrumValueText.setModel(group, TimingGroupModel.NO_OF_SPECTRUM_PROP_NAME);
+			noOfSpectrumValueText.setModel(group, TimingGroupUIModel.NO_OF_SPECTRUM_PROP_NAME);
 
-			integrationTimeValueText.setModel(group, TimingGroupModel.INTEGRATION_TIME_PROP_NAME);
+			integrationTimeValueText.setModel(group, TimingGroupUIModel.INTEGRATION_TIME_PROP_NAME);
 			integrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			integrationTimeValueText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
 
-			noOfAccumulationValueText.setModel(group, TimingGroupModel.NO_OF_ACCUMULATION_PROP_NAME);
+			noOfAccumulationValueText.setModel(group, TimingGroupUIModel.NO_OF_ACCUMULATION_PROP_NAME);
 			noOfAccumulationValueText.setEditable(false);
 
 			delayBeforeFristSpectrumValueText.setModel(group, ExperimentTimingDataModel.DELAY_PROP_NAME);
@@ -822,17 +822,17 @@ public class TimeResolvedExperimentView extends ViewPart {
 			delayBeforeFristSpectrumValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			delayBeforeFristSpectrumValueText.setUnit(group.getUnit().getWorkingUnit().getUnitText());
 			groupBindings.add(dataBindingCtx.bindValue(
-					BeanProperties.value(TimingGroupModel.UNIT_PROP_NAME).observe(delayBeforeFristSpectrumValueText),
-					BeanProperties.value(TimingGroupModel.UNIT_PROP_NAME).observe(group),
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(delayBeforeFristSpectrumValueText),
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
 
-			spectrumDelayValueText.setModel(group, TimingGroupModel.DELAY_BETWEEN_SPECTRUM_PROP_NAME);
+			spectrumDelayValueText.setModel(group, TimingGroupUIModel.DELAY_BETWEEN_SPECTRUM_PROP_NAME);
 			spectrumDelayValueText.setConverters(modelToTargetConverter, targetToModelConverter);
 			spectrumDelayValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			groupBindings.add(dataBindingCtx.bindValue(
-					BeanProperties.value(TimingGroupModel.UNIT_PROP_NAME).observe(spectrumDelayValueText),
-					BeanProperties.value(TimingGroupModel.UNIT_PROP_NAME).observe(group),
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(spectrumDelayValueText),
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
 		} catch (Exception e) {

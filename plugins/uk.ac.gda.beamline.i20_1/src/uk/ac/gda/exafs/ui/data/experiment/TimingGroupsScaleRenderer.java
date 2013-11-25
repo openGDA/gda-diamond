@@ -45,7 +45,7 @@ public class TimingGroupsScaleRenderer extends RendererBase implements TimeScale
 	@Override
 	public void draw(GC gc, Rectangle drawingArea, TimeBarViewerDelegate delegate, boolean top, boolean printing) {
 		for (Object timingGroup : TimeResolvedExperimentModel.INSTANCE.getGroupList()) {
-			TimingGroupModel timingGroupModel = (TimingGroupModel) timingGroup;
+			TimingGroupUIModel timingGroupModel = (TimingGroupUIModel) timingGroup;
 			int x = delegate.xForDate(timingGroupModel.getEnd());
 			int startY = drawingArea.y + drawingArea.height - PREFERREDHEIGHT + 3;
 			gc.drawRectangle(x - 1, startY, 1, PREFERREDHEIGHT + 3);

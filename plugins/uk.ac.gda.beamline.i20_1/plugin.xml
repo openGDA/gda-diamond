@@ -328,7 +328,7 @@
                      ifEmpty="false"
                      operator="or">
                   <instanceof
-                        value="uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel">
+                        value="uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel">
                   </instanceof>
                </iterate>
             </with>
