@@ -107,15 +107,25 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	@Override
 	public void update(Object source, Object arg) {
 		// only expect EdeScanProgressBean objects from the itScan here. Normalise the data and broadcast out to the
-		if (controller != null && source.equals(itScan) && arg instanceof EdeScanProgressBean) {
-			// assume that the I0 and dark scans have run correctly if we are getting messages back from It scan
+		if (controller != null && arg instanceof EdeScanProgressBean) {
 			EdeScanProgressBean progress = (EdeScanProgressBean) arg;
-			DoubleDataset darkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
-			DoubleDataset i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, progress.getGroupNumOfThisSDP());
-			DoubleDataset thisItData = EdeAsciiFileWriter.extractDetectorDataFromSDP(theDetector.getName(), progress.getThisPoint());
-			DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(thisItData, i0Data, darkData);
-			DoubleDataset energyData = EdeAsciiFileWriter.extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0));
-			controller.update(itScan, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI, progress, EdeExperiment.LN_I0_IT_COLUMN_NAME, normalisedIt, energyData));
+			if (source.equals(itScan)) {
+				// assume that the I0 and dark scans have run correctly if we are getting messages back from It scan
+				DoubleDataset darkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
+				DoubleDataset i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, progress.getGroupNumOfThisSDP());
+				DoubleDataset thisItData = EdeAsciiFileWriter.extractDetectorDataFromSDP(theDetector.getName(), progress.getThisPoint());
+				DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(thisItData, i0Data, darkData);
+				DoubleDataset energyData = EdeAsciiFileWriter.extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0));
+				controller.update(itScan, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI, progress, EdeExperiment.LN_I0_IT_COLUMN_NAME, normalisedIt, energyData));
+			} else if (source.equals(i0DarkScan)) {
+				DoubleDataset darkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
+				DoubleDataset energyData = EdeAsciiFileWriter.extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0));
+				controller.update(itScan, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI, progress, EdeExperiment.I0_DARK_COLUMN_NAME, darkData, energyData));
+			} else if (source.equals(i0InitialScan)) {
+				DoubleDataset i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, progress.getGroupNumOfThisSDP());
+				DoubleDataset energyData = EdeAsciiFileWriter.extractDetectorEnergyFromSDP(theDetector.getName(), i0InitialScan.getData().get(0));
+				controller.update(itScan, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI, progress, EdeExperiment.I0_RAW_COLUMN_NAME, i0Data, energyData));
+			}
 		}
 	}
 
@@ -185,7 +195,9 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 
 	private void runScans() throws InterruptedException, Exception {
 		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 1, shutter2);
+		i0DarkScan.setProgressUpdater(this);
 		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, shutter2);
+		i0InitialScan.setProgressUpdater(this);
 		if (iRefPosition != null){
 			iRefScan = new EdeScan(i0ScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, shutter2);
 		}

@@ -20,6 +20,8 @@ package uk.ac.gda.exafs.ui.sections;
 
 import gda.device.DeviceException;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -70,6 +72,7 @@ import uk.ac.diamond.scisoft.analysis.dataset.Slice;
 import uk.ac.diamond.scisoft.spectroscopy.fitting.EdeCalibration;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.data.DetectorModel.EnergyCalibrationSetObserver;
 import uk.ac.gda.exafs.data.EdeCalibrationModel;
 import uk.ac.gda.exafs.data.EdeCalibrationModel.ReferenceCalibrationDataModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
@@ -86,7 +89,6 @@ public class EDECalibrationSection {
 	private Button manualCalibrationCheckButton;
 	private Label polynomialValueLbl;
 	private Button runCalibrationButton;
-	private Button applyCalibrationButton;
 	private EDECalibrationSection() {}
 	private PolynomialFunction calibrationResult;
 
@@ -130,7 +132,7 @@ public class EDECalibrationSection {
 							CalibrationPlotViewer refView = (CalibrationPlotViewer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(EdeManualCalibrationPlotView.REFERENCE_ID);
 							refView.setCalibrationData(EdeCalibrationModel.INSTANCE.getRefData());
 						} catch (PartInitException e) {
-							e.printStackTrace();
+							logger.error("Unable to update reference data plot", e);
 						}
 						return result;
 					}
@@ -226,24 +228,21 @@ public class EDECalibrationSection {
 
 		polynomialValueLbl = toolkit.createLabel(polyLabelComposite, "", SWT.BORDER);
 		polynomialValueLbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		DetectorModel.INSTANCE.getEnergyCalibrationSetObserver().addPropertyChangeListener(
+				EnergyCalibrationSetObserver.ENERGY_CALIBRATION_SET_PROP_NAME, new PropertyChangeListener() {
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						Display.getDefault().asyncExec(new Runnable() {
+							@Override
+							public void run() {
+								updateEnergyCalibrationPolynomialText();
+							}
+						});
+					}
+				});
 
-		applyCalibrationButton = toolkit.createButton(sectionComposite, "Apply EDE Calibration", SWT.None);
-		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		gridData.horizontalSpan = 2;
-		applyCalibrationButton.setLayoutData(gridData);
-		applyCalibrationButton.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				applyEdeCalibration();
-			}
+		updateEnergyCalibrationPolynomialText();
 
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				this.widgetSelected(e);
-			}
-		});
-		// TODO Enable this when energy calibration is linked
-		applyCalibrationButton.setEnabled(false);
 		toolkit.paintBordersFor(plotComposite);
 
 		Composite roisSectionSeparator = toolkit.createCompositeSeparator(section);
@@ -272,7 +271,6 @@ public class EDECalibrationSection {
 	}
 
 	private void runEdeCalibration(final int selectedFitOrder) {
-		polynomialValueLbl.setText("");
 		try {
 			final EdeCalibration edeCalibration = new EdeCalibration();
 			AbstractDataset[] refDatasets = selectDataRange(AlignmentPerspective.REF_PLOT_NAME);
@@ -307,7 +305,6 @@ public class EDECalibrationSection {
 				refPositions.add(refPoint3);
 				edeCalibration.setReferencePositions(refPositions);
 			}
-			polynomialValueLbl.setText("EDE calibration in progress...");
 			Job job = new Job("EDE calibration") {
 				@Override
 				protected void canceling() {
@@ -316,8 +313,6 @@ public class EDECalibrationSection {
 						@Override
 						public void run() {
 							runCalibrationButton.setEnabled(true);
-							polynomialValueLbl.setText("");
-							applyCalibrationButton.setEnabled(false);
 						}
 					});
 				}
@@ -353,10 +348,9 @@ public class EDECalibrationSection {
 							plottingSystemRef.repaint();
 
 							calibrationResult = edeCalibration.getEdeCalibrationPolynomial();
-							polynomialValueLbl.setText(calibrationResult.toString());
+							applyEdeCalibration();
 
 							runCalibrationButton.setEnabled(true);
-							applyCalibrationButton.setEnabled(true);
 						}
 					});
 					return Status.OK_STATUS;
@@ -406,6 +400,15 @@ public class EDECalibrationSection {
 		dataE = dataXDataset.getSlice(new Slice(idxLower, idxUpper));
 		dataI = ((AbstractDataset)dataTrace.getYData()).getSlice(new Slice(idxLower, idxUpper));
 		return new AbstractDataset[] {dataE, dataI};
+	}
+
+	private void updateEnergyCalibrationPolynomialText() {
+		try {
+			polynomialValueLbl.setText(DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().toString());
+		} catch (DeviceException e) {
+			// TODO Auto-generated catch block
+			logger.error("TODO put description of error here", e);
+		}
 	}
 
 }

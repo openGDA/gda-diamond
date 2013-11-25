@@ -25,6 +25,7 @@ import gda.device.detector.StripDetector;
 import gda.jython.InterfaceProvider;
 import gda.scan.EdeScan;
 import gda.scan.ScanDataPoint;
+import gda.scan.ede.EdeExperiment;
 
 import java.util.List;
 import java.util.Vector;
@@ -67,7 +68,7 @@ public abstract class EdeAsciiFileWriter {
 		Vector<Object> data = sdp.getDetectorData();
 		int detIndex = getIndexOfMyDetector(detectorName, sdp);
 		NXDetectorData detData = (NXDetectorData) data.get(detIndex);
-		String dataType = isEnergy? "Energy" : "data";
+		String dataType = isEnergy? EdeExperiment.ENERGY_COLUMN_NAME : EdeExperiment.DATA_COLUMN_NAME;
 		NexusGroupData groupData = detData.getData(detectorName, dataType, NexusExtractor.SDSClassName);
 		double[] originalData = (double[]) groupData.getBuffer();
 		return new DoubleDataset(originalData, originalData.length);

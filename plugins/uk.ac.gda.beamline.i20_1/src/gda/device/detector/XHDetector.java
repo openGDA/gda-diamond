@@ -373,8 +373,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 		double[] energies = this.getEnergyForChannels();
 
-		thisFrame.addAxis(getName(), "Energy", new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, energies, 1, 1, "eV", false);
-		thisFrame.addData(getName(), new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, correctedData, "eV", 1);
+		thisFrame.addAxis(getName(), EdeExperiment.ENERGY_COLUMN_NAME, new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, energies, 1, 1, "eV", false);
+		thisFrame.addData(getName(), EdeExperiment.DATA_COLUMN_NAME, new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, correctedData, "eV", 1);
 
 		double[] extraValues = getExtraValues(elements);
 		String[] names = getExtraNames();

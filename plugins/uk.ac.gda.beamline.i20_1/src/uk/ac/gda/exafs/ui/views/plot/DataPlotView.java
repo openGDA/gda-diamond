@@ -150,7 +150,7 @@ public class DataPlotView extends ViewPart {
 		trace.setData(node.getParent().getXAxisData(), node.getData());
 
 		plottingSystem.repaint();
-		// Updates the colour
+		//		// Updates the colour
 		dataTreeViewer.update(node, null);
 		if (!dataTreeViewer.getChecked(node.getParent())) {
 			dataTreeViewer.setChecked(node.getParent(), true);
@@ -207,12 +207,16 @@ public class DataPlotView extends ViewPart {
 		dataTreeViewer.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public Color getForeground(Object element) {
-				if (element instanceof DataNode) {
-					if (nodeColors.containsKey(((DataNode) element).getLabel())) {
-						return nodeColors.get(((DataNode) element).getLabel());
+				if (element instanceof DataItemNode) {
+					DataItemNode item = ((DataItemNode) element);
+					if (!item.getParent().getParent().isMultiCollection()) {
+						Object trace = plottingSystem.getTrace(((DataItemNode) element).getIdentifier());
+						if (trace != null) {
+							return ((ILineTrace) trace).getTraceColor();
+						}
 					}
 				}
-				return super.getForeground(element);
+				return Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 			}
 
 			@Override

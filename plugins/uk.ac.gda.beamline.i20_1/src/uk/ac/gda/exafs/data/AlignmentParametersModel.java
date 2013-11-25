@@ -147,7 +147,7 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	private final PropertyChangeListener listener = new PropertyChangeListener() {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
-			if (evt.getNewValue() != null) {
+			if (edge != null & element != null) {
 				getCalculations();
 			}
 		}
@@ -199,12 +199,14 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	}
 
 	public void setElement(Element element) {
+		AbsorptionEdge currentEdge = edge;
+		this.setEdge(null);
 		this.firePropertyChange(ELEMENT_PROP_NAME, null, this.element = element);
 		this.firePropertyChange(ELEMENT_EDGES_NAMES_PROP_NAME, null, getElementEdges());
-		if (edge == null || !crystalCut.getElementsInEnergyRange().get(element).contains(edge.getEdgeType())) {
+		if (currentEdge == null || !crystalCut.getElementsInEnergyRange().get(element).contains(currentEdge.getEdgeType())) {
 			this.setEdge(element.getEdge(crystalCut.getElementsInEnergyRange().get(element).iterator().next()));
 		} else {
-			this.setEdge(edge);
+			this.setEdge(currentEdge);
 		}
 	}
 

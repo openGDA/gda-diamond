@@ -49,6 +49,7 @@ public abstract class EdeExperiment {
 	public static final String IT_RAW_COLUMN_NAME = "It_raw";
 	public static final String I0_DARK_COLUMN_NAME = "I0_dark";
 	public static final String IT_DARK_COLUMN_NAME = "It_dark";
+	public static final String DATA_COLUMN_NAME = "Data";
 
 	/**
 	 * The name of the ScriptController object which is sent progress information and normalised spectra by experiments
@@ -56,6 +57,7 @@ public abstract class EdeExperiment {
 	public static final String PROGRESS_UPDATER_NAME = "EDEProgressUpdater";
 
 	private static final Logger edelogger = LoggerFactory.getLogger(EdeExperiment.class);
+
 
 	protected final ScriptControllerBase controller;
 
