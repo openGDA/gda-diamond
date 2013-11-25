@@ -145,6 +145,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 	private Binding detectorValueBinding = null;
 	private FormText labelDeltaEValue;
+	private Binding test;
 
 	@Override
 	public void createPartControl(final Composite parent) {
@@ -252,6 +253,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		comboxElement.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object value) {
+				if (value == null) {
+					return "";
+				}
 				Element element = (Element) value;
 				return element.getName() + " (" + element.getSymbol() + ")";
 			}
@@ -340,11 +344,34 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 			dataBindingCtx.bindValue(
 					ViewersObservables.observeInput(comboxElement),
-					BeanProperties.value(AlignmentParametersModel.ELEMENTS_IN_ENERGY_RANGE_PROP_NAME).observe(AlignmentParametersModel.INSTANCE));
+					BeanProperties.value(AlignmentParametersModel.ELEMENTS_IN_ENERGY_RANGE_PROP_NAME).observe(AlignmentParametersModel.INSTANCE), null,
+					new UpdateValueStrategy() {
 
-			dataBindingCtx.bindValue(
+						@Override
+						protected IStatus doSet(IObservableValue observableValue, Object value) {
+
+							return super.doSet(observableValue, value);
+						}
+					});
+
+			test = dataBindingCtx.bindValue(
 					ViewersObservables.observeSingleSelection(comboxElement),
-					BeanProperties.value(AlignmentParametersModel.ELEMENT_PROP_NAME).observe(AlignmentParametersModel.INSTANCE));
+					BeanProperties.value(AlignmentParametersModel.ELEMENT_PROP_NAME).observe(AlignmentParametersModel.INSTANCE), null,
+					new UpdateValueStrategy() {
+
+						@Override
+						protected IStatus doSet(IObservableValue observableValue, Object value) {
+							return super.doSet(observableValue, value);
+						}
+					});
+
+			AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.ELEMENT_PROP_NAME, new PropertyChangeListener() {
+
+				@Override
+				public void propertyChange(PropertyChangeEvent evt) {
+					//			test.updateModelToTarget();
+				}
+			});
 
 			dataBindingCtx.bindValue(
 					WidgetProperties.enabled().observe(comboElementEdge.getControl()),

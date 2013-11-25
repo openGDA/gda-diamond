@@ -279,12 +279,13 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 	}
 
 	private void updateMaxAccumulationForDetector() throws DeviceException {
-		double timePerSpectrum = TimingGroupModel.this.getTimePerSpectrum();
-		double integrationTime = TimingGroupModel.this.getIntegrationTime();
+		double timePerSpectrum = getTimePerSpectrum();
+		double integrationTime = getIntegrationTime();
+		int noOfSpectra = getNumberOfSpectrum();
 		if (integrationTime > 0 & timePerSpectrum > 0) {
 			StripDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
 			if (detector instanceof XCHIPDetector) {
-				int numberScansInFrame = ((XCHIPDetector) detector).getNumberScansInFrame(timePerSpectrum, integrationTime);
+				int numberScansInFrame = ((XCHIPDetector) detector).getNumberScansInFrame(timePerSpectrum, integrationTime, noOfSpectra);
 				this.firePropertyChange(MAX_ACCUMULATION_FOR_DETECTOR_PROP_NAME, noOfAccumulations, noOfAccumulations = numberScansInFrame);
 			} else {
 				throw new DeviceException("Detector not found to get number of scans in frame");

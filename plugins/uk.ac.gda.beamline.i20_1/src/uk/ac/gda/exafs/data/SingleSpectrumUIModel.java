@@ -165,7 +165,7 @@ public class SingleSpectrumUIModel extends ObservableModel {
 			builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setReferencePosition(mapToJava(%s));",
 					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef)));
 		}
-		builder.append(SINGLE_JYTHON_DRIVER_OBJ + ".doCollection();");
+		//builder.append(SINGLE_JYTHON_DRIVER_OBJ + ".doCollection();");
 		return builder.toString();
 	}
 
@@ -225,7 +225,7 @@ public class SingleSpectrumUIModel extends ObservableModel {
 				InterfaceProvider.getCommandRunner().runCommand(command);
 				// give the previous command a chance to run before calling doCollection()
 				Thread.sleep(150);
-				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
+				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand(SINGLE_JYTHON_DRIVER_OBJ + ".doCollection()");
 				if (resultFileName == null) {
 					throw new Exception("Unable to do collection.");
 				}

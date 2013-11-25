@@ -24,6 +24,7 @@ import gda.device.detector.StripDetector;
 import gda.device.detector.XHDetector;
 import gda.device.detector.XHROI;
 import gda.factory.Finder;
+import gda.observable.IObserver;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -55,6 +56,12 @@ public class DetectorModel extends ObservableModel {
 	private static final Logger logger = LoggerFactory.getLogger(DetectorModel.class);
 
 	private StripDetector currentDetector;
+
+	private final EnergyCalibrationSetObserver energyCalibrationSetObserver = new EnergyCalibrationSetObserver();
+
+	public EnergyCalibrationSetObserver getEnergyCalibrationSetObserver() {
+		return energyCalibrationSetObserver;
+	}
 
 	private final List<StripDetector> availableDetectors = new ArrayList<StripDetector>();
 	private final List<XHROI> roisModel = new ArrayList<XHROI>();
@@ -164,6 +171,7 @@ public class DetectorModel extends ObservableModel {
 					if (currentDetector.isConnected()) {
 						currentDetector.disconnect();
 					}
+					currentDetector.deleteIObserver(energyCalibrationSetObserver);
 				}
 				firePropertyChange(DETECTOR_CONNECTED_PROP_NAME, (currentDetector == null), false);
 				firePropertyChange(CURRENT_DETECTOR_SETUP_PROP_NAME, currentDetector, currentDetector = null);
@@ -181,6 +189,7 @@ public class DetectorModel extends ObservableModel {
 			firePropertyChange(DETECTOR_CONNECTED_PROP_NAME, false, true);
 			firePropertyChange(LOWER_CHANNEL_PROP_NAME, null, currentDetector.getLowerChannel());
 			firePropertyChange(UPPER_CHANNEL_PROP_NAME, null, currentDetector.getUpperChannel());
+			currentDetector.addIObserver(energyCalibrationSetObserver);
 		} catch (DeviceException e) {
 			firePropertyChange(DETECTOR_CONNECTED_PROP_NAME, false, false);
 			firePropertyChange(CURRENT_DETECTOR_SETUP_PROP_NAME, null, null);
@@ -252,6 +261,16 @@ public class DetectorModel extends ObservableModel {
 
 		public String getDetectorName() {
 			return detectorName;
+		}
+	}
+
+	public static class EnergyCalibrationSetObserver extends ObservableModel implements IObserver {
+		public static final String ENERGY_CALIBRATION_SET_PROP_NAME = "energyCalibrationSet";
+		@Override
+		public void update(Object source, Object arg) {
+			if (arg.equals(StripDetector.CALIBRATION_PROP_KEY)) {
+				this.firePropertyChange(ENERGY_CALIBRATION_SET_PROP_NAME, null, ((StripDetector) source).isEnergyCalibrationSet());
+			}
 		}
 	}
 }

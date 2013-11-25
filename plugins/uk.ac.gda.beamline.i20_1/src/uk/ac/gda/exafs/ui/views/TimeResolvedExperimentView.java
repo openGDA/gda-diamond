@@ -72,7 +72,6 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
-import uk.ac.gda.exafs.data.SingleSpectrumUIModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.CollectionModelRenderer;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentMarkerRenderer;
@@ -328,66 +327,6 @@ public class TimeResolvedExperimentView extends ViewPart {
 		//Sample stage motors
 
 		sampleMotorsComposite = new SampleStageMotorsComposite(parent, SWT.None, toolkit, true);
-
-		// IRef
-
-		final Section irefSection = toolkit.createSection(parent, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		irefSection.setText("Use IRef position");
-		irefSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		Composite sectionComposite = toolkit.createComposite(irefSection, SWT.NONE);
-		toolkit.paintBordersFor(sectionComposite);
-		sectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-		sectionComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		irefSection.setClient(sectionComposite);
-
-		final Button useIRefCheckButton = toolkit.createButton(sectionComposite, "Use Iref", SWT.CHECK);
-		useIRefCheckButton.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		Composite xyPositionComposite = toolkit.createComposite(sectionComposite, SWT.NONE);
-		toolkit.paintBordersFor(xyPositionComposite);
-		xyPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		xyPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
-
-		Composite xPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
-		toolkit.paintBordersFor(xPositionComposite);
-		xPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		xPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-
-		Label xPosLabel = toolkit.createLabel(xPositionComposite, "x", SWT.None);
-		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		final NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, SingleSpectrumUIModel.IREF_X_POSITION_PROP_NAME, false);
-		xPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		xPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
-		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		Composite yPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
-		toolkit.paintBordersFor(yPositionComposite);
-		yPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		yPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-
-		Label yPosLabel = toolkit.createLabel(yPositionComposite, "y", SWT.None);
-		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		final NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, SingleSpectrumUIModel.INSTANCE, SingleSpectrumUIModel.IREF_Y_POSITION_PROP_NAME, false);
-		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		yPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
-		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		useIRefCheckButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				xPosition.setEditable(useIRefCheckButton.getSelection());
-				yPosition.setEditable(useIRefCheckButton.getSelection());
-			}
-		});
-
-		xPosition.setEditable(useIRefCheckButton.getSelection());
-		yPosition.setEditable(useIRefCheckButton.getSelection());
-
-		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(irefSection);
-		toolkit.paintBordersFor(defaultSectionSeparator);
-		irefSection.setSeparatorControl(defaultSectionSeparator);
 	}
 
 	private void createGroupSection(Composite parent) throws Exception {

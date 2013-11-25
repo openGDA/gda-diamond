@@ -74,7 +74,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	private EdeScan i0FinalScan;
 	private EdeScan iRefFinalScan;
 	private EdeLinearExperimentAsciiFileWriter writer;
-	private final DoubleDataset energyData;
+	//private final DoubleDataset energyData;
 	private final Scannable shutter2;
 
 	public EdeLinearExperiment(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
@@ -87,7 +87,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		this.theDetector = theDetector;
 		this.shutter2 = shutter2;
 		topup = topupMonitor;
-		energyData = new DoubleDataset(theDetector.getEnergyForChannels());
+		//		energyData = new DoubleDataset(theDetector.getEnergyForChannels());
 	}
 
 	/**
@@ -114,6 +114,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 			DoubleDataset i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, progress.getGroupNumOfThisSDP());
 			DoubleDataset thisItData = EdeAsciiFileWriter.extractDetectorDataFromSDP(theDetector.getName(), progress.getThisPoint());
 			DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(thisItData, i0Data, darkData);
+			DoubleDataset energyData = EdeAsciiFileWriter.extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0));
 			controller.update(itScan, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI, progress, EdeExperiment.LN_I0_IT_COLUMN_NAME, normalisedIt, energyData));
 		}
 	}

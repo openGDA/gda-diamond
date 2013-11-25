@@ -161,7 +161,7 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 		if (controller != null && arg instanceof EdeScanProgressBean) {
 			EdeScanProgressBean progress = (EdeScanProgressBean) arg;
 			if (source.equals(i0DarkScan)) {
-				energyData = new DoubleDataset(theDetector.getEnergyForChannels());
+				energyData = EdeAsciiFileWriter.extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0));
 				i0DarkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
 				controller.update(i0DarkScan, new EdeExperimentProgressBean(ExperimentCollectionType.SINGLE, progress,
 						EdeExperiment.I0_DARK_COLUMN_NAME, i0DarkData, energyData));

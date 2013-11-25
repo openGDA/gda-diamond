@@ -27,8 +27,6 @@ public class SampleStageMotors extends ObservableModel {
 		I0, It, IRef
 	}
 
-	public static final SampleStageMotors INSTANCE = new SampleStageMotors();
-
 	public static final ExperimentMotorPostion[] scannables;
 
 	static {
@@ -43,13 +41,17 @@ public class SampleStageMotors extends ObservableModel {
 		};
 	}
 
+	public static final SampleStageMotors INSTANCE = new SampleStageMotors();
+
 	private SampleStageMotors() {}
 
 	public static final String USE_IREF_PROP_NAME = "useIref";
 	private boolean useIref;
 
 	public static final String SELECTED_MOTORS_PROP_NAME = "selectedMotors";
-	private ExperimentMotorPostion[] selectedMotors = new ExperimentMotorPostion[]{};
+	private ExperimentMotorPostion[] selectedMotors = new ExperimentMotorPostion[]{
+			scannables[0], scannables[1]
+	};
 
 	public ExperimentMotorPostion[] getSelectedMotors() {
 		return selectedMotors;
