@@ -84,9 +84,12 @@
 				<value>I0</value>
 				<value>It</value>
 				<value>Iother</value>
+				<value>right_minus_diode</value>
+				<value>right_plus_diode</value>
+				<value>left_minus_diode</value>
+				<value>left_plus_diode</value>
 				<value>lnI0It</value>
 				<value>lnItIref</value>
-
 			</list>
 		</property>
 		<property name="scaler" ref="CalMemory" />
@@ -94,7 +97,7 @@
 		<property name="timeChannelRequired" value="true" />
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="3" />
+		<property name="numChannelsToRead" value="7" />
 		<property name="darkCurrentRequired" value="false" />
 		<property name="outputFormat">
 			<list>
@@ -103,6 +106,10 @@
 				<value>%9d</value>
 				<value>%9d</value>
 				<value>%9d</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
 				<value>%.6g</value>
 				<value>%.6g</value>
 			</list>
@@ -142,6 +149,12 @@
 				<value>2.1322543748867164e-08</value>
 				<value>2.1412068256345848e-08</value>
 				<value>2.5302404673324592e-08</value>
+				<value>0.0</value>
+				<value>0.0</value>
+				<value>0.0</value>
+				<value>0.0</value>
+				<value>0.0</value>
+				<value>0.0</value>
 			</list>
 		</property>
 
@@ -154,6 +167,7 @@
 
 	<bean id="counterTimer03" class="gda.device.detector.xmap.TfgXmap">
 		<property name="xmap" ref="xmapMca" />
+		<property name="local" value="True" />
 		<property name="timer" ref="tfg" />
 		<property name="slave" value="true" />
 		<property name="collectionModePV" value="BL18I-EA-DET-04:CollectMode" />
@@ -177,6 +191,10 @@
 				<value>I0</value>
 				<value>It</value>
 				<value>Iother</value>
+				<value>right_minus_diode</value>
+				<value>right_plus_diode</value>
+				<value>left_minus_diode</value>
+				<value>left_plus_diode</value>
 			</list>
 		</property>
 		<property name="scaler" ref="CalMemory" />
@@ -186,7 +204,7 @@
 		<property name="darkCurrentRequired" value="false" />
 		<property name="outputLogValues" value="false" />
 		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="4" />
+		<property name="numChannelsToRead" value="8" />
 		<property name="ttlSocket" value="1" />
 		<property name="outputFormat">
 			<list>
@@ -195,6 +213,10 @@
 				<value>%9d</value>
 				<value>%9d</value>
 				<value>%9d</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
 			</list>
 		</property>
 	</bean>

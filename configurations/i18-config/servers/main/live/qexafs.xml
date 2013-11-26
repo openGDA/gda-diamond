@@ -88,6 +88,7 @@
 	<bean id="VortexQexafsFFI0" class="gda.device.detector.xmap.VortexQexafsFFIO">
 		<property name="qexafsXmap" ref="qexafs_xmap" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
+		<property name="local" value="True" />
 	</bean>
 	
 </beans>

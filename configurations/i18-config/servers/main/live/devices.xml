@@ -16,7 +16,8 @@
 		<property name="epicsDeviceName" value="xmap_dxp"/>
 		<property name="elementOffset" value="1"/>
 		<property name="local" value="true"/>
-		<property name="NUMBER_OF_ELEMENTS" value="4"/>
+<!-- 		temp changed to 10 channels to test the new detector -->
+		<property name="NUMBER_OF_ELEMENTS" value="10"/>
 		<property name="hdf5" ref="hdf5"/>
 </bean>
 <bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController3ROI">
