@@ -152,6 +152,216 @@
 		<EVENTS4 desc="channel total number of events" pv="BL18I-EA-DET-04:DXP4:Events" ro="true" type="pv"/>
 		<INPUTCOUNTRATE4 desc="channel input count rate" pv="BL18I-EA-DET-04:DXP4:InputCountRate" ro="true" type="pv"/>
 		<OUTPUTCOUNTRATE4 desc="channel output count rate" pv="BL18I-EA-DET-04:DXP4:OutputCountRate" ro="true" type="pv"/>
+<!-- 	5	 -->
+		<SETPEAKTIME5 desc="Peaking time of the energy filter" pv="BL18I-EA-DET-04:DXP5:PeakingTime" ro="false" type="pv"/>
+		<GETPEAKTIME5 desc="Peaking time of the energy filter" pv="BL18I-EA-DET-04:DXP5:PeakingTime_RBV" ro="true" type="pv"/>
+		<GETDYNRANGE5 desc="Energy range corresponding to 40% of the total ADC range" pv="BL18I-EA-DET-04:DXP5:DynamicRange_RBV" ro="true" type="pv"/>
+		<SETTRIGTHRESH5 desc="Trigger filter threshold" pv="BL18I-EA-DET-04:DXP5:TriggerThreshold" ro="false" type="pv"/>
+		<GETTRIGTHRESH5 desc="Trigger filter threshold" pv="BL18I-EA-DET-04:DXP5:TriggerThreshold_RBV" ro="true" type="pv"/>
+		<SETBASETHRESH5 desc="Baseline filter threshold" pv="BL18I-EA-DET-04:DXP5:BaselineThreshold" ro="false" type="pv"/>
+		<GETBASETHRESH5 desc="Baseline filter threshold" pv="BL18I-EA-DET-04:DXP5:BaselineThreshold_RBV" ro="true" type="pv"/>
+		<SETBASELENGTH5 desc="Set the number of samples averaged in the baseline filter, specified as number of samples" pv="BL18I-EA-DET-04:DXP5:BaselineFilterLength" ro="false" type="mbbinary"/>
+		<GETBASELENGTH5 desc="Get the number of samples averaged in the baseline filter, specified as number of samples" pv="BL18I-EA-DET-04:DXP5:BaselineFilterLength_RBV" ro="true" type="pv"/>
+		<SETENERGYTHRESH5 desc="Get the energy filter threshold" pv="BL18I-EA-DET-04:DXP5:EnergyThreshold" ro="false" type="pv"/>
+		<GETENERGYTHRESH5 desc="Set the energy filter threshold" pv="BL18I-EA-DET-04:DXP5:EnergyThreshold_RBV" ro="true" type="pv"/>
+		<SETADCPERCENT5 desc="Set the ADC % rule" pv="BL18I-EA-DET-04:DXP5:ADCPercentRule" ro="false" type="pv"/>
+		<GETADCPERCENT5 desc="Get the ADC % rule" pv="BL18I-EA-DET-04:DXP5:ADCPercentRule_RBV" ro="true" type="pv"/>
+		<GETBINWIDTH5 desc="Width of the individual bin in the MCA spectrum" pv="BL18I-EA-DET-04:DXP5:MCABinWidth_RBV" ro="true" type="pv"/>
+		<SETMAXENERGY5 desc="Set the maximum energy for the spectrum" pv="BL18I-EA-DET-04:DXP5:MaxEnergy" ro="false" type="pv"/>
+		<GETMAXENERGY5 desc="Get the maximum energy for the spectrum" pv="BL18I-EA-DET-04:DXP5:MaxEnergy_RBV" ro="true" type="pv"/>
+		<SETPREAMPGAIN5 desc="Preamplifier gain value" pv="BL18I-EA-DET-04:DXP5:PreampGain" ro="false" type="pv"/>
+		<GETPREAMPGAIN5 desc="Preamplifier gain value" pv="BL18I-EA-DET-04:DXP5:PreampGain_RBV" ro="true" type="pv"/>
+		<SETRESETDELAY5 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL18I-EA-DET-04:DXP5:ResetDelay" ro="false" type="pv"/>
+		<GETRESETDELAY5 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL18I-EA-DET-04:DXP5:ResetDelay_RBV" ro="true" type="pv"/>
+		<SETGAPTIME5 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL18I-EA-DET-04:DXP5:GapTime" ro="false" type="pv"/>
+		<GETGAPTIME5 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL18I-EA-DET-04:DXP5:GapTime_RBV" ro="true" type="pv"/>
+		<SETTRIGPEAKTIME5 desc="The peaking time of the trigger filter" pv="BL18I-EA-DET-04:DXP5:TriggerPeakingTime" ro="false" type="pv"/>
+		<GETTRIGPEAKTIME5 desc="The peaking time of the trigger filter" pv="BL18I-EA-DET-04:DXP5:TriggerPeakingTime_RBV" ro="true" type="pv"/>
+		<SETTRIGGAPTIME5 desc="The gap time of the trigger filter" pv="BL18I-EA-DET-04:DXP5:TriggerGapTime" ro="false" type="pv"/>
+		<GETTRIGGAPTIME5 desc="The gap time of the trigger filter" pv="BL18I-EA-DET-04:DXP5:TriggerGapTime_RBV" ro="true" type="pv"/>
+		<SETMAXWIDTH5 desc="The maximum peak width for pile-up inspection" pv="BL18I-EA-DET-04:DXP5:MaxWidth" ro="false" type="pv"/>
+		<GETMAXWIDTH5 desc="The maximum peak width for pile-up inspection" pv="BL18I-EA-DET-04:DXP5:MaxWidth_RBV" ro="true" type="pv"/>
+		<REALTIME5 desc="channel aquisition time" pv="BL18I-EA-DET-04:DXP5:ElapsedRealTime" ro="true" type="pv"/>
+		<TLIVETIME5 desc="channel trigger live time" pv="BL18I-EA-DET-04:DXP5:ElapsedTriggerLiveTime" ro="true" type="pv"/>
+		<ELIVETIME5 desc="Elapsed live time" pv="BL18I-EA-DET-04:DXP5:ElapsedLiveTime" ro="true" type="pv"/>
+		<EVENTS5 desc="channel total number of events" pv="BL18I-EA-DET-04:DXP5:Events" ro="true" type="pv"/>
+		<INPUTCOUNTRATE5 desc="channel input count rate" pv="BL18I-EA-DET-04:DXP5:InputCountRate" ro="true" type="pv"/>
+		<OUTPUTCOUNTRATE5 desc="channel output count rate" pv="BL18I-EA-DET-04:DXP5:OutputCountRate" ro="true" type="pv"/>
+<!-- 		6 -->
+		<SETPEAKTIME6 desc="Peaking time of the energy filter" pv="BL18I-EA-DET-04:DXP6:PeakingTime" ro="false" type="pv"/>
+		<GETPEAKTIME6 desc="Peaking time of the energy filter" pv="BL18I-EA-DET-04:DXP6:PeakingTime_RBV" ro="true" type="pv"/>
+		<GETDYNRANGE6 desc="Energy range corresponding to 40% of the total ADC range" pv="BL18I-EA-DET-04:DXP6:DynamicRange_RBV" ro="true" type="pv"/>
+		<SETTRIGTHRESH6 desc="Trigger filter threshold" pv="BL18I-EA-DET-04:DXP6:TriggerThreshold" ro="false" type="pv"/>
+		<GETTRIGTHRESH6 desc="Trigger filter threshold" pv="BL18I-EA-DET-04:DXP6:TriggerThreshold_RBV" ro="true" type="pv"/>
+		<SETBASETHRESH6 desc="Baseline filter threshold" pv="BL18I-EA-DET-04:DXP6:BaselineThreshold" ro="false" type="pv"/>
+		<GETBASETHRESH6 desc="Baseline filter threshold" pv="BL18I-EA-DET-04:DXP6:BaselineThreshold_RBV" ro="true" type="pv"/>
+		<SETBASELENGTH6 desc="Set the number of samples averaged in the baseline filter, specified as number of samples" pv="BL18I-EA-DET-04:DXP6:BaselineFilterLength" ro="false" type="mbbinary"/>
+		<GETBASELENGTH6 desc="Get the number of samples averaged in the baseline filter, specified as number of samples" pv="BL18I-EA-DET-04:DXP6:BaselineFilterLength_RBV" ro="true" type="pv"/>
+		<SETENERGYTHRESH6 desc="Get the energy filter threshold" pv="BL18I-EA-DET-04:DXP6:EnergyThreshold" ro="false" type="pv"/>
+		<GETENERGYTHRESH6 desc="Set the energy filter threshold" pv="BL18I-EA-DET-04:DXP6:EnergyThreshold_RBV" ro="true" type="pv"/>
+		<SETADCPERCENT6 desc="Set the ADC % rule" pv="BL18I-EA-DET-04:DXP6:ADCPercentRule" ro="false" type="pv"/>
+		<GETADCPERCENT6 desc="Get the ADC % rule" pv="BL18I-EA-DET-04:DXP6:ADCPercentRule_RBV" ro="true" type="pv"/>
+		<GETBINWIDTH6 desc="Width of the individual bin in the MCA spectrum" pv="BL18I-EA-DET-04:DXP6:MCABinWidth_RBV" ro="true" type="pv"/>
+		<SETMAXENERGY6 desc="Set the maximum energy for the spectrum" pv="BL18I-EA-DET-04:DXP6:MaxEnergy" ro="false" type="pv"/>
+		<GETMAXENERGY6 desc="Get the maximum energy for the spectrum" pv="BL18I-EA-DET-04:DXP6:MaxEnergy_RBV" ro="true" type="pv"/>
+		<SETPREAMPGAIN6 desc="Preamplifier gain value" pv="BL18I-EA-DET-04:DXP6:PreampGain" ro="false" type="pv"/>
+		<GETPREAMPGAIN6 desc="Preamplifier gain value" pv="BL18I-EA-DET-04:DXP6:PreampGain_RBV" ro="true" type="pv"/>
+		<SETRESETDELAY6 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL18I-EA-DET-04:DXP6:ResetDelay" ro="false" type="pv"/>
+		<GETRESETDELAY6 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL18I-EA-DET-04:DXP6:ResetDelay_RBV" ro="true" type="pv"/>
+		<SETGAPTIME6 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL18I-EA-DET-04:DXP6:GapTime" ro="false" type="pv"/>
+		<GETGAPTIME6 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL18I-EA-DET-04:DXP6:GapTime_RBV" ro="true" type="pv"/>
+		<SETTRIGPEAKTIME6 desc="The peaking time of the trigger filter" pv="BL18I-EA-DET-04:DXP6:TriggerPeakingTime" ro="false" type="pv"/>
+		<GETTRIGPEAKTIME6 desc="The peaking time of the trigger filter" pv="BL18I-EA-DET-04:DXP6:TriggerPeakingTime_RBV" ro="true" type="pv"/>
+		<SETTRIGGAPTIME6 desc="The gap time of the trigger filter" pv="BL18I-EA-DET-04:DXP6:TriggerGapTime" ro="false" type="pv"/>
+		<GETTRIGGAPTIME6 desc="The gap time of the trigger filter" pv="BL18I-EA-DET-04:DXP6:TriggerGapTime_RBV" ro="true" type="pv"/>
+		<SETMAXWIDTH6 desc="The maximum peak width for pile-up inspection" pv="BL18I-EA-DET-04:DXP6:MaxWidth" ro="false" type="pv"/>
+		<GETMAXWIDTH6 desc="The maximum peak width for pile-up inspection" pv="BL18I-EA-DET-04:DXP6:MaxWidth_RBV" ro="true" type="pv"/>
+		<REALTIME6 desc="channel aquisition time" pv="BL18I-EA-DET-04:DXP6:ElapsedRealTime" ro="true" type="pv"/>
+		<TLIVETIME6 desc="channel trigger live time" pv="BL18I-EA-DET-04:DXP6:ElapsedTriggerLiveTime" ro="true" type="pv"/>
+		<ELIVETIME6 desc="Elapsed live time" pv="BL18I-EA-DET-04:DXP6:ElapsedLiveTime" ro="true" type="pv"/>
+		<EVENTS6 desc="channel total number of events" pv="BL18I-EA-DET-04:DXP6:Events" ro="true" type="pv"/>
+		<INPUTCOUNTRATE6 desc="channel input count rate" pv="BL18I-EA-DET-04:DXP6:InputCountRate" ro="true" type="pv"/>
+		<OUTPUTCOUNTRATE6 desc="channel output count rate" pv="BL18I-EA-DET-04:DXP6:OutputCountRate" ro="true" type="pv"/>
+<!-- 		7 -->
+		<SETPEAKTIME7 desc="Peaking time of the energy filter" pv="BL18I-EA-DET-04:DXP7:PeakingTime" ro="false" type="pv"/>
+		<GETPEAKTIME7 desc="Peaking time of the energy filter" pv="BL18I-EA-DET-04:DXP7:PeakingTime_RBV" ro="true" type="pv"/>
+		<GETDYNRANGE7 desc="Energy range corresponding to 40% of the total ADC range" pv="BL18I-EA-DET-04:DXP7:DynamicRange_RBV" ro="true" type="pv"/>
+		<SETTRIGTHRESH7 desc="Trigger filter threshold" pv="BL18I-EA-DET-04:DXP7:TriggerThreshold" ro="false" type="pv"/>
+		<GETTRIGTHRESH7 desc="Trigger filter threshold" pv="BL18I-EA-DET-04:DXP7:TriggerThreshold_RBV" ro="true" type="pv"/>
+		<SETBASETHRESH7 desc="Baseline filter threshold" pv="BL18I-EA-DET-04:DXP7:BaselineThreshold" ro="false" type="pv"/>
+		<GETBASETHRESH7 desc="Baseline filter threshold" pv="BL18I-EA-DET-04:DXP7:BaselineThreshold_RBV" ro="true" type="pv"/>
+		<SETBASELENGTH7 desc="Set the number of samples averaged in the baseline filter, specified as number of samples" pv="BL18I-EA-DET-04:DXP7:BaselineFilterLength" ro="false" type="mbbinary"/>
+		<GETBASELENGTH7 desc="Get the number of samples averaged in the baseline filter, specified as number of samples" pv="BL18I-EA-DET-04:DXP7:BaselineFilterLength_RBV" ro="true" type="pv"/>
+		<SETENERGYTHRESH7 desc="Get the energy filter threshold" pv="BL18I-EA-DET-04:DXP7:EnergyThreshold" ro="false" type="pv"/>
+		<GETENERGYTHRESH7 desc="Set the energy filter threshold" pv="BL18I-EA-DET-04:DXP7:EnergyThreshold_RBV" ro="true" type="pv"/>
+		<SETADCPERCENT7 desc="Set the ADC % rule" pv="BL18I-EA-DET-04:DXP7:ADCPercentRule" ro="false" type="pv"/>
+		<GETADCPERCENT7 desc="Get the ADC % rule" pv="BL18I-EA-DET-04:DXP7:ADCPercentRule_RBV" ro="true" type="pv"/>
+		<GETBINWIDTH7 desc="Width of the individual bin in the MCA spectrum" pv="BL18I-EA-DET-04:DXP7:MCABinWidth_RBV" ro="true" type="pv"/>
+		<SETMAXENERGY7 desc="Set the maximum energy for the spectrum" pv="BL18I-EA-DET-04:DXP7:MaxEnergy" ro="false" type="pv"/>
+		<GETMAXENERGY7 desc="Get the maximum energy for the spectrum" pv="BL18I-EA-DET-04:DXP7:MaxEnergy_RBV" ro="true" type="pv"/>
+		<SETPREAMPGAIN7 desc="Preamplifier gain value" pv="BL18I-EA-DET-04:DXP7:PreampGain" ro="false" type="pv"/>
+		<GETPREAMPGAIN7 desc="Preamplifier gain value" pv="BL18I-EA-DET-04:DXP7:PreampGain_RBV" ro="true" type="pv"/>
+		<SETRESETDELAY7 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL18I-EA-DET-04:DXP7:ResetDelay" ro="false" type="pv"/>
+		<GETRESETDELAY7 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL18I-EA-DET-04:DXP7:ResetDelay_RBV" ro="true" type="pv"/>
+		<SETGAPTIME7 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL18I-EA-DET-04:DXP7:GapTime" ro="false" type="pv"/>
+		<GETGAPTIME7 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL18I-EA-DET-04:DXP7:GapTime_RBV" ro="true" type="pv"/>
+		<SETTRIGPEAKTIME7 desc="The peaking time of the trigger filter" pv="BL18I-EA-DET-04:DXP7:TriggerPeakingTime" ro="false" type="pv"/>
+		<GETTRIGPEAKTIME7 desc="The peaking time of the trigger filter" pv="BL18I-EA-DET-04:DXP7:TriggerPeakingTime_RBV" ro="true" type="pv"/>
+		<SETTRIGGAPTIME7 desc="The gap time of the trigger filter" pv="BL18I-EA-DET-04:DXP7:TriggerGapTime" ro="false" type="pv"/>
+		<GETTRIGGAPTIME7 desc="The gap time of the trigger filter" pv="BL18I-EA-DET-04:DXP7:TriggerGapTime_RBV" ro="true" type="pv"/>
+		<SETMAXWIDTH7 desc="The maximum peak width for pile-up inspection" pv="BL18I-EA-DET-04:DXP7:MaxWidth" ro="false" type="pv"/>
+		<GETMAXWIDTH7 desc="The maximum peak width for pile-up inspection" pv="BL18I-EA-DET-04:DXP7:MaxWidth_RBV" ro="true" type="pv"/>
+		<REALTIME7 desc="channel aquisition time" pv="BL18I-EA-DET-04:DXP7:ElapsedRealTime" ro="true" type="pv"/>
+		<TLIVETIME7 desc="channel trigger live time" pv="BL18I-EA-DET-04:DXP7:ElapsedTriggerLiveTime" ro="true" type="pv"/>
+		<ELIVETIME7 desc="Elapsed live time" pv="BL18I-EA-DET-04:DXP7:ElapsedLiveTime" ro="true" type="pv"/>
+		<EVENTS7 desc="channel total number of events" pv="BL18I-EA-DET-04:DXP7:Events" ro="true" type="pv"/>
+		<INPUTCOUNTRATE7 desc="channel input count rate" pv="BL18I-EA-DET-04:DXP7:InputCountRate" ro="true" type="pv"/>
+		<OUTPUTCOUNTRATE7 desc="channel output count rate" pv="BL18I-EA-DET-04:DXP7:OutputCountRate" ro="true" type="pv"/>
+<!-- 		8 -->
+		<SETPEAKTIME8 desc="Peaking time of the energy filter" pv="BL18I-EA-DET-04:DXP8:PeakingTime" ro="false" type="pv"/>
+		<GETPEAKTIME8 desc="Peaking time of the energy filter" pv="BL18I-EA-DET-04:DXP8:PeakingTime_RBV" ro="true" type="pv"/>
+		<GETDYNRANGE8 desc="Energy range corresponding to 40% of the total ADC range" pv="BL18I-EA-DET-04:DXP8:DynamicRange_RBV" ro="true" type="pv"/>
+		<SETTRIGTHRESH8 desc="Trigger filter threshold" pv="BL18I-EA-DET-04:DXP8:TriggerThreshold" ro="false" type="pv"/>
+		<GETTRIGTHRESH8 desc="Trigger filter threshold" pv="BL18I-EA-DET-04:DXP8:TriggerThreshold_RBV" ro="true" type="pv"/>
+		<SETBASETHRESH8 desc="Baseline filter threshold" pv="BL18I-EA-DET-04:DXP8:BaselineThreshold" ro="false" type="pv"/>
+		<GETBASETHRESH8 desc="Baseline filter threshold" pv="BL18I-EA-DET-04:DXP8:BaselineThreshold_RBV" ro="true" type="pv"/>
+		<SETBASELENGTH8 desc="Set the number of samples averaged in the baseline filter, specified as number of samples" pv="BL18I-EA-DET-04:DXP8:BaselineFilterLength" ro="false" type="mbbinary"/>
+		<GETBASELENGTH8 desc="Get the number of samples averaged in the baseline filter, specified as number of samples" pv="BL18I-EA-DET-04:DXP8:BaselineFilterLength_RBV" ro="true" type="pv"/>
+		<SETENERGYTHRESH8 desc="Get the energy filter threshold" pv="BL18I-EA-DET-04:DXP8:EnergyThreshold" ro="false" type="pv"/>
+		<GETENERGYTHRESH8 desc="Set the energy filter threshold" pv="BL18I-EA-DET-04:DXP8:EnergyThreshold_RBV" ro="true" type="pv"/>
+		<SETADCPERCENT8 desc="Set the ADC % rule" pv="BL18I-EA-DET-04:DXP8:ADCPercentRule" ro="false" type="pv"/>
+		<GETADCPERCENT8 desc="Get the ADC % rule" pv="BL18I-EA-DET-04:DXP8:ADCPercentRule_RBV" ro="true" type="pv"/>
+		<GETBINWIDTH8 desc="Width of the individual bin in the MCA spectrum" pv="BL18I-EA-DET-04:DXP8:MCABinWidth_RBV" ro="true" type="pv"/>
+		<SETMAXENERGY8 desc="Set the maximum energy for the spectrum" pv="BL18I-EA-DET-04:DXP8:MaxEnergy" ro="false" type="pv"/>
+		<GETMAXENERGY8 desc="Get the maximum energy for the spectrum" pv="BL18I-EA-DET-04:DXP8:MaxEnergy_RBV" ro="true" type="pv"/>
+		<SETPREAMPGAIN8 desc="Preamplifier gain value" pv="BL18I-EA-DET-04:DXP8:PreampGain" ro="false" type="pv"/>
+		<GETPREAMPGAIN8 desc="Preamplifier gain value" pv="BL18I-EA-DET-04:DXP8:PreampGain_RBV" ro="true" type="pv"/>
+		<SETRESETDELAY8 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL18I-EA-DET-04:DXP8:ResetDelay" ro="false" type="pv"/>
+		<GETRESETDELAY8 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL18I-EA-DET-04:DXP8:ResetDelay_RBV" ro="true" type="pv"/>
+		<SETGAPTIME8 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL18I-EA-DET-04:DXP8:GapTime" ro="false" type="pv"/>
+		<GETGAPTIME8 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL18I-EA-DET-04:DXP8:GapTime_RBV" ro="true" type="pv"/>
+		<SETTRIGPEAKTIME8 desc="The peaking time of the trigger filter" pv="BL18I-EA-DET-04:DXP8:TriggerPeakingTime" ro="false" type="pv"/>
+		<GETTRIGPEAKTIME8 desc="The peaking time of the trigger filter" pv="BL18I-EA-DET-04:DXP8:TriggerPeakingTime_RBV" ro="true" type="pv"/>
+		<SETTRIGGAPTIME8 desc="The gap time of the trigger filter" pv="BL18I-EA-DET-04:DXP8:TriggerGapTime" ro="false" type="pv"/>
+		<GETTRIGGAPTIME8 desc="The gap time of the trigger filter" pv="BL18I-EA-DET-04:DXP8:TriggerGapTime_RBV" ro="true" type="pv"/>
+		<SETMAXWIDTH8 desc="The maximum peak width for pile-up inspection" pv="BL18I-EA-DET-04:DXP8:MaxWidth" ro="false" type="pv"/>
+		<GETMAXWIDTH8 desc="The maximum peak width for pile-up inspection" pv="BL18I-EA-DET-04:DXP8:MaxWidth_RBV" ro="true" type="pv"/>
+		<REALTIME8 desc="channel aquisition time" pv="BL18I-EA-DET-04:DXP8:ElapsedRealTime" ro="true" type="pv"/>
+		<TLIVETIME8 desc="channel trigger live time" pv="BL18I-EA-DET-04:DXP8:ElapsedTriggerLiveTime" ro="true" type="pv"/>
+		<ELIVETIME8 desc="Elapsed live time" pv="BL18I-EA-DET-04:DXP8:ElapsedLiveTime" ro="true" type="pv"/>
+		<EVENTS8 desc="channel total number of events" pv="BL18I-EA-DET-04:DXP8:Events" ro="true" type="pv"/>
+		<INPUTCOUNTRATE8 desc="channel input count rate" pv="BL18I-EA-DET-04:DXP8:InputCountRate" ro="true" type="pv"/>
+		<OUTPUTCOUNTRATE8 desc="channel output count rate" pv="BL18I-EA-DET-04:DXP8:OutputCountRate" ro="true" type="pv"/>
+<!-- 		9 -->
+		<SETPEAKTIME9 desc="Peaking time of the energy filter" pv="BL18I-EA-DET-04:DXP9:PeakingTime" ro="false" type="pv"/>
+		<GETPEAKTIME9 desc="Peaking time of the energy filter" pv="BL18I-EA-DET-04:DXP9:PeakingTime_RBV" ro="true" type="pv"/>
+		<GETDYNRANGE9 desc="Energy range corresponding to 40% of the total ADC range" pv="BL18I-EA-DET-04:DXP9:DynamicRange_RBV" ro="true" type="pv"/>
+		<SETTRIGTHRESH9 desc="Trigger filter threshold" pv="BL18I-EA-DET-04:DXP9:TriggerThreshold" ro="false" type="pv"/>
+		<GETTRIGTHRESH9 desc="Trigger filter threshold" pv="BL18I-EA-DET-04:DXP9:TriggerThreshold_RBV" ro="true" type="pv"/>
+		<SETBASETHRESH9 desc="Baseline filter threshold" pv="BL18I-EA-DET-04:DXP9:BaselineThreshold" ro="false" type="pv"/>
+		<GETBASETHRESH9 desc="Baseline filter threshold" pv="BL18I-EA-DET-04:DXP9:BaselineThreshold_RBV" ro="true" type="pv"/>
+		<SETBASELENGTH9 desc="Set the number of samples averaged in the baseline filter, specified as number of samples" pv="BL18I-EA-DET-04:DXP9:BaselineFilterLength" ro="false" type="mbbinary"/>
+		<GETBASELENGTH9 desc="Get the number of samples averaged in the baseline filter, specified as number of samples" pv="BL18I-EA-DET-04:DXP9:BaselineFilterLength_RBV" ro="true" type="pv"/>
+		<SETENERGYTHRESH9 desc="Get the energy filter threshold" pv="BL18I-EA-DET-04:DXP9:EnergyThreshold" ro="false" type="pv"/>
+		<GETENERGYTHRESH9 desc="Set the energy filter threshold" pv="BL18I-EA-DET-04:DXP9:EnergyThreshold_RBV" ro="true" type="pv"/>
+		<SETADCPERCENT9 desc="Set the ADC % rule" pv="BL18I-EA-DET-04:DXP9:ADCPercentRule" ro="false" type="pv"/>
+		<GETADCPERCENT9 desc="Get the ADC % rule" pv="BL18I-EA-DET-04:DXP9:ADCPercentRule_RBV" ro="true" type="pv"/>
+		<GETBINWIDTH9 desc="Width of the individual bin in the MCA spectrum" pv="BL18I-EA-DET-04:DXP9:MCABinWidth_RBV" ro="true" type="pv"/>
+		<SETMAXENERGY9 desc="Set the maximum energy for the spectrum" pv="BL18I-EA-DET-04:DXP9:MaxEnergy" ro="false" type="pv"/>
+		<GETMAXENERGY9 desc="Get the maximum energy for the spectrum" pv="BL18I-EA-DET-04:DXP9:MaxEnergy_RBV" ro="true" type="pv"/>
+		<SETPREAMPGAIN9 desc="Preamplifier gain value" pv="BL18I-EA-DET-04:DXP9:PreampGain" ro="false" type="pv"/>
+		<GETPREAMPGAIN9 desc="Preamplifier gain value" pv="BL18I-EA-DET-04:DXP9:PreampGain_RBV" ro="true" type="pv"/>
+		<SETRESETDELAY9 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL18I-EA-DET-04:DXP9:ResetDelay" ro="false" type="pv"/>
+		<GETRESETDELAY9 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL18I-EA-DET-04:DXP9:ResetDelay_RBV" ro="true" type="pv"/>
+		<SETGAPTIME9 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL18I-EA-DET-04:DXP9:GapTime" ro="false" type="pv"/>
+		<GETGAPTIME9 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL18I-EA-DET-04:DXP9:GapTime_RBV" ro="true" type="pv"/>
+		<SETTRIGPEAKTIME9 desc="The peaking time of the trigger filter" pv="BL18I-EA-DET-04:DXP9:TriggerPeakingTime" ro="false" type="pv"/>
+		<GETTRIGPEAKTIME9 desc="The peaking time of the trigger filter" pv="BL18I-EA-DET-04:DXP9:TriggerPeakingTime_RBV" ro="true" type="pv"/>
+		<SETTRIGGAPTIME9 desc="The gap time of the trigger filter" pv="BL18I-EA-DET-04:DXP9:TriggerGapTime" ro="false" type="pv"/>
+		<GETTRIGGAPTIME9 desc="The gap time of the trigger filter" pv="BL18I-EA-DET-04:DXP9:TriggerGapTime_RBV" ro="true" type="pv"/>
+		<SETMAXWIDTH9 desc="The maximum peak width for pile-up inspection" pv="BL18I-EA-DET-04:DXP9:MaxWidth" ro="false" type="pv"/>
+		<GETMAXWIDTH9 desc="The maximum peak width for pile-up inspection" pv="BL18I-EA-DET-04:DXP9:MaxWidth_RBV" ro="true" type="pv"/>
+		<REALTIME9 desc="channel aquisition time" pv="BL18I-EA-DET-04:DXP9:ElapsedRealTime" ro="true" type="pv"/>
+		<TLIVETIME9 desc="channel trigger live time" pv="BL18I-EA-DET-04:DXP9:ElapsedTriggerLiveTime" ro="true" type="pv"/>
+		<ELIVETIME9 desc="Elapsed live time" pv="BL18I-EA-DET-04:DXP9:ElapsedLiveTime" ro="true" type="pv"/>
+		<EVENTS9 desc="channel total number of events" pv="BL18I-EA-DET-04:DXP9:Events" ro="true" type="pv"/>
+		<INPUTCOUNTRATE9 desc="channel input count rate" pv="BL18I-EA-DET-04:DXP9:InputCountRate" ro="true" type="pv"/>
+		<OUTPUTCOUNTRATE9 desc="channel output count rate" pv="BL18I-EA-DET-04:DXP9:OutputCountRate" ro="true" type="pv"/>
+<!-- 		10 -->
+		<SETPEAKTIME10 desc="Peaking time of the energy filter" pv="BL18I-EA-DET-04:DXP10:PeakingTime" ro="false" type="pv"/>
+		<GETPEAKTIME10 desc="Peaking time of the energy filter" pv="BL18I-EA-DET-04:DXP10:PeakingTime_RBV" ro="true" type="pv"/>
+		<GETDYNRANGE10 desc="Energy range corresponding to 40% of the total ADC range" pv="BL18I-EA-DET-04:DXP10:DynamicRange_RBV" ro="true" type="pv"/>
+		<SETTRIGTHRESH10 desc="Trigger filter threshold" pv="BL18I-EA-DET-04:DXP10:TriggerThreshold" ro="false" type="pv"/>
+		<GETTRIGTHRESH10 desc="Trigger filter threshold" pv="BL18I-EA-DET-04:DXP10:TriggerThreshold_RBV" ro="true" type="pv"/>
+		<SETBASETHRESH10 desc="Baseline filter threshold" pv="BL18I-EA-DET-04:DXP10:BaselineThreshold" ro="false" type="pv"/>
+		<GETBASETHRESH10 desc="Baseline filter threshold" pv="BL18I-EA-DET-04:DXP10:BaselineThreshold_RBV" ro="true" type="pv"/>
+		<SETBASELENGTH10 desc="Set the number of samples averaged in the baseline filter, specified as number of samples" pv="BL18I-EA-DET-04:DXP10:BaselineFilterLength" ro="false" type="mbbinary"/>
+		<GETBASELENGTH10 desc="Get the number of samples averaged in the baseline filter, specified as number of samples" pv="BL18I-EA-DET-04:DXP10:BaselineFilterLength_RBV" ro="true" type="pv"/>
+		<SETENERGYTHRESH10 desc="Get the energy filter threshold" pv="BL18I-EA-DET-04:DXP10:EnergyThreshold" ro="false" type="pv"/>
+		<GETENERGYTHRESH10 desc="Set the energy filter threshold" pv="BL18I-EA-DET-04:DXP10:EnergyThreshold_RBV" ro="true" type="pv"/>
+		<SETADCPERCENT10 desc="Set the ADC % rule" pv="BL18I-EA-DET-04:DXP10:ADCPercentRule" ro="false" type="pv"/>
+		<GETADCPERCENT10 desc="Get the ADC % rule" pv="BL18I-EA-DET-04:DXP10:ADCPercentRule_RBV" ro="true" type="pv"/>
+		<GETBINWIDTH10 desc="Width of the individual bin in the MCA spectrum" pv="BL18I-EA-DET-04:DXP10:MCABinWidth_RBV" ro="true" type="pv"/>
+		<SETMAXENERGY10 desc="Set the maximum energy for the spectrum" pv="BL18I-EA-DET-04:DXP10:MaxEnergy" ro="false" type="pv"/>
+		<GETMAXENERGY10 desc="Get the maximum energy for the spectrum" pv="BL18I-EA-DET-04:DXP10:MaxEnergy_RBV" ro="true" type="pv"/>
+		<SETPREAMPGAIN10 desc="Preamplifier gain value" pv="BL18I-EA-DET-04:DXP10:PreampGain" ro="false" type="pv"/>
+		<GETPREAMPGAIN10 desc="Preamplifier gain value" pv="BL18I-EA-DET-04:DXP10:PreampGain_RBV" ro="true" type="pv"/>
+		<SETRESETDELAY10 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL18I-EA-DET-04:DXP10:ResetDelay" ro="false" type="pv"/>
+		<GETRESETDELAY10 desc="The time the processor should wait after the detector resets before continuing processing of the input signal" pv="BL18I-EA-DET-04:DXP10:ResetDelay_RBV" ro="true" type="pv"/>
+		<SETGAPTIME10 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL18I-EA-DET-04:DXP10:GapTime" ro="false" type="pv"/>
+		<GETGAPTIME10 desc="The gap time of the energy filter. This only sets the minimum gaptime" pv="BL18I-EA-DET-04:DXP10:GapTime_RBV" ro="true" type="pv"/>
+		<SETTRIGPEAKTIME10 desc="The peaking time of the trigger filter" pv="BL18I-EA-DET-04:DXP10:TriggerPeakingTime" ro="false" type="pv"/>
+		<GETTRIGPEAKTIME10 desc="The peaking time of the trigger filter" pv="BL18I-EA-DET-04:DXP10:TriggerPeakingTime_RBV" ro="true" type="pv"/>
+		<SETTRIGGAPTIME10 desc="The gap time of the trigger filter" pv="BL18I-EA-DET-04:DXP10:TriggerGapTime" ro="false" type="pv"/>
+		<GETTRIGGAPTIME10 desc="The gap time of the trigger filter" pv="BL18I-EA-DET-04:DXP10:TriggerGapTime_RBV" ro="true" type="pv"/>
+		<SETMAXWIDTH10 desc="The maximum peak width for pile-up inspection" pv="BL18I-EA-DET-04:DXP10:MaxWidth" ro="false" type="pv"/>
+		<GETMAXWIDTH10 desc="The maximum peak width for pile-up inspection" pv="BL18I-EA-DET-04:DXP10:MaxWidth_RBV" ro="true" type="pv"/>
+		<REALTIME10 desc="channel aquisition time" pv="BL18I-EA-DET-04:DXP10:ElapsedRealTime" ro="true" type="pv"/>
+		<TLIVETIME10 desc="channel trigger live time" pv="BL18I-EA-DET-04:DXP10:ElapsedTriggerLiveTime" ro="true" type="pv"/>
+		<ELIVETIME10 desc="Elapsed live time" pv="BL18I-EA-DET-04:DXP10:ElapsedLiveTime" ro="true" type="pv"/>
+		<EVENTS10 desc="channel total number of events" pv="BL18I-EA-DET-04:DXP10:Events" ro="true" type="pv"/>
+		<INPUTCOUNTRATE10 desc="channel input count rate" pv="BL18I-EA-DET-04:DXP10:InputCountRate" ro="true" type="pv"/>
+		<OUTPUTCOUNTRATE10 desc="channel output count rate" pv="BL18I-EA-DET-04:DXP10:OutputCountRate" ro="true" type="pv"/>
 		
 		<ENERGYBINS1 desc="spectrum x-axis" pv="BL18I-EA-DET-04:MCA1:XAXIS" ro="true" type="array"/>
 		<MCA1 desc="XMAP MCA data record" pv="BL18I-EA-DET-04:MCA1" ro="false" type="mca"/>
@@ -169,6 +379,36 @@
 		<MCA4 desc="XMAP MCA data record" pv="BL18I-EA-DET-04:MCA4" ro="false" type="mca"/>
 		<DATA4 desc="XMAP MCA spectrum data" pv="BL18I-EA-DET-04:MCA4.VAL" ro="true" type="array"/>
 		<RUNSTATE4 desc="current acquisition state" pv="BL18I-EA-DET-04:MCA4.ACQG" ro="true" type="pv"/>
+		
+		<ENERGYBINS5 desc="spectrum x-axis" pv="BL18I-EA-DET-04:MCA5:XAXIS" ro="true" type="array"/>
+		<MCA5 desc="XMAP MCA data record" pv="BL18I-EA-DET-04:MCA5" ro="false" type="mca"/>
+		<DATA5 desc="XMAP MCA spectrum data" pv="BL18I-EA-DET-04:MCA5.VAL" ro="true" type="array"/>
+		<RUNSTATE5 desc="current acquisition state" pv="BL18I-EA-DET-04:MCA5.ACQG" ro="true" type="pv"/>
+		
+		<ENERGYBINS6 desc="spectrum x-axis" pv="BL18I-EA-DET-04:MCA6:XAXIS" ro="true" type="array"/>
+		<MCA6 desc="XMAP MCA data record" pv="BL18I-EA-DET-04:MCA6" ro="false" type="mca"/>
+		<DATA6 desc="XMAP MCA spectrum data" pv="BL18I-EA-DET-04:MCA6.VAL" ro="true" type="array"/>
+		<RUNSTATE6 desc="current acquisition state" pv="BL18I-EA-DET-04:MCA6.ACQG" ro="true" type="pv"/>
+		
+		<ENERGYBINS7 desc="spectrum x-axis" pv="BL18I-EA-DET-04:MCA7:XAXIS" ro="true" type="array"/>
+		<MCA7 desc="XMAP MCA data record" pv="BL18I-EA-DET-04:MCA7" ro="false" type="mca"/>
+		<DATA7 desc="XMAP MCA spectrum data" pv="BL18I-EA-DET-04:MCA7.VAL" ro="true" type="array"/>
+		<RUNSTATE7 desc="current acquisition state" pv="BL18I-EA-DET-04:MCA7.ACQG" ro="true" type="pv"/>
+		
+		<ENERGYBINS8 desc="spectrum x-axis" pv="BL18I-EA-DET-04:MCA8:XAXIS" ro="true" type="array"/>
+		<MCA8 desc="XMAP MCA data record" pv="BL18I-EA-DET-04:MCA8" ro="false" type="mca"/>
+		<DATA8 desc="XMAP MCA spectrum data" pv="BL18I-EA-DET-04:MCA8.VAL" ro="true" type="array"/>
+		<RUNSTATE8 desc="current acquisition state" pv="BL18I-EA-DET-04:MCA8.ACQG" ro="true" type="pv"/>
+		
+		<ENERGYBINS9 desc="spectrum x-axis" pv="BL18I-EA-DET-04:MCA9:XAXIS" ro="true" type="array"/>
+		<MCA9 desc="XMAP MCA data record" pv="BL18I-EA-DET-04:MCA9" ro="false" type="mca"/>
+		<DATA9 desc="XMAP MCA spectrum data" pv="BL18I-EA-DET-04:MCA9.VAL" ro="true" type="array"/>
+		<RUNSTATE9 desc="current acquisition state" pv="BL18I-EA-DET-04:MCA9.ACQG" ro="true" type="pv"/>
+		
+		<ENERGYBINS10 desc="spectrum x-axis" pv="BL18I-EA-DET-04:MCA10:XAXIS" ro="true" type="array"/>
+		<MCA10 desc="XMAP MCA data record" pv="BL18I-EA-DET-04:MCA10" ro="false" type="mca"/>
+		<DATA10 desc="XMAP MCA spectrum data" pv="BL18I-EA-DET-04:MCA10.VAL" ro="true" type="array"/>
+		<RUNSTATE10 desc="current acquisition state" pv="BL18I-EA-DET-04:MCA10.ACQG" ro="true" type="pv"/>
 		
 		<SETNBINS desc="Number of elements in spectrum" pv="BL18I-EA-DET-04:MCA1.NUSE" ro="false" type="pv"/>
 		<GETNBINS desc="Number of elements in spectrum" pv="BL18I-EA-DET-04:MCA1:NBINS" ro="true" type="pv"/>

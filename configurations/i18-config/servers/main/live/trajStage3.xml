@@ -80,6 +80,7 @@
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="4" />
 		<property name="daserver" ref="daserver" />
+		<property name="ttlSocket" value="1" />
 		<property name="outputFormat">
 			<list>
 				<value>%6.4g</value>

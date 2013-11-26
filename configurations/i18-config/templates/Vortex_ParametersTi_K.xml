@@ -9,8 +9,8 @@
         <number>1</number>
         <ROI>
             <name>Ti_Ka</name>
-            <windowStart>430</windowStart>
-            <windowEnd>470</windowEnd>
+            <windowStart>435</windowStart>
+            <windowEnd>463</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -57,4 +57,5 @@
         <excluded>false</excluded>
     </DetectorElement>
     <saveRawSpectrum>false</saveRawSpectrum>
+    <selectedRegionNumber>0</selectedRegionNumber>
 </VortexParameters>

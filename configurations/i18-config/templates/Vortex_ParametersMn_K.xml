@@ -9,8 +9,8 @@
         <number>1</number>
         <ROI>
             <name>Mn_Ka</name>
-            <windowStart>550</windowStart>
-            <windowEnd>618</windowEnd>
+            <windowStart>578</windowStart>
+            <windowEnd>602</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -57,4 +57,5 @@
         <excluded>false</excluded>
     </DetectorElement>
     <saveRawSpectrum>false</saveRawSpectrum>
+    <selectedRegionNumber>0</selectedRegionNumber>
 </VortexParameters>
