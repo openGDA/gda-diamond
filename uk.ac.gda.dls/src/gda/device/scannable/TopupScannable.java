@@ -119,6 +119,7 @@ public class TopupScannable extends ScannableBase implements Scannable {
 			sendAndPrintMessage(message);
 		} catch (InterruptedException e) {
 			// someone trying to kill the thread so re-throw to kill any scan
+			logger.debug("InterruptedException received during testShouldPause, so rethrowing as DeviceException");
 			throw new DeviceException(e.getMessage(), e);
 		}
 	}
