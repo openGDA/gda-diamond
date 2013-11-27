@@ -142,6 +142,12 @@
 				<value>2.1322543748867164e-08</value>
 				<value>2.1412068256345848e-08</value>
 				<value>2.5302404673324592e-08</value>
+				<value>0.0</value>
+				<value>0.0</value>
+				<value>0.0</value>
+				<value>0.0</value>
+				<value>0.0</value>
+				<value>0.0</value>
 			</list>
 		</property>
 
@@ -157,6 +163,7 @@
 		<property name="timer" ref="tfg" />
 		<property name="slave" value="true" />
 		<property name="collectionModePV" value="BL18I-EA-DET-04:CollectMode" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="raster_xspress" class="gda.device.detector.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
