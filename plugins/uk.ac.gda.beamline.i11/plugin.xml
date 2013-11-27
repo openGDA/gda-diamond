@@ -2,15 +2,38 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         id="product"
-         point="org.eclipse.ui.perspectiveExtensions">
-   </extension>
-   <extension
          point="org.eclipse.ui.views">
       <view
             class="gda.rcp.views.JythonTerminalView"
             id="uk.ac.gda.beamline.i11.terminalView"
             name="Terminal"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.client.hrpd.views.hrpdCategory"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            icon="icons/chart_curve.png"
+            id="uk.ac.gda.beamline.i11.DetectorPlot"
+            name="Detector Image"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.client.hrpd.views.hrpdCategory"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            icon="icons/chart_curve.png"
+            id="uk.ac.gda.beamline.i11.dataPlot"
+            name="DataPlot"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.client.hrpd.views.hrpdCategory"
+            class="gda.rcp.views.ViewFactory:statusView"
+            icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png"
+            id="uk.ac.gda.beamline.i11.views.statusView"
+            name="Status"
             restorable="true">
       </view>
    </extension>
@@ -19,10 +42,11 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="I11 Beamline">
+            description="GDA for I11 - the High Resolution Powder Diffraction Beamline"
+            name="I11 GDA">
          <property
                name="appName"
-               value="I11 Beamline">
+               value="I11 GDA">
          </property>
          <property
                name="windowImages"
@@ -30,7 +54,7 @@
          </property>
          <property
                name="aboutImage"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+               value="icons/i11GDA.png">
          </property>
          <property
                name="aboutText"
@@ -53,6 +77,14 @@
                value="plugin_customization.ini">
          </property>
       </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="uk.ac.gda.beamline.i11.persepctives.DataCollectionPerspective"
+            id="uk.ac.gda.beamline.i11.dataCollectionPerspective"
+            name="Data Collection">
+      </perspective>
    </extension>
 
 </plugin>
