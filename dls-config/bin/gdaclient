@@ -187,8 +187,6 @@ fi
 
 ARCH=`/bin/arch`
 
-export MOZILLA_FIVE_HOME=/dls_sw/apps/firefox/8/${ARCH}/
-
 #set max size of core file created if process terminates unexpectedly
 # this value is in 1024-byte blocks (i.e. 10000000 = 10 GB)
 ulimit -c 10000000
