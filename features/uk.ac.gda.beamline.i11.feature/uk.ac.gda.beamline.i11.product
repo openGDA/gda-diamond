@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="I11 Beamline" id="uk.ac.gda.beamline.i11.product" application="uk.ac.gda.client.application" version="8.36.0" useFeatures="true" includeLaunchers="true">
+<product name="I11 GDA" id="uk.ac.gda.beamline.i11.product" application="uk.ac.gda.client.application" version="8.36.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
-      <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
+      <image path="/uk.ac.gda.beamline.i11/icons/i11GDA.png"/>
       <text>
          GDA for High Resolution Powder Diffraction Beamline
 
@@ -65,6 +65,7 @@ PyDev http://pydev.org/
       </win>
    </launcher>
 
+   <intro introId="uk.ac.gda.client.intro"/>
 
    <vm>
    </vm>
