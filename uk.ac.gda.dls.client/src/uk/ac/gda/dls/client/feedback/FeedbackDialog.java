@@ -126,8 +126,8 @@ public class FeedbackDialog extends TitleAreaDialog {
 							
 							final String from = String.format("%s <%s>", name, email);
 							
-							final String beamlineName = LocalProperties.get("gda.beamline.name.upper","Beamline Unknown");
-							final String mailSubject = String.format("[GDA feedback - %s] %s", beamlineName, subject);
+							final String beamlineName = LocalProperties.get("gda.beamline.name","Beamline Unknown");
+							final String mailSubject = String.format("[GDA feedback - %s] %s", beamlineName.toUpperCase(), subject);
 							
 							final String smtpHost = LocalProperties.get("gda.feedback.smtp.host","localhost");
 							
