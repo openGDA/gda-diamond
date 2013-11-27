@@ -1282,8 +1282,12 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		String frameTime_clockcycles = secondsToClockCyclesString(frameTime);
 		String scanTime_clockcycles = secondsToClockCyclesString(scanTime);
 		try {
-			result = (int) daServer.sendCommand("xstrip timing setup-group \"xh0\" 0 " + numberOfFrames + " 0 " + scanTime_clockcycles + " frame-time "
-					+ frameTime_clockcycles + " last");
+			String command = "xstrip timing setup-group \"xh0\" 0 " + numberOfFrames + " 0 " + scanTime_clockcycles + " frame-time "
+					+ frameTime_clockcycles + " last";
+			daServer.sendCommand(command);
+			int[] value = daServer.getIntBinaryData("read 0 0 0 30 1024 1 from " + timingHandle + " raw motorola",
+					30 * 1024);
+			result = value[1]; // 1 is Number of scans per frame (See spec)
 		} catch (Exception e) {
 			throw new DeviceException("Error trying to read back from timing handle");
 		}

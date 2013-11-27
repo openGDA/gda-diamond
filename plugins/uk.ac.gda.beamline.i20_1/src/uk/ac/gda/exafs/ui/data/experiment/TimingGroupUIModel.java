@@ -76,9 +76,6 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 	@Expose
 	private int exernalTriggerInputLemoNumber = 0;
 
-	public static final String MAX_ACCUMULATION_FOR_DETECTOR_PROP_NAME = "maxAccumulationforDetector";
-	private int maxAccumulationforDetector;
-
 	public static final String NO_OF_SPECTRUM_PROP_NAME = "numberOfSpectrum";
 
 	public List<?> getSpectrumList() {
@@ -139,12 +136,8 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				String sourcePropName = evt.getPropertyName();
-				if (sourcePropName.equals(TIME_PER_SPECTRUM_PROP_NAME) | sourcePropName.equals(INTEGRATION_TIME_PROP_NAME)) {
-					try {
-						TimingGroupUIModel.this.updateMaxAccumulationForDetector();
-					} catch (DeviceException e) {
-						logger.error("Unable to update max accumulations", e);
-					}
+				if (sourcePropName.equals(TIME_PER_SPECTRUM_PROP_NAME) | sourcePropName.equals(INTEGRATION_TIME_PROP_NAME) | sourcePropName.equals(NO_OF_SPECTRUM_PROP_NAME)) {
+					TimingGroupUIModel.this.updateMaxAccumulationForDetector();
 				}
 			}
 		});
@@ -304,23 +297,23 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 		spectrumList.clear();
 	}
 
-	private void updateMaxAccumulationForDetector() throws DeviceException {
-		double timePerSpectrum = getTimePerSpectrum();
-		double integrationTime = getIntegrationTime();
-		int noOfSpectra = getNumberOfSpectrum();
-		if (integrationTime > 0 & timePerSpectrum > 0) {
-			StripDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
-			if (detector instanceof XCHIPDetector) {
-				int numberScansInFrame = ((XCHIPDetector) detector).getNumberScansInFrame(timePerSpectrum, integrationTime, noOfSpectra);
-				this.firePropertyChange(MAX_ACCUMULATION_FOR_DETECTOR_PROP_NAME, noOfAccumulations, noOfAccumulations = numberScansInFrame);
-			} else {
-				throw new DeviceException("Detector not found to get number of scans in frame");
+	private void updateMaxAccumulationForDetector() {
+		try {
+			double timePerSpectrum = getTimePerSpectrum();
+			double integrationTime = getIntegrationTime();
+			int noOfSpectra = getNumberOfSpectrum();
+			if (integrationTime > 0 & timePerSpectrum > 0) {
+				StripDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
+				if (detector instanceof XCHIPDetector) {
+					int numberScansInFrame = ((XCHIPDetector) detector).getNumberScansInFrame(unit.convertToSecond(timePerSpectrum), unit.convertToSecond(integrationTime), noOfSpectra);
+					setNoOfAccumulations(numberScansInFrame);
+				} else {
+					throw new DeviceException("Detector not found to get number of scans in frame");
+				}
 			}
+		} catch (DeviceException e) {
+			logger.warn("Unable to update max accumulations");
 		}
-	}
-
-	public int getMaxAccumulationforDetector() {
-		return maxAccumulationforDetector;
 	}
 
 	public double getTimeResolution() {
