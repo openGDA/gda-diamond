@@ -18,6 +18,15 @@
 
 	<import resource="commandQueueProcessor.xml" />
 
+	<bean id="helpHandler" class="uk.ac.gda.client.HelpHandlerImpl">
+		<property name="filePath" value="${gda.var}/helpHandler.txt" />
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.client.HelpHandler" />
+		<property name="service" ref="helpHandler" />
+	</bean>
+
+
 	<bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}ScanDataPointServer" />
 		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
@@ -70,10 +79,6 @@
 		<property name="ffmpegImageOutHeightMax" value="1336" />
 		<property name="ffmpegImageOutWidthMax" value="2004" />
 		<property name="lensScannable" ref="lens" />
-		<property name="mjpegViewCompositeFactory">
-			<bean
-				class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13MJPegViewCompositeFactory" />
-		</property>
 		<property name="stagesCompositeFactory" ref="stages" />
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
 		<property name="cameraXYScannable" ref="cameraXYScannable" />
@@ -90,7 +95,7 @@
 		<property name="imageNDROI" ref="pco1_roi1" />
 	</bean>
 
-	<bean id="i13ADViewcreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
+	<bean id="i13ADViewcreator" class="uk.ac.gda.beamline.i13i.views.I13IViewCreatorImpl">
 		<property name="adController" ref="i13ADController" />
 	</bean>
 
@@ -268,8 +273,7 @@
 						<list>
 							<bean class="gda.rcp.views.OpenViewOption">
 								<constructor-arg value="Select a camera" />
-								<constructor-arg
-									value="" />
+								<constructor-arg value="" />
 							</bean>
 							<bean class="gda.rcp.views.OpenViewOption">
 								<constructor-arg value="PCO" />
