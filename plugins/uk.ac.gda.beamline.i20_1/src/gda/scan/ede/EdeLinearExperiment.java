@@ -66,6 +66,11 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	private final EdeScanPosition iRefPosition;
 	private final StripDetector theDetector;
 
+	public static final int DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH = 2;
+	private int noOfSecPerSpectrumToPublish = DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
+	private int totalNumberOfspectra;
+	private double totalTime;
+
 	private EdeScanParameters i0ScanParameters;
 	private EdeScan i0DarkScan;
 	private EdeScan i0InitialScan;
@@ -87,8 +92,19 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		this.theDetector = theDetector;
 		this.shutter2 = shutter2;
 		topup = topupMonitor;
-		//		energyData = new DoubleDataset(theDetector.getEnergyForChannels());
+		calculateTotalNoOfSpectra();
 	}
+
+
+	private void calculateTotalNoOfSpectra() {
+		totalNumberOfspectra = 0;
+		totalTime = 0.0;
+		for (TimingGroup group : itScanParameters.getTimingGroups()) {
+			totalNumberOfspectra += group.getNumberOfFrames();
+			totalTime += (group.getTimePerFrame() * group.getNumberOfFrames()) + group.getPreceedingTimeDelay();
+		}
+	}
+
 
 	/**
 	 * Run the scans and write the data files.
@@ -110,6 +126,9 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		if (controller != null && arg instanceof EdeScanProgressBean) {
 			EdeScanProgressBean progress = (EdeScanProgressBean) arg;
 			if (source.equals(itScan)) {
+				if (!shouldPublishItScanData(progress)) {
+					return;
+				}
 				// assume that the I0 and dark scans have run correctly if we are getting messages back from It scan
 				DoubleDataset darkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
 				DoubleDataset i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, progress.getGroupNumOfThisSDP());
@@ -127,6 +146,19 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 				controller.update(itScan, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI, progress, EdeExperiment.I0_RAW_COLUMN_NAME, i0Data, energyData));
 			}
 		}
+	}
+
+	private boolean shouldPublishItScanData(EdeScanProgressBean progress) {
+		int current = 0;
+		for (int i = 0; i < progress.getGroupNumOfThisSDP(); i++) {
+			current += itScan.getScanParameters().getTimingGroups().get(i).getNumberOfFrames();
+		}
+		current += progress.getFrameNumOfThisSDP() + 1;
+		int avg =(int)(totalNumberOfspectra / (totalTime / noOfSecPerSpectrumToPublish));
+		if (current % avg == 0 || current == totalNumberOfspectra) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -174,6 +206,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		return writer.getAsciiItAveragedFilename();
 	}
 
+
 	private void deriveI0ScansFromIts() {
 		// need an I0 spectrum for each timing group in itScanParameters
 		List<TimingGroup> itgroups = itScanParameters.getGroups();
@@ -192,6 +225,16 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 
 		i0ScanParameters = i0Parameters;
 	}
+
+	public int getNoOfSecPerSpectrumToPublish() {
+		return noOfSecPerSpectrumToPublish;
+	}
+
+
+	public void setNoOfSecPerSpectrumToPublish(int noOfSecPerSpectrumToPublish) {
+		this.noOfSecPerSpectrumToPublish = noOfSecPerSpectrumToPublish;
+	}
+
 
 	private void runScans() throws InterruptedException, Exception {
 		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 1, shutter2);

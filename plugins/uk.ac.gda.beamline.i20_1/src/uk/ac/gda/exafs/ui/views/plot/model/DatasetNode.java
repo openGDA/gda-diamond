@@ -34,6 +34,10 @@ public class DatasetNode extends ObservableModel {
 	private final Map<String, DataNode> scans = new HashMap<String, DataNode>();
 	private final  IObservableList dataNodeList = new WritableList(new ArrayList<DataNode>(), DataNode.class);
 	private final String scanIdentifier;
+	public String getScanIdentifier() {
+		return scanIdentifier;
+	}
+
 	private final boolean multiCollection;
 
 	public DatasetNode(String scanIdentifier, boolean multiCollection) {

@@ -147,9 +147,7 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	private final PropertyChangeListener listener = new PropertyChangeListener() {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
-			if (edge != null & element != null) {
-				getCalculations();
-			}
+			getCalculations();
 		}
 	};
 
@@ -250,7 +248,7 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	}
 
 	private void getCalculations() {
-		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
+		if (DetectorModel.INSTANCE.getCurrentDetector() == null || edge == null || element == null) {
 			this.firePropertyChange(AUGGESTED_PARAMETERS_PROP_KEY, alignmentSuggestedParameters, null);
 			return;
 		}

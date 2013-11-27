@@ -43,6 +43,7 @@ import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ICheckStateListener;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionListener;
@@ -73,7 +74,7 @@ public class DataPlotView extends ViewPart {
 	private IPlottingSystem plottingSystem;
 	List<SelectionListener> selectionListeners = new Vector<SelectionListener>();
 
-	private CheckboxTreeViewer dataTreeViewer;
+	private DataPlotterCheckedTreeViewer dataTreeViewer;
 	private final PlotDataHolder plotDataHolder = new PlotDataHolder();
 
 	@Override
@@ -111,20 +112,20 @@ public class DataPlotView extends ViewPart {
 					}
 					@Override
 					public void handleAdd(int index, Object element) {
-						plottingSystem.clear();
 						for (Object obj : dataTreeViewer.getCheckedElements()) {
-							dataTreeViewer.setChecked(obj, false);
+							dataTreeViewer.updateCheckSelection(obj, false);
 						}
-						dataTreeViewer.setChecked(element, true);
 					}
 				});
 			}
 		});
 		plotDataHolder.addPropertyChangeListener(PlotDataHolder.DATA_CHANGED_PROP_NAME, new PropertyChangeListener() {
+			@SuppressWarnings("static-access")
 			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
+			public void propertyChange(final PropertyChangeEvent evt) {
 				DataItemNode node = (DataItemNode) evt.getNewValue();
-				addAndUpdateTrace(node);
+				dataTreeViewer.expandToLevel(node.getParent(), CheckboxTreeViewer.ALL_LEVELS);
+				dataTreeViewer.update(node, null);
 			}
 		});
 	}
@@ -148,17 +149,12 @@ public class DataPlotView extends ViewPart {
 			plottingSystem.addTrace(trace);
 		}
 		trace.setData(node.getParent().getXAxisData(), node.getData());
-
 		plottingSystem.repaint();
-		//		// Updates the colour
-		dataTreeViewer.update(node, null);
-		if (!dataTreeViewer.getChecked(node.getParent())) {
-			dataTreeViewer.setChecked(node.getParent(), true);
-		}
 	}
 
 	// FIX ME dispose colors
 	private final Map<String, Color> nodeColors = new HashMap<String, Color>();
+	private final Color blackColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 
 	// FIX ME!
 	private Color getTraceColor(String label) {
@@ -171,10 +167,10 @@ public class DataPlotView extends ViewPart {
 				if (colorValue != null) {
 					color = UIHelper.convertHexadecimalToColor(colorValue, Display.getDefault());
 				} else {
-					color = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+					color = blackColor;
 				}
 			} else {
-				color = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+				color = blackColor;
 			}
 			nodeColors.put(label, color);
 		} else {
@@ -193,7 +189,7 @@ public class DataPlotView extends ViewPart {
 			} else if (target instanceof DataNode) {
 				return (((DataNode) target).getYDoubleDataset());
 			} else if (target instanceof DataItemNode) {
-				dataTreeViewer.setChecked(target, true);
+				dataTreeViewer.updateCheckSelection(target, true);
 			}
 			return null;
 		}
@@ -202,26 +198,25 @@ public class DataPlotView extends ViewPart {
 	private void createDataTree(final SashForm parent) {
 		Composite dataTreeParent = new Composite(parent, SWT.None);
 		dataTreeParent.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
-		dataTreeViewer = new CheckboxTreeViewer(dataTreeParent);
+		dataTreeViewer = new DataPlotterCheckedTreeViewer(dataTreeParent);
 		dataTreeViewer.getTree().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		dataTreeViewer.setLabelProvider(new ColumnLabelProvider() {
 			@Override
-			public Color getForeground(Object element) {
+			public void update(ViewerCell cell) {
+				Object element = cell.getElement();
+				cell.setText(element.toString());
 				if (element instanceof DataItemNode) {
 					DataItemNode item = ((DataItemNode) element);
 					if (!item.getParent().getParent().isMultiCollection()) {
+						plottingSystem.getTraces();
 						Object trace = plottingSystem.getTrace(((DataItemNode) element).getIdentifier());
 						if (trace != null) {
-							return ((ILineTrace) trace).getTraceColor();
+							cell.setForeground(((ILineTrace) trace).getTraceColor());
+							return;
 						}
 					}
 				}
-				return Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
-			}
-
-			@Override
-			public String getText(Object element) {
-				return super.getText(element);
+				cell.setForeground(blackColor);
 			}
 		});
 		dataTreeViewer.setContentProvider(new ObservableListTreeContentProvider(dataObservableFactory, null));
@@ -229,65 +224,29 @@ public class DataPlotView extends ViewPart {
 		dataTreeViewer.addCheckStateListener(new ICheckStateListener() {
 			@Override
 			public void checkStateChanged(CheckStateChangedEvent event) {
-				dataTreeViewer.setSubtreeChecked(event.getElement(), event.getChecked());
 				Object element = event.getElement();
 				if (element instanceof DatasetNode) {
-					if (event.getChecked()) {
-						for (Object node : ((DatasetNode) element).getNodeList()) {
-							for (Object nodeItem : ((DataNode) node).getYDoubleDataset()) {
-								addAndUpdateTrace((DataItemNode) nodeItem);
-							}
-						}
-					} else {
-						for (Object node : ((DatasetNode) element).getNodeList()) {
-							removeTrace((DataNode) node);
+					for (Object node : ((DatasetNode) element).getNodeList()) {
+						for (Object nodeItem : ((DataNode) node).getYDoubleDataset()) {
+							updateDataItemNode((DataItemNode) nodeItem, event.getChecked());
 						}
 					}
 				} else if (element instanceof DataNode) {
-					updateStateParent(((DataNode) element).getParent());
-					if (event.getChecked()) {
-						for (Object nodeItem : ((DataNode) element).getYDoubleDataset()) {
-							addAndUpdateTrace((DataItemNode) nodeItem);
-						}
-					} else {
-						removeTrace((DataNode) element);
+					for (Object nodeItem : ((DataNode) element).getYDoubleDataset()) {
+						updateDataItemNode((DataItemNode) nodeItem, event.getChecked());
 					}
 				} else if (element instanceof DataItemNode) {
-					updateStateParent(((DataItemNode) element).getParent());
-					if (event.getChecked()) {
-						addAndUpdateTrace((DataItemNode) element);
-					} else {
-						removeTrace((DataItemNode) element);
-					}
+					updateDataItemNode((DataItemNode) element, event.getChecked());
 				}
 			}
 		});
 	}
 
-	private void updateStateParent(Object parent) {
-		boolean childChecked = false;
-		Object[] children = ((ObservableListTreeContentProvider) dataTreeViewer.getContentProvider()).getChildren(parent);
-		int checkCount = 0;
-		for (Object object : children) {
-			if (dataTreeViewer.getChecked(object)) {
-				childChecked = true;
-				checkCount++;
-			}
-		}
-		if (childChecked) {
-			if (checkCount == children.length) {
-				dataTreeViewer.setGrayChecked(parent, false);
-				dataTreeViewer.setChecked(parent, true);
-			} else {
-				dataTreeViewer.setGrayChecked(parent, true);
-			}
+	private void updateDataItemNode(DataItemNode dataItemNode, boolean isAdded) {
+		if (isAdded) {
+			addAndUpdateTrace(dataItemNode);
 		} else {
-			if (checkCount == 0) {
-				dataTreeViewer.setChecked(parent, false);
-			}
-		}
-		if (parent != plotDataHolder) {
-			updateStateParent(((ObservableListTreeContentProvider) dataTreeViewer.getContentProvider()).getParent(parent));
+			removeTrace(dataItemNode);
 		}
 	}
 
@@ -300,12 +259,6 @@ public class DataPlotView extends ViewPart {
 	public void dispose() {
 		plottingSystem.dispose();
 		super.dispose();
-	}
-
-	private void removeTrace(DataNode node) {
-		for (Object nodeItem : node.getYDoubleDataset()) {
-			removeTrace((DataItemNode) nodeItem);
-		}
 	}
 
 	private void removeTrace(DataItemNode node) {

@@ -30,6 +30,7 @@ import gda.jython.scriptcontroller.Scriptcontroller;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeExperimentProgressBean;
+import gda.scan.ede.EdeLinearExperiment;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -85,6 +86,9 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	private DefaultTimeBarModel model;
 	private TimingGroupTimeBarRowModel timingGroupRowModel;
 	private TimingGroupTimeBarRowModel spectraRowModel;
+
+	public static final String NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME = "noOfSecPerSpectrumToPublish";
+	private int noOfSecPerSpectrumToPublish = EdeLinearExperiment.DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
 
 	public static final String CURRENT_SCANNING_SPECTRUM_PROP_NAME = "currentScanningSpectrum";
 	private SpectrumModel currentScanningSpectrum;
@@ -176,6 +180,8 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		for (TimingGroupUIModel loadedGroup : savedGroups) {
 			TimingGroupUIModel timingGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit());
 			timingGroup.setName(loadedGroup.getName());
+			timingGroup.setUseExernalTrigger(loadedGroup.isUseExernalTrigger());
+			timingGroup.setExernalTriggerAvailable(loadedGroup.isExernalTriggerAvailable());
 			double delay = 0.0;
 			if (loadedGroup.getDelay() > 0) {
 				delay = loadedGroup.getDelay();
@@ -280,13 +286,15 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		StringBuilder builder = new StringBuilder(String.format("from gda.scan.ede.drivers import LinearExperimentDriver;" +
 				JYTHON_DRIVER_OBJ + " = LinearExperimentDriver(\"%s\",\"%s\",%s,%s);" +
 				JYTHON_DRIVER_OBJ + ".setInBeamPosition(mapToJava(%s));" +
-				JYTHON_DRIVER_OBJ + ".setOutBeamPosition(mapToJava(%s));",
+				JYTHON_DRIVER_OBJ + ".setOutBeamPosition(mapToJava(%s));" +
+				JYTHON_DRIVER_OBJ + ".setNoOfSecPerSpectrumToPublish(%s);",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
 				TIMING_GROUPS_OBJ_NAME,
 				DetectorModel.SHUTTER_NAME,
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
-				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0)));
+				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
+				this.getNoOfSecPerSpectrumToPublish()));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
 			builder.append(String.format(JYTHON_DRIVER_OBJ + ".setReferencePosition(mapToJava(%s));",
 					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef)));
@@ -377,6 +385,11 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 							timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrum());
 							timingGroup.setTimePerFrame(unit.getWorkingUnit().convertToSecond(uiTimingGroup.getTimePerSpectrum())); // convert to S
 							timingGroup.setTimePerScan(unit.getWorkingUnit().convertToSecond(uiTimingGroup.getIntegrationTime())); // convert to S
+							timingGroup.setPreceedingTimeDelay(unit.getWorkingUnit().convertToSecond(uiTimingGroup.getDelay()));// convert to S
+							if (uiTimingGroup.isUseExernalTrigger()) {
+								timingGroup.setGroupTrig(true);
+								timingGroup.setGroupTrigLemo(uiTimingGroup.getExternalTrigLemoNumber());
+							}
 							timingGroups.add(timingGroup);
 						}
 						InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
@@ -476,6 +489,9 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 			if (i > 0) {
 				TimingGroupUIModel previous = (TimingGroupUIModel) groupList.get(i-1);
 				startTime = previous.getEndTime();
+				group.setExernalTriggerAvailable(false);
+			} else {
+				group.setExernalTriggerAvailable(true);
 			}
 			group.setName("Group " + i);
 			group.resetInitialTime(startTime, groupDuration, 0.0, groupDuration);
@@ -503,6 +519,14 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		for (Object object : getGroupList()) {
 			((TimingGroupUIModel) object).setUnit(this.unit.getWorkingUnit());
 		}
+	}
+
+	public int getNoOfSecPerSpectrumToPublish() {
+		return noOfSecPerSpectrumToPublish;
+	}
+
+	public void setNoOfSecPerSpectrumToPublish(int noOfSecPerSpectrumToPublish) {
+		this.firePropertyChange(NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME, this.noOfSecPerSpectrumToPublish, this.noOfSecPerSpectrumToPublish = noOfSecPerSpectrumToPublish);
 	}
 
 	@Override

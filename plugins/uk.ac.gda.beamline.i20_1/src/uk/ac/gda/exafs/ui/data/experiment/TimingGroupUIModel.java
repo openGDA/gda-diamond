@@ -65,7 +65,16 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 	private int noOfAccumulations;
 
 	public static final String USE_EXTERNAL_TRIGGER_PROP_NAME = "useExernalTrigger";
+	@Expose
 	private boolean useExernalTrigger;
+
+	public static final String EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME = "exernalTriggerAvailable";
+	@Expose
+	private boolean exernalTriggerAvailable;
+
+	public static final String EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME = "exernalTriggerInputLemoNumber";
+	@Expose
+	private int exernalTriggerInputLemoNumber = 0;
 
 	public static final String MAX_ACCUMULATION_FOR_DETECTOR_PROP_NAME = "maxAccumulationforDetector";
 	private int maxAccumulationforDetector;
@@ -270,6 +279,23 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 		this.firePropertyChange(USE_EXTERNAL_TRIGGER_PROP_NAME, useExernalTrigger, useExernalTrigger = value);
 	}
 
+	public boolean isExernalTriggerAvailable() {
+		return exernalTriggerAvailable;
+	}
+
+	public void setExernalTriggerAvailable(boolean exernalTriggerAvailable) {
+		this.firePropertyChange(EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME, this.exernalTriggerAvailable, this.exernalTriggerAvailable = exernalTriggerAvailable);
+	}
+
+	public int getExernalTriggerInputLemoNumber() {
+		return exernalTriggerInputLemoNumber;
+	}
+
+	public void setExernalTriggerInputLemoNumber(int exernalTriggerInputLemoNumber) {
+		this.firePropertyChange(EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME, this.exernalTriggerInputLemoNumber, this.exernalTriggerInputLemoNumber = exernalTriggerInputLemoNumber);
+
+	}
+
 	@Override
 	public void dispose() {
 		for(SpectrumModel spectrum : spectrumList) {
@@ -303,5 +329,9 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 
 	public void setTimePerSpectrumForGroup(double timePerSpectrum) {
 		this.firePropertyChange(TIME_PER_SPECTRUM_PROP_NAME, this.timePerSpectrum, this.timePerSpectrum = timePerSpectrum);
+	}
+
+	public int getExternalTrigLemoNumber() {
+		return 0;
 	}
 }

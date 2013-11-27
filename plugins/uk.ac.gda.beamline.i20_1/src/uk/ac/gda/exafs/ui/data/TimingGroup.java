@@ -53,6 +53,8 @@ public class TimingGroup implements Serializable {
 	private int framesExclFirstTrigLemo = 0;
 	private int scansTrigLemo = 0;
 
+	public static final Integer[] INPUT_TRIGGER_LEMO_NUMBERS = new Integer[] {0,1,2,3,4,5,6,7};
+
 	private boolean groupTrigRisingEdge = true;
 	private boolean allFramesTrigRisingEdge = true;
 	private boolean framesExclFirstTrigRisingEdge = true;

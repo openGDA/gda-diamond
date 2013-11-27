@@ -37,6 +37,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -72,6 +73,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
+import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.CollectionModelRenderer;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentMarkerRenderer;
@@ -130,6 +132,10 @@ public class TimeResolvedExperimentView extends ViewPart {
 	private ComboViewer groupUnitSelectionCombo;
 
 	private SampleStageMotorsComposite sampleMotorsComposite;
+
+	private ComboViewer inputLemoSelector;
+
+	private NumberEditorControl numberOfSpectraPerSecToPlotText;
 
 	@Override
 	public void createPartControl(final Composite parent) {
@@ -273,10 +279,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		}
 	}
 
-
-
-	@SuppressWarnings({ "static-access" })
-	private void createExperimentDetailsSection(Composite parent) throws Exception {
+	private void createExperimentDetailsSection(Composite parent) {
 		// Start stop buttons
 
 		Composite acquisitionButtonsComposite = new Composite(parent, SWT.NONE);
@@ -342,7 +345,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 		Composite expTimeComposite = new Composite(sectionComposite, SWT.NONE);
 		expTimeComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		expTimeComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(3, false));
+		expTimeComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(5, false));
 
 		Label lbl = toolkit.createLabel(expTimeComposite, "Total experiment", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -352,7 +355,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		experimentTimeControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		experimentTimeControl.setLayoutData(gridData);
 
-		gridData = new GridData(SWT.END, SWT.CENTER, false, false);
+		gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
 		expUnitSelectionCombo = new ComboViewer(expTimeComposite);
 		expUnitSelectionCombo.getControl().setLayoutData(gridData);
 		expUnitSelectionCombo.setContentProvider(new ArrayContentProvider());
@@ -363,6 +366,11 @@ public class TimeResolvedExperimentView extends ViewPart {
 			}
 		});
 		expUnitSelectionCombo.setInput(ExperimentTimingDataModel.ExperimentUnit.values());
+
+		lbl = toolkit.createLabel(expTimeComposite, "Spectra per sec to plot", SWT.NONE);
+		lbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		numberOfSpectraPerSecToPlotText = new NumberEditorControl(expTimeComposite, SWT.None, TimeResolvedExperimentModel.INSTANCE, TimeResolvedExperimentModel.NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME, false);
+		numberOfSpectraPerSecToPlotText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Composite regionsComposit = new Composite(sectionComposite, SWT.NONE);
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -535,10 +543,23 @@ public class TimeResolvedExperimentView extends ViewPart {
 		spectrumDelayValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
 		spectrumDelayValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		useExternalTriggerCheckbox = toolkit.createButton(groupSectionComposite, "Use exernal trigger", SWT.CHECK);
-		GridData useExternalTriggerGridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		useExternalTriggerGridData.horizontalSpan = 2;
-		useExternalTriggerCheckbox.setLayoutData(useExternalTriggerGridData);
+		Composite externalTriggerComposite = toolkit.createComposite(groupSectionComposite);
+		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gridData.horizontalSpan = 2;
+		externalTriggerComposite.setLayoutData(gridData);
+		externalTriggerComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(3, false));
+
+		useExternalTriggerCheckbox = toolkit.createButton(externalTriggerComposite, "Use exernal trigger", SWT.CHECK);
+		useExternalTriggerCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		label = toolkit.createLabel(externalTriggerComposite, "Trigger input Lemo number");
+		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		inputLemoSelector = new ComboViewer(externalTriggerComposite);
+		inputLemoSelector.getCombo().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		inputLemoSelector.setLabelProvider(new LabelProvider());
+		inputLemoSelector.setContentProvider(new ArrayContentProvider());
+		inputLemoSelector.setInput(TimingGroup.INPUT_TRIGGER_LEMO_NUMBERS);
 
 		sectionSeparator = toolkit.createCompositeSeparator(groupSection);
 		toolkit.paintBordersFor(sectionSeparator);
@@ -835,6 +856,18 @@ public class TimeResolvedExperimentView extends ViewPart {
 					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
+
+			groupBindings.add(dataBindingCtx.bindValue(WidgetProperties.enabled().observe(useExternalTriggerCheckbox),
+					BeanProperties.value(TimingGroupUIModel.EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME).observe(group)));
+
+			groupBindings.add(dataBindingCtx.bindValue(WidgetProperties.selection().observe(useExternalTriggerCheckbox),
+					BeanProperties.value(TimingGroupUIModel.USE_EXTERNAL_TRIGGER_PROP_NAME).observe(group)));
+
+			groupBindings.add(dataBindingCtx.bindValue(WidgetProperties.enabled().observe(inputLemoSelector.getCombo()),
+					BeanProperties.value(TimingGroupUIModel.USE_EXTERNAL_TRIGGER_PROP_NAME).observe(group)));
+
+			groupBindings.add(dataBindingCtx.bindValue(ViewerProperties.singleSelection().observe(inputLemoSelector),
+					BeanProperties.value(TimingGroupUIModel.EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME).observe(group)));
 		} catch (Exception e) {
 			// TODO Handle this!
 			e.printStackTrace();
