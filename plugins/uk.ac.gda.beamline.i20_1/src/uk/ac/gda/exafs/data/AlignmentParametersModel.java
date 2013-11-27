@@ -147,7 +147,9 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	private final PropertyChangeListener listener = new PropertyChangeListener() {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
-			getCalculations();
+			if(evt.getNewValue() != null) {
+				getCalculations();
+			}
 		}
 	};
 
