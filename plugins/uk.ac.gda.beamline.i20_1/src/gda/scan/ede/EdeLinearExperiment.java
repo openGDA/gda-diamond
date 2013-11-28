@@ -154,7 +154,10 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 			current += itScan.getScanParameters().getTimingGroups().get(i).getNumberOfFrames();
 		}
 		current += progress.getFrameNumOfThisSDP() + 1; // + 1 because it is 0 index
-		int avg =(int)(totalNumberOfspectra / (totalTime / noOfSecPerSpectrumToPublish));
+		int avg = (int) (totalNumberOfspectra / (totalTime / noOfSecPerSpectrumToPublish));
+		if (avg < 1) {
+			avg = 1;
+		}
 		if (current % avg == 0 || current == totalNumberOfspectra) {
 			return true;
 		}
