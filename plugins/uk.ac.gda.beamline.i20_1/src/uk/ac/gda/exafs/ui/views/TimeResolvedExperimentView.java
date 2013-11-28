@@ -73,6 +73,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
+import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.CollectionModelRenderer;
@@ -370,6 +371,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		lbl = toolkit.createLabel(expTimeComposite, "Spectra per sec to plot", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		numberOfSpectraPerSecToPlotText = new NumberEditorControl(expTimeComposite, SWT.None, TimeResolvedExperimentModel.INSTANCE, TimeResolvedExperimentModel.NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME, false);
+		numberOfSpectraPerSecToPlotText.setUnit(UnitSetup.SEC.getText());
 		numberOfSpectraPerSecToPlotText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Composite regionsComposit = new Composite(sectionComposite, SWT.NONE);

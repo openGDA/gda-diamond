@@ -368,7 +368,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		protected IStatus run(IProgressMonitor monitor) {
 			this.monitor = monitor;
 			monitor.beginTask("Scannable", 1);
-			Job progressReportingJob = createProgressReportingJob();
+			final Job progressReportingJob = createProgressReportingJob();
 			progressReportingJob.setUser(false);
 			currentNormalisedItData = null;
 			currentEnergyData = null;
@@ -385,7 +385,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 							timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrum());
 							timingGroup.setTimePerFrame(unit.getWorkingUnit().convertToSecond(uiTimingGroup.getTimePerSpectrum())); // convert to S
 							timingGroup.setTimePerScan(unit.getWorkingUnit().convertToSecond(uiTimingGroup.getIntegrationTime())); // convert to S
-							timingGroup.setPreceedingTimeDelay(unit.getWorkingUnit().convertToSecond(uiTimingGroup.getDelay()));// convert to S
+							timingGroup.setPreceedingTimeDelay(unit.getWorkingUnit().convertToSecond(uiTimingGroup.getDelay())); // convert to S
 							if (uiTimingGroup.isUseExernalTrigger()) {
 								timingGroup.setGroupTrig(true);
 								timingGroup.setGroupTrigLemo(uiTimingGroup.getExternalTrigLemoNumber());
@@ -399,6 +399,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 						Queue queue = CommandQueueViewFactory.getQueue();
 						if (queue != null) {
 							try {
+								progressReportingJob.schedule();
 								queue.addToTail(new JythonCommandCommandProvider(scanCommand, "Do a collection", null));
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -407,7 +408,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 						}
 					}
 				});
-				progressReportingJob.schedule();
+
 
 				// give the previous command a chance to run before calling doCollection()
 				//Thread.sleep(50);
