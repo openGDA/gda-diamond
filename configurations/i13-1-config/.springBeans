@@ -145,6 +145,8 @@
 		<config>devices/epics/float3_cam_ad.xml</config>
 		<config>devices/float3_cam.xml</config>
 		<config>devices/dummy/float1_cam_ad.xml</config>
+		<config>devices/dummy/float2_cam_ad.xml</config>
+		<config>devices/dummy/float3_cam_ad.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

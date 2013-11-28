@@ -139,10 +139,15 @@
 			value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:OperationMode" />
 		<property name="burst" value="False" />
 	</bean>
+	
+	<bean id="excalibur_dacscanmode" class="uk.ac.gda.devices.ExcaliburDacScanCollectionStrategy">
+		<constructor-arg ref="excalibur_config_base" />
+		<constructor-arg value="BL13J-EA-EXCBR-01" />
+	</bean>
 
 	<bean id="excalibur_config_dacscan" class="gda.device.detector.NXDetector">
 		<property name="name" value="excalibur_config_dacscan" />
-		<property name="collectionStrategy" ref="excalibur_normalmode" />
+		<property name="collectionStrategy" ref="excalibur_dacscanmode" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="excalibur_config_phdf5_filewriter" />
