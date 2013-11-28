@@ -140,12 +140,8 @@ public class SampleStageMotorsComposite extends Composite {
 					@Override
 					protected IStatus doSet(IObservableValue observableValue, Object value) {
 						IStatus status = super.doSet(observableValue, (boolean) value);
-						if (span == 3) {
-							((GridData) SampleStageMotorsComposite.this.getLayoutData()).horizontalSpan = 2;
-						}
 						((GridData) iRefSection.getLayoutData()).exclude = !((boolean) value);
-						SampleStageMotorsComposite.this.layout();
-						SampleStageMotorsComposite.this.getParent().getParent().layout();
+						UIHelper.revalidateLayout(iRefSection);
 						return status;
 					}
 				});
@@ -236,7 +232,7 @@ public class SampleStageMotorsComposite extends Composite {
 				});
 				sampleStageMotorComposites.add(composite);
 			}
-			getParent().getParent().layout(true);
+			UIHelper.revalidateLayout(this);
 		} catch (Exception e) {
 			UIHelper.showError("Unable to update selected motor positions", e.getMessage());
 			logger.error("Unable to update selected motor positions", e);
