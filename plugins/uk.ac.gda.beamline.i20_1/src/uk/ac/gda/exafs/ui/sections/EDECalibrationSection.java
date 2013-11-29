@@ -92,6 +92,7 @@ public class EDECalibrationSection {
 	private EDECalibrationSection() {}
 	private PolynomialFunction calibrationResult;
 
+	// FIX ME Change to Composite!
 	// FIXME Do clean up on dispose
 	@SuppressWarnings({ "static-access" })
 	public void createEdeCalibrationSection(Form form, FormToolkit toolkit) {

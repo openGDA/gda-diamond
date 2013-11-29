@@ -75,6 +75,7 @@ public class DetectorROIsSection {
 
 	private DetectorROIsSection() {}
 
+	// FIX ME Change to Composite!
 	@SuppressWarnings({ "static-access" })
 	public void createSection(Form form, FormToolkit toolkit) {
 		dataBindingCtx = new DataBindingContext();

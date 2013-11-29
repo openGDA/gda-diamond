@@ -59,6 +59,7 @@ public class SlitsScanSection {
 
 	private SlitsScanSection() {}
 
+	// FIX ME Change to Composite!
 	@SuppressWarnings({ "static-access" })
 	public void createSection(Form form, FormToolkit toolkit) {
 		if (slitsParametersSection != null) {

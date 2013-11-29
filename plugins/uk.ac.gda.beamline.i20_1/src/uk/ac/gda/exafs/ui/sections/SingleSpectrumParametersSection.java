@@ -75,6 +75,7 @@ public class SingleSpectrumParametersSection {
 
 	private SingleSpectrumParametersSection() {}
 
+	// FIX ME Change to Composite!
 	// FIXME Do clean up on dispose
 	@SuppressWarnings({ "static-access" })
 	public void createEdeCalibrationSection(Form form, FormToolkit toolkit) throws Exception {

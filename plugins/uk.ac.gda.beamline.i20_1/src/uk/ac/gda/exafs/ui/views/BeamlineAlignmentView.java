@@ -145,7 +145,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 	private Binding detectorValueBinding = null;
 	private FormText labelDeltaEValue;
-	private Binding test;
 
 	@Override
 	public void createPartControl(final Composite parent) {
@@ -354,7 +353,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 						}
 					});
 
-			test = dataBindingCtx.bindValue(
+			dataBindingCtx.bindValue(
 					ViewersObservables.observeSingleSelection(comboxElement),
 					BeanProperties.value(AlignmentParametersModel.ELEMENT_PROP_NAME).observe(AlignmentParametersModel.INSTANCE), null,
 					new UpdateValueStrategy() {
@@ -364,14 +363,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 							return super.doSet(observableValue, value);
 						}
 					});
-
-			AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.ELEMENT_PROP_NAME, new PropertyChangeListener() {
-
-				@Override
-				public void propertyChange(PropertyChangeEvent evt) {
-					//			test.updateModelToTarget();
-				}
-			});
 
 			dataBindingCtx.bindValue(
 					WidgetProperties.enabled().observe(comboElementEdge.getControl()),

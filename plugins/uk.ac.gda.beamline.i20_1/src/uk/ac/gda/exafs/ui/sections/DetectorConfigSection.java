@@ -66,6 +66,7 @@ public class DetectorConfigSection {
 	private Section detectorSetupSection;
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
+	// FIX ME Change to Composite!
 	@SuppressWarnings({ "unused" })
 	public void setupDetectorConfigSection(Section detectorSetupSection, FormToolkit toolkit) {
 		this.detectorSetupSection = detectorSetupSection;
@@ -125,43 +126,45 @@ public class DetectorConfigSection {
 	private Binding bindTxtBiasVoltage = null;
 	private Binding bindExcludedStrips = null;
 
+	private final PropertyChangeListener detectorConnectionChangeListener = new PropertyChangeListener() {
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			boolean isDetectorConnected = (boolean) evt.getNewValue();
+			detectorSetupSection.setExpanded(isDetectorConnected);
+			if (isDetectorConnected) {
+				bindTxtBiasVoltage = dataBindingCtx.bindValue(
+						WidgetProperties.enabled().observe(txtBiasVoltage),
+						BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.BIAS_PROP_NAME), new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
+				bindExcludedStrips = dataBindingCtx.bindValue(
+						WidgetProperties.enabled().observe(txtExcludedStrips),
+						BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.CURRENT_DETECTOR_EXCLUDED_STRIPS_PROP_NAME),
+						new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST),
+						new UpdateValueStrategy() {
+							@Override
+							public Object convert(Object value) {
+								Integer[] values = (Integer[]) value;
+								return DataHelper.toString(values);
+							}
+						});
+			} else {
+				if (bindTxtBiasVoltage != null) {
+					dataBindingCtx.removeBinding(bindTxtBiasVoltage);
+					bindTxtBiasVoltage = null;
+				}
+				if (bindExcludedStrips != null) {
+					dataBindingCtx.removeBinding(bindExcludedStrips);
+					bindExcludedStrips = null;
+				}
+				txtBiasVoltage.setText("Unavailable");
+				txtExcludedStrips.setText("Unavailable");
+			}
+
+		}
+	};
+
 	private void bindingValues() {
 		try {
-			DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
-				@Override
-				public void propertyChange(PropertyChangeEvent evt) {
-					boolean isDetectorConnected = (boolean) evt.getNewValue();
-					detectorSetupSection.setExpanded(isDetectorConnected);
-					if (isDetectorConnected) {
-						bindTxtBiasVoltage = dataBindingCtx.bindValue(
-								WidgetProperties.enabled().observe(txtBiasVoltage),
-								BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.BIAS_PROP_NAME), new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
-						bindExcludedStrips = dataBindingCtx.bindValue(
-								WidgetProperties.enabled().observe(txtExcludedStrips),
-								BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.CURRENT_DETECTOR_EXCLUDED_STRIPS_PROP_NAME),
-								new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST),
-								new UpdateValueStrategy() {
-									@Override
-									public Object convert(Object value) {
-										Integer[] values = (Integer[]) value;
-										return DataHelper.toString(values);
-									}
-								});
-					} else {
-						if (bindTxtBiasVoltage != null) {
-							dataBindingCtx.removeBinding(bindTxtBiasVoltage);
-							bindTxtBiasVoltage = null;
-						}
-						if (bindExcludedStrips != null) {
-							dataBindingCtx.removeBinding(bindExcludedStrips);
-							bindExcludedStrips = null;
-						}
-						txtBiasVoltage.setText("Unavailable");
-						txtExcludedStrips.setText("Unavailable");
-					}
-
-				}
-			});
+			DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, detectorConnectionChangeListener);
 
 			dataBindingCtx.bindValue(
 					WidgetProperties.enabled().observe(detectorSetupSection),
