@@ -70,14 +70,12 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedExperimentModel.class);
 
-	public static final TimeResolvedExperimentModel INSTANCE = new TimeResolvedExperimentModel(0);
-
 	private static final String TIMING_GROUPS_OBJ_NAME = "timingGroups";
 
 	private static final double EXPERIMENT_START_TIME = 0.0;
 	private static final double DEFAULT_INITIAL_EXPERIMENT_TIME = 20; // Should be > 0
 
-	private static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "TIME_RESOLVED_EXPERIMENT_DATA";
+	public static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "LINEAR_TIME_RESOLVED_EXPERIMENT_DATA";
 
 	private static final String JYTHON_DRIVER_OBJ = "timeresolveddriver";
 
@@ -121,12 +119,12 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	WritableList groupList = new WritableList(new ArrayList<TimingGroupUIModel>(), TimingGroupUIModel.class);
 
-	private final ScanJob experimentDataCollectionJob;
+	private ScanJob experimentDataCollectionJob;
 
 	public static final String UNIT_PROP_NAME = "unit";
 	private ExperimentUnit unit = ExperimentUnit.SEC;
 
-	private TimeResolvedExperimentModel(@SuppressWarnings("unused") int dummy) {
+	public void setup() {
 		setupTimebarModel();
 		groupList.addListChangeListener(new IListChangeListener() {
 			@Override
@@ -154,8 +152,6 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 			((Scriptcontroller) controller).addIObserver(experimentDataCollectionJob);
 		}
 		experimentDataCollectionJob.setUser(true);
-		loadSavedGroups();
-
 	}
 
 	public void addGroupListChangeListener(IListChangeListener listener) {
@@ -170,15 +166,15 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		return topupTimes;
 	}
 
-	private void loadSavedGroups() {
-		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, TimingGroupUIModel[].class);
+	public void loadSavedGroups(String key) {
+		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(key, TimingGroupUIModel[].class);
 		if (savedGroups == null) {
 			this.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(DEFAULT_INITIAL_EXPERIMENT_TIME));
 			addGroup();
 			return;
 		}
 		for (TimingGroupUIModel loadedGroup : savedGroups) {
-			TimingGroupUIModel timingGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit());
+			TimingGroupUIModel timingGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 			timingGroup.setName(loadedGroup.getName());
 			timingGroup.setUseExernalTrigger(loadedGroup.isUseExernalTrigger());
 			timingGroup.setExernalTriggerAvailable(loadedGroup.isExernalTriggerAvailable());
@@ -220,7 +216,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		double endTime = groupToSplit.getEndTime();
 		double startTime = groupToSplit.getStartTime();
 		groupToSplit.resetInitialTime(startTime, duration / 2, 0, duration / 2);
-		TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit());
+		TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 		newGroup.setName("Group " + (groupList.indexOf(groupToSplit) + 2));
 		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup, groupList.indexOf(groupToSplit) + 1);
@@ -231,7 +227,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	}
 
 	public TimingGroupUIModel addGroup() {
-		TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit());
+		TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 		newGroup.setName("Group " + groupList.size());
 		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup);

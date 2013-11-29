@@ -135,7 +135,7 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
-            class="uk.ac.gda.exafs.ui.views.TimeResolvedExperimentView"
+            class="uk.ac.gda.exafs.ui.views.LinearExperimentView"
             id="uk.ac.gda.exafs.ui.views.linearExperimentView"
             name="Linear experiment"
             restorable="true">
@@ -146,6 +146,13 @@
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.dataplotview"
             name="Ede experiment plot"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
+            class="uk.ac.gda.exafs.ui.views.CyclicExperimentView"
+            id="uk.ac.gda.exafs.ui.views.cyclicExperimentView"
+            name="Cyclic experiment"
             restorable="true">
       </view>
    </extension>

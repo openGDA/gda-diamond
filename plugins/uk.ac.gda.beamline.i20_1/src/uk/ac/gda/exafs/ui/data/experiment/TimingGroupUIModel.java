@@ -76,6 +76,8 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 	@Expose
 	private int exernalTriggerInputLemoNumber = 0;
 
+	private final TimeResolvedExperimentModel parent;
+
 	public static final String NO_OF_SPECTRUM_PROP_NAME = "numberOfSpectrum";
 
 	public List<?> getSpectrumList() {
@@ -128,8 +130,9 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 		this.firePropertyChange(TIME_PER_SPECTRUM_PROP_NAME, this.timePerSpectrum, this.timePerSpectrum = timePerSpectrum);
 	}
 
-	public TimingGroupUIModel(DefaultTimeBarRowModel spectraTimeBarRowModel, ExperimentUnit unit) {
+	public TimingGroupUIModel(DefaultTimeBarRowModel spectraTimeBarRowModel, ExperimentUnit unit, TimeResolvedExperimentModel parent) {
 		this.spectraTimeBarRowModel = spectraTimeBarRowModel;
+		this.parent = parent;
 		this.resetInitialTime(0.0, ExperimentTimingDataModel.MIN_DURATION_TIME, 0.0, ExperimentTimingDataModel.MIN_DURATION_TIME);
 		setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
 		this.addPropertyChangeListener(new PropertyChangeListener() {
@@ -287,6 +290,10 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 	public void setExernalTriggerInputLemoNumber(int exernalTriggerInputLemoNumber) {
 		this.firePropertyChange(EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME, this.exernalTriggerInputLemoNumber, this.exernalTriggerInputLemoNumber = exernalTriggerInputLemoNumber);
 
+	}
+
+	public TimeResolvedExperimentModel getParent() {
+		return parent;
 	}
 
 	@Override

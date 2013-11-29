@@ -45,16 +45,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.ui.data.UIHelper;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentModelHolder;
 import uk.ac.gda.exafs.ui.data.experiment.SpectrumModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
 import de.jaret.util.date.Interval;
 
-public class TimeResolvedExperimentView extends ViewPart {
+public class LinearExperimentView extends ViewPart {
 
 	public static final String ID = "uk.ac.gda.exafs.ui.views.linearExperimentView";
 
-	private static Logger logger = LoggerFactory.getLogger(TimeResolvedExperimentView.class);
+	private static Logger logger = LoggerFactory.getLogger(LinearExperimentView.class);
 
 	private FormToolkit toolkit;
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
@@ -168,7 +169,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					TimeResolvedExperimentModel.INSTANCE.doCollection();
+					ExperimentModelHolder.INSTANCE.getLinerExperimentModel().doCollection();
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 				}
@@ -177,7 +178,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(startAcquicitionButton),
-				BeanProperties.value(TimeResolvedExperimentModel.SCANNING_PROP_NAME).observe(TimeResolvedExperimentModel.INSTANCE),
+				BeanProperties.value(TimeResolvedExperimentModel.SCANNING_PROP_NAME).observe(ExperimentModelHolder.INSTANCE.getLinerExperimentModel()),
 				null,
 				new UpdateValueStrategy() {
 					@Override
@@ -191,11 +192,11 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(stopAcquicitionButton),
-				BeanProperties.value(TimeResolvedExperimentModel.SCANNING_PROP_NAME).observe(TimeResolvedExperimentModel.INSTANCE));
+				BeanProperties.value(TimeResolvedExperimentModel.SCANNING_PROP_NAME).observe(ExperimentModelHolder.INSTANCE.getLinerExperimentModel()));
 		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				TimeResolvedExperimentModel.INSTANCE.doStop();
+				ExperimentModelHolder.INSTANCE.getLinerExperimentModel().doStop();
 			}
 		});
 
@@ -205,13 +206,13 @@ public class TimeResolvedExperimentView extends ViewPart {
 	}
 
 	private void createGroupSection(Composite parent) {
-		timingGroupSectionComposite = new TimingGroupSectionComposite(parent, SWT.None, toolkit);
+		timingGroupSectionComposite = new TimingGroupSectionComposite(parent, SWT.None, toolkit, ExperimentModelHolder.INSTANCE.getLinerExperimentModel());
 		timingGroupSectionComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		toolkit.paintBordersFor(timingGroupSectionComposite);
 	}
 
 	private void createTimeBarComposite(Composite parent) {
-		timebarViewerComposite = new ExperimentTimeBarComposite(parent, SWT.None);
+		timebarViewerComposite = new ExperimentTimeBarComposite(parent, SWT.None, ExperimentModelHolder.INSTANCE.getLinerExperimentModel());
 		timebarViewerComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		MenuManager menuManager = new MenuManager();
 		Menu menu = menuManager.createContextMenu(timebarViewerComposite.getTimeBarViewer());

@@ -33,23 +33,26 @@ import de.jaret.util.ui.timebars.swt.renderer.TimeScaleRenderer;
 public class TimingGroupsScaleRenderer extends RendererBase implements TimeScaleRenderer {
 
 	private static final int PREFERREDHEIGHT = 30;
+	private final TimeResolvedExperimentModel model;
 
-	public TimingGroupsScaleRenderer(Printer printer) {
-		super(printer);
+	public TimingGroupsScaleRenderer(TimeResolvedExperimentModel model) {
+		super(null);
+		this.model = model;
 	}
 
-	public TimingGroupsScaleRenderer() {
-		super(null);
+	public TimingGroupsScaleRenderer(Printer painter, TimeResolvedExperimentModel model) {
+		super(painter);
+		this.model = model;
 	}
 
 	@Override
 	public void draw(GC gc, Rectangle drawingArea, TimeBarViewerDelegate delegate, boolean top, boolean printing) {
-		for (Object timingGroup : TimeResolvedExperimentModel.INSTANCE.getGroupList()) {
+		for (Object timingGroup :model.getGroupList()) {
 			TimingGroupUIModel timingGroupModel = (TimingGroupUIModel) timingGroup;
 			int x = delegate.xForDate(timingGroupModel.getEnd());
 			int startY = drawingArea.y + drawingArea.height - PREFERREDHEIGHT + 3;
 			gc.drawRectangle(x - 1, startY, 1, PREFERREDHEIGHT + 3);
-			String endTimeString = DataHelper.roundDoubletoStringWithOptionalDigits(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli(timingGroupModel.getEndTime())) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
+			String endTimeString = DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromMilli(timingGroupModel.getEndTime())) + " " + model.getUnit().getWorkingUnit().getUnitText();
 			Point point = gc.stringExtent(endTimeString);
 			gc.drawString(endTimeString, x - point.x - 10, startY + PREFERREDHEIGHT - point.y - 10);
 		}
@@ -80,6 +83,6 @@ public class TimingGroupsScaleRenderer extends RendererBase implements TimeScale
 
 	@Override
 	public TimeScaleRenderer createPrintRenderer(Printer printer) {
-		return new TimingGroupsScaleRenderer(printer);
+		return new TimingGroupsScaleRenderer(printer, model);
 	}
 }

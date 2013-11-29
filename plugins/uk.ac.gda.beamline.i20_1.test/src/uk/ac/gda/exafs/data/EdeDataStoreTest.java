@@ -32,6 +32,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.junit.Test;
 
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentModelHolder;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentTimingDataModel.ExperimentUnit;
 
@@ -54,7 +55,7 @@ public class EdeDataStoreTest {
 			@Override
 			public void run() {
 				WritableList groupList = new WritableList(new ArrayList<TimingGroupUIModel>(), TimingGroupUIModel.class);
-				TimingGroupUIModel group = new TimingGroupUIModel(new DefaultTimeBarRowModel(), ExperimentUnit.SEC);
+				TimingGroupUIModel group = new TimingGroupUIModel(new DefaultTimeBarRowModel(), ExperimentUnit.SEC, ExperimentModelHolder.INSTANCE.getLinerExperimentModel());
 				group.setTimes(0.0, 1000.0);
 				group.setNumberOfSpectrum(100);
 				group.setTimePerSpectrum(10);

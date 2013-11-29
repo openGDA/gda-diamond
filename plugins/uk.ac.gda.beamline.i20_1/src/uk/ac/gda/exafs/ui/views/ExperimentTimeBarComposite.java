@@ -57,9 +57,11 @@ public class ExperimentTimeBarComposite extends Composite {
 	private TimeBarViewer timeBarViewer;
 	private TimeBarMarkerImpl marker;
 	private Scale scale;
+	private final TimeResolvedExperimentModel model;
 
-	public ExperimentTimeBarComposite(Composite parent, int style) {
+	public ExperimentTimeBarComposite(Composite parent, int style, TimeResolvedExperimentModel model) {
 		super(parent, style);
+		this.model = model;
 		this.setLayout(new GridLayout(2, false));
 		setupUI();
 		doBinding();
@@ -90,7 +92,7 @@ public class ExperimentTimeBarComposite extends Composite {
 	};
 
 	private void doBinding() {
-		TimeResolvedExperimentModel.INSTANCE.addPropertyChangeListener(modelChangedListener);
+		model.addPropertyChangeListener(modelChangedListener);
 	}
 
 	private void setupUI() {
@@ -104,10 +106,10 @@ public class ExperimentTimeBarComposite extends Composite {
 		timeBarViewer.setMilliAccuracy(true);
 		timeBarViewer.setDrawOverlapping(true);
 
-		timeBarViewer.registerTimeBarRenderer(TimingGroupUIModel.class, new CollectionModelRenderer());
-		timeBarViewer.registerTimeBarRenderer(SpectrumModel.class, new CollectionModelRenderer());
-		timeBarViewer.setTimeScaleRenderer(new TimingGroupsScaleRenderer());
-		timeBarViewer.setModel(TimeResolvedExperimentModel.INSTANCE.getTimeBarModel());
+		timeBarViewer.registerTimeBarRenderer(TimingGroupUIModel.class, new CollectionModelRenderer(model));
+		timeBarViewer.registerTimeBarRenderer(SpectrumModel.class, new CollectionModelRenderer(model));
+		timeBarViewer.setTimeScaleRenderer(new TimingGroupsScaleRenderer(model));
+		timeBarViewer.setModel(model.getTimeBarModel());
 		resetToDisplayWholeExperimentTime();
 		timeBarViewer.setAdjustMinMaxDatesByModel(true);
 		timeBarViewer.setLineDraggingAllowed(false);
@@ -179,7 +181,7 @@ public class ExperimentTimeBarComposite extends Composite {
 				}
 			}
 		});
-		updateTopupMarkers(TimeResolvedExperimentModel.INSTANCE.getDuration());
+		updateTopupMarkers(model.getDuration());
 	}
 
 	public TimeBarViewer getTimeBarViewer() {
@@ -191,17 +193,17 @@ public class ExperimentTimeBarComposite extends Composite {
 			timeBarViewer.getMarkers().clear();
 		}
 		for (TimeBarMarker marker : TimeResolvedExperimentModel.getTopupTimes()) {
-			if (TimeResolvedExperimentModel.INSTANCE.getUnit().convertToMilli(duration) >= marker.getDate().getMillisInDay()) {
+			if (model.getUnit().convertToMilli(duration) >= marker.getDate().getMillisInDay()) {
 				timeBarViewer.addMarker(marker);
 			}
 		}
 	}
 
 	private void resetToDisplayWholeExperimentTime() {
-		timeBarViewer.scrollIntervalToVisible((Interval) TimeResolvedExperimentModel.INSTANCE.getGroupList().get(0));
+		timeBarViewer.scrollIntervalToVisible((Interval) model.getGroupList().get(0));
 		double width = timeBarViewer.getClientArea().width - timeBarViewer.getYAxisWidth();
 		if (width > 0) {
-			double pixelPerSecond = width / TimeResolvedExperimentModel.INSTANCE.getDurationInSec();
+			double pixelPerSecond = width / model.getDurationInSec();
 			if (pixelPerSecond > 0) {
 				timeBarViewer.setPixelPerSecond(pixelPerSecond);
 			}
@@ -211,7 +213,7 @@ public class ExperimentTimeBarComposite extends Composite {
 	private void updateScaleSelection() {
 		double width = timeBarViewer.getClientArea().width - timeBarViewer.getYAxisWidth();
 		if (width > 0) {
-			double pixelPerSecond = width / TimeResolvedExperimentModel.INSTANCE.getDurationInSec();
+			double pixelPerSecond = width / model.getDurationInSec();
 			scale.setMaximum((int)(TIMEBAR_ZOOM_FACTOR * pixelPerSecond * 1000));
 			scale.setMinimum((int) (pixelPerSecond * 1000));
 			scale.setSelection(scale.getMinimum());
@@ -224,7 +226,7 @@ public class ExperimentTimeBarComposite extends Composite {
 
 	@Override
 	public void dispose() {
-		TimeResolvedExperimentModel.INSTANCE.removePropertyChangeListener(modelChangedListener);
+		model.removePropertyChangeListener(modelChangedListener);
 		super.dispose();
 	}
 }

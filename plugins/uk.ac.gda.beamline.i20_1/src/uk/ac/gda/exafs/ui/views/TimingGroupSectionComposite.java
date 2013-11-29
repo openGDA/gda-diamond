@@ -94,6 +94,7 @@ public class TimingGroupSectionComposite extends Composite {
 	private ComboViewer groupUnitSelectionCombo;
 	private ComboViewer inputLemoSelector;
 
+	private final TimeResolvedExperimentModel model;
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
@@ -101,9 +102,10 @@ public class TimingGroupSectionComposite extends Composite {
 
 	private Section groupSection;
 
-	public TimingGroupSectionComposite(Composite parent, int style, FormToolkit toolkit) {
+	public TimingGroupSectionComposite(Composite parent, int style, FormToolkit toolkit, TimeResolvedExperimentModel model) {
 		super(parent, style);
 		this.toolkit = toolkit;
+		this.model = model;
 		try {
 			setupUI();
 			bind();
@@ -116,10 +118,10 @@ public class TimingGroupSectionComposite extends Composite {
 	private void bind() {
 		dataBindingCtx.bindValue(
 				ViewersObservables.observeSingleSelection(expUnitSelectionCombo),
-				BeanProperties.value(TimeResolvedExperimentModel.UNIT_PROP_NAME).observe(TimeResolvedExperimentModel.INSTANCE));
+				BeanProperties.value(TimeResolvedExperimentModel.UNIT_PROP_NAME).observe(model));
 		dataBindingCtx.bindValue(
 				BeanProperties.value(NumberEditorControl.UNIT_PROP_NAME).observe(experimentTimeControl),
-				BeanProperties.value(TimeResolvedExperimentModel.UNIT_PROP_NAME).observe(TimeResolvedExperimentModel.INSTANCE),
+				BeanProperties.value(TimeResolvedExperimentModel.UNIT_PROP_NAME).observe(model),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 				new UpdateValueStrategy() {
 					@Override
@@ -147,7 +149,7 @@ public class TimingGroupSectionComposite extends Composite {
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		experimentTimeControl = new NumberEditorControl(expTimeComposite, SWT.None, TimeResolvedExperimentModel.INSTANCE, TimeResolvedExperimentModel.EXPERIMENT_DURATION_PROP_NAME, false);
+		experimentTimeControl = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.EXPERIMENT_DURATION_PROP_NAME, false);
 		experimentTimeControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		experimentTimeControl.setLayoutData(gridData);
 
@@ -165,7 +167,7 @@ public class TimingGroupSectionComposite extends Composite {
 
 		lbl = toolkit.createLabel(expTimeComposite, "Spectra per sec to plot", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		numberOfSpectraPerSecToPlotText = new NumberEditorControl(expTimeComposite, SWT.None, TimeResolvedExperimentModel.INSTANCE, TimeResolvedExperimentModel.NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME, false);
+		numberOfSpectraPerSecToPlotText = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME, false);
 		numberOfSpectraPerSecToPlotText.setUnit(UnitSetup.SEC.getText());
 		numberOfSpectraPerSecToPlotText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
@@ -230,15 +232,15 @@ public class TimingGroupSectionComposite extends Composite {
 			public String getColumnText(Object element, int columnIndex) {
 				switch (columnIndex) {
 				case 0: return (String) names.get(element);
-				case 1: return DataHelper.roundDoubletoStringWithOptionalDigits(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli((double) startTimes.get(element))) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
-				case 2: return DataHelper.roundDoubletoStringWithOptionalDigits(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli((double) endTimes.get(element))) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
-				case 3: return DataHelper.roundDoubletoStringWithOptionalDigits(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli((double) timePerSpectrum.get(element))) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
+				case 1: return DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromMilli((double) startTimes.get(element))) + " " + model.getUnit().getWorkingUnit().getUnitText();
+				case 2: return DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromMilli((double) endTimes.get(element))) + " " + model.getUnit().getWorkingUnit().getUnitText();
+				case 3: return DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromMilli((double) timePerSpectrum.get(element))) + " " + model.getUnit().getWorkingUnit().getUnitText();
 				case 4: return Integer.toString((int) noOfSpectrum.get(element));
 				default : return "Unkown column";
 				}
 			}
 		});
-		groupsTableViewer.setInput(TimeResolvedExperimentModel.INSTANCE.getGroupList());
+		groupsTableViewer.setInput(model.getGroupList());
 
 		Composite buttonComposit = new Composite(regionsComposit, SWT.NONE);
 		buttonComposit.setLayout(new GridLayout());
@@ -249,7 +251,7 @@ public class TimingGroupSectionComposite extends Composite {
 		butAdd.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				TimeResolvedExperimentModel.INSTANCE.addGroup();
+				model.addGroup();
 			}
 		});
 
@@ -262,7 +264,7 @@ public class TimingGroupSectionComposite extends Composite {
 			public void handleEvent(Event event) {
 				IStructuredSelection structuredSelection = (IStructuredSelection) groupsTableViewer.getSelection();
 				if (structuredSelection.getFirstElement() != null) {
-					TimeResolvedExperimentModel.INSTANCE.removeGroup((TimingGroupUIModel) structuredSelection.getFirstElement());
+					model.removeGroup((TimingGroupUIModel) structuredSelection.getFirstElement());
 				}
 			}
 		});
@@ -369,7 +371,7 @@ public class TimingGroupSectionComposite extends Composite {
 				UIHelper.revalidateLayout(groupSection);
 			}
 		});
-		TimeResolvedExperimentModel.INSTANCE.addPropertyChangeListener(unitChangeListener);
+		model.addPropertyChangeListener(unitChangeListener);
 	}
 
 	private final PropertyChangeListener unitChangeListener = new PropertyChangeListener() {
@@ -529,7 +531,7 @@ public class TimingGroupSectionComposite extends Composite {
 
 	@Override
 	public void dispose() {
-		TimeResolvedExperimentModel.INSTANCE.removePropertyChangeListener(unitChangeListener);
+		model.removePropertyChangeListener(unitChangeListener);
 		super.dispose();
 	}
 
