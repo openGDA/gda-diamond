@@ -10,6 +10,7 @@
         <cs:dependency name="uk.ac.diamond.scisoft.analysis" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.diamond.scisoft.deprecated" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.analysis" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.bimorph" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.devices.bssc" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
     </cs:dependencies>
