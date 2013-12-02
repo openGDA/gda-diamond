@@ -165,7 +165,7 @@ public class TimingGroupSectionComposite extends Composite {
 		});
 		expUnitSelectionCombo.setInput(ExperimentTimingDataModel.ExperimentUnit.values());
 
-		lbl = toolkit.createLabel(expTimeComposite, "Spectra per sec to plot", SWT.NONE);
+		lbl = toolkit.createLabel(expTimeComposite, "Time interal to plot", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		numberOfSpectraPerSecToPlotText = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME, false);
 		numberOfSpectraPerSecToPlotText.setUnit(UnitSetup.SEC.getText());

@@ -583,11 +583,17 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		}
 		String[] messageParts = statusMessage.split("[\n#:,]");
 
+		String stateString = messageParts[0];
+		if (stateString.contains("*")){
+			stateString = messageParts[1];
+		}
+		stateString = stateString.trim();
+
 		ExperimentStatus newStatus = new ExperimentStatus();
 
-		if (messageParts[0].trim().equalsIgnoreCase("running")) {
+		if (stateString.startsWith("Running")) {
 			newStatus.detectorStatus = Detector.BUSY;
-		} else if (messageParts[0].trim().equalsIgnoreCase("paused")) {
+		} else if (stateString.startsWith("Paused")) {
 			newStatus.detectorStatus = Detector.PAUSED;
 		} else {
 			newStatus.detectorStatus = Detector.IDLE;

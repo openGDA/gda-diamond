@@ -135,6 +135,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 				DoubleDataset thisItData = EdeAsciiFileWriter.extractDetectorDataFromSDP(theDetector.getName(), progress.getThisPoint());
 				DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(thisItData, i0Data, darkData);
 				DoubleDataset energyData = EdeAsciiFileWriter.extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0));
+				controller.update(itScan, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI, progress, EdeExperiment.IT_RAW_COLUMN_NAME, thisItData, energyData));
 				controller.update(itScan, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI, progress, EdeExperiment.LN_I0_IT_COLUMN_NAME, normalisedIt, energyData));
 			} else if (source.equals(i0DarkScan)) {
 				DoubleDataset darkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
@@ -152,6 +153,9 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		int current = 0;
 		for (int i = 0; i < progress.getGroupNumOfThisSDP(); i++) {
 			current += itScan.getScanParameters().getTimingGroups().get(i).getNumberOfFrames();
+		}
+		if (current == 0) {
+			return true;
 		}
 		current += progress.getFrameNumOfThisSDP() + 1; // + 1 because it is 0 index
 		int avg = (int) (totalNumberOfspectra / (totalTime / noOfSecPerSpectrumToPublish));
