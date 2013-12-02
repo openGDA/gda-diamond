@@ -1,5 +1,7 @@
 # Script to allow access to KB bimorph mirrors
 from gdascripts.pd.epics_pds import SingleChannelBimorphClass
+from gda.device.scannable import PseudoDevice
+import time
 
 format = '%3.1f'
 

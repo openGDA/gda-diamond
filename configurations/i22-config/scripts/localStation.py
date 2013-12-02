@@ -24,7 +24,7 @@ execfile(gdascripts + "/utils.py");
 #Set up the Bimorph Mirror 
 #print "Setting up access to Bimorph Mirror Channels...";
 execfile(gdaScriptDir + "fastshuttershutter.py");
-execfile(gdaScriptDir + "bimorph.py");
+execfile(gdaScriptDir + "notchrissbimorph.py");
 
 execfile(gdaScriptDir + "LookupTables.py");
 #execfile(gdaScriptDir + "CheckShutter.py");
