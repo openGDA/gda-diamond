@@ -12,60 +12,33 @@
 			value="gda.data.scan.datawriter.NexusDataWriterMetadataTree.setLocationmap" />
 		<property name="arguments">
 			<map>
-<!--
 				<entry key="energy">
 					<bean
-						class="uk.ac.gda.beamline.i05.scannable.EnergyScannableWriter">
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 							<list>
 								<value>instrument:NXinstrument/monochromator:NXmonochromator/energy</value>
-								<value>instrument:NXinstrument/insertion_device:NXinsertion_device/gap</value>
-								<value>instrument:NXinstrument/insertion_device:NXinsertion_device/phase</value>
-								<value>instrument:NXinstrument/insertion_device:NXinsertion_device/beam:NXbeam/final_polarisation_label</value>
 							</list>
 						</property>
 						<property name="units">
 							<list>
-								<value>eV</value>
-								<value>mm</value>
-								<value>mm</value>
-								<value></value>
+								<value>keV</value>
 							</list>
 						</property>
 						<property name="prerequisiteScannableNames">
 							<list>
-								<value>pgm_cff</value>
-								<value>s6_ysize</value>
-								<value>pgm_linedensity</value>
 							</list>
 						</property>
 					</bean>
 				</entry>
-				<entry key="pgm_cff">
+				<entry key="idgap_mm">
 					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
-						<property name="path"
-							value="instrument:NXinstrument/monochromator:NXmonochromator/cff" />
-						<property name="prerequisiteScannableNames">
-							<list>
-								<value>energy</value>
-							</list>
-						</property>
-					</bean>
-				</entry>
-				<entry key="id">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
-						<property name="path"
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
 							value="instrument:NXinstrument/insertion_device:NXinsertion_device/gap" />
 						<property name="units" value="mm" />
-						<property name="path"
-							value="instrument:NXinstrument/insertion_device:NXinsertion_device/phase_upper" />
-						<property name="path"
-							value="instrument:NXinstrument/insertion_device:NXinsertion_device/phase_lower" />
 					</bean>
 				</entry>
--->
 				<entry key="s6_ysize">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
@@ -339,14 +312,6 @@
 				<bean class="gda.data.metadata.EpicsMetadataEntry">
 					<property name="name" value="instrument.source.current" />
 					<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
-				</bean>
-				<bean class="gda.data.metadata.ScannableMetadataEntry">
-					<property name="name" value="instrument.monochromator.energy" />
-					<property name="scannableName" value="bkeV" />
-				</bean>
-				<bean class="gda.data.metadata.EpicsMetadataEntry">
-					<property name="name" value="instrument.insertion_device.gap" />
-					<property name="pvName" value="SR22I-MO-SERVC-01:CURRGAPD" />
 				</bean>
 			</list>
 		</property>
