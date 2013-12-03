@@ -39,7 +39,7 @@ public class MotorPositionEditorControl extends NumberEditorControl {
 	public MotorPositionEditorControl(Composite parent, int style, ScannableWrapper scannableWrapper, boolean userSpinner) throws Exception {
 		super(parent, style, scannableWrapper, ScannableWrapper.POSITION_PROP_NAME, userSpinner);
 		ctx.bindValue(
-				BeanProperties.value(NumberEditorWidgetModel.EDITABLE_PROP_NAME).observe(controlModel),
+				BeanProperties.value(EDITABLE_PROP_NAME).observe(controlModel),
 				BeanProperties.value(ScannableWrapper.BUSY_PROP_NAME).observe(targetObject),
 				null,
 				new UpdateValueStrategy() {

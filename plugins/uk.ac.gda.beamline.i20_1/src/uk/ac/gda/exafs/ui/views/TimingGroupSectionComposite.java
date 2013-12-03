@@ -30,6 +30,8 @@ import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
@@ -65,6 +67,7 @@ import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentTimingDataModel;
+import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors;
 import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
 import uk.ac.gda.ui.components.NumberEditorControl;
@@ -102,6 +105,20 @@ public class TimingGroupSectionComposite extends Composite {
 
 	private Section groupSection;
 
+	private Button useItTimeForI0Settings;
+
+	private NumberEditorControl i0IntegrationTimeValueText;
+
+	private NumberEditorControl i0NoOfAccumulationValueText;
+
+	private NumberEditorControl iRefIntegrationTimeValueText;
+
+	private NumberEditorControl iRefNoOfAccumulationValueText;
+
+	private Button useItTimeForIrefSettings;
+
+	private Section sectionIRefaccumulationSection;
+
 	public TimingGroupSectionComposite(Composite parent, int style, FormToolkit toolkit, TimeResolvedExperimentModel model) {
 		super(parent, style);
 		this.toolkit = toolkit;
@@ -127,6 +144,75 @@ public class TimingGroupSectionComposite extends Composite {
 					@Override
 					public Object convert(Object value) {
 						return ((ExperimentTimingDataModel.ExperimentUnit) value).getUnitText();
+					}
+				});
+		dataBindingCtx.bindValue(
+				WidgetProperties.selection().observe(useItTimeForI0Settings),
+				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_I0_PROP_NAME).observe(model));
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.selection().observe(useItTimeForIrefSettings),
+				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_IREF_PROP_NAME).observe(model));
+
+		dataBindingCtx.bindValue(
+				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(i0IntegrationTimeValueText),
+				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_I0_PROP_NAME).observe(model),
+				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+				new UpdateValueStrategy() {
+					@Override
+					public Object convert(Object value) {
+						return !((boolean) value);
+					}
+				});
+
+		dataBindingCtx.bindValue(
+				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(i0NoOfAccumulationValueText),
+				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_I0_PROP_NAME).observe(model),
+				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+				new UpdateValueStrategy() {
+
+					@Override
+					public Object convert(Object value) {
+						return !((boolean) value);
+					}
+				});
+		dataBindingCtx.bindValue(
+				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(iRefIntegrationTimeValueText),
+				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_IREF_PROP_NAME).observe(model),
+				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+				new UpdateValueStrategy() {
+					@Override
+					public Object convert(Object value) {
+						return !((boolean) value);
+					}
+				});
+
+		dataBindingCtx.bindValue(
+				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(iRefNoOfAccumulationValueText),
+				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_IREF_PROP_NAME).observe(model),
+				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+				new UpdateValueStrategy() {
+
+					@Override
+					public Object convert(Object value) {
+						return !((boolean) value);
+					}
+				});
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.visible().observe(sectionIRefaccumulationSection),
+				BeanProperties.value(SampleStageMotors.USE_IREF_PROP_NAME).observe(SampleStageMotors.INSTANCE),
+				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+				new UpdateValueStrategy() {
+					@Override
+					protected IStatus doSet(IObservableValue observableValue, Object value) {
+						IStatus result = super.doSet(observableValue, value);
+						boolean useIRef = (boolean) value;
+						((GridData) sectionIRefaccumulationSection.getLayoutData()).exclude = !useIRef;
+						((GridData) sectionIRefaccumulationSection.getLayoutData()).exclude = !((boolean) value);
+						((GridLayout) sectionIRefaccumulationSection.getParent().getLayout()).numColumns = useIRef ? 2 : 1;
+						UIHelper.revalidateLayout(sectionIRefaccumulationSection.getParent());
+						return result;
 					}
 				});
 	}
@@ -165,20 +251,82 @@ public class TimingGroupSectionComposite extends Composite {
 		});
 		expUnitSelectionCombo.setInput(ExperimentTimingDataModel.ExperimentUnit.values());
 
-		lbl = toolkit.createLabel(expTimeComposite, "Time interal to plot", SWT.NONE);
+		lbl = toolkit.createLabel(expTimeComposite, "Plot every", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		numberOfSpectraPerSecToPlotText = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME, false);
 		numberOfSpectraPerSecToPlotText.setUnit(UnitSetup.SEC.getText());
 		numberOfSpectraPerSecToPlotText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		Composite regionsComposit = new Composite(sectionComposite, SWT.NONE);
+		// I0 and IRef accumulation times
+		Composite composite = toolkit.createComposite(sectionComposite);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		composite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
+
+		// I0
+		Section sectionI0accumulationSection = toolkit.createSection(composite, ExpandableComposite.TITLE_BAR);
+		sectionI0accumulationSection.setText("I0 acquisition settings");
+		sectionI0accumulationSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		final Composite i0IaccumulationComposite = toolkit.createComposite(sectionI0accumulationSection, SWT.NONE);
+		i0IaccumulationComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		sectionI0accumulationSection.setClient(i0IaccumulationComposite);
+
+		useItTimeForI0Settings = toolkit.createButton(i0IaccumulationComposite, "Use It for I0 accumulation", SWT.CHECK);
+		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gridData.horizontalSpan = 2;
+		useItTimeForI0Settings.setLayoutData(gridData);
+
+		Label label = toolkit.createLabel(i0IaccumulationComposite, "Accumulation time", SWT.None);
+		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		i0IntegrationTimeValueText = new NumberEditorControl(i0IaccumulationComposite, SWT.None, model, TimeResolvedExperimentModel.I0_INTEGRATION_TIME_PROP_NAME, false);
+		i0IntegrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		i0IntegrationTimeValueText.setUnit(model.getUnit().getWorkingUnit().getUnitText());
+
+		label = toolkit.createLabel(i0IaccumulationComposite, "No. of accumulations", SWT.None);
+		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		i0NoOfAccumulationValueText = new NumberEditorControl(i0IaccumulationComposite, SWT.None, model, TimeResolvedExperimentModel.I0_NO_OF_ACCUMULATION_PROP_NAME, false);
+		i0NoOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		Composite sectionSeparator = toolkit.createCompositeSeparator(sectionI0accumulationSection);
+		toolkit.paintBordersFor(sectionSeparator);
+		sectionI0accumulationSection.setSeparatorControl(sectionSeparator);
+
+		// IRef
+		sectionIRefaccumulationSection = toolkit.createSection(composite, ExpandableComposite.TITLE_BAR);
+		sectionIRefaccumulationSection.setText("IRef acquisition settings");
+		sectionIRefaccumulationSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		final Composite iRefDetailsComposite = toolkit.createComposite(sectionIRefaccumulationSection, SWT.NONE);
+		iRefDetailsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		sectionIRefaccumulationSection.setClient(iRefDetailsComposite);
+
+		useItTimeForIrefSettings = toolkit.createButton(iRefDetailsComposite, "Use It for Iref accumulation", SWT.CHECK);
+		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gridData.horizontalSpan = 2;
+		useItTimeForIrefSettings.setLayoutData(gridData);
+
+		label = toolkit.createLabel(iRefDetailsComposite, "Accumulation time", SWT.None);
+		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		iRefIntegrationTimeValueText = new NumberEditorControl(iRefDetailsComposite, SWT.None, model, TimeResolvedExperimentModel.IREF_INTEGRATION_TIME_PROP_NAME, false);
+		iRefIntegrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		iRefIntegrationTimeValueText.setUnit(model.getUnit().getWorkingUnit().getUnitText());
+
+		label = toolkit.createLabel(iRefDetailsComposite, "No. of accumulations", SWT.None);
+		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		iRefNoOfAccumulationValueText = new NumberEditorControl(iRefDetailsComposite, SWT.None, model, TimeResolvedExperimentModel.IREF_NO_OF_ACCUMULATION_PROP_NAME, false);
+		iRefNoOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		sectionSeparator = toolkit.createCompositeSeparator(sectionIRefaccumulationSection);
+		toolkit.paintBordersFor(sectionSeparator);
+		sectionIRefaccumulationSection.setSeparatorControl(sectionSeparator);
+
+		// Timing groups
+		Composite timmingGroupsComposite = new Composite(sectionComposite, SWT.NONE);
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridData.heightHint = GROUP_TABLE_HEIGHT;
 		gridData.widthHint = GROUP_TABLE_WIDTH;
-		regionsComposit.setLayoutData(gridData);
-		regionsComposit.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		timmingGroupsComposite.setLayoutData(gridData);
+		timmingGroupsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 
-		Composite groupsTableComposit = new Composite(regionsComposit, SWT.NONE);
+		Composite groupsTableComposit = new Composite(timmingGroupsComposite, SWT.NONE);
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 
 		groupsTableComposit.setLayoutData(gridData);
@@ -242,7 +390,7 @@ public class TimingGroupSectionComposite extends Composite {
 		});
 		groupsTableViewer.setInput(model.getGroupList());
 
-		Composite buttonComposit = new Composite(regionsComposit, SWT.NONE);
+		Composite buttonComposit = new Composite(timmingGroupsComposite, SWT.NONE);
 		buttonComposit.setLayout(new GridLayout());
 		buttonComposit.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL));
 		final Button butAdd = new Button(buttonComposit, SWT.FLAT);
@@ -269,21 +417,28 @@ public class TimingGroupSectionComposite extends Composite {
 			}
 		});
 
-		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
+		sectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(sectionSeparator);
 		section.setSeparatorControl(sectionSeparator);
+
+		// Group details Section
 
 		groupSection = toolkit.createSection(this, SWT.None);
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		groupSection.setLayoutData(gridData);
 		final Composite groupSectionComposite = toolkit.createComposite(groupSection, SWT.NONE);
-		groupSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		groupSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
 		groupSection.setClient(groupSectionComposite);
 
-		Label label = toolkit.createLabel(groupSectionComposite, "Time unit", SWT.None);
+		// Group parameters Section
+		final Composite groupDetailsSectionComposite = toolkit.createComposite(groupSectionComposite, SWT.NONE);
+		groupDetailsSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		groupDetailsSectionComposite.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
+
+		label = toolkit.createLabel(groupDetailsSectionComposite, "Time unit", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		groupUnitSelectionCombo = new ComboViewer(groupSectionComposite);
+		groupUnitSelectionCombo = new ComboViewer(groupDetailsSectionComposite);
 		groupUnitSelectionCombo.getControl().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		groupUnitSelectionCombo.setContentProvider(new ArrayContentProvider());
 		groupUnitSelectionCombo.setLabelProvider(new LabelProvider() {
@@ -294,47 +449,53 @@ public class TimingGroupSectionComposite extends Composite {
 		});
 		groupUnitSelectionCombo.setInput(ExperimentTimingDataModel.ExperimentUnit.values());
 
-		label = toolkit.createLabel(groupSectionComposite, "Start time", SWT.None);
+		label = toolkit.createLabel(groupDetailsSectionComposite, "Start time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		startTimeValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
+		startTimeValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
 		startTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		label = toolkit.createLabel(groupSectionComposite, "End time", SWT.None);
+		label = toolkit.createLabel(groupDetailsSectionComposite, "End time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		endTimeValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
+		endTimeValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
 		endTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		label = toolkit.createLabel(groupSectionComposite, "Time per spectrum", SWT.None);
+		label = toolkit.createLabel(groupDetailsSectionComposite, "Time per spectrum", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		timePerSpectrumValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
+		timePerSpectrumValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
 		timePerSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		label = toolkit.createLabel(groupSectionComposite, "No. of spectra", SWT.None);
+		label = toolkit.createLabel(groupDetailsSectionComposite, "No. of spectra", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		noOfSpectrumValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
+		noOfSpectrumValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
 		noOfSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		label = toolkit.createLabel(groupSectionComposite, "Accumulation time", SWT.None);
+		label = toolkit.createLabel(groupDetailsSectionComposite, "Accumulation time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		integrationTimeValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
+		integrationTimeValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
 		integrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		label = toolkit.createLabel(groupSectionComposite, "No. of accumulations", SWT.None);
+		label = toolkit.createLabel(groupDetailsSectionComposite, "No. of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		noOfAccumulationValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
+		noOfAccumulationValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
 		noOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		label = toolkit.createLabel(groupSectionComposite, "Delay before start of group", SWT.None);
+		// Group delay and trigger section
+
+		final Composite groupTriggerSectionComposite = toolkit.createComposite(groupSectionComposite, SWT.NONE);
+		groupTriggerSectionComposite.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
+		groupTriggerSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+
+		label = toolkit.createLabel(groupTriggerSectionComposite, "Delay before start of group", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		delayBeforeFristSpectrumValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
+		delayBeforeFristSpectrumValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
 		delayBeforeFristSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		label = toolkit.createLabel(groupSectionComposite, "Delay between spectrum", SWT.None);
+		label = toolkit.createLabel(groupTriggerSectionComposite, "Delay between spectrum", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		spectrumDelayValueText = new NumberEditorControl(groupSectionComposite, SWT.None, false);
+		spectrumDelayValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
 		spectrumDelayValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		Composite externalTriggerComposite = toolkit.createComposite(groupSectionComposite);
+		Composite externalTriggerComposite = toolkit.createComposite(groupTriggerSectionComposite);
 		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		gridData.horizontalSpan = 2;
 		externalTriggerComposite.setLayoutData(gridData);

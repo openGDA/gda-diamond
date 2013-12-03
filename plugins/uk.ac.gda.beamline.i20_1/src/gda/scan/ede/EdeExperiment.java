@@ -18,11 +18,17 @@
 
 package gda.scan.ede;
 
+import gda.device.DeviceException;
 import gda.device.Monitor;
 import gda.device.scannable.TopupChecker;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.scriptcontroller.ScriptControllerBase;
+import gda.scan.ede.position.EdePositionType;
+import gda.scan.ede.position.EdeScanMotorPositions;
+import gda.scan.ede.position.EdeScanPosition;
+
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,7 +108,6 @@ public abstract class EdeExperiment {
 	}
 
 	protected TopupChecker createTopupChecker(Double timeRequired) {
-
 		TopupChecker topupchecker = new TopupChecker();
 		topupchecker.setScannableToBeMonitored(topup);
 		topupchecker.setTimeout(timeRequired);
@@ -111,5 +116,10 @@ public abstract class EdeExperiment {
 		topupchecker.setPauseBeforeScan(true);
 		topupchecker.setPauseBeforePoint(false);
 		return topupchecker;
+	}
+
+	protected EdeScanPosition setPosition(EdePositionType type, Map<String, Double> scanableMotorPositions) throws DeviceException {
+		// FIXME Replacing with alignment stage motors is removed until the requirement spec is cleared
+		return new EdeScanMotorPositions(type, scanableMotorPositions);
 	}
 }

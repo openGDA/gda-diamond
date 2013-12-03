@@ -22,10 +22,12 @@ import gda.data.scan.datawriter.NexusExtraMetadataDataWriter;
 import gda.data.scan.datawriter.NexusFileMetadata;
 import gda.data.scan.datawriter.NexusFileMetadata.EntryTypes;
 import gda.data.scan.datawriter.NexusFileMetadata.NXinstrumentSubTypes;
+import gda.device.DeviceException;
 import gda.device.Monitor;
 import gda.device.Scannable;
 import gda.device.detector.StripDetector;
 import gda.device.scannable.TopupChecker;
+import gda.factory.Finder;
 import gda.observable.IObserver;
 import gda.scan.AxisSpecProviderImpl;
 import gda.scan.EdeScan;
@@ -35,10 +37,12 @@ import gda.scan.ScanPlotSettings;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 import gda.scan.ede.datawriters.EdeLinearExperimentAsciiFileWriter;
+import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.EdeScanPosition;
 import gda.scan.ede.timeestimators.LinearExperimentTimeEstimator;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import org.slf4j.Logger;
@@ -60,10 +64,9 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeLinearExperiment.class);
 
-	private final EdeScanParameters itScanParameters;
 	private final EdeScanPosition i0Position;
 	private final EdeScanPosition itPosition;
-	private final EdeScanPosition iRefPosition;
+	private EdeScanPosition iRefPosition;
 	private final StripDetector theDetector;
 
 	public static final int DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH = 2;
@@ -71,7 +74,9 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	private int totalNumberOfspectra;
 	private double totalTime;
 
+	private final EdeScanParameters itScanParameters;
 	private EdeScanParameters i0ScanParameters;
+	private EdeScanParameters iRefScanParameters;
 	private EdeScan i0DarkScan;
 	private EdeScan i0InitialScan;
 	private EdeScan iRefScan;
@@ -79,8 +84,35 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	private EdeScan i0FinalScan;
 	private EdeScan iRefFinalScan;
 	private EdeLinearExperimentAsciiFileWriter writer;
-	//private final DoubleDataset energyData;
-	private final Scannable shutter2;
+	private final Scannable beamShutter;
+
+	public EdeLinearExperiment(List<TimingGroup> itTimingGroups,
+			Map<String, Double> i0ScanableMotorPositions,
+			Map<String, Double> iTScanableMotorPositions,
+			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
+		itScanParameters = new EdeScanParameters();
+		itScanParameters.setGroups(itTimingGroups);
+		i0Position = this.setPosition(EdePositionType.OUTBEAM, i0ScanableMotorPositions);
+		itPosition = this.setPosition(EdePositionType.INBEAM, iTScanableMotorPositions);
+		theDetector  = Finder.getInstance().find(detectorName);
+		topup = Finder.getInstance().find(topupMonitorName);
+		beamShutter = Finder.getInstance().find(beamShutterScannableName);
+		calculateTotalNoOfSpectra();
+	}
+
+	public void setIRefParameters(Map<String, Double> iRefScanableMotorPositions) throws DeviceException {
+		iRefPosition = this.setPosition(EdePositionType.REFERENCE, iRefScanableMotorPositions);
+		iRefScanParameters = this.deriveScanParametersFromIt(null, null);
+	}
+
+	public void setIRefParameters(Map<String, Double> iRefScanableMotorPositions, double accumulationTime, int numberOfAccumulcations) throws DeviceException {
+		iRefPosition = this.setPosition(EdePositionType.REFERENCE, iRefScanableMotorPositions);
+		iRefScanParameters = this.deriveScanParametersFromIt(accumulationTime, numberOfAccumulcations);
+	}
+
+	public void setCommonI0Parameters(double accumulationTime, int numberOfAccumulcations) {
+		i0ScanParameters = this.deriveScanParametersFromIt(accumulationTime, numberOfAccumulcations);
+	}
 
 	public EdeLinearExperiment(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
 			EdeScanPosition itPosition, EdeScanPosition iRefPosition, StripDetector theDetector, Monitor topupMonitor, Scannable shutter2) {
@@ -90,11 +122,10 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		this.itPosition = itPosition;
 		this.iRefPosition = iRefPosition;
 		this.theDetector = theDetector;
-		this.shutter2 = shutter2;
+		beamShutter = shutter2;
 		topup = topupMonitor;
 		calculateTotalNoOfSpectra();
 	}
-
 
 	private void calculateTotalNoOfSpectra() {
 		totalNumberOfspectra = 0;
@@ -105,7 +136,6 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		}
 	}
 
-
 	/**
 	 * Run the scans and write the data files.
 	 * <p>
@@ -115,7 +145,9 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	 */
 	@Override
 	public String runExperiment() throws Exception {
-		deriveI0ScansFromIts();
+		if (i0ScanParameters == null) {
+			i0ScanParameters = deriveScanParametersFromIt(null, null);
+		}
 		runScans();
 		return writeAsciiFile();
 	}
@@ -214,23 +246,30 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	}
 
 
-	private void deriveI0ScansFromIts() {
+	private EdeScanParameters deriveScanParametersFromIt(Double commonAccumulationTime, Integer commonNumberOfAccumulcations) {
 		// need an I0 spectrum for each timing group in itScanParameters
 		List<TimingGroup> itgroups = itScanParameters.getGroups();
 
-		EdeScanParameters i0Parameters = new EdeScanParameters();
+		EdeScanParameters parameters = new EdeScanParameters();
 		for (TimingGroup itGroup : itgroups) {
-			TimingGroup newI0Group = new TimingGroup();
-			newI0Group.setLabel(itGroup.getLabel());
-			newI0Group.setNumberOfFrames(1);
-			newI0Group.setTimePerScan(itGroup.getTimePerScan());
-			newI0Group.setTimePerFrame(itGroup.getTimePerFrame());
-			newI0Group.setDelayBetweenFrames(0);
-			newI0Group.setNumberOfScansPerFrame(itGroup.getNumberOfScansPerFrame());
-			i0Parameters.addGroup(newI0Group);
+			TimingGroup newGroup = new TimingGroup();
+			newGroup.setLabel(itGroup.getLabel());
+			newGroup.setNumberOfFrames(1);
+			if(commonAccumulationTime == null) {
+				newGroup.setTimePerScan(itGroup.getTimePerScan());
+			} else {
+				newGroup.setTimePerScan(commonAccumulationTime);
+			}
+			if(commonNumberOfAccumulcations == null) {
+				newGroup.setNumberOfScansPerFrame(itGroup.getNumberOfScansPerFrame());
+			} else {
+				newGroup.setNumberOfScansPerFrame(commonNumberOfAccumulcations);
+			}
+			newGroup.setTimePerFrame(itGroup.getTimePerFrame());
+			newGroup.setDelayBetweenFrames(0);
+			parameters.addGroup(newGroup);
 		}
-
-		i0ScanParameters = i0Parameters;
+		return parameters;
 	}
 
 	public int getNoOfSecPerSpectrumToPublish() {
@@ -244,18 +283,18 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 
 
 	private void runScans() throws InterruptedException, Exception {
-		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 1, shutter2);
+		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 1, beamShutter);
 		i0DarkScan.setProgressUpdater(this);
-		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, shutter2);
+		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, beamShutter);
 		i0InitialScan.setProgressUpdater(this);
-		if (iRefPosition != null){
-			iRefScan = new EdeScan(i0ScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, shutter2);
+		if (iRefPosition != null) {
+			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, beamShutter);
 		}
-		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, shutter2);
+		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, beamShutter);
 		itScan.setProgressUpdater(this);
-		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, shutter2);
+		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, beamShutter);
 		if (iRefPosition != null){
-			iRefFinalScan = new EdeScan(i0ScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, shutter2);
+			iRefFinalScan = new EdeScan(i0ScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, beamShutter);
 		}
 
 		List<ScanBase> theScans = new Vector<ScanBase>();

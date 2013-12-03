@@ -48,10 +48,6 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 	public static final String UNIT_PROP_NAME = "unit";
 	private ExperimentUnit unit = ExperimentUnit.SEC;
 
-	public static final String INTEGRATION_TIME_PROP_NAME = "integrationTime";
-	@Expose
-	private double integrationTime;
-
 	public static final String TIME_PER_SPECTRUM_PROP_NAME = "timePerSpectrum";
 	@Expose
 	private double timePerSpectrum;
@@ -59,6 +55,10 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 	public static final String DELAY_BETWEEN_SPECTRUM_PROP_NAME = "delayBetweenSpectrum";
 	@Expose
 	private double delayBetweenSpectrum;
+
+	public static final String INTEGRATION_TIME_PROP_NAME = "integrationTime";
+	@Expose
+	private double integrationTime;
 
 	public static final String NO_OF_ACCUMULATION_PROP_NAME = "noOfAccumulations";
 	@Expose

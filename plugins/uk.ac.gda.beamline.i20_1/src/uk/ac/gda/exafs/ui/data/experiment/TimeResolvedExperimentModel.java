@@ -77,7 +77,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	public static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "LINEAR_TIME_RESOLVED_EXPERIMENT_DATA";
 
-	private static final String JYTHON_DRIVER_OBJ = "timeresolveddriver";
+	private static final String JYTHON_DRIVER_OBJ = "timeresolvedexperiment";
 
 	public static final String EXPERIMENT_DURATION_PROP_NAME = "experimentDuration";
 
@@ -93,6 +93,24 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	public static final String SCANNING_PROP_NAME = "scanning";
 	private boolean scanning;
+
+	public static final String USE_IT_TIME_FOR_I0_PROP_NAME = "useItTimeForI0";
+	private boolean useItTimeForI0 = true;
+
+	public static final String USE_IT_TIME_FOR_IREF_PROP_NAME = "useItTimeForIref";
+	private boolean useItTimeForIref  = true;
+
+	public static final String I0_INTEGRATION_TIME_PROP_NAME = "i0IntegrationTime";
+	private double i0IntegrationTime;
+
+	public static final String I0_NO_OF_ACCUMULATION_PROP_NAME = "i0NoOfAccumulations";
+	private int i0NoOfAccumulations;
+
+	public static final String IREF_INTEGRATION_TIME_PROP_NAME = "irefIntegrationTime";
+	private double irefIntegrationTime;
+
+	public static final String IREF_NO_OF_ACCUMULATION_PROP_NAME = "irefNoOfAccumulations";
+	private int irefNoOfAccumulations;
 
 	public static final String SCAN_DATA_SET_PROP_NAME = "scanDataSet";
 
@@ -279,23 +297,31 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	}
 
 	private String buildScanCommand() {
-		StringBuilder builder = new StringBuilder(String.format("from gda.scan.ede.drivers import LinearExperimentDriver;" +
-				JYTHON_DRIVER_OBJ + " = LinearExperimentDriver(\"%s\",\"%s\",%s,%s);" +
-				JYTHON_DRIVER_OBJ + ".setInBeamPosition(mapToJava(%s));" +
-				JYTHON_DRIVER_OBJ + ".setOutBeamPosition(mapToJava(%s));" +
+		StringBuilder builder = new StringBuilder(String.format("from gda.scan.ede import EdeLinearExperiment;" +
+				JYTHON_DRIVER_OBJ + " = EdeLinearExperiment(%s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");" +
 				JYTHON_DRIVER_OBJ + ".setNoOfSecPerSpectrumToPublish(%s);",
+				TIMING_GROUPS_OBJ_NAME,
+				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
+				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
-				TIMING_GROUPS_OBJ_NAME,
 				DetectorModel.SHUTTER_NAME,
-				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
-				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
 				this.getNoOfSecPerSpectrumToPublish()));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
-			builder.append(String.format(JYTHON_DRIVER_OBJ + ".setReferencePosition(mapToJava(%s));",
-					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef)));
+			if (useItTimeForIref) {
+				builder.append(String.format(JYTHON_DRIVER_OBJ + ".setIRefParameters(mapToJava(%s));",
+						SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef)));
+			} else {
+				builder.append(String.format(JYTHON_DRIVER_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
+						SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
+						unit.getWorkingUnit().convertToSecond(irefIntegrationTime), irefNoOfAccumulations));
+			}
 		}
-		builder.append(JYTHON_DRIVER_OBJ + ".doCollection();");
+		if (!this.isUseItTimeForI0()) {
+			builder.append(String.format(JYTHON_DRIVER_OBJ + ".setCommonI0Parameters(%f, %d);",
+					unit.getWorkingUnit().convertToSecond(i0IntegrationTime), i0NoOfAccumulations));
+		}
+		builder.append(JYTHON_DRIVER_OBJ + ".runExperiment();");
 		return builder.toString();
 	}
 
@@ -524,6 +550,54 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	public void setNoOfSecPerSpectrumToPublish(int noOfSecPerSpectrumToPublish) {
 		this.firePropertyChange(NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME, this.noOfSecPerSpectrumToPublish, this.noOfSecPerSpectrumToPublish = noOfSecPerSpectrumToPublish);
+	}
+
+	public boolean isUseItTimeForI0() {
+		return useItTimeForI0;
+	}
+
+	public void setUseItTimeForI0(boolean useItTimeForI0) {
+		this.firePropertyChange(USE_IT_TIME_FOR_I0_PROP_NAME, this.useItTimeForI0, this.useItTimeForI0 = useItTimeForI0);
+	}
+
+	public boolean isUseItTimeForIref() {
+		return useItTimeForIref;
+	}
+
+	public void setUseItTimeForIref(boolean useItTimeForIref) {
+		this.firePropertyChange(USE_IT_TIME_FOR_IREF_PROP_NAME, this.useItTimeForIref, this.useItTimeForIref = useItTimeForIref);
+	}
+
+	public double getI0IntegrationTime() {
+		return i0IntegrationTime;
+	}
+
+	public void setI0IntegrationTime(double i0IntegrationTime) {
+		this.firePropertyChange(I0_INTEGRATION_TIME_PROP_NAME, this.i0IntegrationTime, this.i0IntegrationTime = i0IntegrationTime);
+	}
+
+	public int getI0NoOfAccumulations() {
+		return i0NoOfAccumulations;
+	}
+
+	public void setI0NoOfAccumulations(int i0NoOfAccumulations) {
+		this.firePropertyChange(I0_NO_OF_ACCUMULATION_PROP_NAME, this.i0NoOfAccumulations, this.i0NoOfAccumulations = i0NoOfAccumulations);
+	}
+
+	public double getIrefIntegrationTime() {
+		return irefIntegrationTime;
+	}
+
+	public void setIrefIntegrationTime(double irefIntegrationTime) {
+		this.firePropertyChange(IREF_INTEGRATION_TIME_PROP_NAME, this.irefIntegrationTime, this.irefIntegrationTime = irefIntegrationTime);
+	}
+
+	public int getIrefNoOfAccumulations() {
+		return irefNoOfAccumulations;
+	}
+
+	public void setIrefNoOfAccumulations(int irefNoOfAccumulations) {
+		this.firePropertyChange(IREF_NO_OF_ACCUMULATION_PROP_NAME, this.irefNoOfAccumulations, this.irefNoOfAccumulations = irefNoOfAccumulations);
 	}
 
 	@Override
