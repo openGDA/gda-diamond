@@ -26,7 +26,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -40,6 +39,7 @@ import uk.ac.gda.exafs.ui.data.experiment.SpectrumModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupsScaleRenderer;
+import uk.ac.gda.exafs.ui.sections.ResourceComposite;
 import de.jaret.util.date.Interval;
 import de.jaret.util.date.JaretDate;
 import de.jaret.util.ui.timebars.TimeBarMarker;
@@ -49,7 +49,7 @@ import de.jaret.util.ui.timebars.model.ITimeBarChangeListener;
 import de.jaret.util.ui.timebars.model.TimeBarRow;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 
-public class ExperimentTimeBarComposite extends Composite {
+public class ExperimentTimeBarComposite extends ResourceComposite {
 
 	private static final long INITIAL_TIMEBAR_MARKER_IN_MILLI = 10L;
 	private static final int TIMEBAR_ZOOM_FACTOR = 10;
@@ -62,7 +62,7 @@ public class ExperimentTimeBarComposite extends Composite {
 	public ExperimentTimeBarComposite(Composite parent, int style, TimeResolvedExperimentModel model) {
 		super(parent, style);
 		this.model = model;
-		this.setLayout(new GridLayout(2, false));
+		this.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 		setupUI();
 		doBinding();
 	}
@@ -223,10 +223,9 @@ public class ExperimentTimeBarComposite extends Composite {
 		}
 	}
 
-
 	@Override
-	public void dispose() {
+	protected void disposeResource() {
 		model.removePropertyChangeListener(modelChangedListener);
-		super.dispose();
 	}
+
 }

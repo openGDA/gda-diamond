@@ -60,7 +60,7 @@ import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.forms.widgets.Form;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
@@ -80,23 +80,28 @@ import uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective;
 import uk.ac.gda.exafs.ui.views.CalibrationPlotViewer;
 import uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView;
 
-public class EDECalibrationSection {
+public class EDECalibrationSection extends ResourceComposite {
 
-	public static final EDECalibrationSection INSTANCE = new EDECalibrationSection();
+	private final FormToolkit toolkit;
+
 	private static final Logger logger = LoggerFactory.getLogger(EDECalibrationSection.class);
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 	private Section section;
 	private Button manualCalibrationCheckButton;
 	private Label polynomialValueLbl;
 	private Button runCalibrationButton;
-	private EDECalibrationSection() {}
 	private PolynomialFunction calibrationResult;
 
-	// FIX ME Change to Composite!
-	// FIXME Do clean up on dispose
-	@SuppressWarnings({ "static-access" })
-	public void createEdeCalibrationSection(Form form, FormToolkit toolkit) {
-		section = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+
+	public EDECalibrationSection(Composite parent, int style) {
+		super(parent, style);
+		toolkit = new FormToolkit(parent.getDisplay());
+		setupUI();
+	}
+
+	private void setupUI() {
+		this.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
+		section = toolkit.createSection(this, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 		section.setText("EDE Calibration");
 		toolkit.paintBordersFor(section);
 		section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -230,17 +235,7 @@ public class EDECalibrationSection {
 		polynomialValueLbl = toolkit.createLabel(polyLabelComposite, "", SWT.BORDER);
 		polynomialValueLbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		DetectorModel.INSTANCE.getEnergyCalibrationSetObserver().addPropertyChangeListener(
-				EnergyCalibrationSetObserver.ENERGY_CALIBRATION_SET_PROP_NAME, new PropertyChangeListener() {
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						Display.getDefault().asyncExec(new Runnable() {
-							@Override
-							public void run() {
-								updateEnergyCalibrationPolynomialText();
-							}
-						});
-					}
-				});
+				EnergyCalibrationSetObserver.ENERGY_CALIBRATION_SET_PROP_NAME,calibrationSetListener);
 
 		updateEnergyCalibrationPolynomialText();
 
@@ -250,6 +245,18 @@ public class EDECalibrationSection {
 		toolkit.paintBordersFor(roisSectionSeparator);
 		section.setSeparatorControl(roisSectionSeparator);
 	}
+
+	private final PropertyChangeListener calibrationSetListener = new PropertyChangeListener() {
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					updateEnergyCalibrationPolynomialText();
+				}
+			});
+		}
+	};
 
 	private void showDataFileDialog(final Shell shell, ReferenceCalibrationDataModel dataModel) {
 		FileDialog fileDialog = new FileDialog(shell, SWT.OPEN);
@@ -410,6 +417,13 @@ public class EDECalibrationSection {
 			// TODO Auto-generated catch block
 			logger.error("TODO put description of error here", e);
 		}
+	}
+
+	@Override
+	protected void disposeResource() {
+		dataBindingCtx.dispose();
+		DetectorModel.INSTANCE.getEnergyCalibrationSetObserver().removePropertyChangeListener(
+				EnergyCalibrationSetObserver.ENERGY_CALIBRATION_SET_PROP_NAME,calibrationSetListener);
 	}
 
 }

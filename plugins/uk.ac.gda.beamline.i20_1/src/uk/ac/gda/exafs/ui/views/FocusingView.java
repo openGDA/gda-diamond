@@ -67,8 +67,10 @@ public class FocusingView extends ViewPart {
 		form.getBody().setLayout(new TableWrapLayout());
 		toolkit.decorateFormHeading(form);
 		form.setText("Slits scan / Focusing");
-		SlitsScanSection.INSTANCE.createSection(form, toolkit);
-		DetectorROIsSection.INSTANCE.createSection(form, toolkit);
+		SlitsScanSection slitsScanSection = new SlitsScanSection(form.getBody(), SWT.None);
+		slitsScanSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		DetectorROIsSection detectorROIsSection = new DetectorROIsSection(form.getBody(), SWT.None);
+		detectorROIsSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		try {
 			createFormSampleSection(form);
 			createFormBendSection(form);

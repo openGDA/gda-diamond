@@ -95,8 +95,10 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 			createSampleStageSections(formParent);
 			createAlignmentSections(formParent);
 			setupScannables();
-			SingleSpectrumParametersSection.INSTANCE.createEdeCalibrationSection(form, toolkit);
-			EDECalibrationSection.INSTANCE.createEdeCalibrationSection(form, toolkit);
+			SingleSpectrumParametersSection singleSpectrumParametersSection = new SingleSpectrumParametersSection(formParent, SWT.None);
+			singleSpectrumParametersSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+			EDECalibrationSection eDECalibrationSection = new EDECalibrationSection(formParent, SWT.None);
+			eDECalibrationSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);

@@ -45,7 +45,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.widgets.Form;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
@@ -57,8 +57,9 @@ import uk.ac.gda.exafs.data.SingleSpectrumUIModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.ui.components.NumberEditorControl;
 
-public class SingleSpectrumParametersSection {
-	public static final SingleSpectrumParametersSection INSTANCE = new SingleSpectrumParametersSection();
+public class SingleSpectrumParametersSection extends ResourceComposite {
+
+	private final FormToolkit toolkit;
 
 	private static final Logger logger = LoggerFactory.getLogger(SingleSpectrumParametersSection.class);
 
@@ -73,13 +74,19 @@ public class SingleSpectrumParametersSection {
 
 	protected Binding cmbLastStripViewerBinding;
 
-	private SingleSpectrumParametersSection() {}
+	public SingleSpectrumParametersSection(Composite parent, int style) {
+		super(parent, style);
+		toolkit = new FormToolkit(parent.getDisplay());
+		try {
+			setupUI();
+		} catch (Exception e) {
+			logger.error("Unable to create controls", e);
+		}
+	}
 
-	// FIX ME Change to Composite!
-	// FIXME Do clean up on dispose
-	@SuppressWarnings({ "static-access" })
-	public void createEdeCalibrationSection(Form form, FormToolkit toolkit) throws Exception {
-		section = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+	private void setupUI() throws Exception {
+		this.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
+		section = toolkit.createSection(this, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 		section.setText("Acquisition settings");
 		section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		Composite sectionComposite = toolkit.createComposite(section, SWT.NONE);
@@ -109,27 +116,7 @@ public class SingleSpectrumParametersSection {
 		cmbLastStripViewer.setLabelProvider(new LabelProvider());
 		cmbLastStripViewer.setInput(XHDetector.getStrips());
 
-		// TODO Remove listener when dispose!
-		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				boolean detectorConnected = (boolean) evt.getNewValue();
-				if (detectorConnected) {
-					bindUpperAndLowerChannelComboViewers();
-				} else {
-					if (cmbFirstStripViewerBinding != null) {
-						dataBindingCtx.removeBinding(cmbFirstStripViewerBinding);
-						cmbFirstStripViewerBinding.dispose();
-						cmbFirstStripViewerBinding = null;
-					}
-					if (cmbLastStripViewerBinding != null) {
-						dataBindingCtx.removeBinding(cmbLastStripViewerBinding);
-						cmbLastStripViewerBinding.dispose();
-						cmbLastStripViewerBinding = null;
-					}
-				}
-			}
-		});
+		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, dectectorChangeListener);
 
 		if (DetectorModel.INSTANCE.getCurrentDetector() != null) {
 			bindUpperAndLowerChannelComboViewers();
@@ -248,6 +235,27 @@ public class SingleSpectrumParametersSection {
 		section.setSeparatorControl(defaultSectionSeparator);
 	}
 
+	private final PropertyChangeListener dectectorChangeListener = new PropertyChangeListener() {
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			boolean detectorConnected = (boolean) evt.getNewValue();
+			if (detectorConnected) {
+				bindUpperAndLowerChannelComboViewers();
+			} else {
+				if (cmbFirstStripViewerBinding != null) {
+					dataBindingCtx.removeBinding(cmbFirstStripViewerBinding);
+					cmbFirstStripViewerBinding.dispose();
+					cmbFirstStripViewerBinding = null;
+				}
+				if (cmbLastStripViewerBinding != null) {
+					dataBindingCtx.removeBinding(cmbLastStripViewerBinding);
+					cmbLastStripViewerBinding.dispose();
+					cmbLastStripViewerBinding = null;
+				}
+			}
+		}
+	};
+
 	private void bindUpperAndLowerChannelComboViewers() {
 		cmbFirstStripViewerBinding = dataBindingCtx.bindValue(
 				ViewersObservables.observeSingleSelection(cmbFirstStripViewer),
@@ -255,5 +263,11 @@ public class SingleSpectrumParametersSection {
 		cmbLastStripViewerBinding = dataBindingCtx.bindValue(
 				ViewersObservables.observeSingleSelection(cmbLastStripViewer),
 				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.UPPER_CHANNEL_PROP_NAME));
+	}
+
+	@Override
+	protected void disposeResource() {
+		dataBindingCtx.dispose();
+		DetectorModel.INSTANCE.removePropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, dectectorChangeListener);
 	}
 }

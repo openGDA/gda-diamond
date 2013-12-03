@@ -58,8 +58,7 @@ public class LinearExperimentView extends ViewPart {
 	private static Logger logger = LoggerFactory.getLogger(LinearExperimentView.class);
 
 	private FormToolkit toolkit;
-	private final DataBindingContext dataBindingCtx = new DataBindingContext();
-	//	private TableViewer groupsTableViewer;
+	private DataBindingContext dataBindingCtx;
 
 	protected Button useExternalTriggerCheckbox;
 
@@ -74,6 +73,7 @@ public class LinearExperimentView extends ViewPart {
 		if (toolkit == null) {
 			toolkit = new FormToolkit(parent.getDisplay());
 		}
+		dataBindingCtx = new DataBindingContext();
 		final SashForm parentComposite = new SashForm(parent, SWT.VERTICAL);
 		parentComposite.SASH_WIDTH = 7;
 
@@ -230,6 +230,7 @@ public class LinearExperimentView extends ViewPart {
 	@Override
 	public void dispose() {
 		sampleMotorsComposite.dispose();
+		dataBindingCtx.dispose();
 		super.dispose();
 	}
 }

@@ -34,6 +34,8 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -158,6 +160,17 @@ public class SampleStageMotorsComposite extends Composite {
 		};
 		selectionSampleStageMotorListChange();
 		SampleStageMotors.INSTANCE.addPropertyChangeListener(SampleStageMotors.SELECTED_MOTORS_PROP_NAME, selectionChangeListener);
+		this.addDisposeListener(new DisposeListener() {
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				disposeResources();
+			}
+		});
+	}
+
+	private void disposeResources() {
+		SampleStageMotors.INSTANCE.removePropertyChangeListener(SampleStageMotors.SELECTED_MOTORS_PROP_NAME, selectionChangeListener);
+		dataBindingCtx.dispose();
 	}
 
 	private void showAvailableMotorsDialog() {
@@ -269,12 +282,4 @@ public class SampleStageMotorsComposite extends Composite {
 		}
 		return positionAllComposite;
 	}
-
-
-	@Override
-	public void dispose() {
-		SampleStageMotors.INSTANCE.removePropertyChangeListener(SampleStageMotors.SELECTED_MOTORS_PROP_NAME, selectionChangeListener);
-		super.dispose();
-	}
-
 }

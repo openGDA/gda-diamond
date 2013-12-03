@@ -70,9 +70,10 @@ import uk.ac.gda.exafs.ui.data.experiment.ExperimentTimingDataModel;
 import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors;
 import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
+import uk.ac.gda.exafs.ui.sections.ResourceComposite;
 import uk.ac.gda.ui.components.NumberEditorControl;
 
-public class TimingGroupSectionComposite extends Composite {
+public class TimingGroupSectionComposite extends ResourceComposite {
 
 	private static Logger logger = LoggerFactory.getLogger(TimingGroupSectionComposite.class);
 
@@ -219,46 +220,9 @@ public class TimingGroupSectionComposite extends Composite {
 
 	private void setupUI() throws Exception {
 		this.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
-		Section section = toolkit.createSection(this, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
-		section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		section.setText("Timing groups");
-		Composite sectionComposite = toolkit.createComposite(section, SWT.NONE);
-		toolkit.paintBordersFor(sectionComposite);
-		sectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
-		section.setClient(sectionComposite);
-
-		Composite expTimeComposite = new Composite(sectionComposite, SWT.NONE);
-		expTimeComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		expTimeComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(5, false));
-
-		Label lbl = toolkit.createLabel(expTimeComposite, "Total experiment", SWT.NONE);
-		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		experimentTimeControl = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.EXPERIMENT_DURATION_PROP_NAME, false);
-		experimentTimeControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		experimentTimeControl.setLayoutData(gridData);
-
-		gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		expUnitSelectionCombo = new ComboViewer(expTimeComposite);
-		expUnitSelectionCombo.getControl().setLayoutData(gridData);
-		expUnitSelectionCombo.setContentProvider(new ArrayContentProvider());
-		expUnitSelectionCombo.setLabelProvider(new LabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return ((ExperimentTimingDataModel.ExperimentUnit) element).getUnitText();
-			}
-		});
-		expUnitSelectionCombo.setInput(ExperimentTimingDataModel.ExperimentUnit.values());
-
-		lbl = toolkit.createLabel(expTimeComposite, "Plot every", SWT.NONE);
-		lbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		numberOfSpectraPerSecToPlotText = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME, false);
-		numberOfSpectraPerSecToPlotText.setUnit(UnitSetup.SEC.getText());
-		numberOfSpectraPerSecToPlotText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		// I0 and IRef accumulation times
-		Composite composite = toolkit.createComposite(sectionComposite);
+		Composite composite = toolkit.createComposite(this);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		composite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
 
@@ -271,7 +235,7 @@ public class TimingGroupSectionComposite extends Composite {
 		sectionI0accumulationSection.setClient(i0IaccumulationComposite);
 
 		useItTimeForI0Settings = toolkit.createButton(i0IaccumulationComposite, "Use It for I0 accumulation", SWT.CHECK);
-		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		gridData.horizontalSpan = 2;
 		useItTimeForI0Settings.setLayoutData(gridData);
 
@@ -317,6 +281,44 @@ public class TimingGroupSectionComposite extends Composite {
 		sectionSeparator = toolkit.createCompositeSeparator(sectionIRefaccumulationSection);
 		toolkit.paintBordersFor(sectionSeparator);
 		sectionIRefaccumulationSection.setSeparatorControl(sectionSeparator);
+
+		Section section = toolkit.createSection(this, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
+		section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		section.setText("Timing groups");
+		Composite sectionComposite = toolkit.createComposite(section, SWT.NONE);
+		toolkit.paintBordersFor(sectionComposite);
+		sectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
+		section.setClient(sectionComposite);
+
+		Composite expTimeComposite = new Composite(sectionComposite, SWT.NONE);
+		expTimeComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		expTimeComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(5, false));
+
+		Label lbl = toolkit.createLabel(expTimeComposite, "Total experiment", SWT.NONE);
+		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		experimentTimeControl = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.EXPERIMENT_DURATION_PROP_NAME, false);
+		experimentTimeControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		experimentTimeControl.setLayoutData(gridData);
+
+		gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		expUnitSelectionCombo = new ComboViewer(expTimeComposite);
+		expUnitSelectionCombo.getControl().setLayoutData(gridData);
+		expUnitSelectionCombo.setContentProvider(new ArrayContentProvider());
+		expUnitSelectionCombo.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((ExperimentTimingDataModel.ExperimentUnit) element).getUnitText();
+			}
+		});
+		expUnitSelectionCombo.setInput(ExperimentTimingDataModel.ExperimentUnit.values());
+
+		lbl = toolkit.createLabel(expTimeComposite, "Plot every", SWT.NONE);
+		lbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		numberOfSpectraPerSecToPlotText = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME, false);
+		numberOfSpectraPerSecToPlotText.setUnit(UnitSetup.SEC.getText());
+		numberOfSpectraPerSecToPlotText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		// Timing groups
 		Composite timmingGroupsComposite = new Composite(sectionComposite, SWT.NONE);
@@ -691,9 +693,8 @@ public class TimingGroupSectionComposite extends Composite {
 	}
 
 	@Override
-	public void dispose() {
+	protected void disposeResource() {
 		model.removePropertyChangeListener(unitChangeListener);
-		super.dispose();
 	}
 
 }
