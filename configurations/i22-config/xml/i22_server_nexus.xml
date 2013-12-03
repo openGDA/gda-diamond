@@ -12,6 +12,7 @@
 			value="gda.data.scan.datawriter.NexusDataWriterMetadataTree.setLocationmap" />
 		<property name="arguments">
 			<map>
+<!--
 				<entry key="energy">
 					<bean
 						class="uk.ac.gda.beamline.i05.scannable.EnergyScannableWriter">
@@ -52,7 +53,6 @@
 						</property>
 					</bean>
 				</entry>
-<!--
 				<entry key="id">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
@@ -165,6 +165,17 @@
 						</property>
 					</bean>
 				</entry>
+				<entry key="sample_thickness">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="sample:NXsample/thickness" />
+						<property name="prerequisiteScannableNames">
+							<list>
+								<!-- <value>cff</value> -->
+							</list>
+						</property>
+					</bean>
+				</entry>
 				<entry key="sax">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SimpleSingleScannableWriter">
@@ -254,20 +265,118 @@
 			<set>
 				<value>energy</value>
 				<value>sample_name</value>
-				<value>cryostat</value>
-				<value>saz</value>
-				<value>say</value>
-				<value>sax</value>
-				<value>sapolar</value>
-				<value>satilt</value>
-				<value>saazimuth</value>
-				<value>s6_ysize</value>
-				<value>s6_xsize</value>
-				<value>s2_ysize</value>
-				<value>s2_xsize</value>
-				<value>pgm_cff</value>
+				<value>sample_thickness</value>
 			</set>
 		</property>
 	</bean>
 
+	<bean id="scan2elog" class="gda.data.ScanToElogExtender">
+		<property name="logID" value="BLI22" />
+		<property name="groupID" value="BLI22-RUNL" />
+		<!-- <property name="logID" value="DAG" /> <property name="groupID" value="SCAN" /> -->
+		<property name="extractorList">
+			<list>
+				<bean class="uk.ac.gda.server.ncd.data.TfgSettingsExtractorHTML" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="scan2terminal" class="uk.ac.gda.server.ncd.data.ScanInformationTerminalLogger">
+		<property name="extractorList">
+			<list>
+				<bean class="uk.ac.gda.server.ncd.data.TfgSettingsExtractor" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sockpuppet" class="gda.data.fileregistrar.ClientFileAnnouncer" />
+
+	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
+		<property name="name" value="FileRegistrar" />
+		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/i22-" />
+		<property name="clientFileAnnouncer" ref="sockpuppet" />
+	</bean>
+
+	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
+		<property name="name" value="DataWriterFactory" />
+		<property name="dataWriterExtenders">
+			<list>
+				<ref bean="FileRegistrar" />
+				<ref bean="scan2elog" />
+				<ref bean="scan2terminal" />
+				<ref bean="twodscan" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
+		<property name="metadataEntries">
+			<list>
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="instrument" />
+					<property name="propertyName" value="gda.instrument" />
+				</bean>
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="federalid" />
+					<property name="value" value="" />
+				</bean>
+				<ref bean="subdirectory" />
+				<ref bean="samplename" />
+				<bean class="gda.data.metadata.StoredScanMetadataEntry">
+					<property name="name" value="title" />
+					<property name="value" value="undefined" />
+				</bean>
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="note" />
+					<property name="value" value="undefined" />
+				</bean>
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="instrument.source.energy" />
+					<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
+				</bean>
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="instrument.source.current" />
+					<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
+				</bean>
+				<bean class="gda.data.metadata.ScannableMetadataEntry">
+					<property name="name" value="instrument.monochromator.energy" />
+					<property name="scannableName" value="bkeV" />
+				</bean>
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="instrument.insertion_device.gap" />
+					<property name="pvName" value="SR22I-MO-SERVC-01:CURRGAPD" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry" />
+
+	<bean class="gda.data.metadata.MetadataBlaster" id="observableSubdirectory">
+		<property name="storedMetadataEntry" ref="subdirectory" />
+	</bean>
+
+	<bean class="gda.data.metadata.IntransparentLogFilePathProvider"
+		id="logfilenameprovider">
+		<property name="storedMetadataEntry" ref="subdirectory" />
+		<property name="pathTemplate"
+			value="/dls/i22/data/$year$/$visit$/gda-console-$visit$.log" />
+	</bean>
+	<bean class="gda.data.metadata.StoredMetadataEntry" id="samplename">
+		<property name="name" value="samplename" />
+		<property name="value" value="none" />
+	</bean>
+	<bean class="gda.data.metadata.MetadataBlaster" id="observableSamplename">
+		<property name="storedMetadataEntry" ref="samplename" />
+	</bean>
+	<bean
+		class="gda.device.scannable.DummyUnitsScannable" id="sample_thickness">
+		<property name="name" value="sample_thickness" />
+		<property name="inputNames"><list><value>sample_thickness</value></list></property>
+		<property name="outputFormat"><list><value>%5.5g</value></list></property>
+		<property name="protectionLevel" value="1" />
+		<property name="userUnits" value="mm" />
+	</bean>
 </beans>
