@@ -102,7 +102,6 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 
 	public void setIRefParameters(Map<String, Double> iRefScanableMotorPositions) throws DeviceException {
 		iRefPosition = this.setPosition(EdePositionType.REFERENCE, iRefScanableMotorPositions);
-		iRefScanParameters = this.deriveScanParametersFromIt(null, null);
 	}
 
 	public void setIRefParameters(Map<String, Double> iRefScanableMotorPositions, double accumulationTime, int numberOfAccumulcations) throws DeviceException {
@@ -147,6 +146,9 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	public String runExperiment() throws Exception {
 		if (i0ScanParameters == null) {
 			i0ScanParameters = deriveScanParametersFromIt(null, null);
+		}
+		if (iRefPosition !=null & iRefScanParameters == null) {
+			iRefScanParameters = this.deriveScanParametersFromIt(null, null);
 		}
 		runScans();
 		return writeAsciiFile();
@@ -331,7 +333,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	private void addDetectorSettingsToMetadata() {
 		String header = "i0Dark: " + i0DarkScan.getHeaderDescription() + "\n";
 		header += "i0InitialScan: " + i0InitialScan.getHeaderDescription() + "\n";
-		if (iRefScan != null) {
+		if (iRefScan != null && iRefPosition != null) {
 			header += "iRefScan: " + iRefScan.getHeaderDescription() + "\n";
 		}
 		header += "itScan: " + itScan.getHeaderDescription() + "\n";
