@@ -12,5 +12,6 @@
         <cs:dependency name="uk.ac.gda.analysis" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.devices.bssc" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
+        <cs:dependency name="org.gda.tango" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
