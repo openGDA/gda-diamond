@@ -20,4 +20,9 @@ package uk.ac.gda.exafs.ui.data.experiment;
 
 public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 	public static final String CYCLIC_EXPERIMENT_MODEL_DATA_STORE_KEY = "CYCLIC_TIME_RESOLVED_EXPERIMENT_DATA";
+
+	@Override
+	protected String getGroupHeaderPrefix(int index) {
+		return "Cycle " + index;
+	}
 }

@@ -18,27 +18,14 @@
 
 package uk.ac.gda.exafs.ui.views;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.ViewPart;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentModelHolder;
+import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 
-public class CyclicExperimentView extends ViewPart {
-
-	public static final String ID = "uk.ac.gda.exafs.ui.views.cyclicExperimentView";
-
-	public CyclicExperimentView() {
-		// TODO Auto-generated constructor stub
-	}
+public class CyclicExperimentView extends LinearExperimentView {
+	public static final String CYCLIC_EXPERIMENT_VIEW_ID = "uk.ac.gda.exafs.ui.views.cyclicExperimentView";
 
 	@Override
-	public void createPartControl(Composite parent) {
-		// TODO Auto-generated method stub
-
+	protected TimeResolvedExperimentModel getModel() {
+		return ExperimentModelHolder.INSTANCE.getCyclicExperimentModel();
 	}
-
-	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

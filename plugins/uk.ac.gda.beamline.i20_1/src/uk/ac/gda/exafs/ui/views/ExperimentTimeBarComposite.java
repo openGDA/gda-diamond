@@ -71,10 +71,11 @@ public class ExperimentTimeBarComposite extends ResourceComposite {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			String propertyName = evt.getPropertyName();
+			Object newValue =  evt.getNewValue();
 			if (propertyName.equals(TimeResolvedExperimentModel.UNIT_PROP_NAME)) {
 				timeBarViewer.redraw();
 			} else if (propertyName.equals(TimeResolvedExperimentModel.SCANNING_PROP_NAME)) {
-				if ((boolean) evt.getNewValue()) {
+				if ((boolean) newValue) {
 					marker.setDate(TimebarHelper.getTime());
 					timeBarViewer.addMarker(marker);
 				} else {
@@ -86,7 +87,9 @@ public class ExperimentTimeBarComposite extends ResourceComposite {
 			} else if (propertyName.equals(TimeResolvedExperimentModel.EXPERIMENT_DURATION_PROP_NAME)) {
 				resetToDisplayWholeExperimentTime();
 				updateScaleSelection();
-				updateTopupMarkers((double) evt.getNewValue());
+				updateTopupMarkers((double) newValue);
+			} else if (propertyName.equals(TimeResolvedExperimentModel.NO_OF_REPEATED_GROUPS_PROP_NAME)) {
+				timeBarViewer.setAutoScaleRows((int) newValue * 2);
 			}
 		}
 	};
@@ -101,8 +104,8 @@ public class ExperimentTimeBarComposite extends ResourceComposite {
 		timeBarViewer.setTimeScalePosition(TimeBarViewerInterface.TIMESCALE_POSITION_TOP);
 
 		timeBarViewer.setDrawRowGrid(true);
-		timeBarViewer.setAutoScaleRows(2);
-		//timeBarViewer.setAutoscrollEnabled(true);
+		timeBarViewer.setAutoScaleRows(model.getNoOfRepeatedGroups() * 2);
+		timeBarViewer.setAutoscrollEnabled(true);
 		timeBarViewer.setMilliAccuracy(true);
 		timeBarViewer.setDrawOverlapping(true);
 

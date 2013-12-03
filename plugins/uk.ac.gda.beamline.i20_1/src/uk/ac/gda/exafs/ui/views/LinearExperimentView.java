@@ -53,7 +53,7 @@ import de.jaret.util.date.Interval;
 
 public class LinearExperimentView extends ViewPart {
 
-	public static final String ID = "uk.ac.gda.exafs.ui.views.linearExperimentView";
+	public static final String LINEAR_EXPERIMENT_VIEW_ID = "uk.ac.gda.exafs.ui.views.linearExperimentView";
 
 	private static Logger logger = LoggerFactory.getLogger(LinearExperimentView.class);
 
@@ -86,6 +86,10 @@ public class LinearExperimentView extends ViewPart {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
 		}
+	}
+
+	protected TimeResolvedExperimentModel getModel() {
+		return ExperimentModelHolder.INSTANCE.getLinerExperimentModel();
 	}
 
 	private void bind() {
@@ -169,7 +173,7 @@ public class LinearExperimentView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					ExperimentModelHolder.INSTANCE.getLinerExperimentModel().doCollection();
+					getModel().doCollection();
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 				}
@@ -178,7 +182,7 @@ public class LinearExperimentView extends ViewPart {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(startAcquicitionButton),
-				BeanProperties.value(TimeResolvedExperimentModel.SCANNING_PROP_NAME).observe(ExperimentModelHolder.INSTANCE.getLinerExperimentModel()),
+				BeanProperties.value(TimeResolvedExperimentModel.SCANNING_PROP_NAME).observe(getModel()),
 				null,
 				new UpdateValueStrategy() {
 					@Override
@@ -192,11 +196,11 @@ public class LinearExperimentView extends ViewPart {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(stopAcquicitionButton),
-				BeanProperties.value(TimeResolvedExperimentModel.SCANNING_PROP_NAME).observe(ExperimentModelHolder.INSTANCE.getLinerExperimentModel()));
+				BeanProperties.value(TimeResolvedExperimentModel.SCANNING_PROP_NAME).observe(getModel()));
 		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				ExperimentModelHolder.INSTANCE.getLinerExperimentModel().doStop();
+				getModel().doStop();
 			}
 		});
 
@@ -206,13 +210,13 @@ public class LinearExperimentView extends ViewPart {
 	}
 
 	private void createGroupSection(Composite parent) {
-		timingGroupSectionComposite = new TimingGroupSectionComposite(parent, SWT.None, toolkit, ExperimentModelHolder.INSTANCE.getLinerExperimentModel());
+		timingGroupSectionComposite = new TimingGroupSectionComposite(parent, SWT.None, toolkit, getModel());
 		timingGroupSectionComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		toolkit.paintBordersFor(timingGroupSectionComposite);
 	}
 
 	private void createTimeBarComposite(Composite parent) {
-		timebarViewerComposite = new ExperimentTimeBarComposite(parent, SWT.None, ExperimentModelHolder.INSTANCE.getLinerExperimentModel());
+		timebarViewerComposite = new ExperimentTimeBarComposite(parent, SWT.None, getModel());
 		timebarViewerComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		MenuManager menuManager = new MenuManager();
 		Menu menu = menuManager.createContextMenu(timebarViewerComposite.getTimeBarViewer());

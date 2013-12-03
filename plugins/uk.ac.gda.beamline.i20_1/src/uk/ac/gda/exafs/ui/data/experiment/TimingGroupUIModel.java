@@ -31,11 +31,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.ui.data.TimingGroup.InputTriggerLemoNumbers;
 
 import com.google.gson.annotations.Expose;
 
 import de.jaret.util.date.Interval;
+import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
+import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
 public class TimingGroupUIModel extends ExperimentTimingDataModel {
@@ -43,7 +46,7 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 	private static final Logger logger = LoggerFactory.getLogger(TimingGroupUIModel.class);
 
 	private final List<SpectrumModel> spectrumList = new ArrayList<SpectrumModel>();
-	private final DefaultTimeBarRowModel spectraTimeBarRowModel;
+	private final DefaultTimeBarModel timeBarRowModel;
 
 	public static final String UNIT_PROP_NAME = "unit";
 	private ExperimentUnit unit = ExperimentUnit.SEC;
@@ -74,7 +77,7 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 
 	public static final String EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME = "exernalTriggerInputLemoNumber";
 	@Expose
-	private int exernalTriggerInputLemoNumber = 0;
+	private InputTriggerLemoNumbers exernalTriggerInputLemoNumber = InputTriggerLemoNumbers.ZERO;
 
 	private final TimeResolvedExperimentModel parent;
 
@@ -130,8 +133,8 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 		this.firePropertyChange(TIME_PER_SPECTRUM_PROP_NAME, this.timePerSpectrum, this.timePerSpectrum = timePerSpectrum);
 	}
 
-	public TimingGroupUIModel(DefaultTimeBarRowModel spectraTimeBarRowModel, ExperimentUnit unit, TimeResolvedExperimentModel parent) {
-		this.spectraTimeBarRowModel = spectraTimeBarRowModel;
+	public TimingGroupUIModel(DefaultTimeBarModel timeBarRowModel, ExperimentUnit unit, TimeResolvedExperimentModel parent) {
+		this.timeBarRowModel = timeBarRowModel;
 		this.parent = parent;
 		this.resetInitialTime(0.0, ExperimentTimingDataModel.MIN_DURATION_TIME, 0.0, ExperimentTimingDataModel.MIN_DURATION_TIME);
 		setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
@@ -162,7 +165,7 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 		int current = spectrumList.size();
 		for (int i = current; i > numberOfSpectrum; i--) {
 			SpectrumModel itemToRemove = spectrumList.get(i - 1);
-			spectraTimeBarRowModel.remInterval(itemToRemove);
+			removeIntervals(itemToRemove);
 			spectrumList.remove(itemToRemove);
 		}
 		double startTimeForSpectrum = this.getStartTimeForSpectra();
@@ -179,7 +182,7 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 			spectrum.setName("Spectrum " + i);
 			if (i >= current) {
 				spectrumList.add(spectrum);
-				spectraTimeBarRowModel.addInterval(spectrum);
+				addIntervals(spectrum);
 			}
 		}
 		firePropertyChange(NO_OF_SPECTRUM_PROP_NAME, current, spectrumList.size());
@@ -283,11 +286,11 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 		this.firePropertyChange(EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME, this.exernalTriggerAvailable, this.exernalTriggerAvailable = exernalTriggerAvailable);
 	}
 
-	public int getExernalTriggerInputLemoNumber() {
+	public InputTriggerLemoNumbers getExernalTriggerInputLemoNumber() {
 		return exernalTriggerInputLemoNumber;
 	}
 
-	public void setExernalTriggerInputLemoNumber(int exernalTriggerInputLemoNumber) {
+	public void setExernalTriggerInputLemoNumber(InputTriggerLemoNumbers exernalTriggerInputLemoNumber) {
 		this.firePropertyChange(EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME, this.exernalTriggerInputLemoNumber, this.exernalTriggerInputLemoNumber = exernalTriggerInputLemoNumber);
 
 	}
@@ -296,10 +299,22 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 		return parent;
 	}
 
+	private void addIntervals(IntervalImpl groupModel) {
+		for(int i = 1; i < timeBarRowModel.getRowCount(); i += 2) {
+			((TimingGroupTimeBarRowModel) timeBarRowModel.getRow(i)).addInterval(groupModel);
+		}
+	}
+
+	private void removeIntervals(IntervalImpl groupModel) {
+		for(int i = 1; i < timeBarRowModel.getRowCount(); i += 2) {
+			((TimingGroupTimeBarRowModel) timeBarRowModel.getRow(i)).remInterval(groupModel);
+		}
+	}
+
 	@Override
 	public void dispose() {
 		for(SpectrumModel spectrum : spectrumList) {
-			spectraTimeBarRowModel.remInterval(spectrum);
+			removeIntervals(spectrum);
 		}
 		spectrumList.clear();
 	}
@@ -332,6 +347,6 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 	}
 
 	public int getExternalTrigLemoNumber() {
-		return 0;
+		return exernalTriggerInputLemoNumber.getLemoNumber();
 	}
 }

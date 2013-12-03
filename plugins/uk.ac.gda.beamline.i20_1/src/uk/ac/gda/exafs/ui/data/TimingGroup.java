@@ -53,7 +53,41 @@ public class TimingGroup implements Serializable {
 	private int framesExclFirstTrigLemo = 0;
 	private int scansTrigLemo = 0;
 
-	public static final Integer[] INPUT_TRIGGER_LEMO_NUMBERS = new Integer[] {0,1,2,3,4,5,6,7};
+	public enum InputTriggerLemoNumbers {
+		ZERO(0, false, "0"),
+		ZERO_FALLING(0, true, "0 Falling"),
+		ONE(1, false, "1"),
+		ONE_FALLING(1, true, "1 Falling"),
+		TWO(2, false, "2"),
+		TWO_FALLING(2, true, "2 Falling"),
+		THREE(3, false, "1"),
+		THREE_FALLING(3, true, "3 Falling"),
+		FOUR(4, false, "1"),
+		FOUR_FALLING(4, true, "4 Falling"),
+		FIVE(5, false, "1"),
+		FIVE_FALLING(5, true, "5 Falling"),
+		SIX(6, false, "1"),
+		SIX_FALLING(6, true, "6 Falling"),
+		SEVEN(7, false, "1"),
+		SEVEN_FALLING(7, true, "7 Falling");
+		private final int lemoNumber;
+		private final boolean isFallingEdge;
+		private final String Label;
+		private InputTriggerLemoNumbers(int lemoNumber, boolean isFallingEdge, String Label) {
+			this.lemoNumber = lemoNumber;
+			this.isFallingEdge = isFallingEdge;
+			this.Label = Label;
+		}
+		public int getLemoNumber() {
+			return lemoNumber;
+		}
+		public boolean isFallingEdge() {
+			return isFallingEdge;
+		}
+		public String getLabel() {
+			return Label;
+		}
+	}
 
 	private boolean groupTrigRisingEdge = true;
 	private boolean allFramesTrigRisingEdge = true;

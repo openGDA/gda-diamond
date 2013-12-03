@@ -64,15 +64,16 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeLinearExperiment.class);
 
-	private final EdeScanPosition i0Position;
-	private final EdeScanPosition itPosition;
-	private EdeScanPosition iRefPosition;
 	private final StripDetector theDetector;
 
 	public static final int DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH = 2;
 	private int noOfSecPerSpectrumToPublish = DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
 	private int totalNumberOfspectra;
 	private double totalTime;
+
+	private final EdeScanPosition i0Position;
+	private final EdeScanPosition itPosition;
+	private EdeScanPosition iRefPosition;
 
 	private final EdeScanParameters itScanParameters;
 	private EdeScanParameters i0ScanParameters;
