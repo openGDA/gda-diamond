@@ -14,42 +14,35 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
-	
+
 	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
 
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 
 	<bean id="plot_server"
 		class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
-       
-       <bean id="scan2elog" class="gda.data.ScanToElogExtender">
-                <property name="logID" value="BLI22" />
-                <property name="groupID" value="BLI22-RUNL" />
-       <!-- 
-                <property name="logID" value="DAG" />
-                <property name="groupID" value="SCAN" />
-       -->
-                <property name="extractorList">
-                        <list>
-                                <bean class="uk.ac.gda.server.ncd.data.TfgSettingsExtractorHTML" />
-                        </list>
-                </property>
-        </bean>
 
-       <bean id="scan2terminal" class="uk.ac.gda.server.ncd.data.ScanInformationTerminalLogger">
-                <property name="extractorList">
-                        <list>
-                                <bean class="uk.ac.gda.server.ncd.data.TfgSettingsExtractor" />
-                        </list>
-                </property>
-        </bean>
-
-	<bean id="twodscan" class="uk.ac.gda.server.ncd.scan.TwoDPlotListener">
-		<property name="plotPanel" value="Plot 2D" />
+	<bean id="scan2elog" class="gda.data.ScanToElogExtender">
+		<property name="logID" value="BLI22" />
+		<property name="groupID" value="BLI22-RUNL" />
+		<!-- <property name="logID" value="DAG" /> <property name="groupID" value="SCAN" /> -->
+		<property name="extractorList">
+			<list>
+				<bean class="uk.ac.gda.server.ncd.data.TfgSettingsExtractorHTML" />
+			</list>
+		</property>
 	</bean>
-	
+
+	<bean id="scan2terminal" class="uk.ac.gda.server.ncd.data.ScanInformationTerminalLogger">
+		<property name="extractorList">
+			<list>
+				<bean class="uk.ac.gda.server.ncd.data.TfgSettingsExtractor" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="sockpuppet" class="gda.data.fileregistrar.ClientFileAnnouncer" />
-	
+
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
 		<property name="name" value="FileRegistrar" />
 		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/i22-" />
@@ -117,9 +110,11 @@
 		<property name="storedMetadataEntry" ref="subdirectory" />
 	</bean>
 
-	<bean class="gda.data.metadata.IntransparentLogFilePathProvider" id="logfilenameprovider">
+	<bean class="gda.data.metadata.IntransparentLogFilePathProvider"
+		id="logfilenameprovider">
 		<property name="storedMetadataEntry" ref="subdirectory" />
-		<property name="pathTemplate" value="/dls/i22/data/$year$/$visit$/gda-console-$visit$.log" />
+		<property name="pathTemplate"
+			value="/dls/i22/data/$year$/$visit$/gda-console-$visit$.log" />
 	</bean>
 	<bean class="gda.data.metadata.StoredMetadataEntry" id="samplename">
 		<property name="name" value="samplename" />
@@ -129,7 +124,8 @@
 		<property name="storedMetadataEntry" ref="samplename" />
 	</bean>
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location"
 			value="file:${gda.config}/properties/java.properties" />
 	</bean>
@@ -137,49 +133,54 @@
 	<import resource="i22_server_dummy.xml" />
 	<import resource="devices/devices.xml" />
 	<import resource="i22_server_ncd.xml" />
+	<import resource="i22_server_nexus.xml" />
 
 	<bean id="command_server" class="gda.jython.JythonServer">
-                <property name="jythonScriptPaths">
-                        <bean class="gda.jython.ScriptPaths">
-                                <property name="projects">
-                                        <list>
-                                                <bean class="gda.jython.ScriptProject">
-                                                        <property name="path" value="/dls_sw/i22/scripts/" />
-                                                        <property name="name" value="Scripts: User" />
-                                                        <property name="type" value="USER" />
-                                                </bean>
-                                                <bean class="gda.jython.ScriptProject">
-                                                        <property name="path" value="${gda.config}/scripts/" />
-                                                        <property name="name" value="Scripts: Config" />
-                                                        <property name="type" value="CONFIG" />
-                                                </bean>
-                                                <bean class="gda.jython.ScriptProject">
-                                                        <property name="path" value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.core/scripts/" />
-                                                        <property name="name" value="Scripts: Core" />
-                                                        <property name="type" value="CORE" />
-                                                </bean>
-                                                <bean class="gda.jython.ScriptProject">
-                                                        <property name="path" value="${gda.install.git.loc}/gda-scm.git/plugins/uk.ac.gda.server.ncd/scripts/" />
-                                                        <property name="name" value="Scripts: Ncd" />
-                                                        <property name="type" value="CORE" />
-                                                </bean>
-                                                <bean class="gda.jython.ScriptProject">
-                                                        <property name="path" value="${gda.install.git.loc}/gda-scm.git/plugins/uk.ac.gda.devices.bssc/scripts/" />
-                                                        <property name="name" value="Scripts: BSSC" />
-                                                        <property name="type" value="CORE" />
-                                                </bean>
-                                                <bean class="gda.jython.ScriptProject">
-                                                        <property name="path" value="${gda.install.git.loc}/gda-bimorph.git/uk.ac.gda.bimorph/scripts/" />
-                                                        <property name="name" value="Scripts: Bimorph" />
-                                                        <property name="type" value="CORE" />
-                                                </bean>
-                                        </list>
-                                </property>
-                                <property name="startupScript" value="${gda.config}/scripts/localStation.py" />
-                        </bean>
-                </property>
-                <property name="gdaVarDirectory" value="${gda.config}/var" />
-                <property name="cacheDirectory" value="${gda.config}/var/jythonCache" />
+		<property name="jythonScriptPaths">
+			<bean class="gda.jython.ScriptPaths">
+				<property name="projects">
+					<list>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="/dls_sw/i22/scripts/" />
+							<property name="name" value="Scripts: User" />
+							<property name="type" value="USER" />
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.config}/scripts/" />
+							<property name="name" value="Scripts: Config" />
+							<property name="type" value="CONFIG" />
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path"
+								value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.core/scripts/" />
+							<property name="name" value="Scripts: Core" />
+							<property name="type" value="CORE" />
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path"
+								value="${gda.install.git.loc}/gda-scm.git/plugins/uk.ac.gda.server.ncd/scripts/" />
+							<property name="name" value="Scripts: Ncd" />
+							<property name="type" value="CORE" />
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path"
+								value="${gda.install.git.loc}/gda-scm.git/plugins/uk.ac.gda.devices.bssc/scripts/" />
+							<property name="name" value="Scripts: BSSC" />
+							<property name="type" value="CORE" />
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path"
+								value="${gda.install.git.loc}/gda-bimorph.git/uk.ac.gda.bimorph/scripts/" />
+							<property name="name" value="Scripts: Bimorph" />
+							<property name="type" value="CORE" />
+						</bean>
+					</list>
+				</property>
+				<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
+			</bean>
+		</property>
+		<property name="gdaVarDirectory" value="${gda.config}/var" />
+		<property name="cacheDirectory" value="${gda.config}/var/jythonCache" />
 
 		<property name="remotePort" value="8920" />
 	</bean>
@@ -191,22 +192,22 @@
 	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">
 		<constructor-arg ref="logfilenameprovider" />
 	</bean>
-	
+
 	<bean class="gda.jython.logger.OutputTerminalAdapter">
 		<constructor-arg ref="jython_server_facade" />
-		<constructor-arg ref="terminal_logger"/>
+		<constructor-arg ref="terminal_logger" />
 	</bean>
 	<bean class="gda.jython.logger.InputTerminalAdapter">
 		<constructor-arg ref="command_server" />
-		<constructor-arg ref="terminal_logger"/>
+		<constructor-arg ref="terminal_logger" />
 	</bean>
 	<bean class="gda.jython.logger.ScanDataPointAdapter">
 		<constructor-arg ref="jython_server_facade" />
-		<constructor-arg ref="terminal_logger"/>
+		<constructor-arg ref="terminal_logger" />
 	</bean>
 	<bean class="gda.jython.logger.BatonChangedAdapter">
 		<constructor-arg ref="jython_server_facade" />
-		<constructor-arg ref="terminal_logger"/>
+		<constructor-arg ref="terminal_logger" />
 	</bean>
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
@@ -217,25 +218,25 @@
 			<bean class="gda.spring.NetServiceFactoryBean" />
 		</constructor-arg>
 	</bean>
-        
-        <bean id="commandQueue" class="gda.commandqueue.CommandQueue" />
 
+	<bean id="commandQueue" class="gda.commandqueue.CommandQueue" />
 
-        <bean id="commandQueueProcessor" class = "gda.commandqueue.FindableProcessorQueue">
-                <property name="queue" ref="commandQueue"/>
-                <property name="startImmediately" value="true"/>
-                <property name="logFilePath" value="${gda.var}/commandQueueProcessor.log"/>
-        </bean>
+	<bean id="commandQueueProcessor" class="gda.commandqueue.FindableProcessorQueue">
+		<property name="queue" ref="commandQueue" />
+		<property name="startImmediately" value="true" />
+		<property name="logFilePath" value="${gda.var}/commandQueueProcessor.log" />
+	</bean>
 
-        <bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-                <property name="serviceName" value="gda/commandQueueProcessor" />
-                <property name="service" ref="commandQueueProcessor" />
-                <property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
-        </bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/commandQueueProcessor" />
+		<property name="service" ref="commandQueueProcessor" />
+		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
+	</bean>
 
-
+	<bean id="twodscan" class="uk.ac.gda.server.ncd.scan.TwoDPlotListener">
+		<property name="plotPanel" value="Plot 2D" />
+	</bean>
+	
 	<gda:rbac />
-
-        <corba:export namespace="i22" />
-
+	<corba:export namespace="i22" />
 </beans>
