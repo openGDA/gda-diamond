@@ -463,6 +463,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 							if (uiTimingGroup.isUseExernalTrigger()) {
 								timingGroup.setGroupTrig(true);
 								timingGroup.setGroupTrigLemo(uiTimingGroup.getExternalTrigLemoNumber());
+								timingGroup.setGroupTrigRisingEdge(!uiTimingGroup.getExernalTriggerInputLemoNumber().isFallingEdge());
 							}
 							timingGroups.add(timingGroup);
 						}
