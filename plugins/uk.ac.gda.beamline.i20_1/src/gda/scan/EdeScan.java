@@ -201,6 +201,7 @@ public class EdeScan extends ConcurrentScanChild {
 				logger.info("Detector paused and waiting for a trigger. Abort the scan if this takes too long.");
 				sendMessage = false;
 			}
+			progressData = theDetector.fetchStatus();
 		}
 		return progressData;
 	}
