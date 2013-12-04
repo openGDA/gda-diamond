@@ -1,4 +1,4 @@
 #!/bin/sh
 #
-setfacl -m o:rx dls-config/bin/*
+setfacl -m o:rx -m g:dls_dasc:rwx  dls-config/bin/*
 
