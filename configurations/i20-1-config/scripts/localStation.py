@@ -2,7 +2,7 @@ from uk.ac.gda.exafs.ui.data import EdeScanParameters
 from gda.configuration.properties import LocalProperties
 
 run("roi_control.py")
-run("javajythonutil.py")
+run("gdascripts/javajythonutil.py")
 
 das = finder.find("DAServer")
 
