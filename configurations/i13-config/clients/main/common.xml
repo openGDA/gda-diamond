@@ -435,7 +435,7 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
-	<bean id="p2r_rot" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+<!-- 	<bean id="p2r_rot" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}p2r_rot" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
@@ -450,7 +450,7 @@
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-
+ -->
 
 	<bean id="sampleCentring" class="gda.rcp.views.StageCompositeFactory">
 		<property name="stageCompositeDefinitions">
