@@ -198,7 +198,7 @@ public class B16VortexParametersUIEditor extends VortexParametersUIEditor {
 			logger.error("Unable to save the acquired data to file ", e);
 		} finally {
 			if (monitor!=null)  monitor.done();
-			sashPlotForm.appendStatus("Collected data from detector successfully.", logger);
+			sashPlotFormComposite.appendStatus("Collected data from detector successfully.", logger);
 		}
 
 		// Note: currently has to be in this order.
