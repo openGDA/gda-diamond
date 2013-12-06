@@ -458,6 +458,8 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 								timingGroup.setGroupTrigLemo(uiTimingGroup.getExternalTrigLemoNumber());
 								timingGroup.setGroupTrigRisingEdge(!uiTimingGroup.getExernalTriggerInputLemoNumber().isFallingEdge());
 							}
+							// Set up lemo outs
+							setupLemoOuts(timingGroup);
 							timingGroups.add(timingGroup);
 						}
 						InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
@@ -488,6 +490,17 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 			TimeResolvedExperimentModel.this.setScanning(false);
 			monitor.done();
 			return Status.OK_STATUS;
+		}
+
+		protected void setupLemoOuts(TimingGroup timingGroup) {
+			timingGroup.setOutLemo0(true);
+			timingGroup.setOutLemo1(true);
+			timingGroup.setOutLemo2(true);
+			timingGroup.setOutLemo3(true);
+			timingGroup.setOutLemo4(true);
+			timingGroup.setOutLemo5(true);
+			timingGroup.setOutLemo6(true);
+			timingGroup.setOutLemo7(true);
 		}
 
 		@Override

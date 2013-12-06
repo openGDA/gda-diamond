@@ -33,7 +33,9 @@ import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -98,7 +100,10 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	public static int NUMBER_ELEMENTS = 1024;
 	public static int START_STRIP = 0;
 
-	private static int DETECTOR_ERROR_CODE = -1;
+	private static final int DETECTOR_ERROR_CODE = -1;
+	private static final String DETECTOR_ERROR_CODE_STR = "-1";
+
+	private static final int EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES = 100;
 
 	private static Integer[] STRIPS;
 
@@ -123,7 +128,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	private Integer[] excludedStrips;
 	private boolean connected;
 
-	//private PolynomialFunction calibration = new PolynomialFunction(new double[] { 0., 1. });
+	private boolean externalOutputConfigSendToDetector;
+
 	private PolynomialFunction calibration;
 
 	static {
@@ -675,6 +681,11 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				command = command.trim() + " last";
 			}
 
+			if (!externalOutputConfigSendToDetector) {
+				sendExternalOutputCommand();
+				externalOutputConfigSendToDetector = true;
+			}
+
 			logger.info("Sending group to XH: " + command);
 			Object result = daServer.sendCommand(command);
 			if (result.toString().compareTo("-1") == 0) {
@@ -682,6 +693,27 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 						"The given parameters were not accepted by da.server! Check frame and scan times.");
 			}
 		}
+	}
+
+	private void sendExternalOutputCommand() throws DeviceException {
+		List<String> commands = new ArrayList<String>();
+		commands.add("xstrip timing ext-output \"xh0\" 0 " + "group-pre-delay" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
+		commands.add("xstrip timing ext-output \"xh0\" 1 " + "group-post-delay" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
+		commands.add("xstrip timing ext-output \"xh0\" 2 " + "frame-pre-delay" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
+		commands.add("xstrip timing ext-output \"xh0\" 3 " + "frame-post-delay" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
+		commands.add("xstrip timing ext-output \"xh0\" 4 " + "scan-pre-delay" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
+		commands.add("xstrip timing ext-output \"xh0\" 5 " + "scan-post-delay" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
+		commands.add("xstrip timing ext-output \"xh0\" 6 " + "integration" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
+		commands.add("xstrip timing ext-output \"xh0\" 7 " + "aux1" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
+		for (String extCommand : commands) {
+			logger.info("Sending external output configuration to XH: " + extCommand);
+			Object result = daServer.sendCommand(extCommand);
+			if (result.toString().compareTo(DETECTOR_ERROR_CODE_STR) == 0) {
+				throw new DeviceException(
+						"The given parameters were not accepted by da.server! Check frame and scan times.");
+			}
+		}
+
 	}
 
 	private String buildDelaysCommand(TimingGroup timingGroup) {

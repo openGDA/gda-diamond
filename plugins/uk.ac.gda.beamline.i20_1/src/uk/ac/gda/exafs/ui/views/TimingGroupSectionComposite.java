@@ -149,17 +149,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 				WidgetProperties.selection().observe(i0NoOfAccumulationCheck),
 				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_I0_PROP_NAME).observe(model));
 
-		//		dataBindingCtx.bindValue(
-		//				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(i0IntegrationTimeValueText),
-		//				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_I0_PROP_NAME).observe(model),
-		//				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-		//				new UpdateValueStrategy() {
-		//					@Override
-		//					public Object convert(Object value) {
-		//						return !((boolean) value);
-		//					}
-		//				});
-
 		dataBindingCtx.bindValue(
 				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(i0NoOfAccumulationValueText),
 				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_I0_PROP_NAME).observe(model),
@@ -192,7 +181,9 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 	private void setupUI() throws Exception {
 		this.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
+
 		createI0IRefComposites();
+
 		Section section = toolkit.createSection(this, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 		section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		section.setText("Timing groups");
@@ -258,7 +249,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		numberOfSpectraPerSecToPlotText = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME, false);
 		numberOfSpectraPerSecToPlotText.setUnit(UnitSetup.SEC.getText());
 		numberOfSpectraPerSecToPlotText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
+		// TODO Refactor this
 		if (model instanceof CyclicExperimentModel) {
 			Composite repeatingGroupsComposite = new Composite(sectionComposite, SWT.NONE);
 			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
