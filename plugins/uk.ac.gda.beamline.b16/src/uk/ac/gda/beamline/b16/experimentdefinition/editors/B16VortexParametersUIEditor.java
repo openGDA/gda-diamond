@@ -106,7 +106,7 @@ public class B16VortexParametersUIEditor extends VortexParametersUIEditor {
 					final Map<String, Serializable> data = new HashMap<String, Serializable>(1);
 					data.put("VortexParametersToLoad", bean);
 					monitor.worked(10);
-					ScriptExecutor.Run("ExafsScriptObserver", createObserver(), data, command
+					ScriptExecutor.Run("ExafsScriptObserver", createObserver(), data, serverCommand
 							+ "(VortexParametersToLoad)", JythonGuiConstants.TERMINALNAME);
 					monitor.worked(50);
 
