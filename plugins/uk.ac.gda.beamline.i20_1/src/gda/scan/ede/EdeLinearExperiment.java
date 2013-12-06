@@ -101,10 +101,6 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		calculateTotalNoOfSpectra();
 	}
 
-	public void setIRefParameters(Map<String, Double> iRefScanableMotorPositions) throws DeviceException {
-		iRefPosition = this.setPosition(EdePositionType.REFERENCE, iRefScanableMotorPositions);
-	}
-
 	public void setIRefParameters(Map<String, Double> iRefScanableMotorPositions, double accumulationTime, int numberOfAccumulcations) throws DeviceException {
 		iRefPosition = this.setPosition(EdePositionType.REFERENCE, iRefScanableMotorPositions);
 		iRefScanParameters = this.deriveScanParametersFromIt(accumulationTime, numberOfAccumulcations);
@@ -112,6 +108,10 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 
 	public void setCommonI0Parameters(double accumulationTime, int numberOfAccumulcations) {
 		i0ScanParameters = this.deriveScanParametersFromIt(accumulationTime, numberOfAccumulcations);
+	}
+
+	public void setCommonI0Parameters(double accumulationTime) {
+		i0ScanParameters = this.deriveScanParametersFromIt(accumulationTime, null);
 	}
 
 	public EdeLinearExperiment(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
@@ -290,7 +290,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		i0DarkScan.setProgressUpdater(this);
 		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, beamShutter);
 		i0InitialScan.setProgressUpdater(this);
-		if (iRefPosition != null) {
+		if (iRefPosition != null & iRefScanParameters != null) {
 			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, beamShutter);
 		}
 		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, beamShutter);

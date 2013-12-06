@@ -97,9 +97,6 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	public static final String USE_IT_TIME_FOR_I0_PROP_NAME = "useItTimeForI0";
 	private boolean useItTimeForI0 = true;
 
-	public static final String USE_IT_TIME_FOR_IREF_PROP_NAME = "useItTimeForIref";
-	private boolean useItTimeForIref  = true;
-
 	public static final String I0_INTEGRATION_TIME_PROP_NAME = "i0IntegrationTime";
 	private double i0IntegrationTime;
 
@@ -197,8 +194,6 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	public static Topup[] getTopupTimes() {
 		return topupTimes;
 	}
-
-
 
 	public void loadSavedGroups(String key) {
 		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(key, TimingGroupUIModel[].class);
@@ -360,18 +355,16 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				DetectorModel.SHUTTER_NAME,
 				this.getNoOfSecPerSpectrumToPublish()));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
-			if (useItTimeForIref) {
-				builder.append(String.format(JYTHON_DRIVER_OBJ + ".setIRefParameters(mapToJava(%s));",
-						SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef)));
-			} else {
-				builder.append(String.format(JYTHON_DRIVER_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
-						SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
-						unit.getWorkingUnit().convertToSecond(irefIntegrationTime), irefNoOfAccumulations));
-			}
+			builder.append(String.format(JYTHON_DRIVER_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
+					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
+					unit.getWorkingUnit().convertToSecond(irefIntegrationTime), irefNoOfAccumulations));
 		}
 		if (!this.isUseItTimeForI0()) {
 			builder.append(String.format(JYTHON_DRIVER_OBJ + ".setCommonI0Parameters(%f, %d);",
 					unit.getWorkingUnit().convertToSecond(i0IntegrationTime), i0NoOfAccumulations));
+		} else {
+			builder.append(String.format(JYTHON_DRIVER_OBJ + ".setCommonI0Parameters(%f);",
+					unit.getWorkingUnit().convertToSecond(i0IntegrationTime)));
 		}
 		builder.append(JYTHON_DRIVER_OBJ + ".runExperiment();");
 		return builder.toString();
@@ -611,14 +604,6 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	public void setUseItTimeForI0(boolean useItTimeForI0) {
 		this.firePropertyChange(USE_IT_TIME_FOR_I0_PROP_NAME, this.useItTimeForI0, this.useItTimeForI0 = useItTimeForI0);
-	}
-
-	public boolean isUseItTimeForIref() {
-		return useItTimeForIref;
-	}
-
-	public void setUseItTimeForIref(boolean useItTimeForIref) {
-		this.firePropertyChange(USE_IT_TIME_FOR_IREF_PROP_NAME, this.useItTimeForIref, this.useItTimeForIref = useItTimeForIref);
 	}
 
 	public double getI0IntegrationTime() {

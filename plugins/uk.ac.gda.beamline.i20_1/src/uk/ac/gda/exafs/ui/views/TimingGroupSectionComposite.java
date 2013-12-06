@@ -107,7 +107,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 	private Section groupSection;
 
-	private Button useItTimeForI0Settings;
+	private Button i0NoOfAccumulationCheck;
 
 	private NumberEditorControl i0IntegrationTimeValueText;
 
@@ -116,8 +116,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 	private NumberEditorControl iRefIntegrationTimeValueText;
 
 	private NumberEditorControl iRefNoOfAccumulationValueText;
-
-	private Button useItTimeForIrefSettings;
 
 	private Section sectionIRefaccumulationSection;
 
@@ -148,49 +146,23 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					}
 				});
 		dataBindingCtx.bindValue(
-				WidgetProperties.selection().observe(useItTimeForI0Settings),
+				WidgetProperties.selection().observe(i0NoOfAccumulationCheck),
 				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_I0_PROP_NAME).observe(model));
 
-		dataBindingCtx.bindValue(
-				WidgetProperties.selection().observe(useItTimeForIrefSettings),
-				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_IREF_PROP_NAME).observe(model));
-
-		dataBindingCtx.bindValue(
-				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(i0IntegrationTimeValueText),
-				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_I0_PROP_NAME).observe(model),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object value) {
-						return !((boolean) value);
-					}
-				});
+		//		dataBindingCtx.bindValue(
+		//				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(i0IntegrationTimeValueText),
+		//				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_I0_PROP_NAME).observe(model),
+		//				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+		//				new UpdateValueStrategy() {
+		//					@Override
+		//					public Object convert(Object value) {
+		//						return !((boolean) value);
+		//					}
+		//				});
 
 		dataBindingCtx.bindValue(
 				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(i0NoOfAccumulationValueText),
 				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_I0_PROP_NAME).observe(model),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-				new UpdateValueStrategy() {
-
-					@Override
-					public Object convert(Object value) {
-						return !((boolean) value);
-					}
-				});
-		dataBindingCtx.bindValue(
-				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(iRefIntegrationTimeValueText),
-				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_IREF_PROP_NAME).observe(model),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object value) {
-						return !((boolean) value);
-					}
-				});
-
-		dataBindingCtx.bindValue(
-				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(iRefNoOfAccumulationValueText),
-				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_IREF_PROP_NAME).observe(model),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 				new UpdateValueStrategy() {
 
@@ -523,10 +495,10 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		i0IaccumulationComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 		sectionI0accumulationSection.setClient(i0IaccumulationComposite);
 
-		useItTimeForI0Settings = toolkit.createButton(i0IaccumulationComposite, "Use It for I0 accumulation", SWT.CHECK);
+		i0NoOfAccumulationCheck = toolkit.createButton(i0IaccumulationComposite, "Use It and IRef for I0 no. of accumulations", SWT.CHECK);
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		gridData.horizontalSpan = 2;
-		useItTimeForI0Settings.setLayoutData(gridData);
+		i0NoOfAccumulationCheck.setLayoutData(gridData);
 
 		Label label = toolkit.createLabel(i0IaccumulationComposite, "Accumulation time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -550,11 +522,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		final Composite iRefDetailsComposite = toolkit.createComposite(sectionIRefaccumulationSection, SWT.NONE);
 		iRefDetailsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 		sectionIRefaccumulationSection.setClient(iRefDetailsComposite);
-
-		useItTimeForIrefSettings = toolkit.createButton(iRefDetailsComposite, "Use It for Iref accumulation", SWT.CHECK);
-		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		gridData.horizontalSpan = 2;
-		useItTimeForIrefSettings.setLayoutData(gridData);
 
 		label = toolkit.createLabel(iRefDetailsComposite, "Accumulation time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -722,8 +689,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			groupBindings.add(dataBindingCtx.bindValue(ViewerProperties.singleSelection().observe(inputLemoSelector),
 					BeanProperties.value(TimingGroupUIModel.EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME).observe(group)));
 		} catch (Exception e) {
-			// TODO Handle this!
-			e.printStackTrace();
+			logger.error("Unable to setup group detail controls", e);
 		}
 	}
 
