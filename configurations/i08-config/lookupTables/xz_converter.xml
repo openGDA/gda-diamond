@@ -1,7 +1,0 @@
-<JEPQuantityConverter>
-<ExpressionStoT>0.7071 * (-X)</ExpressionStoT>
-<ExpressionTtoS>(-X)/0.707</ExpressionTtoS>
-<AcceptableSourceUnits>mm</AcceptableSourceUnits>
-<AcceptableTargetUnits>mm</AcceptableTargetUnits>
-<SourceMinIsTargetMax>false</SourceMinIsTargetMax>
-</JEPQuantityConverter>
