@@ -463,7 +463,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	@Override
 	public void stop() throws DeviceException {
 		daServer.sendCommand(createTimingCommand("stop"));
-
 		if (hasValidDataHandle()) {
 			sendCommand("disable " + dataHandle);
 		}
@@ -681,10 +680,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				command = command.trim() + " last";
 			}
 
-			if (!externalOutputConfigSendToDetector) {
-				sendExternalOutputCommand();
-				externalOutputConfigSendToDetector = true;
-			}
+			sendExternalOutputCommand();
 
 			logger.info("Sending group to XH: " + command);
 			Object result = daServer.sendCommand(command);
@@ -703,8 +699,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		commands.add("xstrip timing ext-output \"xh0\" 3 " + "frame-post-delay" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
 		commands.add("xstrip timing ext-output \"xh0\" 4 " + "scan-pre-delay" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
 		commands.add("xstrip timing ext-output \"xh0\" 5 " + "scan-post-delay" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
-		commands.add("xstrip timing ext-output \"xh0\" 6 " + "integration" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
-		commands.add("xstrip timing ext-output \"xh0\" 7 " + "aux1" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
+		commands.add("xstrip timing ext-output \"xh0\" 6 " + "integration");
+		commands.add("xstrip timing ext-output \"xh0\" 7 " + "aux1");
 		for (String extCommand : commands) {
 			logger.info("Sending external output configuration to XH: " + extCommand);
 			Object result = daServer.sendCommand(extCommand);
