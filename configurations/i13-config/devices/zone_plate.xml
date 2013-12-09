@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+	<!--  the motors assignments and scaling will need to be reset once EPICS is correct-->
+	<bean id="zone_plate_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="zone_plate_x_motor" />
+	</bean>
+	<bean id="zone_plate_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="zone_plate_y_motor" />
+	</bean>
+	<bean id="zone_plate_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="zone_plate_z_motor" />
+	</bean>
+	
+	<bean id="zone_plate" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="zone_plate_x" />
+				<ref bean="zone_plate_y" />
+				<ref bean="zone_plate_z" />
+			</list>
+		</property>
+	</bean>	
+	
+	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/zone_plate_x" />
+		<property name="service" ref="zone_plate_x" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/zone_plate_y" />
+		<property name="service" ref="zone_plate_y" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/zone_plate_z" />
+		<property name="service" ref="zone_plate_z" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	
+</beans>
+

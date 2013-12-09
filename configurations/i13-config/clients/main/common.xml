@@ -60,6 +60,8 @@
 	<import resource="d3.xml" />
 	<import resource="d4.xml" />
 	<import resource="d5.xml" />
+	<import resource="float1.xml" />
+	<import resource="float2.xml" />
 
 	<import resource="../../devices/cameraScaleProviders.xml" />
 
@@ -306,6 +308,16 @@
 									value="uk.ac.gda.beamline.i13i.d5AreaDetectorLiveView" />
 							</bean>
 							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="float1" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13i.float1AreaDetectorLiveView" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="float2" />
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13i.float2AreaDetectorLiveView" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOption">
 								<constructor-arg value="WebCams" />
 								<constructor-arg value="uk.ac.gda.video.views.cameraview" />
 							</bean>
@@ -360,6 +372,22 @@
 	</bean>
 	<bean id="ss1_Z" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}ss1_Z" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<bean id="bs1_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}bs1_x" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="bs1_y" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}bs1_y" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="bs1_z" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}bs1_z" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
@@ -545,6 +573,32 @@
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
 					<property name="imageFilePath" value="icons/samplebasestage.gif" />
 					<property name="label" value="Base" />
+				</bean>
+				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
+					<property name="compositeFactory">
+						<bean class="gda.rcp.views.StageCompositeFactory">
+							<property name="stageCompositeDefinitions">
+								<util:list value-type="gda.rcp.views.StageCompositeDefinition">
+									<bean class="gda.rcp.views.StageCompositeDefinition">
+										<property name="scannable" ref="bs1_x" />
+										<property name="stepSize" value=".1" />
+									</bean>
+									<bean class="gda.rcp.views.StageCompositeDefinition">
+										<property name="scannable" ref="bs1_y" />
+										<property name="stepSize" value=".1" />
+									</bean>
+									<bean class="gda.rcp.views.StageCompositeDefinition">
+										<property name="scannable" ref="bs1_z" />
+										<property name="stepSize" value=".1" />
+									</bean>
+								</util:list>
+							</property>
+							<property name="labelWidth" value="80" />
+						</bean>
+					</property>
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
+					<property name="imageFilePath" value="icons/camerastage.gif" />
+					<property name="label" value="Backstop" />
 				</bean>
 				<!-- <bean class="gda.rcp.views.TabCompositeFactoryImpl"> <property name="compositeFactory"> 
 					<bean class="gda.rcp.views.StageCompositeFactory"> <property name="stageCompositeDefinitions"> 

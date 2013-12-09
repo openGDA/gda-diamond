@@ -25,7 +25,7 @@ from contextlib import contextmanager
 
 from numpy import *
 import numpy as np
-import PIL.Image
+import Image
 
 def copySingleFile(src, dst):
 	success = False
@@ -488,7 +488,7 @@ def readTIFF_u16(path):
 	"""Read 16bit TIFF"""
 	print '\treadTIFF_u16 START'
 	print 'filepath=', path
-	im=PIL.Image.open(path)
+	im=Image.open(path)
 	print "im.format", im.format
 	print "im.mode", im.mode
 	print 'im.size', im.size
@@ -592,7 +592,7 @@ def overwrite_timestamp(filename, dy=16+1, intensity=0):
 		for y in range(0, a0.shape[1]):
 			arr_ovr[x, y]=intensity
 			
-	im_ovr=PIL.Image.frombuffer("I;16", (w, h) , arr_ovr, "raw", "I;16", 0, 1)
+	im_ovr=Image.frombuffer("I;16", (w, h) , arr_ovr, "raw", "I;16", 0, 1)
 	filename_ovr=filename+'_ovr'+`dy`
 	fname_ovr=filename_ovr+'.tif'
 	file=open(fname_ovr, 'w')
@@ -710,8 +710,8 @@ def estimateCOR(projFilename_0deg, flatFilename_0deg, darkFilename_0deg, projFil
 					a180[x, y]=65535
 				#a180[x, y]=65535-a180[x, y]
 			
-		#im0_sub=im0.filter(PIL.ImageFilter.BLUR)
-		im0_sub=PIL.Image.frombuffer("I;16B", (w, h) , a0, "raw", "I;16B", 0, 1)
+		#im0_sub=im0.filter(ImageFilter.BLUR)
+		im0_sub=Image.frombuffer("I;16B", (w, h) , a0, "raw", "I;16B", 0, 1)
 		filename0_sub=filename0+'_sub'
 		fname0_sub=filename0+'_sub.tif'
 		file=open(fname0_sub, 'w')
@@ -720,7 +720,7 @@ def estimateCOR(projFilename_0deg, flatFilename_0deg, darkFilename_0deg, projFil
 		file.close()
 		print '>>im0: flat-subtracted'
 	
-		im180_sub=PIL.Image.frombuffer("I;16B", (w, h) , a180, "raw", "I;16B", 0, 1)
+		im180_sub=Image.frombuffer("I;16B", (w, h) , a180, "raw", "I;16B", 0, 1)
 		filename180_sub=filename180+'_sub'
 		fname180_sub=filename180+'_sub.tif'
 		file=open(fname180_sub, 'w')
@@ -738,7 +738,7 @@ def estimateCOR(projFilename_0deg, flatFilename_0deg, darkFilename_0deg, projFil
 			a180_flp[x, y]=a180[x, a180.shape[1]-y-1]
 	#		a180_flp[x, y]=a180[x, y]
 			
-	im180_flp=PIL.Image.frombuffer("I;16B", (w, h) , a180_flp, "raw", "I;16B", 0, 1)
+	im180_flp=Image.frombuffer("I;16B", (w, h) , a180_flp, "raw", "I;16B", 0, 1)
 	filename180_flp=filename180+'_flp'
 	fname180_flp=filename180+'_flp.tif'
 	if dbg_save:
@@ -760,7 +760,7 @@ def estimateCOR(projFilename_0deg, flatFilename_0deg, darkFilename_0deg, projFil
 			else:
 				a180_flp_inv[x, y]=a180_flp[x, y]
 			
-	im180_flp_inv=PIL.Image.frombuffer("I;16B", (w, h) , a180_flp_inv, "raw", "I;16B", 0, 1)
+	im180_flp_inv=Image.frombuffer("I;16B", (w, h) , a180_flp_inv, "raw", "I;16B", 0, 1)
 	filename180_flp_inv=filename180+'_flp_inv'
 	fname180_flp_inv=filename180+'_flp_inv.tif'
 	if dbg_save:
@@ -782,7 +782,7 @@ def estimateCOR(projFilename_0deg, flatFilename_0deg, darkFilename_0deg, projFil
 			else:
 				a0_inv[x, y]=a0[x, y]
 			
-	im0_inv=PIL.Image.frombuffer("I;16B", (w, h) , a0_inv, "raw", "I;16B", 0, 1)
+	im0_inv=Image.frombuffer("I;16B", (w, h) , a0_inv, "raw", "I;16B", 0, 1)
 	filename0_inv=filename0+'_inv'
 	fname0_inv=filename0+'_inv.tif'
 	if dbg_save:
@@ -815,7 +815,7 @@ def estimateCOR(projFilename_0deg, flatFilename_0deg, darkFilename_0deg, projFil
 			else:
 				a0_inv_thr_[x, y]=hi
 			
-	im0_inv_thr=PIL.Image.frombuffer("I;16", (w, h) , a0_inv_thr_, "raw", "I;16", 0, 1)
+	im0_inv_thr=Image.frombuffer("I;16", (w, h) , a0_inv_thr_, "raw", "I;16", 0, 1)
 	filename0_inv_thr=filename0+'_inv_thr'+`threshold0`
 	fname0_inv_thr=filename0_inv_thr+'.tif'
 	if dbg_save: 
@@ -859,7 +859,7 @@ def estimateCOR(projFilename_0deg, flatFilename_0deg, darkFilename_0deg, projFil
 			else:
 				a180_flp_inv_thr_[x, y]=hi
 			
-	im180_flp_inv_thr=PIL.Image.frombuffer("I;16", (w, h) , a180_flp_inv_thr_, "raw", "I;16", 0, 1)
+	im180_flp_inv_thr=Image.frombuffer("I;16", (w, h) , a180_flp_inv_thr_, "raw", "I;16", 0, 1)
 	filename180_flp_inv_thr=filename180+'_flp_inv_thr'+`threshold180`
 	fname180_flp_inv_thr=filename180_flp_inv_thr+'.tif'
 	if dbg_save:
@@ -903,7 +903,7 @@ def estimateCOR(projFilename_0deg, flatFilename_0deg, darkFilename_0deg, projFil
 	#	for y in range(a0_inv_thr_.shape[1]-256*3, a0_inv_thr_.shape[1]):
 	#		a0_inv_thr_ovr_[x, y]=intensity
 			
-	im0_inv_thr_ovr=PIL.Image.frombuffer("I;16", (w, h) , a0_inv_thr_ovr_, "raw", "I;16", 0, 1)
+	im0_inv_thr_ovr=Image.frombuffer("I;16", (w, h) , a0_inv_thr_ovr_, "raw", "I;16", 0, 1)
 	filename0_inv_thr_ovr=filename0+'_inv_thr'+`threshold0`+'_ovr'+`dy`
 	fname0_inv_thr_ovr=filename0_inv_thr_ovr+'.tif'
 	if dbg_save:
@@ -940,7 +940,7 @@ def estimateCOR(projFilename_0deg, flatFilename_0deg, darkFilename_0deg, projFil
 	#	for y in range(0, 256*3):
 	#		a180_flp_inv_thr_ovr_[x, y]=intensity
 			
-	im180_flp_inv_thr_ovr=PIL.Image.frombuffer("I;16", (w, h) , a180_flp_inv_thr_ovr_, "raw", "I;16", 0, 1)
+	im180_flp_inv_thr_ovr=Image.frombuffer("I;16", (w, h) , a180_flp_inv_thr_ovr_, "raw", "I;16", 0, 1)
 	filename180_flp_inv_thr_ovr=filename180+'_flp_inv_thr'+`threshold180`+'_ovr'+`dy`
 	fname180_flp_inv_thr_ovr=filename180_flp_inv_thr_ovr+'.tif'
 	if dbg_save:
@@ -1415,7 +1415,7 @@ def makeLinksForNXSFile(\
 				print "IOError:", err
 			else:
 				try:
-					img = PIL.Image.open(f)
+					img = Image.open(f)
 				except StandardError:
 					print "Error on Image.open for file: %s:"%str(srcfile_proj)
 					f.close() # force close

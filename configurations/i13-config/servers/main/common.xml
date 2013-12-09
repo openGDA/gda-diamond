@@ -163,10 +163,16 @@
 	<import resource="../../devices/camera_stage.xml" />
 	<import resource="../../devices/pco1.xml" />
 	<import resource="../../devices/sample_stage_hexapod.xml"/>	
+	<import resource="../../devices/backstop.xml" />
+	<import resource="../../devices/condenser.xml" />
+	<import resource="../../devices/central_stop.xml" />
+	<import resource="../../devices/pinhole.xml" />
+	<import resource="../../devices/zone_plate.xml" />
+	<import resource="../../devices/phase_ring.xml" />
 
 	<import resource="../../devices/zebra.xml" />
-	<import resource="../../devices/zebra_test.xml" />
-
+<!-- 	<import resource="../../devices/zebra_test.xml" />
+ -->
 
 
 	<!--  dummy motors for testing tomoscan  -->
