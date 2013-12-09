@@ -27,20 +27,16 @@
 	
 	<bean id="s7_xplus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s7_xplus_motor" />
-<!-- 		<property name="userUnits" value="mm"/>
- -->	</bean>
+	</bean>
 	<bean id="s7_xminus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s7_xminus_motor" />
-<!-- 		<property name="userUnits" value="mm"/>
- -->	</bean>
+	</bean>
 	<bean id="s7_yplus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s7_yplus_motor" />
-<!-- 		<property name="userUnits" value="mm"/>
- -->	</bean>
+	</bean>
 	<bean id="s7_yminus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s7_yminus_motor" />
-<!-- 		<property name="userUnits" value="mm"/>
- -->	</bean>	
+	</bean>	
 	
 	
 </beans>

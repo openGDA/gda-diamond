@@ -34,22 +34,7 @@
 	</bean>
 
 
-<!-- 	<bean id="_float1_cam_ad" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="float1_cam_base" />
-		<property name="ndStats" ref="float1_stat" />
-		<property name="ndArray" ref="float1_arr" />
-		<property name="collectionStrategy">
-			<bean class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-				<constructor-arg ref="float1_cam_base" />
-				<constructor-arg value=".0" />
-			</bean>
-		</property>
-		<property name="computeStats" value="false" />
-		<property name="computeCentroid" value="false" />
-		<property name="readArray" value="true" />
-		
-	</bean>
- -->
+
 	<bean id="float1_cam_nx_array"
 		class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
 		<constructor-arg ref="float1_arr" />

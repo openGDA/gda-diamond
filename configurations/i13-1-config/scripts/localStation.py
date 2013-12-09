@@ -242,6 +242,14 @@ if not LocalProperties.check("gda.dummy.mode"):
 	import average
 	d4_i_avg = average.Average(d4_i,numPoints=10, timeBetweenReadings=0.1)
 
+def eh_shtr_control():
+	if eh_shtr()=="Open":
+		pos eh_shtr "Close"
+	else:
+		pos eh_shtr "Reset"
+		time.sleep(3)
+		pos eh_shtr "Open"
+
 #mtscripts have been commented out of JythonServerFacade as this is used temprarily for moveable equipment
 #import mtscripts.moveable.me07m
 #from mtscripts.moveable.me07m import mepiezo1x, mepiezo1y, eembimorph, dummy_bimorph
@@ -314,3 +322,6 @@ import excalibur_config
 #slitscanner = SlitScanner()
 #slitscanner.setScanAborter(scanAborter)
 #bm_topup = TopupCountdown("bm_topup")
+
+
+run("localStationUser.py")

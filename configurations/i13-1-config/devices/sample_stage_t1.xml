@@ -36,13 +36,13 @@
 		<property name="motor" ref="t1_theta_motor" />
 	</bean>
 	
-	<bean id="t1_ix" class="gda.device.scannable.SimpleScannable">
+	<bean id="t1_ixy" class="gda.device.scannable.SimpleScannable">
 		<property name="currentPosition">
 		<bean class="java.lang.Double">
 		  <constructor-arg value="0.0"/>
 		</bean>
 		</property>
-		<property name="inputNames" value="t1_ix"/>
+		<property name="inputNames" value="t1_ixy"/>
 	</bean>
 	
 
@@ -52,11 +52,30 @@
 			<list>
 				<ref bean="t1_x" />
 				<ref bean="t1_y" />
-				<ref bean="t1_ix" />
+				<ref bean="t1_ixy" />
 			</list>
 		</property>
 	</bean>		
+
+
+	<bean id="t1_isxy" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="0.0"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="t1_isxy"/>
+	</bean>
 	
+	<bean id="t1_sxy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="t1_sx" />
+				<ref bean="t1_sy" />
+				<ref bean="t1_isxy" />
+			</list>
+		</property>
+	</bean>		
 	
 	
 	<bean id="t1" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -72,6 +91,7 @@
 				<ref bean="t1_roll" />
 				<ref bean="t1_theta" />
 				<ref bean="t1_xy" />
+				<ref bean="t1_sxy" />
 			</list>
 		</property>
 	</bean>	

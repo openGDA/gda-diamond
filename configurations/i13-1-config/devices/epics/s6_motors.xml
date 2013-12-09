@@ -20,4 +20,21 @@
 		<property name="local" value="true" />
 	</bean>
 
+	<bean id="s6_xplus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-AL-SLITS-06:X:PLUS"/>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="s6_xminus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-AL-SLITS-06:X:MINUS"/>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="s6_yplus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-AL-SLITS-06:Y:PLUS"/>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="s6_yminus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-AL-SLITS-06:Y:MINUS"/>
+		<property name="local" value="true" />
+	</bean>	
+
 </beans>	

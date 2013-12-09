@@ -135,6 +135,7 @@
 		<config>clients/main/d3.xml</config>
 		<config>clients/main/d4.xml</config>
 		<config>clients/main/d5.xml</config>
+		<config>devices/zebra_test.xml</config>
 	</configs>
 	<configSets>
 	</configSets>
