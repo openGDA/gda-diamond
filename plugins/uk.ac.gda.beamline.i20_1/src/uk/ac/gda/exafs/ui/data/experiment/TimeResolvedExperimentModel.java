@@ -67,7 +67,6 @@ import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 import de.jaret.util.ui.timebars.model.TimeBarRow;
 
-
 public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedExperimentModel.class);
@@ -98,16 +97,16 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	private boolean useItTimeForI0 = true;
 
 	public static final String I0_INTEGRATION_TIME_PROP_NAME = "i0IntegrationTime";
-	private double i0IntegrationTime;
+	private double i0IntegrationTime = 1;
 
 	public static final String I0_NO_OF_ACCUMULATION_PROP_NAME = "i0NoOfAccumulations";
-	private int i0NoOfAccumulations;
+	private int i0NoOfAccumulations = 1;
 
 	public static final String IREF_INTEGRATION_TIME_PROP_NAME = "irefIntegrationTime";
-	private double irefIntegrationTime;
+	private double irefIntegrationTime = 1;
 
 	public static final String IREF_NO_OF_ACCUMULATION_PROP_NAME = "irefNoOfAccumulations";
-	private int irefNoOfAccumulations;
+	private int irefNoOfAccumulations = 1;
 
 	public static final String SCAN_DATA_SET_PROP_NAME = "scanDataSet";
 
@@ -344,27 +343,27 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	}
 
 	private String buildScanCommand() {
-		StringBuilder builder = new StringBuilder(String.format("from gda.scan.ede import EdeLinearExperiment;" +
-				JYTHON_DRIVER_OBJ + " = EdeLinearExperiment(%s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");" +
-				JYTHON_DRIVER_OBJ + ".setNoOfSecPerSpectrumToPublish(%s);",
+		StringBuilder builder = new StringBuilder("from gda.scan.ede import EdeLinearExperiment;");
+		if (!this.isUseItTimeForI0()) {
+			builder.append(String.format(JYTHON_DRIVER_OBJ + " = EdeLinearExperiment(%f, %d",
+					i0IntegrationTime,
+					i0NoOfAccumulations));
+		} else {
+			builder.append(String.format(JYTHON_DRIVER_OBJ + " = EdeLinearExperiment(%f",
+					i0IntegrationTime));
+		}
+		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");",
 				TIMING_GROUPS_OBJ_NAME,
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
-				DetectorModel.SHUTTER_NAME,
-				this.getNoOfSecPerSpectrumToPublish()));
+				DetectorModel.SHUTTER_NAME));
+		builder.append(String.format(JYTHON_DRIVER_OBJ + ".setNoOfSecPerSpectrumToPublish(%d);", this.getNoOfSecPerSpectrumToPublish()));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
 			builder.append(String.format(JYTHON_DRIVER_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
 					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
 					unit.getWorkingUnit().convertToSecond(irefIntegrationTime), irefNoOfAccumulations));
-		}
-		if (!this.isUseItTimeForI0()) {
-			builder.append(String.format(JYTHON_DRIVER_OBJ + ".setCommonI0Parameters(%f, %d);",
-					unit.getWorkingUnit().convertToSecond(i0IntegrationTime), i0NoOfAccumulations));
-		} else {
-			builder.append(String.format(JYTHON_DRIVER_OBJ + ".setCommonI0Parameters(%f);",
-					unit.getWorkingUnit().convertToSecond(i0IntegrationTime)));
 		}
 		builder.append(JYTHON_DRIVER_OBJ + ".runExperiment();");
 		return builder.toString();
@@ -394,16 +393,20 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				currentNormalisedItData.setName("Normalised It");
 				currentEnergyData = edeExperimentProgress.getEnergyData();
 				currentEnergyData.setName("Energy");
-				final int currentFrameNumber = edeExperimentProgress.getProgress().getFrameNumOfThisSDP();
-				final int currentGroupNumber = edeExperimentProgress.getProgress().getGroupNumOfThisSDP();
-				Display.getDefault().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						final TimingGroupUIModel currentGroup = (TimingGroupUIModel) groupList.get(currentGroupNumber);
-						// TODO refactor the group to manage its own state
-						TimeResolvedExperimentModel.this.setCurrentScanningSpectrum((SpectrumModel) currentGroup.getSpectrumList().get(currentFrameNumber));
-					}
-				});
+				//				final int currentFrameNumber = edeExperimentProgress.getProgress().getFrameNumOfThisSDP();
+				//				final int currentGroupNumber = edeExperimentProgress.getProgress().getGroupNumOfThisSDP();
+				//				Display.getDefault().asyncExec(new Runnable() {
+				//					//					@Override
+				//					//					public void run() {
+				//					//						if (groupList.size() -1 < currentGroupNumber) {
+				//					//							System.out.println(groupList.size());
+				//					//							System.out.println(currentGroupNumber);
+				//					//						}
+				//					//						final TimingGroupUIModel currentGroup = (TimingGroupUIModel) groupList.get(currentGroupNumber);
+				//					//						// TODO refactor the group to manage its own state
+				//					//						TimeResolvedExperimentModel.this.setCurrentScanningSpectrum((SpectrumModel) currentGroup.getSpectrumList().get(currentFrameNumber));
+				//					//					}
+				//					//				});
 			}
 		}
 

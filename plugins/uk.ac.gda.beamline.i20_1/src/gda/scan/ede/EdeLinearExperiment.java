@@ -18,22 +18,8 @@
 
 package gda.scan.ede;
 
-import gda.data.scan.datawriter.NexusExtraMetadataDataWriter;
-import gda.data.scan.datawriter.NexusFileMetadata;
-import gda.data.scan.datawriter.NexusFileMetadata.EntryTypes;
-import gda.data.scan.datawriter.NexusFileMetadata.NXinstrumentSubTypes;
 import gda.device.DeviceException;
-import gda.device.Monitor;
-import gda.device.Scannable;
-import gda.device.detector.StripDetector;
-import gda.device.scannable.TopupChecker;
-import gda.factory.Finder;
-import gda.observable.IObserver;
-import gda.scan.AxisSpecProviderImpl;
 import gda.scan.EdeScan;
-import gda.scan.MultiScan;
-import gda.scan.ScanBase;
-import gda.scan.ScanPlotSettings;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 import gda.scan.ede.datawriters.EdeLinearExperimentAsciiFileWriter;
@@ -43,12 +29,7 @@ import gda.scan.ede.timeestimators.LinearExperimentTimeEstimator;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -60,131 +41,75 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  * The experiment is not repeated, so all the spectra will occur at a different point in time wrt the progress of a
  * chemical reaction or other state of the sample.
  */
-public class EdeLinearExperiment extends EdeExperiment implements IObserver {
-
-	private static final Logger logger = LoggerFactory.getLogger(EdeLinearExperiment.class);
-
-	private final StripDetector theDetector;
+public class EdeLinearExperiment extends EdeExperiment {
 
 	public static final int DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH = 2;
 	private int noOfSecPerSpectrumToPublish = DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
 	private int totalNumberOfspectra;
 	private double totalTime;
 
-	private final EdeScanPosition i0Position;
-	private final EdeScanPosition itPosition;
-	private EdeScanPosition iRefPosition;
-
-	private final EdeScanParameters itScanParameters;
-	private EdeScanParameters i0ScanParameters;
-	private EdeScanParameters iRefScanParameters;
-	private EdeScan i0DarkScan;
-	private EdeScan i0InitialScan;
 	private EdeScan iRefScan;
-	private EdeScan itScan;
 	private EdeScan i0FinalScan;
 	private EdeScan iRefFinalScan;
-	private EdeLinearExperimentAsciiFileWriter writer;
-	private final Scannable beamShutter;
 
-	public EdeLinearExperiment(List<TimingGroup> itTimingGroups,
+	private EdeScanParameters iRefScanParameters;
+	private EdeScanPosition iRefPosition;
+
+	private boolean runIRef;
+	private boolean runItDark;
+
+	public EdeLinearExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions,
 			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
-		itScanParameters = new EdeScanParameters();
-		itScanParameters.setGroups(itTimingGroups);
-		i0Position = this.setPosition(EdePositionType.OUTBEAM, i0ScanableMotorPositions);
-		itPosition = this.setPosition(EdePositionType.INBEAM, iTScanableMotorPositions);
-		theDetector  = Finder.getInstance().find(detectorName);
-		topup = Finder.getInstance().find(topupMonitorName);
-		beamShutter = Finder.getInstance().find(beamShutterScannableName);
-		calculateTotalNoOfSpectra();
+		super(itTimingGroups, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName, beamShutterScannableName);
+		setDefaultI0Parameters(i0accumulationTime);
+		setupTimingGroups();
+	}
+
+	public EdeLinearExperiment(double i0accumulationTime, int i0NoOfAccumulcation, List<TimingGroup> itTimingGroups,
+			Map<String, Double> i0ScanableMotorPositions,
+			Map<String, Double> iTScanableMotorPositions,
+			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
+		this(i0accumulationTime,
+				i0NoOfAccumulcation,
+				EdeScanParameters.createEdeScanParameters(itTimingGroups),
+				i0ScanableMotorPositions,
+				iTScanableMotorPositions,
+				detectorName,
+				topupMonitorName,
+				beamShutterScannableName);
+	}
+
+	public EdeLinearExperiment(double i0accumulationTime, int i0NoOfAccumulcation, EdeScanParameters iTScanParameters,
+			Map<String, Double> i0ScanableMotorPositions,
+			Map<String, Double> iTScanableMotorPositions,
+			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
+		super(iTScanParameters, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName, beamShutterScannableName);
+		setCommonI0Parameters(i0accumulationTime, i0NoOfAccumulcation);
+		setupTimingGroups();
 	}
 
 	public void setIRefParameters(Map<String, Double> iRefScanableMotorPositions, double accumulationTime, int numberOfAccumulcations) throws DeviceException {
 		iRefPosition = this.setPosition(EdePositionType.REFERENCE, iRefScanableMotorPositions);
 		iRefScanParameters = this.deriveScanParametersFromIt(accumulationTime, numberOfAccumulcations);
+		runIRef = true;
 	}
 
-	public void setCommonI0Parameters(double accumulationTime, int numberOfAccumulcations) {
-		i0ScanParameters = this.deriveScanParametersFromIt(accumulationTime, numberOfAccumulcations);
-	}
-
-	public void setCommonI0Parameters(double accumulationTime) {
-		i0ScanParameters = this.deriveScanParametersFromIt(accumulationTime, null);
-	}
-
-	public EdeLinearExperiment(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
-			EdeScanPosition itPosition, EdeScanPosition iRefPosition, StripDetector theDetector, Monitor topupMonitor, Scannable shutter2) {
-		super();
-		this.itScanParameters = itScanParameters;
-		this.i0Position = i0Position;
-		this.itPosition = itPosition;
-		this.iRefPosition = iRefPosition;
-		this.theDetector = theDetector;
-		beamShutter = shutter2;
-		topup = topupMonitor;
-		calculateTotalNoOfSpectra();
-	}
-
-	private void calculateTotalNoOfSpectra() {
+	private void setupTimingGroups() {
 		totalNumberOfspectra = 0;
 		totalTime = 0.0;
 		for (TimingGroup group : itScanParameters.getTimingGroups()) {
 			totalNumberOfspectra += group.getNumberOfFrames();
 			totalTime += (group.getTimePerFrame() * group.getNumberOfFrames()) + group.getPreceedingTimeDelay();
 		}
-	}
 
-	/**
-	 * Run the scans and write the data files.
-	 * <p>
-	 * Should not return until data collection completed.
-	 * 
-	 * @throws Exception
-	 */
-	@Override
-	public String runExperiment() throws Exception {
-		if (i0ScanParameters == null) {
-			i0ScanParameters = deriveScanParametersFromIt(null, null);
-		}
-		if (iRefPosition !=null & iRefScanParameters == null) {
-			iRefScanParameters = this.deriveScanParametersFromIt(null, null);
-		}
-		runScans();
-		return writeAsciiFile();
+		// TODO Check if this is the case!
+		runItDark = true;
 	}
 
 	@Override
-	public void update(Object source, Object arg) {
-		// only expect EdeScanProgressBean objects from the itScan here. Normalise the data and broadcast out to the
-		if (controller != null && arg instanceof EdeScanProgressBean) {
-			EdeScanProgressBean progress = (EdeScanProgressBean) arg;
-			if (source.equals(itScan)) {
-				if (!shouldPublishItScanData(progress)) {
-					return;
-				}
-				// assume that the I0 and dark scans have run correctly if we are getting messages back from It scan
-				DoubleDataset darkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
-				DoubleDataset i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, progress.getGroupNumOfThisSDP());
-				DoubleDataset thisItData = EdeAsciiFileWriter.extractDetectorDataFromSDP(theDetector.getName(), progress.getThisPoint());
-				DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(thisItData, i0Data, darkData);
-				DoubleDataset energyData = EdeAsciiFileWriter.extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0));
-				controller.update(itScan, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI, progress, EdeExperiment.IT_RAW_COLUMN_NAME, thisItData, energyData));
-				controller.update(itScan, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI, progress, EdeExperiment.LN_I0_IT_COLUMN_NAME, normalisedIt, energyData));
-			} else if (source.equals(i0DarkScan)) {
-				DoubleDataset darkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
-				DoubleDataset energyData = EdeAsciiFileWriter.extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0));
-				controller.update(itScan, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI, progress, EdeExperiment.I0_DARK_COLUMN_NAME, darkData, energyData));
-			} else if (source.equals(i0InitialScan)) {
-				DoubleDataset i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, progress.getGroupNumOfThisSDP());
-				DoubleDataset energyData = EdeAsciiFileWriter.extractDetectorEnergyFromSDP(theDetector.getName(), i0InitialScan.getData().get(0));
-				controller.update(itScan, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI, progress, EdeExperiment.I0_RAW_COLUMN_NAME, i0Data, energyData));
-			}
-		}
-	}
-
-	private boolean shouldPublishItScanData(EdeScanProgressBean progress) {
+	protected boolean shouldPublishItScanData(EdeScanProgressBean progress) {
 		int current = 0;
 		for (int i = 0; i < progress.getGroupNumOfThisSDP(); i++) {
 			current += itScan.getScanParameters().getTimingGroups().get(i).getNumberOfFrames();
@@ -209,7 +134,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	 * @return the name of the I0 output file
 	 */
 	public String getI0Filename() {
-		return writer.getAsciiI0Filename();
+		return ((EdeLinearExperimentAsciiFileWriter) writer).getAsciiI0Filename();
 	}
 
 	/**
@@ -218,7 +143,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	 * @return the name of the I0 output file
 	 */
 	public String getIRefFilename() {
-		return writer.getAsciiIRefFilename();
+		return ((EdeLinearExperimentAsciiFileWriter) writer).getAsciiIRefFilename();
 	}
 
 	/**
@@ -227,7 +152,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	 * @return the name of the It output file
 	 */
 	public String getItFilename() {
-		return writer.getAsciiItFilename();
+		return ((EdeLinearExperimentAsciiFileWriter) writer).getAsciiItFilename();
 	}
 
 	/**
@@ -236,7 +161,7 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	 * @return the name of the It output file
 	 */
 	public String getItFinalFilename() {
-		return writer.getAsciiItFinalFilename();
+		return ((EdeLinearExperimentAsciiFileWriter) writer).getAsciiItFinalFilename();
 	}
 
 	/**
@@ -245,35 +170,10 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 	 * @return the name of the It output file
 	 */
 	public String getItAveragedFilename() {
-		return writer.getAsciiItAveragedFilename();
+		return ((EdeLinearExperimentAsciiFileWriter) writer).getAsciiItAveragedFilename();
 	}
 
 
-	private EdeScanParameters deriveScanParametersFromIt(Double commonAccumulationTime, Integer commonNumberOfAccumulcations) {
-		// need an I0 spectrum for each timing group in itScanParameters
-		List<TimingGroup> itgroups = itScanParameters.getGroups();
-
-		EdeScanParameters parameters = new EdeScanParameters();
-		for (TimingGroup itGroup : itgroups) {
-			TimingGroup newGroup = new TimingGroup();
-			newGroup.setLabel(itGroup.getLabel());
-			newGroup.setNumberOfFrames(1);
-			if(commonAccumulationTime == null) {
-				newGroup.setTimePerScan(itGroup.getTimePerScan());
-			} else {
-				newGroup.setTimePerScan(commonAccumulationTime);
-			}
-			if(commonNumberOfAccumulcations == null) {
-				newGroup.setNumberOfScansPerFrame(itGroup.getNumberOfScansPerFrame());
-			} else {
-				newGroup.setNumberOfScansPerFrame(commonNumberOfAccumulcations);
-			}
-			newGroup.setTimePerFrame(itGroup.getTimePerFrame());
-			newGroup.setDelayBetweenFrames(0);
-			parameters.addGroup(newGroup);
-		}
-		return parameters;
-	}
 
 	public int getNoOfSecPerSpectrumToPublish() {
 		return noOfSecPerSpectrumToPublish;
@@ -284,81 +184,66 @@ public class EdeLinearExperiment extends EdeExperiment implements IObserver {
 		this.noOfSecPerSpectrumToPublish = noOfSecPerSpectrumToPublish;
 	}
 
-
-	private void runScans() throws InterruptedException, Exception {
-		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 1, beamShutter);
-		i0DarkScan.setProgressUpdater(this);
-		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, beamShutter);
-		i0InitialScan.setProgressUpdater(this);
-		if (iRefPosition != null & iRefScanParameters != null) {
-			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, beamShutter);
-		}
-		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, beamShutter);
-		itScan.setProgressUpdater(this);
-		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, beamShutter);
-		if (iRefPosition != null){
-			iRefFinalScan = new EdeScan(i0ScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, beamShutter);
+	@Override
+	protected void addScansForExperiment() {
+		super.addScansForExperiment();
+		if (runIRef) {
+			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
+			scansForExperiment.add(scansForExperiment.indexOf(itScan) - 1, iRefScan);
+			iRefScan.setProgressUpdater(this);
 		}
 
-		List<ScanBase> theScans = new Vector<ScanBase>();
-		theScans.add(i0DarkScan);
-		theScans.add(i0InitialScan);
-		if (iRefPosition != null){
-			theScans.add(iRefScan);
-		}
-		theScans.add(itScan);
-		theScans.add(i0FinalScan);
-		if (iRefPosition != null){
-			theScans.add(iRefFinalScan);
-		}
+		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
+		scansForExperiment.add(i0FinalScan);
 
-		try {
-			addDetectorSettingsToMetadata();
-
-			ScanPlotSettings plotNothing = new ScanPlotSettings();
-			plotNothing.setUnlistedColumnBehaviour(ScanPlotSettings.IGNORE);
-			plotNothing.setYAxesShown(theDetector.getExtraNames());
-			plotNothing.setYAxesNotShown(new String[]{});
-			plotNothing.setAxisSpecProvider(new AxisSpecProviderImpl(false));
-
-			MultiScan theScan = new MultiScan(theScans);
-			theScan.setScanPlotSettings(plotNothing);
-			pauseForToup();
-			logger.debug("EDE linear experiment starting its multiscan...");
-			theScan.runScan();
-		} finally {
-			NexusExtraMetadataDataWriter.removeAllMetadataEntries();
+		if (runIRef){
+			iRefFinalScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
+			scansForExperiment.add(iRefFinalScan);
 		}
 	}
 
-	private void addDetectorSettingsToMetadata() {
-		String header = "i0Dark: " + i0DarkScan.getHeaderDescription() + "\n";
-		header += "i0InitialScan: " + i0InitialScan.getHeaderDescription() + "\n";
-		if (iRefScan != null && iRefPosition != null) {
-			header += "iRefScan: " + iRefScan.getHeaderDescription() + "\n";
+	@Override
+	protected String getHeaderText() {
+		StringBuilder header = new StringBuilder();
+		header.append("i0Dark: " + i0DarkScan.getHeaderDescription() + "\n");
+		if (runItDark) {
+			header.append("itDark: " + itDarkScan.getHeaderDescription() + "\n");
 		}
-		header += "itScan: " + itScan.getHeaderDescription() + "\n";
-
-		NexusFileMetadata metadata = new NexusFileMetadata(theDetector.getName() + "_settings", header,
-				EntryTypes.NXinstrument, NXinstrumentSubTypes.NXdetector, theDetector.getName() + "_settings");
-		NexusExtraMetadataDataWriter.addMetadataEntry(metadata);
+		header.append("i0InitialScan: " + i0InitialScan.getHeaderDescription() + "\n");
+		if (runIRef) {
+			header.append("iRefScan: " + iRefScan.getHeaderDescription() + "\n");
+		}
+		header.append("itScan: " + itScan.getHeaderDescription() + "\n");
+		header.append("i0FinalScan: " + i0FinalScan.getHeaderDescription() + "\n");
+		if (runIRef){
+			header.append("iRefFinalScan: " + iRefFinalScan.getHeaderDescription() + "\n");
+		}
+		return header.toString();
 	}
 
-	private String writeAsciiFile() throws Exception {
-		writer = new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0InitialScan, iRefScan, itScan, i0FinalScan, theDetector);
-		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
-			writer.setFilenameTemplate(filenameTemplate);
-		}
-		logger.debug("EDE linear experiment writing its ascii derived data files...");
-		writer.writeAsciiFile();
-		log("EDE single spectrum experiment complete.");
-		return writer.getAsciiItFilename();
-	}
-
-	private void pauseForToup() throws Exception {
-		Double predictedExperimentTime = new LinearExperimentTimeEstimator(itScanParameters,  i0Position,
+	@Override
+	protected double getPredictedExperimentTime() {
+		return new LinearExperimentTimeEstimator(itScanParameters,  i0Position,
 				itPosition,iRefPosition).getTotalDuration();
-		TopupChecker topup = createTopupChecker(predictedExperimentTime);
-		topup.atScanStart();
+	}
+
+	@Override
+	protected ExperimentCollectionType getCollectionType() {
+		return ExperimentCollectionType.MULTI;
+	}
+
+	@Override
+	protected int getRepetitions() {
+		return 1;
+	}
+
+	@Override
+	protected EdeAsciiFileWriter createFileWritter() {
+		return new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0InitialScan, iRefScan, itScan, i0FinalScan, theDetector);
+	}
+
+	@Override
+	protected boolean shouldRunItDark() {
+		return runItDark;
 	}
 }

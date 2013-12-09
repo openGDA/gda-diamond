@@ -147,20 +147,34 @@ public class SingleSpectrumUIModel extends ObservableModel {
 	}
 
 	private String buildScanCommand() {
-		StringBuilder builder = new StringBuilder(String.format("from gda.scan.ede.drivers import SingleSpectrumDriver; \n" +
-				SINGLE_JYTHON_DRIVER_OBJ + " = SingleSpectrumDriver(\"%s\",\"%s\",%f,%d,%f,%d,\"%s\",%s); \n" +
-				SINGLE_JYTHON_DRIVER_OBJ + ".setInBeamPosition(mapToJava(%s));" +
-				SINGLE_JYTHON_DRIVER_OBJ + ".setOutBeamPosition(mapToJava(%s));",
-				DetectorModel.INSTANCE.getCurrentDetector().getName(),
-				DetectorModel.TOPUP_CHECKER,
-				i0IntegrationTime / 1000, // Converts to Seconds
-				i0NumberOfAccumulations,
-				itIntegrationTime / 1000, // Converts to Seconds
-				itNumberOfAccumulations,
-				fileTemplate,
-				DetectorModel.SHUTTER_NAME,
-				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
-				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0)));
+		StringBuilder builder = new StringBuilder("from gda.scan.ede import EdeSingleExperiment; \n");
+		if (i0NumberOfAccumulations == itNumberOfAccumulations) {
+			builder.append(
+					String.format(SINGLE_JYTHON_DRIVER_OBJ + " = EdeSingleExperiment(%f, %f, %d, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\"); \n",
+							i0IntegrationTime / 1000,
+							itIntegrationTime / 1000,
+							itNumberOfAccumulations,
+							SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
+							SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
+							DetectorModel.INSTANCE.getCurrentDetector().getName(),
+							DetectorModel.TOPUP_CHECKER,
+							DetectorModel.SHUTTER_NAME));
+		} else {
+			builder.append(
+					String.format(SINGLE_JYTHON_DRIVER_OBJ + " = EdeSingleExperiment(%f, %d, %f, %d, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\"); \n",
+							i0IntegrationTime / 1000,
+							i0NumberOfAccumulations,
+							itIntegrationTime / 1000,
+							itNumberOfAccumulations,
+							SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
+							SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
+							DetectorModel.INSTANCE.getCurrentDetector().getName(),
+							DetectorModel.TOPUP_CHECKER,
+							DetectorModel.SHUTTER_NAME));
+		}
+		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFilenameTemplate(\"%s\");", fileTemplate));
+		//				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
+		//				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0)));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
 			builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setReferencePosition(mapToJava(%s));",
 					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef)));
@@ -225,7 +239,7 @@ public class SingleSpectrumUIModel extends ObservableModel {
 				InterfaceProvider.getCommandRunner().runCommand(command);
 				// give the previous command a chance to run before calling doCollection()
 				Thread.sleep(150);
-				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand(SINGLE_JYTHON_DRIVER_OBJ + ".doCollection()");
+				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand(SINGLE_JYTHON_DRIVER_OBJ + ".runExperiment()");
 				if (resultFileName == null) {
 					throw new Exception("Unable to do collection.");
 				}

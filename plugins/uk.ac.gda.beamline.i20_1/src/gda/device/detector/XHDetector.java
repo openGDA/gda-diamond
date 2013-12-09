@@ -168,7 +168,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		} catch (DeviceException e) {
 			logger.error(getName() + " was connected when GDA last run but failed to reconnect.", e);
 		}
-
 	}
 
 	private void connectIfWasBefore() throws DeviceException {
@@ -709,7 +708,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 						"The given parameters were not accepted by da.server! Check frame and scan times.");
 			}
 		}
-
 	}
 
 	private String buildDelaysCommand(TimingGroup timingGroup) {
@@ -1099,7 +1097,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			}
 			store.save();
 		} catch (Exception e) {
-			logger.error("Exception writing XH ROIs to xml file", e);
+			logger.warn("Exception writing XH ROIs to xml file");
 		}
 	}
 

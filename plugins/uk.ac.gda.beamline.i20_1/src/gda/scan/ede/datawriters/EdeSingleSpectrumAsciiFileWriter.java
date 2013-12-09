@@ -109,6 +109,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 		writer.write("\n");
 	}
 
+	@Override
 	public String getAsciiFilename() {
 		return asciiFilename;
 	}

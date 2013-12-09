@@ -18,20 +18,40 @@
 
 package gda.scan.ede;
 
+import gda.data.scan.datawriter.NexusExtraMetadataDataWriter;
+import gda.data.scan.datawriter.NexusFileMetadata;
+import gda.data.scan.datawriter.NexusFileMetadata.EntryTypes;
+import gda.data.scan.datawriter.NexusFileMetadata.NXinstrumentSubTypes;
 import gda.device.DeviceException;
 import gda.device.Monitor;
+import gda.device.Scannable;
+import gda.device.detector.StripDetector;
 import gda.device.scannable.TopupChecker;
+import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.scriptcontroller.ScriptControllerBase;
+import gda.observable.IObserver;
+import gda.scan.EdeScan;
+import gda.scan.MultiScan;
+import gda.scan.ScanBase;
+import gda.scan.ScanPlotSettings;
+import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
+import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.gda.exafs.ui.data.EdeScanParameters;
+import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 /**
  * Base class for all EDE experiment classes.
@@ -41,7 +61,9 @@ import org.slf4j.LoggerFactory;
  * MultiScan which generates a single Nexus file. At they end they produce a single EDE format ASCII file whose filename
  * the runExperiment method returns.
  */
-public abstract class EdeExperiment {
+public abstract class EdeExperiment implements IObserver {
+
+	private static final Logger logger = LoggerFactory.getLogger(EdeExperiment.class);
 
 	public static final String TIMINGGROUP_COLUMN_NAME = "Timing_Group";
 	public static final String FRAME_COLUMN_NAME = "Frame";
@@ -64,30 +86,191 @@ public abstract class EdeExperiment {
 
 	private static final Logger edelogger = LoggerFactory.getLogger(EdeExperiment.class);
 
+	protected Scannable beamLightShutter;
 
-	protected final ScriptControllerBase controller;
+	protected StripDetector theDetector;
 
-	protected String filenameTemplate = "";
+	protected EdeScan i0DarkScan;
+	protected EdeScan itDarkScan;
+	protected EdeScan i0InitialScan;
+	protected EdeScan itScan;
 
-	protected Monitor topup;
+	private ScriptControllerBase controller;
 
-	public EdeExperiment() {
-		controller = (ScriptControllerBase) Finder.getInstance().findNoWarn(PROGRESS_UPDATER_NAME);
+	private String filenameTemplate = "";
+
+	private Monitor topup;
+
+	protected final EdeScanParameters itScanParameters;
+	protected EdeScanParameters i0ScanParameters;
+	protected EdeScanPosition i0Position;
+	protected EdeScanPosition itPosition;
+
+	protected final LinkedList<ScanBase> scansForExperiment = new LinkedList<ScanBase>();
+
+	protected EdeAsciiFileWriter writer;
+
+	public EdeExperiment(List<TimingGroup> itTimingGroups,
+			Map<String, Double> i0ScanableMotorPositions,
+			Map<String, Double> iTScanableMotorPositions,
+			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
+		itScanParameters = new EdeScanParameters();
+		itScanParameters.setGroups(itTimingGroups);
+		setupScannables(i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
+				beamShutterScannableName);
 	}
 
-	/**
-	 * Run the scans and write the data files.
-	 * <p>
-	 * Should not return until data collection completed.
-	 * 
-	 * @throws Exception
-	 */
-	public abstract String runExperiment() throws Exception;
+	public EdeExperiment(EdeScanParameters itScanParameters,
+			Map<String, Double> i0ScanableMotorPositions,
+			Map<String, Double> iTScanableMotorPositions,
+			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
+		this.itScanParameters = itScanParameters;
+		setupScannables(i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
+				beamShutterScannableName);
+	}
+
+	private void setupScannables(Map<String, Double> i0ScanableMotorPositions,
+			Map<String, Double> iTScanableMotorPositions, String detectorName, String topupMonitorName,
+			String beamShutterScannableName) throws DeviceException {
+		i0Position = this.setPosition(EdePositionType.OUTBEAM, i0ScanableMotorPositions);
+		itPosition = this.setPosition(EdePositionType.INBEAM, iTScanableMotorPositions);
+		theDetector  = Finder.getInstance().find(detectorName);
+		topup = (Monitor) getScannable(topupMonitorName);
+		beamLightShutter = (Scannable) getScannable(beamShutterScannableName);
+		controller = (ScriptControllerBase) getScannable(PROGRESS_UPDATER_NAME);
+	}
+
+	protected void setCommonI0Parameters(double accumulationTime, int numberOfAccumulcations) {
+		i0ScanParameters = this.deriveScanParametersFromIt(accumulationTime, numberOfAccumulcations);
+	}
+
+	protected void setDefaultI0Parameters(double accumulationTime) {
+		i0ScanParameters = this.deriveScanParametersFromIt(accumulationTime, null);
+	}
+
+	protected EdeScanParameters deriveScanParametersFromIt(Double commonAccumulationTime, Integer commonNumberOfAccumulcations) {
+		// need an I0 spectrum for each timing group in itScanParameters
+		List<TimingGroup> itgroups = itScanParameters.getGroups();
+
+		EdeScanParameters parameters = new EdeScanParameters();
+		for (TimingGroup itGroup : itgroups) {
+			TimingGroup newGroup = new TimingGroup();
+			newGroup.setLabel(itGroup.getLabel());
+			newGroup.setNumberOfFrames(1);
+			if(commonAccumulationTime == null) {
+				newGroup.setTimePerScan(itGroup.getTimePerScan());
+			} else {
+				newGroup.setTimePerScan(commonAccumulationTime);
+			}
+			if(commonNumberOfAccumulcations == null) {
+				newGroup.setNumberOfScansPerFrame(itGroup.getNumberOfScansPerFrame());
+			} else {
+				newGroup.setNumberOfScansPerFrame(commonNumberOfAccumulcations);
+			}
+			newGroup.setTimePerFrame(itGroup.getTimePerFrame());
+			newGroup.setDelayBetweenFrames(0);
+			parameters.addGroup(newGroup);
+		}
+		return parameters;
+	}
+
+	private Findable getScannable(String scannable) {
+		return Finder.getInstance().find(scannable);
+	}
+
+	protected abstract int getRepetitions();
+
+	protected abstract boolean shouldRunItDark();
+
+	protected void addScansForExperiment() {
+		int repetitions = getRepetitions();
+
+		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, repetitions, beamLightShutter);
+		i0DarkScan.setProgressUpdater(this);
+		scansForExperiment.add(i0DarkScan);
+
+		if (shouldRunItDark()) {
+			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector, 1, beamLightShutter);
+			scansForExperiment.add(itDarkScan);
+		} else {
+			itDarkScan = i0DarkScan;
+		}
+
+		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
+		scansForExperiment.add(i0InitialScan);
+		i0InitialScan.setProgressUpdater(this);
+
+		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
+		scansForExperiment.add(itScan);
+		itScan.setProgressUpdater(this);
+	}
+
+	public String runExperiment() throws Exception {
+		scansForExperiment.clear();
+		addScansForExperiment();
+
+		addToMultiScanAndRun();
+		String asciiDataFile = writeAsciiFile();
+		return asciiDataFile;
+	}
+
+	protected abstract String getHeaderText();
+
+	protected abstract ExperimentCollectionType getCollectionType();
+
+	protected abstract boolean shouldPublishItScanData(EdeScanProgressBean progress);
+
+	private void addToMultiScanAndRun() throws Exception {
+		try {
+			addMetaData();
+			ScanPlotSettings plotNothing = new ScanPlotSettings();
+			plotNothing.setUnlistedColumnBehaviour(ScanPlotSettings.IGNORE);
+			plotNothing.setYAxesShown(new String[]{});
+			plotNothing.setYAxesNotShown(new String[]{});
+
+			MultiScan theScan = new MultiScan(scansForExperiment);
+			theScan.setScanPlotSettings(plotNothing);
+
+			pauseForToup();
+			logger.debug("Starting multiscan...");
+			theScan.runScan();
+		} finally {
+			NexusExtraMetadataDataWriter.removeAllMetadataEntries();
+		}
+	}
+
+	private String writeAsciiFile() throws Exception {
+		writer = createFileWritter();
+		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
+			writer.setFilenameTemplate(filenameTemplate);
+		}
+		logger.debug("EDE linear experiment writing its ascii derived data files...");
+		writer.writeAsciiFile();
+		log("EDE single spectrum experiment complete.");
+		return writer.getAsciiFilename();
+	}
+
+	protected abstract EdeAsciiFileWriter createFileWritter();
+
+	protected abstract double getPredictedExperimentTime();
+
+	private void pauseForToup() throws Exception {
+		double predictedExperimentTime = getPredictedExperimentTime();
+		TopupChecker topup = createTopupChecker(predictedExperimentTime);
+		topup.atScanStart();
+	}
+
+	private void addMetaData() {
+		String headerText = getHeaderText();
+		NexusFileMetadata metadata = new NexusFileMetadata(theDetector.getName() + "_settings", headerText,
+				EntryTypes.NXinstrument, NXinstrumentSubTypes.NXdetector, theDetector.getName() + "_settings");
+		NexusExtraMetadataDataWriter.addMetadataEntry(metadata);
+	}
+
 
 	public String getFilenameTemplate() {
 		return filenameTemplate;
 	}
-
 	/**
 	 * A String format for the name of the ascii file to be written.
 	 * <p>
@@ -107,7 +290,7 @@ public abstract class EdeExperiment {
 		edelogger.info(message);
 	}
 
-	protected TopupChecker createTopupChecker(Double timeRequired) {
+	private TopupChecker createTopupChecker(Double timeRequired) {
 		TopupChecker topupchecker = new TopupChecker();
 		topupchecker.setScannableToBeMonitored(topup);
 		topupchecker.setTimeout(timeRequired);
@@ -122,4 +305,52 @@ public abstract class EdeExperiment {
 		// FIXME Replacing with alignment stage motors is removed until the requirement spec is cleared
 		return new EdeScanMotorPositions(type, scanableMotorPositions);
 	}
+
+	private DoubleDataset lastEnergyData = null;
+	private DoubleDataset lastI0DarkData = null;
+	private DoubleDataset lastItDarkData = null;
+	private DoubleDataset lastI0Data = null;
+	private DoubleDataset lastItData = null;
+
+	@Override
+	public void update(Object source, Object arg) {
+		if (controller != null && arg instanceof EdeScanProgressBean) {
+			EdeScanProgressBean progress = (EdeScanProgressBean) arg;
+			if (source.equals(i0DarkScan)) {
+				lastEnergyData = EdeAsciiFileWriter.extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0));
+				lastI0DarkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
+				controller.update(i0DarkScan, new EdeExperimentProgressBean(getCollectionType(), progress,
+						EdeExperiment.I0_DARK_COLUMN_NAME, lastI0DarkData, lastEnergyData));
+			}
+			else if (source.equals(itDarkScan)) {
+				lastItDarkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), itDarkScan, 0);
+				controller.update(itDarkScan, new EdeExperimentProgressBean(getCollectionType(), progress,
+						EdeExperiment.IT_DARK_COLUMN_NAME, lastItDarkData, lastEnergyData));
+			}
+			else if (source.equals(i0InitialScan)) {
+				lastI0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, 0);
+				if (lastI0DarkData != null) {
+					lastI0Data = lastI0Data.isubtract(lastI0DarkData);
+				}
+				controller.update(i0InitialScan, new EdeExperimentProgressBean(getCollectionType(), progress,
+						EdeExperiment.I0_CORR_COLUMN_NAME, lastI0Data, lastEnergyData));
+			}
+			else if (source.equals(itScan)) {
+				if (shouldPublishItScanData(progress)) {
+					lastItData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), itScan, 0);
+					if (this.shouldRunItDark() & lastItDarkData != null) {
+						lastItData = lastItData.isubtract(lastItDarkData);
+					} else {
+						lastItData = lastItData.isubtract(lastI0DarkData);
+					}
+					controller.update(itScan, new EdeExperimentProgressBean(getCollectionType(), progress, EdeExperiment.IT_CORR_COLUMN_NAME,
+							lastItData, lastEnergyData));
+					DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(lastItData, lastI0Data);
+					controller.update(itScan, new EdeExperimentProgressBean(getCollectionType(), progress, EdeExperiment.LN_I0_IT_COLUMN_NAME,
+							normalisedIt, lastEnergyData));
+				}
+			}
+		}
+	}
+
 }
