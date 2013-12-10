@@ -7,7 +7,7 @@ search for "Start Example configuration".
 """
 
 import unittest
-from mock import Mock
+from Test.mock import Mock, call
 
 from future.EpicsPneumaticShutterFactory import EpicsPneumaticShutterFactory
 
@@ -37,12 +37,9 @@ class EpicsPneumaticShutterFactoryTest(unittest.TestCase):
         
         result = self.shopen()
         
-        #calls = [call("Top", "-PS-SHTR-02:CON", 2),
-        #         call("Top", "-PS-SHTR-02:CON", 0) ]
-        #self.beamline.setValue.assert_has_calls(calls)
-        # Mock 0.8 (^) is simpler than the Mock 0.6 workaround:
-        self.assertEqual(self.beamline.setValue.call_args_list[0], ("Top", "-PS-SHTR-02:CON", 2))
-        self.assertEqual(self.beamline.setValue.call_args_list[1], ("Top", "-PS-SHTR-02:CON", 0))
+        calls = [call("Top", "-PS-SHTR-02:CON", 2),
+                 call("Top", "-PS-SHTR-02:CON", 0) ]
+        self.beamline.setValue.assert_has_calls(calls)
         self.beamline.getValue.assert_called_with(None, "Top", "-PS-SHTR-02:STA")
         
         self.assertEqual(' -> EH Shutter Open.', result)
@@ -59,12 +56,9 @@ class EpicsPneumaticShutterFactoryTest(unittest.TestCase):
         
         result = self.shclose()
         
-        #calls = [call("Top", "-PS-SHTR-02:CON", 2),
-        #         call("Top", "-PS-SHTR-02:CON", 1) ]
-        #self.beamline.setValue.assert_has_calls(calls)
-        # Mock 0.8 (^) is simpler than the Mock 0.6 workaround:
-        self.assertEqual(self.beamline.setValue.call_args_list[0], ("Top", "-PS-SHTR-02:CON", 2))
-        self.assertEqual(self.beamline.setValue.call_args_list[1], ("Top", "-PS-SHTR-02:CON", 1))
+        calls = [call("Top", "-PS-SHTR-02:CON", 2),
+                 call("Top", "-PS-SHTR-02:CON", 1) ]
+        self.beamline.setValue.assert_has_calls(calls)
         self.beamline.getValue.assert_called_with(None, "Top", "-PS-SHTR-02:STA")
         
         self.assertEqual(' -> EH Shutter Closed.', result)

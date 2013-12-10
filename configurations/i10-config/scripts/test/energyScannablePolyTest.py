@@ -221,10 +221,10 @@ class EnergyScannablePolyTest(unittest.TestCase):
     # idd_lin_hor_energy  234.9    318.1    516.3    1660
     # jawPhase            0.235    4.524    7.076    11.25
     def testAsynchronousMoveToLH1(self): #    0.235
-        self.assert_idd_lin_hor_energy(234.9, 0.3575749086385258)
+        self.assert_idd_lin_hor_energy(234.9, 0.35757490864580177)
 
     def testAsynchronousMoveToLH2(self): #    4.524
-        self.assert_idd_lin_hor_energy(318.1, 4.500804625623459)
+        self.assert_idd_lin_hor_energy(318.1, 4.500804625652563)
 
     def testAsynchronousMoveToLH3(self): #    7.076
         self.assert_idd_lin_hor_energy(516.3, 7.060484231163173)
@@ -249,7 +249,7 @@ class EnergyScannablePolyTest(unittest.TestCase):
         self.assert_idd_lin_ver_energy(487.2, 0.2894148149061948)
 
     def testAsynchronousMoveToLV2(self): #    6.96
-        self.assert_idd_lin_ver_energy(903.2, 6.9539068231824785)
+        self.assert_idd_lin_ver_energy(903.2, 6.953907061601058)
 
     def testAsynchronousMoveToLV3(self): #   11.88
         self.assert_idd_lin_ver_energy(1728, 13.844424862647429) 
@@ -268,7 +268,7 @@ class EnergyScannablePolyTest(unittest.TestCase):
     # idd_lin_ver_energy    0
     # jawPhase              0
     def testAsynchronousMoveToCP1(self): #     0.472
-        self.assert_idd_circ_pos_energy(372.9, 0.45074768958147615)
+        self.assert_idd_circ_pos_energy(372.9, 0.45074769097846)
 
     def testAsynchronousMoveToCP2(self): #   6.726
         self.assert_idd_circ_pos_energy(683, 6.722407042281702)
@@ -290,7 +290,7 @@ class EnergyScannablePolyTest(unittest.TestCase):
     # idd_lin_ver_energy    0
     # jawPhase              0
     def testAsynchronousMoveToCN1(self): #     0.239
-        self.assert_idd_circ_neg_energy(375.1, 0.3320163985117688)
+        self.assert_idd_circ_neg_energy(375.1, 0.33201639874459943)
 
     def testAsynchronousMoveToCN2(self): #     5.999
         self.assert_idd_circ_neg_energy(644.5, 5.968564011876879)
