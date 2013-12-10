@@ -1,13 +1,13 @@
 """
-Unit tests for Energy scannable for use with I10 insertion devices on GDA at
-Diamond Light Source
+Unit tests for Energy scannable
+For use with I10 insertion device scannables on GDA at Diamond Light Source
 
 For help with configuring an Energy scannable, see the example configuration
 below, search for "Start Example configuration".
 """
 
 import unittest
-from mock import Mock
+from Test.mock import MagicMock
 from Diamond.Poly import Poly
 from Diamond.EnergyScannable import EnergyScannable
 
@@ -88,7 +88,7 @@ class EnergyScannableTest(unittest.TestCase):
         self.idd_circ_neg_energy = idd_circ_neg_energy
         
     def mockMotor(self, name):
-        motor = Mock()
+        motor = MagicMock()
         motor.name = name
         motor.isBusy.return_value = False
         return motor
@@ -234,14 +234,17 @@ class EnergyScannableTest(unittest.TestCase):
 
     def assert_idd_lin_hor_energy(self, energy_eV, jawphase):
         self.idd_lin_hor_energy.asynchronousMoveTo(energy_eV)
-        
-        self.pgm_energy.asynchronousMoveTo.assert_called_with(energy_eV)
-        self.idd_gap.asynchronousMoveTo.assert_called_with(16)
-        self.idd_rowphase1.asynchronousMoveTo.assert_called_with(0)
-        self.idd_rowphase2.asynchronousMoveTo.assert_called_with(0)
-        self.idd_rowphase3.asynchronousMoveTo.assert_called_with(0)
-        self.idd_rowphase4.asynchronousMoveTo.assert_called_with(0)
-        self.idd_jawphase.asynchronousMoveTo.assert_called_with(jawphase)
+
+        # NOTE: assert_called_once_with silently fails with Mock() objects. 
+        assert(isinstance(self.pgm_energy, MagicMock))
+
+        self.pgm_energy.asynchronousMoveTo.assert_called_once_with(energy_eV)
+        self.idd_gap.asynchronousMoveTo.assert_called_once_with(16)
+        self.idd_rowphase1.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_rowphase2.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_rowphase3.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_rowphase4.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_jawphase.asynchronousMoveTo.assert_called_once_with(jawphase)
         
     # idd_lin_ver_energy    487.2    903.2    1728
     # jawPhase              0.12     6.96     11.88
@@ -257,13 +260,13 @@ class EnergyScannableTest(unittest.TestCase):
     def assert_idd_lin_ver_energy(self, energy_eV, jawphase):
         self.idd_lin_ver_energy.asynchronousMoveTo(energy_eV)
         
-        self.pgm_energy.asynchronousMoveTo.assert_called_with(energy_eV)
-        self.idd_gap.asynchronousMoveTo.assert_called_with(16)
-        self.idd_rowphase1.asynchronousMoveTo.assert_called_with(24)
-        self.idd_rowphase2.asynchronousMoveTo.assert_called_with(0)
-        self.idd_rowphase3.asynchronousMoveTo.assert_called_with(24)
-        self.idd_rowphase4.asynchronousMoveTo.assert_called_with(0)
-        self.idd_jawphase.asynchronousMoveTo.assert_called_with(jawphase)
+        self.pgm_energy.asynchronousMoveTo.assert_called_once_with(energy_eV)
+        self.idd_gap.asynchronousMoveTo.assert_called_once_with(16)
+        self.idd_rowphase1.asynchronousMoveTo.assert_called_once_with(24)
+        self.idd_rowphase2.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_rowphase3.asynchronousMoveTo.assert_called_once_with(24)
+        self.idd_rowphase4.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_jawphase.asynchronousMoveTo.assert_called_once_with(jawphase)
 
     # idd_lin_ver_energy    0
     # jawPhase              0
@@ -279,13 +282,13 @@ class EnergyScannableTest(unittest.TestCase):
     def assert_idd_circ_pos_energy(self, energy_eV, jawphase):
         self.idd_circ_pos_energy.asynchronousMoveTo(energy_eV)
         
-        self.pgm_energy.asynchronousMoveTo.assert_called_with(energy_eV)
-        self.idd_gap.asynchronousMoveTo.assert_called_with(16)
-        self.idd_rowphase1.asynchronousMoveTo.assert_called_with(15.1724)
-        self.idd_rowphase2.asynchronousMoveTo.assert_called_with(0)
-        self.idd_rowphase3.asynchronousMoveTo.assert_called_with(15.1724)
-        self.idd_rowphase4.asynchronousMoveTo.assert_called_with(0)
-        self.idd_jawphase.asynchronousMoveTo.assert_called_with(jawphase)
+        self.pgm_energy.asynchronousMoveTo.assert_called_once_with(energy_eV)
+        self.idd_gap.asynchronousMoveTo.assert_called_once_with(16)
+        self.idd_rowphase1.asynchronousMoveTo.assert_called_once_with(15.1724)
+        self.idd_rowphase2.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_rowphase3.asynchronousMoveTo.assert_called_once_with(15.1724)
+        self.idd_rowphase4.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_jawphase.asynchronousMoveTo.assert_called_once_with(jawphase)
 
     # idd_lin_ver_energy    0
     # jawPhase              0
@@ -298,16 +301,16 @@ class EnergyScannableTest(unittest.TestCase):
     def testAsynchronousMoveToCN3(self): #    11.64
         self.assert_idd_circ_neg_energy(1743, 11.70182095545897)
 
-    def assert_idd_circ_neg_energy(self, energy_eV, expected_jawphase):
+    def assert_idd_circ_neg_energy(self, energy_eV, expected_idd_jawphase):
         self.idd_circ_neg_energy.asynchronousMoveTo(energy_eV)
         
-        self.pgm_energy.asynchronousMoveTo.assert_called_with(energy_eV)
-        self.idd_gap.asynchronousMoveTo.assert_called_with(16)
-        self.idd_rowphase1.asynchronousMoveTo.assert_called_with(-15.1724)
-        self.idd_rowphase2.asynchronousMoveTo.assert_called_with(0)
-        self.idd_rowphase3.asynchronousMoveTo.assert_called_with(-15.1724)
-        self.idd_rowphase4.asynchronousMoveTo.assert_called_with(0)
-        self.idd_jawphase.asynchronousMoveTo.assert_called_with(expected_jawphase)
+        self.pgm_energy.asynchronousMoveTo.assert_called_once_with(energy_eV)
+        self.idd_gap.asynchronousMoveTo.assert_called_once_with(16)
+        self.idd_rowphase1.asynchronousMoveTo.assert_called_once_with(-15.1724)
+        self.idd_rowphase2.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_rowphase3.asynchronousMoveTo.assert_called_once_with(-15.1724)
+        self.idd_rowphase4.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_jawphase.asynchronousMoveTo.assert_called_once_with(expected_idd_jawphase)
 
     def testGetPositionCN(self):
         self.idd_gap.getPosition.return_value = 123
