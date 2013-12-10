@@ -2,11 +2,7 @@
 Switcher scannable which switches between switchable energy scannables
 For use with I10 insertion device scannables on GDA at Diamond Light Source
 """
-#from math import sin, asin, pi
-try:
-    from gda.device.scannable import ScannableMotionBase
-except ImportError:
-    ScannableMotionBase = object
+from gda.device.scannable import ScannableMotionBase
 
 class EnergyScannableSwitcher(ScannableMotionBase):
     
