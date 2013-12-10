@@ -15,7 +15,9 @@
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg value="-.1" />
 	</bean>
-		
+	<bean id="pco1_autoContinuousTrigger" class="gda.device.detector.addetector.triggering.SoftwareContinuous">
+		<constructor-arg ref="pco1_cam_base" />
+	</bean>		
 	<bean id="pco1_plugins" class="gda.device.FindableObjectHolder">
 		<property name="map">
 			<util:map>
@@ -31,9 +33,9 @@
 				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif"/>
  -->				<entry key="pco1_stat" value-ref="pco1_stat"/>
 <!-- 				<entry key="pco1_singleExposurePcoSoftwareTrigger" value-ref="pco1_singleExposurePcoSoftwareTrigger"/>
-				<entry key="pco1_singleExposurePco" value-ref="pco1_singleExposurePco"/>
+				<entry key="pco1_singleExposurePco" value-ref="pco1_singleExposurePco"/>-->
 				<entry key="pco1_autoContinuousTrigger" value-ref="pco1_autoContinuousTrigger"/>
- -->			</util:map>
+			</util:map>
 		</property>
 	</bean>	
 	
