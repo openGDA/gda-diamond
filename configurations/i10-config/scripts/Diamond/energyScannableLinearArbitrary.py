@@ -56,7 +56,7 @@ class EnergyScannableLinearArbitrary(EnergyScannableBase):
             self.rowphase1, self.rowphase2, self.rowphase3, self.rowphase4,
             self.gap_poly, self.jawphase_poly)
 
-    def asynchronousMoveTo(self, energy_eV):
+    def getIdPosition(self, energy_eV):
         assert self.angle_min_Deg <= self.angle_Deg , \
             "Requested polarisation angle (%f) " %  self.angle_Deg + \
             "is less than %f degrees" % self.angle_min_Deg 
@@ -84,10 +84,9 @@ class EnergyScannableLinearArbitrary(EnergyScannableBase):
 
         jawphase = self.jawphase_poly(alpha_real)
 
-        idPosition = IdPosition(gap, rowphase1, rowphase2, rowphase3, rowphase4,
+        return IdPosition(gap, rowphase1, rowphase2, rowphase3, rowphase4,
             jawphase)
-        self.idMotorsAsynchronousMoveTo(idPosition, energy_eV)
-        
+
     def getExtraNames(self): 
         return [self.pol_angle_scannable_name, self.id_gap.name,
                 self.id_rowphase1.name, self.id_rowphase2.name,

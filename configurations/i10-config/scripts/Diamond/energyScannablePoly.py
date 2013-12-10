@@ -43,8 +43,7 @@ class EnergyScannablePoly(EnergyScannableBase):
             self.gap, self.rowphase1, self.rowphase2,
             self.rowphase3, self.rowphase4, self.jawphase_poly)
 
-    def asynchronousMoveTo(self, energy_eV):
-        idPosition = IdPosition(self.gap,
+    def getIdPosition(self, energy_eV):
+        return IdPosition(self.gap,
             self.rowphase1, self.rowphase2, self.rowphase3, self.rowphase4,
             self.jawphase_poly(energy_eV))
-        self.idMotorsAsynchronousMoveTo(idPosition, energy_eV)
