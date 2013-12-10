@@ -4,7 +4,6 @@ For use with I10 insertion device scannables on GDA at Diamond Light Source
 """
 
 import unittest
-from mock import Mock
 from Diamond.idPosition import IdPosition
 
 class IdPositionTest(unittest.TestCase):

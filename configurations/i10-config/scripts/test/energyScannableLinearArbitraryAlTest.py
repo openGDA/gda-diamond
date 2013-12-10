@@ -10,7 +10,6 @@ import unittest
 from mock import Mock
 from Diamond.Poly import Poly
 from Diamond.energyScannableLinearArbitrary import EnergyScannableLinearArbitrary, PolarisationAngleScannable
-from Diamond.idPosition import IdPosition
 
 class EnergyScannableLinearArbitraryAlTest(unittest.TestCase):
 
