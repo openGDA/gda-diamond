@@ -122,8 +122,8 @@
 			<list>
 				<value>54</value>
 				<value>165</value>
-				<value>959</value>
-				<value>855</value>
+				<value>905</value>
+				<value>690</value>
 			</list>
 		</property>
 		<property name="entranceSlitInformationProvider" ref="scientaslit" />
