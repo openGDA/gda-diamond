@@ -39,6 +39,40 @@
 				</bean>
 			</list>
 		</property>
+		<property name="horizontalGapPolynomial">
+				<bean class="org.apache.commons.math3.analysis.polynomials.PolynomialFunction">
+					<constructor-arg>
+						<list>
+							<value>13.048</value>
+							<value>1.8702</value>
+							<value>-0.035329</value>
+							<value>0.00046146</value>
+							<value>-3.8182e-6</value>
+							<value>1.9733e-8</value>
+							<value>-6.1567e-11</value>
+							<value>1.0584e-13</value>
+							<value>-7.6867e-17</value>
+						</list>
+					</constructor-arg>
+				</bean>
+		</property>
+		<property name="verticalGapPolynomial">
+				<bean class="org.apache.commons.math3.analysis.polynomials.PolynomialFunction">
+					<constructor-arg>
+						<list>
+							<value>8.6534</value>
+							<value>1.3005</value>
+							<value>-0.034767</value>
+							<value>0.00065254</value>
+							<value>-7.5216e-6</value>
+							<value>5.2519e-8</value>
+							<value>-2.1624e-10</value>
+							<value>4.8233e-13</value>
+							<value>-4.4904e-16</value>
+						</list>
+					</constructor-arg>
+				</bean>
+		</property>
 	</bean>
 	<bean id="energy" class="uk.ac.gda.beamline.i05.scannable.EnergyScannable">
 		<property name="pgm" ref="pgm_energy" />
