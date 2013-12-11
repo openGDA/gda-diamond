@@ -119,97 +119,97 @@ public class B16VortexParametersUIEditor extends VortexParametersUIEditor {
 		});
 	}
 	
-	/**
-	 * Not called in UI thread. This needs to be protected if data
-	 * is obtained from ui objects.
-	 * 
-	 * @param monitor
-	 */
-	@Override
-	protected void acquire(final IProgressMonitor monitor, final double collectionTimeValue) {
-
-		if (monitor != null)
-			monitor.beginTask("Acquire xMap data", 100);
-
-		final XmapDetector xmapDetector = (XmapDetector) Finder.getInstance().find(vortexParameters.getDetectorName());
-		// final Timer tfg = (Timer) Finder.getInstance().find(vortexParameters.getTfgName());
-
-//		double deadTime = 0d;
-		try {
-			if (monitor != null)
-				xmapDetector.setAcquisitionTime(collectionTimeValue);
-			if (monitor != null)
-				xmapDetector.clearAndStart();
-			if (monitor != null)
-				monitor.worked(10);
-			// tfg.countAsync(collectionTimeValue);
-			if (monitor != null)
-				monitor.worked(10);
-			while (xmapDetector.getStatus() != Detector.IDLE) {
-				try {
-					Thread.sleep(100);
-					if (monitor!=null)  {
-						if (monitor.isCanceled()) {
-							xmapDetector.stop();
-							return;
-						}
-						monitor.worked(5);
-					}
-				} catch (InterruptedException e) {
-				}
-			}
-			if (monitor!=null)  if (monitor.isCanceled()) return;
-
-			if (monitor!=null)  logger.debug("Stopping xmap detector " + xmapDetector.getStatus());
-			if (monitor!=null)  xmapDetector.stop();
-			if (monitor!=null)  monitor.worked(10);
-			
-			final int [][] data = xmapDetector.getData();
-			if (monitor!=null)  monitor.worked(10);
-		
-			final int [][][] data3d = get3DArray(data);
-			getDataWrapper().setValue(ElementCountsData.getDataFor(data3d));
-			detectorData = getData(data3d);
-
-			if (monitor!=null)  monitor.worked(10);
-			
-//			final double realTime = xmapDetector.getRealTime()*1000d;
-//			deadTime              = realTime-collectionTimeValue;
-			if(writeToDisk && monitor != null)
-			{
-				String spoolDirPath = LocalProperties.get("gda.device.vortex.spoolDir");
-				final File filePath = File.createTempFile("mca", ".mca", new File(spoolDirPath));
-				save(detectorData,filePath.getAbsolutePath() );
-				logger.info("Saved to filePath " + filePath);
-				// Get res grade for calibration.
-				getSite().getShell().getDisplay().syncExec(new Runnable() {
-					@Override
-					public void run() {
-						acquireFileLabel.setText("Saved to: " + filePath.getAbsolutePath());
-					}
-				});
-				
-			}
-			
-		} catch (DeviceException e) {
-			logger.error("Internal errror cannot get xMap data from Vortex detector.",e);
-			return;
-		} catch (IOException e) {
-			logger.error("Unable to save the acquired data to file ", e);
-		} finally {
-			if (monitor!=null)  monitor.done();
-			sashPlotFormComposite.appendStatus("Collected data from detector successfully.", logger);
-		}
-
-		// Note: currently has to be in this order.
-		getSite().getShell().getDisplay().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				getDetectorElementComposite().setEndMaximum(detectorData[0][0].length-1);
-				plot(getDetectorList().getSelectedIndex(),true);
-				setEnabled(true);
-			}
-		});
-
-	}
+//	/**
+//	 * Not called in UI thread. This needs to be protected if data
+//	 * is obtained from ui objects.
+//	 * 
+//	 * @param monitor
+//	 */
+//	@Override
+//	protected void acquire(final IProgressMonitor monitor, final double collectionTimeValue) {
+//
+//		if (monitor != null)
+//			monitor.beginTask("Acquire xMap data", 100);
+//
+//		final XmapDetector xmapDetector = (XmapDetector) Finder.getInstance().find(vortexParameters.getDetectorName());
+//		// final Timer tfg = (Timer) Finder.getInstance().find(vortexParameters.getTfgName());
+//
+////		double deadTime = 0d;
+//		try {
+//			if (monitor != null)
+//				xmapDetector.setAcquisitionTime(collectionTimeValue);
+//			if (monitor != null)
+//				xmapDetector.clearAndStart();
+//			if (monitor != null)
+//				monitor.worked(10);
+//			// tfg.countAsync(collectionTimeValue);
+//			if (monitor != null)
+//				monitor.worked(10);
+//			while (xmapDetector.getStatus() != Detector.IDLE) {
+//				try {
+//					Thread.sleep(100);
+//					if (monitor!=null)  {
+//						if (monitor.isCanceled()) {
+//							xmapDetector.stop();
+//							return;
+//						}
+//						monitor.worked(5);
+//					}
+//				} catch (InterruptedException e) {
+//				}
+//			}
+//			if (monitor!=null)  if (monitor.isCanceled()) return;
+//
+//			if (monitor!=null)  logger.debug("Stopping xmap detector " + xmapDetector.getStatus());
+//			if (monitor!=null)  xmapDetector.stop();
+//			if (monitor!=null)  monitor.worked(10);
+//			
+//			final int [][] data = xmapDetector.getData();
+//			if (monitor!=null)  monitor.worked(10);
+//		
+//			final int [][][] data3d = get3DArray(data);
+//			getDataWrapper().setValue(ElementCountsData.getDataFor(data3d));
+//			detectorData = getData(data3d);
+//
+//			if (monitor!=null)  monitor.worked(10);
+//			
+////			final double realTime = xmapDetector.getRealTime()*1000d;
+////			deadTime              = realTime-collectionTimeValue;
+//			if(writeToDisk && monitor != null)
+//			{
+//				String spoolDirPath = LocalProperties.get("gda.device.vortex.spoolDir");
+//				final File filePath = File.createTempFile("mca", ".mca", new File(spoolDirPath));
+//				save(detectorData,filePath.getAbsolutePath() );
+//				logger.info("Saved to filePath " + filePath);
+//				// Get res grade for calibration.
+//				getSite().getShell().getDisplay().syncExec(new Runnable() {
+//					@Override
+//					public void run() {
+//						acquireFileLabel.setText("Saved to: " + filePath.getAbsolutePath());
+//					}
+//				});
+//				
+//			}
+//			
+//		} catch (DeviceException e) {
+//			logger.error("Internal errror cannot get xMap data from Vortex detector.",e);
+//			return;
+//		} catch (IOException e) {
+//			logger.error("Unable to save the acquired data to file ", e);
+//		} finally {
+//			if (monitor!=null)  monitor.done();
+//			sashPlotFormComposite.appendStatus("Collected data from detector successfully.", logger);
+//		}
+//
+//		// Note: currently has to be in this order.
+//		getSite().getShell().getDisplay().asyncExec(new Runnable() {
+//			@Override
+//			public void run() {
+//				getDetectorElementComposite().setEndMaximum(detectorData[0][0].length-1);
+//				plot(getDetectorList().getSelectedIndex(),true);
+//				setEnabled(true);
+//			}
+//		});
+//
+//	}
 }

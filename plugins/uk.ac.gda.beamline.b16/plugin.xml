@@ -100,24 +100,6 @@
          
          
 </extension>
-   <extension
-         point="org.eclipse.ui.editorActions">
-      <editorContribution
-            id="uk.ac.gda.client.exafs.VortexEditorContribution"
-            targetID="uk.ac.gda.exafs.ui.B16VortexParametersEditor">
-         <action
-               class="uk.ac.gda.exafs.ui.actions.RevertDetectorParametersToTemplateAction"
-               definitionId="uk.ac.gda.exafs.ui.actions.RevertDetectorParametersToTemplateAction"
-               icon="icons/page_refresh.png"
-               id="uk.ac.gda.client.exafs.RevertXspressDetector"
-               label="Revert"
-               style="push"
-               toolbarPath="Normal/additions"
-               tooltip="Revert detector configuration file.">
-         </action>
-      </editorContribution>
-   </extension>
-
   <extension
          point="uk.ac.common.beans.factory">
       <bean
