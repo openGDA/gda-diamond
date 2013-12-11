@@ -47,6 +47,8 @@ public abstract class EdeAsciiFileWriter {
 
 	protected final DoubleDataset energyDataSet;
 
+	public abstract String getAsciiFilename();
+
 	public EdeAsciiFileWriter(DoubleDataset energyDataSet) {
 		this.energyDataSet = energyDataSet;
 	}

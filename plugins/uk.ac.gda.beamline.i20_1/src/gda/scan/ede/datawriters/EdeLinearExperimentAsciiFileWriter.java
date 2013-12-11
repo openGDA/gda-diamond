@@ -360,4 +360,9 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		return itAveragedFilename;
 	}
 
+	@Override
+	public String getAsciiFilename() {
+		return this.getAsciiItFilename();
+	}
+
 }

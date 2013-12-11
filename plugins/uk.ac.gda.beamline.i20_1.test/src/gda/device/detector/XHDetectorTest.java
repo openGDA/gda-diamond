@@ -19,13 +19,12 @@
 package gda.device.detector;
 
 import static org.junit.Assert.assertEquals;
-
-import java.io.File;
-
 import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
 import gda.factory.FactoryException;
 import gda.util.TestUtils;
+
+import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +36,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  * Tests the commands sent to DAServer by the XHDetector class for a variety of experimental setups
  */
 public class XHDetectorTest {
-	
+
 	private static XHDetector xh;
 	private DummyXStripDAServer daserver;
 
@@ -45,202 +44,202 @@ public class XHDetectorTest {
 	public void createObject() throws FactoryException{
 		final File scratchDir = TestUtils.createClassScratchDirectory(XHDetectorTest.class);
 		LocalProperties.set(LocalProperties.GDA_VAR_DIR, scratchDir.getAbsolutePath());
-		
+
 		daserver = new DummyXStripDAServer();
-		
+
 		xh = new XHDetector();
 		xh.setDaServer(daserver);
 		xh.setDetectorName("xh0");
 		xh.configure();
 	}
-	
+
 	@Test
 	public void testSimpleGroup() throws DeviceException{
 		daserver.clearRecievedCommands();
-		
+
 		EdeScanParameters scan = new EdeScanParameters();
-		
+
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(1);
 		group1.setTimePerScan(0.1);
-		group1.setTimePerFrame(1);		
+		group1.setTimePerFrame(1);
 		scan.addGroup(group1);
-		
+
 		xh.loadParameters(scan);
-		
+
 		String[] commands = daserver.getRecievedCommands();
-		
+
 		//always clear out signals before setting anything up
 		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
-		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 last",commands[1]);
+		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 last",commands[9]);
 	}
-	
+
 	@Test
 	public void testDelays() throws DeviceException{
 		daserver.clearRecievedCommands();
-		
+
 		EdeScanParameters scan = new EdeScanParameters();
-		
+
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(1);
 		group1.setTimePerScan(0.1);
-		group1.setTimePerFrame(1);	
+		group1.setTimePerFrame(1);
 		group1.setDelayBetweenFrames(5);
 		scan.addGroup(group1);
-		
+
 		TimingGroup group2 = new TimingGroup();
 		group2.setLabel("group2");
 		group2.setNumberOfFrames(2);
 		group2.setTimePerScan(0.1);
-		group2.setTimePerFrame(3);	
+		group2.setTimePerFrame(3);
 		group2.setPreceedingTimeDelay(60);
 		scan.addGroup(group2);
-		
+
 		xh.loadParameters(scan);
-		
+
 		String[] commands = daserver.getRecievedCommands();
-		
+
 		//always clear out signals before setting anything up
 		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
-		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 frame-delay 250000000",commands[1]);
-		assertEquals("xstrip timing setup-group \"xh0\" 1 2 0 5000000 frame-time 150000000 group-delay 3000000000 last",commands[2]);
+		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 frame-delay 250000000",commands[9]);
+		assertEquals("xstrip timing setup-group \"xh0\" 1 2 0 5000000 frame-time 150000000 group-delay 3000000000 last",commands[18]);
 	}
-	
+
 	@Test
 	public void testInputs() throws DeviceException{
 		daserver.clearRecievedCommands();
-		
+
 		EdeScanParameters scan = new EdeScanParameters();
-		
+
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(1);
 		group1.setTimePerScan(0.1);
-		group1.setTimePerFrame(1);	
+		group1.setTimePerFrame(1);
 		group1.setGroupTrig(true);
 		group1.setGroupTrigLemo(5);
 		scan.addGroup(group1);
-		
+
 		xh.loadParameters(scan);
-		
+
 		String[] commands = daserver.getRecievedCommands();
-		
+
 		//always clear out signals before setting anything up
 		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
-		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 ext-trig-group trig-mux 5 last",commands[1]);
+		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 ext-trig-group trig-mux 5 last",commands[9]);
 	}
-	
+
 	@Test
 	public void testInputsFallingEdge() throws DeviceException{
 		daserver.clearRecievedCommands();
-		
+
 		EdeScanParameters scan = new EdeScanParameters();
-		
+
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(1);
 		group1.setTimePerScan(0.1);
-		group1.setTimePerFrame(1);	
+		group1.setTimePerFrame(1);
 		group1.setGroupTrig(true);
 		group1.setGroupTrigLemo(5);
 		group1.setGroupTrigRisingEdge(false);
 		scan.addGroup(group1);
-		
+
 		xh.loadParameters(scan);
-		
+
 		String[] commands = daserver.getRecievedCommands();
-		
+
 		//always clear out signals before setting anything up
 		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
-		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 ext-trig-group trig-mux 5 trig-falling last",commands[1]);
+		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 ext-trig-group trig-mux 5 trig-falling last",commands[9]);
 	}
 
-	
-	@Test 
+
+	@Test
 	public void testOutputs() throws DeviceException{
 		daserver.clearRecievedCommands();
-		
+
 		EdeScanParameters scan = new EdeScanParameters();
 		scan.setOutputsChoice0(EdeScanParameters.TRIG_FRAME_BEFORE);
-		
+
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(1);
 		group1.setTimePerScan(0.1);
-		group1.setTimePerFrame(1);	
+		group1.setTimePerFrame(1);
 		group1.setOutLemo0(true);
 		scan.addGroup(group1);
-		
+
 		xh.loadParameters(scan);
-		
+
 		String[] commands = daserver.getRecievedCommands();
-		
+
 		//always clear out signals before setting anything up
 		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
 		assertEquals("xstrip timing ext-output \"xh0\" 0 frame-pre-delay",commands[1]);
-		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 lemo-out 1 last",commands[2]);
+		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 lemo-out 1 last",commands[10]);
 	}
-	
-	@Test 
+
+	@Test
 	public void testOutputsDelay() throws DeviceException{
 		daserver.clearRecievedCommands();
-		
+
 		EdeScanParameters scan = new EdeScanParameters();
 		scan.setOutputsChoice0(EdeScanParameters.TRIG_FRAME_BEFORE);
 		scan.setOutputsWidth0(2);
-		
+
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(1);
 		group1.setTimePerScan(0.1);
-		group1.setTimePerFrame(1);	
+		group1.setTimePerFrame(1);
 		group1.setOutLemo0(true);
 		scan.addGroup(group1);
-		
+
 		xh.loadParameters(scan);
-		
+
 		String[] commands = daserver.getRecievedCommands();
-		
+
 		//always clear out signals before setting anything up
 		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
 		assertEquals("xstrip timing ext-output \"xh0\" 0 frame-pre-delay width 100000000",commands[1]);
-		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 lemo-out 1 last",commands[2]);
+		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 lemo-out 1 last",commands[10]);
 	}
 
-	
+
 	@Test
 	public void testMixInputAndOuputs() throws DeviceException{
 		daserver.clearRecievedCommands();
-		
+
 		EdeScanParameters scan = new EdeScanParameters();
 		scan.setOutputsChoice6(EdeScanParameters.TRIG_FRAME_BEFORE);
-		
+
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(1);
 		group1.setTimePerScan(0.000006);
-		group1.setTimePerFrame(0.00001);	
+		group1.setTimePerFrame(0.00001);
 		group1.setOutLemo6(true);
 		group1.setGroupTrig(true);
 		group1.setGroupTrigLemo(5);
 		scan.addGroup(group1);
-		
+
 		xh.loadParameters(scan);
-		
+
 		String[] commands = daserver.getRecievedCommands();
-		
+
 		//always clear out signals before setting anything up
 		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
 		assertEquals("xstrip timing ext-output \"xh0\" 6 frame-pre-delay",commands[1]);
-		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 300 frame-time 500 lemo-out 4096 ext-trig-group trig-mux 5 last",commands[2]);
+		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 300 frame-time 500 lemo-out 4096 ext-trig-group trig-mux 5 last",commands[10]);
 	}
-	
+
 	@Test
 	public void testBiasControl() throws DeviceException {
 		daserver.clearRecievedCommands();
-		
+
 		assertEquals(new Double(0.0),xh.getBias());
 		xh.setBias(4.5);
 		assertEquals(new Double(4.5),xh.getBias());
