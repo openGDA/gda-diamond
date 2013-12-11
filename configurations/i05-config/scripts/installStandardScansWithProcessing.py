@@ -7,7 +7,6 @@
 
 from gdascripts.analysis.datasetprocessor.oned.MaxPositionAndValue import MaxPositionAndValue
 from gdascripts.analysis.datasetprocessor.oned.MinPositionAndValue import MinPositionAndValue
-from gdascripts.analysis.datasetprocessor.oned.CentreOfMass import CentreOfMass
 from gdascripts.analysis.datasetprocessor.oned.GaussianPeakAndBackground import  GaussianPeakAndBackground
 from gdascripts.analysis.datasetprocessor.oned.GaussianEdge import  GaussianEdge
 from gdascripts.scan.process.ScanDataProcessor import ScanDataProcessor
@@ -20,11 +19,13 @@ print "Setting up scan data processor, scan_processor"
 ge=GaussianEdge()
 ge.smoothwidth=5
 ge.plotPanel = "Edge Fit Plot"
+ge.plotPanel = None
 
 gpab = GaussianPeakAndBackground()
 gpab.plotPanel = "Peak Fit Plot"
-scan_processor = ScanDataProcessor( [MaxPositionAndValue(), MinPositionAndValue(), CentreOfMass(), gpab ], globals() )
-#scan_processor = ScanDataProcessor( [ CentreOfMass(), gpab ], globals() )
+gpab.plotPanel = None
+scan_processor = ScanDataProcessor( [MaxPositionAndValue(), MinPositionAndValue(), gpab, ge ], globals() )
+
 go = scan_processor.go
 alias("go")
 
