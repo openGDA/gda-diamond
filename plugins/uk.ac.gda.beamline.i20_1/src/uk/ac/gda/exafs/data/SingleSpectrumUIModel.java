@@ -40,9 +40,11 @@ import org.eclipse.swt.widgets.Display;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentMotorPostion;
 import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors;
+import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors.ExperimentMotorPostionType;
 
 import com.google.gson.annotations.Expose;
 
@@ -52,53 +54,10 @@ public class SingleSpectrumUIModel extends ObservableModel {
 
 	private static final Logger logger = LoggerFactory.getLogger(SingleSpectrumUIModel.class);
 
-
-	public static final String I0_X_POSITION_PROP_NAME = "i0xPosition";
-	private double i0xPosition;
-
-	public static final String I0_Y_POSITION_PROP_NAME = "i0yPosition";
-	private double i0yPosition;
-
-	public static final String IT_X_POSITION_PROP_NAME = "iTxPosition";
-	private double iTxPosition;
-
-	public static final String IT_Y_POSITION_PROP_NAME = "iTyPosition";
-	private double iTyPosition;
-
-	public double getiTxPosition() {
-		return iTxPosition;
-	}
-
-	public void setiTxPosition(double value) {
-		firePropertyChange(IT_X_POSITION_PROP_NAME, iTxPosition, iTxPosition = value);
-	}
-
-	public double getiTyPosition() {
-		return iTyPosition;
-	}
-
-	public void setiTyPosition(double value) {
-		firePropertyChange(IT_Y_POSITION_PROP_NAME, iTyPosition, iTyPosition = value);
-	}
-
-	public double getI0xPosition() {
-		return i0xPosition;
-	}
-
-	public void setI0xPosition(double value) {
-		firePropertyChange(I0_X_POSITION_PROP_NAME, i0xPosition, i0xPosition = value);
-	}
-
-	public double getI0yPosition() {
-		return i0yPosition;
-	}
-
-	public void setI0yPosition(double value) {
-		firePropertyChange(I0_Y_POSITION_PROP_NAME, i0yPosition, i0yPosition = value);
-	}
-
 	private final AlignmentStageScannable.Location holeLocationForAlignment = new AlignmentStageScannable.Location();
 	private final AlignmentStageScannable.Location foilLocationForAlignment = new AlignmentStageScannable.Location();
+
+	private static final String SINGLE_JYTHON_DRIVER_OBJ = "singletimeresolveddriver";
 
 	public static final String I0_INTEGRATION_TIME_PROP_NAME = "i0IntegrationTime";
 	@Expose
@@ -137,8 +96,6 @@ public class SingleSpectrumUIModel extends ObservableModel {
 	private String fileTemplate = "Unknown_cal_";
 
 	private static final String SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY = "SINGLE_SPECTRUM_DATA";
-
-	private final SampleStageMotors sampleStageMotors = new SampleStageMotors();
 
 	private SingleSpectrumUIModel(@SuppressWarnings("unused") int dummy) {
 		job = new ScanJob("Performing Single spectrum scan");
@@ -182,7 +139,7 @@ public class SingleSpectrumUIModel extends ObservableModel {
 		this.setItNumberOfAccumulations(singleSpectrumData.getItNumberOfAccumulations());
 
 		// TODO For now just load sample_x and sample_y by default
-		this.getSampleStageMotors().setSelectedMotors(new ExperimentMotorPostion[] {SampleStageMotors.scannables[0], SampleStageMotors.scannables[1]});
+		SampleStageMotors.INSTANCE.setSelectedMotors(new ExperimentMotorPostion[] {SampleStageMotors.scannables[0], SampleStageMotors.scannables[1]});
 	}
 
 	private void saveSingleSpectrumData() {
@@ -190,10 +147,10 @@ public class SingleSpectrumUIModel extends ObservableModel {
 	}
 
 	private String buildScanCommand() {
-		return String.format("from gda.scan.ede.drivers import SingleSpectrumDriver; \n" +
-				"scan_driver = SingleSpectrumDriver(\"%s\",\"%s\",%f,%d,%f,%d,\"%s\",%s); \n" +
-				"scan_driver.setInBeamPosition(%f,%f);" +
-				"scan_driver.setOutBeamPosition(%f,%f)",
+		StringBuilder builder = new StringBuilder(String.format("from gda.scan.ede.drivers import SingleSpectrumDriver; \n" +
+				SINGLE_JYTHON_DRIVER_OBJ + " = SingleSpectrumDriver(\"%s\",\"%s\",%f,%d,%f,%d,\"%s\",%s); \n" +
+				SINGLE_JYTHON_DRIVER_OBJ + ".setInBeamPosition(mapToJava(%s));" +
+				SINGLE_JYTHON_DRIVER_OBJ + ".setOutBeamPosition(mapToJava(%s));",
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
 				i0IntegrationTime / 1000, // Converts to Seconds
@@ -202,8 +159,14 @@ public class SingleSpectrumUIModel extends ObservableModel {
 				itNumberOfAccumulations,
 				fileTemplate,
 				DetectorModel.SHUTTER_NAME,
-				0.0, 0.0,
-				0.0, 0.0);
+				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
+				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0)));
+		if (SampleStageMotors.INSTANCE.isUseIref()) {
+			builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setReferencePosition(mapToJava(%s));",
+					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef)));
+		}
+		//builder.append(SINGLE_JYTHON_DRIVER_OBJ + ".doCollection();");
+		return builder.toString();
 	}
 
 	private static enum ScanJobName {
@@ -243,38 +206,6 @@ public class SingleSpectrumUIModel extends ObservableModel {
 					monitor.worked(1);
 				}
 			}
-			//			else if (arg instanceof EdeExperimentProgressBean) {
-			//				final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
-			//
-			//				final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
-			//				final String scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
-			//				final String scanfilename =  edeScanProgress.getThisPoint().getCurrentFilename();
-			//				final String label = edeExperimentProgress.getDataLabel();
-			//				final AxisSpec spec = new AxisSpec("counts");
-			//
-			//				final DoubleDataset currentNormalisedItData = edeExperimentProgress.getData();
-			//				final DoubleDataset currentEnergyData = edeExperimentProgress.getEnergyData();
-			//
-			//				Display.getDefault().asyncExec(new Runnable() {
-			//					@Override
-			//					public void run() {
-			//
-			//						try {
-			//							final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-			//									.getActivePage();
-			//							LivePlotView part = (LivePlotView) page.findView(LivePlotView.ID);
-			//							if (part == null) {
-			//								part = (LivePlotView) page.showView(LivePlotView.ID);
-			//							}
-			//
-			//							part.addData(scanIdentifier, scanfilename, label, currentEnergyData, currentNormalisedItData, true, true, spec);
-			//
-			//						} catch (Exception e) {
-			//							UIHelper.showError("Unable to plot the data", e.getMessage());
-			//						}
-			//					}
-			//				});
-			//			}
 		}
 
 		@Override
@@ -290,10 +221,11 @@ public class SingleSpectrumUIModel extends ObservableModel {
 			try {
 				String command = buildScanCommand();
 				logger.info("Sending command: " + command);
+
 				InterfaceProvider.getCommandRunner().runCommand(command);
 				// give the previous command a chance to run before calling doCollection()
-				Thread.sleep(50);
-				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand("scan_driver.doCollection()");
+				Thread.sleep(150);
+				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand(SINGLE_JYTHON_DRIVER_OBJ + ".doCollection()");
 				if (resultFileName == null) {
 					throw new Exception("Unable to do collection.");
 				}
@@ -352,10 +284,6 @@ public class SingleSpectrumUIModel extends ObservableModel {
 
 	public String getFileName() {
 		return fileName;
-	}
-
-	public SampleStageMotors getSampleStageMotors() {
-		return sampleStageMotors;
 	}
 
 	public boolean isScanning() {

@@ -23,6 +23,7 @@ import gda.jython.IScanDataPointObserver;
 import gda.observable.IObservable;
 import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeExperimentProgressBean;
+import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.EdeScanProgressBean;
 
 import java.util.ArrayList;
@@ -33,7 +34,8 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.swt.widgets.Display;
 
-import uk.ac.gda.exafs.data.ObservableModel;
+import uk.ac.gda.beans.ObservableModel;
+import uk.ac.gda.exafs.ui.views.plot.model.DataNode.DataItemNode;
 
 public class PlotDataHolder extends ObservableModel implements IScanDataPointObserver {
 
@@ -41,8 +43,7 @@ public class PlotDataHolder extends ObservableModel implements IScanDataPointObs
 	private final IObservableList dataset = new WritableList(new ArrayList<DatasetNode>(), DatasetNode.class);
 
 	public static final String DATA_CHANGED_PROP_NAME = "changedData";
-	private DataNode changedData;
-
+	private DataItemNode changedData;
 
 	public PlotDataHolder() {
 		((IObservable) Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(this);
@@ -62,30 +63,31 @@ public class PlotDataHolder extends ObservableModel implements IScanDataPointObs
 		});
 	}
 
-	public DataNode getChangedData() {
+	public DataItemNode getChangedData() {
 		return changedData;
 	}
-
 
 	// TODO Changed to linked list!
 	@SuppressWarnings("unchecked")
 	protected void updateDataSetInUI(@SuppressWarnings("unused") Object source, Object arg) {
+
 		if (arg instanceof EdeExperimentProgressBean) {
 			final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
 			final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
 			final String scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
 			DatasetNode datasetNode;
 			if (!scans.containsKey(scanIdentifier)) {
-				final DatasetNode newNode = new DatasetNode(scanIdentifier);
-
+				boolean isMulti = (edeExperimentProgress.getExperimentCollectionType() == ExperimentCollectionType.MULTI);
+				final DatasetNode newNode = new DatasetNode(scanIdentifier, isMulti);
 				scans.put(scanIdentifier, newNode);
 				dataset.add(0, newNode);
 				datasetNode = newNode;
 			} else {
 				datasetNode = scans.get(scanIdentifier);
 			}
-			DataNode dataNode = datasetNode.updateData((EdeExperimentProgressBean) arg);
-			this.firePropertyChange(DATA_CHANGED_PROP_NAME, null, dataNode);
+			changedData = datasetNode.updateData((EdeExperimentProgressBean) arg);
+			this.firePropertyChange(DATA_CHANGED_PROP_NAME, null, changedData);
 		}
+
 	}
 }

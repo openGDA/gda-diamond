@@ -33,7 +33,9 @@ import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -68,8 +70,6 @@ import com.google.gson.Gson;
  */
 public class XHDetector extends DetectorBase implements XCHIPDetector {
 
-	private static final String CALIBRATION_PROP_KEY = "calibration";
-
 	private static final String ROIS_PROP_KEY = "ROIs";
 
 	private static final String CONNECTED_KEY = "connected";
@@ -97,9 +97,13 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	private static final String SENSOR2NAME = "PCB power supply";
 	private static final String SENSOR3NAME = "PCB control";
 
-
 	public static int NUMBER_ELEMENTS = 1024;
 	public static int START_STRIP = 0;
+
+	private static final int DETECTOR_ERROR_CODE = -1;
+	private static final String DETECTOR_ERROR_CODE_STR = "-1";
+
+	private static final int EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES = 100;
 
 	private static Integer[] STRIPS;
 
@@ -124,7 +128,9 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	private Integer[] excludedStrips;
 	private boolean connected;
 
-	private PolynomialFunction calibration = new PolynomialFunction(new double[] { 0., 1. });
+	private boolean externalOutputConfigSendToDetector;
+
+	private PolynomialFunction calibration;
 
 	static {
 		STRIPS = new Integer[NUMBER_ELEMENTS];
@@ -373,8 +379,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 		double[] energies = this.getEnergyForChannels();
 
-		thisFrame.addAxis(getName(), "Energy", new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, energies, 1, 1, "eV", false);
-		thisFrame.addData(getName(), new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, correctedData, "eV", 1);
+		thisFrame.addAxis(getName(), EdeExperiment.ENERGY_COLUMN_NAME, new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, energies, 1, 1, "eV", false);
+		thisFrame.addData(getName(), EdeExperiment.DATA_COLUMN_NAME, new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, correctedData, "eV", 1);
 
 		double[] extraValues = getExtraValues(elements);
 		String[] names = getExtraNames();
@@ -457,7 +463,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	@Override
 	public void stop() throws DeviceException {
 		daServer.sendCommand(createTimingCommand("stop"));
-
 		if (hasValidDataHandle()) {
 			sendCommand("disable " + dataHandle);
 		}
@@ -583,11 +588,17 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		}
 		String[] messageParts = statusMessage.split("[\n#:,]");
 
+		String stateString = messageParts[0];
+		if (stateString.contains("*")){
+			stateString = messageParts[1];
+		}
+		stateString = stateString.trim();
+
 		ExperimentStatus newStatus = new ExperimentStatus();
 
-		if (messageParts[0].trim().equalsIgnoreCase("running")) {
+		if (stateString.startsWith("Running")) {
 			newStatus.detectorStatus = Detector.BUSY;
-		} else if (messageParts[0].trim().equalsIgnoreCase("paused")) {
+		} else if (stateString.startsWith("Paused")) {
 			newStatus.detectorStatus = Detector.PAUSED;
 		} else {
 			newStatus.detectorStatus = Detector.IDLE;
@@ -669,6 +680,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				command = command.trim() + " last";
 			}
 
+			sendExternalOutputCommand();
+
 			logger.info("Sending group to XH: " + command);
 			Object result = daServer.sendCommand(command);
 			if (result.toString().compareTo("-1") == 0) {
@@ -676,6 +689,27 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 						"The given parameters were not accepted by da.server! Check frame and scan times.");
 			}
 		}
+	}
+
+	private void sendExternalOutputCommand() throws DeviceException {
+		List<String> commands = new ArrayList<String>();
+		commands.add("xstrip timing ext-output \"xh0\" 0 " + "group-pre-delay" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
+		commands.add("xstrip timing ext-output \"xh0\" 1 " + "group-post-delay" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
+		commands.add("xstrip timing ext-output \"xh0\" 2 " + "frame-pre-delay" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
+		commands.add("xstrip timing ext-output \"xh0\" 3 " + "frame-post-delay" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
+		commands.add("xstrip timing ext-output \"xh0\" 4 " + "scan-pre-delay" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
+		commands.add("xstrip timing ext-output \"xh0\" 5 " + "scan-post-delay" + " width " + EXTERNAL_OUTPUT_WIDTH_AS_SIGNAL_CYCLES);
+		commands.add("xstrip timing ext-output \"xh0\" 6 " + "integration");
+		commands.add("xstrip timing ext-output \"xh0\" 7 " + "aux1");
+		for (String extCommand : commands) {
+			logger.info("Sending external output configuration to XH: " + extCommand);
+			Object result = daServer.sendCommand(extCommand);
+			if (result.toString().compareTo(DETECTOR_ERROR_CODE_STR) == 0) {
+				throw new DeviceException(
+						"The given parameters were not accepted by da.server! Check frame and scan times.");
+			}
+		}
+
 	}
 
 	private String buildDelaysCommand(TimingGroup timingGroup) {
@@ -1095,9 +1129,10 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 					coeffs[index] = Double.parseDouble(coeffsString[index]);
 				}
 				calibration = new PolynomialFunction(coeffs);
-			} else {
-				calibration = new PolynomialFunction(new double[] { 0., 1. });
 			}
+			//			else {
+			//				calibration = new PolynomialFunction(new double[] { 0., 1. });
+			//			}
 		} catch (Exception e) {
 			logger.error("Error loading ROIs, now loading defaults", e);
 			setDefaultROIs();
@@ -1231,7 +1266,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 						"Could not open temperature controller to find out current temperature values");
 			}
 		}
-
 	}
 
 	@Override
@@ -1240,13 +1274,18 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	}
 
 	@Override
-	public void setEnergyCalibration(PolynomialFunction calibration) throws DeviceException {
-		this.calibration = calibration;
-		saveToXML();
+	public boolean isEnergyCalibrationSet() {
+		return (calibration == null);
 	}
 
 	@Override
-	public double[] getEnergyForChannels() {
+	public void setEnergyCalibration(PolynomialFunction calibration) throws DeviceException {
+		this.calibration = calibration;
+		saveToXML();
+		this.notifyIObservers(this, CALIBRATION_PROP_KEY);
+	}
+
+	private double[] getEnergyForChannels() {
 		double[] energy = new double[STRIPS.length];
 		for (int i = 0; i < STRIPS.length; i++) {
 			double result = getEnergyForChannel(STRIPS[i]);
@@ -1255,39 +1294,40 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		return energy;
 	}
 
-	@Override
-	public double getEnergyForChannel(int channel) {
-		PolynomialFunction function;
-		try {
-			function = this.getEnergyCalibration();
-		} catch (DeviceException e) {
-			logger.error("Detector did not supply a calibration.", e);
+	private double getEnergyForChannel(int channel) {
+		if (calibration == null) {
 			return channel;
 		}
-		return function.value((double) channel / (double) NUMBER_ELEMENTS);
+		return calibration.value((double) channel / (double) NUMBER_ELEMENTS);
 	}
 
 	@Override
-	public int getNumberScansInFrame(double frameTime, double scanTime) throws DeviceException {
+	public int getNumberScansInFrame(double frameTime, double scanTime, int numberOfFrames) throws DeviceException {
 		// TODO is simply isBusy() enough to protect the experiment?
+		int result = 0;
 		if (isBusy()) {
-			return 0;
+			return result;
 		}
 
 		if (!hasValidDataHandle()) {
-			return 0;
+			return result;
 		}
 
 		String frameTime_clockcycles = secondsToClockCyclesString(frameTime);
 		String scanTime_clockcycles = secondsToClockCyclesString(scanTime);
-
-		daServer.sendCommand("xstrip timing setup-group \"xh0\" 0 10 0 " + scanTime_clockcycles + " frame-time "
-				+ frameTime_clockcycles + " last");
 		try {
-			int[] timingReadback = daServer.getIntBinaryData("read 1 0 0 1 1 1 from " + timingHandle + " raw motorola", 1);
-			return timingReadback[0];
+			String command = "xstrip timing setup-group \"xh0\" 0 " + numberOfFrames + " 0 " + scanTime_clockcycles + " frame-time "
+					+ frameTime_clockcycles + " last";
+			daServer.sendCommand(command);
+			int[] value = daServer.getIntBinaryData("read 0 0 0 30 1024 1 from " + timingHandle + " raw motorola",
+					30 * 1024);
+			result = value[1]; // 1 is Number of scans per frame (See spec)
 		} catch (Exception e) {
 			throw new DeviceException("Error trying to read back from timing handle");
 		}
+		if (result == DETECTOR_ERROR_CODE) {
+			throw new DeviceException("Error trying to read back from timing handle");
+		}
+		return result;
 	}
 }

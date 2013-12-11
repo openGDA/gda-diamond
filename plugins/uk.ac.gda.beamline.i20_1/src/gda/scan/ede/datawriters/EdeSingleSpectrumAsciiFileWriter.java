@@ -40,7 +40,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 
 	public EdeSingleSpectrumAsciiFileWriter(EdeScan i0InitialScan, EdeScan itScan, EdeScan i0DarkScan,
 			EdeScan itDarkScan, StripDetector theDetector) {
-		super();
+		super(extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0)));
 		this.i0InitialScan = i0InitialScan;
 		this.itScan = itScan;
 		this.i0DarkScan = i0DarkScan;
@@ -82,7 +82,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 			Double lni0it = calcLnI0It(i0_corrected, it_corrected);
 
 			StringBuffer stringToWrite = new StringBuffer(channel + "\t");
-			stringToWrite.append(String.format("%.2f", theDetector.getEnergyForChannel(channel)) + "\t");
+			stringToWrite.append(String.format("%.2f", energyDataSet.getDouble(channel)) + "\t");
 			stringToWrite.append(String.format("%.2f", i0_corrected) + "\t");
 			stringToWrite.append(String.format("%.2f", it_corrected) + "\t");
 			stringToWrite.append(String.format("%.5f", lni0it) + "\t");

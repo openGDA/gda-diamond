@@ -24,12 +24,17 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
 public class EdeExperimentProgressBean implements Serializable {
 
+	public enum ExperimentCollectionType {
+		SINGLE, MULTI
+	}
+
 	private final EdeScanProgressBean progress;
 	private final DoubleDataset data;
 	private final DoubleDataset energyData;
 	private final String dataLabel;
-
-	public EdeExperimentProgressBean(EdeScanProgressBean progress, String dataLabel, DoubleDataset data, DoubleDataset energyData) {
+	private final ExperimentCollectionType experimentCollectionType;
+	public EdeExperimentProgressBean(ExperimentCollectionType experimentCollectionType, EdeScanProgressBean progress, String dataLabel, DoubleDataset data, DoubleDataset energyData) {
+		this.experimentCollectionType = experimentCollectionType;
 		this.progress = progress;
 		this.dataLabel = dataLabel;
 		this.data = data;
@@ -50,6 +55,10 @@ public class EdeExperimentProgressBean implements Serializable {
 
 	public String getDataLabel() {
 		return dataLabel;
+	}
+
+	public ExperimentCollectionType getExperimentCollectionType() {
+		return experimentCollectionType;
 	}
 
 }

@@ -30,19 +30,20 @@ import java.util.Vector;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
+// FIXME Refactor this!!!!
 public class LinearExperimentDriver extends ScanDriver {
 
 	private final StripDetector detector;
-	private final EdeScanParameters params;
+	private final EdeScanParameters iTScanParameters;
 	private final Monitor topupMonitor;
 	private final Scannable shutter2;
-
+	private int noOfSecPerSpectrumToPublish = EdeLinearExperiment.DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
 	public LinearExperimentDriver(String detectorName, String topupMonitorName, Vector<TimingGroup> timingGroups, Scannable shutter2) {
 		super();
 		detector = Finder.getInstance().find(detectorName);
 		topupMonitor = Finder.getInstance().find(topupMonitorName);
-		params = new EdeScanParameters();
-		params.setGroups(timingGroups);
+		iTScanParameters = new EdeScanParameters();
+		iTScanParameters.setGroups(timingGroups);
 		this.shutter2 = shutter2;
 	}
 
@@ -60,10 +61,15 @@ public class LinearExperimentDriver extends ScanDriver {
 		fileTemplate = filenameTemplate;
 	}
 
+	public void setNoOfSecPerSpectrumToPublish(int number) {
+		noOfSecPerSpectrumToPublish = number;
+	}
+
 	@Override
 	public String doCollection() throws Exception {
-		EdeLinearExperiment theExperiment = new EdeLinearExperiment(params, outbeamPosition, inbeamPosition,
-				referencePosition, detector,topupMonitor, shutter2);
+		EdeLinearExperiment theExperiment = new EdeLinearExperiment(iTScanParameters, outbeamPosition, inbeamPosition,
+				referencePosition, detector, topupMonitor, shutter2);
+		theExperiment.setNoOfSecPerSpectrumToPublish(noOfSecPerSpectrumToPublish);
 		if (fileTemplate != null) {
 			theExperiment.setFilenameTemplate(fileTemplate);
 		}

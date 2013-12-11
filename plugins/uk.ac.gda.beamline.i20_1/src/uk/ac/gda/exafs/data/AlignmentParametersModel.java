@@ -33,6 +33,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import uk.ac.gda.beans.ObservableModel;
+
 public class AlignmentParametersModel extends ObservableModel implements Serializable {
 
 	public static final AlignmentParametersModel INSTANCE = new AlignmentParametersModel();
@@ -90,7 +92,7 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 
 	public enum CrystalCut {
 		// See requirement spec for assigned values
-		Si111(6 * 1000, 14 * 1000),
+		Si111(5.9 * 1000, 14 * 1000),
 		Si311(7 * 1000, 26 * 1000);
 
 		private final double min;
@@ -145,7 +147,9 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	private final PropertyChangeListener listener = new PropertyChangeListener() {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
-			getCalculations();
+			if(evt.getNewValue() != null) {
+				getCalculations();
+			}
 		}
 	};
 
@@ -171,11 +175,14 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	}
 
 	public void setCrystalCut(CrystalCut crystalCut) {
+		Element current = element;
+		this.firePropertyChange(ELEMENT_PROP_NAME, element, element = null);
 		this.firePropertyChange(CRYSTAL_CUT_PROP_NAME, this.crystalCut, this.crystalCut = crystalCut);
 		this.firePropertyChange(ELEMENTS_IN_ENERGY_RANGE_PROP_NAME, null, getElementsInEnergyRange());
-		this.firePropertyChange(ELEMENT_EDGES_NAMES_PROP_NAME, null, getElementEdges());
-		if (element == null || !this.crystalCut.getElementsInEnergyRange().keySet().contains(element)) {
+		if (current == null || !this.crystalCut.getElementsInEnergyRange().keySet().contains(current)) {
 			this.setElement(this.crystalCut.getElementsInEnergyRange().keySet().iterator().next());
+		} else {
+			this.setElement(current);
 		}
 	}
 
@@ -192,12 +199,15 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	}
 
 	public void setElement(Element element) {
-		this.firePropertyChange(ELEMENT_PROP_NAME, this.element, this.element = element);
+		AbsorptionEdge currentEdge = edge;
+		this.setEdge(null);
+		this.firePropertyChange(ELEMENT_PROP_NAME, null, this.element = element);
 		this.firePropertyChange(ELEMENT_EDGES_NAMES_PROP_NAME, null, getElementEdges());
-		if (edge == null || !crystalCut.getElementsInEnergyRange().get(element).contains(edge)) {
+		if (currentEdge == null || !crystalCut.getElementsInEnergyRange().get(element).contains(currentEdge.getEdgeType())) {
 			this.setEdge(element.getEdge(crystalCut.getElementsInEnergyRange().get(element).iterator().next()));
+		} else {
+			this.setEdge(currentEdge);
 		}
-		this.firePropertyChange(ELEMENT_ENERGY_PROP_NAME, null, getEnergy());
 	}
 
 	public AbsorptionEdge getEdge() {
@@ -240,7 +250,8 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	}
 
 	private void getCalculations() {
-		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
+		if (DetectorModel.INSTANCE.getCurrentDetector() == null || edge == null || element == null) {
+			this.firePropertyChange(AUGGESTED_PARAMETERS_PROP_KEY, alignmentSuggestedParameters, null);
 			return;
 		}
 		try {

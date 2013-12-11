@@ -18,10 +18,14 @@
 
 package uk.ac.gda.exafs.ui.data.experiment;
 
+import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
-import uk.ac.gda.exafs.data.ObservableModel;
 
 public class SampleStageMotors extends ObservableModel {
+
+	public enum ExperimentMotorPostionType {
+		I0, It, IRef
+	}
 
 	public static final ExperimentMotorPostion[] scannables;
 
@@ -37,15 +41,54 @@ public class SampleStageMotors extends ObservableModel {
 		};
 	}
 
-	public static final String SELECTED_MOTORS = "selectedMotors";
-	private ExperimentMotorPostion[] selectedMotors = new ExperimentMotorPostion[]{};
+	public static final SampleStageMotors INSTANCE = new SampleStageMotors();
+
+	private SampleStageMotors() {}
+
+	public static final String USE_IREF_PROP_NAME = "useIref";
+	private boolean useIref;
+
+	public static final String SELECTED_MOTORS_PROP_NAME = "selectedMotors";
+	private ExperimentMotorPostion[] selectedMotors = new ExperimentMotorPostion[]{
+			scannables[0], scannables[1]
+	};
 
 	public ExperimentMotorPostion[] getSelectedMotors() {
 		return selectedMotors;
 	}
 
 	public void setSelectedMotors(ExperimentMotorPostion[] selectedMotors) {
-		this.firePropertyChange(SELECTED_MOTORS, this.selectedMotors, this.selectedMotors = selectedMotors);
+		this.firePropertyChange(SELECTED_MOTORS_PROP_NAME, this.selectedMotors, this.selectedMotors = selectedMotors);
+	}
+
+	public boolean isUseIref() {
+		return useIref;
+	}
+
+	public void setUseIref(boolean useIref) {
+		this.firePropertyChange(USE_IREF_PROP_NAME, this.useIref, this.useIref = useIref);
+	}
+
+	public String getFormattedSelectedPositions(ExperimentMotorPostionType type) {
+		StringBuilder position = new StringBuilder();
+		position.append("{");
+		for (int i=0; i < selectedMotors.length; i++) {
+			position.append("'" +selectedMotors[i].getScannableSetup().getScannableName() + "'" + ":");
+			double positionValue;
+			if (type == ExperimentMotorPostionType.I0) {
+				positionValue = selectedMotors[i].getTargetI0Position();
+			} else if (type == ExperimentMotorPostionType.It) {
+				positionValue = selectedMotors[i].getTargetItPosition();
+			} else {
+				positionValue = selectedMotors[i].getTargetIrefPosition();
+			}
+			position.append(positionValue);
+			if (selectedMotors.length > 1 & i < selectedMotors.length - 1) {
+				position.append(",");
+			}
+		}
+		position.append("}");
+		return position.toString();
 	}
 }
 

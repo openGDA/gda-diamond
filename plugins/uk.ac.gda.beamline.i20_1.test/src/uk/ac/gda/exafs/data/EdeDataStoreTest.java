@@ -32,13 +32,14 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.junit.Test;
 
-import uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentModelHolder;
+import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentTimingDataModel.ExperimentUnit;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import de.jaret.util.date.JaretDate;
+import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
 public class EdeDataStoreTest {
@@ -54,8 +55,8 @@ public class EdeDataStoreTest {
 		RealmTester.exerciseCurrent(new Runnable() {
 			@Override
 			public void run() {
-				WritableList groupList = new WritableList(new ArrayList<TimingGroupModel>(), TimingGroupModel.class);
-				TimingGroupModel group = new TimingGroupModel(new DefaultTimeBarRowModel(), ExperimentUnit.SEC);
+				WritableList groupList = new WritableList(new ArrayList<TimingGroupUIModel>(), TimingGroupUIModel.class);
+				TimingGroupUIModel group = new TimingGroupUIModel(new DefaultTimeBarModel(), ExperimentUnit.SEC, ExperimentModelHolder.INSTANCE.getLinerExperimentModel());
 				group.setTimes(0.0, 1000.0);
 				group.setNumberOfSpectrum(100);
 				group.setTimePerSpectrum(10);
@@ -76,7 +77,7 @@ public class EdeDataStoreTest {
 		try {
 			readConfiguration.load();
 			Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
-			TimingGroupModel[] test = gson.fromJson(readConfiguration.getString("test"), TimingGroupModel[].class);
+			TimingGroupUIModel[] test = gson.fromJson(readConfiguration.getString("test"), TimingGroupUIModel[].class);
 			assertTrue(test.length == 1);
 			assertTrue(test[0].getEndTime() == 1000.0);
 		} catch (ConfigurationException e) {

@@ -32,6 +32,7 @@ import java.util.List;
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
+import uk.ac.gda.beans.ObservableModel;
 
 public class EdeCalibrationModel extends ObservableModel {
 	public static final String REF_DATA_COLUMN_NAME = "lnI0It";

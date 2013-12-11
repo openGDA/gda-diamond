@@ -52,7 +52,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.ui.forms.widgets.Form;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
@@ -60,28 +60,32 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
-public class DetectorROIsSection {
+public class DetectorROIsSection extends ResourceComposite {
+
 	private static final int ROIS_TABLE_HEIGHT = 150;
 	private static final int ROIs_TABLE_WIDTH = 70;
-	public static final DetectorROIsSection INSTANCE = new DetectorROIsSection();
 
-	private DataBindingContext dataBindingCtx = null;
+	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
 	private ComboViewer cmbFirstStripViewer;
 	private ComboViewer cmbLastStripViewer;
 	private TableViewer roisTableViewer;
 	protected Binding cmbFirstStripViewerBinding;
 	protected Binding cmbLastStripViewerBinding;
+	private final FormToolkit toolkit;
 
-	private DetectorROIsSection() {}
+	public DetectorROIsSection(Composite parent, int style) {
+		super(parent, style);
+		toolkit = new FormToolkit(parent.getDisplay());
+		setupUI();
+	}
 
-	@SuppressWarnings({ "static-access" })
-	public void createSection(Form form, FormToolkit toolkit) {
-		dataBindingCtx = new DataBindingContext();
-		final Section roisSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+	private void setupUI() {
+		this.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
+		final Section roisSection = toolkit.createSection(this, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 		roisSection.setText("Region of Interests (ROIs)");
 		toolkit.paintBordersFor(roisSection);
-		roisSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		roisSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		Composite roisSectionComposite = toolkit.createComposite(roisSection, SWT.NONE);
 		toolkit.paintBordersFor(roisSectionComposite);
 		roisSection.setClient(roisSectionComposite);
@@ -197,26 +201,7 @@ public class DetectorROIsSection {
 		toolkit.paintBordersFor(roisSectionSeparator);
 		roisSection.setSeparatorControl(roisSectionSeparator);
 
-		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				boolean detectorConnected = (boolean) evt.getNewValue();
-				if (detectorConnected) {
-					bindUpperAndLowerComboViewers();
-				} else {
-					if (cmbFirstStripViewerBinding != null) {
-						dataBindingCtx.removeBinding(cmbFirstStripViewerBinding);
-						cmbFirstStripViewerBinding.dispose();
-						cmbFirstStripViewerBinding = null;
-					}
-					if (cmbLastStripViewerBinding != null) {
-						dataBindingCtx.removeBinding(cmbLastStripViewerBinding);
-						cmbLastStripViewerBinding.dispose();
-						cmbLastStripViewerBinding = null;
-					}
-				}
-			}
-		});
+		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, detectorConnectedListener);
 
 		if (DetectorModel.INSTANCE.getCurrentDetector() != null) {
 			bindUpperAndLowerComboViewers();
@@ -250,9 +235,28 @@ public class DetectorROIsSection {
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(roisSection),
 				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
-
-
 	}
+
+	private final PropertyChangeListener detectorConnectedListener = new PropertyChangeListener() {
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			boolean detectorConnected = (boolean) evt.getNewValue();
+			if (detectorConnected) {
+				bindUpperAndLowerComboViewers();
+			} else {
+				if (cmbFirstStripViewerBinding != null) {
+					dataBindingCtx.removeBinding(cmbFirstStripViewerBinding);
+					cmbFirstStripViewerBinding.dispose();
+					cmbFirstStripViewerBinding = null;
+				}
+				if (cmbLastStripViewerBinding != null) {
+					dataBindingCtx.removeBinding(cmbLastStripViewerBinding);
+					cmbLastStripViewerBinding.dispose();
+					cmbLastStripViewerBinding = null;
+				}
+			}
+		}
+	};
 
 	private void bindUpperAndLowerComboViewers() {
 		cmbFirstStripViewerBinding = dataBindingCtx.bindValue(
@@ -308,5 +312,11 @@ public class DetectorROIsSection {
 				UIHelper.showWarning("Unable to set value", "value" + " is invalid");
 			}
 		}
+	}
+
+	@Override
+	protected void disposeResource() {
+		dataBindingCtx.dispose();
+		DetectorModel.INSTANCE.removePropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, detectorConnectedListener);
 	}
 }

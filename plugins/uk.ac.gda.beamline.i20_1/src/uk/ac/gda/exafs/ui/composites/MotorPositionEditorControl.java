@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.ClientConfig;
+import uk.ac.gda.ui.components.NumberEditorControl;
 
 public class MotorPositionEditorControl extends NumberEditorControl {
 
@@ -38,7 +39,7 @@ public class MotorPositionEditorControl extends NumberEditorControl {
 	public MotorPositionEditorControl(Composite parent, int style, ScannableWrapper scannableWrapper, boolean userSpinner) throws Exception {
 		super(parent, style, scannableWrapper, ScannableWrapper.POSITION_PROP_NAME, userSpinner);
 		ctx.bindValue(
-				BeanProperties.value(NumberEditorWidgetModel.EDITABLE_PROP_NAME).observe(controlModel),
+				BeanProperties.value(EDITABLE_PROP_NAME).observe(controlModel),
 				BeanProperties.value(ScannableWrapper.BUSY_PROP_NAME).observe(targetObject),
 				null,
 				new UpdateValueStrategy() {
@@ -89,9 +90,9 @@ public class MotorPositionEditorControl extends NumberEditorControl {
 				return super.getFormattedText(value) + " (Moving to " + targetPosition + " " + controlModel.getUnit() + ")";
 			}
 		} catch (DeviceException e) {
-			// This is a temporarily commented it out to avoid reading motor positions that are not ready
+			// TODO This is a temporarily commented it out to avoid reading motor positions that are not ready
 			// UIHelper.showError("Error while reading the motor position", e.getMessage());
-			logger.error("Error while reading the motor position", e);
+			logger.warn("Error while reading the motor position");
 		}
 		return super.getFormattedText(value);
 	}

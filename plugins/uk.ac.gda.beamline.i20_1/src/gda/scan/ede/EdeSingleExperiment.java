@@ -31,6 +31,7 @@ import gda.scan.EdeScan;
 import gda.scan.MultiScan;
 import gda.scan.ScanBase;
 import gda.scan.ScanPlotSettings;
+import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 import gda.scan.ede.datawriters.EdeSingleSpectrumAsciiFileWriter;
 import gda.scan.ede.position.EdeScanPosition;
@@ -160,20 +161,20 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 		if (controller != null && arg instanceof EdeScanProgressBean) {
 			EdeScanProgressBean progress = (EdeScanProgressBean) arg;
 			if (source.equals(i0DarkScan)) {
-				energyData = new DoubleDataset(theDetector.getEnergyForChannels());
+				energyData = EdeAsciiFileWriter.extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0));
 				i0DarkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
-				controller.update(i0DarkScan, new EdeExperimentProgressBean(progress,
+				controller.update(i0DarkScan, new EdeExperimentProgressBean(ExperimentCollectionType.SINGLE, progress,
 						EdeExperiment.I0_DARK_COLUMN_NAME, i0DarkData, energyData));
 			}
 			if (source.equals(itDarkScan)) {
 				itDarkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), itDarkScan, 0);
-				controller.update(itDarkScan, new EdeExperimentProgressBean(progress,
+				controller.update(itDarkScan, new EdeExperimentProgressBean(ExperimentCollectionType.SINGLE, progress,
 						EdeExperiment.IT_DARK_COLUMN_NAME, itDarkData, energyData));
 			}
 			if (source.equals(i0InitialScan)) {
 				i0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, 0);
 				i0Data = i0Data.isubtract(i0DarkData);
-				controller.update(i0InitialScan, new EdeExperimentProgressBean(progress,
+				controller.update(i0InitialScan, new EdeExperimentProgressBean(ExperimentCollectionType.SINGLE, progress,
 						EdeExperiment.I0_CORR_COLUMN_NAME, i0Data, energyData));
 			}
 			if (source.equals(itScan)) {
@@ -183,10 +184,10 @@ public class EdeSingleExperiment extends EdeExperiment implements IObserver {
 				} else {
 					itData = itData.isubtract(i0DarkData);
 				}
-				controller.update(itScan, new EdeExperimentProgressBean(progress, EdeExperiment.IT_CORR_COLUMN_NAME,
+				controller.update(itScan, new EdeExperimentProgressBean(ExperimentCollectionType.SINGLE, progress, EdeExperiment.IT_CORR_COLUMN_NAME,
 						itData, energyData));
 				DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(itData, i0Data);
-				controller.update(itScan, new EdeExperimentProgressBean(progress, EdeExperiment.LN_I0_IT_COLUMN_NAME,
+				controller.update(itScan, new EdeExperimentProgressBean(ExperimentCollectionType.SINGLE, progress, EdeExperiment.LN_I0_IT_COLUMN_NAME,
 						normalisedIt, energyData));
 			}
 		}

@@ -16,20 +16,16 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.data;
+package uk.ac.gda.exafs.ui.views;
 
-import org.eclipse.swt.widgets.Display;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentModelHolder;
+import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 
-import uk.ac.gda.beans.ObservableModel;
+public class CyclicExperimentView extends LinearExperimentView {
+	public static final String CYCLIC_EXPERIMENT_VIEW_ID = "uk.ac.gda.exafs.ui.views.cyclicExperimentView";
 
-public class UIObservableModel extends ObservableModel {
 	@Override
-	protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {
-		Display.getDefault().syncExec(new Runnable() {
-			@Override
-			public void run() {
-				UIObservableModel.super.firePropertyChange(propertyName, oldValue, newValue);
-			}
-		});
+	protected TimeResolvedExperimentModel getModel() {
+		return ExperimentModelHolder.INSTANCE.getCyclicExperimentModel();
 	}
 }

@@ -252,6 +252,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		comboxElement.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object value) {
+				if (value == null) {
+					return "";
+				}
 				Element element = (Element) value;
 				return element.getName() + " (" + element.getSymbol() + ")";
 			}
@@ -340,11 +343,26 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 			dataBindingCtx.bindValue(
 					ViewersObservables.observeInput(comboxElement),
-					BeanProperties.value(AlignmentParametersModel.ELEMENTS_IN_ENERGY_RANGE_PROP_NAME).observe(AlignmentParametersModel.INSTANCE));
+					BeanProperties.value(AlignmentParametersModel.ELEMENTS_IN_ENERGY_RANGE_PROP_NAME).observe(AlignmentParametersModel.INSTANCE), null,
+					new UpdateValueStrategy() {
+
+						@Override
+						protected IStatus doSet(IObservableValue observableValue, Object value) {
+
+							return super.doSet(observableValue, value);
+						}
+					});
 
 			dataBindingCtx.bindValue(
 					ViewersObservables.observeSingleSelection(comboxElement),
-					BeanProperties.value(AlignmentParametersModel.ELEMENT_PROP_NAME).observe(AlignmentParametersModel.INSTANCE));
+					BeanProperties.value(AlignmentParametersModel.ELEMENT_PROP_NAME).observe(AlignmentParametersModel.INSTANCE), null,
+					new UpdateValueStrategy() {
+
+						@Override
+						protected IStatus doSet(IObservableValue observableValue, Object value) {
+							return super.doSet(observableValue, value);
+						}
+					});
 
 			dataBindingCtx.bindValue(
 					WidgetProperties.enabled().observe(comboElementEdge.getControl()),

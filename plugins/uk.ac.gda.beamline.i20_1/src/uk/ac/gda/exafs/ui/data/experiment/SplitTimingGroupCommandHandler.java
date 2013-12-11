@@ -26,14 +26,14 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 public class SplitTimingGroupCommandHandler extends AbstractHandler {
-
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event)
 				.getActivePage().getSelection();
 		if (selection != null && selection instanceof IStructuredSelection) {
-			if (!selection.isEmpty() && ((IStructuredSelection) selection).getFirstElement() instanceof TimingGroupModel) {
-				TimeResolvedExperimentModel.INSTANCE.splitGroup((TimingGroupModel) ((IStructuredSelection) selection).getFirstElement());
+			if (!selection.isEmpty() && ((IStructuredSelection) selection).getFirstElement() instanceof TimingGroupUIModel) {
+				TimingGroupUIModel timingGroupUIModel = (TimingGroupUIModel) ((IStructuredSelection) selection).getFirstElement();
+				timingGroupUIModel.getParent().splitGroup(timingGroupUIModel);
 			}
 		}
 		return null;

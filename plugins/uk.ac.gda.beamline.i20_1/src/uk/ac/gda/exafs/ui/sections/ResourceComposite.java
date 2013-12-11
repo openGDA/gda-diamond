@@ -16,20 +16,21 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.data;
+package uk.ac.gda.exafs.ui.sections;
 
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.widgets.Composite;
 
-import uk.ac.gda.beans.ObservableModel;
-
-public class UIObservableModel extends ObservableModel {
-	@Override
-	protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {
-		Display.getDefault().syncExec(new Runnable() {
+public abstract class ResourceComposite extends Composite {
+	public ResourceComposite(Composite parent, int style) {
+		super(parent, style);
+		this.addDisposeListener(new DisposeListener() {
 			@Override
-			public void run() {
-				UIObservableModel.super.firePropertyChange(propertyName, oldValue, newValue);
+			public void widgetDisposed(DisposeEvent e) {
+				disposeResource();
 			}
 		});
 	}
+	protected abstract void disposeResource();
 }

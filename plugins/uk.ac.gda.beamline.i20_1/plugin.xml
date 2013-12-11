@@ -135,24 +135,24 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
-            class="uk.ac.gda.exafs.ui.views.TimeResolvedExperimentView"
+            class="uk.ac.gda.exafs.ui.views.LinearExperimentView"
             id="uk.ac.gda.exafs.ui.views.linearExperimentView"
             name="Linear experiment"
             restorable="true">
       </view>
       <view
-            category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
-            class="uk.ac.gda.exafs.ui.views.LinearExperimentPlotView"
-            id="uk.ac.gda.exafs.ui.views.LinearExperimentPlotView"
-            name="Linear experiment live plot"
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
+            class="uk.ac.gda.exafs.ui.views.plot.DataPlotView"
+            icon="icons/1-star.gif"
+            id="uk.ac.gda.exafs.ui.views.dataplotview"
+            name="Ede experiment plot"
             restorable="true">
       </view>
       <view
-            category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.ui.views.plot.SingleSpectrumPlotView"
-            icon="icons/1-star.gif"
-            id="uk.ac.gda.exafs.ui.views.singlespectrumplotview"
-            name="Ede experiment plot"
+            category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
+            class="uk.ac.gda.exafs.ui.views.CyclicExperimentView"
+            id="uk.ac.gda.exafs.ui.views.cyclicExperimentView"
+            name="Cyclic experiment"
             restorable="true">
       </view>
    </extension>
@@ -335,7 +335,7 @@
                      ifEmpty="false"
                      operator="or">
                   <instanceof
-                        value="uk.ac.gda.exafs.ui.data.experiment.TimingGroupModel">
+                        value="uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel">
                   </instanceof>
                </iterate>
             </with>

@@ -43,6 +43,7 @@ import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ICheckStateListener;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionListener;
@@ -60,19 +61,20 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.client.liveplot.IPlotLineColorService;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.views.plot.model.DataNode;
+import uk.ac.gda.exafs.ui.views.plot.model.DataNode.DataItemNode;
 import uk.ac.gda.exafs.ui.views.plot.model.DatasetNode;
 import uk.ac.gda.exafs.ui.views.plot.model.PlotDataHolder;
 
-public class SingleSpectrumPlotView extends ViewPart {
+public class DataPlotView extends ViewPart {
 
-	public static String ID = "uk.ac.gda.exafs.ui.views.singlespectrumplotview";
+	public static String ID = "uk.ac.gda.exafs.ui.views.dataplotview";
 
-	private static Logger logger = LoggerFactory.getLogger(SingleSpectrumPlotView.class);
+	private static Logger logger = LoggerFactory.getLogger(DataPlotView.class);
 
 	private IPlottingSystem plottingSystem;
 	List<SelectionListener> selectionListeners = new Vector<SelectionListener>();
 
-	private CheckboxTreeViewer dataTreeViewer;
+	private DataPlotterCheckedTreeViewer dataTreeViewer;
 	private final PlotDataHolder plotDataHolder = new PlotDataHolder();
 
 	@Override
@@ -110,49 +112,49 @@ public class SingleSpectrumPlotView extends ViewPart {
 					}
 					@Override
 					public void handleAdd(int index, Object element) {
-						plottingSystem.clear();
 						for (Object obj : dataTreeViewer.getCheckedElements()) {
-							dataTreeViewer.setChecked(obj, false);
+							dataTreeViewer.updateCheckSelection(obj, false);
 						}
-						dataTreeViewer.setChecked(element, true);
 					}
 				});
 			}
 		});
 		plotDataHolder.addPropertyChangeListener(PlotDataHolder.DATA_CHANGED_PROP_NAME, new PropertyChangeListener() {
+			@SuppressWarnings("static-access")
 			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				DataNode node = (DataNode) evt.getNewValue();
-				addAndUpdateTrace(node);
+			public void propertyChange(final PropertyChangeEvent evt) {
+				DataItemNode node = (DataItemNode) evt.getNewValue();
+				dataTreeViewer.expandToLevel(node.getParent(), CheckboxTreeViewer.ALL_LEVELS);
+				dataTreeViewer.update(node, null);
 			}
 		});
 	}
 
-	private void addAndUpdateTrace(DataNode node) {
+	private void addAndUpdateTrace(DataItemNode node) {
 		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier());
 		if (trace == null) {
-			trace = plottingSystem.createLineTrace(node.getIdentifier());
-			trace.setTraceColor(getTraceColor(node.getLabel()));
-			if ((plotDataHolder.getDataset().size() - plotDataHolder.getDataset().indexOf(node.getParent())) % 2 == 0) {
-				trace.setTraceType(TraceType.DASH_LINE);
-				trace.setPointStyle(PointStyle.DIAMOND);
-				trace.setPointSize(5);
+			if (!node.getParent().getParent().isMultiCollection()) {
+				trace = plottingSystem.createLineTrace(node.getIdentifier());
+				trace.setTraceColor(getTraceColor(node.getParent().getLabel()));
+				if ((plotDataHolder.getDataset().size() - plotDataHolder.getDataset().indexOf(node.getParent().getParent())) % 2 == 0) {
+					trace.setTraceType(TraceType.DASH_LINE);
+					trace.setPointStyle(PointStyle.DIAMOND);
+					trace.setPointSize(5);
+				} else {
+					trace.setTraceType(TraceType.SOLID_LINE);
+				}
 			} else {
-				trace.setTraceType(TraceType.SOLID_LINE);
+				trace = plottingSystem.createLineTrace(node.getIdentifier());
 			}
 			plottingSystem.addTrace(trace);
 		}
-		trace.setData(node.getXAxisData(), node.getYAxisData().get(0));
-
+		trace.setData(node.getParent().getXAxisData(), node.getData());
 		plottingSystem.repaint();
-		dataTreeViewer.update(node, null);
-		if (!dataTreeViewer.getChecked(node)) {
-			dataTreeViewer.setChecked(node, true);
-		}
 	}
 
 	// FIX ME dispose colors
 	private final Map<String, Color> nodeColors = new HashMap<String, Color>();
+	private final Color blackColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 
 	// FIX ME!
 	private Color getTraceColor(String label) {
@@ -165,10 +167,10 @@ public class SingleSpectrumPlotView extends ViewPart {
 				if (colorValue != null) {
 					color = UIHelper.convertHexadecimalToColor(colorValue, Display.getDefault());
 				} else {
-					color = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+					color = blackColor;
 				}
 			} else {
-				color = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+				color = blackColor;
 			}
 			nodeColors.put(label, color);
 		} else {
@@ -184,6 +186,10 @@ public class SingleSpectrumPlotView extends ViewPart {
 				return plotDataHolder.getDataset();
 			} else if (target instanceof DatasetNode) {
 				return (((DatasetNode) target).getNodeList());
+			} else if (target instanceof DataNode) {
+				return (((DataNode) target).getYDoubleDataset());
+			} else if (target instanceof DataItemNode) {
+				dataTreeViewer.updateCheckSelection(target, true);
 			}
 			return null;
 		}
@@ -192,22 +198,25 @@ public class SingleSpectrumPlotView extends ViewPart {
 	private void createDataTree(final SashForm parent) {
 		Composite dataTreeParent = new Composite(parent, SWT.None);
 		dataTreeParent.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
-		dataTreeViewer = new CheckboxTreeViewer(dataTreeParent);
+		dataTreeViewer = new DataPlotterCheckedTreeViewer(dataTreeParent);
 		dataTreeViewer.getTree().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		dataTreeViewer.setLabelProvider(new ColumnLabelProvider() {
 			@Override
-			public Color getForeground(Object element) {
-				if (element instanceof DataNode) {
-					if (nodeColors.containsKey(((DataNode) element).getLabel())) {
-						return nodeColors.get(((DataNode) element).getLabel());
+			public void update(ViewerCell cell) {
+				Object element = cell.getElement();
+				cell.setText(element.toString());
+				if (element instanceof DataItemNode) {
+					DataItemNode item = ((DataItemNode) element);
+					if (!item.getParent().getParent().isMultiCollection()) {
+						plottingSystem.getTraces();
+						Object trace = plottingSystem.getTrace(((DataItemNode) element).getIdentifier());
+						if (trace != null) {
+							cell.setForeground(((ILineTrace) trace).getTraceColor());
+							return;
+						}
 					}
 				}
-				return super.getForeground(element);
-			}
-
-			@Override
-			public String getText(Object element) {
-				return super.getText(element);
+				cell.setForeground(blackColor);
 			}
 		});
 		dataTreeViewer.setContentProvider(new ObservableListTreeContentProvider(dataObservableFactory, null));
@@ -215,51 +224,29 @@ public class SingleSpectrumPlotView extends ViewPart {
 		dataTreeViewer.addCheckStateListener(new ICheckStateListener() {
 			@Override
 			public void checkStateChanged(CheckStateChangedEvent event) {
-				dataTreeViewer.setSubtreeChecked(event.getElement(), event.getChecked());
 				Object element = event.getElement();
 				if (element instanceof DatasetNode) {
-					if (event.getChecked()) {
-						for (Object node : ((DatasetNode) element).getNodeList()) {
-							addAndUpdateTrace((DataNode) node);
-						}
-					} else {
-						for (Object node : ((DatasetNode) element).getNodeList()) {
-							removeTrace(node);
+					for (Object node : ((DatasetNode) element).getNodeList()) {
+						for (Object nodeItem : ((DataNode) node).getYDoubleDataset()) {
+							updateDataItemNode((DataItemNode) nodeItem, event.getChecked());
 						}
 					}
 				} else if (element instanceof DataNode) {
-					if (event.getChecked()) {
-						addAndUpdateTrace((DataNode) element);
-					} else {
-						removeTrace(element);
+					for (Object nodeItem : ((DataNode) element).getYDoubleDataset()) {
+						updateDataItemNode((DataItemNode) nodeItem, event.getChecked());
 					}
-					updateStateParent(((DataNode) element).getParent());
+				} else if (element instanceof DataItemNode) {
+					updateDataItemNode((DataItemNode) element, event.getChecked());
 				}
 			}
 		});
 	}
 
-	protected void updateStateParent(DatasetNode parent) {
-		boolean childChecked = false;
-		Object[] children = ((ObservableListTreeContentProvider) dataTreeViewer.getContentProvider()).getChildren(parent);
-		int checkCount = 0;
-		for (Object object : children) {
-			if (dataTreeViewer.getChecked(object)) {
-				childChecked = true;
-				checkCount++;
-			}
-		}
-		if (childChecked) {
-			if (checkCount == children.length) {
-				dataTreeViewer.setGrayChecked(parent, false);
-				dataTreeViewer.setChecked(parent, true);
-			} else {
-				dataTreeViewer.setGrayChecked(parent, true);
-			}
+	private void updateDataItemNode(DataItemNode dataItemNode, boolean isAdded) {
+		if (isAdded) {
+			addAndUpdateTrace(dataItemNode);
 		} else {
-			if (checkCount == 0) {
-				dataTreeViewer.setChecked(parent, false);
-			}
+			removeTrace(dataItemNode);
 		}
 	}
 
@@ -274,11 +261,10 @@ public class SingleSpectrumPlotView extends ViewPart {
 		super.dispose();
 	}
 
-	private void removeTrace(Object node) {
-		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(((DataNode) node).getIdentifier());
+	private void removeTrace(DataItemNode node) {
+		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier());
 		if (trace != null) {
 			plottingSystem.removeTrace(trace);
 		}
 	}
-
 }

@@ -35,6 +35,7 @@ import de.jaret.util.ui.timebars.swt.renderer.DefaultRenderer;
 public class CollectionModelRenderer extends DefaultRenderer {
 
 	private final Font titleFont;
+	private final TimeResolvedExperimentModel model;
 
 	@Override
 	protected Rectangle getIRect(boolean horizontal, Rectangle drawingArea, boolean overlap) {
@@ -43,8 +44,9 @@ public class CollectionModelRenderer extends DefaultRenderer {
 		return new Rectangle(drawingArea.x, y, drawingArea.width - 1, height - 1);
 	}
 
-	public CollectionModelRenderer() {
+	public CollectionModelRenderer(TimeResolvedExperimentModel model) {
 		titleFont = new Font(Display.getCurrent(), "Arial", 12, SWT.BOLD);
+		this.model = model;
 	}
 
 	@Override
@@ -76,7 +78,7 @@ public class CollectionModelRenderer extends DefaultRenderer {
 			StringBuilder name = new StringBuilder(collectionModel.getName());
 
 			Font currentFont = gc.getFont();
-			if (interval instanceof TimingGroupModel) {
+			if (interval instanceof TimingGroupUIModel) {
 				gc.setFont(titleFont);
 			}
 			Point point = gc.stringExtent(name.toString());
@@ -84,15 +86,15 @@ public class CollectionModelRenderer extends DefaultRenderer {
 				gc.drawText(name.toString(), iRect.x + 5, iRect.y + 3);
 			}
 			gc.setFont(currentFont);
-			if (interval instanceof TimingGroupModel) {
-				TimingGroupModel groupModel = (TimingGroupModel) interval;
+			if (interval instanceof TimingGroupUIModel) {
+				TimingGroupUIModel groupModel = (TimingGroupUIModel) interval;
 				int numberOfSpectrums = groupModel.getNumberOfSpectrum();
 				String spectra = "No. of Spectra: " + numberOfSpectrums;
 				point = gc.stringExtent(spectra);
 				if (point.y < iRect.height - 30  && point.x + 5 < iRect.width) {
 					gc.drawText(spectra, iRect.x + 5, iRect.y + 20);
 				}
-				String timeResolution = DataHelper.roundDoubletoStringWithOptionalDigits(TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().convertFromMilli(groupModel.getTimeResolution())) + " " + TimeResolvedExperimentModel.INSTANCE.getUnit().getWorkingUnit().getUnitText();
+				String timeResolution = DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromMilli(groupModel.getTimeResolution())) + " " + model.getUnit().getWorkingUnit().getUnitText();
 				String noOfSpectrum = "Time per spectrum: " +  timeResolution;
 				point = gc.stringExtent(noOfSpectrum);
 				if (point.y < iRect.height - 45 && point.x + 5 < iRect.width) {

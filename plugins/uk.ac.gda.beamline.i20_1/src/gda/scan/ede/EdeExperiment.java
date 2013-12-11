@@ -18,11 +18,17 @@
 
 package gda.scan.ede;
 
+import gda.device.DeviceException;
 import gda.device.Monitor;
 import gda.device.scannable.TopupChecker;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.scriptcontroller.ScriptControllerBase;
+import gda.scan.ede.position.EdePositionType;
+import gda.scan.ede.position.EdeScanMotorPositions;
+import gda.scan.ede.position.EdeScanPosition;
+
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +55,7 @@ public abstract class EdeExperiment {
 	public static final String IT_RAW_COLUMN_NAME = "It_raw";
 	public static final String I0_DARK_COLUMN_NAME = "I0_dark";
 	public static final String IT_DARK_COLUMN_NAME = "It_dark";
+	public static final String DATA_COLUMN_NAME = "Data";
 
 	/**
 	 * The name of the ScriptController object which is sent progress information and normalised spectra by experiments
@@ -56,6 +63,7 @@ public abstract class EdeExperiment {
 	public static final String PROGRESS_UPDATER_NAME = "EDEProgressUpdater";
 
 	private static final Logger edelogger = LoggerFactory.getLogger(EdeExperiment.class);
+
 
 	protected final ScriptControllerBase controller;
 
@@ -100,7 +108,6 @@ public abstract class EdeExperiment {
 	}
 
 	protected TopupChecker createTopupChecker(Double timeRequired) {
-
 		TopupChecker topupchecker = new TopupChecker();
 		topupchecker.setScannableToBeMonitored(topup);
 		topupchecker.setTimeout(timeRequired);
@@ -109,5 +116,10 @@ public abstract class EdeExperiment {
 		topupchecker.setPauseBeforeScan(true);
 		topupchecker.setPauseBeforePoint(false);
 		return topupchecker;
+	}
+
+	protected EdeScanPosition setPosition(EdePositionType type, Map<String, Double> scanableMotorPositions) throws DeviceException {
+		// FIXME Replacing with alignment stage motors is removed until the requirement spec is cleared
+		return new EdeScanMotorPositions(type, scanableMotorPositions);
 	}
 }

@@ -20,6 +20,8 @@ package gda.scan;
 
 import static gda.jython.InterfaceProvider.getJythonServerNotifer;
 import gda.data.nexus.tree.NexusTreeProvider;
+import gda.device.Detector;
+import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.ExperimentLocationUtils;
 import gda.device.detector.ExperimentStatus;
@@ -160,7 +162,7 @@ public class EdeScan extends ConcurrentScanChild {
 
 		Integer nextFrameToRead = 0;
 		try {
-			ExperimentStatus progressData = theDetector.fetchStatus();
+			ExperimentStatus progressData = fetchStatusAndWait();
 			Integer currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters, progressData.loc);
 			while (!collectionFinished(progressData)) {
 				// Review here we assume currentFrame - 1 is ready to read
@@ -168,11 +170,9 @@ public class EdeScan extends ConcurrentScanChild {
 					createDataPoints(nextFrameToRead, currentFrame - 1);
 					nextFrameToRead = currentFrame;
 				}
-				// Why do we need to fetch status twice ?
-				progressData = theDetector.fetchStatus();
 				Thread.sleep(100);
 				checkForInterrupts();
-				progressData = theDetector.fetchStatus();
+				progressData = fetchStatusAndWait();
 				currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters, progressData.loc);
 			}
 		} catch (Exception e) {
@@ -187,8 +187,27 @@ public class EdeScan extends ConcurrentScanChild {
 		logger.debug(toString() + " doCollection finished.");
 	}
 
+	/*
+	 * fetch the latest status of the TFG, if it is paused (waiting for a trigger) then do not return until the pause
+	 * has finished.
+	 */
+	private ExperimentStatus fetchStatusAndWait() throws DeviceException, InterruptedException {
+		ExperimentStatus progressData = theDetector.fetchStatus();
+		boolean sendMessage = true;
+		while (progressData.detectorStatus == Detector.PAUSED) {
+			Thread.sleep(1000);
+			checkForInterrupts();
+			if (sendMessage) {
+				logger.info("Detector paused and waiting for a trigger. Abort the scan if this takes too long.");
+				sendMessage = false;
+			}
+			progressData = theDetector.fetchStatus();
+		}
+		return progressData;
+	}
+
 	private Boolean collectionFinished(ExperimentStatus progressData) {
-		return progressData.toString().contains("Idle");
+		return progressData.detectorStatus == Detector.IDLE || progressData.detectorStatus == Detector.FAULT;
 	}
 
 	@Override

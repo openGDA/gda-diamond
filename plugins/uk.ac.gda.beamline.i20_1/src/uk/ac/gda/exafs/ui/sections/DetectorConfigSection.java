@@ -45,6 +45,7 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
@@ -55,20 +56,24 @@ import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
-public class DetectorConfigSection {
-
+public class DetectorConfigSection extends ResourceComposite {
 	private static Logger logger = LoggerFactory.getLogger(DetectorConfigSection.class);
-
-	public static DetectorConfigSection INSTANCE = new DetectorConfigSection();
 
 	private Text txtBiasVoltage;
 	private Text txtExcludedStrips;
 	private Section detectorSetupSection;
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
+	private final FormToolkit toolkit;
 
-	@SuppressWarnings({ "unused" })
-	public void setupDetectorConfigSection(Section detectorSetupSection, FormToolkit toolkit) {
-		this.detectorSetupSection = detectorSetupSection;
+	public DetectorConfigSection(Composite parent, int style) {
+		super(parent, style);
+		toolkit = new FormToolkit(parent.getDisplay());
+		setupUI();
+	}
+
+	private void setupUI() {
+		this.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
+		detectorSetupSection = toolkit.createSection(this, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 		detectorSetupSection.setText("Detector configuration");
 		detectorSetupSection.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
@@ -107,7 +112,8 @@ public class DetectorConfigSection {
 		detectorSetupSection.setSeparatorControl(defaultSectionSeparator);
 
 		ToolBar defaultSectionTbar = new ToolBar(detectorSetupSection, SWT.FLAT | SWT.HORIZONTAL);
-		new ToolItem(defaultSectionTbar, SWT.SEPARATOR);
+		@SuppressWarnings("unused")
+		ToolItem toolItem = new ToolItem(defaultSectionTbar, SWT.SEPARATOR);
 		ToolItem saveDefaultTBarItem = new ToolItem(defaultSectionTbar, SWT.NULL);
 		saveDefaultTBarItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ETOOL_SAVE_EDIT));
 		saveDefaultTBarItem.addListener(SWT.Selection, new Listener() {
@@ -125,43 +131,45 @@ public class DetectorConfigSection {
 	private Binding bindTxtBiasVoltage = null;
 	private Binding bindExcludedStrips = null;
 
+	private final PropertyChangeListener detectorConnectionChangeListener = new PropertyChangeListener() {
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			boolean isDetectorConnected = (boolean) evt.getNewValue();
+			detectorSetupSection.setExpanded(isDetectorConnected);
+			if (isDetectorConnected) {
+				bindTxtBiasVoltage = dataBindingCtx.bindValue(
+						WidgetProperties.enabled().observe(txtBiasVoltage),
+						BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.BIAS_PROP_NAME), new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
+				bindExcludedStrips = dataBindingCtx.bindValue(
+						WidgetProperties.enabled().observe(txtExcludedStrips),
+						BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.CURRENT_DETECTOR_EXCLUDED_STRIPS_PROP_NAME),
+						new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST),
+						new UpdateValueStrategy() {
+							@Override
+							public Object convert(Object value) {
+								Integer[] values = (Integer[]) value;
+								return DataHelper.toString(values);
+							}
+						});
+			} else {
+				if (bindTxtBiasVoltage != null) {
+					dataBindingCtx.removeBinding(bindTxtBiasVoltage);
+					bindTxtBiasVoltage = null;
+				}
+				if (bindExcludedStrips != null) {
+					dataBindingCtx.removeBinding(bindExcludedStrips);
+					bindExcludedStrips = null;
+				}
+				txtBiasVoltage.setText("Unavailable");
+				txtExcludedStrips.setText("Unavailable");
+			}
+
+		}
+	};
+
 	private void bindingValues() {
 		try {
-			DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
-				@Override
-				public void propertyChange(PropertyChangeEvent evt) {
-					boolean isDetectorConnected = (boolean) evt.getNewValue();
-					detectorSetupSection.setExpanded(isDetectorConnected);
-					if (isDetectorConnected) {
-						bindTxtBiasVoltage = dataBindingCtx.bindValue(
-								WidgetProperties.enabled().observe(txtBiasVoltage),
-								BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.BIAS_PROP_NAME), new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
-						bindExcludedStrips = dataBindingCtx.bindValue(
-								WidgetProperties.enabled().observe(txtExcludedStrips),
-								BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.CURRENT_DETECTOR_EXCLUDED_STRIPS_PROP_NAME),
-								new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST),
-								new UpdateValueStrategy() {
-									@Override
-									public Object convert(Object value) {
-										Integer[] values = (Integer[]) value;
-										return DataHelper.toString(values);
-									}
-								});
-					} else {
-						if (bindTxtBiasVoltage != null) {
-							dataBindingCtx.removeBinding(bindTxtBiasVoltage);
-							bindTxtBiasVoltage = null;
-						}
-						if (bindExcludedStrips != null) {
-							dataBindingCtx.removeBinding(bindExcludedStrips);
-							bindExcludedStrips = null;
-						}
-						txtBiasVoltage.setText("Unavailable");
-						txtExcludedStrips.setText("Unavailable");
-					}
-
-				}
-			});
+			DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, detectorConnectionChangeListener);
 
 			dataBindingCtx.bindValue(
 					WidgetProperties.enabled().observe(detectorSetupSection),
@@ -198,5 +206,11 @@ public class DetectorConfigSection {
 			}
 			updateExcludedStripsText();
 		}
+	}
+
+	@Override
+	protected void disposeResource() {
+		dataBindingCtx.dispose();
+		DetectorModel.INSTANCE.removePropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, detectorConnectionChangeListener);
 	}
 }
