@@ -272,7 +272,13 @@ public class I05Apple extends ScannableMotionBase {
 	@Override
 	public Object getPosition() throws DeviceException {
 		checkPhases();
-		return new Object[] { gapScannable.getPosition(), upperPhaseScannable.getPosition(), getCurrentPolarisation() };
+		String polarisation = "unknown";
+		try {
+			polarisation = getCurrentPolarisation();
+		} catch (Exception e) {
+			// ignored
+		}
+		return new Object[] { gapScannable.getPosition(), upperPhaseScannable.getPosition(), polarisation };
 	}
 	
 	private synchronized void checkThreadException() throws DeviceException {

@@ -99,3 +99,6 @@ am=ARPESMonitor()
 caput("BL05I-EA-DET-01:ARR1:EnableCallbacks",1)
 
 print "==================================================================="
+print "Running i05 scripts."
+run "beamline/master.py"
+print "==================================================================="
