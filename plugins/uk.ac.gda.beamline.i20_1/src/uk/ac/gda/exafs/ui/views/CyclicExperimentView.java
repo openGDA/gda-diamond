@@ -18,14 +18,27 @@
 
 package uk.ac.gda.exafs.ui.views;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.layout.GridData;
+
+import uk.ac.gda.exafs.ui.data.experiment.CyclicExperimentModel;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentModelHolder;
-import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 
 public class CyclicExperimentView extends LinearExperimentView {
 	public static final String CYCLIC_EXPERIMENT_VIEW_ID = "uk.ac.gda.exafs.ui.views.cyclicExperimentView";
 
 	@Override
-	protected TimeResolvedExperimentModel getModel() {
+	protected CyclicExperimentModel getModel() {
 		return ExperimentModelHolder.INSTANCE.getCyclicExperimentModel();
+	}
+
+	@Override
+	protected void createSections(final SashForm parentComposite) {
+		createExperimentPropertiesComposite(parentComposite);
+		createTimeBarComposite(parentComposite);
+		CyclicExperimentTimeBarComposite cyclicExperimentTimeBarComposite = new CyclicExperimentTimeBarComposite(parentComposite, SWT.None, getModel());
+		cyclicExperimentTimeBarComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		parentComposite.setWeights(new int[] {5, 2, 1});
 	}
 }

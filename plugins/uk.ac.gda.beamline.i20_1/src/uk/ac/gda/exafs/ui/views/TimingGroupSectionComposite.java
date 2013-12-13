@@ -260,7 +260,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			lbl = toolkit.createLabel(repeatingGroupsComposite, "Repeating groups", SWT.NONE);
 			lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-			NumberEditorControl repeatingGroupsControl = new NumberEditorControl(repeatingGroupsComposite, SWT.None, model, TimeResolvedExperimentModel.NO_OF_REPEATED_GROUPS_PROP_NAME, false);
+			NumberEditorControl repeatingGroupsControl = new NumberEditorControl(repeatingGroupsComposite, SWT.None, model, CyclicExperimentModel.NO_OF_REPEATED_GROUPS_PROP_NAME, false);
 			repeatingGroupsControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		}
 	}

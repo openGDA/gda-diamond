@@ -59,13 +59,11 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors.ExperimentMotorPostionType;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel.TimingGroupTimeBarRowModel;
-import de.jaret.util.date.Interval;
 import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.date.JaretDate;
 import de.jaret.util.ui.timebars.TimeBarMarkerImpl;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
-import de.jaret.util.ui.timebars.model.TimeBarRow;
 
 public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
@@ -83,6 +81,8 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	public static final String EXPERIMENT_DURATION_PROP_NAME = "experimentDuration";
 
 	private DefaultTimeBarModel timebarModel;
+	private TimingGroupTimeBarRowModel timingGroupRowModel;
+	private TimingGroupTimeBarRowModel spectraRowModel;
 
 	public static final String NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME = "noOfSecPerSpectrumToPublish";
 	private int noOfSecPerSpectrumToPublish = EdeLinearExperiment.DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
@@ -132,13 +132,10 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	protected WritableList groupList = new WritableList(new ArrayList<TimingGroupUIModel>(), TimingGroupUIModel.class);
 
-	public static final String NO_OF_REPEATED_GROUPS_PROP_NAME = "noOfRepeatedGroups";
-	private int noOfRepeatedGroups = 1;
-
 	private ScanJob experimentDataCollectionJob;
 
 	public static final String UNIT_PROP_NAME = "unit";
-	private ExperimentUnit unit = ExperimentUnit.SEC;
+	protected ExperimentUnit unit = ExperimentUnit.SEC;
 
 	public void setup() {
 		setupTimebarModel();
@@ -150,12 +147,12 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 					public void handleRemove(int index, Object element) {
 						TimingGroupUIModel timingGroupModel = ((TimingGroupUIModel) element);
 						timingGroupModel.dispose();
-						removeIntervals(timingGroupModel);
+						timingGroupRowModel.remInterval(timingGroupModel);
 					}
 
 					@Override
 					public void handleAdd(int index, Object element) {
-						addIntervals((IntervalImpl) element);
+						timingGroupRowModel.addInterval((IntervalImpl) element);
 					}
 				});
 			}
@@ -168,18 +165,6 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 			((Scriptcontroller) controller).addIObserver(experimentDataCollectionJob);
 		}
 		experimentDataCollectionJob.setUser(true);
-	}
-
-	private void addIntervals(IntervalImpl groupModel) {
-		for(int i = 0; i < timebarModel.getRowCount(); i += 2) {
-			((TimingGroupTimeBarRowModel) timebarModel.getRow(i)).addInterval(groupModel);
-		}
-	}
-
-	private void removeIntervals(IntervalImpl groupModel) {
-		for(int i = 0; i < timebarModel.getRowCount(); i += 2) {
-			((TimingGroupTimeBarRowModel) timebarModel.getRow(i)).remInterval(groupModel);
-		}
 	}
 
 	public void addGroupListChangeListener(IListChangeListener listener) {
@@ -202,7 +187,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 			return;
 		}
 		for (TimingGroupUIModel loadedGroup : savedGroups) {
-			TimingGroupUIModel timingGroup = new TimingGroupUIModel(timebarModel, unit.getWorkingUnit(), this);
+			TimingGroupUIModel timingGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 			timingGroup.setName(loadedGroup.getName());
 			timingGroup.setUseExernalTrigger(loadedGroup.isUseExernalTrigger());
 			timingGroup.setExernalTriggerAvailable(loadedGroup.isExernalTriggerAvailable());
@@ -222,50 +207,57 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		updateExperimentDuration();
 	}
 
-	protected String getGroupHeaderPrefix(@SuppressWarnings("unused") int index) {
-		return "Groups";
-	}
 
 	private void setupTimebarModel() {
-		// Each group has 2 rows, for group and spectra
-		int existingRows = 0;
-		if (timebarModel == null) {
-			timebarModel = new DefaultTimeBarModel();
-		} else {
-			existingRows = timebarModel.getRowCount() / 2;
-		}
-		for (int i=0; i < noOfRepeatedGroups; i++) {
-			if (i >= existingRows) {
-				DefaultRowHeader header = new DefaultRowHeader(getGroupHeaderPrefix(i));
-				TimingGroupTimeBarRowModel timingGroupRowModel = new TimingGroupTimeBarRowModel(header);
-				timebarModel.addRow(timingGroupRowModel);
-
-				header = new DefaultRowHeader("");
-				TimingGroupTimeBarRowModel spectraRowModel = new TimingGroupTimeBarRowModel(header);
-				timebarModel.addRow(spectraRowModel);
-
-				if (existingRows > 0) {
-					for (Interval interval : timebarModel.getRow(0).getIntervals()) {
-						timingGroupRowModel.addInterval(interval);
-					}
-					for (Interval interval : timebarModel.getRow(1).getIntervals()) {
-						spectraRowModel.addInterval(interval);
-					}
-				}
-			}
-		}
-		if (noOfRepeatedGroups < existingRows) {
-			List<TimeBarRow> rowsToRemove = new ArrayList<TimeBarRow>();
-			for (int i = noOfRepeatedGroups; i < existingRows; i++) {
-				int rowIndex = i * 2;
-				rowsToRemove.add(timebarModel.getRow(rowIndex));
-				rowsToRemove.add(timebarModel.getRow(rowIndex + 1));
-			}
-			for (TimeBarRow rowToRemove : rowsToRemove) {
-				timebarModel.remRow(rowToRemove);
-			}
-		}
+		timebarModel = new DefaultTimeBarModel();
+		DefaultRowHeader header = new DefaultRowHeader("Groups");
+		timingGroupRowModel = new TimingGroupTimeBarRowModel(header);
+		header = new DefaultRowHeader("Spectra");
+		spectraRowModel = new TimingGroupTimeBarRowModel(header);
+		timebarModel.addRow(timingGroupRowModel);
+		timebarModel.addRow(spectraRowModel);
 	}
+
+	//	private void setupTimebarModel() {
+	//		// Each group has 2 rows, for group and spectra
+	//		int existingRows = 0;
+	//		if (timebarModel == null) {
+	//			timebarModel = new DefaultTimeBarModel();
+	//		} else {
+	//			existingRows = timebarModel.getRowCount() / 2;
+	//		}
+	//		for (int i=0; i < noOfRepeatedGroups; i++) {
+	//			if (i >= existingRows) {
+	//				DefaultRowHeader header = new DefaultRowHeader(getGroupHeaderPrefix(i));
+	//				TimingGroupTimeBarRowModel timingGroupRowModel = new TimingGroupTimeBarRowModel(header);
+	//				timebarModel.addRow(timingGroupRowModel);
+	//
+	//				header = new DefaultRowHeader("");
+	//				TimingGroupTimeBarRowModel spectraRowModel = new TimingGroupTimeBarRowModel(header);
+	//				timebarModel.addRow(spectraRowModel);
+	//
+	//				if (existingRows > 0) {
+	//					for (Interval interval : timebarModel.getRow(0).getIntervals()) {
+	//						timingGroupRowModel.addInterval(interval);
+	//					}
+	//					for (Interval interval : timebarModel.getRow(1).getIntervals()) {
+	//						spectraRowModel.addInterval(interval);
+	//					}
+	//				}
+	//			}
+	//		}
+	//		if (noOfRepeatedGroups < existingRows) {
+	//			List<TimeBarRow> rowsToRemove = new ArrayList<TimeBarRow>();
+	//			for (int i = noOfRepeatedGroups; i < existingRows; i++) {
+	//				int rowIndex = i * 2;
+	//				rowsToRemove.add(timebarModel.getRow(rowIndex));
+	//				rowsToRemove.add(timebarModel.getRow(rowIndex + 1));
+	//			}
+	//			for (TimeBarRow rowToRemove : rowsToRemove) {
+	//				timebarModel.remRow(rowToRemove);
+	//			}
+	//		}
+	//	}
 
 	public DefaultTimeBarModel getTimeBarModel() {
 		return timebarModel;
@@ -280,7 +272,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		double endTime = groupToSplit.getEndTime();
 		double startTime = groupToSplit.getStartTime();
 		groupToSplit.resetInitialTime(startTime, duration / 2, 0, duration / 2);
-		TimingGroupUIModel newGroup = new TimingGroupUIModel(timebarModel, unit.getWorkingUnit(), this);
+		TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 		newGroup.setName("Group " + (groupList.indexOf(groupToSplit) + 2));
 		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup, groupList.indexOf(groupToSplit) + 1);
@@ -291,7 +283,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	}
 
 	public TimingGroupUIModel addGroup() {
-		TimingGroupUIModel newGroup = new TimingGroupUIModel(timebarModel, unit.getWorkingUnit(), this);
+		TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 		newGroup.setName("Group " + groupList.size());
 		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup);
@@ -652,15 +644,6 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	public void setIrefNoOfAccumulations(int irefNoOfAccumulations) {
 		this.firePropertyChange(IREF_NO_OF_ACCUMULATION_PROP_NAME, this.irefNoOfAccumulations, this.irefNoOfAccumulations = irefNoOfAccumulations);
-	}
-
-	public int getNoOfRepeatedGroups() {
-		return noOfRepeatedGroups;
-	}
-
-	public void setNoOfRepeatedGroups(int noOfRepeatedGroups) {
-		this.firePropertyChange(NO_OF_REPEATED_GROUPS_PROP_NAME, this.noOfRepeatedGroups, this.noOfRepeatedGroups = noOfRepeatedGroups);
-		setupTimebarModel();
 	}
 
 	@Override
