@@ -67,12 +67,13 @@ public class LinearExperimentDriver extends ScanDriver {
 
 	@Override
 	public String doCollection() throws Exception {
-		EdeLinearExperiment theExperiment = new EdeLinearExperiment(iTScanParameters, outbeamPosition, inbeamPosition,
-				referencePosition, detector, topupMonitor, shutter2);
-		theExperiment.setNoOfSecPerSpectrumToPublish(noOfSecPerSpectrumToPublish);
-		if (fileTemplate != null) {
-			theExperiment.setFilenameTemplate(fileTemplate);
-		}
-		return theExperiment.runExperiment();
+		//		EdeLinearExperiment theExperiment = new EdeLinearExperiment(iTScanParameters, outbeamPosition, inbeamPosition,
+		//				referencePosition, detector, topupMonitor, shutter2);
+		//		theExperiment.setNoOfSecPerSpectrumToPublish(noOfSecPerSpectrumToPublish);
+		//		if (fileTemplate != null) {
+		//			theExperiment.setFilenameTemplate(fileTemplate);
+		//		}
+		//		return theExperiment.runExperiment();
+		return null;
 	}
 }

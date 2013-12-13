@@ -90,6 +90,12 @@ public class EdeScanParameters implements Serializable {
 		return params;
 	}
 
+	public static EdeScanParameters createEdeScanParameters(List<TimingGroup> groups) {
+		EdeScanParameters params = new EdeScanParameters();
+		params.setGroups(groups);
+		return params;
+	}
+
 	// for repeatableExperiments
 	private Integer numberOfRepetitions = 1; // number of times to repeat the sequence of timingGroups, between bookend
 	// I0 data
