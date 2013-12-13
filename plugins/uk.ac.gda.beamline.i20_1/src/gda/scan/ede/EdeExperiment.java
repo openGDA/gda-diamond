@@ -267,7 +267,6 @@ public abstract class EdeExperiment implements IObserver {
 		NexusExtraMetadataDataWriter.addMetadataEntry(metadata);
 	}
 
-
 	public String getFilenameTemplate() {
 		return filenameTemplate;
 	}

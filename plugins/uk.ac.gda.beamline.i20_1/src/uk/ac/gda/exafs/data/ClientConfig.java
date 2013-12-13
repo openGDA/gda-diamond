@@ -33,7 +33,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.exafs.ui.composites.ScannableWrapper;
+import uk.ac.gda.client.observablemodels.ScannableWrapper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
