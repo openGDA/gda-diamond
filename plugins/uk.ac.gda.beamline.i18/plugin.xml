@@ -305,7 +305,7 @@
             category="uk.ac.gda.client.microfocus.category"
             class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
             id="uk.ac.gda.beamline.i18.McaView"
-            name="McaPlot"
+            name="MCA Plot"
             restorable="true">
       </view>
       <category
