@@ -31,60 +31,60 @@
 		<property name="local" value="false"/>
 	</bean>
 
-	<bean id="s1_xa" class="gda.device.scannable.ScannableMotor">
+	<bean id="s1_xplus" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mrad" />
-		<property name="motor" ref="s1_xa_motor" />
+		<property name="motor" ref="s1_xplus_motor" />
 		<property name="hardwareUnitString" value="mrad" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="s1_xb" class="gda.device.scannable.ScannableMotor">
+	<bean id="s1_xminus" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mrad" />
-		<property name="motor" ref="s1_xb_motor" />
+		<property name="motor" ref="s1_xminus_motor" />
 		<property name="hardwareUnitString" value="mrad" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="s1_ya" class="gda.device.scannable.ScannableMotor">
+	<bean id="s1_yplus" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mrad" />
-		<property name="motor" ref="s1_ya_motor" />
+		<property name="motor" ref="s1_yplus_motor" />
 		<property name="hardwareUnitString" value="mrad" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="s1_yb" class="gda.device.scannable.ScannableMotor">
+	<bean id="s1_yminus" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mrad" />
-		<property name="motor" ref="s1_yb_motor" />
+		<property name="motor" ref="s1_yminus_motor" />
 		<property name="hardwareUnitString" value="mrad" />
 		<property name="local" value="false"/>
 	</bean>
 
-	<bean id="s1_xa_mm" class="gda.device.scannable.ScannableMotor">
+	<bean id="s1_xplus_mm" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="s1_xa_motor_mm" />
+		<property name="motor" ref="s1_xplus_motor_mm" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="s1_xb_mm" class="gda.device.scannable.ScannableMotor">
+	<bean id="s1_xminus_mm" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="s1_xb_motor_mm" />
+		<property name="motor" ref="s1_xminus_motor_mm" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="s1_ya_mm" class="gda.device.scannable.ScannableMotor">
+	<bean id="s1_yplus_mm" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="s1_ya_motor_mm" />
+		<property name="motor" ref="s1_yplus_motor_mm" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="s1_yb_mm" class="gda.device.scannable.ScannableMotor">
+	<bean id="s1_yminus_mm" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="s1_yb_motor_mm" />
+		<property name="motor" ref="s1_yminus_motor_mm" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
 	</bean>
@@ -95,14 +95,14 @@
 				<ref bean="s1_vgap" />
 				<ref bean="s1_hoffset" />
 				<ref bean="s1_voffset" />
-				<ref bean="s1_xa" />
-				<ref bean="s1_xb" />
-				<ref bean="s1_ya" />
-				<ref bean="s1_yb" />
-				<ref bean="s1_xa_mm" />
-				<ref bean="s1_xb_mm" />
-				<ref bean="s1_ya_mm" />
-				<ref bean="s1_yb_mm" />
+				<ref bean="s1_xplus" />
+				<ref bean="s1_xminus" />
+				<ref bean="s1_yplus" />
+				<ref bean="s1_yminus" />
+				<ref bean="s1_xplus_mm" />
+				<ref bean="s1_xminus_mm" />
+				<ref bean="s1_yplus_mm" />
+				<ref bean="s1_yminus_mm" />
 			</list>
 		</property>
 	</bean>
@@ -131,27 +131,27 @@
 		<property name="hardwareUnitString" value="mrad" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="s2_xa" class="gda.device.scannable.ScannableMotor">
+	<bean id="s2_xplus" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mrad" />
-		<property name="motor" ref="s2_xa_motor" />
+		<property name="motor" ref="s2_xplus_motor" />
 		<property name="hardwareUnitString" value="mrad" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="s2_xb" class="gda.device.scannable.ScannableMotor">
+	<bean id="s2_xminus" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mrad" />
-		<property name="motor" ref="s2_xb_motor" />
+		<property name="motor" ref="s2_xminus_motor" />
 		<property name="hardwareUnitString" value="mrad" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="s2_ya" class="gda.device.scannable.ScannableMotor">
+	<bean id="s2_yplus" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mrad" />
-		<property name="motor" ref="s2_ya_motor" />
+		<property name="motor" ref="s2_yplus_motor" />
 		<property name="hardwareUnitString" value="mrad" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="s2_yb" class="gda.device.scannable.ScannableMotor">
+	<bean id="s2_yminus" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mrad" />
-		<property name="motor" ref="s2_yb_motor" />
+		<property name="motor" ref="s2_yminus_motor" />
 		<property name="hardwareUnitString" value="mrad" />
 		<property name="local" value="false"/>
 	</bean>
@@ -162,10 +162,10 @@
 				<ref bean="s2_vgap" />
 				<ref bean="s2_hoffset" />
 				<ref bean="s2_voffset" />
-				<ref bean="s2_xa" />
-				<ref bean="s2_xb" />
-				<ref bean="s2_ya" />
-				<ref bean="s2_yb" />
+				<ref bean="s2_xplus" />
+				<ref bean="s2_xminus" />
+				<ref bean="s2_yplus" />
+				<ref bean="s2_yminus" />
 			</list>
 		</property>
 	</bean>
@@ -182,15 +182,15 @@
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="s3_xa" class="gda.device.scannable.ScannableMotor">
+	<bean id="s3_xplus" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="s3_xa_motor" />
+		<property name="motor" ref="s3_xplus_motor" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
 	</bean>
-	<bean id="s3_xb" class="gda.device.scannable.ScannableMotor">
+	<bean id="s3_xminus" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="s3_xb_motor" />
+		<property name="motor" ref="s3_xminus_motor" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false"/>
 	</bean>
@@ -199,8 +199,8 @@
 			<list>
 				<ref bean="s3_hgap" />
 				<ref bean="s3_hoffset" />
-				<ref bean="s3_xa" />
-				<ref bean="s3_xb" />
+				<ref bean="s3_xplus" />
+				<ref bean="s3_xminus" />
 			</list>
 		</property>
 	</bean>

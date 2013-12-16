@@ -105,7 +105,7 @@ public class ClientConfig {
 
 	public enum ScannableSetup {
 
-		WIGGLER_GAP("Wiggler gap", "wigglerGap", UnitSetup.MILLI_METER),
+		WIGGLER_GAP("Wiggler gap", "wiggler_gap", UnitSetup.MILLI_METER),
 		POLY_BENDER_1("Bender 1", "poly_bend1", UnitSetup.MILLI_METER),
 		POLY_BENDER_2("Bender 2", "poly_bend2",UnitSetup.MILLI_METER),
 
@@ -131,11 +131,11 @@ public class ClientConfig {
 		POLY_BRAGG ("Bragg", "poly_theta", UnitSetup.DEGREE),
 		ARM_2_THETA_ANGLE ("Arm 2theta", "twotheta", UnitSetup.DEGREE),
 
-		DETECTOR_HEIGHT ("Detector height", "detector_y", UnitSetup.MILLI_METER),
-		DETECTOR_DISTANCE ("Detector distance", "detector_z", UnitSetup.MILLI_METER),
+		DETECTOR_HEIGHT ("Detector height", "det_y", UnitSetup.MILLI_METER),
+		DETECTOR_DISTANCE ("Detector distance", "det_z", UnitSetup.MILLI_METER),
 
 		POLY_CURVATURE("Curvature", "poly_curve", UnitSetup.MILLI_METER),
-		POLY_Y_ELLIPTICITY("Ellipticity","poly_yellip", UnitSetup.MILLI_METER),
+		POLY_Y_ELLIPTICITY("Ellipticity","poly_ellip", UnitSetup.MILLI_METER),
 		POLY_TWIST("Twist","poly_twist", UnitSetup.MILLI_METER),
 
 		SLIT_3_HORIZONAL_GAP("Slit hgap", "s3_hgap", UnitSetup.MILLI_METER),

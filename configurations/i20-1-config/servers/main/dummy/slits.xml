@@ -6,28 +6,28 @@
 	<bean id="s1_hoffset_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="s1_vgap_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="s1_voffset_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s1_xa_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s1_xb_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s1_ya_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s1_yb_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s1_xa_motor_mm" class="gda.device.motor.DummyMotor" />
-	<bean id="s1_xb_motor_mm" class="gda.device.motor.DummyMotor" />
-	<bean id="s1_ya_motor_mm" class="gda.device.motor.DummyMotor" />
-	<bean id="s1_yb_motor_mm" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_xplus_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_xminus_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_yplus_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_yminus_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_xplus_motor_mm" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_xminus_motor_mm" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_yplus_motor_mm" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_yminus_motor_mm" class="gda.device.motor.DummyMotor" />
 
 	<bean id="s2_hgap_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="s2_hoffset_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="s2_vgap_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="s2_voffset_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s2_xa_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s2_xb_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s2_ya_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s2_yb_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s2_xplus_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s2_xminus_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s2_yplus_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s2_yminus_motor" class="gda.device.motor.DummyMotor" />
 
 	<bean id="s3_hgap_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="s3_hoffset_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s3_xa_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s3_xb_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s3_xplus_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s3_xminus_motor" class="gda.device.motor.DummyMotor" />
 
 	<import resource="file:${gda.config}/servers/main/slits-common.xml" />
 

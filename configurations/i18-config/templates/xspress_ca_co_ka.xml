@@ -158,7 +158,7 @@
             <roiEnd>712</roiEnd>
         </Region>
     </DetectorElement>
-    <xspressOnlyShowFF>false</xspressOnlyShowFF>
+    <onlyShowFF>false</onlyShowFF>
     <xspressShowDTRawValues>false</xspressShowDTRawValues>
     <saveRawSpectrum>false</saveRawSpectrum>
 </XspressParameters>

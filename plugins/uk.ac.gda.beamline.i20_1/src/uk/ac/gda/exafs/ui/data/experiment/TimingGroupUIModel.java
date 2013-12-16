@@ -210,7 +210,12 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 	}
 
 	public void setNumberOfSpectrum(int numberOfSpectrum) {
-		long newTimePerSpectrum = Math.round(this.getAvailableDurationAfterDelay() / numberOfSpectrum);
+		double newTimePerSpectrum = 0.0;
+		if (this.getUnit().getWorkingUnit() != ExperimentUnit.MILLI_SEC) {
+			newTimePerSpectrum = Math.round(this.getAvailableDurationAfterDelay() / numberOfSpectrum);
+		} else {
+			newTimePerSpectrum = ((int) (this.getAvailableDurationAfterDelay() / numberOfSpectrum * 100)) / 100.0;
+		}
 		updateTimePerSpectrum(newTimePerSpectrum);
 		adjustEndTimeForNumberOfSpectrum(numberOfSpectrum);
 		this.adjustSpectra(numberOfSpectrum);
