@@ -15,7 +15,7 @@
 <stringAttribute key="featureDefaultLocation" value="workspace"/>
 <stringAttribute key="featurePluginResolution" value="workspace"/>
 <booleanAttribute key="includeOptional" value="true"/>
-<stringAttribute key="location" value="/scratch/users"/>
+<stringAttribute key="location" value="/scratch/i18"/>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="GDK_NATIVE_WINDOWS" value="true"/>
 <mapEntry key="LD_LIBRARY_PATH" value="${workspace_loc:uk.ac.gda.nexus}/lib/${target.os}-${target.arch}:${workspace_loc:uk.ac.gda.core}/lib/${target.os}-${target.arch}:${workspace_loc:org.dawb.hdf5}/lib/${target.os}-${target.arch}"/>
