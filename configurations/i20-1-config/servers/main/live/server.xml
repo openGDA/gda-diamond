@@ -9,7 +9,7 @@
            http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 
-	<bean id="wigglerGap_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="wiggler_gap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="SR20J-MO-SERVC-01:BLGAPMTR" />
 	</bean>
 
