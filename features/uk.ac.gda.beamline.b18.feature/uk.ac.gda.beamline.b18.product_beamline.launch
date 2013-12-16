@@ -12,7 +12,7 @@
 <stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/uk.ac.gda.beamline.b18.product_beamline"/>
 <booleanAttribute key="default" value="false"/>
 <booleanAttribute key="includeOptional" value="true"/>
-<stringAttribute key="location" value="/scratch/workspace_{ENV_VAR:$USER}"/>
+<stringAttribute key="location" value="/scratch/workspace_${env_var:USER}"/>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="GDK_NATIVE_WINDOWS" value="true"/>
 <mapEntry key="LD_LIBRARY_PATH" value="${workspace_loc:uk.ac.gda.nexus}/lib/${target.os}-${target.arch}:${workspace_loc:uk.ac.gda.core}/lib/${target.os}-${target.arch}"/>
