@@ -31,6 +31,7 @@
             <channel>1</channel>
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>10^3 V/A</gain>
+            <offset>1 pA</offset>
             <useGasProperties>false</useGasProperties>
         </ionChamber>
         <ionChamber>
@@ -39,6 +40,7 @@
             <channel>2</channel>
             <currentAmplifierName>Stanford02</currentAmplifierName>
             <gain>10^3 V/A</gain>
+            <offset>1 pA</offset>
             <useGasProperties>false</useGasProperties>            
         </ionChamber>
     </transmission>
@@ -51,6 +53,7 @@
             <channel>1</channel>
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>10^3 V/A</gain>
+            <offset>1 pA</offset>
             <useGasProperties>false</useGasProperties>           
         </ionChamber>
         <ionChamber>
@@ -59,6 +62,7 @@
             <channel>2</channel>
             <currentAmplifierName>Stanford02</currentAmplifierName>
             <gain>10^3 V/A</gain>
+            <offset>1 pA</offset>
             <useGasProperties>false</useGasProperties>
         </ionChamber>
     </fluorescence>

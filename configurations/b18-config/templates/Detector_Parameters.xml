@@ -28,6 +28,7 @@
             <channel>1</channel>
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>1 nA/V</gain>
+            <offset>1 pA</offset>
             <useGasProperties>true</useGasProperties>
             <gasType>Ar</gasType>
             <percentAbsorption>15.0</percentAbsorption>
@@ -46,6 +47,7 @@
             <channel>2</channel>
             <currentAmplifierName>Stanford02</currentAmplifierName>
             <gain>1 nA/V</gain>
+            <offset>1 pA</offset>
             <useGasProperties>true</useGasProperties>
             <gasType>Ar</gasType>
             <percentAbsorption>80.0</percentAbsorption>
@@ -64,6 +66,7 @@
             <channel>3</channel>
             <currentAmplifierName>Stanford03</currentAmplifierName>
             <gain>1 nA/V</gain>
+            <offset>1 pA</offset>
             <useGasProperties>true</useGasProperties>
             <gasType>Ar</gasType>
             <percentAbsorption>80.0</percentAbsorption>
@@ -90,6 +93,7 @@
             <channel>1</channel>
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>1 nA/V</gain>
+            <offset>1 pA</offset>
             <useGasProperties>true</useGasProperties>
             <gasType>He</gasType>
             <percentAbsorption>15.0</percentAbsorption>
@@ -108,6 +112,7 @@
             <channel>2</channel>
             <currentAmplifierName>Stanford02</currentAmplifierName>
             <gain>1 nA/V</gain>
+            <offset>1 pA</offset>
             <useGasProperties>true</useGasProperties>
             <gasType>He</gasType>
             <percentAbsorption>80.0</percentAbsorption>
@@ -126,6 +131,7 @@
             <channel>3</channel>
             <currentAmplifierName>Stanford03</currentAmplifierName>
             <gain>1 nA/V</gain>
+            <offset>1 pA</offset>
             <useGasProperties>true</useGasProperties>
             <gasType>He</gasType>
             <percentAbsorption>80.0</percentAbsorption>
