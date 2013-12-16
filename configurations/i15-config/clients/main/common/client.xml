@@ -22,6 +22,9 @@
 
 	<corba:import namespace="${gda.factory.factoryName}" names="plot_server" />
 
+	<import resource="../../../servers/main/common/device/tstAreaDetector.xml"/>
+	<import resource="tstAreaDetector.xml" />
+
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />
 		<constructor-arg index="1">
