@@ -277,6 +277,7 @@ public class SampleStageMotorsComposite extends Composite {
 		ScannableWrapper scannableWrapper = experimentMotorPostion.getScannableSetup().getScannableWrapper();
 		if (scannableWrapper.getLowerLimit() != null && scannableWrapper.getUpperLimit() != null) {
 			positionControl.setRange(scannableWrapper.getLowerLimit(), scannableWrapper.getUpperLimit());
+			positionControl.setToolTipText("Lower :" + scannableWrapper.getLowerLimit() + " Upper: " + scannableWrapper.getUpperLimit());
 		}
 
 		if (listener != null) {
