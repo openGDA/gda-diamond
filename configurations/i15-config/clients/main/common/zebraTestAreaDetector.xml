@@ -4,20 +4,20 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="zebraTestADController" class="uk.ac.gda.epics.adviewer.ADControllerImpl">
-		<property name="imageNDStats" ref="zebraTest_summary_stat" />
-		<property name="liveViewNDProc" ref="zebraTest_summary_proc" />
-		<property name="imageNDArray" ref="zebraTest_summary_arr" />
+		<property name="imageNDStats" ref="zebraTestAD_summary_stat" />
+		<property name="liveViewNDProc" ref="zebraTestAD_summary_proc" />
+		<property name="imageNDArray" ref="zebraTestAD_summary_arr" />
 		<property name="imageHistSize" value="500" />
 		<property name="imageMin" value="0" />
 		<property name="imageMax" value="65535" />
 		<property name="detectorName" value="zebraTest" />
-		<property name="adBase" ref="zebraTest_config_base" />
-		<property name="ffmpegStream" ref="zebraTest_summary_mjpg" />
+		<property name="adBase" ref="zebraTestAD_config_base" />
+		<property name="ffmpegStream" ref="zebraTestAD_summary_mjpg" />
 		<property name="ffmpegImageOutHeightMax" value="1200" />
 		<property name="ffmpegImageOutWidthMax" value="1600" />
 		<property name="cameraImageWidthMax" value="2069" />
 		<property name="cameraImageHeightMax" value="1793" />
-		<property name="imageNDROI" ref="zebraTest_summary_roi"/>
+		<property name="imageNDROI" ref="zebraTestAD_summary_roi"/>
 		<property name="serviceName" value="zebraTest"/>
 	</bean>
 
@@ -25,7 +25,7 @@
 		<property name="adController" ref="zebraTestADController" />
 	</bean>
 
-	<bean id="zebraTest_dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
+	<bean id="zebraTestAD_dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
 		<property name="map">
 			<map>
 				<entry key="SERVICE_NAME" value="zebraTest" />
@@ -36,12 +36,12 @@
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
 		<property name="service" ref="zebraTestADController" />
-		<property name="properties" ref="zebraTest_dictionary" />
+		<property name="properties" ref="zebraTestAD_dictionary" />
 	</bean>
 
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.views.ViewCreator" />
 		<property name="service" ref="zebraTestViewCreator" />
-		<property name="properties" ref="zebraTest_dictionary" />
+		<property name="properties" ref="zebraTestAD_dictionary" />
 	</bean>
 </beans>

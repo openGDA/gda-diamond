@@ -138,8 +138,8 @@
 		<config>servers/main/common/server.xml</config>
 		<config>servers/main/dummy/server.xml</config>
 		<config>servers/main/live/server.xml</config>
-		<config>clients/main/common/tstAreaDetector.xml</config>
-		<config>servers/main/common/device/tstAreaDetector.xml</config>
+		<config>servers/main/common/device/zebraTestAreaDetector.xml</config>
+		<config>clients/main/common/zebraTestAreaDetector.xml</config>
 	</configs>
 	<configSets>
 	</configSets>
