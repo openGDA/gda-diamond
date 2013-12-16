@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.ui.data.TimingGroup.InputTriggerLemoNumbers;
 
 import com.google.gson.annotations.Expose;
 
@@ -38,19 +39,15 @@ import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
-public class TimingGroupModel extends ExperimentTimingDataModel {
+public class TimingGroupUIModel extends ExperimentTimingDataModel {
 
-	private static final Logger logger = LoggerFactory.getLogger(TimingGroupModel.class);
+	private static final Logger logger = LoggerFactory.getLogger(TimingGroupUIModel.class);
 
 	private final List<SpectrumModel> spectrumList = new ArrayList<SpectrumModel>();
 	private final DefaultTimeBarRowModel spectraTimeBarRowModel;
 
 	public static final String UNIT_PROP_NAME = "unit";
 	private ExperimentUnit unit = ExperimentUnit.SEC;
-
-	public static final String INTEGRATION_TIME_PROP_NAME = "integrationTime";
-	@Expose
-	private double integrationTime;
 
 	public static final String TIME_PER_SPECTRUM_PROP_NAME = "timePerSpectrum";
 	@Expose
@@ -60,15 +57,27 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 	@Expose
 	private double delayBetweenSpectrum;
 
+	public static final String INTEGRATION_TIME_PROP_NAME = "integrationTime";
+	@Expose
+	private double integrationTime;
+
 	public static final String NO_OF_ACCUMULATION_PROP_NAME = "noOfAccumulations";
 	@Expose
 	private int noOfAccumulations;
 
 	public static final String USE_EXTERNAL_TRIGGER_PROP_NAME = "useExernalTrigger";
+	@Expose
 	private boolean useExernalTrigger;
 
-	public static final String MAX_ACCUMULATION_FOR_DETECTOR_PROP_NAME = "maxAccumulationforDetector";
-	private int maxAccumulationforDetector;
+	public static final String EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME = "exernalTriggerAvailable";
+	@Expose
+	private boolean exernalTriggerAvailable;
+
+	public static final String EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME = "exernalTriggerInputLemoNumber";
+	@Expose
+	private InputTriggerLemoNumbers exernalTriggerInputLemoNumber = InputTriggerLemoNumbers.ZERO;
+
+	private final TimeResolvedExperimentModel parent;
 
 	public static final String NO_OF_SPECTRUM_PROP_NAME = "numberOfSpectrum";
 
@@ -122,20 +131,17 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 		this.firePropertyChange(TIME_PER_SPECTRUM_PROP_NAME, this.timePerSpectrum, this.timePerSpectrum = timePerSpectrum);
 	}
 
-	public TimingGroupModel(DefaultTimeBarRowModel spectraTimeBarRowModel, ExperimentUnit unit) {
+	public TimingGroupUIModel(DefaultTimeBarRowModel spectraTimeBarRowModel, ExperimentUnit unit, TimeResolvedExperimentModel parent) {
 		this.spectraTimeBarRowModel = spectraTimeBarRowModel;
+		this.parent = parent;
 		this.resetInitialTime(0.0, ExperimentTimingDataModel.MIN_DURATION_TIME, 0.0, ExperimentTimingDataModel.MIN_DURATION_TIME);
 		setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
 		this.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				String sourcePropName = evt.getPropertyName();
-				if (sourcePropName.equals(TIME_PER_SPECTRUM_PROP_NAME) | sourcePropName.equals(INTEGRATION_TIME_PROP_NAME)) {
-					try {
-						TimingGroupModel.this.updateMaxAccumulationForDetector();
-					} catch (DeviceException e) {
-						logger.error("Unable to update max accumulations", e);
-					}
+				if (sourcePropName.equals(TIME_PER_SPECTRUM_PROP_NAME) | sourcePropName.equals(INTEGRATION_TIME_PROP_NAME) | sourcePropName.equals(NO_OF_SPECTRUM_PROP_NAME)) {
+					TimingGroupUIModel.this.updateMaxAccumulationForDetector();
 				}
 			}
 		});
@@ -171,7 +177,7 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 
 			spectrum.setTimes(startTimeForSpectrum, timePerSpectrum);
 			startTimeForSpectrum += timePerSpectrum;
-			spectrum.setName("Spectrum " + (i + 1));
+			spectrum.setName("Spectrum " + i);
 			if (i >= current) {
 				spectrumList.add(spectrum);
 				spectraTimeBarRowModel.addInterval(spectrum);
@@ -270,6 +276,29 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 		this.firePropertyChange(USE_EXTERNAL_TRIGGER_PROP_NAME, useExernalTrigger, useExernalTrigger = value);
 	}
 
+	public boolean isExernalTriggerAvailable() {
+		return exernalTriggerAvailable;
+	}
+
+	public void setExernalTriggerAvailable(boolean exernalTriggerAvailable) {
+		this.firePropertyChange(EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME, this.exernalTriggerAvailable, this.exernalTriggerAvailable = exernalTriggerAvailable);
+	}
+
+	public InputTriggerLemoNumbers getExernalTriggerInputLemoNumber() {
+		return exernalTriggerInputLemoNumber;
+	}
+
+	public void setExernalTriggerInputLemoNumber(InputTriggerLemoNumbers exernalTriggerInputLemoNumber) {
+		this.firePropertyChange(EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME, this.exernalTriggerInputLemoNumber, this.exernalTriggerInputLemoNumber = exernalTriggerInputLemoNumber);
+
+	}
+
+	public TimeResolvedExperimentModel getParent() {
+		return parent;
+	}
+
+
+
 	@Override
 	public void dispose() {
 		for(SpectrumModel spectrum : spectrumList) {
@@ -278,22 +307,23 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 		spectrumList.clear();
 	}
 
-	private void updateMaxAccumulationForDetector() throws DeviceException {
-		double timePerSpectrum = TimingGroupModel.this.getTimePerSpectrum();
-		double integrationTime = TimingGroupModel.this.getIntegrationTime();
-		if (integrationTime > 0 & timePerSpectrum > 0) {
-			StripDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
-			if (detector instanceof XCHIPDetector) {
-				int numberScansInFrame = ((XCHIPDetector) detector).getNumberScansInFrame(timePerSpectrum, integrationTime);
-				this.firePropertyChange(MAX_ACCUMULATION_FOR_DETECTOR_PROP_NAME, noOfAccumulations, noOfAccumulations = numberScansInFrame);
-			} else {
-				throw new DeviceException("Detector not found to get number of scans in frame");
+	private void updateMaxAccumulationForDetector() {
+		try {
+			double timePerSpectrum = getTimePerSpectrum();
+			double integrationTime = getIntegrationTime();
+			int noOfSpectra = getNumberOfSpectrum();
+			if (integrationTime > 0 & timePerSpectrum > 0) {
+				StripDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
+				if (detector instanceof XCHIPDetector) {
+					int numberScansInFrame = ((XCHIPDetector) detector).getNumberScansInFrame(unit.convertToSecond(timePerSpectrum), unit.convertToSecond(integrationTime), noOfSpectra);
+					setNoOfAccumulations(numberScansInFrame);
+				} else {
+					throw new DeviceException("Detector not found to get number of scans in frame");
+				}
 			}
+		} catch (DeviceException e) {
+			logger.warn("Unable to update max accumulations");
 		}
-	}
-
-	public int getMaxAccumulationforDetector() {
-		return maxAccumulationforDetector;
 	}
 
 	public double getTimeResolution() {
@@ -302,5 +332,9 @@ public class TimingGroupModel extends ExperimentTimingDataModel {
 
 	public void setTimePerSpectrumForGroup(double timePerSpectrum) {
 		this.firePropertyChange(TIME_PER_SPECTRUM_PROP_NAME, this.timePerSpectrum, this.timePerSpectrum = timePerSpectrum);
+	}
+
+	public int getExternalTrigLemoNumber() {
+		return exernalTriggerInputLemoNumber.getLemoNumber();
 	}
 }

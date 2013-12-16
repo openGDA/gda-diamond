@@ -94,6 +94,6 @@ if (LocalProperties.get("gda.mode") == 'live'):
     add_default topupMonitor
     add_default beamMonitor
     
-run "userStartupScript"
+    run "userStartupScript"
 
 print "Initialization Complete";

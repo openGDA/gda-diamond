@@ -19,8 +19,16 @@
 package uk.ac.gda.exafs.ui.data;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.ExpandBar;
+import org.eclipse.swt.widgets.ExpandItem;
 
 public class UIHelper {
 	private UIHelper() {}
@@ -59,5 +67,47 @@ public class UIHelper {
 		layout.marginLeft = 0;
 		layout.marginTop = 0;
 		return layout;
+	}
+
+	public static void revalidateLayout(Control control) {
+		Control c = control;
+		do {
+			if (c instanceof ExpandBar) {
+				ExpandBar expandBar = (ExpandBar) c;
+				for (ExpandItem expandItem : expandBar.getItems()) {
+					expandItem
+					.setHeight(expandItem.getControl().computeSize(expandBar.getSize().x, SWT.DEFAULT, true).y);
+				}
+			}
+			c = c.getParent();
+		} while (c != null && c.getParent() != null && !(c instanceof ScrolledComposite));
+		if (c instanceof ScrolledComposite) {
+			ScrolledComposite scrolledComposite = (ScrolledComposite) c;
+			if (scrolledComposite.getExpandHorizontal() || scrolledComposite.getExpandVertical()) {
+				scrolledComposite
+				.setMinSize(scrolledComposite.getContent().computeSize(SWT.DEFAULT, SWT.DEFAULT, true));
+			} else {
+				scrolledComposite.getContent().pack(true);
+			}
+		}
+		if (c instanceof Composite) {
+			Composite composite = (Composite) c;
+			composite.layout(true, true);
+		}
+	}
+
+	public static Color convertHexadecimalToColor(String hexadecimal, Display display) throws NumberFormatException {
+		java.awt.Color col=null;
+		try{
+			col=java.awt.Color.decode(hexadecimal);
+		}
+		catch (Exception e) {
+			col=java.awt.Color.WHITE;
+		}
+		int red=col.getRed();
+		int blue=col.getBlue();
+		int green=col.getGreen();
+
+		return new Color(display, new RGB(red, green, blue));
 	}
 }

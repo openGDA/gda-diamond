@@ -19,6 +19,7 @@
 			<bean class="gda.spring.NetServiceFactoryBean" />
 		</constructor-arg>
 	</bean>
+	<import resource="commandQueueProcessor.xml"/>
 
 	<corba:import namespace="i20-1" names="plot_server" />
 	

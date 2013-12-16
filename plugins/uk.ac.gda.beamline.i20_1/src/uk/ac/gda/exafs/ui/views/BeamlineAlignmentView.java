@@ -79,6 +79,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
+import uk.ac.gda.client.composites.MotorPositionEditorControl;
+import uk.ac.gda.client.observablemodels.ScannableWrapper;
 import uk.ac.gda.exafs.data.AlignmentParametersBean;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
 import uk.ac.gda.exafs.data.AlignmentParametersModel.CrystalCut;
@@ -88,8 +90,6 @@ import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.PowerCalulator;
-import uk.ac.gda.exafs.ui.composites.MotorPositionEditorControl;
-import uk.ac.gda.exafs.ui.composites.ScannableWrapper;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.sections.DetectorSetupDialog;
@@ -252,6 +252,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		comboxElement.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object value) {
+				if (value == null) {
+					return "";
+				}
 				Element element = (Element) value;
 				return element.getName() + " (" + element.getSymbol() + ")";
 			}
@@ -340,11 +343,26 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 			dataBindingCtx.bindValue(
 					ViewersObservables.observeInput(comboxElement),
-					BeanProperties.value(AlignmentParametersModel.ELEMENTS_IN_ENERGY_RANGE_PROP_NAME).observe(AlignmentParametersModel.INSTANCE));
+					BeanProperties.value(AlignmentParametersModel.ELEMENTS_IN_ENERGY_RANGE_PROP_NAME).observe(AlignmentParametersModel.INSTANCE), null,
+					new UpdateValueStrategy() {
+
+						@Override
+						protected IStatus doSet(IObservableValue observableValue, Object value) {
+
+							return super.doSet(observableValue, value);
+						}
+					});
 
 			dataBindingCtx.bindValue(
 					ViewersObservables.observeSingleSelection(comboxElement),
-					BeanProperties.value(AlignmentParametersModel.ELEMENT_PROP_NAME).observe(AlignmentParametersModel.INSTANCE));
+					BeanProperties.value(AlignmentParametersModel.ELEMENT_PROP_NAME).observe(AlignmentParametersModel.INSTANCE), null,
+					new UpdateValueStrategy() {
+
+						@Override
+						protected IStatus doSet(IObservableValue observableValue, Object value) {
+							return super.doSet(observableValue, value);
+						}
+					});
 
 			dataBindingCtx.bindValue(
 					WidgetProperties.enabled().observe(comboElementEdge.getControl()),

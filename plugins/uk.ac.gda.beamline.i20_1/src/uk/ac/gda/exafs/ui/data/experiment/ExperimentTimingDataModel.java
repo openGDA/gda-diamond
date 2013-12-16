@@ -89,7 +89,6 @@ public abstract class ExperimentTimingDataModel extends IntervalImpl {
 		}
 	}
 
-
 	public double getStartTime() {
 		return startTime;
 	}

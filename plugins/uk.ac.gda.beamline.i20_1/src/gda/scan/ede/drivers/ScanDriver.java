@@ -18,30 +18,19 @@
 
 package gda.scan.ede.drivers;
 
-import gda.device.scannable.AlignmentStageScannable;
-import gda.device.scannable.ScannableMotor;
-import gda.factory.Finder;
-import gda.scan.ede.position.AlignmentStageScanPosition;
+import gda.device.DeviceException;
 import gda.scan.ede.position.EdePositionType;
+import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
-import gda.scan.ede.position.ExplicitScanPositions;
+
+import java.util.Map;
 
 public abstract class ScanDriver {
-
-	private final AlignmentStageScannable alignmentstage;
-	private final ScannableMotor xMotor;
-	private final ScannableMotor yMotor;
 
 	protected EdeScanPosition inbeamPosition;
 	protected EdeScanPosition outbeamPosition;
 	protected EdeScanPosition referencePosition;
 	protected String fileTemplate;
-
-	public ScanDriver() {
-		alignmentstage = Finder.getInstance().find("alignment_stage");
-		xMotor = Finder.getInstance().find("sample_x");
-		yMotor = Finder.getInstance().find("sample_y");
-	}
 
 	/**
 	 * @return the full path of the name of the summary ASCII format file
@@ -62,48 +51,35 @@ public abstract class ScanDriver {
 	/**
 	 * Takes either the motor positions as doubles or a String and null, where the String is one of the alignment stage
 	 * positions.
+	 * @throws DeviceException
 	 * 
-	 * @param xPos
-	 * @param yPos
 	 */
-	public void setInBeamPosition(Object xPos, Object yPos) {
-		inbeamPosition = setPosition(EdePositionType.INBEAM, xPos, yPos);
+	public void setInBeamPosition(Map<String, Double> scanableMotorPositions) throws DeviceException {
+		inbeamPosition = setPosition(EdePositionType.INBEAM, scanableMotorPositions);
 	}
 
 	/**
 	 * Takes either the motor positions as doubles or a String and null, where the String is one of the alignment stage
 	 * positions.
+	 * @throws DeviceException
 	 * 
-	 * @param xPos
-	 * @param yPos
 	 */
-	public void setOutBeamPosition(Object xPos, Object yPos) {
-		outbeamPosition = setPosition(EdePositionType.OUTBEAM, xPos, yPos);
+	public void setOutBeamPosition(Map<String, Double> scanableMotorPositions) throws DeviceException {
+		outbeamPosition = setPosition(EdePositionType.OUTBEAM, scanableMotorPositions);
 	}
 
 	/**
 	 * Takes either the motor positions as doubles or a String and null, where the String is one of the alignment stage
 	 * positions.
+	 * @throws DeviceException
 	 * 
-	 * @param xPos
-	 * @param yPos
 	 */
-	public void setReferencePosition(Object xPos, Object yPos) {
-		referencePosition = setPosition(EdePositionType.REFERENCE, xPos, yPos);
+	public void setReferencePosition(Map<String, Double> scanableMotorPositions) throws DeviceException {
+		referencePosition = setPosition(EdePositionType.REFERENCE, scanableMotorPositions);
 	}
 
-	private EdeScanPosition setPosition(EdePositionType type, Object xPos, Object yPos) {
-		EdeScanPosition position;
-		if (yPos == null) {
-			// assume xPos is a string of an AlignmentStageScannable.Devices
-			AlignmentStageScannable.AlignmentStageDevice device = AlignmentStageScannable.AlignmentStageDevice
-					.valueOf(xPos.toString());
-			position = new AlignmentStageScanPosition(type, device, alignmentstage);
-		} else {
-			Double xPosition = Double.valueOf(xPos.toString());
-			Double yPosition = Double.valueOf(yPos.toString());
-			position = new ExplicitScanPositions(type, xPosition, yPosition, xMotor, yMotor);
-		}
-		return position;
+	private EdeScanPosition setPosition(EdePositionType type, Map<String, Double> scanableMotorPositions) throws DeviceException {
+		// FIXME Replacing with alignment stage motors is removed until the requirement spec is cleared
+		return new EdeScanMotorPositions(type, scanableMotorPositions);
 	}
 }

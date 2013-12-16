@@ -1,0 +1,270 @@
+/*-
+ * Copyright © 2013 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package uk.ac.gda.exafs.ui.views.plot;
+
+import gda.rcp.GDAClientActivator;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+
+import org.dawnsci.plotting.api.IPlottingSystem;
+import org.dawnsci.plotting.api.PlotType;
+import org.dawnsci.plotting.api.PlottingFactory;
+import org.dawnsci.plotting.api.trace.ILineTrace;
+import org.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
+import org.dawnsci.plotting.api.trace.ILineTrace.TraceType;
+import org.eclipse.core.databinding.observable.IObservable;
+import org.eclipse.core.databinding.observable.list.IListChangeListener;
+import org.eclipse.core.databinding.observable.list.ListChangeEvent;
+import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
+import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
+import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
+import org.eclipse.jface.viewers.CheckStateChangedEvent;
+import org.eclipse.jface.viewers.CheckboxTreeViewer;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ICheckStateListener;
+import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.part.ViewPart;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import uk.ac.gda.client.liveplot.IPlotLineColorService;
+import uk.ac.gda.exafs.ui.data.UIHelper;
+import uk.ac.gda.exafs.ui.views.plot.model.DataNode;
+import uk.ac.gda.exafs.ui.views.plot.model.DataNode.DataItemNode;
+import uk.ac.gda.exafs.ui.views.plot.model.DatasetNode;
+import uk.ac.gda.exafs.ui.views.plot.model.PlotDataHolder;
+
+public class DataPlotView extends ViewPart {
+
+	public static String ID = "uk.ac.gda.exafs.ui.views.dataplotview";
+
+	private static Logger logger = LoggerFactory.getLogger(DataPlotView.class);
+
+	private IPlottingSystem plottingSystem;
+	List<SelectionListener> selectionListeners = new Vector<SelectionListener>();
+
+	private DataPlotterCheckedTreeViewer dataTreeViewer;
+	private final PlotDataHolder plotDataHolder = new PlotDataHolder();
+
+	@Override
+	public void createPartControl(Composite parent) {
+		try {
+			if (plottingSystem == null) {
+				plottingSystem = PlottingFactory.createPlottingSystem();
+			}
+		} catch (Exception e) {
+			UIHelper.showError("Unable to create plotting system", e.getMessage());
+			logger.error("Unable to create plotting system", e);
+			return;
+		}
+		final SashForm composite = new SashForm(parent, SWT.HORIZONTAL);
+		Composite plot = new Composite(composite, SWT.None);
+		plot.setLayout(new FillLayout());
+		plottingSystem.createPlotPart(plot, getTitle(),
+				// unique id for plot.
+				getViewSite().getActionBars(), PlotType.XY, this);
+		plottingSystem.getSelectedXAxis().setAxisAutoscaleTight(true);
+
+		createDataTree(composite);
+		composite.setWeights(new int[] {3, 1});
+		setupDataSelection();
+	}
+
+	private void setupDataSelection() {
+		plotDataHolder.getDataset().addListChangeListener(new IListChangeListener() {
+			@Override
+			public void handleListChange(ListChangeEvent event) {
+				event.diff.accept(new ListDiffVisitor() {
+					@Override
+					public void handleRemove(int index, Object element) {
+						// TODO
+					}
+					@Override
+					public void handleAdd(int index, Object element) {
+						for (Object obj : dataTreeViewer.getCheckedElements()) {
+							dataTreeViewer.updateCheckSelection(obj, false);
+						}
+					}
+				});
+			}
+		});
+		plotDataHolder.addPropertyChangeListener(PlotDataHolder.DATA_CHANGED_PROP_NAME, new PropertyChangeListener() {
+			@SuppressWarnings("static-access")
+			@Override
+			public void propertyChange(final PropertyChangeEvent evt) {
+				DataItemNode node = (DataItemNode) evt.getNewValue();
+				dataTreeViewer.expandToLevel(node.getParent(), CheckboxTreeViewer.ALL_LEVELS);
+				dataTreeViewer.update(node, null);
+			}
+		});
+	}
+
+	private void addAndUpdateTrace(DataItemNode node) {
+		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier());
+		if (trace == null) {
+			if (!node.getParent().getParent().isMultiCollection()) {
+				trace = plottingSystem.createLineTrace(node.getIdentifier());
+				trace.setTraceColor(getTraceColor(node.getParent().getLabel()));
+				if ((plotDataHolder.getDataset().size() - plotDataHolder.getDataset().indexOf(node.getParent().getParent())) % 2 == 0) {
+					trace.setTraceType(TraceType.DASH_LINE);
+					trace.setPointStyle(PointStyle.DIAMOND);
+					trace.setPointSize(5);
+				} else {
+					trace.setTraceType(TraceType.SOLID_LINE);
+				}
+			} else {
+				trace = plottingSystem.createLineTrace(node.getIdentifier());
+			}
+			plottingSystem.addTrace(trace);
+		}
+		trace.setData(node.getParent().getXAxisData(), node.getData());
+		plottingSystem.repaint();
+	}
+
+	// FIX ME dispose colors
+	private final Map<String, Color> nodeColors = new HashMap<String, Color>();
+	private final Color blackColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+
+	// FIX ME!
+	private Color getTraceColor(String label) {
+		Color color = null;
+		if (!nodeColors.containsKey(label)) {
+			BundleContext context = GDAClientActivator.getBundleContext();
+			ServiceReference<IPlotLineColorService> serviceRef = context.getServiceReference(IPlotLineColorService.class);
+			if (serviceRef != null) {
+				String colorValue = (String) serviceRef.getProperty(label);
+				if (colorValue != null) {
+					color = UIHelper.convertHexadecimalToColor(colorValue, Display.getDefault());
+				} else {
+					color = blackColor;
+				}
+			} else {
+				color = blackColor;
+			}
+			nodeColors.put(label, color);
+		} else {
+			color = nodeColors.get(label);
+		}
+		return color;
+	}
+
+	IObservableFactory dataObservableFactory = new IObservableFactory() {
+		@Override
+		public IObservable createObservable(Object target) {
+			if (target == plotDataHolder) {
+				return plotDataHolder.getDataset();
+			} else if (target instanceof DatasetNode) {
+				return (((DatasetNode) target).getNodeList());
+			} else if (target instanceof DataNode) {
+				return (((DataNode) target).getYDoubleDataset());
+			} else if (target instanceof DataItemNode) {
+				dataTreeViewer.updateCheckSelection(target, true);
+			}
+			return null;
+		}
+	};
+
+	private void createDataTree(final SashForm parent) {
+		Composite dataTreeParent = new Composite(parent, SWT.None);
+		dataTreeParent.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
+		dataTreeViewer = new DataPlotterCheckedTreeViewer(dataTreeParent);
+		dataTreeViewer.getTree().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		dataTreeViewer.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public void update(ViewerCell cell) {
+				Object element = cell.getElement();
+				cell.setText(element.toString());
+				if (element instanceof DataItemNode) {
+					DataItemNode item = ((DataItemNode) element);
+					if (!item.getParent().getParent().isMultiCollection()) {
+						plottingSystem.getTraces();
+						Object trace = plottingSystem.getTrace(((DataItemNode) element).getIdentifier());
+						if (trace != null) {
+							cell.setForeground(((ILineTrace) trace).getTraceColor());
+							return;
+						}
+					}
+				}
+				cell.setForeground(blackColor);
+			}
+		});
+		dataTreeViewer.setContentProvider(new ObservableListTreeContentProvider(dataObservableFactory, null));
+		dataTreeViewer.setInput(plotDataHolder);
+		dataTreeViewer.addCheckStateListener(new ICheckStateListener() {
+			@Override
+			public void checkStateChanged(CheckStateChangedEvent event) {
+				Object element = event.getElement();
+				if (element instanceof DatasetNode) {
+					for (Object node : ((DatasetNode) element).getNodeList()) {
+						for (Object nodeItem : ((DataNode) node).getYDoubleDataset()) {
+							updateDataItemNode((DataItemNode) nodeItem, event.getChecked());
+						}
+					}
+				} else if (element instanceof DataNode) {
+					for (Object nodeItem : ((DataNode) element).getYDoubleDataset()) {
+						updateDataItemNode((DataItemNode) nodeItem, event.getChecked());
+					}
+				} else if (element instanceof DataItemNode) {
+					updateDataItemNode((DataItemNode) element, event.getChecked());
+				}
+			}
+		});
+	}
+
+	private void updateDataItemNode(DataItemNode dataItemNode, boolean isAdded) {
+		if (isAdded) {
+			addAndUpdateTrace(dataItemNode);
+		} else {
+			removeTrace(dataItemNode);
+		}
+	}
+
+	@Override
+	public void setFocus() {
+		plottingSystem.setFocus();
+	}
+
+	@Override
+	public void dispose() {
+		plottingSystem.dispose();
+		super.dispose();
+	}
+
+	private void removeTrace(DataItemNode node) {
+		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier());
+		if (trace != null) {
+			plottingSystem.removeTrace(trace);
+		}
+	}
+}

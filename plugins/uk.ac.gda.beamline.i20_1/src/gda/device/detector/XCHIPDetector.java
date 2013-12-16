@@ -41,9 +41,10 @@ public interface XCHIPDetector extends StripDetector {
 	 * 
 	 * @param frameTime
 	 * @param scanTime
+	 * @param numberOfFrames
 	 * @return int the number of scans which would fit into the given frame
 	 * @throws DeviceException
 	 */
-	int getNumberScansInFrame(double frameTime, double scanTime) throws DeviceException;
+	int getNumberScansInFrame(double frameTime, double scanTime, int numberOfFrames) throws DeviceException;
 
 }

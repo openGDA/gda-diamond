@@ -33,10 +33,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.ui.forms.widgets.Form;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,11 +44,12 @@ import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.DetectorUnavailableException;
 import uk.ac.gda.exafs.data.SlitsScanModel;
-import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.data.UIHelper;
+import uk.ac.gda.ui.components.NumberEditorControl;
 
-public class SlitsScanSection {
-	public static final SlitsScanSection INSTANCE = new SlitsScanSection();
+public class SlitsScanSection extends ResourceComposite {
+
+	private final FormToolkit toolkit;
 
 	private Section slitsParametersSection;
 
@@ -57,16 +57,17 @@ public class SlitsScanSection {
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
-	private SlitsScanSection() {}
+	public SlitsScanSection(Composite parent, int style) {
+		super(parent, style);
+		toolkit = new FormToolkit(parent.getDisplay());
+		setupUI();
+	}
 
-	@SuppressWarnings({ "static-access" })
-	public void createSection(Form form, FormToolkit toolkit) {
-		if (slitsParametersSection != null) {
-			return;
-		}
-		slitsParametersSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+	private void setupUI() {
+		this.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
+		slitsParametersSection = toolkit.createSection(this, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 		slitsParametersSection.setText("Slits scan");
-		slitsParametersSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		slitsParametersSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		Composite slitsParametersSelectionComposite = toolkit.createComposite(slitsParametersSection, SWT.NONE);
 		toolkit.paintBordersFor(slitsParametersSelectionComposite);
 		slitsParametersSelectionComposite.setLayout(new GridLayout(2, false));
@@ -77,7 +78,7 @@ public class SlitsScanSection {
 
 			GridData gridDataForTxt = new GridData(SWT.FILL, GridData.CENTER, true, false);
 
-			NumberEditorControl  txtGap = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitsScanModel.getInstance(), SlitsScanModel.GAP_PROP_NAME, false);
+			NumberEditorControl txtGap = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitsScanModel.getInstance(), SlitsScanModel.GAP_PROP_NAME, false);
 			txtGap.setUnit(ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getUnit().getText());
 			txtGap.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			txtGap.setLayoutData(gridDataForTxt);
@@ -177,5 +178,11 @@ public class SlitsScanSection {
 			UIHelper.showError("Unable to setup slit scan parameters", e.getMessage());
 			logger.error("Unable to setup slit scan parameters", e);
 		}
+	}
+
+	@Override
+	protected void disposeResource() {
+		dataBindingCtx.dispose();
+
 	}
 }

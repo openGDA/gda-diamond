@@ -18,7 +18,7 @@
 
 package uk.ac.gda.exafs.ui.data;
 
-import uk.ac.gda.exafs.data.ObservableModel;
+import uk.ac.gda.beans.ObservableModel;
 
 public class AlignmentStageModel extends ObservableModel {
 	public static final AlignmentStageModel INSTANCE = new AlignmentStageModel();

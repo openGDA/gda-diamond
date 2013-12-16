@@ -31,6 +31,7 @@ import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
 import uk.ac.gda.exafs.ui.views.DetectorLiveModeView;
 import uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView;
 import uk.ac.gda.exafs.ui.views.FocusingView;
+import uk.ac.gda.exafs.ui.views.plot.DataPlotView;
 
 /**
  * Shows recent data from the XH detector for I20-1 EDE branchline.
@@ -38,6 +39,7 @@ import uk.ac.gda.exafs.ui.views.FocusingView;
 public class AlignmentPerspective implements IPerspectiveFactory {
 
 	public static final String ID = "uk.ac.gda.beamline.i20_1.AlignmentPerspective";
+	public static final String LIVE_PLOT_VIEW_ID = "uk.ac.gda.client.liveplotview";
 
 	public static String SINGLE_SPECTRUM_PLOT_VIEW_NAME = "Single Spectrum";
 	public static String SINGLE_SPECTRUM_PLOT_VIEW_ID = "uk.ac.gda.exafs.ui.views.singlespectrumplotview";
@@ -69,11 +71,11 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 
 		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, FOCUSING_CONTROLS_FOLDER_ID);
 		topPlotFolder.addView(DetectorLiveModeView.ID);
-		topPlotFolder.addPlaceholder(SINGLE_SPECTRUM_PLOT_VIEW_ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.REFERENCE_ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.EDE_ID);
-		topPlotFolder.addPlaceholder("uk.ac.gda.client.liveplotview");
-		topPlotFolder.addPlaceholder(SINGLE_SPECTRUM_PLOT_VIEW_ID);
+		topPlotFolder.addView(LIVE_PLOT_VIEW_ID);
+		topPlotFolder.addView(DataPlotView.ID);
 		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.6f,TOPPLOT_FOLDER_ID);
+
 	}
 }
