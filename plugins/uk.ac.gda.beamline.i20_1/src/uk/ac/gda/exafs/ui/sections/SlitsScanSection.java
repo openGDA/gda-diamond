@@ -39,6 +39,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.client.observablemodels.ScannableWrapper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
@@ -81,6 +82,10 @@ public class SlitsScanSection extends ResourceComposite {
 			NumberEditorControl txtGap = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitsScanModel.getInstance(), SlitsScanModel.GAP_PROP_NAME, false);
 			txtGap.setUnit(ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getUnit().getText());
 			txtGap.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+			ScannableWrapper scannableWrapper = ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getScannableWrapper();
+			if (scannableWrapper.getLowerLimit() != null && scannableWrapper.getUpperLimit() != null) {
+				txtGap.setRange(scannableWrapper.getLowerLimit(), scannableWrapper.getUpperLimit());
+			}
 			txtGap.setLayoutData(gridDataForTxt);
 
 			lbl = toolkit.createLabel(slitsParametersSelectionComposite, "From", SWT.NONE);

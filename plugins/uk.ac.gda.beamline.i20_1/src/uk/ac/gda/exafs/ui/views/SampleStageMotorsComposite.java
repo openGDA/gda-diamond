@@ -49,6 +49,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.client.observablemodels.ScannableWrapper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentMotorPostion;
@@ -201,7 +202,7 @@ public class SampleStageMotorsComposite extends Composite {
 		sampleStageMotorComposites.clear();
 		try {
 			for(final ExperimentMotorPostion experimentMotorPostion : SampleStageMotors.INSTANCE.getSelectedMotors()) {
-				Composite composite = createXYPositionComposite(sampleI0PositionComposite, experimentMotorPostion,
+				Composite composite = createMotorPositionComposite(sampleI0PositionComposite, experimentMotorPostion,
 						ExperimentMotorPostion.TARGET_I0_POSITION,
 						experimentMotorPostion.getScannableSetup().getLabel(), new Listener() {
 					@Override
@@ -215,7 +216,7 @@ public class SampleStageMotorsComposite extends Composite {
 					}
 				});
 				sampleStageMotorComposites.add(composite);
-				composite = createXYPositionComposite(sampleItPositionComposite, experimentMotorPostion,
+				composite = createMotorPositionComposite(sampleItPositionComposite, experimentMotorPostion,
 						ExperimentMotorPostion.TARGET_IT_POSITION,
 						experimentMotorPostion.getScannableSetup().getLabel(), new Listener() {
 					@Override
@@ -230,7 +231,7 @@ public class SampleStageMotorsComposite extends Composite {
 				});
 				sampleStageMotorComposites.add(composite);
 				sampleStageMotorComposites.add(composite);
-				composite = createXYPositionComposite(sampleIRefPositionComposite, experimentMotorPostion,
+				composite = createMotorPositionComposite(sampleIRefPositionComposite, experimentMotorPostion,
 						ExperimentMotorPostion.TARGET_IREF_POSITION,
 						experimentMotorPostion.getScannableSetup().getLabel(), new Listener() {
 					@Override
@@ -252,7 +253,7 @@ public class SampleStageMotorsComposite extends Composite {
 		}
 	}
 
-	private Composite createXYPositionComposite(Composite parent, Object object, String propertyName, String label, Listener listener) throws Exception {
+	private Composite createMotorPositionComposite(Composite parent, ExperimentMotorPostion experimentMotorPostion, String propertyName, String label, Listener listener) throws Exception {
 		Composite positionAllComposite = toolkit.createComposite(parent, SWT.NONE);
 		toolkit.paintBordersFor(positionAllComposite);
 		positionAllComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -269,10 +270,14 @@ public class SampleStageMotorsComposite extends Composite {
 		gridData.widthHint = 90;
 		xPosLabel.setLayoutData(gridData);
 
-		final NumberEditorControl positionControl = new NumberEditorControl(positionComposite, SWT.None, object, propertyName, false);
+		final NumberEditorControl positionControl = new NumberEditorControl(positionComposite, SWT.None, experimentMotorPostion, propertyName, false);
 		positionControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		positionControl.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
 		positionControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		ScannableWrapper scannableWrapper = experimentMotorPostion.getScannableSetup().getScannableWrapper();
+		if (scannableWrapper.getLowerLimit() != null && scannableWrapper.getUpperLimit() != null) {
+			positionControl.setRange(scannableWrapper.getLowerLimit(), scannableWrapper.getUpperLimit());
+		}
 
 		if (listener != null) {
 			Button readCurrentPositionButton = toolkit.createButton(positionAllComposite, "Read", SWT.PUSH);

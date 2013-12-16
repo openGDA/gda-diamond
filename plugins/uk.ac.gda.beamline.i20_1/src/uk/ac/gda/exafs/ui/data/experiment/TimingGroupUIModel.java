@@ -113,7 +113,7 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 			if (_intervals.contains(interval)) {
 				_intervals.remove(interval);
 				// check min/max the hard way (optimize in custom implementations!)
-				updateMinMax();
+				//updateMinMax();
 				interval.removePropertyChangeListener(this);
 				fireElementRemoved(interval);
 			}
@@ -296,8 +296,6 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 	public TimeResolvedExperimentModel getParent() {
 		return parent;
 	}
-
-
 
 	@Override
 	public void dispose() {
