@@ -31,7 +31,7 @@ XSPRESS_ELEMENTS=64
 #echo "Configure the XMAP/Vortex detector before (re)starting GDA servers..."
 #/dls_sw/i20/software/gda/bin/vortex_config.sh
 
-#if [  "$XSPRESS_ELEMENTS" == "64" ];
+#if [  "$XSPRESS_ELEMENTS" == "64" ];/dls_sw/i08/logs/gda_output_2013-12-06-10:57:40.txt
 #then
 #	echo ""
 #	echo "Will now sleep for 30 seconds for port 1972 to become available on da.server machine..."

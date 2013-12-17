@@ -164,8 +164,8 @@
          id="product"
          point="org.eclipse.core.runtime.products">
       <product
-            application="uk.ac.gda.client.application"
-            name="GDA I20 Beamline">
+      		application="uk.ac.gda.client.application"
+      		name="GDA I20 Beamline">
          <property
                name="appName"
                value="GDA I20 Beamline">
