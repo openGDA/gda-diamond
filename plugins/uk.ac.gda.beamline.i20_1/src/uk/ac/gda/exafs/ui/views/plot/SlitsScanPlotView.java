@@ -22,15 +22,15 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import uk.ac.gda.exafs.ui.views.plot.model.ExperimentDataNode;
+import uk.ac.gda.exafs.ui.views.plot.model.SlitsScanRootDataNode;
 
-public class DataPlotView extends ViewPart {
-	public static String ID = "uk.ac.gda.exafs.ui.views.dataplotview";
+public class SlitsScanPlotView extends ViewPart {
+	public static String ID = "uk.ac.gda.exafs.ui.views.slitsscanplotview";
 	ScanDataPlotter scanDataPlotter;
 
 	@Override
 	public void createPartControl(Composite parent) {
-		ExperimentDataNode rootNode = new ExperimentDataNode();
+		SlitsScanRootDataNode rootNode = new SlitsScanRootDataNode();
 		scanDataPlotter = new ScanDataPlotter(parent, SWT.None, this, rootNode);
 	}
 
