@@ -1426,5 +1426,36 @@
         <property name="deviceName" value="DCD.JACK" />
         <property name="local" value="true" />
     </bean>
+    
+    <!-- Yogurt Pot -->
+    <bean id="MotorYogurt" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-OP-DCD-02:YOGX" />
+        <property name="local" value="true" />
+    </bean>
+    
+    <bean id="dcdx_rot_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-OP-DCD-02:ARCANGLE" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="dcdx_gap_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-OP-DCD-02:GAP" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="dcdx_center_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-OP-DCD-02:CENTER" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="dcdx_rot_offset_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-OP-DCD-02:ARCOFFSET" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="dcdx_tilt_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-OP-DCD-02:TILT" />
+        <property name="local" value="true" />
+    </bean>
+    
+	<bean id="dcdx_filter" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL07I-OP-DCD-02:MP" />
+	</bean>    
 
 </beans>
