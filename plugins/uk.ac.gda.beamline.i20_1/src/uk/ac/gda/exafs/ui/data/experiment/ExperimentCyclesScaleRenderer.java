@@ -24,23 +24,23 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.printing.Printer;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
+import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.TimeBarViewerDelegate;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 import de.jaret.util.ui.timebars.swt.renderer.RendererBase;
 import de.jaret.util.ui.timebars.swt.renderer.TimeScaleRenderer;
 
-
-public class TimingGroupsScaleRenderer extends RendererBase implements TimeScaleRenderer {
+public class ExperimentCyclesScaleRenderer extends RendererBase implements TimeScaleRenderer {
 
 	private static final int PREFERREDHEIGHT = 30;
-	private final TimeResolvedExperimentModel model;
+	private final CyclicExperimentModel model;
 
-	public TimingGroupsScaleRenderer(TimeResolvedExperimentModel model) {
+	public ExperimentCyclesScaleRenderer(CyclicExperimentModel model) {
 		super(null);
 		this.model = model;
 	}
 
-	public TimingGroupsScaleRenderer(Printer painter, TimeResolvedExperimentModel model) {
+	public ExperimentCyclesScaleRenderer(Printer painter, CyclicExperimentModel model) {
 		super(painter);
 		this.model = model;
 	}
@@ -48,12 +48,11 @@ public class TimingGroupsScaleRenderer extends RendererBase implements TimeScale
 	@Override
 	public void draw(GC gc, Rectangle drawingArea, TimeBarViewerDelegate delegate, boolean top, boolean printing) {
 		// FIXME This could be slow!
-		for (Object timingGroup :model.getGroupList()) {
-			TimingGroupUIModel timingGroupModel = (TimingGroupUIModel) timingGroup;
-			int x = delegate.xForDate(timingGroupModel.getEnd());
+		for (Interval interval : delegate.getRow(0).getIntervals()) {
+			int x = delegate.xForDate(interval.getEnd());
 			int startY = drawingArea.y + drawingArea.height - PREFERREDHEIGHT + 3;
 			gc.drawRectangle(x - 1, startY, 1, PREFERREDHEIGHT + 3);
-			String endTimeString = DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromMilli(timingGroupModel.getEndTime())) + " " + model.getUnit().getWorkingUnit().getUnitText();
+			String endTimeString = DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().convertFromMilli(((ExperimentCycleModel) interval).getEndTime())) + " " + model.getUnit().getUnitText();
 			Point point = gc.stringExtent(endTimeString);
 			gc.drawString(endTimeString, x - point.x - 10, startY + PREFERREDHEIGHT - point.y - 10);
 		}
@@ -84,6 +83,6 @@ public class TimingGroupsScaleRenderer extends RendererBase implements TimeScale
 
 	@Override
 	public TimeScaleRenderer createPrintRenderer(Printer printer) {
-		return new TimingGroupsScaleRenderer(printer, model);
+		return new ExperimentCyclesScaleRenderer(printer, model);
 	}
 }

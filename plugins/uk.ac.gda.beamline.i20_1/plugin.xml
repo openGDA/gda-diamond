@@ -155,6 +155,12 @@
             name="Cyclic experiment"
             restorable="true">
       </view>
+      <view
+            class="uk.ac.gda.exafs.ui.views.plot.SlitsScanPlotView"
+            id="uk.ac.gda.exafs.ui.views.slitsscanplotview"
+            name="Slits scan"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">

@@ -39,7 +39,7 @@ public enum ExperimentModelHolder {
 		return linerExperimentModel;
 	}
 
-	public TimeResolvedExperimentModel getCyclicExperimentModel() {
+	public CyclicExperimentModel getCyclicExperimentModel() {
 		return cyclicExperimentModel;
 	}
 }

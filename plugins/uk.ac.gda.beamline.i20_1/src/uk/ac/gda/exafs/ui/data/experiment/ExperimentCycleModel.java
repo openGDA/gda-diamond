@@ -16,28 +16,28 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.views.plot;
+package uk.ac.gda.exafs.ui.data.experiment;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.ViewPart;
+import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 
-import uk.ac.gda.exafs.ui.views.plot.model.ExperimentDataNode;
+public class ExperimentCycleModel extends ExperimentTimingDataModel {
 
-public class DataPlotView extends ViewPart {
-	public static String ID = "uk.ac.gda.exafs.ui.views.dataplotview";
-	ScanDataPlotter scanDataPlotter;
+	private final CyclicExperimentModel parent;
 
-	@Override
-	public void createPartControl(Composite parent) {
-		ExperimentDataNode rootNode = new ExperimentDataNode();
-		scanDataPlotter = new ScanDataPlotter(parent, SWT.None, this, rootNode);
+	public ExperimentCycleModel(CyclicExperimentModel parent) {
+		this.parent = parent;
 	}
 
 	@Override
-	public void setFocus() {
-		if (!scanDataPlotter.isDisposed()) {
-			scanDataPlotter.setFocus();
-		}
+	public void dispose() {
+		// TODO Auto-generated method stub
+
 	}
+
+	@Override
+	public String toString() {
+		String timeResolution = DataHelper.roundDoubletoStringWithOptionalDigits(parent.getUnit().convertFromMilli(this.getEndTime())) + " " + parent.getUnit().getUnitText();
+		return this.getName() + "\n" + timeResolution;
+	}
+
 }

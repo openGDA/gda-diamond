@@ -27,20 +27,15 @@ import java.util.Map;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
-import uk.ac.gda.beans.ObservableModel;
-import uk.ac.gda.exafs.ui.views.plot.model.DataNode.DataItemNode;
-
-public class DatasetNode extends ObservableModel {
-	private final Map<String, DataNode> scans = new HashMap<String, DataNode>();
-	private final  IObservableList dataNodeList = new WritableList(new ArrayList<DataNode>(), DataNode.class);
+public class ScanDataNode extends DataNode {
+	private final Map<String, SpectraNode> scans = new HashMap<String, SpectraNode>();
+	private final  IObservableList dataNodeList = new WritableList(new ArrayList<SpectraNode>(), SpectraNode.class);
 	private final String scanIdentifier;
-	public String getScanIdentifier() {
-		return scanIdentifier;
-	}
 
 	private final boolean multiCollection;
 
-	public DatasetNode(String scanIdentifier, boolean multiCollection) {
+	public ScanDataNode(String scanIdentifier, boolean multiCollection, DataNode parent) {
+		super(parent);
 		this.scanIdentifier = scanIdentifier;
 		this.multiCollection = multiCollection;
 	}
@@ -49,12 +44,12 @@ public class DatasetNode extends ObservableModel {
 		return dataNodeList;
 	}
 
-	public DataItemNode updateData(final EdeExperimentProgressBean arg) {
-		DataNode dataNode;
+	public DataNode updateData(final EdeExperimentProgressBean arg) {
+		SpectraNode dataNode;
 		String label = arg.getDataLabel();
 		String identifier = this.toString() + "@" + label;
 		if (!scans.containsKey(identifier)) {
-			final DataNode newNode = new DataNode(identifier, label, this);
+			final SpectraNode newNode = new SpectraNode(identifier, label, this);
 			scans.put(identifier, newNode);
 			dataNodeList.add(newNode);
 			dataNode = newNode;
@@ -63,7 +58,8 @@ public class DatasetNode extends ObservableModel {
 		}
 		identifier =  identifier + "@" + arg.getProgress().getGroupNumOfThisSDP() + "@" + arg.getProgress().getFrameNumOfThisSDP();
 		label = "Group " + arg.getProgress().getGroupNumOfThisSDP() + " spectrum " + arg.getProgress().getFrameNumOfThisSDP();
-		return dataNode.updateData(arg.getEnergyData(), arg.getData(), identifier, label);
+		dataNode.updateData(arg.getEnergyData(), arg.getData(), identifier, label);
+		return dataNode;
 	}
 
 	public boolean isMultiCollection() {
@@ -73,5 +69,15 @@ public class DatasetNode extends ObservableModel {
 	@Override
 	public String toString() {
 		return "Scan:" + scanIdentifier;
+	}
+
+	@Override
+	public IObservableList getChildren() {
+		return dataNodeList;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return scanIdentifier;
 	}
 }
