@@ -142,6 +142,12 @@
 				<value>2.1322543748867164e-08</value>
 				<value>2.1412068256345848e-08</value>
 				<value>2.5302404673324592e-08</value>
+				<value>1.578e-06</value>
+				<value>1.445e-06</value>
+				<value>1.312e-06</value>
+				<value>1.512e-06</value>
+				<value>1.505e-06</value>
+				<value>1.668e-06</value>
 			</list>
 		</property>
 
@@ -154,6 +160,7 @@
 
 	<bean id="counterTimer03" class="gda.device.detector.xmap.TfgXmap">
 		<property name="xmap" ref="xmapMca" />
+		<property name="local" value="True" />
 		<property name="timer" ref="tfg" />
 		<property name="slave" value="true" />
 		<property name="collectionModePV" value="BL18I-EA-DET-04:CollectMode" />
