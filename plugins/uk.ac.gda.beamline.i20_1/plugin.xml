@@ -152,13 +152,13 @@
             category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
             class="uk.ac.gda.exafs.ui.views.CyclicExperimentView"
             id="uk.ac.gda.exafs.ui.views.cyclicExperimentView"
-            name="Cyclic experiment"
+            name="Cyclic experiment "
             restorable="true">
       </view>
       <view
             class="uk.ac.gda.exafs.ui.views.plot.SlitsScanPlotView"
             id="uk.ac.gda.exafs.ui.views.slitsscanplotview"
-            name="Slits scan"
+            name="Slits scan plot"
             restorable="true">
       </view>
    </extension>

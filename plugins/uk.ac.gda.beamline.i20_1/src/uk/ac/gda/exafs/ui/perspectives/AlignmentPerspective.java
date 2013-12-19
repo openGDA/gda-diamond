@@ -75,7 +75,6 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		topPlotFolder.addView(SlitsScanPlotView.ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.REFERENCE_ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.EDE_ID);
-		topPlotFolder.addView(LIVE_PLOT_VIEW_ID);
 		topPlotFolder.addView(ExperimentDataPlotView.ID);
 		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.6f,TOPPLOT_FOLDER_ID);
 

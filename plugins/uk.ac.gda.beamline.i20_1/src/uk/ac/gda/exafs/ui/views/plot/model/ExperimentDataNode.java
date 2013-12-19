@@ -50,6 +50,8 @@ public class ExperimentDataNode extends DataNode implements IScanDataPointObserv
 	public static final String USE_STRIPS_AS_X_AXIS_PROP_NAME = "useStripsAsXaxis";
 	private boolean useStripsAsXaxis;
 
+	private DataNode addedData;
+
 	public ExperimentDataNode() {
 		super(null);
 		((IObservable) Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(this);
@@ -90,6 +92,10 @@ public class ExperimentDataNode extends DataNode implements IScanDataPointObserv
 		return changedData;
 	}
 
+	public DataNode getAddedData() {
+		return addedData;
+	}
+
 	// FIXME Changed to linked list or change viewer to reverse the order!
 	@SuppressWarnings("unchecked")
 	protected void updateDataSetInUI(@SuppressWarnings("unused") Object source, Object arg) {
@@ -107,8 +113,8 @@ public class ExperimentDataNode extends DataNode implements IScanDataPointObserv
 			} else {
 				datasetNode = scans.get(scanIdentifier);
 			}
-			changedData = datasetNode.updateData((EdeExperimentProgressBean) arg);
-			this.firePropertyChange(DATA_CHANGED_PROP_NAME, null, changedData);
+			addedData = datasetNode.updateData((EdeExperimentProgressBean) arg);
+			this.firePropertyChange(DATA_ADDED_PROP_NAME, null, addedData);
 		}
 	}
 

@@ -106,18 +106,37 @@ public class ScanDataPlotter extends ResourceComposite {
 				});
 			}
 		});
-		rootDataNode.addPropertyChangeListener(DataNode.DATA_CHANGED_PROP_NAME, new PropertyChangeListener() {
+		rootDataNode.addPropertyChangeListener(DataNode.DATA_ADDED_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(final PropertyChangeEvent evt) {
 				DataNode node = (DataNode) evt.getNewValue();
 				dataTreeViewer.expandToLevel(node.getParent(), AbstractTreeViewer.ALL_LEVELS);
 				dataTreeViewer.update(node, null);
-				addAndUpdateTrace(node);
+				addTrace(node);
+			}
+		});
+
+		rootDataNode.addPropertyChangeListener(DataNode.DATA_CHANGED_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(final PropertyChangeEvent evt) {
+				DataNode node = (DataNode) evt.getNewValue();
+				updateTrace(node);
 			}
 		});
 	}
 
-	private void addAndUpdateTrace(DataNode node) {
+	private void updateTrace(DataNode node) {
+		if (node instanceof LineTraceProvider) {
+			LineTraceProvider lineTraceProvider = (LineTraceProvider) node;
+			ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier());
+			if (trace != null) {
+				trace.setData(lineTraceProvider.getXAxisDataset(), lineTraceProvider.getYAxisDataset());
+				plottingSystem.repaint();
+			}
+		}
+	}
+
+	private void addTrace(DataNode node) {
 		if (node instanceof LineTraceProvider) {
 			LineTraceProvider lineTraceProvider = (LineTraceProvider) node;
 			ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier());
@@ -206,7 +225,7 @@ public class ScanDataPlotter extends ResourceComposite {
 
 	private void updateDataItemNode(DataNode dataItemNode, boolean isAdded) {
 		if (isAdded) {
-			addAndUpdateTrace(dataItemNode);
+			addTrace(dataItemNode);
 		} else {
 			removeTrace(dataItemNode);
 		}
