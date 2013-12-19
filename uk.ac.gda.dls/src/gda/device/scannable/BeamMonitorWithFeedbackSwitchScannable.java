@@ -26,8 +26,8 @@ import gda.jython.commands.ScannableCommands;
 import gda.scan.ScanBase;
 import gov.aps.jca.CAException;
 import gov.aps.jca.Channel;
-import gov.aps.jca.TimeoutException;
 import gov.aps.jca.Channel.ConnectionState;
+import gov.aps.jca.TimeoutException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +38,7 @@ public class BeamMonitorWithFeedbackSwitchScannable extends TopupScannable imple
 	private String machineModePV = "CS-CS-MSTAT-01:MODE";
 	private String ringCurrentPV = "SR21C-DI-DCCT-01:SIGNAL";
 	private String shutterPV = "FE18I-RS-ABSB-02:STA";
+	private String energyPV = "BL18I-OP-DCM-01:ENERGY";
 	private String[] feedbackPVs; 
 	private String[] modesToIgnore = new String[] { "Mach. Dev.","Shutdown" };
 	private boolean removeFromDefaultsAtScanEnd = false;
@@ -49,6 +50,7 @@ public class BeamMonitorWithFeedbackSwitchScannable extends TopupScannable imple
 	private Channel machineMode;
 	private Channel portShutter;
 	private Channel ringCurrent;
+	private Channel energy;
 	private Channel[] feedback;
 
 	private boolean override;
@@ -87,6 +89,7 @@ public class BeamMonitorWithFeedbackSwitchScannable extends TopupScannable imple
 			machineMode = channelManager.createChannel(machineModePV, false);
 			portShutter = channelManager.createChannel(shutterPV, false);
 			ringCurrent = channelManager.createChannel(ringCurrentPV, false);
+			energy = channelManager.createChannel(energyPV, false);
 			if(feedbackPVs != null && feedbackPVs.length > 0)
 			{
 				feedback = new Channel[feedbackPVs.length];
@@ -122,6 +125,7 @@ public class BeamMonitorWithFeedbackSwitchScannable extends TopupScannable imple
 	{
 		ScannableCommands.remove_default(this);
 	}
+	
 	private boolean isConnected() {
 		if(feedback != null && feedback.length > 0)
 		{
@@ -156,14 +160,8 @@ public class BeamMonitorWithFeedbackSwitchScannable extends TopupScannable imple
 		}
 
 		while(true){
-
-		if (beamWithFeedbackOn())
-		{
-			//exit the loop
-			break;
-			
-		}
-			
+			if (beamWithFeedbackOn())
+				break;
 			//else switch the feedback off and sleep for 1 minute 
 			try {
 				ScanBase.checkForInterrupts();
@@ -173,20 +171,39 @@ public class BeamMonitorWithFeedbackSwitchScannable extends TopupScannable imple
 				// someone trying to kill the thread so re-throw to kill any scan
 				throw new DeviceException(e.getMessage(), e);
 			}
-			
+		}
 		
+		// set energy to same value so idgap goes to correct position.
+		try {
+			if (energy.get().isDOUBLE()) {
+				Object value = energy.get().getValue();
+				double energyVal;
+				if (value.getClass().isArray())
+					energyVal =((double[])value)[0];
+				else 
+					energyVal = Double.parseDouble(value.toString());
+				energy.put(energyVal);
+			}
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			logger.error("TODO put description of error here", e);
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			logger.error("TODO put description of error here", e);
+		} catch (CAException e) {
+			// TODO Auto-generated catch block
+			logger.error("TODO put description of error here", e);
 		}
 	}
 
 	
-	public boolean beamWithFeedbackOn() throws DeviceException
-	{
+	public boolean beamWithFeedbackOn() throws DeviceException {
 		boolean beamOn = beamAvailable();
 		switchFeedback(beamOn);
 		return beamOn;
 	}
-	private void switchFeedback(boolean onOff) throws DeviceException
-	{
+	
+	private void switchFeedback(boolean onOff) throws DeviceException {
 		
 			//switch the feedback on 
 			if(feedback != null && feedback.length > 0 && feedback[0]!=null)
@@ -217,6 +234,7 @@ public class BeamMonitorWithFeedbackSwitchScannable extends TopupScannable imple
 			}
 		
 	}
+	
 	private boolean beamAvailable() {
 		String value;
 		try {
