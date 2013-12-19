@@ -177,20 +177,16 @@ public class I05Apple extends ScannableMotionBase {
 		throw new DeviceException("found undefined id setting");
 	}
 	
-//	private double g(double x, double h, double j, double k, double l, double m) {
-//		return h * Math.log((x-j)*l) + k + m *x;
-//	}
-	
 	private double getGapFor(double energy, String polarisation) throws DeviceException {
 		if (HORIZONTAL.equalsIgnoreCase(polarisation))
 			return horizontalGapPolynomial.value(energy);
 		if (VERTICAL.equalsIgnoreCase(polarisation)) {
 			return verticalGapPolynomial.value(energy);
 		}
-//		if (CIRCULAR_RIGHT.equalsIgnoreCase(polarisation))
-//			return phase;
-//		if (CIRCULAR_LEFT.equalsIgnoreCase(polarisation))
-//			return phase * -1;
+		if (CIRCULAR_RIGHT.equalsIgnoreCase(polarisation))
+			return 70*energy/200; // FIXME -- these are fake value! take out immediately
+		if (CIRCULAR_LEFT.equalsIgnoreCase(polarisation))
+			return -70*energy/200; // FIXME -- these are fake value! take out immediately
 		throw new DeviceException("unknown or unconfigured polarisation demanded");
 	}
 	
