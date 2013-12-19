@@ -142,7 +142,7 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.ui.views.plot.DataPlotView"
+            class="uk.ac.gda.exafs.ui.views.plot.ExperimentDataPlotView"
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.dataplotview"
             name="Ede experiment plot"

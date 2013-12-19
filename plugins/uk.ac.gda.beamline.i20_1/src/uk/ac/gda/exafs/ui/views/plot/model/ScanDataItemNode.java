@@ -59,6 +59,10 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 
 	@Override
 	public DoubleDataset getXAxisDataset() {
+		ExperimentDataNode experimentDataNode = (ExperimentDataNode) parent.getParent().getParent();
+		if (experimentDataNode.isUseStripsAsXaxis()) {
+			return ExperimentDataNode.scriptsData;
+		}
 		return ((SpectraNode) parent).getXAxisData();
 	}
 
@@ -89,5 +93,4 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 		}
 		return  traceStyle;
 	}
-
 }

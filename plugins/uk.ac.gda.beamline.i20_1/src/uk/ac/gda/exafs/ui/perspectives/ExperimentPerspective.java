@@ -28,7 +28,7 @@ import uk.ac.gda.exafs.ui.views.CyclicExperimentView;
 import uk.ac.gda.exafs.ui.views.DetectorLiveModeView;
 import uk.ac.gda.exafs.ui.views.ExperimentSingleSpectrumView;
 import uk.ac.gda.exafs.ui.views.LinearExperimentView;
-import uk.ac.gda.exafs.ui.views.plot.DataPlotView;
+import uk.ac.gda.exafs.ui.views.plot.ExperimentDataPlotView;
 
 public class ExperimentPerspective implements IPerspectiveFactory {
 
@@ -47,7 +47,7 @@ public class ExperimentPerspective implements IPerspectiveFactory {
 
 		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.60f, EXPERIMENT_CONTROLS_FOLDER_ID);
 		topPlotFolder.addView(DetectorLiveModeView.ID);
-		topPlotFolder.addView(DataPlotView.ID);
+		topPlotFolder.addView(ExperimentDataPlotView.ID);
 		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.6f,TOPPLOT_FOLDER_ID);
 	}
 }
