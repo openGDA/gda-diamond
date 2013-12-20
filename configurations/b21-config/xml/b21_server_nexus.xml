@@ -242,8 +242,8 @@
 	</bean>
 
 	<bean id="scan2elog" class="gda.data.ScanToElogExtender">
-		<property name="logID" value="BLI22" />
-		<property name="groupID" value="BLI22-RUNL" />
+		<property name="logID" value="BLB21" />
+		<property name="groupID" value="BLB21-RUNL" />
 		<!-- <property name="logID" value="DAG" /> <property name="groupID" value="SCAN" /> -->
 		<property name="extractorList">
 			<list>
@@ -264,7 +264,7 @@
 
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
 		<property name="name" value="FileRegistrar" />
-		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/i22-" />
+		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/b21-" />
 		<property name="clientFileAnnouncer" ref="sockpuppet" />
 	</bean>
 
