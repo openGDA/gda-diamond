@@ -1,11 +1,13 @@
 #!/bin/bash
 
 if [ -z $GDA_MODE ] ; then
-  GDA_MODE=dummy
+  export GDA_MODE=dummy
 fi
 
+export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
+
 echo Ensure the Log panel is running...
-gdalog
+$GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/bin/gdalog
 
 echo
 echo Making sure we want to restart GDA servers now...
@@ -82,7 +84,7 @@ if [ "$GDA_MODE" = "live" ]; then
 		echo $KNOWN_HOST $KNOWN_HOST_KEY >> ~/.ssh/known_hosts
 	fi
 	
-	ssh  -i /dls_sw/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/i15ssh.key gda2@i15-control.diamond.ac.uk
+	ssh  -i /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/${BEAMLINE}ssh.key gda2@$BEAMLINE-control.diamond.ac.uk
 	OK=$?
 	
 	# 127 if ssh cannot run command, 0 if ran ok, maybe other values if remote command returns them
@@ -91,11 +93,9 @@ if [ "$GDA_MODE" = "live" ]; then
 	  zenity --title "Error starting GDA Server" --error --text "Something went wrong starting GDA server. Please try logging out and back in again before contacting your GDA representative." 
 	  exit
 	fi
+
 else
-	
-	export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
-	#. $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env gda_servers_output
-	
+
 	GDA_VAR=$(readlink -f $GDA_ROOT/../var)
 	if [ -d $GDA_VAR ]; then
 		export OBJECT_SERVER_STARTUP_FILE=$GDA_VAR/object_server_startup_server_main
@@ -106,8 +106,7 @@ else
 	fi
 	rm -f $OBJECT_SERVER_STARTUP_FILE
 	
-	#. $GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/bin/GDA_StartServers --mode=dummy
-	GDA_StartServers --mode=dummy
+	$GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/bin/GDA_StartServers --mode=dummy
 	
 	# look for the output file which will tell us when the servers have started
 	
@@ -128,7 +127,7 @@ STARTCLIENT=$?
 if [ $STARTCLIENT == 0 ] ; then # 0=Ok, 1=Cancel
   echo Starting GDA RCP Client...
   echo
-  gdaclient &
+  $GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/bin/gdaclient &
   echo
   echo Moving GDA Log Panel...
   wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
