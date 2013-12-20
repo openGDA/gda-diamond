@@ -111,8 +111,9 @@ public class ScanDataPlotter extends ResourceComposite {
 			public void propertyChange(final PropertyChangeEvent evt) {
 				DataNode node = (DataNode) evt.getNewValue();
 				dataTreeViewer.expandToLevel(node.getParent(), AbstractTreeViewer.ALL_LEVELS);
-				dataTreeViewer.update(node, null);
-				addTrace(node);
+				if (node instanceof LineTraceProvider) {
+					addTrace((LineTraceProvider) node, node.getIdentifier());
+				}
 			}
 		});
 
@@ -136,24 +137,22 @@ public class ScanDataPlotter extends ResourceComposite {
 		}
 	}
 
-	private void addTrace(DataNode node) {
-		if (node instanceof LineTraceProvider) {
-			LineTraceProvider lineTraceProvider = (LineTraceProvider) node;
-			ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier());
-			if (trace == null) {
-				trace = plottingSystem.createLineTrace(node.getIdentifier());
-				TraceStyleDetails traceDetails = lineTraceProvider.getTraceStyleDetails();
-				if (traceDetails.getColorHexValue() != null) {
-					trace.setTraceColor(getTraceColor(traceDetails.getColorHexValue()));
-				}
-				trace.setTraceType(traceDetails.getTraceType());
-				trace.setPointSize(traceDetails.getPointSize());
-				trace.setPointStyle(traceDetails.getPointStyle());
-				plottingSystem.addTrace(trace);
+	private void addTrace(LineTraceProvider node, String identifier) {
+		LineTraceProvider lineTraceProvider = node;
+		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(identifier);
+		if (trace == null) {
+			trace = plottingSystem.createLineTrace(identifier);
+			TraceStyleDetails traceDetails = lineTraceProvider.getTraceStyleDetails();
+			if (traceDetails.getColorHexValue() != null) {
+				trace.setTraceColor(getTraceColor(traceDetails.getColorHexValue()));
 			}
-			trace.setData(lineTraceProvider.getXAxisDataset(), lineTraceProvider.getYAxisDataset());
-			plottingSystem.repaint();
+			trace.setTraceType(traceDetails.getTraceType());
+			trace.setPointSize(traceDetails.getPointSize());
+			trace.setPointStyle(traceDetails.getPointStyle());
+			plottingSystem.addTrace(trace);
 		}
+		trace.setData(lineTraceProvider.getXAxisDataset(), lineTraceProvider.getYAxisDataset());
+		plottingSystem.repaint();
 	}
 
 	private final Map<String, Color> nodeColors = new HashMap<String, Color>();
@@ -173,7 +172,9 @@ public class ScanDataPlotter extends ResourceComposite {
 		@Override
 		public IObservable createObservable(Object target) {
 			if (target instanceof LineTraceProvider) {
-				dataTreeViewer.updateCheckSelection(target, true);
+				if (((LineTraceProvider) target).isPlotByDefault()) {
+					dataTreeViewer.updateCheckSelection(target, true);
+				}
 			}
 			if (target instanceof DataNode) {
 				return (((DataNode) target).getChildren());
@@ -224,15 +225,17 @@ public class ScanDataPlotter extends ResourceComposite {
 	}
 
 	private void updateDataItemNode(DataNode dataItemNode, boolean isAdded) {
-		if (isAdded) {
-			addTrace(dataItemNode);
-		} else {
-			removeTrace(dataItemNode);
+		if (dataItemNode instanceof LineTraceProvider) {
+			if (isAdded) {
+				addTrace((LineTraceProvider) dataItemNode, dataItemNode.getIdentifier());
+			} else {
+				removeTrace(dataItemNode.getIdentifier());
+			}
 		}
 	}
 
-	private void removeTrace(DataNode node) {
-		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier());
+	private void removeTrace(String identifier) {
+		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(identifier);
 		if (trace != null) {
 			plottingSystem.removeTrace(trace);
 		}
