@@ -14,7 +14,7 @@ from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import Sum
 from gda.analysis.io import PilatusTiffLoader
 
 print "To create pil1 as the base detector for Pilatus 100K in EH1"
-pilatus1.getFileWriter().setReturnExpectedFullFileName(False);
+
 pil1 = ADPilatusPseudoDeviceClass("pil1", "Area Detector", "pilatus1");
 pil1.setAlive(False);
 #pil1.addShutter('fs');

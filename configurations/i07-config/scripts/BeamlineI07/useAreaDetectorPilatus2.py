@@ -16,7 +16,6 @@ from gda.analysis.io import PilatusTiffLoader
 
 
 print "To create pil2 as the base detector for Pilatus 2M"
-pilatus2.getFileWriter().setReturnExpectedFullFileName(False);
 
 pil2 = ADPilatusPseudoDeviceClass("pil2", "Area Detector", "pilatus2");
 pil2.setAlive(False);

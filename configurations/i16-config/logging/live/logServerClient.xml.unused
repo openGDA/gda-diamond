@@ -23,7 +23,7 @@
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<File>${gda.logs.dir}/gda_client.log</File>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>${gda.logs.dir}/gda_client.%d{yyyy-MM-dd}.log.zip
+			<FileNamePattern>${gda.logs.dir}/gda_client.%d{yyyy-MM-dd}.log.gz
 			</FileNamePattern>
 		</rollingPolicy>
 		<layout class="ch.qos.logback.classic.PatternLayout">
