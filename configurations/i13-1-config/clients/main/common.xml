@@ -53,6 +53,13 @@
 		<property name="service" ref="batonStateProvider" />
 	</bean>
 
+	<bean id="helpHandler" class="uk.ac.gda.client.HelpHandlerImpl">
+	<property name="filePath" value="${gda.var}/helpHandler.txt"/>
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.client.HelpHandler" />
+		<property name="service" ref="helpHandler" />
+	</bean>
 	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
 		<property name="viewTitle" value="Status" />
 		<property name="compositeFactories">

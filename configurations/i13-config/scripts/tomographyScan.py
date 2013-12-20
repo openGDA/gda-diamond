@@ -418,18 +418,17 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         multiScanObj = MultiScanRunner(multiScanItems)
         #must pass fist scan to be run
         addFlyScanNXTomoSubentry(multiScanItems[0].scan, tomography_flyscan_det.name, tomography_flyscan_theta.name)
-        multiScanObj.run()
+        multiScanObj.runScan()
         time.sleep(2)
-        #turn camera back on
-        tomography_flyscan_flat_dark_det.name = savename
-        if setupForAlignment:
-            tomodet.setupForAlignment()
         updateProgress(100, "Scan complete")
         return multiScanObj;
     except :
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Error in tomoFlyScanScan", exceptionType, exception, traceback, False)
+        #turn camera back on
         tomography_flyscan_flat_dark_det.name = savename
+        if setupForAlignment:
+            tomodet.setupForAlignment()
 
 
 

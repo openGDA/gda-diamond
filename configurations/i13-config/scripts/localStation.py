@@ -183,10 +183,10 @@ try:
 		exceptionType, exception, traceback = sys.exc_info()
 		handle_messages.log(None, "Error connecting to autocollimator", exceptionType, exception, traceback, False)
 
-	#setup trigger for pink beam
+	import alignmentGui
+	tomodet = alignmentGui.TomoDet()
 	if isLive():
-		import alignmentGui
-		tomodet = alignmentGui.TomoDet()
+		#setup trigger for pink beam
 		pco1_hw_tif.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
 		pco1_hw_hdf.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
 	
@@ -196,7 +196,9 @@ try:
 	tomography_additional_scannables=[] # [p2r_force, p2r_y]
 	#for fast flyscans
 	if isLive():
-		flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="t:\\i13\\data"	
+		flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="t:\\i13\\data"
+	else:
+		flyScanDetector.readOutTime=.03 #Manta_G-125B camera	
 #		flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="c:\\data"	
 
 	from gda.device.detector.areadetector.v17 import ADDriverPco
@@ -218,8 +220,8 @@ try:
 	bl.setName("bl")
 
 
-
-	run("localStationUser.py")
+	if isLive():
+		run("localStationUser.py")
 
 except:
 	exceptionType, exception, traceback = sys.exc_info()

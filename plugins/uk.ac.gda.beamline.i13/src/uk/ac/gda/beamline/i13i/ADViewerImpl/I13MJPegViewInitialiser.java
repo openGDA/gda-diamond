@@ -55,7 +55,7 @@ import uk.ac.gda.epics.adviewer.views.MJPegView;
 public class I13MJPegViewInitialiser  {
 
 	I13ADControllerImpl adControllerImpl;
-	boolean changeRotationAxisX, changeImageMarker, moveOnClickEnabled;
+	boolean changeRotationAxisX, changeImageMarker, vertMoveOnClickEnabled, horzMoveOnClickEnabled;
 	private RectangleFigure rotationAxisFigure;
 
 	RectangleFigure imageMarkerFigureX, imageMarkerFigureY;
@@ -178,7 +178,7 @@ public class I13MJPegViewInitialiser  {
 					changeImageMarker = false;
 					final Cursor cursorWait = new Cursor(Display.getCurrent(), SWT.CURSOR_ARROW);
 					Display.getDefault().getActiveShell().setCursor(cursorWait);
-				} else if (moveOnClickEnabled) {
+				} else if (vertMoveOnClickEnabled || horzMoveOnClickEnabled) {
 					try {
 						final int[] clickCoordinates = event.getImagePosition();
 						final RealVector actualClickPoint = createVectorOf(clickCoordinates[0], clickCoordinates[1]);
@@ -201,16 +201,21 @@ public class I13MJPegViewInitialiser  {
 
 						DisplayScaleProvider scale = adControllerImpl.getCameraScaleProvider();
 
-						double moveInX = pixelOffset.getEntry(0) / scale.getPixelsPerMMInX();
-						double moveInY = pixelOffset.getEntry(1) / scale.getPixelsPerMMInY();
+						if( vertMoveOnClickEnabled){
+							double moveInY = pixelOffset.getEntry(1) / scale.getPixelsPerMMInY();
 
-						ScannableMotionUnits sampleCentringXMotor = adControllerImpl.getSampleCentringXMotor();
-						sampleCentringXMotor.asynchronousMoveTo(ScannableUtils
-								.getCurrentPositionArray(sampleCentringXMotor)[0] + moveInX);
-						ScannableMotionUnits sampleCentringYMotor = adControllerImpl.getSampleCentringYMotor();
-						sampleCentringYMotor.asynchronousMoveTo(ScannableUtils
-								.getCurrentPositionArray(sampleCentringYMotor)[0] + moveInY);
-
+							ScannableMotionUnits sampleCentringYMotor = adControllerImpl.getSampleCentringYMotor();
+							sampleCentringYMotor.asynchronousMoveTo(ScannableUtils
+									.getCurrentPositionArray(sampleCentringYMotor)[0] + moveInY);
+							
+						}
+						if( horzMoveOnClickEnabled){
+							double moveInX = pixelOffset.getEntry(0) / scale.getPixelsPerMMInX();
+	
+							ScannableMotionUnits sampleCentringXMotor = adControllerImpl.getSampleCentringXMotor();
+							sampleCentringXMotor.asynchronousMoveTo(ScannableUtils
+									.getCurrentPositionArray(sampleCentringXMotor)[0] + moveInX);
+						}
 					} catch (Exception e) {
 						MJPegView.reportErrorToUserAndLog("Error processing imageFinished", e);
 					}
@@ -511,7 +516,10 @@ public class I13MJPegViewInitialiser  {
 		
 	}
 
-	public void setMoveOnClick(boolean selection) {
-		moveOnClickEnabled = selection;
+	public void setVertMoveOnClick(boolean selection) {
+		vertMoveOnClickEnabled = selection;
+	}
+	public void setHorzMoveOnClick(boolean selection) {
+		horzMoveOnClickEnabled = selection;
 	}
 }

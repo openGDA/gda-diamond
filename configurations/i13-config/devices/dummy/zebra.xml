@@ -18,12 +18,33 @@
 			</map>
 		</constructor-arg>
 	</bean>
+	
+	<bean id="flyScanFlatDarkCollectionStrategy" class="uk.ac.gda.test.helpers.springmock.MockitoFactoryBean">
+		<constructor-arg name="classToBeMocked"
+			value="gda.device.detector.nxdetector.NXCollectionStrategyPlugin" />
+		<constructor-arg name="properties">
+			<map>
+				<entry key="getName" value="flyScanFlatDarkCollectionStrategy" />
+			</map>
+		</constructor-arg>
+	</bean>
+	
+
 	<bean id="pco1_hdf5_filewriter" class="uk.ac.gda.test.helpers.springmock.MockitoFactoryBean">
 		<constructor-arg name="classToBeMocked"
 			value="gda.device.detector.nxdetector.NXPlugin" />
 		<constructor-arg name="properties">
 			<map>
 				<entry key="getName" value="pco1_hdf5_filewriter" />
+			</map>
+		</constructor-arg>
+	</bean>
+	<bean id="pco1_tif_writer" class="uk.ac.gda.test.helpers.springmock.MockitoFactoryBean">
+		<constructor-arg name="classToBeMocked"
+			value="gda.device.detector.nxdetector.NXPlugin" />
+		<constructor-arg name="properties">
+			<map>
+				<entry key="getName" value="pco1_tif_writer" />
 			</map>
 		</constructor-arg>
 	</bean>

@@ -103,7 +103,6 @@
 		<config>devices/maxipix.xml</config>
 		<config>devices/epics/mll.xml</config>
 		<config>devices/mll.xml</config>
-		<config>devices/dummy/moveable_camera.xml</config>
 		<config>devices/dummy/optics_hutch4_shutter.xml</config>
 		<config>devices/epics/optics_hutch4_shutter.xml</config>
 		<config>devices/optics_hutch4_shutter.xml</config>
@@ -145,6 +144,7 @@
 		<config>devices/epics/float2_cam_ad.xml</config>
 		<config>devices/epics/float3_cam_ad.xml</config>
 		<config>devices/float3_cam.xml</config>
+		<config>devices/dummy/float1_cam_ad.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

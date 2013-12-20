@@ -16,7 +16,7 @@
 		  <constructor-arg value="0.0"/>
 		</bean>
 		</property>
-		<property name="inputNames" value="ix"/>
+		<property name="inputNames" value="ionc_i"/>
 	</bean>
 
 </beans>

@@ -8,47 +8,20 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean id="float2_cam_base" class="gda.spring.V17ADBaseFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:CAM:" />
+	<bean id="float2_pluginBase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
+	<property name="dims" value="1000,1000"/>
+	<property name="datatype" value="UINT32"/>
 	</bean>
+	<bean id="float2_cam_base" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator"/>
 
-	<bean id="float2_arr" class="gda.spring.V17NDArrayFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:ARR:" />
-	</bean>
-
-	<bean id="float2_stat" class="gda.spring.V17NDStatsFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:STAT:" />
-	</bean>
-
-	<bean id="float2_roi" class="gda.spring.V17NDROIFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:ROI:" />
-	</bean>
-
-	<bean id="float2_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:FFMPEG:" />
+	<bean id="float2_arr" class="gda.device.detector.areadetector.v17.impl.NDArraySimulator">
+	<property name="pluginBase" ref="float2_pluginBase"/>
 	</bean>
 
 
-	<bean id="float2_proc" class="gda.spring.V17NDProcessFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:PROC:" />
+	<bean id="float2_stat" class="gda.device.detector.areadetector.v17.impl.NDStatsSimulator">
+	<property name="pluginBase" ref="float2_pluginBase"/>
 	</bean>
-
-
-<!-- 	<bean id="_float2_cam_ad" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="float2_cam_base" />
-		<property name="ndStats" ref="float2_stat" />
-		<property name="ndArray" ref="float2_arr" />
-		<property name="collectionStrategy">
-			<bean class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-				<constructor-arg ref="float2_cam_base" />
-				<constructor-arg value=".0" />
-			</bean>
-		</property>
-		<property name="computeStats" value="false" />
-		<property name="computeCentroid" value="false" />
-		<property name="readArray" value="true" />
-		
-	</bean> -->
 
 	<bean id="float2_cam_nx_array"
 		class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">

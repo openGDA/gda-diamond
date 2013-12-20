@@ -184,5 +184,4 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 		this.stagesCompositeFactory = stagesCompositeFactory;
 	}
 
-
 }
