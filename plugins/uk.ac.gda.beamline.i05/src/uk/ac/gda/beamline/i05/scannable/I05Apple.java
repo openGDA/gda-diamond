@@ -28,6 +28,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+
 public class I05Apple extends ScannableMotionBase {
 	
 	public final static String VERTICAL = "LV";
@@ -43,7 +45,10 @@ public class I05Apple extends ScannableMotionBase {
 	DeviceException threadException = null;
 	
 	TrajectorySolver solver;
-
+	
+	PolynomialFunction horizontalGapPolynomial = new PolynomialFunction(new double[] {0, 1});
+	PolynomialFunction verticalGapPolynomial = new PolynomialFunction(new double[] {0, 1});
+	
 	class TrajectorySolver {
 		Rectangle2D[] rectangles, smallrectanges;
 		double smallvalue = 1e-10;
@@ -172,21 +177,17 @@ public class I05Apple extends ScannableMotionBase {
 		throw new DeviceException("found undefined id setting");
 	}
 	
-	private double g(double x, double h, double j, double k, double l, double m) {
-		return h * Math.log((x-j)*l) + k + m *x;
-	}
-	
 	private double getGapFor(double energy, String polarisation) throws DeviceException {
 		if (HORIZONTAL.equalsIgnoreCase(polarisation))
-			return g(energy,18.8494,-1.05604,-53.5488,6.34718,0.0373835);
+			return horizontalGapPolynomial.value(energy);
 		if (VERTICAL.equalsIgnoreCase(polarisation)) {
-			return g(energy,7.39726,12.8912,-18.9967,27.2954,0.0553008);
+			return verticalGapPolynomial.value(energy);
 		}
-//		if (CIRCULAR_RIGHT.equalsIgnoreCase(polarisation))
-//			return phase;
-//		if (CIRCULAR_LEFT.equalsIgnoreCase(polarisation))
-//			return phase * -1;
-		throw new DeviceException("unknown polarisation demanded");
+		if (CIRCULAR_RIGHT.equalsIgnoreCase(polarisation))
+			return 70*energy/200; // FIXME -- these are fake value! take out immediately
+		if (CIRCULAR_LEFT.equalsIgnoreCase(polarisation))
+			return -70*energy/200; // FIXME -- these are fake value! take out immediately
+		throw new DeviceException("unknown or unconfigured polarisation demanded");
 	}
 	
 	public void combinedMove(double newenergy, String newpol) throws DeviceException {
@@ -328,5 +329,21 @@ public class I05Apple extends ScannableMotionBase {
 		if (solver == null)
 			return null;
 		return solver.rectangles;
+	}
+
+	public PolynomialFunction getHorizontalGapPolynomial() {
+		return horizontalGapPolynomial;
+	}
+
+	public void setHorizontalGapPolynomial(PolynomialFunction horizontalGapPolynomial) {
+		this.horizontalGapPolynomial = horizontalGapPolynomial;
+	}
+
+	public PolynomialFunction getVerticalGapPolynomial() {
+		return verticalGapPolynomial;
+	}
+
+	public void setVerticalGapPolynomial(PolynomialFunction verticalGapPolynomial) {
+		this.verticalGapPolynomial = verticalGapPolynomial;
 	}
 }

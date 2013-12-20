@@ -21,7 +21,8 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.diamond.scisoft.analysis.plotserver;bundle-version="1.0.0",
  org.dawb.hdf5;bundle-version="1.2.0",
  ncsa.hdf,
- org.apache.commons.lang;bundle-version="2.6.0"
+ org.apache.commons.lang;bundle-version="2.6.0",
+ org.apache.commons.math3;bundle-version="3.2.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: uk.ac.gda.beamline.i05;uses:="org.eclipse.ui,org.eclipse.ui.plugin,org.osgi.framework",
