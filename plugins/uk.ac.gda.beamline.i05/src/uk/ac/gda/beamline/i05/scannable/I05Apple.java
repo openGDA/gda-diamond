@@ -183,10 +183,10 @@ public class I05Apple extends ScannableMotionBase {
 		if (VERTICAL.equalsIgnoreCase(polarisation)) {
 			return verticalGapPolynomial.value(energy);
 		}
-		if (CIRCULAR_RIGHT.equalsIgnoreCase(polarisation))
-			return 70*energy/200; // FIXME -- these are fake value! take out immediately
-		if (CIRCULAR_LEFT.equalsIgnoreCase(polarisation))
-			return -70*energy/200; // FIXME -- these are fake value! take out immediately
+//		if (CIRCULAR_RIGHT.equalsIgnoreCase(polarisation))
+//			return 70*energy/200; // FIXME -- these are fake value! take out immediately
+//		if (CIRCULAR_LEFT.equalsIgnoreCase(polarisation))
+//			return -70*energy/200; // FIXME -- these are fake value! take out immediately
 		throw new DeviceException("unknown or unconfigured polarisation demanded");
 	}
 	
