@@ -139,10 +139,15 @@
 			value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:OperationMode" />
 		<property name="burst" value="False" />
 	</bean>
+	
+	<bean id="excalibur_dacscanmode" class="uk.ac.gda.devices.ExcaliburDacScanCollectionStrategy">
+		<constructor-arg ref="excalibur_config_base" />
+		<constructor-arg value="BL13J-EA-EXCBR-01" />
+	</bean>
 
 	<bean id="excalibur_config_dacscan" class="gda.device.detector.NXDetector">
 		<property name="name" value="excalibur_config_dacscan" />
-		<property name="collectionStrategy" ref="excalibur_normalmode" />
+		<property name="collectionStrategy" ref="excalibur_dacscanmode" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="excalibur_config_phdf5_filewriter" />
@@ -181,6 +186,29 @@
 			</list>
 		</property>
 	</bean>
+
+
+	<bean id="excalibur_tfgmode" class="gda.device.detector.addetector.triggering.TFG2NXCollectionStrategy">
+		<constructor-arg ref="excalibur_config_base" />
+		<constructor-arg value="0.0" />
+		<constructor-arg ref="tfg" />
+		
+	</bean>
+	
+	<bean id="excalibur_config_tfg" class="gda.device.detector.NXDetector">
+		<property name="name" value="excalibur_config_tfg" />
+		<property name="collectionStrategy" ref="excalibur_tfgmode" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="excalibur_config_phdf5_filewriter" />
+				<bean
+					class="gda.device.detector.nxdetector.plugin.NXDetectorMetadataPlugin">
+					<constructor-arg ref="excalibur_config_nxs_tree_provider" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 
 	<bean id="excaliburDev" class="gda.epics.CachedLazyPVFactory">
 	<constructor-arg value="BL13J-EA-EXCBR-01:"/>

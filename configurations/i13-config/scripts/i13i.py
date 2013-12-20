@@ -94,5 +94,8 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
 11. To control whether the fast shutter is to be opened only during camera exposure see the comment on the setting for tomography_shutter in 
     /dls_sw/i13/software/gda/config/scripts/live_jythonNamespaceMapping
     
+12. To use the fast shutter in a normal repscan of pco1_hw_hdf ( not a tomography scan) use the command:
+    pco1_hw_hdf.collectionStrategy.useShutterPV=True
+    
     
 """

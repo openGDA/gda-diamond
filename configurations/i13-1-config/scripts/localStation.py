@@ -34,6 +34,7 @@ class ExperimentShutterEnumPositioner(ScannableBase):
 def ls_scannables():
 	ls_names(Scannable)
 
+scansReturnToOriginalPositions=1
 
 from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget
 alias("createPVScannable")
@@ -68,10 +69,16 @@ showtime=showtimeClass('showtime')
 inctime=showincrementaltimeClass('inctime')
 actualTime=actualTimeClass("actualTime")
 
-from gdascripts.metadata.metadata_commands import setTitle, getTitle
+from gdascripts.metadata.metadata_commands import setTitle, meta_add, meta_ll, meta_ls, meta_rm
 alias("setTitle")
-alias("getTitle")
+alias("meta_add")
+alias("meta_ll")
+alias("meta_ls")
+alias("meta_rm")
+from gda.data.scan.datawriter import NexusDataWriter
+LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 
+import help_cmds
 if not LocalProperties.check("gda.dummy.mode"):
 	try:
 		import filter_array
@@ -120,21 +127,22 @@ t1_sxy_plotter.setZ_colName("total")
 
 
 
-#make scannablegroup for driving sample stage
 from gda.device.scannable.scannablegroup import ScannableGroup
-t1_sxy = ScannableGroup()
-t1_sxy.addGroupMember(t1_sx)
-t1_sxy.addGroupMember(t1_sy)
-t1_sxy.addGroupMember(ix)
-t1_sxy.setName("t1_sxy")
-t1_sxy.configure()
+#now done in sample_stage_t1.xml and diff.xml
+#make scannablegroup for driving sample stage
+#t1_sxy = ScannableGroup()
+#t1_sxy.addGroupMember(t1_sx)
+#t1_sxy.addGroupMember(t1_sy)
+#t1_sxy.addGroupMember(ix)
+#t1_sxy.setName("t1_sxy")
+#t1_sxy.configure()
 
-diff_xy = ScannableGroup()
-diff_xy.addGroupMember(diff_x)
-diff_xy.addGroupMember(diff_y)
-diff_xy.addGroupMember(ix)
-diff_xy.setName("diff_xy")
-diff_xy.configure()
+#diff_xy = ScannableGroup()
+#diff_xy.addGroupMember(diff_x)
+#diff_xy.addGroupMember(diff_y)
+#diff_xy.addGroupMember(ix)
+#diff_xy.setName("diff_xy")
+#diff_xy.configure()
 
 
 dummy_xy = ScannableGroup()
@@ -199,7 +207,7 @@ import integrate_mpx_scan
 #from autocollimator_script import  * #@UnusedWildImport
 
 #run("i13diffcalc")
-del diff, delta, gamma, eta, chi, phi
+#del diff, delta, gamma, eta, chi, phi
 #execfile("/dls_sw/i13-1/software/diffcalc/example/startup/sixcircle_dummy.py")
 #execfile("/dls_sw/i13-1/software/diffcalc/example/startup/sixcircle.py")
 
@@ -234,26 +242,62 @@ if not LocalProperties.check("gda.dummy.mode"):
 	import average
 	d4_i_avg = average.Average(d4_i,numPoints=10, timeBetweenReadings=0.1)
 
+def eh_shtr_control():
+	if eh_shtr()=="Open":
+		pos eh_shtr "Close"
+	else:
+		pos eh_shtr "Reset"
+		time.sleep(3)
+		pos eh_shtr "Open"
+
 #mtscripts have been commented out of JythonServerFacade as this is used temprarily for moveable equipment
 #import mtscripts.moveable.me07m
 #from mtscripts.moveable.me07m import mepiezo1x, mepiezo1y, eembimorph, dummy_bimorph
 
-import dataset_provider
+#import dataset_provider
 
-from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
-from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
-from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
-from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
+#from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
+#from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
+#from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
+#from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
 
-detDSProvider = dataset_provider.NXDetectorDataWithFilepathForSrsDatasetProvider(pcoEdge,fileLoadTimout=5.)
+#detDSProvider = dataset_provider.NXDetectorDataWithFilepathForSrsDatasetProvider(pcoEdge,fileLoadTimout=5.)
 
-peak2d = DetectorDataProcessorWithRoi('peak2d', detDSProvider, [TwodGaussianPeak()])
-max2d = DetectorDataProcessorWithRoi('max2d', detDSProvider, [SumMaxPositionAndValue()])
-intensity2d = DetectorDataProcessorWithRoi('intensity2d', detDSProvider, [PixelIntensity()])
+#peak2d = DetectorDataProcessorWithRoi('peak2d', detDSProvider, [TwodGaussianPeak()])
+#max2d = DetectorDataProcessorWithRoi('max2d', detDSProvider, [SumMaxPositionAndValue()])
+#intensity2d = DetectorDataProcessorWithRoi('intensity2d', detDSProvider, [PixelIntensity()])
+
+###############################################################################
+###                   Configure scan data processing                        ###
+###############################################################################
+#from analysis_FindScanPeak import FindScanPeak
+#from analysis_FindScanCentroid import findCentroidPoint, FindScanCentroid, readSRSDataFile
+#print "Importing analysis commands (peak, centroid & peak optimisation)"
+#peak=FindScanPeak #@UndefinedVariable
+#cen=FindScanCentroid #@UndefinedVariable
+
+#from gdascripts.scan import gdascans
+#from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
+#import gdascripts
+#gdascripts.scan.concurrentScanWrapper.PRINTTIME = True
+#gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
+#scancn=gdascans.Scancn([scan_processor])
+#alias('scancn');print scancn.__doc__.split('\n')[2]
+#lup = dscan # line up apparently!
+#alias('lup')
+
+#scan_processor.rootNamespaceDict=globals()
+#scan_processor.duplicate_names = {'maxval':'maxpos', 'minval':'minpos'}
+#scan_processor.processors.append(Lcen())
+#scan_processor.processors.append(Rcen())
+#scan_processor.processors.append(GaussianEdge(name='spedge')) # edge already maps to a function edgeDetectRobust
+
 
 #dacscan is used by excalibur
 from dac_scan import dacscan
 vararg_alias("dacscan")
+
+import excalibur_config
 #from gdascripts.bimorph import bimorph
 
 #from gdascripts.pd.dummy_pds import DummyPD
@@ -278,3 +322,6 @@ vararg_alias("dacscan")
 #slitscanner = SlitScanner()
 #slitscanner.setScanAborter(scanAborter)
 #bm_topup = TopupCountdown("bm_topup")
+
+
+run("localStationUser.py")

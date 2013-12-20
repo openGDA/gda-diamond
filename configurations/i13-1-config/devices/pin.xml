@@ -21,7 +21,15 @@
 		<property name="userUnits" value="um"/>
 	</bean>
 	
-	
+	<bean id="pin" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="pin_x" />
+				<ref bean="pin_y" />
+				<ref bean="pin_z" />
+			</list>
+		</property>
+	</bean>
 	
 </beans>
 

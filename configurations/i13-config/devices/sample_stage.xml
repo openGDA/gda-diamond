@@ -38,6 +38,8 @@
 		<property name="motor" ref="ss1_samplez_motor" />
 	</bean>
 
+
+
 <!-- At rot=0 ss1_samplex points along the DLS x direction and ss1_samplez points in the direction to DLS z
 
 The rotation is anticlockwise .

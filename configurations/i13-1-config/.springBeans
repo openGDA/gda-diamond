@@ -145,6 +145,20 @@
 		<config>devices/epics/float3_cam_ad.xml</config>
 		<config>devices/float3_cam.xml</config>
 		<config>devices/dummy/float1_cam_ad.xml</config>
+		<config>devices/dummy/float2_cam_ad.xml</config>
+		<config>devices/dummy/float3_cam_ad.xml</config>
+		<config>clients/main/live/d1.xml</config>
+		<config>clients/main/live/d2.xml</config>
+		<config>clients/main/live/d3.xml</config>
+		<config>clients/main/live/d4.xml</config>
+		<config>devices/epics/excalibur_shared.xml</config>
+		<config>devices/epics/float1_cam_ad.xml</config>
+		<config>devices/float1_cam.xml</config>
+		<config>clients/main/live/float1.xml</config>
+		<config>devices/float2_cam.xml</config>
+		<config>clients/main/live/float2.xml</config>
+		<config>clients/main/live/float3.xml</config>
+		<config>devices/live/tfg2.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

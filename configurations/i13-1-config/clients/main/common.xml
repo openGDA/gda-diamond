@@ -60,6 +60,11 @@
 		<property name="class" value="uk.ac.gda.client.HelpHandler" />
 		<property name="service" ref="helpHandler" />
 	</bean>
+	<bean id="expt_sht_stat" class="gda.device.scannable.EpicsScannable">
+		<property name="hasUnits" value="False" />
+		<property name="getAsString" value="True" />
+		<property name="pvName" value="BL13J-PS-SHTR-02:STA" />
+	</bean>	
 	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
 		<property name="viewTitle" value="Status" />
 		<property name="compositeFactories">
@@ -103,6 +108,27 @@
 								<property name="label" value="ID Gap" />
 								<property name="units" value="mm" />
 								<property name="decimalPlaces" value="3" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Hutch Shutter" />
+					<property name="columns" value="1" />
+					<property name="compositeFactories">
+						<list>
+							<bean
+								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="expt_sht_stat" />
+								<property name="label" value="State" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.RunCommandCompositeFactory">
+								<property name="command" value="eh_shtr_control()" />
+								<property name="commandRunner" ref="commandRunner" />
+								<property name="label" value="Open/Close" />
+								<property name="tooltip"
+									value="Opens or closes the experiment hutch shutter" />
+								<property name="jobTitle" value="Experiment Hutch Open/Close" />
 							</bean>
 						</list>
 					</property>

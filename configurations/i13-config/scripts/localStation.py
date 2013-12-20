@@ -114,13 +114,13 @@ try:
 			lensX4Pink="X4 CWD 200"
 			lensX10="X10 2mm x 1mm"
 			
-			caput("BL13I-EA-TURR-01:DEMAND.ZRST",lensX4 )
-			caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", lensX4)
+			caput("BL13I-EA-TURR-01:DEMAND.ZRST",lensX10 )
+			caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", lensX10)
 		
-			caput("BL13I-EA-TURR-01:DEMAND.ONST", lensX2)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.ONST", lensX2)
-			caput("BL13I-EA-TURR-01:DEMAND.TWST", lensX10)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", lensX10)
+			caput("BL13I-EA-TURR-01:DEMAND.ONST", lensX4)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.ONST", lensX4)
+			caput("BL13I-EA-TURR-01:DEMAND.TWST", lensX2)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", lensX2)
 			caput("BL13I-EA-TURR-01:DEMAND.THST", "4")
 			caput("BL13I-EA-TURR-01:CURRENTPOS.THST", "4")
 			caput("BL13I-EA-TURR-01:DEMAND.FRST", "5")
@@ -212,8 +212,12 @@ try:
 #	pco1_hw_hdf.collectionStrategy.timeStamp=0
 
 	import raster_scan
-	LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/raw")
-	LocalProperties.set("gda.data", "/dls/$instrument$/data/$year$/$visit$/raw")
+	if isLive():
+		LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/raw")
+		LocalProperties.set("gda.data", "/dls/$instrument$/data/$year$/$visit$/raw")
+	else:
+		LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/cs-scratch/i13i-dummy")
+		LocalProperties.set("gda.data", "/dls/cs-scratch/i13i-dummy")
 
 	import beamlineEnergy
 	bl = beamlineEnergy.beamLineEnergy()

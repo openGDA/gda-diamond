@@ -54,10 +54,8 @@
 		<config>clients/main/live/cameraview.xml</config>
 		<config>devices/cameraViewPartScannables.xml</config>
 		<config>clients/main/dummy/client.xml</config>
-		<config>clients/main/epics_sim/client.xml</config>
 		<config>clients/main/live/client.xml</config>
 		<config>clients/main/live_localhost/client.xml</config>
-		<config>clients/main/zebra/client.xml</config>
 		<config>clients/main/commandQueueProcessor.xml</config>
 		<config>servers/main/commandQueueProcessor.xml</config>
 		<config>clients/main/common.xml</config>
@@ -106,7 +104,6 @@
 		<config>devices/zebra/pco1_ndplugins.xml</config>
 		<config>devices/dummy/pco1.xml</config>
 		<config>devices/epics/pco1.xml</config>
-		<config>devices/epics_sim/pco1.xml</config>
 		<config>devices/pco1.xml</config>
 		<config>devices/zebra/pco1.xml</config>
 		<config>devices/dummy/robot_motors.xml</config>
@@ -138,6 +135,7 @@
 		<config>clients/main/d3.xml</config>
 		<config>clients/main/d4.xml</config>
 		<config>clients/main/d5.xml</config>
+		<config>devices/zebra_test.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

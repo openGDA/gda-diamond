@@ -22,6 +22,37 @@
 	</bean>
 	
 	
+	<bean id="diff_ix" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="0.0"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="diff_ix"/>
+	</bean>
+	
+
+		
+	<bean id="diff_xy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="diff_x" />
+				<ref bean="diff_y" />
+				<ref bean="diff_ix" />
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="diff" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="diff_x" />
+				<ref bean="diff_y" />
+				<ref bean="diff_z" />
+				<ref bean="diff_xy" />
+			</list>
+		</property>
+	</bean>	
 	
 </beans>
 

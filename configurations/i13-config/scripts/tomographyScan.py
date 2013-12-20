@@ -424,11 +424,11 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         return multiScanObj;
     except :
         exceptionType, exception, traceback = sys.exc_info()
-        handle_messages.log(None, "Error in tomoFlyScanScan", exceptionType, exception, traceback, False)
         #turn camera back on
         tomography_flyscan_flat_dark_det.name = savename
         if setupForAlignment:
             tomodet.setupForAlignment()
+        handle_messages.log(None, "Error in tomoFlyScanScan", exceptionType, exception, traceback, True)
 
 
 
@@ -614,7 +614,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         return scanObject;
     except :
         exceptionType, exception, traceback = sys.exc_info()
-        handle_messages.log(None, "Error in tomoScan", exceptionType, exception, traceback, False)
+        handle_messages.log(None, "Error in tomoScan", exceptionType, exception, traceback, True)
 
 
 from gda.commandqueue import JythonScriptProgressProvider

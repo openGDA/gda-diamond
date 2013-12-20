@@ -15,19 +15,20 @@
 		<property name="local" value="true" />
 	</bean>
 	
-	<bean id="zebraTestScannableMotor" class="gda.device.scannable.ScannableMotor">
+<!-- 	<bean id="zebraTestScannableMotor" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="zebraTestMotor" />
 	</bean>
-		
+ -->		
 	<bean id="zebraTestContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
 	<property name="zebra" ref="zebraTest"/>
 	<property name="mode" value="1"/>
-	<property name="scannableMotor" ref="zebraTestScannableMotor"/>
+<!-- 	<property name="scannableMotor" ref="zebraTestScannableMotor"/>
 	<property name="zebraMotorInfoProvider" ref="zebraTestZebraScannableMotor"/>
-	</bean>
+ -->	</bean>
 	<bean id="zebraTestZebraScannableMotor" class="gda.device.zebra.ZebraScannableMotor">
 		<property name="motor" ref="zebraTestMotor" />
 		<property name="zebraConstantVelocityMoveController" ref="zebraTestContinuousMoveController"/>
+		<property name="scurveTimeToVelocity" value=".5"/>
 	</bean>	
 	
 	

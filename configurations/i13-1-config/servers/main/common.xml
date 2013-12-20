@@ -14,7 +14,9 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
-
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
+		<property name="name" value="metashop"/>
+	</bean>
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
 		<property name="metadataEntries">
 			<list>
@@ -227,8 +229,8 @@
 	<import resource="../../devices/d3.xml" />
 
 
-	<import resource="../../devices/diffractometer.xml" />
-	<import resource="../../devices/robots.xml" />
+<!-- 	<import resource="../../devices/diffractometer.xml" />
+ -->	<import resource="../../devices/robots.xml" />
 
 	<import resource="../../devices/optics_hutch4_shutter.xml" />
 
@@ -302,14 +304,14 @@
 	<!-- See gda.rcp.views.dashboard.SimpleScannableObject.DASHBOARD_OBSERVER -->
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 		
-    <bean class="uk.ac.gda.beans.BeansFactory">
+<!--     <bean class="uk.ac.gda.beans.BeansFactory">
 	    <property name="classList">
 	        <util:list>
 	           <value>uk.ac.gda.beans.vortex.VortexParameters</value>
 	        </util:list>
 	    </property>
 	</bean>		
-	
+ -->	
 	<!-- <import resource="../../devices/mll.xml"/> -->
 		
 	<import resource="jythonServerFacade.xml" />

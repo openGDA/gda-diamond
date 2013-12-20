@@ -8,53 +8,33 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
+
+
 	<bean id="float2_cam_base" class="gda.spring.V17ADBaseFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:CAM:" />
+		<property name="prefix" value="BL13I-OP-FLOAT-02:CAM:" />
 	</bean>
 
 	<bean id="float2_arr" class="gda.spring.V17NDArrayFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:ARR:" />
+		<property name="prefix" value="BL13I-OP-FLOAT-02:ARR:" />
 	</bean>
 
 	<bean id="float2_stat" class="gda.spring.V17NDStatsFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:STAT:" />
+		<property name="prefix" value="BL13I-OP-FLOAT-02:STAT:" />
+	</bean>
+	
+	<bean id="float2_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL13I-OP-FLOAT-02:PROC:" />
 	</bean>
 
+
 	<bean id="float2_roi" class="gda.spring.V17NDROIFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:ROI:" />
+		<property name="prefix" value="BL13I-OP-FLOAT-02:ROI:" />
 	</bean>
 
 	<bean id="float2_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:FFMPEG:" />
+		<property name="prefix" value="BL13I-OP-FLOAT-02:FFMPEG:" />
 	</bean>
 
-
-	<bean id="float2_proc" class="gda.spring.V17NDProcessFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-02:PROC:" />
-	</bean>
-
-
-
-	<bean id="float2_cam_nx_array"
-		class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
-		<constructor-arg ref="float2_arr" />
-	</bean>
-
-	<bean id="_float2_cam_nx" class="gda.device.detector.NXDetector">
-		<property name="name" value="float2_cam_nx"/>
-		<property name="collectionStrategy">
-			<bean
-				class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-				<constructor-arg ref="float2_cam_base" />
-				<constructor-arg value=".0" />
-			</bean>
-		</property>
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="float2_cam_nx_array" />
-			</list>
-		</property>
-	</bean>
 
 </beans>
 	

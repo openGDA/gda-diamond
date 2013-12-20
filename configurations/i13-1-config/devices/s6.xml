@@ -24,5 +24,19 @@
 		<property name="motor" ref="s6_ygap_motor" />
 <!-- 		<property name="userUnits" value="mm"/>
  -->	</bean>
+ 
+	<bean id="s6_xplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s6_xplus_motor" />
+	</bean>
+	<bean id="s6_xminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s6_xminus_motor" />
+	</bean>
+	<bean id="s6_yplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s6_yplus_motor" />
+	</bean>
+	<bean id="s6_yminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s6_yminus_motor" />
+	</bean>	
+ 
 </beans>
 
