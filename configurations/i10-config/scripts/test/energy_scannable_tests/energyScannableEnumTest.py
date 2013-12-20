@@ -8,7 +8,6 @@ below, search for "Start Example configuration".
 
 import unittest
 from mock import Mock
-from Diamond.Poly import Poly
 from Diamond.energyScannableEnum import EnergyScannableEnum
 from Diamond.idPosition import IdPosition
 

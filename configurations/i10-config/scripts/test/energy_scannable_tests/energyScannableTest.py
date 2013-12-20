@@ -7,11 +7,11 @@ below, search for "Start Example configuration".
 """
 
 import unittest
-from mock import Mock
+from Test.mock import MagicMock
 from Diamond.Poly import Poly
-from Diamond.energyScannablePoly import EnergyScannablePoly
+from Diamond.EnergyScannable import EnergyScannable
 
-class EnergyScannablePolyTest(unittest.TestCase):
+class EnergyScannableTest(unittest.TestCase):
 
     def setUp(self):
         # Initialise these as local, so the example code looks the same
@@ -21,7 +21,7 @@ class EnergyScannablePolyTest(unittest.TestCase):
 
         ################### Start Example configuration ###################  
         # Linear horizontal polarisation
-        idd_lin_hor_energy = EnergyScannablePoly('idd_lin_hor_energy', idd_gap, 
+        idd_lin_hor_energy = EnergyScannable('idd_lin_hor_energy', idd_gap, 
             idd_rowphase1, idd_rowphase2, idd_rowphase3, idd_rowphase4, 
             idd_jawphase, pgm_energy,
             gap=16, rowphase1=0, rowphase2=0, rowphase3=0, rowphase4=0,  
@@ -36,7 +36,7 @@ class EnergyScannablePolyTest(unittest.TestCase):
                            6.5540526156906154e+01, -3.0647533992737303e+03 ] ) )
         
         # Linear Vertical polarisation
-        idd_lin_ver_energy = EnergyScannablePoly('idd_lin_ver_energy', idd_gap, 
+        idd_lin_ver_energy = EnergyScannable('idd_lin_ver_energy', idd_gap, 
             idd_rowphase1, idd_rowphase2, idd_rowphase3, idd_rowphase4, 
             idd_jawphase, pgm_energy,
             gap=16, rowphase1=24, rowphase2=0, rowphase3=24, rowphase4=0,  
@@ -51,7 +51,7 @@ class EnergyScannablePolyTest(unittest.TestCase):
                            1.4242875040183506e+04, -8.9460467908767762e+05 ] ) )
         
         # Positive circular polarisation
-        idd_circ_pos_energy = EnergyScannablePoly('idd_circ_pos_energy', idd_gap, 
+        idd_circ_pos_energy = EnergyScannable('idd_circ_pos_energy', idd_gap, 
             idd_rowphase1, idd_rowphase2, idd_rowphase3, idd_rowphase4, 
             idd_jawphase, pgm_energy,
             gap=16, rowphase1=15.1724, rowphase2=0, rowphase3=15.1724, rowphase4=0,  
@@ -66,7 +66,7 @@ class EnergyScannablePolyTest(unittest.TestCase):
                            1.7564915878491570e+03, -9.8177319470976290e+04 ] ) )
         
         # Negative circular polarisation
-        idd_circ_neg_energy = EnergyScannablePoly('idd_circ_neg_energy', idd_gap, 
+        idd_circ_neg_energy = EnergyScannable('idd_circ_neg_energy', idd_gap, 
             idd_rowphase1, idd_rowphase2, idd_rowphase3, idd_rowphase4, 
             idd_jawphase, pgm_energy,
             gap=16, rowphase1=-15.1724, rowphase2=0, rowphase3=-15.1724, rowphase4=0,  
@@ -88,7 +88,7 @@ class EnergyScannablePolyTest(unittest.TestCase):
         self.idd_circ_neg_energy = idd_circ_neg_energy
         
     def mockMotor(self, name):
-        motor = Mock()
+        motor = MagicMock()
         motor.name = name
         motor.isBusy.return_value = False
         return motor
@@ -110,7 +110,7 @@ class EnergyScannablePolyTest(unittest.TestCase):
         pass
 
     def testScannableSetup(self):
-        ilhe = EnergyScannablePoly('idd_lin_hor_energy', self.idd_gap, 
+        ilhe = EnergyScannable('idd_lin_hor_energy', self.idd_gap, 
             self.idd_rowphase1, self.idd_rowphase2, self.idd_rowphase3, 
             self.idd_rowphase4, self.idd_jawphase, self.pgm_energy,
             gap=16, rowphase1=0, rowphase2=0, rowphase3=0, rowphase4=0,  
@@ -131,7 +131,7 @@ class EnergyScannablePolyTest(unittest.TestCase):
         self.assertEqual(list(self.idd_lin_hor_energy.extraNames), ['idd_gap', 'idd_rowphase1', 'idd_rowphase2', 'idd_rowphase3', 'idd_rowphase4', 'idd_jawphase', 'pgm_energy', 'diff_energy'])
         self.assertEqual(list(self.idd_lin_hor_energy.outputFormat), ['%f', '%f', '%f', '%f', '%f', '%f', '%f', '%f', '%f'])
     
-        ilve = EnergyScannablePoly('idd_lin_ver_energy', self.idd_gap, 
+        ilve = EnergyScannable('idd_lin_ver_energy', self.idd_gap, 
             self.idd_rowphase1, self.idd_rowphase2, self.idd_rowphase3, 
             self.idd_rowphase4, self.idd_jawphase, self.pgm_energy,
             gap=16, rowphase1=24, rowphase2=0, rowphase3=24, rowphase4=0,  
@@ -152,7 +152,7 @@ class EnergyScannablePolyTest(unittest.TestCase):
         self.assertEqual(list(self.idd_lin_hor_energy.extraNames), ['idd_gap', 'idd_rowphase1', 'idd_rowphase2', 'idd_rowphase3', 'idd_rowphase4', 'idd_jawphase', 'pgm_energy', 'diff_energy'])
         self.assertEqual(list(self.idd_lin_hor_energy.outputFormat), ['%f', '%f', '%f', '%f', '%f', '%f', '%f', '%f', '%f'])
         
-        icpe = EnergyScannablePoly('idd_circ_pos_energy', self.idd_gap, 
+        icpe = EnergyScannable('idd_circ_pos_energy', self.idd_gap, 
             self.idd_rowphase1, self.idd_rowphase2, self.idd_rowphase3, 
             self.idd_rowphase4, self.idd_jawphase, self.pgm_energy,
             gap=16, rowphase1=15.1724, rowphase2=0, rowphase3=15.1724, rowphase4=0,  
@@ -173,7 +173,7 @@ class EnergyScannablePolyTest(unittest.TestCase):
         self.assertEqual(list(self.idd_circ_pos_energy.extraNames), ['idd_gap', 'idd_rowphase1', 'idd_rowphase2', 'idd_rowphase3', 'idd_rowphase4', 'idd_jawphase', 'pgm_energy', 'diff_energy'])
         self.assertEqual(list(self.idd_circ_pos_energy.outputFormat), ['%f', '%f', '%f', '%f', '%f', '%f', '%f', '%f', '%f'])
 
-        icne = EnergyScannablePoly('idd_circ_neg_energy', self.idd_gap, 
+        icne = EnergyScannable('idd_circ_neg_energy', self.idd_gap, 
             self.idd_rowphase1, self.idd_rowphase2, self.idd_rowphase3, 
             self.idd_rowphase4, self.idd_jawphase, self.pgm_energy,
             gap=16, rowphase1=-15.1724, rowphase2=0, rowphase3=-15.1724, rowphase4=0,  
@@ -206,25 +206,25 @@ class EnergyScannablePolyTest(unittest.TestCase):
         self.assertEquals(str(self.idd_lin_hor_energy), "idd_lin_hor_energy=0.000000, idd_gap=1234.000000, idd_rowphase1=2345.000000, idd_rowphase2=3456.000000, idd_rowphase3=5678.000000, idd_rowphase4=6789.000000, idd_jawphase=7890.000000, pgm_energy=8901.000000, diff_energy=-8901.000000")
 
     def test__repr__LH(self):
-        self.assertEquals(repr(self.idd_lin_hor_energy), "EnergyScannablePoly(u'idd_lin_hor_energy', 'idd_gap', 'idd_rowphase1', 'idd_rowphase2', 'idd_rowphase3', 'idd_rowphase4', 'idd_jawphase', 'pgm_energy', gap=16, rowphase1=0, rowphase2=0, rowphase3=0, rowphase4=0, jawphase_poly=Poly(coeffs=[3.35026718955e-41, -5.04438669541e-37, 3.4803215642e-33, -1.45802460464e-29, 4.14311842718e-26, -8.44870579792e-23, 1.27566180817e-19, -1.45034756722e-16, 1.25022442992e-13, -8.16042788982e-11, 3.99517476898e-08, -1.43906526727e-05, 0.00368809063517, -0.634506050145, 65.5405261569, -3064.75339927], power0first=False))")
+        self.assertEquals(repr(self.idd_lin_hor_energy), "EnergyScannable(u'idd_lin_hor_energy', 'idd_gap', 'idd_rowphase1', 'idd_rowphase2', 'idd_rowphase3', 'idd_rowphase4', 'idd_jawphase', 'pgm_energy', gap=16, rowphase1=0, rowphase2=0, rowphase3=0, rowphase4=0, jawphase_poly=Poly(coeffs=[3.35026718955e-41, -5.04438669541e-37, 3.4803215642e-33, -1.45802460464e-29, 4.14311842718e-26, -8.44870579792e-23, 1.27566180817e-19, -1.45034756722e-16, 1.25022442992e-13, -8.16042788982e-11, 3.99517476898e-08, -1.43906526727e-05, 0.00368809063517, -0.634506050145, 65.5405261569, -3064.75339927], power0first=False))")
         #                                                                                                                                                                                                                                                                                          [3.3502671895516406e-41,
 
     def test__repr__LV(self):
-        self.assertEquals(repr(self.idd_lin_ver_energy), "EnergyScannablePoly(u'idd_lin_ver_energy', 'idd_gap', 'idd_rowphase1', 'idd_rowphase2', 'idd_rowphase3', 'idd_rowphase4', 'idd_jawphase', 'pgm_energy', gap=16, rowphase1=24, rowphase2=0, rowphase3=24, rowphase4=0, jawphase_poly=Poly(coeffs=[5.78729842684e-40, -9.69277730956e-36, 7.49821778991e-32, -3.55286320084e-28, 1.15276620932e-24, -2.71210919205e-21, 4.77818545014e-18, -6.4172005413e-15, 6.62199832014e-12, -5.24900144357e-09, 3.16915356227e-06, -0.00143095977929, 0.467658535171, -104.421193971, 14242.8750402, -894604.679088], power0first=False))")
+        self.assertEquals(repr(self.idd_lin_ver_energy), "EnergyScannable(u'idd_lin_ver_energy', 'idd_gap', 'idd_rowphase1', 'idd_rowphase2', 'idd_rowphase3', 'idd_rowphase4', 'idd_jawphase', 'pgm_energy', gap=16, rowphase1=24, rowphase2=0, rowphase3=24, rowphase4=0, jawphase_poly=Poly(coeffs=[5.78729842684e-40, -9.69277730956e-36, 7.49821778991e-32, -3.55286320084e-28, 1.15276620932e-24, -2.71210919205e-21, 4.77818545014e-18, -6.4172005413e-15, 6.62199832014e-12, -5.24900144357e-09, 3.16915356227e-06, -0.00143095977929, 0.467658535171, -104.421193971, 14242.8750402, -894604.679088], power0first=False))")
 
     def test__repr__CP(self):
-        self.assertEquals(repr(self.idd_circ_pos_energy), "EnergyScannablePoly(u'idd_circ_pos_energy', 'idd_gap', 'idd_rowphase1', 'idd_rowphase2', 'idd_rowphase3', 'idd_rowphase4', 'idd_jawphase', 'pgm_energy', gap=16, rowphase1=15.1724, rowphase2=0, rowphase3=15.1724, rowphase4=0, jawphase_poly=Poly(coeffs=[1.9348427565e-40, -3.11269957213e-36, 2.30476228793e-32, -1.04126812191e-28, 3.20810246556e-25, -7.13522993987e-22, 1.18273603018e-18, -1.48689811551e-15, 1.42849430757e-12, -1.04814762041e-09, 5.82256478842e-07, -0.00024036499939, 0.0713492146438, -14.3724495588, 1756.49158785, -98177.319471], power0first=False))")
+        self.assertEquals(repr(self.idd_circ_pos_energy), "EnergyScannable(u'idd_circ_pos_energy', 'idd_gap', 'idd_rowphase1', 'idd_rowphase2', 'idd_rowphase3', 'idd_rowphase4', 'idd_jawphase', 'pgm_energy', gap=16, rowphase1=15.1724, rowphase2=0, rowphase3=15.1724, rowphase4=0, jawphase_poly=Poly(coeffs=[1.9348427565e-40, -3.11269957213e-36, 2.30476228793e-32, -1.04126812191e-28, 3.20810246556e-25, -7.13522993987e-22, 1.18273603018e-18, -1.48689811551e-15, 1.42849430757e-12, -1.04814762041e-09, 5.82256478842e-07, -0.00024036499939, 0.0713492146438, -14.3724495588, 1756.49158785, -98177.319471], power0first=False))")
 
     def test__repr__CN(self):
-        self.assertEquals(repr(self.idd_circ_neg_energy), "EnergyScannablePoly(u'idd_circ_neg_energy', 'idd_gap', 'idd_rowphase1', 'idd_rowphase2', 'idd_rowphase3', 'idd_rowphase4', 'idd_jawphase', 'pgm_energy', gap=16, rowphase1=-15.1724, rowphase2=0, rowphase3=-15.1724, rowphase4=0, jawphase_poly=Poly(coeffs=[7.26633101313e-43, -1.01751276161e-37, 1.42142782441e-33, -9.43882008875e-30, 3.83515797956e-26, -1.05816893436e-22, 2.09161830941e-19, -3.04971953985e-16, 3.32856399176e-13, -2.73036006579e-10, 1.67390506026e-07, -7.5457697254e-05, 0.0242429276116, -5.24601034754, 684.354824391, -40611.6738881], power0first=False))")
+        self.assertEquals(repr(self.idd_circ_neg_energy), "EnergyScannable(u'idd_circ_neg_energy', 'idd_gap', 'idd_rowphase1', 'idd_rowphase2', 'idd_rowphase3', 'idd_rowphase4', 'idd_jawphase', 'pgm_energy', gap=16, rowphase1=-15.1724, rowphase2=0, rowphase3=-15.1724, rowphase4=0, jawphase_poly=Poly(coeffs=[7.26633101313e-43, -1.01751276161e-37, 1.42142782441e-33, -9.43882008875e-30, 3.83515797956e-26, -1.05816893436e-22, 2.09161830941e-19, -3.04971953985e-16, 3.32856399176e-13, -2.73036006579e-10, 1.67390506026e-07, -7.5457697254e-05, 0.0242429276116, -5.24601034754, 684.354824391, -40611.6738881], power0first=False))")
 
     # idd_lin_hor_energy  234.9    318.1    516.3    1660
     # jawPhase            0.235    4.524    7.076    11.25
     def testAsynchronousMoveToLH1(self): #    0.235
-        self.assert_idd_lin_hor_energy(234.9, 0.3575749086385258)
+        self.assert_idd_lin_hor_energy(234.9, 0.35757490864580177)
 
     def testAsynchronousMoveToLH2(self): #    4.524
-        self.assert_idd_lin_hor_energy(318.1, 4.500804625623459)
+        self.assert_idd_lin_hor_energy(318.1, 4.500804625652563)
 
     def testAsynchronousMoveToLH3(self): #    7.076
         self.assert_idd_lin_hor_energy(516.3, 7.060484231163173)
@@ -234,14 +234,17 @@ class EnergyScannablePolyTest(unittest.TestCase):
 
     def assert_idd_lin_hor_energy(self, energy_eV, jawphase):
         self.idd_lin_hor_energy.asynchronousMoveTo(energy_eV)
-        
-        self.pgm_energy.asynchronousMoveTo.assert_called_with(energy_eV)
-        self.idd_gap.asynchronousMoveTo.assert_called_with(16)
-        self.idd_rowphase1.asynchronousMoveTo.assert_called_with(0)
-        self.idd_rowphase2.asynchronousMoveTo.assert_called_with(0)
-        self.idd_rowphase3.asynchronousMoveTo.assert_called_with(0)
-        self.idd_rowphase4.asynchronousMoveTo.assert_called_with(0)
-        self.idd_jawphase.asynchronousMoveTo.assert_called_with(jawphase)
+
+        # NOTE: assert_called_once_with silently fails with Mock() objects. 
+        assert(isinstance(self.pgm_energy, MagicMock))
+
+        self.pgm_energy.asynchronousMoveTo.assert_called_once_with(energy_eV)
+        self.idd_gap.asynchronousMoveTo.assert_called_once_with(16)
+        self.idd_rowphase1.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_rowphase2.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_rowphase3.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_rowphase4.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_jawphase.asynchronousMoveTo.assert_called_once_with(jawphase)
         
     # idd_lin_ver_energy    487.2    903.2    1728
     # jawPhase              0.12     6.96     11.88
@@ -249,7 +252,7 @@ class EnergyScannablePolyTest(unittest.TestCase):
         self.assert_idd_lin_ver_energy(487.2, 0.2894148149061948)
 
     def testAsynchronousMoveToLV2(self): #    6.96
-        self.assert_idd_lin_ver_energy(903.2, 6.9539068231824785)
+        self.assert_idd_lin_ver_energy(903.2, 6.953907061601058)
 
     def testAsynchronousMoveToLV3(self): #   11.88
         self.assert_idd_lin_ver_energy(1728, 13.844424862647429) 
@@ -257,18 +260,18 @@ class EnergyScannablePolyTest(unittest.TestCase):
     def assert_idd_lin_ver_energy(self, energy_eV, jawphase):
         self.idd_lin_ver_energy.asynchronousMoveTo(energy_eV)
         
-        self.pgm_energy.asynchronousMoveTo.assert_called_with(energy_eV)
-        self.idd_gap.asynchronousMoveTo.assert_called_with(16)
-        self.idd_rowphase1.asynchronousMoveTo.assert_called_with(24)
-        self.idd_rowphase2.asynchronousMoveTo.assert_called_with(0)
-        self.idd_rowphase3.asynchronousMoveTo.assert_called_with(24)
-        self.idd_rowphase4.asynchronousMoveTo.assert_called_with(0)
-        self.idd_jawphase.asynchronousMoveTo.assert_called_with(jawphase)
+        self.pgm_energy.asynchronousMoveTo.assert_called_once_with(energy_eV)
+        self.idd_gap.asynchronousMoveTo.assert_called_once_with(16)
+        self.idd_rowphase1.asynchronousMoveTo.assert_called_once_with(24)
+        self.idd_rowphase2.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_rowphase3.asynchronousMoveTo.assert_called_once_with(24)
+        self.idd_rowphase4.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_jawphase.asynchronousMoveTo.assert_called_once_with(jawphase)
 
     # idd_lin_ver_energy    0
     # jawPhase              0
     def testAsynchronousMoveToCP1(self): #     0.472
-        self.assert_idd_circ_pos_energy(372.9, 0.45074768958147615)
+        self.assert_idd_circ_pos_energy(372.9, 0.45074769097846)
 
     def testAsynchronousMoveToCP2(self): #   6.726
         self.assert_idd_circ_pos_energy(683, 6.722407042281702)
@@ -279,18 +282,18 @@ class EnergyScannablePolyTest(unittest.TestCase):
     def assert_idd_circ_pos_energy(self, energy_eV, jawphase):
         self.idd_circ_pos_energy.asynchronousMoveTo(energy_eV)
         
-        self.pgm_energy.asynchronousMoveTo.assert_called_with(energy_eV)
-        self.idd_gap.asynchronousMoveTo.assert_called_with(16)
-        self.idd_rowphase1.asynchronousMoveTo.assert_called_with(15.1724)
-        self.idd_rowphase2.asynchronousMoveTo.assert_called_with(0)
-        self.idd_rowphase3.asynchronousMoveTo.assert_called_with(15.1724)
-        self.idd_rowphase4.asynchronousMoveTo.assert_called_with(0)
-        self.idd_jawphase.asynchronousMoveTo.assert_called_with(jawphase)
+        self.pgm_energy.asynchronousMoveTo.assert_called_once_with(energy_eV)
+        self.idd_gap.asynchronousMoveTo.assert_called_once_with(16)
+        self.idd_rowphase1.asynchronousMoveTo.assert_called_once_with(15.1724)
+        self.idd_rowphase2.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_rowphase3.asynchronousMoveTo.assert_called_once_with(15.1724)
+        self.idd_rowphase4.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_jawphase.asynchronousMoveTo.assert_called_once_with(jawphase)
 
     # idd_lin_ver_energy    0
     # jawPhase              0
     def testAsynchronousMoveToCN1(self): #     0.239
-        self.assert_idd_circ_neg_energy(375.1, 0.3320163985117688)
+        self.assert_idd_circ_neg_energy(375.1, 0.33201639874459943)
 
     def testAsynchronousMoveToCN2(self): #     5.999
         self.assert_idd_circ_neg_energy(644.5, 5.968564011876879)
@@ -298,16 +301,16 @@ class EnergyScannablePolyTest(unittest.TestCase):
     def testAsynchronousMoveToCN3(self): #    11.64
         self.assert_idd_circ_neg_energy(1743, 11.70182095545897)
 
-    def assert_idd_circ_neg_energy(self, energy_eV, expected_jawphase):
+    def assert_idd_circ_neg_energy(self, energy_eV, expected_idd_jawphase):
         self.idd_circ_neg_energy.asynchronousMoveTo(energy_eV)
         
-        self.pgm_energy.asynchronousMoveTo.assert_called_with(energy_eV)
-        self.idd_gap.asynchronousMoveTo.assert_called_with(16)
-        self.idd_rowphase1.asynchronousMoveTo.assert_called_with(-15.1724)
-        self.idd_rowphase2.asynchronousMoveTo.assert_called_with(0)
-        self.idd_rowphase3.asynchronousMoveTo.assert_called_with(-15.1724)
-        self.idd_rowphase4.asynchronousMoveTo.assert_called_with(0)
-        self.idd_jawphase.asynchronousMoveTo.assert_called_with(expected_jawphase)
+        self.pgm_energy.asynchronousMoveTo.assert_called_once_with(energy_eV)
+        self.idd_gap.asynchronousMoveTo.assert_called_once_with(16)
+        self.idd_rowphase1.asynchronousMoveTo.assert_called_once_with(-15.1724)
+        self.idd_rowphase2.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_rowphase3.asynchronousMoveTo.assert_called_once_with(-15.1724)
+        self.idd_rowphase4.asynchronousMoveTo.assert_called_once_with(0)
+        self.idd_jawphase.asynchronousMoveTo.assert_called_once_with(expected_idd_jawphase)
 
     def testGetPositionCN(self):
         self.idd_gap.getPosition.return_value = 123

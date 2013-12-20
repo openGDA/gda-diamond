@@ -3,7 +3,6 @@ Unit tests for Polynomial evaluator for use with GDA at Diamond Light Source
 """
 
 import unittest
-from mock import Mock
 from Diamond.Poly import Poly
 
 class PolyTest(unittest.TestCase):

@@ -2,11 +2,7 @@
 Polynomial energy scannable
 For use with I10 insertion device scannables on GDA at Diamond Light Source
 """
-#from math import sin, asin, pi
-try:
-    from gda.device.scannable import ScannableMotionBase
-except ImportError:
-    ScannableMotionBase = object
+from gda.device.scannable import ScannableMotionBase
 
 from energyScannableBase import EnergyScannableBase
 from Poly import Poly
@@ -35,6 +31,5 @@ class EnergyScannableEnum(EnergyScannableBase):
             self.id_jawphase.name, self.pgm_energy.name,
             self.energyPositions)
 
-    def asynchronousMoveTo(self, energy_eV):
-        idPosition = self.energyPositions[energy_eV]
-        self.idMotorsAsynchronousMoveTo(idPosition, energy_eV)
+    def getIdPosition(self, energy_eV):
+        return self.energyPositions[energy_eV]
