@@ -267,7 +267,7 @@ public class I05Apple extends ScannableMotionBase {
 	
 	@Override
 	public Object getPosition() throws DeviceException {
-		checkPhases();
+//		checkPhases(); // don't check - so we have something to report in any case
 		String polarisation = "unknown";
 		try {
 			polarisation = getCurrentPolarisation();
