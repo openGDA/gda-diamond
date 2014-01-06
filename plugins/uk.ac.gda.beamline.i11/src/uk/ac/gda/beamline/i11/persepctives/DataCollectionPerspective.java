@@ -33,6 +33,7 @@ import org.python.pydev.ui.wizards.files.PythonPackageWizard;
 import org.python.pydev.ui.wizards.files.PythonSourceFolderWizard;
 import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 
+import uk.ac.gda.beamline.i11.views.DetectorFilePlotView;
 import uk.ac.gda.client.XYPlotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.epics.client.mythen.views.MythenView;
@@ -51,6 +52,7 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 	private static final String MYTHEN_PLOT_VIEW_ID = MythenView.ID;
 	private static final String MAC_PLOT_VIEW_ID = "uk.ac.gda.client.hrpd.views.MACPlotView";
 	private static final String DATA_PLOT_VIEW_ID = "uk.ac.gda.beamline.i11.dataPlot";
+	private static final String DETECTOR_PLOT_VIEW_ID=DetectorFilePlotView.ID;
 	private static final String GDA_NAVIGATOR_VIEW_ID = "uk.ac.gda.pydev.extension.gda.navigator";
 	private static final String STATUS_VIEW_ID = "uk.ac.gda.beamline.i11.views.statusView";
 	
@@ -76,6 +78,7 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
         IFolderLayout detectorPlotFolder=layout.createFolder(DETECTOR_PLOT_FOLDER, IPageLayout.BOTTOM, (float)0.5, Scan_PLOT_FOLDER); //$NON-NLS-1$
         detectorPlotFolder.addView(MYTHEN_PLOT_VIEW_ID);
         detectorPlotFolder.addView(MAC_PLOT_VIEW_ID);
+        detectorPlotFolder.addView(DETECTOR_PLOT_VIEW_ID);
         detectorPlotFolder.addView(DATA_PLOT_VIEW_ID);
 
         IFolderLayout terminalfolder= layout.createFolder(TERMINAL_FOLDER, IPageLayout.BOTTOM, (float)0.6, editorArea); //$NON-NLS-1$

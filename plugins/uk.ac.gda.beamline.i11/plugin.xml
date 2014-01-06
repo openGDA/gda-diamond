@@ -12,10 +12,10 @@
       <view
             allowMultiple="false"
             category="uk.ac.gda.client.hrpd.views.hrpdCategory"
-            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            class="uk.ac.gda.beamline.i11.views.DetectorFilePlotView"
             icon="icons/chart_curve.png"
-            id="uk.ac.gda.beamline.i11.DetectorPlot"
-            name="Detector Image"
+            id="uk.ac.gda.beamline.i11.views.DetectorFilePlotView"
+            name="DetectorPlot"
             restorable="true">
       </view>
       <view
