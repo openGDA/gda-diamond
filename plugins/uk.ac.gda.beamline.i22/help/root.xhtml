@@ -1,43 +1,26 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>root.xhtml</title>
-    <link rel="stylesheet" href="shared.css" type="text/css"/>
-    <link rel="stylesheet" href="root.css" type="text/css"/>
-  </head>
-  <body>
-    <h1>Welcome to i22!</h1>
-    <p>To the top left you will find a number of tabs (we call them perspectives) to carry out your experiment.</p>
-	<p>
-		<dl>
-			<dt>Scripts</dt><dd>Write and control scripts to automate tasks.</dd>
-			<dt>Setup</dt><dd>Run simple scans with 1D plotting. Useful for alignment and tests.</dd>
-			<dt>Ncd Detectors</dt><dd>Setup the detector system for Saxs/Waxs and configure the exposure timing and triggering.</dd>
-			<dt>Live Saxs</dt><dd>View the data as it comes of the Saxs detector.</dd>
-			<dt>Saxs Processing</dt><dd>Tools to get a more detailed view on the Saxs data.</dd>
-			<dt>Live Waxs</dt><dd>View the data as it comes of the Waxs detector.</dd>
-		</dl>
-	</p>
-    <p>In case you need help: During office hours ask your local contact person.
-    Otherwise call the experimental hall coordinators (EHCs) on <b>8787</b>, they will attempt to 
-    help themselves but can also relay your problem to a specialist.</p>
-    <p>
-    	Feel free to close this view. You can get it back using <i>Help-&gt;Welcome</i> from the top menu.
-    </p>
-      <img src="diamond-logo.png" alt="diamond" />
-    <p>
-		<a href="http://org.eclipse.ui.intro/runAction?pluginId=uk.ac.gda.beamline.i22&#38;class=uk.ac.gda.beamline.i22.TestAction">
-   		<img src="BioSAXS.png" alt="BioSAXS"/>
-   		<text> Start a BioSAXS session.</text>
-   		</a>
-   		<dl>
-   		<a href="http://org.eclipse.ui.intro/showPage?id=page1" id="page1">
-      	<img border="0" src="link_obj.gif" alt="page1"/> Learn about Single Scan... </a>
-    	<a href="http://org.eclipse.ui.intro/showPage?id=page2" id="page2">
-      	<img border="0" src="link_obj.gif" alt="page2"/> Learn about Multiple Scan... </a>
-      	</dl>
-	</p>
-  </body>
+    <link rel="stylesheet" href="root.css" type="text/css" />
+</head>
+<body>
+    <h1>Welcome to i22</h1>
+    <h4>
+        <a href="http://org.eclipse.ui.intro/runAction?pluginId=uk.ac.gda.beamline.i22&#38;class=uk.ac.gda.beamline.i22.actions.SwitchToBSSCPerspectiveAction">
+		<!--<img border="0" src="link_obj.gif" alt="Small Angle Scattering Experiment" />-->
+		Small Angle Scattering Experiment
+		</a>
+    </h4>
+    <h4>
+        <a href="http://org.eclipse.ui.intro/runAction?pluginId=uk.ac.gda.beamline.i22&#38;class=uk.ac.gda.beamline.i22.actions.SwitchToBioSAXSSetupPerspectiveAction">
+		<!--<img border="0" src="link_obj.gif" alt="BioSAXS Measurements" />-->
+		BioSAXS Measurements
+		</a>
+    </h4>
+    <anchor id="anchor1" />
+</body>
 </html>
+
