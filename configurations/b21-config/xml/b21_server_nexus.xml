@@ -295,10 +295,11 @@
 				</bean>
 				<ref bean="subdirectory" />
 				<ref bean="samplename" />
-				<bean class="gda.data.metadata.StoredScanMetadataEntry">
-					<property name="name" value="title" />
-					<property name="value" value="undefined" />
-				</bean>
+				<ref bean="title" />
+<!-- 				<bean class="gda.data.metadata.StoredScanMetadataEntry"> -->
+<!-- 					<property name="name" value="title" /> -->
+<!-- 					<property name="value" value="undefined" /> -->
+<!-- 				</bean> -->
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="note" />
 					<property name="value" value="undefined" />
@@ -319,6 +320,14 @@
 
 	<bean class="gda.data.metadata.MetadataBlaster" id="observableSubdirectory">
 		<property name="storedMetadataEntry" ref="subdirectory" />
+	</bean>
+	
+	<bean id="title" class="gda.data.metadata.StoredScanMetadataEntry">
+		<property name="value" value="undefined" />
+	</bean>
+	
+	<bean class="gda.data.metadata.MetadataBlaster" id="observableScanTitle">
+		<property name="storedMetadataEntry" ref="title" />
 	</bean>
 
 	<bean class="gda.data.metadata.IntransparentLogFilePathProvider"
