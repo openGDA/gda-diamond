@@ -879,6 +879,12 @@ if installation.isLive():
 	micospiezo1.outputFormat = ['%f']
 	micospiezo2.outputFormat = ['%f']
 
+
+print "Creating caen0 & caen1"
+from scannable.hw.caenhvsupply import CaenHvSupply
+caen0 = CaenHvSupply('caen0', 'BL16B-EA-CAEN-01:', 0)
+caen1 = CaenHvSupply('caen1', 'BL16B-EA-CAEN-01:', 1)
+
 #print "*" * 80
 #print "mt8886-2: Writing NeXus files and medpix to return images only"
 #print "*" * 80
