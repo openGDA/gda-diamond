@@ -81,6 +81,8 @@ class BatonStatusComposite extends Composite {
 	
 	private final Color BATON_HELD_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_GREEN);
 	private final Color BATON_NOT_HELD_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_RED);
+	private final String BATON_HELD_TOOL_TIP="Baton held!\nRight click open menu\nLeft click open manager";
+	private final String BATON__NOT_HELD_TOOL_TIP="Baton not held!\nRight click open menu\nLeft click open manager";
 	
 	private Display display;
 	private Color currentColor;
@@ -91,6 +93,7 @@ class BatonStatusComposite extends Composite {
 	private MenuItem requestBaton;
 	private MenuItem releaseBaton;
 	private MenuItem openChat;
+
 
 	public BatonStatusComposite(Composite parent, int style, final Display display, String label) {
 		super(parent, style);
@@ -135,6 +138,13 @@ class BatonStatusComposite extends Composite {
 		
 		batonCanvas.setMenu(createPopup(this));
 		
+		//initialize tooltip
+		if (batonState.amIBatonHolder()) {
+			batonCanvas.setToolTipText(BATON_HELD_TOOL_TIP);
+		} else {
+			batonCanvas.setToolTipText(BATON__NOT_HELD_TOOL_TIP);
+		}
+		
 		final IObserver serverObserver = new IObserver() {
 			@Override
 			public void update(Object theObserved, final Object changeCode) {
@@ -142,10 +152,13 @@ class BatonStatusComposite extends Composite {
 					@Override
 					public void run() {
 						if (changeCode instanceof gda.jython.batoncontrol.BatonChanged) {
-							if (batonState.amIBatonHolder())
+							if (batonState.amIBatonHolder()) {
 								currentColor = BATON_HELD_COLOR;
-							else
+								batonCanvas.setToolTipText(BATON_HELD_TOOL_TIP);
+							} else {
 								currentColor = BATON_NOT_HELD_COLOR;
+								batonCanvas.setToolTipText(BATON__NOT_HELD_TOOL_TIP);
+							}
 							updateBatonCanvas();
 						}
 						
