@@ -66,6 +66,7 @@
 	<import resource="epics/detector/mca_vortex.xml" />
 	<!-- <import resource="epics/detector/xmap_vortex.xml" /> -->
 	<import resource="epics/detector/medipix.xml" />
+	<import resource="epics/detector/pcoedge.xml" />
 
 
 	<bean id="dummyxMotor" class="gda.device.motor.DummyMotor">

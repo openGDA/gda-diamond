@@ -67,7 +67,7 @@ print "======================================================================"
 print "Running B16 specific initialisation code"
 print "======================================================================"
 ENABLE_PILATUS = True
-ENABLE_PCOEDGE = False
+ENABLE_PCOEDGE = True
 
 #USE_YOU_DIFFCALC_ENGINE = True
 USE_YOU_DIFFCALC_ENGINE = False  # Use old diffcalc
@@ -692,9 +692,9 @@ if installation.isLive():
 if installation.isLive() and ENABLE_PCOEDGE:
 
 
-	pcoedge = ProcessingDetectorWrapper('pcoedge', pcoedgedet, [], panel_name='ImageProPlus Plot', toreplace='N:/', replacement='/dls/b16/') #@UndefinedVariable
-	visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(pcoedgedet, subfolder='pcoedge', create_folder=True, toreplace='/dls/b16/', replacement='N:/')) #@UndefinedVariable)
-	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(pcoedge, report_path = False))
+	pcoedge = ProcessingDetectorWrapper('pcoedge', _pcoedge, [], panel_name='ImageProPlus Plot', toreplace='N:/', replacement='/dls/b16/') #@UndefinedVariable
+	#visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(_pcoedge, subfolder='pcoedge', create_folder=True, toreplace='/dls/b16/', replacement='N:/')) #@UndefinedVariable)
+	#visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(pcoedge, report_path = False))
 	pcoedge.disable_operation_outside_scans = True
 	pcoedgepeak2d = DetectorDataProcessorWithRoi('pcoedgepeak2d', pcoedge, [TwodGaussianPeak()],prefix_name_to_extranames=False)
 	pcoedgemax2d = DetectorDataProcessorWithRoi('pcoedgemax2d', pcoedge, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
