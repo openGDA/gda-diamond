@@ -56,7 +56,7 @@ public class ExafsPlotPluginTest {
 		
 		GuiBean guiBean = new GuiBean();
 		guiBean.put(GuiParameters.PLOTMODE, GuiPlotMode.ONED);
-		guiBean.put(GuiParameters.PLOTOPERATION, "UPDATE");
+		guiBean.put(GuiParameters.PLOTOPERATION, GuiParameters.PLOTOP_UPDATE);
 		
 		final IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		this.view = (PlotView)window.getActivePage().showView(PlotView.ID+"1");

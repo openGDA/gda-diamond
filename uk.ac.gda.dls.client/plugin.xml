@@ -48,7 +48,7 @@
                  label="Send Feedback"
                  mode="FORCE_TEXT"
                  style="push"
-                 tooltip="Send feedback on user the beamline ">
+                 tooltip="Send feedback about the GDA or the beamline.">
            </command>
         </menuContribution>
      </extension>

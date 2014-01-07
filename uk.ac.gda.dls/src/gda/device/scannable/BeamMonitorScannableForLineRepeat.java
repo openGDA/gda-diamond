@@ -82,9 +82,9 @@ public class BeamMonitorScannableForLineRepeat extends TopupScannable {
 	 */
 	@Override
 	protected void testShouldPause() throws DeviceException {
-		if(active &&  beamDown && !isOverride()){
+		if (active && beamDown && !isOverride()) {
 			setBeamDown(false);
-			InterfaceProvider.getTerminalPrinter().print("beam down redoing scan " + beamDown);
+			InterfaceProvider.getTerminalPrinter().print("***Beam down! Redoing scan/line***");
 			throw new RedoScanLineThrowable("Beam drop detected ");
 		}
 	}
