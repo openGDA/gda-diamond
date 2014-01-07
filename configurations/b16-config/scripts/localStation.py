@@ -181,12 +181,12 @@ print "Wrapped the monitors: " + toPrint
 if installation.isLive():
 
 	
-	bladel = MonitorWrapper(ai1, "bladel") #@UndefinedVariable
-	blader = MonitorWrapper(ai2, "blader") #@UndefinedVariable
-	bladet = MonitorWrapper(ai3, "bladet") #@UndefinedVariable
-	bladeb = MonitorWrapper(ai4, "bladeb") #@UndefinedVariable
-	pips1 = MonitorWrapper(ai5, "pips1") #@UndefinedVariable
-	pips2 = MonitorWrapper(ai6, "pips2") #@UndefinedVariable
+#	bladel = MonitorWrapper(ai1, "bladel") #@UndefinedVariable
+#	blader = MonitorWrapper(ai2, "blader") #@UndefinedVariable
+#	bladet = MonitorWrapper(ai3, "bladet") #@UndefinedVariable
+#	bladeb = MonitorWrapper(ai4, "bladeb") #@UndefinedVariable
+#	pips1 = MonitorWrapper(ai5, "pips1") #@UndefinedVariable
+#	pips2 = MonitorWrapper(ai6, "pips2") #@UndefinedVariable
 	
 	qbpm1 = MonitorWrapper(ai9, "qbpm1") #@UndefinedVariable
 	qbpm2 = MonitorWrapper(ai10, "qbpm2") #@UndefinedVariable
@@ -401,9 +401,9 @@ if installation.isLive():
 	dcmpiezo.setOutputFormat(['%.4f'])
 
 
-	bi = SelectableCollectionOfScannables('bi', [ct7, ai13, ai5])#@UndefinedVariable
+	bi = SelectableCollectionOfScannables('bi', [ct7, ai13, ai1])#@UndefinedVariable
 	#monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmPitch, .145, .16, 0.0002, bi, .5) #@UndefinedVariable
-	monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmpiezo, 1.0, 8.0, 0.1, ai5, .2) #@UndefinedVariable
+	monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmpiezo, 1.0, 9.0, 0.1, ai1, .2) #@UndefinedVariable
 	monotuner.use_backlash_correction = True
 
 ###############################################################################
@@ -756,8 +756,8 @@ class Bladevdif(PseudoDevice):
 		return False
 	
 if installation.isLive():
-	bladesum = Bladesum(bladel,blader,bladet,bladeb)
-	bladevdif = Bladevdif(bladet,bladeb)
+#	bladesum = Bladesum(bladel,blader,bladet,bladeb)
+#	bladevdif = Bladevdif(bladet,bladeb)
 	b16angle = pd_readPvAfterWaiting.ReadPvAfterWaiting("b16angle","FE16B-DI-BEAM-01:Y:ANGLE")
 	ai4prompt=pd_readPvAfterWaiting.ReadPvAfterWaiting("ai4prompt","BL16B-EA-RIM-01:AI4")	
 	ai5prompt=pd_readPvAfterWaiting.ReadPvAfterWaiting("ai5prompt","BL16B-EA-RIM-01:AI5")
@@ -862,7 +862,13 @@ from scannable.sampler import RmsProcessor, Sampler
 print "Creating ai6sampler. This takes a vector argument comprised of collection time and number of samples"
 print "e.g. 'scan x 1 3 1 ai6sampler [.5 3]' takes three .5s second exposures."
 
+ai1sampler = Sampler(ai1, [RmsProcessor()], True) #@UndefinedVariable
+ai2sampler = Sampler(ai2, [RmsProcessor()], True) #@UndefinedVariable
+ai3sampler = Sampler(ai3, [RmsProcessor()], True) #@UndefinedVariable
+ai4sampler = Sampler(ai4, [RmsProcessor()], True) #@UndefinedVariable
+ai5sampler = Sampler(ai5, [RmsProcessor()], True) #@UndefinedVariable
 ai6sampler = Sampler(ai6, [RmsProcessor()], True) #@UndefinedVariable
+ai7sampler = Sampler(ai7, [RmsProcessor()], True) #@UndefinedVariable
 
 print "Creating keithley1gain, keithley2gain and keithley3gain"
 import scannable.hw.keithley
