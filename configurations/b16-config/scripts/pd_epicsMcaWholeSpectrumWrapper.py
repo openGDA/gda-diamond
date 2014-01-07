@@ -9,7 +9,7 @@ class EpicsMcaWholeSpectrumWrapper(PseudoDevice):
 		self.lastLivetime = 0.0
 		#self.noChannels = self.epicsmca.getNumberOfChannels() # proves unreliable
 		self.noChannels = len(self.epicsmca.readout().tolist())
-		self.setInputNames(["livetime"])
+		self.setInputNames([name+"_livetime"])
 		chnames = []
 		for i in range(0,self.noChannels):
 			chnames.append("ch") # +str(i))# Breaks pos if too long!  str(i))

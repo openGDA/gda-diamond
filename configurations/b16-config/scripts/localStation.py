@@ -144,6 +144,7 @@ fcarm2Theta.setOutputFormat(['%.5f']) #@UndefinedVariable
 
 if installation.isDummy():
 	vortexMca = None
+	vortexMca2 = None
 	exec('ai1l=SingleInputDummy("ai1l")')
 	exec('ai2l=SingleInputDummy("ai2l")')
 	exec('ai3l=SingleInputDummy("ai3l")')
@@ -264,6 +265,17 @@ if installation.isLive():
 		vmcagross = pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcagross', vortexMca, 'gross')
 		vmcanet =   pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcanet', vortexMca, 'net')
 		vmcafancy = pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcaroi', vortexMca, 'fancy')
+	except Exception, e:
+		print "***********************************************************************************"
+		print "***** ERROR: problem starting up vmca devices. TRY RESETING THE GDA SERVER    *****"
+		print "***** (this currently needs to be done after the Epics IOC has been restarted *****"
+		print "***********************************************************************************"
+		print str(e)
+	try:
+		vmcaspect2 = pd_epicsMcaWholeSpectrumWrapper.EpicsMcaWholeSpectrumWrapper('vmcaspect2',vortexMca2)
+		vmcagross2 = pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcagross2', vortexMca2, 'gross')
+		vmcanet2 =   pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcanet2', vortexMca2, 'net')
+		vmcafancy2 = pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcaroi2', vortexMca2, 'fancy')
 	except Exception, e:
 		print "***********************************************************************************"
 		print "***** ERROR: problem starting up vmca devices. TRY RESETING THE GDA SERVER    *****"
