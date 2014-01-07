@@ -323,6 +323,7 @@
 	</bean>
 	
 	<bean id="title" class="gda.data.metadata.StoredScanMetadataEntry">
+		<property name="name" value="title" />
 		<property name="value" value="undefined" />
 	</bean>
 	
