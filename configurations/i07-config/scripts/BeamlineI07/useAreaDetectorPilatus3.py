@@ -15,7 +15,7 @@ from gda.analysis.io import PilatusTiffLoader
 
 
 print "To create pil3 as the base detector for Pilatus 100K in EH2"
-pilatus3.getFileWriter().setReturnExpectedFullFileName(False);
+
 pil3 = ADPilatusPseudoDeviceClass("pil3", "Area Detector", "pilatus3");
 pil3.setAlive(False);
 #pil3.addShutter('fs');

@@ -3,3 +3,4 @@ jythonCache/
 *.class
 *~
 var/
+users_dummy/

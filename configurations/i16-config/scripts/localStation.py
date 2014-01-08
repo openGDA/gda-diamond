@@ -10,7 +10,7 @@ print "============================================================="
 import installation
 
 if installation.isDummy():
-	USE_DIFFCALC = True
+	USE_DIFFCALC = False
 	USE_CRYO_GEOMETRY = False
 else:
 	USE_DIFFCALC = False  # <-- change here for live gda!
@@ -200,7 +200,8 @@ print "...Database system started"
 offsetshelf=LocalJythonShelfManager.open('offsets')
 print "  use 'offsetshelf' to see summary of offsets"
 #delta_axis_offset.pil=9.5 
-delta_axis_offset.pil=9.0 #new offset 31/01/12 (179)
+#delta_axis_offset.pil=9.0 #new offset 31/01/12 (179)
+delta_axis_offset.pil=9.2#new offset 12/09/13
 do=delta_axis_offset
 
 ###############################################################################
@@ -649,6 +650,8 @@ from scannable.detector.DetectorWithShutter import DetectorWithShutter
 ### 2m ###
 #pil2mdet = EpicsPilatus('pil2mdet', 'BL16I-EA-PILAT-02:','/dls/i16/detectors/im/','test','%s%s%d.tif')
 pil2mdet = pilatus2
+_pilatus2_counter_monitor = Finder.getInstance().find("pilatus2_plugins").get('pilatus2_counter_monitor')
+
 pil2m = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil2m',
 															pilatus2,
 															pilatus2_hardware_triggered,
@@ -659,7 +662,9 @@ pil2m = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil2m',
 															replacement=None,
 															iFileLoader=PilatusTiffLoader,
 															fileLoadTimout=60,
-															returnPathAsImageNumberOnly=True)
+															returnPathAsImageNumberOnly=True,
+															array_monitor_for_hardware_triggering = _pilatus2_counter_monitor
+															)
 pil2m.processors=[DetectorDataProcessorWithRoi('max', pil2m, [SumMaxPositionAndValue()], False)]
 pil2m.printNfsTimes = True
 pil2m.display_image = True
@@ -979,7 +984,9 @@ def open_valves():
 #ci=240.0; cj=106.0	#26/04/13
 #ci=240.0; cj=105.0	#18/06/13
 #ci=237.0; cj=105.0	#24/06/13 gb (crash mt8772)
-ci=234.0; cj=106.0	#24/06/13 gb (pilatus returned after repair)
+#ci=234.0; cj=106.0	#24/06/13 gb (pilatus returned after repair)
+#ci=248.0; cj=106.0	#12/9/13 new value as previous is now bad pixel
+ci=247.0; cj=109.0	#12/9/13 new value as previous is now bad pixel
 
 maxi=486; maxj=194
 
@@ -1108,6 +1115,11 @@ print "======================================================================"
 	
 	
 run('diffractometer/pid.py')
+###############################################################################
+###                           Diff - xpsgather                              ###
+###############################################################################
+from scannable.xpsdatagathering import ScannableXPSDataGatherer
+xpsgather = ScannableXPSDataGatherer('xpsgather', pvroot='BL16I-CS-IOC-15:XPSG:')
 
 ###############################################################################
 ###                           Defaults - keep at end                        ###
@@ -1121,12 +1133,24 @@ if installation.isLive():
 	waitforinjection.due=5	#wait for injection if due in this period of time (sec)
 
 ###############################################################################
+###                Optionally switch pilatus to CBF writing                 ###
+###############################################################################
+from scannable.detector import pilatuscbfswitcher
+# NOTE: state will be stored across calls to reset_namespace
+pilatuscbfswitcher.set(pil2m, 'cbf')
+#pilatuscbfswitcher.set(pil2m, 'tif')
+
+
+###############################################################################
 ###                           Run beamline scripts                          ###
 ###############################################################################
+
+
 run('bpm')
 run('align1')
 run('select_and_move_detector')
 run('showdiff')
+run('showdiff_new')
 #run('pd_searchref2') #put at the end as it gave some errors
 run('pd_read_list')	#to make PD's that can scan a list
 run('pd_function')	#to make PD's that return a variable

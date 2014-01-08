@@ -18,9 +18,6 @@
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="LD_LIBRARY_PATH" value="${workspace_loc:uk.ac.gda.nexus}/lib/${target.os}-${target.arch}"/>
 </mapAttribute>
-<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
-<listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
-</listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl}"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Declipse.pluginCustomization=/dls_sw/b16/software/gda/config/plugin_customization.ini&#10;-Dgda.gui.beans.xml=/dls_sw/b16/software/gda/config/clients/rcp/live/client.xml&#10;-Djacorb.config.dir=/dls_sw/b16/software/gda/config/jacorb/live&#10;-Dgda.propertiesFile=/dls_sw/b16/software/gda/config/properties/live/rcpclient.java.properties&#10;-Dgda.config=/dls_sw/b16/software/gda/config&#10;-Dgov.aps.jca.JCALibrary.properties=/dls_sw/b16/software/gda/config/jca/live/JCALibrary.properties&#10;-XX:PermSize=128m&#10;-XX:MaxPermSize=128m&#10;-Xms512m&#10;-Xmx1024m"/>
