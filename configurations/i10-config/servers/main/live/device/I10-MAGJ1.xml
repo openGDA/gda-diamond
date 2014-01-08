@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- MAGJ1 -->
+
+	<!-- 
+	<bean id="magj1yins_motor" class="gda.device.motor.DummyMotor" />
+	 -->
+	<bean id="magj1yins_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="MAGJ1.INSERTY" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- 
+	<bean id="magj1yrot_motor" class="gda.device.motor.DummyMotor" />
+	 -->
+	<bean id="magj1yrot_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="MAGJ1.INSERTROTY" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- 
+	<bean id="magj1x_motor" class="gda.device.motor.DummyMotor" />
+	 -->
+	<bean id="magj1x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="MAGJ1.X" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+	</bean>
+</beans>

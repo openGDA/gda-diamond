@@ -1,11 +1,6 @@
 """
 Energy scannable for use with I10 insertion devices at Diamond Light Source
 """
-#from math import sin, asin, pi
-#try:
-#    from gda.device.scannable import ScannableMotionBase
-#except ImportError:
-#    ScannableMotionBase = object
 
 from energyScannablePoly import EnergyScannablePoly
 

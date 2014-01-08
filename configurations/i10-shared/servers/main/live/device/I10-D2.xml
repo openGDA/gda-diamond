@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- D2 (D4) --> 
+
+	<bean id="d2d4_scrn_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="d2d4_det_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D2.DETX" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+		<property name="accessControlName" value="branchena" />
+	</bean>
+</beans>

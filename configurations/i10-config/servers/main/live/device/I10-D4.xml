@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- D4 (D6) --> 
+
+	<bean id="d4d6_scrn_motor" class="gda.device.motor.DummyMotor" />
+
+	<!-- 
+	<bean id="d4d6_det_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D4.DETX" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+    <bean id="d4_pos" class="gda.device.enumpositioner.EpicsPositioner">
+        <property name="deviceName" value="D4.POS"/>
+    </bean>
+     -->
+</beans>

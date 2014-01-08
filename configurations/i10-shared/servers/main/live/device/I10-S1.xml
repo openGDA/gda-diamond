@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Primary Slits / S1 Optical Elements -->
+
+	<bean id="s1xaptr_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SLITS1.APTR1X" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+		<property name="accessControlName" value="branchena" />
+	</bean>
+
+	<bean id="s1xhall_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SLITS1.XHALL" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+		<property name="accessControlName" value="branchena" />
+	</bean>
+	
+	<bean id="s1yplus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SLITS1.YPLUS" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+		<property name="accessControlName" value="branchena" />
+	</bean>
+	
+	<bean id="s1yminus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SLITS1.YMINUS" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+		<property name="accessControlName" value="branchena" />
+	</bean>
+	
+	<bean id="s1xsize_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SLITS1.XGAPSIZE" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+		<property name="accessControlName" value="branchena" />
+	</bean>
+	
+	<bean id="s1xcentre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SLITS1.XGAPCENTRE" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+		<property name="accessControlName" value="branchena" />
+	</bean>
+	
+	<bean id="s1ysize_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SLITS1.YGAPSIZE" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+		<property name="accessControlName" value="branchena" />
+	</bean>
+	
+	<bean id="s1ycentre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SLITS1.YGAPCENTRE" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+		<property name="accessControlName" value="branchena" />
+	</bean>
+</beans>

@@ -1,0 +1,111 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">     
+
+	<!--   Rasor -->
+	 
+	<bean id="aptr2_trans_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="aptr2_trans_motor" />
+	</bean>
+
+	<bean id="aptr1_trans_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="aptr1_trans_motor" />
+	</bean>
+
+	<bean id="cryo_x_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="cryo_x_motor" />
+	</bean>
+
+	<bean id="cryo_y_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="cryo_y_motor" />
+	</bean>
+
+	<bean id="cryo_z_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="cryo_z_motor" />
+	</bean>
+
+	<bean id="table_leg1_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="table_leg1_motor" />
+	</bean>
+
+	<bean id="table_leg2_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="table_leg2_motor" />
+	</bean>
+
+	<bean id="table_leg3_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="table_leg3_motor" />
+	</bean>
+
+	<!-- 
+	<bean id="table_y_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="table_y_motor" />
+	</bean>
+
+	<bean id="table_pitch_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="table_pitch_motor" />
+	</bean>
+
+	<bean id="table_roll_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="table_roll_motor" />
+	</bean>
+	 -->
+
+	<bean id="diff_twotheta_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="diff_twotheta_motor" />
+		<property name = "speed" value="360" />
+	</bean>
+
+	<bean id="diff_twotheta_motor_enc" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="diff_twotheta_motor_enc" />
+		<property name = "speed" value="360" />
+	</bean>
+
+	<bean id="diff_theta_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="diff_theta_motor" />
+		<property name = "speed" value="360" />
+	</bean>
+
+	<bean id="diff_theta_motor_enc" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="diff_theta_motor_enc" />
+		<property name = "speed" value="360" />
+	</bean>
+
+	<bean id="diff_chi_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="diff_chi_motor" />
+		<property name = "speed" value="360" />
+	</bean>
+	
+	<bean id="diff_phi_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="diff_phi_motor" />
+		<property name = "speed" value="360" />
+	</bean>
+	
+	<bean id="diff_alpha_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="diff_alpha_motor" />
+	</bean>
+	
+	<bean id="diff_x_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="diff_x_motor" />
+	</bean>
+	
+	<bean id="polan_twotheta_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="polan_twotheta_motor" />
+	</bean>
+	
+	<bean id="polan_theta_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="polan_theta_motor" />
+	</bean>
+	
+	<bean id="polan_y_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="polan_y_motor" />
+	</bean>
+	
+	<bean id="polan_z_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="polan_z_motor" />
+	</bean>
+	
+	<bean id="polan_eta_motor" class="gda.device.motor.DummyMotor" >
+		<property name = "name" value="polan_eta_motor" />
+	</bean>
+</beans>

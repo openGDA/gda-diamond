@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">     
+	
+	<!-- D5 (D7) -->
+	
+	<bean id="d5_gcell" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="d5d7_gcell_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<!-- 
+		<property name="lowerGdaLimits" value="-100" />
+		<property name="upperGdaLimits" value="100" />
+		 -->
+	</bean>
+
+	<bean id="d5_det" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="d5d7_det_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<!-- 
+		<property name="lowerGdaLimits" value="-100" />
+		<property name="upperGdaLimits" value="100" />
+		 -->
+	</bean>
+
+	<bean id="D5" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d5_gcell" />
+				<ref bean="d5_pos" />
+				<ref bean="d5a_pos" />
+				<ref bean="d5_det" />
+			</list>
+		</property>
+		<property name="local" value="true"/>
+	</bean>
+</beans>

@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- I Scattering -->
+	
+	<!--
+	<import resource="I10-SHTRI.xml"/>
+	 -->
+	<import resource="I10-D4.xml"/>
+	<import resource="I10-S4.xml"/>
+	<import resource="I10-D5.xml"/>
+	<import resource="I10-M4.xml"/>
+	<import resource="I10-S5.xml"/>
+	<import resource="I10-S6.xml"/>
+	<import resource="I10-D6.xml"/>
+	<import resource="I10-UMI1.xml"/>
+	<import resource="I10-UI1.xml"/>
+	<import resource="I10-CA2.xml"/>
+	<import resource="I10-CA3.xml"/>
+	<import resource="I10-CA4.xml"/>
+	<import resource="I10-RASOR.xml"/>
+	<!-- 
+	<import resource="I10-RASOR-ANDOR1.xml" />
+	 -->
+	<import resource="I10-RASOR-SCALER1.xml"/>
+
+	<!-- J Absorption -->
+
+	<!-- 	
+	<import resource="I10-SHTRJ.xml"/>
+	 -->
+	<import resource="I10-DJ1.xml"/>
+	<import resource="I10-S7.xml"/>
+	<import resource="I10-DJ2.xml"/>
+	<import resource="I10-M6.xml"/>
+	<import resource="I10-S8.xml"/>
+	<import resource="I10-DJ3.xml"/>
+	<import resource="I10-S9.xml"/>
+	<import resource="I10-M7.xml"/>
+	<import resource="I10-UMJ1.xml"/>
+	<import resource="I10-UMJ2.xml"/>
+	<import resource="I10-UJ1.xml"/>
+	<import resource="I10-CAJ1.xml"/>
+	<import resource="I10-CAJ2.xml"/>
+	<import resource="I10-MAGJ1.xml"/>
+
+	<!-- ME02P Polarimeter -->
+	<!-- 
+	<import resource="ME02P-Polarimeter.xml"/>
+	 -->
+
+	<!-- Temporary devices -->
+	<import resource="I10-Zebra.xml"/>
+</beans>

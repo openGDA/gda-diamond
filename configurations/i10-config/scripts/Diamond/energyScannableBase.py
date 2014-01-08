@@ -2,11 +2,7 @@
 Energy scannable base class
 For use with I10 insertion device scannables on GDA at Diamond Light Source
 """
-#from math import sin, asin, pi
-try:
-    from gda.device.scannable import ScannableMotionBase
-except ImportError:
-    ScannableMotionBase = object
+from gda.device.scannable import ScannableMotionBase
 
 class EnergyScannableBase(ScannableMotionBase):
     
@@ -16,11 +12,11 @@ class EnergyScannableBase(ScannableMotionBase):
                  id_jawphase_scannable, pgm_energy_scannable):
         
         self.name = name
-        self.id_gap = id_gap_scannable  
-        self.id_rowphase1 = id_rowphase1_scannable  
-        self.id_rowphase2 = id_rowphase2_scannable  
-        self.id_rowphase3 = id_rowphase3_scannable  
-        self.id_rowphase4 = id_rowphase4_scannable  
+        self.id_gap = id_gap_scannable
+        self.id_rowphase1 = id_rowphase1_scannable
+        self.id_rowphase2 = id_rowphase2_scannable
+        self.id_rowphase3 = id_rowphase3_scannable
+        self.id_rowphase4 = id_rowphase4_scannable
         self.id_jawphase = id_jawphase_scannable
         self.pgm_energy = pgm_energy_scannable
 
@@ -80,7 +76,7 @@ class EnergyScannableBase(ScannableMotionBase):
         while scannable1.isBusy() or scannable2.isBusy():
             sleep(0.1)
 
-    def idMotorsAsynchronousMoveTo(self, idPosition, energy_eV):
+    def idMotorsAsynchronousMoveTo(self, idPosition, energy_eV, set_pgm_energy=True):
         self.last_energy_eV = 0
 
         self.moveToMayWait(self.id_gap, idPosition.gap, wait=True)
@@ -95,7 +91,9 @@ class EnergyScannableBase(ScannableMotionBase):
             self.moveToMayWait(self.id_rowphase3, idPosition.rowphase3, wait=True)
             self.moveToMayWait(self.id_rowphase4, idPosition.rowphase4, wait=True)
         self.moveToMayWait(self.id_jawphase, idPosition.jawphase, wait=False)
-        self.moveToMayWait(self.pgm_energy, energy_eV, wait=False)
+        
+        if set_pgm_energy:
+            self.moveToMayWait(self.pgm_energy, energy_eV, wait=False)
         
         self.last_energy_eV = energy_eV
 
@@ -115,3 +113,9 @@ class EnergyScannableBase(ScannableMotionBase):
                 self.id_rowphase1.getPosition(), self.id_rowphase2.getPosition(),
                 self.id_rowphase3.getPosition(), self.id_rowphase4.getPosition(),
                 self.id_jawphase.getPosition(), pgm_energy, diff)
+
+    # Derived classes must either implement getIdPosition or override asynchronousMoveTo
+
+    def asynchronousMoveTo(self, energy_eV):
+        idPosition = self.getIdPosition(energy_eV)
+        self.idMotorsAsynchronousMoveTo(idPosition, energy_eV)

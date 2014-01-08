@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- DJ2 (D10) -->
+	
+	<bean id="dj2d10_gcell_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DJ2.Y" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="dj2a_pos" class="gda.device.enumpositioner.DummyPositioner" />
+	<bean id="dj2_pos" class="gda.device.enumpositioner.DummyPositioner" />
+	<!-- 
+    <bean id="dj2a_pos" class="gda.device.enumpositioner.EpicsPositioner">
+        <property name="deviceName" value="DJ2A"/>
+    </bean>
+
+    <bean id="dj2_pos" class="gda.device.enumpositioner.EpicsPositioner">
+        <property name="deviceName" value="DJ2"/>
+    </bean>
+     -->
+</beans>

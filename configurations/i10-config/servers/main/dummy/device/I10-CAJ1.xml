@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- CAJ1 Epics Monitor -->
+	
+	<bean id="caj11" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="caj12" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="caj13" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="caj14" class="gda.device.monitor.DummyEpicsMonitor" />
+</beans>

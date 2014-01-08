@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- CA3 Epics Monitor -->
+	
+	<bean id="CA3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ca31" />
+				<ref bean="ca32" />
+				<ref bean="ca33" />
+				<ref bean="ca34" />
+			</list>
+		</property>
+		<property name="local" value="true"/>
+	</bean>
+</beans>

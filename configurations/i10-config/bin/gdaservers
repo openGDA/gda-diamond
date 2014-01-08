@@ -1,13 +1,19 @@
 #!/bin/bash
 
+if [ -z $GDA_MODE ] ; then
+  export GDA_MODE=dummy
+fi
+
+export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
+
 echo Ensure the Log panel is running...
-gdalog
+$GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/bin/gdalog
 
 echo
 echo Making sure we want to restart GDA servers now...
 echo
 
-zenity --title "Are you sure?" --question --text "Are you sure you want to restart the GDA servers?" --window-icon=question
+zenity --title "Are you sure?" --question --text "Are you sure you want to restart the $GDA_MODE $BEAMLINE GDA servers?" --window-icon=question
 SURE=$?
 if [ $SURE == 1 ]; then # 0=Ok, 1=Cancel
   exit
@@ -19,15 +25,38 @@ echo
 echo "Keep this window open, and you will see a pop-up when the restart has completed"
 echo
 
-ssh  -i /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/${BEAMLINE}ssh.key gda2@$BEAMLINE-control.diamond.ac.uk
-OK=$?
+if [ "$GDA_MODE" = "live" ]; then
 
-# 127 if ssh cannot run command, 0 if ran ok, maybe other values if remote command returns them
+	ssh  -i /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/${BEAMLINE}ssh.key gda2@$BEAMLINE-control.diamond.ac.uk
+	OK=$?
+	
+	# 127 if ssh cannot run command, 0 if ran ok, maybe other values if remote command returns them
+	
+	if [ $OK != 0 ]; then
+	  zenity --title "Error starting GDA Server" --error --text "Something went wrong starting GDA server. Please try logging out and back in again before contacting your GDA representative." 
+	  exit
+	fi
 
-if [ $OK != 0 ]; then
-  zenity --title "Error starting GDA Server" --error --text "Something went wrong starting GDA server. Please try logging out and back in again before contacting your GDA representative." 
-  exit
+else
+
+	GDA_VAR=$(readlink -f $GDA_ROOT/../var)
+	if [ -d $GDA_VAR ]; then
+		export OBJECT_SERVER_STARTUP_FILE=$GDA_VAR/object_server_startup_server_main
+		echo OBJECT_SERVER_STARTUP_FILE=$OBJECT_SERVER_STARTUP_FILE
+	else
+		echo ERROR: $GDA_VAR does not exist.
+		exit
+	fi
+	rm -f $OBJECT_SERVER_STARTUP_FILE
+	
+	$GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/bin/GDA_StartServers --mode=dummy
+	
+	# look for the output file which will tell us when the servers have started
+	
+	$GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/lookForFile $OBJECT_SERVER_STARTUP_FILE
+
 fi
+
 #
 # wait for the remote command, which will look for the output file which will
 # tell us when the servers have started before returning, then display to the
@@ -42,7 +71,7 @@ STARTCLIENT=$?
 if [ $STARTCLIENT == 0 ] ; then # 0=Ok, 1=Cancel
   echo Starting GDA RCP Client...
   echo
-  gdaclient &
+  $GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/bin/gdaclient &
   echo
   echo Moving GDA Log Panel...
   wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000

@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- DJ1 (D9) -->
+	
+	<bean id="dj1d9_scrn_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="dj1d9_det_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DJ2A.DETX" />
+		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="local" value="true"/>
+	</bean>
+</beans>

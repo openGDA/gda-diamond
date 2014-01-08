@@ -29,7 +29,7 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="uk.ac.gda.beamline.i10.TestPerspective"
+            class="uk.ac.gda.beamline.i10.I10ScanPerspective"
             id="uk.ac.gda.beamline.I10ScanPerspective"
             name="I10 Scan Perspective">
       </perspective>
