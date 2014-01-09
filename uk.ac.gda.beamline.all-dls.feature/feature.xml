@@ -172,7 +172,27 @@
          unpack="false"/>
 
    <plugin
+         id="uk.ac.gda.px.adsc"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="uk.ac.gda.px.ispyb"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+   <plugin
+         id="uk.ac.gda.px.marccd"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.px.swing"
          download-size="0"
          install-size="0"
          version="0.0.0"
