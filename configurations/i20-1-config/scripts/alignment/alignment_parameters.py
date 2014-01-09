@@ -245,7 +245,7 @@ def _calcPower(parametersBean):
     
 def _getRealDetDistanceInM():
     
-    det_z = Finder.getInstance().find("detector_z")
+    det_z = Finder.getInstance().find("det_z")
     return det_z.getPosition() / 1000.
 
 def _getDetectorSizeInMM(parametersBean):

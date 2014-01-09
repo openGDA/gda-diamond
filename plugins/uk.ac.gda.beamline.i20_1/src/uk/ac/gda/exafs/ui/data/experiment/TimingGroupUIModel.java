@@ -36,9 +36,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup.InputTriggerLemoNumbers;
 import com.google.gson.annotations.Expose;
 
 import de.jaret.util.date.Interval;
-import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
-import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
 public class TimingGroupUIModel extends ExperimentTimingDataModel {
@@ -46,7 +44,7 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 	private static final Logger logger = LoggerFactory.getLogger(TimingGroupUIModel.class);
 
 	private final List<SpectrumModel> spectrumList = new ArrayList<SpectrumModel>();
-	private final DefaultTimeBarModel timeBarRowModel;
+	private final DefaultTimeBarRowModel spectraTimeBarRowModel;
 
 	public static final String UNIT_PROP_NAME = "unit";
 	private ExperimentUnit unit = ExperimentUnit.SEC;
@@ -115,7 +113,7 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 			if (_intervals.contains(interval)) {
 				_intervals.remove(interval);
 				// check min/max the hard way (optimize in custom implementations!)
-				updateMinMax();
+				//updateMinMax();
 				interval.removePropertyChangeListener(this);
 				fireElementRemoved(interval);
 			}
@@ -133,8 +131,8 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 		this.firePropertyChange(TIME_PER_SPECTRUM_PROP_NAME, this.timePerSpectrum, this.timePerSpectrum = timePerSpectrum);
 	}
 
-	public TimingGroupUIModel(DefaultTimeBarModel timeBarRowModel, ExperimentUnit unit, TimeResolvedExperimentModel parent) {
-		this.timeBarRowModel = timeBarRowModel;
+	public TimingGroupUIModel(DefaultTimeBarRowModel spectraTimeBarRowModel, ExperimentUnit unit, TimeResolvedExperimentModel parent) {
+		this.spectraTimeBarRowModel = spectraTimeBarRowModel;
 		this.parent = parent;
 		this.resetInitialTime(0.0, ExperimentTimingDataModel.MIN_DURATION_TIME, 0.0, ExperimentTimingDataModel.MIN_DURATION_TIME);
 		setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
@@ -165,7 +163,7 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 		int current = spectrumList.size();
 		for (int i = current; i > numberOfSpectrum; i--) {
 			SpectrumModel itemToRemove = spectrumList.get(i - 1);
-			removeIntervals(itemToRemove);
+			spectraTimeBarRowModel.remInterval(itemToRemove);
 			spectrumList.remove(itemToRemove);
 		}
 		double startTimeForSpectrum = this.getStartTimeForSpectra();
@@ -182,7 +180,7 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 			spectrum.setName("Spectrum " + i);
 			if (i >= current) {
 				spectrumList.add(spectrum);
-				addIntervals(spectrum);
+				spectraTimeBarRowModel.addInterval(spectrum);
 			}
 		}
 		firePropertyChange(NO_OF_SPECTRUM_PROP_NAME, current, spectrumList.size());
@@ -212,7 +210,12 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 	}
 
 	public void setNumberOfSpectrum(int numberOfSpectrum) {
-		long newTimePerSpectrum = Math.round(this.getAvailableDurationAfterDelay() / numberOfSpectrum);
+		double newTimePerSpectrum = 0.0;
+		if (this.getUnit().getWorkingUnit() != ExperimentUnit.MILLI_SEC) {
+			newTimePerSpectrum = Math.round(this.getAvailableDurationAfterDelay() / numberOfSpectrum);
+		} else {
+			newTimePerSpectrum = ((int) (this.getAvailableDurationAfterDelay() / numberOfSpectrum * 100)) / 100.0;
+		}
 		updateTimePerSpectrum(newTimePerSpectrum);
 		adjustEndTimeForNumberOfSpectrum(numberOfSpectrum);
 		this.adjustSpectra(numberOfSpectrum);
@@ -299,22 +302,10 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 		return parent;
 	}
 
-	private void addIntervals(IntervalImpl groupModel) {
-		for(int i = 1; i < timeBarRowModel.getRowCount(); i += 2) {
-			((TimingGroupTimeBarRowModel) timeBarRowModel.getRow(i)).addInterval(groupModel);
-		}
-	}
-
-	private void removeIntervals(IntervalImpl groupModel) {
-		for(int i = 1; i < timeBarRowModel.getRowCount(); i += 2) {
-			((TimingGroupTimeBarRowModel) timeBarRowModel.getRow(i)).remInterval(groupModel);
-		}
-	}
-
 	@Override
 	public void dispose() {
 		for(SpectrumModel spectrum : spectrumList) {
-			removeIntervals(spectrum);
+			spectraTimeBarRowModel.remInterval(spectrum);
 		}
 		spectrumList.clear();
 	}

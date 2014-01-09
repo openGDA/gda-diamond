@@ -39,7 +39,7 @@ import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
+import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
 public class EdeDataStoreTest {
 
@@ -56,7 +56,7 @@ public class EdeDataStoreTest {
 			public void run() {
 				WritableList groupList = new WritableList(new ArrayList<TimingGroupUIModel>(), TimingGroupUIModel.class);
 				TimeResolvedExperimentModel testLinerExperimentModel = new TimeResolvedExperimentModel();
-				TimingGroupUIModel group = new TimingGroupUIModel(new DefaultTimeBarModel(), ExperimentUnit.SEC, testLinerExperimentModel);
+				TimingGroupUIModel group = new TimingGroupUIModel(new DefaultTimeBarRowModel() , ExperimentUnit.SEC, testLinerExperimentModel);
 				group.setTimes(0.0, 1000.0);
 				group.setNumberOfSpectrum(100);
 				group.setTimePerSpectrum(10);

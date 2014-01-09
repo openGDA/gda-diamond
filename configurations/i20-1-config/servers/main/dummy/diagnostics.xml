@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="d2_screen" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="d2" class="gda.device.enumpositioner.DummyPositioner">
 		<property name="positions">
 			<list>
 				<value>Empty</value>
@@ -13,7 +13,7 @@
 		</property>
 	</bean>
 	<bean id="d2motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="d2_motor" class="gda.device.scannable.ScannableMotor">
+	<bean id="d2_pos" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="d2motor" />
 	</bean>
 	<bean id="d2_current" class="gda.device.monitor.EpicsMonitor">
@@ -33,7 +33,7 @@
 		</property>
 	</bean>
 	<bean id="d3motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="d3_motor" class="gda.device.scannable.ScannableMotor">
+	<bean id="d3_pos" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="d3motor" />
 	</bean>
 

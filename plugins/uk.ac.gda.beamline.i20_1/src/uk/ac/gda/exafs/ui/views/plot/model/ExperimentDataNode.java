@@ -20,6 +20,7 @@ package uk.ac.gda.exafs.ui.views.plot.model;
 
 import gda.factory.Finder;
 import gda.jython.IScanDataPointObserver;
+import gda.jython.InterfaceProvider;
 import gda.observable.IObservable;
 import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeExperimentProgressBean;
@@ -34,23 +35,17 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.swt.widgets.Display;
 
-import uk.ac.gda.beans.ObservableModel;
-import uk.ac.gda.exafs.ui.views.plot.model.DataNode.DataItemNode;
+public class ExperimentDataNode extends DataNode implements IScanDataPointObserver {
 
-public class PlotDataHolder extends ObservableModel implements IScanDataPointObserver {
+	private final Map<String, ScanDataNode> scans = new HashMap<String, ScanDataNode>();
+	private final IObservableList dataset = new WritableList(new ArrayList<ScanDataNode>(), ScanDataNode.class);
 
-	private final Map<String, DatasetNode> scans = new HashMap<String, DatasetNode>();
-	private final IObservableList dataset = new WritableList(new ArrayList<DatasetNode>(), DatasetNode.class);
+	private DataNode changedData;
 
-	public static final String DATA_CHANGED_PROP_NAME = "changedData";
-	private DataItemNode changedData;
-
-	public PlotDataHolder() {
+	public ExperimentDataNode() {
+		super(null);
 		((IObservable) Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(this);
-	}
-
-	public IObservableList getDataset() {
-		return dataset;
+		InterfaceProvider.getScanDataPointProvider().addIScanDataPointObserver(this);
 	}
 
 	@Override
@@ -63,22 +58,21 @@ public class PlotDataHolder extends ObservableModel implements IScanDataPointObs
 		});
 	}
 
-	public DataItemNode getChangedData() {
+	public DataNode getChangedData() {
 		return changedData;
 	}
 
-	// TODO Changed to linked list!
+	// FIXME Changed to linked list or change viewer to reverse the order!
 	@SuppressWarnings("unchecked")
 	protected void updateDataSetInUI(@SuppressWarnings("unused") Object source, Object arg) {
-
 		if (arg instanceof EdeExperimentProgressBean) {
 			final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
 			final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
 			final String scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
-			DatasetNode datasetNode;
+			ScanDataNode datasetNode;
 			if (!scans.containsKey(scanIdentifier)) {
 				boolean isMulti = (edeExperimentProgress.getExperimentCollectionType() == ExperimentCollectionType.MULTI);
-				final DatasetNode newNode = new DatasetNode(scanIdentifier, isMulti);
+				final ScanDataNode newNode = new ScanDataNode(scanIdentifier, isMulti, this);
 				scans.put(scanIdentifier, newNode);
 				dataset.add(0, newNode);
 				datasetNode = newNode;
@@ -88,6 +82,15 @@ public class PlotDataHolder extends ObservableModel implements IScanDataPointObs
 			changedData = datasetNode.updateData((EdeExperimentProgressBean) arg);
 			this.firePropertyChange(DATA_CHANGED_PROP_NAME, null, changedData);
 		}
+	}
 
+	@Override
+	public IObservableList getChildren() {
+		return dataset;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return null;
 	}
 }

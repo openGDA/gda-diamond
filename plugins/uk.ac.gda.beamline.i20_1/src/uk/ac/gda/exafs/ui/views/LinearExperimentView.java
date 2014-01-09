@@ -57,7 +57,7 @@ public class LinearExperimentView extends ViewPart {
 
 	private static Logger logger = LoggerFactory.getLogger(LinearExperimentView.class);
 
-	private FormToolkit toolkit;
+	protected FormToolkit toolkit;
 	private DataBindingContext dataBindingCtx;
 
 	protected Button useExternalTriggerCheckbox;
@@ -70,22 +70,23 @@ public class LinearExperimentView extends ViewPart {
 
 	@Override
 	public void createPartControl(final Composite parent) {
-		if (toolkit == null) {
-			toolkit = new FormToolkit(parent.getDisplay());
-		}
+		toolkit = new FormToolkit(parent.getDisplay());
 		dataBindingCtx = new DataBindingContext();
 		final SashForm parentComposite = new SashForm(parent, SWT.VERTICAL);
 		parentComposite.SASH_WIDTH = 7;
-
 		try {
-			createExperimentPropertiesComposite(parentComposite);
-			createTimeBarComposite(parentComposite);
+			createSections(parentComposite);
 			bind();
-			parentComposite.setWeights(new int[] {3, 1});
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
 		}
+	}
+
+	protected void createSections(final SashForm parentComposite) {
+		createExperimentPropertiesComposite(parentComposite);
+		createTimeBarComposite(parentComposite);
+		parentComposite.setWeights(new int[] {3, 1});
 	}
 
 	protected TimeResolvedExperimentModel getModel() {
@@ -140,7 +141,7 @@ public class LinearExperimentView extends ViewPart {
 				});
 	}
 
-	private void createExperimentPropertiesComposite(Composite parent) {
+	protected void createExperimentPropertiesComposite(Composite parent) {
 		Composite composite = new Composite(parent, SWT.None);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		composite.setLayout(UIHelper.createGridLayoutWithNoMargin(1,false));
@@ -215,7 +216,7 @@ public class LinearExperimentView extends ViewPart {
 		toolkit.paintBordersFor(timingGroupSectionComposite);
 	}
 
-	private void createTimeBarComposite(Composite parent) {
+	protected void createTimeBarComposite(Composite parent) {
 		timebarViewerComposite = new ExperimentTimeBarComposite(parent, SWT.None, getModel());
 		timebarViewerComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		MenuManager menuManager = new MenuManager();

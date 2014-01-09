@@ -88,8 +88,6 @@ public class ExperimentTimeBarComposite extends ResourceComposite {
 				resetToDisplayWholeExperimentTime();
 				updateScaleSelection();
 				updateTopupMarkers((double) newValue);
-			} else if (propertyName.equals(TimeResolvedExperimentModel.NO_OF_REPEATED_GROUPS_PROP_NAME)) {
-				timeBarViewer.setAutoScaleRows((int) newValue * 2);
 			}
 		}
 	};
@@ -104,10 +102,11 @@ public class ExperimentTimeBarComposite extends ResourceComposite {
 		timeBarViewer.setTimeScalePosition(TimeBarViewerInterface.TIMESCALE_POSITION_TOP);
 
 		timeBarViewer.setDrawRowGrid(true);
-		timeBarViewer.setAutoScaleRows(model.getNoOfRepeatedGroups() * 2);
-		timeBarViewer.setAutoscrollEnabled(true);
+		timeBarViewer.setAutoScaleRows(2);
+		//		timeBarViewer.setAutoscrollEnabled(true);
 		timeBarViewer.setMilliAccuracy(true);
 		timeBarViewer.setDrawOverlapping(true);
+		timeBarViewer.setYAxisWidth(80);
 
 		timeBarViewer.registerTimeBarRenderer(TimingGroupUIModel.class, new CollectionModelRenderer(model));
 		timeBarViewer.registerTimeBarRenderer(SpectrumModel.class, new CollectionModelRenderer(model));
@@ -143,11 +142,6 @@ public class ExperimentTimeBarComposite extends ResourceComposite {
 			public void intervalChangeCancelled(TimeBarRow arg0, Interval arg1) {}
 		});
 
-		// Controls
-		Composite controls = new Composite(this, SWT.None);
-		controls.setLayoutData(new GridData(SWT.END, SWT.FILL, false, true));
-		controls.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
-		scale = new Scale(controls, SWT.VERTICAL);
 
 		timeBarViewer.addControlListener(new ControlListener() {
 			@Override
@@ -159,6 +153,13 @@ public class ExperimentTimeBarComposite extends ResourceComposite {
 		});
 
 		timeBarViewer.setMarkerRenderer(new ExperimentMarkerRenderer());
+
+
+		// Controls
+		Composite controls = new Composite(this, SWT.None);
+		controls.setLayoutData(new GridData(SWT.END, SWT.FILL, false, true));
+		controls.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
+		scale = new Scale(controls, SWT.VERTICAL);
 
 		// TODO Adjust accordingly
 		scale.setMinimum(10);
