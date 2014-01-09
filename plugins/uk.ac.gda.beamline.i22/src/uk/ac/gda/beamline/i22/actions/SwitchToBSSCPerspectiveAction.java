@@ -32,22 +32,25 @@ public class SwitchToBSSCPerspectiveAction implements IIntroAction {
 
 	public SwitchToBSSCPerspectiveAction() {
 		System.out.println("SwitchPerspective");
-		
+
 		IWorkbench workbench = PlatformUI.getWorkbench();
-		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		 
-		// open the BioSAXS setup perspective
-		try {
-			workbench.showPerspective("uk.ac.gda.devices.bssc.perspective", window);
-		} catch (WorkbenchException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		// open the BBSSC setup perspective
+		for (String id : new String[] { "uk.ac.gda.pydev.extension.ui.JythonPerspective",
+				"gda.rcp.ncd.perspectives.WaxsPerspective", "gda.rcp.ncd.perspectives.SaxsProcessingPerspective",
+				"gda.rcp.ncd.perspectives.SaxsPerspective", "gda.rcp.ncd.perspectives.NcdDetectorPerspective",
+				"gda.rcp.ncd.perspectives.SetupPerspective" }) {
+			try {
+				PlatformUI.getWorkbench().showPerspective(id, PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+			} catch (WorkbenchException e) {
+				// we see if that fails and it is not the end of the world
+			}
 		}
 	}
 
 	@Override
 	public void run(IIntroSite site, Properties params) {
-        final IIntroPart introPart = PlatformUI.getWorkbench().getIntroManager().getIntro(); 
-        PlatformUI.getWorkbench().getIntroManager().closeIntro(introPart);  
+		final IIntroPart introPart = PlatformUI.getWorkbench().getIntroManager().getIntro();
+		PlatformUI.getWorkbench().getIntroManager().closeIntro(introPart);
 	}
 }

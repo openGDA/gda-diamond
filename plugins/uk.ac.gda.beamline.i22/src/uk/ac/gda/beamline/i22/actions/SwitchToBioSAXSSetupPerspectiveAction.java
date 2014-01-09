@@ -14,13 +14,15 @@ public class SwitchToBioSAXSSetupPerspectiveAction implements IIntroAction {
 
 	public SwitchToBioSAXSSetupPerspectiveAction() {
 		System.out.println("SwitchPerspective");
-		
+
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		 
+
 		// open the BioSAXS setup perspective
 		try {
-			workbench.showPerspective("uk.ac.gda.devices.bssc.biosaxssetupPerspective", window);
+			workbench.showPerspective("uk.ac.gda.devices.bssc.biosaxsresultperspective", window);
+			workbench.showPerspective("uk.ac.gda.devices.bssc.biosaxsprogressperspective", window);
+			workbench.showPerspective("uk.ac.gda.devices.bssc.biosaxssetupperspective", window);
 		} catch (WorkbenchException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -29,7 +31,7 @@ public class SwitchToBioSAXSSetupPerspectiveAction implements IIntroAction {
 
 	@Override
 	public void run(IIntroSite site, Properties params) {
-        final IIntroPart introPart = PlatformUI.getWorkbench().getIntroManager().getIntro(); 
-        PlatformUI.getWorkbench().getIntroManager().closeIntro(introPart);  
+		final IIntroPart introPart = PlatformUI.getWorkbench().getIntroManager().getIntro();
+		PlatformUI.getWorkbench().getIntroManager().closeIntro(introPart);
 	}
 }
