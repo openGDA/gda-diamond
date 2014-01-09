@@ -35,8 +35,8 @@
 <import resource="keyence.xml" />
 <import resource="bsaxs-axes.xml" />
 <import resource="hexapod.xml" />
-<import resource="microfocus/microfocus.xml" />
 -->
+<import resource="microfocus/microfocus.xml" />
 	<bean id="ringcurrent" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
