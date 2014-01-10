@@ -704,7 +704,17 @@ if installation.isLive():
 if installation.isLive() and ENABLE_PCOEDGE:
 
 
-	pcoedge = ProcessingDetectorWrapper('pcoedge', _pcoedge, [], panel_name='ImageProPlus Plot', toreplace='N:/', replacement='/dls/b16/') #@UndefinedVariable
+	pcoedge = SwitchableHardwareTriggerableProcessingDetectorWrapper('pcoedge',
+																	_pcoedge,  # @UndefinedVariable
+																	None,
+																	_pcoedge_for_snaps,  # @UndefinedVariable
+																	[],
+																	panel_name='ImageProPlus Plot',
+																	panel_name_rcp='Plot 1',
+																	fileLoadTimout=60)
+
+
+
 	#visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(_pcoedge, subfolder='pcoedge', create_folder=True, toreplace='/dls/b16/', replacement='N:/')) #@UndefinedVariable)
 	#visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(pcoedge, report_path = False))
 	pcoedge.disable_operation_outside_scans = True

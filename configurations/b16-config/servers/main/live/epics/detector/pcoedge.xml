@@ -13,6 +13,12 @@
 	<bean id="pcoedge_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="BL16B-EA-DET-03:TIF:" />
 		<property name="resetToInitialValues" value="false" />
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
+				<property name="unixSubString" value="/dls/b16" />
+				<property name="windowsSubString" value="N:" />
+			</bean>
+		</property>
 	</bean>
 
 
