@@ -13,6 +13,4 @@ def flyscan(scannableMotor, start, stop, step, continuousMoveController, det, ex
     sc1=ConstantVelocityScanLine([scannableMotor, start, stop, step,continuousMoveController, det, exposureTime])
     items = []
     items.append(MultiScanItem(sc1,None))
-#    MultiScanRunner( items).run() # 8.36
-    MultiScanRunner( items).runScan() #8.34
-    # TODO: Switch back in 8.36
+    MultiScanRunner(items).run()
