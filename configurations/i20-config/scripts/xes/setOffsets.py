@@ -43,7 +43,7 @@ def _setFromDict(offsetsDict):
     print "Setting the spectrometer offsets:"
     for name in offsetsDict.keys():
         offset = offsetsDict[name]
-        print "\t %20s offset -> %.2f" % (name,offset)
+        print "\t %20s offset -> %.9f" % (name,offset)
         spectrometer.getGroupMember(name).setOffset([offset])    
 
 def _checkDictNames(valuesDict):

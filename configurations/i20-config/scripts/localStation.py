@@ -48,7 +48,7 @@ vortex.initialize()
 alias("vortex")
 
 detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortex)
-samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel)
+samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat)
 outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
 
 from gda.device.scannable import TwoDScanPlotter
@@ -65,6 +65,8 @@ xanes = xas
 alias("xas")
 alias("xanes")
 alias("xes")
+
+current_store_tracker = "none"
 
 # To make scans return to the start after being run
 # Should be for commissioning only.
@@ -104,6 +106,7 @@ else:
 # XES offsets section
 #
 from xes import calcExpectedPositions, offsetsStore, setOffsets
+offsetsStore = offsetsStore.XESOffsets()
 offsetsStore.removeAllOffsets()
 # do nothing more so that offsets start at zero everytime
 
