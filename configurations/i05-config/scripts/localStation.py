@@ -95,6 +95,9 @@ sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename")
 
 from arpesmonitor import ARPESMonitor
 am=ARPESMonitor()
+centre_energy=analyser.getCentreEnergyScannable()
+centre_energy.setName("centre_energy")
+centre_energy.setInputNames(["centre_energy"])
 
 caput("BL05I-EA-DET-01:ARR1:EnableCallbacks",1)
 
