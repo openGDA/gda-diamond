@@ -1,22 +1,22 @@
 import time
-import pv_scannable_utils
+from epics_scripts.pv_scannable_utils import createPVScannable
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.jython import InterfaceProvider
 def setup():
-    acoll_average_size= pv_scannable_utils.createPVScannable("acoll_average_size", "BL13I-OP-ACOLL-01:AVERAGESIZE", False)
-    acoll_x_value = pv_scannable_utils.createPVScannable("acoll_x_value", "BL13I-OP-ACOLL-01:XVALUE", False)
-    acoll_y_value = pv_scannable_utils.createPVScannable("acoll_y_value", "BL13I-OP-ACOLL-01:YVALUE", False)
-    acoll_x_invalid = pv_scannable_utils.createPVScannable("acoll_x_invalid", "BL13I-OP-ACOLL-01:XINVALID", False)
-    acoll_y_invalid = pv_scannable_utils.createPVScannable("acoll_y_invalid", "BL13I-OP-ACOLL-01:YINVALID", False)
-    acoll_x_samples = pv_scannable_utils.createPVScannable("acoll_x_samples", "BL13I-OP-ACOLL-01:XSAMPLES", False)
-    acoll_y_samples = pv_scannable_utils.createPVScannable("acoll_y_samples", "BL13I-OP-ACOLL-01:YSAMPLES", False)
-    acoll_x_std_dev = pv_scannable_utils.createPVScannable("acoll_x_std_dev", "BL13I-OP-ACOLL-01:XSTDDEV", False)
-    acoll_y_std_dev = pv_scannable_utils.createPVScannable("acoll_y_std_dev", "BL13I-OP-ACOLL-01:YSTDDEV", False)
-    acoll_sample_period = pv_scannable_utils.createPVScannable("acoll_sample_period", "BL13I-OP-ACOLL-01:SAMPLEPERIOD", False)
-    acoll_connected = pv_scannable_utils.createPVScannable("acoll_connected", "BL13I-OP-ACOLL-01:CONNECTED", False)
-    acoll_running = pv_scannable_utils.createPVScannable("acoll_running", "BL13I-OP-ACOLL-01:RUNNING", False)
-    acoll_go = pv_scannable_utils.createPVScannable("acoll_go", "BL13I-OP-ACOLL-01:GO", False)
-    acoll_stop = pv_scannable_utils.createPVScannable("acoll_stop", "BL13I-OP-ACOLL-01:STOP", False)
+    acoll_average_size= createPVScannable("acoll_average_size", "BL13I-OP-ACOLL-01:AVERAGESIZE", False)
+    acoll_x_value = createPVScannable("acoll_x_value", "BL13I-OP-ACOLL-01:XVALUE", False)
+    acoll_y_value = createPVScannable("acoll_y_value", "BL13I-OP-ACOLL-01:YVALUE", False)
+    acoll_x_invalid = createPVScannable("acoll_x_invalid", "BL13I-OP-ACOLL-01:XINVALID", False)
+    acoll_y_invalid = createPVScannable("acoll_y_invalid", "BL13I-OP-ACOLL-01:YINVALID", False)
+    acoll_x_samples = createPVScannable("acoll_x_samples", "BL13I-OP-ACOLL-01:XSAMPLES", False)
+    acoll_y_samples = createPVScannable("acoll_y_samples", "BL13I-OP-ACOLL-01:YSAMPLES", False)
+    acoll_x_std_dev = createPVScannable("acoll_x_std_dev", "BL13I-OP-ACOLL-01:XSTDDEV", False)
+    acoll_y_std_dev = createPVScannable("acoll_y_std_dev", "BL13I-OP-ACOLL-01:YSTDDEV", False)
+    acoll_sample_period = createPVScannable("acoll_sample_period", "BL13I-OP-ACOLL-01:SAMPLEPERIOD", False)
+    acoll_connected = createPVScannable("acoll_connected", "BL13I-OP-ACOLL-01:CONNECTED", False)
+    acoll_running = createPVScannable("acoll_running", "BL13I-OP-ACOLL-01:RUNNING", False)
+    acoll_go = createPVScannable("acoll_go", "BL13I-OP-ACOLL-01:GO", False)
+    acoll_stop = createPVScannable("acoll_stop", "BL13I-OP-ACOLL-01:STOP", False)
     acoll = ScannableGroup()
     acoll.addGroupMember(acoll_average_size)
     acoll.addGroupMember(acoll_x_value)

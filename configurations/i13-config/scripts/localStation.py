@@ -54,10 +54,7 @@ try:
 		ls_names(Scannable)
 
 
-	from pv_scannable_utils import createPVScannable, caput, caget
-	alias("createPVScannable")
-	alias("caput")
-	alias("caget")
+	from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget, caputStringAsWaveform
 	
 
 
@@ -224,6 +221,13 @@ try:
 	bl.setName("bl")
 
 
+	if isLive():
+		#setup pco cpy plugin
+		caput( "BL13I-EA-DET-01:COPY:Run", 0)
+		caputStringAsWaveform( "BL13I-EA-DET-01:COPY:SourceFilePath", "d:\\i13\\data\\2014")
+		caputStringAsWaveform( "BL13I-EA-DET-01:COPY:DestFilePath", "t:\\i13\\data\\2014")
+		caput ("BL13I-EA-DET-01:COPY:Run", 1)
+		
 	if isLive():
 		run("localStationUser.py")
 
