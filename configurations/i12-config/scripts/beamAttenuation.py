@@ -17,9 +17,9 @@ def moveAttenuatorsTo(totalFiltration):
     
     
     if (totalFiltration!=0 or totalFiltration!=1 or totalFiltration!=2 or totalFiltration!=3 or totalFiltration!=4 or totalFiltration!=6 or totalFiltration!=8 or totalFiltration!=9 or totalFiltration!=12):
-        print "Chosen attendator thickness not available."
+        print "Chosen attenuation thickness not available."
         print "Possible thickness: 0mm, 1mm, 2mm, 3mm, 4mm, 6mm, 8mm, 9mm or 12mm"
-        return
+        #return
     # Define variables:
     print ""
     # array containing energy, crystal1 rot, crystal 2 rot, translation, mono2 diagnostic positions, based on motor positions found 10/2013

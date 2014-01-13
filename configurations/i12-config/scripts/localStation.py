@@ -22,7 +22,7 @@ import i12utilities
 from i12utilities import DocumentationScannable
 import lookupTables
 
-#from beamEnergy import setEnergy
+#import beamEnergy
 #alias("setEnergy")
 
 #from detectorModeSwitching import moveToImagingMode, moveToDiffractionMode
@@ -216,11 +216,12 @@ from gdascripts.pd.time_pds import * #@UnusedWildImport
 from gdascripts.pd.epics_pds import * #@UnusedWildImport
 try:
     pixtimestamp = DisplayEpicsPVClass('pixtimestamp', 'BL12I-EA-DET-05:TIFF:TimeStamp_RBV', 's', '%.3f')
-    pixtemperature = DisplayEpicsPVClass('pixtemperature', 'BL12I-EA-DET-05:TIFF:Temperature_RBV', 'degree', '%.3f') 
-    pixtotalcount = DisplayEpicsPVClass('pixtotalcount', 'BL12I-EA-DET-05:STAT:Total_RBV', 'degree', '%d') 
-    pixexposure = DisplayEpicsPVClass('pixexposure', 'BL12I-EA-DET-05:PIX:AcquireTime_RBV', 's', '%.3f') 
+    pixtemperature = DisplayEpicsPVClass('pixtemperature', 'BL12I-EA-DET-05:PIX:Temperature_RBV', 'degree', '%.1f') 
+    pixtotalcount = DisplayEpicsPVClass('pixtotalcount', 'BL12I-EA-DET-05:STAT:Total_RBV', 'count', '%d') 
+    pixexposure = DisplayEpicsPVClass('pixexposure', 'BL12I-EA-DET-05:PIX:AcquireTime_RBV', 's', '%.3f')
+
 except:
-    print "cannot create pixium timestamp and temperature scannables"
+    print "cannot create pixium scannables"
      
 try:
     pcotimestamp = DisplayEpicsPVClass('pcotimestamp', 'TEST:TIFF0:TimeStamp_RBV', 's', '%.3f')    
@@ -430,8 +431,35 @@ alias("setExposuresPerImage")
 alias("getExposuresPerImage")
 alias("pixCalibrate") 
 
+
+print "\n Finding requested default scannables in the Jython namespace..."
+# append items to the list below as required
+_default_scannables_names_i12 = []
+_default_scannables_names_i12.append("ring")
+_default_scannables_names_i12.append("actualTime")
+
+#_default_scannables_names_i12.append("I0eh1")
+#_default_scannables_names_i12.append("I0eh1l")
+#_default_scannables_names_i12.append("I0eh2")
+#_default_scannables_names_i12.append("I0eh2l")
+#_default_scannables_names_i12.append("I0oh2l")
+
+from types import *
+_default_scannables_i12 = []
+for sname in _default_scannables_names_i12:
+    if type(finder.find(sname)) is not NoneType:
+        _default_scannables_i12.append(finder.find(sname))
+    else:
+        try:
+            #print sname
+            eval(sname)
+            _default_scannables_i12.append(eval(sname))
+        except:
+            msg = "\t Unable to find a default scannable named: " + sname
+            print msg
+
+print "\n Adding default scannables to the list of defaults in the scan system..."
 try:
-    print "\n Adding default scannables"
     default_scannables = []
     default_scannables.append(ring)
     default_scannables.append(actualTime)
@@ -441,15 +469,23 @@ try:
     #default_scannables.append(I0eh2l)
     #default_scannables.append(I0oh2l)
     
-    for s in default_scannables:
+    #for s in default_scannables:
+    for s in _default_scannables_i12:
         add_default(s)
 except:
     exceptionType, exception, traceback = sys.exc_info()
-    msg = "Unable to add default scannables: "
+    msg = "Unable to complete adding default scannables: "
     handle_messages.log(None, msg, exceptionType, exception, traceback, False)
 
+print "\n Completed adding default scannables."
+srv = finder.find(JythonServer.SERVERNAME)
+infoAllDefaultScannables_i12 = srv.getDefaultScannables().toArray()
+print "\n ***List of all default scannables in the scan system:"
+for s in infoAllDefaultScannables_i12:
+    print s.getName()
+
 try:
-    print "\n Adding meta (before-scan) scannables"
+    print "\n Adding requested meta (before-scan) scannables to the list of metas in the scan system..."
     meta_scannables = []
     meta_scannables.append(cam1)
     #meta_scannables.append(cam3)
@@ -458,8 +494,8 @@ try:
     meta_scannables.append(f3)
     meta_scannables.append(f4)
     
-    meta_scannables.append(mc1_bragg)
-    meta_scannables.append(mc2)
+    #meta_scannables.append(mc1_bragg)
+    #meta_scannables.append(mc2)
     
     #meta_scannables.append(s1)
     #meta_scannables.append(s2)
@@ -471,12 +507,39 @@ try:
     for s in meta_scannables:
         meta_add(s)
     
-    msg = meta_ls()
-    print msg
+    print "\n Completed adding meta (before-scan) scannables."
+    print "\n ***List of all meta (before-scan) scannables in the scan system:"
+    infoAllMetaScannables_i12 = meta_ls()
+    print infoAllMetaScannables_i12
 except:
     exceptionType, exception, traceback = sys.exc_info()
-    msg = "Unable to add meta (before-scan) scannables: "
+    msg = "Unable to complete adding meta (before-scan) scannables: "
     handle_messages.log(None, msg, exceptionType, exception, traceback, False)
+    
+    
+    
+def clear_defaults():
+    """To clear all current default scannables."""
+    srv = finder.find(JythonServer.SERVERNAME)
+    all_vec = srv.getDefaultScannables()
+    all_arr = all_vec.toArray()
+    for s in all_arr:
+        #srv.removeDefault(s)
+        remove_default(s)
+
+alias("clear_defaults")
+
+pix10_PUMode = DisplayEpicsPVClass('pix10_PUMode', 'BL12I-EA-DET-10:CAM:PuMode_RBV', 'PU', '%i')
+pix10_BaseExposure = DisplayEpicsPVClass('pix10_BaseExposure', 'BL12I-EA-DET-10:CAM:AcquireTime_RBV', 's', '%.3f')
+pix10_BaseAcquirePeriod = DisplayEpicsPVClass('pix10_BaseAcquirePeriod', 'BL12I-EA-DET-10:CAM:AcquirePeriod_RBV', 's', '%.3f')
+
+pix10_Totalcount = DisplayEpicsPVClass('pix10_Totalcount', 'BL12I-EA-DET-10:STAT:Total_RBV', 'count', '%.0f') 
+pix10_BaseExposureTime = DisplayEpicsPVClass('pix10_ExposureTime', 'BL12I-EA-DET-10:PIX:AcquireTime_RBV', 's', '%.3f')
+pix10_BaseAcquisitionTime = DisplayEpicsPVClass('pix10_AcquisitionTime', 'BL12I-EA-DET-10:CAM:AcquirePeriod_RBV', 's', '%.3f')
+pix10_FanSpeed1 = DisplayEpicsPVClass('pix10_FanSpeed1', 'BL12I-EA-DET-10:CAM:DetectorFan1Speed', 'rpm', '%.0f')
+pix10_FanSpeed2 = DisplayEpicsPVClass('pix10_FanSpeed2', 'BL12I-EA-DET-10:CAM:DetectorFan2Speed', 'rpm', '%.0f')
+pix10_DetectorTemperature = DisplayEpicsPVClass('pixium10DetectorTemperature', 'BL12I-EA-DET-10:CAM:DetectorTemperature', 'degree', '%.1f') 
+
 
 import os
 def stress12(exposureTime=1.0,startAng=0.0, stopAng=180.0, stepAng=0.05, subDir=None, loopNum=1):
