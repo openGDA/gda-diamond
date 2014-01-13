@@ -1,9 +1,39 @@
+
+
 print "setting up beamEnergy script"
 
 from gda.jython.commands.GeneralCommands import alias, vararg_alias
 import scisoftpy as dnp
 import time
+import math
 
+def set_to_energy(target_energy):
+    
+    print "calculate Energy "
+    
+    charge = 1.60217646e-19;
+    planks = 6.626068e-34;
+    sp_light = 2.99792458e8;
+    
+    z_error = 17.2791  # error in z position of crystal 2 (mm)
+    d1_error = 0.6594  # error in 2*theta1 (degrees)
+    d2_error = -0.4669  # error in 2*theta2 (degrees)
+    d0 = 0.3100  # estimated d-spacing (nm)
+    h_cam = 260.7240  # starting position for height of camera (mm)
+    z_cam = 3107.6098  # starting z position of camera (mm)
+    wavelength_error = 6.506105185762627e-05  # error in wavelength (nm)
+    
+    target_wavelength = ((sp_light * planks / (target_energy * 1e-9)) / charge) / 1000
+    
+    target_c1 = (180/math.pi) * math.asin((target_wavelength - wavelength_error)/(2*d0)) + d1_error/2
+    target_c2 = target_c1 - d1_error/2 + d2_error/2
+    target_z = 50 / math.tan((2*target_c1 - d1_error)*math.pi/180) + z_error
+    target_cam = (z_cam * math.tan((2*target_c1 - d1_error)*math.pi/180)) - h_cam
+    
+    print "target_c1  :" + `target_c1`
+    print "target_c2  :" + `target_c2`
+    print "target_z   :" + `target_z`
+    print "target_cam :" + `target_cam`
 
 
 
@@ -18,17 +48,15 @@ def setEnergy(energy):
  
     # array containing energy, crystal1 rot, crystal 2 rot, translation, mono2 diagnostic positions, based on motor positions found 10/2013
     arr=dnp.array([[
-     [53, -2527.1, -1946.1, 668.8, -22.1],
-     [60, -2264.9, -1687.2, 757.5, -50.8],
-     [70, -1984.2, -1410.9, 884.1, -84.0],
-     [80, -1769.2, -1204.1, 1010.7, -104.3],
-     [90, -1606.1, -1042.0, 1137.3, -122.0],
-     [100, -1476.0, -910.2, 1263.8, -136.0],
-     [110, -1372.1, -812.9, 1390.3, -157.6],
-     [120, -1282.0, -725.2, 1516.8, -157.4],
-     [130, -1209.1, -645.3, 1643.3, -165.2],
-     [140, -1145.3, -582.7, 1769.8, -172.4],
-     [150, -1092.1, -530.1, 1896.3, -178.2]
+     [53, -2074.1, -1921.0, 668.8, -22.1],
+     [60, -1826.9, -1672.4, 757.5, -50.8],
+     [70, -1531.9, -1382.2, 884.1, -84.0],
+     [80, -1350.1, -1205.1, 1010.7, -104.3],
+     [90, -1191.0, -1046.0, 1137.3, -122.0],
+     [100, -1068.3, -914.2, 1263.8, -136.0],
+     [110, -956.4, -820.4, 1390.3, -157.6],
+     [120, -872.3, -734.3, 1516.8, -157.4],
+     [130, -796.7, -656.4, 1643.3, -165.2],
      ]])
 
     # select row with energy

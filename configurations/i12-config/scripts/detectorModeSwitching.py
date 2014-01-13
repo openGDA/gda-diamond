@@ -14,7 +14,7 @@ try:
 except:
     print "detector_table_master = " + detector_table_master.getName()
 
-detector_diffzposition=2550
+detector_diffzposition=1200
 
 
 def monodiffractionMode():
@@ -28,8 +28,8 @@ def monodiffractionMode():
     #slitpositions
     s2_diffxcentre=0
     s2_diffycentre=50
-    s2_diffxsize=1.5
-    s2_diffysize=1.5
+    s2_diffxsize=0.3
+    s2_diffysize=0.3
     
     s3_diffxcentre=0
     s3_diffycentre=0
@@ -37,8 +37,8 @@ def monodiffractionMode():
     s3_diffysize=2.5
     
     #beamstop positions for diffraction
-    beamstopInBeam_x = 105.45
-    beamstopInBeam_y = 10.645
+    beamstopInBeam_x = 104.
+    beamstopInBeam_y = 12.25
     
     #calculated values
     beamstopInBeam_lowLimit = beamstopInBeam_x-15
@@ -157,6 +157,29 @@ def moveToImagingMode():
     monoimagingMode()
 alias("moveToImagingMode")
 
+def moveToEndOfHutchDiagnostic():
+    print "\n *** Moving to end-of-hutch diagnostic camera\n"
+    
+    print "***** Closing EH1 shutter."    # 1 is closed. 0 is open\par
+    caput("BL12I-PS-SHTR-02:CON", 1)
+    sleep(1)
+    shstat=int(caget("BL12I-PS-SHTR-02:CON"))
+    ntries=0
+    while (shstat != 1): #poll the shutter to be sure it is actually closed
+        print "Shutter status:", shstat
+        shstat=int(caget("BL12I-PS-SHTR-02:CON"))
+        ntries+=1
+        sleep(1)
+        if (ntries >10):
+            print "ERROR: Shutter is not closed"
+            return
+    print "******* Shutter now closed.
+    
+    print "******* Moving detector table to safe positon"
+    pos t3.x 300
+    
+    print "*** Move complete! Moved to end-of-hutch diagnostic camera! Shutter is CLOSED. \n"
+alias("moveToEndOfHutchDiagnostic")
 
 
-print "\n The commands are now available: \n -monoimagingMode \n -monodiffractionMode \n "
+print "\n The commands are now available: \n -monoimagingMode \n -monodiffractionMode \n -moveToEndofHutchDiagnostic "

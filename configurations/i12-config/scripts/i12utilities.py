@@ -198,13 +198,18 @@ def pixCalibrate(useShutter=False):
     # close shutter
     eh1shtr = finder.find("eh1shtr")
     
+    shtr_dct={}
+    shtr_dct['Open']='0'
+    shtr_dct['Close']='1'
+    shtr_dct['Reset']='2'
+    
     sleep_time_s = 1    # seconds
     #caput("BL12I-PS-SHTR-02:CON", "Close") ### 1 is closed. 0 is open
     if useShutter:
         ca.caput("BL12I-PS-SHTR-02:CON", "Close")
-        pvShutterState = "BL12I-PS-SHTR-02:CON"
+        pvShutter = "BL12I-PS-SHTR-02:CON"
         count = 0
-        while (ca.caget(pvShutterState)!='Close'):
+        while (ca.caget(pvShutter)!=shtr_dct['Close']):
             GeneralCommands.pause()
             sleep(sleep_time_s)
             count+=1
