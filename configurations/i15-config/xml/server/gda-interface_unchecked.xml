@@ -59,4 +59,31 @@
     <simpleMotor desc="Newport 25mm stage 8" name="BRICK2.MOT8">
             <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS8" ro="false" type="motor"/>
     </simpleMotor>
+	<simpleMotor desc="Small Vertical Focusing Mirror PITCH Motor" name="SVFM.PITCH">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Vertical Focusing Mirror Y Motor" name="SVFM.Y">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Horizontal Focusing Mirror PITCH Motor" name="SHFM.PITCH">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Horizontal Focusing Mirror X Motor" name="SHFM.X">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Vertical Focusing Mirror Curve Motor" name="SVFM.CURVE">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:CURVE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Vertical Focusing Mirror Ellipticity Motor" name="SVFM.ELLIP">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:ELLIP" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Horizontal Focusing Mirror Curve Motor" name="SHFM.CURVE">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:CURVE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Horizontal Focusing Mirror Ellipticity Motor" name="SHFM.ELLIP">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:ELLIP" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Translation Stage" name="EHT2.DTX">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor" pv="BL15I-MO-TABLE-03:DETECTOR2:Z" ro="false" type="motor"/>
+	</simpleMotor>
 </devices>

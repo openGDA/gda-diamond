@@ -31,9 +31,11 @@
 		<property name="motor" ref="Dr1muMotor" />
 	</bean>
 
+	<!-- 
 	<bean id="dv" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="DVMotor" />
 	</bean>
+	 -->
 
 	<bean id="diffractometer" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -41,7 +43,9 @@
 				<ref bean="dx" />
 				<ref bean="dy" />
 				<ref bean="dz" />
+				<!-- 
 				<ref bean="dv" />
+				 -->
 				<ref bean="dkphi" />
 				<ref bean="dkappa" />
 				<ref bean="dktheta" />
