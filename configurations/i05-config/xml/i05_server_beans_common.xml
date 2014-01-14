@@ -358,9 +358,8 @@
 		</property>
 	</bean>
 
-	<bean class="gda.data.metadata.StoredMetadataEntry" id="samplename">
+	<bean class="gda.data.metadata.PersistantMetadataEntry" id="samplename">
 		<property name="name" value="samplename" />
-		<property name="value" value="none" />
 	</bean>
 	<bean class="gda.data.metadata.MetadataBlaster" id="observableSamplename">
 		<property name="storedMetadataEntry" ref="samplename" />
