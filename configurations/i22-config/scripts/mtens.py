@@ -11,8 +11,8 @@ class TensileTester(PseudoDevice):
     def __init__(self, name, mot1pv, mot2pv, strainpv):
         self.setName(name)
         self.setInputNames(["strain"])
-        self.setExtraNames(["load"])
-        self.setOutputFormat(["%4.3f", "%4.3f"])
+        self.setExtraNames(["load", "m1Position", "m2position"])
+        self.setOutputFormat(["%4.3f", "%4.3f", "%4.3f", "%4.3f"])
         self.m1 = self._createMotor("m1", mot1pv)
         self.m2 = self._createMotor("m2", mot2pv)
         self.strain=CAClient(strainpv)
@@ -59,7 +59,8 @@ class TensileTester(PseudoDevice):
         return 100.0 * ((self.m1.getPosition() + self.m2.getPosition()) - self.zero + self.length) / (self.length)
         
     def getPosition(self):
-        return [ self.getStress(), float(self.strain.caget()) ]
+        return [ self.getStress(), float(self.strain.caget()),
+                self.m1.getPosition(), self.m2.getPosition() ]
         
     def asynchronousMoveTo(self,p):
         if p == None:

@@ -30,4 +30,6 @@
                         </list>
                 </property>
         </bean>
+        
+        <!-- <import resource="tango.xml" /> -->
 </beans>
