@@ -190,7 +190,7 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 			zeroButton.addSelectionListener(zeroListener);
 		}
 		
-		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("centre_energy")), true, "centreEnergy", 4, null, false, false);
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("raw_centre_energy")), true, "centreEnergy", 4, null, false, false);
 		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
 		gd.verticalIndent = 4;
 		mpvc.setLayoutData(gd);
