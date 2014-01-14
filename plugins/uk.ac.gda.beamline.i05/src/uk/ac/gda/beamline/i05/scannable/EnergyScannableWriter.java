@@ -79,7 +79,7 @@ public class EnergyScannableWriter extends SingleScannableWriter {
 		}
 		
 		@Override
-		protected Object getComponentSlab(Object pos) {
+		protected byte[] getComponentSlab(Object pos) {
 			if (I05Apple.HORIZONTAL.equals(pos)) 
 				return super.getComponentSlab("linear horiziontal");
 			else if (I05Apple.VERTICAL.equals(pos)) 
