@@ -32,11 +32,15 @@ def getVisit():
 class SampleNameScannable(gda.device.scannable.ScannableBase):
   
    """ This is the constructor for the class. """
-   def __init__(self, name, metadataname):
+   def __init__(self, name, metadataname, isgoldpost=None):
        self.setName(name)
        self.setInputNames([name])
        self.setOutputFormat(["%s"])
        self.metadata=Finder.getInstance().find(metadataname)
+       self.isgoldpost=isgoldpost
+
+   def getfalse(self):
+       return False
 
    """ Mandatory method.  It should return 1 if the device is moving and 0 otherwise."""
    def isBusy(self):
@@ -44,6 +48,8 @@ class SampleNameScannable(gda.device.scannable.ScannableBase):
 
    """ Mandatory method.  Return the current position as a scalar or as a vector."""
    def getPosition(self):
+       if (not self.isgoldpost == None) and self.isgoldpost():
+           return "Gold"
        return self.metadata.readActualValue()
  
    """ Mandatory method.  Must return immediately; the move should be controlled by a separate thread."""

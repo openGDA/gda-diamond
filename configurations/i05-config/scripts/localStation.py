@@ -91,7 +91,9 @@ getVisit = metadatatweaks.getVisit
 alias("getVisit")
 setVisit = metadatatweaks.setVisit
 alias("setVisit")
-sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename")
+def isgold():
+   return saz.getPosition() < -18
+sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename",isgoldpost=isgold)
 
 from arpesmonitor import ARPESMonitor
 am=ARPESMonitor()
