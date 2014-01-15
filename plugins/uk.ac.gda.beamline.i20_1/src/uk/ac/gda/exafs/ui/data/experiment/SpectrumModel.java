@@ -25,18 +25,18 @@ import org.eclipse.core.databinding.observable.list.WritableList;
 
 public class SpectrumModel extends ExperimentTimingDataModel {
 
-	private final TimingGroupModel parent;
+	private final TimingGroupUIModel parent;
 
 	WritableList accumulationList = new WritableList(new ArrayList<Accumulation>(), Accumulation.class);
 	public List<?> getAccumulationList() {
 		return accumulationList;
 	}
 
-	public SpectrumModel(TimingGroupModel parent) {
+	public SpectrumModel(TimingGroupUIModel parent) {
 		this.parent = parent;
 	}
 
-	public TimingGroupModel getParent() {
+	public TimingGroupUIModel getParent() {
 		return parent;
 	}
 

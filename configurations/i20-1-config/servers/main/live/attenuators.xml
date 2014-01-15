@@ -9,7 +9,7 @@
 	<bean id="atn1motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-ATTN-01:POSN" />
 	</bean>
-	<bean id="atn1_motor" class="gda.device.scannable.ScannableMotor">
+	<bean id="atn1_pos" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="atn1motor" />
 	</bean>
 
@@ -20,7 +20,7 @@
 	<bean id="atn2motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-ATTN-02:POSN" />
 	</bean>
-	<bean id="atn2_motor" class="gda.device.scannable.ScannableMotor">
+	<bean id="atn2_pos" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="atn2motor" />
 	</bean>
 
@@ -31,7 +31,7 @@
 	<bean id="atn3motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-ATTN-03:POSN" />
 	</bean>
-	<bean id="atn3_motor" class="gda.device.scannable.ScannableMotor">
+	<bean id="atn3_pos" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="atn3motor" />
 	</bean>
 
@@ -42,7 +42,7 @@
 	<bean id="atn4motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-ATTN-04:POSN" />
 	</bean>
-	<bean id="atn4_motor" class="gda.device.scannable.ScannableMotor">
+	<bean id="atn4_pos" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="atn4motor" />
 	</bean>
 
@@ -53,7 +53,7 @@
 	<bean id="atn5motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-ATTN-05:POSN" />
 	</bean>
-	<bean id="atn5_motor" class="gda.device.scannable.ScannableMotor">
+	<bean id="atn5_pos" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="atn5motor" />
 	</bean>
 

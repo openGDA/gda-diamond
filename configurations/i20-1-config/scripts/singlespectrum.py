@@ -11,7 +11,6 @@ from gda.scan.ede.position import ExplicitScanPositions;
 from gda.scan.ede.position import EdePositionType;
 from uk.ac.gda.exafs.ui.data import EdeScanParameters;
 
-
 def runsinglespectrumscan():
     ########################
     # EDIT THESE VALUES:

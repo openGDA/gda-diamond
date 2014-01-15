@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2010 Diamond Light Source Ltd.
+ * Copyright © 2013 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -18,6 +18,7 @@
 
 package uk.ac.gda.beamline.i18.views;
 
+import gda.configuration.properties.LocalProperties;
 import gda.data.PathConstructor;
 import gda.epics.CAClient;
 import gda.factory.FactoryException;
@@ -48,6 +49,8 @@ import uk.ac.gda.client.viewer.ImageViewer;
 public class CameraView extends ViewPart {
 	public static final String ID = "uk.ac.gda.beamline.i18.cameraView";
 	private static final Logger logger = LoggerFactory.getLogger(CameraView.class);
+
+	private static final String I18_SAMPLE_CAMERA_STREAM_PV = "http://i18-firewire01.diamond.ac.uk:8081/DCAM.CAM1.MJPG.mjpg";
 	private ImageViewer viewer;
 	private VideoReceiver<ImageData> videoReceiver;
 	private ImageListener<ImageData> listener = new VideoListener();
@@ -67,52 +70,46 @@ public class CameraView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 
-		//String ip = LocalProperties.get("gda.cameraview.rtp.ip");
-		//String port = LocalProperties.get("gda.cameraview.rtp.port");
-		
-		//if (ip!=null && port!=null) {
-			
-			viewer = new ImageViewer(parent, SWT.DOUBLE_BUFFERED);
-			
-			//RTPStreamReceiverSWT r = new RTPStreamReceiverSWT();
-			
-			I18MotionJpegOverHttpReceiverSwt mjpeg = new I18MotionJpegOverHttpReceiverSwt();
-			mjpeg.setUrl("http://i18-firewire01.diamond.ac.uk:8081/DCAM.CAM1.MJPG.mjpg");
-			try {
-				mjpeg.configure();
-			} catch (FactoryException e) {
-				// TODO Auto-generated catch block
-				logger.error("TODO put description of error here", e);
-			}
-			
-			//r.setHost(ip);
-			//r.setPort(Integer.parseInt(port));
-//			try {
-//				//r.configure();
-//			} catch (FactoryException e) {
-//				logger.error("Unable to configure the video receiver ", e);
-//			}
-			//videoReceiver = r;
-			videoReceiver = mjpeg;
-			videoReceiver.addImageListener(listener);
-			videoReceiver.start();
-			initializeToolBar();
-		//}
-		//else
-		//	new Label(parent, SWT.NONE).setText("No rtp stream properties defined. gda.cameraview.rtp.ip and gda.cameraview.rtp.port");
+		String mode = LocalProperties.get("gda.mode");
+
+		if (mode.equalsIgnoreCase("dummy")) {
+			return;
+		}
+
+		viewer = new ImageViewer(parent, SWT.DOUBLE_BUFFERED);
+
+		I18MotionJpegOverHttpReceiverSwt mjpeg = new I18MotionJpegOverHttpReceiverSwt();
+		mjpeg.setUrl(I18_SAMPLE_CAMERA_STREAM_PV);
+		try {
+			mjpeg.configure();
+		} catch (FactoryException e) {
+
+			logger.error("Error trying to connect to ", e);
+			return;
+		}
+
+		videoReceiver = mjpeg;
+		videoReceiver.addImageListener(listener);
+		videoReceiver.start();
+		initializeToolBar();
+
 	}
 
 	@Override
 	public void setFocus() {
-		viewer.setFocus();
+		if (viewer != null) {
+			viewer.setFocus();
+		}
 	}
 
 	@Override
 	public void dispose() {
 		super.dispose();
-		videoReceiver.stop();
-		viewer.dispose();
-		videoReceiver.removeImageListener(listener);
+		if (viewer != null) {
+			videoReceiver.stop();
+			viewer.dispose();
+			videoReceiver.removeImageListener(listener);
+		}
 	}
 
 	private void initializeToolBar() {
@@ -141,7 +138,7 @@ public class CameraView extends ViewPart {
 			@Override
 			public void run() {
 				start();
-				//videoReceiver.start();
+				// videoReceiver.start();
 			}
 		};
 		start.setText("Start");
@@ -151,7 +148,7 @@ public class CameraView extends ViewPart {
 			@Override
 			public void run() {
 				stop();
-				//videoReceiver.stop();
+				// videoReceiver.stop();
 			}
 		};
 		stop.setText("stop");
@@ -197,55 +194,6 @@ public class CameraView extends ViewPart {
 			logger.error("problem saving the image as " + format + "in file " + filename, e);
 		}
 	}
-
-//	private void initializeListeners() {
-//		viewer.getCanvas().addMouseListener(new MouseAdapter() {
-//
-//			@Override
-//			public void mouseDown(MouseEvent event) {
-//				logger.debug("Mouse Down");
-//			}
-//
-//			@Override
-//			public void mouseUp(MouseEvent event) {
-//				logger.debug("Mouse Up");
-//			}
-//
-//			@Override
-//			public void mouseDoubleClick(MouseEvent event) {
-//				logger.debug("Mouse Double Clicked");
-//			}
-//		});
-//
-//		ImagePositionListener newListener = new ImagePositionListener() {
-//			@Override
-//			public void imageStart(IImagePositionEvent event) {
-//				double[] position = event.getPosition();
-//				int[] imagePosition = event.getImagePosition();
-//				updateStatus((int) position[0], (int) position[1], imagePosition[0], imagePosition[1]);
-//			}
-//
-//			@Override
-//			public void imageFinished(IImagePositionEvent event) {
-//				double[] position = event.getPosition();
-//				int[] imagePosition = event.getImagePosition();
-//				updateStatus((int) position[0], (int) position[1], imagePosition[0], imagePosition[1]);
-//			}
-//
-//			@Override
-//			public void imageDragged(IImagePositionEvent event) {
-//				double[] position = event.getPosition();
-//				int[] imagePosition = event.getImagePosition();
-//				updateStatus((int) position[0], (int) position[1], imagePosition[0], imagePosition[1]);
-//			}
-//		};
-//		viewer.getPositionTool().addImagePositionListener(newListener, null);
-//	}
-
-//	private void updateStatus(int x, int y, int ix, int iy) {
-//		logger.debug("Mouse position at: (" + x + ", " + y + ")");
-//		logger.debug("Image position at: (" + ix + ", " + iy + ")");
-//	}
 
 	private void initViewer() {
 		if (!layoutReset) {
@@ -299,22 +247,28 @@ public class CameraView extends ViewPart {
 			}
 		}
 	}
-	
-    public void start() {
-        CAClient ca = new CAClient();
-        try {
-            ca.caput("BL18I-DI-DCAM-01:CAM:CAM:Acquire", 1);
-        } catch (CAException e) {
-        } catch (InterruptedException e) {
-        }
-    }
 
-    public void stop() {
-        CAClient ca = new CAClient();
-        try {
-            ca.caput("BL18I-DI-DCAM-01:CAM:CAM:Acquire", 0);
-        } catch (CAException e) {
-        } catch (InterruptedException e) {
-        }
-    }
+	public void start() {
+		// only do this if we are connected
+		if (viewer != null) {
+			CAClient ca = new CAClient();
+			try {
+				ca.caput("BL18I-DI-DCAM-01:CAM:CAM:Acquire", 1);
+			} catch (CAException e) {
+			} catch (InterruptedException e) {
+			}
+		}
+	}
+
+	public void stop() {
+		// only do this if we are connected
+		if (viewer != null) {
+			CAClient ca = new CAClient();
+			try {
+				ca.caput("BL18I-DI-DCAM-01:CAM:CAM:Acquire", 0);
+			} catch (CAException e) {
+			} catch (InterruptedException e) {
+			}
+		}
+	}
 }

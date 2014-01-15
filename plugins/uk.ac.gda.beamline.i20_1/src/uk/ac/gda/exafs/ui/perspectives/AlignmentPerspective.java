@@ -31,7 +31,8 @@ import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
 import uk.ac.gda.exafs.ui.views.DetectorLiveModeView;
 import uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView;
 import uk.ac.gda.exafs.ui.views.FocusingView;
-import uk.ac.gda.exafs.ui.views.plot.SingleSpectrumPlotView;
+import uk.ac.gda.exafs.ui.views.plot.DataPlotView;
+import uk.ac.gda.exafs.ui.views.plot.SlitsScanPlotView;
 
 /**
  * Shows recent data from the XH detector for I20-1 EDE branchline.
@@ -71,10 +72,11 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 
 		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, FOCUSING_CONTROLS_FOLDER_ID);
 		topPlotFolder.addView(DetectorLiveModeView.ID);
+		topPlotFolder.addView(SlitsScanPlotView.ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.REFERENCE_ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.EDE_ID);
 		topPlotFolder.addView(LIVE_PLOT_VIEW_ID);
-		topPlotFolder.addView(SingleSpectrumPlotView.ID);
+		topPlotFolder.addView(DataPlotView.ID);
 		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.6f,TOPPLOT_FOLDER_ID);
 
 	}

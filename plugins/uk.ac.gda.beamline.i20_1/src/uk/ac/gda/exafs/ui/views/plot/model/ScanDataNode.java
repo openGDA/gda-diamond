@@ -27,15 +27,17 @@ import java.util.Map;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
-import uk.ac.gda.exafs.data.ObservableModel;
-
-public class DatasetNode extends ObservableModel {
-	private final Map<String, DataNode> scans = new HashMap<String, DataNode>();
-	private final  IObservableList dataNodeList = new WritableList(new ArrayList<DataNode>(), DataNode.class);
+public class ScanDataNode extends DataNode {
+	private final Map<String, SpectraNode> scans = new HashMap<String, SpectraNode>();
+	private final  IObservableList dataNodeList = new WritableList(new ArrayList<SpectraNode>(), SpectraNode.class);
 	private final String scanIdentifier;
 
-	public DatasetNode(String scanIdentifier) {
+	private final boolean multiCollection;
+
+	public ScanDataNode(String scanIdentifier, boolean multiCollection, DataNode parent) {
+		super(parent);
 		this.scanIdentifier = scanIdentifier;
+		this.multiCollection = multiCollection;
 	}
 
 	public IObservableList getNodeList() {
@@ -43,23 +45,39 @@ public class DatasetNode extends ObservableModel {
 	}
 
 	public DataNode updateData(final EdeExperimentProgressBean arg) {
-		DataNode dataNode;
+		SpectraNode dataNode;
 		String label = arg.getDataLabel();
 		String identifier = this.toString() + "@" + label;
 		if (!scans.containsKey(identifier)) {
-			final DataNode newNode = new DataNode(identifier, label, this);
+			final SpectraNode newNode = new SpectraNode(identifier, label, this);
 			scans.put(identifier, newNode);
 			dataNodeList.add(newNode);
 			dataNode = newNode;
 		} else {
 			dataNode = scans.get(identifier);
 		}
-		dataNode.updateData(arg.getEnergyData(), arg.getData());
+		identifier =  identifier + "@" + arg.getProgress().getGroupNumOfThisSDP() + "@" + arg.getProgress().getFrameNumOfThisSDP();
+		label = "Group " + arg.getProgress().getGroupNumOfThisSDP() + " spectrum " + arg.getProgress().getFrameNumOfThisSDP();
+		dataNode.updateData(arg.getEnergyData(), arg.getData(), identifier, label);
 		return dataNode;
+	}
+
+	public boolean isMultiCollection() {
+		return multiCollection;
 	}
 
 	@Override
 	public String toString() {
 		return "Scan:" + scanIdentifier;
+	}
+
+	@Override
+	public IObservableList getChildren() {
+		return dataNodeList;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return scanIdentifier;
 	}
 }

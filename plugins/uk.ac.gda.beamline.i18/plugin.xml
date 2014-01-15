@@ -192,37 +192,6 @@
       </content-type>
    </extension>
    <extension
-         point="org.eclipse.ui.editorActions">
-      <editorContribution
-            id="uk.ac.gda.client.exafs.XspressEditorContribution"
-            targetID="uk.ac.gda.exafs.ui.XspressParametersEditor">
-         <action
-               class="uk.ac.gda.exafs.ui.actions.RevertDetectorParametersToTemplateAction"
-               definitionId="uk.ac.gda.exafs.ui.actions.RevertDetectorParametersToTemplateAction"
-               icon="icons/page_refresh.png"
-               id="uk.ac.gda.client.exafs.RevertXspressDetector"
-               label="Revert"
-               style="push"
-               toolbarPath="Normal/additions"
-               tooltip="Revert detector configuration file.">
-         </action>
-      </editorContribution>
-      <editorContribution
-            id="uk.ac.gda.client.exafs.VortexEditorContribution"
-            targetID="uk.ac.gda.exafs.ui.VortexParametersEditor">
-         <action
-               class="uk.ac.gda.exafs.ui.actions.RevertDetectorParametersToTemplateAction"
-               definitionId="uk.ac.gda.exafs.ui.actions.RevertDetectorParametersToTemplateAction"
-               icon="icons/page_refresh.png"
-               id="uk.ac.gda.client.exafs.RevertXspressDetector"
-               label="Revert"
-               style="push"
-               toolbarPath="Normal/additions"
-               tooltip="Revert detector configuration file.">
-         </action>
-      </editorContribution>
-   </extension>
-   <extension
          point="uk.ac.common.beans.factory">
       <bean
             class="uk.ac.gda.beans.exafs.XasScanParameters"
@@ -305,7 +274,7 @@
             category="uk.ac.gda.client.microfocus.category"
             class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
             id="uk.ac.gda.beamline.i18.McaView"
-            name="McaPlot"
+            name="MCA Plot"
             restorable="true">
       </view>
       <category

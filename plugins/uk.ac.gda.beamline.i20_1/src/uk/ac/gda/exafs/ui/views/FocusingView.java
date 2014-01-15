@@ -40,8 +40,8 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.client.composites.MotorPositionEditorControl;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
-import uk.ac.gda.exafs.ui.composites.MotorPositionEditorControl;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.sections.DetectorROIsSection;
@@ -67,8 +67,10 @@ public class FocusingView extends ViewPart {
 		form.getBody().setLayout(new TableWrapLayout());
 		toolkit.decorateFormHeading(form);
 		form.setText("Slits scan / Focusing");
-		SlitsScanSection.INSTANCE.createSection(form, toolkit);
-		DetectorROIsSection.INSTANCE.createSection(form, toolkit);
+		SlitsScanSection slitsScanSection = new SlitsScanSection(form.getBody(), SWT.None);
+		slitsScanSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		DetectorROIsSection detectorROIsSection = new DetectorROIsSection(form.getBody(), SWT.None);
+		detectorROIsSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		try {
 			createFormSampleSection(form);
 			createFormBendSection(form);

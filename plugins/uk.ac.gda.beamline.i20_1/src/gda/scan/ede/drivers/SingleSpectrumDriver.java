@@ -22,8 +22,6 @@ import gda.device.Monitor;
 import gda.device.Scannable;
 import gda.device.detector.StripDetector;
 import gda.factory.Finder;
-import gda.scan.ede.EdeSingleExperiment;
-import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 /**
  * Convenience class which takes a series of parameters, runs the scan and then returns the name of the ascii file
@@ -71,17 +69,18 @@ public class SingleSpectrumDriver extends ScanDriver{
 
 	@Override
 	public String doCollection() throws Exception {
-		validate();
-
-		EdeScanParameters i0scanparams = EdeScanParameters.createSingleFrameScan(i0_scantime, i0_numberscans);
-		EdeScanParameters itscanparams = EdeScanParameters.createSingleFrameScan(it_scantime, it_numberscans);
-
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0scanparams, itscanparams, outbeamPosition,
-				inbeamPosition, detector, topupMonitor, shutter2);
-		if (fileTemplate != null) {
-			theExperiment.setFilenameTemplate(fileTemplate);
-		}
-		return theExperiment.runExperiment();
+		//		validate();
+		//
+		//		EdeScanParameters i0scanparams = EdeScanParameters.createSingleFrameScan(i0_scantime, i0_numberscans);
+		//		EdeScanParameters itscanparams = EdeScanParameters.createSingleFrameScan(it_scantime, it_numberscans);
+		//
+		//		EdeSingleExperiment theExperiment = new EdeSingleExperiment(i0scanparams, itscanparams, outbeamPosition,
+		//				inbeamPosition, detector, topupMonitor, shutter2);
+		//		if (fileTemplate != null) {
+		//			theExperiment.setFilenameTemplate(fileTemplate);
+		//		}
+		//		return theExperiment.runExperiment();
+		return null;
 	}
 
 }

@@ -53,17 +53,17 @@
 	
 
 <!-- 	Detector stage -->
-	<bean id="detector_x" class="gda.device.scannable.ScannableMotor">
+	<bean id="det_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="detector_x_motor" />
 		<property name="initialUserUnits" value="mm" />
 	</bean>
-	<bean id="detector_y" class="gda.device.scannable.ScannableMotor">
+	<bean id="det_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="detector_y_motor" />
 		<property name="initialUserUnits" value="mm" />
 	</bean>
 
 <!-- 	T1 Detector support stage -->
-	<bean id="detector_z" class="gda.device.scannable.ScannableMotor">
+	<bean id="det_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="detector_z_motor" />
 		<property name="initialUserUnits" value="mm" />
 	</bean>
@@ -73,9 +73,9 @@
 		<property name="motor" ref="twotheta_motor" />
 		<property name="initialUserUnits" value="deg" />
 	</bean>
-	<bean id="twotheta_mm" class="gda.device.scannable.ScannableMotor">
+<!--	<bean id="twotheta_mm" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="twotheta_mm_motor" />
-	</bean>
+	</bean> -->
 	<bean id="counterbalance" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="counterbalance_motor" />
 	</bean>
@@ -84,18 +84,18 @@
 <!-- 	rmi exports -->
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/detector_x" />
-		<property name="service" ref="detector_x" />
+		<property name="serviceName" value="gda/det_x" />
+		<property name="service" ref="det_x" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>  
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/detector_y" />
-		<property name="service" ref="detector_y" />
+		<property name="serviceName" value="gda/det_y" />
+		<property name="service" ref="det_y" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>  
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/detector_z" />
-		<property name="service" ref="detector_z" />
+		<property name="serviceName" value="gda/det_z" />
+		<property name="service" ref="det_z" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>  
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">

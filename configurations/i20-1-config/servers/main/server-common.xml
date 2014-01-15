@@ -16,6 +16,7 @@
 		<property name="gdaMetadata" ref="GDAMetadata" />
 		<property name="local" value="true" />
 	</bean>
+	<import resource="commandQueueProcessor.xml"/>
 
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 

@@ -22,11 +22,6 @@ import gda.device.scannable.AlignmentStageScannable;
 import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
 import gda.device.scannable.AlignmentStageScannable.Location;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -46,21 +41,16 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.SingleSpectrumUIModel;
-import uk.ac.gda.exafs.ui.composites.NumberEditorControl;
 import uk.ac.gda.exafs.ui.data.UIHelper;
-import uk.ac.gda.exafs.ui.data.experiment.ExperimentMotorPostion;
-import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotorSelectionComposite;
-import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors;
 import uk.ac.gda.exafs.ui.sections.EDECalibrationSection;
 import uk.ac.gda.exafs.ui.sections.SingleSpectrumParametersSection;
+import uk.ac.gda.ui.components.NumberEditorControl;
 
 public class AlignmentSingleSpectrumView extends ViewPart {
 
@@ -76,241 +66,94 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 
 	private Button switchWithSamplePositionButton;
 
-	private Composite sampleStageMotorsComposite;
-
-	private Binding stageSelectionButtonBinding;
-
-	private Composite sampleStateMotorselectionComposite;
-
 	private Form form;
 
-	private Binding sampleStageI0CompositeBinding;
+	private Composite alignmentStageSectionsParent;
+	private Composite sampleStageSectionsParent;
 
-	private Composite sampleI0PositionComposite;
+	private Binding alignmentStageCompositeBinding;
+	private Binding sampleStageCompositeBinding;
 
-	private Composite alignmentI0PositionComposite;
-
-	private Binding alignmentStageI0CompositeBinding;
-
-	private PropertyChangeListener selectionChangeListener;
-
-	private Binding sampleStageItCompositeBinding;
-
-	private Binding alignmentStageItCompositeBinding;
+	private Binding switchWithSamplePositionButtonBinding;
 
 	@Override
 	public void createPartControl(Composite parent) {
 		toolkit = new FormToolkit(parent.getDisplay());
 		scrolledform = toolkit.createScrolledForm(parent);
 		form = scrolledform.getForm();
-		form.getBody().setLayout(new TableWrapLayout());
+		form.getBody().setLayout(new GridLayout());
 		toolkit.decorateFormHeading(form);
 		form.setText("Single spectrum / E calibration");
 		Composite formParent = form.getBody();
 		final Composite stageSelectionComposite = toolkit.createComposite(form.getHead());
 		stageSelectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		switchWithSamplePositionButton = toolkit.createButton(stageSelectionComposite, "Use alignment stage for sample positions", SWT.CHECK);
-		GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
-		gridData.horizontalSpan = 2;
-		switchWithSamplePositionButton.setLayoutData(gridData);
-		sampleStateMotorselectionComposite = toolkit.createComposite(stageSelectionComposite);
-		sampleStateMotorselectionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		sampleStateMotorselectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-		Label sampleStageMotorsLabel = toolkit.createLabel(sampleStateMotorselectionComposite, "Sample stage motors");
-		sampleStageMotorsLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		sampleStageMotorsComposite = new SampleStageMotorSelectionComposite(sampleStateMotorselectionComposite, SWT.BORDER, SingleSpectrumUIModel.INSTANCE.getSampleStageMotors());
-		sampleStageMotorsComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		stageSelectionComposite.layout();
+		switchWithSamplePositionButton.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		form.setHeadClient(stageSelectionComposite);
 
 		try {
-			createSampleI0Position(formParent);
-			createSampleItPosition(formParent);
+			createSampleStageSections(formParent);
+			createAlignmentSections(formParent);
 			setupScannables();
-			SingleSpectrumParametersSection.INSTANCE.createEdeCalibrationSection(form, toolkit);
-			EDECalibrationSection.INSTANCE.createEdeCalibrationSection(form, toolkit);
+			SingleSpectrumParametersSection singleSpectrumParametersSection = new SingleSpectrumParametersSection(formParent, SWT.None);
+			singleSpectrumParametersSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+			EDECalibrationSection eDECalibrationSection = new EDECalibrationSection(formParent, SWT.None);
+			eDECalibrationSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
 		}
 	}
 
-
 	private void setupScannables() {
-		stageSelectionButtonBinding = dataBindingCtx.bindValue(
-				WidgetProperties.selection().observe(switchWithSamplePositionButton),
-				WidgetProperties.visible().observe(sampleStateMotorselectionComposite),
-				new UpdateValueStrategy() {
-					@Override
-					protected IStatus doSet(IObservableValue observableValue, Object value) {
-						IStatus status = super.doSet(observableValue, !((boolean) value));
-						((GridData) sampleStateMotorselectionComposite.getLayoutData()).exclude = ((boolean) value);
-						form.layout();
-						return status;
-					}
-				},
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
-		stageSelectionButtonBinding.updateTargetToModel();
-
-		sampleStageI0CompositeBinding = dataBindingCtx.bindValue(
-				WidgetProperties.visible().observe(sampleI0PositionComposite),
+		sampleStageCompositeBinding = dataBindingCtx.bindValue(
+				WidgetProperties.visible().observe(sampleStageSectionsParent),
 				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(SingleSpectrumUIModel.INSTANCE),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 				new UpdateValueStrategy() {
 					@Override
 					protected IStatus doSet(IObservableValue observableValue, Object value) {
 						IStatus status = super.doSet(observableValue, !((boolean) value));
-						((GridData) sampleI0PositionComposite.getLayoutData()).exclude = ((boolean) value);
+						((GridData) sampleStageSectionsParent.getLayoutData()).exclude = ((boolean) value);
 						form.layout();
 						return status;
 					}
 				});
 
-		alignmentStageI0CompositeBinding = dataBindingCtx.bindValue(
-				WidgetProperties.visible().observe(alignmentI0PositionComposite),
+		alignmentStageCompositeBinding = dataBindingCtx.bindValue(
+				WidgetProperties.visible().observe(alignmentStageSectionsParent),
 				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(SingleSpectrumUIModel.INSTANCE),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 				new UpdateValueStrategy() {
 					@Override
 					protected IStatus doSet(IObservableValue observableValue, Object value) {
 						IStatus status = super.doSet(observableValue, ((boolean) value));
-						((GridData) alignmentI0PositionComposite.getLayoutData()).exclude = !((boolean) value);
+						((GridData) alignmentStageSectionsParent.getLayoutData()).exclude = !((boolean) value);
 						form.layout();
 						return status;
 					}
 				});
 
-		sampleStageItCompositeBinding = dataBindingCtx.bindValue(
-				WidgetProperties.visible().observe(sampleItPositionComposite),
-				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(SingleSpectrumUIModel.INSTANCE),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-				new UpdateValueStrategy() {
-					@Override
-					protected IStatus doSet(IObservableValue observableValue, Object value) {
-						IStatus status = super.doSet(observableValue, !((boolean) value));
-						((GridData) sampleItPositionComposite.getLayoutData()).exclude = ((boolean) value);
-						form.layout();
-						return status;
-					}
-				});
-
-		alignmentStageItCompositeBinding = dataBindingCtx.bindValue(
-				WidgetProperties.visible().observe(alignmentItPositionComposite),
-				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(SingleSpectrumUIModel.INSTANCE),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-				new UpdateValueStrategy() {
-					@Override
-					protected IStatus doSet(IObservableValue observableValue, Object value) {
-						IStatus status = super.doSet(observableValue, ((boolean) value));
-						((GridData) alignmentItPositionComposite.getLayoutData()).exclude = !((boolean) value);
-						form.layout();
-						return status;
-					}
-				});
-		dataBindingCtx.bindValue(
+		switchWithSamplePositionButtonBinding = dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(switchWithSamplePositionButton),
 				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(SingleSpectrumUIModel.INSTANCE));
 
-		selectionChangeListener = new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				selectionSampleStageMotorListChange();
-			}
-		};
-		selectionSampleStageMotorListChange();
-		SingleSpectrumUIModel.INSTANCE.getSampleStageMotors().addPropertyChangeListener(SampleStageMotors.SELECTED_MOTORS, selectionChangeListener);
 	}
 
-	private final List<Composite> sampleStageMotorComposites = new ArrayList<Composite>();
-
-	private Composite sampleItPositionComposite;
-
-	private Composite alignmentItPositionComposite;
-	private void selectionSampleStageMotorListChange() {
-		for (Composite composite : sampleStageMotorComposites) {
-			composite.dispose();
-		}
-		sampleStageMotorComposites.clear();
-		try {
-			for(final ExperimentMotorPostion experimentMotorPostion : SingleSpectrumUIModel.INSTANCE.getSampleStageMotors().getSelectedMotors()) {
-				Composite composite = createXYPositionComposite(sampleI0PositionComposite, experimentMotorPostion,
-						ExperimentMotorPostion.TARGET_I0_POSITION,
-						experimentMotorPostion.getScannableSetup().getLabel(), new Listener() {
-					@Override
-					public void handleEvent(Event event) {
-						try {
-							experimentMotorPostion.setTargetI0Position((double) experimentMotorPostion.getScannableSetup().getScannable().getPosition());
-						} catch (Exception e) {
-							UIHelper.showError("Unable to update current motor postion", e.getMessage());
-							logger.error("Unable to update current motor postion", e.getMessage());
-						}
-					}
-				});
-				sampleStageMotorComposites.add(composite);
-				composite = createXYPositionComposite(sampleItPositionComposite, experimentMotorPostion,
-						ExperimentMotorPostion.TARGET_IT_POSITION,
-						experimentMotorPostion.getScannableSetup().getLabel(), new Listener() {
-					@Override
-					public void handleEvent(Event event) {
-						try {
-							experimentMotorPostion.setTargetItPosition((double) experimentMotorPostion.getScannableSetup().getScannable().getPosition());
-						} catch (Exception e) {
-							UIHelper.showError("Unable to update current motor postion", e.getMessage());
-							logger.error("Unable to update current motor postion", e.getMessage());
-						}
-					}
-				});
-				sampleStageMotorComposites.add(composite);
-			}
-			form.layout();
-		} catch (Exception e) {
-			UIHelper.showError("Unable to update selected motor positions", e.getMessage());
-			logger.error("Unable to update selected motor positions", e);
-		}
-	}
-
-	private Listener createXPositionListener(final Location location, final AlignmentStageDevice alignmentStageDevice) {
-		return new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				try {
-					location.setxPosition(alignmentStageDevice.getLocation().getxPosition());
-				} catch (Exception e) {
-					UIHelper.showError("Unable to update current motor postion", e.getMessage());
-					logger.error("Unable to update current motor postion", e.getMessage());
-				}
-			}
-		};
-	}
-
-	private Listener createYPositionListener(final Location location, final AlignmentStageDevice alignmentStageDevice) {
-		return new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				try {
-					location.setyPosition(alignmentStageDevice.getLocation().getyPosition());
-				} catch (Exception e) {
-					UIHelper.showError("Unable to update current motor postion", e.getMessage());
-					logger.error("Unable to update current motor postion", e.getMessage());
-				}
-			}
-		};
-	}
-
-	private void createSampleI0Position(Composite body) throws Exception {
-		@SuppressWarnings("static-access")
-		final Section section = toolkit.createSection(body, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		section.setText("I0 sample position");
-		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		Composite sampleI0PositionSectionComposite = toolkit.createComposite(section, SWT.NONE);
+	@SuppressWarnings("static-access")
+	private void createAlignmentSections(Composite body) throws Exception {
+		alignmentStageSectionsParent = toolkit.createComposite(body);
+		alignmentStageSectionsParent.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
+		alignmentStageSectionsParent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		final Section i0Section = toolkit.createSection(alignmentStageSectionsParent, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		i0Section.setText("I0 sample position");
+		i0Section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		Composite sampleI0PositionSectionComposite = toolkit.createComposite(i0Section, SWT.NONE);
 		sampleI0PositionSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		toolkit.paintBordersFor(sampleI0PositionSectionComposite);
-		section.setClient(sampleI0PositionSectionComposite);
-		sampleI0PositionComposite = toolkit.createComposite(sampleI0PositionSectionComposite, SWT.NONE);
-		sampleI0PositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		sampleI0PositionComposite.setLayout(new GridLayout());
+		i0Section.setClient(sampleI0PositionSectionComposite);
 
-		alignmentI0PositionComposite = toolkit.createComposite(sampleI0PositionSectionComposite, SWT.NONE);
+		Composite alignmentI0PositionComposite = toolkit.createComposite(sampleI0PositionSectionComposite, SWT.NONE);
 		alignmentI0PositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		alignmentI0PositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		createXYPositionComposite(
@@ -325,26 +168,19 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 				AlignmentStageScannable.Location.Y_POS_PROP_NAME,
 				"Hole Y position", createYPositionListener(SingleSpectrumUIModel.INSTANCE.getHoleLocationForAlignment(), AlignmentStageDevice.hole));
 
-		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(section);
+		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(i0Section);
 		toolkit.paintBordersFor(defaultSectionSeparator);
-		section.setSeparatorControl(defaultSectionSeparator);
-	}
+		i0Section.setSeparatorControl(defaultSectionSeparator);
 
-	private void createSampleItPosition(Composite body) throws Exception {
-		@SuppressWarnings("static-access")
-		final Section section = toolkit.createSection(body, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		section.setText("It sample position");
-		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		Composite sampleI0PositionSectionComposite = toolkit.createComposite(section, SWT.NONE);
-		sampleI0PositionSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
-		toolkit.paintBordersFor(sampleI0PositionSectionComposite);
-		section.setClient(sampleI0PositionSectionComposite);
-		sampleItPositionComposite = toolkit.createComposite(sampleI0PositionSectionComposite, SWT.NONE);
-		sampleItPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		sampleItPositionComposite.setLayout(new GridLayout());
+		final Section itSection = toolkit.createSection(alignmentStageSectionsParent, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		itSection.setText("It sample position");
+		itSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		Composite sampleItPositionSectionComposite = toolkit.createComposite(itSection, SWT.NONE);
+		sampleItPositionSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
+		toolkit.paintBordersFor(sampleItPositionSectionComposite);
+		itSection.setClient(sampleItPositionSectionComposite);
 
-		// TODO How to move?
-		alignmentItPositionComposite = toolkit.createComposite(sampleI0PositionSectionComposite, SWT.NONE);
+		Composite alignmentItPositionComposite = toolkit.createComposite(sampleItPositionSectionComposite, SWT.NONE);
 		alignmentItPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		alignmentItPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		createXYPositionComposite(alignmentItPositionComposite, SingleSpectrumUIModel.INSTANCE.getFoilLocationForAlignment(),
@@ -354,9 +190,27 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 				AlignmentStageScannable.Location.Y_POS_PROP_NAME,
 				"Foil Y position", createYPositionListener(SingleSpectrumUIModel.INSTANCE.getFoilLocationForAlignment(), AlignmentStageDevice.foil));
 
-		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(section);
+		defaultSectionSeparator = toolkit.createCompositeSeparator(itSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
-		section.setSeparatorControl(defaultSectionSeparator);
+		itSection.setSeparatorControl(defaultSectionSeparator);
+	}
+
+	private void createSampleStageSections(Composite body) {
+		sampleStageSectionsParent = new SampleStageMotorsComposite(body, SWT.None, toolkit);
+	}
+
+	private Listener createXPositionListener(final Location location, final AlignmentStageDevice alignmentStageDevice) {
+		return new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				try {
+					location.setxPosition(alignmentStageDevice.getLocation().getxPosition());
+				} catch (Exception e) {
+					UIHelper.showError("Unable to update current motor postion", e.getMessage());
+					logger.error("Unable to update current motor postion", e.getMessage());
+				}
+			}
+		};
 	}
 
 	private Composite createXYPositionComposite(Composite parent, Object object, String propertyName, String label, Listener listener) throws Exception {
@@ -390,19 +244,28 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 	}
 
 
+	private Listener createYPositionListener(final Location location, final AlignmentStageDevice alignmentStageDevice) {
+		return new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				try {
+					location.setyPosition(alignmentStageDevice.getLocation().getyPosition());
+				} catch (Exception e) {
+					UIHelper.showError("Unable to update current motor postion", e.getMessage());
+					logger.error("Unable to update current motor postion", e.getMessage());
+				}
+			}
+		};
+	}
+
 	@Override
 	public void dispose() {
-		dataBindingCtx.removeBinding(stageSelectionButtonBinding);
-		stageSelectionButtonBinding.dispose();
-		dataBindingCtx.removeBinding(sampleStageI0CompositeBinding);
-		sampleStageI0CompositeBinding.dispose();
-		dataBindingCtx.removeBinding(alignmentStageI0CompositeBinding);
-		alignmentStageI0CompositeBinding.dispose();
-		dataBindingCtx.removeBinding(sampleStageItCompositeBinding);
-		sampleStageItCompositeBinding.dispose();
-		dataBindingCtx.removeBinding(alignmentStageItCompositeBinding);
-		alignmentStageItCompositeBinding.dispose();
-		SingleSpectrumUIModel.INSTANCE.getSampleStageMotors().removePropertyChangeListener(SampleStageMotors.SELECTED_MOTORS, selectionChangeListener);
+		dataBindingCtx.removeBinding(sampleStageCompositeBinding);
+		sampleStageCompositeBinding.dispose();
+		dataBindingCtx.removeBinding(alignmentStageCompositeBinding);
+		alignmentStageCompositeBinding.dispose();
+		dataBindingCtx.removeBinding(switchWithSamplePositionButtonBinding);
+		switchWithSamplePositionButtonBinding.dispose();
 		super.dispose();
 	}
 

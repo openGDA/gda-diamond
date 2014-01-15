@@ -18,67 +18,29 @@
 
 package uk.ac.gda.exafs.ui.views.plot.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.eclipse.core.databinding.observable.list.IObservableList;
 
-import org.dawnsci.plotting.api.trace.ITrace;
+import uk.ac.gda.beans.ObservableModel;
 
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.gda.exafs.data.ObservableModel;
+public abstract class DataNode extends ObservableModel {
 
-public class DataNode extends ObservableModel {
-	private DoubleDataset xDoubleDataset;
-	private final List<DoubleDataset> yDoubleDataset = new ArrayList<DoubleDataset>();
-	private final String label;
-	private final DatasetNode parent;
-	private final String identifier;
+	protected final DataNode parent;
 
-	public static final String DATA_Y_AXIS_PROP_NAME = "yAxisData";
+	public static final String DATA_CHANGED_PROP_NAME = "changedData";
 
-	private List<ITrace> lines;
-
-	public DataNode(String identifier, String label, DatasetNode parent) {
-		this.label = label;
-		this.identifier = identifier;
+	public DataNode(DataNode parent) {
 		this.parent = parent;
 	}
 
-	public DatasetNode getParent() {
+	public abstract IObservableList getChildren();
+
+	public DataNode getParent() {
 		return parent;
 	}
 
-	public List<ITrace> getLines() {
-		return lines;
-	}
-
-	public void setLines(List<ITrace> lines) {
-		this.lines = lines;
-	}
-
-	@Override
-	public String toString() {
-		return label;
-	}
-
 	public String getLabel() {
-		return label;
+		return toString();
 	}
 
-	public String getIdentifier() {
-		return identifier;
-	}
-
-	public DoubleDataset getXAxisData() {
-		return xDoubleDataset;
-	}
-
-	public List<DoubleDataset> getYAxisData() {
-		return yDoubleDataset;
-	}
-
-	public void updateData(DoubleDataset xDoubleDataset, DoubleDataset yDoubleDataset) {
-		this.xDoubleDataset = xDoubleDataset;
-		this.yDoubleDataset.add(yDoubleDataset);
-		this.firePropertyChange(DATA_Y_AXIS_PROP_NAME, null, this.yDoubleDataset);
-	}
+	public abstract String getIdentifier();
 }

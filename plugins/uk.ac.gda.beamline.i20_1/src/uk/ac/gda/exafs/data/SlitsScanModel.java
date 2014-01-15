@@ -27,6 +27,7 @@ import gda.observable.IObserver;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.data.ClientConfig.EdeDataStore;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 
@@ -164,7 +165,9 @@ public class SlitsScanModel extends ObservableModel implements IObserver {
 		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
-		InterfaceProvider.getCommandRunner().runCommand(buildScanCommand());
+		String command = buildScanCommand();
+		InterfaceProvider.getTerminalPrinter().print(String.format("\n%s\n",command));
+		InterfaceProvider.getCommandRunner().runCommand(command);
 	}
 
 	@Override

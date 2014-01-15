@@ -38,6 +38,8 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
  */
 public interface StripDetector extends NexusDetector {
 
+	public static final String CALIBRATION_PROP_KEY = "calibration";
+
 	/**
 	 * Set up the time frames as defined by the supplied object.
 	 * <p>
@@ -197,7 +199,5 @@ public interface StripDetector extends NexusDetector {
 	 */
 	public void setEnergyCalibration(PolynomialFunction calibration) throws DeviceException;
 
-	public double[] getEnergyForChannels();
-
-	public double getEnergyForChannel(int channel);
+	boolean isEnergyCalibrationSet();
 }

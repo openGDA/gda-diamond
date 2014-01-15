@@ -100,7 +100,7 @@
 	<bean id="poly_theta_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PCHRO-01:THETA" />
 	</bean>
-	<bean id="poly_yfine_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="poly_finey_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PCHRO-01:YF" />
 	</bean>
 	<bean id="poly_yawfine_motor" class="gda.device.motor.EpicsMotor">

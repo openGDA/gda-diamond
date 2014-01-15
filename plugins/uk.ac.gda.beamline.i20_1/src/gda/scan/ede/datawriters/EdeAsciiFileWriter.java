@@ -25,6 +25,7 @@ import gda.device.detector.StripDetector;
 import gda.jython.InterfaceProvider;
 import gda.scan.EdeScan;
 import gda.scan.ScanDataPoint;
+import gda.scan.ede.EdeExperiment;
 
 import java.util.List;
 import java.util.Vector;
@@ -44,16 +45,33 @@ public abstract class EdeAsciiFileWriter {
 	protected String filenameTemplate = "";
 	protected StripDetector theDetector;
 
+	protected final DoubleDataset energyDataSet;
+
+	public abstract String getAsciiFilename();
+
+	public EdeAsciiFileWriter(DoubleDataset energyDataSet) {
+		this.energyDataSet = energyDataSet;
+	}
+
 	public static DoubleDataset extractDetectorDataSets(String detectorName, EdeScan scan, int spectrumIndex) {
 		List<ScanDataPoint> sdps = scan.getData();
 		return extractDetectorDataFromSDP(detectorName, sdps.get(spectrumIndex));
 	}
 
 	public static DoubleDataset extractDetectorDataFromSDP(String detectorName, ScanDataPoint sdp) {
+		return extractDetectorDataFromSDP(detectorName, sdp, false);
+	}
+
+	public static DoubleDataset extractDetectorEnergyFromSDP(String detectorName, ScanDataPoint sdp) {
+		return extractDetectorDataFromSDP(detectorName, sdp, true);
+	}
+
+	private static DoubleDataset extractDetectorDataFromSDP(String detectorName, ScanDataPoint sdp, boolean isEnergy) {
 		Vector<Object> data = sdp.getDetectorData();
 		int detIndex = getIndexOfMyDetector(detectorName, sdp);
 		NXDetectorData detData = (NXDetectorData) data.get(detIndex);
-		NexusGroupData groupData = detData.getData(detectorName, "data", NexusExtractor.SDSClassName);
+		String dataType = isEnergy? EdeExperiment.ENERGY_COLUMN_NAME : EdeExperiment.DATA_COLUMN_NAME;
+		NexusGroupData groupData = detData.getData(detectorName, dataType, NexusExtractor.SDSClassName);
 		double[] originalData = (double[]) groupData.getBuffer();
 		return new DoubleDataset(originalData, originalData.length);
 	}
