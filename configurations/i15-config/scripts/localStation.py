@@ -22,7 +22,6 @@ import ccdScanMechanics
 from ccdScanMechanics import setMaxVelocity
 import ccdFloodCorrections
 import ccdScripts
-import mar_scripts
 import pilatus_scripts
 import operationalControl
 
@@ -248,11 +247,6 @@ try:
 		pilmax2d = DetectorDataProcessorWithRoi('pilmax2d', pil, [SumMaxPositionAndValue()])
 	except:
 		localStation_exception(sys.exc_info(), "creating new pilatus (pil...)")
-		
-	try:
-		mar = finder.find("Mar345Detector")
-	except:
-		localStation_exception(sys.exc_info(), "creating mar")
 
 	try:
 		ccd = finder.find("ODCCD")
@@ -623,7 +617,6 @@ try:
 	ccdScanMechanics.configure(jythonNameMap, beamlineParameters)
 	ccdFloodCorrections.configure(jythonNameMap, beamlineParameters)
 #	ccdScripts.configure(jythonNameMap, beamlineParameters)
-	mar_scripts.configure(jythonNameMap, beamlineParameters)
 	pilatus_scripts.configure(jythonNameMap, beamlineParameters)
 	
 	# meta should be created last to ensure we have all required scannables

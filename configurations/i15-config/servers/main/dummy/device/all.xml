@@ -15,6 +15,8 @@
 	<import resource="I15-D6.xml"/>
 	<import resource="I15-D7.xml"/>
 	<import resource="I15-DCM.xml"/>
+	<import resource="I15-DET-MAR-AD.xml" />
+	<import resource="I15-DET-PE-AD.xml" />
 	<import resource="I15-DET1.xml"/>
 	<import resource="I15-DET2.xml"/>
 	<import resource="I15-EYE1.xml"/>
@@ -26,7 +28,6 @@
 	<import resource="I15-HFM.xml"/>
 	<import resource="I15-M3.xml"/>
 	<import resource="I15-M3B.xml"/>
-	<import resource="I15-PE.xml" />
 	<import resource="I15-PIN2.xml"/>
 	<import resource="I15-PIN3.xml"/>
 	<import resource="I15-QBPM1.xml"/>

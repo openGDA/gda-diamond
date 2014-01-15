@@ -77,7 +77,6 @@
 	</bean>
 
 	<bean id="ODCCD" class="gda.device.detector.odccd.ODCCDController" />
-	<bean id="Mar345Detector" class="gda.device.detector.mar345.Mar345Detector" />
 
 	<corba:export namespace="${gda.factory.factoryName}" />
 
