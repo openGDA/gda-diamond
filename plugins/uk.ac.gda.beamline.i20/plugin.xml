@@ -165,10 +165,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="GDA I20 Beamline">
+            name="GDA I20 Offline">
          <property
                name="appName"
-               value="GDA I20 Beamline">
+               value="GDA I20 Offline">
          </property>
          <property
                name="preferenceCustomization"
@@ -180,40 +180,12 @@
          </property>
          <property
                name="windowImages"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo1628png">
          </property>         
       </product>
    </extension>
    <extension
          point="org.eclipse.ui.editorActions">
-      <editorContribution
-            id="uk.ac.gda.client.exafs.XspressEditorContribution"
-            targetID="uk.ac.gda.exafs.ui.XspressParametersEditor">
-         <action
-               class="uk.ac.gda.exafs.ui.actions.RevertDetectorParametersToTemplateAction"
-               definitionId="uk.ac.gda.exafs.ui.actions.RevertDetectorParametersToTemplateAction"
-               icon="icons/page_refresh.png"
-               id="uk.ac.gda.client.exafs.RevertXspressDetector"
-               label="Revert"
-               style="push"
-               toolbarPath="Normal/additions"
-               tooltip="Revert detector configuration file.">
-         </action>
-      </editorContribution>
-      <editorContribution
-            id="uk.ac.gda.client.exafs.VortexEditorContribution"
-            targetID="uk.ac.gda.exafs.ui.VortexParametersEditor">
-         <action
-               class="uk.ac.gda.exafs.ui.actions.RevertDetectorParametersToTemplateAction"
-               definitionId="uk.ac.gda.exafs.ui.actions.RevertDetectorParametersToTemplateAction"
-               icon="icons/page_refresh.png"
-               id="uk.ac.gda.client.exafs.RevertXspressDetector"
-               label="Revert"
-               style="push"
-               toolbarPath="Normal/additions"
-               tooltip="Revert detector configuration file.">
-         </action>
-      </editorContribution>
       <editorContribution
             id="uk.ac.gda.client.experimentdefinition.FolderEditorContribution"
             targetID="uk.ac.gda.client.experimentdefinition.FolderEditor">

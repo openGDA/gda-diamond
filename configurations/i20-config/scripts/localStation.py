@@ -40,22 +40,21 @@ sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units
 offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset,i1_stanford_offset]
 offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_offset_units,i1_stanford_offset_units]
 
-xmapController = Finder.getInstance().find("xmapcontroller")
-
+#xmapController = Finder.getInstance().find("xmapcontroller")
+edxdcontroller = Finder.getInstance().find("edxdcontroller")
 vortexElements = VortexElements(edxdcontroller, xmapController, xmapMca)
 
 xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
 xspressConfig.initialize()
 alias("xspressConfig")
 
-vortex = VortexConfig(xmapMca, ExafsScriptObserver)
-vortex.initialize()
-alias("vortex")
+vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
+vortexConfig.initialize()
+alias("vortexConfig")
 
-detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortex)
+detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
 samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel)
 outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
-
 
 twodplotter = TwoDScanPlotter()
 twodplotter.setName("twodplotter")

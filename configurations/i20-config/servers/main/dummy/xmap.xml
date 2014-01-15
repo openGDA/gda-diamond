@@ -7,7 +7,7 @@
 	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<bean id="xmapController" class="gda.device.detector.xmap.DummyXmapController">
-		<property name="numberOfElements" value="1" />
+		<property name="numberOfElements" value="4" />
 		<property name="numberOfBins" value="1024" />
 		<property name="local" value="true" />
 	</bean>
@@ -18,10 +18,16 @@
 		<property name="eventProcessingTimes">
 			<list>
 				<value>1.1029752060937018e-007</value>
+				<value>1.1029752060937018e-007</value>
+				<value>1.1029752060937018e-007</value>
+				<value>1.1029752060937018e-007</value>
 			</list>
 		</property>
 		<property name="outputFormat">
 			<list>
+				<value>%.2f</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
 				<value>%.2f</value>
 			</list>
 		</property>

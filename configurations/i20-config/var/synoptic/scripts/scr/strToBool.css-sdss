@@ -6,7 +6,7 @@ function execute(args) {
 
 	var argument1 = args[0];
 	
-	Packages.java.lang.System.out.println("Display = "+argument1+"");
+	Packages.java.lang.System.out.println("String to boolean script. Argument = "+argument1+"");
 	
 	if ( argument1 == 'yes')
 	    return true;
