@@ -23,8 +23,6 @@ Location - ${workspace_loc:/dls-config/bin/gda_servers_local}
 Arguments (example for ixx-config to restart servers in dummy mode)
  - ${workspace_loc:/uk.ac.gda.core} ${workspace_loc:/ixx-config} dummy --restart --debug
 
-
-
 EOF
 }
 if [[ $# < 2 ]]; then
@@ -41,12 +39,20 @@ module load python
 if [[ $? -ne 0 ]]; then
    echo module failed - assuming python is already on the path
 fi
-
 JAVA_OPTS="-Xms128m -Xmx2024m -XX:MaxPermSize=128m"; export JAVA_OPTS
-
 if [ -f "/dls_sw/dasc/jrebel/5.2/jrebel.jar" ]; then
 	JAVA_OPTS="-javaagent:/dls_sw/dasc/jrebel/5.2/jrebel.jar -Drebel.properties=/dls_sw/dasc/jrebel/5.2/jrebel.properties $JAVA_OPTS"; export JAVA_OPTS
 fi
-echo $@
-echo python  $1/bin/gda  --config=$2 --smart --trace servers -v --mode=$3 $4 $5 $6 $7
-python  $1/bin/gda  --config=$2 --smart --trace servers -v --mode=$3 $4 $5 $6 $7
+
+GDA_CORE=$1
+GDA_CONFIG=$2
+GDA_MODE=$3
+shift;shift;shift
+
+echo Core folder: $GDA_CORE
+echo Config folder: $GDA_CONFIG
+echo GDA mode: $GDA_MODE
+echo Other args: $*
+
+echo python2.6  $GDA_CORE/bin/gda  --config=$GDA_CONFIG --smart --trace servers -v --mode=$GDA_MODE $*
+     python2.6  $GDA_CORE/bin/gda  --config=$GDA_CONFIG --smart --trace servers -v --mode=$GDA_MODE $*
