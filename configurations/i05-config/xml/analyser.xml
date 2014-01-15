@@ -107,12 +107,7 @@
 	</bean>
 	
 	<bean id="analyser" class="uk.ac.gda.devices.vgscienta.VGScientaAnalyser">
-		<property name="cpsRoiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="analyser_roi_provider" />
-				<constructor-arg value="0" />
-			</bean>
-		</property>
+		<property name="cpsRoiProvider" ref="analyser_roi_provider" />
 		<property name="controller" ref="controller" />
 		<property name="adBase" ref="area" />
 		<property name="ndProc" ref="proc" />
