@@ -1224,6 +1224,15 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		return STRIPS;
 	}
 
+
+	public static double[] getStripsInDouble() {
+		double[] energy = new double[STRIPS.length];
+		for (int i = 0; i < STRIPS.length; i++) {
+			energy[i] = STRIPS[i];
+		}
+		return energy;
+	}
+
 	@Override
 	public Double getMaxBias() {
 		return MAX_BIAS_VOLTAGE;

@@ -18,8 +18,10 @@
 
 package uk.ac.gda.exafs.ui.views.plot.model;
 
+import gda.device.detector.XHDetector;
 import gda.factory.Finder;
 import gda.jython.IScanDataPointObserver;
+import gda.jython.InterfaceProvider;
 import gda.observable.IObservable;
 import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeExperimentProgressBean;
@@ -34,23 +36,46 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.swt.widgets.Display;
 
-import uk.ac.gda.beans.ObservableModel;
-import uk.ac.gda.exafs.ui.views.plot.model.DataNode.DataItemNode;
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
-public class PlotDataHolder extends ObservableModel implements IScanDataPointObserver {
+public class ExperimentDataNode extends DataNode implements IScanDataPointObserver {
 
-	private final Map<String, DatasetNode> scans = new HashMap<String, DatasetNode>();
-	private final IObservableList dataset = new WritableList(new ArrayList<DatasetNode>(), DatasetNode.class);
+	public final static DoubleDataset scriptsData = new DoubleDataset(XHDetector.getStripsInDouble());
 
-	public static final String DATA_CHANGED_PROP_NAME = "changedData";
-	private DataItemNode changedData;
+	private final Map<String, ScanDataNode> scans = new HashMap<String, ScanDataNode>();
+	private final IObservableList dataset = new WritableList(new ArrayList<ScanDataNode>(), ScanDataNode.class);
 
-	public PlotDataHolder() {
+	private DataNode changedData;
+
+	public static final String USE_STRIPS_AS_X_AXIS_PROP_NAME = "useStripsAsXaxis";
+	private boolean useStripsAsXaxis;
+
+	private DataNode addedData;
+
+	public ExperimentDataNode() {
+		super(null);
 		((IObservable) Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(this);
+		InterfaceProvider.getScanDataPointProvider().addIScanDataPointObserver(this);
 	}
 
-	public IObservableList getDataset() {
-		return dataset;
+	public boolean isUseStripsAsXaxis() {
+		return useStripsAsXaxis;
+	}
+
+	public void setUseStripsAsXaxis(boolean useStripsAsXaxis) {
+		this.firePropertyChange(USE_STRIPS_AS_X_AXIS_PROP_NAME, this.useStripsAsXaxis, this.useStripsAsXaxis = useStripsAsXaxis);
+		updateScansData();
+	}
+
+	private void updateScansData() {
+		for (Object scanObj: dataset) {
+			for (Object spectraObj: ((ScanDataNode) scanObj).getChildren()) {
+				SpectraNode spectraNode = (SpectraNode) spectraObj;
+				for (Object scanDataObj: spectraNode.getChildren()) {
+					this.firePropertyChange(DATA_CHANGED_PROP_NAME, null, scanDataObj);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -63,31 +88,43 @@ public class PlotDataHolder extends ObservableModel implements IScanDataPointObs
 		});
 	}
 
-	public DataItemNode getChangedData() {
+	public DataNode getChangedData() {
 		return changedData;
 	}
 
-	// TODO Changed to linked list!
+	public DataNode getAddedData() {
+		return addedData;
+	}
+
+	// FIXME Changed to linked list or change viewer to reverse the order!
 	@SuppressWarnings("unchecked")
 	protected void updateDataSetInUI(@SuppressWarnings("unused") Object source, Object arg) {
-
 		if (arg instanceof EdeExperimentProgressBean) {
 			final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
 			final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
 			final String scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
-			DatasetNode datasetNode;
+			ScanDataNode datasetNode;
 			if (!scans.containsKey(scanIdentifier)) {
 				boolean isMulti = (edeExperimentProgress.getExperimentCollectionType() == ExperimentCollectionType.MULTI);
-				final DatasetNode newNode = new DatasetNode(scanIdentifier, isMulti);
+				final ScanDataNode newNode = new ScanDataNode(scanIdentifier, isMulti, this);
 				scans.put(scanIdentifier, newNode);
 				dataset.add(0, newNode);
 				datasetNode = newNode;
 			} else {
 				datasetNode = scans.get(scanIdentifier);
 			}
-			changedData = datasetNode.updateData((EdeExperimentProgressBean) arg);
-			this.firePropertyChange(DATA_CHANGED_PROP_NAME, null, changedData);
+			addedData = datasetNode.updateData((EdeExperimentProgressBean) arg);
+			this.firePropertyChange(DATA_ADDED_PROP_NAME, null, addedData);
 		}
+	}
 
+	@Override
+	public IObservableList getChildren() {
+		return dataset;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return null;
 	}
 }

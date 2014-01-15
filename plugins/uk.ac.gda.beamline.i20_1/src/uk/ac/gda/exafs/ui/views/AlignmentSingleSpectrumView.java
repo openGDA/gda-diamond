@@ -95,7 +95,7 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 			createSampleStageSections(formParent);
 			createAlignmentSections(formParent);
 			setupScannables();
-			SingleSpectrumParametersSection singleSpectrumParametersSection = new SingleSpectrumParametersSection(formParent, SWT.None);
+			SingleSpectrumParametersSection singleSpectrumParametersSection = new SingleSpectrumParametersSection(formParent, SWT.None, false);
 			singleSpectrumParametersSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 			EDECalibrationSection eDECalibrationSection = new EDECalibrationSection(formParent, SWT.None);
 			eDECalibrationSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));

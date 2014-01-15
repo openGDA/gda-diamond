@@ -135,9 +135,9 @@ public abstract class EdeExperiment implements IObserver {
 		i0Position = this.setPosition(EdePositionType.OUTBEAM, i0ScanableMotorPositions);
 		itPosition = this.setPosition(EdePositionType.INBEAM, iTScanableMotorPositions);
 		theDetector  = Finder.getInstance().find(detectorName);
-		topup = (Monitor) getScannable(topupMonitorName);
-		beamLightShutter = (Scannable) getScannable(beamShutterScannableName);
-		controller = (ScriptControllerBase) getScannable(PROGRESS_UPDATER_NAME);
+		topup = (Monitor) getFindable(topupMonitorName);
+		beamLightShutter = (Scannable) getFindable(beamShutterScannableName);
+		controller = (ScriptControllerBase) getFindable(PROGRESS_UPDATER_NAME);
 	}
 
 	protected void setCommonI0Parameters(double accumulationTime, int numberOfAccumulcations) {
@@ -174,8 +174,8 @@ public abstract class EdeExperiment implements IObserver {
 		return parameters;
 	}
 
-	private Findable getScannable(String scannable) {
-		return Finder.getInstance().find(scannable);
+	private Findable getFindable(String name) {
+		return Finder.getInstance().find(name);
 	}
 
 	protected abstract int getRepetitions();
@@ -191,18 +191,19 @@ public abstract class EdeExperiment implements IObserver {
 
 		if (shouldRunItDark()) {
 			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector, 1, beamLightShutter);
+			itDarkScan.setProgressUpdater(this);
 			scansForExperiment.add(itDarkScan);
 		} else {
 			itDarkScan = i0DarkScan;
 		}
 
 		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
-		scansForExperiment.add(i0InitialScan);
 		i0InitialScan.setProgressUpdater(this);
+		scansForExperiment.add(i0InitialScan);
 
 		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
-		scansForExperiment.add(itScan);
 		itScan.setProgressUpdater(this);
+		scansForExperiment.add(itScan);
 	}
 
 	public String runExperiment() throws Exception {

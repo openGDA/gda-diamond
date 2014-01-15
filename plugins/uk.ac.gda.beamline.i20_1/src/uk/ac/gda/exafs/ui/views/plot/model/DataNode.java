@@ -18,93 +18,31 @@
 
 package uk.ac.gda.exafs.ui.views.plot.model;
 
-import java.util.ArrayList;
-
 import org.eclipse.core.databinding.observable.list.IObservableList;
-import org.eclipse.core.databinding.observable.list.WritableList;
 
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.beans.ObservableModel;
 
-public class DataNode extends ObservableModel {
-	private DoubleDataset xDoubleDataset;
+public abstract class DataNode extends ObservableModel {
 
-	public static final String DATA_SET_Y_AXIS_PROP_NAME = "yDoubleDataset";
-	private final IObservableList yDoubleDataset = new WritableList(new ArrayList<DataItemNode>(), DataItemNode.class);
-	private final String label;
-	private final DatasetNode parent;
-	private final String identifier;
+	protected final DataNode parent;
 
-	public static final String DATA_Y_AXIS_PROP_NAME = "yAxisData";
-	private DataItemNode yAxisData;
+	public static final String DATA_CHANGED_PROP_NAME = "changedData";
 
-	public DataNode(String identifier, String label, DatasetNode parent) {
-		this.label = label;
-		this.identifier = identifier;
+	public static final String DATA_ADDED_PROP_NAME = "addedData";
+
+	public DataNode(DataNode parent) {
 		this.parent = parent;
 	}
 
-	public DatasetNode getParent() {
+	public abstract IObservableList getChildren();
+
+	public DataNode getParent() {
 		return parent;
 	}
 
-	@Override
-	public String toString() {
-		return label;
-	}
-
 	public String getLabel() {
-		return label;
+		return toString();
 	}
 
-	public String getIdentifier() {
-		return identifier;
-	}
-
-	public DoubleDataset getXAxisData() {
-		return xDoubleDataset;
-	}
-
-	public DataItemNode getYAxisData() {
-		return yAxisData;
-	}
-
-	public IObservableList getYDoubleDataset() {
-		return yDoubleDataset;
-	}
-
-	public DataItemNode updateData(DoubleDataset xDoubleDataset, DoubleDataset yDoubleDataset, String identifier, String label) {
-		this.xDoubleDataset = xDoubleDataset;
-		yAxisData = new DataItemNode(identifier, label, yDoubleDataset, this);
-		this.yDoubleDataset.add(yAxisData);
-		this.firePropertyChange(DATA_Y_AXIS_PROP_NAME, null, yAxisData);
-		return yAxisData;
-	}
-
-	public static class DataItemNode extends ObservableModel {
-		private final String identifier;
-		private final DoubleDataset data;
-		private final DataNode parent;
-		private final String label;
-
-		public DataItemNode(String identifier, String label, DoubleDataset data, DataNode parent) {
-			this.identifier = identifier;
-			this.data = data;
-			this.parent = parent;
-			this.label = label;
-		}
-		public DoubleDataset getData() {
-			return data;
-		}
-		public String getIdentifier() {
-			return identifier;
-		}
-		public DataNode getParent() {
-			return parent;
-		}
-		@Override
-		public String toString() {
-			return label;
-		}
-	}
+	public abstract String getIdentifier();
 }
