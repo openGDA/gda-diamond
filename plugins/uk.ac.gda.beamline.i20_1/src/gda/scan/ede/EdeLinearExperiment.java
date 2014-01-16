@@ -49,6 +49,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	private double totalTime;
 
 	private EdeScan iRefScan;
+	private EdeScan i0ForIRefScan;
 	private EdeScan i0FinalScan;
 	private EdeScan iRefFinalScan;
 
@@ -56,6 +57,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	private EdeScanPosition iRefPosition;
 
 	private boolean runIRef;
+	private boolean runI0ForIRef;
 	private boolean runItDark;
 
 	public EdeLinearExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
@@ -94,6 +96,9 @@ public class EdeLinearExperiment extends EdeExperiment {
 		iRefPosition = this.setPosition(EdePositionType.REFERENCE, iRefScanableMotorPositions);
 		iRefScanParameters = this.deriveScanParametersFromIt(accumulationTime, numberOfAccumulcations);
 		runIRef = true;
+		if (i0ScanParameters.getGroups().get(0).getTimePerScan() != accumulationTime || i0ScanParameters.getGroups().get(0).getTotalNumberScans() != numberOfAccumulcations) {
+			runI0ForIRef = true;
+		}
 	}
 
 	private void setupTimingGroups() {
@@ -188,6 +193,11 @@ public class EdeLinearExperiment extends EdeExperiment {
 	protected void addScansForExperiment() {
 		super.addScansForExperiment();
 		if (runIRef) {
+			if (runI0ForIRef) {
+				i0ForIRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, 1, beamLightShutter);
+				scansForExperiment.add(scansForExperiment.indexOf(itScan) - 1, i0ForIRefScan);
+				i0ForIRefScan.setProgressUpdater(this);
+			}
 			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
 			scansForExperiment.add(scansForExperiment.indexOf(itScan) - 1, iRefScan);
 			iRefScan.setProgressUpdater(this);
@@ -211,6 +221,9 @@ public class EdeLinearExperiment extends EdeExperiment {
 		}
 		header.append("i0InitialScan: " + i0InitialScan.getHeaderDescription() + "\n");
 		if (runIRef) {
+			if (runI0ForIRef) {
+				header.append("i0DarkScan: " + i0ForIRefScan.getHeaderDescription() + "\n");
+			}
 			header.append("iRefScan: " + iRefScan.getHeaderDescription() + "\n");
 		}
 		header.append("itScan: " + itScan.getHeaderDescription() + "\n");
@@ -224,7 +237,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	@Override
 	protected double getPredictedExperimentTime() {
 		return new LinearExperimentTimeEstimator(itScanParameters,  i0Position,
-				itPosition,iRefPosition).getTotalDuration();
+				itPosition, iRefPosition).getTotalDuration();
 	}
 
 	@Override

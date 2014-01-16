@@ -30,7 +30,7 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 import de.jaret.util.ui.timebars.model.TimeBarModel;
 
 public class CyclicExperimentModel extends TimeResolvedExperimentModel {
-	public static final String CYCLIC_EXPERIMENT_MODEL_DATA_STORE_KEY = "CYCLIC_TIME_RESOLVED_EXPERIMENT_DATA";
+	private static final String CYCLIC_EXPERIMENT_MODEL_DATA_STORE_KEY = "CYCLIC_TIME_RESOLVED_EXPERIMENT_DATA";
 
 	public static final String NO_OF_REPEATED_GROUPS_PROP_NAME = "noOfRepeatedGroups";
 	private int noOfRepeatedGroups;
@@ -113,5 +113,10 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 
 	public double getCyclesDurationInSec() {
 		return ExperimentUnit.MILLI_SEC.convertToSecond(cyclesDuration);
+	}
+
+	@Override
+	protected String getDataStoreKey() {
+		return CYCLIC_EXPERIMENT_MODEL_DATA_STORE_KEY;
 	}
 }

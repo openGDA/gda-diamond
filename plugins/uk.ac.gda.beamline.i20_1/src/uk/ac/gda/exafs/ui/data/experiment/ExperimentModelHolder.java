@@ -28,11 +28,11 @@ public enum ExperimentModelHolder {
 
 		linerExperimentModel = new TimeResolvedExperimentModel();
 		linerExperimentModel.setup();
-		linerExperimentModel.loadSavedGroups(TimeResolvedExperimentModel.LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY);
+		linerExperimentModel.loadSavedGroups();
 
 		cyclicExperimentModel = new CyclicExperimentModel();
 		cyclicExperimentModel.setup();
-		cyclicExperimentModel.loadSavedGroups(CyclicExperimentModel.CYCLIC_EXPERIMENT_MODEL_DATA_STORE_KEY);
+		cyclicExperimentModel.loadSavedGroups();
 	}
 
 	public TimeResolvedExperimentModel getLinerExperimentModel() {

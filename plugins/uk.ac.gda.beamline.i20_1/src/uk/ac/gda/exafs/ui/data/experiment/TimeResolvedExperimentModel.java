@@ -59,6 +59,9 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors.ExperimentMotorPostionType;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel.TimingGroupTimeBarRowModel;
+
+import com.google.gson.annotations.Expose;
+
 import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.date.JaretDate;
 import de.jaret.util.ui.timebars.TimeBarMarkerImpl;
@@ -67,6 +70,8 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 
 public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
+	public static final int TOP_UP_DURATION_IN_SECONDS = 10;
+
 	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedExperimentModel.class);
 
 	private static final String TIMING_GROUPS_OBJ_NAME = "timingGroups";
@@ -74,7 +79,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	private static final double EXPERIMENT_START_TIME = 0.0;
 	private static final double DEFAULT_INITIAL_EXPERIMENT_TIME = 20; // Should be > 0
 
-	public static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "LINEAR_TIME_RESOLVED_EXPERIMENT_DATA";
+	private static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "LINEAR_TIME_RESOLVED_EXPERIMENT_DATA";
 
 	private static final String JYTHON_DRIVER_OBJ = "timeresolvedexperiment";
 
@@ -112,7 +117,6 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	private static final int MAX_TOP_UP_TIMES = 10;
 	private static final int DURATION_BETWEEN_TOP_UP_IN_MINUTES = 10;
-	public static final int TOP_UP_DURATION_IN_SECONDS = 10;
 
 	public static class Topup extends TimeBarMarkerImpl {
 		public Topup(boolean draggable, JaretDate date) {
@@ -130,12 +134,17 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	private DoubleDataset[] scanDataSet;
 
-	protected WritableList groupList = new WritableList(new ArrayList<TimingGroupUIModel>(), TimingGroupUIModel.class);
+	private final WritableList groupList = new WritableList(new ArrayList<TimingGroupUIModel>(), TimingGroupUIModel.class);
 
 	private ScanJob experimentDataCollectionJob;
 
 	public static final String UNIT_PROP_NAME = "unit";
-	protected ExperimentUnit unit = ExperimentUnit.SEC;
+	private ExperimentUnit unit = ExperimentUnit.SEC;
+
+	public static final String UNIT_IN_STRING_PROP_NAME = "unitInStr";
+	@Expose
+	private String unitInStr = unit.getUnitText();
+
 
 	public void setup() {
 		setupTimebarModel();
@@ -179,8 +188,8 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		return topupTimes;
 	}
 
-	public void loadSavedGroups(String key) {
-		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(key, TimingGroupUIModel[].class);
+	public void loadSavedGroups() {
+		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(getDataStoreKey(), TimingGroupUIModel[].class);
 		if (savedGroups == null) {
 			this.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(DEFAULT_INITIAL_EXPERIMENT_TIME));
 			addGroup();
@@ -207,6 +216,9 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		updateExperimentDuration();
 	}
 
+	protected String getDataStoreKey() {
+		return LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY;
+	}
 
 	private void setupTimebarModel() {
 		timebarModel = new DefaultTimeBarModel();
@@ -217,47 +229,6 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		timebarModel.addRow(timingGroupRowModel);
 		timebarModel.addRow(spectraRowModel);
 	}
-
-	//	private void setupTimebarModel() {
-	//		// Each group has 2 rows, for group and spectra
-	//		int existingRows = 0;
-	//		if (timebarModel == null) {
-	//			timebarModel = new DefaultTimeBarModel();
-	//		} else {
-	//			existingRows = timebarModel.getRowCount() / 2;
-	//		}
-	//		for (int i=0; i < noOfRepeatedGroups; i++) {
-	//			if (i >= existingRows) {
-	//				DefaultRowHeader header = new DefaultRowHeader(getGroupHeaderPrefix(i));
-	//				TimingGroupTimeBarRowModel timingGroupRowModel = new TimingGroupTimeBarRowModel(header);
-	//				timebarModel.addRow(timingGroupRowModel);
-	//
-	//				header = new DefaultRowHeader("");
-	//				TimingGroupTimeBarRowModel spectraRowModel = new TimingGroupTimeBarRowModel(header);
-	//				timebarModel.addRow(spectraRowModel);
-	//
-	//				if (existingRows > 0) {
-	//					for (Interval interval : timebarModel.getRow(0).getIntervals()) {
-	//						timingGroupRowModel.addInterval(interval);
-	//					}
-	//					for (Interval interval : timebarModel.getRow(1).getIntervals()) {
-	//						spectraRowModel.addInterval(interval);
-	//					}
-	//				}
-	//			}
-	//		}
-	//		if (noOfRepeatedGroups < existingRows) {
-	//			List<TimeBarRow> rowsToRemove = new ArrayList<TimeBarRow>();
-	//			for (int i = noOfRepeatedGroups; i < existingRows; i++) {
-	//				int rowIndex = i * 2;
-	//				rowsToRemove.add(timebarModel.getRow(rowIndex));
-	//				rowsToRemove.add(timebarModel.getRow(rowIndex + 1));
-	//			}
-	//			for (TimeBarRow rowToRemove : rowsToRemove) {
-	//				timebarModel.remRow(rowToRemove);
-	//			}
-	//		}
-	//	}
 
 	public DefaultTimeBarModel getTimeBarModel() {
 		return timebarModel;
@@ -288,7 +259,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup);
 		resetInitialGroupTimes(this.getDuration() / groupList.size());
-		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
+		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(this.getDataStoreKey(), groupList);
 		return newGroup;
 	}
 
@@ -303,7 +274,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				}
 				updateExperimentDuration();
 			}
-			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
+			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(TimeResolvedExperimentModel.this.getDataStoreKey(), groupList);
 		}
 	};
 
@@ -326,7 +297,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		if (groupList.size() > 1) {
 			removeFromInternalGroupList(group);
 			resetInitialGroupTimes(this.getDuration() / groupList.size());
-			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
+			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(getDataStoreKey(), groupList);
 		}
 	}
 
@@ -591,8 +562,13 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		return unit;
 	}
 
+	public String getUnitInStr() {
+		return unitInStr;
+	}
+
 	public void setUnit(ExperimentUnit unit) {
 		this.firePropertyChange(UNIT_PROP_NAME, this.unit, this.unit = unit);
+		this.firePropertyChange(UNIT_IN_STRING_PROP_NAME, unitInStr, unitInStr = this.unit.getUnitText());
 		for (Object object : getGroupList()) {
 			((TimingGroupUIModel) object).setUnit(this.unit.getWorkingUnit());
 		}

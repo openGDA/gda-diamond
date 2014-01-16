@@ -35,6 +35,7 @@ import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.CollectionModelRenderer;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentMarkerRenderer;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentTimingDataModel;
 import uk.ac.gda.exafs.ui.data.experiment.SpectrumModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
@@ -84,7 +85,7 @@ public class ExperimentTimeBarComposite extends ResourceComposite {
 			} else if (propertyName.equals(TimeResolvedExperimentModel.CURRENT_SCANNING_SPECTRUM_PROP_NAME)) {
 				SpectrumModel spectrum = (SpectrumModel) evt.getNewValue();
 				marker.setDate(spectrum.getEnd().copy());
-			} else if (propertyName.equals(TimeResolvedExperimentModel.EXPERIMENT_DURATION_PROP_NAME)) {
+			} else if (propertyName.equals(ExperimentTimingDataModel.DURATION_PROP_NAME)) {
 				resetToDisplayWholeExperimentTime();
 				updateScaleSelection();
 				updateTopupMarkers((double) newValue);
@@ -197,7 +198,7 @@ public class ExperimentTimeBarComposite extends ResourceComposite {
 			timeBarViewer.getMarkers().clear();
 		}
 		for (TimeBarMarker marker : TimeResolvedExperimentModel.getTopupTimes()) {
-			if (model.getUnit().convertToMilli(duration) >= marker.getDate().getMillisInDay()) {
+			if (duration >= marker.getDate().getMillisInDay()) {
 				timeBarViewer.addMarker(marker);
 			}
 		}

@@ -153,7 +153,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		FileWriter writer = null;
 		try {
 			writer = new FileWriter(asciiFile);
-			log("Writing EDE format ascii file for IRef data: " + i0Filename);
+			log("Writing EDE format ascii file for IRef data: " + iRefFilename);
 			writerHeader(writer);
 
 			writer.write("#" + EdeExperiment.TIMINGGROUP_COLUMN_NAME + "\t" + EdeExperiment.STRIP_COLUMN_NAME + "\t" + EdeExperiment.ENERGY_COLUMN_NAME + "\t"
@@ -215,6 +215,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			Double i0DK = i0DarkDataSet.get(channel);
 			Double iRef = iRefDataSet.get(channel);
 			Double i0_corrected = i0Raw - i0DK;
+			// Check this is right!
 			Double iRef_corrected = iRef - i0DK;
 			Double lni0iref = calcLnI0It(i0_corrected, iRef_corrected);
 

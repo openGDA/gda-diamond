@@ -411,6 +411,9 @@ public class EDECalibrationSection extends ResourceComposite {
 	}
 
 	private void updateEnergyCalibrationPolynomialText() {
+		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
+			return;
+		}
 		try {
 			polynomialValueLbl.setText(DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().toString());
 		} catch (DeviceException e) {
