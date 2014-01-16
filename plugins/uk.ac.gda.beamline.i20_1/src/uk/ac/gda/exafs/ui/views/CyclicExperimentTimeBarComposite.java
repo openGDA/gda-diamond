@@ -30,7 +30,10 @@ import org.eclipse.swt.widgets.Composite;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.CyclicExperimentModel;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentCyclesScaleRenderer;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentMarkerRenderer;
+import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.ui.sections.ResourceComposite;
+import de.jaret.util.ui.timebars.TimeBarMarker;
 import de.jaret.util.ui.timebars.TimeBarViewerInterface;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 
@@ -60,6 +63,7 @@ public class CyclicExperimentTimeBarComposite extends ResourceComposite {
 		timeBarViewer.setDrawOverlapping(true);
 		timeBarViewer.setYAxisWidth(80);
 		timeBarViewer.setTimeScaleRenderer(new ExperimentCyclesScaleRenderer(model));
+		timeBarViewer.setMarkerRenderer(new ExperimentMarkerRenderer());
 		timeBarViewer.setModel(model.getCyclicTimeBarModel());
 
 		timeBarViewer.addControlListener(new ControlListener() {
@@ -80,12 +84,24 @@ public class CyclicExperimentTimeBarComposite extends ResourceComposite {
 		public void propertyChange(PropertyChangeEvent evt) {
 			if (evt.getPropertyName().equals(CyclicExperimentModel.CYCLES_DURATION_PROP_NAME)) {
 				resetToDisplayWholeExperimentTime();
+				updateTopupMarkers((double) evt.getNewValue());
 			}
 		}
 	};
 
 	private void doBinding() {
 		model.addPropertyChangeListener(modelChangedListener);
+	}
+
+	protected void updateTopupMarkers(double duration) {
+		if (timeBarViewer.getMarkers() != null) {
+			timeBarViewer.getMarkers().clear();
+		}
+		for (TimeBarMarker marker : TimeResolvedExperimentModel.getTopupTimes()) {
+			if (duration >= marker.getDate().getMillisInDay()) {
+				timeBarViewer.addMarker(marker);
+			}
+		}
 	}
 
 	@Override
