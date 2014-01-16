@@ -68,7 +68,8 @@ public class I18Validator extends ExafsValidator {
 	private List<InvalidBeanMessage> validateIScanParameters(IScanParameters scanParams) {
 		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
 		if (scanParams instanceof XasScanParameters) {
-			errors.addAll(validateXasScanParameters((XasScanParameters) scanParams, MINENERGY, MAXENERGY));
+			// for I18 will need our own logic for this	
+//			errors.addAll(validateXasScanParameters((XasScanParameters) scanParams, MINENERGY, MAXENERGY));
 		} else if (scanParams instanceof XanesScanParameters) {
 			errors.addAll(validateXanesScanParameters((XanesScanParameters) scanParams));
 		} else if (scanParams instanceof MicroFocusScanParameters) {

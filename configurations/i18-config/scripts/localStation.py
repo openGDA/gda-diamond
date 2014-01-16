@@ -76,12 +76,17 @@ if (LocalProperties.get("gda.mode") == 'live'):
     archiver = IcatXMLCreator()
     archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
 
-    micosx=SetPvAndWaitForCallbackWithSeparateReadback2(
-        "micosx", "ME07M-EA-PIEZO-03:MMC:01:DEMAND",
-                       "ME07M-EA-PIEZO-03:MMC:01:POS:ENC", 20, 0.000001)
-    micosy=SetPvAndWaitForCallbackWithSeparateReadback2(
-        "micosy", "ME07M-EA-PIEZO-03:MMC:02:DEMAND",
-                       "ME07M-EA-PIEZO-03:MMC:02:POS:ENC", 20, 0.000001)
+# TEMP SWITCHED OFF!  17/12/13 RJW
+#    micosx=SetPvAndWaitForCallbackWithSeparateReadback2(
+#        "micosx", "ME07M-EA-PIEZO-03:MMC:01:DEMAND",
+#                       "ME07M-EA-PIEZO-03:MMC:01:POS:ENC", 20, 0.000001)
+#    micosy=SetPvAndWaitForCallbackWithSeparateReadback2(
+#        "micosy", "ME07M-EA-PIEZO-03:MMC:02:DEMAND",
+#                       "ME07M-EA-PIEZO-03:MMC:02:POS:ENC", 20, 0.000001)
+    micosx=DummyMonitor()
+    micosx.setName("micosx")
+    micosy=DummyMonitor()
+    micosy.setName("micosy")
     
 else:
     micosx=DummyMonitor()
@@ -110,9 +115,10 @@ samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_Micro
 outputPreparer = I18OutputPreparer(datawriterconfig)
 
 xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
+#xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy_nogap, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
 
 non_raster_map = Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, micosx, micosy, ExafsScriptObserver,outputPreparer)
-raster_map = RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, rcpController)
+raster_map = RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, rcpController,outputPreparer)
 raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, rcpController, ExafsScriptObserver)
 map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
 

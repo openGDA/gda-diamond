@@ -427,18 +427,6 @@
                visible="true">
          </separator>
       </menuContribution>
-      <menuContribution
-            locationURI="popup:uk.ac.gda.beamline.i18.MapView?after=additions">
-         <menu
-               id="uk.ac.gda.beamline.i18.RunExafsMenu"
-               label="run">
-            <command
-                  commandId="uk.ac.gda.client.microfocus.runExafsCommand"
-                  id="uk.ac.gda.beamline.i18.menus.RunExafs"
-                  style="push">
-            </command>
-         </menu>
-      </menuContribution>
    </extension>
    <extension
          point="uk.ac.gda.microfocus.display.default.detectorfile">
