@@ -57,7 +57,7 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	s1xpos, s1xgap, s1ypos, s1ygap,\
 	s1xplus, s1xminus, s1yplus, s1yminus,\
 	dcmbragg1, dcmbragg2, dcmxtl1y, dcmxtl2y,\
-	dcmxtl1roll, dcmxtl1z, dcmpiezo, dcmenergy,\
+	dcmxtl1roll, dcmxtl1z, dcmenergy,\
 	qbpm1_x, qbpm1_y, qbpm1A, qbpm1B, qbpm1C, qbpm1D, qbpm1total,\
 	s6ypos, s6ygap, s6yup, s6ydown,\
 	vfm_x, vfm_y, vfm_pitch, vfm_curve, vfm_ellipticity, vfm_gravsag,\
@@ -154,7 +154,7 @@ try:
 		ionc1 = pd_epicsdevice.Simple_PD_EpicsDevice("ionc1", beamline, "-DI-IONC-01:I")
 
 		#prop = pd_epicsdevice.Simple_PD_EpicsDevice("prop", beamline, "-DI-PROP-01:I")
-		dcmpiezo = pd_epicsdevice.Simple_PD_EpicsDevice("dcmpiezo", beamline, "-OP-DCM-01:PIEZO:OUT")
+		#dcmpiezo = pd_epicsdevice.Simple_PD_EpicsDevice("dcmpiezo", beamline, "-OP-DCM-01:PIEZO:OUT")
 		#s2ygap = pd_epicsdevice.Simple_PD_EpicsDevice("s2ygap", beamline, "-AL-SLITS-02:Y:GAP.VAL")
 		#s2ycen = pd_epicsdevice.Simple_PD_EpicsDevice("s2ycen", beamline, "-AL-SLITS-02:Y:CENTRE.VAL")
 		#qbpX = pd_epicsdevice.Simple_PD_EpicsDevice("qbpX", beamline, "-DI-QBPMD-01:X.VAL")
@@ -630,7 +630,7 @@ try:
 				s1xpos, s1xgap, s1ypos, s1ygap,
 				s1xplus, s1xminus, s1yplus, s1yminus,
 				dcmbragg1, dcmbragg2, dcmxtl1y, dcmxtl2y,
-				dcmxtl1roll, dcmxtl1z, dcmpiezo, dcmenergy,
+				dcmxtl1roll, dcmxtl1z, dcmenergy,
 				qbpm1_x, qbpm1_y, qbpm1A, qbpm1B, qbpm1C, qbpm1D, qbpm1total,
 				s6ypos, s6ygap, s6yup, s6ydown,
 				vfm_x, vfm_y, vfm_pitch, vfm_curve, vfm_ellipticity, vfm_gravsag,
