@@ -53,6 +53,7 @@
 		<property name="setChunking" value="false" />
 		<property name="writeErrorStatusSupported" value="false" />
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="lazyOpen" value="true" />
 	</bean>
 
 	<!-- NXDetectors -->
