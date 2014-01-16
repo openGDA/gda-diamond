@@ -20,7 +20,6 @@ package uk.ac.gda.beamline.i11.persepctives;
 
 import gda.rcp.views.JythonTerminalView;
 
-
 import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.search.ui.NewSearchUI;
 import org.eclipse.ui.IFolderLayout;
@@ -36,7 +35,6 @@ import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 import uk.ac.gda.beamline.i11.views.DetectorFilePlotView;
 import uk.ac.gda.client.XYPlotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
-import uk.ac.gda.epics.client.mythen.views.MythenView;
 import uk.ac.gda.pydev.extension.ui.perspective.JythonPerspective;
 
 public class DataCollectionPerspective implements IPerspectiveFactory {
@@ -49,7 +47,7 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 	private static final String Scan_PLOT_FOLDER = "scanPlotFolder";
 	private static final String DETECTOR_PLOT_FOLDER = "detectorPlotFolder";
 	//the following two ID recorded here as they use generic PartView Classes
-	private static final String MYTHEN_PLOT_VIEW_ID = MythenView.ID;
+	private static final String MYTHEN_PLOT_VIEW_ID = "uk.ac.gda.epics.client.mythen.views.mythenView";
 	private static final String MAC_PLOT_VIEW_ID = "uk.ac.gda.client.hrpd.views.MACPlotView";
 	private static final String DATA_PLOT_VIEW_ID = "uk.ac.gda.beamline.i11.dataPlot";
 	private static final String DETECTOR_PLOT_VIEW_ID=DetectorFilePlotView.ID;
