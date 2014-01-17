@@ -96,9 +96,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 		iRefPosition = this.setPosition(EdePositionType.REFERENCE, iRefScanableMotorPositions);
 		iRefScanParameters = this.deriveScanParametersFromIt(accumulationTime, numberOfAccumulcations);
 		runIRef = true;
-		if (i0ScanParameters.getGroups().get(0).getTimePerScan() != accumulationTime || i0ScanParameters.getGroups().get(0).getTotalNumberScans() != numberOfAccumulcations) {
-			runI0ForIRef = true;
-		}
+		runI0ForIRef = true;
 	}
 
 	private void setupTimingGroups() {

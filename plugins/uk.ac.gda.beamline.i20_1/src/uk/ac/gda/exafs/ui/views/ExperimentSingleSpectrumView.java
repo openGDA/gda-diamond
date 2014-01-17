@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.SingleSpectrumUIModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentModelHolder;
 import uk.ac.gda.exafs.ui.sections.SingleSpectrumParametersSection;
 
 public class ExperimentSingleSpectrumView extends ViewPart {
@@ -83,7 +84,7 @@ public class ExperimentSingleSpectrumView extends ViewPart {
 	private void setupScannables() {
 		sampleStageCompositeBinding = dataBindingCtx.bindValue(
 				WidgetProperties.visible().observe(sampleStageSectionsParent),
-				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(SingleSpectrumUIModel.INSTANCE),
+				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel()),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 				new UpdateValueStrategy() {
 					@Override
@@ -97,7 +98,7 @@ public class ExperimentSingleSpectrumView extends ViewPart {
 	}
 
 	private void createSampleStageSections(Composite body) {
-		sampleStageSectionsParent = new SampleStageMotorsComposite(body, SWT.None, toolkit);
+		sampleStageSectionsParent = new SampleStageMotorsComposite(body, SWT.None, toolkit, true);
 	}
 
 	@Override

@@ -108,7 +108,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	private int i0NoOfAccumulations = 1;
 
 	public static final String IREF_INTEGRATION_TIME_PROP_NAME = "irefIntegrationTime";
-	private double irefIntegrationTime = 1;
+	private double irefIntegrationTime = 1.0;
 
 	public static final String IREF_NO_OF_ACCUMULATION_PROP_NAME = "irefNoOfAccumulations";
 	private int irefNoOfAccumulations = 1;
@@ -174,6 +174,8 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 			((Scriptcontroller) controller).addIObserver(experimentDataCollectionJob);
 		}
 		experimentDataCollectionJob.setUser(true);
+
+		loadSavedGroups();
 	}
 
 	public void addGroupListChangeListener(IListChangeListener listener) {
@@ -188,7 +190,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		return topupTimes;
 	}
 
-	public void loadSavedGroups() {
+	private void loadSavedGroups() {
 		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(getDataStoreKey(), TimingGroupUIModel[].class);
 		if (savedGroups == null) {
 			this.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(DEFAULT_INITIAL_EXPERIMENT_TIME));
@@ -309,11 +311,11 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		StringBuilder builder = new StringBuilder("from gda.scan.ede import EdeLinearExperiment;");
 		if (!this.isUseItTimeForI0()) {
 			builder.append(String.format(JYTHON_DRIVER_OBJ + " = EdeLinearExperiment(%f, %d",
-					i0IntegrationTime,
+					i0IntegrationTime / 1000,
 					i0NoOfAccumulations));
 		} else {
 			builder.append(String.format(JYTHON_DRIVER_OBJ + " = EdeLinearExperiment(%f",
-					i0IntegrationTime));
+					i0IntegrationTime / 1000));
 		}
 		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");",
 				TIMING_GROUPS_OBJ_NAME,
@@ -326,7 +328,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
 			builder.append(String.format(JYTHON_DRIVER_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
 					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
-					unit.getWorkingUnit().convertToSecond(irefIntegrationTime), irefNoOfAccumulations));
+					irefIntegrationTime  / 1000, irefNoOfAccumulations));
 		}
 		builder.append(JYTHON_DRIVER_OBJ + ".runExperiment();");
 		return builder.toString();

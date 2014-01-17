@@ -39,7 +39,7 @@ public class LinearExperimentTimeEstimator extends TimeEstimatorBase {
 
 	@Override
 	public Double getTotalDuration() {
-		if (iRefPosition == null || iRefPosition.equals(i0Position)){
+		if (iRefPosition == null || iRefPosition.equals(i0Position)) {
 			return estimateMovementDuration(null, i0Position) + estimateMovementDuration(i0Position, itPosition)
 					+ getItDuration() + estimateMovementDuration(itPosition, i0Position) + (3
 							* estimateOneFrameFromEachGroupDuration(itScanParameters));

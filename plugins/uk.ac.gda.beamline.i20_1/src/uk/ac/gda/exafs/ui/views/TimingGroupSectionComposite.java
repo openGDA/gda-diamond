@@ -186,7 +186,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 		Section section = toolkit.createSection(this, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 		section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		section.setText("Timing groups");
+		section.setText("It acquisition settings and Timing groups");
 		Composite sectionComposite = toolkit.createComposite(section, SWT.NONE);
 		toolkit.paintBordersFor(sectionComposite);
 		sectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
@@ -224,8 +224,11 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		expTimeComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		expTimeComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(5, false));
 
-		Label lbl = toolkit.createLabel(expTimeComposite, "Total experiment", SWT.NONE);
+		Label lbl = toolkit.createLabel(expTimeComposite, "Experiment time", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		if (model instanceof CyclicExperimentModel) {
+			lbl.setText("Cycle time");
+		}
 
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		experimentTimeControl = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.EXPERIMENT_DURATION_PROP_NAME, false);
@@ -469,7 +472,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 				}
 			}
 		});
-
 	}
 
 	private void createI0IRefComposites() throws Exception {

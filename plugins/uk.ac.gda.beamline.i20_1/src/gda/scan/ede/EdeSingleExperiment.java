@@ -69,8 +69,6 @@ public class EdeSingleExperiment extends EdeExperiment {
 		setCommonI0Parameters(i0AccumulationTime, i0NoOfAccumulcation);
 	}
 
-
-
 	@Override
 	protected ExperimentCollectionType getCollectionType() {
 		return ExperimentCollectionType.SINGLE;

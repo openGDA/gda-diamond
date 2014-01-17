@@ -50,8 +50,6 @@ import com.google.gson.annotations.Expose;
 
 public class SingleSpectrumUIModel extends ObservableModel {
 
-	public static final SingleSpectrumUIModel INSTANCE = new SingleSpectrumUIModel(0);
-
 	private static final Logger logger = LoggerFactory.getLogger(SingleSpectrumUIModel.class);
 
 	private final AlignmentStageScannable.Location holeLocationForAlignment = new AlignmentStageScannable.Location();
@@ -82,16 +80,10 @@ public class SingleSpectrumUIModel extends ObservableModel {
 	public static final String FILE_NAME_PROP_NAME = "fileName";
 	private String fileName;
 
-	public static final String IREF_X_POSITION_PROP_NAME = "iRefxPosition";
-	private double iRefxPosition;
-
-	public static final String IREF_Y_POSITION_PROP_NAME = "iRefyPosition";
-	private double iRefyPosition;
-
 	public static final String SCANNING_PROP_NAME = "scanning";
 	private boolean scanning;
 
-	private final ScanJob job;
+	private ScanJob job;
 
 	public static final String FILE_TEMPLATE_PROP_NAME = "fileTemplate";
 	private String fileTemplate = "Undefined_";
@@ -100,9 +92,18 @@ public class SingleSpectrumUIModel extends ObservableModel {
 
 	private String filePefix = "%s";
 
+	public static final String IREF_INTEGRATION_TIME_PROP_NAME = "irefIntegrationTime";
+	private double irefIntegrationTime = 1.0;
+
+	public static final String IREF_NO_OF_ACCUMULATION_PROP_NAME = "irefNoOfAccumulations";
+	private int irefNoOfAccumulations = 1;
+
 	private static final String SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY = "SINGLE_SPECTRUM_DATA";
 
-	private SingleSpectrumUIModel(@SuppressWarnings("unused") int dummy) {
+	public static final String USE_IT_TIME_FOR_I0_PROP_NAME = "useItTimeForI0";
+	private boolean useItTimeForI0 = false;
+
+	public void setup() {
 		job = new ScanJob("Performing Single spectrum scan");
 		((IObservable) Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(job);
 		InterfaceProvider.getJSFObserver().addIObserver(job);
@@ -118,7 +119,9 @@ public class SingleSpectrumUIModel extends ObservableModel {
 		if (AlignmentParametersModel.INSTANCE.getElement() != null) {
 			SingleSpectrumUIModel.this.setCurrentElement(AlignmentParametersModel.INSTANCE.getElement().getSymbol());
 		}
+
 		loadSingleSpectrumData();
+
 		this.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -176,6 +179,11 @@ public class SingleSpectrumUIModel extends ObservableModel {
 							DetectorModel.INSTANCE.getCurrentDetector().getName(),
 							DetectorModel.TOPUP_CHECKER,
 							DetectorModel.SHUTTER_NAME));
+		}
+		if (SampleStageMotors.INSTANCE.isUseIref()) {
+			builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
+					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
+					irefIntegrationTime  / 1000, irefNoOfAccumulations));
 		}
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFilenameTemplate(\"%s\");", filePefix));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
@@ -355,20 +363,20 @@ public class SingleSpectrumUIModel extends ObservableModel {
 		firePropertyChange(IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME, itNumberOfAccumulations, itNumberOfAccumulations = value);
 	}
 
-	public double getiRefxPosition() {
-		return iRefxPosition;
+	public double getIrefIntegrationTime() {
+		return irefIntegrationTime;
 	}
 
-	public void setiRefxPosition(double value) {
-		firePropertyChange(IREF_X_POSITION_PROP_NAME, iRefxPosition, iRefxPosition = value);
+	public void setIrefIntegrationTime(double irefIntegrationTime) {
+		this.firePropertyChange(IREF_INTEGRATION_TIME_PROP_NAME, this.irefIntegrationTime, this.irefIntegrationTime = irefIntegrationTime);
 	}
 
-	public double getiRefyPosition() {
-		return iRefyPosition;
+	public int getIrefNoOfAccumulations() {
+		return irefNoOfAccumulations;
 	}
 
-	public void setiRefyPosition(double value) {
-		firePropertyChange(IREF_Y_POSITION_PROP_NAME, iRefyPosition, iRefyPosition = value);
+	public void setIrefNoOfAccumulations(int irefNoOfAccumulations) {
+		this.firePropertyChange(IREF_NO_OF_ACCUMULATION_PROP_NAME, this.irefNoOfAccumulations, this.irefNoOfAccumulations = irefNoOfAccumulations);
 	}
 
 	public AlignmentStageScannable.Location getHoleLocationForAlignment() {
@@ -377,6 +385,14 @@ public class SingleSpectrumUIModel extends ObservableModel {
 
 	public AlignmentStageScannable.Location getFoilLocationForAlignment() {
 		return foilLocationForAlignment;
+	}
+
+	public boolean isUseItTimeForI0() {
+		return useItTimeForI0;
+	}
+
+	public void setUseItTimeForI0(boolean useItTimeForI0) {
+		this.firePropertyChange(USE_IT_TIME_FOR_I0_PROP_NAME, this.useItTimeForI0, this.useItTimeForI0 = useItTimeForI0);
 	}
 
 	public void save() throws DetectorUnavailableException {
