@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA for Diamond Light Source Beamline I09" id="uk.ac.gda.sisa.client.product" application="uk.ac.gda.client.application" version="8.36.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA for Diamond Light Source Beamline I09" id="uk.ac.gda.sisa.client.product" application="uk.ac.gda.client.application" version="8.32.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -20,13 +20,13 @@ http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i09/software/gda/config/pluginCustomization.ini
+      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i09/software/gda/config/plugin_customization.ini
 -Dgda.install.workspace.loc=/dls_sw/i09/software/gda/workspace
 -Dgda.install.git.loc=/dls_sw/i09/software/gda/workspace_git
 -Dgda.propertiesFile=/dls_sw/i09/software/gda/config/properties/live/java.properties
 -Dgda.config=/dls_sw/i09/software/gda/config
 -Djacorb.config.dir=/dls_sw/i09/software/gda/config/jacorb/live
--Djava.library.path=${workspace_loc:uk.ac.gda.core}/lib/Linux-i386 
+-Djava.library.path=${workspace_loc:uk.ac.gda.core}/lib/linux-x86_64 
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i09/software/gda/config/jca/live/JCALibrary.properties
 -Dgda.data=/dls/i09/data
 -Dgda.gui.beans.xml=/dls_sw/i09/software/gda/config/clients/rcp/live/client.xml
