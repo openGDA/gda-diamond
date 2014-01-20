@@ -2,6 +2,7 @@ import sys
 from time import sleep
 from gdascripts.messages import handle_messages
 from gdascripts.messages.handle_messages import simpleLog
+from gdascripts.parameters import beamline_parameters
 
 global configured, isccd, beamline
 configured = False
@@ -35,31 +36,33 @@ def sh(cmd):
 	"""
 	checkConfigured()
 	try:
+		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+		zebraFastShutter = jythonNameMap.zebraFastShutter
 		if (cmd=="o"):
 			#Reset and Open EH & Atlas shutter (Open takes 4-5 seconds).
 			openEHShutter()
-			isccd.openS()
+			zebraFastShutter.forceOpen()
 			return
 		elif (cmd=="c"):
 			#Close EH & Atlas Shutter
 			closeEHShutter()
-			isccd.closeS()
+			zebraFastShutter.forceOpenRelease()
 			return
 		elif (cmd=="oa"):
 			#Reset and Open OH2 and EH shutter (Open takes 4-5 seconds).
 			openOH2Shutter()
 			openEHShutter()
-			isccd.openS()
+			zebraFastShutter.forceOpen()
 			return
 		elif (cmd=="ca"):
 			#Close EH & Atlas Shutter
 			closeOH2Shutter()
 			closeEHShutter()
-			isccd.closeS()
+			zebraFastShutter.forceOpenRelease()
 			return
 		elif (cmd=="status"):
 			#Get status
-			return isccd.getS()
+			return zebraFastShutter.isOpen()
 		else:
 			simpleLog( 'No habla ingles? Use "o", "c", "oa", or "oc". Versuchen noch einmal!')
 		

@@ -39,12 +39,15 @@ from gdascripts.scan.installStandardScansWithProcessing import *
 scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
+import scannables.detectors.fastShutterZebraDetector
+zebraFastShutter=scannables.detectors.fastShutterZebraDetector.FastShutterZebraDetector('zebraFastShutter')
+
 from detector_scan_commands import *
 from centreProxy import *
 from scanPeak import *
 from diodeTime import *
 from setGain import *
-from marAuxiliary import marErase, resetMarScanNumber
+#from marAuxiliary import marErase, resetMarScanNumber
 from ccdAuxiliary import resetCCDScanNumber
 from pilatus_scripts import resetPilatusScanNumber
 
