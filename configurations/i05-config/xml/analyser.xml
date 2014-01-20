@@ -118,22 +118,20 @@
 		<property name="capabilities" ref="AnalyserCapabilities" />
 		<property name="fixedModeRegion">
 			<list>
-				<value>0</value>
-				<value>0</value>
+				<value>1</value>
+				<value>1</value>
 				<value>1040</value>
 				<value>1000</value>
 			</list>
 		</property>
-		<!-- 
 		<property name="sweptModeRegion">
 			<list>
-				<value>54</value>
-				<value>165</value>
+				<value>55</value>
+				<value>166</value>
 				<value>905</value>
 				<value>690</value>
 			</list>
 		</property>
-		-->
 		<property name="entranceSlitInformationProvider" ref="scientaslit" />
 		<property name="dataChunking">
 			<list>
