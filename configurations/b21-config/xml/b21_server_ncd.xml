@@ -98,4 +98,15 @@
                <!-- // protected String liveURL = "jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb"; -->
         </bean>
 	<import resource="b21_biosaxscam.xml"/>
+	
+	<bean id="biosaxsprocessingrunner" class="uk.ac.gda.server.ncd.data.ProcessingRunner">
+                <property name="environment">
+                        <map>
+                                <entry key="DAWN" value="/dev/null" />
+                        </map>
+                </property>
+                <property name="executablePath" value="${gda.config}/processing/biosaxs.sh" />
+    </bean>
+	
+	
 </beans>
