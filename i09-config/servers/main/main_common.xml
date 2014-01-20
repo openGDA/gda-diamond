@@ -55,6 +55,7 @@
 	<import resource="RegionScannable.xml"/>
 	<import resource="ES2.xml"/>
 	<import resource="topup.xml"/>
+	<import resource="RFD.xml"/>
 
 	<import resource="../servers_common.xml" />
 

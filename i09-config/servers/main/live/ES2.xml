@@ -3,34 +3,53 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="es2iamp10" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="deviceName" value="ES2.IAMP10" />
+<!-- 	<bean id="es2iamp10" class="gda.device.currentamplifier.EpicsCurrAmpSingle"> -->
+<!-- 		<property name="deviceName" value="ES2.IAMP10" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="es2iamp19" class="gda.device.currentamplifier.EpicsCurrAmpSingle"> -->
+<!-- 		<property name="deviceName" value="ES2.IAMP19" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="es2iamp21" class="gda.device.currentamplifier.EpicsCurrAmpSingle"> -->
+<!-- 		<property name="deviceName" value="ES2.IAMP21" /> -->
+<!-- 	</bean> -->
+	<bean id="es2x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ES2.X" />
 	</bean>
-	<bean id="es2iamp19" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="deviceName" value="ES2.IAMP19" />
+	<bean id="es2y1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ES2.Y1" />
 	</bean>
-	<bean id="es2iamp21" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="deviceName" value="ES2.IAMP21" />
+	<bean id="es2y2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ES2.Y2" />
 	</bean>
-<!-- 	<bean id="hm3y_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="HM3.Y" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="hm3x_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="HM3.X" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="hm3pitch_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="HM3.PITCH" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="hm3upstreamx_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="HM3.UPSTREAMX" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="hm3downstreamx_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="HM3.DOWNSTREAMX" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="hm3mainbender_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="HM3.MAINBENDER" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="hm3elipticalbender_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="HM3.ELIPTICALBENDER" /> -->
-<!-- 	</bean> -->
+	<bean id="es2y3_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ES2.Y3" />
+	</bean>
+	<bean id="es2y1enc_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ES2.Y1ENC" />
+	</bean>
+	<bean id="es2y2enc_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ES2.Y2ENC" />
+	</bean>
+	<bean id="es2y3enc_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ES2.Y3ENC" />
+	</bean>
+	<bean id="es2vcam_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ES2.VCAM" />
+	</bean>
+	<bean id="es2conecam_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ES2.CONECAM" />
+	</bean>
+	<bean id="es2flatcam_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ES2.FLATCAM" />
+	</bean>	
+	<bean id="es2y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ES2.Y.Y" />
+	</bean>	
+	<bean id="es2pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ES2.Y.PITCH" />
+	</bean>	
+	<bean id="es2roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ES2.Y.ROLL" />
+	</bean>	
 </beans>
+

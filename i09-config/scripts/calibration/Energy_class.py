@@ -86,8 +86,8 @@ class BeamEnergy(ScannableMotionBase):
             K=math.sqrt(Ksquared)
             A=(2*0.0934*lambdaU*self.lut[n][1]*M/math.pi)*math.sin(math.pi/M)*(1-math.exp(-2*math.pi*h/lambdaU))
             gap=(lambdaU/math.pi) * math.log(A/K)+self.lut[n][6]
-            if self.gap=="igap" and (gap<5.1 or gap>9.1):
-                raise ValueError("Required Hard X-Ray ID gap is out side allowable bound (5.1, 9.1)!")
+#            if self.gap=="igap" and (gap<5.1 or gap>9.1):
+#                raise ValueError("Required Hard X-Ray ID gap is out side allowable bound (5.1, 9.1)!")
             if self.gap=="jgap" and gap<16:
                 raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (>=16)!")
         elif (self.getName() == "jenergy" and self.getPolarisation()=="H"):
@@ -119,13 +119,16 @@ class BeamEnergy(ScannableMotionBase):
         At the background this moves both ID gap and Mono Bragg to the values corresponding to this energy.
         If a child scannable can not be reached for whatever reason, it just prints out a message, then continue to next.'''
         self.energy = float(new_position)
-        gap=0.0
-        if self.energy<self.eneryRangeForOrder(self.order)[0] or self.energy>self.eneryRangeForOrder(self.order)[1]:
-            raise ValueError("Requested photon energy is out of range for this harmonic!")
+        try:
+            gap=self.idgap(self.energy, self.order)
+        except:
+            raise
+        if self.getName() == "ienergy":
+            if self.energy<self.eneryRangeForOrder(self.order)[0] or self.energy>self.eneryRangeForOrder(self.order)[1]:
+                raise ValueError("Requested photon energy is out of range for this harmonic!")
         for s in self.scannables.getGroupMembers():
             if s.getName() == self.gap:
                 try:
-                    gap=self.idgap(self.energy, self.order)
                     s.asynchronousMoveTo(gap)
                 except:
                     print "cannot set " + s.getName() + " to " + str(gap)

@@ -18,6 +18,8 @@ else
 	exit 1
 fi
 
+notify-send -t 10000 "GDA Remote Servers are starting..."
+
 echo "Kill all GDA Clients running locally"
 gda --stop client
 sleep 2;

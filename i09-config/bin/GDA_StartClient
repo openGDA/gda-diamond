@@ -1,6 +1,6 @@
 #!/bin/bash
 
-notify-send -t 10000 "GDA is starting..."
+notify-send -t 10000 "GDA Client is starting..."
 
 . /$SOFTWAREFOLDER/$BEAMLINE/software/gda/config/bin/gda_environment.sh
 if [ -f "/etc/profile.d/modules.sh" ]; then

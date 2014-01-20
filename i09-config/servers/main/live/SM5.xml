@@ -21,5 +21,8 @@
 	<bean id="sm5bender2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="SM5.BENDER2" />
 	</bean>
+	<bean id="sm5iamp8" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="deviceName" value="SM5.IAMP8" />
+	</bean>
 
 </beans>

@@ -28,6 +28,7 @@
 				<ref bean="sm5pitch" />
 				<ref bean="sm5bender1" />
 				<ref bean="sm5bender2" />
+				<ref bean="sm5iamp8"/>
 			</list>
 		</property>
 	</bean>

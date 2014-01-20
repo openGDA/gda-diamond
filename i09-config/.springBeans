@@ -116,6 +116,8 @@
 		<config>servers/main/dummy/SMPM.xml</config>
 		<config>servers/main/live/GDAMetadata.xml</config>
 		<config>servers/main/RegionScannable.xml</config>
+		<config>servers/main/live/RFDMotors.xml</config>
+		<config>servers/main/RFD.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

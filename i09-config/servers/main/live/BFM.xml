@@ -12,7 +12,7 @@
 	<bean id="bfmz_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="BFM.Z" />
 	</bean>
-<!-- 	<bean id="bfmiamp21" class="gda.device.currentamplifier.EpicsCurrAmpSingle"> -->
-<!-- 		<property name="deviceName" value="BFM.IAMP21" /> -->
-<!-- 	</bean> -->
+	<bean id="bfmiamp19" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="deviceName" value="BFM.IAMP19" />
+	</bean>
 </beans>

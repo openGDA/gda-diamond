@@ -1,4 +1,5 @@
 #!/bin/bash
+. "/$SOFTWAREFOLDER/$BEAMLINE/software/gda/config/bin/gda_environment.sh"
 
 if [ -f "/etc/profile.d/modules.sh" ]; then
 	. /etc/profile.d/modules.sh	
