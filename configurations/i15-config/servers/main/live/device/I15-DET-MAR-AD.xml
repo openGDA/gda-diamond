@@ -35,6 +35,11 @@
 		<property name="ndFileImpl" ref="mar_NDFileHDF5_base" />
 	</bean>
 
+	<bean id="mar_NDFileTiff" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL15I-EA-MAR-01:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>	
+
 	<!-- NXDetector collection strategies -->
 
 	<bean id="mar_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
@@ -56,6 +61,12 @@
 		<property name="lazyOpen" value="true" />
 	</bean>
 
+	<bean id="mar_tiff_nxfilewriter" class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="mar" />
+		<property name="ndFile" ref="mar_NDFileTiff" />
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+
 	<!-- NXDetectors -->
 
 	<bean id="mar" class="gda.device.detector.NXDetector">
@@ -64,6 +75,7 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="mar_hdf5_nxfilewriter" />
+				<ref bean="mar_tiff_nxfilewriter" />
 			</list>
 		</property>
 	</bean>
