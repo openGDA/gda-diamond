@@ -25,6 +25,9 @@
 	<import resource="../../../servers/main/common/device/zebraTestAreaDetector.xml"/>
 	<import resource="zebraTestAreaDetector.xml" />
 
+	<import resource="../../../servers/main/common/device/marAreaDetector.xml"/>
+	<import resource="marAreaDetector.xml" />
+
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />
 		<constructor-arg index="1">
