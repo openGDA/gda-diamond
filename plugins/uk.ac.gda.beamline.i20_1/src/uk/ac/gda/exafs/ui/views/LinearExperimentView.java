@@ -214,6 +214,12 @@ public class LinearExperimentView extends ViewPart {
 		timingGroupSectionComposite = new TimingGroupSectionComposite(parent, SWT.None, toolkit, getModel());
 		timingGroupSectionComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		toolkit.paintBordersFor(timingGroupSectionComposite);
+		MenuManager menuManager = new MenuManager();
+		Menu menu = menuManager.createContextMenu(timingGroupSectionComposite.getGroupsTableViewer().getTable());
+		// Set the MenuManager
+		timingGroupSectionComposite.getGroupsTableViewer().getTable().setMenu(menu);
+		getSite().registerContextMenu(menuManager, timingGroupSectionComposite.getGroupsTableViewer());
+		getSite().setSelectionProvider(timingGroupSectionComposite.getGroupsTableViewer());
 	}
 
 	protected void createTimeBarComposite(Composite parent) {
@@ -224,7 +230,7 @@ public class LinearExperimentView extends ViewPart {
 		// Set the MenuManager
 		timebarViewerComposite.getTimeBarViewer().setMenu(menu);
 		getSite().registerContextMenu(menuManager, timebarViewerComposite.getTimeBarViewer());
-		getSite().setSelectionProvider(timebarViewerComposite.getTimeBarViewer());
+
 	}
 
 	@Override

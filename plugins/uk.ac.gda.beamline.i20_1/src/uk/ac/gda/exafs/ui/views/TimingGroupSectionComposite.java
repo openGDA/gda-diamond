@@ -47,6 +47,8 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -72,6 +74,7 @@ import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors;
 import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
 import uk.ac.gda.exafs.ui.sections.ResourceComposite;
+import uk.ac.gda.exafs.ui.views.TimingGroupsSetupPage.TimingGroupWizardModel;
 import uk.ac.gda.ui.components.NumberEditorControl;
 
 public class TimingGroupSectionComposite extends ResourceComposite {
@@ -233,6 +236,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		experimentTimeControl = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.EXPERIMENT_DURATION_PROP_NAME, false);
 		experimentTimeControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		experimentTimeControl.setEditable(false);
 		experimentTimeControl.setLayoutData(gridData);
 
 		gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
@@ -362,7 +366,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			public String getText(Object element) {
 				return ((TimingGroup.InputTriggerLemoNumbers) element).getLabel();
 			}
-
 		});
 		inputLemoSelector.setContentProvider(new ArrayContentProvider());
 		inputLemoSelector.setInput(TimingGroup.InputTriggerLemoNumbers.values());
@@ -450,25 +453,19 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		buttonComposit.setLayout(new GridLayout());
 		buttonComposit.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL));
 		final Button butAdd = new Button(buttonComposit, SWT.FLAT);
-		butAdd.setText("Add");
+		butAdd.setText("Setup");
 		butAdd.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		butAdd.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				model.addGroup();
-			}
-		});
-
-		final Button butRemove = new Button(buttonComposit, SWT.FLAT);
-		butRemove.setText("Remove");
-		butRemove.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-
-		butRemove.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				IStructuredSelection structuredSelection = (IStructuredSelection) groupsTableViewer.getSelection();
-				if (structuredSelection.getFirstElement() != null) {
-					model.removeGroup((TimingGroupUIModel) structuredSelection.getFirstElement());
+				// model.addGroup();
+				WizardDialog wizardDialog = new WizardDialog(TimingGroupSectionComposite.this.getShell(),
+						new TimingGroupsSetupWizard());
+				if (wizardDialog.open() == Window.OK) {
+					TimingGroupWizardModel groupModel = ((TimingGroupsSetupPage) wizardDialog.getCurrentPage()).getTimingGroupWizardModel();
+					if (groupModel.getItTime() > 0) {
+						model.setupExperiment(groupModel.getUnit(), groupModel.getItTime(), groupModel.getNoOfGroups());
+					}
 				}
 			}
 		});

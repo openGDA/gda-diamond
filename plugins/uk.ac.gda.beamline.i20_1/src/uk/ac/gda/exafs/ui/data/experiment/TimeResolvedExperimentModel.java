@@ -296,9 +296,10 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	}
 
 	public void removeGroup(TimingGroupUIModel group) {
-		if (groupList.size() > 1) {
+		if (groupList.size() > 1 && groupList.indexOf(group) > 0) {
+			TimingGroupUIModel groupToExpend = (TimingGroupUIModel) groupList.get(groupList.indexOf(group) - 1);
 			removeFromInternalGroupList(group);
-			resetInitialGroupTimes(this.getDuration() / groupList.size());
+			groupToExpend.setEndTime(group.getEndTime());
 			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(getDataStoreKey(), groupList);
 		}
 	}
@@ -550,6 +551,20 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	public void setExperimentDuration(double value) {
 		resetInitialGroupTimes(unit.convertToMilli(value) / groupList.size());
+	}
+
+	public void setupExperiment(ExperimentUnit unit, double duration, int noOfGroups) {
+		this.setTimes(0, unit.convertToMilli(duration));
+		this.setUnit(unit);
+		groupList.clear();
+		for(int i = 0; i < noOfGroups; i++) {
+			TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
+			newGroup.setName("Group " + groupList.size());
+			newGroup.setIntegrationTime(1.0);
+			addToInternalGroupList(newGroup);
+		}
+		resetInitialGroupTimes(this.getDuration() / groupList.size());
+		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(this.getDataStoreKey(), groupList);
 	}
 
 	public double getExperimentDuration() {
