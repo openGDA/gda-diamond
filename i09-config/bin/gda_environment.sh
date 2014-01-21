@@ -11,7 +11,7 @@ fi
 export SOFTWAREFOLDER=dls_sw
 export GDA_ROOT=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/plugins
 export GDA_CONFIG=${GDA_ROOT}/../config
-export GDA_DATADIR=/$SOFTWAREFOLDER/$BEAMLINE/data
+export GDA_DATADIR=/dls/$BEAMLINE/data
 
 export PATH=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/config/bin:/$SOFTWAREFOLDER/$BEAMLINE/software/gda/config/pytools/src:/dls_sw/dasc/bin/iKittenScripts:/$SOFTWAREFOLDER/$BEAMLINE/bin:$PATH
 
