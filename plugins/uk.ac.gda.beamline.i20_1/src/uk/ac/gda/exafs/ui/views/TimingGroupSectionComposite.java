@@ -70,6 +70,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.CyclicExperimentModel;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentTimingDataModel;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentUnit;
 import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors;
 import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
@@ -145,7 +146,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 				new UpdateValueStrategy() {
 					@Override
 					public Object convert(Object value) {
-						return ((ExperimentTimingDataModel.ExperimentUnit) value).getUnitText();
+						return ((ExperimentUnit) value).getUnitText();
 					}
 				});
 		dataBindingCtx.bindValue(
@@ -246,10 +247,10 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		expUnitSelectionCombo.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return ((ExperimentTimingDataModel.ExperimentUnit) element).getUnitText();
+				return ((ExperimentUnit) element).getUnitText();
 			}
 		});
-		expUnitSelectionCombo.setInput(ExperimentTimingDataModel.ExperimentUnit.values());
+		expUnitSelectionCombo.setInput(ExperimentUnit.values());
 
 		lbl = toolkit.createLabel(expTimeComposite, "Plot every", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
@@ -296,10 +297,10 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		groupUnitSelectionCombo.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return ((ExperimentTimingDataModel.ExperimentUnit) element).getUnitText();
+				return ((ExperimentUnit) element).getUnitText();
 			}
 		});
-		groupUnitSelectionCombo.setInput(ExperimentTimingDataModel.ExperimentUnit.values());
+		groupUnitSelectionCombo.setInput(ExperimentUnit.values());
 
 		label = toolkit.createLabel(groupDetailsSectionComposite, "Start time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -594,7 +595,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 			@Override
 			public Object convert(Object value) {
-				return ((ExperimentTimingDataModel.ExperimentUnit) value).getUnitText();
+				return ((ExperimentUnit) value).getUnitText();
 			}
 
 		};

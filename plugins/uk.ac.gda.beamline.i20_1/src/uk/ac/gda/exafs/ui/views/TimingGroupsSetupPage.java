@@ -34,8 +34,7 @@ import org.eclipse.swt.widgets.Label;
 
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.data.ClientConfig;
-import uk.ac.gda.exafs.ui.data.experiment.ExperimentTimingDataModel;
-import uk.ac.gda.exafs.ui.data.experiment.ExperimentTimingDataModel.ExperimentUnit;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentUnit;
 import uk.ac.gda.ui.components.NumberEditorControl;
 
 public class TimingGroupsSetupPage extends WizardPage {
@@ -70,10 +69,10 @@ public class TimingGroupsSetupPage extends WizardPage {
 			expUnitSelectionCombo.setLabelProvider(new LabelProvider() {
 				@Override
 				public String getText(Object element) {
-					return ((ExperimentTimingDataModel.ExperimentUnit) element).getUnitText();
+					return ((ExperimentUnit) element).getUnitText();
 				}
 			});
-			expUnitSelectionCombo.setInput(ExperimentTimingDataModel.ExperimentUnit.values());
+			expUnitSelectionCombo.setInput(ExperimentUnit.values());
 
 			label = new Label(container, SWT.NONE);
 			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -107,7 +106,7 @@ public class TimingGroupsSetupPage extends WizardPage {
 					new UpdateValueStrategy() {
 						@Override
 						public Object convert(Object value) {
-							return ((ExperimentTimingDataModel.ExperimentUnit) value).getUnitText();
+							return ((ExperimentUnit) value).getUnitText();
 						}
 					});
 		} catch (Exception e) {
@@ -126,7 +125,7 @@ public class TimingGroupsSetupPage extends WizardPage {
 	public static class TimingGroupWizardModel extends ObservableModel {
 
 		public static final String UNIT_PROP_NAME = "unit";
-		private ExperimentTimingDataModel.ExperimentUnit unit = ExperimentUnit.SEC;
+		private ExperimentUnit unit = ExperimentUnit.SEC;
 
 		public static final String NO_OF_GROUPS = "noOfGroups";
 		private int noOfGroups = 1;
@@ -150,11 +149,11 @@ public class TimingGroupsSetupPage extends WizardPage {
 			return noOfGroups;
 		}
 
-		public ExperimentTimingDataModel.ExperimentUnit getUnit() {
+		public ExperimentUnit getUnit() {
 			return unit;
 		}
 
-		public void setUnit(ExperimentTimingDataModel.ExperimentUnit unit) {
+		public void setUnit(ExperimentUnit unit) {
 			this.firePropertyChange(UNIT_PROP_NAME, this.unit, this.unit = unit);
 		}
 	}

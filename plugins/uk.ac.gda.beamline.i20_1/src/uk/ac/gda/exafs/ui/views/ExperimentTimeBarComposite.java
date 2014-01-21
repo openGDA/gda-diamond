@@ -208,7 +208,7 @@ public class ExperimentTimeBarComposite extends ResourceComposite {
 		timeBarViewer.scrollIntervalToVisible((Interval) model.getGroupList().get(0));
 		double width = timeBarViewer.getClientArea().width - timeBarViewer.getYAxisWidth();
 		if (width > 0) {
-			double pixelPerSecond = width / model.getDurationInSec();
+			double pixelPerSecond = width / (model.getDurationInSec());
 			if (pixelPerSecond > 0) {
 				timeBarViewer.setPixelPerSecond(pixelPerSecond);
 			}

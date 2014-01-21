@@ -23,6 +23,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Display;
 
+import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
 import de.jaret.util.ui.timebars.TimeBarMarker;
 import de.jaret.util.ui.timebars.TimeBarViewerDelegate;
 import de.jaret.util.ui.timebars.swt.renderer.DefaultTimeBarMarkerRenderer;
@@ -41,7 +42,10 @@ public class ExperimentMarkerRenderer extends DefaultTimeBarMarkerRenderer {
 		if (marker instanceof TimeResolvedExperimentModel.Topup) {
 			gc.setBackground(TOP_UP_MARKER_COLOR);
 			int x1 = tbv.xForDate(marker.getDate().copy().advanceSeconds(TimeResolvedExperimentModel.TOP_UP_DURATION_IN_SECONDS));
-			gc.fillRectangle(x, startY, x1 - x, height);
+			int width = x1 - x;
+			gc.fillRectangle(x, startY, width, height);
+			int x2 = tbv.xForDate(TimebarHelper.getTime());
+			gc.fillRectangle(x2 - width, startY, width, height);
 		} else {
 			gc.setForeground(SCANNING_MARKER_COLOR);
 			gc.drawLine(x, startY, x, startY + height);

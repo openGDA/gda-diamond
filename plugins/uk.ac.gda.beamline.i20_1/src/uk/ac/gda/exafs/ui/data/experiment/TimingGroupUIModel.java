@@ -134,7 +134,7 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 	public TimingGroupUIModel(DefaultTimeBarRowModel spectraTimeBarRowModel, ExperimentUnit unit, TimeResolvedExperimentModel parent) {
 		this.spectraTimeBarRowModel = spectraTimeBarRowModel;
 		this.parent = parent;
-		this.resetInitialTime(0.0, ExperimentTimingDataModel.MIN_DURATION_TIME, 0.0, ExperimentTimingDataModel.MIN_DURATION_TIME);
+		this.resetInitialTime(ExperimentTimingDataModel.INITIAL_START_TIME, ExperimentTimingDataModel.MIN_DURATION_TIME, 0.0, ExperimentTimingDataModel.MIN_DURATION_TIME);
 		setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
 		this.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override

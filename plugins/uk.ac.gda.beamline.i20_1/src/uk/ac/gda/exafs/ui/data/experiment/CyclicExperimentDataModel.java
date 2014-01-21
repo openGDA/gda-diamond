@@ -20,18 +20,17 @@ package uk.ac.gda.exafs.ui.data.experiment;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 
-public class ExperimentCycleModel extends ExperimentTimingDataModel {
+public class CyclicExperimentDataModel extends ExperimentTimingDataModel {
 
 	private final CyclicExperimentModel parent;
 
-	public ExperimentCycleModel(CyclicExperimentModel parent) {
+	public CyclicExperimentDataModel(CyclicExperimentModel parent) {
 		this.parent = parent;
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+		// Nothing to dispose
 	}
 
 	@Override

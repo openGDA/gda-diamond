@@ -20,7 +20,6 @@ package uk.ac.gda.exafs.ui.data.experiment;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
-import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 
 import com.google.gson.annotations.Expose;
@@ -30,6 +29,7 @@ import de.jaret.util.date.IntervalImpl;
 public abstract class ExperimentTimingDataModel extends IntervalImpl {
 
 	protected static final double MIN_DURATION_TIME = 20;
+	protected static final double INITIAL_START_TIME = 0.0;
 
 	public static final String NAME_PROP_NAME = "name";
 	@Expose
@@ -48,46 +48,9 @@ public abstract class ExperimentTimingDataModel extends IntervalImpl {
 	public static final String DURATION_PROP_NAME = "duration";
 
 	public static final String END_TIME_PROP_NAME = "endTime";
+
 	@Expose
 	private double endTime;
-
-	public static enum ExperimentUnit {
-		MILLI_SEC(ClientConfig.UnitSetup.MILLI_SEC, 1),
-		SEC(ClientConfig.UnitSetup.SEC, 1000),
-		MINUTE(ClientConfig.UnitSetup.MINUTE, 60 * 1000),
-		HOUR(ClientConfig.UnitSetup.HOUR, 60 * 60 * 1000);
-
-		private final ClientConfig.UnitSetup unit;
-		private final double conversionUnit;
-
-		private ExperimentUnit(ClientConfig.UnitSetup unit, double conversionUnit) {
-			this.unit = unit;
-			this.conversionUnit = conversionUnit;
-		}
-
-		public ExperimentUnit getWorkingUnit() {
-			if (this.ordinal() > 0) {
-				return ExperimentUnit.values()[this.ordinal() - 1];
-			}
-			return this;
-		}
-
-		public double convertToMilli(double value) {
-			return value * conversionUnit;
-		}
-
-		public double convertToSecond(double value) {
-			return value * (conversionUnit / 1000);
-		}
-
-		public double convertFromMilli(double value) {
-			return value / conversionUnit;
-		}
-
-		public String getUnitText() {
-			return unit.getText();
-		}
-	}
 
 	public double getStartTime() {
 		return startTime;

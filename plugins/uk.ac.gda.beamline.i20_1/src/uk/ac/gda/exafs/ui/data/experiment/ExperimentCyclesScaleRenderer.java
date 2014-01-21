@@ -52,7 +52,7 @@ public class ExperimentCyclesScaleRenderer extends RendererBase implements TimeS
 			int x = delegate.xForDate(interval.getEnd());
 			int startY = drawingArea.y + drawingArea.height - PREFERREDHEIGHT + 3;
 			gc.drawRectangle(x - 1, startY, 1, PREFERREDHEIGHT + 3);
-			String endTimeString = DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().convertFromMilli(((ExperimentCycleModel) interval).getEndTime())) + " " + model.getUnit().getUnitText();
+			String endTimeString = DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().convertFromMilli(((CyclicExperimentDataModel) interval).getEndTime())) + " " + model.getUnit().getUnitText();
 			Point point = gc.stringExtent(endTimeString);
 			gc.drawString(endTimeString, x - point.x - 10, startY + PREFERREDHEIGHT - point.y - 10);
 		}

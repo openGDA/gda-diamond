@@ -54,7 +54,7 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 				if (evt.getPropertyName().equals(ExperimentTimingDataModel.DURATION_PROP_NAME)) {
 					double startTime = 0.0;
 					for(Interval object : cyclicTimeBarRowModel.getIntervals()) {
-						ExperimentCycleModel experimentCycleModel = (ExperimentCycleModel) object;
+						CyclicExperimentDataModel experimentCycleModel = (CyclicExperimentDataModel) object;
 						experimentCycleModel.setTimes(startTime, (double) evt.getNewValue());
 						startTime += experimentCycleModel.getDuration();
 					}
@@ -62,7 +62,7 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 				} else if (evt.getPropertyName().equals(NO_OF_REPEATED_GROUPS_PROP_NAME)) {
 					int existingCycles = cyclicTimeBarRowModel.getIntervals().size();
 					for (int i=existingCycles; i < noOfRepeatedGroups; i++) {
-						ExperimentCycleModel experimentCycleModel = new ExperimentCycleModel(CyclicExperimentModel.this);
+						CyclicExperimentDataModel experimentCycleModel = new CyclicExperimentDataModel(CyclicExperimentModel.this);
 						experimentCycleModel.setName("Cycle " + (i + 1));
 						experimentCycleModel.setTimes(i * CyclicExperimentModel.this.getDuration(), CyclicExperimentModel.this.getDuration());
 						cyclicTimeBarRowModel.addInterval(experimentCycleModel);
@@ -88,7 +88,7 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 
 	private void updateTimes() {
 		if (cyclicTimeBarRowModel.getIntervals().size() > 0) {
-			ExperimentCycleModel lastCycle = ((ExperimentCycleModel) cyclicTimeBarRowModel.getIntervals().get(cyclicTimeBarRowModel.getIntervals().size() - 1));
+			CyclicExperimentDataModel lastCycle = ((CyclicExperimentDataModel) cyclicTimeBarRowModel.getIntervals().get(cyclicTimeBarRowModel.getIntervals().size() - 1));
 			this.firePropertyChange(CYCLES_DURATION_PROP_NAME, cyclesDuration, cyclesDuration = lastCycle.getEndTime());
 		}
 	}
