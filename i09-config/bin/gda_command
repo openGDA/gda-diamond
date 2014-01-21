@@ -6,7 +6,7 @@
 here=`dirname $0`
 config1=`cd $here/../; pwd`
 config=`readlink -f $config1`
-root=`cd $config/../..; pwd`
+root=`cd $config/../../..; pwd`
 if [ ! -f $root/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda ]; then
 	echo "Can not find gda launcher at $root/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda"
 	exit 1
