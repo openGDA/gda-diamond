@@ -79,6 +79,14 @@ public abstract class EdeExperiment implements IObserver {
 	public static final String IT_DARK_COLUMN_NAME = "It_dark";
 	public static final String DATA_COLUMN_NAME = "Data";
 
+	protected EdeScanParameters iRefScanParameters;
+	protected EdeScanPosition iRefPosition;
+	protected EdeScan iRefScan;
+	protected EdeScan i0ForIRefScan;
+	protected EdeScan iRefFinalScan;
+	protected boolean runIRef;
+	protected boolean runI0ForIRef;
+
 	/**
 	 * The name of the ScriptController object which is sent progress information and normalised spectra by experiments
 	 */
@@ -94,6 +102,7 @@ public abstract class EdeExperiment implements IObserver {
 	protected EdeScan itDarkScan;
 	protected EdeScan i0InitialScan;
 	protected EdeScan itScan;
+
 
 	private ScriptControllerBase controller;
 
@@ -127,6 +136,13 @@ public abstract class EdeExperiment implements IObserver {
 		this.itScanParameters = itScanParameters;
 		setupScannables(i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
 				beamShutterScannableName);
+	}
+
+	public void setIRefParameters(Map<String, Double> iRefScanableMotorPositions, double accumulationTime, int numberOfAccumulcations) throws DeviceException {
+		iRefPosition = this.setPosition(EdePositionType.REFERENCE, iRefScanableMotorPositions);
+		iRefScanParameters = this.deriveScanParametersFromIt(accumulationTime, numberOfAccumulcations);
+		runIRef = true;
+		runI0ForIRef = true;
 	}
 
 	private void setupScannables(Map<String, Double> i0ScanableMotorPositions,
@@ -209,6 +225,20 @@ public abstract class EdeExperiment implements IObserver {
 	public String runExperiment() throws Exception {
 		scansForExperiment.clear();
 		addScansForExperiment();
+
+		if (runIRef) {
+			if (runI0ForIRef) {
+				i0ForIRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, 1, beamLightShutter);
+				scansForExperiment.add(scansForExperiment.indexOf(itScan) - 1, i0ForIRefScan);
+				i0ForIRefScan.setProgressUpdater(this);
+			}
+			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
+			scansForExperiment.add(scansForExperiment.indexOf(itScan) - 1, iRefScan);
+			iRefScan.setProgressUpdater(this);
+
+			iRefFinalScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
+			scansForExperiment.add(iRefFinalScan);
+		}
 
 		addToMultiScanAndRun();
 		String asciiDataFile = writeAsciiFile();

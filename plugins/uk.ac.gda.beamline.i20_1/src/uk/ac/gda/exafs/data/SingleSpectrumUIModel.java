@@ -186,10 +186,6 @@ public class SingleSpectrumUIModel extends ObservableModel {
 					irefIntegrationTime  / 1000, irefNoOfAccumulations));
 		}
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFilenameTemplate(\"%s\");", filePefix));
-		if (SampleStageMotors.INSTANCE.isUseIref()) {
-			builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setReferencePosition(mapToJava(%s));",
-					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef)));
-		}
 		return builder.toString();
 	}
 
