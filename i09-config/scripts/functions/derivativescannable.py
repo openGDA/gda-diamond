@@ -16,4 +16,4 @@ def derivative(x1, x2):
     lastx2 = x2
     return y;
 
-dri20toi19 = ScannableFunctionClassFor2Scannables("dri20toi19", "hm3iamp20", "es2iamp19", derivative);
+dri20toi19 = ScannableFunctionClassFor2Scannables("dri20toi19", "hm3iamp20", "bfmiamp19", derivative);

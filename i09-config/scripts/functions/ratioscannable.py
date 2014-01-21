@@ -10,4 +10,4 @@ def ratioFun(x1, x2):
     y=x1/x2;
     return y;
 
-ratioi20toi19 = ScannableFunctionClassFor2Scannables("ratioi20toi19", "hm3iamp20", "es2iamp19", ratioFun);
+ratioi20toi19 = ScannableFunctionClassFor2Scannables("ratioi20toi19", "hm3iamp20", "bfmiamp19", ratioFun);
