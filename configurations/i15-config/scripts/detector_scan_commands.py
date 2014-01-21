@@ -147,19 +147,22 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 
 def expose(detector, exposureTime=1, noOfExposures=1,
 		fileName="expose_test", d1out=True, d2out=True):
-
-	if not (detector.name == 'mar'):
-		raise Exception('Only supports "mar" Area detector!')
-
+	
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	zebraFastShutter = jythonNameMap.zebraFastShutter
-		
-	detector.hdfwriter.setFileTemplate(		"%s%s%05d.hdf5")			
-	detector.hdfwriter.setFilePathTemplate(	"$datadir$")
-	detector.hdfwriter.setFileNameTemplate(	"$scan$-mar-"+fileName)
+	
+	if detector.name == "pe":
+		detector = jythonNameMap.pedet
+	elif not (detector.name in ('mar', 'pedet')):
+		raise Exception('Only supports "mar" and "pedet" Area detectors!')
+	
+	if detector.name == 'mar':
+		detector.hdfwriter.setFileTemplate(		"%s%s%05d.hdf5")
+		detector.hdfwriter.setFilePathTemplate(	"$datadir$")
+		detector.hdfwriter.setFileNameTemplate(	"$scan$-%s-" % detector.name + fileName)
 	
 	detector.tifwriter.setFileTemplate(		"%s%s%05d.tif")
-	detector.tifwriter.setFilePathTemplate(	"$datadir$/$scan$-mar-files-"+fileName)
+	detector.tifwriter.setFilePathTemplate(	"$datadir$/$scan$-%s-files-" % detector.name + fileName)
 	detector.tifwriter.setFileNameTemplate(	"")
 	
 	numExposuresPD = DummyPD("exposure")
