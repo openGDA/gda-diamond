@@ -359,6 +359,9 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				currentNormalisedItData.setName("Normalised It");
 				currentEnergyData = edeExperimentProgress.getEnergyData();
 				currentEnergyData.setName("Energy");
+
+				// This is commented out to disable the marker feature to show currently scanning spectra
+
 				//				final int currentFrameNumber = edeExperimentProgress.getProgress().getFrameNumOfThisSDP();
 				//				final int currentGroupNumber = edeExperimentProgress.getProgress().getGroupNumOfThisSDP();
 				//				Display.getDefault().asyncExec(new Runnable() {
