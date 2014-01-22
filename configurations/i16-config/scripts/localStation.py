@@ -1,6 +1,4 @@
 #@PydevCodeAnalysisIgnore
-
-
 from gda.jython import ScriptBase
 ScriptBase.interrupted = False
 print "============================================================="
@@ -338,6 +336,14 @@ try:
 
 	kbm2 = TripodToolBase("kbm2", kbmbase, c=[42, 42.5, 63], **copy.deepcopy(_kbm_common_geom))
 
+	from pd_single_element_of_vector_pd import *
+	kbmx=single_element_of_vector_pd_class('kbmxx', kbm1, 'kbm1_x', help='Distance along beam (mm) for KBM2')
+	vmpitch=single_element_of_vector_pd_class('vfm_pitch', kbm1, 'kbm1_alpha3', help='KBM1 (VFM) pitch: positive degrees ~ 0.2 deg')
+	hmpitch=single_element_of_vector_pd_class('hfm_pitch', kbm2, 'kbm2_alpha2', help='KBM2 (HFM) pitch: positive degrees ~ 0.2 deg')
+	vmtrans=single_element_of_vector_pd_class('vfm_trans', kbm1, 'kbm1_y', help='KBM1 (VFM) translation perp to surface: +ve = down (away from beam)')
+	hmtrans=single_element_of_vector_pd_class('hfm_trans', kbm2, 'kbm2_z', help='KBM2 (HFM) translation perp to surface: +ve = towards ring (towards beam)')
+	###########################################
+
 except NameError:
 	print "Not creating kbm1 and kbm2 as the transient kbmbase device is not available"
 
@@ -482,15 +488,26 @@ if installation.isLive():
 		tset=EpicsLScontrol('tset','BL16I-EA-LS340-01:','K','%5.2f','0','1')
 		T1=EpicsLSsetpoint('Tset1','SETP? 1','SETP 1','K','%5.2f')
 		T2=EpicsLSsetpoint('Tset2','SETP? 2','SETP 2','K','%5.2f')
-		Ta=DisplayEpicsPVClassLS('Ta_diode',"BL16I-EA-LS340-01:",'K','%4f','0',8); Ta.setInputNames(['Ta'])
-		Tb=DisplayEpicsPVClassLS('Tb_Pt',"BL16I-EA-LS340-01:",'K','%4f','1',8); Tb.setInputNames(['Tb'])
-		Tc=DisplayEpicsPVClassLS('Tc_TCtypeE',"BL16I-EA-LS340-01:",'K','%4f','2',8); Tc.setInputNames(['Tc'])
-		Td=DisplayEpicsPVClassLS('Td_TCAuFe',"BL16I-EA-LS340-01:",'K','%4f','3',8); Td.setInputNames(['Td'])
+
+		Ta=DisplayEpicsPVClass('Ta','BL16I-EA-LS340-01:KRDG0','K','%6f')
+		Tb=DisplayEpicsPVClass('Tb','BL16I-EA-LS340-01:KRDG1','K','%6f')
+		Tc=DisplayEpicsPVClass('Tc','BL16I-EA-LS340-01:KRDG2','K','%6f')
+		Td=DisplayEpicsPVClass('Td','BL16I-EA-LS340-01:KRDG3','K','%6f')
+
+		Tas=DisplayEpicsPVClass('Tas','BL16I-EA-LS340-01:SRDG0','K','%6f')
+		Tbs=DisplayEpicsPVClass('Tbs','BL16I-EA-LS340-01:SRDG1','K','%6f')
+		Tcs=DisplayEpicsPVClass('Tcs','BL16I-EA-LS340-01:SRDG2','K','%6f')
+		Tds=DisplayEpicsPVClass('Tds','BL16I-EA-LS340-01:SRDG3','K','%6f')
+
+#		Ta=DisplayEpicsPVClassLS('Ta_diode',"BL16I-EA-LS340-01:",'K','%4f','0',8); Ta.setInputNames(['Ta'])
+#		Tb=DisplayEpicsPVClassLS('Tb_Pt',"BL16I-EA-LS340-01:",'K','%4f','1',8); Tb.setInputNames(['Tb'])
+#		Tc=DisplayEpicsPVClassLS('Tc_TCtypeE',"BL16I-EA-LS340-01:",'K','%4f','2',8); Tc.setInputNames(['Tc'])
+#		Td=DisplayEpicsPVClassLS('Td_TCAuFe',"BL16I-EA-LS340-01:",'K','%4f','3',8); Td.setInputNames(['Td'])
 		
-		Ta2=DisplayEpicsPVClassLS2('Ta2',"BL16I-EA-LS340-01:",'K','%4f','0',8); Ta2.setInputNames(['Tas']);
-		Tb2=DisplayEpicsPVClassLS2('Tb2',"BL16I-EA-LS340-01:",'K','%4f','1',8); Tb2.setInputNames(['Tbs']);
-		Tc2=DisplayEpicsPVClassLS2('Tc2',"BL16I-EA-LS340-01:",'K','%4f','2',8); Tc2.setInputNames(['Tcs']);
-		Td2=DisplayEpicsPVClassLS2('Td2',"BL16I-EA-LS340-01:",'K','%4f','3',8); Td2.setInputNames(['Tds']);
+#		Ta2=DisplayEpicsPVClassLS2('Ta2',"BL16I-EA-LS340-01:",'K','%4f','0',8); Ta2.setInputNames(['Tas']);
+#		Tb2=DisplayEpicsPVClassLS2('Tb2',"BL16I-EA-LS340-01:",'K','%4f','1',8); Tb2.setInputNames(['Tbs']);
+#		Tc2=DisplayEpicsPVClassLS2('Tc2',"BL16I-EA-LS340-01:",'K','%4f','2',8); Tc2.setInputNames(['Tcs']);
+#		Td2=DisplayEpicsPVClassLS2('Td2',"BL16I-EA-LS340-01:",'K','%4f','3',8); Td2.setInputNames(['Tds']);
 	except java.lang.IllegalStateException:
 		print "*** Could not connect to epics PVs for BL16I-EA-LS340-01 ***"
 		print "*** failed to create Scannables: Treg, Tsam, tset, T1, T1, Ta, Tb, Tc, Td, Ta2, Tb2, Tc2 & Td2 ***"
@@ -866,7 +883,7 @@ if installation.isLive():
 	else:
 		d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample',[delta, eta, chi, phi, gam, mu, hkl, en, kphi, hkl, delta_axis_offset])
 	source=ReadPDGroupClass('source',[rc, idgap, uharmonic])
-	beamline_slits=ReadPDGroupClass('beamline_slits',[s1xcentre,s1xgap,s1ycentre, s1ygap,s2xcentre,s2xgap,s2ycentre, s2ygap,s3xcentre,s3xgap,s3ycentre, s3ygap,s4xcentre,s4xgap,s4ycentre, s4ygap])
+	beamline_slits=ReadPDGroupClass('beamline_slits',[s1xcentre,s1xgap,s1ycentre, s1ygap,s2xcentre,s2xgap,s2ycentre, s2ygap,s3xcentre,s3xgap,s3ycentre, s3ygap,s4xcentre,s4xgap,s4ycentre, s4ygap, shtr3x,shtr3y])
 	jjslits=ReadPDGroupClass('beamline_slits',[s5xgap, s5xtrans, s5ygap, s5ytrans, s6xgap, s6xtrans, s6ygap, s6ytrans])
 	mirror1=ReadPDGroupClass('mirror1',[m1pitch, m1x, m1y, m1roll, m1yaw, m1piezo])
 	mirror2=ReadPDGroupClass('mirror2',[m2pitch, m2x, m2y, m2roll, m2yaw,m2bender])
@@ -900,14 +917,16 @@ if installation.isLive():
 	#fzp=ReadPDGroupClass('FZP_motors',[zp1x, zp1y, zp1z, zp2x, zp2y, zp2z, xps3m1, xps3m2, micosx, micosy])
 try:
 	if not USE_DIFFCALC:
-		meta.set(dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
+		meta.add(dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
 	else:
-		meta.set(dummypd, mrwolf, diffractometer_sample, sixckappa, source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
+		meta.add(dummypd, mrwolf, diffractometer_sample, sixckappa, source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
 		
 	meta.prepend_keys_with_scannable_names = False
 	mds=meta
 	print "Removing frontend from metadata collection"
 	meta.rm(frontend)
+	addmeta(kbm1)
+	addmeta(kbmbase)
 
 	
 except NameError, e:
@@ -986,7 +1005,9 @@ def open_valves():
 #ci=237.0; cj=105.0	#24/06/13 gb (crash mt8772)
 #ci=234.0; cj=106.0	#24/06/13 gb (pilatus returned after repair)
 #ci=248.0; cj=106.0	#12/9/13 new value as previous is now bad pixel
-ci=247.0; cj=109.0	#12/9/13 new value as previous is now bad pixel
+#ci=247.0; cj=109.0	#12/9/13 new value as previous is now bad pixel
+#ci=249.0; cj=108.0	#26/11/13
+ci=241.0; cj=107.0	#14/01/14
 
 maxi=486; maxj=194
 
