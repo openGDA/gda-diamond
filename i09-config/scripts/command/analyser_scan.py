@@ -34,10 +34,10 @@ def multiregionscan(*args):
             if (OsUtil.isWindows()) :
                 FilenameUtil.setPrefix("D:")
                 filename=FilenameUtil.convertSeparator(filename)
-            controller.update(controller,SequenceFileChangeEvent(filename))
+            controller.update(controller,SequenceFileChangeEvent(filename)) #update client sequence view
             sleep(1.0)
             while (InterfaceProvider.getScanStatusHolder().getScanStatus()==Jython.PAUSED):
-                sleep(1.0)
+                sleep(1.0) # wait for user saving dirty file
             arg.setSequenceFilename(filename)
             if isinstance(arg.getCollectionStrategy(), EW4000CollectionStrategy):
                 arg.getCollectionStrategy().setSequence(arg.loadSequenceData(filename))
