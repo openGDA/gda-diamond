@@ -3,8 +3,7 @@ Created on 23 Jan 2014
 
 @author: fy65
 '''
-from scan.dRangeUtil import drange
-
+from utils.dRangeUtil import drange
 
 xpoints=drange(1, 2, 0.01)
 print "x-points: ",xpoints
