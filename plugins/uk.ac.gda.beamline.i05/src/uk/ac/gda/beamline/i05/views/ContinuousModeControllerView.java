@@ -19,8 +19,11 @@
 package uk.ac.gda.beamline.i05.views;
 
 import gda.device.Device;
+import gda.device.DeviceException;
 import gda.device.MotorStatus;
 import gda.device.Scannable;
+import gda.device.scannable.ScannableBase;
+import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.jython.JythonServerFacade;
 import gda.observable.IObserver;
@@ -41,11 +44,16 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beamline.i05.I05BeamlineActivator;
 import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 
 public class ContinuousModeControllerView extends ViewPart implements IObserver {
+	private static final Logger logger = LoggerFactory.getLogger(ContinuousModeControllerView.class);
+
+	
 	private AnalyserCapabilties capabilities;
 	private Combo lensMode;
 	private Combo passEnergy;
@@ -200,7 +208,44 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 		gd.verticalIndent = 4;
 		mpvc.setLayoutData(gd);
 		
-		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("pgm_energy")), true, "photonEnergy", 4, null, false, false);
+		ScannableBase wrappedEnergyScannable = new ScannableBase() {
+			private Scannable pgmEnergy = (Scannable) (Finder.getInstance().find("pgm_energy"));
+			private Scannable combinedEnergy = (Scannable) (Finder.getInstance().find("energy"));
+
+			@Override
+			public void configure() throws FactoryException {
+				super.configure();
+				final ScannableBase we = this;
+				pgmEnergy.addIObserver(new IObserver() {
+					
+					@Override
+					public void update(Object source, Object arg) {
+						we.notifyIObservers(we, arg);
+					}
+				});
+			}
+
+			@Override
+			public boolean isBusy() throws DeviceException {
+				return combinedEnergy.isBusy();
+			}
+
+			@Override
+			public void asynchronousMoveTo(Object externalPosition) throws DeviceException {
+				combinedEnergy.asynchronousMoveTo(externalPosition);
+			}
+
+			@Override
+			public Object getPosition() throws DeviceException {
+				return pgmEnergy.getPosition();
+			}
+		};
+		try {
+			wrappedEnergyScannable.configure();
+		} catch (FactoryException e) {
+			logger.error("error configuring wrapped energy scannable", e);
+		}
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, wrappedEnergyScannable, true, "photonEnergy", 4, null, false, false);
 		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
 		gd.verticalIndent = 4;
 		mpvc.setLayoutData(gd);
