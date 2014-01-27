@@ -19,13 +19,6 @@
 
 	<bean id="area" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL05I-EA-DET-01:CAM:" />
-<!-- 		<property name="initialDataType" value="UInt16" />
-		<property name="initialMinX" value="0" />
-		<property name="initialMinY" value="0" />
-		<property name="initialSizeX" value="1475" />
-		<property name="initialSizeY" value="1679" />
-		<property name="initialBinX" value="1" />
-		<property name="initialBinY" value="1" />   -->
 	</bean>
 
 	<bean id="filebase" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
@@ -118,22 +111,20 @@
 		<property name="capabilities" ref="AnalyserCapabilities" />
 		<property name="fixedModeRegion">
 			<list>
-				<value>0</value>
-				<value>0</value>
-				<value>1040</value>
+				<value>1</value>
+				<value>1</value>
+				<value>1024</value>
 				<value>1000</value>
 			</list>
 		</property>
-		<!-- 
 		<property name="sweptModeRegion">
 			<list>
-				<value>54</value>
-				<value>165</value>
+				<value>55</value>
+				<value>166</value>
 				<value>905</value>
 				<value>690</value>
 			</list>
 		</property>
-		-->
 		<property name="entranceSlitInformationProvider" ref="scientaslit" />
 		<property name="dataChunking">
 			<list>
