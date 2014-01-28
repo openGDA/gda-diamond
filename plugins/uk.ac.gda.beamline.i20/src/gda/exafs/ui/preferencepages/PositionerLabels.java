@@ -27,11 +27,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import uk.ac.gda.beans.IRichBean;
 
 public class PositionerLabels implements IRichBean {
-
 	static public final URL mappingURL = PositionerLabels.class.getResource("PositionerLabelMapping.xml");
-
 	static public final URL schemaURL = PositionerLabels.class.getResource("PositionerLabelMapping.xsd");
-
 	private List<PositionerLabelBean> labels;
 
 	/**

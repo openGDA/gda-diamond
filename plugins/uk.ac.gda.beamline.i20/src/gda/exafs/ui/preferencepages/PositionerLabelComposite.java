@@ -27,18 +27,15 @@ import org.eclipse.swt.widgets.Label;
 import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
 
 public class PositionerLabelComposite extends Composite {
-
 	private TextWrapper label;
 	
 	public PositionerLabelComposite(Composite parent, int style) {
 		super(parent, style);
-		final GridLayout gridLayout = new GridLayout();
+		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		setLayout(gridLayout);
-
-		final Label elementNameLabel = new Label(this, SWT.NONE);
+		Label elementNameLabel = new Label(this, SWT.NONE);
 		elementNameLabel.setText("Name");
-
 		label = new TextWrapper(this, SWT.BORDER);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 	}
@@ -53,4 +50,5 @@ public class PositionerLabelComposite extends Composite {
 			selectedBean.setLabel(labelValue);
 		}
 	}
+	
 }

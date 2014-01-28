@@ -56,13 +56,11 @@ public class I20IntroPart extends IntroPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-
 		GridLayout layout = new GridLayout(2, false);
 		parent.setLayout(layout);
 		applyBackground(parent);
 		createFullWidthMessage(parent, "Welcome to I20.", 24);
-		createFullWidthMessage(parent,
-				"You will collect data under experiment " + LocalProperties.get(LocalProperties.RCP_APP_VISIT), 20);
+		createFullWidthMessage(parent, "You will collect data under experiment " + LocalProperties.get(LocalProperties.RCP_APP_VISIT), 20);
 		createFullWidthMessage(parent, "Choose the type of experiment you wish to perform:", 20);
 		createExperimentTypeButton(parent, "EXAFS\\XANES", createImage("icons/link_obj.gif"), false);
 		createExperimentTypeButton(parent, "XES", createImage("icons/link_obj.gif"), true);
@@ -103,20 +101,17 @@ public class I20IntroPart extends IntroPart {
 		Label theLabel = new Label(parent, SWT.LEFT);
 		theLabel.setText(message);
 		theLabel.setBackground(getI20Color(parent));
-
 		GridData labelGD = new GridData(SWT.FILL, SWT.DEFAULT, true, false);
 		labelGD.horizontalSpan = 2;
 		labelGD.widthHint = 500;
 		theLabel.setLayoutData(labelGD);
-
 		FontData fd = theLabel.getFont().getFontData()[0];
 		fd.setHeight(fontSize);
 		Font newFont = new Font(parent.getDisplay(), fd);
 		theLabel.setFont(newFont);
 	}
 
-	protected void createExperimentTypeButton(Composite parent, String experimentType, Image displayImage,
-			final boolean isXES) {
+	protected void createExperimentTypeButton(Composite parent, String experimentType, Image displayImage, final boolean isXES) {
 		Button theLabel = new Button(parent, SWT.LEFT);
 		theLabel.setText(experimentType);
 		theLabel.setImage(displayImage);
@@ -131,18 +126,14 @@ public class I20IntroPart extends IntroPart {
 				ScanObjectManager.setXESOnlyMode(isXES);
 				PlatformUI.getWorkbench().getIntroManager().closeIntro(I20IntroPart.this);
 				try {
-					for (IWorkbenchPage page : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPages()) {
+					for (IWorkbenchPage page : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPages())
 						page.close();
-					}
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().openPage(ExperimentPerspective.ID, null);
 				} catch (WorkbenchException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-//				SynopticControl.showSynoptic();
 			}
 		});
-
 	}
 
 	@Override

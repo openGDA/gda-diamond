@@ -45,43 +45,34 @@ import uk.ac.gda.richbeans.event.ValueEvent;
 import uk.ac.gda.richbeans.event.ValueListener;
 
 public class CryostatTableComposite extends I20SampleParamsComposite {
-
 	private RadioWrapper loopChoice;
-
 	private ScaleBox tolerance;
 	private ScaleBox waitTime;
 	private RangeBox temperature;
-
 	private ComboWrapper controlMode;
 	private ComboWrapper heaterRange;
 	private ScaleBox p, i, d;
 	private ScaleBox manualOutput;
 	private ExpandableComposite advancedExpandableComposite;
 	private ExpansionAdapter expansionListener;
-	
 	private VerticalListEditor sampleDetails;
 
 	public CryostatTableComposite(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new FillLayout(SWT.VERTICAL));
-
-		final Composite main = new Composite(this, SWT.NONE);
+		Composite main = new Composite(this, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(main);
-
-		final Composite options = new Composite(main, SWT.NONE);
+		Composite options = new Composite(main, SWT.NONE);
 		options.setLayout(new FillLayout());
 		loopChoice = new RadioWrapper(options, SWT.NONE, CryostatParameters.LOOP_OPTION);
 		loopChoice.setValue(CryostatParameters.LOOP_OPTION[0]);
-
 		createTemperatureComposite(main);
-
 		createSampleComposite(main);
-
 		this.layout();
 	}
 
 	protected void createSampleComposite(final Composite main) {
-		final Group sampleComposite = new Group(main, SWT.BORDER);
+		Group sampleComposite = new Group(main, SWT.BORDER);
 		sampleComposite.setText("Sample details");
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(sampleComposite);
 		sampleDetails = new VerticalListEditor(sampleComposite, SWT.NONE);
@@ -104,43 +95,36 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 	}
 
 	protected void createTemperatureComposite(final Composite main) {
-		final Group tempComposite = new Group(main, SWT.BORDER);
+		Group tempComposite = new Group(main, SWT.BORDER);
 		tempComposite.setText("Cryostat settings");
 		GridDataFactory.fillDefaults().applyTo(tempComposite);
-		final GridLayout gridLayout = new GridLayout();
+		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
 		tempComposite.setLayout(gridLayout);
-
-		final Label temperatureLabel = new Label(tempComposite, SWT.NONE);
+		Label temperatureLabel = new Label(tempComposite, SWT.NONE);
 		temperatureLabel.setText("Temperature");
-		temperature = new RangeBox(tempComposite, SWT.NONE, "Define setpoints...",
-				"Set a single value, list all value or define a range.");
+		temperature = new RangeBox(tempComposite, SWT.NONE, "Define setpoints...", "Set a single value, list all value or define a range.");
 		temperature.setMaximum(300);
 		temperature.setUnit("K");
-		final GridData gd_temperature = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		GridData gd_temperature = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		temperature.setLayoutData(gd_temperature);
-
-		this.advancedExpandableComposite = new ExpandableComposite(tempComposite, SWT.NONE);
+		advancedExpandableComposite = new ExpandableComposite(tempComposite, SWT.NONE);
 		advancedExpandableComposite.setText("Advanced");
 		GridDataFactory.fillDefaults().span(1, 4).applyTo(advancedExpandableComposite);
-
-		final Composite advanced = new Composite(advancedExpandableComposite, SWT.NONE);
+		Composite advanced = new Composite(advancedExpandableComposite, SWT.NONE);
 		GridDataFactory.fillDefaults().applyTo(advanced);
 		GridLayoutFactory.fillDefaults().numColumns(4).applyTo(advanced);
-
 		createAdvancedComposite(advanced);
-
-		final Label toleranceLabel = new Label(tempComposite, SWT.NONE);
+		Label toleranceLabel = new Label(tempComposite, SWT.NONE);
 		toleranceLabel.setText("Tolerance");
 		tolerance = new ScaleBox(tempComposite, SWT.NONE);
-		final GridData gd_tolerance = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		GridData gd_tolerance = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		tolerance.setLayoutData(gd_tolerance);
 		tolerance.setMaximum(5);
-
-		final Label timeLabel = new Label(tempComposite, SWT.NONE);
+		Label timeLabel = new Label(tempComposite, SWT.NONE);
 		timeLabel.setText("Wait Time");
 		waitTime = new ScaleBox(tempComposite, SWT.NONE);
-		final GridData gd_time = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		GridData gd_time = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		waitTime.setLayoutData(gd_time);
 		waitTime.setDecimalPlaces(0);
 		waitTime.setUnit("s");
@@ -148,8 +132,7 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 	}
 
 	protected void createAdvancedComposite(final Composite advanced) {
-
-		final Label temperatureChangeProfileLabel = new Label(advanced, SWT.NONE);
+		Label temperatureChangeProfileLabel = new Label(advanced, SWT.NONE);
 		temperatureChangeProfileLabel.setText("Control Mode");
 		controlMode = new ComboWrapper(advanced, SWT.READ_ONLY);
 		controlMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -168,35 +151,35 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 			}
 		});
 
-		final Label pLabel = new Label(advanced, SWT.RIGHT);
+		Label pLabel = new Label(advanced, SWT.RIGHT);
 		pLabel.setText("P");
-		this.p = new ScaleBox(advanced, SWT.NONE);
+		p = new ScaleBox(advanced, SWT.NONE);
 		p.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		final Label heaterRangeLabel = new Label(advanced, SWT.NONE);
+		Label heaterRangeLabel = new Label(advanced, SWT.NONE);
 		heaterRangeLabel.setText("Heater Range");
 		heaterRange = new ComboWrapper(advanced, SWT.READ_ONLY);
 		heaterRange.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		heaterRange.setItems(CryostatParameters.HEATER_RANGE);
 		heaterRange.select(0);
 
-		final Label iLabel = new Label(advanced, SWT.RIGHT);
+		Label iLabel = new Label(advanced, SWT.RIGHT);
 		iLabel.setText("I");
-		this.i = new ScaleBox(advanced, SWT.NONE);
+		i = new ScaleBox(advanced, SWT.NONE);
 		i.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		final Label outputLabel = new Label(advanced, SWT.NONE);
+		Label outputLabel = new Label(advanced, SWT.NONE);
 		outputLabel.setText("Manual output");
-		this.manualOutput = new ScaleBox(advanced, SWT.NONE);
+		manualOutput = new ScaleBox(advanced, SWT.NONE);
 		manualOutput.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		final Label dLabel = new Label(advanced, SWT.RIGHT);
+		Label dLabel = new Label(advanced, SWT.RIGHT);
 		dLabel.setText("D");
-		this.d = new ScaleBox(advanced, SWT.NONE);
+		d = new ScaleBox(advanced, SWT.NONE);
 		d.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		advancedExpandableComposite.setClient(advanced);
-		this.expansionListener = new ExpansionAdapter() {
+		expansionListener = new ExpansionAdapter() {
 			@Override
 			public void expansionStateChanged(ExpansionEvent e) {
 				getParent().getParent().getParent().getParent().layout();

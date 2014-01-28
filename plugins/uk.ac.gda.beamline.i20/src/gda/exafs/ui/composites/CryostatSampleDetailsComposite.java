@@ -41,7 +41,6 @@ import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
 import uk.ac.gda.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
 
 public class CryostatSampleDetailsComposite extends I20SampleParamsComposite implements ListEditorUI {
-
 	private ScaleBox position;
 	private ScaleBox fineposition;
 	private TextWrapper sample_name;
@@ -52,30 +51,24 @@ public class CryostatSampleDetailsComposite extends I20SampleParamsComposite imp
 
 	public CryostatSampleDetailsComposite(Composite parent, int style) {
 		super(parent, style);
-
 		GridLayoutFactory.fillDefaults().applyTo(this);
-
 		main = new Composite(this, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(main);
-
-		final Label lblSamname = new Label(main, SWT.NONE);
+		Label lblSamname = new Label(main, SWT.NONE);
 		lblSamname.setText("Filename");
 		GridDataFactory.fillDefaults().grab(false, false).applyTo(lblSamname);
 		sample_name = new TextWrapper(main, SWT.NONE);
 		sample_name.setTextType(TEXT_TYPE.FILENAME);
 		GridDataFactory.fillDefaults().applyTo(sample_name);
-
-
-		final Label lblSamdesc = new Label(main, SWT.NONE);
+		Label lblSamdesc = new Label(main, SWT.NONE);
 		lblSamdesc.setText("Sample description");
 		GridDataFactory.fillDefaults().grab(false, false).applyTo(lblSamdesc);
 		sample_description = new TextWrapper(main, SWT.WRAP | SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
-		final GridData gd_descriptions = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		GridData gd_descriptions = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		gd_descriptions.heightHint = 73;
 		gd_descriptions.widthHint = 400;
 		sample_description.setLayoutData(gd_descriptions);
-		
-		final Label lblNumOfRep = new Label(main, SWT.NONE);
+		Label lblNumOfRep = new Label(main, SWT.NONE);
 		lblNumOfRep.setText("Repetitions");
 		lblNumOfRep.setToolTipText("Number of repetitions over this sample");
 		GridDataFactory.fillDefaults().grab(false, false).applyTo(lblNumOfRep);
@@ -83,7 +76,6 @@ public class CryostatSampleDetailsComposite extends I20SampleParamsComposite imp
 		numberOfRepetitions.setValue(1);
 		numberOfRepetitions.setToolTipText("Number of repetitions over this sample");
 		GridDataFactory.fillDefaults().applyTo(numberOfRepetitions);
-
 		Group motorPositionsGroup = new Group(main, SWT.NONE);
 		motorPositionsGroup.setText("Motor positions");
 		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(motorPositionsGroup);
@@ -91,7 +83,6 @@ public class CryostatSampleDetailsComposite extends I20SampleParamsComposite imp
 		mpgLayout.justify = true;
 		mpgLayout.pack = true;
 		motorPositionsGroup.setLayout(mpgLayout);
-		
 		btnGetLiveValues = new Button(motorPositionsGroup, SWT.None);
 		btnGetLiveValues.setText("Fetch");
 		btnGetLiveValues.setToolTipText("Fill text boxes with current motor positions");
@@ -107,21 +98,18 @@ public class CryostatSampleDetailsComposite extends I20SampleParamsComposite imp
 				widgetSelected(arg0);
 			}
 		});
-
-		final Label lblSamx = new Label(motorPositionsGroup, SWT.NONE);
+		Label lblSamx = new Label(motorPositionsGroup, SWT.NONE);
 		lblSamx.setText("Position");
 		position = new ScaleBox(motorPositionsGroup, SWT.NONE);
 		position.setUnit("°");
 		position.setDecimalPlaces(2);
 		position.setLayoutData(new RowData(100, 25));
-
-		final Label lblSamy = new Label(motorPositionsGroup, SWT.NONE);
+		Label lblSamy = new Label(motorPositionsGroup, SWT.NONE);
 		lblSamy.setText("Fine position");
 		fineposition = new ScaleBox(motorPositionsGroup, SWT.NONE);
 		fineposition.setUnit("°");
 		fineposition.setDecimalPlaces(2);
 		fineposition.setLayoutData(new RowData(100, 25));
-
 		this.layout();
 	}
 
