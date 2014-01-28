@@ -53,7 +53,7 @@ vortexConfig.initialize()
 alias("vortexConfig")
 
 detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
-samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel)
+samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos)
 outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
 
 twodplotter = TwoDScanPlotter()

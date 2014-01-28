@@ -89,14 +89,11 @@ public class I20IntroPart extends IntroPart {
 	public static Image createImage(String imagePath) {
 		try {
 			URL url = Platform.getBundle(I20BeamlineActivator.PLUGIN_ID).getEntry(imagePath);
-
-			// URL imageFileUrl = FileLocator.find(new URL("plugin:"+imagePath));
-			return new Image(null, url.openStream());
+			if(url!=null)
+				return new Image(null, url.openStream());
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

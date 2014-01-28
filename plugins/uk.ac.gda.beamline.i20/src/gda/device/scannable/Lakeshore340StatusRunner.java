@@ -58,7 +58,7 @@ public class Lakeshore340StatusRunner implements Runnable {
 						updateLatestValues(inDeadband);
 					} else if (inDeadband) {
 						long timeSinceChange = new Date().getTime() - timeOfLastDeadbandChange.getTime();
-						int secsSinceChange = Math.round(timeSinceChange / 1000);
+						long secsSinceChange = timeSinceChange / 1000;
 						if (secsSinceChange > lakeshore.getWaitTime()){
 							lakeshore.isMoving = false;
 							setStableTemperature(true);

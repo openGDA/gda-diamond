@@ -139,7 +139,7 @@ public class Lakeshore340Scannable extends ScannableBase implements Scannable {
 		setWaitTime((int) Math.round(bean.getWaitTime()));
 		
 		// if manual output
-		if (bean.getControlMode() == CryostatParameters.CONTROL_MODE[0]) {
+		if (bean.getControlMode().equals(CryostatParameters.CONTROL_MODE[0])) {
 			try {
 				setManualOutput(bean.getManualOutput());
 			} catch (IOException e) {
@@ -148,7 +148,7 @@ public class Lakeshore340Scannable extends ScannableBase implements Scannable {
 		}
 		
 		// if manual PID
-		if (bean.getControlMode() == CryostatParameters.CONTROL_MODE[1]) {
+		if (bean.getControlMode().equals(CryostatParameters.CONTROL_MODE[1])) {
 			try {
 				setpValue(bean.getP());
 			} catch (IOException e) {
