@@ -1,11 +1,9 @@
+import time
 from time import sleep
-import sys
 import glob
 from gda.jython.commands.GeneralCommands import pause
-from gdascripts.messages import handle_messages
 from gdascripts.messages.handle_messages import simpleLog
-from operationalControl import updateFileOverwriteFlag , doesFileExist
-from operationalControl import moveMotor
+from util_scripts import doesFileExist
 import os
 
 global configured, ruby, beamline

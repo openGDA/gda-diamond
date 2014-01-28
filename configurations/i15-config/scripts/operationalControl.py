@@ -1,12 +1,9 @@
-import glob
 from gda.jython.commands import InputCommands
-from util_scripts import updateFileOverwriteFlag
-from util_scripts import doesFileExist
 import shutterCommands
 import marAuxiliary
 from gdascripts.messages.handle_messages import simpleLog
 import java
-from scan_commands import *
+from scan_commands import scan
 from gda.jython.commands.ScannableCommands import cscan
 
 global configured, isccd, beamline, dkappa, dktheta, cryobsx
