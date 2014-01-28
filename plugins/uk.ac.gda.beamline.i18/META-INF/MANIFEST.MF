@@ -27,7 +27,8 @@ Require-Bundle: org.eclipse.ui,
  org.dawnsci.plotting.jreality;bundle-version="1.0.0",
  uk.ac.gda.video;bundle-version="1.0.0",
  uk.ac.gda.video.mjpeg;bundle-version="1.0.0",
- org.eclipse.swt
+ org.eclipse.swt,
+ org.apache.commons.lang;bundle-version="[2.6.0,2.7.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: gda.exfas.ui;uses:="uk.ac.gda.client.experimentdefinition",
@@ -52,6 +53,5 @@ Export-Package: gda.exfas.ui;uses:="uk.ac.gda.client.experimentdefinition",
    org.eclipse.core.commands"
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.gda.client.experimentdefinition,  uk.ac.gda.client.exafs
-Import-Package: org.apache.commons.lang,
- org.slf4j;version="[1.5.0,2.0.0)",
+Import-Package: org.slf4j;version="[1.5.0,2.0.0)",
  org.springframework.util;version="3.2.2.RELEASE"
