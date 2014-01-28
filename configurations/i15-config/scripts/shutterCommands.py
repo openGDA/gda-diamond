@@ -4,15 +4,14 @@ from gdascripts.messages import handle_messages
 from gdascripts.messages.handle_messages import simpleLog
 from gdascripts.parameters import beamline_parameters
 
-global configured, isccd, beamline
+global configured, beamline
 configured = False
 
 def configure(jythonNameMap, beamlineParameters):
-	global configured, isccd, beamline
+	global configured, beamline
 	"""
 	sets module variables from jython namespace, finder and beamline parameters
 	"""
-	isccd = jythonNameMap.atlas
 	beamline = jythonNameMap.beamline
 	configured = True
 
@@ -25,12 +24,12 @@ def sh(cmd):
 	sh('o')  - Reset and Open EH & Atlas shutter.
 	sh('oa') - Reset and Open FE, OH, EH & Atlas Shutters
 	sh('c')  - Close EH & Atlas Shutter
-	sh('ca') - Close FE, OH, EH & Atlas Shutters"
+	sh('ca') - Close FE, OH, EH & Atlas Shutters
+	sh('f')  - Force Open Fast Shutter
+	sh('r')  - Release Fast Shutter from being forced open
 	sh('status') - get Status
 
-	Note: If the Atlas is switched to Ext. trigger rather than Atlas, then
-		the Atlas shutter will follow the Epics synoptic FS control and
-		Newport XPS position compare.
+	Note: The Fast Shutter should be switched to Ext. trigger rather than Atlas
 	
 	See: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Atlas%20detector%20does%20not%20acquire%20images
 	"""
@@ -58,6 +57,12 @@ def sh(cmd):
 			#Close EH & Atlas Shutter
 			closeOH2Shutter()
 			closeEHShutter()
+			zebraFastShutter.forceOpenRelease()
+			return
+		if (cmd=="f"):
+			zebraFastShutter.forceOpen()
+			return
+		elif (cmd=="r"):
 			zebraFastShutter.forceOpenRelease()
 			return
 		elif (cmd=="status"):

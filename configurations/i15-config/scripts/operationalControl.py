@@ -74,27 +74,23 @@ def cfs():
 	"""
 	Close Atlas fast shutter
 	
-	Note: If the Atlas is switched to Ext. trigger rather than Atlas, then
-		the Atlas shutter will follow the Epics synoptic FS control and
-		Newport XPS position compare.
+	Note: The Fast Shutter should be switched to Ext. trigger rather than Atlas
 	
 	See: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Atlas%20detector%20does%20not%20acquire%20images
 	"""
 	checkConfigured()
-	isccd.closeS()
+	shutterCommands.sh('r')
 
 def ofs():
 	"""
 	Open Atlas fast shutter
 	
-	Note: If the Atlas is switched to Ext. trigger rather than Atlas, then
-		the Atlas shutter will follow the Epics synoptic FS control and
-		Newport XPS position compare.
+	Note: The Fast Shutter should be switched to Ext. trigger rather than Atlas
 	
 	See: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Atlas%20detector%20does%20not%20acquire%20images
 	"""
 	checkConfigured()
-	isccd.openS()
+	shutterCommands.sh('f')
 
 def d1in():
 	"""
