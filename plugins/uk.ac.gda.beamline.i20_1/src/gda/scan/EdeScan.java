@@ -335,4 +335,8 @@ public class EdeScan extends ConcurrentScanChild {
 	public void setScanType(EdeScanType scanType) {
 		this.scanType = scanType;
 	}
+
+	public StripDetector getDetector() {
+		return theDetector;
+	}
 }

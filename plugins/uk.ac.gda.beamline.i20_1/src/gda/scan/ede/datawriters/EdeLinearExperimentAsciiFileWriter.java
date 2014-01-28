@@ -18,6 +18,7 @@
 
 package gda.scan.ede.datawriters;
 
+import gda.data.nexus.GdaNexusFile;
 import gda.device.detector.StripDetector;
 import gda.scan.EdeScan;
 import gda.scan.ScanDataPoint;
@@ -30,16 +31,22 @@ import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.nexusformat.NexusException;
+import org.nexusformat.NexusFile;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
 public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 
+	private static final String IT_RAW_AVERAGEDI0_SUFFIX = "_It_raw_averagedi0";
+	private static final String IT_RAW_FINALI0_SUFFIX = "_It_raw_finali0";
+	private static final String IT_RAW_SUFFIX = "_It_raw";
 	private final EdeScan i0DarkScan;
 	private final EdeScan i0InitialScan;
 	private final EdeScan iRefScan;
 	private final EdeScan itScan;
 	private final EdeScan i0FinalScan;
+	private final String nexusfile;
 	private String i0Filename;
 	private String iRefFilename;
 	private String itFilename;
@@ -47,7 +54,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 	private String itFinalFilename;
 
 	public EdeLinearExperimentAsciiFileWriter(EdeScan i0DarkScan, EdeScan i0InitialScan, EdeScan iRefScan,
-			EdeScan itScan, EdeScan i0FinalScan, StripDetector theDetector) {
+			EdeScan itScan, EdeScan i0FinalScan, StripDetector theDetector, String nexusfile) {
 		super(extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0)));
 		this.i0DarkScan = i0DarkScan;
 		this.i0InitialScan = i0InitialScan;
@@ -55,6 +62,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		this.itScan = itScan;
 		this.i0FinalScan = i0FinalScan;
 		this.theDetector = theDetector;
+		this.nexusfile = nexusfile;
 	}
 
 	/**
@@ -227,14 +235,14 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 	}
 
 	private void createItFiles() throws Exception {
-		itFilename = createItFile(i0InitialScan, null, "_It_raw" + ASCII_FILE_EXTENSION);
-		itFinalFilename = createItFile(i0FinalScan, null, "_It_raw_finali0" + ASCII_FILE_EXTENSION);
-		itAveragedFilename = createItFile(i0InitialScan, i0FinalScan, "_It_raw_averagedi0" + ASCII_FILE_EXTENSION);
+		itFilename = createItFile(i0InitialScan, null, IT_RAW_SUFFIX);
+		itFinalFilename = createItFile(i0FinalScan, null, IT_RAW_FINALI0_SUFFIX);
+		itAveragedFilename = createItFile(i0InitialScan, i0FinalScan, IT_RAW_AVERAGEDI0_SUFFIX);
 	}
 
 	private String createItFile(EdeScan firstI0Scan, EdeScan secondI0Scan, String fileSuffix) throws Exception {
 
-		String filename = determineAsciiFilename(fileSuffix);
+		String filename = determineAsciiFilename(fileSuffix + ASCII_FILE_EXTENSION);
 		File asciiFile = new File(filename);
 		if (asciiFile.exists()) {
 			throw new Exception("File " + filename + " already exists!");
@@ -251,9 +259,14 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 					+ EdeExperiment.IT_RAW_COLUMN_NAME + "\t" + EdeExperiment.IT_DARK_COLUMN_NAME + "\n");
 			int numberOfSpectra = itScan.getNumberOfAvailablePoints();
 
+			double[][] normalisedItSpectra = new double[numberOfSpectra][];
 			for (int spectrumNum = 0; spectrumNum < numberOfSpectra; spectrumNum++) {
-				deriveAndWriteItSpectrum(writer, spectrumNum, i0DarkScan, itScan, firstI0Scan, secondI0Scan);
+				DoubleDataset normalisedIt = deriveAndWriteItSpectrum(writer, spectrumNum, i0DarkScan, itScan, firstI0Scan, secondI0Scan);
+				normalisedItSpectra[spectrumNum] = normalisedIt.getData();
 			}
+
+			writeItToNexus(normalisedItSpectra,fileSuffix);
+
 		} finally {
 			if (writer != null) {
 				writer.close();
@@ -263,7 +276,40 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		return filename;
 	}
 
-	private void deriveAndWriteItSpectrum(FileWriter writer, int spectrumIndex, EdeScan darkScan,
+	private void writeItToNexus(double[][] normalisedItSpectra, String fileSuffix) throws NexusException {
+		if (nexusfile == null || nexusfile.isEmpty()) {
+			return;
+		}
+
+		// derive data group name
+		String datagroupname = "";
+		switch (fileSuffix) {
+		case IT_RAW_AVERAGEDI0_SUFFIX:
+			datagroupname = "LnI0It_averagedI0";
+			break;
+		case IT_RAW_FINALI0_SUFFIX:
+			datagroupname = "LnI0It_finalI0";
+			break;
+		case IT_RAW_SUFFIX:
+			datagroupname = "LnI0It";
+			break;
+		}
+
+		GdaNexusFile file = new GdaNexusFile(nexusfile, NexusFile.NXACC_RDWR);
+		file.openpath("entry1");
+		file.openpath("instrument");
+		file.openpath(i0DarkScan.getDetector().getName());
+		if (file.groupdir().get(datagroupname) == null) {
+			file.makedata(datagroupname, NexusFile.NX_FLOAT64, 2, new int[]{itScan.getNumberOfAvailablePoints(), theDetector.getNumberChannels()});
+		}
+		file.opendata(datagroupname);
+		file.putdata(normalisedItSpectra);
+		file.closedata();
+		file.close();
+
+	}
+
+	private DoubleDataset deriveAndWriteItSpectrum(FileWriter writer, int spectrumIndex, EdeScan darkScan,
 			EdeScan transmissionScan, EdeScan firstI0Scan, EdeScan secondI0Scan) throws IOException {
 		int timingGroupNumber = deriveTimingGroupFromSpectrumIndex(spectrumIndex);
 		int frameNumber = deriveFrameFromSpectrumIndex(spectrumIndex);
@@ -276,7 +322,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			DoubleDataset i0DataSet_averaged = i0FirstDataSet.iadd(i0SecondDataSet).idivide(2);
 			i0FirstDataSet = i0DataSet_averaged;
 		}
-		writeItSpectrum(writer, timingGroupNumber, frameNumber, darkDataSet, i0FirstDataSet, itDataSet);
+		return writeItSpectrum(writer, timingGroupNumber, frameNumber, darkDataSet, i0FirstDataSet, itDataSet);
 	}
 
 	private int deriveTimingGroupFromSpectrumIndex(int spectrumIndex) {
@@ -295,8 +341,10 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		return Integer.parseInt(timingGroup);
 	}
 
-	private void writeItSpectrum(FileWriter writer, int timingGroup, int frame, DoubleDataset darkDataSet,
+	private DoubleDataset writeItSpectrum(FileWriter writer, int timingGroup, int frame, DoubleDataset darkDataSet,
 			DoubleDataset i0DataSet, DoubleDataset itDataSet) throws IOException {
+
+		DoubleDataset normalisedIt = new DoubleDataset(theDetector.getNumberChannels());
 
 		for (int channel = 0; channel < theDetector.getNumberChannels(); channel++) {
 			Double i0Raw = i0DataSet.get(channel);
@@ -305,6 +353,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			Double i0_corrected = i0Raw - dark;
 			Double it_corrected = itRaw - dark;
 			Double lni0it = calcLnI0It(i0_corrected, it_corrected);
+			normalisedIt.set(lni0it, channel);
 
 			StringBuffer stringToWrite = new StringBuffer(timingGroup + "\t" + frame + "\t" + channel + "\t");
 			stringToWrite.append(String.format("%.2f", energyDataSet.getDouble(channel)) + "\t");
@@ -314,6 +363,8 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			stringToWrite.append(String.format("%.2f", dark) + "\n");
 			writer.write(stringToWrite.toString());
 		}
+
+		return normalisedIt;
 	}
 
 	private String determineAsciiFilename(String suffix) {

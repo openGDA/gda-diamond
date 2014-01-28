@@ -218,7 +218,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 
 	@Override
 	protected EdeAsciiFileWriter createFileWritter() {
-		return new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0InitialScan, iRefScan, itScan, i0FinalScan, theDetector);
+		return new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0InitialScan, iRefScan, itScan, i0FinalScan, theDetector, nexusFilename);
 	}
 
 	@Override

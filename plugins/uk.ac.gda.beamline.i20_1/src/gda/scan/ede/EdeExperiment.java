@@ -78,6 +78,10 @@ public abstract class EdeExperiment implements IObserver {
 	public static final String I0_DARK_COLUMN_NAME = "I0_dark";
 	public static final String IT_DARK_COLUMN_NAME = "It_dark";
 	public static final String DATA_COLUMN_NAME = "Data";
+	/**
+	 * The name of the ScriptController object which is sent progress information and normalised spectra by experiments
+	 */
+	public static final String PROGRESS_UPDATER_NAME = "EDEProgressUpdater";
 
 	protected EdeScanParameters iRefScanParameters;
 	protected EdeScanPosition iRefPosition;
@@ -87,37 +91,24 @@ public abstract class EdeExperiment implements IObserver {
 	protected boolean runIRef;
 	protected boolean runI0ForIRef;
 
-	/**
-	 * The name of the ScriptController object which is sent progress information and normalised spectra by experiments
-	 */
-	public static final String PROGRESS_UPDATER_NAME = "EDEProgressUpdater";
-
-	private static final Logger edelogger = LoggerFactory.getLogger(EdeExperiment.class);
-
 	protected Scannable beamLightShutter;
-
 	protected StripDetector theDetector;
-
 	protected EdeScan i0DarkScan;
 	protected EdeScan itDarkScan;
 	protected EdeScan i0InitialScan;
 	protected EdeScan itScan;
-
-
-	private ScriptControllerBase controller;
-
-	private String filenameTemplate = "";
-
-	private Monitor topup;
-
 	protected final EdeScanParameters itScanParameters;
+	protected final LinkedList<ScanBase> scansForExperiment = new LinkedList<ScanBase>();
+
 	protected EdeScanParameters i0ScanParameters;
 	protected EdeScanPosition i0Position;
 	protected EdeScanPosition itPosition;
-
-	protected final LinkedList<ScanBase> scansForExperiment = new LinkedList<ScanBase>();
-
 	protected EdeAsciiFileWriter writer;
+	protected String nexusFilename;
+
+	private ScriptControllerBase controller;
+	private String filenameTemplate = "";
+	private Monitor topup;
 
 	public EdeExperiment(List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions,
@@ -240,7 +231,7 @@ public abstract class EdeExperiment implements IObserver {
 			scansForExperiment.add(iRefFinalScan);
 		}
 
-		addToMultiScanAndRun();
+		nexusFilename = addToMultiScanAndRun();
 		String asciiDataFile = writeAsciiFile();
 		return asciiDataFile;
 	}
@@ -251,7 +242,7 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected abstract boolean shouldPublishItScanData(EdeScanProgressBean progress);
 
-	private void addToMultiScanAndRun() throws Exception {
+	private String addToMultiScanAndRun() throws Exception {
 		try {
 			addMetaData();
 			ScanPlotSettings plotNothing = new ScanPlotSettings();
@@ -265,6 +256,7 @@ public abstract class EdeExperiment implements IObserver {
 			pauseForToup();
 			logger.debug("Starting multiscan...");
 			theScan.runScan();
+			return theScan.getDataWriter().getCurrentFileName();
 		} finally {
 			NexusExtraMetadataDataWriter.removeAllMetadataEntries();
 		}
@@ -317,7 +309,7 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected void log(String message) {
 		InterfaceProvider.getTerminalPrinter().print(message);
-		edelogger.info(message);
+		logger.info(message);
 	}
 
 	private TopupChecker createTopupChecker(Double timeRequired) {
