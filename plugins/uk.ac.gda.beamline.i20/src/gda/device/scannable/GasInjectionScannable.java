@@ -30,7 +30,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GasInjectionScannable extends ScannableBase implements Scannable {
-
 	private Scannable purge_pressure;
 	private Scannable purge_period;
 	private Scannable purge_timeout;
@@ -47,11 +46,8 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	private Scannable gas_injection_status;
 	private Scannable power_supply;
 	private Scannable base_pressure;
-
 	private String ion_chamber;
-
 	private static final Logger logger = LoggerFactory.getLogger(GasInjectionScannable.class);
-
 	private double purge_pressure_val;
 	private double purge_period_val;
 	private double gas_fill1_pressure_val;
@@ -60,7 +56,6 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	private double gas_fill2_period_val;
 	private double base_pressure_val;
 	private int gas_select_val;
-	
 	private String abortPV;
 
 	@Override
@@ -85,13 +80,10 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	// pos ionc1_gas_injector ["2.0","1","0.024377","100.0","1.975623","100.0","2","True"]
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
-
 		if (!(position instanceof List<?>))
 			throw new DeviceException("Supplied array must be of type List<String> to move Scannable " + getName());
 
-		@SuppressWarnings("unchecked")
 		List<String> parameters = (List<String>) position;
-
 		String flush = parameters.get(7);
 
 		// check if voltage is below 5v.
@@ -103,7 +95,8 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 			}
 			configurePurgeAndFill(parameters);
 			performFill((int) (purge_period_val + gas_fill1_period_val + gas_fill2_period_val));
-		} else {
+		} 
+		else {
 			log("Voltage is too high to fill gas");
 
 			if (getFillStatus().equals("idle")) {
@@ -132,9 +125,11 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 						configurePurgeAndFill(parameters);
 						performFill((int) (purge_period_val + gas_fill1_period_val + gas_fill2_period_val));
 					}
-				} else
+				} 
+				else
 					log("Cannot fill gas because pressure is too high");
-			} else
+			} 
+			else
 				log("Cannot change voltage unless gas filling is idle");
 		}
 	}
@@ -182,32 +177,24 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	public void performFill(int totalFillPeriod) {
 		try {
 			log("Filling gas. Voltage = " + power_supply.getPosition());
-
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-
 			control_select.moveTo(2);
 			gas_fill_start.moveTo(1);// purge 1
-
 			int extraTime = 10;
 			int fillTimeout = totalFillPeriod + extraTime;
-
 			waitUntilIdle(fillTimeout);
-
-			
 			log("Waiting for pressure to stabalize");
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-
 			base_pressure_val = Double.parseDouble(base_pressure.getPosition().toString());
 			gas_fill1_pressure.moveTo(gas_fill1_pressure_val + base_pressure_val);
-
 			if (checkVoltageInRange(-5, 5)) {
 				control_select.moveTo(3);
 				gas_fill_start.moveTo(1);// fill 1
@@ -221,7 +208,6 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 			}
 			else
 				log("Voltage too high");
-
 			if (getFillStatus().equals("idle")) {
 				log("Setting voltage to 1200V.");
 				setVoltage(1200);// raise voltage to -1200v
@@ -259,7 +245,6 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	public String getFillStatus() {
 		double status = -1;
 		String status_string = "unknown status";
-
 		try {
 			status = Double.parseDouble(gas_injection_status.getPosition().toString());
 		} catch (NumberFormatException e) {
@@ -484,4 +469,5 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	public void setBase_pressure(Scannable basePressure) {
 		base_pressure = basePressure;
 	}
+	
 }

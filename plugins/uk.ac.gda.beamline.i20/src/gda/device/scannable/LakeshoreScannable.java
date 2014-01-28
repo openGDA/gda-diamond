@@ -25,9 +25,7 @@ import gda.epics.CAClient;
 import java.util.List;
 
 public class LakeshoreScannable extends ScannableBase implements Scannable {
-
 	private CAClient ca_client = new CAClient();
-
 	private String temp0Pv;
 	private String temp1Pv;
 	private String temp2Pv;
@@ -37,14 +35,11 @@ public class LakeshoreScannable extends ScannableBase implements Scannable {
 	private int tempSelect=-1;
 	private List<Integer> temps;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 		List<Object> parameters = (List<Object>) position;
 		double temp = (Double) parameters.get(1);
-
 		temps = (List<Integer>) parameters.get(0);
-
 		try {
 			if (temps != null) {
 				if (temps.contains(0))

@@ -9,10 +9,11 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="10" />
-  <property type="sds.integer" id="position.y" value="10" />
+  <property type="sds.boolean" id="open_relative_on" value="false" />
+  <property type="sds.integer" id="position.x" value="0" />
+  <property type="sds.integer" id="position.y" value="0" />
   <property type="sds.integer" id="width" value="321" />
-  <property type="sds.integer" id="height" value="476" />
+  <property type="sds.integer" id="height" value="520" />
   <property type="sds.color" id="color.foreground">
     <color hex="#C86464" />
   </property>
@@ -43,7 +44,7 @@
   <property type="sds.boolean" id="grid_on" value="false" />
   <property type="sds.boolean" id="ruler_on" value="false" />
   <property type="sds.boolean" id="geometry_on" value="false" />
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
 <widget type="org.csstudio.sds.components.Rectangle">
   <property type="sds.behavior" id="behavior" value="" />
   <property type="sds.string" id="primary_pv" value="" />
@@ -57,7 +58,7 @@
   <property type="sds.integer" id="position.x" value="0" />
   <property type="sds.integer" id="position.y" value="0" />
   <property type="sds.integer" id="width" value="321" />
-  <property type="sds.integer" id="height" value="476" />
+  <property type="sds.integer" id="height" value="520" />
   <property type="sds.color" id="color.foreground">
     <color hex="#ffffff" />
   </property>
@@ -83,7 +84,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${fill}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -97,8 +98,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="16" />
-  <property type="sds.integer" id="position.y" value="69" />
+  <property type="sds.integer" id="position.x" value="15" />
+  <property type="sds.integer" id="position.y" value="126" />
   <property type="sds.integer" id="width" value="289" />
   <property type="sds.integer" id="height" value="386" />
   <property type="sds.color" id="color.foreground">
@@ -126,7 +127,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${fill}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -140,8 +141,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="206" />
-  <property type="sds.integer" id="position.y" value="69" />
+  <property type="sds.integer" id="position.x" value="205" />
+  <property type="sds.integer" id="position.y" value="126" />
   <property type="sds.integer" id="width" value="99" />
   <property type="sds.integer" id="height" value="386" />
   <property type="sds.color" id="color.foreground">
@@ -169,7 +170,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${fill}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -183,8 +184,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="16" />
-  <property type="sds.integer" id="position.y" value="69" />
+  <property type="sds.integer" id="position.x" value="15" />
+  <property type="sds.integer" id="position.y" value="126" />
   <property type="sds.integer" id="width" value="289" />
   <property type="sds.integer" id="height" value="26" />
   <property type="sds.color" id="color.foreground">
@@ -212,7 +213,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${fill}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -226,8 +227,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="28" />
-  <property type="sds.integer" id="position.y" value="69" />
+  <property type="sds.integer" id="position.x" value="27" />
+  <property type="sds.integer" id="position.y" value="126" />
   <property type="sds.integer" id="width" value="133" />
   <property type="sds.integer" id="height" value="24" />
   <property type="sds.color" id="color.foreground">
@@ -268,7 +269,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -282,8 +283,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="206" />
-  <property type="sds.integer" id="position.y" value="69" />
+  <property type="sds.integer" id="position.x" value="205" />
+  <property type="sds.integer" id="position.y" value="126" />
   <property type="sds.integer" id="width" value="99" />
   <property type="sds.integer" id="height" value="26" />
   <property type="sds.color" id="color.foreground">
@@ -311,7 +312,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${fill}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -325,8 +326,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="208" />
-  <property type="sds.integer" id="position.y" value="71" />
+  <property type="sds.integer" id="position.x" value="207" />
+  <property type="sds.integer" id="position.y" value="128" />
   <property type="sds.integer" id="width" value="97" />
   <property type="sds.integer" id="height" value="24" />
   <property type="sds.color" id="color.foreground">
@@ -367,7 +368,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -375,7 +376,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_xtal_plus1_pitch" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.Label">
     <property type="sds.behavior" id="behavior" value="none" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -432,7 +433,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -472,7 +473,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -487,8 +488,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="19" />
-  <property type="sds.integer" id="position.y" value="428" />
+  <property type="sds.integer" id="position.x" value="18" />
+  <property type="sds.integer" id="position.y" value="485" />
   <property type="sds.integer" id="width" value="286" />
   <property type="sds.integer" id="height" value="27" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -515,7 +516,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -523,47 +524,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_XESEnergy" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
-  <widget type="org.csstudio.sds.components.DeviceName">
-    <property type="sds.behavior" id="behavior" value="none" />
-    <property type="sds.string" id="primary_pv" value="" />
-    <property type="sds.string" id="name" value="DeviceNameModel" />
-    <property type="sds.map" id="aliases">
-      <map />
-    </property>
-    <property type="sds.action" id="actionData">
-      <actionData />
-    </property>
-    <property type="sds.integer" id="position.x" value="1" />
-    <property type="sds.integer" id="position.y" value="2" />
-    <property type="sds.integer" id="width" value="129" />
-    <property type="sds.integer" id="height" value="19" />
-    <property type="sds.color" id="color.foreground">
-      <color hex="#0000C0" />
-    </property>
-    <property type="sds.color" id="color.background">
-      <color hex="#E6E6E6" />
-    </property>
-    <property type="sds.boolean" id="visibility" value="true" />
-    <property type="sds.option" id="border.style">
-      <option id="1" />
-    </property>
-    <property type="sds.integer" id="border.width" value="0" />
-    <property type="sds.color" id="border.color">
-      <color hex="#640000" />
-    </property>
-    <property type="sds.boolean" id="enabled" value="true" />
-    <property type="sds.string" id="permission_id" value="" />
-    <property type="sds.choiceoption" id="cursor">
-      <option id="cursor.default" />
-    </property>
-    <property type="sds.paramstring" id="tooltip" value="${aliases}" />
-    <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
-    <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
-    <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
-    <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
-  </widget>
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.Textinput">
     <property type="sds.behavior" id="behavior" value="" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -606,18 +567,58 @@
     </property>
     <property type="sds.string" id="inputText" value="">
       <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-        <inputChannel name="$call$, double" value="" />
+        <inputChannel name="$call$, string" value="" />
         <outputChannel name="$call$, double" value="" />
       </dynamicsDescriptor>
     </property>
     <property type="sds.option" id="value_type">
-      <option id="1" />
+      <option id="0" />
     </property>
     <property type="sds.integer" id="precision" value="5" />
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Text:&#x9;${inputText}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
+    <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+    <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+  </widget>
+  <widget type="org.csstudio.sds.components.DeviceName">
+    <property type="sds.behavior" id="behavior" value="none" />
+    <property type="sds.string" id="primary_pv" value="" />
+    <property type="sds.string" id="name" value="DeviceNameModel" />
+    <property type="sds.map" id="aliases">
+      <map />
+    </property>
+    <property type="sds.action" id="actionData">
+      <actionData />
+    </property>
+    <property type="sds.integer" id="position.x" value="1" />
+    <property type="sds.integer" id="position.y" value="2" />
+    <property type="sds.integer" id="width" value="129" />
+    <property type="sds.integer" id="height" value="19" />
+    <property type="sds.color" id="color.foreground">
+      <color hex="#0000C0" />
+    </property>
+    <property type="sds.color" id="color.background">
+      <color hex="#E6E6E6" />
+    </property>
+    <property type="sds.boolean" id="visibility" value="true" />
+    <property type="sds.option" id="border.style">
+      <option id="1" />
+    </property>
+    <property type="sds.integer" id="border.width" value="0" />
+    <property type="sds.color" id="border.color">
+      <color hex="#640000" />
+    </property>
+    <property type="sds.boolean" id="enabled" value="true" />
+    <property type="sds.string" id="permission_id" value="" />
+    <property type="sds.choiceoption" id="cursor">
+      <option id="cursor.default" />
+    </property>
+    <property type="sds.paramstring" id="tooltip" value="${aliases}" />
+    <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+    <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -632,8 +633,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="24" />
-  <property type="sds.integer" id="position.y" value="11" />
+  <property type="sds.integer" id="position.x" value="25" />
+  <property type="sds.integer" id="position.y" value="65" />
   <property type="sds.integer" id="width" value="269" />
   <property type="sds.integer" id="height" value="25" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -660,7 +661,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -668,7 +669,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_XESBragg" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.DeviceName">
     <property type="sds.behavior" id="behavior" value="none" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -705,7 +706,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -762,7 +763,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Text:&#x9;${inputText}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -777,8 +778,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="23" />
-  <property type="sds.integer" id="position.y" value="36" />
+  <property type="sds.integer" id="position.x" value="24" />
+  <property type="sds.integer" id="position.y" value="90" />
   <property type="sds.integer" id="width" value="270" />
   <property type="sds.integer" id="height" value="24" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -805,7 +806,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -813,7 +814,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_xtal_central_rot" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.Label">
     <property type="sds.behavior" id="behavior" value="none" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -870,7 +871,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -910,7 +911,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -925,8 +926,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="19" />
-  <property type="sds.integer" id="position.y" value="310" />
+  <property type="sds.integer" id="position.x" value="18" />
+  <property type="sds.integer" id="position.y" value="367" />
   <property type="sds.integer" id="width" value="286" />
   <property type="sds.integer" id="height" value="29" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -953,7 +954,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -961,7 +962,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_xtal_minus1_pitch" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.Label">
     <property type="sds.behavior" id="behavior" value="none" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -1018,7 +1019,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -1058,7 +1059,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -1073,8 +1074,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="19" />
-  <property type="sds.integer" id="position.y" value="262" />
+  <property type="sds.integer" id="position.x" value="18" />
+  <property type="sds.integer" id="position.y" value="319" />
   <property type="sds.integer" id="width" value="288" />
   <property type="sds.integer" id="height" value="29" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -1101,7 +1102,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -1109,7 +1110,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_xtal_plus1_y" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.Label">
     <property type="sds.behavior" id="behavior" value="none" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -1166,7 +1167,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -1206,7 +1207,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -1221,8 +1222,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="19" />
-  <property type="sds.integer" id="position.y" value="382" />
+  <property type="sds.integer" id="position.x" value="18" />
+  <property type="sds.integer" id="position.y" value="439" />
   <property type="sds.integer" id="width" value="286" />
   <property type="sds.integer" id="height" value="29" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -1249,7 +1250,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -1257,7 +1258,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_xtal_minus1_y" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.Label">
     <property type="sds.behavior" id="behavior" value="none" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -1314,7 +1315,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -1354,7 +1355,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -1369,8 +1370,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="19" />
-  <property type="sds.integer" id="position.y" value="214" />
+  <property type="sds.integer" id="position.x" value="18" />
+  <property type="sds.integer" id="position.y" value="271" />
   <property type="sds.integer" id="width" value="286" />
   <property type="sds.integer" id="height" value="29" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -1397,7 +1398,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -1405,7 +1406,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_xtal_plus1_rot" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.Label">
     <property type="sds.behavior" id="behavior" value="none" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -1462,7 +1463,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -1502,7 +1503,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -1517,8 +1518,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="19" />
-  <property type="sds.integer" id="position.y" value="406" />
+  <property type="sds.integer" id="position.x" value="18" />
+  <property type="sds.integer" id="position.y" value="463" />
   <property type="sds.integer" id="width" value="286" />
   <property type="sds.integer" id="height" value="29" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -1545,7 +1546,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -1553,7 +1554,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_xtal_plus1_x" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.Label">
     <property type="sds.behavior" id="behavior" value="none" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -1610,7 +1611,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -1650,7 +1651,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -1665,8 +1666,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="19" />
-  <property type="sds.integer" id="position.y" value="358" />
+  <property type="sds.integer" id="position.x" value="18" />
+  <property type="sds.integer" id="position.y" value="415" />
   <property type="sds.integer" id="width" value="286" />
   <property type="sds.integer" id="height" value="29" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -1693,7 +1694,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -1701,7 +1702,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_det_x" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.DeviceName">
     <property type="sds.behavior" id="behavior" value="none" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -1738,7 +1739,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -1798,7 +1799,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -1813,8 +1814,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="18" />
-  <property type="sds.integer" id="position.y" value="117" />
+  <property type="sds.integer" id="position.x" value="17" />
+  <property type="sds.integer" id="position.y" value="174" />
   <property type="sds.integer" id="width" value="288" />
   <property type="sds.integer" id="height" value="30" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -1841,7 +1842,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -1849,7 +1850,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_det_y" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.Label">
     <property type="sds.behavior" id="behavior" value="none" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -1906,7 +1907,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -1946,7 +1947,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -1961,8 +1962,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="19" />
-  <property type="sds.integer" id="position.y" value="142" />
+  <property type="sds.integer" id="position.x" value="18" />
+  <property type="sds.integer" id="position.y" value="199" />
   <property type="sds.integer" id="width" value="286" />
   <property type="sds.integer" id="height" value="27" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -1989,7 +1990,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -1997,7 +1998,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_xtal_x" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.DeviceName">
     <property type="sds.behavior" id="behavior" value="none" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -2034,7 +2035,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -2094,7 +2095,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -2109,8 +2110,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="17" />
-  <property type="sds.integer" id="position.y" value="97" />
+  <property type="sds.integer" id="position.x" value="16" />
+  <property type="sds.integer" id="position.y" value="154" />
   <property type="sds.integer" id="width" value="290" />
   <property type="sds.integer" id="height" value="26" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -2137,7 +2138,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -2145,7 +2146,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_xtal_central_y" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.Label">
     <property type="sds.behavior" id="behavior" value="none" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -2202,7 +2203,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -2242,7 +2243,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -2257,8 +2258,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="19" />
-  <property type="sds.integer" id="position.y" value="286" />
+  <property type="sds.integer" id="position.x" value="18" />
+  <property type="sds.integer" id="position.y" value="343" />
   <property type="sds.integer" id="width" value="286" />
   <property type="sds.integer" id="height" value="29" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -2285,7 +2286,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -2293,7 +2294,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_xtal_minus1_x" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.Label">
     <property type="sds.behavior" id="behavior" value="none" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -2350,7 +2351,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -2390,7 +2391,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -2405,8 +2406,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="19" />
-  <property type="sds.integer" id="position.y" value="190" />
+  <property type="sds.integer" id="position.x" value="18" />
+  <property type="sds.integer" id="position.y" value="247" />
   <property type="sds.integer" id="width" value="286" />
   <property type="sds.integer" id="height" value="29" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -2433,7 +2434,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -2441,7 +2442,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_xtal_minus1_rot" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.Label">
     <property type="sds.behavior" id="behavior" value="none" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -2498,7 +2499,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -2538,7 +2539,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -2553,8 +2554,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="19" />
-  <property type="sds.integer" id="position.y" value="238" />
+  <property type="sds.integer" id="position.x" value="18" />
+  <property type="sds.integer" id="position.y" value="295" />
   <property type="sds.integer" id="width" value="287" />
   <property type="sds.integer" id="height" value="29" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -2581,7 +2582,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -2589,7 +2590,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_det_rot" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.Label">
     <property type="sds.behavior" id="behavior" value="none" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -2646,7 +2647,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -2686,7 +2687,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -2701,8 +2702,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="19" />
-  <property type="sds.integer" id="position.y" value="166" />
+  <property type="sds.integer" id="position.x" value="18" />
+  <property type="sds.integer" id="position.y" value="223" />
   <property type="sds.integer" id="width" value="286" />
   <property type="sds.integer" id="height" value="29" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -2729,7 +2730,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -2737,7 +2738,7 @@
   <aliasDescriptors>
     <aliasDescriptor name="call" value="gda://dummy_xtal_central_pitch" />
   </aliasDescriptors>
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
   <widget type="org.csstudio.sds.components.Label">
     <property type="sds.behavior" id="behavior" value="none" />
     <property type="sds.string" id="primary_pv" value="" />
@@ -2794,7 +2795,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -2834,7 +2835,7 @@
     <property type="sds.paramstring" id="tooltip" value="${aliases}" />
     <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
     <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-    <property type="sds.string" id="layer" value="DEFAULT" />
+    <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
     <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
     <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   </widget>
@@ -2849,8 +2850,8 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-  <property type="sds.integer" id="position.x" value="19" />
-  <property type="sds.integer" id="position.y" value="334" />
+  <property type="sds.integer" id="position.x" value="18" />
+  <property type="sds.integer" id="position.y" value="391" />
   <property type="sds.integer" id="width" value="286" />
   <property type="sds.integer" id="height" value="29" />
   <property type="sds.boolean" id="transparency" value="true" />
@@ -2877,7 +2878,68 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
+  <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
+  <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
+</widget>
+<widget type="org.csstudio.sds.components.Label">
+  <aliasDescriptors>
+    <aliasDescriptor name="channel" value="" />
+  </aliasDescriptors>
+  <property type="sds.behavior" id="behavior" value="" />
+  <property type="sds.string" id="primary_pv" value="$channel$" />
+  <property type="sds.string" id="name" value="LabelModel" />
+  <property type="sds.map" id="aliases">
+    <map>
+      <mapEntry name="channel" value="" />
+    </map>
+  </property>
+  <property type="sds.action" id="actionData">
+    <actionData />
+  </property>
+  <property type="sds.integer" id="position.x" value="18" />
+  <property type="sds.integer" id="position.y" value="4" />
+  <property type="sds.integer" id="width" value="209" />
+  <property type="sds.integer" id="height" value="47" />
+  <property type="sds.color" id="color.foreground">
+    <color hex="#000000" />
+  </property>
+  <property type="sds.font" id="font">
+    <font font="Arial, 8" />
+  </property>
+  <property type="sds.option" id="textAlignment">
+    <option id="0" />
+  </property>
+  <property type="sds.double" id="text_rotation" value="90.0" />
+  <property type="sds.integer" id="offset.x" value="0" />
+  <property type="sds.integer" id="offset.y" value="0" />
+  <property type="sds.boolean" id="transparent_background" value="true" />
+  <property type="sds.color" id="color.background">
+    <color hex="#E6E6E6" />
+  </property>
+  <property type="sds.boolean" id="visibility" value="true" />
+  <property type="sds.option" id="border.style">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="border.width" value="1" />
+  <property type="sds.color" id="border.color">
+    <color hex="#640000" />
+  </property>
+  <property type="sds.boolean" id="enabled" value="true" />
+  <property type="sds.string" id="permission_id" value="" />
+  <property type="sds.choiceoption" id="cursor">
+    <option id="cursor.default" />
+  </property>
+  <property type="sds.string" id="value.text" value="Please ensure XESEnergy results in a &#xA;XESBragg value between 60 and 85. &#xA;Else it will not be applied." />
+  <property type="sds.string" id="value.text.unit" value="" />
+  <property type="sds.option" id="value_type">
+    <option id="1" />
+  </property>
+  <property type="sds.integer" id="precision" value="2" />
+  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${value.text}" />
+  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
+  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>

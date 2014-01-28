@@ -28,8 +28,6 @@ import gda.epics.PV;
  * For I20 only. Only allows movement of the Crystal1Pitch motor if intensity feedback has been disabled.
  */
 public class Crystal1PitchScannable extends ScannableMotor {
-
-
 	private String intensityFeedbackPVName = "BL20I-OP-QCM-01:PY:FBON";
 	private PV<Boolean> intensityFeedbackPV;
 
@@ -43,20 +41,19 @@ public class Crystal1PitchScannable extends ScannableMotor {
 
 	@Override
 	public void rawAsynchronousMoveTo(Object internalPosition) throws DeviceException {
-		if (!isIntensityFeedbackDisabled()) {
+		if (!isIntensityFeedbackDisabled())
 			throw new DeviceException("Will not move " + getName() + " as intensity feedback is active.");
-		}
 		super.rawAsynchronousMoveTo(internalPosition);
 	}
 
 	private boolean isIntensityFeedbackDisabled() throws DeviceException {
-		if (intensityFeedbackPV == null){
+		if (intensityFeedbackPV == null)
 			intensityFeedbackPV = LazyPVFactory.newBooleanFromEnumPV(intensityFeedbackPVName);
-		}
 		try {
 			return !intensityFeedbackPV.get();
 		} catch (IOException e) {
 			throw new DeviceException("Cannot fetch intensity feedback of " + getName());
 		}
 	}
+	
 }

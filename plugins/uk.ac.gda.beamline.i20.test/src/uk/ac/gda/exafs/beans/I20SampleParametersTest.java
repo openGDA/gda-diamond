@@ -36,6 +36,7 @@ import org.junit.Test;
 
 import uk.ac.gda.beans.exafs.ElementPosition;
 import uk.ac.gda.beans.exafs.i20.CryostatParameters;
+import uk.ac.gda.beans.exafs.i20.CryostatProperties;
 import uk.ac.gda.beans.exafs.i20.CryostatSampleDetails;
 import uk.ac.gda.beans.exafs.i20.CustomParameter;
 import uk.ac.gda.beans.exafs.i20.FurnaceParameters;
@@ -113,12 +114,12 @@ public class I20SampleParametersTest {
 		eles.add(new ElementPosition("Si", 2));
 		expectedValue.setSampleEnvironment(I20SampleParameters.SAMPLE_ENV[2]);
 		CryostatParameters cps = new CryostatParameters();
-		cps.setLoopChoice(CryostatParameters.LOOP_OPTION[0]);
+		cps.setLoopChoice(CryostatProperties.LOOP_OPTION[0]);
 		cps.setTemperature("295");
 		cps.setTolerance(1d);
-		cps.setHeaterRange(CryostatParameters.HEATER_RANGE[0]);
-		cps.setWaitTime(5.0);
-		cps.setControlMode(CryostatParameters.CONTROL_MODE[1]);
+		cps.setHeaterRange(CryostatProperties.HEATER_RANGE[0]);
+		cps.setWaitTime(5);
+		cps.setControlMode(CryostatProperties.CONTROL_MODE[1]);
 		cps.setP(1d);
 		cps.setI(1d);
 		cps.setD(1d);

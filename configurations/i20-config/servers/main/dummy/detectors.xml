@@ -28,6 +28,14 @@
 		</property>
 	</bean>
 
+
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
+		<property name="numberOfMca" value="1" />
+		<property name="numberOfBins" value="1024" />
+		<!-- <property name="numberOfROIs" value="5" /> -->
+		<property name="local" value="true" />
+	</bean>
+
 	<bean id="Stanford01" class="gda.device.currentamplifier.DummyCurrentAmplifier" />
 	<bean id="Stanford02" class="gda.device.currentamplifier.DummyCurrentAmplifier" />
 	<bean id="Stanford03" class="gda.device.currentamplifier.DummyCurrentAmplifier" />
@@ -350,12 +358,12 @@
 			</util:list>
 		</property>
 	</bean>
-
+	
 	<bean id="i0_stanford_offset_current" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
-				<value>off</value>
-				<value>on</value>
+				<value>Off</value>
+				<value>On</value>
 			</util:list>
 		</property>
 	</bean>
@@ -363,8 +371,8 @@
 	<bean id="it_stanford_offset_current" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
-				<value>off</value>
-				<value>on</value>
+				<value>Off</value>
+				<value>On</value>
 			</util:list>
 		</property>
 	</bean>
@@ -372,8 +380,8 @@
 	<bean id="iref_stanford_offset_current" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
-				<value>off</value>
-				<value>on</value>
+				<value>Off</value>
+				<value>On</value>
 			</util:list>
 		</property>
 	</bean>

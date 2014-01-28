@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.richbeans.components.FieldBeanComposite;
 
 public abstract class I20SampleParamsComposite  extends FieldBeanComposite {
-
 	private static Logger logger = LoggerFactory.getLogger(I20SampleParamsComposite.class);
 
 	public I20SampleParamsComposite(Composite parent, int style, String listenerName) {
@@ -43,8 +42,7 @@ public abstract class I20SampleParamsComposite  extends FieldBeanComposite {
 	}
 
 	protected String getValueAsString(String scannableName) {
-
-		final Scannable scannable = (Scannable) Finder.getInstance().find(scannableName);
+		Scannable scannable = (Scannable) Finder.getInstance().find(scannableName);
 		if (scannable == null) {
 			logger.error("Scannable " + scannableName + " cannot be found");
 			return "";

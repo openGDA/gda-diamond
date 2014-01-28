@@ -31,7 +31,7 @@ import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 
-import uk.ac.gda.beans.exafs.i20.CryostatParameters;
+import uk.ac.gda.beans.exafs.i20.CryostatProperties;
 import uk.ac.gda.beans.exafs.i20.CryostatSampleDetails;
 import uk.ac.gda.richbeans.components.scalebox.NumberBox;
 import uk.ac.gda.richbeans.components.scalebox.RangeBox;
@@ -64,11 +64,11 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(main);
 		Composite options = new Composite(main, SWT.NONE);
 		options.setLayout(new FillLayout());
-		loopChoice = new RadioWrapper(options, SWT.NONE, CryostatParameters.LOOP_OPTION);
-		loopChoice.setValue(CryostatParameters.LOOP_OPTION[0]);
+		loopChoice = new RadioWrapper(options, SWT.NONE, CryostatProperties.LOOP_OPTION);
+		loopChoice.setValue(CryostatProperties.LOOP_OPTION[0]);
 		createTemperatureComposite(main);
 		createSampleComposite(main);
-		this.layout();
+		layout();
 	}
 
 	protected void createSampleComposite(final Composite main) {
@@ -106,8 +106,7 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 		temperature = new RangeBox(tempComposite, SWT.NONE, "Define setpoints...", "Set a single value, list all value or define a range.");
 		temperature.setMaximum(300);
 		temperature.setUnit("K");
-		GridData gd_temperature = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		temperature.setLayoutData(gd_temperature);
+		temperature.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		advancedExpandableComposite = new ExpandableComposite(tempComposite, SWT.NONE);
 		advancedExpandableComposite.setText("Advanced");
 		GridDataFactory.fillDefaults().span(1, 4).applyTo(advancedExpandableComposite);
@@ -118,17 +117,17 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 		Label toleranceLabel = new Label(tempComposite, SWT.NONE);
 		toleranceLabel.setText("Tolerance");
 		tolerance = new ScaleBox(tempComposite, SWT.NONE);
-		GridData gd_tolerance = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		tolerance.setLayoutData(gd_tolerance);
+		tolerance.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		tolerance.setMaximum(5);
 		Label timeLabel = new Label(tempComposite, SWT.NONE);
 		timeLabel.setText("Wait Time");
 		waitTime = new ScaleBox(tempComposite, SWT.NONE);
-		GridData gd_time = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		waitTime.setLayoutData(gd_time);
+		waitTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		waitTime.setDecimalPlaces(0);
 		waitTime.setUnit("s");
 		waitTime.setMaximum(400.0);
+		new Label(tempComposite, SWT.NONE);
+		new Label(tempComposite, SWT.NONE);
 	}
 
 	protected void createAdvancedComposite(final Composite advanced) {
@@ -136,7 +135,7 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 		temperatureChangeProfileLabel.setText("Control Mode");
 		controlMode = new ComboWrapper(advanced, SWT.READ_ONLY);
 		controlMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		controlMode.setItems(CryostatParameters.CONTROL_MODE);
+		controlMode.setItems(CryostatProperties.CONTROL_MODE);
 		controlMode.select(0);
 		controlMode.addValueListener(new ValueListener() {
 			
@@ -149,42 +148,36 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 			public String getValueListenerName() {
 				return "grey out manual output listener";
 			}
+			
 		});
-
 		Label pLabel = new Label(advanced, SWT.RIGHT);
 		pLabel.setText("P");
 		p = new ScaleBox(advanced, SWT.NONE);
 		p.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
 		Label heaterRangeLabel = new Label(advanced, SWT.NONE);
 		heaterRangeLabel.setText("Heater Range");
 		heaterRange = new ComboWrapper(advanced, SWT.READ_ONLY);
 		heaterRange.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		heaterRange.setItems(CryostatParameters.HEATER_RANGE);
+		heaterRange.setItems(CryostatProperties.HEATER_RANGE);
 		heaterRange.select(0);
-
 		Label iLabel = new Label(advanced, SWT.RIGHT);
 		iLabel.setText("I");
 		i = new ScaleBox(advanced, SWT.NONE);
 		i.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
 		Label outputLabel = new Label(advanced, SWT.NONE);
 		outputLabel.setText("Manual output");
 		manualOutput = new ScaleBox(advanced, SWT.NONE);
 		manualOutput.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
 		Label dLabel = new Label(advanced, SWT.RIGHT);
 		dLabel.setText("D");
 		d = new ScaleBox(advanced, SWT.NONE);
 		d.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
 		advancedExpandableComposite.setClient(advanced);
 		expansionListener = new ExpansionAdapter() {
 			@Override
 			public void expansionStateChanged(ExpansionEvent e) {
 				getParent().getParent().getParent().getParent().layout();
-				Composite temp = CryostatTableComposite.this.getParent().getParent().getParent().getParent()
-						.getParent();
+				Composite temp = CryostatTableComposite.this.getParent().getParent().getParent().getParent().getParent();
 				temp.layout();
 			}
 		};
@@ -240,4 +233,5 @@ public class CryostatTableComposite extends I20SampleParamsComposite {
 	public VerticalListEditor getSamples() {
 		return sampleDetails;
 	}
+	
 }

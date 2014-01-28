@@ -366,7 +366,6 @@
 		</property>
 	</bean>
 
-
 	<bean id="i1_stanford_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">

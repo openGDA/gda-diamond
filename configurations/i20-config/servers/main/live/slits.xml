@@ -335,7 +335,18 @@
 		</property>
 	</bean>
 	
-	<bean id="photonshutter" class="gda.device.enumpositioner.EpicsValveCallback">
+	
+<!-- 	<bean id="photonshutter" class="gda.device.enumpositioner.EpicsSimplePositioner"> -->
+<!-- 		<property name="pvName" value="BL20I-EA-SHTR-01" /> -->
+<!-- 		<property name="values"> -->
+<!-- 			<map> -->
+<!-- 				<entry key="Open" value="Open" /> -->
+<!-- 				<entry key="Close" value="Close" /> -->
+<!-- 			</map> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+	
+	<bean id="photonshutter" class="gda.device.enumpositioner.EpicsValve">
 		<property name="epicsRecordName" value="BL20I-EA-SHTR-01" />
 		<property name="outputFormat">
 			<list>

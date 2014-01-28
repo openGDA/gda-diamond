@@ -1,0 +1,68 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="cryostick_pos_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20I-CG-CRYO-02:POSN" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="cryostick_pos" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cryostick_pos_motor" />
+	</bean>
+
+	<bean id="cryostick" class="gda.device.enumpositioner.EpicsEditablePositionerCallback">
+		<property name="recordName" value="BL20I-CG-CRYO-02:MP" />
+	</bean>
+	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/cryostick" />
+		<property name="service" ref="cryostick" />
+		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
+	</bean>
+	
+	<bean id="cryostat_controller" class="gda.device.scannable.Lakeshore340Controller">
+		<property name="pvName" value="BL20I-EA-TEMPC-01:" />
+	</bean>
+	
+	<bean id="cryostat" class="gda.device.scannable.Lakeshore340Scannable">
+		<property name="controller" ref="cryostat_controller" />
+	</bean>
+	
+	<bean id="cryo_setpoint" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-EA-TEMPC-01:SETP" />
+		<property name="pvNameSetPoint" value="BL20I-EA-TEMPC-01:SETP_S" />
+	</bean>
+	
+	<bean id="cryo_range" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-EA-TEMPC-01:RANGE" />
+		<property name="pvNameSetPoint" value="BL20I-EA-TEMPC-01:RANGE_S" />
+	</bean>
+
+	<bean id="cryo_mode" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-EA-TEMPC-01:CMODE" />
+		<property name="pvNameSetPoint" value="BL20I-EA-TEMPC-01:CMODE_S" />
+	</bean>
+
+	<bean id="cryo_ch0" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG0" />
+		<property name="local" value="false"/>
+	</bean>
+
+	<bean id="cryo_ch1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG1" />
+		<property name="local" value="false"/>
+	</bean>
+
+	<bean id="cryo_ch2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG2" />
+		<property name="local" value="false"/>
+	</bean>
+
+	<bean id="cryo_ch3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG3" />
+		<property name="local" value="false"/>
+	</bean>
+
+</beans>

@@ -28,7 +28,6 @@ import gda.epics.PV;
 import gda.factory.FactoryException;
 
 public class ADCMonitor extends DetectorBase implements Detector {
-
 	private final String pvPrefix;
 	private final String readoutPVName;
 	private final String columnName;
@@ -47,11 +46,9 @@ public class ADCMonitor extends DetectorBase implements Detector {
 	@Override
 	public void configure() throws FactoryException {
 		super.configure();
-
 		setInputNames(new String[] {});
 		setExtraNames(new String[] { columnName });
 		setOutputFormat(new String[] { "%.5g" });
-
 		samplePeriodPV = LazyPVFactory.newDoublePV(pvPrefix + ":PERIOD");
 		modePV = LazyPVFactory.newEnumPV(pvPrefix + ":MODE", ADCMonitorModes.class);
 		triggerPV = LazyPVFactory.newIntegerPV(pvPrefix + ":SOFTTRIGGER");
@@ -70,20 +67,13 @@ public class ADCMonitor extends DetectorBase implements Detector {
 
 	@Override
 	public int getStatus() throws DeviceException {
-
 		try {
 			ADCMonitorModes currentMode = modePV.get();
-
-			if (currentMode == ADCMonitorModes.Continuous || currentMode == ADCMonitorModes.Gate) {
+			if (currentMode == ADCMonitorModes.Continuous || currentMode == ADCMonitorModes.Gate)
 				return Detector.IDLE;
-			}
-
-			// else currentMode == ADCMonitorModes.Trigger
-			if (triggerPV.get() == 0) {
+			if (triggerPV.get() == 0)
 				return Detector.IDLE;
-			}
 			return Detector.BUSY;
-
 		} catch (IOException e) {
 			throw new DeviceException(e.getMessage(), e);
 		}
@@ -127,4 +117,5 @@ public class ADCMonitor extends DetectorBase implements Detector {
 	public boolean createsOwnFiles() throws DeviceException {
 		return false;
 	}
+	
 }

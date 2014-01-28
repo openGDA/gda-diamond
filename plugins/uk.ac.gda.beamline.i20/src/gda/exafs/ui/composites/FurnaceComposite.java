@@ -30,7 +30,6 @@ import uk.ac.gda.richbeans.components.scalebox.RangeBox;
 import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
 
 public class FurnaceComposite extends FieldBeanComposite {
-
 	private ScaleBox x, y, z;
 	private RangeBox temperature;
 	private ScaleBox tolerance;
@@ -38,64 +37,64 @@ public class FurnaceComposite extends FieldBeanComposite {
 
 	public FurnaceComposite(Composite parent, int style) {
 		super(parent, style);
-		final GridLayout gridLayout = new GridLayout();
+		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		setLayout(gridLayout);
 
-		final Label temperatureLabel = new Label(this, SWT.NONE);
+		Label temperatureLabel = new Label(this, SWT.NONE);
 		temperatureLabel.setText("Temperature");
 
 		temperature = new RangeBox(this, SWT.NONE);
 		temperature.setMinimum(295);
 		temperature.setMaximum(1300);
 		temperature.setUnit("K");
-		final GridData gd_temperature = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		GridData gd_temperature = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		temperature.setLayoutData(gd_temperature);
 
-		final Label toleranceLabel = new Label(this, SWT.NONE);
+		Label toleranceLabel = new Label(this, SWT.NONE);
 		toleranceLabel.setText("Tolerance");
 
 		tolerance = new ScaleBox(this, SWT.NONE);
-		final GridData gd_tolerance = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		GridData gd_tolerance = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		tolerance.setLayoutData(gd_tolerance);
 		tolerance.setMaximum(5);
 
-		final Label timeLabel = new Label(this, SWT.NONE);
+		Label timeLabel = new Label(this, SWT.NONE);
 		timeLabel.setText("Time");
 
 		time = new ScaleBox(this, SWT.NONE);
-		final GridData gd_time = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		GridData gd_time = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		time.setLayoutData(gd_time);
 		time.setUnit("s");
 		time.setMaximum(400.0);
 
-		final Label xLabel = new Label(this, SWT.NONE);
+		Label xLabel = new Label(this, SWT.NONE);
 		xLabel.setText("x");
 
 		x = new ScaleBox(this, SWT.NONE);
 		x.setMinimum(-15);
 		x.setMaximum(15);
 		x.setUnit("mm");
-		final GridData gd_x = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		GridData gd_x = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		x.setLayoutData(gd_x);
 
-		final Label yLabel = new Label(this, SWT.NONE);
+		Label yLabel = new Label(this, SWT.NONE);
 		yLabel.setText("y");
 
 		y = new ScaleBox(this, SWT.NONE);
 		y.setMinimum(-20.0);
 		y.setMaximum(20.0);
-		final GridData gd_y = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		GridData gd_y = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		y.setLayoutData(gd_y);
 		y.setUnit("mm");
 
-		final Label zLabel = new Label(this, SWT.NONE);
+		Label zLabel = new Label(this, SWT.NONE);
 		zLabel.setText("z");
 
 		z = new ScaleBox(this, SWT.NONE);
 		z.setMinimum(-15);
 		z.setMaximum(15);
-		final GridData gd_z = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		GridData gd_z = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		z.setLayoutData(gd_z);
 		z.setUnit("mm");
 	}
@@ -123,4 +122,5 @@ public class FurnaceComposite extends FieldBeanComposite {
 	public ScaleBox getTime() {
 		return time;
 	}
+	
 }

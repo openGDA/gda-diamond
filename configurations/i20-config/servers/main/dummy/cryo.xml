@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="cryostick_pos_motor" class="gda.device.motor.DummyMotor"/>
+	
+	<bean id="cryostick_pos" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cryostick_pos_motor" />
+	</bean>
+
+	<bean id="cryostick" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Pos1</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/cryostick" />
+		<property name="service" ref="cryostick" />
+		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
+	</bean>
+	
+	<bean id="cryostat_controller" class="gda.device.scannable.DummyLakeshore340Controller" />
+	
+	<bean id="cryostat" class="gda.device.scannable.Lakeshore340Scannable">
+		<property name="controller" ref="cryostat_controller" />
+	</bean>
+
+</beans>
