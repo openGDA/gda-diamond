@@ -179,7 +179,7 @@ def setState(name, pv, newState):
 	text = "IN"
 	if (newState == 0):
 		text = "OUT"
-  
+	
 	currentState = beamline.getValue(None,"Top",pv)
 	if (newState == currentState):
 		print name + " position already: "  + text
@@ -250,7 +250,7 @@ def genericScanChecks(alignFlag, cscanFlag, motor, start, stop, step, param1, pa
 				args = [motor, start, stop, step, param1, param2, param3]
 			scan(args)
 	
-	except java.lang.InterruptedException, e:
+	except java.lang.InterruptedException:
 		response = InputCommands.requestInput("Return " + str(motor.name) + " to initial position: " + str(initialPosition) + " ? (y/n)")
 		if (response == 'y'):
 			moveMotor(motor, initialPosition)

@@ -121,7 +121,6 @@ def ccdProcessDoubles(exposureTime, binning, detectorDistance, fileName, img1Nam
 	
 	fileRoot = ruby.path + "/" + fileName
 	suffix = str(imageNo) + "_" + str(start)
-	dlsRoot = fileRoot.replace("X:/", "/dls/i15/data/")
 	dlsRoot = fileRoot.replace("x:/", "/dls/i15/data/")
 	fullFileName1 = dlsRoot + img1Name + suffix + ".img"
 	fullFileName2 = dlsRoot + img2Name + suffix + ".img"
@@ -144,7 +143,6 @@ def ccdProcessDoubles(exposureTime, binning, detectorDistance, fileName, img1Nam
 	simpleLog("----- Script ended ------")
 
 #########################################################
-import glob
 def ccdApplyCorrections(folder, detectorDistance):
 	"""
 	For each .img file in folder, runs ruby.importAndCorrect(...) 3 times, with corrections to apply
@@ -169,10 +167,10 @@ def ccdApplyCorrections(folder, detectorDistance):
 	fileList = glob.glob(folder + "/*")
 	for i in range(0, len(corrsToApply), 1):
 		ruby.applyCorr(corrsToApply[i])
-		for file in fileList:
-			if (file.endswith(".img")):
-				simpleLog("--> " + str(file))
-				fileWIthoutExt = file.replace(".img", "")
+		for f in fileList:
+			if (f.endswith(".img")):
+				simpleLog("--> " + str(f))
+				fileWIthoutExt = f.replace(".img", "")
 				fileWIthoutExt = fileWIthoutExt.replace("/dls/i15/data", "X:")
 				#simpleLog("ruby.import... " + fileWIthoutExt + " corr: " + `i+1`)
 				ruby.importAndCorrect(fileWIthoutExt, "_correction" + str(i + 1))
@@ -230,7 +228,7 @@ def ccdApplyCorrections2(folder, corrsToApply, detectorDistance):
 	simpleLog("\n\n ====Finished====\n")
 
 #############
-def checkFileExistsWithTimeout(folder, file, timeout):
+def checkFileExistsWithTimeout(folder, f, timeout):
 	"""
 	Returns true if file exists within the given timeout.
 	"""
@@ -239,7 +237,7 @@ def checkFileExistsWithTimeout(folder, file, timeout):
 	t1 = t0
 	while ( (t1 - t0) < timeout ): 
 		os.system("ls " + folder)     # forces folder to be updated on dls system
-		if (doesFileExist(folder + file)):
+		if (doesFileExist(folder + f)):
 			return True
 		t1 = time.clock()
 		pause()                     # ensures script can be stopped promptly

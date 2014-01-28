@@ -73,8 +73,8 @@ def sh(cmd):
 		
 		getShutterStatus()
 	except:
-		type, exception, traceback = sys.exc_info()
-		handle_messages.log(None, "sh command error", type, exception, traceback, False)
+		typ, exception, traceback = sys.exc_info()
+		handle_messages.log(None, "sh command error", typ, exception, traceback, False)
 	return
 
 #===========================================================================================
