@@ -30,9 +30,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GasInjectionScannablePumpOn extends ScannableBase implements Scannable {
-
 	private static final Logger logger = LoggerFactory.getLogger(GasInjectionScannablePumpOn.class);
-	CAClient ca_client = new CAClient();
+	private CAClient ca_client = new CAClient();
 
 	// valve pvs
 	public String v1pv;// Kr
@@ -375,4 +374,5 @@ public class GasInjectionScannablePumpOn extends ScannableBase implements Scanna
 	public void setChamberName(String chamberName) {
 		this.chamberName = chamberName;
 	}
+	
 }

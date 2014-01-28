@@ -21,7 +21,7 @@
 	<cryostat>
 		<loopChoice>Loop over sample, then temperature</loopChoice>
 		<tolerance>1</tolerance>
-		<waitTime>5.0</waitTime>
+		<waitTime>5</waitTime>
 		<temperature>295</temperature>
 		<controlMode>Manual PID</controlMode>
 		<heaterRange>4mW</heaterRange>

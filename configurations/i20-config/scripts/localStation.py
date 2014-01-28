@@ -36,9 +36,11 @@ sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units
 offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset,i1_stanford_offset]
 offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_offset_units,i1_stanford_offset_units]
 
-xmapController = Finder.getInstance().find("xmapcontroller")
-from vortex_elements import VortexElements
-vortexElements = VortexElements(edxdcontroller, xmapController, xmapMca)
+
+if LocalProperties.get("gda.mode") == "live":
+    xmapController = Finder.getInstance().find("xmapcontroller")
+    from vortex_elements import VortexElements
+    vortexElements = VortexElements(edxdcontroller, xmapController, xmapMca)
 
 xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
 xspressConfig.initialize()
@@ -48,7 +50,7 @@ vortex.initialize()
 alias("vortex")
 
 detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortex)
-samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat)
+samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos)
 outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
 
 from gda.device.scannable import TwoDScanPlotter

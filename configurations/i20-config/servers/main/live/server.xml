@@ -23,7 +23,8 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/attenuators.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/mono.xml" />
+<!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mono.xml" /> -->
+	<import resource="file:${gda.config}/servers/main/dummy/mono.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/tables.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xes.xml" />
@@ -32,6 +33,7 @@
 <!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas-filling.xml" /> -->
 <!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas.xml" /> -->
 	<import resource="file:${gda.config}/servers/main/live/medipix.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/cryo.xml" />
 
 	<!-- Definition of the ascii data format -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/dataformat.xml" />

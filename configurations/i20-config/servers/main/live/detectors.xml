@@ -73,7 +73,6 @@
 		</property>
 	</bean>
 
-
 	<!-- Time Frame Generator -->
 	<bean id="tfg" class="gda.device.timer.Etfg">
 		<property name="daServerName" value="DAServer" />
@@ -86,7 +85,6 @@
 		<property name="height" value="1" />
 		<property name="openCommand" value="tfg open-cc" />
 	</bean>
-
 
 <!-- 	<bean id="ionchambers" class="gda.device.detector.countertimer.PositionStreamingTfgScaler"> -->
 <!-- 	<bean id="ionchambers" class="gda.device.detector.countertimer.CallableTfgScalerWithLogValues"> -->
@@ -199,7 +197,6 @@
 		</property>
 	</bean>
 	
-
 	<bean id="FFI0" class="gda.device.detector.TfgFFoverI0">
 		<property name="xspress" ref="xspress2system" />
 		<property name="scalerName" value="ionchambers" />
@@ -274,7 +271,6 @@
 			</list>
 		</property>
 	</bean>
-	
 
 	<bean id="i0_stanford_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-01:SENS:SEL1" />
@@ -292,6 +288,7 @@
 			</map>
 		</property>
 	</bean>
+	
 	<bean id="i0_stanford_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-01:SENS:SEL2" />
 		<property name="values">
@@ -303,6 +300,7 @@
 			</map>
 		</property>
 	</bean>
+	
 	<bean id="i0_stanford_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-01:IOLV:SEL1" />
 		<property name="values">
@@ -319,6 +317,7 @@
 			</map>
 		</property>
 	</bean>
+	
 	<bean id="i0_stanford_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-01:IOLV:SEL2" />
 		<property name="values">
@@ -329,6 +328,7 @@
 			</map>
 		</property>
 	</bean>
+	
 	<bean id="i0_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-01:IOON" />
 		<property name="values">
@@ -338,7 +338,6 @@
 			</map>
 		</property>
 	</bean>
-	
 	
 	<bean id="it_stanford_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-02:SENS:SEL1" />

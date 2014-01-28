@@ -1,2 +1,2 @@
 export JAVA_HOME=/usr
-/gda_workspaces/master_git/gda-core.git/uk.ac.gda.core/bin/gda servers --datadir /scratch/users/data  --config  /gda_workspaces/master_git/gda-dls-beamlines-xas.git/i20 --properties /gda_workspaces/master_git/gda-dls-beamlines-xas.git/i20/properties/dummy/synoptic.properties --mode=dummy --debug -p 8001 --restart
+/dls_sw/i20/software/gda_versions/8_34/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda servers --datadir /scratch/users/data  --config  /dls_sw/i20/software/gda_versions/8_34/workspace_git/gda-dls-beamlines-xas.git/i20 --properties /dls_sw/i20/software/gda_versions/8_34/workspace_git/gda-dls-beamlines-xas.git/i20/properties/dummy/synoptic.properties --mode=dummy --debug -p 8001 --restart

@@ -26,13 +26,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Lakeshore340StatusRunner implements Runnable {
-
 	private static final int updatePeriodinMilliSec = 1000;
 	private static final Logger logger = LoggerFactory.getLogger(Lakeshore340StatusRunner.class);
-	
 	protected volatile boolean keepRunning = true;
 	private volatile boolean stableTemperature = false;
-
 	private final Lakeshore340Scannable lakeshore;
 	private Date timeOfLastDeadbandChange = null;
 	private boolean inDeadbandAfterLastDeadbandChange = false;
@@ -44,38 +41,32 @@ public class Lakeshore340StatusRunner implements Runnable {
 	@Override
 	public void run() {
 		keepRunning = true;
-
 		try {
 			while (keepRunning) {
-					boolean inDeadband = lakeshore.withinDeadband();
-
-					if (timeOfLastDeadbandChange == null) {
-						updateLatestValues(inDeadband);
-					}
-
-					// has changed?
-					if (inDeadband != inDeadbandAfterLastDeadbandChange) {
-						updateLatestValues(inDeadband);
-					} else if (inDeadband) {
-						long timeSinceChange = new Date().getTime() - timeOfLastDeadbandChange.getTime();
-						int secsSinceChange = Math.round(timeSinceChange / 1000);
-						if (secsSinceChange > lakeshore.getWaitTime()){
-							lakeshore.isMoving = false;
-							setStableTemperature(true);
-						} else {
-							setStableTemperature(false);
-						}
-					} else {
+				boolean inDeadband = lakeshore.withinDeadband();
+				if (timeOfLastDeadbandChange == null)
+					updateLatestValues(inDeadband);
+				// has changed?
+				if (inDeadband != inDeadbandAfterLastDeadbandChange)
+					updateLatestValues(inDeadband);
+				else if (inDeadband) {
+					long timeSinceChange = new Date().getTime() - timeOfLastDeadbandChange.getTime();
+					int secsSinceChange = Math.round(timeSinceChange / 1000);
+					if (secsSinceChange > lakeshore.getWaitTime()){
+						lakeshore.setMoving(false);
+						setStableTemperature(true);
+					} 
+					else
 						setStableTemperature(false);
-					}
+				} 
+				else
+					setStableTemperature(false);
 				Thread.sleep(updatePeriodinMilliSec);
 			}
 		} catch (DeviceException e) {
-			logger.error("DeviceException in loop reading out temperature of " + lakeshore.getName()
-					+ ". Loop will be aborted.", e);
+			logger.error("DeviceException in loop reading out temperature of " + lakeshore.getName() + ". Loop will be aborted.", e);
 		} catch (InterruptedException e) {
-			logger.error("InterruptedException in loop reading out temperature of " + lakeshore.getName()
-					+ ". Loop will be aborted.", e);
+			logger.error("InterruptedException in loop reading out temperature of " + lakeshore.getName() + ". Loop will be aborted.", e);
 		}
 		keepRunning = false;
 

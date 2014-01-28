@@ -40,7 +40,6 @@ import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
 import uk.ac.gda.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
 
 public class SampleStageComposite extends I20SampleParamsComposite implements ListEditorUI {
-
 	private ScaleBox sample_x;
 	private ScaleBox sample_y;
 	private ScaleBox sample_z;
@@ -63,24 +62,23 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 		main = new Composite(this, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(main);
 
-		final Label lblSamname = new Label(main, SWT.NONE);
+		Label lblSamname = new Label(main, SWT.NONE);
 		lblSamname.setText("Filename");
 		GridDataFactory.swtDefaults().applyTo(lblSamname);
 		sample_name = new TextWrapper(main, SWT.NONE);
 		sample_name.setTextType(TEXT_TYPE.FILENAME);
 		GridDataFactory.fillDefaults().applyTo(sample_name);
 
-		final Label lblSamdesc = new Label(main, SWT.NONE);
+		Label lblSamdesc = new Label(main, SWT.NONE);
 		lblSamdesc.setText("Sample description");
 		GridDataFactory.fillDefaults().applyTo(lblSamdesc);
 		sample_description = new TextWrapper(main, SWT.WRAP | SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
-		final GridData gd_descriptions = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		GridData gd_descriptions = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		gd_descriptions.heightHint = 73;
 		gd_descriptions.widthHint = 400;
 		sample_description.setLayoutData(gd_descriptions);
 
-		
-		final Label lblNumOfRep = new Label(main, SWT.NONE);
+		Label lblNumOfRep = new Label(main, SWT.NONE);
 		lblNumOfRep.setText("Number of repetitions");
 		lblNumOfRep.setToolTipText("Number of repetitions over this sample");
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(lblNumOfRep);
@@ -100,7 +98,8 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 			sample_pitch.setDecimalPlaces(2);
 			sample_pitch.setVisible(false);
 			GridDataFactory.fillDefaults().exclude(true).applyTo(sample_pitch);
-		} else {
+		} 
+		else {
 			sample_finerotation = new ScaleBox(main, SWT.NONE);
 			sample_finerotation.setUnit("°");
 			sample_finerotation.setDecimalPlaces(2);
@@ -125,7 +124,8 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 				sample_rotation.setValue(getValueAsString("sample_rot"));
 				if (ScanObjectManager.isXESOnlyMode()) {
 					sample_finerotation.setValue(getValueAsString("sample_fine_rot"));
-				} else {
+				}
+				else {
 					sample_roll.setValue(getValueAsString("sample_roll"));
 					sample_pitch.setValue(getValueAsString("sample_pitch"));
 				}
@@ -141,7 +141,7 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 		new Label(motorPositionsGroup, SWT.NONE);
 		new Label(motorPositionsGroup, SWT.NONE);
 
-		final Label lblSamx = new Label(motorPositionsGroup, SWT.NONE);
+		Label lblSamx = new Label(motorPositionsGroup, SWT.NONE);
 		lblSamx.setText("Sample x");
 		sample_x = new ScaleBox(motorPositionsGroup, SWT.NONE);
 		sample_x.setUnit("mm");
@@ -150,7 +150,7 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 		sample_x.setMaximum(14.1);
 		GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_x);
 
-		final Label lblSamrot = new Label(motorPositionsGroup, SWT.NONE);
+		Label lblSamrot = new Label(motorPositionsGroup, SWT.NONE);
 		lblSamrot.setText("Sample rotation");
 		sample_rotation = new ScaleBox(motorPositionsGroup, SWT.NONE);
 		sample_rotation.setUnit("°");
@@ -159,7 +159,7 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 		sample_rotation.setMaximum(53);
 		GridDataFactory.fillDefaults().applyTo(sample_rotation);
 
-		final Label lblSamy = new Label(motorPositionsGroup, SWT.NONE);
+		Label lblSamy = new Label(motorPositionsGroup, SWT.NONE);
 		lblSamy.setText("Sample y");
 		sample_y = new ScaleBox(motorPositionsGroup, SWT.NONE);
 		sample_y.setUnit("mm");
@@ -169,7 +169,7 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 		GridDataFactory.fillDefaults().applyTo(sample_y);
 
 		if (ScanObjectManager.isXESOnlyMode()) {
-			final Label lblSamfinerot = new Label(motorPositionsGroup, SWT.NONE);
+			Label lblSamfinerot = new Label(motorPositionsGroup, SWT.NONE);
 			lblSamfinerot.setText("Sample fine rotation");
 			sample_finerotation = new ScaleBox(motorPositionsGroup, SWT.NONE);
 			sample_finerotation.setUnit("°");
@@ -177,8 +177,9 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 			sample_finerotation.setMinimum(-127.4);
 			sample_finerotation.setMaximum(180);
 			GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_finerotation);
-		} else {
-			final Label lblSamroll = new Label(motorPositionsGroup, SWT.NONE);
+		} 
+		else {
+			Label lblSamroll = new Label(motorPositionsGroup, SWT.NONE);
 			lblSamroll.setText("Sample roll");
 			sample_roll = new ScaleBox(motorPositionsGroup, SWT.NONE);
 			sample_roll.setUnit("°");
@@ -188,7 +189,7 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 			GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_roll);
 		}
 		
-		final Label lblSamz = new Label(motorPositionsGroup, SWT.NONE);
+		Label lblSamz = new Label(motorPositionsGroup, SWT.NONE);
 		lblSamz.setText("Sample z");
 		sample_z = new ScaleBox(motorPositionsGroup, SWT.NONE);
 		sample_z.setUnit("mm");
@@ -200,9 +201,9 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 		if (ScanObjectManager.isXESOnlyMode()) {
 			new Label(main, SWT.NONE);
 			new Label(main, SWT.NONE);
-		} else {
-
-			final Label lblSampitch = new Label(motorPositionsGroup, SWT.NONE);
+		} 
+		else {
+			Label lblSampitch = new Label(motorPositionsGroup, SWT.NONE);
 			lblSampitch.setText("Sample pitch");
 			sample_pitch = new ScaleBox(motorPositionsGroup, SWT.NONE);
 			sample_pitch.setUnit("°");
@@ -211,7 +212,6 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 			sample_pitch.setMaximum(10.66);
 			GridDataFactory.fillDefaults().applyTo(sample_pitch);
 		}
-
 		this.layout();
 	}
 
