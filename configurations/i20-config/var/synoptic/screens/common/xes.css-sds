@@ -44,49 +44,6 @@
   <property type="sds.boolean" id="grid_on" value="false" />
   <property type="sds.boolean" id="ruler_on" value="false" />
   <property type="sds.boolean" id="geometry_on" value="false" />
-<<<<<<< HEAD
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
-<widget type="org.csstudio.sds.components.Rectangle">
-  <property type="sds.behavior" id="behavior" value="" />
-  <property type="sds.string" id="primary_pv" value="" />
-  <property type="sds.string" id="name" value="RectangleModel" />
-  <property type="sds.map" id="aliases">
-    <map />
-  </property>
-  <property type="sds.action" id="actionData">
-    <actionData />
-  </property>
-  <property type="sds.integer" id="position.x" value="0" />
-  <property type="sds.integer" id="position.y" value="0" />
-  <property type="sds.integer" id="width" value="704" />
-  <property type="sds.integer" id="height" value="858" />
-  <property type="sds.color" id="color.foreground">
-    <color hex="#ffffff" />
-  </property>
-  <property type="sds.boolean" id="transparency" value="false" />
-  <property type="sds.color" id="color.background">
-    <color hex="#e6e6e6" />
-  </property>
-  <property type="sds.boolean" id="visibility" value="true" />
-  <property type="sds.option" id="border.style">
-    <option id="1" />
-  </property>
-  <property type="sds.integer" id="border.width" value="1" />
-  <property type="sds.color" id="border.color">
-    <color hex="#640000" />
-  </property>
-  <property type="sds.boolean" id="enabled" value="true" />
-  <property type="sds.string" id="permission_id" value="" />
-  <property type="sds.choiceoption" id="cursor">
-    <option id="cursor.default" />
-  </property>
-  <property type="sds.double" id="fill" value="100.0" />
-  <property type="sds.boolean" id="orientation" value="true" />
-  <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Value:&#x9;${fill}" />
-  <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
-  <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
-=======
   <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
 <widget type="org.csstudio.sds.components.Rectangle">
   <property type="sds.behavior" id="behavior" value="" />
@@ -128,7 +85,6 @@
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
   <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
->>>>>>> refs/remotes/origin/i20_prod
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -142,15 +98,9 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
-<<<<<<< HEAD
-  <property type="sds.integer" id="position.x" value="2" />
-  <property type="sds.integer" id="position.y" value="2" />
-  <property type="sds.integer" id="width" value="696" />
-=======
   <property type="sds.integer" id="position.x" value="1" />
   <property type="sds.integer" id="position.y" value="1" />
   <property type="sds.integer" id="width" value="680" />
->>>>>>> refs/remotes/origin/i20_prod
   <property type="sds.integer" id="height" value="850" />
   <property type="sds.color" id="color.foreground">
     <color hex="#0000c0" />
