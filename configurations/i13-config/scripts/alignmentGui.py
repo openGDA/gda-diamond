@@ -3,7 +3,7 @@ import sys
 from gdascripts.messages import handle_messages
 from gdascripts.parameters import beamline_parameters
 from gda.jython import InterfaceProvider
-from pv_scannable_utils import createPVScannable, caput, caget
+from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget
 
 class TomoDet():
     def __getController(self, name):
