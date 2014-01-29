@@ -19,6 +19,7 @@
 package gda.scan.ede.datawriters;
 
 import gda.data.nexus.GdaNexusFile;
+import gda.device.detector.ExperimentLocationUtils;
 import gda.device.detector.StripDetector;
 import gda.scan.EdeScan;
 import gda.scan.ScanDataPoint;
@@ -35,6 +36,7 @@ import org.nexusformat.NexusException;
 import org.nexusformat.NexusFile;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 
@@ -265,7 +267,9 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 				normalisedItSpectra[spectrumNum] = normalisedIt.getData();
 			}
 
-			writeItToNexus(normalisedItSpectra,fileSuffix);
+			double[] timeAxis = calculateTimeAxis(itScan.getScanParameters());
+
+			writeItToNexus(normalisedItSpectra,fileSuffix,timeAxis);
 
 		} finally {
 			if (writer != null) {
@@ -276,7 +280,17 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		return filename;
 	}
 
-	private void writeItToNexus(double[][] normalisedItSpectra, String fileSuffix) throws NexusException {
+	private double[] calculateTimeAxis(EdeScanParameters scanParameters) {
+		double[] timeValues = new double[scanParameters.getTotalNumberOfFrames()];
+
+		for (int index = 0; index < timeValues.length; index++){
+			timeValues[index] = ExperimentLocationUtils.getFrameTime(scanParameters, index);
+		}
+
+		return timeValues;
+	}
+
+	private void writeItToNexus(double[][] normalisedItSpectra, String fileSuffix, double[] timeAxis) throws NexusException {
 		if (nexusfile == null || nexusfile.isEmpty()) {
 			return;
 		}
@@ -299,12 +313,25 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		file.openpath("entry1");
 		file.openpath("instrument");
 		file.openpath(i0DarkScan.getDetector().getName());
+
 		if (file.groupdir().get(datagroupname) == null) {
 			file.makedata(datagroupname, NexusFile.NX_FLOAT64, 2, new int[]{itScan.getNumberOfAvailablePoints(), theDetector.getNumberChannels()});
 		}
 		file.opendata(datagroupname);
 		file.putdata(normalisedItSpectra);
+		file.putattr("signal", "2".getBytes(), NexusFile.NX_CHAR);
 		file.closedata();
+
+		if (!file.groupdir().containsKey("time")){
+			file.makedata("time", NexusFile.NX_FLOAT64, 1, new int[]{timeAxis.length});
+			file.opendata("time");
+			file.putdata(timeAxis);
+			file.putattr("axis", "2".getBytes(), NexusFile.NX_CHAR);
+			file.putattr("primary", "2".getBytes(), NexusFile.NX_CHAR);
+			file.closedata();
+		}
+
+
 		file.close();
 
 	}
