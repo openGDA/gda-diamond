@@ -15,8 +15,8 @@ import pd_baseTable
 import dataDir
 import shutterCommands
 import marAuxiliary
-from marAuxiliary import closeMarShield as closeDetectorShield
-from marAuxiliary import openMarShield as openDetectorShield
+#from marAuxiliary import closeMarShield as closeDetectorShield
+#from marAuxiliary import openMarShield as openDetectorShield
 import ccdAuxiliary
 import ccdScanMechanics
 from ccdScanMechanics import setMaxVelocity
@@ -42,13 +42,17 @@ gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 import scannables.detectors.fastShutterZebraDetector
 zebraFastShutter=scannables.detectors.fastShutterZebraDetector.FastShutterZebraDetector('zebraFastShutter')
 
+from gdascripts.scannable.epics.PvManager import PvManager
+import scannables.detectorShield
+ds=scannables.detectorShield.DetectorShield('ds', PvManager(pvroot='BL15I-RS-ABSB-06:'))
+
 from detector_scan_commands import *
 from centreProxy import *
 from scanPeak import *
 from diodeTime import *
 from setGain import *
 #from marAuxiliary import marErase, resetMarScanNumber
-from ccdAuxiliary import resetCCDScanNumber
+#from ccdAuxiliary import resetCCDScanNumber
 from pilatus_scripts import resetPilatusScanNumber
 
 from dataDir import setDir, setFullUserDir
@@ -614,9 +618,9 @@ try:
 	
 	dataDir.configure(jythonNameMap, beamlineParameters)
 	shutterCommands.configure(jythonNameMap, beamlineParameters)
-	marAuxiliary.configure(jythonNameMap, beamlineParameters)
+	#marAuxiliary.configure(jythonNameMap, beamlineParameters)
 	operationalControl.configure(jythonNameMap, beamlineParameters)
-	ccdAuxiliary.configure(jythonNameMap, beamlineParameters)
+	#ccdAuxiliary.configure(jythonNameMap, beamlineParameters)
 	ccdScanMechanics.configure(jythonNameMap, beamlineParameters)
 	ccdFloodCorrections.configure(jythonNameMap, beamlineParameters)
 #	ccdScripts.configure(jythonNameMap, beamlineParameters)

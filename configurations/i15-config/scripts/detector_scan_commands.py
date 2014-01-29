@@ -150,6 +150,7 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 	
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	zebraFastShutter = jythonNameMap.zebraFastShutter
+	ds = jythonNameMap.ds
 	
 	if detector.name == "pe":
 		detector = jythonNameMap.pedet
@@ -166,7 +167,8 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 	detector.tifwriter.setFileNameTemplate(	"")
 	
 	numExposuresPD = DummyPD("exposure")
-	scan = ConcurrentScan([DiodeController(d1out, d2out), 1, 1, 1,
+	scan = ConcurrentScan([ds, 1, 1, 1,
+						   DiodeController(d1out, d2out), 1, 1, 1,
 						   numExposuresPD, 1, noOfExposures, 1,
 						   detector, exposureTime,
 						   zebraFastShutter, exposureTime ])
