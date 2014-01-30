@@ -18,17 +18,8 @@
 
 package gda.scan.ede.datawriters;
 
-import gda.data.nexus.extractor.NexusExtractor;
-import gda.data.nexus.extractor.NexusGroupData;
-import gda.device.detector.NXDetectorData;
 import gda.device.detector.StripDetector;
 import gda.jython.InterfaceProvider;
-import gda.scan.EdeScan;
-import gda.scan.ScanDataPoint;
-import gda.scan.ede.EdeExperiment;
-
-import java.util.List;
-import java.util.Vector;
 
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -51,34 +42,6 @@ public abstract class EdeAsciiFileWriter {
 
 	public EdeAsciiFileWriter(DoubleDataset energyDataSet) {
 		this.energyDataSet = energyDataSet;
-	}
-
-	public static DoubleDataset extractDetectorDataSets(String detectorName, EdeScan scan, int spectrumIndex) {
-		List<ScanDataPoint> sdps = scan.getData();
-		return extractDetectorDataFromSDP(detectorName, sdps.get(spectrumIndex));
-	}
-
-	public static DoubleDataset extractDetectorDataFromSDP(String detectorName, ScanDataPoint sdp) {
-		return extractDetectorDataFromSDP(detectorName, sdp, false);
-	}
-
-	public static DoubleDataset extractDetectorEnergyFromSDP(String detectorName, ScanDataPoint sdp) {
-		return extractDetectorDataFromSDP(detectorName, sdp, true);
-	}
-
-	private static DoubleDataset extractDetectorDataFromSDP(String detectorName, ScanDataPoint sdp, boolean isEnergy) {
-		Vector<Object> data = sdp.getDetectorData();
-		int detIndex = getIndexOfMyDetector(detectorName, sdp);
-		NXDetectorData detData = (NXDetectorData) data.get(detIndex);
-		String dataType = isEnergy? EdeExperiment.ENERGY_COLUMN_NAME : EdeExperiment.DATA_COLUMN_NAME;
-		NexusGroupData groupData = detData.getData(detectorName, dataType, NexusExtractor.SDSClassName);
-		double[] originalData = (double[]) groupData.getBuffer();
-		return new DoubleDataset(originalData, originalData.length);
-	}
-
-	public static int getIndexOfMyDetector(String detectorName, ScanDataPoint scanDataPoint) {
-		Vector<String> names = scanDataPoint.getDetectorNames();
-		return names.indexOf(detectorName);
 	}
 
 	public static Double calcLnI0It(Double i0_corrected, Double it_corrected) {
@@ -149,7 +112,7 @@ public abstract class EdeAsciiFileWriter {
 	}
 
 	// TODO Check folder exist
-	public static String convertFromNextToAsciiFolder(String nexusFilePath) {
+	public static String convertFromNexusToAsciiFolder(String nexusFilePath) {
 		String nexusFolder = FilenameUtils.getFullPath(nexusFilePath);
 		int nexusLocation = nexusFolder.lastIndexOf("nexus");
 		if (nexusLocation != -1) {

@@ -31,6 +31,7 @@ import gda.device.scannable.ScannableUtils;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeScanProgressBean;
 import gda.scan.ede.EdeScanType;
+import gda.scan.ede.datawriters.ScanDataHelper;
 import gda.scan.ede.position.EdeScanPosition;
 
 import java.util.List;
@@ -39,6 +40,7 @@ import java.util.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -64,6 +66,8 @@ public class EdeScan extends ConcurrentScanChild {
 	private FrameIndexer indexer = null;
 	private IObserver progressUpdater;
 	private final Scannable shutter2;
+
+	private boolean isSimulated = false;
 
 	/**
 	 * @param scanParameters
@@ -92,6 +96,11 @@ public class EdeScan extends ConcurrentScanChild {
 			allScannables.add(indexer);
 		}
 		super.setUp();
+		updateSimulated();
+	}
+
+	private void updateSimulated() {
+		isSimulated = false;
 	}
 
 	@Override
@@ -253,7 +262,11 @@ public class EdeScan extends ConcurrentScanChild {
 		// readout the correct frame from the detectors
 		NexusTreeProvider[] detData;
 		logger.info("reading data from detectors from frames " + lowFrame + " to " + highFrame);
-		detData = theDetector.readFrames(lowFrame, highFrame);
+		if (isSimulated) {
+			detData = SimulatedData.readSimulatedDataFromFile(lowFrame, highFrame, theDetector, this.getMotorPositions().getType(), this.getScanType());
+		} else {
+			detData = theDetector.readFrames(lowFrame, highFrame);
+		}
 		logger.info("data read successfully");
 
 		for (int thisFrame = lowFrame; thisFrame <= highFrame; thisFrame++) {
@@ -306,6 +319,18 @@ public class EdeScan extends ConcurrentScanChild {
 					motorPositions.getType(), thisPoint);
 			progressUpdater.update(this, progress);
 		}
+	}
+
+	public DoubleDataset extractLastDetectorDataSet() {
+		return ScanDataHelper.extractDetectorDataFromSDP(theDetector.getName(), rawData.get(rawData.size() - 1));
+	}
+
+	public DoubleDataset extractEnergyDetectorDataSet() {
+		return ScanDataHelper.extractDetectorEnergyFromSDP(theDetector.getName(), rawData.get(0));
+	}
+
+	public DoubleDataset extractDetectorDataSet(int spectrumIndex) {
+		return ScanDataHelper.extractDetectorDataFromSDP(theDetector.getName(), rawData.get(spectrumIndex));
 	}
 
 	public List<ScanDataPoint> getData() {
