@@ -9,12 +9,12 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.common.services"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.common.ui"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.common.util"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.gda.extensions"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.dawnsci.plotting.services"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.hdf5"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.hdf5.editor"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.jlchart"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.dawb.workbench.jmx"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.dawnsci.rcp.histogram"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.dawnsci.plotting.histogram"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.CBFlib"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.org.jacorb"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.org.springframework"/>
