@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.views;
+package uk.ac.gda.exafs.ui.sections;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -69,13 +69,15 @@ import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.CyclicExperimentModel;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentDataModel;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentTimingDataModel;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentUnit;
 import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors;
 import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
-import uk.ac.gda.exafs.ui.sections.ResourceComposite;
+import uk.ac.gda.exafs.ui.views.TimingGroupsSetupPage;
 import uk.ac.gda.exafs.ui.views.TimingGroupsSetupPage.TimingGroupWizardModel;
+import uk.ac.gda.exafs.ui.views.TimingGroupsSetupWizard;
 import uk.ac.gda.ui.components.NumberEditorControl;
 
 public class TimingGroupSectionComposite extends ResourceComposite {
@@ -151,19 +153,13 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 				});
 		dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(i0NoOfAccumulationCheck),
-				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_I0_PROP_NAME).observe(model));
+				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(model.getExperimentDataModel()));
 
 		dataBindingCtx.bindValue(
 				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(i0NoOfAccumulationValueText),
-				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_I0_PROP_NAME).observe(model),
+				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(model.getExperimentDataModel()),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-				new UpdateValueStrategy() {
-
-					@Override
-					public Object convert(Object value) {
-						return !((boolean) value);
-					}
-				});
+				new UpdateValueStrategy());
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.visible().observe(sectionIRefaccumulationSection),
@@ -486,20 +482,20 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		i0IaccumulationComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 		sectionI0accumulationSection.setClient(i0IaccumulationComposite);
 
-		i0NoOfAccumulationCheck = toolkit.createButton(i0IaccumulationComposite, "Use It and IRef for I0 no. of accumulations", SWT.CHECK);
+		i0NoOfAccumulationCheck = toolkit.createButton(i0IaccumulationComposite, "Set I0 number of accumulations", SWT.CHECK);
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		gridData.horizontalSpan = 2;
 		i0NoOfAccumulationCheck.setLayoutData(gridData);
 
 		Label label = toolkit.createLabel(i0IaccumulationComposite, "Accumulation time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		i0IntegrationTimeValueText = new NumberEditorControl(i0IaccumulationComposite, SWT.None, model, TimeResolvedExperimentModel.I0_INTEGRATION_TIME_PROP_NAME, false);
+		i0IntegrationTimeValueText = new NumberEditorControl(i0IaccumulationComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.I0_INTEGRATION_TIME_PROP_NAME, false);
 		i0IntegrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		i0IntegrationTimeValueText.setUnit(model.getUnit().getWorkingUnit().getUnitText());
 
 		label = toolkit.createLabel(i0IaccumulationComposite, "No. of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		i0NoOfAccumulationValueText = new NumberEditorControl(i0IaccumulationComposite, SWT.None, model, TimeResolvedExperimentModel.I0_NO_OF_ACCUMULATION_PROP_NAME, false);
+		i0NoOfAccumulationValueText = new NumberEditorControl(i0IaccumulationComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, false);
 		i0NoOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Composite sectionSeparator = toolkit.createCompositeSeparator(sectionI0accumulationSection);
@@ -516,13 +512,13 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 		label = toolkit.createLabel(iRefDetailsComposite, "Accumulation time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		iRefIntegrationTimeValueText = new NumberEditorControl(iRefDetailsComposite, SWT.None, model, TimeResolvedExperimentModel.IREF_INTEGRATION_TIME_PROP_NAME, false);
+		iRefIntegrationTimeValueText = new NumberEditorControl(iRefDetailsComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.IREF_INTEGRATION_TIME_PROP_NAME, false);
 		iRefIntegrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		iRefIntegrationTimeValueText.setUnit(model.getUnit().getWorkingUnit().getUnitText());
 
 		label = toolkit.createLabel(iRefDetailsComposite, "No. of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		iRefNoOfAccumulationValueText = new NumberEditorControl(iRefDetailsComposite, SWT.None, model, TimeResolvedExperimentModel.IREF_NO_OF_ACCUMULATION_PROP_NAME, false);
+		iRefNoOfAccumulationValueText = new NumberEditorControl(iRefDetailsComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.IREF_NO_OF_ACCUMULATION_PROP_NAME, false);
 		iRefNoOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		sectionSeparator = toolkit.createCompositeSeparator(sectionIRefaccumulationSection);

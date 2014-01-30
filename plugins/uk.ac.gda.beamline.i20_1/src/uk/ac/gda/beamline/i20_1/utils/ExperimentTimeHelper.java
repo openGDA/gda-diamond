@@ -16,20 +16,17 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.data;
+package uk.ac.gda.beamline.i20_1.utils;
 
-import org.eclipse.swt.widgets.Display;
+import de.jaret.util.date.JaretDate;
 
-import uk.ac.gda.beans.ObservableModel;
+public class ExperimentTimeHelper {
 
-public class UIObservableModel extends ObservableModel {
-	@Override
-	protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {
-		Display.getDefault().syncExec(new Runnable() {
-			@Override
-			public void run() {
-				UIObservableModel.super.firePropertyChange(propertyName, oldValue, newValue);
-			}
-		});
+	public static JaretDate getTime() {
+		return new JaretDate().setTime(0, 0, 0, 0).copy();
+	}
+
+	public static double fromMilliToSec(double milliSec) {
+		return milliSec / 1000.0;
 	}
 }
