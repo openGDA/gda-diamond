@@ -42,20 +42,20 @@ public class I05Apple extends ScannableMotionBase {
 	public final static String CIRCULAR_LEFT = "CL";
 	public final static String CIRCULAR_RIGHT = "CR";
 
-	ScannableMotion gapScannable;
-	ScannableMotion upperPhaseScannable;
-	ScannableMotion lowerPhaseScannable;
-	String lowerPhaseDemand = "SR05I-MO-SERVC-01:BLPLSET";
-	String upperPhaseDemand = "SR05I-MO-SERVC-01:BLPUSET";
+	private ScannableMotion gapScannable;
+	private ScannableMotion upperPhaseScannable;
+	private ScannableMotion lowerPhaseScannable;
+	private String lowerPhaseDemand = "";
+	private String upperPhaseDemand = "";
 	
-	boolean moveSequenceRunning = false;
+	private boolean moveSequenceRunning = false;
 	
-	DeviceException threadException = null;
+	private DeviceException threadException = null;
 	
-	TrajectorySolver solver;
+	private TrajectorySolver solver;
 	
-	PolynomialFunction horizontalGapPolynomial = new PolynomialFunction(new double[] {0, 1});
-	PolynomialFunction verticalGapPolynomial = new PolynomialFunction(new double[] {0, 1});
+	private PolynomialFunction horizontalGapPolynomial = new PolynomialFunction(new double[] {0, 1});
+	private PolynomialFunction verticalGapPolynomial = new PolynomialFunction(new double[] {0, 1});
 	private EpicsController epicsController;
 	private Channel upperDemandChannel;
 	private Channel lowerDemandChannel;
@@ -141,8 +141,10 @@ public class I05Apple extends ScannableMotionBase {
 		super.configure();
 		epicsController = EpicsController.getInstance();
 		try {
-			upperDemandChannel = epicsController.createChannel(upperPhaseDemand);
-			lowerDemandChannel = epicsController.createChannel(lowerPhaseDemand);
+			if (upperPhaseDemand != null && !upperPhaseDemand.isEmpty())
+				upperDemandChannel = epicsController.createChannel(upperPhaseDemand);
+			if (lowerPhaseDemand != null && !lowerPhaseDemand.isEmpty())
+				lowerDemandChannel = epicsController.createChannel(lowerPhaseDemand);
 		} catch (CAException e) {
 			throw new FactoryException("error connecting to phase demand pvs", e);
 		} catch (TimeoutException e) {
@@ -256,8 +258,10 @@ public class I05Apple extends ScannableMotionBase {
 	}
 
 	private void setPhaseDemandsTo(double phase) throws TimeoutException, CAException, InterruptedException {
-		epicsController.caputWait(upperDemandChannel, phase);
-		epicsController.caputWait(lowerDemandChannel, phase);
+		if (upperDemandChannel != null)
+			epicsController.caputWait(upperDemandChannel, phase);
+		if (lowerDemandChannel != null)
+			epicsController.caputWait(lowerDemandChannel, phase);
 	}
 	
 	private void runPast(Point2D[] pointArray) throws DeviceException, InterruptedException, TimeoutException, CAException {
@@ -381,5 +385,21 @@ public class I05Apple extends ScannableMotionBase {
 
 	public void setVerticalGapPolynomial(PolynomialFunction verticalGapPolynomial) {
 		this.verticalGapPolynomial = verticalGapPolynomial;
+	}
+
+	public String getLowerPhaseDemandPV() {
+		return lowerPhaseDemand;
+	}
+
+	public void setLowerPhaseDemandPV(String lowerPhaseDemand) {
+		this.lowerPhaseDemand = lowerPhaseDemand;
+	}
+
+	public String getUpperPhaseDemandPV() {
+		return upperPhaseDemand;
+	}
+
+	public void setUpperPhaseDemandPV(String upperPhaseDemand) {
+		this.upperPhaseDemand = upperPhaseDemand;
 	}
 }
