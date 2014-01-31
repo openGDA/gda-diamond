@@ -1,4 +1,9 @@
 #!/bin/bash
-gda logpanel --mode=dummy $@
+
+. gda_setup_env_test gda_swingclient_output
+
+echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
 
 
+#unset BEAMLINE
+$GDA_CORE_SCRIPT logpanel --mode=dummy $@
