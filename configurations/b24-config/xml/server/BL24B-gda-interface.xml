@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2013-2/gdaApp/src/genericBeamlineSchema.xsd">
+	<simpleMotor desc="FEM Y Jack 3" name="FEM.YO">
+		<RECORD IOC="BL24B-MO-IOC-02" desc="Motor" pv="BL24B-MO-FEM-01:OUTBOARDY" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="FEM Y Jack 2" name="FEM.YI">
+		<RECORD IOC="BL24B-MO-IOC-02" desc="Motor" pv="BL24B-MO-FEM-01:INBOARDY" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="FEM Y Jack 1" name="FEM.YD">
+		<RECORD IOC="BL24B-MO-IOC-02" desc="Motor" pv="BL24B-MO-FEM-01:DOWNSTREAMY" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="FEM X Translation 1" name="FEM.XD">
+		<RECORD IOC="BL24B-MO-IOC-02" desc="Motor" pv="BL24B-MO-FEM-01:DOWNSTREAMX" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="FEM X Translation 2" name="FEM.XU">
+		<RECORD IOC="BL24B-MO-IOC-02" desc="Motor" pv="BL24B-MO-FEM-01:UPSTREAMX" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="FEM Y Motor" name="FEM.Y">
+		<RECORD IOC="BL24B-MO-IOC-02" desc="Motor Record" pv="BL24B-MO-FEM-01:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="FEM YAW Motor" name="FEM.YAW">
+		<RECORD IOC="BL24B-MO-IOC-02" desc="Motor Record" pv="BL24B-MO-FEM-01:YAW" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="FEM ROLL Motor" name="FEM.ROLL">
+		<RECORD IOC="BL24B-MO-IOC-02" desc="Motor Record" pv="BL24B-MO-FEM-01:ROLL" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="FEM PITCH Motor" name="FEM.PITCH">
+		<RECORD IOC="BL24B-MO-IOC-02" desc="Motor Record" pv="BL24B-MO-FEM-01:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="FEM X Motor" name="FEM.X">
+		<RECORD IOC="BL24B-MO-IOC-02" desc="Motor Record" pv="BL24B-MO-FEM-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="FEM DUMMY Motor" name="FEM.DUMMY">
+		<RECORD IOC="BL24B-MO-IOC-02" desc="Motor Record" pv="BL24B-MO-FEM-01:DUMMY" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="FEM UPSTREAMY Motor" name="FEM.UPSTREAMY">
+		<RECORD IOC="BL24B-MO-IOC-02" desc="Motor Record" pv="BL24B-MO-FEM-01:UPSTREAMY" ro="false" type="motor"/>
+	</simpleMotor>
+</devices>
