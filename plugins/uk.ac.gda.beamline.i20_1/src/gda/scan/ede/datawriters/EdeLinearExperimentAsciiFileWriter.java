@@ -246,23 +246,24 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		}
 		asciiFile.createNewFile();
 
+		boolean includeRepetitionColumn = itScans.length > 1 ? true: false;
+
 		FileWriter writer = null;
 		try {
 			writer = new FileWriter(asciiFile);
 			log("Writing EDE format ascii file for It data: " + filename);
 			writerHeader(writer);
-			writer.write("#" + EdeExperiment.TIMINGGROUP_COLUMN_NAME + "\t" + EdeExperiment.FRAME_COLUMN_NAME + "\t" + EdeExperiment.STRIP_COLUMN_NAME + "\t"
-					+ EdeExperiment.ENERGY_COLUMN_NAME + "\t" + EdeExperiment.IT_CORR_COLUMN_NAME + "\t" + EdeExperiment.LN_I0_IT_COLUMN_NAME + "\t"
-					+ EdeExperiment.IT_RAW_COLUMN_NAME + "\t" + EdeExperiment.IT_DARK_COLUMN_NAME + "\n");
-			int numberOfSpectra = itScans[0].getNumberOfAvailablePoints();
+			writeItColumns(writer,includeRepetitionColumn);
 
+			int numberOfSpectra = itScans[0].getNumberOfAvailablePoints();
 			double[][][] normalisedItSpectra = new double[itScans.length][numberOfSpectra][];
 			for (int repIndex = 0; repIndex < itScans.length; repIndex++){
 				for (int spectrumNum = 0; spectrumNum < numberOfSpectra; spectrumNum++) {
-					DoubleDataset normalisedIt = deriveAndWriteItSpectrum(writer, spectrumNum, i0DarkScan, itScans[repIndex], firstI0Scan, secondI0Scan);
+					DoubleDataset normalisedIt = deriveAndWriteItSpectrum(writer, spectrumNum, i0DarkScan, itScans[repIndex], firstI0Scan, secondI0Scan, repIndex, includeRepetitionColumn);
 					normalisedItSpectra[repIndex][spectrumNum] = normalisedIt.getData();
 				}
 			}
+
 			double[] timeAxis = calculateTimeAxis(itScans[0].getScanParameters());
 			writeItToNexus(normalisedItSpectra,fileSuffix,timeAxis);
 
@@ -273,6 +274,20 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		}
 
 		return filename;
+	}
+
+	private void writeItColumns(FileWriter writer, boolean includeRepetitionColumn) throws IOException {
+		StringBuffer colsHeader = new StringBuffer("#");
+
+		if(includeRepetitionColumn) {
+			colsHeader.append(EdeExperiment.REP_COLUMN_NAME + "\t");
+		}
+
+		colsHeader.append(EdeExperiment.TIMINGGROUP_COLUMN_NAME + "\t" + EdeExperiment.FRAME_COLUMN_NAME + "\t" + EdeExperiment.STRIP_COLUMN_NAME + "\t"
+				+ EdeExperiment.ENERGY_COLUMN_NAME + "\t" + EdeExperiment.IT_CORR_COLUMN_NAME + "\t" + EdeExperiment.LN_I0_IT_COLUMN_NAME + "\t"
+				+ EdeExperiment.IT_RAW_COLUMN_NAME + "\t" + EdeExperiment.IT_DARK_COLUMN_NAME + "\n");
+
+		writer.write(colsHeader.toString());
 	}
 
 	private double[] calculateTimeAxis(EdeScanParameters scanParameters) {
@@ -332,7 +347,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 	}
 
 	private DoubleDataset deriveAndWriteItSpectrum(FileWriter writer, int spectrumIndex, EdeScan darkScan,
-			EdeScan transmissionScan, EdeScan firstI0Scan, EdeScan secondI0Scan) throws IOException {
+			EdeScan transmissionScan, EdeScan firstI0Scan, EdeScan secondI0Scan, int repetitionNumber, boolean includeRepetitionColumn) throws IOException {
 		int timingGroupNumber = deriveTimingGroupFromSpectrumIndex(spectrumIndex);
 		int frameNumber = deriveFrameFromSpectrumIndex(spectrumIndex);
 		DoubleDataset darkDataSet = darkScan.extractDetectorDataSet(timingGroupNumber);
@@ -343,7 +358,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			DoubleDataset i0DataSet_averaged = i0FirstDataSet.iadd(i0SecondDataSet).idivide(2);
 			i0FirstDataSet = i0DataSet_averaged;
 		}
-		return writeItSpectrum(writer, timingGroupNumber, frameNumber, darkDataSet, i0FirstDataSet, itDataSet);
+		return writeItSpectrum(writer, repetitionNumber, timingGroupNumber, frameNumber, darkDataSet, i0FirstDataSet, itDataSet, includeRepetitionColumn);
 	}
 
 	private int deriveTimingGroupFromSpectrumIndex(int spectrumIndex) {
@@ -362,8 +377,8 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		return Integer.parseInt(timingGroup);
 	}
 
-	private DoubleDataset writeItSpectrum(FileWriter writer, int timingGroup, int frame, DoubleDataset darkDataSet,
-			DoubleDataset i0DataSet, DoubleDataset itDataSet) throws IOException {
+	private DoubleDataset writeItSpectrum(FileWriter writer, int repetitionNumber, int timingGroup, int frameNumber, DoubleDataset darkDataSet,
+			DoubleDataset i0DataSet, DoubleDataset itDataSet, boolean includeRepetitionColumn) throws IOException {
 
 		DoubleDataset normalisedIt = new DoubleDataset(theDetector.getNumberChannels());
 		// FIXME Needs to refactor: it_corrected should be calculated from iTdark data if available
@@ -376,7 +391,11 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			Double lni0it = calcLnI0It(i0_corrected, it_corrected);
 			normalisedIt.set(lni0it, channel);
 
-			StringBuffer stringToWrite = new StringBuffer(timingGroup + "\t" + frame + "\t" + channel + "\t");
+			StringBuffer stringToWrite = new StringBuffer();
+			if (includeRepetitionColumn) {
+				stringToWrite.append(repetitionNumber + "\t");
+			}
+			stringToWrite.append(timingGroup + "\t" + frameNumber + "\t" + channel + "\t");
 			stringToWrite.append(String.format("%.2f", energyDataSet.getDouble(channel)) + "\t");
 			stringToWrite.append(String.format("%.2f", it_corrected) + "\t");
 			stringToWrite.append(String.format("%.2f", lni0it) + "\t");
