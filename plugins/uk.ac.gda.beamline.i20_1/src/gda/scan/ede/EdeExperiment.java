@@ -221,20 +221,16 @@ public abstract class EdeExperiment implements IObserver {
 
 		if (shouldRunItDark()) {
 			EdeScanParameters itDarkScanParameters = deriveItDarkParametersFromItParameters();
-			itDarkScan = new EdeScan(itDarkScanParameters, itPosition, EdeScanType.DARK, theDetector, 1, beamLightShutter);
+			itDarkScan = new EdeScan(itDarkScanParameters, itPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter);
 			itDarkScan.setProgressUpdater(this);
 			scansForExperiment.add(itDarkScan);
 		} else {
 			itDarkScan = i0DarkScan;
 		}
 
-		i0LightScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
+		i0LightScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
 		i0LightScan.setProgressUpdater(this);
 		scansForExperiment.add(i0LightScan);
-
-		itLightScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
-		itLightScan.setProgressUpdater(this);
-		scansForExperiment.add(itLightScan);
 
 		if (runIRef) {
 			if (runI0ForIRef) {

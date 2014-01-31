@@ -165,7 +165,6 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			writer.write("#" + EdeExperiment.TIMINGGROUP_COLUMN_NAME + "\t" + EdeExperiment.STRIP_COLUMN_NAME + "\t" + EdeExperiment.ENERGY_COLUMN_NAME + "\t"
 					+ EdeExperiment.LN_I0_IREF_COLUMN_NAME + "\n");
 			int numberOfTimingGroups = getNumberOfTimingGroups();
-			// FIXME This is wrong
 			for (int timingGroup = 0; timingGroup < numberOfTimingGroups; timingGroup++) {
 				DoubleDataset i0DataSet = i0InitialLightScan.extractDetectorDataSet(timingGroup);
 				DoubleDataset i0DarkDataSet = i0DarkScan.extractDetectorDataSet(timingGroup);
