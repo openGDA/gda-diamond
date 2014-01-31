@@ -1,0 +1,59 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="femX" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="femX_Motor" />
+	</bean>
+	<bean id="femXd" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="femXd_Motor" />
+	</bean>
+	<bean id="femXu" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="femXu_Motor" />
+	</bean>
+
+	<bean id="femY" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="femY_Motor" />
+	</bean>
+	<bean id="femYd" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="femYd_Motor" />
+	</bean>
+	<bean id="femYu" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="femYu_Motor" />
+	</bean>
+	<bean id="femYo" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="femYo_Motor" />
+	</bean>
+	<bean id="femYi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="femYi_Motor" />
+	</bean>
+	
+	<bean id="femYaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="femYaw_Motor" />
+	</bean>
+	<bean id="femRoll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="femRoll_Motor" />
+	</bean>
+	<bean id="femPitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="femPitch_Motor" />
+	</bean>
+	
+	<bean id="fem" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="femX" />
+				<ref bean="femXd" />
+				<ref bean="femXu" />
+				<ref bean="femY" />
+				<ref bean="femYd" />
+				<ref bean="femYu" />
+				<ref bean="femYo" />
+				<ref bean="femYi" />
+				<ref bean="femYaw" />
+				<ref bean="femRoll" />
+				<ref bean="femPitch" />
+			</list>
+		</property>
+	</bean>
+</beans>
