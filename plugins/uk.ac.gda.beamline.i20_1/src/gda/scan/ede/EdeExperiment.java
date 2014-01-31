@@ -86,6 +86,7 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected final int firstRepetitionIndex = 0; // in case we swicth to 1-based indexing
 
+
 	protected EdeScanParameters iRefScanParameters;
 	protected EdeScanPosition iRefPosition;
 	protected EdeScan iRefScan;
