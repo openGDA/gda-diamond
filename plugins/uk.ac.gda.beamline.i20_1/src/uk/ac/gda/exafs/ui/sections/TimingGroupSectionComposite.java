@@ -261,7 +261,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			repeatingGroupsComposite.setLayoutData(gridData);
 			repeatingGroupsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 
-			lbl = toolkit.createLabel(repeatingGroupsComposite, "Repeating groups", SWT.NONE);
+			lbl = toolkit.createLabel(repeatingGroupsComposite, "Number of cycles", SWT.NONE);
 			lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
 			NumberEditorControl repeatingGroupsControl = new NumberEditorControl(repeatingGroupsComposite, SWT.None, model, CyclicExperimentModel.NO_OF_REPEATED_GROUPS_PROP_NAME, false);
@@ -339,7 +339,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		delayBeforeFristSpectrumValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
 		delayBeforeFristSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		label = toolkit.createLabel(groupTriggerSectionComposite, "Delay between spectrum", SWT.None);
+		label = toolkit.createLabel(groupTriggerSectionComposite, "Delay between spectra", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		spectrumDelayValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
 		spectrumDelayValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
