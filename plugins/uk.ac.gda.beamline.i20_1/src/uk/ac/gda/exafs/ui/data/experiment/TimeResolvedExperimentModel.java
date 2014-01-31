@@ -74,14 +74,14 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedExperimentModel.class);
 
-	private static final String TIMING_GROUPS_OBJ_NAME = "timingGroups";
+	protected static final String TIMING_GROUPS_OBJ_NAME = "timingGroups";
 
 	private static final double EXPERIMENT_START_TIME = 0.0;
 	private static final double DEFAULT_INITIAL_EXPERIMENT_TIME = 20; // Should be > 0
 
 	private static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "LINEAR_TIME_RESOLVED_EXPERIMENT_DATA";
 
-	private static final String JYTHON_DRIVER_OBJ = "timeresolvedexperiment";
+	private static final String LINEAR_EXPERIMENT_OBJ = "linearExperiment";
 
 	public static final String EXPERIMENT_DURATION_PROP_NAME = "experimentDuration";
 
@@ -296,14 +296,14 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		experimentDataCollectionJob.schedule();
 	}
 
-	private String buildScanCommand() {
+	protected String buildScanCommand() {
 		StringBuilder builder = new StringBuilder("from gda.scan.ede import EdeLinearExperiment;");
 		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
-			builder.append(String.format(JYTHON_DRIVER_OBJ + " = EdeLinearExperiment(%f, %d",
+			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = EdeLinearExperiment(%f, %d",
 					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getI0IntegrationTime()),
 					this.getExperimentDataModel().getI0NumberOfAccumulations()));
 		} else {
-			builder.append(String.format(JYTHON_DRIVER_OBJ + " = EdeLinearExperiment(%f",
+			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = EdeLinearExperiment(%f",
 					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getI0IntegrationTime())));
 		}
 		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");",
@@ -313,13 +313,13 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
 				DetectorModel.SHUTTER_NAME));
-		builder.append(String.format(JYTHON_DRIVER_OBJ + ".setNoOfSecPerSpectrumToPublish(%d);", this.getNoOfSecPerSpectrumToPublish()));
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%d);", this.getNoOfSecPerSpectrumToPublish()));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
-			builder.append(String.format(JYTHON_DRIVER_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
+			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
 					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
 					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getIrefIntegrationTime()), this.getExperimentDataModel().getIrefNoOfAccumulations()));
 		}
-		builder.append(JYTHON_DRIVER_OBJ + ".runExperiment();");
+		builder.append(LINEAR_EXPERIMENT_OBJ + ".runExperiment();");
 		return builder.toString();
 	}
 

@@ -101,7 +101,9 @@ public class EdeScan extends ConcurrentScanChild {
 	}
 
 	private void updateSimulated() {
-		isSimulated = true;
+		if (SimulatedData.isLoaded()) {
+			isSimulated = true;
+		}
 	}
 
 	@Override

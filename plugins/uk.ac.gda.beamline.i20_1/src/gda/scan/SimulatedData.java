@@ -110,6 +110,10 @@ public class SimulatedData {
 		return ii;
 	}
 
+	public static boolean isLoaded() {
+		return simulatedEnergies != null;
+	}
+
 	private SimulatedData() {}
 
 }
