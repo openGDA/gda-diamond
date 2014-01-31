@@ -1,7 +1,15 @@
 #!/bin/bash
-gda logserver --mode=dummy $@
-gda nameserver --mode=dummy $@
-gda eventserver --mode=dummy $@
-JAVA_OPTS="-XX:MaxPermSize=512m -Xms512m -Xmx2048m -Dtest_user_dir=/home/i16user/testgda_i16" gda objectserver --datadir=/home/i16user/testgda_i16/data --mode=dummy --debug $@
+#unset BEAMLINE
 
-#TODO: gda.users is oldschool
+
+. gda_setup_env_test gda_swingclient_output
+
+echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
+
+
+#unset BEAMLINE
+
+$GDA_CORE_SCRIPT logserver --mode=dummy $@
+$GDA_CORE_SCRIPT nameserver --mode=dummy $@
+$GDA_CORE_SCRIPT eventserver --mode=dummy $@
+JAVA_OPTS="-XX:MaxPermSize=128m -Xms512m -Xmx2048m" $GDA_CORE_SCRIPT objectserver --mode=dummy --debug $@
