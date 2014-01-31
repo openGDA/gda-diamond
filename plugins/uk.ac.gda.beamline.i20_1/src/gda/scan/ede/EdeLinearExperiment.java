@@ -98,7 +98,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	protected boolean shouldPublishItScanData(EdeScanProgressBean progress) {
 		int current = 0;
 		for (int i = 0; i < progress.getGroupNumOfThisSDP(); i++) {
-			current += itScan.getScanParameters().getTimingGroups().get(i).getNumberOfFrames();
+			current += itScans[0].getScanParameters().getTimingGroups().get(i).getNumberOfFrames();
 		}
 		if (current == 0) {
 			return true;
@@ -192,7 +192,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 			}
 			header.append("iRefScan: " + iRefScan.getHeaderDescription() + "\n");
 		}
-		header.append("itScan: " + itScan.getHeaderDescription() + "\n");
+		header.append("itScan: " + itScans[0].getHeaderDescription() + "\n");
 		header.append("i0FinalScan: " + i0FinalScan.getHeaderDescription() + "\n");
 		if (runIRef){
 			header.append("iRefFinalScan: " + iRefFinalScan.getHeaderDescription() + "\n");
@@ -218,7 +218,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 
 	@Override
 	protected EdeAsciiFileWriter createFileWritter() {
-		return new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0InitialScan, iRefScan, itScan, i0FinalScan, theDetector, nexusFilename);
+		return new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0InitialScan, iRefScan, itScans, i0FinalScan, theDetector, nexusFilename);
 	}
 
 	@Override

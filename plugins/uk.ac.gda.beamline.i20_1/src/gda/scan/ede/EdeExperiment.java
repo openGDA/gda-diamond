@@ -46,6 +46,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,7 +97,7 @@ public abstract class EdeExperiment implements IObserver {
 	protected EdeScan i0DarkScan;
 	protected EdeScan itDarkScan;
 	protected EdeScan i0InitialScan;
-	protected EdeScan itScan;
+	protected EdeScan[] itScans;
 	protected final EdeScanParameters itScanParameters;
 	protected final LinkedList<ScanBase> scansForExperiment = new LinkedList<ScanBase>();
 
@@ -192,45 +193,47 @@ public abstract class EdeExperiment implements IObserver {
 	protected void addScansForExperiment() {
 		int repetitions = getRepetitions();
 
-		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, repetitions, beamLightShutter);
+		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 0, beamLightShutter);
 		i0DarkScan.setProgressUpdater(this);
 		scansForExperiment.add(i0DarkScan);
 
 		if (shouldRunItDark()) {
-			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector, 1, beamLightShutter);
+			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector, 0, beamLightShutter);
 			itDarkScan.setProgressUpdater(this);
 			scansForExperiment.add(itDarkScan);
 		} else {
 			itDarkScan = i0DarkScan;
 		}
 
-		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
+		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 0, beamLightShutter);
 		i0InitialScan.setProgressUpdater(this);
 		scansForExperiment.add(i0InitialScan);
 
-		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
-		itScan.setProgressUpdater(this);
-		scansForExperiment.add(itScan);
+		itScans = new EdeScan[repetitions];
+		for(int repIndex = 0; repIndex < repetitions; repIndex++){
+			itScans[repIndex] = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter);
+			itScans[repIndex].setProgressUpdater(this);
+			scansForExperiment.add(itScans[repIndex]);
+		}
+
+		if (runIRef) {
+			if (runI0ForIRef) {
+				i0ForIRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, 0, beamLightShutter);
+				scansForExperiment.add(scansForExperiment.indexOf(itScans[0]) - 1, i0ForIRefScan);
+				i0ForIRefScan.setProgressUpdater(this);
+			}
+			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 0, beamLightShutter);
+			scansForExperiment.add(scansForExperiment.indexOf(itScans[0]) - 1, iRefScan);
+			iRefScan.setProgressUpdater(this);
+
+			iRefFinalScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 0, beamLightShutter);
+			scansForExperiment.add(iRefFinalScan);
+		}
 	}
 
 	public String runExperiment() throws Exception {
 		scansForExperiment.clear();
 		addScansForExperiment();
-
-		if (runIRef) {
-			if (runI0ForIRef) {
-				i0ForIRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, 1, beamLightShutter);
-				scansForExperiment.add(scansForExperiment.indexOf(itScan) - 1, i0ForIRefScan);
-				i0ForIRefScan.setProgressUpdater(this);
-			}
-			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
-			scansForExperiment.add(scansForExperiment.indexOf(itScan) - 1, iRefScan);
-			iRefScan.setProgressUpdater(this);
-
-			iRefFinalScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
-			scansForExperiment.add(iRefFinalScan);
-		}
-
 		nexusFilename = addToMultiScanAndRun();
 		String asciiDataFile = writeAsciiFile();
 		return asciiDataFile;
@@ -357,18 +360,18 @@ public abstract class EdeExperiment implements IObserver {
 				controller.update(i0InitialScan, new EdeExperimentProgressBean(getCollectionType(), progress,
 						EdeExperiment.I0_CORR_COLUMN_NAME, lastI0Data, lastEnergyData));
 			}
-			else if (source.equals(itScan)) {
+			else if (ArrayUtils.contains(itScans, source)) {
 				if (shouldPublishItScanData(progress)) {
-					lastItData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), itScan, 0);
+					lastItData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), (EdeScan) source, 0);
 					if (this.shouldRunItDark() & lastItDarkData != null) {
 						lastItData = lastItData.isubtract(lastItDarkData);
 					} else {
 						lastItData = lastItData.isubtract(lastI0DarkData);
 					}
-					controller.update(itScan, new EdeExperimentProgressBean(getCollectionType(), progress, EdeExperiment.IT_CORR_COLUMN_NAME,
+					controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress, EdeExperiment.IT_CORR_COLUMN_NAME,
 							lastItData, lastEnergyData));
 					DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(lastItData, lastI0Data);
-					controller.update(itScan, new EdeExperimentProgressBean(getCollectionType(), progress, EdeExperiment.LN_I0_IT_COLUMN_NAME,
+					controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress, EdeExperiment.LN_I0_IT_COLUMN_NAME,
 							normalisedIt, lastEnergyData));
 				}
 			}
