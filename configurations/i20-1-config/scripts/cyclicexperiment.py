@@ -19,9 +19,9 @@ def runcyclicexperment():
     
     # Uncomment the following 3 lines to use IRef
         
-    iRefMotorPositions = {'sample_x':1.0,'sample_y':2.0,'sample_finex':1.0}
-    irefIntegrationTime = 0.2 # In second
-    irefNoOfAccumulations = 4
+    #iRefMotorPositions = {'sample_x':1.0,'sample_y':2.0,'sample_finex':1.0}
+    #irefIntegrationTime = 0.2 # In second
+    #irefNoOfAccumulations = 4
     
     plotEvery = 2 # In second
     
