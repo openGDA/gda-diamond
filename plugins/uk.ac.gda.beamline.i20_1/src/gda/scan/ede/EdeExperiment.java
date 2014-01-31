@@ -339,8 +339,10 @@ public abstract class EdeExperiment implements IObserver {
 
 	private TopupChecker createTopupChecker(Double timeRequired) {
 		TopupChecker topupchecker = new TopupChecker();
+		topupchecker.setName("EDE_scan_topup_checker");
 		topupchecker.setScannableToBeMonitored(topup);
-		topupchecker.setTimeout(timeRequired);
+		topupchecker.setCollectionTime(timeRequired);
+		topupchecker.setTimeout(timeRequired * 1.25);
 		topupchecker.setWaittime(10); // fixed for EDE beamline
 		topupchecker.setTolerance(0);
 		topupchecker.setPauseBeforeScan(true);
