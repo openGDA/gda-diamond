@@ -7,5 +7,6 @@
 	<import resource="B24-.xml"/>
 	 -->
 
-	<import resource="B24-FEM.xml"/>
+<!-- 	<import resource="B24-FEM.xml"/> -->
+	<import resource="../../live/device/B24-FEM.xml"/>
 </beans>

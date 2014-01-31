@@ -4,13 +4,7 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="femX_Motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="femXd_Motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="femXu_Motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="femY_Motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="femYd_Motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="femYu_Motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="femYi_Motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="femYo_Motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="femYaw_Motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="femRoll_Motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="femPitch_Motor" class="gda.device.motor.DummyMotor"/>
