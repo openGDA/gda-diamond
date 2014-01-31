@@ -1,4 +1,4 @@
-from scannables.detectors.detectorAxisWrapper import _getWrappedDetector
+#from scannables.detectors.detectorAxisWrapper import _getWrappedDetector
 from gdascripts.messages.handle_messages import simpleLog
 from gda.scan import ConcurrentScan
 from gdascripts.pd.dummy_pds import DummyPD
@@ -15,7 +15,7 @@ class DiodeController(PseudoDevice):
 		self.d1out = jythonNameMap.d1out if d1out else None
 		self.d2out = jythonNameMap.d2out if d2out else None
 		self.d3out = jythonNameMap.d3out
-		self.isccd = jythonNameMap.atlas
+		self.zebraFastShutter = jythonNameMap.zebraFastShutter
 		self.openEHShutter = jythonNameMap.openEHShutter
 		self.exposeDarkFlag = exposeDarkFlag
 		
@@ -32,8 +32,8 @@ class DiodeController(PseudoDevice):
 		
 		self.d3out()
 		
-		self.isccd.closeS()
-
+		self.zebraFastShutter.forceOpenRelease()
+		
 		if (self.exposeDarkFlag):
 			simpleLog("Dark expose")
 			closeEHShutter()
@@ -41,7 +41,7 @@ class DiodeController(PseudoDevice):
 			openEHShutter()
 		
 	def atScanEnd(self):
-		self.isccd.closeS()
+		self.zebraFastShutter.forceOpenRelease()
 		closeEHShutter()
 
 	def rawGetPosition(self):
@@ -53,7 +53,7 @@ class DiodeController(PseudoDevice):
 	def rawAsynchronousMoveTo(self,position):
 		pass
 
-
+"""
 def simpleScan(axis, start, stop, step, detector, exposureTime,
 		noOfExpPerPos=1, fileName="scan_test",
 		pause=False, d1out=True, d2out=True):
@@ -143,7 +143,35 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 						   numExposuresPD, 1, noOfExposures, 1,
 						   wrappedDetector, 1, 1, 1])
 	scan.runScan()
+"""
 
+def expose(detector, exposureTime=1, noOfExposures=1,
+		sampleSuffix="expose_test", d1out=True, d2out=True):
+	
+	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+	zebraFastShutter = jythonNameMap.zebraFastShutter
+	ds = jythonNameMap.ds
+	
+	if not (detector.name in ('mar', 'pe')):
+		raise Exception('Only supports "mar" and "pedet" Area detectors!')
+	
+	detector.hdfwriter.setFileTemplate(		"%s%s.hdf5")
+	detector.hdfwriter.setFilePathTemplate(	"$datadir$")
+	detector.hdfwriter.setFileNameTemplate(	"$scan$-%s-files-" % detector.name + sampleSuffix)
+	
+	detector.tifwriter.setFileTemplate(		"%s%s%05d.tif")
+	detector.tifwriter.setFilePathTemplate(	"$datadir$/$scan$-%s-files-" % detector.name + sampleSuffix)
+	detector.tifwriter.setFileNameTemplate(	"")
+	
+	numExposuresPD = DummyPD("exposure")
+	scan = ConcurrentScan([ds, 1, 1, 1,
+						   DiodeController(d1out, d2out), 1, 1, 1,
+						   numExposuresPD, 1, noOfExposures, 1,
+						   detector, exposureTime,
+						   zebraFastShutter, exposureTime ])
+	scan.runScan()
+
+"""
 def darkExpose(detector, exposureTime=1, noOfExposures=1,
 		fileName="dark_expose_test", d1out=True, d2out=True):
 	wrappedDetector = _getWrappedDetector(axis=None,
@@ -156,3 +184,4 @@ def darkExpose(detector, exposureTime=1, noOfExposures=1,
 						   numExposuresPD, 1, noOfExposures, 1,
 						   wrappedDetector, 1, 1, 1])
 	scan.runScan()
+"""

@@ -15,14 +15,13 @@ import pd_baseTable
 import dataDir
 import shutterCommands
 import marAuxiliary
-from marAuxiliary import closeMarShield as closeDetectorShield
-from marAuxiliary import openMarShield as openDetectorShield
+#from marAuxiliary import closeMarShield as closeDetectorShield
+#from marAuxiliary import openMarShield as openDetectorShield
 import ccdAuxiliary
 import ccdScanMechanics
 from ccdScanMechanics import setMaxVelocity
 import ccdFloodCorrections
 import ccdScripts
-import mar_scripts
 import pilatus_scripts
 import operationalControl
 
@@ -40,13 +39,20 @@ from gdascripts.scan.installStandardScansWithProcessing import *
 scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
+import scannables.detectors.fastShutterZebraDetector
+zebraFastShutter=scannables.detectors.fastShutterZebraDetector.FastShutterZebraDetector('zebraFastShutter')
+
+from gdascripts.scannable.epics.PvManager import PvManager
+import scannables.detectorShield
+ds=scannables.detectorShield.DetectorShield('ds', PvManager(pvroot='BL15I-RS-ABSB-06:'))
+
 from detector_scan_commands import *
 from centreProxy import *
 from scanPeak import *
 from diodeTime import *
 from setGain import *
-from marAuxiliary import marErase, resetMarScanNumber
-from ccdAuxiliary import resetCCDScanNumber
+#from marAuxiliary import marErase, resetMarScanNumber
+#from ccdAuxiliary import resetCCDScanNumber
 from pilatus_scripts import resetPilatusScanNumber
 
 from dataDir import setDir, setFullUserDir
@@ -58,7 +64,7 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	s1xpos, s1xgap, s1ypos, s1ygap,\
 	s1xplus, s1xminus, s1yplus, s1yminus,\
 	dcmbragg1, dcmbragg2, dcmxtl1y, dcmxtl2y,\
-	dcmxtl1roll, dcmxtl1z, dcmpiezo, dcmenergy,\
+	dcmxtl1roll, dcmxtl1z, dcmenergy,\
 	qbpm1_x, qbpm1_y, qbpm1A, qbpm1B, qbpm1C, qbpm1D, qbpm1total,\
 	s6ypos, s6ygap, s6yup, s6ydown,\
 	vfm_x, vfm_y, vfm_pitch, vfm_curve, vfm_ellipticity, vfm_gravsag,\
@@ -155,7 +161,7 @@ try:
 		ionc1 = pd_epicsdevice.Simple_PD_EpicsDevice("ionc1", beamline, "-DI-IONC-01:I")
 
 		#prop = pd_epicsdevice.Simple_PD_EpicsDevice("prop", beamline, "-DI-PROP-01:I")
-		dcmpiezo = pd_epicsdevice.Simple_PD_EpicsDevice("dcmpiezo", beamline, "-OP-DCM-01:PIEZO:OUT")
+		#dcmpiezo = pd_epicsdevice.Simple_PD_EpicsDevice("dcmpiezo", beamline, "-OP-DCM-01:PIEZO:OUT")
 		#s2ygap = pd_epicsdevice.Simple_PD_EpicsDevice("s2ygap", beamline, "-AL-SLITS-02:Y:GAP.VAL")
 		#s2ycen = pd_epicsdevice.Simple_PD_EpicsDevice("s2ycen", beamline, "-AL-SLITS-02:Y:CENTRE.VAL")
 		#qbpX = pd_epicsdevice.Simple_PD_EpicsDevice("qbpX", beamline, "-DI-QBPMD-01:X.VAL")
@@ -248,11 +254,6 @@ try:
 		pilmax2d = DetectorDataProcessorWithRoi('pilmax2d', pil, [SumMaxPositionAndValue()])
 	except:
 		localStation_exception(sys.exc_info(), "creating new pilatus (pil...)")
-		
-	try:
-		mar = finder.find("Mar345Detector")
-	except:
-		localStation_exception(sys.exc_info(), "creating mar")
 
 	try:
 		ccd = finder.find("ODCCD")
@@ -280,14 +281,7 @@ try:
 		localStation_exception(sys.exc_info(), "connecting ruby")
 
 	try:
-		import scannables.detectors.perkinElmer as sdpe
-		peid = sdpe.PerkinElmerInterface()
-		pe = sdpe.PerkinElmer('pe', peid,
-			"X:", "/dls/i15/data", "2011/cm2062-3", "tmp", "deletemeMBB")
-		resetPEScanNumber = sdpe.resetPEScanNumberFactory(peid)
-		alias("resetPEScanNumber")
-		alias("plot")
-		
+		global pe
 		pe1 = ProcessingDetectorWrapper('pe1', pe, [], panel_name_rcp='Plot 1')
 		pe1.processors=[DetectorDataProcessorWithRoi(
 						'max', pe1, [SumMaxPositionAndValue()], False)]
@@ -296,20 +290,8 @@ try:
 			'pe1peak2d', pe1, [TwodGaussianPeak()])
 		pe1max2d = DetectorDataProcessorWithRoi(
 			'pe1max2d', pe1, [SumMaxPositionAndValue()])
-		
-		from gdascripts.scannable.detector.ProcessingDetectorWrapper import \
-			  SwitchableHardwareTriggerableProcessingDetectorWrapper
-		from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
-		global pedet, pedet_for_snaps
-		
-		# the pixis has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
-		peAD = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-			'peAD', pedet, None, pedet_for_snaps, panel_name_rcp='Plot 1',
-			toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
-			fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-		peAD.display_image = True
 	except:
-		localStation_exception(sys.exc_info(), "connecting creating pe...")
+		localStation_exception(sys.exc_info(), "creating pe1...")
 
 	def gigeFactory(camdet_name, cam_name, peak2d_name, max2d_name, cam_pv):
 		from gdascripts.scannable.detector.epics.EpicsGigECamera import EpicsGigECamera
@@ -617,13 +599,12 @@ try:
 	
 	dataDir.configure(jythonNameMap, beamlineParameters)
 	shutterCommands.configure(jythonNameMap, beamlineParameters)
-	marAuxiliary.configure(jythonNameMap, beamlineParameters)
+	#marAuxiliary.configure(jythonNameMap, beamlineParameters)
 	operationalControl.configure(jythonNameMap, beamlineParameters)
-	ccdAuxiliary.configure(jythonNameMap, beamlineParameters)
+	#ccdAuxiliary.configure(jythonNameMap, beamlineParameters)
 	ccdScanMechanics.configure(jythonNameMap, beamlineParameters)
 	ccdFloodCorrections.configure(jythonNameMap, beamlineParameters)
 #	ccdScripts.configure(jythonNameMap, beamlineParameters)
-	mar_scripts.configure(jythonNameMap, beamlineParameters)
 	pilatus_scripts.configure(jythonNameMap, beamlineParameters)
 	
 	# meta should be created last to ensure we have all required scannables
@@ -637,7 +618,7 @@ try:
 				s1xpos, s1xgap, s1ypos, s1ygap,
 				s1xplus, s1xminus, s1yplus, s1yminus,
 				dcmbragg1, dcmbragg2, dcmxtl1y, dcmxtl2y,
-				dcmxtl1roll, dcmxtl1z, dcmpiezo, dcmenergy,
+				dcmxtl1roll, dcmxtl1z, dcmenergy,
 				qbpm1_x, qbpm1_y, qbpm1A, qbpm1B, qbpm1C, qbpm1D, qbpm1total,
 				s6ypos, s6ygap, s6yup, s6ydown,
 				vfm_x, vfm_y, vfm_pitch, vfm_curve, vfm_ellipticity, vfm_gravsag,

@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<import resource="../../../main/common/device/marAreaDetector.xml"/>
+
+	<!-- AD hardware -->
+
+	<bean id="mar_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl">
+			<bean class="gda.spring.V17NDFileFactoryBean">
+				<property name="prefix" value="BL15I-EA-MAR-01:HDF:" />
+				<property name="resetToInitialValues" value="false" />
+			</bean>	
+		</property>
+	</bean>
+
+	<bean id="mar_NDFileTiff" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL15I-EA-MAR-01:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>	
+
+	<!-- NXDetector collection strategies -->
+
+	<!-- We may need to make a Mar collection strategy which understands about Mar states -->
+
+	<bean id="mar_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="marAD_config_base" />
+		<constructor-arg value="-1" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<bean id="mar_hdf5_MultipleImagesPerHDF5FileWriter" class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="mar_NDFileHDF5" />
+		<property name="fileTemplate" value="%s%s%05d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="$scan$-mar" />
+		<property name="fileNumberAtScanStart" value="-1" /> <!-- 1 results in filenames of the form 92920-mar92920.hdf5 -->
+		<property name="setChunking" value="false" />
+		<property name="writeErrorStatusSupported" value="false" />
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="lazyOpen" value="true" />
+	</bean>
+
+	<bean id="mar_tiff_SingleImagePerFileWriter" class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="mar" />
+		<property name="ndFile" ref="mar_NDFileTiff" />
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+
+	<!-- NXDetectors -->
+
+	<bean id="mar" class="gda.device.detector.NXDetector">
+		<property name="name" value="mar" />
+		<property name="collectionStrategy" ref="mar_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="mar_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="mar_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+</beans>

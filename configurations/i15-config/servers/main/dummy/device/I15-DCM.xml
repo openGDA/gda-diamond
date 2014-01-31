@@ -11,7 +11,9 @@
 
 	<bean id="Dcmxtl1rollMotor" class="gda.device.motor.DummyMotor"/>
 	<bean id="Dcmx1Motor" class="gda.device.motor.DummyMotor"/>
+	<!-- 
 	<bean id="DcmpiezoMotor" class="gda.device.motor.DummyMotor"/>
+	 -->
 	<bean id="Dcmxtl1yMotor" class="gda.device.motor.DummyMotor"/>
 	<bean id="Dcmxtl2yMotor" class="gda.device.motor.DummyMotor"/>
 	<bean id="Bragg1Motor" class="gda.device.motor.DummyMotor"/>

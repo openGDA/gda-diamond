@@ -4,6 +4,8 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<import resource="dummy.xml"/>
+	<import resource="marAreaDetector.xml"/>
+	<import resource="peAreaDetector.xml"/>
 	<import resource="zebraTestAreaDetector.xml"/>
 	<import resource="zebraTest.xml"/>
 </beans>

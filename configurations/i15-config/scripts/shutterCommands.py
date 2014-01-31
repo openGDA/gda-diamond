@@ -2,16 +2,16 @@ import sys
 from time import sleep
 from gdascripts.messages import handle_messages
 from gdascripts.messages.handle_messages import simpleLog
+from gdascripts.parameters import beamline_parameters
 
-global configured, isccd, beamline
+global configured, beamline
 configured = False
 
 def configure(jythonNameMap, beamlineParameters):
-	global configured, isccd, beamline
+	global configured, beamline
 	"""
 	sets module variables from jython namespace, finder and beamline parameters
 	"""
-	isccd = jythonNameMap.atlas
 	beamline = jythonNameMap.beamline
 	configured = True
 
@@ -24,49 +24,57 @@ def sh(cmd):
 	sh('o')  - Reset and Open EH & Atlas shutter.
 	sh('oa') - Reset and Open FE, OH, EH & Atlas Shutters
 	sh('c')  - Close EH & Atlas Shutter
-	sh('ca') - Close FE, OH, EH & Atlas Shutters"
+	sh('ca') - Close FE, OH, EH & Atlas Shutters
+	sh('f')  - Force Open Fast Shutter
+	sh('r')  - Release Fast Shutter from being forced open
 	sh('status') - get Status
 
-	Note: If the Atlas is switched to Ext. trigger rather than Atlas, then
-		the Atlas shutter will follow the Epics synoptic FS control and
-		Newport XPS position compare.
+	Note: The Fast Shutter should be switched to Ext. trigger rather than Atlas
 	
 	See: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Atlas%20detector%20does%20not%20acquire%20images
 	"""
 	checkConfigured()
 	try:
+		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+		zebraFastShutter = jythonNameMap.zebraFastShutter
 		if (cmd=="o"):
 			#Reset and Open EH & Atlas shutter (Open takes 4-5 seconds).
 			openEHShutter()
-			isccd.openS()
+			zebraFastShutter.forceOpen()
 			return
 		elif (cmd=="c"):
 			#Close EH & Atlas Shutter
 			closeEHShutter()
-			isccd.closeS()
+			zebraFastShutter.forceOpenRelease()
 			return
 		elif (cmd=="oa"):
 			#Reset and Open OH2 and EH shutter (Open takes 4-5 seconds).
 			openOH2Shutter()
 			openEHShutter()
-			isccd.openS()
+			zebraFastShutter.forceOpen()
 			return
 		elif (cmd=="ca"):
 			#Close EH & Atlas Shutter
 			closeOH2Shutter()
 			closeEHShutter()
-			isccd.closeS()
+			zebraFastShutter.forceOpenRelease()
+			return
+		if (cmd=="f"):
+			zebraFastShutter.forceOpen()
+			return
+		elif (cmd=="r"):
+			zebraFastShutter.forceOpenRelease()
 			return
 		elif (cmd=="status"):
 			#Get status
-			return isccd.getS()
+			return zebraFastShutter.isOpen()
 		else:
 			simpleLog( 'No habla ingles? Use "o", "c", "oa", or "oc". Versuchen noch einmal!')
 		
 		getShutterStatus()
 	except:
-		type, exception, traceback = sys.exc_info()
-		handle_messages.log(None, "sh command error", type, exception, traceback, False)
+		typ, exception, traceback = sys.exc_info()
+		handle_messages.log(None, "sh command error", typ, exception, traceback, False)
 	return
 
 #===========================================================================================
