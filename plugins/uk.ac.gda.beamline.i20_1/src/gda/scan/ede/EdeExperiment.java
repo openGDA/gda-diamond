@@ -84,6 +84,8 @@ public abstract class EdeExperiment implements IObserver {
 	 */
 	public static final String PROGRESS_UPDATER_NAME = "EDEProgressUpdater";
 
+	protected final int firstRepetitionIndex = 0; // in case we swicth to 1-based indexing
+
 	protected EdeScanParameters iRefScanParameters;
 	protected EdeScanPosition iRefPosition;
 	protected EdeScan iRefScan;
@@ -193,21 +195,32 @@ public abstract class EdeExperiment implements IObserver {
 	protected void addScansForExperiment() {
 		int repetitions = getRepetitions();
 
-		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, 0, beamLightShutter);
+		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter);
 		i0DarkScan.setProgressUpdater(this);
 		scansForExperiment.add(i0DarkScan);
 
 		if (shouldRunItDark()) {
-			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector, 0, beamLightShutter);
+			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter);
 			itDarkScan.setProgressUpdater(this);
 			scansForExperiment.add(itDarkScan);
 		} else {
 			itDarkScan = i0DarkScan;
 		}
 
-		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 0, beamLightShutter);
+		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
 		i0InitialScan.setProgressUpdater(this);
 		scansForExperiment.add(i0InitialScan);
+
+		if (runIRef) {
+			if (runI0ForIRef) {
+				i0ForIRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter);
+				scansForExperiment.add(i0ForIRefScan);
+				i0ForIRefScan.setProgressUpdater(this);
+			}
+			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
+			scansForExperiment.add(iRefScan);
+			iRefScan.setProgressUpdater(this);
+		}
 
 		itScans = new EdeScan[repetitions];
 		for(int repIndex = 0; repIndex < repetitions; repIndex++){
@@ -216,19 +229,7 @@ public abstract class EdeExperiment implements IObserver {
 			scansForExperiment.add(itScans[repIndex]);
 		}
 
-		if (runIRef) {
-			if (runI0ForIRef) {
-				i0ForIRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, 0, beamLightShutter);
-				scansForExperiment.add(scansForExperiment.indexOf(itScans[0]) - 1, i0ForIRefScan);
-				i0ForIRefScan.setProgressUpdater(this);
-			}
-			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 0, beamLightShutter);
-			scansForExperiment.add(scansForExperiment.indexOf(itScans[0]) - 1, iRefScan);
-			iRefScan.setProgressUpdater(this);
 
-			iRefFinalScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 0, beamLightShutter);
-			scansForExperiment.add(iRefFinalScan);
-		}
 	}
 
 	public String runExperiment() throws Exception {

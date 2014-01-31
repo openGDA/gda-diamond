@@ -267,9 +267,9 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 					DoubleDataset normalisedIt = deriveAndWriteItSpectrum(writer, spectrumNum, i0DarkScan, itScans[repIndex], firstI0Scan, secondI0Scan);
 					normalisedItSpectra[repIndex][spectrumNum] = normalisedIt.getData();
 				}
-				double[] timeAxis = calculateTimeAxis(itScans[0].getScanParameters());
-				writeItToNexus(normalisedItSpectra,fileSuffix,timeAxis);
 			}
+			double[] timeAxis = calculateTimeAxis(itScans[0].getScanParameters());
+			writeItToNexus(normalisedItSpectra,fileSuffix,timeAxis);
 
 		} finally {
 			if (writer != null) {
