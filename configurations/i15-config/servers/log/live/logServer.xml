@@ -19,6 +19,18 @@
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
+    <appender name="WS002" class="ch.qos.logback.classic.net.SocketAppender">
+        <RemoteHost>i15-ws002.diamond.ac.uk</RemoteHost>
+        <Port>6789</Port>
+        <ReconnectionDelay>10000</ReconnectionDelay>
+        <IncludeCallerData>true</IncludeCallerData>
+    </appender>
+    <appender name="WS002_LogPanel" class="ch.qos.logback.classic.net.SocketAppender">
+        <RemoteHost>i15-ws002.diamond.ac.uk</RemoteHost>
+        <Port>6790</Port>
+        <ReconnectionDelay>10000</ReconnectionDelay>
+        <IncludeCallerData>true</IncludeCallerData>
+    </appender>
     <appender name="WS005" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>i15-ws005.diamond.ac.uk</RemoteHost>
         <Port>6789</Port>
@@ -91,6 +103,8 @@
         <level value="INFO"/>
         <appender-ref ref="WS001"/>
         <appender-ref ref="WS001_LogPanel"/>
+        <appender-ref ref="WS002"/>
+        <appender-ref ref="WS002_LogPanel"/>
         <appender-ref ref="WS005"/>
         <appender-ref ref="WS005_LogPanel"/>
         <!--<appender-ref ref="EMAIL"/>-->

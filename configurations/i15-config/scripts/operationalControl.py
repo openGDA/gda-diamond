@@ -1,12 +1,9 @@
-import glob
 from gda.jython.commands import InputCommands
-from util_scripts import updateFileOverwriteFlag
-from util_scripts import doesFileExist
 import shutterCommands
 import marAuxiliary
 from gdascripts.messages.handle_messages import simpleLog
 import java
-from scan_commands import *
+from scan_commands import scan
 from gda.jython.commands.ScannableCommands import cscan
 
 global configured, isccd, beamline, dkappa, dktheta, cryobsx
@@ -77,27 +74,23 @@ def cfs():
 	"""
 	Close Atlas fast shutter
 	
-	Note: If the Atlas is switched to Ext. trigger rather than Atlas, then
-		the Atlas shutter will follow the Epics synoptic FS control and
-		Newport XPS position compare.
+	Note: The Fast Shutter should be switched to Ext. trigger rather than Atlas
 	
 	See: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Atlas%20detector%20does%20not%20acquire%20images
 	"""
 	checkConfigured()
-	isccd.closeS()
+	shutterCommands.sh('r')
 
 def ofs():
 	"""
 	Open Atlas fast shutter
 	
-	Note: If the Atlas is switched to Ext. trigger rather than Atlas, then
-		the Atlas shutter will follow the Epics synoptic FS control and
-		Newport XPS position compare.
+	Note: The Fast Shutter should be switched to Ext. trigger rather than Atlas
 	
 	See: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Atlas%20detector%20does%20not%20acquire%20images
 	"""
 	checkConfigured()
-	isccd.openS()
+	shutterCommands.sh('f')
 
 def d1in():
 	"""
@@ -186,7 +179,7 @@ def setState(name, pv, newState):
 	text = "IN"
 	if (newState == 0):
 		text = "OUT"
-  
+	
 	currentState = beamline.getValue(None,"Top",pv)
 	if (newState == currentState):
 		print name + " position already: "  + text
@@ -257,7 +250,7 @@ def genericScanChecks(alignFlag, cscanFlag, motor, start, stop, step, param1, pa
 				args = [motor, start, stop, step, param1, param2, param3]
 			scan(args)
 	
-	except java.lang.InterruptedException, e:
+	except java.lang.InterruptedException:
 		response = InputCommands.requestInput("Return " + str(motor.name) + " to initial position: " + str(initialPosition) + " ? (y/n)")
 		if (response == 'y'):
 			moveMotor(motor, initialPosition)

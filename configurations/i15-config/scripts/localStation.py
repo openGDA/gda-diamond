@@ -22,7 +22,6 @@ import ccdScanMechanics
 from ccdScanMechanics import setMaxVelocity
 import ccdFloodCorrections
 import ccdScripts
-import mar_scripts
 import pilatus_scripts
 import operationalControl
 
@@ -40,12 +39,15 @@ from gdascripts.scan.installStandardScansWithProcessing import *
 scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
+import scannables.detectors.fastShutterZebraDetector
+zebraFastShutter=scannables.detectors.fastShutterZebraDetector.FastShutterZebraDetector('zebraFastShutter')
+
 from detector_scan_commands import *
 from centreProxy import *
 from scanPeak import *
 from diodeTime import *
 from setGain import *
-from marAuxiliary import marErase, resetMarScanNumber
+#from marAuxiliary import marErase, resetMarScanNumber
 from ccdAuxiliary import resetCCDScanNumber
 from pilatus_scripts import resetPilatusScanNumber
 
@@ -58,7 +60,7 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	s1xpos, s1xgap, s1ypos, s1ygap,\
 	s1xplus, s1xminus, s1yplus, s1yminus,\
 	dcmbragg1, dcmbragg2, dcmxtl1y, dcmxtl2y,\
-	dcmxtl1roll, dcmxtl1z, dcmpiezo, dcmenergy,\
+	dcmxtl1roll, dcmxtl1z, dcmenergy,\
 	qbpm1_x, qbpm1_y, qbpm1A, qbpm1B, qbpm1C, qbpm1D, qbpm1total,\
 	s6ypos, s6ygap, s6yup, s6ydown,\
 	vfm_x, vfm_y, vfm_pitch, vfm_curve, vfm_ellipticity, vfm_gravsag,\
@@ -155,7 +157,7 @@ try:
 		ionc1 = pd_epicsdevice.Simple_PD_EpicsDevice("ionc1", beamline, "-DI-IONC-01:I")
 
 		#prop = pd_epicsdevice.Simple_PD_EpicsDevice("prop", beamline, "-DI-PROP-01:I")
-		dcmpiezo = pd_epicsdevice.Simple_PD_EpicsDevice("dcmpiezo", beamline, "-OP-DCM-01:PIEZO:OUT")
+		#dcmpiezo = pd_epicsdevice.Simple_PD_EpicsDevice("dcmpiezo", beamline, "-OP-DCM-01:PIEZO:OUT")
 		#s2ygap = pd_epicsdevice.Simple_PD_EpicsDevice("s2ygap", beamline, "-AL-SLITS-02:Y:GAP.VAL")
 		#s2ycen = pd_epicsdevice.Simple_PD_EpicsDevice("s2ycen", beamline, "-AL-SLITS-02:Y:CENTRE.VAL")
 		#qbpX = pd_epicsdevice.Simple_PD_EpicsDevice("qbpX", beamline, "-DI-QBPMD-01:X.VAL")
@@ -248,11 +250,6 @@ try:
 		pilmax2d = DetectorDataProcessorWithRoi('pilmax2d', pil, [SumMaxPositionAndValue()])
 	except:
 		localStation_exception(sys.exc_info(), "creating new pilatus (pil...)")
-		
-	try:
-		mar = finder.find("Mar345Detector")
-	except:
-		localStation_exception(sys.exc_info(), "creating mar")
 
 	try:
 		ccd = finder.find("ODCCD")
@@ -623,7 +620,6 @@ try:
 	ccdScanMechanics.configure(jythonNameMap, beamlineParameters)
 	ccdFloodCorrections.configure(jythonNameMap, beamlineParameters)
 #	ccdScripts.configure(jythonNameMap, beamlineParameters)
-	mar_scripts.configure(jythonNameMap, beamlineParameters)
 	pilatus_scripts.configure(jythonNameMap, beamlineParameters)
 	
 	# meta should be created last to ensure we have all required scannables
@@ -637,7 +633,7 @@ try:
 				s1xpos, s1xgap, s1ypos, s1ygap,
 				s1xplus, s1xminus, s1yplus, s1yminus,
 				dcmbragg1, dcmbragg2, dcmxtl1y, dcmxtl2y,
-				dcmxtl1roll, dcmxtl1z, dcmpiezo, dcmenergy,
+				dcmxtl1roll, dcmxtl1z, dcmenergy,
 				qbpm1_x, qbpm1_y, qbpm1A, qbpm1B, qbpm1C, qbpm1D, qbpm1total,
 				s6ypos, s6ygap, s6yup, s6ydown,
 				vfm_x, vfm_y, vfm_pitch, vfm_curve, vfm_ellipticity, vfm_gravsag,
