@@ -116,6 +116,16 @@ public class SingleSpectrumUIModel extends ObservableModel {
 				saveSingleSpectrumData();
 			}
 		});
+		this.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(ALIGNMENT_STAGE_SELECTION) ||
+						evt.getPropertyName().equals(IT_INTEGRATION_TIME_PROP_NAME) ||
+						evt.getPropertyName().equals(IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME)) {
+					saveSingleSpectrumData();
+				}
+			}
+		});
 	}
 
 	private void loadSingleSpectrumData() {
@@ -138,30 +148,24 @@ public class SingleSpectrumUIModel extends ObservableModel {
 
 	private String buildScanCommand() {
 		StringBuilder builder = new StringBuilder("from gda.scan.ede import EdeSingleExperiment; \n");
-		if (experimentDataModel.getI0NumberOfAccumulations() == itNumberOfAccumulations) {
-			builder.append(
-					String.format(SINGLE_JYTHON_DRIVER_OBJ + " = EdeSingleExperiment(%f, %f, %d, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\"); \n",
-							ExperimentTimeHelper.fromMilliToSec(experimentDataModel.getI0IntegrationTime()),
-							ExperimentTimeHelper.fromMilliToSec(itIntegrationTime),
-							itNumberOfAccumulations,
-							SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
-							SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
-							DetectorModel.INSTANCE.getCurrentDetector().getName(),
-							DetectorModel.TOPUP_CHECKER,
-							DetectorModel.SHUTTER_NAME));
+		int noOfAccumulations;
+		if (experimentDataModel.isUseNoOfAccumulationsForI0()) {
+			noOfAccumulations = experimentDataModel.getI0NumberOfAccumulations();
 		} else {
-			builder.append(
-					String.format(SINGLE_JYTHON_DRIVER_OBJ + " = EdeSingleExperiment(%f, %d, %f, %d, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\"); \n",
-							ExperimentTimeHelper.fromMilliToSec(experimentDataModel.getI0IntegrationTime()),
-							experimentDataModel.getI0NumberOfAccumulations(),
-							ExperimentTimeHelper.fromMilliToSec(itIntegrationTime),
-							itNumberOfAccumulations,
-							SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
-							SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
-							DetectorModel.INSTANCE.getCurrentDetector().getName(),
-							DetectorModel.TOPUP_CHECKER,
-							DetectorModel.SHUTTER_NAME));
+			noOfAccumulations = itNumberOfAccumulations;
 		}
+		builder.append(
+				String.format(SINGLE_JYTHON_DRIVER_OBJ + " = EdeSingleExperiment(%f, %d, %f, %d, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\"); \n",
+						ExperimentTimeHelper.fromMilliToSec(experimentDataModel.getI0IntegrationTime()),
+						noOfAccumulations,
+						ExperimentTimeHelper.fromMilliToSec(itIntegrationTime),
+						itNumberOfAccumulations,
+						SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
+						SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
+						DetectorModel.INSTANCE.getCurrentDetector().getName(),
+						DetectorModel.TOPUP_CHECKER,
+						DetectorModel.SHUTTER_NAME));
+
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
 			builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
 					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
