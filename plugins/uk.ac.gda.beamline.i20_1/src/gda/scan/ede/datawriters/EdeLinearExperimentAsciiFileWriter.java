@@ -381,7 +381,6 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			DoubleDataset i0DataSet, DoubleDataset itDataSet, boolean includeRepetitionColumn) throws IOException {
 
 		DoubleDataset normalisedIt = new DoubleDataset(theDetector.getNumberChannels());
-		// FIXME Needs to refactor: it_corrected should be calculated from iTdark data if available
 		for (int channel = 0; channel < theDetector.getNumberChannels(); channel++) {
 			Double i0Raw = i0DataSet.get(channel);
 			Double i0Dark = i0DarkDataSet.get(channel);
