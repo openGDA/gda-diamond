@@ -209,3 +209,9 @@ else:
 	print "Wrong Beamline Name"
 
 print "==================================================================="; print; print;
+
+print "Creating i06ccd2 detector (from end of localStation.py)"
+import scannables.detector.andormcd
+i06ccd2 = scannables.detector.andormcd.AndorMCD('i06ccd2')
+
+
