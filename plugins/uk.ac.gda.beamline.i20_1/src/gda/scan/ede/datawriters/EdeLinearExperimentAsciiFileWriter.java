@@ -46,6 +46,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 	private final EdeScan i0DarkScan;
 	private final EdeScan i0InitialLightScan;
 	private final EdeScan iRefScan;
+	private final EdeScan itDarkScan;
 	private final EdeScan[] itScans;
 	private final EdeScan i0FinalLightScan;
 	private final String nexusfile;
@@ -55,12 +56,13 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 	private String itAveragedFilename;
 	private String itFinalFilename;
 
-	public EdeLinearExperimentAsciiFileWriter(EdeScan i0DarkScan, EdeScan i0LightScan, EdeScan iRefScan,
+	public EdeLinearExperimentAsciiFileWriter(EdeScan i0DarkScan, EdeScan i0LightScan, EdeScan iRefScan, EdeScan itDarkScan,
 			EdeScan[] itScans, EdeScan i0FinalScan, StripDetector theDetector, String nexusfile) {
 		super(i0DarkScan.extractEnergyDetectorDataSet());
 		this.i0DarkScan = i0DarkScan;
 		i0InitialLightScan = i0LightScan;
 		this.iRefScan = iRefScan;
+		this.itDarkScan = itDarkScan;
 		this.itScans = itScans;
 		i0FinalLightScan = i0FinalScan;
 		this.theDetector = theDetector;
@@ -259,7 +261,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			double[][][] normalisedItSpectra = new double[itScans.length][numberOfSpectra][];
 			for (int repIndex = 0; repIndex < itScans.length; repIndex++){
 				for (int spectrumNum = 0; spectrumNum < numberOfSpectra; spectrumNum++) {
-					DoubleDataset normalisedIt = deriveAndWriteItSpectrum(writer, spectrumNum, i0DarkScan, itScans[repIndex], firstI0Scan, secondI0Scan, repIndex, includeRepetitionColumn);
+					DoubleDataset normalisedIt = deriveAndWriteItSpectrum(writer, spectrumNum, i0DarkScan, itDarkScan, itScans[repIndex], firstI0Scan, secondI0Scan, repIndex, includeRepetitionColumn);
 					normalisedItSpectra[repIndex][spectrumNum] = normalisedIt.getData();
 				}
 			}
@@ -285,7 +287,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 
 		colsHeader.append(EdeExperiment.TIMINGGROUP_COLUMN_NAME + "\t" + EdeExperiment.FRAME_COLUMN_NAME + "\t" + EdeExperiment.STRIP_COLUMN_NAME + "\t"
 				+ EdeExperiment.ENERGY_COLUMN_NAME + "\t" + EdeExperiment.IT_CORR_COLUMN_NAME + "\t" + EdeExperiment.LN_I0_IT_COLUMN_NAME + "\t"
-				+ EdeExperiment.IT_RAW_COLUMN_NAME + "\t" + EdeExperiment.IT_DARK_COLUMN_NAME + "\n");
+				+ EdeExperiment.IT_RAW_COLUMN_NAME + "\t" + EdeExperiment.I0_DARK_COLUMN_NAME + "\t" + EdeExperiment.IT_DARK_COLUMN_NAME + "\n");
 
 		writer.write(colsHeader.toString());
 	}
@@ -340,25 +342,23 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			file.putattr("primary", "2".getBytes(), NexusFile.NX_CHAR);
 			file.closedata();
 		}
-
-
 		file.close();
-
 	}
 
-	private DoubleDataset deriveAndWriteItSpectrum(FileWriter writer, int spectrumIndex, EdeScan darkScan,
+	private DoubleDataset deriveAndWriteItSpectrum(FileWriter writer, int spectrumIndex, EdeScan i0DarkScan, EdeScan itDarkScan,
 			EdeScan transmissionScan, EdeScan firstI0Scan, EdeScan secondI0Scan, int repetitionNumber, boolean includeRepetitionColumn) throws IOException {
 		int timingGroupNumber = deriveTimingGroupFromSpectrumIndex(spectrumIndex);
 		int frameNumber = deriveFrameFromSpectrumIndex(spectrumIndex);
-		DoubleDataset darkDataSet = darkScan.extractDetectorDataSet(timingGroupNumber);
+		DoubleDataset i0DarkDataSet = i0DarkScan.extractDetectorDataSet(timingGroupNumber);
 		DoubleDataset i0FirstDataSet = firstI0Scan.extractDetectorDataSet(timingGroupNumber);
+		DoubleDataset itDarkDataSet = itDarkScan.extractDetectorDataSet(timingGroupNumber);
 		DoubleDataset itDataSet = transmissionScan.extractDetectorDataSet(spectrumIndex);
 		if (secondI0Scan != null) {
 			DoubleDataset i0SecondDataSet = secondI0Scan.extractDetectorDataSet(timingGroupNumber);
 			DoubleDataset i0DataSet_averaged = i0FirstDataSet.iadd(i0SecondDataSet).idivide(2);
 			i0FirstDataSet = i0DataSet_averaged;
 		}
-		return writeItSpectrum(writer, repetitionNumber, timingGroupNumber, frameNumber, darkDataSet, i0FirstDataSet, itDataSet, includeRepetitionColumn);
+		return writeItSpectrum(writer, repetitionNumber, timingGroupNumber, frameNumber, i0DarkDataSet, itDarkDataSet, i0FirstDataSet, itDataSet, includeRepetitionColumn);
 	}
 
 	private int deriveTimingGroupFromSpectrumIndex(int spectrumIndex) {
@@ -377,17 +377,18 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		return Integer.parseInt(timingGroup);
 	}
 
-	private DoubleDataset writeItSpectrum(FileWriter writer, int repetitionNumber, int timingGroup, int frameNumber, DoubleDataset darkDataSet,
+	private DoubleDataset writeItSpectrum(FileWriter writer, int repetitionNumber, int timingGroup, int frameNumber, DoubleDataset i0DarkDataSet, DoubleDataset itDarkDataSet,
 			DoubleDataset i0DataSet, DoubleDataset itDataSet, boolean includeRepetitionColumn) throws IOException {
 
 		DoubleDataset normalisedIt = new DoubleDataset(theDetector.getNumberChannels());
 		// FIXME Needs to refactor: it_corrected should be calculated from iTdark data if available
 		for (int channel = 0; channel < theDetector.getNumberChannels(); channel++) {
 			Double i0Raw = i0DataSet.get(channel);
-			Double dark = darkDataSet.get(channel);
+			Double i0Dark = i0DarkDataSet.get(channel);
 			Double itRaw = itDataSet.get(channel);
-			Double i0_corrected = i0Raw - dark;
-			Double it_corrected = itRaw - dark;
+			Double itDark = itDarkDataSet.get(channel);
+			Double i0_corrected = i0Raw - i0Dark;
+			Double it_corrected = itRaw - itDark;
 			Double lni0it = calcLnI0It(i0_corrected, it_corrected);
 			normalisedIt.set(lni0it, channel);
 
@@ -400,7 +401,8 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			stringToWrite.append(String.format("%.2f", it_corrected) + "\t");
 			stringToWrite.append(String.format("%.2f", lni0it) + "\t");
 			stringToWrite.append(String.format("%.2f", itRaw) + "\t");
-			stringToWrite.append(String.format("%.2f", dark) + "\n");
+			stringToWrite.append(String.format("%.2f", i0Dark) + "\t");
+			stringToWrite.append(String.format("%.2f", itDark) + "\n");
 			writer.write(stringToWrite.toString());
 		}
 
