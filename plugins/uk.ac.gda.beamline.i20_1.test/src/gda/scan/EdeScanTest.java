@@ -287,17 +287,17 @@ public class EdeScanTest extends EdeTestBase {
 		String filename = theExperiment.runExperiment();
 
 		testNumberColumnsInEDEFile(filename, 8);
-		testNumberLinesInEDEFile(filename, 1024 * 25);
+		testNumberLinesInEDEFile(filename, (1024 * 25 * 3));
 		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
 		testNumberLinesInEDEFile(theExperiment.getI0Filename(), 1024 * 3 * 2);
 		testNumberColumnsInEDEFile(theExperiment.getIRefFilename(), 4);
 		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), 1024 * 3);
 		testNumberColumnsInEDEFile(theExperiment.getItFilename(), 8);
-		testNumberLinesInEDEFile(theExperiment.getItFilename(), (1024 * 25) + (1024 * 15 * 3));
+		testNumberLinesInEDEFile(theExperiment.getItFilename(), (1024 * 25 * 3));
 		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(), 8);
-		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), (1024 * 25) + (1024 * 15 * 3));
+		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), (1024 * 25 * 3));
 		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(), 8);
-		testNumberLinesInEDEFile(theExperiment.getItAveragedFilename(), (1024 * 25) + (1024 * 15 * 3));
+		testNumberLinesInEDEFile(theExperiment.getItAveragedFilename(), (1024 * 25 * 3));
 
 	}
 
