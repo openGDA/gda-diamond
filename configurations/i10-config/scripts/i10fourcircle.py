@@ -54,8 +54,14 @@ diffcalcObjects = create_objects(
 	hklverbose_virtual_angles_to_report=('2theta','Bin','Bout','azimuth'),
 	demo_commands = demoCommands
 )
+"""See http://jira.diamond.ac.uk/browse/BLX-58
+phi and alpha cause problems with "Exception: Did not add diffcalc objects/method to namespace, as doing so would overwrite the object phi"
+"""
+diffcalcObjects['phi_par'] = diffcalcObjects['phi']
+del diffcalcObjects['phi']
 diffcalcObjects['alpha_par'] = diffcalcObjects['alpha']
 del diffcalcObjects['alpha']
+
 diffcalcObjects['diffcalcdemo'].commands = demoCommands
 add_objects_to_namespace(diffcalcObjects, globals())
 hkl.setLevel(6)
