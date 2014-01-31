@@ -92,7 +92,7 @@ public class EdeSingleExperiment extends EdeExperiment {
 			header.append("itDark: " + itDarkScan.getHeaderDescription() + "\n");
 		}
 		header.append("i0InitialScan: " + i0LightScan.getHeaderDescription() + "\n");
-		header.append("itScan: " + itLightScan.getHeaderDescription() + "\n");
+		header.append("itScan: " + itScans[0].getHeaderDescription() + "\n");
 		return header.toString();
 	}
 
@@ -103,7 +103,7 @@ public class EdeSingleExperiment extends EdeExperiment {
 
 	@Override
 	protected EdeAsciiFileWriter createFileWritter() {
-		return new EdeSingleSpectrumAsciiFileWriter(i0LightScan, itLightScan,
+		return new EdeSingleSpectrumAsciiFileWriter(i0LightScan, itScans[0],
 				i0DarkScan, itDarkScan, theDetector);
 	}
 

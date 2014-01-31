@@ -46,7 +46,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 	private final EdeScan i0DarkScan;
 	private final EdeScan i0InitialLightScan;
 	private final EdeScan iRefScan;
-	private final EdeScan itScan;
+	private final EdeScan[] itScans;
 	private final EdeScan i0FinalLightScan;
 	private final String nexusfile;
 	private String i0Filename;
@@ -56,12 +56,12 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 	private String itFinalFilename;
 
 	public EdeLinearExperimentAsciiFileWriter(EdeScan i0DarkScan, EdeScan i0LightScan, EdeScan iRefScan,
-			EdeScan itScan, EdeScan i0FinalScan, StripDetector theDetector, String nexusfile) {
+			EdeScan[] itScans, EdeScan i0FinalScan, StripDetector theDetector, String nexusfile) {
 		super(i0DarkScan.extractEnergyDetectorDataSet());
 		this.i0DarkScan = i0DarkScan;
 		i0InitialLightScan = i0LightScan;
 		this.iRefScan = iRefScan;
-		this.itScan = itScan;
+		this.itScans = itScans;
 		i0FinalLightScan = i0FinalScan;
 		this.theDetector = theDetector;
 		this.nexusfile = nexusfile;
@@ -110,7 +110,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 	}
 
 	private int getNumberOfTimingGroups() {
-		return itScan.getScanParameters().getGroups().size();
+		return itScans[0].getScanParameters().getGroups().size();
 	}
 
 	private void createI0File() throws Exception {
@@ -185,7 +185,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			writeScan(writer, iRefScan, "IRef");
 		}
 		writeScan(writer, i0InitialLightScan, "I0");
-		writeScan(writer, itScan, "It");
+		writeScan(writer, itScans[0], "It");
 	}
 
 	private void writeScan(FileWriter writer, EdeScan scan, String scanTitle) throws IOException {
@@ -255,16 +255,16 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			writer.write("#" + EdeExperiment.TIMINGGROUP_COLUMN_NAME + "\t" + EdeExperiment.FRAME_COLUMN_NAME + "\t" + EdeExperiment.STRIP_COLUMN_NAME + "\t"
 					+ EdeExperiment.ENERGY_COLUMN_NAME + "\t" + EdeExperiment.IT_CORR_COLUMN_NAME + "\t" + EdeExperiment.LN_I0_IT_COLUMN_NAME + "\t"
 					+ EdeExperiment.IT_RAW_COLUMN_NAME + "\t" + EdeExperiment.IT_DARK_COLUMN_NAME + "\n");
-			int numberOfSpectra = itScan.getNumberOfAvailablePoints();
+			int numberOfSpectra = itScans[0].getNumberOfAvailablePoints();
 
-			double[][] normalisedItSpectra = new double[numberOfSpectra][];
-			for (int spectrumNum = 0; spectrumNum < numberOfSpectra; spectrumNum++) {
-				DoubleDataset normalisedIt = deriveAndWriteItSpectrum(writer, spectrumNum, i0DarkScan, itScan, firstI0Scan, secondI0Scan);
-				normalisedItSpectra[spectrumNum] = normalisedIt.getData();
+			double[][][] normalisedItSpectra = new double[itScans.length][numberOfSpectra][];
+			for (int repIndex = 0; repIndex < itScans.length; repIndex++){
+				for (int spectrumNum = 0; spectrumNum < numberOfSpectra; spectrumNum++) {
+					DoubleDataset normalisedIt = deriveAndWriteItSpectrum(writer, spectrumNum, i0DarkScan, itScans[repIndex], firstI0Scan, secondI0Scan);
+					normalisedItSpectra[repIndex][spectrumNum] = normalisedIt.getData();
+				}
 			}
-
-			double[] timeAxis = calculateTimeAxis(itScan.getScanParameters());
-
+			double[] timeAxis = calculateTimeAxis(itScans[0].getScanParameters());
 			writeItToNexus(normalisedItSpectra,fileSuffix,timeAxis);
 
 		} finally {
@@ -286,7 +286,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		return timeValues;
 	}
 
-	private void writeItToNexus(double[][] normalisedItSpectra, String fileSuffix, double[] timeAxis) throws NexusException {
+	private void writeItToNexus(double[][][] normalisedItSpectra, String fileSuffix, double[] timeAxis) throws NexusException {
 		if (nexusfile == null || nexusfile.isEmpty()) {
 			return;
 		}
@@ -311,7 +311,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		file.openpath(i0DarkScan.getDetector().getName());
 
 		if (file.groupdir().get(datagroupname) == null) {
-			file.makedata(datagroupname, NexusFile.NX_FLOAT64, 2, new int[]{itScan.getNumberOfAvailablePoints(), theDetector.getNumberChannels()});
+			file.makedata(datagroupname, NexusFile.NX_FLOAT64, 3, new int[]{itScans.length, itScans[0].getNumberOfAvailablePoints(), theDetector.getNumberChannels()});
 		}
 		file.opendata(datagroupname);
 		file.putdata(normalisedItSpectra);
@@ -348,7 +348,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 	}
 
 	private int deriveTimingGroupFromSpectrumIndex(int spectrumIndex) {
-		ScanDataPoint sdp = itScan.getData().get(spectrumIndex);
+		ScanDataPoint sdp = itScans[0].getData().get(spectrumIndex);
 		String sdpString = sdp.toDelimitedString();
 		int indexOfGroup = ArrayUtils.indexOf(sdp.getScannableHeader(), "Group");
 		String timingGroup = sdpString.split(ScanDataPoint.delimiter)[indexOfGroup];
@@ -356,7 +356,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 	}
 
 	private int deriveFrameFromSpectrumIndex(int spectrumIndex) {
-		ScanDataPoint sdp = itScan.getData().get(spectrumIndex);
+		ScanDataPoint sdp = itScans[0].getData().get(spectrumIndex);
 		String sdpString = sdp.toDelimitedString();
 		int indexOfGroup = ArrayUtils.indexOf(sdp.getScannableHeader(), "Frame");
 		String timingGroup = sdpString.split(ScanDataPoint.delimiter)[indexOfGroup];
@@ -391,7 +391,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 
 	private String determineAsciiFilename(String suffix) {
 		// the scans would have created Nexus files, so base an ascii file on this plus any template, if supplied
-		String itFilename = itScan.getDataWriter().getCurrentFileName();
+		String itFilename = itScans[0].getDataWriter().getCurrentFileName();
 		String folder = convertFromNexusToAsciiFolder(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
 		// String suffix = "_I0_raw.txt";

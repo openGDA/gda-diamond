@@ -28,6 +28,7 @@ import gda.device.detector.ExperimentStatus;
 import gda.device.detector.StripDetector;
 import gda.device.scannable.FrameIndexer;
 import gda.device.scannable.ScannableUtils;
+import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeScanProgressBean;
 import gda.scan.ede.EdeScanType;
@@ -156,6 +157,7 @@ public class EdeScan extends ConcurrentScanChild {
 		} else {
 			// open the shutter
 			logger.debug(toString() + " moving motors into position...");
+			InterfaceProvider.getTerminalPrinter().print("Moving motors for " + scanType.toString() + " " + motorPositions.getType().toString() + " scan");
 			motorPositions.moveIntoPosition();
 			checkForInterrupts();
 			shutter2.moveTo("Open");
@@ -165,6 +167,7 @@ public class EdeScan extends ConcurrentScanChild {
 		}
 
 		logger.debug(toString() + " starting detector running...");
+		InterfaceProvider.getTerminalPrinter().print("Starting " + scanType.toString() + " " + motorPositions.getType().toString() + " scan");
 		theDetector.collectData();
 		// sleep for a moment to allow collection to start
 		Thread.sleep(250);

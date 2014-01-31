@@ -98,7 +98,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	protected boolean shouldPublishItScanData(EdeScanProgressBean progress) {
 		int current = 0;
 		for (int i = 0; i < progress.getGroupNumOfThisSDP(); i++) {
-			current += itLightScan.getScanParameters().getTimingGroups().get(i).getNumberOfFrames();
+			current += itScans[0].getScanParameters().getTimingGroups().get(i).getNumberOfFrames();
 		}
 		if (current == 0) {
 			return true;
@@ -174,8 +174,14 @@ public class EdeLinearExperiment extends EdeExperiment {
 	protected void addScansForExperiment() {
 		super.addScansForExperiment();
 
-		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
+		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
 		scansForExperiment.add(i0FinalScan);
+
+		if (runIRef) {
+			iRefFinalScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
+			scansForExperiment.add(iRefFinalScan);
+		}
+
 	}
 
 	@Override
@@ -192,7 +198,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 			}
 			header.append("iRefScan: " + iRefScan.getHeaderDescription() + "\n");
 		}
-		header.append("itScan: " + itLightScan.getHeaderDescription() + "\n");
+		header.append("itScan: " + itScans[0].getHeaderDescription() + "\n");
 		header.append("i0FinalScan: " + i0FinalScan.getHeaderDescription() + "\n");
 		if (runIRef){
 			header.append("iRefFinalScan: " + iRefFinalScan.getHeaderDescription() + "\n");
@@ -218,7 +224,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 
 	@Override
 	protected EdeAsciiFileWriter createFileWritter() {
-		return new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0LightScan, iRefScan, itLightScan, i0FinalScan, theDetector, nexusFilename);
+		return new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0LightScan, iRefScan, itScans, i0FinalScan, theDetector, nexusFilename);
 	}
 
 	@Override

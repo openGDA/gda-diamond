@@ -47,6 +47,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,6 +85,9 @@ public abstract class EdeExperiment implements IObserver {
 	 */
 	public static final String PROGRESS_UPDATER_NAME = "EDEProgressUpdater";
 
+	protected final int firstRepetitionIndex = 0; // in case we swicth to 1-based indexing
+
+
 	protected EdeScanParameters iRefScanParameters;
 	protected EdeScanPosition iRefPosition;
 	protected EdeScan iRefScan;
@@ -98,6 +102,7 @@ public abstract class EdeExperiment implements IObserver {
 	protected EdeScan itDarkScan;
 	protected EdeScan i0LightScan;
 	protected EdeScan itLightScan;
+	protected EdeScan[] itScans;
 	protected final EdeScanParameters itScanParameters;
 	protected final LinkedList<ScanBase> scansForExperiment = new LinkedList<ScanBase>();
 
@@ -210,7 +215,7 @@ public abstract class EdeExperiment implements IObserver {
 	protected void addScansForExperiment() {
 		int repetitions = getRepetitions();
 
-		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, repetitions, beamLightShutter);
+		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter);
 		i0DarkScan.setProgressUpdater(this);
 		scansForExperiment.add(i0DarkScan);
 
@@ -230,26 +235,31 @@ public abstract class EdeExperiment implements IObserver {
 		itLightScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
 		itLightScan.setProgressUpdater(this);
 		scansForExperiment.add(itLightScan);
+
+		if (runIRef) {
+			if (runI0ForIRef) {
+				i0ForIRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter);
+				scansForExperiment.add(i0ForIRefScan);
+				i0ForIRefScan.setProgressUpdater(this);
+			}
+			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
+			scansForExperiment.add(iRefScan);
+			iRefScan.setProgressUpdater(this);
+		}
+
+		itScans = new EdeScan[repetitions];
+		for(int repIndex = 0; repIndex < repetitions; repIndex++){
+			itScans[repIndex] = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter);
+			itScans[repIndex].setProgressUpdater(this);
+			scansForExperiment.add(itScans[repIndex]);
+		}
+
+
 	}
 
 	public String runExperiment() throws Exception {
 		scansForExperiment.clear();
 		addScansForExperiment();
-
-		if (runIRef) {
-			if (runI0ForIRef) {
-				i0ForIRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, 1, beamLightShutter);
-				scansForExperiment.add(scansForExperiment.indexOf(itLightScan) - 1, i0ForIRefScan);
-				i0ForIRefScan.setProgressUpdater(this);
-			}
-			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
-			scansForExperiment.add(scansForExperiment.indexOf(itLightScan) - 1, iRefScan);
-			iRefScan.setProgressUpdater(this);
-
-			iRefFinalScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
-			scansForExperiment.add(iRefFinalScan);
-		}
-
 		nexusFilename = addToMultiScanAndRun();
 		String asciiDataFile = writeAsciiFile();
 		return asciiDataFile;
@@ -378,9 +388,9 @@ public abstract class EdeExperiment implements IObserver {
 				controller.update(i0LightScan, new EdeExperimentProgressBean(getCollectionType(), progress,
 						EdeExperiment.I0_CORR_COLUMN_NAME, lastI0Data, lastEnergyData));
 			}
-			else if (source.equals(itLightScan)) {
+			else if (ArrayUtils.contains(itScans, source)) {
 				if (shouldPublishItScanData(progress)) {
-					lastItData = itLightScan.extractLastDetectorDataSet();
+					lastItData = ((EdeScan)source).extractLastDetectorDataSet();
 					if (this.shouldRunItDark() & lastItDarkData != null) {
 						int itDarkSpectrumForCurrentGroup = progress.getGroupNumOfThisSDP();
 						DoubleDataset itDarkForItLightData = itDarkScan.extractDetectorDataSet(itDarkSpectrumForCurrentGroup);
@@ -391,10 +401,10 @@ public abstract class EdeExperiment implements IObserver {
 						DoubleDataset i0DarkForItLightData = i0DarkScan.extractDetectorDataSet(i0DarkSpectrumForCurrentGroup);
 						lastItData = lastItData.isubtract(i0DarkForItLightData);
 					}
-					controller.update(itLightScan, new EdeExperimentProgressBean(getCollectionType(), progress, EdeExperiment.IT_CORR_COLUMN_NAME,
+					controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress, EdeExperiment.IT_CORR_COLUMN_NAME,
 							lastItData, lastEnergyData));
 					DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(lastItData, lastI0Data);
-					controller.update(itLightScan, new EdeExperimentProgressBean(getCollectionType(), progress, EdeExperiment.LN_I0_IT_COLUMN_NAME,
+					controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress, EdeExperiment.LN_I0_IT_COLUMN_NAME,
 							normalisedIt, lastEnergyData));
 				}
 			}
