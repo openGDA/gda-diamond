@@ -38,6 +38,7 @@ import gda.scan.ScanBase;
 import gda.scan.ScanPlotSettings;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.datawriters.EdeAsciiFileWriter;
+import gda.scan.ede.datawriters.ScanDataHelper;
 import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
@@ -99,7 +100,8 @@ public abstract class EdeExperiment implements IObserver {
 	protected StripDetector theDetector;
 	protected EdeScan i0DarkScan;
 	protected EdeScan itDarkScan;
-	protected EdeScan i0InitialScan;
+	protected EdeScan i0LightScan;
+	protected EdeScan itLightScan;
 	protected EdeScan[] itScans;
 	protected final EdeScanParameters itScanParameters;
 	protected final LinkedList<ScanBase> scansForExperiment = new LinkedList<ScanBase>();
@@ -185,6 +187,23 @@ public abstract class EdeExperiment implements IObserver {
 		return parameters;
 	}
 
+	private EdeScanParameters deriveItDarkParametersFromItParameters() {
+		List<TimingGroup> itgroups = itScanParameters.getGroups();
+
+		EdeScanParameters parameters = new EdeScanParameters();
+		for (TimingGroup itGroup : itgroups) {
+			TimingGroup newGroup = new TimingGroup();
+			newGroup.setLabel(itGroup.getLabel());
+			newGroup.setNumberOfFrames(1);
+			newGroup.setTimePerScan(itGroup.getTimePerScan());
+			newGroup.setNumberOfScansPerFrame(itGroup.getNumberOfScansPerFrame());
+			newGroup.setTimePerFrame(itGroup.getTimePerFrame());
+			newGroup.setDelayBetweenFrames(0);
+			parameters.addGroup(newGroup);
+		}
+		return parameters;
+	}
+
 	private Findable getFindable(String name) {
 		return Finder.getInstance().find(name);
 	}
@@ -201,16 +220,21 @@ public abstract class EdeExperiment implements IObserver {
 		scansForExperiment.add(i0DarkScan);
 
 		if (shouldRunItDark()) {
-			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter);
+			EdeScanParameters itDarkScanParameters = deriveItDarkParametersFromItParameters();
+			itDarkScan = new EdeScan(itDarkScanParameters, itPosition, EdeScanType.DARK, theDetector, 1, beamLightShutter);
 			itDarkScan.setProgressUpdater(this);
 			scansForExperiment.add(itDarkScan);
 		} else {
 			itDarkScan = i0DarkScan;
 		}
 
-		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
-		i0InitialScan.setProgressUpdater(this);
-		scansForExperiment.add(i0InitialScan);
+		i0LightScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
+		i0LightScan.setProgressUpdater(this);
+		scansForExperiment.add(i0LightScan);
+
+		itLightScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
+		itLightScan.setProgressUpdater(this);
+		scansForExperiment.add(itLightScan);
 
 		if (runIRef) {
 			if (runI0ForIRef) {
@@ -344,31 +368,38 @@ public abstract class EdeExperiment implements IObserver {
 		if (controller != null && arg instanceof EdeScanProgressBean) {
 			EdeScanProgressBean progress = (EdeScanProgressBean) arg;
 			if (source.equals(i0DarkScan)) {
-				lastEnergyData = EdeAsciiFileWriter.extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0));
-				lastI0DarkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
+				lastEnergyData = ScanDataHelper.extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0));
+				lastI0DarkData = i0DarkScan.extractLastDetectorDataSet();
+
 				controller.update(i0DarkScan, new EdeExperimentProgressBean(getCollectionType(), progress,
 						EdeExperiment.I0_DARK_COLUMN_NAME, lastI0DarkData, lastEnergyData));
 			}
 			else if (source.equals(itDarkScan)) {
-				lastItDarkData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), itDarkScan, 0);
+				lastItDarkData = itDarkScan.extractLastDetectorDataSet();
 				controller.update(itDarkScan, new EdeExperimentProgressBean(getCollectionType(), progress,
 						EdeExperiment.IT_DARK_COLUMN_NAME, lastItDarkData, lastEnergyData));
 			}
-			else if (source.equals(i0InitialScan)) {
-				lastI0Data = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), i0InitialScan, 0);
-				if (lastI0DarkData != null) {
-					lastI0Data = lastI0Data.isubtract(lastI0DarkData);
-				}
-				controller.update(i0InitialScan, new EdeExperimentProgressBean(getCollectionType(), progress,
+			else if (source.equals(i0LightScan)) {
+				lastI0Data = i0LightScan.extractLastDetectorDataSet();
+				// Get the first spectrum for each group is current group number because I0 has only one spectrum for each group
+				int i0DarkSpectrumForCurrentGroup = progress.getGroupNumOfThisSDP();
+				DoubleDataset i0DarkForI0LightData = i0DarkScan.extractDetectorDataSet(i0DarkSpectrumForCurrentGroup);
+				lastI0Data = lastI0Data.isubtract(i0DarkForI0LightData);
+				controller.update(i0LightScan, new EdeExperimentProgressBean(getCollectionType(), progress,
 						EdeExperiment.I0_CORR_COLUMN_NAME, lastI0Data, lastEnergyData));
 			}
 			else if (ArrayUtils.contains(itScans, source)) {
 				if (shouldPublishItScanData(progress)) {
-					lastItData = EdeAsciiFileWriter.extractDetectorDataSets(theDetector.getName(), (EdeScan) source, 0);
+					lastItData = ((EdeScan)source).extractLastDetectorDataSet();
 					if (this.shouldRunItDark() & lastItDarkData != null) {
-						lastItData = lastItData.isubtract(lastItDarkData);
+						int itDarkSpectrumForCurrentGroup = progress.getGroupNumOfThisSDP();
+						DoubleDataset itDarkForItLightData = itDarkScan.extractDetectorDataSet(itDarkSpectrumForCurrentGroup);
+						lastItData = lastItData.isubtract(itDarkForItLightData);
 					} else {
-						lastItData = lastItData.isubtract(lastI0DarkData);
+						// If ItDark is not collected (which means each group parameters for It is the same as I0 parameters)
+						int i0DarkSpectrumForCurrentGroup = progress.getGroupNumOfThisSDP();
+						DoubleDataset i0DarkForItLightData = i0DarkScan.extractDetectorDataSet(i0DarkSpectrumForCurrentGroup);
+						lastItData = lastItData.isubtract(i0DarkForItLightData);
 					}
 					controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress, EdeExperiment.IT_CORR_COLUMN_NAME,
 							lastItData, lastEnergyData));

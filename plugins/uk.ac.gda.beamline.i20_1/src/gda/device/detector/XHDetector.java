@@ -29,6 +29,7 @@ import gda.jython.InterfaceProvider;
 import gda.scan.ScanDataPoint;
 import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.datawriters.EdeAsciiFileWriter;
+import gda.scan.ede.datawriters.ScanDataHelper;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -870,7 +871,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			double[] correctedData = performCorrections(elements, false)[0];
 			return correctedData;
 		} else if (attributeName.equals(ATTR_WRITEFIRSTFRAME)) {
-			writeDataFiles();
+			writeLiveDataFiles();
 			return null;
 		} else if (attributeName.equals(ATTR_ROIS)) {
 			return getRois();
@@ -878,7 +879,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		return super.getAttribute(attributeName);
 	}
 
-	protected void writeDataFiles() throws DeviceException {
+	protected void writeLiveDataFiles() throws DeviceException {
 		try {
 			ScanDataPoint sdp = new ScanDataPoint();
 			sdp.addDetector(this);
@@ -901,8 +902,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	}
 
 	private void writeAsciiFile(ScanDataPoint sdp,String nexusFilePath) throws Exception {
-		DoubleDataset dataSet = EdeAsciiFileWriter.extractDetectorDataFromSDP(this.getName(), sdp);
-		String asciiFileFolder = EdeAsciiFileWriter.convertFromNextToAsciiFolder(nexusFilePath);
+		DoubleDataset dataSet = ScanDataHelper.extractDetectorDataFromSDP(this.getName(), sdp);
+		String asciiFileFolder = EdeAsciiFileWriter.convertFromNexusToAsciiFolder(nexusFilePath);
 		String asciiFilename = FilenameUtils.getBaseName(nexusFilePath);
 		File asciiFile = new File(asciiFileFolder, asciiFilename + EdeAsciiFileWriter.ASCII_FILE_EXTENSION);
 		if (asciiFile.exists()) {

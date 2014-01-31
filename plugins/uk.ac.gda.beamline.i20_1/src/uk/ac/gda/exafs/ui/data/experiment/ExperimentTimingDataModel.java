@@ -19,7 +19,7 @@
 package uk.ac.gda.exafs.ui.data.experiment;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
-import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
+import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 
 import com.google.gson.annotations.Expose;
@@ -63,8 +63,8 @@ public abstract class ExperimentTimingDataModel extends IntervalImpl {
 
 	private void updateEndTimeAndInterval(double eventDuration) {
 		this.firePropertyChange(END_TIME_PROP_NAME,  endTime, endTime = getIntervalStartTime() + eventDuration);
-		this.setBegin(TimebarHelper.getTime().advanceMillis((long) getIntervalStartTime()));
-		this.setEnd(TimebarHelper.getTime().advanceMillis((long) endTime));
+		this.setBegin(ExperimentTimeHelper.getTime().advanceMillis((long) getIntervalStartTime()));
+		this.setEnd(ExperimentTimeHelper.getTime().advanceMillis((long) endTime));
 		this.firePropertyChange(DURATION_PROP_NAME, null, this.getDuration());
 	}
 

@@ -49,6 +49,7 @@ import uk.ac.gda.exafs.ui.data.experiment.ExperimentModelHolder;
 import uk.ac.gda.exafs.ui.data.experiment.SpectrumModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
+import uk.ac.gda.exafs.ui.sections.TimingGroupSectionComposite;
 import de.jaret.util.date.Interval;
 
 public class LinearExperimentView extends ViewPart {

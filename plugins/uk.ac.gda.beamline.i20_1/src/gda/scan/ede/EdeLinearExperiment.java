@@ -191,7 +191,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 		if (runItDark) {
 			header.append("itDark: " + itDarkScan.getHeaderDescription() + "\n");
 		}
-		header.append("i0InitialScan: " + i0InitialScan.getHeaderDescription() + "\n");
+		header.append("i0InitialScan: " + i0LightScan.getHeaderDescription() + "\n");
 		if (runIRef) {
 			if (runI0ForIRef) {
 				header.append("i0DarkScan: " + i0ForIRefScan.getHeaderDescription() + "\n");
@@ -224,7 +224,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 
 	@Override
 	protected EdeAsciiFileWriter createFileWritter() {
-		return new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0InitialScan, iRefScan, itScans, i0FinalScan, theDetector, nexusFilename);
+		return new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0LightScan, iRefScan, itScans, i0FinalScan, theDetector, nexusFilename);
 	}
 
 	@Override
