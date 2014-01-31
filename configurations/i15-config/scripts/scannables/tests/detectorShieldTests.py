@@ -4,11 +4,13 @@ for use with GDA at Diamond Light Source
 """
 
 import unittest
+from gda.jython import InterfaceProvider, MockJythonServerFacade
 from gdascripts.scannable.epics.PvManager import PvManagerWithMockCAClients
 from scannables.detectorShield import DetectorShield
 
 class DetectorShieldTest(unittest.TestCase):
     def setUp(self):
+        InterfaceProvider.setTerminalPrinterForTesting(MockJythonServerFacade())
         self.pvManager = PvManagerWithMockCAClients(pvroot='BL15I-RS-ABSB-06:')
         #self.caClient.pvName.return_value = "X"
         self.ds = DetectorShield('ds', self.pvManager)

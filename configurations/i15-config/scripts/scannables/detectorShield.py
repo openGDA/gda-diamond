@@ -1,4 +1,5 @@
 from gda.device.scannable import ScannableBase
+from gdascripts.messages.handle_messages import simpleLog
 from gdascripts.scannable.epics.PvManager import PvManager
 
 class DetectorShield(ScannableBase):
@@ -32,32 +33,36 @@ class DetectorShield(ScannableBase):
 
     def asynchronousMoveTo(self, position):
         if self.verbose:
-            print "%s:%s() called with position=%r" % (self.name, self.pfuncname(), position)
+            simpleLog("%s:%s(%r) called" % (self.name, self.pfuncname(), position))
+            simpleLog("%r, %r, %r" % (type(position), type(self.getPosition()), type(1)))
+        if (type(position) == type(self.getPosition())) and not type(position) == type(1):
+            self.stop()
+            simpleLog("%s:%s() stopped" % (self.name, self.pfuncname()))
 
     def atScanStart(self):
         self.pvManager['CON'].caput(self.TIMEOUT, 0)
         if self.verbose:
-            print "%s:%s() called" % (self.name, self.pfuncname())
+            simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
 
     def atScanEnd(self):
         self.pvManager['CON'].caput(self.TIMEOUT, 1)
         if self.verbose:
-            print "%s:%s() called" % (self.name, self.pfuncname())
+            simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
 
     def atCommandFailure(self):
         self.pvManager['CON'].caput(self.TIMEOUT, 1)
         if self.verbose:
-            print "%s:%s() called" % (self.name, self.pfuncname())
+            simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
 
     def stop(self): # This is required because Interrupt Scan Gracefully calls stop, but not atCommandFailure
         self.pvManager['CON'].caput(self.TIMEOUT, 1)
         if self.verbose:
-            print "%s:%s() called" % (self.name, self.pfuncname())
+            simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
 
     def isBusy(self):
         state = int(self.getPosition())
         if self.verbose and state != self.state:
-            print "%s:%s() state transitioned from %r to %r" % (self.name, self.pfuncname(), self.state, state)
+            simpleLog("%s:%s() state transitioned from %r to %r" % (self.name, self.pfuncname(), self.state, state))
             self.state = state
         if state in (self.OPEN, self.CLOSED):
             return False
