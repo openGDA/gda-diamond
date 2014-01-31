@@ -146,27 +146,26 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 """
 
 def expose(detector, exposureTime=1, noOfExposures=1,
-		fileName="expose_test", d1out=True, d2out=True):
+		sampleSuffix="expose_test", d1out=True, d2out=True):
 	
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	zebraFastShutter = jythonNameMap.zebraFastShutter
+	ds = jythonNameMap.ds
 	
-	if detector.name == "pe":
-		detector = jythonNameMap.pedet
-	elif not (detector.name in ('mar', 'pedet')):
+	if not (detector.name in ('mar', 'pe')):
 		raise Exception('Only supports "mar" and "pedet" Area detectors!')
 	
-	if detector.name == 'mar':
-		detector.hdfwriter.setFileTemplate(		"%s%s%05d.hdf5")
-		detector.hdfwriter.setFilePathTemplate(	"$datadir$")
-		detector.hdfwriter.setFileNameTemplate(	"$scan$-%s-" % detector.name + fileName)
+	detector.hdfwriter.setFileTemplate(		"%s%s.hdf5")
+	detector.hdfwriter.setFilePathTemplate(	"$datadir$")
+	detector.hdfwriter.setFileNameTemplate(	"$scan$-%s-files-" % detector.name + sampleSuffix)
 	
 	detector.tifwriter.setFileTemplate(		"%s%s%05d.tif")
-	detector.tifwriter.setFilePathTemplate(	"$datadir$/$scan$-%s-files-" % detector.name + fileName)
+	detector.tifwriter.setFilePathTemplate(	"$datadir$/$scan$-%s-files-" % detector.name + sampleSuffix)
 	detector.tifwriter.setFileNameTemplate(	"")
 	
 	numExposuresPD = DummyPD("exposure")
-	scan = ConcurrentScan([DiodeController(d1out, d2out), 1, 1, 1,
+	scan = ConcurrentScan([ds, 1, 1, 1,
+						   DiodeController(d1out, d2out), 1, 1, 1,
 						   numExposuresPD, 1, noOfExposures, 1,
 						   detector, exposureTime,
 						   zebraFastShutter, exposureTime ])
