@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 
-import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
+import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.CollectionModelRenderer;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentMarkerRenderer;
@@ -77,7 +77,7 @@ public class ExperimentTimeBarComposite extends ResourceComposite {
 				timeBarViewer.redraw();
 			} else if (propertyName.equals(TimeResolvedExperimentModel.SCANNING_PROP_NAME)) {
 				if ((boolean) newValue) {
-					marker.setDate(TimebarHelper.getTime());
+					marker.setDate(ExperimentTimeHelper.getTime());
 					timeBarViewer.addMarker(marker);
 				} else {
 					timeBarViewer.remMarker(marker);
@@ -116,14 +116,14 @@ public class ExperimentTimeBarComposite extends ResourceComposite {
 		resetToDisplayWholeExperimentTime();
 		timeBarViewer.setAdjustMinMaxDatesByModel(true);
 		timeBarViewer.setLineDraggingAllowed(false);
-		marker = new TimeBarMarkerImpl(true, TimebarHelper.getTime().advanceMillis(INITIAL_TIMEBAR_MARKER_IN_MILLI));
+		marker = new TimeBarMarkerImpl(true, ExperimentTimeHelper.getTime().advanceMillis(INITIAL_TIMEBAR_MARKER_IN_MILLI));
 		timeBarViewer.addTimeBarChangeListener(new ITimeBarChangeListener() {
 
 			@Override
 			public void markerDragStopped(TimeBarMarker timeBarMarker) {
 				if (timeBarMarker.getDate().getMillis() == 0) {
-					timeBarViewer.setStartDate(TimebarHelper.getTime());
-					marker.setDate(TimebarHelper.getTime().advanceMillis(INITIAL_TIMEBAR_MARKER_IN_MILLI));
+					timeBarViewer.setStartDate(ExperimentTimeHelper.getTime());
+					marker.setDate(ExperimentTimeHelper.getTime().advanceMillis(INITIAL_TIMEBAR_MARKER_IN_MILLI));
 				}
 			}
 
@@ -206,7 +206,7 @@ public class ExperimentTimeBarComposite extends ResourceComposite {
 
 	private void resetToDisplayWholeExperimentTime() {
 		//timeBarViewer.scrollIntervalToVisible((Interval) model.getGroupList().get(0));
-		timeBarViewer.scrollDateToVisible(TimebarHelper.getTime());
+		timeBarViewer.scrollDateToVisible(ExperimentTimeHelper.getTime());
 		double width = timeBarViewer.getClientArea().width - timeBarViewer.getYAxisWidth();
 		if (width > 0) {
 			double pixelPerSecond = width / (model.getDurationInSec());
