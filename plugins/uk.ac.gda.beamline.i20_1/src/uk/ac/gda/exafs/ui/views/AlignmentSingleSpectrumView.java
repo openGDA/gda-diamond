@@ -93,10 +93,11 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 		form.setHeadClient(stageSelectionComposite);
 
 		try {
+			createRunCollectionButtons(formParent);
 			createSampleStageSections(formParent);
 			createAlignmentSections(formParent);
 			setupScannables();
-			SingleSpectrumParametersSection singleSpectrumParametersSection = new SingleSpectrumParametersSection(formParent, SWT.None, false);
+			SingleSpectrumParametersSection singleSpectrumParametersSection = new SingleSpectrumParametersSection(formParent, SWT.None);
 			singleSpectrumParametersSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 			EDECalibrationSection eDECalibrationSection = new EDECalibrationSection(formParent, SWT.None);
 			eDECalibrationSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -104,6 +105,53 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
 		}
+	}
+
+	private void createRunCollectionButtons(Composite formParent) {
+		final SingleSpectrumUIModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
+		Composite acquisitionButtonsComposite = new Composite(formParent, SWT.NONE);
+		acquisitionButtonsComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		acquisitionButtonsComposite.setLayout(new GridLayout(2, true));
+		toolkit.paintBordersFor(acquisitionButtonsComposite);
+
+		Button startAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Start", SWT.PUSH);
+		startAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		startAcquicitionButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				try {
+					singleSpectrumDataModel.doCollection(true);
+				} catch (Exception e) {
+					UIHelper.showError("Unable to scan", e.getMessage());
+					logger.error("Unable to scan", e);
+				}
+			}
+		});
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(startAcquicitionButton),
+				BeanProperties.value(SingleSpectrumUIModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel),
+				null,
+				new UpdateValueStrategy() {
+					@Override
+					public Object convert(Object value) {
+						return (!(boolean) value);
+					}
+				});
+
+		Button stopAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Stop", SWT.PUSH);
+		stopAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(stopAcquicitionButton),
+				BeanProperties.value(SingleSpectrumUIModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel));
+		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				singleSpectrumDataModel.doStop();
+			}
+		});
 	}
 
 	private void setupScannables() {

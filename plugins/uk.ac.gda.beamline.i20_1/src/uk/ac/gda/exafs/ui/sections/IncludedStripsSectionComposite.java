@@ -102,7 +102,6 @@ public class IncludedStripsSectionComposite extends ResourceComposite {
 			bindUpperAndLowerChannelComboViewers();
 		}
 
-
 		if (DetectorModel.INSTANCE.getCurrentDetector() != null) {
 			cmbFirstStripViewer.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector().getLowerChannel()));
 			cmbLastStripViewer.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector().getUpperChannel()));

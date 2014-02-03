@@ -31,10 +31,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -60,10 +57,6 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 	private Section section;
 
-
-
-	private final boolean forExperiment;
-
 	private Section sectionIRefaccumulationSection;
 
 	private NumberEditorControl iRefIntegrationTimeValueText;
@@ -78,9 +71,8 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 
 	private Composite i0NoOfaccumulationsComposite;
 
-	public SingleSpectrumParametersSection(Composite parent, int style, boolean forExperiment) {
+	public SingleSpectrumParametersSection(Composite parent, int style) {
 		super(parent, style);
-		this.forExperiment = forExperiment;
 		toolkit = new FormToolkit(parent.getDisplay());
 		try {
 			setupUI();
@@ -239,72 +231,6 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		acquisitionSettingsFileNameComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
 		acquisitionSettingsFileNameComposite.setLayout(new GridLayout(2, false));
 		toolkit.paintBordersFor(acquisitionSettingsFileNameComposite);
-
-		if (forExperiment) {
-			Label fileNameLabel = toolkit.createLabel(acquisitionSettingsFileNameComposite, "File name prefix");
-			fileNameLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-			Text fileNamePrefixText = toolkit.createText(acquisitionSettingsFileNameComposite, "", SWT.None);
-			fileNamePrefixText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-			// FIXME Add validation
-			dataBindingCtx.bindValue(
-					WidgetProperties.text(SWT.Modify).observe(fileNamePrefixText),
-					BeanProperties.value(SingleSpectrumUIModel.FILE_TEMPLATE_PROP_NAME).observe(singleSpectrumDataModel),
-					new UpdateValueStrategy(),
-					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
-		}
-
-		// TODO Have to decide whether to present the filename text
-
-		//		Label fileNameLabel = toolkit.createLabel(acquisitionSettingsFileNameComposite, "Filename");
-		//		fileNameLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		//		Text fileNameText = toolkit.createText(acquisitionSettingsFileNameComposite, "", SWT.None);
-		//		fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		//		dataBindingCtx.bindValue(WidgetProperties.text().observe(fileNameText), BeanProperties.value(SingleSpectrumUIModel.FILE_NAME_PROP_NAME).observe(SingleSpectrumUIModel.INSTANCE));
-		//		fileNameText.setEditable(false);
-
-		Composite acquisitionButtonsComposite = new Composite(sectionComposite, SWT.NONE);
-		acquisitionButtonsComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
-		acquisitionButtonsComposite.setLayout(new GridLayout(2, true));
-		toolkit.paintBordersFor(acquisitionButtonsComposite);
-
-		Button startAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Start", SWT.PUSH);
-		startAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		startAcquicitionButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				try {
-					singleSpectrumDataModel.doCollection(forExperiment);
-				} catch (Exception e) {
-					UIHelper.showError("Unable to scan", e.getMessage());
-					logger.error("Unable to scan", e);
-				}
-			}
-		});
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(startAcquicitionButton),
-				BeanProperties.value(SingleSpectrumUIModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel),
-				null,
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object value) {
-						return (!(boolean) value);
-					}
-				});
-
-		Button stopAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Stop", SWT.PUSH);
-		stopAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(stopAcquicitionButton),
-				BeanProperties.value(SingleSpectrumUIModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel));
-		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				singleSpectrumDataModel.doStop();
-			}
-		});
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(section),
