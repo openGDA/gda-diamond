@@ -107,14 +107,6 @@
       <view
             allowMultiple="false"
             category="uk.ac.gda.beamline.i13i"
-            class="uk.ac.gda.epics.adviewer.views.HistogramViewCreator:d1"
-            icon="icons/AreaDetectorProfileView.gif"
-            id="uk.ac.gda.beamline.i13i.d1AreaDetectorProfileView"
-            name="d1 Histogram">
-      </view>                       
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i13i"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayViewCreator:d1"
             icon="icons/AreaDetectorImageView.gif"
             id="uk.ac.gda.beamline.i13i.d1AreaDetectorArrayView"
@@ -359,38 +351,6 @@
    </menuContribution>
    <menuContribution
          allPopups="false"
-         locationURI="toolbar:uk.ac.gda.beamline.i13i.PCOAreaDetectorProfileView">
-      <command
-            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
-            label="Set Exposure"
-            style="push">
-         <parameter
-               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
-               value="i13">
-         </parameter>
-      </command>
-      <command
-            commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
-            label="Set LiveView Scale"
-            style="push">
-         <parameter
-               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
-               value="i13">
-         </parameter>
-      </command>
-      <command
-            commandId="org.eclipse.ui.views.showView"
-            icon="icons/AreaDetectorLiveView.gif"
-            label="Show Live View"
-            style="push">
-         <parameter
-               name="org.eclipse.ui.views.showView.viewId"
-               value="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView">
-         </parameter>
-      </command>
-   </menuContribution>
-   <menuContribution
-         allPopups="false"
          locationURI="toolbar:uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView">
       <command
             commandId="uk.ac.gda.epics.adviewer.command.zoomToFit"
@@ -477,15 +437,6 @@
  <menuContribution
        allPopups="false"
        locationURI="toolbar:uk.ac.gda.beamline.i13i.d1AreaDetectorProfileView">
-    <command
-          commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
-          label="Set Exposure"
-          style="push">
-       <parameter
-             name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
-             value="d1">
-       </parameter>
-    </command>
     <command
           commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
           label="Rescale Live Image"
