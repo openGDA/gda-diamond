@@ -145,15 +145,12 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 	scan.runScan()
 """
 
-def expose(detector, exposureTime=1, noOfExposures=1,
-		sampleSuffix="expose_test", d1out=True, d2out=True):
-	
+def _expose(detector, exposureTime, noOfExposures, sampleSuffix, d1out, d2out):
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	zebraFastShutter = jythonNameMap.zebraFastShutter
-	ds = jythonNameMap.ds
 	
 	if not (detector.name in ('mar', 'pe')):
-		raise Exception('Only supports "mar" and "pedet" Area detectors!')
+		raise Exception('Only supports "mar" and "pe" Area detectors!')
 	
 	detector.hdfwriter.setFileTemplate(		"%s%s.hdf5")
 	detector.hdfwriter.setFilePathTemplate(	"$datadir$")
@@ -163,12 +160,33 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 	detector.tifwriter.setFilePathTemplate(	"$datadir$/$scan$-%s-files-" % detector.name + sampleSuffix)
 	detector.tifwriter.setFileNameTemplate(	"")
 	
+	return jythonNameMap, zebraFastShutter
+
+def expose(detector, exposureTime=1, noOfExposures=1,
+		sampleSuffix="expose_test", d1out=True, d2out=True):
+	
+	jythonNameMap, zebraFastShutter = _expose(detector, exposureTime,
+		noOfExposures, sampleSuffix, d1out, d2out)
+
+	ds = jythonNameMap.ds
 	numExposuresPD = DummyPD("exposure")
+	
 	scan = ConcurrentScan([ds, 1, 1, 1,
 						   DiodeController(d1out, d2out), 1, 1, 1,
 						   numExposuresPD, 1, noOfExposures, 1,
 						   detector, exposureTime,
 						   zebraFastShutter, exposureTime ])
+	scan.runScan()
+
+def darkExpose(detector, exposureTime=1, 
+		sampleSuffix="darkExpose_test", d1out=True, d2out=True):
+	
+	_, zebraFastShutter = _expose(detector, exposureTime,
+		1, sampleSuffix, d1out, d2out)
+
+	scan = ConcurrentScan([DiodeController(d1out, d2out, exposeDarkFlag=True), 1, 1, 1,
+						   detector, exposureTime,
+						   zebraFastShutter, exposureTime ]) # TODO: Is this needed?
 	scan.runScan()
 
 """
