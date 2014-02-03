@@ -68,6 +68,7 @@ public abstract class EdeExperiment implements IObserver {
 	private static final Logger logger = LoggerFactory.getLogger(EdeExperiment.class);
 
 	public static final String TIMINGGROUP_COLUMN_NAME = "Timing_Group";
+	public static final String REP_COLUMN_NAME = "Cycle";
 	public static final String FRAME_COLUMN_NAME = "Frame";
 	public static final String STRIP_COLUMN_NAME = "Strip";
 	public static final String ENERGY_COLUMN_NAME = "Energy";

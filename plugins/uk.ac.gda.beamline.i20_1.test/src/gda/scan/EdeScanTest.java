@@ -28,6 +28,7 @@ import gda.device.enumpositioner.DummyPositioner;
 import gda.device.monitor.DummyMonitor;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.Findable;
+import gda.scan.ede.EdeCyclicExperiment;
 import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeLinearExperiment;
 import gda.scan.ede.EdeScanType;
@@ -64,7 +65,6 @@ public class EdeScanTest extends EdeTestBase {
 	private ScannableMotor yScannable;
 	private Map<String, Double> inOutBeamMotors;
 
-
 	private void setup(String testName) throws Exception {
 		/* String testFolder = */TestHelpers.setUpTest(EdeScanTest.class, testName, true);
 		LocalProperties.setScanSetsScanNumber(true);
@@ -74,7 +74,6 @@ public class EdeScanTest extends EdeTestBase {
 		LocalProperties.set("gda.nexus.createSRS", "false");
 		testDir = LocalProperties.getBaseDataDir();
 
-
 		// dummy daserver
 		daserver = new DummyXStripDAServer();
 		// detector
@@ -82,7 +81,7 @@ public class EdeScanTest extends EdeTestBase {
 		xh.setDaServer(daserver);
 		xh.setName("xh");
 		xh.setDetectorName("xh0");
-		File file = new File(LocalProperties.getConfigDir(), "test-scratch/templates/EdeScan_Parameters.xml");
+		File file = new File(LocalProperties.getVarDir(), "/templates/EdeScan_Parameters.xml");
 		xh.setTemplateFileName(file.getAbsolutePath());
 		xh.configure();
 		// topup monitor
@@ -96,7 +95,7 @@ public class EdeScanTest extends EdeTestBase {
 		Map<String, Findable> mockScannble = new HashMap<String, Findable>();
 		mockScannble.put("xh", xh);
 		mockScannble.put("topup", topupMonitor);
-		mockScannble.put(shutter.getName(),shutter);
+		mockScannble.put(shutter.getName(), shutter);
 		mockScannble.put(EdeExperiment.PROGRESS_UPDATER_NAME, null);
 		mockScannble.put("xScannable", xScannable);
 		mockScannble.put("yScannable", yScannable);
@@ -107,19 +106,16 @@ public class EdeScanTest extends EdeTestBase {
 		inOutBeamMotors.put("yScannable", 0.3);
 	}
 
-
 	@Test()
 	public void testRunExperimentSameParameters() throws Exception {
 		setup("testRunExperimentSameParameters");
 
-
-
-		EdeSingleExperiment theExperiment = new EdeSingleExperiment(0.001, 0.005, 1, inOutBeamMotors, inOutBeamMotors, "xh", "topup", shutter.getName());
+		EdeSingleExperiment theExperiment = new EdeSingleExperiment(0.001, 0.005, 1, inOutBeamMotors, inOutBeamMotors,
+				"xh", "topup", shutter.getName());
 		String filename = theExperiment.runExperiment();
 
 		testNumberColumnsInEDEFile(filename, 9);
 	}
-
 
 	@Test
 	public void testRunScan() throws Exception {
@@ -175,9 +171,8 @@ public class EdeScanTest extends EdeTestBase {
 		}
 	}
 
-
 	private void testNumberColumnsInEDEFile(String filename, int numExpectedColumns) throws FileNotFoundException,
-	IOException {
+			IOException {
 		List<String> lines = Files.readAllLines(Paths.get(filename), Charset.defaultCharset());
 		for (String line : lines) {
 			if (!line.startsWith("#")) {
@@ -242,20 +237,73 @@ public class EdeScanTest extends EdeTestBase {
 		group3.setNumberOfScansPerFrame(5);
 		groups.add(group3);
 
-		EdeLinearExperiment theExperiment = new EdeLinearExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors, "xh", "topup", shutter.getName());
+		EdeLinearExperiment theExperiment = new EdeLinearExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
+				"xh", "topup", shutter.getName());
 		theExperiment.setIRefParameters(inOutBeamMotors, 0.1, 1);
 		String filename = theExperiment.runExperiment();
 
-		testNumberColumnsInEDEFile(filename, 8);
+		testNumberColumnsInEDEFile(filename, 9);
 		testNumberLinesInEDEFile(filename, 1024 * 25);
 		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
 		testNumberLinesInEDEFile(theExperiment.getI0Filename(), 1024 * 3 * 2);
 		testNumberColumnsInEDEFile(theExperiment.getIRefFilename(), 4);
 		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), 1024 * 3);
-		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(), 8);
+		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(), 9);
 		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), 1024 * 25);
-		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(), 8);
+		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(), 9);
 		testNumberLinesInEDEFile(theExperiment.getItAveragedFilename(), 1024 * 25);
+	}
+
+	@Test
+	public void testSimpleCyclicExperiment() throws Exception {
+		setup("testCyclicLinearExperiment");
+
+		List<TimingGroup> groups = new ArrayList<TimingGroup>();
+
+		TimingGroup group1 = new TimingGroup();
+		group1.setLabel("group1");
+		group1.setNumberOfFrames(10);
+		group1.setTimePerScan(0.005);
+		group1.setNumberOfScansPerFrame(5);
+		groups.add(group1);
+
+		TimingGroup group2 = new TimingGroup();
+		group2.setLabel("group2");
+		group2.setNumberOfFrames(10);
+		group2.setTimePerScan(0.05);
+		group2.setNumberOfScansPerFrame(5);
+		groups.add(group2);
+
+		TimingGroup group3 = new TimingGroup();
+		group3.setLabel("group3");
+		group3.setNumberOfFrames(5);
+		group3.setTimePerScan(0.01);
+		group3.setNumberOfScansPerFrame(5);
+		groups.add(group3);
+
+		EdeCyclicExperiment theExperiment = new EdeCyclicExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
+				"xh", "topup", shutter.getName(),3);
+		theExperiment.setIRefParameters(inOutBeamMotors, 0.1, 1);
+		String filename = theExperiment.runExperiment();
+
+		testNumberColumnsInEDEFile(filename, 10);
+		testNumberLinesInEDEFile(filename, (1024 * 25 * 3));
+		
+		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
+		testNumberLinesInEDEFile(theExperiment.getI0Filename(), 1024 * 3 * 2);
+		
+		testNumberColumnsInEDEFile(theExperiment.getIRefFilename(), 4);
+		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), 1024 * 3);
+		
+		testNumberColumnsInEDEFile(theExperiment.getItFilename(), 10);
+		testNumberLinesInEDEFile(theExperiment.getItFilename(), (1024 * 25 * 3));
+		
+		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(), 10);
+		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), (1024 * 25 * 3));
+		
+		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(), 10);
+		testNumberLinesInEDEFile(theExperiment.getItAveragedFilename(), (1024 * 25 * 3));
+
 	}
 
 	private void testNumberLinesInEDEFile(String filename, int numExpectedLines) throws IOException {
