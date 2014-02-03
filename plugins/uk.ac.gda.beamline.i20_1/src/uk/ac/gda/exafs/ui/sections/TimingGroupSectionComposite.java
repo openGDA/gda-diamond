@@ -125,6 +125,8 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 	private Section sectionIRefaccumulationSection;
 
+	private Composite i0NoOfaccumulationsComposite;
+
 	public TimingGroupSectionComposite(Composite parent, int style, FormToolkit toolkit, TimeResolvedExperimentModel model) {
 		super(parent, style);
 		this.toolkit = toolkit;
@@ -155,8 +157,16 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 				WidgetProperties.selection().observe(i0NoOfAccumulationCheck),
 				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(model.getExperimentDataModel()));
 
+		// Currently we show and hide the whole composite, so editable it not used
+
+		//		dataBindingCtx.bindValue(
+		//				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(i0NoOfAccumulationValueText),
+		//				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(model.getExperimentDataModel()),
+		//				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+		//				new UpdateValueStrategy());
+
 		dataBindingCtx.bindValue(
-				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(i0NoOfAccumulationValueText),
+				WidgetProperties.visible().observe(i0NoOfaccumulationsComposite),
 				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(model.getExperimentDataModel()),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 				new UpdateValueStrategy());
@@ -475,32 +485,38 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		composite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
 
 		// I0
-		Section sectionI0accumulationSection = toolkit.createSection(composite, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
-		sectionI0accumulationSection.setText("I0 acquisition settings");
-		sectionI0accumulationSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		final Composite i0IaccumulationComposite = toolkit.createComposite(sectionI0accumulationSection, SWT.NONE);
-		i0IaccumulationComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-		sectionI0accumulationSection.setClient(i0IaccumulationComposite);
+		Section i0AcquisitionSection = toolkit.createSection(composite, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
+		i0AcquisitionSection.setText("I0 acquisition settings");
+		i0AcquisitionSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		final Composite i0AcquisitionSectionComposite = toolkit.createComposite(i0AcquisitionSection, SWT.NONE);
+		i0AcquisitionSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		i0AcquisitionSection.setClient(i0AcquisitionSectionComposite);
 
-		i0NoOfAccumulationCheck = toolkit.createButton(i0IaccumulationComposite, "Set I0 number of accumulations", SWT.CHECK);
+		i0NoOfAccumulationCheck = toolkit.createButton(i0AcquisitionSectionComposite, "Set I0 number of accumulations", SWT.CHECK);
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		gridData.horizontalSpan = 2;
 		i0NoOfAccumulationCheck.setLayoutData(gridData);
 
-		Label label = toolkit.createLabel(i0IaccumulationComposite, "Accumulation time", SWT.None);
+		Label label = toolkit.createLabel(i0AcquisitionSectionComposite, "Accumulation time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		i0IntegrationTimeValueText = new NumberEditorControl(i0IaccumulationComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.I0_INTEGRATION_TIME_PROP_NAME, false);
+		i0IntegrationTimeValueText = new NumberEditorControl(i0AcquisitionSectionComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.I0_INTEGRATION_TIME_PROP_NAME, false);
 		i0IntegrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		i0IntegrationTimeValueText.setUnit(model.getUnit().getWorkingUnit().getUnitText());
 
-		label = toolkit.createLabel(i0IaccumulationComposite, "No. of accumulations", SWT.None);
+		i0NoOfaccumulationsComposite = toolkit.createComposite(i0AcquisitionSectionComposite);
+		i0NoOfaccumulationsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gridData.horizontalSpan = 2;
+		i0NoOfaccumulationsComposite.setLayoutData(gridData);
+
+		label = toolkit.createLabel(i0NoOfaccumulationsComposite, "No. of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		i0NoOfAccumulationValueText = new NumberEditorControl(i0IaccumulationComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, false);
+		i0NoOfAccumulationValueText = new NumberEditorControl(i0NoOfaccumulationsComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, false);
 		i0NoOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		Composite sectionSeparator = toolkit.createCompositeSeparator(sectionI0accumulationSection);
+		Composite sectionSeparator = toolkit.createCompositeSeparator(i0AcquisitionSection);
 		toolkit.paintBordersFor(sectionSeparator);
-		sectionI0accumulationSection.setSeparatorControl(sectionSeparator);
+		i0AcquisitionSection.setSeparatorControl(sectionSeparator);
 
 		// IRef
 		sectionIRefaccumulationSection = toolkit.createSection(composite, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);

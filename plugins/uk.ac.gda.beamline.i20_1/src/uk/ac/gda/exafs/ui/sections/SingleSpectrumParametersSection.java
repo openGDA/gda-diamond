@@ -18,6 +18,7 @@
 
 package uk.ac.gda.exafs.ui.sections;
 
+import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
@@ -73,6 +74,10 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 
 	private Button i0NoOfAccumulationCheck;
 
+	protected Binding binding;
+
+	private Composite i0NoOfaccumulationsComposite;
+
 	public SingleSpectrumParametersSection(Composite parent, int style, boolean forExperiment) {
 		super(parent, style);
 		this.forExperiment = forExperiment;
@@ -88,14 +93,26 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 	private void bind() {
 		final SingleSpectrumUIModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
 
-		dataBindingCtx.bindValue(
+		Binding i0NoOfAccumulationCheckBinding = dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(i0NoOfAccumulationCheck),
-				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(singleSpectrumDataModel.getExperimentDataModel()));
+				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(singleSpectrumDataModel.getExperimentDataModel()),
+				new UpdateValueStrategy() {
+					@Override
+					protected IStatus doSet(IObservableValue observableValue, Object value) {
+						IStatus result = super.doSet(observableValue, value);
+						updateI0noOfAccuBinding(singleSpectrumDataModel, value);
+						return result;
+					}
+				},
+				new UpdateValueStrategy());
+		i0NoOfAccumulationCheckBinding.updateTargetToModel();
+
 		dataBindingCtx.bindValue(
-				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(i0NoOfAccumulationValueText),
+				WidgetProperties.visible().observe(i0NoOfaccumulationsComposite),
 				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(singleSpectrumDataModel.getExperimentDataModel()),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 				new UpdateValueStrategy());
+
 		dataBindingCtx.bindValue(
 				WidgetProperties.visible().observe(sectionIRefaccumulationSection),
 				BeanProperties.value(SampleStageMotors.USE_IREF_PROP_NAME).observe(SampleStageMotors.INSTANCE),
@@ -123,32 +140,38 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		composite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
 
 		// I0
-		Section sectionI0accumulationSection = toolkit.createSection(composite, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
-		sectionI0accumulationSection.setText("I0 acquisition settings");
-		sectionI0accumulationSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		final Composite i0IaccumulationComposite = toolkit.createComposite(sectionI0accumulationSection, SWT.NONE);
-		i0IaccumulationComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-		sectionI0accumulationSection.setClient(i0IaccumulationComposite);
+		Section i0AcquisitionSection = toolkit.createSection(composite, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
+		i0AcquisitionSection.setText("I0 acquisition settings");
+		i0AcquisitionSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		final Composite i0AcquisitionSectionComposite = toolkit.createComposite(i0AcquisitionSection, SWT.NONE);
+		i0AcquisitionSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		i0AcquisitionSection.setClient(i0AcquisitionSectionComposite);
 
-		i0NoOfAccumulationCheck = toolkit.createButton(i0IaccumulationComposite, "Set I0 number of accumulations", SWT.CHECK);
+		i0NoOfAccumulationCheck = toolkit.createButton(i0AcquisitionSectionComposite, "Set I0 number of accumulations", SWT.CHECK);
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		gridData.horizontalSpan = 2;
 		i0NoOfAccumulationCheck.setLayoutData(gridData);
 
-		Label label = toolkit.createLabel(i0IaccumulationComposite, "Accumulation time", SWT.None);
+		Label label = toolkit.createLabel(i0AcquisitionSectionComposite, "Accumulation time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		NumberEditorControl i0IntegrationTimeValueText = new NumberEditorControl(i0IaccumulationComposite, SWT.None, singleSpectrumDataModel.getExperimentDataModel(), ExperimentDataModel.I0_INTEGRATION_TIME_PROP_NAME, false);
+		NumberEditorControl i0IntegrationTimeValueText = new NumberEditorControl(i0AcquisitionSectionComposite, SWT.None, singleSpectrumDataModel.getExperimentDataModel(), ExperimentDataModel.I0_INTEGRATION_TIME_PROP_NAME, false);
 		i0IntegrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		i0IntegrationTimeValueText.setUnit(UnitSetup.MILLI_SEC.getText());
 
-		label = toolkit.createLabel(i0IaccumulationComposite, "Number of accumulations", SWT.None);
+		i0NoOfaccumulationsComposite = toolkit.createComposite(i0AcquisitionSectionComposite);
+		i0NoOfaccumulationsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gridData.horizontalSpan = 2;
+		i0NoOfaccumulationsComposite.setLayoutData(gridData);
+
+		label = toolkit.createLabel(i0NoOfaccumulationsComposite, "Number of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		i0NoOfAccumulationValueText = new NumberEditorControl(i0IaccumulationComposite, SWT.None, singleSpectrumDataModel.getExperimentDataModel(), ExperimentDataModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, false);
+		i0NoOfAccumulationValueText = new NumberEditorControl(i0NoOfaccumulationsComposite, SWT.None, singleSpectrumDataModel.getExperimentDataModel(), ExperimentDataModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, false);
 		i0NoOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		Composite sectionSeparator = toolkit.createCompositeSeparator(sectionI0accumulationSection);
+		Composite sectionSeparator = toolkit.createCompositeSeparator(i0AcquisitionSection);
 		toolkit.paintBordersFor(sectionSeparator);
-		sectionI0accumulationSection.setSeparatorControl(sectionSeparator);
+		i0AcquisitionSection.setSeparatorControl(sectionSeparator);
 
 		// IRef
 		sectionIRefaccumulationSection = toolkit.createSection(composite, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
@@ -173,7 +196,6 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		toolkit.paintBordersFor(sectionSeparator);
 		sectionIRefaccumulationSection.setSeparatorControl(sectionSeparator);
 	}
-
 
 	private void setupUI() throws Exception {
 
@@ -301,5 +323,19 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 	@Override
 	protected void disposeResource() {
 		dataBindingCtx.dispose();
+	}
+
+	private void updateI0noOfAccuBinding(final SingleSpectrumUIModel singleSpectrumDataModel, Object value) {
+		if (!(boolean) value && binding == null) {
+			binding = dataBindingCtx.bindValue(
+					BeanProperties.value(ExperimentDataModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME).observe(singleSpectrumDataModel.getExperimentDataModel()),
+					BeanProperties.value(SingleSpectrumUIModel.IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME).observe(singleSpectrumDataModel));
+		} else {
+			if (binding != null) {
+				dataBindingCtx.removeBinding(binding);
+				binding.dispose();
+				binding = null;
+			}
+		}
 	}
 }

@@ -32,6 +32,7 @@ import gda.util.exafs.Element;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -89,6 +90,8 @@ public class SingleSpectrumUIModel extends ObservableModel {
 	@Expose
 	private ExperimentDataModel experimentDataModel;
 
+	protected Binding binding;
+
 	private static final String SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY = "SINGLE_SPECTRUM_DATA";
 
 	public void setup() {
@@ -109,6 +112,8 @@ public class SingleSpectrumUIModel extends ObservableModel {
 		}
 
 		loadSingleSpectrumData();
+
+
 
 		experimentDataModel.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
