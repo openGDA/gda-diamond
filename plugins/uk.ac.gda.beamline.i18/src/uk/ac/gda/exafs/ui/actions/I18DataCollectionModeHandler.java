@@ -36,10 +36,10 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.client.experimentdefinition.components.ExperimentPerspective;
 import uk.ac.gda.client.microfocus.ui.MicroFocusPerspective;
+import uk.ac.gda.client.scripting.JythonPerspective;
 import uk.ac.gda.exafs.ui.AlignmentPerspective;
 import uk.ac.gda.exafs.ui.PlottingPerspective;
 import uk.ac.gda.perspectives.DataExplorationPerspective;
-import uk.ac.gda.pydev.extension.ui.perspective.JythonPerspective;
 
 /**
  * Overrides the DataCollectionModeHandler from the client.exafs plugin.
