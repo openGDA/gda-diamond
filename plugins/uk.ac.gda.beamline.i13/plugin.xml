@@ -351,38 +351,6 @@
    </menuContribution>
    <menuContribution
          allPopups="false"
-         locationURI="toolbar:uk.ac.gda.beamline.i13i.PCOAreaDetectorProfileView">
-      <command
-            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
-            label="Set Exposure"
-            style="push">
-         <parameter
-               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
-               value="i13">
-         </parameter>
-      </command>
-      <command
-            commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
-            label="Set LiveView Scale"
-            style="push">
-         <parameter
-               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
-               value="i13">
-         </parameter>
-      </command>
-      <command
-            commandId="org.eclipse.ui.views.showView"
-            icon="icons/AreaDetectorLiveView.gif"
-            label="Show Live View"
-            style="push">
-         <parameter
-               name="org.eclipse.ui.views.showView.viewId"
-               value="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView">
-         </parameter>
-      </command>
-   </menuContribution>
-   <menuContribution
-         allPopups="false"
          locationURI="toolbar:uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView">
       <command
             commandId="uk.ac.gda.epics.adviewer.command.zoomToFit"
@@ -461,6 +429,114 @@
       </menu>
    </menuContribution>
 </extension>   
+<<<<<<< HEAD
+=======
+<!-- menus for d1 -->
+<extension
+      id="d1 menus"
+      point="org.eclipse.ui.menus">   
+
+ <menuContribution
+       allPopups="false"
+       locationURI="toolbar:uk.ac.gda.beamline.i13i.d1AreaDetectorProfileView">
+    <command
+          commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
+          label="Rescale Live Image"
+          style="push">
+       <parameter
+             name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+             value="d1">
+       </parameter>
+    </command>
+    <command
+          commandId="org.eclipse.ui.views.showView"
+          icon="icons/AreaDetectorLiveView.gif"
+          label="Show Live"
+          style="push">
+       <parameter
+             name="org.eclipse.ui.views.showView.viewId"
+             value="uk.ac.gda.beamline.i13i.d1AreaDetectorLiveView">
+       </parameter>
+    </command>
+ </menuContribution>
+ <menuContribution
+       allPopups="false"
+       locationURI="toolbar:uk.ac.gda.beamline.i13i.d1AreaDetectorArrayView">
+    <command
+          commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+          label="Set Exposure"
+          style="push">
+       <parameter
+             name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+             value="d1">
+       </parameter>
+    </command>
+    <command
+          commandId="org.eclipse.ui.views.showView"
+          icon="icons/AreaDetectorLiveView.gif"
+          label="Show Live"
+          style="push">
+       <parameter
+             name="org.eclipse.ui.views.showView.viewId"
+             value="uk.ac.gda.beamline.i13i.d1AreaDetectorLiveView">
+       </parameter>
+    </command>
+ </menuContribution>
+ <menuContribution
+       allPopups="false"
+       locationURI="toolbar:uk.ac.gda.beamline.i13i.d1AreaDetectorLiveView">
+    <command
+          commandId="uk.ac.gda.epics.adviewer.command.zoomToFit"
+          label="Fit Image to Window"
+          style="push"
+          tooltip="Fit Image to Window">
+    </command>
+    <command
+          commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+          label="Set Exposure"
+          style="push"
+          tooltip="Set Exposure">
+       <parameter
+             name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+             value="d1">
+       </parameter>
+    </command>
+    <command
+          commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
+          label="Rescale Live Image"
+          style="push"
+          tooltip="Rescale Live Image">
+       <parameter
+             name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+             value="d1">
+       </parameter>
+    </command>
+    <command
+          commandId="org.eclipse.ui.views.showView"
+          icon="icons/AreaDetectorProfileView.gif"
+          label="Show Histogram"
+          style="push"
+          tooltip="Show Histogram ">
+       <parameter
+             name="org.eclipse.ui.views.showView.viewId"
+             value="uk.ac.gda.beamline.i13i.d1AreaDetectorProfileView">
+       </parameter>
+    </command>
+    <command
+          commandId="org.eclipse.ui.views.showView"
+          icon="icons/AreaDetectorImageView.gif"
+          label="Show Raw Image"
+          style="push"
+          tooltip="Show Raw Image">
+       <parameter
+             name="org.eclipse.ui.views.showView.viewId"
+             value="uk.ac.gda.beamline.i13i.d1AreaDetectorArrayView">
+       </parameter>
+    </command>
+ </menuContribution>                    
+
+</extension>
+>>>>>>> branch 'master' of ssh://dascgitolite@dasc-git.diamond.ac.uk/gda/gda-dls-beamlines-i13x.git
 
 
 <!-- menus for d2 -->
