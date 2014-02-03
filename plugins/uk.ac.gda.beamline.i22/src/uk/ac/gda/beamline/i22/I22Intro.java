@@ -38,7 +38,7 @@ public class I22Intro extends IntroPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		for (String id : new String[] {
-				"uk.ac.gda.pydev.extension.ui.JythonPerspective",	
+				"uk.ac.gda.client.scripting.JythonPerspective",	
 				"gda.rcp.ncd.perspectives.WaxsPerspective",
 				"gda.rcp.ncd.perspectives.SaxsProcessingPerspective",
 				"gda.rcp.ncd.perspectives.SaxsPerspective",

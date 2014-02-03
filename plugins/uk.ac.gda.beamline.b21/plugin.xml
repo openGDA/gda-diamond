@@ -50,7 +50,7 @@
              id="gda.rcp.ncd.perspectives.WaxsPerspective">
        </perspectiveShortcut>
        <perspectiveShortcut
-             id="uk.ac.gda.pydev.extension.ui.JythonPerspective">
+             id="uk.ac.gda.client.scripting.JythonPerspective">
        </perspectiveShortcut>
        <perspectiveShortcut
              id="gda.rcp.ncd.perspectives.GridScanPerspective">
