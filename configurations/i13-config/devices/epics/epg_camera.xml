@@ -29,7 +29,7 @@
 	</bean>
 
 	<bean id="epg_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
-		<property name="prefix" value="EPG-EA-DET-02:MPG1" />
+		<property name="prefix" value="EPG-EA-DET-02:MPG1:" />
 	</bean>
 
 

@@ -35,7 +35,7 @@ public class I13MJPegView extends MJPegView {
 
 	I13ADControllerImpl i13ADControllerImpl;
 	@Override
-	protected MJPeg createPartControlEx(Composite parent) throws Exception {
+	protected MJPeg createPartControlEx(Composite parent) throws Exception  {
 
 		I13MJPEGViewComposite i13MJPEGViewComposite = new I13MJPEGViewComposite(parent, i13ADControllerImpl.getStagesCompositeFactory() );
 		i13MJPEGViewComposite.setADController(i13ADControllerImpl, this);
