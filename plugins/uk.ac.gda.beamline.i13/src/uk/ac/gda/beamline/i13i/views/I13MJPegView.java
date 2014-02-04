@@ -27,11 +27,10 @@ import uk.ac.gda.beamline.i13i.ADViewerImpl.I13ADControllerImpl;
 import uk.ac.gda.beamline.i13i.ADViewerImpl.I13MJPEGViewComposite;
 import uk.ac.gda.epics.adviewer.ADController;
 import uk.ac.gda.epics.adviewer.composites.MJPeg;
-import uk.ac.gda.epics.adviewer.views.HistogramView;
 import uk.ac.gda.epics.adviewer.views.MJPegView;
 
 public class I13MJPegView extends MJPegView {
-	private static final Logger logger = LoggerFactory.getLogger(HistogramView.class);
+	private static final Logger logger = LoggerFactory.getLogger(I13MJPegView.class);
 	
 	public I13MJPegView(ADController config, IConfigurationElement configurationElement) {
 		super(config, configurationElement);
