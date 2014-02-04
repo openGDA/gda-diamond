@@ -214,12 +214,13 @@ except :
 
 from gdascripts.pd.time_pds import * #@UnusedWildImport
 from gdascripts.pd.epics_pds import * #@UnusedWildImport
+
+print "create pixium scannables"
 try:
     pixtimestamp = DisplayEpicsPVClass('pixtimestamp', 'BL12I-EA-DET-05:TIFF:TimeStamp_RBV', 's', '%.3f')
     pixtemperature = DisplayEpicsPVClass('pixtemperature', 'BL12I-EA-DET-05:PIX:Temperature_RBV', 'degree', '%.1f') 
     pixtotalcount = DisplayEpicsPVClass('pixtotalcount', 'BL12I-EA-DET-05:STAT:Total_RBV', 'count', '%d') 
     pixexposure = DisplayEpicsPVClass('pixexposure', 'BL12I-EA-DET-05:PIX:AcquireTime_RBV', 's', '%.3f')
-
 except:
     print "cannot create pixium scannables"
      
@@ -317,7 +318,7 @@ try:
     eh1therm5 = DisplayEpicsPVClass('eh1therm5', 'BL12I-OP-THERM-01:TEMP:T5', 'degree', '%.3f')
     eh1therm6 = DisplayEpicsPVClass('eh1therm6', 'BL12I-OP-THERM-01:TEMP:T6', 'degree', '%.3f')
 except:
-    print "cannot create thermocouple scannables"
+    print "cannot create EH1 thermocouple scannables"
 try:
     eh2therm1 = DisplayEpicsPVClass('eh2therm1', 'BL12I-OP-THERM-02:TEMP:T1', 'degree', '%.3f')
     eh2therm2 = DisplayEpicsPVClass('eh2therm2', 'BL12I-OP-THERM-02:TEMP:T2', 'degree', '%.3f')
@@ -326,7 +327,7 @@ try:
     eh2therm5 = DisplayEpicsPVClass('eh2therm5', 'BL12I-OP-THERM-02:TEMP:T5', 'degree', '%.3f')
     eh2therm6 = DisplayEpicsPVClass('eh2therm6', 'BL12I-OP-THERM-02:TEMP:T6', 'degree', '%.3f')
 except:
-    print "cannot create thermocouple scannables"
+    print "cannot create EH2 thermocouple scannables"
 
 print "--------------------------------------------------"
 pdnames = []
@@ -363,18 +364,21 @@ pco.setHdfFormat(False) #@UndefinedVariable
 #pixium.setSRSFormat() #@UndefinedVariable
 pco.setExternalTriggered(True) #@UndefinedVariable
 
-print "create 'eurotherm1' and 'eurotherm2'" 
+print "create 'eurotherm1' and 'eurotherm2' scannables" 
 eurotherm1temp = DisplayEpicsPVClass('eurotherm1', 'BL12I-EA-FURN-01:PV:RBV', 'c', '%.3f')
 eurotherm2temp = DisplayEpicsPVClass('eurotherm2', 'BL12I-EA-FURN-02:PV:RBV', 'c', '%.3f')
 
 
-print "create linkam"
-linkamRampStatus = DisplayEpicsPVClass('linkamRampStatus','BL12I-CS-TEMPC-01:STATUS','bool','%i')
-linkamRampControl = EpicsReadWritePVClass('linkamRampControl', 'BL12I-CS-TEMPC-01:RAMP:CTRL:SET', '', '%.3g')
-linkamRampRate = EpicsReadWritePVClass('linkamRampRate', 'BL12I-CS-TEMPC-01:RAMP:RATE:SET', 'deg/min', '%.3g')
-linkamRampLimit = EpicsReadWritePVClass('linkamRampLimit', 'BL12I-CS-TEMPC-01:RAMP:LIMIT:SET', 'deg', '%.3g')
-linkamTemp = DisplayEpicsPVClass('linkamTemp','BL12I-CS-TEMPC-01:TEMP','degrees','%.3g')
-
+print "create linkam scannables"
+try:
+    linkamRampStatus = DisplayEpicsPVClass('linkamRampStatus','BL12I-CS-TEMPC-01:STATUS','bool','%i')
+    linkamRampControl = EpicsReadWritePVClass('linkamRampControl', 'BL12I-CS-TEMPC-01:RAMP:CTRL:SET', '', '%.3g')
+    linkamRampRate = EpicsReadWritePVClass('linkamRampRate', 'BL12I-CS-TEMPC-01:RAMP:RATE:SET', 'deg/min', '%.3g')
+    linkamRampLimit = EpicsReadWritePVClass('linkamRampLimit', 'BL12I-CS-TEMPC-01:RAMP:LIMIT:SET', 'deg', '%.3g')
+    linkamTemp = DisplayEpicsPVClass('linkamTemp','BL12I-CS-TEMPC-01:TEMP','degrees','%.3g')
+except:
+    print "cannot create linkam scannables"
+    
 import tomographyScan
 from tomographyScan import tomoScan, reportJythonNamespaceMapping, reportTomo  #@UnusedImport
 alias("reportJythonNamespaceMapping")
@@ -417,19 +421,21 @@ alias("pixiumExp4000ms")
 alias("pixiumAfterIOCStart")
 
 
-from i12utilities import includeEarlyFrames, excludeEarlyFrames, reportEarlyFrames, setBaseExposureTime, getBaseExposureTime, setBaseAcquisitionTime, getBaseAcquisitionTime, setPUMode, getPUMode, setExposuresPerImage, getExposuresPerImage, pixCalibrate 
-alias("includeEarlyFrames")
-alias("excludeEarlyFrames")
-alias("reportEarlyFrames")
-alias("setBaseExposureTime")
-alias("getBaseExposureTime")
-alias("setBaseAcquisitionTime")
-alias("getBaseAcquisitionTime")
-alias("setPUMode")
-alias("getPUMode")
-alias("setExposuresPerImage")
-alias("getExposuresPerImage")
-alias("pixCalibrate") 
+
+
+print "adding pixium10 scannables"
+try:
+    pixium10_PUMode = DisplayEpicsPVClass('pixium10_PUMode', 'BL12I-EA-DET-10:CAM:PuMode_RBV', 'PU', '%i')
+    pixium10_BaseExposure = DisplayEpicsPVClass('pixium10_BaseExposure', 'BL12I-EA-DET-10:CAM:AcquireTime_RBV', 's', '%.3f')
+    pixium10_BaseAcquirePeriod = DisplayEpicsPVClass('pixium10_BaseAcquirePeriod', 'BL12I-EA-DET-10:CAM:AcquirePeriod_RBV', 's', '%.3f')
+    pixium10_EarlyFrames = DisplayEpicsPVClass('pixium10_EarlyFrames', 'BL12I-EA-DET-10:CAM:MotionBlur', 'status', '%.0f')
+
+    pixium10_TotalCount = DisplayEpicsPVClass('pixium10_TotalCount', 'BL12I-EA-DET-10:STAT:Total_RBV', 'count', '%.0f') 
+    pixium10_FanSpeed1 = DisplayEpicsPVClass('pixium10_FanSpeed1', 'BL12I-EA-DET-10:CAM:DetectorFan1Speed', 'rpm', '%.0f')
+    pixium10_FanSpeed2 = DisplayEpicsPVClass('pixium10_FanSpeed2', 'BL12I-EA-DET-10:CAM:DetectorFan2Speed', 'rpm', '%.0f')
+    pixium10_DetectorTemperature = DisplayEpicsPVClass('pixium10_DetectorTemperature', 'BL12I-EA-DET-10:CAM:DetectorTemperature', 'degree', '%.1f') 
+except:
+    print "cannot create pixium10 scannables"
 
 
 print "\n Finding requested default scannables in the Jython namespace..."
@@ -497,8 +503,8 @@ try:
     #meta_scannables.append(mc1_bragg)
     #meta_scannables.append(mc2)
     
-    #meta_scannables.append(s1)
-    #meta_scannables.append(s2)
+    meta_scannables.append(s1)
+    meta_scannables.append(s2)
     #meta_scannables.append(s3)
     
     meta_scannables.append(t3)
@@ -526,20 +532,57 @@ def clear_defaults():
     for s in all_arr:
         #srv.removeDefault(s)
         remove_default(s)
-
 alias("clear_defaults")
 
-pix10_PUMode = DisplayEpicsPVClass('pix10_PUMode', 'BL12I-EA-DET-10:CAM:PuMode_RBV', 'PU', '%i')
-pix10_BaseExposure = DisplayEpicsPVClass('pix10_BaseExposure', 'BL12I-EA-DET-10:CAM:AcquireTime_RBV', 's', '%.3f')
-pix10_BaseAcquirePeriod = DisplayEpicsPVClass('pix10_BaseAcquirePeriod', 'BL12I-EA-DET-10:CAM:AcquirePeriod_RBV', 's', '%.3f')
 
-pix10_Totalcount = DisplayEpicsPVClass('pix10_Totalcount', 'BL12I-EA-DET-10:STAT:Total_RBV', 'count', '%.0f') 
-pix10_BaseExposureTime = DisplayEpicsPVClass('pix10_ExposureTime', 'BL12I-EA-DET-10:PIX:AcquireTime_RBV', 's', '%.3f')
-pix10_BaseAcquisitionTime = DisplayEpicsPVClass('pix10_AcquisitionTime', 'BL12I-EA-DET-10:CAM:AcquirePeriod_RBV', 's', '%.3f')
-pix10_FanSpeed1 = DisplayEpicsPVClass('pix10_FanSpeed1', 'BL12I-EA-DET-10:CAM:DetectorFan1Speed', 'rpm', '%.0f')
-pix10_FanSpeed2 = DisplayEpicsPVClass('pix10_FanSpeed2', 'BL12I-EA-DET-10:CAM:DetectorFan2Speed', 'rpm', '%.0f')
-pix10_DetectorTemperature = DisplayEpicsPVClass('pixium10DetectorTemperature', 'BL12I-EA-DET-10:CAM:DetectorTemperature', 'degree', '%.1f') 
+print "Selecting meta scannables for PIXIUM"
+_meta_scannables_names_PIXIUMi12 = []
+# append items to the list below as required
+#_meta_scannables_names_PIXIUMi12.append("ring")
+_meta_scannables_names_PIXIUMi12.append("pixium10_PUMode")
+_meta_scannables_names_PIXIUMi12.append("pixium10_BaseExposure")
+_meta_scannables_names_PIXIUMi12.append("pixium10_BaseAcquirePeriod")
+_meta_scannables_names_PIXIUMi12.append("pixium10_EarlyFrames")
 
+_meta_scannables_PIXIUMi12 = []
+def meta_add_allPIXIUM():
+    for sname in _meta_scannables_names_PIXIUMi12:
+        if type(finder.find(sname)) is not NoneType:
+            _meta_scannables_PIXIUMi12.append(finder.find(sname))
+        else:
+            try:
+                print "at adding: " + sname
+                eval(sname)
+                _meta_scannables_PIXIUMi12.append(eval(sname))
+            except:
+                msg = "\t Unable to find a meta scannable named: " + sname
+                print msg
+    for s in _meta_scannables_PIXIUMi12:
+        meta_add(s)
+alias("meta_add_allPIXIUM")
+
+def meta_rm_allPIXIUM():
+    for sname in _meta_scannables_names_PIXIUMi12:
+        try:
+            print "at removing: " + sname
+            eval(sname)
+            meta_rm(eval(sname))
+        except:
+            msg = "\t Unable to find a meta scannable named: " + sname
+            print msg
+alias("meta_rm_allPIXIUM")
+
+from i12utilities import setUpCopyPluginForPCO, setUpCopyPluginForPIXIUM
+alias("setUpCopyPluginForPCO")
+alias("setUpCopyPluginForPIXIUM")
+#setUpCopyPluginForPCO()
+
+print "setup pco cpy plugin"
+from epics_scripts.pv_scannable_utils import caputStringAsWaveform
+caput( "BL12I-EA-DET-02:COPY:Run", 0)
+caputStringAsWaveform( "BL12I-EA-DET-02:COPY:SourceFilePath", "d:\\i12\\data\\2014")
+caputStringAsWaveform( "BL12I-EA-DET-02:COPY:DestFilePath", "t:\\i12\\data\\2014")
+caput ("BL12I-EA-DET-02:COPY:Run", 1)
 
 import os
 def stress12(exposureTime=1.0,startAng=0.0, stopAng=180.0, stepAng=0.05, subDir=None, loopNum=1):

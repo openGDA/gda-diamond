@@ -11,6 +11,9 @@ export SOFTWAREFOLDER=dls_sw
 export GDA_ROOT=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/plugins
 export GDA_CONFIG=${GDA_ROOT}/../i12-config
 export GDA_DATADIR=/dls/$BEAMLINE/data
+export GDALOGS=/dls_sw/i12/software/logs
+export GDAFOLDER=/dls_sw/$BEAMLINE/software/gda
+
 
 LIBRARY_SUBDIR=linux-`uname -i`
 LD_LIBRARY_PATH=${GDA_ROOT}/uk.ac.gda.core/lib/${LIBRARY_SUBDIR}:$LD_LIBRARY_PATH; export LD_LIBRARY_PATH
@@ -22,7 +25,7 @@ unset SVN_HOME
 export CLASSPATH=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/thirdparty/eclipse/plugins/*:$CLASSPATH
 export MATLABPATH=/$SOFTWAREFOLDER/$BEAMLINE/software/tomoTilt/code/release
 
-export PATH=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/i12-config/bin:/$SOFTWAREFOLDER/$BEAMLINE/software/tomoTilt/code/release:/dls_sw/dasc/bin/iKittenScripts:/$SOFTWAREFOLDER/$BEAMLINE/bin:$PATH
+export PATH=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/i12-config/bin:/$SOFTWAREFOLDER/$BEAMLINE/software/tomoTilt/code/release:/dls_sw/dasc/bin/iKittenScripts:/$SOFTWAREFOLDER/$BEAMLINE/bin:$PATH:/$SOFTWAREFOLDER/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin
 
 
 

@@ -60,12 +60,6 @@
 		<property name="ffmpegImageOutHeightMax" value="1336" />
 		<property name="ffmpegImageOutWidthMax" value="2004" />
 		<property name="imageNDROI" ref="pco.roi1" />
-		<property name="mjpegViewCompositeFactory">
-			<bean
-				class="gda.SimpleADViewerCompositeFactory" >
-			<property name="compositeFactory" ref="stages"/>
-			</bean>
-		</property>		
 	</bean>
 
 	<bean id="i12ADViewcreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">

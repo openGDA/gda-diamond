@@ -105,27 +105,24 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
     nxLinkCreator = NXTomoEntryLinkCreator()
    
     # detector independent items
-    nxLinkCreator.setControl_data_target("entry1:NXentry/instrument:NXinstrument/ionc_i:NXpositioner/ionc_i:NXdata")
+    nxLinkCreator.setControl_data_target("entry1:NXentry/instrument:NXinstrument/source:NXsource/current:NXdata")
     nxLinkCreator.setInstrument_detector_image_key_target("entry1:NXentry/instrument:NXinstrument/tomoScanDevice:NXpositioner/image_key:NXdata")
     nxLinkCreator.setInstrument_source_target("entry1:NXentry/instrument:NXinstrument/source:NXsource")
    
     sample_rotation_angle_target = "entry1:NXentry/instrument:NXinstrument/tomoScanDevice:NXpositioner/"
     sample_rotation_angle_target += tomography_theta_name + ":NXdata"
     nxLinkCreator.setSample_rotation_angle_target(sample_rotation_angle_target);
-    nxLinkCreator.setSample_x_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_samplex:NXdata")
-    nxLinkCreator.setSample_y_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_sampley:NXdata")
-    nxLinkCreator.setSample_z_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_samplez:NXdata")
    
     nxLinkCreator.setTitle_target("entry1:NXentry/title:NXdata")
    
     # detector dependent items
-    if tomography_detector_name == "pco1_hw_hdf":
+    if tomography_detector_name == "pco4000_dio_hdf":
         # external file
         instrument_detector_data_target = "!entry1:NXentry/instrument:NXinstrument/"
         instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
         instrument_detector_data_target += "data:SDS"
         nxLinkCreator.setInstrument_detector_data_target(instrument_detector_data_target)
-    elif tomography_detector_name == "pco1_hw_tif" or tomography_detector_name == "pco1_tif":
+    elif tomography_detector_name == "pco4000_dio_tif" or tomography_detector_name == "pco1_tif":
         # image filenames
         instrument_detector_data_target = "entry1:NXentry/instrument:NXinstrument/"
         instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
@@ -149,17 +146,20 @@ def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_th
     nxLinkCreator = NXTomoEntryLinkCreator()
    
     # detector independent items
-    nxLinkCreator.setControl_data_target("entry1:NXentry/instrument:NXinstrument/ionc_i:NXpositioner/ionc_i:NXdata")
+    nxLinkCreator.setControl_data_target("entry1:NXentry/instrument:NXinstrument/source:NXsource/current:NXdata")
     nxLinkCreator.setInstrument_detector_image_key_target("entry1:NXentry/instrument:NXinstrument/image_key:NXpositioner/image_key:NXdata")
     nxLinkCreator.setInstrument_source_target("entry1:NXentry/instrument:NXinstrument/source:NXsource")
    
     sample_rotation_angle_target = "entry1:NXentry/instrument:NXinstrument/zebraSM1:NXpositioner/"
     sample_rotation_angle_target += tomography_theta_name + ":NXdata"
     nxLinkCreator.setSample_rotation_angle_target(sample_rotation_angle_target);
-    nxLinkCreator.setSample_x_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_samplex:NXdata")
-    nxLinkCreator.setSample_y_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_sampley:NXdata")
-    nxLinkCreator.setSample_z_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_samplez:NXdata")
-   
+    
+    #currently no clear value for sample x,y,z so use a dummy default value
+    default_placeholder_target = "entry1:NXentry/scan_identifier:NXdata"    
+    nxLinkCreator.setSample_x_translation_target(default_placeholder_target)
+    nxLinkCreator.setSample_y_translation_target(default_placeholder_target)
+    nxLinkCreator.setSample_z_translation_target(default_placeholder_target)
+       
     nxLinkCreator.setTitle_target("entry1:NXentry/title:NXdata")
    
     # detector dependent items
@@ -436,8 +436,9 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 #        multiScanItems.append(MultiScanItem(scanBackward, PreScanRunnable("Preparing for projections",60, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
         multiScanObj = MultiScanRunner(multiScanItems)
         #must pass fist scan to be run
-        addFlyScanNXTomoSubentry(multiScanItems[0].scan, tomography_flyscan_det.name, tomography_flyscan_theta.name)
-        multiScanObj.run()
+        
+        addFlyScanNXTomoSubentry(multiScanItems[0].scan, tomography_flyscan_det.name, tomography_flyscan_theta.name, externalhdf=(tomography_flyscan_det.name != "flyScanDetectorTIF"))
+        multiScanObj.runScan()
         time.sleep(2)
         #turn camera back on
         tomography_flyscan_flat_dark_det.name = savename
