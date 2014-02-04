@@ -20,14 +20,19 @@ package uk.ac.gda.beamline.i13i.views;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.swt.widgets.Composite;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beamline.i13i.ADViewerImpl.I13ADControllerImpl;
 import uk.ac.gda.beamline.i13i.ADViewerImpl.I13MJPEGViewComposite;
 import uk.ac.gda.epics.adviewer.ADController;
 import uk.ac.gda.epics.adviewer.composites.MJPeg;
+import uk.ac.gda.epics.adviewer.views.HistogramView;
 import uk.ac.gda.epics.adviewer.views.MJPegView;
 
 public class I13MJPegView extends MJPegView {
+	private static final Logger logger = LoggerFactory.getLogger(HistogramView.class);
+	
 	public I13MJPegView(ADController config, IConfigurationElement configurationElement) {
 		super(config, configurationElement);
 		i13ADControllerImpl = (I13ADControllerImpl) config;
@@ -35,11 +40,15 @@ public class I13MJPegView extends MJPegView {
 
 	I13ADControllerImpl i13ADControllerImpl;
 	@Override
-	protected MJPeg createPartControlEx(Composite parent) throws Exception  {
-
-		I13MJPEGViewComposite i13MJPEGViewComposite = new I13MJPEGViewComposite(parent, i13ADControllerImpl.getStagesCompositeFactory() );
-		i13MJPEGViewComposite.setADController(i13ADControllerImpl, this);
-		return i13MJPEGViewComposite.getMJPeg();
+	protected MJPeg createPartControlEx(Composite parent) {
+		try {
+			I13MJPEGViewComposite i13MJPEGViewComposite = new I13MJPEGViewComposite(parent, i13ADControllerImpl.getStagesCompositeFactory() );
+			i13MJPEGViewComposite.setADController(i13ADControllerImpl, this);
+			return i13MJPEGViewComposite.getMJPeg();
+		} catch (Exception e) {
+			logger.error("Cannot create i13 MJPEG View Composite", e);
+		}
+		return null;
 	}
 
 }
