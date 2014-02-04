@@ -9,6 +9,7 @@
 		/> <import resource="devices/dcm.xml" /> <import resource="devices/d1.xml" 
 		/> <import resource="devices/d2.xml" /> -->
 		
+	<import resource="rawid.xml" />
 	<import resource="id.xml" />
 	<import resource="scientaslit.xml" />
 	<import resource="gonio.xml" />
