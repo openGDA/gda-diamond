@@ -36,7 +36,7 @@ public class SwitchToBSSCPerspectiveAction implements IIntroAction {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 
 		// open the BBSSC setup perspective
-		for (String id : new String[] { "uk.ac.gda.pydev.extension.ui.JythonPerspective",
+		for (String id : new String[] { "uk.ac.gda.client.scripting.JythonPerspective",
 				"gda.rcp.ncd.perspectives.WaxsPerspective", "gda.rcp.ncd.perspectives.SaxsProcessingPerspective",
 				"gda.rcp.ncd.perspectives.SaxsPerspective", "gda.rcp.ncd.perspectives.NcdDetectorPerspective",
 				"gda.rcp.ncd.perspectives.SetupPerspective" }) {
