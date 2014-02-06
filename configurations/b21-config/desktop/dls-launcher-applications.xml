@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launcher>
+  <group name="B21 Staff">
+    <button text="rdesktop HPLC" command="/dls_sw/b21/software/gda/bin/hplcpc"/>
+    <button text="rdesktop biosaxs" command="/dls_sw/b21/software/gda/bin/biosaxspc"/>
+  </group>
+
+  <!--<group name="Data Acquisition">-->
+    <button text="Start GDA Client" command="/dls_sw/b21/software/gda/bin/gdaclient" icon="cgda.png"/>
+    <button text="Start GDA Servers" command="/dls_sw/b21/software/gda/bin/interminal-gdaservers" icon="sgda.png"/>
+<!--    <button text="Start GDA Log" command="/dls_sw/b21/software/gda/bin/gdalog" icon="lgda.png"/> -->
+  <!--</group>-->
+    <button text="B21 EPICS Synoptic" command="from_configure_ioc.sh" args="$PORT BL21B-gui" icon="B21__SCM.png"/>
+    <button text="Dawn" command="/dls_sw/i22/software/gda/bin/dawn" icon="/dls_sw/i22/software/gda/config/desktop/dawn-icon.png" />
+</launcher>
