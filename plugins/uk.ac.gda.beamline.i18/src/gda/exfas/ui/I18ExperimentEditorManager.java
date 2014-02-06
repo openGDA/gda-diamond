@@ -78,8 +78,7 @@ public class I18ExperimentEditorManager extends ExperimentEditorManager implemen
 							BeansFactory.saveBean(file.getLocation().toFile(), samParameters);
 						}
 					catch (Exception e) {
-						// TODO Auto-generated catch block
-						logger.error("TODO put description of error here", e);
+						logger.error("Error saving bean "+desc.getName()+ "to file", e);
 					}
 				}
 				orderedMap.put(type, mapOfTypesToFiles.get(type));
