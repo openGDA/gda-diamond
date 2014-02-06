@@ -178,10 +178,7 @@ public class I05Apple extends ScannableMotionBase {
 		if (HORIZONTAL.equalsIgnoreCase(polarisation))
 			return 0;
 		if (VERTICAL.equalsIgnoreCase(polarisation)) {
-			if (((Double) lowerPhaseScannable.getPosition()) > 0.0) {
-				return 70;
-			} 
-			return -70;
+			return 70;
 		}
 		
 		Double phase = sigmoid(-682.768, 746.135,-144.152, 47.4809, gap);
