@@ -51,7 +51,7 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 	private static final String MAC_PLOT_VIEW_ID = "uk.ac.gda.client.hrpd.views.MACPlotView";
 	private static final String DATA_PLOT_VIEW_ID = "uk.ac.gda.beamline.i11.dataPlot";
 	private static final String DETECTOR_PLOT_VIEW_ID=DetectorFilePlotView.ID;
-	private static final String GDA_NAVIGATOR_VIEW_ID = "uk.ac.gda.pydev.extension.gda.navigator";
+	private static final String GDA_NAVIGATOR_VIEW_ID = "uk.ac.gda.client.navigator";
 	private static final String STATUS_VIEW_ID = "uk.ac.gda.beamline.i11.views.statusView";
 	
 	@Override
@@ -113,7 +113,7 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
         layout.addShowViewShortcut(IConsoleConstants.ID_CONSOLE_VIEW);
         layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
         layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);
-        layout.addShowViewShortcut("uk.ac.gda.pydev.extension.gda.navigator");
+        layout.addShowViewShortcut(GDA_NAVIGATOR_VIEW_ID);
         layout.addShowViewShortcut("org.eclipse.pde.runtime.LogView");
         layout.addShowViewShortcut(IPageLayout.ID_TASK_LIST);
         layout.addShowViewShortcut("org.python.pydev.views.PyRefactorView");
