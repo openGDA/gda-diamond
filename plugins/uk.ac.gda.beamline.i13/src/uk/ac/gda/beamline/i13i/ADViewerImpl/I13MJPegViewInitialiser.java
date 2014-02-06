@@ -130,7 +130,7 @@ public class I13MJPegViewInitialiser  {
 							final RealVector actualClickPoint = createVectorOf(clickCoordinates[0], clickCoordinates[1]);
 							ImageData imageData = I13MJPegViewInitialiser.this.mJPeg.getImageData();
 							final RealVector imageDataSize = createVectorOf(imageData.width, imageData.height);
-							final RealVector imageSize = createVectorOf(adControllerImpl.getFfmpegImageInWidth(),
+							final RealVector imageSize = createVectorOf((adControllerImpl).getFfmpegImageInWidth(),
 									adControllerImpl.getFfmpegImageInHeight());
 
 							final RealVector clickPointInImage = actualClickPoint.ebeMultiply(imageSize).ebeDivide(

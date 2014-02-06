@@ -73,7 +73,6 @@
 		<property name="imageNDArray" ref="pco1_arr" />
 		<property name="imageHistSize" value="500" />
 		<property name="imageMin" value="0" />
-		<property name="imageMax" value="65535" />
 		<property name="detectorName" value="PCO" />
 		<property name="adBase" ref="pco1_cam_base" />
 		<property name="setExposureTimeCmd" value="tomodet.setupForAlignment( exposureTime=%f)" />
@@ -90,8 +89,6 @@
 		<property name="sampleCentringYMotor" ref="ss1_sampley" />
 		<property name="cameraImageWidthMax" value="4008" />
 		<property name="cameraImageHeightMax" value="2672" />
-		<property name="ffmpegImageInOffsetX" value="100" />
-		<property name="ffmpegImageInOffsetY" value="100" />
 		<property name="showNormalisedImageCmd"
 			value="tomographyScan.showNormalisedImage(%s,exposureTime=%s)" />
 		<property name="imageNDROI" ref="pco1_roi1" />
@@ -282,24 +279,26 @@
 								<constructor-arg
 									value="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView" />
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
+							
+							
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="dummy Histogram" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.histogramview" />
+								<property name="pvPrefix" value="BL15I-DET-01:"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="Paul's camera Histogram" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.histogramview" />
+								<property name="pvPrefix" value="EPG-EA-DET-02:"/>
+								<property name="detectorName" value="Paul's Camera"/>
+							</bean>
+							
+							
+							<bean class="gda.rcp.views.OpenViewOption">
+								<constructor-arg value="epg" />
 								<constructor-arg
 									value="uk.ac.gda.epics.adviewer.histogramview" />
-								<property name="secondaryId" value="dummy"/>
-							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
-								<constructor-arg value="dummy MJpeg" />
-								<constructor-arg
-									value="uk.ac.gda.epics.adviewer.showLiveView" />
-								<property name="secondaryId" value="dummy"/>
-							</bean>
-							
-							
-							<bean class="gda.rcp.views.OpenViewOption">
-								<constructor-arg value="d1" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13i.d1AreaDetectorLiveView" />
+								<property name="secondaryId" value="epg"/>
 							</bean>
 							<bean class="gda.rcp.views.OpenViewOption">
 								<constructor-arg value="d2" />

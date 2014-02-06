@@ -14,16 +14,9 @@
 		<property name="imageNDStats" ref="d3_stat" />
 		<property name="liveViewNDProc" ref="d3_proc" />
 		<property name="imageNDArray" ref="d3_arr" />
-		<property name="imageHistSize" value="256" />
-		<property name="imageMin" value="0" />
-		<property name="imageMax" value="4095" />
 		<property name="detectorName" value="d3" />
 		<property name="adBase" ref="d3_cam_base" />
 		<property name="ffmpegStream" ref="d3_ffmpeg" />
-		<property name="ffmpegImageOutHeightMax" value="1200" />
-		<property name="ffmpegImageOutWidthMax" value="1600" />
-		<property name="cameraImageWidthMax" value="1388" />
-		<property name="cameraImageHeightMax" value="1032" />
 		<property name="imageNDROI" ref="d3_roi"/>
 	</bean>
 
