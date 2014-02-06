@@ -38,7 +38,7 @@ Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
 Import-Package: gda.device.monitor,
  org.dawnsci.plotting.jreality,
  org.eclipse.draw2d,
- org.slf4j;version="[1.7.5,1.7.6)",
+ org.slf4j;version="[1.7.6,1.7.7)",
  org.springframework.beans;version="3.2.2.RELEASE",
  org.springframework.beans.factory;version="3.2.2.RELEASE",
  org.springframework.beans.factory.config;version="3.2.2.RELEASE",
