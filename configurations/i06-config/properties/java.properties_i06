@@ -32,11 +32,6 @@ gda.logPanel.logging.port=6002
 
 gda.defVisit = cm5930-4
 
-# used for ICAT
-oracle.host=i06-control.diamond.ac.uk
-oracle.port=1521
-icat.username=ikiti06
-icat.password=d24sb4k
 
 ## For Camera data storage
 gda.data.directoryMappingGDA 	 = ${gda.data}

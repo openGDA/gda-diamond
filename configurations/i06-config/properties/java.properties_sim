@@ -1,3 +1,4 @@
+include=../../mt-config/properties/common/java.properties
 #### These values need changing to suit the station environment ####
 #
 ##
@@ -98,11 +99,6 @@ gda.facility.name   = DLS
 gda.facility.probe   = X-ray
 gda.facility.type   = Synchrotron X-ray Source
 
-# Metadata values that would normally be read from ICAT
-# (just define them as properties so that we don't need an ICAT!)
-gda.icat.visit = sc666-0
-gda.icat.proposal = 666
-gda.icat.title = GDA base simulation
 
 # Default values
 gda.default.visit = 0-0
