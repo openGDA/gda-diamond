@@ -24,6 +24,7 @@
 
 	<import resource="gonio.xml" />
 
+	<import resource="rawid.xml" />
 	<import resource="id.xml" />
 	<import resource="temperature.xml" />
 

@@ -21,6 +21,11 @@ package uk.ac.gda.beamline.i05.scannable;
 import gda.device.DeviceException;
 import gda.device.ScannableMotion;
 import gda.device.scannable.ScannableMotionBase;
+import gda.epics.connection.EpicsController;
+import gda.factory.FactoryException;
+import gov.aps.jca.CAException;
+import gov.aps.jca.Channel;
+import gov.aps.jca.TimeoutException;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -37,17 +42,23 @@ public class I05Apple extends ScannableMotionBase {
 	public final static String CIRCULAR_LEFT = "CL";
 	public final static String CIRCULAR_RIGHT = "CR";
 
-	ScannableMotion gapScannable;
-	ScannableMotion upperPhaseScannable;
-	ScannableMotion lowerPhaseScannable;
-	boolean moveSequenceRunning = false;
+	private ScannableMotion gapScannable;
+	private ScannableMotion upperPhaseScannable;
+	private ScannableMotion lowerPhaseScannable;
+	private String lowerPhaseDemand = "";
+	private String upperPhaseDemand = "";
 	
-	DeviceException threadException = null;
+	private boolean moveSequenceRunning = false;
 	
-	TrajectorySolver solver;
+	private DeviceException threadException = null;
 	
-	PolynomialFunction horizontalGapPolynomial = new PolynomialFunction(new double[] {0, 1});
-	PolynomialFunction verticalGapPolynomial = new PolynomialFunction(new double[] {0, 1});
+	private TrajectorySolver solver;
+	
+	private PolynomialFunction horizontalGapPolynomial = new PolynomialFunction(new double[] {0, 1});
+	private PolynomialFunction verticalGapPolynomial = new PolynomialFunction(new double[] {0, 1});
+	private EpicsController epicsController;
+	private Channel upperDemandChannel;
+	private Channel lowerDemandChannel;
 	
 	class TrajectorySolver {
 		Rectangle2D[] rectangles, smallrectanges;
@@ -122,6 +133,23 @@ public class I05Apple extends ScannableMotionBase {
 		setInputNames(new String[] { "gap", "phase" });
 		setExtraNames(new String[] { "polarisation" });
 		setOutputFormat(new String[] {"%8.5f", "%8.5f", "%s"});
+	}
+	
+	
+	@Override
+	public void configure() throws FactoryException {
+		super.configure();
+		epicsController = EpicsController.getInstance();
+		try {
+			if (upperPhaseDemand != null && !upperPhaseDemand.isEmpty())
+				upperDemandChannel = epicsController.createChannel(upperPhaseDemand);
+			if (lowerPhaseDemand != null && !lowerPhaseDemand.isEmpty())
+				lowerDemandChannel = epicsController.createChannel(lowerPhaseDemand);
+		} catch (CAException e) {
+			throw new FactoryException("error connecting to phase demand pvs", e);
+		} catch (TimeoutException e) {
+			throw new FactoryException("timeout connecting to phase demand pvs", e);
+		}
 	}
 
 	protected static Point2D[] trajectoryToPointArray(List<Line2D> traj) {
@@ -214,6 +242,10 @@ public class I05Apple extends ScannableMotionBase {
 					threadException = new DeviceException("interrupted while moving undulator", ie);
 				} catch (DeviceException e) {
 					threadException = e;
+				} catch (TimeoutException e) {
+					threadException = new DeviceException("timeout while talking to undulator", e);
+				} catch (CAException e) {
+					threadException = new DeviceException("ca exception while moving undulator", e);
 				}
 				
 			}
@@ -225,12 +257,20 @@ public class I05Apple extends ScannableMotionBase {
 		}
 	}
 
-	private void runPast(Point2D[] pointArray) throws DeviceException, InterruptedException {
+	private void setPhaseDemandsTo(double phase) throws TimeoutException, CAException, InterruptedException {
+		if (upperDemandChannel != null)
+			epicsController.caputWait(upperDemandChannel, phase);
+		if (lowerDemandChannel != null)
+			epicsController.caputWait(lowerDemandChannel, phase);
+	}
+	
+	private void runPast(Point2D[] pointArray) throws DeviceException, InterruptedException, TimeoutException, CAException {
 		try {
 			moveSequenceRunning = true;
 		for (int i = 1; i < pointArray.length; i++) {
 //			lowerPhaseScannable.asynchronousMoveTo(pointArray[i].getX());
 //			upperPhaseScannable.asynchronousMoveTo(pointArray[i].getX());
+			setPhaseDemandsTo(pointArray[i].getX());
 			gapScannable.asynchronousMoveTo(pointArray[i].getY());
 			lowerPhaseScannable.waitWhileBusy();
 			upperPhaseScannable.waitWhileBusy();
@@ -345,5 +385,21 @@ public class I05Apple extends ScannableMotionBase {
 
 	public void setVerticalGapPolynomial(PolynomialFunction verticalGapPolynomial) {
 		this.verticalGapPolynomial = verticalGapPolynomial;
+	}
+
+	public String getLowerPhaseDemandPV() {
+		return lowerPhaseDemand;
+	}
+
+	public void setLowerPhaseDemandPV(String lowerPhaseDemand) {
+		this.lowerPhaseDemand = lowerPhaseDemand;
+	}
+
+	public String getUpperPhaseDemandPV() {
+		return upperPhaseDemand;
+	}
+
+	public void setUpperPhaseDemandPV(String upperPhaseDemand) {
+		this.upperPhaseDemand = upperPhaseDemand;
 	}
 }

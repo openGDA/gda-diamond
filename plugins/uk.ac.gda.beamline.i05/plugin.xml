@@ -39,7 +39,7 @@
           point="org.eclipse.ui.perspectiveExtensions">
     <perspectiveExtension targetID="*">
        <perspectiveShortcut
-             id="uk.ac.gda.pydev.extension.ui.JythonPerspective">
+             id="uk.ac.gda.client.scripting.JythonPerspective">
        </perspectiveShortcut>
    </perspectiveExtension>
    </extension>

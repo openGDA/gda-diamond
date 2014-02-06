@@ -38,7 +38,7 @@ public class I05Intro extends IntroPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		for (String id : new String[] {
-				"uk.ac.gda.pydev.extension.ui.JythonPerspective",	
+				"uk.ac.gda.client.scripting.JythonPerspective",	
 				"uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective",
 				"uk.ac.gda.beamline.i05.perspectives.ArpesAlignmentPerspective"
 				}) {
