@@ -185,11 +185,11 @@ public class BeamMonitorWithFeedbackSwitchScannable extends TopupScannable imple
 				energy.put(energyVal);
 			}
 		} catch (NumberFormatException e) {
-			logger.error("Test pause - set energy error: cannot parse value for energy from string to double", e);
+			logger.error("Error while setting energy: cannot parse value for energy from string to double", e);
 		} catch (IllegalStateException e) {
-			logger.error("Test pause - channel state error:  failed to put energy value on to energy channel", e);
+			logger.error("Channel state error:  failed to put energy value on to energy channel " +energyPV, e);
 		} catch (CAException e) {
-			logger.error("Test pause - channel error: channel failure occurred while putting energy value on to energy channel", e);
+			logger.error("Channel error: channel failure occurred while putting energy value on to energy channel "+energyPV, e);
 		}
 	}
 
@@ -217,13 +217,13 @@ public class BeamMonitorWithFeedbackSwitchScannable extends TopupScannable imple
 						}
 					} catch (TimeoutException e) {
 						//timeout occurred during feedback switching
-						logger.error("switchFeedback - timeout error: failed to read feedback from controller", e);
+						logger.error("Timeout error: failed to read feedback from controller", e);
 						throw new DeviceException(e.getMessage(), e);
 					} catch (CAException e) {
-						logger.error("switchFeedback - channel state error: channel failure occurred while getting OR putting value to controller channel", e);
+						logger.error("Channel state error: channel failure occurred while getting OR putting value to controller channel", e);
 						throw new DeviceException(e.getMessage(), e);
 					} catch (InterruptedException e) {
-						logger.error("switchFeedback - interrupt error: the process thread to get OR put a value to the controller channel was interrupted", e);
+						logger.error("Interrupt error: the process thread to get OR put a value to the controller channel was interrupted", e);
 						throw new DeviceException(e.getMessage(), e);
 					}
 					
