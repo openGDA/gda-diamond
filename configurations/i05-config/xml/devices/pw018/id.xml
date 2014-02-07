@@ -99,12 +99,12 @@
 							<value>1.5442</value>
 							<value>-0.032253</value>
 							<value>0.0004126</value>
-							<value>-3.0664e-6</value>
+							<value>-3.0994e-6</value>
 							<value>1.404e-8</value>
 							<value>-3.8685e-11</value>
 							<value>6.3267e-14</value>
 							<value>-5.6361e-17</value>
-							<value>2.1043e-21</value>
+							<value>2.1043e-20</value>
 						</list>
 					</constructor-arg>
 				</bean>

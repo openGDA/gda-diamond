@@ -146,7 +146,7 @@ public class I05Apple extends ScannableMotionBase {
 	public I05Apple() {
 		setInputNames(new String[] { "gap", "polarisation" });
 		setExtraNames(new String[] { "phase" });
-		setOutputFormat(new String[] {"%8.5f", "%8.5f", "%s"});
+		setOutputFormat(new String[] {"%5.3f", "%s", "%5.3f"});
 	}
 	
 	
@@ -199,7 +199,7 @@ public class I05Apple extends ScannableMotionBase {
 		return pointValuePair.getPoint();
 	}
 	
-	private double getPhaseForGap(String polarisation, double gap) throws DeviceException {
+	public double getPhaseForGap(double gap, String polarisation) throws DeviceException {
 		if (HORIZONTAL.equalsIgnoreCase(polarisation))
 			return 0;
 		if (VERTICAL.equalsIgnoreCase(polarisation))
@@ -213,21 +213,8 @@ public class I05Apple extends ScannableMotionBase {
 			return phase * -1;
 		throw new DeviceException("unknown polarisation demanded");
 	}
-
-	public String getCurrentPolarisation() throws DeviceException {
-		checkPhases();
-		Double gap = (Double) gapScannable.getPosition();
-		for (String polarisation : new String[] {HORIZONTAL, VERTICAL, CIRCULAR_LEFT, CIRCULAR_RIGHT}) {
-			if (lowerPhaseScannable.isAt(getPhaseForGap(polarisation, gap)))
-				return polarisation;
-			if (VERTICAL.equalsIgnoreCase(polarisation) && lowerPhaseScannable.isAt(-1*getPhaseForGap(polarisation, gap))) {
-				return polarisation;
-			}
-		}
-		throw new DeviceException("found undefined id setting");
-	}
 	
-	private double getGapFor(double energy, String polarisation) throws DeviceException {
+	public double getGapFor(double energy, String polarisation) throws DeviceException {
 		if (HORIZONTAL.equalsIgnoreCase(polarisation))
 			return horizontalGapPolynomial.value(energy);
 		if (VERTICAL.equalsIgnoreCase(polarisation))
@@ -235,7 +222,7 @@ public class I05Apple extends ScannableMotionBase {
 		if (CIRCULAR_RIGHT.equalsIgnoreCase(polarisation))
 			return circularGapPolynomial.value(energy);
 		if (CIRCULAR_LEFT.equalsIgnoreCase(polarisation))
-			return -1.0*circularGapPolynomial.value(energy);
+			return circularGapPolynomial.value(energy);
 		throw new DeviceException("unknown or unconfigured polarisation demanded");
 	}
 	
@@ -245,7 +232,7 @@ public class I05Apple extends ScannableMotionBase {
 		double currentPhase = (Double) lowerPhaseScannable.getPosition();
 		double currentGap = (Double) gapScannable.getPosition();
 		double newgap = getGapFor(newenergy, newpol);
-		double newphase = getPhaseForGap(newpol, newgap);
+		double newphase = getPhaseForGap(newgap, newpol);
 		
 		final Point2D[] pointArray;
 		if (solver != null) {
@@ -278,11 +265,15 @@ public class I05Apple extends ScannableMotionBase {
 		}
 	}
 
-	private void setPhaseDemandsTo(double phase) throws TimeoutException, CAException, InterruptedException {
+	private void setPhaseDemandsTo(Double phase) throws TimeoutException, CAException, InterruptedException, DeviceException {
 		if (upperDemandChannel != null)
 			epicsController.caputWait(upperDemandChannel, phase);
+		else
+			upperPhaseScannable.asynchronousMoveTo(phase);
 		if (lowerDemandChannel != null)
 			epicsController.caputWait(lowerDemandChannel, phase);
+		else 
+			lowerPhaseScannable.asynchronousMoveTo(phase);
 	}
 	
 	private void runPast(Point2D[] pointArray) throws DeviceException, InterruptedException, TimeoutException, CAException {
@@ -302,28 +293,17 @@ public class I05Apple extends ScannableMotionBase {
 		}
 	}
 
-	public ScannableMotion getGapScannable() {
-		return gapScannable;
-	}
-
-	public void setGapScannable(ScannableMotion gapScannable) {
-		this.gapScannable = gapScannable;
-	}
-
-	public ScannableMotion getUpperPhaseScannable() {
-		return upperPhaseScannable;
-	}
-
-	public void setUpperPhaseScannable(ScannableMotion upperPhaseScannable) {
-		this.upperPhaseScannable = upperPhaseScannable;
-	}
-
-	public ScannableMotion getLowerPhaseScannable() {
-		return lowerPhaseScannable;
-	}
-
-	public void setLowerPhaseScannable(ScannableMotion lowerPhaseScannable) {
-		this.lowerPhaseScannable = lowerPhaseScannable;
+	public String getCurrentPolarisation() throws DeviceException {
+		checkPhases();
+		Double gap = (Double) gapScannable.getPosition();
+		for (String polarisation : new String[] {HORIZONTAL, VERTICAL, CIRCULAR_LEFT, CIRCULAR_RIGHT}) {
+			if (lowerPhaseScannable.isAt(getPhaseForGap(gap, polarisation)))
+				return polarisation;
+			if (VERTICAL.equalsIgnoreCase(polarisation) && lowerPhaseScannable.isAt(-1*getPhaseForGap(gap, polarisation))) {
+				return polarisation;
+			}
+		}
+		throw new DeviceException("found undefined id setting");
 	}
 	
 	@Override
@@ -424,23 +404,43 @@ public class I05Apple extends ScannableMotionBase {
 		this.upperPhaseDemandPV = upperPhaseDemand;
 	}
 
-
 	public PolynomialFunction getCircularGapPolynomial() {
 		return circularGapPolynomial;
 	}
-
 
 	public void setCircularGapPolynomial(PolynomialFunction circularGapPolynomial) {
 		this.circularGapPolynomial = circularGapPolynomial;
 	}
 
-
 	public PolynomialFunction getCircularPhasePolynomial() {
 		return circularPhasePolynomial;
 	}
 
-
 	public void setCircularPhasePolynomial(PolynomialFunction circularPhasePolynomial) {
 		this.circularPhasePolynomial = circularPhasePolynomial;
+	}
+	
+	public ScannableMotion getGapScannable() {
+		return gapScannable;
+	}
+
+	public void setGapScannable(ScannableMotion gapScannable) {
+		this.gapScannable = gapScannable;
+	}
+
+	public ScannableMotion getUpperPhaseScannable() {
+		return upperPhaseScannable;
+	}
+
+	public void setUpperPhaseScannable(ScannableMotion upperPhaseScannable) {
+		this.upperPhaseScannable = upperPhaseScannable;
+	}
+
+	public ScannableMotion getLowerPhaseScannable() {
+		return lowerPhaseScannable;
+	}
+
+	public void setLowerPhaseScannable(ScannableMotion lowerPhaseScannable) {
+		this.lowerPhaseScannable = lowerPhaseScannable;
 	}
 }
