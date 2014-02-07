@@ -171,8 +171,7 @@ class EnumPositionerComposite extends Composite {
 		try {
 		positions = this.positioner.getPositions();
 		} catch (DeviceException e) {
-			// TODO Auto-generated catch block
-			logger.error("TODO put description of error here", e);
+			logger.error("Error getting position for " + this.positioner.getName(), e);
 		}
 
 		pcom = new Combo(this, SWT.SINGLE|SWT.BORDER|SWT.CENTER|SWT.READ_ONLY);
