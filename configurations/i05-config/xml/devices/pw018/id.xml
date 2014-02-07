@@ -73,6 +73,42 @@
 					</constructor-arg>
 				</bean>
 		</property>
+		<property name="circularPhasePolynomial">
+				<bean class="org.apache.commons.math3.analysis.polynomials.PolynomialFunction">
+					<constructor-arg>
+						<list>
+							<value>37.527</value>
+							<value>0.45575</value>
+							<value>-0.0076008</value>
+							<value>7.7986e-5</value>
+							<value>-4.9078e-7</value>
+							<value>1.9312e-9</value>
+							<value>-4.7534e-12</value>
+							<value>7.0938e-15</value>
+							<value>-5.8606e-18</value>
+							<value>2.0545e-21</value>
+						</list>
+					</constructor-arg>
+				</bean>
+		</property>
+		<property name="circularGapPolynomial">
+				<bean class="org.apache.commons.math3.analysis.polynomials.PolynomialFunction">
+					<constructor-arg>
+						<list>
+							<value>8.049</value>
+							<value>1.5442</value>
+							<value>-0.032253</value>
+							<value>0.0004126</value>
+							<value>-3.0664e-6</value>
+							<value>1.404e-8</value>
+							<value>-3.8685e-11</value>
+							<value>6.3267e-14</value>
+							<value>-5.6361e-17</value>
+							<value>2.1043e-21</value>
+						</list>
+					</constructor-arg>
+				</bean>
+		</property>
 	</bean>
 	<bean id="energy" class="uk.ac.gda.beamline.i05.scannable.EnergyScannable">
 		<property name="pgm" ref="pgm_energy" />
