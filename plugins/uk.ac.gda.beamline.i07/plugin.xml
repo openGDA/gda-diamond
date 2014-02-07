@@ -121,7 +121,7 @@
                visible="true">
          </view>
          <view
-               id="ch.qos.logback.eclipse.views.LogbackView"
+               id="ch.qos.logback.beagle.view.BeagleView"
                minimized="false"
                moveable="true"
                relationship="stack"
@@ -148,7 +148,7 @@
                moveable="false"
                ratio="0.3"
                relationship="top"
-               relative="ch.qos.logback.eclipse.views.LogbackView"
+               relative="ch.qos.logback.beagle.view.BeagleView"
                showTitle="false"
                visible="true">
          </view>
@@ -161,7 +161,7 @@
                moveable="false"
                ratio="0.3"
                relationship="top"
-               relative="ch.qos.logback.eclipse.views.LogbackView"
+               relative="ch.qos.logback.beagle.view.BeagleView"
                showTitle="false"
                visible="true">
          </view>
@@ -179,7 +179,7 @@
          </view>
          <view
                closeable="true"
-               id="ch.qos.logback.eclipse.views.LogbackView"
+               id="ch.qos.logback.beagle.view.BeagleView"
                minimized="false"
                moveable="true"
                relationship="right"
