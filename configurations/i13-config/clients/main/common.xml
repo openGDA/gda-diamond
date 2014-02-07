@@ -270,69 +270,88 @@
 						value="Open the live view for the selected camera"></property>
 					<property name="options">
 						<list>
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="Select a camera" />
 								<constructor-arg value="" />
+								<constructor-arg value="" />
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="PCO" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView" />
+								<constructor-arg value="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView" />
+								<constructor-arg value="" />
 							</bean>
 							
 							
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
-								<constructor-arg value="dummy Histogram" />
-								<constructor-arg value="uk.ac.gda.epics.adviewer.histogramview" />
-								<property name="pvPrefix" value="BL15I-DET-01:"/>
+								<constructor-arg value="Perkin Elmer" />
+								<constructor-arg value="Perkin Elmer" />
+								<constructor-arg value="STATS" />
+								<constructor-arg value="BL15I-DET-01:"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
-								<constructor-arg value="Paul's camera Histogram" />
-								<constructor-arg value="uk.ac.gda.epics.adviewer.histogramview" />
-								<property name="pvPrefix" value="EPG-EA-DET-02:"/>
-								<property name="detectorName" value="Paul's Camera"/>
+								<constructor-arg value="Paul's camera Array" />
+								<constructor-arg value="Paul's camera" />
+								<constructor-arg value="ARRAY" />
+								<constructor-arg value="EPG-EA-DET-02:"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="Paul's camera Stats" />
+								<constructor-arg value="Paul's camera" />
+								<constructor-arg value="STATS" />
+								<constructor-arg value="EPG-EA-DET-02:"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="Paul's camera MPEG" />
+								<constructor-arg value="Paul's camera" />
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="EPG-EA-DET-02:"/>
 							</bean>
 							
 							
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="epg" />
-								<constructor-arg
-									value="uk.ac.gda.epics.adviewer.histogramview" />
-								<property name="secondaryId" value="epg"/>
+								<constructor-arg value="uk.ac.gda.epics.adviewer.histogramview" />
+								<constructor-arg value="epg"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
+								<constructor-arg value="d1" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.histogramview" />
+								<constructor-arg value="d1"/>
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="d2" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13i.d2AreaDetectorLiveView" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.histogramview" />
+								<constructor-arg value="d2"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="d3" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13i.d3AreaDetectorLiveView" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.histogramview" />
+								<constructor-arg value="d4"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="d4" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13i.d4AreaDetectorLiveView" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.histogramview" />
+								<constructor-arg value="d4"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="d5" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13i.d5AreaDetectorLiveView" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.histogramview" />
+								<constructor-arg value="d5"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="float1" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13i.float1AreaDetectorLiveView" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.histogramview" />
+								<constructor-arg value="float1"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="float2" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13i.float2AreaDetectorLiveView" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.histogramview" />
+								<constructor-arg value="float2"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="WebCams" />
 								<constructor-arg value="uk.ac.gda.video.views.cameraview" />
+								<constructor-arg value="" />
 							</bean>
 						</list>
 					</property>

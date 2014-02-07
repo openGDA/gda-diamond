@@ -53,6 +53,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
 import uk.ac.gda.client.CommandQueueViewFactory;
@@ -323,7 +324,7 @@ public class I13MJPEGViewComposite extends Composite {
 
 		try {
 			String model_RBV = adController.getAdBase().getModel_RBV();
-			if (model_RBV.length() > 1) {
+			if (!StringUtils.isEmpty( model_RBV)) {
 				model_RBV = model_RBV.replace(" ", "_");
 				model_RBV = model_RBV.replace(".", "_");
 				ImageDescriptor imageDescriptor = I13IBeamlineActivator.getImageDescriptor("icons/" + model_RBV
