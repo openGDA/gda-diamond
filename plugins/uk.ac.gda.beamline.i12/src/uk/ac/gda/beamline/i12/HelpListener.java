@@ -54,7 +54,7 @@ public class HelpListener {
 				try {
 					return new java.net.URL(url);
 				} catch (MalformedURLException e) {
-					logger.error("TODO put description of error here", e);
+					logger.error("Error attempting to create url object from string "+url, e);
 				}
 			}
 			return null;
@@ -82,7 +82,7 @@ public class HelpListener {
 								}
 
 							} catch (PartInitException e) {
-								logger.error("TODO put description of error here", e);
+								logger.error("Unable to show view for org.eclipse.ui.browser.view", e);
 							}
 						}
 					});
