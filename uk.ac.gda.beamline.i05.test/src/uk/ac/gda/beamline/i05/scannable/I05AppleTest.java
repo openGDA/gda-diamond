@@ -88,7 +88,7 @@ public class I05AppleTest {
 
 	@Test
 	public void testCircPhaseCalc() throws DeviceException {
-		double phase = apple.getPhaseForGap(I05Apple.CIRCULAR_LEFT, 32.0);
+		double phase = apple.getPhaseForGap(32.0, I05Apple.CIRCULAR_LEFT);
 		assertEquals("testCircPhaseCalc phase does not match", -45.45, phase, 0.2);
 	}
 	
