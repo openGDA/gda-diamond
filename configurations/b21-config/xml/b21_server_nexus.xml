@@ -285,7 +285,7 @@
 	
 	<bean id="title" class="gda.data.metadata.StoredScanMetadataEntry">
 		<property name="name" value="title" />
-		<property name="value" value="undefined" />
+		<property name="value" value="" />
 	</bean>
 	
 	<bean class="gda.data.metadata.MetadataBlaster" id="observableScanTitle">
