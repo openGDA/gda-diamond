@@ -34,7 +34,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math3.optim.MaxEval;
+import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math3.optim.univariate.BrentOptimizer;
+import org.apache.commons.math3.optim.univariate.SearchInterval;
+import org.apache.commons.math3.optim.univariate.UnivariateObjectiveFunction;
+import org.apache.commons.math3.optim.univariate.UnivariateOptimizer;
+import org.apache.commons.math3.optim.univariate.UnivariatePointValuePair;
 
+
+/**
+ * in anti parallel mode (circular) we have the top phase positive for right circular
+ *  
+ */
 public class I05Apple extends ScannableMotionBase {
 	
 	public final static String VERTICAL = "LV";
@@ -45,8 +57,8 @@ public class I05Apple extends ScannableMotionBase {
 	private ScannableMotion gapScannable;
 	private ScannableMotion upperPhaseScannable;
 	private ScannableMotion lowerPhaseScannable;
-	private String lowerPhaseDemand = "";
-	private String upperPhaseDemand = "";
+	private String lowerPhaseDemandPV = "";
+	private String upperPhaseDemandPV = "";
 	
 	private boolean moveSequenceRunning = false;
 	
@@ -56,6 +68,8 @@ public class I05Apple extends ScannableMotionBase {
 	
 	private PolynomialFunction horizontalGapPolynomial = new PolynomialFunction(new double[] {0, 1});
 	private PolynomialFunction verticalGapPolynomial = new PolynomialFunction(new double[] {0, 1});
+	private PolynomialFunction circularGapPolynomial = new PolynomialFunction(new double[] {0, 1});
+	private PolynomialFunction circularPhasePolynomial = new PolynomialFunction(new double[] {0, 1});
 	private EpicsController epicsController;
 	private Channel upperDemandChannel;
 	private Channel lowerDemandChannel;
@@ -130,9 +144,9 @@ public class I05Apple extends ScannableMotionBase {
 	}
 	
 	public I05Apple() {
-		setInputNames(new String[] { "gap", "phase" });
-		setExtraNames(new String[] { "polarisation" });
-		setOutputFormat(new String[] {"%8.5f", "%8.5f", "%s"});
+		setInputNames(new String[] { "gap", "polarisation" });
+		setExtraNames(new String[] { "phase" });
+		setOutputFormat(new String[] {"%5.3f", "%s", "%5.3f"});
 	}
 	
 	
@@ -141,10 +155,10 @@ public class I05Apple extends ScannableMotionBase {
 		super.configure();
 		epicsController = EpicsController.getInstance();
 		try {
-			if (upperPhaseDemand != null && !upperPhaseDemand.isEmpty())
-				upperDemandChannel = epicsController.createChannel(upperPhaseDemand);
-			if (lowerPhaseDemand != null && !lowerPhaseDemand.isEmpty())
-				lowerDemandChannel = epicsController.createChannel(lowerPhaseDemand);
+			if (upperPhaseDemandPV != null && !upperPhaseDemandPV.isEmpty())
+				upperDemandChannel = epicsController.createChannel(upperPhaseDemandPV);
+			if (lowerPhaseDemandPV != null && !lowerPhaseDemandPV.isEmpty())
+				lowerDemandChannel = epicsController.createChannel(lowerPhaseDemandPV);
 		} catch (CAException e) {
 			throw new FactoryException("error connecting to phase demand pvs", e);
 		} catch (TimeoutException e) {
@@ -164,57 +178,51 @@ public class I05Apple extends ScannableMotionBase {
 		}
 		return result.toArray(new Point2D[] {});
 	}
-	
-	public static double sigmoid(double k0, double k1, double k2, double k3, double x) {
-		return k0 + k1 / (1 + Math.exp(-(x-k2)/k3));
-	}
-	
+
 	public void checkPhases() throws DeviceException {
-		if (!upperPhaseScannable.isAt(lowerPhaseScannable.getPosition()))
-			throw new DeviceException("upper and lower phase out of sync");
+		if (upperPhaseScannable.isAt(lowerPhaseScannable.getPosition()))
+			return;
+		throw new DeviceException("upper and lower phase out of sync");
 	}
 	
-	public double getPhaseForGap(String polarisation, double gap) throws DeviceException {
+	//FIXME public for testing
+	public double findEnergyForCircularGap(double gap) {
+		PolynomialFunction poly = circularGapPolynomial.add(new PolynomialFunction(new double[] { -gap }));
+		poly = poly.multiply(poly);
+		UnivariateOptimizer optimizer = new BrentOptimizer(1e-6, 1e-4);
+		
+		UnivariatePointValuePair pointValuePair = optimizer.optimize(new MaxEval(100), 
+				new UnivariateObjectiveFunction(poly),
+				GoalType.MINIMIZE,
+				new SearchInterval(10, 1000));
+		
+		return pointValuePair.getPoint();
+	}
+	
+	public double getPhaseForGap(double gap, String polarisation) throws DeviceException {
 		if (HORIZONTAL.equalsIgnoreCase(polarisation))
 			return 0;
-		if (VERTICAL.equalsIgnoreCase(polarisation)) {
-			if (((Double) lowerPhaseScannable.getPosition()) > 0.0) {
-				return 70;
-			} 
-			return -70;
-		}
+		if (VERTICAL.equalsIgnoreCase(polarisation))
+			return 70;
 		
-		Double phase = sigmoid(-682.768, 746.135,-144.152, 47.4809, gap);
+		Double energy = findEnergyForCircularGap(gap);
+		Double phase = circularPhasePolynomial.value(energy);
 		if (CIRCULAR_RIGHT.equalsIgnoreCase(polarisation))
 			return phase;
 		if (CIRCULAR_LEFT.equalsIgnoreCase(polarisation))
 			return phase * -1;
 		throw new DeviceException("unknown polarisation demanded");
 	}
-
-	public String getCurrentPolarisation() throws DeviceException {
-		checkPhases();
-		Double gap = (Double) gapScannable.getPosition();
-		for (String polarisation : new String[] {HORIZONTAL, VERTICAL, CIRCULAR_LEFT, CIRCULAR_RIGHT}) {
-			if (lowerPhaseScannable.isAt(getPhaseForGap(polarisation, gap)))
-				return polarisation;
-			if (VERTICAL.equalsIgnoreCase(polarisation) && lowerPhaseScannable.isAt(-1*getPhaseForGap(polarisation, gap))) {
-				return polarisation;
-			}
-		}
-		throw new DeviceException("found undefined id setting");
-	}
 	
-	private double getGapFor(double energy, String polarisation) throws DeviceException {
+	public double getGapFor(double energy, String polarisation) throws DeviceException {
 		if (HORIZONTAL.equalsIgnoreCase(polarisation))
 			return horizontalGapPolynomial.value(energy);
-		if (VERTICAL.equalsIgnoreCase(polarisation)) {
+		if (VERTICAL.equalsIgnoreCase(polarisation))
 			return verticalGapPolynomial.value(energy);
-		}
-//		if (CIRCULAR_RIGHT.equalsIgnoreCase(polarisation))
-//			return 70*energy/200; // FIXME -- these are fake value! take out immediately
-//		if (CIRCULAR_LEFT.equalsIgnoreCase(polarisation))
-//			return -70*energy/200; // FIXME -- these are fake value! take out immediately
+		if (CIRCULAR_RIGHT.equalsIgnoreCase(polarisation))
+			return circularGapPolynomial.value(energy);
+		if (CIRCULAR_LEFT.equalsIgnoreCase(polarisation))
+			return circularGapPolynomial.value(energy);
 		throw new DeviceException("unknown or unconfigured polarisation demanded");
 	}
 	
@@ -224,7 +232,7 @@ public class I05Apple extends ScannableMotionBase {
 		double currentPhase = (Double) lowerPhaseScannable.getPosition();
 		double currentGap = (Double) gapScannable.getPosition();
 		double newgap = getGapFor(newenergy, newpol);
-		double newphase = getPhaseForGap(newpol, newgap);
+		double newphase = getPhaseForGap(newgap, newpol);
 		
 		final Point2D[] pointArray;
 		if (solver != null) {
@@ -257,11 +265,15 @@ public class I05Apple extends ScannableMotionBase {
 		}
 	}
 
-	private void setPhaseDemandsTo(double phase) throws TimeoutException, CAException, InterruptedException {
+	private void setPhaseDemandsTo(Double phase) throws TimeoutException, CAException, InterruptedException, DeviceException {
 		if (upperDemandChannel != null)
 			epicsController.caputWait(upperDemandChannel, phase);
+		else
+			upperPhaseScannable.asynchronousMoveTo(phase);
 		if (lowerDemandChannel != null)
 			epicsController.caputWait(lowerDemandChannel, phase);
+		else 
+			lowerPhaseScannable.asynchronousMoveTo(phase);
 	}
 	
 	private void runPast(Point2D[] pointArray) throws DeviceException, InterruptedException, TimeoutException, CAException {
@@ -281,28 +293,17 @@ public class I05Apple extends ScannableMotionBase {
 		}
 	}
 
-	public ScannableMotion getGapScannable() {
-		return gapScannable;
-	}
-
-	public void setGapScannable(ScannableMotion gapScannable) {
-		this.gapScannable = gapScannable;
-	}
-
-	public ScannableMotion getUpperPhaseScannable() {
-		return upperPhaseScannable;
-	}
-
-	public void setUpperPhaseScannable(ScannableMotion upperPhaseScannable) {
-		this.upperPhaseScannable = upperPhaseScannable;
-	}
-
-	public ScannableMotion getLowerPhaseScannable() {
-		return lowerPhaseScannable;
-	}
-
-	public void setLowerPhaseScannable(ScannableMotion lowerPhaseScannable) {
-		this.lowerPhaseScannable = lowerPhaseScannable;
+	public String getCurrentPolarisation() throws DeviceException {
+		checkPhases();
+		Double gap = (Double) gapScannable.getPosition();
+		for (String polarisation : new String[] {HORIZONTAL, VERTICAL, CIRCULAR_LEFT, CIRCULAR_RIGHT}) {
+			if (lowerPhaseScannable.isAt(getPhaseForGap(gap, polarisation)))
+				return polarisation;
+			if (VERTICAL.equalsIgnoreCase(polarisation) && lowerPhaseScannable.isAt(-1*getPhaseForGap(gap, polarisation))) {
+				return polarisation;
+			}
+		}
+		throw new DeviceException("found undefined id setting");
 	}
 	
 	@Override
@@ -314,7 +315,7 @@ public class I05Apple extends ScannableMotionBase {
 		} catch (Exception e) {
 			// ignored
 		}
-		return new Object[] { gapScannable.getPosition(), upperPhaseScannable.getPosition(), polarisation };
+		return new Object[] { gapScannable.getPosition(), polarisation, upperPhaseScannable.getPosition()};
 	}
 	
 	private synchronized void checkThreadException() throws DeviceException {
@@ -388,18 +389,58 @@ public class I05Apple extends ScannableMotionBase {
 	}
 
 	public String getLowerPhaseDemandPV() {
-		return lowerPhaseDemand;
+		return lowerPhaseDemandPV;
 	}
 
 	public void setLowerPhaseDemandPV(String lowerPhaseDemand) {
-		this.lowerPhaseDemand = lowerPhaseDemand;
+		this.lowerPhaseDemandPV = lowerPhaseDemand;
 	}
 
 	public String getUpperPhaseDemandPV() {
-		return upperPhaseDemand;
+		return upperPhaseDemandPV;
 	}
 
 	public void setUpperPhaseDemandPV(String upperPhaseDemand) {
-		this.upperPhaseDemand = upperPhaseDemand;
+		this.upperPhaseDemandPV = upperPhaseDemand;
+	}
+
+	public PolynomialFunction getCircularGapPolynomial() {
+		return circularGapPolynomial;
+	}
+
+	public void setCircularGapPolynomial(PolynomialFunction circularGapPolynomial) {
+		this.circularGapPolynomial = circularGapPolynomial;
+	}
+
+	public PolynomialFunction getCircularPhasePolynomial() {
+		return circularPhasePolynomial;
+	}
+
+	public void setCircularPhasePolynomial(PolynomialFunction circularPhasePolynomial) {
+		this.circularPhasePolynomial = circularPhasePolynomial;
+	}
+	
+	public ScannableMotion getGapScannable() {
+		return gapScannable;
+	}
+
+	public void setGapScannable(ScannableMotion gapScannable) {
+		this.gapScannable = gapScannable;
+	}
+
+	public ScannableMotion getUpperPhaseScannable() {
+		return upperPhaseScannable;
+	}
+
+	public void setUpperPhaseScannable(ScannableMotion upperPhaseScannable) {
+		this.upperPhaseScannable = upperPhaseScannable;
+	}
+
+	public ScannableMotion getLowerPhaseScannable() {
+		return lowerPhaseScannable;
+	}
+
+	public void setLowerPhaseScannable(ScannableMotion lowerPhaseScannable) {
+		this.lowerPhaseScannable = lowerPhaseScannable;
 	}
 }

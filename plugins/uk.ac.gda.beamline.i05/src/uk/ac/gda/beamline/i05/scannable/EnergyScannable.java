@@ -28,6 +28,7 @@ import gda.factory.corba.util.CorbaAdapterClass;
 import gda.factory.corba.util.CorbaImplClass;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -54,12 +55,12 @@ public class EnergyScannable extends ScannableBase {
 		Vector<String> en = new Vector<String>();
 		Vector<String> of = new Vector<String>();
 		of.add("%5.3f"); //us - pgm
+		of.add("%s"); //id (polarisation)
+		en.add("polarisation");
 		of.add("%5.3f"); //id (gap)
 		en.add("gap");
 		of.add("%5.3f"); //id (phase)
 		en.add("phase");
-		of.add("%s"); //id (polarisation)
-		en.add("polarisation");
 		for (Scannable s : scannables) {
 			en.add(s.getName());
 			of.add("%5.3f");
@@ -82,11 +83,32 @@ public class EnergyScannable extends ScannableBase {
 	}
 	
 	@Override
-	public void asynchronousMoveTo(Object externalPosition) throws DeviceException {
-		pgm.asynchronousMoveTo(externalPosition);
-		id.asynchronousMoveTo(new Object[] {externalPosition, null});
+	public void asynchronousMoveTo(Object position) throws DeviceException {
+		Double energy;
+		String polarisation = null;
+		
+		if (position instanceof Number) {
+			energy = ((Number) position).doubleValue();
+		} else {
+			if (position instanceof List)
+				position = ((List) position).toArray();
+			try {
+				Object[] arr = (Object []) position;
+				if (arr[0] instanceof Number)
+					energy = ((Number) arr[0]).doubleValue();
+				else 
+					energy = Double.parseDouble(arr[0].toString());
+				if (arr[1] != null)
+					polarisation = arr[1].toString();
+			} catch (Exception e) {
+				throw new DeviceException("expecting number energy and string polarisation");
+			}
+		}
+		
+		pgm.asynchronousMoveTo(energy);
+		id.asynchronousMoveTo(new Object[] {energy, polarisation});
 		for(Scannable s : scannables) {
-			s.asynchronousMoveTo(externalPosition);
+			s.asynchronousMoveTo(energy);
 		}
 	}
 	
@@ -95,8 +117,8 @@ public class EnergyScannable extends ScannableBase {
 		Object[] pos = new Object[scannables.size()+4];
 		pos[0] = pgm.getPosition();
 		Object[] idposition = (Object[]) id.getPosition();
-		pos[1] = idposition[0];
-		pos[2] = idposition[1];
+		pos[1] = idposition[1];
+		pos[2] = idposition[0];
 		pos[3] = idposition[2];
 		int i = 3;
 		for (Scannable s : scannables) {

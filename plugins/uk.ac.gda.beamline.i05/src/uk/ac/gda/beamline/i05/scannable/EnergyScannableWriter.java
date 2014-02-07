@@ -71,9 +71,9 @@ public class EnergyScannableWriter extends SingleScannableWriter {
 				return new double[] { 1.0, 1.0, 0.0, 0.0};
 			else if (I05Apple.VERTICAL.equals(pos)) 
 				return new double[] { 1.0, -1.0, 0.0, 0.0};
-			else if (I05Apple.CIRCULAR_LEFT.equals(pos))
-				return new double[] { 1.0, 0.0, 0.0, 1.0};
 			else if (I05Apple.CIRCULAR_RIGHT.equals(pos))
+				return new double[] { 1.0, 0.0, 0.0, 1.0};
+			else if (I05Apple.CIRCULAR_LEFT.equals(pos))
 				return new double[] { 1.0, 0.0, 0.0, -1.0};
 			return null;
 		}
