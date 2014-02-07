@@ -89,7 +89,7 @@ public class DetectorFileDisplayer implements FileProcessor, PlotConfigurable, I
 			try {
 				showView = page.showView(viewID);
 			} catch (PartInitException e) {
-				logger.error("TODO put description of error here", e);
+				logger.error("Unable to show view plot view " +viewID, e);
 			}
 			if (showView != null && showView instanceof DetectorFilePlotView) {
 				plotView = (DetectorFilePlotView) showView;
