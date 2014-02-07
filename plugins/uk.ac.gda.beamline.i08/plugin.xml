@@ -101,7 +101,7 @@
          </view>
          <view
                closeable="true"
-               id="ch.qos.logback.eclipse.views.LogbackView"
+               id="ch.qos.logback.beagle.view.BeagleView"
                minimized="false"
                moveable="true"
                relationship="stack"
