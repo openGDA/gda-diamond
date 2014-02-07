@@ -73,7 +73,6 @@
 		<property name="imageNDArray" ref="pco1_arr" />
 		<property name="imageHistSize" value="500" />
 		<property name="imageMin" value="0" />
-		<property name="imageMax" value="65535" />
 		<property name="detectorName" value="PCO" />
 		<property name="adBase" ref="pco1_cam_base" />
 		<property name="setExposureTimeCmd" value="tomodet.setupForAlignment( exposureTime=%f)" />
@@ -90,8 +89,6 @@
 		<property name="sampleCentringYMotor" ref="ss1_sampley" />
 		<property name="cameraImageWidthMax" value="4008" />
 		<property name="cameraImageHeightMax" value="2672" />
-		<property name="ffmpegImageInOffsetX" value="100" />
-		<property name="ffmpegImageInOffsetY" value="100" />
 		<property name="showNormalisedImageCmd"
 			value="tomographyScan.showNormalisedImage(%s,exposureTime=%s)" />
 		<property name="imageNDROI" ref="pco1_roi1" />
@@ -282,10 +279,26 @@
 								<constructor-arg
 									value="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView" />
 							</bean>
+							
+							
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="dummy Histogram" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.histogramview" />
+								<property name="pvPrefix" value="BL15I-DET-01:"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="Paul's camera Histogram" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.histogramview" />
+								<property name="pvPrefix" value="EPG-EA-DET-02:"/>
+								<property name="detectorName" value="Paul's Camera"/>
+							</bean>
+							
+							
 							<bean class="gda.rcp.views.OpenViewOption">
-								<constructor-arg value="d1" />
+								<constructor-arg value="epg" />
 								<constructor-arg
-									value="uk.ac.gda.beamline.i13i.d1AreaDetectorLiveView" />
+									value="uk.ac.gda.epics.adviewer.histogramview" />
+								<property name="secondaryId" value="epg"/>
 							</bean>
 							<bean class="gda.rcp.views.OpenViewOption">
 								<constructor-arg value="d2" />
@@ -376,21 +389,6 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
-	<bean id="bs1_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}bs1_x" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="bs1_y" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}bs1_y" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="bs1_z" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}bs1_z" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
 
 
 	<bean id="cs1_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
@@ -573,32 +571,6 @@
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
 					<property name="imageFilePath" value="icons/samplebasestage.gif" />
 					<property name="label" value="Base" />
-				</bean>
-				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
-					<property name="compositeFactory">
-						<bean class="gda.rcp.views.StageCompositeFactory">
-							<property name="stageCompositeDefinitions">
-								<util:list value-type="gda.rcp.views.StageCompositeDefinition">
-									<bean class="gda.rcp.views.StageCompositeDefinition">
-										<property name="scannable" ref="bs1_x" />
-										<property name="stepSize" value=".1" />
-									</bean>
-									<bean class="gda.rcp.views.StageCompositeDefinition">
-										<property name="scannable" ref="bs1_y" />
-										<property name="stepSize" value=".1" />
-									</bean>
-									<bean class="gda.rcp.views.StageCompositeDefinition">
-										<property name="scannable" ref="bs1_z" />
-										<property name="stepSize" value=".1" />
-									</bean>
-								</util:list>
-							</property>
-							<property name="labelWidth" value="80" />
-						</bean>
-					</property>
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
-					<property name="imageFilePath" value="icons/camerastage.gif" />
-					<property name="label" value="Backstop" />
 				</bean>
 				<!-- <bean class="gda.rcp.views.TabCompositeFactoryImpl"> <property name="compositeFactory"> 
 					<bean class="gda.rcp.views.StageCompositeFactory"> <property name="stageCompositeDefinitions"> 

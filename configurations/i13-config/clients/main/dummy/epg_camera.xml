@@ -8,38 +8,38 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="d3ADController"
+	<bean id="epgADController"
 		class="uk.ac.gda.epics.adviewer.ADControllerImpl">
-		<property name="serviceName" value="d3"/>
-		<property name="imageNDStats" ref="d3_stat" />
-		<property name="liveViewNDProc" ref="d3_proc" />
-		<property name="imageNDArray" ref="d3_arr" />
-		<property name="detectorName" value="d3" />
-		<property name="adBase" ref="d3_cam_base" />
-		<property name="ffmpegStream" ref="d3_ffmpeg" />
-		<property name="imageNDROI" ref="d3_roi"/>
+		<property name="serviceName" value="epg"/>
+		<property name="imageNDStats" ref="epg_stat" />
+		<property name="liveViewNDProc" ref="epg_proc" />
+		<property name="imageNDArray" ref="epg_arr" />
+		<property name="detectorName" value="epg" />
+		<property name="adBase" ref="epg_cam_base" />
+		<property name="ffmpegStream" ref="epg_ffmpeg" />
+		<property name="imageNDROI" ref="epg_roi"/>
 	</bean>
 
-	<bean id="d3ADViewcreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
-		<property name="adController" ref="d3ADController" />
+	<bean id="epgADViewcreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
+		<property name="adController" ref="epgADController" />
 	</bean>
 
-	<bean id="d3dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
+	<bean id="epgdictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
 		<property name="map">
 			<map>
-				<entry key="SERVICE_NAME" value="d3" />
+				<entry key="SERVICE_NAME" value="epg" />
 			</map>
 		</property>
 	</bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
-		<property name="service" ref="d3ADController" />
-		<property name="properties" ref="d3dictionary" />
+		<property name="service" ref="epgADController" />
+		<property name="properties" ref="epgdictionary" />
 	</bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.views.ViewCreator" />
-		<property name="service" ref="d3ADViewcreator" />
-		<property name="properties" ref="d3dictionary" />
+		<property name="service" ref="epgADViewcreator" />
+		<property name="properties" ref="epgdictionary" />
 	</bean>
 
 	

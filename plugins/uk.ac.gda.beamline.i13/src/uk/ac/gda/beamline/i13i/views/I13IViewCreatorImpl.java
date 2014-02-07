@@ -28,7 +28,6 @@ public class I13IViewCreatorImpl extends ViewCreatorImpl {
 	@Override
 	public Object createLiveView(IConfigurationElement configurationElement) throws Exception {
 		MJPegView mjPegView = new I13MJPegView(adController, configurationElement);
-		mjPegView.afterPropertiesSet();
 		return mjPegView;
 	}
 

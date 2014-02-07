@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.2.0.201303060654-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.4.0.201310051539-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -136,6 +136,15 @@
 		<config>clients/main/d4.xml</config>
 		<config>clients/main/d5.xml</config>
 		<config>devices/zebra_test.xml</config>
+		<config>clients/main/dummy/epg_camera.xml</config>
+		<config>devices/dummy/central_stop_motors.xml</config>
+		<config>devices/dummy/condenser_motors.xml</config>
+		<config>devices/dummy/float1.xml</config>
+		<config>devices/dummy/float2.xml</config>
+		<config>devices/dummy/phase_ring_motors.xml</config>
+		<config>devices/dummy/pinhole_motors.xml</config>
+		<config>devices/dummy/zone_plate_motors.xml</config>
+		<config>devices/epics/epg_camera.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

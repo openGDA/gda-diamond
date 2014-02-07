@@ -72,6 +72,13 @@
 	<import resource="../../../devices/dummy/camera_stage_motors.xml" />
 	<import resource="../../../devices/dummy/sample_stage_hexapod_motors.xml"/>	
 
+	<import resource="../../../devices/dummy/condenser_motors.xml" />
+	<import resource="../../../devices/dummy/central_stop_motors.xml" />
+	<import resource="../../../devices/dummy/pinhole_motors.xml" />
+	<import resource="../../../devices/dummy/zone_plate_motors.xml" />
+	<import resource="../../../devices/dummy/phase_ring_motors.xml" />
+
+
 	<import resource="../../../devices/dummy/pco1.xml" />
 <!-- 	<import resource="../../../devices/zebra/pco1.xml" />
  -->	<import resource="../../../devices/dummy/lens.xml" />

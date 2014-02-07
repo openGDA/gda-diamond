@@ -31,9 +31,14 @@ import uk.ac.gda.beamline.i13i.DisplayScaleProvider;
 import uk.ac.gda.epics.adviewer.ADControllerImpl;
 
 public class I13ADControllerImpl extends  ADControllerImpl implements InitializingBean {
+
+	private int cameraImageWidthMax;
+
+	private int cameraImageHeightMax;
+
+	
 	private static final Logger logger = LoggerFactory.getLogger(I13ADControllerImpl.class);
 
-	private String setExposureTimeCmd;
 
 	@Override
 	public void setExposure(double d) {
@@ -47,14 +52,7 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 		}		
 	}
 
-	private String getSetExposureTimeCmd() {
-		return setExposureTimeCmd;
-	}
 
-	@Override
-	public void setSetExposureTimeCmd(String setExposureTimeCmd) {
-		this.setExposureTimeCmd = setExposureTimeCmd;
-	}
 
 	private Scannable lensScannable;
 
@@ -71,7 +69,7 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		super.afterPropertiesSet();
-		if (setExposureTimeCmd == null)
+		if (getSetExposureTimeCmd() == null)
 			throw new IllegalArgumentException("setExposureTimeCmd == null");		
 		
 	}
@@ -182,6 +180,31 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 
 	public void setStagesCompositeFactory(CompositeFactory stagesCompositeFactory) {
 		this.stagesCompositeFactory = stagesCompositeFactory;
+	}
+	
+	
+	/**
+	 * @return The maximum width of an image that the camera driver can deliver. The actual image width could be smaller
+	 *         due to setting a region of interest or binning.
+	 */
+	public int getCameraImageWidthMax() {
+		return cameraImageWidthMax;
+	}
+
+	/**
+	 * @return The maximum height of an image that the camera driver can deliver. The actual image width could be
+	 *         smaller due to setting a region of interest or binning.
+	 */
+	public int getCameraImageHeightMax() {
+		return cameraImageHeightMax;
+	}
+
+	public void setCameraImageWidthMax(int cameraImageWidthMax) {
+		this.cameraImageWidthMax = cameraImageWidthMax;
+	}
+
+	public void setCameraImageHeightMax(int cameraImageHeightMax) {
+		this.cameraImageHeightMax = cameraImageHeightMax;
 	}
 
 }
