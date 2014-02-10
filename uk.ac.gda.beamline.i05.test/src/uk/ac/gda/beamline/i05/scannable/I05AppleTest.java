@@ -60,7 +60,7 @@ public class I05AppleTest {
 	@Test
 	public void testH100Pol() throws DeviceException {
 		String pol = apple.getCurrentPolarisation();
-		assertEquals("H100 energy does not match", I05Apple.HORIZONTAL, pol);
+		assertEquals("H100Pol does not match", I05Apple.HORIZONTAL, pol);
 	}
 
 	@Test
@@ -68,7 +68,7 @@ public class I05AppleTest {
 		lower.moveTo(70.0);
 		upper.moveTo(70.0);
 		String pol = apple.getCurrentPolarisation();
-		assertEquals("H100 energy does not match", I05Apple.VERTICAL, pol);
+		assertEquals("V100_1Pol does not match", I05Apple.VERTICAL, pol);
 	}
 	
 	@Test
@@ -76,7 +76,26 @@ public class I05AppleTest {
 		lower.moveTo(-70.0);
 		upper.moveTo(-70.0);
 		String pol = apple.getCurrentPolarisation();
-		assertEquals("H100 energy does not match", I05Apple.VERTICAL, pol);
+		assertEquals("V100_2Pol does not match", I05Apple.VERTICAL, pol);
+	}
+	
+	@Test
+	public void testCRPol() throws DeviceException {
+		lower.moveTo(30.0);
+		upper.moveTo(30.0);
+		gap.moveTo(30.0);
+		String pol = apple.getCurrentPolarisation();
+		assertEquals("CRPol does not match", I05Apple.CIRCULAR_RIGHT, pol);
+	}
+	
+	
+	@Test
+	public void testCLPol() throws DeviceException {
+		lower.moveTo(-30.0);
+		upper.moveTo(-30.0);
+		gap.moveTo(30.0);
+		String pol = apple.getCurrentPolarisation();
+		assertEquals("CLPol does not match", I05Apple.CIRCULAR_LEFT, pol);
 	}
 	
 	@Test
