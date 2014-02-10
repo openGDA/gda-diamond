@@ -28,6 +28,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,6 +51,10 @@ public class I05AppleTest {
 		apple.setLowerPhaseScannable(lower);
 		apple.setUpperPhaseScannable(upper);
 		apple.setGapScannable(gap);
+		apple.setVerticalGapPolynomial(new PolynomialFunction(new double[] {0, 1}));
+		apple.setHorizontalGapPolynomial(new PolynomialFunction(new double[] {0, 1}));
+		apple.setCircularGapPolynomial(new PolynomialFunction(new double[] {0, 1}));
+		apple.setCircularPhasePolynomial(new PolynomialFunction(new double[] {0, 1}));
 	}
 	
 	@Test
@@ -87,16 +92,20 @@ public class I05AppleTest {
 	}
 
 	@Test
-	public void testCircPhaseCalc() throws DeviceException {
+	public void testLeftCircPhaseCalc() throws DeviceException {
 		double phase = apple.getPhaseForGap(32.0, I05Apple.CIRCULAR_LEFT);
-		assertEquals("testCircPhaseCalc phase does not match", -45.45, phase, 0.2);
+		assertEquals("testCircPhaseCalc phase does not match", -32.0, phase, 0.2);
+	}
+	
+	@Test
+	public void testRightCircPhaseCalc() throws DeviceException {
+		double phase = apple.getPhaseForGap(32.0, I05Apple.CIRCULAR_RIGHT);
+		assertEquals("testCircPhaseCalc phase does not match", 32.0, phase, 0.2);
 	}
 	
 	/*
 	 * Trajectory solver tests
 	 */
-
-	
 	@Test
 	public void testSimpleAvoid() throws DeviceException {
 		Rectangle2D[] rectangles = new Rectangle2D[] { new Rectangle2D.Double(7, 0, 9, 5), 
