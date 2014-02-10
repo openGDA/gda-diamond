@@ -18,6 +18,9 @@ public class SwitchToBioSAXSSetupPerspectiveAction implements IIntroAction {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 
+		// close all other perspectives that might be open
+		window.getActivePage().closeAllPerspectives(true, true);
+
 		// open the BioSAXS setup perspective
 		try {
 			workbench.showPerspective("uk.ac.gda.devices.bssc.biosaxsresultperspective", window);
@@ -25,21 +28,7 @@ public class SwitchToBioSAXSSetupPerspectiveAction implements IIntroAction {
 			workbench.showPerspective("uk.ac.gda.devices.bssc.biosaxssetupperspective", window);
 
 			IPerspectiveRegistry iPerspectiveRegistry = PlatformUI.getWorkbench().getPerspectiveRegistry();
-			
-			for (IPerspectiveDescriptor descriptor : iPerspectiveRegistry.getPerspectives())
-			{
-				System.out.println("descriptor id : " + descriptor.getId());
-				System.out.println("descriptor label : " + descriptor.getLabel());
-			}
 			iPerspectiveRegistry.setDefaultPerspective("uk.ac.gda.devices.bssc.biosaxssetupperspective");
-			IPerspectiveDescriptor perspectiveDescriptor = iPerspectiveRegistry.findPerspectiveWithLabel("Scripts");
-
-			try {
-				iPerspectiveRegistry.deletePerspective(perspectiveDescriptor);
-			} catch (Exception e) {
-				System.out.println("=====DELETED=====");
-			}
-
 		} catch (WorkbenchException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
