@@ -19,6 +19,11 @@
 <tsu63245>3</tsu63245>
 <!--users on visit sm8555-1, added by AS on 4 July 2013 so users could change mfsax position-->
 <pyx10148>3</pyx10148>
+<!--users on visit sm9207-1, added by NJT on 17 Jan 2014 so users could change mfsax position-->
+<ebs52346>3</ebs52346>
+<!--users on visit sm9030-1, added by AS on 22 Jan 2014 so users could change mfsax position-->
+<pon56179>3</pon56179>
+<!--Ported across from /dls_sw/i22/software/gda/config/xml/beamlinestaff.xml by AS on 29 July 2013 as part of tidy-up-->
 <!--Ported across from /dls_sw/i22/software/gda/config/xml/beamlinestaff.xml by AS on 29 July 2013 as part of tidy-up-->
 <!-- asax user -->
 <gwp67624>2</gwp67624>
