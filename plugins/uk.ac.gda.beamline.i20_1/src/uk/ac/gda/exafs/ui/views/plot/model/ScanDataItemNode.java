@@ -18,6 +18,8 @@
 
 package uk.ac.gda.exafs.ui.views.plot.model;
 
+import gda.scan.ede.EdeExperiment;
+
 import org.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
 import org.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.core.databinding.observable.list.IObservableList;
@@ -59,6 +61,10 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 
 	@Override
 	public DoubleDataset getXAxisDataset() {
+		ExperimentDataNode experimentDataNode = (ExperimentDataNode) parent.getParent().getParent();
+		if (experimentDataNode.isUseStripsAsXaxis()) {
+			return ExperimentDataNode.scriptsData;
+		}
 		return ((SpectraNode) parent).getXAxisData();
 	}
 
@@ -90,4 +96,11 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 		return  traceStyle;
 	}
 
+	@Override
+	public boolean isPlotByDefault() {
+		if (((SpectraNode) parent).getLabel().equals(EdeExperiment.LN_I0_IT_COLUMN_NAME)) {
+			return true;
+		}
+		return false;
+	}
 }

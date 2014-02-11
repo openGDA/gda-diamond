@@ -191,18 +191,19 @@ public abstract class EdeExperiment implements IObserver {
 
 		if (shouldRunItDark()) {
 			itDarkScan = new EdeScan(itScanParameters, itPosition, EdeScanType.DARK, theDetector, 1, beamLightShutter);
+			itDarkScan.setProgressUpdater(this);
 			scansForExperiment.add(itDarkScan);
 		} else {
 			itDarkScan = i0DarkScan;
 		}
 
 		i0InitialScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
-		scansForExperiment.add(i0InitialScan);
 		i0InitialScan.setProgressUpdater(this);
+		scansForExperiment.add(i0InitialScan);
 
 		itScan = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
-		scansForExperiment.add(itScan);
 		itScan.setProgressUpdater(this);
+		scansForExperiment.add(itScan);
 	}
 
 	public String runExperiment() throws Exception {

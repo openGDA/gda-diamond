@@ -93,7 +93,12 @@ public class SingleSpectrumUIModel extends ObservableModel {
 
 	private final ScanJob job;
 
-	private String fileTemplate = "Unknown_cal_";
+	public static final String FILE_TEMPLATE_PROP_NAME = "fileTemplate";
+	private String fileTemplate = "Undefined_";
+
+	private String elementSymbol;
+
+	private String filePefix = "%s";
 
 	private static final String SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY = "SINGLE_SPECTRUM_DATA";
 
@@ -172,14 +177,11 @@ public class SingleSpectrumUIModel extends ObservableModel {
 							DetectorModel.TOPUP_CHECKER,
 							DetectorModel.SHUTTER_NAME));
 		}
-		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFilenameTemplate(\"%s\");", fileTemplate));
-		//				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
-		//				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0)));
+		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFilenameTemplate(\"%s\");", filePefix));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
 			builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setReferencePosition(mapToJava(%s));",
 					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef)));
 		}
-		//builder.append(SINGLE_JYTHON_DRIVER_OBJ + ".doCollection();");
 		return builder.toString();
 	}
 
@@ -272,7 +274,12 @@ public class SingleSpectrumUIModel extends ObservableModel {
 		}
 	}
 
-	public void doCollection() throws Exception {
+	public void doCollection(boolean forExperiment) throws Exception {
+		if (forExperiment) {
+			filePefix = fileTemplate + "_%s";
+		} else {
+			filePefix = elementSymbol + "_cal" + "_%s";
+		}
 		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
@@ -280,7 +287,7 @@ public class SingleSpectrumUIModel extends ObservableModel {
 	}
 
 	public void setCurrentElement(String elementSymbol) {
-		fileTemplate = elementSymbol + "_cal_%s";
+		this.elementSymbol = elementSymbol;
 	}
 
 
@@ -298,6 +305,14 @@ public class SingleSpectrumUIModel extends ObservableModel {
 
 	public String getFileName() {
 		return fileName;
+	}
+
+	public String getFileTemplate() {
+		return fileTemplate;
+	}
+
+	public void setFileTemplate(String fileTemplate) {
+		this.firePropertyChange(FILE_TEMPLATE_PROP_NAME, this.fileTemplate, this.fileTemplate = fileTemplate);
 	}
 
 	public boolean isScanning() {
