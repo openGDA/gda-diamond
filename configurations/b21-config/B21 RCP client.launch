@@ -17,6 +17,7 @@
 <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry containerPath=&quot;org.eclipse.jdt.launching.JRE_CONTAINER&quot; path=&quot;1&quot; type=&quot;4&quot;/&gt;&#10;"/>
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="true"/>
+<stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.install.git.loc=${workspace_loc}_git&#10;-Dgda.install.workspace.loc=${workspace_loc}&#10;-Dgda.config=${project_loc:b21-config}&#10;-Dgda.propertiesFile=${project_loc:b21-config}/properties/live/java.properties&#10;-Dgov.aps.jca.JCALibrary.properties=${project_loc:b21-config}/jca/live/JCALibrary.properties&#10;-Djacorb.config.dir=${project_loc:b21-config}/jacorb/live&#10;-Declipse.pluginCustomization=${project_loc:b21-config}/client/pluginCustomization.ini&#10;-Dgda.mode=live&#10;-Xms256m&#10;-Xmx768m&#10;-XX:PermSize=128m&#10;-XX:MaxPermSize=512m"/>
