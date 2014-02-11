@@ -37,6 +37,7 @@ import org.nexusformat.NexusFile;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
+import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 
@@ -267,7 +268,8 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			}
 
 			double[] timeAxis = calculateTimeAxis(itScans[0].getScanParameters());
-			writeItToNexus(normalisedItSpectra,fileSuffix,timeAxis);
+			double[][] groupAxis = calculateGroupAxis(itScans[0].getScanParameters());
+			writeItToNexus(normalisedItSpectra, fileSuffix, timeAxis, groupAxis);
 
 		} finally {
 			if (writer != null) {
@@ -277,6 +279,41 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 
 		return filename;
 	}
+
+	private double[][] calculateGroupAxis(EdeScanParameters scanParameters) {
+		//		int[] groupValues = new int[scanParameters.getTotalNumberOfFrames()];
+		//
+		//		for (int index = 0; index < groupValues.length; index++){
+		//			groupValues[index] = ExperimentLocationUtils.getGroupNum(scanParameters, index);
+		//		}
+		// FIXME !!!!
+		double[][] groupDetails = new double[scanParameters.getTotalNumberOfFrames()][4];
+		double groupIndex = 0;
+		int j = 0;
+		for (TimingGroup group : scanParameters.getGroups()) {
+			for (int i = 0; i < group.getNumberOfFrames(); i++) {
+				groupDetails[j][0] = groupIndex;
+				groupDetails[j][1] = group.getTimePerFrame();
+				groupDetails[j][2] = group.getTimePerScan();
+				groupDetails[j][3] = group.getPreceedingTimeDelay();
+				j++;
+			}
+			groupIndex++;
+		}
+		return groupDetails;
+	}
+
+	private double[] calculateTimeAxis(EdeScanParameters scanParameters) {
+		double[] timeValues = new double[scanParameters.getTotalNumberOfFrames()];
+
+		for (int index = 0; index < timeValues.length; index++){
+			timeValues[index] = ExperimentLocationUtils.getFrameTime(scanParameters, index);
+
+		}
+
+		return timeValues;
+	}
+
 
 	private void writeItColumns(FileWriter writer, boolean includeRepetitionColumn) throws IOException {
 		StringBuffer colsHeader = new StringBuffer("#");
@@ -292,17 +329,8 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		writer.write(colsHeader.toString());
 	}
 
-	private double[] calculateTimeAxis(EdeScanParameters scanParameters) {
-		double[] timeValues = new double[scanParameters.getTotalNumberOfFrames()];
 
-		for (int index = 0; index < timeValues.length; index++){
-			timeValues[index] = ExperimentLocationUtils.getFrameTime(scanParameters, index);
-		}
-
-		return timeValues;
-	}
-
-	private void writeItToNexus(double[][][] normalisedItSpectra, String fileSuffix, double[] timeAxis) throws NexusException {
+	private void writeItToNexus(double[][][] normalisedItSpectra, String fileSuffix, double[] timeAxis, double[][] groupAxis) throws NexusException {
 		if (nexusfile == null || nexusfile.isEmpty()) {
 			return;
 		}
@@ -322,6 +350,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		}
 
 		GdaNexusFile file = new GdaNexusFile(nexusfile, NexusFile.NXACC_RDWR);
+
 		file.openpath("entry1");
 		file.openpath("instrument");
 		file.openpath(i0DarkScan.getDetector().getName());
@@ -334,12 +363,30 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		file.putattr("signal", "2".getBytes(), NexusFile.NX_CHAR);
 		file.closedata();
 
-		if (!file.groupdir().containsKey("time")){
+		if (!file.groupdir().containsKey("time")) {
 			file.makedata("time", NexusFile.NX_FLOAT64, 1, new int[]{timeAxis.length});
 			file.opendata("time");
 			file.putdata(timeAxis);
 			file.putattr("axis", "2".getBytes(), NexusFile.NX_CHAR);
 			file.putattr("primary", "2".getBytes(), NexusFile.NX_CHAR);
+			file.closedata();
+		}
+
+		if (!file.groupdir().containsKey("group")) {
+			file.makedata("group", NexusFile.NX_FLOAT64, 2, new int[]{groupAxis.length, groupAxis[0].length});
+			file.opendata("group");
+			file.putdata(groupAxis);
+			file.putattr("axis", "3".getBytes(), NexusFile.NX_CHAR);
+			file.putattr("primary", "3".getBytes(), NexusFile.NX_CHAR);
+			file.closedata();
+		}
+
+		if (!file.groupdir().containsKey("group")) {
+			file.makedata("group", NexusFile.NX_INT32, 1, new int[]{groupAxis.length});
+			file.opendata("group");
+			file.putdata(groupAxis);
+			file.putattr("axis", "3".getBytes(), NexusFile.NX_CHAR);
+			file.putattr("primary", "3".getBytes(), NexusFile.NX_CHAR);
 			file.closedata();
 		}
 		file.close();

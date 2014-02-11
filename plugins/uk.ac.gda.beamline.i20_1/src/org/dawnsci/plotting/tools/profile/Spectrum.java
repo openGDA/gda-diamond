@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2013 Diamond Light Source Ltd.
+ * Copyright © 2014 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -16,20 +16,30 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.scan.ede.position;
+package org.dawnsci.plotting.tools.profile;
 
-public enum EdePositionType {
-	INBEAM("It"),
-	OUTBEAM("I0"),
-	REFERENCE("IRef");
 
-	private final String label;
+public class Spectrum {
+	private final double startTime;
+	private final int index;
+	private final String name;
 
-	private EdePositionType(String label) {
-		this.label = label;
+	public Spectrum(int index, double startTime) {
+		this.startTime = startTime;
+		this.index = index;
+		name = "Spectrum " + index;
 	}
 
-	public String getLabel() {
-		return label;
+	public double getStartTime() {
+		return startTime;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 }

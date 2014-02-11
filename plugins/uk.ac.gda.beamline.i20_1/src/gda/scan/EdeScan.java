@@ -159,7 +159,7 @@ public class EdeScan extends ConcurrentScanChild {
 		} else {
 			// open the shutter
 			logger.debug(toString() + " moving motors into position...");
-			InterfaceProvider.getTerminalPrinter().print("Moving motors for " + scanType.toString() + " " + motorPositions.getType().toString() + " scan");
+			InterfaceProvider.getTerminalPrinter().print("Moving motors for " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 			motorPositions.moveIntoPosition();
 			checkForInterrupts();
 			shutter2.moveTo("Open");
@@ -169,7 +169,7 @@ public class EdeScan extends ConcurrentScanChild {
 		}
 
 		logger.debug(toString() + " starting detector running...");
-		InterfaceProvider.getTerminalPrinter().print("Starting " + scanType.toString() + " " + motorPositions.getType().toString() + " scan");
+		InterfaceProvider.getTerminalPrinter().print("Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 		theDetector.collectData();
 		// sleep for a moment to allow collection to start
 		Thread.sleep(250);
