@@ -30,7 +30,7 @@
 
 
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
-		<property name="numberOfMca" value="1" />
+		<property name="numberOfElements" value="1" />
 		<property name="numberOfBins" value="1024" />
 		<!-- <property name="numberOfROIs" value="5" /> -->
 		<property name="local" value="true" />
