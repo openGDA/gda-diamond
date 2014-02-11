@@ -3,7 +3,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="p2rcvmc" class="gda.device.zebra.P2RZebraConstantVelMoveController">
+	<bean id="p2rcvmc" class="uk.ac.gda.tomography.devices.p2r.P2RZebraConstantVelMoveController">
 	<property name="bidiAsciiCommunicator" ref="p2r_telnet"></property>
 	<property name="zebra" ref="zebra"></property>
 	<property name="mode" value="1"/>
