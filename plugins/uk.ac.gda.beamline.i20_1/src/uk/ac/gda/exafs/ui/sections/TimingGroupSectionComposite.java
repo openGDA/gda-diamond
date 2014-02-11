@@ -90,7 +90,10 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 	private final FormToolkit toolkit;
 
 	private TableViewer groupsTableViewer;
-	private NumberEditorControl spectrumDelayValueText;
+
+	// This parameter is not needed for now
+	// private NumberEditorControl spectrumDelayValueText;
+
 	private NumberEditorControl integrationTimeValueText;
 	private NumberEditorControl timePerSpectrumValueText;
 	private NumberEditorControl noOfAccumulationValueText;
@@ -349,10 +352,12 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		delayBeforeFristSpectrumValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
 		delayBeforeFristSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		label = toolkit.createLabel(groupTriggerSectionComposite, "Delay between spectra", SWT.None);
-		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		spectrumDelayValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
-		spectrumDelayValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		// Delay between spectra is not needed for now
+
+		//		label = toolkit.createLabel(groupTriggerSectionComposite, "Delay between spectra", SWT.None);
+		//		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		//		spectrumDelayValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
+		//		spectrumDelayValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Composite externalTriggerComposite = toolkit.createComposite(groupTriggerSectionComposite);
 		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
@@ -671,14 +676,16 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
 
-			spectrumDelayValueText.setModel(group, TimingGroupUIModel.DELAY_BETWEEN_SPECTRUM_PROP_NAME);
-			spectrumDelayValueText.setConverters(modelToTargetConverter, targetToModelConverter);
-			spectrumDelayValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-			groupBindings.add(dataBindingCtx.bindValue(
-					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(spectrumDelayValueText),
-					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
-					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-					unitConverter));
+			// This parameter is not needed for now
+
+			//			spectrumDelayValueText.setModel(group, TimingGroupUIModel.DELAY_BETWEEN_SPECTRUM_PROP_NAME);
+			//			spectrumDelayValueText.setConverters(modelToTargetConverter, targetToModelConverter);
+			//			spectrumDelayValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+			//			groupBindings.add(dataBindingCtx.bindValue(
+			//					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(spectrumDelayValueText),
+			//					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
+			//					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+			//					unitConverter));
 
 			groupBindings.add(dataBindingCtx.bindValue(WidgetProperties.enabled().observe(useExternalTriggerCheckbox),
 					BeanProperties.value(TimingGroupUIModel.EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME).observe(group)));

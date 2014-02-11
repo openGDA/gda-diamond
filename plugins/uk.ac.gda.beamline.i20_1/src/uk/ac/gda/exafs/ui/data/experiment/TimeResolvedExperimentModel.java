@@ -127,6 +127,9 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	private ExperimentUnit unit = ExperimentUnit.SEC;
 
 	public static final String UNIT_IN_STRING_PROP_NAME = "unitInStr";
+
+	protected static final String IO_IREF_DATA_SUFFIX_KEY = "_IO_IREF_DATA";
+
 	@Expose
 	private String unitInStr = unit.getUnitText();
 
@@ -134,7 +137,6 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	private ExperimentDataModel experimentDataModel;
 
 	public void setup() {
-		experimentDataModel = new ExperimentDataModel();
 		setupTimebarModel();
 		groupList.addListChangeListener(new IListChangeListener() {
 			@Override
@@ -180,11 +182,23 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	private void loadSavedGroups() {
 		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(getDataStoreKey(), TimingGroupUIModel[].class);
+		ExperimentDataModel savedExperimentDataModel = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(getI0IRefDataKey(), ExperimentDataModel.class);
 		if (savedGroups == null) {
 			this.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(DEFAULT_INITIAL_EXPERIMENT_TIME));
 			addItGroup();
 			return;
 		}
+		if (savedExperimentDataModel == null) {
+			experimentDataModel = new ExperimentDataModel();
+		} else {
+			experimentDataModel = savedExperimentDataModel;
+		}
+		experimentDataModel.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(getI0IRefDataKey(), experimentDataModel);
+			}
+		});
 		for (TimingGroupUIModel loadedGroup : savedGroups) {
 			TimingGroupUIModel timingGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 			timingGroup.setName(loadedGroup.getName());
@@ -590,12 +604,19 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		return noOfSecPerSpectrumToPublish;
 	}
 
-	public void setNoOfSecPerSpectrumToPublish(int noOfSecPerSpectrumToPublish) {
+	public void setNoOfSecPerSpectrumToPublish(int noOfSecPerSpectrumToPublish) throws IllegalArgumentException {
+		if (noOfSecPerSpectrumToPublish >= this.getDurationInSec()) {
+			throw new IllegalArgumentException("Cannot be longer than experiment duration");
+		}
 		this.firePropertyChange(NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME, this.noOfSecPerSpectrumToPublish, this.noOfSecPerSpectrumToPublish = noOfSecPerSpectrumToPublish);
 	}
 
 	@Override
 	public void dispose() {
 		// Nothing to dispose
+	}
+
+	private String getI0IRefDataKey() {
+		return getDataStoreKey() + IO_IREF_DATA_SUFFIX_KEY;
 	}
 }

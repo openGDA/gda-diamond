@@ -146,7 +146,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 
 		Label label = toolkit.createLabel(i0AcquisitionSectionComposite, "Accumulation time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		NumberEditorControl i0IntegrationTimeValueText = new NumberEditorControl(i0AcquisitionSectionComposite, SWT.None, singleSpectrumDataModel.getExperimentDataModel(), ExperimentDataModel.I0_INTEGRATION_TIME_PROP_NAME, false);
+		NumberEditorControl i0IntegrationTimeValueText = new NumberEditorControl(i0AcquisitionSectionComposite, SWT.None, singleSpectrumDataModel.getExperimentDataModel(), ExperimentDataModel.I0_INTEGRATION_TIME_PROP_NAME, true);
 		i0IntegrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		i0IntegrationTimeValueText.setUnit(UnitSetup.MILLI_SEC.getText());
 
@@ -158,7 +158,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 
 		label = toolkit.createLabel(i0NoOfaccumulationsComposite, "Number of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		i0NoOfAccumulationValueText = new NumberEditorControl(i0NoOfaccumulationsComposite, SWT.None, singleSpectrumDataModel.getExperimentDataModel(), ExperimentDataModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, false);
+		i0NoOfAccumulationValueText = new NumberEditorControl(i0NoOfaccumulationsComposite, SWT.None, singleSpectrumDataModel.getExperimentDataModel(), ExperimentDataModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
 		i0NoOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Composite sectionSeparator = toolkit.createCompositeSeparator(i0AcquisitionSection);

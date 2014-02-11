@@ -25,11 +25,11 @@ import com.google.gson.annotations.Expose;
 public class ExperimentDataModel extends UIObservableModel {
 	public static final String I0_INTEGRATION_TIME_PROP_NAME = "i0IntegrationTime";
 	@Expose
-	private double i0IntegrationTime;
+	private double i0IntegrationTime = 1.0;
 
 	public static final String I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME = "i0NumberOfAccumulations";
 	@Expose
-	private int i0NumberOfAccumulations;
+	private int i0NumberOfAccumulations = 1;
 
 	public static final String IREF_INTEGRATION_TIME_PROP_NAME = "irefIntegrationTime";
 	@Expose

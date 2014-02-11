@@ -385,7 +385,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		spectraRegionTableViewer.setInput(spectraRegionList);
 
 		selectedRegionSpectraList.addListChangeListener(new IListChangeListener() {
-
 			@Override
 			public void handleListChange(ListChangeEvent event) {
 				event.diff.accept(new ListDiffVisitor() {
@@ -393,7 +392,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 					public void handleRemove(int index, Object element) {
 						selectedSpectraList.removeAll(((SpectraRegion) element).getSpectra());
 					}
-
 					@Override
 					public void handleAdd(int index, Object element) {
 						selectedSpectraList.clear();

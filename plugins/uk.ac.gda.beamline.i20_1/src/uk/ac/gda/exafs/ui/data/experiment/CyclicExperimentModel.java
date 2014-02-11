@@ -98,7 +98,6 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 		}
 	}
 
-
 	public int getNoOfRepeatedGroups() {
 		return noOfRepeatedGroups;
 	}

@@ -27,8 +27,6 @@ import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.position.EdePositionType;
 
-import java.util.Arrays;
-
 import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,21 +73,20 @@ public class SimulatedData {
 			double[] simulatedData = null;
 			if (positionType == EdePositionType.OUTBEAM) {
 				if (scanType == EdeScanType.LIGHT) {
-					simulatedData = Arrays.copyOf(simulatedI0_raw, simulatedI0_raw.length);
+					simulatedData = createCorrectedSimulatedData(simulatedI0_raw, theDetector);
 				} else {
-					simulatedData = Arrays.copyOf(simulatedI0_dark, simulatedI0_dark.length);
+					simulatedData = createCorrectedSimulatedData(simulatedI0_dark, theDetector);
 				}
 			} else if(positionType == EdePositionType.INBEAM) {
 				if (scanType == EdeScanType.LIGHT) {
-					simulatedData = Arrays.copyOf(simulatedIt_raw, simulatedIt_raw.length);
+					simulatedData = createCorrectedSimulatedData(simulatedIt_raw, theDetector);
 				} else {
-					simulatedData = Arrays.copyOf(simulatedIt_dark, simulatedIt_dark.length);
+					simulatedData = createCorrectedSimulatedData(simulatedIt_dark, theDetector);
 				}
-
 			} else {
 				// TODO Add Iref
 			}
-			addNoise(simulatedData);
+			//	addNoise(simulatedData);
 			thisFrame.addData(theDetector.getName(), EdeExperiment.DATA_COLUMN_NAME, new int[] { XHDetector.NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, simulatedData, "eV", 1);
 			for (String name : thisFrame.getExtraNames()) {
 				thisFrame.setPlottableValue(name, 0.0);
@@ -99,6 +96,19 @@ public class SimulatedData {
 		return nexusTreeProvider;
 	}
 
+	private static double[] createCorrectedSimulatedData(double[] simulatedData, StripDetector theDetector) {
+		double[] correctedSimulatedData = new double[simulatedData.length];
+		for (int i = 0; i < simulatedData.length; i++) {
+			if (i >= theDetector.getLowerChannel() && i <= theDetector.getUpperChannel()) {
+				correctedSimulatedData[i] = simulatedData[i];
+			} else {
+				correctedSimulatedData[i] = 0.0;
+			}
+		}
+		return correctedSimulatedData;
+	}
+
+	// FIXME to be refactored to use more realistic data
 	private static void addNoise(double[] simulatedData) {
 		for (int i=0; i < simulatedData.length; i++) {
 			simulatedData[i] = simulatedData[i] + generatRandomPositiveNegitiveValue(100000);
