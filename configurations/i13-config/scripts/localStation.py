@@ -200,7 +200,7 @@ try:
 
 	from gda.device.detector.areadetector.v17 import ADDriverPco
 	if isLive():
-		flyScanDetector.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_PULSE	
+		flyScanDetector.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_AND_SOFTWARE	
 #	run("i13diffcalc")
 
 #   It seemed on using Jon's first driver that pcoEdge needs timestamp 0, must I am not sure now as 
@@ -220,7 +220,6 @@ try:
 	bl = beamlineEnergy.beamLineEnergy()
 	bl.setName("bl")
 
-
 	if isLive():
 		#setup pco cpy plugin
 		caput( "BL13I-EA-DET-01:COPY:Run", 0)
@@ -228,6 +227,8 @@ try:
 		caputStringAsWaveform( "BL13I-EA-DET-01:COPY:DestFilePath", "t:\\i13\\data\\2014")
 		caput ("BL13I-EA-DET-01:COPY:Run", 1)
 		
+	pco1_hw_tif.pluginList[1].waitForFileArrival=True
+	pco1_tif.pluginList[1].waitForFileArrival=True
 	if isLive():
 		run("localStationUser.py")
 

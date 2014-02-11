@@ -1,0 +1,64 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="p2rcvmc" class="gda.device.zebra.P2RZebraConstantVelMoveController">
+	<property name="bidiAsciiCommunicator" ref="p2r_telnet"></property>
+	<property name="zebra" ref="zebra"></property>
+	<property name="mode" value="1"/>
+	</bean>
+	<bean id="p2rSM1" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="p2r_rot_motor" />
+		<property name="zebraConstantVelocityMoveController" ref="p2rcvmc"/>
+		<property name="scurveTimeToVelocity" value="3.0"/>
+	</bean>	
+	
+	
+	<bean id="p2r_flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="p2r_flyScanDetector"/>
+		<property name="readOutTime" value=".250"/>
+		<property name="hardwareTriggerProvider" ref="p2rcvmc"/>
+		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="p2r_flyScanDetectorTIF" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="p2r_flyScanDetectorTIF"/>
+		<property name="readOutTime" value=".250"/>
+		<property name="hardwareTriggerProvider" ref="p2rcvmc"/>
+		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_tif_writer" />
+			</list>
+		</property>
+	</bean>	
+
+
+	<bean id="p2r_flyScanFlatDarkDetector" class="gda.device.detector.NXDetector">
+		<property name="name" value="p2r_flyScanFlatDarkDetector"/>
+		<property name="collectionStrategy" ref="flyScanFlatDarkCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter" />
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="p2r_flyScanFlatDarkDetectorTIF" class="gda.device.detector.NXDetector">
+		<property name="name" value="p2r_flyScanFlatDarkDetectorTIF"/>
+		<property name="collectionStrategy" ref="flyScanFlatDarkCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_tif_writer" />
+			</list>
+		</property>
+	</bean>	
+	
+	
+</beans>	

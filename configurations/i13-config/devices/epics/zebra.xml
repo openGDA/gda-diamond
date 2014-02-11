@@ -4,6 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="zebra" class="gda.device.zebra.controller.impl.ZebraImpl">
+	<property name="name" value="zebra"/>
 	<property name="zebraPrefix" value="BL13I-EA-ZEBRA-01:"/>
 	</bean>
 
