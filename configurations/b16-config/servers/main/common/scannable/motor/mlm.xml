@@ -71,4 +71,62 @@
 		</property>
 	</bean>
 
+	<bean id="mlmEnergy_Xtal1Bragg_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="mlmEnergy_Xtal1Bragg_converter" />
+		<constructor-arg value="mlmEnergy_converter.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg value="Both" />
+	</bean>
+	<bean id="mlmEnergy_Xtal1Bragg" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="mlmXtal1Bragg" />
+		<property name="convertor" ref="mlmEnergy_Xtal1Bragg_converter" />
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+	<bean id="mlmEnergy_Xtal2Bragg_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="mlmEnergy_Xtal2Bragg_converter" />
+		<constructor-arg value="mlmEnergy_converter.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="2" />
+		<constructor-arg value="Both" />
+	</bean>
+	<bean id="mlmEnergy_Xtal2Bragg" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="mlmXtal2Bragg" />
+		<property name="convertor" ref="mlmEnergy_Xtal2Bragg_converter" />
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+		<bean id="mlmEnergy_Xtal2Z_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="mlmEnergy_Xtal2Z_converter" />
+		<constructor-arg value="mlmEnergy_converter.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="3" />
+		<constructor-arg value="Both" />
+	</bean>
+	<bean id="mlmEnergy_Xtal2Z" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="mlmXtal2Z" />
+		<property name="convertor" ref="mlmEnergy_Xtal2Z_converter" />
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+	
+	
+	<bean id="mlmEnergyFunction2" class="gda.function.IdentityFunction"></bean>
+	<bean id="mlmEnergyFunction3" class="gda.function.IdentityFunction"></bean>
+	
+	<bean id="mlmEnergy" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="mlmEnergy_Xtal1Bragg"/>
+				<ref bean="mlmEnergy_Xtal2Bragg"/>
+				<ref bean="mlmEnergy_Xtal2Z"/>
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction"></bean>
+				<bean class="gda.function.IdentityFunction"></bean>
+				<bean class="gda.function.IdentityFunction"></bean>
+			</list>
+		</property>
+	</bean>
+
 </beans>
