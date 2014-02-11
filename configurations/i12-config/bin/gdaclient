@@ -1,1 +1,5 @@
-/$SOFTWAREFOLDER/$BEAMLINE/software/gda/$BEAMLINE-config/bin/GDA_StartClient $@
+gdalog
+
+. gda_console_log gda_client_output
+
+/dls_sw/i12/software/gda/workspace_git/gda-diamond.git/dls-config/bin/gdaclient --keep --nohup $LOGFILE $*

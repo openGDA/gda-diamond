@@ -1,23 +1,39 @@
-#!/bin/bash
+# runs the servers locally
 
-export BEAMLINE=i12
-umask 002
+#identify install folder and JAVA_HOME
+source /dls_sw/i12/etc/i12_profile.sh
 
-if [ -f "/etc/profile.d/modules.sh" ]; then
-	. /etc/profile.d/modules.sh
-fi
+. /usr/share/Modules/init/bash
+module load java/gda836-64
+echo "JAVA_HOME=$JAVA_HOME"
 
-. /dls_sw/$BEAMLINE/etc/${BEAMLINE}_profile.sh
+#this is needed to ensure the acls work properly
+umask 0002
 
-# when remote server restart on a different date, a new gda_out file is logged, 
-# i.e. GDA session logs (for the same date restart a single log file is used)
-export LOGFILE=/dls_sw/$BEAMLINE/var/gda_output_`date +%F-%T`.txt
-echo Running /dls_sw/$BEAMLINE/software/gda/config/bin/GDA_StartServers to output to $LOGFILE
+export LOGFILE=$GDALOGS/gda_output_`date +%F-%T`.txt
 touch $LOGFILE
-rm /dls_sw/$BEAMLINE/var/gda_output.txt
-ln -s $LOGFILE /dls_sw/$BEAMLINE/var/gda_output.txt
+rm $GDALOGS/gda_output.txt
+ln -s $LOGFILE $GDALOGS/gda_output.txt
 
-/dls_sw/$BEAMLINE/software/gda/config/bin/GDA_StartServers >> /dls_sw/$BEAMLINE/var/gda_output.txt 2>&1 &
+echo GDAFOLDER=$GDAFOLDER
+echo BEAMLINE=$BEAMLINE
+SERVER_STARTUP_FILE=$GDAVAR/object_server_startup_server_main; export SERVER_STARTUP_FILE
+rm -f $SERVER_STARTUP_FILE
+
+echo "Starting GDA. Output is being logged to $LOGFILE"
+
+export JAVA_OPTS="-Xms128m -Xmx1024m -XX:MaxPermSize=128m -XX:+DisableExplicitGC"
+
+nohup python ${GDAFOLDER}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=$GDAFOLDER/config --restart -v --mode=$GDAMODE nameserver > $LOGFILE 2>&1 &
 
 
+nohup python ${GDAFOLDER}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=$GDAFOLDER/config --restart -v --mode=$GDAMODE logserver > $LOGFILE 2>&1 &
 
+
+nohup python ${GDAFOLDER}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda --smart --trace --config=$GDAFOLDER/config --debug -p 8002 --restart -v --mode=$GDAMODE eventserver > $LOGFILE 2>&1 &
+
+export JAVA_OPTS="-Xms128m -Xmx4096m -XX:MaxPermSize=128m -XX:+DisableExplicitGC"
+#export JAVA_OPTS="$JAVA_OPTS -javaagent:/dls_sw/dasc/jrebel/5.2/jrebel.jar -Drebel.properties=/dls_sw/dasc/jrebel/5.2/jrebel.properties"
+nohup python ${GDAFOLDER}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda --smart --trace --config=$GDAFOLDER/config --debug -p 8001 --restart -v --mode=$GDAMODE objectserver > $LOGFILE 2>&1 &
+echo "Looking for file $SERVER_STARTUP_FILE"
+$GDAFOLDER/config/bin/lookForFile $SERVER_STARTUP_FILE

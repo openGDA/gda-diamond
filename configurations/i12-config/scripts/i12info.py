@@ -58,10 +58,10 @@ http://confluence.diamond.ac.uk/display/I12Tech/I12+GDA+Help
     p2r_rot.motor.smc.simc.bidiAsciiCommunicator.closeConnection()
 
 11. flyscanning using zebra
-    remove_default ring
-    remove_default actualTime
+    clear_defaults
     import i13tomographyScan
     i13tomographyScan.tomoFlyScan(inBeamPosition=0.,outOfBeamPosition=1., exposureTime=.05, start=0., stop=180., step=.1, imagesPerDark=0, imagesPerFlat=0, beamline="I12")
 
+    (If the time/angle curve is not a straight line then adjust zebraSM1.scurveTimeToVelocity)
 
 """

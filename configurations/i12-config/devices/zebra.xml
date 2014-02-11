@@ -33,7 +33,7 @@
 	<bean id="zebraSM1" class="gda.device.zebra.ZebraScannableMotor">
 		<property name="motor" ref="ss1_theta_motor" />
 		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
-		<property name="scurveTimeToVelocity" value=".2"/> <!--  read from weight system -->
+		<property name="scurveTimeToVelocity" value="5"/> <!--  read from weight system -->
 	</bean>	
 	
 	<bean id="flyScanDetectorCollectionStrategy"
@@ -45,7 +45,7 @@
 		
 	<bean id="flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="flyScanDetector"/>
-		<property name="readOutTime" value=".25"/> <!-- readoutTime for PCO4000 is .2s -->
+		<property name="readOutTime" value=".05"/> <!-- readoutTime for PCO4000 is .2s fpr Edge use 50ms-->
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
 		<property name="collectionStrategy" ref="flyScanDetectorCollectionStrategy" />
 		<property name="additionalPluginList">
@@ -55,16 +55,47 @@
 		</property>
 	</bean>	
 	
+	<bean id="flyScanFlatDarkCollectionStrategy" class="gda.device.detector.addetector.triggering.SingleExposurePco">
+		<constructor-arg ref="pco.cam" />
+		<constructor-arg ref="pco_hdf_adDriverPco" />
+		<constructor-arg value=".03" />
+	</bean>
+	
+	
+	<bean id="flyScanDetectorTIF" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="flyScanDetectorTIF"/>
+		<property name="readOutTime" value=".05"/> <!-- readoutTime for PCO4000 is .2s fpr Edge use 50ms-->
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="flyScanDetectorCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_tif_writer" />
+			</list>
+		</property>
+	</bean>	
+
 
 
 	<bean id="flyScanFlatDarkDetector" class="gda.device.detector.NXDetector">
 		<property name="name" value="flyScanFlatDarkDetector"/>
-		<property name="collectionStrategy" ref="pco_hdf_singleExposurePco" />
+		<property name="collectionStrategy" ref="flyScanFlatDarkCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="zebra_pco1_hdf5_filewriter" />
 			</list>
 		</property>
 	</bean>	
+
+	<bean id="flyScanFlatDarkDetectorTIF" class="gda.device.detector.NXDetector">
+		<property name="name" value="flyScanFlatDarkDetectorTIF"/>
+		<property name="collectionStrategy" ref="flyScanFlatDarkCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_tif_writer" />
+			</list>
+		</property>
+	</bean>	
+
+
 </beans>
 
