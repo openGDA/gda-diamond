@@ -31,6 +31,7 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.client.liveplot.IPlotLineColorService;
 
 public class SpectraNode extends DataNode {
+
 	private DoubleDataset xDoubleDataset;
 
 	public static final String DATA_SET_Y_AXIS_PROP_NAME = "yDoubleDataset";
@@ -57,6 +58,10 @@ public class SpectraNode extends DataNode {
 	@Override
 	public String getIdentifier() {
 		return identifier;
+	}
+
+	public void setXAxisData(DoubleDataset xDoubleDataset) {
+		this.xDoubleDataset = xDoubleDataset;
 	}
 
 	public DoubleDataset getXAxisData() {

@@ -30,6 +30,8 @@ public interface LineTraceProvider {
 
 	public TraceStyleDetails getTraceStyleDetails();
 
+	public boolean isPlotByDefault();
+
 	public static class TraceStyleDetails {
 		private String colorHexValue = null;
 		private TraceType traceType;

@@ -74,8 +74,11 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 
 	protected Binding cmbLastStripViewerBinding;
 
-	public SingleSpectrumParametersSection(Composite parent, int style) {
+	private final boolean forExperiment;
+
+	public SingleSpectrumParametersSection(Composite parent, int style, boolean forExperiment) {
 		super(parent, style);
+		this.forExperiment = forExperiment;
 		toolkit = new FormToolkit(parent.getDisplay());
 		try {
 			setupUI();
@@ -173,13 +176,27 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		acquisitionSettingsFileNameComposite.setLayout(new GridLayout(2, false));
 		toolkit.paintBordersFor(acquisitionSettingsFileNameComposite);
 
-		Label fileNameLabel = toolkit.createLabel(acquisitionSettingsFileNameComposite, "Filename");
-		fileNameLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		if (forExperiment) {
+			Label fileNameLabel = toolkit.createLabel(acquisitionSettingsFileNameComposite, "File name prefix");
+			fileNameLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			Text fileNamePrefixText = toolkit.createText(acquisitionSettingsFileNameComposite, "", SWT.None);
+			fileNamePrefixText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			// FIXME Add validation
+			dataBindingCtx.bindValue(
+					WidgetProperties.text(SWT.Modify).observe(fileNamePrefixText),
+					BeanProperties.value(SingleSpectrumUIModel.FILE_TEMPLATE_PROP_NAME).observe(SingleSpectrumUIModel.INSTANCE),
+					new UpdateValueStrategy(),
+					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
+		}
 
-		Text fileNameText = toolkit.createText(acquisitionSettingsFileNameComposite, "", SWT.None);
-		fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		dataBindingCtx.bindValue(WidgetProperties.text().observe(fileNameText), BeanProperties.value(SingleSpectrumUIModel.FILE_NAME_PROP_NAME).observe(SingleSpectrumUIModel.INSTANCE));
-		fileNameText.setEditable(false);
+		// TODO Have to decide whether to present the filename text
+
+		//		Label fileNameLabel = toolkit.createLabel(acquisitionSettingsFileNameComposite, "Filename");
+		//		fileNameLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		//		Text fileNameText = toolkit.createText(acquisitionSettingsFileNameComposite, "", SWT.None);
+		//		fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		//		dataBindingCtx.bindValue(WidgetProperties.text().observe(fileNameText), BeanProperties.value(SingleSpectrumUIModel.FILE_NAME_PROP_NAME).observe(SingleSpectrumUIModel.INSTANCE));
+		//		fileNameText.setEditable(false);
 
 		Composite acquisitionButtonsComposite = new Composite(sectionComposite, SWT.NONE);
 		acquisitionButtonsComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
@@ -193,7 +210,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					SingleSpectrumUIModel.INSTANCE.doCollection();
+					SingleSpectrumUIModel.INSTANCE.doCollection(forExperiment);
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 					logger.error("Unable to scan", e);
