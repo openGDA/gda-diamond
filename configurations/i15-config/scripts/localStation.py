@@ -40,7 +40,7 @@ scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
 import scannables.detectors.fastShutterZebraDetector
-zebraFastShutter=scannables.detectors.fastShutterZebraDetector.FastShutterZebraDetector('zebraFastShutter')
+zebraFastShutter=scannables.detectors.fastShutterZebraDetector.FastShutterZebraDetector('zebraFastShutter', 'BL15I-EA-ZEBRA-01:', zebraContinuousMoveController)
 
 from gdascripts.scannable.epics.PvManager import PvManager
 import scannables.detectorShield
@@ -398,6 +398,8 @@ try:
 		alias("homeToMinus57")
 		alias("minus57ToMinus122")
 		alias("expose")
+		alias("darkExpose")
+		alias("rockScan")
 		alias("resetCCDScanNumber")
 		alias("incrementMarScanNumber")
 		alias("resetMarScanNumber")
@@ -468,7 +470,7 @@ try:
 	else:
 		simpleLog("* Not creating patch x7trig objects *")
 	
-	if True:
+	if False:
 		try:
 			from scannables.detectors.fastShutterDetector import FastShutterDetector
 			fsdet = FastShutterDetector('fsdet', atlas)

@@ -93,6 +93,9 @@
     <logger name="gda.device.detector.mar345">
         <level value="INFO"/>
     </logger>    
+    <logger name="gda.device.zebra.ZebraConstantVelocityMoveController">
+        <level value="INFO"/>
+    </logger>
     <logger name="gda.device.corba.impl">
         <level value="INFO"/>
     </logger>    

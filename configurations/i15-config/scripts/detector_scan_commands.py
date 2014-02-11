@@ -1,16 +1,19 @@
 #from scannables.detectors.detectorAxisWrapper import _getWrappedDetector
 from gdascripts.messages.handle_messages import simpleLog
-from gda.scan import ConcurrentScan
+from gda.scan import ConcurrentScan, ConstantVelocityScanLine
 from gdascripts.pd.dummy_pds import DummyPD
 from shutterCommands import openEHShutter, closeEHShutter
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableBase
 from gdascripts.parameters import beamline_parameters
 
 # If the functions or defaults values below change, please update the user wiki
 # page: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Exposures%20and%20scans%20using%20mar%2C%20ccd%2C%20Pilatus%2C%20etc.
-class DiodeController(PseudoDevice):
+class DiodeController(ScannableBase):
 	def __init__(self, d1out, d2out, exposeDarkFlag=False):
 		self.setName("diodes")
+		self.setInputNames([])
+		self.setExtraNames([]);
+		self.setOutputFormat([])
 		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 		self.d1out = jythonNameMap.d1out if d1out else None
 		self.d2out = jythonNameMap.d2out if d2out else None
@@ -35,7 +38,7 @@ class DiodeController(PseudoDevice):
 		self.zebraFastShutter.forceOpenRelease()
 		
 		if (self.exposeDarkFlag):
-			simpleLog("Dark expose")
+			simpleLog("Dark expose, so closing the EH shutter...")
 			closeEHShutter()
 		else:
 			openEHShutter()
@@ -45,13 +48,10 @@ class DiodeController(PseudoDevice):
 		closeEHShutter()
 
 	def rawGetPosition(self):
-		return 1
+		return None
 
 	def rawIsBusy(self):
-		return 0
-
-	def rawAsynchronousMoveTo(self,position):
-		pass
+		return False
 
 """
 def simpleScan(axis, start, stop, step, detector, exposureTime,
@@ -119,7 +119,47 @@ def rockScan(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 		wrappedDetector, centre - abs(rockSize), centre - abs(rockSize),
 			abs(2*rockSize)])
 	scan.runScan()
+"""
+
+def _configureConstantVelocityMove(axis):
+	supportedMotors = ('dkphi',)
+	if not (axis.name in supportedMotors):
+		raise Exception('Motor %r not in the list of supported motors: %r' % (axis.name, supportedMotors))
 	
+	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+	
+	if axis.name == "dkphi":
+		continuouslyScannableViaController = jythonNameMap.dkphiZebraScannableMotor
+		continuousMoveController = jythonNameMap.zebraContinuousMoveController
+	else:
+		raise Exception('Error configuring motor %r' % (axis.name))
+	
+	return continuouslyScannableViaController, continuousMoveController
+
+def rockScan(axis, centre, rockSize, noOfRocks, detector, exposureTime,
+		sampleSuffix="rockScan_test", d1out=True, d2out=True):
+	# Based on gda-dls-beamlines-i13x.git/i13i/scripts/flyscan.py @136034c  (8.36)
+	
+	hardwareTriggeredNXDetector = _configureDetector(detector, noOfRocks, sampleSuffix)
+	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(axis)
+	
+	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+	detectorShield = jythonNameMap.ds
+	numExposuresPD = DummyPD("exposure")
+	
+	sc1=ConstantVelocityScanLine([continuouslyScannableViaController, centre, centre, abs(2*rockSize),
+								  continuousMoveController,
+								  hardwareTriggeredNXDetector, exposureTime,
+								])
+	
+	scan = ConcurrentScan([numExposuresPD, 1, noOfRocks, 1,
+						   detectorShield,
+						   DiodeController(d1out, d2out),
+						   sc1
+						 ])
+	scan.runScan()
+
+"""
 def rockScanUnsync(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 		fileName="rock_scan_test", d1out=True, d2out=True, fixedVelocity=False):
 	wrappedDetector = _getWrappedDetector(
@@ -145,35 +185,47 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 	scan.runScan()
 """
 
-def _expose(detector, exposureTime, noOfExposures, sampleSuffix, d1out, d2out):
-	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
-	zebraFastShutter = jythonNameMap.zebraFastShutter
+def _configureDetector(detector, numberOfExposures, sampleSuffix):
+	supportedDetectors = ('mar', 'pe')
+	if not (detector.name in supportedDetectors):
+		raise Exception('Detector %r not in the list of supported detectors: %r' % (detector.name, supportedDetectors))
 	
-	if not (detector.name in ('mar', 'pe')):
-		raise Exception('Only supports "mar" and "pe" Area detectors!')
+	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+	
+	if detector.name == "mar":
+		hardwareTriggeredNXDetector = jythonNameMap.marHWT
+	elif detector.name == "pe":
+		hardwareTriggeredNXDetector = jythonNameMap.peHWT
+	else:
+		raise Exception('Error configuring detector %r' % (detector.name))
 	
 	detector.hdfwriter.setFileTemplate(		"%s%s.hdf5")
 	detector.hdfwriter.setFilePathTemplate(	"$datadir$")
-	detector.hdfwriter.setFileNameTemplate(	"$scan$-%s-files-" % detector.name + sampleSuffix)
+	detector.hdfwriter.setFileNameTemplate(	"$scan$-%s-" % detector.name + sampleSuffix)
 	
 	detector.tifwriter.setFileTemplate(		"%s%s%05d.tif")
-	detector.tifwriter.setFilePathTemplate(	"$datadir$/$scan$-%s-files-" % detector.name + sampleSuffix)
-	detector.tifwriter.setFileNameTemplate(	"")
+	if numberOfExposures == 1:
+		detector.tifwriter.setFilePathTemplate(	"$datadir$/")
+		detector.tifwriter.setFileNameTemplate(	"$scan$-%s-" % detector.name + sampleSuffix)
+	else:
+		detector.tifwriter.setFilePathTemplate(	"$datadir$/$scan$-%s-files-" % detector.name + sampleSuffix)
+		detector.tifwriter.setFileNameTemplate(	"")
 	
-	return jythonNameMap, zebraFastShutter
+	return hardwareTriggeredNXDetector
 
 def expose(detector, exposureTime=1, noOfExposures=1,
 		sampleSuffix="expose_test", d1out=True, d2out=True):
 	
-	jythonNameMap, zebraFastShutter = _expose(detector, exposureTime,
-		noOfExposures, sampleSuffix, d1out, d2out)
+	_configureDetector(detector, noOfExposures, sampleSuffix)
 
-	ds = jythonNameMap.ds
+	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+	detectorShield = jythonNameMap.ds
 	numExposuresPD = DummyPD("exposure")
+	zebraFastShutter = jythonNameMap.zebraFastShutter
 	
-	scan = ConcurrentScan([ds, 1, 1, 1,
-						   DiodeController(d1out, d2out), 1, 1, 1,
-						   numExposuresPD, 1, noOfExposures, 1,
+	scan = ConcurrentScan([numExposuresPD, 1, noOfExposures, 1,
+						   detectorShield,
+						   DiodeController(d1out, d2out),
 						   detector, exposureTime,
 						   zebraFastShutter, exposureTime ])
 	scan.runScan()
@@ -181,12 +233,11 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 def darkExpose(detector, exposureTime=1, 
 		sampleSuffix="darkExpose_test", d1out=True, d2out=True):
 	
-	_, zebraFastShutter = _expose(detector, exposureTime,
-		1, sampleSuffix, d1out, d2out)
+	_configureDetector(detector, 1, sampleSuffix)
 
 	scan = ConcurrentScan([DiodeController(d1out, d2out, exposeDarkFlag=True), 1, 1, 1,
 						   detector, exposureTime,
-						   zebraFastShutter, exposureTime ]) # TODO: Is this needed?
+						 ])
 	scan.runScan()
 
 """

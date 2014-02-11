@@ -1,40 +1,45 @@
 #beam position monitor
 
 from gda.device.detector import DetectorBase
+from gda.device.detector.hardwaretriggerable import HardwareTriggeredDetector
+from gda.scan import DetectorWithReadoutTime
 from gdascripts.messages.handle_messages import simpleLog
 from gdascripts.scannable.epics.PvManager import PvManager
 
 TIMEOUT=5
 
-class FastShutterZebraDetector(DetectorBase):
+class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, DetectorWithReadoutTime):
     
-    def __init__(self, name, rootPV="BL15I-EA-ZEBRA-01:"):
+    def __init__(self, name, rootPV, continuousMoveController):
         self.name = name
         self.setInputNames([name])
         self.setOutputFormat(['%5.5f'])
         self.setLevel(100) # Same as PE
         self.pvs = PvManager(pvroot = rootPV)
-        
-        self.verbose=False
-        
-        self.timeunit='ms'
-        self.timeconvert=1000
-
-    def get_values(self):
-        return self.name, self.isccd
+        self.continuousMoveController = continuousMoveController
+        #from gda.device.zebra.controller.impl import ZebraImpl
+        #self.zebra = ZebraImpl()
+        self.verbose=True
 
     def __repr__(self):
-        return "FastShutterDetector(name=%r, isccd=%r)" % (self.get_values())
+        return "%s(name=%r, rootPV=%r, continuousMoveController=%s)" % (self.__class__.__name__, self.name,
+            self.pvs.pvroot, self.continuousMoveController.name)
 
     ### Special commands for supporting manual shutter open/close.
 
     def forceOpen(self):
         """ TODO: This sets bit 3 only, we shouldn't clear the other bits."""
+        if self.verbose:
+            simpleLog("%s:%s() Forcing shutter open..." % (self.name, self.pfuncname()))
+        #self.zebra.?.set?
         self.pvs['SOFT_IN'].caput(TIMEOUT, 4)
     
     def forceOpenRelease(self):
         """TODO: This clears all bits, we should really only clear bit 3 leaving other bits as is."""
+        #self.zebra.?.set?
         self.pvs['SOFT_IN'].caput(TIMEOUT, 0)
+        if self.verbose:
+            simpleLog("%s:%s() Released Force shutter open" % (self.name, self.pfuncname()))
 
     def isOpen(self):
         shutterFeedback=self.pvs['OR3_INP2:STA'].caput(TIMEOUT, 0)
@@ -43,14 +48,22 @@ class FastShutterZebraDetector(DetectorBase):
         else:
             return 'OPEN'
 
+    ### Local helper functions
+
+    def pfuncname(self):
+        import traceback
+        return "%s" % traceback.extract_stack()[-2][2]
+
     ###    Detector interface implementations:
 
     def collectData(self):
         """ Tells the detector to begin to collect a set of data, then returns
             immediately. """
         if self.verbose:
-            simpleLog("FastShutterDetector.collectData started...")
+            simpleLog("%s:%s() started... collectionTime=%r" % (self.name, self.pfuncname(), self.collectionTime))
         self.lastExposureTime = self.collectionTime
+        #self.zebra.dev.getIntegerPVValueCache(self.zebra.sysReset+".PROC").putWait(1)
+        #self.zebra.pcArm()
         self.pvs['SYS_RESET.PROC'].caput(TIMEOUT, 1)
         self.pvs['PC_ARM'].caput(TIMEOUT, 1)
 
@@ -75,7 +88,7 @@ class FastShutterZebraDetector(DetectorBase):
             must be consistent with the values returned by getDataDimensions
             and getExtraNames. """
         if self.verbose:
-            simpleLog("FastShutterDetector.readout started...")
+            simpleLog("%s:%s() started... collectionTime=%r" % (self.name, self.pfuncname(), self.collectionTime))
         return float(self.pvs['PC_DIV3_LAST'].caget())/1000.
         # Hard coded to 1000 as we are using a 1KHz clock for the pulses.
 
@@ -91,14 +104,21 @@ class FastShutterZebraDetector(DetectorBase):
         """ Returns the dimensions of the data object returned by the readout()
             method. """
         if self.verbose:
-            simpleLog("FastShutterDetector.getDataDimensions started...")
+            simpleLog("%s:%s() started... collectionTime=%r" % (self.name, self.pfuncname(), self.collectionTime))
         return [ 1 ]
 
     def prepareForCollection(self):
         """ Method called before a scan starts. May be used to setup detector
             for collection, for example MAR345 uses this to erase. """
         if self.verbose:
-            simpleLog("FastShutterDetector.prepareForCollection started...")
+            simpleLog("%s:%s() started... collectionTime=%r" % (self.name, self.pfuncname(), self.collectionTime))
+
+        if self.collectionTime > 20: # TODO: This should be 200 seconds to give the max resolution for the longest collection time
+            self.timeunit='s'
+            self.timeconvert=1
+        else:
+            self.timeunit='ms'
+            self.timeconvert=1000
 
         self.pvs['PC_TSPRE'      ].caput(TIMEOUT, self.timeunit)
         self.pvs['PC_BIT_CAP'    ].caput(TIMEOUT, 961)      # Complex bitfield
@@ -117,7 +137,7 @@ class FastShutterZebraDetector(DetectorBase):
         self.pvs['PC_PULSE_SEL'  ].caput(TIMEOUT, 'Time')
         self.pvs['PC_PULSE_START'].caput(TIMEOUT, 0)
         self.pvs['PC_PULSE_WID'  ].caput(TIMEOUT, self.collectionTime*self.timeconvert)
-        self.pvs['PC_PULSE_STEP' ].caput(TIMEOUT, 0)
+        self.pvs['PC_PULSE_STEP' ].caput(TIMEOUT, self.collectionTime*self.timeconvert+0.0002) # PULSE_STEP *must* be bigger than PULSE_WID, maybe more than 0.0001 bigger
         self.pvs['PC_PULSE_DLY'  ].caput(TIMEOUT, self.collectionTime*self.timeconvert)
         self.pvs['PC_PULSE_MAX'  ].caput(TIMEOUT, 1)
 
@@ -126,8 +146,8 @@ class FastShutterZebraDetector(DetectorBase):
         self.pvs['AND3_INP2'     ].caput(TIMEOUT, 58)       # CLOCK_1KHZ
         self.pvs['DIV3_INP'      ].caput(TIMEOUT, 34)       # AND3
         self.pvs['DIV3_DIV'      ].caput(TIMEOUT, 10000000) # 10m ms = 10k s
-        self.pvs['DIV3_DIV'      ].caput(TIMEOUT, 10000000) # Setting is notreliable, three times seems to be the charm
-        self.pvs['DIV3_DIV'      ].caput(TIMEOUT, 10000000) 
+        self.pvs['DIV3_DIV'      ].caput(TIMEOUT, 10000000) # Setting is not reliable, three times seems to be the charm
+        self.pvs['DIV3_DIV'      ].caput(TIMEOUT, 10000000) # TODO: Remove when this fixed
         self.pvs['POLARITY'      ].caput(TIMEOUT, 0)
 
 #    def endCollection(self):
@@ -142,17 +162,23 @@ class FastShutterZebraDetector(DetectorBase):
             the name of the latest file created as a string. If it does not
             (return false) the readout() method will return the data directly. """
         if self.verbose:
-            simpleLog("createsOwnFiles started...")
+            simpleLog("%s:%s() started..." % (self.name, self.pfuncname()))
         return False; 
 
     def getDescription(self):
         """ A description of the detector. """
+        if self.verbose:
+            simpleLog("%s:%s() started..." % (self.name, self.pfuncname()))
         return "Generic Binary PV Detector";
 
     def getDetectorID(self):
         """ A identifier for this detector. """
+        if self.verbose:
+            simpleLog("%s:%s() started..." % (self.name, self.pfuncname()))
         return self.name;
 
     def getDetectorType(self):
         """ The type of detector. """
+        if self.verbose:
+            simpleLog("%s:%s() started..." % (self.name, self.pfuncname()))
         return "FastShutterDetector";
