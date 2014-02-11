@@ -53,7 +53,7 @@ from diodeTime import *
 from setGain import *
 #from marAuxiliary import marErase, resetMarScanNumber
 #from ccdAuxiliary import resetCCDScanNumber
-from pilatus_scripts import resetPilatusScanNumber
+#from pilatus_scripts import resetPilatusScanNumber
 
 from dataDir import setDir, setFullUserDir
 from time import sleep
@@ -400,10 +400,10 @@ try:
 		alias("expose")
 		alias("darkExpose")
 		alias("rockScan")
-		alias("resetCCDScanNumber")
-		alias("incrementMarScanNumber")
-		alias("resetMarScanNumber")
-		alias("resetPilatusScanNumber")
+		#alias("resetCCDScanNumber")
+		#alias("incrementMarScanNumber")
+		#alias("resetMarScanNumber")
+		#alias("resetPilatusScanNumber")
 	except:
 		localStation_exception(sys.exc_info(), "setting up aliases")
 
@@ -607,7 +607,7 @@ try:
 	ccdScanMechanics.configure(jythonNameMap, beamlineParameters)
 	ccdFloodCorrections.configure(jythonNameMap, beamlineParameters)
 #	ccdScripts.configure(jythonNameMap, beamlineParameters)
-	pilatus_scripts.configure(jythonNameMap, beamlineParameters)
+#	pilatus_scripts.configure(jythonNameMap, beamlineParameters)
 	
 	# meta should be created last to ensure we have all required scannables
 	try:
