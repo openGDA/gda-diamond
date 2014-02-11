@@ -183,11 +183,6 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	private void loadSavedGroups() {
 		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(getDataStoreKey(), TimingGroupUIModel[].class);
 		ExperimentDataModel savedExperimentDataModel = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(getI0IRefDataKey(), ExperimentDataModel.class);
-		if (savedGroups == null) {
-			this.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(DEFAULT_INITIAL_EXPERIMENT_TIME));
-			addItGroup();
-			return;
-		}
 		if (savedExperimentDataModel == null) {
 			experimentDataModel = new ExperimentDataModel();
 		} else {
@@ -199,6 +194,12 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(getI0IRefDataKey(), experimentDataModel);
 			}
 		});
+		if (savedGroups == null) {
+			this.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(DEFAULT_INITIAL_EXPERIMENT_TIME));
+			addItGroup();
+			return;
+		}
+
 		for (TimingGroupUIModel loadedGroup : savedGroups) {
 			TimingGroupUIModel timingGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 			timingGroup.setName(loadedGroup.getName());

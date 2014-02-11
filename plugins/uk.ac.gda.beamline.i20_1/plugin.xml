@@ -442,6 +442,9 @@
             label="Time resolved Tool">
       </plotting_tool_page>
    </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+   </extension>
 
    
 </plugin>
