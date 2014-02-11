@@ -185,7 +185,6 @@ public class I05Apple extends ScannableMotionBase {
 		throw new DeviceException("upper and lower phase out of sync");
 	}
 	
-	//FIXME public for testing
 	public double findEnergyForCircularGap(double gap) {
 		PolynomialFunction poly = circularGapPolynomial.add(new PolynomialFunction(new double[] { -gap }));
 		poly = poly.multiply(poly);
@@ -265,25 +264,21 @@ public class I05Apple extends ScannableMotionBase {
 		}
 	}
 
-	private void setPhaseDemandsTo(Double phase) throws TimeoutException, CAException, InterruptedException, DeviceException {
+	private void setPhaseDemandsTo(Double phase) throws TimeoutException, CAException, InterruptedException {
 		if (upperDemandChannel != null)
 			epicsController.caputWait(upperDemandChannel, phase);
-		else
-			upperPhaseScannable.asynchronousMoveTo(phase);
 		if (lowerDemandChannel != null)
 			epicsController.caputWait(lowerDemandChannel, phase);
-		else 
-			lowerPhaseScannable.asynchronousMoveTo(phase);
 	}
 	
 	private void runPast(Point2D[] pointArray) throws DeviceException, InterruptedException, TimeoutException, CAException {
 		try {
 			moveSequenceRunning = true;
 		for (int i = 1; i < pointArray.length; i++) {
-//			lowerPhaseScannable.asynchronousMoveTo(pointArray[i].getX());
-//			upperPhaseScannable.asynchronousMoveTo(pointArray[i].getX());
 			setPhaseDemandsTo(pointArray[i].getX());
 			gapScannable.asynchronousMoveTo(pointArray[i].getY());
+			lowerPhaseScannable.asynchronousMoveTo(pointArray[i].getX());
+			upperPhaseScannable.asynchronousMoveTo(pointArray[i].getX());
 			lowerPhaseScannable.waitWhileBusy();
 			upperPhaseScannable.waitWhileBusy();
 			gapScannable.waitWhileBusy();
