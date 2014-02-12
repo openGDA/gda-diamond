@@ -102,4 +102,9 @@ public class SlitscanDataItemNode extends DataNode implements LineTraceProvider 
 	public void update(Double value) {
 		data.add(value);
 	}
+
+	@Override
+	public boolean isPlotByDefault() {
+		return true;
+	}
 }

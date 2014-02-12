@@ -18,6 +18,7 @@
 
 package uk.ac.gda.exafs.ui.views.plot.model;
 
+import gda.device.detector.XHDetector;
 import gda.factory.Finder;
 import gda.jython.IScanDataPointObserver;
 import gda.jython.InterfaceProvider;
@@ -35,17 +36,46 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.swt.widgets.Display;
 
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+
 public class ExperimentDataNode extends DataNode implements IScanDataPointObserver {
+
+	public final static DoubleDataset scriptsData = new DoubleDataset(XHDetector.getStripsInDouble());
 
 	private final Map<String, ScanDataNode> scans = new HashMap<String, ScanDataNode>();
 	private final IObservableList dataset = new WritableList(new ArrayList<ScanDataNode>(), ScanDataNode.class);
 
 	private DataNode changedData;
 
+	public static final String USE_STRIPS_AS_X_AXIS_PROP_NAME = "useStripsAsXaxis";
+	private boolean useStripsAsXaxis;
+
+	private DataNode addedData;
+
 	public ExperimentDataNode() {
 		super(null);
 		((IObservable) Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(this);
 		InterfaceProvider.getScanDataPointProvider().addIScanDataPointObserver(this);
+	}
+
+	public boolean isUseStripsAsXaxis() {
+		return useStripsAsXaxis;
+	}
+
+	public void setUseStripsAsXaxis(boolean useStripsAsXaxis) {
+		this.firePropertyChange(USE_STRIPS_AS_X_AXIS_PROP_NAME, this.useStripsAsXaxis, this.useStripsAsXaxis = useStripsAsXaxis);
+		updateScansData();
+	}
+
+	private void updateScansData() {
+		for (Object scanObj: dataset) {
+			for (Object spectraObj: ((ScanDataNode) scanObj).getChildren()) {
+				SpectraNode spectraNode = (SpectraNode) spectraObj;
+				for (Object scanDataObj: spectraNode.getChildren()) {
+					this.firePropertyChange(DATA_CHANGED_PROP_NAME, null, scanDataObj);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -60,6 +90,10 @@ public class ExperimentDataNode extends DataNode implements IScanDataPointObserv
 
 	public DataNode getChangedData() {
 		return changedData;
+	}
+
+	public DataNode getAddedData() {
+		return addedData;
 	}
 
 	// FIXME Changed to linked list or change viewer to reverse the order!
@@ -79,8 +113,8 @@ public class ExperimentDataNode extends DataNode implements IScanDataPointObserv
 			} else {
 				datasetNode = scans.get(scanIdentifier);
 			}
-			changedData = datasetNode.updateData((EdeExperimentProgressBean) arg);
-			this.firePropertyChange(DATA_CHANGED_PROP_NAME, null, changedData);
+			addedData = datasetNode.updateData((EdeExperimentProgressBean) arg);
+			this.firePropertyChange(DATA_ADDED_PROP_NAME, null, addedData);
 		}
 	}
 
