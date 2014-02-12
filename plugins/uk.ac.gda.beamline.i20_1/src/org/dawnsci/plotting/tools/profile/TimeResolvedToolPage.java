@@ -28,6 +28,8 @@ import org.dawb.common.ui.widgets.ActionBarWrapper;
 import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
+import org.dawnsci.plotting.api.filter.AbstractPlottingFilter;
+import org.dawnsci.plotting.api.filter.IFilterDecorator;
 import org.dawnsci.plotting.api.region.IRegion;
 import org.dawnsci.plotting.api.region.IRegionListener;
 import org.dawnsci.plotting.api.region.RegionEvent;
@@ -77,9 +79,11 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 
+import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.ILazyDataset;
+import uk.ac.diamond.scisoft.analysis.dataset.Maths;
 import uk.ac.diamond.scisoft.analysis.dataset.Slice;
 import uk.ac.diamond.scisoft.analysis.io.IMetaData;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
@@ -87,6 +91,7 @@ import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 
 public class TimeResolvedToolPage extends AbstractToolPage implements IRegionListener, ITraceListener {
 
+	private static final double STACK_OFFSET = 0.1;
 	private static final String GROUP_AXIS_PATH = "/entry1/instrument/xstrip/group";
 	private static final String TIME_AXIS_PATH = "/entry1/instrument/xstrip/time";
 	protected static final int NUMBER_OF_STRIPS = 1024;
@@ -361,6 +366,10 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 						this.getViewPart());
 				plottingSystem.getPlotComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 				plottingSystem.getSelectedXAxis().setAxisAutoscaleTight(true);
+				plottingSystem.getSelectedYAxis().setAxisAutoscaleTight(true);
+				IFilterDecorator filter = PlottingFactory.createFilterDecorator(plottingSystem);
+				plottingSystem.setRescale(true);
+				filter.addFilter(stackFilter);
 			}
 		} catch (Exception e) {
 			logger.error("Unable to create plotting system", e);
@@ -470,6 +479,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			trace.setUserObject(spectrum);
 			plottingSystem.addTrace(trace);
 		}
+		plottingSystem.repaint(true);
 	}
 
 	private void removeTraces(List<Spectrum> spectraToRemove) {
@@ -478,7 +488,22 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			plottingSystem.removeTrace(spectrum.getTrace());
 			spectrum.clearTrace();
 		}
+		plottingSystem.repaint(true);
 	}
+
+	private final AbstractPlottingFilter stackFilter = new AbstractPlottingFilter() {
+		@Override
+		protected IDataset[] filter(IDataset x, IDataset y) {
+			int traces = plottingSystem.getTraces().size();
+			IDataset newY = Maths.add((AbstractDataset) y, new Double(traces * STACK_OFFSET));
+			newY.setName(y.getName());
+			return new IDataset[]{x, newY};
+		}
+		@Override
+		public int getRank() {
+			return 1;
+		}
+	};
 
 	private final Action removeRegionAction = new Action("Remove") {
 		@Override
