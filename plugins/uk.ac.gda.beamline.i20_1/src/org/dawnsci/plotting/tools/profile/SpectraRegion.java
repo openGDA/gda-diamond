@@ -34,10 +34,12 @@ public class SpectraRegion extends ObservableModel implements IROIListener {
 	private final IRegion region;
 	private final TimeResolvedData timeResolvedData;
 
-	public static final String START = "start";
 
-	private final List<Spectrum> spectraList = new ArrayList<Spectrum>();
+	public static final String START = "start";
 	public static final String END = "end";
+	public static final String SPECTRA_CHANGED = "spectra";
+	private List<Spectrum> spectraList;
+
 
 	private boolean adjusting;
 
@@ -57,7 +59,7 @@ public class SpectraRegion extends ObservableModel implements IROIListener {
 			int lastIndex = (int) (boxRoi.getPointY() + boxRoi.getLength(1));
 			boolean started = false;
 			boolean ended = false;
-			spectraList.clear();
+			ArrayList<Spectrum> tempSpectraList = new ArrayList<Spectrum>();
 			outerloop:
 				for (Object object : timeResolvedData.getTimingGroups()) {
 					TimingGroup group = (TimingGroup) object;
@@ -70,20 +72,20 @@ public class SpectraRegion extends ObservableModel implements IROIListener {
 							ended = true;
 						}
 						if (started && !ended) {
-							spectraList.add(spectrum);
+							tempSpectraList.add(spectrum);
 						}
 						if (started && ended) {
+							firePropertyChange(SPECTRA_CHANGED, spectraList, spectraList = tempSpectraList);
 							firePropertyChange(START, null, this.getStart());
 							firePropertyChange(END, null, this.getEnd());
+
 							roi.setPoint(0, firstIndex);
 							((RectangularROI) roi).setLengths(new double[]{boxRoi.getLength(0), lastIndex - firstIndex});
 							region.setROI(roi);
 							break outerloop;
 						}
 					}
-
 				}
-
 		}
 		adjusting = false;
 	}

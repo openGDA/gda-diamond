@@ -18,11 +18,14 @@
 
 package org.dawnsci.plotting.tools.profile;
 
+import org.dawnsci.plotting.api.trace.ITrace;
+
 
 public class Spectrum {
 	private final double startTime;
 	private final int index;
 	private final String name;
+	private ITrace trace;
 
 	public Spectrum(int index, double startTime) {
 		this.startTime = startTime;
@@ -41,5 +44,17 @@ public class Spectrum {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public ITrace getTrace() {
+		return trace;
+	}
+
+	public void setTrace(ITrace trace) {
+		this.trace = trace;
+	}
+
+	public void clearTrace() {
+		trace = null;
 	}
 }
