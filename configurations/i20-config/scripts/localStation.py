@@ -67,7 +67,7 @@ xes_offsets = XESOffsets(store_dir, spectrometer)
 xes_calculate = XESCalculate(xes_offsets, material, cut1, cut2, cut3, radius)
 
 xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, bragg1, ionchambers, True, True, True, False)
-xes = I20XesScan(detectorPreparer, samplePreparer, outputPreparer,commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, bragg1, ionchambers, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, twodplotter, I1, XESEnergy, XESBragg, xes_offsets)
+xes = I20XesScan(xas,XASLoggingScriptController, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,bragg1,XESEnergy,XESBragg)
 xanes = xas
 
 alias("xas")
@@ -105,13 +105,13 @@ else:
 #
 # XES offsets section
 #
-from xes import calcExpectedPositions, offsetsStore, setOffsets
+from xes import offsetsStore, setOffsets
 offsetsStore = offsetsStore.XESOffsets()
 offsetsStore.removeAllOffsets()
 # do nothing more so that offsets start at zero everytime
 
 if LocalProperties.get("gda.mode") == "live":
-    run 'adc_monitor'
+    run "adc_monitor"
     run "xspress_config"
     print "\nXspress detector set to high (>8KeV) mode."\
     + "\nIf you wish to collect predominately at lower energies, type:"\
