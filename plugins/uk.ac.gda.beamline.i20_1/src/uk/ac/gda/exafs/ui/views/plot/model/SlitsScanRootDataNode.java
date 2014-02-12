@@ -65,6 +65,11 @@ public class SlitsScanRootDataNode extends DataNode implements IScanDataPointObs
 
 	@SuppressWarnings("unchecked")
 	protected void updateDataSetInUI(IScanDataPoint scanDataPoint) {
+		// FIXME!
+		if (scanDataPoint.getScanPlotSettings() != null && scanDataPoint.getScanPlotSettings().getYAxesShown().length < 1) {
+			return;
+		}
+
 		SlitsScanDataNode slitsScanDataNode;
 		if (!scans.containsKey(scanDataPoint.getScanIdentifier())) {
 			slitsScanDataNode = new SlitsScanDataNode(scanDataPoint.getScanIdentifier(), scanDataPoint.getDetectorHeader(), this);
@@ -75,7 +80,7 @@ public class SlitsScanRootDataNode extends DataNode implements IScanDataPointObs
 		}
 		slitsScanDataNode.update(scanDataPoint);
 		for (Object object : slitsScanDataNode.getChildren()) {
-			this.firePropertyChange(DATA_CHANGED_PROP_NAME, null, object);
+			this.firePropertyChange(DATA_ADDED_PROP_NAME, null, object);
 		}
 
 	}

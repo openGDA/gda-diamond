@@ -376,7 +376,7 @@ public class EDECalibrationSection extends ResourceComposite {
 			try {
 				DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(calibrationResult);
 			} catch (DeviceException e) {
-				logger.error("DeviceException trying to apply the calibration to the current detector", e);
+				logger.error("Trying to apply the calibration to the current detector", e);
 			}
 		}
 	}
@@ -414,8 +414,7 @@ public class EDECalibrationSection extends ResourceComposite {
 		try {
 			polynomialValueLbl.setText(DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().toString());
 		} catch (DeviceException e) {
-			// TODO Auto-generated catch block
-			logger.error("TODO put description of error here", e);
+			logger.error("Unable to get the energy calibration function for the detector", e);
 		}
 	}
 
