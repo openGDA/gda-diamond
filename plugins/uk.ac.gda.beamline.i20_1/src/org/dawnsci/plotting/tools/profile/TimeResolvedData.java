@@ -29,7 +29,6 @@ import org.eclipse.core.databinding.observable.list.WritableList;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
 public class TimeResolvedData implements IROIListener {
-	private static final int NUMBER_OF_STRIPS = 1024;
 
 	private final IObservableList timingGroups = new WritableList(new ArrayList<TimingGroup>(), TimingGroup.class);
 

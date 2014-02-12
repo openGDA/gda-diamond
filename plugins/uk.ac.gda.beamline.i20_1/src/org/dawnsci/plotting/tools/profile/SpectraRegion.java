@@ -24,6 +24,7 @@ import java.util.List;
 import org.dawnsci.plotting.api.region.IROIListener;
 import org.dawnsci.plotting.api.region.IRegion;
 import org.dawnsci.plotting.api.region.ROIEvent;
+import org.dawnsci.plotting.api.trace.ITrace;
 
 import uk.ac.diamond.scisoft.analysis.roi.IROI;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
@@ -34,12 +35,12 @@ public class SpectraRegion extends ObservableModel implements IROIListener {
 	private final IRegion region;
 	private final TimeResolvedData timeResolvedData;
 
-
 	public static final String START = "start";
 	public static final String END = "end";
 	public static final String SPECTRA_CHANGED = "spectra";
 	private List<Spectrum> spectraList;
 
+	private final List<ITrace> regionTraces = new ArrayList<ITrace>();
 
 	private boolean adjusting;
 
@@ -104,6 +105,10 @@ public class SpectraRegion extends ObservableModel implements IROIListener {
 
 	public Spectrum getEnd() {
 		return spectraList.get(spectraList.size() - 1);
+	}
+
+	public List<ITrace> getRegionTraces() {
+		return regionTraces;
 	}
 
 	@Override
