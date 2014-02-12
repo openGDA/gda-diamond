@@ -229,7 +229,10 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 		return integrationTime;
 	}
 
-	public void setIntegrationTime(double integrationTime) {
+	public void setIntegrationTime(double integrationTime) throws IllegalArgumentException {
+		if (integrationTime > this.getTimePerSpectrum()) {
+			throw new IllegalArgumentException("Accumulation time cannot be longer than time per spectrum");
+		}
 		this.firePropertyChange(INTEGRATION_TIME_PROP_NAME, this.integrationTime, this.integrationTime = integrationTime);
 	}
 

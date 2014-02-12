@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2013 Diamond Light Source Ltd.
+ * Copyright © 2014 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -16,20 +16,30 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.data;
+package org.dawnsci.plotting.tools.profile;
 
-import org.eclipse.swt.widgets.Display;
 
-import uk.ac.gda.beans.ObservableModel;
+public class Spectrum {
+	private final double startTime;
+	private final int index;
+	private final String name;
 
-public class UIObservableModel extends ObservableModel {
+	public Spectrum(int index, double startTime) {
+		this.startTime = startTime;
+		this.index = index;
+		name = "Spectrum " + index;
+	}
+
+	public double getStartTime() {
+		return startTime;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
 	@Override
-	protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {
-		Display.getDefault().syncExec(new Runnable() {
-			@Override
-			public void run() {
-				UIObservableModel.super.firePropertyChange(propertyName, oldValue, newValue);
-			}
-		});
+	public String toString() {
+		return name;
 	}
 }

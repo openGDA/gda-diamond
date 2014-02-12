@@ -20,10 +20,13 @@ package uk.ac.gda.beamline.i20_1.utils;
 
 import de.jaret.util.date.JaretDate;
 
-public class TimebarHelper {
+public class ExperimentTimeHelper {
+
 	public static JaretDate getTime() {
 		return new JaretDate().setTime(0, 0, 0, 0).copy();
 	}
 
-
+	public static double fromMilliToSec(double milliSec) {
+		return milliSec / 1000.0;
+	}
 }

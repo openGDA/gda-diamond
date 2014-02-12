@@ -44,8 +44,8 @@ public class TimeEstimatorsTest {
 		group2.setTimePerFrame(0.02);
 		itParams.addGroup(group2);
 
-		ScannableMotor xScannable = EdeScanTest.createMotor("xScannable");
-		ScannableMotor yScannable = EdeScanTest.createMotor("yScannable");
+		ScannableMotor xScannable = EdeTestBase.createMotor("xScannable");
+		ScannableMotor yScannable = EdeTestBase.createMotor("yScannable");
 
 		ExplicitScanPositions inBeam = new ExplicitScanPositions(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
@@ -74,8 +74,8 @@ public class TimeEstimatorsTest {
 		group2.setTimePerFrame(0.02);
 		itParams.addGroup(group2);
 
-		ScannableMotor xScannable = EdeScanTest.createMotor("xScannable");
-		ScannableMotor yScannable = EdeScanTest.createMotor("yScannable");
+		ScannableMotor xScannable = EdeTestBase.createMotor("xScannable");
+		ScannableMotor yScannable = EdeTestBase.createMotor("yScannable");
 
 		ExplicitScanPositions inBeam = new ExplicitScanPositions(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
@@ -104,8 +104,8 @@ public class TimeEstimatorsTest {
 		group2.setTimePerFrame(0.02);
 		itParams.addGroup(group2);
 
-		ScannableMotor xScannable = EdeScanTest.createMotor("xScannable");
-		ScannableMotor yScannable = EdeScanTest.createMotor("yScannable");
+		ScannableMotor xScannable = EdeTestBase.createMotor("xScannable");
+		ScannableMotor yScannable = EdeTestBase.createMotor("yScannable");
 
 		ExplicitScanPositions inBeam = new ExplicitScanPositions(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
@@ -144,8 +144,8 @@ public class TimeEstimatorsTest {
 		itParams.addGroup(group2);
 
 		
-		ScannableMotor xScannable = EdeScanTest.createMotor("xScannable");
-		ScannableMotor yScannable = EdeScanTest.createMotor("yScannable");
+		ScannableMotor xScannable = EdeTestBase.createMotor("xScannable");
+		ScannableMotor yScannable = EdeTestBase.createMotor("yScannable");
 
 		ExplicitScanPositions inBeam = new ExplicitScanPositions(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,

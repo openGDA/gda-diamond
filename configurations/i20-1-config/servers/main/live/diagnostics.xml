@@ -39,7 +39,7 @@
 <!-- 		<property name="pvName" value="BL20J-DI-PHDGN-04:POSN" /> -->
 <!-- 	</bean> -->
 	
-	<bean id="d5_screen"
+	<bean id="d5"
 		class="gda.device.enumpositioner.EpicsEditablePositionerCallback">
  		<property name="recordName" value="BL20J-DI-PHDGN-05:MP" />
  	</bean>
