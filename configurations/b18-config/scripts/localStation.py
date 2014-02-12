@@ -11,7 +11,6 @@ from gda.device.scannable import MonoCoolScannable
 from gda.factory import Finder
 from gda.configuration.properties import LocalProperties
 from gda.jython.scriptcontroller.logging import LoggingScriptController
-from gda.jython.scriptcontroller.logging import XasLoggingMessage
 from gda.scan import ScanBase#this is required for skip current repetition to work BLXVIIIB-99
 from gda.device.monitor import EpicsMonitor
 from gda.data.scan.datawriter import NexusExtraMetadataDataWriter

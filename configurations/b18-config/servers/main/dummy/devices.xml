@@ -32,7 +32,7 @@
 	<bean id="M1Y1_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="M1Y2_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="M1pitch_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="M1Y_motor" class="gda.device.motor.EpicsMotor" />
+	<bean id="M1Y_motor" class="gda.device.motor.DummyMotor" />
 	
 	<bean id="S2X1_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="S2X2_motor" class="gda.device.motor.DummyMotor" />

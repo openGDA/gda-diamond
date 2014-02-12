@@ -47,10 +47,10 @@
 		<property name="motor" ref="M1B_motor" />
 	</bean>
 	<bean id="m1y1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="M1B_motor" />
+		<property name="motor" ref="M1Y1_motor" />
 	</bean>
 	<bean id="m1y2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="M1B_motor" />
+		<property name="motor" ref="M1Y2_motor" />
 	</bean>
 	<bean id="m1pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="M1pitch_motor" />
