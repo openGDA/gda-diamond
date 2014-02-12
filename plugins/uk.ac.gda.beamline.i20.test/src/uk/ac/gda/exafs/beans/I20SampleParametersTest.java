@@ -42,7 +42,7 @@ import uk.ac.gda.beans.exafs.i20.CustomParameter;
 import uk.ac.gda.beans.exafs.i20.FurnaceParameters;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
 import uk.ac.gda.beans.exafs.i20.MicroreactorParameters;
-import uk.ac.gda.beans.exafs.i20.SampleStagePosition;
+import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
 import uk.ac.gda.exafs.ui.describers.I20SampleDescriber;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
@@ -185,7 +185,7 @@ public class I20SampleParametersTest {
 		expectedValue.addDescription("bla bla bla");
 		expectedValue.setSampleWheelPosition("Copper");
 		expectedValue.setSampleEnvironment(I20SampleParameters.SAMPLE_ENV[1]);
-		SampleStagePosition ssps = new SampleStagePosition();
+		SampleStageParameters ssps = new SampleStageParameters();
 		ssps.setSample_x(3.4);
 		ssps.setSample_y(6.8);
 		ssps.setSample_z(2.5);
@@ -197,17 +197,23 @@ public class I20SampleParametersTest {
 		ssps.setNumberOfRepetitions(3);
 		expectedValue.addRoomTemperatureParameter(ssps);
 
-		SampleStagePosition ssps2 = new SampleStagePosition();
-		ssps2.setSample_x(13.4);
-		ssps2.setSample_y(6.8);
-		ssps2.setSample_z(2.5);
-		ssps2.setSample_rotation(1.2);
-		ssps2.setSample_roll(0.5);
-		ssps2.setSample_pitch(0.7);
-		ssps2.setSample_name("my_other_sample");
-		ssps2.setSample_description("this is my sample");
-		ssps2.setNumberOfRepetitions(2);
-		expectedValue.addRoomTemperatureParameter(ssps2);
+		SampleStageParameters roomTemperatureParameters = new SampleStageParameters();
+		roomTemperatureParameters.setSample_x(13.4);
+		roomTemperatureParameters.setSample_y(6.8);
+		roomTemperatureParameters.setSample_z(2.5);
+		roomTemperatureParameters.setSample_rotation(1.2);
+		roomTemperatureParameters.setSample_roll(0.5);
+		roomTemperatureParameters.setSample_pitch(0.7);
+		roomTemperatureParameters.setSamXEnabled(true);
+		roomTemperatureParameters.setSamYEnabled(false);
+		roomTemperatureParameters.setSamZEnabled(true);
+		roomTemperatureParameters.setRotEnabled(false);
+		roomTemperatureParameters.setRollEnabled(true);
+		roomTemperatureParameters.setPitchEnabled(false);
+		roomTemperatureParameters.setSample_name("my_other_sample");
+		roomTemperatureParameters.setSample_description("this is my sample");
+		roomTemperatureParameters.setNumberOfRepetitions(2);
+		expectedValue.addRoomTemperatureParameter(roomTemperatureParameters);
 
 		isValidAndMatchesFile(expectedValue,"SampleParameters_withSampleStage.xml");
 	}

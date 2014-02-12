@@ -29,17 +29,20 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
-import uk.ac.gda.beans.exafs.i20.SampleStagePosition;
+import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
 import uk.ac.gda.common.rcp.util.GridUtils;
 import uk.ac.gda.exafs.ui.data.ScanObjectManager;
 import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
 import uk.ac.gda.richbeans.components.selector.ListEditor;
 import uk.ac.gda.richbeans.components.selector.ListEditorUI;
+import uk.ac.gda.richbeans.components.wrappers.BooleanWrapper;
 import uk.ac.gda.richbeans.components.wrappers.SpinnerWrapper;
 import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
 import uk.ac.gda.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
 
-public class SampleStageComposite extends I20SampleParamsComposite implements ListEditorUI {
+import org.eclipse.swt.layout.GridLayout;
+
+public class RoomTemperatureComposite extends I20SampleParametersComposite implements ListEditorUI {
 	private ScaleBox sample_x;
 	private ScaleBox sample_y;
 	private ScaleBox sample_z;
@@ -51,70 +54,139 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 	private TextWrapper sample_description;
 	private SpinnerWrapper numberOfRepetitions;
 	private Button btnGetLiveValues;
-	private Composite main;
+	//private Composite main;
+	private Composite leftScannablesComposite;
+	private Composite rightScannablesComposite;
+	private BooleanWrapper btnSamX;
+	private BooleanWrapper btnSamY;
+	private BooleanWrapper btnSamZ;
+	private BooleanWrapper btnRot;
+	private BooleanWrapper btnRoll;
+	private BooleanWrapper btnPitch;
+	private BooleanWrapper btnFineRot;
+	private Composite composite;
 
-	@SuppressWarnings("unused")
-	public SampleStageComposite(Composite parent, int style) {
+	public RoomTemperatureComposite(Composite parent, int style) {
 		super(parent, style);
-
 		GridLayoutFactory.fillDefaults().applyTo(this);
-
-		main = new Composite(this, SWT.NONE);
-		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(main);
-
-		Label lblSamname = new Label(main, SWT.NONE);
+		composite = new Composite(this, SWT.NONE);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		composite.setLayout(new GridLayout(2, false));
+				
+		Label lblSamname = new Label(composite, SWT.NONE);
 		lblSamname.setText("Filename");
 		GridDataFactory.swtDefaults().applyTo(lblSamname);
-		sample_name = new TextWrapper(main, SWT.NONE);
+		
+		sample_name = new TextWrapper(composite, SWT.NONE);
 		sample_name.setTextType(TEXT_TYPE.FILENAME);
 		GridDataFactory.fillDefaults().applyTo(sample_name);
-
-		Label lblSamdesc = new Label(main, SWT.NONE);
+				
+		Label lblSamdesc = new Label(composite, SWT.NONE);
 		lblSamdesc.setText("Sample description");
 		GridDataFactory.fillDefaults().applyTo(lblSamdesc);
-		sample_description = new TextWrapper(main, SWT.WRAP | SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
-		GridData gd_descriptions = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		gd_descriptions.heightHint = 73;
-		gd_descriptions.widthHint = 400;
-		sample_description.setLayoutData(gd_descriptions);
-
-		Label lblNumOfRep = new Label(main, SWT.NONE);
+				
+		sample_description = new TextWrapper(composite, SWT.WRAP | SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
+		sample_description.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		
+		Label lblNumOfRep = new Label(composite, SWT.NONE);
 		lblNumOfRep.setText("Number of repetitions");
 		lblNumOfRep.setToolTipText("Number of repetitions over this sample");
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(lblNumOfRep);
-		numberOfRepetitions = new SpinnerWrapper(main, SWT.NONE);
+		
+		numberOfRepetitions = new SpinnerWrapper(composite, SWT.NONE);
 		numberOfRepetitions.setValue(1);
 		numberOfRepetitions.setToolTipText("Number of repetitions over this sample");
 		GridDataFactory.fillDefaults().applyTo(numberOfRepetitions);
 		
+		Group motorPositionsGroup = new Group(this, SWT.NONE);
+		motorPositionsGroup.setText("Motor positions");
+		motorPositionsGroup.setLayout(new GridLayout(2, false));
+		
+		leftScannablesComposite = new Composite(motorPositionsGroup, SWT.NONE);
+		leftScannablesComposite.setLayout(new GridLayout(3, false));
+		
+		Label lblSamx = new Label(leftScannablesComposite, SWT.NONE);
+		lblSamx.setText("Sample x");
+		
+		sample_x = new ScaleBox(leftScannablesComposite, SWT.NONE);
+		sample_x.setUnit("mm");
+		sample_x.setDecimalPlaces(2);
+		sample_x.setMinimum(-15.3);
+		sample_x.setMaximum(14.1);
+		GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_x);
+		btnSamX = new BooleanWrapper(leftScannablesComposite, SWT.CHECK);
+		
+		Label lblSamy = new Label(leftScannablesComposite, SWT.NONE);
+		lblSamy.setText("Sample y");
+		sample_y = new ScaleBox(leftScannablesComposite, SWT.NONE);
+		sample_y.setUnit("mm");
+		sample_y.setDecimalPlaces(2);
+		sample_y.setMinimum(-0.1);
+		sample_y.setMaximum(90.1);
+		GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_y);
+		btnSamY = new BooleanWrapper(leftScannablesComposite, SWT.CHECK);
+		
+		Label lblSamz = new Label(leftScannablesComposite, SWT.NONE);
+		lblSamz.setText("Sample z");
+		sample_z = new ScaleBox(leftScannablesComposite, SWT.NONE);
+		sample_z.setUnit("mm");
+		sample_z.setDecimalPlaces(2);
+		sample_z.setMinimum(-15.3);
+		sample_z.setMaximum(14.1);
+		GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_z);
+		btnSamZ = new BooleanWrapper(leftScannablesComposite, SWT.CHECK);
+		
+		rightScannablesComposite = new Composite(motorPositionsGroup, SWT.NONE);
+		rightScannablesComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		rightScannablesComposite.setLayout(new GridLayout(3, false));
+		
+		Label lblSamrot = new Label(rightScannablesComposite, SWT.NONE);
+		lblSamrot.setText("Sample rotation");
+		sample_rotation = new ScaleBox(rightScannablesComposite, SWT.NONE);
+		sample_rotation.setUnit("°");
+		sample_rotation.setDecimalPlaces(2);
+		sample_rotation.setMinimum(-225);
+		sample_rotation.setMaximum(53);
+		GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_rotation);
+		btnRot = new BooleanWrapper(rightScannablesComposite, SWT.CHECK);
+		
 		if (ScanObjectManager.isXESOnlyMode()) {
-			sample_roll = new ScaleBox(main, SWT.NONE);
-			sample_roll.setUnit("°");
-			sample_roll.setDecimalPlaces(2);
-			sample_roll.setVisible(false);
-			GridDataFactory.fillDefaults().exclude(true).applyTo(sample_roll);
-			sample_pitch = new ScaleBox(main, SWT.NONE);
-			sample_pitch.setUnit("°");
-			sample_pitch.setDecimalPlaces(2);
-			sample_pitch.setVisible(false);
-			GridDataFactory.fillDefaults().exclude(true).applyTo(sample_pitch);
-		} 
-		else {
-			sample_finerotation = new ScaleBox(main, SWT.NONE);
+			Label lblSamfinerot = new Label(rightScannablesComposite, SWT.NONE);
+			lblSamfinerot.setText("Sample fine rotation");
+			sample_finerotation = new ScaleBox(rightScannablesComposite, SWT.NONE);
 			sample_finerotation.setUnit("°");
 			sample_finerotation.setDecimalPlaces(2);
-			sample_finerotation.setVisible(false);
-			GridDataFactory.fillDefaults().exclude(true).applyTo(sample_finerotation);
+			sample_finerotation.setMinimum(-127.4);
+			sample_finerotation.setMaximum(180);
+			GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_finerotation);
+			btnFineRot = new BooleanWrapper(rightScannablesComposite, SWT.CHECK);
+		} 
+		else {
+			Label lblSamroll = new Label(rightScannablesComposite, SWT.NONE);
+			lblSamroll.setText("Sample roll");
+			sample_roll = new ScaleBox(rightScannablesComposite, SWT.NONE);
+			sample_roll.setUnit("°");
+			sample_roll.setDecimalPlaces(2);
+			sample_roll.setMinimum(-12.2);
+			sample_roll.setMaximum(12.2);
+			GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_roll);
+			btnRoll = new BooleanWrapper(rightScannablesComposite, SWT.CHECK);
+			
+			Label lblSampitch = new Label(rightScannablesComposite, SWT.NONE);
+			lblSampitch.setText("Sample pitch");
+			sample_pitch = new ScaleBox(rightScannablesComposite, SWT.NONE);
+			sample_pitch.setUnit("°");
+			sample_pitch.setDecimalPlaces(2);
+			sample_pitch.setMinimum(-10.64);
+			sample_pitch.setMaximum(10.66);
+			GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_pitch);
+			btnPitch = new BooleanWrapper(rightScannablesComposite, SWT.CHECK);
 		}
-
-		Group motorPositionsGroup = new Group(main, SWT.NONE);
-		motorPositionsGroup.setText("Motor positions");
-		GridDataFactory.fillDefaults().hint(450, 150).grab(true, false).span(2, 1).applyTo(motorPositionsGroup);
-		GridLayoutFactory.fillDefaults().numColumns(4).applyTo(motorPositionsGroup);
 		
 		btnGetLiveValues = new Button(motorPositionsGroup, SWT.None);
 		btnGetLiveValues.setText("Fetch");
 		btnGetLiveValues.setToolTipText("Fill text boxes with current motor positions");
+		
 		btnGetLiveValues.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -122,96 +194,19 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 				sample_y.setValue(getValueAsString("sample_y"));
 				sample_z.setValue(getValueAsString("sample_z"));
 				sample_rotation.setValue(getValueAsString("sample_rot"));
-				if (ScanObjectManager.isXESOnlyMode()) {
+				if (ScanObjectManager.isXESOnlyMode())
 					sample_finerotation.setValue(getValueAsString("sample_fine_rot"));
-				}
 				else {
 					sample_roll.setValue(getValueAsString("sample_roll"));
 					sample_pitch.setValue(getValueAsString("sample_pitch"));
 				}
 			}
-
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				widgetSelected(arg0);
 			}
 		});
-
-		new Label(motorPositionsGroup, SWT.NONE);
-		new Label(motorPositionsGroup, SWT.NONE);
-		new Label(motorPositionsGroup, SWT.NONE);
-
-		Label lblSamx = new Label(motorPositionsGroup, SWT.NONE);
-		lblSamx.setText("Sample x");
-		sample_x = new ScaleBox(motorPositionsGroup, SWT.NONE);
-		sample_x.setUnit("mm");
-		sample_x.setDecimalPlaces(2);
-		sample_x.setMinimum(-15.3);
-		sample_x.setMaximum(14.1);
-		GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_x);
-
-		Label lblSamrot = new Label(motorPositionsGroup, SWT.NONE);
-		lblSamrot.setText("Sample rotation");
-		sample_rotation = new ScaleBox(motorPositionsGroup, SWT.NONE);
-		sample_rotation.setUnit("°");
-		sample_rotation.setDecimalPlaces(2);
-		sample_rotation.setMinimum(-225);
-		sample_rotation.setMaximum(53);
-		GridDataFactory.fillDefaults().applyTo(sample_rotation);
-
-		Label lblSamy = new Label(motorPositionsGroup, SWT.NONE);
-		lblSamy.setText("Sample y");
-		sample_y = new ScaleBox(motorPositionsGroup, SWT.NONE);
-		sample_y.setUnit("mm");
-		sample_y.setDecimalPlaces(2);
-		sample_y.setMinimum(-0.1);
-		sample_y.setMaximum(90.1);
-		GridDataFactory.fillDefaults().applyTo(sample_y);
-
-		if (ScanObjectManager.isXESOnlyMode()) {
-			Label lblSamfinerot = new Label(motorPositionsGroup, SWT.NONE);
-			lblSamfinerot.setText("Sample fine rotation");
-			sample_finerotation = new ScaleBox(motorPositionsGroup, SWT.NONE);
-			sample_finerotation.setUnit("°");
-			sample_finerotation.setDecimalPlaces(2);
-			sample_finerotation.setMinimum(-127.4);
-			sample_finerotation.setMaximum(180);
-			GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_finerotation);
-		} 
-		else {
-			Label lblSamroll = new Label(motorPositionsGroup, SWT.NONE);
-			lblSamroll.setText("Sample roll");
-			sample_roll = new ScaleBox(motorPositionsGroup, SWT.NONE);
-			sample_roll.setUnit("°");
-			sample_roll.setDecimalPlaces(2);
-			sample_roll.setMinimum(-12.2);
-			sample_roll.setMaximum(12.2);
-			GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_roll);
-		}
-		
-		Label lblSamz = new Label(motorPositionsGroup, SWT.NONE);
-		lblSamz.setText("Sample z");
-		sample_z = new ScaleBox(motorPositionsGroup, SWT.NONE);
-		sample_z.setUnit("mm");
-		sample_z.setDecimalPlaces(2);
-		sample_z.setMinimum(-15.3);
-		sample_z.setMaximum(14.1);
-		GridDataFactory.fillDefaults().applyTo(sample_z);
-
-		if (ScanObjectManager.isXESOnlyMode()) {
-			new Label(main, SWT.NONE);
-			new Label(main, SWT.NONE);
-		} 
-		else {
-			Label lblSampitch = new Label(motorPositionsGroup, SWT.NONE);
-			lblSampitch.setText("Sample pitch");
-			sample_pitch = new ScaleBox(motorPositionsGroup, SWT.NONE);
-			sample_pitch.setUnit("°");
-			sample_pitch.setDecimalPlaces(2);
-			sample_pitch.setMinimum(-10.64);
-			sample_pitch.setMaximum(10.66);
-			GridDataFactory.fillDefaults().applyTo(sample_pitch);
-		}
+			
 		this.layout();
 	}
 
@@ -255,7 +250,7 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 		return numberOfRepetitions;
 	}
 
-	public void selectionChanged(SampleStagePosition selectedBean) {
+	public void selectionChanged(SampleStageParameters selectedBean) {
 		selectedBean.setNumberOfRepetitions((Integer) numberOfRepetitions.getValue());
 		selectedBean.setSample_description(sample_description.getText());
 		selectedBean.setSample_finerotation((Double) sample_finerotation.getValue());
@@ -270,7 +265,7 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 
 	@Override
 	public void notifySelected(ListEditor listEditor) {
-		GridUtils.layoutFull(main);
+		//GridUtils.layoutFull(main);
 		GridUtils.layoutFull(this);
 		GridUtils.layoutFull(getParent());
 	}
@@ -288,6 +283,34 @@ public class SampleStageComposite extends I20SampleParamsComposite implements Li
 	@Override
 	public boolean isReorderAllowed(ListEditor listEditor) {
 		return true;
+	}
+
+	public BooleanWrapper getSamXEnabled() {
+		return btnSamX;
+	}
+
+	public BooleanWrapper getSamYEnabled() {
+		return btnSamY;
+	}
+
+	public BooleanWrapper getSamZEnabled() {
+		return btnSamZ;
+	}
+
+	public BooleanWrapper getRotEnabled() {
+		return btnRot;
+	}
+
+	public BooleanWrapper getRollEnabled() {
+		return btnRoll;
+	}
+
+	public BooleanWrapper getPitchEnabled() {
+		return btnPitch;
+	}
+
+	public BooleanWrapper getFineRotEnabled() {
+		return btnFineRot;
 	}
 
 }

@@ -45,7 +45,7 @@ import uk.ac.gda.richbeans.components.wrappers.SpinnerWrapper;
 import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
 import uk.ac.gda.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
 
-public class CryostatSampleDetailsComposite extends I20SampleParamsComposite implements ListEditorUI {
+public class CryostatSampleDetailsComposite extends I20SampleParametersComposite implements ListEditorUI {
 	private ScaleBox cryostick;
 	private ScaleBox cryostick_pos;
 	private TextWrapper sample_name;

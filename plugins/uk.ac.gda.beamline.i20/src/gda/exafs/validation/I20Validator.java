@@ -34,7 +34,7 @@ import uk.ac.gda.beans.exafs.XesScanParameters;
 import uk.ac.gda.beans.exafs.i20.CryostatParameters;
 import uk.ac.gda.beans.exafs.i20.CryostatSampleDetails;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
-import uk.ac.gda.beans.exafs.i20.SampleStagePosition;
+import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
 import uk.ac.gda.beans.validation.InvalidBeanException;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
 import uk.ac.gda.client.experimentdefinition.IExperimentObject;
@@ -119,8 +119,8 @@ public class I20Validator extends ExafsValidator {
 		} 
 		// room temp
 		else if (s.getSampleEnvironment().equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[1])){
-			List<SampleStagePosition> ssp = s.getRoomTemperatureParameters();
-			for (SampleStagePosition position : ssp){
+			List<SampleStageParameters> ssp = s.getRoomTemperatureParameters();
+			for (SampleStageParameters position : ssp){
 				if (!stringCouldBeConvertedToValidUnixFilename(position.getSample_name())) {
 					errors.add(new InvalidBeanMessage("The sample name " + position.getSample_name() + " in "
 							+ bean.getSampleFileName()

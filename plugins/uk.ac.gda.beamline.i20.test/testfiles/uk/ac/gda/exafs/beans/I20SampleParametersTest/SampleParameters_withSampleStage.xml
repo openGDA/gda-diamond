@@ -15,6 +15,13 @@
 		<sample_name>my_sample</sample_name>
 		<sample_description>this is my sample</sample_description>
 		<numberOfRepetitions>3</numberOfRepetitions>
+		<samXEnabled>true</samXEnabled>
+        <samYEnabled>false</samYEnabled>
+        <samZEnabled>true</samZEnabled>
+        <rotEnabled>false</rotEnabled>
+        <rollEnabled>true</rollEnabled>
+        <pitchEnabled>false</pitchEnabled>
+        <fineRotEnabled>true</fineRotEnabled>
 	</sampleposition>
 	<sampleposition>
 		<sample_x>13.4</sample_x>
@@ -26,5 +33,12 @@
 		<sample_name>my_other_sample</sample_name>
 		<sample_description>this is my sample</sample_description>
 		<numberOfRepetitions>2</numberOfRepetitions>
+		<samXEnabled>true</samXEnabled>
+        <samYEnabled>false</samYEnabled>
+        <samZEnabled>true</samZEnabled>
+        <rotEnabled>false</rotEnabled>
+        <rollEnabled>true</rollEnabled>
+        <pitchEnabled>false</pitchEnabled>
+        <fineRotEnabled>true</fineRotEnabled>
 	</sampleposition>
 </I20SampleParameters>

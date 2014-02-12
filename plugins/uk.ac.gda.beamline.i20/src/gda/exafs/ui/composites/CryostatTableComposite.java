@@ -44,7 +44,7 @@ import uk.ac.gda.richbeans.components.wrappers.RadioWrapper;
 import uk.ac.gda.richbeans.event.ValueEvent;
 import uk.ac.gda.richbeans.event.ValueListener;
 
-public class CryostatTableComposite extends I20SampleParamsComposite {
+public class CryostatTableComposite extends I20SampleParametersComposite {
 	private RadioWrapper loopChoice;
 	private ScaleBox tolerance;
 	private ScaleBox waitTime;

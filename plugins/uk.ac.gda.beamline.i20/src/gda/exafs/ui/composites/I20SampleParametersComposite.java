@@ -30,14 +30,14 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.richbeans.components.FieldBeanComposite;
 
-public abstract class I20SampleParamsComposite  extends FieldBeanComposite {
-	private static Logger logger = LoggerFactory.getLogger(I20SampleParamsComposite.class);
+public abstract class I20SampleParametersComposite  extends FieldBeanComposite {
+	private static Logger logger = LoggerFactory.getLogger(I20SampleParametersComposite.class);
 
-	public I20SampleParamsComposite(Composite parent, int style, String listenerName) {
+	public I20SampleParametersComposite(Composite parent, int style, String listenerName) {
 		super(parent, style, listenerName);
 	}
 
-	public I20SampleParamsComposite(Composite parent, int style) {
+	public I20SampleParametersComposite(Composite parent, int style) {
 		super(parent, style);
 	}
 

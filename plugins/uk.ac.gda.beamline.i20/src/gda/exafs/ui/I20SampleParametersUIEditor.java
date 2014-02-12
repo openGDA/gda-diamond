@@ -21,7 +21,7 @@ package gda.exafs.ui;
 import gda.device.DeviceException;
 import gda.device.EnumPositioner;
 import gda.exafs.ui.composites.CryostatTableComposite;
-import gda.exafs.ui.composites.SampleStageComposite;
+import gda.exafs.ui.composites.RoomTemperatureComposite;
 import gda.exafs.ui.preferencepages.I20SampleReferenceWheelPreferencePage;
 import gda.factory.Finder;
 import gda.observable.IObserver;
@@ -54,7 +54,7 @@ import org.slf4j.Logger;
 
 import uk.ac.gda.beans.exafs.i20.CryostatParameters;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
-import uk.ac.gda.beans.exafs.i20.SampleStagePosition;
+import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
 import uk.ac.gda.exafs.ui.data.ScanObjectManager;
 import uk.ac.gda.richbeans.components.FieldComposite.NOTIFY_TYPE;
 import uk.ac.gda.richbeans.components.selector.BeanSelectionEvent;
@@ -215,6 +215,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 	private void createSampleEnvironmentGroup(final Composite composite) {
 		final ExpandableComposite sampleEnvExpander = new ExpandableComposite(composite, ExpandableComposite.TWISTIE
 				| ExpandableComposite.COMPACT | SWT.BORDER);
+		
 		sampleEnvExpander.setText("Sample Environment");
 
 		final Composite sampleEnvGroup = new Composite(sampleEnvExpander, SWT.NONE);
@@ -224,10 +225,12 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 
 		cmbSampleEnv = new ComboWrapper(sampleEnvGroup, SWT.READ_ONLY);
 		cmbSampleEnv.select(0);
+		
 		if (ScanObjectManager.isXESOnlyMode())
 			cmbSampleEnv.setItems(I20SampleParameters.SAMPLE_ENV_XES);
 		else
 			cmbSampleEnv.setItems(I20SampleParameters.SAMPLE_ENV);
+		
 		final GridData gd_tempType = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		cmbSampleEnv.setLayoutData(gd_tempType);
 
@@ -242,17 +245,18 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		sampleStageListEditor.setTemplateName("sampleposition");
 		sampleStageListEditor.setRequireSelectionPack(false);
 		GridDataFactory.swtDefaults().grab(true, false).applyTo(sampleStageListEditor);
-		sampleStageListEditor.setEditorClass(SampleStagePosition.class);
+		sampleStageListEditor.setEditorClass(SampleStageParameters.class);
 		sampleStageListEditor.setFieldName("sampleposition");
 		sampleStageListEditor.setNameField("sample_name");
-		final SampleStageComposite sspComposite = new SampleStageComposite(sampleStageListEditor, SWT.NONE);
-		GridDataFactory.swtDefaults().grab(true, false).applyTo(sspComposite);
-		sampleStageListEditor.setEditorUI(sspComposite);
-		sampleStageListEditor.setListEditorUI(sspComposite);
+		
+		final RoomTemperatureComposite roomTemperatureComposite = new RoomTemperatureComposite(sampleStageListEditor, SWT.NONE);
+		GridDataFactory.swtDefaults().grab(true, false).applyTo(roomTemperatureComposite);
+		sampleStageListEditor.setEditorUI(roomTemperatureComposite);
+		sampleStageListEditor.setListEditorUI(roomTemperatureComposite);
 		sampleStageListEditor.addBeanSelectionListener(new BeanSelectionListener() {
 			@Override
 			public void selectionChanged(BeanSelectionEvent evt) {
-				sspComposite.selectionChanged((SampleStagePosition) evt.getSelectedBean());
+				roomTemperatureComposite.selectionChanged((SampleStageParameters) evt.getSelectedBean());
 			}
 		});
 
