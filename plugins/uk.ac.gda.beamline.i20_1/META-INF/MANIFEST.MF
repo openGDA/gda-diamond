@@ -105,5 +105,6 @@ Import-Package: org.apache.commons.collections,
  org.eclipse.ui.views.properties,
  org.eclipse.ui.views.properties.tabbed,
  org.osgi.framework;version="1.6.0",
+ org.osgi.service.prefs,
  org.python.core,
  org.slf4j;version="[1.7.6,1.7.7)"

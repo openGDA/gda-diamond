@@ -135,13 +135,17 @@
 		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list, 
 			one value for each element -->
 		<property name="eventProcessingTimes">
-			<list>
-				<!-- <value>3.218415e-007</value> <value>3.332003e-007</value> <value>3.035056e-007</value> 
-					<value>3.353330e-007</value> -->
+			<list>	
 				<value>1.7867731067630825e-08</value>
 				<value>2.1322543748867164e-08</value>
 				<value>2.1412068256345848e-08</value>
 				<value>2.5302404673324592e-08</value>
+				<value>3.297e-08</value>
+				<value>2.813e-08</value>
+				<value>2.065e-08</value>
+				<value>1.781e-08</value>
+				<value>1.387e-08</value>
+				<value>3.604e-08</value>
 			</list>
 		</property>
 
@@ -154,6 +158,7 @@
 
 	<bean id="counterTimer03" class="gda.device.detector.xmap.TfgXmap">
 		<property name="xmap" ref="xmapMca" />
+		<property name="local" value="True" />
 		<property name="timer" ref="tfg" />
 		<property name="slave" value="true" />
 		<property name="collectionModePV" value="BL18I-EA-DET-04:CollectMode" />

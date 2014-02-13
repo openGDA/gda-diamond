@@ -23,34 +23,37 @@ import gda.epics.PV;
 
 import java.io.IOException;
 
-import org.eclipse.swt.graphics.ImageData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class I18MotionJpegOverHttpReceiverSwt extends MotionJpegOverHttpReceiverSwt {
 
+	enum AcquireSetting {
+		Done, Acquire
+	}
+
 	private static final Logger logger = LoggerFactory.getLogger(I18MotionJpegOverHttpReceiverSwt.class);
-	ImageData data;
-	private PV<Integer> acquirePV;
-	
+
+	private PV<AcquireSetting> acquirePV;
+
 	public I18MotionJpegOverHttpReceiverSwt() {
 		super();
-		acquirePV = LazyPVFactory.newIntegerPV("BL18I-DI-DCAM-01:CAM:CAM:Acquire");
+		acquirePV = LazyPVFactory.newEnumPV("BL18I-DI-DCAM-01:CAM:CAM:Acquire", AcquireSetting.class);
 	}
-	
+
 	@Override
 	public void start() {
 		try {
-			acquirePV.putWait(1);
+			acquirePV.putNoWait(AcquireSetting.Acquire);
 		} catch (IOException e1) {
-			logger.error("Exception whiole trying to start the Motion JPEG strem", e1);
+			logger.error("Exception while trying to start the Motion JPEG strem", e1);
 		}
 	}
 
 	@Override
 	public void stop() {
 		try {
-			acquirePV.putWait(0);
+			acquirePV.putNoWait(AcquireSetting.Done);
 		} catch (IOException e1) {
 			logger.error("Exception whiole trying to start the Motion JPEG strem", e1);
 		}

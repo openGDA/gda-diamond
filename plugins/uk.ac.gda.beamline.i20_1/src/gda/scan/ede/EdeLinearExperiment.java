@@ -23,8 +23,6 @@ import gda.scan.EdeScan;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.datawriters.EdeAsciiFileWriter;
 import gda.scan.ede.datawriters.EdeLinearExperimentAsciiFileWriter;
-import gda.scan.ede.position.EdePositionType;
-import gda.scan.ede.position.EdeScanPosition;
 import gda.scan.ede.timeestimators.LinearExperimentTimeEstimator;
 
 import java.util.List;
@@ -48,14 +46,8 @@ public class EdeLinearExperiment extends EdeExperiment {
 	private int totalNumberOfspectra;
 	private double totalTime;
 
-	private EdeScan iRefScan;
 	private EdeScan i0FinalScan;
-	private EdeScan iRefFinalScan;
 
-	private EdeScanParameters iRefScanParameters;
-	private EdeScanPosition iRefPosition;
-
-	private boolean runIRef;
 	private boolean runItDark;
 
 	public EdeLinearExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
@@ -90,12 +82,6 @@ public class EdeLinearExperiment extends EdeExperiment {
 		setupTimingGroups();
 	}
 
-	public void setIRefParameters(Map<String, Double> iRefScanableMotorPositions, double accumulationTime, int numberOfAccumulcations) throws DeviceException {
-		iRefPosition = this.setPosition(EdePositionType.REFERENCE, iRefScanableMotorPositions);
-		iRefScanParameters = this.deriveScanParametersFromIt(accumulationTime, numberOfAccumulcations);
-		runIRef = true;
-	}
-
 	private void setupTimingGroups() {
 		totalNumberOfspectra = 0;
 		totalTime = 0.0;
@@ -112,7 +98,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	protected boolean shouldPublishItScanData(EdeScanProgressBean progress) {
 		int current = 0;
 		for (int i = 0; i < progress.getGroupNumOfThisSDP(); i++) {
-			current += itScan.getScanParameters().getTimingGroups().get(i).getNumberOfFrames();
+			current += itScans[0].getScanParameters().getTimingGroups().get(i).getNumberOfFrames();
 		}
 		if (current == 0) {
 			return true;
@@ -187,19 +173,15 @@ public class EdeLinearExperiment extends EdeExperiment {
 	@Override
 	protected void addScansForExperiment() {
 		super.addScansForExperiment();
-		if (runIRef) {
-			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
-			scansForExperiment.add(scansForExperiment.indexOf(itScan) - 1, iRefScan);
-			iRefScan.setProgressUpdater(this);
-		}
 
-		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
+		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
 		scansForExperiment.add(i0FinalScan);
 
-		if (runIRef){
-			iRefFinalScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, 1, beamLightShutter);
+		if (runIRef) {
+			iRefFinalScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
 			scansForExperiment.add(iRefFinalScan);
 		}
+
 	}
 
 	@Override
@@ -209,11 +191,14 @@ public class EdeLinearExperiment extends EdeExperiment {
 		if (runItDark) {
 			header.append("itDark: " + itDarkScan.getHeaderDescription() + "\n");
 		}
-		header.append("i0InitialScan: " + i0InitialScan.getHeaderDescription() + "\n");
+		header.append("i0InitialScan: " + i0LightScan.getHeaderDescription() + "\n");
 		if (runIRef) {
+			if (runI0ForIRef) {
+				header.append("i0DarkScan: " + i0ForIRefScan.getHeaderDescription() + "\n");
+			}
 			header.append("iRefScan: " + iRefScan.getHeaderDescription() + "\n");
 		}
-		header.append("itScan: " + itScan.getHeaderDescription() + "\n");
+		header.append("itScan: " + itScans[0].getHeaderDescription() + "\n");
 		header.append("i0FinalScan: " + i0FinalScan.getHeaderDescription() + "\n");
 		if (runIRef){
 			header.append("iRefFinalScan: " + iRefFinalScan.getHeaderDescription() + "\n");
@@ -224,7 +209,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	@Override
 	protected double getPredictedExperimentTime() {
 		return new LinearExperimentTimeEstimator(itScanParameters,  i0Position,
-				itPosition,iRefPosition).getTotalDuration();
+				itPosition, iRefPosition).getTotalDuration();
 	}
 
 	@Override
@@ -239,7 +224,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 
 	@Override
 	protected EdeAsciiFileWriter createFileWritter() {
-		return new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0InitialScan, iRefScan, itScan, i0FinalScan, theDetector);
+		return new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0LightScan, iRefScan, itDarkScan, itScans, i0FinalScan, theDetector, nexusFilename);
 	}
 
 	@Override

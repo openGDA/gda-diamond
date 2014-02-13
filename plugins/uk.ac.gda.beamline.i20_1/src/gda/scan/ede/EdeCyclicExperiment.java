@@ -1,0 +1,67 @@
+/*-
+ * Copyright © 2014 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package gda.scan.ede;
+
+import gda.device.DeviceException;
+
+import java.util.List;
+import java.util.Map;
+
+import uk.ac.gda.exafs.ui.data.EdeScanParameters;
+import uk.ac.gda.exafs.ui.data.TimingGroup;
+
+/**
+ *  An EDE Linear scan where the repetition number is not 1.
+ */
+public class EdeCyclicExperiment extends EdeLinearExperiment {
+
+	private final int numberOfRepetitions;
+
+	public EdeCyclicExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
+			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
+			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions)
+					throws DeviceException {
+		super(i0accumulationTime, itTimingGroups, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName,
+				topupMonitorName, beamShutterScannableName);
+		this.numberOfRepetitions = numberOfRepetitions;
+	}
+
+	public EdeCyclicExperiment(double i0accumulationTime, int i0NoOfAccumulcation, List<TimingGroup> itTimingGroups,
+			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
+			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetition)
+					throws DeviceException {
+		this(i0accumulationTime, i0NoOfAccumulcation, EdeScanParameters.createEdeScanParameters(itTimingGroups),
+				i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
+				beamShutterScannableName, numberOfRepetition);
+	}
+
+	public EdeCyclicExperiment(double i0accumulationTime, int i0NoOfAccumulcation, EdeScanParameters iTScanParameters,
+			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
+			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions)
+					throws DeviceException {
+		super(i0accumulationTime, i0NoOfAccumulcation, iTScanParameters, i0ScanableMotorPositions,
+				iTScanableMotorPositions, detectorName, topupMonitorName, beamShutterScannableName);
+		this.numberOfRepetitions = numberOfRepetitions;
+	}
+
+	@Override
+	public int getRepetitions() {
+		return numberOfRepetitions;
+	}
+}

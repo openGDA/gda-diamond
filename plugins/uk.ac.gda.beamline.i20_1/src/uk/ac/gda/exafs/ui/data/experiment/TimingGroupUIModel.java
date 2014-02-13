@@ -134,7 +134,7 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 	public TimingGroupUIModel(DefaultTimeBarRowModel spectraTimeBarRowModel, ExperimentUnit unit, TimeResolvedExperimentModel parent) {
 		this.spectraTimeBarRowModel = spectraTimeBarRowModel;
 		this.parent = parent;
-		this.resetInitialTime(0.0, ExperimentTimingDataModel.MIN_DURATION_TIME, 0.0, ExperimentTimingDataModel.MIN_DURATION_TIME);
+		this.resetInitialTime(ExperimentTimingDataModel.INITIAL_START_TIME, ExperimentTimingDataModel.MIN_DURATION_TIME, 0.0, ExperimentTimingDataModel.MIN_DURATION_TIME);
 		setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
 		this.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
@@ -229,7 +229,10 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 		return integrationTime;
 	}
 
-	public void setIntegrationTime(double integrationTime) {
+	public void setIntegrationTime(double integrationTime) throws IllegalArgumentException {
+		if (integrationTime > this.getTimePerSpectrum()) {
+			throw new IllegalArgumentException("Accumulation time cannot be longer than time per spectrum");
+		}
 		this.firePropertyChange(INTEGRATION_TIME_PROP_NAME, this.integrationTime, this.integrationTime = integrationTime);
 	}
 

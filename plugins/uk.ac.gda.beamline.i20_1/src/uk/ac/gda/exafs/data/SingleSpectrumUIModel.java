@@ -32,6 +32,7 @@ import gda.util.exafs.Element;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -40,8 +41,10 @@ import org.eclipse.swt.widgets.Display;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentDataModel;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentMotorPostion;
 import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors;
 import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors.ExperimentMotorPostionType;
@@ -50,22 +53,12 @@ import com.google.gson.annotations.Expose;
 
 public class SingleSpectrumUIModel extends ObservableModel {
 
-	public static final SingleSpectrumUIModel INSTANCE = new SingleSpectrumUIModel(0);
-
 	private static final Logger logger = LoggerFactory.getLogger(SingleSpectrumUIModel.class);
 
 	private final AlignmentStageScannable.Location holeLocationForAlignment = new AlignmentStageScannable.Location();
 	private final AlignmentStageScannable.Location foilLocationForAlignment = new AlignmentStageScannable.Location();
 
 	private static final String SINGLE_JYTHON_DRIVER_OBJ = "singletimeresolveddriver";
-
-	public static final String I0_INTEGRATION_TIME_PROP_NAME = "i0IntegrationTime";
-	@Expose
-	private double i0IntegrationTime;
-
-	public static final String I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME = "i0NumberOfAccumulations";
-	@Expose
-	private int i0NumberOfAccumulations;
 
 	public static final String IT_INTEGRATION_TIME_PROP_NAME = "itIntegrationTime";
 	@Expose
@@ -82,16 +75,10 @@ public class SingleSpectrumUIModel extends ObservableModel {
 	public static final String FILE_NAME_PROP_NAME = "fileName";
 	private String fileName;
 
-	public static final String IREF_X_POSITION_PROP_NAME = "iRefxPosition";
-	private double iRefxPosition;
-
-	public static final String IREF_Y_POSITION_PROP_NAME = "iRefyPosition";
-	private double iRefyPosition;
-
 	public static final String SCANNING_PROP_NAME = "scanning";
 	private boolean scanning;
 
-	private final ScanJob job;
+	private ScanJob job;
 
 	public static final String FILE_TEMPLATE_PROP_NAME = "fileTemplate";
 	private String fileTemplate = "Undefined_";
@@ -100,9 +87,14 @@ public class SingleSpectrumUIModel extends ObservableModel {
 
 	private String filePefix = "%s";
 
+	@Expose
+	private ExperimentDataModel experimentDataModel;
+
+	protected Binding binding;
+
 	private static final String SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY = "SINGLE_SPECTRUM_DATA";
 
-	private SingleSpectrumUIModel(@SuppressWarnings("unused") int dummy) {
+	public void setup() {
 		job = new ScanJob("Performing Single spectrum scan");
 		((IObservable) Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(job);
 		InterfaceProvider.getJSFObserver().addIObserver(job);
@@ -118,15 +110,23 @@ public class SingleSpectrumUIModel extends ObservableModel {
 		if (AlignmentParametersModel.INSTANCE.getElement() != null) {
 			SingleSpectrumUIModel.this.setCurrentElement(AlignmentParametersModel.INSTANCE.getElement().getSymbol());
 		}
+
 		loadSingleSpectrumData();
+
+
+
+		experimentDataModel.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				saveSingleSpectrumData();
+			}
+		});
 		this.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				String changedProperty = evt.getPropertyName();
-				if (changedProperty.equals(I0_INTEGRATION_TIME_PROP_NAME) |
-						changedProperty.equals(IT_INTEGRATION_TIME_PROP_NAME) |
-						changedProperty.equals(I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME) |
-						changedProperty.equals(IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME)) {
+				if (evt.getPropertyName().equals(ALIGNMENT_STAGE_SELECTION) ||
+						evt.getPropertyName().equals(IT_INTEGRATION_TIME_PROP_NAME) ||
+						evt.getPropertyName().equals(IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME)) {
 					saveSingleSpectrumData();
 				}
 			}
@@ -136,10 +136,10 @@ public class SingleSpectrumUIModel extends ObservableModel {
 	private void loadSingleSpectrumData() {
 		SingleSpectrumUIModel singleSpectrumData = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, SingleSpectrumUIModel.class);
 		if (singleSpectrumData == null) {
+			experimentDataModel = new ExperimentDataModel();
 			return;
 		}
-		this.setI0IntegrationTime(singleSpectrumData.getI0IntegrationTime());
-		this.setI0NumberOfAccumulations(singleSpectrumData.getI0NumberOfAccumulations());
+		experimentDataModel = singleSpectrumData.getExperimentDataModel();
 		this.setItIntegrationTime(singleSpectrumData.getItIntegrationTime());
 		this.setItNumberOfAccumulations(singleSpectrumData.getItNumberOfAccumulations());
 
@@ -153,35 +153,30 @@ public class SingleSpectrumUIModel extends ObservableModel {
 
 	private String buildScanCommand() {
 		StringBuilder builder = new StringBuilder("from gda.scan.ede import EdeSingleExperiment; \n");
-		if (i0NumberOfAccumulations == itNumberOfAccumulations) {
-			builder.append(
-					String.format(SINGLE_JYTHON_DRIVER_OBJ + " = EdeSingleExperiment(%f, %f, %d, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\"); \n",
-							i0IntegrationTime / 1000,
-							itIntegrationTime / 1000,
-							itNumberOfAccumulations,
-							SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
-							SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
-							DetectorModel.INSTANCE.getCurrentDetector().getName(),
-							DetectorModel.TOPUP_CHECKER,
-							DetectorModel.SHUTTER_NAME));
+		int noOfAccumulations;
+		if (experimentDataModel.isUseNoOfAccumulationsForI0()) {
+			noOfAccumulations = experimentDataModel.getI0NumberOfAccumulations();
 		} else {
-			builder.append(
-					String.format(SINGLE_JYTHON_DRIVER_OBJ + " = EdeSingleExperiment(%f, %d, %f, %d, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\"); \n",
-							i0IntegrationTime / 1000,
-							i0NumberOfAccumulations,
-							itIntegrationTime / 1000,
-							itNumberOfAccumulations,
-							SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
-							SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
-							DetectorModel.INSTANCE.getCurrentDetector().getName(),
-							DetectorModel.TOPUP_CHECKER,
-							DetectorModel.SHUTTER_NAME));
+			noOfAccumulations = itNumberOfAccumulations;
+		}
+		builder.append(
+				String.format(SINGLE_JYTHON_DRIVER_OBJ + " = EdeSingleExperiment(%f, %d, %f, %d, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\"); \n",
+						ExperimentTimeHelper.fromMilliToSec(experimentDataModel.getI0IntegrationTime()),
+						noOfAccumulations,
+						ExperimentTimeHelper.fromMilliToSec(itIntegrationTime),
+						itNumberOfAccumulations,
+						SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
+						SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
+						DetectorModel.INSTANCE.getCurrentDetector().getName(),
+						DetectorModel.TOPUP_CHECKER,
+						DetectorModel.SHUTTER_NAME));
+
+		if (SampleStageMotors.INSTANCE.isUseIref()) {
+			builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
+					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
+					ExperimentTimeHelper.fromMilliToSec(experimentDataModel.getIrefIntegrationTime()), experimentDataModel.getIrefNoOfAccumulations()));
 		}
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFilenameTemplate(\"%s\");", filePefix));
-		if (SampleStageMotors.INSTANCE.isUseIref()) {
-			builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setReferencePosition(mapToJava(%s));",
-					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef)));
-		}
 		return builder.toString();
 	}
 
@@ -274,6 +269,10 @@ public class SingleSpectrumUIModel extends ObservableModel {
 		}
 	}
 
+	public ExperimentDataModel getExperimentDataModel() {
+		return experimentDataModel;
+	}
+
 	public void doCollection(boolean forExperiment) throws Exception {
 		if (forExperiment) {
 			filePefix = fileTemplate + "_%s";
@@ -323,22 +322,6 @@ public class SingleSpectrumUIModel extends ObservableModel {
 		this.firePropertyChange(SCANNING_PROP_NAME, scanning, scanning = value);
 	}
 
-	public double getI0IntegrationTime() {
-		return i0IntegrationTime;
-	}
-
-	public void setI0IntegrationTime(double value) {
-		firePropertyChange(I0_INTEGRATION_TIME_PROP_NAME, i0IntegrationTime, i0IntegrationTime = value);
-	}
-
-	public int getI0NumberOfAccumulations() {
-		return i0NumberOfAccumulations;
-	}
-
-	public void setI0NumberOfAccumulations(int value) {
-		firePropertyChange(I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, i0NumberOfAccumulations, i0NumberOfAccumulations = value);
-	}
-
 	public double getItIntegrationTime() {
 		return itIntegrationTime;
 	}
@@ -355,21 +338,6 @@ public class SingleSpectrumUIModel extends ObservableModel {
 		firePropertyChange(IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME, itNumberOfAccumulations, itNumberOfAccumulations = value);
 	}
 
-	public double getiRefxPosition() {
-		return iRefxPosition;
-	}
-
-	public void setiRefxPosition(double value) {
-		firePropertyChange(IREF_X_POSITION_PROP_NAME, iRefxPosition, iRefxPosition = value);
-	}
-
-	public double getiRefyPosition() {
-		return iRefyPosition;
-	}
-
-	public void setiRefyPosition(double value) {
-		firePropertyChange(IREF_Y_POSITION_PROP_NAME, iRefyPosition, iRefyPosition = value);
-	}
 
 	public AlignmentStageScannable.Location getHoleLocationForAlignment() {
 		return holeLocationForAlignment;

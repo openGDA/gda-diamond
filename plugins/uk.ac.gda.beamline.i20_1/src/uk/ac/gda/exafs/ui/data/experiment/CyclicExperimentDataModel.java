@@ -16,14 +16,27 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i20_1.utils;
+package uk.ac.gda.exafs.ui.data.experiment;
 
-import de.jaret.util.date.JaretDate;
+import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 
-public class TimebarHelper {
-	public static JaretDate getTime() {
-		return new JaretDate().setTime(0, 0, 0, 0).copy();
+public class CyclicExperimentDataModel extends ExperimentTimingDataModel {
+
+	private final CyclicExperimentModel parent;
+
+	public CyclicExperimentDataModel(CyclicExperimentModel parent) {
+		this.parent = parent;
 	}
 
+	@Override
+	public void dispose() {
+		// Nothing to dispose
+	}
+
+	@Override
+	public String toString() {
+		String timeResolution = DataHelper.roundDoubletoStringWithOptionalDigits(parent.getUnit().convertFromMilli(this.getEndTime())) + " " + parent.getUnit().getUnitText();
+		return this.getName() + "\n" + timeResolution;
+	}
 
 }

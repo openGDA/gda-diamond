@@ -93,6 +93,7 @@
 <!-- 		<property name="local" value="true"/> -->
 <!-- 	</bean> -->
 
+<!-- S3 real motors not available yet -->
 	<bean id="s3_hgap_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="s3_hoffset_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="s3_xplus_motor" class="gda.device.motor.DummyMotor" />

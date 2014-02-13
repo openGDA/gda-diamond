@@ -53,7 +53,10 @@ public class TimingGroupsScaleRenderer extends RendererBase implements TimeScale
 			int x = delegate.xForDate(timingGroupModel.getEnd());
 			int startY = drawingArea.y + drawingArea.height - PREFERREDHEIGHT + 3;
 			gc.drawRectangle(x - 1, startY, 1, PREFERREDHEIGHT + 3);
-			String endTimeString = DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromMilli(timingGroupModel.getEndTime())) + " " + model.getUnit().getWorkingUnit().getUnitText();
+			String endTimeString = DataHelper.roundDoubletoStringWithOptionalDigits(
+					model.getUnit().getWorkingUnit().convertFromMilli(timingGroupModel.getEndTime())) +
+					" " +
+					model.getUnit().getWorkingUnit().getUnitText();
 			Point point = gc.stringExtent(endTimeString);
 			gc.drawString(endTimeString, x - point.x - 10, startY + PREFERREDHEIGHT - point.y - 10);
 		}

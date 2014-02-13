@@ -23,6 +23,9 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
+import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors.ExperimentMotorPostionType;
 import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
@@ -30,7 +33,9 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 import de.jaret.util.ui.timebars.model.TimeBarModel;
 
 public class CyclicExperimentModel extends TimeResolvedExperimentModel {
-	public static final String CYCLIC_EXPERIMENT_MODEL_DATA_STORE_KEY = "CYCLIC_TIME_RESOLVED_EXPERIMENT_DATA";
+	private static final String CYCLIC_EXPERIMENT_MODEL_DATA_STORE_KEY = "CYCLIC_TIME_RESOLVED_EXPERIMENT_DATA";
+
+	private static final String CYCLIC_EXPERIMENT_OBJ = "cyclicExperiment";
 
 	public static final String NO_OF_REPEATED_GROUPS_PROP_NAME = "noOfRepeatedGroups";
 	private int noOfRepeatedGroups;
@@ -54,7 +59,7 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 				if (evt.getPropertyName().equals(ExperimentTimingDataModel.DURATION_PROP_NAME)) {
 					double startTime = 0.0;
 					for(Interval object : cyclicTimeBarRowModel.getIntervals()) {
-						ExperimentCycleModel experimentCycleModel = (ExperimentCycleModel) object;
+						CyclicExperimentDataModel experimentCycleModel = (CyclicExperimentDataModel) object;
 						experimentCycleModel.setTimes(startTime, (double) evt.getNewValue());
 						startTime += experimentCycleModel.getDuration();
 					}
@@ -62,7 +67,7 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 				} else if (evt.getPropertyName().equals(NO_OF_REPEATED_GROUPS_PROP_NAME)) {
 					int existingCycles = cyclicTimeBarRowModel.getIntervals().size();
 					for (int i=existingCycles; i < noOfRepeatedGroups; i++) {
-						ExperimentCycleModel experimentCycleModel = new ExperimentCycleModel(CyclicExperimentModel.this);
+						CyclicExperimentDataModel experimentCycleModel = new CyclicExperimentDataModel(CyclicExperimentModel.this);
 						experimentCycleModel.setName("Cycle " + (i + 1));
 						experimentCycleModel.setTimes(i * CyclicExperimentModel.this.getDuration(), CyclicExperimentModel.this.getDuration());
 						cyclicTimeBarRowModel.addInterval(experimentCycleModel);
@@ -88,11 +93,10 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 
 	private void updateTimes() {
 		if (cyclicTimeBarRowModel.getIntervals().size() > 0) {
-			ExperimentCycleModel lastCycle = ((ExperimentCycleModel) cyclicTimeBarRowModel.getIntervals().get(cyclicTimeBarRowModel.getIntervals().size() - 1));
+			CyclicExperimentDataModel lastCycle = ((CyclicExperimentDataModel) cyclicTimeBarRowModel.getIntervals().get(cyclicTimeBarRowModel.getIntervals().size() - 1));
 			this.firePropertyChange(CYCLES_DURATION_PROP_NAME, cyclesDuration, cyclesDuration = lastCycle.getEndTime());
 		}
 	}
-
 
 	public int getNoOfRepeatedGroups() {
 		return noOfRepeatedGroups;
@@ -113,5 +117,39 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 
 	public double getCyclesDurationInSec() {
 		return ExperimentUnit.MILLI_SEC.convertToSecond(cyclesDuration);
+	}
+
+	@Override
+	protected String getDataStoreKey() {
+		return CYCLIC_EXPERIMENT_MODEL_DATA_STORE_KEY;
+	}
+
+	@Override
+	protected String buildScanCommand() {
+		StringBuilder builder = new StringBuilder("from gda.scan.ede import EdeLinearExperiment;");
+		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
+			builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + " = EdeCyclicExperiment(%f, %d",
+					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getI0IntegrationTime()),
+					this.getExperimentDataModel().getI0NumberOfAccumulations()));
+		} else {
+			builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + " = EdeCyclicExperiment(%f",
+					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getI0IntegrationTime())));
+		}
+		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\", %d);",
+				TIMING_GROUPS_OBJ_NAME,
+				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
+				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
+				DetectorModel.INSTANCE.getCurrentDetector().getName(),
+				DetectorModel.TOPUP_CHECKER,
+				DetectorModel.SHUTTER_NAME,
+				this.getNoOfRepeatedGroups()));
+		builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%d);", this.getNoOfSecPerSpectrumToPublish()));
+		if (SampleStageMotors.INSTANCE.isUseIref()) {
+			builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
+					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
+					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getIrefIntegrationTime()), this.getExperimentDataModel().getIrefNoOfAccumulations()));
+		}
+		builder.append(CYCLIC_EXPERIMENT_OBJ + ".runExperiment();");
+		return builder.toString();
 	}
 }

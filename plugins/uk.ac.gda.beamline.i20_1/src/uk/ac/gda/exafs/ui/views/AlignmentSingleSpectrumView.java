@@ -48,6 +48,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.SingleSpectrumUIModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentModelHolder;
 import uk.ac.gda.exafs.ui.sections.EDECalibrationSection;
 import uk.ac.gda.exafs.ui.sections.SingleSpectrumParametersSection;
 import uk.ac.gda.ui.components.NumberEditorControl;
@@ -92,10 +93,11 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 		form.setHeadClient(stageSelectionComposite);
 
 		try {
+			createRunCollectionButtons(formParent);
 			createSampleStageSections(formParent);
 			createAlignmentSections(formParent);
 			setupScannables();
-			SingleSpectrumParametersSection singleSpectrumParametersSection = new SingleSpectrumParametersSection(formParent, SWT.None, false);
+			SingleSpectrumParametersSection singleSpectrumParametersSection = new SingleSpectrumParametersSection(formParent, SWT.None);
 			singleSpectrumParametersSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 			EDECalibrationSection eDECalibrationSection = new EDECalibrationSection(formParent, SWT.None);
 			eDECalibrationSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -105,10 +107,57 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 		}
 	}
 
+	private void createRunCollectionButtons(Composite formParent) {
+		final SingleSpectrumUIModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
+		Composite acquisitionButtonsComposite = new Composite(formParent, SWT.NONE);
+		acquisitionButtonsComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		acquisitionButtonsComposite.setLayout(new GridLayout(2, true));
+		toolkit.paintBordersFor(acquisitionButtonsComposite);
+
+		Button startAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Start", SWT.PUSH);
+		startAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		startAcquicitionButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				try {
+					singleSpectrumDataModel.doCollection(true);
+				} catch (Exception e) {
+					UIHelper.showError("Unable to scan", e.getMessage());
+					logger.error("Unable to scan", e);
+				}
+			}
+		});
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(startAcquicitionButton),
+				BeanProperties.value(SingleSpectrumUIModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel),
+				null,
+				new UpdateValueStrategy() {
+					@Override
+					public Object convert(Object value) {
+						return (!(boolean) value);
+					}
+				});
+
+		Button stopAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Stop", SWT.PUSH);
+		stopAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(stopAcquicitionButton),
+				BeanProperties.value(SingleSpectrumUIModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel));
+		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				singleSpectrumDataModel.doStop();
+			}
+		});
+	}
+
 	private void setupScannables() {
 		sampleStageCompositeBinding = dataBindingCtx.bindValue(
 				WidgetProperties.visible().observe(sampleStageSectionsParent),
-				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(SingleSpectrumUIModel.INSTANCE),
+				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel()),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 				new UpdateValueStrategy() {
 					@Override
@@ -122,7 +171,7 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 
 		alignmentStageCompositeBinding = dataBindingCtx.bindValue(
 				WidgetProperties.visible().observe(alignmentStageSectionsParent),
-				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(SingleSpectrumUIModel.INSTANCE),
+				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel()),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 				new UpdateValueStrategy() {
 					@Override
@@ -136,12 +185,13 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 
 		switchWithSamplePositionButtonBinding = dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(switchWithSamplePositionButton),
-				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(SingleSpectrumUIModel.INSTANCE));
+				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel()));
 
 	}
 
 	@SuppressWarnings("static-access")
 	private void createAlignmentSections(Composite body) throws Exception {
+		SingleSpectrumUIModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
 		alignmentStageSectionsParent = toolkit.createComposite(body);
 		alignmentStageSectionsParent.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		alignmentStageSectionsParent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -158,15 +208,15 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 		alignmentI0PositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		createXYPositionComposite(
 				alignmentI0PositionComposite,
-				SingleSpectrumUIModel.INSTANCE.getHoleLocationForAlignment(),
+				singleSpectrumDataModel.getHoleLocationForAlignment(),
 				AlignmentStageScannable.Location.X_POS_PROP_NAME,
-				"Hole X position", createXPositionListener(SingleSpectrumUIModel.INSTANCE.getHoleLocationForAlignment(), AlignmentStageDevice.hole)
+				"Hole X position", createXPositionListener(singleSpectrumDataModel.getHoleLocationForAlignment(), AlignmentStageDevice.hole)
 				);
 		createXYPositionComposite(
 				alignmentI0PositionComposite,
-				SingleSpectrumUIModel.INSTANCE.getHoleLocationForAlignment(),
+				singleSpectrumDataModel.getHoleLocationForAlignment(),
 				AlignmentStageScannable.Location.Y_POS_PROP_NAME,
-				"Hole Y position", createYPositionListener(SingleSpectrumUIModel.INSTANCE.getHoleLocationForAlignment(), AlignmentStageDevice.hole));
+				"Hole Y position", createYPositionListener(singleSpectrumDataModel.getHoleLocationForAlignment(), AlignmentStageDevice.hole));
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(i0Section);
 		toolkit.paintBordersFor(defaultSectionSeparator);
@@ -183,12 +233,12 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 		Composite alignmentItPositionComposite = toolkit.createComposite(sampleItPositionSectionComposite, SWT.NONE);
 		alignmentItPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		alignmentItPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
-		createXYPositionComposite(alignmentItPositionComposite, SingleSpectrumUIModel.INSTANCE.getFoilLocationForAlignment(),
+		createXYPositionComposite(alignmentItPositionComposite, singleSpectrumDataModel.getFoilLocationForAlignment(),
 				AlignmentStageScannable.Location.X_POS_PROP_NAME,
-				"Foil X position", createXPositionListener(SingleSpectrumUIModel.INSTANCE.getFoilLocationForAlignment(), AlignmentStageDevice.foil));
-		createXYPositionComposite(alignmentItPositionComposite, SingleSpectrumUIModel.INSTANCE.getFoilLocationForAlignment(),
+				"Foil X position", createXPositionListener(singleSpectrumDataModel.getFoilLocationForAlignment(), AlignmentStageDevice.foil));
+		createXYPositionComposite(alignmentItPositionComposite, singleSpectrumDataModel.getFoilLocationForAlignment(),
 				AlignmentStageScannable.Location.Y_POS_PROP_NAME,
-				"Foil Y position", createYPositionListener(SingleSpectrumUIModel.INSTANCE.getFoilLocationForAlignment(), AlignmentStageDevice.foil));
+				"Foil Y position", createYPositionListener(singleSpectrumDataModel.getFoilLocationForAlignment(), AlignmentStageDevice.foil));
 
 		defaultSectionSeparator = toolkit.createCompositeSeparator(itSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);

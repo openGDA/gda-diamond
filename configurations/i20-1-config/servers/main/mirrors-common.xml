@@ -24,7 +24,8 @@
 	<bean id="me1_ellip" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="me1ellip_motor" />
 	</bean>
-	<bean id="me1_y1" class="gda.device.scannable.ScannableMotor">
+	<!--  Should not be able to edited in GDA -->
+<!-- <bean id="me1_y1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="me1y1_motor" />
 	</bean>
 	<bean id="me1_y2" class="gda.device.scannable.ScannableMotor">
@@ -36,6 +37,7 @@
 	<bean id="me1_x2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="me1x2_motor" />
 	</bean>
+ -->
 	<bean id="me1_bend1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="me1bend1_motor" />
 	</bean>
@@ -56,10 +58,10 @@
 				<ref bean="me1_curvature" />
 				<ref bean="me1_stripe" />
 				<ref bean="me1_ellip" />
-				<ref bean="me1_y1" />
-				<ref bean="me1_y2" />
-				<ref bean="me1_x1" />
-				<ref bean="me1_x2" />
+<!-- 				<ref bean="me1_y1" /> -->
+<!-- 				<ref bean="me1_y2" /> -->
+<!-- 				<ref bean="me1_x1" /> -->
+<!-- 				<ref bean="me1_x2" /> -->
 				<ref bean="me1_bend1" />
 				<ref bean="me1_bend2" />
 				<ref bean="me1_sag" />
@@ -106,6 +108,7 @@
 	<bean id="poly_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_ybase_motor" />
 	</bean>
+<!-- Should not be available in GDA
 	<bean id="poly_y1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_y1_motor" />
 	</bean>
@@ -115,6 +118,7 @@
 	<bean id="poly_y3" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_y3_motor" />
 	</bean>
+-->
 	<bean id="poly_theta" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="poly_theta_motor" />
 		<property name="initialUserUnits" value="deg" />
@@ -153,9 +157,9 @@
 			<list>
 				<ref bean="poly_x" />
 				<ref bean="poly_y" />
-				<ref bean="poly_y1" />
-				<ref bean="poly_y2" />
-				<ref bean="poly_y3" />
+<!-- 				<ref bean="poly_y1" /> -->
+<!-- 				<ref bean="poly_y2" /> -->
+<!-- 				<ref bean="poly_y3" /> -->
 				<ref bean="poly_theta" />
 				<ref bean="poly_finey" />
 				<ref bean="poly_yaw" />

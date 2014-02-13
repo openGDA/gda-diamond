@@ -69,8 +69,6 @@ public class EdeSingleExperiment extends EdeExperiment {
 		setCommonI0Parameters(i0AccumulationTime, i0NoOfAccumulcation);
 	}
 
-
-
 	@Override
 	protected ExperimentCollectionType getCollectionType() {
 		return ExperimentCollectionType.SINGLE;
@@ -93,8 +91,8 @@ public class EdeSingleExperiment extends EdeExperiment {
 		if (runItDark) {
 			header.append("itDark: " + itDarkScan.getHeaderDescription() + "\n");
 		}
-		header.append("i0InitialScan: " + i0InitialScan.getHeaderDescription() + "\n");
-		header.append("itScan: " + itScan.getHeaderDescription() + "\n");
+		header.append("i0InitialScan: " + i0LightScan.getHeaderDescription() + "\n");
+		header.append("itScan: " + itScans[0].getHeaderDescription() + "\n");
 		return header.toString();
 	}
 
@@ -105,7 +103,7 @@ public class EdeSingleExperiment extends EdeExperiment {
 
 	@Override
 	protected EdeAsciiFileWriter createFileWritter() {
-		return new EdeSingleSpectrumAsciiFileWriter(i0InitialScan, itScan,
+		return new EdeSingleSpectrumAsciiFileWriter(i0LightScan, itScans[0],
 				i0DarkScan, itDarkScan, theDetector);
 	}
 
