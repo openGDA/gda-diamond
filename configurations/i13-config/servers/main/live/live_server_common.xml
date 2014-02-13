@@ -78,7 +78,6 @@
 	<import resource="../../../devices/float1.xml" />
 	<import resource="../../../devices/float2.xml" />
 	
-
 	<import resource="../../../devices/epics/condenser_motors.xml" />
 	<import resource="../../../devices/epics/central_stop_motors.xml" />
 	<import resource="../../../devices/epics/pinhole_motors.xml" />

@@ -170,8 +170,7 @@
 	<import resource="../../devices/phase_ring.xml" />
 
 	<import resource="../../devices/zebra.xml" />
-<!-- 	<import resource="../../devices/zebra_test.xml" />
- -->
+	<import resource="../../devices/p2r.xml" />
 
 
 	<!--  dummy motors for testing tomoscan  -->

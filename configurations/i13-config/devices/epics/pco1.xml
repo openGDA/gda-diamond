@@ -63,14 +63,6 @@
 	</bean>
 	<bean id="flyScanFlatDarkCollectionStrategy" parent="pco1_singleExposurePco"/>
 
-<!-- 	<bean id="pco1_multipleExposurePco" class="gda.device.detector.addetector.triggering.PCOMultipleExposureSoftwareTriggerAutoMode">
-		<constructor-arg ref="pco1_cam_base" />
-		<constructor-arg value=".04" />
-		<constructor-arg ref="adDriverPco1" />
-		<property name="ndProcess" ref ="pco1_proc2"/>
-		<property name="exposureTime" value=".04"/>
-	</bean>
- -->
 	<!-- Connect 
 	a.phase shifted TTL from function generator to Trigger Out (from camera).
 	b.Trigger In ( from TFg to Camera Trigger In
@@ -111,8 +103,8 @@
 		<property name="framesChunks" value="64"/>
 		<property name="framesFlush" value="64"/>
 		<property name="lazyOpen" value="true"/>
-		<property name="boundaryAlign" value="1048576"/>
-		<property name="blocking" value="false"/> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64-->
+<!-- 		<property name="boundaryAlign" value="1048576"/>
+ -->		<property name="blocking" value="false"/> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64-->
 	</bean>
 
 	<bean id="pco1_hdf5_filewriter_nochunking" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
@@ -139,112 +131,6 @@
 		<property name="etfg" ref="tfg"/>
 	</bean>
 
-<!-- 	<bean id="zebra_singleExposurePco" class="gda.device.detector.addetector.triggering.SingleExposurePco">
-		<constructor-arg ref="pco1_cam_base" />
-		<constructor-arg ref="adDriverPco1" />
-		<constructor-arg value=".1" />	
-	</bean> -->
-
-
-<!-- 	<bean id="pco1_hdf5_Zebra" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
-		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
-		<property name="fileNameTemplate" value="pco1"/>
-		<property name="filePathTemplate" value="$datadir$"/>
-		<property name="fileTemplate" value="%s%s-%d.hdf"/>
-		<property name="fileNumberAtScanStart" value="-1"/>
-		<property name="setFileNameAndNumber" value="true"/>
-		<property name="rowChunks" value="64"/>
-		<property name="colChunks" value="0"/>
-		<property name="framesChunks" value="64"/>
-		<property name="framesFlush" value="64"/>
-		<property name="blocking" value="true"/>
-		<property name="lazyOpen" value="true"/>
-		<property name="boundaryAlign" value="1048576"/>
-	</bean>
- -->
-<!-- does not work as 
-Caused by: java.lang.IllegalArgumentException: filename is null or zero length
-        at gda.device.detector.addetector.ADDetector.appendNXDetectorDataFromFileWriter(ADDetector.java:822)
-
-
-
-	<bean id="pco1_hdf" class="gda.device.detector.addetector.ADPco">
-		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndFile" ref="pco1_ndfilehdf5_base" />
-		<property name="collectionStrategy" ref="pco1_singleExposurePco"/>
-		<property name="fileWriter" ref="pco1_hdf5_filewriter"/>
-		<property name="readAcquisitionTime" value="true" />
-		<property name="readFilepath" value="true" />
-		<property name="readAcquisitionPeriod" value="false" />
-		<property name="computeStats" value="false" />
-		<property name="computeCentroid" value="false" />
-		<property name="readArray" value="false" />
-	</bean>
--->
-
-<!-- does not work - IOC crashes
-	<bean id="pco1_hdf_longExposure" class="gda.device.detector.addetector.ADPco">
-		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndFile" ref="pco1_ndfilehdf5_base" />
-		<property name="collectionStrategy" ref="pco1_multipleExposurePco"/>
-		<property name="fileWriter" ref="pco1_hdf5_filewriter"/>
-		<property name="readAcquisitionTime" value="true" />
-		<property name="readFilepath" value="true" />
-		<property name="readAcquisitionPeriod" value="false" />
-		<property name="computeStats" value="false" />
-		<property name="computeCentroid" value="false" />
-		<property name="readArray" value="false" />
-	</bean>
-
--->
-<!-- 	<bean id="pco1_tif" class="gda.device.detector.addetector.ADPco">
-		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndFile" ref="pco1_ndfiletif" />
-		<property name="collectionStrategy" ref="pco1_singleExposurePco"/>
-		<property name="fileWriter">
-			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg value="pco1"/>
-				<property name="ndFile" ref="pco1_ndfiletif" />
-				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
-				<property name="waitForFileArrival" value="true"/>
-			</bean>
-		</property>
-
-		<property name="readAcquisitionTime" value="true" />
-		<property name="readFilepath" value="true" />
-		<property name="readAcquisitionPeriod" value="false" />
-		<property name="computeStats" value="false" />
-		<property name="computeCentroid" value="false" />
-		<property name="readArray" value="false" />
-		<property name="checkFileExists" value="true"/>
-		<property name="usePipeline" value="true"/>
-	</bean>
- -->
-<!-- 	<bean id="pco1_hw_tif" class="gda.device.detector.addetector.ADPco">
-		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndFile" ref="pco1_ndfiletif" />
-		<property name="collectionStrategy" ref="pco1_tfg"/>
-		<property name="fileWriter">
-			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg value="pco1"/>
-				<property name="ndFile" ref="pco1_ndfiletif" />
-				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
-				<property name="waitForFileArrival" value="true"/>
-				
-			</bean>
-		</property>
-
-		<property name="readAcquisitionTime" value="true" />
-		<property name="readFilepath" value="true" />
-		<property name="readAcquisitionPeriod" value="false" />
-		<property name="computeStats" value="false" />
-		<property name="computeCentroid" value="false" />
-		<property name="readArray" value="false" />
-		<property name="checkFileExists" value="true"/>
-		<property name="usePipeline" value="true"/>
-	</bean>
- -->
-
 	<bean id="pco1_tif_writer" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pco1"/>
 		<property name="ndFile" ref="pco1_ndfiletif" />
@@ -260,6 +146,19 @@ Caused by: java.lang.IllegalArgumentException: filename is null or zero length
 			<list>
 			<ref bean="pco1_tif_writer"/>
 			<ref bean="pco1_cameraroi"/>
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="pco1_hw_array" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_hw_tif_array"/>
+		<property name="addCollectTimeMs" value="true"/>
+		<property name="collectionStrategy" ref="pco1_tfg" />
+		<property name="additionalPluginList">
+			<list>
+			<bean class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+				<constructor-arg ref="pco1_arr"/>
+			</bean>
 			</list>
 		</property>
 	</bean>	
@@ -289,61 +188,6 @@ Caused by: java.lang.IllegalArgumentException: filename is null or zero length
 		</property>
 	</bean>	
 
-<!-- 	<bean id="pco1_hw_tifNXNonAsync" class="gda.device.detector.NXDetector">
-		<property name="name" value="pco1_hw_tif"/>
-		<property name="collectionStrategy" ref="pco1_tfg" />
-		<property name="additionalPluginList">
-			<list>
-			<bean class="gda.device.detector.addetector.filewriter.NonAsyncSingleImagePerFileWriter">
-				<constructor-arg value="pco1"/>
-				<property name="ndFile" ref="pco1_ndfiletif" />
-				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
-				<property name="waitForFileArrival" value="true"/>
-			</bean>
-			</list>
-		</property>
-	</bean>	
-
-	<bean id="pco1_tifNXNonAsync" class="gda.device.detector.NXDetector">
-		<property name="name" value="pco1_tifNX"/>
-		<property name="collectionStrategy" ref="pco1_singleExposurePco" />
-		<property name="additionalPluginList">
-			<list>
- 			<bean class="gda.device.detector.addetector.filewriter.NonAsyncSingleImagePerFileWriter">
-				<constructor-arg value="pco1"/>
-				<property name="ndFile" ref="pco1_ndfiletif" />
-				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
-				<property name="waitForFileArrival" value="true"/>
-			</bean>
-
-			<bean class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
-				<constructor-arg ref="pco1_arr"/>
-			</bean>
-			<bean class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
-				<constructor-arg ref="pco1_stat"/>
-			</bean>
-			
-			</list>
-		</property>
-	</bean>	
- -->
-
-	<!--bean id="pco1_hw_hdf" class="gda.device.detector.addetector.ADPco">
-		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndFile" ref="pco1_ndfiletif" />
-		<property name="collectionStrategy" ref="pco1_tfg"/>
-		<property name="fileWriter" ref="pco1_hdf5_filewriter"/>
-		<property name="readAcquisitionTime" value="true" />
-		<property name="readFilepath" value="true" />
-		<property name="readAcquisitionPeriod" value="false" />
-		<property name="computeStats" value="false" />
-		<property name="computeCentroid" value="false" />
-		<property name="readArray" value="false" />
-		<property name="checkFileExists" value="true"/>
-		<property name="usePipeline" value="true"/>
-	</bean-->
-
-
 	<bean id="pco1_hw_hdf" class="gda.device.detector.NXDetector">
 		<property name="name" value="pco1_hw_hdf"/>
 		<property name="addCollectTimeMs" value="true"/>
@@ -369,26 +213,6 @@ Caused by: java.lang.IllegalArgumentException: filename is null or zero length
 		</property>
 	</bean>	
 
-
-<!-- 	<bean id="pco1_multi_tif" class="gda.device.detector.NXDetector">
-		<property name="name" value="pco1_multi_tif"/>
-		<property name="addCollectTimeMs" value="true"/>
-		<property name="collectionStrategy" ref="pco1_multipleExposureHardwarePco"/>
-		<property name="additionalPluginList">
-			<list>
-			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg value="pco1_multi_tif"/>
-				<property name="ndFile" ref="pco1_ndfiletif" />
-				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
-				<property name="ndArrayPortVal" value="pco1.prc2"/> 
-				<property name="waitForFileArrival" value="true"/>
-				
-			</bean>
-			<ref bean="pco1_cameraroi"/>
-			</list>
-		</property>
-	</bean>	
--->
 	<bean id="pco1_multi_hdf" class="gda.device.detector.NXDetector">
 		<property name="name" value="pco1_multi_hdf"/>
 		<property name="addCollectTimeMs" value="true"/>
@@ -415,56 +239,5 @@ Caused by: java.lang.IllegalArgumentException: filename is null or zero length
 			</list>
 		</property>
 	</bean>	
-
-
-<!-- 	<bean id="dimax_tif" class="gda.device.detector.addetector.ADPco">
-		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndFile" ref="pco1_ndfiletif" />
-		<property name="collectionStrategy" ref="pco1_multipleExposurePco"/>
-		<property name="fileWriter">
-			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg value="dimax"/>
-				<property name="ndFile" ref="pco1_ndfiletif" />
-				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
-				<property name="ndArrayPortVal" value="pco1.prc2"/> 
-				<property name="waitForFileArrival" value="true"/>
-				
-			</bean>
-		</property>
-
-		<property name="readAcquisitionTime" value="true" />
-		<property name="readFilepath" value="true" />
-		<property name="readAcquisitionPeriod" value="false" />
-		<property name="computeStats" value="false" />
-		<property name="computeCentroid" value="false" />
-		<property name="readArray" value="false" />
-		<property name="checkFileExists" value="true"/>
-		<property name="usePipeline" value="true"/>
-	</bean>
- -->
-	<!-- <bean id="dimax_hw_tif" class="gda.device.detector.addetector.ADPco">
-		<property name="adBase" ref="pco1_cam_base" />
-		<property name="ndStats" ref="pco1_stat" />
-		<property name="ndArray" ref="pco1_arr" />
-		<property name="ndFile" ref="pco1_ndfiletif" />
-		<property name="collectionStrategy" ref="pco1_multipleExposureHardwarePco"/>
-		<property name="fileWriter">
-			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg value="dimax"/>
-				<property name="ndFile" ref="pco1_ndfiletif" />
-				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
-				<property name="ndArrayPortVal" value="pco1.prc2"/>
-			</bean>
-		</property>
-
-		<property name="readAcquisitionTime" value="true" />
-		<property name="readFilepath" value="true" />
-		<property name="readAcquisitionPeriod" value="false" />
-		<property name="computeStats" value="false" />
-		<property name="computeCentroid" value="false" />
-		<property name="readArray" value="false" />
-		<property name="checkFileExists" value="true"/>
-		<property name="usePipeline" value="true"/>
-	</bean> -->
 
 </beans>	

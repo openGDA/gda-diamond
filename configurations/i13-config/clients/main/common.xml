@@ -67,7 +67,7 @@
 
 	<bean id="i13ADController"
 		class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13ADControllerImpl">
-		<property name="serviceName" value="i13ADController" />
+		<property name="serviceName" value="i13" />
 		<property name="imageNDStats" ref="pco1_stat" />
 		<property name="liveViewNDProc" ref="pco1_proc1" />
 		<property name="imageNDArray" ref="pco1_arr" />
