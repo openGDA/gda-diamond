@@ -22,6 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.dawb.common.ui.widgets.ActionBarWrapper;
 import org.dawnsci.plotting.api.IPlottingSystem;
@@ -30,6 +31,7 @@ import org.dawnsci.plotting.api.PlottingFactory;
 import org.dawnsci.plotting.api.filter.AbstractPlottingFilter;
 import org.dawnsci.plotting.api.filter.IFilterDecorator;
 import org.dawnsci.plotting.api.region.IRegion;
+import org.dawnsci.plotting.api.region.IRegion.RegionType;
 import org.dawnsci.plotting.api.region.IRegionListener;
 import org.dawnsci.plotting.api.region.RegionEvent;
 import org.dawnsci.plotting.api.region.RegionUtils;
@@ -56,7 +58,6 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
@@ -102,18 +103,19 @@ import uk.ac.gda.common.rcp.UIHelper;
 
 public class TimeResolvedToolPage extends AbstractToolPage implements IRegionListener, ITraceListener {
 
+
 	private static final double STACK_OFFSET = 0.1;
+
 	private static final String GROUP_AXIS_PATH = "/entry1/instrument/xstrip/group";
 	private static final String TIME_AXIS_PATH = "/entry1/instrument/xstrip/time";
+	private static final int ENERGY_AXIS_INDEX = 0;
 
-	private static final int NUMBER_OF_STRIPS = 1024;
-
-	private final TimeResolvedData timeResolvedData = new TimeResolvedData();
+	private final TimeResolvedToolDataModel timeResolvedData = new TimeResolvedToolDataModel();
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
-	private final IObservableList  spectraRegionList = new WritableList(new ArrayList<SpectraRegion>(), SpectraRegion.class);
-	private final IObservableList selectedRegionSpectraList = new WritableList(new ArrayList<SpectraRegion>(), SpectraRegion.class);
+	private final IObservableList  spectraRegionList = new WritableList(new ArrayList<SpectraRegionToolDataModel>(), SpectraRegionToolDataModel.class);
+	private final IObservableList selectedRegionSpectraList = new WritableList(new ArrayList<SpectraRegionToolDataModel>(), SpectraRegionToolDataModel.class);
 	private final IObservableList selectedSpectraList = new WritableList(new ArrayList<Object>(), Object.class);
 
 	private SashForm rootComposite;
@@ -145,8 +147,8 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	private final PropertyChangeListener spectraChangedListener = new PropertyChangeListener() {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
-			if (evt.getPropertyName().equals(SpectraRegion.SPECTRA_CHANGED)) {
-				SpectraRegion spectraRegion = (SpectraRegion) evt.getSource();
+			if (evt.getPropertyName().equals(SpectraRegionToolDataModel.SPECTRA_CHANGED)) {
+				SpectraRegionToolDataModel spectraRegion = (SpectraRegionToolDataModel) evt.getSource();
 				if (spectraRegionTableViewer != null && spectraRegionTableViewer.getChecked(spectraRegion)) {
 					removeTracesForRegion(spectraRegion);
 					addTracesForRegion(spectraRegion);
@@ -169,7 +171,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				timeResolvedData.setData(
 						(DoubleDataset) groups.getSlice(new Slice()),
 						(DoubleDataset) time.getSlice(new Slice()));
-				energy = imageTrace.getAxes().get(0);
+				energy = imageTrace.getAxes().get(ENERGY_AXIS_INDEX);
 				populateSpectraRegion();
 				spectraDataLoaded = true;
 			}
@@ -180,7 +182,8 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private void populateSpectraRegion() {
 		for (IRegion region : this.getPlottingSystem().getRegions()) {
-			addSpectraRegion(region);
+			SpectraRegionToolDataModel spectraRegion = new SpectraRegionToolDataModel(region, timeResolvedData);
+			addSpectraRegion(spectraRegion, region);
 		}
 	}
 
@@ -211,7 +214,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private void clearRegionsOnPlot() {
 		for (Object region : spectraRegionList) {
-			getPlottingSystem().removeRegion(((SpectraRegion) region).getRegion());
+			getPlottingSystem().removeRegion(((SpectraRegionToolDataModel) region).getRegion());
 		}
 	}
 
@@ -257,8 +260,8 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				event.diff.accept(new ListDiffVisitor() {
 					@Override
 					public void handleRemove(int index, Object element) {
-						if (element instanceof Spectrum) {
-							Spectrum spectrum = (Spectrum) element;
+						if (element instanceof SpectrumToolDataModel) {
+							SpectrumToolDataModel spectrum = (SpectrumToolDataModel) element;
 							if (!plottingSystem.isDisposed()) {
 								plottingSystem.removeTrace(spectrum.getTrace());
 								plottingSystem.repaint(true);
@@ -268,8 +271,8 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 					}
 					@Override
 					public void handleAdd(int index, Object element) {
-						if (element instanceof Spectrum) {
-							Spectrum spectrum = (Spectrum) element;
+						if (element instanceof SpectrumToolDataModel) {
+							SpectrumToolDataModel spectrum = (SpectrumToolDataModel) element;
 							if (!plottingSystem.isDisposed()) {
 								ITrace trace = TimeResolvedToolPage.this.plotSpectrum(spectrum, Integer.toString(spectrum.getIndex()));
 								spectrum.setTrace(trace);
@@ -288,12 +291,9 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				event.diff.accept(new ListDiffVisitor() {
 					@Override
 					public void handleRemove(int index, Object element) {
-						SpectraRegion spectraRegion = (SpectraRegion) element;
+						SpectraRegionToolDataModel spectraRegion = (SpectraRegionToolDataModel) element;
 						spectraRegion.getRegion().removeROIListener(spectraRegion);
 						spectraRegion.removePropertyChangeListener(spectraChangedListener);
-						if (spectraRegionTableViewer != null && spectraRegionTableViewer.getChecked(spectraRegion)) {
-							removeTracesForRegion(spectraRegion);
-						}
 					}
 					@Override
 					public void handleAdd(int index, Object element) {}
@@ -312,14 +312,14 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 					@Override
 					public void handleRemove(int index, Object element) {
 						if (lastColor != null) {
-							((SpectraRegion) element).getRegion().setRegionColor(lastColor);
+							((SpectraRegionToolDataModel) element).getRegion().setRegionColor(lastColor);
 						}
 					}
 
 					@Override
 					public void handleAdd(int index, Object element) {
-						lastColor = ((SpectraRegion) element).getRegion().getRegionColor();
-						((SpectraRegion) element).getRegion().setRegionColor(Display.getCurrent().getSystemColor(SWT.COLOR_RED));
+						lastColor = ((SpectraRegionToolDataModel) element).getRegion().getRegionColor();
+						((SpectraRegionToolDataModel) element).getRegion().setRegionColor(Display.getCurrent().getSystemColor(SWT.COLOR_RED));
 					}
 				});
 			}
@@ -342,27 +342,28 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private void createActions() {
 		createToolPageActions();
-		Action createRegion = new Action("Create Region", PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_NEW_WIZARD)) {
-			@Override
-			public void run() {
-				try {
-					createRegion();
-				} catch (Exception e) {
-					logger.error("Unable to create region", e);
-				}
-			}
-		};
-		getSite().getActionBars().getToolBarManager().add(new Separator());
-		getSite().getActionBars().getToolBarManager().add(createRegion);
+		// This is not needed for now
+		//		Action createRegion = new Action("Create Region", PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_NEW_WIZARD)) {
+		//			@Override
+		//			public void run() {
+		//				try {
+		//					createRegion();
+		//				} catch (Exception e) {
+		//					logger.error("Unable to create region", e);
+		//				}
+		//			}
+		//		};
+		//		getSite().getActionBars().getToolBarManager().add(new Separator());
+		//		getSite().getActionBars().getToolBarManager().add(createRegion);
 	}
 
 	IObservableFactory dataObservableFactory = new IObservableFactory() {
 		@Override
 		public IObservable createObservable(Object target) {
-			if (target instanceof TimeResolvedData) {
-				return ((TimeResolvedData) target).getTimingGroups();
-			} else if (target instanceof TimingGroup) {
-				return ((TimingGroup) target).getSpectra();
+			if (target instanceof TimeResolvedToolDataModel) {
+				return ((TimeResolvedToolDataModel) target).getTimingGroups();
+			} else if (target instanceof TimingGroupToolDataModel) {
+				return ((TimingGroupToolDataModel) target).getSpectra();
 			}
 			return null;
 		}
@@ -395,10 +396,10 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		timeViewerColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				if (element instanceof TimingGroup) {
+				if (element instanceof TimingGroupToolDataModel) {
 					return "";
 				}
-				return DataHelper.roundDoubletoString(((Spectrum) element).getStartTime()) + " s";
+				return DataHelper.roundDoubletoString(((SpectrumToolDataModel) element).getStartTime()) + " s";
 			}
 		});
 
@@ -413,6 +414,8 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 					return;
 				}
 				menuManager.add(createRegionAction);
+				menuManager.add(createRegionAvgAction);
+				menuManager.add(createRegionAvgEveryAction);
 			}
 		});
 		menuManager.setRemoveAllWhenShown(true);
@@ -461,48 +464,90 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		});
 	}
 
-	private final Action createRegionAction = new Action("Create region") {
+	private final Action createRegionAvgAction = new Action("Create region and average") {
 		@Override
 		public void run() {
-			if(spectraTreeTable.getSelection() instanceof IStructuredSelection) {
-				IStructuredSelection selection = (IStructuredSelection) spectraTreeTable.getSelection();
-				Iterator<?> iterator = selection.iterator();
-				int startIndex = -1;
-				int endIndex = -1;
-				while (iterator.hasNext()) {
-					Object object = iterator.next();
-					if (object instanceof Spectrum) {
-						Spectrum spectrum = (Spectrum) object;
-						if (startIndex == -1) {
-							startIndex = spectrum.getIndex();
-							endIndex = spectrum.getIndex();
-							continue;
-						}
-						if (spectrum.getIndex() > endIndex + 1 ) { // break in selection
-							createRegionROI(startIndex, endIndex);
-							startIndex = spectrum.getIndex();
-							endIndex = spectrum.getIndex();
-						} else {
-							endIndex = spectrum.getIndex();
-						}
-					}
-				}
-				if (startIndex != -1) {
-					createRegionROI(startIndex, endIndex);
-				}
-			}
-		}
-
-		private void createRegionROI(int startIndex, int endIndex) {
 			try {
-				IRegion region = createRegion();
-				region.setROI(new RectangularROI(0, startIndex, 100, endIndex - startIndex + 1, 0));
-				TimeResolvedToolPage.this.getPlottingSystem().addRegion(region);
+				List<IRegion> regions = findSpectraAndCreateRegion();
+				for (IRegion region : regions) {
+					AvgRegionToolDataModel spectraRegion = new AvgRegionToolDataModel(region, timeResolvedData);
+					addSpectraRegion(spectraRegion, region);
+					TimeResolvedToolPage.this.getPlottingSystem().addRegion(region);
+				}
 			} catch (Exception e) {
-				logger.error("Unable to create region", e);
+				UIHelper.showError("Unable to create regions for spectra", e.getMessage());
 			}
 		}
 	};
+
+	private final Action createRegionAvgEveryAction = new Action("Create region and average every...") {
+		@Override
+		public void run() {
+
+		}
+	};
+
+	private final Action createRegionAction = new Action("Create region") {
+		@Override
+		public void run() {
+			try {
+				List<IRegion> regions = findSpectraAndCreateRegion();
+				for (IRegion region : regions) {
+					SpectraRegionToolDataModel spectraRegion = new SpectraRegionToolDataModel(region, timeResolvedData);
+					addSpectraRegion(spectraRegion, region);
+					TimeResolvedToolPage.this.getPlottingSystem().addRegion(region);
+				}
+			} catch (Exception e) {
+				UIHelper.showError("Unable to create regions for spectra", e.getMessage());
+			}
+		}
+	};
+
+	private List<IRegion> findSpectraAndCreateRegion() throws Exception {
+		List<IRegion> regions = new ArrayList<IRegion>();
+		if(spectraTreeTable.getSelection() instanceof IStructuredSelection) {
+			IStructuredSelection selection = (IStructuredSelection) spectraTreeTable.getSelection();
+			Iterator<?> iterator = selection.iterator();
+			int startIndex = -1;
+			int endIndex = -1;
+			while (iterator.hasNext()) {
+				Object object = iterator.next();
+				if (object instanceof SpectrumToolDataModel) {
+					SpectrumToolDataModel spectrum = (SpectrumToolDataModel) object;
+					if (startIndex == -1) {
+						startIndex = spectrum.getIndex();
+						endIndex = spectrum.getIndex();
+						continue;
+					}
+					if (spectrum.getIndex() > endIndex + 1 ) { // break in selection
+						regions.add(createRegionROI(startIndex, endIndex));
+						startIndex = spectrum.getIndex();
+						endIndex = spectrum.getIndex();
+					} else {
+						endIndex = spectrum.getIndex();
+					}
+				}
+			}
+			if (startIndex != -1) {
+				regions.add(createRegionROI(startIndex, endIndex));
+			}
+		}
+		return regions;
+	}
+
+	private IRegion createRegionROI(int startIndex, int endIndex) throws Exception {
+		IRegion region = createRegion();
+		region.setROI(new RectangularROI(0, startIndex, 100, endIndex - startIndex + 1, 0));
+		return region;
+	}
+
+	private IRegion createRegion() throws Exception {
+		IPlottingSystem plotting = getPlottingSystem();
+		IRegion region = plotting.createRegion(RegionUtils.getUniqueName("Region", plotting), IRegion.RegionType.YAXIS);
+		region.setPlotType(plotting.getPlotType());
+		region.setShowLabel(true);
+		return region;
+	}
 
 	private void createSpectraRegionTable(Composite parent) {
 		spectraRegionTableViewer = CheckboxTableViewer.newCheckList(
@@ -517,7 +562,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		colRegionName.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				SpectraRegion p = (SpectraRegion) element;
+				SpectraRegionToolDataModel p = (SpectraRegionToolDataModel) element;
 				return p.getRegion().getName();
 			}
 		});
@@ -527,7 +572,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		colStartSpectrumIndex.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				SpectraRegion p = (SpectraRegion) element;
+				SpectraRegionToolDataModel p = (SpectraRegionToolDataModel) element;
 				return Integer.toString(p.getStart().getIndex());
 			}
 		});
@@ -537,10 +582,10 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		ObservableListContentProvider contentProvider = new ObservableListContentProvider();
 		IObservableSet knownElements = contentProvider.getKnownElements();
 
-		final IObservableMap startColumn = BeanProperties.value(SpectraRegion.class,
-				SpectraRegion.START).observeDetail(knownElements);
-		final IObservableMap endColumn = BeanProperties.value(SpectraRegion.class,
-				SpectraRegion.END).observeDetail(knownElements);
+		final IObservableMap startColumn = BeanProperties.value(SpectraRegionToolDataModel.class,
+				SpectraRegionToolDataModel.START).observeDetail(knownElements);
+		final IObservableMap endColumn = BeanProperties.value(SpectraRegionToolDataModel.class,
+				SpectraRegionToolDataModel.END).observeDetail(knownElements);
 
 		IObservableMap[] labelMaps = {startColumn, endColumn};
 
@@ -548,7 +593,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		spectraRegionTableViewer.setLabelProvider(new ObservableMapLabelProvider(labelMaps) {
 			@Override
 			public String getColumnText(Object element, int columnIndex) {
-				SpectraRegion p = (SpectraRegion) element;
+				SpectraRegionToolDataModel p = (SpectraRegionToolDataModel) element;
 				switch (columnIndex) {
 				case 0: return p.getRegion().getLabel();
 				case 1: return Integer.toString(p.getStart().getIndex());
@@ -576,7 +621,8 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		spectraRegionTableViewer.addCheckStateListener(new ICheckStateListener() {
 			@Override
 			public void checkStateChanged(CheckStateChangedEvent event) {
-				updatePlotting((SpectraRegion) event.getElement(), event.getChecked());
+				spectraRegionTableViewer.getCheckedElements();
+				updatePlotting((SpectraRegionToolDataModel) event.getElement(), event.getChecked());
 			}
 		});
 		spectraRegionTableViewer.setInput(spectraRegionList);
@@ -611,7 +657,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		}
 	}
 
-	private void updatePlotting(SpectraRegion region, boolean isAdded) {
+	private void updatePlotting(SpectraRegionToolDataModel region, boolean isAdded) {
 		if (isAdded) {
 			addTracesForRegion(region);
 		} else {
@@ -619,28 +665,26 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		}
 	}
 
-	private void addTracesForRegion(SpectraRegion region) {
+	private void addTracesForRegion(SpectraRegionToolDataModel region) {
+		ITrace[] traces = region.createTraces(plottingSystem, imageTrace, energy);
 		plottingSystem.getTraces();
-		for(Object object : region.getSpectra()) {
-			Spectrum spectrum = (Spectrum) object;
-			ILineTrace trace = plotSpectrum(spectrum, spectrum.getIndex() + " " + region.getRegion().getLabel());
-			region.getRegionTraces().add(trace);
+		for(ITrace trace : traces) {
+			plottingSystem.addTrace(trace);
 		}
 		plottingSystem.repaint(true);
 	}
 
-	private void removeTracesForRegion(SpectraRegion region) {
-		for(Object object : region.getRegionTraces()) {
-			plottingSystem.removeTrace((ITrace) object);
+	private void removeTracesForRegion(SpectraRegionToolDataModel region) {
+		for(ITrace object : region.getTraces()) {
+			plottingSystem.removeTrace(object);
 		}
-		region.getRegionTraces().clear();
+		region.clearTrace();
 		plottingSystem.repaint(true);
 	}
 
-
-	private ILineTrace plotSpectrum(Spectrum spectrum, String name) {
+	private ILineTrace plotSpectrum(SpectrumToolDataModel spectrum, String name) {
 		int index  = spectrum.getIndex();
-		DoubleDataset data = (DoubleDataset) imageTrace.getData().getSlice(new int[]{index,0}, new int[]{index + 1, NUMBER_OF_STRIPS}, new int[]{1,1});
+		DoubleDataset data = (DoubleDataset) imageTrace.getData().getSlice(new int[]{index,0}, new int[]{index + 1, TimeResolvedToolDataModel.NUMBER_OF_STRIPS}, new int[]{1, 1});
 		ILineTrace trace = plottingSystem.createLineTrace(name);
 		trace.setData(energy, data);
 		trace.setUserObject(spectrum);
@@ -669,7 +713,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				IStructuredSelection selection = (IStructuredSelection) spectraRegionTableViewer.getSelection();
 				Iterator<?> iterator = selection.iterator();
 				while (iterator.hasNext()) {
-					getPlottingSystem().removeRegion(((SpectraRegion) iterator.next()).getRegion());
+					getPlottingSystem().removeRegion(((SpectraRegionToolDataModel) iterator.next()).getRegion());
 				}
 			}
 		}
@@ -695,20 +739,24 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	@Override
 	public void regionAdded(RegionEvent evt) {
-		if (spectraDataLoaded) {
-			addSpectraRegion(evt.getRegion());
+		IRegion region = evt.getRegion();
+		if (spectraDataLoaded && region.getRegionType() == RegionType.YAXIS && region.getUserObject() == null) {
+			SpectraRegionToolDataModel spectraRegion = new SpectraRegionToolDataModel(region, timeResolvedData);
+			addSpectraRegion(spectraRegion, region);
 		}
 	}
 
-	private void addSpectraRegion(IRegion region) {
-		SpectraRegion spectraRegion = new SpectraRegion(region, timeResolvedData);
+	private void addSpectraRegion(SpectraRegionToolDataModel spectraRegion, IRegion region) {
 		spectraRegion.addPropertyChangeListener(spectraChangedListener);
-		region.setUserObject(spectraRegion);
 		spectraRegionList.add(spectraRegion);
+		region.setUserObject(spectraRegion);
 	}
 
 	@Override
 	public void regionRemoved(RegionEvent evt) {
+		if (spectraRegionTableViewer.getChecked(evt.getRegion().getUserObject())) {
+			removeTracesForRegion((SpectraRegionToolDataModel) evt.getRegion().getUserObject());
+		}
 		spectraRegionList.remove(evt.getRegion().getUserObject());
 	}
 
@@ -748,13 +796,4 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	@Override
 	public void traceWillPlot(TraceWillPlotEvent evt) {}
-
-	private IRegion createRegion() throws Exception {
-		IPlottingSystem plotting = TimeResolvedToolPage.this.getPlottingSystem();
-		IRegion region = plotting.createRegion(RegionUtils.getUniqueName("Region", plotting), IRegion.RegionType.YAXIS);
-		region.setPlotType(plotting.getPlotType());
-		region.setShowLabel(true);
-		return region;
-	}
-
 }

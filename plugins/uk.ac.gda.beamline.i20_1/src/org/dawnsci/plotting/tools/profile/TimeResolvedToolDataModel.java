@@ -26,9 +26,11 @@ import org.eclipse.core.databinding.observable.list.WritableList;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
-public class TimeResolvedData {
+public class TimeResolvedToolDataModel {
 
-	private final IObservableList timingGroups = new WritableList(new ArrayList<TimingGroup>(), TimingGroup.class);
+	private final IObservableList timingGroups = new WritableList(new ArrayList<TimingGroupToolDataModel>(), TimingGroupToolDataModel.class);
+
+	public static final int NUMBER_OF_STRIPS = 1024;
 
 	private int totalSpectra;
 
@@ -40,18 +42,18 @@ public class TimeResolvedData {
 		double[] time = timeDataset.getData();
 		if (timingGroupsData.length > 0) {
 			int groupCounter = 0;
-			List<Spectrum> spectraList = new ArrayList<Spectrum>();
+			List<SpectrumToolDataModel> spectraList = new ArrayList<SpectrumToolDataModel>();
 			for (int i = 0; i < timingGroupsData.length; i++) {
 				if (timingGroupsData[i] > groupCounter) {
 					double lastFrameDuration = timePerFrame[i - 1];
-					timingGroups.add(new TimingGroup(Integer.toString(groupCounter), lastFrameDuration, spectraList));
+					timingGroups.add(new TimingGroupToolDataModel(Integer.toString(groupCounter), lastFrameDuration, spectraList));
 					groupCounter = (int) timingGroupsData[i];
-					spectraList = new ArrayList<Spectrum>();
+					spectraList = new ArrayList<SpectrumToolDataModel>();
 				}
-				spectraList.add(new Spectrum(i, time[i]));
+				spectraList.add(new SpectrumToolDataModel(i, time[i]));
 			}
 			double lastFrameDuration =timePerFrame[timePerFrame.length - 1];
-			timingGroups.add(new TimingGroup(Integer.toString(groupCounter), lastFrameDuration, spectraList));
+			timingGroups.add(new TimingGroupToolDataModel(Integer.toString(groupCounter), lastFrameDuration, spectraList));
 		}
 	}
 
@@ -64,8 +66,8 @@ public class TimeResolvedData {
 	}
 
 	public double getTotalTime() {
-		TimingGroup lastGroup = (TimingGroup) timingGroups.get(timingGroups.size() - 1);
-		Spectrum lastSpectrum = (Spectrum) lastGroup.getSpectra().get(lastGroup.getSpectra().size() - 1);
+		TimingGroupToolDataModel lastGroup = (TimingGroupToolDataModel) timingGroups.get(timingGroups.size() - 1);
+		SpectrumToolDataModel lastSpectrum = (SpectrumToolDataModel) lastGroup.getSpectra().get(lastGroup.getSpectra().size() - 1);
 		return lastSpectrum.getStartTime();
 	}
 
