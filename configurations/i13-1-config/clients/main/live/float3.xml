@@ -29,10 +29,6 @@
 		<property name="imageNDROI" ref="float3_roi"/>
 	</bean>
 
-	<bean id="float3ADViewcreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
-		<property name="adController" ref="float3ADController" />
-	</bean>
-
 	<bean id="float3dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
 		<property name="map">
 			<map>
@@ -45,11 +41,5 @@
 		<property name="service" ref="float3ADController" />
 		<property name="properties" ref="float3dictionary" />
 	</bean>
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.gda.epics.adviewer.views.ViewCreator" />
-		<property name="service" ref="float3ADViewcreator" />
-		<property name="properties" ref="float3dictionary" />
-	</bean>
-
 	
 </beans>

@@ -147,60 +147,56 @@
 						value="Open the live view for the selected camera"></property>
 					<property name="options">
 						<list>
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="Select a camera" />
-								<constructor-arg
-									value="" />
+								<constructor-arg value="" />
+								<constructor-arg value="" />
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
-								<constructor-arg value="PCO" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView" />
-							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="d1" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13j.d1AreaDetectorLiveView" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.mpegview" />
+								<constructor-arg value="d1"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="d2" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13j.d2AreaDetectorLiveView" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.mpegview" />
+								<constructor-arg value="d2"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="d3" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13j.d3AreaDetectorLiveView" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.mpegview" />
+								<constructor-arg value="d3"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="d4" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13j.d4AreaDetectorLiveView" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.mpegview" />
+								<constructor-arg value="d4"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
-								<constructor-arg value="float 1" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13j.float1AreaDetectorLiveView" />
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
+								<constructor-arg value="float1" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.mpegview" />
+								<constructor-arg value="float1"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
-								<constructor-arg value="float 2" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13j.float2AreaDetectorLiveView" />
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
+								<constructor-arg value="float2" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.mpegview" />
+								<constructor-arg value="float2"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
-								<constructor-arg value="float 3" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13j.float3AreaDetectorLiveView" />
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
+								<constructor-arg value="float3" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.mpegview" />
+								<constructor-arg value="float3"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="excalibur" />
-								<constructor-arg
-									value="uk.ac.gda.beamline.i13j.excaliburAreaDetectorLiveView" />
+								<constructor-arg value="uk.ac.gda.epics.adviewer.mpegview" />
+								<constructor-arg value="excalibur"/>
 							</bean>
 							
-							<bean class="gda.rcp.views.OpenViewOption">
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="WebCams" />
 								<constructor-arg value="uk.ac.gda.video.views.cameraview" />
+								<constructor-arg value=""/>
 							</bean>
 						</list>
 					</property>

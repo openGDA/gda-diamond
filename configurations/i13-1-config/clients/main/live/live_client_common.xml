@@ -58,10 +58,6 @@
 		<property name="imageNDArrayPortInput" value="master.slaves"/>
 	</bean>
 
-	<bean id="excaliburViewCreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
-		<property name="adController" ref="excaliburADController" />
-	</bean>
-
 	<bean id="excalibur_dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
 		<property name="map">
 			<map>
@@ -74,11 +70,5 @@
 		<property name="service" ref="excaliburADController" />
 		<property name="properties" ref="excalibur_dictionary" />
 	</bean>
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.gda.epics.adviewer.views.ViewCreator" />
-		<property name="service" ref="excaliburViewCreator" />
-		<property name="properties" ref="excalibur_dictionary" />
-	</bean>
-	
 	
 </beans>
