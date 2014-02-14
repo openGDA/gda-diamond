@@ -94,9 +94,6 @@
 		<property name="imageNDROI" ref="pco1_roi1" />
 	</bean>
 
-	<bean id="i13ADViewcreator" class="uk.ac.gda.beamline.i13i.views.I13IViewCreatorImpl">
-		<property name="adController" ref="i13ADController" />
-	</bean>
 
 	<bean id="dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
 		<property name="map">
@@ -108,11 +105,6 @@
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
 		<property name="service" ref="i13ADController" />
-		<property name="properties" ref="dictionary" />
-	</bean>
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.gda.epics.adviewer.views.ViewCreator" />
-		<property name="service" ref="i13ADViewcreator" />
 		<property name="properties" ref="dictionary" />
 	</bean>
 
@@ -277,7 +269,7 @@
 							</bean>
 							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="PCO" />
-								<constructor-arg value="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView" />
+								<constructor-arg value="uk.ac.gda.beamline.i13i.PCOAreaDetectorProfileView"/>
 								<constructor-arg value="" />
 							</bean>
 							

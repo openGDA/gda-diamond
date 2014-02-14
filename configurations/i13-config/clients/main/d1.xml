@@ -20,10 +20,6 @@
 		<property name="imageNDROI" ref="d1_roi"/>
 	</bean>
 
-	<bean id="d1ADViewcreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
-		<property name="adController" ref="d1ADController" />
-	</bean>
-
 	<bean id="d1dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
 		<property name="map">
 			<map>
@@ -36,11 +32,5 @@
 		<property name="service" ref="d1ADController" />
 		<property name="properties" ref="d1dictionary" />
 	</bean>
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.gda.epics.adviewer.views.ViewCreator" />
-		<property name="service" ref="d1ADViewcreator" />
-		<property name="properties" ref="d1dictionary" />
-	</bean>
-
 	
 </beans>

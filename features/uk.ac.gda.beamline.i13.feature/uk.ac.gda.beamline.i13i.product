@@ -20,6 +20,7 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
       <vmArgs>-Declipse.pluginCustomization=/dls_sw/i13/software/gda/config/pluginCustomization.ini
 -Djacorb.config.dir=/dls_sw/i13/software/gda/config/jacorb/live
 -Dgda.install.workspace.loc=/dls_sw/i13/software/gda/workspace
+-Dgda.install.git.loc=/dls_sw/i13/software/gda/workspace_git
 -Dgda.config=/dls_sw/i13/software/gda/config
 -Dgda.propertiesFile=/dls_sw/i13/software/gda/config/properties/live/java.properties
 -Dgda.data=/dls/i13/data
