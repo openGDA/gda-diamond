@@ -108,7 +108,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private static final int NUMBER_OF_STRIPS = 1024;
 
-	private TimeResolvedData timeResolvedData;
+	private final TimeResolvedData timeResolvedData = new TimeResolvedData();
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
@@ -126,8 +126,9 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private IDataset energy;
 
-
 	private Binding selectedSpectraBinding;
+
+	private boolean spectraDataLoaded = false;
 
 
 	public TimeResolvedToolPage() {
@@ -154,8 +155,8 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		}
 	};
 
-	// TODO Validate data
-	private void populateSpectra(IImageTrace image) {
+	// TODO Validate data and manage UI if not correct dataset
+	private void validateAndLoadSpectra(IImageTrace image) {
 		clearRegionsOnPlot();
 		clearSpectra();
 		IMetaData metaData = image.getData().getMetadata();
@@ -165,15 +166,12 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			ILazyDataset groups = LoaderFactory.getData(path).getLazyDataset(GROUP_AXIS_PATH);
 			ILazyDataset time = LoaderFactory.getData(path).getLazyDataset(TIME_AXIS_PATH);
 			if (groups != null) {
-				timeResolvedData = new TimeResolvedData(
+				timeResolvedData.setData(
 						(DoubleDataset) groups.getSlice(new Slice()),
 						(DoubleDataset) time.getSlice(new Slice()));
-				//updateTableData();
-				populateSpectraRegion();
-
 				energy = imageTrace.getAxes().get(0);
-			} else {
-				clearSpectra();
+				populateSpectraRegion();
+				spectraDataLoaded = true;
 			}
 		} catch (Exception e) {
 			logger.error("Unable to find group data, not a valid dataset", e);
@@ -187,7 +185,8 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	}
 
 	private void clearSpectra() {
-		timeResolvedData = null;
+		spectraDataLoaded = false;
+
 		if (selectedSpectraList != null) {
 			selectedSpectraList.clear();
 		}
@@ -195,6 +194,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			spectraRegionList.clear();
 		}
 		selectedRegionSpectraList.clear();
+		timeResolvedData.clearData();
 	}
 
 	@Override
@@ -243,7 +243,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		if (getPlottingSystem() != null && getPlottingSystem().getTraces().size() == 1) {
 			ITrace trace = getPlottingSystem().getTraces().iterator().next();
 			if (trace instanceof IImageTrace) {
-				populateSpectra((IImageTrace) trace);
+				validateAndLoadSpectra((IImageTrace) trace);
 			}
 		}
 	}
@@ -380,19 +380,19 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		spectraTree.setLinesVisible(true);
 		spectraTree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		spectraTreeTable = new TreeViewer(spectraTree);
-		TreeColumn column1 = new TreeColumn(spectraTree, SWT.LEFT);
-		column1.setAlignment(SWT.LEFT);
-		column1.setText("Name");
-		column1.setWidth(130);
-		TreeViewerColumn nameColumn = new TreeViewerColumn(spectraTreeTable, column1);
-		nameColumn.setLabelProvider(new ColumnLabelProvider());
+		TreeColumn nameColumn = new TreeColumn(spectraTree, SWT.LEFT);
+		nameColumn.setAlignment(SWT.LEFT);
+		nameColumn.setText("Name");
+		nameColumn.setWidth(130);
+		TreeViewerColumn nameViewerColumn = new TreeViewerColumn(spectraTreeTable, nameColumn);
+		nameViewerColumn.setLabelProvider(new ColumnLabelProvider());
 
-		TreeColumn column2 = new TreeColumn(spectraTree, SWT.RIGHT);
-		column2.setAlignment(SWT.LEFT);
-		column2.setText("Start time");
-		column2.setWidth(60);
-		TreeViewerColumn timeColumn = new TreeViewerColumn(spectraTreeTable, column2);
-		timeColumn.setLabelProvider(new ColumnLabelProvider() {
+		TreeColumn timeColumn = new TreeColumn(spectraTree, SWT.CENTER);
+		timeColumn.setAlignment(SWT.LEFT);
+		timeColumn.setText("Start time");
+		timeColumn.setWidth(60);
+		TreeViewerColumn timeViewerColumn = new TreeViewerColumn(spectraTreeTable, timeColumn);
+		timeViewerColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
 				if (element instanceof TimingGroup) {
@@ -695,8 +695,9 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	@Override
 	public void regionAdded(RegionEvent evt) {
-		addSpectraRegion(evt.getRegion());
-		System.out.println("regionAdded");
+		if (spectraDataLoaded) {
+			addSpectraRegion(evt.getRegion());
+		}
 	}
 
 	private void addSpectraRegion(IRegion region) {
@@ -720,14 +721,14 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	@Override
 	public void traceUpdated(TraceEvent evt) {
 		if (evt.getSource() instanceof IImageTrace) {
-			populateSpectra((IImageTrace) evt.getSource());
+			validateAndLoadSpectra((IImageTrace) evt.getSource());
 		}
 	}
 
 	@Override
 	public void traceAdded(TraceEvent evt) {
 		if (evt.getSource() instanceof IImageTrace) {
-			populateSpectra((IImageTrace) evt.getSource());
+			validateAndLoadSpectra((IImageTrace) evt.getSource());
 		}
 	}
 

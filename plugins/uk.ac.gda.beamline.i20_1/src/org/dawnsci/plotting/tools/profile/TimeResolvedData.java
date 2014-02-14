@@ -21,20 +21,18 @@ package org.dawnsci.plotting.tools.profile;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dawnsci.plotting.api.region.IROIListener;
-import org.dawnsci.plotting.api.region.ROIEvent;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
-public class TimeResolvedData implements IROIListener {
+public class TimeResolvedData {
 
 	private final IObservableList timingGroups = new WritableList(new ArrayList<TimingGroup>(), TimingGroup.class);
 
-	private final int totalSpectra;
+	private int totalSpectra;
 
-	public TimeResolvedData(DoubleDataset timingGroupsDataset, DoubleDataset timeDataset) {
+	public void setData(DoubleDataset timingGroupsDataset, DoubleDataset timeDataset) {
 		// TODO Refactor this! This has hard coded index numbers!
 		double[] timingGroupsData = ((DoubleDataset)timingGroupsDataset.getSlice(new int[]{0,0}, new int[]{timingGroupsDataset.getShape()[0],3}, new int[]{1,3})).getData();
 		double[] timePerFrame = ((DoubleDataset) timingGroupsDataset.getSlice(new int[]{0,1}, new int[]{timingGroupsDataset.getShape()[0],3}, new int[]{1,3})).getData();
@@ -65,28 +63,13 @@ public class TimeResolvedData implements IROIListener {
 		return timingGroups;
 	}
 
-	@Override
-	public void roiDragged(ROIEvent evt) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void roiChanged(ROIEvent evt) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void roiSelected(ROIEvent evt) {
-		// TODO Auto-generated method stub
-
-	}
-
-
 	public double getTotalTime() {
 		TimingGroup lastGroup = (TimingGroup) timingGroups.get(timingGroups.size() - 1);
 		Spectrum lastSpectrum = (Spectrum) lastGroup.getSpectra().get(lastGroup.getSpectra().size() - 1);
 		return lastSpectrum.getStartTime();
+	}
+
+	public void clearData() {
+		timingGroups.clear();
 	}
 }
