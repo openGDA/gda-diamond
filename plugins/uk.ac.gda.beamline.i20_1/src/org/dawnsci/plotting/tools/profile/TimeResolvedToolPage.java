@@ -503,37 +503,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			}
 		}
 	};
-<<<<<<< HEAD
-=======
-
-	private void createPlotView(Composite parent) {
-		Composite plotParent = new Composite(parent, SWT.BORDER);
-		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
-		gridData.horizontalSpan = 2;
-		plotParent.setLayoutData(gridData);
-		plotParent.setLayout(new GridLayout(1, false));
-		ActionBarWrapper actionbarWrapper = ActionBarWrapper.createActionBars(plotParent, null);
-		try {
-			if (plottingSystem == null) {
-				plottingSystem = PlottingFactory.createPlottingSystem();
-				plottingSystem.createPlotPart(plotParent,
-						getTitle(),
-						actionbarWrapper,
-						PlotType.XY,
-						this.getViewPart());
-				plottingSystem.getPlotComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-				plottingSystem.getSelectedXAxis().setAxisAutoscaleTight(true);
-				plottingSystem.getSelectedYAxis().setAxisAutoscaleTight(true);
-				IFilterDecorator filter = PlottingFactory.createFilterDecorator(plottingSystem);
-				plottingSystem.setRescale(true);
-				filter.addFilter(stackFilter);
-			}
-		} catch (Exception e) {
-			logger.error("Unable to create plotting system", e);
-			return;
-		}
-	}
->>>>>>> branch '8.36' of ssh://dascgitolite@dasc-git.diamond.ac.uk/gda/gda-dls-beamlines-xas.git
 
 	private void createSpectraRegionTable(Composite parent) {
 		spectraRegionTableViewer = CheckboxTableViewer.newCheckList(
@@ -664,10 +633,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		for(Object object : region.getRegionTraces()) {
 			plottingSystem.removeTrace((ITrace) object);
 		}
-<<<<<<< HEAD
 		region.getRegionTraces().clear();
-=======
->>>>>>> branch '8.36' of ssh://dascgitolite@dasc-git.diamond.ac.uk/gda/gda-dls-beamlines-xas.git
 		plottingSystem.repaint(true);
 	}
 
@@ -681,20 +647,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		plottingSystem.addTrace(trace);
 		return trace;
 	}
-
-	private final AbstractPlottingFilter stackFilter = new AbstractPlottingFilter() {
-		@Override
-		protected IDataset[] filter(IDataset x, IDataset y) {
-			int traces = plottingSystem.getTraces().size();
-			IDataset newY = Maths.add((AbstractDataset) y, new Double(traces * STACK_OFFSET));
-			newY.setName(y.getName());
-			return new IDataset[]{x, newY};
-		}
-		@Override
-		public int getRank() {
-			return 1;
-		}
-	};
 
 	private final AbstractPlottingFilter stackFilter = new AbstractPlottingFilter() {
 		@Override
