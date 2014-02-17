@@ -48,56 +48,48 @@
 		<property name="class" value="gda.commandqueue.Queue" />
 		<property name="service" ref="commandQueueProcessor" />
 	</bean>
-	
-                <bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
-                        <property name="clientFileAnnouncerName" value="sockpuppet" />
-                </bean>
 
-        <!-- 
-        <bean id="epics_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
-                <property name="name" value="Moveable Camera"/>
-                <property name="urlPV" value="BL13J-OP-FLOAT-01:FFMPEG:MJPG_URL_RBV" />
-                <property name="exposurePV" value="BL13J-OP-FLOAT-01:CAM:AcquireTime" />
-                <property name="acqPeriodPV" value="BL13J-OP-FLOAT-01:CAM:AcquirePeriod" />
-                <property name="gainPV" value="BL13J-OP-FLOAT-01:CAM:Gain" />
-                <property name="acquirePV" value="BL13J-OP-FLOAT-01:CAM:Acquire" />
-        </bean>
-        <bean id="webcam9_cam_config" class="uk.ac.gda.video.views.CameraParameters">
-                <property name="name" value="Webcam 9"/>
-                <property name="mjpegURL" value="http://i22-webcam9.diamond.ac.uk/mjpg/video.mjpg" />
-        </bean>
-        
-		-->
-        
-        <bean id="biosaxs_epics_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
-                <property name="name" value="BioSAXS EPICS Camera"/>
-           		<property name="urlPV" value="BL21B-EA-BSAXS-01:CAM:MJPG:MJPG_URL_RBV" />
-                <property name="exposurePV" value="BL21B-EA-BSAXS-01:CAM:CAM:AcquireTime" />
-                <property name="acqPeriodPV" value="BL21B-EA-BSAXS-01:CAM:CAM:AcquirePeriod" />
-                <property name="gainPV" value="BL21B-EA-BSAXS-01:CAM:CAM:Gain" />
-                <property name="acquirePV" value="BL21B-EA-BSAXS-01:CAM:CAM:Acquire" />        
-        </bean>
-
-        <bean id="biosaxs_cam_config" class="uk.ac.gda.video.views.CameraParameters">
-                <property name="name" value="BioSAXS Camera"/>
-                <property name="mjpegURL" value="http://bl21b-di-serv-01.diamond.ac.uk:8082/BSAXS.CAM.MJPEG.mjpg" />
-        </bean>        
-        <bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
-                <property name="cameras">
-                        <list>
-                                <ref bean="biosaxs_epics_cam_config"/>
-                                <ref bean="biosaxs_cam_config"/>
-                        </list>
-                </property>
-                <!-- should not be required -->
-                <property name="plotViewID" value="uk.ac.gda.beamline.i13j.DetectorPlot"/>
-        </bean>
-        <bean class="gda.rcp.util.OSGIServiceRegister">
-                        <property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
-			<property name="service" ref="camera_config" />
+	<bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
+		<property name="clientFileAnnouncerName" value="sockpuppet" />
 	</bean>
 
+	<!-- <bean id="epics_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters"> 
+		<property name="name" value="Moveable Camera"/> <property name="urlPV" value="BL13J-OP-FLOAT-01:FFMPEG:MJPG_URL_RBV" 
+		/> <property name="exposurePV" value="BL13J-OP-FLOAT-01:CAM:AcquireTime" 
+		/> <property name="acqPeriodPV" value="BL13J-OP-FLOAT-01:CAM:AcquirePeriod" 
+		/> <property name="gainPV" value="BL13J-OP-FLOAT-01:CAM:Gain" /> <property 
+		name="acquirePV" value="BL13J-OP-FLOAT-01:CAM:Acquire" /> </bean> <bean id="webcam9_cam_config" 
+		class="uk.ac.gda.video.views.CameraParameters"> <property name="name" value="Webcam 
+		9"/> <property name="mjpegURL" value="http://i22-webcam9.diamond.ac.uk/mjpg/video.mjpg" 
+		/> </bean> -->
 
+	<bean id="biosaxs_epics_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="BioSAXS EPICS Camera" />
+		<property name="urlPV" value="BL21B-EA-BSAXS-01:CAM:MJPG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL21B-EA-BSAXS-01:CAM:CAM:AcquireTime" />
+		<property name="acqPeriodPV" value="BL21B-EA-BSAXS-01:CAM:CAM:AcquirePeriod" />
+		<property name="gainPV" value="BL21B-EA-BSAXS-01:CAM:CAM:Gain" />
+		<property name="acquirePV" value="BL21B-EA-BSAXS-01:CAM:CAM:Acquire" />
+	</bean>
+
+	<bean id="biosaxs_cam_config" class="uk.ac.gda.video.views.CameraParameters">
+		<property name="name" value="BioSAXS Camera" />
+		<property name="mjpegURL"
+			value="http://bl21b-di-serv-01.diamond.ac.uk:8082/BSAXS.CAM.MJPG.mjpg" />
+	</bean>
+	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
+		<property name="cameras">
+			<list>
+				<!-- <ref bean="biosaxs_epics_cam_config" /> -->
+				<ref bean="biosaxs_cam_config" />
+			</list>
+		</property>
+		<!-- should not be required -->
+		<property name="plotViewID" value="uk.ac.gda.beamline.i13j.DetectorPlot" />
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
+		<property name="service" ref="camera_config" />
+	</bean>
 	<gda:rbac />
 </beans>
-
