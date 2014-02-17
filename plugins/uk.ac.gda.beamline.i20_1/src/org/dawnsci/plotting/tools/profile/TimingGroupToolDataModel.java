@@ -18,24 +18,29 @@
 
 package org.dawnsci.plotting.tools.profile;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class Spectrum {
-	private final double startTime;
-	private final int index;
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.list.WritableList;
+
+public class TimingGroupToolDataModel {
+	private final IObservableList spectra = new WritableList(new ArrayList<SpectrumToolDataModel>(), SpectrumToolDataModel.class);
 	private final String name;
+	private final double timePerFrame;
 
-	public Spectrum(int index, double startTime) {
-		this.startTime = startTime;
-		this.index = index;
-		name = "Spectrum " + index;
+	public TimingGroupToolDataModel(String name, double timePerFrame, List<SpectrumToolDataModel> spectraData) {
+		this.timePerFrame = timePerFrame;
+		spectra.addAll(spectraData);
+		this.name = "Group " + name;
 	}
 
-	public double getStartTime() {
-		return startTime;
+	public IObservableList getSpectra() {
+		return spectra;
 	}
 
-	public int getIndex() {
-		return index;
+	public double getTimePerFrame() {
+		return timePerFrame;
 	}
 
 	@Override

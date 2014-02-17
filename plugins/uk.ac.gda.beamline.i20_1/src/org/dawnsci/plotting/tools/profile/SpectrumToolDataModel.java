@@ -18,33 +18,43 @@
 
 package org.dawnsci.plotting.tools.profile;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.dawnsci.plotting.api.trace.ITrace;
 
-import org.eclipse.core.databinding.observable.list.IObservableList;
-import org.eclipse.core.databinding.observable.list.WritableList;
 
-public class TimingGroup {
-	private final IObservableList spectra = new WritableList(new ArrayList<Spectrum>(), Spectrum.class);
+public class SpectrumToolDataModel {
+	private final double startTime;
+	private final int index;
 	private final String name;
-	private final double timePerFrame;
+	private ITrace trace;
 
-	public TimingGroup(String name, double timePerFrame, List<Spectrum> spectraData) {
-		this.timePerFrame = timePerFrame;
-		spectra.addAll(spectraData);
-		this.name = "Group " + name;
+	public SpectrumToolDataModel(int index, double startTime) {
+		this.startTime = startTime;
+		this.index = index;
+		name = "Spectrum " + index;
 	}
 
-	public IObservableList getSpectra() {
-		return spectra;
+	public double getStartTime() {
+		return startTime;
 	}
 
-	public double getTimePerFrame() {
-		return timePerFrame;
+	public int getIndex() {
+		return index;
 	}
 
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public ITrace getTrace() {
+		return trace;
+	}
+
+	public void setTrace(ITrace trace) {
+		this.trace = trace;
+	}
+
+	public void clearTrace() {
+		trace = null;
 	}
 }

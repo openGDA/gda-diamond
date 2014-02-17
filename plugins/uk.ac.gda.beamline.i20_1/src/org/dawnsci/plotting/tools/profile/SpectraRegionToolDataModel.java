@@ -21,48 +21,56 @@ package org.dawnsci.plotting.tools.profile;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.region.IROIListener;
 import org.dawnsci.plotting.api.region.IRegion;
 import org.dawnsci.plotting.api.region.ROIEvent;
+import org.dawnsci.plotting.api.trace.IImageTrace;
+import org.dawnsci.plotting.api.trace.ILineTrace;
+import org.dawnsci.plotting.api.trace.ITrace;
 
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.roi.IROI;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 import uk.ac.gda.beans.ObservableModel;
 
-public class SpectraRegion extends ObservableModel implements IROIListener {
+public class SpectraRegionToolDataModel extends ObservableModel implements IROIListener {
 
-	private final IRegion region;
-	private final TimeResolvedData timeResolvedData;
+	private final IRegion plotRegion;
+	private final TimeResolvedToolDataModel parentTimeResolvedData;
 
 	public static final String START = "start";
-
-	private final List<Spectrum> spectraList = new ArrayList<Spectrum>();
 	public static final String END = "end";
+	public static final String SPECTRA_CHANGED = "spectra";
+	private List<SpectrumToolDataModel> spectraList;
+
+	protected final List<ITrace> regionTraces = new ArrayList<ITrace>();
 
 	private boolean adjusting;
 
-	public SpectraRegion(IRegion region, TimeResolvedData timeResolvedData) {
-		this.region = region;
-		this.timeResolvedData = timeResolvedData;
-		this.region.addROIListener(this);
+	public SpectraRegionToolDataModel(IRegion plotRegion, TimeResolvedToolDataModel parent) {
+		this.plotRegion = plotRegion;
+		parentTimeResolvedData = parent;
+		this.plotRegion.addROIListener(this);
 		findSpectra();
 	}
 
 	private void findSpectra() {
 		adjusting = true;
-		IROI roi = region.getROI();
+		IROI roi = plotRegion.getROI();
 		if (roi instanceof RectangularROI) {
 			RectangularROI boxRoi = (RectangularROI) roi;
 			int firstIndex = (int) boxRoi.getPointY();
 			int lastIndex = (int) (boxRoi.getPointY() + boxRoi.getLength(1));
 			boolean started = false;
 			boolean ended = false;
-			spectraList.clear();
+			ArrayList<SpectrumToolDataModel> tempSpectraList = new ArrayList<SpectrumToolDataModel>();
 			outerloop:
-				for (Object object : timeResolvedData.getTimingGroups()) {
-					TimingGroup group = (TimingGroup) object;
+				for (Object object : parentTimeResolvedData.getTimingGroups()) {
+					TimingGroupToolDataModel group = (TimingGroupToolDataModel) object;
 					for (Object object1 : group.getSpectra()) {
-						Spectrum spectrum = (Spectrum) object1;
+						SpectrumToolDataModel spectrum = (SpectrumToolDataModel) object1;
 						if (spectrum.getIndex() >= firstIndex) {
 							started = true;
 						}
@@ -70,55 +78,69 @@ public class SpectraRegion extends ObservableModel implements IROIListener {
 							ended = true;
 						}
 						if (started && !ended) {
-							spectraList.add(spectrum);
+							tempSpectraList.add(spectrum);
 						}
 						if (started && ended) {
+							firePropertyChange(SPECTRA_CHANGED, spectraList, spectraList = tempSpectraList);
 							firePropertyChange(START, null, this.getStart());
 							firePropertyChange(END, null, this.getEnd());
+
 							roi.setPoint(0, firstIndex);
 							((RectangularROI) roi).setLengths(new double[]{boxRoi.getLength(0), lastIndex - firstIndex});
-							region.setROI(roi);
+							plotRegion.setROI(roi);
 							break outerloop;
 						}
 					}
-
 				}
-
 		}
 		adjusting = false;
 	}
 
-	public List<Spectrum> getSpectra() {
+	public List<SpectrumToolDataModel> getSpectra() {
 		return spectraList;
 	}
 
 	public IRegion getRegion() {
-		return region;
+		return plotRegion;
 	}
 
-	public Spectrum getStart() {
+	public SpectrumToolDataModel getStart() {
 		return spectraList.get(0);
 	}
 
-	public Spectrum getEnd() {
+	public SpectrumToolDataModel getEnd() {
 		return spectraList.get(spectraList.size() - 1);
 	}
 
 	@Override
-	public void roiDragged(ROIEvent evt) {
-		System.out.println("roiDragged");
-	}
+	public void roiDragged(ROIEvent evt) {}
 
 	@Override
 	public void roiChanged(ROIEvent evt) {
 		if (!adjusting) {
 			findSpectra();
 		}
-		System.out.println("roiChanged");
 	}
 
 	@Override
-	public void roiSelected(ROIEvent evt) {
-		System.out.println("roiSelected");
+	public void roiSelected(ROIEvent evt) {}
+
+	public ITrace[] createTraces(IPlottingSystem plottingSystem, IImageTrace imageTrace, IDataset energy) {
+		for (SpectrumToolDataModel spectrum : this.getSpectra()) {
+			DoubleDataset data = (DoubleDataset) imageTrace.getData().getSlice(new int[]{spectrum.getIndex(), 0}, new int[]{spectrum.getIndex() + 1, TimeResolvedToolDataModel.NUMBER_OF_STRIPS}, new int[]{1,1});
+			ILineTrace trace = plottingSystem.createLineTrace(this.getRegion().getLabel() + " (" + spectrum.getIndex() + ")");
+			trace.setData(energy, data);
+			regionTraces.add(trace);
+		}
+		return regionTraces.toArray(new ITrace[]{});
+	}
+
+	public ITrace[] getTraces() {
+		return regionTraces.toArray(new ITrace[]{});
+	}
+
+
+	public void clearTrace() {
+		regionTraces.clear();
 	}
 }
