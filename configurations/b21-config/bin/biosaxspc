@@ -1,0 +1,3 @@
+#! /bin/sh
+
+exec rdesktop -5 -a 16 -u maatel -k en-gb -g 1900x1170 -K -T BioSAXSRobot b21-biosaxs
