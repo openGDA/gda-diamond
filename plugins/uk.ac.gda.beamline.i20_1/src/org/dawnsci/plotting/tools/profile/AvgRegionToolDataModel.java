@@ -28,16 +28,34 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 
 public class AvgRegionToolDataModel extends SpectraRegionToolDataModel {
+	private int noOfSpectraToAvg;
+
 	public AvgRegionToolDataModel(IRegion plotRegion, TimeResolvedToolDataModel parent) {
 		super(plotRegion, parent);
+		noOfSpectraToAvg = this.getTotalSpectra();
+	}
+
+	public void setNoOfSpectraToAvg(int noOfSpectraToAvg) throws Exception {
+		if (this.getTotalSpectra() % noOfSpectraToAvg != 0) {
+			throw new Exception("Does not fit");
+		}
+		this.noOfSpectraToAvg = noOfSpectraToAvg;
 	}
 
 	@Override
 	public ITrace[] createTraces(IPlottingSystem plottingSystem, IImageTrace imageTrace, IDataset energy) {
-		DoubleDataset data = (DoubleDataset) ((DoubleDataset) imageTrace.getData().getSlice(new int[]{this.getStart().getIndex(), 0}, new int[]{this.getEnd().getIndex() + 1, TimeResolvedToolDataModel.NUMBER_OF_STRIPS}, new int[]{1,1})).mean(0);
-		ILineTrace trace = plottingSystem.createLineTrace(this.getRegion().getLabel() + " avg(" + this.getStart().getIndex() + ":" + this.getEnd().getIndex() + ")");
-		trace.setData(energy, data);
-		regionTraces.add(trace);
+		for (int i = this.getStart().getIndex(); i  < this.getEnd().getIndex() + 1; i = i + noOfSpectraToAvg) {
+			DoubleDataset data = (DoubleDataset) ((DoubleDataset) imageTrace.getData().getSlice(new int[]{i, 0}, new int[]{i + noOfSpectraToAvg, TimeResolvedToolDataModel.NUMBER_OF_STRIPS}, new int[]{1,1})).mean(0);
+			ILineTrace trace = plottingSystem.createLineTrace(this.getRegion().getLabel() + " avg(" + i + ":" + (i + noOfSpectraToAvg - 1) + ")");
+			trace.setData(energy, data);
+			regionTraces.add(trace);
+		}
 		return regionTraces.toArray(new ITrace[]{});
+	}
+
+
+	@Override
+	public String getDescription() {
+		return "AVG";
 	}
 }

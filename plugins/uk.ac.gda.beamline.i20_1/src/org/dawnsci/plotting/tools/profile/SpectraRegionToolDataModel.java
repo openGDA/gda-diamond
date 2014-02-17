@@ -54,6 +54,7 @@ public class SpectraRegionToolDataModel extends ObservableModel implements IROIL
 		parentTimeResolvedData = parent;
 		this.plotRegion.addROIListener(this);
 		findSpectra();
+		plotRegion.setUserObject(this);
 	}
 
 	private void findSpectra() {
@@ -62,7 +63,7 @@ public class SpectraRegionToolDataModel extends ObservableModel implements IROIL
 		if (roi instanceof RectangularROI) {
 			RectangularROI boxRoi = (RectangularROI) roi;
 			int firstIndex = (int) boxRoi.getPointY();
-			int lastIndex = (int) (boxRoi.getPointY() + boxRoi.getLength(1));
+			int lastIndex = (int) (boxRoi.getPointY() + boxRoi.getLength(1)) - 1;
 			boolean started = false;
 			boolean ended = false;
 			ArrayList<SpectrumToolDataModel> tempSpectraList = new ArrayList<SpectrumToolDataModel>();
@@ -74,19 +75,23 @@ public class SpectraRegionToolDataModel extends ObservableModel implements IROIL
 						if (spectrum.getIndex() >= firstIndex) {
 							started = true;
 						}
-						if (!ended && spectrum.getIndex() >= lastIndex) {
+						if (!ended && spectrum.getIndex() > lastIndex) {
 							ended = true;
 						}
-						if (started && !ended) {
+						if ((started && !ended)) {
 							tempSpectraList.add(spectrum);
+							if (spectrum.getIndex() == lastIndex) {
+								ended = true;
+							}
 						}
+
 						if (started && ended) {
 							firePropertyChange(SPECTRA_CHANGED, spectraList, spectraList = tempSpectraList);
 							firePropertyChange(START, null, this.getStart());
 							firePropertyChange(END, null, this.getEnd());
 
 							roi.setPoint(0, firstIndex);
-							((RectangularROI) roi).setLengths(new double[]{boxRoi.getLength(0), lastIndex - firstIndex});
+							((RectangularROI) roi).setLengths(new double[]{boxRoi.getLength(0), lastIndex - firstIndex + 1});
 							plotRegion.setROI(roi);
 							break outerloop;
 						}
@@ -110,6 +115,10 @@ public class SpectraRegionToolDataModel extends ObservableModel implements IROIL
 
 	public SpectrumToolDataModel getEnd() {
 		return spectraList.get(spectraList.size() - 1);
+	}
+
+	public int getTotalSpectra() {
+		return getEnd().getIndex() - getStart().getIndex() + 1;
 	}
 
 	@Override
@@ -142,5 +151,9 @@ public class SpectraRegionToolDataModel extends ObservableModel implements IROIL
 
 	public void clearTrace() {
 		regionTraces.clear();
+	}
+
+	public String getDescription() {
+		return "";
 	}
 }
