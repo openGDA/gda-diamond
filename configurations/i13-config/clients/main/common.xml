@@ -506,13 +506,11 @@
 				</bean>
 				<bean class="gda.rcp.views.StageCompositeDefinition">
 					<property name="scannable" ref="ss1_rot" />
-					<property name="smallStep" value="30" />
-					<property name="bigStep" value="90" />
-					<property name="useSteps" value="true" />
+					<property name="stepSize" value="30" />
 				</bean>
 			</util:list>
 		</property>
-		<property name="labelWidth" value="70" />
+		<property name="labelWidth" value="100" />
 	</bean>
 
 
