@@ -58,7 +58,7 @@ public class LensScannableComposite extends Composite {
 
 		group = new Group(this, SWT.NONE);
 		group.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
-		GridDataFactory.fillDefaults().applyTo(group);
+//		GridDataFactory.fillDefaults().applyTo(group);
 		group.setText("Lens");
 		GridLayout gl_group = new GridLayout(1, false);
 		gl_group.marginBottom = 1;
@@ -89,7 +89,7 @@ public class LensScannableComposite extends Composite {
 				} 
 			}
 		});
-		GridDataFactory.fillDefaults().applyTo(pcom);
+		GridDataFactory.fillDefaults().minSize(100, SWT.DEFAULT).applyTo(pcom);
 		pcom.setItems(new String[] {  });
 		pcom.setVisible(true);
 		
