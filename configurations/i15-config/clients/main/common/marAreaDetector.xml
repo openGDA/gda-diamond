@@ -9,20 +9,13 @@
 		<property name="imageNDArray" ref="marAD_summary_arr" />
 		<property name="imageHistSize" value="500" />
 		<property name="imageMin" value="0" />
-		<property name="imageMax" value="65535" />
 		<property name="detectorName" value="mar" />
 		<property name="adBase" ref="marAD_config_base" />
 		<property name="ffmpegStream" ref="marAD_summary_mjpg" />
 		<property name="ffmpegImageOutHeightMax" value="1200" />
 		<property name="ffmpegImageOutWidthMax" value="1600" />
-		<property name="cameraImageWidthMax" value="2069" />
-		<property name="cameraImageHeightMax" value="1793" />
 		<property name="imageNDROI" ref="marAD_summary_roi"/>
 		<property name="serviceName" value="mar"/>
-	</bean>
-
-	<bean id="marViewCreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
-		<property name="adController" ref="marADController" />
 	</bean>
 
 	<bean id="marAD_dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
@@ -39,9 +32,4 @@
 		<property name="properties" ref="marAD_dictionary" />
 	</bean>
 
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.gda.epics.adviewer.views.ViewCreator" />
-		<property name="service" ref="marViewCreator" />
-		<property name="properties" ref="marAD_dictionary" />
-	</bean>
 </beans>

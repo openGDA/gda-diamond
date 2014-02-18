@@ -27,253 +27,40 @@
       </perspective>
    </extension>
    <extension
-         id="test AreaDetector Views"
-         name="test AreaDetector Views"
-         point="org.eclipse.ui.views">
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i15.category"
-            class="uk.ac.gda.epics.adviewer.views.HistogramViewCreator:zebraTest"
-            id="uk.ac.gda.beamline.i15.zebraTestAreaDetectorProfileView"
-            name="zebraTest Image Profile View">
-      </view>
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i15.category"
-            class="uk.ac.gda.epics.adviewer.views.TwoDArrayViewCreator:zebraTest"
-            id="uk.ac.gda.beamline.i15.zebraTestAreaDetectorArrayView"
-            name="zebraTest Image View">
-      </view>
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i15.category"
-            class="uk.ac.gda.epics.adviewer.views.MJPegViewCreator:zebraTest"
-            id="uk.ac.gda.beamline.i15.zebraTestAreaDetectorLiveView"
-            name="zebraTest Live View">
-      </view>
-      <category
-            id="uk.ac.gda.beamline.i15.category"
-            name="I15 Views">
-      </category>
-   </extension>
-   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i15.zebraTestAreaDetectorLiveView">
-         <command
-               commandId="uk.ac.gda.epics.adviewer.command.zoomToFit"
-               label="Zoom To Fit"
-               style="push"
-               tooltip="Zoom To Fit">
-         </command>
-         <command
-               commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
-               label="Set Exposure"
-               style="push"
-               tooltip="Set Exposure">
-            <parameter
-                   name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
-                   value="zebraTest">
-            </parameter>
-         </command>
-         <command
-               commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
-               label="Set LiveView Scale"
-               style="push"
-               tooltip="Set LiveView Scale">
-            <parameter
-                  name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
-                  value="zebraTest">
-            </parameter>
-         </command>
-         <command
-               commandId="org.eclipse.ui.views.showView"
-               label="Show Profile View"
-               style="push"
-               tooltip="Show Profile ">
-            <parameter
-                  name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.beamline.i15.zebraTestAreaDetectorProfileView">
-            </parameter>
-         </command>
-         <command
-               commandId="org.eclipse.ui.views.showView"
-               label="Show Image View"
-               style="push"
-               tooltip="Show Full Image">
-            <parameter
-                  name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.beamline.i15.zebraTestAreaDetectorArrayView">
-            </parameter>
-         </command>
-      </menuContribution>
-   </extension>
-   <extension
-         id="Mar AreaDetector Views"
-         name="Mar AreaDetector Views"
-         point="org.eclipse.ui.views">
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i15.category"
-            class="uk.ac.gda.epics.adviewer.views.HistogramViewCreator:mar"
-            id="uk.ac.gda.beamline.i15.marAreaDetectorProfileView"
-            name="Mar Image Profile View">
-      </view>
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i15.category"
-            class="uk.ac.gda.epics.adviewer.views.TwoDArrayViewCreator:mar"
-            id="uk.ac.gda.beamline.i15.marAreaDetectorArrayView"
-            name="Mar Image View">
-      </view>
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i15.category"
-            class="uk.ac.gda.epics.adviewer.views.MJPegViewCreator:mar"
-            id="uk.ac.gda.beamline.i15.marAreaDetectorLiveView"
-            name="Mar Live View">
-      </view>
-      <category
-            id="uk.ac.gda.beamline.i15.category"
-            name="I15 Views">
-      </category>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i15.marAreaDetectorLiveView">
-         <command
-               commandId="uk.ac.gda.epics.adviewer.command.zoomToFit"
-               label="Zoom To Fit"
-               style="push"
-               tooltip="Zoom To Fit">
-         </command>
-         <command
-               commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
-               label="Set Exposure"
-               style="push"
-               tooltip="Set Exposure">
-            <parameter
-                   name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
-                   value="mar">
-            </parameter>
-         </command>
-         <command
-               commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
-               label="Set LiveView Scale"
-               style="push"
-               tooltip="Set LiveView Scale">
-            <parameter
-                  name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
-                  value="mar">
-            </parameter>
-         </command>
-         <command
-               commandId="org.eclipse.ui.views.showView"
-               label="Show Profile View"
-               style="push"
-               tooltip="Show Profile ">
-            <parameter
-                  name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.beamline.i15.marAreaDetectorProfileView">
-            </parameter>
-         </command>
-         <command
-               commandId="org.eclipse.ui.views.showView"
-               label="Show Image View"
-               style="push"
-               tooltip="Show Full Image">
-            <parameter
-                  name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.beamline.i15.marAreaDetectorArrayView">
-            </parameter>
-         </command>
+            locationURI="menu:window?after=showView">
+         <menu
+               label="Area Detectors">
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="mar MPeg"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.mpegview">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="mar">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="pe MPeg"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.mpegview">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="pe">
+               </parameter>
+            </command>
+         </menu>
       </menuContribution>
    </extension>
 
-   <extension
-         id="PE AreaDetector Views"
-         name="PE AreaDetector Views"
-         point="org.eclipse.ui.views">
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i15.category"
-            class="uk.ac.gda.epics.adviewer.views.HistogramViewCreator:pe"
-            id="uk.ac.gda.beamline.i15.peAreaDetectorProfileView"
-            name="PE Image Profile View">
-      </view>
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i15.category"
-            class="uk.ac.gda.epics.adviewer.views.TwoDArrayViewCreator:pe"
-            id="uk.ac.gda.beamline.i15.peAreaDetectorArrayView"
-            name="PE Image View">
-      </view>
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i15.category"
-            class="uk.ac.gda.epics.adviewer.views.MJPegViewCreator:pe"
-            id="uk.ac.gda.beamline.i15.peAreaDetectorLiveView"
-            name="PE Live View">
-      </view>
-      <category
-            id="uk.ac.gda.beamline.i15.category"
-            name="I15 Views">
-      </category>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i15.peAreaDetectorLiveView">
-         <command
-               commandId="uk.ac.gda.epics.adviewer.command.zoomToFit"
-               label="Zoom To Fit"
-               style="push"
-               tooltip="Zoom To Fit">
-         </command>
-         <command
-               commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
-               label="Set Exposure"
-               style="push"
-               tooltip="Set Exposure">
-            <parameter
-                   name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
-                   value="pe">
-            </parameter>
-         </command>
-         <command
-               commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
-               label="Set LiveView Scale"
-               style="push"
-               tooltip="Set LiveView Scale">
-            <parameter
-                  name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
-                  value="pe">
-            </parameter>
-         </command>
-         <command
-               commandId="org.eclipse.ui.views.showView"
-               label="Show Profile View"
-               style="push"
-               tooltip="Show Profile ">
-            <parameter
-                  name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.beamline.i15.peAreaDetectorProfileView">
-            </parameter>
-         </command>
-         <command
-               commandId="org.eclipse.ui.views.showView"
-               label="Show Image View"
-               style="push"
-               tooltip="Show Full Image">
-            <parameter
-                  name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.beamline.i15.peAreaDetectorArrayView">
-            </parameter>
-         </command>
-      </menuContribution>
-   </extension>
 </plugin>
