@@ -1,0 +1,118 @@
+--------------------------------------------------------------------------------
+See i13i/readme.txt
+--------------------------------------------------------------------------------
+
+To start the Epics EDM screen from within the controls network:
+
+	/dls_sw/work/R3.14.11/support/zebra/iocs/example/bin/linux-x86/stexample-gui
+
+To start the Epics EDM screen from elsewhere use either:
+
+	EPICS_CA_AUTO_ADDR_LIST=NO EPICS_CA_ADDR_LIST=172.23.244.13 /dls_sw/work/R3.14.11/support/zebra/iocs/example/bin/linux-x86/stexample-gui
+	EPICS_CA_AUTO_ADDR_LIST=NO EPICS_CA_ADDR_LIST=172.23.244.32 /dls_sw/work/R3.14.11/support/zebra/iocs/example/bin/linux-x86/stexample-gui
+
+Depending on whether the IOC is running on pc0013.cs or pc0032.cs
+
+If the EDM screens show that the IOC is not running then first try running it on
+Tom Cobb's PC pc0013.cs:
+
+	ssh pc0013.cs
+	/dls_sw/work/R3.14.11/support/zebra/iocs/example/bin/linux-x86/stexample.sh
+
+If this causes problems then it is probably due to another IOC running and the
+zebraTest IOC not beng findable with broadcast messages. Try running it on 
+PC pc0032.cs instead:
+
+	ssh pc0032.cs
+	/dls_sw/work/R3.14.11/support/zebra/iocs/example/bin/linux-x86/stexample.sh
+
+--------------------------------------------------------------------------------
+Beans for running the test camera/motor/zebra system:
+--------------------------------------------------------------------------------
+
+i13i/devices/zebra_test.xml
+	Defines:
+		zebraTest								ZebraImpl										zebraPrefix	TESTZEBRA:ZEBRA:
+		zebraTestMotor							EpicsMotor										pvName		TESTZEBRA:M1
+		zebraTestContinuousMoveController		ZebraConstantVelocityMoveController				zebra		zebraTest
+		zebraTestZebraScannableMotor			ZebraScannableMotor								motor		zebraTestMotor
+		zebra_cam_base							V17ADBaseFactoryBean							prefix		TESTZEBRA:CAM:
+		zebraTestCollectionStrategy				HardwareTriggeredStandard						[]			zebra_cam_base
+		zebra_ndhdf5file						V17NDFileHDF5FactoryBean						ndFileImpl	zebra_ndfilehdf5_base
+		zebra_ndfilehdf5_base					V17NDFileFactoryBean							prefix		TESTZEBRA:HDF5:
+		zebra_hdf5_filewriter					MultipleImagesPerHDF5FileWriter					ndFileHDF5	zebra_ndhdf5file
+		zebraTestDetector						HardwareTriggeredNXDetectorWithReadoutTime		hardwareTriggerProvider	zebraTestContinuousMoveController
+																								collectionStrategy		zebraTestCollectionStrategy
+																								additionalPluginList	zebra_hdf5_filewriter
+	Used by:
+		<!-- i13i/servers/main/common.xml -->
+
+--------------------------------------------------------------------------------
+Beans for running the test camera/motor/zebra system as the pco camera:
+--------------------------------------------------------------------------------
+
+i13i/devices/zebra/pco1_ndplugins.xml
+	Defines:
+		pco1_cam_base							V17ADBaseFactoryBean							prefix		TESTZEBRA:CAM:
+		pco1_arr								V17NDArrayFactoryBean							prefix		TESTZEBRA:ARR:
+		pco1_stat								V17NDStatsFactoryBean							prefix		TESTZEBRA:STAT:
+		pco1_roi1								V17NDROIFactoryBean								prefix		TESTZEBRA:ROI:
+		pco1_roi2								V17NDROIFactoryBean								prefix		TESTZEBRA:ROI2:
+		pco1_ffmpeg1							V17FfmpegStreamFactoryBean						prefix		TESTZEBRA:MJPG:
+		pco1_ffmpeg2							V17FfmpegStreamFactoryBean						prefix		TESTZEBRA:MJPG2:
+		pco1_ndhdf5file							V17NDFileHDF5FactoryBean						ndFileImpl	pco1_ndfilehdf5_base
+		pco1_ndfilehdf5_base					V17NDFileFactoryBean							prefix		TESTZEBRA:HDF5:
+		pco1_ndfiletif							V17NDFileFactoryBean							prefix		TESTZEBRA:FIMG
+		pco1_proc1								V17NDProcessFactoryBean							prefix		TESTZEBRA:PROC
+		pco1_proc2								V17NDProcessFactoryBean							prefix		TESTZEBRA:PROC2
+	Used by:
+		i13i/devices/zebra/pco1.xml
+		<!-- i13i/clients/main/dummy/client.xml -->																																Why?
+			This is used by the ADViewer system as well as ion the server	
+
+i13i/devices/zebra/pco1.xml
+	Defines:
+		pco1_plugins							FindableObjectHolder							map			All ^ + pco1_autoContinuousTrigger
+		pco1_autoContinuousTrigger				SoftwareContinuous								[]			pco1_cam_base
+		pco1_singleExposure						SingleExposureStandard							[]			pco1_cam_base
+		pco1_hdf5_filewriter					MultipleImagesPerHDF5FileWriter					ndFileHDF5	pco1_ndhdf5file
+		pco1_tif_writer							SingleImagePerFileWriter						[]			pco1
+																								ndFile		pco1_ndfiletif
+		pco1_hdf								ADPco											adBase		pco1_cam_base
+																								ndFile		pco1_ndfilehdf5_base
+																								collectionStrategy	pco1_singleExposure
+																								fileWriter	pco1_hdf5_filewriter
+		pco1_tif								ADPco											adBase		pco1_cam_base
+																								ndStats		pco1_stat
+																								ndArray		pco1_arr
+																								ndFile		pco1_ndfiletif
+																								collectionStrategy	pco1_singleExposure
+																								fileWriter	(Anon: as pco1_tif_writer but with no waitForFileArrival=true)		Why?
+																									[]			pco1
+																									ndFile	pco1_ndfiletif
+		flyScanCollectionStrategy				HardwareTriggeredStandard						[]			pco1_cam_base
+		flyScanFlatDarkCollectionStrategy		SimpleAcquire									[]			pco1_cam_base
+		pco1_hw_hdf								MultipleImagesPerHDF5FileWriter					ndFileHDF5	pco1_ndhdf5file
+		pco1_hw_tif								ADPco											adBase" ref="pco1_cam_base
+																								ndStats" ref="pco1_stat
+																								ndArray" ref="pco1_arr
+																								ndFile" ref="pco1_ndfiletif
+																								collectionStrategy" ref="pco1_singleExposure
+																								fileWriter	(Anon: as pco1_tif_writer but with no waitForFileArrival=true)		Why?
+																									[]			pco1
+																									ndFile	pco1_ndfiletif
+	Used by:
+		<!-- i13i/servers/main/dummy/server.xml -->
+
+i13i/devices/zebra/sample_stage_motors.xml
+	Defines:
+		ss1_rot_motor			EpicsMotor														pvName		TESTZEBRA:M1
+	Used by:
+		<!-- i13i/servers/main/dummy/server.xml -->
+
+i13i/devices/zebra/zebra.xml
+	Defines:
+		zebra			ZebraImpl																zebraPrefix	TESTZEBRA:ZEBRA
+	Used by:
+		<!-- i13i/servers/main/dummy/server.xml -->
+
