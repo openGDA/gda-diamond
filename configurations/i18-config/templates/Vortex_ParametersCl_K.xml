@@ -8,9 +8,9 @@
         <name>Element0</name>
         <number>1</number>
         <ROI>
-            <name>Zn_Ka</name>
-            <windowStart>845</windowStart>
-            <windowEnd>880</windowEnd>
+            <name>Cl_Ka</name>
+            <windowStart>245</windowStart>
+            <windowEnd>275</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -21,9 +21,24 @@
         <name>Element1</name>
         <number>1</number>
         <ROI>
+            <name>Fe_Ka</name>
+            <windowStart>620</windowStart>
+            <windowEnd>660</windowEnd>
+        </ROI>
+        <ROI>
             <name>Zn_Ka</name>
             <windowStart>845</windowStart>
             <windowEnd>880</windowEnd>
+        </ROI>
+        <ROI>
+            <name>K_Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>345</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>245</windowStart>
+            <windowEnd>275</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -34,9 +49,24 @@
         <name>Element2</name>
         <number>1</number>
         <ROI>
+            <name>Fe_Ka</name>
+            <windowStart>620</windowStart>
+            <windowEnd>660</windowEnd>
+        </ROI>
+        <ROI>
             <name>Zn_Ka</name>
             <windowStart>845</windowStart>
             <windowEnd>880</windowEnd>
+        </ROI>
+        <ROI>
+            <name>K_Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>345</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>245</windowStart>
+            <windowEnd>275</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -47,9 +77,24 @@
         <name>Element3</name>
         <number>1</number>
         <ROI>
+            <name>Fe_Ka</name>
+            <windowStart>620</windowStart>
+            <windowEnd>660</windowEnd>
+        </ROI>
+        <ROI>
             <name>Zn_Ka</name>
             <windowStart>845</windowStart>
             <windowEnd>880</windowEnd>
+        </ROI>
+        <ROI>
+            <name>K_Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>345</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>245</windowStart>
+            <windowEnd>275</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -60,9 +105,24 @@
         <name>Element4</name>
         <number>1</number>
         <ROI>
+            <name>Fe_Ka</name>
+            <windowStart>620</windowStart>
+            <windowEnd>660</windowEnd>
+        </ROI>
+        <ROI>
             <name>Zn_Ka</name>
             <windowStart>845</windowStart>
             <windowEnd>880</windowEnd>
+        </ROI>
+        <ROI>
+            <name>K_Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>345</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>245</windowStart>
+            <windowEnd>275</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -73,9 +133,24 @@
         <name>Element5</name>
         <number>1</number>
         <ROI>
+            <name>Fe_Ka</name>
+            <windowStart>620</windowStart>
+            <windowEnd>660</windowEnd>
+        </ROI>
+        <ROI>
             <name>Zn_Ka</name>
             <windowStart>845</windowStart>
             <windowEnd>880</windowEnd>
+        </ROI>
+        <ROI>
+            <name>K_Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>345</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>245</windowStart>
+            <windowEnd>275</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -86,9 +161,24 @@
         <name>Element6</name>
         <number>1</number>
         <ROI>
+            <name>Fe_Ka</name>
+            <windowStart>620</windowStart>
+            <windowEnd>660</windowEnd>
+        </ROI>
+        <ROI>
             <name>Zn_Ka</name>
             <windowStart>845</windowStart>
             <windowEnd>880</windowEnd>
+        </ROI>
+        <ROI>
+            <name>K_Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>345</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>245</windowStart>
+            <windowEnd>275</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -99,9 +189,24 @@
         <name>Element7</name>
         <number>1</number>
         <ROI>
+            <name>Fe_Ka</name>
+            <windowStart>620</windowStart>
+            <windowEnd>660</windowEnd>
+        </ROI>
+        <ROI>
             <name>Zn_Ka</name>
             <windowStart>845</windowStart>
             <windowEnd>880</windowEnd>
+        </ROI>
+        <ROI>
+            <name>K_Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>345</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>245</windowStart>
+            <windowEnd>275</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -112,9 +217,24 @@
         <name>Element8</name>
         <number>1</number>
         <ROI>
+            <name>Fe_Ka</name>
+            <windowStart>620</windowStart>
+            <windowEnd>660</windowEnd>
+        </ROI>
+        <ROI>
             <name>Zn_Ka</name>
             <windowStart>845</windowStart>
             <windowEnd>880</windowEnd>
+        </ROI>
+        <ROI>
+            <name>K_Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>345</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>245</windowStart>
+            <windowEnd>275</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -125,9 +245,24 @@
         <name>Element9</name>
         <number>1</number>
         <ROI>
+            <name>Fe_Ka</name>
+            <windowStart>620</windowStart>
+            <windowEnd>660</windowEnd>
+        </ROI>
+        <ROI>
             <name>Zn_Ka</name>
             <windowStart>845</windowStart>
             <windowEnd>880</windowEnd>
+        </ROI>
+        <ROI>
+            <name>K_Ka</name>
+            <windowStart>315</windowStart>
+            <windowEnd>345</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Cl_Ka</name>
+            <windowStart>245</windowStart>
+            <windowEnd>275</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

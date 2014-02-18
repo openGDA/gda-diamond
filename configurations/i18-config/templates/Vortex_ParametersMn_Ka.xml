@@ -8,9 +8,9 @@
         <name>Element0</name>
         <number>1</number>
         <ROI>
-            <name>Cu_Ka</name>
-            <windowStart>790</windowStart>
-            <windowEnd>820</windowEnd>
+            <name>Mn_Ka</name>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -21,9 +21,9 @@
         <name>Element1</name>
         <number>1</number>
         <ROI>
-            <name>Cu_Ka</name>
-            <windowStart>790</windowStart>
-            <windowEnd>820</windowEnd>
+            <name>Mn_Ka</name>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -34,9 +34,9 @@
         <name>Element2</name>
         <number>1</number>
         <ROI>
-            <name>Cu_Ka</name>
-            <windowStart>790</windowStart>
-            <windowEnd>820</windowEnd>
+            <name>Mn_Ka</name>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -47,9 +47,9 @@
         <name>Element3</name>
         <number>1</number>
         <ROI>
-            <name>Cu_Ka</name>
-            <windowStart>790</windowStart>
-            <windowEnd>820</windowEnd>
+            <name>Mn_Ka</name>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -60,9 +60,9 @@
         <name>Element4</name>
         <number>1</number>
         <ROI>
-            <name>Cu_Ka</name>
-            <windowStart>790</windowStart>
-            <windowEnd>820</windowEnd>
+            <name>Mn_Ka</name>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -73,9 +73,9 @@
         <name>Element5</name>
         <number>1</number>
         <ROI>
-            <name>Cu_Ka</name>
-            <windowStart>790</windowStart>
-            <windowEnd>820</windowEnd>
+            <name>Mn_Ka</name>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -86,9 +86,9 @@
         <name>Element6</name>
         <number>1</number>
         <ROI>
-            <name>Cu_Ka</name>
-            <windowStart>790</windowStart>
-            <windowEnd>820</windowEnd>
+            <name>Mn_Ka</name>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -99,9 +99,9 @@
         <name>Element7</name>
         <number>1</number>
         <ROI>
-            <name>Cu_Ka</name>
-            <windowStart>790</windowStart>
-            <windowEnd>820</windowEnd>
+            <name>Mn_Ka</name>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -112,9 +112,9 @@
         <name>Element8</name>
         <number>1</number>
         <ROI>
-            <name>Cu_Ka</name>
-            <windowStart>790</windowStart>
-            <windowEnd>820</windowEnd>
+            <name>Mn_Ka</name>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -125,9 +125,9 @@
         <name>Element9</name>
         <number>1</number>
         <ROI>
-            <name>Cu_Ka</name>
-            <windowStart>790</windowStart>
-            <windowEnd>820</windowEnd>
+            <name>Mn_Ka</name>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
