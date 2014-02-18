@@ -199,7 +199,7 @@
 				<ref bean="Scalers" />
 				<ref bean="It" />
 				<ref bean="I0" />
-				<ref bean="IonChamber" />
+				<!-- <ref bean="IonChamber" /> -->
 				<ref bean="TfgTimes" />
 				<!-- <bean="xmap" /> -->
 			</list>
