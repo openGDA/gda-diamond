@@ -14,21 +14,24 @@
 			<map>
 				<entry key="energy">
 					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						class="uk.ac.gda.beamline.i22.scannable.EnergyScannableWriter">
 						<property name="paths">
 							<list>
 								<value>instrument:NXinstrument/monochromator:NXmonochromator/energy</value>
+								<value>instrument:NXinstrument/insertion_device:NXinsertion_device/gap</value>
 							</list>
 						</property>
 						<property name="units">
 							<list>
 								<value>keV</value>
+								<value>mm</value>
 							</list>
 						</property>
 						<property name="prerequisiteScannableNames">
 							<list>
 							</list>
 						</property>
+						<property name="uncertaintyFraction" value="1.14e-4" />
 					</bean>
 				</entry>
 				<entry key="idgap_mm">
