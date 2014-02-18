@@ -55,10 +55,6 @@
 		<property name="setExposureTimeCmd" value="fastpil1.freerun.start(%f)" />
 	</bean>
 
-	<bean id="fastpil1ADViewCreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
-		<property name="adController" ref="fastpil1Controller" />
-	</bean>
-	
 	<bean id="fastpil1_dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
 		<property name="map">
 			<map>
@@ -70,11 +66,6 @@
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
 		<property name="service" ref="fastpil1Controller" />
-		<property name="properties" ref="fastpil1_dictionary" />
-	</bean>
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.gda.epics.adviewer.views.ViewCreator" />
-		<property name="service" ref="fastpil1ADViewCreator" />
 		<property name="properties" ref="fastpil1_dictionary" />
 	</bean>
 
