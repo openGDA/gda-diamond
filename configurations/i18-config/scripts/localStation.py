@@ -38,7 +38,7 @@ gdaConfigDir = gdaConfigDir + "/"
 rcpController = finder.find("RCPController")
 
 if (LocalProperties.get("gda.mode") == 'live'):
-    print "Create topup , detector and beam monitors to pause and resume scans"
+    print "Create topup , beam, detector-filling, beam monitors to pause and resume scans"
     topupMonitor = TopupScannable()
     topupMonitor.setName("topupMonitor")
     topupMonitor.setTolerance(1.0)
@@ -71,6 +71,8 @@ if (LocalProperties.get("gda.mode") == 'live'):
     trajBeamMonitor.setLevel(1)
 
     add_default topupMonitor
+    add_default beam
+    add_default detectorFillingMonitor
     add_default trajBeamMonitor
 
     archiver = IcatXMLCreator()
