@@ -99,7 +99,7 @@ class showincrementaltimeClass(PseudoDevice):
 	def atScanStart(self):
 		self.timer.reset()
 
-
+VERBOSE = False
 
 class waittimeClass(PseudoDevice):
 	'''waittimeClass - waits for elapsed time. Use as dummy counter in scans etc'''
@@ -126,6 +126,16 @@ class waittimeClass(PseudoDevice):
 			return 1
 		else:
 			return 0
+		
+	def waitWhileBusy(self):
+		if VERBOSE:
+			print "* %s - started waiting" % self.name
+		while self.isBusy():
+			time.sleep(.1)
+		if VERBOSE:
+			print "* %s - stopped waiting" % self.name
+		
+		
 	def stop(self):
 		print "Stopping clock"
 		self.waitfortime=0
