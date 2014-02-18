@@ -46,7 +46,7 @@
 	
 	<bean id="i12ADController"
 		class="uk.ac.gda.epics.adviewer.ADControllerImpl">
-		<property name="serviceName" value="i12"/>
+		<property name="serviceName" value="i12PCO"/>
 		<property name="imageNDStats" ref="pco.stat" />
 		<property name="liveViewNDProc" ref="pco.prc1" />
 		<property name="imageNDArray" ref="pco.arr" />
@@ -65,7 +65,7 @@
 	<bean id="dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
 		<property name="map">
 			<map>
-				<entry key="SERVICE_NAME" value="i12" />
+				<entry key="SERVICE_NAME" value="i12PCO" />
 			</map>
 		</property>
 	</bean>

@@ -141,6 +141,26 @@
          </command>
       </menu>
    </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="menu:window?after=showView">
+      <menu
+            label="Area Detectors">
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="PCO MPeg"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.epics.adviewer.mpegview">
+            </parameter>
+            <parameter
+                  name="org.eclipse.ui.views.showView.secondaryId"
+                  value="i12PCO">
+            </parameter>
+         </command>
+      </menu>
+   </menuContribution>
 </extension>       
    
    
