@@ -197,9 +197,9 @@
 				<ref bean="PilatusWAXS" />
 				<!-- <ref bean="Hotwaxs" /> -->
 				<ref bean="Scalers" />
-				<ref bean="It" />
-				<ref bean="I0" />
 				<!-- <ref bean="IonChamber" /> -->
+				<ref bean="I0" />
+				<ref bean="It" />
 				<ref bean="TfgTimes" />
 				<!-- <bean="xmap" /> -->
 			</list>
