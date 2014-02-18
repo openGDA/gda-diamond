@@ -56,6 +56,6 @@ public class AvgRegionToolDataModel extends SpectraRegionToolDataModel {
 
 	@Override
 	public String getDescription() {
-		return "AVG";
+		return "AVG (" + noOfSpectraToAvg + ")";
 	}
 }

@@ -33,6 +33,7 @@ import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
 import org.dawnsci.plotting.api.filter.AbstractPlottingFilter;
 import org.dawnsci.plotting.api.filter.IFilterDecorator;
+import org.dawnsci.plotting.api.histogram.ImageServiceBean.HistoType;
 import org.dawnsci.plotting.api.region.IRegion;
 import org.dawnsci.plotting.api.region.IRegion.RegionType;
 import org.dawnsci.plotting.api.region.IRegionListener;
@@ -172,6 +173,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		clearSpectra();
 		IMetaData metaData = image.getData().getMetadata();
 		imageTrace = image;
+		imageTrace.setHistoType(HistoType.OUTLIER_VALUES);
 		String path = metaData.getFilePath();
 		try {
 			ILazyDataset groups = LoaderFactory.getData(path).getLazyDataset(GROUP_AXIS_PATH);
@@ -215,9 +217,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			getPlottingSystem().removeRegionListener(this);
 			getPlottingSystem().removeTraceListener(this);
 		}
-
 		clearRegionsOnPlot();
-
 		super.deactivate();
 	}
 
@@ -876,6 +876,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	@Override
 	public void regionAdded(RegionEvent evt) {
 		IRegion region = evt.getRegion();
+		region.setShowPosition(true);
 		if (spectraDataLoaded && region.getRegionType() == RegionType.YAXIS && region.getUserObject() == null) {
 			SpectraRegionToolDataModel spectraRegion = new SpectraRegionToolDataModel(region, timeResolvedData);
 			addSpectraRegion(spectraRegion);

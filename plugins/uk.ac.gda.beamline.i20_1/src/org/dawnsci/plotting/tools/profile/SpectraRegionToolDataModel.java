@@ -62,8 +62,11 @@ public class SpectraRegionToolDataModel extends ObservableModel implements IROIL
 		IROI roi = plotRegion.getROI();
 		if (roi instanceof RectangularROI) {
 			RectangularROI boxRoi = (RectangularROI) roi;
-			int firstIndex = (int) boxRoi.getPointY();
-			int lastIndex = (int) (boxRoi.getPointY() + boxRoi.getLength(1)) - 1;
+			int firstIndex = (int) Math.round(boxRoi.getPointY());
+			int lastIndex = (int) Math.round((boxRoi.getPointY() + boxRoi.getLength(1)));
+			if (lastIndex > firstIndex) {
+				lastIndex--;
+			}
 			boolean started = false;
 			boolean ended = false;
 			ArrayList<SpectrumToolDataModel> tempSpectraList = new ArrayList<SpectrumToolDataModel>();
@@ -74,9 +77,6 @@ public class SpectraRegionToolDataModel extends ObservableModel implements IROIL
 						SpectrumToolDataModel spectrum = (SpectrumToolDataModel) object1;
 						if (spectrum.getIndex() >= firstIndex) {
 							started = true;
-						}
-						if (!ended && spectrum.getIndex() > lastIndex) {
-							ended = true;
 						}
 						if ((started && !ended)) {
 							tempSpectraList.add(spectrum);
@@ -89,7 +89,6 @@ public class SpectraRegionToolDataModel extends ObservableModel implements IROIL
 							firePropertyChange(SPECTRA_CHANGED, spectraList, spectraList = tempSpectraList);
 							firePropertyChange(START, null, this.getStart());
 							firePropertyChange(END, null, this.getEnd());
-
 							roi.setPoint(0, firstIndex);
 							((RectangularROI) roi).setLengths(new double[]{boxRoi.getLength(0), lastIndex - firstIndex + 1});
 							plotRegion.setROI(roi);
