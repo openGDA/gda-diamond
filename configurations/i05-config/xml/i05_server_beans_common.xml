@@ -234,6 +234,56 @@
 						</property>
 					</bean>
 				</entry>
+				<entry key="salong">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXinstrument/manipulator:NXgoniometer/salong</value>
+								<value>instrument:NXinstrument/manipulator:NXgoniometer/sax</value>
+								<value>instrument:NXinstrument/manipulator:NXgoniometer/say</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+							</list>
+						</property>
+						<property name="prerequisiteScannableNames">
+							<list>
+								<value>sax</value>
+								<value>say</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="saperp">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXinstrument/manipulator:NXgoniometer/saperp</value>
+								<value>instrument:NXinstrument/manipulator:NXgoniometer/sax</value>
+								<value>instrument:NXinstrument/manipulator:NXgoniometer/say</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+							</list>
+						</property>
+						<property name="prerequisiteScannableNames">
+							<list>
+								<value>sax</value>
+								<value>say</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
 				<entry key="sax">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -416,6 +466,7 @@
 	<import resource="devices/${gda.mode}/i05_server_devices.xml" />
 	<import resource="i05_server_dummy.xml" />
 	<import resource="analyser.xml" />
+	<import resource="combinedgonio.xml" />
 
 	<corba:export namespace="i05" />
 	<gda:rbac />
