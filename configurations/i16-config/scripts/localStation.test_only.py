@@ -1,7 +1,11 @@
 print "In localStation.testonly.py"
-energy = dummy_energy
-energy.asynchronousMoveTo(12.39842)
+
+
+
 raise Exception("Manually INTERRUPTING localStation.testonly.py")
+
+if USE_DIFFCALC:
+    energy = dummy_energy
 
 class Wavelength(PseudoDevice):
     
@@ -39,6 +43,7 @@ class Energy(PseudoDevice):
 
 #wl = Wavelength('wl')
 energy = Energy('energy')
+energy.asynchronousMoveTo(12.39842)
 
 
         
