@@ -107,6 +107,7 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 		}
 	}
 
+	// FIXME Replicated code, refactor!
 	private void createRunCollectionButtons(Composite formParent) {
 		final SingleSpectrumUIModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
 		Composite acquisitionButtonsComposite = new Composite(formParent, SWT.NONE);
@@ -121,7 +122,7 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					singleSpectrumDataModel.doCollection(true);
+					singleSpectrumDataModel.doCollection(false);
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 					logger.error("Unable to scan", e);

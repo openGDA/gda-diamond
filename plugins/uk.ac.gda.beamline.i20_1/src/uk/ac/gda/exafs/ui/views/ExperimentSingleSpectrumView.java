@@ -132,7 +132,11 @@ public class ExperimentSingleSpectrumView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					singleSpectrumDataModel.doCollection(true);
+					if (singleSpectrumDataModel.getFileTemplate() != null) {
+						singleSpectrumDataModel.doCollection(true);
+					} else {
+						UIHelper.showWarning("Unable to scan", "File name prefix is not defined");
+					}
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 					logger.error("Unable to scan", e);
