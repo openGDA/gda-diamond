@@ -19,6 +19,7 @@
 package gda.device.detector;
 
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
+import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 /**
  * Tools for converting between absolute frame number (as data stored in memory in terms of absolute frames) and
@@ -43,12 +44,15 @@ public abstract class ExperimentLocationUtils {
 			togo -= groupTotals[groupNum];
 			groupNum++;
 		}
-		if (togo == 0){
+		if (togo == 0) {
 			return groupNum;
 		}
-		return groupNum -1;
+		return groupNum - 1;
 	}
 
+	/*
+	 * The total number of frames in each timing group
+	 */
 	private static int[] getGroupTotals(EdeScanParameters edeScan) {
 		int[] totals = new int[edeScan.getGroups().size()];
 
@@ -59,7 +63,8 @@ public abstract class ExperimentLocationUtils {
 	}
 
 	/**
-	 * Given the absolute frame number (zero-based), works out the frame number within the relevant group (also zero based)
+	 * Given the absolute frame number (zero-based), works out the frame number within the relevant group (also zero
+	 * based)
 	 */
 	public static Integer getFrameNum(EdeScanParameters edeScan, Integer absoluteFrameNum) {
 
@@ -77,10 +82,11 @@ public abstract class ExperimentLocationUtils {
 			groupNum++;
 		} while (togo > 0);
 
-		// if we have dropped to zero or below then we know the group the frame is in, so correct by the number of frames in that group
+		// if we have dropped to zero or below then we know the group the frame is in, so correct by the number of
+		// frames in that group
 
-		if (togo < 0){
-			return togo + groupTotals[groupNum-1];
+		if (togo < 0) {
+			return togo + groupTotals[groupNum - 1];
 		}
 		return 0;
 
@@ -100,6 +106,41 @@ public abstract class ExperimentLocationUtils {
 		absFrameNum += (loc.frameNum);
 
 		return absFrameNum;
+	}
+
+	/**
+	 * Given the absolute frame number (zero-based), works out the starting time (in s) since the start of the scan
+	 */
+	public static Double getFrameTime(EdeScanParameters scanParameters, Integer absoluteFrameNum) {
+
+		int groupNum = getGroupNum(scanParameters, absoluteFrameNum);
+		int frameNum = getFrameNum(scanParameters, absoluteFrameNum);
+
+		double totalTime = 0.0;
+
+		for (int group = 0; group < groupNum; group++){
+			totalTime += getGroupTotalTime(scanParameters.getGroups().get(group));
+		}
+
+		totalTime += getTimeOfFrameInGroup(scanParameters.getGroups().get(groupNum),frameNum);
+
+		return totalTime;
+	}
+
+	private static double getTimeOfFrameInGroup(TimingGroup timingGroup, int frame) {
+		Double time = timingGroup.getPreceedingTimeDelay();
+		if (timingGroup.getNumberOfScansPerFrame() == 0) {
+			time += (timingGroup.getDelayBetweenFrames() + timingGroup.getTimePerFrame())
+					* frame;
+		} else {
+			time += timingGroup.getDelayBetweenFrames() * frame + timingGroup.getNumberOfScansPerFrame()
+					* frame;
+		}
+		return time;
+	}
+
+	private static double getGroupTotalTime(TimingGroup timingGroup) {
+		return getTimeOfFrameInGroup(timingGroup, timingGroup.getNumberOfFrames());
 	}
 
 }

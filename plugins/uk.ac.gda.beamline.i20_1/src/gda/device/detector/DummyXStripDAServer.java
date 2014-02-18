@@ -431,7 +431,7 @@ public class DummyXStripDAServer extends DummyDAServer {
 						}
 					}
 				}
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				logger.info("Timing groups aborted");
 			} finally {
 				stopRun = false;

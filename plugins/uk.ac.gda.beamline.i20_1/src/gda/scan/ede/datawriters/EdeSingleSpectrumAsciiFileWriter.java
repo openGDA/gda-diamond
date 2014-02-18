@@ -40,7 +40,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 
 	public EdeSingleSpectrumAsciiFileWriter(EdeScan i0InitialScan, EdeScan itScan, EdeScan i0DarkScan,
 			EdeScan itDarkScan, StripDetector theDetector) {
-		super(extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0)));
+		super(i0DarkScan.extractEnergyDetectorDataSet());
 		this.i0InitialScan = i0InitialScan;
 		this.itScan = itScan;
 		this.i0DarkScan = i0DarkScan;
@@ -50,10 +50,11 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 
 	@Override
 	public String writeAsciiFile() throws Exception {
-		DoubleDataset i0DarkDataSet = extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
-		DoubleDataset itDarkDataSet = extractDetectorDataSets(theDetector.getName(), itDarkScan, 0);
-		DoubleDataset i0InitialDataSet = extractDetectorDataSets(theDetector.getName(), i0InitialScan, 0);
-		DoubleDataset itDataSet = extractDetectorDataSets(theDetector.getName(), itScan, 0);
+		// FIXME Check this
+		DoubleDataset i0DarkDataSet = i0DarkScan.extractDetectorDataSet(0);
+		DoubleDataset itDarkDataSet = itDarkScan.extractDetectorDataSet(0);
+		DoubleDataset i0InitialDataSet = i0InitialScan.extractDetectorDataSet(0);
+		DoubleDataset itDataSet = itScan.extractDetectorDataSet(0);
 
 		determineAsciiFilename();
 
@@ -117,7 +118,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 	private void determineAsciiFilename() {
 		// the scans would have created Nexus files, so base an ascii file on this plus any template, if supplied
 		String itFilename = itScan.getDataWriter().getCurrentFileName();
-		String folder = convertFromNextToAsciiFolder(itFilename);
+		String folder = convertFromNexusToAsciiFolder(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
 
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {

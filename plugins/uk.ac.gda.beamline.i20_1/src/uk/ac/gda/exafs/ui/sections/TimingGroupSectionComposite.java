@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.ui.views;
+package uk.ac.gda.exafs.ui.sections;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -69,13 +69,15 @@ import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.CyclicExperimentModel;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentDataModel;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentTimingDataModel;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentUnit;
 import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors;
 import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
-import uk.ac.gda.exafs.ui.sections.ResourceComposite;
+import uk.ac.gda.exafs.ui.views.TimingGroupsSetupPage;
 import uk.ac.gda.exafs.ui.views.TimingGroupsSetupPage.TimingGroupWizardModel;
+import uk.ac.gda.exafs.ui.views.TimingGroupsSetupWizard;
 import uk.ac.gda.ui.components.NumberEditorControl;
 
 public class TimingGroupSectionComposite extends ResourceComposite {
@@ -88,7 +90,10 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 	private final FormToolkit toolkit;
 
 	private TableViewer groupsTableViewer;
-	private NumberEditorControl spectrumDelayValueText;
+
+	// This parameter is not needed for now
+	// private NumberEditorControl spectrumDelayValueText;
+
 	private NumberEditorControl integrationTimeValueText;
 	private NumberEditorControl timePerSpectrumValueText;
 	private NumberEditorControl noOfAccumulationValueText;
@@ -123,6 +128,8 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 	private Section sectionIRefaccumulationSection;
 
+	private Composite i0NoOfaccumulationsComposite;
+
 	public TimingGroupSectionComposite(Composite parent, int style, FormToolkit toolkit, TimeResolvedExperimentModel model) {
 		super(parent, style);
 		this.toolkit = toolkit;
@@ -151,19 +158,21 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 				});
 		dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(i0NoOfAccumulationCheck),
-				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_I0_PROP_NAME).observe(model));
+				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(model.getExperimentDataModel()));
+
+		// Currently we show and hide the whole composite, so editable it not used
+
+		//		dataBindingCtx.bindValue(
+		//				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(i0NoOfAccumulationValueText),
+		//				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(model.getExperimentDataModel()),
+		//				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+		//				new UpdateValueStrategy());
 
 		dataBindingCtx.bindValue(
-				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(i0NoOfAccumulationValueText),
-				BeanProperties.value(TimeResolvedExperimentModel.USE_IT_TIME_FOR_I0_PROP_NAME).observe(model),
+				WidgetProperties.visible().observe(i0NoOfaccumulationsComposite),
+				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(model.getExperimentDataModel()),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-				new UpdateValueStrategy() {
-
-					@Override
-					public Object convert(Object value) {
-						return !((boolean) value);
-					}
-				});
+				new UpdateValueStrategy());
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.visible().observe(sectionIRefaccumulationSection),
@@ -265,7 +274,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			repeatingGroupsComposite.setLayoutData(gridData);
 			repeatingGroupsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 
-			lbl = toolkit.createLabel(repeatingGroupsComposite, "Repeating groups", SWT.NONE);
+			lbl = toolkit.createLabel(repeatingGroupsComposite, "Number of cycles", SWT.NONE);
 			lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
 			NumberEditorControl repeatingGroupsControl = new NumberEditorControl(repeatingGroupsComposite, SWT.None, model, CyclicExperimentModel.NO_OF_REPEATED_GROUPS_PROP_NAME, false);
@@ -343,10 +352,12 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		delayBeforeFristSpectrumValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
 		delayBeforeFristSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		label = toolkit.createLabel(groupTriggerSectionComposite, "Delay between spectrum", SWT.None);
-		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		spectrumDelayValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
-		spectrumDelayValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		// Delay between spectra is not needed for now
+
+		//		label = toolkit.createLabel(groupTriggerSectionComposite, "Delay between spectra", SWT.None);
+		//		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		//		spectrumDelayValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
+		//		spectrumDelayValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Composite externalTriggerComposite = toolkit.createComposite(groupTriggerSectionComposite);
 		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
@@ -479,32 +490,38 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		composite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
 
 		// I0
-		Section sectionI0accumulationSection = toolkit.createSection(composite, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
-		sectionI0accumulationSection.setText("I0 acquisition settings");
-		sectionI0accumulationSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		final Composite i0IaccumulationComposite = toolkit.createComposite(sectionI0accumulationSection, SWT.NONE);
-		i0IaccumulationComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-		sectionI0accumulationSection.setClient(i0IaccumulationComposite);
+		Section i0AcquisitionSection = toolkit.createSection(composite, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
+		i0AcquisitionSection.setText("I0 acquisition settings");
+		i0AcquisitionSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		final Composite i0AcquisitionSectionComposite = toolkit.createComposite(i0AcquisitionSection, SWT.NONE);
+		i0AcquisitionSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		i0AcquisitionSection.setClient(i0AcquisitionSectionComposite);
 
-		i0NoOfAccumulationCheck = toolkit.createButton(i0IaccumulationComposite, "Use It and IRef for I0 no. of accumulations", SWT.CHECK);
+		i0NoOfAccumulationCheck = toolkit.createButton(i0AcquisitionSectionComposite, "Set I0 number of accumulations", SWT.CHECK);
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		gridData.horizontalSpan = 2;
 		i0NoOfAccumulationCheck.setLayoutData(gridData);
 
-		Label label = toolkit.createLabel(i0IaccumulationComposite, "Accumulation time", SWT.None);
+		Label label = toolkit.createLabel(i0AcquisitionSectionComposite, "Accumulation time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		i0IntegrationTimeValueText = new NumberEditorControl(i0IaccumulationComposite, SWT.None, model, TimeResolvedExperimentModel.I0_INTEGRATION_TIME_PROP_NAME, false);
+		i0IntegrationTimeValueText = new NumberEditorControl(i0AcquisitionSectionComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.I0_INTEGRATION_TIME_PROP_NAME, false);
 		i0IntegrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		i0IntegrationTimeValueText.setUnit(model.getUnit().getWorkingUnit().getUnitText());
 
-		label = toolkit.createLabel(i0IaccumulationComposite, "No. of accumulations", SWT.None);
+		i0NoOfaccumulationsComposite = toolkit.createComposite(i0AcquisitionSectionComposite);
+		i0NoOfaccumulationsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gridData.horizontalSpan = 2;
+		i0NoOfaccumulationsComposite.setLayoutData(gridData);
+
+		label = toolkit.createLabel(i0NoOfaccumulationsComposite, "No. of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		i0NoOfAccumulationValueText = new NumberEditorControl(i0IaccumulationComposite, SWT.None, model, TimeResolvedExperimentModel.I0_NO_OF_ACCUMULATION_PROP_NAME, false);
+		i0NoOfAccumulationValueText = new NumberEditorControl(i0NoOfaccumulationsComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, false);
 		i0NoOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		Composite sectionSeparator = toolkit.createCompositeSeparator(sectionI0accumulationSection);
+		Composite sectionSeparator = toolkit.createCompositeSeparator(i0AcquisitionSection);
 		toolkit.paintBordersFor(sectionSeparator);
-		sectionI0accumulationSection.setSeparatorControl(sectionSeparator);
+		i0AcquisitionSection.setSeparatorControl(sectionSeparator);
 
 		// IRef
 		sectionIRefaccumulationSection = toolkit.createSection(composite, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
@@ -516,13 +533,13 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 		label = toolkit.createLabel(iRefDetailsComposite, "Accumulation time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		iRefIntegrationTimeValueText = new NumberEditorControl(iRefDetailsComposite, SWT.None, model, TimeResolvedExperimentModel.IREF_INTEGRATION_TIME_PROP_NAME, false);
+		iRefIntegrationTimeValueText = new NumberEditorControl(iRefDetailsComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.IREF_INTEGRATION_TIME_PROP_NAME, false);
 		iRefIntegrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		iRefIntegrationTimeValueText.setUnit(model.getUnit().getWorkingUnit().getUnitText());
 
 		label = toolkit.createLabel(iRefDetailsComposite, "No. of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		iRefNoOfAccumulationValueText = new NumberEditorControl(iRefDetailsComposite, SWT.None, model, TimeResolvedExperimentModel.IREF_NO_OF_ACCUMULATION_PROP_NAME, false);
+		iRefNoOfAccumulationValueText = new NumberEditorControl(iRefDetailsComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.IREF_NO_OF_ACCUMULATION_PROP_NAME, false);
 		iRefNoOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		sectionSeparator = toolkit.createCompositeSeparator(sectionIRefaccumulationSection);
@@ -659,14 +676,16 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
 
-			spectrumDelayValueText.setModel(group, TimingGroupUIModel.DELAY_BETWEEN_SPECTRUM_PROP_NAME);
-			spectrumDelayValueText.setConverters(modelToTargetConverter, targetToModelConverter);
-			spectrumDelayValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-			groupBindings.add(dataBindingCtx.bindValue(
-					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(spectrumDelayValueText),
-					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
-					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-					unitConverter));
+			// This parameter is not needed for now
+
+			//			spectrumDelayValueText.setModel(group, TimingGroupUIModel.DELAY_BETWEEN_SPECTRUM_PROP_NAME);
+			//			spectrumDelayValueText.setConverters(modelToTargetConverter, targetToModelConverter);
+			//			spectrumDelayValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+			//			groupBindings.add(dataBindingCtx.bindValue(
+			//					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(spectrumDelayValueText),
+			//					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
+			//					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+			//					unitConverter));
 
 			groupBindings.add(dataBindingCtx.bindValue(WidgetProperties.enabled().observe(useExternalTriggerCheckbox),
 					BeanProperties.value(TimingGroupUIModel.EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME).observe(group)));
