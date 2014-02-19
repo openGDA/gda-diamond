@@ -94,5 +94,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
     add_default beamMonitor
     
     run "userStartupScript"
+else :
+    energy(7000) # start the sim with an energy in a useful range
 
 print "Initialization Complete";
