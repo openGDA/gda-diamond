@@ -24,11 +24,11 @@ import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
-import uk.ac.gda.exafs.ui.views.CyclicExperimentView;
-import uk.ac.gda.exafs.ui.views.DetectorLiveModeView;
-import uk.ac.gda.exafs.ui.views.ExperimentSingleSpectrumView;
-import uk.ac.gda.exafs.ui.views.LinearExperimentView;
-import uk.ac.gda.exafs.ui.views.plot.ExperimentDataPlotView;
+import uk.ac.gda.exafs.ede.alignment.ui.DetectorLiveModeView;
+import uk.ac.gda.exafs.ede.experiment.ui.CyclicExperimentView;
+import uk.ac.gda.exafs.ede.experiment.ui.ExperimentSingleSpectrumView;
+import uk.ac.gda.exafs.ede.experiment.ui.LinearExperimentView;
+import uk.ac.gda.exafs.plotting.ui.ExperimentDataPlotView;
 
 public class ExperimentPerspective implements IPerspectiveFactory {
 
