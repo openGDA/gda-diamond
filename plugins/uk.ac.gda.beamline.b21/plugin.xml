@@ -31,7 +31,7 @@
       <extension
          point="org.eclipse.ui.intro">
       <intro
-            class="uk.ac.gda.beamline.b21.B21Intro"
+            class="org.eclipse.ui.intro.config.CustomizableIntroPart"
             id="uk.ac.gda.beamline.b21.b21intro">
       </intro>
       <introProductBinding introId="uk.ac.gda.beamline.b21.b21intro" productId="uk.ac.gda.beamline.b21.product"/>
@@ -71,5 +71,20 @@
          name="gda.client.max.size.cached.points"
          value="10000">
    </preference>
+</extension>
+<extension
+      point="org.eclipse.ui.intro.config">
+   <config
+         content="introContent.xml"
+         id="uk.ac.gda.beamline.b21.b21intro.config"
+         introId="uk.ac.gda.beamline.b21.b21intro">
+      <presentation
+            home-page-id="root"
+            standby-page-id="standby">
+         <implementation
+               kind="html">
+         </implementation>
+      </presentation>
+   </config>
 </extension>
 </plugin>
