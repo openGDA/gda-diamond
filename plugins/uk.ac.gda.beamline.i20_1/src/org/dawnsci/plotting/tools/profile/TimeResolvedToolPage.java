@@ -142,11 +142,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private boolean spectraDataLoaded = false;
 
-
-	public TimeResolvedToolPage() {
-		System.out.println("test");
-	}
-
 	@Override
 	public void activate() {
 		getPlottingSystem().addRegionListener(this);

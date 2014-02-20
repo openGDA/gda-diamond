@@ -20,9 +20,11 @@ package uk.ac.gda.exafs.calibration.data;
 
 import gda.configuration.properties.LocalProperties;
 import gda.util.exafs.AbsorptionEdge;
+import gda.util.exafs.Element;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
@@ -37,23 +39,40 @@ public class EdeCalibrationModel extends ObservableModel {
 	public static final String MANUAL_PROP_NAME = "manual";
 	private boolean manual;
 	private final EdeCalibrationDataModel edeData = new EdeCalibrationDataModel();
-	private final ReferenceCalibrationDataModel refData = new ReferenceCalibrationDataModel();
+	private final CalibrationDataModel refData = new CalibrationDataModel();
 
 	private EdeCalibrationModel() {
 		AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.ELEMENT_EDGE_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getNewValue() != null) {
-					refData.loadReferenceData(AlignmentParametersModel.INSTANCE.getElement(), ((AbsorptionEdge) evt.getNewValue()).getEdgeType());
+					loadReferenceData(AlignmentParametersModel.INSTANCE.getElement(), ((AbsorptionEdge) evt.getNewValue()).getEdgeType());
 				}
 			}
 		});
 		if (AlignmentParametersModel.INSTANCE.getEdge() != null) {
-			refData.loadReferenceData(AlignmentParametersModel.INSTANCE.getElement(), AlignmentParametersModel.INSTANCE.getEdge().getEdgeType());
+			loadReferenceData(AlignmentParametersModel.INSTANCE.getElement(), AlignmentParametersModel.INSTANCE.getEdge().getEdgeType());
 		}
 	}
 
-	public ReferenceCalibrationDataModel getRefData() {
+	public void loadReferenceData(Element element, String edgeName) {
+		File folder = new File(EdeCalibrationModel.REF_DATA_PATH);
+		if (!folder.exists() || !folder.canRead()) {
+			return;
+		}
+
+		String fileName = element.getSymbol() + "_" + edgeName + EdeCalibrationModel.REF_DATA_EXT;
+		File file = new File(folder, fileName);
+		if (file.exists() && file.canRead()) {
+			try {
+				refData.setDataFile(file.getAbsolutePath());
+			} catch (Exception e) {
+				// TODO Handle this
+			}
+		}
+	}
+
+	public CalibrationDataModel getRefData() {
 		return refData;
 	}
 	public EdeCalibrationDataModel getEdeData() {

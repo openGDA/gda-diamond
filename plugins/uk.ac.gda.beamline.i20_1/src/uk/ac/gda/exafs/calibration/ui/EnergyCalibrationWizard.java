@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2013 Diamond Light Source Ltd.
+ * Copyright © 2014 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -18,9 +18,26 @@
 
 package uk.ac.gda.exafs.calibration.ui;
 
-import uk.ac.gda.exafs.calibration.data.CalibrationDataModel;
+import org.eclipse.jface.wizard.Wizard;
 
-public interface CalibrationPlotViewer {
-	void setCalibrationData(CalibrationDataModel dataSet);
-	void plotData() throws Exception;
+public class EnergyCalibrationWizard extends Wizard {
+
+	private EnergyCalibrationWizardPage page;
+
+	public EnergyCalibrationWizard() {
+		super();
+		setNeedsProgressMonitor(true);
+	}
+
+	@Override
+	public void addPages() {
+		page = new EnergyCalibrationWizardPage();
+		addPage(page);
+	}
+
+	@Override
+	public boolean performFinish() {
+		return true;
+	}
+
 }

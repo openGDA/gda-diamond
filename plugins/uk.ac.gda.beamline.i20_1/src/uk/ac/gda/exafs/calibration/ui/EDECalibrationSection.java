@@ -43,6 +43,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -70,8 +71,8 @@ import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
 import uk.ac.diamond.scisoft.analysis.dataset.Slice;
 import uk.ac.diamond.scisoft.spectroscopy.fitting.EdeCalibration;
+import uk.ac.gda.exafs.calibration.data.CalibrationDataModel;
 import uk.ac.gda.exafs.calibration.data.EdeCalibrationModel;
-import uk.ac.gda.exafs.calibration.data.ReferenceCalibrationDataModel;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.DetectorModel.EnergyCalibrationSetObserver;
@@ -124,7 +125,7 @@ public class EDECalibrationSection extends ResourceComposite {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(lblRefFileValue),
-				BeanProperties.value(ReferenceCalibrationDataModel.FILE_NAME_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getRefData())
+				BeanProperties.value(CalibrationDataModel.FILE_NAME_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getRefData())
 				, null,
 				new UpdateValueStrategy() {
 					@Override
@@ -161,7 +162,7 @@ public class EDECalibrationSection extends ResourceComposite {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(lblEdeDataFileValue),
-				BeanProperties.value(ReferenceCalibrationDataModel.FILE_NAME_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getEdeData()),
+				BeanProperties.value(CalibrationDataModel.FILE_NAME_PROP_NAME).observe(EdeCalibrationModel.INSTANCE.getEdeData()),
 				null,
 				new UpdateValueStrategy() {
 					@Override
@@ -215,7 +216,10 @@ public class EDECalibrationSection extends ResourceComposite {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				runEdeCalibration(polynomialFittingOrderSpinner.getSelection());
+				// runEdeCalibration(polynomialFittingOrderSpinner.getSelection());
+				WizardDialog wizardDialog = new WizardDialog(runCalibrationButton.getShell(), new EnergyCalibrationWizard());
+				wizardDialog.setPageSize(1024, 768);
+				wizardDialog.open();
 			}
 
 			@Override
@@ -234,7 +238,7 @@ public class EDECalibrationSection extends ResourceComposite {
 		polynomialValueLbl = toolkit.createLabel(polyLabelComposite, "", SWT.BORDER);
 		polynomialValueLbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		DetectorModel.INSTANCE.getEnergyCalibrationSetObserver().addPropertyChangeListener(
-				EnergyCalibrationSetObserver.ENERGY_CALIBRATION_SET_PROP_NAME,calibrationSetListener);
+				EnergyCalibrationSetObserver.ENERGY_CALIBRATION_SET_PROP_NAME, calibrationSetListener);
 
 		updateEnergyCalibrationPolynomialText();
 
@@ -257,7 +261,7 @@ public class EDECalibrationSection extends ResourceComposite {
 		}
 	};
 
-	private void showDataFileDialog(final Shell shell, ReferenceCalibrationDataModel dataModel) {
+	private void showDataFileDialog(final Shell shell, CalibrationDataModel dataModel) {
 		FileDialog fileDialog = new FileDialog(shell, SWT.OPEN);
 		fileDialog.setText("Load data");
 		fileDialog.setFilterPath(ClientConfig.DEFAULT_DATA_PATH);
@@ -266,7 +270,7 @@ public class EDECalibrationSection extends ResourceComposite {
 			try {
 				File refFile = new File(selected);
 				if (refFile.exists() && refFile.canRead()) {
-					dataModel.setData(selected);
+					dataModel.setDataFile(selected);
 				} else {
 					throw new Exception("Unable to read " + selected + ".");
 				}
@@ -286,7 +290,7 @@ public class EDECalibrationSection extends ResourceComposite {
 			AbstractDataset[] edeDatasets = selectDataRange(AlignmentPerspective.EDE_PLOT_NAME);
 			final AbstractDataset edeIdxSlice = edeDatasets[0];
 			final AbstractDataset edeSpectrumSlice = edeDatasets[1];
-			edeCalibration.setMaxEdeChannel(EdeCalibrationModel.INSTANCE.getEdeData().getRefDataNode().getSize() - 1);
+			edeCalibration.setMaxEdeChannel(EdeCalibrationModel.INSTANCE.getEdeData().getEdeDataset().getSize() - 1);
 			edeCalibration.setFitOrder(selectedFitOrder);
 			edeCalibration.setReferenceData(refEnergySlice, refSpectrumSlice);
 			edeCalibration.setEdeSpectrum(edeIdxSlice, edeSpectrumSlice);

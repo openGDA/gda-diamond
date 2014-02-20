@@ -41,7 +41,7 @@ import org.eclipse.ui.part.ViewPart;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.roi.LinearROI;
 import uk.ac.gda.exafs.calibration.data.EdeCalibrationModel;
-import uk.ac.gda.exafs.calibration.data.ReferenceCalibrationDataModel;
+import uk.ac.gda.exafs.calibration.data.CalibrationDataModel;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
 
 public class EdeManualCalibrationPlotView  extends ViewPart implements CalibrationPlotViewer {
@@ -52,7 +52,7 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 
 	private final IPlottingSystem plottingSystemRef;
 
-	private ReferenceCalibrationDataModel referenceData;
+	private CalibrationDataModel referenceData;
 	private IRegion ref1;
 	private IRegion ref2;
 	private IRegion ref3;
@@ -62,12 +62,12 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 	}
 
 	@Override
-	public void setCalibrationData(ReferenceCalibrationDataModel referenceData) {
+	public void setCalibrationData(CalibrationDataModel referenceData) {
 		if (this.referenceData != null) {
 			return;
 		}
 		this.referenceData = referenceData;
-		this.referenceData.addPropertyChangeListener(ReferenceCalibrationDataModel.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
+		this.referenceData.addPropertyChangeListener(CalibrationDataModel.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				try {
@@ -105,10 +105,10 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 			return;
 		}
 		List<IDataset> spectra = new ArrayList<IDataset>(1);
-		spectra.add(referenceData.getRefDataNode());
+		spectra.add(referenceData.getEdeDataset());
 
 		plottingSystemRef.clear();
-		plottingSystemRef.createPlot1D(referenceData.getRefEnergyNode(), spectra, new NullProgressMonitor());
+		plottingSystemRef.createPlot1D(referenceData.getRefEnergyDataset(), spectra, new NullProgressMonitor());
 		showReferencePoints();
 		double startValue = getStartZoomForReferenceData();
 		double lastValue = getEndZoomForReferenceData();
@@ -120,7 +120,7 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 	}
 
 	private double getEndZoomForReferenceData() {
-		double maxEnergy = referenceData.getRefEnergyNode().getDouble(referenceData.getRefEnergyNode().getSize() - 1);
+		double maxEnergy = referenceData.getRefEnergyDataset().getDouble(referenceData.getRefEnergyDataset().getSize() - 1);
 		double endZoom = getStartZoomForReferenceData() + AlignmentParametersModel.INSTANCE.getAlignmentSuggestedParameters().getReadBackEnergyBandwidth();
 		if (endZoom > maxEnergy) {
 			endZoom = maxEnergy;

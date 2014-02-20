@@ -20,9 +20,9 @@ package uk.ac.gda.exafs.calibration.data;
 
 import gda.scan.ede.EdeExperiment;
 
-public class EdeCalibrationDataModel extends ReferenceCalibrationDataModel {
+public class EdeCalibrationDataModel extends CalibrationDataModel {
 	@Override
-	public void setData(String fileName) throws Exception {
+	public void setDataFile(String fileName) throws Exception {
 		setData(fileName, EdeExperiment.STRIP_COLUMN_NAME, EdeExperiment.LN_I0_IT_COLUMN_NAME);
 	}
 }
