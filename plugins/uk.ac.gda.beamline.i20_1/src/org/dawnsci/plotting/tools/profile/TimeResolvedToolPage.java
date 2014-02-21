@@ -18,6 +18,8 @@
 
 package org.dawnsci.plotting.tools.profile;
 
+import gda.scan.ede.datawriters.EdeLinearExperimentAsciiFileWriter;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -116,8 +118,8 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private static final double STACK_OFFSET = 0.1;
 
-	private static final String GROUP_AXIS_PATH = "/entry1/instrument/xstrip/group";
-	private static final String TIME_AXIS_PATH = "/entry1/instrument/xstrip/time";
+	private static final String GROUP_AXIS_PATH = "/entry1/" + EdeLinearExperimentAsciiFileWriter.NXDATA_LN_I0_IT + "/group";
+	private static final String TIME_AXIS_PATH = "/entry1/" + EdeLinearExperimentAsciiFileWriter.NXDATA_LN_I0_IT + "/time";
 	private static final int ENERGY_AXIS_INDEX = 0;
 
 	private final TimeResolvedToolDataModel timeResolvedData = new TimeResolvedToolDataModel();

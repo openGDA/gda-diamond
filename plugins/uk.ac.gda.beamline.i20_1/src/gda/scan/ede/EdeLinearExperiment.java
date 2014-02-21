@@ -42,12 +42,13 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 public class EdeLinearExperiment extends EdeExperiment {
 
 	public static final int DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH = 2;
+
+	protected int numberOfRepetitions = 1;
+
 	private int noOfSecPerSpectrumToPublish = DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
 	private int totalNumberOfspectra;
 	private double totalTime;
-
 	private EdeScan i0FinalScan;
-
 	private boolean runItDark;
 
 	public EdeLinearExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
@@ -219,7 +220,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 
 	@Override
 	protected int getRepetitions() {
-		return 1;
+		return numberOfRepetitions;
 	}
 
 	@Override
