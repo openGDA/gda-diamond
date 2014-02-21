@@ -42,9 +42,13 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 
-	private static final String IT_RAW_AVERAGEDI0_SUFFIX = "_It_raw_averagedi0";
-	private static final String IT_RAW_FINALI0_SUFFIX = "_It_raw_finali0";
-	private static final String IT_RAW_SUFFIX = "_It_raw";
+	public static final String NXDATA_LN_I0_IT_WITH_AVERAGED_I0 = "LnI0It_withAveragedI0";
+	public static final String NXDATA_LN_I0_IT_WITH_FINAL_I0 = "LnI0It_withFinalI0";
+	public static final String NXDATA_LN_I0_IT = "LnI0It";
+	public static final String IT_RAW_AVERAGEDI0_SUFFIX = "_It_raw_averagedi0";
+	public static final String IT_RAW_FINALI0_SUFFIX = "_It_raw_finali0";
+	public static final String IT_RAW_SUFFIX = "_It_raw";
+
 	private final EdeScan i0DarkScan;
 	private final EdeScan i0InitialLightScan;
 	private final EdeScan iRefScan;
@@ -52,6 +56,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 	private final EdeScan[] itScans; // one of these for each cycle (repetition)
 	private final EdeScan i0FinalLightScan;
 	private final String nexusfile;
+
 	private String i0Filename;
 	private String iRefFilename;
 	private String itFilename;
@@ -500,13 +505,13 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		String datagroupname = "";
 		switch (fileSuffix) {
 		case IT_RAW_AVERAGEDI0_SUFFIX:
-			datagroupname = "LnI0It_withAveragedI0";
+			datagroupname = NXDATA_LN_I0_IT_WITH_AVERAGED_I0;
 			break;
 		case IT_RAW_FINALI0_SUFFIX:
-			datagroupname = "LnI0It_withFinalI0";
+			datagroupname = NXDATA_LN_I0_IT_WITH_FINAL_I0;
 			break;
 		case IT_RAW_SUFFIX:
-			datagroupname = "LnI0It";
+			datagroupname = NXDATA_LN_I0_IT;
 			break;
 		}
 		return datagroupname;

@@ -333,6 +333,10 @@ public abstract class EdeExperiment implements IObserver {
 		this.filenameTemplate = filenameTemplate;
 	}
 
+	public String getNexusFilename() {
+		return nexusFilename;
+	}
+
 	protected void log(String message) {
 		InterfaceProvider.getTerminalPrinter().print(message);
 		logger.info(message);
