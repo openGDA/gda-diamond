@@ -221,8 +221,9 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	}
 
 	private void clearRegionsOnPlot() {
-		for (Object region : spectraRegionList) {
-			getPlottingSystem().removeRegion(((SpectraRegionToolDataModel) region).getRegion());
+		Iterator<?> i = spectraRegionList.iterator();
+		while (i.hasNext()) {
+			getPlottingSystem().removeRegion(((SpectraRegionToolDataModel) i.next()).getRegion());
 		}
 	}
 
