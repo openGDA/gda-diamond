@@ -113,6 +113,8 @@ import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.common.rcp.UIHelper;
+import uk.ac.gda.exafs.calibration.data.EdeCalibrationModel;
+import uk.ac.gda.exafs.calibration.ui.EnergyCalibrationWizard;
 
 public class TimeResolvedToolPage extends AbstractToolPage implements IRegionListener, ITraceListener {
 
@@ -424,7 +426,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		spectraTreeTable.setInput(timeResolvedData);
 	}
 
-	private void createTootbarForSpectraTable(Composite treeParent) {
+	private void createTootbarForSpectraTable(final Composite treeParent) {
 		ToolBar toolBar = new ToolBar(treeParent, SWT.HORIZONTAL);
 		toolBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
@@ -459,6 +461,27 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 					removeSpectraSelectionBinding();
 				} else {
 					createSpectraSelectionBinding();
+				}
+			}
+		});
+
+		ToolItem calibrateEnergy = new ToolItem(toolBar, SWT.PUSH);
+		calibrateEnergy.setText("");
+		calibrateEnergy.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT));
+		calibrateEnergy.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				EdeCalibrationModel calibrationModel = new EdeCalibrationModel();
+				try {
+					WizardDialog wizardDialog = new WizardDialog(treeParent.getShell(), new EnergyCalibrationWizard(calibrationModel));
+					wizardDialog.setPageSize(1024, 768);
+					if (wizardDialog.open() == Window.OK) {
+						if (calibrationModel.getCalibrationResult() != null) {
+							// TODO
+						}
+					}
+				} catch (Exception e2) {
+					e2.printStackTrace();
 				}
 			}
 		});

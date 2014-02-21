@@ -20,18 +20,20 @@ package uk.ac.gda.exafs.calibration.ui;
 
 import org.eclipse.jface.wizard.Wizard;
 
+import uk.ac.gda.exafs.calibration.data.EdeCalibrationModel;
+
 public class EnergyCalibrationWizard extends Wizard {
 
-	private EnergyCalibrationWizardPage page;
+	private final EnergyCalibrationWizardPage page;
 
-	public EnergyCalibrationWizard() {
+	public EnergyCalibrationWizard(EdeCalibrationModel calibrationDataModel) {
 		super();
+		page = new EnergyCalibrationWizardPage(calibrationDataModel);
 		setNeedsProgressMonitor(true);
 	}
 
 	@Override
 	public void addPages() {
-		page = new EnergyCalibrationWizardPage();
 		addPage(page);
 	}
 
@@ -39,5 +41,4 @@ public class EnergyCalibrationWizard extends Wizard {
 	public boolean performFinish() {
 		return true;
 	}
-
 }

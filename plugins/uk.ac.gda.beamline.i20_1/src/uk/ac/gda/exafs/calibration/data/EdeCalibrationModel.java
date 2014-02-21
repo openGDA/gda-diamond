@@ -18,64 +18,45 @@
 
 package uk.ac.gda.exafs.calibration.data;
 
-import gda.configuration.properties.LocalProperties;
-import gda.util.exafs.AbsorptionEdge;
-import gda.util.exafs.Element;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 
 import uk.ac.gda.beans.ObservableModel;
-import uk.ac.gda.exafs.data.AlignmentParametersModel;
 
 public class EdeCalibrationModel extends ObservableModel {
-	public static final String REF_DATA_COLUMN_NAME = "lnI0It";
-	public static final String REF_ENERGY_COLUMN_NAME = "Energy";
-	public static final String REF_DATA_PATH = LocalProperties.getVarDir() + "edeRefData";
-	public static final String REF_DATA_EXT = ".dat";
-
-	public static final EdeCalibrationModel INSTANCE = new EdeCalibrationModel();
 	public static final String MANUAL_PROP_NAME = "manual";
 	private boolean manual;
-	private final EdeCalibrationDataModel edeData = new EdeCalibrationDataModel();
-	private final CalibrationDataModel refData = new CalibrationDataModel();
 
-	private EdeCalibrationModel() {
-		AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.ELEMENT_EDGE_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getNewValue() != null) {
-					loadReferenceData(AlignmentParametersModel.INSTANCE.getElement(), ((AbsorptionEdge) evt.getNewValue()).getEdgeType());
-				}
-			}
-		});
-		if (AlignmentParametersModel.INSTANCE.getEdge() != null) {
-			loadReferenceData(AlignmentParametersModel.INSTANCE.getElement(), AlignmentParametersModel.INSTANCE.getEdge().getEdgeType());
-		}
+	public static final String DATA_READY_PROP_NAME = "dataReady";
+	private boolean dataReady;
+
+	private final CalibrationDataModel edeData = new EdeCalibrationDataModel();
+	private final CalibrationDataModel refData = new RefCalibrationDataModel();
+
+	private PolynomialFunction calibrationResult;
+
+	public void setRefData(String refFileName) throws Exception {
+		refData.setDataFile(refFileName);
+		checkAndFireDataReady();
 	}
 
-	public void loadReferenceData(Element element, String edgeName) {
-		File folder = new File(EdeCalibrationModel.REF_DATA_PATH);
-		if (!folder.exists() || !folder.canRead()) {
-			return;
-		}
+	public void setEdeData(String edeSpectrumDataFileName) throws Exception {
+		edeData.setDataFile(edeSpectrumDataFileName);
+		checkAndFireDataReady();
+	}
 
-		String fileName = element.getSymbol() + "_" + edgeName + EdeCalibrationModel.REF_DATA_EXT;
-		File file = new File(folder, fileName);
-		if (file.exists() && file.canRead()) {
-			try {
-				refData.setDataFile(file.getAbsolutePath());
-			} catch (Exception e) {
-				// TODO Handle this
-			}
-		}
+	private void checkAndFireDataReady() {
+		boolean ready = (refData.getFileName() != null && edeData.getFileName() != null);
+		firePropertyChange(DATA_READY_PROP_NAME, dataReady, dataReady = ready);
+	}
+
+	public boolean getDataReady() {
+		return dataReady;
 	}
 
 	public CalibrationDataModel getRefData() {
 		return refData;
 	}
-	public EdeCalibrationDataModel getEdeData() {
+	public CalibrationDataModel getEdeData() {
 		return edeData;
 	}
 	public boolean isManual() {
@@ -83,6 +64,14 @@ public class EdeCalibrationModel extends ObservableModel {
 	}
 	public void setManual(boolean manual) {
 		firePropertyChange(MANUAL_PROP_NAME, this.manual, this.manual = manual);
+	}
+
+	public PolynomialFunction getCalibrationResult() {
+		return calibrationResult;
+	}
+
+	public void setCalibrationResult(PolynomialFunction calibrationResult) {
+		this.calibrationResult = calibrationResult;
 	}
 }
 
