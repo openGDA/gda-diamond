@@ -289,14 +289,34 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		return filename;
 	}
 
-	private double[] calculateGroupAxis() {
+	private double[][] calculateGroupAxis() {
+
+		//
+		// double[][] groupDetails = new double[scanParameters.getTotalNumberOfFrames()][4];
+		// double groupIndex = 0;
+		// int j = 0;
+		// for (TimingGroup group : scanParameters.getGroups()) {
+		// for (int i = 0; i < group.getNumberOfFrames(); i++) {
+		// groupDetails[j][0] = groupIndex;
+		// groupDetails[j][1] = group.getTimePerFrame();
+		// groupDetails[j][2] = group.getTimePerScan();
+		// groupDetails[j][3] = group.getPreceedingTimeDelay();
+		// j++;
+		// }
+		// groupIndex++;
+		// }
+		// return groupDetails;
+
 		EdeScanParameters scanParameters = itScans[0].getScanParameters();
-		double[] groupDetailsForEachCycle = new double[scanParameters.getTotalNumberOfFrames()];
+		double[][] groupDetailsForEachCycle = new double[scanParameters.getTotalNumberOfFrames()][4];
 		double groupIndex = 0;
 		int groupDetailsIndex = 0;
 		for (TimingGroup group : scanParameters.getGroups()) {
 			for (int i = 0; i < group.getNumberOfFrames(); i++) {
-				groupDetailsForEachCycle[groupDetailsIndex] = groupIndex;
+				groupDetailsForEachCycle[groupDetailsIndex][0] = groupIndex;
+				groupDetailsForEachCycle[groupDetailsIndex][1] = group.getTimePerFrame();
+				groupDetailsForEachCycle[groupDetailsIndex][2] = group.getTimePerScan();
+				groupDetailsForEachCycle[groupDetailsIndex][3] = group.getPreceedingTimeDelay();
 				groupDetailsIndex++;
 			}
 			groupIndex++;
@@ -305,9 +325,9 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			return groupDetailsForEachCycle;
 		}
 
-		double[] groupDetailsAllCycles = new double[] {};
+		double[][] groupDetailsAllCycles = new double[][] {};
 		for (int cycle = 0; cycle < itScans.length; cycle++) {
-			groupDetailsAllCycles = ArrayUtils.addAll(groupDetailsAllCycles, groupDetailsForEachCycle);
+			groupDetailsAllCycles = (double[][]) ArrayUtils.addAll(groupDetailsAllCycles, groupDetailsForEachCycle);
 		}
 		return groupDetailsAllCycles;
 	}
@@ -346,12 +366,12 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		writer.write(colsHeader.toString());
 	}
 
-	private void writeItToNexus(double[][] normalisedItSpectra, String fileSuffix, boolean includeRepetitionColumn) throws NexusException {
+	private void writeItToNexus(double[][] normalisedItSpectra, String fileSuffix, boolean includeRepetitionColumn)
+			throws NexusException {
 
 		if (nexusfile == null || nexusfile.isEmpty()) {
 			return;
 		}
-
 
 		String datagroupname = deriveDatagroupName(fileSuffix);
 
@@ -359,7 +379,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		file.openpath("entry1");
 
 		double[] timeAxis = calculateTimeAxis();
-		double[] groupAxis = calculateGroupAxis();
+		double[][] groupAxis = calculateGroupAxis();
 		// this assumes we are at the top-level so must be done before opening the <datagroupname> group
 		double[] energyAxis = extractEnergyAxis(file);
 
@@ -387,7 +407,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 			averageCyclesAndInsert(normalisedItSpectra, datagroupname, file);
 			int numberOfSpectraPerCycle = itScans[0].getNumberOfAvailablePoints();
 			addTimeAxis(ArrayUtils.subarray(timeAxis, 0, numberOfSpectraPerCycle), file);
-			addGroupAxis(ArrayUtils.subarray(groupAxis, 0, numberOfSpectraPerCycle), file);
+			addGroupAxis((double[][]) ArrayUtils.subarray(groupAxis, 0, numberOfSpectraPerCycle), file);
 			addEnergyAxis(energyAxis, file);
 		}
 
@@ -415,12 +435,14 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		file.closedata();
 	}
 
-	private void addGroupAxis(double[] groupAxis, GdaNexusFile file) throws NexusException {
-		file.makedata("group", NexusFile.NX_FLOAT64, 1, new int[] { groupAxis.length });
+	private void addGroupAxis(double[][] groupAxis, GdaNexusFile file/* , EdeScanParameters scanParameters */)
+			throws NexusException {
+
+		file.makedata("group", NexusFile.NX_FLOAT64, 2, new int[] { groupAxis.length, groupAxis[0].length });
 		file.opendata("group");
 		file.putdata(groupAxis);
-		file.putattr("axis", "1".getBytes(), NexusFile.NX_CHAR);
-		file.putattr("primary", "2".getBytes(), NexusFile.NX_CHAR);
+		// file.putattr("axis", "1".getBytes(), NexusFile.NX_CHAR);
+		// file.putattr("primary", "2".getBytes(), NexusFile.NX_CHAR);
 		file.closedata();
 	}
 
