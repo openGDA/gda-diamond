@@ -114,13 +114,15 @@ original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
 
 detectorPreparer = I18DetectorPreparer(xspressConfig, vortexConfig)
 samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
+#samplePreparer = I18SamplePreparer(rcpController, table_x, table_y, table_z, D7A, D7B, kb_vfm_x)
 outputPreparer = I18OutputPreparer(datawriterconfig)
 
 xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
 #xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy_nogap, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
 
-non_raster_map = Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, micosx, micosy, ExafsScriptObserver,outputPreparer)
-raster_map = RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, rcpController,outputPreparer)
+non_raster_map = Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, ExafsScriptObserver,outputPreparer, detectorPreparer)
+raster_map = RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, rcpController,outputPreparer, detectorPreparer)
+# 18/2/14 RJW I have not tested raster_map_return_write yet
 raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, rcpController, ExafsScriptObserver)
 map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
 
@@ -131,6 +133,7 @@ else:
 
 qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01)
 xanes = xas
+
 
 alias("xas")
 alias("xanes")

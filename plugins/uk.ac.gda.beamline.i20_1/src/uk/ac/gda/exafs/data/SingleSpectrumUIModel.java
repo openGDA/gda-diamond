@@ -81,7 +81,7 @@ public class SingleSpectrumUIModel extends ObservableModel {
 	private ScanJob job;
 
 	public static final String FILE_TEMPLATE_PROP_NAME = "fileTemplate";
-	private String fileTemplate = "Undefined_";
+	private String fileTemplate;
 
 	private String elementSymbol;
 

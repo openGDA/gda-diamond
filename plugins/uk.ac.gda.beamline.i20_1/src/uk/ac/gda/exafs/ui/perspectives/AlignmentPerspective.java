@@ -25,14 +25,14 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IViewLayout;
 
-import uk.ac.gda.exafs.ui.views.AlignmentSingleSpectrumView;
-import uk.ac.gda.exafs.ui.views.AlignmentStageCalibrationView;
-import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
-import uk.ac.gda.exafs.ui.views.DetectorLiveModeView;
-import uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView;
-import uk.ac.gda.exafs.ui.views.FocusingView;
-import uk.ac.gda.exafs.ui.views.plot.ExperimentDataPlotView;
-import uk.ac.gda.exafs.ui.views.plot.SlitsScanPlotView;
+import uk.ac.gda.exafs.calibration.ui.EdeManualCalibrationPlotView;
+import uk.ac.gda.exafs.ede.alignment.ui.AlignmentSingleSpectrumView;
+import uk.ac.gda.exafs.ede.alignment.ui.AlignmentStageCalibrationView;
+import uk.ac.gda.exafs.ede.alignment.ui.BeamlineAlignmentView;
+import uk.ac.gda.exafs.ede.alignment.ui.DetectorLiveModeView;
+import uk.ac.gda.exafs.ede.alignment.ui.FocusingView;
+import uk.ac.gda.exafs.plotting.ui.ExperimentDataPlotView;
+import uk.ac.gda.exafs.plotting.ui.SlitsScanPlotView;
 
 /**
  * Shows recent data from the XH detector for I20-1 EDE branchline.
