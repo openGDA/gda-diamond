@@ -15,7 +15,6 @@ Environment:
     GDA_CLIENT              Override the default client executable
     GDA_CLIENT_VMARGS       Specify additional -vmargs to append
     GDA_CLIENT_LOG_DIR      Override default ErrorFile location
-    GDA_CLIENT_WORKING_DIR  If not set cd to GDA_CLIENT_LOG_DIR instead
 
 OPTIONS:
     --help      Print this help and exit.
@@ -172,13 +171,6 @@ ulimit -c 10000000
 
 if [ -z $GDA_CLIENT_LOG_DIR ] ; then
   GDA_CLIENT_LOG_DIR=/dls_sw/$BEAMLINE/logs
-fi
-# The directory into which core dumps are written is best specified by changing the cwd
-
-if [ -z $GDA_CLIENT_WORKING_DIR ] ; then
-  cd $GDA_CLIENT_LOG_DIR
-else
-  cd $GDA_CLIENT_WORKING_DIR
 fi
 
 if [ -z $GDA_CLIENT ] ; then
