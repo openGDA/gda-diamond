@@ -11,7 +11,7 @@
 		<property name="directory" value="/tmp/i05-" />
 		<property name="clientFileAnnouncer" ref="sockpuppet" />
 	</bean>
-	<bean id="twodplot" class="uk.ac.gda.beamline.i05.scan.TwoDPlotListener">
+	<bean id="twodplot" class="gda.data.scan.TwoDPlotListener">
 		<property name="plotPanel" value="Plot 2D" />
 	</bean>
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
