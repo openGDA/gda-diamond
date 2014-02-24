@@ -25,53 +25,62 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.diamond.scisoft.analysis.dataset.IntegerDataset;
 
-public class TimeResolvedToolDataModel {
+public class TimeResolvedDataNode {
 
-	private final IObservableList timingGroups = new WritableList(new ArrayList<TimingGroupToolDataModel>(), TimingGroupToolDataModel.class);
+	private final IObservableList cycles = new WritableList(new ArrayList<CycleDataNode>(), CycleDataNode.class);
 
 	public static final int NUMBER_OF_STRIPS = 1024;
 
-	private int totalSpectra;
-
-	public void setData(DoubleDataset timingGroupsDataset, DoubleDataset timeDataset) {
-		// TODO Refactor this! This has hard coded index numbers!
-		double[] timingGroupsData = ((DoubleDataset)timingGroupsDataset.getSlice(new int[]{0,0}, new int[]{timingGroupsDataset.getShape()[0],3}, new int[]{1,3})).getData();
-		double[] timePerFrame = ((DoubleDataset) timingGroupsDataset.getSlice(new int[]{0,1}, new int[]{timingGroupsDataset.getShape()[0],3}, new int[]{1,3})).getData();
-		totalSpectra = timingGroupsData.length;
-		double[] time = timeDataset.getData();
-		if (timingGroupsData.length > 0) {
-			int groupCounter = 0;
-			List<SpectrumToolDataModel> spectraList = new ArrayList<SpectrumToolDataModel>();
-			for (int i = 0; i < timingGroupsData.length; i++) {
-				if (timingGroupsData[i] > groupCounter) {
-					double lastFrameDuration = timePerFrame[i - 1];
-					timingGroups.add(new TimingGroupToolDataModel(Integer.toString(groupCounter), lastFrameDuration, spectraList));
-					groupCounter = (int) timingGroupsData[i];
-					spectraList = new ArrayList<SpectrumToolDataModel>();
-				}
-				spectraList.add(new SpectrumToolDataModel(i, time[i]));
-			}
-			double lastFrameDuration =timePerFrame[timePerFrame.length - 1];
-			timingGroups.add(new TimingGroupToolDataModel(Integer.toString(groupCounter), lastFrameDuration, spectraList));
-		}
-	}
-
-	public int getTotalSpetra() {
-		return totalSpectra;
-	}
-
-	public IObservableList getTimingGroups() {
-		return timingGroups;
-	}
-
-	public double getTotalTime() {
-		TimingGroupToolDataModel lastGroup = (TimingGroupToolDataModel) timingGroups.get(timingGroups.size() - 1);
-		SpectrumToolDataModel lastSpectrum = (SpectrumToolDataModel) lastGroup.getSpectra().get(lastGroup.getSpectra().size() - 1);
-		return lastSpectrum.getStartTime();
+	public IObservableList getCycles() {
+		return cycles;
 	}
 
 	public void clearData() {
-		timingGroups.clear();
+		cycles.clear();
+	}
+
+	public void setData(DoubleDataset timingGroupsDataset, DoubleDataset timeDataset, IntegerDataset cycleDataset) {
+
+		// TODO Refactor this! This has hard coded index numbers!
+		double[] timingGroupsData = ((DoubleDataset)timingGroupsDataset.getSlice(new int[]{0,0}, new int[]{timingGroupsDataset.getShape()[0],3}, new int[]{1,3})).getData();
+		double[] timePerFrame = ((DoubleDataset) timingGroupsDataset.getSlice(new int[]{0,1}, new int[]{timingGroupsDataset.getShape()[0],3}, new int[]{1,3})).getData();
+		double[] time = timeDataset.getData();
+		if (timingGroupsData.length > 0) {
+
+			int[] cycle;
+			if (cycleDataset == null) {
+				cycle = new int[timingGroupsData.length];
+			} else {
+				cycle = cycleDataset.getData();
+			}
+
+			int groupCounter = 0;
+			int cycleCounter = 0;
+			List<SpectrumDataNode> spectraList = new ArrayList<SpectrumDataNode>();
+			List<TimingGroupDataNode> timingGroupList = new ArrayList<TimingGroupDataNode>();
+			for (int i = 0; i < timingGroupsData.length; i++) {
+				if (timingGroupsData[i] > groupCounter) {
+					double lastFrameDuration = timePerFrame[i - 1];
+					timingGroupList.add(new TimingGroupDataNode(Integer.toString(groupCounter), lastFrameDuration, spectraList));
+					groupCounter = (int) timingGroupsData[i];
+					spectraList = new ArrayList<SpectrumDataNode>();
+				}
+				if (cycle[i] > cycleCounter) {
+					double lastFrameDuration =timePerFrame[timePerFrame.length - 1];
+					timingGroupList.add(new TimingGroupDataNode(Integer.toString(groupCounter), lastFrameDuration, spectraList));
+					cycles.add(new CycleDataNode(Integer.toString(cycleCounter), timingGroupList));
+					cycleCounter = cycle[i];
+					timingGroupList = new ArrayList<TimingGroupDataNode>();
+					spectraList = new ArrayList<SpectrumDataNode>();
+					groupCounter = 0;
+				}
+				spectraList.add(new SpectrumDataNode(i, time[i]));
+			}
+			double lastFrameDuration =timePerFrame[timePerFrame.length - 1];
+			timingGroupList.add(new TimingGroupDataNode(Integer.toString(groupCounter), lastFrameDuration, spectraList));
+			cycles.add(new CycleDataNode(Integer.toString(cycleCounter), timingGroupList));
+		}
 	}
 }

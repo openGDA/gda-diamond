@@ -386,7 +386,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		file.makegroup(datagroupname, "NXdata");
 		file.openpath(datagroupname);
 
-		String axes = includeRepetitionColumn ? "energy:time:cycle:group" : "energy:time:group";
+		String axes = includeRepetitionColumn ? "energy:time:cycle" : "energy:time";
 
 		addData(normalisedItSpectra, file, axes);
 
@@ -395,12 +395,12 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		addEnergyAxis(energyAxis, file);
 
 		if (includeRepetitionColumn) {
-			double[] cycleAxis = calculateCycleAxis();
-			file.makedata("cycle", NexusFile.NX_FLOAT64, 1, new int[] { normalisedItSpectra.length });
+			int[] cycleAxis = calculateCycleAxis();
+			file.makedata("cycle", NexusFile.NX_INT32, 1, new int[] { normalisedItSpectra.length });
 			file.opendata("cycle");
 			file.putdata(cycleAxis);
 			file.putattr("axis", "1".getBytes(), NexusFile.NX_CHAR);
-			file.putattr("primary", "3".getBytes(), NexusFile.NX_CHAR);
+			file.putattr("primary", "2".getBytes(), NexusFile.NX_CHAR);
 			file.closedata();
 
 			file.closegroup(); // move out of <datagroupname> before writing the averaged data
@@ -456,9 +456,9 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		file.closedata();
 	}
 
-	private double[] calculateCycleAxis() {
+	private int[] calculateCycleAxis() {
 		EdeScanParameters scanParameters = itScans[0].getScanParameters();
-		double[] cycleAxis = new double[scanParameters.getTotalNumberOfFrames() * itScans.length];
+		int[] cycleAxis = new int[scanParameters.getTotalNumberOfFrames() * itScans.length];
 
 		int axisIndex = 0;
 		for (int cycle = 0; cycle < itScans.length; cycle++) {
@@ -518,7 +518,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		file.makegroup(avDataGroupName, "NXdata");
 		file.openpath(avDataGroupName);
 
-		String axes = "energy:time:group";
+		String axes = "energy:time";
 
 		addData(averagednormalisedItSpectra, file, axes);
 	}

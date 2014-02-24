@@ -24,7 +24,7 @@ import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.gda.beans.ObservableModel;
 
 public abstract class CalibrationDataModel extends ObservableModel {
-	private static final int PADDING_FOR_REFERENCE = 20;
+	private static final int PADDING_FOR_REFERENCE = 100;
 	// TODO Refactor to create ref data model
 	public static final String FILE_NAME_PROP_NAME = "fileName";
 	protected String fileName;
@@ -105,7 +105,8 @@ public abstract class CalibrationDataModel extends ObservableModel {
 			energyNode = (AbstractDataset) this.dataHolder.getLazyDataset(energyNodePath).getSlice();
 			dataNode = (AbstractDataset) this.dataHolder.getLazyDataset(dataNodePath).getSlice();
 			setInitialEnergyRange(energyNode.min().doubleValue(), energyNode.max().doubleValue());
-			setReferencePoints(startEnergy + PADDING_FOR_REFERENCE, (double) energyNode.mean(), endEnergy - PADDING_FOR_REFERENCE);
+			double mid = (double) energyNode.mean();
+			setReferencePoints(mid - PADDING_FOR_REFERENCE, mid, mid + PADDING_FOR_REFERENCE);
 			firePropertyChange(FILE_NAME_PROP_NAME, this.fileName, this.fileName = fileName);
 		} catch (Exception e) {
 			firePropertyChange(FILE_NAME_PROP_NAME, this.fileName, this.fileName = null);

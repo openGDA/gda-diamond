@@ -35,21 +35,21 @@ import uk.ac.diamond.scisoft.analysis.roi.IROI;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 import uk.ac.gda.beans.ObservableModel;
 
-public class SpectraRegionToolDataModel extends ObservableModel implements IROIListener {
+public class SpectraRegionDataNode extends ObservableModel implements IROIListener {
 
 	private final IRegion plotRegion;
-	private final TimeResolvedToolDataModel parentTimeResolvedData;
+	private final TimeResolvedDataNode parentTimeResolvedData;
 
 	public static final String START = "start";
 	public static final String END = "end";
 	public static final String SPECTRA_CHANGED = "spectra";
-	private List<SpectrumToolDataModel> spectraList;
+	private List<SpectrumDataNode> spectraList;
 
 	protected final List<ITrace> regionTraces = new ArrayList<ITrace>();
 
 	private boolean adjusting;
 
-	public SpectraRegionToolDataModel(IRegion plotRegion, TimeResolvedToolDataModel parent) {
+	public SpectraRegionDataNode(IRegion plotRegion, TimeResolvedDataNode parent) {
 		this.plotRegion = plotRegion;
 		parentTimeResolvedData = parent;
 		this.plotRegion.addROIListener(this);
@@ -69,30 +69,32 @@ public class SpectraRegionToolDataModel extends ObservableModel implements IROIL
 			}
 			boolean started = false;
 			boolean ended = false;
-			ArrayList<SpectrumToolDataModel> tempSpectraList = new ArrayList<SpectrumToolDataModel>();
+			ArrayList<SpectrumDataNode> tempSpectraList = new ArrayList<SpectrumDataNode>();
 			outerloop:
-				for (Object object : parentTimeResolvedData.getTimingGroups()) {
-					TimingGroupToolDataModel group = (TimingGroupToolDataModel) object;
-					for (Object object1 : group.getSpectra()) {
-						SpectrumToolDataModel spectrum = (SpectrumToolDataModel) object1;
-						if (spectrum.getIndex() >= firstIndex) {
-							started = true;
-						}
-						if ((started && !ended)) {
-							tempSpectraList.add(spectrum);
-							if (spectrum.getIndex() == lastIndex) {
-								ended = true;
+				for (Object cycleObject : parentTimeResolvedData.getCycles()) {
+					CycleDataNode cycle = (CycleDataNode) cycleObject;
+					for (Object timingObject : cycle.getTimingGroups()) {
+						TimingGroupDataNode group = (TimingGroupDataNode) timingObject;
+						for (Object object1 : group.getSpectra()) {
+							SpectrumDataNode spectrum = (SpectrumDataNode) object1;
+							if (spectrum.getIndex() >= firstIndex) {
+								started = true;
 							}
-						}
-
-						if (started && ended) {
-							firePropertyChange(SPECTRA_CHANGED, spectraList, spectraList = tempSpectraList);
-							firePropertyChange(START, null, this.getStart());
-							firePropertyChange(END, null, this.getEnd());
-							roi.setPoint(0, firstIndex);
-							((RectangularROI) roi).setLengths(new double[]{boxRoi.getLength(0), lastIndex - firstIndex + 1});
-							plotRegion.setROI(roi);
-							break outerloop;
+							if ((started && !ended)) {
+								tempSpectraList.add(spectrum);
+								if (spectrum.getIndex() == lastIndex) {
+									ended = true;
+								}
+							}
+							if (started && ended) {
+								firePropertyChange(SPECTRA_CHANGED, spectraList, spectraList = tempSpectraList);
+								firePropertyChange(START, null, this.getStart());
+								firePropertyChange(END, null, this.getEnd());
+								roi.setPoint(0, firstIndex);
+								((RectangularROI) roi).setLengths(new double[]{boxRoi.getLength(0), lastIndex - firstIndex + 1});
+								plotRegion.setROI(roi);
+								break outerloop;
+							}
 						}
 					}
 				}
@@ -100,7 +102,7 @@ public class SpectraRegionToolDataModel extends ObservableModel implements IROIL
 		adjusting = false;
 	}
 
-	public List<SpectrumToolDataModel> getSpectra() {
+	public List<SpectrumDataNode> getSpectra() {
 		return spectraList;
 	}
 
@@ -108,11 +110,11 @@ public class SpectraRegionToolDataModel extends ObservableModel implements IROIL
 		return plotRegion;
 	}
 
-	public SpectrumToolDataModel getStart() {
+	public SpectrumDataNode getStart() {
 		return spectraList.get(0);
 	}
 
-	public SpectrumToolDataModel getEnd() {
+	public SpectrumDataNode getEnd() {
 		return spectraList.get(spectraList.size() - 1);
 	}
 
@@ -134,8 +136,8 @@ public class SpectraRegionToolDataModel extends ObservableModel implements IROIL
 	public void roiSelected(ROIEvent evt) {}
 
 	public ITrace[] createTraces(IPlottingSystem plottingSystem, IImageTrace imageTrace, IDataset energy) {
-		for (SpectrumToolDataModel spectrum : this.getSpectra()) {
-			DoubleDataset data = (DoubleDataset) imageTrace.getData().getSlice(new int[]{spectrum.getIndex(), 0}, new int[]{spectrum.getIndex() + 1, TimeResolvedToolDataModel.NUMBER_OF_STRIPS}, new int[]{1,1});
+		for (SpectrumDataNode spectrum : this.getSpectra()) {
+			DoubleDataset data = (DoubleDataset) imageTrace.getData().getSlice(new int[]{spectrum.getIndex(), 0}, new int[]{spectrum.getIndex() + 1, TimeResolvedDataNode.NUMBER_OF_STRIPS}, new int[]{1,1});
 			ILineTrace trace = plottingSystem.createLineTrace(this.getRegion().getLabel() + " (" + spectrum.getIndex() + ")");
 			trace.setData(energy, data);
 			regionTraces.add(trace);
