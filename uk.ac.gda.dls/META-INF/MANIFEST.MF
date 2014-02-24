@@ -28,6 +28,7 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.gda.analysis;bundle-version="1.0.0",
  uk.ac.diamond.jython;bundle-version="[2.5.3,3.0.0)"
 Export-Package: gda.analysis.io,
+ gda.data.scan,
  gda.data.scan.datawriter,
  gda.device.detectorfilemonitor.impl,
  gda.device.scannable,
