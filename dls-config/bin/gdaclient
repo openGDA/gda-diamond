@@ -137,7 +137,7 @@ done
 
 . /usr/share/Modules/init/bash
 module load global/http_proxy
-module load java/gda836
+module load java/gda838
 
 if [ ! -z $GDA_RESET ] ; then
   if [ ! -z $GDA_KEEP ] ; then

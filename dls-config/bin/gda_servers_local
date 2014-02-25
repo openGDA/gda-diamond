@@ -31,7 +31,7 @@ if [[ $# < 2 ]]; then
 fi
 
 module load global/http_proxy
-module load java/gda836
+module load java/gda838
 if [[ $? -ne 0 ]]; then
    echo module failed - assuming java is already on the path
 fi
