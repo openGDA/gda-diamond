@@ -27,21 +27,23 @@ import i12utilities
 from i12utilities import DocumentationScannable
 import lookupTables
 
-from positionCompareMotorClass import PositionCompareMotorClass
-camMono2_y = PositionCompareMotorClass("camMono2_y", "BL12I-OP-DCM-01:CAM2:Y.VAL", "BL12I-OP-DCM-01:CAM2:Y.RBV", "BL12I-OP-DCM-01:CAM2:Y.STOP", 0.002, "mm", "%.3f")
-
+print "-------------------------------------------------"
 print "getting beamEnergy"
-import beamEnergy
+#from positionCompareMotorClass import PositionCompareMotorClass
+#camMono2_y = PositionCompareMotorClass("camMono2_y", "BL12I-OP-DCM-01:CAM2:Y.VAL", "BL12I-OP-DCM-01:CAM2:Y.RBV", "BL12I-OP-DCM-01:CAM2:Y.STOP", 0.002, "mm", "%.3f")
 from beamEnergy import moveToBeamEnergy 
 
-# from beamAttenuation import moveToAttenuation
 
-import detectorModeSwitching
+print "-------------------------------------------------"
+print "getting detectorModeSwitching"
 from detectorModeSwitching import moveToImagingMode, moveToDiffractionMode, moveToEndOfHutchDiagnostic
-#alias("moveToImagingMode")
-#alias("moveToDiffractionMode")
 
+#print "-------------------------------------------------"
+#print "getting beamAttenuation"
+#import beamAttenuation
+#from beamAttenuation import moveToAttenuation
 
+print "-------------------------------------------------"
 print "create commands for folder operations: wd, pwd, nwd, nfn, cfn, setSubdirectory('subdir-name')"
 print "-------------------------------------------------"
 # function to find the last file path
@@ -499,9 +501,8 @@ try:
     meta_scannables.append(cam1)
     #meta_scannables.append(cam3)
     
+    meta_scannables.append(f1)
     meta_scannables.append(f2)
-    meta_scannables.append(f3)
-    meta_scannables.append(f4)
     
     #meta_scannables.append(mc1_bragg)
     #meta_scannables.append(mc2)

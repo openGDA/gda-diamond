@@ -1,10 +1,16 @@
-print "Enabling attenuator changes in GDA"
-
-
 from gda.jython.commands.GeneralCommands import alias, vararg_alias
+from gda.jython.commands import ScannableCommands
+from gda.jython.commands.ScannableCommands import pos 
 import scisoftpy as dnp
 import time
 import math
+from gdascripts.utils import caput, caget
+from gda.factory import Finder
+
+finder = Finder.getInstance()
+
+oh2shtr=finder.find("oh2shtr")
+
 
 # Additional information:
 # filter 1:
@@ -20,70 +26,43 @@ import math
 
 
 def moveToAttenuation(totalFiltration):
-    
-    
-    if (totalFiltration!=0 or totalFiltration!=1 or totalFiltration!=2 or totalFiltration!=3 or totalFiltration!=4 or totalFiltration!=6 or totalFiltration!=8 or totalFiltration!=9 or totalFiltration!=12):
+    print "Requested totalFiltration = " + `totalFiltration` 
+        
+    print "Closing OH2 shutter."
+    pos(oh2shtr, "Close")
+    print "Shutter now closed."
+    if totalFiltration == 0:
+        pos f1 "Clear" f2 "1mm"
+        print "Moving Attenuators."
+    if totalFiltration = 1:
+        pos f1 1 f2 0
+        print "Moving Attenuators."
+    if totalFiltration = 2:
+        pos f1 0 f2 1
+        print "Moving Attenuators."
+    if totalFiltration = 3:
+        pos f1 0 f2 0
+        print "Moving Attenuators."
+    if totalFiltration = 4:
+        pos f1 1 f2 2
+        print "Moving Attenuators."
+    if totalFiltration = 6:
+        pos f1 0 f2 2
+        print "Moving Attenuators."
+    if totalFiltration = 8:
+        pos f1 2 f2 1
+        print "Moving Attenuators."
+    if totalFiltration = 9:
+        pos f1 2 f2 0
+        print "Moving Attenuators."
+    if totalFiltration = 12:
+        pos f1 2 f2 2
+        print "Moving Attenuators."
+    else:
         print "Chosen attenuation thickness not available."
         print "Possible thickness: 0mm, 1mm, 2mm, 3mm, 4mm, 6mm, 8mm, 9mm or 12mm"
-        #return
-    # Define variables:
-    print ""
-    # array containing energy, crystal1 rot, crystal 2 rot, translation, mono2 diagnostic positions, based on motor positions found 10/2013
-    arr=dnp.array([[
-     [0, 1, 1],
-     [1, 0, 1],
-     [2, 0, 1],
-     [3, 0, 0],
-     [4, 1, 2],
-     [6, 0, 2],
-     [8, 2, 1],
-     [9, 2, 0],
-     [12, 2, 2],
-     ]])
-    
-    # select row with filter thickness
-    
-    arrTrans=arr.transpose
-       
-    listofFiltration=arrTrans[0,:]
-    listofFiltration.flatten()
-
-    filtrationIndex=listofFiltration.data.index(totalFiltration)
-    positionsForTotalFiltration=filtrationIndex
-    
-    # pull out motor positions from row
-    
-    getMotorPositionsForEachFilter=arr[:,positionsForTotalFiltration]
-   
-    positionForFilter1=getMotorPositionsForEachFilter.item(1)
-    positionForFilter2=getMotorPositionsForEachFilter.item(2)
-    
-    
-    print "Closing OH2 shutter."
-    caput("BL12I-PS-SHTR-01:CON", 1) # 1 is closed. 0 is open
-    sleep(1)
-    shstat=int(caget("BL12I-PS-SHTR-01:CON"))
-    ntries=0
-    while (shstat != 1): #poll the shutter to be sure it is actually closed
-        print "Shutter status:", shstat
-        shstat=int(caget("BL12I-PS-SHTR-01:CON"))
-        ntries+=1
-        sleep(1)
-        if (ntries >10):
-            print "ERROR: Shutter is not closed"
-            return    
-    print "Shutter now closed."
-    
-    print "Moving Attenuators."
-    caput("BL12I-AL-ATTN-02:MP2:SELECT", positionForFilter1)
-    caput("BL12I-AL-ATTN-02:MP3:SELECT", positionForFilter2)
-    ntries=0
-    while (float(caget("BL12I-AL-ATTN-02:P2:INPOS")) != 1.0 or float(caget("BL12I-AL-ATTN-02:P3:INPOS")) != 1.0):
-        print "  moving ..."
-        ntries+=1
-        sleep(2)
-        if (ntries >500):
-            print "ERROR: Attenuators did not reached position within expected time frame."
-            return
         
     print "Attenuators at requested thickness " + `totalThickness` + "mm. OH2 shutter closed."
+    
+
+print "finished loading 'moveToAttenuation' "

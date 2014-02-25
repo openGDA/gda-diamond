@@ -8,8 +8,8 @@ tomography_theta=ss1_theta
 #tomography_detector=dummy_cam_ad
 #tomography_detector=dummy_cam
 #tomography_detector=pco
-#tomography_detector=pco4000_dio_tif
-tomography_detector=pco4000_dio_hdf
+tomography_detector=pco4000_dio_tif
+#tomography_detector=pco4000_dio_hdf
 
 #tomography_shutter=eh_shtr_dummy
 tomography_shutter=eh1shtr
