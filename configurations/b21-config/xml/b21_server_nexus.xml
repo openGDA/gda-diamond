@@ -277,7 +277,10 @@
 		</property>
 	</bean>
 
-	<bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry" />
+	<bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry">
+			<property name="defaultValue" value="" />
+					<property name="defaultSubdirectory" value="" />
+						</bean>
 
 	<bean class="gda.data.metadata.MetadataBlaster" id="observableSubdirectory">
 		<property name="storedMetadataEntry" ref="subdirectory" />

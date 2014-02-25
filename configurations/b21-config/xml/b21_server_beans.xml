@@ -124,7 +124,7 @@
 		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
 	</bean>
 
-	<bean id="twodscan" class="uk.ac.gda.server.ncd.scan.TwoDPlotListener">
+	<bean id="twodscan" class="gda.data.scan.TwoDPlotListener">
 		<property name="plotPanel" value="Plot 2D" />
 	</bean>
 	
